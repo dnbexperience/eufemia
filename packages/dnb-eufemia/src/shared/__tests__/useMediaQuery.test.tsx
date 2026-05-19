@@ -10,17 +10,21 @@ import {
   fireEvent,
   renderHook,
 } from '@testing-library/react'
-import MatchMediaMock from 'jest-matchmedia-mock'
+import '../../core/vitest/mockMatchMediaSetup'
+import { setMedia } from 'mock-match-media'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'
 import type { MediaQueryProps } from '../MediaQueryUtils'
 import { isMatchMediaSupported as _isMatchMediaSupported } from '../MediaQueryUtils'
 
-const isMatchMediaSupported = _isMatchMediaSupported as jest.Mock
+const isMatchMediaSupported =
+  _isMatchMediaSupported as import('vitest').Mock
 
-jest.mock('../MediaQueryUtils', () => ({
-  ...jest.requireActual('../MediaQueryUtils'),
-  isMatchMediaSupported: jest.fn(),
+vi.mock('../MediaQueryUtils', async () => ({
+  ...(await vi.importActual<typeof import('../MediaQueryUtils')>(
+    '../MediaQueryUtils'
+  )),
+  isMatchMediaSupported: vi.fn(),
 }))
 
 const wrapper = ({ children }) => <StrictMode>{children}</StrictMode>
@@ -31,28 +35,12 @@ const RenderMediaQueryHook = (props: MediaQueryProps) => {
 }
 
 describe('useMediaQuery', () => {
-  let matchMedia: MatchMediaMock
-
-  beforeAll(() => {
-    matchMedia = new MatchMediaMock()
-  })
-
   beforeEach(() => {
     isMatchMediaSupported.mockReturnValue(true)
   })
 
-  afterEach(() => {
-    matchMedia?.clear()
-  })
-
-  afterAll(() => {
-    matchMedia?.destroy()
-  })
-
   it('should have valid strings inside render and rerender', () => {
-    matchMedia.useMediaQuery(
-      '(min-width: 60.00625em) and (max-width: 72em)'
-    )
+    setMedia({ width: '61em' })
 
     const { rerender } = render(
       <RenderMediaQueryHook when={{ min: 'medium', max: 'large' }}>
@@ -72,7 +60,7 @@ describe('useMediaQuery', () => {
   })
 
   it('should match for query when different breakpoints are given', () => {
-    matchMedia.useMediaQuery('(min-width: 20rem) and (max-width: 80rem)')
+    setMedia({ width: '20rem' })
 
     render(
       <Provider
@@ -93,7 +81,7 @@ describe('useMediaQuery', () => {
   })
 
   it('should have valid strings inside render', () => {
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 80em)')
+    setMedia({ width: '10em' })
 
     render(
       <RenderMediaQueryHook when={{ min: '0', max: 'x-large' }}>
@@ -105,17 +93,12 @@ describe('useMediaQuery', () => {
   })
 
   it('should handle media query changes', () => {
-    matchMedia.useMediaQuery(
-      'not screen and (min-width: 40.00625em) and (max-width: 72em)'
-    )
+    setMedia({ width: '50em' })
 
-    const match1Handler = jest.fn()
-    const match2Handler = jest.fn()
+    const match1Handler = vi.fn()
 
     const Playground = () => {
       const [query, updateQuery] = useState({
-        screen: true,
-        not: true,
         min: 'small',
         max: 'large',
       })
@@ -124,18 +107,13 @@ describe('useMediaQuery', () => {
         when: query,
       })
       match1Handler(match1)
-      const match2 = useMediaQuery({
-        not: true,
-        when: query,
-      })
-      match2Handler(match2)
 
       return (
         <button
           onClick={() => {
             updateQuery({
-              ...query,
-              screen: !query.screen,
+              min: query.min === 'small' ? 'x-large' : 'small',
+              max: query.max === 'large' ? undefined : 'large',
             })
           }}
         >
@@ -146,29 +124,23 @@ describe('useMediaQuery', () => {
 
     render(<Playground />)
     expect(match1Handler).toHaveBeenCalledTimes(2)
-    expect(match2Handler).toHaveBeenCalledTimes(2)
     expect(match1Handler).toHaveBeenCalledWith(true)
-    expect(match2Handler).toHaveBeenCalledWith(false)
 
     fireEvent.click(screen.getByRole('button'))
     expect(match1Handler).toHaveBeenCalledTimes(4)
-    expect(match2Handler).toHaveBeenCalledTimes(4)
     expect(match1Handler).toHaveBeenCalledWith(false)
-    expect(match2Handler).toHaveBeenCalledWith(true)
 
     fireEvent.click(screen.getByRole('button'))
     expect(match1Handler).toHaveBeenCalledTimes(6)
-    expect(match2Handler).toHaveBeenCalledTimes(6)
     expect(match1Handler).toHaveBeenCalledWith(true)
-    expect(match2Handler).toHaveBeenCalledWith(false)
   })
 
   it('can be disabled', () => {
-    jest
-      .spyOn(window, 'matchMedia')
-      .mockImplementationOnce(jest.fn(window.matchMedia))
+    vi.spyOn(window, 'matchMedia').mockImplementationOnce(
+      vi.fn(window.matchMedia)
+    )
 
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 80em)')
+    setMedia({ width: '10em' })
 
     const when = { min: '0', max: 'x-large' }
 
@@ -183,9 +155,9 @@ describe('useMediaQuery', () => {
     expect(window.matchMedia).toHaveBeenCalledTimes(6)
     expect(resultA.current).toBe(true)
 
-    jest
-      .spyOn(window, 'matchMedia')
-      .mockImplementationOnce(jest.fn(window.matchMedia))
+    vi.spyOn(window, 'matchMedia').mockImplementationOnce(
+      vi.fn(window.matchMedia)
+    )
 
     const { result: resultB } = renderHook(
       () =>

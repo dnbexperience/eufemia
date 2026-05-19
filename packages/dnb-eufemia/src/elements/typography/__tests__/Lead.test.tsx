@@ -8,7 +8,9 @@ describe('Lead', () => {
       '.dnb-p--lead'
     ) as HTMLParagraphElement
 
-    expect(Array.from(element.classList)).toEqual(['dnb-p', 'dnb-p--lead'])
+    expect(element).toHaveClass('dnb-p dnb-p--lead', {
+      exact: true,
+    })
   })
 
   it('should forward HTML attributes', () => {
@@ -45,11 +47,9 @@ describe('Lead', () => {
       '.dnb-p--lead'
     ) as HTMLParagraphElement
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-p',
-      'dnb-p--lead',
-      'custom-class',
-    ])
+    expect(element).toHaveClass('dnb-p dnb-p--lead custom-class', {
+      exact: true,
+    })
   })
 
   it('should render children', () => {

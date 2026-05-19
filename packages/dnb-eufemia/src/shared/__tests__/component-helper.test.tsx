@@ -37,7 +37,7 @@ beforeAll(() => {
     configurable: true,
   })
 
-  jest.spyOn(global.console, 'log')
+  vi.spyOn(global.console, 'log')
 })
 afterAll(() => {
   document.documentElement.removeAttribute('data-is-touch')
@@ -70,12 +70,16 @@ describe('"defineNavigator" should', () => {
 })
 
 describe('"detectOutsideClick" should', () => {
-  jest
-    .spyOn(document.documentElement, 'clientWidth', 'get')
-    .mockImplementation(() => 200)
-  jest
-    .spyOn(document.documentElement, 'clientHeight', 'get')
-    .mockImplementation(() => 200)
+  vi.spyOn(
+    document.documentElement,
+    'clientWidth',
+    'get'
+  ).mockImplementation(() => 200)
+  vi.spyOn(
+    document.documentElement,
+    'clientHeight',
+    'get'
+  ).mockImplementation(() => 200)
 
   it('detect a click outside of our scope element', () => {
     // create some DOM elements
@@ -129,7 +133,7 @@ describe('"detectOutsideClick" should', () => {
     // test mousedown
     testEvent({
       event,
-      mockedEvent: jest.fn(),
+      mockedEvent: vi.fn(),
       calledTimes: 2,
     })
     event.pageX = 0
@@ -138,7 +142,7 @@ describe('"detectOutsideClick" should', () => {
     // test mousedown
     testEvent({
       event,
-      mockedEvent: jest.fn(),
+      mockedEvent: vi.fn(),
       calledTimes: 2,
     })
 
@@ -148,7 +152,7 @@ describe('"detectOutsideClick" should', () => {
     // test mousedown
     testEvent({
       event,
-      mockedEvent: jest.fn(),
+      mockedEvent: vi.fn(),
       calledTimes: 3,
     })
   })
@@ -164,7 +168,7 @@ describe('"detectOutsideClick" should', () => {
     const wrapperElementRef: RefObject<HTMLDivElement | null> = {
       current: null,
     }
-    const onSuccess = jest.fn()
+    const onSuccess = vi.fn()
 
     const Component = () => {
       detectOutsideClick(
@@ -194,7 +198,7 @@ describe('"detectOutsideClick" should', () => {
   })
 
   it('should not throw an error when "ignoreElementRef" is undefined', async () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     window.PointerEvent = undefined
     const ignoreElementRef = undefined
@@ -438,7 +442,7 @@ describe('"extendDeep" should', () => {
 
 describe('"dispatchCustomElementEvent" should', () => {
   it('emit camel case events', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     const instance = {
       props: {
         myEvent,
@@ -452,7 +456,7 @@ describe('"dispatchCustomElementEvent" should', () => {
   })
 
   it('emit an event and return its event properties, including custom properties', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     const instance = {
       props: {
         myEvent,
@@ -515,9 +519,9 @@ describe('"toKebabCase" should', () => {
 })
 
 describe('"toCapitalized" should', () => {
-  let replaceSpy: jest.SpyInstance
+  let replaceSpy: import('vitest').MockInstance
   beforeEach(() => {
-    replaceSpy = jest.spyOn(String.prototype, 'replace')
+    replaceSpy = vi.spyOn(String.prototype, 'replace')
   })
   afterEach(() => {
     replaceSpy.mockRestore()

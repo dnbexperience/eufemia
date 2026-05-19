@@ -142,7 +142,7 @@ describe('useSharedState', () => {
   })
 
   it('should call onChange when set is called from another hook', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const { result: resultA } = renderHook(() =>
       useSharedState(identifier)
@@ -173,7 +173,7 @@ describe('useSharedState', () => {
   })
 
   it('should call onChange when extend is called from another hook', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const { result: resultA } = renderHook(() =>
       useSharedState(identifier)

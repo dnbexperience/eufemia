@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import MainHeading from '../MainHeading'
 
 beforeEach(() => {
-  global.console.log = jest.fn()
+  global.console.log = vi.fn()
 })
 
 describe('Form.MainHeading', () => {
@@ -38,12 +38,10 @@ describe('Form.MainHeading', () => {
 
     const element = document.querySelector('.dnb-forms-main-heading')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-heading',
-      'dnb-h--large',
-      'dnb-forms-main-heading',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(
+      'dnb-heading dnb-h--large dnb-forms-main-heading custom-class',
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

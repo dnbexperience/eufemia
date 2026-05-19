@@ -34,7 +34,7 @@ describe('ViewContainer', () => {
   })
 
   it('calls "switchContainerMode" when edit button is clicked', () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <SectionContainerContext value={{ switchContainerMode }}>

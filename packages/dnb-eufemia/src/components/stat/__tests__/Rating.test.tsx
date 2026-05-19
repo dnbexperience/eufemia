@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
 
@@ -119,7 +119,7 @@ describe('Stat.Rating', () => {
   })
 
   it('warns and clamps when max exceeds the allowed limit', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Rating value={5} max={50} />)
 

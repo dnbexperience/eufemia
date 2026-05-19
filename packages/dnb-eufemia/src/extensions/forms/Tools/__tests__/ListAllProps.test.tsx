@@ -5,7 +5,7 @@ import type { GenerateRef } from '../ListAllProps'
 
 describe('Tools.ListAllProps', () => {
   it('should console log a all props', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Form.Handler>

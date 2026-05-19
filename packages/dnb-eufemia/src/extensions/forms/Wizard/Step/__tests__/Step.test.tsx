@@ -10,7 +10,7 @@ import type { Steps } from '../../Context/types'
 
 const log = global.console.log
 beforeEach(() => {
-  global.console.log = jest.fn((...args) => {
+  global.console.log = vi.fn((...args) => {
     if (!String(args[1]).includes('initialActiveIndex=')) {
       log(...args)
     }
@@ -18,7 +18,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   global.console.log = log
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('Step', () => {
@@ -179,20 +179,18 @@ describe('Step', () => {
         document.querySelectorAll('.dnb-step-indicator__item')
       )
 
-      expect(Array.from(s1.classList)).toEqual([
-        'dnb-step-indicator__item',
-        'dnb-step-indicator__item--inactive',
-        'dnb-step-indicator__item--visited',
-      ])
-      expect(Array.from(s2.classList)).toEqual([
-        'dnb-step-indicator__item',
-        'dnb-step-indicator__item--current',
-        'dnb-step-indicator__item--inactive',
-      ])
-      expect(Array.from(s3.classList)).toEqual([
-        'dnb-step-indicator__item',
-        'dnb-step-indicator__item--inactive',
-      ])
+      expect(s1).toHaveClass(
+        'dnb-step-indicator__item dnb-step-indicator__item--inactive dnb-step-indicator__item--visited',
+        { exact: true }
+      )
+      expect(s2).toHaveClass(
+        'dnb-step-indicator__item dnb-step-indicator__item--current dnb-step-indicator__item--inactive',
+        { exact: true }
+      )
+      expect(s3).toHaveClass(
+        'dnb-step-indicator__item dnb-step-indicator__item--inactive',
+        { exact: true }
+      )
 
       expect(s1.querySelector('.dnb-anchor').tagName).toBe('SPAN')
       expect(s2.querySelector('.dnb-anchor').tagName).toBe('SPAN')
@@ -347,10 +345,10 @@ describe('Step', () => {
     })
 
     it('should not prerender the step', () => {
-      const step0 = jest.fn()
-      const step1 = jest.fn()
-      const step2 = jest.fn()
-      const step3 = jest.fn()
+      const step0 = vi.fn()
+      const step1 = vi.fn()
+      const step2 = vi.fn()
+      const step3 = vi.fn()
 
       const prerenderFieldPropsRef = {
         current: {

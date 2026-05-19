@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { render, screen } from '@testing-library/react'
 import ProgressIndicator from '../ProgressIndicator'
 import type { ProgressIndicatorAllProps } from '../types'
@@ -139,13 +139,10 @@ describe('Circular ProgressIndicator component', () => {
     )
 
     const indicator = document.querySelector('.dnb-progress-indicator')
-    expect(Array.from(indicator.classList)).toEqual([
-      'dnb-progress-indicator',
-      'dnb-progress-indicator--show',
-      'dnb-progress-indicator--vertical',
-      'dnb-progress-indicator--default',
-      'dnb-space__top--large',
-    ])
+    expect(indicator).toHaveClass(
+      'dnb-progress-indicator dnb-progress-indicator--show dnb-progress-indicator--vertical dnb-progress-indicator--default dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should support inline styling', () => {
@@ -410,14 +407,10 @@ describe('Linear ProgressIndicator component', () => {
     )
 
     const indicator = document.querySelector('.dnb-progress-indicator')
-    expect(Array.from(indicator.classList)).toEqual([
-      'dnb-progress-indicator',
-      'dnb-progress-indicator--show',
-      'dnb-progress-indicator--vertical',
-      'dnb-progress-indicator--default',
-      'dnb-progress-indicator--full-width',
-      'dnb-space__top--large',
-    ])
+    expect(indicator).toHaveClass(
+      'dnb-progress-indicator dnb-progress-indicator--show dnb-progress-indicator--vertical dnb-progress-indicator--default dnb-progress-indicator--full-width dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should support inline styling', () => {

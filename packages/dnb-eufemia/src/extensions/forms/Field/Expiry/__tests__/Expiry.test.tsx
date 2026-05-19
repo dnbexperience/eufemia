@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
   act,
   fireEvent,
@@ -73,7 +73,7 @@ describe('Field.Expiry', () => {
   })
 
   it('should return month and year values as a concatenated string', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Field.Expiry onChange={onChange} />)
 
@@ -89,8 +89,8 @@ describe('Field.Expiry', () => {
   })
 
   it('should return month and year values as undefined when removing value', async () => {
-    const onChangeContext = jest.fn()
-    const onChange = jest.fn()
+    const onChangeContext = vi.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler onChange={onChangeContext}>
@@ -159,7 +159,7 @@ describe('Field.Expiry', () => {
       ctrlKey: true,
     })
 
-    const setData = jest.fn()
+    const setData = vi.fn()
     fireEvent.copy(yearInput, {
       clipboardData: { setData },
     })
@@ -233,14 +233,14 @@ describe('Field.Expiry', () => {
   })
 
   it('should support transformIn and transformOut', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
-    const transformOut = jest.fn((internal, args) => {
+    const transformOut = vi.fn((internal, args) => {
       const { year, month } = args
       return { year, month }
     })
 
-    const transformIn = jest.fn((external) => {
+    const transformIn = vi.fn((external) => {
       if (external) {
         const { year, month } = external
         return { year, month }
@@ -300,14 +300,14 @@ describe('Field.Expiry', () => {
   })
 
   it('should handle removing input values with transformIn and transformOut', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
-    const transformOut = jest.fn((internal, args) => {
+    const transformOut = vi.fn((internal, args) => {
       const { year, month } = args
       return { year, month }
     })
 
-    const transformIn = jest.fn((external) => {
+    const transformIn = vi.fn((external) => {
       if (external) {
         const { year, month } = external
         return { year, month }
@@ -384,9 +384,9 @@ describe('Field.Expiry', () => {
   })
 
   it('should handle removing input values and check event state', async () => {
-    const onChange = jest.fn()
-    const onBlur = jest.fn()
-    const onFocus = jest.fn()
+    const onChange = vi.fn()
+    const onBlur = vi.fn()
+    const onFocus = vi.fn()
 
     render(
       <Field.Expiry
@@ -437,10 +437,10 @@ describe('Field.Expiry', () => {
   })
 
   it('should replace the internal validator with the given one', async () => {
-    const myValidator = jest.fn(() => {
+    const myValidator = vi.fn(() => {
       return new Error('My error message')
     })
-    const onBlurValidator = jest.fn(() => {
+    const onBlurValidator = vi.fn(() => {
       return [myValidator]
     })
 
@@ -531,11 +531,13 @@ describe('Field.Expiry', () => {
 
   describe('keydown', () => {
     beforeEach(() => {
-      window.requestAnimationFrame = jest.fn((callback) => {
-        return setTimeout(callback, 0)
-      })
-      window.cancelAnimationFrame = jest.fn((id) => {
-        clearTimeout(id)
+      window.requestAnimationFrame = vi.fn(
+        (callback: FrameRequestCallback) => {
+          return window.setTimeout(() => callback(0), 0)
+        }
+      ) as typeof window.requestAnimationFrame
+      window.cancelAnimationFrame = vi.fn((id) => {
+        window.clearTimeout(id)
         return id
       })
     })
@@ -666,9 +668,9 @@ describe('Field.Expiry', () => {
     })
 
     it('should seed empty spinbutton values from today', async () => {
-      jest
-        .useFakeTimers()
-        .setSystemTime(new Date('2026-03-13T12:00:00.000Z').getTime())
+      vi.useFakeTimers().setSystemTime(
+        new Date('2026-03-13T12:00:00.000Z').getTime()
+      )
 
       try {
         render(<Field.Expiry />)
@@ -688,7 +690,7 @@ describe('Field.Expiry', () => {
         expect(yearInput.selectionStart).toBe(0)
         expect(yearInput.selectionEnd).toBe(2)
       } finally {
-        jest.useRealTimers()
+        vi.useRealTimers()
       }
     })
 
@@ -1279,7 +1281,7 @@ describe('Field.Expiry', () => {
   })
 
   it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
 
     render(
       <Field.Expiry
@@ -1321,7 +1323,7 @@ describe('Field.Expiry', () => {
   })
 
   it('should call onStatusChange when error prop changes without validateContinuously', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
     const error1 = new Error('Error 1')
     const error2 = new Error('Error 2')
 

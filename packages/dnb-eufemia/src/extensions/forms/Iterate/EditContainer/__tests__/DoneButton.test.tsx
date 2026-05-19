@@ -10,7 +10,7 @@ const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('DoneButton', () => {
   it('calls "switchContainerMode"', () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <IterateItemContext value={{ switchContainerMode }}>
@@ -27,7 +27,7 @@ describe('DoneButton', () => {
   })
 
   it('calls "switchContainerMode" when isNew is true', () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <IterateItemContext value={{ switchContainerMode, isNew: true }}>
@@ -44,8 +44,8 @@ describe('DoneButton', () => {
   })
 
   it('should not call "setShowError" when hasError is true and hasVisibleError is false', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext
@@ -76,8 +76,8 @@ describe('DoneButton', () => {
   })
 
   it('should call "setShowError=true" when hasError and hasVisibleError is true', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext
@@ -109,8 +109,8 @@ describe('DoneButton', () => {
   })
 
   it('should call "setShowError=false" when hasError is false and hasVisibleError is true', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext

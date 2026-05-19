@@ -1,12 +1,18 @@
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import MenuRoot from '../MenuRoot'
 import MenuButton from '../MenuButton'
 import MenuList from '../MenuList'
 import MenuAction from '../MenuAction'
 
-jest.mock('../../popover/Popover', () => {
-  return { default: jest.requireActual('./testHelpers').MockPopover }
+vi.mock('../../popover/Popover', async () => {
+  return {
+    default: (
+      await vi.importActual<typeof import('./testHelpers')>(
+        './testHelpers'
+      )
+    ).MockPopover,
+  }
 })
 
 describe('MenuRoot', () => {
@@ -92,7 +98,7 @@ describe('MenuRoot', () => {
   })
 
   it('calls onOpenChange when toggled', () => {
-    const onOpenChange = jest.fn()
+    const onOpenChange = vi.fn()
 
     render(
       <MenuRoot onOpenChange={onOpenChange}>

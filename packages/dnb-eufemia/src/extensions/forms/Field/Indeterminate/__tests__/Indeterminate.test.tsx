@@ -4,8 +4,8 @@ import { Field, Form } from '../../..'
 
 describe('Indeterminate', () => {
   it('should set aria-controls to be ids of dependence paths', () => {
-    const onChange = jest.fn()
-    const onSubmit = jest.fn()
+    const onChange = vi.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -39,8 +39,8 @@ describe('Indeterminate', () => {
   })
 
   it('should set aria-controls without specifying ids for child components', () => {
-    const onChange = jest.fn()
-    const onSubmit = jest.fn()
+    const onChange = vi.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -71,8 +71,8 @@ describe('Indeterminate', () => {
   })
 
   it('should not set aria-controls when dependence paths is an empty array', () => {
-    const onChange = jest.fn()
-    const onSubmit = jest.fn()
+    const onChange = vi.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -87,8 +87,8 @@ describe('Indeterminate', () => {
 
   describe('with propagateIndeterminateState="checked"', () => {
     it('should handle dependencePaths state', async () => {
-      const onChange = jest.fn()
-      const onSubmit = jest.fn()
+      const onChange = vi.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -204,7 +204,7 @@ describe('Indeterminate', () => {
     })
 
     it('should set/toggle state of its parent', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -289,7 +289,7 @@ describe('Indeterminate', () => {
     })
 
     it('should accept custom valueOn and valueOff value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -363,8 +363,8 @@ describe('Indeterminate', () => {
 
   describe('with propagateIndeterminateState="unchecked"', () => {
     it('should handle dependencePaths state', async () => {
-      const onChange = jest.fn()
-      const onSubmit = jest.fn()
+      const onChange = vi.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -480,7 +480,7 @@ describe('Indeterminate', () => {
     })
 
     it('should set/toggle state of its parent', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -565,7 +565,7 @@ describe('Indeterminate', () => {
     })
 
     it('should accept custom valueOn and valueOff value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -639,8 +639,8 @@ describe('Indeterminate', () => {
 
   describe('with propagateIndeterminateState="auto"', () => {
     it('should handle dependencePaths state', async () => {
-      const onChange = jest.fn()
-      const onSubmit = jest.fn()
+      const onChange = vi.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -756,7 +756,7 @@ describe('Indeterminate', () => {
     })
 
     it('should set/toggle state of its parent', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -841,7 +841,7 @@ describe('Indeterminate', () => {
     })
 
     it('should accept custom valueOn and valueOff value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -914,7 +914,7 @@ describe('Indeterminate', () => {
   })
 
   it('should support required property', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -956,7 +956,7 @@ describe('Indeterminate', () => {
   })
 
   it('should change internal required state when indeterminate state changes', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>

@@ -7,22 +7,25 @@ import '../component-helper'
 
 const { version, sha, buildDate, init } = EufemiaImport
 
-jest.mock('../Eufemia', () => {
-  const actual = jest.requireActual('../Eufemia')
+vi.mock('../Eufemia', async () => {
+  const actual =
+    await vi.importActual<typeof import('../Eufemia')>('../Eufemia')
   return {
     ...actual,
-    init: jest.fn(actual.init),
+    init: vi.fn(actual.init),
   }
 })
 
 // Mock the build info to control the SHA value in tests
-jest.mock('../build-info/BuildInfo', () => {
-  const actual = jest.requireActual('../build-info/BuildInfo')
+vi.mock('../build-info/BuildInfo', async () => {
+  const actual = await vi.importActual<
+    typeof import('../build-info/BuildInfo')
+  >('../build-info/BuildInfo')
   return {
     ...actual,
-    getSha: jest.fn().mockImplementation(actual.getSha),
-    getVersion: jest.fn().mockImplementation(actual.getVersion),
-    getBuildDate: jest.fn().mockImplementation(actual.getBuildDate),
+    getSha: vi.fn().mockImplementation(actual.getSha),
+    getVersion: vi.fn().mockImplementation(actual.getVersion),
+    getBuildDate: vi.fn().mockImplementation(actual.getBuildDate),
   }
 })
 
@@ -45,7 +48,7 @@ describe('Eufemia', () => {
       expect(window.Eufemia).toBeDefined()
     })
 
-    // SSR test (window undefined) is in Eufemia.ssr.test.ts using @jest-environment node
+    // SSR test (window undefined) is in Eufemia.ssr.test.ts using @vitest-environment node
   })
 
   describe('Eufemia "versions" and "shas"', () => {
@@ -145,8 +148,8 @@ describe('Eufemia', () => {
     })
 
     beforeEach(() => {
-      jest.mocked(getSha).mockReturnValue('abc123')
-      jest.mocked(getVersion).mockReturnValue('1.0.0')
+      vi.mocked(getSha).mockReturnValue('abc123')
+      vi.mocked(getVersion).mockReturnValue('1.0.0')
     })
 
     it('should get CSS and JS versions', () => {
@@ -185,7 +188,7 @@ describe('Eufemia', () => {
 
       // Mock the getSha to return every second call a different SHA
       let count = 0
-      jest.mocked(getSha).mockImplementation(() => {
+      vi.mocked(getSha).mockImplementation(() => {
         return window.__eufemiaSHAs[(++count - 1) % 2]
       })
 

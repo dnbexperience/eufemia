@@ -5,7 +5,7 @@ import Avatar from '../Avatar'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 
 describe('Avatar', () => {
@@ -77,11 +77,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-icon',
-      'dnb-icon--auto',
-      'dnb-icon--inherit-color',
-    ])
+    expect(element).toHaveClass(
+      'dnb-icon dnb-icon--auto dnb-icon--inherit-color',
+      { exact: true }
+    )
   })
 
   it('children icon can set own size', () => {
@@ -95,11 +94,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-icon',
-      'dnb-icon--small',
-      'dnb-icon--inherit-color',
-    ])
+    expect(element).toHaveClass(
+      'dnb-icon dnb-icon--small dnb-icon--inherit-color',
+      { exact: true }
+    )
   })
 
   it('prop icon has correct auto size', () => {
@@ -111,11 +109,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-icon',
-      'dnb-icon--auto',
-      'dnb-icon--inherit-color',
-    ])
+    expect(element).toHaveClass(
+      'dnb-icon dnb-icon--auto dnb-icon--inherit-color',
+      { exact: true }
+    )
   })
 
   it('prop icon can set own size', () => {
@@ -127,11 +124,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-icon',
-      'dnb-icon--small',
-      'dnb-icon--inherit-color',
-    ])
+    expect(element).toHaveClass(
+      'dnb-icon dnb-icon--small dnb-icon--inherit-color',
+      { exact: true }
+    )
   })
 
   it('renders img from src', () => {
@@ -185,14 +181,14 @@ describe('Avatar', () => {
 
   it('warns when Avatar is used without a Avatar.Group as parent component', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Avatar />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('will not warn when hasLabel is true', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Avatar hasLabel />)
     expect(global.console.log).not.toHaveBeenCalled()
   })
@@ -245,12 +241,10 @@ describe('Avatar', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-avatar',
-      'dnb-avatar--primary',
-      'dnb-avatar--size-medium',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-avatar dnb-avatar--primary dnb-avatar--size-medium dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('supports inline styling', () => {
@@ -276,13 +270,10 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-avatar')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-avatar',
-      'dnb-avatar--primary',
-      'dnb-avatar--size-medium',
-      'dnb-space__top--large',
-      'dnb-space__bottom--small',
-    ])
+    expect(element).toHaveClass(
+      'dnb-avatar dnb-avatar--primary dnb-avatar--size-medium dnb-space__top--large dnb-space__bottom--small',
+      { exact: true }
+    )
   })
 
   it('should apply innerSpace CSS custom properties on Avatar root', () => {

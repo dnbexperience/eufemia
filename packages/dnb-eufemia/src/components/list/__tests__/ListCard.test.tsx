@@ -2,7 +2,7 @@ import { act } from 'react'
 import { render, waitFor } from '@testing-library/react'
 import List from '../List'
 import { List as RootList } from '../../../components'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fish_medium } from '../../../icons'
 
 describe('List.Card', () => {
@@ -203,7 +203,7 @@ describe('List.ScrollView', () => {
   it('derives outline compensation from --item-outline-width', async () => {
     const originalGetComputedStyle = window.getComputedStyle
 
-    const getComputedStyleSpy = jest
+    const getComputedStyleSpy = vi
       .spyOn(window, 'getComputedStyle')
       .mockImplementation((element) => {
         const styles = originalGetComputedStyle(element)
@@ -261,7 +261,7 @@ describe('List.ScrollView', () => {
       itemTwoTop: 80,
     }
 
-    const offsetHeightSpy = jest
+    const offsetHeightSpy = vi
       .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
       .mockImplementation(function (this: HTMLElement) {
         if (this.textContent?.includes('Item one')) {
@@ -275,7 +275,7 @@ describe('List.ScrollView', () => {
         return 0
       })
 
-    const offsetTopSpy = jest
+    const offsetTopSpy = vi
       .spyOn(HTMLElement.prototype, 'offsetTop', 'get')
       .mockImplementation(function (this: HTMLElement) {
         if (this.textContent?.includes('Item two')) {

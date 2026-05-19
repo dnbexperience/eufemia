@@ -200,7 +200,10 @@ export default function useMedia(
 
         return acc
       },
-      { isSSR: !isMatchMediaSupported(), key: null } as UseMediaResult
+      {
+        isSSR: !isMatchMediaSupported(),
+        key: null,
+      } as UseMediaResult
     ) as UseMediaResult
   }, [disabled, initialValue, queries, runQuery])
 

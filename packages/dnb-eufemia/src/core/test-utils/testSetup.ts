@@ -1,12 +1,13 @@
 /**
- * Jest Setup
- *
+ * Shared test utilities for Vitest.
  */
 
 import { axe, toHaveNoViolations } from 'jest-axe'
 import fs from 'fs-extra'
 import path from 'path'
 import * as sass from 'sass'
+import { vi } from 'vitest'
+
 import type { Options } from 'sass'
 
 export { axe, toHaveNoViolations }
@@ -50,11 +51,11 @@ export const loadScss = (
 export const mockClipboard = () => {
   let memory = ''
   const clipboardMock = {
-    writeText: jest.fn().mockImplementation((v) => {
+    writeText: vi.fn().mockImplementation((v) => {
       memory = v
       return Promise.resolve(v)
     }),
-    readText: jest.fn().mockImplementation(() => Promise.resolve(memory)),
+    readText: vi.fn().mockImplementation(() => Promise.resolve(memory)),
   }
 
   Object.defineProperty(window.navigator, 'clipboard', {
@@ -65,19 +66,23 @@ export const mockClipboard = () => {
   const mockRange = new (class Range {
     node: HTMLElement | undefined
     startContainer: { parentNode: HTMLElement }
+
     constructor() {
       this.startContainer = {
         parentNode: document.createElement('div'),
       }
     }
+
     getElement() {
       return this.node
     }
+
     insertNode(elem: HTMLElement) {
       this.node = document.createElement('div')
       this.node.appendChild(elem)
       return this
     }
+
     cloneRange() {
       return this
     }
@@ -92,14 +97,17 @@ export const mockClipboard = () => {
   class RangeObj {
     rangeCount = rangeCount
     toString = () => value
+
     addRange(range = mockRange) {
       value = mockValue
       ranges.push(range)
       rangeCount = ranges.length
     }
+
     getRangeAt(index: number) {
       return ranges[index]
     }
+
     removeAllRanges() {
       value = ''
       ranges = []
@@ -124,7 +132,6 @@ export const axeComponent = async (
 ) => {
   const html = components
     .map((Component: { container?: HTMLElement } | HTMLElement) => {
-      // Support @testing-library/react
       if (Component instanceof HTMLElement) {
         return Component.outerHTML
       }
@@ -147,7 +154,7 @@ export const axeComponent = async (
 
 export function spyOnEufemiaWarn() {
   const originalConsoleLog = console.log
-  const log = jest
+  const log = vi
     .spyOn(console, 'log')
     .mockImplementation((...message: string[]) => {
       if (!message[0].includes('Eufemia')) {

@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { FieldSelectCountryProps } from '../SelectCountry'
@@ -34,9 +34,9 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should return correct value onChange event', () => {
-    const onChange = jest.fn()
-    const onBlur = jest.fn()
-    const onFocus = jest.fn()
+    const onChange = vi.fn()
+    const onBlur = vi.fn()
+    const onFocus = vi.fn()
 
     render(
       <Field.SelectCountry
@@ -98,7 +98,7 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should select matching country on type change to support autofill', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Field.SelectCountry onChange={onChange} />)
 
@@ -404,21 +404,21 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should support "transformIn" and "transformOut"', async () => {
-    const transformOut = jest.fn((value, country) => {
+    const transformOut = vi.fn((value, country) => {
       if (value) {
         return `${country.name} (${value})`
       }
 
       return undefined
     })
-    const transformIn = jest.fn((external) => {
+    const transformIn = vi.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] || external
     })
-    const valueTransformIn = jest.fn((internal) => {
+    const valueTransformIn = vi.fn((internal) => {
       return String(internal).match(/\((.*)\)/)?.[1]
     })
 
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -523,21 +523,21 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should support "transformIn" and "transformOut" when value is given by the data context', async () => {
-    const transformOut = jest.fn((value, country) => {
+    const transformOut = vi.fn((value, country) => {
       if (value) {
         return `${country.name} (${value})`
       }
 
       return undefined
     })
-    const transformIn = jest.fn((external) => {
+    const transformIn = vi.fn((external) => {
       return String(external).match(/\((.*)\)/)?.[1] as CountryISO
     })
-    const valueTransformIn = jest.fn((internal) => {
+    const valueTransformIn = vi.fn((internal) => {
       return String(internal).match(/\((.*)\)/)?.[1]
     })
 
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler
@@ -774,8 +774,8 @@ describe('Field.SelectCountry', () => {
   })
 
   it('should not change value on blur when initial value is SE', async () => {
-    const onChange = jest.fn()
-    const onSubmit = jest.fn()
+    const onChange = vi.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onChange={onChange} onSubmit={onSubmit}>

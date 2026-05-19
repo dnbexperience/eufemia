@@ -47,7 +47,7 @@ describe('Form.clearData', () => {
   })
 
   it('should call onClear', () => {
-    const onClear = jest.fn()
+    const onClear = vi.fn()
 
     render(
       <Form.Handler id="unique-id" onClear={onClear}>

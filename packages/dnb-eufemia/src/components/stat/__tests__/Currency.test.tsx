@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import {
   axeComponent,
   spyOnEufemiaWarn,
-} from '../../../core/jest/jestSetup'
+} from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
 
 describe('Stat.Currency', () => {

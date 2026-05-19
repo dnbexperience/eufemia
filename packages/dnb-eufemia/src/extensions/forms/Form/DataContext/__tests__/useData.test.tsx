@@ -38,7 +38,7 @@ describe('Form.useData', () => {
   })
 
   it('should throw when used without a valid id', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     const renderComponent = () => {
       renderHook(() => useData())
@@ -1281,7 +1281,7 @@ describe('Form.useData', () => {
       ),
     })
 
-    const filterDisabled: FilterData = jest.fn(({ props }) => {
+    const filterDisabled: FilterData = vi.fn(({ props }) => {
       return props.disabled !== true
     })
 
@@ -1290,7 +1290,7 @@ describe('Form.useData', () => {
       field3: 'baz',
     })
 
-    const filterValue: FilterData = jest.fn(({ path, value }) => {
+    const filterValue: FilterData = vi.fn(({ path, value }) => {
       return path === '/field3' && value === 'baz'
     })
 

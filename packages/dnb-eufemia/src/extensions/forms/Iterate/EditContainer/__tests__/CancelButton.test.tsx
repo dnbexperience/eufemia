@@ -15,7 +15,7 @@ const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('CancelButton', () => {
   it('calls "switchContainerMode"', async () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <FieldBoundaryContext value={{ verifyFieldError: () => false }}>
@@ -36,7 +36,7 @@ describe('CancelButton', () => {
   })
 
   it('should not call "switchContainerMode" when isNew is true', () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <IterateItemContext value={{ switchContainerMode, isNew: true }}>
@@ -52,7 +52,7 @@ describe('CancelButton', () => {
   })
 
   it('calls "restoreOriginalValue"', () => {
-    const restoreOriginalValue = jest.fn()
+    const restoreOriginalValue = vi.fn()
 
     render(
       <IterateItemContext
@@ -76,8 +76,8 @@ describe('CancelButton', () => {
   })
 
   it('does not show toolbar error when inside push container (no visible error)', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     const SetErrorOnce = () => {
       const { setFieldError } = useContext(FieldBoundaryContext)
@@ -131,8 +131,8 @@ describe('CancelButton', () => {
   })
 
   it('sets boundary and toolbar errors when there are field errors and a visible error', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext
@@ -162,8 +162,8 @@ describe('CancelButton', () => {
   })
 
   it('respects initialContainerMode but still shows errors when fields have errors and visible error exists', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext
@@ -195,8 +195,8 @@ describe('CancelButton', () => {
   })
 
   it('clears errors and switches to view when no field errors exist', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext
@@ -263,7 +263,7 @@ describe('CancelButton', () => {
   })
 
   it('shows a confirm dialog by default and proceeds on confirm', async () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <FieldBoundaryContext value={{ verifyFieldError: () => false }}>

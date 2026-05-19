@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
 import AriaLive from '../../aria-live/AriaLive'
 
 describe('Stat.Content', () => {
   it('supports vertical direction inside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -26,7 +26,7 @@ describe('Stat.Content', () => {
   })
 
   it('renders span outside Stat.Root and warns', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Content />)
 
@@ -45,7 +45,7 @@ describe('Stat.Content', () => {
   })
 
   it('propagates skeleton to children via context', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -68,7 +68,7 @@ describe('Stat.Content', () => {
   })
 
   it('does not apply skeleton to children when not set', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -90,7 +90,7 @@ describe('Stat.Content', () => {
   })
 
   it('Content skeleton overrides Root skeleton=false for children', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root skeleton={false}>
@@ -112,7 +112,7 @@ describe('Stat.Content', () => {
   })
 
   it('applies skeleton class and aria-disabled to Content element', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -133,7 +133,7 @@ describe('Stat.Content', () => {
   })
 
   it('supports spacing props', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -180,7 +180,7 @@ describe('Stat.Content', () => {
   })
 
   it('applies style prop to the element', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -199,7 +199,7 @@ describe('Stat.Content', () => {
   })
 
   it('supports className prop', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -218,7 +218,7 @@ describe('Stat.Content', () => {
   })
 
   it('uses custom element prop when outside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Content element="div">
@@ -233,7 +233,7 @@ describe('Stat.Content', () => {
   })
 
   it('applies correct CSS classes when outside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Content direction="vertical" className="custom">
@@ -252,7 +252,7 @@ describe('Stat.Content', () => {
   })
 
   it('supports skeleton when outside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Content skeleton>

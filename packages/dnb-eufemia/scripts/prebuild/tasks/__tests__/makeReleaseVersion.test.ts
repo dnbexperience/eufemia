@@ -10,35 +10,73 @@ import * as getBranchName from 'current-git-branch'
 import * as getNextReleaseVersion from '../../../postbuild/getNextReleaseVersion'
 import { log } from '../../../lib'
 
-jest.mock('../../../postbuild/getNextReleaseVersion', () => {
+vi.mock('../../../postbuild/getNextReleaseVersion', async () => {
   return {
-    ...jest.requireActual('../../../postbuild/getNextReleaseVersion'),
-    getNextReleaseVersion: jest.fn(),
+    ...(await vi.importActual<
+      typeof import('../../../postbuild/getNextReleaseVersion')
+    >('../../../postbuild/getNextReleaseVersion')),
+    getNextReleaseVersion: vi.fn(),
   }
 })
 
-jest.mock('fs-extra', () => {
+vi.mock('fs-extra', async () => {
+  const actual =
+    await vi.importActual<typeof import('fs-extra')>('fs-extra')
+  const actualFs = (
+    'default' in actual ? actual.default : actual
+  ) as typeof fs
+  const mockedFs = {
+    ...actualFs,
+    readFile: vi.fn(async (file) => {
+      if (String(file).endsWith('BuildInfoData.ts')) {
+        return [
+          "export const version = '__VERSION__'",
+          "export const sha = '__SHA__'",
+          "export const buildDate = '__BUILD_DATE__'",
+          '',
+        ].join('\n')
+      }
+
+      if (String(file).endsWith('BuildInfoData.cjs')) {
+        return [
+          "exports.version = '__VERSION__'",
+          "exports.sha = '__SHA__'",
+          "exports.buildDate = '__BUILD_DATE__'",
+          '',
+        ].join('\n')
+      }
+
+      if (String(file).endsWith('scopes.scss')) {
+        return "--eufemia-version: '__VERSION__';\n"
+      }
+
+      return actualFs.readFile(file, 'utf-8')
+    }),
+    writeFile: vi.fn(),
+  }
+
   return {
-    ...jest.requireActual('fs-extra'),
-    writeFile: jest.fn(),
+    ...actual,
+    ...mockedFs,
+    default: mockedFs,
   }
 })
 
-jest.mock('repo-utils', () => {
+vi.mock('repo-utils', async () => {
   return {
-    ...jest.requireActual('repo-utils'),
+    ...(await vi.importActual<typeof import('repo-utils')>('repo-utils')),
     isCI: true,
   }
 })
 
-jest.mock('current-git-branch', () => {
-  return jest.fn()
-})
+vi.mock('current-git-branch', () => ({
+  default: vi.fn(),
+}))
 
-jest.mock('child_process', () => ({
-  execSync: jest.fn(() => {
+vi.mock('child_process', () => ({
+  execSync: vi.fn(() => {
     return {
-      toString: jest.fn(() => {
+      toString: vi.fn(() => {
         return 'something'
       }),
     }
@@ -46,20 +84,21 @@ jest.mock('child_process', () => ({
 }))
 
 beforeEach(() => {
-  jest.spyOn(log, 'succeed').mockImplementation(jest.fn())
+  vi.spyOn(log, 'succeed').mockImplementation(vi.fn())
 })
 afterEach(() => {
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('makeReleaseVersion', () => {
   it('should log success', async () => {
-    jest
-      .spyOn(getBranchName, 'default')
-      .mockImplementationOnce(() => 'release')
-    jest
-      .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
-      .mockImplementationOnce(async () => '123456789')
+    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
+      () => 'release'
+    )
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => '123456789')
 
     await makeReleaseVersion()
 
@@ -75,12 +114,13 @@ describe('makeReleaseVersion', () => {
   })
 
   it('should only run when on release branches', async () => {
-    jest
-      .spyOn(getBranchName, 'default')
-      .mockImplementationOnce(() => 'release')
-    jest
-      .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
-      .mockImplementationOnce(async () => '123456789')
+    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
+      () => 'release'
+    )
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => '123456789')
 
     await makeReleaseVersion()
 
@@ -88,12 +128,13 @@ describe('makeReleaseVersion', () => {
   })
 
   it('should run on any branch', async () => {
-    jest
-      .spyOn(getBranchName, 'default')
-      .mockImplementationOnce(() => 'some-branch')
-    jest
-      .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
-      .mockImplementationOnce(async () => '123456789')
+    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
+      () => 'some-branch'
+    )
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => '123456789')
 
     await makeReleaseVersion()
 
@@ -122,12 +163,13 @@ describe('makeReleaseVersion', () => {
   })
 
   it('write version in file', async () => {
-    jest
-      .spyOn(getBranchName, 'default')
-      .mockImplementationOnce(() => 'release')
-    jest
-      .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
-      .mockImplementationOnce(async () => '123456789')
+    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
+      () => 'release'
+    )
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => '123456789')
 
     await makeReleaseVersion()
 
@@ -166,12 +208,13 @@ describe('makeReleaseVersion', () => {
   })
 
   it('write branch in file', async () => {
-    jest
-      .spyOn(getBranchName, 'default')
-      .mockImplementationOnce(() => 'release')
-    jest
-      .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
-      .mockImplementationOnce(async () => null)
+    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
+      () => 'release'
+    )
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
 
     await makeReleaseVersion()
 
@@ -200,12 +243,12 @@ describe('makeReleaseVersion', () => {
   })
 
   it('write sha in file', async () => {
-    jest
-      .spyOn(getBranchName, 'default')
-      .mockImplementationOnce(() => 'release')
-    jest
-      .spyOn(child_process, 'execSync')
-      .mockReturnValueOnce('test-sha' as any)
+    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
+      () => 'release'
+    )
+    vi.spyOn(child_process, 'execSync').mockReturnValueOnce(
+      'test-sha' as any
+    )
 
     await makeReleaseVersion()
 
@@ -245,18 +288,21 @@ describe('makeReleaseVersion', () => {
 
   it('write buildDate (ISO) in BuildInfoData files', async () => {
     const beforeCall = Date.now()
-    jest
-      .spyOn(getBranchName, 'default')
-      .mockImplementationOnce(() => 'release')
-    jest
-      .spyOn(getNextReleaseVersion, 'getNextReleaseVersion')
-      .mockImplementationOnce(async () => '1.0.0')
+    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
+      () => 'release'
+    )
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => '1.0.0')
 
     await makeReleaseVersion()
 
     const afterCall = Date.now()
 
-    const jsCall = (fs.writeFile as unknown as jest.Mock).mock.calls.find(
+    const jsCall = (
+      fs.writeFile as unknown as import('vitest').Mock
+    ).mock.calls.find(
       (call) =>
         call[0].includes('BuildInfoData.ts') &&
         call[1].includes('buildDate')
@@ -271,7 +317,9 @@ describe('makeReleaseVersion', () => {
     expect(buildDateMs).toBeGreaterThanOrEqual(beforeCall - 1000)
     expect(buildDateMs).toBeLessThanOrEqual(afterCall + 1000)
 
-    const cjsCall = (fs.writeFile as unknown as jest.Mock).mock.calls.find(
+    const cjsCall = (
+      fs.writeFile as unknown as import('vitest').Mock
+    ).mock.calls.find(
       (call) =>
         call[0].includes('BuildInfoData.cjs') &&
         call[1].includes('buildDate')

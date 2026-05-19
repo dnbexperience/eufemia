@@ -1,4 +1,4 @@
-import { wait } from '../../../core/jest/jestSetup'
+import { wait } from '../../../core/test-utils/testSetup'
 import HeightAnimationInstance from '../HeightAnimationInstance'
 import {
   simulateAnimationEnd,
@@ -195,7 +195,7 @@ describe('HeightAnimationInstance', () => {
       mockHeight(100, element)
 
       element.setAttribute('data-width', String(200))
-      jest.spyOn(element, 'clientWidth', 'get').mockReturnValueOnce(100)
+      vi.spyOn(element, 'clientWidth', 'get').mockReturnValueOnce(100)
 
       const addedNodes = []
       const removedNodes = []
@@ -300,9 +300,9 @@ describe('HeightAnimationInstance', () => {
       inst.setElement(element)
       inst.setOptions({ animate: false })
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
       const fromHeight = 100
@@ -319,9 +319,9 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
       const fromHeight = 100
@@ -348,7 +348,7 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
-      jest.spyOn(inst, 'stop').mockImplementation(jest.fn())
+      vi.spyOn(inst, 'stop').mockImplementation(vi.fn())
       inst.start(100, 200)
 
       expect(inst.stop).toHaveBeenCalledTimes(1)
@@ -430,7 +430,7 @@ describe('HeightAnimationInstance', () => {
     it('should call getUnknownHeight', () => {
       const inst = new HeightAnimationInstance()
 
-      jest.spyOn(inst, 'getUnknownHeight').mockImplementation(jest.fn())
+      vi.spyOn(inst, 'getUnknownHeight').mockImplementation(vi.fn())
 
       inst.setElement(element)
       inst.setState('closed')
@@ -443,8 +443,8 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
-      const setAsOpen = jest.fn()
-      jest.spyOn(inst, 'setAsOpen').mockImplementation(setAsOpen)
+      const setAsOpen = vi.fn()
+      vi.spyOn(inst, 'setAsOpen').mockImplementation(setAsOpen)
 
       inst.setOptions({ animate: false })
 
@@ -481,9 +481,9 @@ describe('HeightAnimationInstance', () => {
       inst.setState('closed')
       inst.setOptions({ animate: false })
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
       mockHeight(100, element)
@@ -507,9 +507,9 @@ describe('HeightAnimationInstance', () => {
       inst.setElement(element)
       inst.setState('closed')
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
       mockHeight(100, element)
@@ -570,8 +570,8 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
-      const setAsClosed = jest.fn()
-      jest.spyOn(inst, 'setAsClosed').mockImplementation(setAsClosed)
+      const setAsClosed = vi.fn()
+      vi.spyOn(inst, 'setAsClosed').mockImplementation(setAsClosed)
 
       inst.setOptions({ animate: false })
 
@@ -608,9 +608,9 @@ describe('HeightAnimationInstance', () => {
       inst.setState('opened')
       inst.setOptions({ animate: false })
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
       mockHeight(100, element)
@@ -630,9 +630,9 @@ describe('HeightAnimationInstance', () => {
       inst.setElement(element)
       inst.setState('opened')
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
       mockHeight(100, element)
@@ -668,9 +668,9 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
       const fromHeight = 100
@@ -699,12 +699,12 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
-      const onTransitionEnd = jest.fn()
+      const onTransitionEnd = vi.fn()
       element.addEventListener('transitionend', onTransitionEnd)
 
       const fromHeight = 100
@@ -723,9 +723,9 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
-      const onStart = jest.fn()
+      const onStart = vi.fn()
       inst.onStart(onStart)
-      const onEnd = jest.fn()
+      const onEnd = vi.fn()
       inst.onEnd(onEnd)
 
       // First adjustment - should work normally
@@ -758,14 +758,12 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
 
-      const getHeightSpy = jest
-        .spyOn(inst, 'getHeight')
-        .mockReturnValue(100)
-      const getUnknownHeightSpy = jest
+      const getHeightSpy = vi.spyOn(inst, 'getHeight').mockReturnValue(100)
+      const getUnknownHeightSpy = vi
         .spyOn(inst, 'getUnknownHeight')
         .mockReturnValue(200)
-      const adjustToSpy = jest.spyOn(inst, 'adjustTo')
-      const callAnimationEndSpy = jest.spyOn(inst, 'callAnimationEnd')
+      const adjustToSpy = vi.spyOn(inst, 'adjustTo')
+      const callAnimationEndSpy = vi.spyOn(inst, 'callAnimationEnd')
 
       inst.readjust()
 
@@ -780,11 +778,14 @@ describe('HeightAnimationInstance', () => {
   describe('stop', () => {
     let sharedId = 0
     beforeEach(() => {
-      window.requestAnimationFrame = jest.fn((callback) => {
-        return (sharedId = setTimeout(callback, 0))
-      })
-      window.cancelAnimationFrame = jest.fn((id) => {
-        clearTimeout(id)
+      window.requestAnimationFrame = vi.fn(
+        (callback: FrameRequestCallback) => {
+          sharedId = window.setTimeout(() => callback(0), 0)
+          return sharedId
+        }
+      ) as typeof window.requestAnimationFrame
+      window.cancelAnimationFrame = vi.fn((id) => {
+        window.clearTimeout(id)
         return id
       })
     })
@@ -796,11 +797,9 @@ describe('HeightAnimationInstance', () => {
     it('should clean up properly', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
-      const clearTimeout = jest.fn(window.clearTimeout)
-      jest
-        .spyOn(window, 'clearTimeout')
-        .mockImplementationOnce(clearTimeout)
-      inst.timeouts.push(setTimeout(jest.fn, 0))
+      const clearTimeout = vi.fn(window.clearTimeout)
+      vi.spyOn(window, 'clearTimeout').mockImplementationOnce(clearTimeout)
+      inst.timeouts.push(setTimeout(vi.fn, 0))
       inst.reqId1 = 1
       inst.reqId2 = 2
 
@@ -894,9 +893,9 @@ describe('HeightAnimationInstance', () => {
   describe('remove', () => {
     it('should clean up correctly', () => {
       const inst = new HeightAnimationInstance()
-      inst.stop = jest.fn(inst.stop)
-      inst.removeEndEvents = jest.fn(inst.removeEndEvents)
-      inst.setState = jest.fn(inst.setState)
+      inst.stop = vi.fn(inst.stop)
+      inst.removeEndEvents = vi.fn(inst.removeEndEvents)
+      inst.setState = vi.fn(inst.setState)
 
       inst.setElement(element)
 
@@ -935,7 +934,7 @@ describe('HeightAnimationInstance', () => {
       const inst = new HeightAnimationInstance()
       inst.startTime = undefined
       inst.firstTime = -1
-      inst.onStartStack = [jest.fn(), jest.fn(), jest.fn()]
+      inst.onStartStack = [vi.fn(), vi.fn(), vi.fn()]
 
       inst.callAnimationStart()
 
@@ -967,7 +966,7 @@ describe('HeightAnimationInstance', () => {
 
     it('should remove end events', () => {
       const inst = new HeightAnimationInstance()
-      inst.removeEndEvents = jest.fn()
+      inst.removeEndEvents = vi.fn()
 
       inst.callAnimationEnd()
 
@@ -976,7 +975,7 @@ describe('HeightAnimationInstance', () => {
 
     it('should call onEndStack functions with the current state', () => {
       const inst = new HeightAnimationInstance()
-      inst.onEndStack = [jest.fn(), jest.fn(), jest.fn()]
+      inst.onEndStack = [vi.fn(), vi.fn(), vi.fn()]
       inst.setState('opened')
 
       inst.callAnimationEnd()

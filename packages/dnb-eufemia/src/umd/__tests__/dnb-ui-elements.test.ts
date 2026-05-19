@@ -3,7 +3,7 @@
  *
  */
 
-import '../../core/jest/jestSetup'
+import '../../core/test-utils/testSetup'
 import * as dnbElements from '../dnb-ui-elements'
 
 describe('UMD Web Elements package', () => {

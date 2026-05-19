@@ -5,7 +5,7 @@
  * @returns `true` if the function is asynchronous, `false` otherwise.
  */
 export function isAsync(fn: unknown): boolean {
-  // Support for jest.fn
+  // Support for vi.fn
   const n = 'getMockImplementation'
   if (fn?.[n]?.()) {
     fn = fn[n]()

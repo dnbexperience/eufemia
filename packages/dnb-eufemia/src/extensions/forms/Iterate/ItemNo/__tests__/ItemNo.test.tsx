@@ -36,7 +36,7 @@ describe('Iterate.ItemNo', () => {
     )
     expect(document.querySelector('section')).toMatchInlineSnapshot(`
       <section
-        class="dnb-space dnb-flex-container dnb-flex-stack dnb-forms-iterate dnb-forms-section dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space"
+        class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space dnb-flex-stack dnb-forms-iterate dnb-forms-section"
       >
         <div
           class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item dnb-forms-iterate__element"
@@ -64,7 +64,7 @@ describe('Iterate.ItemNo', () => {
     expect(document.querySelector('strong').textContent).toBe('ready')
     expect(document.querySelector('section')).toMatchInlineSnapshot(`
       <section
-        class="dnb-space dnb-flex-container dnb-flex-stack dnb-forms-iterate dnb-forms-section dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space"
+        class="dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space dnb-flex-stack dnb-forms-iterate dnb-forms-section"
       >
         <div
           class="dnb-space dnb-space__top--zero dnb-space__bottom--zero dnb-flex-item dnb-forms-iterate__element"

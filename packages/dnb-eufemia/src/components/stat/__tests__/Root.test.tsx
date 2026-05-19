@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
 
 describe('Stat.Root', () => {
@@ -52,7 +52,7 @@ describe('Stat.Root', () => {
   })
 
   it('warns when unsupported children are used', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -75,7 +75,7 @@ describe('Stat.Root', () => {
   })
 
   it('warns when Stat.Label is missing', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -97,7 +97,7 @@ describe('Stat.Root', () => {
   })
 
   it('does not warn when Stat.Label is present', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -120,7 +120,7 @@ describe('Stat.Root', () => {
   })
 
   it('should fail root composition with invalid ARIA rules', async () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     const component = render(
       <Stat.Root>
@@ -136,7 +136,7 @@ describe('Stat.Root', () => {
   })
 
   it('warns when Content appears before any Label', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -159,7 +159,7 @@ describe('Stat.Root', () => {
   })
 
   it('does not warn when Label precedes Content', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -182,7 +182,7 @@ describe('Stat.Root', () => {
   })
 
   it('warns when Content precedes Label inside a Fragment', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>
@@ -207,7 +207,7 @@ describe('Stat.Root', () => {
   })
 
   it('does not emit order warning when Label is missing entirely', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Root>

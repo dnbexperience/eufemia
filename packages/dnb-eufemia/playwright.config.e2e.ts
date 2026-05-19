@@ -10,7 +10,9 @@ export default defineConfig({
 
   use: {
     // Base URL to use in actions like `await page.goto('/')`.
-    baseURL: isCI ? 'http://localhost:8001' : 'http://localhost:8000',
+    baseURL:
+      process.env.PLAYWRIGHT_BASE_URL ||
+      (isCI ? 'http://localhost:8001' : 'http://localhost:8000'),
 
     // Name of the browser that runs tests. For example `chromium`, `firefox`, `webkit`.
     browserName: 'firefox',

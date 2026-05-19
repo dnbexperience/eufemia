@@ -3,7 +3,7 @@
  *
  */
 
-import '../../../../src/core/jest/jestSetup'
+import '../../../../src/core/test-utils/testSetup'
 import { log } from '../../../lib'
 import { getFigmaDoc } from '../docHelpers'
 
@@ -11,12 +11,12 @@ const localFile = require.resolve('./files/FigmaTestDoc.json')
 
 describe('FigmaDoc', () => {
   it('has to match selector criteria', async () => {
-    const start = jest.fn()
-    jest.spyOn(log, 'start').mockImplementation(start)
-    const info = jest.fn()
-    jest.spyOn(log, 'info').mockImplementation(info)
-    const succeed = jest.fn()
-    jest.spyOn(log, 'succeed').mockImplementation(succeed)
+    const start = vi.fn()
+    vi.spyOn(log, 'start').mockImplementation(start)
+    const info = vi.fn()
+    vi.spyOn(log, 'info').mockImplementation(info)
+    const succeed = vi.fn()
+    vi.spyOn(log, 'succeed').mockImplementation(succeed)
 
     const figmaDoc = await getFigmaDoc({
       forceRefetch: false,

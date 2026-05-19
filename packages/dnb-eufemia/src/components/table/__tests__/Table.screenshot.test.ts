@@ -268,8 +268,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
-        simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
+        simulateSelector: '#accordion-table-2-3',
         simulate: 'hover',
       })
     })
@@ -282,8 +281,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
-        simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
+        simulateSelector: '#accordion-table-2-3',
         simulate: 'focus',
       })
     })
@@ -296,8 +294,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
-        simulateSelector:
-          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
+        simulateSelector: '#accordion-table-2-3',
         simulate: 'active',
       })
     })
@@ -368,7 +365,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--clickable.dnb-table__tr--last',
+          '[data-visual-test="table-accordion-rows"] tbody > .dnb-table__tr--clickable:nth-last-child(4)',
         simulate: 'hover',
       })
     })
@@ -381,7 +378,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--clickable.dnb-table__tr--last',
+          '[data-visual-test="table-accordion-rows"] tbody > .dnb-table__tr--clickable:nth-last-child(4)',
         simulate: 'focus',
       })
     })
@@ -394,7 +391,7 @@ describe.each(['ui', 'sbanken'])(
         },
         selector: '[data-visual-test="table-accordion-rows"]',
         simulateSelector:
-          '[data-visual-test="table-accordion-rows"] tbody .dnb-table__tr--clickable.dnb-table__tr--last',
+          '[data-visual-test="table-accordion-rows"] tbody > .dnb-table__tr--clickable:nth-last-child(4)',
         simulate: 'active',
       })
     })
@@ -478,7 +475,7 @@ describe.each(['ui', 'sbanken'])(
         selector:
           '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
+          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr[data-row-id="3"]',
         simulate: 'hover',
       })
     })
@@ -492,7 +489,7 @@ describe.each(['ui', 'sbanken'])(
         selector:
           '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type',
         simulateSelector:
-          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody .dnb-table__tr--last',
+          '[data-visual-test="table-navigation"] .dnb-scroll-view:last-of-type tbody tr[data-row-id="3"]',
         simulate: 'focus',
       })
     })

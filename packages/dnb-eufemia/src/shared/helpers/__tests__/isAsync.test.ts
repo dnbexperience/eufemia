@@ -12,12 +12,12 @@ describe('isAsync', () => {
     expect(isAsync(IAmAsync)).toBeTruthy()
   })
 
-  it('should return correct result based with jest mock', () => {
-    expect(isAsync(jest.fn(() => null))).toBeFalsy()
-    expect(isAsync(jest.fn(async () => null))).toBeTruthy()
+  it('should return correct result based on mocked functions', () => {
+    expect(isAsync(vi.fn(() => null))).toBeFalsy()
+    expect(isAsync(vi.fn(async () => null))).toBeTruthy()
 
-    const IAmSync = jest.fn(() => null)
-    const IAmAsync = jest.fn(async () => null)
+    const IAmSync = vi.fn(() => null)
+    const IAmAsync = vi.fn(async () => null)
 
     expect(isAsync(IAmSync)).toBeFalsy()
     expect(isAsync(IAmAsync)).toBeTruthy()

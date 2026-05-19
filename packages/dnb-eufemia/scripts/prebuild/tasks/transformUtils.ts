@@ -33,7 +33,7 @@ export const transformSass =
     const isTestEnv =
       process.env.NODE_ENV === 'test' ||
       process.env.JEST_WORKER_ID !== undefined ||
-      typeof jest !== 'undefined'
+      typeof vi !== 'undefined'
 
     if (typeof window !== 'undefined' && !isTestEnv) {
       try {

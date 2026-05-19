@@ -201,10 +201,9 @@ describe('TableTh', () => {
     )
 
     const element = document.querySelector('th')
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-table__th',
-      'custom-class',
-    ])
+    expect(element).toHaveClass('dnb-table__th custom-class', {
+      exact: true,
+    })
   })
 
   it('should set the subtle variant class', () => {

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
   screen,
   render,
@@ -617,7 +617,7 @@ describe('Field.Number', () => {
       })
 
       it('formats with prefix as a function', () => {
-        const prefix = jest.fn(() => {
+        const prefix = vi.fn(() => {
           return 'prefix '
         })
         render(<Field.Number value={12345} currency prefix={prefix} />)
@@ -629,7 +629,7 @@ describe('Field.Number', () => {
       })
 
       it('formats with suffix as a function', () => {
-        const suffix = jest.fn(() => {
+        const suffix = vi.fn(() => {
           return ' suffix'
         })
         render(<Field.Number value={12345} suffix={suffix} />)
@@ -730,7 +730,7 @@ describe('Field.Number', () => {
     })
 
     it('should preserve minus sign while typing negative value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.Number onChange={onChange} />)
 
       const input = document.querySelector('input')
@@ -742,7 +742,7 @@ describe('Field.Number', () => {
     })
 
     it('should call onChange with the correct negative value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.Number onChange={onChange} />)
 
       const input = document.querySelector('input')
@@ -753,7 +753,7 @@ describe('Field.Number', () => {
     })
 
     it('should store negative value correctly in form data context', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -775,7 +775,7 @@ describe('Field.Number', () => {
     })
 
     it('should keep minus sign on blur when no digits follow', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.Number onChange={onChange} />)
 
       const input = document.querySelector('input')
@@ -793,7 +793,7 @@ describe('Field.Number', () => {
     })
 
     it('should handle negative decimal values like -0,5', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.Number onChange={onChange} />)
 
       const input = document.querySelector('input')
@@ -805,7 +805,7 @@ describe('Field.Number', () => {
     })
 
     it('should treat -0 as empty value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.Number onChange={onChange} />)
 
       const input = document.querySelector('input')
@@ -818,7 +818,7 @@ describe('Field.Number', () => {
     })
 
     it('should lose minus sign when emptyValue is 0', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.Number emptyValue={0} onChange={onChange} />)
 
       const input = document.querySelector('input')
@@ -864,7 +864,7 @@ describe('Field.Number', () => {
       })
 
       it('should return correct onChange event value', async () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
 
         render(<Field.Number disallowLeadingZeroes onChange={onChange} />)
 
@@ -1388,9 +1388,7 @@ describe('Field.Number', () => {
       })
 
       it('throw type error when invalid value is given', () => {
-        const log = jest
-          .spyOn(console, 'error')
-          .mockImplementation(() => {})
+        const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
         const invalidValue = 'foo' as null
         render(
@@ -1413,9 +1411,9 @@ describe('Field.Number', () => {
 
     describe('integer (Ajv and Zod)', () => {
       // Silence console.error noise during these tests while still allowing per-test spies
-      let consoleErrorSpy: jest.SpyInstance
+      let consoleErrorSpy: import('vitest').MockInstance
       beforeEach(() => {
-        consoleErrorSpy = jest
+        consoleErrorSpy = vi
           .spyOn(console, 'error')
           .mockImplementation(() => {})
       })
@@ -1533,9 +1531,7 @@ describe('Field.Number', () => {
       })
 
       it('throw type error when invalid value is given', () => {
-        const log = jest
-          .spyOn(console, 'error')
-          .mockImplementation(() => {})
+        const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
         render(
           <Form.Handler
@@ -1564,9 +1560,9 @@ describe('Field.Number', () => {
 
       describe('integer (Ajv and Zod)', () => {
         // Silence console.error noise during these tests while still allowing per-test spies
-        let consoleErrorSpy: jest.SpyInstance
+        let consoleErrorSpy: import('vitest').MockInstance
         beforeEach(() => {
-          consoleErrorSpy = jest
+          consoleErrorSpy = vi
             .spyOn(console, 'error')
             .mockImplementation(() => {})
         })
@@ -1626,7 +1622,7 @@ describe('Field.Number', () => {
     })
 
     it('should use emptyValue when not set in data context', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       render(
         <Form.Handler data={{}} onSubmit={onSubmit}>
           <Field.Number
@@ -1650,7 +1646,7 @@ describe('Field.Number', () => {
 
   describe('event handlers', () => {
     it('calls onChange for every change of an integer input value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.Number value={23} onChange={onChange} />)
       const input = document.querySelector('input')
       await userEvent.type(input, '579012')
@@ -1665,7 +1661,7 @@ describe('Field.Number', () => {
     })
 
     it('calls onChange for every change of a float input value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.Number value={24.5} onChange={onChange} />)
       const input = document.querySelector('input')
       await userEvent.type(input, '7621')
@@ -1694,7 +1690,7 @@ describe('Field.Number', () => {
     })
 
     it('should call onChangeValidator with validateInitially', async () => {
-      const onChangeValidator = jest.fn(() => {
+      const onChangeValidator = vi.fn(() => {
         return new Error('Validator message')
       })
 
@@ -1720,7 +1716,7 @@ describe('Field.Number', () => {
     })
 
     it('should call onChangeValidator on form submit', async () => {
-      const onChangeValidator = jest.fn(() => {
+      const onChangeValidator = vi.fn(() => {
         return new Error('Validator message')
       })
 
@@ -2071,7 +2067,7 @@ describe('Field.Number', () => {
 
   describe('emptyValue', () => {
     it('should use the given emptyValue and set in the data context', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -2217,7 +2213,7 @@ describe('Field.Number', () => {
       const input = document.querySelector('input')
 
       input.focus()
-      const getData = jest.fn(() => String(Number.MAX_SAFE_INTEGER + 1))
+      const getData = vi.fn(() => String(Number.MAX_SAFE_INTEGER + 1))
       const clipboardData = { getData }
       fireEvent.paste(input, { clipboardData })
       // Simulate the input event that follows paste with the new value
@@ -2250,7 +2246,7 @@ describe('Field.Number', () => {
 
       // Paste a safe value: 900719925474099 (below MAX_SAFE_INTEGER)
       input.focus()
-      const getData = jest.fn(() => '900719925474099')
+      const getData = vi.fn(() => '900719925474099')
       const clipboardData = { getData }
       fireEvent.paste(input, { clipboardData })
       fireEvent.input(input, {

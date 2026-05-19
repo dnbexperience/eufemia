@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { IconPrimaryAllProps } from '../IconPrimary'
 import IconPrimary from '../IconPrimary'
 import { render } from '@testing-library/react'

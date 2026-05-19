@@ -6,9 +6,9 @@ import type { MenuContextValue } from '../types'
 /**
  * Mock Popover component for menu tests.
  *
- * Use with jest.mock at the top of your test file:
+ * Use with vi.mock at the top of your test file:
  * ```
- * jest.mock('../../popover/Popover', () => MockPopover)
+ * vi.mock('../../popover/Popover', () => MockPopover)
  * ```
  */
 export function MockPopover(props: {
@@ -76,15 +76,15 @@ export function createMockContext(
 
   return {
     level: 0,
-    closeAll: jest.fn(),
+    closeAll: vi.fn(),
     activeIndex: 0,
-    setActiveIndex: jest.fn(),
-    registerItem: jest.fn((ref) => {
+    setActiveIndex: vi.fn(),
+    registerItem: vi.fn((ref) => {
       const index = itemRefs.current.length
       itemRefs.current.push(ref)
       return index
     }),
-    unregisterItem: jest.fn(),
+    unregisterItem: vi.fn(),
     itemRefs,
     menuRef: { current: null },
     isOpen: true,

@@ -9,24 +9,22 @@ describe('runCssVersionMismatchWarning', () => {
   const NODE_ENV = process.env.NODE_ENV
 
   beforeEach(() => {
-    const requestAnimationFrame = jest.fn((fn) => {
+    const requestAnimationFrame = vi.fn((fn) => {
       fn()
       return 1
     })
 
-    jest
-      .spyOn(window, 'requestAnimationFrame')
-      .mockImplementation(requestAnimationFrame)
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation(
+      requestAnimationFrame
+    )
 
     process.env.NODE_ENV = 'development'
     originalGetComputedStyle = window.getComputedStyle
-    consoleErrorSpy = jest
+    consoleErrorSpy = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {})
-    consoleWarnSpy = jest
-      .spyOn(console, 'warn')
-      .mockImplementation(() => {})
-    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
   })
 
   afterEach(() => {
@@ -114,8 +112,8 @@ describe('runCssVersionMismatchWarning', () => {
     const originalJsVersion = window.Eufemia?.version
     window.Eufemia = { version: '1.0.0' }
 
-    window.getComputedStyle = jest.fn().mockReturnValue({
-      getPropertyValue: jest.fn().mockReturnValue('"2.0.0"'),
+    window.getComputedStyle = vi.fn().mockReturnValue({
+      getPropertyValue: vi.fn().mockReturnValue('"2.0.0"'),
     })
 
     runCssVersionMismatchWarning()
@@ -134,8 +132,8 @@ describe('runCssVersionMismatchWarning', () => {
     const originalJsVersion = window.Eufemia?.version
     window.Eufemia = { version: '1.0.0' }
 
-    window.getComputedStyle = jest.fn().mockReturnValue({
-      getPropertyValue: jest.fn().mockReturnValue(undefined),
+    window.getComputedStyle = vi.fn().mockReturnValue({
+      getPropertyValue: vi.fn().mockReturnValue(undefined),
     })
 
     runCssVersionMismatchWarning()
@@ -159,10 +157,10 @@ describe('runCssVersionMismatchWarning', () => {
       get: () => 'loading',
     })
 
-    const addEventListener = jest.fn()
-    jest
-      .spyOn(window, 'addEventListener')
-      .mockImplementation(addEventListener)
+    const addEventListener = vi.fn()
+    vi.spyOn(window, 'addEventListener').mockImplementation(
+      addEventListener
+    )
 
     runCssVersionMismatchWarning()
 
@@ -182,9 +180,9 @@ describe('runCssVersionMismatchWarning', () => {
       get: () => 'complete',
     })
 
-    const requestAnimationFrameSpy = jest
+    const requestAnimationFrameSpy = vi
       .spyOn(window, 'requestAnimationFrame')
-      .mockImplementationOnce(jest.fn())
+      .mockImplementationOnce(vi.fn())
 
     runCssVersionMismatchWarning()
 

@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
 import type { DlAllProps } from '../Dl'
@@ -97,22 +97,22 @@ describe('Dl', () => {
 
     const element = document.querySelector('.dnb-dl')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-dl__layout--horizontal',
-      'dnb-dl',
-      'dnb-space__top--medium',
-    ])
-    expect(Array.from(element.querySelector('dt').classList)).toEqual([
-      'dnb-dt',
-      'dnb-space__top--medium',
-    ])
-    expect(Array.from(element.querySelector('dd').classList)).toEqual([
-      'dnb-dd',
-      'dnb-space__top--medium',
-    ])
-    expect(
-      Array.from(element.querySelector('.dnb-dl__item').classList)
-    ).toEqual(['dnb-dl__item', 'dnb-dd', 'dnb-space__top--medium'])
+    expect(element).toHaveClass(
+      'dnb-dl__layout--horizontal dnb-dl dnb-space__top--medium',
+      { exact: true }
+    )
+    expect(element.querySelector('dt')).toHaveClass(
+      'dnb-dt dnb-space__top--medium',
+      { exact: true }
+    )
+    expect(element.querySelector('dd')).toHaveClass(
+      'dnb-dd dnb-space__top--medium',
+      { exact: true }
+    )
+    expect(element.querySelector('.dnb-dl__item')).toHaveClass(
+      'dnb-dl__item dnb-dd dnb-space__top--medium',
+      { exact: true }
+    )
   })
 
   describe('in horizontal direction', () => {

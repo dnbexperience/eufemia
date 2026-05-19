@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import Dialog from '../../dialog/Dialog'
 import type { HelpButtonProps } from '../HelpButton'
 import HelpButton from '../HelpButton'
@@ -147,7 +147,7 @@ describe('HelpButton', () => {
   })
 
   it('should fire onClick when children are given', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <HelpButton {...props} onClick={onClick}>

@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import SubHeading from '../SubHeading'
 
 beforeEach(() => {
-  global.console.log = jest.fn()
+  global.console.log = vi.fn()
 })
 
 describe('Form.SubHeading', () => {
@@ -36,12 +36,10 @@ describe('Form.SubHeading', () => {
 
     const element = document.querySelector('.dnb-forms-sub-heading')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-heading',
-      'dnb-h--medium',
-      'dnb-forms-sub-heading',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(
+      'dnb-heading dnb-h--medium dnb-forms-sub-heading custom-class',
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

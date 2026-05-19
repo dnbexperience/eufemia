@@ -1,7 +1,7 @@
 import { act, useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import 'mock-match-media/jest-setup'
+import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import { P } from '../../../elements'
 import MainHeading from '../../../extensions/forms/Form/MainHeading'
@@ -36,11 +36,9 @@ describe('Flex.Item', () => {
 
     const element = document.querySelector('.dnb-flex-item')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-flex-item',
-      'custom-class',
-    ])
+    expect(element).toHaveClass('dnb-space dnb-flex-item custom-class', {
+      exact: true,
+    })
   })
 
   it('should render children', () => {
@@ -109,7 +107,7 @@ describe('Flex.Item', () => {
 
   describe('size', () => {
     beforeEach(() => {
-      jest.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
+      vi.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
     })
 
     const matchMediaOriginal = window.matchMedia

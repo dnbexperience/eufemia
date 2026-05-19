@@ -85,7 +85,7 @@ describe('useTranslation without an ID', () => {
   })
 
   it('should extend translation inside locale key', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     const extendedLocale = {
       'nb-NO': {
@@ -602,9 +602,9 @@ describe('useTranslation with an ID', () => {
   })
 
   describe('fallback functionality', () => {
-    let consoleSpy: jest.SpyInstance
+    let consoleSpy: import('vitest').MockInstance
     beforeAll(() => {
-      consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {})
+      consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
     })
     afterEach(() => {
       consoleSpy.mockClear()
@@ -1473,10 +1473,10 @@ describe('Rich text tag rendering', () => {
 })
 
 describe('Error handling and warnings', () => {
-  let logSpy: jest.SpyInstance
+  let logSpy: import('vitest').MockInstance
 
   beforeEach(() => {
-    logSpy = jest.spyOn(console, 'log').mockImplementation()
+    logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
   })
 
   afterEach(() => {

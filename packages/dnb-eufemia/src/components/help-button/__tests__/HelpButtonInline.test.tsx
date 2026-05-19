@@ -560,7 +560,7 @@ describe('HelpButtonInline', () => {
     const button = document.querySelector('button') as HTMLButtonElement
 
     // Spy on the prototype before clicking so we catch the focus call
-    const focusSpy = jest.spyOn(HTMLElement.prototype, 'focus')
+    const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus')
 
     await userEvent.click(button)
 
@@ -598,7 +598,7 @@ describe('HelpButtonInline', () => {
     })) as HTMLElement
 
     // Spy on the button's focus method
-    const focusSpy = jest.spyOn(button, 'focus')
+    const focusSpy = vi.spyOn(button, 'focus')
 
     // Focus the content and press Escape (the onKeyDown handler is on the content section)
     content.focus()

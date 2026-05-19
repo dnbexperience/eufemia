@@ -5,8 +5,8 @@ import { getCountryData } from '../../../Field/SelectCountry'
 import useCountry from '../useCountry'
 import countries from '../../../constants/countries'
 
-jest.mock('../../../Field/SelectCountry', () => ({
-  getCountryData: jest.fn(),
+vi.mock('../../../Field/SelectCountry', () => ({
+  getCountryData: vi.fn(),
 }))
 
 describe('useCountry', () => {
@@ -14,7 +14,7 @@ describe('useCountry', () => {
   const mockCountryData = [{ iso: 'US', content: 'United States' }]
 
   beforeEach(() => {
-    const mock = getCountryData as jest.Mock
+    const mock = getCountryData as import('vitest').Mock
     mock.mockReturnValue(mockCountryData)
   })
 
@@ -44,7 +44,7 @@ describe('useCountry', () => {
   })
 
   it('should return undefined if ISO code is not found', () => {
-    const mock = getCountryData as jest.Mock
+    const mock = getCountryData as import('vitest').Mock
     mock.mockReturnValue(undefined)
     const { result } = renderHook(() => useCountry(), { wrapper })
     const { getCountryNameByIso } = result.current

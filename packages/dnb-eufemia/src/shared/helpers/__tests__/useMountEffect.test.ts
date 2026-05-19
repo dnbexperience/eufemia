@@ -3,13 +3,13 @@ import useMountEffect from '../useMountEffect'
 
 describe('useMountEffect', () => {
   it('should run on first mount', () => {
-    const effect = jest.fn()
+    const effect = vi.fn()
     renderHook(() => useMountEffect(effect))
     expect(effect).toHaveBeenCalledTimes(1)
   })
 
   it('should not run on re-renders', () => {
-    const effect = jest.fn()
+    const effect = vi.fn()
     const { rerender } = renderHook(() => useMountEffect(effect))
 
     rerender()
@@ -20,7 +20,7 @@ describe('useMountEffect', () => {
 
   it('should call unmount', () => {
     let wasUnmounted = false
-    const effect = jest.fn(() => {
+    const effect = vi.fn(() => {
       return () => {
         wasUnmounted = true
       }

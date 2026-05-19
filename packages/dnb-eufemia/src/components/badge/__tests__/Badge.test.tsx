@@ -6,7 +6,7 @@ import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 import Avatar from '../../Avatar'
 
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 
 describe('Badge', () => {
@@ -38,10 +38,9 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-badge',
-      'dnb-badge--inline',
-    ])
+    expect(element).toHaveClass('dnb-badge dnb-badge--inline', {
+      exact: true,
+    })
   })
 
   it('renders formatted number when content is a number with notification variant', () => {
@@ -106,7 +105,7 @@ describe('Badge', () => {
 
   it('does not warn when notification badge content is a number', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(
       <Badge variant="notification" content={1} label="Notifications:" />
     )
@@ -123,21 +122,21 @@ describe('Badge', () => {
 
   it('warns when Badge content is a number and is missing a label', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Badge content={1} />)
     expect(global.console.log).toHaveBeenCalled()
   })
 
   it('does not warn when Badge content is a string and label is missing', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Badge content="text" />)
     expect(global.console.log).not.toHaveBeenCalled()
   })
 
   it('does not warn when Badge content is a number and has a label', () => {
     process.env.NODE_ENV = 'development'
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Badge content="text" label="Notifications:" />)
     expect(global.console.log).not.toHaveBeenCalled()
   })
@@ -157,13 +156,10 @@ describe('Badge', () => {
     )
 
     expect(attributes).toEqual(['role', 'class', 'aria-label'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-badge',
-      'dnb-space__top--large',
-      'dnb-badge--variant-information',
-      'dnb-badge--inline',
-      'dnb-badge--status-default',
-    ])
+    expect(element).toHaveClass(
+      'dnb-badge dnb-space__top--large dnb-badge--variant-information dnb-badge--inline dnb-badge--status-default',
+      { exact: true }
+    )
   })
 
   it('should place spacing classes on root element', () => {
@@ -175,10 +171,9 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge__root')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-badge__root',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass('dnb-badge__root dnb-space__top--large', {
+      exact: true,
+    })
 
     expect(
       Array.from(document.querySelector('.dnb-badge').classList)
@@ -202,14 +197,10 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-badge',
-      'dnb-skeleton',
-      'dnb-skeleton--shape',
-      'dnb-badge--variant-information',
-      'dnb-badge--inline',
-      'dnb-badge--status-default',
-    ])
+    expect(element).toHaveClass(
+      'dnb-badge dnb-skeleton dnb-skeleton--shape dnb-badge--variant-information dnb-badge--inline dnb-badge--status-default',
+      { exact: true }
+    )
   })
 
   it('should support vertical alignment when used inline', () => {

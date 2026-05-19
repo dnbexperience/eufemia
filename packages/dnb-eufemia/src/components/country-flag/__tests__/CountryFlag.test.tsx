@@ -2,7 +2,7 @@ import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import CountryFlag from '../CountryFlag'
 import Provider from '../../../shared/Provider'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 
 describe('CountryFlag', () => {
   it('should use NO as default', () => {

@@ -4,8 +4,8 @@ import SharedContext from '../../../../../shared/Context'
 import { getCurrencyData } from '../../../Field/SelectCurrency'
 import useCurrency from '../useCurrency'
 
-jest.mock('../../../Field/SelectCurrency', () => ({
-  getCurrencyData: jest.fn(),
+vi.mock('../../../Field/SelectCurrency', () => ({
+  getCurrencyData: vi.fn(),
 }))
 
 describe('useCurrency', () => {
@@ -19,7 +19,7 @@ describe('useCurrency', () => {
   ]
 
   beforeEach(() => {
-    const mock = getCurrencyData as jest.Mock
+    const mock = getCurrencyData as import('vitest').Mock
     mock.mockReturnValue(mockCurrencyData)
   })
 
@@ -50,7 +50,7 @@ describe('useCurrency', () => {
   })
 
   it('should return undefined if ISO code is not found', () => {
-    const mock = getCurrencyData as jest.Mock
+    const mock = getCurrencyData as import('vitest').Mock
     mock.mockReturnValue(undefined)
     const { result } = renderHook(() => useCurrency(), { wrapper })
     const { getCurrencyDisplayNameByIso } = result.current

@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import AriaLive from '../AriaLive'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('AriaLive', () => {
@@ -19,10 +19,9 @@ describe('AriaLive', () => {
     expect(attributes).toEqual(['aria-live', 'aria-atomic', 'class'])
     expect(element).toHaveAttribute('aria-live', 'polite')
     expect(element).toHaveAttribute('aria-atomic', 'true')
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-aria-live',
-      'dnb-sr-only',
-    ])
+    expect(element).toHaveClass('dnb-aria-live dnb-sr-only', {
+      exact: true,
+    })
   })
 
   it('does not render when disabled', async () => {
@@ -190,7 +189,7 @@ describe('AriaLive', () => {
 
     expect(element).toHaveAttribute('aria-live', 'polite')
     expect(element).toHaveAttribute('aria-atomic', 'false')
-    expect(Array.from(element.classList)).toEqual(['dnb-aria-live'])
+    expect(element).toHaveClass('dnb-aria-live', { exact: true })
   })
 
   it('should have constant of _supportsSpacingProps="children"', () => {

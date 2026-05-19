@@ -1,10 +1,13 @@
-/* eslint-disable jest/expect-expect */
+/* eslint-disable vitest/expect-expect */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { StrictMode } from 'react'
 import type { RefObject } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
+import {
+  spyOnEufemiaWarn,
+  wait,
+} from '../../../../../core/test-utils/testSetup'
 import type { JSONSchema, JSONSchemaType, OnSubmit } from '../../..'
 import { Form, Field, makeAjvInstance } from '../../..'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
@@ -88,7 +91,7 @@ describe('Form.Handler', () => {
   })
 
   it('should call "onSubmit"', () => {
-    const onSubmit: OnSubmit = jest.fn()
+    const onSubmit: OnSubmit = vi.fn()
 
     render(
       <Form.Handler
@@ -122,7 +125,7 @@ describe('Form.Handler', () => {
   })
 
   it('should call "onSubmit" from Provider at the same time', () => {
-    const onSubmit: OnSubmit = jest.fn()
+    const onSubmit: OnSubmit = vi.fn()
 
     render(
       <Form.Handler
@@ -155,7 +158,7 @@ describe('Form.Handler', () => {
   })
 
   it('should call preventDefault', () => {
-    const onSubmit: OnSubmit = jest.fn()
+    const onSubmit: OnSubmit = vi.fn()
 
     render(
       <Form.Handler
@@ -180,7 +183,7 @@ describe('Form.Handler', () => {
   })
 
   it('should allow native submit when preventDefaultOnSubmit is false', () => {
-    const onSubmit: OnSubmit = jest.fn()
+    const onSubmit: OnSubmit = vi.fn()
 
     render(
       <Form.Handler
@@ -231,11 +234,10 @@ describe('Form.Handler', () => {
 
     const formElement = document.querySelector('form')
 
-    expect(Array.from(formElement.classList)).toEqual([
-      'dnb-space',
-      'dnb-forms-form',
-      'custom-class',
-    ])
+    expect(formElement).toHaveClass(
+      'dnb-space dnb-forms-form custom-class',
+      { exact: true }
+    )
   })
 
   it('should handle spacing prop', () => {
@@ -324,11 +326,11 @@ describe('Form.Handler', () => {
   })
 
   it('should call HTMLFormElement.reset on "resetForm" call', () => {
-    const onSubmit: OnSubmit = jest.fn((data, { resetForm }) => {
+    const onSubmit: OnSubmit = vi.fn((data, { resetForm }) => {
       resetForm()
     })
-    const onChange = jest.fn()
-    const reset = jest.fn()
+    const onChange = vi.fn()
+    const reset = vi.fn()
 
     const MockComponent = (props: StringFieldProps) => {
       return <Field.String {...props} />
@@ -349,7 +351,7 @@ describe('Form.Handler', () => {
     const inputElement = document.querySelector('input')
     const submitElement = document.querySelector('button')
 
-    jest.spyOn(formElement, 'reset').mockImplementationOnce(reset)
+    vi.spyOn(formElement, 'reset').mockImplementationOnce(reset)
 
     fireEvent.click(submitElement)
 
@@ -381,10 +383,10 @@ describe('Form.Handler', () => {
   })
 
   it('should empty whole data set "clearData" call', () => {
-    const onSubmit: OnSubmit = jest.fn((data, { clearData }) => {
+    const onSubmit: OnSubmit = vi.fn((data, { clearData }) => {
       clearData()
     })
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const MockComponent = (props: StringFieldProps) => {
       return <Field.String {...props} />
@@ -438,7 +440,7 @@ describe('Form.Handler', () => {
   })
 
   it('should store data to session storage when sessionStorageId is provided, but only after changes', async () => {
-    const setItem = jest.spyOn(
+    const setItem = vi.spyOn(
       Object.getPrototypeOf(window.sessionStorage),
       'setItem'
     )
@@ -486,11 +488,11 @@ describe('Form.Handler', () => {
   })
 
   it('should reset sessionStorage on "resetForm" call', async () => {
-    const setItem = jest.spyOn(
+    const setItem = vi.spyOn(
       Object.getPrototypeOf(window.sessionStorage),
       'setItem'
     )
-    const onSubmit: OnSubmit = jest.fn((data, { resetForm }) => {
+    const onSubmit: OnSubmit = vi.fn((data, { resetForm }) => {
       resetForm()
     })
 
@@ -529,7 +531,7 @@ describe('Form.Handler', () => {
   })
 
   it('should show errors if form is invalid on submit', () => {
-    const onSubmit: OnSubmit = jest.fn()
+    const onSubmit: OnSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -545,7 +547,7 @@ describe('Form.Handler', () => {
   })
 
   it('should include values from fields in data, without any change', () => {
-    const onSubmit: OnSubmit = jest.fn()
+    const onSubmit: OnSubmit = vi.fn()
 
     render(
       <Form.Handler data={{ foo: 'bar' }} onSubmit={onSubmit}>
@@ -565,7 +567,7 @@ describe('Form.Handler', () => {
   })
 
   it('should show error message given in onSubmit', async () => {
-    const onSubmit: OnSubmit = jest.fn(() => {
+    const onSubmit: OnSubmit = vi.fn(() => {
       throw new Error('Form error')
     })
 
@@ -584,7 +586,7 @@ describe('Form.Handler', () => {
   })
 
   it('should have error message that is connected with aria-labelledby', async () => {
-    const onSubmit: OnSubmit = jest.fn(() => {
+    const onSubmit: OnSubmit = vi.fn(() => {
       throw new Error('Form error')
     })
 
@@ -610,7 +612,7 @@ describe('Form.Handler', () => {
   })
 
   describe('async submit', () => {
-    let log: jest.SpyInstance
+    let log: import('vitest').MockInstance
     beforeEach(() => {
       log = spyOnEufemiaWarn()
     })
@@ -701,7 +703,7 @@ describe('Form.Handler', () => {
     })
 
     it('should abort async submit when onSubmit returns error', async () => {
-      const onSubmit: OnSubmit = jest.fn(async () => {
+      const onSubmit: OnSubmit = vi.fn(async () => {
         await wait(1)
 
         return new Error('Error message')
@@ -744,8 +746,8 @@ describe('Form.Handler', () => {
     })
 
     it('should call onSubmit and onSubmitComplete on async submit call', async () => {
-      const onSubmit: OnSubmit = jest.fn()
-      const onSubmitComplete = jest.fn()
+      const onSubmit: OnSubmit = vi.fn()
+      const onSubmitComplete = vi.fn()
 
       render(
         <Form.Handler
@@ -783,7 +785,7 @@ describe('Form.Handler', () => {
     })
 
     it('should handle onSubmit return with "info" and handle pending status', async () => {
-      const onSubmit: OnSubmit = jest.fn().mockImplementation(async () => {
+      const onSubmit: OnSubmit = vi.fn().mockImplementation(async () => {
         await wait(500) // ensure we never finish onSubmit before the timeout
 
         return {
@@ -866,8 +868,8 @@ describe('Form.Handler', () => {
     })
 
     it('should call onSubmit and onSubmitComplete with async onChangeValidator', async () => {
-      const onSubmit: OnSubmit = jest.fn()
-      const onSubmitComplete = jest.fn()
+      const onSubmit: OnSubmit = vi.fn()
+      const onSubmitComplete = vi.fn()
 
       const asyncValidator = async () => {
         return null
@@ -913,8 +915,8 @@ describe('Form.Handler', () => {
     })
 
     it('should not call async onChangeValidator when field is not mounted anymore', async () => {
-      const onSubmit: OnSubmit = jest.fn()
-      const asyncValidator = jest.fn(async () => {
+      const onSubmit: OnSubmit = vi.fn()
+      const asyncValidator = vi.fn(async () => {
         return null
       })
 
@@ -1136,11 +1138,9 @@ describe('Form.Handler', () => {
   })
 
   describe('schema types', () => {
-    let log: jest.SpyInstance
+    let log: import('vitest').MockInstance
     beforeEach(() => {
-      log = jest
-        .spyOn(global.console, 'error')
-        .mockImplementation(() => {})
+      log = vi.spyOn(global.console, 'error').mockImplementation(() => {})
     })
     afterEach(() => {
       log.mockRestore()
@@ -1284,7 +1284,7 @@ describe('Form.Handler', () => {
     })
 
     it('should call onSubmit when form is submitted', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler decoupleForm onSubmit={onSubmit}>
@@ -1337,7 +1337,7 @@ describe('Form.Handler', () => {
     })
 
     it('should warn when no form element is found', () => {
-      const log = jest
+      const log = vi
         .spyOn(global.console, 'log')
         .mockImplementation(() => {})
 
@@ -1452,7 +1452,7 @@ describe('Form.Handler TypeScript type validation', () => {
 
   describe('translationsLoader', () => {
     it('should load translations asynchronously', async () => {
-      const loader = jest.fn().mockResolvedValue({
+      const loader = vi.fn().mockResolvedValue({
         'nb-NO': { PhoneNumber: { numberLabel: 'Async etikett' } },
       })
 
@@ -1473,9 +1473,10 @@ describe('Form.Handler TypeScript type validation', () => {
     })
 
     it('should make loaded translations available via Form.useTranslation', async () => {
-      const loader = jest.fn().mockResolvedValue({
+      const loader = vi.fn().mockResolvedValue({
         'nb-NO': { myCustomKey: 'Async verdi' },
-      }) as unknown as ContextProps['translationsLoader'] & jest.Mock
+      }) as unknown as ContextProps['translationsLoader'] &
+        import('vitest').Mock
 
       const DisplayCustomKey = () => {
         const t = Form.useTranslation()
@@ -1500,7 +1501,7 @@ describe('Form.Handler TypeScript type validation', () => {
     })
 
     it('should reload when locale changes', async () => {
-      const loader = jest.fn((locale) => {
+      const loader = vi.fn((locale) => {
         if (locale === 'en-GB') {
           return Promise.resolve({
             'en-GB': { PhoneNumber: { numberLabel: 'Async label' } },
@@ -1545,7 +1546,7 @@ describe('Form.Handler TypeScript type validation', () => {
         },
       }
 
-      const loader = jest.fn().mockResolvedValue({
+      const loader = vi.fn().mockResolvedValue({
         'nb-NO': { PhoneNumber: { numberLabel: 'Async nummer' } },
       })
 

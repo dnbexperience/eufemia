@@ -228,21 +228,29 @@ prerender().catch((err) => {
 function collectUrls(routes) {
   const urls = ['/']
 
-  for (const route of routes) {
-    if (
-      route.path &&
-      route.path !== '*' &&
-      !route.path.startsWith('/404')
-    ) {
-      const routePath = route.path.endsWith('/')
-        ? route.path
-        : route.path + '/'
+  const visitRoutes = (entries) => {
+    for (const route of entries) {
+      if (
+        route.path &&
+        route.path !== '*' &&
+        !route.path.startsWith('/404')
+      ) {
+        const routePath = route.path.endsWith('/')
+          ? route.path
+          : route.path + '/'
 
-      if (!urls.includes(routePath)) {
-        urls.push(routePath)
+        if (!urls.includes(routePath)) {
+          urls.push(routePath)
+        }
+      }
+
+      if (Array.isArray(route.children) && route.children.length > 0) {
+        visitRoutes(route.children)
       }
     }
   }
+
+  visitRoutes(routes)
 
   return urls
 }

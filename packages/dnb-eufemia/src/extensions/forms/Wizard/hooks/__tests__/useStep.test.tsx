@@ -5,13 +5,13 @@ import { makeUniqueId } from '../../../../../shared/component-helper'
 import useStep from '../useStep'
 import { Wizard } from '../../..'
 
-jest.mock('../../../../../shared/component-helper', () => {
-  const original = jest.requireActual(
-    '../../../../../shared/component-helper'
-  )
+vi.mock('../../../../../shared/component-helper', async () => {
+  const original = await vi.importActual<
+    typeof import('../../../../../shared/component-helper')
+  >('../../../../../shared/component-helper')
   return {
     ...original,
-    warn: jest.fn(),
+    warn: vi.fn(),
   }
 })
 
@@ -68,7 +68,7 @@ describe('useStep', () => {
     })
 
     it('should set new index and call onStepChange', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const Step = () => {
         const { activeIndex, setActiveIndex } = useStep()
@@ -111,7 +111,7 @@ describe('useStep', () => {
     })
 
     it('should call onStepChange event by using setActiveIndex', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const Step = () => {
         const { activeIndex, setActiveIndex } = useStep(undefined, {
@@ -191,7 +191,7 @@ describe('useStep', () => {
     })
 
     it('should call onStepChange event by using buttons', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const Step = () => {
         const { activeIndex } = useStep(undefined, {
@@ -254,9 +254,9 @@ describe('useStep', () => {
     })
 
     it('should call onStepChange event on every step', async () => {
-      const onStepChange1 = jest.fn()
-      const onStepChange2 = jest.fn()
-      const onStepChange3 = jest.fn()
+      const onStepChange1 = vi.fn()
+      const onStepChange2 = vi.fn()
+      const onStepChange3 = vi.fn()
 
       const Step1 = () => {
         const { activeIndex } = useStep(undefined, {
@@ -573,7 +573,7 @@ describe('useStep', () => {
     })
 
     it('should set new index and call onStepChange', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const RenderBefore = () => {
         const { activeIndex, setActiveIndex } = useStep(identifier)
@@ -640,7 +640,7 @@ describe('useStep', () => {
     })
 
     it('should call onStepChange event by using setActiveIndex', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const Sidecar = () => {
         useStep(identifier, { onStepChange })
@@ -733,7 +733,7 @@ describe('useStep', () => {
     })
 
     it('should call onStepChange event by using buttons', async () => {
-      const onStepChange = jest.fn()
+      const onStepChange = vi.fn()
 
       const Sidecar = () => {
         useStep(identifier, { onStepChange })
@@ -810,12 +810,12 @@ describe('useStep', () => {
     })
 
     it('should call onStepChange event on every step', async () => {
-      const onStepChange1a = jest.fn()
-      const onStepChange2a = jest.fn()
-      const onStepChange3a = jest.fn()
-      const onStepChange1b = jest.fn()
-      const onStepChange2b = jest.fn()
-      const onStepChange3b = jest.fn()
+      const onStepChange1a = vi.fn()
+      const onStepChange2a = vi.fn()
+      const onStepChange3a = vi.fn()
+      const onStepChange1b = vi.fn()
+      const onStepChange2b = vi.fn()
+      const onStepChange3b = vi.fn()
 
       const Step1 = () => {
         const { activeIndex } = useStep(undefined, {

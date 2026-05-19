@@ -1,8 +1,8 @@
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import 'mock-match-media/jest-setup'
+import '../../../core/vitest/mockMatchMediaSetup'
 import Grid from '../Grid'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 
 describe('Grid.Container', () => {
   it('should forward HTML attributes', () => {
@@ -92,11 +92,10 @@ describe('Grid.Container', () => {
 
     const element = document.querySelector('.dnb-grid-container')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-grid-container',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-grid-container custom-class',
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

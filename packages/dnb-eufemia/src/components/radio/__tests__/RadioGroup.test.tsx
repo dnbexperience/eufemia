@@ -4,7 +4,7 @@
  */
 
 import { fireEvent, render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Radio from '../Radio'
 import { Provider } from '../../../shared'
 
@@ -14,7 +14,7 @@ describe('Radio group component', () => {
   })
 
   it('has to set correct value using keys', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(
       <Radio.Group
         label="Label"
@@ -97,12 +97,10 @@ describe('Radio group component', () => {
 
     const element = document.querySelector('.dnb-radio-group')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-radio-group',
-      'dnb-radio-group--row',
-      'dnb-form-component',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-radio-group dnb-radio-group--row dnb-form-component dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -121,38 +119,20 @@ describe('Radio group component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-radio-group',
-      'dnb-radio-group--row',
-      'dnb-form-component',
-    ])
+    expect(element).toHaveClass(
+      'dnb-radio-group dnb-radio-group--row dnb-form-component',
+      { exact: true }
+    )
     expect(
-      Array.from(
-        document.querySelector('.dnb-radio-group .dnb-flex-container')
-          .classList
-      )
-    ).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-stretch',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
-    expect(
-      Array.from(document.querySelector('.dnb-flex-container').classList)
-    ).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-stretch',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+      document.querySelector('.dnb-radio-group .dnb-flex-container')
+    ).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
+    expect(document.querySelector('.dnb-flex-container')).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
   })
 
   it('should support vertical label', () => {
@@ -165,16 +145,10 @@ describe('Radio group component', () => {
     const element = document.querySelector('.dnb-radio-group')
     const flexElement = element.querySelector('.dnb-flex-container')
 
-    expect(Array.from(flexElement.classList)).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-stretch',
-      'dnb-flex-container--spacing-x-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    expect(flexElement).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--spacing-x-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
 
     rerender(
       <Radio.Group label="Label" labelDirection="vertical">
@@ -182,16 +156,10 @@ describe('Radio group component', () => {
       </Radio.Group>
     )
 
-    expect(Array.from(flexElement.classList)).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-stretch',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    expect(flexElement).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
   })
 
   it('should use formset/legend when label was given', () => {
@@ -284,7 +252,7 @@ describe('Radio ARIA', () => {
         label="Label"
         name="group"
         id="group"
-        onChange={jest.fn()}
+        onChange={vi.fn()}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
@@ -303,7 +271,7 @@ describe('Radio ARIA', () => {
 
   it('should validate with ARIA rules for Radio.Group without label', async () => {
     const Comp = render(
-      <Radio.Group name="group" id="group" onChange={jest.fn()}>
+      <Radio.Group name="group" id="group" onChange={vi.fn()}>
         <Radio id="radio-1" label="Radio 1" value="first" />
         <Radio id="radio-2" label="Radio 2" value="second" checked />
       </Radio.Group>

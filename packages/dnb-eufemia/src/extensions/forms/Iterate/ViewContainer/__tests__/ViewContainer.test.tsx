@@ -33,7 +33,7 @@ describe('ViewContainer', () => {
   })
 
   it('calls "switchContainerMode" when edit button is clicked', () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <IterateItemContext value={{ switchContainerMode }}>
@@ -73,7 +73,7 @@ describe('ViewContainer', () => {
   })
 
   it('calls "handleRemove" when remove button is clicked', () => {
-    const handleRemove = jest.fn()
+    const handleRemove = vi.fn()
 
     render(
       <IterateItemContext value={{ handleRemove }}>

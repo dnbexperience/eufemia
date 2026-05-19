@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Card from '../../card/Card'
 import { P } from '../../../elements'
 
@@ -68,16 +68,10 @@ describe('Card', () => {
 
     const element = document.querySelector('.dnb-card')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-flex-item',
-      'dnb-flex-item--align-self-stretch',
-      'dnb-section',
-      'dnb-section--default',
-      'dnb-card',
-      'custom-class',
-      'dnb-card--responsive',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-flex-item dnb-flex-item--align-self-stretch dnb-section dnb-section--default dnb-card custom-class dnb-card--responsive',
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

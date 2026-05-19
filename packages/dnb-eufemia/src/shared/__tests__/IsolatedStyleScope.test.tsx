@@ -7,9 +7,9 @@ import IsolatedStyleScope, {
 import { getSha } from '../build-info/BuildInfo'
 
 // Mock the build info to control the SHA value in tests
-jest.mock('../build-info/BuildInfo', () => ({
-  getSha: jest.fn(),
-  getVersion: jest.fn(),
+vi.mock('../build-info/BuildInfo', () => ({
+  getSha: vi.fn(),
+  getVersion: vi.fn(),
 }))
 
 describe('StyleScope', () => {
@@ -548,7 +548,7 @@ describe('uniqueKey functionality', () => {
 
     it('includes data-scope-sha attribute with SHA value when uniqueKey is provided', () => {
       const mockSha = 'abc123def'
-      jest.mocked(getSha).mockReturnValue(mockSha)
+      vi.mocked(getSha).mockReturnValue(mockSha)
 
       render(
         <IsolatedStyleScope scopeHash="my-scope" uniqueKey="custom-key">

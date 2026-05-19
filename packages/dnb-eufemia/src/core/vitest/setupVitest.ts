@@ -1,42 +1,16 @@
 /**
- * Vitest setup — replaces setupJest.ts
+ * Vitest setup.
  *
  * Provides:
- * - jest→vi compatibility (so existing test files work unchanged)
  * - @testing-library/jest-dom matchers
  * - Custom matchers (toNeverResolve)
  * - jest-axe setup
  * - bypassActWarning
  */
 
-import { vi, expect, beforeEach, beforeAll, afterAll } from 'vitest'
+import { expect, beforeEach, beforeAll, afterAll } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import { waitFor } from '@testing-library/react'
-
-// ──────────────────────────────────────────────
-// jest → vi compatibility shim
-// Allows existing test files using jest.fn(), jest.spyOn(), jest.mock(), etc.
-// to work without any code changes.
-// ──────────────────────────────────────────────
-const jestCompat = Object.assign(vi, {
-  // jest.requireActual is sync in Jest but vi.importActual is async.
-  // Inside vi.mock() factories, the factory can be async, so this works.
-  requireActual: (moduleName: string) => {
-    // Use a dynamic import that resolves synchronously if already cached
-    // This won't work for all cases but handles the common jest.mock() factory pattern
-    return vi.importActual(moduleName)
-  },
-  // jest.mocked() returns the mock-typed version of a function
-  mocked: <T>(fn: T) =>
-    fn as jest.MockedFunction<
-      T extends (...args: any[]) => any ? T : never
-    >,
-  // jest.setTimeout() maps to vi.setConfig
-  setTimeout: (timeout: number) => vi.setConfig({ testTimeout: timeout }),
-  // jest.retryTimes() — no direct vitest equivalent via setConfig, no-op
-  retryTimes: (_numRetries: number) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-})
-globalThis.jest = jestCompat as unknown as typeof jest
 
 // Tell React 18+ that this environment supports act()
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
@@ -66,37 +40,7 @@ expect.extend({
   },
 })
 
-// For Yarn v3 we need this fix to make jest-axe work properly
-// https://github.com/nickcolley/jest-axe/issues/147
 if (typeof window !== 'undefined') {
-  const { getComputedStyle } = window
-  window.getComputedStyle = (...args) => getComputedStyle(...args)
-
-  // jsdom's window.scrollTo throws "Not implemented" — replace unconditionally
-  window.scrollTo = vi.fn() as unknown as typeof window.scrollTo
-  Element.prototype.scrollTo =
-    vi.fn() as unknown as typeof Element.prototype.scrollTo
-
-  // Suppress jsdom "Not implemented: navigation" errors emitted via virtualConsole
-  const win = window as unknown as Record<string, unknown>
-  const virtualConsole = win._virtualConsole as
-    | { emit: (...args: unknown[]) => boolean }
-    | undefined
-  if (virtualConsole) {
-    const origEmit = virtualConsole.emit.bind(virtualConsole)
-    virtualConsole.emit = (...allArgs: unknown[]) => {
-      const [event, ...args] = allArgs
-      if (
-        event === 'jsdomError' &&
-        args[0] instanceof Error &&
-        /Not implemented/.test(args[0].message)
-      ) {
-        return false
-      }
-      return origEmit(event, ...args)
-    }
-  }
-
   // Vitest's populateGlobal creates accessor (get/set) properties on
   // globalThis that delegate to dom.window. Since jsdom doesn't implement
   // matchMedia, the accessor returns undefined. But the accessor's

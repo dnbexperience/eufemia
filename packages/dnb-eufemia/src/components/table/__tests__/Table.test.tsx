@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { BasicTable } from './TableMocks'
 import type { TableAllProps } from '../Table'
 import Table from '../Table'
@@ -8,10 +8,10 @@ const NODE_ENV = process.env.NODE_ENV
 const log = globalThis.console.log
 
 beforeEach(() => {
-  window.IntersectionObserver = jest.fn().mockImplementation(() => {
+  window.IntersectionObserver = vi.fn().mockImplementation(() => {
     return {
-      observe: jest.fn(),
-      disconnect: jest.fn(),
+      observe: vi.fn(),
+      disconnect: vi.fn(),
     }
   })
 })
@@ -38,11 +38,10 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
-      'dnb-table',
-      'dnb-table__variant--generic',
-      'dnb-table__size--large',
-    ])
+    expect(screen.queryByRole('table')).toHaveClass(
+      'dnb-table dnb-table__variant--generic dnb-table__size--large',
+      { exact: true }
+    )
   })
 
   it('should set variant', () => {
@@ -52,11 +51,10 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
-      'dnb-table',
-      'dnb-table__variant--generic',
-      'dnb-table__size--large',
-    ])
+    expect(screen.queryByRole('table')).toHaveClass(
+      'dnb-table dnb-table__variant--generic dnb-table__size--large',
+      { exact: true }
+    )
   })
 
   it('should set size', () => {
@@ -66,11 +64,10 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
-      'dnb-table',
-      'dnb-table__variant--generic',
-      'dnb-table__size--medium',
-    ])
+    expect(screen.queryByRole('table')).toHaveClass(
+      'dnb-table dnb-table__variant--generic dnb-table__size--medium',
+      { exact: true }
+    )
   })
 
   it('should include custom className', () => {
@@ -80,13 +77,11 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'custom-class',
-      ])
+    expect(screen.queryByRole('table')).toHaveClass(
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'custom-class'
     )
   })
 
@@ -109,13 +104,11 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'dnb-table--fixed',
-      ])
+    expect(screen.queryByRole('table')).toHaveClass(
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'dnb-table--fixed'
     )
   })
 
@@ -193,13 +186,11 @@ describe('Table', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'dnb-space__top--large',
-      ])
+    expect(element).toHaveClass(
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'dnb-space__top--large'
     )
   })
 
@@ -216,14 +207,12 @@ describe('Table', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-table',
-        'dnb-table__variant--generic',
-        'dnb-table__size--large',
-        'dnb-skeleton',
-        'dnb-skeleton--font',
-      ])
+    expect(element).toHaveClass(
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'dnb-skeleton',
+      'dnb-skeleton--font'
     )
   })
 

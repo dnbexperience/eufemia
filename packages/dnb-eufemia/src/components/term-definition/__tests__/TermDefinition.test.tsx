@@ -6,7 +6,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import TermDefinition from '../TermDefinition'
 import defaultLocales from '../../../shared/locales'
-import { axeComponent, wait } from '../../../core/jest/jestSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import { Field } from '../../../extensions/forms'
 
 const term = 'unusual words'
@@ -279,7 +279,7 @@ describe('TermDefinition', () => {
       '.dnb-term-definition__trigger'
     ) as HTMLElement
 
-    const focusSpy = jest.spyOn(trigger, 'focus')
+    const focusSpy = vi.spyOn(trigger, 'focus')
 
     await userEvent.click(trigger)
     await waitFor(() => {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
   screen,
   render,
@@ -564,7 +564,7 @@ describe('variants', () => {
     })
 
     it('should support selected value from "path"', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler
@@ -1232,7 +1232,7 @@ describe('variants', () => {
     })
 
     it('should support selected value from "path"', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler
@@ -2189,7 +2189,7 @@ describe('variants', () => {
     })
 
     it('should support "onType"', async () => {
-      const onType = jest.fn()
+      const onType = vi.fn()
 
       render(
         <Field.Selection
@@ -2228,7 +2228,7 @@ describe('variants', () => {
     })
 
     it('should support "onType" with empty value', async () => {
-      const onType = jest.fn()
+      const onType = vi.fn()
 
       render(
         <Field.Selection
@@ -2268,7 +2268,7 @@ describe('variants', () => {
     })
 
     it('should support "preventSelection"', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.Selection
@@ -2321,11 +2321,9 @@ describe('variants', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
     })
 
-    describe('mode="async"', () => {
-      jest.retryTimes(3)
-
+    describe('mode="async"', { retry: 3 }, () => {
       it('should open DrawerList when focused and data is set with updateData', async () => {
-        const onType = jest.fn(({ updateData }) => {
+        const onType = vi.fn(({ updateData }) => {
           updateData([
             {
               selectedKey: 'foo',
@@ -2805,7 +2803,7 @@ describe('variants', () => {
 
 describe('event handlers', () => {
   it('calls onChange when selecting a different options', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(
       <Field.Selection
         value="bar"
@@ -2840,7 +2838,7 @@ describe('event handlers', () => {
   })
 
   it('calls onFocus when opening the dropdown with selected value as argument', async () => {
-    const onFocus = jest.fn()
+    const onFocus = vi.fn()
     render(
       <Field.Selection
         value="bar"
@@ -2862,7 +2860,7 @@ describe('event handlers', () => {
   })
 
   it('calls onBlur when selecting the options so the dropdown closes with selected value as argument', async () => {
-    const onBlur = jest.fn()
+    const onBlur = vi.fn()
     render(
       <Field.Selection
         value="bar"

@@ -5,7 +5,7 @@ import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
 } from '../../../shared/IsolatedStyleScope'
 import Theme from '../../../shared/Theme'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 
 describe('PortalRoot', () => {
   let originalWindow: Window & typeof globalThis

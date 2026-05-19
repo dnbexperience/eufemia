@@ -5,7 +5,7 @@
 /**
  * Tests for useIsomorphicLayoutEffect (browser environment)
  *
- * SSR test is in useIsomorphicLayoutEffect.ssr.test.ts using @jest-environment node
+ * SSR test is in useIsomorphicLayoutEffect.ssr.test.ts using @vitest-environment node
  */
 
 describe('useIsomorphicLayoutEffect', () => {

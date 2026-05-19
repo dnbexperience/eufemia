@@ -5,7 +5,7 @@
 
 import { useRef } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { PasswordProps } from '../Password'
@@ -181,8 +181,8 @@ describe('Password component', () => {
   })
 
   it('events gets triggered on interaction', async () => {
-    const onShowPassword = jest.fn()
-    const onHidePassword = jest.fn()
+    const onShowPassword = vi.fn()
+    const onHidePassword = vi.fn()
 
     render(
       <Field.Password
@@ -222,14 +222,10 @@ describe('Password component', () => {
 
     const element = document.querySelector('.dnb-forms-field-password')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-space__top--large',
-      'dnb-forms-field-block',
-      'dnb-forms-field-string',
-      'dnb-forms-field-password',
-      'dnb-forms-field-block--content-width-large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-space__top--large dnb-forms-field-block dnb-forms-field-string dnb-forms-field-password dnb-forms-field-block--content-width-large',
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -249,16 +245,10 @@ describe('Password component', () => {
       'data-input-state',
       'data-has-content',
     ])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-input',
-      'dnb-input__border--tokens',
-      'dnb-form-component',
-      'dnb-forms-field-string__input',
-      'dnb-input--password',
-      'dnb-input--has-submit-element',
-      'dnb-input--vertical',
-      'dnb-input--stretch',
-    ])
+    expect(element).toHaveClass(
+      'dnb-input dnb-input__border--tokens dnb-form-component dnb-forms-field-string__input dnb-input--password dnb-input--has-submit-element dnb-input--vertical dnb-input--stretch',
+      { exact: true }
+    )
   })
 
   it('should validate with ARIA rules as a input with a label', async () => {

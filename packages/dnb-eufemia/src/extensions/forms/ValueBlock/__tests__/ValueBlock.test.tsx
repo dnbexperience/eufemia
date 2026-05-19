@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../core/test-utils/testSetup'
 import { render, fireEvent } from '@testing-library/react'
 import ValueBlock from '../ValueBlock'
 import { Field, Form, Iterate, Value } from '../..'
@@ -150,17 +150,17 @@ describe('ValueBlock', () => {
       const dl = document.querySelector('dl')
       expect(dl).toMatchInlineSnapshot(`
         <dl
-          class="dnb-forms-summary-list dnb-dl__layout--vertical dnb-dl"
+          class="dnb-dl dnb-forms-summary-list dnb-dl__layout--vertical"
         >
           <dt
-            class="dnb-forms-value-block__label dnb-dt"
+            class="dnb-dt dnb-forms-value-block__label"
           >
             <strong>
               Label
             </strong>
           </dt>
           <dd
-            class="dnb-forms-value-block__content--max-width-large dnb-dd"
+            class="dnb-dd dnb-forms-value-block__content--max-width-large"
           >
             <span
               class="dnb-forms-value-block__content dnb-forms-value-block__content--gap-xx-small dnb-forms-value-block__content--max-width-large"
@@ -525,7 +525,7 @@ describe('ValueBlock', () => {
   })
 
   it('should warn when ValueBlocks are siblings without being in a SummaryList', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <>
@@ -586,7 +586,7 @@ describe('ValueBlock', () => {
 
   describe('transformLabel', () => {
     it('should transform label', () => {
-      const transformLabel = jest.fn((label) => label.toUpperCase())
+      const transformLabel = vi.fn((label) => label.toUpperCase())
       render(
         <ValueBlock
           label="The label"
@@ -605,7 +605,7 @@ describe('ValueBlock', () => {
     })
 
     it('should transform label in Value.String', () => {
-      const transformLabel = jest.fn((label) => label.toUpperCase())
+      const transformLabel = vi.fn((label) => label.toUpperCase())
       render(
         <Form.Handler>
           <Value.String
@@ -626,7 +626,7 @@ describe('ValueBlock', () => {
     })
 
     it('should transform a JSX label and return "convertJsxToString"', () => {
-      const transformLabel = jest.fn((label, { convertJsxToString }) =>
+      const transformLabel = vi.fn((label, { convertJsxToString }) =>
         convertJsxToString(label).toUpperCase()
       )
       render(
@@ -649,7 +649,7 @@ describe('ValueBlock', () => {
     })
 
     it('should transform label using Value.Provider', () => {
-      const transformLabel = jest.fn((label) => label.toUpperCase())
+      const transformLabel = vi.fn((label) => label.toUpperCase())
       render(
         <Form.Handler>
           <Value.Provider transformLabel={transformLabel}>
@@ -678,7 +678,7 @@ describe('ValueBlock', () => {
     })
 
     it('should not transform a label when label is given as a ValueBlock', () => {
-      const transformLabel = jest.fn((label) => label.toUpperCase())
+      const transformLabel = vi.fn((label) => label.toUpperCase())
       render(
         <Form.Handler data={{ label: 'The label' }}>
           <Value.String

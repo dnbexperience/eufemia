@@ -50,14 +50,10 @@ describe('Suffix', () => {
     expect(document.querySelector('.dnb-suffix').textContent).toBe(
       suffixContent
     )
-    expect(
-      Array.from(document.querySelector('.dnb-suffix').classList)
-    ).toEqual([
-      'dnb-suffix',
-      'dnb-input__suffix',
-      'dnb-skeleton',
-      'dnb-skeleton--font',
-    ])
+    expect(document.querySelector('.dnb-suffix')).toHaveClass(
+      'dnb-suffix dnb-input__suffix dnb-skeleton dnb-skeleton--font',
+      { exact: true }
+    )
   })
 
   it('has not skeleton when children is a valid React Element', () => {
@@ -67,19 +63,16 @@ describe('Suffix', () => {
       </Input>
     )
 
-    expect(
-      Array.from(document.querySelector('.dnb-suffix').classList)
-    ).toEqual(['dnb-suffix', 'dnb-input__suffix'])
-    expect(
-      Array.from(document.querySelector('.dnb-help-button').classList)
-    ).toEqual(
-      expect.arrayContaining([
-        'dnb-button',
-        'dnb-button--secondary',
-        'dnb-skeleton',
-        'dnb-skeleton--shape',
-        'dnb-help-button',
-      ])
+    expect(document.querySelector('.dnb-suffix')).toHaveClass(
+      'dnb-suffix dnb-input__suffix',
+      { exact: true }
+    )
+    expect(document.querySelector('.dnb-help-button')).toHaveClass(
+      'dnb-button',
+      'dnb-button--secondary',
+      'dnb-skeleton',
+      'dnb-skeleton--shape',
+      'dnb-help-button'
     )
   })
 })

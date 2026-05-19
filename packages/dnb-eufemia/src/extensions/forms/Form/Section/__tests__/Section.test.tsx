@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useContext, useEffect } from 'react'
 import type { ReactNode, RefObject } from 'react'
-import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
+import { spyOnEufemiaWarn } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { JSONSchema } from '../../..'
 import { Field, Form, makeAjvInstance, Tools, Value, z } from '../../..'
@@ -56,7 +56,7 @@ describe('Form.Section', () => {
   })
 
   it('should throw then "path" without slash was given', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     const renderComponent = () => {
       render(<MySection path="withoutSlash" />)
@@ -234,7 +234,7 @@ describe('Form.Section', () => {
 
   describe('onChange', () => {
     it('should call onChange without path', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<MySection onChange={onChange} />)
 
@@ -262,7 +262,7 @@ describe('Form.Section', () => {
     })
 
     it('should call onChange with path', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<MySection path="/mySection" onChange={onChange} />)
 
@@ -289,7 +289,7 @@ describe('Form.Section', () => {
     })
 
     it('should call onChange on Form.Handler without a path', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -319,7 +319,7 @@ describe('Form.Section', () => {
     })
 
     it('should call onChange on Form.Handler with a path', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -350,7 +350,7 @@ describe('Form.Section', () => {
     })
 
     it('should call onChange from nested fields', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler>
@@ -406,7 +406,7 @@ describe('Form.Section', () => {
     })
 
     it('should support onChange without Form.Handler', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<MyOuterSection path="/mySection" onChange={onChange} />)
 
@@ -514,7 +514,7 @@ describe('Form.Section', () => {
     })
 
     it('should add "onChange" event to field', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler>
@@ -676,7 +676,7 @@ describe('Form.Section', () => {
     })
 
     it('should overwrite "path"', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -763,7 +763,7 @@ describe('Form.Section', () => {
       })
 
       it('should add "onChange" event to field', () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
 
         render(
           <Form.Handler>
@@ -907,7 +907,7 @@ describe('Form.Section', () => {
       })
 
       it('should overwrite "path"', () => {
-        const onChange = jest.fn()
+        const onChange = vi.fn()
 
         render(
           <Form.Handler onChange={onChange}>
@@ -1213,8 +1213,8 @@ describe('Form.Section', () => {
       onUpdate,
       schemaPathsTracker,
     }: {
-      onUpdate: jest.Mock
-      schemaPathsTracker?: jest.Mock
+      onUpdate: import('vitest').Mock
+      schemaPathsTracker?: import('vitest').Mock
     }) => {
       const { errors, sectionSchemaPathsRef } = useContext(DataContext)
       useEffect(() => {
@@ -1240,7 +1240,7 @@ describe('Form.Section', () => {
         required: ['firstName'],
       }
 
-      const onSubmitRequest = jest.fn()
+      const onSubmitRequest = vi.fn()
 
       render(
         <Form.Handler
@@ -1278,8 +1278,8 @@ describe('Form.Section', () => {
         firstName: z.string().min(3),
       })
 
-      const onErrors = jest.fn()
-      const schemaPathsTracker = jest.fn()
+      const onErrors = vi.fn()
+      const schemaPathsTracker = vi.fn()
 
       render(
         <Form.Handler>
@@ -1323,8 +1323,8 @@ describe('Form.Section', () => {
         lastName: z.string().min(3),
       })
 
-      const onErrors = jest.fn()
-      const schemaPathsTracker = jest.fn()
+      const onErrors = vi.fn()
+      const schemaPathsTracker = vi.fn()
 
       render(
         <Form.Handler>
@@ -1372,8 +1372,8 @@ describe('Form.Section', () => {
         city: z.string().min(5),
       })
 
-      const onErrors = jest.fn()
-      const schemaPathsTracker = jest.fn()
+      const onErrors = vi.fn()
+      const schemaPathsTracker = vi.fn()
 
       render(
         <Form.Handler>
@@ -1420,8 +1420,8 @@ describe('Form.Section', () => {
         })
       }
 
-      const onErrors = jest.fn()
-      const schemaPathsTracker = jest.fn()
+      const onErrors = vi.fn()
+      const schemaPathsTracker = vi.fn()
 
       render(
         <Form.Handler>
@@ -1465,7 +1465,7 @@ describe('Form.Section', () => {
         required: ['firstName'],
       })
 
-      const onSubmitRequest = jest.fn()
+      const onSubmitRequest = vi.fn()
 
       render(
         <Form.Handler
@@ -1499,8 +1499,8 @@ describe('Form.Section', () => {
         throw new Error('Schema function error')
       }
 
-      const onErrors = jest.fn()
-      const schemaPathsTracker = jest.fn()
+      const onErrors = vi.fn()
+      const schemaPathsTracker = vi.fn()
 
       render(
         <Form.Handler>
@@ -1526,8 +1526,8 @@ describe('Form.Section', () => {
         firstName: z.string().min(3),
       })
 
-      const onErrors = jest.fn()
-      const onSubmit = jest.fn()
+      const onErrors = vi.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1560,8 +1560,8 @@ describe('Form.Section', () => {
         firstName: z.string().min(3),
       })
 
-      const onErrors = jest.fn()
-      const schemaPathsTracker = jest.fn()
+      const onErrors = vi.fn()
+      const schemaPathsTracker = vi.fn()
 
       render(
         <Form.Handler>
@@ -1743,7 +1743,7 @@ describe('Form.Section', () => {
         },
       }
 
-      const onSubmitRequest = jest.fn()
+      const onSubmitRequest = vi.fn()
 
       render(
         <Form.Handler
@@ -1787,7 +1787,7 @@ describe('Form.Section', () => {
         firstName: z.string().min(3),
       })
 
-      const onErrors = jest.fn()
+      const onErrors = vi.fn()
 
       render(
         <Form.Handler>
@@ -1838,7 +1838,7 @@ describe('Form.Section', () => {
           },
         }
 
-        const onSubmitRequest = jest.fn()
+        const onSubmitRequest = vi.fn()
 
         render(
           <Form.Handler
@@ -1901,7 +1901,7 @@ describe('Form.Section', () => {
           },
         }
 
-        const onSubmitRequest = jest.fn()
+        const onSubmitRequest = vi.fn()
 
         render(
           <Form.Handler
@@ -1951,7 +1951,7 @@ describe('Form.Section', () => {
           firstName: z.string().min(3, 'Section schema error'),
         })
 
-        const onErrors = jest.fn()
+        const onErrors = vi.fn()
 
         render(
           <Form.Handler schema={handlerSchema}>
@@ -1995,7 +1995,7 @@ describe('Form.Section', () => {
           firstName: z.string().min(5, 'Section schema error'),
         })
 
-        const onErrors = jest.fn()
+        const onErrors = vi.fn()
 
         render(
           <Form.Handler schema={handlerSchema}>
@@ -2045,7 +2045,7 @@ describe('Form.Section', () => {
           },
         }
 
-        const onSubmitRequest = jest.fn()
+        const onSubmitRequest = vi.fn()
 
         render(
           <Form.Handler
@@ -2090,7 +2090,7 @@ describe('Form.Section', () => {
           },
         }
 
-        const onSubmitRequest = jest.fn()
+        const onSubmitRequest = vi.fn()
 
         render(
           <Form.Handler
@@ -2320,7 +2320,7 @@ describe('Form.Section', () => {
     })
 
     it('should fallback to translations keys when locale to section is missing', () => {
-      const consoleSpy = jest
+      const consoleSpy = vi
         .spyOn(console, 'log')
         .mockImplementation(() => {})
 
@@ -2483,7 +2483,7 @@ describe('Form.Section', () => {
     })
 
     it('should write to root data when using // path', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(
         <Form.Handler
           data={{

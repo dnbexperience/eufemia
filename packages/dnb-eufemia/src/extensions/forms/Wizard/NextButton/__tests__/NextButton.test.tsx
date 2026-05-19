@@ -52,10 +52,10 @@ describe('NextButton', () => {
   })
 
   it('should handle handlePrevious event', () => {
-    const handlePrevious = jest.fn()
-    const handleNext = jest.fn()
-    const setActiveIndex = jest.fn()
-    const setFormError = jest.fn()
+    const handlePrevious = vi.fn()
+    const handleNext = vi.fn()
+    const setActiveIndex = vi.fn()
+    const setFormError = vi.fn()
 
     render(
       <WizardContext

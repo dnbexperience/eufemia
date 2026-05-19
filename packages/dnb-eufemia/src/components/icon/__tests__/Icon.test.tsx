@@ -5,7 +5,7 @@
 
 import { useState } from 'react'
 import type { SVGProps } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import type { IconAllProps } from '../Icon'
 import Icon, { prerenderIcon } from '../Icon'

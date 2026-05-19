@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event'
 
 describe('useQueryLocator', () => {
   let identifier: string
-  let popstateListener = jest.fn()
+  let popstateListener = vi.fn()
 
   beforeEach(() => {
     identifier = makeUniqueId()
@@ -23,8 +23,8 @@ describe('useQueryLocator', () => {
   const output = () => {
     return document.querySelector('output')
   }
-  let pushStateSpy: ReturnType<typeof jest.fn>
-  let addEventListenerSpy: ReturnType<typeof jest.fn>
+  let pushStateSpy: ReturnType<typeof vi.fn>
+  let addEventListenerSpy: ReturnType<typeof vi.fn>
 
   const mockUrl = (
     { search } = { search: 'existing-query=foo&bar=baz' }
@@ -34,13 +34,14 @@ describe('useQueryLocator', () => {
     const realReplaceState = window.history.replaceState.bind(
       window.history
     )
-    pushStateSpy = jest.fn(function (data, unused, url) {
+    pushStateSpy = vi.fn(function (data, unused, url) {
       realReplaceState(data, unused, url)
     })
-    window.history.pushState = pushStateSpy
+    window.history.pushState =
+      pushStateSpy as typeof window.history.pushState
 
-    popstateListener = jest.fn()
-    addEventListenerSpy = jest.fn(function (name, listener) {
+    popstateListener = vi.fn()
+    addEventListenerSpy = vi.fn(function (name, listener) {
       if (name === 'popstate') {
         popstateListener.mockImplementation(listener as any)
       }
@@ -258,7 +259,7 @@ describe('useQueryLocator', () => {
   it('should handle and show try/catch errors', async () => {
     mockUrl()
 
-    window.history.pushState = jest.fn(function () {
+    window.history.pushState = vi.fn(function () {
       throw new Error('URL is not valid')
     })
 

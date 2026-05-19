@@ -1,11 +1,17 @@
 import { act } from 'react'
 import type { ComponentType, ReactNode } from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Menu from '../Menu'
 
-jest.mock('../../popover/Popover', () => {
-  return { default: jest.requireActual('./testHelpers').MockPopover }
+vi.mock('../../popover/Popover', async () => {
+  return {
+    default: (
+      await vi.importActual<typeof import('./testHelpers')>(
+        './testHelpers'
+      )
+    ).MockPopover,
+  }
 })
 
 describe('Menu integration', () => {
@@ -56,8 +62,8 @@ describe('Menu integration', () => {
   })
 
   it('fires action onClick and closes menu', () => {
-    const onClick = jest.fn()
-    const onOpenChange = jest.fn()
+    const onClick = vi.fn()
+    const onOpenChange = vi.fn()
 
     render(
       <Menu.Root open={true} onOpenChange={onOpenChange}>
@@ -102,7 +108,7 @@ describe('Menu integration', () => {
           {({ active, ...props }) => <button {...props}>Menu</button>}
         </Menu.Button>
         <Menu.List aria-label="Actions">
-          <Menu.Action text="Button action" onClick={jest.fn()} />
+          <Menu.Action text="Button action" onClick={vi.fn()} />
           <Menu.Action text="Link action" href="/path" />
           <Menu.Action text="Disabled" disabled />
         </Menu.List>
@@ -121,7 +127,7 @@ describe('Menu integration', () => {
   })
 
   it('disabled action does not fire onClick', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <Menu.Root open={true}>
@@ -249,7 +255,7 @@ describe('Menu integration', () => {
     })
 
     it('moves focus into menu on ArrowDown when already open', () => {
-      jest.useFakeTimers()
+      vi.useFakeTimers()
 
       render(
         <Menu.Root open={true}>
@@ -272,17 +278,17 @@ describe('Menu integration', () => {
 
       // Flush the requestAnimationFrame that focuses the first item
       act(() => {
-        jest.advanceTimersByTime(16)
+        vi.advanceTimersByTime(16)
       })
 
       const items = document.querySelectorAll('[role="menuitem"]')
       expect(document.activeElement).toBe(items[0])
 
-      jest.useRealTimers()
+      vi.useRealTimers()
     })
 
     it('does not redundantly handle Escape — Popover manages it', () => {
-      const onOpenChange = jest.fn()
+      const onOpenChange = vi.fn()
 
       render(
         <Menu.Root open={true} onOpenChange={onOpenChange}>
@@ -304,7 +310,7 @@ describe('Menu integration', () => {
     })
 
     it('activates action on Enter key', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
 
       render(
         <Menu.Root open={true}>
@@ -324,7 +330,7 @@ describe('Menu integration', () => {
     })
 
     it('activates action on Space key', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
 
       render(
         <Menu.Root open={true}>
@@ -408,8 +414,8 @@ describe('Menu integration', () => {
     })
 
     it('opens nested menu on ArrowRight', () => {
-      jest.useFakeTimers()
-      const onOpenChange = jest.fn()
+      vi.useFakeTimers()
+      const onOpenChange = vi.fn()
 
       render(
         <Menu.Root open={true}>
@@ -438,7 +444,7 @@ describe('Menu integration', () => {
       fireEvent.keyDown(subMenuTrigger, { key: 'ArrowRight' })
       expect(onOpenChange).toHaveBeenCalledWith(true)
 
-      jest.useRealTimers()
+      vi.useRealTimers()
     })
 
     it('auto-detects hasSubMenu and active-trigger on nested trigger', () => {

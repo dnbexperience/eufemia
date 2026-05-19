@@ -5,7 +5,7 @@ import useSubmit from '../useSubmit'
 
 describe('Form.useSubmit', () => {
   it('should throw when used outside Form.Handler', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     const renderHookFn = () => {
       renderHook(() => useSubmit())
@@ -41,7 +41,7 @@ describe('Form.useSubmit', () => {
   })
 
   it('should trigger onSubmit when submit is called', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     const SubmitTrigger = () => {
       const { submit } = Form.useSubmit()
@@ -126,7 +126,7 @@ describe('Form.useSubmit', () => {
   })
 
   it('should work with id when used outside Form.Handler', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
     const formId = 'my-form-id'
 
     const SubmitButtonOutside = () => {
@@ -161,7 +161,7 @@ describe('Form.useSubmit', () => {
   })
 
   it('should work when submit button is inside Form.Handler', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     const ExternalSubmitButton = () => {
       const { submit } = Form.useSubmit()
@@ -195,7 +195,7 @@ describe('Form.useSubmit', () => {
   })
 
   it('should support id when hook runs before Form.Handler mounts', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
     const formId = 'deferred-form-id'
 
     const OutsideHookBeforeHandler = () => {

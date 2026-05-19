@@ -677,7 +677,7 @@ describe('Provider', () => {
         'nb-NO': nbNO,
       }
 
-      const spy = jest.spyOn(TranslationModule, 'mergeTranslations')
+      const spy = vi.spyOn(TranslationModule, 'mergeTranslations')
 
       render(
         <Provider locale="en-GB" translations={trans}>
@@ -708,7 +708,7 @@ describe('Provider', () => {
     }
 
     it('should call the loader on mount with the current locale', async () => {
-      const loader = jest.fn().mockResolvedValue({
+      const loader = vi.fn().mockResolvedValue({
         'nb-NO': { HelpButton: { title: 'Async NB' } },
       })
 
@@ -723,7 +723,7 @@ describe('Provider', () => {
     })
 
     it('should render loaded translations after async load completes', async () => {
-      const loader = jest.fn().mockResolvedValue({
+      const loader = vi.fn().mockResolvedValue({
         'nb-NO': { HelpButton: { title: 'Async NB' } },
       })
 
@@ -741,7 +741,7 @@ describe('Provider', () => {
     })
 
     it('should call the loader again when locale changes', async () => {
-      const loader = jest.fn((locale) => {
+      const loader = vi.fn((locale) => {
         if (locale === 'en-GB') {
           return Promise.resolve({
             'en-GB': { HelpButton: { title: 'Async EN' } },
@@ -794,10 +794,10 @@ describe('Provider', () => {
       })
 
       let callCount = 0
-      const loader = jest.fn(() => {
+      const loader = vi.fn(() => {
         callCount++
         return callCount === 1 ? firstPromise : secondPromise
-      }) as unknown as TranslationsLoader & jest.Mock
+      }) as unknown as TranslationsLoader & import('vitest').Mock
 
       const ChangeLocale = () => {
         const { setLocale } = useContext(Context)
@@ -841,7 +841,7 @@ describe('Provider', () => {
         },
       }
 
-      const loader = jest.fn().mockResolvedValue({
+      const loader = vi.fn().mockResolvedValue({
         'nb-NO': {
           Modal: { closeTitle: 'Async Close' },
         },
@@ -879,11 +879,9 @@ describe('Provider', () => {
     })
 
     it('should handle loader errors gracefully', async () => {
-      const loader = jest
-        .fn()
-        .mockRejectedValue(new Error('Network error'))
+      const loader = vi.fn().mockRejectedValue(new Error('Network error'))
 
-      const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+      const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
       render(
         <Provider translationsLoader={loader}>
@@ -904,7 +902,7 @@ describe('Provider', () => {
     })
 
     it('should handle loader returning null', async () => {
-      const loader = jest.fn().mockResolvedValue(null)
+      const loader = vi.fn().mockResolvedValue(null)
 
       const { container } = render(
         <Provider translationsLoader={loader}>
@@ -919,7 +917,7 @@ describe('Provider', () => {
     })
 
     it('should support consumer error handling inside the loader', async () => {
-      const onError = jest.fn()
+      const onError = vi.fn()
 
       const errorTranslations = {
         'nb-NO': {
@@ -930,7 +928,7 @@ describe('Provider', () => {
       type ErrorTranslation =
         (typeof errorTranslations)[keyof typeof errorTranslations]
 
-      const loader = jest.fn(async () => {
+      const loader = vi.fn(async () => {
         try {
           throw new Error('Network error')
         } catch (error) {
@@ -969,7 +967,7 @@ describe('Provider', () => {
     })
 
     it('should use locale prop for the loader call', async () => {
-      const loader = jest.fn().mockResolvedValue({
+      const loader = vi.fn().mockResolvedValue({
         'en-GB': { HelpButton: { title: 'Async EN' } },
       })
 
@@ -983,7 +981,7 @@ describe('Provider', () => {
     })
 
     it('should cascade parent static translations to child before loader resolves', async () => {
-      const childLoader = jest.fn().mockResolvedValue({
+      const childLoader = vi.fn().mockResolvedValue({
         'nb-NO': { Modal: { closeTitle: 'Child Async Close' } },
       })
 
@@ -1022,7 +1020,7 @@ describe('Provider', () => {
     })
 
     it('should let child loader override parent static translations', async () => {
-      const childLoader = jest.fn().mockResolvedValue({
+      const childLoader = vi.fn().mockResolvedValue({
         'nb-NO': { HelpButton: { title: 'Child Override' } },
       })
 
@@ -1051,11 +1049,11 @@ describe('Provider', () => {
     })
 
     it('should handle both parent and child having independent loaders', async () => {
-      const parentLoader = jest.fn().mockResolvedValue({
+      const parentLoader = vi.fn().mockResolvedValue({
         'nb-NO': { HelpButton: { title: 'Parent Async' } },
       })
 
-      const childLoader = jest.fn().mockResolvedValue({
+      const childLoader = vi.fn().mockResolvedValue({
         'nb-NO': { Modal: { closeTitle: 'Child Async' } },
       })
 
@@ -1087,7 +1085,7 @@ describe('Provider', () => {
       let resolveChildSecond: (v: unknown) => void
 
       let childCallCount = 0
-      const childLoader = jest.fn(() => {
+      const childLoader = vi.fn(() => {
         childCallCount++
         if (childCallCount === 1) {
           return new Promise((r) => {
@@ -1097,7 +1095,7 @@ describe('Provider', () => {
         return new Promise((r) => {
           resolveChildSecond = r
         })
-      }) as unknown as TranslationsLoader & jest.Mock
+      }) as unknown as TranslationsLoader & import('vitest').Mock
 
       const ChangeLocale = () => {
         const { setLocale } = useContext(Context)

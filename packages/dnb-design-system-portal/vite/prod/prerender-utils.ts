@@ -12,6 +12,7 @@ import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 
 export type RouteEntry = {
   path?: string
+  children?: RouteEntry[]
   [key: string]: unknown
 }
 
@@ -36,21 +37,29 @@ export type PageMeta = {
 export function collectUrls(routes: RouteEntry[]): string[] {
   const urls = ['/']
 
-  for (const route of routes) {
-    if (
-      route.path &&
-      route.path !== '*' &&
-      !route.path.startsWith('/404')
-    ) {
-      const routePath = route.path.endsWith('/')
-        ? route.path
-        : route.path + '/'
+  const visitRoutes = (entries: RouteEntry[]) => {
+    for (const route of entries) {
+      if (
+        route.path &&
+        route.path !== '*' &&
+        !route.path.startsWith('/404')
+      ) {
+        const routePath = route.path.endsWith('/')
+          ? route.path
+          : route.path + '/'
 
-      if (!urls.includes(routePath)) {
-        urls.push(routePath)
+        if (!urls.includes(routePath)) {
+          urls.push(routePath)
+        }
+      }
+
+      if (Array.isArray(route.children) && route.children.length > 0) {
+        visitRoutes(route.children)
       }
     }
   }
+
+  visitRoutes(routes)
 
   return urls
 }

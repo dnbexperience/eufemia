@@ -29,7 +29,7 @@ describe('DateFormatUtils', () => {
 
     it('formats dates using Intl.DateTimeFormat', () => {
       const OriginalDateTimeFormat = Intl.DateTimeFormat
-      const spy = jest
+      const spy = vi
         .spyOn(Intl, 'DateTimeFormat')
         .mockImplementation(function (...args) {
           return new OriginalDateTimeFormat(...args)
@@ -50,7 +50,7 @@ describe('DateFormatUtils', () => {
 
     it('hides year for any dateStyle when hideCurrentYear and date is in current year', () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
-      jest.useFakeTimers({ now: now.getTime() })
+      vi.useFakeTimers({ now: now.getTime() })
 
       const dateInCurrentYear = '2025-02-04'
       const dateOtherYear = '2024-02-04'
@@ -77,7 +77,7 @@ describe('DateFormatUtils', () => {
         expect(otherYear).toContain('2024')
       }
 
-      jest.useRealTimers()
+      vi.useRealTimers()
     })
 
     it('always hides year when hideYear is true', () => {
@@ -168,10 +168,10 @@ describe('DateFormatUtils', () => {
 
   describe('getRelativeTime', () => {
     beforeAll(() => {
-      jest.useFakeTimers({ now: new Date('2024-10-05T12:00:00.000Z') })
+      vi.useFakeTimers({ now: new Date('2024-10-05T12:00:00.000Z') })
     })
     afterAll(() => {
-      jest.useRealTimers()
+      vi.useRealTimers()
     })
 
     it('returns past time in words', () => {

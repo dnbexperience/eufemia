@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { FieldAddressProps } from '..'
@@ -15,7 +15,7 @@ describe('Field.Address', () => {
   })
 
   it('should show errors if field is empty on submit', () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -31,7 +31,7 @@ describe('Field.Address', () => {
   })
 
   it('should trim whitespaces', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>

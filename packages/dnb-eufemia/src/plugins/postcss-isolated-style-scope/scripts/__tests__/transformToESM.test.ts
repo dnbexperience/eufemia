@@ -4,22 +4,26 @@ import { transform } from 'lebab'
 import { transformFilesToESM } from '../transformToESM'
 
 // Mock the dependencies
-jest.mock('globby')
-jest.mock('fs-extra')
-jest.mock('lebab')
+vi.mock('globby')
+vi.mock('fs-extra')
+vi.mock('lebab')
 
-const mockSync = sync as jest.MockedFunction<typeof sync>
-const mockReadFileSync = fs.readFileSync as jest.MockedFunction<
-  typeof fs.readFileSync
+const mockSync = sync as import('vitest').MockedFunction<typeof sync>
+const mockReadFileSync =
+  fs.readFileSync as import('vitest').MockedFunction<
+    typeof fs.readFileSync
+  >
+const mockWriteFileSync =
+  fs.writeFileSync as import('vitest').MockedFunction<
+    typeof fs.writeFileSync
+  >
+const mockTransform = transform as import('vitest').MockedFunction<
+  typeof transform
 >
-const mockWriteFileSync = fs.writeFileSync as jest.MockedFunction<
-  typeof fs.writeFileSync
->
-const mockTransform = transform as jest.MockedFunction<typeof transform>
 
 describe('transformToESM script', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     // Mock the transform function to return a simple transformed code
     mockTransform.mockReturnValue({
@@ -30,7 +34,7 @@ describe('transformToESM script', () => {
   })
 
   afterEach(() => {
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   it('should use correct glob patterns with exceptions', () => {

@@ -43,8 +43,8 @@ describe('ScrollView', () => {
     expect(element).not.toHaveAttribute('tabindex')
 
     act(() => {
-      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
-      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+      vi.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
+      vi.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
       rerender(
         <ScrollView ref={ref} interactive="auto">
@@ -56,8 +56,8 @@ describe('ScrollView', () => {
     expect(element.getAttribute('tabindex')).toBe('0')
 
     act(() => {
-      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
-      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+      vi.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
+      vi.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
       rerender(
         <ScrollView ref={ref} interactive="auto">
@@ -72,8 +72,8 @@ describe('ScrollView', () => {
   it('should set tabindex based on ResizeObserver when interactive is set to auto', () => {
     let renderResizeObserver = null
 
-    const observe = jest.fn()
-    const init = jest.fn((callback) => {
+    const observe = vi.fn()
+    const init = vi.fn((callback) => {
       renderResizeObserver = callback
     })
     setResizeObserver({ init, observe })
@@ -89,8 +89,8 @@ describe('ScrollView', () => {
     expect(element).not.toHaveAttribute('tabindex')
 
     act(() => {
-      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
-      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+      vi.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
+      vi.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
       renderResizeObserver()
     })
@@ -98,8 +98,8 @@ describe('ScrollView', () => {
     expect(element.getAttribute('tabindex')).toBe('0')
 
     act(() => {
-      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
-      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+      vi.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
+      vi.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
       renderResizeObserver()
     })
@@ -112,8 +112,8 @@ describe('ScrollView', () => {
   })
 
   it('should attach ResizeObserver when a callback ref is used', () => {
-    const observe = jest.fn()
-    const init = jest.fn()
+    const observe = vi.fn()
+    const init = vi.fn()
     setResizeObserver({ init, observe })
 
     let refValue: HTMLDivElement | null = null
@@ -139,20 +139,18 @@ describe('ScrollView', () => {
     )
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-scroll-view',
-      'custom-class',
-    ])
+    expect(element).toHaveClass('dnb-scroll-view custom-class', {
+      exact: true,
+    })
   })
 
   it('should support spacing', () => {
     render(<ScrollView top="large">overflow content</ScrollView>)
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-scroll-view',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass('dnb-scroll-view dnb-space__top--large', {
+      exact: true,
+    })
   })
 
   it('should have constant of _supportsSpacingProps', () => {

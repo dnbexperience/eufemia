@@ -8,9 +8,9 @@ import Anchor, { scrollToHash } from '../Anchor'
 
 describe('Anchor with scrollToHash', () => {
   it('should call window.scroll', () => {
-    const onScroll = jest.fn()
+    const onScroll = vi.fn()
 
-    jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
+    vi.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
 
     render(
       <>

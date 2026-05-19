@@ -16,7 +16,7 @@ const defaultContext = {
   hideCloseButton: null,
   closeButtonAttributes: null,
   closeTitle: 'Close',
-  onCloseClickHandler: jest.fn(),
+  onCloseClickHandler: vi.fn(),
   contentRef: null,
   scrollRef: null,
   hide: null,
@@ -31,14 +31,14 @@ function renderWithContext(ui: ReactElement, context = defaultContext) {
 describe('ModalHeaderBar', () => {
   let observerCallback: IntersectionObserverCallback
   let observerOptions: IntersectionObserverInit
-  const observe = jest.fn()
-  const disconnect = jest.fn()
+  const observe = vi.fn()
+  const disconnect = vi.fn()
 
   beforeEach(() => {
     observe.mockClear()
     disconnect.mockClear()
 
-    window.IntersectionObserver = jest.fn().mockImplementation(function (
+    window.IntersectionObserver = vi.fn().mockImplementation(function (
       cb: IntersectionObserverCallback,
       options: IntersectionObserverInit
     ) {

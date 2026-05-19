@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Container from '../Container'
 import type { ItemContentProps } from '../ItemContent'
 import ItemContent from '../ItemContent'

@@ -3,7 +3,7 @@
  *
  */
 
-import '../../core/jest/jestSetup'
+import '../../core/test-utils/testSetup'
 import { chevron_left } from '../dnb-ui-icons'
 import * as dnbIcons from '../dnb-ui-icons'
 

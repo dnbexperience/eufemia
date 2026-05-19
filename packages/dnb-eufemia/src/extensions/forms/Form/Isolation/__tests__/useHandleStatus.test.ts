@@ -5,22 +5,23 @@ import useHasContentChanged from '../useHasContentChanged'
 import useReportError from '../useReportError'
 
 // Mocks
-jest.mock('../useHasContentChanged', () => ({
+vi.mock('../useHasContentChanged', () => ({
   __esModule: true,
-  default: jest.fn(),
+  default: vi.fn(),
 }))
 
-jest.mock('../useReportError', () => ({
+vi.mock('../useReportError', () => ({
   __esModule: true,
-  default: jest.fn(),
+  default: vi.fn(),
 }))
 
-const useHasContentChangedMock = useHasContentChanged as jest.Mock
-const useReportErrorMock = useReportError as jest.Mock
+const useHasContentChangedMock =
+  useHasContentChanged as import('vitest').Mock
+const useReportErrorMock = useReportError as import('vitest').Mock
 
 describe('useHandleStatus', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it('returns hasContentChanged and respects preventUncommittedChanges=false', () => {

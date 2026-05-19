@@ -168,7 +168,7 @@ function ArrayItemArea(
 
   const handleRemoveItem = useCallback(() => {
     try {
-      // Because "previousElementSibling" did not work in Jest/JSDOM
+      // Because "previousElementSibling" did not work reliably in the test DOM
       nextFocusElementRef.current = Array.from(
         localContextRef.current.elementRef.current.parentElement.childNodes
       ).at(index - 1) as HTMLElement

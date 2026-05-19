@@ -9,27 +9,25 @@ import {
   verifyGeneratedEntriesCommitted,
 } from '../verifyGeneratedEntriesCommitted'
 
-jest.mock('child_process', () => ({
-  execSync: jest.fn(),
+vi.mock('child_process', () => ({
+  execSync: vi.fn(),
 }))
 
 describe('verifyGeneratedEntriesCommitted', () => {
   it('does not throw when there are no generated entry changes', () => {
-    jest.spyOn(child_process, 'execSync').mockReturnValueOnce('' as any)
+    vi.spyOn(child_process, 'execSync').mockReturnValueOnce('' as any)
 
     expect(() => verifyGeneratedEntriesCommitted()).not.toThrow()
   })
 
   it('throws when generated entries changed during build', () => {
-    jest
-      .spyOn(child_process, 'execSync')
-      .mockReturnValueOnce(
-        [
-          ' M src/shared/build-info/BuildInfoData.ts',
-          ' M src/components/index.ts',
-          ' M src/style/dnb-ui-components.scss',
-        ].join('\n') as any
-      )
+    vi.spyOn(child_process, 'execSync').mockReturnValueOnce(
+      [
+        ' M src/shared/build-info/BuildInfoData.ts',
+        ' M src/components/index.ts',
+        ' M src/style/dnb-ui-components.scss',
+      ].join('\n') as any
+    )
 
     expect(() => verifyGeneratedEntriesCommitted()).toThrow(
       'Generated entry files changed during CI prebuild'
@@ -37,14 +35,12 @@ describe('verifyGeneratedEntriesCommitted', () => {
   })
 
   it('throws when git status returns monorepo-root relative paths', () => {
-    jest
-      .spyOn(child_process, 'execSync')
-      .mockReturnValueOnce(
-        [
-          ' M packages/dnb-eufemia/src/shared/build-info/BuildInfoData.js',
-          ' M packages/dnb-eufemia/src/style/dnb-ui-components.scss',
-        ].join('\n') as any
-      )
+    vi.spyOn(child_process, 'execSync').mockReturnValueOnce(
+      [
+        ' M packages/dnb-eufemia/src/shared/build-info/BuildInfoData.js',
+        ' M packages/dnb-eufemia/src/style/dnb-ui-components.scss',
+      ].join('\n') as any
+    )
 
     expect(() => verifyGeneratedEntriesCommitted()).toThrow(
       'Generated entry files changed during CI prebuild'
@@ -52,7 +48,7 @@ describe('verifyGeneratedEntriesCommitted', () => {
   })
 
   it('checks all changed files and filters by generated entry patterns', () => {
-    jest.spyOn(child_process, 'execSync').mockReturnValueOnce('' as any)
+    vi.spyOn(child_process, 'execSync').mockReturnValueOnce('' as any)
 
     verifyGeneratedEntriesCommitted()
 

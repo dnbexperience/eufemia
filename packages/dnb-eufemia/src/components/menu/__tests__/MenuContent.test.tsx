@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import MenuList from '../MenuList'
 import MenuAction from '../MenuAction'
 import MenuDivider from '../MenuDivider'
@@ -103,7 +103,7 @@ describe('MenuList', () => {
 
   describe('keyboard navigation', () => {
     it('focuses first item on ArrowDown when no item is active (mouse-open scenario)', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -122,7 +122,7 @@ describe('MenuList', () => {
     })
 
     it('focuses last item on ArrowUp when no item is active (mouse-open scenario)', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -141,7 +141,7 @@ describe('MenuList', () => {
     })
 
     it('moves focus to next item on ArrowDown', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -160,7 +160,7 @@ describe('MenuList', () => {
     })
 
     it('moves focus to previous item on ArrowUp', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -179,7 +179,7 @@ describe('MenuList', () => {
     })
 
     it('wraps focus from last to first on ArrowDown', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -197,7 +197,7 @@ describe('MenuList', () => {
     })
 
     it('wraps focus from first to last on ArrowUp', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -216,7 +216,7 @@ describe('MenuList', () => {
     })
 
     it('skips disabled items on ArrowDown', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -235,7 +235,7 @@ describe('MenuList', () => {
     })
 
     it('focuses first item on Home', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -252,7 +252,7 @@ describe('MenuList', () => {
     })
 
     it('focuses last item on End', () => {
-      const setActiveIndex = jest.fn()
+      const setActiveIndex = vi.fn()
       renderWithContext(
         <MenuList>
           <MenuAction text="Item 1" />
@@ -387,7 +387,7 @@ describe('MenuList', () => {
       const paddingBlock = 4
 
       const originalGetComputedStyle = window.getComputedStyle
-      jest.spyOn(window, 'getComputedStyle').mockImplementation(() => {
+      vi.spyOn(window, 'getComputedStyle').mockImplementation(() => {
         return {
           paddingTop: `${paddingBlock}px`,
           paddingBottom: `${paddingBlock}px`,
@@ -475,8 +475,8 @@ describe('MenuList', () => {
     })
 
     it('cleans up resize listener on unmount', () => {
-      const addSpy = jest.spyOn(window, 'addEventListener')
-      const removeSpy = jest.spyOn(window, 'removeEventListener')
+      const addSpy = vi.spyOn(window, 'addEventListener')
+      const removeSpy = vi.spyOn(window, 'removeEventListener')
 
       const { unmount } = renderWithContext(
         <MenuList maxVisibleListItems={3}>

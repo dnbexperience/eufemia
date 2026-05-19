@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { FieldNameProps } from '../'
@@ -16,7 +16,7 @@ describe('Field.Name', () => {
   })
 
   it('should show errors if field is empty on submit', () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -32,7 +32,7 @@ describe('Field.Name', () => {
   })
 
   it('should show errors if field is invalid on submit', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -59,7 +59,7 @@ describe('Field.Name', () => {
   })
 
   it('should trim whitespaces', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -116,7 +116,7 @@ describe('Field.Name', () => {
   })
 
   it('should capitalize the entered value when prop is true', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Field.Name capitalize onChange={onChange} value="first NAME" />
@@ -168,7 +168,7 @@ describe('Field.Name', () => {
   })
 
   it('Company name should trim whitespace for entered value', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -427,7 +427,7 @@ describe('Field.Name', () => {
     })
 
     it('should validate minLength on submit', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
-import 'mock-match-media/jest-setup'
+import '../../../core/vitest/mockMatchMediaSetup'
 import Grid from '../Grid'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 
 function getStyleProperties(
   element: HTMLElement,
@@ -64,11 +64,9 @@ describe('Grid.Item', () => {
 
     const element = document.querySelector('.dnb-grid-item')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-grid-item',
-      'custom-class',
-    ])
+    expect(element).toHaveClass('dnb-space dnb-grid-item custom-class', {
+      exact: true,
+    })
   })
 
   it('should set given span with media', () => {

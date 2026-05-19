@@ -90,7 +90,7 @@ describe('Form.InfoOverlay', () => {
 
   it('should disable href when buttonClickHandler is given', () => {
     const formId = {}
-    const buttonClickHandler = jest.fn()
+    const buttonClickHandler = vi.fn()
 
     render(
       <Form.Handler id={formId}>
@@ -388,7 +388,7 @@ describe('Form.InfoOverlay', () => {
 
   it('should call onCancel when clicking on cancel button', () => {
     const formId = {}
-    const onCancel = jest.fn()
+    const onCancel = vi.fn()
 
     render(
       <Form.Handler id={formId}>

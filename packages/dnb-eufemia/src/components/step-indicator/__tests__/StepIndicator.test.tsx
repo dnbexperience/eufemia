@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import {
   fireEvent,
   render,
@@ -16,17 +16,16 @@ import type {
   StepIndicatorProps,
 } from '../StepIndicator'
 import StepIndicator from '../StepIndicator'
-import MatchMediaMock from 'jest-matchmedia-mock'
-
-const matchMedia = new MatchMediaMock()
+import '../../../core/vitest/mockMatchMediaSetup'
+import { setMedia } from 'mock-match-media'
 
 beforeEach(() => {
-  matchMedia.useMediaQuery('(min-width: 60em)')
+  setMedia({ width: '61em' })
   document.body.innerHTML = `<div id="root"></div>`
 })
 
 function simulateSmallScreen() {
-  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
+  setMedia({ width: '59em' })
 }
 
 const stepIndicatorListData: StepIndicatorData = [
@@ -293,7 +292,7 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('has correct state after change', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     renderComponent({
       onChange,
     })
@@ -527,7 +526,7 @@ describe('StepIndicator in strict mode', () => {
   })
 
   it('has correct state after change', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     renderComponent({
       onChange,
     })

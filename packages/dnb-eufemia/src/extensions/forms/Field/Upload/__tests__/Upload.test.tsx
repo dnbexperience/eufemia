@@ -8,7 +8,10 @@ import {
   act,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  wait,
+} from '../../../../../core/test-utils/testSetup'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { DataContext, Field, Form, Iterate, Wizard } from '../../..'
 import { BYTES_IN_A_MEGA_BYTE } from '../../../../../components/upload/UploadVerify'
@@ -20,7 +23,7 @@ import type { UploadFileNative, UploadValue } from '../Upload'
 const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']
 
-global.URL.createObjectURL = jest.fn(() => 'url')
+global.URL.createObjectURL = vi.fn(() => 'url')
 
 describe('Field.Upload', () => {
   const getRootElement = () => document.querySelector('.dnb-upload')
@@ -107,7 +110,7 @@ describe('Field.Upload', () => {
   })
 
   it('should support onFileClick event', () => {
-    const onFileClick = jest.fn()
+    const onFileClick = vi.fn()
     render(
       <Field.Upload
         onFileClick={onFileClick}
@@ -140,7 +143,7 @@ describe('Field.Upload', () => {
   })
 
   it('should display spinner for an async onFileClick event', async () => {
-    const onFileClick = jest.fn(async () => {
+    const onFileClick = vi.fn(async () => {
       await wait(1)
     })
 
@@ -225,7 +228,7 @@ describe('Field.Upload', () => {
 
   describe('sync validation', () => {
     it('should emit data context based on required-prop', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -280,8 +283,8 @@ describe('Field.Upload', () => {
     })
 
     it('should return undefined value when no files are present', async () => {
-      const onChangeContext = jest.fn()
-      const onChangeField = jest.fn()
+      const onChangeContext = vi.fn()
+      const onChangeField = vi.fn()
 
       render(
         <Form.Handler onChange={onChangeContext}>
@@ -354,9 +357,9 @@ describe('Field.Upload', () => {
     })
 
     it('should prevent submit when error in one file is present', async () => {
-      const onChangeContext = jest.fn()
-      const onChangeField = jest.fn()
-      const onSubmit = jest.fn()
+      const onChangeContext = vi.fn()
+      const onChangeField = vi.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onChange={onChangeContext} onSubmit={onSubmit}>
@@ -458,8 +461,8 @@ describe('Field.Upload', () => {
     })
 
     it('should display "required" after removing the only present file', async () => {
-      const onChange = jest.fn((args) => args)
-      const onSubmit = jest.fn((args) => args)
+      const onChange = vi.fn((args) => args)
+      const onSubmit = vi.fn((args) => args)
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -515,8 +518,8 @@ describe('Field.Upload', () => {
     })
 
     it('should handle "required" logic based on if files are present', async () => {
-      const onChange = jest.fn((args) => args)
-      const onSubmit = jest.fn((args) => args)
+      const onChange = vi.fn((args) => args)
+      const onSubmit = vi.fn((args) => args)
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -621,8 +624,8 @@ describe('Field.Upload', () => {
     })
 
     it('should handle validation based on files with error', async () => {
-      const onChange = jest.fn((args) => args)
-      const onSubmit = jest.fn((args) => args)
+      const onChange = vi.fn((args) => args)
+      const onSubmit = vi.fn((args) => args)
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -754,8 +757,8 @@ describe('Field.Upload', () => {
 
   describe('async validation', () => {
     it('should handle "required" logic based on if files are present', async () => {
-      const onChange = jest.fn(async (args) => args)
-      const onSubmit = jest.fn(async (args) => args)
+      const onChange = vi.fn(async (args) => args)
+      const onSubmit = vi.fn(async (args) => args)
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -871,8 +874,8 @@ describe('Field.Upload', () => {
     })
 
     it('should handle validation based on files with error', async () => {
-      const onChange = jest.fn(async (args) => args)
-      const onSubmit = jest.fn(async (args) => args)
+      const onChange = vi.fn(async (args) => args)
+      const onSubmit = vi.fn(async (args) => args)
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -1135,7 +1138,7 @@ describe('Field.Upload', () => {
       const file = createMockFile('async.png', 100, 'image/png')
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
 
-      const asyncFileHandler = jest.fn(() => {
+      const asyncFileHandler = vi.fn(() => {
         return new Promise<UploadValue>((resolve) => {
           resolveFileHandler = resolve
         })
@@ -1399,7 +1402,7 @@ describe('Field.Upload', () => {
           )
         )
 
-      const asyncFileHandlerFnError = jest.fn(
+      const asyncFileHandlerFnError = vi.fn(
         asyncValidatorResolvingWithErrorMessage
       )
 
@@ -1451,13 +1454,13 @@ describe('Field.Upload', () => {
 
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
 
-      const asyncFileHandler = jest.fn(() => {
+      const asyncFileHandler = vi.fn(() => {
         return new Promise<UploadValue>((resolve) => {
           resolveFileHandler = resolve
         })
       })
 
-      const asyncFileHandlerFn = jest.fn(asyncFileHandler)
+      const asyncFileHandlerFn = vi.fn(asyncFileHandler)
 
       render(
         <Field.Upload fileMaxSize={1} fileHandler={asyncFileHandlerFn} />
@@ -1532,11 +1535,11 @@ describe('Field.Upload', () => {
           )
         )
 
-      const asyncFileHandlerFnSuccess = jest.fn(
+      const asyncFileHandlerFnSuccess = vi.fn(
         asyncValidatorResolvingWithSuccess
       )
 
-      const onChange = jest.fn((args) => args)
+      const onChange = vi.fn((args) => args)
 
       render(
         <Field.Upload
@@ -1584,7 +1587,7 @@ describe('Field.Upload', () => {
 
       render(
         <Field.Upload
-          fileHandler={() => new Promise<UploadValue>(() => jest.fn())}
+          fileHandler={() => new Promise<UploadValue>(() => vi.fn())}
         />
       )
 
@@ -1652,7 +1655,7 @@ describe('Field.Upload', () => {
 
       render(
         <Field.Upload
-          fileHandler={jest.fn(asyncValidatorResolvingWithSuccess)}
+          fileHandler={vi.fn(asyncValidatorResolvingWithSuccess)}
           value={[{ file: fileExisting }]}
         />
       )
@@ -1706,7 +1709,7 @@ describe('Field.Upload', () => {
           setTimeout(() => resolve([]), 1)
         )
 
-      const asyncFileHandlerFn = jest.fn(asyncValidatorResolving)
+      const asyncFileHandlerFn = vi.fn(asyncValidatorResolving)
 
       render(
         <Field.Upload fileMaxSize={1} fileHandler={asyncFileHandlerFn} />
@@ -1771,7 +1774,7 @@ describe('Field.Upload', () => {
 
       render(
         <Field.Upload
-          fileHandler={jest
+          fileHandler={vi
             .fn(asyncValidatorResolvingWithSuccess)
             .mockReturnValueOnce(asyncValidatorResolvingWithSuccess(0))
             .mockReturnValueOnce(asyncValidatorNeverResolving())
@@ -1833,7 +1836,7 @@ describe('Field.Upload', () => {
     })
 
     it('should add new files from fileHandler with async function while removing file', async () => {
-      const asyncOnFileDelete = jest.fn(async () => {
+      const asyncOnFileDelete = vi.fn(async () => {
         await wait(1)
       })
 
@@ -1862,7 +1865,7 @@ describe('Field.Upload', () => {
       render(
         <Field.Upload
           onFileDelete={asyncOnFileDelete}
-          fileHandler={jest
+          fileHandler={vi
             .fn(asyncValidatorResolvingWithSuccess)
             .mockReturnValueOnce(
               asyncValidatorResolvingWithSuccess(filesFirstUpload)
@@ -1928,7 +1931,7 @@ describe('Field.Upload', () => {
       )
 
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
-      const fileHandler = jest.fn(
+      const fileHandler = vi.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler = resolve
@@ -1936,7 +1939,7 @@ describe('Field.Upload', () => {
       )
 
       let resolveDelete: (() => void) | undefined
-      const asyncOnFileDelete = jest.fn(async () => {
+      const asyncOnFileDelete = vi.fn(async () => {
         await new Promise<void>((resolve) => {
           resolveDelete = resolve
         })
@@ -2025,13 +2028,13 @@ describe('Field.Upload', () => {
       const file = createMockFile('fileName.png', 100, 'image/png')
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
 
-      const fileHandler = jest.fn(() => {
+      const fileHandler = vi.fn(() => {
         return new Promise<UploadValue>((resolve) => {
           resolveFileHandler = resolve
         })
       })
 
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -2084,13 +2087,13 @@ describe('Field.Upload', () => {
       const file = createMockFile('fileName.png', 100, 'image/png')
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
 
-      const fileHandler = jest.fn(() => {
+      const fileHandler = vi.fn(() => {
         return new Promise<UploadValue>((resolve) => {
           resolveFileHandler = resolve
         })
       })
 
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler
@@ -2152,7 +2155,7 @@ describe('Field.Upload', () => {
 
       render(
         <Field.Upload
-          fileHandler={jest.fn(
+          fileHandler={vi.fn(
             () =>
               new Promise<UploadValue>((resolve) =>
                 setTimeout(
@@ -2217,7 +2220,7 @@ describe('Field.Upload', () => {
         )
       )
 
-    const asyncFileHandlerFn = jest.fn(asyncValidatorWithMixedResults)
+    const asyncFileHandlerFn = vi.fn(asyncValidatorWithMixedResults)
 
     render(<Field.Upload fileHandler={asyncFileHandlerFn} />)
 
@@ -2301,7 +2304,7 @@ describe('Field.Upload', () => {
 
   it('should remove correct file when file names are the same', async () => {
     const fileName = 'fileName-1.png'
-    const asyncOnFileDelete = jest.fn(async () => {
+    const asyncOnFileDelete = vi.fn(async () => {
       await wait(1)
     })
 
@@ -2407,7 +2410,7 @@ describe('Field.Upload', () => {
       }))
     }
 
-    const asyncOnFileDelete = jest.fn(async () => {
+    const asyncOnFileDelete = vi.fn(async () => {
       await wait(1)
     })
 
@@ -2519,14 +2522,14 @@ describe('Field.Upload', () => {
     it('should keep first iterate item files after second item async upload resolves', async () => {
       const queuedResolvers: Array<(value: UploadValue) => void> = []
 
-      const sharedAsyncFileHandler = jest.fn(
+      const sharedAsyncFileHandler = vi.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             queuedResolvers.push(resolve)
           })
       )
 
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       let latestData = null
 
       const firstItemFile = createMockFile(
@@ -2629,7 +2632,7 @@ describe('Field.Upload', () => {
       let resolveFileHandler1: ((value: UploadValue) => void) | undefined
       let resolveFileHandler2: ((value: UploadValue) => void) | undefined
 
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       const file1 = createMockFile('new-file-1.png', 100, 'image/png')
       const file2 = createMockFile('new-file-2.png', 100, 'image/png')
@@ -2644,14 +2647,14 @@ describe('Field.Upload', () => {
         'image/png'
       )
 
-      const asyncFileHandler1 = jest.fn(
+      const asyncFileHandler1 = vi.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler1 = resolve
           })
       )
 
-      const asyncFileHandler2 = jest.fn(
+      const asyncFileHandler2 = vi.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler2 = resolve
@@ -2803,7 +2806,7 @@ describe('Field.Upload', () => {
     })
 
     it('should support async fileHandler and onFileDelete in Iterate.Array using Form.Handler defaultData', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       let resolveFileHandler1: ((value: UploadValue) => void) | undefined
       let resolveFileHandler2: ((value: UploadValue) => void) | undefined
@@ -2814,28 +2817,28 @@ describe('Field.Upload', () => {
       const file1 = createMockFile('new-file-1.png', 100, 'image/png')
       const file2 = createMockFile('new-file-2.png', 100, 'image/png')
 
-      const asyncFileHandler1 = jest.fn(
+      const asyncFileHandler1 = vi.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler1 = resolve
           })
       )
 
-      const asyncFileHandler2 = jest.fn(
+      const asyncFileHandler2 = vi.fn(
         () =>
           new Promise<UploadValue>((resolve) => {
             resolveFileHandler2 = resolve
           })
       )
 
-      const asyncOnFileDeleteHandler1 = jest.fn(
+      const asyncOnFileDeleteHandler1 = vi.fn(
         () =>
           new Promise<void>((resolve) => {
             resolveOnFileDeleteHandler1 = resolve
           })
       )
 
-      const asyncOnFileDeleteHandler2 = jest.fn(
+      const asyncOnFileDeleteHandler2 = vi.fn(
         () =>
           new Promise<void>((resolve) => {
             resolveOnFileDeleteHandler2 = resolve
@@ -3195,7 +3198,7 @@ describe('Field.Upload', () => {
 
   describe('sync external value', () => {
     it('should skip echo updates (our own updates coming back)', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       const { rerender } = render(
         <Field.Upload
           value={[
@@ -3238,7 +3241,7 @@ describe('Field.Upload', () => {
 
     it('should skip stale updates with loading files when we already have resolved files', async () => {
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
-      const fileHandler = jest.fn(() => {
+      const fileHandler = vi.fn(() => {
         return new Promise<UploadValue>((resolve) => {
           resolveFileHandler = resolve
         })
@@ -3347,7 +3350,7 @@ describe('Field.Upload', () => {
 
     it('should preserve loading files when external value updates', async () => {
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
-      const fileHandler = jest.fn(() => {
+      const fileHandler = vi.fn(() => {
         return new Promise<UploadValue>((resolve) => {
           resolveFileHandler = resolve
         })
@@ -3497,7 +3500,7 @@ describe('Field.Upload', () => {
 
     it('should not duplicate files when external value already includes pending files', async () => {
       let resolveFileHandler: ((value: UploadValue) => void) | undefined
-      const fileHandler = jest.fn(() => {
+      const fileHandler = vi.fn(() => {
         return new Promise<UploadValue>((resolve) => {
           resolveFileHandler = resolve
         })
@@ -3612,7 +3615,7 @@ describe('Field.Upload', () => {
 
   describe('onValidationError', () => {
     it('should call onValidationError for files exceeding fileMaxSize', async () => {
-      const onValidationError = jest.fn((files) => files)
+      const onValidationError = vi.fn((files) => files)
       const file = createMockFile(
         'large-file.png',
         10 * BYTES_IN_A_MEGA_BYTE,
@@ -3647,7 +3650,7 @@ describe('Field.Upload', () => {
     })
 
     it('should call onValidationError for unsupported file types', async () => {
-      const onValidationError = jest.fn((files) => files)
+      const onValidationError = vi.fn((files) => files)
       const file = createMockFile('document.docx', 100, 'application/docx')
 
       render(
@@ -3679,14 +3682,14 @@ describe('Field.Upload', () => {
 
     it('should call onValidationError before onChange', async () => {
       const callOrder: string[] = []
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         callOrder.push('onValidationError')
         return files.map((file) => ({
           ...file,
           description: 'Modified by validation handler',
         }))
       })
-      const onChange = jest.fn((value) => {
+      const onChange = vi.fn((value) => {
         callOrder.push('onChange')
       })
       const file = createMockFile(
@@ -3728,7 +3731,7 @@ describe('Field.Upload', () => {
     })
 
     it('should allow setting removeLink on files with validation errors', async () => {
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           removeLink: true,
@@ -3767,7 +3770,7 @@ describe('Field.Upload', () => {
     })
 
     it('should allow setting multiple custom properties on invalid files', async () => {
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           removeLink: true,
@@ -3826,14 +3829,14 @@ describe('Field.Upload', () => {
     })
 
     it('should work with both sync onValidationError and async fileHandler', async () => {
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           removeLink: true,
         }))
       })
 
-      const fileHandler = jest.fn((files) => {
+      const fileHandler = vi.fn((files) => {
         return Promise.resolve(
           files.map((file) => ({
             ...file,
@@ -3887,7 +3890,7 @@ describe('Field.Upload', () => {
     })
 
     it('should handle only invalid files without fileHandler', async () => {
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           removeLink: true,
@@ -3924,7 +3927,7 @@ describe('Field.Upload', () => {
     })
 
     it('should handle onValidationError returning void (undefined)', async () => {
-      const onValidationError = jest.fn()
+      const onValidationError = vi.fn()
 
       const file = createMockFile(
         'large-file.png',
@@ -3963,7 +3966,7 @@ describe('Field.Upload', () => {
     })
 
     it('should not call onValidationError when all files are valid', async () => {
-      const onValidationError = jest.fn((files) => files)
+      const onValidationError = vi.fn((files) => files)
       const file = createMockFile('valid.png', 100, 'image/png')
 
       render(
@@ -3991,7 +3994,7 @@ describe('Field.Upload', () => {
     })
 
     it('should work with onFileDelete on files modified by onValidationError', async () => {
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           removeLink: true,
@@ -3999,7 +4002,7 @@ describe('Field.Upload', () => {
         }))
       })
 
-      const onFileDelete = jest.fn()
+      const onFileDelete = vi.fn()
 
       const file = createMockFile(
         'large-file.png',
@@ -4042,7 +4045,7 @@ describe('Field.Upload', () => {
     })
 
     it('should support deleteButtonProps on files with validation errors', async () => {
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           deleteButtonProps: {
@@ -4090,14 +4093,14 @@ describe('Field.Upload', () => {
     })
 
     it('should be mutually exclusive with fileHandler - only invalid files trigger onValidationError', async () => {
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           description: 'Validation failed',
         }))
       })
 
-      const fileHandler = jest.fn((files) => {
+      const fileHandler = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           id: `server_${file.file.name}`,
@@ -4163,14 +4166,14 @@ describe('Field.Upload', () => {
     })
 
     it('should trigger onValidationError for files with errorMessage set via value prop', async () => {
-      const onValidationError = jest.fn((files) => {
+      const onValidationError = vi.fn((files) => {
         return files.map((file) => ({
           ...file,
           description: 'Error handled by onValidationError',
         }))
       })
 
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler>
@@ -4219,9 +4222,9 @@ describe('Field.Upload', () => {
     })
 
     it('should NOT trigger onValidationError when fileHandler returns file with errorMessage', async () => {
-      const onValidationError = jest.fn((files) => files)
+      const onValidationError = vi.fn((files) => files)
 
-      const fileHandler = jest.fn((files) => {
+      const fileHandler = vi.fn((files) => {
         // Simulate fileHandler returning file with error
         return files.map((file) => ({
           ...file,

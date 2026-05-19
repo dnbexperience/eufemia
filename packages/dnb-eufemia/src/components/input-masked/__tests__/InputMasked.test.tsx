@@ -5,7 +5,7 @@
 
 import { useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { loadScss, wait } from '../../../core/jest/jestSetup'
+import { loadScss, wait } from '../../../core/test-utils/testSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { InputMaskedProps } from '../InputMasked'
@@ -68,7 +68,7 @@ describe('InputMasked component', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const refFn = jest.fn()
+    const refFn = vi.fn()
 
     render(<InputMasked {...props} ref={refFn} />)
 
@@ -95,7 +95,7 @@ describe('InputMasked component', () => {
     const initValue = 'NOK 1234,5 kr'
     const newValue = 'NOK 123456789,0 kr'
 
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <InputMasked
@@ -130,7 +130,7 @@ describe('InputMasked component', () => {
   it('event "onChange" gets emitted with correct value #2', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <InputMasked
@@ -160,7 +160,7 @@ describe('InputMasked component', () => {
   it('event "onChange" gets emitted with correct value #3', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <InputMasked
@@ -191,7 +191,7 @@ describe('InputMasked component', () => {
   })
 
   it('should allow leading zero when removing first letter', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const prefix = 'NOK '
     const suffix = ' kr'
@@ -231,7 +231,7 @@ describe('InputMasked component', () => {
   })
 
   it('should handle minus values', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const EditValue = () => {
       const [value, setValue] = useState(-0.1)
@@ -306,8 +306,8 @@ describe('InputMasked component', () => {
   })
 
   it('should accept custom mask only', () => {
-    const onKeyDown = jest.fn()
-    const preventDefault = jest.fn()
+    const onKeyDown = vi.fn()
+    const preventDefault = vi.fn()
     const newValue = '010203 12345'
 
     const { rerender } = render(
@@ -551,7 +551,7 @@ describe('InputMasked component', () => {
 
     {
       const input = document.querySelector('input') as HTMLInputElement
-      const spy = jest.spyOn(input, 'setSelectionRange')
+      const spy = vi.spyOn(input, 'setSelectionRange')
 
       // Place caret inside the suffix to trigger correction
       const value1 = '1 234,5 kr'
@@ -588,7 +588,7 @@ describe('InputMasked component', () => {
 
     {
       const input = document.querySelector('input') as HTMLInputElement
-      const spy = jest.spyOn(input, 'setSelectionRange')
+      const spy = vi.spyOn(input, 'setSelectionRange')
       const value2 = 'Prefix 1 234,5 kr'
       input.value = value2
       const suffixStart2 = value2.indexOf(' kr')
@@ -622,8 +622,8 @@ describe('InputMasked component', () => {
       />
     )
 
-    const setSelectionRange = jest.fn()
-    const preventDefault = jest.fn()
+    const setSelectionRange = vi.fn()
+    const preventDefault = vi.fn()
 
     const simulate = ({ name, value, selectionPosition, key }) => {
       fireEvent[name](document.querySelector('input'), {
@@ -660,7 +660,7 @@ describe('InputMasked component', () => {
   })
 
   it('should set correct integerLimit during typing', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     const MockComponent = () => {
       const [controlledValue, setControlledValue] = useState(123456)
 
@@ -770,8 +770,8 @@ describe('InputMasked component', () => {
     it('should prevent leading zero', () => {
       const newValue = 'NOK 1 234,56 kr'
 
-      const onKeyDown = jest.fn()
-      const preventDefault = jest.fn()
+      const onKeyDown = vi.fn()
+      const preventDefault = vi.fn()
 
       const { rerender } = render(
         <InputMasked
@@ -860,7 +860,7 @@ describe('InputMasked component', () => {
     })
 
     it('should allow 0 as value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <InputMasked
@@ -925,7 +925,7 @@ describe('InputMasked component', () => {
     })
 
     it('should allow 0 as value when the input is blurred', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <InputMasked
@@ -949,7 +949,7 @@ describe('InputMasked component', () => {
     })
 
     it('should remove leading zero when the input is blurred', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <InputMasked
@@ -977,8 +977,8 @@ describe('InputMasked component', () => {
     })
 
     it('should remove leading zero with minus when the input is blurred', async () => {
-      const onChange = jest.fn()
-      const onBlur = jest.fn()
+      const onChange = vi.fn()
+      const onBlur = vi.fn()
 
       render(
         <InputMasked
@@ -1017,7 +1017,7 @@ describe('InputMasked component', () => {
     })
 
     it('should not remove leading zeroes when deleting front number', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <InputMasked
@@ -1060,8 +1060,8 @@ describe('InputMasked component', () => {
     })
 
     it('should not set leading zero when entering decimal separator', () => {
-      const onKeyDown = jest.fn()
-      const preventDefault = jest.fn()
+      const onKeyDown = vi.fn()
+      const preventDefault = vi.fn()
 
       const { rerender } = render(
         <InputMasked
@@ -1390,7 +1390,7 @@ describe('InputMasked component asNumber', () => {
   it('event "onChange" gets emitted with correct value', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <InputMasked
@@ -1420,7 +1420,7 @@ describe('InputMasked component asNumber', () => {
   it('should append a comma when entering a dot', () => {
     render(<InputMasked asNumber maskOptions={{ allowDecimal: true }} />)
 
-    const setSelectionRange = jest.fn()
+    const setSelectionRange = vi.fn()
 
     const elem = document.querySelector('input')
 
@@ -1451,7 +1451,7 @@ describe('InputMasked component asNumber', () => {
   it('should prevent a comma when decimalLimit=0', () => {
     render(<InputMasked asNumber maskOptions={{ decimalLimit: 0 }} />)
 
-    const preventDefault = jest.fn()
+    const preventDefault = vi.fn()
     const event = { preventDefault }
 
     const newValue = '12 345'
@@ -1478,7 +1478,7 @@ describe('InputMasked component asNumber', () => {
   it('should prevent a comma by default', () => {
     render(<InputMasked asNumber />)
 
-    const preventDefault = jest.fn()
+    const preventDefault = vi.fn()
     const event = { preventDefault }
 
     const newValue = '12 345'
@@ -1656,7 +1656,7 @@ describe('InputMasked component asCurrency', () => {
   })
 
   it('should set correct integerLimit during typing', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     const MockComponent = () => {
       const [controlledValue, setControlledValue] = useState(123456.1234)
 
@@ -1694,7 +1694,7 @@ describe('InputMasked component asCurrency', () => {
   it('event "onChange" gets emitted with correct value', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const { rerender } = render(
       <InputMasked value="12345.678" asCurrency onChange={onChange} />
@@ -1739,7 +1739,7 @@ describe('InputMasked component asCurrency', () => {
   })
 
   it('event "onChange" gets emitted with correct value with en locale', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <InputMasked
@@ -1828,7 +1828,7 @@ describe('InputMasked component asCurrency', () => {
   it('should not append a comma when entering a dot', () => {
     render(<InputMasked asCurrency />)
 
-    const preventDefault = jest.fn()
+    const preventDefault = vi.fn()
     const event = { preventDefault }
 
     const newValue = '12 345,67 kr'
@@ -1853,7 +1853,7 @@ describe('InputMasked component asCurrency', () => {
   it('should prevent a comma when decimalLimit=0', () => {
     render(<InputMasked asCurrency currencyMask={{ decimalLimit: 0 }} />)
 
-    const preventDefault = jest.fn()
+    const preventDefault = vi.fn()
     const event = { preventDefault }
 
     const newValue = '12 345'
@@ -2084,15 +2084,10 @@ describe('InputMasked component asCurrency', () => {
 
     const element = document.querySelector('.dnb-input')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-input',
-      'dnb-input__border--tokens',
-      'dnb-form-component',
-      'dnb-input-masked',
-      'dnb-input--text',
-      'dnb-input--vertical',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-input dnb-input__border--tokens dnb-form-component dnb-input-masked dnb-input--text dnb-input--vertical dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -2112,14 +2107,10 @@ describe('InputMasked component asCurrency', () => {
       'data-input-state',
       'data-has-content',
     ])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-input',
-      'dnb-input__border--tokens',
-      'dnb-form-component',
-      'dnb-input-masked',
-      'dnb-input--text',
-      'dnb-input--vertical',
-    ])
+    expect(element).toHaveClass(
+      'dnb-input dnb-input__border--tokens dnb-form-component dnb-input-masked dnb-input--text dnb-input--vertical',
+      { exact: true }
+    )
   })
 })
 
@@ -2193,7 +2184,7 @@ describe('InputMasked with custom mask', () => {
   // placeholderChar is no longer supported with Maskito; legacy behavior removed
 
   it('should handle leading zeros gracefully', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <InputMasked
@@ -2294,7 +2285,7 @@ describe('inputmode', () => {
   })
 
   it('should be numeric with a numberMask', () => {
-    const onKeyDown = jest.fn()
+    const onKeyDown = vi.fn()
 
     render(<InputMasked {...props} numberMask onKeyDown={onKeyDown} />)
 
@@ -2305,7 +2296,7 @@ describe('inputmode', () => {
   })
 
   it('should be decimal with a currencyMask', () => {
-    const onKeyDown = jest.fn()
+    const onKeyDown = vi.fn()
 
     render(<InputMasked {...props} currencyMask onKeyDown={onKeyDown} />)
 
@@ -2316,7 +2307,7 @@ describe('inputmode', () => {
   })
 
   it('should be numeric with asPercent', () => {
-    const onKeyDown = jest.fn()
+    const onKeyDown = vi.fn()
 
     render(<InputMasked {...props} asPercent onKeyDown={onKeyDown} />)
 
@@ -2327,7 +2318,7 @@ describe('inputmode', () => {
   })
 
   it('should use numeric with no decimal and no negative/minus', () => {
-    const onKeyDown = jest.fn()
+    const onKeyDown = vi.fn()
 
     render(
       <InputMasked
@@ -2344,7 +2335,7 @@ describe('inputmode', () => {
   })
 
   it('should use decimal with allowDecimal and no allowNegative', () => {
-    const onKeyDown = jest.fn()
+    const onKeyDown = vi.fn()
 
     render(
       <InputMasked
@@ -2361,7 +2352,7 @@ describe('inputmode', () => {
   })
 
   it('should use decimal with allowDecimal and allowNegative', () => {
-    const onKeyDown = jest.fn()
+    const onKeyDown = vi.fn()
 
     render(
       <InputMasked
@@ -2378,7 +2369,7 @@ describe('inputmode', () => {
   })
 
   it('should set custom inputMode', () => {
-    const onKeyDown = jest.fn()
+    const onKeyDown = vi.fn()
 
     render(
       <InputMasked
@@ -2400,8 +2391,8 @@ describe('inputmode', () => {
       value: true,
     })
 
-    const onKeyDown = jest.fn()
-    const preventDefault = jest.fn()
+    const onKeyDown = vi.fn()
+    const preventDefault = vi.fn()
 
     render(
       <InputMasked

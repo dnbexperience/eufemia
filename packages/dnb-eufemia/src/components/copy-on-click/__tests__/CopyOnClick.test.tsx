@@ -1,6 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import CopyOnClick from '../CopyOnClick'
-import { axeComponent, mockClipboard } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  mockClipboard,
+} from '../../../core/test-utils/testSetup'
 import NumberFormat from '../../NumberFormat'
 import userEvent from '@testing-library/user-event'
 
@@ -16,11 +19,10 @@ describe('CopyOnClick', () => {
 
     const element = document.querySelector('.dnb-copy-on-click')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-copy-on-click',
-      'dnb-copy-on-click--cursor',
-      'dnb-span',
-    ])
+    expect(element).toHaveClass(
+      'dnb-copy-on-click dnb-copy-on-click--cursor dnb-span',
+      { exact: true }
+    )
   })
 
   it('does not render the cursor when disabled', () => {
@@ -177,12 +179,12 @@ describe('CopyOnClick', () => {
 
     // Force async clipboard API to fail
     const originalWrite = navigator.clipboard.writeText
-    navigator.clipboard.writeText = jest
+    navigator.clipboard.writeText = vi
       .fn()
       .mockRejectedValue(new Error('Permission denied'))
 
     // Ensure fallback does not succeed
-    document.execCommand = jest.fn(() => false)
+    document.execCommand = vi.fn(() => false)
 
     render(<CopyOnClick>Copy me</CopyOnClick>)
 

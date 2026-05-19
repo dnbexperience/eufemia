@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fish_medium } from '../../../icons'
 import ItemIcon from '../ItemIcon'
 import ItemContent from '../ItemContent'
