@@ -3,6 +3,47 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.3.0](https://github.com/dnbexperience/eufemia/compare/v11.2.2...v11.3.0) (2026-05-19)
+
+
+### :memo: Documentation
+
+* **Forms:** move more-fields to feature-fields and base-fields ([#8067](https://github.com/dnbexperience/eufemia/issues/8067)) ([5aced8f](https://github.com/dnbexperience/eufemia/commit/5aced8f6bd2157d3a754edab48609b63f4ab4216))
+
+
+### :bug: Bug Fixes
+
+* **Accordion:** memoize store (`rememberState`) ([#8128](https://github.com/dnbexperience/eufemia/issues/8128)) ([a815d9e](https://github.com/dnbexperience/eufemia/commit/a815d9e159f07766d6ced45a337652097741a1b3))
+* **ArraySelection:** retain focus on checkbox when selecting/deselecting ([#8125](https://github.com/dnbexperience/eufemia/issues/8125)) ([59061ba](https://github.com/dnbexperience/eufemia/commit/59061baa0ef4992b0fa807843af96001a7233305))
+* **BankAccountNumber:** sync valueRef with external value changes ([#8074](https://github.com/dnbexperience/eufemia/issues/8074)) ([e30419b](https://github.com/dnbexperience/eufemia/commit/e30419b84b8e4a5c3529e7d1ffa4f3afc078d22d))
+* **DateOfBirth:** sync day/month/year refs with external value changes ([#8075](https://github.com/dnbexperience/eufemia/issues/8075)) ([a5ad5e7](https://github.com/dnbexperience/eufemia/commit/a5ad5e77cfed8a1427be2db4276f5ce5c5792c86))
+* **Field.String:** use showClearButton instead of clear prop ([#8101](https://github.com/dnbexperience/eufemia/issues/8101)) ([f27bec9](https://github.com/dnbexperience/eufemia/commit/f27bec9df0c57ce6b0b52b23a8012a966024a2f8))
+* **Flex:** omit wrapper for spacing props in context-only providers ([#8112](https://github.com/dnbexperience/eufemia/issues/8112)) ([512715a](https://github.com/dnbexperience/eufemia/commit/512715a76ccdf4be6607560aebd743b424776e9e))
+* **Form.SubmitButton:** show loading indicator inside Field.Composition ([#8052](https://github.com/dnbexperience/eufemia/issues/8052)) ([9276dc3](https://github.com/dnbexperience/eufemia/commit/9276dc376c53035aa90bcdd011197171d0710cf4))
+* **Icon:** prevent skeleton and other props leaking to SVG element ([#8104](https://github.com/dnbexperience/eufemia/issues/8104)) ([d63f7c5](https://github.com/dnbexperience/eufemia/commit/d63f7c5e5c17e139a839f83a470203400e5e8411))
+* **Provider:** use createSharedState to prevent infinite render loop ([#8107](https://github.com/dnbexperience/eufemia/issues/8107)) ([390809a](https://github.com/dnbexperience/eufemia/commit/390809a7bf6ad22deb3e05419a1527edff6d76cd))
+* **Tabs:** add scroll navigation labels ([#8124](https://github.com/dnbexperience/eufemia/issues/8124)) ([cb956f1](https://github.com/dnbexperience/eufemia/commit/cb956f14b5cd145bc712ce990b42bddc99bc1fae))
+* **Tabs:** prevent setState during render in shared state initialization ([#8127](https://github.com/dnbexperience/eufemia/issues/8127)) ([542c745](https://github.com/dnbexperience/eufemia/commit/542c74521855a8b6db76da90ce9136ea0128fe1c))
+* **TermDefinition:** add skeleton support ([#8103](https://github.com/dnbexperience/eufemia/issues/8103)) ([e5d1350](https://github.com/dnbexperience/eufemia/commit/e5d135062cb62108a7b9737b90849ed6804e7c1d))
+* **ToggleButton:** fix setState-during-render in group context registration ([#8102](https://github.com/dnbexperience/eufemia/issues/8102)) ([d3cce59](https://github.com/dnbexperience/eufemia/commit/d3cce59a60f7946dd309901c5771499df2d8d303))
+
+
+### :sparkles: Features
+
+* **Accordion:** add tertiary variant ([#8121](https://github.com/dnbexperience/eufemia/issues/8121)) ([3115b67](https://github.com/dnbexperience/eufemia/commit/3115b67366f75a9ceb0daf531ce8f00f8c256cb4))
+* enhance Stylelint plugin with token-name-policy ([#8030](https://github.com/dnbexperience/eufemia/issues/8030)) ([a600a51](https://github.com/dnbexperience/eufemia/commit/a600a514172a4cc42dd3fb2b8f0562a8d58e0edb))
+* **Forms:** add MultiSelection field ([#8048](https://github.com/dnbexperience/eufemia/issues/8048)) ([c0801e8](https://github.com/dnbexperience/eufemia/commit/c0801e8c8900a37bdc6a8dda7a0236532519e9d5))
+* **Icon:** add filled icon support to Icon component (`fill` prop) ([#8022](https://github.com/dnbexperience/eufemia/issues/8022)) ([31ce06b](https://github.com/dnbexperience/eufemia/commit/31ce06b65f2b09632bdf844ee40def61d475cd83))
+* **MCP:** add HTTP server with SSE + Streamable HTTP transports  ([#8087](https://github.com/dnbexperience/eufemia/issues/8087)) ([a83c5d2](https://github.com/dnbexperience/eufemia/commit/a83c5d2fb0db2632ccda400c0f595f832f8dcbf5))
+* **Space:** add `Space.ResponsiveContext` component to enable responsive layout spacing (⚠️ Beta) ([#8095](https://github.com/dnbexperience/eufemia/issues/8095)) ([be300b8](https://github.com/dnbexperience/eufemia/commit/be300b8dac3831282da4c34e489c4c38b704c5b9))
+* **Space:** add useSpacing hook and apply to all components and deprecate applySpacing ([#8089](https://github.com/dnbexperience/eufemia/issues/8089)) ([7aeb389](https://github.com/dnbexperience/eufemia/commit/7aeb389f2811ac5ef8194f8811a31a5736a8662f))
+* **Table:** add `highlight` prop to `Th` and `Td` for highlighting cells ([#8025](https://github.com/dnbexperience/eufemia/issues/8025)) ([4f95db7](https://github.com/dnbexperience/eufemia/commit/4f95db7b58826e2bc2429a91c9fe8b0b63ecd3d5))
+
+
+### :barber: Style Changes
+
+* **ToggleButton, Radio:** ToggleButton redesign ([#7974](https://github.com/dnbexperience/eufemia/issues/7974)) ([e38d0c7](https://github.com/dnbexperience/eufemia/commit/e38d0c7b640c09a2a00310f6d8550c6980cda6e1))
+
 ## [11.2.2](https://github.com/dnbexperience/eufemia/compare/v11.2.1...v11.2.2) (2026-05-11)
 
 
