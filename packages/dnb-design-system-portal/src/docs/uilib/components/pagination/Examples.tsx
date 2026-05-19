@@ -60,27 +60,6 @@ export const PaginationExampleWithTransformNavigationItem = () => (
   </ComponentBox>
 )
 
-export const PaginationExampleWithTransformNavigationItemQueryParams =
-  () => (
-    <ComponentBox>
-      <Pagination
-        pageCount={10}
-        currentPage={2}
-        transformNavigationItem={(pageNumber, navigationItemProps) => (
-          <Anchor
-            href={`/search?q=eufemia&page=${pageNumber}`}
-            {...navigationItemProps}
-          />
-        )}
-        onChange={({ pageNumber }) => {
-          console.log('onChange:', pageNumber)
-        }}
-      >
-        <P>Current Page Content</P>
-      </Pagination>
-    </ComponentBox>
-  )
-
 export const PaginationExampleWithHorizontalLayout = () => (
   <ComponentBox data-visual-test="pagination-horizontal">
     <Pagination

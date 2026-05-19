@@ -409,43 +409,6 @@ export const PaginationWithTransformNavigationItem = () => (
     </Box>
 
     <Box>
-      <P>Query parameter URLs</P>
-      <Pagination
-        pageCount={10}
-        currentPage={2}
-        transformNavigationItem={(pageNumber, navigationItemProps) => (
-          <Anchor
-            href={`/search?q=eufemia&page=${pageNumber}`}
-            {...navigationItemProps}
-          />
-        )}
-        onChange={({ pageNumber }) => {
-          console.log('onChange:', pageNumber)
-        }}
-      >
-        <P>Current Page Content</P>
-      </Pagination>
-    </Box>
-
-    <Box>
-      <P>Constructed URL (preserving existing query parameters)</P>
-      <Pagination
-        pageCount={10}
-        currentPage={3}
-        transformNavigationItem={(pageNumber, navigationItemProps) => {
-          const url = new URL(window.location.href)
-          url.searchParams.set('page', String(pageNumber))
-          return <Anchor href={url.toString()} {...navigationItemProps} />
-        }}
-        onChange={({ pageNumber }) => {
-          console.log('onChange:', pageNumber)
-        }}
-      >
-        <P>Current Page Content</P>
-      </Pagination>
-    </Box>
-
-    <Box>
       <P>Url Array</P>
       <Pagination
         pageCount={urls.length}
