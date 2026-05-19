@@ -8,26 +8,26 @@ import {
 } from 'react'
 import type { ReactNode } from 'react'
 
-const FULLSCREEN_CODE_PARAM = 'focusmode'
+const FOCUS_MODE_CODE_PARAM = 'focusmode'
 
-type FullscreenCodeContextType = {
-  fullscreenCodeId: string | null
-  setFullscreenCodeId: (id: string | null) => void
+type FocusModeCodeContextType = {
+  focusModeCodeId: string | null
+  setFocusModeCodeId: (id: string | null) => void
   savedScrollY: React.RefObject<number>
 }
 
-const FullscreenCodeContext = createContext<FullscreenCodeContextType>({
-  fullscreenCodeId: null,
-  setFullscreenCodeId: () => {},
+const FocusModeCodeContext = createContext<FocusModeCodeContextType>({
+  focusModeCodeId: null,
+  setFocusModeCodeId: () => {},
   savedScrollY: { current: 0 },
 })
 
-export function FullscreenCodeProvider({
+export function FocusModeCodeProvider({
   children,
 }: {
   children: ReactNode
 }) {
-  const [fullscreenCodeId, setFullscreenCodeIdState] = useState<
+  const [focusModeCodeId, setFocusModeCodeIdState] = useState<
     string | null
   >(null)
   const savedScrollY = useRef(0)
@@ -39,10 +39,10 @@ export function FullscreenCodeProvider({
     }
 
     const params = new URLSearchParams(window.location.search)
-    const value = params.get(FULLSCREEN_CODE_PARAM)
+    const value = params.get(FOCUS_MODE_CODE_PARAM)
 
     if (value) {
-      setFullscreenCodeIdState(value)
+      setFocusModeCodeIdState(value)
 
       // When loading directly into focusmode (e.g. page refresh),
       // restore the saved scroll position from sessionStorage so it
@@ -58,26 +58,25 @@ export function FullscreenCodeProvider({
         // ignore
       }
 
-      // Defer validation until after components have rendered
-      // If the ID doesn't exist after a short delay, remove the focusmode param
+      // Defer validation until after components have rendered.
+      // If the ID doesn't exist after a short delay, remove the focusmode param.
       const timeoutId = setTimeout(() => {
         const elementExists = document.getElementById(value)
 
         if (!elementExists) {
-          // Remove invalid focusmode param from URL
           const url = new URL(window.location.href)
-          url.searchParams.delete(FULLSCREEN_CODE_PARAM)
+          url.searchParams.delete(FOCUS_MODE_CODE_PARAM)
           window.history.replaceState(null, '', url.toString())
-          setFullscreenCodeIdState(null)
+          setFocusModeCodeIdState(null)
         }
-      }, 500) // Wait 500ms for components to render
+      }, 500)
 
       return () => clearTimeout(timeoutId)
     }
   }, [])
 
-  const setFullscreenCodeId = useCallback((id: string | null) => {
-    setFullscreenCodeIdState(id)
+  const setFocusModeCodeId = useCallback((id: string | null) => {
+    setFocusModeCodeIdState(id)
 
     if (typeof window === 'undefined') {
       return // stop here
@@ -86,23 +85,23 @@ export function FullscreenCodeProvider({
     const url = new URL(window.location.href)
 
     if (id) {
-      url.searchParams.set(FULLSCREEN_CODE_PARAM, id)
+      url.searchParams.set(FOCUS_MODE_CODE_PARAM, id)
     } else {
-      url.searchParams.delete(FULLSCREEN_CODE_PARAM)
+      url.searchParams.delete(FOCUS_MODE_CODE_PARAM)
     }
 
     window.history.replaceState(null, '', url.toString())
   }, [])
 
   return (
-    <FullscreenCodeContext.Provider
-      value={{ fullscreenCodeId, setFullscreenCodeId, savedScrollY }}
+    <FocusModeCodeContext.Provider
+      value={{ focusModeCodeId, setFocusModeCodeId, savedScrollY }}
     >
       {children}
-    </FullscreenCodeContext.Provider>
+    </FocusModeCodeContext.Provider>
   )
 }
 
-export function useFullscreenCode() {
-  return useContext(FullscreenCodeContext)
+export function useFocusModeCode() {
+  return useContext(FocusModeCodeContext)
 }

@@ -27,7 +27,7 @@ import {
 } from './Layout.module.scss'
 import SidebarMenu from '../menu/SidebarMenu'
 import { scrollToAnimation } from './layout-utils'
-import { useFullscreenCode } from '../../core/FullscreenCodeContext'
+import { useFocusModeCode } from '../../core/FocusModeCodeContext'
 
 const SIDEBAR_SELECTOR = '#portal-sidebar-menu'
 const SIDEBAR_SCROLL_KEY = 'scroll-' + SIDEBAR_SELECTOR
@@ -81,15 +81,15 @@ function Layout(props: LayoutProps) {
       // Remove the inline style injected by index.html when quitting
       // fullscreen, so the header and sidebar can reappear.
       if (!isFs) {
-        document.getElementById('fullscreen-preload-style')?.remove()
+        document.getElementById('portal-preload-style')?.remove()
       }
     }
   }, [location])
 
-  const { fullscreenCodeId, savedScrollY } = useFullscreenCode()
-  const codeFullscreen = fullscreenCodeId !== null
+  const { focusModeCodeId, savedScrollY } = useFocusModeCode()
+  const codeFocusMode = focusModeCodeId !== null
 
-  const fs = ssrFullscreen || urlFullscreen || codeFullscreen
+  const fs = ssrFullscreen || urlFullscreen || codeFocusMode
 
   // Restore scroll and sidebar position after exiting any fullscreen mode
   const wasFullscreenRef = useRef(false)
@@ -153,7 +153,7 @@ function Layout(props: LayoutProps) {
       className={clsx(
         portalStyle,
         fs && fullscreenStyle,
-        codeFullscreen && 'focusmode'
+        codeFocusMode && 'focusmode'
       )}
     >
       <a
@@ -181,7 +181,7 @@ function Layout(props: LayoutProps) {
               </div>
             </MainContent>
 
-            {!codeFullscreen && <Footer />}
+            {!codeFocusMode && <Footer />}
           </Content>
 
           {fs && <ToggleGrid hidden />}

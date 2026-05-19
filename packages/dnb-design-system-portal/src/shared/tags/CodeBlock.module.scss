@@ -18,11 +18,13 @@
 }
 
 .exampleBoxStyle {
+  --example-box-padding: 2rem;
+
   position: relative;
   flex: 1;
   height: 100%;
 
-  padding: 2rem;
+  padding: var(--example-box-padding);
   :global(.focusmode) & {
     padding: 0;
   }
@@ -71,6 +73,12 @@
     &::after {
       background-image: none;
     }
+  }
+}
+
+.showFocusModePaddingStyle {
+  :global(.focusmode) & {
+    padding: var(--example-box-padding);
   }
 }
 

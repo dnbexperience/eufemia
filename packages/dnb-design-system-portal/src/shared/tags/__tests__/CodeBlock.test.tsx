@@ -13,14 +13,19 @@ import type {
   ReactNode,
 } from 'react'
 import { act, render } from '@testing-library/react'
-import * as FullscreenCodeContext from '../../../core/FullscreenCodeContext'
+import * as FocusModeCodeContext from '../../../core/FocusModeCodeContext'
 
 // Mock CSS modules
 vi.mock('../CodeBlock.module.scss', () => ({
   liveCodeEditorStyle: 'liveCodeEditorStyle',
   exampleBoxStyle: 'exampleBoxStyle',
+  showFocusModePaddingStyle: 'showFocusModePaddingStyle',
   toolbarStyle: 'toolbarStyle',
   codeBlockStyle: 'codeBlockStyle',
+}))
+
+vi.mock('../../../core/ChangeStyleTheme', () => ({
+  default: () => null,
 }))
 
 // Mock prism theme
@@ -300,12 +305,12 @@ describe('CodeBlock', () => {
   })
 
   it('should not render LiveProvider when another code block is in focusmode', () => {
-    // Simulate a block that is NOT in this render tree being in fullscreen.
-    // Using an unmatched id means neither block below enters isFullscreen,
+    // Simulate a block that is NOT in this render tree being in focus mode.
+    // Using an unmatched id means neither block below enters focus mode,
     // so ChangeStyleTheme never renders and we avoid pulling in extra mocks.
-    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
-      fullscreenCodeId: 'some-other-block',
-      setFullscreenCodeId: vi.fn(),
+    vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
+      focusModeCodeId: 'some-other-block',
+      setFocusModeCodeId: vi.fn(),
       savedScrollY: { current: 0 },
     })
 
@@ -331,7 +336,7 @@ describe('CodeBlock', () => {
       </>
     )
 
-    // Both blocks see anotherIsFullscreen=true and suppress their LiveProvider
+    // Both blocks see another block in focus mode and suppress their LiveProvider.
     expect(
       container.querySelectorAll('[data-testid="live-provider"]')
     ).toHaveLength(0)
@@ -374,10 +379,10 @@ describe('CodeBlock', () => {
     ).toBe(false)
   })
 
-  it('should assign fullscreen id to the LiveCode wrapper element', () => {
-    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
-      fullscreenCodeId: null,
-      setFullscreenCodeId: vi.fn(),
+  it('should assign the focus mode id to the LiveCode wrapper element', () => {
+    vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
+      focusModeCodeId: null,
+      setFocusModeCodeId: vi.fn(),
       savedScrollY: { current: 0 },
     })
 
@@ -396,15 +401,10 @@ describe('CodeBlock', () => {
     expect(wrapper).toBeTruthy()
   })
 
-  it('should scroll to top when entering focusmode', () => {
-    const scrollTo = vi
-      .spyOn(window, 'scrollTo')
-      .mockImplementation(() => {})
-
-    const mockSetFullscreenCodeId = vi.fn()
-    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
-      fullscreenCodeId: null,
-      setFullscreenCodeId: mockSetFullscreenCodeId,
+  it('should toggle preview padding in focusmode', () => {
+    vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
+      focusModeCodeId: 'block-a',
+      setFocusModeCodeId: vi.fn(),
       savedScrollY: { current: 0 },
     })
 
@@ -414,16 +414,67 @@ describe('CodeBlock', () => {
       </CodeBlock>
     )
 
-    const fullscreenButton = container.querySelector(
-      'button[aria-label="Fullscreen"]'
+    const previewBox = container.querySelector('.example-box')
+    expect(previewBox).toBeTruthy()
+    expect(
+      previewBox.classList.contains('showFocusModePaddingStyle')
+    ).toBe(true)
+
+    const paddingButton = container.querySelector(
+      'button[aria-label="Hide preview padding"]'
     ) as HTMLButtonElement
-    expect(fullscreenButton).toBeTruthy()
+    expect(paddingButton).toBeTruthy()
 
     act(() => {
-      fullscreenButton.click()
+      paddingButton.click()
+    })
+
+    expect(
+      previewBox.classList.contains('showFocusModePaddingStyle')
+    ).toBe(false)
+
+    const showPaddingButton = container.querySelector(
+      'button[aria-label="Show preview padding"]'
+    ) as HTMLButtonElement
+    expect(showPaddingButton).toBeTruthy()
+
+    act(() => {
+      showPaddingButton.click()
+    })
+
+    expect(
+      previewBox.classList.contains('showFocusModePaddingStyle')
+    ).toBe(true)
+  })
+
+  it('should scroll to top when entering focusmode', () => {
+    const scrollTo = vi
+      .spyOn(window, 'scrollTo')
+      .mockImplementation(() => {})
+
+    const mockSetFocusModeCodeId = vi.fn()
+    vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
+      focusModeCodeId: null,
+      setFocusModeCodeId: mockSetFocusModeCodeId,
+      savedScrollY: { current: 0 },
+    })
+
+    const { container } = render(
+      <CodeBlock reactLive scope={{}} language="jsx" stableName="block-a">
+        {'<div>Hello</div>'}
+      </CodeBlock>
+    )
+
+    const focusModeButton = container.querySelector(
+      'button[aria-label="Focus mode"]'
+    ) as HTMLButtonElement
+    expect(focusModeButton).toBeTruthy()
+
+    act(() => {
+      focusModeButton.click()
     })
 
     expect(scrollTo).toHaveBeenCalledWith({ top: 0 })
-    expect(mockSetFullscreenCodeId).toHaveBeenCalledWith('block-a')
+    expect(mockSetFocusModeCodeId).toHaveBeenCalledWith('block-a')
   })
 })

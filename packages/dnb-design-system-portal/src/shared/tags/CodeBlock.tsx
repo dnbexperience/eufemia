@@ -22,7 +22,12 @@ import {
   Space,
   ToggleButton,
 } from '@dnb/eufemia/src/components'
-import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
+import {
+  fullscreen as focusModeIcon,
+  close as focusModeCloseIcon,
+  fullscreen as focusModePaddingIcon,
+  layout_grid as focusModeCompactIcon,
+} from '@dnb/eufemia/src/icons'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
@@ -31,11 +36,12 @@ import type {
 
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { useFullscreenCode } from '../../core/FullscreenCodeContext'
+import { useFocusModeCode } from '../../core/FocusModeCodeContext'
 import {
   liveCodeEditorStyle,
   exampleBoxStyle,
   codeBlockStyle,
+  showFocusModePaddingStyle,
   toolbarStyle,
 } from './CodeBlock.module.scss'
 import {
@@ -164,10 +170,11 @@ function prepareCode(code: string) {
 function LiveCode(props: LiveCodeProps) {
   const context = useContext(Context)
   const editorElementRef = useRef<HTMLDivElement>(null)
-  const fullscreenId = props.stableName
+  const focusModeId = props.stableName
 
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
+  const [showFocusModePadding, setShowFocusModePadding] = useState(true)
   const [tabMode] = useState<'focus' | 'indentation'>('focus')
   const [colorScheme, setColorScheme] = useState<
     ThemeColorScheme | undefined
@@ -176,10 +183,11 @@ function LiveCode(props: LiveCodeProps) {
     props.surface
   )
 
-  const { fullscreenCodeId, setFullscreenCodeId, savedScrollY } =
-    useFullscreenCode()
-  const isFullscreen = fullscreenCodeId === fullscreenId
-  const anotherIsFullscreen = fullscreenCodeId !== null && !isFullscreen
+  const { focusModeCodeId, setFocusModeCodeId, savedScrollY } =
+    useFocusModeCode()
+  const isInFocusMode = focusModeCodeId === focusModeId
+  const anotherBlockIsInFocusMode =
+    focusModeCodeId !== null && !isInFocusMode
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   const {
@@ -213,9 +221,9 @@ function LiveCode(props: LiveCodeProps) {
     setInheritedDark(theme.colorScheme === 'dark')
   }, [theme.colorScheme])
 
-  // Hide sibling DOM elements when fullscreen so only this code block is visible
+  // Hide sibling DOM elements in focus mode so only this code block is visible.
   useEffect(() => {
-    if (!isFullscreen) {
+    if (!isInFocusMode) {
       return // stop here
     }
 
@@ -224,7 +232,7 @@ function LiveCode(props: LiveCodeProps) {
       return // stop here
     }
 
-    document.documentElement.setAttribute('data-code-fullscreen', 'true')
+    document.documentElement.setAttribute('data-code-focus-mode', 'true')
 
     const hidden: HTMLElement[] = []
     let current = el as HTMLElement
@@ -250,17 +258,17 @@ function LiveCode(props: LiveCodeProps) {
     window.scrollTo({ top: 0 })
 
     // Remove the preload style now that sibling hiding has taken over
-    document.getElementById('fullscreen-preload-style')?.remove()
+    document.getElementById('portal-preload-style')?.remove()
 
     return () => {
-      document.documentElement.removeAttribute('data-code-fullscreen')
+      document.documentElement.removeAttribute('data-code-focus-mode')
 
       for (const el of hidden) {
         el.style.display = el.getAttribute('data-prev-display') || ''
         el.removeAttribute('data-prev-display')
       }
     }
-  }, [isFullscreen, savedScrollY])
+  }, [isInFocusMode, savedScrollY])
 
   const codeToUse = useMemo(() => {
     const code =
@@ -278,10 +286,13 @@ function LiveCode(props: LiveCodeProps) {
     [noInline, noFragments]
   )
 
-  const fullscreenButton = (
+  const canToggleFocusModePadding =
+    isInFocusMode && !omitWrapper && !hidePreview
+
+  const focusModeButton = (
     <Button
       onClick={() => {
-        if (!isFullscreen) {
+        if (!isInFocusMode) {
           savedScrollY.current = window.scrollY
 
           try {
@@ -293,20 +304,42 @@ function LiveCode(props: LiveCodeProps) {
           window.scrollTo({ top: 0 })
         }
 
-        setFullscreenCodeId(isFullscreen ? null : fullscreenId)
+        setFocusModeCodeId(isInFocusMode ? null : focusModeId)
       }}
       variant="tertiary"
-      title={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
-      aria-label={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
-      icon={isFullscreen ? 'close' : fullscreenIcon}
-      size="medium"
+      title={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
+      aria-label={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
+      icon={isInFocusMode ? focusModeCloseIcon : focusModeIcon}
+    />
+  )
+
+  const focusModePaddingButton = canToggleFocusModePadding && (
+    <Button
+      onClick={() =>
+        setShowFocusModePadding((currentValue) => !currentValue)
+      }
+      variant="tertiary"
+      title={
+        showFocusModePadding
+          ? 'Hide preview padding'
+          : 'Show preview padding'
+      }
+      aria-label={
+        showFocusModePadding
+          ? 'Hide preview padding'
+          : 'Show preview padding'
+      }
+      aria-pressed={showFocusModePadding}
+      icon={
+        showFocusModePadding ? focusModePaddingIcon : focusModeCompactIcon
+      }
     />
   )
 
   return (
     <div
       ref={wrapperRef}
-      id={fullscreenId}
+      id={focusModeId}
       className={clsx(
         liveCodeEditorStyle,
         hideCode && 'hide-code',
@@ -316,7 +349,7 @@ function LiveCode(props: LiveCodeProps) {
         surface && `surface--${surface}`
       )}
     >
-      {!anotherIsFullscreen && (
+      {!anotherBlockIsInFocusMode && (
         <LiveProvider
           theme={prismTheme}
           code={codeToUse}
@@ -334,7 +367,13 @@ function LiveCode(props: LiveCodeProps) {
                   data-visual-test={visualTest}
                 />
               ) : (
-                <div className={clsx('example-box', exampleBoxStyle)}>
+                <div
+                  className={clsx(
+                    'example-box',
+                    exampleBoxStyle,
+                    showFocusModePadding && showFocusModePaddingStyle
+                  )}
+                >
                   <LivePreview
                     className={clsx('dnb-live-preview')}
                     data-visual-test={visualTest}
@@ -384,7 +423,7 @@ function LiveCode(props: LiveCodeProps) {
                       </ToggleButton>
                     )}
 
-                    {isFullscreen && (
+                    {isInFocusMode && (
                       <ChangeStyleTheme
                         variant="button"
                         size="medium"
@@ -425,10 +464,12 @@ function LiveCode(props: LiveCodeProps) {
                         />
                       )}
 
-                      {fullscreenButton}
+                      {focusModePaddingButton}
+
+                      {focusModeButton}
                     </Flex.Horizontal>
                   </>
-                ) || <>{fullscreenButton}</>}
+                ) || <>{focusModeButton}</>}
             </Space>
           )}
 
