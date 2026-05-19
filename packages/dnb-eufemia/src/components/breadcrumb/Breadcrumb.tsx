@@ -26,6 +26,7 @@ import Accordion from '../accordion/Accordion'
 // Shared
 import Context from '../../shared/Context'
 import type {
+  InnerSpacingElementProps,
   SpaceTypeAll,
   SpaceTypeMedia,
   SpacingProps,
@@ -242,6 +243,19 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       : spacing
     : undefined
 
+  const barInnerSpace = useMemo(() => {
+    if (currentVariant === 'collapse' && innerSpace) {
+      return {
+        top: innerSpace,
+        left: innerSpace,
+        right: innerSpace,
+        bottom: 0,
+      } as InnerSpacingElementProps
+    }
+
+    return innerSpace
+  }, [currentVariant, innerSpace])
+
   const navProps = useSpacing(allProps, {
     ...props,
     'aria-label': convertJsxToString(navText),
@@ -255,7 +269,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   return (
     <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
-      <Section className="dnb-breadcrumb__bar" innerSpace={innerSpace}>
+      <Section className="dnb-breadcrumb__bar" innerSpace={barInnerSpace}>
         {currentVariant === 'single' ? (
           <Button
             text={goBackText}

@@ -99,6 +99,12 @@
     flex-direction: column;
   }
 
+  &--variant-collapse .dnb-accordion {
+    width: 100%;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
   &__collapse &__item {
     padding: 0;
 
