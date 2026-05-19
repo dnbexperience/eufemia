@@ -30,7 +30,7 @@ describe('Section component', () => {
 
     const element = document.querySelector('section.dnb-section')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-section',
       'dnb-section--warning',
@@ -38,7 +38,7 @@ describe('Section component', () => {
 
     rerender(<Section variant="information">text</Section>)
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-section',
       'dnb-section--information',
@@ -50,7 +50,7 @@ describe('Section component', () => {
 
     const element = document.querySelector('section.dnb-section')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-section',
       'dnb-section--default',
@@ -76,7 +76,7 @@ describe('Section component', () => {
 
     const element = document.querySelector('section.dnb-section')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-space__top--medium',
       'dnb-section',

@@ -48,7 +48,7 @@ describe('Slider component', () => {
 
     const element = document.querySelector('.dnb-slider')
 
-    expect(Array.from(element.classList)).toEqual(
+    expect(Array.from(element.classList)).toEqualClassNames(
       expect.arrayContaining(['dnb-space__top--large'])
     )
   })
@@ -58,7 +58,7 @@ describe('Slider component', () => {
 
     const element = document.querySelector('.dnb-slider')
 
-    expect(Array.from(element.classList)).toEqual(
+    expect(Array.from(element.classList)).toEqualClassNames(
       expect.arrayContaining(['custom-class'])
     )
   })
@@ -78,7 +78,7 @@ describe('Slider component', () => {
 
     const element = document.querySelector('.dnb-slider')
 
-    expect(Array.from(element.classList)).toEqual(
+    expect(Array.from(element.classList)).toEqualClassNames(
       expect.arrayContaining(['dnb-slider--stretch'])
     )
   })
@@ -239,7 +239,7 @@ describe('Slider component', () => {
       const tooltipElem = document.querySelector('.dnb-tooltip')
 
       expect(tooltipElem.textContent).toBe('70')
-      expect(Array.from(tooltipElem.classList)).toEqual(
+      expect(Array.from(tooltipElem.classList)).toEqualClassNames(
         expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
       )
     })
@@ -920,7 +920,7 @@ describe('Slider component', () => {
       )
 
       expect(attributes).toEqual(['class'])
-      expect(Array.from(element.classList)).toEqual([
+      expect(Array.from(element.classList)).toEqualClassNames([
         'dnb-slider',
         'dnb-form-component',
         'dnb-slider__label--vertical',

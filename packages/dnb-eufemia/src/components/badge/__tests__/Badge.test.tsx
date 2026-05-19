@@ -38,7 +38,7 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-badge',
       'dnb-badge--inline',
     ])
@@ -157,7 +157,7 @@ describe('Badge', () => {
     )
 
     expect(attributes).toEqual(['role', 'class', 'aria-label'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-badge',
       'dnb-space__top--large',
       'dnb-badge--variant-information',
@@ -175,7 +175,7 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge__root')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-badge__root',
       'dnb-space__top--large',
     ])
@@ -202,7 +202,7 @@ describe('Badge', () => {
 
     const element = document.querySelector('.dnb-badge')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-badge',
       'dnb-skeleton',
       'dnb-skeleton--shape',

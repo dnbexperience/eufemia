@@ -124,7 +124,7 @@ describe('Switch component', () => {
 
     const element = document.querySelector('.dnb-switch')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-switch',
       'dnb-switch--label-position-right',
       'dnb-form-component',
@@ -158,12 +158,12 @@ describe('Switch component', () => {
       'value',
       'name',
     ])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-switch',
       'dnb-switch--label-position-right',
       'dnb-form-component',
     ])
-    expect(Array.from(inputElement.classList)).toEqual([
+    expect(Array.from(inputElement.classList)).toEqualClassNames([
       'dnb-switch__input',
     ])
   })

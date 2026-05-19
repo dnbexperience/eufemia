@@ -79,7 +79,7 @@ describe('Form.SubmitButton', () => {
 
     const buttonElement = document.querySelector('button')
 
-    expect(Array.from(buttonElement.classList)).toEqual([
+    expect(Array.from(buttonElement.classList)).toEqualClassNames([
       'dnb-button',
       'dnb-button--primary',
       'dnb-button--has-text',

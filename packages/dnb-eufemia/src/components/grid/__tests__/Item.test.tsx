@@ -64,7 +64,7 @@ describe('Grid.Item', () => {
 
     const element = document.querySelector('.dnb-grid-item')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-grid-item',
       'custom-class',

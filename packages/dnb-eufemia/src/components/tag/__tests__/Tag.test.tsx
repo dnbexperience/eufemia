@@ -98,7 +98,7 @@ describe('Tag Group', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-tag__group',
       'dnb-space__top--large',
     ])
@@ -241,7 +241,7 @@ describe('Tag', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-button',
       'dnb-button--unstyled',
       'dnb-button--has-text',

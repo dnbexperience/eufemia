@@ -1273,7 +1273,7 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     )
 
     expect(attributes).toEqual(['class', 'aria-labelledby', 'id'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-space__top--large',
       'dnb-forms-field-block',

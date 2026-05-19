@@ -38,7 +38,7 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
+    expect(Array.from(screen.queryByRole('table').classList)).toEqualClassNames([
       'dnb-table',
       'dnb-table__variant--generic',
       'dnb-table__size--large',
@@ -52,7 +52,7 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
+    expect(Array.from(screen.queryByRole('table').classList)).toEqualClassNames([
       'dnb-table',
       'dnb-table__variant--generic',
       'dnb-table__size--large',
@@ -66,7 +66,7 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
+    expect(Array.from(screen.queryByRole('table').classList)).toEqualClassNames([
       'dnb-table',
       'dnb-table__variant--generic',
       'dnb-table__size--medium',
@@ -80,7 +80,7 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual(
+    expect(Array.from(screen.queryByRole('table').classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-table',
         'dnb-table__variant--generic',
@@ -109,7 +109,7 @@ describe('Table', () => {
       </Table>
     )
 
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual(
+    expect(Array.from(screen.queryByRole('table').classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-table',
         'dnb-table__variant--generic',
@@ -193,7 +193,7 @@ describe('Table', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual(
+    expect(Array.from(element.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-table',
         'dnb-table__variant--generic',
@@ -216,7 +216,7 @@ describe('Table', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual(
+    expect(Array.from(element.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-table',
         'dnb-table__variant--generic',

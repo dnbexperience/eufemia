@@ -511,7 +511,7 @@ describe('Upload', () => {
       )
 
       expect(attributes).toEqual(['class'])
-      expect(Array.from(element.classList)).toEqual(
+      expect(Array.from(element.classList)).toEqualClassNames(
         expect.arrayContaining(['dnb-space', 'dnb-space__top--large'])
       )
     })
@@ -894,7 +894,7 @@ describe('Upload', () => {
       Array.from(
         element.querySelectorAll('.dnb-upload__file-cell')[0].classList
       )
-    ).toEqual(expect.arrayContaining(['dnb-upload__file-cell--highlight']))
+    ).toEqualClassNames(expect.arrayContaining(['dnb-upload__file-cell--highlight']))
   })
 
   it('will accept duplicate files when allowDuplicates', async () => {

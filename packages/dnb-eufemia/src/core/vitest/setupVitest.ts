@@ -12,18 +12,6 @@ import { expect, beforeEach, beforeAll, afterAll } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import { waitFor } from '@testing-library/react'
 
-const isClassNameList = (value: unknown): value is string[] => {
-  return (
-    Array.isArray(value) &&
-    value.length > 0 &&
-    value.every(
-      (item) =>
-        typeof item === 'string' && /^[A-Za-z_][A-Za-z0-9_-]*$/.test(item)
-    ) &&
-    value.some((item) => /[-_]/.test(item) || /^(dnb|eufemia)/.test(item))
-  )
-}
-
 // Tell React 18+ that this environment supports act()
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
 
@@ -50,17 +38,28 @@ expect.extend({
       }
     }
   },
-})
 
-expect.addEqualityTesters([
-  function compareClassNameLists(a, b) {
-    if (!isClassNameList(a) || !isClassNameList(b)) {
-      return undefined
+  toEqualClassNames(received: string[], expected: unknown) {
+    const pass =
+      typeof expected === 'object' &&
+      expected !== null &&
+      'asymmetricMatch' in expected &&
+      typeof expected.asymmetricMatch === 'function'
+        ? expected.asymmetricMatch(received)
+        : this.equals(
+            [...received].sort(),
+            [...(expected as string[])].sort()
+          )
+
+    return {
+      pass,
+      message: () =>
+        `Expected ${this.utils.printReceived(received)} ${
+          pass ? 'not ' : ''
+        }to equal class names ${this.utils.printExpected(expected)}`,
     }
-
-    return this.equals([...a].sort(), [...b].sort())
   },
-])
+})
 
 if (typeof window !== 'undefined') {
   // Vitest's populateGlobal creates accessor (get/set) properties on

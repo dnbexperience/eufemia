@@ -142,7 +142,7 @@ describe('Timeline', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-timeline',
       'dnb-space__reset',
       'dnb-space__top--large',

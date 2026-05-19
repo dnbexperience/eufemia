@@ -36,7 +36,7 @@ describe('Dialog.Action', () => {
 
     const element = document.querySelector('.dnb-dialog__actions')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-space__top--large',
       'dnb-dialog__actions',

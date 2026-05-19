@@ -111,7 +111,7 @@ describe('Accordion component', () => {
       Array.from(
         document.querySelector('.dnb-accordion__header').classList
       )
-    ).toEqual(
+    ).toEqualClassNames(
       expect.arrayContaining(['dnb-accordion__header--no-animation'])
     )
   })
@@ -162,7 +162,7 @@ describe('Accordion component', () => {
       Array.from(
         document.querySelector('.dnb-accordion__content').classList
       )
-    ).toEqual(expect.arrayContaining(['dnb-height-animation--hidden']))
+    ).toEqualClassNames(expect.arrayContaining(['dnb-height-animation--hidden']))
 
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
 
@@ -170,7 +170,7 @@ describe('Accordion component', () => {
       Array.from(
         document.querySelector('.dnb-accordion__content').classList
       )
-    ).toEqual(expect.arrayContaining(['dnb-height-animation--is-in-dom']))
+    ).toEqualClassNames(expect.arrayContaining(['dnb-height-animation--is-in-dom']))
   })
 
   it('should validate with ARIA rules', async () => {

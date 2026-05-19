@@ -284,7 +284,7 @@ describe('Textarea component', () => {
 
     const element = document.querySelector('.dnb-textarea')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-textarea',
       'dnb-textarea--virgin',
       'dnb-form-component',
@@ -306,7 +306,7 @@ describe('Textarea component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-textarea',
       'dnb-textarea--virgin',
       'dnb-form-component',

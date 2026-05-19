@@ -119,7 +119,7 @@ describe('P element', () => {
     render(<P className="my-class" weight="regular" />)
     const element = document.querySelector('.dnb-p')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-p',
       'my-class',
       'dnb-t__weight--regular',
@@ -130,7 +130,7 @@ describe('P element', () => {
     render(<P size="large" />)
     const element = document.querySelector('.dnb-t__size--large')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-p',
       'dnb-t__line-height--large',
       'dnb-t__size--large',
@@ -141,7 +141,7 @@ describe('P element', () => {
     render(<P weight="bold" />)
     const element = document.querySelector('.dnb-t__weight--bold')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-p',
       'dnb-t__weight--bold',
     ])
@@ -160,7 +160,7 @@ describe('P element', () => {
     )
     const element = document.querySelector('.dnb-p')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-p',
       'dnb-t__line-height--xx-large',
       'dnb-t__size--small',
@@ -218,7 +218,7 @@ describe('P element', () => {
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
-      expect(Array.from(element.classList)).toEqual([
+      expect(Array.from(element.classList)).toEqualClassNames([
         'dnb-p',
         'dnb-t__line-height--large',
         'dnb-t__size--large',
@@ -234,7 +234,7 @@ describe('P element', () => {
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
-      expect(Array.from(element.classList)).toEqual([
+      expect(Array.from(element.classList)).toEqualClassNames([
         'dnb-p',
         'dnb-t__weight--bold',
       ])
@@ -255,7 +255,7 @@ describe('P element', () => {
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
-      expect(Array.from(element.classList)).toEqual([
+      expect(Array.from(element.classList)).toEqualClassNames([
         'dnb-p',
         'dnb-t__line-height--medium',
         'dnb-t__size--medium',

@@ -299,7 +299,7 @@ describe('InfoCard', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-info-card',
       'dnb-info-card--shadow',
       'dnb-space__top--large',

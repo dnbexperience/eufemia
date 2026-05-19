@@ -2084,7 +2084,7 @@ describe('InputMasked component asCurrency', () => {
 
     const element = document.querySelector('.dnb-input')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-input',
       'dnb-input__border--tokens',
       'dnb-form-component',
@@ -2112,7 +2112,7 @@ describe('InputMasked component asCurrency', () => {
       'data-input-state',
       'data-has-content',
     ])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-input',
       'dnb-input__border--tokens',
       'dnb-form-component',

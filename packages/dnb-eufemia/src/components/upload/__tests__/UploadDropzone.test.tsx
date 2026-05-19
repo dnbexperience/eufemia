@@ -40,7 +40,7 @@ describe('UploadDropzone', () => {
     render(<MockComponent {...defaultProps} />)
 
     expect(getRootElement()).toBeInTheDocument()
-    expect(Array.from(getRootElement().classList)).toEqual(
+    expect(Array.from(getRootElement().classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-space',
         'dnb-height-animation',
@@ -75,7 +75,7 @@ describe('UploadDropzone', () => {
 
     fireEvent.dragOver(dropZone)
 
-    expect(Array.from(getRootElement().classList)).toEqual(
+    expect(Array.from(getRootElement().classList)).toEqualClassNames(
       expect.arrayContaining(['dnb-upload--active'])
     )
   })
@@ -87,7 +87,7 @@ describe('UploadDropzone', () => {
 
     fireEvent.dragOver(dropZone)
 
-    expect(Array.from(getRootElement().classList)).toEqual(
+    expect(Array.from(getRootElement().classList)).toEqualClassNames(
       expect.arrayContaining(['dnb-upload--active'])
     )
 
@@ -151,7 +151,7 @@ describe('UploadDropzone', () => {
 
       fireEvent.dragOver(bodyDropZone)
 
-      expect(Array.from(getRootElement().classList)).toEqual(
+      expect(Array.from(getRootElement().classList)).toEqualClassNames(
         expect.arrayContaining(['dnb-upload--active'])
       )
     })
@@ -165,7 +165,7 @@ describe('UploadDropzone', () => {
 
       fireEvent.dragOver(bodyDropZone)
 
-      expect(Array.from(getRootElement().classList)).toEqual(
+      expect(Array.from(getRootElement().classList)).toEqualClassNames(
         expect.arrayContaining(['dnb-upload--active'])
       )
 

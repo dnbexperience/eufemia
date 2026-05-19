@@ -844,7 +844,7 @@ describe('DrawerList component', () => {
 
     expect(
       Array.from(document.querySelector('span.dnb-drawer-list').classList)
-    ).toEqual([
+    ).toEqualClassNames([
       'dnb-drawer-list',
       'dnb-drawer-list--bottom',
       'dnb-drawer-list--open',
@@ -862,7 +862,7 @@ describe('DrawerList component', () => {
         Array.from(
           document.querySelector('span.dnb-drawer-list').classList
         )
-      ).toEqual([
+      ).toEqualClassNames([
         'dnb-drawer-list',
         'dnb-drawer-list--bottom',
         'dnb-drawer-list--hidden',

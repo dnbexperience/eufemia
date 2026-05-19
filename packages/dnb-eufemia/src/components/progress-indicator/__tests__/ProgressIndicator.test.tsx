@@ -139,7 +139,7 @@ describe('Circular ProgressIndicator component', () => {
     )
 
     const indicator = document.querySelector('.dnb-progress-indicator')
-    expect(Array.from(indicator.classList)).toEqual([
+    expect(Array.from(indicator.classList)).toEqualClassNames([
       'dnb-progress-indicator',
       'dnb-progress-indicator--show',
       'dnb-progress-indicator--vertical',
@@ -410,7 +410,7 @@ describe('Linear ProgressIndicator component', () => {
     )
 
     const indicator = document.querySelector('.dnb-progress-indicator')
-    expect(Array.from(indicator.classList)).toEqual([
+    expect(Array.from(indicator.classList)).toEqualClassNames([
       'dnb-progress-indicator',
       'dnb-progress-indicator--show',
       'dnb-progress-indicator--vertical',

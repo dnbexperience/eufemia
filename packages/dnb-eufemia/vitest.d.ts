@@ -5,6 +5,7 @@ declare module 'vitest' {
   interface Matchers<T> {
     toHaveNoViolations(): T;
     toNeverResolve(): Promise<T>;
+    toEqualClassNames(expected: unknown): T;
   }
 
   interface Assertion<T> extends Matchers<T> {}
@@ -12,5 +13,6 @@ declare module 'vitest' {
   interface AsymmetricMatchersContaining {
     toHaveNoViolations(): void;
     toNeverResolve(): void;
+    toEqualClassNames(expected: unknown): void;
   }
 }

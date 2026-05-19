@@ -704,7 +704,7 @@ describe('Infinity scroller', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual(
+    expect(Array.from(element.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-pagination',
         'dnb-space__top--large',
@@ -722,7 +722,7 @@ describe('Infinity scroller', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual(
+    expect(Array.from(element.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-pagination__bar',
         'dnb-space__top--large',

@@ -172,7 +172,7 @@ describe('FormLabel component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-form-label',
       'dnb-form-label--vertical',
     ])
@@ -187,7 +187,7 @@ describe('FormLabel component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-form-label',
       'dnb-form-label--vertical',
     ])

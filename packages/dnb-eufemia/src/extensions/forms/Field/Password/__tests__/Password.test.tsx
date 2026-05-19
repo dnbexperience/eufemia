@@ -222,7 +222,7 @@ describe('Password component', () => {
 
     const element = document.querySelector('.dnb-forms-field-password')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-space__top--large',
       'dnb-forms-field-block',
@@ -249,7 +249,7 @@ describe('Password component', () => {
       'data-input-state',
       'data-has-content',
     ])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-input',
       'dnb-input__border--tokens',
       'dnb-form-component',

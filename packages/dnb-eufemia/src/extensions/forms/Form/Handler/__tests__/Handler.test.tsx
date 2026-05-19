@@ -234,7 +234,7 @@ describe('Form.Handler', () => {
 
     const formElement = document.querySelector('form')
 
-    expect(Array.from(formElement.classList)).toEqual([
+    expect(Array.from(formElement.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-forms-form',
       'custom-class',

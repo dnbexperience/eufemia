@@ -86,7 +86,7 @@ describe('TableTd', () => {
     )
 
     const element = document.querySelector('td')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-table__td',
       'custom-class',
     ])

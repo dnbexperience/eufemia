@@ -165,7 +165,7 @@ describe('Button component', () => {
 
     const element = document.querySelector('.dnb-button')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-button',
       'dnb-button--primary',
       'dnb-space__top--large',
@@ -190,7 +190,7 @@ describe('Button component', () => {
       'type',
       'aria-disabled',
     ])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-button',
       'dnb-button--primary',
       'dnb-button--has-text',

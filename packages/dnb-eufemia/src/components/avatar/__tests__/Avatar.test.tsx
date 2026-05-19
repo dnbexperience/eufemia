@@ -77,7 +77,7 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-icon',
       'dnb-icon--auto',
       'dnb-icon--inherit-color',
@@ -95,7 +95,7 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-icon',
       'dnb-icon--small',
       'dnb-icon--inherit-color',
@@ -111,7 +111,7 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-icon',
       'dnb-icon--auto',
       'dnb-icon--inherit-color',
@@ -127,7 +127,7 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-icon')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-icon',
       'dnb-icon--small',
       'dnb-icon--inherit-color',
@@ -245,7 +245,7 @@ describe('Avatar', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-avatar',
       'dnb-avatar--primary',
       'dnb-avatar--size-medium',
@@ -276,7 +276,7 @@ describe('Avatar', () => {
 
     const element = document.querySelector('.dnb-avatar')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-avatar',
       'dnb-avatar--primary',
       'dnb-avatar--size-medium',

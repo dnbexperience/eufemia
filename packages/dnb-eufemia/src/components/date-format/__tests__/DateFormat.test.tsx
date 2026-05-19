@@ -634,7 +634,7 @@ describe('DateFormat', () => {
 
         const element = document.querySelector('.dnb-date-format')
 
-        expect(Array.from(element.classList)).toEqual([
+        expect(Array.from(element.classList)).toEqualClassNames([
           'dnb-date-format',
           'dnb-space__top--large',
         ])
@@ -649,7 +649,7 @@ describe('DateFormat', () => {
         )
 
         const element = document.querySelector('.dnb-date-format')
-        expect(Array.from(element.classList)).toEqual([
+        expect(Array.from(element.classList)).toEqualClassNames([
           'dnb-date-format',
           'dnb-skeleton',
           'dnb-skeleton--font',
@@ -668,7 +668,7 @@ describe('DateFormat', () => {
         )
 
         const element = document.querySelector('.dnb-date-format')
-        expect(Array.from(element.classList)).toEqual([
+        expect(Array.from(element.classList)).toEqualClassNames([
           'dnb-date-format',
           'dnb-skeleton',
           'dnb-skeleton--font',
@@ -796,7 +796,7 @@ describe('DateFormat', () => {
       ).parentElement
 
       await waitFor(() => {
-        expect(Array.from(tooltipElem.classList)).toEqual(
+        expect(Array.from(tooltipElem.classList)).toEqualClassNames(
           expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--active'])
         )
       })
@@ -805,7 +805,7 @@ describe('DateFormat', () => {
 
       // Wait for tooltip to hide
       await waitFor(() => {
-        expect(Array.from(tooltipElem.classList)).toEqual(
+        expect(Array.from(tooltipElem.classList)).toEqualClassNames(
           expect.arrayContaining(['dnb-tooltip', 'dnb-tooltip--hide'])
         )
       })
@@ -1235,7 +1235,7 @@ describe('DateFormat', () => {
         render(<DateFormat value={pastDate} relativeTime top="2rem" />)
 
         const element = document.querySelector('.dnb-date-format')
-        expect(Array.from(element.classList)).toEqual([
+        expect(Array.from(element.classList)).toEqualClassNames([
           'dnb-date-format',
           'dnb-space__top--large',
         ])
@@ -1254,7 +1254,7 @@ describe('DateFormat', () => {
         )
 
         const element = document.querySelector('.dnb-date-format')
-        expect(Array.from(element.classList)).toEqual([
+        expect(Array.from(element.classList)).toEqualClassNames([
           'dnb-date-format',
           'dnb-space__top--large',
           'dnb-space__bottom--small',
@@ -1271,7 +1271,7 @@ describe('DateFormat', () => {
         )
 
         const element = document.querySelector('.dnb-date-format')
-        expect(Array.from(element.classList)).toEqual([
+        expect(Array.from(element.classList)).toEqualClassNames([
           'dnb-date-format',
           'dnb-skeleton',
           'dnb-skeleton--font',
@@ -1290,7 +1290,7 @@ describe('DateFormat', () => {
         )
 
         const element = document.querySelector('.dnb-date-format')
-        expect(Array.from(element.classList)).toEqual([
+        expect(Array.from(element.classList)).toEqualClassNames([
           'dnb-date-format',
           'dnb-skeleton',
           'dnb-skeleton--font',
@@ -1595,7 +1595,7 @@ describe('DateFormat', () => {
       render(<DateFormat value="PT2H30M" top="2rem" />)
 
       const element = document.querySelector('.dnb-date-format')
-      expect(Array.from(element.classList)).toEqual([
+      expect(Array.from(element.classList)).toEqualClassNames([
         'dnb-date-format',
         'dnb-space__top--large',
       ])
@@ -1605,7 +1605,7 @@ describe('DateFormat', () => {
       render(<DateFormat value="PT2H30M" skeleton={true} />)
 
       const element = document.querySelector('.dnb-date-format')
-      expect(Array.from(element.classList)).toEqual([
+      expect(Array.from(element.classList)).toEqualClassNames([
         'dnb-date-format',
         'dnb-skeleton',
         'dnb-skeleton--font',

@@ -304,7 +304,7 @@ describe('ToggleButton component', () => {
 
     const element = document.querySelector('.dnb-toggle-button')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-toggle-button',
       'dnb-toggle-button--vertical',
       'dnb-space__top--large',
@@ -324,7 +324,7 @@ describe('ToggleButton component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-toggle-button',
       'dnb-toggle-button--vertical',
     ])

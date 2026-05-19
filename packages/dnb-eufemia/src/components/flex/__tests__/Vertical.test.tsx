@@ -39,7 +39,7 @@ describe('Flex.Vertical', () => {
       '.dnb-flex-container--direction-vertical'
     )
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'custom-class',

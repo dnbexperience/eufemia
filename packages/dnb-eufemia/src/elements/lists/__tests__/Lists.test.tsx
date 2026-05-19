@@ -97,22 +97,22 @@ describe('Dl', () => {
 
     const element = document.querySelector('.dnb-dl')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-dl__layout--horizontal',
       'dnb-dl',
       'dnb-space__top--medium',
     ])
-    expect(Array.from(element.querySelector('dt').classList)).toEqual([
+    expect(Array.from(element.querySelector('dt').classList)).toEqualClassNames([
       'dnb-dt',
       'dnb-space__top--medium',
     ])
-    expect(Array.from(element.querySelector('dd').classList)).toEqual([
+    expect(Array.from(element.querySelector('dd').classList)).toEqualClassNames([
       'dnb-dd',
       'dnb-space__top--medium',
     ])
     expect(
       Array.from(element.querySelector('.dnb-dl__item').classList)
-    ).toEqual(['dnb-dl__item', 'dnb-dd', 'dnb-space__top--medium'])
+    ).toEqualClassNames(['dnb-dl__item', 'dnb-dd', 'dnb-space__top--medium'])
   })
 
   describe('in horizontal direction', () => {

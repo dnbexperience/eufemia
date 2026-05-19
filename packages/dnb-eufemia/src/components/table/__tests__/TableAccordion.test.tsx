@@ -74,7 +74,7 @@ describe('TableAccordion', () => {
     expect(attributes).toEqual(['aria-hidden', 'hidden', 'class'])
     expect(element.getAttribute('aria-hidden')).toBe('true')
     expect(element.getAttribute('hidden')).toBe('')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-table__tr__accordion-content',
       'dnb-table__tr__accordion-content--single',
     ])
@@ -102,7 +102,7 @@ describe('TableAccordion', () => {
     expect(attributes).toEqual(['aria-hidden', 'role', 'class'])
     expect(accordionElem.getAttribute('aria-hidden')).toBe('false')
     expect(accordionElem.getAttribute('role')).toBe('row')
-    expect(Array.from(accordionElem.classList)).toEqual([
+    expect(Array.from(accordionElem.classList)).toEqualClassNames([
       'dnb-table__tr__accordion-content',
       'dnb-table__tr__accordion-content--single',
       'dnb-table__tr',
@@ -125,7 +125,7 @@ describe('TableAccordion', () => {
 
     const element = document.querySelector('tr') as HTMLTableRowElement
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-table__tr',
       'dnb-table__tr--odd',
       'dnb-table__tr--last',
@@ -368,7 +368,7 @@ describe('TableAccordion', () => {
     const trElement = document.querySelector('tr')
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
 
-    expect(Array.from(accordionElem.classList)).toEqual([
+    expect(Array.from(accordionElem.classList)).toEqualClassNames([
       'dnb-table__tr__accordion-content',
       'dnb-table__tr__accordion-content--single',
     ])
@@ -747,7 +747,7 @@ describe('TableAccordion', () => {
 
     const trElement = document.querySelector('tr')
 
-    expect(Array.from(trElement.classList)).toEqual([
+    expect(Array.from(trElement.classList)).toEqualClassNames([
       'dnb-table__tr',
       'dnb-table__tr--odd',
       'dnb-table__tr--last',

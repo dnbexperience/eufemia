@@ -120,7 +120,7 @@ describe('Radio component', () => {
 
     const element = document.querySelector('.dnb-radio')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-radio',
       'dnb-space__top--large',
     ])
@@ -161,7 +161,7 @@ describe('Radio component', () => {
       'type',
       'value',
     ])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-radio',
       'dnb-radio--label-position-right',
     ])

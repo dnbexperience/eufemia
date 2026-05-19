@@ -28,7 +28,7 @@ describe('Theme', () => {
     )
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__eiendom',
       'eufemia-theme__eiendom--soft',
@@ -46,11 +46,11 @@ describe('Theme', () => {
 
     const element1 = document.querySelector('#theme-1')
     const element2 = document.querySelector('#theme-2')
-    expect(Array.from(element1.classList)).toEqual([
+    expect(Array.from(element1.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__eiendom',
     ])
-    expect(Array.from(element2.classList)).toEqual([
+    expect(Array.from(element2.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__eiendom',
       'eufemia-theme__eiendom--soft',
@@ -61,7 +61,7 @@ describe('Theme', () => {
     render(<Theme size="basis">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__size--basis',
     ])
@@ -71,7 +71,7 @@ describe('Theme', () => {
     render(<Theme contrastMode>content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__contrast-mode',
     ])
@@ -81,7 +81,7 @@ describe('Theme', () => {
     render(<Theme colorScheme="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__color-scheme--dark',
     ])
@@ -91,7 +91,7 @@ describe('Theme', () => {
     render(<Theme colorScheme="light">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__color-scheme--light',
     ])
@@ -109,7 +109,7 @@ describe('Theme', () => {
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__color-scheme--light',
     ])
@@ -129,7 +129,7 @@ describe('Theme', () => {
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__color-scheme--dark',
     ])
@@ -158,7 +158,7 @@ describe('Theme', () => {
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__color-scheme--light',
     ])
@@ -168,7 +168,7 @@ describe('Theme', () => {
       listener?.({ matches: true })
     })
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'eufemia-theme',
       'eufemia-theme__color-scheme--dark',
     ])
@@ -250,14 +250,14 @@ describe('Theme', () => {
     render(<Theme surface="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
+    expect(Array.from(element.classList)).toEqualClassNames(['eufemia-theme'])
   })
 
   it('does not set surface as HTML classes when "light"', () => {
     render(<Theme surface="light">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
+    expect(Array.from(element.classList)).toEqualClassNames(['eufemia-theme'])
   })
 
   it('resets surface to undefined when "initial" inside a dark surface context', () => {
@@ -363,7 +363,7 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqual(
+    expect(Array.from(themeElement.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-core-style',
         'eufemia-portal-root',
@@ -388,7 +388,7 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqual(
+    expect(Array.from(themeElement.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-core-style',
         'eufemia-portal-root',
@@ -413,7 +413,7 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqual(
+    expect(Array.from(themeElement.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-core-style',
         'eufemia-portal-root',
@@ -436,7 +436,7 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqual(
+    expect(Array.from(themeElement.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-core-style',
         'eufemia-portal-root',
@@ -462,7 +462,7 @@ describe('Portals', () => {
     const themeElement = document.querySelector('.eufemia-theme')
     expect(themeElement).toBeInTheDocument()
 
-    expect(Array.from(themeElement.classList)).toEqual(
+    expect(Array.from(themeElement.classList)).toEqualClassNames(
       expect.arrayContaining([
         'dnb-core-style',
         'eufemia-portal-root',

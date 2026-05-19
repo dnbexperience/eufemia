@@ -102,7 +102,7 @@ describe('Tooltip', () => {
 
     expect(
       Array.from(document.querySelector('.dnb-tooltip').classList)
-    ).toEqual(expect.arrayContaining(['dnb-tooltip--large']))
+    ).toEqualClassNames(expect.arrayContaining(['dnb-tooltip--large']))
   })
 
   it('should remove unmounted portal parts', () => {
@@ -149,7 +149,7 @@ describe('Tooltip', () => {
 
     expect(
       Array.from(document.querySelector('.dnb-tooltip').classList)
-    ).toEqual(expect.arrayContaining(['dnb-tooltip--fixed']))
+    ).toEqualClassNames(expect.arrayContaining(['dnb-tooltip--fixed']))
   })
 
   it('should set placement class', () => {
@@ -161,7 +161,7 @@ describe('Tooltip', () => {
 
     expect(
       Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
-    ).toEqual(
+    ).toEqualClassNames(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--center',
         'dnb-tooltip__arrow__placement--right',
@@ -178,7 +178,7 @@ describe('Tooltip', () => {
 
     expect(
       Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
-    ).toEqual(
+    ).toEqualClassNames(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--right',
         'dnb-tooltip__arrow__placement--top',
@@ -490,7 +490,7 @@ describe('Tooltip', () => {
         render(<Tooltip open />)
 
         const portalRoot = document.querySelector('.dnb-tooltip__portal')
-        expect(Array.from(portalRoot.classList)).toEqual(
+        expect(Array.from(portalRoot.classList)).toEqualClassNames(
           expect.arrayContaining([
             'dnb-tooltip__portal',
             'dnb-popover__portal',
@@ -589,7 +589,7 @@ describe('Tooltip', () => {
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition open />)
 
-      expect(Array.from(getMainElem().classList)).toEqual(
+      expect(Array.from(getMainElem().classList)).toEqualClassNames(
         expect.arrayContaining([
           'dnb-tooltip',
           'dnb-tooltip--active',
@@ -776,7 +776,7 @@ describe('Tooltip', () => {
         '.dnb-tooltip__wrapper'
       )
       expect(wrapperElement.getAttribute('tabindex')).toBe('0')
-      expect(Array.from(wrapperElement.classList)).toEqual([
+      expect(Array.from(wrapperElement.classList)).toEqualClassNames([
         'dnb-tooltip__wrapper',
         'dnb-tab-focus',
       ])
@@ -792,7 +792,7 @@ describe('Tooltip', () => {
         }
         return node
       })
-      expect(Array.from(tooltipElement.classList)).toEqual(
+      expect(Array.from(tooltipElement.classList)).toEqualClassNames(
         expect.arrayContaining(['dnb-tooltip', 'custom-class'])
       )
 

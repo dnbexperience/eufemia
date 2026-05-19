@@ -201,7 +201,7 @@ describe('TableTh', () => {
     )
 
     const element = document.querySelector('th')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-table__th',
       'custom-class',
     ])

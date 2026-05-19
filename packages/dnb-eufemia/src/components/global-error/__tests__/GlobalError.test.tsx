@@ -173,7 +173,7 @@ describe('GlobalError', () => {
 
     const element = document.querySelector('.dnb-global-error')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-skeleton__root',
       'dnb-global-error',

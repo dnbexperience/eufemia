@@ -97,7 +97,7 @@ describe('Radio group component', () => {
 
     const element = document.querySelector('.dnb-radio-group')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-radio-group',
       'dnb-radio-group--row',
       'dnb-form-component',
@@ -121,7 +121,7 @@ describe('Radio group component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-radio-group',
       'dnb-radio-group--row',
       'dnb-form-component',
@@ -131,7 +131,7 @@ describe('Radio group component', () => {
         document.querySelector('.dnb-radio-group .dnb-flex-container')
           .classList
       )
-    ).toEqual([
+    ).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--direction-vertical',
@@ -143,7 +143,7 @@ describe('Radio group component', () => {
     ])
     expect(
       Array.from(document.querySelector('.dnb-flex-container').classList)
-    ).toEqual([
+    ).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--direction-vertical',
@@ -165,7 +165,7 @@ describe('Radio group component', () => {
     const element = document.querySelector('.dnb-radio-group')
     const flexElement = element.querySelector('.dnb-flex-container')
 
-    expect(Array.from(flexElement.classList)).toEqual([
+    expect(Array.from(flexElement.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--direction-vertical',
@@ -182,7 +182,7 @@ describe('Radio group component', () => {
       </Radio.Group>
     )
 
-    expect(Array.from(flexElement.classList)).toEqual([
+    expect(Array.from(flexElement.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--direction-vertical',

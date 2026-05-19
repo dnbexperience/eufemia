@@ -43,7 +43,7 @@ describe('Flex.Horizontal', () => {
       '.dnb-flex-container--direction-horizontal'
     )
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--row-gap-small',

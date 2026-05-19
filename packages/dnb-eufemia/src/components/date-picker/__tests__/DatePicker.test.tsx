@@ -4082,7 +4082,7 @@ describe('DatePicker component', () => {
 
     const element = getDatePickerRoot()
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-date-picker',
       'dnb-form-component',
       'dnb-date-picker--vertical',
@@ -4169,7 +4169,7 @@ describe('DatePicker component', () => {
     )
 
     expect(attributes).toEqual(['class', 'lang'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-date-picker',
       'dnb-form-component',
       'dnb-date-picker--vertical',

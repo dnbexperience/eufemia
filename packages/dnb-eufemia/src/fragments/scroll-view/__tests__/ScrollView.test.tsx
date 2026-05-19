@@ -139,7 +139,7 @@ describe('ScrollView', () => {
     )
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-scroll-view',
       'custom-class',
     ])
@@ -149,7 +149,7 @@ describe('ScrollView', () => {
     render(<ScrollView top="large">overflow content</ScrollView>)
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-scroll-view',
       'dnb-space__top--large',
     ])

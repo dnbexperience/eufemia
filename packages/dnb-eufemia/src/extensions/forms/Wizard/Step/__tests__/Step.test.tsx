@@ -179,17 +179,17 @@ describe('Step', () => {
         document.querySelectorAll('.dnb-step-indicator__item')
       )
 
-      expect(Array.from(s1.classList)).toEqual([
+      expect(Array.from(s1.classList)).toEqualClassNames([
         'dnb-step-indicator__item',
         'dnb-step-indicator__item--inactive',
         'dnb-step-indicator__item--visited',
       ])
-      expect(Array.from(s2.classList)).toEqual([
+      expect(Array.from(s2.classList)).toEqualClassNames([
         'dnb-step-indicator__item',
         'dnb-step-indicator__item--current',
         'dnb-step-indicator__item--inactive',
       ])
-      expect(Array.from(s3.classList)).toEqual([
+      expect(Array.from(s3.classList)).toEqualClassNames([
         'dnb-step-indicator__item',
         'dnb-step-indicator__item--inactive',
       ])

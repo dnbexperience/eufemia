@@ -33,7 +33,7 @@ describe('Flex.Stack', () => {
 
     const element = document.querySelector('.dnb-flex-stack')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-stack',

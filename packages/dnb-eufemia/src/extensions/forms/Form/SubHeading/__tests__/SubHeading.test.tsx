@@ -36,7 +36,7 @@ describe('Form.SubHeading', () => {
 
     const element = document.querySelector('.dnb-forms-sub-heading')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-heading',
       'dnb-h--medium',
       'dnb-forms-sub-heading',

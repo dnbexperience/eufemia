@@ -19,7 +19,7 @@ describe('AriaLive', () => {
     expect(attributes).toEqual(['aria-live', 'aria-atomic', 'class'])
     expect(element).toHaveAttribute('aria-live', 'polite')
     expect(element).toHaveAttribute('aria-atomic', 'true')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-aria-live',
       'dnb-sr-only',
     ])
@@ -190,7 +190,7 @@ describe('AriaLive', () => {
 
     expect(element).toHaveAttribute('aria-live', 'polite')
     expect(element).toHaveAttribute('aria-atomic', 'false')
-    expect(Array.from(element.classList)).toEqual(['dnb-aria-live'])
+    expect(Array.from(element.classList)).toEqualClassNames(['dnb-aria-live'])
   })
 
   it('should have constant of _supportsSpacingProps="children"', () => {

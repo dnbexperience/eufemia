@@ -24,7 +24,7 @@ describe('ToggleButton group component', () => {
     const element = document.querySelector('.dnb-toggle-button-group')
     const flexElement = element.querySelector('.dnb-flex-container')
 
-    expect(Array.from(flexElement.classList)).toEqual([
+    expect(Array.from(flexElement.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--direction-vertical',
@@ -41,7 +41,7 @@ describe('ToggleButton group component', () => {
       </ToggleButton.Group>
     )
 
-    expect(Array.from(flexElement.classList)).toEqual([
+    expect(Array.from(flexElement.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--direction-vertical',
@@ -450,7 +450,7 @@ describe('ToggleButton group component', () => {
 
     const element = document.querySelector('.dnb-toggle-button-group')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-toggle-button-group',
       'dnb-toggle-button-group--row',
       'dnb-form-component',
@@ -485,7 +485,7 @@ describe('ToggleButton group component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-toggle-button-group',
       'dnb-toggle-button-group--row',
       'dnb-form-component',
@@ -496,7 +496,7 @@ describe('ToggleButton group component', () => {
           '.dnb-toggle-button-group .dnb-flex-container'
         ).classList
       )
-    ).toEqual([
+    ).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--direction-vertical',
@@ -508,7 +508,7 @@ describe('ToggleButton group component', () => {
     ])
     expect(
       Array.from(document.querySelector('.dnb-flex-container').classList)
-    ).toEqual([
+    ).toEqualClassNames([
       'dnb-space',
       'dnb-flex-container',
       'dnb-flex-container--direction-vertical',

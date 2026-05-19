@@ -681,7 +681,7 @@ describe('Input with clear button', () => {
 
     const element = document.querySelector('.dnb-input')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-input',
       'dnb-input__border--tokens',
       'dnb-form-component',
@@ -708,7 +708,7 @@ describe('Input with clear button', () => {
       'data-input-state',
       'data-has-content',
     ])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-input',
       'dnb-input__border--tokens',
       'dnb-form-component',

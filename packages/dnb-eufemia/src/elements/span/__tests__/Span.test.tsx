@@ -14,7 +14,7 @@ describe('Span element', () => {
     render(<Span size="large" />)
     const element = document.querySelector('.dnb-t__size--large')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-t__line-height--large',
       'dnb-t__size--large',
       'dnb-span',
@@ -24,7 +24,7 @@ describe('Span element', () => {
     render(<Span lineHeight="large" />)
     const element = document.querySelector('.dnb-t__line-height--large')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-t__line-height--large',
       'dnb-span',
     ])
@@ -42,7 +42,7 @@ describe('Span element', () => {
     )
     const element = document.querySelector('.dnb-t__size--small')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-t__line-height--xx-large',
       'dnb-t__size--small',
       'dnb-t__align--center',
@@ -55,7 +55,7 @@ describe('Span element', () => {
   it('has correct style when medium is set to true', () => {
     render(<Span weight="bold" />)
     const element = document.querySelector('.dnb-t__weight--bold')
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-t__weight--bold',
       'dnb-span',
     ])

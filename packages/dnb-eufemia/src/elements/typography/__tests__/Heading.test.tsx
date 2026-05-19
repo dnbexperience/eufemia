@@ -56,10 +56,13 @@ describe('Heading', () => {
 
       const element = document.querySelector(selector)
 
-      expect(Array.from(element.classList)).toEqual([
+      expect(element).toHaveClass(
         'custom-class',
         selector.replace(/^\./, ''),
-      ])
+        {
+          exact: true,
+        }
+      )
     }
   )
 
@@ -99,7 +102,7 @@ describe('Heading', () => {
 
       const element = document.querySelector('.dnb-h--large')
 
-      expect(Array.from(element.classList)).toEqual(['dnb-h--large'])
+      expect(element).toHaveClass('dnb-h--large', { exact: true })
       expect(element.tagName).toEqual(
         Component.name === 'H' ? 'H1' : Component.name
       )

@@ -3385,7 +3385,7 @@ describe('Autocomplete component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-autocomplete',
       'dnb-form-component',
       'dnb-autocomplete--auto',

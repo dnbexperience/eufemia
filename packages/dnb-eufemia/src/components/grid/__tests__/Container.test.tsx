@@ -92,7 +92,7 @@ describe('Grid.Container', () => {
 
     const element = document.querySelector('.dnb-grid-container')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-grid-container',
       'custom-class',

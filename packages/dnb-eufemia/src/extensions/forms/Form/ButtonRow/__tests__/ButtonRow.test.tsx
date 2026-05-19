@@ -48,7 +48,7 @@ describe('Form.ButtonRow', () => {
 
     const element = document.querySelector('.dnb-forms-button-row')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-forms-button-row',
       'custom-class',

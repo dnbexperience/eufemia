@@ -45,7 +45,7 @@ describe('Element', () => {
 
     const element = document.querySelector('.dnb-p')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-p',
       'dnb-space__top--medium',
     ])
@@ -154,11 +154,11 @@ describe('Element', () => {
     const elementDiv = document.querySelector('#d')
     const elementA = document.querySelector('#a')
 
-    expect(Array.from(elementSpan.classList)).toEqual(['dnb-span'])
-    expect(Array.from(elementP.classList)).toEqual(['dnb-p'])
-    expect(Array.from(elementHeading.classList)).toEqual(['dnb-h1'])
-    expect(Array.from(elementDiv.classList)).toEqual(['dnb-div'])
-    expect(Array.from(elementA.classList)).toEqual(['dnb-a'])
+    expect(Array.from(elementSpan.classList)).toEqualClassNames(['dnb-span'])
+    expect(Array.from(elementP.classList)).toEqualClassNames(['dnb-p'])
+    expect(Array.from(elementHeading.classList)).toEqualClassNames(['dnb-h1'])
+    expect(Array.from(elementDiv.classList)).toEqualClassNames(['dnb-div'])
+    expect(Array.from(elementA.classList)).toEqualClassNames(['dnb-a'])
   })
 
   it('should replace tag class with prop internalClass', () => {
@@ -170,7 +170,7 @@ describe('Element', () => {
 
     const element = document.querySelector('span')
 
-    expect(Array.from(element.classList)).toEqual(['replacement-class'])
+    expect(Array.from(element.classList)).toEqualClassNames(['replacement-class'])
   })
 
   it('should not add tag class when internalClass is false', () => {
@@ -182,7 +182,7 @@ describe('Element', () => {
 
     const element = document.querySelector('span')
 
-    expect(Array.from(element.classList)).toEqual([])
+    expect(Array.from(element.classList)).toEqualClassNames([])
   })
 
   it('should accept react element', () => {

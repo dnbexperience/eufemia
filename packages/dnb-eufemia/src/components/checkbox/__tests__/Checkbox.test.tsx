@@ -313,7 +313,7 @@ describe('Checkbox component', () => {
 
     const element = document.querySelector('.dnb-checkbox')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-checkbox',
       'dnb-form-component',
       'dnb-space__top--large',
@@ -348,12 +348,12 @@ describe('Checkbox component', () => {
       'value',
       'name',
     ])
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-checkbox',
       'dnb-form-component',
       'dnb-checkbox--label-position-right',
     ])
-    expect(Array.from(inputElement.classList)).toEqual([
+    expect(Array.from(inputElement.classList)).toEqualClassNames([
       'dnb-checkbox__input',
     ])
   })

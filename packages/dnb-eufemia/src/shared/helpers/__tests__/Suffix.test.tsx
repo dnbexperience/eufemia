@@ -52,7 +52,7 @@ describe('Suffix', () => {
     )
     expect(
       Array.from(document.querySelector('.dnb-suffix').classList)
-    ).toEqual([
+    ).toEqualClassNames([
       'dnb-suffix',
       'dnb-input__suffix',
       'dnb-skeleton',
@@ -69,10 +69,10 @@ describe('Suffix', () => {
 
     expect(
       Array.from(document.querySelector('.dnb-suffix').classList)
-    ).toEqual(['dnb-suffix', 'dnb-input__suffix'])
+    ).toEqualClassNames(['dnb-suffix', 'dnb-input__suffix'])
     expect(
       Array.from(document.querySelector('.dnb-help-button').classList)
-    ).toEqual(
+    ).toEqualClassNames(
       expect.arrayContaining([
         'dnb-button',
         'dnb-button--secondary',

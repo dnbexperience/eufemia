@@ -301,7 +301,7 @@ describe('FormStatus component', () => {
 
     const element = document.querySelector('.dnb-form-status')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(Array.from(element.classList)).toEqualClassNames([
       'dnb-space',
       'dnb-height-animation',
       'dnb-form-status',

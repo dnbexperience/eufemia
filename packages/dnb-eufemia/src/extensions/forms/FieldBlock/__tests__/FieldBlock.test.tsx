@@ -90,13 +90,13 @@ describe('FieldBlock', () => {
       Array.from(
         document.querySelector('.dnb-forms-field-block').classList
       )
-    ).toEqual(['dnb-space', 'dnb-forms-field-block', 'custom-class'])
+    ).toEqualClassNames(['dnb-space', 'dnb-forms-field-block', 'custom-class'])
 
     expect(
       Array.from(
         document.querySelector('.dnb-forms-field-block__grid').classList
       )
-    ).toEqual([
+    ).toEqualClassNames([
       'dnb-forms-field-block__grid',
       'dnb-forms-field-block--layout-vertical',
     ])
