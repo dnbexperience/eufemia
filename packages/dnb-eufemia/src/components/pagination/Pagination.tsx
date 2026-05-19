@@ -220,7 +220,7 @@ export type PaginationProps = {
    */
   barSpace?: SpaceTypeAll
   /**
-   * A function that receives a page number and props, and returns a React node. Spread the props onto your element to get the correct className, aria-label, onClick, skeleton, and children.
+   * A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `NavigationItemProps`. Anchor-like elements keep the browser default behavior on modified or middle clicks.
    */
   transformNavigationItem?: (
     pageNumber: number,

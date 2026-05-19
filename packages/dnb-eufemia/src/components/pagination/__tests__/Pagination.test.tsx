@@ -1109,6 +1109,46 @@ describe('Pagination transformNavigationItem', () => {
     )
   })
 
+  it('does not call onChange on modified clicks when using anchor navigation items', () => {
+    const onChange = jest.fn()
+
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        transformNavigationItem={transformNavigationItem}
+        onChange={onChange}
+      />
+    )
+
+    const secondPage = document.querySelector(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button:nth-child(2)'
+    )
+    fireEvent.click(secondPage, { metaKey: true })
+
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('does not call onChange on modified prev/next clicks when using anchor navigation items', () => {
+    const onChange = jest.fn()
+
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        transformNavigationItem={transformNavigationItem}
+        onChange={onChange}
+      />
+    )
+
+    const nextButton = document.querySelector(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button--next'
+    )
+    fireEvent.click(nextButton, { ctrlKey: true })
+
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
   it('renders current page as a non-interactive span', () => {
     render(
       <Pagination

@@ -24,6 +24,7 @@ import type { LocaleProps, SpaceTypeAll } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { useSpacing } from '../space/SpacingUtils'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { isModifiedClickEvent } from '../../shared/helpers'
 
 export type NavigationItemProps = {
   className: string
@@ -163,14 +164,31 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     })
   }
 
-  const setPrevPage = () => {
+  const setPrevPage = (event = null) => {
+    if (isModifiedClickEvent(event)) {
+      return // stop here
+    }
+
     setPage(props.currentPageInternal - 1)
   }
-  const setNextPage = () => {
+  const setNextPage = (event = null) => {
+    if (isModifiedClickEvent(event)) {
+      return // stop here
+    }
+
     setPage(props.currentPageInternal + 1)
   }
 
   const clickHandler = ({ pageNumber, event }) => {
+    const currentTarget = event?.currentTarget
+    const isAnchorLikeElement =
+      currentTarget instanceof HTMLAnchorElement ||
+      currentTarget?.getAttribute?.('href')
+
+    if (isAnchorLikeElement && isModifiedClickEvent(event)) {
+      return // stop here
+    }
+
     setPage(pageNumber, event)
     focusPage()
   }
@@ -294,7 +312,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
           title,
           skeleton,
           disabled,
-          onClick: () => onNavigate(),
+          onClick: (event) => onNavigate(event),
           children: <IconPrimary icon={icon} />,
         })}
       </Fragment>

@@ -137,7 +137,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   transformNavigationItem: {
-    doc: 'A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `NavigationItemProps`.',
+    doc: 'A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `NavigationItemProps`. Anchor-like elements keep the browser default behavior on modified or middle clicks.',
     type: 'function',
     status: 'optional',
   },
