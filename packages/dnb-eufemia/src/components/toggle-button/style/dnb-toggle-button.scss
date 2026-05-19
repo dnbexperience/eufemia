@@ -52,6 +52,7 @@
 
     // Icon
     --button-color-icon--default: var(--token-color-icon-neutral);
+
     // Text
     --button-color-text--default: var(--token-color-text-neutral);
     --button-color-text--hover: var(--token-color-text-neutral);
@@ -236,6 +237,8 @@
   }
 
   &--checked &__button {
+    --button-border-width--default: 0.125rem;
+
     // Background
     --button-color-bg--default: var(
       --token-color-background-selected-subtle
