@@ -227,6 +227,14 @@ function LiveCode(props: LiveCodeProps) {
   const [previewLocale, setPreviewLocale] = useState<InternalLocale>(
     context.locale as InternalLocale
   )
+  const [localeOverridden, setLocaleOverridden] = useState(false)
+
+  // Inherit locale from Portal Tools sidebar unless user explicitly set one
+  useEffect(() => {
+    if (!localeOverridden) {
+      setPreviewLocale(context.locale as InternalLocale)
+    }
+  }, [context.locale, localeOverridden])
 
   const { focusModeCodeId, setFocusModeCodeId, savedScrollY } =
     useFocusModeCode()
@@ -418,6 +426,7 @@ function LiveCode(props: LiveCodeProps) {
 
   const handleLocaleChange = useCallback((value: string) => {
     setPreviewLocale(value as InternalLocale)
+    setLocaleOverridden(true)
   }, [])
 
   // Find current locale flag for display
