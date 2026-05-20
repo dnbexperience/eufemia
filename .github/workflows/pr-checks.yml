@@ -18,21 +18,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/commit-types.json
+
       - name: Check PR title format
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
+          TYPES=$(jq -r 'join("|")' .github/commit-types.json)
+
           if echo "$PR_TITLE" | grep -qE '^release of '; then
             echo "PR title is a release: $PR_TITLE"
-          elif echo "$PR_TITLE" | grep -qE '^(fix|feat|chore|docs|style|build|ci|refactor|perf|test)(\(.+\))?!?:'; then
+          elif echo "$PR_TITLE" | grep -qE "^($TYPES)(\(.+\))?!?:"; then
             echo "PR title is valid: $PR_TITLE"
           else
+            TYPES_LIST=$(jq -r 'join(", ")' .github/commit-types.json)
             echo "::error::Invalid PR title: '$PR_TITLE'"
             echo ""
             echo "The PR title must follow Conventional Commits format:"
             echo "  type(optional-scope): description"
             echo ""
-            echo "Valid types: fix, feat, chore, docs, style, build, ci, refactor, perf, test"
+            echo "Valid types: $TYPES_LIST"
             echo ""
             echo "Examples:"
             echo "  fix: correct button alignment"
