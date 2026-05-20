@@ -20,11 +20,7 @@ test.describe('CodeBlock', () => {
 
     await expect(textareaList.nth(0)).toBeFocused()
 
-    // Tab past the toolbar (Locale buttons x5 + Dark mode checkbox + Copy button + StackBlitz button + Focus mode button) to reach the code editor
-    await page.keyboard.down('Tab')
-    await page.keyboard.down('Tab')
-    await page.keyboard.down('Tab')
-    await page.keyboard.down('Tab')
+    // Tab past the toolbar (Locale menu + Dark mode checkbox + Copy button + StackBlitz button + Focus mode button) to reach the code editor
     await page.keyboard.down('Tab')
     await page.keyboard.down('Tab')
     await page.keyboard.down('Tab')
@@ -38,11 +34,7 @@ test.describe('CodeBlock', () => {
 
     await expect(textareaList.nth(1)).toBeFocused()
 
-    // Tab past the toolbar (Locale buttons x5 + Dark mode checkbox + Copy button + StackBlitz button + Focus mode button) to reach the code editor
-    await page.keyboard.down('Tab')
-    await page.keyboard.down('Tab')
-    await page.keyboard.down('Tab')
-    await page.keyboard.down('Tab')
+    // Tab past the toolbar (Locale menu + Dark mode checkbox + Copy button + StackBlitz button + Focus mode button) to reach the code editor
     await page.keyboard.down('Tab')
     await page.keyboard.down('Tab')
     await page.keyboard.down('Tab')
