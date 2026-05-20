@@ -6,9 +6,19 @@
 import fs from 'fs-extra'
 import { makeReleaseVersion } from '../makeReleaseVersion'
 import * as child_process from 'child_process'
-import * as getBranchName from 'current-git-branch'
+import simpleGit from 'simple-git'
+import type { SimpleGit } from 'simple-git'
 import * as getNextReleaseVersion from '../../../postbuild/getNextReleaseVersion'
 import { log } from '../../../lib'
+
+vi.mock('simple-git')
+const mockSimpleGit = vi.mocked(simpleGit)
+
+function mockBranchName(branchName: string) {
+  mockSimpleGit.mockReturnValue({
+    branch: vi.fn().mockResolvedValue({ current: branchName }),
+  } as unknown as SimpleGit)
+}
 
 vi.mock('../../../postbuild/getNextReleaseVersion', async () => {
   return {
@@ -69,10 +79,6 @@ vi.mock('repo-utils', async () => {
   }
 })
 
-vi.mock('current-git-branch', () => ({
-  default: vi.fn(),
-}))
-
 vi.mock('child_process', () => ({
   execSync: vi.fn(() => {
     return {
@@ -92,9 +98,7 @@ afterEach(() => {
 
 describe('makeReleaseVersion', () => {
   it('should log success', async () => {
-    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
-      () => 'release'
-    )
+    mockBranchName('release')
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'
@@ -114,9 +118,7 @@ describe('makeReleaseVersion', () => {
   })
 
   it('should only run when on release branches', async () => {
-    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
-      () => 'release'
-    )
+    mockBranchName('release')
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'
@@ -128,9 +130,7 @@ describe('makeReleaseVersion', () => {
   })
 
   it('should run on any branch', async () => {
-    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
-      () => 'some-branch'
-    )
+    mockBranchName('some-branch')
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'
@@ -163,9 +163,7 @@ describe('makeReleaseVersion', () => {
   })
 
   it('write version in file', async () => {
-    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
-      () => 'release'
-    )
+    mockBranchName('release')
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'
@@ -208,9 +206,7 @@ describe('makeReleaseVersion', () => {
   })
 
   it('write branch in file', async () => {
-    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
-      () => 'release'
-    )
+    mockBranchName('release')
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'
@@ -243,9 +239,7 @@ describe('makeReleaseVersion', () => {
   })
 
   it('write sha in file', async () => {
-    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
-      () => 'release'
-    )
+    mockBranchName('release')
     vi.spyOn(child_process, 'execSync').mockReturnValueOnce(
       'test-sha' as any
     )
@@ -288,9 +282,7 @@ describe('makeReleaseVersion', () => {
 
   it('write buildDate (ISO) in BuildInfoData files', async () => {
     const beforeCall = Date.now()
-    vi.spyOn(getBranchName, 'default').mockImplementationOnce(
-      () => 'release'
-    )
+    mockBranchName('release')
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'

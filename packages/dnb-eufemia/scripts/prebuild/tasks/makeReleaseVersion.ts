@@ -6,7 +6,7 @@
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { isCI } from 'repo-utils'
-import getBranchName from 'current-git-branch'
+import simpleGit from 'simple-git'
 import {
   getNextReleaseVersion,
   releaseBranches,
@@ -15,7 +15,7 @@ import { log } from '../../lib'
 import { getStyleScopeHash } from '../../../src/plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 
 export async function makeReleaseVersion() {
-  const branchName = getBranchName()
+  const branchName = (await simpleGit().branch()).current
 
   if (branchName.startsWith('icons/')) {
     return // stop here

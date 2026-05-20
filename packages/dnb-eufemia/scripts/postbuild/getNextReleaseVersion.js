@@ -8,7 +8,7 @@
 // run (mjs): yarn nodemon --exec 'node --experimental-import-meta-resolve ./scripts/postbuild/getNextReleaseVersion.mjs' --ext mjs --watch './scripts/**/*'
 
 const { runCommand } = require('../tools/cliTools')
-const getBranchName = require('current-git-branch')
+const simpleGit = require('simple-git')
 
 try {
   process.loadEnvFile()
@@ -25,7 +25,7 @@ if (require.main === module) {
 }
 
 async function getNextReleaseVersion() {
-  const branchName = getBranchName()
+  const branchName = (await simpleGit().branch()).current
 
   if (releaseBranches.includes(branchName)) {
     try {
