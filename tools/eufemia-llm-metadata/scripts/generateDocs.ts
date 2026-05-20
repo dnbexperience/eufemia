@@ -18,7 +18,10 @@ import {
   toSlugAndDir,
   writeLlmsText,
 } from '../src/convertHelpers.ts'
-import { getNextReleaseVersion } from '../src/getNextReleaseVersion.ts'
+import {
+  getNextReleaseVersion,
+  getCommitHash,
+} from '../src/getNextReleaseVersion.ts'
 
 const PUBLIC_URL_BASE = ''
 
@@ -65,6 +68,8 @@ export async function generateDocs() {
   await fs.emptyDir(outputRoot)
 
   const version = await getNextReleaseVersion()
+  const commit = await getCommitHash()
+  const generatedAt = new Date().toISOString()
   const robots = await loadRobots(robotsRoot)
   const entryFiles = await findEntryMdxFiles(docsRoot)
   const allowedEntryFiles: string[] = []
@@ -150,10 +155,18 @@ export async function generateDocs() {
     metadataBySlug,
   })
 
+  await fs.writeJson(
+    path.join(outputRoot, '_meta.json'),
+    { eufemiaVersion: version, generatedAt, commit },
+    { spaces: 2 }
+  )
+
   await writeLlmsText({
     siteDir: repoRoot,
     results,
     version,
+    commit,
+    generatedAt,
     outputRoot,
     publicUrlBase: PUBLIC_URL_BASE,
     llmsFilename: 'llm.md',

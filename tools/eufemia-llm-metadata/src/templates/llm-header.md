@@ -2,6 +2,10 @@
 
 > DNB's Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
+## Version
+
+This documentation reflects Eufemia **v{{VERSION}}**, generated {{GENERATED_AT}}{{COMMIT_SUFFIX}}.
+
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
 - Do not make assumptions or infer missing details unless explicitly instructed to do so.
