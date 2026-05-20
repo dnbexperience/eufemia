@@ -2222,10 +2222,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dnb/browserslist-config@npm:1.2.0":
-  version: 1.2.0
-  resolution: "@dnb/browserslist-config@npm:1.2.0"
-  checksum: 10/62641b81b2fc5ac57225ef7a32beb5e8ce4f3e1b42d401b1778ba41bf66ebd9195e65ef4603499faf75fb69dbf92f72c15e7114fab4f2738a075f5101238795b
+"@dnb/browserslist-config@npm:1.4.0":
+  version: 1.4.0
+  resolution: "@dnb/browserslist-config@npm:1.4.0"
+  checksum: 10/68f0e9509a7bc45eb62e56f6c6f199dca8183595b8f36d54ebe58cd6dc2a2ca218247460a3a8e74238114dbcc47a4635252816249d7d35801502f49b1db7f79e
   languageName: node
   linkType: hard
 
@@ -2247,7 +2247,7 @@ __metadata:
     "@babel/preset-typescript": "npm:7.28.5"
     "@babel/runtime-corejs3": "npm:7.28.4"
     "@blazediff/core": "npm:1.9.1"
-    "@dnb/browserslist-config": "npm:1.2.0"
+    "@dnb/browserslist-config": "npm:1.4.0"
     "@emotion/react": "npm:11.14.0"
     "@emotion/styled": "npm:11.14.0"
     "@eslint/eslintrc": "npm:3.3.3"
@@ -8895,7 +8895,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:7.28.5"
     "@babel/eslint-parser": "npm:7.28.5"
-    "@dnb/browserslist-config": "npm:1.2.0"
+    "@dnb/browserslist-config": "npm:1.4.0"
     "@dnb/eufemia": "workspace:*"
     "@emotion/cache": "npm:11.14.0"
     "@emotion/react": "npm:11.14.0"

@@ -1,5 +1,6 @@
 import type { UserConfig } from 'tsdown'
 import path from 'node:path'
+import buildTargets from '@dnb/browserslist-config/buildTargets.mjs'
 import pkg from './package.json'
 
 export default [
@@ -116,6 +117,7 @@ function makeBundleConfig(
     entry: { [outName]: input },
     format,
     platform: 'browser',
+    target: buildTargets,
     outDir: format === 'esm' ? 'build/esm' : 'build/umd',
 
     // Use .mjs for ESM and .js for UMD
