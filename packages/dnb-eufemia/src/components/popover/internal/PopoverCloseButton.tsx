@@ -1,6 +1,6 @@
 import { createElement, isValidElement, useContext } from 'react'
 import type { ButtonHTMLAttributes, ComponentType, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../../../shared/Context'
 import { useSpacing } from '../../space/SpacingUtils'
 import { createSkeletonClass } from '../../skeleton/SkeletonHelper'

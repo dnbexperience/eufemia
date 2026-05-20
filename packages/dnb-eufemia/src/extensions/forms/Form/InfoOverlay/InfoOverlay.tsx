@@ -1,6 +1,6 @@
 import { useCallback, useContext, useRef } from 'react'
 import type { ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Visibility from '../Visibility'
 import DataContext from '../../DataContext/Context'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'

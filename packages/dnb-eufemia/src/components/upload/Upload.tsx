@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 // Shared
 import { useSpacing } from '../space/SpacingUtils'

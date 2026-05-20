@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react'
 import type { KeyboardEvent, MouseEvent, Ref } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import IconPrimary from '../IconPrimary'
 import Anchor from '../Anchor'
 import { useMenuTriggerContext } from './MenuContext'

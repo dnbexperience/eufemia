@@ -1,5 +1,5 @@
 import type { HTMLProps, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useId from '../../../../shared/helpers/useId'
 import Heading from '../../../../components/heading/Heading'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'

@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react'
 import type { HTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
 import type { ButtonProps } from '../../../../components/button/Button'

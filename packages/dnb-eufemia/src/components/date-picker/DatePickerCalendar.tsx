@@ -11,7 +11,7 @@ import type {
   MouseEvent,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 
 // date-fns

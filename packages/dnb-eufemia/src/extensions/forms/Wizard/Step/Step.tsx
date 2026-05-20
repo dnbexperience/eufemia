@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react'
 import type { JSX, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'
 import WizardContext from '../Context/WizardContext'

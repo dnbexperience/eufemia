@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Space } from '../../../../components'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 

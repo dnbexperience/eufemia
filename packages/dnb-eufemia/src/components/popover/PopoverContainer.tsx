@@ -10,7 +10,7 @@ import type {
   RefObject,
   SyntheticEvent,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import type {
   PopoverAlign,

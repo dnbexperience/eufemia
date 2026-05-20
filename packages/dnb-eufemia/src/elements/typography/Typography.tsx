@@ -5,7 +5,7 @@
 
 import { createContext, useContext } from 'react'
 import type { HTMLAttributes, ReactNode, Ref, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 import E from '../Element'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

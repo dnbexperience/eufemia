@@ -1,5 +1,5 @@
 import { useCallback, useContext, useRef } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'

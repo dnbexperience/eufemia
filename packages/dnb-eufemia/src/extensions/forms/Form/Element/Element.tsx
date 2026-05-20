@@ -1,6 +1,6 @@
 import { useCallback, useContext, useRef } from 'react'
 import type { HTMLProps, RefObject, SyntheticEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import DataContext from '../../DataContext/Context'
 import Space from '../../../../components/space/Space'
 import useId from '../../../../shared/helpers/useId'

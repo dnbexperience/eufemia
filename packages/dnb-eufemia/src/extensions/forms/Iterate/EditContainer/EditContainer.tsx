@@ -1,6 +1,6 @@
 import { isValidElement, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import { Lead } from '../../../../elements'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../components/flex/Container'

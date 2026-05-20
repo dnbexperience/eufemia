@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Button, Dialog } from '../../../../components'
 import type { ButtonProps } from '../../../../components/Button'
 import IterateItemContext from '../IterateItemContext'

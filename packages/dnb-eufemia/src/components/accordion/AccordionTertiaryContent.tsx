@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react'
 import type { ReactNode, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type { HeightAnimationAllProps } from '../height-animation/HeightAnimation'
 

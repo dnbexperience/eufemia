@@ -1,6 +1,6 @@
 import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import type { ElementRef, MouseEvent, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import IconPrimary from '../IconPrimary'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { MenuContext, useMenuContext } from './MenuContext'

@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 import { ProductLogo, TypeLogo, BankLogo, BankAxeptLogo } from '../icons'
 import type { Translations } from './StatusOverlay'

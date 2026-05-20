@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import { gridStyle } from './GridStyle'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Space } from '@dnb/eufemia/src/components'
 import { SpaceAllProps } from '@dnb/eufemia/src/components/Space'
 

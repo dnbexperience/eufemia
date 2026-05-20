@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { ElementType, HTMLProps } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import { validateDOMAttributes, warn } from '../../shared/component-helper'

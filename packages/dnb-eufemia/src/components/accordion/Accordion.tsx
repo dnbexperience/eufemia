@@ -13,7 +13,7 @@ import type {
   SyntheticEvent,
 } from 'react'
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   findElementInChildren,
   extendPropsWithContext,

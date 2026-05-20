@@ -5,7 +5,7 @@
 
 import { Children, isValidElement } from 'react'
 import type { HTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Summary from './Summary'
 import { detailsBox, detailsBox__content } from './Details.module.scss'
 

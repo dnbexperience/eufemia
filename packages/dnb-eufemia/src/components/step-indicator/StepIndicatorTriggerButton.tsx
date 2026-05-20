@@ -3,7 +3,7 @@
  *
  */
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useContext } from 'react'
 import type { HTMLProps } from 'react'
 import type { ButtonProps } from '../button/Button'

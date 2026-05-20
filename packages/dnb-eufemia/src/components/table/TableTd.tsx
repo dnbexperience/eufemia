@@ -7,7 +7,7 @@ import {
   type SyntheticEvent,
   type TdHTMLAttributes,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import IconPrimary from '../icon/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
 import { TableAccordionContentSingle } from './table-accordion/TableAccordionContent'

@@ -13,7 +13,7 @@ import type {
   Ref,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ElementAllProps } from '../../elements/Element'
 import E from '../../elements/Element'
 import Context from '../../shared/Context'

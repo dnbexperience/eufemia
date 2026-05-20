@@ -21,7 +21,7 @@ import {
 } from './DateFormatUtils'
 import { format } from 'date-fns'
 import type { SpacingProps } from '../../shared/types'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
 import type { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'

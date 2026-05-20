@@ -5,7 +5,7 @@
 
 import { Fragment, useContext, useRef } from 'react'
 import type { HTMLAttributes, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from './Context'
 import Provider from './Provider'
 import type { DynamicElement } from './types'

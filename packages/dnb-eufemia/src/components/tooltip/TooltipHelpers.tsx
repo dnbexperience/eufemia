@@ -4,7 +4,7 @@ import { isValidElement } from 'react'
  *
  */
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { TooltipAllProps } from './types'
 
 export function injectTooltipSemantic(params) {

@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react'
 import type { DragEvent as ReactDragEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { UploadContext } from './UploadContext'

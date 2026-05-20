@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { createSkeletonClass } from '../../../components/skeleton/SkeletonHelper'
 import P from '../../../elements/P'
 

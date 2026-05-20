@@ -14,7 +14,7 @@ import type {
   ReactNode,
   Ref,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'

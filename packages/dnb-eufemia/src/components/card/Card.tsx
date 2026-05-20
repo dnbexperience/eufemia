@@ -1,7 +1,7 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useContext } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
 import type { SectionProps } from '../section/Section'
 import { SectionParams } from '../section/Section'

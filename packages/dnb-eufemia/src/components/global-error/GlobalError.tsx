@@ -5,7 +5,7 @@
 
 import { useContext } from 'react'
 import type { HTMLAttributes, HTMLProps, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { GetTranslationProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import {

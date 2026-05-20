@@ -1,6 +1,6 @@
 import { Children, cloneElement, isValidElement } from 'react'
 import type { JSX } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 export function TypographyBox({ children, className = null, ...props }) {
   return (

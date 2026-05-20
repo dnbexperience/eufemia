@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { JSX } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
 import ButtonRow from '../../Form/ButtonRow'
 import NextButton from '../NextButton'

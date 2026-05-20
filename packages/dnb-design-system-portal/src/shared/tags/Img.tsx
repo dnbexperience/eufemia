@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 import type { ComponentType, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Img as Image } from '@dnb/eufemia/src'
 
 type ImgProps = {

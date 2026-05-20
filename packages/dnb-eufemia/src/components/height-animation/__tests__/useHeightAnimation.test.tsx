@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   render,
   fireEvent,

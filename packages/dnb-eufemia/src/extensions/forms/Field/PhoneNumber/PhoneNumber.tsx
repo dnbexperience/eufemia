@@ -3,7 +3,7 @@ import type { ReactNode, RefObject } from 'react'
 import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type {
   CountryISO,
   CountryLang,

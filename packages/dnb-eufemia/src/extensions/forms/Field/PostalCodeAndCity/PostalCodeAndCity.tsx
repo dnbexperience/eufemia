@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { FieldBlockProps } from '../../FieldBlock'
 import DataContext from '../../DataContext/Context'
 import type { FieldStringProps as StringFieldProps } from '../String'

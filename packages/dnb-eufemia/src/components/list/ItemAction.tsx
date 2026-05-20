@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
 import type { ItemContentProps } from './ItemContent'

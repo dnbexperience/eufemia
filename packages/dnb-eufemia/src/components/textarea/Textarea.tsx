@@ -25,7 +25,7 @@ import type {
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import TextCounter from '../../fragments/text-counter/TextCounter'

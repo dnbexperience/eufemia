@@ -4,7 +4,7 @@
  */
 
 import { useContext } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Space from '../space/Space'
 import {
   skeletonDOMAttributes,

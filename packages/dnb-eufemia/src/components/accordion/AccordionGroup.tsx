@@ -6,7 +6,7 @@
 import { useContext, useEffect, useRef } from 'react'
 import type { HTMLProps, RefObject } from 'react'
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   extendPropsWithContext,
   validateDOMAttributes,

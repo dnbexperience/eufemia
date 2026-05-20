@@ -5,7 +5,7 @@
 
 import { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   dispatchCustomElementEvent,
   extendPropsWithContext,

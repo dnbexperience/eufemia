@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { DynamicElement, InnerSpaceType } from '../../shared/types'
 import {
   validateDOMAttributes,

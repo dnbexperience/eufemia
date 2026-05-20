@@ -4,7 +4,7 @@
  */
 
 import { useContext } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
 import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'

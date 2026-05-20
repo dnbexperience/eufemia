@@ -5,7 +5,7 @@
 
 import { useContext } from 'react'
 import type { HTMLAttributes, Ref } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import Context from '../../shared/Context'
 import E from '../Element'

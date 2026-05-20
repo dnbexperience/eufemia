@@ -5,7 +5,7 @@ import type {
   KeyboardEventHandler,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Input, Textarea } from '../../../../components'
 import * as z from 'zod'
 import type { InputProps } from '../../../../components/input/Input'
