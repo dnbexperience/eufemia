@@ -1,5 +1,5 @@
 import { spawnSync } from 'child_process'
-import { globbySync } from 'globby'
+import { sync as globbySync } from 'globby'
 import {
   matchFiltersToFiles,
   prepareVitestRun,
