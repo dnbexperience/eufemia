@@ -115,26 +115,23 @@ function Time(props: TimeProps = {}) {
     [validateInitiallyProp, valueProp]
   )
 
-  const fromExternal = useCallback(
-    (external: string | undefined) => {
-      if (typeof external !== 'string') {
-        return external
-      }
+  const fromExternal = useCallback((external: string | undefined) => {
+    if (typeof external !== 'string') {
+      return external
+    }
 
-      const { hours, minutes, seconds } = stringToTimeValue(external)
+    const { hours, minutes, seconds } = stringToTimeValue(external)
 
-      if (isTimeEmpty(hours, minutes)) {
-        return undefined
-      }
+    if (isTimeEmpty(hours, minutes)) {
+      return undefined
+    }
 
-      const h = padValue(hours, 2)
-      const m = padValue(minutes, 2)
-      const s = padValue(seconds, 2)
+    const h = padValue(hours, 2)
+    const m = padValue(minutes, 2)
+    const s = padValue(seconds, 2)
 
-      return s ? `${h}:${m}:${s}` : `${h}:${m}`
-    },
-    [showSeconds]
-  )
+    return s ? `${h}:${m}:${s}` : `${h}:${m}`
+  }, [])
 
   const transformIn = useCallback(
     (value: string) => {
@@ -165,7 +162,7 @@ function Time(props: TimeProps = {}) {
         ? `${hours}:${minutes}:${seconds}`
         : `${hours}:${minutes}`
     },
-    [transformInProp, showSeconds]
+    [transformInProp]
   )
 
   const provideAdditionalArgs = useCallback(
@@ -186,7 +183,6 @@ function Time(props: TimeProps = {}) {
     errorMessages,
     validateInitially,
     validateContinuously,
-    // @ts-expect-error - strictFunctionTypes
     fromExternal,
     // @ts-expect-error - strictFunctionTypes
     transformIn,
@@ -217,7 +213,6 @@ function Time(props: TimeProps = {}) {
     handleBlur,
     handleChange,
     setDisplayValue,
-    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const time: TimeValue = useMemo(() => {
@@ -242,7 +237,6 @@ function Time(props: TimeProps = {}) {
     time.hours,
     time.minutes,
     time.seconds,
-    showSeconds,
     itemPath,
     path,
     setDisplayValue,
