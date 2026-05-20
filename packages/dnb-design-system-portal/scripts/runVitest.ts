@@ -1,5 +1,5 @@
 import { spawnSync } from 'child_process'
-import { globSync } from 'glob'
+import { globbySync } from 'globby'
 import {
   matchFiltersToFiles,
   prepareVitestRun,
@@ -19,7 +19,9 @@ const { filters } = splitVitestArgs(args)
 
 const candidateFiles = Array.from(
   new Set(
-    includeGlobs.flatMap((pattern) => globSync(pattern, { nocase: true }))
+    includeGlobs.flatMap((pattern) =>
+      globbySync(pattern, { caseSensitiveMatch: false })
+    )
   )
 ).sort()
 
