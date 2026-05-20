@@ -11,16 +11,7 @@ import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
 import { getElements } from '@dnb/eufemia/src/elements/lib'
 import { Provider, Theme } from '@dnb/eufemia/src/shared'
-import {
-  Field,
-  Value,
-  Form,
-  Wizard,
-  FieldBlock,
-  Iterate,
-  FormError,
-  Tools,
-} from '@dnb/eufemia/src/extensions/forms'
+import { formsScope } from './formsExports'
 
 if (!globalThis.ComponentBoxMemo) {
   globalThis.ComponentBoxMemo = {}
@@ -43,11 +34,7 @@ function ComponentBox(props: CodeSectionProps) {
         ...getElements(),
         Provider,
         Theme,
-        FieldBlock,
-        Field,
-        Value,
-        Form,
-        Wizard,
+        ...formsScope,
         styled,
         React,
         Fragment: React.Fragment,
@@ -60,9 +47,6 @@ function ComponentBox(props: CodeSectionProps) {
         useLayoutEffect: React.useLayoutEffect,
         createContext: React.createContext,
         Suspense: React.Suspense,
-        Iterate,
-        FormError,
-        Tools,
         ...scope,
       }}
       {...rest}
