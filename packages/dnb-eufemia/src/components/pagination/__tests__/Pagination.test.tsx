@@ -10,7 +10,7 @@ import {
   loadScss,
   wait,
 } from '../../../core/test-utils/testSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { createEvent, fireEvent, render } from '@testing-library/react'
 import type { PaginationProps } from '../Pagination'
 import Pagination, { createPagination, Bar } from '../Pagination'
 import Anchor from '../../anchor/Anchor'
@@ -1125,7 +1125,12 @@ describe('Pagination transformNavigationItem', () => {
     const secondPage = document.querySelector(
       '.dnb-pagination__bar__inner a.dnb-pagination__button:nth-child(2)'
     )
-    fireEvent.click(secondPage, { metaKey: true })
+
+    // Use createEvent + preventDefault so jsdom does not attempt
+    // navigation (which emits "Not implemented" warnings).
+    const event = createEvent.click(secondPage, { metaKey: true })
+    event.preventDefault()
+    fireEvent(secondPage, event)
 
     expect(onChange).not.toHaveBeenCalled()
   })
@@ -1145,9 +1150,32 @@ describe('Pagination transformNavigationItem', () => {
     const nextButton = document.querySelector(
       '.dnb-pagination__bar__inner a.dnb-pagination__button--next'
     )
-    fireEvent.click(nextButton, { ctrlKey: true })
+
+    // Use createEvent + preventDefault so jsdom does not attempt
+    // navigation (which emits "Not implemented" warnings).
+    const event = createEvent.click(nextButton, { ctrlKey: true })
+    event.preventDefault()
+    fireEvent(nextButton, event)
 
     expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('calls preventDefault on normal anchor clicks to avoid double navigation', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const anchor = document.querySelector(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button:nth-child(2)'
+    )
+    const event = createEvent.click(anchor)
+    fireEvent(anchor, event)
+
+    expect(event.defaultPrevented).toBe(true)
   })
 
   it('renders current page as a non-interactive span', () => {
