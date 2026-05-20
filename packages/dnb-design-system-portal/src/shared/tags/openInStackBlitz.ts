@@ -2,6 +2,8 @@
  * StackBlitz integration for opening code examples in a live playground.
  */
 
+// eslint-disable-next-line no-restricted-imports
+import * as ReactExports from 'react'
 import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
 import { getElements } from '@dnb/eufemia/src/elements/lib'
@@ -13,9 +15,6 @@ let EUFEMIA_FRAGMENT_NAMES: string[] | null = null
 let EUFEMIA_ELEMENT_NAMES: string[] | null = null
 let REACT_HOOK_NAMES: string[] | null = null
 let REACT_EXPORT_NAMES: string[] | null = null
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const ReactModule = require('react') as Record<string, unknown>
 
 function getEufemiaComponentNames() {
   if (!EUFEMIA_COMPONENT_NAMES) {
@@ -44,9 +43,9 @@ function getEufemiaElementNames() {
  */
 function getReactHookNames() {
   if (!REACT_HOOK_NAMES) {
-    REACT_HOOK_NAMES = Object.keys(ReactModule).filter(
+    REACT_HOOK_NAMES = Object.keys(ReactExports).filter(
       (name) =>
-        name.startsWith('use') && typeof ReactModule[name] === 'function'
+        name.startsWith('use') && typeof ReactExports[name] === 'function'
     )
   }
   return REACT_HOOK_NAMES
@@ -58,16 +57,16 @@ function getReactHookNames() {
  */
 function getReactExportNames() {
   if (!REACT_EXPORT_NAMES) {
-    REACT_EXPORT_NAMES = Object.keys(ReactModule).filter((name) => {
+    REACT_EXPORT_NAMES = Object.keys(ReactExports).filter((name) => {
       // Skip hooks (handled by getReactHookNames)
       if (name.startsWith('use')) return false
       // Skip internal React fields
       if (name.startsWith('__') || name.startsWith('unstable_'))
         return false
       // Skip non-importable values like 'version'
-      if (typeof ReactModule[name] === 'string') return false
+      if (typeof ReactExports[name] === 'string') return false
 
-      return ReactModule[name] !== undefined
+      return ReactExports[name] !== undefined
     })
   }
   return REACT_EXPORT_NAMES
