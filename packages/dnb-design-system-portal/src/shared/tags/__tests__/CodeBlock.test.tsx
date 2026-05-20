@@ -29,18 +29,6 @@ vi.mock('../../../core/ChangeStyleTheme', () => ({
   default: () => null,
 }))
 
-// Mock copyToClipboard
-vi.mock('@dnb/eufemia/src/shared/helpers', async (importOriginal) => {
-  const actual =
-    await importOriginal<
-      typeof import('@dnb/eufemia/src/shared/helpers')
-    >()
-  return {
-    ...actual,
-    copyToClipboard: vi.fn().mockResolvedValue(true),
-  }
-})
-
 // Mock prism theme
 vi.mock('@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme', () => ({
   default: {
@@ -66,6 +54,23 @@ vi.mock('../Tag', async () => {
 vi.mock('@dnb/eufemia/src/components/skeleton/SkeletonHelper', () => ({
   createSkeletonClass: () => '',
 }))
+
+// Create hoisted mock for copyToClipboard
+const mockCopyToClipboard = vi.hoisted(() =>
+  vi.fn().mockResolvedValue(true)
+)
+
+// Mock helpers - partially mock to keep other exports
+vi.mock('@dnb/eufemia/src/shared/helpers', async (importOriginal) => {
+  const actual =
+    await importOriginal<
+      typeof import('@dnb/eufemia/src/shared/helpers')
+    >()
+  return {
+    ...actual,
+    copyToClipboard: mockCopyToClipboard,
+  }
+})
 
 // Mock Eufemia components
 vi.mock('@dnb/eufemia/src/components', async () => {
@@ -121,11 +126,23 @@ vi.mock('@dnb/eufemia/src/shared', async () => {
 // Store the latest LiveEditor onChange and LiveProvider code for assertions
 let mockLiveEditorOnChange: ((code: string) => void) | undefined
 let mockLiveProviderCode: string | undefined
+const mockLiveContextOnChange = vi.hoisted(() => vi.fn())
 
 vi.mock('react-live-ssr', async () => {
-  const { createElement } = (await vi.importActual('react')) as {
+  const { createElement, createContext } = (await vi.importActual(
+    'react'
+  )) as {
     createElement: typeof CreateElement
+    createContext: typeof CreateContext
   }
+
+  // Create a mock LiveContext with a trackable onChange
+  const MockLiveContext = createContext<{
+    onChange: (code: string) => void
+  }>({
+    onChange: mockLiveContextOnChange,
+  })
+
   return {
     LiveProvider: ({
       children,
@@ -137,9 +154,9 @@ vi.mock('react-live-ssr', async () => {
     }) => {
       mockLiveProviderCode = code
       return createElement(
-        'div',
-        { 'data-testid': 'live-provider' },
-        children
+        MockLiveContext.Provider,
+        { value: { onChange: mockLiveContextOnChange } },
+        createElement('div', { 'data-testid': 'live-provider' }, children)
       )
     },
     LiveEditor: ({
@@ -161,6 +178,7 @@ vi.mock('react-live-ssr', async () => {
         'data-testid': 'live-preview',
         ...rest,
       }),
+    LiveContext: MockLiveContext,
   }
 })
 
@@ -176,6 +194,8 @@ describe('CodeBlock', () => {
   beforeEach(() => {
     mockLiveEditorOnChange = undefined
     mockLiveProviderCode = undefined
+    mockLiveContextOnChange.mockClear()
+    mockCopyToClipboard?.mockClear()
     vi.restoreAllMocks()
   })
 
@@ -489,5 +509,75 @@ describe('CodeBlock', () => {
 
     expect(scrollTo).toHaveBeenCalledWith({ top: 0 })
     expect(mockSetFocusModeCodeId).toHaveBeenCalledWith('block-a')
+  })
+
+  describe('copy code button', () => {
+    it('should render a copy code button with tooltip', () => {
+      const { container } = render(
+        <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      )
+
+      const copyButton = container.querySelector(
+        'button[tooltip="Copy to clipboard"]'
+      )
+      expect(copyButton).toBeTruthy()
+    })
+
+    it('should copy code to clipboard when clicking copy button', async () => {
+      const { container } = render(
+        <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      )
+
+      const copyButton = container.querySelector(
+        'button[tooltip="Copy to clipboard"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        copyButton.click()
+      })
+
+      expect(mockCopyToClipboard).toHaveBeenCalledWith('<div>Hello</div>')
+    })
+
+    it('should show "Copied!" tooltip after clicking copy button', async () => {
+      const { container } = render(
+        <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      )
+
+      const copyButton = container.querySelector(
+        'button[tooltip="Copy to clipboard"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        copyButton.click()
+      })
+
+      // After clicking, the tooltip should change to "Copied!"
+      const copiedButton = container.querySelector(
+        'button[tooltip="Copied!"]'
+      )
+      expect(copiedButton).toBeTruthy()
+    })
+
+    it('should update preview when user edits code', () => {
+      render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      expect(mockLiveProviderCode).toBe('<div>Hello</div>')
+
+      // Simulate user editing the code - this should trigger the context's onChange
+      // which updates the preview
+      act(() => {
+        mockLiveEditorOnChange?.('<div>Edited</div>')
+      })
+
+      // The context's onChange should have been called to update the preview
+      expect(mockLiveContextOnChange).toHaveBeenCalledWith(
+        '<div>Edited</div>'
+      )
+    })
   })
 })
