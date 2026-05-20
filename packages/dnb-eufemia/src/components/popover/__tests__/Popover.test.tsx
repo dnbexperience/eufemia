@@ -3044,6 +3044,75 @@ describe('Popover', () => {
       targetElement.remove()
     })
 
+    it('repositions when children content changes', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 100,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 40,
+      })
+
+      const rect = createRect({
+        left: 60,
+        top: 80,
+        width: 100,
+        height: 40,
+      })
+      assignRect(targetElement, rect)
+
+      setElementSize(120, 40)
+
+      const { rerender } = render(
+        <Popover
+          open
+          noAnimation
+          placement="top"
+          targetElement={targetElement}
+        >
+          Short
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector(
+          '.dnb-popover'
+        ) as HTMLElement
+        expect(popover?.style.left).toBeTruthy()
+      })
+
+      const initialLeft = (
+        document.querySelector('.dnb-popover') as HTMLElement
+      )?.style.left
+
+      // Simulate wider content by changing offsetWidth
+      setElementSize(240, 40)
+
+      rerender(
+        <Popover
+          open
+          noAnimation
+          placement="top"
+          targetElement={targetElement}
+        >
+          Much longer content that is wider
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector(
+          '.dnb-popover'
+        ) as HTMLElement
+        expect(popover?.style.left).not.toBe(initialLeft)
+      })
+
+      targetElement.remove()
+    })
+
     describe('Table.ScrollView guard', () => {
       const originalOffsetWidth = Object.getOwnPropertyDescriptor(
         HTMLElement.prototype,
