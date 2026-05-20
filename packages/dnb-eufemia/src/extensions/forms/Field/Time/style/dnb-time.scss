@@ -6,10 +6,20 @@
   }
 
   .dnb-segmented-field__fieldset {
-    width: var(--forms-field-width--small);
+    width: fit-content;
+  }
+
+  .dnb-segmented-field__group
+    > .dnb-segmented-field__delimiter
+    + .dnb-segmented-field__section {
+    padding: 0;
   }
 
   .dnb-segmented-field__group > .dnb-segmented-field__section:first-child {
-    padding: 0 0.25rem 0 0.75rem;
+    padding: 0 0 0 0.5rem;
+  }
+
+  .dnb-segmented-field__group > .dnb-segmented-field__section:last-child {
+    padding: 0 0.5rem 0 0;
   }
 }
