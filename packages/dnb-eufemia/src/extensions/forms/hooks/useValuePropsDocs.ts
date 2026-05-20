@@ -63,9 +63,14 @@ export const useValuePropsParameters: PropertiesTableProps = {
 /**
  * Documentation for the useValueProps hook return values.
  *
- * Returns the original props plus computed values ready for display.
+ * Returns all input props plus computed `value` and `label` ready for display.
  */
 export const useValuePropsReturns: PropertiesTableProps = {
+  '...props': {
+    doc: 'All input props are passed through in the return value.',
+    type: 'object',
+    status: 'required',
+  },
   value: {
     doc: 'The transformed value ready for display, or `undefined` if the associated field is not visible.',
     type: ['{valueType}', 'undefined'],

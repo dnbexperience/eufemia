@@ -44,7 +44,7 @@ export const useFieldPropsParameters: PropertiesTableProps = {
     status: 'optional',
   },
   readOnly: {
-    doc: 'Makes the field read-only (alias for disabled in most cases).',
+    doc: 'Makes the field read-only. Used as a fallback for `disabled` when `disabled` is not explicitly set.',
     type: 'boolean',
     status: 'optional',
   },
@@ -138,6 +138,36 @@ export const useFieldPropsParameters: PropertiesTableProps = {
     type: '(value: Value) => Value',
     status: 'optional',
   },
+  transformValue: {
+    doc: 'Transforms the value during processing.',
+    type: '(value: Value) => Value',
+    status: 'optional',
+  },
+  provideAdditionalArgs: {
+    doc: 'Provides additional arguments to pass through event handlers.',
+    type: '(value: Value, additionalArgs: ProvideAdditionalEventArgs) => ProvideAdditionalEventArgs',
+    status: 'optional',
+  },
+  onChange: {
+    doc: 'Callback called when the field value changes.',
+    type: '(value: Value, additionalArgs?: ReceiveAdditionalEventArgs) => void',
+    status: 'optional',
+  },
+  onFocus: {
+    doc: 'Callback called when the field receives focus.',
+    type: '(value: Value, additionalArgs?: ReceiveAdditionalEventArgs) => void',
+    status: 'optional',
+  },
+  onBlur: {
+    doc: 'Callback called when the field loses focus.',
+    type: '(value: Value, additionalArgs?: ReceiveAdditionalEventArgs) => void',
+    status: 'optional',
+  },
+  onStatusChange: {
+    doc: 'Callback called when the field status changes (e.g., error, pending).',
+    type: '(status: FieldStatus) => void',
+    status: 'optional',
+  },
 }
 
 /**
@@ -191,7 +221,7 @@ export const useFieldPropsReturns: PropertiesTableProps = {
   },
   setHasFocus: {
     doc: 'Manually set the focus state of the field.',
-    type: '(hasFocus: boolean, overrideValue?: Value) => void',
+    type: '(hasFocus: boolean, overrideValue?: Value, additionalArgs?: ProvideAdditionalEventArgs) => void',
     status: 'required',
   },
   setChanged: {

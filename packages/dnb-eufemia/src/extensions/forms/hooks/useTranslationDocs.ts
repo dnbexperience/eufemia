@@ -22,7 +22,8 @@ export const useTranslationParameters: PropertiesTableProps = {
 /**
  * Documentation for the useTranslation hook return values.
  *
- * Returns translation strings plus utility functions for formatting messages.
+ * Returns utility functions for formatting messages, plus translation
+ * string objects for each Forms domain (Field, Section, Wizard, Iterate).
  */
 export const useTranslationReturns: PropertiesTableProps = {
   formatMessage: {
@@ -41,32 +42,22 @@ export const useTranslationReturns: PropertiesTableProps = {
     status: 'required',
   },
   Field: {
-    doc: 'Translation strings for Field.* components (labels, error messages, placeholders).',
+    doc: 'Translation string object for Field.* components. Contains keys such as `errorRequired`, `errorPattern`, and component-specific labels, error messages, and placeholders.',
     type: 'object',
     status: 'required',
   },
-  'Field.errorRequired': {
-    doc: 'Default error message for required field validation.',
-    type: 'string',
-    status: 'required',
-  },
-  'Field.errorPattern': {
-    doc: 'Default error message for pattern validation failures.',
-    type: 'string',
-    status: 'required',
-  },
   Section: {
-    doc: 'Translation strings for Form.Section components.',
+    doc: 'Translation string object for Form.Section components.',
     type: 'object',
     status: 'required',
   },
   Wizard: {
-    doc: 'Translation strings for Wizard components (step labels, navigation).',
+    doc: 'Translation string object for Wizard components (step labels, navigation).',
     type: 'object',
     status: 'required',
   },
   Iterate: {
-    doc: 'Translation strings for Iterate components (add/remove buttons).',
+    doc: 'Translation string object for Iterate components (add/remove buttons).',
     type: 'object',
     status: 'required',
   },
