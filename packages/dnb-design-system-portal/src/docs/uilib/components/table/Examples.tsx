@@ -2139,6 +2139,7 @@ export const ColumnHighlight = () => (
     {() => {
       const ColumnHighlightTable = () => {
         const highlightRef = useTableHighlight()
+        const label = 'Table with highlighted column'
 
         return (
           <Table.ScrollView>
@@ -2150,15 +2151,19 @@ export const ColumnHighlight = () => (
               <thead>
                 <Tr>
                   <Th />
-                  <Th highlight>Column A</Th>
-                  <Th highlight>Column B</Th>
+                  <Th highlight aria-label={label}>
+                    Column A
+                  </Th>
+                  <Th highlight aria-label={label}>
+                    Column B
+                  </Th>
                   <Th>Column C</Th>
                   <Th>Column D</Th>
                 </Tr>
               </thead>
 
               <tbody>
-                <Tr highlight>
+                <Tr highlight aria-label={label}>
                   <Th>Row 1 Header</Th>
                   <Td>Row 1</Td>
                   <Td>Row 1</Td>
@@ -2176,7 +2181,9 @@ export const ColumnHighlight = () => (
                   <Th>Row 3 Header</Th>
                   <Td>Row 3</Td>
                   <Td>Row 3</Td>
-                  <Td highlight>Row 3</Td>
+                  <Td highlight aria-label={label}>
+                    Row 3
+                  </Td>
                   <Td>Row 3</Td>
                 </Tr>
               </tbody>
