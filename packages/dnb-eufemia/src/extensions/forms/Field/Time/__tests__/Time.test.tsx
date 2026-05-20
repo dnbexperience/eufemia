@@ -1,5 +1,6 @@
 import { axeComponent } from '../../../../../core/jest/jestSetup'
-import { render, waitFor } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
@@ -215,6 +216,22 @@ describe('Field.Time', () => {
         '.dnb-segmented-field__delimiter'
       )
       expect(delimiters).toHaveLength(2)
+    })
+
+    it('should not clear other inputs when clearing one segment with backspace', async () => {
+      render(<Field.Time value="12:30:40" showSeconds />)
+
+      const secondsInput = getSecondsInput()
+
+      act(() => {
+        secondsInput.focus()
+      })
+
+      await userEvent.keyboard('{Backspace>2}')
+
+      expect(getHoursInput().value).toBe('12')
+      expect(getMinutesInput().value).toBe('30')
+      expect(secondsInput.value).toBe('ss')
     })
 
     it('should have no accessibility violations with seconds', async () => {

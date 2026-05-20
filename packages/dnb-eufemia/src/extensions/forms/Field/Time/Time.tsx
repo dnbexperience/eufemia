@@ -84,8 +84,8 @@ function Time(props: TimeProps = {}) {
       const { hours, minutes, seconds } = values
 
       if (
-        isTimeEmpty(hours, minutes) ||
-        (showSeconds && isFieldEmpty(seconds))
+        isTimeEmpty(hours, minutes) &&
+        (!showSeconds || isFieldEmpty(seconds))
       ) {
         return undefined
       }
