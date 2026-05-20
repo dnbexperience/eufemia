@@ -156,7 +156,11 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-function CopyCodeButton({ code }: { code: string }) {
+/**
+ * Hook for copy-to-clipboard functionality with feedback state.
+ * Handles the copied state, timeout cleanup, and async clipboard operation.
+ */
+function useCopyToClipboard(code: string) {
   const [copied, setCopied] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
@@ -172,6 +176,12 @@ function CopyCodeButton({ code }: { code: string }) {
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current)
   }, [])
+
+  return { copied, handleCopy }
+}
+
+function CopyCodeButton({ code }: { code: string }) {
+  const { copied, handleCopy } = useCopyToClipboard(code)
 
   return (
     <Button
@@ -209,7 +219,6 @@ function LiveCode(props: LiveCodeProps) {
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
   const [showFocusModePadding, setShowFocusModePadding] = useState(true)
-  const [copied, setCopied] = useState(false)
   const [editedCode, setEditedCode] = useState<string | null>(null)
   const [colorScheme, setColorScheme] = useState<
     ThemeColorScheme | undefined
@@ -321,6 +330,9 @@ function LiveCode(props: LiveCodeProps) {
     [noInline, noFragments]
   )
 
+  // Use the shared copy-to-clipboard hook for consistent behavior
+  const { copied, handleCopy } = useCopyToClipboard(editedCode ?? codeToUse)
+
   const canToggleFocusModePadding =
     isInFocusMode && !omitWrapper && !hidePreview
 
@@ -348,17 +360,9 @@ function LiveCode(props: LiveCodeProps) {
     />
   )
 
-  const handleCopyCode = useCallback(async () => {
-    const success = await copyToClipboard(editedCode ?? codeToUse)
-    if (success === true) {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    }
-  }, [editedCode, codeToUse])
-
   const copyCodeButton = (
     <Button
-      onClick={handleCopyCode}
+      onClick={handleCopy}
       variant="tertiary"
       title={copied ? 'Copied!' : 'Copy code'}
       aria-label={copied ? 'Copied!' : 'Copy code'}
