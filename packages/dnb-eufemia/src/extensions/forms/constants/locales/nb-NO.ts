@@ -162,9 +162,7 @@ export default {
       hours: 'Timer',
       minutes: 'Minutter',
       seconds: 'Sekunder',
-      errorHours: '{hours} er ikke et gyldig klokkeslett.',
-      errorMinutes: '{minutes} er ikke et gyldig minutt.',
-      errorSeconds: '{seconds} er ikke et gyldig sekund.',
+      errorInvalidTime: 'Ugyldig tidspunkt.',
       errorRequired: 'Du må fylle inn et tidspunkt.',
     },
     Email: {

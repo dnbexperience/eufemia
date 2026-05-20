@@ -375,49 +375,31 @@ function validateTime(time: string, showSeconds?: boolean) {
   const hoursNumber = Number(hours)
   const minutesNumber = Number(minutes)
   const secondsNumber = Number(seconds)
-  const messages: Array<FormError> = []
 
-  if (
+  const hoursInvalid =
     isFieldEmpty(hours) ||
     isNaN(hoursNumber) ||
     hoursNumber < 0 ||
     hoursNumber > 23
-  ) {
-    messages.push(
-      new FormError('Time.errorHours', {
-        messageValues: { hours: hours ?? '' },
-      })
-    )
-  }
 
-  if (
+  const minutesInvalid =
     isFieldEmpty(minutes) ||
     isNaN(minutesNumber) ||
     minutesNumber < 0 ||
     minutesNumber > 59
-  ) {
-    messages.push(
-      new FormError('Time.errorMinutes', {
-        messageValues: { minutes: minutes ?? '' },
-      })
-    )
-  }
 
-  if (
+  const secondsInvalid =
     showSeconds &&
     (isFieldEmpty(seconds) ||
       isNaN(secondsNumber) ||
       secondsNumber < 0 ||
       secondsNumber > 59)
-  ) {
-    messages.push(
-      new FormError('Time.errorSeconds', {
-        messageValues: { seconds: seconds ?? '' },
-      })
-    )
+
+  if (hoursInvalid || minutesInvalid || secondsInvalid) {
+    return new FormError('Time.errorInvalidTime')
   }
 
-  return messages.length ? messages : undefined
+  return undefined
 }
 
 function repeatPlaceholder(character: string, length: number) {

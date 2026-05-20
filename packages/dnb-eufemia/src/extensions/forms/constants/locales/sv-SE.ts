@@ -163,9 +163,7 @@ export default {
       hours: 'Timmar',
       minutes: 'Minuter',
       seconds: 'Sekunder',
-      errorHours: '{hours} är inte en giltig timme.',
-      errorMinutes: '{minutes} är inte en giltig minut.',
-      errorSeconds: '{seconds} är inte en giltig sekund.',
+      errorInvalidTime: 'Ogiltig tid.',
       errorRequired: 'Du måste ange en tid.',
     },
     Email: {

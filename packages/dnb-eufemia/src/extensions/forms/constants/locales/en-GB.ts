@@ -161,9 +161,7 @@ export default {
       hours: 'Hours',
       minutes: 'Minutes',
       seconds: 'Seconds',
-      errorHours: '{hours} is not a valid hour.',
-      errorMinutes: '{minutes} is not a valid minute.',
-      errorSeconds: '{seconds} is not a valid second.',
+      errorInvalidTime: 'Invalid time.',
       errorRequired: 'You must enter a time.',
     },
     Email: {
