@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import type * as EufemiaPrebuildModule from '../../client/plugins/eufemia-prebuild'
-import type * as GlobModule from 'glob'
+import type * as GlobbyModule from 'globby'
 import eufemiaThemePlugin, {
   getDefaultConfig,
 } from '../../client/plugins/eufemia-theme'
@@ -167,12 +167,12 @@ describe('eufemia-theme plugin', () => {
         }
       })
 
-      vi.doMock('glob', async () => {
-        const actual = await vi.importActual<typeof GlobModule>('glob')
+      vi.doMock('globby', async () => {
+        const actual = await vi.importActual<typeof GlobbyModule>('globby')
 
         return {
           ...actual,
-          globSync: vi.fn((pattern: string) => {
+          sync: vi.fn((pattern: string) => {
             const normalized = pattern.replace(/\\/g, '/')
 
             if (normalized.includes('/build/style/dnb-ui-core.scss')) {
@@ -211,7 +211,7 @@ describe('eufemia-theme plugin', () => {
         expect(code).not.toContain('/src/style/')
       } finally {
         vi.doUnmock('../../client/plugins/eufemia-prebuild')
-        vi.doUnmock('glob')
+        vi.doUnmock('globby')
         vi.resetModules()
       }
     })
