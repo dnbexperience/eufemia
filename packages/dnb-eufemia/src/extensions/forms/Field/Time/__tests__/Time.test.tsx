@@ -144,9 +144,9 @@ describe('Field.Time', () => {
     expect(await axeComponent(container)).toHaveNoViolations()
   })
 
-  describe('withSeconds', () => {
-    it('should render seconds input when withSeconds is true', () => {
-      render(<Field.Time value="14:30:45" withSeconds />)
+  describe('showSeconds', () => {
+    it('should render seconds input when showSeconds is true', () => {
+      render(<Field.Time value="14:30:45" showSeconds />)
 
       const hoursInput = getHoursInput()
       const minutesInput = getMinutesInput()
@@ -164,15 +164,15 @@ describe('Field.Time', () => {
       expect(inputs).toHaveLength(2)
     })
 
-    it('should render three inputs when withSeconds is true', () => {
-      render(<Field.Time withSeconds />)
+    it('should render three inputs when showSeconds is true', () => {
+      render(<Field.Time showSeconds />)
 
       const inputs = getTimeInputs()
       expect(inputs).toHaveLength(3)
     })
 
     it('should validate invalid seconds', async () => {
-      render(<Field.Time value="14:30:61" withSeconds validateInitially />)
+      render(<Field.Time value="14:30:61" showSeconds validateInitially />)
 
       await waitFor(() => {
         const error = document.querySelector('.dnb-form-status--error')
@@ -181,7 +181,7 @@ describe('Field.Time', () => {
     })
 
     it('should accept valid time with seconds', () => {
-      render(<Field.Time value="00:00:00" withSeconds />)
+      render(<Field.Time value="00:00:00" showSeconds />)
 
       const hoursInput = getHoursInput()
       const minutesInput = getMinutesInput()
@@ -195,7 +195,7 @@ describe('Field.Time', () => {
     it('should work with Form.Handler and seconds', () => {
       render(
         <Form.Handler defaultData={{ time: '09:15:30' }}>
-          <Field.Time path="/time" withSeconds />
+          <Field.Time path="/time" showSeconds />
         </Form.Handler>
       )
 
@@ -209,7 +209,7 @@ describe('Field.Time', () => {
     })
 
     it('should render two colon delimiters with seconds', () => {
-      render(<Field.Time value="14:30:45" withSeconds />)
+      render(<Field.Time value="14:30:45" showSeconds />)
 
       const delimiters = document.querySelectorAll(
         '.dnb-segmented-field__delimiter'
@@ -219,7 +219,7 @@ describe('Field.Time', () => {
 
     it('should have no accessibility violations with seconds', async () => {
       const { container } = render(
-        <Field.Time value="14:30:45" withSeconds />
+        <Field.Time value="14:30:45" showSeconds />
       )
       expect(await axeComponent(container)).toHaveNoViolations()
     })

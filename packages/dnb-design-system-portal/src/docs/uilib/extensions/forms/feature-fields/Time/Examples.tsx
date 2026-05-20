@@ -90,13 +90,13 @@ export const ValidationRequired = () => {
   )
 }
 
-export const WithSeconds = () => {
+export const ShowSeconds = () => {
   return (
     <ComponentBox data-visual-test="time-with-seconds">
       <Field.Time
         value="14:30:45"
         label="With seconds"
-        withSeconds
+        showSeconds
         onChange={(time) => console.log('onChange', time)}
       />
     </ComponentBox>

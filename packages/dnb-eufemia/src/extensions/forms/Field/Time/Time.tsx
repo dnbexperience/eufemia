@@ -38,7 +38,7 @@ export type TimeProps = Omit<
   /**
    * If set to `true`, a seconds input is shown in addition to hours and minutes.
    */
-  withSeconds?: boolean
+  showSeconds?: boolean
 }
 
 function Time(props: TimeProps = {}) {
@@ -50,11 +50,11 @@ function Time(props: TimeProps = {}) {
     seconds,
   } = useTranslation().Time ?? {}
 
-  const { withSeconds } = props
+  const { showSeconds } = props
 
   const timeValidator = useCallback(
-    (value: string) => validateTime(value, withSeconds),
-    [withSeconds]
+    (value: string) => validateTime(value, showSeconds),
+    [showSeconds]
   )
 
   const {
@@ -80,23 +80,23 @@ function Time(props: TimeProps = {}) {
     (values: TimeValue) => {
       const hoursString = values.hours
       const minutesString = values.minutes
-      const secondsString = withSeconds ? values.seconds : undefined
+      const secondsString = showSeconds ? values.seconds : undefined
 
       if (
         isFieldEmpty(hoursString) &&
         isFieldEmpty(minutesString) &&
-        (!withSeconds || isFieldEmpty(secondsString))
+        (!showSeconds || isFieldEmpty(secondsString))
       ) {
         return undefined
       }
 
-      if (withSeconds) {
+      if (showSeconds) {
         return `${hoursString}:${minutesString}:${secondsString}`
       }
 
       return `${hoursString}:${minutesString}`
     },
-    [withSeconds]
+    [showSeconds]
   )
 
   const validateRequired = useCallback(
@@ -136,12 +136,12 @@ function Time(props: TimeProps = {}) {
         if (
           isFieldEmpty(hours) &&
           isFieldEmpty(minutes) &&
-          (!withSeconds || isFieldEmpty(secs))
+          (!showSeconds || isFieldEmpty(secs))
         ) {
           return undefined
         }
 
-        if (withSeconds) {
+        if (showSeconds) {
           return `${padValue(hours, 2)}:${padValue(minutes, 2)}:${padValue(
             secs,
             2
@@ -153,7 +153,7 @@ function Time(props: TimeProps = {}) {
 
       return external
     },
-    [withSeconds]
+    [showSeconds]
   )
 
   const transformIn = useCallback(
@@ -168,19 +168,19 @@ function Time(props: TimeProps = {}) {
         if (external?.hours || external?.minutes || external?.seconds) {
           const hoursString = padValue(external.hours as string, 2)
           const minutesString = padValue(external.minutes as string, 2)
-          const secondsString = withSeconds
+          const secondsString = showSeconds
             ? padValue(external.seconds as string, 2)
             : undefined
 
           if (
             isFieldEmpty(hoursString) &&
             isFieldEmpty(minutesString) &&
-            (!withSeconds || isFieldEmpty(secondsString))
+            (!showSeconds || isFieldEmpty(secondsString))
           ) {
             return undefined
           }
 
-          if (withSeconds) {
+          if (showSeconds) {
             return `${hoursString}:${minutesString}:${secondsString}`
           }
 
@@ -200,10 +200,10 @@ function Time(props: TimeProps = {}) {
       return {
         hours: hours || undefined,
         minutes: minutes || undefined,
-        ...(withSeconds && { seconds: secs || undefined }),
+        ...(showSeconds && { seconds: secs || undefined }),
       }
     },
-    [withSeconds]
+    [showSeconds]
   )
 
   const preparedProps: TimeProps = {
@@ -251,13 +251,13 @@ function Time(props: TimeProps = {}) {
     return {
       hours: hours || '',
       minutes: minutes || '',
-      seconds: withSeconds ? secs || '' : '',
+      seconds: showSeconds ? secs || '' : '',
     }
-  }, [value, withSeconds])
+  }, [value, showSeconds])
 
   useMemo(() => {
     if ((path || itemPath) && time.hours && time.minutes) {
-      const display = withSeconds
+      const display = showSeconds
         ? `${time.hours}:${time.minutes}:${time.seconds}`
         : `${time.hours}:${time.minutes}`
       setDisplayValue(display)
@@ -266,7 +266,7 @@ function Time(props: TimeProps = {}) {
     time.hours,
     time.minutes,
     time.seconds,
-    withSeconds,
+    showSeconds,
     itemPath,
     path,
     setDisplayValue,
@@ -275,10 +275,10 @@ function Time(props: TimeProps = {}) {
   const status = hasError
     ? 'error'
     : warning
-    ? 'warning'
-    : info
-    ? 'information'
-    : null
+      ? 'warning'
+      : info
+        ? 'information'
+        : null
 
   const fieldBlockProps: FieldBlockProps = {
     id,
@@ -327,7 +327,7 @@ function Time(props: TimeProps = {}) {
             placeholder: 'mm',
             ...htmlAttributes,
           },
-          ...(withSeconds
+          ...(showSeconds
             ? [
                 {
                   id: 'seconds' as const,
@@ -371,7 +371,7 @@ function padValue(value: string | undefined, length: number) {
   return value.padStart(length, '0').slice(-length)
 }
 
-function validateTime(time: string, withSeconds?: boolean) {
+function validateTime(time: string, showSeconds?: boolean) {
   if (!time || !time.includes(':')) {
     return undefined
   }
@@ -387,7 +387,7 @@ function validateTime(time: string, withSeconds?: boolean) {
   const isMinutesEmpty = !minutes || minutes.trim() === ''
   const isSecondsEmpty = !seconds || seconds.trim() === ''
 
-  if (isHoursEmpty && isMinutesEmpty && (!withSeconds || isSecondsEmpty)) {
+  if (isHoursEmpty && isMinutesEmpty && (!showSeconds || isSecondsEmpty)) {
     return messages
   }
 
@@ -418,7 +418,7 @@ function validateTime(time: string, withSeconds?: boolean) {
   }
 
   if (
-    withSeconds &&
+    showSeconds &&
     (isSecondsEmpty ||
       isNaN(secondsNumber) ||
       secondsNumber < 0 ||

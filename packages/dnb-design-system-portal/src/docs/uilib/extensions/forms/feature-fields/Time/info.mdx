@@ -11,11 +11,11 @@ render(<Field.Time />)
 
 ## Description
 
-`Field.Time` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for time input (hours and minutes).
+`Field.Time` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for time input (hours, minutes and seconds).
 
-It uses a segmented input with spin buttons, allowing users to input hours (0–23) and minutes (0–59). Optionally, seconds (0–59) can be enabled with the `withSeconds` prop.
+It uses a segmented input with spin buttons, allowing users to input hours (0–23), minutes (0–59), and optionally seconds (0–59) with the `showSeconds` prop.
 
-The value format is `"HH:mm"` (e.g. `"14:30"`), or `"HH:mm:ss"` (e.g. `"14:30:45"`) when `withSeconds` is enabled.
+The value format is `"HH:mm"` (e.g. `"14:30"`), or `"HH:mm:ss"` (e.g. `"14:30:45"`) when `showSeconds` is enabled.
 
 ## Relevant links
 

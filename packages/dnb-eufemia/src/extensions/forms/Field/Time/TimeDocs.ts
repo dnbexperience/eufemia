@@ -6,7 +6,7 @@ export const TimeProperties: PropertiesTableProps = {
     ...InputProperties.size,
     doc: `${InputProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
-  withSeconds: {
+  showSeconds: {
     doc: 'If set to `true`, a seconds input is shown in addition to hours and minutes.',
     type: 'boolean',
     status: 'optional',
