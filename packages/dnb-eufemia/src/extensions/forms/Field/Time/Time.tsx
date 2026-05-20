@@ -234,7 +234,7 @@ function Time(props: TimeProps = {}) {
     return {
       hours: hours || '',
       minutes: minutes || '',
-      seconds: showSeconds ? seconds || '' : '',
+      seconds: (showSeconds && seconds) || '',
     }
   }, [value, showSeconds])
 
@@ -360,22 +360,22 @@ function validateTime(time: string, showSeconds?: boolean) {
   }
 
   const { hours, minutes, seconds } = stringToTimeValue(time)
+
+  if (
+    isFieldEmpty(hours) &&
+    isFieldEmpty(minutes) &&
+    (!showSeconds || isFieldEmpty(seconds))
+  ) {
+    return []
+  }
+
   const hoursNumber = Number(hours)
   const minutesNumber = Number(minutes)
   const secondsNumber = Number(seconds)
-
   const messages: Array<FormError> = []
 
-  const isHoursEmpty = !hours || hours.trim() === ''
-  const isMinutesEmpty = !minutes || minutes.trim() === ''
-  const isSecondsEmpty = !seconds || seconds.trim() === ''
-
-  if (isHoursEmpty && isMinutesEmpty && (!showSeconds || isSecondsEmpty)) {
-    return messages
-  }
-
   if (
-    isHoursEmpty ||
+    isFieldEmpty(hours) ||
     isNaN(hoursNumber) ||
     hoursNumber < 0 ||
     hoursNumber > 23
@@ -388,7 +388,7 @@ function validateTime(time: string, showSeconds?: boolean) {
   }
 
   if (
-    isMinutesEmpty ||
+    isFieldEmpty(minutes) ||
     isNaN(minutesNumber) ||
     minutesNumber < 0 ||
     minutesNumber > 59
@@ -402,7 +402,7 @@ function validateTime(time: string, showSeconds?: boolean) {
 
   if (
     showSeconds &&
-    (isSecondsEmpty ||
+    (isFieldEmpty(seconds) ||
       isNaN(secondsNumber) ||
       secondsNumber < 0 ||
       secondsNumber > 59)
@@ -414,11 +414,7 @@ function validateTime(time: string, showSeconds?: boolean) {
     )
   }
 
-  if (messages.length) {
-    return messages
-  }
-
-  return undefined
+  return messages.length ? messages : undefined
 }
 
 Time._supportsEufemiaSpacingProps = true
