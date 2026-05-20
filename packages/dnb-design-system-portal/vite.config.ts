@@ -6,6 +6,7 @@
 
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import buildTargets from '@dnb/browserslist-config/buildTargets.mjs'
 import { createRequire } from 'node:module'
 import stripMissingExampleImportsPlugin from './vite/client/plugins/strip-missing-example-imports'
 import reactLiveBabelPlugin from './vite/client/plugins/react-live-babel'
@@ -49,6 +50,7 @@ export default defineConfig({
 
   // pipelines work unchanged.
   build: {
+    target: buildTargets,
     outDir: path.resolve(__dirname, 'public'),
     emptyOutDir: true,
   },
