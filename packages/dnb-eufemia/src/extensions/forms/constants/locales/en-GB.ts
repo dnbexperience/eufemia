@@ -155,6 +155,9 @@ export default {
     },
     Time: {
       label: 'Time',
+      hoursPlaceholder: 'h',
+      minutesPlaceholder: 'm',
+      secondsPlaceholder: 's',
       hours: 'Hours',
       minutes: 'Minutes',
       seconds: 'Seconds',

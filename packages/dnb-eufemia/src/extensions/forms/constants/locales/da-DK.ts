@@ -157,6 +157,9 @@ export default {
     },
     Time: {
       label: 'Tidspunkt',
+      hoursPlaceholder: 't',
+      minutesPlaceholder: 'm',
+      secondsPlaceholder: 's',
       hours: 'Timer',
       minutes: 'Minutter',
       seconds: 'Sekunder',

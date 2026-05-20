@@ -157,6 +157,9 @@ export default {
     },
     Time: {
       label: 'Tid',
+      hoursPlaceholder: 't',
+      minutesPlaceholder: 'm',
+      secondsPlaceholder: 's',
       hours: 'Timmar',
       minutes: 'Minuter',
       seconds: 'Sekunder',
