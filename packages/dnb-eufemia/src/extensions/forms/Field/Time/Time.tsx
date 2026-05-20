@@ -130,19 +130,15 @@ function Time(props: TimeProps = {}) {
 
       const { hours, minutes, seconds } = stringToTimeValue(external)
 
-      if (
-        isFieldEmpty(hours) &&
-        isFieldEmpty(minutes) &&
-        (!showSeconds || isFieldEmpty(seconds))
-      ) {
+      if (isFieldEmpty(hours) && isFieldEmpty(minutes)) {
         return undefined
       }
 
-      const parts = [padValue(hours, 2), padValue(minutes, 2)]
-      if (showSeconds) {
-        parts.push(padValue(seconds, 2))
+      if (!showSeconds) {
+        return `${padValue(hours, 2)}:${padValue(minutes, 2)}`
       }
-      return parts.join(':')
+
+      return `${padValue(hours, 2)}:${padValue(minutes, 2)}:${padValue(seconds, 2)}`
     },
     [showSeconds]
   )
