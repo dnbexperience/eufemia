@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { HTMLAttributes, HTMLProps, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 // Components
 import { useSpacing } from '../space/SpacingUtils'

@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { JSX } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
 import { Button } from '../../../../components'
 import type { ButtonProps } from '../../../../components/button/Button'

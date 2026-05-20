@@ -5,7 +5,7 @@
 
 import { useContext } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { findElementInChildren } from '../../../shared/component-helper'
 import type { SectionProps } from '../../section/Section'
 import Section from '../../section/Section'

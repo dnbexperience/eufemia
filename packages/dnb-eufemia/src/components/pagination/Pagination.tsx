@@ -13,7 +13,7 @@ import type {
   RefObject,
   SyntheticEvent,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
 import {

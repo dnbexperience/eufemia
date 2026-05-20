@@ -8,7 +8,7 @@ import {
 } from 'react'
 import type { ReactNode } from 'react'
 import * as z from 'zod'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { AriaLive, Popover } from '../../../../components'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'

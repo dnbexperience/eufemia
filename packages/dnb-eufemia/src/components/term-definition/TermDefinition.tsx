@@ -9,7 +9,7 @@ import type {
   MouseEvent,
   ReactNode,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
 import type { SkeletonShow } from '../skeleton/Skeleton'

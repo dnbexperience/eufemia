@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useRef } from 'react'
 import type { MouseEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   Checkbox,
   Switch,

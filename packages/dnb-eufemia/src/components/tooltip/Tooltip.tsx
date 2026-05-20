@@ -5,7 +5,7 @@
 
 import { useContext, useEffect, useState } from 'react'
 import type { HTMLAttributes, ReactElement, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
 import { validateDOMAttributes } from '../../shared/component-helper'

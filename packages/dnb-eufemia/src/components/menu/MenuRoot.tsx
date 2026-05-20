@@ -13,7 +13,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Popover from '../popover/Popover'
 import {
   MenuContext,

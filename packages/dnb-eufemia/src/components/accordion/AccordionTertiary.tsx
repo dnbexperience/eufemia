@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import type { MouseEvent, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
 import useId from '../../shared/helpers/useId'
 import { useSharedState } from '../../shared/helpers/useSharedState'

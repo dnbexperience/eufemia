@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import HelpButton from '../help-button/HelpButton'
 
 export default function TableHelpButton({ className = null, ...props }) {

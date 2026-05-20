@@ -6,7 +6,7 @@
 import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import Anchor from '../tags/Anchor'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { releaseVersion, buildVersion } from '../buildInfo'
 import {

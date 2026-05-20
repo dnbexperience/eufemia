@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from 'react'
 import type { ReactNode, Ref, RefObject, TableHTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import { useSpacing } from '../space/SpacingUtils'

@@ -15,7 +15,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,

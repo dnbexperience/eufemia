@@ -5,7 +5,7 @@
 
 import { useRef, useState } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'

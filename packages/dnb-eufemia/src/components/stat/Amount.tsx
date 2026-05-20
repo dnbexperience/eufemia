@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { HTMLProps, JSX, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { NumberFormatProps } from '../number-format/NumberFormatBase'
 import useNumberFormatWithParts from '../number-format/useNumberFormatWithParts'
 import {

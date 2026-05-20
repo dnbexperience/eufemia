@@ -7,7 +7,7 @@ import {
   useRef,
 } from 'react'
 import type { ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { IsolationProps } from '../../Form/Isolation'
 import Isolation from '../../Form/Isolation'
 import { extractZodSubSchema } from '../../Form/Isolation/extractZodSubSchema'

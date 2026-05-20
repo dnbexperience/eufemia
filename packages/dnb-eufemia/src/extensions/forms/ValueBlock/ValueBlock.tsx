@@ -8,7 +8,7 @@ import {
   useRef,
 } from 'react'
 import type { ReactNode, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { warn } from '../../../shared/helpers'
 import { Dd, Dl, Dt, Span } from '../../../elements'
 import type { DlProps } from '../../../elements/Dl'

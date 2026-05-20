@@ -14,7 +14,7 @@ import type {
   Schema,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'

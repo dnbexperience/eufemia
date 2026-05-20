@@ -5,7 +5,7 @@
 
 import { useContext, useRef } from 'react'
 import type { CSSProperties, HTMLProps, ReactNode, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type {

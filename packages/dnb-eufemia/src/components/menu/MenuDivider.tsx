@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { MenuDividerProps } from './types'
 
 export default function MenuDivider(props: MenuDividerProps) {

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent, ReactNode, SyntheticEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'

@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode, Ref, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   warn,
   getClosestScrollViewElement,

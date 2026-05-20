@@ -6,7 +6,7 @@
  */
 
 import type { HTMLAttributes, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 type Props = {
   className?: string

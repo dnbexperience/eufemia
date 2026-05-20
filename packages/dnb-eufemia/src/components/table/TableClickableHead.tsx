@@ -6,7 +6,7 @@ import type {
   SyntheticEvent,
   TableHTMLAttributes,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import { emptySelectedText, hasSelectedText } from '../../shared/helpers'
 import Button from '../button/Button'

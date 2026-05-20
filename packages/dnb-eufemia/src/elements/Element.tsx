@@ -5,7 +5,7 @@
 
 import { Fragment, useContext } from 'react'
 import type { HTMLProps, ReactNode, Ref, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../shared/Context'
 import {
   validateDOMAttributes,

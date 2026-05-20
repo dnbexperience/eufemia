@@ -13,7 +13,7 @@ import type {
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTheme, Context } from '../../shared'
 import useId from '../../shared/helpers/useId'

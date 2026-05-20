@@ -1,5 +1,5 @@
 import type { HTMLProps } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ModalInnerProps } from '../../modal/parts/ModalInner'
 import ModalInner from '../../modal/parts/ModalInner'
 

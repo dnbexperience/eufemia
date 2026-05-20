@@ -5,7 +5,7 @@ import type {
   ReactNode,
   TableHTMLAttributes,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { TableScrollViewProps } from './TableScrollView'
 import TableScrollView from './TableScrollView'
 import { useSpacing } from '../space/SpacingUtils'

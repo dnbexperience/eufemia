@@ -5,7 +5,7 @@
 
 import type { JSX } from 'react'
 import Input from '../input/Input'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   useInputElement,
   useEventMapping,

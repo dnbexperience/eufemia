@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { AllHTMLAttributes, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 // Components
 import FormStatus from '../form-status/FormStatus'

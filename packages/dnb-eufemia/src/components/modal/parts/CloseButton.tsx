@@ -4,7 +4,7 @@ import { useContext } from 'react'
  *
  */
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { extendExistingPropsWithContext } from '../../../shared/component-helper'
 import Button from '../../button/Button'
 import Context from '../../../shared/Context'

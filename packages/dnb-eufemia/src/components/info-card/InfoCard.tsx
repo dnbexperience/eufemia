@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react'
 import type { HTMLAttributes, MouseEventHandler, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 // Components
 import type { ButtonProps } from '../button/Button'

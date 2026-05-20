@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Button, IconPrimary } from '../../../../components'
 import { combineDescribedBy } from '../../../../shared/component-helper'
 import type { PopoverTriggerRenderProps } from '../../../../components/popover/types'

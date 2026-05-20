@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { ReactNode, ThHTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import TableSortButton from './TableSortButton'
 import TableHelpButton from './TableHelpButton'
 import { TableTrContext } from './TableTrContext'

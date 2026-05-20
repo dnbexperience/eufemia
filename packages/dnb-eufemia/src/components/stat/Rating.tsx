@@ -1,5 +1,5 @@
 import type { CSSProperties, HTMLProps, JSX, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import { convertJsxToString, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'

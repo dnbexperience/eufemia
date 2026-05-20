@@ -19,7 +19,7 @@ import type {
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context, { type ContextProps } from '../../shared/Context'
 import useId from '../../shared/helpers/useId'

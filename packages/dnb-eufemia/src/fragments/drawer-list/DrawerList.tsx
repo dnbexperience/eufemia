@@ -15,7 +15,7 @@ import type {
   SyntheticEvent,
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   removeUndefinedProps,

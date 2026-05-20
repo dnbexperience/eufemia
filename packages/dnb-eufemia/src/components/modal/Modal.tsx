@@ -18,7 +18,7 @@ import type {
   ReactNode,
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
 import Context from '../../shared/Context'
 import useId from '../../shared/helpers/useId'

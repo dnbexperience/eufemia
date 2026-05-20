@@ -3,7 +3,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { CopyOnClickAllProps } from './types'
 import { runIOSSelectionFix } from '../number-format/NumberUtils'
 import {

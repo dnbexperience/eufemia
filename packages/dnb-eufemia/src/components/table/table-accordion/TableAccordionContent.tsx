@@ -1,6 +1,6 @@
 import { useContext, useRef } from 'react'
 import type { TableHTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useId from '../../../shared/helpers/useId'
 import useTableAnimationHandler from './useTableAnimationHandler'
 import { TableContext } from '../TableContext'

@@ -6,7 +6,7 @@ import type {
   ReactElement,
   SVGProps,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   warn,
   validateDOMAttributes,

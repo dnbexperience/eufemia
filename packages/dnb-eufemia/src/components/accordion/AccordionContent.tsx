@@ -11,7 +11,7 @@ import {
   useState,
 } from 'react'
 import type { HTMLProps, ReactNode, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   warn,
   validateDOMAttributes,

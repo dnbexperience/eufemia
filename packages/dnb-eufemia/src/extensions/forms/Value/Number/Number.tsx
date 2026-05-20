@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import ValueBlock from '../../ValueBlock'
 import useValueProps from '../../hooks/useValueProps'
 import type { ValueProps } from '../../types'

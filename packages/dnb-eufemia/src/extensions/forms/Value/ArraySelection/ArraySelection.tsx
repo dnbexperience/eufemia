@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'

@@ -1,5 +1,5 @@
 import type { HTMLProps } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ModalHeaderProps } from '../../modal/parts/ModalHeader'
 import ModalHeader from '../../modal/parts/ModalHeader'
 import type { SpacingProps } from '../../../shared/types'

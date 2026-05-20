@@ -1,6 +1,6 @@
 import { Children, Fragment, isValidElement } from 'react'
 import type { HTMLProps, ReactElement, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Space from '../space/Space'
 import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'

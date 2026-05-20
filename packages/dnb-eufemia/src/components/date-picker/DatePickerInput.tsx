@@ -19,7 +19,7 @@ import type {
 // date-fns
 import { isValid as isValidFn, parseISO } from 'date-fns'
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import SegmentedField, {
   type SegmentedFieldItem as MInputs,
   type SegmentedFieldValue as MValues,

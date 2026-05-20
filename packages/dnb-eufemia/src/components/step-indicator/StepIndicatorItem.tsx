@@ -6,7 +6,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import type { AnchorAllProps } from '../anchor/Anchor'

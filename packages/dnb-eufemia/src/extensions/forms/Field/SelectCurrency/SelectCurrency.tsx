@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo, useRef } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'

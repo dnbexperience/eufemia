@@ -1,6 +1,6 @@
 import { Fragment, useCallback } from 'react'
 import type { ReactNode, MouseEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
 import ScrollView from '../../../../fragments/scroll-view/ScrollView'
 import { P } from '../../../../elements'

@@ -1,5 +1,5 @@
 import type { ReactElement, TableHTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 

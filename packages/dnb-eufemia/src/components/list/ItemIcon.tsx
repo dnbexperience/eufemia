@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { FlexItemAllProps as FlexItemProps } from '../flex/Item'
 import FlexItem from '../flex/Item'
 import Icon, { type IconIcon } from '../icon/Icon'

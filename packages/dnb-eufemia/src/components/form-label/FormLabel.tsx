@@ -12,7 +12,7 @@ import {
   useRef,
 } from 'react'
 import type { HTMLAttributes, ReactNode, Ref, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   extendPropsWithContext,
   validateDOMAttributes,

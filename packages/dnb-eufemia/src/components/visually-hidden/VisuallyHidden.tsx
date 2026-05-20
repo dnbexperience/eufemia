@@ -1,7 +1,7 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useContext } from 'react'
 import type { HTMLProps } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 // Shared
 import Context from '../../shared/Context'

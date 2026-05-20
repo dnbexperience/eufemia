@@ -5,7 +5,7 @@
 
 import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, JSX, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import '../../shared/helpers'
 import { useSpacing } from '../space/SpacingUtils'

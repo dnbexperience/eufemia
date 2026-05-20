@@ -4,7 +4,7 @@
  */
 
 import type { HTMLAttributes, Ref } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import E from '../Element'
 import { Theme } from '../../shared'

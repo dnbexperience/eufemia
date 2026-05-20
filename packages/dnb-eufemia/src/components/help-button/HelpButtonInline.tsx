@@ -7,7 +7,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { HelpButtonProps } from './HelpButton'
 import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'

@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Button } from '../../../../components'
 import useTranslation from '../../hooks/useTranslation'
 import IterateItemContext from '../IterateItemContext'

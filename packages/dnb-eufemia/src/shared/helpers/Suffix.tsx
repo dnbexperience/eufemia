@@ -5,7 +5,7 @@
 
 import { createContext, isValidElement } from 'react'
 import type { HTMLAttributes, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 
