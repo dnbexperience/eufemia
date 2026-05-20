@@ -8,6 +8,7 @@ import path from 'node:path'
 
 export default defineConfig({
   test: {
+    reporters: ['default'],
     globals: true,
     environment: 'jsdom',
     environmentOptions: {

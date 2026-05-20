@@ -9,6 +9,7 @@
 import { execSync } from 'child_process'
 import { rmSync } from 'fs'
 import globby from 'globby'
+import { collectRenewScreenshotMatches } from './renewScreenshotsLib.ts'
 
 const filters = process.argv.slice(2)
 
@@ -20,15 +21,9 @@ if (filters.length === 0) {
   process.exit(1)
 }
 
-for (const filter of filters) {
-  const dirs = globby.sync(
-    `src/**/*${filter}*/__tests__/__image_snapshots__`,
-    {
-      onlyDirectories: true,
-      caseSensitiveMatch: false,
-    }
-  )
+const matches = collectRenewScreenshotMatches(filters)
 
+for (const { snapshotDirs: dirs } of matches) {
   for (const dir of dirs) {
     const pngs = globby.sync(`${dir}/*.png`)
 
@@ -42,11 +37,21 @@ for (const filter of filters) {
   }
 }
 
+const missingFilters = matches
+  .filter(
+    ({ snapshotDirs, testFiles }) =>
+      snapshotDirs.length === 0 && testFiles.length === 0
+  )
+  .map(({ filter }) => filter)
+if (missingFilters.length > 0) {
+  console.log(
+    `No screenshot test files found for: ${missingFilters.join(', ')}`
+  )
+}
+
 // Find matching screenshot test files
-const testFiles = filters.flatMap((filter) =>
-  globby.sync(`src/**/*${filter}*/**/*.screenshot.test.{ts,tsx}`, {
-    caseSensitiveMatch: false,
-  })
+const testFiles = Array.from(
+  new Set(matches.flatMap(({ testFiles }) => testFiles))
 )
 
 if (testFiles.length === 0) {
