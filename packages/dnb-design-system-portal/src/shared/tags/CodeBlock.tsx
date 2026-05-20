@@ -30,6 +30,7 @@ import {
   fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
   reset as resetIcon,
+  launch as launchIcon,
 } from '@dnb/eufemia/src/icons'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
@@ -60,6 +61,7 @@ import {
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
+import { openInStackBlitz } from './openInStackBlitz'
 
 // Import other languages not included in the default bundle of prism-react-renderer
 import './prismLanguages'
@@ -384,6 +386,21 @@ function LiveCode(props: LiveCodeProps) {
     />
   )
 
+  const handleOpenInStackBlitz = useCallback(() => {
+    const codeToOpen = editedCode ?? codeToUse
+    openInStackBlitz(codeToOpen)
+  }, [editedCode, codeToUse])
+
+  const openInStackBlitzButton = (
+    <Button
+      onClick={handleOpenInStackBlitz}
+      variant="tertiary"
+      title="Open in StackBlitz"
+      aria-label="Open in StackBlitz"
+      icon={launchIcon}
+    />
+  )
+
   const focusModePaddingButton = canToggleFocusModePadding && (
     <Button
       onClick={() =>
@@ -539,6 +556,8 @@ function LiveCode(props: LiveCodeProps) {
                       {copyCodeButton}
 
                       {resetCodeButton}
+
+                      {openInStackBlitzButton}
 
                       {focusModePaddingButton}
 

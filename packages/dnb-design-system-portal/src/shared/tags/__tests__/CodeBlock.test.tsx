@@ -691,5 +691,144 @@ describe('CodeBlock', () => {
 
       expect(mockCopyToClipboard).toHaveBeenCalledWith('<div>Hello</div>')
     })
+
+    it('should render an open in StackBlitz button', () => {
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      )
+      expect(stackBlitzButton).toBeTruthy()
+    })
+
+    it('should open StackBlitz when clicking the button', async () => {
+      const mockSubmit = vi.fn()
+      const mockAppendChild = vi.spyOn(document.body, 'appendChild')
+      const mockRemoveChild = vi.spyOn(document.body, 'removeChild')
+
+      // Mock HTMLFormElement.prototype.submit
+      HTMLFormElement.prototype.submit = mockSubmit
+
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+      })
+
+      expect(mockSubmit).toHaveBeenCalled()
+      expect(mockAppendChild).toHaveBeenCalled()
+      expect(mockRemoveChild).toHaveBeenCalled()
+
+      vi.restoreAllMocks()
+    })
+
+    it('should generate StackBlitz code with proper Eufemia imports', async () => {
+      let submittedFormData: Record<string, string> = {}
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation(
+        (tagName: string) => {
+          const element = originalCreateElement(tagName)
+          if (tagName === 'form') {
+            element.submit = vi.fn(() => {
+              // Capture form data
+              const inputs = element.querySelectorAll('input')
+              inputs.forEach((input: HTMLInputElement) => {
+                submittedFormData[input.name] = input.value
+              })
+            })
+          }
+          return element
+        }
+      )
+
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {
+            '<Button onClick={() => console.log("clicked")}>Click me</Button>'
+          }
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+      })
+
+      const appCode = submittedFormData['project[files][src/App.tsx]']
+      expect(appCode).toContain("import { Button } from '@dnb/eufemia'")
+      expect(appCode).toContain(
+        "import { Provider } from '@dnb/eufemia/shared'"
+      )
+
+      vi.restoreAllMocks()
+    })
+
+    it('should generate StackBlitz code with React hooks imports', async () => {
+      let submittedFormData: Record<string, string> = {}
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation(
+        (tagName: string) => {
+          const element = originalCreateElement(tagName)
+          if (tagName === 'form') {
+            element.submit = vi.fn(() => {
+              const inputs = element.querySelectorAll('input')
+              inputs.forEach((input: HTMLInputElement) => {
+                submittedFormData[input.name] = input.value
+              })
+            })
+          }
+          return element
+        }
+      )
+
+      const codeWithHooks = `function Example() {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    console.log(count)
+  }, [count])
+  return <Button onClick={() => setCount(c => c + 1)}>{count}</Button>
+}`
+
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {codeWithHooks}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+      })
+
+      const appCode = submittedFormData['project[files][src/App.tsx]']
+      expect(appCode).toContain(
+        "import { useState, useEffect } from 'react'"
+      )
+      expect(appCode).toContain("import { Button } from '@dnb/eufemia'")
+      // Should wrap function component properly
+      expect(appCode).toContain('<Example />')
+
+      vi.restoreAllMocks()
+    })
   })
 })
