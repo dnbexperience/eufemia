@@ -574,8 +574,6 @@ function LiveCode(props: LiveCodeProps) {
                     )}
 
                     <Flex.Horizontal align="center">
-                      {localeSwitcher}
-
                       <Checkbox
                         checked={
                           colorScheme ===
@@ -606,6 +604,8 @@ function LiveCode(props: LiveCodeProps) {
                           label="Dark surface"
                         />
                       )}
+
+                      {localeSwitcher}
 
                       {copyCodeButton}
 
