@@ -138,6 +138,16 @@ vi.mock('@dnb/eufemia/src/components', async () => {
           ),
       }
     ),
+    Menu: {
+      Root: ({ children, ...rest }: any) =>
+        createElement('div', { 'data-testid': 'menu-root', ...rest }, children),
+      Button: ({ icon: _icon, ...rest }: any) =>
+        createElement('button', { 'data-testid': 'menu-button', ...rest }),
+      List: ({ children, ...rest }: any) =>
+        createElement('div', { 'data-testid': 'menu-list', role: 'menu', ...rest }, children),
+      Action: ({ text, onClick, ...rest }: any) =>
+        createElement('button', { role: 'menuitem', onClick, ...rest }, text),
+    },
   }
 })
 

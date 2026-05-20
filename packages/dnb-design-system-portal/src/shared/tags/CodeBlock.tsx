@@ -19,6 +19,7 @@ import {
   Button,
   Checkbox,
   Flex,
+  Menu,
   Space,
   ToggleButton,
 } from '@dnb/eufemia/src/components'
@@ -31,6 +32,7 @@ import {
   layout_grid as focusModeCompactIcon,
   reset as resetIcon,
   launch as launchIcon,
+  globe as globeIcon,
 } from '@dnb/eufemia/src/icons'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
@@ -425,26 +427,30 @@ function LiveCode(props: LiveCodeProps) {
   )
 
   // Find current locale flag for display
-  const currentLocaleFlag =
-    localeOptions.find((opt) => opt.value === context.locale)?.flag ?? '🌐'
+  const currentLocaleOption = localeOptions.find(
+    (opt) => opt.value === context.locale
+  )
 
   const localeSwitcher = (
-    <ToggleButton.Group
-      value={context.locale}
-      onChange={({ value }) => handleLocaleChange(value as string)}
-      variant="radio"
-    >
-      {localeOptions.map(({ value, flag, label }) => (
-        <ToggleButton
-          key={value}
-          value={value}
-          title={label}
-          aria-label={label}
-          size="small"
-          text={flag}
-        />
-      ))}
-    </ToggleButton.Group>
+    <Menu.Root>
+      <Menu.Button
+        icon={globeIcon}
+        title="Change locale"
+        aria-label={`Change locale (current: ${currentLocaleOption?.label ?? context.locale})`}
+        variant="tertiary"
+        size="small"
+      />
+      <Menu.List>
+        {localeOptions.map(({ value, flag, label }) => (
+          <Menu.Action
+            key={value}
+            text={`${flag} ${label}`}
+            onClick={() => handleLocaleChange(value)}
+            aria-current={value === context.locale ? 'true' : undefined}
+          />
+        ))}
+      </Menu.List>
+    </Menu.Root>
   )
 
   const focusModePaddingButton = canToggleFocusModePadding && (
