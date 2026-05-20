@@ -29,12 +29,9 @@ import {
   close as focusModeCloseIcon,
   fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
-  copy as copyIcon,
-  check as checkIcon,
 } from '@dnb/eufemia/src/icons'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
-import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import type {
   ThemeColorScheme,
   ThemeSurface,
