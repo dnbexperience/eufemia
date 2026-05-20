@@ -145,38 +145,33 @@ function Time(props: TimeProps = {}) {
 
   const transformIn = useCallback(
     (value: string) => {
-      if (transformInProp) {
-        const external = transformInProp(value)
-
-        if (typeof external === 'string') {
-          return external
-        }
-
-        if (external?.hours || external?.minutes || external?.seconds) {
-          const hoursString = padValue(external.hours as string, 2)
-          const minutesString = padValue(external.minutes as string, 2)
-          const secondsString = showSeconds
-            ? padValue(external.seconds as string, 2)
-            : undefined
-
-          if (
-            isFieldEmpty(hoursString) &&
-            isFieldEmpty(minutesString) &&
-            (!showSeconds || isFieldEmpty(secondsString))
-          ) {
-            return undefined
-          }
-
-          const parts = [
-            hoursString,
-            minutesString,
-            ...(secondsString !== undefined ? [secondsString] : []),
-          ]
-          return parts.join(':')
-        }
+      if (!transformInProp) {
+        return value
       }
 
-      return value
+      const external = transformInProp(value)
+
+      if (typeof external === 'string') {
+        return external
+      }
+
+      if (!external?.hours && !external?.minutes && !external?.seconds) {
+        return value
+      }
+
+      const hours = padValue(external.hours as string, 2)
+      const minutes = padValue(external.minutes as string, 2)
+
+      if (isFieldEmpty(hours) && isFieldEmpty(minutes)) {
+        return undefined
+      }
+
+      if (!showSeconds) {
+        return `${hours}:${minutes}`
+      }
+
+      const seconds = padValue(external.seconds as string, 2)
+      return `${hours}:${minutes}:${seconds}`
     },
     [transformInProp]
   )
