@@ -169,11 +169,19 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       return // stop here
     }
 
+    if (event?.currentTarget instanceof HTMLAnchorElement) {
+      event.preventDefault()
+    }
+
     setPage(props.currentPageInternal - 1)
   }
   const setNextPage = (event = null) => {
     if (isModifiedClickEvent(event)) {
       return // stop here
+    }
+
+    if (event?.currentTarget instanceof HTMLAnchorElement) {
+      event.preventDefault()
     }
 
     setPage(props.currentPageInternal + 1)
@@ -187,6 +195,10 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
 
     if (isAnchorLikeElement && isModifiedClickEvent(event)) {
       return // stop here
+    }
+
+    if (isAnchorLikeElement) {
+      event?.preventDefault()
     }
 
     setPage(pageNumber, event)
