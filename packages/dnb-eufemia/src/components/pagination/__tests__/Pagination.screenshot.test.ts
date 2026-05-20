@@ -125,6 +125,50 @@ describe.each(['ui', 'sbanken'])(`Pagination for %s`, (themeName) => {
   })
 })
 
+describe('Pagination for ui', () => {
+  setupPageScreenshot({
+    themeName: 'ui',
+    url: '/uilib/components/pagination/demos/',
+  })
+
+  it('have to match pagination with href', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="pagination-href"]',
+      style: { width: 'fit-content' },
+    })
+  })
+
+  it('have to match pagination with href link hover', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="pagination-href"]',
+      style: { width: 'fit-content' },
+      simulateSelector:
+        '[data-visual-test="pagination-href"] a.dnb-pagination__button:nth-of-type(2)',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match pagination with href link focus', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="pagination-href"]',
+      style: { width: 'fit-content' },
+      simulateSelector:
+        '[data-visual-test="pagination-href"] a.dnb-pagination__button:nth-of-type(2)',
+      simulate: 'focus',
+    })
+  })
+
+  it('have to match pagination with href current page', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="pagination-href"]',
+      style: { width: 'fit-content' },
+      simulateSelector:
+        '[data-visual-test="pagination-href"] .dnb-pagination__button--current',
+      simulate: 'hover',
+    })
+  })
+})
+
 describe.each(['ui', 'sbanken'])(`Pagination for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,

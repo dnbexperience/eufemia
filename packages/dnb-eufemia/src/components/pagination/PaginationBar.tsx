@@ -24,6 +24,18 @@ import type { LocaleProps, SpaceTypeAll } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { useSpacing } from '../space/SpacingUtils'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { isModifiedClickEvent } from '../../shared/helpers'
+
+export type NavigationItemProps = {
+  className: string
+  'aria-label': string
+  'aria-current'?: 'page'
+  skeleton?: SkeletonShow
+  disabled?: boolean
+  title?: string
+  onClick: (event: React.MouseEvent) => void
+  children: ReactNode
+}
 
 export type PaginationBarProps = {
   /**
@@ -69,6 +81,10 @@ type PaginationBarContext = {
   currentPageInternal: number
   pageCountInternal: number
   disabled: boolean
+  transformNavigationItem?: (
+    pageNumber: number,
+    navigationItemProps: NavigationItemProps
+  ) => ReactNode
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void
   updatePageContent: (currentPageInternal: number) => void
@@ -76,6 +92,7 @@ type PaginationBarContext = {
 
 const PaginationBar = (localProps: PaginationBarAllProps) => {
   const context = useContext(PaginationContext)
+  const sharedContext = useContext(Context)
 
   const props = extendPropsWithContext(
     localProps,
@@ -87,9 +104,12 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     currentPageInternal,
     pageCountInternal,
     disabled,
-    skeleton,
+    skeleton: skeletonProp,
     space,
+    transformNavigationItem,
   } = props
+
+  const skeleton = skeletonProp ?? sharedContext?.skeleton
 
   // because of accessibility
   const focusPage = () => {
@@ -144,14 +164,31 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     })
   }
 
-  const setPrevPage = () => {
+  const setPrevPage = (event = null) => {
+    if (isModifiedClickEvent(event)) {
+      return // stop here
+    }
+
     setPage(props.currentPageInternal - 1)
   }
-  const setNextPage = () => {
+  const setNextPage = (event = null) => {
+    if (isModifiedClickEvent(event)) {
+      return // stop here
+    }
+
     setPage(props.currentPageInternal + 1)
   }
 
   const clickHandler = ({ pageNumber, event }) => {
+    const currentTarget = event?.currentTarget
+    const isAnchorLikeElement =
+      currentTarget instanceof HTMLAnchorElement ||
+      currentTarget?.getAttribute?.('href')
+
+    if (isAnchorLikeElement && isModifiedClickEvent(event)) {
+      return // stop here
+    }
+
     setPage(pageNumber, event)
     focusPage()
   }
@@ -181,6 +218,107 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     currentScreenSize === 'small'
   )
 
+  const renderPaginationButton = (
+    pageNumber: number,
+    extraClassName?: string
+  ) => {
+    const isCurrent = pageNumber === currentPageInternal
+    const label = buttonTitle.replace('%s', String(pageNumber))
+
+    if (!transformNavigationItem) {
+      return (
+        <Button
+          key={pageNumber}
+          className={clsx('dnb-pagination__button', extraClassName)}
+          text={String(pageNumber)}
+          aria-label={label}
+          variant={isCurrent ? 'primary' : 'secondary'}
+          disabled={disabled}
+          skeleton={skeleton}
+          aria-current={isCurrent ? 'page' : null}
+          onClick={(event) => clickHandler({ pageNumber, event })}
+        />
+      )
+    }
+
+    if (isCurrent && !skeleton) {
+      return (
+        <span
+          key={pageNumber}
+          className={clsx(
+            'dnb-pagination__button',
+            'dnb-pagination__button--current',
+            extraClassName
+          )}
+          aria-label={label}
+          aria-current="page"
+        >
+          {String(pageNumber)}
+        </span>
+      )
+    }
+
+    return (
+      <Fragment key={pageNumber}>
+        {transformNavigationItem(pageNumber, {
+          className: clsx('dnb-pagination__button', extraClassName),
+          'aria-label': label,
+          skeleton,
+          disabled,
+          onClick: (event) => clickHandler({ pageNumber, event }),
+          children: String(pageNumber),
+        })}
+      </Fragment>
+    )
+  }
+
+  const renderStepButton = (direction: 'prev' | 'next') => {
+    const isPrev = direction === 'prev'
+    const isDisabled = isPrev ? prevIsDisabled : nextIsDisabled
+    const title = isPrev ? prevTitle : nextTitle
+    const icon = isPrev ? 'chevron_left' : 'chevron_right'
+    const onNavigate = isPrev ? setPrevPage : setNextPage
+
+    if (!transformNavigationItem) {
+      return (
+        <Button
+          key={`${direction}-arrow`}
+          disabled={disabled || isDisabled}
+          skeleton={skeleton}
+          variant="tertiary"
+          icon={icon}
+          iconPosition={isPrev ? 'left' : 'right'}
+          text={title}
+          onClick={onNavigate}
+          title={isDisabled ? null : title}
+        />
+      )
+    }
+
+    if (isDisabled) {
+      return null
+    }
+
+    const pageNumber = currentPageInternal + (isPrev ? -1 : 1)
+
+    return (
+      <Fragment key={`${direction}-arrow`}>
+        {transformNavigationItem(pageNumber, {
+          className: clsx(
+            'dnb-pagination__button',
+            `dnb-pagination__button--${direction}`
+          ),
+          'aria-label': title,
+          title,
+          skeleton,
+          disabled,
+          onClick: (event) => onNavigate(event),
+          children: <IconPrimary icon={icon} />,
+        })}
+      </Fragment>
+    )
+  }
+
   return (
     <div
       ref={paginationBarRef}
@@ -195,52 +333,19 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       )}
     >
       <div className="dnb-pagination__bar__wrapper">
-        <div className="dnb-pagination__bar__skip">
-          <Button
-            key="left-arrow"
-            disabled={disabled || prevIsDisabled}
-            skeleton={skeleton}
-            variant="tertiary"
-            icon="chevron_left"
-            iconPosition="left"
-            text={prevTitle}
-            onClick={setPrevPage}
-            title={prevIsDisabled ? null : prevTitle}
-          />
-
-          <Button
-            key="right-arrow"
-            disabled={disabled || nextIsDisabled}
-            skeleton={skeleton}
-            variant="tertiary"
-            icon="chevron_right"
-            iconPosition="right"
-            text={nextTitle}
-            onClick={setNextPage}
-            title={nextIsDisabled ? null : nextTitle}
-          />
-        </div>
+        {!transformNavigationItem && (
+          <div className="dnb-pagination__bar__skip">
+            {renderStepButton('prev')}
+            {renderStepButton('next')}
+          </div>
+        )}
 
         <div className="dnb-pagination__bar__inner">
-          {(pageNumberGroups?.[0] || []).map((pageNumber) => (
-            <Button
-              key={pageNumber}
-              className="dnb-pagination__button"
-              text={String(pageNumber)}
-              aria-label={buttonTitle.replace('%s', String(pageNumber))}
-              variant={
-                pageNumber === currentPageInternal
-                  ? 'primary'
-                  : 'secondary'
-              }
-              disabled={disabled}
-              skeleton={skeleton}
-              aria-current={
-                pageNumber === currentPageInternal ? 'page' : null
-              }
-              onClick={(event) => clickHandler({ pageNumber, event })}
-            />
-          ))}
+          {transformNavigationItem && renderStepButton('prev')}
+
+          {(pageNumberGroups?.[0] || []).map((pageNumber) =>
+            renderPaginationButton(pageNumber)
+          )}
 
           {pageNumberGroups.slice(1).map((numbersList, idx) => (
             <Fragment key={idx}>
@@ -258,39 +363,18 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                 size="medium"
               />
 
-              {numbersList.map((pageNumber) => {
-                return (
-                  <Button
-                    key={(pageNumber || 0) + idx}
-                    className={clsx(
-                      'dnb-pagination__button',
-                      String(pageNumber).length > 3
-                        ? 'dnb-pagination__button--large-number'
-                        : null
-                    )}
-                    text={String(pageNumber)}
-                    aria-label={buttonTitle.replace(
-                      '%s',
-                      String(pageNumber)
-                    )}
-                    variant={
-                      pageNumber === currentPageInternal
-                        ? 'primary'
-                        : 'secondary'
-                    }
-                    disabled={disabled}
-                    skeleton={skeleton}
-                    aria-current={
-                      pageNumber === currentPageInternal ? 'page' : null
-                    }
-                    onClick={(event) =>
-                      clickHandler({ pageNumber, event })
-                    }
-                  />
+              {numbersList.map((pageNumber) =>
+                renderPaginationButton(
+                  pageNumber,
+                  String(pageNumber).length > 3
+                    ? 'dnb-pagination__button--large-number'
+                    : undefined
                 )
-              })}
+              )}
             </Fragment>
           ))}
+
+          {transformNavigationItem && renderStepButton('next')}
         </div>
       </div>
 

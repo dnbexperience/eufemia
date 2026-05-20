@@ -9,6 +9,7 @@ import styled from '@emotion/styled'
 
 import { P } from '../../..'
 import { Button, Section } from '../..'
+import Anchor from '../../anchor/Anchor'
 import Pagination, { createPagination } from '../Pagination'
 
 export default {
@@ -375,3 +376,85 @@ export function PaginationBarSpacing() {
     </Section>
   )
 }
+
+const urls = [
+  '/products/savings',
+  '/products/loans',
+  '/products/insurance',
+  '/accounts/overview',
+  '/accounts/transactions',
+  '/cards/credit',
+  '/cards/debit',
+  '/support/faq',
+  '/support/contact',
+  '/settings/profile',
+]
+
+export const PaginationWithTransformNavigationItem = () => (
+  <Wrapper>
+    <Box>
+      <P>Path-based URLs</P>
+      <Pagination
+        pageCount={30}
+        currentPage={4}
+        transformNavigationItem={(pageNumber, navigationItemProps) => (
+          <Anchor href={`/page/${pageNumber}`} {...navigationItemProps} />
+        )}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Url Array</P>
+      <Pagination
+        pageCount={urls.length}
+        currentPage={3}
+        transformNavigationItem={(pageNumber, navigationItemProps) => {
+          return (
+            <Anchor href={urls[pageNumber - 1]} {...navigationItemProps} />
+          )
+        }}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Url Array</P>
+      <Pagination
+        pageCount={urls.length}
+        currentPage={3}
+        transformNavigationItem={(pageNumber, navigationItemProps) => {
+          return (
+            <Button href={urls[pageNumber - 1]} {...navigationItemProps} />
+          )
+        }}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+
+    <Box>
+      <P>Url Array</P>
+      <Pagination
+        pageCount={urls.length}
+        currentPage={3}
+        onChange={({ pageNumber }) => {
+          console.log('onChange:', pageNumber)
+        }}
+      >
+        <P>Current Page Content</P>
+      </Pagination>
+    </Box>
+  </Wrapper>
+)
