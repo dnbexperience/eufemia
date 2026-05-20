@@ -53,6 +53,7 @@ import {
   LiveEditor,
   LiveError,
   LivePreview,
+  LiveContext,
 } from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
 
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
@@ -125,7 +126,10 @@ const CodeBlock = ({
               createSkeletonClass('code', context.skeleton)
             )}
           >
-            <CopyCodeButton code={String(exampleCode)} />
+            <CopyCodeButton
+              code={String(exampleCode)}
+              className={copyButtonStyle}
+            />
 
             <Tag as="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => {
@@ -155,7 +159,11 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-function CopyCodeButton({ code }: { code: string }) {
+/**
+ * Hook for copy-to-clipboard functionality with feedback state.
+ * Handles the copied state, timeout cleanup, and async clipboard operation.
+ */
+function useCopyToClipboard(code: string) {
   const [copied, setCopied] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
 
@@ -172,9 +180,30 @@ function CopyCodeButton({ code }: { code: string }) {
     return () => clearTimeout(timeoutRef.current)
   }, [])
 
+  return { copied, handleCopy }
+}
+
+type CopyCodeButtonProps = {
+  code: string
+  className?: string
+  variant?: 'tertiary'
+}
+
+/**
+ * Reusable copy-to-clipboard button with visual feedback.
+ * Used both for static code blocks (with copyButtonStyle) and live code toolbar.
+ */
+function CopyCodeButton({
+  code,
+  className,
+  variant,
+}: CopyCodeButtonProps) {
+  const { copied, handleCopy } = useCopyToClipboard(code)
+
   return (
     <Button
-      className={copyButtonStyle}
+      className={className}
+      variant={variant}
       icon={copied ? checkIcon : copyIcon}
       tooltip={copied ? 'Copied!' : 'Copy to clipboard'}
       onClick={handleCopy}
@@ -208,7 +237,7 @@ function LiveCode(props: LiveCodeProps) {
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
   const [showFocusModePadding, setShowFocusModePadding] = useState(true)
-  const [tabMode] = useState<'focus' | 'indentation'>('focus')
+  const [editedCode, setEditedCode] = useState<string | null>(null)
   const [colorScheme, setColorScheme] = useState<
     ThemeColorScheme | undefined
   >(undefined)
@@ -344,6 +373,10 @@ function LiveCode(props: LiveCodeProps) {
       aria-label={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
       icon={isInFocusMode ? focusModeCloseIcon : focusModeIcon}
     />
+  )
+
+  const copyCodeButton = (
+    <CopyCodeButton code={editedCode ?? codeToUse} variant="tertiary" />
   )
 
   const focusModePaddingButton = canToggleFocusModePadding && (
@@ -497,6 +530,8 @@ function LiveCode(props: LiveCodeProps) {
                         />
                       )}
 
+                      {!isInFocusMode && copyCodeButton}
+
                       {focusModePaddingButton}
 
                       {focusModeButton}
@@ -516,11 +551,7 @@ function LiveCode(props: LiveCodeProps) {
               )}
               ref={editorElementRef}
             >
-              <LiveEditor
-                prism={Prism}
-                tabMode={tabMode}
-                className="dnb-live-editor__editable dnb-pre"
-              />
+              <LiveCodeEditor onCodeChange={setEditedCode} />
             </Space>
           )}
 
@@ -528,6 +559,35 @@ function LiveCode(props: LiveCodeProps) {
         </LiveProvider>
       )}
     </div>
+  )
+}
+
+/**
+ * Wrapper component that combines the LiveContext onChange with external tracking.
+ * This ensures editing code updates the preview AND tracks the edited code for e.g. copying.
+ */
+function LiveCodeEditor({
+  onCodeChange,
+}: {
+  onCodeChange: (code: string) => void
+}) {
+  const { onChange: contextOnChange } = useContext(LiveContext)
+
+  const handleChange = useCallback(
+    (code: string) => {
+      contextOnChange(code)
+      onCodeChange(code)
+    },
+    [contextOnChange, onCodeChange]
+  )
+
+  return (
+    <LiveEditor
+      prism={Prism}
+      tabMode="focus"
+      className="dnb-live-editor__editable dnb-pre"
+      onChange={handleChange}
+    />
   )
 }
 
