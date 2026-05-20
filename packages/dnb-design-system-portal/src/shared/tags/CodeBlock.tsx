@@ -62,6 +62,8 @@ import {
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { openInStackBlitz } from './openInStackBlitz'
+import { setLang } from '../../core/portalRuntimeUtils'
+import type { InternalLocale } from '@dnb/eufemia/src/shared/Context'
 
 // Import other languages not included in the default bundle of prism-react-renderer
 import './prismLanguages'
@@ -405,6 +407,42 @@ function LiveCode(props: LiveCodeProps) {
     />
   )
 
+  // Locale options with emoji flags for compact display
+  const localeOptions = [
+    { value: 'nb-NO', flag: '🇳🇴', label: 'Norsk' },
+    { value: 'en-GB', flag: '🇬🇧', label: 'English (GB)' },
+    { value: 'sv-SE', flag: '🇸🇪', label: 'Svenska' },
+    { value: 'da-DK', flag: '🇩🇰', label: 'Dansk' },
+  ] as const
+
+  const handleLocaleChange = useCallback(
+    (value: string) => {
+      context.setLocale?.(value as InternalLocale)
+      setLang(value)
+    },
+    [context]
+  )
+
+  const localeSwitcher = (
+    <ToggleButton.Group
+      value={context.locale}
+      onChange={({ value }) => handleLocaleChange(value as string)}
+      variant="checkbox"
+    >
+      {localeOptions.map(({ value, flag, label }) => (
+        <ToggleButton
+          key={value}
+          value={value}
+          title={label}
+          aria-label={label}
+          size="small"
+          variant="checkbox"
+          text={flag}
+        />
+      ))}
+    </ToggleButton.Group>
+  )
+
   const focusModePaddingButton = canToggleFocusModePadding && (
     <Button
       onClick={() =>
@@ -526,6 +564,8 @@ function LiveCode(props: LiveCodeProps) {
                     )}
 
                     <Flex.Horizontal align="center">
+                      {localeSwitcher}
+
                       <Checkbox
                         checked={
                           colorScheme ===

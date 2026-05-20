@@ -55,6 +55,11 @@ vi.mock('@dnb/eufemia/src/components/skeleton/SkeletonHelper', () => ({
   createSkeletonClass: () => '',
 }))
 
+// Mock portalRuntimeUtils
+vi.mock('../../../core/portalRuntimeUtils', () => ({
+  setLang: vi.fn(),
+}))
+
 // Create hoisted mock for copyToClipboard
 const mockCopyToClipboard = vi.hoisted(() =>
   vi.fn().mockResolvedValue(true)
@@ -99,17 +104,40 @@ vi.mock('@dnb/eufemia/src/components', async () => {
       Horizontal: ({ children, ...rest }: any) =>
         createElement('div', rest, children),
     },
-    ToggleButton: ({ children, checked, onChange, ...rest }: any) =>
-      createElement(
-        'button',
-        {
-          type: 'button',
-          'aria-pressed': checked,
-          onClick: () => onChange?.({ checked: !checked }),
-          ...rest,
-        },
-        children
-      ),
+    ToggleButton: Object.assign(
+      ({ children, text, checked, onChange, onClick, ...rest }: any) =>
+        createElement(
+          'button',
+          {
+            type: 'button',
+            'aria-pressed': checked,
+            onClick: onClick ?? (() => onChange?.({ checked: !checked })),
+            ...rest,
+          },
+          text || children
+        ),
+      {
+        Group: ({ children, value, onChange, ...rest }: any) =>
+          createElement(
+            'div',
+            { role: 'group', 'data-value': value, ...rest },
+            typeof children === 'function'
+              ? children
+              : children?.map?.((child: any) =>
+                  createElement('button', {
+                    key: child.props?.value,
+                    type: 'button',
+                    'aria-pressed': value === child.props?.value,
+                    onClick: () =>
+                      onChange?.({ value: child.props?.value }),
+                    title: child.props?.title,
+                    'aria-label': child.props?.['aria-label'],
+                    children: child.props?.text,
+                  })
+                )
+          ),
+      }
+    ),
   }
 })
 
@@ -119,7 +147,10 @@ vi.mock('@dnb/eufemia/src/shared', async () => {
     createContext: typeof CreateContext
   }
   return {
-    Context: createContext({}),
+    Context: createContext({
+      locale: 'nb-NO',
+      setLocale: vi.fn(),
+    }),
   }
 })
 
