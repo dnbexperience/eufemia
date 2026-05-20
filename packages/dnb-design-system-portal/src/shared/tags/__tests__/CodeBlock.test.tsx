@@ -735,7 +735,7 @@ describe('CodeBlock', () => {
     })
 
     it('should generate StackBlitz code with proper Eufemia imports', async () => {
-      let submittedFormData: Record<string, string> = {}
+      const submittedFormData: Record<string, string> = {}
 
       const originalCreateElement = document.createElement.bind(document)
       vi.spyOn(document, 'createElement').mockImplementation(
@@ -780,7 +780,7 @@ describe('CodeBlock', () => {
     })
 
     it('should generate StackBlitz code with React hooks imports', async () => {
-      let submittedFormData: Record<string, string> = {}
+      const submittedFormData: Record<string, string> = {}
 
       const originalCreateElement = document.createElement.bind(document)
       vi.spyOn(document, 'createElement').mockImplementation(
