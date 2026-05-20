@@ -171,6 +171,16 @@
     box-shadow: none;
   }
 
+  &:not(:global(.omit-wrapper)):has(:global(.dnb-live-editor):hover) {
+    box-shadow: 0 0 0 var(--focus-ring-width)
+      var(--token-color-stroke-action-focus);
+
+    :global(.focusmode) &,
+    :global(html[data-visual-test]) & {
+      box-shadow: none;
+    }
+  }
+
   :global {
     .example-caption {
       margin-bottom: 1.5rem;
