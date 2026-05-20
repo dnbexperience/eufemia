@@ -308,6 +308,11 @@
                 "hidden": false
               },
               {
+                "type": "design",
+                "section": ":art: Design Changes",
+                "hidden": false
+              },
+              {
                 "type": "refactor",
                 "section": ":zap: Refactoring",
                 "hidden": false
