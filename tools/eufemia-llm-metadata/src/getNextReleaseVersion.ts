@@ -16,6 +16,19 @@ async function getBranchName(cwd: string) {
   }
 }
 
+export async function getCommitHash() {
+  const repoRoot = findRepoRoot()
+
+  try {
+    const { stdout } = await execAsync('git rev-parse --short HEAD', {
+      cwd: repoRoot,
+    })
+    return stdout.trim()
+  } catch {
+    return ''
+  }
+}
+
 export async function getNextReleaseVersion() {
   const repoRoot = findRepoRoot()
   const branchName = await getBranchName(repoRoot)

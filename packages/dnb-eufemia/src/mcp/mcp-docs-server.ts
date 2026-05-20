@@ -871,7 +871,41 @@ export function createDocsTools(
   }
 }
 
-export const SERVER_INFO = { name: 'eufemia', version: '2.2.0' }
+export const SERVER_NAME = 'eufemia'
+
+export type DocsMeta = {
+  eufemiaVersion: string
+  generatedAt: string
+  commit: string
+}
+
+export function createServerInfo(eufemiaVersion?: string): {
+  name: string
+  version: string
+} {
+  return {
+    name: SERVER_NAME,
+    version: eufemiaVersion || '0.0.0-development',
+  }
+}
+
+export async function readDocsMeta(source: DocsSource): Promise<DocsMeta> {
+  const raw = await source.read('_meta.json')
+
+  if (raw) {
+    try {
+      return JSON.parse(raw) as DocsMeta
+    } catch {
+      // fall through
+    }
+  }
+
+  return {
+    eufemiaVersion: '0.0.0-development',
+    generatedAt: '',
+    commit: '',
+  }
+}
 
 export function registerDocsTools(
   server: McpServer,
@@ -977,12 +1011,15 @@ export function registerDocsTools(
   )
 }
 
-export function createDocsServer(options: { docsRoot?: string } = {}): {
+export async function createDocsServer(
+  options: { docsRoot?: string } = {}
+): Promise<{
   server: McpServer
   tools: DocsToolHandlers
-} {
+}> {
   const tools = createDocsTools(options)
-  const server = new McpServer(SERVER_INFO)
+  const meta = await readDocsMeta(tools.source)
+  const server = new McpServer(createServerInfo(meta.eufemiaVersion))
   registerDocsTools(server, tools)
   return { server, tools }
 }

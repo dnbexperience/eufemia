@@ -21,7 +21,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
 
 import {
-  SERVER_INFO,
+  createServerInfo,
   createDocsTools,
   registerDocsTools,
   validateDocsSource,
@@ -41,6 +41,20 @@ const docsSource = createBundledDocsSource(
   docsBundle as Record<string, string>,
   { label: 'worker:docs.bundle.json' }
 )
+
+// Derive server info from the _meta.json entry baked into the bundle.
+const bundleMeta = (() => {
+  const raw = (docsBundle as Record<string, string>)['_meta.json']
+  if (raw) {
+    try {
+      return JSON.parse(raw) as { eufemiaVersion?: string }
+    } catch {
+      // fall through
+    }
+  }
+  return {}
+})()
+const serverInfo = createServerInfo(bundleMeta.eufemiaVersion)
 
 let validatedOnce = false
 
@@ -112,7 +126,7 @@ async function handleMcp(request: Request, env: Env): Promise<Response> {
   }
 
   const tools = createDocsTools({ source: docsSource })
-  const server = new McpServer(SERVER_INFO)
+  const server = new McpServer(serverInfo)
   registerDocsTools(server, tools)
 
   const transport = new WebStandardStreamableHTTPServerTransport({
@@ -142,8 +156,8 @@ function handleHealth(): Response {
   return new Response(
     JSON.stringify({
       ok: true,
-      name: SERVER_INFO.name,
-      version: SERVER_INFO.version,
+      name: serverInfo.name,
+      version: serverInfo.version,
       transports: ['streamable-http'],
       runtime: 'cloudflare-worker',
     }),
