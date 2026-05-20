@@ -45,9 +45,9 @@ function Time(props: TimeProps = {}) {
   const {
     label: timeLabel,
     errorRequired,
-    hours,
-    minutes,
-    seconds,
+    hours: hoursLabel,
+    minutes: minutesLabel,
+    seconds: secondsLabel,
   } = useTranslation().Time ?? {}
 
   const { showSeconds } = props
@@ -124,29 +124,25 @@ function Time(props: TimeProps = {}) {
 
   const fromExternal = useCallback(
     (external: string | undefined) => {
-      if (typeof external === 'string') {
-        const {
-          hours,
-          minutes,
-          seconds: secs,
-        } = stringToTimeValue(external)
-
-        if (
-          isFieldEmpty(hours) &&
-          isFieldEmpty(minutes) &&
-          (!showSeconds || isFieldEmpty(secs))
-        ) {
-          return undefined
-        }
-
-        const parts = [padValue(hours, 2), padValue(minutes, 2)]
-        if (showSeconds) {
-          parts.push(padValue(secs, 2))
-        }
-        return parts.join(':')
+      if (typeof external !== 'string') {
+        return external
       }
 
-      return external
+      const { hours, minutes, seconds } = stringToTimeValue(external)
+
+      if (
+        isFieldEmpty(hours) &&
+        isFieldEmpty(minutes) &&
+        (!showSeconds || isFieldEmpty(seconds))
+      ) {
+        return undefined
+      }
+
+      const parts = [padValue(hours, 2), padValue(minutes, 2)]
+      if (showSeconds) {
+        parts.push(padValue(seconds, 2))
+      }
+      return parts.join(':')
     },
     [showSeconds]
   )
@@ -191,12 +187,12 @@ function Time(props: TimeProps = {}) {
 
   const provideAdditionalArgs = useCallback(
     (value: string) => {
-      const { hours, minutes, seconds: secs } = stringToTimeValue(value)
+      const { hours, minutes, seconds } = stringToTimeValue(value)
 
       return {
         hours: hours || undefined,
         minutes: minutes || undefined,
-        ...(showSeconds && { seconds: secs || undefined }),
+        ...(showSeconds && { seconds: seconds || undefined }),
       }
     },
     [showSeconds]
@@ -242,12 +238,12 @@ function Time(props: TimeProps = {}) {
   } = useFieldProps(preparedProps)
 
   const time: TimeValue = useMemo(() => {
-    const { hours, minutes, seconds: secs } = stringToTimeValue(value)
+    const { hours, minutes, seconds } = stringToTimeValue(value)
 
     return {
       hours: hours || '',
       minutes: minutes || '',
-      seconds: showSeconds ? secs || '' : '',
+      seconds: showSeconds ? seconds || '' : '',
     }
   }, [value, showSeconds])
 
@@ -301,7 +297,7 @@ function Time(props: TimeProps = {}) {
         inputs={[
           {
             id: 'hours',
-            label: hours,
+            label: hoursLabel,
             mask: [/[0-9]/, /[0-9]/],
             spinButton: {
               min: 0,
@@ -313,7 +309,7 @@ function Time(props: TimeProps = {}) {
           },
           {
             id: 'minutes',
-            label: minutes,
+            label: minutesLabel,
             mask: [/[0-9]/, /[0-9]/],
             spinButton: {
               min: 0,
@@ -327,7 +323,7 @@ function Time(props: TimeProps = {}) {
             ? [
                 {
                   id: 'seconds' as const,
-                  label: seconds,
+                  label: secondsLabel,
                   mask: [/[0-9]/, /[0-9]/],
                   spinButton: {
                     min: 0,
