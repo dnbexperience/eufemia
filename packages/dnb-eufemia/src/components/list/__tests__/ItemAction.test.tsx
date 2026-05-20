@@ -552,12 +552,15 @@ describe('ItemAction', () => {
 
       expect(anchor).toBeInTheDocument()
 
-      const clickSpy = vi.spyOn(anchor as HTMLAnchorElement, 'click')
+      // Mock click to prevent jsdom "Not implemented: navigation" warning
+      const clickMock = vi
+        .spyOn(anchor as HTMLAnchorElement, 'click')
+        .mockImplementation(() => undefined)
 
       fireEvent.keyDown(listItem as Element, { key: ' ' })
 
-      expect(clickSpy).toHaveBeenCalled()
-      clickSpy.mockRestore()
+      expect(clickMock).toHaveBeenCalled()
+      clickMock.mockRestore()
     })
 
     it('supports target and rel when href is provided', () => {
@@ -730,6 +733,11 @@ describe('ItemAction', () => {
       const listItem = document.querySelector(
         '.dnb-list__item__action--href'
       )
+      const anchor = listItem?.querySelector('a')
+
+      // Prevent jsdom "Not implemented: navigation" warning
+      // while still allowing the click event to propagate.
+      anchor?.addEventListener('click', (e) => e.preventDefault())
 
       fireEvent.keyDown(listItem as Element, { key: ' ' })
 
