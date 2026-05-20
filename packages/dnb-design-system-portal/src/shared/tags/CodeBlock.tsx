@@ -407,6 +407,7 @@ function LiveCode(props: LiveCodeProps) {
   const localeOptions = [
     { value: 'nb-NO', flag: '🇳🇴', label: 'Norsk' },
     { value: 'en-GB', flag: '🇬🇧', label: 'English (GB)' },
+    { value: 'en-US', flag: '🇺🇸', label: 'English (US)' },
     { value: 'sv-SE', flag: '🇸🇪', label: 'Svenska' },
     { value: 'da-DK', flag: '🇩🇰', label: 'Dansk' },
   ] as const
@@ -419,11 +420,15 @@ function LiveCode(props: LiveCodeProps) {
     [context]
   )
 
+  // Find current locale flag for display
+  const currentLocaleFlag =
+    localeOptions.find((opt) => opt.value === context.locale)?.flag ?? '🌐'
+
   const localeSwitcher = (
     <ToggleButton.Group
       value={context.locale}
       onChange={({ value }) => handleLocaleChange(value as string)}
-      variant="checkbox"
+      variant="radio"
     >
       {localeOptions.map(({ value, flag, label }) => (
         <ToggleButton
@@ -432,7 +437,6 @@ function LiveCode(props: LiveCodeProps) {
           title={label}
           aria-label={label}
           size="small"
-          variant="checkbox"
           text={flag}
         />
       ))}
