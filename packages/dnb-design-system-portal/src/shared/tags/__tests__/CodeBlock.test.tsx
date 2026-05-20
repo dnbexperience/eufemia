@@ -175,16 +175,19 @@ vi.mock('@dnb/eufemia/src/components', async () => {
   }
 })
 
-// Mock Context
+// Mock Context and Provider
 vi.mock('@dnb/eufemia/src/shared', async () => {
-  const { createContext } = (await vi.importActual('react')) as {
+  const { createContext, createElement } = (await vi.importActual('react')) as {
     createContext: typeof CreateContext
+    createElement: typeof CreateElement
   }
   return {
     Context: createContext({
       locale: 'nb-NO',
       setLocale: vi.fn(),
     }),
+    Provider: ({ children }: { children: ReactNode }) =>
+      createElement('div', { 'data-testid': 'eufemia-provider' }, children),
   }
 })
 

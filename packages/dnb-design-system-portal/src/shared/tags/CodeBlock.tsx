@@ -41,7 +41,7 @@ import type {
   ThemeSurface,
 } from '@dnb/eufemia/src/shared/Theme'
 
-import { Context } from '@dnb/eufemia/src/shared'
+import { Context, Provider } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import { useFocusModeCode } from '../../core/FocusModeCodeContext'
 import {
@@ -64,7 +64,6 @@ import {
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { openInStackBlitz } from './openInStackBlitz'
-import { setLang } from '../../core/portalRuntimeUtils'
 import type { InternalLocale } from '@dnb/eufemia/src/shared/Context'
 
 // Import other languages not included in the default bundle of prism-react-renderer
@@ -224,6 +223,9 @@ function LiveCode(props: LiveCodeProps) {
   >(undefined)
   const [surface, setSurface] = useState<ThemeSurface | undefined>(
     props.surface
+  )
+  const [previewLocale, setPreviewLocale] = useState<InternalLocale>(
+    context.locale as InternalLocale
   )
 
   const { focusModeCodeId, setFocusModeCodeId, savedScrollY } =
@@ -414,17 +416,13 @@ function LiveCode(props: LiveCodeProps) {
     { value: 'da-DK', flag: '🇩🇰', label: 'Dansk' },
   ] as const
 
-  const handleLocaleChange = useCallback(
-    (value: string) => {
-      context.setLocale?.(value as InternalLocale)
-      setLang(value)
-    },
-    [context]
-  )
+  const handleLocaleChange = useCallback((value: string) => {
+    setPreviewLocale(value as InternalLocale)
+  }, [])
 
   // Find current locale flag for display
   const currentLocaleOption = localeOptions.find(
-    (opt) => opt.value === context.locale
+    (opt) => opt.value === previewLocale
   )
 
   const localeSwitcher = (
@@ -443,7 +441,7 @@ function LiveCode(props: LiveCodeProps) {
             key={value}
             text={`${flag} ${label}`}
             onClick={() => handleLocaleChange(value)}
-            aria-current={value === context.locale ? 'true' : undefined}
+            aria-current={value === previewLocale ? 'true' : undefined}
           />
         ))}
       </Menu.List>
@@ -498,27 +496,29 @@ function LiveCode(props: LiveCodeProps) {
           {...restProps}
         >
           {!hidePreview && (
-            <Theme colorScheme={colorScheme} surface={surface}>
-              {omitWrapper ? (
-                <LivePreview
-                  className={clsx('dnb-live-preview')}
-                  data-visual-test={visualTest}
-                />
-              ) : (
-                <div
-                  className={clsx(
-                    'example-box',
-                    exampleBoxStyle,
-                    showFocusModePadding && showFocusModePaddingStyle
-                  )}
-                >
+            <Provider locale={previewLocale}>
+              <Theme colorScheme={colorScheme} surface={surface}>
+                {omitWrapper ? (
                   <LivePreview
                     className={clsx('dnb-live-preview')}
                     data-visual-test={visualTest}
                   />
-                </div>
-              )}
-            </Theme>
+                ) : (
+                  <div
+                    className={clsx(
+                      'example-box',
+                      exampleBoxStyle,
+                      showFocusModePadding && showFocusModePaddingStyle
+                    )}
+                  >
+                    <LivePreview
+                      className={clsx('dnb-live-preview')}
+                      data-visual-test={visualTest}
+                    />
+                  </div>
+                )}
+              </Theme>
+            </Provider>
           )}
 
           {!global.IS_TEST && !hideToolbar && (
