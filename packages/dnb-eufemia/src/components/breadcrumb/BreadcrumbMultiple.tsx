@@ -27,23 +27,20 @@ export const BreadcrumbMultiple = ({
       animate={!noAnimation}
       className="dnb-breadcrumb__multiple"
     >
-      <Section
-        className="dnb-breadcrumb__list"
-        element="ol"
-        backgroundColor="transparent"
-      >
+      <Section className="dnb-breadcrumb__list" element="ol">
         {data?.map((breadcrumbItem, i) => {
           return (
-            <BreadcrumbItem
-              key={i}
-              variant={
-                (i === 0 && 'home') ||
-                (i === data.length - 1 && 'current') ||
-                null
-              }
-              itemNo={i}
-              {...breadcrumbItem}
-            />
+            <BreadcrumbItemContext key={i} value={{ itemNo: i }}>
+              <BreadcrumbItem
+                variant={
+                  (i === 0 && 'home') ||
+                  (i === data.length - 1 && 'current') ||
+                  null
+                }
+                itemNo={i}
+                {...breadcrumbItem}
+              />
+            </BreadcrumbItemContext>
           )
         })}
 

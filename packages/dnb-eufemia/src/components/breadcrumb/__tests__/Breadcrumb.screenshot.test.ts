@@ -38,7 +38,7 @@ describe.each(['ui', 'sbanken'])(`Breadcrumb for %s`, (themeName) => {
     await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-collapse"] .dnb-breadcrumb',
       simulateSelector:
-        '[data-visual-test="breadcrumb-collapse"] .dnb-breadcrumb__toggle',
+        '[data-visual-test="breadcrumb-collapse"] .dnb-accordion__tertiary-button',
       recalculateHeightAfterSimulate: true,
       simulate: 'click',
     })

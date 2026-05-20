@@ -154,19 +154,14 @@ describe('Breadcrumb', () => {
         ]}
         variant="collapse"
         collapsed={overrideCollapse}
-        onClick={vi.fn()}
       />
     )
 
-    expect(
-      document.querySelector('.dnb-breadcrumb__multiple')
-    ).not.toBeInTheDocument()
-
-    fireEvent.click(document.querySelector('button'))
-
-    expect(
-      document.querySelector('.dnb-breadcrumb__multiple')
-    ).not.toBeInTheDocument()
+    // The Accordion should start in collapsed state
+    expect(document.querySelector('[aria-expanded]')).toHaveAttribute(
+      'aria-expanded',
+      'false'
+    )
   })
 
   it('will handle last item as current', () => {

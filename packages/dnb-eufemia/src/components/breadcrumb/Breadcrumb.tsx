@@ -19,16 +19,14 @@ import { clsx } from 'clsx'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { useSpacing } from '../space/SpacingUtils'
-import type {
-  SectionBackgroundColor,
-  SectionVariants,
-} from '../section/Section'
 import Section from '../section/Section'
 import Button from '../button/Button'
+import Accordion from '../accordion/Accordion'
 
 // Shared
 import Context from '../../shared/Context'
 import type {
+  InnerSpacingElementProps,
   SpaceTypeAll,
   SpaceTypeMedia,
   SpacingProps,
@@ -111,7 +109,7 @@ export type BreadcrumbProps = {
 
   /**
    * Add custom 'Back to...' text, for variant collapse
-   * Default 'Back to...' or defined by Context translation
+   * Default 'Gå til ...' or defined by Context translation
    */
   backToText?: ReactNode
 
@@ -120,18 +118,6 @@ export type BreadcrumbProps = {
    * Default: `null`
    */
   collapsed?: boolean
-
-  /**
-   * Use one of the Section background colors.
-   * Default: `transparent`
-   */
-  backgroundColor?: SectionBackgroundColor
-
-  /**
-   * Use one of the Section component variants
-   * Default: `information`
-   */
-  collapsedStyleType?: SectionVariants
 
   /**
    * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`.
@@ -165,10 +151,8 @@ const defaultProps: Partial<BreadcrumbAllProps> = {
   navText: 'Back',
   goBackText: 'Back',
   homeText: 'Home',
-  backToText: 'Back to...',
+  backToText: 'Gå til ...',
   collapsed: true,
-  backgroundColor: 'transparent',
-  collapsedStyleType: 'information',
   spacing: false,
 }
 
@@ -195,8 +179,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     goBackText, // has a translation in context
     homeText,
     backToText, // has a translation in context
-    backgroundColor,
-    collapsedStyleType,
     collapsed: overrideCollapsed,
     spacing,
     noAnimation,
@@ -261,6 +243,19 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
       : spacing
     : undefined
 
+  const barInnerSpace = useMemo(() => {
+    if (currentVariant === 'collapse' && innerSpace) {
+      return {
+        top: innerSpace,
+        left: innerSpace,
+        right: innerSpace,
+        bottom: 0,
+      } as InnerSpacingElementProps
+    }
+
+    return innerSpace
+  }, [currentVariant, innerSpace])
+
   const navProps = useSpacing(allProps, {
     ...props,
     'aria-label': convertJsxToString(navText),
@@ -274,11 +269,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   return (
     <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
-      <Section
-        className="dnb-breadcrumb__bar"
-        backgroundColor={backgroundColor || 'transparent'}
-        innerSpace={innerSpace}
-      >
+      <Section className="dnb-breadcrumb__bar" innerSpace={barInnerSpace}>
         {currentVariant === 'single' ? (
           <Button
             text={goBackText}
@@ -288,38 +279,55 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             onClick={onClick}
             href={href}
           />
-        ) : (
-          <>
-            {currentVariant !== 'multiple' && (
-              <Button
-                className="dnb-breadcrumb__toggle"
-                text={backToText}
-                variant="tertiary"
-                icon="chevron_left"
-                iconPosition="left"
-                onClick={onClick ?? onClickHandler}
-                aria-expanded={!isCollapsedRef.current}
-              />
-            )}
-
-            {currentVariant !== 'collapse' && (
+        ) : currentVariant === 'collapse' ? (
+          <Accordion
+            variant="tertiary"
+            title={backToText}
+            expanded={!isCollapsedRef.current}
+            noAnimation={noAnimation}
+            onChange={({ expanded }) => {
+              isCollapsedRef.current = !expanded
+              onToggle?.(!expanded)
+            }}
+          >
+            <Section
+              variant="divider"
+              className="dnb-breadcrumb__collapse"
+            >
               <BreadcrumbMultiple
                 data={data}
                 items={items}
                 collapsed={false}
                 noAnimation={noAnimation}
               />
+            </Section>
+          </Accordion>
+        ) : (
+          <>
+            {currentVariant === 'responsive' && (
+              <Button
+                className="dnb-breadcrumb__toggle"
+                text={backToText}
+                variant="tertiary"
+                icon="chevron_down"
+                iconPosition="left"
+                onClick={onClick ?? onClickHandler}
+                aria-expanded={!isCollapsedRef.current}
+              />
             )}
+
+            <BreadcrumbMultiple
+              data={data}
+              items={items}
+              collapsed={false}
+              noAnimation={noAnimation}
+            />
           </>
         )}
       </Section>
 
-      {(currentVariant === 'collapse' ||
-        currentVariant === 'responsive') && (
-        <Section
-          variant={collapsedStyleType}
-          className="dnb-breadcrumb__collapse"
-        >
+      {currentVariant === 'responsive' && (
+        <Section className="dnb-breadcrumb__collapse">
           <BreadcrumbMultiple
             data={data}
             items={items}
