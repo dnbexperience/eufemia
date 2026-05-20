@@ -609,5 +609,75 @@ describe('CodeBlock', () => {
         '<div>Edited</div>'
       )
     })
+
+    it('should not show reset button when code has not been edited', () => {
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const resetButton = container.querySelector(
+        'button[aria-label="Reset code"]'
+      )
+      expect(resetButton).toBeNull()
+    })
+
+    it('should show reset button when code has been edited', () => {
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      // Simulate user editing the code
+      act(() => {
+        mockLiveEditorOnChange?.('<div>Edited</div>')
+      })
+
+      const resetButton = container.querySelector(
+        'button[aria-label="Reset code"]'
+      )
+      expect(resetButton).toBeTruthy()
+    })
+
+    it('should reset code to original when clicking reset button', async () => {
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      // Simulate user editing the code
+      act(() => {
+        mockLiveEditorOnChange?.('<div>Edited</div>')
+      })
+
+      const resetButton = container.querySelector(
+        'button[aria-label="Reset code"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        resetButton.click()
+      })
+
+      // After reset, the reset button should be hidden (no edited code)
+      const resetButtonAfter = container.querySelector(
+        'button[aria-label="Reset code"]'
+      )
+      expect(resetButtonAfter).toBeNull()
+
+      // Copy should now use original code
+      mockCopyToClipboard.mockClear()
+      const copyButton = container.querySelector(
+        'button[aria-label="Copy code"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        copyButton.click()
+      })
+
+      expect(mockCopyToClipboard).toHaveBeenCalledWith('<div>Hello</div>')
+    })
   })
 })
