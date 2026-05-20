@@ -4,6 +4,7 @@
  */
 
 import { useEffect, useReducer, useState } from 'react'
+import { vi } from 'vitest'
 import {
   axeComponent,
   loadScss,
@@ -1087,7 +1088,7 @@ describe('Pagination transformNavigationItem', () => {
   })
 
   it('still calls onChange when clicking an anchor navigation button', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Pagination
@@ -1110,7 +1111,7 @@ describe('Pagination transformNavigationItem', () => {
   })
 
   it('does not call onChange on modified clicks when using anchor navigation items', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Pagination
@@ -1130,7 +1131,7 @@ describe('Pagination transformNavigationItem', () => {
   })
 
   it('does not call onChange on modified prev/next clicks when using anchor navigation items', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Pagination
