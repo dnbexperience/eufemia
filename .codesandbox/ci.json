@@ -1,9 +1,0 @@
-{
-  "packages": ["packages/dnb-eufemia"],
-  "publishDirectory": {
-    "@dnb/eufemia": "packages/dnb-eufemia/build"
-  },
-  "sandboxes": ["eufemia-starter-0gcwo"],
-  "buildCommand": "build:mini",
-  "node": "20"
-}

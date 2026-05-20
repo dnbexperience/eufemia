@@ -1,5 +1,5 @@
 const isCICheck = () => {
-  const ci = String(process.env.CI) || String(process.env.CODESANDBOX_SSE)
+  const ci = String(process.env.CI)
   return ci === 'true' || ci === '1'
 }
 
