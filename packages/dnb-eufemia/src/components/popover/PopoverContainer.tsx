@@ -250,6 +250,12 @@ function PopoverContainer(props: PopoverContainerProps) {
     setResolvedPlacement(placement)
   }, [placement])
 
+  useEffect(() => {
+    if (isActive) {
+      requestRecalculation()
+    }
+  }, [children, isActive, requestRecalculation])
+
   useLayoutEffect(() => {
     if (typeof window === 'undefined') {
       return undefined
