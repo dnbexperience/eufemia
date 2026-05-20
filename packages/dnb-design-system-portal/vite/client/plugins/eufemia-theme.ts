@@ -12,7 +12,7 @@
 
 import { type Plugin } from 'vite'
 import path from 'node:path'
-import { globSync } from 'glob'
+import { sync as globSync } from 'globby'
 import micromatch from 'micromatch'
 import { hasPrebuild } from './eufemia-prebuild'
 
