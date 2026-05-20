@@ -24,8 +24,6 @@ import {
   ToggleButton,
 } from '@dnb/eufemia/src/components'
 import {
-  copy as copyIcon,
-  check as checkIcon,
   fullscreen as focusModeIcon,
   close as focusModeCloseIcon,
   fullscreen as focusModePaddingIcon,
@@ -34,7 +32,6 @@ import {
   launch as launchIcon,
   globe as globeIcon,
 } from '@dnb/eufemia/src/icons'
-import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
