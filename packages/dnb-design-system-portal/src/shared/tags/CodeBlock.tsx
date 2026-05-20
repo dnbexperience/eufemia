@@ -569,7 +569,7 @@ function LiveCode(props: LiveCodeProps) {
                       />
                     )}
 
-                    <Flex.Horizontal align="center">
+                    <Flex.Horizontal align="center" gap="small">
                       <Checkbox
                         checked={
                           colorScheme ===
