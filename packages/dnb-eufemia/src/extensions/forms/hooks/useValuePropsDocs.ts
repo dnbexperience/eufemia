@@ -69,7 +69,7 @@ export const useValuePropsReturns: PropertiesTableProps = {
   value: {
     doc: 'The transformed value ready for display, or `undefined` if the associated field is not visible.',
     type: ['{valueType}', 'undefined'],
-    status: 'required',
+    status: 'optional',
   },
   label: {
     doc: 'The label to display, either from props or inherited from the associated Field.',

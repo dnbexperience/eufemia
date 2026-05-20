@@ -50,17 +50,17 @@ export const useFieldPropsParameters: PropertiesTableProps = {
   },
   info: {
     doc: 'Info message shown below the field. Can be a function receiving the current value.',
-    type: ['React.ReactNode', 'function'],
+    type: ['React.ReactNode', 'Array<React.ReactNode>', 'function'],
     status: 'optional',
   },
   warning: {
     doc: 'Warning message shown below the field. Can be a function receiving the current value.',
-    type: ['React.ReactNode', 'function'],
+    type: ['React.ReactNode', 'Array<React.ReactNode>', 'function'],
     status: 'optional',
   },
   error: {
     doc: 'Error message or Error object to display. Can be a function receiving the current value.',
-    type: ['Error', 'FormError', 'function'],
+    type: ['Error', 'FormError', 'Array<Error | FormError>', 'function'],
     status: 'optional',
   },
   errorMessages: {

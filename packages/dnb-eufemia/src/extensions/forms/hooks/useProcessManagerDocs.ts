@@ -21,25 +21,3 @@ export const useProcessManagerReturns: PropertiesTableProps = {
     status: 'required',
   },
 }
-
-/**
- * Example usage:
- *
- * ```tsx
- * const { startProcess } = useProcessManager()
- *
- * const handleAsyncValidation = async (value) => {
- *   const isProcessActive = startProcess()
- *
- *   const result = await validateAsync(value)
- *
- *   // Check if this process is still the active one
- *   // (a newer validation might have started)
- *   if (!isProcessActive()) {
- *     return // Skip updating state, a newer process will handle it
- *   }
- *
- *   setValidationResult(result)
- * }
- * ```
- */

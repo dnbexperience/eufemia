@@ -37,12 +37,14 @@ export const useExternalValueParameters: PropertiesTableProps = {
 /**
  * Documentation for the useExternalValue hook return value.
  *
- * Returns the resolved and transformed value from the appropriate source.
+ * The hook returns the resolved value directly (not wrapped in an object).
+ * Priority: value prop > itemPath data > path data > emptyValue.
+ * The value is transformed via `fromExternal` if a transformer is provided.
  */
 export const useExternalValueReturns: PropertiesTableProps = {
-  value: {
-    doc: 'The resolved value, transformed via `fromExternal`. Priority: value prop > itemPath data > path data.',
+  '[return value]': {
+    doc: 'The resolved value, returned directly (not in an object). Transformed via `fromExternal` if provided. Priority: value prop > itemPath data > path data > emptyValue.',
     type: ['{valueType}', 'undefined'],
-    status: 'required',
+    status: 'optional',
   },
 }
