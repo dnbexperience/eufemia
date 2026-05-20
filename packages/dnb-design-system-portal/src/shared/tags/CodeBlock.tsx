@@ -23,11 +23,14 @@ import {
   ToggleButton,
 } from '@dnb/eufemia/src/components'
 import {
+  copy as copyIcon,
+  check as checkIcon,
   fullscreen as focusModeIcon,
   close as focusModeCloseIcon,
   fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
 } from '@dnb/eufemia/src/icons'
+import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
@@ -41,6 +44,7 @@ import {
   liveCodeEditorStyle,
   exampleBoxStyle,
   codeBlockStyle,
+  copyButtonStyle,
   showFocusModePaddingStyle,
   toolbarStyle,
 } from './CodeBlock.module.scss'
@@ -121,6 +125,8 @@ const CodeBlock = ({
               createSkeletonClass('code', context.skeleton)
             )}
           >
+            <CopyCodeButton code={String(exampleCode)} />
+
             <Tag as="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => {
                 const { key, ...lineProps } = getLineProps({
@@ -148,6 +154,33 @@ const CodeBlock = ({
 }
 
 export default CodeBlock
+
+function CopyCodeButton({ code }: { code: string }) {
+  const [copied, setCopied] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  const handleCopy = useCallback(async () => {
+    const success = await copyToClipboard(code)
+    if (success) {
+      setCopied(true)
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = setTimeout(() => setCopied(false), 2000)
+    }
+  }, [code])
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutRef.current)
+  }, [])
+
+  return (
+    <Button
+      className={copyButtonStyle}
+      icon={copied ? checkIcon : copyIcon}
+      tooltip={copied ? 'Copied!' : 'Copy to clipboard'}
+      onClick={handleCopy}
+    />
+  )
+}
 
 type LiveCodeProps = {
   code: string
@@ -475,7 +508,7 @@ function LiveCode(props: LiveCodeProps) {
 
           {!global.IS_TEST && !hideCode && (
             <Space
-              title="Code Editor"
+              title="Make changes to see them live!"
               element="section"
               className={clsx(
                 'dnb-live-editor',

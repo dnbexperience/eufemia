@@ -19,6 +19,7 @@ import * as FocusModeCodeContext from '../../../core/FocusModeCodeContext'
 vi.mock('../CodeBlock.module.scss', () => ({
   liveCodeEditorStyle: 'liveCodeEditorStyle',
   exampleBoxStyle: 'exampleBoxStyle',
+  copyButtonStyle: 'copyButtonStyle',
   showFocusModePaddingStyle: 'showFocusModePaddingStyle',
   toolbarStyle: 'toolbarStyle',
   codeBlockStyle: 'codeBlockStyle',
@@ -27,6 +28,18 @@ vi.mock('../CodeBlock.module.scss', () => ({
 vi.mock('../../../core/ChangeStyleTheme', () => ({
   default: () => null,
 }))
+
+// Mock copyToClipboard
+vi.mock('@dnb/eufemia/src/shared/helpers', async (importOriginal) => {
+  const actual =
+    await importOriginal<
+      typeof import('@dnb/eufemia/src/shared/helpers')
+    >()
+  return {
+    ...actual,
+    copyToClipboard: vi.fn().mockResolvedValue(true),
+  }
+})
 
 // Mock prism theme
 vi.mock('@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme', () => ({
