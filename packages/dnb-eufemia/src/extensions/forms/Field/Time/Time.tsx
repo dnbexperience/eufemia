@@ -78,23 +78,21 @@ function Time(props: TimeProps = {}) {
 
   const fromInput = useCallback(
     (values: TimeValue) => {
-      const hoursString = values.hours
-      const minutesString = values.minutes
-      const secondsString = showSeconds ? values.seconds : undefined
+      const { hours, minutes, seconds } = values
 
-      if (
-        isFieldEmpty(hoursString) &&
-        isFieldEmpty(minutesString) &&
-        (!showSeconds || isFieldEmpty(secondsString))
-      ) {
+      if (isFieldEmpty(hours) && isFieldEmpty(minutes)) {
         return undefined
       }
 
-      if (showSeconds) {
-        return `${hoursString}:${minutesString}:${secondsString}`
+      if (!showSeconds) {
+        return `${hours}:${minutes}`
       }
 
-      return `${hoursString}:${minutesString}`
+      if (isFieldEmpty(seconds)) {
+        return undefined
+      }
+
+      return `${hours}:${minutes}:${seconds}`
     },
     [showSeconds]
   )
@@ -141,14 +139,11 @@ function Time(props: TimeProps = {}) {
           return undefined
         }
 
+        const parts = [padValue(hours, 2), padValue(minutes, 2)]
         if (showSeconds) {
-          return `${padValue(hours, 2)}:${padValue(minutes, 2)}:${padValue(
-            secs,
-            2
-          )}`
+          parts.push(padValue(secs, 2))
         }
-
-        return `${padValue(hours, 2)}:${padValue(minutes, 2)}`
+        return parts.join(':')
       }
 
       return external
@@ -180,11 +175,12 @@ function Time(props: TimeProps = {}) {
             return undefined
           }
 
-          if (showSeconds) {
-            return `${hoursString}:${minutesString}:${secondsString}`
-          }
-
-          return `${hoursString}:${minutesString}`
+          const parts = [
+            hoursString,
+            minutesString,
+            ...(secondsString !== undefined ? [secondsString] : []),
+          ]
+          return parts.join(':')
         }
       }
 
