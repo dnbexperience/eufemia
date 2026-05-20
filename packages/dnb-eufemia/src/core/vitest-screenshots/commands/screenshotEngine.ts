@@ -671,7 +671,6 @@ const waitForVisualStability = async (page: Page) => {
     }
 
     try {
-      // eslint-disable-next-line compat/compat
       const animations = document.getAnimations().filter((a) => {
         const iterations = a.effect?.getTiming?.().iterations
         return iterations !== Infinity

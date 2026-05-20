@@ -267,7 +267,6 @@ export function getRelativeTime(
           : 'long',
   }
   try {
-    // eslint-disable-next-line compat/compat
     const relativeTimeFormatter = new Intl.RelativeTimeFormat(
       locale,
       relativeTimeOptions

@@ -205,7 +205,6 @@ if (typeof document !== 'undefined' && typeof window !== 'undefined') {
   if (process.env.NODE_ENV === 'test') {
     setUp()
   } else if (typeof requestIdleCallback === 'function') {
-    // eslint-disable-next-line compat/compat
     requestIdleCallback(setUp)
   } else {
     setTimeout(setUp, 0)

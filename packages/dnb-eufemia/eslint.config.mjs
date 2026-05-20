@@ -70,16 +70,6 @@ export default [
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended'
   ),
-  ...basePlugins.extends('plugin:compat/recommended').map((config) => ({
-    ...config,
-    files: ['**/src/**/*.{js,jsx,ts,tsx}'],
-    settings: {
-      ...(config.settings || {}),
-      polyfills: [...(config.settings?.polyfills || []), 'Object.hasOwn'],
-      lintAllEsApis: true,
-      ignoreConditionalChecks: true,
-    },
-  })),
   {
     languageOptions: {
       parser: babelParser,
@@ -382,7 +372,6 @@ export default [
     rules: {
       ...vitestPlugin.configs.recommended.rules,
       'no-console': 'off',
-      'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
       'no-restricted-imports': [
         'error',

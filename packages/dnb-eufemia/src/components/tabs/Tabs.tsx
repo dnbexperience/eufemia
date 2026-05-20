@@ -907,7 +907,6 @@ function TabsComponent(ownProps: TabsProps) {
 
     let resizeObserver: ResizeObserver | undefined
     if (tabsRef.current && typeof ResizeObserver !== 'undefined') {
-      // eslint-disable-next-line compat/compat
       resizeObserver = new ResizeObserver(onResizeHandler)
       resizeObserver.observe(tabsRef.current)
     }
