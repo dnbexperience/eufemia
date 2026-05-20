@@ -29,9 +29,12 @@ import {
   close as focusModeCloseIcon,
   fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
+  copy as copyIcon,
+  check as checkIcon,
 } from '@dnb/eufemia/src/icons'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
+import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import type {
   ThemeColorScheme,
   ThemeSurface,
@@ -53,6 +56,7 @@ import {
   LiveEditor,
   LiveError,
   LivePreview,
+  LiveContext,
 } from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
 
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
@@ -208,7 +212,8 @@ function LiveCode(props: LiveCodeProps) {
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
   const [showFocusModePadding, setShowFocusModePadding] = useState(true)
-  const [tabMode] = useState<'focus' | 'indentation'>('focus')
+  const [copied, setCopied] = useState(false)
+  const [editedCode, setEditedCode] = useState<string | null>(null)
   const [colorScheme, setColorScheme] = useState<
     ThemeColorScheme | undefined
   >(undefined)
@@ -343,6 +348,24 @@ function LiveCode(props: LiveCodeProps) {
       title={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
       aria-label={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
       icon={isInFocusMode ? focusModeCloseIcon : focusModeIcon}
+    />
+  )
+
+  const handleCopyCode = useCallback(async () => {
+    const success = await copyToClipboard(editedCode ?? codeToUse)
+    if (success === true) {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }, [editedCode, codeToUse])
+
+  const copyCodeButton = (
+    <Button
+      onClick={handleCopyCode}
+      variant="tertiary"
+      title={copied ? 'Copied!' : 'Copy code'}
+      aria-label={copied ? 'Copied!' : 'Copy code'}
+      icon={copied ? checkIcon : copyIcon}
     />
   )
 
@@ -497,6 +520,8 @@ function LiveCode(props: LiveCodeProps) {
                         />
                       )}
 
+                      {copyCodeButton}
+
                       {focusModePaddingButton}
 
                       {focusModeButton}
@@ -516,11 +541,7 @@ function LiveCode(props: LiveCodeProps) {
               )}
               ref={editorElementRef}
             >
-              <LiveEditor
-                prism={Prism}
-                tabMode={tabMode}
-                className="dnb-live-editor__editable dnb-pre"
-              />
+              <LiveEditorWithCopy onCodeChange={setEditedCode} />
             </Space>
           )}
 
@@ -528,6 +549,35 @@ function LiveCode(props: LiveCodeProps) {
         </LiveProvider>
       )}
     </div>
+  )
+}
+
+/**
+ * Wrapper component that combines the LiveContext onChange with external tracking.
+ * This ensures editing code updates the preview AND tracks the edited code for copying.
+ */
+function LiveEditorWithCopy({
+  onCodeChange,
+}: {
+  onCodeChange: (code: string) => void
+}) {
+  const { onChange: contextOnChange } = useContext(LiveContext)
+
+  const handleChange = useCallback(
+    (code: string) => {
+      contextOnChange(code)
+      onCodeChange(code)
+    },
+    [contextOnChange, onCodeChange]
+  )
+
+  return (
+    <LiveEditor
+      prism={Prism}
+      tabMode="focus"
+      className="dnb-live-editor__editable dnb-pre"
+      onChange={handleChange}
+    />
   )
 }
 
