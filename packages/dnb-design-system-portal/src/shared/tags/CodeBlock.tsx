@@ -549,7 +549,7 @@ function LiveCode(props: LiveCodeProps) {
 
                       {!isInFocusMode && copyCodeButton}
 
-                      {openInStackBlitzButton}
+                      {!isInFocusMode && openInStackBlitzButton}
 
                       {focusModePaddingButton}
 
