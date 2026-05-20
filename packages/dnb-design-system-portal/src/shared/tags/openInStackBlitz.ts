@@ -6,10 +6,31 @@ import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
 import { getElements } from '@dnb/eufemia/src/elements/lib'
 
-// Get component names dynamically from Eufemia's exports
-const EUFEMIA_COMPONENT_NAMES = Object.keys(getComponents())
-const EUFEMIA_FRAGMENT_NAMES = Object.keys(getFragments())
-const EUFEMIA_ELEMENT_NAMES = Object.keys(getElements())
+// Lazy initialization - only compute when needed
+let EUFEMIA_COMPONENT_NAMES: string[] | null = null
+let EUFEMIA_FRAGMENT_NAMES: string[] | null = null
+let EUFEMIA_ELEMENT_NAMES: string[] | null = null
+
+function getEufemiaComponentNames() {
+  if (!EUFEMIA_COMPONENT_NAMES) {
+    EUFEMIA_COMPONENT_NAMES = Object.keys(getComponents())
+  }
+  return EUFEMIA_COMPONENT_NAMES
+}
+
+function getEufemiaFragmentNames() {
+  if (!EUFEMIA_FRAGMENT_NAMES) {
+    EUFEMIA_FRAGMENT_NAMES = Object.keys(getFragments())
+  }
+  return EUFEMIA_FRAGMENT_NAMES
+}
+
+function getEufemiaElementNames() {
+  if (!EUFEMIA_ELEMENT_NAMES) {
+    EUFEMIA_ELEMENT_NAMES = Object.keys(getElements())
+  }
+  return EUFEMIA_ELEMENT_NAMES
+}
 
 // Components from @dnb/eufemia/extensions/forms
 const FORMS_COMPONENTS = [
@@ -52,6 +73,9 @@ const REACT_EXPORTS = [
   'lazy',
 ]
 
+// Shared exports from @dnb/eufemia/shared
+const SHARED_EXPORTS = ['Provider', 'Theme']
+
 /**
  * Analyzes code to detect what imports are needed.
  */
@@ -62,6 +86,8 @@ function analyzeCodeForImports(code: string) {
   const usedFormsComponents: string[] = []
   const usedReactHooks: string[] = []
   const usedReactExports: string[] = []
+  const usedSharedExports: string[] = []
+  let usesStyled = false
 
   // Helper to check if a name is used in code
   const isUsed = (name: string) => {
@@ -74,21 +100,21 @@ function analyzeCodeForImports(code: string) {
   }
 
   // Detect Eufemia components
-  for (const name of EUFEMIA_COMPONENT_NAMES) {
+  for (const name of getEufemiaComponentNames()) {
     if (isUsed(name)) {
       usedComponents.push(name)
     }
   }
 
   // Detect Eufemia fragments
-  for (const name of EUFEMIA_FRAGMENT_NAMES) {
+  for (const name of getEufemiaFragmentNames()) {
     if (isUsed(name)) {
       usedFragments.push(name)
     }
   }
 
   // Detect Eufemia elements
-  for (const name of EUFEMIA_ELEMENT_NAMES) {
+  for (const name of getEufemiaElementNames()) {
     if (isUsed(name)) {
       usedElements.push(name)
     }
@@ -117,9 +143,26 @@ function analyzeCodeForImports(code: string) {
     }
   }
 
-  // Detect if code defines a function component
+  // Detect shared exports (Provider, Theme)
+  for (const exp of SHARED_EXPORTS) {
+    if (isUsed(exp)) {
+      usedSharedExports.push(exp)
+    }
+  }
+
+  // Detect styled usage (from @emotion/styled)
+  if (/\bstyled[.(]/.test(code)) {
+    usesStyled = true
+  }
+
+  // Detect if code defines a function component (including exports)
   const isFunctionComponent =
-    /^(function\s+\w+|const\s+\w+\s*=\s*(\([^)]*\)|[^=])\s*=>)/m.test(code)
+    /^(export\s+)?(function\s+\w+|const\s+\w+\s*=\s*(\([^)]*\)|[^=])\s*=>)/m.test(
+      code
+    )
+
+  // Detect if code already has a default export
+  const hasDefaultExport = /^export\s+default\b/m.test(code)
 
   // Detect if code uses render() pattern (noInline)
   const usesRenderPattern = /\brender\s*\(/.test(code)
@@ -134,7 +177,10 @@ function analyzeCodeForImports(code: string) {
     usedFormsComponents,
     usedReactHooks,
     usedReactExports,
+    usedSharedExports,
+    usesStyled,
     isFunctionComponent,
+    hasDefaultExport,
     usesRenderPattern,
     hasExistingImports,
   }
@@ -175,8 +221,19 @@ function generateAppComponent(code: string) {
     )
   }
 
-  // Eufemia shared imports (Provider is always needed)
-  imports.push(`import { Provider } from '@dnb/eufemia/shared'`)
+  // Eufemia shared imports (Provider is always needed, plus any detected like Theme)
+  const sharedImports = [
+    'Provider',
+    ...analysis.usedSharedExports.filter((e) => e !== 'Provider'),
+  ]
+  imports.push(
+    `import { ${sharedImports.join(', ')} } from '@dnb/eufemia/shared'`
+  )
+
+  // Styled from emotion
+  if (analysis.usesStyled) {
+    imports.push(`import styled from '@emotion/styled'`)
+  }
 
   // Forms imports
   if (analysis.usedFormsComponents.length > 0) {
@@ -202,9 +259,35 @@ function generateAppComponent(code: string) {
 ${componentCode}`
   }
 
+  if (analysis.hasDefaultExport) {
+    // Code already has a default export - rename it and wrap
+    const modifiedCode = code
+      .replace(/^export\s+default\s+function\s+(\w+)/m, 'function $1')
+      .replace(/^export\s+default\s+const\s+(\w+)/m, 'const $1')
+
+    const match = code.match(
+      /^export\s+default\s+(?:function|const)\s+(\w+)/m
+    )
+    const componentName = match?.[1] || 'Component'
+
+    return `${importsBlock}
+
+${modifiedCode}
+
+export default function App() {
+  return (
+    <Provider>
+      <${componentName} />
+    </Provider>
+  )
+}`
+  }
+
   if (analysis.isFunctionComponent) {
     // Code defines a function component - extract and use it
-    const match = code.match(/^(?:function\s+(\w+)|const\s+(\w+)\s*=)/m)
+    const match = code.match(
+      /^(?:export\s+)?(?:function\s+(\w+)|const\s+(\w+)\s*=)/m
+    )
     const componentName = match?.[1] || match?.[2] || 'Example'
 
     return `${importsBlock}
@@ -237,6 +320,9 @@ export default function App() {
  * Creates a new project with the Eufemia starter template and the provided code.
  */
 export function openInStackBlitz(code: string) {
+  // Analyze code to determine needed dependencies
+  const analysis = analyzeCodeForImports(code)
+
   const appCode = `import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@dnb/eufemia/style'
@@ -265,6 +351,17 @@ createRoot(document.getElementById('root')!).render(
 </html>
 `
 
+  // Build dependencies object conditionally
+  const dependencies: Record<string, string> = {
+    '@dnb/eufemia': 'latest',
+    react: '^19.0.0',
+    'react-dom': '^19.0.0',
+  }
+
+  if (analysis.usesStyled) {
+    dependencies['@emotion/styled'] = '^11.14.0'
+  }
+
   const packageJson = JSON.stringify(
     {
       name: 'eufemia-example',
@@ -276,11 +373,7 @@ createRoot(document.getElementById('root')!).render(
         build: 'vite build',
         preview: 'vite preview',
       },
-      dependencies: {
-        '@dnb/eufemia': 'latest',
-        react: '^19.0.0',
-        'react-dom': '^19.0.0',
-      },
+      dependencies,
       devDependencies: {
         '@types/react': '^19.0.0',
         '@types/react-dom': '^19.0.0',
