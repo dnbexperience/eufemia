@@ -29,6 +29,7 @@ import {
   close as focusModeCloseIcon,
   fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
+  reset as resetIcon,
 } from '@dnb/eufemia/src/icons'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
@@ -211,6 +212,7 @@ function LiveCode(props: LiveCodeProps) {
   const [showFocusModePadding, setShowFocusModePadding] = useState(true)
   const [copied, setCopied] = useState(false)
   const [editedCode, setEditedCode] = useState<string | null>(null)
+  const [resetKey, setResetKey] = useState(0)
   const [colorScheme, setColorScheme] = useState<
     ThemeColorScheme | undefined
   >(undefined)
@@ -366,6 +368,22 @@ function LiveCode(props: LiveCodeProps) {
     />
   )
 
+  const handleResetCode = useCallback(() => {
+    setEditedCode(null)
+    setResetKey((key) => key + 1)
+    setCopied(false) // Clear copied state when resetting
+  }, [])
+
+  const resetCodeButton = editedCode !== null && (
+    <Button
+      onClick={handleResetCode}
+      variant="tertiary"
+      title="Reset code"
+      aria-label="Reset code"
+      icon={resetIcon}
+    />
+  )
+
   const focusModePaddingButton = canToggleFocusModePadding && (
     <Button
       onClick={() =>
@@ -404,6 +422,7 @@ function LiveCode(props: LiveCodeProps) {
     >
       {!anotherBlockIsInFocusMode && (
         <LiveProvider
+          key={resetKey}
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
@@ -518,6 +537,8 @@ function LiveCode(props: LiveCodeProps) {
                       )}
 
                       {copyCodeButton}
+
+                      {resetCodeButton}
 
                       {focusModePaddingButton}
 
