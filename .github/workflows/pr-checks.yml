@@ -24,7 +24,7 @@ jobs:
         run: |
           if echo "$PR_TITLE" | grep -qE '^release of '; then
             echo "PR title is a release: $PR_TITLE"
-          elif echo "$PR_TITLE" | grep -qE '^(fix|feat|chore|docs|style|build|ci|refactor|perf|test)(\(.+\))?!?:'; then
+          elif echo "$PR_TITLE" | grep -qE '^(fix|feat|chore|docs|style|design|build|ci|refactor|perf|test)(\(.+\))?!?:'; then
             echo "PR title is valid: $PR_TITLE"
           else
             echo "::error::Invalid PR title: '$PR_TITLE'"
@@ -32,7 +32,7 @@ jobs:
             echo "The PR title must follow Conventional Commits format:"
             echo "  type(optional-scope): description"
             echo ""
-            echo "Valid types: fix, feat, chore, docs, style, build, ci, refactor, perf, test"
+            echo "Valid types: fix, feat, chore, docs, style, design, build, ci, refactor, perf, test"
             echo ""
             echo "Examples:"
             echo "  fix: correct button alignment"
