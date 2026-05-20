@@ -871,7 +871,7 @@ export function createDocsTools(
   }
 }
 
-export const SERVER_NAME = 'eufemia'
+const SERVER_NAME = 'eufemia'
 
 export type DocsMeta = {
   eufemiaVersion: string

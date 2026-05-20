@@ -462,6 +462,7 @@ export async function writeLlmsText({
   results,
   version,
   commit,
+  generatedAt,
   outputRoot,
   llmsFilename = 'llms.txt',
   publicUrlBase = DEFAULT_PUBLIC_URL,
@@ -470,6 +471,7 @@ export async function writeLlmsText({
   results: Array<any>
   version: string
   commit?: string
+  generatedAt?: string
   outputRoot?: string
   llmsFilename?: string
   publicUrlBase?: string
@@ -483,6 +485,7 @@ export async function writeLlmsText({
     buildLlmsText(hydrated, {
       version,
       commit,
+      generatedAt,
       publicUrlBase,
     }),
     siteDir
@@ -894,15 +897,26 @@ export function buildLlmsText(
   {
     version,
     commit,
+    generatedAt,
     publicUrlBase = DEFAULT_PUBLIC_URL,
-  }: { version: string; commit?: string; publicUrlBase?: string }
+  }: {
+    version: string
+    commit?: string
+    generatedAt?: string
+    publicUrlBase?: string
+  }
 ) {
   const normalizedResults = results.filter((entry) => entry && entry.meta)
   const lines: string[] = []
-  const generatedAt = new Date().toISOString()
+  const resolvedAt = generatedAt || new Date().toISOString()
   const base = normalizePublicUrlBase(publicUrlBase || '')
 
-  appendLlmsHeaderTemplate(lines, { base, version, generatedAt, commit })
+  appendLlmsHeaderTemplate(lines, {
+    base,
+    version,
+    generatedAt: resolvedAt,
+    commit,
+  })
 
   const filtered = normalizedResults.filter((e) => {
     try {
@@ -1000,7 +1014,7 @@ export function buildLlmsText(
 
   lines.push('')
   lines.push(`Version: ${version}`)
-  lines.push(`GeneratedAt: ${generatedAt}`)
+  lines.push(`GeneratedAt: ${resolvedAt}`)
 
   return lines.join('\n')
 }

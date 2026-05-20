@@ -155,21 +155,22 @@ export async function generateDocs() {
     metadataBySlug,
   })
 
-  await writeLlmsText({
-    siteDir: repoRoot,
-    results,
-    version,
-    commit,
-    outputRoot,
-    publicUrlBase: PUBLIC_URL_BASE,
-    llmsFilename: 'llm.md',
-  })
-
   await fs.writeJson(
     path.join(outputRoot, '_meta.json'),
     { eufemiaVersion: version, generatedAt, commit },
     { spaces: 2 }
   )
+
+  await writeLlmsText({
+    siteDir: repoRoot,
+    results,
+    version,
+    commit,
+    generatedAt,
+    outputRoot,
+    publicUrlBase: PUBLIC_URL_BASE,
+    llmsFilename: 'llm.md',
+  })
 
   const warningSummary = formatUnhandledStandaloneMdxWarnings()
 
