@@ -1429,7 +1429,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       })
     })
 
-    it('should set "formState" to "pending" when when "onSubmit" is async', async () => {
+    it('should set "formState" to "pending" when "onSubmit" is async', async () => {
       const result: RefObject<ContextState | null> = {
         current: null,
       }
