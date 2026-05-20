@@ -80,19 +80,16 @@ function Time(props: TimeProps = {}) {
     (values: TimeValue) => {
       const { hours, minutes, seconds } = values
 
-      if (isFieldEmpty(hours) && isFieldEmpty(minutes)) {
+      if (
+        isTimeEmpty(hours, minutes) ||
+        (showSeconds && isFieldEmpty(seconds))
+      ) {
         return undefined
       }
 
-      if (!showSeconds) {
-        return `${hours}:${minutes}`
-      }
-
-      if (isFieldEmpty(seconds)) {
-        return undefined
-      }
-
-      return `${hours}:${minutes}:${seconds}`
+      return showSeconds
+        ? `${hours}:${minutes}:${seconds}`
+        : `${hours}:${minutes}`
     },
     [showSeconds]
   )
@@ -110,17 +107,10 @@ function Time(props: TimeProps = {}) {
     []
   )
 
-  const validateInitially = useMemo(() => {
-    if (validateInitiallyProp) {
-      return validateInitiallyProp
-    }
-
-    if (valueProp) {
-      return true
-    }
-
-    return undefined
-  }, [validateInitiallyProp, valueProp])
+  const validateInitially = useMemo(
+    () => validateInitiallyProp || (valueProp ? true : undefined),
+    [validateInitiallyProp, valueProp]
+  )
 
   const fromExternal = useCallback(
     (external: string | undefined) => {
@@ -130,15 +120,15 @@ function Time(props: TimeProps = {}) {
 
       const { hours, minutes, seconds } = stringToTimeValue(external)
 
-      if (isFieldEmpty(hours) && isFieldEmpty(minutes)) {
+      if (isTimeEmpty(hours, minutes)) {
         return undefined
       }
 
-      if (!showSeconds) {
-        return `${padValue(hours, 2)}:${padValue(minutes, 2)}`
-      }
+      const h = padValue(hours, 2)
+      const m = padValue(minutes, 2)
+      const s = padValue(seconds, 2)
 
-      return `${padValue(hours, 2)}:${padValue(minutes, 2)}:${padValue(seconds, 2)}`
+      return s ? `${h}:${m}:${s}` : `${h}:${m}`
     },
     [showSeconds]
   )
@@ -162,18 +152,17 @@ function Time(props: TimeProps = {}) {
       const hours = padValue(external.hours as string, 2)
       const minutes = padValue(external.minutes as string, 2)
 
-      if (isFieldEmpty(hours) && isFieldEmpty(minutes)) {
+      if (isTimeEmpty(hours, minutes)) {
         return undefined
       }
 
-      if (!showSeconds) {
-        return `${hours}:${minutes}`
-      }
-
       const seconds = padValue(external.seconds as string, 2)
-      return `${hours}:${minutes}:${seconds}`
+
+      return seconds
+        ? `${hours}:${minutes}:${seconds}`
+        : `${hours}:${minutes}`
     },
-    [transformInProp]
+    [transformInProp, showSeconds]
   )
 
   const provideAdditionalArgs = useCallback(
@@ -240,10 +229,11 @@ function Time(props: TimeProps = {}) {
 
   useMemo(() => {
     if ((path || itemPath) && time.hours && time.minutes) {
-      const display = showSeconds
-        ? `${time.hours}:${time.minutes}:${time.seconds}`
-        : `${time.hours}:${time.minutes}`
-      setDisplayValue(display)
+      setDisplayValue(
+        time.seconds
+          ? `${time.hours}:${time.minutes}:${time.seconds}`
+          : `${time.hours}:${time.minutes}`
+      )
     }
   }, [
     time.hours,
@@ -334,6 +324,16 @@ function Time(props: TimeProps = {}) {
 
 function isFieldEmpty(value: string | undefined) {
   return !value || value.trim() === ''
+}
+
+function isTimeEmpty(
+  hours: string | undefined,
+  minutes: string | undefined,
+  seconds?: string | undefined
+) {
+  return (
+    isFieldEmpty(hours) && isFieldEmpty(minutes) && isFieldEmpty(seconds)
+  )
 }
 
 function stringToTimeValue(value: string) {
