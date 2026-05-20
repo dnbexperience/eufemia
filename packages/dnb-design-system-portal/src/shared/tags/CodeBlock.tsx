@@ -438,6 +438,7 @@ function LiveCode(props: LiveCodeProps) {
         title="Change locale"
         aria-label={`Change locale (current: ${currentLocaleOption?.label ?? context.locale})`}
         variant="tertiary"
+        size="medium"
       />
       <Menu.List>
         {localeOptions.map(({ value, flag, label }) => (
