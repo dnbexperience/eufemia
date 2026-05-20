@@ -31,8 +31,8 @@ export const useTranslationReturns: PropertiesTableProps = {
     status: 'required',
   },
   renderMessage: {
-    doc: 'Like formatMessage but returns ReactNode, allowing React elements in interpolated values.',
-    type: '(id: string, values?: Record<string, ReactNode>) => ReactNode',
+    doc: 'Like formatMessage but returns React.ReactNode, allowing React elements in interpolated values.',
+    type: '(id: string, values?: Record<string, React.ReactNode>) => React.ReactNode',
     status: 'required',
   },
   countries: {

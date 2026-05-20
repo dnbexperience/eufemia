@@ -201,7 +201,7 @@ export const useFieldPropsReturns: PropertiesTableProps = {
   },
   setDisplayValue: {
     doc: 'Set a custom display value for the field (used in summary views).',
-    type: '(value: ReactNode, options?: { path?: string; type?: "field" }) => void',
+    type: '(value: React.ReactNode, options?: { path?: string; type?: "field" }) => void',
     status: 'required',
   },
   forceUpdate: {
