@@ -530,7 +530,7 @@ function LiveCode(props: LiveCodeProps) {
                         />
                       )}
 
-                      {copyCodeButton}
+                      {!isInFocusMode && copyCodeButton}
 
                       {focusModePaddingButton}
 
@@ -551,7 +551,7 @@ function LiveCode(props: LiveCodeProps) {
               )}
               ref={editorElementRef}
             >
-              <LiveEditorWithCopy onCodeChange={setEditedCode} />
+              <LiveCodeEditor onCodeChange={setEditedCode} />
             </Space>
           )}
 
@@ -564,9 +564,9 @@ function LiveCode(props: LiveCodeProps) {
 
 /**
  * Wrapper component that combines the LiveContext onChange with external tracking.
- * This ensures editing code updates the preview AND tracks the edited code for copying.
+ * This ensures editing code updates the preview AND tracks the edited code for e.g. copying.
  */
-function LiveEditorWithCopy({
+function LiveCodeEditor({
   onCodeChange,
 }: {
   onCodeChange: (code: string) => void
