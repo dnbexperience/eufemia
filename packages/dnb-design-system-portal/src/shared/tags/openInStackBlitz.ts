@@ -78,12 +78,6 @@ function getReactExportNames() {
 // Shared exports from @dnb/eufemia/shared
 const SHARED_EXPORTS = ['Provider', 'Theme']
 
-// Known icon namespace imports
-const ICON_NAMESPACES: Record<string, string> = {
-  PrimaryIconsMedium: '@dnb/eufemia/icons/dnb/primary_icons_medium',
-  SecondaryIconsMedium: '@dnb/eufemia/icons/dnb/secondary_icons_medium',
-}
-
 /**
  * Lazily loads all icon export names from @dnb/eufemia/src/icons.
  * Only loaded when someone clicks the StackBlitz button.
@@ -122,6 +116,45 @@ function toSnakeCase(name: string): string {
 }
 
 /**
+ * Resolves a namespace name to a published import path by trying known
+ * subpath patterns via dynamic import. Only runs when StackBlitz is opened.
+ *
+ * Patterns tried:
+ * 1. Forms subpath: Blocks -> @dnb/eufemia/extensions/forms/blocks
+ * 2. Icon barrel:   PrimaryIconsMedium -> @dnb/eufemia/icons/dnb/primary_icons_medium
+ */
+const namespacePathCache = new Map<string, string | null>()
+async function resolveNamespacePath(name: string): Promise<string | null> {
+  if (namespacePathCache.has(name)) {
+    return namespacePathCache.get(name)!
+  }
+
+  const candidates = [
+    {
+      devPath: `@dnb/eufemia/src/extensions/forms/${name.toLowerCase()}`,
+      publishedPath: `@dnb/eufemia/extensions/forms/${name.toLowerCase()}`,
+    },
+    {
+      devPath: `@dnb/eufemia/src/icons/dnb/${toSnakeCase(name)}`,
+      publishedPath: `@dnb/eufemia/icons/dnb/${toSnakeCase(name)}`,
+    },
+  ]
+
+  for (const { devPath, publishedPath } of candidates) {
+    try {
+      await import(/* @vite-ignore */ devPath)
+      namespacePathCache.set(name, publishedPath)
+      return publishedPath
+    } catch {
+      // Not found at this path, try next
+    }
+  }
+
+  namespacePathCache.set(name, null)
+  return null
+}
+
+/**
  * Analyzes code to detect what imports are needed.
  */
 function analyzeCodeForImports(code: string) {
@@ -132,9 +165,7 @@ function analyzeCodeForImports(code: string) {
   const usedReactHooks: string[] = []
   const usedReactExports: string[] = []
   const usedSharedExports: string[] = []
-  const usedIconNamespaces: string[] = []
   let usesStyled = false
-  let usesBlocks = false
 
   // Helper to check if a name is used in code
   const isUsed = (name: string) => {
@@ -202,18 +233,6 @@ function analyzeCodeForImports(code: string) {
     usesStyled = true
   }
 
-  // Detect Blocks namespace usage (from @dnb/eufemia/extensions/forms/blocks)
-  if (/\bBlocks\./.test(code)) {
-    usesBlocks = true
-  }
-
-  // Detect icon namespace usage (PrimaryIconsMedium, SecondaryIconsMedium)
-  for (const name of Object.keys(ICON_NAMESPACES)) {
-    if (new RegExp(`\\b${name}\\b`).test(code)) {
-      usedIconNamespaces.push(name)
-    }
-  }
-
   // Detect if code defines a function component (including exports)
   const isFunctionComponent =
     /^(export\s+)?(function\s+\w+|const\s+\w+\s*=\s*(\([^)]*\)|[^=])\s*=>)/m.test(
@@ -238,8 +257,6 @@ function analyzeCodeForImports(code: string) {
     usedReactExports,
     usedSharedExports,
     usesStyled,
-    usesBlocks,
-    usedIconNamespaces,
     isFunctionComponent,
     hasDefaultExport,
     usesRenderPattern,
@@ -268,15 +285,29 @@ async function detectExternalImports(
     ...analysis.usedReactHooks,
     ...analysis.usedReactExports,
     ...analysis.usedSharedExports,
-    ...analysis.usedIconNamespaces,
     ...SHARED_EXPORTS,
-    // Common names that aren't icons or date-fns
+    // Common names that aren't external imports
     'App',
     'Provider',
     'render',
     'styled',
-    'Blocks',
   ])
+
+  // Detect namespace imports (SomeName.something patterns)
+  // Try to resolve each against known subpath conventions
+  const namespacePattern = /\b([A-Z][a-zA-Z]+)\./g
+  let nsMatch: RegExpExecArray | null
+
+  while ((nsMatch = namespacePattern.exec(code)) !== null) {
+    const name = nsMatch[1]
+    if (!knownNames.has(name)) {
+      const resolvedPath = await resolveNamespacePath(name)
+      if (resolvedPath) {
+        imports.push(`import * as ${name} from '${resolvedPath}'`)
+        knownNames.add(name)
+      }
+    }
+  }
 
   // Extract all identifiers from code that aren't already known
   const unknownNames = new Set<string>()
@@ -421,19 +452,7 @@ function generateAppComponent(code: string, extraImports: string[] = []) {
     )
   }
 
-  // Blocks namespace import
-  if (analysis.usesBlocks) {
-    imports.push(
-      `import * as Blocks from '@dnb/eufemia/extensions/forms/blocks'`
-    )
-  }
-
-  // Icon namespace imports (PrimaryIconsMedium, SecondaryIconsMedium)
-  for (const name of analysis.usedIconNamespaces) {
-    imports.push(`import * as ${name} from '${ICON_NAMESPACES[name]}'`)
-  }
-
-  // Extra imports (e.g. icons, date-fns detected asynchronously)
+  // Extra imports (e.g. namespaces, icons, date-fns detected asynchronously)
   imports.push(...extraImports)
 
   const importsBlock = imports.join('\n')
