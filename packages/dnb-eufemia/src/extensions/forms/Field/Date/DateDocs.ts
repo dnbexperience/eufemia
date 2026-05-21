@@ -3,58 +3,44 @@ import {
   DatePickerEvents,
 } from '../../../../components/date-picker/DatePickerDocs'
 import type { PropertiesTableProps } from '../../../../shared/types'
+import { datePickerPropKeys } from './Date'
 
-// Filter out properties that are handled by `useFieldProps` or has a different default value
-const {
-  showCancelButton,
-  showResetButton,
-  showInput,
-  range,
-  skeleton,
-  globalStatus,
-  statusProps,
-  statusState,
-  status,
-  inputElement,
-  label,
-  labelDirection,
-  labelSrOnly,
-  labelAlignment,
-  suffix,
-  stretch,
-  size,
-  date,
-  startDate,
-  endDate,
-  '[Space](/uilib/layout/space/properties)': space,
-  ...datePickerProperties
-} = DatePickerProperties
+// Build the subset of DatePickerProperties that Field.Date forwards,
+// using datePickerPropKeys as the source of truth.
+// Event props (on*) are documented in DateEvents, not here.
+const datePickerProperties = datePickerPropKeys.reduce((acc, key) => {
+  if (DatePickerProperties[key]) {
+    acc[key] = DatePickerProperties[key]
+  }
+
+  return acc
+}, {} as PropertiesTableProps)
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` inherit from `DatePickerProperties`
 // Since they require `Field.Date` specific documentation, due to them having different default values
 export const DateProperties: PropertiesTableProps = {
   range: {
-    ...range,
+    ...DatePickerProperties.range,
     doc:
       'Defines if the Date field should support a value of two dates (starting and ending date). ' +
       'The `value` needs to be a string containing two dates, separated by a pipe character (`|`) (`01-09-2024|30-09-2024`) when this is set to `true`. ' +
       'Defaults to `false`.',
   },
   showInput: {
-    ...showInput,
+    ...DatePickerProperties.showInput,
     doc: 'If the input fields with the mask should be visible. Defaults to `true`.',
   },
   showCancelButton: {
-    ...showCancelButton,
+    ...DatePickerProperties.showCancelButton,
     doc: 'If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. Defaults to `true`. If the `range` property is `true`, then the cancel button is shown.',
   },
   showResetButton: {
-    ...showResetButton,
+    ...DatePickerProperties.showResetButton,
     doc: 'If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. When clicked, the field resets to the initial `value` or `defaultValue`. If no initial value was provided, the field is cleared. Defaults to `true`.',
   },
   size: {
-    ...size,
-    doc: `${size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
+    ...DatePickerProperties.size,
+    doc: `${DatePickerProperties.size.doc} Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).`,
   },
   ...datePickerProperties,
   onType: {
