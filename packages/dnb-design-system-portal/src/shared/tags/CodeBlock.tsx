@@ -472,7 +472,7 @@ function LiveCode(props: LiveCodeProps) {
               aria-label="Customize appearance"
               className={clsx('dnb-live-toolbar', toolbarStyle)}
             >
-              {(omitWrapper && (
+              {omitWrapper ? (
                 <Button
                   variant="tertiary"
                   icon={hideCode ? 'chevron_down' : 'chevron_up'}
@@ -482,7 +482,7 @@ function LiveCode(props: LiveCodeProps) {
                 >
                   {hideCode ? 'Show Code' : 'Hide Code'}
                 </Button>
-              )) || (
+              ) : (
                   <>
                     {hideCodeProp && (
                       <ToggleButton
@@ -556,7 +556,7 @@ function LiveCode(props: LiveCodeProps) {
                       {focusModeButton}
                     </Flex.Horizontal>
                   </>
-                ) || <>{focusModeButton}</>}
+                )}
             </Space>
           )}
 
