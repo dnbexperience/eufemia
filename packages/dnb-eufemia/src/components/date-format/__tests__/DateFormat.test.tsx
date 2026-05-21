@@ -788,11 +788,12 @@ describe('DateFormat', () => {
 
       // When tooltip is active, aria-describedby should point to the tooltip id
       const tooltipId = timeElem.getAttribute('aria-describedby')
-      const tooltipElem = document.body.querySelector(
-        '#' + tooltipId
-      ).parentElement
 
+      let tooltipElem: Element
       await waitFor(() => {
+        tooltipElem = document.body.querySelector(
+          '#' + tooltipId
+        ).parentElement
         expect(tooltipElem).toHaveClass(
           'dnb-tooltip',
           'dnb-tooltip--active'
