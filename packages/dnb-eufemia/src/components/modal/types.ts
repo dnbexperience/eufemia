@@ -212,7 +212,12 @@ export type ModalContentProps = {
   hideCloseButton?: boolean
 
   /**
-   * Define any valid Eufemia Button property or HTML attribute inside an object.
+   * Props forwarded to the close button.
+   */
+  closeButtonProps?: CloseButtonProps
+
+  /**
+   * @deprecated Use `closeButtonProps` instead.
    */
   closeButtonAttributes?: CloseButtonProps
 

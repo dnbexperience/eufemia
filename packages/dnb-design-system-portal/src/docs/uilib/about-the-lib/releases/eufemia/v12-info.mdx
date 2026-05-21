@@ -12,6 +12,8 @@ draft: true
   - [Install](#install)
   - [Component changes](#component-changes)
     - [Accordion](#accordion)
+    - [Modal and Drawer](#modal-and-drawer)
+    - [InfoCard](#infocard)
 
 ## Migration
 
@@ -28,3 +30,21 @@ $ yarn add @dnb/eufemia@12
 ```
 
 ## Component changes
+
+### [Modal](/uilib/components/modal/) and [Drawer](/uilib/components/drawer/)
+
+- Replace `closeButtonAttributes` with `closeButtonProps`.
+
+```diff
+-<Drawer closeButtonAttributes={{ text: 'Custom text' }} />
++<Drawer closeButtonProps={{ text: 'Custom text' }} />
+```
+
+### [InfoCard](/uilib/components/info-card/)
+
+- Replace `closeButtonAttributes` with `closeButtonProps`.
+
+```diff
+-<InfoCard closeButtonAttributes={{ href: '/path' }} />
++<InfoCard closeButtonProps={{ href: '/path' }} />
+```
