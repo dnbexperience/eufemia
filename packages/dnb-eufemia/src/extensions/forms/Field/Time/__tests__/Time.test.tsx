@@ -1,7 +1,7 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
-import { act, render, waitFor } from '@testing-library/react'
+import { act, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form } from '../../..'
+import { Field, Form, Tools } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -248,6 +248,151 @@ describe('Field.Time', () => {
         <Field.Time value="14:30:45" showSeconds />
       )
       expect(await axeComponent(container)).toHaveNoViolations()
+    })
+  })
+
+  it('should call onChange with the correct value after user interaction', async () => {
+    const onChange = vi.fn()
+
+    render(<Field.Time onChange={onChange} />)
+
+    const hoursInput = getHoursInput()
+
+    await userEvent.click(hoursInput)
+    await userEvent.keyboard('1430')
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenLastCalledWith('14:30')
+    })
+  })
+
+  it('should show validation error on blur for invalid time', async () => {
+    render(<Field.Time />)
+
+    const hoursInput = getHoursInput()
+
+    await userEvent.click(hoursInput)
+    await userEvent.keyboard('25')
+
+    fireEvent.blur(hoursInput)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+    })
+  })
+
+  it('should support transformIn and transformOut', async () => {
+    const transformOut = (_internal: unknown, additionalArgs: unknown) => {
+      const { hours, minutes } = additionalArgs as {
+        hours: string
+        minutes: string
+      }
+      return { hours, minutes }
+    }
+
+    const transformIn = (external: unknown) => {
+      if (
+        external &&
+        typeof external === 'object' &&
+        'hours' in external &&
+        'minutes' in external
+      ) {
+        const { hours, minutes } = external as {
+          hours: string
+          minutes: string
+        }
+        return { hours, minutes }
+      }
+      return undefined
+    }
+
+    render(
+      <Form.Handler
+        defaultData={{
+          myField: {
+            hours: '14',
+            minutes: '30',
+          },
+        }}
+      >
+        <Field.Time
+          path="/myField"
+          transformOut={transformOut}
+          transformIn={transformIn}
+        />
+        <Tools.Log />
+      </Form.Handler>
+    )
+
+    const hoursInput = getHoursInput()
+    const minutesInput = getMinutesInput()
+
+    expect(hoursInput.value).toBe('14')
+    expect(minutesInput.value).toBe('30')
+  })
+
+  it('should normalize externally provided values on rerender', () => {
+    const { rerender } = render(<Field.Time value="09:05" />)
+
+    expect(getHoursInput().value).toBe('09')
+    expect(getMinutesInput().value).toBe('05')
+
+    rerender(<Field.Time value="23:59" />)
+
+    expect(getHoursInput().value).toBe('23')
+    expect(getMinutesInput().value).toBe('59')
+  })
+
+  it('should show validation error when only hours are filled', async () => {
+    render(<Field.Time />)
+
+    const hoursInput = getHoursInput()
+
+    await userEvent.click(hoursInput)
+    await userEvent.keyboard('14')
+
+    fireEvent.blur(hoursInput)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+    })
+  })
+
+  it('should not show error for required field with a valid value', async () => {
+    render(<Field.Time value="14:30" required validateInitially />)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  it('should validate continuously when validateContinuously is enabled', async () => {
+    render(<Field.Time validateContinuously />)
+
+    const hoursInput = getHoursInput()
+
+    await userEvent.click(hoursInput)
+    await userEvent.keyboard('25')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
+    })
+
+    await userEvent.click(hoursInput)
+    await userEvent.keyboard('{Backspace>2}1430')
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).not.toBeInTheDocument()
     })
   })
 })
