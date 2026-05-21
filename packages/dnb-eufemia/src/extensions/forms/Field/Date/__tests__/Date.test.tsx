@@ -1302,7 +1302,7 @@ describe('Field.Date', () => {
     ).toHaveAttribute('aria-current', 'date')
   })
 
-  it('should return dates in specifed return format', async () => {
+  it('should return dates in specified return format', async () => {
     const onChange = vi.fn()
 
     render(
