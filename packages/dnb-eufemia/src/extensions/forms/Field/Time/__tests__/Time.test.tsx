@@ -267,7 +267,10 @@ describe('Field.Time', () => {
     await userEvent.keyboard('1430')
 
     await waitFor(() => {
-      expect(onChange).toHaveBeenLastCalledWith('14:30')
+      expect(onChange).toHaveBeenLastCalledWith('14:30', {
+        hours: '14',
+        minutes: '30',
+      })
     })
   })
 
