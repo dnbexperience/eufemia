@@ -27,7 +27,9 @@ export const TimeSpecificEvents: PropertiesTableProps = {
   },
 }
 
-export const TimeGeneralEvents = getFieldEventsWithTypes(
+const { onChange: _, ...generalEvents } = getFieldEventsWithTypes(
   { type: 'string', optional: true },
   { type: 'object' }
 )
+
+export const TimeGeneralEvents = generalEvents
