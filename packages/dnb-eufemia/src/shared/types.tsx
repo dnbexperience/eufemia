@@ -61,6 +61,6 @@ export type NotAny<T> = IsAny<T> extends true ? never : T
 
 /**
  * Common props forwarded to the trigger button element in components
- * such as Modal, Dialog, Drawer, DatePicker and Popover.
+ * such as Modal, Dialog, Drawer and DatePicker.
  */
 export type TriggerProps = ButtonProps

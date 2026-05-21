@@ -51,7 +51,7 @@ export default function ResetButton(props: Props) {
     return null
   }
 
-  const triggerAttributes: ButtonProps = {
+  const triggerProps: ButtonProps = {
     className: clsx('dnb-forms-iterate__reset-button', className),
     text: textContent,
     variant: textContent ? 'tertiary' : 'secondary',
@@ -68,12 +68,12 @@ export default function ResetButton(props: Props) {
         <Dialog
           variant="confirmation"
           title={confirmResetText}
-          triggerProps={triggerAttributes}
+          triggerProps={triggerProps}
           onConfirm={handleClick}
         />
       ) : (
         <Button
-          {...triggerAttributes}
+          {...triggerProps}
           onClick={(args) => handleClick(args)}
           {...buttonProps}
         >
