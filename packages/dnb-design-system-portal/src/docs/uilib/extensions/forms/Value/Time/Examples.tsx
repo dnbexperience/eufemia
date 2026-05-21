@@ -18,6 +18,16 @@ export const WithSeconds = () => {
   )
 }
 
+export const WithLocale = () => {
+  return (
+    <ComponentBox>
+      <Value.Time label="en-US" value="14:30" locale="en-US" />
+      <Value.Time label="nb-NO" value="14:30" locale="nb-NO" />
+      <Value.Time label="de-DE" value="14:30" locale="de-DE" />
+    </ComponentBox>
+  )
+}
+
 export const Inline = () => {
   return (
     <ComponentBox>
