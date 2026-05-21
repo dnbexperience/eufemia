@@ -75,7 +75,7 @@ describe('SearchBar', () => {
         open
         inputValue="--z-index"
         id="portal-search-test"
-        disableFilter
+        search={{ filter: false }}
         noAnimation
         skipPortal
       />
@@ -102,7 +102,7 @@ describe('SearchBar', () => {
         open
         inputValue="Ca"
         id="portal-search-link-test"
-        disableFilter
+        search={{ filter: false }}
         noAnimation
         skipPortal
       />

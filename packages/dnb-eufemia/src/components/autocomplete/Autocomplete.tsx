@@ -41,6 +41,13 @@ import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
+import type { SearchOptions } from '../../shared/search'
+import {
+  prepareSearchWords,
+  findMatchingWords,
+  calculateTotalScore,
+  passesNumericTermsCheck,
+} from '../../shared/search'
 import {
   warn,
   extendPropsWithContext,
@@ -268,15 +275,22 @@ export type AutocompleteProps = {
    */
   showClearButton?: boolean
   /**
-   * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.
+   * Configure search behavior with a single config object. An object with optional keys: `filter` (enable result filtering, default `true`), `reorder` (enable relevance reordering, default `true`), `highlight` (enable text highlighting, default `true`), `numbers` (enable number search, default `false`), `matchInsideWordsFrom` (threshold for in-word search, default `3`), and `match` (matching mode `"word"` or `"starts-with"`, default `"word"`). Example: `search={{ filter: false }}` to disable filtering while keeping highlighting.
+   */
+  search?: SearchOptions
+  /**
+   * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`. **Deprecated**: Use `search={{ filter: false }}` instead.
+   * @deprecated Use `search={{ filter: false }}` instead.
    */
   disableFilter?: boolean
   /**
-   * If set to `true`, reordering of search results will be disabled. Defaults to `false`.
+   * If set to `true`, reordering of search results will be disabled. Defaults to `false`. **Deprecated**: Use `search={{ reorder: false }}` instead.
+   * @deprecated Use `search={{ reorder: false }}` instead.
    */
   disableReorder?: boolean
   /**
-   * If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.
+   * If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`. **Deprecated**: Use `search={{ highlight: false }}` instead.
+   * @deprecated Use `search={{ highlight: false }}` instead.
    */
   disableHighlighting?: boolean
   /**
@@ -296,15 +310,18 @@ export type AutocompleteProps = {
    */
   inputElement?: AutocompleteInputElement
   /**
-   * This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.
+   * This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`. **Deprecated**: Use `search={{ matchInsideWordsFrom: number }}` instead.
+   * @deprecated Use `search={{ matchInsideWordsFrom: number }}` instead.
    */
   searchInWordIndex?: AutocompleteSearchInWordIndex
   /**
-   * Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.
+   * Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`. **Deprecated**: Use `search={{ match: "word" | "starts-with" }}` instead.
+   * @deprecated Use `search={{ match: "word" | "starts-with" }}` instead.
    */
   searchMatch?: AutocompleteSearchMatch
   /**
-   * If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.
+   * If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`. **Deprecated**: Use `search={{ numbers: true }}` instead.
+   * @deprecated Use `search={{ numbers: true }}` instead.
    */
   searchNumbers?: boolean
   /**
@@ -591,6 +608,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     searchNumbers,
     searchInWordIndex,
     searchMatch,
+    search,
     showOptionsSr,
     selectedSr,
     submitButtonTitle,
@@ -607,8 +625,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     independentWidth,
     autoComplete,
     openOnFocus,
-    disableFilter,
-    disableReorder,
+    disableFilter: _deprecatedDisableFilter,
+    disableReorder: _deprecatedDisableReorder,
     onClear,
     selectAll,
     noDivider,
@@ -629,7 +647,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     noOptions: _noOptions,
     showAll: _showAll,
     ariaLiveOptions: _ariaLiveOptions,
-    disableHighlighting: _disableHighlighting,
+    disableHighlighting: _deprecatedDisableHighlighting,
 
     onOpen: _onOpen,
     onType: _onType,
@@ -643,6 +661,71 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
     ...attributes
   } = props
+
+  // Resolve search config: `search` prop takes precedence over deprecated props.
+  // @deprecated - The fallbacks to deprecated props below ensure backward compatibility.
+  // Remove these fallbacks when the deprecated props are removed.
+  const disableFilter =
+    search?.filter !== undefined
+      ? !search.filter
+      : _deprecatedDisableFilter // @deprecated fallback
+  const disableReorder =
+    search?.reorder !== undefined
+      ? !search.reorder
+      : _deprecatedDisableReorder // @deprecated fallback
+  const _disableHighlighting =
+    search?.highlight !== undefined
+      ? !search.highlight
+      : _deprecatedDisableHighlighting // @deprecated fallback
+  const resolvedSearchNumbers =
+    search?.numbers !== undefined ? search.numbers : searchNumbers // @deprecated fallback
+  const resolvedSearchInWordIndex =
+    search?.matchInsideWordsFrom !== undefined
+      ? search.matchInsideWordsFrom
+      : searchInWordIndex != null
+        ? Number(searchInWordIndex)
+        : undefined // @deprecated fallback
+  const resolvedSearchMatch =
+    search?.match !== undefined ? search.match : searchMatch // @deprecated fallback
+
+  // Deprecation warnings for old search-related props (fire once per instance)
+  const hasWarnedDeprecatedSearchRef = useRef(false)
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    !hasWarnedDeprecatedSearchRef.current
+  ) {
+    hasWarnedDeprecatedSearchRef.current = true
+    if (_deprecatedDisableFilter) {
+      warn(
+        'Autocomplete: `disableFilter` is deprecated. Use `search={{ filter: false }}` instead.'
+      )
+    }
+    if (_deprecatedDisableReorder) {
+      warn(
+        'Autocomplete: `disableReorder` is deprecated. Use `search={{ reorder: false }}` instead.'
+      )
+    }
+    if (_deprecatedDisableHighlighting) {
+      warn(
+        'Autocomplete: `disableHighlighting` is deprecated. Use `search={{ highlight: false }}` instead.'
+      )
+    }
+    if (searchNumbers != null) {
+      warn(
+        'Autocomplete: `searchNumbers` is deprecated. Use `search={{ numbers: true }}` instead.'
+      )
+    }
+    if (searchInWordIndex != null) {
+      warn(
+        'Autocomplete: `searchInWordIndex` is deprecated. Use `search={{ matchInsideWordsFrom: number }}` instead.'
+      )
+    }
+    if (searchMatch != null) {
+      warn(
+        'Autocomplete: `searchMatch` is deprecated. Use `search={{ match: "word" | "starts-with" }}` instead.'
+      )
+    }
+  }
 
   // State
   const [inputValue, setInputValueState] = useState<string | null>(() => {
@@ -666,7 +749,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const [showAllNextTime, setShowAllNextTime] = useState(false)
   const [skipFocusDuringChange, setSkipFocusDuringChange] = useState(false)
   const [disableHighlightingState, setDisableHighlighting] = useState(
-    props.disableHighlighting
+    _disableHighlighting
   )
   const [visibleIndicator, setVisibleIndicator] = useState(false)
   const [searchIndex, setSearchIndexState] = useState<
@@ -699,7 +782,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const lastUpdateDataRef = useRef<DrawerListInternalData | null>(null)
   const prevValueRef = useRef(props.value)
   const prevInputValuePropRef = useRef(props.inputValue)
-  const prevDisableHighlightingRef = useRef(props.disableHighlighting)
+  const prevDisableHighlightingRef = useRef(_disableHighlighting)
   const inputValueRef = useRef(inputValue)
   const typedInputValueRef = useRef(typedInputValue)
   const modeRef = useRef(mode)
@@ -1078,20 +1161,17 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       {
         data = null,
         searchIndex: siParam = searchIndexRef.current,
-        searchNumbers: snParam = props.searchNumbers,
-        inWordIndex = parseFloat(
-          String(
-            props.searchInWordIndex ?? (skipFilterRef.current ? 1 : 3)
-          )
-        ) - 1,
+        numbers: snParam = resolvedSearchNumbers,
+        matchInsideWordsFrom = resolvedSearchInWordIndex ??
+          (skipFilterRef.current ? 1 : 3),
         disableHighlighting: disableHL = false,
         skipFilter = false,
         skipReorder = false,
       }: {
         data?: DrawerListInternalData | null
         searchIndex?: SearchIndexItem[] | null
-        searchNumbers?: boolean
-        inWordIndex?: number
+        numbers?: boolean
+        matchInsideWordsFrom?: number
         disableHighlighting?: boolean
         skipFilter?: boolean
         skipReorder?: boolean
@@ -1109,96 +1189,15 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         return []
       }
 
-      const startsWithMatch = props.searchMatch === 'starts-with'
-      const rawValue = value ?? ''
-      let searchWords = rawValue.split(/\s+/g).filter(Boolean)
-
-      if (startsWithMatch) {
-        // @ts-expect-error Unicode property escapes are supported at runtime here
-        const hasLetters = /[\p{L}]/u.test(rawValue)
-        // @ts-expect-error Unicode property escapes are supported at runtime here
-        const hasNumbers = /[\p{N}]/u.test(rawValue)
-        if (startsWithMatch && snParam && hasNumbers && !hasLetters) {
-          // @ts-expect-error Unicode property escapes are supported at runtime here
-          const normalizedNumeric = rawValue.replace(/[^\p{N}]+/gu, '')
-          searchWords = normalizedNumeric ? [normalizedNumeric] : []
-        }
+      const searchOptions = {
+        numbers: snParam,
+        matchInsideWordsFrom,
+        match: resolvedSearchMatch,
       }
 
-      const getWordBoundary = (wordIndex: number) =>
-        startsWithMatch && wordIndex === 0 ? '^' : snParam ? '' : '^|\\s'
-
-      const searchWordsData = searchWords.map((word, wordIndex) => {
-        const processedWord = snParam
-          ? // @ts-expect-error Unicode property escapes are supported at runtime here
-            word.replace(/[^\p{L}\p{N}]+/gu, '')
-          : escapeRegexChars(word)
-        const wordBoundary = getWordBoundary(wordIndex)
-
-        return {
-          originalWord: word,
-          processedWord,
-          wordIndex,
-          filterRegex: new RegExp(
-            wordIndex >= inWordIndex
-              ? `${processedWord}`
-              : `(${wordBoundary})${processedWord}`,
-            'i'
-          ),
-          scoreRegex: new RegExp(
-            `(${wordBoundary})${escapeRegexChars(word)}`,
-            'ig'
-          ),
-        }
-      })
-
-      const firstWordRegex =
-        searchWords.length > 0
-          ? new RegExp(`^${escapeRegexChars(searchWords[0])}`, 'i')
-          : null
-
-      const findSearchWords = (contentChunk: string | null) => {
-        if (typeof contentChunk !== 'string') {
-          return []
-        }
-
-        return searchWordsData
-          .filter(({ filterRegex }) => {
-            if (filterRegex.test(contentChunk)) {
-              return true
-            }
-
-            if (
-              snParam &&
-              filterRegex.test(contentChunk.replace(/[^0-9]/g, ''))
-            ) {
-              return true
-            }
-
-            return false
-          })
-          .map(({ originalWord, wordIndex, scoreRegex }) => {
-            let wordScore = 0
-
-            wordScore += (contentChunk.match(scoreRegex) || []).length
-
-            if (wordIndex === 0 && firstWordRegex) {
-              const isFirstWord = firstWordRegex.test(
-                contentChunk.split(' ')[0]
-              )
-
-              if (isFirstWord) {
-                wordScore += searchWords.length + 1
-              }
-            }
-
-            return {
-              word: originalWord,
-              wordIndex,
-              wordScore,
-            }
-          })
-      }
+      const prepared = prepareSearchWords(value, searchOptions)
+      const { searchWords, getWordBoundary, matchInsideWordsFromIndex } =
+        prepared
 
       const strS = '\uFFFE'
       const strE = '\uFFFF'
@@ -1207,23 +1206,15 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         | DrawerListDataArrayObject
         | { totalScore: number; item: SearchIndexItem }
       > = currentSearchIndex.map((item) => {
-        const listOfFoundWords = findSearchWords(item.contentChunk)
+        const listOfFoundWords = findMatchingWords(
+          item.contentChunk,
+          prepared
+        )
 
-        const allWordsAreNumeric = snParam
-          ? // @ts-expect-error Unicode property escapes are supported at runtime here
-            searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
-          : false
-
-        const hasMultipleNumericTerms =
-          snParam &&
-          searchWords &&
-          searchWords.length > 1 &&
-          allWordsAreNumeric
         if (
           !skipFilterRef.current &&
           !skipFilter &&
-          hasMultipleNumericTerms &&
-          listOfFoundWords.length !== searchWords.length
+          !passesNumericTermsCheck(listOfFoundWords, prepared)
         ) {
           return { totalScore: 0, item }
         }
@@ -1279,7 +1270,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                     )
                   }
                 } else {
-                  if (wordIndex >= inWordIndex) {
+                  if (wordIndex >= matchInsideWordsFromIndex) {
                     segment = segment.replace(
                       new RegExp(`(${word})`, 'gi'),
                       `${strS}$1${strE}`
@@ -1405,10 +1396,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           return item.dataItem
         }
 
-        let totalScore = listOfFoundWords.length
-        for (const { wordScore } of listOfFoundWords) {
-          totalScore += wordScore
-        }
+        const totalScore = calculateTotalScore(listOfFoundWords)
 
         return {
           totalScore,
@@ -1435,9 +1423,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     },
     [
       setSearchIndex,
-      props.searchMatch,
-      props.searchNumbers,
-      props.searchInWordIndex,
+      resolvedSearchMatch,
+      resolvedSearchNumbers,
+      resolvedSearchInWordIndex,
       disableHighlightingState,
     ]
   )
@@ -1489,8 +1477,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       options: {
         data?: DrawerListInternalData | null
         searchIndex?: SearchIndexItem[] | null
-        searchNumbers?: boolean
-        inWordIndex?: number
+        numbers?: boolean
+        matchInsideWordsFrom?: number
         disableHighlighting?: boolean
         skipFilter?: boolean
         skipReorder?: boolean
@@ -2213,9 +2201,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   )
 
   // Handle prop-driven state updates
-  if (props.disableHighlighting !== prevDisableHighlightingRef.current) {
-    prevDisableHighlightingRef.current = props.disableHighlighting
-    setDisableHighlighting(props.disableHighlighting)
+  if (_disableHighlighting !== prevDisableHighlightingRef.current) {
+    prevDisableHighlightingRef.current = _disableHighlighting
+    setDisableHighlighting(_disableHighlighting)
   }
 
   if (
