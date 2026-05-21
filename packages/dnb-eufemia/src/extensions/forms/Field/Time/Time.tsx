@@ -366,7 +366,12 @@ function validateTime(time: string, showSeconds?: boolean) {
     hoursNumber === 24 &&
     (minutesNumber !== 0 || (showSeconds && secondsNumber !== 0))
 
-  if (hoursInvalid || minutesInvalid || secondsInvalid || is24WithNonZero) {
+  if (
+    hoursInvalid ||
+    minutesInvalid ||
+    secondsInvalid ||
+    is24WithNonZero
+  ) {
     return new FormError('Time.errorInvalidTime')
   }
 
