@@ -230,6 +230,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
+  // Deprecated: acceptButtonAttributes – remove this test in v12
   it('renders the accept button with additional props', () => {
     const href = 'href'
 
@@ -246,6 +247,41 @@ describe('InfoCard', () => {
     )
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
+  })
+
+  it('renders the accept button with acceptButtonProps', () => {
+    const href = 'href'
+
+    render(
+      <InfoCard
+        text="text"
+        acceptButtonText="accept"
+        acceptButtonProps={{ href }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__accept-button'
+    )
+
+    expect(buttonElement.getAttribute('href')).toMatch(href)
+  })
+
+  it('acceptButtonProps takes precedence over acceptButtonAttributes', () => {
+    render(
+      <InfoCard
+        text="text"
+        acceptButtonText="accept"
+        acceptButtonProps={{ 'data-testid': 'new-prop' }}
+        acceptButtonAttributes={{ 'data-testid': 'old-prop' }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__accept-button'
+    )
+
+    expect(buttonElement.getAttribute('data-testid')).toBe('new-prop')
   })
 
   // Deprecated: closeButtonAttributes – remove this test in v12
