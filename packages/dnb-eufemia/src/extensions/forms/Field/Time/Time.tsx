@@ -83,7 +83,7 @@ function Time(props: TimeProps = {}) {
     (values: TimeValue) => {
       const { hours, minutes, seconds } = values
 
-      if (isTimeEmpty(hours, minutes) && (!showSeconds || !seconds)) {
+      if (!hours && !minutes && (!showSeconds || !seconds)) {
         return undefined
       }
 
@@ -119,7 +119,7 @@ function Time(props: TimeProps = {}) {
 
     const { hours, minutes, seconds } = stringToTimeValue(external)
 
-    if (isTimeEmpty(hours, minutes)) {
+    if (!hours && !minutes) {
       return undefined
     }
 
@@ -147,7 +147,7 @@ function Time(props: TimeProps = {}) {
       const hours = external.hours as string
       const minutes = external.minutes as string
 
-      if (isTimeEmpty(hours, minutes)) {
+      if (!hours && !minutes) {
         return undefined
       }
 
@@ -312,14 +312,6 @@ function Time(props: TimeProps = {}) {
       />
     </FieldBlock>
   )
-}
-
-function isTimeEmpty(
-  hours: string | undefined,
-  minutes: string | undefined,
-  seconds?: string | undefined
-) {
-  return !hours && !minutes && !seconds
 }
 
 function stringToTimeValue(value: string) {
