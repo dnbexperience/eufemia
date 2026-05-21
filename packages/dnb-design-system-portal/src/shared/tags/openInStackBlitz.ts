@@ -78,6 +78,56 @@ function getReactExportNames() {
 // Shared exports from @dnb/eufemia/shared
 const SHARED_EXPORTS = ['Provider', 'Theme']
 
+// Known date-fns functions used in examples
+const DATE_FNS_FUNCTIONS = [
+  'addDays',
+  'addMonths',
+  'addWeeks',
+  'addYears',
+  'format',
+  'formatDistance',
+  'isAfter',
+  'isBefore',
+  'isSameDay',
+  'isWeekend',
+  'lastDayOfMonth',
+  'lastDayOfWeek',
+  'startOfMonth',
+  'startOfWeek',
+  'subDays',
+  'subMonths',
+]
+
+// Known icon namespace imports
+const ICON_NAMESPACES: Record<string, string> = {
+  PrimaryIconsMedium: '@dnb/eufemia/icons/dnb/primary_icons_medium',
+  SecondaryIconsMedium: '@dnb/eufemia/icons/dnb/secondary_icons_medium',
+}
+
+/**
+ * Lazily loads all icon export names from @dnb/eufemia/src/icons.
+ * Only loaded when someone clicks the StackBlitz button.
+ */
+let iconExportNamesCache: string[] | null = null
+async function getIconExportNames(): Promise<string[]> {
+  if (!iconExportNamesCache) {
+    const icons = await import('@dnb/eufemia/src/icons')
+    iconExportNamesCache = Object.keys(icons)
+  }
+  return iconExportNamesCache
+}
+
+/**
+ * Converts a PascalCase name to snake_case.
+ * E.g. "BellMedium" -> "bell_medium", "AccountCard" -> "account_card"
+ */
+function toSnakeCase(name: string): string {
+  return name
+    .replace(/([A-Z])/g, '_$1')
+    .toLowerCase()
+    .replace(/^_/, '')
+}
+
 /**
  * Analyzes code to detect what imports are needed.
  */
@@ -89,6 +139,8 @@ function analyzeCodeForImports(code: string) {
   const usedReactHooks: string[] = []
   const usedReactExports: string[] = []
   const usedSharedExports: string[] = []
+  const usedDateFnsFunctions: string[] = []
+  const usedIconNamespaces: string[] = []
   let usesStyled = false
   let usesBlocks = false
 
@@ -163,6 +215,20 @@ function analyzeCodeForImports(code: string) {
     usesBlocks = true
   }
 
+  // Detect icon namespace usage (PrimaryIconsMedium, SecondaryIconsMedium)
+  for (const name of Object.keys(ICON_NAMESPACES)) {
+    if (new RegExp(`\\b${name}\\b`).test(code)) {
+      usedIconNamespaces.push(name)
+    }
+  }
+
+  // Detect date-fns function usage
+  for (const fn of DATE_FNS_FUNCTIONS) {
+    if (new RegExp(`\\b${fn}\\b`).test(code)) {
+      usedDateFnsFunctions.push(fn)
+    }
+  }
+
   // Detect if code defines a function component (including exports)
   const isFunctionComponent =
     /^(export\s+)?(function\s+\w+|const\s+\w+\s*=\s*(\([^)]*\)|[^=])\s*=>)/m.test(
@@ -188,11 +254,96 @@ function analyzeCodeForImports(code: string) {
     usedSharedExports,
     usesStyled,
     usesBlocks,
+    usedIconNamespaces,
+    usedDateFnsFunctions,
     isFunctionComponent,
     hasDefaultExport,
     usesRenderPattern,
     hasExistingImports,
   }
+}
+
+/**
+ * Detects individual icon imports needed by the code.
+ * Dynamically loads the icon module to avoid bundling all SVGs on initial page load.
+ * Returns import statements like: import { bell as Bell } from '@dnb/eufemia/icons'
+ */
+async function detectIndividualIconImports(
+  code: string,
+  analysis: ReturnType<typeof analyzeCodeForImports>
+): Promise<string[]> {
+  // Collect all names already handled by other import detection
+  const knownNames = new Set([
+    ...analysis.usedComponents,
+    ...analysis.usedFragments,
+    ...analysis.usedElements,
+    ...analysis.usedFormsComponents,
+    ...analysis.usedReactHooks,
+    ...analysis.usedReactExports,
+    ...analysis.usedSharedExports,
+    ...analysis.usedIconNamespaces,
+    ...analysis.usedDateFnsFunctions,
+    ...SHARED_EXPORTS,
+    // Common names that aren't icons
+    'App',
+    'Provider',
+    'render',
+    'styled',
+    'Blocks',
+  ])
+
+  // Find PascalCase or snake_case identifiers in the code
+  // that could be icon references (used as prop values or JSX)
+  const potentialIconNames = new Set<string>()
+  const identifierPattern =
+    /\b([A-Z][a-zA-Z]*|[a-z][a-z_]*_(?:medium|small|large))\b/g
+  let match: RegExpExecArray | null
+
+  while ((match = identifierPattern.exec(code)) !== null) {
+    const name = match[1]
+    if (!knownNames.has(name)) {
+      potentialIconNames.add(name)
+    }
+  }
+
+  if (potentialIconNames.size === 0) {
+    return []
+  }
+
+  // Load icon names lazily
+  const iconNames = await getIconExportNames()
+  const iconNameSet = new Set(iconNames)
+
+  const iconImportPairs: Array<{ snakeName: string; usedName: string }> =
+    []
+
+  for (const name of potentialIconNames) {
+    // Check if it's already a snake_case icon name (e.g. bell_medium)
+    if (iconNameSet.has(name)) {
+      iconImportPairs.push({ snakeName: name, usedName: name })
+      continue
+    }
+
+    // Try converting PascalCase to snake_case (e.g. BellMedium -> bell_medium)
+    const snakeName = toSnakeCase(name)
+    if (iconNameSet.has(snakeName)) {
+      iconImportPairs.push({ snakeName, usedName: name })
+    }
+  }
+
+  if (iconImportPairs.length === 0) {
+    return []
+  }
+
+  // Group imports: aliased (PascalCase) and direct (snake_case)
+  const importSpecifiers = iconImportPairs.map(
+    ({ snakeName, usedName }) =>
+      snakeName === usedName ? snakeName : `${snakeName} as ${usedName}`
+  )
+
+  return [
+    `import { ${importSpecifiers.join(', ')} } from '@dnb/eufemia/icons'`,
+  ]
 }
 
 /**
@@ -219,8 +370,9 @@ export async function formatCode(code: string): Promise<string> {
 
 /**
  * Generates the App.tsx content based on code analysis.
+ * @param extraImports - Additional import statements (e.g. for icons detected asynchronously)
  */
-function generateAppComponent(code: string) {
+function generateAppComponent(code: string, extraImports: string[] = []) {
   const analysis = analyzeCodeForImports(code)
 
   // If code already has imports, use it as-is with minimal wrapping
@@ -279,6 +431,21 @@ function generateAppComponent(code: string) {
       `import * as Blocks from '@dnb/eufemia/extensions/forms/blocks'`
     )
   }
+
+  // Icon namespace imports (PrimaryIconsMedium, SecondaryIconsMedium)
+  for (const name of analysis.usedIconNamespaces) {
+    imports.push(`import * as ${name} from '${ICON_NAMESPACES[name]}'`)
+  }
+
+  // date-fns imports
+  if (analysis.usedDateFnsFunctions.length > 0) {
+    imports.push(
+      `import { ${analysis.usedDateFnsFunctions.join(', ')} } from 'date-fns'`
+    )
+  }
+
+  // Extra imports (e.g. individual icon imports detected asynchronously)
+  imports.push(...extraImports)
 
   const importsBlock = imports.join('\n')
 
@@ -361,6 +528,10 @@ export async function openInStackBlitz(code: string) {
   // Analyze code to determine needed dependencies
   const analysis = analyzeCodeForImports(code)
 
+  // Detect individual icon imports asynchronously
+  // Icons are loaded lazily to avoid bundling all SVGs on every page
+  const iconImports = await detectIndividualIconImports(code, analysis)
+
   const appCode = `import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@dnb/eufemia/style'
@@ -373,7 +544,9 @@ createRoot(document.getElementById('root')!).render(
 )
 `
 
-  const appComponent = await formatCode(generateAppComponent(code))
+  const appComponent = await formatCode(
+    generateAppComponent(code, iconImports)
+  )
 
   const indexHtml = `<!doctype html>
 <html lang="en">
@@ -398,6 +571,10 @@ createRoot(document.getElementById('root')!).render(
 
   if (analysis.usesStyled) {
     dependencies['@emotion/styled'] = '^11.14.0'
+  }
+
+  if (analysis.usedDateFnsFunctions.length > 0) {
+    dependencies['date-fns'] = '^4.1.0'
   }
 
   const packageJson = JSON.stringify(
