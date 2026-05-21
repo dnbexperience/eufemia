@@ -110,6 +110,7 @@ export type DateProps = Omit<
     | 'onReset'
     | 'skipPortal'
     | 'yearNavigation'
+    | 'singleView'
     | 'tooltip'
     | 'triggerProps'
   >
@@ -741,6 +742,7 @@ const datePickerPropKeys = [
   'onReset',
   'skipPortal',
   'yearNavigation',
+  'singleView',
   'tooltip',
   'triggerProps',
 ]

@@ -315,3 +315,9 @@ export const DatePickerYearNavigation = () => (
     <DatePicker showInput yearNavigation />
   </ComponentBox>
 )
+
+export const DatePickerSingleCalendar = () => (
+  <ComponentBox>
+    <DatePicker range singleView showInput />
+  </ComponentBox>
+)

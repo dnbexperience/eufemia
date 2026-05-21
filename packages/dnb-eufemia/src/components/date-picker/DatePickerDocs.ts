@@ -183,6 +183,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  singleView: {
+    doc: 'If set to `true`, only one calendar view will be shown even when `range` is `true`. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   labelAlignment: {
     doc: 'Sets the alignment of the label. Defaults to `left`.',
     type: ['"left"', '"center"', '"right"'],

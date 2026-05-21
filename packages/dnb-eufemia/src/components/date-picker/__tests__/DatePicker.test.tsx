@@ -1315,6 +1315,57 @@ describe('DatePicker component', () => {
     ).toBe(2)
   })
 
+  it('has one calendar view when singleView is true and range is true', () => {
+    render(
+      <DatePicker
+        range
+        singleView
+        startDate="2024-10-01"
+        endDate="2024-10-24"
+        showInput
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-date-picker__calendar').length
+    ).toBe(1)
+  })
+
+  it('supports range selection with singleView', () => {
+    const onChange = vi.fn()
+
+    render(<DatePicker range singleView showInput onChange={onChange} />)
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    const calendar = document.querySelector('.dnb-date-picker__calendar')
+    const selectableDays = calendar.querySelectorAll(
+      'td.dnb-date-picker__day--selectable'
+    )
+
+    // Click start date
+    fireEvent.click(selectableDays[0].querySelector('button'))
+
+    expect(selectableDays[0].classList).toContain(
+      'dnb-date-picker__day--start-date'
+    )
+
+    // Click end date
+    fireEvent.click(selectableDays[4].querySelector('button'))
+
+    expect(selectableDays[4].classList).toContain(
+      'dnb-date-picker__day--end-date'
+    )
+
+    expect(onChange).toHaveBeenCalled()
+  })
+
   it('has correctly synced calendar views based on user navigation and date selection', async () => {
     render(
       <DatePicker range startDate="2024-10-01" endDate="2024-10-24" />

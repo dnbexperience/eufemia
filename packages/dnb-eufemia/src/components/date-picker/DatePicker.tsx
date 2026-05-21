@@ -289,6 +289,10 @@ export type DatePickerProps = {
    * Will enable year navigation in the calendar if set to `true`. Defaults to `false`.
    */
   yearNavigation?: boolean
+  /**
+   * If set to `true`, only one calendar view will be shown even when `range` is `true`. Defaults to `false`.
+   */
+  singleView?: boolean
   className?: string
   /**
    * Will be called right before every new calendar view gets rendered. See the example above.

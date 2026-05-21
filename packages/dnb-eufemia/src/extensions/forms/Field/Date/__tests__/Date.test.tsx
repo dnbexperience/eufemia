@@ -3054,6 +3054,18 @@ describe('Field.Date', () => {
     )
   })
 
+  it('should forward `singleView` to DatePicker and show one calendar in range mode', async () => {
+    render(<Field.Date value="2025-04-01|2025-04-30" range singleView />)
+
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-date-picker__calendar').length
+    ).toBe(1)
+  })
+
   it('should export `dateValidator`', async () => {
     const myOnBlurValidator = (value: string) => {
       if (value === '2025-01-01') {
