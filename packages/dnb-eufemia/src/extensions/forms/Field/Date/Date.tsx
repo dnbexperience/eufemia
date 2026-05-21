@@ -111,6 +111,7 @@ export type DateProps = Omit<
     | 'skipPortal'
     | 'yearNavigation'
     | 'tooltip'
+    | 'triggerProps'
   >
 
 function DateComponent(props: DateProps): ReactElement {
@@ -741,6 +742,7 @@ const datePickerPropKeys = [
   'skipPortal',
   'yearNavigation',
   'tooltip',
+  'triggerProps',
 ]
 
 function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {

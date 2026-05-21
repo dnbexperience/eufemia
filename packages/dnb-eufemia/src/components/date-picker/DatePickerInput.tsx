@@ -25,6 +25,7 @@ import SegmentedField, {
   type SegmentedFieldValue as MValues,
 } from '../input-masked/segmented-field/SegmentedField'
 import Button from '../button/Button'
+import type { ButtonProps } from '../Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
 import { warn, validateDOMAttributes } from '../../shared/component-helper'
@@ -94,6 +95,12 @@ export type DatePickerInputProps = Omit<
     onBlur?: (
       event: DatePickerReturnObject<FocusEvent<HTMLInputElement>>
     ) => void
+    triggerProps?: Partial<
+      Pick<
+        ButtonProps,
+        'variant' | 'text' | 'icon' | 'iconPosition' | 'size'
+      >
+    >
     /** @internal */
     _omitInputShellClass?: boolean
   }
@@ -141,6 +148,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     status,
     statusState,
     statusProps,
+    triggerProps,
     _omitInputShellClass,
 
     ...attributes
@@ -924,6 +932,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             onClick={onSubmit}
             {...submitAttributes}
             {...statusProps}
+            {...triggerProps}
           />
         }
         lang={lang}

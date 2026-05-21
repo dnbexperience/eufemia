@@ -268,6 +268,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  triggerProps: {
+    doc: 'Props to forward to the trigger button. Can be used to change the button `variant`, add a `text` label, or override other button properties such as `icon` and `iconPosition`.',
+    type: 'object',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
