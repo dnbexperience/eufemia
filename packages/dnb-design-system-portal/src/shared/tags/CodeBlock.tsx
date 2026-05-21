@@ -81,7 +81,6 @@ export type CodeSectionProps = {
   background?: 'grid' | 'plain'
   omitWrapper?: boolean
   children: string | ReactNode | (() => ReactNode)
-  tabMode?: 'focus' | 'indentation'
   'data-visual-test'?: string
 
   /** Injected by the babel transform — enclosing export name, stable across HMR. */
