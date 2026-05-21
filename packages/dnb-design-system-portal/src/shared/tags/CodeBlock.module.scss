@@ -180,6 +180,16 @@
       position: relative;
       cursor: text;
 
+      &:hover,
+      &:focus-within {
+        box-shadow: 0 0 0 var(--focus-ring-width)
+          var(--token-color-stroke-action-focus);
+        border-start-start-radius: 0;
+        border-start-end-radius: 0;
+        border-end-start-radius: var(--border-radius);
+        border-end-end-radius: var(--border-radius);
+      }
+
       &__editable {
         border-start-start-radius: 0; // Reset .dnb-pre border-radius
         border-start-end-radius: 0; // Reset .dnb-pre border-radius
