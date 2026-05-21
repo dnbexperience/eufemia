@@ -371,7 +371,7 @@ function LiveCode(props: LiveCodeProps) {
         setFocusModeCodeId(isInFocusMode ? null : focusModeId)
       }}
       variant="tertiary"
-      title={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
+      tooltip={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
       aria-label={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
       icon={isInFocusMode ? focusModeCloseIcon : focusModeIcon}
     />
@@ -390,7 +390,7 @@ function LiveCode(props: LiveCodeProps) {
     <Button
       onClick={handleOpenInStackBlitz}
       variant="tertiary"
-      title="Open in StackBlitz"
+      tooltip="Open in StackBlitz"
       aria-label="Open in StackBlitz"
       icon={launchIcon}
     />
@@ -402,7 +402,7 @@ function LiveCode(props: LiveCodeProps) {
         setShowFocusModePadding((currentValue) => !currentValue)
       }
       variant="tertiary"
-      title={
+      tooltip={
         showFocusModePadding
           ? 'Hide preview padding'
           : 'Show preview padding'
