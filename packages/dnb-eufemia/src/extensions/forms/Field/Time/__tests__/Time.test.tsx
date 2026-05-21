@@ -420,4 +420,36 @@ describe('Field.Time', () => {
       ).not.toBeInTheDocument()
     })
   })
+
+  it('should accept 24:00 as a valid time', () => {
+    render(<Field.Time value="24:00" validateInitially />)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should accept 24:00:00 with showSeconds', () => {
+    render(<Field.Time value="24:00:00" showSeconds validateInitially />)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should reject 24:01 as invalid', () => {
+    render(<Field.Time value="24:01" validateInitially />)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+  })
+
+  it('should reject 24:00:01 as invalid with showSeconds', () => {
+    render(<Field.Time value="24:00:01" showSeconds validateInitially />)
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toBeInTheDocument()
+  })
 })

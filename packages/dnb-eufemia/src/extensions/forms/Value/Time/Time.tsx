@@ -28,7 +28,16 @@ function TimeComponent(props: ValueTimeProps) {
       }
 
       const [hours, minutes, seconds] = parts
-      const date = new Date()
+
+      // 24:00 is valid but Date.setHours(24) rolls over — format manually
+      if (hours === '24') {
+        return seconds
+          ? `${hours}:${minutes}:${seconds}`
+          : `${hours}:${minutes}`
+      }
+
+      // Use a fixed date to avoid daylight saving time edge cases when formatting
+      const date = new Date(1970, 0, 1)
       date.setHours(Number(hours), Number(minutes), Number(seconds) || 0)
 
       const options: Intl.DateTimeFormatOptions = {

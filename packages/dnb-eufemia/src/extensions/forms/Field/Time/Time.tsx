@@ -274,7 +274,7 @@ function Time(props: TimeProps = {}) {
             mask: [/[0-9]/, /[0-9]/],
             spinButton: {
               min: 0,
-              max: 23,
+              max: 24,
               getInitialValue: () => new Date().getHours(),
             },
             placeholder: hoursPlaceholder?.repeat(2),
@@ -344,7 +344,7 @@ function validateTime(time: string, showSeconds?: boolean) {
     hours.length !== 2 ||
     isNaN(hoursNumber) ||
     hoursNumber < 0 ||
-    hoursNumber > 23
+    hoursNumber > 24
 
   const minutesInvalid =
     !minutes ||
@@ -361,7 +361,12 @@ function validateTime(time: string, showSeconds?: boolean) {
       secondsNumber < 0 ||
       secondsNumber > 59)
 
-  if (hoursInvalid || minutesInvalid || secondsInvalid) {
+  // 24:00(:00) is valid, but 24:01 or 24:00:01 is not
+  const is24WithNonZero =
+    hoursNumber === 24 &&
+    (minutesNumber !== 0 || (showSeconds && secondsNumber !== 0))
+
+  if (hoursInvalid || minutesInvalid || secondsInvalid || is24WithNonZero) {
     return new FormError('Time.errorInvalidTime')
   }
 

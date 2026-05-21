@@ -121,4 +121,20 @@ describe('Value.Time', () => {
     expect(content).toContain('2:30')
     expect(content).toContain('PM')
   })
+
+  it('renders 24:00 without Intl formatting', () => {
+    render(<Value.Time value="24:00" />)
+
+    expect(
+      document.querySelector('.dnb-forms-value-block__content')
+    ).toHaveTextContent('24:00')
+  })
+
+  it('renders 24:00:00 with seconds without Intl formatting', () => {
+    render(<Value.Time value="24:00:00" />)
+
+    expect(
+      document.querySelector('.dnb-forms-value-block__content')
+    ).toHaveTextContent('24:00:00')
+  })
 })
