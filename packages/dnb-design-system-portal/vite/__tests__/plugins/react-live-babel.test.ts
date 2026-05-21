@@ -123,3 +123,165 @@ describe('injectStableName babel plugin', () => {
     expect(second).toContain('stableName: "Repeated_2"')
   })
 })
+
+describe('sourceImports injection', () => {
+  it('injects sourceImports for all file-level imports', async () => {
+    const input = `
+      import { Button } from '@dnb/eufemia/src'
+      import { trash } from '@dnb/eufemia/icons'
+      export function Demo() {
+        return <ComponentBox scope={{ trash }}>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain('sourceImports')
+    expect(output).toContain("import { Button } from '@dnb/eufemia'")
+    expect(output).toContain("import { trash } from '@dnb/eufemia/icons'")
+  })
+
+  it('rewrites @dnb/eufemia/src/ to @dnb/eufemia/ in sourceImports', async () => {
+    const input = `
+      import { trash } from '@dnb/eufemia/src/icons'
+      export function Demo() {
+        return <ComponentBox scope={{ trash }}>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain("from '@dnb/eufemia/icons'")
+    expect(output).toContain(
+      `"import { trash } from '@dnb/eufemia/icons'"`
+    )
+  })
+
+  it('includes imports even without scope match', async () => {
+    const input = `
+      import styled from '@emotion/styled'
+      export function Demo() {
+        return <ComponentBox>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain('sourceImports')
+    expect(output).toContain("import styled from '@emotion/styled'")
+  })
+
+  it('includes @dnb/eufemia imports without scope match', async () => {
+    const input = `
+      import { Button } from '@dnb/eufemia/src/components'
+      export function Demo() {
+        return <ComponentBox>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain('sourceImports')
+    expect(output).toContain('Button')
+  })
+
+  it('includes react imports', async () => {
+    const input = `
+      import { useState } from 'react'
+      export function Demo() {
+        return <ComponentBox>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain('sourceImports')
+    expect(output).toContain("import { useState } from 'react'")
+  })
+
+  it('includes external packages', async () => {
+    const input = `
+      import { format } from 'date-fns'
+      export function Demo() {
+        return <ComponentBox scope={{ format }}>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain("import { format } from 'date-fns'")
+  })
+
+  it('handles renamed imports with as syntax', async () => {
+    const input = `
+      import { trash as trashIcon } from '@dnb/eufemia/icons'
+      export function Demo() {
+        return <ComponentBox scope={{ trashIcon }}>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain(
+      "import { trash as trashIcon } from '@dnb/eufemia/icons'"
+    )
+  })
+
+  it('groups multiple specifiers from the same source', async () => {
+    const input = `
+      import { trash, add } from '@dnb/eufemia/icons'
+      export function Demo() {
+        return <ComponentBox scope={{ trash, add }}>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain('trash, add')
+    expect(output).toContain("from '@dnb/eufemia/icons'")
+  })
+
+  it('skips internal portal imports', async () => {
+    const input = `
+      import ComponentBox from '../shared/tags/ComponentBox'
+      export function Demo() {
+        return <ComponentBox>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    // No sourceImports injected since the only import is a portal internal
+    expect(output).not.toContain('sourceImports')
+  })
+
+  it('gives each ComponentBox the same sourceImports', async () => {
+    const input = `
+      import { trash, add } from '@dnb/eufemia/icons'
+      export function First() {
+        return <ComponentBox scope={{ trash }}>code</ComponentBox>
+      }
+      export function Second() {
+        return <ComponentBox scope={{ add }}>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    // Both should have sourceImports since all file-level imports are included
+    const matches = output.match(/sourceImports/g)
+    expect(matches).toHaveLength(2)
+  })
+
+  it('does not inject sourceImports when file has no imports', async () => {
+    const input = `
+      export function Demo() {
+        return <ComponentBox>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).not.toContain('sourceImports')
+  })
+})

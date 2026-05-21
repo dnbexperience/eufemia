@@ -767,7 +767,12 @@ describe('CodeBlock', () => {
       )
 
       const { container } = render(
-        <CodeBlock reactLive scope={{}} language="jsx">
+        <CodeBlock
+          reactLive
+          scope={{}}
+          language="jsx"
+          sourceImports={["import { Button } from '@dnb/eufemia'"]}
+        >
           {
             '<Button onClick={() => console.log("clicked")}>Click me</Button>'
           }
@@ -785,9 +790,6 @@ describe('CodeBlock', () => {
 
       const appCode = submittedFormData['project[files][src/App.tsx]']
       expect(appCode).toContain("import { Button } from '@dnb/eufemia'")
-      expect(appCode).toContain(
-        "import { Provider } from '@dnb/eufemia/shared'"
-      )
 
       vi.restoreAllMocks()
     })
@@ -820,7 +822,15 @@ describe('CodeBlock', () => {
 }`
 
       const { container } = render(
-        <CodeBlock reactLive scope={{}} language="jsx">
+        <CodeBlock
+          reactLive
+          scope={{}}
+          language="jsx"
+          sourceImports={[
+            "import { useEffect, useState } from 'react'",
+            "import { Button } from '@dnb/eufemia'",
+          ]}
+        >
           {codeWithHooks}
         </CodeBlock>
       )

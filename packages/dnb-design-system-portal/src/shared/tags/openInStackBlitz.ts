@@ -1,380 +1,103 @@
 /**
  * StackBlitz integration for opening code examples in a live playground.
+ *
+ * Import detection relies on the babel plugin (react-live-babel.ts) which
+ * passes all file-level imports from Examples.tsx as sourceImports.
+ * This module filters those to only include names actually used in each
+ * code snippet — no hardcoded component/hook/export name lists needed.
  */
 
-// eslint-disable-next-line no-restricted-imports
-import * as ReactExports from 'react'
-import { getComponents } from '@dnb/eufemia/src/components/lib'
-import { getFragments } from '@dnb/eufemia/src/fragments/lib'
-import { getElements } from '@dnb/eufemia/src/elements/lib'
-import { FORMS_EXPORT_NAMES } from './formsExports'
 import { format } from 'prettier/standalone'
 import * as prettierPluginBabel from 'prettier/plugins/babel'
 import * as prettierPluginEstree from 'prettier/plugins/estree'
-
-// Lazy initialization - only compute when needed
-let EUFEMIA_COMPONENT_NAMES: string[] | null = null
-let EUFEMIA_FRAGMENT_NAMES: string[] | null = null
-let EUFEMIA_ELEMENT_NAMES: string[] | null = null
-let REACT_HOOK_NAMES: string[] | null = null
-let REACT_EXPORT_NAMES: string[] | null = null
-
-function getEufemiaComponentNames() {
-  if (!EUFEMIA_COMPONENT_NAMES) {
-    EUFEMIA_COMPONENT_NAMES = Object.keys(getComponents())
-  }
-  return EUFEMIA_COMPONENT_NAMES
-}
-
-function getEufemiaFragmentNames() {
-  if (!EUFEMIA_FRAGMENT_NAMES) {
-    EUFEMIA_FRAGMENT_NAMES = Object.keys(getFragments())
-  }
-  return EUFEMIA_FRAGMENT_NAMES
-}
-
-function getEufemiaElementNames() {
-  if (!EUFEMIA_ELEMENT_NAMES) {
-    EUFEMIA_ELEMENT_NAMES = Object.keys(getElements())
-  }
-  return EUFEMIA_ELEMENT_NAMES
-}
+import starterPackageJson from 'eufemia-starter/package.json'
 
 /**
- * Dynamically extracts React hook names from the React module.
- * Hooks are identified by the "use" prefix (e.g., useState, useEffect).
+ * Filters sourceImports to only include names actually used in the code.
+ * Each sourceImport is a full import statement string from the babel plugin.
  */
-function getReactHookNames() {
-  if (!REACT_HOOK_NAMES) {
-    REACT_HOOK_NAMES = Object.keys(ReactExports).filter(
-      (name) =>
-        name.startsWith('use') && typeof ReactExports[name] === 'function'
+export function filterImportsByUsage(
+  sourceImports: string[],
+  code: string
+): string[] {
+  const result: string[] = []
+
+  for (const stmt of sourceImports) {
+    const fromMatch = stmt.match(/from\s+['"]([^'"]+)['"]/)
+    if (!fromMatch) {
+      continue
+    }
+
+    const source = fromMatch[1]
+
+    // Extract default import name (e.g. "styled" from "import styled from ...")
+    const defaultMatch = stmt.match(/^import\s+(\w+)[\s,]/)
+    const defaultName =
+      defaultMatch && defaultMatch[1] !== '{' ? defaultMatch[1] : null
+
+    // Extract named imports
+    const namedMatch = stmt.match(/\{([^}]+)\}/)
+    const namedSpecs: Array<{ full: string; local: string }> = []
+
+    if (namedMatch) {
+      for (const spec of namedMatch[1].split(',')) {
+        const trimmed = spec.trim()
+        if (!trimmed) {
+          continue
+        }
+
+        const parts = trimmed.split(/\s+as\s+/)
+        const local = parts.length > 1 ? parts[1] : parts[0]
+        namedSpecs.push({ full: trimmed, local })
+      }
+    }
+
+    // Filter by code usage
+    const defaultUsed =
+      defaultName && new RegExp(`\\b${defaultName}\\b`).test(code)
+
+    const usedNamed = namedSpecs.filter((s) =>
+      new RegExp(`\\b${s.local}\\b`).test(code)
     )
+
+    if (!defaultUsed && usedNamed.length === 0) {
+      continue
+    }
+
+    // Rebuild import statement with only used specifiers
+    const parts: string[] = []
+
+    if (defaultUsed) {
+      parts.push(defaultName)
+    }
+
+    if (usedNamed.length > 0) {
+      parts.push(`{ ${usedNamed.map((s) => s.full).join(', ')} }`)
+    }
+
+    result.push(`import ${parts.join(', ')} from '${source}'`)
   }
-  return REACT_HOOK_NAMES
+
+  return result
 }
 
 /**
- * Dynamically extracts React exports that are not hooks.
- * Filters out internal/unstable APIs and non-importable values.
+ * Analyzes code structure to determine how to wrap it for StackBlitz.
  */
-function getReactExportNames() {
-  if (!REACT_EXPORT_NAMES) {
-    REACT_EXPORT_NAMES = Object.keys(ReactExports).filter((name) => {
-      // Skip hooks (handled by getReactHookNames)
-      if (name.startsWith('use')) return false
-      // Skip internal React fields
-      if (name.startsWith('__') || name.startsWith('unstable_'))
-        return false
-      // Skip non-importable values like 'version'
-      if (typeof ReactExports[name] === 'string') return false
-
-      return ReactExports[name] !== undefined
-    })
-  }
-  return REACT_EXPORT_NAMES
-}
-
-// Shared exports from @dnb/eufemia/shared
-const SHARED_EXPORTS = ['Provider', 'Theme']
-
-/**
- * Lazily loads all icon export names from @dnb/eufemia/src/icons.
- * Only loaded when someone clicks the StackBlitz button.
- */
-let iconExportNamesCache: string[] | null = null
-async function getIconExportNames(): Promise<string[]> {
-  if (!iconExportNamesCache) {
-    const icons = await import('@dnb/eufemia/src/icons')
-    iconExportNamesCache = Object.keys(icons)
-  }
-  return iconExportNamesCache
-}
-
-/**
- * Lazily loads all date-fns export names.
- * Only loaded when someone clicks the StackBlitz button.
- */
-let dateFnsExportNamesCache: string[] | null = null
-async function getDateFnsExportNames(): Promise<string[]> {
-  if (!dateFnsExportNamesCache) {
-    const dateFns = await import('date-fns')
-    dateFnsExportNamesCache = Object.keys(dateFns)
-  }
-  return dateFnsExportNamesCache
-}
-
-/**
- * Converts a PascalCase name to snake_case.
- * E.g. "BellMedium" -> "bell_medium", "AccountCard" -> "account_card"
- */
-function toSnakeCase(name: string): string {
-  return name
-    .replace(/([A-Z])/g, '_$1')
-    .toLowerCase()
-    .replace(/^_/, '')
-}
-
-/**
- * Resolves a namespace name to a published import path by trying known
- * subpath patterns via dynamic import. Only runs when StackBlitz is opened.
- *
- * Patterns tried:
- * 1. Forms subpath: Blocks -> @dnb/eufemia/extensions/forms/blocks
- * 2. Icon barrel:   PrimaryIconsMedium -> @dnb/eufemia/icons/dnb/primary_icons_medium
- */
-const namespacePathCache = new Map<string, string | null>()
-async function resolveNamespacePath(name: string): Promise<string | null> {
-  const cached = namespacePathCache.get(name)
-  if (cached !== undefined) {
-    return cached
-  }
-
-  const candidates = [
-    {
-      devPath: `@dnb/eufemia/src/extensions/forms/${name.toLowerCase()}`,
-      publishedPath: `@dnb/eufemia/extensions/forms/${name.toLowerCase()}`,
-    },
-    {
-      devPath: `@dnb/eufemia/src/icons/dnb/${toSnakeCase(name)}`,
-      publishedPath: `@dnb/eufemia/icons/dnb/${toSnakeCase(name)}`,
-    },
-  ]
-
-  for (const { devPath, publishedPath } of candidates) {
-    try {
-      await import(/* @vite-ignore */ devPath)
-      namespacePathCache.set(name, publishedPath)
-      return publishedPath
-    } catch {
-      // Not found at this path, try next
-    }
-  }
-
-  namespacePathCache.set(name, null)
-  return null
-}
-
-/**
- * Analyzes code to detect what imports are needed.
- */
-function analyzeCodeForImports(code: string) {
-  const usedComponents: string[] = []
-  const usedFragments: string[] = []
-  const usedElements: string[] = []
-  const usedFormsComponents: string[] = []
-  const usedReactHooks: string[] = []
-  const usedReactExports: string[] = []
-  const usedSharedExports: string[] = []
-  let usesStyled = false
-
-  // Helper to check if a name is used in code
-  const isUsed = (name: string) => {
-    // Match <Component, Component., or {Component (but not in strings/comments)
-    const pattern = new RegExp(
-      `[<{\\s,]${name}[.>\\s,)}]|^${name}[.>\\s]`,
-      'm'
-    )
-    return pattern.test(code)
-  }
-
-  // Detect Eufemia components
-  for (const name of getEufemiaComponentNames()) {
-    if (isUsed(name)) {
-      usedComponents.push(name)
-    }
-  }
-
-  // Detect Eufemia fragments
-  for (const name of getEufemiaFragmentNames()) {
-    if (isUsed(name)) {
-      usedFragments.push(name)
-    }
-  }
-
-  // Detect Eufemia elements
-  for (const name of getEufemiaElementNames()) {
-    if (isUsed(name)) {
-      usedElements.push(name)
-    }
-  }
-
-  // Detect Forms components
-  for (const name of FORMS_EXPORT_NAMES) {
-    if (isUsed(name)) {
-      usedFormsComponents.push(name)
-    }
-  }
-
-  // Detect React hooks
-  for (const hook of getReactHookNames()) {
-    const pattern = new RegExp(`\\b${hook}\\s*\\(`)
-    if (pattern.test(code)) {
-      usedReactHooks.push(hook)
-    }
-  }
-
-  // Detect other React exports
-  for (const exp of getReactExportNames()) {
-    const pattern = new RegExp(`\\b${exp}\\b`)
-    if (pattern.test(code)) {
-      usedReactExports.push(exp)
-    }
-  }
-
-  // Detect shared exports (Provider, Theme)
-  for (const exp of SHARED_EXPORTS) {
-    if (isUsed(exp)) {
-      usedSharedExports.push(exp)
-    }
-  }
-
-  // Detect styled usage (from @emotion/styled)
-  if (/\bstyled[.(]/.test(code)) {
-    usesStyled = true
-  }
-
-  // Detect if code defines a function component (including exports)
+export function analyzeCodeStructure(code: string) {
   /* eslint-disable security/detect-unsafe-regex */
   const functionPattern = /^(?:export\s+)?function\s+\w+/m
   const arrowPattern =
     /^(?:export\s+)?const\s+\w+\s*=\s*(?:\([^)]*\)|\w+)\s*=>/m
   /* eslint-enable security/detect-unsafe-regex */
-  const isFunctionComponent =
-    functionPattern.test(code) || arrowPattern.test(code)
-
-  // Detect if code already has a default export
-  const hasDefaultExport = /^export\s+default\b/m.test(code)
-
-  // Detect if code uses render() pattern (noInline)
-  const usesRenderPattern = /\brender\s*\(/.test(code)
-
-  // Check if code already has imports (user edited it)
-  const hasExistingImports = /^import\s+/m.test(code)
 
   return {
-    usedComponents,
-    usedFragments,
-    usedElements,
-    usedFormsComponents,
-    usedReactHooks,
-    usedReactExports,
-    usedSharedExports,
-    usesStyled,
-    isFunctionComponent,
-    hasDefaultExport,
-    usesRenderPattern,
-    hasExistingImports,
+    isFunctionComponent:
+      functionPattern.test(code) || arrowPattern.test(code),
+    hasDefaultExport: /^export\s+default\b/m.test(code),
+    usesRenderPattern: /\brender\s*\(/.test(code),
+    hasExistingImports: /^import\s+/m.test(code),
   }
-}
-
-/**
- * Detects external imports (icons, date-fns, etc.) needed by the code.
- * Uses dynamic imports to avoid bundling heavy modules on initial page load.
- * Only loaded when someone clicks the StackBlitz button.
- */
-async function detectExternalImports(
-  code: string,
-  analysis: ReturnType<typeof analyzeCodeForImports>
-): Promise<{ imports: string[]; dependencies: Record<string, string> }> {
-  const imports: string[] = []
-  const dependencies: Record<string, string> = {}
-
-  // Collect all names already handled by other import detection
-  const knownNames = new Set([
-    ...analysis.usedComponents,
-    ...analysis.usedFragments,
-    ...analysis.usedElements,
-    ...analysis.usedFormsComponents,
-    ...analysis.usedReactHooks,
-    ...analysis.usedReactExports,
-    ...analysis.usedSharedExports,
-    ...SHARED_EXPORTS,
-    // Common names that aren't external imports
-    'App',
-    'Provider',
-    'render',
-    'styled',
-  ])
-
-  // Detect namespace imports (SomeName.something patterns)
-  // Try to resolve each against known subpath conventions
-  const namespacePattern = /\b([A-Z][a-zA-Z]+)\./g
-  let nsMatch: RegExpExecArray | null
-
-  while ((nsMatch = namespacePattern.exec(code)) !== null) {
-    const name = nsMatch[1]
-    if (!knownNames.has(name)) {
-      const resolvedPath = await resolveNamespacePath(name)
-      if (resolvedPath) {
-        imports.push(`import * as ${name} from '${resolvedPath}'`)
-        knownNames.add(name)
-      }
-    }
-  }
-
-  // Extract all identifiers from code that aren't already known
-  const unknownNames = new Set<string>()
-  const identifierPattern =
-    /\b([A-Z][a-zA-Z]*|[a-z][a-z_]*_(?:medium|small|large)|[a-z][a-zA-Z]+)\b/g
-  let match: RegExpExecArray | null
-
-  while ((match = identifierPattern.exec(code)) !== null) {
-    const name = match[1]
-    if (!knownNames.has(name)) {
-      unknownNames.add(name)
-    }
-  }
-
-  if (unknownNames.size === 0) {
-    return { imports, dependencies }
-  }
-
-  // Detect individual icon imports
-  const iconNames = await getIconExportNames()
-  const iconNameSet = new Set(iconNames)
-  const iconImportPairs: Array<{ snakeName: string; usedName: string }> =
-    []
-
-  for (const name of Array.from(unknownNames)) {
-    if (iconNameSet.has(name)) {
-      iconImportPairs.push({ snakeName: name, usedName: name })
-      knownNames.add(name)
-    } else {
-      const snakeName = toSnakeCase(name)
-      if (iconNameSet.has(snakeName)) {
-        iconImportPairs.push({ snakeName, usedName: name })
-        knownNames.add(name)
-      }
-    }
-  }
-
-  if (iconImportPairs.length > 0) {
-    const specifiers = iconImportPairs.map(({ snakeName, usedName }) =>
-      snakeName === usedName ? snakeName : `${snakeName} as ${usedName}`
-    )
-    imports.push(
-      `import { ${specifiers.join(', ')} } from '@dnb/eufemia/icons'`
-    )
-  }
-
-  // Detect date-fns imports dynamically
-  const dateFnsNames = await getDateFnsExportNames()
-  const dateFnsSet = new Set(dateFnsNames)
-  const usedDateFns: string[] = []
-
-  for (const name of Array.from(unknownNames)) {
-    if (!knownNames.has(name) && dateFnsSet.has(name)) {
-      usedDateFns.push(name)
-    }
-  }
-
-  if (usedDateFns.length > 0) {
-    imports.push(`import { ${usedDateFns.join(', ')} } from 'date-fns'`)
-    dependencies['date-fns'] = '^4.1.0'
-  }
-
-  return { imports, dependencies }
 }
 
 /**
@@ -400,69 +123,23 @@ export async function formatCode(code: string): Promise<string> {
 }
 
 /**
- * Generates the App.tsx content based on code analysis.
- * @param extraImports - Additional import statements (e.g. for icons detected asynchronously)
+ * Generates the App.tsx content with imports and code wrapping.
  */
-function generateAppComponent(code: string, extraImports: string[] = []) {
-  const analysis = analyzeCodeForImports(code)
+export function generateAppComponent(
+  code: string,
+  imports: string[] = []
+) {
+  const structure = analyzeCodeStructure(code)
 
   // If code already has imports, use it as-is with minimal wrapping
-  if (analysis.hasExistingImports) {
+  if (structure.hasExistingImports) {
     return code
   }
-
-  // Build imports
-  const imports: string[] = []
-
-  // React imports (sorted for consistency)
-  const reactImports = [
-    ...analysis.usedReactHooks,
-    ...analysis.usedReactExports,
-  ].sort()
-  if (reactImports.length > 0) {
-    imports.push(`import { ${reactImports.join(', ')} } from 'react'`)
-  }
-
-  // Combine all Eufemia imports (components, fragments, elements)
-  const allEufemiaImports = [
-    ...analysis.usedComponents,
-    ...analysis.usedFragments,
-    ...analysis.usedElements,
-  ]
-  if (allEufemiaImports.length > 0) {
-    imports.push(
-      `import { ${allEufemiaImports.join(', ')} } from '@dnb/eufemia'`
-    )
-  }
-
-  // Eufemia shared imports (Provider is always needed, plus any detected like Theme)
-  const sharedImports = [
-    'Provider',
-    ...analysis.usedSharedExports.filter((e) => e !== 'Provider'),
-  ]
-  imports.push(
-    `import { ${sharedImports.join(', ')} } from '@dnb/eufemia/shared'`
-  )
-
-  // Styled from emotion
-  if (analysis.usesStyled) {
-    imports.push(`import styled from '@emotion/styled'`)
-  }
-
-  // Forms imports
-  if (analysis.usedFormsComponents.length > 0) {
-    imports.push(
-      `import { ${analysis.usedFormsComponents.join(', ')} } from '@dnb/eufemia/extensions/forms'`
-    )
-  }
-
-  // Extra imports (e.g. namespaces, icons, date-fns detected asynchronously)
-  imports.push(...extraImports)
 
   const importsBlock = imports.join('\n')
 
   // Handle different code patterns
-  if (analysis.usesRenderPattern) {
+  if (structure.usesRenderPattern) {
     // noInline pattern: extract the component and render it properly
     const componentCode = code
       .replace(
@@ -476,7 +153,7 @@ function generateAppComponent(code: string, extraImports: string[] = []) {
 ${componentCode}`
   }
 
-  if (analysis.hasDefaultExport) {
+  if (structure.hasDefaultExport) {
     // Code already has a default export - rename it and wrap
     const modifiedCode = code
       .replace(/^export\s+default\s+function\s+(\w+)/m, 'function $1')
@@ -492,15 +169,11 @@ ${componentCode}`
 ${modifiedCode}
 
 export default function App() {
-  return (
-    <Provider>
-      <${componentName} />
-    </Provider>
-  )
+  return <${componentName} />
 }`
   }
 
-  if (analysis.isFunctionComponent) {
+  if (structure.isFunctionComponent) {
     // Code defines a function component - extract and use it
     const fnMatch = code.match(
       // eslint-disable-next-line security/detect-unsafe-regex
@@ -517,11 +190,7 @@ export default function App() {
 ${code}
 
 export default function App() {
-  return (
-    <Provider>
-      <${componentName} />
-    </Provider>
-  )
+  return <${componentName} />
 }`
   }
 
@@ -530,9 +199,9 @@ export default function App() {
 
 export default function App() {
   return (
-    <Provider>
+    <>
       ${code}
-    </Provider>
+    </>
   )
 }`
 }
@@ -541,13 +210,42 @@ export default function App() {
  * Opens the given code in StackBlitz using their define API.
  * Creates a new project with the Eufemia starter template and the provided code.
  */
-export async function openInStackBlitz(code: string) {
-  // Analyze code to determine needed dependencies
-  const analysis = analyzeCodeForImports(code)
+export async function openInStackBlitz(
+  code: string,
+  sourceImports?: string[]
+) {
+  // Filter sourceImports to only include names used in this code snippet
+  const imports = filterImportsByUsage(sourceImports || [], code)
 
-  // Detect external imports (icons, date-fns, etc.) asynchronously
-  // These modules are loaded lazily to avoid bundling on every page
-  const external = await detectExternalImports(code, analysis)
+  // Detect external package dependencies from filtered imports
+  const dependencies: Record<string, string> = {
+    '@dnb/eufemia': 'latest',
+    react: starterPackageJson.dependencies.react,
+    'react-dom': starterPackageJson.dependencies['react-dom'],
+  }
+
+  const knownPackages = new Set(['@dnb/eufemia', 'react', 'react-dom'])
+
+  for (const stmt of imports) {
+    const fromMatch = stmt.match(/from\s+['"]([^'"]+)['"]/)
+    if (!fromMatch) {
+      continue
+    }
+
+    const source = fromMatch[1]
+    if (source.startsWith('.') || source.startsWith('/')) {
+      continue
+    }
+
+    // Extract package name (handle scoped packages like @scope/pkg)
+    const pkg = source.startsWith('@')
+      ? source.split('/').slice(0, 2).join('/')
+      : source.split('/')[0]
+
+    if (!knownPackages.has(pkg)) {
+      dependencies[pkg] = 'latest'
+    }
+  }
 
   const appCode = `import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
@@ -562,35 +260,25 @@ createRoot(document.getElementById('root')!).render(
 `
 
   const appComponent = await formatCode(
-    generateAppComponent(code, external.imports)
+    generateAppComponent(code, imports)
   )
 
-  const indexHtml = `<!doctype html>
+  // Mirrors eufemia-starter/index.html (without favicon)
+  const indexHtml = `<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eufemia Example</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
-`
 
-  // Build dependencies object conditionally
-  const dependencies: Record<string, string> = {
-    '@dnb/eufemia': 'latest',
-    react: '^19.0.0',
-    'react-dom': '^19.0.0',
-  }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eufemia Example</title>
+</head>
 
-  if (analysis.usesStyled) {
-    dependencies['@emotion/styled'] = '^11.14.0'
-  }
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
 
-  Object.assign(dependencies, external.dependencies)
+</html>`
 
   const packageJson = JSON.stringify(
     {
@@ -598,6 +286,8 @@ createRoot(document.getElementById('root')!).render(
       private: true,
       version: '0.0.0',
       type: 'module',
+      repository: starterPackageJson.repository,
+      bugs: starterPackageJson.bugs,
       scripts: {
         dev: 'vite',
         build: 'vite build',
@@ -605,25 +295,52 @@ createRoot(document.getElementById('root')!).render(
       },
       dependencies,
       devDependencies: {
-        '@types/react': '^19.0.0',
-        '@types/react-dom': '^19.0.0',
-        '@vitejs/plugin-react': '^4.4.1',
-        typescript: '~5.8.3',
-        vite: '^6.3.5',
+        '@types/react': starterPackageJson.devDependencies['@types/react'],
+        '@types/react-dom':
+          starterPackageJson.devDependencies['@types/react-dom'],
+        '@vitejs/plugin-react':
+          starterPackageJson.devDependencies['@vitejs/plugin-react'],
+        typescript: starterPackageJson.devDependencies.typescript,
+        vite: starterPackageJson.devDependencies.vite,
       },
     },
     null,
     2
   )
 
-  const viteConfig = `import { defineConfig } from 'vite'
+  // Mirrors eufemia-starter/vite.config.ts
+  // Includes the JSX loader plugin needed because @dnb/eufemia ships .js files with JSX
+  const viteConfig = `import { defineConfig, transformWithOxc } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'load+transform-js-files-as-jsx',
+      enforce: 'pre',
+      async transform(code, id) {
+        const [filepath] = id.split('?')
+        if (!/\\/src\\/.*\\.js$/.test(filepath)) {
+          return null
+        }
+        return transformWithOxc(code, filepath, {
+          lang: 'jsx',
+          jsx: { runtime: 'automatic' },
+        })
+      },
+    },
+  ],
+  optimizeDeps: {
+    esbuildOptions: {
+      loader: { '.js': 'jsx' },
+      jsx: 'automatic',
+    },
+  },
 })
 `
 
+  // Mirrors eufemia-starter/tsconfig.app.json (without comments)
   const tsConfig = JSON.stringify(
     {
       compilerOptions: {
@@ -642,7 +359,6 @@ export default defineConfig({
         noUnusedLocals: true,
         noUnusedParameters: true,
         noFallthroughCasesInSwitch: true,
-        noUncheckedSideEffectImports: true,
       },
       include: ['src'],
     },
