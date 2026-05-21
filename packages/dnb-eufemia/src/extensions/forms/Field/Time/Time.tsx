@@ -280,7 +280,7 @@ function Time(props: TimeProps = {}) {
               max: 23,
               getInitialValue: () => new Date().getHours(),
             },
-            placeholder: repeatPlaceholder(hoursPlaceholder, 2),
+            placeholder: hoursPlaceholder?.repeat(2),
             ...htmlAttributes,
           },
           {
@@ -292,7 +292,7 @@ function Time(props: TimeProps = {}) {
               max: 59,
               getInitialValue: () => new Date().getMinutes(),
             },
-            placeholder: repeatPlaceholder(minutesPlaceholder, 2),
+            placeholder: minutesPlaceholder?.repeat(2),
             ...htmlAttributes,
           },
           ...(showSeconds
@@ -306,7 +306,7 @@ function Time(props: TimeProps = {}) {
                     max: 59,
                     getInitialValue: () => new Date().getSeconds(),
                   },
-                  placeholder: repeatPlaceholder(secondsPlaceholder, 2),
+                  placeholder: secondsPlaceholder?.repeat(2),
                   ...htmlAttributes,
                 },
               ]
@@ -387,14 +387,6 @@ function validateTime(time: string, showSeconds?: boolean) {
   }
 
   return undefined
-}
-
-function repeatPlaceholder(character: string, length: number) {
-  if (!character) {
-    return ''
-  }
-
-  return Array.from({ length }, () => character).join('')
 }
 
 Time._supportsEufemiaSpacingProps = true
