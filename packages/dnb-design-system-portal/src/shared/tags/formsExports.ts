@@ -1,8 +1,5 @@
 /**
- * Shared forms exports for code block scope and StackBlitz code generation.
- *
- * This file provides a centralized list of forms components to avoid duplication
- * between ComponentBox.tsx and openInStackBlitz.ts.
+ * Shared forms exports for ComponentBox code block scope.
  *
  * The exports are dynamically derived from @dnb/eufemia/src/extensions/forms
  * by filtering for capitalized exports (components/namespaces) and excluding
@@ -43,8 +40,3 @@ export const formsScope = Object.fromEntries(
     return isComponentExport(name) && value !== undefined
   })
 ) as Record<string, unknown>
-
-/**
- * Names of forms exports for import detection in StackBlitz code generation.
- */
-export const FORMS_EXPORT_NAMES = Object.keys(formsScope)

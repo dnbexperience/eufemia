@@ -85,6 +85,9 @@ export type CodeSectionProps = {
 
   /** Injected by the babel transform — enclosing export name, stable across HMR. */
   stableName?: string
+
+  /** Injected by the babel transform — original import statements from the Examples file. */
+  sourceImports?: string[]
 }
 
 const CodeBlock = ({
@@ -267,6 +270,7 @@ function LiveCode(props: LiveCodeProps) {
     surface: surfaceProp,
     'data-visual-test': visualTest,
     stableName: _stableName,
+    sourceImports,
 
     ...restProps
   } = props
@@ -381,8 +385,8 @@ function LiveCode(props: LiveCodeProps) {
 
   const handleOpenInStackBlitz = useCallback(async () => {
     const codeToOpen = editedCode ?? codeToUse
-    await openInStackBlitz(codeToOpen)
-  }, [editedCode, codeToUse])
+    await openInStackBlitz(codeToOpen, sourceImports)
+  }, [editedCode, codeToUse, sourceImports])
 
   const openInStackBlitzButton = (
     <Button
