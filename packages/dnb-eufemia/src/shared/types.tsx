@@ -1,5 +1,6 @@
 import type { DetailedHTMLProps, ElementType, HTMLAttributes } from 'react'
 import type { GetTranslationProps } from './Context'
+import type { ButtonProps } from '../components/button/Button'
 export * from '../components/space/types'
 
 export type ResponsiveProp<T> = {
@@ -57,3 +58,9 @@ type IsAny<T> = 0 extends 1 & T ? true : false
  * If `T` is `any`, the result is `never` to surface a type error.
  */
 export type NotAny<T> = IsAny<T> extends true ? never : T
+
+/**
+ * Common props forwarded to the trigger button element in components
+ * such as Modal, Dialog, Drawer, DatePicker and Popover.
+ */
+export type TriggerProps = ButtonProps

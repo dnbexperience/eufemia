@@ -48,10 +48,9 @@ import DatePickerInput from './DatePickerInput'
 import type { DatePickerAddonProps } from './DatePickerAddon'
 import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
-import type { SpacingProps } from '../../shared/types'
+import type { SpacingProps, TriggerProps } from '../../shared/types'
 import type { InputElement, InputSize } from '../Input'
 import type { SkeletonShow } from '../Skeleton'
-import type { ButtonProps } from '../Button'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import type {
   DatePickerCalendarDay,
@@ -265,7 +264,7 @@ export type DatePickerProps = {
    */
   triggerProps?: Partial<
     Pick<
-      ButtonProps,
+      TriggerProps,
       'variant' | 'text' | 'icon' | 'iconPosition' | 'size'
     >
   >

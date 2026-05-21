@@ -98,7 +98,7 @@ export const HelpButtonRenderExample = () => (
     <HelpButton
       title="Title"
       render={(children, props) => (
-        <Dialog triggerAttributes={props} className="your-class">
+        <Dialog triggerProps={props} className="your-class">
           {children}
         </Dialog>
       )}

@@ -101,10 +101,15 @@ export const ModalProperties: PropertiesTableProps = {
     type: ['React.ReactNode', 'function'],
     status: 'optional',
   },
-  triggerAttributes: {
-    doc: 'Send along with custom HTML attributes or properties to the trigger button.',
+  triggerProps: {
+    doc: 'Props forwarded to the trigger button.',
     type: 'Various',
     status: 'optional',
+  },
+  triggerAttributes: {
+    doc: 'Deprecated. Use `triggerProps` instead.',
+    type: 'Various',
+    status: 'deprecated',
   },
   dialogTitle: {
     doc: 'The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.',

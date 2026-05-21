@@ -61,7 +61,7 @@ function RemoveButton(props: IterateRemoveButtonProps) {
       <Dialog
         variant="confirmation"
         title={translation.confirmRemoveText}
-        triggerAttributes={triggerAttributes}
+        triggerProps={triggerAttributes}
         onConfirm={handleClick}
       />
     )

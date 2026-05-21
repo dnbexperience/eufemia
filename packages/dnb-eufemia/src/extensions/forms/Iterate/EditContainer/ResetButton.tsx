@@ -68,7 +68,7 @@ export default function ResetButton(props: Props) {
         <Dialog
           variant="confirmation"
           title={confirmResetText}
-          triggerAttributes={triggerAttributes}
+          triggerProps={triggerAttributes}
           onConfirm={handleClick}
         />
       ) : (

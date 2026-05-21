@@ -48,6 +48,7 @@ function Drawer({
 
   omitTriggerButton,
   trigger,
+  triggerProps,
   triggerAttributes,
   closeButtonProps,
   closeButtonAttributes,
@@ -94,6 +95,7 @@ function Drawer({
     closeModal,
     omitTriggerButton,
     trigger,
+    triggerProps,
     triggerAttributes,
     closeButtonProps,
     closeButtonAttributes,

@@ -50,7 +50,8 @@ export default function Popover(props: PopoverProps) {
     children,
     content,
     trigger,
-    triggerAttributes,
+    triggerProps: triggerPropsProp,
+    triggerAttributes: triggerAttributesProp,
     triggerClassName,
     title,
     placement = 'bottom',
@@ -95,6 +96,8 @@ export default function Popover(props: PopoverProps) {
     omitDescribedBy,
     ...restAttributes
   } = props
+
+  const triggerAttributes = triggerPropsProp || triggerAttributesProp
 
   const baseClassNames = useMemo(() => {
     const names = ['dnb-popover']

@@ -25,7 +25,7 @@ import SegmentedField, {
   type SegmentedFieldValue as MValues,
 } from '../input-masked/segmented-field/SegmentedField'
 import Button from '../button/Button'
-import type { ButtonProps } from '../Button'
+import type { TriggerProps } from '../../shared/types'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
 import { warn, validateDOMAttributes } from '../../shared/component-helper'
@@ -97,7 +97,7 @@ export type DatePickerInputProps = Omit<
     ) => void
     triggerProps?: Partial<
       Pick<
-        ButtonProps,
+        TriggerProps,
         'variant' | 'text' | 'icon' | 'iconPosition' | 'size'
       >
     >

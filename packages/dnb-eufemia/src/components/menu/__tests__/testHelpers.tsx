@@ -18,10 +18,13 @@ export function MockPopover(props: {
   children?: ReactNode | ((ctx: Record<string, unknown>) => ReactNode)
   className?: string
   id?: string
+  triggerProps?: Record<string, unknown>
   triggerAttributes?: Record<string, unknown>
   [key: string]: unknown
 }) {
   const closeFn = () => props.onOpenChange?.(false)
+
+  const mergedTriggerAttrs = props.triggerProps || props.triggerAttributes
 
   const triggerElement =
     typeof props.trigger === 'function'
@@ -30,7 +33,7 @@ export function MockPopover(props: {
             ref: () => {},
             'aria-controls': 'mock-popover-content',
             'aria-expanded': props.open || false,
-            ...props.triggerAttributes,
+            ...mergedTriggerAttrs,
           }
           Object.defineProperties(triggerRenderProps, {
             active: { value: props.open || false, enumerable: false },

@@ -46,6 +46,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     noAnimation,
     noAnimationOnMobile,
     animationDuration,
+    triggerProps,
     triggerAttributes,
     hideCloseButton,
     fullscreen,
@@ -85,7 +86,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     currentHideCloseButton =
       hideCloseButton !== undefined ? hideCloseButton : true
     currentOmitTriggerButton =
-      triggerAttributes !== undefined ? omitTriggerButton : true
+      (triggerProps || triggerAttributes) !== undefined ? omitTriggerButton : true
     currentPreventOverlayClose =
       preventOverlayClose !== undefined ? preventOverlayClose : true
   }
@@ -122,6 +123,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     closeModal,
     omitTriggerButton: currentOmitTriggerButton,
     trigger,
+    triggerProps,
     triggerAttributes,
     overlayClass,
     top,

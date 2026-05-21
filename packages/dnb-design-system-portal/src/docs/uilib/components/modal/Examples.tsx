@@ -64,7 +64,7 @@ export const ModalExampleCloseByHandler = () => (
   <ComponentBox>
     <Modal
       title="Auto close"
-      triggerAttributes={{ text: 'Click me' }}
+      triggerProps={{ text: 'Click me' }}
       alignContent="center"
       maxWidth="40rem"
       closeModal={(close) => {
@@ -96,7 +96,7 @@ export const ModalExampleSuffix = () => (
 
 export const ModalExampleTriggerProps = () => (
   <ComponentBox hidePreview>
-    <Modal triggerAttributes={{ icon: 'bell' }} right="small">
+    <Modal triggerProps={{ icon: 'bell' }} right="small">
       ... content ...
     </Modal>
   </ComponentBox>

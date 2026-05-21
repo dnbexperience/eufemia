@@ -7,6 +7,7 @@ import type {
 import type { CloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
+import type { TriggerProps } from '../../shared/types'
 
 export type ModalCallbackInstance = {
   _id: string
@@ -134,7 +135,12 @@ export type ModalProps = ModalRootProps & {
   trigger?: ElementType
 
   /**
-   * Send along custom HTML attributes or properties to the trigger button.
+   * Props forwarded to the trigger button.
+   */
+  triggerProps?: TriggerProps
+
+  /**
+   * @deprecated Use `triggerProps` instead.
    */
   triggerAttributes?: ModalTriggerAttributes
 
@@ -326,4 +332,7 @@ export type ModalContentProps = {
   modalContentCloseRef?: RefObject<any>
 }
 
+/**
+ * @deprecated Use `TriggerProps` from `@dnb/eufemia` instead.
+ */
 export type ModalTriggerAttributes = ButtonProps

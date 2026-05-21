@@ -110,7 +110,7 @@ export default function CancelButton(props: Props) {
       <Dialog
         variant="confirmation"
         title={confirmCancelText}
-        triggerAttributes={triggerAttributes}
+        triggerProps={triggerAttributes}
         onConfirm={cancelHandler}
       />
     )
