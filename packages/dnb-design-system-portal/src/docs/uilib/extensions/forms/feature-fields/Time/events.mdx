@@ -3,8 +3,38 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldEvents } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  TimeSpecificEvents,
+  TimeGeneralEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/Time/TimeDocs'
 
 ## Events
 
-<PropertiesTable props={FieldEvents} />
+### Field-specific events
+
+<PropertiesTable props={TimeSpecificEvents} />
+
+### General events
+
+<PropertiesTable props={TimeGeneralEvents} />
+
+#### Details about general events arguments
+
+The first argument value returned by the event handlers is a string where the hours and minutes are separated by a `:`, e.g. `14:30`.
+
+The Time field also has an extra second parameter that includes additional information about the hours, minutes, and seconds. This is an object with the following properties:
+
+```tsx
+render(
+  <Field.Time
+    onChange={(
+      value: string | undefined, // e.g. "14:30"
+      additionalArgs?: {
+        hours: string | undefined // e.g. "14"
+        minutes: string | undefined // e.g. "30"
+        seconds: string | undefined // e.g. "45" (only when showSeconds is true)
+      }
+    ) => {}}
+  />
+)
+```

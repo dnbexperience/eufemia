@@ -1,5 +1,6 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
 import { InputProperties } from '../../../../components/input/InputDocs'
+import { getFieldEventsWithTypes } from '../FieldDocs'
 
 export const TimeProperties: PropertiesTableProps = {
   size: {
@@ -17,3 +18,16 @@ export const TimeProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const TimeSpecificEvents: PropertiesTableProps = {
+  onChange: {
+    doc: 'Callback on hours, minutes, and seconds change.',
+    type: '(value?: string, additionalArgs?: { hours?: string, minutes?: string, seconds?: string }) => void',
+    status: 'optional',
+  },
+}
+
+export const TimeGeneralEvents = getFieldEventsWithTypes(
+  { type: 'string', optional: true },
+  { type: 'object' }
+)
