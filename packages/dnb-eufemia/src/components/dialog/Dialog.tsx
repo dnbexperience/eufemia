@@ -86,7 +86,9 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     currentHideCloseButton =
       hideCloseButton !== undefined ? hideCloseButton : true
     currentOmitTriggerButton =
-      (triggerProps || triggerAttributes) !== undefined ? omitTriggerButton : true
+      (triggerProps || triggerAttributes) !== undefined
+        ? omitTriggerButton
+        : true
     currentPreventOverlayClose =
       preventOverlayClose !== undefined ? preventOverlayClose : true
   }
