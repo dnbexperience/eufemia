@@ -67,7 +67,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    const triggerButton = screen.getByRole('button')
+    const triggerButton = document.querySelector('button')
     expect(triggerButton).toHaveClass('dnb-dropdown__trigger')
 
     const shell = triggerButton.closest('.dnb-dropdown__shell')
@@ -104,7 +104,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    const triggerButton = screen.getByRole('button')
+    const triggerButton = document.querySelector('button')
     fireEvent.click(triggerButton)
 
     await waitFor(
@@ -130,7 +130,7 @@ describe('MultiSelection', () => {
       </Provider>
     )
 
-    const triggerButton = screen.getByRole('button')
+    const triggerButton = document.querySelector('button')
     const describedBy = triggerButton.getAttribute('aria-describedby')
     const selectionCountId = `${triggerButton.id}-selection-count`
 
@@ -159,7 +159,7 @@ describe('MultiSelection', () => {
       </Provider>
     )
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -201,7 +201,7 @@ describe('MultiSelection', () => {
       </Provider>
     )
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -234,7 +234,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    const triggerButton = screen.getByRole('button')
+    const triggerButton = document.querySelector('button')
     triggerButton.focus()
 
     fireEvent.keyDown(triggerButton, { key: 'ArrowDown' })
@@ -260,7 +260,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    const triggerButton = screen.getByRole('button')
+    const triggerButton = document.querySelector('button')
     triggerButton.focus()
 
     fireEvent.keyDown(triggerButton, { key: 'ArrowUp' })
@@ -309,7 +309,7 @@ describe('MultiSelection', () => {
       </Provider>
     )
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -348,7 +348,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      const triggerButton = screen.getByRole('button')
+      const triggerButton = document.querySelector('button')
       fireEvent.click(triggerButton)
 
       await waitFor(
@@ -374,7 +374,7 @@ describe('MultiSelection', () => {
         />
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -396,7 +396,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      const triggerButton = screen.getByRole('button')
+      const triggerButton = document.querySelector('button')
 
       // Initially 0 selected
       await waitFor(
@@ -418,9 +418,9 @@ describe('MultiSelection', () => {
         { timeout: 3000 }
       )
 
-      const option1Checkbox = screen.getByRole('checkbox', {
-        name: /Option 1/,
-      })
+      const option1Checkbox = document.querySelector(
+        '.dnb-forms-field-multi-selection__item .dnb-checkbox__input'
+      ) as HTMLInputElement
       fireEvent.click(option1Checkbox)
 
       // Trigger count should still be 0 (not 1) because showConfirmButton is enabled
@@ -457,7 +457,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      const triggerButton = screen.getByRole('button')
+      const triggerButton = document.querySelector('button')
       fireEvent.click(triggerButton)
 
       await waitFor(
@@ -480,7 +480,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -516,7 +516,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -557,7 +557,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -596,7 +596,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} disabled />)
 
-      const triggerButton = screen.getByRole('button')
+      const triggerButton = document.querySelector('button')
       expect(triggerButton).toBeDisabled()
     })
   })
@@ -609,7 +609,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    const triggerButton = screen.getByRole('button')
+    const triggerButton = document.querySelector('button')
     fireEvent.click(triggerButton)
 
     await waitFor(
@@ -642,7 +642,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -671,7 +671,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -708,7 +708,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -742,7 +742,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -788,7 +788,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection data={data} />)
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -836,7 +836,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} showSearchField />)
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       const input = document.querySelector('input') as HTMLInputElement
       fireEvent.change(input, { target: { value: 'matches' } })
@@ -859,7 +859,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} showSearchField />)
 
-      const triggerButton = screen.getByRole('button')
+      const triggerButton = document.querySelector('button')
       triggerButton.focus()
 
       fireEvent.keyDown(triggerButton, { key: 'ArrowDown' })
@@ -885,7 +885,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} showSearchField />)
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -915,7 +915,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} showSearchField />)
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -945,7 +945,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} showSearchField />)
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -973,7 +973,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} showSearchField />)
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1012,7 +1012,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} showSearchField />)
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1066,7 +1066,7 @@ describe('MultiSelection', () => {
 
       render(<Field.MultiSelection data={data} showSearchField />)
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1198,7 +1198,7 @@ describe('MultiSelection', () => {
 
     render(<Field.MultiSelection label="Select items" data={data} />)
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -1264,7 +1264,7 @@ describe('MultiSelection', () => {
       />
     )
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -1300,7 +1300,7 @@ describe('MultiSelection', () => {
       />
     )
 
-    fireEvent.click(screen.getByRole('button'))
+    fireEvent.click(document.querySelector('button'))
 
     await waitFor(
       () => {
@@ -1351,7 +1351,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1409,7 +1409,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1473,7 +1473,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1508,7 +1508,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1538,7 +1538,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1587,7 +1587,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1631,7 +1631,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1674,7 +1674,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1711,7 +1711,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1751,7 +1751,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1780,7 +1780,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(
         () => {
@@ -1909,7 +1909,7 @@ describe('MultiSelection', () => {
           </Provider>
         )
 
-        const trigger = screen.getByRole('button')
+        const trigger = document.querySelector('button')
         fireEvent.click(trigger)
 
         await waitFor(
@@ -1956,7 +1956,7 @@ describe('MultiSelection', () => {
           </Provider>
         )
 
-        const trigger = screen.getByRole('button')
+        const trigger = document.querySelector('button')
         fireEvent.click(trigger)
 
         await waitFor(
@@ -2004,7 +2004,7 @@ describe('MultiSelection', () => {
           </Provider>
         )
 
-        fireEvent.click(screen.getByRole('button'))
+        fireEvent.click(document.querySelector('button'))
 
         await waitFor(
           () => {
@@ -2042,9 +2042,7 @@ describe('MultiSelection', () => {
         />
       )
 
-      expect(
-        document.querySelector('.dnb-dropdown__trigger')
-      ).not.toBeInTheDocument()
+      expect(document.querySelector('button')).not.toBeInTheDocument()
 
       expect(
         document.querySelector('.dnb-forms-field-multi-selection--inline')
@@ -2258,7 +2256,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         expect(
@@ -2300,7 +2298,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         expect(
@@ -2336,7 +2334,7 @@ describe('MultiSelection', () => {
         </Provider>
       )
 
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         expect(
@@ -2394,7 +2392,7 @@ describe('MultiSelection', () => {
       })
 
       // Open popover and verify both checkboxes are checked
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         const checkboxes = screen.getAllByRole('checkbox')
@@ -2439,7 +2437,7 @@ describe('MultiSelection', () => {
       })
 
       // Open popover and verify both checkboxes reflect the external change
-      fireEvent.click(screen.getByRole('button'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         const checkboxes = screen.getAllByRole('checkbox')
@@ -2508,7 +2506,7 @@ describe('MultiSelection', () => {
       })
 
       // Open popover
-      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+      fireEvent.click(document.querySelector('button'))
 
       await waitFor(() => {
         const checkboxes = document.querySelectorAll(

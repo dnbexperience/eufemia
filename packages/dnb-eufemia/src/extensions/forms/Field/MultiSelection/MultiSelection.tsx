@@ -289,6 +289,17 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     [dataList, flattenItems]
   )
 
+  // Sync field internals during render so Value.MultiSelection can resolve
+  // titles before any user interaction has occurred.
+  if (path && allFlatItems.length > 0 && value) {
+    const selectedItems = allFlatItems.filter((item) =>
+      value.includes(item.value)
+    )
+    setFieldInternals?.(path + '/multiSelectionData', {
+      props: selectedItems,
+    })
+  }
+
   // Filter items based on search (includes nested items)
   const filteredItems = useMemo(() => {
     if (!dataList) {
