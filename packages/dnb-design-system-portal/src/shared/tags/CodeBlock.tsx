@@ -27,7 +27,6 @@ import {
   check as checkIcon,
   fullscreen as focusModeIcon,
   close as focusModeCloseIcon,
-  fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
   launch as launchIcon,
 } from '@dnb/eufemia/src/icons'
@@ -414,7 +413,7 @@ function LiveCode(props: LiveCodeProps) {
       }
       aria-pressed={showFocusModePadding}
       icon={
-        showFocusModePadding ? focusModePaddingIcon : focusModeCompactIcon
+        showFocusModePadding ? focusModeIcon : focusModeCompactIcon
       }
     />
   )
