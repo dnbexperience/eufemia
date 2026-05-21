@@ -787,7 +787,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   lang={context.locale}
                   _omitInputShellClass={_omitInputShellClass}
                   {...attributes}
-                  submitAttributes={remainingSubmitProps}
+                  submitProps={remainingSubmitProps}
                   // @ts-expect-error - strictFunctionTypes
                   onSubmit={togglePicker}
                   triggerProps={triggerProps}
