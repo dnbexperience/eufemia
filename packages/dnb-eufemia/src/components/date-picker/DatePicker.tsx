@@ -51,6 +51,7 @@ import DatePickerFooter from './DatePickerFooter'
 import type { SpacingProps } from '../../shared/types'
 import type { InputElement, InputSize } from '../Input'
 import type { SkeletonShow } from '../Skeleton'
+import type { ButtonProps } from '../Button'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import type {
   DatePickerCalendarDay,
@@ -259,6 +260,15 @@ export type DatePickerProps = {
    * Provide a short Tooltip content that shows up on the picker button.
    */
   tooltip?: ReactNode
+  /**
+   * Props to forward to the trigger button. Can be used to change the button `variant`, add a `text` label, or override other button properties.
+   */
+  triggerProps?: Partial<
+    Pick<
+      ButtonProps,
+      'variant' | 'text' | 'icon' | 'iconPosition' | 'size'
+    >
+  >
   tabIndex?: number
   preventClose?: boolean
   noAnimation?: boolean
@@ -576,6 +586,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     tooltip,
     skipPortal,
     labelAlignment,
+    triggerProps,
     _omitInputShellClass,
     ...restProps
   } = extendedProps
@@ -779,6 +790,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   submitAttributes={remainingSubmitProps}
                   // @ts-expect-error - strictFunctionTypes
                   onSubmit={togglePicker}
+                  triggerProps={triggerProps}
                   {...statusProps}
                 />
 

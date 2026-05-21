@@ -5747,4 +5747,47 @@ describe('DatePicker ARIA', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
     })
   })
+
+  describe('triggerProps', () => {
+    it('should forward variant to the trigger button', () => {
+      render(<DatePicker triggerProps={{ variant: 'tertiary' }} />)
+
+      const button = getDatePickerTriggerButton()
+      expect(button.classList).toContain('dnb-button--tertiary')
+    })
+
+    it('should forward text to the trigger button', () => {
+      render(<DatePicker triggerProps={{ text: 'Pick a date' }} />)
+
+      const button = getDatePickerTriggerButton()
+      expect(button.textContent).toContain('Pick a date')
+    })
+
+    it('should forward variant and text together', () => {
+      render(
+        <DatePicker
+          triggerProps={{ variant: 'tertiary', text: 'Choose date' }}
+        />
+      )
+
+      const button = getDatePickerTriggerButton()
+      expect(button.classList).toContain('dnb-button--tertiary')
+      expect(button.textContent).toContain('Choose date')
+    })
+
+    it('should work with showInput', () => {
+      render(
+        <DatePicker
+          showInput
+          triggerProps={{ variant: 'tertiary', text: 'Open' }}
+        />
+      )
+
+      const button = document.querySelector(
+        'button.dnb-input__submit-button__button'
+      ) as HTMLButtonElement
+      expect(button.classList).toContain('dnb-button--tertiary')
+      expect(button.textContent).toContain('Open')
+    })
+  })
 })

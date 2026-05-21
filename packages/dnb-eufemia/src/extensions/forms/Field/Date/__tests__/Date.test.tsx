@@ -4391,4 +4391,18 @@ describe('Field.Date', () => {
       })
     })
   })
+
+  it('should forward triggerProps to DatePicker trigger button', () => {
+    render(
+      <Field.Date
+        triggerProps={{ variant: 'tertiary', text: 'Pick a date' }}
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-date-picker button.dnb-button'
+    ) as HTMLButtonElement
+    expect(button.classList).toContain('dnb-button--tertiary')
+    expect(button.textContent).toContain('Pick a date')
+  })
 })
