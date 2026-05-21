@@ -47,7 +47,7 @@ function RemoveButton(props: IterateRemoveButtonProps) {
     [handleRemove, handleRemoveItem, itemPath]
   )
 
-  const triggerAttributes: ButtonProps = {
+  const triggerProps: ButtonProps = {
     className: clsx('dnb-forms-iterate-remove-element-button', className),
     text: replaceItemNo(textContent, index),
     variant: textContent ? 'tertiary' : 'secondary',
@@ -61,7 +61,7 @@ function RemoveButton(props: IterateRemoveButtonProps) {
       <Dialog
         variant="confirmation"
         title={translation.confirmRemoveText}
-        triggerAttributes={triggerAttributes}
+        triggerProps={triggerProps}
         onConfirm={handleClick}
       />
     )
@@ -69,7 +69,7 @@ function RemoveButton(props: IterateRemoveButtonProps) {
 
   return (
     <Button
-      {...triggerAttributes}
+      {...triggerProps}
       onClick={(args) => handleClick(args)}
       {...buttonProps}
     />

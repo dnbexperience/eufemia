@@ -165,7 +165,7 @@ describe('HelpButton', () => {
       <HelpButton
         title="Title"
         render={(children, props) => (
-          <Dialog triggerAttributes={props} className="custom-class">
+          <Dialog triggerProps={props} className="custom-class">
             {children}
           </Dialog>
         )}

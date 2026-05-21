@@ -134,7 +134,12 @@ export type ModalProps = ModalRootProps & {
   trigger?: ElementType
 
   /**
-   * Send along custom HTML attributes or properties to the trigger button.
+   * Props forwarded to the trigger button.
+   */
+  triggerProps?: ButtonProps
+
+  /**
+   * @deprecated Use `triggerProps` instead.
    */
   triggerAttributes?: ModalTriggerAttributes
 
@@ -326,4 +331,7 @@ export type ModalContentProps = {
   modalContentCloseRef?: RefObject<any>
 }
 
+/**
+ * @deprecated Use `ButtonProps` from `@dnb/eufemia` instead.
+ */
 export type ModalTriggerAttributes = ButtonProps

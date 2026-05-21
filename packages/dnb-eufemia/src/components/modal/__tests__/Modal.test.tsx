@@ -1577,6 +1577,7 @@ describe('Modal component', () => {
     ).toBe('dnb-modal-modal_id-content')
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('should have no icon', () => {
     render(<Modal triggerAttributes={{ text: 'Open Modal' }} />)
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
@@ -1593,6 +1594,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('should have an icon', () => {
     render(
       <Modal
@@ -1606,6 +1608,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('should render props', () => {
     const customText = 'Custom text in camelcase'
     render(
@@ -1621,6 +1624,7 @@ describe('Modal component', () => {
     ).toBe(customText)
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('should call triggerAttributes onClick', () => {
     const onClick = vi.fn()
 
@@ -1833,6 +1837,7 @@ describe('Modal component', () => {
 describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will act by default as a HelpButton', () => {
     render(<Modal {...props} triggerAttributes={{ text: '' }} />)
     expect(
@@ -1842,6 +1847,7 @@ describe('Modal trigger', () => {
     ).toBe(roledescription)
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will have a aria-label', () => {
     render(
       <Modal {...props} triggerAttributes={{ 'aria-label': 'label' }} />
@@ -1858,6 +1864,7 @@ describe('Modal trigger', () => {
     ).toBe('label')
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will not act as a HelpButton if only triggerText was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
@@ -1875,6 +1882,7 @@ describe('Modal trigger', () => {
     ).toBe('text')
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will not act as a HelpButton if a different icon was given', () => {
     render(<Modal {...props} triggerAttributes={{ icon: 'bell' }} />)
     expect(
@@ -1887,6 +1895,7 @@ describe('Modal trigger', () => {
     ).toBeInTheDocument()
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will not act as a HelpButton if trigger text was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
@@ -1902,6 +1911,55 @@ describe('Modal trigger', () => {
         .querySelector('button.dnb-modal__trigger')
         .textContent.replace(/\u200C/g, '')
     ).toBe('text')
+  })
+})
+
+describe('Modal triggerProps', () => {
+  it('should forward text to the trigger button', () => {
+    render(<Modal triggerProps={{ text: 'Open Modal' }} />)
+    expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
+    expect(
+      document
+        .querySelector('button.dnb-modal__trigger')
+        .querySelector('.dnb-button__text').textContent
+    ).toBe('Open Modal')
+  })
+
+  it('should forward variant to the trigger button', () => {
+    render(
+      <Modal triggerProps={{ text: 'Open Modal', variant: 'tertiary' }} />
+    )
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+  })
+
+  it('should forward icon to the trigger button', () => {
+    render(<Modal triggerProps={{ text: 'Open Modal', icon: 'add' }} />)
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+  })
+
+  it('should call triggerProps onClick', () => {
+    const onClick = vi.fn()
+
+    render(<Modal triggerProps={{ onClick }}>Modal content</Modal>)
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should take precedence over triggerAttributes', () => {
+    render(
+      <Modal
+        triggerProps={{ text: 'New prop' }}
+        triggerAttributes={{ text: 'Old prop' }}
+      />
+    )
+
+    expect(
+      document
+        .querySelector('button.dnb-modal__trigger')
+        .querySelector('.dnb-button__text').textContent
+    ).toBe('New prop')
   })
 })
 

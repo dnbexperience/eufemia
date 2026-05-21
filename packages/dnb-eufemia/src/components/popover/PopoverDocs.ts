@@ -30,10 +30,15 @@ export const PopoverProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
-  triggerAttributes: {
-    doc: 'Extra HTML attributes passed to the default trigger wrapper (e.g. aria-*).',
+  triggerProps: {
+    doc: 'Props forwarded to the default trigger wrapper (e.g. aria-*).',
     type: 'React.HTMLAttributes<HTMLElement>',
     status: 'optional',
+  },
+  triggerAttributes: {
+    doc: 'Deprecated. Use `triggerProps` instead.',
+    type: 'React.HTMLAttributes<HTMLElement>',
+    status: 'deprecated',
   },
   triggerClassName: {
     doc: 'Class name merged with the default trigger wrapper.',

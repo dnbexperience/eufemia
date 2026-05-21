@@ -56,6 +56,9 @@ type PopoverOverlayProps = Omit<
   'children' | 'content' | 'title'
 >
 
+/**
+ * @deprecated Use `triggerProps` instead of `triggerAttributes`.
+ */
 export type PopoverTriggerAttributes = HTMLAttributes<HTMLElement> & {
   ref?: RefObject<HTMLElement> & Ref<HTMLElement>
 }
@@ -157,9 +160,13 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   trigger?: PopoverRenderable<PopoverTriggerRenderProps>
   /**
-   * Extra HTML attributes passed to the trigger wrapper element.
+   * Props forwarded to the trigger wrapper element.
    * Useful for adding aria-* attributes, data-* attributes, or event handlers.
-   * These are merged with the default trigger attributes.
+   * These are merged with the default trigger props.
+   */
+  triggerProps?: PopoverTriggerAttributes
+  /**
+   * @deprecated Use `triggerProps` instead.
    */
   triggerAttributes?: PopoverTriggerAttributes
   /**

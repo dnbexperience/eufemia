@@ -723,6 +723,59 @@ describe('scrollbarGutter', () => {
   })
 })
 
+describe('Dialog triggerProps', () => {
+  it('should forward text to the trigger button', () => {
+    render(<Dialog triggerProps={{ text: 'Open Dialog' }} {...props} />)
+
+    expect(
+      document
+        .querySelector('button.dnb-modal__trigger')
+        .querySelector('.dnb-button__text').textContent
+    ).toBe('Open Dialog')
+  })
+
+  it('should forward variant to the trigger button', () => {
+    render(
+      <Dialog
+        triggerProps={{ text: 'Open Dialog', variant: 'primary' }}
+        {...props}
+      />
+    )
+
+    expect(
+      document.querySelector('button.dnb-modal__trigger')
+    ).toHaveClass('dnb-button--primary')
+  })
+
+  it('should call triggerProps onClick', () => {
+    const onClick = vi.fn()
+
+    render(
+      <Dialog triggerProps={{ onClick }} {...props}>
+        Dialog content
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not omit trigger button for confirmation variant when triggerProps is set', () => {
+    render(
+      <Dialog
+        variant="confirmation"
+        triggerProps={{ text: 'Confirm' }}
+        {...props}
+      />
+    )
+
+    expect(
+      document.querySelector('button.dnb-modal__trigger')
+    ).toBeInTheDocument()
+  })
+})
+
 describe('Dialog scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

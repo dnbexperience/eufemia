@@ -114,10 +114,13 @@ function ModalComponent(ownProps: ModalAllProps) {
 
     omitTriggerButton = false,
     trigger = null,
-    triggerAttributes = null,
+    triggerProps: triggerPropsProp,
+    triggerAttributes: triggerAttributesProp = null,
     ref: _ref,
     ...rest
   } = props
+
+  const triggerAttributes = triggerPropsProp || triggerAttributesProp
 
   const { open, openModal, closeModal, preventClose = false } = props
 

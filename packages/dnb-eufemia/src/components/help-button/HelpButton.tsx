@@ -44,7 +44,7 @@ export default function HelpButton(localProps: HelpButtonProps) {
       return render(children, params)
     }
 
-    return <Dialog triggerAttributes={params}>{children}</Dialog>
+    return <Dialog triggerProps={params}>{children}</Dialog>
   }
 
   return <HelpButtonInstance {...params} />

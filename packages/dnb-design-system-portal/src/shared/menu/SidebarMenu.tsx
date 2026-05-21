@@ -162,7 +162,7 @@ export default function SidebarLayout({
       ref={scrollRef}
     >
       <PortalToolsMenu
-        triggerAttributes={{
+        triggerProps={{
           left: 'large',
           top: 'large',
           bottom: 'large',
