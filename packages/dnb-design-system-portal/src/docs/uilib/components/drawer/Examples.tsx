@@ -17,10 +17,7 @@ import {
 
 export const SimpleDrawerExample = () => (
   <ComponentBox data-visual-test="simple-drawer">
-    <Drawer
-      title="Drawer title"
-      triggerProps={{ text: 'Open drawer' }}
-    >
+    <Drawer title="Drawer title" triggerProps={{ text: 'Open drawer' }}>
       <P top>Some informational content</P>
       <P top>
         Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
