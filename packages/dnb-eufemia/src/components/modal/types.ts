@@ -7,7 +7,6 @@ import type {
 import type { CloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
-import type { TriggerProps } from '../../shared/types'
 
 export type ModalCallbackInstance = {
   _id: string
@@ -137,7 +136,7 @@ export type ModalProps = ModalRootProps & {
   /**
    * Props forwarded to the trigger button.
    */
-  triggerProps?: TriggerProps
+  triggerProps?: ButtonProps
 
   /**
    * @deprecated Use `triggerProps` instead.
@@ -333,6 +332,6 @@ export type ModalContentProps = {
 }
 
 /**
- * @deprecated Use `TriggerProps` from `@dnb/eufemia` instead.
+ * @deprecated Use `ButtonProps` from `@dnb/eufemia` instead.
  */
 export type ModalTriggerAttributes = ButtonProps
