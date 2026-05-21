@@ -79,6 +79,83 @@ function getReactExportNames() {
 const SHARED_EXPORTS = ['Provider', 'Theme']
 
 /**
+ * Lazily loads all icon export names from @dnb/eufemia/src/icons.
+ * Only loaded when someone clicks the StackBlitz button.
+ */
+let iconExportNamesCache: string[] | null = null
+async function getIconExportNames(): Promise<string[]> {
+  if (!iconExportNamesCache) {
+    const icons = await import('@dnb/eufemia/src/icons')
+    iconExportNamesCache = Object.keys(icons)
+  }
+  return iconExportNamesCache
+}
+
+/**
+ * Lazily loads all date-fns export names.
+ * Only loaded when someone clicks the StackBlitz button.
+ */
+let dateFnsExportNamesCache: string[] | null = null
+async function getDateFnsExportNames(): Promise<string[]> {
+  if (!dateFnsExportNamesCache) {
+    const dateFns = await import('date-fns')
+    dateFnsExportNamesCache = Object.keys(dateFns)
+  }
+  return dateFnsExportNamesCache
+}
+
+/**
+ * Converts a PascalCase name to snake_case.
+ * E.g. "BellMedium" -> "bell_medium", "AccountCard" -> "account_card"
+ */
+function toSnakeCase(name: string): string {
+  return name
+    .replace(/([A-Z])/g, '_$1')
+    .toLowerCase()
+    .replace(/^_/, '')
+}
+
+/**
+ * Resolves a namespace name to a published import path by trying known
+ * subpath patterns via dynamic import. Only runs when StackBlitz is opened.
+ *
+ * Patterns tried:
+ * 1. Forms subpath: Blocks -> @dnb/eufemia/extensions/forms/blocks
+ * 2. Icon barrel:   PrimaryIconsMedium -> @dnb/eufemia/icons/dnb/primary_icons_medium
+ */
+const namespacePathCache = new Map<string, string | null>()
+async function resolveNamespacePath(name: string): Promise<string | null> {
+  const cached = namespacePathCache.get(name)
+  if (cached !== undefined) {
+    return cached
+  }
+
+  const candidates = [
+    {
+      devPath: `@dnb/eufemia/src/extensions/forms/${name.toLowerCase()}`,
+      publishedPath: `@dnb/eufemia/extensions/forms/${name.toLowerCase()}`,
+    },
+    {
+      devPath: `@dnb/eufemia/src/icons/dnb/${toSnakeCase(name)}`,
+      publishedPath: `@dnb/eufemia/icons/dnb/${toSnakeCase(name)}`,
+    },
+  ]
+
+  for (const { devPath, publishedPath } of candidates) {
+    try {
+      await import(/* @vite-ignore */ devPath)
+      namespacePathCache.set(name, publishedPath)
+      return publishedPath
+    } catch {
+      // Not found at this path, try next
+    }
+  }
+
+  namespacePathCache.set(name, null)
+  return null
+}
+
+/**
  * Analyzes code to detect what imports are needed.
  */
 function analyzeCodeForImports(code: string) {
@@ -158,10 +235,13 @@ function analyzeCodeForImports(code: string) {
   }
 
   // Detect if code defines a function component (including exports)
+  /* eslint-disable security/detect-unsafe-regex */
+  const functionPattern = /^(?:export\s+)?function\s+\w+/m
+  const arrowPattern =
+    /^(?:export\s+)?const\s+\w+\s*=\s*(?:\([^)]*\)|\w+)\s*=>/m
+  /* eslint-enable security/detect-unsafe-regex */
   const isFunctionComponent =
-    /^(export\s+)?(function\s+\w+|const\s+\w+\s*=\s*(\([^)]*\)|[^=])\s*=>)/m.test(
-      code
-    )
+    functionPattern.test(code) || arrowPattern.test(code)
 
   // Detect if code already has a default export
   const hasDefaultExport = /^export\s+default\b/m.test(code)
@@ -189,6 +269,115 @@ function analyzeCodeForImports(code: string) {
 }
 
 /**
+ * Detects external imports (icons, date-fns, etc.) needed by the code.
+ * Uses dynamic imports to avoid bundling heavy modules on initial page load.
+ * Only loaded when someone clicks the StackBlitz button.
+ */
+async function detectExternalImports(
+  code: string,
+  analysis: ReturnType<typeof analyzeCodeForImports>
+): Promise<{ imports: string[]; dependencies: Record<string, string> }> {
+  const imports: string[] = []
+  const dependencies: Record<string, string> = {}
+
+  // Collect all names already handled by other import detection
+  const knownNames = new Set([
+    ...analysis.usedComponents,
+    ...analysis.usedFragments,
+    ...analysis.usedElements,
+    ...analysis.usedFormsComponents,
+    ...analysis.usedReactHooks,
+    ...analysis.usedReactExports,
+    ...analysis.usedSharedExports,
+    ...SHARED_EXPORTS,
+    // Common names that aren't external imports
+    'App',
+    'Provider',
+    'render',
+    'styled',
+  ])
+
+  // Detect namespace imports (SomeName.something patterns)
+  // Try to resolve each against known subpath conventions
+  const namespacePattern = /\b([A-Z][a-zA-Z]+)\./g
+  let nsMatch: RegExpExecArray | null
+
+  while ((nsMatch = namespacePattern.exec(code)) !== null) {
+    const name = nsMatch[1]
+    if (!knownNames.has(name)) {
+      const resolvedPath = await resolveNamespacePath(name)
+      if (resolvedPath) {
+        imports.push(`import * as ${name} from '${resolvedPath}'`)
+        knownNames.add(name)
+      }
+    }
+  }
+
+  // Extract all identifiers from code that aren't already known
+  const unknownNames = new Set<string>()
+  const identifierPattern =
+    /\b([A-Z][a-zA-Z]*|[a-z][a-z_]*_(?:medium|small|large)|[a-z][a-zA-Z]+)\b/g
+  let match: RegExpExecArray | null
+
+  while ((match = identifierPattern.exec(code)) !== null) {
+    const name = match[1]
+    if (!knownNames.has(name)) {
+      unknownNames.add(name)
+    }
+  }
+
+  if (unknownNames.size === 0) {
+    return { imports, dependencies }
+  }
+
+  // Detect individual icon imports
+  const iconNames = await getIconExportNames()
+  const iconNameSet = new Set(iconNames)
+  const iconImportPairs: Array<{ snakeName: string; usedName: string }> =
+    []
+
+  for (const name of Array.from(unknownNames)) {
+    if (iconNameSet.has(name)) {
+      iconImportPairs.push({ snakeName: name, usedName: name })
+      knownNames.add(name)
+    } else {
+      const snakeName = toSnakeCase(name)
+      if (iconNameSet.has(snakeName)) {
+        iconImportPairs.push({ snakeName, usedName: name })
+        knownNames.add(name)
+      }
+    }
+  }
+
+  if (iconImportPairs.length > 0) {
+    const specifiers = iconImportPairs.map(({ snakeName, usedName }) =>
+      snakeName === usedName ? snakeName : `${snakeName} as ${usedName}`
+    )
+    imports.push(
+      `import { ${specifiers.join(', ')} } from '@dnb/eufemia/icons'`
+    )
+  }
+
+  // Detect date-fns imports dynamically
+  const dateFnsNames = await getDateFnsExportNames()
+  const dateFnsSet = new Set(dateFnsNames)
+  const usedDateFns: string[] = []
+
+  for (const name of Array.from(unknownNames)) {
+    if (!knownNames.has(name) && dateFnsSet.has(name)) {
+      usedDateFns.push(name)
+    }
+  }
+
+  if (usedDateFns.length > 0) {
+    imports.push(`import { ${usedDateFns.join(', ')} } from 'date-fns'`)
+    dependencies['date-fns'] = '^4.1.0'
+  }
+
+  return { imports, dependencies }
+}
+
+/**
  * Formats code using prettier with the project's configuration.
  */
 export async function formatCode(code: string): Promise<string> {
@@ -212,8 +401,9 @@ export async function formatCode(code: string): Promise<string> {
 
 /**
  * Generates the App.tsx content based on code analysis.
+ * @param extraImports - Additional import statements (e.g. for icons detected asynchronously)
  */
-function generateAppComponent(code: string) {
+function generateAppComponent(code: string, extraImports: string[] = []) {
   const analysis = analyzeCodeForImports(code)
 
   // If code already has imports, use it as-is with minimal wrapping
@@ -266,6 +456,9 @@ function generateAppComponent(code: string) {
     )
   }
 
+  // Extra imports (e.g. namespaces, icons, date-fns detected asynchronously)
+  imports.push(...extraImports)
+
   const importsBlock = imports.join('\n')
 
   // Handle different code patterns
@@ -309,10 +502,15 @@ export default function App() {
 
   if (analysis.isFunctionComponent) {
     // Code defines a function component - extract and use it
-    const match = code.match(
-      /^(?:export\s+)?(?:function\s+(\w+)|const\s+(\w+)\s*=)/m
+    const fnMatch = code.match(
+      // eslint-disable-next-line security/detect-unsafe-regex
+      /^(?:export\s+)?function\s+(\w+)/m
     )
-    const componentName = match?.[1] || match?.[2] || 'Example'
+    const constMatch = code.match(
+      // eslint-disable-next-line security/detect-unsafe-regex
+      /^(?:export\s+)?const\s+(\w+)\s*=/m
+    )
+    const componentName = fnMatch?.[1] ?? constMatch?.[1] ?? 'Example'
 
     return `${importsBlock}
 
@@ -347,6 +545,10 @@ export async function openInStackBlitz(code: string) {
   // Analyze code to determine needed dependencies
   const analysis = analyzeCodeForImports(code)
 
+  // Detect external imports (icons, date-fns, etc.) asynchronously
+  // These modules are loaded lazily to avoid bundling on every page
+  const external = await detectExternalImports(code, analysis)
+
   const appCode = `import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@dnb/eufemia/style'
@@ -359,7 +561,9 @@ createRoot(document.getElementById('root')!).render(
 )
 `
 
-  const appComponent = await formatCode(generateAppComponent(code))
+  const appComponent = await formatCode(
+    generateAppComponent(code, external.imports)
+  )
 
   const indexHtml = `<!doctype html>
 <html lang="en">
@@ -385,6 +589,8 @@ createRoot(document.getElementById('root')!).render(
   if (analysis.usesStyled) {
     dependencies['@emotion/styled'] = '^11.14.0'
   }
+
+  Object.assign(dependencies, external.dependencies)
 
   const packageJson = JSON.stringify(
     {
