@@ -1427,6 +1427,7 @@ describe('Popover', () => {
     expect(popoverElement).toHaveClass('dnb-popover--no-inner-space')
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('merges triggerAttributes with defaults and triggerClassName', async () => {
     const triggerOnClick = vi.fn()
     renderWithTrigger({
@@ -1450,6 +1451,48 @@ describe('Popover', () => {
     expect(trigger).toHaveAttribute('title', 'Custom trigger')
     expect(trigger).toHaveAttribute('data-trigger', 'trigger-attr')
     expect(triggerOnClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('merges triggerProps with defaults and triggerClassName', async () => {
+    const triggerOnClick = vi.fn()
+    renderWithTrigger({
+      triggerProps: {
+        className: 'attr-trigger',
+        title: 'Custom trigger',
+        'data-trigger': 'trigger-attr',
+        onClick: triggerOnClick,
+      },
+      triggerClassName: 'custom-trigger',
+    })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    await userEvent.click(trigger)
+
+    expect(trigger).toHaveClass('custom-trigger')
+    expect(trigger).toHaveClass('attr-trigger')
+    expect(trigger).toHaveAttribute('title', 'Custom trigger')
+    expect(trigger).toHaveAttribute('data-trigger', 'trigger-attr')
+    expect(triggerOnClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('triggerProps takes precedence over triggerAttributes', async () => {
+    renderWithTrigger({
+      triggerProps: {
+        title: 'New title',
+      },
+      triggerAttributes: {
+        title: 'Old title',
+      },
+    })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    expect(trigger).toHaveAttribute('title', 'New title')
   })
 
   it('applies contentClassName and exposes a contentRef', async () => {

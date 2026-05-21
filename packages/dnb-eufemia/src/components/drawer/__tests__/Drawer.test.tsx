@@ -705,6 +705,45 @@ describe('scrollbarGutter', () => {
   })
 })
 
+describe('Drawer triggerProps', () => {
+  it('should forward text to the trigger button', () => {
+    render(<Drawer triggerProps={{ text: 'Open Drawer' }} {...props} />)
+
+    expect(
+      document
+        .querySelector('button.dnb-modal__trigger')
+        .querySelector('.dnb-button__text').textContent
+    ).toBe('Open Drawer')
+  })
+
+  it('should forward variant to the trigger button', () => {
+    render(
+      <Drawer
+        triggerProps={{ text: 'Open Drawer', variant: 'primary' }}
+        {...props}
+      />
+    )
+
+    expect(
+      document.querySelector('button.dnb-modal__trigger')
+    ).toHaveClass('dnb-button--primary')
+  })
+
+  it('should call triggerProps onClick', () => {
+    const onClick = vi.fn()
+
+    render(
+      <Drawer triggerProps={{ onClick }} {...props}>
+        Drawer content
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+})
+
 describe('Drawer scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
