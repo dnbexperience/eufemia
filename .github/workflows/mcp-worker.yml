@@ -5,10 +5,10 @@ name: MCP Worker
 # or an actual release:
 #
 # - `release` branch and `v*` / `v*.*.*` tags deploy to the production Worker
-#   `eufemia-mcp` (https://eufemia-mcp.<account>.workers.dev).
+#   `web` (https://web.<account>.workers.dev).
 # - Any branch named `mcp-server`, `mcp-server/**`, `**/mcp-server`, or
 #   `**-mcp-server` (e.g. `feat/mcp-server`) deploys to its own preview Worker
-#   `eufemia-mcp-preview-<sanitized-branch>`.
+#   `web-preview-<sanitized-branch>`.
 # - `workflow_dispatch` lets you trigger an out-of-band deploy from the
 #   Actions tab; it deploys to a preview Worker named after the current
 #   branch.
@@ -78,7 +78,7 @@ jobs:
           set -euo pipefail
           if [ "${REF_TYPE}" = "tag" ] || [ "${REF_NAME}" = "release" ]; then
             echo "env=prod" >> "$GITHUB_OUTPUT"
-            echo "name=eufemia-mcp" >> "$GITHUB_OUTPUT"
+            echo "name=web" >> "$GITHUB_OUTPUT"
           else
             # Sanitize the branch name into a valid Worker name:
             #   - lowercase
@@ -87,7 +87,7 @@ jobs:
             #   - cap at 53 chars (Workers' practical limit minus prefix)
             sanitized=$(echo "${REF_NAME}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g; s/--*/-/g; s/^-//; s/-$//' | cut -c1-53)
             echo "env=preview" >> "$GITHUB_OUTPUT"
-            echo "name=eufemia-mcp-preview-${sanitized}" >> "$GITHUB_OUTPUT"
+            echo "name=web-preview-${sanitized}" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Skip if Cloudflare credentials are missing

@@ -59,13 +59,13 @@ The HTTP server exposes:
 
 The HTTP server is configured via environment variables:
 
-| Variable            | Default        | Description                                                                                       |
-| ------------------- | -------------- | ------------------------------------------------------------------------------------------------- |
-| `PORT`              | `8787`         | HTTP port to listen on.                                                                           |
-| `HOST`              | `0.0.0.0`      | Bind host.                                                                                        |
-| `EUFEMIA_DOCS_ROOT` | `./build/docs` | Path to the Eufemia docs directory.                                                               |
-| `MCP_AUTH_TOKEN`    | _(unset)_      | If set, every request must send `Authorization: Bearer <token>`.                                  |
-| `MCP_ALLOWED_HOSTS` | _(unset)_      | Comma-separated `Host` header allowlist for DNS-rebinding protection (e.g. `eufemia-mcp.dnb.no`). |
+| Variable            | Default        | Description                                                                               |
+| ------------------- | -------------- | ----------------------------------------------------------------------------------------- |
+| `PORT`              | `8787`         | HTTP port to listen on.                                                                   |
+| `HOST`              | `0.0.0.0`      | Bind host.                                                                                |
+| `EUFEMIA_DOCS_ROOT` | `./build/docs` | Path to the Eufemia docs directory.                                                       |
+| `MCP_AUTH_TOKEN`    | _(unset)_      | If set, every request must send `Authorization: Bearer <token>`.                          |
+| `MCP_ALLOWED_HOSTS` | _(unset)_      | Comma-separated `Host` header allowlist for DNS-rebinding protection (e.g. `web.dnb.no`). |
 
 #### Run locally
 

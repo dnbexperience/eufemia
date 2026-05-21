@@ -20,9 +20,7 @@ type DocsFixture = {
 }
 
 function createDocsFixture(): DocsFixture {
-  const docsRoot = fs.mkdtempSync(
-    path.join(os.tmpdir(), 'eufemia-mcp-http-')
-  )
+  const docsRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'web-http-'))
 
   fs.writeFileSync(
     path.join(docsRoot, 'llm.md'),
@@ -229,7 +227,7 @@ describe('mcp-http-server docs root validation', () => {
   it('refuses to start when the docs root does not exist', async () => {
     const missing = path.join(
       os.tmpdir(),
-      `eufemia-mcp-missing-${Date.now()}-${Math.random().toString(36).slice(2)}`
+      `web-missing-${Date.now()}-${Math.random().toString(36).slice(2)}`
     )
 
     await expect(
@@ -243,9 +241,7 @@ describe('mcp-http-server docs root validation', () => {
   })
 
   it('refuses to start when the docs root is empty (no llm.md, no markdown)', async () => {
-    const emptyDir = fs.mkdtempSync(
-      path.join(os.tmpdir(), 'eufemia-mcp-empty-')
-    )
+    const emptyDir = fs.mkdtempSync(path.join(os.tmpdir(), 'web-empty-'))
 
     try {
       await expect(

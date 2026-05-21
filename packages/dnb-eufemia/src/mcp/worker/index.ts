@@ -76,7 +76,7 @@ function authResponse(): Response {
       status: 401,
       headers: {
         'content-type': 'application/json',
-        'www-authenticate': 'Bearer realm="eufemia-mcp"',
+        'www-authenticate': 'Bearer realm="web"',
       },
     }
   )

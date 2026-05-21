@@ -121,7 +121,7 @@ function authMiddleware(token: string | undefined): Middleware {
     }
     res
       .status(401)
-      .set('WWW-Authenticate', 'Bearer realm="eufemia-mcp"')
+      .set('WWW-Authenticate', 'Bearer realm="web"')
       .json({
         jsonrpc: '2.0',
         error: { code: -32001, message: 'Unauthorized' },

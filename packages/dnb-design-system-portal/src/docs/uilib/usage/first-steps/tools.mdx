@@ -12,7 +12,7 @@ order: 3
 
 If your AI coding agent supports the Model Context Protocol (MCP), you have two options:
 
-1. **Use the hosted MCP server** at `https://eufemia-mcp.eufemia.workers.dev/mcp` — no installation needed, always serves the latest released docs.
+1. **Use the hosted MCP server** at `https://web.eufemia.workers.dev/mcp` — no installation needed, always serves the latest released docs.
 2. **Run a local MCP server** that exposes the packaged documentation from `/docs` — useful for offline / air-gapped work, and pinned to the exact `@dnb/eufemia` version installed in your project (so the docs the AI sees match the components you actually consume).
 
 ### Hosted MCP server
@@ -20,17 +20,17 @@ If your AI coding agent supports the Model Context Protocol (MCP), you have two 
 Point your MCP-aware client at the public Streamable HTTP endpoint:
 
 ```txt
-https://eufemia-mcp.eufemia.workers.dev/mcp
+https://web.eufemia.workers.dev/mcp
 ```
 
-It is hosted on Cloudflare Workers, supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://eufemia-mcp.eufemia.workers.dev/healthz`.
+It is hosted on Cloudflare Workers, supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://web.eufemia.workers.dev/healthz`.
 
 #### Example: Claude CLI / raicode CLI
 
 ```bash
-claude mcp add --transport http eufemia https://eufemia-mcp.eufemia.workers.dev/mcp
+claude mcp add --transport http eufemia https://web.eufemia.workers.dev/mcp
 # or
-raicode mcp add --transport http eufemia https://eufemia-mcp.eufemia.workers.dev/mcp
+raicode mcp add --transport http eufemia https://web.eufemia.workers.dev/mcp
 ```
 
 ### Local MCP server (pinned to your installed Eufemia version)

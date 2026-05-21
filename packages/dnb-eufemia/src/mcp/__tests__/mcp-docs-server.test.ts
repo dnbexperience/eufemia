@@ -10,7 +10,7 @@ type DocsFixture = {
 }
 
 function createDocsFixture(): DocsFixture {
-  const docsRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'eufemia-mcp-'))
+  const docsRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'web-'))
 
   const componentsDir = path.join(docsRoot, 'uilib', 'components')
   const buttonDir = path.join(componentsDir, 'button')
