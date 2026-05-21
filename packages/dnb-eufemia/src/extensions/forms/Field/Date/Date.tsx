@@ -701,6 +701,7 @@ export const datePickerPropKeys = [
   'onReset',
   'skipPortal',
   'yearNavigation',
+  'sideBySide',
   'tooltip',
   'triggerProps',
 ] as const satisfies ReadonlyArray<keyof DatePickerProps>

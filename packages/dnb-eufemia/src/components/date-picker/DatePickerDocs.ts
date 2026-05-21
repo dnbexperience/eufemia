@@ -183,6 +183,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  sideBySide: {
+    doc: 'If set to `true`, two calendar views are shown side by side when `range` is `true`. By default, range mode shows a single calendar view. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   labelAlignment: {
     doc: 'Sets the alignment of the label. Defaults to `left`.',
     type: ['"left"', '"center"', '"right"'],

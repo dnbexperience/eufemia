@@ -84,6 +84,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     maxDate,
     dateFormat = defaultDateFormat,
     range,
+    sideBySide,
     attributes,
     returnFormat: returnFormatProp,
     children,
@@ -118,6 +119,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     startMonth: dates.startMonth,
     endMonth: dates.endMonth,
     isRange: range,
+    sideBySide,
   })
 
   const [lastEventCallCache, setLastEventCallCache] =

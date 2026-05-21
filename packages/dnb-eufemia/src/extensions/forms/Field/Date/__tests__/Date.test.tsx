@@ -1245,6 +1245,7 @@ describe('Field.Date', () => {
           month="2024-06-01"
           value="2024-01-15|2024-02-20"
           range
+          sideBySide
         />
       )
 
@@ -2334,7 +2335,9 @@ describe('Field.Date', () => {
   })
 
   it('should support linked calendars', async () => {
-    render(<Field.Date value="2024-11-01|2024-12-01" range link />)
+    render(
+      <Field.Date value="2024-11-01|2024-12-01" range sideBySide link />
+    )
 
     await userEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -2846,6 +2849,7 @@ describe('Field.Date', () => {
         onChange={onChange}
         yearNavigation
         range
+        sideBySide
       />
     )
 
@@ -3054,6 +3058,30 @@ describe('Field.Date', () => {
     )
   })
 
+  it('should show one calendar in range mode by default', async () => {
+    render(<Field.Date value="2025-04-01|2025-04-30" range />)
+
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-date-picker__calendar').length
+    ).toBe(1)
+  })
+
+  it('should forward `sideBySide` to DatePicker and show two calendars in range mode', async () => {
+    render(<Field.Date value="2025-04-01|2025-04-30" range sideBySide />)
+
+    await userEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-date-picker__calendar').length
+    ).toBe(2)
+  })
+
   it('should export `dateValidator`', async () => {
     const myOnBlurValidator = (value: string) => {
       if (value === '2025-01-01') {
@@ -3243,7 +3271,12 @@ describe('Field.Date', () => {
   describe('startMonth and endMonth', () => {
     it('should display correct start and end month on opening the date picker', async () => {
       render(
-        <Field.Date startMonth="2024-01-01" endMonth="2024-12-31" range />
+        <Field.Date
+          startMonth="2024-01-01"
+          endMonth="2024-12-31"
+          range
+          sideBySide
+        />
       )
 
       await userEvent.click(
@@ -3267,6 +3300,7 @@ describe('Field.Date', () => {
           minDate="2024-10-01"
           maxDate="2024-10-31"
           range
+          sideBySide
         />
       )
 

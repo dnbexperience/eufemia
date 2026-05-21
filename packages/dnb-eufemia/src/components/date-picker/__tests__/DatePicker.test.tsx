@@ -306,7 +306,7 @@ describe('DatePicker component', () => {
   it('will close the picker after selection', () => {
     const onChange = vi.fn()
     const { rerender } = render(
-      <DatePicker {...defaultProps} onChange={onChange} />
+      <DatePicker {...defaultProps} sideBySide onChange={onChange} />
     )
 
     fireEvent.click(
@@ -1185,6 +1185,7 @@ describe('DatePicker component', () => {
       <DatePicker
         noAnimation
         range
+        sideBySide
         shortcuts={[
           {
             title: 'day',
@@ -1301,8 +1302,8 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('has two calendar views', () => {
-    render(<DatePicker {...defaultProps} />)
+  it('has two calendar views when sideBySide is true', () => {
+    render(<DatePicker {...defaultProps} sideBySide />)
 
     fireEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -1315,9 +1316,84 @@ describe('DatePicker component', () => {
     ).toBe(2)
   })
 
+  it('has one calendar view by default when range is true', () => {
+    render(
+      <DatePicker
+        range
+        startDate="2024-10-01"
+        endDate="2024-10-24"
+        showInput
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-date-picker__calendar').length
+    ).toBe(1)
+  })
+
+  it('has two calendar views when sideBySide is true and range is true', () => {
+    render(
+      <DatePicker
+        range
+        sideBySide
+        startDate="2024-10-01"
+        endDate="2024-10-24"
+        showInput
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-date-picker__calendar').length
+    ).toBe(2)
+  })
+
+  it('supports range selection with single calendar view', () => {
+    const onChange = vi.fn()
+
+    render(<DatePicker range showInput onChange={onChange} />)
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    const calendar = document.querySelector('.dnb-date-picker__calendar')
+    const selectableDays = calendar.querySelectorAll(
+      'td.dnb-date-picker__day--selectable'
+    )
+
+    // Click start date
+    fireEvent.click(selectableDays[0].querySelector('button'))
+
+    expect(selectableDays[0].classList).toContain(
+      'dnb-date-picker__day--start-date'
+    )
+
+    // Click end date
+    fireEvent.click(selectableDays[4].querySelector('button'))
+
+    expect(selectableDays[4].classList).toContain(
+      'dnb-date-picker__day--end-date'
+    )
+
+    expect(onChange).toHaveBeenCalled()
+  })
+
   it('has correctly synced calendar views based on user navigation and date selection', async () => {
     render(
-      <DatePicker range startDate="2024-10-01" endDate="2024-10-24" />
+      <DatePicker
+        range
+        sideBySide
+        startDate="2024-10-01"
+        endDate="2024-10-24"
+      />
     )
 
     await userEvent.click(getDatePickerTriggerButton())
@@ -1388,7 +1464,12 @@ describe('DatePicker component', () => {
 
   it('should not set the month pickers to same month when `startDate` and `endDate` are set to same day in range mode', async () => {
     render(
-      <DatePicker range startDate="2024-10-24" endDate="2024-11-24" />
+      <DatePicker
+        range
+        sideBySide
+        startDate="2024-10-24"
+        endDate="2024-11-24"
+      />
     )
 
     await userEvent.click(getDatePickerTriggerButton())
@@ -1452,7 +1533,12 @@ describe('DatePicker component', () => {
 
   it('should not set the month pickers to same month when `startDate` and `endDate` are set to same month in range mode', async () => {
     render(
-      <DatePicker range startDate="2024-10-24" endDate="2024-11-24" />
+      <DatePicker
+        range
+        sideBySide
+        startDate="2024-10-24"
+        endDate="2024-11-24"
+      />
     )
 
     await userEvent.click(getDatePickerTriggerButton())
@@ -1564,7 +1650,12 @@ describe('DatePicker component', () => {
 
   it('should set correct month based date selected with keyboard navigation in range mode', async () => {
     render(
-      <DatePicker range startDate="2024-10-01" endDate="2024-10-02" />
+      <DatePicker
+        range
+        sideBySide
+        startDate="2024-10-01"
+        endDate="2024-10-02"
+      />
     )
 
     await userEvent.click(getDatePickerTriggerButton())
@@ -2330,7 +2421,14 @@ describe('DatePicker component', () => {
 
   it('has correct css classes on range selection', () => {
     render(
-      <DatePicker id="date-picker-id" noAnimation range open showInput />
+      <DatePicker
+        id="date-picker-id"
+        noAnimation
+        range
+        sideBySide
+        open
+        showInput
+      />
     )
 
     const FirstCalendar = document.querySelectorAll(
@@ -2690,6 +2788,7 @@ describe('DatePicker component', () => {
       <DatePicker
         showInput
         range
+        sideBySide
         startDate={defaultProps.startDate}
         endDate={defaultProps.endDate}
       />
@@ -2886,7 +2985,12 @@ describe('DatePicker component', () => {
 
   it('should display correct start and end month on opening the date picker', async () => {
     render(
-      <DatePicker startMonth="2024-01-01" endMonth="2024-12-31" range />
+      <DatePicker
+        startMonth="2024-01-01"
+        endMonth="2024-12-31"
+        range
+        sideBySide
+      />
     )
 
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
@@ -2922,7 +3026,12 @@ describe('DatePicker component', () => {
 
   it('should display correct months in calendar view based on input value when opening the picker in range mode', async () => {
     render(
-      <DatePicker startMonth="2024-01-01" endMonth="2024-12-31" range />
+      <DatePicker
+        startMonth="2024-01-01"
+        endMonth="2024-12-31"
+        range
+        sideBySide
+      />
     )
 
     const [startDayInput, endDayInput] = Array.from(
@@ -4173,7 +4282,13 @@ describe('DatePicker component', () => {
 
   it('should display a month ahead in right picker when range is linked', async () => {
     render(
-      <DatePicker startDate="2024-10-10" endDate="2024-11-21" range link />
+      <DatePicker
+        startDate="2024-10-10"
+        endDate="2024-11-21"
+        range
+        sideBySide
+        link
+      />
     )
 
     const [startDay, startMonth, startYear, endDay, endMonth, endYear] =
@@ -4489,6 +4604,7 @@ describe('DatePicker component', () => {
         yearNavigation
         showInput
         range
+        sideBySide
       />
     )
 

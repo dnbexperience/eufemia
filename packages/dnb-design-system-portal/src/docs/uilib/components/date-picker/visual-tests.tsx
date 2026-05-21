@@ -164,6 +164,7 @@ const DatePickerRangeMode = () => (
     <DatePicker
       inline
       range
+      sideBySide
       startDate="2019-05-05"
       endDate="2019-06-05"
       onDaysRender={(days) => {

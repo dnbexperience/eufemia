@@ -11,12 +11,17 @@ export type ViewDates = {
 
 export type UseViewsParams = ViewDates & {
   isRange?: boolean
+  sideBySide?: boolean
 }
 
-export default function useViews({ isRange, ...dates }: UseViewsParams) {
+export default function useViews({
+  isRange,
+  sideBySide,
+  ...dates
+}: UseViewsParams) {
   const [previousDates, setPreviousDates] = useState(dates)
   const [views, setViews] = useState<Array<DatePickerCalendarView>>(
-    getViews({ ...dates, isRange })
+    getViews({ ...dates, isRange, sideBySide })
   )
 
   const hasClickedCalendarDay = useRef<boolean>(false)
@@ -44,19 +49,23 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
       const updatedViews = getViews({
         ...dates,
         isRange,
+        sideBySide,
       })
 
       setViews(updatedViews)
     }
   }
 
-  function updateViews(
-    views: Array<DatePickerCalendarView>,
-    cb: (...args: unknown[]) => void = null
-  ) {
-    setViews(views)
-    cb?.()
-  }
+  const updateViews = useCallback(
+    (
+      views: Array<DatePickerCalendarView>,
+      cb: (...args: unknown[]) => void = null
+    ) => {
+      setViews(views)
+      cb?.()
+    },
+    []
+  )
 
   return {
     views,
@@ -67,9 +76,10 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
 
 export function getViews({
   isRange,
+  sideBySide,
   ...dates
 }: ViewDates & UseViewsParams): Array<DatePickerCalendarView> {
-  return isRange
+  return isRange && sideBySide
     ? [
         { nr: 0, month: getMonthView({ months: dates, nr: 0 }) },
         { nr: 1, month: getMonthView({ months: dates, nr: 1 }) },
