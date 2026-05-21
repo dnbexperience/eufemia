@@ -426,6 +426,9 @@
 
     // Hover states for checked date buttons
     html:not([data-whatintent='touch'])
+      &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:hover:not([disabled]),
+    html:not([data-whatintent='touch'])
       &--start-date#{&}--within-selection
       .dnb-button:hover:not([disabled]),
     html:not([data-whatintent='touch'])
@@ -440,7 +443,10 @@
       );
     }
 
-    // Active states for start and end date buttons
+    // Active states for selected date buttons
+    html:not([data-whatintent='touch'])
+      &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:active:not([disabled]),
     html:not([data-whatintent='touch'])
       &--start-date#{&}--within-selection
       .dnb-button:active:not([disabled]),
