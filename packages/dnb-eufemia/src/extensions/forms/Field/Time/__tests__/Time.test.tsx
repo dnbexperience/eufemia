@@ -1,7 +1,7 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { act, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Tools } from '../../..'
+import { Field, Form } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 
@@ -77,8 +77,9 @@ describe('Field.Time', () => {
     render(<Field.Time required validateInitially />)
 
     await waitFor(() => {
-      const error = document.querySelector('.dnb-form-status--error')
-      expect(error).toBeTruthy()
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
     })
   })
 
@@ -86,7 +87,7 @@ describe('Field.Time', () => {
     render(<Field.Time />)
 
     const element = document.querySelector('.dnb-forms-field-time')
-    expect(element).toBeTruthy()
+    expect(element).toBeInTheDocument()
   })
 
   it('should use colon as delimiter', () => {
@@ -102,8 +103,9 @@ describe('Field.Time', () => {
     render(<Field.Time value="25:00" validateInitially />)
 
     await waitFor(() => {
-      const error = document.querySelector('.dnb-form-status--error')
-      expect(error).toBeTruthy()
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
     })
   })
 
@@ -111,8 +113,9 @@ describe('Field.Time', () => {
     render(<Field.Time value="14:61" validateInitially />)
 
     await waitFor(() => {
-      const error = document.querySelector('.dnb-form-status--error')
-      expect(error).toBeTruthy()
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
     })
   })
 
@@ -120,8 +123,9 @@ describe('Field.Time', () => {
     render(<Field.Time value="1:2" validateInitially />)
 
     await waitFor(() => {
-      const error = document.querySelector('.dnb-form-status--error')
-      expect(error).toBeTruthy()
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeInTheDocument()
     })
   })
 
@@ -185,8 +189,9 @@ describe('Field.Time', () => {
       render(<Field.Time value="14:30:61" showSeconds validateInitially />)
 
       await waitFor(() => {
-        const error = document.querySelector('.dnb-form-status--error')
-        expect(error).toBeTruthy()
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
       })
     })
 
@@ -284,6 +289,8 @@ describe('Field.Time', () => {
   })
 
   it('should support transformIn and transformOut', async () => {
+    const onSubmit = vi.fn()
+
     const transformOut = (_internal: unknown, additionalArgs: unknown) => {
       const { hours, minutes } = additionalArgs as {
         hours: string
@@ -316,13 +323,14 @@ describe('Field.Time', () => {
             minutes: '30',
           },
         }}
+        onSubmit={onSubmit}
       >
         <Field.Time
           path="/myField"
           transformOut={transformOut}
           transformIn={transformIn}
         />
-        <Tools.Log />
+        <Form.SubmitButton />
       </Form.Handler>
     )
 
@@ -331,6 +339,20 @@ describe('Field.Time', () => {
 
     expect(hoursInput.value).toBe('14')
     expect(minutesInput.value).toBe('30')
+
+    await userEvent.click(hoursInput)
+    await userEvent.keyboard('{Backspace>2}09')
+    await userEvent.click(minutesInput)
+    await userEvent.keyboard('{Backspace>2}45')
+
+    await userEvent.click(document.querySelector('button[type="submit"]'))
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        { myField: { hours: '09', minutes: '45' } },
+        expect.anything()
+      )
+    })
   })
 
   it('should normalize externally provided values on rerender', () => {
