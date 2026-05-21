@@ -233,7 +233,6 @@ function prepareCode(code: string) {
 
 function LiveCode(props: LiveCodeProps) {
   const context = useContext(Context)
-  const editorElementRef = useRef<HTMLDivElement>(null)
   const focusModeId = props.stableName
 
   const [hideCode, setHideCode] = useState(props.hideCode)
@@ -568,7 +567,6 @@ function LiveCode(props: LiveCodeProps) {
                 'dnb-live-editor',
                 createSkeletonClass('code', context.skeleton)
               )}
-              ref={editorElementRef}
             >
               <LiveCodeEditor onCodeChange={setEditedCode} />
             </Space>
