@@ -52,7 +52,8 @@ export default function ModalContent(props: ModalContentProps) {
     closeTitle = 'Lukk',
     dialogTitle = 'Vindu',
     hideCloseButton = false,
-    closeButtonAttributes,
+    closeButtonProps: closeButtonPropsProp,
+    closeButtonAttributes: closeButtonAttributesProp,
     noAnimation = false,
     noAnimationOnMobile = false,
     fullscreen = 'auto',
@@ -74,6 +75,9 @@ export default function ModalContent(props: ModalContentProps) {
     bypassInvalidationSelectors,
     ...rest
   } = props
+
+  const closeButtonAttributes =
+    closeButtonPropsProp || closeButtonAttributesProp
 
   const context = useContext(Context)
 

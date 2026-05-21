@@ -161,6 +161,7 @@ describe('Drawer', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
+  // Deprecated: closeButtonAttributes – remove this test in v12
   it('sends along closeButtonAttributes to close button', () => {
     render(
       <Drawer
@@ -180,6 +181,42 @@ describe('Drawer', () => {
         .querySelector('.dnb-modal__close-button')
         ?.textContent?.replace(/\u200C/g, '')
     ).toBe('Custom text')
+  })
+
+  it('sends along closeButtonProps to close button', () => {
+    render(
+      <Drawer open noAnimation closeButtonProps={{ text: 'Custom text' }}>
+        Content
+      </Drawer>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-modal__close-button')
+    ).toHaveLength(1)
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('Custom text')
+  })
+
+  it('closeButtonProps takes precedence over closeButtonAttributes', () => {
+    render(
+      <Drawer
+        open
+        noAnimation
+        closeButtonProps={{ text: 'New prop' }}
+        closeButtonAttributes={{ text: 'Old prop' }}
+      >
+        Content
+      </Drawer>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('New prop')
   })
 
   it('will use props from global context', () => {

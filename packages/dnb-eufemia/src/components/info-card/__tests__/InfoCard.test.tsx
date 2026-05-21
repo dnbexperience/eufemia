@@ -248,6 +248,7 @@ describe('InfoCard', () => {
     expect(buttonElement.getAttribute('href')).toMatch(href)
   })
 
+  // Deprecated: closeButtonAttributes – remove this test in v12
   it('renders the close button with additional props', () => {
     const href = 'href'
 
@@ -264,6 +265,41 @@ describe('InfoCard', () => {
     )
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
+  })
+
+  it('renders the close button with closeButtonProps', () => {
+    const href = 'href'
+
+    render(
+      <InfoCard
+        text="text"
+        closeButtonText="accept"
+        closeButtonProps={{ href }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__close-button'
+    )
+
+    expect(buttonElement.getAttribute('href')).toMatch(href)
+  })
+
+  it('closeButtonProps takes precedence over closeButtonAttributes', () => {
+    render(
+      <InfoCard
+        text="text"
+        closeButtonText="close"
+        closeButtonProps={{ 'data-testid': 'new-prop' }}
+        closeButtonAttributes={{ 'data-testid': 'old-prop' }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__close-button'
+    )
+
+    expect(buttonElement.getAttribute('data-testid')).toBe('new-prop')
   })
 
   it('renders skeleton if skeleton is true', () => {

@@ -61,10 +61,15 @@ export const InfoCardProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  closeButtonAttributes: {
-    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
+  closeButtonProps: {
+    doc: 'Props forwarded to the close button.',
     type: 'ButtonProps',
     status: 'optional',
+  },
+  closeButtonAttributes: {
+    doc: 'Deprecated. Use `closeButtonProps` instead.',
+    type: 'ButtonProps',
+    status: 'deprecated',
   },
   acceptButtonText: {
     doc: 'The accept button text.',

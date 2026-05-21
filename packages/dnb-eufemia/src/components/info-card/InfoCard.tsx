@@ -103,8 +103,12 @@ export type InfoCardProps = {
    */
   acceptButtonText?: ReactNode
   /**
-   * Additional attributes for the close button.
+   * Props forwarded to the close button.
    * Default: `null`
+   */
+  closeButtonProps?: ButtonProps
+  /**
+   * @deprecated Use `closeButtonProps` instead.
    */
   closeButtonAttributes?: ButtonProps
   /**
@@ -156,10 +160,14 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     onAccept,
     closeButtonText,
     acceptButtonText,
-    closeButtonAttributes,
+    closeButtonProps: closeButtonPropsProp,
+    closeButtonAttributes: closeButtonAttributesProp,
     acceptButtonAttributes,
     ...props
   } = allProps
+
+  const closeButtonAttributes =
+    closeButtonPropsProp || closeButtonAttributesProp
 
   const closeButtonIsHidden = !onClose && !closeButtonText
   const acceptButtonIsHidden = !onAccept && !acceptButtonText
@@ -214,7 +222,8 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     acceptButtonIsHidden,
     acceptButtonText,
     centered,
-    closeButtonAttributes,
+    closeButtonPropsProp,
+    closeButtonAttributesProp,
     closeButtonIsHidden,
     closeButtonText,
     onAccept,
