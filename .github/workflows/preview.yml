@@ -46,6 +46,8 @@ jobs:
 
       - name: Build
         run: yarn workspace dnb-design-system-portal build
+        env:
+          VITE_EUFEMIA_STACKBLITZ_VERSION: 'https://pkg.pr.new/@dnb/eufemia@${{ github.event.pull_request.head.sha }}'
 
       - name: Deploy to Cloudflare Pages (branch preview)
         id: pages_deploy

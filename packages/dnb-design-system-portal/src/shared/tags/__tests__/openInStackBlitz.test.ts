@@ -5,6 +5,7 @@ import {
   generateAppComponent,
   formatCode,
   openInStackBlitz,
+  eufemiaVersion,
 } from '../openInStackBlitz'
 
 describe('filterImportsByUsage', () => {
@@ -231,7 +232,7 @@ describe('openInStackBlitz', () => {
       form.fields['project[files][package.json]']
     )
 
-    expect(packageJson.dependencies['@dnb/eufemia']).toBe('latest')
+    expect(packageJson.dependencies['@dnb/eufemia']).toBe(eufemiaVersion)
     expect(
       Object.keys(packageJson.dependencies).filter(
         (k: string) => k === '@dnb/eufemia'
@@ -288,6 +289,22 @@ describe('openInStackBlitz', () => {
     expect(packageJson.dependencies).toHaveProperty('@dnb/eufemia')
     expect(packageJson.dependencies).toHaveProperty('react')
     expect(packageJson.dependencies).toHaveProperty('react-dom')
+
+    form.cleanup()
+  })
+
+  it('uses eufemiaVersion for @dnb/eufemia dependency', async () => {
+    const form = mockFormSubmission()
+
+    await openInStackBlitz('<Button>Click</Button>', [
+      "import { Button } from '@dnb/eufemia'",
+    ])
+
+    const packageJson = JSON.parse(
+      form.fields['project[files][package.json]']
+    )
+
+    expect(packageJson.dependencies['@dnb/eufemia']).toBe(eufemiaVersion)
 
     form.cleanup()
   })
