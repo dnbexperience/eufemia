@@ -1,4 +1,4 @@
-import { screen, render, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { Value, Form, Field } from '../../..'
 
 describe('Value.MultiSelection', () => {
@@ -97,7 +97,9 @@ describe('Value.MultiSelection', () => {
 
   it('renders placeholder', () => {
     render(<Value.MultiSelection placeholder="Please select a value" />)
-    expect(screen.getByText('Please select a value')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-forms-value-multi-selection')
+    ).toHaveTextContent('Please select a value')
   })
 
   it('renders value from path', () => {
