@@ -83,10 +83,7 @@ function Time(props: TimeProps = {}) {
     (values: TimeValue) => {
       const { hours, minutes, seconds } = values
 
-      if (
-        isTimeEmpty(hours, minutes) &&
-        (!showSeconds || isFieldEmpty(seconds))
-      ) {
+      if (isTimeEmpty(hours, minutes) && (!showSeconds || !seconds)) {
         return undefined
       }
 
@@ -317,18 +314,12 @@ function Time(props: TimeProps = {}) {
   )
 }
 
-function isFieldEmpty(value: string | undefined) {
-  return !value || value.trim() === ''
-}
-
 function isTimeEmpty(
   hours: string | undefined,
   minutes: string | undefined,
   seconds?: string | undefined
 ) {
-  return (
-    isFieldEmpty(hours) && isFieldEmpty(minutes) && isFieldEmpty(seconds)
-  )
+  return !hours && !minutes && !seconds
 }
 
 function stringToTimeValue(value: string) {
@@ -348,11 +339,7 @@ function validateTime(time: string, showSeconds?: boolean) {
 
   const { hours, minutes, seconds } = stringToTimeValue(time)
 
-  if (
-    isFieldEmpty(hours) &&
-    isFieldEmpty(minutes) &&
-    (!showSeconds || isFieldEmpty(seconds))
-  ) {
+  if (!hours && !minutes && (!showSeconds || !seconds)) {
     return []
   }
 
