@@ -90,6 +90,7 @@ function analyzeCodeForImports(code: string) {
   const usedReactExports: string[] = []
   const usedSharedExports: string[] = []
   let usesStyled = false
+  let usesBlocks = false
 
   // Helper to check if a name is used in code
   const isUsed = (name: string) => {
@@ -157,6 +158,11 @@ function analyzeCodeForImports(code: string) {
     usesStyled = true
   }
 
+  // Detect Blocks namespace usage (from @dnb/eufemia/extensions/forms/blocks)
+  if (/\bBlocks\./.test(code)) {
+    usesBlocks = true
+  }
+
   // Detect if code defines a function component (including exports)
   const isFunctionComponent =
     /^(export\s+)?(function\s+\w+|const\s+\w+\s*=\s*(\([^)]*\)|[^=])\s*=>)/m.test(
@@ -181,6 +187,7 @@ function analyzeCodeForImports(code: string) {
     usedReactExports,
     usedSharedExports,
     usesStyled,
+    usesBlocks,
     isFunctionComponent,
     hasDefaultExport,
     usesRenderPattern,
@@ -263,6 +270,13 @@ function generateAppComponent(code: string) {
   if (analysis.usedFormsComponents.length > 0) {
     imports.push(
       `import { ${analysis.usedFormsComponents.join(', ')} } from '@dnb/eufemia/extensions/forms'`
+    )
+  }
+
+  // Blocks namespace import
+  if (analysis.usesBlocks) {
+    imports.push(
+      `import * as Blocks from '@dnb/eufemia/extensions/forms/blocks'`
     )
   }
 
