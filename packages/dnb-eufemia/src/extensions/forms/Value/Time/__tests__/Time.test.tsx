@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Provider } from '@dnb/eufemia/src/shared'
+import { Provider } from '../../../../../shared'
 import { Value, Form } from '../../..'
 
 describe('Value.Time', () => {
