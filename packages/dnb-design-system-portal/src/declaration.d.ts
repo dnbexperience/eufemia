@@ -1,5 +1,13 @@
 declare module '*.scss'
 
+type ImportMetaEnv = {
+  readonly VITE_EUFEMIA_STACKBLITZ_VERSION?: string
+}
+
+type ImportMeta = {
+  readonly env: ImportMetaEnv
+}
+
 declare module '*.module.scss' {
   const classes: { readonly [key: string]: string }
   export default classes

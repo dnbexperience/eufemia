@@ -13,6 +13,15 @@ import * as prettierPluginEstree from 'prettier/plugins/estree'
 import starterPackageJson from 'eufemia-starter/package.json'
 
 /**
+ * The version of @dnb/eufemia to install in StackBlitz.
+ * On PR preview deployments, this is a pkg-pr-new URL pointing to the
+ * pre-release built from the same commit. Falls back to 'latest' in
+ * production or local development.
+ */
+export const eufemiaVersion: string =
+  import.meta.env.VITE_EUFEMIA_STACKBLITZ_VERSION || 'latest'
+
+/**
  * Filters sourceImports to only include names actually used in the code.
  * Each sourceImport is a full import statement string from the babel plugin.
  */
@@ -219,7 +228,7 @@ export async function openInStackBlitz(
 
   // Detect external package dependencies from filtered imports
   const dependencies: Record<string, string> = {
-    '@dnb/eufemia': 'latest',
+    '@dnb/eufemia': eufemiaVersion,
     react: starterPackageJson.dependencies.react,
     'react-dom': starterPackageJson.dependencies['react-dom'],
   }
