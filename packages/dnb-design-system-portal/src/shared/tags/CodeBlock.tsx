@@ -472,7 +472,7 @@ function LiveCode(props: LiveCodeProps) {
               aria-label="Customize appearance"
               className={clsx('dnb-live-toolbar', toolbarStyle)}
             >
-              {(omitWrapper && (
+              {omitWrapper ? (
                 <Button
                   variant="tertiary"
                   icon={hideCode ? 'chevron_down' : 'chevron_up'}
@@ -482,81 +482,78 @@ function LiveCode(props: LiveCodeProps) {
                 >
                   {hideCode ? 'Show Code' : 'Hide Code'}
                 </Button>
-              )) || (
-                  <>
-                    {hideCodeProp && (
-                      <ToggleButton
-                        checked={!hideCode}
-                        onChange={({ checked }) => setHideCode(!checked)}
-                        size="medium"
-                      >
-                        {hideCode ? 'Show Code' : 'Hide Code'}
-                      </ToggleButton>
-                    )}
+              ) : (
+                <>
+                  {hideCodeProp && (
+                    <ToggleButton
+                      checked={!hideCode}
+                      onChange={({ checked }) => setHideCode(!checked)}
+                      size="medium"
+                    >
+                      {hideCode ? 'Show Code' : 'Hide Code'}
+                    </ToggleButton>
+                  )}
 
-                    {hidePreviewProp && (
-                      <ToggleButton
-                        checked={!hidePreview}
-                        onChange={({ checked }) =>
-                          setHidePreview(!checked)
-                        }
-                        size="medium"
-                      >
-                        Preview
-                      </ToggleButton>
-                    )}
+                  {hidePreviewProp && (
+                    <ToggleButton
+                      checked={!hidePreview}
+                      onChange={({ checked }) => setHidePreview(!checked)}
+                      size="medium"
+                    >
+                      Preview
+                    </ToggleButton>
+                  )}
 
-                    {isInFocusMode && (
-                      <ChangeStyleTheme
-                        variant="button"
-                        size="medium"
-                        optionsLayout="horizontal"
-                        labelSrOnly
-                      />
-                    )}
+                  {isInFocusMode && (
+                    <ChangeStyleTheme
+                      variant="button"
+                      size="medium"
+                      optionsLayout="horizontal"
+                      labelSrOnly
+                    />
+                  )}
 
-                    <Flex.Horizontal align="center">
+                  <Flex.Horizontal align="center">
+                    <Checkbox
+                      checked={
+                        colorScheme === (inheritedDark ? 'light' : 'dark')
+                      }
+                      onChange={({ checked }) => {
+                        setColorScheme(
+                          checked
+                            ? inheritedDark
+                              ? 'light'
+                              : 'dark'
+                            : undefined
+                        )
+                      }}
+                      size="medium"
+                      label={inheritedDark ? 'Light mode' : 'Dark mode'}
+                    />
+
+                    {surfaceProp === 'dark' && (
                       <Checkbox
                         checked={
-                          colorScheme ===
-                          (inheritedDark ? 'light' : 'dark')
+                          colorScheme !== 'dark' && surface === 'dark'
                         }
-                        onChange={({ checked }) => {
-                          setColorScheme(
-                            checked
-                              ? inheritedDark
-                                ? 'light'
-                                : 'dark'
-                              : undefined
-                          )
-                        }}
+                        onChange={({ checked }) =>
+                          setSurface(checked ? 'dark' : undefined)
+                        }
                         size="medium"
-                        label={inheritedDark ? 'Light mode' : 'Dark mode'}
+                        label="Dark surface"
                       />
+                    )}
 
-                      {surfaceProp === 'dark' && (
-                        <Checkbox
-                          checked={
-                            colorScheme !== 'dark' && surface === 'dark'
-                          }
-                          onChange={({ checked }) =>
-                            setSurface(checked ? 'dark' : undefined)
-                          }
-                          size="medium"
-                          label="Dark surface"
-                        />
-                      )}
+                    {!isInFocusMode && copyCodeButton}
 
-                      {!isInFocusMode && copyCodeButton}
+                    {!isInFocusMode && openInStackBlitzButton}
 
-                      {!isInFocusMode && openInStackBlitzButton}
+                    {focusModePaddingButton}
 
-                      {focusModePaddingButton}
-
-                      {focusModeButton}
-                    </Flex.Horizontal>
-                  </>
-                ) || <>{focusModeButton}</>}
+                    {focusModeButton}
+                  </Flex.Horizontal>
+                </>
+              )}
             </Space>
           )}
 
