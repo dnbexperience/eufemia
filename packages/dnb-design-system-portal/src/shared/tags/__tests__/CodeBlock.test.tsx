@@ -29,6 +29,18 @@ vi.mock('../../../core/ChangeStyleTheme', () => ({
   default: () => null,
 }))
 
+// Mock prettier standalone for StackBlitz formatting
+const mockFormat = vi.hoisted(() =>
+  vi.fn((code: string) => Promise.resolve(code))
+)
+
+vi.mock('prettier/standalone', () => ({
+  format: mockFormat,
+}))
+
+vi.mock('prettier/plugins/babel', () => ({}))
+vi.mock('prettier/plugins/estree', () => ({}))
+
 // Mock prism theme
 vi.mock('@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme', () => ({
   default: {
@@ -638,11 +650,98 @@ describe('CodeBlock', () => {
 
       await act(async () => {
         stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
       })
 
       expect(mockSubmit).toHaveBeenCalled()
       expect(mockAppendChild).toHaveBeenCalled()
       expect(mockRemoveChild).toHaveBeenCalled()
+
+      vi.restoreAllMocks()
+    })
+
+    it('should set form action to open App.tsx in StackBlitz', async () => {
+      let capturedFormAction = ''
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation(
+        (tagName: string) => {
+          const element = originalCreateElement(tagName)
+          if (tagName === 'form') {
+            element.submit = vi.fn(() => {
+              capturedFormAction = element.action
+            })
+          }
+          return element
+        }
+      )
+
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+
+      expect(capturedFormAction).toContain(
+        'https://stackblitz.com/run?file=src/App.tsx'
+      )
+
+      vi.restoreAllMocks()
+    })
+
+    it('should format App.tsx code with prettier', async () => {
+      mockFormat.mockClear()
+
+      const submittedFormData: Record<string, string> = {}
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation(
+        (tagName: string) => {
+          const element = originalCreateElement(tagName)
+          if (tagName === 'form') {
+            element.submit = vi.fn(() => {
+              const inputs = element.querySelectorAll('input')
+              inputs.forEach((input: HTMLInputElement) => {
+                submittedFormData[input.name] = input.value
+              })
+            })
+          }
+          return element
+        }
+      )
+
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+
+      expect(mockFormat).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          parser: 'babel',
+          singleQuote: true,
+          semi: false,
+        })
+      )
 
       vi.restoreAllMocks()
     })
@@ -681,6 +780,7 @@ describe('CodeBlock', () => {
 
       await act(async () => {
         stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
       })
 
       const appCode = submittedFormData['project[files][src/App.tsx]']
@@ -731,6 +831,7 @@ describe('CodeBlock', () => {
 
       await act(async () => {
         stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
       })
 
       const appCode = submittedFormData['project[files][src/App.tsx]']

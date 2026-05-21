@@ -8,6 +8,9 @@ import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
 import { getElements } from '@dnb/eufemia/src/elements/lib'
 import { FORMS_EXPORT_NAMES } from './formsExports'
+import { format } from 'prettier/standalone'
+import * as prettierPluginBabel from 'prettier/plugins/babel'
+import * as prettierPluginEstree from 'prettier/plugins/estree'
 
 // Lazy initialization - only compute when needed
 let EUFEMIA_COMPONENT_NAMES: string[] | null = null
@@ -186,6 +189,28 @@ function analyzeCodeForImports(code: string) {
 }
 
 /**
+ * Formats code using prettier with the project's configuration.
+ */
+export async function formatCode(code: string): Promise<string> {
+  try {
+    return await format(code, {
+      parser: 'babel',
+      plugins: [prettierPluginBabel, prettierPluginEstree],
+      printWidth: 75,
+      tabWidth: 2,
+      singleQuote: true,
+      bracketSpacing: true,
+      useTabs: false,
+      semi: false,
+      bracketSameLine: false,
+      trailingComma: 'es5',
+    })
+  } catch {
+    return code
+  }
+}
+
+/**
  * Generates the App.tsx content based on code analysis.
  */
 function generateAppComponent(code: string) {
@@ -318,7 +343,7 @@ export default function App() {
  * Opens the given code in StackBlitz using their define API.
  * Creates a new project with the Eufemia starter template and the provided code.
  */
-export function openInStackBlitz(code: string) {
+export async function openInStackBlitz(code: string) {
   // Analyze code to determine needed dependencies
   const analysis = analyzeCodeForImports(code)
 
@@ -334,7 +359,7 @@ createRoot(document.getElementById('root')!).render(
 )
 `
 
-  const appComponent = generateAppComponent(code)
+  const appComponent = await formatCode(generateAppComponent(code))
 
   const indexHtml = `<!doctype html>
 <html lang="en">
@@ -422,7 +447,7 @@ export default defineConfig({
   // Create a form to submit to StackBlitz's define API
   const form = document.createElement('form')
   form.method = 'POST'
-  form.action = 'https://stackblitz.com/run'
+  form.action = 'https://stackblitz.com/run?file=src/App.tsx'
   form.target = '_blank'
 
   const files: Record<string, string> = {

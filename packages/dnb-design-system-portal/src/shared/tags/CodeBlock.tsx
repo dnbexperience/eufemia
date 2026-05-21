@@ -381,9 +381,9 @@ function LiveCode(props: LiveCodeProps) {
     <CopyCodeButton code={editedCode ?? codeToUse} variant="tertiary" />
   )
 
-  const handleOpenInStackBlitz = useCallback(() => {
+  const handleOpenInStackBlitz = useCallback(async () => {
     const codeToOpen = editedCode ?? codeToUse
-    openInStackBlitz(codeToOpen)
+    await openInStackBlitz(codeToOpen)
   }, [editedCode, codeToUse])
 
   const openInStackBlitzButton = (
