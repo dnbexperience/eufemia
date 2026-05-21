@@ -361,14 +361,14 @@ function validateTime(time: string, showSeconds?: boolean) {
   const secondsNumber = Number(seconds)
 
   const hoursInvalid =
-    isFieldEmpty(hours) ||
+    !hours ||
     hours.length !== 2 ||
     isNaN(hoursNumber) ||
     hoursNumber < 0 ||
     hoursNumber > 23
 
   const minutesInvalid =
-    isFieldEmpty(minutes) ||
+    !minutes ||
     minutes.length !== 2 ||
     isNaN(minutesNumber) ||
     minutesNumber < 0 ||
@@ -376,7 +376,7 @@ function validateTime(time: string, showSeconds?: boolean) {
 
   const secondsInvalid =
     showSeconds &&
-    (isFieldEmpty(seconds) ||
+    (!seconds ||
       seconds.length !== 2 ||
       isNaN(secondsNumber) ||
       secondsNumber < 0 ||
