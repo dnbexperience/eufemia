@@ -126,11 +126,9 @@ function Time(props: TimeProps = {}) {
       return undefined
     }
 
-    const h = padValue(hours, 2)
-    const m = padValue(minutes, 2)
-    const s = padValue(seconds, 2)
-
-    return s ? `${h}:${m}:${s}` : `${h}:${m}`
+    return seconds
+      ? `${hours}:${minutes}:${seconds}`
+      : `${hours}:${minutes}`
   }, [])
 
   const transformIn = useCallback(
@@ -149,14 +147,14 @@ function Time(props: TimeProps = {}) {
         return value
       }
 
-      const hours = padValue(external.hours as string, 2)
-      const minutes = padValue(external.minutes as string, 2)
+      const hours = external.hours as string
+      const minutes = external.minutes as string
 
       if (isTimeEmpty(hours, minutes)) {
         return undefined
       }
 
-      const seconds = padValue(external.seconds as string, 2)
+      const seconds = external.seconds as string
 
       return seconds
         ? `${hours}:${minutes}:${seconds}`
@@ -343,14 +341,6 @@ function stringToTimeValue(value: string) {
   return { hours, minutes, seconds }
 }
 
-function padValue(value: string | undefined, length: number) {
-  if (!value) {
-    return ''
-  }
-
-  return value.padStart(length, '0').slice(-length)
-}
-
 function validateTime(time: string, showSeconds?: boolean) {
   if (!time || !time.includes(':')) {
     return undefined
@@ -372,12 +362,14 @@ function validateTime(time: string, showSeconds?: boolean) {
 
   const hoursInvalid =
     isFieldEmpty(hours) ||
+    hours.length !== 2 ||
     isNaN(hoursNumber) ||
     hoursNumber < 0 ||
     hoursNumber > 23
 
   const minutesInvalid =
     isFieldEmpty(minutes) ||
+    minutes.length !== 2 ||
     isNaN(minutesNumber) ||
     minutesNumber < 0 ||
     minutesNumber > 59
@@ -385,6 +377,7 @@ function validateTime(time: string, showSeconds?: boolean) {
   const secondsInvalid =
     showSeconds &&
     (isFieldEmpty(seconds) ||
+      seconds.length !== 2 ||
       isNaN(secondsNumber) ||
       secondsNumber < 0 ||
       secondsNumber > 59)

@@ -116,6 +116,15 @@ describe('Field.Time', () => {
     })
   })
 
+  it('should validate incomplete time values', async () => {
+    render(<Field.Time value="1:2" validateInitially />)
+
+    await waitFor(() => {
+      const error = document.querySelector('.dnb-form-status--error')
+      expect(error).toBeTruthy()
+    })
+  })
+
   it('should accept valid time values', () => {
     render(<Field.Time value="00:00" />)
 
