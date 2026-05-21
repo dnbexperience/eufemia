@@ -60,7 +60,7 @@ export type DatePickerInputProps = Omit<
     maskOrder?: DatePickerProps['maskOrder']
     maskPlaceholder?: DatePickerProps['maskPlaceholder']
     separatorRegExp?: RegExp
-    submitAttributes?: Record<string, unknown>
+    submitProps?: Record<string, unknown>
     isRange?: boolean
     /**
      * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`.
@@ -131,7 +131,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     separatorRegExp,
     id,
     title,
-    submitAttributes,
+    submitProps,
     maskPlaceholder,
     onFocus,
     onBlur,
@@ -887,7 +887,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   )
 
   validateDOMAttributes(props, attributes)
-  validateDOMAttributes(null, submitAttributes)
+  validateDOMAttributes(null, submitProps)
 
   const SubmitElement: ElementType = useMemo(
     () => (showInput ? SubmitButton : Button),
@@ -930,7 +930,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             variant="secondary"
             onSubmit={onSubmit}
             onClick={onSubmit}
-            {...submitAttributes}
+            {...submitProps}
             {...statusProps}
             {...triggerProps}
           />
