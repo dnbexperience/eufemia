@@ -1,0 +1,86 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  ContainerProperties,
+  SearchProperties,
+  MoreProperties,
+  ToolbarProperties,
+  ActiveFiltersProperties,
+  IndicatorProperties,
+  ResultsProperties as ResultsContainerProperties,
+  NoResultsProperties,
+  QuickFilterProperties,
+  ItemProperties,
+  DateProperties,
+  SelectionProperties,
+  UseFilterProperties,
+  UseFilterAsyncParams,
+  UseFilterAsyncReturn,
+} from '@dnb/eufemia/src/components/filter/FilterDocs'
+
+## Filter.Container
+
+<PropertiesTable props={ContainerProperties} />
+
+## Filter.Search
+
+<PropertiesTable props={SearchProperties} />
+
+## Filter.More
+
+<PropertiesTable props={MoreProperties} />
+
+## Filter.ActiveFilters
+
+<PropertiesTable props={ActiveFiltersProperties} />
+
+## Filter.Toolbar
+
+<PropertiesTable props={ToolbarProperties} />
+
+## Filter.QuickFilter
+
+<PropertiesTable props={QuickFilterProperties} />
+
+## Filter.Item
+
+<PropertiesTable props={ItemProperties} />
+
+## Filter.Date
+
+<PropertiesTable props={DateProperties} />
+
+## Filter.Selection
+
+<PropertiesTable props={SelectionProperties} />
+
+## Filter.NoResults
+
+<PropertiesTable props={NoResultsProperties} />
+
+## Filter.ResultsContainer
+
+<PropertiesTable props={ResultsContainerProperties} />
+
+## Filter.Indicator
+
+<PropertiesTable props={IndicatorProperties} />
+
+## Filter.useFilter(id)
+
+Returns an object with the following properties:
+
+<PropertiesTable props={UseFilterProperties} />
+
+## Filter.useFilterAsync(id, fetcher, options?)
+
+Parameters:
+
+<PropertiesTable props={UseFilterAsyncParams} />
+
+Returns an object with:
+
+<PropertiesTable props={UseFilterAsyncReturn} />

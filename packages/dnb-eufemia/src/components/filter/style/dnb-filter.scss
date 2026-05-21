@@ -1,0 +1,49 @@
+.dnb-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &__search {
+    flex: 1;
+
+    &--show-indicator .dnb-input__icon {
+      color: transparent;
+    }
+  }
+
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__quick-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__active-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__more-trigger {
+    align-self: flex-start;
+  }
+
+  &__more-result {
+    .dnb-height-animation {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

@@ -197,5 +197,14 @@ export default {
       openTriggerTitle: 'Klik for at åbne ordforklaring',
       closeTriggerTitle: 'Klik for at lukke ordforklaring',
     },
+    Filter: {
+      ariaLabel: 'Filter',
+      activeFiltersLabel: 'Aktive filtre',
+      moreLabel: 'Flere filtre',
+      moreTitle: 'Filter',
+      showResultsButton: 'Vis %count resultater',
+      noResultsMessage:
+        'Ingen resultater. Prøv at ændre eller fjerne nogle filtre.',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

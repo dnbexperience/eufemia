@@ -1,0 +1,37 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Date and selection filters
+
+Combines `Filter.Date` and `Filter.Selection` inside `Filter.More`, with `resultCount` to show the number of matching transactions.
+
+<Examples.WithDateAndSelection />
+
+### Custom filter type
+
+Build your own filter using `Filter.useFilterContext()` and `Filter.Item`. This example shows a star-rating filter alongside built-in ones.
+
+<Examples.CustomFilter />
+
+### Async result count
+
+When the result count comes from an API, use `resultLoading` to show a loading state on the result button while the request is in progress. Open the dialog and change a filter to see the skeleton effect.
+
+<Examples.AsyncResults />
+
+### Multi-selection filter
+
+Use `Filter.MultiSelection` inside `Filter.More` to let users select one or more clients. Selected clients appear as active filter tags, and the transaction list updates accordingly.
+
+<Examples.WithMultiSelection />
+
+### Decoupled hook
+
+`Filter.useFilter(id)` can be called anywhere in the tree — the filter UI and data consumer can live in completely separate components.
+
+<Examples.DecoupledHook />

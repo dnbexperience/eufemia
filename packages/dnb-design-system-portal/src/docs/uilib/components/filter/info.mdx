@@ -1,0 +1,202 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Filter } from '@dnb/eufemia'
+```
+
+## Description
+
+`Filter` is a composable filter UI for building search and filter experiences. It does **not** own your data — instead it provides shared state that you read with the `Filter.useFilter(id)` hook and apply to your own data source.
+
+The component uses a namespace pattern where `Filter` is the import and `Filter.Container` is the renderable root.
+
+### Sub-components
+
+| Component                   | Description                                                                                                                                                                                                |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Filter.Container**        | Root wrapper. Provides filter context and syncs state via `useSharedState`. Requires a unique `id`.                                                                                                        |
+| **Filter.Search**           | Text input with a loupe icon. Updates the shared `search` string.                                                                                                                                          |
+| **Filter.Toolbar**          | Horizontal row that places `Filter.QuickFilter` on the left and `Filter.More` on the right.                                                                                                                |
+| **Filter.QuickFilter**      | Container for a single inline quick-access filter shown outside the dialog.                                                                                                                                |
+| **Filter.More**             | Button that opens a `Dialog` with filter options as accordion items. Shows a "Vis N treff" button when `resultCount` is set on the container.                                                              |
+| **Filter.ActiveFilters**    | Renders active filters as removable `Tag` chips. Returns nothing when no filters are active. Set `showFilterLabel` to prefix each tag with its filter name (e.g. "Betalingstype: Kort" instead of "Kort"). |
+| **Filter.Indicator**        | Renders a circular `ProgressIndicator` when `resultLoading` is `true` on the container. Returns nothing otherwise. Accepts optional `children` as a label.                                                 |
+| **Filter.Item**             | Accordion wrapper for a single filter section. Supports `defaultOpen` to start expanded. Open/closed state is remembered across dialog opens.                                                              |
+| **Filter.Date**             | Built-in date range filter using `DatePicker`.                                                                                                                                                             |
+| **Filter.Selection**        | Built-in checkbox selection filter.                                                                                                                                                                        |
+| **Filter.ResultsContainer** | Wraps result content and links to a `Filter.Container` via `connectedTo`. Shows a `Skeleton` loading state when the linked filter is loading.                                                              |
+| **Filter.NoResults**        | Renders a translated "no results" message when `resultCount` is `0`. Supports `connectedTo` to read the count from a linked container. Accepts custom text via `children`.                                 |
+
+### Hooks
+
+| Hook                                   | Description                                                                                                                                                                                              |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Filter.useFilter(id)**               | Read filter state from anywhere — does not need to be inside `Filter.Container`. Returns `{ filters, search, hasActiveFilters, resetFilters, removeFilter }`.                                            |
+| **Filter.useFilterAsync(id, fetcher)** | Async data fetching linked to a filter. Handles loading state, race conditions, and syncs `resultLoading`/`resultCount` to shared state. Returns `{ data, loading }`.                                    |
+| **Filter.useFilterContext()**          | Access the full filter context from inside `Filter.Container`. Use this to build custom filter types. Returns `{ setFilter, getFilter, removeFilter, resetFilters, filters, search, hasActiveFilters }`. |
+
+## Basic usage
+
+```tsx
+import { Filter } from '@dnb/eufemia'
+
+function MyPage() {
+  const { filters, search, hasActiveFilters } =
+    Filter.useFilter('my-filter')
+
+  const filtered = myData.filter((item) => {
+    if (search && !item.name.includes(search)) {
+      return false
+    }
+    return true
+  })
+
+  return (
+    <>
+      <Filter.Container id="my-filter">
+        <Filter.Search label="Søk" placeholder="Søk etter noe..." />
+        <Filter.Toolbar>
+          <Filter.QuickFilter>
+            <Filter.Date label="Dato" />
+          </Filter.QuickFilter>
+          <Filter.More>
+            <Filter.Selection
+              label="Status"
+              filterKey="/status"
+              options={[
+                { value: 'active', label: 'Aktiv' },
+                { value: 'inactive', label: 'Inaktiv' },
+              ]}
+            />
+          </Filter.More>
+        </Filter.Toolbar>
+        <Filter.ActiveFilters />
+      </Filter.Container>
+
+      {/* Render your filtered data */}
+    </>
+  )
+}
+```
+
+## Decoupled hook usage
+
+`Filter.useFilter(id)` can be called from a completely separate component tree. The filter UI and the data consumer are linked only by the shared `id`:
+
+```tsx
+function FilterUI() {
+  return (
+    <Filter.Container id="transactions">
+      <Filter.Search label="Søk" />
+      <Filter.Toolbar>
+        <Filter.QuickFilter />
+        <Filter.More>
+          <Filter.Selection
+            label="Type"
+            filterKey="/type"
+            options={[
+              { value: 'card', label: 'Kort' },
+              { value: 'transfer', label: 'Overføring' },
+            ]}
+          />
+        </Filter.More>
+      </Filter.Toolbar>
+      <Filter.ActiveFilters />
+    </Filter.Container>
+  )
+}
+
+function TransactionList() {
+  const { search, filters, hasActiveFilters } =
+    Filter.useFilter('transactions')
+
+  // Use search/filters to filter your data
+}
+```
+
+## Custom filters
+
+Create custom filter types using `Filter.useFilterContext()` and `Filter.Item`:
+
+```tsx
+function AmountRangeFilter({ label, filterKey }) {
+  const { setFilter, getFilter } = Filter.useFilterContext()
+  const current = getFilter(filterKey)
+
+  const handleChange = (min, max) => {
+    if (min == null && max == null) {
+      setFilter(filterKey, undefined)
+    } else {
+      setFilter(filterKey, {
+        value: { min, max },
+        label: `${label}: ${min ?? ''}–${max ?? ''}`,
+      })
+    }
+  }
+
+  return (
+    <Filter.Item label={label} filterKey={filterKey}>
+      <Flex.Horizontal>
+        <Input
+          label="Min"
+          onChange={({ value }) =>
+            handleChange(value, current?.value?.max)
+          }
+        />
+        <Input
+          label="Max"
+          onChange={({ value }) =>
+            handleChange(current?.value?.min, value)
+          }
+        />
+      </Flex.Horizontal>
+    </Filter.Item>
+  )
+}
+
+// Usage inside Filter.More:
+render(
+  <Filter.More>
+    <AmountRangeFilter label="Beløp" filterKey="/amount" />
+  </Filter.More>
+)
+```
+
+## Async data fetching
+
+`Filter.useFilterAsync(id, fetcher)` handles the full fetch lifecycle — loading state, race conditions, and result count — so you don't have to wire it up yourself.
+
+It calls your `fetcher` whenever the linked filter state changes and syncs `resultLoading` and `resultCount` to the shared state. That means `Filter.ResultsContainer`, `Filter.NoResults`, `Filter.More`, and `Filter.Indicator` all react automatically.
+
+```tsx
+function TransactionList() {
+  const { data } = Filter.useFilterAsync(
+    'my-filter',
+    async ({ filters, search }) => {
+      const res = await fetch(`/api/transactions?q=${search}`)
+      return res.json()
+    },
+    { initialData: [] }
+  )
+
+  return (
+    <Filter.ResultsContainer connectedTo="my-filter">
+      {data.map((tx) => (
+        <p key={tx.id}>{tx.name}</p>
+      ))}
+    </Filter.ResultsContainer>
+  )
+}
+```
+
+The hook returns `{ data, loading }`. If the fetcher returns an array, `resultCount` is set to its length automatically. Pass `initialData` to render immediately before the first fetch resolves.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=15807-0)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/filter)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/filter)

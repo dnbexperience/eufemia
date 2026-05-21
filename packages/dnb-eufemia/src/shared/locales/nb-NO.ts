@@ -195,5 +195,14 @@ export default {
       openTriggerTitle: 'Klikk for å åpne ordforklaring',
       closeTriggerTitle: 'Klikk for å lukke ordforklaring',
     },
+    Filter: {
+      ariaLabel: 'Filter',
+      activeFiltersLabel: 'Aktive filtre',
+      moreLabel: 'Flere filtre',
+      moreTitle: 'Filter',
+      showResultsButton: 'Vis %count treff',
+      noResultsMessage:
+        'Ingen treff. Prøv å endre eller fjerne noen filtre.',
+    },
   },
 }

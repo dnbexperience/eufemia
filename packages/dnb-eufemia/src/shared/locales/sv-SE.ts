@@ -196,5 +196,14 @@ export default {
       openTriggerTitle: 'Klicka för att öppna ordförklaring',
       closeTriggerTitle: 'Klicka för att stänga ordförklaring',
     },
+    Filter: {
+      ariaLabel: 'Filter',
+      activeFiltersLabel: 'Aktiva filter',
+      moreLabel: 'Fler filter',
+      moreTitle: 'Filter',
+      showResultsButton: 'Visa %count resultat',
+      noResultsMessage:
+        'Inga resultat. Försök att ändra eller ta bort några filter.',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }

@@ -197,5 +197,14 @@ export default {
       openTriggerTitle: 'Click to open definition',
       closeTriggerTitle: 'Click to close definition',
     },
+    Filter: {
+      ariaLabel: 'Filter',
+      activeFiltersLabel: 'Active filters',
+      moreLabel: 'More filters',
+      moreTitle: 'Filter',
+      showResultsButton: 'Show %count results',
+      noResultsMessage:
+        'No results found. Try changing or removing some filters.',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }
