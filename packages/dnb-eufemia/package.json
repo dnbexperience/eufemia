@@ -147,7 +147,7 @@
     "@babel/preset-react": "7.28.5",
     "@babel/preset-typescript": "7.28.5",
     "@blazediff/core": "1.9.1",
-    "@dnb/browserslist-config": "1.4.0",
+    "@dnb/browserslist-config": "1.4.1",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",
     "@eslint/eslintrc": "3.3.3",
