@@ -412,9 +412,7 @@ function LiveCode(props: LiveCodeProps) {
           : 'Show preview padding'
       }
       aria-pressed={showFocusModePadding}
-      icon={
-        showFocusModePadding ? focusModeIcon : focusModeCompactIcon
-      }
+      icon={showFocusModePadding ? focusModeIcon : focusModeCompactIcon}
     />
   )
 
