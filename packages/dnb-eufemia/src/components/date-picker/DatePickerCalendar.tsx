@@ -3,7 +3,14 @@
  *
  */
 
-import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import type {
   ElementRef,
   HTMLProps,
@@ -135,6 +142,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...defaultProps, ...restOfProps }
 
   const {
+    views,
     updateDates,
     setHasClickedCalendarDay,
     startDate,
@@ -168,6 +176,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     hideNextMonthWeek,
     onlyMonth,
   } = props
+
+  const isSinglePaneRange = isRange && views.length === 1
+
+  // Tracks which date is being edited during keyboard navigation
+  // in single-pane range mode (start date first, then end date).
+  const [editingDateType, setEditingDateType] = useState<'start' | 'end'>(
+    'start'
+  )
+  const editingDateTypeRef = useRef(editingDateType)
+  const updateEditingDateType = useCallback((type: 'start' | 'end') => {
+    editingDateTypeRef.current = type
+    setEditingDateType(type)
+  }, [])
 
   const tableRef = useRef<ElementRef<'table'> | null>(null)
   const days = useRef<Record<string, Array<DatePickerCalendarDay>>>({})
@@ -312,6 +333,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     [minDate, maxDate]
   )
 
+  const focusCalendarTable = useCallback((index: number) => {
+    const viewsContainer = tableRef.current?.closest(
+      '.dnb-date-picker__views'
+    )
+    const tables = viewsContainer?.querySelectorAll('table')
+    tables?.[index]?.focus({ preventScroll: true })
+  }, [])
+
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent<HTMLTableElement>) => {
       const pressedKey = event.code
@@ -328,7 +357,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       event.preventDefault()
 
       const currentDates = currentDatesRef.current
-      const dateType = !isRange || nr === 0 ? 'start' : 'end'
+      const dateType = isSinglePaneRange
+        ? editingDateTypeRef.current
+        : !isRange || nr === 0
+          ? 'start'
+          : 'end'
       const currentDate = currentDates[`${dateType}Date`]
 
       let newDate = currentDate
@@ -340,11 +373,64 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         newDate === currentDate &&
         (pressedKey === 'Enter' || pressedKey === 'Space')
       ) {
-        return callOnSelect({
-          event,
-          nr,
-          hidePicker: true,
-        })
+        // In single-pane range mode, first Enter confirms start date
+        // and switches to editing end date
+        if (isSinglePaneRange && editingDateTypeRef.current === 'start') {
+          updateEditingDateType('end')
+
+          // Initialize end date cursor to start date position
+          const endDateValue =
+            currentDates.endDate || currentDates.startDate
+          currentDatesRef.current = {
+            ...currentDates,
+            endDate: endDateValue,
+          }
+
+          // Navigate calendar to show the end date's month
+          if (
+            endDateValue &&
+            !isSameMonth(endDateValue, currentDates.startMonth)
+          ) {
+            updateDates({ startMonth: endDateValue })
+            currentDatesRef.current.startMonth = endDateValue
+          }
+
+          return // stop here
+        }
+
+        const confirmSelection = () => {
+          if (isSinglePaneRange) {
+            updateEditingDateType('start')
+          } else if (isRange) {
+            focusCalendarTable(nr === 0 ? 1 : 0)
+          }
+
+          callOnSelect({
+            event,
+            nr,
+            hidePicker: !isRange,
+          })
+        }
+
+        // Auto-swap reversed range before confirming
+        if (isRange && currentDates.startDate && currentDates.endDate) {
+          const range = toRange(
+            currentDates.startDate,
+            currentDates.endDate
+          )
+
+          if (!isSameDay(range.startDate, currentDates.startDate)) {
+            return updateDates(
+              {
+                startDate: startOfDay(range.startDate),
+                endDate: startOfDay(range.endDate),
+              },
+              confirmSelection
+            )
+          }
+        }
+
+        return confirmSelection()
       }
 
       const dates: {
@@ -354,7 +440,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         endMonth?: Date
       } = {}
 
-      const currentMonth = currentDates[`${dateType}Month`]
+      // In single-pane range mode, the single calendar always displays
+      // startMonth regardless of which date type is being edited
+      const monthKey = (
+        isSinglePaneRange ? 'startMonth' : `${dateType}Month`
+      ) as 'startMonth' | 'endMonth'
+      const currentMonth = currentDates[monthKey]
 
       if (
         // in case we don't have a start/end date, then we use the current month date
@@ -370,8 +461,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             : lastDayOfMonth(currentMonth)
 
         // only to make sure we navigate the calendar to the new date
-      } else if (currentMonth && !isSameMonth(currentDate, currentMonth)) {
-        dates[`${dateType}Month`] = newDate
+      } else if (currentMonth && !isSameMonth(newDate, currentMonth)) {
+        dates[monthKey] = newDate
       }
 
       newDate = findValid(newDate, pressedKey)
@@ -429,11 +520,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     [
       callOnSelect,
       findValid,
+      focusCalendarTable,
       hasReachedEnd,
+      isSinglePaneRange,
       onKeyDown,
       startDate,
       endDate,
       updateDates,
+      updateEditingDateType,
       hideNavigation,
       isRange,
       keyNavCalc,
@@ -497,6 +591,15 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   return (
     <div
       className={clsx('dnb-date-picker__calendar', rtl && 'rtl')}
+      data-editing={
+        isSinglePaneRange
+          ? editingDateType
+          : isRange
+            ? nr === 0
+              ? 'start'
+              : 'end'
+            : undefined
+      }
       lang={locale}
     >
       {!hideNavigation && !onlyMonth && (
@@ -641,7 +744,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         onClick={
                           handleAsDisabled
                             ? undefined
-                            : ({ event }) =>
+                            : ({ event }) => {
+                                if (isSinglePaneRange) {
+                                  updateEditingDateType('start')
+                                }
+
                                 onSelectRange({
                                   day,
                                   isRange,
@@ -661,6 +768,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                     )
                                   },
                                 })
+                              }
                         }
                         onMouseOver={
                           handleAsDisabled

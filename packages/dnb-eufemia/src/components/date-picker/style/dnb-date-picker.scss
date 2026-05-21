@@ -485,12 +485,24 @@
     }
   }
 
+  // Reset nav button styles to remove default box-shadow and set neutral hover background
   &__header__nav {
     .dnb-button:not(:hover):not(:focus-visible) {
       box-shadow: none;
     }
     .dnb-button:hover:not(:active):not(:focus-visible) {
       background-color: var(--token-color-background-neutral);
+    }
+  }
+
+  // Keyboard focus indicator for the date being edited
+  &__calendar[data-editing='start'] table:focus &__day--start-date,
+  &__calendar[data-editing='end'] table:focus &__day--end-date {
+    .dnb-button {
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action-focus),
+        var(--focus-ring-width)
+      );
     }
   }
 

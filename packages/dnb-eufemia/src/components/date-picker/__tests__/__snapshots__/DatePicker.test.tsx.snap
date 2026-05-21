@@ -2879,6 +2879,12 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
 .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
   background-color: var(--token-color-background-neutral);
 }
+.dnb-date-picker__calendar[data-editing=start] table:focus .dnb-date-picker__day--start-date .dnb-button, .dnb-date-picker__calendar[data-editing=end] table:focus .dnb-date-picker__day--end-date .dnb-button {
+  --border-color: var(--token-color-stroke-action-focus);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
 .dnb-date-picker .rtl {
   direction: rtl;
 }

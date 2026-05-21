@@ -5906,4 +5906,239 @@ describe('DatePicker ARIA', () => {
       expect(button.textContent).toContain('Open')
     })
   })
+
+  describe('single-pane range keyboard navigation', () => {
+    it('should allow selecting both start and end date with keyboard in single-pane range mode', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <DatePicker
+          range
+          startDate="2024-10-01"
+          endDate="2024-10-15"
+          onChange={onChange}
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(
+        document.querySelectorAll('.dnb-date-picker__calendar').length
+      ).toBe(1)
+
+      const table = document.querySelector(
+        '.dnb-date-picker__calendar table'
+      )
+
+      // Focus the table and navigate start date with arrow keys
+      fireEvent.focus(table)
+      fireEvent.keyDown(table, { code: 'ArrowRight' })
+
+      // The start date should have moved one day forward
+      const startDateCell = document.querySelector(
+        '.dnb-date-picker__day--start-date'
+      )
+      expect(startDateCell).toBeInTheDocument()
+
+      // Confirm start date with Enter → should switch to editing end date
+      fireEvent.keyDown(table, { code: 'Enter' })
+
+      // The calendar should still be visible (not closed)
+      expect(
+        document.querySelector('.dnb-date-picker__calendar')
+      ).toBeInTheDocument()
+
+      // data-editing should now be 'end'
+      const calendar = document.querySelector('.dnb-date-picker__calendar')
+      expect(calendar.getAttribute('data-editing')).toBe('end')
+
+      // Navigate end date with arrow keys
+      fireEvent.keyDown(table, { code: 'ArrowRight' })
+
+      // Confirm end date with Enter → should stay open (submit button handles closing)
+      fireEvent.keyDown(table, { code: 'Enter' })
+
+      expect(
+        document.querySelector('.dnb-date-picker__calendar')
+      ).toBeInTheDocument()
+
+      // data-editing should reset to 'start'
+      expect(calendar.getAttribute('data-editing')).toBe('start')
+
+      expect(onChange).toHaveBeenCalled()
+    })
+
+    it('should auto-swap reversed range when confirming with keyboard', async () => {
+      render(
+        <DatePicker range startDate="2024-10-10" endDate="2024-10-20" />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const table = document.querySelector(
+        '.dnb-date-picker__calendar table'
+      )
+
+      // Focus and navigate: move start date forward past end date
+      fireEvent.focus(table)
+
+      // Navigate start date to after end date (move right 15 days)
+      for (let i = 0; i < 15; i++) {
+        fireEvent.keyDown(table, { code: 'ArrowRight' })
+      }
+
+      // Confirm start date → switch to editing end date
+      fireEvent.keyDown(table, { code: 'Enter' })
+
+      // Confirm end date (which is now before start date)
+      // → should auto-swap and stay open
+      fireEvent.keyDown(table, { code: 'Enter' })
+
+      // Picker should stay open
+      expect(
+        document.querySelector('.dnb-date-picker__calendar')
+      ).toBeInTheDocument()
+
+      // After auto-swap, start date should be before end date
+      const startDateButton = document.querySelector(
+        '.dnb-date-picker__day--start-date button'
+      )
+      const endDateButton = document.querySelector(
+        '.dnb-date-picker__day--end-date button'
+      )
+      expect(startDateButton).toBeInTheDocument()
+      expect(endDateButton).toBeInTheDocument()
+
+      const startDay = Number(startDateButton.textContent)
+      const endDay = Number(endDateButton.textContent)
+      expect(startDay).toBeLessThan(endDay)
+    })
+
+    it('should set data-editing attribute on calendar div', async () => {
+      render(
+        <DatePicker range startDate="2024-10-01" endDate="2024-10-15" />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const calendar = document.querySelector('.dnb-date-picker__calendar')
+
+      // Should start with 'start'
+      expect(calendar.getAttribute('data-editing')).toBe('start')
+
+      const table = document.querySelector(
+        '.dnb-date-picker__calendar table'
+      )
+      fireEvent.focus(table)
+
+      // Confirm start date → should switch to 'end'
+      fireEvent.keyDown(table, { code: 'Enter' })
+
+      expect(calendar.getAttribute('data-editing')).toBe('end')
+    })
+
+    it('should reset editing state to start when clicking a day', async () => {
+      render(
+        <DatePicker range startDate="2024-10-01" endDate="2024-10-15" />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const table = document.querySelector(
+        '.dnb-date-picker__calendar table'
+      )
+      fireEvent.focus(table)
+
+      // Switch to editing end
+      fireEvent.keyDown(table, { code: 'Enter' })
+
+      const calendar = document.querySelector('.dnb-date-picker__calendar')
+      expect(calendar.getAttribute('data-editing')).toBe('end')
+
+      // Click a day → should reset to 'start'
+      const selectableDay = document.querySelector(
+        'td.dnb-date-picker__day--selectable button'
+      ) as HTMLButtonElement
+      fireEvent.click(selectableDay)
+
+      expect(calendar.getAttribute('data-editing')).toBe('start')
+    })
+
+    it('should switch calendar month when end date is in a different month', async () => {
+      render(
+        <DatePicker range startDate="2024-10-01" endDate="2024-11-15" />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      // Calendar should initially show October
+      const header = document.querySelector(
+        '.dnb-date-picker__header__title'
+      )
+      expect(header.textContent).toContain('oktober')
+
+      const table = document.querySelector(
+        '.dnb-date-picker__calendar table'
+      )
+      fireEvent.focus(table)
+
+      // Confirm start date → switches to end date editing
+      // End date is in November, so calendar should jump to November
+      fireEvent.keyDown(table, { code: 'Enter' })
+
+      expect(header.textContent).toContain('november')
+    })
+
+    it('should switch calendar month when navigating end date across months', async () => {
+      render(
+        <DatePicker range startDate="2024-10-28" endDate="2024-10-31" />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const header = document.querySelector(
+        '.dnb-date-picker__header__title'
+      )
+      expect(header.textContent).toContain('oktober')
+
+      const table = document.querySelector(
+        '.dnb-date-picker__calendar table'
+      )
+      fireEvent.focus(table)
+
+      // Confirm start date → switch to editing end date
+      fireEvent.keyDown(table, { code: 'Enter' })
+
+      // Navigate end date forward past month boundary (Oct 31 + 1 = Nov 1)
+      fireEvent.keyDown(table, { code: 'ArrowRight' })
+
+      // Calendar should now show November
+      expect(header.textContent).toContain('november')
+    })
+
+    it('should not use single-pane behavior when sideBySide is true', async () => {
+      render(
+        <DatePicker
+          range
+          sideBySide
+          startDate="2024-10-01"
+          endDate="2024-10-15"
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      // Should show two calendars
+      expect(
+        document.querySelectorAll('.dnb-date-picker__calendar').length
+      ).toBe(2)
+
+      // Each calendar should have its fixed data-editing attribute
+      const calendars = document.querySelectorAll(
+        '.dnb-date-picker__calendar'
+      )
+      expect(calendars[0].getAttribute('data-editing')).toBe('start')
+      expect(calendars[1].getAttribute('data-editing')).toBe('end')
+    })
+  })
 })
