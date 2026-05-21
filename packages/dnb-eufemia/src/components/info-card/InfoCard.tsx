@@ -112,8 +112,12 @@ export type InfoCardProps = {
    */
   closeButtonAttributes?: ButtonProps
   /**
-   * Additional attributes for the accept button
+   * Props forwarded to the accept button.
    * Default: `null`
+   */
+  acceptButtonProps?: ButtonProps
+  /**
+   * @deprecated Use `acceptButtonProps` instead.
    */
   acceptButtonAttributes?: ButtonProps
 }
@@ -162,12 +166,16 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     acceptButtonText,
     closeButtonProps: closeButtonPropsProp,
     closeButtonAttributes: closeButtonAttributesProp,
-    acceptButtonAttributes,
+    acceptButtonProps: acceptButtonPropsProp,
+    acceptButtonAttributes: acceptButtonAttributesProp,
     ...props
   } = allProps
 
   const closeButtonAttributes =
     closeButtonPropsProp || closeButtonAttributesProp
+
+  const acceptButtonAttributes =
+    acceptButtonPropsProp || acceptButtonAttributesProp
 
   const closeButtonIsHidden = !onClose && !closeButtonText
   const acceptButtonIsHidden = !onAccept && !acceptButtonText
