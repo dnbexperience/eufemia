@@ -141,7 +141,7 @@
     --table-outline-width: 0.0625rem;
     --table-outline: var(--table-outline-width) solid
       var(--table-outline-color);
-    --table-outline-radius: var(--token-radius-md);
+    --table-outline-radius: var(--token-radius-xl);
 
     html[data-visual-test] & {
       --table-border-color: blue;

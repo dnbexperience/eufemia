@@ -8,9 +8,7 @@
   & > tbody > tr,
   & &__tr,
   & &__tr--even {
-    --table-td-background: var(
-      --token-color-component-table-background-neutral-alternative
-    );
+    --table-td-background: var(--token-color-background-neutral-subtle);
   }
 
   // Needs a double & & for specificity
