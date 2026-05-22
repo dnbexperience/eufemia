@@ -248,6 +248,9 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     return baseProps
   }, [rest, enhancedOptions, stripValue])
 
+  // Track previous value so we can detect transitions to null/undefined
+  const prevValueRef = useRef<TextMaskValue | undefined | null>(undefined)
+
   // Conform initial value on mount/options change
   useEffect(() => {
     if (!localRef.current || !enhancedOptions) {
@@ -259,6 +262,14 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     // Always use the value prop - never use the formatted DOM value which could be in wrong locale format
     const valueToTransform = value
     if (valueToTransform === undefined || valueToTransform === null) {
+      // Clear the element when value transitions from a real value to
+      // null/undefined, so the input does not keep showing a stale
+      // formatted value (e.g. when PushContainer clears its data).
+      // Skip on mount (prevValueRef is undefined) to preserve showMask.
+      if (prevValueRef.current != null && el.value !== '') {
+        maskitoUpdateElement(el, { value: '', selection: [0, 0] })
+      }
+      prevValueRef.current = valueToTransform
       return
     }
 
@@ -278,6 +289,8 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     if (el.value !== validated.value) {
       maskitoUpdateElement(el, validated)
     }
+
+    prevValueRef.current = valueToTransform
   }, [enhancedOptions, value, rawMask])
 
   // Compute initial defaultValue for immediate render (before Maskito attaches)

@@ -3185,4 +3185,47 @@ describe('PushContainer', () => {
       )
     })
   })
+
+  it('should clear Field.Currency value when opening PushContainer again after committing', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/accounts">
+          <Iterate.ViewContainer title="Account {itemNo}">
+            <Value.Currency itemPath="/amount" />
+          </Iterate.ViewContainer>
+        </Iterate.Array>
+
+        <Iterate.PushContainer
+          path="/accounts"
+          title="New account"
+          openButton={
+            <Iterate.PushContainer.OpenButton text="Add another account" />
+          }
+          showOpenButtonWhen={(list) => list.length > 0}
+        >
+          <Field.Currency itemPath="/amount" required />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    // Add the first item
+    await userEvent.type(input, '1000')
+    expect(input).toHaveValue('1 000 kr')
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
+    )
+
+    // Open the PushContainer again to add another item
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__open-button')
+    )
+
+    const newInput = document.querySelector('input')
+
+    // The currency field should be cleared
+    expect(newInput).toHaveValue('')
+  })
 })
