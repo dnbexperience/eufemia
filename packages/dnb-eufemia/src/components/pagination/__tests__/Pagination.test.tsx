@@ -10,7 +10,12 @@ import {
   loadScss,
   wait,
 } from '../../../core/test-utils/testSetup'
-import { createEvent, fireEvent, render } from '@testing-library/react'
+import {
+  createEvent,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react'
 import type { PaginationProps } from '../Pagination'
 import Pagination, { createPagination, Bar } from '../Pagination'
 import Anchor from '../../anchor/Anchor'
@@ -316,9 +321,9 @@ describe('Infinity scroller', () => {
 
     render(<MyComponent />)
 
-    await waitForComponent()
-
-    expect(onStartup).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onStartup).toHaveBeenCalledTimes(1)
+    })
     expect(onStartup).toHaveBeenCalledWith(
       expect.objectContaining({ pageNumber: 3 })
     )
