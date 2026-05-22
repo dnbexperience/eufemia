@@ -407,33 +407,10 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         dataObj?.selectedKey?.trim() || emptyValue)
       currentCountryRef.current = dataObj?.country
 
-      // If the phone number is more than 8 digits, and the country code is the default one (+47),
-      // we truncate the phone number to 8 digits.
-      // This is to ensure that the phone number does not exceed the maximum length set by the mask.
-      // TODO: This is a temporary solution, and should be removed once the mask is updated to handle this case.
-      if (
-        !numberMask &&
-        countryCodeRef.current?.includes(defaultCountryCode) &&
-        numberRef.current?.length > 8
-      ) {
-        const truncatedNumber = numberRef.current.substring(0, 8)
-        callOnChange({
-          countryCode,
-          phoneNumber: truncatedNumber,
-        })
-        onNumberChange?.(truncatedNumber)
-      } else {
-        callOnChange({ countryCode })
-      }
+      callOnChange({ countryCode })
       onCountryCodeChange?.(countryCode)
     },
-    [
-      emptyValue,
-      numberMask,
-      onCountryCodeChange,
-      callOnChange,
-      onNumberChange,
-    ]
+    [emptyValue, onCountryCodeChange, callOnChange]
   )
 
   const handleNumberChange = useCallback(
@@ -569,6 +546,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           // number can be up to 14 digits. We use 15 as a safe upper bound.
           numberMask ?? (isDefault ? defaultMask : Array(15).fill(/\d/))
         }
+        allowOverflow
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         onChange={handleNumberChange}
