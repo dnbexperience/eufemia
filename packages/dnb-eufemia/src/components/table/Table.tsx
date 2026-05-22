@@ -54,10 +54,10 @@ export type TableProps = {
   variant?: TableVariants
 
   /**
-   * Use `true` to show borders between table data cells.
+   * Use `true` to show borders between table data cells. Use `"horizontal"` to show only horizontal borders between rows.
    * Default: `false`
    */
-  border?: boolean
+  border?: boolean | 'horizontal' | 'inline'
 
   /**
    * Use `true` to show an outline border around the table.
@@ -162,6 +162,7 @@ const Table = (componentProps: TableAllProps) => {
       sticky && 'dnb-table--sticky',
       fixed && 'dnb-table--fixed',
       border && 'dnb-table--border',
+      typeof border === 'string' && `dnb-table--border-${border}`,
       border === false && 'dnb-table--no-border',
       outline && 'dnb-table--outline',
       mode === 'accordion' && 'dnb-table--accordion',

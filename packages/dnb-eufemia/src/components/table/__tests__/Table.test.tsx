@@ -137,6 +137,30 @@ describe('Table', () => {
     )
   })
 
+  it('should set the border-horizontal class', () => {
+    render(
+      <Table border="horizontal">
+        <BasicTable />
+      </Table>
+    )
+
+    const classList = Array.from(screen.queryByRole('table').classList)
+    expect(classList).toContain('dnb-table--border')
+    expect(classList).toContain('dnb-table--border-horizontal')
+  })
+
+  it('should set the border-inline class', () => {
+    render(
+      <Table border="inline">
+        <BasicTable />
+      </Table>
+    )
+
+    const classList = Array.from(screen.queryByRole('table').classList)
+    expect(classList).toContain('dnb-table--border')
+    expect(classList).toContain('dnb-table--border-inline')
+  })
+
   it('should set the no-border class when border is false', () => {
     render(
       <Table border={false}>
