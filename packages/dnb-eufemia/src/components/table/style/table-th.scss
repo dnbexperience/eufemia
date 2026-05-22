@@ -20,6 +20,13 @@
   & tbody tr:has(th:first-child + td:last-child) th[scope='row'] {
     --table-th-background-color: initial;
   }
+
+  // Give rowgroup with a colspan headers a darker background to stand out from data rows
+  & tbody th[scope='rowgroup'][colspan] {
+    --table-th-background-color: var(
+      --token-color-background-neutral-base
+    );
+  }
   & tbody tr th[scope='row'] + td:last-child {
     width: 100%;
   }

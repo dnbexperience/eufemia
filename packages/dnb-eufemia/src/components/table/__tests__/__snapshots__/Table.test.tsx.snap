@@ -431,6 +431,12 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   --table-th-background-color: initial;
 }
 
+.dnb-table tbody th[scope=rowgroup][colspan] {
+  --table-th-background-color: var(
+    --token-color-background-neutral-base
+  );
+}
+
 .dnb-table tbody tr th[scope=row] + td:last-child {
   width: 100%;
 }
