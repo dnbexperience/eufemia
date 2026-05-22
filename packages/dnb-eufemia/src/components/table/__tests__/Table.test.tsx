@@ -185,6 +185,30 @@ describe('Table', () => {
     )
   })
 
+  it('should set the no-striped class when striped is false', () => {
+    render(
+      <Table striped={false}>
+        <BasicTable />
+      </Table>
+    )
+
+    expect(Array.from(screen.queryByRole('table').classList)).toContain(
+      'dnb-table--no-striped'
+    )
+  })
+
+  it('should not set the no-striped class by default', () => {
+    render(
+      <Table>
+        <BasicTable />
+      </Table>
+    )
+
+    expect(
+      Array.from(screen.queryByRole('table').classList)
+    ).not.toContain('dnb-table--no-striped')
+  })
+
   it('should support spacing props', () => {
     render(
       <Table top="2rem">

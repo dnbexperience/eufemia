@@ -337,6 +337,40 @@ export const RowScopeOnly = () => (
   </ComponentBox>
 )
 
+export const NoStriped = () => (
+  <ComponentBox hideCode data-visual-test="table-no-striped">
+    <Table.ScrollView>
+      <Table striped={false}>
+        <caption className="dnb-sr-only">A Table Caption</caption>
+        <thead>
+          <Tr>
+            <Th>Column A</Th>
+            <Th>Column B</Th>
+            <Th>Column C</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Tr>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+          </Tr>
+          <Tr>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
+          </Tr>
+          <Tr>
+            <Td>Row 3</Td>
+            <Td>Row 3</Td>
+            <Td>Row 3</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>
+  </ComponentBox>
+)
+
 export const VariantFixed = () => (
   <ComponentBox hideCode data-visual-test="table-fixed">
     {() => {
@@ -2200,7 +2234,7 @@ export const ColumnHighlight = () => (
 export const MultipleTbody = () => (
   <ComponentBox data-visual-test="table-multiple-tbody">
     <Table.ScrollView>
-      <Table outline border="horizontal">
+      <Table outline border="horizontal" striped={false}>
         <caption className="dnb-sr-only">
           Market data with delay and opening hours
         </caption>

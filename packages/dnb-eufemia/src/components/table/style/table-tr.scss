@@ -17,4 +17,16 @@
   & &__tr--odd {
     --table-td-background: var(--token-color-background-neutral);
   }
+
+  // Disable striped rows
+  &--no-striped {
+    & > tbody > tr,
+    & .dnb-table__tr,
+    & .dnb-table__tr--even,
+    & > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n),
+    & .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n),
+    & .dnb-table__tr--odd {
+      --table-td-background: var(--token-color-background-neutral);
+    }
+  }
 }

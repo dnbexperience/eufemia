@@ -66,6 +66,12 @@ export type TableProps = {
   outline?: boolean
 
   /**
+   * Use `false` to disable alternating row background colors (striped rows).
+   * Default: `true`
+   */
+  striped?: boolean
+
+  /**
    * Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.
    */
   mode?: 'accordion' | 'navigation'
@@ -125,6 +131,7 @@ const Table = (componentProps: TableAllProps) => {
     fixed,
     border,
     outline,
+    striped,
     mode,
     accordionChevronPlacement,
     collapseAllHandleRef,
@@ -165,6 +172,7 @@ const Table = (componentProps: TableAllProps) => {
       typeof border === 'string' && `dnb-table--border-${border}`,
       border === false && 'dnb-table--no-border',
       outline && 'dnb-table--outline',
+      striped === false && 'dnb-table--no-striped',
       mode === 'accordion' && 'dnb-table--accordion',
       mode === 'navigation' && 'dnb-table--navigation',
       skeletonClasses,
