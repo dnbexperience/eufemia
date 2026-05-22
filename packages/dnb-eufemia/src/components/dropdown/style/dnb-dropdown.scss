@@ -87,6 +87,9 @@
         --button-color-border--hover: var(
           --token-color-component-button-stroke-action-destructive
         );
+        --button-color-border--active: var(
+          --token-color-component-button-stroke-action-destructive-pressed
+        );
 
         // Icon
         --button-color-icon--default: var(--token-color-icon-error);

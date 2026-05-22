@@ -1584,6 +1584,9 @@ html[data-visual-test] .dnb-input__input {
   --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive
   );
+  --button-color-border--active: var(
+    --token-color-component-button-stroke-action-destructive-pressed
+  );
   --button-color-icon--default: var(--token-color-icon-error);
   --button-color-icon--hover: var(--token-color-icon-error);
   --button-color-icon--active: var(--token-color-icon-error);

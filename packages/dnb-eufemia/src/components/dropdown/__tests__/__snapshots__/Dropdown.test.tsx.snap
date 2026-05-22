@@ -1110,6 +1110,9 @@ legend.dnb-form-label {
   --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive
   );
+  --button-color-border--active: var(
+    --token-color-component-button-stroke-action-destructive-pressed
+  );
   --button-color-icon--default: var(--token-color-icon-error);
   --button-color-icon--hover: var(--token-color-icon-error);
   --button-color-icon--active: var(--token-color-icon-error);
@@ -1430,6 +1433,9 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
   --button-color-border--default: var(--token-color-stroke-error);
   --button-color-border--hover: var(
     --token-color-component-button-stroke-action-destructive
+  );
+  --button-color-border--active: var(
+    --token-color-component-button-stroke-action-destructive-pressed
   );
   --button-color-icon--default: var(--token-color-icon-error);
   --button-color-icon--hover: var(--token-color-icon-error);
