@@ -509,8 +509,21 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 }
 
 .dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__td::after,
-.dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__th::after {
+.dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__th::after, .dnb-table--no-striped thead + tbody .dnb-table__tr:first-child .dnb-table__td::after,
+.dnb-table--no-striped thead + tbody .dnb-table__tr:first-child .dnb-table__th::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  right: -0.0625rem;
+  z-index: 1;
+  pointer-events: none;
   border-top: var(--table-border-top, var(--table-border));
+}
+
+.dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__td:last-child::after,
+.dnb-table--border thead + tbody .dnb-table__tr:first-child .dnb-table__th:last-child::after, .dnb-table--no-striped thead + tbody .dnb-table__tr:first-child .dnb-table__td:last-child::after,
+.dnb-table--no-striped thead + tbody .dnb-table__tr:first-child .dnb-table__th:last-child::after {
+  right: 0;
 }
 
 .dnb-table--border-horizontal {
@@ -779,6 +792,10 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 
 .dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr--odd {
+  --table-td-background: var(--token-color-background-neutral);
+}
+
+.dnb-table--no-striped > tbody > tr, .dnb-table--no-striped .dnb-table__tr, .dnb-table--no-striped .dnb-table__tr--even, .dnb-table--no-striped > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table--no-striped .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table--no-striped .dnb-table__tr--odd {
   --table-td-background: var(--token-color-background-neutral);
 }
 

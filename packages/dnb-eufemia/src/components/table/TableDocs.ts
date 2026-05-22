@@ -25,6 +25,12 @@ export const TableProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  striped: {
+    doc: 'Use `false` to disable alternating row background colors (striped rows).',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
   sticky: {
     doc: "Use `true` to enable a sticky Table header. Or use `'css-position'` to enable the CSS based scroll behavior.",
     type: ['boolean', '"css-position"'],

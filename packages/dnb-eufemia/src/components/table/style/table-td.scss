@@ -40,13 +40,16 @@
         }
       }
     }
+  }
 
-    // Header underline
+  // Header underline
+  &--border,
+  &--no-striped {
     thead + tbody {
       .dnb-table__tr:first-child {
         .dnb-table__td,
         .dnb-table__th {
-          &::after {
+          @include table-mixins.tableBorder() {
             border-top: var(--table-border-top, var(--table-border));
           }
         }

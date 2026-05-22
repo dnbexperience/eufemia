@@ -40,6 +40,13 @@ describe.each(['ui', 'sbanken'])(`Table for %s`, (themeName) => {
     })
   })
 
+  it('have to match table with striped disabled', async () => {
+    await makeScreenshot({
+      ...defaults,
+      selector: '[data-visual-test="table-no-striped"] .dnb-table',
+    })
+  })
+
   it('have to match a fixed table layout', async () => {
     await makeScreenshot({
       ...defaults,
