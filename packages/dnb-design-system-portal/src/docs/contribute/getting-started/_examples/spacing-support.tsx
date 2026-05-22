@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps } from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
 import { clsx } from 'clsx'
 import {
@@ -14,14 +15,14 @@ export type ComponentProps = {
 }
 export type ComponentAllProps = ComponentProps &
   SpacingProps &
-  React.HTMLProps<HTMLElement>
+  HTMLProps<HTMLElement>
 
 const defaultProps = {
   myParam: 'value',
 }
 
 function MyComponent(props: ComponentAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const { myParam, className, ...rest } = extendPropsWithContext(
     props,

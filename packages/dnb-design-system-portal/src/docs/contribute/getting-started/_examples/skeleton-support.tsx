@@ -1,4 +1,5 @@
-import React from 'react'
+import { useContext } from 'react'
+import type { HTMLProps } from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
 import { extendPropsWithContext } from '@dnb/eufemia/src/shared/component-helper'
 import {
@@ -15,13 +16,12 @@ export type ComponentProps = {
    */
   skeleton?: SkeletonShow
 }
-export type ComponentAllProps = ComponentProps &
-  React.HTMLProps<HTMLElement>
+export type ComponentAllProps = ComponentProps & HTMLProps<HTMLElement>
 
 const defaultProps = {}
 
 function MyComponent(props: ComponentAllProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const { skeleton, className, ...rest } = extendPropsWithContext(
     props,

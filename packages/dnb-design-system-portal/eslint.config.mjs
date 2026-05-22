@@ -40,4 +40,10 @@ export default [
       ],
     },
   },
+  {
+    files: ['src/docs/**/_examples/**'],
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+    },
+  },
 ]

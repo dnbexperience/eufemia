@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 const myFormId = 'unique-id' // or a function, object or React Context reference
@@ -19,7 +19,7 @@ function ComponentA() {
 function ComponentB() {
   const { set } = Form.useData(myFormId)
 
-  React.useEffect(() => {
+  useEffect(() => {
     set({ foo: 'bar' })
   }, [])
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
 import { extendPropsWithContext } from '@dnb/eufemia/src/shared/component-helper'
 import { pickFormElementProps } from '@dnb/eufemia/src/shared/helpers/filterValidProps'
@@ -16,7 +16,7 @@ const defaultProps = {
 }
 
 function FormComponent(props: FormComponentProps) {
-  const context = React.useContext(Context)
+  const context = useContext(Context)
 
   const { myParam, skeleton, ...rest } = extendPropsWithContext(
     props,
