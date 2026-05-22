@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import { warn } from '../../shared/component-helper'
 
 export type UseTableHighlightOptions = {
   /**
@@ -23,6 +24,22 @@ function applyHighlight(table: HTMLTableElement) {
 
   for (const th of Array.from(thElements)) {
     highlightedColumns.add((th as HTMLTableCellElement).cellIndex)
+  }
+
+  // Warn about highlighted cells missing an aria-label
+  const allHighlighted = table.querySelectorAll(
+    '.dnb-table__th--highlight, .dnb-table__td--highlight'
+  )
+  for (const cell of Array.from(allHighlighted)) {
+    if (
+      !cell.getAttribute('aria-label') &&
+      !cell.getAttribute('aria-labelledby')
+    ) {
+      const tag = cell.tagName === 'TH' ? 'Th' : 'Td'
+      warn(
+        `Table.${tag}: a highlighted cell should have an \`aria-label\` or \`aria-labelledby\` attribute to describe the highlight for screen readers.`
+      )
+    }
   }
 
   const applied: { cell: HTMLTableCellElement; classes: string[] }[] = []
