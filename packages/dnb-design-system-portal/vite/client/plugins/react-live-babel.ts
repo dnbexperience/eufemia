@@ -231,7 +231,12 @@ function resolveImports(
   // Group by source path
   const bySource = new Map<
     string,
-    Array<{ imported: string; local: string; isDefault: boolean }>
+    Array<{
+      imported: string
+      local: string
+      isDefault: boolean
+      isNamespace: boolean
+    }>
   >()
 
   for (const name of names) {

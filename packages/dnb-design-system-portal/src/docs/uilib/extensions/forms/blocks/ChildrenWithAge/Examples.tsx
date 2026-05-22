@@ -29,9 +29,9 @@ export const ChildrenWithAge = (props) => {
   )
 }
 
-export const ChildrenWithAgeWizard = (props) => {
+export const ChildrenWithAgeWizard = () => {
   return (
-    <ComponentBox scope={{ Blocks, props }}>
+    <ComponentBox scope={{ Blocks }}>
       {() => {
         const MyForm = () => {
           const myTranslations = {
@@ -74,7 +74,6 @@ export const ChildrenWithAgeWizard = (props) => {
                       'joint-responsibility',
                       'daycare',
                     ]}
-                    {...props}
                   />
                   <Wizard.Buttons />
                 </Wizard.Step>
@@ -83,7 +82,6 @@ export const ChildrenWithAgeWizard = (props) => {
                   <Blocks.ChildrenWithAge
                     mode="summary"
                     toWizardStep={0}
-                    {...props}
                   />
 
                   <Form.ButtonRow>
