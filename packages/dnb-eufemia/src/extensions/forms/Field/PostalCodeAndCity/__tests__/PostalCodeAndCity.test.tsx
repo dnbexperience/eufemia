@@ -328,16 +328,10 @@ describe('Field.PostalCodeAndCity', () => {
         document.querySelectorAll('.dnb-forms-field-postal-code-and-city')
       )
 
-      await userEvent.type(
-        norway.querySelector('input'),
-        '{Backspace>4}987654'
-      )
+      await userEvent.type(norway.querySelector('input'), '987654')
       expect(norway.querySelector('input').value).toBe('987654')
 
-      await userEvent.type(
-        germany.querySelector('input'),
-        '{Backspace>4}987654'
-      )
+      await userEvent.type(germany.querySelector('input'), '987654')
       expect(germany.querySelector('input').value).toBe('987654')
     })
 
