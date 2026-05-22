@@ -319,27 +319,11 @@ createRoot(document.getElementById('root')!).render(
 
   // Mirrors eufemia-starter/vite.config.ts
   // Includes the JSX loader plugin needed because @dnb/eufemia ships .js files with JSX
-  const viteConfig = `import { defineConfig, transformWithOxc } from 'vite'
+  const viteConfig = `import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    {
-      name: 'load+transform-js-files-as-jsx',
-      enforce: 'pre',
-      async transform(code, id) {
-        const [filepath] = id.split('?')
-        if (!/\\/src\\/.*\\.js$/.test(filepath)) {
-          return null
-        }
-        return transformWithOxc(code, filepath, {
-          lang: 'jsx',
-          jsx: { runtime: 'automatic' },
-        })
-      },
-    },
-  ],
+  plugins: [react()],
   optimizeDeps: {
     esbuildOptions: {
       loader: { '.js': 'jsx' },
