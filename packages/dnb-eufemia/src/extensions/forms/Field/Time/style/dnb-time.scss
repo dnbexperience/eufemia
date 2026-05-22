@@ -1,0 +1,25 @@
+.dnb-forms-field-time {
+  width: fit-content;
+
+  .dnb-forms-field-block__contents {
+    width: fit-content;
+  }
+
+  .dnb-segmented-field__fieldset {
+    width: fit-content;
+  }
+
+  .dnb-segmented-field__group
+    > .dnb-segmented-field__delimiter
+    + .dnb-segmented-field__section {
+    padding: 0;
+  }
+
+  .dnb-segmented-field__group > .dnb-segmented-field__section:first-child {
+    padding: 0 0 0 0.5rem;
+  }
+
+  .dnb-segmented-field__group > .dnb-segmented-field__section:last-child {
+    padding: 0 0.5rem 0 0;
+  }
+}

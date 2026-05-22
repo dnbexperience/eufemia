@@ -1,0 +1,22 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
+import { TimeProperties } from '@dnb/eufemia/src/extensions/forms/Value/Time/TimeDocs'
+
+## Properties
+
+### Value-specific properties
+
+<PropertiesTable props={TimeProperties} />
+
+### General properties
+
+<PropertiesTable props={ValueProperties} />
+
+## Translations
+
+<TranslationsTable localeKey={['Time.label']} />
