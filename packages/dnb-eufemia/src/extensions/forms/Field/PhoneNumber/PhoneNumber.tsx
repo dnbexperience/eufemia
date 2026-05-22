@@ -69,7 +69,6 @@ export type FieldPhoneNumberProps = Omit<
 // Important for the default value to be defined here, and not after the useFieldProps call, to avoid the UI jumping
 // back to +47 once the user empty the field so handleChange send out undefined.
 const defaultCountryCode = '+47'
-const defaultPlaceholder = '00 00 00 00'
 const defaultMask = [
   /\d/,
   /\d/,
@@ -563,9 +562,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
             : (numberLabel ?? defaultLabel)
         }
         labelSrOnly={numberLabel === false ? true : undefined}
-        placeholder={
-          placeholder ?? (isDefault ? defaultPlaceholder : undefined)
-        }
+        placeholder={placeholder}
         mask={
           // E.164 allows up to 15 digits total (country code + subscriber number).
           // The country code (1–3 digits) is in a separate field, so the subscriber

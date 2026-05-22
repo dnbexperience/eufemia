@@ -364,14 +364,8 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     expect(numberElement.value).toBe('999999991234567')
   })
 
-  it('should only have a placeholder when +47 is given', async () => {
-    const { rerender } = render(<Field.PhoneNumber />)
-
-    expect(
-      document.querySelector('.dnb-input__placeholder').textContent
-    ).toBe('00 00 00 00')
-
-    rerender(<Field.PhoneNumber value="+41" />)
+  it('should not have a default placeholder', () => {
+    render(<Field.PhoneNumber />)
 
     expect(
       document.querySelector('.dnb-input__placeholder')
