@@ -425,7 +425,11 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const translation = useTranslation().DatePicker
 
   const focusCalendarTable = useCallback(
-    () => calendarContainerRef.current?.querySelector('table'),
+    () =>
+      calendarContainerRef.current?.querySelector<HTMLElement>(
+        'td[aria-selected="true"] button'
+      ) ||
+      calendarContainerRef.current?.querySelector<HTMLElement>('table'),
     []
   )
 
