@@ -324,7 +324,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         const counts = Object.keys(itemSpotsRef.current)
         closestToBottom = findClosest(
           counts,
-          _refUl.current.scrollTop + _refUl.current.offsetHeight - 1
+          _refUl.current.scrollTop + _refUl.current.offsetHeight + 3
         )
         closestToTop = findClosest(counts, _refUl.current.scrollTop)
         if (
@@ -780,7 +780,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             const liElement =
               element || getActiveElement() || getSelectedElement()
             if (liElement) {
-              const top = liElement.offsetTop
+              const top = liElement.offsetTop + 8
               if (ulElement.scrollTo) {
                 if (
                   scrollTo === false ||
