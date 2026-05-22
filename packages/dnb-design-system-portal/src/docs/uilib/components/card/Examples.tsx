@@ -5,6 +5,7 @@ import {
   Flex,
   Grid,
   H2,
+  Icon,
   Lead,
   P,
   Section,
@@ -13,6 +14,10 @@ import {
   Th,
   Tr,
 } from '@dnb/eufemia/src'
+import {
+  heart_medium as HeartIcon,
+  lightbulb_medium as LightbulbIcon,
+} from '@dnb/eufemia/src/icons'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -369,6 +374,51 @@ export const CustomBackgroundColorAndOutline = () => {
           </Card>
         </Card>
       </Flex.Vertical>
+    </ComponentBox>
+  )
+}
+
+export const InteractiveCards = () => {
+  return (
+    <ComponentBox
+      data-visual-test="layout-card-interactive"
+      scope={{ HeartIcon, LightbulbIcon }}
+    >
+      <Card.List style={{ maxWidth: '640px', margin: '0 auto' }}>
+        <Card.ListItem center="when-small">
+          <Card.Action onClick={() => console.log('Card clicked')} stack>
+            <Icon icon={HeartIcon} size="x-large" />
+            <Lead>Clickable card</Lead>
+            <P top="x-small">
+              Click this card. It has hover, focus, and keyboard support.
+            </P>
+            <Button
+              variant="tertiary"
+              icon="chevron_right"
+              text="Read more"
+              tabIndex={-1}
+              element="span"
+            />
+          </Card.Action>
+        </Card.ListItem>
+
+        <Card.ListItem center="when-small">
+          <Card.Action href="/" stack>
+            <Icon icon={LightbulbIcon} size="x-large" />
+            <Lead>Link card</Lead>
+            <P top="x-small">
+              This card navigates with an anchor element.
+            </P>
+            <Button
+              variant="tertiary"
+              icon="chevron_right"
+              text="Read more"
+              tabIndex={-1}
+              element="span"
+            />
+          </Card.Action>
+        </Card.ListItem>
+      </Card.List>
     </ComponentBox>
   )
 }

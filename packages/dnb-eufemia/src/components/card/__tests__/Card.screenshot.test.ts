@@ -89,6 +89,12 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
           '[data-visual-test="layout-card-background-color-outline"]',
       })
     })
+
+    it('have to match interactive', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="layout-card-interactive"]',
+      })
+    })
   }
 )
 
