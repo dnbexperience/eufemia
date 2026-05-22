@@ -2196,3 +2196,72 @@ export const ColumnHighlight = () => (
     }}
   </ComponentBox>
 )
+
+export const MultipleTbody = () => (
+  <ComponentBox data-visual-test="table-multiple-tbody">
+    <Table.ScrollView>
+      <Table>
+        <caption className="dnb-sr-only">
+          Market data with delay and opening hours
+        </caption>
+
+        <thead>
+          <Tr>
+            <Th scope="col">Marked</Th>
+            <Th scope="col">Forsinkelse (min)</Th>
+            <Th scope="col">Åpningstid</Th>
+          </Tr>
+        </thead>
+
+        <tbody>
+          <Tr>
+            <Th scope="rowgroup" colSpan={3}>
+              Norge
+            </Th>
+          </Tr>
+
+          <Tr variant="even">
+            <Td>Oslo Børs</Td>
+            <Td>
+              <Badge content="Sanntid" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>NOTC (NFMF)</Td>
+            <Td>
+              <Badge content="15 minutter" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+        </tbody>
+
+        <tbody>
+          <Tr>
+            <Th scope="rowgroup" colSpan={3}>
+              Norden
+            </Th>
+          </Tr>
+
+          <Tr variant="even">
+            <Td>København</Td>
+            <Td>
+              <Badge content="15 minutter" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>Helsinki</Td>
+            <Td>15 / Sanntid**</Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>Stockholm</Td>
+            <Td>15 / Sanntid**</Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>
+  </ComponentBox>
+)

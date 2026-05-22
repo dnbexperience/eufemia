@@ -75,6 +75,13 @@ describe.each(['ui', 'sbanken'])(`Table for %s`, (themeName) => {
     })
   })
 
+  it('have to match table with multiple tbody sections', async () => {
+    await makeScreenshot({
+      ...defaults,
+      selector: '[data-visual-test="table-multiple-tbody"]',
+    })
+  })
+
   it('have to match header with wrapped text', async () => {
     const selector = '[data-visual-test="table-header"] .dnb-table'
     await makeScreenshot({
