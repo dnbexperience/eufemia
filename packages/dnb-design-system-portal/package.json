@@ -78,6 +78,7 @@
     "date-fns": "4.1.0",
     "eslint": "9.39.2",
     "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-mdx": "3.7.0",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.0.1",
     "eslint-plugin-workspaces": "0.11.1",
