@@ -513,7 +513,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   border-top: var(--table-border-top, var(--table-border));
 }
 
-.dnb-table--border-horizontal, .dnb-table--border-inline {
+.dnb-table--border-horizontal {
   --table-border-left: none;
   --table-border-right: none;
 }

@@ -2200,7 +2200,7 @@ export const ColumnHighlight = () => (
 export const MultipleTbody = () => (
   <ComponentBox data-visual-test="table-multiple-tbody">
     <Table.ScrollView>
-      <Table outline border="inline">
+      <Table outline border="horizontal">
         <caption className="dnb-sr-only">
           Market data with delay and opening hours
         </caption>

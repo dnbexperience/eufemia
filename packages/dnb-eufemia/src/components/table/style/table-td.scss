@@ -55,8 +55,7 @@
   }
 
   // Horizontal-only border: remove vertical (left/right) borders
-  &--border-horizontal,
-  &--border-inline {
+  &--border-horizontal {
     --table-border-left: none;
     --table-border-right: none;
   }

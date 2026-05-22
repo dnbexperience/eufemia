@@ -15,7 +15,7 @@ export const TableProperties: PropertiesTableProps = {
   },
   border: {
     doc: 'Use `true` to show borders between table data cells. Use `"horizontal"` to show only horizontal borders between rows.',
-    type: ['boolean', '"horizontal"', '"inline"'],
+    type: ['boolean', '"horizontal"'],
     defaultValue: 'false',
     status: 'optional',
   },

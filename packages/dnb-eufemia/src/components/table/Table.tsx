@@ -57,7 +57,7 @@ export type TableProps = {
    * Use `true` to show borders between table data cells. Use `"horizontal"` to show only horizontal borders between rows.
    * Default: `false`
    */
-  border?: boolean | 'horizontal' | 'inline'
+  border?: boolean | 'horizontal'
 
   /**
    * Use `true` to show an outline border around the table.
