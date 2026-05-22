@@ -9,7 +9,13 @@ const splitVitestArgs = (args) => {
 
   for (const arg of args) {
     if (arg.startsWith('-')) {
-      vitestArgs.push(arg)
+      // Normalize bare --update/-u to --update=true so the flag
+      // does not consume the next positional file argument.
+      if (arg === '--update' || arg === '-u') {
+        vitestArgs.push('--update=true')
+      } else {
+        vitestArgs.push(arg)
+      }
     } else {
       filters.push(arg)
     }

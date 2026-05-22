@@ -39,6 +39,17 @@ assert.deepStrictEqual(splitVitestArgs(['--update=true', 'button']), {
   vitestArgs: ['--update=true'],
 })
 
+// bare --update and -u are normalized to --update=true
+assert.deepStrictEqual(splitVitestArgs(['--update', 'button']), {
+  filters: ['button'],
+  vitestArgs: ['--update=true'],
+})
+
+assert.deepStrictEqual(splitVitestArgs(['-u', 'button']), {
+  filters: ['button'],
+  vitestArgs: ['--update=true'],
+})
+
 assert.deepStrictEqual(
   prepareVitestRun(
     ['--update=true', 'button', 'missing'],
