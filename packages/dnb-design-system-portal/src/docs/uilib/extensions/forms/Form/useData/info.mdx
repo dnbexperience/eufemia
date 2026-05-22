@@ -2,6 +2,14 @@
 showTabs: true
 ---
 
+import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
+import useDataTypedExample from './_examples/use-data-typed.tsx?raw'
+import useDataGetValueExample from './_examples/use-data-get-value.tsx?raw'
+import useDataUpdateExample from './_examples/use-data-update.tsx?raw'
+import useDataSetExample from './_examples/use-data-set.tsx?raw'
+import useDataFilterExample from './_examples/use-data-filter.tsx?raw'
+import useDataInitialExample from './_examples/use-data-initial.tsx?raw'
+
 ## Import
 
 ```tsx
@@ -62,14 +70,7 @@ You can define the TypeScript type structure for your form data. This will help 
 
 **NB:** Use `type` instead of `interface` for the type definition.
 
-```tsx
-type MyData = { firstName: string }
-
-const MyComponent = () => {
-  const { data } = Form.useData<MyData>()
-  return data.firstName
-}
-```
+<CodeBlock language="tsx">{useDataTypedExample}</CodeBlock>
 
 ### Without an `id` property
 
@@ -118,15 +119,7 @@ This is beneficial when you need to utilize the form data in other places within
 
 ### Select a single value
 
-```jsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-
-function MyComponent() {
-  const { getValue } = Form.useData()
-
-  const value = getValue('/foo')
-}
-```
+<CodeBlock language="jsx">{useDataGetValueExample}</CodeBlock>
 
 ## Update data
 
@@ -134,44 +127,13 @@ If you need to update the data, you can use the `update` method.
 
 It takes a path ([JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer)) and a callback function. The callback function receives the existing value as the first argument, and the second argument is the path itself. The callback function must return the new value.
 
-```jsx
-import { Form } from '@dnb/eufemia/extensions/forms'
-
-function Component() {
-  const { update } = Form.useData()
-
-  useEffect(() => {
-    update('/foo', 'new value')
-
-    // - or with a callback function to get the existing value
-    update('/foo', (existingValue) => existingValue + 'new value')
-  }, [])
-}
-```
+<CodeBlock language="jsx">{useDataUpdateExample}</CodeBlock>
 
 ## Extend the whole data set
 
 With the `set` method, you can extend the data set. Existing data paths will be overwritten.
 
-```jsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-
-const myFormId = 'unique-id' // or a function, object or React Context reference
-
-function MyForm() {
-  const { data, set } = Form.useData(myFormId)
-
-  useEffect(() => {
-    set({ foo: 'bar' })
-  }, [])
-
-  return (
-    <Form.Handler id={myFormId}>
-      <Field.String path="/foo" />
-    </Form.Handler>
-  )
-}
-```
+<CodeBlock language="jsx">{useDataSetExample}</CodeBlock>
 
 ## Visible data
 
@@ -228,26 +190,7 @@ It returns the filtered form data.
 
 **Tip:** Depending on your use case – and instead of `disabled` – you may rather use a `data-*` attribute on your field (e.g. `data-exclude-field`) to filter the field out of the data set.
 
-```tsx
-const filterDataHandler = ({ path, value, data, props, error }) => {
-  if (props['data-exclude-field']) {
-    return false
-  }
-}
-
-const myFormId = 'unique-id' // or a function, object or React Context reference
-
-const MyForm = () => {
-  const { filterData } = Form.useData(myFormId)
-  const filteredData = filterData(filterDataHandler)
-
-  return (
-    <Form.Handler id={myFormId}>
-      <Field.String path="/foo" data-exclude-field />
-    </Form.Handler>
-  )
-}
-```
+<CodeBlock language="tsx">{useDataFilterExample}</CodeBlock>
 
 ```tsx
 const filterDataHandler = ({ path, value, data, props, error }) => {
@@ -259,32 +202,7 @@ const filterDataHandler = ({ path, value, data, props, error }) => {
 
 You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook or [Form.setData](/uilib/extensions/forms/Form/setData/) method – or even in each Field, with the value property.
 
-```jsx
-import { Form, Field } from '@dnb/eufemia/extensions/forms'
-
-const myFormId = 'unique-id' // or a function, object or React Context reference
-const initialData = { foo: 'bar' }
-
-function MyForm() {
-  return (
-    <Form.Handler id={myFormId} data={initialData}>
-      <Field.String path="/foo" />
-    </Form.Handler>
-  )
-}
-
-function ComponentA() {
-  Form.useData(myFormId, { foo: 'bar' })
-}
-
-function ComponentB() {
-  const { set } = Form.useData(myFormId)
-
-  useEffect(() => {
-    set({ foo: 'bar' })
-  }, [])
-}
-```
+<CodeBlock language="jsx">{useDataInitialExample}</CodeBlock>
 
 ## Validation
 

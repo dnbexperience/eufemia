@@ -12,6 +12,8 @@ redirect_from:
 
 import BreakpointRanges from './assets/breakpoint-ranges.svg'
 import { MediaQueryLiveExample, MediaQueryUseMedia } from './Examples'
+import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
+import useMediaQueryExample from './_examples/use-media-query.tsx?raw'
 
 # Media Queries and Breakpoints
 
@@ -191,20 +193,7 @@ You can log the media query by providing `useMedia({ log: true })`.
 
 This React Hook is a more extended version where you can define all sorts of media queries.
 
-```js
-import { useMediaQuery } from '@dnb/eufemia/shared'
-// or
-import useMediaQuery from '@dnb/eufemia/shared/useMediaQuery'
-
-function Component() {
-  const match = useMediaQuery({
-    matchOnSSR: true,
-    when: { min: 'medium' },
-  })
-
-  return match ? 'true' : 'false'
-}
-```
+<CodeBlock language="tsx">{useMediaQueryExample}</CodeBlock>
 
 You can disable the usage of `window.matchMedia` by providing `useMedia({ disabled: true })`.
 

@@ -2,6 +2,9 @@
 draft: true
 ---
 
+import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
+import validateRequiredExample from './_examples/validate-required.tsx?raw'
+
 ## Import
 
 ```tsx
@@ -156,23 +159,7 @@ It returns all of the given component properties, in addition to these:
 
 ### Custom validateRequired
 
-```ts
-const validateRequired = (value, { emptyValue, required, isChanged }) => {
-  if (required && value === emptyValue) {
-    return new FormError('Field.errorRequired')
-  }
-}
-
-const { error, hasError } = useFieldProps({
-  value: undefined,
-  required: true,
-  validateInitially: true,
-  validateRequired,
-  errorMessages: {
-    'Field.errorRequired': 'Show this when "required" fails.',
-  },
-})
-```
+<CodeBlock language="ts">{validateRequiredExample}</CodeBlock>
 
 #### Validation order
 

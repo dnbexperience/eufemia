@@ -5,6 +5,9 @@ order: 8
 
 import { Ul, Li, Code, Anchor } from '@dnb/eufemia/src'
 import { languageDisplayNames } from 'dnb-design-system-portal/src/core/ChangeLocale'
+import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
+import renderWithFormattingExample from './_examples/render-with-formatting.tsx?raw'
+import renderWithFormattingAdvancedExample from './_examples/render-with-formatting-advanced.tsx?raw'
 
 # Localization
 
@@ -289,32 +292,11 @@ function MyApp() {
 
 You can also use `renderWithFormatting` directly, without the translation context. This is handy for static copy or small strings you build at runtime.
 
-```tsx
-import { renderWithFormatting } from '@dnb/eufemia/shared'
-
-const text =
-  'Use **bold**, _italic_, `AB12-XYZ9` and a link https://www.dnb.no{br}Next line'
-
-export function InlineFormattingExample() {
-  return <>{renderWithFormatting(text)}</>
-}
-```
+<CodeBlock language="tsx">{renderWithFormattingExample}</CodeBlock>
 
 Array input and dynamic strings are also supported:
 
-```tsx
-import { renderWithFormatting } from '@dnb/eufemia/shared'
-
-function ArrayInputExample() {
-  const parts = ['Hello', '{br}', 'world! See https://example.com']
-  return <>{renderWithFormatting(parts)}</>
-}
-
-function DynamicExample({ refId }: { refId: string }) {
-  const text = `Keep your reference \`${'${refId}'}\` for support.`
-  return <>{renderWithFormatting(text)}</>
-}
-```
+<CodeBlock language="tsx">{renderWithFormattingAdvancedExample}</CodeBlock>
 
 ### Rich text (inline elements)
 
