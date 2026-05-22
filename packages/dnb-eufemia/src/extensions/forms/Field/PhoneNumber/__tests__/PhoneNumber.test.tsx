@@ -430,8 +430,7 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     )
   })
 
-  // TODO: This is a temporary solution, and should be removed once the mask is updated to handle this case.
-  it('should truncate the phone number of more than 8 digits when changing country code to Norway', async () => {
+  it('should keep the full phone number when changing country code to Norway', async () => {
     const onNumberChange = vi.fn()
 
     render(
@@ -463,11 +462,8 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     })
 
     expect(item.textContent).toBe('Norge+47')
-
-    await waitFor(() => {
-      expect(onNumberChange).toHaveBeenCalledTimes(1)
-      expect(onNumberChange).toHaveBeenLastCalledWith('98765432')
-    })
+    expect(phoneElement.value).toEqual('98 76 54 321231')
+    expect(onNumberChange).not.toHaveBeenCalled()
   })
 
   it('should have selected correct item', async () => {
