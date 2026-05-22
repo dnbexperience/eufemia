@@ -572,6 +572,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           // number can be up to 14 digits. We use 15 as a safe upper bound.
           numberMask ?? (isDefault ? defaultMask : Array(15).fill(/\d/))
         }
+        allowOverflow
         onFocus={handleOnFocus}
         onBlur={handleOnBlur}
         onChange={handleNumberChange}

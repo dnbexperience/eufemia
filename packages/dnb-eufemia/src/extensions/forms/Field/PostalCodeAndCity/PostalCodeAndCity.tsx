@@ -123,6 +123,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         )}
         label={postalCodeLabel ?? translations.PostalCode.label}
         mask={postalCodeMask}
+        allowOverflow
         pattern={postalCodePattern}
         placeholder={postalCodePlaceHolder}
         errorMessages={useMemo(
