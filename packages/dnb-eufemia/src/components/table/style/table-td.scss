@@ -54,6 +54,12 @@
     }
   }
 
+  // Horizontal-only border: remove vertical (left/right) borders
+  &--border-horizontal {
+    --table-border-left: none;
+    --table-border-right: none;
+  }
+
   // Header underline when header row has even variant
   thead:has(.dnb-table__tr--even) + tbody {
     .dnb-table__tr:first-child {

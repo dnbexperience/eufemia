@@ -513,6 +513,11 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   border-top: var(--table-border-top, var(--table-border));
 }
 
+.dnb-table--border-horizontal {
+  --table-border-left: none;
+  --table-border-right: none;
+}
+
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__td::after,
 .dnb-table thead:has(.dnb-table__tr--even) + tbody .dnb-table__tr:first-child .dnb-table__th::after {
   content: "";
