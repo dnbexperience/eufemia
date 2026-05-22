@@ -39,6 +39,16 @@ export function filterImportsByUsage(
 
     const source = fromMatch[1]
 
+    // Handle namespace imports (e.g. "import * as Blocks from ...")
+    const namespaceMatch = stmt.match(/^import\s+\*\s+as\s+(\w+)/)
+    if (namespaceMatch) {
+      const namespaceName = namespaceMatch[1]
+      if (new RegExp(`\\b${namespaceName}\\b`).test(code)) {
+        result.push(`import * as ${namespaceName} from '${source}'`)
+      }
+      continue
+    }
+
     // Extract default import name (e.g. "styled" from "import styled from ...")
     const defaultMatch = stmt.match(/^import\s+(\w+)[\s,]/)
     const defaultName =
