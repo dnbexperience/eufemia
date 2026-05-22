@@ -188,6 +188,10 @@
         border-start-end-radius: 0;
         border-end-start-radius: var(--border-radius);
         border-end-end-radius: var(--border-radius);
+
+        :global(.focusmode) & {
+          box-shadow: none;
+        }
       }
 
       &__editable {
