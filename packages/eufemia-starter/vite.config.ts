@@ -1,33 +1,11 @@
-import { defineConfig, transformWithOxc } from 'vite'
-import path from 'node:path'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    {
-      name: 'load+transform-js-files-as-jsx',
-      enforce: 'pre',
-      async transform(code, id) {
-        // Vite appends query params to ids (e.g. ?v=hash). Strip them first.
-        const [filepath] = id.split('?')
+  plugins: [react()],
 
-        // Treat any JS file under a src/ folder as JSX (starter and workspace packages)
-        if (!/\/src\/.*\.js$/.test(filepath)) {
-          return null
-        }
-
-        // Use the exposed transform from Vite instead of calling esbuild directly
-        return transformWithOxc(code, filepath, {
-          lang: 'jsx',
-          jsx: { runtime: 'automatic' },
-        })
-      },
-    },
-  ],
-
-  // Ensure dependency pre-bundling treats .js files as JSX where needed
+  // Ensure dependency pre-bundling handles .js files that may contain JSX
   optimizeDeps: {
     esbuildOptions: {
       loader: {
@@ -39,12 +17,13 @@ export default defineConfig({
 
   // Expose Eufemia's static assets (fonts) at "/assets/..." for dev environments like StackBlitz
   // This ensures URLs like "/assets/fonts/dnb/DNB-Regular.woff2" resolve to real files
-  publicDir: path.resolve(__dirname, '../dnb-eufemia/assets'),
+  publicDir: new URL('../dnb-eufemia/assets', import.meta.url).pathname,
 
   // Add some basic security headers, including a Content Security Policy (CSP)
   preview: {
     headers: getHeaders(),
   },
+
   // For local testing of CSP. Does not work on StackBlitz
   // server: {
   //   headers: getHeaders(),
