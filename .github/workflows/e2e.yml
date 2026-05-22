@@ -1,4 +1,4 @@
-name: e2e
+name: E2E Tests
 
 on:
   push:
@@ -47,7 +47,8 @@ jobs:
     timeout-minutes: 40
 
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Use Node.js
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
@@ -74,9 +75,11 @@ jobs:
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
+      - name: Install Playwright browsers
+        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: yarn workspace dnb-design-system-portal playwright install-deps firefox
+      - name: Install Playwright dependencies
+        run: yarn workspace dnb-design-system-portal playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library

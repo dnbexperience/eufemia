@@ -1,4 +1,4 @@
-name: Eufemia Release
+name: Release
 
 on:
   push:
