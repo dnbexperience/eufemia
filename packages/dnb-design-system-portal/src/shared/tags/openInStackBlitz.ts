@@ -318,7 +318,6 @@ createRoot(document.getElementById('root')!).render(
   )
 
   // Mirrors eufemia-starter/vite.config.ts
-  // Includes the JSX loader plugin needed because @dnb/eufemia ships .js files with JSX
   const viteConfig = `import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 

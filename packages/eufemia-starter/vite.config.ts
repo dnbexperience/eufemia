@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
 
-  // Ensure dependency pre-bundling treats .js files as JSX where needed
+  // Ensure dependency pre-bundling handles .js files that may contain JSX
   optimizeDeps: {
     esbuildOptions: {
       loader: {
