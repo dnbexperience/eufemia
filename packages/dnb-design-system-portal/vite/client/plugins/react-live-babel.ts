@@ -160,7 +160,13 @@ function buildImportMap(
 ) {
   const map = new Map<
     string,
-    { source: string; imported: string; local: string; isDefault: boolean }
+    {
+      source: string
+      imported: string
+      local: string
+      isDefault: boolean
+      isNamespace: boolean
+    }
   >()
 
   for (const node of body) {
@@ -189,6 +195,7 @@ function buildImportMap(
           imported,
           local: spec.local.name,
           isDefault: false,
+          isNamespace: false,
         })
       } else if (t.isImportDefaultSpecifier(spec)) {
         map.set(spec.local.name, {
@@ -196,6 +203,15 @@ function buildImportMap(
           imported: 'default',
           local: spec.local.name,
           isDefault: true,
+          isNamespace: false,
+        })
+      } else if (t.isImportNamespaceSpecifier(spec)) {
+        map.set(spec.local.name, {
+          source,
+          imported: '*',
+          local: spec.local.name,
+          isDefault: false,
+          isNamespace: true,
         })
       }
     }
@@ -235,8 +251,18 @@ function resolveImports(
   const imports: string[] = []
 
   Array.from(bySource.entries()).forEach(([source, specs]) => {
+    const namespaceSpec = specs.find((s) => s.isNamespace)
     const defaultSpec = specs.find((s) => s.isDefault)
-    const namedSpecs = specs.filter((s) => !s.isDefault)
+    const namedSpecs = specs.filter((s) => !s.isDefault && !s.isNamespace)
+
+    const publishedSource = rewriteImportPath(source)
+
+    // Namespace imports must be their own statement
+    if (namespaceSpec) {
+      imports.push(
+        `import * as ${namespaceSpec.local} from '${publishedSource}'`
+      )
+    }
 
     const parts: string[] = []
 
@@ -251,8 +277,9 @@ function resolveImports(
       parts.push(`{ ${specifiers.join(', ')} }`)
     }
 
-    const publishedSource = rewriteImportPath(source)
-    imports.push(`import ${parts.join(', ')} from '${publishedSource}'`)
+    if (parts.length > 0) {
+      imports.push(`import ${parts.join(', ')} from '${publishedSource}'`)
+    }
   })
 
   return imports

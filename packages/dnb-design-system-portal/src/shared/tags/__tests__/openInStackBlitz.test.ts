@@ -89,6 +89,26 @@ describe('filterImportsByUsage', () => {
 
     expect(result).toEqual(["import { useState } from 'react'"])
   })
+
+  it('keeps namespace imports when name is used', () => {
+    const result = filterImportsByUsage(
+      ["import * as Blocks from '@dnb/eufemia/extensions/forms/blocks'"],
+      '<Blocks.ChildrenWithAge />'
+    )
+
+    expect(result).toEqual([
+      "import * as Blocks from '@dnb/eufemia/extensions/forms/blocks'",
+    ])
+  })
+
+  it('removes namespace imports when name is not used', () => {
+    const result = filterImportsByUsage(
+      ["import * as Blocks from '@dnb/eufemia/extensions/forms/blocks'"],
+      '<Button>Click</Button>'
+    )
+
+    expect(result).toEqual([])
+  })
 })
 
 describe('analyzeCodeStructure', () => {

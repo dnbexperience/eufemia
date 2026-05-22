@@ -284,4 +284,20 @@ describe('sourceImports injection', () => {
 
     expect(output).not.toContain('sourceImports')
   })
+
+  it('handles namespace imports (import * as)', async () => {
+    const input = `
+      import * as Blocks from '@dnb/eufemia/src/extensions/forms/blocks'
+      export function Demo() {
+        return <ComponentBox scope={{ Blocks }}>code</ComponentBox>
+      }
+    `
+
+    const output = await transform(input)
+
+    expect(output).toContain('sourceImports')
+    expect(output).toContain(
+      "import * as Blocks from '@dnb/eufemia/extensions/forms/blocks'"
+    )
+  })
 })
