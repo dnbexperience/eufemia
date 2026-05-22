@@ -3,9 +3,15 @@ import { RuleTester } from 'eslint'
 import rule from '../rules/sync-docs-jsdoc'
 
 const ruleExports = rule as typeof rule & {
-  extractDocsFromFile: (filePath: string) => Map<string, string>
+  extractDocsFromFile: (
+    filePath: string
+  ) => Map<string, { doc: string; defaultValue: string | null }>
   extractJsdocText: (commentValue: string) => string
   extractJsdocTags: (commentValue: string) => string[]
+  splitDefaultFromDoc: (fullText: string) => {
+    docText: string
+    defaultValue: string | null
+  }
 }
 
 const fixturesDir = path.resolve(__dirname, 'fixtures/sync-docs-jsdoc')
@@ -111,6 +117,20 @@ tester.run('sync-docs-jsdoc', rule, {
            * @deprecated Use newProp instead.
            */
           content?: string
+        }
+      `,
+      filename: path.join(fixturesDir, 'basic/types.ts'),
+    },
+
+    // ── JSDoc with matching Default: line ──
+    {
+      code: `
+        export type BasicProps = {
+          /**
+           * Use \`false\` to disable alternating row background colors.
+           * Default: \`true\`
+           */
+          zebra?: boolean
         }
       `,
       filename: path.join(fixturesDir, 'basic/types.ts'),
@@ -503,6 +523,96 @@ tester.run('sync-docs-jsdoc', rule, {
       filename: path.join(fixturesDir, 'basic/types.ts'),
       errors: [{ messageId: 'mismatchedJsdoc' }],
     },
+
+    // ── Missing Default: line when docs has defaultValue ──
+    {
+      code: `
+        export type BasicProps = {
+          /** Use \`false\` to disable alternating row background colors. */
+          zebra?: boolean
+        }
+      `,
+      output: `
+        export type BasicProps = {
+          /**
+           * Use \`false\` to disable alternating row background colors.
+           * Default: \`true\`
+           */
+          zebra?: boolean
+        }
+      `,
+      filename: path.join(fixturesDir, 'basic/types.ts'),
+      errors: [{ messageId: 'mismatchedJsdoc' }],
+    },
+
+    // ── Wrong Default: value ──
+    {
+      code: `
+        export type BasicProps = {
+          /**
+           * Use \`false\` to disable alternating row background colors.
+           * Default: \`false\`
+           */
+          zebra?: boolean
+        }
+      `,
+      output: `
+        export type BasicProps = {
+          /**
+           * Use \`false\` to disable alternating row background colors.
+           * Default: \`true\`
+           */
+          zebra?: boolean
+        }
+      `,
+      filename: path.join(fixturesDir, 'basic/types.ts'),
+      errors: [{ messageId: 'mismatchedJsdoc' }],
+    },
+
+    // ── Wrong doc text but correct Default: line ──
+    {
+      code: `
+        export type BasicProps = {
+          /**
+           * Wrong description.
+           * Default: \`true\`
+           */
+          zebra?: boolean
+        }
+      `,
+      output: `
+        export type BasicProps = {
+          /**
+           * Use \`false\` to disable alternating row background colors.
+           * Default: \`true\`
+           */
+          zebra?: boolean
+        }
+      `,
+      filename: path.join(fixturesDir, 'basic/types.ts'),
+      errors: [{ messageId: 'mismatchedJsdoc' }],
+    },
+
+    // ── requireJsdoc with defaultValue — includes Default: line ──
+    {
+      code: `
+        export type BasicProps = {
+          zebra?: boolean
+        }
+      `,
+      output: `
+        export type BasicProps = {
+          /**
+           * Use \`false\` to disable alternating row background colors.
+           * Default: \`true\`
+           */
+          zebra?: boolean
+        }
+      `,
+      filename: path.join(fixturesDir, 'basic/types.ts'),
+      options: [{ requireJsdoc: true }],
+      errors: [{ messageId: 'missingJsdoc' }],
+    },
   ],
 })
 
@@ -515,24 +625,45 @@ describe('extractDocsFromFile', () => {
     const docsPath = path.join(fixturesDir, 'basic/BasicDocs.ts')
     const docs = extractDocsFromFile(docsPath)
 
-    expect(docs.get('content')).toBe('Content of the component.')
-    expect(docs.get('label')).toBe('Label for the component.')
-    expect(docs.get('size')).toBe(
-      'The size of the component. Defaults to `medium`.'
-    )
-    expect(docs.size).toBe(3)
+    expect(docs.get('content')).toEqual({
+      doc: 'Content of the component.',
+      defaultValue: null,
+    })
+    expect(docs.get('label')).toEqual({
+      doc: 'Label for the component.',
+      defaultValue: null,
+    })
+    expect(docs.get('size')).toEqual({
+      doc: 'The size of the component. Defaults to `medium`.',
+      defaultValue: null,
+    })
+    expect(docs.get('zebra')).toEqual({
+      doc: 'Use `false` to disable alternating row background colors.',
+      defaultValue: 'true',
+    })
+    expect(docs.size).toBe(4)
   })
 
   it('extracts docs from a multi-export Docs file', () => {
     const docsPath = path.join(fixturesDir, 'multi-export/MultiDocs.ts')
     const docs = extractDocsFromFile(docsPath)
 
-    expect(docs.get('value')).toBe('The current value.')
-    expect(docs.get('label')).toBe('Label for the field.')
-    expect(docs.get('onChange')).toBe('Called when the value changes.')
-    expect(docs.get('onFocus')).toBe(
-      'Called when the field receives focus.'
-    )
+    expect(docs.get('value')).toEqual({
+      doc: 'The current value.',
+      defaultValue: null,
+    })
+    expect(docs.get('label')).toEqual({
+      doc: 'Label for the field.',
+      defaultValue: null,
+    })
+    expect(docs.get('onChange')).toEqual({
+      doc: 'Called when the value changes.',
+      defaultValue: null,
+    })
+    expect(docs.get('onFocus')).toEqual({
+      doc: 'Called when the field receives focus.',
+      defaultValue: null,
+    })
     expect(docs.size).toBe(4)
   })
 
@@ -543,11 +674,18 @@ describe('extractDocsFromFile', () => {
     )
     const docs = extractDocsFromFile(docsPath)
 
-    expect(docs.get('aria-label')).toBe(
-      'Accessible label for the component.'
-    )
-    expect(docs.get('data-testid')).toBe('Test ID for the component.')
-    expect(docs.get('name')).toBe('The name attribute.')
+    expect(docs.get('aria-label')).toEqual({
+      doc: 'Accessible label for the component.',
+      defaultValue: null,
+    })
+    expect(docs.get('data-testid')).toEqual({
+      doc: 'Test ID for the component.',
+      defaultValue: null,
+    })
+    expect(docs.get('name')).toEqual({
+      doc: 'The name attribute.',
+      defaultValue: null,
+    })
     expect(docs.size).toBe(3)
   })
 })
@@ -650,5 +788,52 @@ describe('extractJsdocTags', () => {
     expect(
       extractJsdocTags('* @deprecated Use newProp instead. ')
     ).toEqual(['@deprecated Use newProp instead.'])
+  })
+})
+
+// ── Unit tests for splitDefaultFromDoc ──
+
+describe('splitDefaultFromDoc', () => {
+  const { splitDefaultFromDoc } = ruleExports
+
+  it('splits a doc with Default: line', () => {
+    expect(
+      splitDefaultFromDoc('Some description. Default: `true`')
+    ).toEqual({
+      docText: 'Some description.',
+      defaultValue: 'true',
+    })
+  })
+
+  it('handles Default: with trailing period', () => {
+    expect(
+      splitDefaultFromDoc('Some description. Default: `false`.')
+    ).toEqual({
+      docText: 'Some description.',
+      defaultValue: 'false',
+    })
+  })
+
+  it('returns null defaultValue when no Default: line', () => {
+    expect(splitDefaultFromDoc('Just a plain description.')).toEqual({
+      docText: 'Just a plain description.',
+      defaultValue: null,
+    })
+  })
+
+  it('handles backtick values with special characters', () => {
+    expect(
+      splitDefaultFromDoc('The size of the component. Default: `medium`')
+    ).toEqual({
+      docText: 'The size of the component.',
+      defaultValue: 'medium',
+    })
+  })
+
+  it('handles numeric default values', () => {
+    expect(splitDefaultFromDoc('The count. Default: `0`')).toEqual({
+      docText: 'The count.',
+      defaultValue: '0',
+    })
   })
 })
