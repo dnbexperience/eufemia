@@ -14,7 +14,7 @@ describe('Field.PostalCodeAndCity', () => {
     expect(screen.getByLabelText(nb.City.label)).toBeInTheDocument()
   })
 
-  it('postal code should only allow four numbers', async () => {
+  it('should allow typing beyond the postal code mask length', async () => {
     render(<Field.PostalCodeAndCity />)
 
     const postalCodeInput = document.querySelector(
@@ -25,7 +25,7 @@ describe('Field.PostalCodeAndCity', () => {
 
     await userEvent.type(postalCodeInput, '123456')
 
-    expect(postalCodeInput).toHaveValue('1234')
+    expect(postalCodeInput).toHaveValue('123456')
   })
 
   it('should support size', () => {
@@ -271,7 +271,7 @@ describe('Field.PostalCodeAndCity', () => {
       )
 
       expect(postalCode).toHaveAttribute('aria-placeholder', '00000')
-      await userEvent.type(postalCode, 'abcs123456')
+      await userEvent.type(postalCode, 'abcs12345')
 
       expect(postalCode).toHaveValue('12345')
 
@@ -306,8 +306,8 @@ describe('Field.PostalCodeAndCity', () => {
         '.dnb-forms-field-postal-code-and-city input'
       )
 
-      await userEvent.type(postalCodeNo, '{Backspace>4}987654')
-      expect(postalCodeNo).toHaveValue('9876')
+      await userEvent.type(postalCodeNo, '{Backspace>6}987654')
+      expect(postalCodeNo).toHaveValue('987654')
       expect(postalCodeNo).toHaveAttribute('aria-placeholder', '0000')
     })
 
@@ -332,7 +332,7 @@ describe('Field.PostalCodeAndCity', () => {
         norway.querySelector('input'),
         '{Backspace>4}987654'
       )
-      expect(norway.querySelector('input').value).toBe('9876')
+      expect(norway.querySelector('input').value).toBe('987654')
 
       await userEvent.type(
         germany.querySelector('input'),

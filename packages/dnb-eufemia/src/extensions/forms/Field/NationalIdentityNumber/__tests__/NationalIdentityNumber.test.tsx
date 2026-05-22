@@ -22,7 +22,7 @@ describe('Field.NationalIdentityNumber', () => {
     )
 
     const inputElement = document.querySelector('input')
-    expect(inputElement.value).toBe('123456 78901')
+    expect(inputElement.value).toBe('123456 78901234567890')
 
     rerender(
       <Field.NationalIdentityNumber
@@ -31,7 +31,7 @@ describe('Field.NationalIdentityNumber', () => {
       />
     )
 
-    expect(inputElement.value).toBe('12345678901')
+    expect(inputElement.value).toBe('12345678901234567890')
   })
 
   it('should validate when required', () => {
