@@ -88,6 +88,9 @@ exports[`Table scss > should match default theme snapshot 1`] = `
 }
 .dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody:last-child::after {
   right: 0;
+}
+.dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody::after {
+  right: 0;
 }"
 `;
 
@@ -216,7 +219,7 @@ exports[`Table scss > should match style dependencies css 1`] = `
   --table-outline-width: 0.0625rem;
   --table-outline: var(--table-outline-width) solid
     var(--table-outline-color);
-  --table-outline-radius: var(--token-radius-md);
+  --table-outline-radius: var(--token-radius-xl);
 }
 html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container {
   --table-border-color: blue;
@@ -767,9 +770,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 *
 */
 .dnb-table > tbody > tr, .dnb-table .dnb-table__tr, .dnb-table .dnb-table__tr--even {
-  --table-td-background: var(
-    --token-color-component-table-background-neutral-alternative
-  );
+  --table-td-background: var(--token-color-background-neutral-subtle);
 }
 
 .dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr--odd {
