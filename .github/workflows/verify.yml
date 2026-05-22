@@ -26,12 +26,12 @@ env:
   FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
 
 jobs:
-  verify:
-    name: Run tests and checks
+  setup:
+    name: Install dependencies
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 20
+    timeout-minutes: 10
 
     steps:
       - name: Git checkout
@@ -59,14 +59,98 @@ jobs:
         if: steps.modules-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
+  audit:
+    name: Audit dependencies
+    needs: setup
+
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message || '', '--skip-audit') && !(github.event.pull_request && contains(github.event.pull_request.title || '', '--skip-audit')) }}
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Audit dependencies
-        if: ${{ !contains(github.event.head_commit.message || '', '--skip-audit') && !(github.event.pull_request && contains(github.event.pull_request.title || '', '--skip-audit')) }}
         run: yarn workspace @dnb/eufemia audit:ci
+
+  lint:
+    name: Run lint
+    needs: setup
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run lint
         run: |
           yarn workspace @dnb/eufemia lint:ci
           yarn workspace dnb-design-system-portal lint:ci
+
+  typecheck:
+    name: Run type checks
+    needs: setup
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run type checks
         run: |
@@ -74,12 +158,68 @@ jobs:
           yarn workspace dnb-design-system-portal test:types
           yarn workspace eufemia-llm-metadata test:types
 
+  test:
+    name: Run tests
+    needs: setup
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Run tests
         run: |
           yarn workspace @dnb/eufemia test:ci
           yarn workspace dnb-design-system-portal test:ci
           yarn workspace markdown-tables-utils test
           yarn workspace eufemia-llm-metadata test
+
+  deps:
+    name: Run dependency checks
+    needs: setup
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
       - name: Run dependency checks
         run: yarn workspace @dnb/eufemia test:deps
