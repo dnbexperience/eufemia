@@ -109,7 +109,7 @@
     "@maskito/kit": "5.1.0",
     "@maskito/react": "5.1.0",
     "@navikt/fnrvalidator": "2.1.5",
-    "@ungap/structured-clone": "1.2.0",
+    "@ungap/structured-clone": "1.3.1",
     "ajv": "8.18.0",
     "ajv-errors": "3.0.0",
     "clsx": "2.1.1",
