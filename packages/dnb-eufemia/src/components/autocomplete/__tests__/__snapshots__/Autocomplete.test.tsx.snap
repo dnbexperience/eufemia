@@ -2002,9 +2002,6 @@ html[data-visual-test] .dnb-progress-indicator {
 .dnb-progress-indicator--no-animation, .dnb-progress-indicator--no-animation.dnb-progress-indicator--complete {
   animation-duration: 0ms;
 }
-html[data-visual-test] .dnb-progress-indicator__bar-transition {
-  transition: none;
-}
 .dnb-progress-indicator--full-width {
   width: 100%;
   min-width: 1rem;
@@ -2164,9 +2161,6 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }
 .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
   transition: transform 400ms ease-out;
-}
-html[data-visual-test] .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
-  transition-duration: 1ms !important;
 }
 .dnb-autocomplete .dnb-input__inner__element {
   position: relative;

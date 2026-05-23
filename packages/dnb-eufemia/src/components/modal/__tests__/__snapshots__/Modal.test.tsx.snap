@@ -997,7 +997,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-help-button__inline:not(.dnb-help-button__inline--open).dnb-help-button__inline--was-open svg:nth-of-type(2) {
   animation: rotate-icon-out 400ms var(--easing-default) forwards;
 }
-.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg, html[data-visual-test] .dnb-help-button__inline svg {
+.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg {
   animation-duration: 0ms;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1141,10 +1141,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
   animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards;
 }
-.dnb-modal {
-  /* stylelint-disable-next-line */
-}
-html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
+.dnb-modal__overlay--no-animation {
   animation-delay: 0ms !important;
   animation-duration: 0ms !important;
 }

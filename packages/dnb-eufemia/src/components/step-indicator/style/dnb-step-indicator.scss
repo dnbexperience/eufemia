@@ -148,10 +148,6 @@
         display: none;
       }
     }
-
-    html[data-visual-test] &__icon {
-      transition-duration: 1ms !important;
-    }
   }
 
   &__button {

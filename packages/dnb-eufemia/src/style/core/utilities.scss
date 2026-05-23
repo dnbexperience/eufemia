@@ -244,12 +244,10 @@
   overflow-y: $mode;
   overscroll-behavior: contain;
 
-  html:not([data-visual-test]) & {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 
-    @media (prefers-reduced-motion: reduce) {
-      scroll-behavior: auto;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
   }
 
   @include scrollbarAppearance();
@@ -263,9 +261,7 @@
   }
   overscroll-behavior: contain;
 
-  html:not([data-visual-test]) & {
-    scroll-behavior: smooth;
-  }
+  scroll-behavior: smooth;
 
   @include scrollbarAppearance();
 }

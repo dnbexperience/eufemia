@@ -125,43 +125,40 @@
     @include modal-mixins.modalFullscreen();
   }
 
-  html:not([data-visual-test]) & {
-    opacity: 0.1;
-    animation: show-drawer var(--modal-animation-duration) ease-out
-      forwards;
-  }
+  opacity: 0.1;
+  animation: show-drawer var(--modal-animation-duration) ease-out forwards;
 
   // Animations in
-  html:not([data-visual-test]) &--left {
+  &--left {
     transform: translate3d(-20rem, 0, 0);
   }
 
-  html:not([data-visual-test]) &--right {
+  &--right {
     transform: translate3d(20rem, 0, 0);
   }
 
-  html:not([data-visual-test]) &--top {
+  &--top {
     transform: translate3d(0, -20rem, 0);
   }
 
-  html:not([data-visual-test]) &--bottom {
+  &--bottom {
     transform: translate3d(0, 20rem, 0);
   }
 
   // Animations out
-  html:not([data-visual-test]) &--hide#{&}--left {
+  &--hide#{&}--left {
     animation: hide-drawer-left var(--modal-animation-duration) ease-in-out
       forwards;
   }
-  html:not([data-visual-test]) &--hide#{&}--right {
+  &--hide#{&}--right {
     animation: hide-drawer-right var(--modal-animation-duration)
       ease-in-out forwards;
   }
-  html:not([data-visual-test]) &--hide#{&}--top {
+  &--hide#{&}--top {
     animation: hide-drawer-top var(--modal-animation-duration) ease-in-out
       forwards;
   }
-  html:not([data-visual-test]) &--hide#{&}--bottom {
+  &--hide#{&}--bottom {
     animation: hide-drawer-bottom var(--modal-animation-duration)
       ease-in-out forwards;
   }

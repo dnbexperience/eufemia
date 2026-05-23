@@ -18,7 +18,6 @@
     &:not(#{&}--no-animation) {
       animation: drawer-list-slide-top-down 200ms ease-out 1 forwards;
     }
-    html[data-visual-test] &,
     &--no-animation {
       animation-duration: 1ms !important;
     }
@@ -33,7 +32,6 @@
     &:not(#{&}--no-animation) {
       animation: drawer-list-slide-top-up 150ms ease-out 1 forwards;
     }
-    html[data-visual-test] &,
     &--no-animation {
       animation-duration: 1ms !important;
     }
@@ -88,10 +86,6 @@
       top 300ms var(--easing-default),
       left 300ms var(--easing-default),
       width 300ms var(--easing-default);
-
-    html[data-visual-test] & {
-      transition: none !important;
-    }
 
     // higher than modal --modal-z-index:
     z-index: calc(var(--modal-z-index, 3200) + 300);
@@ -170,7 +164,6 @@
       transition-duration: 0.01ms;
     }
   }
-  html[data-visual-test] &--scroll &__options,
   &--scroll#{&}--no-animation &__options {
     transition: none !important;
   }

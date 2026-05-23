@@ -23,9 +23,6 @@
       @include button-mixins.drawUnderlineBorder() {
         bottom: -0.0625rem;
         transition: color 250ms ease-in-out;
-        html[data-visual-test] & {
-          transition: none;
-        }
         left: var(--button-tertiary-underline-left);
         right: var(--button-tertiary-underline-right);
       }

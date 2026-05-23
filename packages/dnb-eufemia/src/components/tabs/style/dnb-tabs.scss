@@ -377,13 +377,6 @@
     }
   }
 
-  html[data-visual-test] & &__cached,
-  html[data-visual-test] & &__button,
-  html[data-visual-test] & &__button__snap,
-  html[data-visual-test] & &__scroll-nav-button {
-    transition: none !important;
-  }
-
   // Make focus ring when keyboard is used to navigate
   &__content:focus-visible {
     position: relative;

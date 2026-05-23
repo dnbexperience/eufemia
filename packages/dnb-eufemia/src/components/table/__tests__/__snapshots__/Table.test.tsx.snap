@@ -239,9 +239,6 @@ html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container 
     transition-duration: 0.01ms;
   }
 }
-html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, html[data-visual-test] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
-  transition: none;
-}
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button {
   position: relative;
   z-index: 1;
@@ -1069,7 +1066,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
     transition-duration: 0.01ms;
   }
 }
-.dnb-table__tr--clickable.dnb-table__tr--no-animation .dnb-table__button .dnb-icon, html[data-visual-test] .dnb-table__tr--clickable .dnb-table__button .dnb-icon {
+.dnb-table__tr--clickable.dnb-table__tr--no-animation .dnb-table__button .dnb-icon {
   transition: none !important;
 }
 
@@ -1213,10 +1210,6 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
 
 .dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
   transform: translateY(0);
-}
-
-html[data-visual-test] .dnb-table__tr__accordion-content--parallax .dnb-table__tr__accordion-content__inner__spacing {
-  transition: none;
 }
 
 .dnb-table__tr__accordion-content--expanded > td.dnb-table__td {

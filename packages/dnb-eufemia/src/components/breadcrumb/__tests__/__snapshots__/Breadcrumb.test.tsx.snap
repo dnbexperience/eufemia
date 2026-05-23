@@ -1258,15 +1258,6 @@ button.dnb-button::-moz-focus-inner {
 .dnb-breadcrumb__multiple.dnb-height-animation--parallax .dnb-breadcrumb__item {
   transform: translateX(0);
 }
-.dnb-breadcrumb {
-  /* stylelint-disable no-descending-specificity, no-duplicate-selectors */
-}
-html[data-visual-test] .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
-  transition: none;
-}
-.dnb-breadcrumb {
-  /* stylelint-enable */
-}
 @media screen and (max-width: 60em) {
   .dnb-breadcrumb--variant-responsive .dnb-breadcrumb__bar .dnb-breadcrumb__multiple {
     display: none;

@@ -1002,7 +1002,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-help-button__inline:not(.dnb-help-button__inline--open).dnb-help-button__inline--was-open svg:nth-of-type(2) {
   animation: rotate-icon-out 400ms var(--easing-default) forwards;
 }
-.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg, html[data-visual-test] .dnb-help-button__inline svg {
+.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg {
   animation-duration: 0ms;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1146,10 +1146,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
   animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards;
 }
-.dnb-modal {
-  /* stylelint-disable-next-line */
-}
-html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
+.dnb-modal__overlay--no-animation {
   animation-delay: 0ms !important;
   animation-duration: 0ms !important;
 }
@@ -1389,32 +1386,32 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   border-radius: 0;
   box-shadow: none;
 }
-html:not([data-visual-test]) .dnb-drawer {
+.dnb-drawer {
   opacity: 0.1;
   animation: show-drawer var(--modal-animation-duration) ease-out forwards;
 }
-html:not([data-visual-test]) .dnb-drawer--left {
+.dnb-drawer--left {
   transform: translate3d(-20rem, 0, 0);
 }
-html:not([data-visual-test]) .dnb-drawer--right {
+.dnb-drawer--right {
   transform: translate3d(20rem, 0, 0);
 }
-html:not([data-visual-test]) .dnb-drawer--top {
+.dnb-drawer--top {
   transform: translate3d(0, -20rem, 0);
 }
-html:not([data-visual-test]) .dnb-drawer--bottom {
+.dnb-drawer--bottom {
   transform: translate3d(0, 20rem, 0);
 }
-html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--left {
+.dnb-drawer--hide.dnb-drawer--left {
   animation: hide-drawer-left var(--modal-animation-duration) ease-in-out forwards;
 }
-html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--right {
+.dnb-drawer--hide.dnb-drawer--right {
   animation: hide-drawer-right var(--modal-animation-duration) ease-in-out forwards;
 }
-html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--top {
+.dnb-drawer--hide.dnb-drawer--top {
   animation: hide-drawer-top var(--modal-animation-duration) ease-in-out forwards;
 }
-html:not([data-visual-test]) .dnb-drawer--hide.dnb-drawer--bottom {
+.dnb-drawer--hide.dnb-drawer--bottom {
   animation: hide-drawer-bottom var(--modal-animation-duration) ease-in-out forwards;
 }
 .dnb-drawer--no-animation {

@@ -52,7 +52,6 @@
     animation: show-popover 200ms var(--easing-default) forwards;
   }
 
-  html[data-visual-test] &--active,
   &--active#{&}--no-animation {
     animation-duration: 0ms;
   }
@@ -67,10 +66,6 @@
 
   &--fixed {
     position: fixed;
-  }
-
-  html[data-visual-test] &--hide {
-    animation: hide-popover 1ms linear 1s forwards;
   }
 
   &__portal {

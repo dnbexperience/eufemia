@@ -1088,9 +1088,6 @@ button.dnb-button::-moz-focus-inner {
 .dnb-step-indicator__item:last-child .dnb-step-indicator__item__wrapper::before {
   display: none;
 }
-html[data-visual-test] .dnb-step-indicator__item__icon {
-  transition-duration: 1ms !important;
-}
 .dnb-step-indicator__button {
   white-space: normal;
   text-align: left;

@@ -249,9 +249,6 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   transition: box-shadow 200ms ease-in-out, color 200ms ease-in-out, background 200ms ease-in-out;
 }
-html[data-visual-test] :where(:not(.dnb-anchor--no-style)).dnb-anchor {
-  transition: none;
-}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
   display: inline;
   vertical-align: middle;
@@ -386,9 +383,6 @@ html[data-visual-test] :where(:not(.dnb-anchor--no-style)).dnb-anchor {
   }
   :not(.dnb-anchor--no-style).dnb-anchor {
     transition: box-shadow 200ms ease-in-out, color 200ms ease-in-out, background 200ms ease-in-out;
-  }
-  html[data-visual-test] :not(.dnb-anchor--no-style).dnb-anchor {
-    transition: none;
   }
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
     display: inline;
