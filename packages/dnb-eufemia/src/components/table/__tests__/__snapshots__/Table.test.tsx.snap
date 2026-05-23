@@ -227,8 +227,8 @@ html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container 
   --table-accordion-border-color: green;
   --table-th-highlight-border: magenta;
 }
-.dnb-table > thead > tr > th.dnb-table--sortable, .dnb-table .dnb-table__th.dnb-table--sortable {
-  color: var(--token-color-text-action);
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button {
+  --button-color-text--default: var(--table-th-text-color);
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
   opacity: 0;
