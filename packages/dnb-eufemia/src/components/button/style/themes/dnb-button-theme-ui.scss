@@ -29,8 +29,7 @@
 
   &--tertiary {
     @include utilities.active() {
-      // underline
-      .dnb-button__text::after {
+      .dnb-button__text {
         html[data-whatintent='touch'] & {
           --button-color-underline: var(--button-color-underline--hover);
         }

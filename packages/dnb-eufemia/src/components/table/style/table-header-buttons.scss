@@ -51,11 +51,6 @@
         margin: 0;
         font-size: inherit;
         line-height: inherit;
-
-        // underline
-        &::after {
-          right: 0;
-        }
       }
 
       .dnb-button__icon {
@@ -69,9 +64,10 @@
       }
 
       // underline
-      &:not(:focus) .dnb-button__text::after {
-        opacity: 1;
-        color: var(--table-th-text-color);
+      &:not(:focus) .dnb-button__text {
+        text-decoration: underline;
+        text-decoration-color: var(--table-th-text-color);
+        transition: text-decoration-color 250ms ease-in-out;
       }
 
       @include utilities.hover() {
@@ -80,8 +76,8 @@
         }
 
         // hide underline
-        .dnb-button__text::after {
-          opacity: 0;
+        .dnb-button__text {
+          text-decoration-color: transparent;
         }
       }
 
@@ -100,13 +96,13 @@
 
         // show underline
         html:not([data-visual-test]) & {
-          .dnb-button__text::after {
-            opacity: 1;
-            color: inherit;
+          .dnb-button__text {
+            text-decoration: underline;
+            text-decoration-color: inherit;
           }
 
-          &:not(:active) .dnb-button__text::after {
-            visibility: visible;
+          &:not(:active) .dnb-button__text {
+            text-decoration: underline;
           }
         }
       }
