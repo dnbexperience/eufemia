@@ -17,6 +17,8 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import IconPrimary from '../icon-primary/IconPrimary'
+import Icon from '../icon/Icon'
+import { chevron_down, chevron_up } from '../../icons'
 import { clsx } from 'clsx'
 import AccordionContext from './AccordionContext'
 import { useSpacing } from '../space/SpacingUtils'
@@ -34,6 +36,11 @@ import type {
   AccordionVariant,
 } from './Accordion'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+
+const defaultAccordionIcon = Icon.transition({
+  collapsed: chevron_down,
+  expanded: chevron_up,
+})
 
 export type AccordionHeaderTitleProps = SpacingProps & {
   children?: ReactNode
@@ -104,14 +111,18 @@ function AccordionHeaderIcon({
   size = 'medium',
   iconPosition,
 }: AccordionHeaderIconProps) {
-  const icon = (
+  const hasExplicitExpandedIcon =
     iconProp &&
     typeof iconProp === 'object' &&
     'expanded' in iconProp &&
     typeof iconProp?.expanded !== 'undefined'
+
+  const icon = (
+    hasExplicitExpandedIcon
       ? iconProp[expanded ? 'expanded' : 'closed']
-      : iconProp || 'chevron-down'
+      : iconProp || defaultAccordionIcon
   ) as IconIcon
+
   return (
     <span
       className={clsx(
@@ -119,7 +130,18 @@ function AccordionHeaderIcon({
         iconPosition && `dnb-accordion__header__icon--${iconPosition}`
       )}
     >
-      <IconPrimary size={size} icon={icon} aria-hidden />
+      <IconPrimary
+        size={size}
+        icon={icon}
+        transitionState={
+          hasExplicitExpandedIcon
+            ? undefined
+            : expanded
+              ? 'expanded'
+              : 'collapsed'
+        }
+        aria-hidden
+      />
     </span>
   )
 }

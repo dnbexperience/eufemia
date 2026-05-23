@@ -128,6 +128,10 @@ export type ButtonProps = {
    */
   iconSize?: IconSize
   /**
+   * When using an icon created with `Icon.transition()`, set this to the active state name to drive the transition.
+   */
+  transitionState?: string
+  /**
    * Only for icon buttons. If true, use the style for a selected icon button. Defaults to `false`.
    */
   selected?: boolean
@@ -233,7 +237,7 @@ function getContent(props: ButtonProps) {
 /**
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
-function Button({ ref, ...restProps }: ButtonProps) {
+function Button({ ref, transitionState, ...restProps }: ButtonProps) {
   const context = useContext(Context)
   const elementRef = useRef<HTMLElement | null>(null)
   const combinedRef = useCombinedRef(ref, elementRef)
@@ -445,6 +449,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
           customContent={customContent}
           isIconOnly={isIconOnly}
           skeleton={skeleton}
+          transitionState={transitionState}
           iconElement={pickIcon(usedIcon, 'dnb-button__icon')}
         />
       </Element>

@@ -92,12 +92,33 @@ function SkeletonEnabled({ children }: { children: React.ReactNode }) {
 
 function PageWrapper() {
   const location = useLocation()
-  const initialRouteRef = useRef<string | null>(null)
-  const hasLeftInitialRouteRef = useRef(false)
   useNavigateSetup()
   useCatchLinks()
   usePrefetchOnHover()
   useScrollPosition()
+
+  return (
+    <PortalLayout
+      location={location as unknown as Location}
+      pageContext={{ frontmatter: {} }}
+    >
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+        <RouteFocusEffect />
+      </Suspense>
+    </PortalLayout>
+  )
+}
+
+/**
+ * Placed inside the Suspense boundary so its effect only fires once the
+ * lazy MDX content has rendered and the hash target element exists in
+ * the DOM.
+ */
+function RouteFocusEffect() {
+  const location = useLocation()
+  const initialRouteRef = useRef<string | null>(null)
+  const hasLeftInitialRouteRef = useRef(false)
 
   if (initialRouteRef.current === null && typeof window !== 'undefined') {
     initialRouteRef.current =
@@ -128,20 +149,10 @@ function PageWrapper() {
       applyRouteFocus(hash)
     }
 
-    // For e2e testing purposes, we set a data attribute on the document element to indicate that the portal is ready.
     document.documentElement.setAttribute('data-portal-ready', 'true')
   }, [location.hash, location.pathname, location.search])
 
-  return (
-    <PortalLayout
-      location={location as unknown as Location}
-      pageContext={{ frontmatter: {} }}
-    >
-      <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-      </Suspense>
-    </PortalLayout>
-  )
+  return null
 }
 
 type PortalAppProps = {
