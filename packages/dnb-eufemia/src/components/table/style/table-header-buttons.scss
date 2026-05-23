@@ -75,7 +75,7 @@
       // underline
       &:not(:focus) .dnb-button__text::after {
         opacity: 1;
-        color: var(--token-color-text-action);
+        color: var(--table-th-text-color);
       }
 
       @include utilities.hover() {
