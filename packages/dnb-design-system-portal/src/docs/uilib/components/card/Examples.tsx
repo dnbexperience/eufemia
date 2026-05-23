@@ -358,7 +358,11 @@ export const CustomBackgroundColorAndOutline = () => {
     <ComponentBox data-visual-test="layout-card-background-color-outline">
       <Flex.Vertical>
         <Form.MainHeading>I'm left aligned</Form.MainHeading>
-        <Card stack backgroundColor="pistachio" outline="sea-green">
+        <Card
+          stack
+          backgroundColor="var(--token-color-background-neutral-subtle)"
+          outline="var(--token-color-stroke-neutral)"
+        >
           <P>Card content</P>
           <Card outline="transparent">
             <P>Nested card</P>
