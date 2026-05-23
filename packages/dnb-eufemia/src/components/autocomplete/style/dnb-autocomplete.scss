@@ -114,10 +114,6 @@
 
   .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out;
-
-    html[data-visual-test] & {
-      transition-duration: 1ms !important;
-    }
   }
 
   // Support for "suffixValue"

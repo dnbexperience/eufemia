@@ -139,14 +139,6 @@
     transform: translateX(0);
   }
 
-  /* stylelint-disable no-descending-specificity, no-duplicate-selectors */
-  &__multiple &__item {
-    html[data-visual-test] & {
-      transition: none;
-    }
-  }
-  /* stylelint-enable */
-
   &--variant-responsive &__bar &__multiple {
     @include utilities.allBelow(medium) {
       display: none;

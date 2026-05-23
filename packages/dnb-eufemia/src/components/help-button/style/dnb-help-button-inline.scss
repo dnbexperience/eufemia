@@ -38,8 +38,7 @@
     }
   }
 
-  &:not(#{&}--user-intent),
-  html[data-visual-test] & {
+  &:not(#{&}--user-intent) {
     svg {
       animation-duration: 0ms;
     }

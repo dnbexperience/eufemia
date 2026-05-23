@@ -1012,11 +1012,6 @@ exports[`Button scss > has to match theme css for sbanken 1`] = `
   background-color: currentcolor;
   bottom: -0.0625rem;
   transition: color 250ms ease-in-out;
-}
-html[data-visual-test] .dnb-button--tertiary .dnb-button__text::after {
-  transition: none;
-}
-.dnb-button--tertiary .dnb-button__text::after {
   left: var(--button-tertiary-underline-left);
   right: var(--button-tertiary-underline-right);
 }
@@ -1224,11 +1219,6 @@ exports[`Button scss > has to match theme css for ui 1`] = `
   background-color: currentcolor;
   bottom: -0.0625rem;
   transition: color 250ms ease-in-out;
-}
-html[data-visual-test] .dnb-button--tertiary .dnb-button__text::after {
-  transition: none;
-}
-.dnb-button--tertiary .dnb-button__text::after {
   left: var(--button-tertiary-underline-left);
   right: var(--button-tertiary-underline-right);
 }

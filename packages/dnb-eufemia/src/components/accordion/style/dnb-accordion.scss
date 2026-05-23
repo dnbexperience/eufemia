@@ -349,9 +349,8 @@
     }
   }
 
-  // stylelint-disable-next-line
-  & > &__header--no-animation &__header__icon,
-  html[data-visual-test] & &__header &__header__icon {
+  /* stylelint-disable-next-line no-descending-specificity */
+  & > &__header--no-animation &__header__icon {
     transition: none;
   }
 

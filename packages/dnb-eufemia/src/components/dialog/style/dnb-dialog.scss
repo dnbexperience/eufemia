@@ -209,12 +209,10 @@
   }
 
   // Animation in
-  html:not([data-visual-test]) & {
-    animation: show-modal var(--modal-animation-duration) ease-out;
-  }
+  animation: show-modal var(--modal-animation-duration) ease-out;
 
   // Animation out
-  html:not([data-visual-test]) &--hide {
+  &--hide {
     animation: hide-modal 220ms ease-in-out forwards;
   }
 

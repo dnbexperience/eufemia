@@ -47,11 +47,6 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
 .dnb-drawer-list__portal__style {
   position: absolute;
   transition: top 300ms var(--easing-default), left 300ms var(--easing-default), width 300ms var(--easing-default);
-}
-html[data-visual-test] .dnb-drawer-list__portal__style {
-  transition: none !important;
-}
-.dnb-drawer-list__portal__style {
   z-index: calc(var(--modal-z-index, 3200) + 300);
 }
 .dnb-drawer-list__portal__style--fixed {
@@ -106,12 +101,10 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   transition: max-height 300ms var(--easing-default);
   overflow-y: auto;
   overscroll-behavior: contain;
-}
-html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
   scroll-behavior: smooth;
 }
 @media (prefers-reduced-motion: reduce) {
-  html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
+  .dnb-drawer-list--scroll .dnb-drawer-list__options {
     scroll-behavior: auto;
   }
 }
@@ -144,7 +137,7 @@ html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options 
     transition-duration: 0.01ms;
   }
 }
-html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-drawer-list--scroll.dnb-drawer-list--no-animation .dnb-drawer-list__options {
+.dnb-drawer-list--scroll.dnb-drawer-list--no-animation .dnb-drawer-list__options {
   transition: none !important;
 }
 .dnb-drawer-list--open .dnb-drawer-list__options {
@@ -283,7 +276,7 @@ html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-
 .dnb-drawer-list--open .dnb-drawer-list__list:not(.dnb-drawer-list--open .dnb-drawer-list__list--no-animation) {
   animation: drawer-list-slide-top-down 200ms ease-out 1 forwards;
 }
-html[data-visual-test] .dnb-drawer-list--open .dnb-drawer-list__list, .dnb-drawer-list--open .dnb-drawer-list__list--no-animation {
+.dnb-drawer-list--open .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
 }
 .dnb-drawer-list--hidden .dnb-drawer-list__list {
@@ -361,7 +354,7 @@ html[data-visual-test] .dnb-drawer-list--open .dnb-drawer-list__list, .dnb-drawe
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list:not(.dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation) {
   animation: drawer-list-slide-top-up 150ms ease-out 1 forwards;
 }
-html[data-visual-test] .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list, .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation {
+.dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
 }
 

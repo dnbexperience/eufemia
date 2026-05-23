@@ -1208,9 +1208,6 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
     transition-duration: 0.01ms;
   }
 }
-html[data-visual-test] .dnb-slider__thumb, html[data-visual-test] .dnb-slider__line {
-  transition: none !important;
-}
 .dnb-slider__button-helper {
   pointer-events: none;
   z-index: 2;

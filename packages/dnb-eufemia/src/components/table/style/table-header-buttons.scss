@@ -28,10 +28,6 @@
         @include utilities.reducedMotion() {
           transition-duration: 0.01ms;
         }
-
-        html[data-visual-test] & {
-          transition: none;
-        }
       }
 
       position: relative;

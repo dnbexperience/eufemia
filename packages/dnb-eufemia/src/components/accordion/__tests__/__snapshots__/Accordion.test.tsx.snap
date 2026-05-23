@@ -375,7 +375,10 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
     width: 60%;
   }
 }
-.dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon, html[data-visual-test] .dnb-accordion .dnb-accordion__header .dnb-accordion__header__icon {
+.dnb-accordion {
+  /* stylelint-disable-next-line no-descending-specificity */
+}
+.dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon {
   transition: none;
 }
 .dnb-accordion__variant--tertiary {

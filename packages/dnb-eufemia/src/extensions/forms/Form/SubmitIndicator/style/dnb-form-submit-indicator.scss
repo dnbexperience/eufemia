@@ -49,10 +49,6 @@
       animation-duration: 1.3s;
       animation-delay: 200ms; // to get a nicer fade in
 
-      html[data-visual-test] & {
-        animation: none;
-      }
-
       font-weight: var(--font-weight-bold);
     }
   }
