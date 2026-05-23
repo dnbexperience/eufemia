@@ -104,10 +104,6 @@
     }
   }
 
-  &__tr--clickable#{&}__tr--expanded &__button .dnb-icon {
-    transform: rotate(180deg);
-  }
-
   &__tr--clickable#{&}__tr--expanded {
     .dnb-table--border & td::after {
       border-bottom: none;

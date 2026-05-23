@@ -21,9 +21,7 @@
 
       > .dnb-icon {
         opacity: 0;
-        transition:
-          opacity 200ms ease-out,
-          transform 500ms ease-out;
+        transition: opacity 200ms var(--easing-default);
 
         @include utilities.reducedMotion() {
           transition-duration: 0.01ms;
@@ -182,15 +180,6 @@
         .dnb-button__text {
           text-decoration-color: transparent;
         }
-      }
-    }
-  }
-  & > thead > tr > th#{&}--reversed,
-  & &__th#{&}--reversed {
-    .dnb-table__sort-button.dnb-button {
-      .dnb-icon {
-        transform: rotate(180deg);
-        transform-origin: 50% 50%;
       }
     }
   }
