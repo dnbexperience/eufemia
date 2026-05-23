@@ -16,9 +16,9 @@
   // sortable
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
-    color: var(--token-color-text-action);
-
     .dnb-table__sort-button.dnb-button {
+      --button-color-text--default: var(--table-th-text-color);
+
       > .dnb-icon {
         opacity: 0;
         transition:
