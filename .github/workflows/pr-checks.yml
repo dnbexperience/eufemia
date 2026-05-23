@@ -47,25 +47,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-
       - name: Fail if any commit contains BREAKING CHANGE
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          COMMITS=$(git log --format="%H" ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
+          commits=$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits" --paginate)
+          length=$(echo "$commits" | jq 'length')
 
-          for sha in $COMMITS; do
-            SUBJECT=$(git log --format="%s" -1 "$sha")
-            if echo "$SUBJECT" | grep -qE '^[a-zA-Z]+(\(.+\))?!:'; then
-              echo "Commit $sha has a valid breaking change marker in the title: $SUBJECT"
+          for i in $(seq 0 $((length - 1))); do
+            sha=$(echo "$commits" | jq -r ".[$i].sha")
+            message=$(echo "$commits" | jq -r ".[$i].commit.message")
+            subject=$(echo "$message" | head -1)
+
+            if echo "$subject" | grep -qE '^[a-zA-Z]+(\(.+\))?!:'; then
+              echo "Commit $sha has a valid breaking change marker in the title: $subject"
               continue
             fi
-            if git log --format="%B" -1 "$sha" | grep -qiE "^BREAKING[ -]CHANGE:"; then
+
+            if echo "$message" | grep -qiE "^BREAKING[ -]CHANGE:"; then
               echo "::error::Commit $sha contains 'BREAKING CHANGE:' footer in its message:"
-              git log --format="%H %s%n%b" -1 "$sha"
+              echo "$sha $subject"
               exit 1
             fi
           done
