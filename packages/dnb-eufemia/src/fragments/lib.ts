@@ -16,7 +16,3 @@ import TextCounter from './text-counter/TextCounter'
 
 // define / export all the available fragments
 export { DrawerList, ScrollView, TextCounter }
-
-export const getFragments = () => {
-  return { DrawerList, ScrollView, TextCounter }
-}

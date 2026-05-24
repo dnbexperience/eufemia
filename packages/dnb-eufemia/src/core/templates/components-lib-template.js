@@ -8,7 +8,3 @@ import Template from './template/Template'
 
 // define / export all the available components
 export { Template }
-
-export const getComponents = () => {
-  return { Template }
-}
