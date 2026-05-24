@@ -1,4 +1,10 @@
-import { isValidElement, useContext, useMemo } from 'react'
+import {
+  isValidElement,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react'
 import type {
   ComponentType,
   HTMLProps,
@@ -22,6 +28,8 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { FormStatusIcon } from '../FormStatus'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import { transition } from './IconTransition'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -51,7 +59,10 @@ export type IconSVGProps = SVGProps<SVGSVGElement> & {
   title?: string
 }
 
-export type IconFunction = (props?: IconSVGProps) => JSX.Element
+export type IconFunction = ((props?: IconSVGProps) => JSX.Element) & {
+  __iconTransitionStyle?: Record<string, string>
+  __iconTransitionFallback?: boolean
+}
 
 /** For internal usage */
 type IconType = string | ReactElement<SVGElement> | IconFunction | false
@@ -121,6 +132,11 @@ export type IconProps = {
   width?: `${IconSize}` | `${number}%` | number
   height?: `${IconSize}` | `${number}%` | number
   children?: IconIcon
+
+  /**
+   * Activates a named Icon.transition() state on the icon element.
+   */
+  transitionState?: string
 }
 
 export type IconAllProps = IconProps &
@@ -145,8 +161,33 @@ export default function Icon(localProps: IconAllProps) {
     iconParams,
     alt,
     children,
+    transitionState,
   } = usePrepareIcon(props, context)
   const icon = iconProp ?? children
+
+  const ref = useRef<HTMLSpanElement>(null)
+  const { ref: externalRef, ...restWrapperParams } =
+    wrapperParams as typeof wrapperParams & {
+      ref?: React.Ref<HTMLSpanElement>
+    }
+  const combinedRef = useCombinedRef(ref, externalRef)
+
+  useEffect(() => {
+    if (!transitionState || !ref.current) {
+      return // stop here
+    }
+
+    const iconFn = icon as IconFunction
+    if (iconFn?.__iconTransitionStyle) {
+      for (const [key, value] of Object.entries(
+        iconFn.__iconTransitionStyle
+      )) {
+        ref.current.style.setProperty(key, value)
+      }
+    }
+
+    transition.activate(ref.current, transitionState)
+  }, [transitionState, icon])
 
   if (!icon) {
     return null
@@ -160,7 +201,7 @@ export default function Icon(localProps: IconAllProps) {
   }
 
   return (
-    <span {...wrapperParams}>
+    <span {...restWrapperParams} ref={combinedRef}>
       <IconContainer {...iconParams} />
     </span>
   )
@@ -364,6 +405,7 @@ export function prepareIcon(
     title,
     skeleton,
     className,
+    transitionState: _transitionState,
     ...attributes
   } = props
 
@@ -423,6 +465,12 @@ export function prepareIcon(
   )
 
   const iconToRender = getIcon(props)
+
+  if (typeof iconToRender === 'function') {
+    if (iconToRender.__iconTransitionFallback) {
+      wrapperParams.className += ' dnb-icon--transition-fallback'
+    }
+  }
 
   return {
     ...props,
@@ -522,3 +570,4 @@ function getIcon(props) {
 }
 
 withComponentMarkers(Icon, { _supportsSpacingProps: true })
+Icon.transition = transition

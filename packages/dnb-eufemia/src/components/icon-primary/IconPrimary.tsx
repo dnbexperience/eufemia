@@ -1,14 +1,16 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
-import type { IconAllProps, IconProps } from '../icon/Icon'
+import type { IconAllProps, IconFunction, IconProps } from '../icon/Icon'
 import { prerenderIcon, prepareIcon } from '../icon/Icon'
+import { transition } from '../icon/IconTransition'
 import { useSpacing } from '../space/SpacingUtils'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 // NB: The path reflects the tsdown.config.ts -> external: '../../icons/dnb/primary_icons'
 import * as primaryIcons from '../../icons/dnb/primary_icons'
 import * as primaryIconsMedium from '../../icons/dnb/primary_icons_medium'
-import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export * from '../icon/Icon'
 
@@ -29,10 +31,8 @@ export default function IconPrimary(localProps: IconAllProps) {
     context.IconPrimary
   )
 
-  const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
-    props,
-    context
-  )
+  const { icon, size, wrapperParams, iconParams, alt, transitionState } =
+    prepareIcon(props, context)
 
   const spacingProps = useSpacing(props, {
     className: wrapperParams.className,
@@ -46,12 +46,36 @@ export default function IconPrimary(localProps: IconAllProps) {
     listOfIcons: icons,
   })
 
+  const ref = useRef<HTMLSpanElement>(null)
+  const { ref: externalRef, ...restWrapperParams } =
+    wrapperParams as typeof wrapperParams & {
+      ref?: React.Ref<HTMLSpanElement>
+    }
+  const combinedRef = useCombinedRef(ref, externalRef)
+
+  useEffect(() => {
+    if (!transitionState || !ref.current) {
+      return // stop here
+    }
+
+    const iconFn = icon as IconFunction
+    if (iconFn?.__iconTransitionStyle) {
+      for (const [key, value] of Object.entries(
+        iconFn.__iconTransitionStyle
+      )) {
+        ref.current.style.setProperty(key, value)
+      }
+    }
+
+    transition.activate(ref.current, transitionState)
+  }, [transitionState, icon])
+
   if (!IconContainer) {
     return null
   }
 
   return (
-    <span {...wrapperParams} {...spacingProps}>
+    <span {...restWrapperParams} ref={combinedRef} {...spacingProps}>
       <IconContainer {...iconParams} />
     </span>
   )
