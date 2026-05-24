@@ -895,10 +895,10 @@ describe('Accordion tertiary variant', () => {
         <Accordion
           variant="tertiary"
           title="Toggle"
-          id="focus-split"
+          id="focus-split-mouse"
           noAnimation
         />
-        <Accordion.Content id="focus-split" title="Details">
+        <Accordion.Content id="focus-split-mouse" title="Details">
           <p>Remote content</p>
         </Accordion.Content>
       </>
@@ -913,7 +913,7 @@ describe('Accordion tertiary variant', () => {
     fireEvent.mouseDown(button)
     fireEvent.click(button, { detail: 1 })
 
-    const content = document.getElementById('focus-split-content')
+    const content = document.getElementById('focus-split-mouse-content')
     expect(document.activeElement).not.toBe(content)
   })
 
