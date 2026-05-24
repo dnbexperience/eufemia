@@ -840,6 +840,36 @@ describe('Accordion tertiary variant', () => {
     expect(document.activeElement).toBe(content)
   })
 
+  it('does not focus content when closing via keyboard', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    setInputIntent('keyboard')
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    ) as HTMLElement
+
+    // Open
+    fireEvent.click(button, { detail: 0 })
+
+    const content = document.querySelector(
+      '.dnb-accordion__tertiary-content'
+    ) as HTMLElement
+    expect(document.activeElement).toBe(content)
+
+    // Move focus back to button before closing
+    button.focus()
+
+    // Close
+    fireEvent.click(button, { detail: 0 })
+
+    expect(document.activeElement).not.toBe(content)
+  })
+
   it('does not focus content when expanded programmatically', () => {
     const { rerender } = render(
       <Accordion variant="tertiary" title="Toggle" noAnimation>
@@ -865,10 +895,10 @@ describe('Accordion tertiary variant', () => {
         <Accordion
           variant="tertiary"
           title="Toggle"
-          id="focus-split"
+          id="focus-split-mouse"
           noAnimation
         />
-        <Accordion.Content id="focus-split" title="Details">
+        <Accordion.Content id="focus-split-mouse" title="Details">
           <p>Remote content</p>
         </Accordion.Content>
       </>
@@ -883,7 +913,7 @@ describe('Accordion tertiary variant', () => {
     fireEvent.mouseDown(button)
     fireEvent.click(button, { detail: 1 })
 
-    const content = document.getElementById('focus-split-content')
+    const content = document.getElementById('focus-split-mouse-content')
     expect(document.activeElement).not.toBe(content)
   })
 

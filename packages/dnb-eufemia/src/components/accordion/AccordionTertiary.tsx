@@ -86,7 +86,7 @@ export default function AccordionTertiary(props: AccordionTertiaryProps) {
       const next = !expanded
       set({
         expanded: next,
-        shouldFocusContent: shouldFocusContentFromClick(event),
+        shouldFocusContent: next && shouldFocusContentFromClick(event),
       })
       onChange?.({ expanded: next, event })
     },
