@@ -191,12 +191,16 @@ export function injectScope(babel: { types: typeof BabelTypes }) {
  * known Eufemia scope symbols (excluding builtins like React hooks).
  */
 export function extractScopeIdentifiers(code: string): string[] {
-  // Strip comments and string literals to avoid false matches
-  const cleaned = code
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/\/\/.*$/gm, '')
-    .replace(/'(?:[^'\\]|\\.)*'/g, "''")
-    .replace(/"(?:[^"\\]|\\.)*"/g, '""')
+  // Strip comments and string literals in a single pass so that
+  // sequences like // inside a string (e.g. "https://...") are consumed
+  // by the string pattern first and never treated as line comments.
+  const cleaned = code.replace(
+    /'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|\/\*[\s\S]*?\*\/|\/\/.*$/gm,
+    (match) => {
+      if (match[0] === "'" || match[0] === '"') return '""'
+      return '' // comment
+    }
+  )
 
   const matches = cleaned.match(/\b([A-Z][a-zA-Z0-9]*)\b/g) || []
 
