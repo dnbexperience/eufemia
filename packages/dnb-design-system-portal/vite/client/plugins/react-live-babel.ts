@@ -1,6 +1,7 @@
 import path from 'node:path'
 import type { Plugin } from 'vite'
 import type BabelTypes from '@babel/types'
+import { injectScope } from './inject-scope'
 
 const portalRoot = path.resolve(__dirname, '..', '..', '..')
 
@@ -24,6 +25,7 @@ export default function reactLiveBabelPlugin(): Plugin {
         ],
         plugins: [
           injectStableName,
+          injectScope,
           [
             require.resolve('babel-plugin-react-live'),
             {
