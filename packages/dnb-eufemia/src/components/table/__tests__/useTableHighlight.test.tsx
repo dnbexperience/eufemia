@@ -270,4 +270,68 @@ describe('useTableHighlight', () => {
 
     consoleSpy.mockRestore()
   })
+
+  it('should not warn when cells inherit highlight from a Tr with aria-label', () => {
+    const log = vi.fn()
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(log)
+
+    const HighlightTable = () => {
+      const highlightRef = useTableHighlight()
+
+      return (
+        <Table ref={highlightRef}>
+          <thead>
+            <TableTr>
+              <TableTh>A</TableTh>
+              <TableTh>B</TableTh>
+            </TableTr>
+          </thead>
+          <tbody>
+            <TableTr highlight aria-label="Highlighted row">
+              <TableTh>Row header</TableTh>
+              <TableTd>1</TableTd>
+            </TableTr>
+          </tbody>
+        </Table>
+      )
+    }
+
+    render(<HighlightTable />)
+
+    expect(log).not.toHaveBeenCalled()
+
+    consoleSpy.mockRestore()
+  })
+
+  it('should not warn when Td is in a column with a highlighted Th', () => {
+    const log = vi.fn()
+    const consoleSpy = vi.spyOn(console, 'log').mockImplementation(log)
+
+    const HighlightTable = () => {
+      const highlightRef = useTableHighlight()
+
+      return (
+        <Table ref={highlightRef}>
+          <thead>
+            <TableTr>
+              <TableTh highlight aria-label="Highlighted column">
+                A
+              </TableTh>
+            </TableTr>
+          </thead>
+          <tbody>
+            <TableTr>
+              <TableTd>1</TableTd>
+            </TableTr>
+          </tbody>
+        </Table>
+      )
+    }
+
+    render(<HighlightTable />)
+
+    expect(log).not.toHaveBeenCalled()
+
+    consoleSpy.mockRestore()
+  })
 })
