@@ -291,7 +291,9 @@ export function ListWithAvatar() {
         <List.Container>
           <List.Item.Basic title="Alice Andersen">
             <List.Cell.Start>
-              <Avatar size="medium">A</Avatar>
+              <Avatar size="medium" hasLabel>
+                A
+              </Avatar>
             </List.Cell.Start>
             <List.Cell.End>
               <Value.Currency value={1234} showEmpty />
@@ -300,7 +302,9 @@ export function ListWithAvatar() {
 
           <List.Item.Action title="Bob Berg" onClick={() => {}}>
             <List.Cell.Start>
-              <Avatar size="medium">B</Avatar>
+              <Avatar size="medium" hasLabel>
+                B
+              </Avatar>
             </List.Cell.Start>
             <List.Cell.End>
               <Value.Currency value={5678} showEmpty />
@@ -309,7 +313,9 @@ export function ListWithAvatar() {
 
           <List.Item.Basic title="Carol with image">
             <List.Cell.Start>
-              <Avatar size="medium">C</Avatar>
+              <Avatar size="medium" hasLabel>
+                C
+              </Avatar>
             </List.Cell.Start>
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Basic>
