@@ -27,6 +27,7 @@ import {
   Button,
   Flex,
   Avatar,
+  FormStatus,
 } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
@@ -235,10 +236,22 @@ export function AllIconsTest() {
 }
 
 export function IconTransitionExample() {
+  const notSupported = !Icon.transition.isSupported && (
+    <FormStatus state="warning" top>
+      Your browser does not support the Web Animations API, so the icon
+      transition will fall back to a simple crossfade.
+    </FormStatus>
+  )
   return (
     <ComponentBox
       data-visual-test="icon-transition"
-      scope={{ arrow_down, arrow_up, arrow_left, arrow_right }}
+      scope={{
+        arrow_down,
+        arrow_up,
+        arrow_left,
+        arrow_right,
+        notSupported,
+      }}
     >
       {() => {
         const directionIcon = Icon.transition({
@@ -258,21 +271,24 @@ export function IconTransitionExample() {
         }
 
         return (
-          <Flex.Horizontal align="center" gap="small">
-            <Icon icon={directionIcon} />
+          <>
+            <Flex.Horizontal align="center" gap="small">
+              <Icon icon={directionIcon} />
 
-            <Field.Selection
-              variant="button"
-              value="down"
-              optionsLayout="horizontal"
-              onChange={handleChange}
-            >
-              <Field.Option value="down" title="Down" />
-              <Field.Option value="up" title="Up" />
-              <Field.Option value="left" title="Left" />
-              <Field.Option value="right" title="Right" />
-            </Field.Selection>
-          </Flex.Horizontal>
+              <Field.Selection
+                variant="button"
+                value="down"
+                optionsLayout="horizontal"
+                onChange={handleChange}
+              >
+                <Field.Option value="down" title="Down" />
+                <Field.Option value="up" title="Up" />
+                <Field.Option value="left" title="Left" />
+                <Field.Option value="right" title="Right" />
+              </Field.Selection>
+            </Flex.Horizontal>
+            {notSupported}
+          </>
         )
       }}
     </ComponentBox>
