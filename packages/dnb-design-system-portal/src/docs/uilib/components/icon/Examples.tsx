@@ -9,6 +9,12 @@ import {
   bell as Bell,
   star as Star,
   heart as Heart,
+  arrow_down,
+  arrow_up,
+  arrow_left,
+  arrow_right,
+  question,
+  close,
 } from '@dnb/eufemia/src/icons'
 import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_medium'
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
@@ -21,8 +27,10 @@ import {
   Button,
   Flex,
   Avatar,
+  FormStatus,
 } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
+import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const IconDefault = () => (
   <ComponentBox
@@ -224,5 +232,103 @@ export function AllIconsTest() {
       <AllPrimaryIcons />
       <AllSecondaryIcons />
     </>
+  )
+}
+
+export function IconTransitionExample() {
+  const notSupported = !Icon.transition.isSupported && (
+    <FormStatus state="warning" top>
+      Your browser does not support the Web Animations API, so the icon
+      transition will fall back to a simple crossfade.
+    </FormStatus>
+  )
+  return (
+    <ComponentBox
+      data-visual-test="icon-transition"
+      scope={{
+        arrow_down,
+        arrow_up,
+        arrow_left,
+        arrow_right,
+        notSupported,
+      }}
+    >
+      {() => {
+        const directionIcon = Icon.transition({
+          down: arrow_down,
+          up: arrow_up,
+          left: arrow_left,
+          right: arrow_right,
+        })
+
+        const handleChange = (direction) => {
+          const iconEl = document.querySelector(
+            '[data-visual-test="icon-transition"] .dnb-icon'
+          ) as HTMLElement
+          if (iconEl) {
+            Icon.transition.activate(iconEl, direction)
+          }
+        }
+
+        return (
+          <>
+            <Flex.Horizontal align="center" gap="small">
+              <Icon icon={directionIcon} />
+
+              <Field.Selection
+                variant="button"
+                value="down"
+                optionsLayout="horizontal"
+                onChange={handleChange}
+              >
+                <Field.Option value="down" title="Down" />
+                <Field.Option value="up" title="Up" />
+                <Field.Option value="left" title="Left" />
+                <Field.Option value="right" title="Right" />
+              </Field.Selection>
+            </Flex.Horizontal>
+            {notSupported}
+          </>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export function IconTransitionFallbackExample() {
+  return (
+    <ComponentBox
+      data-visual-test="icon-transition-fallback"
+      scope={{ question, close }}
+    >
+      {() => {
+        const helpIcon = Icon.transition({ question, close })
+
+        const handleChange = (state) => {
+          const iconEl = document.querySelector(
+            '[data-visual-test="icon-transition-fallback"] .dnb-icon'
+          ) as HTMLElement
+          if (iconEl) {
+            Icon.transition.activate(iconEl, state)
+          }
+        }
+
+        return (
+          <Flex.Horizontal align="center" gap="small">
+            <Icon icon={helpIcon} />
+
+            <Field.Selection
+              variant="button"
+              value="question"
+              optionsLayout="horizontal"
+              onChange={handleChange}
+            >
+              <Field.Option value="question" title="Question" />
+              <Field.Option value="close" title="Close" />
+            </Field.Selection>
+          </Flex.Horizontal>
+        )
+      }}
+    </ComponentBox>
   )
 }

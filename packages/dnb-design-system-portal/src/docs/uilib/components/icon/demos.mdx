@@ -9,6 +9,8 @@ import {
   IconInheritSized,
   IconColors,
   IconsSizes,
+  IconTransitionExample,
+  IconTransitionFallbackExample,
 } from 'Docs/uilib/components/icon/Examples'
 
 ## Demos
@@ -46,3 +48,17 @@ The official supported sizes are `default` and `medium`.
 **NB:** If you need to use the `large`, `x-large` or `xx-large` sizes, then you should use the `*_medium` version of the icon. Ensure you import the `*_medium` version of the icon.
 
 <IconsSizes />
+
+### Icon transition
+
+Use `Icon.transition()` to animate between SVG icon states. Define named states and use `Icon.transition.activate(element, state)` to switch between them.
+
+When icons have compatible path structures (same number and type of segments), the transition animates via CSS `d` property interpolation. This suits directional variants like `arrow_down` ↔ `arrow_up` or `chevron_down` ↔ `chevron_up`.
+
+<IconTransitionExample />
+
+### Icon transition fallback
+
+When icons have incompatible path structures (e.g. `question` ↔ `close`), `Icon.transition()` automatically falls back to a transform/opacity crossfade using stacked SVGs. The same `Icon.transition.activate()` API works for both modes.
+
+<IconTransitionFallbackExample />
