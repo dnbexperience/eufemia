@@ -446,4 +446,29 @@ describe('TableTr', () => {
       )
     })
   })
+
+  describe('isLast', () => {
+    it('should only set --last on the last Tr', () => {
+      render(
+        <Table>
+          <tbody>
+            <TableTr>
+              <td>row 1</td>
+            </TableTr>
+            <TableTr>
+              <td>row 2</td>
+            </TableTr>
+            <TableTr>
+              <td>row 3</td>
+            </TableTr>
+          </tbody>
+        </Table>
+      )
+
+      const rows = document.querySelectorAll('tbody tr')
+      expect(rows[0].classList.contains('dnb-table__tr--last')).toBe(false)
+      expect(rows[1].classList.contains('dnb-table__tr--last')).toBe(false)
+      expect(rows[2].classList.contains('dnb-table__tr--last')).toBe(true)
+    })
+  })
 })

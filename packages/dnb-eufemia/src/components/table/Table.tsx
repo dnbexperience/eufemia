@@ -142,7 +142,9 @@ const Table = (componentProps: TableAllProps) => {
   const { elementRef } = useStickyHeader(allProps)
   const mergedRef = useCombinedRef(elementRef, ref)
 
-  const { trCountRef, rerenderAlias } = useHandleOddEven({ children })
+  const { trCountRef, rerenderAlias, totalCount } = useHandleOddEven({
+    children,
+  })
   const collapseTrCallbacks = useRef<(() => void)[]>([])
 
   useEffect(() => {
@@ -186,6 +188,7 @@ const Table = (componentProps: TableAllProps) => {
         value={{
           trCountRef,
           rerenderAlias,
+          totalCount,
           collapseTrCallbacks,
           allProps: {
             ...allProps,

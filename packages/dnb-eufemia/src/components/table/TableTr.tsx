@@ -226,7 +226,9 @@ function useHandleTrVariant({ variant }) {
     currentVariant = count % 2 ? 'odd' : 'even'
   }
   const isLast =
-    typeof countRef !== 'undefined' && countRef.count === count
+    tableContext?.totalCount > 0
+      ? tableContext.totalCount === count
+      : typeof countRef !== 'undefined' && countRef.count === count
   return {
     currentVariant,
     isLast,
@@ -240,6 +242,11 @@ function useHandleTrVariant({ variant }) {
 export function useHandleOddEven({ children }) {
   // Create this ref in order to "auto" set even/odd class in tr elements
   const trCountRef = useRef({ count: 0 })
+
+  // Stable total count, updated after all Tr effects have settled.
+  // Reading countRef.count during render is unreliable because each Tr
+  // mutates it via increment(), so intermediate renders see partial values.
+  const [totalCount, setTotalCount] = useState(0)
 
   // When the alias changes, all tr's will rerender and get a new even/odd color
   // This is useful, when one tr gets removed
@@ -258,7 +265,12 @@ export function useHandleOddEven({ children }) {
     isMounted.current = true
   }, [children, forceRerender])
 
-  return { trCountRef, rerenderAlias, setRerenderAlias }
+  // Runs after all child (Tr) effects, so trCountRef.current.count is final.
+  useEffect(() => {
+    setTotalCount(trCountRef.current.count)
+  })
+
+  return { trCountRef, rerenderAlias, totalCount, setRerenderAlias }
 }
 
 Tr.AccordionContent = TableAccordionContentRow
