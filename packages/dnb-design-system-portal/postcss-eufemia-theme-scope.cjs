@@ -13,6 +13,11 @@
  * to:
  *   .eufemia-scope--portal .eufemia-theme__sbanken.eufemia-theme__color-scheme--dark
  *
+ * And component selectors like:
+ *   .eufemia-scope--portal .dnb-accordion
+ * to:
+ *   .eufemia-scope--portal .eufemia-theme__sbanken .dnb-accordion
+ *
  * And comma patterns like:
  *   .eufemia-scope--portal, .eufemia-scope--portal .eufemia-theme__sbanken
  * to:
@@ -61,6 +66,18 @@ const plugin = () => {
           )
           if (colorSchemeMatch) {
             return `.${scopeClass} .${brandClass}${colorSchemeMatch[1]}`
+          }
+
+          // Catch-all: any other selector containing the scope class
+          // (e.g. component selectors like ".eufemia-scope--portal .dnb-accordion")
+          // Insert the brand class after the scope class so the styles
+          // only apply when the theme is active, not just when the
+          // style tag is enabled.
+          if (trimmed.includes(`.${scopeClass} `)) {
+            return trimmed.replace(
+              `.${scopeClass} `,
+              `.${scopeClass} .${brandClass} `
+            )
           }
 
           return sel
