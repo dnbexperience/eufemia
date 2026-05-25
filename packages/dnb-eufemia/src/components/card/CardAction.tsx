@@ -1,10 +1,5 @@
 import { useCallback } from 'react'
-import type {
-  ComponentType,
-  KeyboardEvent,
-  MouseEventHandler,
-  Ref,
-} from 'react'
+import type { ComponentType, KeyboardEvent, MouseEvent, Ref } from 'react'
 import type { CardProps } from './CardInner'
 import Card from './CardInner'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -33,7 +28,9 @@ export type CardActionProps = Omit<CardProps, 'onClick' | 'element'> & {
   /**
    * Click handler. When used without `href`/`to`, renders a button-like wrapper with keyboard support (Enter/Space).
    */
-  onClick?: MouseEventHandler<HTMLElement>
+  onClick?: (
+    event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
+  ) => void
 
   /**
    * Custom element to render as the wrapper. Defaults to `a` when `href`/`to` is set.
@@ -67,7 +64,7 @@ function CardAction(props: CardActionProps) {
     (event: KeyboardEvent<HTMLElement>) => {
       if (onClick && (event.key === 'Enter' || event.key === ' ')) {
         event.preventDefault()
-        onClick(event as unknown as React.MouseEvent<HTMLElement>)
+        onClick(event)
       }
     },
     [onClick]
