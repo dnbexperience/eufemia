@@ -209,6 +209,7 @@ function CopyCodeButton({
       className={className}
       variant={variant}
       icon={copied ? checkIcon : copyIcon}
+      title="Copy to clipboard"
       tooltip={copied ? 'Copied!' : 'Copy to clipboard'}
       onClick={handleCopy}
     />
