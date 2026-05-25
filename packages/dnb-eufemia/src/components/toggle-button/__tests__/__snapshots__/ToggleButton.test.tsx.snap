@@ -69,6 +69,12 @@ legend.dnb-form-label {
 * Icon component
 *
 */
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -147,21 +153,52 @@ p > .dnb-icon {
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
 }
+.dnb-icon[style*="--icon-transition"] svg path {
+  d: var(--icon-transition, var(--icon-transition-default));
+  vector-effect: non-scaling-stroke;
+  transition: d 400ms var(--easing-default);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon[style*="--icon-transition"] svg path {
+    transition-duration: 0.01ms;
+  }
+}
+.dnb-icon--transition-fallback {
+  position: relative;
+}
+.dnb-icon--transition-fallback svg[data-icon-state] {
+  transition: opacity 500ms var(--easing-default) 80ms, transform 600ms var(--easing-default);
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(:first-of-type) {
+  position: absolute;
+  inset: 0;
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(.dnb-icon__state--active) {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.dnb-icon--transition-fallback svg[data-icon-state].dnb-icon__state--active {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon--transition-fallback svg[data-icon-state] {
+    transition-duration: 0.01ms;
+  }
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
- * Utilities
- */
-/*
- * Utilities
- */
+* Tooltip component
+*
+*/
 :root {
   --tooltip-z-index: var(--z-index-tooltip);
 }
@@ -210,7 +247,7 @@ p > .dnb-icon {
 *
 */
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -352,7 +389,7 @@ button .dnb-form-status__text {
   }
 }
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -1024,7 +1061,7 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -1440,7 +1477,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
 *
 */
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -1763,7 +1800,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 }
 
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
