@@ -13,6 +13,7 @@ type TableContextProps = {
     count: number
   }>
   rerenderAlias: Record<string, never>
+  totalCount: number
   collapseTrCallbacks: RefObject<(() => void)[]>
   allProps: TableAllProps & Translation['Table']
   hasAccordionRows?: boolean
