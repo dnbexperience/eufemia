@@ -302,4 +302,57 @@ describe('TableTh', () => {
     expect(classList).toContain('dnb-table--active')
     expect(classList).toContain('custom')
   })
+
+  it('should set sort-off class when sortedBefore and not active', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh sortable sortedBefore>
+              th content
+            </TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    expect(Array.from(element.classList)).toContain('dnb-table--sort-off')
+  })
+
+  it('should not set sort-off class when sortedBefore and active', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh sortable sortedBefore active>
+              th content
+            </TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-table--sort-off'
+    )
+  })
+
+  it('should not set sort-off class without sortedBefore', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh sortable>th content</TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    expect(Array.from(element.classList)).not.toContain(
+      'dnb-table--sort-off'
+    )
+  })
 })

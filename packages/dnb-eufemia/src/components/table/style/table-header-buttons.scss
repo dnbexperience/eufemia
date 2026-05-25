@@ -74,11 +74,6 @@
         &:not(:focus) .dnb-icon {
           opacity: 1;
         }
-
-        // hide underline
-        .dnb-button__text {
-          text-decoration-color: transparent;
-        }
       }
 
       @include utilities.focus() {
@@ -116,6 +111,10 @@
         ); // also, make a touch ring
         @include tableFocusRing();
 
+        .dnb-button__text {
+          text-decoration: none;
+        }
+
         // focus ring
         &::before {
           --border-color: currentcolor;
@@ -150,6 +149,18 @@
               right: 0;
             }
           }
+        }
+      }
+    }
+  }
+
+  // sort-off: column was sorted before but returned to unsorted state
+  & > thead > tr > th#{&}--sort-off,
+  & &__th#{&}--sort-off {
+    .dnb-table__sort-button.dnb-button {
+      @include utilities.hover() {
+        &:not(:focus) .dnb-icon {
+          opacity: 0;
         }
       }
     }

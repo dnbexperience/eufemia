@@ -32,6 +32,7 @@ export type TableSortState = Record<
     active: boolean
     reversed: boolean
     direction: UseHandleSortStateDirection | 'off'
+    sortedBefore?: boolean
   }
 >
 export type TableSortEventHandler = () => void
@@ -47,6 +48,7 @@ type SortStateInternalStateOptions = Omit<
 type SortStateInternalState = SortStateInternalStateOptions & {
   reversed: boolean
   lastDirection: UseHandleSortStateDirection
+  sortedBefore?: boolean
 }
 type SortStateInternalEntry = Record<
   UseHandleSortStateName,
@@ -97,6 +99,12 @@ export function useHandleSortState(
           state.active = state.direction !== 'off'
         }
 
+        if (!state.active) {
+          state.sortedBefore = true
+        } else {
+          state.sortedBefore = undefined
+        }
+
         setState({
           ...list.reduce((acc, [name, opts]) => {
             acc[name] = opts
@@ -116,7 +124,7 @@ export function useHandleSortState(
 
   let activeSortName = null
   const sortState: TableSortState = Object.entries(internalState).reduce(
-    (acc, [name, { active, direction }]) => {
+    (acc, [name, { active, direction, sortedBefore }]) => {
       const reversed =
         direction === 'off' ? undefined : direction === 'desc'
 
@@ -127,6 +135,10 @@ export function useHandleSortState(
       }
 
       acc[name] = { active, direction, reversed }
+
+      if (sortedBefore && !active) {
+        acc[name].sortedBefore = true
+      }
 
       return acc
     },
