@@ -65,7 +65,7 @@ export const IconFilled = () => (
       <Flex.Horizontal align="center">
         <Icon icon={Star} fill />
         <Icon icon={Heart} fill />
-        <Avatar icon={<Icon icon={Star} fill />} size="small" />
+        <Avatar icon={<Icon icon={Star} fill />} size="small" hasLabel />
         <Button icon={<Icon icon={Heart} fill />} title="Favorite" />
       </Flex.Horizontal>
     </Flex.Stack>
