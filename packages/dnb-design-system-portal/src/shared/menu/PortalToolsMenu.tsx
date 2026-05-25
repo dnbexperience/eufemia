@@ -187,6 +187,7 @@ export default function PortalToolsMenu({
         iconSize: 'medium',
         skeleton: false,
         left: 'x-small',
+        title: 'Portal Tools',
         tooltip: (
           <Tooltip
             placement={tooltipPosition}
