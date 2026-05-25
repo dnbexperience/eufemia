@@ -1,10 +1,4 @@
-import {
-  isValidElement,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react'
+import { isValidElement, useContext, useMemo, useRef } from 'react'
 import type {
   ComponentType,
   HTMLProps,
@@ -29,7 +23,8 @@ import type { SkeletonShow } from '../Skeleton'
 import type { FormStatusIcon } from '../FormStatus'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
-import { transition } from './IconTransition'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { transition, suppressTransitions } from './IconTransition'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -166,13 +161,14 @@ export default function Icon(localProps: IconAllProps) {
   const icon = iconProp ?? children
 
   const ref = useRef<HTMLSpanElement>(null)
+  const isInitialMount = useRef(true)
   const { ref: externalRef, ...restWrapperParams } =
     wrapperParams as typeof wrapperParams & {
       ref?: React.Ref<HTMLSpanElement>
     }
   const combinedRef = useCombinedRef(ref, externalRef)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!transitionState || !ref.current) {
       return // stop here
     }
@@ -186,7 +182,14 @@ export default function Icon(localProps: IconAllProps) {
       }
     }
 
-    transition.activate(ref.current, transitionState)
+    if (isInitialMount.current) {
+      isInitialMount.current = false
+      suppressTransitions(ref.current, () => {
+        transition.activate(ref.current, transitionState)
+      })
+    } else {
+      transition.activate(ref.current, transitionState)
+    }
   }, [transitionState, icon])
 
   if (!icon) {

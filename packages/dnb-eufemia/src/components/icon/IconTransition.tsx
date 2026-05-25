@@ -114,6 +114,33 @@ transition.activate = (element: HTMLElement, state: string) => {
   }
 }
 
+/**
+ * Runs a callback with all CSS transitions disabled on the element
+ * and its SVG children, then restores them after a forced reflow.
+ */
+export function suppressTransitions(
+  element: HTMLElement,
+  callback: () => void
+) {
+  const targets = [
+    element,
+    ...Array.from(element.querySelectorAll<SVGElement>('svg, svg path')),
+  ]
+
+  for (const el of targets) {
+    el.style.setProperty('transition', 'none')
+  }
+
+  callback()
+
+  // Force reflow so the state change is committed without transitions
+  element.getBoundingClientRect()
+
+  for (const el of targets) {
+    el.style.removeProperty('transition')
+  }
+}
+
 transition.isSupported = supportsCssDProperty
 
 function extractPathD(iconFn: IconFunction): string {
