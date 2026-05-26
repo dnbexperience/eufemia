@@ -55,7 +55,7 @@ describe('Icon.transition', () => {
     expect(style).toContain('var(--icon-transition-asc)')
   })
 
-  it('does not set CSS custom properties without transitionState', () => {
+  it('sets CSS custom properties even without transitionState', () => {
     const icon = Icon.transition({ asc: arrow_down, desc: arrow_up })
 
     render(<Icon icon={icon} />)
@@ -63,7 +63,9 @@ describe('Icon.transition', () => {
     const wrapper = document.querySelector('.dnb-icon') as HTMLElement
     const style = wrapper.getAttribute('style')
 
-    expect(style).toBeNull()
+    expect(style).toContain('--icon-transition-asc')
+    expect(style).toContain('--icon-transition-desc')
+    expect(style).toContain('--icon-transition-default')
   })
 
   it('normalizes paths to absolute coordinates', () => {
