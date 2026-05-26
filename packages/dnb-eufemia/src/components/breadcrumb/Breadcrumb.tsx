@@ -19,6 +19,10 @@ import { clsx } from 'clsx'
 // Components
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { useSpacing } from '../space/SpacingUtils'
+import type {
+  SectionBackgroundColor,
+  SectionVariants,
+} from '../section/Section'
 import Section from '../section/Section'
 import Button from '../button/Button'
 import Accordion from '../accordion/Accordion'
@@ -114,6 +118,16 @@ export type BreadcrumbProps = {
   backToText?: ReactNode
 
   /**
+   * @deprecated No longer supported after the Breadcrumb redesign.
+   */
+  backgroundColor?: SectionBackgroundColor
+
+  /**
+   * @deprecated No longer supported after the Breadcrumb redesign.
+   */
+  collapsedStyleType?: SectionVariants
+
+  /**
    * If variant='collapse', you can override collapsed state for the collapsed content by updating this value.
    * Default: `null`
    */
@@ -179,6 +193,8 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     goBackText, // has a translation in context
     homeText,
     backToText, // has a translation in context
+    backgroundColor: _backgroundColor, // deprecated
+    collapsedStyleType: _collapsedStyleType, // deprecated
     collapsed: overrideCollapsed,
     spacing,
     noAnimation,

@@ -41,6 +41,16 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  backgroundColor: {
+    doc: 'No longer supported after the Breadcrumb redesign.',
+    type: 'Various',
+    status: 'deprecated',
+  },
+  collapsedStyleType: {
+    doc: 'No longer supported after the Breadcrumb redesign.',
+    type: ['"error"', '"information"', '"warning"', '"success"'],
+    status: 'deprecated',
+  },
   className: {
     doc: 'Custom `className` for the component root.',
     type: 'string',
