@@ -342,15 +342,15 @@ export function injectHtml(
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
-  // The default theme (ui) is enabled; others are disabled.
-  // An early inline script reads localStorage and swaps them
-  // before the browser paints — preventing a flash of the wrong brand.
+  // All links are enabled (render-blocking) so the browser fetches them
+  // before the first paint. An early inline script then disables the
+  // inactive themes and adds the active brand class to <body>.
+  // Because all CSS is already loaded, the disable is instant — no flash.
   if (themeCssPaths && Object.keys(themeCssPaths).length > 0) {
     const defaultTheme = 'ui'
     const linkTags = Object.entries(themeCssPaths)
       .map(([name, href]) => {
-        const disabled = name !== defaultTheme ? ' disabled' : ''
-        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}"${disabled}>`
+        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}">`
       })
       .join('\n')
 
