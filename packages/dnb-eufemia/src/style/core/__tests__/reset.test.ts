@@ -14,7 +14,7 @@ describe('resetLegacyStyles', () => {
     const css = compileMixin()
 
     expect(css).toContain(
-      'html[xmlns="http://www.w3.org/1999/xhtml"] .dnb-p:not(.dnb-t__align--center):not(.dnb-t__align--left):not(.dnb-t__align--right)'
+      'html[xmlns="http://www.w3.org/1999/xhtml"] .dnb-p:not([class*=dnb-t__align])'
     )
   })
 
