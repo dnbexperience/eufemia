@@ -142,6 +142,8 @@ The function `getTranslation` will along with the properties support both `local
 import { Context } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
+import type { LocaleProps } from '../../shared/types'
+
 export type ComponentProps = {
   myParam?: string
 }
@@ -212,7 +214,7 @@ function FormComponent(props: Types) {
   const { myParam, skeleton, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
-    pickFormElementProps(context?.formElement)
+    pickFormElementProps(context?.formElement),
     context.FormComponent,
   )
 
@@ -306,14 +308,14 @@ function MyComponent(props: ComponentAllProps) {
   skeletonDOMAttributes(rest, skeleton, context)
 
   // This helper will add needed skeleton css classes in order to create a custom skeleton
-  rest.className = createSkeletonClass(
+  const skeletonClassName = createSkeletonClass(
     'shape',
     skeleton,
     context,
     className
   )
 
-  // Use skeleton and spread the ...rest
+  // Use skeleton, skeletonClassName and spread the ...rest
 }
 ```
 
