@@ -22,13 +22,8 @@ import type { UploadFile, UploadFileNative } from './types'
 // Shared
 import { getClosestParent } from '../../shared/component-helper'
 import useUpload, { isFileEqual } from './useUpload'
-import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
 import type { ProgressIndicatorAllProps } from '../progress-indicator/types'
-
-export const fileExtensionImages = {
-  file: FileIcon,
-}
 
 export type UploadFileListCellProps = {
   id: string
@@ -233,18 +228,5 @@ export function getFileIcon(
 
   if (hasWarning) return <Icon icon={ExclamationIcon} />
 
-  let iconFileType = getFileTypeFromExtension(file)
-
-  if (!iconFileType) {
-    const mimeParts = file.type.split('/')
-    iconFileType =
-      fileExtensionImages[mimeParts[0]] ||
-      fileExtensionImages[mimeParts[1]]
-  }
-
-  if (!Object.hasOwn(fileExtensionImages, iconFileType)) {
-    iconFileType = 'file'
-  }
-
-  return <Icon icon={fileExtensionImages[iconFileType]} />
+  return <Icon icon={FileIcon} />
 }
