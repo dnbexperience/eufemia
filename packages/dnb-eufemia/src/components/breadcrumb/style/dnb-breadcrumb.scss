@@ -24,8 +24,8 @@
       color: var(--token-color-icon-neutral);
     }
 
-    .dnb-button__text::after {
-      display: none;
+    .dnb-button__text {
+      text-decoration: none;
     }
   }
 

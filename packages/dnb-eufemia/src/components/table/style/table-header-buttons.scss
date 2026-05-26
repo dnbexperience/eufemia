@@ -123,11 +123,6 @@
           right: -0.5rem;
         }
       }
-
-      // webkit fix
-      &:hover:focus:not(:active) .dnb-button__text::after {
-        visibility: hidden;
-      }
     }
 
     &[align='right'] {
@@ -144,10 +139,6 @@
           }
           .dnb-button__text {
             padding-right: 0;
-
-            &::after {
-              right: 0;
-            }
           }
         }
       }
@@ -171,8 +162,8 @@
   & &__th#{&}--active {
     .dnb-table__sort-button.dnb-button {
       // hide underline
-      &:not(:hover) .dnb-button__text::after {
-        opacity: 0;
+      &:not(:hover) .dnb-button__text {
+        text-decoration-color: transparent;
       }
 
       .dnb-icon {
@@ -181,28 +172,16 @@
 
       // and underline on hover
       @include utilities.hover() {
-        .dnb-button__text::after {
-          color: var(--token-color-text-action);
-          opacity: 1;
+        .dnb-button__text {
+          text-decoration-color: var(--token-color-text-action);
         }
       }
 
       @include utilities.focus() {
         // hide underline
-        .dnb-button__text::after {
-          opacity: 0;
+        .dnb-button__text {
+          text-decoration-color: transparent;
         }
-      }
-
-      // webkit fix
-      &:hover:focus:not(:active) .dnb-button__text::after {
-        visibility: visible;
-      }
-
-      html[data-whatinput='keyboard']
-        &:hover:focus
-        .dnb-button__text::after {
-        visibility: hidden;
       }
     }
   }

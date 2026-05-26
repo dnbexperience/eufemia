@@ -1194,8 +1194,8 @@ button.dnb-button::-moz-focus-inner {
 .dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button .dnb-button__icon {
   color: var(--token-color-icon-neutral);
 }
-.dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button .dnb-button__text::after {
-  display: none;
+.dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button .dnb-button__text {
+  text-decoration: none;
 }
 .dnb-breadcrumb__list.dnb-section {
   display: flex;
