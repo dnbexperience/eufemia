@@ -411,33 +411,6 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
 .dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon {
   transition: none;
 }
-.dnb-accordion__variant--tertiary {
-  display: inline-flex;
-  border: none;
-  background: none;
-  box-shadow: none;
-}
-.dnb-accordion__variant--tertiary .dnb-accordion__tertiary-button .dnb-icon {
-  transition: transform 0.4s var(--easing-default);
-}
-@media (prefers-reduced-motion: reduce) {
-  .dnb-accordion__variant--tertiary .dnb-accordion__tertiary-button .dnb-icon {
-    transition-duration: 0.01ms;
-  }
-}
-.dnb-accordion__variant--tertiary.dnb-accordion--expanded .dnb-accordion__tertiary-button .dnb-icon {
-  transform: rotate(180deg);
-}
-.dnb-accordion__variant--tertiary.dnb-accordion--expanded .dnb-accordion__tertiary-button.dnb-button--icon-position-left .dnb-icon {
-  transform: rotate(-180deg);
-}"
-`;
-
-exports[`Accordion scss > have to match default theme snapshot 1`] = `
-"/* 
- * Accordion theme
- *
- */
 .dnb-accordion__variant--outlined {
   --accordion-color-text--default: var(
     --token-color-text-action
@@ -554,5 +527,25 @@ exports[`Accordion scss > have to match default theme snapshot 1`] = `
   --accordion-color-border--disabled: var(
     --accordion-color-bg--disabled
   );
+}
+.dnb-accordion__variant--tertiary {
+  display: inline-flex;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+.dnb-accordion__variant--tertiary .dnb-accordion__tertiary-button .dnb-icon {
+  transition: transform 0.4s var(--easing-default);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-accordion__variant--tertiary .dnb-accordion__tertiary-button .dnb-icon {
+    transition-duration: 0.01ms;
+  }
+}
+.dnb-accordion__variant--tertiary.dnb-accordion--expanded .dnb-accordion__tertiary-button .dnb-icon {
+  transform: rotate(180deg);
+}
+.dnb-accordion__variant--tertiary.dnb-accordion--expanded .dnb-accordion__tertiary-button.dnb-button--icon-position-left .dnb-icon {
+  transform: rotate(-180deg);
 }"
 `;
