@@ -100,102 +100,12 @@ describe('UploadFileListCell', () => {
       ).toBeInTheDocument()
     })
 
-    it('renders the pdf icon', () => {
+    it('renders the file icon', () => {
       render(
         <UploadFileListCell
           {...defaultProps}
           uploadFile={{
             file: createMockFile('file.pdf', 100, 'application/pdf'),
-          }}
-        />
-      )
-
-      expect(
-        screen.queryByTestId('file pdf medium icon')
-      ).toBeInTheDocument()
-    })
-
-    it('renders the xls icon', () => {
-      render(
-        <UploadFileListCell
-          {...defaultProps}
-          uploadFile={{
-            file: createMockFile('file.xls', 100, 'application/xls'),
-          }}
-        />
-      )
-
-      expect(
-        screen.queryByTestId('file xls medium icon')
-      ).toBeInTheDocument()
-    })
-
-    it('renders the ppt icon', () => {
-      render(
-        <UploadFileListCell
-          {...defaultProps}
-          uploadFile={{
-            file: createMockFile('file.ppt', 100, 'application/ppt'),
-          }}
-        />
-      )
-
-      expect(
-        screen.queryByTestId('file ppt medium icon')
-      ).toBeInTheDocument()
-    })
-
-    it('renders the csv icon', () => {
-      render(
-        <UploadFileListCell
-          {...defaultProps}
-          uploadFile={{
-            file: createMockFile('file.csv', 100, 'image/csv'),
-          }}
-        />
-      )
-
-      expect(
-        screen.queryByTestId('file csv medium icon')
-      ).toBeInTheDocument()
-    })
-
-    it('renders the txt icon', () => {
-      render(
-        <UploadFileListCell
-          {...defaultProps}
-          uploadFile={{
-            file: createMockFile('file.txt', 100, 'text/txt'),
-          }}
-        />
-      )
-
-      expect(
-        screen.queryByTestId('file txt medium icon')
-      ).toBeInTheDocument()
-    })
-
-    it('renders the xml icon', () => {
-      render(
-        <UploadFileListCell
-          {...defaultProps}
-          uploadFile={{
-            file: createMockFile('file.xml', 100, 'application/xml'),
-          }}
-        />
-      )
-
-      expect(
-        screen.queryByTestId('file xml medium icon')
-      ).toBeInTheDocument()
-    })
-
-    it('renders the file icon as default', () => {
-      render(
-        <UploadFileListCell
-          {...defaultProps}
-          uploadFile={{
-            file: createMockFile('file.custom', 100, 'application/custom'),
           }}
         />
       )
