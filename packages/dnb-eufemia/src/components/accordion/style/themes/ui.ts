@@ -1,4 +1,0 @@
-/**
- * Imports the default theme
- *
- */
