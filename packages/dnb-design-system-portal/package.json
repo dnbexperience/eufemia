@@ -89,7 +89,6 @@
     "jsdom": "29.1.1",
     "mdast-util-to-string": "4.0.0",
     "micromatch": "4.0.8",
-    "prettier": "3.8.1",
     "prettier-package-json": "2.8.0",
     "prism-react-renderer": "2.4.1",
     "prismjs": "1.30.0",
