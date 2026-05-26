@@ -394,8 +394,12 @@
     // reset paragraphs
     .dnb-p {
       overflow: initial;
-      text-align: inherit;
       background-color: initial;
+    }
+    .dnb-p:not(.dnb-t__align--center):not(.dnb-t__align--left):not(
+        .dnb-t__align--right
+      ) {
+      text-align: inherit;
     }
     i {
       font-style: italic;
