@@ -383,7 +383,7 @@
     }
 
     a.dnb-button--primary {
-      color: var(--color-white);
+      color: var(--button-color-text, var(--button-color-text--default));
     }
 
     // reset lists
