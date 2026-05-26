@@ -18,6 +18,17 @@ export type RouteEntry = {
 
 export type SSRManifest = Record<string, string[]>
 
+export type ClientManifestEntry = {
+  file: string
+  name?: string
+  src?: string
+  isDynamicEntry?: boolean
+  imports?: string[]
+  css?: string[]
+}
+
+export type ClientManifest = Record<string, ClientManifestEntry>
+
 export type MdxNode = {
   fields: { slug: string }
   frontmatter: Record<string, unknown>
@@ -166,10 +177,17 @@ export function getMdPath(
 /**
  * Map a URL to its per-route preload assets from the SSR manifest.
  * Returns JS files for modulepreload and CSS files for stylesheet links.
+ *
+ * When a client manifest is provided, performs a BFS through chunk
+ * imports to discover transitive CSS dependencies. Without this,
+ * CSS modules imported by non-route source files (e.g. shared menu
+ * components) would only load after JS executes, causing a layout
+ * flicker on prerendered pages.
  */
 export function getRoutePreloads(
   url: string,
-  ssrManifest: SSRManifest
+  ssrManifest: SSRManifest,
+  clientManifest?: ClientManifest | null
 ): { js: string[]; css: string[] } {
   const routePath = url.replace(/^\/|\/$/g, '') || 'index'
 
@@ -191,6 +209,52 @@ export function getRoutePreloads(
           jsPreloads.add(asset)
         } else if (asset.endsWith('.css')) {
           cssPreloads.add(asset)
+        }
+      }
+    }
+  }
+
+  if (clientManifest && jsPreloads.size > 0) {
+    const fileToEntry = new Map<string, ClientManifestEntry>()
+    for (const entry of Object.values(clientManifest)) {
+      if (entry.file) {
+        fileToEntry.set('/' + entry.file, entry)
+      }
+    }
+
+    const visited = new Set<string>()
+    const queue = Array.from(jsPreloads)
+
+    while (queue.length > 0) {
+      const chunk = queue.shift()!
+      if (visited.has(chunk)) {
+        continue
+      }
+      visited.add(chunk)
+
+      const entry = fileToEntry.get(chunk)
+      if (!entry) {
+        continue
+      }
+
+      if (entry.css) {
+        for (const css of entry.css) {
+          cssPreloads.add('/' + css)
+        }
+      }
+
+      if (entry.imports) {
+        for (const imp of entry.imports) {
+          if (imp === 'index.html') {
+            continue
+          }
+          const impEntry = clientManifest[imp]
+          if (impEntry?.file) {
+            const impPath = '/' + impEntry.file
+            if (!visited.has(impPath)) {
+              queue.push(impPath)
+            }
+          }
         }
       }
     }

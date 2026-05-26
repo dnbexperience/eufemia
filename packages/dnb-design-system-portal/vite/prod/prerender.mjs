@@ -38,6 +38,7 @@ async function prerender() {
     build: {
       outDir,
       ssrManifest: true,
+      manifest: true,
     },
   })
 
@@ -75,6 +76,15 @@ async function prerender() {
   const ssrManifest = fs.existsSync(manifestPath)
     ? JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
     : {}
+
+  // Read the client build manifest for chunk dependency tracking.
+  // The client manifest has `imports` and `css` fields per chunk,
+  // letting us follow transitive CSS dependencies that the SSR
+  // manifest alone cannot resolve.
+  const clientManifestPath = path.resolve(outDir, '.vite', 'manifest.json')
+  const clientManifest = fs.existsSync(clientManifestPath)
+    ? JSON.parse(fs.readFileSync(clientManifestPath, 'utf-8'))
+    : null
 
   const contentScript = getContentScript()
   let urls = collectUrls(routes)
@@ -134,7 +144,7 @@ async function prerender() {
     if (result.redirect) {
       writeHtml(url, buildRedirectHtml(result.redirect))
     } else {
-      const preloads = getRoutePreloads(url, ssrManifest)
+      const preloads = getRoutePreloads(url, ssrManifest, clientManifest)
       const meta = getPageMeta(url, allMdxNodes)
       const mdPath = getMdPath(url, allMdxNodes)
       const html = injectHtml(
@@ -348,7 +358,7 @@ function getMdPath(url, allMdxNodes) {
   return null
 }
 
-function getRoutePreloads(url, ssrManifest) {
+function getRoutePreloads(url, ssrManifest, clientManifest) {
   const routePath = url.replace(/^\/|\/$/g, '') || 'index'
 
   const candidates = [
@@ -369,6 +379,62 @@ function getRoutePreloads(url, ssrManifest) {
           jsPreloads.add(asset)
         } else if (asset.endsWith('.css')) {
           cssPreloads.add(asset)
+        }
+      }
+    }
+  }
+
+  // Use the client manifest to find CSS chunks that are transitively
+  // imported by the route's JS chunks. Without this, CSS modules
+  // imported by non-route source files (e.g. shared menu components)
+  // would only load after JS executes, causing a layout flicker on
+  // prerendered pages.
+  if (clientManifest && jsPreloads.size > 0) {
+    // Build a lookup from output file path to manifest entry
+    const fileToEntry = new Map()
+    for (const entry of Object.values(clientManifest)) {
+      if (entry.file) {
+        fileToEntry.set('/' + entry.file, entry)
+      }
+    }
+
+    // BFS through chunk imports to collect all transitive CSS
+    const visited = new Set()
+    const queue = [...jsPreloads]
+
+    while (queue.length > 0) {
+      const chunk = queue.shift()
+      if (visited.has(chunk)) {
+        continue
+      }
+      visited.add(chunk)
+
+      const entry = fileToEntry.get(chunk)
+      if (!entry) {
+        continue
+      }
+
+      // Collect CSS associated with this chunk
+      if (entry.css) {
+        for (const css of entry.css) {
+          cssPreloads.add('/' + css)
+        }
+      }
+
+      // Follow static imports (skip the entry point — its CSS
+      // is already in the HTML template)
+      if (entry.imports) {
+        for (const imp of entry.imports) {
+          if (imp === 'index.html') {
+            continue
+          }
+          const impEntry = clientManifest[imp]
+          if (impEntry?.file) {
+            const impPath = '/' + impEntry.file
+            if (!visited.has(impPath)) {
+              queue.push(impPath)
+            }
+          }
         }
       }
     }
