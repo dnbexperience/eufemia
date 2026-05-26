@@ -1,7 +1,10 @@
 import type { RefObject } from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import {
+  axeComponent,
+  spyOnEufemiaWarn,
+} from '../../../core/test-utils/testSetup'
 import Card from '../index'
 import { P } from '../../../elements'
 
@@ -232,6 +235,65 @@ describe('Card.Action', () => {
         </Card.Action>
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+  })
+
+  describe('nested interactive element warning', () => {
+    afterEach(() => {
+      cleanup()
+    })
+
+    it('should warn when a nested button is inside a link Card.Action', () => {
+      const log = spyOnEufemiaWarn()
+
+      render(
+        <Card.Action href="/page">
+          <P>Card content</P>
+          <button type="button">Nested button</button>
+        </Card.Action>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.stringContaining('Eufemia'),
+        expect.stringContaining('Card.Action')
+      )
+
+      log.mockRestore()
+    })
+
+    it('should warn when a nested anchor is inside a button Card.Action', () => {
+      const log = spyOnEufemiaWarn()
+
+      render(
+        <Card.Action onClick={() => null}>
+          <P>Card content</P>
+          <a href="/nested">Nested link</a>
+        </Card.Action>
+      )
+
+      expect(log).toHaveBeenCalledWith(
+        expect.stringContaining('Eufemia'),
+        expect.stringContaining('Card.Action')
+      )
+
+      log.mockRestore()
+    })
+
+    it('should not warn when there are no nested interactive elements', () => {
+      const log = spyOnEufemiaWarn()
+
+      render(
+        <Card.Action href="/page">
+          <P>Just text content</P>
+        </Card.Action>
+      )
+
+      expect(log).not.toHaveBeenCalledWith(
+        expect.stringContaining('Eufemia'),
+        expect.stringContaining('Card.Action')
+      )
+
+      log.mockRestore()
     })
   })
 })
