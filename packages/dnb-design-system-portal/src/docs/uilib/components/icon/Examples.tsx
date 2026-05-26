@@ -238,8 +238,8 @@ export function AllIconsTest() {
 export function IconTransitionExample() {
   const notSupported = !Icon.transition.isSupported && (
     <FormStatus state="warning" top>
-      Your browser does not support the Web Animations API, so the icon
-      transition will fall back to a simple crossfade.
+      Your browser does not support CSS <code>d</code> path interpolation,
+      so the icon transition will fall back to a simple crossfade.
     </FormStatus>
   )
   return (

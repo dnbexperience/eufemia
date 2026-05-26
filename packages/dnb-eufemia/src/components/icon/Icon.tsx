@@ -173,15 +173,6 @@ export default function Icon(localProps: IconAllProps) {
       return // stop here
     }
 
-    const iconFn = icon as IconFunction
-    if (iconFn?.__iconTransitionStyle) {
-      for (const [key, value] of Object.entries(
-        iconFn.__iconTransitionStyle
-      )) {
-        ref.current.style.setProperty(key, value)
-      }
-    }
-
     if (isInitialMount.current) {
       isInitialMount.current = false
       suppressTransitions(ref.current, () => {
@@ -472,6 +463,12 @@ export function prepareIcon(
   if (typeof iconToRender === 'function') {
     if (iconToRender.__iconTransitionFallback) {
       wrapperParams.className += ' dnb-icon--transition-fallback'
+    }
+    if (iconToRender.__iconTransitionStyle) {
+      wrapperParams.style = {
+        ...wrapperParams.style,
+        ...iconToRender.__iconTransitionStyle,
+      }
     }
   }
 
