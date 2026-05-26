@@ -302,10 +302,15 @@ export default function Popover(props: PopoverProps) {
 
       focusTarget.focus({ preventScroll: true })
 
-      setTimeout(() => {
-        focusTarget?.focus({ preventScroll: true })
-        onFocusComplete?.()
-      }, 10) // Ensure focus happens after any potential rendering
+      timers.push(
+        setTimeout(() => {
+          // Only re-focus if focus hasn't moved to another element inside the popover
+          if (!tooltipRef.current?.contains(document.activeElement)) {
+            focusTarget?.focus({ preventScroll: true })
+          }
+          onFocusComplete?.()
+        }, 10) // Ensure focus happens after any potential rendering
+      )
 
       return true
     }
@@ -340,6 +345,13 @@ export default function Popover(props: PopoverProps) {
         return undefined // stop here
       }
 
+      // Ignore keyboard events targeting the body element, as this
+      // indicates focus was temporarily lost during a React re-render
+      // rather than a deliberate user interaction outside the popover.
+      if (event instanceof KeyboardEvent && target === document.body) {
+        return undefined // stop here
+      }
+
       const insideContent =
         !!tooltipRef.current && tooltipRef.current.contains(target)
       const triggerElement = getCurrentTriggerElement()
@@ -348,11 +360,21 @@ export default function Popover(props: PopoverProps) {
         typeof triggerElement.contains === 'function' &&
         triggerElement.contains(target as Node)
 
-      if (!insideContent && !insideTrigger) {
+      // Also check horizontalRef when targetElement has both refs,
+      // so clicks on sibling elements (e.g. DatePicker inputs) stay inside the trigger area
+      const horizontalElement = isPopoverTargetElementObject(
+        externalTargetElement
+      )
+        ? resolveTargetNode(externalTargetElement.horizontalRef)
+        : null
+      const insideHorizontal =
+        !!horizontalElement && horizontalElement.contains(target as Node)
+
+      if (!insideContent && !insideTrigger && !insideHorizontal) {
         toggle(false)
       }
     },
-    [preventClose, getCurrentTriggerElement, toggle]
+    [preventClose, getCurrentTriggerElement, toggle, externalTargetElement]
   )
 
   const handleDocumentTouchStart = useCallback((event: TouchEvent) => {

@@ -2892,6 +2892,15 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--end-date:not(.dnb-date-
 .dnb-date-picker__day--inactive .dnb-button[disabled], .dnb-date-picker__day--disabled .dnb-button[disabled] {
   box-shadow: none;
 }
+.dnb-date-picker__day--selectable .dnb-button:focus-visible:not([disabled]) {
+  z-index: 2;
+  color: var(--token-color-component-button-text-action-hover);
+  background-color: var(--token-color-background-action-hover-subtle);
+  --border-color: var(--token-color-stroke-action-focus);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
 html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
   cursor: default;
 }

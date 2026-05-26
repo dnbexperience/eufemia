@@ -1605,6 +1605,122 @@ describe('DatePicker component', () => {
     expect(rightPickerTitle).toHaveTextContent('september 2024')
   })
 
+  it('should keep focus in the left calendar after selecting a start date with keyboard', async () => {
+    render(
+      <DatePicker range startDate="2024-10-01" endDate="2024-10-15" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const [leftTable, rightTable] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__calendar table')
+    )
+
+    // Navigate to another date in the left calendar
+    await userEvent.keyboard('{ArrowRight}')
+
+    // Select the date with Enter
+    await userEvent.keyboard('{Enter}')
+
+    // Focus should remain in the left calendar, not jump to the right one
+    expect(leftTable.contains(document.activeElement)).toBe(true)
+    expect(rightTable.contains(document.activeElement)).toBe(false)
+  })
+
+  it('should set startDate when selecting in the right calendar as the first selection', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <DatePicker
+        range
+        startDate="2024-10-01"
+        endDate="2024-10-15"
+        onChange={onChange}
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    )
+    const rightTable = tables[1] as HTMLTableElement
+
+    // Focus the right calendar table, then navigate to a date
+    rightTable.focus()
+    await userEvent.keyboard('{ArrowRight}')
+
+    // Select the date with Enter — this is the first selection
+    await userEvent.keyboard('{Enter}')
+
+    // Should set startDate (not endDate) and keep the picker open
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        startDate: expect.any(String),
+        endDate: null,
+      })
+    )
+
+    const pickerElement = document.querySelector('.dnb-date-picker--open')
+    expect(pickerElement).toBeInTheDocument()
+  })
+
+  it('should continue arrow key navigation from selected date in right calendar', async () => {
+    render(
+      <DatePicker range startDate="2024-10-01" endDate="2024-10-15" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    )
+    const rightTable = tables[1] as HTMLTableElement
+
+    // Focus the right calendar table and navigate to a date
+    rightTable.focus()
+    await userEvent.keyboard('{ArrowDown}')
+    await userEvent.keyboard('{ArrowRight}')
+
+    const focusedLabel = document.activeElement.getAttribute('aria-label')
+
+    // Select the date with Enter (first selection)
+    await userEvent.keyboard('{Enter}')
+
+    // Press arrow key — should continue from the selected date, not jump to 1st
+    await userEvent.keyboard('{ArrowRight}')
+
+    const nextLabel = document.activeElement.getAttribute('aria-label')
+
+    // The next focused date should be one day after the previously selected date
+    expect(nextLabel).not.toContain('1.')
+    expect(nextLabel).not.toBe(focusedLabel)
+  })
+
+  it('should focus the first day of the month when pressing arrow key without a prior selection', async () => {
+    render(<DatePicker range />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    ) as NodeListOf<HTMLTableElement>
+
+    // Focus the left calendar and press ArrowDown
+    tables[0].focus()
+    await userEvent.keyboard('{ArrowDown}')
+
+    const leftFocused = document.activeElement
+    expect(leftFocused.getAttribute('aria-label')).toContain('1.')
+
+    // Focus the right calendar and press ArrowDown
+    tables[1].focus()
+    await userEvent.keyboard('{ArrowDown}')
+
+    const rightFocused = document.activeElement
+    expect(rightFocused.getAttribute('aria-label')).toContain('1.')
+  })
+
   it('should keep the picker open during tab navigation when showInput is true', async () => {
     render(<DatePicker showInput date="2024-10-01" />)
 
@@ -1616,12 +1732,11 @@ describe('DatePicker component', () => {
     await userEvent.keyboard('{ArrowRight>32}')
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
-    expect(document.activeElement.nodeName).toBe('TABLE')
+    expect(document.activeElement.nodeName).toBe('BUTTON')
 
     await userEvent.keyboard('{ArrowRight}')
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
-    expect(document.activeElement.nodeName).toBe('TABLE')
   })
 
   it('has a reacting start date input with valid value', async () => {
@@ -2815,6 +2930,82 @@ describe('DatePicker component', () => {
     fireEvent.click(buttonElement)
 
     expect(element.classList).toContain('dnb-date-picker--open')
+
+    await waitFor(() => {
+      const selectedDayButton = document.querySelector(
+        'td[aria-selected="true"] button'
+      )
+      expect(document.activeElement).toBe(selectedDayButton)
+    })
+  })
+
+  it('should focus on selected start day when opening with a date set', async () => {
+    render(
+      <DatePicker
+        id="custom-id"
+        label="Input Label"
+        showInput
+        startDate="2019-01-15"
+        noAnimation
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+
+    fireEvent.click(buttonElement)
+
+    await waitFor(() => {
+      const selectedDayButton = document.querySelector(
+        'td[aria-selected="true"] button'
+      )
+      expect(document.activeElement).toBe(selectedDayButton)
+    })
+  })
+
+  it('should focus on selected start day in range mode when opening with dates set', async () => {
+    render(
+      <DatePicker
+        id="custom-id"
+        label="Input Label"
+        showInput
+        range
+        startDate="2019-01-15"
+        endDate="2019-02-15"
+        noAnimation
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+
+    fireEvent.click(buttonElement)
+
+    await waitFor(() => {
+      const selectedDayButton = document.querySelector(
+        'td[aria-selected="true"] button'
+      )
+      expect(document.activeElement).toBe(selectedDayButton)
+    })
+  })
+
+  it('should focus on table when opening without a date set', async () => {
+    render(
+      <DatePicker
+        id="custom-id"
+        label="Input Label"
+        showInput
+        noAnimation
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+
+    fireEvent.click(buttonElement)
 
     const tableElement = document.querySelector('table')
 
@@ -4344,17 +4535,24 @@ describe('DatePicker component', () => {
       document.querySelectorAll('.dnb-date-picker__input')
     ) as Array<HTMLInputElement>
 
+    // Arrow keys move focus without changing the selected date
     await userEvent.keyboard('{ArrowRight}')
 
-    expect(screen.getByLabelText('mandag 28. april 2025')).toHaveAttribute(
+    // Focus should be on Monday April 28 (skipping weekend)
+    expect(document.activeElement).toBe(
+      screen.getByLabelText('mandag 28. april 2025')
+    )
+
+    // The selected date should NOT change yet
+    expect(screen.getByLabelText('fredag 25. april 2025')).toHaveAttribute(
       'aria-current',
       'date'
     )
-
-    expect(day.value).toBe('28')
+    expect(day.value).toBe('25')
     expect(month.value).toBe('04')
     expect(year.value).toBe('2025')
 
+    // Weekend days are still rendered
     expect(
       screen.getByLabelText('lørdag 26. april 2025')
     ).toBeInTheDocument()
@@ -4362,8 +4560,15 @@ describe('DatePicker component', () => {
       screen.getByLabelText('søndag 27. april 2025')
     ).toBeInTheDocument()
 
+    // Navigate back with ArrowLeft (from focused April 28)
     await userEvent.keyboard('{ArrowLeft}')
 
+    // Focus should skip weekends and land back on Friday April 25
+    expect(document.activeElement).toBe(
+      screen.getByLabelText('fredag 25. april 2025')
+    )
+
+    // The selected date should still be April 25
     expect(screen.getByLabelText('fredag 25. april 2025')).toHaveAttribute(
       'aria-current',
       'date'

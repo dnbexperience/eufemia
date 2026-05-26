@@ -486,6 +486,18 @@
       }
     }
 
+    // Focus state for keyboard navigation (hover visual + focus outline)
+    &--selectable .dnb-button:focus-visible:not([disabled]) {
+      z-index: 2;
+      color: var(--token-color-component-button-text-action-hover);
+      background-color: var(--token-color-background-action-hover-subtle);
+
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action-focus),
+        var(--focus-ring-width)
+      );
+    }
+
     html:not([data-whatintent='touch']) &--inactive .dnb-button[disabled] {
       cursor: default;
     }
