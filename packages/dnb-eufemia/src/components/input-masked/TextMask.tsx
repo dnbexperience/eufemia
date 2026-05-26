@@ -397,9 +397,25 @@ function appendOverflowTokens(
     return maskExpression
   }
 
+  const lastUserSlot = getLastUserSlot(maskExpression)
+
   return maskExpression.concat(
-    Array.from({ length: overflow }, () => ALL_CHARACTERS)
+    Array.from({ length: overflow }, () => lastUserSlot)
   )
+}
+
+function getLastUserSlot(maskExpression: MaskitoMaskExpression): RegExp {
+  if (!Array.isArray(maskExpression)) {
+    return ALL_CHARACTERS
+  }
+
+  for (let i = maskExpression.length - 1; i >= 0; i--) {
+    if (maskExpression[i] instanceof RegExp) {
+      return maskExpression[i] as RegExp
+    }
+  }
+
+  return ALL_CHARACTERS
 }
 
 function countUserSlots(maskExpression: MaskitoMaskExpression) {
