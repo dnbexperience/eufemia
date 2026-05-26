@@ -1,7 +1,9 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import type { ComponentType, KeyboardEvent, MouseEvent, Ref } from 'react'
 import type { CardProps } from './CardInner'
 import Card from './CardInner'
+import { warn } from '../../shared/component-helper'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type CardActionProps = Omit<CardProps, 'onClick' | 'element'> & {
@@ -60,6 +62,29 @@ function CardAction(props: CardActionProps) {
 
   const isLink = Boolean(href || to)
 
+  const internalRef = useRef<HTMLElement>(null)
+  const combinedRef = useCombinedRef(ref, internalRef)
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      return // stop here
+    }
+
+    const el = internalRef.current
+    if (!el) {
+      return // stop here
+    }
+
+    const nested = el.querySelector(
+      'a, button, [role="button"], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    if (nested) {
+      warn(
+        'Card.Action: nested interactive elements (such as <a>, <button>, or <input>) inside a Card.Action can cause accessibility issues and unexpected event bubbling. Consider using `element="span"` on nested Button components to avoid invalid HTML nesting.'
+      )
+    }
+  }, [])
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLElement>) => {
       if (onClick && (event.key === 'Enter' || event.key === ' ')) {
@@ -83,7 +108,7 @@ function CardAction(props: CardActionProps) {
       return (
         <AnchorElement
           className="dnb-card-action"
-          ref={ref}
+          ref={combinedRef}
           onClick={onClick}
           target={target}
           rel={rel}
@@ -97,7 +122,7 @@ function CardAction(props: CardActionProps) {
     return (
       <a
         className="dnb-card-action"
-        ref={ref as Ref<HTMLAnchorElement>}
+        ref={combinedRef as Ref<HTMLAnchorElement>}
         onClick={onClick}
         target={target}
         rel={rel}
@@ -111,7 +136,7 @@ function CardAction(props: CardActionProps) {
   return (
     <div
       className="dnb-card-action"
-      ref={ref as Ref<HTMLDivElement>}
+      ref={combinedRef as Ref<HTMLDivElement>}
       onClick={onClick}
       onKeyDown={handleKeyDown}
       role="button"
