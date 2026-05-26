@@ -46,10 +46,8 @@
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
     .dnb-table__sort-button.dnb-button {
-      & .dnb-button__text::after {
-        bottom: -0.0625rem;
-        left: 0;
-        opacity: 0;
+      & .dnb-button__text {
+        text-decoration-color: transparent;
       }
     }
   }
