@@ -441,7 +441,7 @@ function NumberComponent(props: FieldNumberProps) {
   const onPasteHandler = useCallback(
     (e: ClipboardEvent<HTMLInputElement>) => {
       const pasted = e.clipboardData?.getData('text/plain') ?? ''
-      const raw = pasted.replace(/[\s\u00A0]/g, '').replace(',', '.')
+      const raw = pasted.replace(/[\s\u00A0,]/g, '')
       const num = Number(raw)
 
       if (!isNaN(num) && (num > defaultMaximum || num < defaultMinimum)) {
