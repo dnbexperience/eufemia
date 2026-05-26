@@ -396,7 +396,6 @@ export const InteractiveCards = () => {
               variant="tertiary"
               icon="chevron_right"
               text="Read more"
-              tabIndex={-1}
               element="span"
             />
           </Card.Action>
@@ -413,7 +412,6 @@ export const InteractiveCards = () => {
               variant="tertiary"
               icon="chevron_right"
               text="Read more"
-              tabIndex={-1}
               element="span"
             />
           </Card.Action>
