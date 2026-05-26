@@ -217,35 +217,15 @@ import file_add from './file_add'
 import file_add_medium from './file_add_medium'
 import file_contract from './file_contract'
 import file_contract_medium from './file_contract_medium'
-import file_csv from './file_csv'
-import file_csv_medium from './file_csv_medium'
-import file_jpg from './file_jpg'
-import file_jpg_medium from './file_jpg_medium'
 import file_loupe from './file_loupe'
 import file_loupe_medium from './file_loupe_medium'
 import file_medium from './file_medium'
-import file_pdf from './file_pdf'
-import file_pdf_medium from './file_pdf_medium'
-import file_png from './file_png'
-import file_png_medium from './file_png_medium'
-import file_ppt from './file_ppt'
-import file_ppt_medium from './file_ppt_medium'
 import file_rejected from './file_rejected'
 import file_rejected_medium from './file_rejected_medium'
 import file_signing from './file_signing'
 import file_signing_medium from './file_signing_medium'
-import file_txt from './file_txt'
-import file_txt_medium from './file_txt_medium'
 import file_warning from './file_warning'
 import file_warning_medium from './file_warning_medium'
-import file_word from './file_word'
-import file_word_medium from './file_word_medium'
-import file_xls from './file_xls'
-import file_xls_medium from './file_xls_medium'
-import file_xml from './file_xml'
-import file_xml_medium from './file_xml_medium'
-import file_zip from './file_zip'
-import file_zip_medium from './file_zip_medium'
 import filter from './filter'
 import filter_medium from './filter_medium'
 import first_aid from './first_aid'
@@ -787,35 +767,15 @@ export {
   file_add_medium,
   file_contract,
   file_contract_medium,
-  file_csv,
-  file_csv_medium,
-  file_jpg,
-  file_jpg_medium,
   file_loupe,
   file_loupe_medium,
   file_medium,
-  file_pdf,
-  file_pdf_medium,
-  file_png,
-  file_png_medium,
-  file_ppt,
-  file_ppt_medium,
   file_rejected,
   file_rejected_medium,
   file_signing,
   file_signing_medium,
-  file_txt,
-  file_txt_medium,
   file_warning,
   file_warning_medium,
-  file_word,
-  file_word_medium,
-  file_xls,
-  file_xls_medium,
-  file_xml,
-  file_xml_medium,
-  file_zip,
-  file_zip_medium,
   filter,
   filter_medium,
   first_aid,

@@ -1,13 +1,6 @@
 import Menu from '../Menu'
 import '../style/dnb-menu.scss'
-import {
-  copy,
-  edit,
-  trash,
-  file_pdf,
-  file_png,
-  folder,
-} from '../../../icons'
+import { copy, edit, trash, file, folder } from '../../../icons'
 
 export default {
   title: 'Eufemia/Components/Menu',
@@ -51,12 +44,12 @@ export const Nested = {
           <Menu.Action icon={folder} text="Export as" />
           <Menu.List>
             <Menu.Action
-              icon={file_pdf}
+              icon={file}
               text="PDF"
               onClick={() => console.log('pdf')}
             />
             <Menu.Action
-              icon={file_png}
+              icon={file}
               text="PNG"
               onClick={() => console.log('png')}
             />
@@ -79,12 +72,12 @@ export const Accordion = {
         <Menu.Divider />
         <Menu.Accordion icon={folder} text="Export as">
           <Menu.Action
-            icon={file_pdf}
+            icon={file}
             text="PDF"
             onClick={() => console.log('pdf')}
           />
           <Menu.Action
-            icon={file_png}
+            icon={file}
             text="PNG"
             onClick={() => console.log('png')}
           />

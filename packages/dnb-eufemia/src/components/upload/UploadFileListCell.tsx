@@ -15,15 +15,6 @@ import P from '../../elements/P'
 import {
   trash as TrashIcon,
   exclamation_medium as ExclamationIcon,
-  file_png_medium as PngIcon,
-  file_jpg_medium as JpgIcon,
-  file_word_medium as DocIcon,
-  file_pdf_medium as PdfIcon,
-  file_xls_medium as XlsIcon,
-  file_ppt_medium as PptIcon,
-  file_csv_medium as CsvIcon,
-  file_txt_medium as TxtIcon,
-  file_xml_medium as XmlIcon,
   file_medium as FileIcon,
 } from '../../icons'
 import type { UploadFile, UploadFileNative } from './types'
@@ -36,17 +27,6 @@ import UploadFileLink from './UploadFileListLink'
 import type { ProgressIndicatorAllProps } from '../progress-indicator/types'
 
 export const fileExtensionImages = {
-  png: PngIcon,
-  jpg: JpgIcon,
-  pdf: PdfIcon,
-  doc: DocIcon,
-  docx: DocIcon,
-  odt: DocIcon,
-  xls: XlsIcon,
-  ppt: PptIcon,
-  csv: CsvIcon,
-  txt: TxtIcon,
-  xml: XmlIcon,
   file: FileIcon,
 }
 

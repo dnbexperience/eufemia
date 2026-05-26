@@ -5,8 +5,6 @@ import {
   edit,
   file,
   file_add,
-  file_pdf,
-  file_png,
   folder,
   home,
   launch,
@@ -61,7 +59,7 @@ export function MenuExampleWithLinks() {
 export function MenuExampleNested() {
   return (
     <ComponentBox
-      scope={{ file_add, folder, file_pdf, file_png, file }}
+      scope={{ file_add, folder, file }}
       data-visual-test="menu-accordion"
     >
       <Menu.Root arrowPosition="left">
@@ -83,12 +81,12 @@ export function MenuExampleNested() {
             <Menu.Action icon={folder} text="Export as" />
             <Menu.List>
               <Menu.Action
-                icon={file_pdf}
+                icon={file}
                 text="PDF"
                 onClick={() => console.log('export pdf')}
               />
               <Menu.Action
-                icon={file_png}
+                icon={file}
                 text="PNG"
                 onClick={() => console.log('export png')}
               />
@@ -114,7 +112,7 @@ export function MenuExampleNested() {
 
 export function MenuExampleAccordion() {
   return (
-    <ComponentBox scope={{ file_add, folder, file_pdf, file_png, save }}>
+    <ComponentBox scope={{ file_add, folder, file, save }}>
       <Menu.Root>
         <Menu.Button text="File" icon="chevron_down" />
         <Menu.List>
@@ -132,12 +130,12 @@ export function MenuExampleAccordion() {
 
           <Menu.Accordion icon={folder} text="Export as">
             <Menu.Action
-              icon={file_pdf}
+              icon={file}
               text="PDF"
               onClick={() => console.log('export pdf')}
             />
             <Menu.Action
-              icon={file_png}
+              icon={file}
               text="PNG"
               onClick={() => console.log('export png')}
             />

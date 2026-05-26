@@ -94,20 +94,10 @@ import factory from './factory'
 import file from './file'
 import file_add from './file_add'
 import file_contract from './file_contract'
-import file_csv from './file_csv'
-import file_jpg from './file_jpg'
 import file_loupe from './file_loupe'
-import file_pdf from './file_pdf'
-import file_png from './file_png'
-import file_ppt from './file_ppt'
 import file_rejected from './file_rejected'
 import file_signing from './file_signing'
-import file_txt from './file_txt'
 import file_warning from './file_warning'
-import file_word from './file_word'
-import file_xls from './file_xls'
-import file_xml from './file_xml'
-import file_zip from './file_zip'
 import filter from './filter'
 import first_aid from './first_aid'
 import fish from './fish'
@@ -358,20 +348,10 @@ export {
   file,
   file_add,
   file_contract,
-  file_csv,
-  file_jpg,
   file_loupe,
-  file_pdf,
-  file_png,
-  file_ppt,
   file_rejected,
   file_signing,
-  file_txt,
   file_warning,
-  file_word,
-  file_xls,
-  file_xml,
-  file_zip,
   filter,
   first_aid,
   fish,

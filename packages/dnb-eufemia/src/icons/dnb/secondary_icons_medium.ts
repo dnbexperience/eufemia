@@ -93,21 +93,11 @@ import facebook_medium from './facebook_medium'
 import factory_medium from './factory_medium'
 import file_add_medium from './file_add_medium'
 import file_contract_medium from './file_contract_medium'
-import file_csv_medium from './file_csv_medium'
-import file_jpg_medium from './file_jpg_medium'
 import file_loupe_medium from './file_loupe_medium'
 import file_medium from './file_medium'
-import file_pdf_medium from './file_pdf_medium'
-import file_png_medium from './file_png_medium'
-import file_ppt_medium from './file_ppt_medium'
 import file_rejected_medium from './file_rejected_medium'
 import file_signing_medium from './file_signing_medium'
-import file_txt_medium from './file_txt_medium'
 import file_warning_medium from './file_warning_medium'
-import file_word_medium from './file_word_medium'
-import file_xls_medium from './file_xls_medium'
-import file_xml_medium from './file_xml_medium'
-import file_zip_medium from './file_zip_medium'
 import filter_medium from './filter_medium'
 import first_aid_medium from './first_aid_medium'
 import fish_medium from './fish_medium'
@@ -357,21 +347,11 @@ export {
   factory_medium,
   file_add_medium,
   file_contract_medium,
-  file_csv_medium,
-  file_jpg_medium,
   file_loupe_medium,
   file_medium,
-  file_pdf_medium,
-  file_png_medium,
-  file_ppt_medium,
   file_rejected_medium,
   file_signing_medium,
-  file_txt_medium,
   file_warning_medium,
-  file_word_medium,
-  file_xls_medium,
-  file_xml_medium,
-  file_zip_medium,
   filter_medium,
   first_aid_medium,
   fish_medium,
