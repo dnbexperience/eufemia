@@ -235,6 +235,100 @@ describe('eufemia-theme plugin', () => {
     })
   })
 
+  describe('dev mode applyThemeStyles behavior', () => {
+    beforeEach(() => {
+      document.body.className = ''
+      localStorage.clear()
+      delete (window as any).__applyEufemiaThemeStyles__
+      delete (window as any).__EUFEMIA_THEME_FILES__
+      delete (window as any).__EUFEMIA_THEME_NAMES__
+      delete (window as any).__EUFEMIA_DEFAULT_THEME__
+    })
+
+    afterEach(() => {
+      delete (window as any).__applyEufemiaThemeStyles__
+      delete (window as any).__EUFEMIA_THEME_FILES__
+      delete (window as any).__EUFEMIA_THEME_NAMES__
+      delete (window as any).__EUFEMIA_DEFAULT_THEME__
+    })
+
+    it('adds brand class to body when switching themes', () => {
+      const plugin = eufemiaThemePlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:eufemia-theme-styles') || ''
+
+      // Strip import statements and requestAnimationFrame to eval safely
+      const evalCode = code
+        .replace(/import '[^']+';/g, '')
+        .replace(/requestAnimationFrame\(\(\) => \{/, '{')
+        .replace(/\}\);(\s*\})/, '}$1')
+      const fn = new Function(evalCode)
+      fn()
+
+      const applyThemeStyles = (window as any).__applyEufemiaThemeStyles__
+      expect(applyThemeStyles).toBeDefined()
+
+      applyThemeStyles('sbanken')
+      expect(
+        document.body.classList.contains('eufemia-theme__sbanken')
+      ).toBe(true)
+    })
+
+    it('replaces previous brand class when switching themes', () => {
+      const plugin = eufemiaThemePlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:eufemia-theme-styles') || ''
+
+      const evalCode = code
+        .replace(/import '[^']+';/g, '')
+        .replace(/requestAnimationFrame\(\(\) => \{/, '{')
+        .replace(/\}\);(\s*\})/, '}$1')
+      const fn = new Function(evalCode)
+      fn()
+
+      const applyThemeStyles = (window as any).__applyEufemiaThemeStyles__
+      applyThemeStyles('sbanken')
+      expect(
+        document.body.classList.contains('eufemia-theme__sbanken')
+      ).toBe(true)
+
+      applyThemeStyles('eiendom')
+      expect(
+        document.body.classList.contains('eufemia-theme__eiendom')
+      ).toBe(true)
+      expect(
+        document.body.classList.contains('eufemia-theme__sbanken')
+      ).toBe(false)
+    })
+
+    it('preserves color-scheme class when switching brands', () => {
+      document.body.classList.add('eufemia-theme__color-scheme--dark')
+
+      const plugin = eufemiaThemePlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:eufemia-theme-styles') || ''
+
+      const evalCode = code
+        .replace(/import '[^']+';/g, '')
+        .replace(/requestAnimationFrame\(\(\) => \{/, '{')
+        .replace(/\}\);(\s*\})/, '}$1')
+      const fn = new Function(evalCode)
+      fn()
+
+      const applyThemeStyles = (window as any).__applyEufemiaThemeStyles__
+      applyThemeStyles('sbanken')
+
+      expect(
+        document.body.classList.contains('eufemia-theme__sbanken')
+      ).toBe(true)
+      expect(
+        document.body.classList.contains(
+          'eufemia-theme__color-scheme--dark'
+        )
+      ).toBe(true)
+    })
+  })
+
   describe('build mode __loadEufemiaTheme behavior', () => {
     let code: string
 

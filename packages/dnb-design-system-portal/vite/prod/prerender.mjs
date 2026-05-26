@@ -499,28 +499,36 @@ function injectHtml(
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
-  // The default theme (ui) is enabled; others are disabled.
-  // An early inline script reads localStorage and swaps them
-  // before the browser paints — preventing a flash of the wrong brand.
+  // All links are enabled (render-blocking) so the browser fetches them
+  // before the first paint. A head script disables inactive themes
+  // before the browser paints, and a body-opening script adds the
+  // active brand class to <body> so token selectors match immediately.
   if (themeCssPaths && Object.keys(themeCssPaths).length > 0) {
     const defaultTheme = 'ui'
     const linkTags = Object.entries(themeCssPaths)
       .map(([name, href]) => {
-        const disabled = name !== defaultTheme ? ' disabled' : ''
-        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}"${disabled}>`
+        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}">`
       })
       .join('\n')
 
-    // Early blocking script: read localStorage and enable the stored
-    // theme's <link> before first paint. This mirrors the existing
-    // color-scheme FOUC-prevention pattern.
-    const themeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}document.body.classList.add('eufemia-theme__'+n)}catch(e){}})()</script>`
+    // Head script: determine active theme, disable inactive theme
+    // links, and store the name on globalThis for the body script.
+    // Runs in <head> after the render-blocking links have loaded,
+    // so the disable is instant — no network delay.
+    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
 
-    html = html.replace('</head>', `${linkTags}\n  </head>`)
+    // Body script: add the brand class to <body> immediately after
+    // the opening tag, before any content is rendered.
+    const bodyThemeScript = `<script>(function(){var n=globalThis.__eufemiaTheme;if(n){document.body.classList.add('eufemia-theme__'+n)}})()</script>`
 
-    // Inject theme script right after the body opening tag (after the
-    // existing color-scheme body script)
-    html = html.replace('</body>', `${themeScript}\n</body>`)
+    html = html.replace(
+      '</head>',
+      `${linkTags}\n${headThemeScript}\n  </head>`
+    )
+    html = html.replace(
+      /<body[^>]*>/,
+      (match) => `${match}\n     ${bodyThemeScript}`
+    )
   }
 
   // Inject per-page SEO meta tags
