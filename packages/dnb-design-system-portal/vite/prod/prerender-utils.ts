@@ -343,9 +343,9 @@ export function injectHtml(
 
   // Inject <link> tags for ALL brand theme CSS chunks.
   // All links are enabled (render-blocking) so the browser fetches them
-  // before the first paint. An early inline script then disables the
-  // inactive themes and adds the active brand class to <body>.
-  // Because all CSS is already loaded, the disable is instant — no flash.
+  // before the first paint. A head script disables inactive themes
+  // before the browser paints, and a body-opening script adds the
+  // active brand class to <body> so token selectors match immediately.
   if (themeCssPaths && Object.keys(themeCssPaths).length > 0) {
     const defaultTheme = 'ui'
     const linkTags = Object.entries(themeCssPaths)
@@ -354,10 +354,24 @@ export function injectHtml(
       })
       .join('\n')
 
-    const themeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}document.body.classList.add('eufemia-theme__'+n)}catch(e){}})()</script>`
+    // Head script: determine active theme, disable inactive theme
+    // links, and store the name on globalThis for the body script.
+    // Runs in <head> after the render-blocking links have loaded,
+    // so the disable is instant — no network delay.
+    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
 
-    html = html.replace('</head>', `${linkTags}\n  </head>`)
-    html = html.replace('</body>', `${themeScript}\n</body>`)
+    // Body script: add the brand class to <body> immediately after
+    // the opening tag, before any content is rendered.
+    const bodyThemeScript = `<script>(function(){var n=globalThis.__eufemiaTheme;if(n){document.body.classList.add('eufemia-theme__'+n)}})()</script>`
+
+    html = html.replace(
+      '</head>',
+      `${linkTags}\n${headThemeScript}\n  </head>`
+    )
+    html = html.replace(
+      /<body[^>]*>/,
+      (match) => `${match}\n     ${bodyThemeScript}`
+    )
   }
 
   // Inject per-page SEO meta tags (title, description, Open Graph)
