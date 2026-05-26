@@ -406,7 +406,6 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   icon: 'loupe',
   iconSize: null,
   iconPosition: 'left',
-  arrowPosition: null,
   label: null,
   labelDirection: 'vertical',
   labelSrOnly: null,
@@ -606,7 +605,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disabled,
     stretch,
     skeleton,
-    arrowPosition,
     iconPosition,
     skipPortal,
     independentWidth,
@@ -2628,7 +2626,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               noScrollAnimation={noScrollAnimation}
               skipPortal={skipPortal}
               preventSelection={preventSelection}
-              arrowPosition={arrowPosition || iconPosition}
               keepOpen={keepOpen}
               preventClose={preventClose}
               alignDrawer={align}

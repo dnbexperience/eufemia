@@ -152,6 +152,7 @@ export type DrawerListProps = {
   cacheHash?: string
   /**
    * Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.
+   * @deprecated does nothing as there is no longer any arrow.
    */
   arrowPosition?: string
   /**
@@ -344,7 +345,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
     ...removeUndefinedProps({ ...ownProps }),
   }
 
-  // Send along event handlers and arrowPosition to the provider state on mount
+  // Send along event handlers to the provider state on mount
   useMountEffect(() => {
     const eventHandlerState = Object.keys(propsToFilterOut).reduce<
       Record<string, unknown>
@@ -356,9 +357,6 @@ const DrawerListInstance = memo(function DrawerListInstance(
     }, {})
 
     context.drawerList.setState(eventHandlerState)
-    context.drawerList.setState({
-      arrowPosition: propsWithDefaults.arrowPosition,
-    })
   })
 
   const preventTab = useCallback(
@@ -426,7 +424,6 @@ const DrawerListInstance = memo(function DrawerListInstance(
     className,
     cacheHash: _cacheHash,
     wrapperElement: _wrapperElement,
-    arrowPosition: _arrowPosition,
     direction: _direction,
     maxHeight: _maxHeight,
     id: _id,
@@ -478,20 +475,16 @@ const DrawerListInstance = memo(function DrawerListInstance(
     groups,
     open,
     hidden,
-    arrowPosition,
     direction,
     maxHeight,
     cacheHash,
     selectedItem,
     activeItem,
     showFocusRing,
-    closestToTop,
-    closestToBottom,
     skipPortal,
     addObservers,
     removeObservers,
     _refShell,
-    _refTriangle,
     _refUl,
     _refRoot,
   } = noNullNumbers(context.drawerList)
@@ -512,7 +505,6 @@ const DrawerListInstance = memo(function DrawerListInstance(
       open && 'dnb-drawer-list--open',
       hidden && 'dnb-drawer-list--hidden',
       `dnb-drawer-list--${direction}`,
-      arrowPosition && `dnb-drawer-list--arrow-position-${arrowPosition}`,
       alignDrawer && `dnb-drawer-list--${alignDrawer}`,
       size && `dnb-drawer-list--${size}`,
       isPopup && 'dnb-drawer-list--is-popup',
@@ -588,10 +580,8 @@ const DrawerListInstance = memo(function DrawerListInstance(
                 j === renderData.length - 1 &&
                   i === data.length - 1 &&
                   'last-item',
-                tagId === closestToTop && 'closest-to-top',
-                tagId === closestToBottom && 'closest-to-bottom',
-                i === 0 && 'first-of-type', // because of the triangle element
-                i === data.length - 1 && 'last-of-type', // because of the triangle element
+                i === 0 && 'first-of-type', // Different from css pseudo-class in case of injected items
+                i === data.length - 1 && 'last-of-type', // Different from css pseudo-class in case of injected items
                 (ignoreEventsBoolean || ignoreEvents) && 'ignore-events',
                 className
               ),
@@ -648,9 +638,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
                 role="presentation"
                 className={clsx(
                   'dnb-drawer-list__group-title',
-                  hideTitle && 'dnb-sr-only',
-                  groupdId === closestToBottom && 'closest-to-bottom',
-                  groupdId === closestToTop && 'closest-to-top'
+                  hideTitle && 'dnb-sr-only'
                 )}
               >
                 {groupTitle}
@@ -674,14 +662,11 @@ const DrawerListInstance = memo(function DrawerListInstance(
                 cacheHash +
                 activeItem +
                 selectedItem +
-                closestToTop +
-                closestToBottom +
                 direction +
                 maxHeight
               }
               {...ulParams}
               showFocusRing={showFocusRing}
-              triangleRef={_refTriangle}
             >
               <GroupItems />
             </DrawerList.Options>
@@ -692,13 +677,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
           </>
         ) : (
           isValidElement(children) && (
-            <span className="dnb-drawer-list__content">
-              {children}
-              <span
-                className="dnb-drawer-list__arrow"
-                ref={_refTriangle}
-              />
-            </span>
+            <span className="dnb-drawer-list__content">{children}</span>
           )
         )}
       </span>
@@ -783,7 +762,6 @@ function makeRenderData(
 
 export type DrawerListOptionsProps = HTMLProps<HTMLUListElement> & {
   children: ReactNode
-  triangleRef?: Ref<HTMLLIElement | HTMLSpanElement>
   cacheHash?: string
   showFocusRing?: boolean
   hasGroups?: boolean
@@ -793,7 +771,6 @@ DrawerList.Options = memo(
   ({
     children,
     className,
-    triangleRef,
     cacheHash,
     showFocusRing = false,
     hasGroups = false,
@@ -815,13 +792,6 @@ DrawerList.Options = memo(
         ref={ref}
       >
         {children}
-        <E
-          internalClass={false}
-          as={hasGroups ? 'span' : 'li'}
-          className="dnb-drawer-list__arrow"
-          aria-hidden
-          ref={triangleRef}
-        />
       </E>
     )
   },

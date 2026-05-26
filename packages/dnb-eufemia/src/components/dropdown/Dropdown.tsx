@@ -434,7 +434,6 @@ const DropdownInstance = memo(function DropdownInstance({
     preventClose,
     noAnimation,
     noScrollAnimation,
-    arrowPosition,
     skipPortal,
     portalClass,
     triggerElement: CustomTrigger,
@@ -667,7 +666,6 @@ const DropdownInstance = memo(function DropdownInstance({
               noScrollAnimation={noScrollAnimation}
               skipPortal={skipPortal}
               preventSelection={handleAsMenu}
-              arrowPosition={arrowPosition || iconPosition || 'right'}
               keepOpen={keepOpen}
               preventClose={preventClose}
               independentWidth={independentWidth || isPopupMenu}

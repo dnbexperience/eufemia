@@ -1348,13 +1348,6 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   .dnb-responsive-component .dnb-dropdown__helper {
     display: none;
   }
-}
-
-.dnb-drawer-list--arrow-position-left .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
-  margin-left: 0.5rem;
-}
-.dnb-drawer-list--arrow-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
-  margin-right: 0.5rem;
 }"
 `;
 
@@ -1672,12 +1665,5 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   .dnb-responsive-component .dnb-dropdown__helper {
     display: none;
   }
-}
-
-.dnb-drawer-list--arrow-position-left .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
-  margin-left: 0.5rem;
-}
-.dnb-drawer-list--arrow-position-right .dnb-dropdown__list--tertiary .dnb-drawer-list__arrow {
-  margin-right: 0.5rem;
 }"
 `;

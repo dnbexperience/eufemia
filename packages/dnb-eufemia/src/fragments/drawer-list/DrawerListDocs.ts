@@ -21,11 +21,6 @@ export const DrawerListProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
-  arrowPosition: {
-    doc: 'Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.',
-    type: 'string',
-    status: 'optional',
-  },
   noDivider: {
     doc: 'Removes the divider line between options. Defaults to `false`.',
     type: 'boolean',
@@ -160,6 +155,11 @@ export const DrawerListProperties: PropertiesTableProps = {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
     status: 'optional',
+  },
+  arrowPosition: {
+    doc: 'Does nothing as there is no longer any arrow. Legacy docs: Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.',
+    type: 'string',
+    status: 'deprecated',
   },
 }
 

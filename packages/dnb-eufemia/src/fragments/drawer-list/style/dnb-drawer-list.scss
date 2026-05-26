@@ -42,7 +42,6 @@
 }
 
 .dnb-drawer-list {
-  --drawer-list-arrow-size: 1rem;
   --drawer-list-distance: 0.5rem;
   --drawer-list-padding: 0.5rem;
   --drawer-list-list-border-radius: var(--token-radius-md);
@@ -186,33 +185,6 @@
       --token-color-stroke-action-focus
     );
 
-    // arrow
-    --drawer-list-arrow-color--default: var(
-      --drawer-list-option-color-bg--default
-    );
-    --drawer-list-arrow-color--hover: var(
-      --drawer-list-option-color-bg--hover
-    );
-    --drawer-list-arrow-color--active: var(
-      --drawer-list-option-color-bg--active
-    );
-    --drawer-list-arrow-color--focus: var(
-      --drawer-list-option-color-bg--focus
-    );
-    --drawer-list-arrow-color--group: var(--drawer-list-group-title-bg);
-    --drawer-list-arrow-color--selected: var(
-      --token-color-background-selected
-    );
-    --drawer-list-arrow-color--selected--hover: var(
-      --token-color-background-action-hover
-    );
-    --drawer-list-arrow-color--selected--active: var(
-      --token-color-background-action-pressed
-    );
-    --drawer-list-arrow-color--selected--focus: var(
-      --token-color-background-action-hover
-    );
-
     display: flex;
     flex-direction: column;
 
@@ -331,7 +303,6 @@
 
     &__inner {
       position: relative;
-      z-index: 1; // only to go over &__arrow
 
       display: grid;
 
@@ -527,8 +498,10 @@
     // TODO: Use CSS Container Queries when available
     @include utilities.allAbove(small) {
       &--selected &__suffix {
-        z-index: 2; // over check icon
-        background-color: inherit; // to "hide" the check icon
+        z-index: 0; // over check icon
+        background-color: var(
+          --drawer-list-option-color-bg
+        ); // to "hide" the check icon
       }
     }
 
@@ -590,133 +563,6 @@
       --drawer-list-height,
       var(--drawer-list-height--default)
     );
-  }
-
-  // arrow
-  &__arrow {
-    position: absolute;
-    top: calc(var(--drawer-list-arrow-size) * -1);
-    left: auto;
-    right: 0;
-
-    pointer-events: none;
-
-    margin: 0
-      var(
-        --drawer-list-padding-horizontal,
-        var(--drawer-list-padding-horizontal--default)
-      );
-
-    width: var(--drawer-list-arrow-size);
-    height: var(--drawer-list-arrow-size);
-
-    z-index: -1;
-    overflow: hidden;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 72%;
-      left: 0;
-
-      width: var(--drawer-list-arrow-size);
-      height: var(--drawer-list-arrow-size);
-      transform: translateY(
-          calc(var(--drawer-list-list-border-width) * 0.38)
-        )
-        rotate(45deg);
-
-      background-color: var(
-        --drawer-list-arrow-color,
-        var(--drawer-list-arrow-color--default)
-      );
-
-      box-shadow: 0 0 0 var(--drawer-list-list-border-width)
-        var(--token-color-stroke-neutral-subtle);
-    }
-  }
-  &--arrow-position-left &__arrow {
-    left: 0;
-    right: auto;
-  }
-  &--top &__arrow {
-    top: auto;
-    bottom: calc(var(--drawer-list-arrow-size) * -1);
-    transform: rotate(180deg);
-  }
-
-  // group title arrow
-  &--bottom:has(#{&}__group-title.closest-to-top),
-  &--top:has(#{&}__group-title.closest-to-bottom) {
-    .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(--drawer-list-arrow-color--group);
-    }
-  }
-
-  // focus arrow
-  &--bottom:has(.closest-to-top.dnb-drawer-list__option--focus),
-  &--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) {
-    .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
-    }
-  }
-
-  // hover arrow
-  &--bottom:has(.closest-to-top:hover),
-  &--top:has(.closest-to-bottom:hover) {
-    .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(--drawer-list-arrow-color--hover);
-    }
-  }
-
-  // active arrow
-  &--bottom:has(.closest-to-top:active),
-  &--top:has(.closest-to-bottom:active) {
-    .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(--drawer-list-arrow-color--active);
-    }
-  }
-
-  // selected arrow
-  &--bottom:has(.closest-to-top#{&}__option--selected),
-  &--top:has(.closest-to-bottom#{&}__option--selected) {
-    .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
-    }
-  }
-
-  // selected focus arrow
-  &--bottom:has(
-      .closest-to-top.dnb-drawer-list__option--focus#{&}__option--selected
-    ),
-  &--top:has(
-      .closest-to-bottom.dnb-drawer-list__option--focus#{&}__option--selected
-    ) {
-    .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(
-        --drawer-list-arrow-color--selected--focus
-      );
-    }
-  }
-
-  // selected hover arrow
-  &--bottom:has(.closest-to-top:hover#{&}__option--selected),
-  &--top:has(.closest-to-bottom:hover#{&}__option--selected) {
-    .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(
-        --drawer-list-arrow-color--selected--hover
-      );
-    }
-  }
-
-  // selected active arrow
-  &--bottom:has(.closest-to-top:active#{&}__option--selected),
-  &--top:has(.closest-to-bottom:active#{&}__option--selected) {
-    .dnb-drawer-list__options {
-      --drawer-list-arrow-color: var(
-        --drawer-list-arrow-color--selected--active
-      );
-    }
   }
 
   &--is-popup#{&}--right {

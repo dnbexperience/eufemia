@@ -13,7 +13,6 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
  * Utilities
  */
 .dnb-drawer-list {
-  --drawer-list-arrow-size: 1rem;
   --drawer-list-distance: 0.5rem;
   --drawer-list-padding: 0.5rem;
   --drawer-list-list-border-radius: var(--token-radius-md);
@@ -118,31 +117,6 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
   --drawer-list-option-color-border--default: transparent;
   --drawer-list-option-color-border--focus: var(
     --token-color-stroke-action-focus
-  );
-  --drawer-list-arrow-color--default: var(
-    --drawer-list-option-color-bg--default
-  );
-  --drawer-list-arrow-color--hover: var(
-    --drawer-list-option-color-bg--hover
-  );
-  --drawer-list-arrow-color--active: var(
-    --drawer-list-option-color-bg--active
-  );
-  --drawer-list-arrow-color--focus: var(
-    --drawer-list-option-color-bg--focus
-  );
-  --drawer-list-arrow-color--group: var(--drawer-list-group-title-bg);
-  --drawer-list-arrow-color--selected: var(
-    --token-color-background-selected
-  );
-  --drawer-list-arrow-color--selected--hover: var(
-    --token-color-background-action-hover
-  );
-  --drawer-list-arrow-color--selected--active: var(
-    --token-color-background-action-pressed
-  );
-  --drawer-list-arrow-color--selected--focus: var(
-    --token-color-background-action-hover
   );
   display: flex;
   flex-direction: column;
@@ -271,7 +245,6 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
 }
 .dnb-drawer-list__option__inner {
   position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: repeat(10, min-content);
@@ -417,8 +390,8 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
-    z-index: 2;
-    background-color: inherit;
+    z-index: 0;
+    background-color: var(--drawer-list-option-color-bg);
   }
 }
 html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
@@ -465,68 +438,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
   --drawer-list-top: var(
     --drawer-list-height,
     var(--drawer-list-height--default)
-  );
-}
-.dnb-drawer-list__arrow {
-  position: absolute;
-  top: calc(var(--drawer-list-arrow-size) * -1);
-  left: auto;
-  right: 0;
-  pointer-events: none;
-  margin: 0 var(--drawer-list-padding-horizontal, var(--drawer-list-padding-horizontal--default));
-  width: var(--drawer-list-arrow-size);
-  height: var(--drawer-list-arrow-size);
-  z-index: -1;
-  overflow: hidden;
-}
-.dnb-drawer-list__arrow::before {
-  content: "";
-  position: absolute;
-  top: 72%;
-  left: 0;
-  width: var(--drawer-list-arrow-size);
-  height: var(--drawer-list-arrow-size);
-  transform: translateY(calc(var(--drawer-list-list-border-width) * 0.38)) rotate(45deg);
-  background-color: var(--drawer-list-arrow-color, var(--drawer-list-arrow-color--default));
-  box-shadow: 0 0 0 var(--drawer-list-list-border-width) var(--token-color-stroke-neutral-subtle);
-}
-.dnb-drawer-list--arrow-position-left .dnb-drawer-list__arrow {
-  left: 0;
-  right: auto;
-}
-.dnb-drawer-list--top .dnb-drawer-list__arrow {
-  top: auto;
-  bottom: calc(var(--drawer-list-arrow-size) * -1);
-  transform: rotate(180deg);
-}
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--group);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top:hover) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--hover);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top:active) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--active);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(
-    --drawer-list-arrow-color--selected--focus
-  );
-}
-.dnb-drawer-list--bottom:has(.closest-to-top:hover.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(
-    --drawer-list-arrow-color--selected--hover
-  );
-}
-.dnb-drawer-list--bottom:has(.closest-to-top:active.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(
-    --drawer-list-arrow-color--selected--active
   );
 }
 .dnb-drawer-list--is-popup.dnb-drawer-list--right {
@@ -689,7 +600,6 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-drawer-list {
-  --drawer-list-arrow-size: 1rem;
   --drawer-list-distance: 0.5rem;
   --drawer-list-padding: 0.5rem;
   --drawer-list-list-border-radius: var(--token-radius-md);
@@ -794,31 +704,6 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
   --drawer-list-option-color-border--default: transparent;
   --drawer-list-option-color-border--focus: var(
     --token-color-stroke-action-focus
-  );
-  --drawer-list-arrow-color--default: var(
-    --drawer-list-option-color-bg--default
-  );
-  --drawer-list-arrow-color--hover: var(
-    --drawer-list-option-color-bg--hover
-  );
-  --drawer-list-arrow-color--active: var(
-    --drawer-list-option-color-bg--active
-  );
-  --drawer-list-arrow-color--focus: var(
-    --drawer-list-option-color-bg--focus
-  );
-  --drawer-list-arrow-color--group: var(--drawer-list-group-title-bg);
-  --drawer-list-arrow-color--selected: var(
-    --token-color-background-selected
-  );
-  --drawer-list-arrow-color--selected--hover: var(
-    --token-color-background-action-hover
-  );
-  --drawer-list-arrow-color--selected--active: var(
-    --token-color-background-action-pressed
-  );
-  --drawer-list-arrow-color--selected--focus: var(
-    --token-color-background-action-hover
   );
   display: flex;
   flex-direction: column;
@@ -947,7 +832,6 @@ html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
 }
 .dnb-drawer-list__option__inner {
   position: relative;
-  z-index: 1;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: repeat(10, min-content);
@@ -1093,8 +977,8 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
-    z-index: 2;
-    background-color: inherit;
+    z-index: 0;
+    background-color: var(--drawer-list-option-color-bg);
   }
 }
 html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
@@ -1141,68 +1025,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
   --drawer-list-top: var(
     --drawer-list-height,
     var(--drawer-list-height--default)
-  );
-}
-.dnb-drawer-list__arrow {
-  position: absolute;
-  top: calc(var(--drawer-list-arrow-size) * -1);
-  left: auto;
-  right: 0;
-  pointer-events: none;
-  margin: 0 var(--drawer-list-padding-horizontal, var(--drawer-list-padding-horizontal--default));
-  width: var(--drawer-list-arrow-size);
-  height: var(--drawer-list-arrow-size);
-  z-index: -1;
-  overflow: hidden;
-}
-.dnb-drawer-list__arrow::before {
-  content: "";
-  position: absolute;
-  top: 72%;
-  left: 0;
-  width: var(--drawer-list-arrow-size);
-  height: var(--drawer-list-arrow-size);
-  transform: translateY(calc(var(--drawer-list-list-border-width) * 0.38)) rotate(45deg);
-  background-color: var(--drawer-list-arrow-color, var(--drawer-list-arrow-color--default));
-  box-shadow: 0 0 0 var(--drawer-list-list-border-width) var(--token-color-stroke-neutral-subtle);
-}
-.dnb-drawer-list--arrow-position-left .dnb-drawer-list__arrow {
-  left: 0;
-  right: auto;
-}
-.dnb-drawer-list--top .dnb-drawer-list__arrow {
-  top: auto;
-  bottom: calc(var(--drawer-list-arrow-size) * -1);
-  transform: rotate(180deg);
-}
-.dnb-drawer-list--bottom:has(.dnb-drawer-list__group-title.closest-to-top) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.dnb-drawer-list__group-title.closest-to-bottom) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--group);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--focus);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top:hover) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--hover);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top:active) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--active);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(--drawer-list-arrow-color--selected);
-}
-.dnb-drawer-list--bottom:has(.closest-to-top.dnb-drawer-list__option--focus.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom.dnb-drawer-list__option--focus.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(
-    --drawer-list-arrow-color--selected--focus
-  );
-}
-.dnb-drawer-list--bottom:has(.closest-to-top:hover.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:hover.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(
-    --drawer-list-arrow-color--selected--hover
-  );
-}
-.dnb-drawer-list--bottom:has(.closest-to-top:active.dnb-drawer-list__option--selected) .dnb-drawer-list__options, .dnb-drawer-list--top:has(.closest-to-bottom:active.dnb-drawer-list__option--selected) .dnb-drawer-list__options {
-  --drawer-list-arrow-color: var(
-    --drawer-list-arrow-color--selected--active
   );
 }
 .dnb-drawer-list--is-popup.dnb-drawer-list--right {

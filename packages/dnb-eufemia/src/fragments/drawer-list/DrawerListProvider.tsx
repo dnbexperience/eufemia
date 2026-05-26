@@ -40,7 +40,6 @@ import {
 import {
   getData,
   normalizeData,
-  findClosest,
   getSelectedItemValue,
   parseContentTitle,
   getEventData,
@@ -127,8 +126,6 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     selectedItem?: string | number
     activeItem?: string | number
     showFocusRing?: boolean
-    closestToTop?: string
-    closestToBottom?: string
     skipPortal?: boolean
     addObservers?: () => void
     removeObservers?: () => void
@@ -161,7 +158,6 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       }
     ) => void
     _refShell?: RefObject<HTMLSpanElement>
-    _refTriangle?: RefObject<HTMLLIElement & HTMLSpanElement>
     _refUl?: RefObject<HTMLUListElement>
     _refRoot?: RefObject<HTMLSpanElement>
     _rootElem?: Window | Element
@@ -243,7 +239,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const _refRoot = useRef<HTMLSpanElement>(null)
   const _refShell = useRef<HTMLSpanElement>(null)
   const _refUl = useRef<HTMLUListElement>(null)
-  const _refTriangle = useRef<HTMLLIElement & HTMLSpanElement>(null)
 
   // Instance variables
   const _hasFocusOnElementRef = useRef<boolean>(false)
@@ -252,11 +247,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null)
   const scrollTimeoutRef = useRef<NodeJS.Timeout>(null)
   const directionTimeoutRef = useRef<NodeJS.Timeout>(null)
-  const itemSpotsRef = useRef<{
-    [key: number]: { id: string }
-  }>({})
-  const itemSpotsCountRef = useRef(0)
-  const setOnScrollRef = useRef<(() => void) | null>(null)
+
   const bodyLockEnabledRef = useRef(false)
   const setDirectionFnRef = useRef<(() => void) | null>(null)
   const rootElemRef = useRef<Window | Element>(null)
@@ -274,85 +265,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const isOpenRef = useRef(false)
 
   // --- Methods ---
-
-  const refreshScrollObserver = useCallback(() => {
-    if (typeof window === 'undefined' || !_refUl.current) {
-      return
-    }
-    const elements = _refUl.current?.querySelectorAll<HTMLLIElement>(
-      'li.dnb-drawer-list__option,li.dnb-drawer-list__group-title'
-    )
-    itemSpotsRef.current = {}
-    elements.forEach((element) => {
-      itemSpotsRef.current[element.offsetTop] = {
-        id: element.getAttribute('id'),
-      }
-    })
-    itemSpotsCountRef.current = Object.keys(itemSpotsRef.current).length
-  }, [])
-
-  const removeScrollObserverFn = useCallback(() => {
-    if (typeof window !== 'undefined' && setOnScrollRef.current) {
-      window.removeEventListener('resize', setOnScrollRef.current)
-      setOnScrollRef.current = null
-    }
-  }, [])
-
-  const setScrollObserver = useCallback(() => {
-    if (typeof window === 'undefined' || !_refUl.current) {
-      return
-    }
-
-    removeScrollObserverFn()
-    itemSpotsCountRef.current = 1
-
-    try {
-      let closestToTop = null,
-        closestToBottom = null,
-        tmpToTop: string,
-        tmpToBottom: string
-
-      setOnScrollRef.current = () => {
-        if (!_refUl.current) {
-          return // stop here
-        }
-
-        if (itemSpotsCountRef.current <= 1) {
-          refreshScrollObserver()
-        }
-
-        const counts = Object.keys(itemSpotsRef.current)
-        closestToBottom = findClosest(
-          counts,
-          _refUl.current.scrollTop + _refUl.current.offsetHeight + 3
-        )
-        closestToTop = findClosest(counts, _refUl.current.scrollTop)
-        if (
-          itemSpotsRef.current[closestToTop] &&
-          itemSpotsRef.current[closestToTop].id !== tmpToTop
-        ) {
-          tmpToTop = itemSpotsRef.current[closestToTop].id
-          mergeState({
-            closestToTop: itemSpotsRef.current[closestToTop].id,
-          })
-        }
-        if (
-          itemSpotsRef.current[closestToBottom] &&
-          itemSpotsRef.current[closestToBottom].id !== tmpToBottom
-        ) {
-          tmpToBottom = itemSpotsRef.current[closestToBottom].id
-          mergeState({
-            closestToBottom: itemSpotsRef.current[closestToBottom].id,
-          })
-        }
-      }
-
-      _refUl.current.addEventListener('scroll', setOnScrollRef.current)
-      setOnScrollRef.current()
-    } catch (e) {
-      warn('List could not set onScroll:', e)
-    }
-  }, [removeScrollObserverFn, refreshScrollObserver, mergeState])
 
   const enableBodyLock = useCallback(() => {
     if (_refUl.current) {
@@ -379,21 +291,16 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         window.innerWidth -
         (getOffsetLeft(_refUl.current) + _refUl.current.offsetWidth)
 
-      const triangleStyle = _refTriangle.current.style
       const shellStyle = _refShell.current.style
 
       if (spaceToLeft < 0) {
         shellStyle.transform =
           'translateX(' + Math.abs(spaceToLeft / 16) + 'rem)'
-        triangleStyle.right = Math.abs(spaceToLeft / 16) + 'rem'
       } else if (spaceToRight < 0) {
         shellStyle.transform = 'translateX(' + spaceToRight / 16 + 'rem)'
-        triangleStyle.left = Math.abs(spaceToRight / 16) + 'rem'
       } else {
         if (shellStyle.transform) {
           shellStyle.transform = ''
-          triangleStyle.left = 'auto'
-          triangleStyle.right = 'auto'
         }
       }
     } catch (e) {
@@ -595,15 +502,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       enableBodyLock()
     }
 
-    refreshScrollObserver()
-
     renderDirection()
   }, [
     removeDirectionObserver,
     mergeState,
     correctHiddenView,
     enableBodyLock,
-    refreshScrollObserver,
   ])
 
   const findItemByValue = useCallback((value) => {
@@ -953,19 +857,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   const addObservers = useCallback(() => {
     setDirectionObserver()
-    setScrollObserver()
+
     setOutsideClickObserver()
-  }, [setDirectionObserver, setScrollObserver, setOutsideClickObserver])
+  }, [setDirectionObserver, setOutsideClickObserver])
 
   const removeObservers = useCallback(() => {
     removeDirectionObserver()
-    removeScrollObserverFn()
     removeOutsideClickObserver()
-  }, [
-    removeDirectionObserver,
-    removeScrollObserverFn,
-    removeOutsideClickObserver,
-  ])
+  }, [removeDirectionObserver, removeOutsideClickObserver])
 
   // Forward refs for setVisible/setHidden so they can reference each other
   const setVisibleFnRef =
@@ -1145,14 +1044,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             : stateRef.current.originalData,
         },
         () => {
-          refreshScrollObserver()
           typeof cb === 'function' && cb(data)
         }
       )
 
       return selfRef.current
     },
-    [mergeState, refreshScrollObserver]
+    [mergeState]
   )
 
   const setStateHandler = useCallback(
@@ -1538,16 +1436,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       ) {
         _refUl.current?.focus()
       }
-
-      if (
-        stateRef.current.direction !== prevDirectionRef.current ||
-        props.data !== prevDataRef.current
-      ) {
-        window?.requestAnimationFrame?.(() => {
-          refreshScrollObserver()
-          setOnScrollRef.current?.()
-        })
-      }
     }
     prevDataRef.current = props.data
     prevDirectionRef.current = stateRef.current.direction
@@ -1582,7 +1470,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
           _refRoot,
           _refShell,
           _refUl,
-          _refTriangle,
           _rootElem: rootElemRef.current,
           setData: setDataHandler,
           setState: setStateHandler,

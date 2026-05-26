@@ -856,7 +856,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} onClose={onClose} />)
 
     expect(document.querySelector('span.dnb-drawer-list')).toHaveClass(
-      'dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--open dnb-drawer-list--arrow-position-left dnb-drawer-list--left dnb-drawer-list--default dnb-drawer-list--scroll',
+      'dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--open dnb-drawer-list--left dnb-drawer-list--default dnb-drawer-list--scroll',
       { exact: true }
     )
 
@@ -865,7 +865,7 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       expect(document.querySelector('span.dnb-drawer-list')).toHaveClass(
-        'dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--hidden dnb-drawer-list--arrow-position-left dnb-drawer-list--left dnb-drawer-list--default dnb-drawer-list--scroll',
+        'dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--hidden dnb-drawer-list--left dnb-drawer-list--default dnb-drawer-list--scroll',
         { exact: true }
       )
     })
