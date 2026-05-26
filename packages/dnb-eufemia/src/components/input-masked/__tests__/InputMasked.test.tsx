@@ -484,6 +484,21 @@ describe('InputMasked component', () => {
     expect(input).toHaveValue('123 456 7890')
   })
 
+  it('should reject non-matching characters in overflow', async () => {
+    render(
+      <InputMasked
+        allowOverflow
+        mask={[/\d/, /\d/, /\d/, '-', /\d/, /\d/]}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '12345abc678')
+
+    expect(input).toHaveValue('123-45678')
+  })
+
   it('should keep overflow characters when the value prop contains more digits than the mask', async () => {
     const mask = [
       /\d/,
