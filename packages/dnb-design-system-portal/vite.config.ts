@@ -22,6 +22,7 @@ import preloadStylesPlugin from './vite/client/plugins/preload-styles'
 import testPageFilterPlugin from './vite/client/plugins/test-page-filter'
 import buildInfoPlugin from './vite/client/plugins/build-info'
 import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild'
+import gitBranchPlugin from './vite/client/plugins/git-branch'
 import path from 'node:path'
 
 const nodeRequire = createRequire(import.meta.url)
@@ -59,6 +60,9 @@ export default defineConfig({
   plugins: [
     // Redirect /path/index.html → /path/ for SPA navigation and cleaner URLs
     redirectIndexHtmlPlugin(),
+
+    // Serve current git branch name at /__git-branch (dev only)
+    gitBranchPlugin(),
 
     // Prefetch route chunks when internal links are hovered or focused
     withFilter(prefetchOnHoverPlugin(), {
