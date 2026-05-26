@@ -4,12 +4,10 @@ showTabs: true
 
 import {
   ProgressIndicatorDefaultExample,
-  ProgressIndicatorCircularExample,
   ProgressIndicatorCircularLabelHorizontalExample,
   ProgressIndicatorCircularLabelVerticalExample,
   ProgressIndicatorCircularLabelInsideExample,
   ProgressIndicatorCircularPrimaryExample,
-  ProgressIndicatorCircularRandomExample,
   ProgressIndicatorCircularRandomTransitionExample,
   ProgressIndicatorCircularRandomOnCompleteExample,
   ProgressIndicatorCircularDialogExample,
@@ -18,10 +16,7 @@ import {
   ProgressIndicatorLinearLabelHorizontalExample,
   ProgressIndicatorLinearLabelVerticalExample,
   ProgressIndicatorLinearLargeExample,
-  ProgressIndicatorLinearRandomExample,
   ProgressIndicatorLinearRandomTransitionExample,
-  ProgressIndicatorLinearRandomOnCompleteExample,
-  ProgressIndicatorLinearDialogExample,
   ProgressIndicatorCountdownExample,
   ProgressIndicatorCustomCountdown,
   ProgressIndicatorCustomHorizontal,
@@ -30,91 +25,81 @@ import {
 
 ## Demos
 
-### Default ProgressIndicator is Circular
+### Indeterminate (unknown progress)
+
+When the duration is unknown, omit the `progress` prop to show a continuous animation. The default type is `circular`.
 
 <ProgressIndicatorDefaultExample />
 
-### Default Circular ProgressIndicator
-
-<ProgressIndicatorCircularExample />
-
-### Circular ProgressIndicator with a label in a horizontal direction
-
-<ProgressIndicatorCircularLabelHorizontalExample />
-
-### Circular ProgressIndicator with a label in a vertical direction
-
-<ProgressIndicatorCircularLabelVerticalExample />
-
-### Circular ProgressIndicator with a label inside
-
-Inside labels must be carefully sized, and are generally meant for just an icon or a number.
-
-<ProgressIndicatorCircularLabelInsideExample />
-
-### Shows a large Circular ProgressIndicator with a static 50% in progress
-
-<ProgressIndicatorCircularPrimaryExample />
-
-### Circular ProgressIndicator with random value
-
-<ProgressIndicatorCircularRandomExample />
-
-### Circular ProgressIndicator with random progress value to show the transition
-
-<ProgressIndicatorCircularRandomTransitionExample />
-
-### Circular ProgressIndicator with random `onComplete` callback
-
-<ProgressIndicatorCircularRandomOnCompleteExample />
-
-### Circular ProgressIndicator inside a Dialog
-
-<ProgressIndicatorCircularDialogExample />
-
-### Default Linear ProgressIndicator
+The `linear` type works well for wider layouts, such as the top of a page or section.
 
 <ProgressIndicatorLinearDefaultExample />
 
-### Small Linear ProgressIndicator
+A smaller linear variant can be useful for inline or compact contexts.
 
 <ProgressIndicatorLinearSmallExample />
 
-### Linear ProgressIndicator with a label in a horizontal direction
+### Determinate (known progress)
 
-<ProgressIndicatorLinearLabelHorizontalExample />
+Set the `progress` prop (0–100) when you know how far along the process is. This gives the user a clear expectation of remaining time.
 
-### Linear ProgressIndicator with a label in a vertical direction
-
-<ProgressIndicatorLinearLabelVerticalExample />
-
-### Shows a large Linear ProgressIndicator with a static 50% in progress
+<ProgressIndicatorCircularPrimaryExample />
 
 <ProgressIndicatorLinearLargeExample />
 
-### Linear ProgressIndicator with random value
+### Labels
 
-<ProgressIndicatorLinearRandomExample />
+Labels help users understand what is loading. Use `showDefaultLabel` for the built-in "In progress..." text, or provide a custom `label`.
 
-### Linear ProgressIndicator with random progress value to show the transition
+#### Horizontal label
+
+<ProgressIndicatorCircularLabelHorizontalExample />
+
+<ProgressIndicatorLinearLabelHorizontalExample />
+
+#### Vertical label
+
+The default label direction is vertical.
+
+<ProgressIndicatorCircularLabelVerticalExample />
+
+<ProgressIndicatorLinearLabelVerticalExample />
+
+#### Inside label (circular only)
+
+Inside labels are placed in the center of the circle. Use sparingly — they work best for short content like an icon or a number.
+
+<ProgressIndicatorCircularLabelInsideExample />
+
+### Animated progress transitions
+
+When the `progress` value changes, the indicator animates smoothly between values.
+
+<ProgressIndicatorCircularRandomTransitionExample />
 
 <ProgressIndicatorLinearRandomTransitionExample />
 
-### Linear ProgressIndicator with random `onComplete` callback
+### Controlling visibility with `show`
 
-<ProgressIndicatorLinearRandomOnCompleteExample />
+Use the `show` prop to toggle the indicator. The `onComplete` callback fires after the exit animation finishes, which is useful for sequencing UI updates.
 
-### Linear ProgressIndicator inside a Dialog
+<ProgressIndicatorCircularRandomOnCompleteExample />
 
-<ProgressIndicatorLinearDialogExample />
+### Inside a Dialog
 
-### Countdown indicator
+A ProgressIndicator can be placed inside a Dialog to block interaction while a process completes.
+
+<ProgressIndicatorCircularDialogExample />
+
+### Countdown
+
+The `countdown` type animates counterclockwise and is suited for timers, session expiry, or time-limited actions. Combine it with `labelDirection="inside"` to display a value in the center.
 
 <ProgressIndicatorCountdownExample />
 
 ### Style customization
 
-The sizes and colors can be customized with the properties `size`, `customColors`, and `customCircleWidth` if needed. The types `circular` and `countdown` has a few more options than `linear`.
+The sizes and colors can be customized with the properties `size`, `customColors`, and `customCircleWidth` if needed. The types `circular` and `countdown` have a few more options than `linear`.
 
 <ProgressIndicatorCustomCountdown />
 <ProgressIndicatorCustomHorizontal />

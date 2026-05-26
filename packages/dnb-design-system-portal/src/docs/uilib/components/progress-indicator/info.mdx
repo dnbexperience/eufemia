@@ -10,11 +10,44 @@ import { ProgressIndicator } from '@dnb/eufemia'
 
 ## Description
 
-Use a ProgressIndicator whenever the user has to wait for more than _150ms_. This component is also known as:
+The ProgressIndicator component shows a visual indicator during loading or processing states. Use it whenever the user has to wait for more than _150ms_.
 
-- Indicator (Activity-Indicator)
-- Loader (Pre-loader)
-- Spinner
+It supports three types: `circular` (default), `linear`, and `countdown`. Each type can display either a **determinate** state (with a known progress value) or an **indeterminate** state (when the duration is unknown).
+
+This component is also known as: Indicator (Activity-Indicator), Loader (Pre-loader), Spinner.
+
+### Determinate vs indeterminate
+
+- **Determinate**: Use when the progress percentage is known (e.g. file uploads, multi-step processes). Set the `progress` prop to a value between `0` and `100`.
+- **Indeterminate**: Use when the duration is unknown (e.g. fetching data, waiting for a response). Omit the `progress` prop to show a continuous animation.
+
+### Types
+
+- **`circular`** (default): A spinning ring. Works well inline or centered in a container. Supports label placement inside, horizontally, or vertically.
+- **`linear`**: A horizontal bar. Suited for wider layouts or when vertical space is limited. Common at the top of a page or section.
+- **`countdown`**: A circular variant that animates counterclockwise, useful for timers or session expiry indicators.
+
+### Visibility
+
+Use the `show` prop to control when the indicator appears and disappears. When `show` transitions to `false`, the indicator animates out and fires the `onComplete` callback once the exit animation finishes.
+
+## Accessibility
+
+- The component uses `role="progressbar"` with `aria-valuenow` for determinate states, giving screen readers the current progress.
+- For indeterminate states, `role="alert"` is used to announce that loading is in progress.
+- Use the `title` prop to provide a descriptive accessible label (e.g. `"Loading account details"`).
+- The `showDefaultLabel` prop adds a visible "In progress..." label, which also helps screen reader users understand the context.
+
+## When to use
+
+- Processing or loading states lasting more than 150ms.
+- File uploads, data fetching, or form submissions where the user needs feedback.
+- Timers or countdowns using the `countdown` type.
+
+## When not to use
+
+- For full-page or section-level loading states, consider the [Skeleton](/uilib/components/skeleton) component instead.
+- For processes lasting less than 150ms — no loading indicator is needed.
 
 ## Relevant links
 
