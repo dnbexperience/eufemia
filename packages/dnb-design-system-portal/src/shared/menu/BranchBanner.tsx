@@ -5,7 +5,7 @@ export default function BranchBanner() {
   const [branch, setBranch] = useState('')
 
   useEffect(() => {
-    if (globalThis.IS_TEST) {
+    if (!import.meta.hot || globalThis.IS_TEST) {
       return // stop here
     }
 
@@ -21,11 +21,9 @@ export default function BranchBanner() {
         // ignore
       })
 
-    if (import.meta.hot) {
-      import.meta.hot.on('git-branch:update', (data) => {
-        setBranch(data.branch)
-      })
-    }
+    import.meta.hot.on('git-branch:update', (data) => {
+      setBranch(data.branch)
+    })
   }, [])
 
   if (!branch) {
