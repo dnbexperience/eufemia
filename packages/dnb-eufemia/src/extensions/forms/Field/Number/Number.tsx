@@ -71,6 +71,8 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
   align?: InputAlign
   /** If `true`, shows increment/decrement step control buttons. */
   showStepControls?: boolean
+  /** Text showing in place of the value if no value is given. */
+  placeholder?: string
 }
 
 const defaultMinimum = Number.MIN_SAFE_INTEGER

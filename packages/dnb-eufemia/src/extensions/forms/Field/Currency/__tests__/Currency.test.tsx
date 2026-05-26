@@ -26,6 +26,27 @@ describe('Field.Currency', () => {
     expect(input).toHaveValue('123 NOK')
   })
 
+  it('should use custom placeholder when provided', () => {
+    render(<Field.Currency placeholder="Enter amount" />)
+
+    const placeholder = document.querySelector('.dnb-input__placeholder')
+    expect(placeholder).toHaveTextContent('Enter amount')
+  })
+
+  it('should show currency symbol as default placeholder', () => {
+    render(<Field.Currency />)
+
+    const placeholder = document.querySelector('.dnb-input__placeholder')
+    expect(placeholder).toHaveTextContent('kr')
+  })
+
+  it('should show empty placeholder when set to empty string', () => {
+    render(<Field.Currency placeholder="" />)
+
+    const placeholder = document.querySelector('.dnb-input__placeholder')
+    expect(placeholder).toBeNull()
+  })
+
   it('should align input correctly', () => {
     render(
       <>

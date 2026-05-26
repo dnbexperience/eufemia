@@ -71,6 +71,11 @@ export const NumberProperties: PropertiesTableProps = {
     type: ['"on"', 'string'],
     status: 'optional',
   },
+  placeholder: {
+    doc: 'Text showing in place of the value if no value is given.',
+    type: 'string',
+    status: 'optional',
+  },
   prefix: {
     doc: 'Text added before the value input.',
     type: 'string',
