@@ -368,6 +368,18 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         return
       }
 
+      // Sync focusedDateRef from DOM when a date button is focused
+      // (e.g. after cross-calendar focus jump or mouse click on a day)
+      if (tableRef.current) {
+        const td = document.activeElement?.closest('td[data-date]')
+        if (td && tableRef.current.contains(td)) {
+          const dateStr = td.getAttribute('data-date')
+          if (dateStr) {
+            focusedDateRef.current = startOfDay(new Date(dateStr))
+          }
+        }
+      }
+
       // Handle Enter/Space
       if (pressedKey === 'Enter' || pressedKey === 'Space') {
         event.preventDefault()
@@ -495,6 +507,30 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       // Navigate to a different month if needed
       if (viewMonth && !isSameMonth(newDate, viewMonth)) {
+        // In range mode, jump to the other calendar if it shows the target month
+        if (isRange) {
+          const otherNr = nr === 0 ? 1 : 0
+          const otherViewMonth = views.find((v) => v.nr === otherNr)?.month
+
+          if (otherViewMonth && isSameMonth(newDate, otherViewMonth)) {
+            const viewsContainer = tableRef.current?.closest(
+              '.dnb-date-picker__views'
+            )
+            const otherTable =
+              viewsContainer?.querySelectorAll('table')?.[otherNr]
+            const dateStr = format(newDate, 'yyyy-MM-dd')
+            const button = otherTable?.querySelector(
+              `td[data-date="${dateStr}"] button`
+            ) as HTMLElement | undefined
+
+            if (button) {
+              focusedDateRef.current = null
+              button.focus({ preventScroll: true })
+              return // stop here
+            }
+          }
+        }
+
         // Keep focus on the table during re-render to prevent the Popover from closing
         tableRef.current?.focus({ preventScroll: true })
 
