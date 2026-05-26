@@ -396,9 +396,7 @@
       overflow: initial;
       background-color: initial;
     }
-    .dnb-p:not(.dnb-t__align--center):not(.dnb-t__align--left):not(
-        .dnb-t__align--right
-      ) {
+    .dnb-p:not([class*='dnb-t__align']) {
       text-align: inherit;
     }
     i {
