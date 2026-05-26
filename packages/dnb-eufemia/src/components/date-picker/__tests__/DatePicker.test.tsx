@@ -1538,7 +1538,7 @@ describe('DatePicker component', () => {
   })
 
   it('should set correct month based date selected with keyboard navigation', async () => {
-    render(<DatePicker range date="2024-10-01" />)
+    render(<DatePicker date="2024-10-01" />)
 
     await userEvent.click(getDatePickerTriggerButton())
 
@@ -1546,13 +1546,13 @@ describe('DatePicker component', () => {
       '.dnb-date-picker__calendar .dnb-date-picker__header__title'
     )
 
-    const firstDayButton = document.querySelector(
-      '.dnb-date-picker__calendar .dnb-date-picker__day button'
-    ) as HTMLButtonElement
-    await userEvent.click(firstDayButton)
-
     expect(pickerTitle).toHaveTextContent('oktober 2024')
 
+    // Focus Oct 1 and navigate left into September
+    const oct1Button = document.querySelector(
+      '.dnb-date-picker__calendar td[data-date="2024-10-01"] button'
+    ) as HTMLButtonElement
+    oct1Button.focus()
     await userEvent.keyboard('{ArrowLeft}')
 
     expect(pickerTitle).toHaveTextContent('september 2024')
@@ -1564,7 +1564,7 @@ describe('DatePicker component', () => {
 
   it('should set correct month based date selected with keyboard navigation in range mode', async () => {
     render(
-      <DatePicker range startDate="2024-10-01" endDate="2024-10-02" />
+      <DatePicker range startDate="2024-10-15" endDate="2024-11-15" />
     )
 
     await userEvent.click(getDatePickerTriggerButton())
@@ -1574,35 +1574,68 @@ describe('DatePicker component', () => {
         '.dnb-date-picker__calendar .dnb-date-picker__header__title'
       )
     )
-
-    const firstRangeDayButton = document.querySelector(
-      '.dnb-date-picker__calendar .dnb-date-picker__day button'
-    ) as HTMLButtonElement
-    await userEvent.click(firstRangeDayButton)
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    ) as NodeListOf<HTMLTableElement>
 
     expect(leftPickerTitle).toHaveTextContent('oktober 2024')
-    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
 
+    // Navigate left past October — left calendar changes to September
+    const oct1Button = tables[0].querySelector(
+      'td[data-date="2024-10-01"] button'
+    ) as HTMLButtonElement
+    oct1Button.focus()
     await userEvent.keyboard('{ArrowLeft}')
 
     expect(leftPickerTitle).toHaveTextContent('september 2024')
-    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
 
-    await userEvent.keyboard('{ArrowRight>32}')
+    // Navigate right from September — October is not in either calendar,
+    // so the left calendar changes to October
+    await userEvent.keyboard('{ArrowRight}')
 
-    expect(leftPickerTitle).toHaveTextContent('november 2024')
-    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
 
-    // Tab to right picker and navigate to december
-    await userEvent.keyboard('{Tab>3}{ArrowRight>62}')
+    // Navigate right from October into November — should jump to right calendar
+    // without changing either calendar's month
+    const oct31Button = tables[0].querySelector(
+      'td[data-date="2024-10-31"] button'
+    ) as HTMLButtonElement
+    oct31Button.focus()
+    await userEvent.keyboard('{ArrowRight}')
 
-    expect(leftPickerTitle).toHaveTextContent('november 2024')
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
+    expect(tables[1].contains(document.activeElement)).toBe(true)
+
+    // Navigate right past November — right calendar changes to December
+    const nov30Button = tables[1].querySelector(
+      'td[data-date="2024-11-30"] button'
+    ) as HTMLButtonElement
+    nov30Button.focus()
+    await userEvent.keyboard('{ArrowRight}')
+
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
     expect(rightPickerTitle).toHaveTextContent('desember 2024')
 
-    await userEvent.keyboard('{ArrowLeft>70}')
+    // Navigate left from December — November is not in either calendar,
+    // so the right calendar changes to November
+    await userEvent.keyboard('{ArrowLeft}')
 
-    expect(leftPickerTitle).toHaveTextContent('november 2024')
-    expect(rightPickerTitle).toHaveTextContent('september 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
+
+    // Navigate left from November into October — should jump to left calendar
+    const nov1Button = tables[1].querySelector(
+      'td[data-date="2024-11-01"] button'
+    ) as HTMLButtonElement
+    nov1Button.focus()
+    await userEvent.keyboard('{ArrowLeft}')
+
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
+    expect(tables[0].contains(document.activeElement)).toBe(true)
   })
 
   it('should keep focus in the left calendar after selecting a start date with keyboard', async () => {
@@ -1719,6 +1752,54 @@ describe('DatePicker component', () => {
 
     const rightFocused = document.activeElement
     expect(rightFocused.getAttribute('aria-label')).toContain('1.')
+  })
+
+  it('should jump focus to the other calendar when arrow key crosses into its month', async () => {
+    render(
+      <DatePicker range startDate="2024-10-31" endDate="2024-11-05" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    ) as NodeListOf<HTMLTableElement>
+    const leftTable = tables[0]
+    const rightTable = tables[1]
+
+    // Navigate to Oct 31 in the left calendar
+    leftTable.focus()
+    await userEvent.keyboard('{ArrowDown}')
+
+    // Move right from the last day of October — should jump to the right calendar
+    const lastDayButton = leftTable.querySelector(
+      'td[data-date="2024-10-31"] button'
+    ) as HTMLButtonElement
+    lastDayButton.focus()
+    await userEvent.keyboard('{ArrowRight}')
+
+    // Focus should now be in the right calendar on Nov 1
+    expect(rightTable.contains(document.activeElement)).toBe(true)
+    expect(
+      document.activeElement.closest('td').getAttribute('data-date')
+    ).toBe('2024-11-01')
+
+    // Arrow keys should continue working from the new position
+    await userEvent.keyboard('{ArrowRight}')
+    expect(rightTable.contains(document.activeElement)).toBe(true)
+    expect(
+      document.activeElement.closest('td').getAttribute('data-date')
+    ).toBe('2024-11-02')
+
+    // Now test the reverse: navigate back to Nov 1, then go left into Oct
+    await userEvent.keyboard('{ArrowLeft}') // Nov 2 → Nov 1
+    await userEvent.keyboard('{ArrowLeft}') // Nov 1 → should jump to Oct 31
+
+    // Focus should jump to the left calendar on Oct 31
+    expect(leftTable.contains(document.activeElement)).toBe(true)
+    expect(
+      document.activeElement.closest('td').getAttribute('data-date')
+    ).toBe('2024-10-31')
   })
 
   it('should keep the picker open during tab navigation when showInput is true', async () => {
