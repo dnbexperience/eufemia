@@ -514,6 +514,68 @@ describe('prerender-utils', () => {
       expect(cssPos).toBeLessThan(headClosePos)
     })
 
+    it('injects theme CSS links and theme-swap script', () => {
+      const themeCssPaths = {
+        ui: '/assets/theme-ui.css',
+        sbanken: '/assets/theme-sbanken.css',
+      }
+      const result = injectHtml(
+        template,
+        '<h1>Hello</h1>',
+        { js: [], css: [] },
+        '',
+        undefined,
+        themeCssPaths
+      )
+
+      // Default theme link should be enabled, others disabled
+      expect(result).toContain(
+        'href="/assets/theme-ui.css" data-eufemia-theme="ui">'
+      )
+      expect(result).toContain(
+        'href="/assets/theme-sbanken.css" data-eufemia-theme="sbanken" disabled>'
+      )
+
+      // Theme script should be in the body
+      expect(result).toContain('eufemia-theme__')
+    })
+
+    it('theme script does not immediately disable default CSS for non-default themes', () => {
+      const themeCssPaths = {
+        ui: '/assets/theme-ui.css',
+        sbanken: '/assets/theme-sbanken.css',
+      }
+      const result = injectHtml(
+        template,
+        '<h1>Hello</h1>',
+        { js: [], css: [] },
+        '',
+        undefined,
+        themeCssPaths
+      )
+
+      // Extract the inline theme script
+      const scriptMatch = result.match(
+        /<script>\(function\(\)\{try\{var t=JSON[\s\S]*?<\/script>/
+      )
+      expect(scriptMatch).not.toBeNull()
+
+      const script = scriptMatch![0]
+
+      // The script should use onload to defer disabling other themes
+      expect(script).toContain('.onload=')
+
+      // The script should check l.sheet for cached CSS before falling
+      // back to onload (mirrors the Vite plugin's waitForThemeLink)
+      expect(script).toContain('.sheet')
+
+      // The script should NOT blindly disable all non-matching links
+      // (the old pattern was: links[i].disabled=links[i].getAttribute(...)!==n)
+      expect(script).not.toMatch(
+        /links\[i\]\.disabled\s*=\s*links\[i\]\.getAttribute/
+      )
+    })
+
     it('injects SEO meta tags when meta is provided', () => {
       const result = injectHtml(
         template,

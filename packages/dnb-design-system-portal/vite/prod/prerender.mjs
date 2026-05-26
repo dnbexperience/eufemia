@@ -511,24 +511,20 @@ function injectHtml(
       })
       .join('\n')
 
-    // Head script: determine active theme, disable inactive theme
-    // links, and store the name on globalThis for the body script.
-    // Runs in <head> after the render-blocking links have loaded,
-    // so the disable is instant — no network delay.
-    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
+    // Early blocking script: read localStorage and enable the stored
+    // theme's <link> before first paint. This mirrors the existing
+    // color-scheme FOUC-prevention pattern.
+    //
+    // For non-default themes, the script enables the chosen theme's
+    // CSS link but keeps the default theme enabled as a fallback.
+    // The CSS specificity (.eufemia-scope--portal .eufemia-theme__<name>)
+    // ensures the correct theme's styles win once loaded. Only after
+    // the new theme's stylesheet has loaded do we disable the default,
+    // preventing a flash of unstyled content.
+    const themeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';document.body.classList.add('eufemia-theme__'+n);if(n==='${defaultTheme}')return;var links=document.querySelectorAll('link[data-eufemia-theme]');var d=function(){for(var j=0;j<links.length;j++){if(links[j].getAttribute('data-eufemia-theme')!==n){links[j].disabled=true}}};for(var i=0;i<links.length;i++){var a=links[i].getAttribute('data-eufemia-theme');if(a===n){var l=links[i];l.disabled=false;if(l.sheet){d()}else{l.onload=d}break}}}catch(e){}})()</script>`
 
-    // Body script: add the brand class to <body> immediately after
-    // the opening tag, before any content is rendered.
-    const bodyThemeScript = `<script>(function(){var n=globalThis.__eufemiaTheme;if(n){document.body.classList.add('eufemia-theme__'+n)}})()</script>`
-
-    html = html.replace(
-      '</head>',
-      `${linkTags}\n${headThemeScript}\n  </head>`
-    )
-    html = html.replace(
-      /<body[^>]*>/,
-      (match) => `${match}\n     ${bodyThemeScript}`
-    )
+    html = html.replace('</head>', `${linkTags}\n  </head>`)
+    html = html.replace('</body>', `${themeScript}\n</body>`)
   }
 
   // Inject per-page SEO meta tags
