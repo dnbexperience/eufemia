@@ -1,145 +1,15 @@
-import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useContext } from 'react'
-import type { HTMLProps, ReactNode } from 'react'
-import { clsx } from 'clsx'
-import Flex from '../flex/Flex'
-import type { SectionProps } from '../section/Section'
-import { SectionParams } from '../section/Section'
-import { combineLabelledBy } from '../../shared/component-helper'
-import CardContext from './CardContext'
-import Space from '../Space'
-import useId from '../../shared/helpers/useId'
+import Card from './CardInner'
+import CardAction from './CardAction'
+import CardList from './CardList'
+import CardListItem from './CardListItem'
 
-import type { FlexContainerProps } from '../flex/Container'
-import type { FlexItemProps } from '../flex/Item'
-import type { SpaceTypeMedia } from '../../shared/types'
-import type { SpaceProps } from '../Space'
+export type { CardProps } from './CardInner'
+export { Card }
 
-export type CardProps = {
-  /**
-   * Define a title that appears on top of the Card
-   */
-  title?: ReactNode
-
-  /**
-   * Define if the Card should behave responsive. Defaults to `true`
-   */
-  responsive?: boolean
-
-  /**
-   * Define if the Card should get the same background color as the outline border
-   */
-  filled?: boolean
-} & FlexContainerProps &
-  Pick<
-    SectionProps,
-    | 'outset'
-    | 'outline'
-    | 'outlineWidth'
-    | 'dropShadow'
-    | 'backgroundColor'
-  > &
-  FlexItemProps & {
-    stack?: boolean
-  } & SpaceProps &
-  Omit<HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
-
-function Card(props: CardProps) {
-  const nestedContext = useContext(CardContext)
-
-  const {
-    className,
-    stack,
-    direction,
-    gap,
-    innerSpace,
-    alignSelf = 'stretch',
-    align,
-    divider = 'space',
-    rowGap,
-    responsive = !nestedContext?.isNested,
-    filled,
-    outset,
-    outlineWidth = 'var(--card-outline-width)',
-    dropShadow,
-    title,
-    children,
-    ...rest
-  } = props
-
-  const titleId = useId()
-  const falseWhenSmall = { small: false, medium: true, large: true }
-  const trueWhenSmall = { small: true, medium: false, large: false }
-  const basisSpace = {
-    top: 'small',
-    right: 'small',
-    bottom: 'small',
-    left: 'small',
-  }
-  const smallSpace = responsive
-    ? {
-        ...basisSpace,
-        right: 0,
-        left: 0,
-      }
-    : basisSpace
-
-  const params = SectionParams({
-    className: clsx(
-      'dnb-card',
-      className,
-      responsive && 'dnb-card--responsive',
-      filled && 'dnb-card--filled',
-      !innerSpace && innerSpace != null && 'dnb-card--no-inner-space'
-    ),
-    breakout: responsive ? trueWhenSmall : false,
-    outset: nestedContext?.isNested
-      ? false
-      : outset === true
-        ? falseWhenSmall
-        : outset,
-    roundedCorner: responsive ? falseWhenSmall : true,
-    outline: 'var(--card-outline-color)',
-    outlineWidth,
-    dropShadow,
-    backgroundColor: 'var(--card-background-color)',
-    innerSpace:
-      innerSpace ??
-      ({
-        small: smallSpace,
-        medium: basisSpace,
-        large: basisSpace,
-      } as SpaceTypeMedia),
-    ...(rest as SectionProps),
-    'aria-labelledby': combineLabelledBy(rest, title && titleId),
-  })
-
-  return (
-    <Flex.Item alignSelf={alignSelf} element="section" {...params}>
-      <CardContext value={{ ...nestedContext, isNested: true }}>
-        <Flex.Container
-          direction={direction ?? 'vertical'}
-          divider={divider}
-          alignSelf={alignSelf}
-          align={stack ? 'stretch' : align}
-          wrap={!stack}
-          gap={gap ?? (stack ? 'medium' : false)}
-          rowGap={rowGap}
-        >
-          {title && (
-            <Space id={titleId} className="dnb-card__title">
-              {title}
-            </Space>
-          )}
-          {children}
-        </Flex.Container>
-      </CardContext>
-    </Flex.Item>
-  )
-}
-
-withComponentMarkers(Card, {
-  _supportsSpacingProps: true,
+const CardCompound = Object.assign(Card, {
+  Action: CardAction,
+  List: CardList,
+  ListItem: CardListItem,
 })
 
-export default Card
+export default CardCompound

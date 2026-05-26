@@ -77,3 +77,11 @@ While Flex has the horizontal direction, it uses rowGap when wrapping. So it's t
 ## With `backgroundColor` and `outline`
 
 <Examples.CustomBackgroundColorAndOutline />
+
+### Interactive Cards
+
+Use `Card.Action` to make a Card clickable or a link. Pass `onClick` for a button-like card, or `href`/`to` for a link card. Both variants get hover, focus, and keyboard styles automatically.
+
+For custom routing (e.g. react-router), pass a router `Link` via the `element` prop on `Card.Action`.
+
+<Examples.InteractiveCards />

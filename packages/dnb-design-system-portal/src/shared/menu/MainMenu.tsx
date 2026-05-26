@@ -13,7 +13,7 @@ import {
   DesignSystemSvg,
   DevelopmentSvg,
 } from './MainMenuGraphics'
-import { VisuallyHidden } from '@dnb/eufemia/src'
+import { Card as EufemiaCard, VisuallyHidden } from '@dnb/eufemia/src'
 import PortalLogo from './graphics/logo'
 import { changelogVersion } from '../buildInfo'
 import { SearchBarInput } from './SearchBar'
@@ -99,7 +99,7 @@ function MainMenu() {
               </figcaption>
             </figure>
             <SearchBarInput />
-            <ul className={listStyle}>
+            <EufemiaCard.List className={listStyle}>
               <Card
                 url={items['design-system']?.url}
                 title={items['design-system']?.title}
@@ -146,7 +146,7 @@ function MainMenu() {
                 about={items['contribute']?.description}
                 icon={DevelopmentSvg}
               />
-            </ul>
+            </EufemiaCard.List>
           </div>
         </>
       </div>

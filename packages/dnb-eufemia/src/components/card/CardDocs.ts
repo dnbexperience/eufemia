@@ -88,3 +88,77 @@ export const CardProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const CardActionProperties: PropertiesTableProps = {
+  href: {
+    doc: 'The URL to navigate to. When set, renders an anchor element.',
+    type: 'string',
+    status: 'optional',
+  },
+  to: {
+    doc: 'Route path for use with a router Link component (e.g. react-router). Pass a custom `element` that accepts `to`.',
+    type: 'string',
+    status: 'optional',
+  },
+  target: {
+    doc: 'The anchor target attribute.',
+    type: 'string',
+    status: 'optional',
+  },
+  rel: {
+    doc: 'The anchor rel attribute.',
+    type: 'string',
+    status: 'optional',
+  },
+  element: {
+    doc: 'Custom element to render as the wrapper. Defaults to `a` when `href`/`to` is set. Use this for router Link components.',
+    type: ['string', 'React.Element'],
+    status: 'optional',
+  },
+  onClick: {
+    doc: 'Click handler. When used without `href`/`to`, renders a button-like wrapper with keyboard support (Enter/Space).',
+    type: 'function',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Contents of the Card inside the action wrapper.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  'Card properties': {
+    doc: 'All [Card](/uilib/components/card/properties) properties are supported.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const CardListProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Card.ListItem elements.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const CardListItemProperties: PropertiesTableProps = {
+  center: {
+    doc: 'Center the content of the list item. Use `true` to always center, or `"when-small"` to center only on small screens.',
+    type: ['boolean', '"when-small"'],
+    status: 'optional',
+  },
+  children: {
+    doc: 'A Card or Card.Action element.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
