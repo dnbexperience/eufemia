@@ -146,7 +146,7 @@ p > .dnb-icon {
   --accordion-border-radius: var(--token-radius-md);
   --accordion-easing: var(--easing-default);
   --accordion-border-inset: var(--accordion-border-inset--default, inset);
-  --accordion-header-margin-vertical: 1.25rem;
+  --accordion-header-margin-vertical: 1.375rem;
   --accordion-header-margin-vertical--description: 0.75rem;
   --accordion-header-wrapper-margin: 1rem;
   --accordion-header-wrapper-margin--icon-right: 1rem;
