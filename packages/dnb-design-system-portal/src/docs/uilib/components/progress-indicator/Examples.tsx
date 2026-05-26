@@ -161,12 +161,6 @@ export const ProgressIndicatorLinearDefaultExample = () => (
   </ComponentBox>
 )
 
-export const ProgressIndicatorLinearSmallExample = () => (
-  <ComponentBox>
-    <ProgressIndicator type="linear" size="small" />
-  </ComponentBox>
-)
-
 export const ProgressIndicatorLinearLabelHorizontalExample = () => (
   <ComponentBox>
     <ProgressIndicator
