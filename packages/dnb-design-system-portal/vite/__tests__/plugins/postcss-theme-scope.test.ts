@@ -50,23 +50,23 @@ describe('postcss-eufemia-theme-scope', () => {
     )
   })
 
-  it('scopes component selectors under brand class', async () => {
+  it('scopes component selectors under brand class with :where()', async () => {
     const css = await run(
       '.eufemia-scope--portal .dnb-accordion { --accordion-border-width: 0; }',
       '/path/to/themes/sbanken/sbanken-theme-components.scss'
     )
     expect(css).toBe(
-      '.eufemia-scope--portal .eufemia-theme__sbanken .dnb-accordion { --accordion-border-width: 0; }'
+      '.eufemia-scope--portal :where(.eufemia-theme__sbanken) .dnb-accordion { --accordion-border-width: 0; }'
     )
   })
 
-  it('scopes nested component selectors under brand class', async () => {
+  it('scopes nested component selectors under brand class with :where()', async () => {
     const css = await run(
       '.eufemia-scope--portal .dnb-accordion .dnb-accordion__header { color: red; }',
       '/path/to/themes/sbanken/sbanken-theme-components.scss'
     )
     expect(css).toBe(
-      '.eufemia-scope--portal .eufemia-theme__sbanken .dnb-accordion .dnb-accordion__header { color: red; }'
+      '.eufemia-scope--portal :where(.eufemia-theme__sbanken) .dnb-accordion .dnb-accordion__header { color: red; }'
     )
   })
 
@@ -80,13 +80,23 @@ describe('postcss-eufemia-theme-scope', () => {
     )
   })
 
+  it('skips selectors already scoped with :where() brand class', async () => {
+    const css = await run(
+      '.eufemia-scope--portal :where(.eufemia-theme__sbanken) .dnb-accordion { color: red; }',
+      '/path/to/themes/sbanken/sbanken-theme-components.scss'
+    )
+    expect(css).toBe(
+      '.eufemia-scope--portal :where(.eufemia-theme__sbanken) .dnb-accordion { color: red; }'
+    )
+  })
+
   it('handles eiendom theme files', async () => {
     const css = await run(
       '.eufemia-scope--portal .dnb-button { color: blue; }',
       '/path/to/themes/eiendom/eiendom-theme-components.scss'
     )
     expect(css).toBe(
-      '.eufemia-scope--portal .eufemia-theme__eiendom .dnb-button { color: blue; }'
+      '.eufemia-scope--portal :where(.eufemia-theme__eiendom) .dnb-button { color: blue; }'
     )
   })
 
@@ -96,7 +106,7 @@ describe('postcss-eufemia-theme-scope', () => {
       '/path/to/themes/carnegie/carnegie-theme-components.scss'
     )
     expect(css).toBe(
-      '.eufemia-scope--portal .eufemia-theme__carnegie .dnb-card { padding: 1rem; }'
+      '.eufemia-scope--portal :where(.eufemia-theme__carnegie) .dnb-card { padding: 1rem; }'
     )
   })
 
@@ -107,6 +117,26 @@ describe('postcss-eufemia-theme-scope', () => {
     )
     expect(css).toBe(
       '.eufemia-scope--portal .eufemia-theme__sbanken, .eufemia-scope--portal .eufemia-theme__sbanken.eufemia-theme__color-scheme--light { --sb-color-text: #000; }'
+    )
+  })
+
+  it('does not scope generic .eufemia-theme selector under brand class', async () => {
+    const css = await run(
+      '.eufemia-scope--portal, .eufemia-scope--portal .eufemia-theme { --scrollbar-thumb-color: red; }',
+      '/path/to/themes/sbanken/sbanken-theme-basis.scss'
+    )
+    expect(css).toBe(
+      '.eufemia-scope--portal .eufemia-theme__sbanken, .eufemia-scope--portal .eufemia-theme { --scrollbar-thumb-color: red; }'
+    )
+  })
+
+  it('scopes :where() wrapped component selectors under brand class', async () => {
+    const css = await run(
+      '.eufemia-scope--portal :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default { font-size: 1em; }',
+      '/path/to/themes/sbanken/sbanken-theme-components.scss'
+    )
+    expect(css).toBe(
+      '.eufemia-scope--portal :where(.eufemia-theme__sbanken) :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default { font-size: 1em; }'
     )
   })
 })

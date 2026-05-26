@@ -16,7 +16,10 @@
  * And component selectors like:
  *   .eufemia-scope--portal .dnb-accordion
  * to:
- *   .eufemia-scope--portal .eufemia-theme__sbanken .dnb-accordion
+ *   .eufemia-scope--portal :where(.eufemia-theme__sbanken) .dnb-accordion
+ *
+ * The :where() wrapper keeps specificity unchanged so portal-specific
+ * styles (e.g. sidebar menu) are not overridden.
  *
  * And comma patterns like:
  *   .eufemia-scope--portal, .eufemia-scope--portal .eufemia-theme__sbanken
@@ -68,15 +71,25 @@ const plugin = () => {
             return `.${scopeClass} .${brandClass}${colorSchemeMatch[1]}`
           }
 
-          // Catch-all: any other selector containing the scope class
-          // (e.g. component selectors like ".eufemia-scope--portal .dnb-accordion")
-          // Insert the brand class after the scope class so the styles
-          // only apply when the theme is active, not just when the
-          // style tag is enabled.
+          // Skip generic ".eufemia-theme" class (without brand/color-scheme
+          // suffix) — it lives on the same DOM element as the brand class,
+          // so making it a descendant selector would break matching.
+          if (
+            /\.eufemia-scope--portal\s+\.eufemia-theme(?!__)/.test(trimmed)
+          ) {
+            return sel
+          }
+
+          // Remaining selectors containing the scope class (component
+          // overrides, :where() wrappers, etc.) — insert the brand class
+          // wrapped in :where() after the scope class. This ensures styles
+          // only apply when the theme is active WITHOUT increasing
+          // specificity, which would otherwise override portal-specific
+          // styles (e.g. sidebar menu anchor colors).
           if (trimmed.includes(`.${scopeClass} `)) {
             return trimmed.replace(
               `.${scopeClass} `,
-              `.${scopeClass} .${brandClass} `
+              `.${scopeClass} :where(.${brandClass}) `
             )
           }
 
