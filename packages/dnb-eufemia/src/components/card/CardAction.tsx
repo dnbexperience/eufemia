@@ -66,6 +66,10 @@ function CardAction(props: CardActionProps) {
   const combinedRef = useCombinedRef(ref, internalRef)
 
   useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      return // stop here
+    }
+
     const el = internalRef.current
     if (!el) {
       return // stop here
