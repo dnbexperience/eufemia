@@ -552,7 +552,7 @@ function createMaskitoNumberOptions(mp: {
   const prefix = mp.prefix ?? ''
   const suffix = mp.suffix ?? ''
   const allowNegative = mp.allowNegative !== false
-  const min = allowNegative ? Number.MIN_SAFE_INTEGER - 1 : 0
+  const min = allowNegative ? Number.MIN_SAFE_INTEGER : 0
   // If allowDecimal is true but decimalLimit is not specified, use a default of 2
   // Otherwise use decimalLimit if specified, or 0 if decimals are not allowed
   const defaultDecimalLimit = mp.allowDecimal === true ? 2 : 0
@@ -567,7 +567,7 @@ function createMaskitoNumberOptions(mp: {
 
   const base = maskitoNumberOptionsGenerator({
     min,
-    max: Number.MAX_SAFE_INTEGER + 1,
+    max: Number.MAX_SAFE_INTEGER,
     thousandSeparator: thousand,
     decimalSeparator: decimal,
     maximumFractionDigits,
@@ -621,11 +621,74 @@ function createMaskitoNumberOptions(mp: {
       ]
     : [...(base.postprocessors || []), clearEmptyPostprocessor]
 
+  // Reject digit/paste insertion that would produce a value beyond safe
+  // integer limits. This prevents Maskito's default clamp behavior which
+  // silently replaces the value with MAX/MIN_SAFE_INTEGER.
+  const rejectBeyondSafeInteger: MaskitoPreprocessor = (
+    { elementState, data },
+    actionType
+  ) => {
+    if (actionType !== 'insert' || !data) {
+      return { elementState, data }
+    }
+
+    const { value, selection } = elementState
+    const [start, end] = selection
+    const simulated = value.slice(0, start) + data + value.slice(end)
+
+    // Strip formatting to extract the raw numeric value
+    let raw = simulated
+
+    if (prefix && raw.startsWith(prefix)) {
+      raw = raw.slice(prefix.length)
+    }
+
+    if (postfixToUse && raw.endsWith(postfixToUse)) {
+      raw = raw.slice(0, -postfixToUse.length)
+    }
+
+    if (suffixStartsWithComma && raw.endsWith(',')) {
+      raw = raw.slice(0, -1)
+    }
+
+    raw = raw.split(thousand).join('').trim()
+
+    if (decimal !== '.') {
+      raw = raw.replace(decimal, '.')
+    }
+
+    if (!raw || raw === '-' || raw === '.' || raw === '-.') {
+      return { elementState, data }
+    }
+
+    const num = Number(raw)
+
+    if (isNaN(num)) {
+      return { elementState, data }
+    }
+
+    if (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER) {
+      // Reject the insertion entirely. For typed digits this feels like
+      // hitting a maxLength wall. For paste it means nothing happens —
+      // a future improvement could surface a validation message so the
+      // user understands why the paste was rejected.
+      return { elementState, data: '' }
+    }
+
+    return { elementState, data }
+  }
+
+  const preprocessors = [
+    ...(base.preprocessors || []),
+    rejectBeyondSafeInteger,
+  ]
+
   const plugins = [...(base.plugins || []), caretGuard]
 
   return {
     ...base,
     plugins,
+    preprocessors,
     postprocessors,
   }
 }

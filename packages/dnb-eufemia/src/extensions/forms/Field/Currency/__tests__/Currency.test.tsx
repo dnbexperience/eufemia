@@ -518,4 +518,50 @@ describe('Field.Currency', () => {
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
   })
+
+  describe('MAX_SAFE_INTEGER prevention', () => {
+    it('should prevent typing beyond MAX_SAFE_INTEGER', async () => {
+      render(<Field.Currency />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '9007199254740992')
+
+      // The last digit is rejected because it would exceed MAX_SAFE_INTEGER
+      expect(input).toHaveValue('900 719 925 474 099 kr')
+
+      // No error should appear
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should prevent typing beyond MIN_SAFE_INTEGER', async () => {
+      render(<Field.Currency />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-9007199254740992')
+
+      // The last digit is rejected because it would go below MIN_SAFE_INTEGER
+      expect(input).toHaveValue('-900 719 925 474 099 kr')
+
+      // No error should appear
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('should allow typing up to MAX_SAFE_INTEGER', async () => {
+      render(<Field.Currency />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '9007199254740991')
+
+      expect(input).toHaveValue('9 007 199 254 740 991 kr')
+
+      // No error should appear
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+  })
 })

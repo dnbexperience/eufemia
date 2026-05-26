@@ -97,6 +97,7 @@ export default {
       errorExclusiveMaximum: 'Must be less than {exclusiveMaximum}.',
       errorMultipleOf: 'Must be divisible by {multipleOf}.',
       errorInteger: 'Must be a whole number (no decimals).',
+      warningExceedsSafeInteger: 'The pasted value is out of range.',
     },
     BooleanField: {
       yes: 'Yes',

@@ -98,6 +98,8 @@ export default {
       errorExclusiveMaximum: 'Må være mindre enn {exclusiveMaximum}.',
       errorMultipleOf: 'Må kunne deles på {multipleOf}.',
       errorInteger: 'Må være et helt tall (uten desimaler).',
+      warningExceedsSafeInteger:
+        'Verdien du limte inn er utenfor gyldig område.',
     },
     BooleanField: {
       yes: 'Ja',
