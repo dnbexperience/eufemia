@@ -1406,6 +1406,13 @@ describe('DrawerList component', () => {
       )
     })
   })
+
+  it('adds class "dnb-drawer-list--no-divider" when noDivider prop is set', () => {
+    render(<DrawerList {...props} data={mockData} noDivider />)
+    expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
+  })
 })
 
 describe('DrawerList markup', () => {

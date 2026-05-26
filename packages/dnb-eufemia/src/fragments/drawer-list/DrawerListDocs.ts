@@ -26,6 +26,11 @@ export const DrawerListProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  noDivider: {
+    doc: 'Removes the divider line between options. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   direction: {
     doc: 'Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.',
     type: ['"auto"', '"top"', '"bottom"'],

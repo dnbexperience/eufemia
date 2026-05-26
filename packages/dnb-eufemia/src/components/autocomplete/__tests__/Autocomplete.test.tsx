@@ -4584,6 +4584,13 @@ describe('Autocomplete component', () => {
       )
     })
   })
+
+  it('adds class "dnb-drawer-list--no-divider" when noDivider prop is set', () => {
+    render(<Autocomplete {...mockProps} data={mockData} open noDivider />)
+    expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
+  })
 })
 
 describe('Autocomplete markup', () => {

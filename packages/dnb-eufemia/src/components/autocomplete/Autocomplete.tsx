@@ -616,6 +616,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disableReorder,
     onClear,
     selectAll,
+    noDivider,
 
     mode: _mode,
     data: _data,
@@ -2631,6 +2632,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               keepOpen={keepOpen}
               preventClose={preventClose}
               alignDrawer={align}
+              noDivider={noDivider}
               fixedPosition={fixedPosition}
               disabled={disabled}
               maxHeight={maxHeight}

@@ -43,11 +43,13 @@
 
 .dnb-drawer-list {
   --drawer-list-arrow-size: 1rem;
-  --drawer-list-gap: 0.5rem;
+  --drawer-list-distance: 0.5rem;
+  --drawer-list-padding: 0.5rem;
   --drawer-list-list-border-radius: var(--token-radius-md);
   --drawer-list-option-border-radius: var(--token-radius-sm);
   --drawer-list-option-border-width: 0.25rem;
   --drawer-list-option-gap: 0.5rem;
+  --drawer-list-option-divider: 0.0625rem;
 
   // Template
   --drawer-list-padding-horizontal--default: 1rem;
@@ -217,7 +219,7 @@
     width: 100%;
     margin: 0;
     max-height: 90vh;
-    padding: 0.5rem;
+    padding: var(--drawer-list-padding);
 
     list-style: none;
 
@@ -279,11 +281,19 @@
     list-style: none;
 
     &-title {
+      position: relative;
+      z-index: 0;
+
       display: block;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem calc(var(--drawer-list-padding) + 0.5rem);
+      margin: var(--drawer-list-padding)
+        calc(var(--drawer-list-padding) * -1);
       color: var(--drawer-list-group-title-color);
       background-color: var(--drawer-list-group-title-bg);
       font-weight: var(--font-weight-medium);
+    }
+    &.first-of-type &-title {
+      margin-top: calc(var(--drawer-list-padding) * -1);
     }
   }
   // li element
@@ -344,7 +354,6 @@
       }
 
       &::before {
-        --drawer-list-option-divider: 0.0625rem;
         pointer-events: none;
 
         content: '';
@@ -553,7 +562,7 @@
       cursor: not-allowed;
     }
 
-    &.last-item {
+    &.last-of-type {
       margin-bottom: 0;
     }
   }
@@ -566,10 +575,10 @@
   }
 
   &--bottom &__list {
-    margin-top: var(--drawer-list-gap);
+    margin-top: var(--drawer-list-distance);
   }
   &--top &__list {
-    margin-bottom: var(--drawer-list-gap);
+    margin-bottom: var(--drawer-list-distance);
   }
 
   &__portal &--top {
@@ -732,6 +741,14 @@
 
   &--hidden &__list {
     @include drawerListClosed();
+  }
+
+  &--no-divider {
+    --drawer-list-option-gap: 0.25rem;
+  }
+
+  &--no-divider &__option__inner::before {
+    content: none;
   }
 
   // size--small

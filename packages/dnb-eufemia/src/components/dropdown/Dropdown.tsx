@@ -440,6 +440,7 @@ const DropdownInstance = memo(function DropdownInstance({
     triggerElement: CustomTrigger,
     independentWidth,
     preventSelection,
+    noDivider,
     maxHeight,
     defaultValue,
     className,
@@ -672,6 +673,7 @@ const DropdownInstance = memo(function DropdownInstance({
               independentWidth={independentWidth || isPopupMenu}
               isPopup={isPopupMenu}
               alignDrawer={align || 'left'}
+              noDivider={noDivider}
               fixedPosition={fixedPosition}
               enableBodyLock={enableBodyLock}
               disabled={disabled}

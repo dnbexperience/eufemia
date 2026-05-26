@@ -193,6 +193,10 @@ export type DrawerListProps = {
    */
   alignDrawer?: 'left' | 'right'
   /**
+   *  Removes the divider line between options. Defaults to `false`.
+   */
+  noDivider?: boolean
+  /**
    * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.
    */
   optionsRender?: DrawerListOptionsRender
@@ -405,6 +409,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
   const {
     role,
     alignDrawer,
+    noDivider,
     fixedPosition,
     independentWidth,
     scrollable,
@@ -503,6 +508,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
     id: `${id}-drawer-list`,
     className: clsx(
       'dnb-drawer-list',
+      noDivider && 'dnb-drawer-list--no-divider',
       open && 'dnb-drawer-list--open',
       hidden && 'dnb-drawer-list--hidden',
       `dnb-drawer-list--${direction}`,
