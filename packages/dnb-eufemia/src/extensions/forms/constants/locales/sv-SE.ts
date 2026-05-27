@@ -99,8 +99,6 @@ export default {
       errorExclusiveMaximum: 'Måste vara mindre än {exclusiveMaximum}.',
       errorMultipleOf: 'Måste vara delbart med {multipleOf}.',
       errorInteger: 'Måste vara ett heltal (utan decimaler).',
-      warningExceedsSafeInteger:
-        'Det inklistrade värdet är utanför giltigt intervall.',
     },
     BooleanField: {
       yes: 'Ja',

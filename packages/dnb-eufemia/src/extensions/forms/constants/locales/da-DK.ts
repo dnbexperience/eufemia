@@ -99,8 +99,6 @@ export default {
       errorExclusiveMaximum: 'Skal være mindre end {exclusiveMaximum}.',
       errorMultipleOf: 'Skal kunne deles med {multipleOf}.',
       errorInteger: 'Skal være et helt tal (uden decimaler).',
-      warningExceedsSafeInteger:
-        'Den indsatte værdi er uden for gyldigt område.',
     },
     BooleanField: {
       yes: 'Ja',

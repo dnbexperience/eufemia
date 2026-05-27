@@ -4,9 +4,8 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from 'react'
-import type { ClipboardEvent, KeyboardEvent, RefObject } from 'react'
+import type { KeyboardEvent, RefObject } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
 import type { NumberFormatOptionParams } from '../../../../components/number-format/NumberUtils'
@@ -30,7 +29,6 @@ import type {
 } from '../../../../components/Button'
 import { clamp } from '../../../../shared/helpers/clamp'
 import DataContext from '../../DataContext/Context'
-import useTranslation from '../../hooks/useTranslation'
 import * as z from 'zod'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -91,9 +89,6 @@ function NumberComponent(props: FieldNumberProps) {
   const fieldBlockContext = useContext(FieldBlockContext)
   const sharedContext = useContext(SharedContext)
   const locale = sharedContext?.locale
-  const translations = useTranslation().NumberField
-
-  const [pasteWarning, setPasteWarning] = useState<string | undefined>()
 
   const validateContinuouslyRef = useRef(props?.validateContinuously)
 
@@ -430,38 +425,11 @@ function NumberComponent(props: FieldNumberProps) {
     ]
   )
 
-  const onBlurHandler = useCallback(() => {
-    if (pasteWarning) {
-      setPasteWarning(undefined)
-    }
-
-    handleBlur()
-  }, [handleBlur, pasteWarning])
-
-  const onPasteHandler = useCallback(
-    (e: ClipboardEvent<HTMLInputElement>) => {
-      const pasted = e.clipboardData?.getData('text/plain') ?? ''
-      const raw = pasted.replace(/[\s\u00A0,]/g, '')
-      const num = Number(raw)
-
-      if (!isNaN(num) && (num > defaultMaximum || num < defaultMinimum)) {
-        setPasteWarning(translations?.warningExceedsSafeInteger)
-      }
-
-      handleBlur()
-    },
-    [handleBlur, translations?.warningExceedsSafeInteger]
-  )
-
   const onChangeHandler = useCallback(
     (args: { numberValue?: number; stringValue?: string }) => {
-      if (pasteWarning) {
-        setPasteWarning(undefined)
-      }
-
       handleChange(args)
     },
-    [handleChange, pasteWarning]
+    [handleChange]
   )
 
   const fieldBlockProps: FieldBlockProps = {
@@ -484,7 +452,6 @@ function NumberComponent(props: FieldNumberProps) {
         : undefined,
     contentWidth: width !== false ? width : undefined,
     ...pickSpacingProps(props),
-    ...(pasteWarning ? { warning: pasteWarning } : undefined),
   }
 
   const increaseClickHandler = useCallback(() => {
@@ -601,9 +568,9 @@ function NumberComponent(props: FieldNumberProps) {
     value,
     align: showStepControls ? 'center' : align,
     onKeyDown: onKeyDownHandler,
-    onPaste: onPasteHandler,
+    onPaste: handleBlur,
     onFocus: handleFocus,
-    onBlur: onBlurHandler,
+    onBlur: handleBlur,
     onChange: onChangeHandler,
     disabled,
     status: hasError ? 'error' : undefined,

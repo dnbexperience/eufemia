@@ -633,45 +633,23 @@ function createMaskitoNumberOptions(mp: {
     }
 
     const { value, selection } = elementState
-    const [start, end] = selection
-    const simulated = value.slice(0, start) + data + value.slice(end)
+    const simulated =
+      value.slice(0, selection[0]) + data + value.slice(selection[1])
 
-    // Strip formatting to extract the raw numeric value
-    let raw = simulated
-
-    if (prefix && raw.startsWith(prefix)) {
-      raw = raw.slice(prefix.length)
-    }
-
-    if (postfixToUse && raw.endsWith(postfixToUse)) {
-      raw = raw.slice(0, -postfixToUse.length)
-    }
-
-    if (suffixStartsWithComma && raw.endsWith(',')) {
-      raw = raw.slice(0, -1)
-    }
-
-    raw = raw.split(thousand).join('').trim()
+    let raw = simulated.split(thousand).join('')
 
     if (decimal !== '.') {
       raw = raw.replace(decimal, '.')
     }
 
-    if (!raw || raw === '-' || raw === '.' || raw === '-.') {
-      return { elementState, data }
-    }
+    raw = raw.replace(/[^\d\-.]/g, '')
 
     const num = Number(raw)
 
-    if (isNaN(num)) {
-      return { elementState, data }
-    }
-
-    if (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER) {
-      // Reject the insertion entirely. For typed digits this feels like
-      // hitting a maxLength wall. For paste it means nothing happens —
-      // a future improvement could surface a validation message so the
-      // user understands why the paste was rejected.
+    if (
+      !isNaN(num) &&
+      (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER)
+    ) {
       return { elementState, data: '' }
     }
 
