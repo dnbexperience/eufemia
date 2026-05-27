@@ -1,9 +1,9 @@
 ---
 title: 'Card'
 description: '`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.492Z
-checksum: 9a5e6f7bdcbc3ec26452e956e5fd3bd75aee4a284a0656977fecbc1eba8fa020
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.425Z
+checksum: 0e50b33934d75ff8ee86042f8b38b80cfeb981cf163f459e0272d67f2eaf2b22
 ---
 
 # Card
@@ -54,6 +54,11 @@ render(<Card aria-labelledby="unique-id">
         <P>Content inside a landmark ...</P>
       </Card>)
 ```
+
+
+## Card.List and Card.ListItem
+
+Use `Card.List` and `Card.ListItem` to render a semantic `<ul>` / `<li>` list of cards. `Card.List` provides a responsive flex layout with wrapping. `Card.ListItem` supports a `center` prop to center content vertically — set it to `true` to always center, or `"when-small"` to center only on small screens.
 
 
 ## Demos
@@ -361,13 +366,46 @@ render(<Section backgroundColor="var(--color-signal-orange)" innerSpace="large">
 ```tsx
 render(<Flex.Vertical>
         <Form.MainHeading>I'm left aligned</Form.MainHeading>
-        <Card stack backgroundColor="pistachio" outline="sea-green">
+        <Card stack backgroundColor="var(--token-color-background-neutral-subtle)" outline="var(--token-color-stroke-neutral)">
           <P>Card content</P>
           <Card outline="transparent">
             <P>Nested card</P>
           </Card>
         </Card>
       </Flex.Vertical>)
+```
+
+
+### Interactive Cards
+
+Use `Card.Action` to make a Card clickable or a link. Pass `onClick` for a button-like card, or `href`/`to` for a link card. Both variants get hover, focus, and keyboard styles automatically.
+
+For custom routing (e.g. react-router), pass a router `Link` via the `element` prop on `Card.Action`.
+
+
+```tsx
+render(<Card.List style={{
+  maxWidth: '640px',
+  margin: '0 auto'
+}}>
+        <Card.ListItem center="when-small">
+          <Card.Action onClick={() => console.log('Card clicked')} stack gap="x-small">
+            <Lead>Clickable card</Lead>
+            <P>
+              Click this card. It has hover, focus, and keyboard support.
+            </P>
+            <Button variant="tertiary" icon="chevron_right" text="Read more" element="span" />
+          </Card.Action>
+        </Card.ListItem>
+
+        <Card.ListItem center="when-small">
+          <Card.Action href="/" stack gap="x-small">
+            <Lead>Link card</Lead>
+            <P>This card navigates with an anchor element.</P>
+            <Button variant="tertiary" icon="chevron_right" text="Read more" element="span" />
+          </Card.Action>
+        </Card.ListItem>
+      </Card.List>)
 ```
 
 ## Properties
@@ -462,6 +500,116 @@ render(<Flex.Vertical>
       "doc": "Flex.Item properties.",
       "type": "Various",
       "status": "optional"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+### Card.Action Properties
+
+
+```json
+{
+  "props": {
+    "href": {
+      "doc": "The URL to navigate to. When set, renders an anchor element.",
+      "type": "string",
+      "status": "optional"
+    },
+    "to": {
+      "doc": "Route path for use with a router Link component (e.g. react-router). Pass a custom `element` that accepts `to`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "target": {
+      "doc": "The anchor target attribute.",
+      "type": "string",
+      "status": "optional"
+    },
+    "rel": {
+      "doc": "The anchor rel attribute.",
+      "type": "string",
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Custom element to render as the wrapper. Defaults to `a` when `href`/`to` is set. Use this for router Link components.",
+      "type": [
+        "string",
+        "React.Element"
+      ],
+      "status": "optional"
+    },
+    "onClick": {
+      "doc": "Click handler. When used without `href`/`to`, renders a button-like wrapper with keyboard support (Enter/Space).",
+      "type": "function",
+      "status": "optional"
+    },
+    "children": {
+      "doc": "Contents of the Card inside the action wrapper.",
+      "type": "React.ReactNode",
+      "status": "required"
+    },
+    "Card properties": {
+      "doc": "All [Card](/uilib/components/card/properties) properties are supported.",
+      "type": "Various",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+### Card.List Properties
+
+
+```json
+{
+  "props": {
+    "children": {
+      "doc": "Card.ListItem elements.",
+      "type": "React.ReactNode",
+      "status": "required"
+    },
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+### Card.ListItem Properties
+
+
+```json
+{
+  "props": {
+    "center": {
+      "doc": "Center the content of the list item. Use `true` to always center, or `\"when-small\"` to center only on small screens.",
+      "type": [
+        "boolean",
+        "\"when-small\""
+      ],
+      "status": "optional"
+    },
+    "children": {
+      "doc": "A Card or Card.Action element.",
+      "type": "React.ReactNode",
+      "status": "required"
     },
     "[Space](/uilib/layout/space/properties)": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",

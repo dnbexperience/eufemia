@@ -1,8 +1,8 @@
 ---
 title: 'Field.Upload'
 description: '`Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.629Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.661Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -165,10 +165,7 @@ You can use the `transformIn` and `transformOut` properties to transform the dat
 
 ```tsx
 import { Form, Field, Tools } from '@dnb/eufemia/extensions/forms'
-import type {
-  UploadValue,
-  UploadFileNative,
-} from '@dnb/eufemia/extensions/forms/Field/Upload'
+import type { UploadValue } from '@dnb/eufemia/extensions/forms/Field/Upload'
 
 // Our external format
 type DocumentMetadata = {
@@ -186,9 +183,10 @@ const defaultValue = [
 const filesCache = new Map<string, File>()
 
 // To the Field (from e.g. defaultValue)
-const transformIn = (external?: DocumentMetadata[]) => {
+const transformIn = (external: unknown) => {
+  const files = external as DocumentMetadata[] | undefined
   return (
-    external?.map(({ id, fileName }) => {
+    files?.map(({ id, fileName }) => {
       const file: File =
         filesCache.get(id) ||
         new File([], fileName, { type: 'images/png' })
@@ -199,9 +197,10 @@ const transformIn = (external?: DocumentMetadata[]) => {
 }
 
 // From the Field (internal value) to the data context or event parameter
-const transformOut = (internal?: UploadValue) => {
+const transformOut = (internal: UploadValue | unknown) => {
+  const files = internal as UploadValue | undefined
   return (
-    internal?.map(({ id, file }) => {
+    files?.map(({ id, file }) => {
       if (!filesCache.has(id)) {
         filesCache.set(id, file)
       }

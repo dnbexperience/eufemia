@@ -1,9 +1,9 @@
 ---
 title: 'Popover'
 description: 'Popover renders its own floating surface anchored to a trigger element. (For internal use only)'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.725Z
-checksum: e38a35d350ccfb268724c21ef37ead0e5a9b6ed903e92677d6099da47b8bcd28
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.685Z
+checksum: d7dcb4803a912ef0dc3fabb33bfb73f029c9da82f9eee9d1fe282bd2d4937771
 ---
 
 # Popover
@@ -336,10 +336,15 @@ render(<Box>
       ],
       "status": "optional"
     },
-    "triggerAttributes": {
-      "doc": "Extra HTML attributes passed to the default trigger wrapper (e.g. aria-*).",
+    "triggerProps": {
+      "doc": "Props forwarded to the default trigger wrapper (e.g. aria-*).",
       "type": "React.HTMLAttributes<HTMLElement>",
       "status": "optional"
+    },
+    "triggerAttributes": {
+      "doc": "Deprecated. Use `triggerProps` instead.",
+      "type": "React.HTMLAttributes<HTMLElement>",
+      "status": "deprecated"
     },
     "triggerClassName": {
       "doc": "Class name merged with the default trigger wrapper.",

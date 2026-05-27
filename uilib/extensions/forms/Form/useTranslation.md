@@ -1,8 +1,8 @@
 ---
 title: 'Form.useTranslation'
 description: '`Form.useTranslation` is a hook that returns the translations for the current locale.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.356Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.344Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -312,4 +312,151 @@ const MyForm = () => {
             </Form.Handler>;
 };
 render(<MyForm />);
+```
+
+
+## Parameters
+
+Properties passed to the `Form.useTranslation` hook.
+
+
+```json
+{
+  "props": {
+    "messages": {
+      "doc": "Custom translation messages to merge with built-in forms translations. Can be a flat object or locale-keyed object.",
+      "type": [
+        "FormsTranslation",
+        "Record<locale, FormsTranslation>"
+      ],
+      "status": "optional"
+    },
+    "fallbackLocale": {
+      "doc": "Locale to use when translations are missing in the current locale. Defaults to \"nb-NO\".",
+      "type": "string",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+## Return Values
+
+Properties and methods returned from the `Form.useTranslation` hook.
+
+
+```json
+{
+  "props": {
+    "formatMessage": {
+      "doc": "Formats a translation key with ICU MessageFormat syntax. Supports pluralization, select, and variable interpolation.",
+      "type": "(id: string, values?: Record<string, unknown>) => string",
+      "status": "required"
+    },
+    "renderMessage": {
+      "doc": "Like formatMessage but returns React.ReactNode, allowing React elements in interpolated values.",
+      "type": "(id: string, values?: Record<string, React.ReactNode>) => React.ReactNode",
+      "status": "required"
+    },
+    "countries": {
+      "doc": "Array of country names in the current locale, for use in country selection components.",
+      "type": "Array<string>",
+      "status": "required"
+    },
+    "Field": {
+      "doc": "Translation string object for Field.* components. Contains keys such as `errorRequired`, `errorPattern`, and component-specific labels, error messages, and placeholders.",
+      "type": "object",
+      "status": "required"
+    },
+    "Section": {
+      "doc": "Translation string object for Form.Section components.",
+      "type": "object",
+      "status": "required"
+    },
+    "Wizard": {
+      "doc": "Translation string object for Wizard components (step labels, navigation).",
+      "type": "object",
+      "status": "required"
+    },
+    "Iterate": {
+      "doc": "Translation string object for Iterate components (add/remove buttons).",
+      "type": "object",
+      "status": "required"
+    }
+  }
+}
+```
+
+## Parameters
+
+Properties passed to the `Form.useTranslation` hook.
+
+
+```json
+{
+  "props": {
+    "messages": {
+      "doc": "Custom translation messages to merge with built-in forms translations. Can be a flat object or locale-keyed object.",
+      "type": [
+        "FormsTranslation",
+        "Record<locale, FormsTranslation>"
+      ],
+      "status": "optional"
+    },
+    "fallbackLocale": {
+      "doc": "Locale to use when translations are missing in the current locale. Defaults to \"nb-NO\".",
+      "type": "string",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+## Return Values
+
+Properties and methods returned from the `Form.useTranslation` hook.
+
+
+```json
+{
+  "props": {
+    "formatMessage": {
+      "doc": "Formats a translation key with ICU MessageFormat syntax. Supports pluralization, select, and variable interpolation.",
+      "type": "(id: string, values?: Record<string, unknown>) => string",
+      "status": "required"
+    },
+    "renderMessage": {
+      "doc": "Like formatMessage but returns React.ReactNode, allowing React elements in interpolated values.",
+      "type": "(id: string, values?: Record<string, React.ReactNode>) => React.ReactNode",
+      "status": "required"
+    },
+    "countries": {
+      "doc": "Array of country names in the current locale, for use in country selection components.",
+      "type": "Array<string>",
+      "status": "required"
+    },
+    "Field": {
+      "doc": "Translation string object for Field.* components. Contains keys such as `errorRequired`, `errorPattern`, and component-specific labels, error messages, and placeholders.",
+      "type": "object",
+      "status": "required"
+    },
+    "Section": {
+      "doc": "Translation string object for Form.Section components.",
+      "type": "object",
+      "status": "required"
+    },
+    "Wizard": {
+      "doc": "Translation string object for Wizard components (step labels, navigation).",
+      "type": "object",
+      "status": "required"
+    },
+    "Iterate": {
+      "doc": "Translation string object for Iterate components (add/remove buttons).",
+      "type": "object",
+      "status": "required"
+    }
+  }
+}
 ```

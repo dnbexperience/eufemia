@@ -1,3 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{zr as n}from"./index-DqqByKA2.js";import{t as r}from"./form-status-DcqoX0gh.js";var i=e(t());function a(e){let t={h1:`h1`,p:`p`,...n(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(t.h1,{children:`Other Icons`}),`
-`,(0,i.jsx)(t.p,{children:`Some icons are not a part of the icon library for various reasons.`}),`
-`,(0,i.jsx)(r,{})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

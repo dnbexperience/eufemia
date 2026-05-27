@@ -1,8 +1,8 @@
 ---
 title: 'Change log'
 description: 'Change log for the Eufemia Forms extension'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.639Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.671Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -10,7 +10,12 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 Change log for the Eufemia Forms extension.
 
-Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
+Get more [details about releases](/uilib/about-the-lib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
+
+## v11.4.0
+
+- Added [Field.Time](/uilib/extensions/forms/feature-fields/Time/) for time input (hours and minutes, optionally seconds).
+- Added [Field.MultiSelection](/uilib/extensions/forms/base-fields/MultiSelection/) for selecting multiple options from a fixed set.
 
 ## v11.0.0
 
@@ -399,7 +404,7 @@ Get more [details about releases](/uilib/releases) or have a look on all [releas
 - Added `range` for date range functionality in [Field.Date](/uilib/extensions/forms/feature-fields/Date/), and [Value.Date](/uilib/extensions/forms/Value/Date/).
 - Added [Form.SubmitConfirmation](/uilib/extensions/forms/Form/SubmitConfirmation/) to confirm a submit during or before sending.
 - Added [Value.Provider](/uilib/extensions/forms/Value/Provider/) to propagate value properties down to [Value components](/uilib/extensions/forms/Value/components/) (e.g. `inheritVisibility`).
-- Deprecated [Form.useError](/uilib/extensions/forms/Form/useError/) and replaced with [Form.useValidation](/uilib/extensions/forms/Form/useValidation/).
+- Deprecated `Form.useError` and replaced with [Form.useValidation](/uilib/extensions/forms/Form/useValidation/).
 - Deprecated `omit_rounding` in [Value.Number](/uilib/extensions/forms/Value/Number/) and [Value.Currency](/uilib/extensions/forms/Value/Currency/), replaced with `rounding="omit"`.
 - Deprecated Form.FieldProps and replaced with [Field.Provider](/uilib/extensions/forms/feature-fields/Provider/).
 - Fixed error throwing when using [Iterate.useCount hook](/uilib/extensions/forms/Iterate/Count/) or [useData hook](/uilib/extensions/forms/Form/useData/) in [Wizard](/uilib/extensions/forms/Wizard/) without form id.

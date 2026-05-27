@@ -1,1 +1,0 @@
-import{Pa as e}from"./index-DqqByKA2.js";var t=e[`en-GB`],n={"en-US":{...t,DatePicker:{...t.DatePicker,maskOrder:`mm/dd/yyyy`,maskPlaceholder:`mm/dd/yyyy`,firstDay:`sunday`}}};export{n as default};

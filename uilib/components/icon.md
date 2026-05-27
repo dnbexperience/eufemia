@@ -1,8 +1,8 @@
 ---
 title: 'Icon'
 description: 'The main Icon component is basically a wrapper for whatever icon you place within it.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.607Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.555Z
 checksum: b98a4453b871bd7a5f0c3d48e34ad2f3f5acac3fed6daf200822fe89dc43f67d
 ---
 
@@ -161,8 +161,8 @@ render(<Flex.Stack>
       <Flex.Horizontal align="center">
         <Icon icon={Star} fill />
         <Icon icon={Heart} fill />
-        <Avatar icon={<Icon icon={Star} fill />} size="small" />
-        <Button icon={<Icon icon={Heart} fill />} />
+        <Avatar icon={<Icon icon={Star} fill />} size="small" hasLabel />
+        <Button icon={<Icon icon={Heart} fill />} title="Favorite" />
       </Flex.Horizontal>
     </Flex.Stack>)
 ```
@@ -202,6 +202,69 @@ The official supported sizes are `default` and `medium`.
 <Icon icon={BellMedium} title="Beach" size="large" />
 <Icon icon={BellMedium} title="Beach" size="x-large" />
 <Icon icon={BellMedium} title="Beach" size="xx-large" />
+```
+
+
+### Icon transition
+
+Use `Icon.transition()` to animate between SVG icon states. Define named states and use `Icon.transition.activate(element, state)` to switch between them.
+
+When icons have compatible path structures (same number and type of segments), the transition animates via CSS `d` property interpolation. This suits directional variants like `arrow_down` ↔ `arrow_up` or `chevron_down` ↔ `chevron_up`.
+
+
+```tsx
+const directionIcon = Icon.transition({
+  down: arrow_down,
+  up: arrow_up,
+  left: arrow_left,
+  right: arrow_right
+});
+const handleChange = direction => {
+  const iconEl = document.querySelector('[data-visual-test="icon-transition"] .dnb-icon') as HTMLElement;
+  if (iconEl) {
+    Icon.transition.activate(iconEl, direction);
+  }
+};
+render(<>
+            <Flex.Horizontal align="center" gap="small">
+              <Icon icon={directionIcon} />
+
+              <Field.Selection variant="button" value="down" optionsLayout="horizontal" onChange={handleChange}>
+                <Field.Option value="down" title="Down" />
+                <Field.Option value="up" title="Up" />
+                <Field.Option value="left" title="Left" />
+                <Field.Option value="right" title="Right" />
+              </Field.Selection>
+            </Flex.Horizontal>
+            {notSupported}
+          </>);
+```
+
+
+### Icon transition fallback
+
+When icons have incompatible path structures (e.g. `question` ↔ `close`), `Icon.transition()` automatically falls back to a transform/opacity crossfade using stacked SVGs. The same `Icon.transition.activate()` API works for both modes.
+
+
+```tsx
+const helpIcon = Icon.transition({
+  question,
+  close
+});
+const handleChange = state => {
+  const iconEl = document.querySelector('[data-visual-test="icon-transition-fallback"] .dnb-icon') as HTMLElement;
+  if (iconEl) {
+    Icon.transition.activate(iconEl, state);
+  }
+};
+render(<Flex.Horizontal align="center" gap="small">
+            <Icon icon={helpIcon} />
+
+            <Field.Selection variant="button" value="question" optionsLayout="horizontal" onChange={handleChange}>
+              <Field.Option value="question" title="Question" />
+              <Field.Option value="close" title="Close" />
+            </Field.Selection>
+          </Flex.Horizontal>);
 ```
 
 ## Properties

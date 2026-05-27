@@ -1,8 +1,8 @@
 ---
 title: 'Layout'
 description: 'To make it easier to build application layouts and form views in line with defined design sketches, there are a number of components for layout.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.700Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.720Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -25,7 +25,7 @@ To make it easier to build application layout and [form](/uilib/extensions/forms
 
 - **[Grid](/uilib/layout/grid)** is a layout system for CSS grid based layout of contents.
 
-- **[Space](/uilib/layout/space)** is a component that provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+- **[Space](/uilib/layout/space)** is a component that provides `margins` within the [provided spacing patterns](/uilib/layout/spacing#spacing-helpers).
 
 ## Units and responsiveness
 

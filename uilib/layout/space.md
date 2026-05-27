@@ -1,8 +1,8 @@
 ---
 title: 'Space'
 description: 'The Space component provides margins within the provided spacing patterns.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.698Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.719Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -16,7 +16,7 @@ import { Space } from '@dnb/eufemia'
 
 ## Description
 
-The Space component provides `margins` and inner `padding` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+The Space component provides `margins` and inner `padding` within the [provided spacing patterns](/uilib/layout/spacing#spacing-helpers).
 
 ## Relevant links
 
@@ -257,7 +257,7 @@ render(<TestStyles>
 
 ## Responsive `space`
 
-The `space` property supports [media query breakpoints](/uilib/usage/layout/media-queries) (`small`, `medium`, `large`) for responsive spacing. Provide an object with breakpoint keys to apply different values at each screen size.
+The `space` property supports [media query breakpoints](/uilib/layout/media-queries) (`small`, `medium`, `large`) for responsive spacing. Provide an object with breakpoint keys to apply different values at each screen size.
 
 
 ```tsx

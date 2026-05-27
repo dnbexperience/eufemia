@@ -1,8 +1,8 @@
 ---
 title: 'Avatar'
 description: 'The Avatar component is an identifier that makes people and companies more scannable.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.461Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.382Z
 checksum: 43faf12b64b7da2f3d211c39b5dd628df0287e84db83733c36c5117b778785fd
 ---
 
@@ -139,10 +139,12 @@ An icon will automatically be given the correct size (`size="auto"`) unless the 
 
 
 ```tsx
-<Avatar icon={Bank} size="small" />
-<Avatar icon={BankMedium} />
-<Avatar icon={BankMedium} size="large" />
-<Avatar icon={BankMedium} size="x-large" />
+render(<Avatar.Group label="Bank icons">
+      <Avatar icon={Bank} size="small" />
+      <Avatar icon={BankMedium} />
+      <Avatar icon={BankMedium} size="large" />
+      <Avatar icon={BankMedium} size="x-large" />
+    </Avatar.Group>)
 ```
 
 

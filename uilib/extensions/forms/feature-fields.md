@@ -1,7 +1,7 @@
 ---
 title: 'Feature fields'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.662Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.693Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -80,3 +80,7 @@ Here is also a list of [all available fields](/uilib/extensions/forms/all-fields
 ## [Field.SelectCurrency](/uilib/extensions/forms/feature-fields/SelectCurrency/)
 
 `Field.SelectCurrency` is a wrapper component for the selection component, with options built in for selecting a currency.
+
+## [Field.Time](/uilib/extensions/forms/feature-fields/Time/)
+
+`Field.Time` is a wrapper component for the input of strings, with user experience tailored for time values (hours and minutes, optionally seconds).

@@ -1,9 +1,9 @@
 ---
 title: 'Modal'
 description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.697Z
-checksum: d7bcf667a7e561646dfd97d574cf9e8dd4ff454228a86dcaa9581558d7a4503b
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.658Z
+checksum: d2bd13787247f0b15e477b68ef9d479bafcd482a7ac14c47585e297607972452
 ---
 
 # Modal
@@ -156,7 +156,7 @@ Use the `closeModal` property to set another close handler, like a timeout for w
 
 
 ```tsx
-render(<Modal title="Auto close" triggerAttributes={{
+render(<Modal title="Auto close" triggerProps={{
   text: 'Click me'
 }} alignContent="center" maxWidth="40rem" closeModal={close => {
   const timeout = setTimeout(close, 3e3);
@@ -292,10 +292,15 @@ render(<Modal title="Auto close" triggerAttributes={{
       ],
       "status": "optional"
     },
-    "triggerAttributes": {
-      "doc": "Send along with custom HTML attributes or properties to the trigger button.",
+    "triggerProps": {
+      "doc": "Props forwarded to the trigger button.",
       "type": "Various",
       "status": "optional"
+    },
+    "triggerAttributes": {
+      "doc": "Deprecated. Use `triggerProps` instead.",
+      "type": "Various",
+      "status": "deprecated"
     },
     "dialogTitle": {
       "doc": "The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.",
@@ -429,7 +434,7 @@ Properties targeting the trigger component (Button), but they will be set the sa
 
 
 ```tsx
-render(<Modal triggerAttributes={{
+render(<Modal triggerProps={{
   icon: 'bell'
 }} right="small">
       ... content ...

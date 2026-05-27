@@ -2,6 +2,10 @@
 
 > DNB's Eufemia design system. This file points LLMs to machine-readable docs and clean Markdown copies.
 
+## Version
+
+This documentation reflects Eufemia **v12.0.0**, generated 2026-05-27T08:23:09.594Z.
+
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
 - Do not make assumptions or infer missing details unless explicitly instructed to do so.
@@ -201,7 +205,7 @@ For any page (component, field, value, etc.):
 
 - [CountryFlag](https://eufemia.dnb.no/uilib/components/country-flag.md): The CountryFlag component lets you display a country flag based on a country ISO code.
 
-- [DateFormat](https://eufemia.dnb.no/uilib/components/date-format.md): A ready to use DNB date formatter.
+- [DateFormat](https://eufemia.dnb.no/uilib/components/date-format.md): A ready-to-use DNB date formatter.
 
 - [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker.md): The DatePicker component should be used whenever the user is to enter a single date or a date period.
 
@@ -245,7 +249,7 @@ For any page (component, field, value, etc.):
 
 - [Input](https://eufemia.dnb.no/uilib/components/input.md): The Input component is an umbrella component for all inputs which share the same style as the classic text input field.
 
-- [ListFormat](https://eufemia.dnb.no/uilib/components/list-format.md): A ready to use DNB list formatter.
+- [ListFormat](https://eufemia.dnb.no/uilib/components/list-format.md): A ready-to-use DNB list formatter.
 
 - [List](https://eufemia.dnb.no/uilib/components/list.md): List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.
 
@@ -263,7 +267,7 @@ For any page (component, field, value, etc.):
 
 - [Provider](https://eufemia.dnb.no/uilib/components/number-format/provider.md): Look into the documentation for more details.
 
-- [NumberFormat](https://eufemia.dnb.no/uilib/components/number-format.md): A ready to use DNB number formatter.
+- [NumberFormat](https://eufemia.dnb.no/uilib/components/number-format.md): A ready-to-use DNB number formatter.
 
 - [InfinityScroller](https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller.md): The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.
 
@@ -447,6 +451,8 @@ For any page (component, field, value, etc.):
 
 - [Value.Email](https://eufemia.dnb.no/uilib/extensions/forms/Value/Email.md): `Value.Email` is a wrapper component for displaying string values, with user experience tailored for email values.
 
+- [Value.MultiSelection](https://eufemia.dnb.no/uilib/extensions/forms/Value/MultiSelection.md): `Value.MultiSelection` displays the selected values from a `Field.MultiSelection` as a formatted list of titles.
+
 - [Value.Name](https://eufemia.dnb.no/uilib/extensions/forms/Value/Name.md): `Value.Name` is a wrapper component for displaying string values, with user experience tailored for personal, like first and last name and company names.
 
 - [Value.NationalIdentityNumber](https://eufemia.dnb.no/uilib/extensions/forms/Value/NationalIdentityNumber.md): `Value.NationalIdentityNumber` is a wrapper component for displaying string values, with user experience tailored for national identity number values.
@@ -470,6 +476,8 @@ For any page (component, field, value, etc.):
 - [Value.String](https://eufemia.dnb.no/uilib/extensions/forms/Value/String.md): `Value.String` is a base component for displaying values of the type `string`.
 
 - [Value.SummaryList](https://eufemia.dnb.no/uilib/extensions/forms/Value/SummaryList.md): `Value.SummaryList` uses definition lists to semantically make content consumable for screen readers.
+
+- [Value.Time](https://eufemia.dnb.no/uilib/extensions/forms/Value/Time.md): `Value.Time` is a wrapper component for displaying string values, with user experience tailored for time values.
 
 - [Value.Upload](https://eufemia.dnb.no/uilib/extensions/forms/Value/Upload.md): `Value.Upload` is a value component for displaying a list of files.
 
@@ -584,6 +592,8 @@ For any page (component, field, value, etc.):
 - [Field.SelectCountry](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/SelectCountry.md): `Field.SelectCountry` is a wrapper component for the selection component, with options built in for selecting a country.
 
 - [Field.SelectCurrency](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/SelectCurrency.md): `Field.SelectCurrency` is a wrapper component for the selection component, with options built in for selecting a currency.
+
+- [Field.Time](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields/Time.md): `Field.Time` is a wrapper component for the input of strings, with user experience tailored for time values (hours and minutes, optionally seconds).
 
 - [Field.Feature fields](https://eufemia.dnb.no/uilib/extensions/forms/feature-fields.md): Look into the documentation for more details.
 
@@ -739,5 +749,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.3.0
-GeneratedAt: 2026-05-19T08:44:47.694Z
+Version: 12.0.0
+GeneratedAt: 2026-05-27T08:23:09.594Z

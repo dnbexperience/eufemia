@@ -1,8 +1,8 @@
 ---
 title: 'Drawer'
 description: 'The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.545Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.489Z
 checksum: 7aed09685bfb5a1ba5a8c8a5a6765e51e8e9443dd03bb316b7dd6e4b56af7f9d
 ---
 
@@ -47,7 +47,7 @@ The Drawer component uses [PortalRoot](/uilib/components/portal-root) internally
 
 
 ```tsx
-render(<Drawer title="Drawer title" triggerAttributes={{
+render(<Drawer title="Drawer title" triggerProps={{
   text: 'Open drawer'
 }}>
       <P top>Some informational content</P>
@@ -87,7 +87,7 @@ render(<Drawer title="Drawer title" containerPlacement="left">
 
 
 ```tsx
-render(<Drawer fullscreen title="Drawer title" triggerAttributes={{
+render(<Drawer fullscreen title="Drawer title" triggerProps={{
   text: 'Open drawer'
 }}>
       <P top>Some informational content</P>
@@ -163,7 +163,7 @@ render(<Drawer title="Custom title">
 
 
 ```tsx
-render(<Drawer title="Drawer with custom trigger" triggerAttributes={{
+render(<Drawer title="Drawer with custom trigger" triggerProps={{
   text: 'Custom trigger',
   variant: 'primary',
   size: 'large',
@@ -183,7 +183,7 @@ render(<Drawer title="Drawer with custom trigger" triggerAttributes={{
 
 
 ```tsx
-render(<Drawer title="Drawer title" triggerAttributes={{
+render(<Drawer title="Drawer title" triggerProps={{
   text: 'Open drawer'
 }} hideCloseButton>
       {/* @ts-expect-error -- strictFunctionTypes */}
@@ -627,10 +627,15 @@ See the table below:
       ],
       "status": "optional"
     },
-    "triggerAttributes": {
-      "doc": "Send along with custom HTML attributes or properties to the trigger button.",
+    "triggerProps": {
+      "doc": "Props forwarded to the trigger button.",
       "type": "Various",
       "status": "optional"
+    },
+    "triggerAttributes": {
+      "doc": "Deprecated. Use `triggerProps` instead.",
+      "type": "Various",
+      "status": "deprecated"
     },
     "dialogTitle": {
       "doc": "The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.",

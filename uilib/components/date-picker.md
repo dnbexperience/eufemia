@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.530Z
-checksum: 3e506a88315232a3b23cad1e09d4b385878c2794d40f946fae446c4014c61ff1
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.472Z
+checksum: 3b3e1daad08f6463036b4f0afac7e56371f85ba424c687fd2e9fd21451c7b3d6
 ---
 
 # DatePicker
@@ -685,6 +685,11 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
     "tooltip": {
       "doc": "Provide a short Tooltip content that shows up on the picker button.",
       "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "triggerProps": {
+      "doc": "Props to forward to the trigger button. Can be used to change the button `variant`, add a `text` label, or override other button properties such as `icon` and `iconPosition`.",
+      "type": "object",
       "status": "optional"
     },
     "skeleton": {

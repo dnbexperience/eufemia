@@ -1,6 +1,6 @@
 ---
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.574Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.611Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -32,6 +32,10 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ## [Value.ArraySelection](/uilib/extensions/forms/Value/ArraySelection/)
 
 `Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.
+
+## [Value.MultiSelection](/uilib/extensions/forms/Value/MultiSelection/)
+
+`Value.MultiSelection` displays the selected values from a `Field.MultiSelection` as a formatted list of titles.
 
 ## [Value.Provider](/uilib/extensions/forms/Value/Provider/)
 
@@ -96,6 +100,10 @@ The `Value.Provider` lets you pass generic properties to all nested Value.* comp
 ## [Value.PostalCodeAndCity](/uilib/extensions/forms/Value/PostalCodeAndCity/)
 
 `Value.PostalCodeAndCity` is a wrapper component for displaying string values, with user experience tailored for Norwegian postal code and city values.
+
+## [Value.Time](/uilib/extensions/forms/Value/Time/)
+
+`Value.Time` is a wrapper component for displaying string values, with user experience tailored for time values.
 
 ## [Value.Upload](/uilib/extensions/forms/Value/Upload/)
 

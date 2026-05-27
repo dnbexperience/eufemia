@@ -1,7 +1,7 @@
 ---
 title: 'Media Queries'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.697Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.718Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -54,11 +54,11 @@ When dealing with breakpoints, UX often designs only for two sizes. This leads t
 
 Both the component and the React Hooks uses the JavaScript API [matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia).
 
-- **[useMedia](/uilib/usage/layout/media-queries/#usemedia-hook-usage)** React Hook for screen width only.
+- **[useMedia](/uilib/layout/media-queries/#usemedia-hook-usage)** React Hook for screen width only.
 
-- **[useMediaQuery](/uilib/usage/layout/media-queries/#usemediaquery-hook-usage)** React Hook for all kinds of media queries.
+- **[useMediaQuery](/uilib/layout/media-queries/#usemediaquery-hook-usage)** React Hook for all kinds of media queries.
 
-- **[MediaQuery](/uilib/usage/layout/media-queries/#mediaquery-component)** Component for all kinds of media queries.
+- **[MediaQuery](/uilib/layout/media-queries/#mediaquery-component)** Component for all kinds of media queries.
 
 ### Re-render and performance
 
@@ -399,17 +399,32 @@ or like this:
 
 Based on the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684), Eufemia recommends using `em` units for media queries to achieve the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#css-units).
 
-## How to deal with Jest
+## How to test `matchMedia`
 
-You can mock `window.matchMedia` with e.g. [jest-matchmedia-mock](https://www.npmjs.com/package/jest-matchmedia-mock).
+You can mock `window.matchMedia` with e.g. [mock-match-media](https://www.npmjs.com/package/mock-match-media).
 
 ```js
-import MatchMediaMock from 'jest-matchmedia-mock'
+import {
+  cleanup,
+  matchMedia,
+  MediaQueryListEvent,
+  setMedia,
+} from 'mock-match-media'
 
-const matchMedia = new MatchMediaMock()
+beforeAll(() => {
+  window.matchMedia = matchMedia
+
+  if (!('MediaQueryListEvent' in globalThis)) {
+    globalThis.MediaQueryListEvent = MediaQueryListEvent
+  }
+})
+
+afterEach(() => {
+  cleanup()
+})
 
 it('your test', () => {
-  matchMedia.useMediaQuery('(min-width: 40em) and (max-width: 60em)')
+  setMedia({ width: '50em' })
   ...
 })
 ```

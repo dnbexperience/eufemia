@@ -1,9 +1,9 @@
 ---
 title: 'InfoCard'
 description: 'The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.613Z
-checksum: 2890cecbe9826f0c50b742334a8426b83066dc06face9160aa86b557a38a803d
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.562Z
+checksum: 30ca028ab14e2ce04afdbcc8ec6cc429287c1f971830b15c83de976d44366a8e
 ---
 
 # InfoCard
@@ -215,20 +215,30 @@ render(<InfoCard title="Title of your info/tip" acceptButtonText="Accept" onAcce
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "closeButtonAttributes": {
-      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+    "closeButtonProps": {
+      "doc": "Props forwarded to the close button.",
       "type": "ButtonProps",
       "status": "optional"
+    },
+    "closeButtonAttributes": {
+      "doc": "Deprecated. Use `closeButtonProps` instead.",
+      "type": "ButtonProps",
+      "status": "deprecated"
     },
     "acceptButtonText": {
       "doc": "The accept button text.",
       "type": "React.ReactNode",
       "status": "optional"
     },
-    "acceptButtonAttributes": {
-      "doc": "Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.",
+    "acceptButtonProps": {
+      "doc": "Props forwarded to the accept button.",
       "type": "ButtonProps",
       "status": "optional"
+    },
+    "acceptButtonAttributes": {
+      "doc": "Deprecated. Use `acceptButtonProps` instead.",
+      "type": "ButtonProps",
+      "status": "deprecated"
     },
     "children": {
       "doc": "Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.",

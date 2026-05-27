@@ -1,0 +1,1 @@
+function e(){try{let e=window.getSelection(),t=document.createRange();e.removeAllRanges(),e.addRange(t)}catch{}}export{e as t};

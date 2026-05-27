@@ -1,8 +1,8 @@
 ---
 title: 'Getting Started'
 description: 'A fast path to using Eufemia in your app. Install, import styles, render your first component, and explore theming and customization.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.669Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.699Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -55,7 +55,7 @@ Learn more about importing CSS in [Importing Styles](/uilib/usage/customisation/
 - [Use components](/uilib/components)
 - [Use HTML elements](/uilib/elements)
 - [Styling and CSS setup](/uilib/usage/customisation/styling)
-- [Layout](/uilib/usage/layout)
+- [Layout](/uilib/layout)
 - [Theming and brand customization](/uilib/usage/customisation/theming)
 - [Internationalization (i18n)](/uilib/usage/customisation/localization)
 - [Helpers and tools](/uilib/usage/first-steps/tools)

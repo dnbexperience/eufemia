@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.671Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.632Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -642,7 +642,9 @@ Use [Avatar](/uilib/components/avatar) in `List.Cell.Start` as the left content.
 render(<List.Container>
         <List.Item.Basic title="Alice Andersen">
           <List.Cell.Start>
-            <Avatar size="medium">A</Avatar>
+            <Avatar size="medium" hasLabel>
+              A
+            </Avatar>
           </List.Cell.Start>
           <List.Cell.End>
             <NumberFormat.Currency value={1234} />
@@ -651,7 +653,9 @@ render(<List.Container>
 
         <List.Item.Action title="Bob Berg" onClick={() => {}}>
           <List.Cell.Start>
-            <Avatar size="medium">B</Avatar>
+            <Avatar size="medium" hasLabel>
+              B
+            </Avatar>
           </List.Cell.Start>
           <List.Cell.End>
             <Value.Currency value={5678} />
@@ -661,7 +665,9 @@ render(<List.Container>
         <List.Item.Accordion title="Carol with image">
           <List.Item.Accordion.Header>
             <List.Cell.Start>
-              <Avatar size="medium">C</Avatar>
+              <Avatar size="medium" hasLabel>
+                C
+              </Avatar>
             </List.Cell.Start>
             <List.Cell.End>Value</List.Cell.End>
           </List.Item.Accordion.Header>

@@ -1,8 +1,8 @@
 ---
 title: 'Helpers'
 description: 'A couple of helper functions used inside of components and extensions.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.674Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.702Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -60,6 +60,7 @@ You can use the internal Eufemia easing function.
 - [applyPageFocus](/uilib/helpers/functions#applypagefocus): Applies a page focus to an element given by the setPageFocusElement.
 - [setPageFocusElement](/uilib/helpers/functions#setpagefocuselement): Defines a focus element to applyPageFocus.
 - [debounce](/uilib/helpers/functions#debounce): Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the debounced function was invoked.
+- [isModifiedClickEvent](/uilib/helpers/functions#ismodifiedclickevent): Checks if a click event uses modifier keys or a non-primary mouse button.
 - [copyToClipboard](/uilib/helpers/functions#copytoclipboard): Copies a given string to the clipboard.
 
 ### Device checks

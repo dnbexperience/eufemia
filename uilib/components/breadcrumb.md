@@ -1,9 +1,9 @@
 ---
 title: 'Breadcrumb'
 description: 'The Breadcrumb component is a bar for navigation showing current web path.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.479Z
-checksum: d64f91f44b0713a618053013c3d2b68a096909bdf9d4f815b94eb02f72bd00b3
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.403Z
+checksum: 317a42d5c4db2efc4251f681ead15be677a426f81fe9825d4cd49cce4d0dee16
 ---
 
 # Breadcrumb
@@ -183,19 +183,19 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />);
       "status": "optional"
     },
     "backgroundColor": {
-      "doc": "Use one of the Section background colors. Defaults to `transparent`.",
+      "doc": "No longer supported after the Breadcrumb redesign.",
       "type": "Various",
-      "status": "optional"
+      "status": "deprecated"
     },
     "collapsedStyleType": {
-      "doc": "Use one of the Section component variants. Defaults to `information`.",
+      "doc": "No longer supported after the Breadcrumb redesign.",
       "type": [
         "\"error\"",
         "\"information\"",
         "\"warning\"",
         "\"success\""
       ],
-      "status": "optional"
+      "status": "deprecated"
     },
     "className": {
       "doc": "Custom `className` for the component root.",
@@ -290,10 +290,10 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />);
   ],
   "entries": {
     "Breadcrumb.backToText": {
-      "nb-NO": "Tilbake til...",
-      "en-GB": "Back to...",
-      "sv-SE": "Tillbaka till...",
-      "da-DK": "Tilbage til..."
+      "nb-NO": "Gå til ...",
+      "en-GB": "Go to ...",
+      "sv-SE": "Gå till ...",
+      "da-DK": "Gå til ..."
     },
     "Breadcrumb.goBackText": {
       "nb-NO": "Tilbake",

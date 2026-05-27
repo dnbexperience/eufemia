@@ -1,8 +1,8 @@
 ---
 title: 'Grid.Container'
 description: '`Grid.Container` is a building block for CSS Grid based layout of contents and components.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.694Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.716Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -37,7 +37,7 @@ render(
 )
 ```
 
-The columns do change based on what [breakpoint](/uilib/usage/layout/media-queries/) the browser is in:
+The columns do change based on what [breakpoint](/uilib/layout/media-queries/) the browser is in:
 
 - 4 columns when `small`
 - 6 columns when `medium`

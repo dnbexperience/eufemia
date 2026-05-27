@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
-description: 'A ready to use DNB date formatter.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.517Z
+description: 'A ready-to-use DNB date formatter.'
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.451Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 
@@ -16,7 +16,7 @@ import { DateFormat } from '@dnb/eufemia'
 
 ## Description
 
-A ready to use DNB date formatter. Use it wherever you want to format dates.
+A ready-to-use DNB date formatter. Use it wherever you want to format dates.
 
 Good reasons to use this component:
 

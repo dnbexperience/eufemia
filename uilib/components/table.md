@@ -1,9 +1,9 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.024Z
-checksum: bb67ff72e66e59cb08044768ac0c52123df6867883885602d9f81ecf18c74ff1
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.983Z
+checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 
 # Table
@@ -376,6 +376,44 @@ render(<Table.ScrollView>
             <Th>Header B</Th>
             <Td>Row 2</Td>
             <Td>Row 2</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>)
+```
+
+
+### Disable striped rows
+
+Use `striped={false}` to disable alternating row background colors.
+
+
+```tsx
+render(<Table.ScrollView>
+      <Table striped={false}>
+        <caption className="dnb-sr-only">A Table Caption</caption>
+        <thead>
+          <Tr>
+            <Th>Column A</Th>
+            <Th>Column B</Th>
+            <Th>Column C</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Tr>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+          </Tr>
+          <Tr>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
+          </Tr>
+          <Tr>
+            <Td>Row 3</Td>
+            <Td>Row 3</Td>
+            <Td>Row 3</Td>
           </Tr>
         </tbody>
       </Table>
@@ -1590,9 +1628,11 @@ render(<Example />);
 ```
 
 
-### Column highlight
+### Cell highlighting
 
 Use `highlight` on `<Th>`, `<Tr>`, or `<Td>` to apply a subtle background and border. When set on a `<Tr>`, all cells in that row are highlighted. You can also set it on individual `<Td>` cells.
+
+**NB:** Highlighted cells should include an `aria-label` that conveys both the highlight state and the reason for it. Screen reader users cannot perceive the visual highlight, so this label is their only way to understand that a cell stands out and why.
 
 To adjust the border colors accordingly, use the `useTableHighlight` hook and pass the returned ref to `<Table>`.
 
@@ -1607,6 +1647,7 @@ render(<Table ref={highlightRef}>...</Table>)
 ```tsx
 const ColumnHighlightTable = () => {
   const highlightRef = useTableHighlight();
+  const label = 'Table with highlighted column';
   return <Table.ScrollView>
             <Table outline border ref={highlightRef}>
               <caption className="dnb-sr-only">
@@ -1616,15 +1657,19 @@ const ColumnHighlightTable = () => {
               <thead>
                 <Tr>
                   <Th />
-                  <Th highlight>Column A</Th>
-                  <Th highlight>Column B</Th>
+                  <Th highlight aria-label={label}>
+                    Column A
+                  </Th>
+                  <Th highlight aria-label={label}>
+                    Column B
+                  </Th>
                   <Th>Column C</Th>
                   <Th>Column D</Th>
                 </Tr>
               </thead>
 
               <tbody>
-                <Tr highlight>
+                <Tr highlight aria-label={label}>
                   <Th>Row 1 Header</Th>
                   <Td>Row 1</Td>
                   <Td>Row 1</Td>
@@ -1642,7 +1687,9 @@ const ColumnHighlightTable = () => {
                   <Th>Row 3 Header</Th>
                   <Td>Row 3</Td>
                   <Td>Row 3</Td>
-                  <Td highlight>Row 3</Td>
+                  <Td highlight aria-label={label}>
+                    Row 3
+                  </Td>
                   <Td>Row 3</Td>
                 </Tr>
               </tbody>
@@ -1653,7 +1700,78 @@ render(<ColumnHighlightTable />);
 ```
 
 
-### Example usage without and with classes
+### Multiple table body sections
+
+
+```tsx
+render(<Table.ScrollView>
+      <Table outline border="horizontal" striped={false}>
+        <caption className="dnb-sr-only">
+          Market data with delay and opening hours
+        </caption>
+
+        <thead>
+          <Tr>
+            <Th scope="col">Marked</Th>
+            <Th scope="col">Forsinkelse (min)</Th>
+            <Th scope="col">Åpningstid</Th>
+          </Tr>
+        </thead>
+
+        <tbody>
+          <Tr>
+            <Th scope="rowgroup" colSpan={3}>
+              Norge
+            </Th>
+          </Tr>
+
+          <Tr variant="even">
+            <Td>Oslo Børs</Td>
+            <Td>
+              <Badge content="Sanntid" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>NOTC (NFMF)</Td>
+            <Td>
+              <Badge content="15 minutter" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+        </tbody>
+
+        <tbody>
+          <Tr>
+            <Th scope="rowgroup" colSpan={3}>
+              Norden
+            </Th>
+          </Tr>
+
+          <Tr variant="even">
+            <Td>København</Td>
+            <Td>
+              <Badge content="15 minutter" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>Helsinki</Td>
+            <Td>15 / Sanntid**</Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>Stockholm</Td>
+            <Td>15 / Sanntid**</Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>)
+```
+
+
+### Example usage with classes
 
 
 ```tsx
@@ -1967,8 +2085,11 @@ render(<Table.ScrollView>
       "status": "optional"
     },
     "border": {
-      "doc": "Use `true` to show borders between table data cells.",
-      "type": "boolean",
+      "doc": "Use `true` to show borders between table data cells. Use `\"horizontal\"` to show only horizontal borders between rows.",
+      "type": [
+        "boolean",
+        "\"horizontal\""
+      ],
       "defaultValue": "false",
       "status": "optional"
     },
@@ -1976,6 +2097,12 @@ render(<Table.ScrollView>
       "doc": "Use `true` to show an outline border around the table.",
       "type": "boolean",
       "defaultValue": "false",
+      "status": "optional"
+    },
+    "striped": {
+      "doc": "Use `false` to disable alternating row background colors (striped rows).",
+      "type": "boolean",
+      "defaultValue": "true",
       "status": "optional"
     },
     "sticky": {

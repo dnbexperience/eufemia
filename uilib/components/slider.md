@@ -1,8 +1,8 @@
 ---
 title: 'Slider'
 description: 'The Slider component provides a visual indication of adjustable value.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.763Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.721Z
 checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 
@@ -49,7 +49,7 @@ render(<Slider min={0} max={100} value={70} label="Default Slider" numberFormat=
 
 ### Slider with multiple thumb buttons
 
-Provide the `value` property as an array with numbers. The `onChange` event will then also return the property `value` as an array. The `+` and `-` buttons will not be visible when when more than one thumb button is present.
+Provide the `value` property as an array with numbers. The `onChange` event will then also return the property `value` as an array. The `+` and `-` buttons will not be visible when more than one thumb button is present.
 
 
 ```tsx

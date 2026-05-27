@@ -1,7 +1,7 @@
 ---
 title: 'Theming'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.727Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.742Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -64,7 +64,7 @@ Use the `var()` function to reference a token in your CSS:
 
 ## Dark surfaces
 
-Use `surface="dark"` on the [Theme](/src/docs/uilib/usage/customisation/theming/theme/) component to tell Eufemia that an area has a dark background. Components inside that area will automatically pick the right colors. The `ondark` tokens are the color values they switch to.
+Use `surface="dark"` on the [Theme](/uilib/usage/customisation/theming/theme/) component to tell Eufemia that an area has a dark background. Components inside that area will automatically pick the right colors. The `ondark` tokens are the color values they switch to.
 
 For example, a button that normally uses `--token-color-background-action-hover` will switch to `--token-color-background-action-hover-ondark` when `surface="dark"` is active.
 
@@ -74,7 +74,7 @@ Read more about the [surface](/uilib/usage/customisation/theming/theme/) propert
 
 ## Dark mode / Color scheme
 
-Use the `colorScheme` prop on the [Theme](/src/docs/uilib/usage/customisation/theming/theme/) component to control dark and light mode.
+Use the `colorScheme` prop on the [Theme](/uilib/usage/customisation/theming/theme/) component to control dark and light mode.
 
 When set to `"auto"`, it follows the user's system color preference unless overridden by a parent theme or application setting. It uses the [`prefers-color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-color-scheme) media query to detect the system preference.
 

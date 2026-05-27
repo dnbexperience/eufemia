@@ -1,8 +1,8 @@
 ---
 title: 'Value.Address'
 description: '`Value.Address` is a wrapper component for displaying string values, with user experience tailored for postal and street addresses.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.418Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.419Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

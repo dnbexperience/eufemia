@@ -1,8 +1,8 @@
 ---
 title: 'UI Library'
 description: 'Buttons, dropdowns, input fields, components, etc.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.737Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.748Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -17,7 +17,7 @@ Read more [about the library](/uilib/about-the-lib).
 
 ## The Eufemia Repository
 
-The `@dnb/eufemia` is hosted as a sub package inside the [<Icon icon={EufemiaLogo} size="large" />**Eufemia Repository**](https://github.com/dnbexperience/eufemia) on GitHub.
+The `@dnb/eufemia` is hosted as a sub-package inside the [<Icon icon={EufemiaLogo} size="default" /> **Eufemia Repository**](https://github.com/dnbexperience/eufemia) on GitHub.
 
 You can also enable [<Icon icon={GithubLogo} size="default" />notification about upcoming releases](https://help.github.com/articles/watching-and-unwatching-releases-for-a-repository/).
 

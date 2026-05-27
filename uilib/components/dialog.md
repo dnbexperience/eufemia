@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.539Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.482Z
 checksum: 6aa284be4c200df6bb88adf3cedbff09cfbc9e27ca3746453ebaadea5c3d5ab8
 ---
 
@@ -99,7 +99,7 @@ render(<Input label="Input" placeholder="Placeholder ..." suffix={<Dialog>
 
 
 ```tsx
-render(<Dialog title="Vertical alignment top" verticalAlignment="top" triggerAttributes={{
+render(<Dialog title="Vertical alignment top" verticalAlignment="top" triggerProps={{
   text: 'Vertical alignment'
 }} modalContent="The Dialog component is a Modal aligned at the top of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes." />)
 ```
@@ -148,7 +148,7 @@ render(<>
 
 
 ```tsx
-render(<Dialog title={<span className="dnb-sr-only">"Hidden" Dialog title</span>} fullscreen triggerAttributes={{
+render(<Dialog title={<span className="dnb-sr-only">"Hidden" Dialog title</span>} fullscreen triggerProps={{
   variant: 'tertiary',
   text: 'Open a fullscreen dialog',
   icon: 'bell'
@@ -160,7 +160,7 @@ render(<Dialog title={<span className="dnb-sr-only">"Hidden" Dialog title</span>
 
 
 ```tsx
-render(<Dialog spacing={false} fullscreen={false} alignContent="centered" hideCloseButton triggerAttributes={{
+render(<Dialog spacing={false} fullscreen={false} alignContent="centered" hideCloseButton triggerProps={{
   text: 'Show'
 }} preventClose={false} maxWidth="12rem">
       <ProgressIndicator showDefaultLabel top="large" bottom="large" />
@@ -172,7 +172,7 @@ render(<Dialog spacing={false} fullscreen={false} alignContent="centered" hideCl
 
 
 ```tsx
-render(<Dialog title=".5s close delay" triggerAttributes={{
+render(<Dialog title=".5s close delay" triggerProps={{
   text: 'Click me'
 }} focusSelector=".dnb-input__input:first-of-type" preventClose hideCloseButton onOpen={e => console.log('onOpen', e)} onClose={e => console.log('onClose', e)} onClosePrevent={({
   close,
@@ -199,7 +199,7 @@ render(<Dialog title=".5s close delay" triggerAttributes={{
 ```tsx
 render(<Dialog variant="confirmation" title="Dialog confirmation title" icon={bell_medium} description="Some content describing the situation." onConfirm={({
   close
-}) => close()} triggerAttributes={{
+}) => close()} triggerProps={{
   text: 'Trigger button'
 }} />)
 ```
@@ -213,7 +213,7 @@ A `confirmType="warning"` will enhance the context by applying a red color to th
 ```tsx
 render(<Dialog variant="confirmation" confirmType="warning" title="Are you sure you want to delete this?" icon={trash_medium} description="This action cannot be undone." confirmText="Delete" declineText="Cancel" onConfirm={({
   close
-}) => close()} triggerAttributes={{
+}) => close()} triggerProps={{
   text: 'Delete record',
   icon: trash_medium
 }} />)
@@ -252,7 +252,7 @@ Provide a custom set of buttons, like this cookie consent Dialog that has a `ter
 
 
 ```tsx
-render(<Dialog triggerAttributes={{
+render(<Dialog triggerProps={{
   text: 'Show cookie dialog'
 }} icon={cookie_medium} variant="confirmation" title="Informasjonskapsler (cookies)">
       Vi bruker cookies for å gi deg den beste opplevelsen i nettbanken
@@ -286,7 +286,7 @@ render(<Dialog triggerAttributes={{
 ```tsx
 const MockComponent = () => {
   const scrollRef = useRef(null);
-  return <Dialog triggerAttributes={{
+  return <Dialog triggerProps={{
     text: 'Show cookie dialog'
   }} variant="confirmation" title="Informasjonskapsler (cookies)" scrollRef={scrollRef} onOpen={() => {
     if (document.documentElement.classList.contains('scroll-to-bottom')) {
@@ -374,7 +374,7 @@ render(<MockComponent />);
 ```tsx
 const MockComponent = () => {
   const scrollRef = useRef(null);
-  return <Dialog triggerAttributes={{
+  return <Dialog triggerProps={{
     text: 'Show information dialog with sticky header'
   }} variant="information" scrollRef={scrollRef} onOpen={() => {
     if (document.documentElement.classList.contains('scroll-to-bottom-info')) {
@@ -707,10 +707,15 @@ See the table below:
       ],
       "status": "optional"
     },
-    "triggerAttributes": {
-      "doc": "Send along with custom HTML attributes or properties to the trigger button.",
+    "triggerProps": {
+      "doc": "Props forwarded to the trigger button.",
       "type": "Various",
       "status": "optional"
+    },
+    "triggerAttributes": {
+      "doc": "Deprecated. Use `triggerProps` instead.",
+      "type": "Various",
+      "status": "deprecated"
     },
     "dialogTitle": {
       "doc": "The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.",

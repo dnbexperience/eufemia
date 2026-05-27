@@ -1,8 +1,8 @@
 ---
 title: 'ProgressIndicator'
 description: 'The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.735Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.695Z
 checksum: ffaea90c327ad61cf29b7449ea1a5e4a21b58c395f921b970883d755dbd451d6
 ---
 
@@ -16,11 +16,44 @@ import { ProgressIndicator } from '@dnb/eufemia'
 
 ## Description
 
-Use a ProgressIndicator whenever the user has to wait for more than _150ms_. This component is also known as:
+The ProgressIndicator component shows a visual indicator during loading or processing states. Use it whenever the user has to wait for more than _150ms_.
 
-- Indicator (Activity-Indicator)
-- Loader (Pre-loader)
-- Spinner
+It supports three types: `circular` (default), `linear`, and `countdown`. Each type can display either a **determinate** state (with a known progress value) or an **indeterminate** state (when the duration is unknown).
+
+This component is also known as: Indicator (Activity-Indicator), Loader (Pre-loader), Spinner.
+
+### Determinate vs indeterminate
+
+- **Determinate**: Use when the progress percentage is known (e.g. file uploads, multi-step processes). Set the `progress` prop to a value between `0` and `100`.
+- **Indeterminate**: Use when the duration is unknown (e.g. fetching data, waiting for a response). Omit the `progress` prop to show a continuous animation.
+
+### Types
+
+- **`circular`** (default): A spinning ring. Works well inline or centered in a container. Supports label placement inside, horizontally, or vertically.
+- **`linear`**: A horizontal bar. Suited for wider layouts or when vertical space is limited. Common at the top of a page or section.
+- **`countdown`**: A circular variant that animates counterclockwise, useful for timers or session expiry indicators.
+
+### Visibility
+
+Use the `show` prop to control when the indicator appears and disappears. When `show` transitions to `false`, the indicator animates out and fires the `onComplete` callback once the exit animation finishes.
+
+## Accessibility
+
+- The component uses `role="progressbar"` with `aria-valuenow` for determinate states, giving screen readers the current progress.
+- For indeterminate states, `role="alert"` is used to announce that loading is in progress.
+- Use the `title` prop to provide a descriptive accessible label (e.g. `"Loading account details"`).
+- The `showDefaultLabel` prop adds a visible "In progress..." label, which also helps screen reader users understand the context.
+
+## When to use
+
+- Processing or loading states lasting more than 150ms.
+- File uploads, data fetching, or form submissions where the user needs feedback.
+- Timers or countdowns using the `countdown` type.
+
+## When not to use
+
+- For full-page or section-level loading states, consider the [Skeleton](/uilib/components/skeleton) component instead.
+- For processes lasting less than 150ms — no loading indicator is needed.
 
 ## Relevant links
 
@@ -31,7 +64,9 @@ Use a ProgressIndicator whenever the user has to wait for more than _150ms_. Thi
 
 ## Demos
 
-### Default ProgressIndicator is Circular
+### Indeterminate (unknown progress)
+
+When the duration is unknown, omit the `progress` prop to show a continuous animation. The default type is `circular`.
 
 
 ```tsx
@@ -39,15 +74,35 @@ render(<ProgressIndicator />)
 ```
 
 
-### Default Circular ProgressIndicator
+The `linear` type works well for wider layouts, such as the top of a page or section.
 
 
 ```tsx
-render(<ProgressIndicator type="circular" />)
+render(<ProgressIndicator type="linear" />)
 ```
 
 
-### Circular ProgressIndicator with a label in a horizontal direction
+### Determinate (known progress)
+
+Set the `progress` prop (0–100) when you know how far along the process is. This gives the user a clear expectation of remaining time.
+
+
+```tsx
+render(<ProgressIndicator type="circular" progress="50" size="large" noAnimation />)
+```
+
+
+
+```tsx
+render(<ProgressIndicator type="linear" progress="50" size="large" noAnimation />)
+```
+
+
+### Labels
+
+Labels help users understand what is loading. Use `showDefaultLabel` for the built-in "In progress..." text, or provide a custom `label`.
+
+#### Horizontal label
 
 
 ```tsx
@@ -57,7 +112,17 @@ type="circular" showDefaultLabel={true} labelDirection="horizontal" />)
 ```
 
 
-### Circular ProgressIndicator with a label in a vertical direction
+
+```tsx
+render(<ProgressIndicator type="linear"
+// label="Custom label ..."
+showDefaultLabel={true} labelDirection="horizontal" />)
+```
+
+
+#### Vertical label
+
+The default label direction is vertical.
 
 
 ```tsx
@@ -67,9 +132,15 @@ type="circular" showDefaultLabel={true} />)
 ```
 
 
-### Circular ProgressIndicator with a label inside
 
-Inside labels must be carefully sized, and are generally meant for just an icon or a number.
+```tsx
+render(<ProgressIndicator type="linear" showDefaultLabel={true} />)
+```
+
+
+#### Inside label (circular only)
+
+Inside labels are placed in the center of the circle. Use sparingly — they work best for short content like an icon or a number.
 
 
 ```tsx
@@ -80,32 +151,9 @@ Inside labels must be carefully sized, and are generally meant for just an icon 
 ```
 
 
-### Shows a large Circular ProgressIndicator with a static 50% in progress
+### Animated progress transitions
 
-
-```tsx
-render(<ProgressIndicator type="circular" progress="50" size="large" noAnimation />)
-```
-
-
-### Circular ProgressIndicator with random value
-
-
-```tsx
-const ChangeValue = () => {
-  const [value, setValue] = useState(50);
-  return <Flex.Horizontal align="center">
-            <ProgressIndicator type="circular" progress={value} showDefaultLabel labelDirection="horizontal" noAnimation />
-            <Button left size="small" variant="secondary" onClick={() => setValue(Math.random() * 100)}>
-              Change
-            </Button>
-          </Flex.Horizontal>;
-};
-render(<ChangeValue />);
-```
-
-
-### Circular ProgressIndicator with random progress value to show the transition
+When the `progress` value changes, the indicator animates smoothly between values.
 
 
 ```tsx
@@ -122,7 +170,24 @@ render(<Example />);
 ```
 
 
-### Circular ProgressIndicator with random `onComplete` callback
+
+```tsx
+const Example = () => {
+  const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+  const [progress, setProgressIndicator] = useState(random(1, 100));
+  useEffect(() => {
+    const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3);
+    return () => clearInterval(timer);
+  });
+  return <ProgressIndicator type="linear" progress={progress} />;
+};
+render(<Example />);
+```
+
+
+### Controlling visibility with `show`
+
+Use the `show` prop to toggle the indicator. The `onComplete` callback fires after the exit animation finishes, which is useful for sequencing UI updates.
 
 
 ```tsx
@@ -141,7 +206,9 @@ render(<Example />);
 ```
 
 
-### Circular ProgressIndicator inside a Dialog
+### Inside a Dialog
+
+A ProgressIndicator can be placed inside a Dialog to block interaction while a process completes.
 
 
 ```tsx
@@ -153,114 +220,9 @@ render(<Dialog spacing={false} maxWidth="12rem" fullscreen={false} alignContent=
 ```
 
 
-### Default Linear ProgressIndicator
+### Countdown
 
-
-```tsx
-render(<ProgressIndicator type="linear" />)
-```
-
-
-### Small Linear ProgressIndicator
-
-
-```tsx
-render(<ProgressIndicator type="linear" size="small" />)
-```
-
-
-### Linear ProgressIndicator with a label in a horizontal direction
-
-
-```tsx
-render(<ProgressIndicator type="linear"
-// label="Custom label ..."
-showDefaultLabel={true} labelDirection="horizontal" />)
-```
-
-
-### Linear ProgressIndicator with a label in a vertical direction
-
-
-```tsx
-render(<ProgressIndicator type="linear" showDefaultLabel={true} />)
-```
-
-
-### Shows a large Linear ProgressIndicator with a static 50% in progress
-
-
-```tsx
-render(<ProgressIndicator type="linear" progress="50" size="large" noAnimation />)
-```
-
-
-### Linear ProgressIndicator with random value
-
-
-```tsx
-const ChangeValue = () => {
-  const [value, setValue] = useState(50);
-  return <Flex.Horizontal align="center">
-            <ProgressIndicator type="linear" progress={value} noAnimation />
-            <Button left size="small" variant="secondary" onClick={() => setValue(Math.random() * 100)}>
-              Change
-            </Button>
-          </Flex.Horizontal>;
-};
-render(<ChangeValue />);
-```
-
-
-### Linear ProgressIndicator with random progress value to show the transition
-
-
-```tsx
-const Example = () => {
-  const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-  const [progress, setProgressIndicator] = useState(random(1, 100));
-  useEffect(() => {
-    const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3);
-    return () => clearInterval(timer);
-  });
-  return <ProgressIndicator type="linear" progress={progress} />;
-};
-render(<Example />);
-```
-
-
-### Linear ProgressIndicator with random `onComplete` callback
-
-
-```tsx
-const Example = () => {
-  const random = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-  const [show, setShow] = useState(true);
-  useEffect(() => {
-    const timer = setInterval(() => setShow(!show), random(2400, 4200));
-    return () => clearTimeout(timer);
-  });
-  return <ProgressIndicator type="linear" size="large" show={show} onComplete={() => {
-    console.log('onCompleteLinear');
-  }} />;
-};
-render(<Example />);
-```
-
-
-### Linear ProgressIndicator inside a Dialog
-
-
-```tsx
-render(<Dialog spacing={false} maxWidth="12rem" fullscreen={false} alignContent="centered" hideCloseButton triggerAttributes={{
-  text: 'Show'
-}} preventClose={false}>
-      <ProgressIndicator type="linear" showDefaultLabel top="large" bottom="large" />
-    </Dialog>)
-```
-
-
-### Countdown indicator
+The `countdown` type animates counterclockwise and is suited for timers, session expiry, or time-limited actions. Combine it with `labelDirection="inside"` to display a value in the center.
 
 
 ```tsx
@@ -281,7 +243,7 @@ render(<ChangeValue />);
 
 ### Style customization
 
-The sizes and colors can be customized with the properties `size`, `customColors`, and `customCircleWidth` if needed. The types `circular` and `countdown` has a few more options than `linear`.
+The sizes and colors can be customized with the properties `size`, `customColors`, and `customCircleWidth` if needed. The types `circular` and `countdown` have a few more options than `linear`.
 
 
 ```tsx

@@ -1,7 +1,7 @@
 ---
 title: 'Functions'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.672Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.700Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -256,6 +256,18 @@ debounced.addCancelEvent(myCancelMethod) // Alternatively, you can add the cance
 ```
 
 In order to use `this.addCancelEvent`, you need to use a `function()` and not an arrow function.
+
+### isModifiedClickEvent
+
+Checks if a click event uses modifier keys or a non-primary mouse button. This is useful when you want to preserve the browser's default link behavior, such as opening a link in a new tab or window.
+
+```js
+import { isModifiedClickEvent } from '@dnb/eufemia/shared/helpers'
+
+isModifiedClickEvent(event) // returns Boolean
+```
+
+The helper returns `true` when the event has `metaKey`, `ctrlKey`, `shiftKey`, `altKey` or a non-primary `button` value.
 
 ### copyToClipboard
 

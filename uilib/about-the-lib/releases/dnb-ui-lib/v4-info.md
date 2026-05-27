@@ -1,8 +1,8 @@
 ---
 title: 'v4.0'
 description: 'July, 21. 2019'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.682Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.581Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -66,7 +66,7 @@ Spacing is an important part of Eufemia, that's why there are now three new help
 
 - FormSet provides by default the `<form>` tag and sends some `FormRow` properties along down.
 - FormRow provides by default the `<fieldset>` tag and `<legend>` tag. `FormRow` is meant to help you achieve easily common DNB layout patterns and setups. Also, `FormRow` is supporting the `Spacing` component.
-- [Space](/uilib/layout/space) is made to achieve the Eufemia [spacing patterns](/uilib/usage/layout/spacing#spacing-helpers). In other words; _margin_ within the provided spacing blocks.
+- [Space](/uilib/layout/space) is made to achieve the Eufemia [spacing patterns](/uilib/layout/spacing#spacing-helpers). In other words; _margin_ within the provided spacing blocks.
 
 ### Components and Spacing
 

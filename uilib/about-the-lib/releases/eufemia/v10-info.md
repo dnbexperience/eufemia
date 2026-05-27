@@ -1,8 +1,8 @@
 ---
 title: 'v10'
 description: 'May, 31. 2023'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.692Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.592Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -77,7 +77,7 @@ yarn add @dnb/eufemia@10
 
 1. Helper class `.dnb-sr-only--inline` and SCSS mixin `srOnlyInline` was removed.
 1. Helper class `.dnb-not-sr-only` and SCSS mixin `notSrOnly` was removed.
-1. `import { SpacingHelper } from '@dnb/eufemia/shared'` was removed due to low usage. Use one of the [other exported helpers](/uilib/usage/layout/spacing).
+1. `import { SpacingHelper } from '@dnb/eufemia/shared'` was removed due to low usage. Use one of the [other exported helpers](/uilib/layout/spacing).
 1. Stylis plugin, `import stylisPlugin from '@dnb/eufemia/style/stylis'`, has been removed.
 
 ### TypeScript
@@ -109,7 +109,7 @@ The support for Web Components, Vue and Angular was discontinued and removed.
 
 ## Breakpoints
 
-Some [breakpoints](/uilib/usage/layout/media-queries) sizes have changed:
+Some [breakpoints](/uilib/layout/media-queries) sizes have changed:
 
 - **xx-large:** `1280` is now `1440` – and `80em` is now `90em`
 - **x-large:** `1152` is now `1280` – and `72em` is now `80em`

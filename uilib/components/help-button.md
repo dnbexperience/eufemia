@@ -1,8 +1,8 @@
 ---
 title: 'HelpButton'
 description: 'A help button with custom semantics, helping screen readers determine the meaning of that button.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.599Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.546Z
 checksum: 5241f932b12afce6aefcbc6a511134e8e32f093f2b57d60afa7efad863b9417c
 ---
 
@@ -185,7 +185,7 @@ render(<span>
 
 
 ```tsx
-render(<HelpButton title="Title" render={(children, props) => <Dialog triggerAttributes={props} className="your-class">
+render(<HelpButton title="Title" render={(children, props) => <Dialog triggerProps={props} className="your-class">
           {children}
         </Dialog>}>
       Help text

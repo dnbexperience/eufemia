@@ -1,8 +1,8 @@
 ---
 title: 'Typography'
 description: 'DNB Headings and paragraphs, their properties and styling.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.704Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.724Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -170,10 +170,10 @@ import { H1, H2, ... } from '@dnb/eufemia'
 
 ## Anchor
 
-- `.dnb-anchor` – <a href="/" className="dnb-anchor">Anchor with default style</a>
-- `.dnb-anchor--hover` – <a href="/" className="dnb-anchor dnb-anchor--hover">Hover style</a>
-- `.dnb-anchor--active` – <a href="/" className="dnb-anchor dnb-anchor--active">Active style</a>
-- `.dnb-anchor--focus` –  <a href="/" className="dnb-anchor dnb-anchor--focus">Focus style</a>
+- `.dnb-anchor` -- <a href="/" className="dnb-anchor">Anchor with default style</a>
+- `.dnb-anchor--hover` -- <a href="/" className="dnb-anchor dnb-anchor--hover">Hover style</a>
+- `.dnb-anchor--active` -- <a href="/" className="dnb-anchor dnb-anchor--active">Active style</a>
+- `.dnb-anchor--focus` -- <a href="/" className="dnb-anchor dnb-anchor--focus">Focus style</a>
 
 Read more about the [Anchor / Text Link](/uilib/components/anchor).
 

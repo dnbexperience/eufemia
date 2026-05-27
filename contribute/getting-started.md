@@ -1,7 +1,7 @@
 ---
 title: 'Getting started'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.649Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.557Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -178,6 +178,8 @@ The function `getTranslation` will along with the properties support both `local
 import { Context } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
+import type { LocaleProps } from '../../shared/types'
+
 export type ComponentProps = {
   myParam?: string
 }
@@ -248,8 +250,8 @@ function FormComponent(props: Types) {
   const { myParam, skeleton, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
-    pickFormElementProps(context?.formElement)
-    context.FormComponent,
+    pickFormElementProps(context?.formElement),
+    context.FormComponent
   )
 
   // Use myParam and spread the ...rest
@@ -262,7 +264,7 @@ It depends from case to case on how you would make [spacing](/uilib/layout/space
 
 ```tsx
 import { Context } from '../../shared'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
@@ -342,14 +344,14 @@ function MyComponent(props: ComponentAllProps) {
   skeletonDOMAttributes(rest, skeleton, context)
 
   // This helper will add needed skeleton css classes in order to create a custom skeleton
-  rest.className = createSkeletonClass(
+  const skeletonClassName = createSkeletonClass(
     'shape',
     skeleton,
     context,
     className
   )
 
-  // Use skeleton and spread the ...rest
+  // Use skeleton, skeletonClassName and spread the ...rest
 }
 ```
 
@@ -420,7 +422,9 @@ yarn test:update
 yarn test:update breadcrumb avatar
 ```
 
-Jest integration tests uses this naming convention: `/__tests__/{ComponentName}.test.tsx`
+Integration tests use this naming convention: `/__tests__/{ComponentName}.test.tsx`
+
+Vitest already loads [@testing-library/jest-dom](https://github.com/testing-library/jest-dom#with-vitest) through `packages/dnb-eufemia/src/core/vitest/setupVitest.ts`, which imports `@testing-library/jest-dom/vitest`. DOM matchers such as `toBeInTheDocument`, `toBeVisible`, and `toHaveTextContent` are therefore available in tests without extra per-test setup.
 
 3. Run visual and end-to-end tests:
 
@@ -610,7 +614,7 @@ You may check out the CI/CLI logs for more details.
 Add a similar code snippet to your tests for watching changes in the SCSS you just created.
 
 ```js
-import { loadScss } from '../../../core/jest/jestSetup'
+import { loadScss } from '../../../core/test-utils/testSetup'
 describe('Button scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

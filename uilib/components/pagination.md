@@ -1,9 +1,9 @@
 ---
 title: 'Pagination'
 description: 'The Pagination component supports both classical pagination and infinity scrolling.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.715Z
-checksum: c329cb9caaca6c2c5bd7916230f4f32ae3bb1eacd99b00cf359885fe3a11b991
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.677Z
+checksum: 8ae8e29089d8364f8f2ac7b6f30d996c37704cfa1817790faa389a7c6e44abda
 ---
 
 # Pagination
@@ -138,6 +138,22 @@ render(<Pagination pageCount={5} startupPage={3} onChange={({
       {({
     pageNumber
   }) => <P>Page {pageNumber}</P>}
+    </Pagination>)
+```
+
+
+### Pagination with custom navigation element
+
+Use `transformNavigationItem` to replace the default navigation buttons with custom elements.
+
+
+```tsx
+render(<Pagination pageCount={10} currentPage={3} transformNavigationItem={(pageNumber, navigationItemProps) => <Anchor href={`/page/${pageNumber}`} {...navigationItemProps} />} onChange={({
+  pageNumber
+}) => {
+  console.log('onChange:', pageNumber);
+}}>
+      <P>Current Page Content</P>
     </Pagination>)
 ```
 
@@ -367,6 +383,11 @@ Check out [demos for the Infinity Scroller](/uilib/components/pagination/infinit
     "barSpace": {
       "doc": "Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`. See property [space](/uilib/layout/space/properties).",
       "type": "Various",
+      "status": "optional"
+    },
+    "transformNavigationItem": {
+      "doc": "A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `NavigationItemProps`. Anchor-like elements keep the browser default behavior on modified or middle clicks.",
+      "type": "function",
       "status": "optional"
     },
     "loadButton": {

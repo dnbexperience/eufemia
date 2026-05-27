@@ -1,7 +1,7 @@
 ---
 title: 'FAQ'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.640Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.550Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -57,19 +57,15 @@ This disables `--bail` and runs all screenshot tests, so you can see all visual 
 
 The CI/CD pipeline automatically detects this flag and adjusts the test behavior accordingly.
 
-### What dies `build:mini` do?
+### What does `build:mini` do?
 
-When running `build:mini` scripts, the build will be faster and the output will be smaller. It's used for the CI/CD pipeline to build the package for the Sandbox or documentation preview.
+When running `build:mini` scripts, the build will be faster and the output will be smaller. It's used for the CI/CD pipeline to build the package for the documentation preview.
 
 ## Dependency issues
 
 ### ESLint compat patch
 
 - We patch `eslint-plugin-compat` to always report APIs, even inside `if` statements. The patch lives in `.yarn/patches/` and is referenced from `packages/dnb-eufemia/package.json` as `patch:eslint-plugin-compat@npm:*`. If you reinstall dependencies, keep the patch or reapply it with `yarn patch-commit`.
-
-### Jest
-
-- jsdom [v21](https://github.com/jsdom/jsdom/releases/tag/21.0.0) changed `window`, `document`, `location`, and top properties of Window to be non-configurable, which made it impossible to mock `window.location` via `Object.defineProperty` in Jest. Jest 30 with `jest-environment-jsdom` bundles jsdom v26. Tests that need to manipulate the URL now use `window.history.replaceState` instead of overriding `window.location`.
 
 ### Babel
 

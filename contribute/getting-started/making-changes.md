@@ -1,7 +1,7 @@
 ---
 title: 'Making changes'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.647Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.556Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -144,6 +144,8 @@ The function `getTranslation` will along with the properties support both `local
 import { Context } from '../../shared'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
+import type { LocaleProps } from '../../shared/types'
+
 export type ComponentProps = {
   myParam?: string
 }
@@ -214,8 +216,8 @@ function FormComponent(props: Types) {
   const { myParam, skeleton, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
-    pickFormElementProps(context?.formElement)
-    context.FormComponent,
+    pickFormElementProps(context?.formElement),
+    context.FormComponent
   )
 
   // Use myParam and spread the ...rest
@@ -228,7 +230,7 @@ It depends from case to case on how you would make [spacing](/uilib/layout/space
 
 ```tsx
 import { Context } from '../../shared'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
@@ -308,14 +310,14 @@ function MyComponent(props: ComponentAllProps) {
   skeletonDOMAttributes(rest, skeleton, context)
 
   // This helper will add needed skeleton css classes in order to create a custom skeleton
-  rest.className = createSkeletonClass(
+  const skeletonClassName = createSkeletonClass(
     'shape',
     skeleton,
     context,
     className
   )
 
-  // Use skeleton and spread the ...rest
+  // Use skeleton, skeletonClassName and spread the ...rest
 }
 ```
 

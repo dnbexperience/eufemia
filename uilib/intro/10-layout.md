@@ -1,6 +1,6 @@
 ---
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.683Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.708Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -25,7 +25,7 @@ Remember, everything should be in the **8px grid** (0.5rem) spacing - even it th
   className="blank x-10"
 />
 
-You may have a [look at the layout docs](/uilib/usage/layout) as well as [the spacing helpers](/uilib/usage/layout/spacing) and the [Space](/uilib/layout/space) component.
+You may have a [look at the layout docs](/uilib/layout) as well as [the spacing helpers](/uilib/layout/spacing) and the [Space](/uilib/layout/space) component.
 
 But there is also support for basic spacing in every component:
 

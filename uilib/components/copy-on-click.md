@@ -1,8 +1,8 @@
 ---
 title: 'CopyOnClick'
 description: 'The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.507Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.440Z
 checksum: d295fb202d99102f67fd6615cb964c459dc2d8eea69dfec0225775022aaef4b0
 ---
 

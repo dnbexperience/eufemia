@@ -1,7 +1,7 @@
 ---
 title: 'Components'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.084Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.062Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -60,7 +60,7 @@ The CountryFlag component lets you display a country flag based on a country ISO
 
 ## [DateFormat](/uilib/components/date-format/)
 
-A ready to use DNB date formatter.
+A ready-to-use DNB date formatter.
 
 ## [DatePicker](/uilib/components/date-picker/)
 
@@ -132,7 +132,7 @@ List is a layout component for displaying rows of content, with optional start/c
 
 ## [ListFormat](/uilib/components/list-format/)
 
-A ready to use DNB list formatter.
+A ready-to-use DNB list formatter.
 
 ## [Logo](/uilib/components/logo/)
 
@@ -148,7 +148,7 @@ Modal dialogs appear on top of the main content changing the mode of the system 
 
 ## [NumberFormat](/uilib/components/number-format/)
 
-A ready to use DNB number formatter.
+A ready-to-use DNB number formatter.
 
 ## [Pagination](/uilib/components/pagination/)
 

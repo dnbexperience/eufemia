@@ -1,7 +1,7 @@
 ---
 title: 'Best Practices for styling'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.711Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.729Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -78,4 +78,4 @@ Here is a list of what we should use as layout and styling units to embrace the 
 - **`px`**: Use _pixels_ on visual helper lines and borders. Borders do not necessarily need to be responsive.
 - **`viewport units and percentage`**: Use these units to make layout and component widths responsive. Use also for placing and positioning layout wrappers which can give a better user experience.
 
-Use _em_ for CSS `@media` queries for the best browser compatibility. Read more about [viewport units, Media Queries and breakpoints](/uilib/usage/layout/media-queries).
+Use _em_ for CSS `@media` queries for the best browser compatibility. Read more about [viewport units, Media Queries and breakpoints](/uilib/layout/media-queries).

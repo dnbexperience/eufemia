@@ -1,7 +1,7 @@
 ---
 title: 'Issue reporting'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.654Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.561Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -13,7 +13,19 @@ bug report to the GitHub repository. Thanks for helping out.
 
 When reporting issues or suggesting new features, we would appreciate if you use [GitHub Issues](https://github.com/dnbexperience/eufemia/issues) or our [Jira Kanban board](https://dnb-asa.atlassian.net/jira/software/c/projects/EDS/summary). Another option is to send a Slack message in [#eufemia-web](https://dnb-it.slack.com/archives/CMXABCHEY).
 
-For reproduction of issues you can use our [starter templates](/issue/) (StackBlitz or CodeSandbox). Including this in your report helps us out a lot.
+For reproduction of issues you can use our [starter templates](/issue/). Including this in your report helps us out a lot.
+
+## Open in StackBlitz
+
+Every code example in the Eufemia documentation has an **Open in StackBlitz** button in the toolbar. Clicking it opens the code in a new StackBlitz project with all the necessary dependencies and configuration pre-configured. This is useful for quickly experimenting with a component or reproducing an issue.
+
+<InlineImg
+  src="/images/open-in-stackblitz.png"
+  width="900"
+  alt="Screenshot of the Open in StackBlitz button in the code example toolbar"
+  top
+  bottom
+/>
 
 ## GitHub issues
 

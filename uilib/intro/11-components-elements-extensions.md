@@ -1,6 +1,6 @@
 ---
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.684Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.709Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -12,7 +12,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 Components are custom made **user interaction elements** with an internal state, your application can interact with.
 
-<div className="image-box" align="center">
+<div className="image-box" style={{ textAlign: 'center' }}>
   <Button text="Button" href="/uilib/components/button" target="_blank" />
 </div>
 
@@ -20,7 +20,7 @@ Components are custom made **user interaction elements** with an internal state,
 
 Elements are basicity ready to use styled HTML elements.
 
-<div className="image-box" align="center">
+<div className="image-box" style={{ textAlign: 'center' }}>
   <a
     className="dnb-anchor"
     href="!/uilib/components/anchor"

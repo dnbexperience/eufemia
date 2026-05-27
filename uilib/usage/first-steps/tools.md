@@ -1,8 +1,8 @@
 ---
 title: 'AI, MCP and Tools'
 description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.734Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.746Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -21,7 +21,7 @@ If your AI coding agent supports the Model Context Protocol (MCP), you have two 
 
 Point your MCP-aware client at the public Streamable HTTP endpoint:
 
-```
+```txt
 https://eufemia-mcp.eufemia.workers.dev/mcp
 ```
 
@@ -93,7 +93,7 @@ It supports:
 
 - plain `px` to `rem` conversion.
 - annotation for `px` and `rem` equivalent values.
-- auto completion for the [spacing system](/uilib/usage/layout/spacing/).
+- auto completion for the [spacing system](/uilib/layout/spacing/).
 - auto completion for [`font-size`](/uilib/typography/font-size/) and [`line-height`](/uilib/typography/line-height/).
 
 Install the [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=dnbexperience.vscode-eufemia) or view the

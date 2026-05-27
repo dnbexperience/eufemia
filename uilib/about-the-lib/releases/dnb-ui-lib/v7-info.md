@@ -1,8 +1,8 @@
 ---
 title: 'v7.0'
 description: 'June, 4. 2020'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.687Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.587Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -85,8 +85,8 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 ### Table (new features)
 
 - Sticky [Table](/uilib/components/table/demos#table-with-sticky-header) header.
-- Sortable [table](/uilib/elements/tables) header buttons supports now word-wrap by using `wrap="true"`.
-- [Table](/uilib/elements/tables) headers supports now `small` font-size (`.dnb-table--small`) as well as `right` and `center` aligned headers.
+- Sortable [table](/uilib/components/table) header buttons now support word-wrap by using `wrap="true"`.
+- [Table](/uilib/components/table) headers now support `small` font-size (`.dnb-table--small`) as well as `right` and `center` aligned headers.
 
 ## New icons
 

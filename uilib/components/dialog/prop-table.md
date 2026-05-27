@@ -1,6 +1,6 @@
 ---
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.532Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.473Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -444,10 +444,15 @@ See the table below:
       ],
       "status": "optional"
     },
-    "triggerAttributes": {
-      "doc": "Send along with custom HTML attributes or properties to the trigger button.",
+    "triggerProps": {
+      "doc": "Props forwarded to the trigger button.",
       "type": "Various",
       "status": "optional"
+    },
+    "triggerAttributes": {
+      "doc": "Deprecated. Use `triggerProps` instead.",
+      "type": "Various",
+      "status": "deprecated"
     },
     "dialogTitle": {
       "doc": "The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.",

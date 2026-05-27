@@ -1,8 +1,8 @@
 ---
 title: 'StepIndicator'
 description: "The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions."
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.007Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.965Z
 checksum: 7094e7f08cf3afc69f190c375d8431006f20b457a07ad2e731e6ad137f4dbe05
 ---
 
@@ -28,7 +28,7 @@ If the user should be able to navigate back and forth, use the `mode="loose"` pr
 
 The current active step is set with the `currentStep` property or within the data with the `isCurrent` object property.
 
-**NB:** Whenever possible, ensure you bind the `currentStep` to the browsers path location. See the [example below](/uilib/components/step-indicator/#stepindicator-with-a-router) or [the example on CodeSandbox](https://codesandbox.io/s/eufemia-step-indicator-with-reach-router-mhu0bh?file=/src/App.tsx).
+**NB:** Whenever possible, ensure you bind the `currentStep` to the browsers path location. See the [example below](/uilib/components/step-indicator/#stepindicator-with-a-router).
 
 ## Modes
 

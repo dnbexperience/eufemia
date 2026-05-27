@@ -1,8 +1,8 @@
 ---
 title: 'Block.ChildrenWithAge'
 description: '`ChildrenWithAge` is a block for displaying children with age.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.636Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.668Z
 checksum: d07dfc0e234b77d0f4b45216dc8ec7fb6262a5240e4b585fc1f61dde8ac01e2b
 ---
 
@@ -26,8 +26,6 @@ All features, and additional questions (`enableAdditionalQuestions`) and custom 
 
 
 ```tsx
-const props = {}
-
 const MyForm = () => {
   const myTranslations = {
     'nb-NO': {
@@ -59,12 +57,12 @@ const MyForm = () => {
   }} translations={myTranslations}>
               <Wizard.Container>
                 <Wizard.Step title="Step 1">
-                  <Blocks.ChildrenWithAge enableAdditionalQuestions={['joint-responsibility', 'daycare']} {...props} />
+                  <Blocks.ChildrenWithAge enableAdditionalQuestions={['joint-responsibility', 'daycare']} />
                   <Wizard.Buttons />
                 </Wizard.Step>
 
                 <Wizard.Step title={summaryTitle}>
-                  <Blocks.ChildrenWithAge mode="summary" toWizardStep={0} {...props} />
+                  <Blocks.ChildrenWithAge mode="summary" toWizardStep={0} />
 
                   <Form.ButtonRow>
                     <Wizard.Buttons />

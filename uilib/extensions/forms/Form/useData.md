@@ -1,8 +1,8 @@
 ---
 title: 'Form.useData'
 description: '`Form.useData` lets you access or modify your form data outside of the form context within your application.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.354Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.342Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -141,6 +141,7 @@ If you need to update the data, you can use the `update` method.
 It takes a path ([JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer)) and a callback function. The callback function receives the existing value as the first argument, and the second argument is the path itself. The callback function must return the new value.
 
 ```jsx
+import { useEffect } from 'react'
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function Component() {
@@ -160,6 +161,7 @@ function Component() {
 With the `set` method, you can extend the data set. Existing data paths will be overwritten.
 
 ```jsx
+import { useEffect } from 'react'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 const myFormId = 'unique-id' // or a function, object or React Context reference
@@ -235,6 +237,8 @@ It returns the filtered form data.
 **Tip:** Depending on your use case – and instead of `disabled` – you may rather use a `data-*` attribute on your field (e.g. `data-exclude-field`) to filter the field out of the data set.
 
 ```tsx
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
 const filterDataHandler = ({ path, value, data, props, error }) => {
   if (props['data-exclude-field']) {
     return false
@@ -266,6 +270,7 @@ const filterDataHandler = ({ path, value, data, props, error }) => {
 You decide where and when you want to provide the initial `data` to the form. It can be done via the `Form.Handler` component, or via the `Form.useData` Hook or [Form.setData](/uilib/extensions/forms/Form/setData/) method – or even in each Field, with the value property.
 
 ```jsx
+import { useEffect } from 'react'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 
 const myFormId = 'unique-id' // or a function, object or React Context reference

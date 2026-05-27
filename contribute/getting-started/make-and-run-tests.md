@@ -1,7 +1,7 @@
 ---
 title: 'Make and run tests'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.646Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.555Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -48,7 +48,9 @@ yarn test:update
 yarn test:update breadcrumb avatar
 ```
 
-Jest integration tests uses this naming convention: `/__tests__/{ComponentName}.test.tsx`
+Integration tests use this naming convention: `/__tests__/{ComponentName}.test.tsx`
+
+Vitest already loads [@testing-library/jest-dom](https://github.com/testing-library/jest-dom#with-vitest) through `packages/dnb-eufemia/src/core/vitest/setupVitest.ts`, which imports `@testing-library/jest-dom/vitest`. DOM matchers such as `toBeInTheDocument`, `toBeVisible`, and `toHaveTextContent` are therefore available in tests without extra per-test setup.
 
 3. Run visual and end-to-end tests:
 
@@ -238,7 +240,7 @@ You may check out the CI/CLI logs for more details.
 Add a similar code snippet to your tests for watching changes in the SCSS you just created.
 
 ```js
-import { loadScss } from '../../../core/jest/jestSetup'
+import { loadScss } from '../../../core/test-utils/testSetup'
 describe('Button scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

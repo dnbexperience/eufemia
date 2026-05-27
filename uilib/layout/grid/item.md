@@ -1,8 +1,8 @@
 ---
 title: 'Grid.Item'
 description: '`Grid.Item` is a building block for CSS Grid based layouts.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.695Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.717Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -24,7 +24,7 @@ render(<Grid.Item />)
 
 `Grid.Item` is a building block for [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout) based layout of contents and components. Should be used in combination with [Grid.Container](/uilib/layout/grid/container/).
 
-The columns do change based on what [breakpoint](/uilib/usage/layout/media-queries/) the browser is in:
+The columns do change based on what [breakpoint](/uilib/layout/media-queries/) the browser is in:
 
 - 4 columns when `small`
 - 6 columns when `medium`
@@ -56,7 +56,7 @@ Example of spans:
 
 You can also make spans respond to media queries.
 
-For doing so, provide a `span` property with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media size should contain a span, like mentioned above.
+For doing so, provide a `span` property with an object containing [Media Query](/uilib/layout/media-queries/) types. Each media size should contain a span, like mentioned above.
 
 
 ```tsx
@@ -171,7 +171,7 @@ render(<Grid.Container rowGap columnGap columns={12}>
 {
   "props": {
     "span": {
-      "doc": "To place the item on the grid with numbers from 1 to 12 (`columns`). Needs always two values, a so called span (from - to) `span={[1, 6]}`. Accepts also `end` like so `span={[1, \"end\"]}` or `full` like so `span={\"full\"}`. You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object like so like so `span={{ small: [1, 4], medium: [1, 6], large: [1, 12]}}`.",
+      "doc": "To place the item on the grid with numbers from 1 to 12 (`columns`). Needs always two values, a so called span (from - to) `span={[1, 6]}`. Accepts also `end` like so `span={[1, \"end\"]}` or `full` like so `span={\"full\"}`. You can also provide [Media Query](/uilib/layout/media-queries/) types in an object like so like so `span={{ small: [1, 4], medium: [1, 6], large: [1, 12]}}`.",
       "type": [
         "object",
         "array"

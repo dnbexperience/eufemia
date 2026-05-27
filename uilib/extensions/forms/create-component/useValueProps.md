@@ -1,8 +1,8 @@
 ---
 title: 'useValueProps'
 description: 'The `useValueProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.642Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.675Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -94,4 +94,191 @@ render(<Form.Handler data={{
 }}>
             <MyValueComponent label="Amount" path="/myValue" transformIn={value => value * 2} />
           </Form.Handler>);
+```
+
+
+## Parameters
+
+Properties passed to the `useValueProps` hook.
+
+
+```json
+{
+  "props": {
+    "value": {
+      "doc": "Direct value to display. Takes precedence over path-based data from DataContext.",
+      "type": "{valueType}",
+      "status": "optional"
+    },
+    "defaultValue": {
+      "doc": "Default value when no value is available from DataContext or value prop.",
+      "type": "{valueType}",
+      "status": "optional"
+    },
+    "path": {
+      "doc": "JSON Pointer to the data location in DataContext. Links this Value component to its data source.",
+      "type": "string",
+      "status": "optional"
+    },
+    "itemPath": {
+      "doc": "Path relative to the current Iterate element. Used when inside an Iterate context.",
+      "type": "string",
+      "status": "optional"
+    },
+    "label": {
+      "doc": "Label to display with the value. Can be inherited from the associated Field component.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "inheritLabel": {
+      "doc": "When `true`, inherits the label from the Field component at the same path.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "inheritVisibility": {
+      "doc": "When `true`, inherits visibility state from the Field component at the same path.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "transformIn": {
+      "doc": "Transforms the external value before processing. Receives the raw data value.",
+      "type": "(external: Value) => Value",
+      "status": "optional"
+    },
+    "toInput": {
+      "doc": "Transforms the internal value for display (after transformIn).",
+      "type": "(value: Value) => Value",
+      "status": "optional"
+    },
+    "fromExternal": {
+      "doc": "Transforms value when reading from external data sources.",
+      "type": "(value: Value) => Value",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+## Return Values
+
+Properties returned from the `useValueProps` hook (in addition to all input props).
+
+
+```json
+{
+  "props": {
+    "...props": {
+      "doc": "All input props are passed through in the return value.",
+      "type": "object",
+      "status": "required"
+    },
+    "value": {
+      "doc": "The transformed value ready for display, or `undefined` if the associated field is not visible.",
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
+      "status": "optional"
+    },
+    "label": {
+      "doc": "The label to display, either from props or inherited from the associated Field.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    }
+  }
+}
+```
+
+## Parameters
+
+Properties passed to the `useValueProps` hook.
+
+
+```json
+{
+  "props": {
+    "value": {
+      "doc": "Direct value to display. Takes precedence over path-based data from DataContext.",
+      "type": "{valueType}",
+      "status": "optional"
+    },
+    "defaultValue": {
+      "doc": "Default value when no value is available from DataContext or value prop.",
+      "type": "{valueType}",
+      "status": "optional"
+    },
+    "path": {
+      "doc": "JSON Pointer to the data location in DataContext. Links this Value component to its data source.",
+      "type": "string",
+      "status": "optional"
+    },
+    "itemPath": {
+      "doc": "Path relative to the current Iterate element. Used when inside an Iterate context.",
+      "type": "string",
+      "status": "optional"
+    },
+    "label": {
+      "doc": "Label to display with the value. Can be inherited from the associated Field component.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "inheritLabel": {
+      "doc": "When `true`, inherits the label from the Field component at the same path.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "inheritVisibility": {
+      "doc": "When `true`, inherits visibility state from the Field component at the same path.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "transformIn": {
+      "doc": "Transforms the external value before processing. Receives the raw data value.",
+      "type": "(external: Value) => Value",
+      "status": "optional"
+    },
+    "toInput": {
+      "doc": "Transforms the internal value for display (after transformIn).",
+      "type": "(value: Value) => Value",
+      "status": "optional"
+    },
+    "fromExternal": {
+      "doc": "Transforms value when reading from external data sources.",
+      "type": "(value: Value) => Value",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+## Return Values
+
+Properties returned from the `useValueProps` hook (in addition to all input props).
+
+
+```json
+{
+  "props": {
+    "...props": {
+      "doc": "All input props are passed through in the return value.",
+      "type": "object",
+      "status": "required"
+    },
+    "value": {
+      "doc": "The transformed value ready for display, or `undefined` if the associated field is not visible.",
+      "type": [
+        "{valueType}",
+        "undefined"
+      ],
+      "status": "optional"
+    },
+    "label": {
+      "doc": "The label to display, either from props or inherited from the associated Field.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    }
+  }
+}
 ```

@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
-description: 'A ready to use DNB number formatter.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:41.707Z
+description: 'A ready-to-use DNB number formatter.'
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:02.669Z
 checksum: 87a61c9318dc3fae366890f0d7cdbfb0a19ea0463fd4d7c1c87b54848f81d727
 ---
 
@@ -310,7 +310,7 @@ When using spaces as thousand separators, screen readers misinterpret numbers in
 If you run the component or `format` function in [Node.js](https://nodejs.org), you have to include [ICU](https://nodejs.org/api/intl.html) data in order to display other locales than en-GB. You can do this by:
 
 - installing `npm i full-icu`
-- and call node (or jest) with an environment variable pointing to the package: `NODE_ICU_DATA=./node_modules/full-icu node ...`
+- and call node with an environment variable pointing to the package: `NODE_ICU_DATA=./node_modules/full-icu node ...`
 - after a Node.js version upgrade you may have to run `npm rebuild`
 
 ## Known issues

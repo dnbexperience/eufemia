@@ -1,8 +1,8 @@
 ---
 title: 'Contribution Guide'
 description: 'Project overview, development guides, conventions, etc.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:40.658Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:01.564Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -113,7 +113,7 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
 
 [Jira Issue Tracking](https://dnb-asa.atlassian.net/jira/software/c/projects/EDS/summary) or [GitHub Issue Tracking](https://github.com/dnbexperience/eufemia/issues): Where you can report or find new issues
 
-[Starter Templates](https://eufemia.dnb.no/issue/): For quickly reproducing issues when reporting bugs (StackBlitz or CodeSandbox).
+[Starter Templates](https://eufemia.dnb.no/issue/): For quickly reproducing issues when reporting bugs.
 
 ### People of Eufemia
 

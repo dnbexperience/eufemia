@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Item'
 description: '`Flex.Item` is a building block for flexbox based layout of contents and components.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.691Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.714Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -60,7 +60,7 @@ render(<Flex.Container>
 
 You can also make spans respond to media queries.
 
-For doing so, provide a `span` property with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media span should contain number, like mentioned above.
+For doing so, provide a `span` property with an object containing [Media Query](/uilib/layout/media-queries/) types. Each media span should contain a number, like mentioned above.
 
 
 ```tsx
@@ -214,7 +214,7 @@ render(<CustomMediaQuery>
       "status": "optional"
     },
     "span": {
-      "doc": "To set the span (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/uilib/usage/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).",
+      "doc": "To set the span (parts) in percentage with numbers from 1 to 12 (`sizeCount`). You can also provide [Media Query](/uilib/layout/media-queries/) types in an object. You can also use the value `auto` to disable it on a specific screen size. Wrap your Flex.Items inside a [Flex.Container](/uilib/layout/flex/container).",
       "type": [
         "number",
         "object"

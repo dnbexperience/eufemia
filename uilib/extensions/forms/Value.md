@@ -1,8 +1,8 @@
 ---
 title: 'Value'
 description: '`Value` components can be used to summarize any kind of data.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.589Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.622Z
 checksum: b2ecc44d2cc1db801473a71343d8c8dcb808ca993f84e124db4a6a81c0abab80
 ---
 
@@ -154,6 +154,10 @@ And by using the [Value.Provider](/uilib/extensions/forms/Value/Provider/), you 
 
 `Value.ArraySelection` is a wrapper component for displaying string values, with user experience tailored for an array of selected values.
 
+## [Value.MultiSelection](/uilib/extensions/forms/Value/MultiSelection/)
+
+`Value.MultiSelection` displays the selected values from a `Field.MultiSelection` as a formatted list of titles.
+
 ## [Value.Provider](/uilib/extensions/forms/Value/Provider/)
 
 The `Value.Provider` lets you pass generic properties to all nested Value.* components.
@@ -217,6 +221,10 @@ The `Value.Provider` lets you pass generic properties to all nested Value.* comp
 ## [Value.PostalCodeAndCity](/uilib/extensions/forms/Value/PostalCodeAndCity/)
 
 `Value.PostalCodeAndCity` is a wrapper component for displaying string values, with user experience tailored for Norwegian postal code and city values.
+
+## [Value.Time](/uilib/extensions/forms/Value/Time/)
+
+`Value.Time` is a wrapper component for displaying string values, with user experience tailored for time values.
 
 ## [Value.Upload](/uilib/extensions/forms/Value/Upload/)
 

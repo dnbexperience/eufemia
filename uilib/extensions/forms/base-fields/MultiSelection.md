@@ -1,8 +1,8 @@
 ---
 title: 'Field.MultiSelection'
 description: '`Field.MultiSelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options. This field accepts structured data with objects containing `value` and `title` properties.'
-version: 11.3.0
-generatedAt: 2026-05-19T08:44:42.621Z
+version: 12.0.0
+generatedAt: 2026-05-27T08:23:03.655Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,8 @@ render(<Field.MultiSelection />)
 ## Description
 
 `Field.MultiSelection` is a component for selecting multiple items from a fixed set with a confirmation flow. The selection interface appears in a popover overlay, keeping your form layout clean.
+
+There is a corresponding [Value.MultiSelection](/uilib/extensions/forms/Value/MultiSelection) component.
 
 This is ideal when users need to:
 
