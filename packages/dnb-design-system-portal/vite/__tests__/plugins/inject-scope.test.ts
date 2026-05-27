@@ -83,6 +83,22 @@ describe('extractScopeIdentifiers', () => {
     expect(result).not.toContain('Section')
   })
 
+  it('does not treat apostrophes in JSX text as string delimiters', () => {
+    const result = extractScopeIdentifiers(
+      `<Flex.Vertical>
+  <Form.MainHeading>I'm left aligned</Form.MainHeading>
+  <Card stack outset>
+    <P>Card content</P>
+  </Card>
+  <Form.SubmitButton text="I'm also left aligned" />
+</Flex.Vertical>`
+    )
+    expect(result).toContain('Flex')
+    expect(result).toContain('Form')
+    expect(result).toContain('Card')
+    expect(result).toContain('P')
+  })
+
   it('ignores identifiers inside comments', () => {
     const result = extractScopeIdentifiers(
       '// Use Section here\n<Button />'

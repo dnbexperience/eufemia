@@ -194,8 +194,11 @@ export function extractScopeIdentifiers(code: string): string[] {
   // Strip comments and string literals in a single pass so that
   // sequences like // inside a string (e.g. "https://...") are consumed
   // by the string pattern first and never treated as line comments.
+  // The single-quote pattern requires a non-word char before the opening
+  // quote so that apostrophes in JSX text (e.g. "I'm") are not treated
+  // as string delimiters.
   const cleaned = code.replace(
-    /'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|\/\*[\s\S]*?\*\/|\/\/.*$/gm,
+    /(?<!\w)'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|\/\*[\s\S]*?\*\/|\/\/.*$/gm,
     (match) => {
       if (match[0] === "'" || match[0] === '"') return '""'
       return '' // comment
