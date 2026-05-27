@@ -76,11 +76,10 @@ jobs:
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
       - name: Install Playwright browsers
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
+        run: yarn workspace dnb-design-system-portal playwright install firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Install Playwright dependencies
         run: yarn workspace dnb-design-system-portal playwright install-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci
