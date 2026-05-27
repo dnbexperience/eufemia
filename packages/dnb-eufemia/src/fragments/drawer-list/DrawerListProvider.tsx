@@ -125,7 +125,6 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     ) => void
     selectedItem?: string | number
     activeItem?: string | number
-    showFocusRing?: boolean
     skipPortal?: boolean
     addObservers?: () => void
     removeObservers?: () => void
@@ -1394,10 +1393,8 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
       if (ulElem === _refUl.current) {
         mergeState({
-          showFocusRing: true,
           activeItem,
         })
-
         _refUl.current.focus({ preventScroll: true })
         dispatchCustomElementEvent(stateRef.current, 'handleDismissFocus')
       }
@@ -1405,7 +1402,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       activeItem > -1 &&
       activeItem !== stateRef.current.activeItem
     ) {
-      mergeState({ showFocusRing: false })
       setActiveItemAndScrollToIt(activeItem, {
         fireSelectEvent: true,
         event: e,

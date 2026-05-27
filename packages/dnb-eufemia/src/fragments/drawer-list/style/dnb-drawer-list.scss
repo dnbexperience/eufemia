@@ -198,17 +198,8 @@
     border: none;
     border-radius: var(--drawer-list-list-border-radius);
 
-    &:focus {
-      @include utilities.focusRing(
-        $color: var(--token-color-stroke-action)
-      );
-    }
-
-    &--focusring {
-      @include utilities.focusRing(
-        'mouse',
-        var(--token-color-stroke-action)
-      );
+    &:focus-visible {
+      outline: none;
     }
 
     &::before {

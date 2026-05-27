@@ -128,23 +128,8 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
   border: none;
   border-radius: var(--drawer-list-list-border-radius);
 }
-.dnb-drawer-list__options:focus {
+.dnb-drawer-list__options:focus-visible {
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
-  --border-color: var(--token-color-stroke-action);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-drawer-list__options--focusring {
-  outline: none;
-}
-html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
-  --border-color: var(--token-color-stroke-action);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
 .dnb-drawer-list__options::before {
   content: "";
@@ -717,23 +702,8 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
   border: none;
   border-radius: var(--drawer-list-list-border-radius);
 }
-.dnb-drawer-list__options:focus {
+.dnb-drawer-list__options:focus-visible {
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-drawer-list__options:focus {
-  --border-color: var(--token-color-stroke-action);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-drawer-list__options--focusring {
-  outline: none;
-}
-html[data-whatinput=mouse] .dnb-drawer-list__options--focusring {
-  --border-color: var(--token-color-stroke-action);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }
 .dnb-drawer-list__options::before {
   content: "";

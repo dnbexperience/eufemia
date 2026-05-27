@@ -84,10 +84,8 @@ describe('DrawerList component', () => {
   }
 
   const isListFocused = () => {
-    const item = document.querySelector(
-      'ul.dnb-drawer-list__options.dnb-drawer-list__options--focusring'
-    )
-    return getFocusedItemIndex() === -1 && item !== null
+    const item = document.querySelector('ul.dnb-drawer-list__options')
+    return getFocusedItemIndex() === -1 && item == document.activeElement
   }
 
   it('has correct state at startup', () => {
@@ -365,7 +363,6 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} value={undefined} data={mockData} />)
 
     expect(getFocusedItemIndex()).toBe(-1)
-    expect(isListFocused()).toBe(false)
 
     keydown('ArrowDown')
 

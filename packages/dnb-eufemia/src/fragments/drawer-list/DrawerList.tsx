@@ -480,7 +480,6 @@ const DrawerListInstance = memo(function DrawerListInstance(
     cacheHash,
     selectedItem,
     activeItem,
-    showFocusRing,
     skipPortal,
     addObservers,
     removeObservers,
@@ -666,7 +665,6 @@ const DrawerListInstance = memo(function DrawerListInstance(
                 maxHeight
               }
               {...ulParams}
-              showFocusRing={showFocusRing}
             >
               <GroupItems />
             </DrawerList.Options>
@@ -763,7 +761,6 @@ function makeRenderData(
 export type DrawerListOptionsProps = HTMLProps<HTMLUListElement> & {
   children: ReactNode
   cacheHash?: string
-  showFocusRing?: boolean
   hasGroups?: boolean
 }
 // DrawerList List
@@ -772,7 +769,6 @@ DrawerList.Options = memo(
     children,
     className,
     cacheHash,
-    showFocusRing = false,
     hasGroups = false,
     ref,
     ...rest
@@ -783,11 +779,7 @@ DrawerList.Options = memo(
       <E
         internalClass={false}
         as={hasGroups ? 'span' : 'ul'}
-        className={clsx(
-          'dnb-drawer-list__options',
-          showFocusRing && 'dnb-drawer-list__options--focusring',
-          className
-        )}
+        className={clsx('dnb-drawer-list__options', className)}
         {...rest}
         ref={ref}
       >
