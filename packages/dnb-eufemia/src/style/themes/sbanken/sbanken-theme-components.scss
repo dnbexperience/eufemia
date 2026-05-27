@@ -17,7 +17,6 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
  * You may want to update it by running "yarn build" locally.
  */
 
-@use '../../../components/accordion/style/themes/dnb-accordion-theme-sbanken.scss';
 @use '../../../components/anchor/style/themes/dnb-anchor-theme-sbanken.scss';
 @use '../../../components/autocomplete/style/themes/dnb-autocomplete-theme-sbanken.scss';
 @use '../../../components/avatar/style/themes/dnb-avatar-theme-sbanken.scss';
