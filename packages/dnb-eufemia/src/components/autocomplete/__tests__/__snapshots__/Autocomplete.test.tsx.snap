@@ -1366,6 +1366,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 }
 .dnb-input--clear.dnb-input__submit-element {
   opacity: 0;
+  pointer-events: none;
   transition: opacity 200ms ease-in-out;
 }
 .dnb-input--clear.dnb-input__submit-element .dnb-button {
@@ -1392,6 +1393,7 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 }
 .dnb-input[data-has-content=true] .dnb-input--clear {
   opacity: 1;
+  pointer-events: auto;
 }
 .dnb-input--has-submit-element .dnb-input--clear.dnb-input__submit-element {
   margin-right: 2.5rem;
