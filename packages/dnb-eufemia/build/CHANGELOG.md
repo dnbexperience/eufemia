@@ -3,6 +3,67 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.4.0](https://github.com/dnbexperience/eufemia/compare/v11.3.0...v11.4.0) (2026-05-27)
+
+### :sparkles: Features
+
+* add `triggerProps` support to DatePicker and Field.Date ([#8179](https://github.com/dnbexperience/eufemia/issues/8179)) ([5e864fe](https://github.com/dnbexperience/eufemia/commit/5e864fefe40880857cbf83ef4d0a6690eccc1a77))
+* **Breadcrumb:** implement new design ([#7997](https://github.com/dnbexperience/eufemia/issues/7997)) ([02e4330](https://github.com/dnbexperience/eufemia/commit/02e4330d8a87317845b5a2eebdf2353d4e5460cc))
+* **Card:** add clickable `Card.Action` and `Card.List` sub-components ([#8233](https://github.com/dnbexperience/eufemia/issues/8233)) ([992e4ae](https://github.com/dnbexperience/eufemia/commit/992e4ae0fea595f42427550e071851b399748b7a))
+* **Field.Number:** add explicit placeholder prop with type and docs ([#8275](https://github.com/dnbexperience/eufemia/issues/8275)) ([c7e4a2a](https://github.com/dnbexperience/eufemia/commit/c7e4a2a7e7105a1361a8e0a3d5aa40b9167f1d8b))
+* **Field.Time:** add `Time` field ([#8079](https://github.com/dnbexperience/eufemia/issues/8079)) ([7499134](https://github.com/dnbexperience/eufemia/commit/74991347ea381e7c3d2d2f83a5b9724db14cedfc))
+* **Forms:** add `Value.MultiSelection` component ([#8176](https://github.com/dnbexperience/eufemia/issues/8176)) ([edcb7a1](https://github.com/dnbexperience/eufemia/commit/edcb7a170a6670ce8d2dc52db65195cbaf4a117b))
+* **Helpers:** add isModifiedClickEvent ([#8145](https://github.com/dnbexperience/eufemia/issues/8145)) ([2c4d1c9](https://github.com/dnbexperience/eufemia/commit/2c4d1c9209aec12c307b2ad3c59d744a41d331be))
+* **Icon:** add `Icon.transition()` for animating between two icons ([#8249](https://github.com/dnbexperience/eufemia/issues/8249)) ([a556039](https://github.com/dnbexperience/eufemia/commit/a5560391cbbf06371b88cf2a85c7c47689b38a12))
+* **Pagination:** add support for `Anchor` as navigation items ([#8062](https://github.com/dnbexperience/eufemia/issues/8062)) ([36302d5](https://github.com/dnbexperience/eufemia/commit/36302d5adb82a8a9fc5325c1d41afa75313ea309))
+* **Table:** add `striped={false}` property to disable zebra striping ([#8221](https://github.com/dnbexperience/eufemia/issues/8221)) ([436ce21](https://github.com/dnbexperience/eufemia/commit/436ce21256376a36184c4f9de59a3ed10f61cd43))
+* **Table:** add support for `border="horizontal"` for horizontal borders only ([#8220](https://github.com/dnbexperience/eufemia/issues/8220)) ([469388e](https://github.com/dnbexperience/eufemia/commit/469388e32b983343eb84154f62c4d92797fc44e5))
+* **Table:** add support for multiple tbody sections and rowgroup styling ([#8206](https://github.com/dnbexperience/eufemia/issues/8206)) ([0b377cc](https://github.com/dnbexperience/eufemia/commit/0b377cc7aaa302344b3a5f6b78f3cb12b8c18300))
+* upgrade @dnb/browserslist-config from 1.2.0 to 1.4.0 ([#8158](https://github.com/dnbexperience/eufemia/issues/8158)) ([db0ac37](https://github.com/dnbexperience/eufemia/commit/db0ac37325ebea14f51b5bbae710451fd4ee43d3))
+
+### :bug: Bug Fixes
+
+* **Accordion:** only focus content when opening tertiary variant ([#8250](https://github.com/dnbexperience/eufemia/issues/8250)) ([86a5bfe](https://github.com/dnbexperience/eufemia/commit/86a5bfe5a46f062bc83972591864ed79f35528b7))
+* **DateFormat:** preserve leading zeros when `hideYear`/`hideCurrentYear` used with `dateStyle="short"` ([#8280](https://github.com/dnbexperience/eufemia/issues/8280)) ([a973106](https://github.com/dnbexperience/eufemia/commit/a9731060aa2e7c0b4d852626dca2f62c05bc982f))
+* **DatePicker:** add hover effect for within-selection days ([#8198](https://github.com/dnbexperience/eufemia/issues/8198)) ([2faee88](https://github.com/dnbexperience/eufemia/commit/2faee88313355827cef89cdc4e14090de72d774f))
+* **DatePicker:** improve keyboard navigation in calendar ([#8232](https://github.com/dnbexperience/eufemia/issues/8232)) ([d6ce0dd](https://github.com/dnbexperience/eufemia/commit/d6ce0ddaa2f0c45f2e5576c92b620de7d286459e))
+* **DatePicker:** show picker view outline ([#8199](https://github.com/dnbexperience/eufemia/issues/8199)) ([ba4931f](https://github.com/dnbexperience/eufemia/commit/ba4931fc8fc8b9b578de6e70eca611254496e706))
+* **Forms:** ensure `PushContainer` empties InputMasked fields on reopen ([#8228](https://github.com/dnbexperience/eufemia/issues/8228)) ([f8cd1ff](https://github.com/dnbexperience/eufemia/commit/f8cd1ff764ce301dde8476135c0b6c40a28318c6))
+* **Input:** allow clicks through hidden clear button area ([#8278](https://github.com/dnbexperience/eufemia/issues/8278)) ([610dcab](https://github.com/dnbexperience/eufemia/commit/610dcabd882a7fd5dd5a0b595769e480948241bf))
+* **MCP:** stamp Eufemia version in serverInfo and docs_entry ([#8173](https://github.com/dnbexperience/eufemia/issues/8173)) ([a0113a0](https://github.com/dnbexperience/eufemia/commit/a0113a094e811cec964c8229e95651760a4ff79d))
+* **PhoneNumber, PostalCodeAndCity:** remove placeholders from `PhoneNumber` and postal code ([#8223](https://github.com/dnbexperience/eufemia/issues/8223)) ([1b7dc8f](https://github.com/dnbexperience/eufemia/commit/1b7dc8f515b2875d9697c171d422d23c4236bab3))
+* prevent xmlns specificity boost from overriding text-align modifiers ([#8268](https://github.com/dnbexperience/eufemia/issues/8268)) ([a7c8e01](https://github.com/dnbexperience/eufemia/commit/a7c8e0109b11f09bfdba7f2a74f7d81f026a5752))
+* remove unused getComponents, getFragments, getElements, and formsExports ([#8247](https://github.com/dnbexperience/eufemia/issues/8247)) ([8e1b7ee](https://github.com/dnbexperience/eufemia/commit/8e1b7ee43341a51323c6a027cfb3a1046994b50c))
+* **Table:** hide sort icon on hover after cycling back to unsorted state ([#8252](https://github.com/dnbexperience/eufemia/issues/8252)) ([cc87589](https://github.com/dnbexperience/eufemia/commit/cc87589ac63d0ef158309774ae5827c1ce877ec9))
+* **Table:** use stable totalCount state for isLast instead of mutable ref ([#8253](https://github.com/dnbexperience/eufemia/issues/8253)) ([9ba8162](https://github.com/dnbexperience/eufemia/commit/9ba8162f01f2d5094859983caa77b1cb3b19be0a))
+* **ToggleButton:** fix checked border width and make toggle state visible when focused ([#8149](https://github.com/dnbexperience/eufemia/issues/8149)) ([ad1cccf](https://github.com/dnbexperience/eufemia/commit/ad1cccf1729ee74455a269847edec774ab316998))
+* **Tooltip:** reposition when children content changes ([#8165](https://github.com/dnbexperience/eufemia/issues/8165)) ([02a6a17](https://github.com/dnbexperience/eufemia/commit/02a6a17fc049ce38ef9b82be2241a41041787a26))
+* **Tooltip:** tooltip used wrong radius ([#8148](https://github.com/dnbexperience/eufemia/issues/8148)) ([24c043c](https://github.com/dnbexperience/eufemia/commit/24c043c1035f87c116de6d6080546212149a73ec))
+* use CSS variable chain for primary button color in xmlns reset ([#8269](https://github.com/dnbexperience/eufemia/issues/8269)) ([186e364](https://github.com/dnbexperience/eufemia/commit/186e364b1a9f71046c9d208b3a00e8042b18b08c))
+
+### :memo: Documentation
+
+* **Forms:** add properties tabs for hook documentation  ([#8156](https://github.com/dnbexperience/eufemia/issues/8156)) ([04eab52](https://github.com/dnbexperience/eufemia/commit/04eab52a3a95887a45e16dca90432d93d385413a))
+* **Portal:** add open in StackBlitz documentation ([#8196](https://github.com/dnbexperience/eufemia/issues/8196)) ([f1cf4a5](https://github.com/dnbexperience/eufemia/commit/f1cf4a530306f3a84164b0ffd224b9f7a76bfe2d))
+* **ProgressIndicator:** improve documentation ([#8261](https://github.com/dnbexperience/eufemia/issues/8261)) ([08eac1e](https://github.com/dnbexperience/eufemia/commit/08eac1e231bda3bcad2b4d4255a50cc520dad3ed))
+* **Table:** document aria-label for highlighted cells ([#8171](https://github.com/dnbexperience/eufemia/issues/8171)) ([af25709](https://github.com/dnbexperience/eufemia/commit/af2570934db454b48919eb286854de1fa7345675))
+
+### :barber: Style Changes
+
+* **Button:** replace `tertiary` variant pseudo underline with text-decoration ([#8241](https://github.com/dnbexperience/eufemia/issues/8241)) ([f36115f](https://github.com/dnbexperience/eufemia/commit/f36115f64306bff47a65d6acd8aaa03f4386c7ed))
+* **Card:** use basis font size for card title ([#8234](https://github.com/dnbexperience/eufemia/issues/8234)) ([da8eb81](https://github.com/dnbexperience/eufemia/commit/da8eb8194e1b5d455ff2a22f47949137714a12f1))
+
+### :art: Design Changes
+
+* **Table:** sort button: use text color token for default state (black) ([#8237](https://github.com/dnbexperience/eufemia/issues/8237)) ([8977a8d](https://github.com/dnbexperience/eufemia/commit/8977a8d05f8c2dd0ce5e56dea59770d08ba5420c))
+* **Table:** use new row color and outline xl corner radius ([#8208](https://github.com/dnbexperience/eufemia/issues/8208)) ([765d9c3](https://github.com/dnbexperience/eufemia/commit/765d9c30fd6ffdd2c4625bb026f4c67653b6f011)), closes [#8206](https://github.com/dnbexperience/eufemia/issues/8206)
+
+### :zap: Refactoring
+
+* **InfoCard:** add `acceptButtonProps` and deprecate `acceptButtonAttributes` ([#8189](https://github.com/dnbexperience/eufemia/issues/8189)) ([ee6da7b](https://github.com/dnbexperience/eufemia/commit/ee6da7bfe9fdc5d7a2bd788579eca23efc240dc7))
+* **Modal, Dialog, Drawer, Popover:** add `triggerProps` and deprecate `triggerAttributes` ([#8181](https://github.com/dnbexperience/eufemia/issues/8181)) ([17851b9](https://github.com/dnbexperience/eufemia/commit/17851b9de82148f34ecdaaea85e06b1019fb444a))
+* **Modal, Drawer, InfoCard:** add `closeButtonProps` and deprecate `closeButtonAttributes` ([#8190](https://github.com/dnbexperience/eufemia/issues/8190)) ([b62dd0e](https://github.com/dnbexperience/eufemia/commit/b62dd0e9acc5f538e6e84e817c980abce3b2ec18))
+
 ## [11.3.0](https://github.com/dnbexperience/eufemia/compare/v11.2.2...v11.3.0) (2026-05-19)
 
 
