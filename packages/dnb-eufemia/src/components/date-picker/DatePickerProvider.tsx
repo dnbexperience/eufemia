@@ -118,6 +118,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     startMonth: dates.startMonth,
     endMonth: dates.endMonth,
     isRange: range,
+    rangeDualCalendar: props.rangeDualCalendar,
   })
 
   const [lastEventCallCache, setLastEventCallCache] =

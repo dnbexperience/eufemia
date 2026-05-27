@@ -60,6 +60,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  rangeDualCalendar: {
+    doc: 'If set to `false`, only one calendar is shown in range mode instead of two side-by-side calendars. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   showInput: {
     doc: 'If the input fields with the mask should be visible. Defaults to `false`.',
     type: 'boolean',
