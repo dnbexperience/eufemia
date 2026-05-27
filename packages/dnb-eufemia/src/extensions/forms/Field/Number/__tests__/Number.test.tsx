@@ -2196,31 +2196,67 @@ describe('Field.Number', () => {
   })
 
   describe('safe integer prevention', () => {
-    it('should reject pasted value beyond MAX_SAFE_INTEGER', async () => {
+    it('should show error when typing beyond MAX_SAFE_INTEGER', async () => {
       render(<Field.Number />)
       const input = document.querySelector('input')
 
-      input.focus()
-      const getData = vi.fn(() => String(Number.MAX_SAFE_INTEGER + 1))
-      const clipboardData = { getData }
-      fireEvent.paste(input, { clipboardData })
-      // Simulate the input event that follows paste with the new value
-      fireEvent.input(input, {
-        inputType: 'insertFromPaste',
-        target: { value: String(Number.MAX_SAFE_INTEGER + 1) },
-      })
+      // Try to type a value that exceeds MAX_SAFE_INTEGER
+      await userEvent.type(input, '9007199254740992') // MAX_SAFE_INTEGER + 1
+
+      // The last digit is rejected, value stays at previous valid value
+      expect(input).toHaveValue('900 719 925 474 099')
+
+      // Error should be shown since the mask rejected the digit
+      const statusElement = document.querySelector('.dnb-form-status')
+      expect(statusElement).toBeInTheDocument()
+      const expectedText = nb.NumberField.errorMaximum.replace(
+        '{maximum}',
+        '9\u00A0007\u00A0199\u00A0254\u00A0740\u00A0991'
+      )
+      expect(statusElement.textContent).toContain(expectedText)
+    })
+
+    it('should clear error when user types a valid value', async () => {
+      render(<Field.Number />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '9007199254740992')
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+
+      // Clear the field and type a valid value — the error should clear
+      await userEvent.clear(input)
+      await userEvent.type(input, '5')
 
       await waitFor(() => {
-        // The mask rejects the pasted value that exceeds MAX_SAFE_INTEGER
-        expect(input).toHaveValue('9 007 199 254 740 991')
-
-        // No error should be shown since the mask prevented the invalid value
-        const statusElement = document.querySelector('.dnb-form-status')
-        expect(statusElement).not.toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
       })
     })
 
-    it('should prevent typing beyond MAX_SAFE_INTEGER after pasting safe value', async () => {
+    it('should clear error on blur', async () => {
+      render(<Field.Number />)
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '9007199254740992')
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+    })
+
+    it('should show error when typing beyond MAX_SAFE_INTEGER after pasting safe value', async () => {
       render(<Field.Number />)
       const input = document.querySelector('input')
 
@@ -2246,13 +2282,13 @@ describe('Field.Number', () => {
       // The digit is rejected, value stays at the previous valid value
       expect(input).toHaveValue('900 719 925 474 099')
 
-      // No error should be shown
+      // Error should be shown since the mask rejected the digit
       expect(
         document.querySelector('.dnb-form-status')
-      ).not.toBeInTheDocument()
+      ).toBeInTheDocument()
     })
 
-    it('should prevent typing beyond MIN_SAFE_INTEGER', async () => {
+    it('should show error when typing beyond MIN_SAFE_INTEGER', async () => {
       render(<Field.Number />)
       const input = document.querySelector('input')
 
@@ -2262,13 +2298,17 @@ describe('Field.Number', () => {
       // The last digit is rejected, value stays at previous valid value
       expect(input).toHaveValue('-900 719 925 474 099')
 
-      // No error should be shown since the mask rejected the digit
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).not.toBeInTheDocument()
+      // Error should be shown since the mask rejected the digit
+      const statusElement = document.querySelector('.dnb-form-status')
+      expect(statusElement).toBeInTheDocument()
+      const expectedText = nb.NumberField.errorMinimum.replace(
+        '{minimum}',
+        '-9\u00A0007\u00A0199\u00A0254\u00A0740\u00A0991'
+      )
+      expect(statusElement.textContent).toContain(expectedText)
     })
 
-    it('should prevent typing beyond MIN_SAFE_INTEGER when minimum is set', async () => {
+    it('should show validation error on blur when minimum is set', async () => {
       const minimum = 10
       render(<Field.Number minimum={minimum} />)
       const input = document.querySelector('input')
@@ -2279,8 +2319,8 @@ describe('Field.Number', () => {
       // The last digit is rejected, value stays at previous valid value
       expect(input).toHaveValue('-900 719 925 474 099')
 
-      // On blur, the minimum validation should still fire since
-      // the value (-900719925474099) is below minimum (10)
+      // On blur, the limit error clears and the minimum validation
+      // fires since the value (-900719925474099) is below minimum (10)
       fireEvent.blur(input)
 
       await waitFor(() => {
@@ -2349,23 +2389,7 @@ describe('Field.Number', () => {
       expect(output).toHaveTextContent('false')
     })
 
-    it('should prevent typing beyond MAX_SAFE_INTEGER', async () => {
-      render(<Field.Number />)
-      const input = document.querySelector('input')
-
-      // Try to type a value that exceeds MAX_SAFE_INTEGER
-      await userEvent.type(input, '9007199254740992') // MAX_SAFE_INTEGER + 1
-
-      // The last digit is rejected, value stays at previous valid value
-      expect(input).toHaveValue('900 719 925 474 099')
-
-      // No error should appear since the mask rejected the digit
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).not.toBeInTheDocument()
-    })
-
-    it('should prevent typing beyond MAX_SAFE_INTEGER when providing maximum beyond safe range', async () => {
+    it('should show error when typing beyond MAX_SAFE_INTEGER when providing maximum beyond safe range', async () => {
       render(<Field.Number maximum={9007199254740992} />)
       const input = document.querySelector('input')
 
@@ -2375,13 +2399,13 @@ describe('Field.Number', () => {
       // The last digit is rejected, value stays at previous valid value
       expect(input).toHaveValue('900 719 925 474 099')
 
-      // No error should appear since the mask rejected the digit
+      // Error should be shown since the mask rejected the digit
       expect(
         document.querySelector('.dnb-form-status')
-      ).not.toBeInTheDocument()
+      ).toBeInTheDocument()
     })
 
-    it('should prevent typing beyond MAX_SAFE_INTEGER when maximum prop is small', async () => {
+    it('should show validation error on blur when maximum prop is small', async () => {
       const maximum = 10
       render(<Field.Number maximum={maximum} />)
       const input = document.querySelector('input')
@@ -2392,8 +2416,8 @@ describe('Field.Number', () => {
       // The last digit is rejected, value stays at previous valid value
       expect(input).toHaveValue('900 719 925 474 099')
 
-      // On blur, the maximum validation should still fire since
-      // the value (900719925474099) is above maximum (10)
+      // On blur, the limit error clears and the maximum validation
+      // fires since the value (900719925474099) is above maximum (10)
       fireEvent.blur(input)
 
       await waitFor(() => {
