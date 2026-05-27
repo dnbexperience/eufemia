@@ -9,7 +9,7 @@ import {
   subYears,
 } from 'date-fns'
 import type { DatePickerCalendarNavigationEvent } from './DatePickerCalendar'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Button from '../Button'
 import { useTranslation } from '../../shared'
 import DatePickerContext from './DatePickerContext'

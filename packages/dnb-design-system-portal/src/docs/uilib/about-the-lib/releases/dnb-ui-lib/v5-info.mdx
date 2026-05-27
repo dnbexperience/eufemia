@@ -2,8 +2,6 @@
 title: 'v5.0'
 description: 'October, 30. 2019'
 order: -5
-redirect_from:
-  - /uilib/about-the-lib/releases/v5-info
 ---
 
 # v5
@@ -21,7 +19,7 @@ redirect_from:
 
 v5 contains a couple of breaking changes. As a migration process, you can simply search your application for:
 
-- find `save_alt_01` and replace if with `save`
+- find `save_alt_01` and replace it with `save`
 - find `--color-cherry-red` or `--color-cherry-red-8` and replace it with `--color-fire-red` and `--color-fire-red-8`
 - find `dnb-ui-lib-icons.min.js` and replace it with `dnb-ui-icons.min.js`
 
@@ -32,7 +30,7 @@ Soon we will have our own _DNB font_. This will have impact on both, `font-famil
 To get prepared for these changes, you can today already (since `v4.24`) use the now exposed properties for both:
 
 - [font-size](/uilib/typography/font-size)
-- [line-heigh](/uilib/typography/line-height)
+- [line-height](/uilib/typography/line-height)
 
 From before we had [font-weight](/uilib/typography/font-weight).
 
@@ -52,17 +50,17 @@ import properties from 'dnb-ui-lib/style/properties
 
 ## Number component
 
-The new [Number component](/uilib/components/number) is a ready to use DNB number formatter. Use it where over you have to display a number, a currency value, phone number, etc.
+The new [Number component](/uilib/components/number-format) is a ready-to-use DNB number formatter. Use it wherever you have to display a number, a currency value, phone number, etc.
 
-Good reasons for why we have this is to:
+Good reasons for why we have this are to:
 
-- uniform the formation of numbers for all DNB applications.
+- standardize the formatting of numbers for all DNB applications.
 - and make numbers accessible to screen readers.
 
 ## Color changes
 
-- _Cherry Red_ will got replaced by _Fire Red_.
-- _Cherry Red 8%_ will got replaced by _Fire Red 8%_.
+- _Cherry Red_ will be replaced by _Fire Red_.
+- _Cherry Red 8%_ will be replaced by _Fire Red 8%_.
 
 You may check your application code and **replace** `cherry-red` with `fire-red`.
 
@@ -93,7 +91,7 @@ The `dnb-ui-lib` uses now `ESM` as the default module format. But every componen
 
 ### Do I have to make changes?
 
-**Mostly likely no**. The majority of applications / projects does not to have to make changes.
+**Most likely no**. The majority of applications / projects does not have to make changes.
 
 If you are in **Node.js** (SSR) land, [read more about CJS](/uilib/usage/first-steps/module-formats#commonjs-cjs).
 

@@ -10,7 +10,11 @@ import {
   getOutputPath,
 } from '../../prod/prerender-utils'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
-import type { RouteEntry, SSRManifest } from '../../prod/prerender-utils'
+import type {
+  RouteEntry,
+  SSRManifest,
+  ClientManifest,
+} from '../../prod/prerender-utils'
 
 describe('prerender-utils', () => {
   describe('collectUrls', () => {
@@ -74,6 +78,31 @@ describe('prerender-utils', () => {
       const routes: RouteEntry[] = [{ path: '/' }]
       const urls = collectUrls(routes)
       expect(urls).toEqual(['/'])
+    })
+
+    it('collects nested child routes', () => {
+      const routes: RouteEntry[] = [
+        {
+          path: '/quickguide-designer',
+          children: [
+            { path: '/quickguide-designer/fonts' },
+            {
+              path: '/quickguide-designer/colors',
+              children: [{ path: '/quickguide-designer/colors/tables' }],
+            },
+          ],
+        },
+      ]
+
+      const urls = collectUrls(routes)
+
+      expect(urls).toEqual([
+        '/',
+        '/quickguide-designer/',
+        '/quickguide-designer/fonts/',
+        '/quickguide-designer/colors/',
+        '/quickguide-designer/colors/tables/',
+      ])
     })
   })
 
@@ -240,6 +269,135 @@ describe('prerender-utils', () => {
         manifest
       )
       expect(preloads.js).toEqual(['/assets/button-abc123.js'])
+    })
+
+    it('collects transitive CSS from client manifest imports', () => {
+      const ssrManifest: SSRManifest = {
+        '../../src/docs/index.tsx': ['/assets/docs-abc.js'],
+      }
+      const clientManifest: ClientManifest = {
+        '../../src/docs/index.tsx': {
+          file: 'assets/docs-abc.js',
+          imports: ['_Card-chunk.js'],
+        },
+        '_Card-chunk.js': {
+          file: 'assets/Card-chunk.js',
+          css: ['assets/Card-styles.css'],
+        },
+      }
+
+      const preloads = getRoutePreloads('/', ssrManifest, clientManifest)
+      expect(preloads.css).toContain('/assets/Card-styles.css')
+    })
+
+    it('collects CSS through multiple levels of imports', () => {
+      const ssrManifest: SSRManifest = {
+        '../../src/docs/index.tsx': ['/assets/docs-abc.js'],
+      }
+      const clientManifest: ClientManifest = {
+        '../../src/docs/index.tsx': {
+          file: 'assets/docs-abc.js',
+          imports: ['_MenuWrapper.js'],
+        },
+        '_MenuWrapper.js': {
+          file: 'assets/MenuWrapper.js',
+          imports: ['_Card.js'],
+        },
+        '_Card.js': {
+          file: 'assets/Card.js',
+          css: ['assets/Card.css'],
+        },
+      }
+
+      const preloads = getRoutePreloads('/', ssrManifest, clientManifest)
+      expect(preloads.css).toContain('/assets/Card.css')
+    })
+
+    it('skips the index.html entry point to avoid duplicating template CSS', () => {
+      const ssrManifest: SSRManifest = {
+        '../../src/docs/index.tsx': ['/assets/docs-abc.js'],
+      }
+      const clientManifest: ClientManifest = {
+        '../../src/docs/index.tsx': {
+          file: 'assets/docs-abc.js',
+          imports: ['index.html', '_Card.js'],
+        },
+        'index.html': {
+          file: 'assets/index-entry.js',
+          css: ['assets/index-entry.css'],
+        },
+        '_Card.js': {
+          file: 'assets/Card.js',
+          css: ['assets/Card.css'],
+        },
+      }
+
+      const preloads = getRoutePreloads('/', ssrManifest, clientManifest)
+      expect(preloads.css).toContain('/assets/Card.css')
+      expect(preloads.css).not.toContain('/assets/index-entry.css')
+    })
+
+    it('does not loop on circular imports', () => {
+      const ssrManifest: SSRManifest = {
+        '../../src/docs/index.tsx': ['/assets/docs-abc.js'],
+      }
+      const clientManifest: ClientManifest = {
+        '../../src/docs/index.tsx': {
+          file: 'assets/docs-abc.js',
+          imports: ['_A.js'],
+        },
+        '_A.js': {
+          file: 'assets/A.js',
+          imports: ['_B.js'],
+          css: ['assets/A.css'],
+        },
+        '_B.js': {
+          file: 'assets/B.js',
+          imports: ['_A.js'],
+          css: ['assets/B.css'],
+        },
+      }
+
+      const preloads = getRoutePreloads('/', ssrManifest, clientManifest)
+      expect(preloads.css).toContain('/assets/A.css')
+      expect(preloads.css).toContain('/assets/B.css')
+    })
+
+    it('works without a client manifest (backwards compatible)', () => {
+      const preloads = getRoutePreloads('/', manifest)
+      expect(preloads.js).toEqual(['/assets/index-xyz789.js'])
+      expect(preloads.css).toEqual(['/assets/index-abc.css'])
+    })
+
+    it('works with null client manifest', () => {
+      const preloads = getRoutePreloads('/', manifest, null)
+      expect(preloads.js).toEqual(['/assets/index-xyz789.js'])
+      expect(preloads.css).toEqual(['/assets/index-abc.css'])
+    })
+
+    it('deduplicates CSS found via both SSR and client manifests', () => {
+      const ssrManifest: SSRManifest = {
+        '../../src/docs/index.tsx': [
+          '/assets/docs-abc.js',
+          '/assets/shared.css',
+        ],
+      }
+      const clientManifest: ClientManifest = {
+        '../../src/docs/index.tsx': {
+          file: 'assets/docs-abc.js',
+          imports: ['_Chunk.js'],
+        },
+        '_Chunk.js': {
+          file: 'assets/Chunk.js',
+          css: ['assets/shared.css'],
+        },
+      }
+
+      const preloads = getRoutePreloads('/', ssrManifest, clientManifest)
+      const cssCount = preloads.css.filter(
+        (c) => c === '/assets/shared.css'
+      ).length
+      expect(cssCount).toBe(1)
     })
   })
 

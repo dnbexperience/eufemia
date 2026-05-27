@@ -22,7 +22,16 @@ import {
   Space,
   ToggleButton,
 } from '@dnb/eufemia/src/components'
-import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
+import {
+  copy as copyIcon,
+  check as checkIcon,
+  fullscreen as focusModeIcon,
+  close as focusModeCloseIcon,
+  fullscreen as focusModePaddingIcon,
+  layout_grid as focusModeCompactIcon,
+  launch as launchIcon,
+} from '@dnb/eufemia/src/icons'
+import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
@@ -31,11 +40,13 @@ import type {
 
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { useFullscreenCode } from '../../core/FullscreenCodeContext'
+import { useFocusModeCode } from '../../core/FocusModeCodeContext'
 import {
   liveCodeEditorStyle,
   exampleBoxStyle,
   codeBlockStyle,
+  copyButtonStyle,
+  showFocusModePaddingStyle,
   toolbarStyle,
 } from './CodeBlock.module.scss'
 import {
@@ -43,11 +54,13 @@ import {
   LiveEditor,
   LiveError,
   LivePreview,
+  LiveContext,
 } from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
 
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
+import { openInStackBlitz } from './openInStackBlitz'
 
 // Import other languages not included in the default bundle of prism-react-renderer
 import './prismLanguages'
@@ -68,11 +81,13 @@ export type CodeSectionProps = {
   background?: 'grid' | 'plain'
   omitWrapper?: boolean
   children: string | ReactNode | (() => ReactNode)
-  tabMode?: 'focus' | 'indentation'
   'data-visual-test'?: string
 
   /** Injected by the babel transform — enclosing export name, stable across HMR. */
   stableName?: string
+
+  /** Injected by the babel transform — original import statements from the Examples file. */
+  sourceImports?: string[]
 }
 
 const CodeBlock = ({
@@ -115,6 +130,11 @@ const CodeBlock = ({
               createSkeletonClass('code', context.skeleton)
             )}
           >
+            <CopyCodeButton
+              code={String(exampleCode)}
+              className={copyButtonStyle}
+            />
+
             <Tag as="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => {
                 const { key, ...lineProps } = getLineProps({
@@ -143,6 +163,59 @@ const CodeBlock = ({
 
 export default CodeBlock
 
+/**
+ * Hook for copy-to-clipboard functionality with feedback state.
+ * Handles the copied state, timeout cleanup, and async clipboard operation.
+ */
+function useCopyToClipboard(code: string) {
+  const [copied, setCopied] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  const handleCopy = useCallback(async () => {
+    const success = await copyToClipboard(code)
+    if (success) {
+      setCopied(true)
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = setTimeout(() => setCopied(false), 2000)
+    }
+  }, [code])
+
+  useEffect(() => {
+    return () => clearTimeout(timeoutRef.current)
+  }, [])
+
+  return { copied, handleCopy }
+}
+
+type CopyCodeButtonProps = {
+  code: string
+  className?: string
+  variant?: 'tertiary'
+}
+
+/**
+ * Reusable copy-to-clipboard button with visual feedback.
+ * Used both for static code blocks (with copyButtonStyle) and live code toolbar.
+ */
+function CopyCodeButton({
+  code,
+  className,
+  variant,
+}: CopyCodeButtonProps) {
+  const { copied, handleCopy } = useCopyToClipboard(code)
+
+  return (
+    <Button
+      className={className}
+      variant={variant}
+      icon={copied ? checkIcon : copyIcon}
+      title="Copy to clipboard"
+      tooltip={copied ? 'Copied!' : 'Copy to clipboard'}
+      onClick={handleCopy}
+    />
+  )
+}
+
 type LiveCodeProps = {
   code: string
   noFragments?: boolean
@@ -163,12 +236,12 @@ function prepareCode(code: string) {
 
 function LiveCode(props: LiveCodeProps) {
   const context = useContext(Context)
-  const editorElementRef = useRef<HTMLDivElement>(null)
-  const fullscreenId = props.stableName
+  const focusModeId = props.stableName
 
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
-  const [tabMode] = useState<'focus' | 'indentation'>('focus')
+  const [showFocusModePadding, setShowFocusModePadding] = useState(true)
+  const [editedCode, setEditedCode] = useState<string | null>(null)
   const [colorScheme, setColorScheme] = useState<
     ThemeColorScheme | undefined
   >(undefined)
@@ -176,10 +249,11 @@ function LiveCode(props: LiveCodeProps) {
     props.surface
   )
 
-  const { fullscreenCodeId, setFullscreenCodeId, savedScrollY } =
-    useFullscreenCode()
-  const isFullscreen = fullscreenCodeId === fullscreenId
-  const anotherIsFullscreen = fullscreenCodeId !== null && !isFullscreen
+  const { focusModeCodeId, setFocusModeCodeId, savedScrollY } =
+    useFocusModeCode()
+  const isInFocusMode = focusModeCodeId === focusModeId
+  const anotherBlockIsInFocusMode =
+    focusModeCodeId !== null && !isInFocusMode
   const wrapperRef = useRef<HTMLDivElement>(null)
 
   const {
@@ -197,6 +271,7 @@ function LiveCode(props: LiveCodeProps) {
     surface: surfaceProp,
     'data-visual-test': visualTest,
     stableName: _stableName,
+    sourceImports,
 
     ...restProps
   } = props
@@ -213,9 +288,9 @@ function LiveCode(props: LiveCodeProps) {
     setInheritedDark(theme.colorScheme === 'dark')
   }, [theme.colorScheme])
 
-  // Hide sibling DOM elements when fullscreen so only this code block is visible
+  // Hide sibling DOM elements in focus mode so only this code block is visible.
   useEffect(() => {
-    if (!isFullscreen) {
+    if (!isInFocusMode) {
       return // stop here
     }
 
@@ -224,7 +299,7 @@ function LiveCode(props: LiveCodeProps) {
       return // stop here
     }
 
-    document.documentElement.setAttribute('data-code-fullscreen', 'true')
+    document.documentElement.setAttribute('data-code-focus-mode', 'true')
 
     const hidden: HTMLElement[] = []
     let current = el as HTMLElement
@@ -250,17 +325,17 @@ function LiveCode(props: LiveCodeProps) {
     window.scrollTo({ top: 0 })
 
     // Remove the preload style now that sibling hiding has taken over
-    document.getElementById('fullscreen-preload-style')?.remove()
+    document.getElementById('portal-preload-style')?.remove()
 
     return () => {
-      document.documentElement.removeAttribute('data-code-fullscreen')
+      document.documentElement.removeAttribute('data-code-focus-mode')
 
       for (const el of hidden) {
         el.style.display = el.getAttribute('data-prev-display') || ''
         el.removeAttribute('data-prev-display')
       }
     }
-  }, [isFullscreen, savedScrollY])
+  }, [isInFocusMode, savedScrollY])
 
   const codeToUse = useMemo(() => {
     const code =
@@ -278,10 +353,13 @@ function LiveCode(props: LiveCodeProps) {
     [noInline, noFragments]
   )
 
-  const fullscreenButton = (
+  const canToggleFocusModePadding =
+    isInFocusMode && !omitWrapper && !hidePreview
+
+  const focusModeButton = (
     <Button
       onClick={() => {
-        if (!isFullscreen) {
+        if (!isInFocusMode) {
           savedScrollY.current = window.scrollY
 
           try {
@@ -293,20 +371,61 @@ function LiveCode(props: LiveCodeProps) {
           window.scrollTo({ top: 0 })
         }
 
-        setFullscreenCodeId(isFullscreen ? null : fullscreenId)
+        setFocusModeCodeId(isInFocusMode ? null : focusModeId)
       }}
       variant="tertiary"
-      title={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
-      aria-label={isFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
-      icon={isFullscreen ? 'close' : fullscreenIcon}
-      size="medium"
+      tooltip={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
+      aria-label={isInFocusMode ? 'Quit focus mode' : 'Focus mode'}
+      icon={isInFocusMode ? focusModeCloseIcon : focusModeIcon}
+    />
+  )
+
+  const copyCodeButton = (
+    <CopyCodeButton code={editedCode ?? codeToUse} variant="tertiary" />
+  )
+
+  const handleOpenInStackBlitz = useCallback(async () => {
+    const codeToOpen = editedCode ?? codeToUse
+    await openInStackBlitz(codeToOpen, sourceImports)
+  }, [editedCode, codeToUse, sourceImports])
+
+  const openInStackBlitzButton = (
+    <Button
+      onClick={handleOpenInStackBlitz}
+      variant="tertiary"
+      tooltip="Open in StackBlitz"
+      aria-label="Open in StackBlitz"
+      icon={launchIcon}
+    />
+  )
+
+  const focusModePaddingButton = canToggleFocusModePadding && (
+    <Button
+      onClick={() =>
+        setShowFocusModePadding((currentValue) => !currentValue)
+      }
+      variant="tertiary"
+      tooltip={
+        showFocusModePadding
+          ? 'Hide preview padding'
+          : 'Show preview padding'
+      }
+      aria-label={
+        showFocusModePadding
+          ? 'Hide preview padding'
+          : 'Show preview padding'
+      }
+      aria-pressed={showFocusModePadding}
+      icon={
+        showFocusModePadding ? focusModePaddingIcon : focusModeCompactIcon
+      }
     />
   )
 
   return (
     <div
       ref={wrapperRef}
-      id={fullscreenId}
+      id={focusModeId}
       className={clsx(
         liveCodeEditorStyle,
         hideCode && 'hide-code',
@@ -316,7 +435,7 @@ function LiveCode(props: LiveCodeProps) {
         surface && `surface--${surface}`
       )}
     >
-      {!anotherIsFullscreen && (
+      {!anotherBlockIsInFocusMode && (
         <LiveProvider
           theme={prismTheme}
           code={codeToUse}
@@ -334,7 +453,13 @@ function LiveCode(props: LiveCodeProps) {
                   data-visual-test={visualTest}
                 />
               ) : (
-                <div className={clsx('example-box', exampleBoxStyle)}>
+                <div
+                  className={clsx(
+                    'example-box',
+                    exampleBoxStyle,
+                    showFocusModePadding && showFocusModePaddingStyle
+                  )}
+                >
                   <LivePreview
                     className={clsx('dnb-live-preview')}
                     data-visual-test={visualTest}
@@ -350,7 +475,7 @@ function LiveCode(props: LiveCodeProps) {
               aria-label="Customize appearance"
               className={clsx('dnb-live-toolbar', toolbarStyle)}
             >
-              {(omitWrapper && (
+              {omitWrapper ? (
                 <Button
                   variant="tertiary"
                   icon={hideCode ? 'chevron_down' : 'chevron_up'}
@@ -360,93 +485,91 @@ function LiveCode(props: LiveCodeProps) {
                 >
                   {hideCode ? 'Show Code' : 'Hide Code'}
                 </Button>
-              )) || (
-                  <>
-                    {hideCodeProp && (
-                      <ToggleButton
-                        checked={!hideCode}
-                        onChange={({ checked }) => setHideCode(!checked)}
-                        size="medium"
-                      >
-                        {hideCode ? 'Show Code' : 'Hide Code'}
-                      </ToggleButton>
-                    )}
+              ) : (
+                <>
+                  {hideCodeProp && (
+                    <ToggleButton
+                      checked={!hideCode}
+                      onChange={({ checked }) => setHideCode(!checked)}
+                      size="medium"
+                    >
+                      {hideCode ? 'Show Code' : 'Hide Code'}
+                    </ToggleButton>
+                  )}
 
-                    {hidePreviewProp && (
-                      <ToggleButton
-                        checked={!hidePreview}
-                        onChange={({ checked }) =>
-                          setHidePreview(!checked)
-                        }
-                        size="medium"
-                      >
-                        Preview
-                      </ToggleButton>
-                    )}
+                  {hidePreviewProp && (
+                    <ToggleButton
+                      checked={!hidePreview}
+                      onChange={({ checked }) => setHidePreview(!checked)}
+                      size="medium"
+                    >
+                      Preview
+                    </ToggleButton>
+                  )}
 
-                    {isFullscreen && (
-                      <ChangeStyleTheme
-                        variant="button"
-                        size="medium"
-                        optionsLayout="horizontal"
-                        labelSrOnly
-                      />
-                    )}
+                  {isInFocusMode && (
+                    <ChangeStyleTheme
+                      variant="button"
+                      size="medium"
+                      optionsLayout="horizontal"
+                      labelSrOnly
+                    />
+                  )}
 
-                    <Flex.Horizontal align="center">
+                  <Flex.Horizontal align="center">
+                    <Checkbox
+                      checked={
+                        colorScheme === (inheritedDark ? 'light' : 'dark')
+                      }
+                      onChange={({ checked }) => {
+                        setColorScheme(
+                          checked
+                            ? inheritedDark
+                              ? 'light'
+                              : 'dark'
+                            : undefined
+                        )
+                      }}
+                      size="medium"
+                      label={inheritedDark ? 'Light mode' : 'Dark mode'}
+                    />
+
+                    {surfaceProp === 'dark' && (
                       <Checkbox
                         checked={
-                          colorScheme ===
-                          (inheritedDark ? 'light' : 'dark')
+                          colorScheme !== 'dark' && surface === 'dark'
                         }
-                        onChange={({ checked }) => {
-                          setColorScheme(
-                            checked
-                              ? inheritedDark
-                                ? 'light'
-                                : 'dark'
-                              : undefined
-                          )
-                        }}
+                        onChange={({ checked }) =>
+                          setSurface(checked ? 'dark' : undefined)
+                        }
                         size="medium"
-                        label={inheritedDark ? 'Light mode' : 'Dark mode'}
+                        label="Dark surface"
                       />
+                    )}
 
-                      {surfaceProp === 'dark' && (
-                        <Checkbox
-                          checked={
-                            colorScheme !== 'dark' && surface === 'dark'
-                          }
-                          onChange={({ checked }) =>
-                            setSurface(checked ? 'dark' : undefined)
-                          }
-                          size="medium"
-                          label="Dark surface"
-                        />
-                      )}
+                    {!isInFocusMode && copyCodeButton}
 
-                      {fullscreenButton}
-                    </Flex.Horizontal>
-                  </>
-                ) || <>{fullscreenButton}</>}
+                    {!isInFocusMode && openInStackBlitzButton}
+
+                    {focusModePaddingButton}
+
+                    {focusModeButton}
+                  </Flex.Horizontal>
+                </>
+              )}
             </Space>
           )}
 
           {!global.IS_TEST && !hideCode && (
             <Space
-              title="Code Editor"
+              title="Make changes to see them live!"
               element="section"
               className={clsx(
                 'dnb-live-editor',
                 createSkeletonClass('code', context.skeleton)
               )}
-              ref={editorElementRef}
             >
-              <LiveEditor
-                prism={Prism}
-                tabMode={tabMode}
-                className="dnb-live-editor__editable dnb-pre"
-              />
+              <LiveCodeEditor onCodeChange={setEditedCode} />
             </Space>
           )}
 
@@ -454,6 +577,35 @@ function LiveCode(props: LiveCodeProps) {
         </LiveProvider>
       )}
     </div>
+  )
+}
+
+/**
+ * Wrapper component that combines the LiveContext onChange with external tracking.
+ * This ensures editing code updates the preview AND tracks the edited code for e.g. copying.
+ */
+function LiveCodeEditor({
+  onCodeChange,
+}: {
+  onCodeChange: (code: string) => void
+}) {
+  const { onChange: contextOnChange } = useContext(LiveContext)
+
+  const handleChange = useCallback(
+    (code: string) => {
+      contextOnChange(code)
+      onCodeChange(code)
+    },
+    [contextOnChange, onCodeChange]
+  )
+
+  return (
+    <LiveEditor
+      prism={Prism}
+      tabMode="focus"
+      className="dnb-live-editor__editable dnb-pre"
+      onChange={handleChange}
+    />
   )
 }
 

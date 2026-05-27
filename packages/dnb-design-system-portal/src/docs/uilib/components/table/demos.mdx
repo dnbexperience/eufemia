@@ -26,6 +26,12 @@ This table has only `scope="row"` and `scope="rowgroup"` headers – without the
 
 <Examples.RowScopeOnly />
 
+### Disable striped rows
+
+Use `striped={false}` to disable alternating row background colors.
+
+<Examples.NoStriped />
+
 ### Fixed table
 
 <Examples.VariantFixed />
@@ -148,9 +154,11 @@ This example uses `scope="row"` with a table header (`<th>`) in each row.
 
 <Examples.ResponsiveInCard />
 
-### Column highlight
+### Cell highlighting
 
 Use `highlight` on `<Th>`, `<Tr>`, or `<Td>` to apply a subtle background and border. When set on a `<Tr>`, all cells in that row are highlighted. You can also set it on individual `<Td>` cells.
+
+**NB:** Highlighted cells should include an `aria-label` that conveys both the highlight state and the reason for it. Screen reader users cannot perceive the visual highlight, so this label is their only way to understand that a cell stands out and why.
 
 To adjust the border colors accordingly, use the `useTableHighlight` hook and pass the returned ref to `<Table>`.
 
@@ -163,7 +171,11 @@ render(<Table ref={highlightRef}>...</Table>)
 
 <Examples.ColumnHighlight />
 
-### Example usage without and with classes
+### Multiple table body sections
+
+<Examples.MultipleTbody />
+
+### Example usage with classes
 
 <Examples.ClassHelpers />
 

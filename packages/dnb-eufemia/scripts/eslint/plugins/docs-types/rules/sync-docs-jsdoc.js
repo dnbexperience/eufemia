@@ -58,20 +58,25 @@ function extractFromObjectLiteral(objLiteral, docs) {
       continue
     }
 
+    let doc = null
+    let defaultValue = null
+
     for (const innerProp of prop.initializer.properties) {
       if (!ts.isPropertyAssignment(innerProp)) {
         continue
       }
 
       const innerName = getTsPropertyName(innerProp)
-      if (innerName !== 'doc') {
-        continue
-      }
 
-      const docValue = getStringLiteralValue(innerProp.initializer)
-      if (docValue !== null) {
-        docs.set(propName, docValue)
+      if (innerName === 'doc') {
+        doc = getStringLiteralValue(innerProp.initializer)
+      } else if (innerName === 'defaultValue') {
+        defaultValue = getStringLiteralValue(innerProp.initializer)
       }
+    }
+
+    if (doc !== null) {
+      docs.set(propName, { doc, defaultValue })
     }
   }
 }
@@ -120,6 +125,24 @@ function extractJsdocText(commentValue) {
     )
     .join(' ')
     .trim()
+}
+
+/**
+ * Separates the main doc text from a trailing `Default: \`...\`` line.
+ * Returns { docText, defaultValue } where defaultValue is the inner
+ * content of the backticks, or null if no default line is present.
+ */
+function splitDefaultFromDoc(fullText) {
+  const match = fullText.match(/^(.*?)\s*Default:\s*`([^`]*)`\.?$/)
+
+  if (match) {
+    return {
+      docText: match[1].replace(/\s+$/, ''),
+      defaultValue: match[2],
+    }
+  }
+
+  return { docText: fullText, defaultValue: null }
 }
 
 function extractJsdocTags(commentValue) {
@@ -244,6 +267,31 @@ module.exports = {
     const requireJsdoc = options.requireJsdoc === true
     const sourceCode = context.sourceCode || context.getSourceCode()
 
+    function buildExpectedDoc(doc, defaultValue) {
+      if (defaultValue != null) {
+        return `${doc}\nDefault: \`${defaultValue}\``
+      }
+
+      return doc
+    }
+
+    function buildJsdocBlock(indent, doc, defaultValue, tags) {
+      const lines = [`/**`, `${indent} * ${doc}`]
+
+      if (defaultValue != null) {
+        lines.push(`${indent} * Default: \`${defaultValue}\``)
+      }
+
+      if (tags.length > 0) {
+        for (const tag of tags) {
+          lines.push(`${indent} * ${tag}`)
+        }
+      }
+
+      lines.push(`${indent} */`)
+      return lines.join('\n')
+    }
+
     function checkProperty(node) {
       const propName = getEslintPropertyName(node)
 
@@ -251,7 +299,8 @@ module.exports = {
         return // stop here
       }
 
-      const expectedDoc = docsData.docs.get(propName)
+      const { doc: expectedDoc, defaultValue: expectedDefault } =
+        docsData.docs.get(propName)
       const docsFile = docsData.fileMap.get(propName)
 
       const comments = sourceCode.getCommentsBefore(node)
@@ -265,15 +314,18 @@ module.exports = {
 
       if (!jsdocComment) {
         if (requireJsdoc) {
+          const expected = buildExpectedDoc(expectedDoc, expectedDefault)
           context.report({
             node: node.key,
             messageId: 'missingJsdoc',
-            data: { docsFile, expected: expectedDoc },
+            data: { docsFile, expected },
             fix(fixer) {
               const line = sourceCode.lines[node.loc.start.line - 1]
               const match = line.match(/^(\s*)/)
               const indent = match ? match[1] : ''
-              const jsdoc = `/**\n${indent} * ${expectedDoc}\n${indent} */\n${indent}`
+              const jsdoc =
+                buildJsdocBlock(indent, expectedDoc, expectedDefault, []) +
+                `\n${indent}`
               return fixer.insertTextBefore(node, jsdoc)
             },
           })
@@ -282,35 +334,34 @@ module.exports = {
         return // stop here
       }
 
-      const existingDoc = extractJsdocText(jsdocComment.value)
+      const fullJsdocText = extractJsdocText(jsdocComment.value)
       const tags = extractJsdocTags(jsdocComment.value)
+      const { docText: existingDoc, defaultValue: existingDefault } =
+        splitDefaultFromDoc(fullJsdocText)
 
-      if (existingDoc !== expectedDoc) {
+      const docMatches = existingDoc === expectedDoc
+      const defaultMatches =
+        (expectedDefault == null && existingDefault == null) ||
+        existingDefault === expectedDefault
+
+      if (!docMatches || !defaultMatches) {
+        const expected = buildExpectedDoc(expectedDoc, expectedDefault)
         context.report({
           node: node.key,
           messageId: 'mismatchedJsdoc',
-          data: { docsFile, expected: expectedDoc },
+          data: { docsFile, expected },
           fix(fixer) {
-            let replacement
-
-            if (tags.length > 0) {
-              const commentNode = jsdocComment
-              const startLine =
-                sourceCode.lines[commentNode.loc.start.line - 1]
-              const indentMatch = startLine.match(/^(\s*)/)
-              const indent = indentMatch ? indentMatch[1] : ''
-              const tagLines = tags
-                .map((tag) => `${indent} * ${tag}`)
-                .join('\n')
-              replacement = `/**\n${indent} * ${expectedDoc}\n${tagLines}\n${indent} */`
-            } else {
-              const commentNode = jsdocComment
-              const startLine =
-                sourceCode.lines[commentNode.loc.start.line - 1]
-              const indentMatch = startLine.match(/^(\s*)/)
-              const indent = indentMatch ? indentMatch[1] : ''
-              replacement = `/**\n${indent} * ${expectedDoc}\n${indent} */`
-            }
+            const commentNode = jsdocComment
+            const startLine =
+              sourceCode.lines[commentNode.loc.start.line - 1]
+            const indentMatch = startLine.match(/^(\s*)/)
+            const indent = indentMatch ? indentMatch[1] : ''
+            const replacement = buildJsdocBlock(
+              indent,
+              expectedDoc,
+              expectedDefault,
+              tags
+            )
 
             return fixer.replaceTextRange(jsdocComment.range, replacement)
           },
@@ -328,3 +379,4 @@ module.exports = {
 module.exports.extractDocsFromFile = extractDocsFromFile
 module.exports.extractJsdocText = extractJsdocText
 module.exports.extractJsdocTags = extractJsdocTags
+module.exports.splitDefaultFromDoc = splitDefaultFromDoc

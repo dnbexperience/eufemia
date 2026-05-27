@@ -5,7 +5,7 @@
 
 import { StrictMode, useEffect, useState } from 'react'
 import { renderToString } from 'react-dom/server'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
 import type { HeadingProps, HeadingLevel } from '../Heading'
@@ -13,7 +13,7 @@ import Heading, { resetLevels, setNextLevel } from '../Heading'
 import { windupHeadings, teardownHeadings } from '../HeadingHelpers'
 import H3 from '../../../elements/H3'
 
-const warn = jest.fn()
+const warn = vi.fn()
 
 describe('Heading component', () => {
   it('renders with empty props', () => {
@@ -174,7 +174,7 @@ describe('Heading component', () => {
   })
 
   it('should match after level state update', () => {
-    const warn = jest.fn()
+    const warn = vi.fn()
 
     const RenderComp = (props) => (
       <StrictMode>
@@ -383,7 +383,7 @@ describe('Heading component', () => {
   })
 
   it('should not warn when setting h2 by increasing Header', () => {
-    const debugWarning = jest.fn()
+    const debugWarning = vi.fn()
     render(
       <>
         <Heading debug={debugWarning}>Heading #1</Heading>

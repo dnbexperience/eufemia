@@ -5,7 +5,7 @@
 
 import { createElement, type CSSProperties } from 'react'
 import { renderHook } from '@testing-library/react'
-import '../../../core/jest/jestSetup'
+import '../../../core/test-utils/testSetup'
 import SpaceResponsiveContext from '../SpaceResponsiveContext'
 import {
   spacePatterns,

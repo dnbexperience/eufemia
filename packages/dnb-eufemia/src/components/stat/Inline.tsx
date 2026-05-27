@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { HTMLProps } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
 import type { HorizontalProps as FlexHorizontalProps } from '../flex/Horizontal'
 import type { SkeletonShow } from '../skeleton/Skeleton'

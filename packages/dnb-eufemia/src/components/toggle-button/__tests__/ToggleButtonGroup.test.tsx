@@ -5,7 +5,7 @@
 
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import { StrictMode, useState } from 'react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
 
@@ -24,16 +24,10 @@ describe('ToggleButton group component', () => {
     const element = document.querySelector('.dnb-toggle-button-group')
     const flexElement = element.querySelector('.dnb-flex-container')
 
-    expect(Array.from(flexElement.classList)).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-x-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    expect(flexElement).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-x-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
 
     rerender(
       <ToggleButton.Group label="Label" labelDirection="vertical">
@@ -41,16 +35,10 @@ describe('ToggleButton group component', () => {
       </ToggleButton.Group>
     )
 
-    expect(Array.from(flexElement.classList)).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    expect(flexElement).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
   })
 
   it('should have variant="radio', () => {
@@ -96,7 +84,7 @@ describe('ToggleButton group component', () => {
   })
 
   it('has "onChange" event which will trigger on a button click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(
       <ToggleButton.Group
         id="group"
@@ -237,7 +225,7 @@ describe('ToggleButton group component', () => {
   })
 
   it('has multiselect "onChange" event which will trigger on a button click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(
       <ToggleButton.Group
         id="group"
@@ -450,13 +438,10 @@ describe('ToggleButton group component', () => {
 
     const element = document.querySelector('.dnb-toggle-button-group')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-toggle-button-group',
-      'dnb-toggle-button-group--row',
-      'dnb-form-component',
-      'dnb-toggle-button-group--no-label',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component dnb-toggle-button-group--no-label dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -485,39 +470,22 @@ describe('ToggleButton group component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-toggle-button-group',
-      'dnb-toggle-button-group--row',
-      'dnb-form-component',
-    ])
+    expect(element).toHaveClass(
+      'dnb-toggle-button-group dnb-toggle-button-group--row dnb-form-component',
+      { exact: true }
+    )
     expect(
-      Array.from(
-        document.querySelector(
-          '.dnb-toggle-button-group .dnb-flex-container'
-        ).classList
+      document.querySelector(
+        '.dnb-toggle-button-group .dnb-flex-container'
       )
-    ).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
-    expect(
-      Array.from(document.querySelector('.dnb-flex-container').classList)
-    ).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--direction-vertical',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    ).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
+    expect(document.querySelector('.dnb-flex-container')).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
   })
 
   it('should validate with ARIA rules with label', async () => {
@@ -569,7 +537,9 @@ describe('ToggleButton group component', () => {
   })
 
   it('should not trigger setState-during-render warning when registering initial checked value', () => {
-    const consoleError = jest.spyOn(console, 'error').mockImplementation()
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
 
     render(
       <StrictMode>

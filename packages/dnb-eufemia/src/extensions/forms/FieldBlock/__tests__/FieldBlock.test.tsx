@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { wait, axeComponent } from '../../../../core/jest/jestSetup'
+import { wait, axeComponent } from '../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
@@ -86,20 +86,17 @@ describe('FieldBlock', () => {
   it('should contain given classes', () => {
     render(<FieldBlock className="custom-class">content</FieldBlock>)
 
-    expect(
-      Array.from(
-        document.querySelector('.dnb-forms-field-block').classList
-      )
-    ).toEqual(['dnb-space', 'dnb-forms-field-block', 'custom-class'])
+    expect(document.querySelector('.dnb-forms-field-block')).toHaveClass(
+      'dnb-space dnb-forms-field-block custom-class',
+      { exact: true }
+    )
 
     expect(
-      Array.from(
-        document.querySelector('.dnb-forms-field-block__grid').classList
-      )
-    ).toEqual([
-      'dnb-forms-field-block__grid',
-      'dnb-forms-field-block--layout-vertical',
-    ])
+      document.querySelector('.dnb-forms-field-block__grid')
+    ).toHaveClass(
+      'dnb-forms-field-block__grid dnb-forms-field-block--layout-vertical',
+      { exact: true }
+    )
   })
 
   it('should support "forId" property', () => {
@@ -1164,7 +1161,7 @@ describe('FieldBlock', () => {
       })
 
       it('should summarize errors when returned in onChangeValidator', () => {
-        const onChangeValidator: Validator<string> = jest.fn(() => {
+        const onChangeValidator: Validator<string> = vi.fn(() => {
           return [
             new Error('Error message one'),
             new Error('Error message two'),
@@ -1187,7 +1184,7 @@ describe('FieldBlock', () => {
       })
 
       it('should summarize errors when returned in onBlurValidator', () => {
-        const onBlurValidator: Validator<string> = jest.fn(() => {
+        const onBlurValidator: Validator<string> = vi.fn(() => {
           return [
             new Error('Error message one'),
             new Error('Error message two'),
@@ -1210,7 +1207,7 @@ describe('FieldBlock', () => {
       })
 
       it('should summarize errors when returned in async onChangeValidator', async () => {
-        const onChangeValidator: Validator<string> = jest.fn(async () => {
+        const onChangeValidator: Validator<string> = vi.fn(async () => {
           return [
             new Error('Error message one'),
             new Error('Error message two'),
@@ -1237,7 +1234,7 @@ describe('FieldBlock', () => {
       })
 
       it('should summarize errors when returned in async onBlurValidator', async () => {
-        const onBlurValidator: Validator<string> = jest.fn(async () => {
+        const onBlurValidator: Validator<string> = vi.fn(async () => {
           return [
             new Error('Error message one'),
             new Error('Error message two'),
@@ -1462,7 +1459,7 @@ describe('FieldBlock', () => {
     })
 
     it('should show indicator two (2) times when nested with useFieldProps', async () => {
-      const onChange = jest.fn(async () => {
+      const onChange = vi.fn(async () => {
         await wait(10)
         return null
       })

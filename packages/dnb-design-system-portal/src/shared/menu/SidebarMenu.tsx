@@ -5,7 +5,7 @@
 
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'portal-query'
 import { SidebarMenuContext } from './SidebarMenuContext'
@@ -162,7 +162,7 @@ export default function SidebarLayout({
       ref={scrollRef}
     >
       <PortalToolsMenu
-        triggerAttributes={{
+        triggerProps={{
           left: 'large',
           top: 'large',
           bottom: 'large',

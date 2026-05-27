@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { StatusIcon } from '../icons'
 import P from '../../../elements/P'
 

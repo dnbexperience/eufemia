@@ -10,7 +10,7 @@ import type {
   RefObject,
   SyntheticEvent,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import type {
   PopoverAlign,
@@ -249,6 +249,12 @@ function PopoverContainer(props: PopoverContainerProps) {
   useEffect(() => {
     setResolvedPlacement(placement)
   }, [placement])
+
+  useEffect(() => {
+    if (isActive) {
+      requestRecalculation()
+    }
+  }, [children, isActive, requestRecalculation])
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') {

@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { SkipContentAllProps } from '../SkipContent'
 import SkipContent from '../SkipContent'
 import Section from '../../Section'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 
 describe('SkipContent', () => {
   it('renders with properties as object', () => {
@@ -200,9 +200,7 @@ describe('SkipContent', () => {
   })
 })
 
-describe('SkipContent.Return', () => {
-  jest.retryTimes(3)
-
+describe('SkipContent.Return', { retry: 3 }, () => {
   it('should show button and set focus on content element', async () => {
     render(
       <>

@@ -17,7 +17,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import IconPrimary from '../icon-primary/IconPrimary'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import AccordionContext from './AccordionContext'
 import { useSpacing } from '../space/SpacingUtils'
 import {

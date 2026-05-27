@@ -13,11 +13,6 @@
   will-change: height;
   transition: var(--height-animation);
 
-  html[data-visual-test] &,
-  html[data-visual-test] & * {
-    transition: none !important;
-  }
-
   @include utilities.reducedMotion() {
     --height-animation-duration: 0.01ms;
     transition-duration: 0.01ms !important;

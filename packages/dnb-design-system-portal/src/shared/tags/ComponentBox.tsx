@@ -7,27 +7,22 @@
 import * as React from 'react'
 import CodeBlock, { type CodeSectionProps } from './CodeBlock'
 import styled from '@emotion/styled'
-import { getComponents } from '@dnb/eufemia/src/components/lib'
-import { getFragments } from '@dnb/eufemia/src/fragments/lib'
-import { getElements } from '@dnb/eufemia/src/elements/lib'
-import { Provider, Theme } from '@dnb/eufemia/src/shared'
-import {
-  Field,
-  Value,
-  Form,
-  Wizard,
-  FieldBlock,
-  Iterate,
-  FormError,
-  Tools,
-} from '@dnb/eufemia/src/extensions/forms'
 
 if (!globalThis.ComponentBoxMemo) {
   globalThis.ComponentBoxMemo = {}
 }
 
-function ComponentBox(props: CodeSectionProps) {
-  const { children, scope = {}, ...rest } = props
+type ComponentBoxProps = CodeSectionProps & {
+  /**
+   * Injected by the inject-scope Babel plugin.
+   * Contains only the Eufemia symbols that the code string references,
+   * eliminating the need to import the entire library.
+   */
+  __buildScope?: Record<string, unknown>
+}
+
+function ComponentBox(props: ComponentBoxProps) {
+  const { children, scope = {}, __buildScope, ...rest } = props
 
   const hash = children as string
 
@@ -38,18 +33,8 @@ function ComponentBox(props: CodeSectionProps) {
   const element = (
     <CodeBlock
       scope={{
-        ...getComponents(),
-        ...getFragments(),
-        ...getElements(),
-        Provider,
-        Theme,
-        FieldBlock,
-        Field,
-        Value,
-        Form,
-        Wizard,
+        ...__buildScope,
         styled,
-        React,
         Fragment: React.Fragment,
         useState: React.useState,
         useEffect: React.useEffect,
@@ -60,9 +45,6 @@ function ComponentBox(props: CodeSectionProps) {
         useLayoutEffect: React.useLayoutEffect,
         createContext: React.createContext,
         Suspense: React.Suspense,
-        Iterate,
-        FormError,
-        Tools,
         ...scope,
       }}
       {...rest}

@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { render, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
@@ -24,6 +24,27 @@ describe('Field.Currency', () => {
     )
 
     expect(input).toHaveValue('123 NOK')
+  })
+
+  it('should use custom placeholder when provided', () => {
+    render(<Field.Currency placeholder="Enter amount" />)
+
+    const placeholder = document.querySelector('.dnb-input__placeholder')
+    expect(placeholder).toHaveTextContent('Enter amount')
+  })
+
+  it('should show currency symbol as default placeholder', () => {
+    render(<Field.Currency />)
+
+    const placeholder = document.querySelector('.dnb-input__placeholder')
+    expect(placeholder).toHaveTextContent('kr')
+  })
+
+  it('should show empty placeholder when set to empty string', () => {
+    render(<Field.Currency placeholder="" />)
+
+    const placeholder = document.querySelector('.dnb-input__placeholder')
+    expect(placeholder).toBeNull()
   })
 
   it('should align input correctly', () => {
@@ -70,7 +91,7 @@ describe('Field.Currency', () => {
   })
 
   it('should call onChange with the correct negative value', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<Field.Currency onChange={onChange} />)
 
     const input = document.querySelector('input')
@@ -81,7 +102,7 @@ describe('Field.Currency', () => {
   })
 
   it('should store negative value correctly in form data context', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -103,7 +124,7 @@ describe('Field.Currency', () => {
   })
 
   it('should keep minus sign on blur when no digits follow', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<Field.Currency onChange={onChange} />)
 
     const input = document.querySelector('input')
@@ -121,7 +142,7 @@ describe('Field.Currency', () => {
   })
 
   it('should handle negative decimal values like -0,5', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<Field.Currency onChange={onChange} />)
 
     const input = document.querySelector('input')
@@ -133,7 +154,7 @@ describe('Field.Currency', () => {
   })
 
   it('should treat -0 as empty value', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<Field.Currency onChange={onChange} />)
 
     const input = document.querySelector('input')
@@ -146,7 +167,7 @@ describe('Field.Currency', () => {
   })
 
   it('should lose minus sign when emptyValue is 0', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<Field.Currency emptyValue={0} onChange={onChange} />)
 
     const input = document.querySelector('input')
@@ -261,7 +282,7 @@ describe('Field.Currency', () => {
   })
 
   it('should handle unsupported currency', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Field.Currency
@@ -342,7 +363,7 @@ describe('Field.Currency', () => {
         </Provider>
       )
 
-      expect(input).toHaveValue('1’234 Kronen')
+      expect(input).toHaveValue("1'234 Kronen")
 
       rerender(
         <Provider>
@@ -435,7 +456,7 @@ describe('Field.Currency', () => {
     })
 
     it('should return correct onChange event value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(<Field.Currency disallowLeadingZeroes onChange={onChange} />)
 

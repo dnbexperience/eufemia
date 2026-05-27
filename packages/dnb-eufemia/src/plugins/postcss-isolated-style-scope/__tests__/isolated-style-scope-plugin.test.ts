@@ -1,4 +1,4 @@
-/* eslint-disable jest/expect-expect */
+/* eslint-disable vitest/expect-expect */
 
 import postcss from 'postcss'
 import * as fs from 'fs'
@@ -304,7 +304,7 @@ describe('isolated-style-scope-plugin', () => {
     })
 
     it('should handle custom scope hash given as function', async () => {
-      const scopeHash = jest.fn(() => 'custom-scope')
+      const scopeHash = vi.fn(() => 'custom-scope')
       await run(
         '.my-class { color: red; }',
         '.custom-scope .my-class { color: red; }',
@@ -418,7 +418,7 @@ describe('isolated-style-scope-plugin', () => {
     })
 
     it('should replace existing default scope hash with custom scope hash given as function', async () => {
-      const scopeHash = jest.fn(() => 'custom-scope')
+      const scopeHash = vi.fn(() => 'custom-scope')
       await run(
         '.eufemia-scope--something .my-class { color: red; }',
         '.custom-scope .my-class { color: red; }',
@@ -428,7 +428,7 @@ describe('isolated-style-scope-plugin', () => {
     })
 
     it('should not replace existing default scope hash with undefined scope hash returned from function', async () => {
-      const scopeHash = jest.fn(() => undefined)
+      const scopeHash = vi.fn(() => undefined)
       await run(
         '.eufemia-scope--something .my-class { color: red; }',
         '.eufemia-scope--something .my-class { color: red; }',
@@ -836,7 +836,7 @@ describe('isolated-style-scope-plugin', () => {
       })
 
       it('should replace existing default scope hash (vanilla CSS) with custom scope hash given as function', async () => {
-        const scopeHash = jest.fn(() => 'custom-scope')
+        const scopeHash = vi.fn(() => 'custom-scope')
         await run(
           '.eufemia-scope--something .my-class { color: red; }',
           ':global(.custom-scope) .my-class { color: red; }',
@@ -846,7 +846,7 @@ describe('isolated-style-scope-plugin', () => {
       })
 
       it('should replace existing default scope hash (CSS Module) with custom scope hash given as function', async () => {
-        const scopeHash = jest.fn(() => 'custom-scope')
+        const scopeHash = vi.fn(() => 'custom-scope')
         await run(
           ':global(.eufemia-scope--something) .my-class { color: red; }',
           ':global(.custom-scope) .my-class { color: red; }',
@@ -856,7 +856,7 @@ describe('isolated-style-scope-plugin', () => {
       })
 
       it('should handle custom scope hash given as function', async () => {
-        const scopeHash = jest.fn(() => 'custom-scope')
+        const scopeHash = vi.fn(() => 'custom-scope')
         await run(
           '.my-class { color: red; }',
           ':global(.custom-scope) .my-class { color: red; }',
@@ -866,7 +866,7 @@ describe('isolated-style-scope-plugin', () => {
       })
 
       it('should not replace existing default scope hash with undefined scope hash returned from function', async () => {
-        const scopeHash = jest.fn(() => undefined)
+        const scopeHash = vi.fn(() => undefined)
         await run(
           ':global(.eufemia-scope--something) .my-class { color: red; }',
           ':global(.eufemia-scope--something) .my-class { color: red; }',
@@ -1406,7 +1406,7 @@ describe('isolated-style-scope-plugin', () => {
     })
 
     it('should call sharedScopeHash function with file path', async () => {
-      const sharedScopeHash = jest.fn(() => ['shared-1', 'shared-2'])
+      const sharedScopeHash = vi.fn(() => ['shared-1', 'shared-2'])
       await run('.my-class { color: red; }', undefined, {
         scopeHash: 'main-scope',
         sharedScopeHash,

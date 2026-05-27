@@ -272,11 +272,6 @@
     }
   }
 
-  html[data-visual-test] &__thumb,
-  html[data-visual-test] &__line {
-    transition: none !important;
-  }
-
   // make sure the helper is not click able
   &__button-helper {
     pointer-events: none;

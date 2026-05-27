@@ -21,7 +21,7 @@ function logErr(...args: unknown[]) {
 }
 
 async function main() {
-  const { server, tools } = createDocsServer()
+  const { server, tools } = await createDocsServer()
   logErr(`[eufemia] docsRoot: ${tools.docsRoot}`)
 
   await validateDocsRoot(tools.docsRoot)

@@ -6,7 +6,7 @@
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import { StrictMode, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { SwitchProps } from '../Switch'
 import Switch from '../Switch'
 import { Provider } from '../../../shared'
@@ -40,7 +40,7 @@ describe('Switch component', () => {
   })
 
   it('has "onChange" event which will trigger on a input change', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
 
     render(<Switch onChange={myEvent} checked={false} />)
 
@@ -124,12 +124,10 @@ describe('Switch component', () => {
 
     const element = document.querySelector('.dnb-switch')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-switch',
-      'dnb-switch--label-position-right',
-      'dnb-form-component',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-switch dnb-switch--label-position-right dnb-form-component dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -158,14 +156,13 @@ describe('Switch component', () => {
       'value',
       'name',
     ])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-switch',
-      'dnb-switch--label-position-right',
-      'dnb-form-component',
-    ])
-    expect(Array.from(inputElement.classList)).toEqual([
-      'dnb-switch__input',
-    ])
+    expect(element).toHaveClass(
+      'dnb-switch dnb-switch--label-position-right dnb-form-component',
+      { exact: true }
+    )
+    expect(inputElement).toHaveClass('dnb-switch__input', {
+      exact: true,
+    })
   })
 
   it('should validate with ARIA rules', async () => {

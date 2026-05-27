@@ -6,7 +6,7 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useContext } from 'react'
 import type { HTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { SpacingProps } from '../../shared/types'
 import type { ElementProps } from '../Element'
 import E from '../Element'

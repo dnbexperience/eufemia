@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react'
 import type { HTMLAttributes, MouseEventHandler, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 
 // Components
 import type { ButtonProps } from '../button/Button'
@@ -103,13 +103,21 @@ export type InfoCardProps = {
    */
   acceptButtonText?: ReactNode
   /**
-   * Additional attributes for the close button.
+   * Props forwarded to the close button.
    * Default: `null`
+   */
+  closeButtonProps?: ButtonProps
+  /**
+   * @deprecated Use `closeButtonProps` instead.
    */
   closeButtonAttributes?: ButtonProps
   /**
-   * Additional attributes for the accept button
+   * Props forwarded to the accept button.
    * Default: `null`
+   */
+  acceptButtonProps?: ButtonProps
+  /**
+   * @deprecated Use `acceptButtonProps` instead.
    */
   acceptButtonAttributes?: ButtonProps
 }
@@ -156,10 +164,18 @@ const InfoCard = (localProps: InfoCardAllProps) => {
     onAccept,
     closeButtonText,
     acceptButtonText,
-    closeButtonAttributes,
-    acceptButtonAttributes,
+    closeButtonProps: closeButtonPropsProp,
+    closeButtonAttributes: closeButtonAttributesProp,
+    acceptButtonProps: acceptButtonPropsProp,
+    acceptButtonAttributes: acceptButtonAttributesProp,
     ...props
   } = allProps
+
+  const closeButtonAttributes =
+    closeButtonPropsProp || closeButtonAttributesProp
+
+  const acceptButtonAttributes =
+    acceptButtonPropsProp || acceptButtonAttributesProp
 
   const closeButtonIsHidden = !onClose && !closeButtonText
   const acceptButtonIsHidden = !onAccept && !acceptButtonText

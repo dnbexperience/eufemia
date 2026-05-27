@@ -8,7 +8,3 @@ import Template from './template/Template'
 
 // define / export all the available fragments
 export { Template }
-
-export const getFragments = () => {
-  return { Template }
-}

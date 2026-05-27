@@ -87,6 +87,13 @@ export async function buildDocsBundle(
     bundle[rel.replaceAll(path.sep, '/')] = content
   }
 
+  // Include _meta.json so the MCP server can read the Eufemia version,
+  // build timestamp, and commit hash from the bundle at runtime.
+  const metaPath = path.join(docsRoot, '_meta.json')
+  if (await fs.pathExists(metaPath)) {
+    bundle['_meta.json'] = await fs.readFile(metaPath, 'utf8')
+  }
+
   await fs.ensureDir(path.dirname(outFile))
   await fs.writeFile(
     outFile,

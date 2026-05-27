@@ -13,15 +13,33 @@ import type {
   ReactNode,
 } from 'react'
 import { act, render } from '@testing-library/react'
-import * as FullscreenCodeContext from '../../../core/FullscreenCodeContext'
+import * as FocusModeCodeContext from '../../../core/FocusModeCodeContext'
 
 // Mock CSS modules
 vi.mock('../CodeBlock.module.scss', () => ({
   liveCodeEditorStyle: 'liveCodeEditorStyle',
   exampleBoxStyle: 'exampleBoxStyle',
+  copyButtonStyle: 'copyButtonStyle',
+  showFocusModePaddingStyle: 'showFocusModePaddingStyle',
   toolbarStyle: 'toolbarStyle',
   codeBlockStyle: 'codeBlockStyle',
 }))
+
+vi.mock('../../../core/ChangeStyleTheme', () => ({
+  default: () => null,
+}))
+
+// Mock prettier standalone for StackBlitz formatting
+const mockFormat = vi.hoisted(() =>
+  vi.fn((code: string) => Promise.resolve(code))
+)
+
+vi.mock('prettier/standalone', () => ({
+  format: mockFormat,
+}))
+
+vi.mock('prettier/plugins/babel', () => ({}))
+vi.mock('prettier/plugins/estree', () => ({}))
 
 // Mock prism theme
 vi.mock('@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme', () => ({
@@ -48,6 +66,23 @@ vi.mock('../Tag', async () => {
 vi.mock('@dnb/eufemia/src/components/skeleton/SkeletonHelper', () => ({
   createSkeletonClass: () => '',
 }))
+
+// Create hoisted mock for copyToClipboard
+const mockCopyToClipboard = vi.hoisted(() =>
+  vi.fn().mockResolvedValue(true)
+)
+
+// Mock helpers - partially mock to keep other exports
+vi.mock('@dnb/eufemia/src/shared/helpers', async (importOriginal) => {
+  const actual =
+    await importOriginal<
+      typeof import('@dnb/eufemia/src/shared/helpers')
+    >()
+  return {
+    ...actual,
+    copyToClipboard: mockCopyToClipboard,
+  }
+})
 
 // Mock Eufemia components
 vi.mock('@dnb/eufemia/src/components', async () => {
@@ -103,11 +138,23 @@ vi.mock('@dnb/eufemia/src/shared', async () => {
 // Store the latest LiveEditor onChange and LiveProvider code for assertions
 let mockLiveEditorOnChange: ((code: string) => void) | undefined
 let mockLiveProviderCode: string | undefined
+const mockLiveContextOnChange = vi.hoisted(() => vi.fn())
 
 vi.mock('react-live-ssr', async () => {
-  const { createElement } = (await vi.importActual('react')) as {
+  const { createElement, createContext } = (await vi.importActual(
+    'react'
+  )) as {
     createElement: typeof CreateElement
+    createContext: typeof CreateContext
   }
+
+  // Create a mock LiveContext with a trackable onChange
+  const MockLiveContext = createContext<{
+    onChange: (code: string) => void
+  }>({
+    onChange: mockLiveContextOnChange,
+  })
+
   return {
     LiveProvider: ({
       children,
@@ -119,9 +166,9 @@ vi.mock('react-live-ssr', async () => {
     }) => {
       mockLiveProviderCode = code
       return createElement(
-        'div',
-        { 'data-testid': 'live-provider' },
-        children
+        MockLiveContext.Provider,
+        { value: { onChange: mockLiveContextOnChange } },
+        createElement('div', { 'data-testid': 'live-provider' }, children)
       )
     },
     LiveEditor: ({
@@ -143,6 +190,7 @@ vi.mock('react-live-ssr', async () => {
         'data-testid': 'live-preview',
         ...rest,
       }),
+    LiveContext: MockLiveContext,
   }
 })
 
@@ -158,6 +206,8 @@ describe('CodeBlock', () => {
   beforeEach(() => {
     mockLiveEditorOnChange = undefined
     mockLiveProviderCode = undefined
+    mockLiveContextOnChange.mockClear()
+    mockCopyToClipboard?.mockClear()
     vi.restoreAllMocks()
   })
 
@@ -300,12 +350,12 @@ describe('CodeBlock', () => {
   })
 
   it('should not render LiveProvider when another code block is in focusmode', () => {
-    // Simulate a block that is NOT in this render tree being in fullscreen.
-    // Using an unmatched id means neither block below enters isFullscreen,
+    // Simulate a block that is NOT in this render tree being in focus mode.
+    // Using an unmatched id means neither block below enters focus mode,
     // so ChangeStyleTheme never renders and we avoid pulling in extra mocks.
-    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
-      fullscreenCodeId: 'some-other-block',
-      setFullscreenCodeId: vi.fn(),
+    vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
+      focusModeCodeId: 'some-other-block',
+      setFocusModeCodeId: vi.fn(),
       savedScrollY: { current: 0 },
     })
 
@@ -331,7 +381,7 @@ describe('CodeBlock', () => {
       </>
     )
 
-    // Both blocks see anotherIsFullscreen=true and suppress their LiveProvider
+    // Both blocks see another block in focus mode and suppress their LiveProvider.
     expect(
       container.querySelectorAll('[data-testid="live-provider"]')
     ).toHaveLength(0)
@@ -374,10 +424,10 @@ describe('CodeBlock', () => {
     ).toBe(false)
   })
 
-  it('should assign fullscreen id to the LiveCode wrapper element', () => {
-    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
-      fullscreenCodeId: null,
-      setFullscreenCodeId: vi.fn(),
+  it('should assign the focus mode id to the LiveCode wrapper element', () => {
+    vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
+      focusModeCodeId: null,
+      setFocusModeCodeId: vi.fn(),
       savedScrollY: { current: 0 },
     })
 
@@ -396,15 +446,10 @@ describe('CodeBlock', () => {
     expect(wrapper).toBeTruthy()
   })
 
-  it('should scroll to top when entering focusmode', () => {
-    const scrollTo = vi
-      .spyOn(window, 'scrollTo')
-      .mockImplementation(() => {})
-
-    const mockSetFullscreenCodeId = vi.fn()
-    vi.spyOn(FullscreenCodeContext, 'useFullscreenCode').mockReturnValue({
-      fullscreenCodeId: null,
-      setFullscreenCodeId: mockSetFullscreenCodeId,
+  it('should toggle preview padding in focusmode', () => {
+    vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
+      focusModeCodeId: 'block-a',
+      setFocusModeCodeId: vi.fn(),
       savedScrollY: { current: 0 },
     })
 
@@ -414,16 +459,400 @@ describe('CodeBlock', () => {
       </CodeBlock>
     )
 
-    const fullscreenButton = container.querySelector(
-      'button[aria-label="Fullscreen"]'
+    const previewBox = container.querySelector('.example-box')
+    expect(previewBox).toBeTruthy()
+    expect(
+      previewBox.classList.contains('showFocusModePaddingStyle')
+    ).toBe(true)
+
+    const paddingButton = container.querySelector(
+      'button[aria-label="Hide preview padding"]'
     ) as HTMLButtonElement
-    expect(fullscreenButton).toBeTruthy()
+    expect(paddingButton).toBeTruthy()
 
     act(() => {
-      fullscreenButton.click()
+      paddingButton.click()
+    })
+
+    expect(
+      previewBox.classList.contains('showFocusModePaddingStyle')
+    ).toBe(false)
+
+    const showPaddingButton = container.querySelector(
+      'button[aria-label="Show preview padding"]'
+    ) as HTMLButtonElement
+    expect(showPaddingButton).toBeTruthy()
+
+    act(() => {
+      showPaddingButton.click()
+    })
+
+    expect(
+      previewBox.classList.contains('showFocusModePaddingStyle')
+    ).toBe(true)
+  })
+
+  it('should scroll to top when entering focusmode', () => {
+    const scrollTo = vi
+      .spyOn(window, 'scrollTo')
+      .mockImplementation(() => {})
+
+    const mockSetFocusModeCodeId = vi.fn()
+    vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
+      focusModeCodeId: null,
+      setFocusModeCodeId: mockSetFocusModeCodeId,
+      savedScrollY: { current: 0 },
+    })
+
+    const { container } = render(
+      <CodeBlock reactLive scope={{}} language="jsx" stableName="block-a">
+        {'<div>Hello</div>'}
+      </CodeBlock>
+    )
+
+    const focusModeButton = container.querySelector(
+      'button[aria-label="Focus mode"]'
+    ) as HTMLButtonElement
+    expect(focusModeButton).toBeTruthy()
+
+    act(() => {
+      focusModeButton.click()
     })
 
     expect(scrollTo).toHaveBeenCalledWith({ top: 0 })
-    expect(mockSetFullscreenCodeId).toHaveBeenCalledWith('block-a')
+    expect(mockSetFocusModeCodeId).toHaveBeenCalledWith('block-a')
+  })
+
+  describe('copy code button', () => {
+    it('should render a copy code button with tooltip', () => {
+      const { container } = render(
+        <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      )
+
+      const copyButton = container.querySelector(
+        'button[tooltip="Copy to clipboard"]'
+      )
+      expect(copyButton).toBeTruthy()
+    })
+
+    it('should copy code to clipboard when clicking copy button', async () => {
+      const { container } = render(
+        <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      )
+
+      const copyButton = container.querySelector(
+        'button[tooltip="Copy to clipboard"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        copyButton.click()
+      })
+
+      expect(mockCopyToClipboard).toHaveBeenCalledWith('<div>Hello</div>')
+    })
+
+    it('should show "Copied!" tooltip after clicking copy button', async () => {
+      const { container } = render(
+        <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      )
+
+      const copyButton = container.querySelector(
+        'button[tooltip="Copy to clipboard"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        copyButton.click()
+      })
+
+      // After clicking, the tooltip should change to "Copied!"
+      const copiedButton = container.querySelector(
+        'button[tooltip="Copied!"]'
+      )
+      expect(copiedButton).toBeTruthy()
+    })
+
+    it('should copy edited code when user has made changes', async () => {
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      // Simulate user editing the code
+      act(() => {
+        mockLiveEditorOnChange?.('<div>Hello World</div>')
+      })
+
+      const copyButton = container.querySelector(
+        'button[tooltip="Copy to clipboard"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        copyButton.click()
+      })
+
+      expect(mockCopyToClipboard).toHaveBeenCalledWith(
+        '<div>Hello World</div>'
+      )
+    })
+
+    it('should update preview when user edits code', () => {
+      render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      expect(mockLiveProviderCode).toBe('<div>Hello</div>')
+
+      // Simulate user editing the code - this should trigger the context's onChange
+      // which updates the preview
+      act(() => {
+        mockLiveEditorOnChange?.('<div>Edited</div>')
+      })
+
+      // The context's onChange should have been called to update the preview
+      expect(mockLiveContextOnChange).toHaveBeenCalledWith(
+        '<div>Edited</div>'
+      )
+    })
+
+    it('should render an open in StackBlitz button', () => {
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      )
+      expect(stackBlitzButton).toBeTruthy()
+    })
+
+    it('should open StackBlitz when clicking the button', async () => {
+      const mockSubmit = vi.fn()
+      const mockAppendChild = vi.spyOn(document.body, 'appendChild')
+      const mockRemoveChild = vi.spyOn(document.body, 'removeChild')
+
+      // Mock HTMLFormElement.prototype.submit
+      HTMLFormElement.prototype.submit = mockSubmit
+
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+
+      expect(mockSubmit).toHaveBeenCalled()
+      expect(mockAppendChild).toHaveBeenCalled()
+      expect(mockRemoveChild).toHaveBeenCalled()
+
+      vi.restoreAllMocks()
+    })
+
+    it('should set form action to open App.tsx in StackBlitz', async () => {
+      let capturedFormAction = ''
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation(
+        (tagName: string) => {
+          const element = originalCreateElement(tagName)
+          if (tagName === 'form') {
+            element.submit = vi.fn(() => {
+              capturedFormAction = element.action
+            })
+          }
+          return element
+        }
+      )
+
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+
+      expect(capturedFormAction).toContain(
+        'https://stackblitz.com/run?file=src/App.tsx'
+      )
+
+      vi.restoreAllMocks()
+    })
+
+    it('should format App.tsx code with prettier', async () => {
+      mockFormat.mockClear()
+
+      const submittedFormData: Record<string, string> = {}
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation(
+        (tagName: string) => {
+          const element = originalCreateElement(tagName)
+          if (tagName === 'form') {
+            element.submit = vi.fn(() => {
+              const inputs = element.querySelectorAll('input')
+              inputs.forEach((input: HTMLInputElement) => {
+                submittedFormData[input.name] = input.value
+              })
+            })
+          }
+          return element
+        }
+      )
+
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+
+      expect(mockFormat).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          parser: 'babel',
+          singleQuote: true,
+          semi: false,
+        })
+      )
+
+      vi.restoreAllMocks()
+    })
+
+    it('should generate StackBlitz code with proper Eufemia imports', async () => {
+      const submittedFormData: Record<string, string> = {}
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation(
+        (tagName: string) => {
+          const element = originalCreateElement(tagName)
+          if (tagName === 'form') {
+            element.submit = vi.fn(() => {
+              // Capture form data
+              const inputs = element.querySelectorAll('input')
+              inputs.forEach((input: HTMLInputElement) => {
+                submittedFormData[input.name] = input.value
+              })
+            })
+          }
+          return element
+        }
+      )
+
+      const { container } = render(
+        <CodeBlock
+          reactLive
+          scope={{}}
+          language="jsx"
+          sourceImports={["import { Button } from '@dnb/eufemia'"]}
+        >
+          {
+            '<Button onClick={() => console.log("clicked")}>Click me</Button>'
+          }
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+
+      const appCode = submittedFormData['project[files][src/App.tsx]']
+      expect(appCode).toContain("import { Button } from '@dnb/eufemia'")
+
+      vi.restoreAllMocks()
+    })
+
+    it('should generate StackBlitz code with React hooks imports', async () => {
+      const submittedFormData: Record<string, string> = {}
+
+      const originalCreateElement = document.createElement.bind(document)
+      vi.spyOn(document, 'createElement').mockImplementation(
+        (tagName: string) => {
+          const element = originalCreateElement(tagName)
+          if (tagName === 'form') {
+            element.submit = vi.fn(() => {
+              const inputs = element.querySelectorAll('input')
+              inputs.forEach((input: HTMLInputElement) => {
+                submittedFormData[input.name] = input.value
+              })
+            })
+          }
+          return element
+        }
+      )
+
+      const codeWithHooks = `function Example() {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    console.log(count)
+  }, [count])
+  return <Button onClick={() => setCount(c => c + 1)}>{count}</Button>
+}`
+
+      const { container } = render(
+        <CodeBlock
+          reactLive
+          scope={{}}
+          language="jsx"
+          sourceImports={[
+            "import { useEffect, useState } from 'react'",
+            "import { Button } from '@dnb/eufemia'",
+          ]}
+        >
+          {codeWithHooks}
+        </CodeBlock>
+      )
+
+      const stackBlitzButton = container.querySelector(
+        'button[aria-label="Open in StackBlitz"]'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        stackBlitzButton.click()
+        await new Promise((resolve) => setTimeout(resolve, 0))
+      })
+
+      const appCode = submittedFormData['project[files][src/App.tsx]']
+      expect(appCode).toContain(
+        "import { useEffect, useState } from 'react'"
+      )
+      expect(appCode).toContain("import { Button } from '@dnb/eufemia'")
+      // Should wrap function component properly
+      expect(appCode).toContain('<Example />')
+
+      vi.restoreAllMocks()
+    })
   })
 })

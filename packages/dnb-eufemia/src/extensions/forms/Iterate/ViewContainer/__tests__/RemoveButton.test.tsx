@@ -21,7 +21,7 @@ describe('RemoveButton', () => {
   })
 
   it('calls "handleRemove" when remove button is clicked', () => {
-    const handleRemove = jest.fn()
+    const handleRemove = vi.fn()
 
     render(
       <IterateItemContext value={{ handleRemove, isNew: true }}>

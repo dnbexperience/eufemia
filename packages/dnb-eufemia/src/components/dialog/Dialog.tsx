@@ -9,7 +9,7 @@ import DialogBody from './parts/DialogBody'
 import DialogHeader from './parts/DialogHeader'
 import DialogNavigation from './parts/DialogNavigation'
 import type { DialogProps, DialogContentProps } from './types'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -46,6 +46,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     noAnimation,
     noAnimationOnMobile,
     animationDuration,
+    triggerProps,
     triggerAttributes,
     hideCloseButton,
     fullscreen,
@@ -85,7 +86,9 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     currentHideCloseButton =
       hideCloseButton !== undefined ? hideCloseButton : true
     currentOmitTriggerButton =
-      triggerAttributes !== undefined ? omitTriggerButton : true
+      (triggerProps || triggerAttributes) !== undefined
+        ? omitTriggerButton
+        : true
     currentPreventOverlayClose =
       preventOverlayClose !== undefined ? preventOverlayClose : true
   }
@@ -122,6 +125,7 @@ function Dialog(localProps: DialogProps & DialogContentProps) {
     closeModal,
     omitTriggerButton: currentOmitTriggerButton,
     trigger,
+    triggerProps,
     triggerAttributes,
     overlayClass,
     top,

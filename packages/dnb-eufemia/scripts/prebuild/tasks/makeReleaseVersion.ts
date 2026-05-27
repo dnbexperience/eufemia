@@ -6,7 +6,7 @@
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { isCI } from 'repo-utils'
-import getBranchName from 'current-git-branch'
+import simpleGit from 'simple-git'
 import {
   getNextReleaseVersion,
   releaseBranches,
@@ -15,7 +15,7 @@ import { log } from '../../lib'
 import { getStyleScopeHash } from '../../../src/plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 
 export async function makeReleaseVersion() {
-  const branchName = getBranchName()
+  const branchName = (await simpleGit().branch()).current
 
   if (branchName.startsWith('icons/')) {
     return // stop here
@@ -83,6 +83,25 @@ export async function makeReleaseVersion() {
 
     log.succeed(
       `Success on write to scope-hash.txt with scope hash: ${scopeHash}`
+    )
+  }
+
+  // Restore files locally so they don't show up as dirty in git status.
+  // On CI, the modified files are needed for the published build package.
+  if (!isCI) {
+    const packageRoot = require
+      .resolve('@dnb/eufemia/package.json')
+      .replace('/package.json', '')
+
+    execSync(
+      [
+        'git checkout --',
+        'src/shared/build-info/BuildInfoData.ts',
+        'src/shared/build-info/BuildInfoData.cjs',
+        'src/style/core/scopes.scss',
+        'src/scope-hash.txt',
+      ].join(' '),
+      { cwd: packageRoot }
     )
   }
 }

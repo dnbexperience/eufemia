@@ -1,4 +1,5 @@
 import eufemiaConfig from '@dnb/eufemia/eslint.config.mjs'
+import * as mdxPlugin from 'eslint-plugin-mdx'
 import workspacesPlugin from 'eslint-plugin-workspaces'
 
 const workspacesRecommended =
@@ -38,6 +39,38 @@ export default [
           ],
         },
       ],
+    },
+  },
+
+  // MDX linting — parse and lint .mdx files
+  {
+    ...mdxPlugin.flat,
+  },
+  {
+    files: ['**/*.mdx'],
+    rules: {
+      // Catch unused imports/variables in MDX files
+      'no-unused-vars': [
+        'error',
+        {
+          args: 'none',
+          ignoreRestSiblings: true,
+          varsIgnorePattern: '^_',
+        },
+      ],
+
+      // Components are injected via the MDX provider (src/shared/tags/index.tsx)
+      'react/jsx-no-undef': 'off',
+
+      // These rules don't apply well to MDX
+      'prettier/prettier': 'off',
+      'react/no-unescaped-entities': 'off',
+      'react/self-closing-comp': 'off', // false positives: MDX components wrapping markdown content appear "empty" to the parser
+      'no-unused-expressions': 'off',
+      'import/namespace': 'off',
+      'import/no-unresolved': 'off',
+      'workspaces/no-absolute-imports': 'off',
+      'compat/compat': 'off',
     },
   },
 ]

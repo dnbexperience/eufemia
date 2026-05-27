@@ -1007,7 +1007,7 @@ describe('useTableKeyboardNavigation', () => {
         bubbles: true,
         cancelable: true,
       })
-      const preventDefaultSpy = jest.spyOn(event, 'preventDefault')
+      const preventDefaultSpy = vi.spyOn(event, 'preventDefault')
 
       cells[0].dispatchEvent(event)
 

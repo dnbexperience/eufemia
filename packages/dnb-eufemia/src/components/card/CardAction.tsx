@@ -1,0 +1,152 @@
+import { useCallback, useEffect, useRef } from 'react'
+import type { ComponentType, KeyboardEvent, MouseEvent, Ref } from 'react'
+import type { CardProps } from './CardInner'
+import Card from './CardInner'
+import { warn } from '../../shared/component-helper'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+
+export type CardActionProps = Omit<CardProps, 'onClick' | 'element'> & {
+  /**
+   * The URL to navigate to. When set, renders an anchor element.
+   */
+  href?: string
+
+  /**
+   * Route path for use with a router Link component (e.g. react-router). Pass a custom `element` that accepts `to`.
+   */
+  to?: string
+
+  /**
+   * The anchor target attribute.
+   */
+  target?: string
+
+  /**
+   * The anchor rel attribute.
+   */
+  rel?: string
+
+  /**
+   * Click handler. When used without `href`/`to`, renders a button-like wrapper with keyboard support (Enter/Space).
+   */
+  onClick?: (
+    event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
+  ) => void
+
+  /**
+   * Custom element to render as the wrapper. Defaults to `a` when `href`/`to` is set.
+   * Use this for router Link components.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  element?: 'a' | ComponentType<any>
+
+  /**
+   * Ref forwarded to the wrapper element.
+   */
+  ref?: Ref<HTMLElement>
+}
+
+function CardAction(props: CardActionProps) {
+  const {
+    href,
+    to,
+    target,
+    rel: relProp,
+    onClick,
+    element,
+    ref,
+    children,
+    ...cardProps
+  } = props
+
+  const isLink = Boolean(href || to)
+
+  const internalRef = useRef<HTMLElement>(null)
+  const combinedRef = useCombinedRef(ref, internalRef)
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      return // stop here
+    }
+
+    const el = internalRef.current
+    if (!el) {
+      return // stop here
+    }
+
+    const nested = el.querySelector(
+      'a, button, [role="button"], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    if (nested) {
+      warn(
+        'Card.Action: nested interactive elements (such as <a>, <button>, or <input>) inside a Card.Action can cause accessibility issues and unexpected event bubbling. Consider using `element="span"` on nested Button components to avoid invalid HTML nesting.'
+      )
+    }
+  }, [])
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLElement>) => {
+      if (onClick && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault()
+        onClick(event)
+      }
+    },
+    [onClick]
+  )
+
+  // Security: prevent reverse tabnabbing for external links
+  const rel =
+    target === '_blank' && !relProp ? 'noopener noreferrer' : relProp
+
+  const card = <Card {...cardProps}>{children}</Card>
+
+  if (isLink) {
+    const AnchorElement = element || 'a'
+
+    if (AnchorElement !== 'a') {
+      return (
+        <AnchorElement
+          className="dnb-card-action"
+          ref={combinedRef}
+          onClick={onClick}
+          target={target}
+          rel={rel}
+          to={(to || href) as string}
+        >
+          {card}
+        </AnchorElement>
+      )
+    }
+
+    return (
+      <a
+        className="dnb-card-action"
+        ref={combinedRef as Ref<HTMLAnchorElement>}
+        onClick={onClick}
+        target={target}
+        rel={rel}
+        href={href || to}
+      >
+        {card}
+      </a>
+    )
+  }
+
+  return (
+    <div
+      className="dnb-card-action"
+      ref={combinedRef as Ref<HTMLDivElement>}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+    >
+      {card}
+    </div>
+  )
+}
+
+withComponentMarkers(CardAction, { _supportsSpacingProps: true })
+
+export default CardAction

@@ -57,9 +57,11 @@ jobs:
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+      - name: Install Playwright browsers
+        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: yarn workspace @dnb/eufemia playwright install-deps firefox
+      - name: Install Playwright dependencies
+        run: yarn workspace @dnb/eufemia playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Icons fetch and prebuild
@@ -74,7 +76,8 @@ jobs:
       - name: Run visual tests
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
 
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+      - name: Store visual test artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: failure()
         with:
           name: visual-test-artifact

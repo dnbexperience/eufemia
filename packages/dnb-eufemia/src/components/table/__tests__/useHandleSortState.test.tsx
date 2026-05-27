@@ -230,6 +230,7 @@ describe('useHandleSortState', () => {
 
     simulate()
 
+    // "should cycle through 'asc' and 'off'" — second simulate cycles to off
     expect(result.current).toEqual({
       activeSortName: null,
       sortHandler,
@@ -238,6 +239,7 @@ describe('useHandleSortState', () => {
           active: false,
           reversed: undefined,
           direction: 'off',
+          sortedBefore: true,
         },
       },
     })
@@ -321,6 +323,7 @@ describe('useHandleSortState', () => {
           active: false,
           reversed: undefined,
           direction: 'off',
+          sortedBefore: true,
         },
         two: {
           active: false,
@@ -454,6 +457,7 @@ describe('useHandleSortState', () => {
           active: false,
           reversed: undefined,
           direction: 'off',
+          sortedBefore: true,
         },
         two: {
           active: false,
@@ -574,6 +578,7 @@ describe('useHandleSortState', () => {
           active: false,
           direction: 'off',
           reversed: undefined,
+          sortedBefore: true,
         },
       },
     })
@@ -593,8 +598,74 @@ describe('useHandleSortState', () => {
           active: false,
           direction: 'off',
           reversed: undefined,
+          sortedBefore: true,
         },
       },
     })
+  })
+
+  it('should not include sortedBefore initially', () => {
+    const { result } = renderHook(useHandleSortState, {
+      initialProps: {
+        one: { active: false },
+      },
+    })
+
+    expect(result.current.sortState.one).not.toHaveProperty('sortedBefore')
+  })
+
+  it('should set sortedBefore when cycling to off', () => {
+    const { result } = renderHook(useHandleSortState, {
+      initialProps: {
+        one: { active: true },
+      },
+    })
+
+    const simulate = () => act(() => result.current.sortHandler.one())
+
+    // asc
+    simulate()
+    expect(result.current.sortState.one.sortedBefore).toBeUndefined()
+
+    // desc
+    simulate()
+    expect(result.current.sortState.one.sortedBefore).toBeUndefined()
+
+    // off
+    simulate()
+    expect(result.current.sortState.one.sortedBefore).toBe(true)
+  })
+
+  it('should clear sortedBefore when re-activated', () => {
+    const { result } = renderHook(useHandleSortState, {
+      initialProps: {
+        one: { active: true },
+      },
+    })
+
+    const simulate = () => act(() => result.current.sortHandler.one())
+
+    // asc → desc → off
+    simulate()
+    simulate()
+    simulate()
+    expect(result.current.sortState.one.sortedBefore).toBe(true)
+
+    // re-activate → asc
+    simulate()
+    expect(result.current.sortState.one).not.toHaveProperty('sortedBefore')
+  })
+
+  it('should not set sortedBefore when deactivated by another column', () => {
+    const { result } = renderHook(useHandleSortState, {
+      initialProps: {
+        one: { active: true, direction: 'asc' },
+        two: { direction: 'desc' },
+      },
+    })
+
+    // clicking two deactivates one, but one should not get sortedBefore
+    act(() => result.current.sortHandler.two())
+    expect(result.current.sortState.one).not.toHaveProperty('sortedBefore')
   })
 })

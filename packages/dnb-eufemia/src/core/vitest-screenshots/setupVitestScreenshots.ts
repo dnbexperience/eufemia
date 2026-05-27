@@ -395,7 +395,7 @@ expect.extend({
 })
 
 declare module 'vitest' {
-  interface Assertion<T> {
+  interface Matchers<T> {
     toMatchImageSnapshot(): Promise<T>
   }
   interface AsymmetricMatchersContaining {

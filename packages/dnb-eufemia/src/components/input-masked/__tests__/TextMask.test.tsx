@@ -2,26 +2,27 @@ import { render } from '@testing-library/react'
 import TextMask from '../TextMask'
 import { maskitoTransform, maskitoUpdateElement } from '@maskito/core'
 
-jest.mock('@maskito/react', () => ({
-  useMaskito: jest.fn(() => jest.fn()),
+vi.mock('@maskito/react', () => ({
+  useMaskito: vi.fn(() => vi.fn()),
 }))
 
-jest.mock('@maskito/core', () => ({
-  maskitoTransform: jest.fn(),
-  maskitoUpdateElement: jest.fn(),
+vi.mock('@maskito/core', () => ({
+  maskitoTransform: vi.fn(),
+  maskitoUpdateElement: vi.fn(),
 }))
 
 describe('TextMask', () => {
-  const maskitoTransformMock = maskitoTransform as jest.MockedFunction<
-    typeof maskitoTransform
-  >
+  const maskitoTransformMock =
+    maskitoTransform as import('vitest').MockedFunction<
+      typeof maskitoTransform
+    >
   const maskitoUpdateElementMock =
-    maskitoUpdateElement as jest.MockedFunction<
+    maskitoUpdateElement as import('vitest').MockedFunction<
       typeof maskitoUpdateElement
     >
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
 
     maskitoTransformMock.mockImplementation(({ value, selection }) => ({
       value,
@@ -46,5 +47,47 @@ describe('TextMask', () => {
 
     expect(maskitoUpdateElementMock).toHaveBeenCalledTimes(1)
     expect(maskitoUpdateElementMock).toHaveBeenCalledWith(input, validated)
+  })
+
+  it('clears element when value transitions from a number to null', () => {
+    const validated = { value: '1234', selection: [4, 4] as const }
+    maskitoTransformMock.mockReturnValue(validated)
+
+    const { rerender } = render(<TextMask mask={[/\d/]} value="123" />)
+
+    maskitoUpdateElementMock.mockClear()
+
+    rerender(<TextMask mask={[/\d/]} value={null} />)
+
+    const input = document.querySelector('input')
+    expect(maskitoUpdateElementMock).toHaveBeenCalledTimes(1)
+    expect(maskitoUpdateElementMock).toHaveBeenCalledWith(input, {
+      value: '',
+      selection: [0, 0],
+    })
+  })
+
+  it('clears element when value transitions from a number to undefined', () => {
+    const validated = { value: '1234', selection: [4, 4] as const }
+    maskitoTransformMock.mockReturnValue(validated)
+
+    const { rerender } = render(<TextMask mask={[/\d/]} value="123" />)
+
+    maskitoUpdateElementMock.mockClear()
+
+    rerender(<TextMask mask={[/\d/]} value={undefined} />)
+
+    const input = document.querySelector('input')
+    expect(maskitoUpdateElementMock).toHaveBeenCalledTimes(1)
+    expect(maskitoUpdateElementMock).toHaveBeenCalledWith(input, {
+      value: '',
+      selection: [0, 0],
+    })
+  })
+
+  it('does not clear element when value is null on initial mount', () => {
+    render(<TextMask mask={[/\d/]} value={null} />)
+
+    expect(maskitoUpdateElementMock).not.toHaveBeenCalled()
   })
 })

@@ -12,6 +12,9 @@ draft: true
   - [Install](#install)
   - [Component changes](#component-changes)
     - [Accordion](#accordion)
+    - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
+    - [InfoCard](#infocard)
+    - [Popover](#popover)
 
 ## Migration
 
@@ -28,3 +31,48 @@ $ yarn add @dnb/eufemia@12
 ```
 
 ## Component changes
+
+### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
+
+- Replace `closeButtonAttributes` with `closeButtonProps`.
+
+```diff
+-<Drawer closeButtonAttributes={{ text: 'Custom text' }} />
++<Drawer closeButtonProps={{ text: 'Custom text' }} />
+```
+
+- Replace `triggerAttributes` with `triggerProps`.
+
+```diff
+-<Dialog triggerAttributes={{ text: 'Open', variant: 'primary' }} />
++<Dialog triggerProps={{ text: 'Open', variant: 'primary' }} />
+```
+
+- The `ModalTriggerAttributes` type has been removed. Use `ButtonProps` from `@dnb/eufemia` instead.
+
+### [InfoCard](/uilib/components/info-card/)
+
+- Replace `closeButtonAttributes` with `closeButtonProps`.
+
+```diff
+-<InfoCard closeButtonAttributes={{ href: '/path' }} />
++<InfoCard closeButtonProps={{ href: '/path' }} />
+```
+
+- Replace `acceptButtonAttributes` with `acceptButtonProps`.
+
+```diff
+-<InfoCard acceptButtonAttributes={{ href: '/path' }} />
++<InfoCard acceptButtonProps={{ href: '/path' }} />
+```
+
+### [Popover](/uilib/components/popover/)
+
+- Replace `triggerAttributes` with `triggerProps`.
+
+```diff
+-<Popover triggerAttributes={{ 'aria-haspopup': 'menu' }} />
++<Popover triggerProps={{ 'aria-haspopup': 'menu' }} />
+```
+
+- The `PopoverTriggerAttributes` type has been removed. Use `triggerProps` instead.

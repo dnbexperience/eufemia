@@ -1,4 +1,3 @@
-/* eslint-disable jest/no-conditional-expect */
 /**
  * Test for the post-build stage
  *

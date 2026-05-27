@@ -6,9 +6,9 @@ import type { MenuContextValue } from '../types'
 /**
  * Mock Popover component for menu tests.
  *
- * Use with jest.mock at the top of your test file:
+ * Use with vi.mock at the top of your test file:
  * ```
- * jest.mock('../../popover/Popover', () => MockPopover)
+ * vi.mock('../../popover/Popover', () => MockPopover)
  * ```
  */
 export function MockPopover(props: {
@@ -18,10 +18,13 @@ export function MockPopover(props: {
   children?: ReactNode | ((ctx: Record<string, unknown>) => ReactNode)
   className?: string
   id?: string
+  triggerProps?: Record<string, unknown>
   triggerAttributes?: Record<string, unknown>
   [key: string]: unknown
 }) {
   const closeFn = () => props.onOpenChange?.(false)
+
+  const mergedTriggerAttrs = props.triggerProps || props.triggerAttributes
 
   const triggerElement =
     typeof props.trigger === 'function'
@@ -30,7 +33,7 @@ export function MockPopover(props: {
             ref: () => {},
             'aria-controls': 'mock-popover-content',
             'aria-expanded': props.open || false,
-            ...props.triggerAttributes,
+            ...mergedTriggerAttrs,
           }
           Object.defineProperties(triggerRenderProps, {
             active: { value: props.open || false, enumerable: false },
@@ -76,15 +79,15 @@ export function createMockContext(
 
   return {
     level: 0,
-    closeAll: jest.fn(),
+    closeAll: vi.fn(),
     activeIndex: 0,
-    setActiveIndex: jest.fn(),
-    registerItem: jest.fn((ref) => {
+    setActiveIndex: vi.fn(),
+    registerItem: vi.fn((ref) => {
       const index = itemRefs.current.length
       itemRefs.current.push(ref)
       return index
     }),
-    unregisterItem: jest.fn(),
+    unregisterItem: vi.fn(),
     itemRefs,
     menuRef: { current: null },
     isOpen: true,

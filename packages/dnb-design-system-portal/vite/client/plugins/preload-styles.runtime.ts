@@ -37,7 +37,7 @@ if (
       '.dnb-live-toolbar{display:none!important}'
   }
 
-  s.id = 'fullscreen-preload-style'
+  s.id = 'portal-preload-style'
   s.textContent = css
   document.head.appendChild(s)
 }

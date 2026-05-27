@@ -136,7 +136,7 @@ describe('getData', () => {
     it('should provide filterData handler', () => {
       type Data = { foo: string }
 
-      const filterDataHandler = jest.fn(({ props }) => {
+      const filterDataHandler = vi.fn(({ props }) => {
         if (props.disabled === true) {
           return false
         }

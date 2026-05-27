@@ -118,5 +118,12 @@
     @include table-mixins.tableBorder() {
       border-bottom: var(--table-border);
     }
+
+    // The tableBorder mixin uses right: -0.0625rem to avoid gaps between
+    // adjacent cell borders, but for a full-width tbody border this offset
+    // causes horizontal overflow that triggers a scrollbar in ScrollView.
+    &::after {
+      right: 0;
+    }
   }
 }

@@ -5,7 +5,11 @@
 
 import { useState } from 'react'
 import type { PropsWithChildren, Ref } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import type { GlobalStatusProps } from '../GlobalStatus'
 import GlobalStatus from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
@@ -41,7 +45,7 @@ const props: GlobalStatusProps = {
 initializeTestSetup()
 
 beforeEach(() => {
-  window.scrollTo = jest.fn()
+  window.scrollTo = vi.fn()
 })
 
 describe('GlobalStatus component', () => {
@@ -131,14 +135,14 @@ describe('GlobalStatus component', () => {
           statusId="status-update-1"
           text="will be overwritten"
           item={{ text: 'item#2' }}
-          onClose={jest.fn()}
+          onClose={vi.fn()}
         />
         <GlobalStatus.Add
           id="custom-status-update"
           statusId="status-update-1"
           text={newText}
           item={{ text: 'item#3' }}
-          onClose={jest.fn()}
+          onClose={vi.fn()}
         />
       </>
     )
@@ -176,7 +180,7 @@ describe('GlobalStatus component', () => {
         statusId="status-update-1"
         text={startupText}
         items={startupItems}
-        onClose={jest.fn()}
+        onClose={vi.fn()}
       />
     )
 
@@ -195,7 +199,7 @@ describe('GlobalStatus component', () => {
         statusId="status-update-1"
         text={newText}
         items={newItems}
-        onClose={jest.fn()}
+        onClose={vi.fn()}
       />
     )
 
@@ -237,7 +241,7 @@ describe('GlobalStatus component', () => {
         statusId="status-remove-1"
         text={startupText}
         items={startupItems}
-        onClose={jest.fn()}
+        onClose={vi.fn()}
       />
     )
 
@@ -259,7 +263,7 @@ describe('GlobalStatus component', () => {
         statusId="status-remove-2"
         text={newText}
         items={newItems}
-        onClose={jest.fn()}
+        onClose={vi.fn()}
       />
     )
 
@@ -429,8 +433,8 @@ describe('GlobalStatus component', () => {
   })
 
   it('should scroll to GlobalStatus', async () => {
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
     const offsetTop = 1000
 
     const ToggleStatus = () => {
@@ -466,15 +470,11 @@ describe('GlobalStatus component', () => {
       top: 0,
     })
 
-    jest
-      .spyOn(
-        document.querySelector(
-          '.dnb-global-status__wrapper'
-        ) as HTMLElement,
-        'offsetTop',
-        'get'
-      )
-      .mockImplementation(() => offsetTop)
+    vi.spyOn(
+      document.querySelector('.dnb-global-status__wrapper') as HTMLElement,
+      'offsetTop',
+      'get'
+    ).mockImplementation(() => offsetTop)
 
     // Close
     fireEvent.click(document.querySelector('input#switch'))
@@ -494,8 +494,8 @@ describe('GlobalStatus component', () => {
   })
 
   it('should not scroll when autoScroll is false', async () => {
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     const ToggleStatus = () => {
       const [status, setStatus] = useState(null)
@@ -528,8 +528,8 @@ describe('GlobalStatus component', () => {
   })
 
   it('should scroll when autoScroll is true (default)', async () => {
-    const scrollTo = jest.fn()
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     const ToggleStatus = () => {
       const [status, setStatus] = useState(null)
@@ -564,8 +564,8 @@ describe('GlobalStatus component', () => {
   })
 
   it('should close when esc key is pressed', async () => {
-    const onClose = jest.fn()
-    const onHide = jest.fn()
+    const onClose = vi.fn()
+    const onHide = vi.fn()
 
     const ToggleStatus = () => {
       const [status, setStatus] = useState(null)
@@ -622,8 +622,8 @@ describe('GlobalStatus component', () => {
   })
 
   it('should close when escape key name is pressed', async () => {
-    const onClose = jest.fn()
-    const onHide = jest.fn()
+    const onClose = vi.fn()
+    const onHide = vi.fn()
 
     const ToggleStatus = () => {
       const [status, setStatus] = useState(null)
@@ -865,9 +865,9 @@ describe('GlobalStatus component', () => {
   })
 
   it('should have a working auto close', async () => {
-    const onOpen = jest.fn()
-    const onClose = jest.fn()
-    const onHide = jest.fn()
+    const onOpen = vi.fn()
+    const onClose = vi.fn()
+    const onHide = vi.fn()
 
     render(
       <GlobalStatus
@@ -885,7 +885,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoClose"
         statusId="status-autoClose-1"
         text="text only"
-        onClose={jest.fn()}
+        onClose={vi.fn()}
       />
     )
 
@@ -904,7 +904,7 @@ describe('GlobalStatus component', () => {
         statusId="status-autoClose-2"
         text="text only"
         items={['foo']}
-        onClose={jest.fn()}
+        onClose={vi.fn()}
       />
     )
 
@@ -949,7 +949,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoClose"
         statusId="status-autoClose-1"
         items={['foo']}
-        onClose={jest.fn()}
+        onClose={vi.fn()}
         text="text"
       />
     )
@@ -1002,7 +1002,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-show"
         statusId="status-show-1"
         text="text only"
-        onClose={jest.fn()}
+        onClose={vi.fn()}
       />
     )
 

@@ -291,10 +291,6 @@
     animation-duration: 0ms;
   }
 
-  html[data-visual-test] &__bar-transition {
-    transition: none;
-  }
-
   &--full-width {
     width: 100%;
     min-width: 1rem;

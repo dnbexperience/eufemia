@@ -18,7 +18,7 @@ import type {
   ReactNode,
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { SuffixContext } from '../../shared/helpers/Suffix'
 import Context from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
@@ -114,10 +114,13 @@ function ModalComponent(ownProps: ModalAllProps) {
 
     omitTriggerButton = false,
     trigger = null,
-    triggerAttributes = null,
+    triggerProps: triggerPropsProp,
+    triggerAttributes: triggerAttributesProp = null,
     ref: _ref,
     ...rest
   } = props
+
+  const triggerAttributes = triggerPropsProp || triggerAttributesProp
 
   const { open, openModal, closeModal, preventClose = false } = props
 

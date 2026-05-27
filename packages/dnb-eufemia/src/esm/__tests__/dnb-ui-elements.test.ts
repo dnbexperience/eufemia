@@ -3,7 +3,7 @@
  *
  */
 
-import '../../core/jest/jestSetup'
+import '../../core/test-utils/testSetup'
 import { Blockquote, Ul, Td } from '../dnb-ui-elements'
 
 describe('ESM elements library package', () => {

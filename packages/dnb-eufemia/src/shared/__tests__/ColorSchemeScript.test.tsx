@@ -77,7 +77,7 @@ describe('ColorSchemeScript', () => {
     })
 
     it('head script resolves dark from localStorage', () => {
-      const storageMock = jest
+      const storageMock = vi
         .spyOn(Storage.prototype, 'getItem')
         .mockReturnValue(JSON.stringify({ colorScheme: 'dark' }))
 
@@ -92,12 +92,12 @@ describe('ColorSchemeScript', () => {
     })
 
     it('head script resolves auto via matchMedia', () => {
-      const storageMock = jest
+      const storageMock = vi
         .spyOn(Storage.prototype, 'getItem')
         .mockReturnValue(JSON.stringify({ colorScheme: 'auto' }))
 
       const matchMediaOriginal = window.matchMedia
-      window.matchMedia = jest.fn().mockReturnValue({ matches: true })
+      window.matchMedia = vi.fn().mockReturnValue({ matches: true })
 
       eval(getHeadScript('test-scope'))
 
@@ -108,12 +108,12 @@ describe('ColorSchemeScript', () => {
     })
 
     it('head script resolves light when matchMedia does not match', () => {
-      const storageMock = jest
+      const storageMock = vi
         .spyOn(Storage.prototype, 'getItem')
         .mockReturnValue(JSON.stringify({}))
 
       const matchMediaOriginal = window.matchMedia
-      window.matchMedia = jest.fn().mockReturnValue({ matches: false })
+      window.matchMedia = vi.fn().mockReturnValue({ matches: false })
 
       eval(getHeadScript('test-scope'))
 

@@ -4,7 +4,7 @@ import Drawer from '../Drawer'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 
 const props: DrawerAllProps = {
@@ -25,7 +25,7 @@ beforeEach(() => {
 
 const log = global.console.log
 beforeEach(() => {
-  global.console.log = jest.fn((...args) => {
+  global.console.log = vi.fn((...args) => {
     if (
       !String(args[1]).includes(
         'A Dialog or Drawer needs a h1 as its first element!'
@@ -37,7 +37,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   global.console.log = log
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('Drawer', () => {
@@ -80,8 +80,8 @@ describe('Drawer', () => {
   })
 
   it('will close by using callback method', () => {
-    const onClose = jest.fn()
-    const onOpen = jest.fn()
+    const onClose = vi.fn()
+    const onOpen = vi.fn()
     render(
       <Drawer
         noAnimation={true}
@@ -108,8 +108,8 @@ describe('Drawer', () => {
   })
 
   it('will render Navigation, Header and Body even when hideCloseButton is true', () => {
-    const onClose = jest.fn()
-    const onOpen = jest.fn()
+    const onClose = vi.fn()
+    const onOpen = vi.fn()
 
     render(
       <Drawer
@@ -161,6 +161,7 @@ describe('Drawer', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
+  // Deprecated: closeButtonAttributes – remove this test in v12
   it('sends along closeButtonAttributes to close button', () => {
     render(
       <Drawer
@@ -180,6 +181,42 @@ describe('Drawer', () => {
         .querySelector('.dnb-modal__close-button')
         ?.textContent?.replace(/\u200C/g, '')
     ).toBe('Custom text')
+  })
+
+  it('sends along closeButtonProps to close button', () => {
+    render(
+      <Drawer open noAnimation closeButtonProps={{ text: 'Custom text' }}>
+        Content
+      </Drawer>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-modal__close-button')
+    ).toHaveLength(1)
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('Custom text')
+  })
+
+  it('closeButtonProps takes precedence over closeButtonAttributes', () => {
+    render(
+      <Drawer
+        open
+        noAnimation
+        closeButtonProps={{ text: 'New prop' }}
+        closeButtonAttributes={{ text: 'Old prop' }}
+      >
+        Content
+      </Drawer>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('New prop')
   })
 
   it('will use props from global context', () => {
@@ -203,7 +240,7 @@ describe('Drawer', () => {
 
   it('is closed by keyboardevent esc', () => {
     let testTriggeredBy = null
-    const onClose = jest.fn(
+    const onClose = vi.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
@@ -223,7 +260,7 @@ describe('Drawer', () => {
   })
 
   it('is closed by keyboardevent esc by window listener', async () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
 
     const props: DrawerAllProps = {
       directDomReturn: false,
@@ -299,14 +336,14 @@ describe('Drawer', () => {
 
   it('has support for nested Drawers', async () => {
     const onOpen = {
-      first: jest.fn(),
-      second: jest.fn(),
-      third: jest.fn(),
+      first: vi.fn(),
+      second: vi.fn(),
+      third: vi.fn(),
     }
     const onClose = {
-      first: jest.fn(),
-      second: jest.fn(),
-      third: jest.fn(),
+      first: vi.fn(),
+      second: vi.fn(),
+      third: vi.fn(),
     }
 
     const props: DrawerAllProps = {
@@ -487,8 +524,8 @@ describe('Drawer', () => {
   })
 
   it('will close drawer by using callback method', () => {
-    const onClose = jest.fn()
-    const onOpen = jest.fn()
+    const onClose = vi.fn()
+    const onOpen = vi.fn()
 
     render(
       <Drawer
@@ -665,6 +702,45 @@ describe('scrollbarGutter', () => {
     expect(scrollView).not.toHaveClass(
       'dnb-scroll-view--scrollbar-gutter-stable'
     )
+  })
+})
+
+describe('Drawer triggerProps', () => {
+  it('should forward text to the trigger button', () => {
+    render(<Drawer triggerProps={{ text: 'Open Drawer' }} {...props} />)
+
+    expect(
+      document
+        .querySelector('button.dnb-modal__trigger')
+        .querySelector('.dnb-button__text').textContent
+    ).toBe('Open Drawer')
+  })
+
+  it('should forward variant to the trigger button', () => {
+    render(
+      <Drawer
+        triggerProps={{ text: 'Open Drawer', variant: 'primary' }}
+        {...props}
+      />
+    )
+
+    expect(
+      document.querySelector('button.dnb-modal__trigger')
+    ).toHaveClass('dnb-button--primary')
+  })
+
+  it('should call triggerProps onClick', () => {
+    const onClick = vi.fn()
+
+    render(
+      <Drawer triggerProps={{ onClick }} {...props}>
+        Drawer content
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
   })
 })
 

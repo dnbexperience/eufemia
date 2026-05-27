@@ -14,7 +14,7 @@ import type {
   Schema,
 } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
@@ -72,46 +72,7 @@ export type DateProps = Omit<
    */
   showResetButton?: DatePickerProps['showResetButton']
   onBlurValidator?: DateValidator | false
-} & Pick<
-    DatePickerProps,
-    | 'month'
-    | 'startMonth'
-    | 'endMonth'
-    | 'minDate'
-    | 'maxDate'
-    | 'maskOrder'
-    | 'maskPlaceholder'
-    | 'dateFormat'
-    | 'returnFormat'
-    | 'hideNavigation'
-    | 'hideDays'
-    | 'onlyMonth'
-    | 'hideLastWeek'
-    | 'disableAutofocus'
-    | 'showSubmitButton'
-    | 'submitButtonText'
-    | 'cancelButtonText'
-    | 'resetButtonText'
-    | 'firstDay'
-    | 'link'
-    | 'size'
-    | 'sync'
-    | 'addonElement'
-    | 'shortcuts'
-    | 'open'
-    | 'direction'
-    | 'alignPicker'
-    | 'onDaysRender'
-    | 'onType'
-    | 'onOpen'
-    | 'onClose'
-    | 'onSubmit'
-    | 'onCancel'
-    | 'onReset'
-    | 'skipPortal'
-    | 'yearNavigation'
-    | 'tooltip'
-  >
+} & PickedDatePickerProps
 
 function DateComponent(props: DateProps): ReactElement {
   const { errorRequired, label: defaultLabel } = useTranslation().Date
@@ -700,8 +661,10 @@ function isEmptyOrPlaceholder(date: string): boolean {
 }
 
 // Used to filter out DatePickerProps from the FieldProps.
-// Includes DatePickerProps that are not destructured in useFieldProps
-const datePickerPropKeys = [
+// Includes DatePickerProps that are not destructured in useFieldProps.
+// Single source of truth for both the type and the runtime key list.
+// Also used by DateDocs.ts to keep documentation in sync.
+export const datePickerPropKeys = [
   'month',
   'startMonth',
   'endMonth',
@@ -730,8 +693,6 @@ const datePickerPropKeys = [
   'direction',
   'alignPicker',
   'onDaysRender',
-  'showInput',
-  'onDaysRender',
   'onType',
   'onOpen',
   'onClose',
@@ -741,12 +702,68 @@ const datePickerPropKeys = [
   'skipPortal',
   'yearNavigation',
   'tooltip',
-]
+  'triggerProps',
+] as const satisfies ReadonlyArray<keyof DatePickerProps>
+
+type PickedDatePickerProps = Pick<
+  DatePickerProps,
+  (typeof datePickerPropKeys)[number]
+>
+
+// DatePickerProps that are intentionally not forwarded to DatePicker.
+// When a new prop is added to DatePickerProps, add it to either
+// datePickerPropKeys (forwarded) or this type (excluded).
+type ExcludedDatePickerProps =
+  // Value props handled by Field.Date
+  | 'date'
+  | 'startDate'
+  | 'endDate'
+  // Props with different defaults, handled separately
+  | 'range'
+  | 'showInput'
+  | 'showCancelButton'
+  | 'showResetButton'
+  // Props handled by useFieldProps
+  | 'label'
+  | 'labelDirection'
+  | 'labelSrOnly'
+  | 'labelAlignment'
+  | 'inputElement'
+  | 'disabled'
+  | 'stretch'
+  | 'skeleton'
+  | 'suffix'
+  | 'onChange'
+  | 'onFocus'
+  | 'onBlur'
+  // Not supported by Field.Date
+  | 'inline'
+  | 'resetDate'
+  | 'preventClose'
+  | 'noAnimation'
+  | 'enableKeyboardNav'
+  | 'tabIndex'
+  | 'className'
+  | '_omitInputShellClass'
+
+// Compile-time check: every DatePickerProps key must be either
+// forwarded (datePickerPropKeys) or explicitly excluded.
+// If this errors, a new DatePickerProps key needs to be added
+// to one of the two lists above.
+// eslint-disable-next-line @typescript-eslint/naming-convention
+type AssertNever<T extends never> = T
+// eslint-disable-next-line @typescript-eslint/naming-convention
+type _AssertAllPropsHandled = AssertNever<
+  Exclude<
+    keyof DatePickerProps,
+    (typeof datePickerPropKeys)[number] | ExcludedDatePickerProps
+  >
+>
 
 function pickDatePickerProps(props: DateProps): Partial<DatePickerProps> {
   const datePickerProps = Object.keys(props).reduce(
     (datePickerProps, key) => {
-      if (datePickerPropKeys.includes(key)) {
+      if ((datePickerPropKeys as ReadonlyArray<string>).includes(key)) {
         datePickerProps[key] = props[key]
       }
 

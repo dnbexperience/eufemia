@@ -1,62 +1,54 @@
 @use '../../../style/core/utilities.scss' as utilities;
-@use './themes/button-mixins.scss';
 
 .dnb-button {
   &--tertiary {
     --button-tertiary-focus-left: -0.5rem;
     --button-tertiary-focus-right: -0.5rem;
     --button-tertiary-focus-overflow--icon-top: -0.5rem;
-    --button-tertiary-underline-left: var(
-      --button-tertiary-underline-overflow
-    );
-    --button-tertiary-underline-right: var(
-      --button-tertiary-underline-overflow
-    );
     --button-tertiary-underline-overflow: 0;
-    --button-tertiary-underline-overflow--icon: calc(
-      (var(--button-icon-gutter) + var(--button-icon-size)) * -1
-    );
-    // create underline (::after)
-    .dnb-button__text {
-      position: relative; // because of the underline
 
-      @include button-mixins.drawUnderlineBorder() {
-        bottom: -0.0625rem;
-        transition: color 250ms ease-in-out;
-        html[data-visual-test] & {
-          transition: none;
-        }
-        left: var(--button-tertiary-underline-left);
-        right: var(--button-tertiary-underline-right);
-      }
+    // Use text-decoration for underline (same technique as Anchor)
+    .dnb-button__text {
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-decoration-thickness: 0.095rem;
+      text-underline-offset: 0.375em;
+      transition: text-decoration-color 250ms ease-in-out;
+    }
+
+    .dnb-skeleton .dnb-button__text {
+      text-decoration: none;
     }
 
     @include utilities.focusVisible() {
-      // underline
-      .dnb-button__text::after {
-        visibility: hidden;
+      .dnb-button__text {
+        text-decoration: none;
       }
     }
 
     @include utilities.hover() {
-      // underline
-      .dnb-button__text::after {
-        visibility: visible;
+      .dnb-button__text {
+        text-decoration-color: var(
+          --button-color-underline,
+          var(--button-color-underline--default)
+        );
       }
     }
 
     @include utilities.active() {
       @include utilities.removeFocusRing('keyboard');
 
-      // underline
-      .dnb-button__text::after {
+      .dnb-button__text {
         html[data-whatintent='touch'] & {
           transition: none;
-          visibility: visible;
-          opacity: 1;
+          text-decoration-color: var(
+            --button-color-underline,
+            var(--button-color-underline--default)
+          );
         }
+
         html:not([data-whatintent='touch']) & {
-          visibility: hidden;
+          text-decoration: none;
         }
       }
     }
@@ -110,24 +102,12 @@
 
     &.dnb-button--has-icon {
       &.dnb-button--has-text {
-        &.dnb-button--icon-size-medium,
-        &.dnb-button--icon-size-large {
-          --button-tertiary-underline-overflow--icon: var(
-            --button-tertiary-underline-overflow
-          );
-        }
-
         &.dnb-button--icon-position-left {
           --button-tertiary-focus-right: -1rem;
-          --button-tertiary-underline-left: var(
-            --button-tertiary-underline-overflow--icon
-          );
         }
+
         &.dnb-button--icon-position-right {
           --button-tertiary-focus-left: -1rem;
-          --button-tertiary-underline-right: var(
-            --button-tertiary-underline-overflow--icon
-          );
         }
       }
 
@@ -135,14 +115,6 @@
         --button-tertiary-focus-left: 0;
         --button-tertiary-focus-right: 0;
       }
-    }
-
-    // stylelint-disable-next-line
-    html[data-whatinput='keyboard']
-		// webkit fix
-		  &:hover:focus
-		  .dnb-button__text::after {
-      visibility: hidden;
     }
   }
 }

@@ -1,5 +1,5 @@
 import { render, fireEvent, createEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Table from '../Table'
 import Tr from '../TableTr'
 import Td from '../TableTd'
@@ -34,7 +34,7 @@ describe('Table using mode="navigation" prop', () => {
     render(
       <Table mode="navigation">
         <tbody>
-          <Tr onClick={jest.fn()}>
+          <Tr onClick={vi.fn()}>
             <Td>content</Td>
           </Tr>
         </tbody>
@@ -52,7 +52,7 @@ describe('Table using mode="navigation" prop', () => {
     render(
       <Table mode="navigation">
         <tbody>
-          <Tr onClick={jest.fn()}>
+          <Tr onClick={vi.fn()}>
             <Td>content</Td>
           </Tr>
         </tbody>
@@ -67,7 +67,7 @@ describe('Table using mode="navigation" prop', () => {
   it('should emit onClick and expose data attributes on the tr', () => {
     let currentTarget: HTMLElement | null = null
 
-    const onClick = jest.fn((event) => {
+    const onClick = vi.fn((event) => {
       currentTarget = event.currentTarget
     })
 
@@ -90,7 +90,7 @@ describe('Table using mode="navigation" prop', () => {
   })
 
   it('should pass enriched info as second argument to onClick', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <Table mode="navigation">
@@ -112,7 +112,7 @@ describe('Table using mode="navigation" prop', () => {
   })
 
   it('tr should not emit onClick event on interactive element click', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <Table mode="navigation">
@@ -135,21 +135,19 @@ describe('Table using mode="navigation" prop', () => {
     const inputElem = trElement.querySelector('input')
     const buttonElem = trElement.querySelector('button#test-button')
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
     fireEvent.click(inputElem)
 
     expect(onClick).not.toHaveBeenCalled()
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(buttonElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(buttonElem)
 
     fireEvent.click(buttonElem)
 
     expect(onClick).not.toHaveBeenCalled()
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
 
     fireEvent.click(inputElem)
 
@@ -167,10 +165,10 @@ describe('Table using mode="navigation" prop', () => {
 
     expect(onClick).toHaveBeenCalledTimes(2)
 
-    const getSelection = jest.fn(() => ({
+    const getSelection = vi.fn(() => ({
       toString: () => 'mock selection',
-    })) as jest.Mock
-    jest.spyOn(window, 'getSelection').mockImplementationOnce(getSelection)
+    })) as import('vitest').Mock
+    vi.spyOn(window, 'getSelection').mockImplementationOnce(getSelection)
 
     // Click again, but with selection
     fireEvent.click(trElement)
@@ -178,7 +176,7 @@ describe('Table using mode="navigation" prop', () => {
     expect(onClick).toHaveBeenCalledTimes(2)
 
     // Simulate keyboard usage
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
     fireEvent.keyDown(inputElem, { key: 'Enter' })
 
@@ -188,9 +186,9 @@ describe('Table using mode="navigation" prop', () => {
 
     expect(onClick).toHaveBeenCalledTimes(2)
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(labelElement)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(
+      labelElement
+    )
 
     fireEvent.keyDown(labelElement, { key: 'Enter' })
 
@@ -200,11 +198,11 @@ describe('Table using mode="navigation" prop', () => {
 
     expect(onClick).toHaveBeenCalledTimes(2)
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
   })
 
   it('tr should emit onClick on button click', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <Table mode="navigation">
@@ -219,9 +217,7 @@ describe('Table using mode="navigation" prop', () => {
     const trElement = document.querySelector('tr')
     const buttonElem = trElement.querySelector('.dnb-table__button button')
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(buttonElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(buttonElem)
 
     fireEvent.click(buttonElem)
 
@@ -328,11 +324,11 @@ describe('Table using mode="navigation" prop', () => {
           </Tr>
         </thead>
         <tbody>
-          <Tr onClick={jest.fn()}>
+          <Tr onClick={vi.fn()}>
             <Td>Row 1 A</Td>
             <Td>Row 1 B</Td>
           </Tr>
-          <Tr onClick={jest.fn()}>
+          <Tr onClick={vi.fn()}>
             <Td>Row 2 A</Td>
             <Td>Row 2 B</Td>
           </Tr>
@@ -343,7 +339,7 @@ describe('Table using mode="navigation" prop', () => {
   })
 
   it('tr should call onClick with enter or space key on tr', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <Table mode="navigation">
@@ -362,7 +358,7 @@ describe('Table using mode="navigation" prop', () => {
 
     const trElement = document.querySelector('tbody tr')
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
 
     expect(onClick).not.toHaveBeenCalled()
 
@@ -370,7 +366,7 @@ describe('Table using mode="navigation" prop', () => {
     const enterKey = createEvent.keyDown(trElement, {
       key: 'Enter',
     })
-    enterKey.preventDefault = jest.fn()
+    enterKey.preventDefault = vi.fn()
     fireEvent(trElement, enterKey)
 
     expect(enterKey.preventDefault).toHaveBeenCalledTimes(1)
@@ -380,7 +376,7 @@ describe('Table using mode="navigation" prop', () => {
     const spaceKey = createEvent.keyDown(trElement, {
       key: ' ',
     })
-    spaceKey.preventDefault = jest.fn()
+    spaceKey.preventDefault = vi.fn()
     fireEvent(trElement, spaceKey)
 
     expect(spaceKey.preventDefault).toHaveBeenCalledTimes(1)

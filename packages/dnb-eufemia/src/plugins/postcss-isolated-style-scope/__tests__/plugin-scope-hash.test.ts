@@ -4,19 +4,19 @@ import * as BuildInfoModule from '../../../shared/build-info/BuildInfo'
 import * as BuildInfoCjsModule from '../../../shared/build-info/BuildInfo.cjs'
 import { getStyleScopeHash } from '../plugin-scope-hash.js'
 
-jest.mock('../../../shared/build-info/BuildInfo', () => ({
-  getVersion: jest.fn(),
-  getSha: jest.fn(),
+vi.mock('../../../shared/build-info/BuildInfo', () => ({
+  getVersion: vi.fn(),
+  getSha: vi.fn(),
 }))
 
-jest.mock('../../../shared/build-info/BuildInfo.cjs', () => ({
-  getVersion: jest.fn(),
-  getSha: jest.fn(),
+vi.mock('../../../shared/build-info/BuildInfo.cjs', () => ({
+  getVersion: vi.fn(),
+  getSha: vi.fn(),
 }))
 
 describe('getStyleScopeHash', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    vi.clearAllMocks()
   })
 
   it('should have named export in entry file', async () => {
@@ -47,7 +47,7 @@ describe('getStyleScopeHash', () => {
   ])(
     'should return slugified scope for version numbers (%s)',
     (_, module, buildInfo) => {
-      jest.mocked(buildInfo.getVersion).mockReturnValue('1.2.3' as any)
+      vi.mocked(buildInfo.getVersion).mockReturnValue('1.2.3' as any)
       expect(module.getStyleScopeHash()).toBe('eufemia-scope--1_2_3')
     }
   )
@@ -58,10 +58,10 @@ describe('getStyleScopeHash', () => {
   ])(
     'should use SHA when version is a branch name (%s)',
     (_, module, buildInfo) => {
-      jest
-        .mocked(buildInfo.getVersion)
-        .mockReturnValue('feature/branch' as any)
-      jest.mocked(buildInfo.getSha).mockReturnValue('abc123' as any)
+      vi.mocked(buildInfo.getVersion).mockReturnValue(
+        'feature/branch' as any
+      )
+      vi.mocked(buildInfo.getSha).mockReturnValue('abc123' as any)
       expect(module.getStyleScopeHash()).toBe('eufemia-scope--abc123')
     }
   )

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import { warn } from '../../shared/component-helper'
 
 export type UseTableHighlightOptions = {
   /**
@@ -23,6 +24,45 @@ function applyHighlight(table: HTMLTableElement) {
 
   for (const th of Array.from(thElements)) {
     highlightedColumns.add((th as HTMLTableCellElement).cellIndex)
+  }
+
+  // Warn about highlighted cells missing an aria-label.
+  // Skip cells whose highlight was inherited from a parent Tr or will
+  // be propagated from a column Th — only the Tr/Th needs the label.
+  const allHighlighted = table.querySelectorAll(
+    '.dnb-table__th--highlight, .dnb-table__td--highlight'
+  )
+  for (const cell of Array.from(allHighlighted)) {
+    if (
+      cell.getAttribute('aria-label') ||
+      cell.getAttribute('aria-labelledby')
+    ) {
+      continue
+    }
+
+    const row = cell.closest('tr')
+    const rowHasLabel =
+      row &&
+      (row.getAttribute('aria-label') ||
+        row.getAttribute('aria-labelledby'))
+
+    // Cell inside a highlighted Tr — the row provides the label
+    if (rowHasLabel) {
+      continue
+    }
+
+    // Td in a column with a highlighted Th — the Th provides the label
+    if (
+      cell.tagName === 'TD' &&
+      highlightedColumns.has((cell as HTMLTableCellElement).cellIndex)
+    ) {
+      continue
+    }
+
+    const tag = cell.tagName === 'TH' ? 'Th' : 'Td'
+    warn(
+      `Table.${tag}: a highlighted cell should have an \`aria-label\` or \`aria-labelledby\` attribute to describe the highlight for screen readers.`
+    )
   }
 
   const applied: { cell: HTMLTableCellElement; classes: string[] }[] = []

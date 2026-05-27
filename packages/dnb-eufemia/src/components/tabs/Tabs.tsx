@@ -23,7 +23,7 @@ import type {
   ReactNode,
   SyntheticEvent,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
 import {

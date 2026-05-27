@@ -5,7 +5,7 @@
 
 import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'

@@ -107,19 +107,19 @@ describe('postalCode', () => {
     })
 
     it('should use AbortController to cancel request while typing', async () => {
-      const mockAbort = jest.fn()
+      const mockAbort = vi.fn()
 
       const mockSignal = {
         aborted: false,
         onabort: null,
         reason: undefined,
-        throwIfAborted: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
+        throwIfAborted: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
       }
 
-      globalThis.AbortController = jest.fn(function () {
+      globalThis.AbortController = vi.fn(function () {
         return {
           signal: mockSignal,
           abort: mockAbort,
@@ -163,7 +163,7 @@ describe('postalCode', () => {
     })
 
     it('should prevent submit when postal code is not valid', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler
@@ -306,7 +306,7 @@ describe('postalCode', () => {
     })
 
     it('url config can be a function that gives the value and the country', async () => {
-      const url = jest.fn()
+      const url = vi.fn()
 
       const { withConfig } = Connectors.createContext({
         fetchConfig: { url },
@@ -383,7 +383,7 @@ describe('postalCode', () => {
     })
 
     it('should prevent submit when postal code is not valid', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler
@@ -557,7 +557,7 @@ describe('postalCode', () => {
     })
 
     it('url config can be a function that gives the value and the country', async () => {
-      const url = jest.fn()
+      const url = vi.fn()
 
       const { withConfig } = Connectors.createContext({
         fetchConfig: { url },
@@ -787,7 +787,7 @@ describe('postalCode', () => {
     })
 
     it('url config can be a function that gives the value and the country', async () => {
-      const url = jest.fn()
+      const url = vi.fn()
 
       const { withConfig } = Connectors.createContext({
         fetchConfig: { url },
@@ -824,7 +824,7 @@ describe('postalCode', () => {
 })
 
 function createFetchMock(overwrite = null, delay = null) {
-  return jest.fn(async () => {
+  return vi.fn(async () => {
     await delay?.()
     const response = {
       ok: true,

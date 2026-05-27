@@ -34,18 +34,17 @@ describe('Table.ScrollView', () => {
 
     const element = document.querySelector('.dnb-table__scroll-view')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-scroll-view',
-      'dnb-table__scroll-view',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-scroll-view dnb-table__scroll-view dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should have tabindex="0"', () => {
     let renderResizeObserver = null
 
-    const observe = jest.fn()
-    const init = jest.fn((callback) => {
+    const observe = vi.fn()
+    const init = vi.fn((callback) => {
       renderResizeObserver = callback
     })
     setResizeObserver({ init, observe })
@@ -63,8 +62,8 @@ describe('Table.ScrollView', () => {
     const element = document.querySelector('.dnb-table__scroll-view')
 
     act(() => {
-      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
-      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+      vi.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
+      vi.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
       renderResizeObserver()
     })
@@ -72,8 +71,8 @@ describe('Table.ScrollView', () => {
     expect(element.getAttribute('tabindex')).toBe('0')
 
     act(() => {
-      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
-      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+      vi.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
+      vi.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
 
       renderResizeObserver()
     })

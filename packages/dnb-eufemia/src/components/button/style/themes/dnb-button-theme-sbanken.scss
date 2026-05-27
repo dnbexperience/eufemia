@@ -42,17 +42,12 @@
   &--tertiary {
     --button-tertiary-focus-overflow--icon-top: 0;
     --button-tertiary-underline-overflow: -0.5rem;
-    // prettier-ignore
-    --button-tertiary-underline-overflow--icon: calc(
-      (var(--button-icon-gutter) + var(--button-icon-size) - var(--button-tertiary-underline-overflow)) * -1
-    );
-    --button-tertiary-underline-bottom: -0.5rem;
     --button-tertiary-text-bottom--icon: 0.5rem;
     --button-tertiary-text-top--icon: 0;
 
-    .dnb-button__text::after {
-      height: 0.0625rem;
-      bottom: var(--button-tertiary-underline-bottom);
+    .dnb-button__text {
+      text-decoration-thickness: 0.0625rem;
+      text-underline-offset: 0.5rem;
     }
 
     &.dnb-button--has-text {
@@ -72,10 +67,14 @@
     }
 
     &.dnb-button--size-large {
-      --button-tertiary-underline-bottom: -0.75rem;
       --button-tertiary-underline-overflow: -1.5rem;
       --button-tertiary-text-bottom--icon: 0.75rem;
       --button-tertiary-text-top--icon: 0.25rem;
+
+      /* stylelint-disable-next-line no-descending-specificity */
+      .dnb-button__text {
+        text-underline-offset: 0.75rem;
+      }
     }
   }
 }

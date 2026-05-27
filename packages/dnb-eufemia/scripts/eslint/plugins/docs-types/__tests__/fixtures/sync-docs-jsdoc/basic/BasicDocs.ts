@@ -1,6 +1,11 @@
 type PropertiesTableProps = Record<
   string,
-  { doc: string; type: string | string[]; status: string }
+  {
+    doc: string
+    type: string | string[]
+    status: string
+    defaultValue?: string
+  }
 >
 
 export const BasicProperties: PropertiesTableProps = {
@@ -17,6 +22,12 @@ export const BasicProperties: PropertiesTableProps = {
   size: {
     doc: 'The size of the component. Defaults to `medium`.',
     type: ['"small"', '"medium"', '"large"'],
+    status: 'optional',
+  },
+  zebra: {
+    doc: 'Use `false` to disable alternating row background colors.',
+    type: 'boolean',
+    defaultValue: 'true',
     status: 'optional',
   },
 }

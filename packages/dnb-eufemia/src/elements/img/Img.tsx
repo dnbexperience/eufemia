@@ -12,7 +12,7 @@ import {
 } from '../../components/space/SpacingUtils'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ImgProps = SpacingProps &

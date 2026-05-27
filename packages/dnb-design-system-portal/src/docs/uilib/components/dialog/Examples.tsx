@@ -62,7 +62,7 @@ export const DialogExampleVerticalAlignment = () => (
     <Dialog
       title="Vertical alignment top"
       verticalAlignment="top"
-      triggerAttributes={{
+      triggerProps={{
         text: 'Vertical alignment',
       }}
       modalContent="The Dialog component is a Modal aligned at the top of the screen. The Dialog has similar functionality to a traditional popup window and is mostly used for informational purposes."
@@ -75,7 +75,7 @@ export const DialogExampleFullscreen = () => (
     <Dialog
       title={<span className="dnb-sr-only">"Hidden" Dialog title</span>}
       fullscreen
-      triggerAttributes={{
+      triggerProps={{
         variant: 'tertiary',
         text: 'Open a fullscreen dialog',
         icon: 'bell',
@@ -89,7 +89,7 @@ export const DialogExampleDelayClose = () => (
   <ComponentBox>
     <Dialog
       title=".5s close delay"
-      triggerAttributes={{
+      triggerProps={{
         text: 'Click me',
       }}
       focusSelector=".dnb-input__input:first-of-type"
@@ -163,7 +163,7 @@ export const DialogExampleProgressIndicator = () => (
       fullscreen={false}
       alignContent="centered"
       hideCloseButton
-      triggerAttributes={{
+      triggerProps={{
         text: 'Show',
       }}
       preventClose={false}
@@ -185,7 +185,7 @@ export const DialogConfirmDefault = () => (
       icon={bell_medium}
       description="Some content describing the situation."
       onConfirm={({ close }) => close()}
-      triggerAttributes={{
+      triggerProps={{
         text: 'Trigger button',
       }}
     />
@@ -206,7 +206,7 @@ export const DialogConfirmDelete = () => (
       confirmText="Delete"
       declineText="Cancel"
       onConfirm={({ close }) => close()}
-      triggerAttributes={{
+      triggerProps={{
         text: 'Delete record',
         icon: trash_medium,
       }}
@@ -266,7 +266,7 @@ export const DialogConfirmCookies = () => (
     scope={{ cookie_medium, edit }}
   >
     <Dialog
-      triggerAttributes={{
+      triggerProps={{
         text: 'Show cookie dialog',
       }}
       icon={cookie_medium}
@@ -310,7 +310,7 @@ export const DialogConfirmScrollableContent = () => {
           const scrollRef = useRef(null)
           return (
             <Dialog
-              triggerAttributes={{
+              triggerProps={{
                 text: 'Show cookie dialog',
               }}
               variant="confirmation"
@@ -418,7 +418,7 @@ export const DialogInformationScrollableContent = () => {
           const scrollRef = useRef(null)
           return (
             <Dialog
-              triggerAttributes={{
+              triggerProps={{
                 text: 'Show information dialog with sticky header',
               }}
               variant="information"

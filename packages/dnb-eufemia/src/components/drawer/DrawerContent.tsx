@@ -5,7 +5,7 @@
 
 import { useContext, useEffect } from 'react'
 import type { JSX, ReactElement } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { findElementInChildren } from '../../shared/component-helper'
 import { getOffsetTop, warn } from '../../shared/helpers'
 import ScrollView from '../../fragments/scroll-view/ScrollView'

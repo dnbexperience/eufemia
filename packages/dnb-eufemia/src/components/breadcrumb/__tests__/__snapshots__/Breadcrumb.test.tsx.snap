@@ -17,6 +17,9 @@ exports[`Breadcrumb scss > should match style dependencies css 1`] = `
 * Icon component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -95,6 +98,39 @@ p > .dnb-icon {
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
 }
+.dnb-icon[style*="--icon-transition"] svg path {
+  d: var(--icon-transition, var(--icon-transition-default));
+  vector-effect: non-scaling-stroke;
+  transition: d 400ms var(--easing-default);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon[style*="--icon-transition"] svg path {
+    transition-duration: 0.01ms;
+  }
+}
+.dnb-icon--transition-fallback {
+  position: relative;
+}
+.dnb-icon--transition-fallback svg[data-icon-state] {
+  transition: opacity 500ms var(--easing-default) 80ms, transform 600ms var(--easing-default);
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(:first-of-type) {
+  position: absolute;
+  inset: 0;
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(.dnb-icon__state--active) {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.dnb-icon--transition-fallback svg[data-icon-state].dnb-icon__state--active {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon--transition-fallback svg[data-icon-state] {
+    transition-duration: 0.01ms;
+  }
+}
 
 /*
 * Used for snapshot testing
@@ -104,19 +140,13 @@ p > .dnb-icon {
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: var(--token-radius-full);
+  --tooltip-border-radius: var(--token-radius-lg);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
@@ -155,10 +185,6 @@ p > .dnb-icon {
 
 /*
 * Used for snapshot testing
-*
-*/
-/*
-* Tooltip component
 *
 */
 /*
@@ -300,10 +326,6 @@ button .dnb-form-status__text {
   }
 }
 /*
-* Tooltip component
-*
-*/
-/*
 * Button component
 *
 */
@@ -363,6 +385,11 @@ button .dnb-form-status__text {
   margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
+  --button-color-bg--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --button-color-icon--focus: var(--token-color-icon-action-focus);
+  --button-color-text--focus: var(--token-color-text-action-focus);
   color: var(--button-color-text, var(--button-color-text--default));
   background-color: var(--button-color-bg, var(--button-color-bg--default));
 }
@@ -403,10 +430,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], h
   cursor: not-allowed;
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  --button-color-bg: var(--token-color-background-action-focus-subtle);
+  --button-color-bg: var(--button-color-bg--focus);
   --button-color-border: var(--token-color-stroke-action-focus);
-  --button-color-icon: var(--token-color-icon-action-focus);
-  --button-color-text: var(--token-color-text-action-focus);
+  --button-color-icon: var(--button-color-icon--focus);
+  --button-color-text: var(--button-color-text--focus);
   --button-color-underline: var(--button-color-underline--focus);
   --button-border-inset: var(--button-border-inset--focus);
   --button-border-width: var(--button-border-width--focus);
@@ -1159,6 +1186,16 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__bar.dnb-section {
   display: flex;
+  --background-color: var(--token-color-background-neutral);
+}
+.dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button {
+  color: var(--token-color-text-neutral);
+}
+.dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button .dnb-button__icon {
+  color: var(--token-color-icon-neutral);
+}
+.dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button .dnb-button__text {
+  text-decoration: none;
 }
 .dnb-breadcrumb__list.dnb-section {
   display: flex;
@@ -1197,9 +1234,29 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__item:first-child .dnb-anchor {
   border-left: none;
+  --anchor-icon-separator: '\\2060';
+}
+.dnb-breadcrumb__item:first-child .dnb-anchor::after {
+  transform: none;
+  border: none;
 }
 .dnb-breadcrumb__item:first-child .dnb-anchor .dnb-icon svg {
   margin-right: 0.5rem;
+}
+.dnb-breadcrumb__collapse {
+  display: flex;
+  flex-direction: column;
+}
+.dnb-breadcrumb--variant-collapse .dnb-accordion {
+  width: 100%;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.dnb-breadcrumb__collapse .dnb-breadcrumb__item {
+  padding: 0;
+}
+.dnb-breadcrumb__collapse .dnb-breadcrumb__item:not(:first-child) .dnb-breadcrumb__item__span__icon {
+  display: none;
 }
 .dnb-breadcrumb__multiple {
   display: flex;
@@ -1223,15 +1280,6 @@ button.dnb-button::-moz-focus-inner {
 .dnb-breadcrumb__multiple.dnb-height-animation--parallax .dnb-breadcrumb__item {
   transform: translateX(0);
 }
-.dnb-breadcrumb {
-  /* stylelint-disable no-descending-specificity, no-duplicate-selectors */
-}
-html[data-visual-test] .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
-  transition: none;
-}
-.dnb-breadcrumb {
-  /* stylelint-enable */
-}
 @media screen and (max-width: 60em) {
   .dnb-breadcrumb--variant-responsive .dnb-breadcrumb__bar .dnb-breadcrumb__multiple {
     display: none;
@@ -1242,16 +1290,24 @@ html[data-visual-test] .dnb-breadcrumb__multiple .dnb-breadcrumb__item {
     display: none;
   }
 }
-.dnb-breadcrumb__collapse {
-  display: flex;
-  flex-direction: column;
+.dnb-breadcrumb {
+  /* stylelint-disable no-descending-specificity */
+}
+.dnb-breadcrumb__toggle .dnb-button__icon {
+  transition: transform 400ms var(--easing-default);
+}
+.dnb-breadcrumb__toggle[aria-expanded=true] .dnb-button__icon {
+  transform: rotate(180deg);
+}
+.dnb-breadcrumb {
+  /* stylelint-enable no-descending-specificity */
 }
 .dnb-breadcrumb__collapse .dnb-breadcrumb__list.dnb-section {
   flex-direction: column;
   align-items: flex-start;
-  row-gap: 0;
-  margin: 0.5rem 0;
-  margin-left: 1.5rem;
-  padding: 0;
+  row-gap: 1.5rem;
+  margin: 0;
+  padding: 1rem 0 2rem 1rem;
+  --background-color: var(--token-color-background-page-background);
 }"
 `;

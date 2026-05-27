@@ -7,18 +7,9 @@
   );
   --card-background-color: var(--token-color-background-neutral);
 
-  &__heading {
-    font-size: var(--font-size-basis);
-    font-weight: var(--font-weight-medium);
-  }
-
-  & + &__heading {
-    margin-top: var(--spacing-small);
-  }
-
   &__title {
     padding-bottom: 1rem;
-    font-size: var(--font-size-small);
+    font-size: var(--font-size-basis);
     font-weight: var(--font-weight-medium);
   }
   &:not([style*='--padding-']) &__title {
@@ -146,6 +137,94 @@
       margin-right: calc(
         var(--padding-right, var(--spacing-small)) * -1 * var(--outset)
       );
+    }
+  }
+}
+
+.dnb-card-action {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  outline: none;
+  cursor: pointer;
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &:hover .dnb-card {
+    --card-outline-color: var(--token-color-stroke-action-hover);
+    --outline-color: var(--token-color-stroke-action-hover);
+    --outline-width: 0.125rem;
+  }
+
+  &:active .dnb-card {
+    --card-outline-color: var(--token-color-stroke-action-pressed);
+    --outline-color: var(--token-color-stroke-action-pressed);
+    --outline-width: 0.0625rem;
+  }
+
+  &:focus-visible .dnb-card {
+    --card-outline-color: var(--token-color-stroke-action-focus);
+    --outline-color: var(--token-color-stroke-action-focus);
+    --outline-width: var(--focus-ring-width);
+  }
+}
+
+.dnb-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include utilities.allAbove(small) {
+    gap: 1rem;
+  }
+
+  &__item {
+    @include utilities.allAbove(small) {
+      flex: 1;
+    }
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    .dnb-card,
+    .dnb-card-action {
+      height: 100%;
+
+      &:hover {
+        z-index: 1;
+      }
+    }
+
+    &--center {
+      align-items: center;
+      text-align: center;
+
+      /* stylelint-disable-next-line no-descending-specificity */
+      .dnb-card {
+        .dnb-button {
+          align-self: center;
+        }
+      }
+    }
+
+    &--center-when-small {
+      @include utilities.allBelow(small) {
+        width: 100%;
+
+        .dnb-flex-container {
+          align-items: center;
+          text-align: center;
+
+          .dnb-button {
+            align-self: center;
+          }
+        }
+      }
     }
   }
 }

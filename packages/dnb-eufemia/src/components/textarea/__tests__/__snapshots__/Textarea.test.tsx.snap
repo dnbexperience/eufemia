@@ -295,12 +295,10 @@ button .dnb-form-status__text {
   line-height: var(--line-height-basis);
   overflow-y: auto;
   overscroll-behavior: contain;
-}
-html:not([data-visual-test]) .dnb-textarea__textarea {
   scroll-behavior: smooth;
 }
 @media (prefers-reduced-motion: reduce) {
-  html:not([data-visual-test]) .dnb-textarea__textarea {
+  .dnb-textarea__textarea {
     scroll-behavior: auto;
   }
 }

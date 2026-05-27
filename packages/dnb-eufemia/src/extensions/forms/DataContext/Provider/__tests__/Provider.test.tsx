@@ -15,7 +15,10 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
+import {
+  spyOnEufemiaWarn,
+  wait,
+} from '../../../../../core/test-utils/testSetup'
 import { simulateAnimationEnd } from '../../../../../components/height-animation/__tests__/HeightAnimationUtils'
 import { Button, GlobalStatus } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'
@@ -50,15 +53,11 @@ const nb = nbNO['nb-NO']
 
 type OnChangeValue = DataValueWriteProps<any>['onChange']
 
-if (isCI) {
-  jest.retryTimes(5) // because of a flaky async validation test
-}
-
 function TestField(props: StringFieldProps) {
   return <Field.String {...props} validateInitially validateContinuously />
 }
 
-describe('DataContext.Provider', () => {
+describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
   let identifier: string
 
   beforeEach(() => {
@@ -66,7 +65,7 @@ describe('DataContext.Provider', () => {
   })
 
   it('should throw error when nested', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     const renderComponent = () => {
       render(
@@ -107,7 +106,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should set undefined value on first render', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -184,7 +183,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should call "onChange" on internal value change', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       const { rerender } = render(
         <DataContext.Provider
@@ -228,8 +227,8 @@ describe('DataContext.Provider', () => {
     })
 
     it('should update data context with initially given "value"', () => {
-      const onChange = jest.fn()
-      const onSubmit: OnSubmit = jest.fn()
+      const onChange = vi.fn()
+      const onSubmit: OnSubmit = vi.fn()
 
       render(
         <DataContext.Provider
@@ -271,7 +270,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should work without any data provided, using an empty object as default when pointing to an object subkey', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <DataContext.Provider onChange={onChange}>
@@ -293,7 +292,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should work without any data provided, using an empty array as default when pointing to an array index subkey', () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <DataContext.Provider onChange={onChange}>
@@ -315,7 +314,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should call async "onPathChange" on path change', () => {
-      const onPathChange = jest.fn(async () => null)
+      const onPathChange = vi.fn(async () => null)
 
       const { rerender } = render(
         <DataContext.Provider
@@ -364,10 +363,10 @@ describe('DataContext.Provider', () => {
 
     describe('onChange', () => {
       it('should call "onChange" validated when async and unvalidated when sync', async () => {
-        const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+        const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
-        const onChangeSync = jest.fn(() => null)
-        const onChangeAsync = jest.fn(async () => null)
+        const onChangeSync = vi.fn(() => null)
+        const onChangeAsync = vi.fn(async () => null)
 
         const { rerender } = render(
           <DataContext.Provider onChange={onChangeAsync}>
@@ -407,14 +406,14 @@ describe('DataContext.Provider', () => {
 
     describe('filterData', () => {
       it('should filter data based on the given filterData paths', () => {
-        const fooHandler: DataPathHandler = jest.fn(({ props }) => {
+        const fooHandler: DataPathHandler = vi.fn(({ props }) => {
           if (props.disabled === true) {
             return false
           }
 
           return undefined
         })
-        const barHandler: DataPathHandler = jest.fn(({ props }) => {
+        const barHandler: DataPathHandler = vi.fn(({ props }) => {
           if (props.disabled === true) {
             return false
           }
@@ -428,7 +427,7 @@ describe('DataContext.Provider', () => {
         }
 
         let filteredData = undefined
-        const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+        const onSubmit: OnSubmit = vi.fn((data, { filterData }) => {
           filteredData = filterData(filterDataPaths)
         })
 
@@ -525,7 +524,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should filter data based on the given filterData method', () => {
-        const filterDataHandler: FilterData = jest.fn(({ props }) => {
+        const filterDataHandler: FilterData = vi.fn(({ props }) => {
           if (props.disabled === true) {
             return false
           }
@@ -534,7 +533,7 @@ describe('DataContext.Provider', () => {
         })
 
         let filteredData = undefined
-        const onSubmit = jest.fn((data, { filterData }) => {
+        const onSubmit = vi.fn((data, { filterData }) => {
           return (filteredData = filterData(filterDataHandler))
         })
 
@@ -648,7 +647,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should filter all paths starting with _', () => {
-        const filterDataHandler: FilterData = jest.fn(({ path }) => {
+        const filterDataHandler: FilterData = vi.fn(({ path }) => {
           if (/\/_/.test(path)) {
             return false
           }
@@ -657,7 +656,7 @@ describe('DataContext.Provider', () => {
         })
 
         let filteredData = undefined
-        const onSubmit = jest.fn((data, { filterData }) => {
+        const onSubmit = vi.fn((data, { filterData }) => {
           return (filteredData = filterData(filterDataHandler))
         })
 
@@ -770,7 +769,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('onChange should return filterData', async () => {
-        const filterDataHandler: FilterData = jest.fn(({ value }) => {
+        const filterDataHandler: FilterData = vi.fn(({ value }) => {
           if (value === 'remove me') {
             return false
           }
@@ -779,7 +778,7 @@ describe('DataContext.Provider', () => {
         })
 
         let filteredData = undefined
-        const onChange: OnChange = jest.fn((data, { filterData }) => {
+        const onChange: OnChange = vi.fn((data, { filterData }) => {
           filteredData = filterData(filterDataHandler)
         })
 
@@ -811,7 +810,7 @@ describe('DataContext.Provider', () => {
 
       it('should add and remove fieldProps properly', async () => {
         let filteredData = undefined
-        const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+        const onSubmit: OnSubmit = vi.fn((data, { filterData }) => {
           filteredData = filterData(filterDataHandler)
         })
 
@@ -915,7 +914,7 @@ describe('DataContext.Provider', () => {
   })
 
   describe('async submit', () => {
-    let log: jest.SpyInstance
+    let log: import('vitest').MockInstance
     beforeEach(() => {
       log = spyOnEufemiaWarn()
     })
@@ -936,7 +935,7 @@ describe('DataContext.Provider', () => {
       const onSubmit = async () => {
         return { status: 'pending' } as const
       }
-      const onSubmitComplete = jest.fn(async () => null)
+      const onSubmitComplete = vi.fn(async () => null)
 
       render(
         <DataContext.Provider
@@ -967,7 +966,7 @@ describe('DataContext.Provider', () => {
       const onSubmit = async () => {
         return { info: 'Info message' } as const
       }
-      const onSubmitComplete = jest.fn(async () => {
+      const onSubmitComplete = vi.fn(async () => {
         return { status: 'pending' } as const
       })
 
@@ -1013,7 +1012,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should abort async submit onSubmit using asyncSubmitTimeout', async () => {
-      const onSubmit: OnSubmit = jest.fn().mockImplementation(async () => {
+      const onSubmit: OnSubmit = vi.fn().mockImplementation(async () => {
         await wait(30) // ensure we never finish onSubmit before the timeout
       })
 
@@ -1173,11 +1172,11 @@ describe('DataContext.Provider', () => {
     })
 
     it('should evaluate sync validation, such as required, before continue with async validation', async () => {
-      const onSubmit: OnSubmit = jest.fn(async () => {
+      const onSubmit: OnSubmit = vi.fn(async () => {
         await wait(10)
         return { info: 'Info message' } as const
       })
-      const onChangeValidator = jest.fn(async (value) => {
+      const onChangeValidator = vi.fn(async (value) => {
         await wait(10)
         if (value === 'onChangeValidator-error') {
           return new Error('onChangeValidator-error')
@@ -1185,7 +1184,7 @@ describe('DataContext.Provider', () => {
 
         return undefined
       })
-      const onBlurValidator = jest.fn(async (value) => {
+      const onBlurValidator = vi.fn(async (value) => {
         await wait(10)
         if (value === 'onBlurValidator-error') {
           return new Error('onBlurValidator-error')
@@ -1430,7 +1429,7 @@ describe('DataContext.Provider', () => {
       })
     })
 
-    it('should set "formState" to "pending" when when "onSubmit" is async', async () => {
+    it('should set "formState" to "pending" when "onSubmit" is async', async () => {
       const result: RefObject<ContextState | null> = {
         current: null,
       }
@@ -1483,7 +1482,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('the user should be able to set the form in pending mode while an async validation is on going', async () => {
-      const onSubmit: OnSubmit = jest
+      const onSubmit: OnSubmit = vi
         .fn()
         .mockImplementation(async () => null)
 
@@ -1587,14 +1586,14 @@ describe('DataContext.Provider', () => {
     })
 
     it('should emit onChange only when onChangeValidator is evaluated successfully', async () => {
-      const onChangeContext = jest.fn().mockImplementation(async () => {
+      const onChangeContext = vi.fn().mockImplementation(async () => {
         await wait(10)
       })
-      const onChangeField = jest.fn().mockImplementation(async () => {
+      const onChangeField = vi.fn().mockImplementation(async () => {
         await wait(10)
       })
 
-      const onChangeValidator = jest
+      const onChangeValidator = vi
         .fn()
         .mockImplementation(async (value) => {
           /**
@@ -2133,10 +2132,10 @@ describe('DataContext.Provider', () => {
   })
 
   it('should scroll on top when "scrollTopOnSubmit" is true', async () => {
-    const onSubmit: OnSubmit = jest.fn()
-    const scrollTo = jest.fn()
+    const onSubmit: OnSubmit = vi.fn()
+    const scrollTo = vi.fn()
 
-    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
 
     const { rerender } = render(
       <DataContext.Provider
@@ -2198,7 +2197,7 @@ describe('DataContext.Provider', () => {
 
   describe('session storage', () => {
     it('should store data to session storage when sessionStorageId is provided, but only after changes', async () => {
-      const setItem = jest.spyOn(
+      const setItem = vi.spyOn(
         Object.getPrototypeOf(window.sessionStorage),
         'setItem'
       )
@@ -2266,7 +2265,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should throw when both data and sessionStorageId is provided', () => {
-      const log = jest
+      const log = vi
         .spyOn(global.console, 'error')
         .mockImplementation(() => {})
 
@@ -2294,7 +2293,7 @@ describe('DataContext.Provider', () => {
       window.sessionStorage.setItem(sessionStorageId, '{invalid json')
 
       // Spy on removeItem to verify it's called
-      const removeItemSpy = jest.spyOn(
+      const removeItemSpy = vi.spyOn(
         Object.getPrototypeOf(window.sessionStorage),
         'removeItem'
       )
@@ -2472,7 +2471,7 @@ describe('DataContext.Provider', () => {
 
       describe('GlobalStatus', () => {
         it('should interact with GlobalStatus', async () => {
-          jest.spyOn(window, 'scrollTo').mockImplementation()
+          vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
 
           render(
             <>
@@ -2533,7 +2532,7 @@ describe('DataContext.Provider', () => {
         })
 
         it('should interact with GlobalStatus with unique "globalStatusId"', async () => {
-          jest.spyOn(window, 'scrollTo').mockImplementation()
+          vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
 
           render(
             <>
@@ -2598,7 +2597,7 @@ describe('DataContext.Provider', () => {
         })
 
         it('should keep GlobalStatus visible until all errors are resolved', async () => {
-          jest.spyOn(window, 'scrollTo').mockImplementation()
+          vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
 
           render(
             <>
@@ -2655,7 +2654,7 @@ describe('DataContext.Provider', () => {
         })
 
         it('should override GlobalStatus title when providing one', async () => {
-          jest.spyOn(window, 'scrollTo').mockImplementation()
+          vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
           const myTitle = 'Custom title for global status'
           render(
             <>
@@ -2687,9 +2686,7 @@ describe('DataContext.Provider', () => {
 
     describe('schema validation', () => {
       it('should show provider schema type error with path', async () => {
-        const log = jest
-          .spyOn(console, 'error')
-          .mockImplementation(() => {})
+        const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
         const schema: JSONSchema = {
           type: 'object',
@@ -2931,9 +2928,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should log an error when path changes and the field is required', () => {
-        const log = jest
-          .spyOn(console, 'error')
-          .mockImplementation(() => {})
+        const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
         const schema: JSONSchema = {
           type: 'object',
@@ -3073,7 +3068,7 @@ describe('DataContext.Provider', () => {
 
     describe('onSubmit', () => {
       it('should not submit when error prop has been set', () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         const { rerender } = render(
           <DataContext.Provider onSubmit={onSubmit}>
@@ -3112,7 +3107,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should call "onSubmit" on submit', async () => {
-        const onSubmit: OnSubmit = jest.fn()
+        const onSubmit: OnSubmit = vi.fn()
 
         const { rerender } = render(
           <DataContext.Provider onSubmit={onSubmit}>
@@ -3176,11 +3171,9 @@ describe('DataContext.Provider', () => {
 
     describe('onSubmitRequest', () => {
       it('should call "onSubmitRequest" on invalid submit', () => {
-        const log = jest
-          .spyOn(console, 'error')
-          .mockImplementation(() => {})
+        const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
-        const onSubmitRequest = jest.fn()
+        const onSubmitRequest = vi.fn()
 
         const { rerender } = render(
           <DataContext.Provider
@@ -3222,11 +3215,9 @@ describe('DataContext.Provider', () => {
       })
 
       it('should get called on invalid submit, set by a schema', () => {
-        const log = jest
-          .spyOn(console, 'error')
-          .mockImplementation(() => {})
+        const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
-        const onSubmitRequest = jest.fn()
+        const onSubmitRequest = vi.fn()
 
         const schema: JSONSchema = {
           type: 'object',
@@ -3279,7 +3270,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should get called on invalid submit, set by an error prop', () => {
-        const onSubmitRequest = jest.fn()
+        const onSubmitRequest = vi.fn()
 
         const { rerender } = render(
           <DataContext.Provider onSubmitRequest={onSubmitRequest}>
@@ -3317,11 +3308,9 @@ describe('DataContext.Provider', () => {
       it('should return errors in first parameter', async () => {
         let receivedErrors = null
 
-        const onSubmitRequest: OnSubmitRequest = jest.fn(
-          ({ getErrors }) => {
-            receivedErrors = getErrors()
-          }
-        )
+        const onSubmitRequest: OnSubmitRequest = vi.fn(({ getErrors }) => {
+          receivedErrors = getErrors()
+        })
 
         render(
           <DataContext.Provider onSubmitRequest={onSubmitRequest}>
@@ -3430,8 +3419,8 @@ describe('DataContext.Provider', () => {
       })
 
       it('should call "onSubmitRequest" event listener', async () => {
-        const handleSubmitRequest = jest.fn()
-        const onSubmitRequest: OnSubmitRequest = jest.fn()
+        const handleSubmitRequest = vi.fn()
+        const onSubmitRequest: OnSubmitRequest = vi.fn()
 
         render(
           <DataContext.Provider onSubmitRequest={onSubmitRequest}>
@@ -3498,7 +3487,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should show error message returned from onSubmitRequest', async () => {
-        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+        const onSubmitRequest: OnSubmitRequest = vi.fn(() => {
           return new Error('Submit request error')
         })
 
@@ -3521,7 +3510,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should show info message returned from onSubmitRequest', async () => {
-        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+        const onSubmitRequest: OnSubmitRequest = vi.fn(() => {
           return { info: 'Please fix the errors above' }
         })
 
@@ -3546,7 +3535,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should show error message returned from async onSubmitRequest', async () => {
-        const onSubmitRequest: OnSubmitRequest = jest.fn(async () => {
+        const onSubmitRequest: OnSubmitRequest = vi.fn(async () => {
           return { error: new Error('Async submit request error') }
         })
 
@@ -3569,7 +3558,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should show warning message returned from onSubmitRequest', async () => {
-        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+        const onSubmitRequest: OnSubmitRequest = vi.fn(() => {
           return { warning: 'Some fields need attention' }
         })
 
@@ -3594,10 +3583,10 @@ describe('DataContext.Provider', () => {
       })
 
       it('should replace onSubmitRequest error with onSubmit error after fixing validation', async () => {
-        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+        const onSubmitRequest: OnSubmitRequest = vi.fn(() => {
           return { error: new Error('Validation errors exist') }
         })
-        const onSubmit: OnSubmit = jest.fn(() => {
+        const onSubmit: OnSubmit = vi.fn(() => {
           return { error: new Error('Server error occurred') }
         })
 
@@ -3644,10 +3633,10 @@ describe('DataContext.Provider', () => {
       })
 
       it('should clear warning from onSubmitRequest after successful submit', async () => {
-        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+        const onSubmitRequest: OnSubmitRequest = vi.fn(() => {
           return { warning: 'Some fields need attention' }
         })
-        const onSubmit: OnSubmit = jest.fn()
+        const onSubmit: OnSubmit = vi.fn()
 
         render(
           <Form.Handler
@@ -3695,10 +3684,10 @@ describe('DataContext.Provider', () => {
       })
 
       it('should clear info from onSubmitRequest after successful submit', async () => {
-        const onSubmitRequest: OnSubmitRequest = jest.fn(() => {
+        const onSubmitRequest: OnSubmitRequest = vi.fn(() => {
           return { info: 'Please review the errors above' }
         })
-        const onSubmit: OnSubmit = jest.fn()
+        const onSubmit: OnSubmit = vi.fn()
 
         render(
           <Form.Handler
@@ -3747,7 +3736,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should revalidate with provided schema based on changes in external data', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+      const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
       const schema: JSONSchema = {
         type: 'object',
@@ -3814,7 +3803,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should revalidate correctly based on changes in provided schema', () => {
-      const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+      const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
       const schema1: JSONSchema = {
         type: 'object',
@@ -4183,7 +4172,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should keep field validation when locale changes in SharedProvider', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       const { rerender } = render(
         <SharedProvider locale="nb-NO">
@@ -4307,7 +4296,7 @@ describe('DataContext.Provider', () => {
 
   it('should run filterData with correct data in onSubmit', () => {
     const id = 'disabled-fields'
-    const filterDataHandler = jest.fn(({ props }) => {
+    const filterDataHandler = vi.fn(({ props }) => {
       if (props.disabled === true) {
         return false
       }
@@ -4315,7 +4304,7 @@ describe('DataContext.Provider', () => {
       return undefined
     })
     let filteredData = undefined
-    const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+    const onSubmit: OnSubmit = vi.fn((data, { filterData }) => {
       filteredData = filterData(filterDataHandler)
     })
 
@@ -4380,7 +4369,7 @@ describe('DataContext.Provider', () => {
   })
 
   it('should only render once', () => {
-    const countRendered = jest.fn()
+    const countRendered = vi.fn()
 
     const NestedMock = () => {
       const dataContext = useContext(DataContext.Context)
@@ -4976,13 +4965,13 @@ describe('DataContext.Provider', () => {
     it('should return unvalidated data in sync', async () => {
       const initialData = { count: 1 }
 
-      const onDataChange = jest.fn()
+      const onDataChange = vi.fn()
 
-      const onChange = jest.fn(async () => {
+      const onChange = vi.fn(async () => {
         await wait(10)
       })
 
-      const onChangeValidator = jest.fn(async (value) => {
+      const onChangeValidator = vi.fn(async (value) => {
         await wait(10)
         if (value !== 123) {
           return new Error('Invalid')
@@ -5067,7 +5056,7 @@ describe('DataContext.Provider', () => {
 
     it('should make filterData available in the hook', () => {
       const id = 'disabled-fields-hook'
-      const filterDataHandler = jest.fn(({ props }) => {
+      const filterDataHandler = vi.fn(({ props }) => {
         if (props.disabled === true) {
           return false
         }
@@ -5075,7 +5064,7 @@ describe('DataContext.Provider', () => {
         return undefined
       })
       let filteredData = undefined
-      const onSubmit: OnSubmit = jest.fn((data, { filterData }) => {
+      const onSubmit: OnSubmit = vi.fn((data, { filterData }) => {
         filteredData = filterData(filterDataHandler)
       })
 
@@ -5269,7 +5258,7 @@ describe('DataContext.Provider', () => {
       })
 
       it('should provide filterData handler', () => {
-        const filterDataHandler = jest.fn(({ props }) => {
+        const filterDataHandler = vi.fn(({ props }) => {
           if (props.disabled === true) {
             return false
           }
@@ -5504,7 +5493,7 @@ describe('DataContext.Provider', () => {
     })
 
     it('should override GlobalStatus title when providing errorSummaryTitle translation', async () => {
-      jest.spyOn(window, 'scrollTo').mockImplementation()
+      vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
       const myTranslation = 'Custom translation for global status'
       render(
         <>
@@ -5611,14 +5600,14 @@ describe('DataContext.Provider', () => {
     let submitData = null
     let changeData = null
 
-    const onSubmit = jest.fn((data) => {
+    const onSubmit = vi.fn((data) => {
       submitData = data
     })
-    const onChange = jest.fn((data) => {
+    const onChange = vi.fn((data) => {
       changeData = data
     })
 
-    const transformIn = jest.fn(({ path, value }) => {
+    const transformIn = vi.fn(({ path, value }) => {
       if (path === '/foo' && value === 'foo') {
         return 'transformed'
       }
@@ -5677,11 +5666,11 @@ describe('DataContext.Provider', () => {
   it('should transform a field value with "transformOut"', async () => {
     let submitData = null
 
-    const onSubmit = jest.fn((data) => {
+    const onSubmit = vi.fn((data) => {
       submitData = data
     })
 
-    const transformOut = jest.fn(({ path, value }) => {
+    const transformOut = vi.fn(({ path, value }) => {
       if (path === '/foo') {
         return 'bar'
       }
@@ -5706,7 +5695,7 @@ describe('DataContext.Provider', () => {
   })
 
   it('should transform onChange value with "transformOut"', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler
@@ -5804,7 +5793,7 @@ describe('DataContext.Provider', () => {
 
   it('should transform submit data with "transformData"', async () => {
     let transformedData = undefined
-    const onSubmit = jest.fn((data, { transformData }) => {
+    const onSubmit = vi.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
         ({ value, displayValue, label }) => {
@@ -5920,7 +5909,7 @@ describe('DataContext.Provider', () => {
 
   it('should transform submit data with "transformData" from fields inside Iterate', async () => {
     let transformedData = undefined
-    const onSubmit = jest.fn((data, { transformData }) => {
+    const onSubmit = vi.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
         ({ value, displayValue, label }) => {
@@ -5984,7 +5973,7 @@ describe('DataContext.Provider', () => {
     it('should remove data entries of hidden fields using Visibility', async () => {
       let submitData = null
 
-      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+      const onSubmit = vi.fn((data, { reduceToVisibleFields }) => {
         submitData = reduceToVisibleFields(data)
       })
 
@@ -6037,7 +6026,7 @@ describe('DataContext.Provider', () => {
     it('should remove data entries of hidden fields using Visibility within a Wizard', async () => {
       let submitData = null
 
-      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+      const onSubmit = vi.fn((data, { reduceToVisibleFields }) => {
         submitData = reduceToVisibleFields(data)
       })
 
@@ -6113,7 +6102,7 @@ describe('DataContext.Provider', () => {
     it('should remove data entries of hidden Iterate.Array using Visibility within a Wizard', async () => {
       let submitData = null
 
-      const onSubmit = jest.fn(async (data, { reduceToVisibleFields }) => {
+      const onSubmit = vi.fn(async (data, { reduceToVisibleFields }) => {
         await new Promise((resolve) => requestAnimationFrame(resolve)) // ensure we wait for the fields to unmount
         submitData = reduceToVisibleFields(data, {
           removePaths: ['/isVisible'],
@@ -6213,11 +6202,11 @@ describe('DataContext.Provider', () => {
     it('should still take in account "transformOut"', async () => {
       let submitData = null
 
-      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+      const onSubmit = vi.fn((data, { reduceToVisibleFields }) => {
         submitData = reduceToVisibleFields(data)
       })
 
-      const transformOut = jest.fn(({ path, value }) => {
+      const transformOut = vi.fn(({ path, value }) => {
         if (path === '/interactive') {
           return 'bar'
         }
@@ -6273,7 +6262,7 @@ describe('DataContext.Provider', () => {
     it('should keep paths with "keepPaths"', async () => {
       let submitData = null
 
-      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+      const onSubmit = vi.fn((data, { reduceToVisibleFields }) => {
         submitData = reduceToVisibleFields(data, {
           keepPaths: ['/otherExistingPath'],
           removePaths: ['/isVisible'],
@@ -6334,7 +6323,7 @@ describe('DataContext.Provider', () => {
     it('should exclude paths with "removePaths"', async () => {
       let submitData = null
 
-      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+      const onSubmit = vi.fn((data, { reduceToVisibleFields }) => {
         submitData = reduceToVisibleFields(data, {
           removePaths: ['/isVisible'],
         })
@@ -6383,7 +6372,7 @@ describe('DataContext.Provider', () => {
     it('should return visible data after unmount and mount', async () => {
       let submitData = null
 
-      const onSubmit = jest.fn((data, { reduceToVisibleFields }) => {
+      const onSubmit = vi.fn((data, { reduceToVisibleFields }) => {
         submitData = reduceToVisibleFields(data)
       })
 
@@ -6536,7 +6525,7 @@ describe('DataContext.Provider', () => {
   })
 
   it('should not cause Maximum update depth exceeded when Form.useData is used outside Form.Handler with same id', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     const MyForm = () => {
       const { data } = Form.useData(identifier, {

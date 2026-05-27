@@ -16,9 +16,9 @@
   // sortable
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
-    color: var(--token-color-text-action);
-
     .dnb-table__sort-button.dnb-button {
+      --button-color-text--default: var(--table-th-text-color);
+
       > .dnb-icon {
         opacity: 0;
         transition:
@@ -27,10 +27,6 @@
 
         @include utilities.reducedMotion() {
           transition-duration: 0.01ms;
-        }
-
-        html[data-visual-test] & {
-          transition: none;
         }
       }
 
@@ -55,11 +51,6 @@
         margin: 0;
         font-size: inherit;
         line-height: inherit;
-
-        // underline
-        &::after {
-          right: 0;
-        }
       }
 
       .dnb-button__icon {
@@ -73,19 +64,15 @@
       }
 
       // underline
-      &:not(:focus) .dnb-button__text::after {
-        opacity: 1;
-        color: var(--token-color-text-action);
+      &:not(:focus) .dnb-button__text {
+        text-decoration: underline;
+        text-decoration-color: var(--table-th-text-color);
+        transition: text-decoration-color 250ms ease-in-out;
       }
 
       @include utilities.hover() {
         &:not(:focus) .dnb-icon {
           opacity: 1;
-        }
-
-        // hide underline
-        .dnb-button__text::after {
-          opacity: 0;
         }
       }
 
@@ -104,13 +91,13 @@
 
         // show underline
         html:not([data-visual-test]) & {
-          .dnb-button__text::after {
-            opacity: 1;
-            color: inherit;
+          .dnb-button__text {
+            text-decoration: underline;
+            text-decoration-color: inherit;
           }
 
-          &:not(:active) .dnb-button__text::after {
-            visibility: visible;
+          &:not(:active) .dnb-button__text {
+            text-decoration: underline;
           }
         }
       }
@@ -124,6 +111,10 @@
         ); // also, make a touch ring
         @include tableFocusRing();
 
+        .dnb-button__text {
+          text-decoration: none;
+        }
+
         // focus ring
         &::before {
           --border-color: currentcolor;
@@ -131,11 +122,6 @@
 
           right: -0.5rem;
         }
-      }
-
-      // webkit fix
-      &:hover:focus:not(:active) .dnb-button__text::after {
-        visibility: hidden;
       }
     }
 
@@ -153,11 +139,19 @@
           }
           .dnb-button__text {
             padding-right: 0;
-
-            &::after {
-              right: 0;
-            }
           }
+        }
+      }
+    }
+  }
+
+  // sort-off: column was sorted before but returned to unsorted state
+  & > thead > tr > th#{&}--sort-off,
+  & &__th#{&}--sort-off {
+    .dnb-table__sort-button.dnb-button {
+      @include utilities.hover() {
+        &:not(:focus) .dnb-icon {
+          opacity: 0;
         }
       }
     }
@@ -168,8 +162,8 @@
   & &__th#{&}--active {
     .dnb-table__sort-button.dnb-button {
       // hide underline
-      &:not(:hover) .dnb-button__text::after {
-        opacity: 0;
+      &:not(:hover) .dnb-button__text {
+        text-decoration-color: transparent;
       }
 
       .dnb-icon {
@@ -178,28 +172,16 @@
 
       // and underline on hover
       @include utilities.hover() {
-        .dnb-button__text::after {
-          color: var(--token-color-text-action);
-          opacity: 1;
+        .dnb-button__text {
+          text-decoration-color: var(--token-color-text-action);
         }
       }
 
       @include utilities.focus() {
         // hide underline
-        .dnb-button__text::after {
-          opacity: 0;
+        .dnb-button__text {
+          text-decoration-color: transparent;
         }
-      }
-
-      // webkit fix
-      &:hover:focus:not(:active) .dnb-button__text::after {
-        visibility: visible;
-      }
-
-      html[data-whatinput='keyboard']
-        &:hover:focus
-        .dnb-button__text::after {
-        visibility: hidden;
       }
     }
   }

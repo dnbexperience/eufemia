@@ -29,7 +29,7 @@ import type {
   RefObject,
   SyntheticEvent,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

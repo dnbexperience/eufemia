@@ -1,6 +1,6 @@
 import { useContext, useMemo, useRef } from 'react'
 import type { HTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { toPascalCase } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import AriaLive from '../../components/AriaLive'

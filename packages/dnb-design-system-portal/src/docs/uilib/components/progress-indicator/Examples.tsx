@@ -8,7 +8,6 @@ import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   ProgressIndicator,
-  Button,
   Dialog,
   Flex,
   IconPrimary,
@@ -18,12 +17,6 @@ import {
 export const ProgressIndicatorDefaultExample = () => (
   <ComponentBox>
     <ProgressIndicator />
-  </ComponentBox>
-)
-
-export const ProgressIndicatorCircularExample = () => (
-  <ComponentBox>
-    <ProgressIndicator type="circular" />
   </ComponentBox>
 )
 
@@ -80,37 +73,6 @@ export const ProgressIndicatorCircularPrimaryExample = () => (
       size="large"
       noAnimation
     />
-  </ComponentBox>
-)
-
-export const ProgressIndicatorCircularRandomExample = () => (
-  <ComponentBox>
-    {() => {
-      const ChangeValue = () => {
-        const [value, setValue] = useState(50)
-        return (
-          <Flex.Horizontal align="center">
-            <ProgressIndicator
-              type="circular"
-              progress={value}
-              showDefaultLabel
-              labelDirection="horizontal"
-              noAnimation
-            />
-            <Button
-              left
-              size="small"
-              variant="secondary"
-              onClick={() => setValue(Math.random() * 100)}
-            >
-              Change
-            </Button>
-          </Flex.Horizontal>
-        )
-      }
-
-      return <ChangeValue />
-    }}
   </ComponentBox>
 )
 
@@ -199,12 +161,6 @@ export const ProgressIndicatorLinearDefaultExample = () => (
   </ComponentBox>
 )
 
-export const ProgressIndicatorLinearSmallExample = () => (
-  <ComponentBox>
-    <ProgressIndicator type="linear" size="small" />
-  </ComponentBox>
-)
-
 export const ProgressIndicatorLinearLabelHorizontalExample = () => (
   <ComponentBox>
     <ProgressIndicator
@@ -233,35 +189,6 @@ export const ProgressIndicatorLinearLargeExample = () => (
   </ComponentBox>
 )
 
-export const ProgressIndicatorLinearRandomExample = () => (
-  <ComponentBox>
-    {() => {
-      const ChangeValue = () => {
-        const [value, setValue] = useState(50)
-        return (
-          <Flex.Horizontal align="center">
-            <ProgressIndicator
-              type="linear"
-              progress={value}
-              noAnimation
-            />
-            <Button
-              left
-              size="small"
-              variant="secondary"
-              onClick={() => setValue(Math.random() * 100)}
-            >
-              Change
-            </Button>
-          </Flex.Horizontal>
-        )
-      }
-
-      return <ChangeValue />
-    }}
-  </ComponentBox>
-)
-
 export const ProgressIndicatorLinearRandomTransitionExample = () => (
   <ComponentBox>
     {() => {
@@ -280,57 +207,6 @@ export const ProgressIndicatorLinearRandomTransitionExample = () => (
       }
       return <Example />
     }}
-  </ComponentBox>
-)
-
-export const ProgressIndicatorLinearRandomOnCompleteExample = () => (
-  <ComponentBox>
-    {() => {
-      const Example = () => {
-        const random = (min, max) =>
-          Math.floor(Math.random() * (max - min + 1)) + min
-        const [show, setShow] = useState(true)
-        useEffect(() => {
-          const timer = setInterval(
-            () => setShow(!show),
-            random(2400, 4200)
-          )
-          return () => clearTimeout(timer)
-        })
-        return (
-          <ProgressIndicator
-            type="linear"
-            size="large"
-            show={show}
-            onComplete={() => {
-              console.log('onCompleteLinear')
-            }}
-          />
-        )
-      }
-      return <Example />
-    }}
-  </ComponentBox>
-)
-
-export const ProgressIndicatorLinearDialogExample = () => (
-  <ComponentBox>
-    <Dialog
-      spacing={false}
-      maxWidth="12rem"
-      fullscreen={false}
-      alignContent="centered"
-      hideCloseButton
-      triggerAttributes={{ text: 'Show' }}
-      preventClose={false}
-    >
-      <ProgressIndicator
-        type="linear"
-        showDefaultLabel
-        top="large"
-        bottom="large"
-      />
-    </Dialog>
   </ComponentBox>
 )
 

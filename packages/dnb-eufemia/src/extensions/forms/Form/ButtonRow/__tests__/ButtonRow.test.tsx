@@ -48,11 +48,10 @@ describe('Form.ButtonRow', () => {
 
     const element = document.querySelector('.dnb-forms-button-row')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-forms-button-row',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-forms-button-row custom-class',
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

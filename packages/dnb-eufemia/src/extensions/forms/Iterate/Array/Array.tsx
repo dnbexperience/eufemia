@@ -8,7 +8,7 @@ import {
 } from 'react'
 import type { RefObject } from 'react'
 import * as z from 'zod'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import pointer from '../../utils/json-pointer'
 import { useFieldProps } from '../../hooks'
 import { makeUniqueId } from '../../../../shared/component-helper'

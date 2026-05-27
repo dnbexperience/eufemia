@@ -6,6 +6,7 @@ import { createMinimumAgeValidator } from '../NationalIdentityNumber'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
+const getToday = () => new Date('2024-10-09')
 
 describe('createMinimumAgeValidator', () => {
   const errorMinimumAgeValidator =
@@ -14,7 +15,7 @@ describe('createMinimumAgeValidator', () => {
       '18'
     )
 
-  const minimum18YearsValidator = createMinimumAgeValidator(18)
+  const minimum18YearsValidator = createMinimumAgeValidator(18, getToday)
   const extendingDnrAndFnrValidatorWithMin18Validator: Validator<
     string
   > = (value, { validators }) => {
@@ -93,7 +94,6 @@ describe('createMinimumAgeValidator', () => {
   })
 
   describe('should validate if identity numbers is adult(18 years and older)', () => {
-    jest.useFakeTimers().setSystemTime(new Date('2024-10-09').getTime())
     const fnr0YearsOld = [
       '10072476609',
       '29082499936',

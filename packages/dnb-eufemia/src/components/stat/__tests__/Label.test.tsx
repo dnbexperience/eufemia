@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
 import SharedContext from '../../../shared/Context'
 
@@ -69,7 +69,7 @@ describe('Stat.Label', () => {
   })
 
   it('renders span outside Stat.Root and warns', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Label>Revenue growth</Stat.Label>)
 
@@ -207,7 +207,7 @@ describe('Stat.Label', () => {
   })
 
   it('uses custom element prop when outside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Label element="span">Revenue</Stat.Label>)
 
@@ -218,7 +218,7 @@ describe('Stat.Label', () => {
   })
 
   it('applies correct CSS classes when outside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Stat.Label
@@ -244,7 +244,7 @@ describe('Stat.Label', () => {
   })
 
   it('supports skeleton when outside Stat.Root', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(<Stat.Label skeleton>Revenue</Stat.Label>)
 

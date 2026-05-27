@@ -40,18 +40,27 @@
         }
       }
     }
+  }
 
-    // Header underline
+  // Header underline
+  &--border,
+  &--no-striped {
     thead + tbody {
       .dnb-table__tr:first-child {
         .dnb-table__td,
         .dnb-table__th {
-          &::after {
+          @include table-mixins.tableBorder() {
             border-top: var(--table-border-top, var(--table-border));
           }
         }
       }
     }
+  }
+
+  // Horizontal-only border: remove vertical (left/right) borders
+  &--border-horizontal {
+    --table-border-left: none;
+    --table-border-right: none;
   }
 
   // Header underline when header row has even variant

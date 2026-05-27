@@ -1,6 +1,6 @@
 import { isValidElement } from 'react'
 import type { ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Anchor from './Anchor'
 import Heading, {
   type HeadingAllProps,

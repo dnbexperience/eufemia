@@ -153,6 +153,17 @@ export default {
       errorYear: '{year} is not a valid year.',
       errorRequired: 'You must enter an expiry date.',
     },
+    Time: {
+      label: 'Time',
+      hoursPlaceholder: 'h',
+      minutesPlaceholder: 'm',
+      secondsPlaceholder: 's',
+      hours: 'Hours',
+      minutes: 'Minutes',
+      seconds: 'Seconds',
+      errorInvalidTime: 'Invalid time.',
+      errorRequired: 'You must enter a time.',
+    },
     Email: {
       label: 'Email address',
       errorRequired: 'You must enter an email address.',

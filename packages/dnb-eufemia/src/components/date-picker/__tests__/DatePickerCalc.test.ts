@@ -50,8 +50,8 @@ describe('convertStringToDate', () => {
   })
 
   it('does not log when strictDateFormat is used as a parsing probe', () => {
-    const log = jest.fn()
-    const mock = jest.spyOn(console, 'log').mockImplementation(log)
+    const log = vi.fn()
+    const mock = vi.spyOn(console, 'log').mockImplementation(log)
 
     expect(
       convertStringToDate('04/01/2019', {
@@ -65,8 +65,8 @@ describe('convertStringToDate', () => {
   })
 
   it('returns null for invalid date', () => {
-    const log = jest.fn()
-    const mock = jest.spyOn(console, 'log').mockImplementation(log)
+    const log = vi.fn()
+    const mock = vi.spyOn(console, 'log').mockImplementation(log)
 
     expect(convertStringToDate('not-a-date')).toBeNull()
     expect(log).toHaveBeenCalledWith(

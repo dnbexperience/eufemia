@@ -9,7 +9,7 @@ import ArrayItemAreaContext from '../../Array/ArrayItemAreaContext'
 const nb = nbNO['nb-NO'].RemoveButton
 
 describe('RemoveButton', () => {
-  const handleRemove = jest.fn()
+  const handleRemove = vi.fn()
 
   const wrapper = ({ children }) => (
     <IterateItemContext value={{ handleRemove }}>
@@ -31,7 +31,7 @@ describe('RemoveButton', () => {
   })
 
   it('should throw an error if value is not an array', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
     const invalidValue = 'invalid value'
 
     expect(() => {
@@ -127,8 +127,8 @@ describe('RemoveButton', () => {
   })
 
   it('should call "handleRemoveItem" from ArrayItemAreaContext when given', async () => {
-    const handleRemoveItem = jest.fn()
-    const handleRemove = jest.fn()
+    const handleRemoveItem = vi.fn()
+    const handleRemove = vi.fn()
 
     render(
       <ArrayItemAreaContext
@@ -154,8 +154,8 @@ describe('RemoveButton', () => {
   })
 
   it('should not call "handleRemoveItem" when itemPath was given', async () => {
-    const handleRemoveItem = jest.fn()
-    const handleRemove = jest.fn()
+    const handleRemoveItem = vi.fn()
+    const handleRemove = vi.fn()
 
     render(
       <ArrayItemAreaContext

@@ -14,7 +14,7 @@ import type {
   RefObject,
 } from 'react'
 import { createPortal } from 'react-dom'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
 } from '../../shared/IsolatedStyleScope'

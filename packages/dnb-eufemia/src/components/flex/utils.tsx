@@ -5,7 +5,7 @@ import type {
   ReactElement,
   ReactNode,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { SpaceType, SpacingProps } from '../../shared/types'
 import Space from '../space/Space'
 import {

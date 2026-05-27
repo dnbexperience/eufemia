@@ -6,7 +6,7 @@
 import { StrictMode, useLayoutEffect, useState } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import {
   addDays,
   addMonths,
@@ -33,7 +33,7 @@ import daDK from '../../../shared/locales/da-DK'
 import * as helpers from '../../../shared/helpers'
 import { getOsloDate } from '../../date-format/DateFormatUtils'
 
-jest.setTimeout(30e3)
+vi.setConfig({ testTimeout: 30e3 })
 
 const defaultProps: DatePickerAllProps = {
   noAnimation: true,
@@ -255,7 +255,7 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker on click outside when `onOpen` callback sets a state', async () => {
-    const onOpen = jest.fn()
+    const onOpen = vi.fn()
 
     const Component = () => {
       const [open, setOpen] = useState(true)
@@ -304,7 +304,7 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker after selection', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     const { rerender } = render(
       <DatePicker {...defaultProps} onChange={onChange} />
     )
@@ -378,7 +378,7 @@ describe('DatePicker component', () => {
   })
 
   it('will close the picker on reset', async () => {
-    const onReset = jest.fn()
+    const onReset = vi.fn()
 
     render(
       <DatePicker
@@ -804,9 +804,9 @@ describe('DatePicker component', () => {
   })
 
   it('should seed empty spinbutton values from today', async () => {
-    jest
-      .useFakeTimers()
-      .setSystemTime(new Date('2026-03-13T12:00:00.000Z').getTime())
+    vi.useFakeTimers().setSystemTime(
+      new Date('2026-03-13T12:00:00.000Z').getTime()
+    )
 
     try {
       render(<DatePicker showInput={true} />)
@@ -833,7 +833,7 @@ describe('DatePicker component', () => {
       expect(year.selectionStart).toBe(0)
       expect(year.selectionEnd).toBe(4)
     } finally {
-      jest.useRealTimers()
+      vi.useRealTimers()
     }
   })
 
@@ -1051,7 +1051,7 @@ describe('DatePicker component', () => {
 
   it('will render the result of "onDaysRender"', () => {
     const customClassName = 'dnb-date-picker__day--weekend'
-    const onDaysRender = jest.fn((days) => {
+    const onDaysRender = vi.fn((days) => {
       return days.map((dateObject) => {
         if (isWeekend(dateObject.date)) {
           dateObject.isInactive = true
@@ -1096,7 +1096,7 @@ describe('DatePicker component', () => {
   it('will render the result of "onDaysRender" using getOsloDate', () => {
     const osloDate = getOsloDate()
 
-    const onDaysRender = jest.fn((days) => {
+    const onDaysRender = vi.fn((days) => {
       return days.map((dayObject) => {
         dayObject.isToday = isSameDay(dayObject.date, osloDate)
         return dayObject
@@ -1134,7 +1134,7 @@ describe('DatePicker component', () => {
   })
 
   it('should work with shortcuts', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(
       <DatePicker
         noAnimation
@@ -1266,7 +1266,7 @@ describe('DatePicker component', () => {
   })
 
   it('should receive all dates in the shortcut callback', async () => {
-    const onShortcutClick = jest.fn()
+    const onShortcutClick = vi.fn()
 
     render(
       <DatePicker
@@ -1538,7 +1538,7 @@ describe('DatePicker component', () => {
   })
 
   it('should set correct month based date selected with keyboard navigation', async () => {
-    render(<DatePicker range date="2024-10-01" />)
+    render(<DatePicker date="2024-10-01" />)
 
     await userEvent.click(getDatePickerTriggerButton())
 
@@ -1546,13 +1546,13 @@ describe('DatePicker component', () => {
       '.dnb-date-picker__calendar .dnb-date-picker__header__title'
     )
 
-    const firstDayButton = document.querySelector(
-      '.dnb-date-picker__calendar .dnb-date-picker__day button'
-    ) as HTMLButtonElement
-    await userEvent.click(firstDayButton)
-
     expect(pickerTitle).toHaveTextContent('oktober 2024')
 
+    // Focus Oct 1 and navigate left into September
+    const oct1Button = document.querySelector(
+      '.dnb-date-picker__calendar td[data-date="2024-10-01"] button'
+    ) as HTMLButtonElement
+    oct1Button.focus()
     await userEvent.keyboard('{ArrowLeft}')
 
     expect(pickerTitle).toHaveTextContent('september 2024')
@@ -1564,7 +1564,7 @@ describe('DatePicker component', () => {
 
   it('should set correct month based date selected with keyboard navigation in range mode', async () => {
     render(
-      <DatePicker range startDate="2024-10-01" endDate="2024-10-02" />
+      <DatePicker range startDate="2024-10-15" endDate="2024-11-15" />
     )
 
     await userEvent.click(getDatePickerTriggerButton())
@@ -1574,35 +1574,232 @@ describe('DatePicker component', () => {
         '.dnb-date-picker__calendar .dnb-date-picker__header__title'
       )
     )
-
-    const firstRangeDayButton = document.querySelector(
-      '.dnb-date-picker__calendar .dnb-date-picker__day button'
-    ) as HTMLButtonElement
-    await userEvent.click(firstRangeDayButton)
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    ) as NodeListOf<HTMLTableElement>
 
     expect(leftPickerTitle).toHaveTextContent('oktober 2024')
-    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
 
+    // Navigate left past October — left calendar changes to September
+    const oct1Button = tables[0].querySelector(
+      'td[data-date="2024-10-01"] button'
+    ) as HTMLButtonElement
+    oct1Button.focus()
     await userEvent.keyboard('{ArrowLeft}')
 
     expect(leftPickerTitle).toHaveTextContent('september 2024')
-    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
 
-    await userEvent.keyboard('{ArrowRight>32}')
+    // Navigate right from September — October is not in either calendar,
+    // so the left calendar changes to October
+    await userEvent.keyboard('{ArrowRight}')
 
-    expect(leftPickerTitle).toHaveTextContent('november 2024')
-    expect(rightPickerTitle).toHaveTextContent('oktober 2024')
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
 
-    // Tab to right picker and navigate to december
-    await userEvent.keyboard('{Tab>3}{ArrowRight>62}')
+    // Navigate right from October into November — should jump to right calendar
+    // without changing either calendar's month
+    const oct31Button = tables[0].querySelector(
+      'td[data-date="2024-10-31"] button'
+    ) as HTMLButtonElement
+    oct31Button.focus()
+    await userEvent.keyboard('{ArrowRight}')
 
-    expect(leftPickerTitle).toHaveTextContent('november 2024')
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
+    expect(tables[1].contains(document.activeElement)).toBe(true)
+
+    // Navigate right past November — right calendar changes to December
+    const nov30Button = tables[1].querySelector(
+      'td[data-date="2024-11-30"] button'
+    ) as HTMLButtonElement
+    nov30Button.focus()
+    await userEvent.keyboard('{ArrowRight}')
+
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
     expect(rightPickerTitle).toHaveTextContent('desember 2024')
 
-    await userEvent.keyboard('{ArrowLeft>70}')
+    // Navigate left from December — November is not in either calendar,
+    // so the right calendar changes to November
+    await userEvent.keyboard('{ArrowLeft}')
 
-    expect(leftPickerTitle).toHaveTextContent('november 2024')
-    expect(rightPickerTitle).toHaveTextContent('september 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
+
+    // Navigate left from November into October — should jump to left calendar
+    const nov1Button = tables[1].querySelector(
+      'td[data-date="2024-11-01"] button'
+    ) as HTMLButtonElement
+    nov1Button.focus()
+    await userEvent.keyboard('{ArrowLeft}')
+
+    expect(leftPickerTitle).toHaveTextContent('oktober 2024')
+    expect(rightPickerTitle).toHaveTextContent('november 2024')
+    expect(tables[0].contains(document.activeElement)).toBe(true)
+  })
+
+  it('should keep focus in the left calendar after selecting a start date with keyboard', async () => {
+    render(
+      <DatePicker range startDate="2024-10-01" endDate="2024-10-15" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const [leftTable, rightTable] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__calendar table')
+    )
+
+    // Navigate to another date in the left calendar
+    await userEvent.keyboard('{ArrowRight}')
+
+    // Select the date with Enter
+    await userEvent.keyboard('{Enter}')
+
+    // Focus should remain in the left calendar, not jump to the right one
+    expect(leftTable.contains(document.activeElement)).toBe(true)
+    expect(rightTable.contains(document.activeElement)).toBe(false)
+  })
+
+  it('should set startDate when selecting in the right calendar as the first selection', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <DatePicker
+        range
+        startDate="2024-10-01"
+        endDate="2024-10-15"
+        onChange={onChange}
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    )
+    const rightTable = tables[1] as HTMLTableElement
+
+    // Focus the right calendar table, then navigate to a date
+    rightTable.focus()
+    await userEvent.keyboard('{ArrowRight}')
+
+    // Select the date with Enter — this is the first selection
+    await userEvent.keyboard('{Enter}')
+
+    // Should set startDate (not endDate) and keep the picker open
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        startDate: expect.any(String),
+        endDate: null,
+      })
+    )
+
+    const pickerElement = document.querySelector('.dnb-date-picker--open')
+    expect(pickerElement).toBeInTheDocument()
+  })
+
+  it('should continue arrow key navigation from selected date in right calendar', async () => {
+    render(
+      <DatePicker range startDate="2024-10-01" endDate="2024-10-15" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    )
+    const rightTable = tables[1] as HTMLTableElement
+
+    // Focus the right calendar table and navigate to a date
+    rightTable.focus()
+    await userEvent.keyboard('{ArrowDown}')
+    await userEvent.keyboard('{ArrowRight}')
+
+    const focusedLabel = document.activeElement.getAttribute('aria-label')
+
+    // Select the date with Enter (first selection)
+    await userEvent.keyboard('{Enter}')
+
+    // Press arrow key — should continue from the selected date, not jump to 1st
+    await userEvent.keyboard('{ArrowRight}')
+
+    const nextLabel = document.activeElement.getAttribute('aria-label')
+
+    // The next focused date should be one day after the previously selected date
+    expect(nextLabel).not.toContain('1.')
+    expect(nextLabel).not.toBe(focusedLabel)
+  })
+
+  it('should focus the first day of the month when pressing arrow key without a prior selection', async () => {
+    render(<DatePicker range />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    ) as NodeListOf<HTMLTableElement>
+
+    // Focus the left calendar and press ArrowDown
+    tables[0].focus()
+    await userEvent.keyboard('{ArrowDown}')
+
+    const leftFocused = document.activeElement
+    expect(leftFocused.getAttribute('aria-label')).toContain('1.')
+
+    // Focus the right calendar and press ArrowDown
+    tables[1].focus()
+    await userEvent.keyboard('{ArrowDown}')
+
+    const rightFocused = document.activeElement
+    expect(rightFocused.getAttribute('aria-label')).toContain('1.')
+  })
+
+  it('should jump focus to the other calendar when arrow key crosses into its month', async () => {
+    render(
+      <DatePicker range startDate="2024-10-31" endDate="2024-11-05" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    ) as NodeListOf<HTMLTableElement>
+    const leftTable = tables[0]
+    const rightTable = tables[1]
+
+    // Navigate to Oct 31 in the left calendar
+    leftTable.focus()
+    await userEvent.keyboard('{ArrowDown}')
+
+    // Move right from the last day of October — should jump to the right calendar
+    const lastDayButton = leftTable.querySelector(
+      'td[data-date="2024-10-31"] button'
+    ) as HTMLButtonElement
+    lastDayButton.focus()
+    await userEvent.keyboard('{ArrowRight}')
+
+    // Focus should now be in the right calendar on Nov 1
+    expect(rightTable.contains(document.activeElement)).toBe(true)
+    expect(
+      document.activeElement.closest('td').getAttribute('data-date')
+    ).toBe('2024-11-01')
+
+    // Arrow keys should continue working from the new position
+    await userEvent.keyboard('{ArrowRight}')
+    expect(rightTable.contains(document.activeElement)).toBe(true)
+    expect(
+      document.activeElement.closest('td').getAttribute('data-date')
+    ).toBe('2024-11-02')
+
+    // Now test the reverse: navigate back to Nov 1, then go left into Oct
+    await userEvent.keyboard('{ArrowLeft}') // Nov 2 → Nov 1
+    await userEvent.keyboard('{ArrowLeft}') // Nov 1 → should jump to Oct 31
+
+    // Focus should jump to the left calendar on Oct 31
+    expect(leftTable.contains(document.activeElement)).toBe(true)
+    expect(
+      document.activeElement.closest('td').getAttribute('data-date')
+    ).toBe('2024-10-31')
   })
 
   it('should keep the picker open during tab navigation when showInput is true', async () => {
@@ -1616,12 +1813,11 @@ describe('DatePicker component', () => {
     await userEvent.keyboard('{ArrowRight>32}')
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
-    expect(document.activeElement.nodeName).toBe('TABLE')
+    expect(document.activeElement.nodeName).toBe('BUTTON')
 
     await userEvent.keyboard('{ArrowRight}')
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
-    expect(document.activeElement.nodeName).toBe('TABLE')
   })
 
   it('has a reacting start date input with valid value', async () => {
@@ -1715,7 +1911,7 @@ describe('DatePicker component', () => {
   })
 
   it('uses shift overwrite mode for inline inputs by default', () => {
-    const optionsEnhancer = jest.fn((options) => options)
+    const optionsEnhancer = vi.fn((options) => options)
     render(<DatePicker showInput {...({ optionsEnhancer } as any)} />)
 
     expect(optionsEnhancer).toHaveBeenCalled()
@@ -1781,9 +1977,9 @@ describe('DatePicker component', () => {
   })
 
   it('footer buttons work properly', async () => {
-    const onSubmit = jest.fn()
-    const onCancel = jest.fn()
-    const onReset = jest.fn()
+    const onSubmit = vi.fn()
+    const onCancel = vi.fn()
+    const onReset = vi.fn()
 
     const date = '2020-10-20'
 
@@ -1921,7 +2117,7 @@ describe('DatePicker component', () => {
   })
 
   it('should empty the input fields when clicking the reset button when `date` is `undefined`', async () => {
-    const onReset = jest.fn()
+    const onReset = vi.fn()
 
     render(
       <DatePicker
@@ -2101,8 +2297,8 @@ describe('DatePicker component', () => {
   })
 
   it('has a working min and max date limitation', async () => {
-    const onType = jest.fn()
-    const onChange = jest.fn()
+    const onType = vi.fn()
+    const onChange = vi.fn()
 
     const { rerender } = render(
       <DatePicker
@@ -2222,8 +2418,8 @@ describe('DatePicker component', () => {
   })
 
   it('has valid onType and onChange event calls', async () => {
-    const onType = jest.fn()
-    const onChange = jest.fn()
+    const onType = vi.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker
@@ -2464,7 +2660,7 @@ describe('DatePicker component', () => {
 
   it('resets date correctly between interactions', async () => {
     let outerState
-    const onChange = jest.fn(({ date }) => (outerState = date))
+    const onChange = vi.fn(({ date }) => (outerState = date))
     const { rerender } = render(
       <DatePicker onChange={onChange} showInput date="2019-02-01" />
     )
@@ -2556,7 +2752,7 @@ describe('DatePicker component', () => {
   })
 
   it('should clear internal date when null is passed', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const { rerender } = render(
       <DatePicker onChange={onChange} showInput />
@@ -2677,7 +2873,7 @@ describe('DatePicker component', () => {
   })
 
   it('should return all additional attributes the event return', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     const params = { 'data-attr': 'value' }
     render(<DatePicker onOpen={myEvent} {...params} />)
     fireEvent.click(getDatePickerTriggerButton())
@@ -2815,6 +3011,82 @@ describe('DatePicker component', () => {
     fireEvent.click(buttonElement)
 
     expect(element.classList).toContain('dnb-date-picker--open')
+
+    await waitFor(() => {
+      const selectedDayButton = document.querySelector(
+        'td[aria-selected="true"] button'
+      )
+      expect(document.activeElement).toBe(selectedDayButton)
+    })
+  })
+
+  it('should focus on selected start day when opening with a date set', async () => {
+    render(
+      <DatePicker
+        id="custom-id"
+        label="Input Label"
+        showInput
+        startDate="2019-01-15"
+        noAnimation
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+
+    fireEvent.click(buttonElement)
+
+    await waitFor(() => {
+      const selectedDayButton = document.querySelector(
+        'td[aria-selected="true"] button'
+      )
+      expect(document.activeElement).toBe(selectedDayButton)
+    })
+  })
+
+  it('should focus on selected start day in range mode when opening with dates set', async () => {
+    render(
+      <DatePicker
+        id="custom-id"
+        label="Input Label"
+        showInput
+        range
+        startDate="2019-01-15"
+        endDate="2019-02-15"
+        noAnimation
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+
+    fireEvent.click(buttonElement)
+
+    await waitFor(() => {
+      const selectedDayButton = document.querySelector(
+        'td[aria-selected="true"] button'
+      )
+      expect(document.activeElement).toBe(selectedDayButton)
+    })
+  })
+
+  it('should focus on table when opening without a date set', async () => {
+    render(
+      <DatePicker
+        id="custom-id"
+        label="Input Label"
+        showInput
+        noAnimation
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+
+    fireEvent.click(buttonElement)
 
     const tableElement = document.querySelector('table')
 
@@ -3247,7 +3519,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire blur event when input loses focus with existing date', async () => {
-    const onBlur = jest.fn()
+    const onBlur = vi.fn()
     render(<DatePicker showInput onBlur={onBlur} date="2024-01-05" />)
 
     const [firstInput, secondInput]: Array<HTMLInputElement> = Array.from(
@@ -3290,7 +3562,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire blur event with `date`', async () => {
-    const onBlur = jest.fn()
+    const onBlur = vi.fn()
     render(<DatePicker showInput onBlur={onBlur} />)
 
     const dayInput = document.querySelector('.dnb-date-picker__input--day')
@@ -3348,7 +3620,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire focus event with `date`', async () => {
-    const onFocus = jest.fn()
+    const onFocus = vi.fn()
     render(<DatePicker showInput onFocus={onFocus} />)
 
     const dayInput = document.querySelector('.dnb-date-picker__input--day')
@@ -3413,7 +3685,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire focus event with `startDate` and `endDate`', async () => {
-    const onFocus = jest.fn()
+    const onFocus = vi.fn()
     render(<DatePicker showInput range onFocus={onFocus} />)
 
     const startDayInput = document.querySelector(
@@ -3529,7 +3801,7 @@ describe('DatePicker component', () => {
   })
 
   it('should fire blur event with `startDate` and `endDate`', async () => {
-    const onBlur = jest.fn()
+    const onBlur = vi.fn()
     render(<DatePicker showInput range onBlur={onBlur} />)
 
     const startDayInput = document.querySelector(
@@ -3736,7 +4008,7 @@ describe('DatePicker component', () => {
   })
 
   it('should trigger `onChange` with `invalidDate` when input is fully filled out with an invalid date', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<DatePicker onChange={onChange} showInput />)
 
     const dayInput = document.querySelector(
@@ -3760,7 +4032,7 @@ describe('DatePicker component', () => {
   })
 
   it('should trigger `onChange` with `invalidStartDate` and `invalidEndDate` when input is fully filled out with an invalid dates in `range` mode', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<DatePicker onChange={onChange} range showInput />)
 
     const [startDayInput, endDayInput] = Array.from(
@@ -3933,7 +4205,7 @@ describe('DatePicker component', () => {
   })
 
   it('should not emit the stale date after clearing with select-all', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker showInput={true} date="2025-11-12" onChange={onChange} />
@@ -3969,7 +4241,7 @@ describe('DatePicker component', () => {
   })
 
   it('should not emit the stale date after deleting the year', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker showInput={true} date="2025-11-12" onChange={onChange} />
@@ -3995,7 +4267,7 @@ describe('DatePicker component', () => {
   })
 
   it('should not emit the stale date on onType after deleting the year', async () => {
-    const onType = jest.fn()
+    const onType = vi.fn()
 
     render(
       <DatePicker showInput={true} date="2025-11-12" onType={onType} />
@@ -4082,14 +4354,10 @@ describe('DatePicker component', () => {
 
     const element = getDatePickerRoot()
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-date-picker',
-      'dnb-form-component',
-      'dnb-date-picker--vertical',
-      'dnb-date-picker--hidden',
-      'dnb-date-picker--show-input',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-date-picker dnb-form-component dnb-date-picker--vertical dnb-date-picker--hidden dnb-date-picker--show-input dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should align popover to right when stretch prop is true', async () => {
@@ -4097,7 +4365,7 @@ describe('DatePicker component', () => {
 
     const PopoverModule = await import('../../popover/Popover')
 
-    jest.spyOn(PopoverModule, 'default').mockImplementation((props) => {
+    vi.spyOn(PopoverModule, 'default').mockImplementation((props) => {
       capturedAlignOnTarget = props.alignOnTarget
       // Return a simple div to avoid infinite loops
       return (
@@ -4122,7 +4390,7 @@ describe('DatePicker component', () => {
     // When reverted: alignPicker === 'right' ? 'right' : 'left'
     expect(capturedAlignOnTarget).toBe('right')
 
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   it('should align popover to left when stretch prop is false', async () => {
@@ -4130,7 +4398,7 @@ describe('DatePicker component', () => {
 
     const PopoverModule = await import('../../popover/Popover')
 
-    jest.spyOn(PopoverModule, 'default').mockImplementation((props) => {
+    vi.spyOn(PopoverModule, 'default').mockImplementation((props) => {
       capturedAlignOnTarget = props.alignOnTarget
       // Return a simple div to avoid infinite loops
       return (
@@ -4153,7 +4421,7 @@ describe('DatePicker component', () => {
     // Verify alignOnTarget is 'left' when stretch is false
     expect(capturedAlignOnTarget).toBe('left')
 
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
   })
 
   it('should inherit formElement vertical label', () => {
@@ -4169,13 +4437,10 @@ describe('DatePicker component', () => {
     )
 
     expect(attributes).toEqual(['class', 'lang'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-date-picker',
-      'dnb-form-component',
-      'dnb-date-picker--vertical',
-      'dnb-date-picker--hidden',
-      'dnb-date-picker--show-input',
-    ])
+    expect(element).toHaveClass(
+      'dnb-date-picker dnb-form-component dnb-date-picker--vertical dnb-date-picker--hidden dnb-date-picker--show-input',
+      { exact: true }
+    )
   })
 
   it('should display a month ahead in right picker when range is linked', async () => {
@@ -4351,17 +4616,24 @@ describe('DatePicker component', () => {
       document.querySelectorAll('.dnb-date-picker__input')
     ) as Array<HTMLInputElement>
 
+    // Arrow keys move focus without changing the selected date
     await userEvent.keyboard('{ArrowRight}')
 
-    expect(screen.getByLabelText('mandag 28. april 2025')).toHaveAttribute(
+    // Focus should be on Monday April 28 (skipping weekend)
+    expect(document.activeElement).toBe(
+      screen.getByLabelText('mandag 28. april 2025')
+    )
+
+    // The selected date should NOT change yet
+    expect(screen.getByLabelText('fredag 25. april 2025')).toHaveAttribute(
       'aria-current',
       'date'
     )
-
-    expect(day.value).toBe('28')
+    expect(day.value).toBe('25')
     expect(month.value).toBe('04')
     expect(year.value).toBe('2025')
 
+    // Weekend days are still rendered
     expect(
       screen.getByLabelText('lørdag 26. april 2025')
     ).toBeInTheDocument()
@@ -4369,8 +4641,15 @@ describe('DatePicker component', () => {
       screen.getByLabelText('søndag 27. april 2025')
     ).toBeInTheDocument()
 
+    // Navigate back with ArrowLeft (from focused April 28)
     await userEvent.keyboard('{ArrowLeft}')
 
+    // Focus should skip weekends and land back on Friday April 25
+    expect(document.activeElement).toBe(
+      screen.getByLabelText('fredag 25. april 2025')
+    )
+
+    // The selected date should still be April 25
     expect(screen.getByLabelText('fredag 25. april 2025')).toHaveAttribute(
       'aria-current',
       'date'
@@ -4389,7 +4668,7 @@ describe('DatePicker component', () => {
   })
 
   it('should enable navigation by year in the calendar when `yearNavigation` is set to `true`', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker
@@ -4486,7 +4765,7 @@ describe('DatePicker component', () => {
   })
 
   it('should enable navigation by year in the calendar when `yearNavigation` is set to `true` and in range mode', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <DatePicker
@@ -4894,7 +5173,7 @@ describe('DatePicker calc', () => {
   describe('isDisabledCalc', () => {
     it('should correctly determine `date` is before `minDate`', async () => {
       const date = new Date('2025-02-12')
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <DatePicker
@@ -4935,7 +5214,7 @@ describe('DatePicker calc', () => {
 
     it('should correctly determine `date` is after `maxDate`', async () => {
       const date = new Date('2025-02-12')
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <DatePicker
@@ -5050,7 +5329,7 @@ describe('Custom text for buttons', () => {
       const [day, month, year]: Array<HTMLInputElement> =
         getSegmentedFields()
 
-      const setData = jest.fn()
+      const setData = vi.fn()
       const clipboardData = { setData }
 
       day.focus()
@@ -5086,7 +5365,7 @@ describe('Custom text for buttons', () => {
 
       const [month]: Array<HTMLInputElement> = getDatePickerInputs()
 
-      const setData = jest.fn()
+      const setData = vi.fn()
       const clipboardData = { setData }
 
       month.focus()
@@ -5106,7 +5385,7 @@ describe('Custom text for buttons', () => {
 
       let date = null
 
-      const getData = jest.fn(() => date)
+      const getData = vi.fn(() => date)
       const clipboardData = { getData }
 
       date = '01.04.2025'
@@ -5138,8 +5417,8 @@ describe('Custom text for buttons', () => {
     })
 
     it('should paste the whole date in US English order', async () => {
-      const log = jest.fn()
-      const mock = jest.spyOn(console, 'log').mockImplementation(log)
+      const log = vi.fn()
+      const mock = vi.spyOn(console, 'log').mockImplementation(log)
 
       render(
         <Provider locale="en-US">
@@ -5150,7 +5429,7 @@ describe('Custom text for buttons', () => {
       const [month, day, year]: Array<HTMLInputElement> =
         getDatePickerInputs()
 
-      const getData = jest.fn(() => '04/01/2019')
+      const getData = vi.fn(() => '04/01/2019')
       const clipboardData = { getData }
 
       month.focus()
@@ -5176,7 +5455,7 @@ describe('Custom text for buttons', () => {
       const [day, month, year]: Array<HTMLInputElement> =
         getSegmentedFields()
 
-      const getData = jest.fn(() => '12.31')
+      const getData = vi.fn(() => '12.31')
       const clipboardData = { getData }
 
       day.focus()
@@ -5189,15 +5468,15 @@ describe('Custom text for buttons', () => {
     })
 
     it('should preserve the existing year when pasting a partial date', async () => {
-      const log = jest.fn()
-      const mock = jest.spyOn(console, 'log').mockImplementation(log)
+      const log = vi.fn()
+      const mock = vi.spyOn(console, 'log').mockImplementation(log)
 
       render(<DatePicker showInput date="2026-06-15" />)
 
       const [day, month, year]: Array<HTMLInputElement> =
         getSegmentedFields()
 
-      const getData = jest.fn(() => '20.11')
+      const getData = vi.fn(() => '20.11')
       const clipboardData = { getData }
 
       day.focus()
@@ -5277,8 +5556,8 @@ describe('DatePickerPortal', () => {
   })
 
   it('should unmount portal when `onOpen` and `onClose` callbacks are setting a state', async () => {
-    const onClose = jest.fn()
-    const onOpen = jest.fn()
+    const onClose = vi.fn()
+    const onOpen = vi.fn()
 
     const DatePickerComponent = () => {
       const [, setShow] = useState(false)
@@ -5692,7 +5971,7 @@ describe('DatePicker ARIA', () => {
     })
 
     it('toggles popover open/close when submit button is clicked', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       render(<DatePicker showSubmitButton onSubmit={onSubmit} open />)
 
       // Popover should be open initially
@@ -5718,7 +5997,7 @@ describe('DatePicker ARIA', () => {
     })
 
     it('opens popover when submit button is clicked and popover is closed', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       render(<DatePicker showSubmitButton onSubmit={onSubmit} />)
 
       // Initially popover should be closed
@@ -5752,6 +6031,49 @@ describe('DatePicker ARIA', () => {
         ).not.toBeInTheDocument()
       })
       expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  describe('triggerProps', () => {
+    it('should forward variant to the trigger button', () => {
+      render(<DatePicker triggerProps={{ variant: 'tertiary' }} />)
+
+      const button = getDatePickerTriggerButton()
+      expect(button.classList).toContain('dnb-button--tertiary')
+    })
+
+    it('should forward text to the trigger button', () => {
+      render(<DatePicker triggerProps={{ text: 'Pick a date' }} />)
+
+      const button = getDatePickerTriggerButton()
+      expect(button.textContent).toContain('Pick a date')
+    })
+
+    it('should forward variant and text together', () => {
+      render(
+        <DatePicker
+          triggerProps={{ variant: 'tertiary', text: 'Choose date' }}
+        />
+      )
+
+      const button = getDatePickerTriggerButton()
+      expect(button.classList).toContain('dnb-button--tertiary')
+      expect(button.textContent).toContain('Choose date')
+    })
+
+    it('should work with showInput', () => {
+      render(
+        <DatePicker
+          showInput
+          triggerProps={{ variant: 'tertiary', text: 'Open' }}
+        />
+      )
+
+      const button = document.querySelector(
+        'button.dnb-input__submit-button__button'
+      ) as HTMLButtonElement
+      expect(button.classList).toContain('dnb-button--tertiary')
+      expect(button.textContent).toContain('Open')
     })
   })
 })

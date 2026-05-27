@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { HTMLProps } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ModalHeaderBarProps } from '../../modal/parts/ModalHeaderBar'
 import ModalHeaderBar from '../../modal/parts/ModalHeaderBar'
 import { DrawerContentContext } from './DrawerContentContext'

@@ -268,7 +268,7 @@ describe('useVisibility', () => {
     })
 
     it('should run hasValue even when path not exists', () => {
-      const hasValue = jest.fn((value) => value === 'bar')
+      const hasValue = vi.fn((value) => value === 'bar')
       const { result } = renderHook(
         () =>
           useVisibility({

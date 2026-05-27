@@ -2,7 +2,7 @@ import type { UploadFileLinkProps } from '../UploadFileListLink'
 import UploadFileLink from '../UploadFileListLink'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-global.URL.createObjectURL = jest.fn(() => 'url')
+global.URL.createObjectURL = vi.fn(() => 'url')
 
 const defaultProps: UploadFileLinkProps = {
   text: 'text',
@@ -67,7 +67,7 @@ describe('UploadFileListLink', () => {
 
   describe('as a button', () => {
     it('renders the button', () => {
-      render(<UploadFileLink {...defaultProps} onClick={jest.fn()} />)
+      render(<UploadFileLink {...defaultProps} onClick={vi.fn()} />)
       expect(document.querySelector('.dnb-a')).not.toBeInTheDocument()
       expect(document.querySelector('.dnb-button')).toBeInTheDocument()
     })
@@ -78,7 +78,7 @@ describe('UploadFileListLink', () => {
       render(
         <UploadFileLink
           {...defaultProps}
-          onClick={jest.fn()}
+          onClick={vi.fn()}
           text={fileName}
         />
       )
@@ -86,7 +86,7 @@ describe('UploadFileListLink', () => {
     })
 
     it('executes onClick event when button is clicked', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
 
       render(<UploadFileLink {...defaultProps} onClick={onClick} />)
       const element = document.querySelector('.dnb-button')
@@ -98,11 +98,7 @@ describe('UploadFileListLink', () => {
 
     it('supports spacing props', () => {
       render(
-        <UploadFileLink
-          {...defaultProps}
-          onClick={jest.fn()}
-          top="large"
-        />
+        <UploadFileLink {...defaultProps} onClick={vi.fn()} top="large" />
       )
 
       const element = document.querySelector('.dnb-button')

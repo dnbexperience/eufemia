@@ -17,12 +17,16 @@ export function mockImplementationForDirectionObserver() {
         window.dispatchEvent(new Event('resize'))
 
         // new setDirectionObserver implementation
-        jest
-          .spyOn(document.documentElement, 'clientWidth', 'get')
-          .mockImplementation(() => width)
-        jest
-          .spyOn(document.documentElement, 'clientHeight', 'get')
-          .mockImplementation(() => height)
+        vi.spyOn(
+          document.documentElement,
+          'clientWidth',
+          'get'
+        ).mockImplementation(() => width)
+        vi.spyOn(
+          document.documentElement,
+          'clientHeight',
+          'get'
+        ).mockImplementation(() => height)
       }
     ;(window as unknown as { scrollTo: CustomScrollTo }).scrollTo =
       function scrollTo({ top = window.scrollY }) {
@@ -32,9 +36,11 @@ export function mockImplementationForDirectionObserver() {
         window.dispatchEvent(new Event('scroll'))
 
         // new setDirectionObserver implementation
-        jest
-          .spyOn(document.documentElement, 'scrollTop', 'get')
-          .mockImplementation(() => top)
+        vi.spyOn(
+          document.documentElement,
+          'scrollTop',
+          'get'
+        ).mockImplementation(() => top)
       }
 
     // make sure we get the correct document.documentElement.clientHeight on startup

@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 // @vitest-environment node
 
 describe('Eufemia SSR', () => {

@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 import type { CSSProperties, KeyboardEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useMenuContext } from './MenuContext'
 import type { MenuListProps } from './types'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'

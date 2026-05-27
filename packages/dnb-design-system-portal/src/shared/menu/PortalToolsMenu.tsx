@@ -23,7 +23,7 @@ import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 type Props = {
   className?: string
   tooltipPosition?: TooltipPlacement
-  triggerAttributes?: ButtonProps
+  triggerProps?: ButtonProps
   hideWhenMediaLarge?: boolean
 }
 
@@ -74,7 +74,7 @@ function setStoredPortalToolsOpen(isOpen: boolean, storageKey: string) {
 export default function PortalToolsMenu({
   className = null,
   tooltipPosition = 'left',
-  triggerAttributes = null,
+  triggerProps = null,
   hideWhenMediaLarge = false,
   ...props
 }: Props) {
@@ -176,7 +176,7 @@ export default function PortalToolsMenu({
       noAnimation={noAnimation}
       onOpen={handleOpen}
       onClose={handleClose}
-      triggerAttributes={{
+      triggerProps={{
         className: clsx(
           className,
           buttonStyle,
@@ -187,6 +187,7 @@ export default function PortalToolsMenu({
         iconSize: 'medium',
         skeleton: false,
         left: 'x-small',
+        title: 'Portal Tools',
         tooltip: (
           <Tooltip
             placement={tooltipPosition}
@@ -197,7 +198,7 @@ export default function PortalToolsMenu({
             Open the portal tools
           </Tooltip>
         ),
-        ...triggerAttributes,
+        ...triggerProps,
       }}
       {...props}
     >

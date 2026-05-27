@@ -9,7 +9,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import useMounted from '../../shared/helpers/useMounted'

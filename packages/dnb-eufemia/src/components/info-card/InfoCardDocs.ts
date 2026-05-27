@@ -61,20 +61,30 @@ export const InfoCardProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  closeButtonAttributes: {
-    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
+  closeButtonProps: {
+    doc: 'Props forwarded to the close button.',
     type: 'ButtonProps',
     status: 'optional',
+  },
+  closeButtonAttributes: {
+    doc: 'Deprecated. Use `closeButtonProps` instead.',
+    type: 'ButtonProps',
+    status: 'deprecated',
   },
   acceptButtonText: {
     doc: 'The accept button text.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  acceptButtonAttributes: {
-    doc: 'Define any valid Eufemia [Button properties](/uilib/components/button/properties) or HTML attribute inside an object.',
+  acceptButtonProps: {
+    doc: 'Props forwarded to the accept button.',
     type: 'ButtonProps',
     status: 'optional',
+  },
+  acceptButtonAttributes: {
+    doc: 'Deprecated. Use `acceptButtonProps` instead.',
+    type: 'ButtonProps',
+    status: 'deprecated',
   },
   children: {
     doc: 'Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.',

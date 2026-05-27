@@ -4,7 +4,7 @@ import { Form, Iterate } from '../../Forms'
 
 describe('usePath', () => {
   it('should throw error when "path" without slash is given', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     expect(() => {
       renderHook(() =>
@@ -20,7 +20,7 @@ describe('usePath', () => {
   })
 
   it('should throw then "itemPath" without slash was given', () => {
-    const log = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
 
     expect(() => {
       renderHook(() =>

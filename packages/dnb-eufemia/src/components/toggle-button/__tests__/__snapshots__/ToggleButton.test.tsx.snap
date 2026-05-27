@@ -69,6 +69,12 @@ legend.dnb-form-label {
 * Icon component
 *
 */
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -147,28 +153,59 @@ p > .dnb-icon {
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
 }
+.dnb-icon[style*="--icon-transition"] svg path {
+  d: var(--icon-transition, var(--icon-transition-default));
+  vector-effect: non-scaling-stroke;
+  transition: d 400ms var(--easing-default);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon[style*="--icon-transition"] svg path {
+    transition-duration: 0.01ms;
+  }
+}
+.dnb-icon--transition-fallback {
+  position: relative;
+}
+.dnb-icon--transition-fallback svg[data-icon-state] {
+  transition: opacity 500ms var(--easing-default) 80ms, transform 600ms var(--easing-default);
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(:first-of-type) {
+  position: absolute;
+  inset: 0;
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(.dnb-icon__state--active) {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.dnb-icon--transition-fallback svg[data-icon-state].dnb-icon__state--active {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon--transition-fallback svg[data-icon-state] {
+    transition-duration: 0.01ms;
+  }
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
- * Utilities
- */
-/*
- * Utilities
- */
+* Tooltip component
+*
+*/
 :root {
   --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: var(--token-radius-full);
+  --tooltip-border-radius: var(--token-radius-lg);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
@@ -210,7 +247,7 @@ p > .dnb-icon {
 *
 */
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -352,7 +389,7 @@ button .dnb-form-status__text {
   }
 }
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -415,6 +452,11 @@ button .dnb-form-status__text {
   margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
+  --button-color-bg--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --button-color-icon--focus: var(--token-color-icon-action-focus);
+  --button-color-text--focus: var(--token-color-text-action-focus);
   color: var(--button-color-text, var(--button-color-text--default));
   background-color: var(--button-color-bg, var(--button-color-bg--default));
 }
@@ -455,10 +497,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], h
   cursor: not-allowed;
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  --button-color-bg: var(--token-color-background-action-focus-subtle);
+  --button-color-bg: var(--button-color-bg--focus);
   --button-color-border: var(--token-color-stroke-action-focus);
-  --button-color-icon: var(--token-color-icon-action-focus);
-  --button-color-text: var(--token-color-text-action-focus);
+  --button-color-icon: var(--button-color-icon--focus);
+  --button-color-text: var(--button-color-text--focus);
   --button-color-underline: var(--button-color-underline--focus);
   --button-border-inset: var(--button-border-inset--focus);
   --button-border-width: var(--button-border-width--focus);
@@ -1019,7 +1061,7 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -1435,7 +1477,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
 *
 */
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -1758,7 +1800,7 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 }
 
 /*
-* Tooltip component
+* Icon component
 *
 */
 /*
@@ -1794,15 +1836,18 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-bg--hover: var(--token-color-background-neutral);
   --button-color-bg--active: var(--token-color-background-neutral);
+  --button-color-bg--focus: var(--button-color-bg--default);
   --button-color-border--default: var(--token-color-stroke-neutral-bold);
   --button-color-border--hover: var(--token-color-stroke-action-hover);
   --button-color-border--active: var(
     --token-color-stroke-action-pressed
   );
   --button-color-icon--default: var(--token-color-icon-neutral);
+  --button-color-icon--focus: var(--button-color-icon--default);
   --button-color-text--default: var(--token-color-text-neutral);
   --button-color-text--hover: var(--token-color-text-neutral);
   --button-color-text--active: var(--token-color-text-neutral);
+  --button-color-text--focus: var(--button-color-text--default);
 }
 .dnb-toggle-button__button.dnb-button--has-text {
   padding-left: 1.5rem;
@@ -1951,6 +1996,7 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   --checkbox-color-gfx--error: var(--checkbox-color-gfx--focus);
 }
 .dnb-toggle-button--checked .dnb-toggle-button__button {
+  --button-border-width--default: 0.125rem;
   --button-color-bg--default: var(
     --token-color-background-selected-subtle
   );
@@ -1963,13 +2009,16 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   --button-color-bg--disabled: var(
     --token-color-background-neutral-base
   );
+  --button-color-bg--focus: var(--button-color-bg--default);
   --button-color-border--default: var(
     --token-color-component-button-stroke-selected
   );
   --button-color-icon--default: var(--token-color-text-selected);
+  --button-color-icon--focus: var(--button-color-icon--default);
   --button-color-text--default: var(--token-color-text-selected);
   --button-color-text--hover: var(--token-color-text-selected);
   --button-color-text--active: var(--token-color-text-selected);
+  --button-color-text--focus: var(--button-color-text--default);
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button {
   --button-color-bg--default: var(--token-color-background-neutral);

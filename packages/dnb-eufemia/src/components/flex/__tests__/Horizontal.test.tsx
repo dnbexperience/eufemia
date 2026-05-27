@@ -43,18 +43,10 @@ describe('Flex.Horizontal', () => {
       '.dnb-flex-container--direction-horizontal'
     )
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--row-gap-small',
-      'custom-class',
-      'dnb-flex-container--direction-horizontal',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--row-gap-small custom-class dnb-flex-container--direction-horizontal dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
   })
 
   it('should render children', () => {

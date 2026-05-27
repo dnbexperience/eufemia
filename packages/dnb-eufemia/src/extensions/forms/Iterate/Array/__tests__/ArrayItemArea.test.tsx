@@ -19,7 +19,7 @@ describe('ArrayItemArea', () => {
   })
 
   it('should call "onAnimationEnd"', () => {
-    const onAnimationEnd = jest.fn()
+    const onAnimationEnd = vi.fn()
 
     const wrapper = ({ children }) => (
       <IterateItemContext value={{ containerMode: 'view', value: 'foo' }}>
@@ -40,7 +40,7 @@ describe('ArrayItemArea', () => {
   })
 
   it('should call "handleRemove" from the context during element remove', () => {
-    const handleRemove = jest.fn()
+    const handleRemove = vi.fn()
 
     const wrapper = ({ children }) => (
       <IterateItemContext value={{ containerMode: 'view', handleRemove }}>
@@ -61,7 +61,7 @@ describe('ArrayItemArea', () => {
   })
 
   it('should call "fulfillRemove" from the context during element remove', () => {
-    const fulfillRemove = jest.fn()
+    const fulfillRemove = vi.fn()
 
     const wrapper = ({ children }) => (
       <IterateItemContext
@@ -256,7 +256,7 @@ describe('ArrayItemArea', () => {
   })
 
   it('calls handleRemove when remove button is clicked', () => {
-    const handleRemove = jest.fn()
+    const handleRemove = vi.fn()
 
     render(
       <IterateItemContext value={{ handleRemove }}>
@@ -272,8 +272,8 @@ describe('ArrayItemArea', () => {
   })
 
   it('calls "fulfillRemove" when remove button is clicked', async () => {
-    const handleRemove = jest.fn()
-    const fulfillRemove = jest.fn()
+    const handleRemove = vi.fn()
+    const fulfillRemove = vi.fn()
 
     render(
       <IterateItemContext
@@ -378,7 +378,7 @@ describe('ArrayItemArea', () => {
 
   it('opens in edit mode when falsy value was given and mode is view', () => {
     let containerMode = null
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     const ContextConsumer = () => {
       const context = useContext(IterateItemContext)
@@ -407,7 +407,7 @@ describe('ArrayItemArea', () => {
 
   it('opens in edit mode when falsy value was given and mode is edit', () => {
     let containerMode = null
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     const ContextConsumer = () => {
       const context = useContext(IterateItemContext)
@@ -440,7 +440,7 @@ describe('ArrayItemArea', () => {
 
   it('should thread empty object as falsy', () => {
     let containerMode = null
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     const ContextConsumer = () => {
       const context = useContext(IterateItemContext)
@@ -472,7 +472,7 @@ describe('ArrayItemArea', () => {
   })
 
   it('should call switchContainerMode when mode is edit and error is present', () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <FieldBoundaryContext value={{ hasError: true }}>
@@ -537,8 +537,8 @@ describe('ArrayItemArea', () => {
   })
 
   it('calls onAnimationEnd when remove button is clicked', async () => {
-    const handleRemove = jest.fn()
-    const onAnimationEnd = jest.fn()
+    const handleRemove = vi.fn()
+    const onAnimationEnd = vi.fn()
 
     render(
       <IterateItemContext

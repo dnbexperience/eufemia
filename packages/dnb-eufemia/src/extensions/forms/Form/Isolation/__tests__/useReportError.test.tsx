@@ -7,9 +7,9 @@ import WizardStepContext from '../../../Wizard/Step/StepContext'
 
 describe('useReportError', () => {
   it('should report error', () => {
-    const setFieldErrorDataContext = jest.fn()
-    const setFieldErrorWizard = jest.fn()
-    const setMountedFieldState = jest.fn()
+    const setFieldErrorDataContext = vi.fn()
+    const setFieldErrorWizard = vi.fn()
+    const setMountedFieldState = vi.fn()
 
     const error = new Error('My error')
     const path = '/id-r1'
@@ -100,9 +100,9 @@ describe('useReportError', () => {
   })
 
   it('should remove error when unmounted', () => {
-    const setFieldErrorDataContext = jest.fn()
-    const setFieldErrorWizard = jest.fn()
-    const setMountedFieldState = jest.fn()
+    const setFieldErrorDataContext = vi.fn()
+    const setFieldErrorWizard = vi.fn()
+    const setMountedFieldState = vi.fn()
 
     const error = new Error('My error')
     const path = '/id-r3'
@@ -177,9 +177,9 @@ describe('useReportError', () => {
   })
 
   it('should support dataContext given as the second argument', () => {
-    const setFieldErrorDataContext = jest.fn()
-    const setFieldErrorWizard = jest.fn()
-    const setMountedFieldState = jest.fn()
+    const setFieldErrorDataContext = vi.fn()
+    const setFieldErrorWizard = vi.fn()
+    const setMountedFieldState = vi.fn()
 
     const error = new Error('My error')
     const path = '/id-r5'

@@ -33,7 +33,7 @@ describe('useReactRouter', () => {
     const realReplaceState = window.history.replaceState.bind(
       window.history
     )
-    window.history.pushState = jest.fn((data, unused, url) => {
+    window.history.pushState = vi.fn((data, unused, url) => {
       realReplaceState(data, unused, url)
     })
   }
@@ -42,14 +42,14 @@ describe('useReactRouter', () => {
       current: null,
     }
 
-    const get = jest.fn((key = null) => {
+    const get = vi.fn((key = null) => {
       if (key) {
         const searchParams = new URLSearchParams(window.location.search)
         return searchParams.get(key)
       }
       return stepIndex
     })
-    const set = jest.fn((key, index) => {
+    const set = vi.fn((key, index) => {
       stepIndex = index
       const searchParams = new URLSearchParams(window.location.search)
       searchParams.set(key, index)
@@ -58,8 +58,8 @@ describe('useReactRouter', () => {
       window.history.replaceState({}, '', url.toString())
     })
     const searchParams = { get, set }
-    const setSearchParams = jest.fn()
-    const useSearchParams = jest.fn(() => {
+    const setSearchParams = vi.fn()
+    const useSearchParams = vi.fn(() => {
       const [, fU] = useReducer(() => ({}), {})
       const paramsRef = useRef(searchParams)
 
@@ -239,10 +239,10 @@ describe('useReactRouter', () => {
   it('should handle and show try/catch errors', async () => {
     mockUrl()
 
-    const get = jest.fn()
+    const get = vi.fn()
     const searchParams = { get }
-    const setSearchParams = jest.fn()
-    const useSearchParams = jest.fn(() => {
+    const setSearchParams = vi.fn()
+    const useSearchParams = vi.fn(() => {
       return [searchParams, setSearchParams]
     })
 

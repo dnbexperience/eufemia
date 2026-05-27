@@ -12,10 +12,22 @@ import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 
 export type RouteEntry = {
   path?: string
+  children?: RouteEntry[]
   [key: string]: unknown
 }
 
 export type SSRManifest = Record<string, string[]>
+
+export type ClientManifestEntry = {
+  file: string
+  name?: string
+  src?: string
+  isDynamicEntry?: boolean
+  imports?: string[]
+  css?: string[]
+}
+
+export type ClientManifest = Record<string, ClientManifestEntry>
 
 export type MdxNode = {
   fields: { slug: string }
@@ -36,21 +48,29 @@ export type PageMeta = {
 export function collectUrls(routes: RouteEntry[]): string[] {
   const urls = ['/']
 
-  for (const route of routes) {
-    if (
-      route.path &&
-      route.path !== '*' &&
-      !route.path.startsWith('/404')
-    ) {
-      const routePath = route.path.endsWith('/')
-        ? route.path
-        : route.path + '/'
+  const visitRoutes = (entries: RouteEntry[]) => {
+    for (const route of entries) {
+      if (
+        route.path &&
+        route.path !== '*' &&
+        !route.path.startsWith('/404')
+      ) {
+        const routePath = route.path.endsWith('/')
+          ? route.path
+          : route.path + '/'
 
-      if (!urls.includes(routePath)) {
-        urls.push(routePath)
+        if (!urls.includes(routePath)) {
+          urls.push(routePath)
+        }
+      }
+
+      if (Array.isArray(route.children) && route.children.length > 0) {
+        visitRoutes(route.children)
       }
     }
   }
+
+  visitRoutes(routes)
 
   return urls
 }
@@ -157,10 +177,17 @@ export function getMdPath(
 /**
  * Map a URL to its per-route preload assets from the SSR manifest.
  * Returns JS files for modulepreload and CSS files for stylesheet links.
+ *
+ * When a client manifest is provided, performs a BFS through chunk
+ * imports to discover transitive CSS dependencies. Without this,
+ * CSS modules imported by non-route source files (e.g. shared menu
+ * components) would only load after JS executes, causing a layout
+ * flicker on prerendered pages.
  */
 export function getRoutePreloads(
   url: string,
-  ssrManifest: SSRManifest
+  ssrManifest: SSRManifest,
+  clientManifest?: ClientManifest | null
 ): { js: string[]; css: string[] } {
   const routePath = url.replace(/^\/|\/$/g, '') || 'index'
 
@@ -182,6 +209,52 @@ export function getRoutePreloads(
           jsPreloads.add(asset)
         } else if (asset.endsWith('.css')) {
           cssPreloads.add(asset)
+        }
+      }
+    }
+  }
+
+  if (clientManifest && jsPreloads.size > 0) {
+    const fileToEntry = new Map<string, ClientManifestEntry>()
+    for (const entry of Object.values(clientManifest)) {
+      if (entry.file) {
+        fileToEntry.set('/' + entry.file, entry)
+      }
+    }
+
+    const visited = new Set<string>()
+    const queue = Array.from(jsPreloads)
+
+    while (queue.length > 0) {
+      const chunk = queue.shift()!
+      if (visited.has(chunk)) {
+        continue
+      }
+      visited.add(chunk)
+
+      const entry = fileToEntry.get(chunk)
+      if (!entry) {
+        continue
+      }
+
+      if (entry.css) {
+        for (const css of entry.css) {
+          cssPreloads.add('/' + css)
+        }
+      }
+
+      if (entry.imports) {
+        for (const imp of entry.imports) {
+          if (imp === 'index.html') {
+            continue
+          }
+          const impEntry = clientManifest[imp]
+          if (impEntry?.file) {
+            const impPath = '/' + impEntry.file
+            if (!visited.has(impPath)) {
+              queue.push(impPath)
+            }
+          }
         }
       }
     }
@@ -269,22 +342,36 @@ export function injectHtml(
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
-  // The default theme (ui) is enabled; others are disabled.
-  // An early inline script reads localStorage and swaps them
-  // before the browser paints — preventing a flash of the wrong brand.
+  // All links are enabled (render-blocking) so the browser fetches them
+  // before the first paint. A head script disables inactive themes
+  // before the browser paints, and a body-opening script adds the
+  // active brand class to <body> so token selectors match immediately.
   if (themeCssPaths && Object.keys(themeCssPaths).length > 0) {
     const defaultTheme = 'ui'
     const linkTags = Object.entries(themeCssPaths)
       .map(([name, href]) => {
-        const disabled = name !== defaultTheme ? ' disabled' : ''
-        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}"${disabled}>`
+        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}">`
       })
       .join('\n')
 
-    const themeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}document.body.classList.add('eufemia-theme__'+n)}catch(e){}})()</script>`
+    // Head script: determine active theme, disable inactive theme
+    // links, and store the name on globalThis for the body script.
+    // Runs in <head> after the render-blocking links have loaded,
+    // so the disable is instant — no network delay.
+    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
 
-    html = html.replace('</head>', `${linkTags}\n  </head>`)
-    html = html.replace('</body>', `${themeScript}\n</body>`)
+    // Body script: add the brand class to <body> immediately after
+    // the opening tag, before any content is rendered.
+    const bodyThemeScript = `<script>(function(){var n=globalThis.__eufemiaTheme;if(n){document.body.classList.add('eufemia-theme__'+n)}})()</script>`
+
+    html = html.replace(
+      '</head>',
+      `${linkTags}\n${headThemeScript}\n  </head>`
+    )
+    html = html.replace(
+      /<body[^>]*>/,
+      (match) => `${match}\n     ${bodyThemeScript}`
+    )
   }
 
   // Inject per-page SEO meta tags (title, description, Open Graph)

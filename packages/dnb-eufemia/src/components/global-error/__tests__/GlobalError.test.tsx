@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { GlobalErrorAllProps } from '../GlobalError'
 import GlobalError from '../GlobalError'
 import Heading from '../../heading/Heading'
@@ -173,13 +173,14 @@ describe('GlobalError', () => {
 
     const element = document.querySelector('.dnb-global-error')
 
-    expect(Array.from(element.classList)).toEqual([
+    expect(element).toHaveClass(
       'dnb-space',
       'dnb-skeleton__root',
       'dnb-global-error',
       'dnb-global-error--404',
-      'dnb-space__top--large',
-    ])
+      'dnb-space__top--large'
+    )
+    expect(element.classList).toHaveLength(5)
   })
 
   it('should add additional html props to main element', () => {

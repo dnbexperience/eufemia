@@ -9,7 +9,7 @@ import DrawerContent from './DrawerContent'
 import DrawerBody from './parts/DrawerBody'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import type { DrawerProps, DrawerContentProps } from './types'
 import { removeUndefinedProps } from '../../shared/component-helper'
@@ -48,7 +48,9 @@ function Drawer({
 
   omitTriggerButton,
   trigger,
+  triggerProps,
   triggerAttributes,
+  closeButtonProps,
   closeButtonAttributes,
   overlayClass,
   contentClass,
@@ -93,7 +95,9 @@ function Drawer({
     closeModal,
     omitTriggerButton,
     trigger,
+    triggerProps,
     triggerAttributes,
+    closeButtonProps,
     closeButtonAttributes,
     overlayClass,
     contentRef,

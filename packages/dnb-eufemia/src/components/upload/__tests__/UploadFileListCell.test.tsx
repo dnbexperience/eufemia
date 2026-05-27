@@ -3,12 +3,12 @@ import UploadFileListCell from '../UploadFileListCell'
 import { createMockFile } from './testHelpers'
 import { fireEvent, render, screen } from '@testing-library/react'
 
-global.URL.createObjectURL = jest.fn(() => 'url')
+global.URL.createObjectURL = vi.fn(() => 'url')
 
 const defaultProps: UploadFileListCellProps = {
   id: 'unique',
   deleteButtonText: 'delete',
-  onDelete: jest.fn(),
+  onDelete: vi.fn(),
   uploadFile: { file: createMockFile('file.png', 100, 'image/png') },
   loadingText: 'loading',
 }
@@ -241,7 +241,7 @@ describe('UploadFileListCell', () => {
         uploadFile={{
           file: createMockFile(fileName, undefined, 'image/png'),
         }}
-        onClick={jest.fn()}
+        onClick={vi.fn()}
       />
     )
 
@@ -268,7 +268,7 @@ describe('UploadFileListCell', () => {
       const mockUrl = 'mock-url'
 
       const originalCreateObjectURL = global.URL.createObjectURL
-      global.URL.createObjectURL = jest.fn().mockReturnValueOnce(mockUrl)
+      global.URL.createObjectURL = vi.fn().mockReturnValueOnce(mockUrl)
 
       render(
         <UploadFileListCell
@@ -323,7 +323,7 @@ describe('UploadFileListCell', () => {
     })
 
     it('executes onClick event when button is clicked', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
 
       render(
         <UploadFileListCell
@@ -393,7 +393,7 @@ describe('UploadFileListCell', () => {
     })
 
     it('executes onDelete event when delete button is clicked', () => {
-      const onDelete = jest.fn()
+      const onDelete = vi.fn()
 
       render(
         <UploadFileListCell
@@ -470,10 +470,10 @@ describe('UploadFileListCell', () => {
       fireEvent.click(removeButton)
       expect(uploadButton).toHaveFocus()
 
-      const focus = jest.fn()
-      jest
-        .spyOn(HTMLElement.prototype, 'focus')
-        .mockImplementationOnce(focus)
+      const focus = vi.fn()
+      vi.spyOn(HTMLElement.prototype, 'focus').mockImplementationOnce(
+        focus
+      )
 
       rerender(<MockComponent />)
 
@@ -560,7 +560,7 @@ describe('UploadFileListCell', () => {
 
     it('should remove onClick when removeLink is true', () => {
       const fileName = 'no-click-file.png'
-      const onClickMock = jest.fn()
+      const onClickMock = vi.fn()
 
       render(
         <UploadFileListCell
@@ -582,7 +582,7 @@ describe('UploadFileListCell', () => {
 
     it('should enable onClick when removeLink is false', () => {
       const fileName = 'with-click-file.png'
-      const onClickMock = jest.fn()
+      const onClickMock = vi.fn()
 
       render(
         <UploadFileListCell
@@ -602,7 +602,7 @@ describe('UploadFileListCell', () => {
 
     it('should enable onClick by default when removeLink is not set', () => {
       const fileName = 'default-click-file.png'
-      const onClickMock = jest.fn()
+      const onClickMock = vi.fn()
 
       render(
         <UploadFileListCell

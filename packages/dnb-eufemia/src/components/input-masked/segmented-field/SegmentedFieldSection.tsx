@@ -1,6 +1,6 @@
 import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import type { ClipboardEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   listAllSections,
   pickSectionDomProps,

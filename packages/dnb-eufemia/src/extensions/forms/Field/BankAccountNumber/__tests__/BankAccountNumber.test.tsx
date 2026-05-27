@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { FieldBankAccountNumberProps } from '..'
@@ -31,7 +31,7 @@ describe('Field.BankAccountNumber', () => {
 
   it('should validate given function as onChangeValidator', async () => {
     const text = 'Custom Error message'
-    const onChangeValidator = jest.fn((value) => {
+    const onChangeValidator = vi.fn((value) => {
       return value.length < 4 ? new Error(text) : undefined
     })
 
@@ -349,7 +349,7 @@ describe('Field.BankAccountNumber', () => {
   })
 
   it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
 
     render(
       <Field.BankAccountNumber
@@ -391,7 +391,7 @@ describe('Field.BankAccountNumber', () => {
   })
 
   it('should call onStatusChange when error prop changes without validateContinuously', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
     const error1 = new Error('Error 1')
     const error2 = new Error('Error 2')
 
@@ -607,7 +607,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should preserve IBAN country code in value on blur', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -637,7 +637,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should preserve IBAN country code for German IBAN', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -655,7 +655,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should preserve IBAN country code for British IBAN', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -673,7 +673,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should handle IBAN with lowercase letters', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -690,7 +690,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should call onChange with cleaned IBAN value without spaces', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -744,7 +744,7 @@ describe('Field.BankAccountNumber', () => {
 
   describe('formatting and onChange value for all bankAccountTypes', () => {
     it('should format norwegianBban on blur and return digits-only onChange', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -776,7 +776,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should format swedishBban on blur and return digits-only onChange', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -806,7 +806,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should format swedishBankgiro on blur and return digits-only onChange', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -826,7 +826,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should format swedishPlusgiro on blur and return digits-only onChange', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -846,7 +846,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should format iban on blur and return alphanumeric-only onChange', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -890,7 +890,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should allow adding an 8th digit to a 7-digit Bankgiro', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -933,7 +933,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should allow adding a digit to Plusgiro', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -988,8 +988,8 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should call onChange and onBlur callbacks', async () => {
-      const onChange = jest.fn()
-      const onBlur = jest.fn()
+      const onChange = vi.fn()
+      const onBlur = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -1094,7 +1094,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should submit clean value via Form.Handler onSubmit for iban', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1117,7 +1117,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should submit clean value via Form.Handler onSubmit for norwegianBban', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1140,7 +1140,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should submit clean value via Form.Handler onSubmit for swedishBankgiro', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1187,7 +1187,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should apply transformOut on submit for iban', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1258,7 +1258,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should handle clearing the input for iban', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber
@@ -1275,7 +1275,7 @@ describe('Field.BankAccountNumber', () => {
     })
 
     it('should handle clearing the input for norwegianBban', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.BankAccountNumber

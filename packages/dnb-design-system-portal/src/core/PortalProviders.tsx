@@ -18,7 +18,7 @@ import {
   getSkeletonEnabled,
   loadTranslations,
 } from './portalRuntimeUtils'
-import { FullscreenCodeProvider } from './FullscreenCodeContext'
+import { FocusModeCodeProvider } from './FocusModeCodeContext'
 
 // This ensures we process the css prop during build.
 const createCacheInstance = () =>
@@ -45,7 +45,7 @@ export const rootElement =
       <CacheProvider
         value={type === 'ssr' ? createCacheInstance() : emotionCache}
       >
-        <FullscreenCodeProvider>
+        <FocusModeCodeProvider>
           <EufemiaProvider>
             <IsolatedStyleScope
               disableCoreStyleWrapper // Make exception, because using "dnb-core-style" does not work well for screenshot tests (as of now).
@@ -61,7 +61,7 @@ export const rootElement =
               </SkeletonEnabled>
             </IsolatedStyleScope>
           </EufemiaProvider>
-        </FullscreenCodeProvider>
+        </FocusModeCodeProvider>
       </CacheProvider>
     )
   }

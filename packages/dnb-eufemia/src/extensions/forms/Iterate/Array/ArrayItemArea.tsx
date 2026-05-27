@@ -1,5 +1,5 @@
 import { useCallback, useContext, useReducer, useRef } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Card, HeightAnimation } from '../../../../components'
 import type { CardProps } from '../../../../components/card/Card'
 import type { HeightAnimationOnEndStates } from '../../../../components/height-animation/HeightAnimationInstance'
@@ -168,7 +168,7 @@ function ArrayItemArea(
 
   const handleRemoveItem = useCallback(() => {
     try {
-      // Because "previousElementSibling" did not work in Jest/JSDOM
+      // Because "previousElementSibling" did not work reliably in the test DOM
       nextFocusElementRef.current = Array.from(
         localContextRef.current.elementRef.current.parentElement.childNodes
       ).at(index - 1) as HTMLElement

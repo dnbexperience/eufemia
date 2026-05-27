@@ -65,7 +65,7 @@ describe('runScreenshotsConditionally', () => {
   it('does not treat unrelated core jest helpers as global visual impact', () => {
     const selection = select({
       changedRepoFiles: [
-        'packages/dnb-eufemia/src/core/jest/jestSetup.ts',
+        'packages/dnb-eufemia/src/core/test-utils/testSetup.ts',
       ],
     })
 
@@ -267,8 +267,8 @@ describe('path helpers', () => {
   it('does not treat unrelated jest helpers as global visual impact', () => {
     expect(
       isGlobalVisualImpact(
-        'packages/dnb-eufemia/src/core/jest/jestSetup.ts',
-        'src/core/jest/jestSetup.ts'
+        'packages/dnb-eufemia/src/core/test-utils/testSetup.ts',
+        'src/core/test-utils/testSetup.ts'
       )
     ).toBe(false)
   })

@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
 import type { ButtonProps } from '../../../../components/button/Button'
 import Button from '../../../../components/button/Button'

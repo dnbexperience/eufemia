@@ -12,7 +12,7 @@
 
 import { type Plugin } from 'vite'
 import path from 'node:path'
-import { globSync } from 'glob'
+import { sync as globSync } from 'globby'
 import micromatch from 'micromatch'
 import { hasPrebuild } from './eufemia-prebuild'
 
@@ -379,6 +379,14 @@ if (typeof window !== 'undefined') {
         }
       }
     }
+
+    // Add brand class to <body> so theme-scoped CSS custom properties
+    // (tokens, palette vars) resolve at the body level — needed for
+    // background-color and other body-level styles that use CSS vars.
+    var body = document.body;
+    var themeClassRe = /\\beufemia-theme__(?!color-scheme)\\S+/g;
+    body.className = body.className.replace(themeClassRe, '').trim();
+    body.classList.add('eufemia-theme__' + activeTheme);
   };
 
   // Make this available globally for setTheme to call

@@ -17,6 +17,9 @@ exports[`HelpButton scss > should match style dependencies css 1`] = `
 * Icon component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -95,6 +98,39 @@ p > .dnb-icon {
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
 }
+.dnb-icon[style*="--icon-transition"] svg path {
+  d: var(--icon-transition, var(--icon-transition-default));
+  vector-effect: non-scaling-stroke;
+  transition: d 400ms var(--easing-default);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon[style*="--icon-transition"] svg path {
+    transition-duration: 0.01ms;
+  }
+}
+.dnb-icon--transition-fallback {
+  position: relative;
+}
+.dnb-icon--transition-fallback svg[data-icon-state] {
+  transition: opacity 500ms var(--easing-default) 80ms, transform 600ms var(--easing-default);
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(:first-of-type) {
+  position: absolute;
+  inset: 0;
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(.dnb-icon__state--active) {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.dnb-icon--transition-fallback svg[data-icon-state].dnb-icon__state--active {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon--transition-fallback svg[data-icon-state] {
+    transition-duration: 0.01ms;
+  }
+}
 
 /*
 * Used for snapshot testing
@@ -104,19 +140,13 @@ p > .dnb-icon {
 * Tooltip component
 *
 */
-/*
- * Utilities
- */
-/*
- * Utilities
- */
 :root {
   --tooltip-z-index: var(--z-index-tooltip);
 }
 
 .dnb-tooltip {
   --inner-space: 0;
-  --tooltip-border-radius: var(--token-radius-full);
+  --tooltip-border-radius: var(--token-radius-lg);
   --popover-text-color: var(--token-color-text-neutral-inverse);
   --popover-background-color: var(
     --token-color-component-tooltip-background-neutral
@@ -155,10 +185,6 @@ p > .dnb-icon {
 
 /*
 * Used for snapshot testing
-*
-*/
-/*
-* Tooltip component
 *
 */
 /*
@@ -300,10 +326,6 @@ button .dnb-form-status__text {
   }
 }
 /*
-* Tooltip component
-*
-*/
-/*
 * Button component
 *
 */
@@ -363,6 +385,11 @@ button .dnb-form-status__text {
   margin: var(--button-icon-margin-top) var(--button-icon-margin-right) 0 var(--button-icon-margin-left);
 }
 .dnb-button--primary, .dnb-button--secondary, .dnb-button--tertiary {
+  --button-color-bg--focus: var(
+    --token-color-background-action-focus-subtle
+  );
+  --button-color-icon--focus: var(--token-color-icon-action-focus);
+  --button-color-text--focus: var(--token-color-text-action-focus);
   color: var(--button-color-text, var(--button-color-text--default));
   background-color: var(--button-color-bg, var(--button-color-bg--default));
 }
@@ -403,10 +430,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], h
   cursor: not-allowed;
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
-  --button-color-bg: var(--token-color-background-action-focus-subtle);
+  --button-color-bg: var(--button-color-bg--focus);
   --button-color-border: var(--token-color-stroke-action-focus);
-  --button-color-icon: var(--token-color-icon-action-focus);
-  --button-color-text: var(--token-color-text-action-focus);
+  --button-color-icon: var(--button-color-icon--focus);
+  --button-color-text: var(--button-color-text--focus);
   --button-color-underline: var(--button-color-underline--focus);
   --button-border-inset: var(--button-border-inset--focus);
   --button-border-width: var(--button-border-width--focus);
@@ -988,7 +1015,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-help-button__inline:not(.dnb-help-button__inline--open).dnb-help-button__inline--was-open svg:nth-of-type(2) {
   animation: rotate-icon-out 400ms var(--easing-default) forwards;
 }
-.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg, html[data-visual-test] .dnb-help-button__inline svg {
+.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg {
   animation-duration: 0ms;
 }
 @media (prefers-reduced-motion: reduce) {

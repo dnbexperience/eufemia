@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { SpaceAllProps } from '../space/Space'
 import Space from '../space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

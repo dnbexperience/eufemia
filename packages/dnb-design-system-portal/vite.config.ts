@@ -4,8 +4,9 @@
  * See vite/README.md for architecture details and plugin documentation.
  */
 
-import { defineConfig } from 'vite'
+import { defineConfig, withFilter } from 'vite'
 import react from '@vitejs/plugin-react'
+import buildTargets from '@dnb/browserslist-config/buildTargets.mjs'
 import { createRequire } from 'node:module'
 import stripMissingExampleImportsPlugin from './vite/client/plugins/strip-missing-example-imports'
 import reactLiveBabelPlugin from './vite/client/plugins/react-live-babel'
@@ -21,6 +22,7 @@ import preloadStylesPlugin from './vite/client/plugins/preload-styles'
 import testPageFilterPlugin from './vite/client/plugins/test-page-filter'
 import buildInfoPlugin from './vite/client/plugins/build-info'
 import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild'
+import gitBranchPlugin from './vite/client/plugins/git-branch'
 import path from 'node:path'
 
 const nodeRequire = createRequire(import.meta.url)
@@ -49,39 +51,64 @@ export default defineConfig({
 
   // pipelines work unchanged.
   build: {
+    target: buildTargets,
     outDir: path.resolve(__dirname, 'public'),
     emptyOutDir: true,
+    chunkSizeWarningLimit: 4000,
   },
 
   plugins: [
     // Redirect /path/index.html → /path/ for SPA navigation and cleaner URLs
     redirectIndexHtmlPlugin(),
 
+    // Serve current git branch name at /__git-branch (dev only)
+    gitBranchPlugin(),
+
     // Prefetch route chunks when internal links are hovered or focused
-    prefetchOnHoverPlugin(),
+    withFilter(prefetchOnHoverPlugin(), {
+      resolveId: { id: /^virtual:prefetch-on-hover$/ },
+      load: { id: /virtual:prefetch-on-hover/ },
+    }),
 
     // Intercept internal link clicks for SPA navigation
-    catchLinksPlugin(),
+    withFilter(catchLinksPlugin(), {
+      resolveId: { id: /^virtual:catch-links$/ },
+      load: { id: /virtual:catch-links/ },
+    }),
 
     // Persist sidebar scroll position across route changes
-    scrollPositionPlugin(),
+    withFilter(scrollPositionPlugin(), {
+      resolveId: { id: /^virtual:scroll-position$/ },
+      load: { id: /virtual:scroll-position/ },
+    }),
 
     // Inject preload styles to prevent layout flicker
     preloadStylesPlugin(),
 
     // Filter pages for test builds (IS_VISUAL_TEST, IS_E2E)
-    testPageFilterPlugin(),
+    withFilter(testPageFilterPlugin(), {
+      transform: { id: /virtual:portal-pages/ },
+    }),
 
     // Use pre-built @dnb/eufemia package when available in production builds
     eufemiaPrebuildPlugin(),
 
     // MDX support — must come before React plugin so .mdx files
     // are transformed to JSX before React processes them
-    portalMdxPlugin(),
+    withFilter(portalMdxPlugin(), {
+      transform: { id: /\.mdx/ },
+    }),
 
-    stripMissingExampleImportsPlugin(),
+    withFilter(stripMissingExampleImportsPlugin(), {
+      transform: {
+        id: /\.(mdx|tsx)($|\?)/,
+        code: /from\s*['"][^'"]*Examples['"]/,
+      },
+    }),
 
-    reactLiveBabelPlugin(),
+    withFilter(reactLiveBabelPlugin(), {
+      transform: { id: /Examples\.tsx/ },
+    }),
 
     // React plugin for JSX transform and Fast Refresh
     react({
@@ -89,15 +116,28 @@ export default defineConfig({
     }),
 
     // File-system routing and virtual page registry
-    portalPagesPlugin(),
+    withFilter(portalPagesPlugin(), {
+      resolveId: { id: /^virtual:portal-pages$/ },
+      load: { id: /virtual:portal-pages/ },
+    }),
 
     // Eufemia theme style loading for the portal runtime
-    eufemiaThemePlugin(),
+    withFilter(eufemiaThemePlugin(), {
+      resolveId: { id: /^virtual:eufemia-theme/ },
+      load: { id: /virtual:eufemia-theme/ },
+    }),
 
     // Portal build information (release version, build timestamp, changelog)
-    buildInfoPlugin(),
+    withFilter(buildInfoPlugin(), {
+      resolveId: { id: /^virtual:build-info$/ },
+      load: { id: /virtual:build-info|buildInfo/ },
+    }),
 
-    loadJsAsJsxPlugin(),
+    withFilter(loadJsAsJsxPlugin(), {
+      transform: {
+        id: { include: /\.js($|\?)/, exclude: /node_modules/ },
+      },
+    }),
   ],
 
   resolve: {

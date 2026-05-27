@@ -4,7 +4,7 @@
  */
 
 import { Fragment } from 'react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import ListFormat, { listFormat } from '../ListFormat'
 import { Provider } from '../../../shared'
 

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from 'react'
 import type { ReactNode, Ref, RefObject, TableHTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import { useSpacing } from '../space/SpacingUtils'
@@ -54,16 +54,22 @@ export type TableProps = {
   variant?: TableVariants
 
   /**
-   * Use `true` to show borders between table data cells.
+   * Use `true` to show borders between table data cells. Use `"horizontal"` to show only horizontal borders between rows.
    * Default: `false`
    */
-  border?: boolean
+  border?: boolean | 'horizontal'
 
   /**
    * Use `true` to show an outline border around the table.
    * Default: `false`
    */
   outline?: boolean
+
+  /**
+   * Use `false` to disable alternating row background colors (striped rows).
+   * Default: `true`
+   */
+  striped?: boolean
 
   /**
    * Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.
@@ -125,6 +131,7 @@ const Table = (componentProps: TableAllProps) => {
     fixed,
     border,
     outline,
+    striped,
     mode,
     accordionChevronPlacement,
     collapseAllHandleRef,
@@ -135,7 +142,9 @@ const Table = (componentProps: TableAllProps) => {
   const { elementRef } = useStickyHeader(allProps)
   const mergedRef = useCombinedRef(elementRef, ref)
 
-  const { trCountRef, rerenderAlias } = useHandleOddEven({ children })
+  const { trCountRef, rerenderAlias, totalCount } = useHandleOddEven({
+    children,
+  })
   const collapseTrCallbacks = useRef<(() => void)[]>([])
 
   useEffect(() => {
@@ -162,8 +171,10 @@ const Table = (componentProps: TableAllProps) => {
       sticky && 'dnb-table--sticky',
       fixed && 'dnb-table--fixed',
       border && 'dnb-table--border',
+      typeof border === 'string' && `dnb-table--border-${border}`,
       border === false && 'dnb-table--no-border',
       outline && 'dnb-table--outline',
+      striped === false && 'dnb-table--no-striped',
       mode === 'accordion' && 'dnb-table--accordion',
       mode === 'navigation' && 'dnb-table--navigation',
       skeletonClasses,
@@ -177,6 +188,7 @@ const Table = (componentProps: TableAllProps) => {
         value={{
           trCountRef,
           rerenderAlias,
+          totalCount,
           collapseTrCallbacks,
           allProps: {
             ...allProps,

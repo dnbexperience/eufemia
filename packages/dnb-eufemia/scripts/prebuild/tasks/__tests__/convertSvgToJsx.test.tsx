@@ -7,14 +7,16 @@ import path from 'path'
 import fs from 'fs-extra'
 import convertSvgToJsx from '../convertSvgToJsx'
 
-jest.mock('ora', () => {
-  return jest.fn(() => ({
-    start: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
-    succeed: jest.fn(),
-    fail: jest.fn(),
-  }))
+vi.mock('ora', () => {
+  return {
+    default: vi.fn(() => ({
+      start: vi.fn(),
+      info: vi.fn(),
+      warn: vi.fn(),
+      succeed: vi.fn(),
+      fail: vi.fn(),
+    })),
+  }
 })
 
 beforeAll(async () => {
@@ -27,12 +29,12 @@ beforeAll(async () => {
       './test-files/dnb/icons-svg.lock'
     ),
   })
-  jest.useFakeTimers()
+  vi.useFakeTimers()
 })
 
 afterAll(async () => {
   await fs.remove(path.resolve(__dirname, `./test-files/dist`))
-  jest.useRealTimers()
+  vi.useRealTimers()
 })
 
 describe('run convertSvgToJsx to convert ES6 to ES5', () => {

@@ -5,7 +5,7 @@
 
 import { act, useEffect, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { AccordionProps } from '../Accordion'
 import Accordion from '../Accordion'
 import {
@@ -13,11 +13,9 @@ import {
   subtract_medium as SubtractIcon,
 } from '../../../icons'
 import { render, fireEvent } from '@testing-library/react'
-import MatchMediaMock from 'jest-matchmedia-mock'
 import userEvent from '@testing-library/user-event'
 import { useSharedState } from '../../../shared/helpers/useSharedState'
-
-new MatchMediaMock()
+import '../../../core/vitest/mockMatchMediaSetup'
 
 const props: AccordionProps = {
   noAnimation: true,
@@ -59,7 +57,7 @@ describe('Accordion component', () => {
   })
 
   it('has "onChange" event which will trigger on click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(<Accordion {...props} onChange={myEvent} expanded={false} />)
 
     // first click
@@ -109,12 +107,8 @@ describe('Accordion component', () => {
   it('has correct classes when noAnimation', () => {
     render(<Accordion noAnimation />)
 
-    expect(
-      Array.from(
-        document.querySelector('.dnb-accordion__header').classList
-      )
-    ).toEqual(
-      expect.arrayContaining(['dnb-accordion__header--no-animation'])
+    expect(document.querySelector('.dnb-accordion__header')).toHaveClass(
+      'dnb-accordion__header--no-animation'
     )
   })
 
@@ -160,19 +154,15 @@ describe('Accordion component', () => {
   it('should have hidden content when "keepInDOM" is true but closed', () => {
     render(<Accordion {...props} keepInDOM={true} />)
 
-    expect(
-      Array.from(
-        document.querySelector('.dnb-accordion__content').classList
-      )
-    ).toEqual(expect.arrayContaining(['dnb-height-animation--hidden']))
+    expect(document.querySelector('.dnb-accordion__content')).toHaveClass(
+      'dnb-height-animation--hidden'
+    )
 
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
 
-    expect(
-      Array.from(
-        document.querySelector('.dnb-accordion__content').classList
-      )
-    ).toEqual(expect.arrayContaining(['dnb-height-animation--is-in-dom']))
+    expect(document.querySelector('.dnb-accordion__content')).toHaveClass(
+      'dnb-height-animation--is-in-dom'
+    )
   })
 
   it('should validate with ARIA rules', async () => {
@@ -238,7 +228,7 @@ describe('Accordion group component', () => {
   })
 
   it('has "onChange" event which will trigger on a button click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(
       <Accordion.Group
         id="group"
@@ -444,8 +434,8 @@ describe('Accordion container component', () => {
 
     const contentElem = contentRef.current
 
-    jest.spyOn(contentElem, 'offsetHeight', 'get').mockReturnValue(48)
-    jest.spyOn(contentElem, 'offsetTop', 'get').mockReturnValue(48)
+    vi.spyOn(contentElem, 'offsetHeight', 'get').mockReturnValue(48)
+    vi.spyOn(contentElem, 'offsetTop', 'get').mockReturnValue(48)
 
     fireEvent.click(
       document.querySelector('#accordion-1 .dnb-accordion__header')
@@ -611,7 +601,7 @@ describe('Accordion tertiary variant', () => {
   })
 
   it('calls onChange on click', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(
       <Accordion
         variant="tertiary"
@@ -850,6 +840,36 @@ describe('Accordion tertiary variant', () => {
     expect(document.activeElement).toBe(content)
   })
 
+  it('does not focus content when closing via keyboard', () => {
+    render(
+      <Accordion variant="tertiary" title="Toggle" noAnimation>
+        <p>Content</p>
+      </Accordion>
+    )
+
+    setInputIntent('keyboard')
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    ) as HTMLElement
+
+    // Open
+    fireEvent.click(button, { detail: 0 })
+
+    const content = document.querySelector(
+      '.dnb-accordion__tertiary-content'
+    ) as HTMLElement
+    expect(document.activeElement).toBe(content)
+
+    // Move focus back to button before closing
+    button.focus()
+
+    // Close
+    fireEvent.click(button, { detail: 0 })
+
+    expect(document.activeElement).not.toBe(content)
+  })
+
   it('does not focus content when expanded programmatically', () => {
     const { rerender } = render(
       <Accordion variant="tertiary" title="Toggle" noAnimation>
@@ -875,10 +895,10 @@ describe('Accordion tertiary variant', () => {
         <Accordion
           variant="tertiary"
           title="Toggle"
-          id="focus-split"
+          id="focus-split-mouse"
           noAnimation
         />
-        <Accordion.Content id="focus-split" title="Details">
+        <Accordion.Content id="focus-split-mouse" title="Details">
           <p>Remote content</p>
         </Accordion.Content>
       </>
@@ -893,7 +913,7 @@ describe('Accordion tertiary variant', () => {
     fireEvent.mouseDown(button)
     fireEvent.click(button, { detail: 1 })
 
-    const content = document.getElementById('focus-split-content')
+    const content = document.getElementById('focus-split-mouse-content')
     expect(document.activeElement).not.toBe(content)
   })
 

@@ -1,8 +1,12 @@
 import { StrictMode, useContext, useEffect } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import MatchMediaMock from 'jest-matchmedia-mock'
-import { spyOnEufemiaWarn, wait } from '../../../../../core/jest/jestSetup'
+import '../../../../../core/vitest/mockMatchMediaSetup'
+import { setMedia } from 'mock-match-media'
+import {
+  spyOnEufemiaWarn,
+  wait,
+} from '../../../../../core/test-utils/testSetup'
 import { Translation } from '../../../../../shared'
 import type { OnSubmit, OnSubmitRequest } from '../../..'
 import { Field, Form, Iterate, Wizard, makeAjvInstance } from '../../..'
@@ -12,15 +16,13 @@ import WizardContext from '../../Context'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-const matchMedia = new MatchMediaMock()
-
 beforeEach(() => {
-  matchMedia.useMediaQuery('(min-width: 60em)')
+  setMedia({ width: '61em' })
   globalThis.IS_TEST = true
 })
 
 function simulateSmallScreen() {
-  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
+  setMedia({ width: '59em' })
 }
 
 const expandStepIndicator = async () => {
@@ -33,7 +35,7 @@ const expandStepIndicator = async () => {
 
 const log = global.console.log
 beforeEach(() => {
-  global.console.log = jest.fn((...args) => {
+  global.console.log = vi.fn((...args) => {
     if (
       !String(args[1]).includes(
         'You may wrap Wizard.Container in Form.Handler'
@@ -46,12 +48,12 @@ beforeEach(() => {
 })
 afterEach(() => {
   global.console.log = log
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('Wizard.Container', () => {
   // Increase timeout for all tests in this suite due to async operations
-  jest.setTimeout(30000)
+  vi.setConfig({ testTimeout: 30000 })
   // Add a shadow, so we can spy on the scrollIntoView method
   window.HTMLElement.prototype.scrollIntoView = () => null
 
@@ -93,7 +95,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should call event listener "onStepChange"', async () => {
-    const onStepChange = jest.fn()
+    const onStepChange = vi.fn()
 
     render(
       <Wizard.Container onStepChange={onStepChange} mode="loose">
@@ -157,7 +159,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should have previousStep in "onStepChange" when navigating back and forth', async () => {
-    const onStepChange = jest.fn()
+    const onStepChange = vi.fn()
 
     render(
       <Wizard.Container onStepChange={onStepChange} mode="loose">
@@ -202,7 +204,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should provide id prop in "onStepChange"', async () => {
-    const onStepChange = jest.fn()
+    const onStepChange = vi.fn()
 
     render(
       <Wizard.Container onStepChange={onStepChange} mode="loose">
@@ -824,8 +826,8 @@ describe('Wizard.Container', () => {
   })
 
   it('should trigger next step when submitting the form', async () => {
-    const onSubmit: OnSubmit = jest.fn()
-    const onStepChange = jest.fn()
+    const onSubmit: OnSubmit = vi.fn()
+    const onStepChange = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -877,7 +879,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should keep current step on rerender', async () => {
-    const onStepChange = jest.fn()
+    const onStepChange = vi.fn()
 
     render(
       <Form.Handler>
@@ -1264,7 +1266,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should provide "id" prop and "same" mode in "onStepChange"', async () => {
-      const onStepChange = jest.fn(async () => null)
+      const onStepChange = vi.fn(async () => null)
 
       render(
         <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
@@ -1475,7 +1477,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should provide id prop in "onStepChange"', async () => {
-      const onStepChange = jest.fn(async () => null)
+      const onStepChange = vi.fn(async () => null)
 
       render(
         <Wizard.Container onStepChange={onStepChange} mode="loose">
@@ -1844,7 +1846,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should scroll to top on step change', async () => {
-    const scrollIntoViewMock = jest.fn()
+    const scrollIntoViewMock = vi.fn()
 
     render(
       <Wizard.Container>
@@ -1862,7 +1864,7 @@ describe('Wizard.Container', () => {
       </Wizard.Container>
     )
 
-    const scrollMock = jest
+    const scrollMock = vi
       .spyOn(
         document.querySelector('.dnb-forms-wizard-layout'),
         'scrollIntoView'
@@ -1906,8 +1908,8 @@ describe('Wizard.Container', () => {
   })
 
   it('should not scroll to top on step change when omitScrollManagement is true', async () => {
-    const scrollIntoViewMock = jest.fn()
-    const scrollMock = jest
+    const scrollIntoViewMock = vi.fn()
+    const scrollMock = vi
       .spyOn(window.HTMLElement.prototype, 'scrollIntoView')
       .mockImplementation(scrollIntoViewMock)
 
@@ -2062,9 +2064,9 @@ describe('Wizard.Container', () => {
     })
 
     // Replace the focus method in every HTML element
-    const focusMock = jest
+    const focusMock = vi
       .spyOn(window.HTMLElement.prototype, 'focus')
-      .mockImplementation()
+      .mockImplementation(() => undefined)
 
     await userEvent.click(nextButton())
 
@@ -2125,7 +2127,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should warn when not wrapped in Form.Handler', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <Wizard.Container>
@@ -2342,7 +2344,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should run validation before `preventNavigation` result is evaluated', async () => {
-    const onStepChange = jest.fn((step, mode, { preventNavigation }) => {
+    const onStepChange = vi.fn((step, mode, { preventNavigation }) => {
       if (step === 1 && mode === 'next') {
         preventNavigation()
       }
@@ -2394,7 +2396,7 @@ describe('Wizard.Container', () => {
   })
 
   it('should bypass validation on every step when validationMode is bypassOnNavigation', async () => {
-    const onStepChange = jest.fn()
+    const onStepChange = vi.fn()
 
     render(
       <Form.Handler>
@@ -2824,8 +2826,8 @@ describe('Wizard.Container', () => {
     it('should show a warning beneath the trigger button when the step status has an error and the screen width is small', async () => {
       simulateSmallScreen()
 
-      const onStepChange = jest.fn()
-      const onSubmit = jest.fn()
+      const onStepChange = vi.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -2878,8 +2880,8 @@ describe('Wizard.Container', () => {
     })
 
     it('should not submit when steps have an error status', async () => {
-      const onStepChange = jest.fn()
-      const onSubmit = jest.fn()
+      const onStepChange = vi.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -2968,7 +2970,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should not submit when steps have a schema error status', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       const schema = {
         type: 'object',
@@ -3037,8 +3039,8 @@ describe('Wizard.Container', () => {
     })
 
     it('should not submit when steps have an error by navigating in the menu', async () => {
-      const onStepChange = jest.fn()
-      const onSubmit = jest.fn()
+      const onStepChange = vi.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -3113,7 +3115,7 @@ describe('Wizard.Container', () => {
 
     describe('with validation shown in menu', () => {
       it('should not show a status on submit when no error is present', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -3385,9 +3387,9 @@ describe('Wizard.Container', () => {
 
       it('should render error status when form cannot be submitted', async () => {
         // Increase timeout for this specific test
-        jest.setTimeout(15000)
-        const onStepChange = jest.fn()
-        const onSubmit = jest.fn()
+        vi.setConfig({ testTimeout: 15000 })
+        const onStepChange = vi.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -3578,7 +3580,7 @@ describe('Wizard.Container', () => {
 
       it('should not show error status on navigation without form submit', async () => {
         // Increase timeout for this specific test
-        jest.setTimeout(15000)
+        vi.setConfig({ testTimeout: 15000 })
         render(
           <Form.Handler>
             <Wizard.Container
@@ -3706,7 +3708,7 @@ describe('Wizard.Container', () => {
       })
 
       it('should run validation before every step change using StepIndicator menu to navigate back and forth', async () => {
-        const onStepChange = jest.fn()
+        const onStepChange = vi.fn()
 
         render(
           <Form.Handler>
@@ -4273,7 +4275,7 @@ describe('Wizard.Container', () => {
 
   describe('prerenderFieldProps and filterData', () => {
     it('should keep field props in memory during step change', async () => {
-      const filterDataHandler = jest.fn(({ props }) => {
+      const filterDataHandler = vi.fn(({ props }) => {
         if (props['data-exclude-field']) {
           return false
         }
@@ -4281,7 +4283,7 @@ describe('Wizard.Container', () => {
         return undefined
       })
 
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       let currentData = null
       let filteredData = null
@@ -4411,7 +4413,7 @@ describe('Wizard.Container', () => {
     })
 
     it('should set field props of all steps when "prerenderFieldProps" is set', () => {
-      const filterDataHandler = jest.fn(({ props }) => {
+      const filterDataHandler = vi.fn(({ props }) => {
         if (props['data-exclude-field']) {
           return false
         }
@@ -4546,8 +4548,8 @@ describe('Wizard.Container', () => {
 
   describe('defaultValue', () => {
     it('should set defaultValue of a Field.* only once between step changes', async () => {
-      const onChange = jest.fn()
-      const onStepChange = jest.fn()
+      const onChange = vi.fn()
+      const onStepChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -4600,8 +4602,8 @@ describe('Wizard.Container', () => {
     it('should remember an entered value between step changes', async () => {
       const log = spyOnEufemiaWarn()
 
-      const onChange = jest.fn()
-      const onStepChange = jest.fn()
+      const onChange = vi.fn()
+      const onStepChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -4666,8 +4668,8 @@ describe('Wizard.Container', () => {
     })
 
     it('should set defaultValue of Iterate.Array only once between step changes', async () => {
-      const onChange = jest.fn()
-      const onStepChange = jest.fn()
+      const onChange = vi.fn()
+      const onStepChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -4734,7 +4736,7 @@ describe('Wizard.Container', () => {
   it('should call onSubmitRequest on step change', async () => {
     let receivedErrors = null
 
-    const onSubmitRequest: OnSubmitRequest = jest.fn(({ getErrors }) => {
+    const onSubmitRequest: OnSubmitRequest = vi.fn(({ getErrors }) => {
       receivedErrors = getErrors()
     })
 

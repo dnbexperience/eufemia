@@ -3,7 +3,7 @@ import type { InfoCardAllProps } from '../InfoCard'
 import InfoCard from '../InfoCard'
 import { confetti as Confetti } from '../../../icons'
 
-import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 import { Li, Ul } from '../../../elements'
 
@@ -145,7 +145,7 @@ describe('InfoCard', () => {
   })
 
   it('renders the accept button when onAccept is provided', () => {
-    const onAccept = jest.fn()
+    const onAccept = vi.fn()
     render(<InfoCard text="text" onAccept={onAccept} />)
 
     const buttonElement = document.querySelector(
@@ -189,7 +189,7 @@ describe('InfoCard', () => {
   })
 
   it('renders the close button when onClose is provided', () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
     render(<InfoCard text="text" onClose={onClose} />)
 
     const buttonElement = document.querySelector(
@@ -230,6 +230,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
+  // Deprecated: acceptButtonAttributes – remove this test in v12
   it('renders the accept button with additional props', () => {
     const href = 'href'
 
@@ -248,6 +249,42 @@ describe('InfoCard', () => {
     expect(buttonElement.getAttribute('href')).toMatch(href)
   })
 
+  it('renders the accept button with acceptButtonProps', () => {
+    const href = 'href'
+
+    render(
+      <InfoCard
+        text="text"
+        acceptButtonText="accept"
+        acceptButtonProps={{ href }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__accept-button'
+    )
+
+    expect(buttonElement.getAttribute('href')).toMatch(href)
+  })
+
+  it('acceptButtonProps takes precedence over acceptButtonAttributes', () => {
+    render(
+      <InfoCard
+        text="text"
+        acceptButtonText="accept"
+        acceptButtonProps={{ 'data-testid': 'new-prop' }}
+        acceptButtonAttributes={{ 'data-testid': 'old-prop' }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__accept-button'
+    )
+
+    expect(buttonElement.getAttribute('data-testid')).toBe('new-prop')
+  })
+
+  // Deprecated: closeButtonAttributes – remove this test in v12
   it('renders the close button with additional props', () => {
     const href = 'href'
 
@@ -264,6 +301,41 @@ describe('InfoCard', () => {
     )
 
     expect(buttonElement.getAttribute('href')).toMatch(href)
+  })
+
+  it('renders the close button with closeButtonProps', () => {
+    const href = 'href'
+
+    render(
+      <InfoCard
+        text="text"
+        closeButtonText="accept"
+        closeButtonProps={{ href }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__close-button'
+    )
+
+    expect(buttonElement.getAttribute('href')).toMatch(href)
+  })
+
+  it('closeButtonProps takes precedence over closeButtonAttributes', () => {
+    render(
+      <InfoCard
+        text="text"
+        closeButtonText="close"
+        closeButtonProps={{ 'data-testid': 'new-prop' }}
+        closeButtonAttributes={{ 'data-testid': 'old-prop' }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__close-button'
+    )
+
+    expect(buttonElement.getAttribute('data-testid')).toBe('new-prop')
   })
 
   it('renders skeleton if skeleton is true', () => {
@@ -299,11 +371,10 @@ describe('InfoCard', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-info-card',
-      'dnb-info-card--shadow',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-info-card dnb-info-card--shadow dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should apply spacing classes and innerSpace style on the root', () => {

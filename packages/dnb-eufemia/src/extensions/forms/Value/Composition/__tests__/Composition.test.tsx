@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { Value } from '../../..'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 
 describe('Value.Composition', () => {
   it('should render with correct class', () => {
@@ -105,7 +105,7 @@ describe('Value.Composition', () => {
 
   describe('should validate with ARIA rules', () => {
     it('when used without SummaryList', async () => {
-      const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+      const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
       const Comp = render(
         <>

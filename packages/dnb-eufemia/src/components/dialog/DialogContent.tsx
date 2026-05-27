@@ -5,7 +5,7 @@
 
 import { useContext } from 'react'
 import type { JSX } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   findElementInChildren,
   validateDOMAttributes,

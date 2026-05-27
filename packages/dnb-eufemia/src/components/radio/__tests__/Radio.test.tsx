@@ -6,7 +6,7 @@
 import { fireEvent, render } from '@testing-library/react'
 import { StrictMode, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { RadioProps } from '../Radio'
 import Radio from '../Radio'
 import { Provider } from '../../../shared'
@@ -37,7 +37,7 @@ describe('Radio component', () => {
   })
 
   it('has "onChange" event which will trigger on a input change', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(<Radio onChange={myEvent} checked={false} group={null} />)
     fireEvent.click(document.querySelector('input'))
     expect(myEvent.mock.calls.length).toBe(1)
@@ -120,10 +120,9 @@ describe('Radio component', () => {
 
     const element = document.querySelector('.dnb-radio')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-radio',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass('dnb-radio dnb-space__top--large', {
+      exact: true,
+    })
   })
 
   it('should support inline styling', () => {
@@ -161,10 +160,10 @@ describe('Radio component', () => {
       'type',
       'value',
     ])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-radio',
-      'dnb-radio--label-position-right',
-    ])
+    expect(element).toHaveClass(
+      'dnb-radio dnb-radio--label-position-right',
+      { exact: true }
+    )
   })
 })
 
@@ -199,7 +198,7 @@ describe('Radio ARIA', () => {
   })
 
   it('gets valid element when ref is function', () => {
-    const refFn = jest.fn()
+    const refFn = vi.fn()
 
     render(<Radio id="unique" ref={refFn} />)
 

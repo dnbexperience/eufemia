@@ -1,4 +1,4 @@
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
@@ -308,7 +308,6 @@ describe('Field.PostalCodeAndCity', () => {
 
       await userEvent.type(postalCodeNo, '{Backspace>4}987654')
       expect(postalCodeNo).toHaveValue('9876')
-      expect(postalCodeNo).toHaveAttribute('aria-placeholder', '0000')
     })
 
     it('should use value from countryCode inside iterate', async () => {

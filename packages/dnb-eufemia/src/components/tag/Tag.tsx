@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { HTMLProps, MouseEvent, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 // Components

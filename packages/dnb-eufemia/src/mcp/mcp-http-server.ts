@@ -35,8 +35,9 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js'
 
 import {
-  SERVER_INFO,
+  createServerInfo,
   createDocsTools,
+  readDocsMeta,
   registerDocsTools,
   validateDocsRoot,
 } from './mcp-docs-server'
@@ -83,12 +84,16 @@ function parseAllowedHosts(): string[] | undefined {
     .filter(Boolean)
 }
 
-function buildMcpServer(options: DocsToolsOptions = {}): {
+function buildMcpServer(
+  options: DocsToolsOptions & {
+    serverInfo: { name: string; version: string }
+  }
+): {
   server: McpServer
   docsRoot: string
 } {
   const tools = createDocsTools(options)
-  const server = new McpServer(SERVER_INFO)
+  const server = new McpServer(options.serverInfo)
   registerDocsTools(server, tools)
   return { server, docsRoot: tools.docsRoot }
 }
@@ -176,6 +181,12 @@ export async function startHttpServer(
   const authToken = options.authToken ?? process.env.MCP_AUTH_TOKEN
   const logErr = createLogger(options.silent ?? false)
 
+  // Read version metadata once at startup so the healthz endpoint can
+  // report the Eufemia version without an extra async call per request.
+  const startupTools = createDocsTools({ docsRoot: options.docsRoot })
+  const meta = await readDocsMeta(startupTools.source)
+  const serverInfo = createServerInfo(meta.eufemiaVersion)
+
   const app = express()
   app.disable('x-powered-by')
   app.use(express.json({ limit: '4mb' }))
@@ -184,8 +195,8 @@ export async function startHttpServer(
   app.get('/healthz', (_req: ExpressRequest, res: ExpressResponse) => {
     res.json({
       ok: true,
-      name: SERVER_INFO.name,
-      version: SERVER_INFO.version,
+      name: serverInfo.name,
+      version: serverInfo.version,
       transports: ['streamable-http', 'sse'],
     })
   })
@@ -242,7 +253,10 @@ export async function startHttpServer(
           }
         }
 
-        const { server } = buildMcpServer({ docsRoot: options.docsRoot })
+        const { server } = buildMcpServer({
+          docsRoot: options.docsRoot,
+          serverInfo,
+        })
         await server.connect(transport)
       }
 
@@ -286,7 +300,10 @@ export async function startHttpServer(
           sseTransports.delete(transport.sessionId)
         }
 
-        const { server } = buildMcpServer({ docsRoot: options.docsRoot })
+        const { server } = buildMcpServer({
+          docsRoot: options.docsRoot,
+          serverInfo,
+        })
         await server.connect(transport)
 
         logErr(`[eufemia] sse connected: ${transport.sessionId}`)

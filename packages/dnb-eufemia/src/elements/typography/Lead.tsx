@@ -4,7 +4,7 @@
  */
 import type { PProps } from './P'
 import P from './P'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const Lead = ({ className, ...rest }: PProps) => (

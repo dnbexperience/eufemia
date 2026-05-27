@@ -7,14 +7,10 @@ import { Button, Dialog } from '../../../../../components'
 import type { ConfirmParams } from '../SubmitConfirmation'
 import userEvent from '@testing-library/user-event'
 
-if (isCI) {
-  jest.retryTimes(5) // because of a flaky async tests
-}
-
-describe('Form.SubmitConfirmation', () => {
+describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
   describe('with preventSubmitWhen', () => {
     it('should keep pending state when confirmationState is "readyToBeSubmitted"', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       const confirmationStateRef: RefObject<
         ConfirmParams['confirmationState'] | null
       > = { current: null }
@@ -66,7 +62,7 @@ describe('Form.SubmitConfirmation', () => {
     })
 
     it('should keep pending state when confirmationState is "readyToBeSubmitted" and onSubmit is async', async () => {
-      const onSubmit = jest.fn(async () => null)
+      const onSubmit = vi.fn(async () => null)
       const confirmationStateRef: RefObject<
         ConfirmParams['confirmationState'] | null
       > = { current: null }
@@ -142,8 +138,8 @@ describe('Form.SubmitConfirmation', () => {
           '.dnb-forms-submit-button'
         ) as HTMLButtonElement
 
-        const focus = jest.fn()
-        jest.spyOn(submitButton, 'focus').mockImplementation(focus)
+        const focus = vi.fn()
+        vi.spyOn(submitButton, 'focus').mockImplementation(focus)
 
         await userEvent.click(submitButton)
 
@@ -193,8 +189,8 @@ describe('Form.SubmitConfirmation', () => {
           '.dnb-forms-submit-button'
         ) as HTMLButtonElement
 
-        const focus = jest.fn()
-        jest.spyOn(submitButton, 'focus').mockImplementation(focus)
+        const focus = vi.fn()
+        vi.spyOn(submitButton, 'focus').mockImplementation(focus)
 
         await userEvent.click(submitButton)
 
@@ -222,7 +218,7 @@ describe('Form.SubmitConfirmation', () => {
     })
 
     it('when inactive, it should not prevent "onSubmit" from being called', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
       let preventSubmit = false
 
       render(
@@ -269,13 +265,13 @@ describe('Form.SubmitConfirmation', () => {
       const error = new Error('Error message')
       const customStatus = 'custom'
 
-      const onSubmit = jest.fn(() => {
+      const onSubmit = vi.fn(() => {
         return { error, customStatus }
       })
-      const preventSubmitWhen = jest.fn(() => {
+      const preventSubmitWhen = vi.fn(() => {
         return false
       })
-      const onSubmitResult = jest.fn()
+      const onSubmitResult = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -316,7 +312,7 @@ describe('Form.SubmitConfirmation', () => {
 
   describe('connectWithDialog', () => {
     it('should provide "connectWithDialog"', async () => {
-      const onSubmit = jest.fn(async () => {
+      const onSubmit = vi.fn(async () => {
         await new Promise((resolve) => setTimeout(resolve, 50))
       })
 
@@ -436,7 +432,7 @@ describe('Form.SubmitConfirmation', () => {
     })
 
     it('should support esc key', async () => {
-      const onSubmit = jest.fn(async () => {
+      const onSubmit = vi.fn(async () => {
         await new Promise((resolve) => setTimeout(resolve, 100))
       })
       const confirmationStateRef: RefObject<
@@ -505,7 +501,7 @@ describe('Form.SubmitConfirmation', () => {
   })
 
   it('should render given content during the state changes', async () => {
-    const onSubmit = jest.fn(async () => {
+    const onSubmit = vi.fn(async () => {
       await new Promise((resolve) => setTimeout(resolve, 100))
     })
 
@@ -603,7 +599,7 @@ describe('Form.SubmitConfirmation', () => {
   })
 
   it('should prevent "onSubmit" from being called', () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     const { rerender } = render(
       <Form.Handler onSubmit={onSubmit}>
@@ -632,7 +628,7 @@ describe('Form.SubmitConfirmation', () => {
   })
 
   it('should call onSubmit when submitHandler is called', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
     const submitHandlerRef: RefObject<
       ConfirmParams['submitHandler'] | null
     > = { current: null }
@@ -693,8 +689,8 @@ describe('Form.SubmitConfirmation', () => {
   })
 
   it('should prevent "onSubmit" when used inside a Wizard.Container (with prerender)', async () => {
-    const onSubmit = jest.fn()
-    const onStepChange = jest.fn()
+    const onSubmit = vi.fn()
+    const onStepChange = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
 import type { FlexContainerAllProps as FlexProps } from '../flex/Container'

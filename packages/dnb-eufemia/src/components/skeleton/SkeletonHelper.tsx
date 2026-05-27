@@ -9,7 +9,7 @@ import type {
   HTMLProps,
   ReactNode,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { convertJsxToString } from '../../shared/component-helper'
 import type { SkeletonShow } from './Skeleton'
 import type { ContextProps } from '../../shared/Context'

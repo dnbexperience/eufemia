@@ -1,6 +1,6 @@
 import { useCallback, useContext, useRef, useState } from 'react'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'

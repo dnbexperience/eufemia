@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import SharedContext from '../../shared/Context'
 import { COUNTRY as defaultCountry } from '../../shared/defaults'
 import useCountries from '../../extensions/forms/Field/SelectCountry/useCountries'

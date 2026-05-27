@@ -5,7 +5,7 @@
 
 import { StrictMode, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal from '../Modal'
@@ -16,8 +16,8 @@ import * as helpers from '../../../shared/helpers'
 import userEvent from '@testing-library/user-event'
 import ModalHeaderBar from '../parts/ModalHeaderBar'
 
-global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
-global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
+global.userAgent = vi.spyOn(navigator, 'userAgent', 'get')
+global.appVersion = vi.spyOn(navigator, 'appVersion', 'get')
 
 const props: ModalProps = {
   title: 'modal_title',
@@ -40,7 +40,7 @@ beforeEach(() => {
 
 const log = global.console.log
 beforeEach(() => {
-  global.console.log = jest.fn((...args) => {
+  global.console.log = vi.fn((...args) => {
     if (
       !String(args[1]).includes(
         'A Dialog or Drawer needs a h1 as its first element!'
@@ -52,7 +52,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   global.console.log = log
-  jest.resetAllMocks()
+  vi.resetAllMocks()
 })
 
 describe('Modal component', () => {
@@ -249,8 +249,8 @@ describe('Modal component', () => {
   it('has working open event and close event if "Esc" key gets pressed', async () => {
     let testTriggeredBy = null
 
-    const onOpen = jest.fn()
-    const onClose = jest.fn(
+    const onOpen = vi.fn()
+    const onClose = vi.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
@@ -383,7 +383,7 @@ describe('Modal component', () => {
   })
 
   it('should call focus with preventScroll: true when focusing elements with focusSelector', async () => {
-    const focusSpy = jest.spyOn(HTMLElement.prototype, 'focus')
+    const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus')
 
     render(
       <Modal noAnimation={true} focusSelector="#focus-me">
@@ -404,7 +404,7 @@ describe('Modal component', () => {
   })
 
   it('should call focus with preventScroll: true when focusing elements by default', async () => {
-    const focusSpy = jest.spyOn(HTMLElement.prototype, 'focus')
+    const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus')
 
     render(
       <Modal noAnimation={true}>
@@ -547,9 +547,9 @@ describe('Modal component', () => {
   })
 
   it('will warn if first heading is not h1', async () => {
-    jest.spyOn(helpers, 'warn')
+    vi.spyOn(helpers, 'warn')
     const log = global.console.log
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
 
     const H2 = <h2 className="custom-h2">h2</h2>
 
@@ -647,14 +647,14 @@ describe('Modal component', () => {
 
   it('has support for nested Modals', async () => {
     const onOpen = {
-      first: jest.fn(),
-      second: jest.fn(),
-      third: jest.fn(),
+      first: vi.fn(),
+      second: vi.fn(),
+      third: vi.fn(),
     }
     const onClose = {
-      first: jest.fn(),
-      second: jest.fn(),
-      third: jest.fn(),
+      first: vi.fn(),
+      second: vi.fn(),
+      third: vi.fn(),
     }
 
     const props: ModalProps = {
@@ -851,8 +851,8 @@ describe('Modal component', () => {
   })
 
   it('will animate when open is used', async () => {
-    const onOpen = jest.fn()
-    const onClose = jest.fn()
+    const onOpen = vi.fn()
+    const onClose = vi.fn()
 
     const HandleState = () => {
       const [open, toggle] = useState(false)
@@ -894,11 +894,11 @@ describe('Modal component', () => {
   it('will prevent closing the modal on preventClose', async () => {
     let preventClose = true
     let testTriggeredBy = null
-    const onClose = jest.fn(
+    const onClose = vi.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
-    const onOpen = jest.fn()
-    const onClosePrevent = jest.fn(({ triggeredBy, close }) => {
+    const onOpen = vi.fn()
+    const onClosePrevent = vi.fn(({ triggeredBy, close }) => {
       if (preventClose) {
         return undefined
       }
@@ -993,10 +993,10 @@ describe('Modal component', () => {
 
   it('will close the modal on overlay click', () => {
     let testTriggeredBy = null
-    const onClose = jest.fn(
+    const onClose = vi.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
-    const onOpen = jest.fn()
+    const onOpen = vi.fn()
     render(<Modal {...props} onOpen={onOpen} onClose={onClose} />)
     fireEvent.click(document.querySelector('button'))
     expect(onOpen).toHaveBeenCalledTimes(1)
@@ -1014,7 +1014,7 @@ describe('Modal component', () => {
   })
 
   it('will omit close when no mousedown was fired', () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
     render(<Modal {...props} onClose={onClose} />)
     fireEvent.click(document.querySelector('button'))
 
@@ -1028,7 +1028,7 @@ describe('Modal component', () => {
   })
 
   it('will only close when mousedown and click DOM targets are the same', () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
     render(<Modal {...props} onClose={onClose} />)
 
     fireEvent.click(document.querySelector('button'))
@@ -1064,10 +1064,10 @@ describe('Modal component', () => {
 
   it('has working open event and close event on changing the "open" prop', async () => {
     let testTriggeredBy = null
-    const onClose = jest.fn(
+    const onClose = vi.fn(
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
-    const onOpen = jest.fn()
+    const onOpen = vi.fn()
 
     const { rerender } = render(
       <Modal {...props} onClose={onClose} onOpen={onOpen} />
@@ -1219,12 +1219,12 @@ describe('Modal component', () => {
     global.userAgent.mockReturnValue('iPhone OS 12')
     global.appVersion.mockReturnValue('OS 12_0_0')
 
-    const addEventListener = jest
+    const addEventListener = vi
       .spyOn(document, 'addEventListener')
-      .mockImplementation(jest.fn())
-    const removeEventListener = jest
+      .mockImplementation(vi.fn())
+    const removeEventListener = vi
       .spyOn(document, 'removeEventListener')
-      .mockImplementation(jest.fn())
+      .mockImplementation(vi.fn())
 
     // open modal
     fireEvent.click(elem)
@@ -1404,8 +1404,8 @@ describe('Modal component', () => {
   })
 
   it('should open and close by using external state only', async () => {
-    const onOpen = jest.fn()
-    const onClose = jest.fn()
+    const onOpen = vi.fn()
+    const onClose = vi.fn()
 
     const ModalTriggerMock = () => {
       const [modalOpen, setModalOpen] = useState(false)
@@ -1577,6 +1577,7 @@ describe('Modal component', () => {
     ).toBe('dnb-modal-modal_id-content')
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('should have no icon', () => {
     render(<Modal triggerAttributes={{ text: 'Open Modal' }} />)
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
@@ -1593,6 +1594,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('should have an icon', () => {
     render(
       <Modal
@@ -1606,6 +1608,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('should render props', () => {
     const customText = 'Custom text in camelcase'
     render(
@@ -1621,8 +1624,9 @@ describe('Modal component', () => {
     ).toBe(customText)
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('should call triggerAttributes onClick', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(<Modal triggerAttributes={{ onClick }}>Modal content</Modal>)
 
@@ -1633,7 +1637,7 @@ describe('Modal component', () => {
 
   describe('onClose', () => {
     it('should have triggeredBy with "unmount" when unmounting', async () => {
-      const onClose = jest.fn()
+      const onClose = vi.fn()
 
       const { rerender } = render(
         <Modal noAnimation onClose={onClose} open>
@@ -1659,7 +1663,7 @@ describe('Modal component', () => {
     })
 
     it('should have triggeredBy with "button" when closing with button', () => {
-      const onClose = jest.fn()
+      const onClose = vi.fn()
 
       render(
         <Modal noAnimation onClose={onClose}>
@@ -1683,7 +1687,7 @@ describe('Modal component', () => {
     })
 
     it('should have triggeredBy with "overlay" when closing with button', () => {
-      const onClose = jest.fn()
+      const onClose = vi.fn()
 
       render(
         <Modal noAnimation onClose={onClose}>
@@ -1709,7 +1713,7 @@ describe('Modal component', () => {
     })
 
     it('should have triggeredBy with "keydown" when closing with button', async () => {
-      const onClose = jest.fn()
+      const onClose = vi.fn()
 
       render(
         <Modal noAnimation onClose={onClose}>
@@ -1732,7 +1736,7 @@ describe('Modal component', () => {
     })
 
     it('should have triggeredBy with "handler" when closing with button', () => {
-      const onClose = jest.fn()
+      const onClose = vi.fn()
 
       render(
         <Modal noAnimation onClose={onClose} hideCloseButton>
@@ -1762,8 +1766,8 @@ describe('Modal component', () => {
 
     describe('StrictMode', () => {
       it('will call onOpen in StrictMode, even it should not be called', () => {
-        const onClose = jest.fn()
-        const onOpen = jest.fn()
+        const onClose = vi.fn()
+        const onOpen = vi.fn()
 
         render(
           <StrictMode>
@@ -1780,8 +1784,8 @@ describe('Modal component', () => {
       })
 
       it('should not call onClose in StrictMode', () => {
-        const onClose = jest.fn()
-        const onOpen = jest.fn()
+        const onClose = vi.fn()
+        const onOpen = vi.fn()
 
         const MockComponent = () => {
           const [open, setOpen] = useState(false)
@@ -1833,6 +1837,7 @@ describe('Modal component', () => {
 describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will act by default as a HelpButton', () => {
     render(<Modal {...props} triggerAttributes={{ text: '' }} />)
     expect(
@@ -1842,6 +1847,7 @@ describe('Modal trigger', () => {
     ).toBe(roledescription)
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will have a aria-label', () => {
     render(
       <Modal {...props} triggerAttributes={{ 'aria-label': 'label' }} />
@@ -1858,6 +1864,7 @@ describe('Modal trigger', () => {
     ).toBe('label')
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will not act as a HelpButton if only triggerText was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
@@ -1875,6 +1882,7 @@ describe('Modal trigger', () => {
     ).toBe('text')
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will not act as a HelpButton if a different icon was given', () => {
     render(<Modal {...props} triggerAttributes={{ icon: 'bell' }} />)
     expect(
@@ -1887,6 +1895,7 @@ describe('Modal trigger', () => {
     ).toBeInTheDocument()
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('will not act as a HelpButton if trigger text was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
@@ -1902,6 +1911,55 @@ describe('Modal trigger', () => {
         .querySelector('button.dnb-modal__trigger')
         .textContent.replace(/\u200C/g, '')
     ).toBe('text')
+  })
+})
+
+describe('Modal triggerProps', () => {
+  it('should forward text to the trigger button', () => {
+    render(<Modal triggerProps={{ text: 'Open Modal' }} />)
+    expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
+    expect(
+      document
+        .querySelector('button.dnb-modal__trigger')
+        .querySelector('.dnb-button__text').textContent
+    ).toBe('Open Modal')
+  })
+
+  it('should forward variant to the trigger button', () => {
+    render(
+      <Modal triggerProps={{ text: 'Open Modal', variant: 'tertiary' }} />
+    )
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+  })
+
+  it('should forward icon to the trigger button', () => {
+    render(<Modal triggerProps={{ text: 'Open Modal', icon: 'add' }} />)
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+  })
+
+  it('should call triggerProps onClick', () => {
+    const onClick = vi.fn()
+
+    render(<Modal triggerProps={{ onClick }}>Modal content</Modal>)
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should take precedence over triggerAttributes', () => {
+    render(
+      <Modal
+        triggerProps={{ text: 'New prop' }}
+        triggerAttributes={{ text: 'Old prop' }}
+      />
+    )
+
+    expect(
+      document
+        .querySelector('button.dnb-modal__trigger')
+        .querySelector('.dnb-button__text').textContent
+    ).toBe('New prop')
   })
 })
 

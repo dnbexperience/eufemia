@@ -1,38 +1,38 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a bell file 1`] = `
+exports[`run convertSvgToJsx to convert ES6 to ES5 > has to have a bell file 1`] = `
 {
   "default": [Function],
 }
 `;
 
-exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a bell_medium file 1`] = `
+exports[`run convertSvgToJsx to convert ES6 to ES5 > has to have a bell_medium file 1`] = `
 {
   "default": [Function],
 }
 `;
 
-exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a fallback index file 1`] = `
+exports[`run convertSvgToJsx to convert ES6 to ES5 > has to have a fallback index file 1`] = `
 {
   "bell": [Function],
   "bell_medium": [Function],
 }
 `;
 
-exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a index file inside subfolder 1`] = `
+exports[`run convertSvgToJsx to convert ES6 to ES5 > has to have a index file inside subfolder 1`] = `
 {
   "bell": [Function],
   "bell_medium": [Function],
 }
 `;
 
-exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a primary_icons file 1`] = `
+exports[`run convertSvgToJsx to convert ES6 to ES5 > has to have a primary_icons file 1`] = `
 {
   "bell": [Function],
 }
 `;
 
-exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a primary_icons_medium file 1`] = `
+exports[`run convertSvgToJsx to convert ES6 to ES5 > has to have a primary_icons_medium file 1`] = `
 {
   "bell_medium": [Function],
 }

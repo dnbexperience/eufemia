@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import type { CSSProperties, HTMLProps, Ref } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { SpaceProps } from '../space/Space'
 import Space from '../space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

@@ -28,11 +28,10 @@ describe('Theme', () => {
     )
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__eiendom',
-      'eufemia-theme__eiendom--soft',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft',
+      { exact: true }
+    )
   })
 
   it('supports nested themes', () => {
@@ -46,93 +45,91 @@ describe('Theme', () => {
 
     const element1 = document.querySelector('#theme-1')
     const element2 = document.querySelector('#theme-2')
-    expect(Array.from(element1.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__eiendom',
-    ])
-    expect(Array.from(element2.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__eiendom',
-      'eufemia-theme__eiendom--soft',
-    ])
+    expect(element1).toHaveClass('eufemia-theme eufemia-theme__eiendom', {
+      exact: true,
+    })
+    expect(element2).toHaveClass(
+      'eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft',
+      { exact: true }
+    )
   })
 
   it('sets size as HTML classes', () => {
     render(<Theme size="basis">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__size--basis',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__size--basis',
+      { exact: true }
+    )
   })
 
   it('sets contrast-mode as HTML classes', () => {
     render(<Theme contrastMode>content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__contrast-mode',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__contrast-mode',
+      { exact: true }
+    )
   })
 
   it('sets colorScheme="dark" as HTML class', () => {
     render(<Theme colorScheme="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--dark',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__color-scheme--dark',
+      { exact: true }
+    )
   })
 
   it('sets colorScheme="light" as HTML class', () => {
     render(<Theme colorScheme="light">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--light',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__color-scheme--light',
+      { exact: true }
+    )
   })
 
   it('sets colorScheme="auto" as HTML class', () => {
     const matchMediaOriginal = window.matchMedia
-    window.matchMedia = jest.fn().mockImplementation((query) => ({
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
       media: query,
       matches: false,
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
     }))
 
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--light',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__color-scheme--light',
+      { exact: true }
+    )
 
     window.matchMedia = matchMediaOriginal
   })
 
   it('sets colorScheme="auto" and resolves dark mode via matchMedia', () => {
     const matchMediaOriginal = window.matchMedia
-    window.matchMedia = jest.fn().mockImplementation((query) => ({
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
       media: query,
       matches: true,
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
     }))
 
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--dark',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__color-scheme--dark',
+      { exact: true }
+    )
 
     window.matchMedia = matchMediaOriginal
   })
@@ -142,36 +139,36 @@ describe('Theme', () => {
     let listener: (event: { matches: boolean }) => void = null
     let matches = false
 
-    window.matchMedia = jest.fn().mockImplementation((query) => ({
+    window.matchMedia = vi.fn().mockImplementation((query) => ({
       media: query,
       get matches() {
         return matches
       },
-      addEventListener: jest.fn((eventName, callback) => {
+      addEventListener: vi.fn((eventName, callback) => {
         if (eventName === 'change') {
           listener = callback
         }
       }),
-      removeEventListener: jest.fn(),
+      removeEventListener: vi.fn(),
     }))
 
     render(<Theme colorScheme="auto">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--light',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__color-scheme--light',
+      { exact: true }
+    )
 
     matches = true
     act(() => {
       listener?.({ matches: true })
     })
 
-    expect(Array.from(element.classList)).toEqual([
-      'eufemia-theme',
-      'eufemia-theme__color-scheme--dark',
-    ])
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__color-scheme--dark',
+      { exact: true }
+    )
 
     window.matchMedia = matchMediaOriginal
   })
@@ -250,14 +247,14 @@ describe('Theme', () => {
     render(<Theme surface="dark">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
+    expect(element).toHaveClass('eufemia-theme', { exact: true })
   })
 
   it('does not set surface as HTML classes when "light"', () => {
     render(<Theme surface="light">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
-    expect(Array.from(element.classList)).toEqual(['eufemia-theme'])
+    expect(element).toHaveClass('eufemia-theme', { exact: true })
   })
 
   it('resets surface to undefined when "initial" inside a dark surface context', () => {
@@ -363,14 +360,12 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ])
+    expect(themeElement).toHaveClass(
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(
       themeElement.querySelector('.dnb-dialog__root.dnb-modal__content')
@@ -388,14 +383,12 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ])
+    expect(themeElement).toHaveClass(
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(
       themeElement.querySelector(
@@ -413,14 +406,12 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ])
+    expect(themeElement).toHaveClass(
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(
       themeElement.querySelector('.dnb-drawer-list__portal__style')
@@ -436,14 +427,12 @@ describe('Portals', () => {
     )
 
     const themeElement = document.querySelector('.eufemia-theme')
-    expect(Array.from(themeElement.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ])
+    expect(themeElement).toHaveClass(
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(
       themeElement.querySelector('.dnb-drawer-list__portal__style')
@@ -462,14 +451,12 @@ describe('Portals', () => {
     const themeElement = document.querySelector('.eufemia-theme')
     expect(themeElement).toBeInTheDocument()
 
-    expect(Array.from(themeElement.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-core-style',
-        'eufemia-portal-root',
-        'eufemia-theme',
-        'eufemia-theme__eiendom',
-        'eufemia-theme__eiendom--soft',
-      ])
+    expect(themeElement).toHaveClass(
+      'dnb-core-style',
+      'eufemia-portal-root',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft'
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -535,11 +522,11 @@ describe('Portals', () => {
       globalThis.__eufemiaColorScheme = 'dark'
 
       const matchMediaOriginal = window.matchMedia
-      window.matchMedia = jest.fn().mockImplementation((query) => ({
+      window.matchMedia = vi.fn().mockImplementation((query) => ({
         media: query,
         matches: true,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
       }))
 
       render(<Theme colorScheme="auto">content</Theme>)
@@ -556,11 +543,11 @@ describe('Portals', () => {
       globalThis.__eufemiaColorScheme = 'dark'
 
       const matchMediaOriginal = window.matchMedia
-      window.matchMedia = jest.fn().mockImplementation((query) => ({
+      window.matchMedia = vi.fn().mockImplementation((query) => ({
         media: query,
         matches: false,
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
       }))
 
       render(<Theme colorScheme="auto">content</Theme>)
@@ -631,7 +618,7 @@ describe('Portals', () => {
     })
 
     it('calls callback with merged theme', () => {
-      const callback = jest.fn()
+      const callback = vi.fn()
       setTheme({ name: 'eiendom' }, callback)
 
       expect(callback).toHaveBeenCalledTimes(1)

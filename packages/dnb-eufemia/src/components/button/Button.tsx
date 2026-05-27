@@ -14,7 +14,7 @@ import type {
   Ref,
 } from 'react'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import {
   warn,

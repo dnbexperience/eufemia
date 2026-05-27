@@ -6,7 +6,7 @@ import Menu from '../Menu'
 
 describe('Menu integration with real Popover', () => {
   it('navigates up from last item and skips disabled/non-action items', () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
     render(
       <Menu.Root>
@@ -26,7 +26,7 @@ describe('Menu integration with real Popover', () => {
     const button = document.querySelector('.dnb-button') as HTMLElement
     fireEvent.click(button)
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     const firstItem = Array.from(
@@ -48,14 +48,14 @@ describe('Menu integration with real Popover', () => {
     }) // Skip disabled Paste and separators/headers -> Copy
     expect(document.activeElement?.textContent).toContain('Copy')
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('opens nested menu on ArrowRight without closing parent', async () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
-    const parentOnOpenChange = jest.fn()
-    const nestedOnOpenChange = jest.fn()
+    const parentOnOpenChange = vi.fn()
+    const nestedOnOpenChange = vi.fn()
 
     render(
       <Menu.Root onOpenChange={parentOnOpenChange}>
@@ -80,7 +80,7 @@ describe('Menu integration with real Popover', () => {
 
     // Wait for open
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     expect(parentOnOpenChange).toHaveBeenCalledWith(true)
@@ -104,7 +104,7 @@ describe('Menu integration with real Popover', () => {
     )
 
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     // After the sub-menu opens and focuses its content,
@@ -132,7 +132,7 @@ describe('Menu integration with real Popover', () => {
     }
 
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     // Sub-menu should have opened
@@ -141,14 +141,14 @@ describe('Menu integration with real Popover', () => {
     // Parent should NOT have closed
     expect(parentOnOpenChange).not.toHaveBeenCalledWith(false)
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('parent menu stays open when sub-menu opens via click', () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
-    const parentOnOpenChange = jest.fn()
-    const nestedOnOpenChange = jest.fn()
+    const parentOnOpenChange = vi.fn()
+    const nestedOnOpenChange = vi.fn()
 
     render(
       <Menu.Root onOpenChange={parentOnOpenChange}>
@@ -169,7 +169,7 @@ describe('Menu integration with real Popover', () => {
     const button = document.querySelector('.dnb-button') as HTMLElement
     fireEvent.click(button)
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
     parentOnOpenChange.mockClear()
 
@@ -179,7 +179,7 @@ describe('Menu integration with real Popover', () => {
     ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
     fireEvent.click(exportTrigger)
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     // Nested should have opened
@@ -188,11 +188,11 @@ describe('Menu integration with real Popover', () => {
     // Parent should NOT have closed
     expect(parentOnOpenChange).not.toHaveBeenCalledWith(false)
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('focuses first action item instead of ul when nested menu opens', () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
     render(
       <Menu.Root>
@@ -214,7 +214,7 @@ describe('Menu integration with real Popover', () => {
     const button = document.querySelector('.dnb-button') as HTMLElement
     fireEvent.click(button)
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     // Click "Export as" to open nested menu
@@ -223,7 +223,7 @@ describe('Menu integration with real Popover', () => {
     ).find((el) => el.textContent?.includes('Export as')) as HTMLElement
     fireEvent.click(exportTrigger)
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     // The focused element should be the first action item, not the <ul>
@@ -231,11 +231,11 @@ describe('Menu integration with real Popover', () => {
     expect(document.activeElement?.getAttribute('role')).toBe('menuitem')
     expect(document.activeElement?.textContent).toContain('PDF')
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('verifies nested trigger is inside parent popover content', () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
     render(
       <Menu.Root>
@@ -256,7 +256,7 @@ describe('Menu integration with real Popover', () => {
     const button = document.querySelector('.dnb-button') as HTMLElement
     fireEvent.click(button)
     act(() => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     // Find the nested trigger
@@ -272,6 +272,6 @@ describe('Menu integration with real Popover', () => {
     expect(parentMenu).toBeTruthy()
     expect(parentMenu.contains(exportTrigger)).toBe(true)
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 })

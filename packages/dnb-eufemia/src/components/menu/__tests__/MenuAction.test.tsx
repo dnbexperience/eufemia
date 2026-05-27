@@ -1,5 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import MenuAction from '../MenuAction'
 import { MenuContext, MenuTriggerContext } from '../MenuContext'
 import { createMockContext, renderWithContext } from './testHelpers'
@@ -48,7 +48,7 @@ describe('MenuAction', () => {
   })
 
   it('fires onClick on click', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
     renderWithContext(<MenuAction text="Click" onClick={onClick} />)
 
     const item = document.querySelector('[role="menuitem"]')
@@ -58,7 +58,7 @@ describe('MenuAction', () => {
   })
 
   it('closes all menus after click', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
     const { context } = renderWithContext(
       <MenuAction text="Click" onClick={onClick} />
     )
@@ -70,7 +70,7 @@ describe('MenuAction', () => {
   })
 
   it('does not close menus when hasSubMenu', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
     const { context } = renderWithContext(
       <MenuAction text="Sub" onClick={onClick} hasSubMenu />
     )
@@ -82,7 +82,7 @@ describe('MenuAction', () => {
   })
 
   it('fires onClick on Enter key', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
     renderWithContext(<MenuAction text="Enter" onClick={onClick} />)
 
     const item = document.querySelector('[role="menuitem"]')
@@ -92,7 +92,7 @@ describe('MenuAction', () => {
   })
 
   it('fires onClick on Space key', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
     renderWithContext(<MenuAction text="Space" onClick={onClick} />)
 
     const item = document.querySelector('[role="menuitem"]')
@@ -117,7 +117,7 @@ describe('MenuAction', () => {
     })
 
     it('does not fire onClick when disabled', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       renderWithContext(
         <MenuAction text="Disabled" disabled onClick={onClick} />
       )
@@ -129,7 +129,7 @@ describe('MenuAction', () => {
     })
 
     it('does not fire onClick on Enter when disabled', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       renderWithContext(
         <MenuAction text="Disabled" disabled onClick={onClick} />
       )
@@ -145,10 +145,10 @@ describe('MenuAction', () => {
     it('adds active-trigger class when used as sub-menu trigger', () => {
       const triggerValue = {
         active: true,
-        triggerProps: { ref: jest.fn() },
-        open: jest.fn(),
-        close: jest.fn(),
-        toggle: jest.fn(),
+        triggerProps: { ref: vi.fn() },
+        open: vi.fn(),
+        close: vi.fn(),
+        toggle: vi.fn(),
       }
 
       const context = createMockContext()

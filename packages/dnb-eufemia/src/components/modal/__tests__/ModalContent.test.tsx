@@ -5,9 +5,11 @@ import type { ModalContentProps } from '../types'
 import DialogContent from '../../dialog/DialogContent'
 
 // Mock the focus method to track calls
-const mockFocus = jest.fn()
+const mockFocus = vi.fn()
 const originalFocus = HTMLElement.prototype.focus
 const originalDateNow = Date.now
+const originalRunAllTimers = vi.runAllTimers.bind(vi)
+const originalAdvanceTimersByTime = vi.advanceTimersByTime.bind(vi)
 
 beforeAll(() => {
   HTMLElement.prototype.focus = mockFocus
@@ -20,31 +22,31 @@ afterAll(() => {
 
 beforeEach(() => {
   mockFocus.mockClear()
-  jest.clearAllTimers()
-  jest.useFakeTimers()
+  vi.clearAllTimers()
+  vi.useFakeTimers()
 
   // Mock Date.now to work with fake timers
   let mockTime = 0
-  Date.now = jest.fn(() => mockTime)
+  Date.now = vi.fn(() => mockTime)
 
   // Advance time when timers are run
-  const originalRunAllTimers = jest.runAllTimers
-  jest.runAllTimers = () => {
+  vi.runAllTimers = (() => {
     const result = originalRunAllTimers()
     mockTime += 100 // Increment mock time
     return result
-  }
+  }) as typeof vi.runAllTimers
 
-  const originalAdvanceTimersByTime = jest.advanceTimersByTime
-  jest.advanceTimersByTime = (ms: number) => {
+  vi.advanceTimersByTime = ((ms: number) => {
     const result = originalAdvanceTimersByTime(ms)
     mockTime += ms
     return result
-  }
+  }) as typeof vi.advanceTimersByTime
 })
 
 afterEach(() => {
-  jest.useRealTimers()
+  vi.useRealTimers()
+  vi.runAllTimers = originalRunAllTimers
+  vi.advanceTimersByTime = originalAdvanceTimersByTime
   Date.now = originalDateNow
 })
 
@@ -83,7 +85,7 @@ describe('ModalContent Focus Logic', () => {
       const { rerender } = render(<ModalContent {...props} />)
 
       // Initial render calls setFocus once in componentDidMount
-      jest.runAllTimers()
+      vi.runAllTimers()
       expect(mockFocus).toHaveBeenCalledTimes(1)
 
       // Clear the mock to count only the new calls
@@ -97,7 +99,7 @@ describe('ModalContent Focus Logic', () => {
       )
 
       // Run all timers to flush the setTimeout
-      jest.runAllTimers()
+      vi.runAllTimers()
 
       expect(mockFocus).toHaveBeenCalledTimes(1)
       expect(mockFocus).toHaveBeenCalledWith({ preventScroll: true })
@@ -113,7 +115,7 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
 
       expect(mockFocus).toHaveBeenCalledWith({ preventScroll: true })
     })
@@ -125,7 +127,7 @@ describe('ModalContent Focus Logic', () => {
       const { rerender } = render(<ModalContent {...props} />)
 
       // Initial render calls setFocus once in componentDidMount
-      jest.runAllTimers()
+      vi.runAllTimers()
       expect(mockFocus).toHaveBeenCalledTimes(1)
 
       // Clear the mock to count only new calls
@@ -138,7 +140,7 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       expect(mockFocus).toHaveBeenCalledTimes(1)
 
       // Second children change immediately - should focus since less than 2 seconds have passed
@@ -148,7 +150,7 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       // The timing logic should allow this call since less than 2 seconds have passed
       expect(mockFocus).toHaveBeenCalledTimes(2)
     })
@@ -158,7 +160,7 @@ describe('ModalContent Focus Logic', () => {
       const { rerender } = render(<ModalContent {...props} />)
 
       // Initial render calls setFocus once in componentDidMount
-      jest.runAllTimers()
+      vi.runAllTimers()
       expect(mockFocus).toHaveBeenCalledTimes(1)
 
       // Clear the mock to count only new calls
@@ -171,11 +173,11 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       expect(mockFocus).toHaveBeenCalledTimes(1)
 
       // Fast forward time by 2.1 seconds (2100ms)
-      jest.advanceTimersByTime(2100)
+      vi.advanceTimersByTime(2100)
 
       // Second children change after 2+ seconds - should NOT focus due to timing restriction
       rerender(
@@ -184,7 +186,7 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       // The timing logic should prevent this call since more than 2 seconds have passed
       expect(mockFocus).toHaveBeenCalledTimes(1)
     })
@@ -209,7 +211,7 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
 
       // Should call focus since element is not currently focused
       expect(mockFocus).toHaveBeenCalledWith({ preventScroll: true })
@@ -224,10 +226,10 @@ describe('ModalContent Focus Logic', () => {
       // Change to undefined children
       rerender(<ModalContent {...props}>{undefined}</ModalContent>)
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       // Should not throw error
       expect(() => {
-        jest.runAllTimers()
+        vi.runAllTimers()
       }).not.toThrow()
     })
 
@@ -238,10 +240,10 @@ describe('ModalContent Focus Logic', () => {
       // Change to null children
       rerender(<ModalContent {...props}>{null}</ModalContent>)
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       // Should not throw error
       expect(() => {
-        jest.runAllTimers()
+        vi.runAllTimers()
       }).not.toThrow()
     })
 
@@ -250,7 +252,7 @@ describe('ModalContent Focus Logic', () => {
       const { rerender } = render(<ModalContent {...props} />)
 
       // Initial render calls setFocus once in componentDidMount
-      jest.runAllTimers()
+      vi.runAllTimers()
       expect(mockFocus).toHaveBeenCalledTimes(1)
 
       // Clear the mock to count only new calls
@@ -263,7 +265,7 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       // Should not call focus since children haven't actually changed
       expect(mockFocus).toHaveBeenCalled()
     })
@@ -289,7 +291,7 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       expect(mockFocus).toHaveBeenCalledWith({ preventScroll: true })
     })
 
@@ -306,7 +308,7 @@ describe('ModalContent Focus Logic', () => {
         </ModalContent>
       )
 
-      jest.runAllTimers()
+      vi.runAllTimers()
       // Should call focus after the animation delay
       expect(mockFocus).toHaveBeenCalledWith({ preventScroll: true })
     })

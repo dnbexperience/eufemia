@@ -1,7 +1,10 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Fonts', () => {
-  test('verify fonts are served correctly', async ({ page }) => {
+  test('verify fonts are served correctly', async ({
+    request,
+    baseURL,
+  }) => {
     const fonts = [
       // DNB
       'dnb/DNB-Regular.woff2',
@@ -22,8 +25,8 @@ test.describe('Fonts', () => {
     ]
 
     for await (const font of fonts) {
-      const url = `/fonts/${font}`
-      const response = await page.request.get(url)
+      const url = new URL(`/fonts/${font}`, baseURL).toString()
+      const response = await request.get(url)
       expect(response.status()).toBe(200)
       expect(response.headers()['content-type']).toContain('font') // Ensure it's a font file
     }

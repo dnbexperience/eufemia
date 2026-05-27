@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
 
 function renderInRoot(node: ReactNode) {

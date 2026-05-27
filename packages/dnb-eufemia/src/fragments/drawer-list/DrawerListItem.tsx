@@ -1,5 +1,5 @@
 import type { HTMLProps, ReactNode, Ref } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { DrawerListDataArrayObject } from './DrawerList'
 
 export type DrawerListItemProps = Omit<

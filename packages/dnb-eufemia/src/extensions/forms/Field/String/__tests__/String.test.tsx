@@ -1,6 +1,9 @@
 import { useRef } from 'react'
 import type { FormEvent, RefObject } from 'react'
-import { axeComponent, wait } from '../../../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  wait,
+} from '../../../../../core/test-utils/testSetup'
 import {
   screen,
   render,
@@ -209,13 +212,11 @@ describe('Field.String', () => {
         lineHeight: String(1.5 * 16),
       } as CSSStyleDeclaration
 
-      jest
-        .spyOn(window, 'getComputedStyle')
-        .mockImplementation(() => style)
+      vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
-      jest
-        .spyOn(elem, 'scrollHeight', 'get')
-        .mockImplementation(() => 1.5 * 32)
+      vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+        () => 1.5 * 32
+      )
 
       await userEvent.type(elem, 'a')
       expect(elem.style.height).toBe('48px')
@@ -236,7 +237,7 @@ describe('Field.String', () => {
     })
 
     it('should support capitalize prop', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Field.String onChange={onChange} capitalize value="first WORD" />
@@ -270,13 +271,13 @@ describe('Field.String', () => {
     })
 
     it('should transform value with "transformIn" and "transformOut"', async () => {
-      const onChangeProvider = jest.fn()
-      const onChangeField = jest.fn()
+      const onChangeProvider = vi.fn()
+      const onChangeField = vi.fn()
 
-      const transformIn = jest.fn((value) => {
+      const transformIn = vi.fn((value) => {
         return value?.toUpperCase()
       })
-      const transformOut = jest.fn((value) => {
+      const transformOut = vi.fn((value) => {
         return value?.toLowerCase()
       })
 
@@ -349,20 +350,20 @@ describe('Field.String', () => {
     })
 
     it('should support "transformIn" and "transformOut"', async () => {
-      const transformOut = jest.fn((value) => {
+      const transformOut = vi.fn((value) => {
         return { value, foo: 'bar' }
       })
-      const transformIn = jest.fn((data) => {
+      const transformIn = vi.fn((data) => {
         if (typeof data === 'string') {
           return data
         }
         return data?.value
       })
-      const valueTransformIn = jest.fn((data) => {
+      const valueTransformIn = vi.fn((data) => {
         return data?.value
       })
 
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -508,8 +509,8 @@ describe('Field.String', () => {
     })
 
     it('should trim whitespaces', async () => {
-      const onChange = jest.fn()
-      const onBlur = jest.fn()
+      const onChange = vi.fn()
+      const onBlur = vi.fn()
 
       render(
         <Field.String
@@ -719,7 +720,7 @@ describe('Field.String', () => {
 
   describe('event handlers', () => {
     it('calls onChange for every change of the input value', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       render(<Field.String value="abc" onChange={onChange} />)
       const input = document.querySelector('input')
       await userEvent.type(input, 'def')
@@ -742,7 +743,7 @@ describe('Field.String', () => {
     })
 
     it('calls onFocus with current value', () => {
-      const onFocus = jest.fn()
+      const onFocus = vi.fn()
       render(<Field.String value="blah" onFocus={onFocus} />)
       const input = document.querySelector('input')
       act(() => {
@@ -753,7 +754,7 @@ describe('Field.String', () => {
     })
 
     it('calls onBlur with current value', async () => {
-      const onBlur = jest.fn()
+      const onBlur = vi.fn()
       render(<Field.String value="song2" onBlur={onBlur} />)
       const input = document.querySelector('input')
       input.focus()
@@ -777,7 +778,7 @@ describe('Field.String', () => {
     })
 
     it('should show submit indicator on async onChange', async () => {
-      const onChange = jest.fn(async () => {
+      const onChange = vi.fn(async () => {
         await wait(30)
       })
 
@@ -1033,7 +1034,7 @@ describe('Field.String', () => {
 
     describe('onChangeValidator', () => {
       it('should render error message given as JSX', async () => {
-        const onChangeValidator: Validator<string> = jest.fn(() => {
+        const onChangeValidator: Validator<string> = vi.fn(() => {
           return (
             <>
               A <strong>formatted</strong> error message
@@ -1056,7 +1057,7 @@ describe('Field.String', () => {
       })
 
       it('should render error message given as JSX when async', async () => {
-        const onChangeValidator: Validator<string> = jest.fn(async () => {
+        const onChangeValidator: Validator<string> = vi.fn(async () => {
           return (
             <>
               A <strong>formatted</strong> error message
@@ -1081,7 +1082,7 @@ describe('Field.String', () => {
 
       describe('validation using a synchronous external onChangeValidator function', () => {
         it('should show error returned by onChangeValidator', async () => {
-          const onChangeValidator: Validator<string> = jest.fn(
+          const onChangeValidator: Validator<string> = vi.fn(
             syncValidatorReturningError
           )
           render(
@@ -1132,7 +1133,7 @@ describe('Field.String', () => {
         })
 
         it('should not show error when onChangeValidator returns undefined', async () => {
-          const onChangeValidator: Validator<string> = jest.fn(
+          const onChangeValidator: Validator<string> = vi.fn(
             syncValidatorReturningUndefined
           )
           render(
@@ -1152,7 +1153,7 @@ describe('Field.String', () => {
 
       describe('validation using an asynchronous external onChangeValidator function', () => {
         it('should show error returned by onChangeValidator', async () => {
-          const onChangeValidator: Validator<string> = jest.fn(
+          const onChangeValidator: Validator<string> = vi.fn(
             asyncValidatorResolvingWithError
           )
           render(
@@ -1204,7 +1205,7 @@ describe('Field.String', () => {
         })
 
         it('should not show error when onChangeValidator returns undefined', async () => {
-          const onChangeValidator: Validator<string> = jest.fn(
+          const onChangeValidator: Validator<string> = vi.fn(
             asyncValidatorResolvingWithUndefined
           )
           render(
@@ -1226,7 +1227,7 @@ describe('Field.String', () => {
 
     describe('onBlurValidator', () => {
       it('should render error message given as JSX', async () => {
-        const onBlurValidator: Validator<string> = jest.fn(() => {
+        const onBlurValidator: Validator<string> = vi.fn(() => {
           return (
             <>
               A <strong>formatted</strong> error message
@@ -1249,7 +1250,7 @@ describe('Field.String', () => {
       })
 
       it('should render error message given as JSX when async', async () => {
-        const onBlurValidator: Validator<string> = jest.fn(async () => {
+        const onBlurValidator: Validator<string> = vi.fn(async () => {
           return (
             <>
               A <strong>formatted</strong> error message
@@ -1275,7 +1276,7 @@ describe('Field.String', () => {
 
       describe('validation using a synchronous external onBlurValidator function', () => {
         it('should show error returned by onBlurValidator', async () => {
-          const onBlurValidator: Validator<string> = jest.fn(
+          const onBlurValidator: Validator<string> = vi.fn(
             syncValidatorReturningError
           )
           render(
@@ -1318,7 +1319,7 @@ describe('Field.String', () => {
         })
 
         it('should not show error when onBlurValidator returns undefined', async () => {
-          const onBlurValidator: Validator<string> = jest.fn(
+          const onBlurValidator: Validator<string> = vi.fn(
             syncValidatorReturningUndefined
           )
           render(
@@ -1341,7 +1342,7 @@ describe('Field.String', () => {
 
       describe('validation using an asynchronous external onBlurValidator function', () => {
         it('should show error returned by onBlurValidator', async () => {
-          const onBlurValidator: Validator<string> = jest.fn(
+          const onBlurValidator: Validator<string> = vi.fn(
             asyncValidatorResolvingWithError
           )
           render(
@@ -1384,7 +1385,7 @@ describe('Field.String', () => {
         })
 
         it('should not show error when onBlurValidator returns undefined', async () => {
-          const onBlurValidator: Validator<string> = jest.fn(
+          const onBlurValidator: Validator<string> = vi.fn(
             asyncValidatorResolvingWithUndefined
           )
           render(
@@ -1563,9 +1564,9 @@ describe('Field.String', () => {
     })
 
     it('calls onChange and onPathChange correctly when an input was changed', async () => {
-      const dataContextOnChange = jest.fn()
-      const dataContextOnPathChange = jest.fn()
-      const inputOnChange = jest.fn()
+      const dataContextOnChange = vi.fn()
+      const dataContextOnPathChange = vi.fn()
+      const inputOnChange = vi.fn()
       render(
         <Provider
           data={{
@@ -1737,7 +1738,7 @@ describe('Field.String', () => {
 
   it('should transform submit data with "transformData"', async () => {
     let transformedData = undefined
-    const onSubmit = jest.fn((data, { transformData }) => {
+    const onSubmit = vi.fn((data, { transformData }) => {
       transformedData = transformData(
         data,
         ({ value, displayValue, label }) => {
@@ -2083,7 +2084,7 @@ describe('Field.String', () => {
     })
 
     it('should prevent form submit with error message given as JSX', () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       const { rerender } = render(
         <Form.Handler onSubmit={onSubmit}>
@@ -2263,7 +2264,7 @@ describe('Field.String', () => {
 
   describe('emptyValue', () => {
     it('should use the given emptyValue and set in the data context', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -2302,7 +2303,7 @@ describe('Field.String', () => {
     })
 
     it('should set the emptyValue when string gets empty', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -2345,7 +2346,7 @@ describe('Field.String', () => {
     it('should prevent typing of invalid characters', async () => {
       const forbiddenRegex = /\d/
 
-      const onInput = jest.fn((event: FormEvent<HTMLInputElement>) => {
+      const onInput = vi.fn((event: FormEvent<HTMLInputElement>) => {
         const inputEl = event.currentTarget
         const currentVal = inputEl.value
         const oldVal = inputEl.dataset.oldVal
@@ -2374,7 +2375,7 @@ describe('Field.String', () => {
         }
       })
 
-      const onFocus = jest.fn((event: FormEvent<HTMLInputElement>) => {
+      const onFocus = vi.fn((event: FormEvent<HTMLInputElement>) => {
         const inputEl = event.currentTarget
         if (typeof inputEl.dataset.oldVal === 'undefined') {
           inputEl.dataset.oldVal = inputEl.value
@@ -2412,7 +2413,7 @@ describe('Field.String', () => {
 
   describe('GlobalStatus', () => {
     it('should render error given as JSX in GlobalStatus', async () => {
-      jest.spyOn(window, 'scrollTo').mockImplementation()
+      vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined)
 
       render(
         <>

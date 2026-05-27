@@ -42,14 +42,14 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   backgroundColor: {
-    doc: 'Use one of the Section background colors. Defaults to `transparent`.',
+    doc: 'No longer supported after the Breadcrumb redesign.',
     type: 'Various',
-    status: 'optional',
+    status: 'deprecated',
   },
   collapsedStyleType: {
-    doc: 'Use one of the Section component variants. Defaults to `information`.',
+    doc: 'No longer supported after the Breadcrumb redesign.',
     type: ['"error"', '"information"', '"warning"', '"success"'],
-    status: 'optional',
+    status: 'deprecated',
   },
   className: {
     doc: 'Custom `className` for the component root.',

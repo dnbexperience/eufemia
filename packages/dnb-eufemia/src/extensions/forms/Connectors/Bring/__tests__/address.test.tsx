@@ -216,7 +216,7 @@ describe('address', () => {
     })
 
     it('should submit inserted data', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -302,7 +302,7 @@ describe('address', () => {
     })
 
     it('url config can be a function that gives the value and the country', async () => {
-      const url = jest.fn()
+      const url = vi.fn()
 
       const { withConfig } = Connectors.createContext({
         fetchConfig: { url },
@@ -335,7 +335,7 @@ describe('address', () => {
 })
 
 function createFetchMock(overwrite = null, delay = null) {
-  return jest.fn(async () => {
+  return vi.fn(async () => {
     await delay?.()
     const response = {
       ok: true,

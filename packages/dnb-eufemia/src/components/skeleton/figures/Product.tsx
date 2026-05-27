@@ -5,7 +5,7 @@
 
 import { useMemo } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Space from '../../space/Space'
 
 export type SkeletonProductRows = string | number

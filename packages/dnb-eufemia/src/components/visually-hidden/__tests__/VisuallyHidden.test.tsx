@@ -2,7 +2,7 @@ import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import type { VisuallyHiddenAllProps } from '../VisuallyHidden'
 import VisuallyHidden from '../VisuallyHidden'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 
 describe('VisuallyHidden', () => {

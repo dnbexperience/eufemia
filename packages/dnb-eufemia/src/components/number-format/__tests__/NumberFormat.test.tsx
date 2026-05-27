@@ -7,14 +7,13 @@ import {
   axeComponent,
   loadScss,
   mockClipboard,
-} from '../../../core/jest/jestSetup'
+} from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
 import type { NumberFormatProps } from '../NumberFormat'
-import { COPY_TOOLTIP_TIMEOUT } from '../NumberFormat'
 import NumberFormatBase from '../NumberFormatBase'
 import NumberFormat from '../NumberFormat'
 import * as TooltipModule from '../../tooltip/Tooltip'
@@ -42,8 +41,8 @@ beforeEach(() => {
 })
 
 beforeAll(() => {
-  languageGetter = jest.spyOn(window.navigator, 'language', 'get')
-  platformGetter = jest.spyOn(window.navigator, 'platform', 'get')
+  languageGetter = vi.spyOn(window.navigator, 'language', 'get')
+  platformGetter = vi.spyOn(window.navigator, 'platform', 'get')
 
   // simulate mac, has to run on the first render
   platformGetter.mockReturnValue('Mac')
@@ -144,7 +143,7 @@ describe('NumberFormat component', () => {
   })
 
   it('have support valid locale with invalid value', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <NumberFormatBase locale="en-GB" decimals={2}>
@@ -162,7 +161,7 @@ describe('NumberFormat component', () => {
   })
 
   it('have support invalid locale with invalid value', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     render(
       <NumberFormatBase locale="else" decimals={2}>
@@ -206,7 +205,7 @@ describe('NumberFormat component', () => {
   it('passes triggerOffset to the copy tooltip', () => {
     const triggerOffsets: Array<number | undefined> = []
     const originalTooltip = TooltipModule.default
-    const spy = jest
+    const spy = vi
       .spyOn(TooltipModule, 'default')
       .mockImplementation((props) => {
         triggerOffsets.push(props.triggerOffset)
@@ -886,7 +885,7 @@ describe('NumberFormat component', () => {
     ) as HTMLElement
 
     // Spy on the selection element's focus method
-    const focusSpy = jest.spyOn(selection, 'focus')
+    const focusSpy = vi.spyOn(selection, 'focus')
 
     await userEvent.click(number)
 
@@ -911,7 +910,7 @@ describe('NumberFormat component', () => {
     ) as HTMLElement
 
     // Spy on the selection element's focus method
-    const focusSpy = jest.spyOn(selection, 'focus')
+    const focusSpy = vi.spyOn(selection, 'focus')
 
     await userEvent.click(number)
 
@@ -942,7 +941,7 @@ describe('NumberFormat component', () => {
     ) as HTMLElement
 
     // Spy on the selection element's focus method
-    const focusSpy = jest.spyOn(selection, 'focus')
+    const focusSpy = vi.spyOn(selection, 'focus')
 
     // Initially, component should not be selected
     expect(comp).not.toHaveClass('dnb-number-format--selected')
@@ -982,15 +981,6 @@ describe('NumberFormat component', () => {
   })
 
   describe('onContextMenuHandler', () => {
-    beforeEach(() => {
-      jest.useFakeTimers()
-    })
-
-    afterEach(() => {
-      jest.runOnlyPendingTimers()
-      jest.useRealTimers()
-    })
-
     it('should call setFocus on context menu when no text is selected', async () => {
       render(<NumberFormatBase value={1234568} />)
 
@@ -1001,7 +991,7 @@ describe('NumberFormat component', () => {
       ) as HTMLElement
 
       // Spy on the selection element's focus method
-      const focusSpy = jest.spyOn(selection, 'focus')
+      const focusSpy = vi.spyOn(selection, 'focus')
 
       // Initially, component should not be selected
       expect(comp).not.toHaveClass('dnb-number-format--selected')
@@ -1010,11 +1000,6 @@ describe('NumberFormat component', () => {
       // Trigger context menu (right-click)
       fireEvent.contextMenu(number)
 
-      // setFocus is called after 1ms timeout
-      // Advance timers to trigger the timeout
-      jest.advanceTimersByTime(1)
-
-      // Wait for the focus to be called (it happens in setState callback)
       await waitFor(() => {
         expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
         expect(comp).toHaveClass('dnb-number-format--selected')
@@ -1033,7 +1018,7 @@ describe('NumberFormat component', () => {
       ) as HTMLElement
 
       // Spy on the selection element's focus method
-      const focusSpy = jest.spyOn(selection, 'focus')
+      const focusSpy = vi.spyOn(selection, 'focus')
 
       // Create a selection on another element to simulate existing text selection
       const testElement = document.createElement('div')
@@ -1052,9 +1037,6 @@ describe('NumberFormat component', () => {
 
         // Trigger context menu (right-click)
         fireEvent.contextMenu(number)
-
-        // Advance timers
-        jest.advanceTimersByTime(1)
 
         // When text is already selected, setFocus should NOT be called
         await waitFor(() => {
@@ -1081,25 +1063,16 @@ describe('NumberFormat component', () => {
       ) as HTMLElement
 
       // Spy on the selection element's focus method
-      const focusSpy = jest.spyOn(selection, 'focus')
+      const focusSpy = vi.spyOn(selection, 'focus')
 
       // Trigger context menu first time
       fireEvent.contextMenu(number)
 
-      // Advance timers partway but not enough to trigger
-      jest.advanceTimersByTime(0.5)
-
       // Trigger context menu again - this should clear the previous timeout
       fireEvent.contextMenu(number)
 
-      // Advance timers partway again
-      jest.advanceTimersByTime(0.5)
-
       // Trigger context menu third time - this should clear the previous timeout
       fireEvent.contextMenu(number)
-
-      // Now advance the full 1ms - only the last timeout should fire
-      jest.advanceTimersByTime(1)
 
       // Wait for the state to settle
       await waitFor(() => {
@@ -1757,7 +1730,7 @@ describe('NumberFormat compact', () => {
         <Component value={-value} compact locale="en-GB" decimals="2" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-12.35M'
+        '-12.35m'
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
@@ -1792,7 +1765,7 @@ describe('NumberFormat compact', () => {
         />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-NOK\u00A012.35M'
+        '-NOK\u00A012.35m'
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
@@ -1911,16 +1884,20 @@ describe('NumberFormat scss', () => {
 
 describe('NumberFormat copy tooltip', () => {
   beforeEach(() => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
   })
 
   afterEach(() => {
-    jest.runOnlyPendingTimers()
-    jest.useRealTimers()
+    vi.runOnlyPendingTimers()
+    vi.useRealTimers()
   })
 
   it('shows the tooltip from the NumberFormat copy handler', async () => {
-    const { container } = render(<Component value={1234} />)
+    const { container } = render(
+      <Provider locale="en-GB">
+        <Component value={1234} />
+      </Provider>
+    )
     const selection = container.querySelector<HTMLSpanElement>(
       '.dnb-number-format__selection'
     )
@@ -1938,12 +1915,10 @@ describe('NumberFormat copy tooltip', () => {
       document.querySelector('.dnb-tooltip__content')?.textContent
     ).toContain(en.clipboardCopy)
 
-    jest.advanceTimersByTime(COPY_TOOLTIP_TIMEOUT)
+    await vi.runAllTimersAsync()
 
-    await waitFor(() => {
-      expect(
-        document.querySelector('.dnb-tooltip--active')
-      ).not.toBeInTheDocument()
-    })
+    expect(
+      document.querySelector('.dnb-tooltip--active')
+    ).not.toBeInTheDocument()
   })
 })

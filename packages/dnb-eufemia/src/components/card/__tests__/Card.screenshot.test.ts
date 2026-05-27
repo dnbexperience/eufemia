@@ -149,3 +149,43 @@ describe.each(['ui', 'sbanken'])(
     })
   }
 )
+
+describe.each(['ui'])(`Interactive Card for %s`, (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/card/demos/',
+  })
+
+  it('have to match default state', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="layout-card-interactive"]',
+    })
+  })
+
+  it('have to match hover state', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="layout-card-interactive"]',
+      simulateSelector:
+        '[data-visual-test="layout-card-interactive"] .dnb-card',
+      simulate: 'hover',
+    })
+  })
+
+  it('have to match active state', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="layout-card-interactive"]',
+      simulateSelector:
+        '[data-visual-test="layout-card-interactive"] .dnb-card',
+      simulate: 'active',
+    })
+  })
+
+  it('have to match focus state', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="layout-card-interactive"]',
+      simulateSelector:
+        '[data-visual-test="layout-card-interactive"] .dnb-card',
+      simulate: 'focusclick',
+    })
+  })
+})

@@ -83,8 +83,7 @@
       }
     }
   }
-  &__tr--clickable#{&}__tr--no-animation &__button .dnb-icon,
-  html[data-visual-test] &__tr--clickable &__button .dnb-icon {
+  &__tr--clickable#{&}__tr--no-animation &__button .dnb-icon {
     transition: none !important;
   }
 
@@ -248,9 +247,6 @@
     &--parallax &__inner {
       &__spacing {
         transform: translateY(0);
-        html[data-visual-test] & {
-          transition: none;
-        }
       }
     }
 

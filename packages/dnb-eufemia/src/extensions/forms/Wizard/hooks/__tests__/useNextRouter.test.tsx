@@ -31,7 +31,7 @@ describe('useNextRouter', () => {
     const realReplaceState = window.history.replaceState.bind(
       window.history
     )
-    window.history.pushState = jest.fn((data, unused, url) => {
+    window.history.pushState = vi.fn((data, unused, url) => {
       realReplaceState(data, unused, url)
     })
   }
@@ -40,7 +40,7 @@ describe('useNextRouter', () => {
       current: null,
     }
 
-    const useRouter = jest.fn(() => {
+    const useRouter = vi.fn(() => {
       const push = useCallback((href) => {
         window.history.replaceState({}, '', href)
         forceUpdateRef.current()
@@ -50,10 +50,10 @@ describe('useNextRouter', () => {
         return { push }
       }, [push])
     })
-    const usePathname = jest.fn(() => {
+    const usePathname = vi.fn(() => {
       return window.location.pathname
     })
-    const useSearchParams = jest.fn(() => {
+    const useSearchParams = vi.fn(() => {
       const [, fU] = useReducer(() => ({}), {})
       const paramsRef = useRef(new URLSearchParams(window.location.search))
 
@@ -211,11 +211,11 @@ describe('useNextRouter', () => {
   it('should handle and show try/catch errors', async () => {
     mockUrl()
 
-    const usePathname = jest.fn()
-    const get = jest.fn()
+    const usePathname = vi.fn()
+    const get = vi.fn()
     const searchParams = { get }
-    const useRouter = jest.fn()
-    const useSearchParams = jest.fn(() => {
+    const useRouter = vi.fn()
+    const useSearchParams = vi.fn(() => {
       return searchParams
     })
 

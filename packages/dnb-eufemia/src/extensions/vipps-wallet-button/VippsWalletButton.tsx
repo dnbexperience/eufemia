@@ -3,7 +3,7 @@
  *
  */
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Button, { type ButtonProps } from '../../components/button/Button'
 import useTranslation from '../../shared/useTranslation'
 import SubmitIndicator from '../forms/Form/SubmitIndicator'

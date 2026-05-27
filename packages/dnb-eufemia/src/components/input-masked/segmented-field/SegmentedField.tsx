@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { FocusEvent, RefObject } from 'react'
 import { flushSync } from 'react-dom'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import useId from '../../../shared/helpers/useId'
 import Input from '../../Input'

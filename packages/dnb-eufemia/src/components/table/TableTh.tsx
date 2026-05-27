@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import type { ReactNode, ThHTMLAttributes } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import TableSortButton from './TableSortButton'
 import TableHelpButton from './TableHelpButton'
 import { TableTrContext } from './TableTrContext'
@@ -54,6 +54,13 @@ export type TableThProps = {
    * The content of the table header given as Tr.
    */
   children?: TableThChildren | Array<TableThChildren>
+
+  /**
+   * Indicates that the column was previously sorted but returned to unsorted.
+   * Set automatically by `useHandleSortState`.
+   * @internal
+   */
+  sortedBefore?: boolean
 }
 
 export default function Th(
@@ -68,6 +75,7 @@ export default function Th(
     noWrap,
     highlight: highlightProp,
     variant,
+    sortedBefore,
     ...props
   } = componentProps
 
@@ -95,6 +103,7 @@ export default function Th(
         sortable && 'dnb-table--sortable',
         active && 'dnb-table--active',
         reversed && 'dnb-table--reversed',
+        sortedBefore && !active && 'dnb-table--sort-off',
         noWrap && 'dnb-table--no-wrap',
         highlight && 'dnb-table__th--highlight',
         variant && `dnb-table__th--${variant}`,

@@ -461,6 +461,8 @@ export async function writeLlmsText({
   siteDir,
   results,
   version,
+  commit,
+  generatedAt,
   outputRoot,
   llmsFilename = 'llms.txt',
   publicUrlBase = DEFAULT_PUBLIC_URL,
@@ -468,6 +470,8 @@ export async function writeLlmsText({
   siteDir: string
   results: Array<any>
   version: string
+  commit?: string
+  generatedAt?: string
   outputRoot?: string
   llmsFilename?: string
   publicUrlBase?: string
@@ -480,6 +484,8 @@ export async function writeLlmsText({
   const llmsContent = await formatLlmsText(
     buildLlmsText(hydrated, {
       version,
+      commit,
+      generatedAt,
       publicUrlBase,
     }),
     siteDir
@@ -890,15 +896,27 @@ export function buildLlmsText(
   results: Array<any>,
   {
     version,
+    commit,
+    generatedAt,
     publicUrlBase = DEFAULT_PUBLIC_URL,
-  }: { version: string; publicUrlBase?: string }
+  }: {
+    version: string
+    commit?: string
+    generatedAt?: string
+    publicUrlBase?: string
+  }
 ) {
   const normalizedResults = results.filter((entry) => entry && entry.meta)
   const lines: string[] = []
-  const generatedAt = new Date().toISOString()
+  const resolvedAt = generatedAt || new Date().toISOString()
   const base = normalizePublicUrlBase(publicUrlBase || '')
 
-  appendLlmsHeaderTemplate(lines, base)
+  appendLlmsHeaderTemplate(lines, {
+    base,
+    version,
+    generatedAt: resolvedAt,
+    commit,
+  })
 
   const filtered = normalizedResults.filter((e) => {
     try {
@@ -996,17 +1014,35 @@ export function buildLlmsText(
 
   lines.push('')
   lines.push(`Version: ${version}`)
-  lines.push(`GeneratedAt: ${generatedAt}`)
+  lines.push(`GeneratedAt: ${resolvedAt}`)
 
   return lines.join('\n')
 }
 
-function appendLlmsHeaderTemplate(lines: string[], base: string) {
+function appendLlmsHeaderTemplate(
+  lines: string[],
+  {
+    base,
+    version,
+    generatedAt,
+    commit,
+  }: {
+    base: string
+    version: string
+    generatedAt: string
+    commit?: string
+  }
+) {
   const templatePath = path.join(__dirname, 'templates', 'llm-header.md')
+  const commitSuffix = commit ? `, from commit ${commit}` : ''
 
   try {
     const raw = fs.readFileSync(templatePath, 'utf-8')
-    const content = raw.replace(/{{BASE}}/g, base)
+    const content = raw
+      .replace(/{{BASE}}/g, base)
+      .replace(/{{VERSION}}/g, version)
+      .replace(/{{GENERATED_AT}}/g, generatedAt)
+      .replace(/{{COMMIT_SUFFIX}}/g, commitSuffix)
     const trimmed = content.trimEnd()
 
     if (trimmed) {

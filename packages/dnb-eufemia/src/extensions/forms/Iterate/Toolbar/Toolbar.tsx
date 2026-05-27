@@ -1,6 +1,6 @@
 import { Children, useContext, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Hr } from '../../../../elements'
 import { Flex, FormStatus, Space } from '../../../../components'
 import type { SpaceAllProps } from '../../../../components/Space'

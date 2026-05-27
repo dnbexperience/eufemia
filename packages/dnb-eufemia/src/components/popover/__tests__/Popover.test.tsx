@@ -2,7 +2,7 @@ import { act } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Dialog } from '../../'
 import Button from '../../button/Button'
 import Popover from '../Popover'
@@ -144,7 +144,7 @@ describe('Popover', () => {
     }
 
     const originalGetComputedStyle = window.getComputedStyle
-    window.getComputedStyle = jest.fn().mockReturnValue({
+    window.getComputedStyle = vi.fn().mockReturnValue({
       marginLeft: '0px',
       marginRight: '0px',
       marginTop: '0px',
@@ -167,7 +167,7 @@ describe('Popover', () => {
 
     const originalGetBoundingClientRect =
       HTMLElement.prototype.getBoundingClientRect
-    const mockGetBoundingClientRect = jest
+    const mockGetBoundingClientRect = vi
       .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
       .mockImplementation(function (this: HTMLElement) {
         if (
@@ -301,7 +301,7 @@ describe('Popover', () => {
     )
 
   it('passes updated targetRefreshKey to PopoverContainer', () => {
-    const spy = jest.spyOn(PopoverContainerModule, 'default')
+    const spy = vi.spyOn(PopoverContainerModule, 'default')
     const target = createTargetElement()
 
     const { rerender } = render(
@@ -508,7 +508,7 @@ describe('Popover', () => {
   })
 
   it('calls onFocusComplete after focus sequence finishes', async () => {
-    const onFocusComplete = jest.fn()
+    const onFocusComplete = vi.fn()
 
     render(
       <Popover
@@ -539,7 +539,7 @@ describe('Popover', () => {
 
     let focusTime: number | null = null
     const originalFocus = HTMLElement.prototype.focus
-    const focusSpy = jest
+    const focusSpy = vi
       .spyOn(HTMLElement.prototype, 'focus')
       .mockImplementation(function (this: HTMLElement) {
         if (
@@ -576,7 +576,7 @@ describe('Popover', () => {
   })
 
   it('calls onOpenChange when state toggles', async () => {
-    const onOpenChange = jest.fn()
+    const onOpenChange = vi.fn()
     renderWithTrigger({ onOpenChange })
 
     const trigger = document.querySelector('button[aria-controls]')
@@ -1427,8 +1427,9 @@ describe('Popover', () => {
     expect(popoverElement).toHaveClass('dnb-popover--no-inner-space')
   })
 
+  // Deprecated: triggerAttributes – remove this test in v12
   it('merges triggerAttributes with defaults and triggerClassName', async () => {
-    const triggerOnClick = jest.fn()
+    const triggerOnClick = vi.fn()
     renderWithTrigger({
       triggerAttributes: {
         className: 'attr-trigger',
@@ -1450,6 +1451,48 @@ describe('Popover', () => {
     expect(trigger).toHaveAttribute('title', 'Custom trigger')
     expect(trigger).toHaveAttribute('data-trigger', 'trigger-attr')
     expect(triggerOnClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('merges triggerProps with defaults and triggerClassName', async () => {
+    const triggerOnClick = vi.fn()
+    renderWithTrigger({
+      triggerProps: {
+        className: 'attr-trigger',
+        title: 'Custom trigger',
+        'data-trigger': 'trigger-attr',
+        onClick: triggerOnClick,
+      },
+      triggerClassName: 'custom-trigger',
+    })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    await userEvent.click(trigger)
+
+    expect(trigger).toHaveClass('custom-trigger')
+    expect(trigger).toHaveClass('attr-trigger')
+    expect(trigger).toHaveAttribute('title', 'Custom trigger')
+    expect(trigger).toHaveAttribute('data-trigger', 'trigger-attr')
+    expect(triggerOnClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('triggerProps takes precedence over triggerAttributes', async () => {
+    renderWithTrigger({
+      triggerProps: {
+        title: 'New title',
+      },
+      triggerAttributes: {
+        title: 'Old title',
+      },
+    })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+
+    expect(trigger).toHaveAttribute('title', 'New title')
   })
 
   it('applies contentClassName and exposes a contentRef', async () => {
@@ -1586,7 +1629,7 @@ describe('Popover', () => {
     )) as HTMLButtonElement
 
     await userEvent.click(trigger)
-    const focusSpy = jest.spyOn(trigger, 'focus')
+    const focusSpy = vi.spyOn(trigger, 'focus')
 
     const popover = (await waitFor(() =>
       document.querySelector('.dnb-popover')
@@ -1622,7 +1665,7 @@ describe('Popover', () => {
     // Spy on the content element's focus method
     // Note: focus is called immediately and again after 10ms, so we spy after opening
     // to catch at least the second call
-    const focusSpy = jest.spyOn(content, 'focus')
+    const focusSpy = vi.spyOn(content, 'focus')
 
     // Wait for the second focus call (after 10ms delay)
     await waitFor(
@@ -1642,7 +1685,7 @@ describe('Popover', () => {
       document.querySelector('button[aria-controls]')
     )) as HTMLButtonElement
 
-    const focusSpy = jest.spyOn(trigger, 'focus')
+    const focusSpy = vi.spyOn(trigger, 'focus')
 
     await userEvent.click(trigger)
 
@@ -2268,7 +2311,7 @@ describe('Popover', () => {
       setElementSize(220, 120)
 
       const originalGetComputedStyle = window.getComputedStyle
-      jest.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
+      vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
         const style = originalGetComputedStyle(el)
         if (
           el instanceof HTMLElement &&
@@ -2301,7 +2344,7 @@ describe('Popover', () => {
         expect(arrow?.style.left).toBe('16px')
       })
 
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
       if (windowWidthDescriptor) {
         Object.defineProperty(window, 'innerWidth', windowWidthDescriptor)
       }
@@ -2338,7 +2381,7 @@ describe('Popover', () => {
       setElementSize(220, 40)
 
       const originalGetComputedStyle = window.getComputedStyle
-      jest.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
+      vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => {
         const style = originalGetComputedStyle(el)
         if (
           el instanceof HTMLElement &&
@@ -2377,7 +2420,7 @@ describe('Popover', () => {
         expect(arrow?.style.left).toBe('20px')
       })
 
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
       if (windowWidthDescriptor) {
         Object.defineProperty(window, 'innerWidth', windowWidthDescriptor)
       }
@@ -3041,6 +3084,75 @@ describe('Popover', () => {
           windowHeightDescriptor
         )
       }
+      targetElement.remove()
+    })
+
+    it('repositions when children content changes', async () => {
+      const targetElement = document.createElement('div')
+      document.body.appendChild(targetElement)
+
+      Object.defineProperty(targetElement, 'offsetWidth', {
+        configurable: true,
+        value: 100,
+      })
+      Object.defineProperty(targetElement, 'offsetHeight', {
+        configurable: true,
+        value: 40,
+      })
+
+      const rect = createRect({
+        left: 60,
+        top: 80,
+        width: 100,
+        height: 40,
+      })
+      assignRect(targetElement, rect)
+
+      setElementSize(120, 40)
+
+      const { rerender } = render(
+        <Popover
+          open
+          noAnimation
+          placement="top"
+          targetElement={targetElement}
+        >
+          Short
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector(
+          '.dnb-popover'
+        ) as HTMLElement
+        expect(popover?.style.left).toBeTruthy()
+      })
+
+      const initialLeft = (
+        document.querySelector('.dnb-popover') as HTMLElement
+      )?.style.left
+
+      // Simulate wider content by changing offsetWidth
+      setElementSize(240, 40)
+
+      rerender(
+        <Popover
+          open
+          noAnimation
+          placement="top"
+          targetElement={targetElement}
+        >
+          Much longer content that is wider
+        </Popover>
+      )
+
+      await waitFor(() => {
+        const popover = document.querySelector(
+          '.dnb-popover'
+        ) as HTMLElement
+        expect(popover?.style.left).not.toBe(initialLeft)
+      })
+
       targetElement.remove()
     })
 
@@ -3713,10 +3825,10 @@ describe('Popover', () => {
           value: 150,
         })
 
-        const offsetLeftSpy = jest
+        const offsetLeftSpy = vi
           .spyOn(sharedHelpers, 'getOffsetLeft')
           .mockReturnValue(0)
-        const offsetTopSpy = jest
+        const offsetTopSpy = vi
           .spyOn(sharedHelpers, 'getOffsetTop')
           .mockReturnValue(0)
 
@@ -3752,10 +3864,10 @@ describe('Popover', () => {
   })
 
   describe('trigger prop warnings', () => {
-    let warnSpy: jest.SpyInstance
+    let warnSpy: import('vitest').MockInstance
 
     beforeEach(() => {
-      warnSpy = jest.spyOn(sharedHelpers, 'warn')
+      warnSpy = vi.spyOn(sharedHelpers, 'warn')
     })
 
     afterEach(() => {
@@ -3763,7 +3875,7 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is truthy but not a valid React element or render function', () => {
-      const consoleLogSpy = jest
+      const consoleLogSpy = vi
         .spyOn(console, 'log')
         .mockImplementation(() => {})
 
@@ -3782,7 +3894,7 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is an object but not a valid React element', () => {
-      const consoleLogSpy = jest
+      const consoleLogSpy = vi
         .spyOn(console, 'log')
         .mockImplementation(() => {})
 
@@ -3804,7 +3916,7 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is a number', () => {
-      const consoleLogSpy = jest
+      const consoleLogSpy = vi
         .spyOn(console, 'log')
         .mockImplementation(() => {})
 
@@ -3826,7 +3938,7 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is undefined and no targetElement/targetSelector is provided', () => {
-      const consoleLogSpy = jest
+      const consoleLogSpy = vi
         .spyOn(console, 'log')
         .mockImplementation(() => {})
 
@@ -3841,7 +3953,7 @@ describe('Popover', () => {
     })
 
     it('should warn when trigger is null and no targetElement/targetSelector is provided', () => {
-      const consoleLogSpy = jest
+      const consoleLogSpy = vi
         .spyOn(console, 'log')
         .mockImplementation(() => {})
 

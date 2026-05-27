@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useTranslation } from '../../../hooks'
 import ToolbarContext from './ToolbarContext'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'

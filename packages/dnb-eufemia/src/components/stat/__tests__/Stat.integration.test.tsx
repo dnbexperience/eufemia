@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react'
 import {
   axeComponent,
   spyOnEufemiaWarn,
-} from '../../../core/jest/jestSetup'
+} from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
 
@@ -399,7 +399,7 @@ describe('Stat integration', () => {
   })
 
   it('forwards event handlers to Currency', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
     const props = { value: 1234, onClick }
 
     render(
@@ -420,7 +420,7 @@ describe('Stat integration', () => {
   })
 
   it('forwards event handlers to Trend', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
     const props = { onClick, children: '+5%' }
 
     render(

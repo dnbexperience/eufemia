@@ -6,7 +6,7 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
 import type { RefObject, SyntheticEvent } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   disableBodyScroll,
   enableBodyScroll,
@@ -52,7 +52,8 @@ export default function ModalContent(props: ModalContentProps) {
     closeTitle = 'Lukk',
     dialogTitle = 'Vindu',
     hideCloseButton = false,
-    closeButtonAttributes,
+    closeButtonProps: closeButtonPropsProp,
+    closeButtonAttributes: closeButtonAttributesProp,
     noAnimation = false,
     noAnimationOnMobile = false,
     fullscreen = 'auto',
@@ -74,6 +75,9 @@ export default function ModalContent(props: ModalContentProps) {
     bypassInvalidationSelectors,
     ...rest
   } = props
+
+  const closeButtonAttributes =
+    closeButtonPropsProp || closeButtonAttributesProp
 
   const context = useContext(Context)
 

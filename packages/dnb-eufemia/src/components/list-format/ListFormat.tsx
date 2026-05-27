@@ -7,7 +7,7 @@ import SharedContext from '../../shared/Context'
 import { Li, Ol, Ul } from '../../elements'
 import type { UlAllProps } from '../../elements/Ul'
 import type { OlAllProps } from '../../elements/Ol'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListFormatProps = {

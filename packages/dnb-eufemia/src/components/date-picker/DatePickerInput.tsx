@@ -19,12 +19,13 @@ import type {
 // date-fns
 import { isValid as isValidFn, parseISO } from 'date-fns'
 
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import SegmentedField, {
   type SegmentedFieldItem as MInputs,
   type SegmentedFieldValue as MValues,
 } from '../input-masked/segmented-field/SegmentedField'
 import Button from '../button/Button'
+import type { ButtonProps } from '../Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
 import { warn, validateDOMAttributes } from '../../shared/component-helper'
@@ -59,7 +60,7 @@ export type DatePickerInputProps = Omit<
     maskOrder?: DatePickerProps['maskOrder']
     maskPlaceholder?: DatePickerProps['maskPlaceholder']
     separatorRegExp?: RegExp
-    submitAttributes?: Record<string, unknown>
+    submitProps?: Record<string, unknown>
     isRange?: boolean
     /**
      * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`.
@@ -94,6 +95,12 @@ export type DatePickerInputProps = Omit<
     onBlur?: (
       event: DatePickerReturnObject<FocusEvent<HTMLInputElement>>
     ) => void
+    triggerProps?: Partial<
+      Pick<
+        ButtonProps,
+        'variant' | 'text' | 'icon' | 'iconPosition' | 'size'
+      >
+    >
     /** @internal */
     _omitInputShellClass?: boolean
   }
@@ -124,7 +131,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     separatorRegExp,
     id,
     title,
-    submitAttributes,
+    submitProps,
     maskPlaceholder,
     onFocus,
     onBlur,
@@ -141,6 +148,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     status,
     statusState,
     statusProps,
+    triggerProps,
     _omitInputShellClass,
 
     ...attributes
@@ -879,7 +887,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   )
 
   validateDOMAttributes(props, attributes)
-  validateDOMAttributes(null, submitAttributes)
+  validateDOMAttributes(null, submitProps)
 
   const SubmitElement: ElementType = useMemo(
     () => (showInput ? SubmitButton : Button),
@@ -922,8 +930,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             variant="secondary"
             onSubmit={onSubmit}
             onClick={onSubmit}
-            {...submitAttributes}
+            {...submitProps}
             {...statusProps}
+            {...triggerProps}
           />
         }
         lang={lang}

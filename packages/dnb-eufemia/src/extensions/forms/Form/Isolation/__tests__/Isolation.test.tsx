@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import type { RefObject } from 'react'
-import { spyOnEufemiaWarn } from '../../../../../core/jest/jestSetup'
+import { spyOnEufemiaWarn } from '../../../../../core/test-utils/testSetup'
 import {
   act,
   createEvent,
@@ -177,7 +177,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should set data with given path', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler
@@ -260,7 +260,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should not overwrite existing data when defaultData is given', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler
@@ -469,7 +469,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should not call onChange on root context', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler onChange={onChange}>
@@ -503,7 +503,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should call local onChange', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler>
@@ -537,7 +537,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should call onChange on data context when local data submit is called', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     const commitHandleRef: RefObject<(() => void) | null> = {
       current: null,
     }
@@ -587,7 +587,7 @@ describe('Form.Isolation', () => {
   })
 
   it('onCommit should only return the isolated data', async () => {
-    const onCommit = jest.fn()
+    const onCommit = vi.fn()
 
     render(
       <Form.Handler
@@ -667,7 +667,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should call onCommit event when commitHandleRef is called', async () => {
-    const onCommit = jest.fn()
+    const onCommit = vi.fn()
     const commitHandleRef: RefObject<(() => void) | null> = {
       current: null,
     }
@@ -723,7 +723,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should support nested paths', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     const commitHandleRef: RefObject<(() => void) | null> = {
       current: null,
     }
@@ -843,9 +843,9 @@ describe('Form.Isolation', () => {
     })
 
     it('should call global onChange and local onCommit on data context when Isolate.Button gets clicked', async () => {
-      const onChange = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onChange = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -920,9 +920,9 @@ describe('Form.Isolation', () => {
 
     describe('resetDataAfterCommit', () => {
       it('should reset data context after commit using submit button when "resetDataAfterCommit" is true', async () => {
-        const onChange = jest.fn()
-        const onSubmit = jest.fn()
-        const onCommit = jest.fn()
+        const onChange = vi.fn()
+        const onSubmit = vi.fn()
+        const onCommit = vi.fn()
 
         render(
           <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -1033,9 +1033,9 @@ describe('Form.Isolation', () => {
       })
 
       it('should reset data context after commit using enter key when "resetDataAfterCommit" is true', async () => {
-        const onChange = jest.fn()
-        const onSubmit = jest.fn()
-        const onCommit = jest.fn()
+        const onChange = vi.fn()
+        const onSubmit = vi.fn()
+        const onCommit = vi.fn()
 
         render(
           <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -1099,7 +1099,7 @@ describe('Form.Isolation', () => {
       })
 
       it('should use "defaultValue" to reset the isolated context after commit', async () => {
-        const onCommit = jest.fn()
+        const onCommit = vi.fn()
 
         render(
           <Form.Handler>
@@ -1141,7 +1141,7 @@ describe('Form.Isolation', () => {
       })
 
       it('should use "defaultData" to reset the isolated context after commit', async () => {
-        const onCommit = jest.fn()
+        const onCommit = vi.fn()
 
         render(
           <Form.Handler>
@@ -1186,7 +1186,7 @@ describe('Form.Isolation', () => {
       })
 
       it('should not reset when validation of field fails', async () => {
-        const onCommit = jest.fn()
+        const onCommit = vi.fn()
 
         render(
           <Form.Handler>
@@ -1226,7 +1226,7 @@ describe('Form.Isolation', () => {
       })
 
       it('should use a refreshed (by calling "refresh") snapshot after commit', async () => {
-        const onCommit = jest.fn()
+        const onCommit = vi.fn()
 
         const dataReference = Form.Isolation.createDataReference()
 
@@ -1288,9 +1288,9 @@ describe('Form.Isolation', () => {
     })
 
     it('should commit data on SubmitButton click without committing the form', async () => {
-      const onChange = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onChange = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       render(
         <Form.Handler onChange={onChange} onSubmit={onSubmit}>
@@ -1367,7 +1367,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should prevent onSubmit call on root context', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -1448,7 +1448,7 @@ describe('Form.Isolation', () => {
       const enterKey = createEvent.keyDown(isolatedString, {
         key: 'Enter',
       })
-      enterKey.preventDefault = jest.fn()
+      enterKey.preventDefault = vi.fn()
       fireEvent(isolatedString, enterKey)
       expect(enterKey.preventDefault).toHaveBeenCalledTimes(1)
     }
@@ -1457,7 +1457,7 @@ describe('Form.Isolation', () => {
       const enterKey = createEvent.keyDown(isolatedNumber, {
         key: 'Enter',
       })
-      enterKey.preventDefault = jest.fn()
+      enterKey.preventDefault = vi.fn()
       fireEvent(isolatedNumber, enterKey)
       expect(enterKey.preventDefault).toHaveBeenCalledTimes(1)
     }
@@ -1466,15 +1466,15 @@ describe('Form.Isolation', () => {
       const enterKey = createEvent.keyDown(regular, {
         key: 'Enter',
       })
-      enterKey.preventDefault = jest.fn()
+      enterKey.preventDefault = vi.fn()
       fireEvent(regular, enterKey)
       expect(enterKey.preventDefault).toHaveBeenCalledTimes(0)
     }
   })
 
   it('should call onCommit when submit is called', () => {
-    const onSubmit = jest.fn()
-    const onCommit = jest.fn()
+    const onSubmit = vi.fn()
+    const onCommit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -1533,10 +1533,10 @@ describe('Form.Isolation', () => {
   })
 
   it('should support async onCommit', async () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
-    const onSubmit = jest.fn()
-    const onCommit = jest.fn(async () => {
+    const onSubmit = vi.fn()
+    const onCommit = vi.fn(async () => {
       await new Promise((resolve) => setTimeout(resolve, 100))
     })
 
@@ -1567,18 +1567,18 @@ describe('Form.Isolation', () => {
     expect(regular).toHaveValue('')
 
     await act(async () => {
-      jest.advanceTimersByTime(100)
+      vi.advanceTimersByTime(100)
     })
 
     expect(regular).toHaveValue('isolated')
     expect(isolated).toHaveValue('isolated')
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('should prevent commit on "preventCommit" call', async () => {
-    const onSubmit = jest.fn()
-    const onCommit = jest.fn(({ myValue }, { preventCommit }) => {
+    const onSubmit = vi.fn()
+    const onCommit = vi.fn(({ myValue }, { preventCommit }) => {
       if (myValue === 'prevent-commit') {
         preventCommit()
       }
@@ -1618,8 +1618,8 @@ describe('Form.Isolation', () => {
   })
 
   it('should not call onCommit when error is present', async () => {
-    const onSubmit = jest.fn()
-    const onCommit = jest.fn()
+    const onSubmit = vi.fn()
+    const onCommit = vi.fn()
 
     render(
       <Form.Handler onSubmit={onSubmit}>
@@ -1739,7 +1739,7 @@ describe('Form.Isolation', () => {
   })
 
   it('should support "transformOnCommit"', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler
@@ -1794,9 +1794,9 @@ describe('Form.Isolation', () => {
   })
 
   it('should render inside section with correct paths', async () => {
-    const onChange = jest.fn()
-    const onCommit = jest.fn()
-    const onPathChange = jest.fn()
+    const onChange = vi.fn()
+    const onCommit = vi.fn()
+    const onPathChange = vi.fn()
 
     render(
       <Form.Handler
@@ -1906,8 +1906,8 @@ describe('Form.Isolation', () => {
   })
 
   it('should commit unchanged data when inside a section', async () => {
-    const onChange = jest.fn()
-    const onCommit = jest.fn()
+    const onChange = vi.fn()
+    const onCommit = vi.fn()
 
     render(
       <Form.Handler
@@ -1970,7 +1970,7 @@ describe('Form.Isolation', () => {
   })
 
   it('clears the form data when "clearData" is called inside the "onCommit" event', async () => {
-    const onCommit = jest.fn((data, { clearData }) => {
+    const onCommit = vi.fn((data, { clearData }) => {
       clearData()
     })
 
@@ -2285,9 +2285,9 @@ describe('Form.Isolation', () => {
 
   describe('preventUncommittedChanges', () => {
     it('should prevent the form from submitting as long as there is uncommitted data', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       render(
         <Form.Handler
@@ -2383,7 +2383,7 @@ describe('Form.Isolation', () => {
 
     describe('with emptyValue prop', () => {
       it('should submit when "emptyValue" is given', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -2421,7 +2421,7 @@ describe('Form.Isolation', () => {
       })
 
       it('should reset to emptyValue when reset button is clicked', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -2495,7 +2495,7 @@ describe('Form.Isolation', () => {
 
     describe('with defaultValue prop', () => {
       it('should submit when "defaultValue" is given', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -2534,7 +2534,7 @@ describe('Form.Isolation', () => {
       })
 
       it('should reset to defaultValue when reset button is clicked', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -2608,7 +2608,7 @@ describe('Form.Isolation', () => {
 
     describe('with defaultData prop', () => {
       it('should submit when "defaultData" is given', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -2651,7 +2651,7 @@ describe('Form.Isolation', () => {
       })
 
       it('should reset to defaultData when reset button is clicked', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -2729,7 +2729,7 @@ describe('Form.Isolation', () => {
 
     describe('with data prop', () => {
       it('should submit when "data" is given', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -2772,7 +2772,7 @@ describe('Form.Isolation', () => {
       })
 
       it('should reset to data when reset button is clicked', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -2852,10 +2852,10 @@ describe('Form.Isolation', () => {
     })
 
     it('should prevent Wizard step change as long as there is uncommitted data', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
-      const onStepChange = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
+      const onStepChange = vi.fn()
 
       render(
         <Form.Handler
@@ -3038,9 +3038,9 @@ describe('Form.Isolation', () => {
     })
 
     it('should submit form when uncommitted data was cleared (with confirmation)', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       render(
         <Form.Handler
@@ -3097,8 +3097,8 @@ describe('Form.Isolation', () => {
     })
 
     it('should support a custom "dataReference"', async () => {
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       const dataReference = Form.Isolation.createDataReference()
 
@@ -3163,9 +3163,9 @@ describe('Form.Isolation', () => {
 
   describe('bubbleValidation', () => {
     it('should prevent the form from submitting as long as there are errors', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       render(
         <Form.Handler

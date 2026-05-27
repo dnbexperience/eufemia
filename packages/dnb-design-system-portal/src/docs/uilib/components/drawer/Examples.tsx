@@ -17,10 +17,7 @@ import {
 
 export const SimpleDrawerExample = () => (
   <ComponentBox data-visual-test="simple-drawer">
-    <Drawer
-      title="Drawer title"
-      triggerAttributes={{ text: 'Open drawer' }}
-    >
+    <Drawer title="Drawer title" triggerProps={{ text: 'Open drawer' }}>
       <P top>Some informational content</P>
       <P top>
         Elementum eu suspendisse sit platea elit porttitor magna laoreet ad
@@ -150,7 +147,7 @@ export const FullscreenDrawerExample = () => (
     <Drawer
       fullscreen
       title="Drawer title"
-      triggerAttributes={{ text: 'Open drawer' }}
+      triggerProps={{ text: 'Open drawer' }}
     >
       <P top>Some informational content</P>
       <P top>
@@ -232,7 +229,7 @@ export const DrawerCustomTriggerExample = () => (
   <ComponentBox data-visual-test="drawer-custom-trigger">
     <Drawer
       title="Drawer with custom trigger"
-      triggerAttributes={{
+      triggerProps={{
         text: 'Custom trigger',
         variant: 'primary',
         size: 'large',
@@ -251,7 +248,7 @@ export const DrawerCallbackExample = () => (
   <ComponentBox data-visual-test="callback-drawer">
     <Drawer
       title="Drawer title"
-      triggerAttributes={{ text: 'Open drawer' }}
+      triggerProps={{ text: 'Open drawer' }}
       hideCloseButton
     >
       {/* @ts-expect-error -- strictFunctionTypes */}

@@ -3,7 +3,7 @@
  *
  */
 
-import '../../core/jest/jestSetup'
+import '../../core/test-utils/testSetup'
 import { isTouchDevice } from '../dnb-ui-basis'
 
 describe('ESM basis package', () => {

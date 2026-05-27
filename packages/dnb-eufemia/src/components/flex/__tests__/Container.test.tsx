@@ -1,8 +1,8 @@
 import { act, useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/jest/jestSetup'
-import 'mock-match-media/jest-setup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
+import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
 import { useSpacing } from '../../space/SpacingUtils'
@@ -67,18 +67,10 @@ describe('Flex.Container', () => {
 
     const element = document.querySelector('.dnb-flex-container')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-flex-container',
-      'dnb-flex-container--row-gap-small',
-      'custom-class',
-      'dnb-flex-container--direction-horizontal',
-      'dnb-flex-container--justify-flex-start',
-      'dnb-flex-container--align-flex-start',
-      'dnb-flex-container--spacing-small',
-      'dnb-flex-container--wrap',
-      'dnb-flex-container--divider-space',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-flex-container dnb-flex-container--row-gap-small custom-class dnb-flex-container--direction-horizontal dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      { exact: true }
+    )
   })
 
   it('should render children', () => {
@@ -127,6 +119,10 @@ describe('Flex.Container', () => {
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
       </Flex.Container>
+    )
+
+    expect(document.querySelector('.dnb-flex-container')).toHaveClass(
+      'dnb-flex-container--align-center'
     )
   })
 
@@ -287,7 +283,7 @@ describe('Flex.Container', () => {
           Flex
         </div>
         <hr
-          class="dnb-flex-container__hr dnb-hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero"
+          class="dnb-hr dnb-flex-container__hr dnb-space__top--small dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero"
         />
         <div
           class="dnb-space dnb-space__top--small dnb-space__bottom--zero dnb-flex-item"
@@ -998,7 +994,7 @@ describe('Flex.Container', () => {
 
   describe('size', () => {
     beforeEach(() => {
-      jest.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
+      vi.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
     })
 
     const matchMediaOriginal = window.matchMedia

@@ -83,7 +83,7 @@ describe('useCountries', () => {
   })
 
   it('should warn about missing translations', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     // Remove some countries from the translations to simulate missing translations
     const partialTranslations = { ...svSE_forms_countries['sv-SE'] }
@@ -115,7 +115,7 @@ describe('useCountries', () => {
   })
 
   it('should fall back using the default translations when a translations is missing', () => {
-    const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     // Remove some countries from the translations to simulate missing translations
     const partialTranslations = { ...svSE_forms_countries['sv-SE'] }

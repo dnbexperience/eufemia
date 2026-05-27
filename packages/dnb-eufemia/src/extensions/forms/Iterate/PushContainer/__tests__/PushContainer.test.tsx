@@ -1,5 +1,5 @@
 import { useContext, useLayoutEffect } from 'react'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { wait } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
@@ -20,7 +20,7 @@ const nb = nbNO['nb-NO']
 
 describe('PushContainer', () => {
   it('should add a new entry to the array', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler onChange={onChange}>
@@ -494,9 +494,9 @@ describe('PushContainer', () => {
 
   describe('preventUncommittedChanges', () => {
     it('should prevent the form from submitting as long as there is uncommitted data', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       render(
         <Form.Handler
@@ -541,9 +541,9 @@ describe('PushContainer', () => {
     })
 
     it('should open the EditContainer when uncommitted changes are detected', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       const dataReference = Form.Isolation.createDataReference()
 
@@ -671,7 +671,7 @@ describe('PushContainer', () => {
 
     describe('with emptyValue prop', () => {
       it('should submit when "emptyValue" is given', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -714,7 +714,7 @@ describe('PushContainer', () => {
       })
 
       it('should reset to emptyValue when reset button is clicked', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -789,7 +789,7 @@ describe('PushContainer', () => {
 
     describe('with defaultValue prop', () => {
       it('should submit when "defaultValue" is given', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -832,7 +832,7 @@ describe('PushContainer', () => {
       })
 
       it('should reset to defaultValue when reset button is clicked', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -907,7 +907,7 @@ describe('PushContainer', () => {
 
     describe('with defaultData prop', () => {
       it('should submit when "defaultData" is given', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -948,7 +948,7 @@ describe('PushContainer', () => {
       })
 
       it('should reset to defaultData when reset button is clicked', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -1021,7 +1021,7 @@ describe('PushContainer', () => {
 
     describe('with data prop', () => {
       it('should submit when "data" is given', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -1062,7 +1062,7 @@ describe('PushContainer', () => {
       })
 
       it('should reset to data when reset button is clicked', async () => {
-        const onSubmit = jest.fn()
+        const onSubmit = vi.fn()
 
         render(
           <Form.Handler onSubmit={onSubmit}>
@@ -1134,10 +1134,10 @@ describe('PushContainer', () => {
     })
 
     it('should prevent Wizard step change as long as there is uncommitted data', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
-      const onStepChange = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
+      const onStepChange = vi.fn()
 
       render(
         <Form.Handler
@@ -1262,9 +1262,9 @@ describe('PushContainer', () => {
     })
 
     it('should submit form when uncommitted data was cleared (with confirmation)', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       render(
         <Form.Handler
@@ -1412,7 +1412,7 @@ describe('PushContainer', () => {
       })
 
       it('should open the EditContainer when PushContainer is required', async () => {
-        global.console.error = jest.fn()
+        global.console.error = vi.fn()
         const previousButton = () => {
           return document.querySelector('.dnb-forms-previous-button')
         }
@@ -1486,7 +1486,7 @@ describe('PushContainer', () => {
       })
 
       it('should not open the EditContainer when a non related error exists in the wizard step', async () => {
-        global.console.error = jest.fn()
+        global.console.error = vi.fn()
         const previousButton = () => {
           return document.querySelector('.dnb-forms-previous-button')
         }
@@ -1573,9 +1573,9 @@ describe('PushContainer', () => {
 
   describe('bubbleValidation', () => {
     it('should prevent the form from submitting as long as there are errors', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       render(
         <Form.Handler
@@ -1629,9 +1629,9 @@ describe('PushContainer', () => {
     })
 
     it('should not report error to context after commit and the container is closed', async () => {
-      const onSubmitRequest = jest.fn()
-      const onSubmit = jest.fn()
-      const onCommit = jest.fn()
+      const onSubmitRequest = vi.fn()
+      const onSubmit = vi.fn()
+      const onCommit = vi.fn()
 
       let hasErrors = false
 
@@ -1933,7 +1933,7 @@ describe('PushContainer', () => {
 
   describe('schema inheritance', () => {
     it('inherits JSON Schema and ajvInstance from Form.Handler', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       const schema: JSONSchema = {
         type: 'object',
         properties: {
@@ -1999,7 +1999,7 @@ describe('PushContainer', () => {
     })
 
     it('inherits Zod schema from Form.Handler', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
       const schema = z.object({
         entries: z.array(z.object({ name: z.string().min(4) })),
       })
@@ -2224,7 +2224,7 @@ describe('PushContainer', () => {
   })
 
   it('should render children with initial data value as a string', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler data={['foo']} onChange={onChange}>
@@ -2486,7 +2486,7 @@ describe('PushContainer', () => {
   })
 
   it('should support array data', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler data={['foo']} onChange={onChange}>
@@ -2523,7 +2523,7 @@ describe('PushContainer', () => {
 
   describe('defaultValue', () => {
     it('should render and set defaultValue in data context', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -2562,7 +2562,7 @@ describe('PushContainer', () => {
     })
 
     it('should support "/" as the path and push the defaultValue', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -2594,7 +2594,7 @@ describe('PushContainer', () => {
     })
 
     it('should render and extend the data context', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler data={['foo']} onChange={onChange}>
@@ -2627,7 +2627,7 @@ describe('PushContainer', () => {
     })
 
     it('should not show error message after clearing', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler onChange={onChange}>
@@ -2725,8 +2725,8 @@ describe('PushContainer', () => {
     })
 
     it('should keep the defaultValue after clearing', async () => {
-      const onChange = jest.fn()
-      const onCommit = jest.fn()
+      const onChange = vi.fn()
+      const onCommit = vi.fn()
 
       let internalContext = null
       const CollectInternalData = () => {
@@ -2790,7 +2790,7 @@ describe('PushContainer', () => {
   })
 
   it('should support initial data as a string', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Form.Handler data={['foo']} onChange={onChange}>
@@ -3080,7 +3080,7 @@ describe('PushContainer', () => {
 
   describe('insertAt', () => {
     it('should add a new entry to the beginning of the array', async () => {
-      const onChange = jest.fn()
+      const onChange = vi.fn()
 
       render(
         <Form.Handler
@@ -3149,7 +3149,7 @@ describe('PushContainer', () => {
 
   describe('when in Form.Section', () => {
     it('should push new entry to the correct array', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -3184,5 +3184,48 @@ describe('PushContainer', () => {
         expect.anything()
       )
     })
+  })
+
+  it('should clear Field.Currency value when opening PushContainer again after committing', async () => {
+    render(
+      <Form.Handler>
+        <Iterate.Array path="/accounts">
+          <Iterate.ViewContainer title="Account {itemNo}">
+            <Value.Currency itemPath="/amount" />
+          </Iterate.ViewContainer>
+        </Iterate.Array>
+
+        <Iterate.PushContainer
+          path="/accounts"
+          title="New account"
+          openButton={
+            <Iterate.PushContainer.OpenButton text="Add another account" />
+          }
+          showOpenButtonWhen={(list) => list.length > 0}
+        >
+          <Field.Currency itemPath="/amount" required />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    // Add the first item
+    await userEvent.type(input, '1000')
+    expect(input).toHaveValue('1 000 kr')
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__done-button')
+    )
+
+    // Open the PushContainer again to add another item
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__open-button')
+    )
+
+    const newInput = document.querySelector('input')
+
+    // The currency field should be cleared
+    expect(newInput).toHaveValue('')
   })
 })

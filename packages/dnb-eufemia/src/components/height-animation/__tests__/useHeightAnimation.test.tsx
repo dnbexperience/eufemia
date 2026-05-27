@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import {
   render,
   fireEvent,
@@ -231,7 +231,7 @@ describe('useHeightAnimation', () => {
   it('should call onAnimationEnd on open', () => {
     globalThis.IS_TEST = undefined
 
-    const onAnimationEnd = jest.fn()
+    const onAnimationEnd = vi.fn()
     const current: HTMLDivElement = document.createElement('div')
     const ref: RefObject<HTMLDivElement> = { current }
 
@@ -253,7 +253,7 @@ describe('useHeightAnimation', () => {
   it('should call onAnimationEnd on close', () => {
     globalThis.IS_TEST = undefined
 
-    const onAnimationEnd = jest.fn()
+    const onAnimationEnd = vi.fn()
     const current: HTMLDivElement = document.createElement('div')
     const ref: RefObject<HTMLDivElement> = { current }
 

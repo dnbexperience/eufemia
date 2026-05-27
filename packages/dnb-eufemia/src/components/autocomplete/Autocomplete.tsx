@@ -26,7 +26,7 @@ import type {
   SyntheticEvent,
 } from 'react'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type {
   DrawerListProps,
   DrawerListData,

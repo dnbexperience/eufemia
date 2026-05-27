@@ -3,6 +3,8 @@
 *
 */
 
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-icon {
   display: inline-block;
 
@@ -125,5 +127,51 @@
       content: none !important;
     }
     color: var(--skeleton-color) !important;
+  }
+
+  // Icon.transition() — animate between SVG path states via CSS d property.
+  // non-scaling-stroke keeps stroke width constant when a 16×16 icon is
+  // displayed at a larger size (e.g. medium/24px wrapper).
+  &[style*='--icon-transition'] svg path {
+    d: var(--icon-transition, var(--icon-transition-default));
+    vector-effect: non-scaling-stroke;
+    transition: d 400ms var(--easing-default);
+
+    @include utilities.reducedMotion() {
+      transition-duration: 0.01ms;
+    }
+  }
+
+  // Icon.transition() fallback — crossfade stacked SVGs with transform
+  // when CSS d interpolation is not supported or paths are incompatible.
+  &--transition-fallback {
+    position: relative;
+
+    svg[data-icon-state] {
+      transition:
+        opacity 500ms var(--easing-default) 80ms,
+        transform 600ms var(--easing-default);
+
+      &:not(:first-of-type) {
+        position: absolute;
+        inset: 0;
+      }
+
+      &:not(.dnb-icon__state--active) {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      &.dnb-icon__state--active {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @include utilities.reducedMotion() {
+      svg[data-icon-state] {
+        transition-duration: 0.01ms;
+      }
+    }
   }
 }

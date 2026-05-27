@@ -8,7 +8,7 @@ import {
 } from 'react'
 import type { ReactNode } from 'react'
 import * as z from 'zod'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { AriaLive, Popover } from '../../../../components'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
@@ -288,6 +288,17 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     () => flattenItems(dataList),
     [dataList, flattenItems]
   )
+
+  // Sync field internals during render so Value.MultiSelection can resolve
+  // titles before any user interaction has occurred.
+  if (path && allFlatItems.length > 0 && value) {
+    const selectedItems = allFlatItems.filter((item) =>
+      value.includes(item.value)
+    )
+    setFieldInternals?.(path + '/multiSelectionData', {
+      props: selectedItems,
+    })
+  }
 
   // Filter items based on search (includes nested items)
   const filteredItems = useMemo(() => {

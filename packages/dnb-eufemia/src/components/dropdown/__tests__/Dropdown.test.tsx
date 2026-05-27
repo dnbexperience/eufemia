@@ -12,7 +12,11 @@ import {
   useState,
 } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { DropdownAllProps } from '../Dropdown'
@@ -236,7 +240,7 @@ describe('Dropdown component', () => {
   })
 
   it('will stay open when keepOpen and a selection is made', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(
       <Dropdown
         skipPortal
@@ -274,8 +278,8 @@ describe('Dropdown component', () => {
   })
 
   it('will stay open when preventClose is given, regardless', async () => {
-    const onChange = jest.fn()
-    const onClose = jest.fn()
+    const onChange = vi.fn()
+    const onClose = vi.fn()
     render(
       <Dropdown
         preventClose={true}
@@ -315,7 +319,7 @@ describe('Dropdown component', () => {
   })
 
   it('has valid onSelect callback', () => {
-    const onSelect = jest.fn()
+    const onSelect = vi.fn()
 
     render(<Dropdown {...props} data={mockData} onSelect={onSelect} />)
 
@@ -406,7 +410,7 @@ describe('Dropdown component', () => {
   })
 
   it('has no selected items on using preventSelection', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     const title = 'custom title'
 
     const { rerender } = render(
@@ -560,7 +564,7 @@ describe('Dropdown component', () => {
       { selectedKey: 'id-456', content: '456 value' },
     ]
 
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     const { rerender } = render(
       <Dropdown noAnimation data={mockData} onChange={onChange} />
@@ -640,8 +644,8 @@ describe('Dropdown component', () => {
 
   it('has valid onChange callback', () => {
     let selectedItem
-    const onChange = jest.fn()
-    const onSelect = jest.fn()
+    const onChange = vi.fn()
+    const onSelect = vi.fn()
 
     render(
       <Dropdown
@@ -691,7 +695,7 @@ describe('Dropdown component', () => {
   })
 
   it('has valid onChange callback if object was given', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Dropdown
@@ -853,8 +857,8 @@ describe('Dropdown component', () => {
   })
 
   it('has to return all additional attributes the event return', () => {
-    const onOpen = jest.fn()
-    const onClose = jest.fn()
+    const onOpen = vi.fn()
+    const onClose = vi.fn()
     const params = { 'data-attr': 'value' }
     render(
       <Dropdown
@@ -893,10 +897,10 @@ describe('Dropdown component', () => {
   })
 
   it('has to set correct focus during open and close', async () => {
-    const onOpen = jest.fn()
-    const onClose = jest.fn()
-    const onOpenFocus = jest.fn()
-    const onCloseFocus = jest.fn()
+    const onOpen = vi.fn()
+    const onClose = vi.fn()
+    const onOpenFocus = vi.fn()
+    const onCloseFocus = vi.fn()
 
     render(
       <Dropdown
@@ -945,7 +949,7 @@ describe('Dropdown component', () => {
 
   it('will prevent close if false gets returned from onClose event', () => {
     let preventClose = false
-    const onClose = jest.fn(() => !preventClose)
+    const onClose = vi.fn(() => !preventClose)
     render(<Dropdown noAnimation onClose={onClose} data={mockData} />)
 
     // first open
@@ -1506,7 +1510,7 @@ describe('Dropdown component', () => {
   })
 
   it('gets valid buttonRef element when ref is function', () => {
-    const refFn = jest.fn()
+    const refFn = vi.fn()
 
     render(<Dropdown {...props} buttonRef={refFn} />)
 
@@ -1534,7 +1538,7 @@ describe('Dropdown component', () => {
   })
 
   it('gets valid ref element when ref is function', () => {
-    const refFn = jest.fn()
+    const refFn = vi.fn()
 
     render(<Dropdown {...props} ref={refFn} />)
 
@@ -1559,12 +1563,16 @@ describe('Dropdown component', () => {
       }).dispatchEvent(new this.Event('resize'))
 
       // new setDirectionObserver implementation
-      jest
-        .spyOn(document.documentElement, 'clientWidth', 'get')
-        .mockImplementation(() => width)
-      jest
-        .spyOn(document.documentElement, 'clientHeight', 'get')
-        .mockImplementation(() => height)
+      vi.spyOn(
+        document.documentElement,
+        'clientWidth',
+        'get'
+      ).mockImplementation(() => width)
+      vi.spyOn(
+        document.documentElement,
+        'clientHeight',
+        'get'
+      ).mockImplementation(() => height)
     }
 
     window.scrollTo = function resizeTo({ top = window.scrollY }) {
@@ -1573,9 +1581,11 @@ describe('Dropdown component', () => {
       }).dispatchEvent(new this.Event('scroll'))
 
       // new setDirectionObserver implementation
-      jest
-        .spyOn(document.documentElement, 'scrollTop', 'get')
-        .mockImplementation(() => top)
+      vi.spyOn(
+        document.documentElement,
+        'scrollTop',
+        'get'
+      ).mockImplementation(() => top)
     }
 
     // make sure we get the correct document.documentElement.clientHeight on startup
@@ -1589,6 +1599,9 @@ describe('Dropdown component', () => {
     // open first
     open()
 
+    expect(
+      document.querySelector('.dnb-drawer-list--bottom')
+    ).toBeInTheDocument()
     await testDirectionObserver()
   })
 
@@ -1689,7 +1702,7 @@ describe('Dropdown component', () => {
 
   describe('groups', () => {
     beforeEach(() => {
-      global.console.log = jest.fn()
+      global.console.log = vi.fn()
     })
 
     const dataProp: DrawerListDataArray = [
@@ -2012,7 +2025,7 @@ describe('Dropdown markup', () => {
 
 describe('Dropdown multiple instances', () => {
   it('should not delay opening a second Dropdown when a first is already open', () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
     const { container } = render(
       <>
@@ -2035,7 +2048,7 @@ describe('Dropdown multiple instances', () => {
 
     // Advance past blurDelay (201ms) so the animation completes
     act(() => {
-      jest.advanceTimersByTime(202)
+      vi.advanceTimersByTime(202)
     })
 
     // Dropdown A should now be fully open
@@ -2050,12 +2063,12 @@ describe('Dropdown multiple instances', () => {
     // without waiting an extra blurDelay caused by the global isOpen flag.
     // Advance only 1ms — enough for synchronous mergeState, but NOT blurDelay.
     act(() => {
-      jest.advanceTimersByTime(1)
+      vi.advanceTimersByTime(1)
     })
 
     expect(triggerB.getAttribute('aria-expanded')).toBe('true')
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 })
 

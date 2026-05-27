@@ -1,7 +1,7 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useEffect, useRef } from 'react'
 import type { HTMLProps, RefObject } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { UseHeightAnimationOptions } from './useHeightAnimation'
 import { useHeightAnimation } from './useHeightAnimation'
 import Space from '../space/Space'

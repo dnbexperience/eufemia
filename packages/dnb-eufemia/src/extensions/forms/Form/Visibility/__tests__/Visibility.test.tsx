@@ -224,7 +224,7 @@ describe('Visibility', () => {
 
   describe('inferData', () => {
     it('renders children when infer-function returns true', () => {
-      const inferData = jest.fn((data) => true)
+      const inferData = vi.fn((data) => true)
       render(
         <Provider data={{ foo: 'bar' }}>
           <Visibility inferData={inferData}>Child</Visibility>
@@ -234,7 +234,7 @@ describe('Visibility', () => {
     })
 
     it('does not render children when infer-function return false', () => {
-      const inferData = jest.fn((data) => false)
+      const inferData = vi.fn((data) => false)
       render(
         <Provider data={{ foo: 'bar' }}>
           <Visibility inferData={inferData}>Child</Visibility>
@@ -283,7 +283,7 @@ describe('Visibility', () => {
     })
 
     it('should run hasValue even when path not exists', () => {
-      const hasValue = jest.fn((value) => value === 'foo')
+      const hasValue = vi.fn((value) => value === 'foo')
 
       render(
         <Provider>
@@ -339,9 +339,7 @@ describe('Visibility', () => {
       })
 
       it('should render with itemPath', async () => {
-        const log = jest
-          .spyOn(console, 'warn')
-          .mockImplementation(() => {})
+        const log = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
         render(
           <Form.Handler>
@@ -443,7 +441,7 @@ describe('Visibility', () => {
     )
     expect(container).toMatchInlineSnapshot(`
       <section
-        class="dnb-space dnb-space__top--medium dnb-space__bottom--zero dnb-flex-container dnb-flex-stack dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space"
+        class="dnb-space dnb-space__top--medium dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space dnb-flex-stack"
       >
         <p
           class="dnb-p dnb-space__top--zero dnb-space__bottom--zero"
@@ -484,7 +482,7 @@ describe('Visibility', () => {
 
   describe('events', () => {
     it('should not call onVisible initially', async () => {
-      const onVisible = jest.fn()
+      const onVisible = vi.fn()
 
       render(
         <Form.Handler
@@ -510,7 +508,7 @@ describe('Visibility', () => {
     })
 
     it('should call onVisible when visible again', async () => {
-      const onVisible = jest.fn()
+      const onVisible = vi.fn()
 
       render(
         <Form.Handler
@@ -539,7 +537,7 @@ describe('Visibility', () => {
     })
 
     it('should call onAnimationEnd when animation is done', async () => {
-      const onAnimationEnd = jest.fn()
+      const onAnimationEnd = vi.fn()
 
       render(
         <Form.Handler
@@ -580,7 +578,7 @@ describe('Visibility', () => {
     })
 
     it('should not call onAnimationEnd when "animation" is false', async () => {
-      const onAnimationEnd = jest.fn()
+      const onAnimationEnd = vi.fn()
 
       render(
         <Form.Handler
@@ -891,7 +889,7 @@ describe('Visibility', () => {
     })
 
     it('should use filtered data based on given filterData handler and mounted field path', async () => {
-      const filterDataHandler: FilterData = jest.fn(({ path, value }) => {
+      const filterDataHandler: FilterData = vi.fn(({ path, value }) => {
         if (path === '/isVisible' && value === true) {
           return false
         }

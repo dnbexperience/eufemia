@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
   DataContext,
   Field,
@@ -286,7 +286,7 @@ describe('Field.Date', () => {
   })
 
   it('should support keyboard interactions in range mode when id includes start or end', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Field.Date
@@ -316,7 +316,7 @@ describe('Field.Date', () => {
   })
 
   it('should not call onChange again with the old value after clearing via select-all', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Field.Date value="2025-11-12" onChange={onChange} />)
 
@@ -351,7 +351,7 @@ describe('Field.Date', () => {
   })
 
   it('should not call onChange again with the old value after deleting only the year', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Field.Date value="2025-11-12" onChange={onChange} />)
 
@@ -915,7 +915,7 @@ describe('Field.Date', () => {
     })
 
     it('should display error when start date is after end date and form should contain error', async () => {
-      const onSubmit = jest.fn()
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
@@ -1302,8 +1302,8 @@ describe('Field.Date', () => {
     ).toHaveAttribute('aria-current', 'date')
   })
 
-  it('should return dates in specifed return format', async () => {
-    const onChange = jest.fn()
+  it('should return dates in specified return format', async () => {
+    const onChange = vi.fn()
 
     render(
       <Field.Date
@@ -1449,7 +1449,7 @@ describe('Field.Date', () => {
   })
 
   it('will reset the value and the picker on reset click', async () => {
-    const onReset = jest.fn()
+    const onReset = vi.fn()
     let dataContext = null
 
     render(
@@ -1526,7 +1526,7 @@ describe('Field.Date', () => {
   })
 
   it('should empty the input fields when clicking the reset button when value is undefined', async () => {
-    const onReset = jest.fn()
+    const onReset = vi.fn()
 
     render(<Field.Date onReset={onReset} />)
 
@@ -2575,7 +2575,7 @@ describe('Field.Date', () => {
   })
 
   it('should support onType event', async () => {
-    const onType = jest.fn()
+    const onType = vi.fn()
 
     render(<Field.Date onType={onType} />)
 
@@ -2595,7 +2595,7 @@ describe('Field.Date', () => {
   })
 
   it('should support onSubmit event', async () => {
-    const onSubmit = jest.fn()
+    const onSubmit = vi.fn()
 
     render(
       <Field.Date
@@ -2622,7 +2622,7 @@ describe('Field.Date', () => {
   })
 
   it('should support onCancel event', async () => {
-    const onCancel = jest.fn()
+    const onCancel = vi.fn()
 
     render(<Field.Date value="2024-10-31" onCancel={onCancel} />)
 
@@ -2643,7 +2643,7 @@ describe('Field.Date', () => {
   })
 
   it('should support onReset event', async () => {
-    const onReset = jest.fn()
+    const onReset = vi.fn()
 
     render(<Field.Date value="2024-10-31" onReset={onReset} />)
 
@@ -2662,7 +2662,7 @@ describe('Field.Date', () => {
   })
 
   it('should support onOpen event', async () => {
-    const onOpen = jest.fn()
+    const onOpen = vi.fn()
 
     render(<Field.Date value="2024-10-31" onOpen={onOpen} />)
 
@@ -2677,7 +2677,7 @@ describe('Field.Date', () => {
   })
 
   it('should support onClose event', async () => {
-    const onClose = jest.fn()
+    const onClose = vi.fn()
 
     render(<Field.Date value="2024-10-31" onClose={onClose} />)
 
@@ -2700,7 +2700,7 @@ describe('Field.Date', () => {
   })
 
   it('should support onDaysRender event', async () => {
-    const onDaysRender = jest.fn()
+    const onDaysRender = vi.fn()
 
     render(<Field.Date value="2024-10-01" onDaysRender={onDaysRender} />)
 
@@ -2748,7 +2748,7 @@ describe('Field.Date', () => {
   })
 
   it('should support `yearNavigation`', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Field.Date value="2025-04-16" yearNavigation onChange={onChange} />
@@ -2838,7 +2838,7 @@ describe('Field.Date', () => {
   })
 
   it('should support `yearNavigation` in range mode', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Field.Date
@@ -3988,7 +3988,7 @@ describe('Field.Date', () => {
     describe('with validateUnchanged', () => {
       it('should show error message when blurring without any changes', async () => {
         // Because of the invalid date
-        const log = jest.spyOn(console, 'log').mockImplementation(() => {})
+        const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
         render(
           <Form.Handler ajvInstance={makeAjvInstance()}>
@@ -4029,13 +4029,11 @@ describe('Field.Date', () => {
       const DatePickerModule =
         await import('../../../../../components/date-picker/DatePicker')
 
-      jest
-        .spyOn(DatePickerModule, 'default')
-        .mockImplementation((props) => {
-          capturedAlignPicker = props.alignPicker
-          // Return a simple div to avoid rendering the full DatePicker
-          return <div data-testid="date-picker-mock" />
-        })
+      vi.spyOn(DatePickerModule, 'default').mockImplementation((props) => {
+        capturedAlignPicker = props.alignPicker
+        // Return a simple div to avoid rendering the full DatePicker
+        return <div data-testid="date-picker-mock" />
+      })
 
       render(
         <Field.Date
@@ -4051,7 +4049,7 @@ describe('Field.Date', () => {
       // When reverted: alignPicker should be undefined
       expect(capturedAlignPicker).toBe('right')
 
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
     })
 
     it('should align popover to right when width is stretch and showInput is true', async () => {
@@ -4060,13 +4058,11 @@ describe('Field.Date', () => {
       const DatePickerModule =
         await import('../../../../../components/date-picker/DatePicker')
 
-      jest
-        .spyOn(DatePickerModule, 'default')
-        .mockImplementation((props) => {
-          capturedAlignPicker = props.alignPicker
-          // Return a simple div to avoid rendering the full DatePicker
-          return <div data-testid="date-picker-mock" />
-        })
+      vi.spyOn(DatePickerModule, 'default').mockImplementation((props) => {
+        capturedAlignPicker = props.alignPicker
+        // Return a simple div to avoid rendering the full DatePicker
+        return <div data-testid="date-picker-mock" />
+      })
 
       render(
         <Field.Date
@@ -4082,7 +4078,7 @@ describe('Field.Date', () => {
       // When reverted: alignPicker should be undefined
       expect(capturedAlignPicker).toBe('right')
 
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
     })
 
     it('should not align popover to right when width is large but showInput is false', async () => {
@@ -4091,13 +4087,11 @@ describe('Field.Date', () => {
       const DatePickerModule =
         await import('../../../../../components/date-picker/DatePicker')
 
-      jest
-        .spyOn(DatePickerModule, 'default')
-        .mockImplementation((props) => {
-          capturedAlignPicker = props.alignPicker
-          // Return a simple div to avoid rendering the full DatePicker
-          return <div data-testid="date-picker-mock" />
-        })
+      vi.spyOn(DatePickerModule, 'default').mockImplementation((props) => {
+        capturedAlignPicker = props.alignPicker
+        // Return a simple div to avoid rendering the full DatePicker
+        return <div data-testid="date-picker-mock" />
+      })
 
       render(
         <Field.Date
@@ -4111,7 +4105,7 @@ describe('Field.Date', () => {
       // Verify alignPicker is undefined when showInput is false
       expect(capturedAlignPicker).toBeUndefined()
 
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
     })
 
     it('should not align popover to right when width is small and showInput is true', async () => {
@@ -4120,13 +4114,11 @@ describe('Field.Date', () => {
       const DatePickerModule =
         await import('../../../../../components/date-picker/DatePicker')
 
-      jest
-        .spyOn(DatePickerModule, 'default')
-        .mockImplementation((props) => {
-          capturedAlignPicker = props.alignPicker
-          // Return a simple div to avoid rendering the full DatePicker
-          return <div data-testid="date-picker-mock" />
-        })
+      vi.spyOn(DatePickerModule, 'default').mockImplementation((props) => {
+        capturedAlignPicker = props.alignPicker
+        // Return a simple div to avoid rendering the full DatePicker
+        return <div data-testid="date-picker-mock" />
+      })
 
       render(
         <Field.Date
@@ -4140,7 +4132,7 @@ describe('Field.Date', () => {
       // Verify alignPicker is undefined when width is small
       expect(capturedAlignPicker).toBeUndefined()
 
-      jest.restoreAllMocks()
+      vi.restoreAllMocks()
     })
   })
 
@@ -4302,7 +4294,7 @@ describe('Field.Date', () => {
   })
 
   it('should call onStatusChange when validateContinuously reveals validation errors', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
 
     render(
       <Field.Date
@@ -4347,7 +4339,7 @@ describe('Field.Date', () => {
   })
 
   it('should call onStatusChange when error prop changes without validateContinuously', async () => {
-    const onStatusChange = jest.fn()
+    const onStatusChange = vi.fn()
     const error1 = new Error('Error 1')
     const error2 = new Error('Error 2')
 
@@ -4398,5 +4390,19 @@ describe('Field.Date', () => {
         error: undefined,
       })
     })
+  })
+
+  it('should forward triggerProps to DatePicker trigger button', () => {
+    render(
+      <Field.Date
+        triggerProps={{ variant: 'tertiary', text: 'Pick a date' }}
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-date-picker button.dnb-button'
+    ) as HTMLButtonElement
+    expect(button.classList).toContain('dnb-button--tertiary')
+    expect(button.textContent).toContain('Pick a date')
   })
 })

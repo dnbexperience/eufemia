@@ -13,7 +13,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Popover from '../popover/Popover'
 import {
   MenuContext,
@@ -266,7 +266,7 @@ export default function MenuRoot(props: MenuRootProps) {
       id={id}
       className={clsx('dnb-menu', className)}
       trigger={resolvedTrigger}
-      triggerAttributes={{
+      triggerProps={{
         'aria-haspopup': 'menu',
         onKeyDown: handleTriggerKeyDown,
       }}

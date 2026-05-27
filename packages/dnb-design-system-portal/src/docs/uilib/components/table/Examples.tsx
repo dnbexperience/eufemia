@@ -337,6 +337,40 @@ export const RowScopeOnly = () => (
   </ComponentBox>
 )
 
+export const NoStriped = () => (
+  <ComponentBox hideCode data-visual-test="table-no-striped">
+    <Table.ScrollView>
+      <Table striped={false}>
+        <caption className="dnb-sr-only">A Table Caption</caption>
+        <thead>
+          <Tr>
+            <Th>Column A</Th>
+            <Th>Column B</Th>
+            <Th>Column C</Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Tr>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+          </Tr>
+          <Tr>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
+          </Tr>
+          <Tr>
+            <Td>Row 3</Td>
+            <Td>Row 3</Td>
+            <Td>Row 3</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>
+  </ComponentBox>
+)
+
 export const VariantFixed = () => (
   <ComponentBox hideCode data-visual-test="table-fixed">
     {() => {
@@ -2139,6 +2173,7 @@ export const ColumnHighlight = () => (
     {() => {
       const ColumnHighlightTable = () => {
         const highlightRef = useTableHighlight()
+        const label = 'Table with highlighted column'
 
         return (
           <Table.ScrollView>
@@ -2150,15 +2185,19 @@ export const ColumnHighlight = () => (
               <thead>
                 <Tr>
                   <Th />
-                  <Th highlight>Column A</Th>
-                  <Th highlight>Column B</Th>
+                  <Th highlight aria-label={label}>
+                    Column A
+                  </Th>
+                  <Th highlight aria-label={label}>
+                    Column B
+                  </Th>
                   <Th>Column C</Th>
                   <Th>Column D</Th>
                 </Tr>
               </thead>
 
               <tbody>
-                <Tr highlight>
+                <Tr highlight aria-label={label}>
                   <Th>Row 1 Header</Th>
                   <Td>Row 1</Td>
                   <Td>Row 1</Td>
@@ -2176,7 +2215,9 @@ export const ColumnHighlight = () => (
                   <Th>Row 3 Header</Th>
                   <Td>Row 3</Td>
                   <Td>Row 3</Td>
-                  <Td highlight>Row 3</Td>
+                  <Td highlight aria-label={label}>
+                    Row 3
+                  </Td>
                   <Td>Row 3</Td>
                 </Tr>
               </tbody>
@@ -2187,5 +2228,74 @@ export const ColumnHighlight = () => (
 
       return <ColumnHighlightTable />
     }}
+  </ComponentBox>
+)
+
+export const MultipleTbody = () => (
+  <ComponentBox data-visual-test="table-multiple-tbody">
+    <Table.ScrollView>
+      <Table outline border="horizontal" striped={false}>
+        <caption className="dnb-sr-only">
+          Market data with delay and opening hours
+        </caption>
+
+        <thead>
+          <Tr>
+            <Th scope="col">Marked</Th>
+            <Th scope="col">Forsinkelse (min)</Th>
+            <Th scope="col">Åpningstid</Th>
+          </Tr>
+        </thead>
+
+        <tbody>
+          <Tr>
+            <Th scope="rowgroup" colSpan={3}>
+              Norge
+            </Th>
+          </Tr>
+
+          <Tr variant="even">
+            <Td>Oslo Børs</Td>
+            <Td>
+              <Badge content="Sanntid" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>NOTC (NFMF)</Td>
+            <Td>
+              <Badge content="15 minutter" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+        </tbody>
+
+        <tbody>
+          <Tr>
+            <Th scope="rowgroup" colSpan={3}>
+              Norden
+            </Th>
+          </Tr>
+
+          <Tr variant="even">
+            <Td>København</Td>
+            <Td>
+              <Badge content="15 minutter" />
+            </Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>Helsinki</Td>
+            <Td>15 / Sanntid**</Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+          <Tr>
+            <Td>Stockholm</Td>
+            <Td>15 / Sanntid**</Td>
+            <Td>09:00-16:30 (UTC+1)</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>
   </ComponentBox>
 )

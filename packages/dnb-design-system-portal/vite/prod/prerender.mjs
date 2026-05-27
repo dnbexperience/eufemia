@@ -38,6 +38,7 @@ async function prerender() {
     build: {
       outDir,
       ssrManifest: true,
+      manifest: true,
     },
   })
 
@@ -75,6 +76,15 @@ async function prerender() {
   const ssrManifest = fs.existsSync(manifestPath)
     ? JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
     : {}
+
+  // Read the client build manifest for chunk dependency tracking.
+  // The client manifest has `imports` and `css` fields per chunk,
+  // letting us follow transitive CSS dependencies that the SSR
+  // manifest alone cannot resolve.
+  const clientManifestPath = path.resolve(outDir, '.vite', 'manifest.json')
+  const clientManifest = fs.existsSync(clientManifestPath)
+    ? JSON.parse(fs.readFileSync(clientManifestPath, 'utf-8'))
+    : null
 
   const contentScript = getContentScript()
   let urls = collectUrls(routes)
@@ -134,7 +144,7 @@ async function prerender() {
     if (result.redirect) {
       writeHtml(url, buildRedirectHtml(result.redirect))
     } else {
-      const preloads = getRoutePreloads(url, ssrManifest)
+      const preloads = getRoutePreloads(url, ssrManifest, clientManifest)
       const meta = getPageMeta(url, allMdxNodes)
       const mdPath = getMdPath(url, allMdxNodes)
       const html = injectHtml(
@@ -228,21 +238,29 @@ prerender().catch((err) => {
 function collectUrls(routes) {
   const urls = ['/']
 
-  for (const route of routes) {
-    if (
-      route.path &&
-      route.path !== '*' &&
-      !route.path.startsWith('/404')
-    ) {
-      const routePath = route.path.endsWith('/')
-        ? route.path
-        : route.path + '/'
+  const visitRoutes = (entries) => {
+    for (const route of entries) {
+      if (
+        route.path &&
+        route.path !== '*' &&
+        !route.path.startsWith('/404')
+      ) {
+        const routePath = route.path.endsWith('/')
+          ? route.path
+          : route.path + '/'
 
-      if (!urls.includes(routePath)) {
-        urls.push(routePath)
+        if (!urls.includes(routePath)) {
+          urls.push(routePath)
+        }
+      }
+
+      if (Array.isArray(route.children) && route.children.length > 0) {
+        visitRoutes(route.children)
       }
     }
   }
+
+  visitRoutes(routes)
 
   return urls
 }
@@ -340,7 +358,7 @@ function getMdPath(url, allMdxNodes) {
   return null
 }
 
-function getRoutePreloads(url, ssrManifest) {
+function getRoutePreloads(url, ssrManifest, clientManifest) {
   const routePath = url.replace(/^\/|\/$/g, '') || 'index'
 
   const candidates = [
@@ -361,6 +379,62 @@ function getRoutePreloads(url, ssrManifest) {
           jsPreloads.add(asset)
         } else if (asset.endsWith('.css')) {
           cssPreloads.add(asset)
+        }
+      }
+    }
+  }
+
+  // Use the client manifest to find CSS chunks that are transitively
+  // imported by the route's JS chunks. Without this, CSS modules
+  // imported by non-route source files (e.g. shared menu components)
+  // would only load after JS executes, causing a layout flicker on
+  // prerendered pages.
+  if (clientManifest && jsPreloads.size > 0) {
+    // Build a lookup from output file path to manifest entry
+    const fileToEntry = new Map()
+    for (const entry of Object.values(clientManifest)) {
+      if (entry.file) {
+        fileToEntry.set('/' + entry.file, entry)
+      }
+    }
+
+    // BFS through chunk imports to collect all transitive CSS
+    const visited = new Set()
+    const queue = [...jsPreloads]
+
+    while (queue.length > 0) {
+      const chunk = queue.shift()
+      if (visited.has(chunk)) {
+        continue
+      }
+      visited.add(chunk)
+
+      const entry = fileToEntry.get(chunk)
+      if (!entry) {
+        continue
+      }
+
+      // Collect CSS associated with this chunk
+      if (entry.css) {
+        for (const css of entry.css) {
+          cssPreloads.add('/' + css)
+        }
+      }
+
+      // Follow static imports (skip the entry point — its CSS
+      // is already in the HTML template)
+      if (entry.imports) {
+        for (const imp of entry.imports) {
+          if (imp === 'index.html') {
+            continue
+          }
+          const impEntry = clientManifest[imp]
+          if (impEntry?.file) {
+            const impPath = '/' + impEntry.file
+            if (!visited.has(impPath)) {
+              queue.push(impPath)
+            }
+          }
         }
       }
     }
@@ -425,28 +499,36 @@ function injectHtml(
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
-  // The default theme (ui) is enabled; others are disabled.
-  // An early inline script reads localStorage and swaps them
-  // before the browser paints — preventing a flash of the wrong brand.
+  // All links are enabled (render-blocking) so the browser fetches them
+  // before the first paint. A head script disables inactive themes
+  // before the browser paints, and a body-opening script adds the
+  // active brand class to <body> so token selectors match immediately.
   if (themeCssPaths && Object.keys(themeCssPaths).length > 0) {
     const defaultTheme = 'ui'
     const linkTags = Object.entries(themeCssPaths)
       .map(([name, href]) => {
-        const disabled = name !== defaultTheme ? ' disabled' : ''
-        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}"${disabled}>`
+        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}">`
       })
       .join('\n')
 
-    // Early blocking script: read localStorage and enable the stored
-    // theme's <link> before first paint. This mirrors the existing
-    // color-scheme FOUC-prevention pattern.
-    const themeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}document.body.classList.add('eufemia-theme__'+n)}catch(e){}})()</script>`
+    // Head script: determine active theme, disable inactive theme
+    // links, and store the name on globalThis for the body script.
+    // Runs in <head> after the render-blocking links have loaded,
+    // so the disable is instant — no network delay.
+    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
 
-    html = html.replace('</head>', `${linkTags}\n  </head>`)
+    // Body script: add the brand class to <body> immediately after
+    // the opening tag, before any content is rendered.
+    const bodyThemeScript = `<script>(function(){var n=globalThis.__eufemiaTheme;if(n){document.body.classList.add('eufemia-theme__'+n)}})()</script>`
 
-    // Inject theme script right after the body opening tag (after the
-    // existing color-scheme body script)
-    html = html.replace('</body>', `${themeScript}\n</body>`)
+    html = html.replace(
+      '</head>',
+      `${linkTags}\n${headThemeScript}\n  </head>`
+    )
+    html = html.replace(
+      /<body[^>]*>/,
+      (match) => `${match}\n     ${bodyThemeScript}`
+    )
   }
 
   // Inject per-page SEO meta tags

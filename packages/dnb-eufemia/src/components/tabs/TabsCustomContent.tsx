@@ -1,5 +1,5 @@
 import type { HTMLProps, ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import ContentWrapper, {

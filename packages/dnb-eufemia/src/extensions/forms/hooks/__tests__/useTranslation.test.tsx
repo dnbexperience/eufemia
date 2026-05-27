@@ -343,12 +343,12 @@ describe('Form.useTranslation', () => {
     // Mock console.log globally to suppress warning messages during tests
     const originalConsoleLog = console.log
     beforeAll(() => {
-      console.log = jest.fn()
+      console.log = vi.fn()
     })
 
     afterEach(() => {
       // Reset the mock after each test to avoid interference between tests
-      jest.clearAllMocks()
+      vi.clearAllMocks()
     })
 
     afterAll(() => {

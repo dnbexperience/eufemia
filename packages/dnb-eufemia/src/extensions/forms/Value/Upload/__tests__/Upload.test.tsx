@@ -1,9 +1,9 @@
 import { screen, render, fireEvent, waitFor } from '@testing-library/react'
 import { Value, Form, DataContext, Field } from '../../..'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
-import { wait } from '../../../../../core/jest/jestSetup'
+import { wait } from '../../../../../core/test-utils/testSetup'
 
-global.URL.createObjectURL = jest.fn(() => 'url')
+global.URL.createObjectURL = vi.fn(() => 'url')
 
 const files = [
   {
@@ -436,7 +436,7 @@ describe('Value.Upload', () => {
 
     it('executes onFileClick event when button is clicked', () => {
       const fileName = 'file.png'
-      const onFileClick = jest.fn()
+      const onFileClick = vi.fn()
 
       render(
         <Value.Upload
@@ -459,7 +459,7 @@ describe('Value.Upload', () => {
     })
 
     it('should display spinner when async onFileClick event', async () => {
-      const onFileClick = jest.fn(async () => {
+      const onFileClick = vi.fn(async () => {
         await wait(1)
       })
 
@@ -510,7 +510,7 @@ describe('Value.Upload', () => {
       const mockUrl = 'mock-url'
 
       const originalCreateObjectURL = global.URL.createObjectURL
-      global.URL.createObjectURL = jest.fn().mockReturnValueOnce(mockUrl)
+      global.URL.createObjectURL = vi.fn().mockReturnValueOnce(mockUrl)
 
       render(
         <Value.Upload

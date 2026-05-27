@@ -11,7 +11,7 @@ import type {
   MouseEvent,
   RefObject,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 
 // date-fns
@@ -25,7 +25,6 @@ import {
   startOfDay,
   differenceInCalendarDays,
   differenceInMonths,
-  lastDayOfMonth,
   setDate,
 } from 'date-fns'
 
@@ -42,6 +41,7 @@ import Button from '../button/Button'
 import type { DatePickerContextValue } from './DatePickerContext'
 import DatePickerContext from './DatePickerContext'
 import type { InternalLocale } from '../../shared/Context'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import type { DatePickerChangeEvent } from './DatePickerProvider'
 import type { DatePickerDates } from './hooks/useDates'
 import type { CalendarNavButtonProps } from './DatePickerCalendarNavigator'
@@ -146,6 +146,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     hoverDate,
     setHoverDate,
     setSubmittedDates,
+    views,
+    setViews,
     props: { onDaysRender, yearNavigation },
     translation: {
       DatePicker: { firstDay: defaultFirstDayOfWeek, selectedMonth },
@@ -172,6 +174,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const tableRef = useRef<ElementRef<'table'> | null>(null)
   const days = useRef<Record<string, Array<DatePickerCalendarDay>>>({})
   const cache = useRef<Record<string, DatePickerCalendarDay[][]>>({})
+  const focusedDateRef = useRef<Date | null>(null)
+  const pendingFocusDateRef = useRef<Date | null>(null)
   const currentDatesRef = useRef({
     startDate,
     endDate,
@@ -196,6 +200,44 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const onMouseLeaveHandler = useCallback(() => {
     setHoverDate(undefined)
   }, [setHoverDate])
+
+  const focusDayButton = useCallback((date: Date) => {
+    if (tableRef.current) {
+      const dateStr = format(date, 'yyyy-MM-dd')
+      const button = tableRef.current.querySelector(
+        `td[data-date="${dateStr}"] button`
+      ) as HTMLElement
+      button?.focus({ preventScroll: true })
+    }
+  }, [])
+
+  const focusEndCalendar = useCallback(() => {
+    const viewsContainer = tableRef.current?.closest(
+      '.dnb-date-picker__views'
+    )
+    const endTable = viewsContainer?.querySelectorAll('table')?.[1]
+    const endDateValue = currentDatesRef.current.endDate
+    const endButton = endDateValue
+      ? (endTable?.querySelector(
+          `td[data-date="${format(endDateValue, 'yyyy-MM-dd')}"] button`
+        ) as HTMLElement | undefined)
+      : null
+
+    if (endButton) {
+      endButton.focus({ preventScroll: true })
+    } else {
+      ;(endTable as HTMLElement | undefined)?.focus({
+        preventScroll: true,
+      })
+    }
+  }, [])
+
+  useIsomorphicLayoutEffect(() => {
+    if (pendingFocusDateRef.current) {
+      focusDayButton(pendingFocusDateRef.current)
+      pendingFocusDateRef.current = null
+    }
+  }, [views, focusDayButton])
 
   const callOnSelect = useCallback(
     (
@@ -325,120 +367,202 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       if (!keysToHandle.includes(pressedKey)) {
         return
       }
+
+      // Sync focusedDateRef from DOM when a date button is focused
+      // (e.g. after cross-calendar focus jump or mouse click on a day)
+      if (tableRef.current) {
+        const td = document.activeElement?.closest('td[data-date]')
+        if (td && tableRef.current.contains(td)) {
+          const dateStr = td.getAttribute('data-date')
+          if (dateStr) {
+            focusedDateRef.current = startOfDay(new Date(dateStr))
+          }
+        }
+      }
+
+      // Handle Enter/Space
+      if (pressedKey === 'Enter' || pressedKey === 'Space') {
+        event.preventDefault()
+
+        if (focusedDateRef.current) {
+          const focusedDate = focusedDateRef.current
+
+          if (!isRange) {
+            focusedDateRef.current = null
+
+            updateDates(
+              {
+                startDate: startOfDay(focusedDate),
+                endDate: startOfDay(focusedDate),
+              },
+              (allDates) => {
+                callOnSelect({
+                  ...allDates,
+                  event,
+                  nr,
+                  hidePicker: true,
+                })
+              }
+            )
+
+            return
+          }
+
+          // Range mode: use same selection logic as mouse clicks
+          setHasClickedCalendarDay(true)
+
+          const { startDate: currentStart, endDate: currentEnd } =
+            currentDatesRef.current
+
+          if (!currentStart || (resetDate && currentStart && currentEnd)) {
+            // First selection: set start date, clear end date
+            // Keep focusedDateRef so arrow keys continue from this date
+            updateDates(
+              {
+                startDate: startOfDay(focusedDate),
+                endDate: undefined,
+              },
+              (allDates) => {
+                callOnSelect({
+                  ...allDates,
+                  event,
+                  nr,
+                  hidePicker: false,
+                })
+              }
+            )
+          } else {
+            // Second selection: create range
+            focusedDateRef.current = null
+
+            const range = toRange(currentStart, focusedDate)
+
+            updateDates(
+              {
+                startDate: startOfDay(range.startDate),
+                endDate: startOfDay(range.endDate),
+              },
+              (allDates) => {
+                callOnSelect({
+                  ...allDates,
+                  event,
+                  nr,
+                  hidePicker: true,
+                })
+              }
+            )
+          }
+
+          return
+        }
+
+        // Focus is on the table (no date navigated to)
+        if (isRange && nr === 0) {
+          focusEndCalendar()
+        } else {
+          callOnSelect({ event, nr, hidePicker: true })
+        }
+        return
+      }
+
+      // Handle arrow keys: move focus without changing the date
       event.preventDefault()
 
       const currentDates = currentDatesRef.current
       const dateType = !isRange || nr === 0 ? 'start' : 'end'
-      const currentDate = currentDates[`${dateType}Date`]
+      const currentFocused =
+        focusedDateRef.current || currentDates[`${dateType}Date`]
+      const viewMonth = views.find((v) => v.nr === nr)?.month
 
-      let newDate = currentDate
-        ? keyNavCalc(currentDate, pressedKey)
-        : currentDates[`${dateType}Month`] ||
+      let newDate = currentFocused
+        ? keyNavCalc(currentFocused, pressedKey)
+        : viewMonth ||
           (isRange && nr === 1 ? addMonths(new Date(), 1) : new Date())
 
       if (
-        newDate === currentDate &&
-        (pressedKey === 'Enter' || pressedKey === 'Space')
+        // in case we don't have a focused date, then we use the current view month
+        (viewMonth && !currentFocused) ||
+        // if we have a larger gap between the new date and the current view month
+        (viewMonth &&
+          currentFocused &&
+          Math.abs(differenceInMonths(newDate, viewMonth)) > 1)
       ) {
-        return callOnSelect({
-          event,
-          nr,
-          hidePicker: true,
-        })
-      }
-
-      const dates: {
-        startDate?: Date
-        endDate?: Date
-        startMonth?: Date
-        endMonth?: Date
-      } = {}
-
-      const currentMonth = currentDates[`${dateType}Month`]
-
-      if (
-        // in case we don't have a start/end date, then we use the current month date
-        (currentMonth && !currentDate) ||
-        // if we have a larger gap between the new date and the current month in the calendar
-        (currentMonth &&
-          Math.abs(differenceInMonths(newDate, currentMonth)) > 1)
-      ) {
-        newDate = !isRange
-          ? currentMonth
-          : nr === 0
-            ? setDate(currentMonth, 1)
-            : lastDayOfMonth(currentMonth)
-
-        // only to make sure we navigate the calendar to the new date
-      } else if (currentMonth && !isSameMonth(currentDate, currentMonth)) {
-        dates[`${dateType}Month`] = newDate
+        newDate = !isRange ? viewMonth : setDate(viewMonth, 1)
       }
 
       newDate = findValid(newDate, pressedKey)
 
       if (hasReachedEnd(newDate)) {
-        return // Stop here
+        return // stop here
       }
 
-      dates[`${dateType}Date`] = newDate
-
-      // set fallbacks
-      if (!isRange) {
-        dates.endDate = newDate
-      } else {
-        if (!startDate) {
-          dates.startDate = newDate
-        }
-        if (!endDate) {
-          dates.endDate = newDate
-        }
-      }
-
-      // make sure we stay on the same month
+      // Prevent navigating to different month when onlyMonth or hideNavigation
       if (onlyMonth || hideNavigation) {
-        if (
-          !isSameMonth(dates.startDate, startDate) ||
-          !isSameMonth(dates.endDate, startDate) // Heads up, should this not be context.endDate?
-        ) {
+        if (viewMonth && !isSameMonth(newDate, viewMonth)) {
           return
         }
       }
 
-      updateDates(dates, () => {
-        // call after state update, so the input get's the latest state as well
-        callOnSelect({
-          event,
-          nr,
-          hidePicker: false,
-          ...dates,
-        })
-      })
-      currentDatesRef.current = {
-        ...currentDates,
-        ...dates,
-        startMonth:
-          dates.startMonth ?? dates.startDate ?? currentDates.startMonth,
-        endMonth: dates.endMonth ?? dates.endDate ?? currentDates.endMonth,
-      }
+      focusedDateRef.current = newDate
 
-      // and set the focus back again
-      if (tableRef && tableRef.current) {
-        tableRef.current.focus({ preventScroll: true })
+      // Navigate to a different month if needed
+      if (viewMonth && !isSameMonth(newDate, viewMonth)) {
+        // In range mode, jump to the other calendar if it shows the target month
+        if (isRange) {
+          const otherNr = nr === 0 ? 1 : 0
+          const otherViewMonth = views.find((v) => v.nr === otherNr)?.month
+
+          if (otherViewMonth && isSameMonth(newDate, otherViewMonth)) {
+            const viewsContainer = tableRef.current?.closest(
+              '.dnb-date-picker__views'
+            )
+            const otherTable =
+              viewsContainer?.querySelectorAll('table')?.[otherNr]
+            const dateStr = format(newDate, 'yyyy-MM-dd')
+            const button = otherTable?.querySelector(
+              `td[data-date="${dateStr}"] button`
+            ) as HTMLElement | undefined
+
+            if (button) {
+              focusedDateRef.current = null
+              button.focus({ preventScroll: true })
+              return // stop here
+            }
+          }
+        }
+
+        // Keep focus on the table during re-render to prevent the Popover from closing
+        tableRef.current?.focus({ preventScroll: true })
+
+        const updatedViews = views.map((view) => {
+          if (view.nr === nr) {
+            return { ...view, month: newDate }
+          }
+          return view
+        })
+        setViews(updatedViews)
+        pendingFocusDateRef.current = newDate
+      } else {
+        focusDayButton(newDate)
       }
     },
     [
       callOnSelect,
       findValid,
+      focusDayButton,
+      focusEndCalendar,
       hasReachedEnd,
       onKeyDown,
-      startDate,
-      endDate,
       updateDates,
       hideNavigation,
       isRange,
       keyNavCalc,
       nr,
       onlyMonth,
+      resetDate,
+      setHasClickedCalendarDay,
+      views,
+      setViews,
     ]
   )
 
@@ -621,6 +745,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                     <td
                       key={'day' + i}
                       role="gridcell"
+                      data-date={format(day.date, 'yyyy-MM-dd')}
                       className={clsx(
                         'dnb-date-picker__day',
                         'dnb-no-focus',
@@ -775,6 +900,9 @@ function onHoverDay({
   hoverDate?: Date
   setHoverDate: (date: Date) => void
 }) {
+  if (day.isStartDate || day.isEndDate) {
+    return // stop here – no hover effect needed on the already-selected date
+  }
   if (!isSameDay(day.date, hoverDate)) {
     setHoverDate?.(day.date)
   }

@@ -5,7 +5,7 @@
 
 import { StrictMode } from 'react'
 import type { ReactNode } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { act, fireEvent, render } from '@testing-library/react'
 import { Provider } from '../../../shared'
 import defaultLocales from '../../../shared/locales'
@@ -34,7 +34,9 @@ const contentWrapperData = {
 
 describe('Tabs component', () => {
   it('should not trigger setState warnings when using shared state with ContentWrapper', () => {
-    const consoleError = jest.spyOn(console, 'error').mockImplementation()
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
 
     const sharedId = 'shared-tabs-id'
 
@@ -86,13 +88,13 @@ describe('Tabs component', () => {
 
   it('has working "onChange" and "onClick" event handler', () => {
     let preventChange = false
-    const onChange = jest.fn((e) => {
+    const onChange = vi.fn((e) => {
       if (preventChange) {
         return false
       }
       return e
     })
-    const onClick = jest.fn((e) => {
+    const onClick = vi.fn((e) => {
       if (preventChange) {
         return false
       }
@@ -126,7 +128,7 @@ describe('Tabs component', () => {
   })
 
   it('has working "onFocus" event handler', () => {
-    const onFocus = jest.fn()
+    const onFocus = vi.fn()
 
     render(
       <Tabs {...props} data={tablistData} onFocus={onFocus}>
@@ -186,11 +188,10 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs__tabs')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--right',
-      'dnb-tabs__tabs--breakout',
-    ])
+    expect(element).toHaveClass(
+      'dnb-tabs__tabs dnb-tabs__tabs--right dnb-tabs__tabs--breakout',
+      { exact: true }
+    )
   })
 
   it('should support "noBorder" prop', () => {
@@ -202,12 +203,10 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs__tabs')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--left',
-      'dnb-tabs__tabs--no-border',
-      'dnb-tabs__tabs--breakout',
-    ])
+    expect(element).toHaveClass(
+      'dnb-tabs__tabs dnb-tabs__tabs--left dnb-tabs__tabs--no-border dnb-tabs__tabs--breakout',
+      { exact: true }
+    )
   })
 
   it('should support "contentInnerSpace" prop', () => {
@@ -219,11 +218,9 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs__content')
 
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-tabs__content',
-        'dnb-height-animation--is-in-dom',
-      ])
+    expect(element).toHaveClass(
+      'dnb-tabs__content',
+      'dnb-height-animation--is-in-dom'
     )
   })
 
@@ -248,10 +245,9 @@ describe('Tabs component', () => {
 
     const element = document.querySelector('.dnb-tabs')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass('dnb-tabs dnb-space__top--large', {
+      exact: true,
+    })
   })
 
   it('should use section component when "tabsStyle" is set', () => {
@@ -264,13 +260,11 @@ describe('Tabs component', () => {
     const element = document.querySelector('.dnb-tabs__tabs')
 
     expect(element.tagName).toBe('DIV')
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-tabs__tabs',
-        'dnb-tabs__tabs--left',
-        'dnb-section',
-        'dnb-section--black-3',
-      ])
+    expect(element).toHaveClass(
+      'dnb-tabs__tabs',
+      'dnb-tabs__tabs--left',
+      'dnb-section',
+      'dnb-section--black-3'
     )
   })
 
@@ -284,17 +278,15 @@ describe('Tabs component', () => {
     const element = document.querySelector('.dnb-tabs__content')
 
     expect(element.tagName).toBe('SECTION')
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-tabs__content',
-        'dnb-section',
-        'dnb-section--black-3',
-        'dnb-no-focus',
-        'dnb-space',
-        'dnb-height-animation',
-        'dnb-height-animation--is-in-dom',
-        'dnb-height-animation--is-visible',
-      ])
+    expect(element).toHaveClass(
+      'dnb-tabs__content',
+      'dnb-section',
+      'dnb-section--black-3',
+      'dnb-no-focus',
+      'dnb-space',
+      'dnb-height-animation',
+      'dnb-height-animation--is-in-dom',
+      'dnb-height-animation--is-visible'
     )
   })
 
@@ -384,7 +376,7 @@ describe('Tabs component', () => {
   })
 
   it('warns when not providing any content', () => {
-    global.console.log = jest.fn()
+    global.console.log = vi.fn()
     render(<Tabs />)
 
     expect(global.console.log).toHaveBeenCalledTimes(1)
@@ -808,15 +800,13 @@ describe('A single Tab component', () => {
   it('should not show scroll nav buttons when last tab margin accounts for overflow', () => {
     const getComputedStyleOrig = window.getComputedStyle
 
-    jest
-      .spyOn(window, 'getComputedStyle')
-      .mockImplementation((element) => {
-        const style = getComputedStyleOrig(element)
-        if ((element as Element).classList.contains('dnb-tabs__button')) {
-          return { ...style, marginRight: '16' } as CSSStyleDeclaration
-        }
-        return style
-      })
+    vi.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
+      const style = getComputedStyleOrig(element)
+      if ((element as Element).classList.contains('dnb-tabs__button')) {
+        return { ...style, marginRight: '16' } as CSSStyleDeclaration
+      }
+      return style
+    })
 
     let triggerResize: ResizeObserverCallback
     globalThis.ResizeObserver = class {
@@ -860,7 +850,7 @@ describe('A single Tab component', () => {
       'dnb-tabs--has-scrollbar'
     )
 
-    jest.restoreAllMocks()
+    vi.restoreAllMocks()
     delete (globalThis as Record<string, unknown>).ResizeObserver
   })
 })

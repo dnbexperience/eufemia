@@ -139,7 +139,7 @@ describe('font-url-rewrite-plugin', () => {
   })
 
   it('should handle verbose logging', async () => {
-    const consoleSpy = jest
+    const consoleSpy = vi
       .spyOn(console, 'warn')
       .mockImplementation(() => {})
     const input = `

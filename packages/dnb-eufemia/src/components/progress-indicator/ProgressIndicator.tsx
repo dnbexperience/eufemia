@@ -11,7 +11,7 @@ import {
   useState,
 } from 'react'
 import type { CSSProperties } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import {

@@ -5,17 +5,19 @@
 
 import { runFactory } from '../makeLibStyles'
 
-jest.mock('ora', () => {
-  return jest.fn(() => ({
-    start: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
-    succeed: jest.fn(),
-    fail: jest.fn(),
-  }))
+vi.mock('ora', () => {
+  return {
+    default: vi.fn(() => ({
+      start: vi.fn(),
+      info: vi.fn(),
+      warn: vi.fn(),
+      succeed: vi.fn(),
+      fail: vi.fn(),
+    })),
+  }
 })
 
-jest.setTimeout(30e3)
+vi.setConfig({ testTimeout: 30e3 })
 
 describe('makeLibStyles transform main SASS to CSS', () => {
   beforeAll(async () => {
@@ -67,7 +69,7 @@ describe('makeLibStyles with enableBuildStyleScope', () => {
   beforeAll(() => {
     originalEnv = process.env.NODE_ENV
     process.env.NODE_ENV = 'production'
-    jest.resetModules()
+    vi.resetModules()
   })
   afterAll(() => {
     process.env.NODE_ENV = originalEnv

@@ -13,7 +13,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { CheckboxProps } from '../Checkbox'
 import Checkbox from '../Checkbox'
 import { Provider } from '../../../shared'
@@ -56,7 +56,7 @@ describe('Checkbox component', () => {
   })
 
   it('should return "checked" and "event" from onChange event', async () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<Checkbox onChange={onChange} value="foo" />)
 
     const checkbox = document.querySelector('input')
@@ -77,7 +77,7 @@ describe('Checkbox component', () => {
     render(<Checkbox {...props} />)
 
     const checkbox = screen.getByRole('checkbox') as HTMLInputElement
-    const focusSpy = jest.spyOn(checkbox, 'focus')
+    const focusSpy = vi.spyOn(checkbox, 'focus')
 
     await userEvent.click(checkbox)
 
@@ -90,10 +90,10 @@ describe('Checkbox component', () => {
   })
 
   it('should not change the state when calling preventDefault on the onClick event when default value is true', async () => {
-    const onClick = jest.fn((event) => {
+    const onClick = vi.fn((event) => {
       event.preventDefault()
     })
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(
       <Checkbox checked={false} onClick={onClick} onChange={onChange} />
@@ -154,10 +154,10 @@ describe('Checkbox component', () => {
   })
 
   it('should not change the state when calling preventDefault on the onClick event', async () => {
-    const onClick = jest.fn((event) => {
+    const onClick = vi.fn((event) => {
       event.preventDefault()
     })
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Checkbox onClick={onClick} onChange={onChange} />)
 
@@ -212,7 +212,7 @@ describe('Checkbox component', () => {
   })
 
   it('has "onChange" event which will trigger on a input change', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)
     screen.getByRole('checkbox').click()
 
@@ -313,11 +313,10 @@ describe('Checkbox component', () => {
 
     const element = document.querySelector('.dnb-checkbox')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-checkbox',
-      'dnb-form-component',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-checkbox dnb-form-component dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -348,14 +347,13 @@ describe('Checkbox component', () => {
       'value',
       'name',
     ])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-checkbox',
-      'dnb-form-component',
-      'dnb-checkbox--label-position-right',
-    ])
-    expect(Array.from(inputElement.classList)).toEqual([
-      'dnb-checkbox__input',
-    ])
+    expect(element).toHaveClass(
+      'dnb-checkbox dnb-form-component dnb-checkbox--label-position-right',
+      { exact: true }
+    )
+    expect(inputElement).toHaveClass('dnb-checkbox__input', {
+      exact: true,
+    })
   })
 
   it('should validate with ARIA rules', async () => {
@@ -411,7 +409,7 @@ describe('Checkbox component', () => {
     })
 
     it('changes to no longer indeterminate when clicking indeterminate state', () => {
-      const mockOnChange = jest.fn()
+      const mockOnChange = vi.fn()
       render(<Checkbox indeterminate onChange={mockOnChange} />)
 
       screen.getByRole('checkbox').click()

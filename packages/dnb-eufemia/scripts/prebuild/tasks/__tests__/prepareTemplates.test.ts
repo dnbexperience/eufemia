@@ -13,49 +13,60 @@ import {
   processMainIndex,
 } from '../prepareTemplates'
 
-jest.mock('ora', () => {
-  return jest.fn(() => ({
-    start: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
-    succeed: jest.fn(),
-    fail: jest.fn(),
-  }))
+vi.mock('ora', () => {
+  return {
+    default: vi.fn(() => ({
+      start: vi.fn(),
+      info: vi.fn(),
+      warn: vi.fn(),
+      succeed: vi.fn(),
+      fail: vi.fn(),
+    })),
+  }
 })
 
-jest.mock('fs-extra', () => {
-  return {
-    ...jest.requireActual('fs-extra'),
-    writeFile: jest.fn().mockResolvedValue(false),
-    readdir: jest.fn((source) => {
-      if (source.endsWith('/components')) {
+vi.mock('fs-extra', async () => {
+  const actual =
+    await vi.importActual<typeof import('fs-extra')>('fs-extra')
+  const actualModule = 'default' in actual ? actual.default : actual
+
+  const module = {
+    ...actualModule,
+    writeFile: vi.fn().mockResolvedValue(false),
+    readdir: vi.fn((source) => {
+      if (/\/components\/?$/.test(source)) {
         return ['component-a', 'component-b']
       }
-      if (source.endsWith('/elements')) {
+      if (/\/elements\/?$/.test(source)) {
         return ['element-a', 'element-b']
       }
-      if (source.endsWith('/extensions')) {
+      if (/\/extensions\/?$/.test(source)) {
         return ['extension-a', 'extension-b']
       }
-      if (source.endsWith('/fragments')) {
+      if (/\/fragments\/?$/.test(source)) {
         return ['fragment-a', 'fragment-b']
       }
 
       return []
     }),
-    lstatSync: jest.fn(() => {
+    lstatSync: vi.fn(() => {
       return {
-        isDirectory: jest.fn().mockResolvedValue(false),
-        isFile: jest.fn().mockResolvedValue(false),
+        isDirectory: vi.fn(() => true),
+        isFile: vi.fn(() => true),
       }
     }),
+  }
+
+  return {
+    ...module,
+    default: module,
   }
 })
 
 describe('prepareTemplates', () => {
   it('has to call writeFile a certain time', async () => {
-    const writeFile = jest.fn()
-    jest.spyOn(fs, 'writeFile').mockImplementation(writeFile)
+    const writeFile = vi.fn()
+    vi.spyOn(fs, 'writeFile').mockImplementation(writeFile)
 
     await prepareTemplates()
 
@@ -63,8 +74,8 @@ describe('prepareTemplates', () => {
   })
 
   it('has to write "main index" file', async () => {
-    const writeFile = jest.fn()
-    jest.spyOn(fs, 'writeFile').mockImplementation(writeFile)
+    const writeFile = vi.fn()
+    vi.spyOn(fs, 'writeFile').mockImplementation(writeFile)
 
     const components = await processComponents()
     const elements = await processElements()
@@ -116,8 +127,8 @@ describe('prepareTemplates', () => {
   })
 
   it('has to write "components" files', async () => {
-    const writeFile = jest.fn()
-    jest.spyOn(fs, 'writeFile').mockImplementation(writeFile)
+    const writeFile = vi.fn()
+    vi.spyOn(fs, 'writeFile').mockImplementation(writeFile)
 
     await processComponents()
 
@@ -210,8 +221,8 @@ describe('prepareTemplates', () => {
   })
 
   it('has to write "fragments" files', async () => {
-    const writeFile = jest.fn()
-    jest.spyOn(fs, 'writeFile').mockImplementation(writeFile)
+    const writeFile = vi.fn()
+    vi.spyOn(fs, 'writeFile').mockImplementation(writeFile)
 
     await processFragments()
 
@@ -249,8 +260,8 @@ describe('prepareTemplates', () => {
   })
 
   it('has to write "elements" files', async () => {
-    const writeFile = jest.fn()
-    jest.spyOn(fs, 'writeFile').mockImplementation(writeFile)
+    const writeFile = vi.fn()
+    vi.spyOn(fs, 'writeFile').mockImplementation(writeFile)
 
     await processElements()
 
@@ -272,8 +283,8 @@ describe('prepareTemplates', () => {
   })
 
   it('has to write "extensions" files', async () => {
-    const writeFile = jest.fn()
-    jest.spyOn(fs, 'writeFile').mockImplementation(writeFile)
+    const writeFile = vi.fn()
+    vi.spyOn(fs, 'writeFile').mockImplementation(writeFile)
 
     await processExtensions()
 

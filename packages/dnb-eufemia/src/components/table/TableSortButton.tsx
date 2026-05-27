@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import Button from '../button/Button'
 
 export default function TableSortButton({ className = null, ...props }) {

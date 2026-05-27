@@ -74,10 +74,10 @@ describe('TableAccordion', () => {
     expect(attributes).toEqual(['aria-hidden', 'hidden', 'class'])
     expect(element.getAttribute('aria-hidden')).toBe('true')
     expect(element.getAttribute('hidden')).toBe('')
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-table__tr__accordion-content',
-      'dnb-table__tr__accordion-content--single',
-    ])
+    expect(element).toHaveClass(
+      'dnb-table__tr__accordion-content dnb-table__tr__accordion-content--single',
+      { exact: true }
+    )
   })
 
   it('expanded accordion content tr should contain correct roles', () => {
@@ -102,13 +102,10 @@ describe('TableAccordion', () => {
     expect(attributes).toEqual(['aria-hidden', 'role', 'class'])
     expect(accordionElem.getAttribute('aria-hidden')).toBe('false')
     expect(accordionElem.getAttribute('role')).toBe('row')
-    expect(Array.from(accordionElem.classList)).toEqual([
-      'dnb-table__tr__accordion-content',
-      'dnb-table__tr__accordion-content--single',
-      'dnb-table__tr',
-      'dnb-table__tr__accordion-content--expanded',
-      'dnb-table__tr__accordion-content--parallax',
-    ])
+    expect(accordionElem).toHaveClass(
+      'dnb-table__tr__accordion-content dnb-table__tr__accordion-content--single dnb-table__tr dnb-table__tr__accordion-content--expanded dnb-table__tr__accordion-content--parallax',
+      { exact: true }
+    )
   })
 
   it('noAnimation should set correct class to tr', () => {
@@ -125,13 +122,10 @@ describe('TableAccordion', () => {
 
     const element = document.querySelector('tr') as HTMLTableRowElement
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-table__tr',
-      'dnb-table__tr--odd',
-      'dnb-table__tr--last',
-      'dnb-table__tr--clickable',
-      'dnb-table__tr--no-animation',
-    ])
+    expect(element).toHaveClass(
+      'dnb-table__tr dnb-table__tr--odd dnb-table__tr--last dnb-table__tr--clickable dnb-table__tr--no-animation',
+      { exact: true }
+    )
   })
 
   it('content td should render when closed', () => {
@@ -368,10 +362,10 @@ describe('TableAccordion', () => {
     const trElement = document.querySelector('tr')
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
 
-    expect(Array.from(accordionElem.classList)).toEqual([
-      'dnb-table__tr__accordion-content',
-      'dnb-table__tr__accordion-content--single',
-    ])
+    expect(accordionElem).toHaveClass(
+      'dnb-table__tr__accordion-content dnb-table__tr__accordion-content--single',
+      { exact: true }
+    )
 
     fireEvent.click(trElement)
 
@@ -406,7 +400,7 @@ describe('TableAccordion', () => {
     const inputElem = trElement.querySelector('input')
     const buttonElem = trElement.querySelector('button#test-button')
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
     fireEvent.click(inputElem)
 
@@ -414,9 +408,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(buttonElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(buttonElem)
 
     fireEvent.click(buttonElem)
 
@@ -424,7 +416,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
 
     fireEvent.click(inputElem)
 
@@ -451,10 +443,10 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    const getSelection = jest.fn(() => ({
+    const getSelection = vi.fn(() => ({
       toString: () => 'mock selection',
-    })) as jest.Mock
-    jest.spyOn(window, 'getSelection').mockImplementationOnce(getSelection)
+    })) as import('vitest').Mock
+    vi.spyOn(window, 'getSelection').mockImplementationOnce(getSelection)
 
     // Open again, but with selection
     fireEvent.click(trElement)
@@ -464,7 +456,7 @@ describe('TableAccordion', () => {
     )
 
     // Simulate keyboard usage
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(inputElem)
 
     fireEvent.keyDown(inputElem, { key: 'Enter' })
 
@@ -478,9 +470,9 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(labelElement)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(
+      labelElement
+    )
 
     fireEvent.keyDown(labelElement, { key: 'Enter' })
 
@@ -494,7 +486,7 @@ describe('TableAccordion', () => {
       'dnb-table__tr--expanded'
     )
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
   })
 
   it('tr should open on toggle button click', () => {
@@ -514,9 +506,9 @@ describe('TableAccordion', () => {
       '.dnb-table__button button'
     )
 
-    jest
-      .spyOn(document, 'activeElement', 'get')
-      .mockReturnValue(toggleButtonElem)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(
+      toggleButtonElem
+    )
 
     fireEvent.click(toggleButtonElem)
 
@@ -698,7 +690,7 @@ describe('TableAccordion', () => {
     const trElement = document.querySelector('tbody tr')
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
 
-    jest.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
+    vi.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
 
     expect(Array.from(trElement.classList)).not.toContain(
       'dnb-table__tr--expanded'
@@ -708,7 +700,7 @@ describe('TableAccordion', () => {
     const enterKey = createEvent.keyDown(trElement, {
       key: 'Enter',
     })
-    enterKey.preventDefault = jest.fn()
+    enterKey.preventDefault = vi.fn()
     fireEvent(trElement, enterKey)
 
     expect(enterKey.preventDefault).toHaveBeenCalledTimes(1)
@@ -723,7 +715,7 @@ describe('TableAccordion', () => {
     const spaceKey = createEvent.keyDown(trElement, {
       key: ' ',
     })
-    spaceKey.preventDefault = jest.fn()
+    spaceKey.preventDefault = vi.fn()
     fireEvent(trElement, spaceKey)
 
     expect(spaceKey.preventDefault).toHaveBeenCalledTimes(1)
@@ -749,12 +741,10 @@ describe('TableAccordion', () => {
 
     const trElement = document.querySelector('tr')
 
-    expect(Array.from(trElement.classList)).toEqual([
-      'dnb-table__tr',
-      'dnb-table__tr--odd',
-      'dnb-table__tr--last',
-      'dnb-table__tr--clickable',
-    ])
+    expect(trElement).toHaveClass(
+      'dnb-table__tr dnb-table__tr--odd dnb-table__tr--last dnb-table__tr--clickable',
+      { exact: true }
+    )
 
     fireEvent.mouseEnter(trElement)
 
@@ -844,7 +834,7 @@ describe('TableAccordion', () => {
     })
 
     it('should call startViewTransition', () => {
-      const startViewTransition = jest.fn()
+      const startViewTransition = vi.fn()
       document.startViewTransition = startViewTransition
 
       render(
@@ -868,7 +858,7 @@ describe('TableAccordion', () => {
     })
 
     it('should not call startViewTransition on close', () => {
-      const startViewTransition = jest.fn((cb) => cb())
+      const startViewTransition = vi.fn((cb) => cb())
       document.startViewTransition = startViewTransition
 
       render(
@@ -942,7 +932,7 @@ describe('TableAccordion', () => {
 
   describe('events', () => {
     it('should emit onClick event', () => {
-      const onClick = jest.fn()
+      const onClick = vi.fn()
       const trid = '123'
 
       render(
@@ -968,7 +958,7 @@ describe('TableAccordion', () => {
     })
 
     it('should emit onOpen event', () => {
-      const onOpen = jest.fn()
+      const onOpen = vi.fn()
 
       render(
         <Table mode="accordion">
@@ -992,8 +982,8 @@ describe('TableAccordion', () => {
     })
 
     it('should emit onClose event', () => {
-      const onClose = jest.fn()
-      const onOpen = jest.fn()
+      const onClose = vi.fn()
+      const onOpen = vi.fn()
 
       render(
         <Table mode="accordion">

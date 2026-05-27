@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import SharedContext from '../../../../shared/Context'
 import { getCurrencySymbol } from '../../../../components/number-format/NumberUtils'
 import { CURRENCY } from '../../../../shared/defaults'

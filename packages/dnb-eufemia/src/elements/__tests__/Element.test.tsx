@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent } from '../../core/jest/jestSetup'
+import { axeComponent } from '../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import type { ElementAllProps } from '../Element'
 import Element, { defaultProps } from '../Element'
@@ -17,6 +17,10 @@ const props: ElementAllProps = {
   skeleton: true,
 }
 
+const sortClassNames = (className: string | null) => {
+  return (className || '').split(/\s+/).filter(Boolean).sort()
+}
+
 describe('Element', () => {
   it('have to merge className', () => {
     const { container } = render(
@@ -25,8 +29,10 @@ describe('Element', () => {
       </Element>
     )
 
-    expect(container.querySelector('p').getAttribute('class')).toBe(
-      'extra dnb-skeleton dnb-skeleton--font dnb-p'
+    expect(
+      sortClassNames(container.querySelector('p').getAttribute('class'))
+    ).toEqual(
+      sortClassNames('extra dnb-skeleton dnb-skeleton--font dnb-p')
     )
   })
 
@@ -39,10 +45,9 @@ describe('Element', () => {
 
     const element = document.querySelector('.dnb-p')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-p',
-      'dnb-space__top--medium',
-    ])
+    expect(element).toHaveClass('dnb-p dnb-space__top--medium', {
+      exact: true,
+    })
 
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
@@ -70,9 +75,9 @@ describe('Element', () => {
       </Element>
     )
 
-    expect(container.querySelector('p').getAttribute('class')).toBe(
-      'dnb-skeleton dnb-skeleton--font dnb-p'
-    )
+    expect(
+      sortClassNames(container.querySelector('p').getAttribute('class'))
+    ).toEqual(sortClassNames('dnb-skeleton dnb-skeleton--font dnb-p'))
 
     rerender(
       <Element as="p" skeleton skeletonMethod="shape">
@@ -80,9 +85,9 @@ describe('Element', () => {
       </Element>
     )
 
-    expect(container.querySelector('p').getAttribute('class')).toBe(
-      'dnb-skeleton dnb-skeleton--shape dnb-p'
-    )
+    expect(
+      sortClassNames(container.querySelector('p').getAttribute('class'))
+    ).toEqual(sortClassNames('dnb-skeleton dnb-skeleton--shape dnb-p'))
   })
 
   it('have inherit skeleton prop from shared Provider', () => {
@@ -96,8 +101,8 @@ describe('Element', () => {
 
     const element = container.querySelector('.my-p')
 
-    expect(element.getAttribute('class')).toBe(
-      'my-p dnb-skeleton dnb-skeleton--font dnb-p'
+    expect(sortClassNames(element.getAttribute('class'))).toEqual(
+      sortClassNames('my-p dnb-skeleton dnb-skeleton--font dnb-p')
     )
 
     const attributes = Array.from(element.attributes).map(
@@ -148,11 +153,11 @@ describe('Element', () => {
     const elementDiv = document.querySelector('#d')
     const elementA = document.querySelector('#a')
 
-    expect(Array.from(elementSpan.classList)).toEqual(['dnb-span'])
-    expect(Array.from(elementP.classList)).toEqual(['dnb-p'])
-    expect(Array.from(elementHeading.classList)).toEqual(['dnb-h1'])
-    expect(Array.from(elementDiv.classList)).toEqual(['dnb-div'])
-    expect(Array.from(elementA.classList)).toEqual(['dnb-a'])
+    expect(elementSpan).toHaveClass('dnb-span', { exact: true })
+    expect(elementP).toHaveClass('dnb-p', { exact: true })
+    expect(elementHeading).toHaveClass('dnb-h1', { exact: true })
+    expect(elementDiv).toHaveClass('dnb-div', { exact: true })
+    expect(elementA).toHaveClass('dnb-a', { exact: true })
   })
 
   it('should replace tag class with prop internalClass', () => {
@@ -164,7 +169,7 @@ describe('Element', () => {
 
     const element = document.querySelector('span')
 
-    expect(Array.from(element.classList)).toEqual(['replacement-class'])
+    expect(element).toHaveClass('replacement-class', { exact: true })
   })
 
   it('should not add tag class when internalClass is false', () => {
@@ -176,7 +181,7 @@ describe('Element', () => {
 
     const element = document.querySelector('span')
 
-    expect(Array.from(element.classList)).toEqual([])
+    expect(element.classList).toHaveLength(0)
   })
 
   it('should accept react element', () => {

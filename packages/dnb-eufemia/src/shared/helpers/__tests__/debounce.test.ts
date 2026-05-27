@@ -1,4 +1,4 @@
-import { wait } from '../../../core/jest/jestSetup'
+import { wait } from '../../../core/test-utils/testSetup'
 import { debounce, debounceAsync } from '../debounce'
 import { isAsync } from '../isAsync'
 
@@ -205,7 +205,7 @@ describe('debounceAsync', () => {
   })
 
   it('call "addCancelEvent" method on cancel', async () => {
-    const onCancel = jest.fn()
+    const onCancel = vi.fn()
     let wasCanceled = undefined
 
     const debounced = debounceAsync(async function (this: {
@@ -235,7 +235,7 @@ describe('debounceAsync', () => {
   })
 
   it('call "addCancelEvent" method on cancel – from the return', async () => {
-    const onCancel = jest.fn()
+    const onCancel = vi.fn()
 
     const debounced = debounceAsync(async () => null, delay)
 

@@ -64,13 +64,12 @@
 
 @mixin htmlDefault() {
   html {
-    &:not([data-visual-test]) {
-      scroll-behavior: smooth;
+    scroll-behavior: smooth;
 
-      @media (prefers-reduced-motion: reduce) {
-        scroll-behavior: auto;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
     }
+
     font-size: 100%;
 
     // IS_SAFARI_MOBILE

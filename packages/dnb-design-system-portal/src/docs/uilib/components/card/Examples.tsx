@@ -358,13 +358,57 @@ export const CustomBackgroundColorAndOutline = () => {
     <ComponentBox data-visual-test="layout-card-background-color-outline">
       <Flex.Vertical>
         <Form.MainHeading>I'm left aligned</Form.MainHeading>
-        <Card stack backgroundColor="pistachio" outline="sea-green">
+        <Card
+          stack
+          backgroundColor="var(--token-color-background-neutral-subtle)"
+          outline="var(--token-color-stroke-neutral)"
+        >
           <P>Card content</P>
           <Card outline="transparent">
             <P>Nested card</P>
           </Card>
         </Card>
       </Flex.Vertical>
+    </ComponentBox>
+  )
+}
+
+export const InteractiveCards = () => {
+  return (
+    <ComponentBox data-visual-test="layout-card-interactive">
+      <Card.List style={{ maxWidth: '640px', margin: '0 auto' }}>
+        <Card.ListItem center="when-small">
+          <Card.Action
+            onClick={() => console.log('Card clicked')}
+            stack
+            gap="x-small"
+          >
+            <Lead>Clickable card</Lead>
+            <P>
+              Click this card. It has hover, focus, and keyboard support.
+            </P>
+            <Button
+              variant="tertiary"
+              icon="chevron_right"
+              text="Read more"
+              element="span"
+            />
+          </Card.Action>
+        </Card.ListItem>
+
+        <Card.ListItem center="when-small">
+          <Card.Action href="/" stack gap="x-small">
+            <Lead>Link card</Lead>
+            <P>This card navigates with an anchor element.</P>
+            <Button
+              variant="tertiary"
+              icon="chevron_right"
+              text="Read more"
+              element="span"
+            />
+          </Card.Action>
+        </Card.ListItem>
+      </Card.List>
     </ComponentBox>
   )
 }

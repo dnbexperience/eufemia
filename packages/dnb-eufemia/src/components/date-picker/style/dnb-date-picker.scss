@@ -426,6 +426,9 @@
 
     // Hover states for checked date buttons
     html:not([data-whatintent='touch'])
+      &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:hover:not([disabled]),
+    html:not([data-whatintent='touch'])
       &--start-date#{&}--within-selection
       .dnb-button:hover:not([disabled]),
     html:not([data-whatintent='touch'])
@@ -440,7 +443,10 @@
       );
     }
 
-    // Active states for start and end date buttons
+    // Active states for selected date buttons
+    html:not([data-whatintent='touch'])
+      &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:active:not([disabled]),
     html:not([data-whatintent='touch'])
       &--start-date#{&}--within-selection
       .dnb-button:active:not([disabled]),
@@ -478,6 +484,18 @@
       &[disabled] {
         box-shadow: none;
       }
+    }
+
+    // Focus state for keyboard navigation (hover visual + focus outline)
+    &--selectable .dnb-button:focus-visible:not([disabled]) {
+      z-index: 2;
+      color: var(--token-color-component-button-text-action-hover);
+      background-color: var(--token-color-background-action-hover-subtle);
+
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action-focus),
+        var(--focus-ring-width)
+      );
     }
 
     html:not([data-whatintent='touch']) &--inactive .dnb-button[disabled] {

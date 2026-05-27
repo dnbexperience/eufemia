@@ -4,10 +4,21 @@
  */
 
 import { useEffect, useReducer, useState } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { vi } from 'vitest'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
+import {
+  createEvent,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react'
 import type { PaginationProps } from '../Pagination'
 import Pagination, { createPagination, Bar } from '../Pagination'
+import Anchor from '../../anchor/Anchor'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import Provider from '../../../shared/Provider'
@@ -242,7 +253,7 @@ describe('Pagination bar', () => {
   })
 
   it('has valid onChange callback', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
 
     render(<Pagination {...props} onChange={onChange} />)
 
@@ -263,14 +274,12 @@ describe('Pagination bar', () => {
 
 describe('Infinity scroller', () => {
   beforeEach(() => {
-    window.IntersectionObserver = jest
-      .fn()
-      .mockImplementation(function () {
-        return {
-          observe: jest.fn(),
-          disconnect: jest.fn(),
-        }
-      })
+    window.IntersectionObserver = vi.fn().mockImplementation(function () {
+      return {
+        observe: vi.fn(),
+        disconnect: vi.fn(),
+      }
+    })
   })
 
   const props: PaginationProps = {
@@ -288,7 +297,7 @@ describe('Infinity scroller', () => {
   }
 
   it('should derive startupPage from currentPage set after mount', async () => {
-    const onStartup = jest.fn()
+    const onStartup = vi.fn()
 
     const MyComponent = () => {
       const [currentPage, setCurrentPage] = useState(null)
@@ -312,9 +321,9 @@ describe('Infinity scroller', () => {
 
     render(<MyComponent />)
 
-    await waitForComponent()
-
-    expect(onStartup).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onStartup).toHaveBeenCalledTimes(1)
+    })
     expect(onStartup).toHaveBeenCalledWith(
       expect.objectContaining({ pageNumber: 3 })
     )
@@ -325,15 +334,15 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const onEnd = jest.fn()
-    const onStartup = jest.fn(action)
-    const onChange = jest.fn(action)
-    const onLoad = jest.fn()
-    const observe = jest.fn()
-    const disconnect = jest.fn()
+    const onEnd = vi.fn()
+    const onStartup = vi.fn(action)
+    const onChange = vi.fn(action)
+    const onLoad = vi.fn()
+    const observe = vi.fn()
+    const disconnect = vi.fn()
 
     let callObserver
-    window.IntersectionObserver = jest
+    window.IntersectionObserver = vi
       .fn()
       .mockImplementation(function (cb) {
         callObserver = cb
@@ -408,17 +417,17 @@ describe('Infinity scroller', () => {
   it('should handle startupCount properly', async () => {
     let resetInfinityHandler
 
-    const onStartup = jest.fn()
-    const onChange = jest.fn()
+    const onStartup = vi.fn()
+    const onChange = vi.fn()
 
     let callObserver
-    window.IntersectionObserver = jest
+    window.IntersectionObserver = vi
       .fn()
       .mockImplementation(function (cb) {
         callObserver = cb
         return {
-          observe: jest.fn(),
-          disconnect: jest.fn(),
+          observe: vi.fn(),
+          disconnect: vi.fn(),
         }
       })
 
@@ -605,9 +614,9 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const onStartup = jest.fn(action)
-    const onChange = jest.fn(action)
-    const onLoad = jest.fn()
+    const onStartup = vi.fn(action)
+    const onChange = vi.fn(action)
+    const onLoad = vi.fn()
 
     const clickOnLoadMore = async () => {
       fireEvent.click(
@@ -702,12 +711,10 @@ describe('Infinity scroller', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-pagination',
-        'dnb-space__top--large',
-        'dnb-pagination--left',
-      ])
+    expect(element).toHaveClass(
+      'dnb-pagination',
+      'dnb-space__top--large',
+      'dnb-pagination--left'
     )
   })
 
@@ -720,11 +727,9 @@ describe('Infinity scroller', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-pagination__bar',
-        'dnb-space__top--large',
-      ])
+    expect(element).toHaveClass(
+      'dnb-pagination__bar',
+      'dnb-space__top--large'
     )
   })
 
@@ -765,10 +770,10 @@ describe('Infinity scroller', () => {
   it('should support InfinityMarker from createPagination', async () => {
     let resetInfinityHandler
 
-    const onStartup = jest.fn()
-    const onChange = jest.fn()
-    const onLoad = jest.fn()
-    const onEnd = jest.fn()
+    const onStartup = vi.fn()
+    const onChange = vi.fn()
+    const onLoad = vi.fn()
+    const onEnd = vi.fn()
 
     const MyComponent = () => {
       const startupPage = 3
@@ -869,7 +874,7 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const onStartup = jest.fn(action)
+    const onStartup = vi.fn(action)
 
     render(
       <Pagination
@@ -896,7 +901,7 @@ describe('Infinity scroller', () => {
       setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
     }
 
-    const onStartup = jest.fn(action)
+    const onStartup = vi.fn(action)
 
     render(
       <Pagination
@@ -960,6 +965,241 @@ describe('undefined props should fall through to defaults', () => {
 
     // Should render without errors even when pageCount is undefined
     expect(document.querySelector('#page-content')).toBeInTheDocument()
+  })
+})
+
+describe('Pagination transformNavigationItem', () => {
+  const transformNavigationItem = (page: number, navigationItemProps) => (
+    <Anchor href={`/page/${page}`} {...navigationItemProps} />
+  )
+
+  it('renders navigation buttons as anchor elements when transformNavigationItem is provided', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const anchors = document.querySelectorAll(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button'
+    )
+
+    expect(anchors.length).toBeGreaterThan(0)
+    anchors.forEach((anchor) => {
+      expect(anchor.tagName).toBe('A')
+    })
+  })
+
+  it('sets correct href on navigation buttons', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const anchors = document.querySelectorAll(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button:not(.dnb-pagination__button--prev):not(.dnb-pagination__button--next)'
+    )
+
+    anchors.forEach((anchor) => {
+      const pageNumber = anchor.textContent
+      expect(anchor.getAttribute('href')).toBe(`/page/${pageNumber}`)
+    })
+  })
+
+  it('renders prev/next as anchors inside the inner row', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const prevButton = document.querySelector(
+      '.dnb-pagination__bar__inner .dnb-pagination__button--prev'
+    )
+    const nextButton = document.querySelector(
+      '.dnb-pagination__bar__inner .dnb-pagination__button--next'
+    )
+
+    expect(prevButton.tagName).toBe('A')
+    expect(prevButton.getAttribute('href')).toBe('/page/2')
+
+    expect(nextButton.tagName).toBe('A')
+    expect(nextButton.getAttribute('href')).toBe('/page/4')
+  })
+
+  it('does not render prev button on first page', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const prevButton = document.querySelector(
+      '.dnb-pagination__bar__inner .dnb-pagination__button--prev'
+    )
+
+    expect(prevButton).toBeNull()
+  })
+
+  it('does not render next button on last page', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={5}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const nextButton = document.querySelector(
+      '.dnb-pagination__bar__inner .dnb-pagination__button--next'
+    )
+
+    expect(nextButton).toBeNull()
+  })
+
+  it('renders as buttons when transformNavigationItem is not provided', () => {
+    render(<Pagination pageCount={5} currentPage={1} />)
+
+    const buttons = document.querySelectorAll(
+      '.dnb-pagination__bar__inner .dnb-pagination__button'
+    )
+
+    buttons.forEach((button) => {
+      expect(button.tagName).toBe('BUTTON')
+    })
+  })
+
+  it('does not render skip bar when transformNavigationItem is provided', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const skipBar = document.querySelector('.dnb-pagination__bar__skip')
+
+    expect(skipBar).toBeNull()
+  })
+
+  it('still calls onChange when clicking an anchor navigation button', () => {
+    const onChange = vi.fn()
+
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        transformNavigationItem={transformNavigationItem}
+        onChange={onChange}
+      />
+    )
+
+    const secondPage = document.querySelector(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button:nth-child(2)'
+    )
+    fireEvent.click(secondPage)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ pageNumber: 2 })
+    )
+  })
+
+  it('does not call onChange on modified clicks when using anchor navigation items', () => {
+    const onChange = vi.fn()
+
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        transformNavigationItem={transformNavigationItem}
+        onChange={onChange}
+      />
+    )
+
+    const secondPage = document.querySelector(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button:nth-child(2)'
+    )
+
+    // Use createEvent + preventDefault so jsdom does not attempt
+    // navigation (which emits "Not implemented" warnings).
+    const event = createEvent.click(secondPage, { metaKey: true })
+    event.preventDefault()
+    fireEvent(secondPage, event)
+
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('does not call onChange on modified prev/next clicks when using anchor navigation items', () => {
+    const onChange = vi.fn()
+
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        transformNavigationItem={transformNavigationItem}
+        onChange={onChange}
+      />
+    )
+
+    const nextButton = document.querySelector(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button--next'
+    )
+
+    // Use createEvent + preventDefault so jsdom does not attempt
+    // navigation (which emits "Not implemented" warnings).
+    const event = createEvent.click(nextButton, { ctrlKey: true })
+    event.preventDefault()
+    fireEvent(nextButton, event)
+
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('calls preventDefault on normal anchor clicks to avoid double navigation', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={1}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const anchor = document.querySelector(
+      '.dnb-pagination__bar__inner a.dnb-pagination__button:nth-child(2)'
+    )
+    const event = createEvent.click(anchor)
+    fireEvent(anchor, event)
+
+    expect(event.defaultPrevented).toBe(true)
+  })
+
+  it('renders current page as a non-interactive span', () => {
+    render(
+      <Pagination
+        pageCount={5}
+        currentPage={3}
+        transformNavigationItem={transformNavigationItem}
+      />
+    )
+
+    const currentPage = document.querySelector(
+      '.dnb-pagination__button--current'
+    )
+
+    expect(currentPage.tagName).toBe('SPAN')
+    expect(currentPage.getAttribute('aria-current')).toBe('page')
+    expect(currentPage.textContent).toBe('3')
+    expect(currentPage.getAttribute('href')).toBeNull()
   })
 })
 

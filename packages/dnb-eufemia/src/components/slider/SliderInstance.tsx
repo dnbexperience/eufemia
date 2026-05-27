@@ -5,7 +5,7 @@
 
 import { useContext } from 'react'
 import type { ElementType } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { useSpacing } from '../space/SpacingUtils'
 import {

@@ -4,7 +4,11 @@
  */
 
 import { act, useState } from 'react'
-import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import {
+  axeComponent,
+  loadScss,
+  wait,
+} from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
@@ -96,9 +100,9 @@ describe('Tooltip', () => {
       </Tooltip>
     )
 
-    expect(
-      Array.from(document.querySelector('.dnb-tooltip').classList)
-    ).toEqual(expect.arrayContaining(['dnb-tooltip--large']))
+    expect(document.querySelector('.dnb-tooltip')).toHaveClass(
+      'dnb-tooltip--large'
+    )
   })
 
   it('should remove unmounted portal parts', () => {
@@ -143,9 +147,9 @@ describe('Tooltip', () => {
       </Tooltip>
     )
 
-    expect(
-      Array.from(document.querySelector('.dnb-tooltip').classList)
-    ).toEqual(expect.arrayContaining(['dnb-tooltip--fixed']))
+    expect(document.querySelector('.dnb-tooltip')).toHaveClass(
+      'dnb-tooltip--fixed'
+    )
   })
 
   it('should set placement class', () => {
@@ -155,13 +159,9 @@ describe('Tooltip', () => {
       </Tooltip>
     )
 
-    expect(
-      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
-    ).toEqual(
-      expect.arrayContaining([
-        'dnb-tooltip__arrow__arrow--center',
-        'dnb-tooltip__arrow__placement--right',
-      ])
+    expect(document.querySelector('.dnb-tooltip__arrow')).toHaveClass(
+      'dnb-tooltip__arrow__arrow--center',
+      'dnb-tooltip__arrow__placement--right'
     )
   })
 
@@ -172,13 +172,9 @@ describe('Tooltip', () => {
       </Tooltip>
     )
 
-    expect(
-      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
-    ).toEqual(
-      expect.arrayContaining([
-        'dnb-tooltip__arrow__arrow--right',
-        'dnb-tooltip__arrow__placement--top',
-      ])
+    expect(document.querySelector('.dnb-tooltip__arrow')).toHaveClass(
+      'dnb-tooltip__arrow__arrow--right',
+      'dnb-tooltip__arrow__placement--top'
     )
   })
 
@@ -486,11 +482,9 @@ describe('Tooltip', () => {
         render(<Tooltip open />)
 
         const portalRoot = document.querySelector('.dnb-tooltip__portal')
-        expect(Array.from(portalRoot.classList)).toEqual(
-          expect.arrayContaining([
-            'dnb-tooltip__portal',
-            'dnb-popover__portal',
-          ])
+        expect(portalRoot).toHaveClass(
+          'dnb-tooltip__portal',
+          'dnb-popover__portal'
         )
       })
 
@@ -585,12 +579,10 @@ describe('Tooltip', () => {
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition open />)
 
-      expect(Array.from(getMainElem().classList)).toEqual(
-        expect.arrayContaining([
-          'dnb-tooltip',
-          'dnb-tooltip--active',
-          'dnb-tooltip--fixed',
-        ])
+      expect(getMainElem()).toHaveClass(
+        'dnb-tooltip',
+        'dnb-tooltip--active',
+        'dnb-tooltip--fixed'
       )
     })
 
@@ -601,7 +593,7 @@ describe('Tooltip', () => {
         type: string
       }> = []
 
-      const spy = jest
+      const spy = vi
         .spyOn(HTMLElement.prototype, 'addEventListener')
         .mockImplementation(function (
           this: EventTarget,
@@ -772,10 +764,10 @@ describe('Tooltip', () => {
         '.dnb-tooltip__wrapper'
       )
       expect(wrapperElement.getAttribute('tabindex')).toBe('0')
-      expect(Array.from(wrapperElement.classList)).toEqual([
-        'dnb-tooltip__wrapper',
-        'dnb-tab-focus',
-      ])
+      expect(wrapperElement).toHaveClass(
+        'dnb-tooltip__wrapper dnb-tab-focus',
+        { exact: true }
+      )
 
       fireEvent.mouseEnter(wrapperElement)
 
@@ -788,9 +780,7 @@ describe('Tooltip', () => {
         }
         return node
       })
-      expect(Array.from(tooltipElement.classList)).toEqual(
-        expect.arrayContaining(['dnb-tooltip', 'custom-class'])
-      )
+      expect(tooltipElement).toHaveClass('dnb-tooltip', 'custom-class')
 
       const id = wrapperElement.getAttribute('aria-describedby')
       expect(document.body.querySelectorAll('#' + id).length).toBe(1)
@@ -1006,7 +996,7 @@ describe('Tooltip', () => {
   it('passes triggerOffset down to Popover when positioning the tooltip', () => {
     const collectedOffsets: Array<number | undefined> = []
     const originalPopover = PopoverModule.default
-    const spy = jest
+    const spy = vi
       .spyOn(PopoverModule, 'default')
       .mockImplementation((props) => {
         if (

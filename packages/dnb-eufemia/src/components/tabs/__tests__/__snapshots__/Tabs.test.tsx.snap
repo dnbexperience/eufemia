@@ -69,11 +69,7 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
 }
 .dnb-tabs__tabs__tablist {
   overscroll-behavior: contain;
-}
-html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   scroll-behavior: smooth;
-}
-.dnb-tabs__tabs__tablist {
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 @supports not (scrollbar-color: auto) {
@@ -369,9 +365,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
 }
 .dnb-tabs__cached--hidden * {
   height: 0 !important;
-}
-html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-tabs .dnb-tabs__button, html[data-visual-test] .dnb-tabs .dnb-tabs__button__snap, html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
-  transition: none !important;
 }
 .dnb-tabs__content:focus-visible {
   position: relative;
@@ -463,11 +456,7 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
 }
 .dnb-tabs__tabs__tablist {
   overscroll-behavior: contain;
-}
-html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   scroll-behavior: smooth;
-}
-.dnb-tabs__tabs__tablist {
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 @supports not (scrollbar-color: auto) {
@@ -763,9 +752,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
 }
 .dnb-tabs__cached--hidden * {
   height: 0 !important;
-}
-html[data-visual-test] .dnb-tabs .dnb-tabs__cached, html[data-visual-test] .dnb-tabs .dnb-tabs__button, html[data-visual-test] .dnb-tabs .dnb-tabs__button__snap, html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
-  transition: none !important;
 }
 .dnb-tabs__content:focus-visible {
   position: relative;

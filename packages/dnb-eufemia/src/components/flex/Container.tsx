@@ -12,7 +12,7 @@ import type {
   ReactElement,
   ReactNode,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import type { SpaceProps } from '../space/Space'
 import Space from '../space/Space'
 import { Hr } from '../../elements'

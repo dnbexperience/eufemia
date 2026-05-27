@@ -13,7 +13,7 @@ import type {
   RefObject,
   SyntheticEvent,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
 import {
@@ -26,6 +26,7 @@ import { useSpacing } from '../space/SpacingUtils'
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
+import type { NavigationItemProps } from './PaginationBar'
 
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
@@ -218,6 +219,13 @@ export type PaginationProps = {
    * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).
    */
   barSpace?: SpaceTypeAll
+  /**
+   * A function that receives `(pageNumber, props)` and returns a React element. Spread the `props` onto your element to get the correct `NavigationItemProps`. Anchor-like elements keep the browser default behavior on modified or middle clicks.
+   */
+  transformNavigationItem?: (
+    pageNumber: number,
+    navigationItemProps: NavigationItemProps
+  ) => ReactNode
   className?: string
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
@@ -334,6 +342,7 @@ const PaginationInstance = memo(function PaginationInstance(
     loadButton: _loadButton,
     indicatorElement: _indicatorElement,
     placeMarkerBeforeContent: _placeMarkerBeforeContent,
+    transformNavigationItem: _transformNavigationItem,
 
     ...attributes
   } = props as Record<string, unknown>

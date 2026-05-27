@@ -11,7 +11,7 @@ const nb = nbNO['nb-NO'].IterateEditContainer
 
 describe('ResetButton', () => {
   it('should not call "switchContainerMode"', () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <IterateItemContext value={{ switchContainerMode }}>
@@ -27,7 +27,7 @@ describe('ResetButton', () => {
   })
 
   it('should not call "switchContainerMode" when isNew is true', () => {
-    const switchContainerMode = jest.fn()
+    const switchContainerMode = vi.fn()
 
     render(
       <IterateItemContext value={{ switchContainerMode, isNew: true }}>
@@ -43,7 +43,7 @@ describe('ResetButton', () => {
   })
 
   it('should call "restoreOriginalValue" with undefined', () => {
-    const restoreOriginalValue = jest.fn()
+    const restoreOriginalValue = vi.fn()
 
     render(
       <IterateItemContext
@@ -67,7 +67,7 @@ describe('ResetButton', () => {
   })
 
   it('should show a confirm dialog by default', async () => {
-    const restoreOriginalValue = jest.fn()
+    const restoreOriginalValue = vi.fn()
 
     render(
       <IterateItemContext
@@ -100,8 +100,8 @@ describe('ResetButton', () => {
   })
 
   it('should call "setShowError=false" when hasError is true and hasVisibleError is false', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext
@@ -133,8 +133,8 @@ describe('ResetButton', () => {
   })
 
   it('should call "setShowError=false" when hasError and hasVisibleError is true', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext
@@ -166,8 +166,8 @@ describe('ResetButton', () => {
   })
 
   it('should call "setShowError=false" when hasError and hasVisibleError is true and initialContainerMode is "auto"', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext
@@ -200,8 +200,8 @@ describe('ResetButton', () => {
   })
 
   it('should call "setShowError=false" when hasError is false and hasVisibleError is true', () => {
-    const setShowError = jest.fn()
-    const setShowBoundaryErrors = jest.fn()
+    const setShowError = vi.fn()
+    const setShowBoundaryErrors = vi.fn()
 
     render(
       <FieldBoundaryContext

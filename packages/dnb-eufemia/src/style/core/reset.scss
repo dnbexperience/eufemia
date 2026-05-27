@@ -379,11 +379,11 @@
 @mixin resetLegacyStyles() {
   html[xmlns='http://www.w3.org/1999/xhtml'] {
     .dnb-anchor--active {
-      color: var(--color-mint-green) !important;
+      color: var(--anchor-color) !important;
     }
 
     a.dnb-button--primary {
-      color: var(--color-white);
+      color: var(--button-color-text, var(--button-color-text--default));
     }
 
     // reset lists
@@ -394,8 +394,13 @@
     // reset paragraphs
     .dnb-p {
       overflow: initial;
-      text-align: inherit;
       background-color: initial;
+    }
+    // Separate text-align reset so alignment modifiers (.dnb-t__align--center
+    // etc.) are not overridden by the xmlns specificity boost (0,2,1) that
+    // the resetLegacyStyles mixin adds via html[xmlns='...'].
+    .dnb-p:not([class*='dnb-t__align']) {
+      text-align: inherit;
     }
     i {
       font-style: italic;

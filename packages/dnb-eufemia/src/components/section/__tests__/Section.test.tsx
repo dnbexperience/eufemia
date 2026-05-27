@@ -6,7 +6,7 @@
 import { useContext, useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { SectionAllProps } from '../Section'
 import Section from '../Section'
 import Provider from '../../../shared/Provider'
@@ -30,19 +30,17 @@ describe('Section component', () => {
 
     const element = document.querySelector('section.dnb-section')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-section',
-      'dnb-section--warning',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-section dnb-section--warning',
+      { exact: true }
+    )
 
     rerender(<Section variant="information">text</Section>)
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-section',
-      'dnb-section--information',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-section dnb-section--information',
+      { exact: true }
+    )
   })
 
   it('should support custom class name', () => {
@@ -50,12 +48,10 @@ describe('Section component', () => {
 
     const element = document.querySelector('section.dnb-section')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-section',
-      'dnb-section--default',
-      'custom-name',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-section dnb-section--default custom-name',
+      { exact: true }
+    )
   })
 
   it('should support custom html attributes', () => {
@@ -76,12 +72,10 @@ describe('Section component', () => {
 
     const element = document.querySelector('section.dnb-section')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-space__top--medium',
-      'dnb-section',
-      'dnb-section--default',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-space__top--medium dnb-section dnb-section--default',
+      { exact: true }
+    )
   })
 
   it('will use props from Provider', () => {

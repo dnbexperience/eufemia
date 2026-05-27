@@ -6,7 +6,7 @@
 import fs from 'fs-extra'
 import tar from 'tar'
 import { log } from '../../../lib'
-import '../../../../src/core/jest/jestSetup'
+import '../../../../src/core/test-utils/testSetup'
 import { getFigmaDoc } from '../../helpers/docHelpers'
 import cliTools from '../../../tools/cliTools'
 import {
@@ -20,25 +20,31 @@ const localFile =
 const iconsLockFile =
   require.resolve('../../helpers/__tests__/files/icons-svg.lock')
 
+const bellMediumSvg =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 21.75a2.087 2.087 0 0 0 4.005 0M12 3a7.5 7.5 0 0 1 7.5 7.5c0 7.046 1.5 8.25 1.5 8.25H3s1.5-1.916 1.5-8.25A7.5 7.5 0 0 1 12 3Zm0 0V.75"/></svg>'
+
+const bellSvg =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.756 14.067a1.299 1.299 0 0 0 2.492 0M8 2.4a4.667 4.667 0 0 1 4.667 4.667c0 4.384.933 5.133.933 5.133H2.4s.933-1.192.933-5.133A4.667 4.667 0 0 1 8 2.4Zm0 0V1"/></svg>'
+
 afterEach(() => {
-  jest.clearAllMocks()
+  vi.clearAllMocks()
 })
 
-jest.mock('fs', () => {
-  const origFs = jest.requireActual('fs')
+vi.mock('fs', async () => {
+  const origFs = await vi.importActual('fs')
   return {
     ...origFs,
-    writeFile: jest.fn((file, content, encoding, cb) => {
+    writeFile: vi.fn((file, content, encoding, cb) => {
       cb()
     }),
   }
 })
 
-jest.mock('fs-extra', () => {
+vi.mock('fs-extra', async () => {
   const writeStream = {
     end: () => null,
     close: () => null,
-    on: jest.fn((state, cb) => {
+    on: vi.fn((state, cb) => {
       if (state === 'finish') {
         cb()
       }
@@ -46,10 +52,15 @@ jest.mock('fs-extra', () => {
       return writeStream
     }),
   }
-  const origFs = jest.requireActual('fs-extra')
-  return {
+  const actual = (await vi.importActual(
+    'fs-extra'
+  )) as typeof import('fs-extra')
+  const origFs = (
+    'default' in actual ? actual.default : actual
+  ) as typeof fs
+  const mockedFs = {
     ...origFs,
-    readFile: jest.fn(async (file, encoding, cb) => {
+    readFile: vi.fn(async (file, encoding, cb) => {
       if (file.endsWith('FigmaTestDoc.json')) {
         return origFs.readFileSync(file, encoding)
       }
@@ -85,67 +96,104 @@ jest.mock('fs-extra', () => {
         })
       }
 
-      if (file.endsWith('.svg')) {
+      if (
+        file.includes('7174498d6976279f85d53855a1165429') ||
+        file.includes('12b63b85ba08cf1588a42fb69cb9654c')
+      ) {
+        const svg = file.includes('7174498d6976279f85d53855a1165429')
+          ? bellMediumSvg
+          : bellSvg
+
         if (typeof cb === 'function') {
-          return cb(null, origFs.readFileSync(file, encoding))
+          return cb(null, svg)
         }
 
-        return origFs.readFileSync(file, encoding)
+        return svg
+      }
+
+      if (file.endsWith('.svg')) {
+        const svg = file.includes('bell_medium') ? bellMediumSvg : bellSvg
+
+        if (typeof cb === 'function') {
+          return cb(null, svg)
+        }
+
+        return svg
       }
 
       return 'unknown'
     }),
-    writeFile: jest.fn(),
-    move: jest.fn(),
-    unlink: jest.fn(),
-    rmdir: jest.fn(),
-    stat: jest.fn((file) => {
+    writeFile: vi.fn(),
+    move: vi.fn(),
+    unlink: vi.fn(),
+    rmdir: vi.fn(),
+    stat: vi.fn((file) => {
       const size = file.includes('eufemia-icons-xml.tgz') ? 100 : 200
       return { size }
     }),
-    existsSync: jest.fn(() => {
+    existsSync: vi.fn(() => {
       return true
     }),
-    createWriteStream: jest.fn(() => {
+    createWriteStream: vi.fn(() => {
       return writeStream
     }),
   }
-})
 
-jest.mock('tar', () => {
   return {
-    create: jest.fn(),
-    extract: jest.fn(),
+    ...actual,
+    ...mockedFs,
+    default: mockedFs,
   }
 })
 
-jest.mock('https', () => {
+vi.mock('tar', () => {
+  const tar = {
+    create: vi.fn(),
+    extract: vi.fn(),
+  }
+
   return {
-    get: jest.fn(() => {
-      return { on: jest.fn() }
+    default: tar,
+    ...tar,
+  }
+})
+
+vi.mock('https', () => {
+  const https = {
+    get: vi.fn((url, callback) => {
+      callback?.({
+        pipe: (stream) => stream,
+      })
+
+      return { on: vi.fn() }
     }),
   }
-})
 
-jest.mock('svgo', () => {
-  const svgoConfig = jest.requireActual('../../../../svgo.config')
   return {
-    ...jest.requireActual('svgo'),
-    loadConfig: jest.fn().mockResolvedValue(svgoConfig),
+    default: https,
+    ...https,
   }
 })
 
-jest.mock('../../helpers/docHelpers', () => {
+vi.mock('svgo', async () => {
+  const svgoConfig = await vi.importActual('../../../../svgo.config')
   return {
-    ...jest.requireActual('../../helpers/docHelpers'),
-    getFigmaUrlByImageIds: jest.fn().mockResolvedValue({
+    ...(await vi.importActual('svgo')),
+    loadConfig: vi.fn().mockResolvedValue(svgoConfig),
+  }
+})
+
+vi.mock('../../helpers/docHelpers', async () => {
+  return {
+    ...(await vi.importActual('../../helpers/docHelpers')),
+    getFigmaUrlByImageIds: vi.fn().mockResolvedValue({
       '2:63': 'file:./7174498d6976279f85d53855a1165429',
       '41:2': 'file:./12b63b85ba08cf1588a42fb69cb9654c',
     }),
   }
 })
 
-jest.mock('../../../tools/cliTools')
+vi.mock('../../../tools/cliTools')
 
 describe('assetsExtractors', () => {
   it('IconsConfig', () => {
@@ -167,21 +215,21 @@ describe('assetsExtractors', () => {
     expect(config.destDir).toContain('/packages/dnb-eufemia/assets/icons')
   })
 
-  const start = jest.fn()
-  const info = jest.fn()
-  const succeed = jest.fn()
-  const runCommand = jest.fn(async (cmd) => {
+  const start = vi.fn()
+  const info = vi.fn()
+  const succeed = vi.fn()
+  const runCommand = vi.fn(async (cmd) => {
     return cmd
   })
 
   const runMock = async () => {
-    jest.spyOn(log, 'start').mockImplementation(start)
-    jest.spyOn(log, 'info').mockImplementation(info)
-    jest.spyOn(log, 'succeed').mockImplementation(succeed)
+    vi.spyOn(log, 'start').mockImplementation(start)
+    vi.spyOn(log, 'info').mockImplementation(info)
+    vi.spyOn(log, 'succeed').mockImplementation(succeed)
 
-    jest.spyOn(cliTools, 'runCommand').mockImplementation(runCommand)
+    vi.spyOn(cliTools, 'runCommand').mockImplementation(runCommand)
 
-    jest.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime())
+    vi.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime())
 
     const figmaDoc = await getFigmaDoc({
       forceRefetch: false,

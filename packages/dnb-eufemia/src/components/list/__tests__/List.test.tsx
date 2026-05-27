@@ -6,7 +6,7 @@
 
 import { render } from '@testing-library/react'
 import List from '../List'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fish_medium } from '../../../icons'
 
 describe('List', () => {
@@ -42,7 +42,7 @@ describe('List', () => {
   })
 
   it('renders an action/navigate list with clickable items', () => {
-    const onClick = jest.fn()
+    const onClick = vi.fn()
 
     render(
       <List.Container>

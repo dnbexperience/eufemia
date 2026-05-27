@@ -2,7 +2,7 @@ import { useReducer } from 'react'
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Form } from '../../..'
-import { axeComponent } from '../../../../../core/jest/jestSetup'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import locales from '../../../constants/locales'
 
 const nbNO = locales['nb-NO']
@@ -30,11 +30,10 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-forms-submit-indicator',
-      'custom-class',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-forms-submit-indicator custom-class',
+      { exact: true }
+    )
   })
 
   it('should have three dots', () => {
@@ -49,12 +48,10 @@ describe('Form.SubmitIndicator', () => {
 
     const element = document.querySelector('.dnb-forms-submit-indicator')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-space__top--large',
-      'dnb-forms-submit-indicator',
-      'dnb-forms-submit-indicator--state-pending',
-    ])
+    expect(element).toHaveClass(
+      'dnb-space dnb-space__top--large dnb-forms-submit-indicator dnb-forms-submit-indicator--state-pending',
+      { exact: true }
+    )
   })
 
   it('should forward HTML attributes', () => {

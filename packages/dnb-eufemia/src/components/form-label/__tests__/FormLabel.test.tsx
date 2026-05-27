@@ -5,7 +5,7 @@
 
 import { useRef } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import FormLabel from '../FormLabel'
 import Input from '../../input/Input'
@@ -172,10 +172,10 @@ describe('FormLabel component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-form-label',
-      'dnb-form-label--vertical',
-    ])
+    expect(element).toHaveClass(
+      'dnb-form-label dnb-form-label--vertical',
+      { exact: true }
+    )
   })
 
   it('should support vertical class', () => {
@@ -187,10 +187,10 @@ describe('FormLabel component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-form-label',
-      'dnb-form-label--vertical',
-    ])
+    expect(element).toHaveClass(
+      'dnb-form-label dnb-form-label--vertical',
+      { exact: true }
+    )
   })
 
   it('should support heading size prop', () => {

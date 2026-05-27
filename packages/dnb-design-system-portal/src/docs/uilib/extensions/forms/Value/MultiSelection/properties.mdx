@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { MultiSelectionProperties } from '@dnb/eufemia/src/extensions/forms/Value/MultiSelection/MultiSelectionDocs'
+import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
+
+## Properties
+
+### Value-specific properties
+
+<PropertiesTable props={MultiSelectionProperties} />
+
+### General properties
+
+<PropertiesTable
+  props={ValueProperties}
+  valueType="Array<string | number>"
+/>

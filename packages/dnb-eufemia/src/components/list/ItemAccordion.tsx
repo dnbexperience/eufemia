@@ -11,7 +11,7 @@ import type {
   MouseEvent as ReactMouseEvent,
   ReactNode,
 } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'

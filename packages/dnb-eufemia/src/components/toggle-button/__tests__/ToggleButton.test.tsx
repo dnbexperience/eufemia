@@ -10,7 +10,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import { StrictMode, useState } from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { ToggleButtonProps } from '../ToggleButton'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
@@ -98,7 +98,7 @@ describe('ToggleButton component', () => {
   })
 
   it('has "onChange" event which will trigger on a button click', () => {
-    const myEvent = jest.fn()
+    const myEvent = vi.fn()
     render(<ToggleButton onChange={myEvent} checked={false} />)
 
     // first click
@@ -287,7 +287,7 @@ describe('ToggleButton component', () => {
   })
 
   it('should support enter key', () => {
-    const onChange = jest.fn()
+    const onChange = vi.fn()
     render(<ToggleButton onChange={onChange} />)
 
     const element = document.querySelector('button')
@@ -304,11 +304,10 @@ describe('ToggleButton component', () => {
 
     const element = document.querySelector('.dnb-toggle-button')
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-toggle-button',
-      'dnb-toggle-button--vertical',
-      'dnb-space__top--large',
-    ])
+    expect(element).toHaveClass(
+      'dnb-toggle-button dnb-toggle-button--vertical dnb-space__top--large',
+      { exact: true }
+    )
   })
 
   it('should inherit formElement vertical label', () => {
@@ -324,10 +323,10 @@ describe('ToggleButton component', () => {
     )
 
     expect(attributes).toEqual(['class'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-toggle-button',
-      'dnb-toggle-button--vertical',
-    ])
+    expect(element).toHaveClass(
+      'dnb-toggle-button dnb-toggle-button--vertical',
+      { exact: true }
+    )
   })
 
   it('should show tooltip on hover', async () => {

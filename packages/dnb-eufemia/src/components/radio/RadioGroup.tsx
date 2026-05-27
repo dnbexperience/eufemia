@@ -4,7 +4,7 @@
 
 import { useCallback, useContext, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode, SyntheticEvent } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
