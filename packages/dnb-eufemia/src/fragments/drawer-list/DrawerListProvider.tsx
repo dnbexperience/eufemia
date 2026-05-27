@@ -183,16 +183,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   propsRef.current = props
 
   // Mutable state stored in ref
-  const stateRef = useRef<DrawerListContextState>(null)
-  if (!stateRef.current) {
-    stateRef.current = {
-      cacheHash: '',
-      activeItem: undefined,
-      selectedItem: undefined,
-      ignoreEvents: false,
-      ...prepareStartupState({ ...props, id }),
-    }
-  }
+  const stateRef = useRef<DrawerListContextState>({
+    cacheHash: '',
+    activeItem: undefined,
+    selectedItem: undefined,
+    ignoreEvents: false,
+    ...prepareStartupState({ ...props, id }),
+  })
 
   // Re-render trigger
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -245,7 +242,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const attributesRef = useRef<Record<string, any>>({})
   const showTimeoutRef = useRef<NodeJS.Timeout>(null)
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null)
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>(null)
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>(undefined)
   const directionTimeoutRef = useRef<NodeJS.Timeout>(null)
 
   const bodyLockEnabledRef = useRef(false)
@@ -674,56 +671,79 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
   }, [])
 
-  const scrollToItem = useCallback(
-    (activeItem, { scrollTo = true, element = null } = {}) => {
-      clearTimeout(scrollTimeoutRef.current)
-      scrollTimeoutRef.current = setTimeout(() => {
-        if (_refUl.current && parseFloat(activeItem) > -1) {
-          try {
-            const ulElement = _refUl.current
-            const liElement =
-              element || getActiveElement() || getSelectedElement()
-            if (liElement) {
-              const top = liElement.offsetTop + 8
-              if (ulElement.scrollTo) {
-                if (
+  const scrollToItem: DrawerListProviderProps['scrollToItem'] =
+    useCallback(
+      (activeItem, { scrollTo = true, element } = {}) => {
+        clearTimeout(scrollTimeoutRef.current)
+
+        scrollTimeoutRef.current = setTimeout(() => {
+          if (_refUl.current && parseFloat(activeItem as string) > -1) {
+            try {
+              const ulElement = _refUl.current
+              const liElement =
+                element || getActiveElement() || getSelectedElement()
+              if (liElement) {
+                const instantScroll =
                   scrollTo === false ||
-                  (window as Window & { IS_TEST?: boolean })['IS_TEST']
-                ) {
+                  Boolean(
+                    (window as Window & { IS_TEST?: boolean })['IS_TEST']
+                  )
+
+                if (instantScroll) {
+                  // must have both css and js use "auto" to get instant scroll.
                   ulElement.style.scrollBehavior = 'auto'
                 }
-                ulElement.scrollTo({
-                  top,
-                  behavior: scrollTo ? 'smooth' : 'auto',
-                })
-                if (scrollTo === false) {
-                  ulElement.style.scrollBehavior = 'smooth'
-                }
-              } else if (ulElement.scrollTop) {
-                ulElement.scrollTop = top
-              }
 
-              if (!propsRef.current.preventFocus && liElement) {
-                liElement.focus()
-                dispatchCustomElementEvent(
-                  { props: propsRef.current, state: stateRef.current },
-                  'onOpenFocus',
-                  {
-                    element: liElement,
+                if (liElement.scrollIntoView) {
+                  liElement.scrollIntoView({
+                    behavior: instantScroll ? 'auto' : 'smooth',
+                    block: 'nearest', // only scroll if element is out of view, and align to nearest edge
+                  })
+                } else {
+                  // Is this fallback ever needed? Are we concerned about browser support, or
+                  // is there some cases where a li element exists, has a position, but does
+                  // not have .scrollIntoView?
+
+                  const top = liElement.offsetTop - 8 // 8px to account for container padding
+
+                  if (ulElement.scrollTo) {
+                    ulElement.scrollTo({
+                      top,
+                      behavior: scrollTo ? 'smooth' : 'auto',
+                    })
+                  } else if (ulElement.scrollTop) {
+                    ulElement.scrollTop = top
                   }
-                )
+                }
+
+                if (instantScroll) {
+                  // reset behaviour after scrolling
+                  ulElement.style.scrollBehavior = ''
+                }
+
+                if (!propsRef.current.preventFocus) {
+                  liElement.focus({
+                    preventScroll: true,
+                  })
+                  dispatchCustomElementEvent(
+                    { props: propsRef.current, state: stateRef.current },
+                    'onOpenFocus',
+                    {
+                      element: liElement,
+                    }
+                  )
+                }
+              } else {
+                warn('The DrawerList item was not a DOM Element')
               }
-            } else {
-              warn('The DrawerList item was not a DOM Element')
+            } catch (e) {
+              warn('List could not scroll into element:', e)
             }
-          } catch (e) {
-            warn('List could not scroll into element:', e)
           }
-        }
-      }, 1)
-    },
-    [getActiveElement, getSelectedElement]
-  )
+        }, 1)
+      },
+      [getActiveElement, getSelectedElement]
+    )
 
   const setActiveItemAndScrollToIt = useCallback(
     (

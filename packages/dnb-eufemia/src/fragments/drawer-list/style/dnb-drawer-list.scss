@@ -276,6 +276,8 @@
     cursor: pointer;
 
     margin: 0 0 var(--drawer-list-option-gap);
+    scroll-margin-top: calc(var(--drawer-list-padding));
+    scroll-margin-bottom: calc(var(--drawer-list-padding));
     padding: 0;
     color: var(
       --drawer-list-option-color-text,
