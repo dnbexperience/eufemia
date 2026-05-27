@@ -71,7 +71,6 @@ const determineIcon = (variant: string) => {
     case 'home':
       return 'home-icon'
     case 'single':
-    case 'collapse':
       return 'chevron_left'
     default:
       return 'chevron_right'
