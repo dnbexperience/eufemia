@@ -112,6 +112,27 @@ describe('DateFormat', () => {
       }
     })
 
+    it('should preserve leading zeros with dateStyle="short" and hideYear', () => {
+      const { container } = render(
+        <DateFormat value="2026-08-01" dateStyle="short" hideYear />
+      )
+      const dateFormat = container.querySelector('.dnb-date-format')
+      expect(dateFormat?.textContent).toBe('01.08')
+    })
+
+    it('should preserve leading zeros with dateStyle="short" and hideCurrentYear', () => {
+      const now = new Date('2026-06-15T12:00:00.000Z')
+      vi.useFakeTimers({ now: now.getTime() })
+
+      const { container } = render(
+        <DateFormat value="2026-08-01" dateStyle="short" hideCurrentYear />
+      )
+      const dateFormat = container.querySelector('.dnb-date-format')
+      expect(dateFormat?.textContent).toBe('01.08')
+
+      vi.useRealTimers()
+    })
+
     it('should hide year for dates in other years when hideYear is true', () => {
       const { container } = render(
         <DateFormat value="2024-02-04" dateStyle="medium" hideYear />

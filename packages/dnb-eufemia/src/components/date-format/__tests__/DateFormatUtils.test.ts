@@ -107,6 +107,24 @@ describe('DateFormatUtils', () => {
         expect(otherYear).toMatch(/\d{1,2}/)
       }
     })
+
+    it('preserves leading zeros with dateStyle short and hideYear', () => {
+      const result = formatDate('2026-08-01', {
+        locale: 'nb-NO',
+        options: { dateStyle: 'short' },
+        hideYear: true,
+      })
+      expect(result).toBe('01.08')
+    })
+
+    it('preserves leading zeros with dateStyle short and hideYear for en-GB', () => {
+      const result = formatDate('2026-08-01', {
+        locale: 'en-GB',
+        options: { dateStyle: 'short' },
+        hideYear: true,
+      })
+      expect(result).toBe('01/08')
+    })
   })
 
   describe('getDateTimeSeparator', () => {
