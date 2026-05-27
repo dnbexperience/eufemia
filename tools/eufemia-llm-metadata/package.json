@@ -11,7 +11,7 @@
     "test": "vitest run",
     "test:types": "../../node_modules/.bin/tsc --noEmit",
     "lint": "node ../../node_modules/.bin/eslint **/*.ts",
-    "generate": "node --experimental-strip-types scripts/run-llm-metadata.ts"
+    "generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/run-llm-metadata.ts"
   },
   "dependencies": {
     "@dnb/eufemia": "workspace:*",
