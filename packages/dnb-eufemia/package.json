@@ -246,7 +246,8 @@
     "UX"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "release": {
     "branches": [
@@ -358,8 +359,7 @@
         {
           "tarballDir": "../dist",
           "npmPublish": true,
-          "pkgRoot": ".",
-          "provenance": true
+          "pkgRoot": "."
         }
       ],
       [
