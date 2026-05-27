@@ -1802,11 +1802,11 @@ describe('DatePicker component', () => {
     ).toBe('2024-10-31')
   })
 
-  it('should show only one calendar in range mode when rangeDualCalendar is false', async () => {
+  it('should show only one calendar in range mode when rangeSingleCalendar is true', async () => {
     render(
       <DatePicker
         range
-        rangeDualCalendar={false}
+        rangeSingleCalendar
         startDate="2024-10-01"
         endDate="2024-10-15"
       />
@@ -1833,13 +1833,13 @@ describe('DatePicker component', () => {
     expect(tables).toHaveLength(2)
   })
 
-  it('should support range selection with rangeDualCalendar={false}', async () => {
+  it('should support range selection with rangeSingleCalendar', async () => {
     const onChange = vi.fn()
 
     render(
       <DatePicker
         range
-        rangeDualCalendar={false}
+        rangeSingleCalendar
         startDate="2024-10-01"
         endDate="2024-10-15"
         onChange={onChange}

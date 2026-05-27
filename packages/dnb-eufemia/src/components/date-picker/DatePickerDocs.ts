@@ -60,8 +60,8 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  rangeDualCalendar: {
-    doc: 'If set to `false`, only one calendar is shown in range mode instead of two side-by-side calendars. Defaults to `true`.',
+  rangeSingleCalendar: {
+    doc: 'If set to `true`, only one calendar is shown in range mode instead of two side-by-side calendars. Only meant to use if the range is set to `true`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

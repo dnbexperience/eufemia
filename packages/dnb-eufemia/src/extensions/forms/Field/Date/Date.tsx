@@ -720,7 +720,7 @@ type ExcludedDatePickerProps =
   | 'endDate'
   // Props with different defaults, handled separately
   | 'range'
-  | 'rangeDualCalendar'
+  | 'rangeSingleCalendar'
   | 'showInput'
   | 'showCancelButton'
   | 'showResetButton'
