@@ -438,6 +438,7 @@
   // Input clear button styles
   &--clear.dnb-input__submit-element {
     opacity: 0;
+    pointer-events: none;
     transition: opacity 200ms ease-in-out;
 
     .dnb-button {
@@ -478,6 +479,7 @@
 
   &[data-has-content='true'] &--clear {
     opacity: 1;
+    pointer-events: auto;
   }
 
   &--has-submit-element &--clear.dnb-input__submit-element {
