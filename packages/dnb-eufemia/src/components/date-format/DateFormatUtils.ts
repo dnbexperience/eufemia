@@ -102,6 +102,53 @@ export function getDateTimeSeparator(
   }
 }
 
+/**
+ * Formats a date without the year by using formatToParts with the original
+ * dateStyle, then stripping the year and any adjacent separators.
+ * This preserves the locale-specific formatting (e.g. leading zeros for short style).
+ */
+function formatDateWithoutYear(
+  date: Date,
+  locale: AnyLocale,
+  dateStyle: NonNullable<Intl.DateTimeFormatOptions['dateStyle']>,
+  timeZone?: string
+): string {
+  const formatter = new Intl.DateTimeFormat(locale, {
+    dateStyle,
+    ...(timeZone ? { timeZone } : {}),
+  })
+
+  const parts = formatter.formatToParts(date)
+
+  // Remove year parts and any adjacent literal separators
+  const filtered: typeof parts = []
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i]
+
+    if (part.type === 'year' || part.type === 'relatedYear') {
+      continue
+    }
+
+    // Skip literal separators adjacent to the year
+    if (part.type === 'literal') {
+      const prev = parts[i - 1]
+      const next = parts[i + 1]
+      const prevIsYear =
+        prev?.type === 'year' || prev?.type === 'relatedYear'
+      const nextIsYear =
+        next?.type === 'year' || next?.type === 'relatedYear'
+
+      if (prevIsYear || nextIsYear) {
+        continue
+      }
+    }
+
+    filtered.push(part)
+  }
+
+  return filtered.map((p) => p.value).join('')
+}
+
 export function formatDate(
   dateValue: FormatDateInput,
   {
@@ -153,27 +200,12 @@ export function formatDate(
   }
 
   if (shouldHideYear) {
-    const dateOnlyOptionsByStyle: Record<
-      NonNullable<typeof dateStyle>,
-      Intl.DateTimeFormatOptions
-    > = {
-      full: { weekday: 'long', month: 'long', day: 'numeric' },
-      long: { month: 'long', day: 'numeric' },
-      medium: { month: 'short', day: 'numeric' },
-      short: { month: 'numeric', day: 'numeric' },
-    }
-
-    const dateOnlyOptions: Intl.DateTimeFormatOptions = {
-      ...dateOnlyOptionsByStyle[dateStyle],
-      ...(finalOptions.timeZone
-        ? { timeZone: finalOptions.timeZone }
-        : {}),
-    }
-
-    const datePart = new Intl.DateTimeFormat(
+    const datePart = formatDateWithoutYear(
+      date,
       locale,
-      dateOnlyOptions
-    ).format(date)
+      dateStyle,
+      finalOptions.timeZone
+    )
 
     if (finalOptions.timeStyle) {
       const timeOnlyOptions: Intl.DateTimeFormatOptions = {
