@@ -204,6 +204,10 @@ export type DatePickerProps = {
    */
   range?: boolean
   /**
+   * If set to `true`, only one calendar is shown in range mode instead of two side-by-side calendars. Only meant to use if the range is set to `true`. Defaults to `false`.
+   */
+  rangeSingleCalendar?: boolean
+  /**
    * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.
    */
   link?: boolean

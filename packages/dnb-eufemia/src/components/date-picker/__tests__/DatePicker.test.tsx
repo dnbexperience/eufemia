@@ -1802,6 +1802,72 @@ describe('DatePicker component', () => {
     ).toBe('2024-10-31')
   })
 
+  it('should show only one calendar in range mode when rangeSingleCalendar is true', async () => {
+    render(
+      <DatePicker
+        range
+        rangeSingleCalendar
+        startDate="2024-10-01"
+        endDate="2024-10-15"
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    )
+    expect(tables).toHaveLength(1)
+  })
+
+  it('should show two calendars in range mode by default', async () => {
+    render(
+      <DatePicker range startDate="2024-10-01" endDate="2024-10-15" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    )
+    expect(tables).toHaveLength(2)
+  })
+
+  it('should support range selection with rangeSingleCalendar', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <DatePicker
+        range
+        rangeSingleCalendar
+        startDate="2024-10-01"
+        endDate="2024-10-15"
+        onChange={onChange}
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    // Select a start date
+    const day5Button = document.querySelector(
+      'td[data-date="2024-10-05"] button'
+    ) as HTMLButtonElement
+    await userEvent.click(day5Button)
+
+    // Select an end date
+    const day10Button = document.querySelector(
+      'td[data-date="2024-10-10"] button'
+    ) as HTMLButtonElement
+    await userEvent.click(day10Button)
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        startDate: '2024-10-05',
+        endDate: '2024-10-10',
+      })
+    )
+  })
+
   it('should keep the picker open during tab navigation when showInput is true', async () => {
     render(<DatePicker showInput date="2024-10-01" />)
 
