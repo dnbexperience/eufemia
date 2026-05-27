@@ -1,10 +1,4 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
 import type { KeyboardEvent, RefObject } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'

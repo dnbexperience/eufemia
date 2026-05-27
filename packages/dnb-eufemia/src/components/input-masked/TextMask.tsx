@@ -624,6 +624,10 @@ function createMaskitoNumberOptions(mp: {
   // Reject digit/paste insertion that would produce a value beyond safe
   // integer limits. This prevents Maskito's default clamp behavior which
   // silently replaces the value with MAX/MIN_SAFE_INTEGER.
+  const stripFormatting = new RegExp(
+    `[^\\d\\-.${decimal === '.' ? '' : '\\' + decimal}]`,
+    'g'
+  )
   const rejectBeyondSafeInteger: MaskitoPreprocessor = (
     { elementState, data },
     actionType
@@ -633,16 +637,15 @@ function createMaskitoNumberOptions(mp: {
     }
 
     const { value, selection } = elementState
-    const simulated =
-      value.slice(0, selection[0]) + data + value.slice(selection[1])
-
-    let raw = simulated.split(thousand).join('')
+    let raw = (
+      value.slice(0, selection[0]) +
+      data +
+      value.slice(selection[1])
+    ).replace(stripFormatting, '')
 
     if (decimal !== '.') {
       raw = raw.replace(decimal, '.')
     }
-
-    raw = raw.replace(/[^\d\-.]/g, '')
 
     const num = Number(raw)
 
