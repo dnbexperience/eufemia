@@ -1,0 +1,2 @@
+import{a as e,r as t}from"./rolldown-runtime-BYbx6iT9.js";import{t as n}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as r}from"./index-mmuoVhax.js";import{t as i}from"./ColorTable-CzjTdAy7.js";var a=t({default:()=>c}),o=e(n());function s(e){return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)({h2:`h2`,...r(),...e.components}.h2,{children:`DNB Colors`}),`
+`,(0,o.jsx)(i,{theme:`ui`})]})}function c(e={}){let{wrapper:t}={...r(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{a as n,c as t};

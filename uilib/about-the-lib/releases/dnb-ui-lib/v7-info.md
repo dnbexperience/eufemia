@@ -1,8 +1,8 @@
 ---
 title: 'v7.0'
 description: 'June, 4. 2020'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:01.587Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:20.623Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -49,13 +49,13 @@ v7 contains a couple of _breaking changes_. As a migration process, you can simp
 
 ## Heading changes
 
-The new naming of h1, h2, etc. is to make it more clear that [semantic use of headings](/uilib/usage/best-practices/for-typography#headings-and-styling) don't have to do anything the actual styling. Developers still too often don't care about the correct [leveling of headings](/uilib/usage/best-practices/for-typography#think-semantics-first), because of the visual prioritization.
+The new naming of h1, h2, etc. is to make it more clear that [semantic use of headings](/uilib/usage/best-practices/for-typography#headings-and-styling) don't have to do anything with the actual styling. Developers still too often don't care about the correct [leveling of headings](/uilib/usage/best-practices/for-typography#think-semantics-first), because of the visual prioritization.
 
 We hope with that change we embrace [better accessibility](/uilib/usage/accessibility/checklist).
 
 ## New components
 
-- [Heading](/uilib/components/heading) component to automated semantic headings.
+- [Heading](/uilib/components/heading) component to automate semantic headings.
 - [Autocomplete](/uilib/components/autocomplete) component.
 - [Pagination](/uilib/components/pagination) component including **infinity scroller**.
 - New element [Horizontal Rule (Hr)](/uilib/elements/horizontal-rule), called `hr-line` in Figma.
@@ -67,7 +67,7 @@ We hope with that change we embrace [better accessibility](/uilib/usage/accessib
 - [Number](/uilib/components/number-format) got more useful properties, like `decimals="0"` and `currency_position="after"` and also a neat [copy & paste](/uilib/components/number-format#accessibility) feature, where an unformatted number gets copied, instead of the visual number. Also, Norwegian organization numbers (`org`) are now supported.
 - [Buttons](/uilib/components/button) now supports overflow text to wrap (break-word) by using `wrap="true"`.
 - [Modal](/uilib/components/drawer/) has now a **Drawer** mode inside the Modal component `mode="drawer"`.
-- Also, the [Modal](/uilib/components/drawer/) has now a dark background color and both open and close animation
+- Also, the [Modal](/uilib/components/drawer/) has now a dark background color and both open and close animations
 - Expose [new helper functions](/uilib/helpers/functions#general-helpers) like, `isSafari`, `isiOS`, `isMac`, `isWin` and `isLinux` (beside `isIE11`,`isEdge`) in the shared helpers file: `import { isLinux } from 'dnb-ui-lib/shared/helpers'`. They are available as constants as well: `IS_IE11`, `IS_EDGE`, `IS_IOS`, `IS_MAC`, `IS_WIN` and `IS_LINUX`.
 
 ```jsx

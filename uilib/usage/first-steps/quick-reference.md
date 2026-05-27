@@ -1,8 +1,8 @@
 ---
 title: 'Quick Reference'
 description: 'A compact, practical guide for building with Eufemia: install, components, forms, and key conventions. AI-friendly.'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:03.744Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:22.682Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

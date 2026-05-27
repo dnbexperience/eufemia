@@ -1,0 +1,3 @@
+import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-mmuoVhax.js";import r from"./info-CA3ch5q1.js";import i from"./demos-CcIIBXEV2.js";import a from"./properties-D-M46epI.js";var o=e(t());function s(e){return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(r,{}),`
+`,(0,o.jsx)(i,{}),`
+`,(0,o.jsx)(a,{})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

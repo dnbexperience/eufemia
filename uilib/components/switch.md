@@ -1,8 +1,8 @@
 ---
 title: 'Switch'
 description: 'The Switch component (toggle) is a digital on/off switch.'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:02.971Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:21.938Z
 checksum: e288cce458a9b54ddbb5f5d40392a7f958ceb267c5d4fcb59e172bd5f8205a0e
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:02.958Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:21.926Z
 checksum: 9f97f348797f3f7f76bb39e17f84fe34b688885bf4e9e471db5c2085ddc3c0a1
 ---
 

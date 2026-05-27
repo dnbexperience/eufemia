@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Item'
 description: '`Flex.Item` is a building block for flexbox based layout of contents and components.'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:03.714Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:22.650Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -43,7 +43,7 @@ render(
 
 You can provide a `span` property with a number from 1 to 12 (can be changed in [Flex.Container](/uilib/layout/flex/container/) with the `sizeCount` property).
 
-The number will be used to set the item span (a part of the container). It set a percentage unit and apply it on the item via CSS. When the container is tilled to 100%, the remaining items will wrap to a new row.
+The number will be used to set the item span (a part of the container). It sets a percentage unit and applies it on the item via CSS. When the container is filled to 100%, the remaining items will wrap to a new row.
 
 The number 6 results in 50%, while 12 results in 100%.
 

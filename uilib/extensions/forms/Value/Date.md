@@ -1,8 +1,8 @@
 ---
 title: 'Value.Date'
 description: '`Value.Date` is a wrapper component for displaying string values, with user experience tailored for date values.'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:03.491Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:22.428Z
 checksum: 36cbdcd4a1ad32b5cbe9a2ab72297192fac95b6aaf44cdd10597a76872fbd8b4
 ---
 

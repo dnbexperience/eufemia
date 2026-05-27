@@ -1,8 +1,8 @@
 ---
 title: 'FieldBlock'
 description: '`FieldBlock` is a reusable wrapper for building Field-components. It shows surrounding elements through properties from `FieldProps` like `label` and `error`.'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:03.672Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:22.609Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

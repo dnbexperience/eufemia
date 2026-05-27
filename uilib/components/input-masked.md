@@ -1,8 +1,8 @@
 ---
 title: 'InputMasked'
 description: 'The InputMasked component uses the basic input component, but with some additional masking functionality.'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:02.571Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:21.541Z
 checksum: ec854c3f7edab3767cebaea07e1723cb55406d476c88740bcf81d27b7291d502
 ---
 

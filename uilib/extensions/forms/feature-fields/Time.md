@@ -1,8 +1,8 @@
 ---
 title: 'Field.Time'
 description: '`Field.Time` is a wrapper component for the input of strings, with user experience tailored for time values (hours and minutes, optionally seconds).'
-version: 12.0.0
-generatedAt: 2026-05-27T08:23:03.692Z
+version: 11.4.0
+generatedAt: 2026-05-27T10:45:22.629Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
