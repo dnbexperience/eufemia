@@ -1730,7 +1730,7 @@ describe('NumberFormat compact', () => {
         <Component value={-value} compact locale="en-GB" decimals="2" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-12.35M'
+        '-12.35m'
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
@@ -1765,7 +1765,7 @@ describe('NumberFormat compact', () => {
         />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-NOK\u00A012.35M'
+        '-NOK\u00A012.35m'
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
