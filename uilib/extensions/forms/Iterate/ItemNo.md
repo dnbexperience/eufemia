@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.ItemNo'
 description: '`Iterate.ItemNo` is a helper component that can be used to render the current item number (index) in a given string.'
-version: 11.4.0
-generatedAt: 2026-05-27T10:45:22.326Z
+version: 0.0.0-development
+generatedAt: 2026-05-27T11:24:22.992Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

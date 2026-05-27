@@ -1,8 +1,8 @@
 ---
 title: 'Field.Name'
 description: '`Field.Name` is a wrapper component for the input of strings, with user experience tailored for first name, last name and company names.'
-version: 11.4.0
-generatedAt: 2026-05-27T10:45:22.621Z
+version: 0.0.0-development
+generatedAt: 2026-05-27T11:24:23.281Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

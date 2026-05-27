@@ -1,1 +1,0 @@
-import{Ba as e}from"./index-mmuoVhax.js";var t=e[`en-GB`],n={"en-US":{...t,DatePicker:{...t.DatePicker,maskOrder:`mm/dd/yyyy`,maskPlaceholder:`mm/dd/yyyy`,firstDay:`sunday`}}};export{n as default};

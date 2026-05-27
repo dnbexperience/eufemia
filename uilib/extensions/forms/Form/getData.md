@@ -1,8 +1,8 @@
 ---
 title: 'Form.getData'
 description: '`Form.getData` lets you access your form data outside of the form context.'
-version: 11.4.0
-generatedAt: 2026-05-27T10:45:22.292Z
+version: 0.0.0-development
+generatedAt: 2026-05-27T11:24:22.897Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
