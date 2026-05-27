@@ -363,7 +363,7 @@ describe('Field.Currency', () => {
         </Provider>
       )
 
-      expect(input).toHaveValue('1’234 Kronen')
+      expect(input).toHaveValue("1'234 Kronen")
 
       rerender(
         <Provider>

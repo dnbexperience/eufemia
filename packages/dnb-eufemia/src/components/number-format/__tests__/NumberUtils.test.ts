@@ -595,21 +595,21 @@ describe('Currency format with dirty number', () => {
         currency: 'CHF',
         locale: 'de-CH',
       })
-    ).toBe('CHF-123’456’789.50')
+    ).toBe("CHF-123'456'789.50")
     expect(
       formatCurrency(number, {
         currency: 'CHF',
         currencyPosition: 'before',
         locale: 'de-CH',
       })
-    ).toBe('CHF-123’456’789.50')
+    ).toBe("CHF-123'456'789.50")
     expect(
       formatCurrency(number, {
         currency: 'CHF',
         currencyPosition: 'after',
         locale: 'de-CH',
       })
-    ).toBe('-123’456’789.50 CHF')
+    ).toBe("-123'456'789.50 CHF")
     expect(
       formatCurrency(number, {
         currencyPosition: 'before',
