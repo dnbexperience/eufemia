@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import type { CSSProperties, MouseEventHandler, ReactNode } from 'react'
 
 // Components
@@ -21,7 +21,6 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import BreadcrumbItemContext from './BreadcrumbItemContext'
 
-import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbItemProps = {
@@ -101,17 +100,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
 
   const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo
 
-  const [currentIcon, setCurrentIcon] = useState<IconIcon>('chevron_left')
-
-  useLayoutEffect(() => {
-    if (!icon) {
-      setCurrentIcon(determineIcon(variant))
-    } else {
-      if (variant !== 'home') {
-        setCurrentIcon(icon ?? 'chevron_left')
-      }
-    }
-  }, [icon, variant])
+  const currentIcon = icon ?? determineIcon(variant)
 
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive =
