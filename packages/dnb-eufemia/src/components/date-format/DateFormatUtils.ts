@@ -121,11 +121,14 @@ function formatDateWithoutYear(
   const parts = formatter.formatToParts(date)
 
   // Remove year parts and any adjacent literal separators
+  const isYearType = (type: string) =>
+    type === 'year' || type === 'relatedYear'
+
   const filtered: typeof parts = []
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i]
 
-    if (part.type === 'year' || part.type === 'relatedYear') {
+    if (isYearType(part.type)) {
       continue
     }
 
@@ -133,12 +136,11 @@ function formatDateWithoutYear(
     if (part.type === 'literal') {
       const prev = parts[i - 1]
       const next = parts[i + 1]
-      const prevIsYear =
-        prev?.type === 'year' || prev?.type === 'relatedYear'
-      const nextIsYear =
-        next?.type === 'year' || next?.type === 'relatedYear'
 
-      if (prevIsYear || nextIsYear) {
+      if (
+        (prev && isYearType(prev.type)) ||
+        (next && isYearType(next.type))
+      ) {
         continue
       }
     }
