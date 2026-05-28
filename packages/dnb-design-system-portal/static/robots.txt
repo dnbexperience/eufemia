@@ -1,3 +1,6 @@
+User-agent: atlassian-bot
+Disallow:
+
 User-agent: *
 Disallow: /design-system/contact
 Disallow: /icons
