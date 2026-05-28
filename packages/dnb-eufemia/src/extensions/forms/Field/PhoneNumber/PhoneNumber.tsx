@@ -94,6 +94,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     numberLabel: defaultLabel,
     countryCodeLabel: defaultCountryCodeLabel,
     errorRequired,
+    errorLength,
   } = useTranslation().PhoneNumber
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
@@ -212,20 +213,37 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       return props.schema
     }
 
-    if (!props.pattern) return undefined
-    // Use Zod internally when only pattern is provided
     return (p: FieldPhoneNumberProps) => {
-      let s = z.string()
-      if (p?.pattern) {
-        try {
-          s = s.regex(new RegExp(p.pattern, 'u'), 'Field.errorPattern')
-        } catch (_e) {
-          // Ignore invalid regex patterns
+      return z.string().superRefine((val, ctx) => {
+        if (p?.pattern) {
+          try {
+            if (!new RegExp(p.pattern, 'u').test(val)) {
+              ctx.addIssue({
+                code: 'custom',
+                message: 'Field.errorPattern',
+              })
+            }
+          } catch (_e) {
+            // Ignore invalid regex patterns
+          }
         }
-      }
-      return s
+
+        // Validate Norwegian phone number length when using the default mask
+        if (!p?.numberMask) {
+          const [countryCode, phoneNumber] = splitValue(val)
+          if (
+            countryCode === defaultCountryCode &&
+            phoneNumber?.length > 8
+          ) {
+            ctx.addIssue({
+              code: 'custom',
+              message: errorLength,
+            })
+          }
+        }
+      })
     }
-  }, [props.schema, props.pattern])
+  }, [props.schema, props.pattern, errorLength])
   const defaultProps: Partial<FieldPhoneNumberProps> = {
     ...(schema ? { schema } : {}),
     errorMessages,

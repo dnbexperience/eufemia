@@ -376,6 +376,105 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should show validation error when Norwegian number exceeds 8 digits', async () => {
+    render(<Field.PhoneNumber />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789')
+    fireEvent.blur(numberElement)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        nbNO.PhoneNumber.errorLength
+      )
+    })
+  })
+
+  it('should not show validation error when Norwegian number is exactly 8 digits', async () => {
+    render(<Field.PhoneNumber />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '12345678')
+    fireEvent.blur(numberElement)
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
+  })
+
+  it('should not show length validation error for non-Norwegian country codes', async () => {
+    render(<Field.PhoneNumber value="+46" />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789012')
+    fireEvent.blur(numberElement)
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
+  })
+
+  it('should not show length validation error when a custom numberMask is provided', async () => {
+    render(<Field.PhoneNumber numberMask={Array(12).fill(/\d/)} />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789012')
+    fireEvent.blur(numberElement)
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
+  })
+
+  it('should prevent submitting a Norwegian number longer than 8 digits', async () => {
+    const onSubmit = vi.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.PhoneNumber path="/phone" required />
+      </Form.Handler>
+    )
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789')
+    fireEvent.submit(document.querySelector('form'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        nbNO.PhoneNumber.errorLength
+      )
+    })
+
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
   it('should return correct value onFocus and onBlur event', async () => {
     const onFocus = vi.fn()
     const onBlur = vi.fn()
