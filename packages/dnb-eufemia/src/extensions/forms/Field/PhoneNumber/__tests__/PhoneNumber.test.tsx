@@ -475,6 +475,67 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     expect(onSubmit).not.toHaveBeenCalled()
   })
 
+  it('should show length validation error when switching country code to Norway with a long number', async () => {
+    render(<Field.PhoneNumber value="+46987654321231" />)
+
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    ) as HTMLInputElement
+    const phoneElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    expect(codeElement.value).toEqual('SE (+46)')
+    expect(phoneElement.value).toEqual('987654321231')
+
+    await userEvent.clear(codeElement)
+    await userEvent.type(codeElement, 'Norge')
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    expect(phoneElement.value).toEqual('98 76 54 321231')
+
+    fireEvent.blur(phoneElement)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        nbNO.PhoneNumber.errorLength
+      )
+    })
+  })
+
+  it('should allow overriding the length error message via errorMessages', async () => {
+    const customMessage = 'Custom length error'
+
+    render(
+      <Field.PhoneNumber
+        errorMessages={{
+          'PhoneNumber.errorLength': customMessage,
+        }}
+      />
+    )
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789')
+    fireEvent.blur(numberElement)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        customMessage
+      )
+    })
+  })
+
   it('should return correct value onFocus and onBlur event', async () => {
     const onFocus = vi.fn()
     const onBlur = vi.fn()

@@ -114,9 +114,10 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     () => ({
       'Field.errorRequired': errorRequired,
       'Field.errorPattern': errorRequired,
+      'PhoneNumber.errorLength': errorLength,
       ...props.errorMessages,
     }),
-    [errorRequired, props.errorMessages]
+    [errorRequired, errorLength, props.errorMessages]
   )
 
   const validateRequired = useCallback(
@@ -237,13 +238,13 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           ) {
             ctx.addIssue({
               code: 'custom',
-              message: errorLength,
+              message: 'PhoneNumber.errorLength',
             })
           }
         }
       })
     }
-  }, [props.schema, props.pattern, errorLength])
+  }, [props.schema, props.pattern])
   const defaultProps: Partial<FieldPhoneNumberProps> = {
     ...(schema ? { schema } : {}),
     errorMessages,
