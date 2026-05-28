@@ -12,6 +12,7 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "strict": false,
     "strictFunctionTypes": true,
     "lib": ["es2022", "dom"],
     "types": ["node", "react", "react-dom"],

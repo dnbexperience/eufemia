@@ -1111,12 +1111,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       let searchWords = rawValue.split(/\s+/g).filter(Boolean)
 
       if (startsWithMatch) {
-        // @ts-expect-error Unicode property escapes are supported at runtime here
         const hasLetters = /[\p{L}]/u.test(rawValue)
-        // @ts-expect-error Unicode property escapes are supported at runtime here
         const hasNumbers = /[\p{N}]/u.test(rawValue)
         if (startsWithMatch && snParam && hasNumbers && !hasLetters) {
-          // @ts-expect-error Unicode property escapes are supported at runtime here
           const normalizedNumeric = rawValue.replace(/[^\p{N}]+/gu, '')
           searchWords = normalizedNumeric ? [normalizedNumeric] : []
         }
@@ -1127,8 +1124,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       const searchWordsData = searchWords.map((word, wordIndex) => {
         const processedWord = snParam
-          ? // @ts-expect-error Unicode property escapes are supported at runtime here
-            word.replace(/[^\p{L}\p{N}]+/gu, '')
+          ? word.replace(/[^\p{L}\p{N}]+/gu, '')
           : escapeRegexChars(word)
         const wordBoundary = getWordBoundary(wordIndex)
 
@@ -1207,8 +1203,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         const listOfFoundWords = findSearchWords(item.contentChunk)
 
         const allWordsAreNumeric = snParam
-          ? // @ts-expect-error Unicode property escapes are supported at runtime here
-            searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
+          ? searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
           : false
 
         const hasMultipleNumericTerms =
@@ -1283,7 +1278,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
                   if (snParam) {
                     const cleanedWord = word.replace(
-                      // @ts-expect-error Unicode property escapes are supported at runtime here
                       /[^\p{L}\p{N}]+/gu,
                       ''
                     )

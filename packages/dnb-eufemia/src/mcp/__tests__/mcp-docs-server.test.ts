@@ -1,4 +1,4 @@
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types'
+import type { CallToolResult } from '@modelcontextprotocol/sdk/types.js'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'

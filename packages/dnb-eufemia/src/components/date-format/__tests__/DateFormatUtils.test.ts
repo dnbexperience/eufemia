@@ -310,19 +310,12 @@ describe('DateFormatUtils', () => {
   })
 
   describe('formatDuration', () => {
-    type DurationFormatCtor = new (
-      locales?: string | string[],
-      options?: { style?: 'long' | 'short' | 'narrow' }
-    ) => { format(value: Record<string, number>): string }
-    type IntlWithDuration = typeof Intl & {
-      DurationFormat?: DurationFormatCtor
-    }
-    const intlRef = Intl as IntlWithDuration
-    const originalDuration = intlRef.DurationFormat
+    const originalDuration = Intl.DurationFormat
 
     beforeEach(() => {
       // Mock Intl.DurationFormat where available behavior is uncertain
-      intlRef.DurationFormat = class {
+      // @ts-expect-error mock class doesn't implement full DurationFormat interface
+      Intl.DurationFormat = class {
         constructor(
           public locales?: string | string[],
           public options?: { style?: 'long' | 'short' | 'narrow' }
@@ -341,7 +334,8 @@ describe('DateFormatUtils', () => {
     })
 
     afterEach(() => {
-      intlRef.DurationFormat = originalDuration
+      // @ts-expect-error restoring original DurationFormat after mock
+      Intl.DurationFormat = originalDuration
     })
 
     it('formats non-zero durations using Intl.DurationFormat when present', () => {
@@ -354,7 +348,8 @@ describe('DateFormatUtils', () => {
 
     it('falls back to manual formatting when 0 and no output from formatter', () => {
       // Force formatter to return empty string for zero
-      intlRef.DurationFormat = class {
+      // @ts-expect-error mock class doesn't implement full DurationFormat interface
+      Intl.DurationFormat = class {
         format() {
           return ''
         }
@@ -364,7 +359,8 @@ describe('DateFormatUtils', () => {
     })
 
     it('manual fallback lists units when Intl.DurationFormat not available', () => {
-      intlRef.DurationFormat = undefined
+      // @ts-expect-error intentionally removing DurationFormat to test fallback
+      Intl.DurationFormat = undefined
       const ms = parseDuration('PT2H15M')
       const str = formatDuration(ms, 'en')
       expect(str).toMatch(/2 hours/)

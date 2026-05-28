@@ -4,7 +4,7 @@
  */
 
 import fs from 'fs-extra'
-import tar from 'tar'
+import * as tar from 'tar'
 import { log } from '../../../lib'
 import '../../../../src/core/test-utils/testSetup'
 import { getFigmaDoc } from '../../helpers/docHelpers'

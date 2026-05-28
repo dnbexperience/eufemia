@@ -12,7 +12,6 @@ import {
   expect,
   expect as vitestExpect,
 } from 'vitest'
-// @ts-expect-error
 import { commands } from 'vitest/browser'
 
 import { onMain, runOnMain, selectThemes } from './themeSelection.client'
@@ -26,7 +25,6 @@ import type { LoadImagePayload } from './commands/loadImage'
 export { expect, beforeAll, afterAll }
 export { onMain, runOnMain, selectThemes }
 
-// @ts-expect-error
 declare module 'vitest/internal/browser' {
   /* eslint-disable @typescript-eslint/consistent-type-definitions */
   interface BrowserCommands {
@@ -79,7 +77,6 @@ let describeDefaults: DescribeDefaults = {
   withWrapper: null,
 }
 
-// @ts-expect-error
 const env = (import.meta as unknown as { env?: Record<string, string> })
   .env
 export const isCI = String(env?.CI) === 'true' || String(env?.CI) === '1'
