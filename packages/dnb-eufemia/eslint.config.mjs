@@ -381,6 +381,7 @@ export default [
     },
     rules: {
       ...vitestPlugin.configs.recommended.rules,
+      'vitest/no-focused-tests': 'error',
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
