@@ -48,6 +48,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     size,
     keepInDOM = false,
     targetRefreshKey,
+    omitDescribedBy,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
@@ -177,7 +178,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const overlayOpen = Boolean(isOpen || isOverlayHovered)
 
-  const describedById = overlayOpen ? internalId : null
+  const describedById = overlayOpen && !omitDescribedBy ? internalId : null
 
   /**
    * Get our "target"

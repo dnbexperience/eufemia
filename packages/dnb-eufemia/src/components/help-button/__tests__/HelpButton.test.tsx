@@ -79,6 +79,20 @@ describe('HelpButton', () => {
     ).toBeInTheDocument()
   })
 
+  it('should not set aria-describedby when tooltip matches aria-label', async () => {
+    render(<HelpButton {...props} title="Hjelpetekst" />)
+
+    const button = document.querySelector('.dnb-button')
+
+    expect(button.getAttribute('aria-label')).toBe('Hjelpetekst')
+
+    // Simulate focus to trigger tooltip
+    fireEvent.focus(button)
+    await new Promise((r) => setTimeout(r, 100))
+
+    expect(button).not.toHaveAttribute('aria-describedby')
+  })
+
   describe('with bell icon', () => {
     it('should have correct aria-label', () => {
       render(<HelpButton {...props} icon="bell" />)

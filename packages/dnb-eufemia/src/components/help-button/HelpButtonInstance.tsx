@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, type ReactNode } from 'react'
 /**
  * Web HelpButton Component
  *
@@ -72,6 +72,14 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   }
   if (params.tooltip) {
     params.title = null
+  }
+
+  if (
+    params['aria-label'] &&
+    params['aria-label'] ===
+      convertJsxToString(params.tooltip as ReactNode)
+  ) {
+    params.omitDescribedBy = true
   }
 
   return <Button onClick={onClick} {...params} />

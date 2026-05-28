@@ -135,6 +135,11 @@ export type ButtonProps = {
    * Provide a string or a React Element to be shown as the tooltip content.
    */
   tooltip?: ButtonTooltip
+  /**
+   * Whether to omit the aria-describedby attribute on the tooltip.
+   * Use when the tooltip content duplicates the button's accessible name.
+   */
+  omitDescribedBy?: boolean
   id?: string
   /**
    * If you want the button to behave as a link. Use with caution! A link should normally visually be a link and not a button.
@@ -266,6 +271,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
     title,
     customContent,
     tooltip,
+    omitDescribedBy,
     status,
     statusState,
     statusProps,
@@ -469,6 +475,7 @@ function Button({ ref, ...restProps }: ButtonProps) {
           id={resolvedId + '-tooltip'}
           targetElement={elementRef}
           tooltip={tooltip}
+          omitDescribedBy={omitDescribedBy}
         />
       )}
     </>
