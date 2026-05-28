@@ -2,12 +2,12 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const BreadcrumbProperties: PropertiesTableProps = {
   data: {
-    doc: 'List of pages to render as breadcrumbitems. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).',
+    doc: 'List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).',
     type: 'Array<BreadcrumbItemProps>',
     status: 'optional',
   },
   children: {
-    doc: 'Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...properties} />`.',
+    doc: 'Content of the component. Can be used instead of property `data`, by adding `Breadcrumb.Item` children `<Breadcrumb.Item {...properties} />`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
