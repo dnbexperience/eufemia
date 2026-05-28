@@ -9,6 +9,7 @@
 import {
   afterAll,
   beforeAll,
+  beforeEach,
   expect,
   expect as vitestExpect,
 } from 'vitest'
@@ -23,7 +24,7 @@ import type {
 } from './commands/screenshotEngine'
 import type { LoadImagePayload } from './commands/loadImage'
 
-export { expect, beforeAll, afterAll }
+export { expect, beforeAll, beforeEach, afterAll }
 export { onMain, runOnMain, selectThemes }
 
 // @ts-expect-error
@@ -164,6 +165,18 @@ const stateBySession = new WeakMap<object, SnapshotState>()
 // sanitised describe-stack + title, so a few hundred entries is more
 // than enough; older keys are evicted FIFO.
 const MAX_PER_TITLE_ENTRIES = 1024
+
+// Reset the per-title snapshot counter before each test attempt
+// (including retries). Without this, a retried test would produce
+// "-2.png" instead of "-1.png", which has no baseline, causing
+// diffAndPersist to treat it as a new snapshot and pass incorrectly.
+beforeEach(() => {
+  const s = vitestExpect.getState() as unknown as object
+  const state = stateBySession.get(s)
+  if (state) {
+    state.perTitleCount.clear()
+  }
+})
 
 const resolveSnapshotName = (state: SnapshotState) => {
   const titleSegments = [...state.describeStack, state.testTitle]

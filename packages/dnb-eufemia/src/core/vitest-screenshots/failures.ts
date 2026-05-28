@@ -34,13 +34,33 @@ const MAX_PENDING_NAVIGATIONS = 64
 
 const failures: ScreenshotFailureRecord[] = []
 
+const retryCounts = new Map<string, number>()
+
+const isTTY = Boolean(process.stdout.isTTY)
+const writeRetryLine = (text: string) => {
+  try {
+    const formatted = isTTY ? `\x1b[33m${text}\x1b[0m` : text
+    process.stdout.write(`${formatted}\n`)
+  } catch {
+    // stop here
+  }
+}
+
 export const recordFailure = (record: ScreenshotFailureRecord) => {
+  const count = (retryCounts.get(record.fullName) ?? 0) + 1
+  retryCounts.set(record.fullName, count)
+
+  if (count > 1) {
+    writeRetryLine(`  ↻ ${record.fullName} (retry #${count - 1})`)
+  }
+
   failures.push(record)
 }
 
 export const drainFailures = () => {
   const out = failures.slice()
   failures.length = 0
+  retryCounts.clear()
   return out
 }
 
