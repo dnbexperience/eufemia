@@ -7,7 +7,7 @@
 // run: yarn nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/getNextReleaseVersion.js' --ext js --watch './scripts/**/*'
 // run (mjs): yarn nodemon --exec 'node --experimental-import-meta-resolve ./scripts/postbuild/getNextReleaseVersion.mjs' --ext mjs --watch './scripts/**/*'
 
-const { runCommand } = require('../tools/cliTools')
+const { execFile } = require('child_process')
 const simpleGit = require('simple-git')
 
 try {
@@ -16,7 +16,7 @@ try {
   // .env is optional — CI provides env vars directly
 }
 
-const command = 'yarn workspace @dnb/eufemia semantic-release --dry-run'
+const srBin = require.resolve('semantic-release/bin/semantic-release.js')
 const releaseBranches = ['release', 'beta', 'alpha']
 
 // run this script if it is called from bash / command line
@@ -29,7 +29,19 @@ async function getNextReleaseVersion() {
 
   if (releaseBranches.includes(branchName)) {
     try {
-      const log = await runCommand(command, { timeout: 120000 })
+      const log = await new Promise((resolve) => {
+        execFile(
+          process.execPath,
+          [srBin, '--dry-run'],
+          { timeout: 120000 },
+          (_error, stdout, stderr) => {
+            // Resolve with combined output regardless of exit code —
+            // semantic-release may exit non-zero in dry-run mode
+            // even after printing the next version.
+            resolve((stdout || '') + (stderr || ''))
+          }
+        )
+      })
       const nextVersion = log.match(
         /The next release version is ([^\n]*)/
       )?.[1]
