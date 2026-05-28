@@ -68,7 +68,7 @@
     "@babel/eslint-parser": "7.28.5",
     "@dnb/browserslist-config": "1.4.1",
     "@mdx-js/rollup": "3.1.1",
-    "@playwright/test": "1.59.1",
+    "@playwright/test": "1.60.0",
     "@testing-library/react": "16.3.2",
     "@types/json-schema": "7.0.12",
     "@types/react": "19.2.14",

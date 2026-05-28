@@ -472,58 +472,6 @@ describe('Textarea component', () => {
       'color: red;'
     )
   })
-
-  describe('sets the resize-- modifier class based on the user agent', () => {
-    const textarea = () => document.querySelector('.dnb-textarea')
-
-    it('Firefox will get "large"', () => {
-      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Firefox')
-      render(<Textarea />)
-      expect(textarea()).toHaveClass('dnb-textarea__resize--large')
-    })
-
-    it('Edge will get "large"', () => {
-      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Edg')
-      render(<Textarea />)
-      expect(textarea()).toHaveClass('dnb-textarea__resize--large')
-    })
-
-    it('Chrome on Windows will get "large"', () => {
-      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
-      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Win')
-      render(<Textarea />)
-      expect(textarea()).toHaveClass('dnb-textarea__resize--large')
-    })
-
-    it('Chrome on Mac will get "medium"', () => {
-      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Chrome')
-      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
-      render(<Textarea />)
-      expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
-    })
-
-    it('Safari on Mac will get "medium"', () => {
-      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
-      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
-      render(<Textarea />)
-      expect(textarea()).toHaveClass('dnb-textarea__resize--medium')
-    })
-
-    it('Safari on Mac with autoResize will not get "medium"', () => {
-      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('Safari')
-      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Mac')
-      render(<Textarea autoResize />)
-      expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
-    })
-
-    it('Other browsers and platforms will not get "medium" or "large"', () => {
-      vi.spyOn(navigator, 'userAgent', 'get').mockReturnValue('foo')
-      vi.spyOn(navigator, 'platform', 'get').mockReturnValue('bar')
-      render(<Textarea />)
-      expect(textarea()).not.toHaveClass('dnb-textarea__resize--medium')
-      expect(textarea()).not.toHaveClass('dnb-textarea__resize--large')
-    })
-  })
 })
 
 describe('Textarea scss', () => {

@@ -106,8 +106,17 @@ const copyImageToReport = (
 }
 
 const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
+  // Track how many times each test appears so we can label retries.
+  const attemptByName = new Map<string, number>()
+  const uniqueTests = new Set<string>()
+
   const items = failures
     .map((f, i) => {
+      const attempt = (attemptByName.get(f.fullName) ?? 0) + 1
+      attemptByName.set(f.fullName, attempt)
+      uniqueTests.add(f.fullName)
+
+      const retryLabel = attempt > 1 ? ` (retry #${attempt - 1})` : ''
       const figures: string[] = []
 
       if (f.expectedImagePath && fs.existsSync(f.expectedImagePath)) {
@@ -161,7 +170,7 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
       return `
             <li>
               <dl>
-                <dt>${f.fullName}</dt>
+                <dt>${f.fullName}${retryLabel}</dt>
                 <dd>
                   <p><a href="vscode://file${f.testFilePath}${f.lineNumber ? ':' + f.lineNumber : ''}"><code>${f.relativeTestFilePath}${f.lineNumber ? ':' + f.lineNumber : ''}</code></a></p>
                   ${visualTestIdHtml}
@@ -248,7 +257,7 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
 
     <body>
       <ol>
-        <li>Failed Tests: <b>${failures.length}</b></li>
+        <li>Failed Tests: <b>${uniqueTests.size}</b></li>
         ${items}
       </ol>
 
@@ -311,11 +320,18 @@ export default class ScreenshotReporter implements Reporter {
       finallyFailed.has(r.fullName)
     )
 
+    // Retries produce duplicate failure records for the same snapshot.
+    // Keep only the last record per snapshot path so the report shows
+    // each diff exactly once.
+    const deduped = Array.from(
+      new Map(filteredRecords.map((r) => [r.snapshotPath, r])).values()
+    )
+
     // Always resolve all records for the HTML report (shows retried
     // diffs as informational), but only print CLI warnings for
     // genuine failures.
     const allFailures = resolveFailures(records)
-    const genuineFailures = resolveFailures(filteredRecords)
+    const genuineFailures = resolveFailures(deduped)
 
     const cwd = process.cwd()
     const reportDir = path.join(cwd, 'visual-diff-report')
