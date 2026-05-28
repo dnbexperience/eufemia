@@ -85,7 +85,7 @@ describe('DrawerList component', () => {
 
   const isListFocused = () => {
     const item = document.querySelector('ul.dnb-drawer-list__options')
-    return getFocusedItemIndex() === -1 && item == document.activeElement
+    return getFocusedItemIndex() === -1 && item === document.activeElement
   }
 
   it('has correct state at startup', () => {

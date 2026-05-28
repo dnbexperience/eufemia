@@ -508,9 +508,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
 }
-.dnb-drawer-list > .dnb-form-status {
-  transform: translateY(-0.4375rem);
-}
 
 @keyframes drawer-list-scale-in {
   from {
@@ -1081,9 +1078,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list
 }
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
-}
-.dnb-drawer-list > .dnb-form-status {
-  transform: translateY(-0.4375rem);
 }
 
 @keyframes drawer-list-scale-in {

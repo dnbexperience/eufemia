@@ -643,11 +643,6 @@
   &:not(.dnb-drawer-list--open) &__list {
     @include closeDrawerList();
   }
-
-  // adjust the form-status to the inner border for 2px
-  > .dnb-form-status {
-    transform: translateY(-0.4375rem);
-  }
 }
 
 @keyframes drawer-list-scale-in {
