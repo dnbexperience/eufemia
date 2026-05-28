@@ -1130,7 +1130,9 @@ const handleWrapper = async (
     { id: wrapperId, style: styleStr }
   )
 
-  await page.waitForSelector(`[data-visual-test-id="${wrapperId}"]`)
+  await page.waitForSelector(`[data-visual-test-id="${wrapperId}"]`, {
+    state: 'attached',
+  })
 
   const screenshotElement = await page.$(
     `[data-visual-test-id="${wrapperId}"]`
@@ -1421,7 +1423,7 @@ const takeScreenshot = async (
 ): Promise<Buffer> => {
   const target = screenshotSelector || screenshotTargetSelector || selector
   if (target) {
-    await page.waitForSelector(target, { state: 'visible' })
+    await page.waitForSelector(target, { state: 'attached' })
     return await page.locator(target).first().screenshot()
   }
 
