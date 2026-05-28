@@ -278,15 +278,15 @@ export default function portalPagesPlugin(
           } else if (file.slug === '') {
             // Homepage: index route
             routeDefs.push(
-              `  { index: true, lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
+              `  { index: true, hydrateFallbackElement: null, lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
             )
           } else {
             // Register both with and without trailing slash so links work either way
             routeDefs.push(
-              `  { path: '/${file.slug}', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
+              `  { path: '/${file.slug}', hydrateFallbackElement: null, lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
             )
             routeDefs.push(
-              `  { path: '/${file.slug}/', lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
+              `  { path: '/${file.slug}/', hydrateFallbackElement: null, lazy: () => import('${importPath}').then(m => ({ Component: m.default })) },`
             )
           }
 
@@ -324,7 +324,7 @@ export default function portalPagesPlugin(
           .join(docsDir, '404.tsx')
           .replace(/\\/g, '/')
         routeDefs.push(
-          `  { path: '*', lazy: () => import('${notFoundPath}').then(m => ({ Component: () => React.createElement(WithLocationProps, { Component: m.default }) })) },`
+          `  { path: '*', hydrateFallbackElement: null, lazy: () => import('${notFoundPath}').then(m => ({ Component: () => React.createElement(WithLocationProps, { Component: m.default }) })) },`
         )
 
         return `
