@@ -6,7 +6,6 @@ import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
-import * as helpers from '../../../shared/helpers'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Form } from '../../../extensions/forms'
 import Translation from '../../../shared/Translation'
@@ -213,25 +212,6 @@ describe('Dialog', () => {
     const elem = document.querySelector('.dnb-modal__content')
     expect(elem.getAttribute('role')).toBe('dialog')
     expect(elem).toHaveAttribute('aria-modal')
-
-    Object.defineProperty(helpers, 'IS_MAC', {
-      value: true,
-      writable: true,
-    })
-
-    rerender(
-      <Dialog {...props} open={true} title="re-render">
-        <button>button</button>
-      </Dialog>
-    )
-
-    expect(elem.getAttribute('role')).toBe('region')
-    expect(elem).not.toHaveAttribute('aria-modal')
-
-    Object.defineProperty(helpers, 'IS_MAC', {
-      value: false,
-      writable: true,
-    })
 
     rerender(
       <Dialog

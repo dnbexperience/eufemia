@@ -21,7 +21,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import ModalContext from './ModalContext'
-import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
+import { isAndroid } from '../../shared/helpers'
 import type {
   ModalCloseHandlerParams,
   ModalContentProps,
@@ -460,15 +460,11 @@ export default function ModalContent(props: ModalContentProps) {
     }
   }, [children, setFocus])
 
-  const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
-  let role = dialogRole || 'dialog'
-  if (!useDialogRole && role === 'dialog') {
-    role = 'region'
-  }
+  const role = dialogRole || 'dialog'
 
   const contentParams = {
     role,
-    'aria-modal': useDialogRole ? true : undefined,
+    'aria-modal': true,
     'aria-labelledby': combineLabelledBy(
       props,
       title ? usedContentId + '-title' : null,
