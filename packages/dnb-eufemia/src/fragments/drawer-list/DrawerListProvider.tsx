@@ -955,9 +955,19 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   // Forward refs for setVisible/setHidden so they can reference each other
   const setVisibleFnRef =
-    useRef<(args?: any, onStateComplete?: any) => void>(null)
+    useRef<
+      (
+        args?: any,
+        onStateComplete?: ((isVisible: boolean) => void) | null
+      ) => void
+    >(null)
   const setHiddenFnRef =
-    useRef<(args?: any, onStateComplete?: any) => void>(null)
+    useRef<
+      (
+        args?: any,
+        onStateComplete?: ((isVisible: boolean) => void) | null
+      ) => void
+    >(null)
 
   const setVisible = useCallback((args = {}, onStateComplete = null) => {
     setVisibleFnRef.current(args, onStateComplete)
