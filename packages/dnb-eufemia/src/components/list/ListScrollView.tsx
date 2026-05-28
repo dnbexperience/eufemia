@@ -50,7 +50,7 @@ function ListScrollView(props: ListScrollViewProps) {
     maxVisibleListItems > 0
 
   const fallbackMaxHeight = hasValidMaxVisibleListItems
-    ? `calc(var(--item-height, 4rem) * ${maxVisibleListItems})`
+    ? `calc(var(--list-item-height, 4rem) * ${maxVisibleListItems})`
     : undefined
 
   const measureMaxHeight = useCallback(() => {
@@ -187,7 +187,7 @@ function getListItemOutlineCompensation(
   }
 
   const outlineWidth = getComputedStyle(targetElement)
-    .getPropertyValue('--item-outline-width')
+    .getPropertyValue('--list-item-outline-width')
     .trim()
 
   return (
