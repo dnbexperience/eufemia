@@ -15,9 +15,8 @@ import type {
   UploadProps,
 } from '../../../../components/Upload'
 import Upload from '../../../../components/Upload'
-import useUpload, {
-  isFileEqual,
-} from '../../../../components/upload/useUpload'
+import useUpload from '../../../../components/upload/useUpload'
+import { isSameFile } from '../../../../components/upload/uploadFileUtils'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
@@ -169,35 +168,17 @@ function UploadComponent(props: FieldUploadProps) {
 
   const { files, setFiles, clearFiles } = useUpload(id)
 
-  const labelWithItemNo = useIterateItemNo({
-    label: label ?? title,
-    labelSuffix: props.labelSuffix,
-    required: props.required,
-  })
-
   const filesRef = useRef<Array<UploadFile> | undefined>(undefined)
 
   useMemo(() => {
     filesRef.current = files
   }, [files])
 
-  const isSameUploadFile = useCallback(
-    (
-      fileA: UploadFile | UploadFileNative,
-      fileB: UploadFile | UploadFileNative
-    ) => {
-      if (!fileA || !fileB) {
-        return false
-      }
-
-      if (fileA.id && fileB.id && fileA.id === fileB.id) {
-        return true
-      }
-
-      return isFileEqual(fileA.file, fileB.file)
-    },
-    []
-  )
+  const labelWithItemNo = useIterateItemNo({
+    label: label ?? title,
+    labelSuffix: props.labelSuffix,
+    required: props.required,
+  })
 
   const isPendingOrErrorFile = useCallback(
     (file: UploadFile | UploadFileNative) => {
@@ -223,8 +204,7 @@ function UploadComponent(props: FieldUploadProps) {
 
       const localResolvedFile = localFiles.find(
         (localFile) =>
-          isSameUploadFile(localFile, externalFile) &&
-          !localFile?.isLoading
+          isSameFile(localFile, externalFile) && !localFile?.isLoading
       )
 
       return localResolvedFile || externalFile
@@ -236,12 +216,12 @@ function UploadComponent(props: FieldUploadProps) {
       }
 
       return !mergedExternalFiles.some((externalFile) =>
-        isSameUploadFile(externalFile, localFile)
+        isSameFile(externalFile, localFile)
       )
     })
 
     setFiles([...mergedExternalFiles, ...filesToPreserve])
-  }, [isPendingOrErrorFile, isSameUploadFile, setFiles, value])
+  }, [isPendingOrErrorFile, setFiles, value])
 
   const handleChangeAsync = useCallback(
     async (files: UploadValue) => {
@@ -305,10 +285,8 @@ function UploadComponent(props: FieldUploadProps) {
                 return // stop here
               }
 
-              const currentFile = filesRef.current?.find(
-                (f) =>
-                  (f.id && f.id === file.id) ||
-                  (f.file && f.file === file.file)
+              const currentFile = filesRef.current?.find((f) =>
+                isSameFile(f, file)
               )
 
               if (currentFile?.isLoading) {
@@ -378,10 +356,8 @@ function UploadComponent(props: FieldUploadProps) {
 
       // Merge processed files back into changeValue
       return files.map((file) => {
-        const processedFile = processedInvalidFiles.find(
-          (processed) =>
-            processed.id === file.id ||
-            (processed.file && processed.file === file.file)
+        const processedFile = processedInvalidFiles.find((processed) =>
+          isSameFile(processed, file)
         )
 
         return processedFile || file
