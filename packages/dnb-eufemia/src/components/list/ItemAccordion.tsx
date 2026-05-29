@@ -210,11 +210,11 @@ function AccordionHeader(props: AccordionHeaderProps) {
       onKeyDown={handleKeyDown}
       {...rest}
     >
-      {chevronPosition === 'left' && <ChevronIcon />}
+      {chevronPosition === 'left' && <ChevronIcon expanded={openState} />}
       {icon && <ItemIcon>{icon}</ItemIcon>}
       {title !== undefined && <ItemTitle>{title}</ItemTitle>}
       {children}
-      {chevronPosition === 'right' && <ChevronIcon />}
+      {chevronPosition === 'right' && <ChevronIcon expanded={openState} />}
     </FlexItem>
   )
 

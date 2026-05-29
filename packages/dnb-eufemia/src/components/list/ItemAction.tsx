@@ -12,10 +12,12 @@ import type {
   ReactNode,
 } from 'react'
 import IconPrimary from '../IconPrimary'
+import Icon from '../icon/Icon'
 import Anchor from '../Anchor'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
+import { chevron_down, chevron_up } from '../../icons'
 import FlexItem from '../flex/Item'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
@@ -207,12 +209,24 @@ withComponentMarkers(ItemAction, {
   _supportsSpacingProps: true,
 })
 
+const listChevronIcon = Icon.transition({
+  collapsed: chevron_down,
+  expanded: chevron_up,
+})
+
 export default ItemAction
 
-export function ChevronIcon() {
+export function ChevronIcon({ expanded }: { expanded?: boolean }) {
+  const isAccordion = expanded !== undefined
+
   return (
     <div className="dnb-list__item__chevron">
-      <IconPrimary icon="chevron_right" />
+      <IconPrimary
+        icon={isAccordion ? listChevronIcon : 'chevron_right'}
+        transitionState={
+          isAccordion ? (expanded ? 'expanded' : 'collapsed') : undefined
+        }
+      />
     </div>
   )
 }

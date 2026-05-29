@@ -277,14 +277,7 @@
       display: none;
     }
 
-    // Accordion chevron rotations
-    &__chevron:where(#{&}__accordion &__chevron) .dnb-icon {
-      transition: transform 400ms var(--easing-default);
-      transform: rotate(90deg);
-    }
-    &__chevron:where(#{&}__accordion--open &__chevron) .dnb-icon {
-      transform: rotate(270deg);
-    }
+    // Accordion chevron
 
     &__action {
       cursor: pointer;
