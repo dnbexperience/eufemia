@@ -1839,4 +1839,167 @@ describe('Form.useData', () => {
       })
     })
   })
+
+  describe('pick', () => {
+    it('should not re-render when a non-picked path changes', async () => {
+      let parentRenderCount = 0
+
+      const MyForm = () => {
+        Form.useData(identifier, { size: 'medium' }, { pick: ['/size'] })
+        parentRenderCount += 1
+
+        return (
+          <Form.Handler id={identifier}>
+            <Field.String path="/name" />
+            <Field.String path="/size" />
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      const rendersAfterMount = parentRenderCount
+
+      // Type into /name — the component picks only /size,
+      // so it should not re-render
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'abc')
+
+      expect(parentRenderCount).toBe(rendersAfterMount)
+    })
+
+    it('should re-render when a picked path changes', async () => {
+      let parentRenderCount = 0
+
+      const MyForm = () => {
+        Form.useData(identifier, { size: 'medium' }, { pick: ['/size'] })
+        parentRenderCount += 1
+
+        return (
+          <Form.Handler id={identifier}>
+            <Field.String path="/name" />
+            <Field.String path="/size" />
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      const rendersAfterMount = parentRenderCount
+
+      // Type into /size — the component picks /size,
+      // so it should re-render
+      const inputs = document.querySelectorAll('input')
+      await userEvent.type(inputs[1], 'x')
+
+      expect(parentRenderCount).toBeGreaterThan(rendersAfterMount)
+    })
+
+    it('should re-render on every change without pick', async () => {
+      let parentRenderCount = 0
+
+      const MyForm = () => {
+        Form.useData(identifier)
+        parentRenderCount += 1
+
+        return (
+          <Form.Handler id={identifier}>
+            <Field.String path="/name" />
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      const rendersAfterMount = parentRenderCount
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'abc')
+
+      // Without pick, every keystroke causes a re-render
+      expect(parentRenderCount).toBeGreaterThanOrEqual(
+        rendersAfterMount + 3
+      )
+    })
+
+    it('should return current data for picked paths', () => {
+      let capturedSize: string | undefined
+
+      const MyForm = () => {
+        const { data } = Form.useData(
+          identifier,
+          { size: 'medium' },
+          { pick: ['/size'] }
+        )
+        capturedSize = (data as any)?.size
+
+        return (
+          <Form.Handler id={identifier}>
+            <Field.String path="/size" />
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      expect(capturedSize).toBe('medium')
+    })
+
+    it('should support multiple picked paths', async () => {
+      let parentRenderCount = 0
+
+      const MyForm = () => {
+        Form.useData(identifier, { a: '', b: '' }, { pick: ['/a', '/b'] })
+        parentRenderCount += 1
+
+        return (
+          <Form.Handler id={identifier}>
+            <Field.String path="/a" />
+            <Field.String path="/b" />
+            <Field.String path="/c" />
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      const rendersAfterMount = parentRenderCount
+
+      // Type into /c — neither /a nor /b changed
+      const inputs = document.querySelectorAll('input')
+      await userEvent.type(inputs[2], 'x')
+
+      expect(parentRenderCount).toBe(rendersAfterMount)
+
+      // Type into /a — picked path changed
+      await userEvent.type(inputs[0], 'y')
+
+      expect(parentRenderCount).toBeGreaterThan(rendersAfterMount)
+    })
+
+    it('should handle pick with empty array as no optimization', async () => {
+      let parentRenderCount = 0
+
+      const MyForm = () => {
+        Form.useData(identifier, undefined, { pick: [] })
+        parentRenderCount += 1
+
+        return (
+          <Form.Handler id={identifier}>
+            <Field.String path="/name" />
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      const rendersAfterMount = parentRenderCount
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'x')
+
+      // Empty pick array should behave like no pick
+      expect(parentRenderCount).toBeGreaterThan(rendersAfterMount)
+    })
+  })
 })

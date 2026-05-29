@@ -43,6 +43,11 @@ export function useSharedState<Data>(
   {
     /** When set to `true`, the shared state will be deleted when all components have been unmounted. */
     weak = false,
+    /** Optional equality function to compare snapshots. When provided, `getSnapshot` returns a stable reference if `isEqual` returns true, preventing unnecessary re-renders. */
+    isEqual,
+  }: {
+    weak?: boolean
+    isEqual?: (prev: Data, next: Data) => boolean
   } = {}
 ) {
   const instanceRef = useRef({})
@@ -97,9 +102,23 @@ export function useSharedState<Data>(
     [id, sharedState, weak]
   )
 
+  const prevSnapshotRef = useRef<Data | undefined>()
+
   const getSnapshot = useCallback(() => {
-    return id ? (sharedState?.get?.() ?? undefined) : undefined
-  }, [id, sharedState])
+    const current = id ? (sharedState?.get?.() ?? undefined) : undefined
+
+    if (
+      isEqual &&
+      prevSnapshotRef.current !== undefined &&
+      current !== undefined &&
+      isEqual(prevSnapshotRef.current as Data, current as Data)
+    ) {
+      return prevSnapshotRef.current
+    }
+
+    prevSnapshotRef.current = current
+    return current
+  }, [id, sharedState, isEqual])
 
   const data = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
 

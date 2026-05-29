@@ -7,13 +7,18 @@ export const Size = () => {
     <ComponentBox data-visual-test="form-appearance-size">
       {() => {
         const Appearance = () => {
-          const { data } = Form.useData('appearance', { size: 'medium' })
-          const size: any = data.size
+          const [size, setSize] = useState('medium')
           return (
             <Form.Appearance size={size}>
-              <Form.Handler id="appearance">
+              <Form.Handler>
                 <Flex.Stack>
-                  <Field.Selection label="Choose size" path="/size">
+                  <Field.Selection
+                    label="Choose size"
+                    variant="radio"
+                    path="/size"
+                    value={size}
+                    onChange={(value) => setSize(value)}
+                  >
                     <Field.Option value="default" title="Default" />
                     <Field.Option value="medium" title="Medium" />
                     <Field.Option value="large" title="Large" />

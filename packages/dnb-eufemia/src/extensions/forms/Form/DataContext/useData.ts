@@ -65,8 +65,43 @@ type UseDataReturn<Data> = {
  */
 export default function useData<Data = JsonObject>(
   id: SharedStateId = undefined,
-  initialData: Data = undefined
+  initialData: Data = undefined,
+  options?: {
+    /**
+     * Array of JSON Pointer paths (e.g. `['/size']`) to watch.
+     * When specified, the component only re-renders when the values
+     * at the given paths change — other data changes are ignored.
+     * The returned `data` object still contains all fields, but
+     * non-picked fields may be stale between re-renders.
+     */
+    pick?: Path[]
+  }
 ): UseDataReturn<Data> {
+  const { pick } = options ?? {}
+
+  // Create a stable isEqual function from the pick paths.
+  // Only re-render when a picked path's value actually changes.
+  const pickKey = pick?.length ? pick.join('\0') : ''
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const isEqual = useMemo<
+    ((prev: Data, next: Data) => boolean) | undefined
+  >(() => {
+    if (!pick?.length) {
+      return undefined
+    }
+    return (prev: Data, next: Data) => {
+      return pick.every((path) => {
+        const prevVal = pointer.has(prev as JsonObject, path)
+          ? pointer.get(prev as JsonObject, path)
+          : undefined
+        const nextVal = pointer.has(next as JsonObject, path)
+          ? pointer.get(next as JsonObject, path)
+          : undefined
+        return prevVal === nextVal
+      })
+    }
+  }, [pickKey])
+
   const sharedDataRef = useRef<ReturnType<
     typeof useSharedState<Data>
   > | null>(null)
@@ -74,7 +109,9 @@ export default function useData<Data = JsonObject>(
     typeof createSharedState<SharedAttachments<Data>>
   > | null>(null)
 
-  sharedDataRef.current = useSharedState<Data>(id, initialData)
+  sharedDataRef.current = useSharedState<Data>(id, initialData, null, {
+    isEqual,
+  })
 
   // Use createSharedState (non-reactive) for attachments — we only ever access
   // them imperatively, so subscribing to changes would cause unnecessary re-renders.
