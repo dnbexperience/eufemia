@@ -1,0 +1,70 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import {
+  ToasterProperties,
+  ToasterHostProperties,
+  ToasterNotificationCenterProperties,
+  ToasterNotificationCenterButtonProperties,
+  ToasterNotificationCenterListProperties,
+  ToasterFocusProxyProperties,
+  ToasterMessageProperties,
+  ToasterHookMethods,
+} from '@dnb/eufemia/src/components/toaster/ToasterDocs'
+
+## Compound Component Properties
+
+### Toaster.Host
+
+The core engine. Manages all message state, renders the toast stack, and provides screen reader announcements. Always required.
+
+<PropertiesTable props={ToasterHostProperties} />
+
+### Toaster.NotificationCenter
+
+The popup panel that displays all messages. Opens when the trigger button is clicked. **You must include either this or `NotificationCenterList`.** An error is thrown at runtime if neither is present.
+
+<PropertiesTable props={ToasterNotificationCenterProperties} />
+
+### Toaster.NotificationCenter.Button
+
+The button that opens and closes the notification center. Includes a hidden focus proxy that receives focus when the notification center closes and routes it back to the button.
+
+<PropertiesTable props={ToasterNotificationCenterButtonProperties} />
+
+### Toaster.NotificationCenterList
+
+Renders messages inline in the document flow. Use this instead of `NotificationCenter` when you want to build your own notification center UI. **An alternative to `NotificationCenter` — you must include one or the other.**
+
+<PropertiesTable props={ToasterNotificationCenterListProperties} />
+
+### Toaster.FocusProxy
+
+A hidden element that receives focus when the notification center closes and routes it back to the notification button. Only needed in compound setups where `NotificationCenter.Button` is not used.
+
+<PropertiesTable props={ToasterFocusProxyProperties} />
+
+## Legacy Toaster Properties
+
+Properties for the monolithic `<Toaster>` component (deprecated in favor of compound components above).
+
+<PropertiesTable props={ToasterProperties} />
+
+## Message Properties
+
+These are the properties you pass to `addMessage()` when creating a new message.
+
+<PropertiesTable props={ToasterMessageProperties} />
+
+## useToaster Hook
+
+The `useToaster` hook provides the API for adding, removing, and managing messages.
+
+<PropertiesTable props={ToasterHookMethods} />
+
+## Translations
+
+<TranslationsTable localeKey="Toaster" />

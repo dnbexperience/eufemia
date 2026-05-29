@@ -64,6 +64,7 @@ import type { RadioGroupProps } from '../components/radio/RadioGroup'
 import type { ToggleButtonProps } from '../components/toggle-button/ToggleButton'
 import type { ToggleButtonGroupProps } from '../components/toggle-button/ToggleButtonGroup'
 import type { TermDefinitionProps } from '../components/term-definition/TermDefinition'
+import type { ToasterProps } from '../components/toaster/types'
 
 import type { FormElementProps } from './helpers/filterValidProps'
 import type { ThemeProps } from './Theme'
@@ -122,6 +123,7 @@ export type ContextComponents = {
   NumberFormat?: Partial<NumberFormatAllProps>
   Pagination?: Partial<PaginationProps>
   TermDefinition?: Partial<TermDefinitionProps>
+  Toaster?: Partial<ToasterProps>
 
   // Common props
   formElement?: FormElementProps
