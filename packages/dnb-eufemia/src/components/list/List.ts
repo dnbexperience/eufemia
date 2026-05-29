@@ -1,3 +1,17 @@
-// For TypeScript compatibility we import and export it this way
-import * as _default from './ListExport'
-export { _default as default }
+import Container from './Container'
+import Item from './Item'
+import Cell from './Cell'
+import Card from './ListCard'
+import ScrollView from './ListScrollView'
+import ShowMoreButton from './ListShowMoreButton'
+
+const List = {
+  Container,
+  Item,
+  Cell,
+  Card,
+  ScrollView,
+  ShowMoreButton,
+} as const
+
+export default List

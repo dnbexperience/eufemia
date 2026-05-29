@@ -1,3 +1,15 @@
-// For TypeScript compatibility we import and export it this way
-import * as _default from './CellExport'
-export { _default as default }
+import Start from './ItemStart'
+import Center from './ItemCenter'
+import End from './ItemEnd'
+import Title from './ItemTitle'
+import Footer from './ItemFooter'
+
+const Cell = {
+  Start,
+  Center,
+  End,
+  Title,
+  Footer,
+} as const
+
+export default Cell

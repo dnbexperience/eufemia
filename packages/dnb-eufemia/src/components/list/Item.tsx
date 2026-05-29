@@ -1,3 +1,11 @@
-// For TypeScript compatibility we import and export it this way
-import * as _default from './ItemExport'
-export { _default as default }
+import Basic from './ItemBasic'
+import Action from './ItemAction'
+import Accordion from './ItemAccordion'
+
+const Item = {
+  Basic,
+  Action,
+  Accordion,
+} as const
+
+export default Item

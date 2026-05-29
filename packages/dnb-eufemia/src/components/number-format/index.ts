@@ -1,13 +1,10 @@
 /**
  * Component Entry
  *
- * `NumberFormat` is exposed as a namespace of sub-components for better code
- * splitting and tree shaking.
+ * `NumberFormat` is exposed as a namespace of sub-components.
  */
 
-// For TypeScript compatibility we import and export it this way
-import * as _default from './NumberFormatExport'
-export { _default as default }
+export { default } from './NumberFormat'
 
 // Re-export the Hooks
 export { default as useNumberFormat } from './useNumberFormat'

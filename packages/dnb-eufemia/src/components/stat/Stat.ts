@@ -1,14 +1,39 @@
-// For TypeScript compatibility we import and export it this way
-export { Number } from './exports/StatExport'
-export { Currency } from './exports/StatExport'
-export { Percent } from './exports/StatExport'
-export { Rating } from './exports/StatExport'
-export { Trend } from './exports/StatExport'
-export { Label } from './exports/StatExport'
-export { Info } from './exports/StatExport'
-export { Inline } from './exports/StatExport'
-export { Root } from './exports/StatExport'
-export { Content } from './exports/StatExport'
-export { Text } from './exports/StatExport'
-import * as _default from './exports/StatExport'
-export { _default as default }
+import StatNumber from './Number'
+import Currency from './Currency'
+import Percent from './Percent'
+import Rating from './Rating'
+import Trend from './Trend'
+import Label from './Label'
+import Info from './Info'
+import Inline from './Inline'
+import Root from './Root'
+import Content from './Content'
+import Text from './Text'
+
+export { StatNumber as Number }
+export { Currency }
+export { Percent }
+export { Rating }
+export { Trend }
+export { Label }
+export { Info }
+export { Inline }
+export { Root }
+export { Content }
+export { Text }
+
+const Stat = {
+  Number: StatNumber,
+  Currency,
+  Percent,
+  Rating,
+  Trend,
+  Label,
+  Info,
+  Inline,
+  Root,
+  Content,
+  Text,
+} as const
+
+export default Stat

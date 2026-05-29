@@ -1,3 +1,9 @@
-// For TypeScript compatibility we import and export it this way
-import * as _default from './export'
-export { _default as default }
+import Container from './Container'
+import Item from './Item'
+
+const Grid = {
+  Container,
+  Item,
+} as const
+
+export default Grid

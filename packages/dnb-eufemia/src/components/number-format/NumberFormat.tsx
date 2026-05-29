@@ -1,19 +1,41 @@
 /**
  * NumberFormat namespace entry
  *
- * `NumberFormat` is exported only as a namespace of sub-components for better
- * code splitting and tree shaking. Rendering `<NumberFormat />` directly is
- * no longer supported – use one of the variants instead, e.g.
+ * `NumberFormat` is exported as a plain object namespace of sub-components.
+ * Rendering `<NumberFormat />` directly is no longer supported – use one of
+ * the variants instead, e.g.
  * `<NumberFormat.Number />`, `<NumberFormat.Currency />`,
  * `<NumberFormat.Percent />`,
  * `<NumberFormat.PhoneNumber />`, `<NumberFormat.BankAccountNumber />`,
  * `<NumberFormat.NationalIdentityNumber />` or
  * `<NumberFormat.OrganizationNumber />`.
+ *
+ * We intentionally use a plain object rather than `import * as` (Module
+ * Namespace exotic object) because the namespace form can break when
+ * re-exported through barrel files and consumed via named imports
+ * (`import { NumberFormat } from '@dnb/eufemia'`) in bundlers that
+ * perform CJS/ESM interop or dependency pre-bundling.
  */
 
-// For TypeScript compatibility we import and export it this way
-import * as _default from './NumberFormatExport'
-export { _default as default }
+import NumberComponent from './Number'
+import Currency from './Currency'
+import Percent from './Percent'
+import PhoneNumber from './PhoneNumber'
+import BankAccountNumber from './BankAccountNumber'
+import NationalIdentityNumber from './NationalIdentityNumber'
+import OrganizationNumber from './OrganizationNumber'
+
+const NumberFormat = {
+  Number: NumberComponent,
+  Currency,
+  Percent,
+  PhoneNumber,
+  BankAccountNumber,
+  NationalIdentityNumber,
+  OrganizationNumber,
+} as const
+
+export default NumberFormat
 
 // Re-export the Hooks
 export { default as useNumberFormat } from './useNumberFormat'
