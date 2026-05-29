@@ -36,7 +36,13 @@ export type FieldPhoneNumberProps = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
   'layout' | 'layoutOptions' | 'labelSize' | 'onBlurValidator'
 > & {
-  onBlurValidator?: FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>['onBlurValidator'] | false
+  onBlurValidator?:
+    | FieldPropsWithExtraValue<
+        string,
+        AdditionalArgs,
+        undefined | string
+      >['onBlurValidator']
+    | false
   countryCodeFieldClassName?: string
   numberFieldClassName?: string
   countryCodePlaceholder?: string
@@ -239,10 +245,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       }
 
       const [countryCode, phoneNumber] = splitValue(value)
-      if (
-        countryCode === defaultCountryCode &&
-        phoneNumber?.length > 8
-      ) {
+      if (countryCode === defaultCountryCode && phoneNumber?.length > 8) {
         return Error(errorLengthNorwegianPhoneNumbers)
       }
 

@@ -512,9 +512,7 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     const customMessage = 'Custom length error'
 
     render(
-      <Field.PhoneNumber
-        onBlurValidator={() => Error(customMessage)}
-      />
+      <Field.PhoneNumber onBlurValidator={() => Error(customMessage)} />
     )
 
     const numberElement = document.querySelector(
