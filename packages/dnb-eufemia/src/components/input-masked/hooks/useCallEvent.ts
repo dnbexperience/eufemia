@@ -19,6 +19,22 @@ import { useNumberMask } from './useNumberMask'
 // Local minus class pattern, matches multiple minus-like characters
 const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
 
+// Represents the combined event shape received by callEvent.
+// Covers keyboard, input, mouse, and focus events on the masked input.
+type MaskedInputTarget = HTMLInputElement & {
+  runCorrectCaretPosition?: () => void
+  __getCorrectCaretPosition?: boolean
+}
+
+type MaskedInputEvent = {
+  target: MaskedInputTarget
+  key?: string
+  isComposing?: boolean
+  data?: string
+  preventDefault?: () => void
+  defaultPrevented?: boolean
+}
+
 export const useCallEvent = ({
   setLocalValue,
 }: {
@@ -37,7 +53,7 @@ export const useCallEvent = ({
   let isUnidentified = false
 
   const callEvent = (
-    { event, value }: { event: any; value?: any },
+    { event, value }: { event: MaskedInputEvent; value?: string },
     name: string
   ) => {
     const maskParams = maskParamsRef.current as ReturnType<
