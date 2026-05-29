@@ -968,3 +968,44 @@ describe('Input scss', () => {
     expect(css).toMatchSnapshot()
   })
 })
+
+describe('Input intent prop', () => {
+  it('applies aria-invalid when intent is error', () => {
+    render(<Input intent="error" />)
+    const input = document.querySelector('.dnb-input__input')
+    expect(input.getAttribute('aria-invalid')).toBe('true')
+  })
+
+  it('does not apply aria-invalid for non-error intents', () => {
+    render(<Input intent="warning" />)
+    const input = document.querySelector('.dnb-input__input')
+    expect(input.getAttribute('aria-invalid')).toBeNull()
+  })
+
+  it('applies status class from intent', () => {
+    render(<Input intent="warning" status="Some warning" />)
+    const element = document.querySelector('.dnb-input')
+    expect(element.classList.contains('dnb-input__status--warning')).toBe(
+      true
+    )
+  })
+
+  it('intent takes priority over statusState', () => {
+    render(
+      <Input intent="warning" statusState="error" status="A message" />
+    )
+    const element = document.querySelector('.dnb-input')
+    expect(element.classList.contains('dnb-input__status--warning')).toBe(
+      true
+    )
+    expect(element.classList.contains('dnb-input__status--error')).toBe(
+      false
+    )
+  })
+
+  it('shows visual styling without a status message', () => {
+    render(<Input intent="error" />)
+    const input = document.querySelector('.dnb-input__input')
+    expect(input.getAttribute('aria-invalid')).toBe('true')
+  })
+})

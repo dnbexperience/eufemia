@@ -41,10 +41,21 @@ export const RadioProperties: PropertiesTableProps = {
     type: ['"error"', '"information"', 'boolean'],
     status: 'optional',
   },
+  intent: {
+    doc: 'Visual intent of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `status` message, add a `aria-label` or `aria-labelledby` to convey the intent to assistive technologies.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
+    status: 'optional',
+  },
   statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
     type: ['"error"', '"information"'],
-    status: 'optional',
+    status: 'deprecated',
   },
   statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',
@@ -89,10 +100,21 @@ export const RadioGroupProperties: PropertiesTableProps = {
     type: ['string', 'boolean'],
     status: 'optional',
   },
+  intent: {
+    doc: 'Visual intent of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `status` message, add a `aria-label` or `aria-labelledby` to convey the intent to assistive technologies.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
+    status: 'optional',
+  },
   statusState: {
     doc: 'Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.',
     type: ['"error"', '"information"'],
-    status: 'optional',
+    status: 'deprecated',
   },
   statusProps: {
     doc: 'Use an object to define additional FormStatus properties.',

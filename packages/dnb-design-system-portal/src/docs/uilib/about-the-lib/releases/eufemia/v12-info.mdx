@@ -13,6 +13,7 @@ draft: true
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
     - [Accordion](#accordion)
+    - [statusState → intent](#statusstate--intent)
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [InfoCard](#infocard)
     - [Popover](#popover)
@@ -66,6 +67,23 @@ When removing these properties, also update the documentation in `classes.mdx` (
 ### [Accordion](/uilib/components/accordion/)
 
 - Replace `id` with `connectedTo` on `Accordion.Content` when connecting to a standalone tertiary button.
+
+### statusState → intent
+
+The `statusState` prop has been deprecated in favor of `intent`. Replace `statusState` with `intent` on all form components that support it.
+
+```diff
+-<Input status="Error message" statusState="error" />
++<Input status="Error message" intent="error" />
+```
+
+The `intent` prop also supports setting visual intent without a status message. When used this way, consider adding `aria-label` or `aria-labelledby` to convey the intent to assistive technologies:
+
+```jsx
+<Input intent="error" aria-label="Error in field" />
+```
+
+Affected components: Autocomplete, Button, Checkbox, DatePicker, Dropdown, Input, Radio, RadioGroup, SegmentedField, Slider, StepIndicator, Switch, Textarea, ToggleButton, ToggleButtonGroup.
 
 ### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
 

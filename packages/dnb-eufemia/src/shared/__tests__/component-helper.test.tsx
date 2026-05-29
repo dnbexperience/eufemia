@@ -25,6 +25,8 @@ import {
   convertJsxToString,
   escapeRegexChars,
   removeUndefinedProps,
+  resolveIntent,
+  resolveStatusForIntent,
 } from '../component-helper'
 import userEvent from '@testing-library/user-event'
 
@@ -663,5 +665,66 @@ describe('"removeUndefinedProps" should', () => {
 
   it('remove support undefined as data', () => {
     expect(removeUndefinedProps(undefined)).toBeUndefined()
+  })
+})
+
+describe('resolveIntent', () => {
+  it('returns intent when provided', () => {
+    expect(resolveIntent({ intent: 'warning' })).toBe('warning')
+  })
+
+  it('returns intent over statusState', () => {
+    expect(
+      resolveIntent({ intent: 'information', statusState: 'error' })
+    ).toBe('information')
+  })
+
+  it('returns statusState when status is truthy', () => {
+    expect(
+      resolveIntent({ statusState: 'warning', status: 'Some message' })
+    ).toBe('warning')
+  })
+
+  it('does not return statusState without status', () => {
+    expect(resolveIntent({ statusState: 'warning' })).toBeUndefined()
+  })
+
+  it('returns status value when it is a known state string', () => {
+    expect(resolveIntent({ status: 'error' })).toBe('error')
+    expect(resolveIntent({ status: 'warning' })).toBe('warning')
+    expect(resolveIntent({ status: 'information' })).toBe('information')
+  })
+
+  it('falls back to error when status is a non-state truthy value', () => {
+    expect(resolveIntent({ status: 'Some error message' })).toBe('error')
+    expect(resolveIntent({ status: true })).toBe('error')
+  })
+
+  it('returns undefined when nothing is set', () => {
+    expect(resolveIntent({})).toBeUndefined()
+  })
+})
+
+describe('resolveStatusForIntent', () => {
+  it('returns true when intent is set and status is undefined', () => {
+    expect(
+      resolveStatusForIntent({ intent: 'error', status: undefined })
+    ).toBe(true)
+  })
+
+  it('returns status when it is provided', () => {
+    expect(
+      resolveStatusForIntent({ intent: 'error', status: 'A message' })
+    ).toBe('A message')
+  })
+
+  it('returns status when intent is not set', () => {
+    expect(resolveStatusForIntent({ status: 'A message' })).toBe(
+      'A message'
+    )
+  })
+
+  it('returns undefined when neither intent nor status is set', () => {
+    expect(resolveStatusForIntent({})).toBeUndefined()
   })
 })

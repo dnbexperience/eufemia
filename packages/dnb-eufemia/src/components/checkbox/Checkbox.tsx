@@ -23,6 +23,8 @@ import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -138,7 +140,8 @@ function Checkbox(localProps: CheckboxProps) {
 
   const {
     value,
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -162,6 +165,16 @@ function Checkbox(localProps: CheckboxProps) {
     ref: refProp,
     ...rest
   } = props
+
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
@@ -283,6 +296,9 @@ function Checkbox(localProps: CheckboxProps) {
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
+    if (effectiveIntent === 'error') {
+      inputParams['aria-invalid'] = true
+    }
 
     // also used for code markup simulation
     return validateDOMAttributes(
@@ -292,6 +308,7 @@ function Checkbox(localProps: CheckboxProps) {
   }, [
     context,
     disabled,
+    effectiveIntent,
     id,
     props,
     readOnly,
@@ -304,7 +321,7 @@ function Checkbox(localProps: CheckboxProps) {
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-checkbox',
-      status && `dnb-checkbox__status--${statusState}`,
+      status && `dnb-checkbox__status--${effectiveIntent}`,
       size && `dnb-checkbox--${size}`,
       label && `dnb-checkbox--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
@@ -324,7 +341,7 @@ function Checkbox(localProps: CheckboxProps) {
       textId={id + '-status'} // used for "aria-describedby"
       widthSelector={id + ', ' + id + '-label'}
       text={status}
-      state={statusState}
+      state={effectiveIntent}
       noAnimation={statusNoAnimation}
       skeleton={skeleton}
       {...statusProps}

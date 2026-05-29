@@ -24,6 +24,8 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
@@ -270,7 +272,8 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     title,
     customContent,
     tooltip,
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -288,6 +291,16 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     selected,
     ...attributes
   } = props
+
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
 
   const showStatus = getStatusState(status)
 
@@ -375,7 +388,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
       isIconOnly && 'dnb-button--icon-only',
       selected && 'dnb-button--selected',
       wrap && 'dnb-button--wrap',
-      status && `dnb-button__status--${statusState}`,
+      status && `dnb-button__status--${effectiveIntent}`,
       createSkeletonClass(
         variant === 'tertiary' ? 'font' : 'shape',
         skeleton,
@@ -462,7 +475,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
         globalStatus={globalStatus}
         label={text}
         text={status}
-        state={statusState}
+        state={effectiveIntent}
         textId={resolvedId + '-status'} // used for "aria-describedby"
         noAnimation={statusNoAnimation}
         skeleton={skeleton}

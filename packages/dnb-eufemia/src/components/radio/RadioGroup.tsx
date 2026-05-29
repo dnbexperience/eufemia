@@ -10,6 +10,8 @@ import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
@@ -25,11 +27,7 @@ import Flex from '../Flex'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import RadioGroupContext from './RadioGroupContext'
-import type {
-  FormStatusBaseProps,
-  FormStatusText,
-  FormStatusState,
-} from '../FormStatus'
+import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -57,11 +55,6 @@ export type RadioGroupProps = {
   id?: string
   name?: string
   size?: RadioGroupSize
-  status?: FormStatusText
-  statusState?: FormStatusState
-  statusProps?: FormStatusBaseProps
-  statusNoAnimation?: boolean
-  globalStatus?: FormStatusBaseProps['globalStatus']
   suffix?: RadioGroupSuffix
   vertical?: boolean
   layoutDirection?: RadioGroupLayoutDirection
@@ -71,7 +64,8 @@ export type RadioGroupProps = {
   className?: string
   children?: RadioGroupChildren
   onChange?: (event: RadioGroupChangeEvent) => void
-} & SpacingProps
+} & FormStatusBaseProps &
+  SpacingProps
 
 const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   label: null,
@@ -169,7 +163,8 @@ function RadioGroup(ownProps: RadioGroupProps) {
   )
 
   const {
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -195,12 +190,22 @@ function RadioGroup(ownProps: RadioGroupProps) {
     ...rest
   } = props
 
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
+
   const showStatus = getStatusState(status)
 
   const rootProps = useSpacing(props, {
     className: clsx(
       'dnb-radio-group',
-      status && `dnb-radio-group__status--${statusState}`,
+      status && `dnb-radio-group__status--${effectiveIntent}`,
       `dnb-radio-group--${layoutDirection}`,
       'dnb-form-component',
       className
@@ -288,7 +293,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
                 globalStatus={globalStatus}
                 label={label}
                 text={status}
-                state={statusState}
+                state={effectiveIntent}
                 textId={id + '-status'} // used for "aria-describedby"
                 widthSelector={id + ', ' + legendId}
                 noAnimation={statusNoAnimation}

@@ -29,6 +29,8 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   warn,
   dispatchCustomElementEvent,
@@ -229,7 +231,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     label,
     labelDirection,
     labelSrOnly,
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -255,6 +258,16 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     ref: _ref,
     ...attributes
   } = props
+
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const combinedRef = useCombinedRef(ref, textareaRef)
@@ -498,6 +511,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   if (readOnly) {
     textareaParams['aria-readonly'] = textareaParams.readOnly = true
   }
+  if (effectiveIntent === 'error') {
+    textareaParams['aria-invalid'] = true
+  }
 
   const mainParams = useSpacing(props, {
     className: clsx(
@@ -507,7 +523,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       currentHasValue && 'dnb-textarea--has-content',
       align && `dnb-textarea__align--${align}`,
       typeof size === 'string' && `dnb-textarea__size--${size}`,
-      status && `dnb-textarea__status--${statusState}`,
+      status && `dnb-textarea__status--${effectiveIntent}`,
       autoResize && 'dnb-textarea__autoresize',
       labelDirection && `dnb-textarea--${labelDirection}`,
       stretch && `dnb-textarea--stretch`,
@@ -576,7 +592,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           label={label}
           textId={id + '-status'}
           text={status}
-          state={statusState}
+          state={effectiveIntent}
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}

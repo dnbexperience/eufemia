@@ -47,6 +47,8 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   escapeRegexChars,
   getClosestParent,
@@ -565,7 +567,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     size,
     align,
     fixedPosition,
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -2334,6 +2337,16 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   })
 
   // Render
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
+
   const showStatus = getStatusState(status)
 
   const { id, hidden, selectedItem, direction, open } = drawerList
@@ -2355,7 +2368,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       visibleIndicator && 'dnb-autocomplete--show-indicator',
       size && `dnb-autocomplete--${size}`,
       stretch && `dnb-autocomplete--stretch`,
-      status && `dnb-autocomplete__status--${statusState}`,
+      status && `dnb-autocomplete__status--${effectiveIntent}`,
       showStatus && 'dnb-autocomplete__form-status',
       'dnb-form-component',
       className
@@ -2418,7 +2431,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   const triggerParams = {
     id: id + '-submit-button',
     disabled,
-    status: status ? statusState : null,
+    status: status ? effectiveIntent : null,
     onKeyDown: onTriggerKeyDownHandler,
     onSubmit: toggleVisible as any as InputSubmitButtonProps['onSubmit'],
     onMouseDown: reserveActivityHandler,
@@ -2453,7 +2466,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         size={size === 'default' ? 'medium' : (size as ButtonSize)}
         type="button"
         status={status}
-        statusState={statusState}
+        intent={effectiveIntent}
         statusProps={statusProps}
         {...triggerParams}
       />
@@ -2530,7 +2543,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           label={label}
           textId={id + '-status'}
           text={status}
-          state={statusState}
+          state={effectiveIntent}
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
           widthSelector={innerId}
@@ -2556,8 +2569,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
                   iconSize || (size === 'large' ? 'medium' : 'default')
                 }
                 size={size}
-                status={status ? statusState : null}
-                statusState={statusState}
+                status={status ? effectiveIntent : null}
+                intent={effectiveIntent}
                 type={null}
                 innerElement={
                   currentDataItem?.suffixValue && (

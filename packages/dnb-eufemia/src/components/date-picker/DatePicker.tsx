@@ -26,6 +26,8 @@ import {
   warn,
   extendPropsWithContext,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -588,7 +590,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
     stretch,
     skeleton,
     size,
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -621,6 +624,16 @@ function DatePicker(externalProps: DatePickerAllProps) {
     () => filterOutNonAttributes(restProps),
     [restProps]
   )
+
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
 
   const showStatus = getStatusState(status)
 
@@ -667,7 +680,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-date-picker',
-      status && `dnb-date-picker__status--${statusState}`,
+      status && `dnb-date-picker__status--${effectiveIntent}`,
       labelDirection && `dnb-date-picker--${labelDirection}`,
       open && 'dnb-date-picker--open',
       hidden && 'dnb-date-picker--hidden',
@@ -741,7 +754,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
             textId={id + '-status'} // used for "aria-describedby"
             widthSelector={id + '-shell'}
             text={status}
-            state={statusState}
+            state={effectiveIntent}
             noAnimation={statusNoAnimation}
             skeleton={skeleton}
             {...statusProps}
@@ -801,7 +814,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   hidden={hidden}
                   size={size}
                   status={status ? 'error' : null}
-                  statusState={statusState}
+                  intent={effectiveIntent}
                   lang={context.locale}
                   _omitInputShellClass={_omitInputShellClass}
                   {...attributes}

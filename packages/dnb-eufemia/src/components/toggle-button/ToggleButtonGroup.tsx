@@ -11,6 +11,8 @@ import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
@@ -162,7 +164,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   )
 
   const {
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -191,12 +194,22 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     ...rest
   } = props
 
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
+
   const showStatus = getStatusState(status)
 
   const rootProps = useSpacing(props, {
     className: clsx(
       'dnb-toggle-button-group',
-      status && `dnb-toggle-button-group__status--${statusState}`,
+      status && `dnb-toggle-button-group__status--${effectiveIntent}`,
       !label && 'dnb-toggle-button-group--no-label',
       `dnb-toggle-button-group--${layoutDirection}`,
       'dnb-form-component',
@@ -305,7 +318,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
                 label={label}
                 textId={id + '-status'} // used for "aria-describedby"
                 text={status}
-                state={statusState}
+                state={effectiveIntent}
                 noAnimation={statusNoAnimation}
                 skeleton={skeleton}
                 {...statusProps}

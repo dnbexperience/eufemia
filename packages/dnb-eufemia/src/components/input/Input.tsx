@@ -43,6 +43,8 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   dispatchCustomElementEvent,
   convertJsxToString,
@@ -520,8 +522,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     label,
     labelDirection,
     labelSrOnly,
-    status,
+    status: statusProp,
     globalStatus,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -576,6 +579,16 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   }
   const sizeIsNumber = parseFloat(size) > 0
 
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
+
   const id = _id
   const showStatus = getStatusState(status)
   const hasSubmitButton =
@@ -597,7 +610,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       innerElement && 'dnb-input--has-inner-element',
       showClearButton && 'dnb-input--has-clear-button',
       align && `dnb-input__align--${align}`,
-      status && `dnb-input__status--${statusState}`,
+      status && `dnb-input__status--${effectiveIntent}`,
       disabled && 'dnb-input--disabled',
       icon && `dnb-input--icon-position-${iconPosition}`,
       icon && 'dnb-input--has-icon',
@@ -668,6 +681,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   if (readOnly) {
     inputParams['aria-readonly'] = inputParams.readOnly = true
   }
+  if (effectiveIntent === 'error') {
+    inputParams['aria-invalid'] = true
+  }
 
   const shellParams = {
     className: clsx(
@@ -717,7 +733,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
           globalStatus={globalStatus}
           label={label}
           text={status}
-          state={statusState}
+          state={effectiveIntent}
           textId={id + '-status'} // used for "aria-describedby"
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
@@ -789,10 +805,14 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                   value={hasVal ? value : ''}
                   icon={submitButtonIcon}
                   status={
-                    submitButtonStatus || status ? statusState : null
+                    submitButtonStatus || status ? effectiveIntent : null
                   }
-                  statusState={statusState}
-                  iconSize={size === 'large' ? 'medium' : 'default'}
+                  intent={effectiveIntent}
+                  iconSize={
+                    size === 'medium' || size === 'large'
+                      ? 'medium'
+                      : 'default'
+                  }
                   title={submitButtonTitle}
                   variant={submitButtonVariant}
                   disabled={disabled}
@@ -905,6 +925,7 @@ function InputSubmitButton({
     icon,
     iconSize,
     status,
+    intent,
     statusState,
     statusProps,
     className,
@@ -947,7 +968,7 @@ function InputSubmitButton({
         icon={icon}
         iconSize={iconSize}
         status={status}
-        statusState={statusState}
+        intent={intent}
         onClick={onSubmitHandler}
         onFocus={onSubmitFocusHandler}
         onBlur={onSubmitBlurHandler}

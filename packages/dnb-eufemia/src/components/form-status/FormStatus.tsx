@@ -68,7 +68,14 @@ export type FormStatusBaseProps = {
    */
   status?: FormStatusText
   /**
-   * Defines the state of the status. Valid states are `error`, `warning`, `information`, `success` and `marketing`. Defaults to `error`.
+   * Visual intent of the component. Valid values are `error`, `warning`, `information`, `success` and `marketing`.
+   * When set, applies the corresponding visual styling (e.g. red border for error) even without a status message.
+   * When set to `error`, `aria-invalid` is automatically applied.
+   *
+   */
+  intent?: FormStatusState
+  /**
+   * @deprecated Use `intent` instead. Defines the state of the status. Defaults to `error`.
    */
   statusState?: FormStatusState
   /**

@@ -36,10 +36,21 @@ export const SegmentedFieldProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  intent: {
+    doc: 'Visual intent of the component. When set, applies the corresponding visual styling even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `status` message, add a `aria-label` or `aria-labelledby` to convey the intent to assistive technologies.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
+    status: 'optional',
+  },
   statusState: {
     doc: 'Visual status state passed to the wrapped `Input` component.',
     type: ['"error"', '"information"', '"warning"', '"disabled"'],
-    status: 'optional',
+    status: 'deprecated',
   },
   stretch: {
     doc: 'Set to `true` to stretch the wrapped `Input` to the available width.',

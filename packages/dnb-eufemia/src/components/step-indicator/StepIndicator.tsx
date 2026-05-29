@@ -23,6 +23,7 @@ import type {
   FormStatusText,
 } from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
+import { resolveIntent } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
@@ -33,6 +34,7 @@ export type StepIndicatorDataItem = Pick<
   | 'inactive'
   | 'disabled'
   | 'status'
+  | 'intent'
   | 'statusState'
   | 'onClick'
 >
@@ -99,8 +101,13 @@ export type StepIndicatorProps = Omit<
      */
     status?: FormStatusText
     /**
+     * Visual intent of the status.
+     */
+    intent?: FormStatusState
+    /**
      * The type of status for the `status` prop. Is either `information`, `error` or `warning`.
      * Defaults to `warning`.
+     * @deprecated Use `intent` instead.
      */
     statusState?: FormStatusState
     /**
@@ -122,6 +129,7 @@ export type StepIndicatorProps = Omit<
 
 function StepIndicator({
   status,
+  intent: intentProp,
   statusState = 'warning',
   data = stepIndicatorDefaultProps.data,
   skeleton = stepIndicatorDefaultProps.skeleton,
@@ -157,20 +165,27 @@ function StepIndicator({
           />
           <StepIndicatorList />
         </Card>
-        <StepIndicatorStatus status={status} statusState={statusState} />
+        <StepIndicatorStatus
+          status={status}
+          effectiveIntent={resolveIntent({
+            intent: intentProp,
+            statusState,
+            status,
+          })}
+        />
       </div>
     </StepIndicatorProvider>
   )
 }
 
-function StepIndicatorStatus({ status, statusState }) {
+function StepIndicatorStatus({ status, effectiveIntent }) {
   const { open, noAnimation } = useContext(StepIndicatorContext)
   const show = !open && !!status
   return (
     <FormStatus
       show={show}
       noAnimation={noAnimation}
-      state={status && statusState}
+      state={status && effectiveIntent}
     >
       {status}
     </FormStatus>

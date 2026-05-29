@@ -8,6 +8,7 @@ import type { ReactElement, ReactNode } from 'react'
 
 import whatInput from './helpers/whatInput'
 import { warn } from './helpers'
+import type { FormStatusState } from '../components/form-status/FormStatus'
 import { getClosestParent } from './helpers/getClosest'
 import { init } from './Eufemia'
 import { defineNavigator } from './legacy/component-helper-legacy'
@@ -336,6 +337,65 @@ export function getStatusState(status) {
     status !== 'warning' &&
     status !== 'information'
   )
+}
+
+/**
+ * Resolves the effective intent from `intent`, `statusState`, and `status`.
+ *
+ * - `intent` takes priority over `statusState` (which is deprecated).
+ * - If `status` is a known state string ("error", "warn", etc.) and no explicit
+ *   intent/statusState is set, the status value is used as the intent.
+ * - Falls back to `'error'` when a status message is present but no intent is specified.
+ */
+export function resolveIntent({
+  intent,
+  statusState,
+  status,
+}: {
+  intent?: FormStatusState
+  statusState?: FormStatusState
+  status?: unknown
+}): FormStatusState | undefined {
+  if (intent) {
+    return intent
+  }
+
+  if (statusState && status) {
+    return statusState
+  }
+
+  if (
+    typeof status === 'string' &&
+    (status === 'error' ||
+      status === 'warning' ||
+      status === 'information')
+  ) {
+    return status
+  }
+
+  if (status) {
+    return 'error'
+  }
+
+  return undefined
+}
+
+/**
+ * Returns the effective status value when `intent` is set.
+ * If `intent` is provided but `status` is not, returns `true`
+ * so the component applies visual styling without a message.
+ */
+export function resolveStatusForIntent<T>({
+  intent,
+  status,
+}: {
+  intent?: FormStatusState
+  status?: T
+}): T | true {
+  if (intent && status === undefined) {
+    return true
+  }
+  return status as T
 }
 
 export function combineLabelledBy(...params) {

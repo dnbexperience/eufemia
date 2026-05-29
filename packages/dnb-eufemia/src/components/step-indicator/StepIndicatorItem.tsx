@@ -7,7 +7,10 @@ import { useCallback, useContext, useMemo } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 
 import { clsx } from 'clsx'
-import { dispatchCustomElementEvent } from '../../shared/component-helper'
+import {
+  dispatchCustomElementEvent,
+  resolveIntent,
+} from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import type { AnchorAllProps } from '../anchor/Anchor'
 import Anchor from '../anchor/Anchor'
@@ -50,8 +53,13 @@ export type StepIndicatorItemProps = Omit<
    */
   status?: string | ReactNode
   /**
+   * Visual intent of the step status.
+   */
+  intent?: StepIndicatorStatusState
+  /**
    * Used to set the status state to be either `information`, `error` or `warning`.
    * Defaults to `warning`.
+   * @deprecated Use `intent` instead.
    */
   statusState?: StepIndicatorStatusState
   /**
@@ -62,6 +70,7 @@ export type StepIndicatorItemProps = Omit<
 }
 
 function StepIndicatorItem({
+  intent: intentDefault,
   statusState: statusStateDefault = 'warning',
   inactive: inactiveDefault = false,
   disabled: disabledDefault = false,
@@ -71,6 +80,7 @@ function StepIndicatorItem({
 
   const props: StepIndicatorItemProps = useMemo(() => {
     return {
+      intent: intentDefault,
       statusState: statusStateDefault,
       inactive: inactiveDefault,
       disabled: globalContext?.formElement?.disabled ?? disabledDefault,
@@ -79,6 +89,7 @@ function StepIndicatorItem({
   }, [
     disabledDefault,
     inactiveDefault,
+    intentDefault,
     restOfProps,
     statusStateDefault,
     globalContext?.formElement?.disabled,
@@ -141,10 +152,13 @@ function StepIndicatorItem({
     inactive,
     disabled,
     status,
+    intent,
     statusState = 'warning',
 
     onClick, // eslint-disable-line
   } = props
+
+  const effectiveIntent = resolveIntent({ intent, statusState, status })
 
   const hasPassedAndIsCurrent =
     mode === 'loose' ||
@@ -170,7 +184,7 @@ function StepIndicatorItem({
   const itemParams = {} as HTMLProps<HTMLLIElement>
   const buttonParams = {
     status,
-    statusState,
+    effectiveIntent,
     'aria-describedby': id,
   } as StepItemButtonProps
 
@@ -235,7 +249,7 @@ function StepIndicatorItem({
         >
           {status && !usedIsCurrent ? (
             <Icon
-              icon={stateIcons[statusState] || stateIcons.warning}
+              icon={stateIcons[effectiveIntent] || stateIcons.warning}
               className="dnb-step-indicator__item__icon"
               size="medium"
               inheritColor={false}
@@ -270,7 +284,7 @@ function StepIndicatorItem({
             <FormStatus
               shellSpace={{ top: '1rem' }}
               noAnimation={noAnimation}
-              state={status ? statusState : undefined}
+              state={status ? effectiveIntent : undefined}
               variant="outlined"
               className="dnb-step-indicator__item-content__status"
               text={status}
@@ -285,14 +299,16 @@ function StepIndicatorItem({
   )
 }
 
-type StepItemButtonProps = AnchorAllProps &
-  Pick<StepIndicatorItemProps, 'status' | 'statusState'>
+type StepItemButtonProps = AnchorAllProps & {
+  status?: StepIndicatorItemProps['status']
+  effectiveIntent?: StepIndicatorStatusState
+}
 
 export function StepItemButton({
   children,
   className,
   status,
-  statusState = 'warning',
+  effectiveIntent = 'warning',
   ref,
   ...props
 }: StepItemButtonProps) {
@@ -306,7 +322,7 @@ export function StepItemButton({
         className,
         'dnb-step-indicator__button',
         status &&
-          `dnb-step-indicator__button--has-status dnb-step-indicator__button--${statusState}`
+          `dnb-step-indicator__button--has-status dnb-step-indicator__button--${effectiveIntent}`
       )}
       noStyle={notClickable}
       ref={ref}

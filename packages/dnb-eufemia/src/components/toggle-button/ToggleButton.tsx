@@ -25,6 +25,8 @@ import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
@@ -266,7 +268,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 
   const {
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -317,12 +320,22 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     }
   }
 
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
+
   const showStatus = getStatusState(status)
 
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-toggle-button',
-      status && `dnb-toggle-button__status--${statusState}`,
+      status && `dnb-toggle-button__status--${effectiveIntent}`,
       resolvedChecked && `dnb-toggle-button--checked`,
       labelDirection && `dnb-toggle-button--${labelDirection}`,
       className
@@ -362,8 +375,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
 
   if (status) {
     // do not send along the message, but only the status states
-    if (statusState === 'information') {
-      componentParams.statusState = 'information'
+    if (effectiveIntent === 'information') {
+      componentParams.intent = 'information'
     } else {
       componentParams.status = 'error'
     }
@@ -420,7 +433,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
           label={label}
           textId={id + '-status'} // used for "aria-describedby"
           text={status}
-          state={statusState}
+          state={effectiveIntent}
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}

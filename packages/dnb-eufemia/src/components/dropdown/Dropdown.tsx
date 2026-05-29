@@ -22,6 +22,8 @@ import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
@@ -421,7 +423,8 @@ const DropdownInstance = memo(function DropdownInstance({
     size,
     fixedPosition,
     enableBodyLock,
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -502,6 +505,17 @@ const DropdownInstance = memo(function DropdownInstance({
   }
 
   const { id, selectedItem, direction, open } = context.drawerList
+
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
+
   const showStatus = getStatusState(status)
 
   Object.assign(
@@ -521,7 +535,7 @@ const DropdownInstance = memo(function DropdownInstance({
       size && `dnb-dropdown--${size}`,
       stretch && `dnb-dropdown--stretch`,
       `dnb-dropdown--${align || 'right'}`,
-      status && `dnb-dropdown__status--${statusState}`,
+      status && `dnb-dropdown__status--${effectiveIntent}`,
       showStatus && 'dnb-dropdown__form-status',
       'dnb-form-component',
       className
@@ -563,6 +577,9 @@ const DropdownInstance = memo(function DropdownInstance({
       id // used to read the current value
     )
   }
+  if (effectiveIntent === 'error') {
+    triggerParams['aria-invalid'] = true
+  }
 
   // also used for code markup simulation
   validateDOMAttributes(null, mainParams)
@@ -596,7 +613,7 @@ const DropdownInstance = memo(function DropdownInstance({
           label={label}
           textId={id + '-status'} // used for "aria-describedby"
           text={status}
-          state={statusState}
+          state={effectiveIntent}
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}
@@ -609,8 +626,8 @@ const DropdownInstance = memo(function DropdownInstance({
             ) : (
               <Button
                 variant={variant}
-                status={status ? statusState : null}
-                statusState={statusState}
+                status={status ? effectiveIntent : null}
+                intent={effectiveIntent}
                 icon={false} // only to suppress the warning about the icon when tertiary variant is used
                 size={(size === 'default' ? 'medium' : size) as ButtonSize}
                 ref={setButtonRef}

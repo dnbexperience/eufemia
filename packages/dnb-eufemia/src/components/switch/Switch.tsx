@@ -19,6 +19,8 @@ import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -127,7 +129,8 @@ function Switch(props: SwitchProps) {
   const {
     value,
     size,
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     globalStatus,
@@ -149,6 +152,16 @@ function Switch(props: SwitchProps) {
     ref: refProp,
     ...rest
   } = allProps
+
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
@@ -256,7 +269,7 @@ function Switch(props: SwitchProps) {
     className: clsx(
       'dnb-switch',
       size && `dnb-switch--${size}`,
-      status && `dnb-switch__status--${statusState}`,
+      status && `dnb-switch__status--${effectiveIntent}`,
       `dnb-switch--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
@@ -279,6 +292,9 @@ function Switch(props: SwitchProps) {
   }
   if (readOnly) {
     inputParams['aria-readonly'] = readOnly
+  }
+  if (effectiveIntent === 'error') {
+    inputParams['aria-invalid'] = true
   }
 
   skeletonDOMAttributes(inputParams, skeleton, context)
@@ -322,7 +338,7 @@ function Switch(props: SwitchProps) {
             label={label}
             widthSelector={id + ', ' + id + '-label'}
             text={status}
-            state={statusState}
+            state={effectiveIntent}
             skeleton={skeleton}
             noAnimation={statusNoAnimation}
             {...statusProps}

@@ -21,6 +21,8 @@ import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
+  resolveIntent,
+  resolveStatusForIntent,
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
@@ -332,7 +334,8 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 
   const {
-    status,
+    status: statusProp,
+    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -357,6 +360,16 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
 
     ...rest
   } = props
+
+  const effectiveIntent = resolveIntent({
+    intent: intentProp,
+    statusState,
+    status: statusProp,
+  })
+  const status = resolveStatusForIntent({
+    intent: intentProp,
+    status: statusProp,
+  })
 
   // Re-apply any explicitly-passed extra props from ownProps that aren't
   // part of radioDefaultProps (e.g. role: undefined, type: undefined from
@@ -393,7 +406,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-radio',
-      status && `dnb-radio__status--${statusState}`,
+      status && `dnb-radio__status--${effectiveIntent}`,
       size && `dnb-radio--${size}`,
       label && `dnb-radio--label-position-${labelPosition || 'right'}`,
       className
@@ -419,6 +432,9 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   }
   if (readOnly) {
     inputParams['aria-readonly'] = inputParams.readOnly = true
+  }
+  if (effectiveIntent === 'error') {
+    inputParams['aria-invalid'] = true
   }
 
   inputParams = Object.assign(inputParams, rest)
@@ -461,7 +477,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
             textId={id + '-status'} // used for "aria-describedby"
             widthSelector={id + ', ' + id + '-label'}
             text={status}
-            state={statusState}
+            state={effectiveIntent}
             noAnimation={statusNoAnimation}
             skeleton={skeleton}
             {...statusProps}

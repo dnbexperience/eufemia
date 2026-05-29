@@ -51,10 +51,21 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  intent: {
+    doc: 'Visual intent of the component. When set, applies the corresponding visual styling even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `status` message, add a `aria-label` or `aria-labelledby` to convey the intent to assistive technologies.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
+    status: 'optional',
+  },
   statusState: {
     doc: 'The type of status shown when the `status` property is set. Defaults to `warning`.',
     type: ['"warning"', '"information"', '"error"'],
-    status: 'optional',
+    status: 'deprecated',
   },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
@@ -107,10 +118,21 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
+  intent: {
+    doc: 'Visual intent of the step. When set, applies the corresponding visual styling even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `status` message, add a `aria-label` or `aria-labelledby` to convey the intent to assistive technologies.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
+    status: 'optional',
+  },
   statusState: {
     doc: 'In case the status state should be `information` or `error`. Defaults to `warning`.',
     type: ['"warning"', '"information"', '"error"'],
-    status: 'optional',
+    status: 'deprecated',
   },
 }
 
