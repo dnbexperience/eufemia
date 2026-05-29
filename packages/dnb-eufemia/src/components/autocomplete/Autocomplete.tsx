@@ -65,6 +65,8 @@ import AriaLive from '../aria-live/AriaLive'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
+import Icon from '../icon/Icon'
+import { chevron_down, chevron_up } from '../../icons'
 import Input, {
   SubmitButton,
   type InputSubmitButtonProps,
@@ -98,6 +100,11 @@ type AutocompleteShowAll = string | ReactNode
 type AutocompleteAriaLiveOptions = string | ReactNode
 type AutocompleteIndicatorLabel = string | ReactNode
 type AutocompleteSubmitButtonIcon = string | ReactNode | (() => ReactNode)
+
+const autocompleteChevron = Icon.transition({
+  closed: chevron_down,
+  open: chevron_up,
+})
 type AutocompleteInputRef =
   | ((element: HTMLInputElement | null) => void)
   | RefObject<HTMLInputElement | undefined>
@@ -394,7 +401,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   showOptionsSr: null,
   selectedSr: null,
   submitButtonTitle: null,
-  submitButtonIcon: 'chevron_down',
+  submitButtonIcon: autocompleteChevron,
   inputRef: null,
   icon: 'loupe',
   iconSize: null,
@@ -2450,7 +2457,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   } else if (showSubmitButton) {
     submitButton = (
       <SubmitButton
-        icon={submitButtonIcon as IconIcon}
+        icon={
+          <IconPrimary
+            icon={submitButtonIcon as IconIcon}
+            transitionState={isExpanded ? 'open' : 'closed'}
+          />
+        }
         iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
         variant="secondary"
         size={size === 'default' ? 'medium' : (size as ButtonSize)}

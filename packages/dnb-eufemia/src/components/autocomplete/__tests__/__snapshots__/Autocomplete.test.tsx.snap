@@ -2189,13 +2189,6 @@ html[data-visual-test] .dnb-progress-indicator {
 .dnb-autocomplete__input .dnb-input__input {
   width: 100%;
 }
-.dnb-autocomplete--open .dnb-input__submit-button__button .dnb-icon {
-  transform: rotate(180deg);
-  transform-origin: 50% 50%;
-}
-.dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
-  transition: transform 400ms ease-out;
-}
 .dnb-autocomplete .dnb-input__inner__element {
   position: relative;
   z-index: 3;
