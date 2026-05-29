@@ -1443,10 +1443,3 @@ html[data-visual-test] .dnb-progress-indicator {
   }
 }"
 `;
-
-exports[`Pagination scss > have to match default theme snapshot 1`] = `
-"/*
-* Pagination theme
-*
-*/"
-`;

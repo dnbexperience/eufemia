@@ -379,10 +379,3 @@ exports[`PaymentCard scss > has to match style dependencies css 1`] = `
   display: none;
 }"
 `;
-
-exports[`PaymentCard scss > have to match default theme snapshot 1`] = `
-"/*
-* PaymentCard theme
-*
-*/"
-`;
