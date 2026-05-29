@@ -391,7 +391,7 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        nbNO.PhoneNumber.errorLength
+        nbNO.PhoneNumber.errorLengthNorwegianPhoneNumbers
       )
     })
   })
@@ -468,7 +468,7 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        nbNO.PhoneNumber.errorLength
+        nbNO.PhoneNumber.errorLengthNorwegianPhoneNumbers
       )
     })
 
@@ -503,19 +503,17 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
         document.querySelector('.dnb-form-status')
       ).toBeInTheDocument()
       expect(document.querySelector('.dnb-form-status').textContent).toBe(
-        nbNO.PhoneNumber.errorLength
+        nbNO.PhoneNumber.errorLengthNorwegianPhoneNumbers
       )
     })
   })
 
-  it('should allow overriding the length error message via errorMessages', async () => {
+  it('should allow overriding the length validation via onBlurValidator', async () => {
     const customMessage = 'Custom length error'
 
     render(
       <Field.PhoneNumber
-        errorMessages={{
-          'PhoneNumber.errorLength': customMessage,
-        }}
+        onBlurValidator={() => Error(customMessage)}
       />
     )
 
@@ -534,6 +532,23 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
         customMessage
       )
     })
+  })
+
+  it('should disable the built-in length validation when onBlurValidator is false', async () => {
+    render(<Field.PhoneNumber onBlurValidator={false} />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789')
+    fireEvent.blur(numberElement)
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
   })
 
   it('should return correct value onFocus and onBlur event', async () => {

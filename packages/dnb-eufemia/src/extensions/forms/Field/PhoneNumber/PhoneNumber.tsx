@@ -34,8 +34,9 @@ export type AdditionalArgs = {
 
 export type FieldPhoneNumberProps = Omit<
   FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>,
-  'layout' | 'layoutOptions' | 'labelSize'
+  'layout' | 'layoutOptions' | 'labelSize' | 'onBlurValidator'
 > & {
+  onBlurValidator?: FieldPropsWithExtraValue<string, AdditionalArgs, undefined | string>['onBlurValidator'] | false
   countryCodeFieldClassName?: string
   numberFieldClassName?: string
   countryCodePlaceholder?: string
@@ -94,7 +95,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     numberLabel: defaultLabel,
     countryCodeLabel: defaultCountryCodeLabel,
     errorRequired,
-    errorLength,
+    errorLengthNorwegianPhoneNumbers,
   } = useTranslation().PhoneNumber
   const lang = sharedContext.locale?.split('-')[0] as CountryLang
 
@@ -114,10 +115,9 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     () => ({
       'Field.errorRequired': errorRequired,
       'Field.errorPattern': errorRequired,
-      'PhoneNumber.errorLength': errorLength,
       ...props.errorMessages,
     }),
-    [errorRequired, errorLength, props.errorMessages]
+    [errorRequired, props.errorMessages]
   )
 
   const validateRequired = useCallback(
@@ -214,37 +214,47 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
       return props.schema
     }
 
+    if (!props.pattern) return undefined
+    // Use Zod internally when only pattern is provided
     return (p: FieldPhoneNumberProps) => {
-      return z.string().superRefine((val, ctx) => {
-        if (p?.pattern) {
-          try {
-            if (!new RegExp(p.pattern, 'u').test(val)) {
-              ctx.addIssue({
-                code: 'custom',
-                message: 'Field.errorPattern',
-              })
-            }
-          } catch (_e) {
-            // Ignore invalid regex patterns
-          }
+      let s = z.string()
+      if (p?.pattern) {
+        try {
+          s = s.regex(new RegExp(p.pattern, 'u'), 'Field.errorPattern')
+        } catch (_e) {
+          // Ignore invalid regex patterns
         }
-
-        // Validate Norwegian phone number length when using the default mask
-        if (!p?.numberMask) {
-          const [countryCode, phoneNumber] = splitValue(val)
-          if (
-            countryCode === defaultCountryCode &&
-            phoneNumber?.length > 8
-          ) {
-            ctx.addIssue({
-              code: 'custom',
-              message: 'PhoneNumber.errorLength',
-            })
-          }
-        }
-      })
+      }
+      return s
     }
   }, [props.schema, props.pattern])
+
+  // Validates that Norwegian phone numbers (+47) don't exceed 8 digits.
+  // This maintains existing behavior — before allowOverflow was added,
+  // the input mask physically prevented typing more than 8 digits for Norwegian numbers.
+  const norwegianPhoneNumberLengthValidator = useCallback(
+    (value: string) => {
+      if (props.numberMask) {
+        return undefined
+      }
+
+      const [countryCode, phoneNumber] = splitValue(value)
+      if (
+        countryCode === defaultCountryCode &&
+        phoneNumber?.length > 8
+      ) {
+        return Error(errorLengthNorwegianPhoneNumbers)
+      }
+
+      return undefined
+    },
+    [props.numberMask, errorLengthNorwegianPhoneNumbers]
+  )
+
+  const onBlurValidatorToUse =
+    props.onBlurValidator === false || props.pattern || props.schema
+      ? undefined
+      : (props.onBlurValidator ?? norwegianPhoneNumberLengthValidator)
   const defaultProps: Partial<FieldPhoneNumberProps> = {
     ...(schema ? { schema } : {}),
     errorMessages,
@@ -253,6 +263,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   const preparedProps: FieldPhoneNumberProps = {
     ...props,
     ...defaultProps,
+    onBlurValidator: onBlurValidatorToUse,
     validateRequired,
     fromExternal,
     toEvent,

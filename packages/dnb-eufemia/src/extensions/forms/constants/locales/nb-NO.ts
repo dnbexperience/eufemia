@@ -236,7 +236,7 @@ export default {
         'Mobilnummer må fylles ut. Hvis du ikke har et mobilnummer, kan du oppgi et annet telefonnummer.',
       warningRequired:
         'Du har ikke skrevet inn et mobilnummer. Du kan likevel bruke dette nummeret hvis det er riktig.',
-      errorLength:
+      errorLengthNorwegianPhoneNumbers:
         'Telefonnummeret er for langt. Norske telefonnumre har 8 siffer.',
     },
     PostalCodeAndCity: {
