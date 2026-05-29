@@ -84,4 +84,31 @@ describe('preResolveCurrentRoute', () => {
     expect(routes[0].lazy).toBeUndefined()
     expect(routes[1].lazy).toBeUndefined()
   })
+
+  it('pre-resolves catch-all route when no specific route matches', async () => {
+    const catchAllLazy = vi.fn(async () => ({ Component: () => null }))
+    const routes = [
+      { path: '/button', lazy: vi.fn(async () => ({ Component: () => null })) },
+      { path: '*', lazy: catchAllLazy },
+    ]
+
+    await preResolveCurrentRoute(routes, '/nonexistent/')
+
+    expect(catchAllLazy).toHaveBeenCalledTimes(1)
+    expect(routes[1].lazy).toBeUndefined()
+    expect(routes[1]).toHaveProperty('Component')
+  })
+
+  it('does not pre-resolve catch-all route when a specific route matches', async () => {
+    const catchAllLazy = vi.fn(async () => ({ Component: () => null }))
+    const routes = [
+      { path: '/button', lazy: vi.fn(async () => ({ Component: () => null })) },
+      { path: '*', lazy: catchAllLazy },
+    ]
+
+    await preResolveCurrentRoute(routes, '/button/')
+
+    expect(catchAllLazy).not.toHaveBeenCalled()
+    expect(routes[1].lazy).toBe(catchAllLazy)
+  })
 })
