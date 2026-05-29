@@ -14,6 +14,7 @@ type ButtonContentProps = {
   skeleton?: boolean
   isIconOnly?: boolean
   iconElement?: ReactNode
+  transitionState?: string
 }
 
 export default function ButtonContent({
@@ -26,6 +27,7 @@ export default function ButtonContent({
   skeleton = null,
   isIconOnly = null,
   iconElement = null,
+  transitionState = null,
 }: ButtonContentProps) {
   return (
     <>
@@ -73,6 +75,7 @@ export default function ButtonContent({
             className="dnb-button__icon"
             icon={icon as IconIcon}
             size={iconSize as IconSize}
+            transitionState={transitionState}
             aria-hidden={isIconOnly && !title ? null : true}
             skeleton={skeleton}
           />

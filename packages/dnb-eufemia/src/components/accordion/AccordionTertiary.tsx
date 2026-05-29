@@ -8,7 +8,13 @@ import Button from '../button/Button'
 import type { ButtonProps } from '../button/Button'
 import AccordionTertiaryContent from './AccordionTertiaryContent'
 import type { AccordionTertiarySharedState } from './AccordionTertiaryContent'
-import { chevron_down } from '../../icons'
+import { chevron_down, chevron_up } from '../../icons'
+import Icon from '../icon/Icon'
+
+const chevronIcon = Icon.transition({
+  collapsed: chevron_down,
+  expanded: chevron_up,
+})
 
 export type AccordionTertiaryProps = Omit<
   ButtonProps,
@@ -60,7 +66,7 @@ export default function AccordionTertiary(props: AccordionTertiaryProps) {
     className,
     children,
     onChange,
-    icon = chevron_down,
+    icon = chevronIcon,
     iconPosition,
     ...rest
   } = props
@@ -111,6 +117,7 @@ export default function AccordionTertiary(props: AccordionTertiaryProps) {
         variant="tertiary"
         icon={icon}
         iconPosition={iconPosition ?? 'left'}
+        transitionState={expanded ? 'expanded' : 'collapsed'}
         aria-expanded={expanded}
         aria-controls={contentId}
         onClick={handleClick}

@@ -161,11 +161,6 @@
       line-height: var(
         --line-height-small
       ); // to ensure correct icon height
-      transition: transform 400ms var(--accordion-easing);
-
-      @include utilities.reducedMotion() {
-        transition-duration: 0.01ms;
-      }
     }
     &--description &__icon {
       margin-top: var(--accordion-header-margin-vertical--description);
@@ -248,9 +243,8 @@
     }
   }
 
-  &--expanded > &__header &__header__icon {
-    transform: rotate(-180deg);
-  }
+  // Icon.transition() state is driven by the transitionState prop
+  // set in AccordionHeader — no CSS rule needed here.
 
   &__content {
     display: flex;
@@ -312,11 +306,6 @@
     //     width: 44rem;
     //   }
     // }
-  }
-  &-group--single-container & > &__header &__header__icon {
-    @include utilities.allAbove(small) {
-      transform: rotate(-90deg);
-    }
   }
 
   &-group {
@@ -524,25 +513,5 @@
     border: none;
     background: none;
     box-shadow: none;
-
-    .dnb-accordion__tertiary-button {
-      .dnb-icon {
-        transition: transform 0.4s var(--easing-default);
-
-        @include utilities.reducedMotion() {
-          transition-duration: 0.01ms;
-        }
-      }
-    }
-
-    &.dnb-accordion--expanded .dnb-accordion__tertiary-button .dnb-icon {
-      transform: rotate(180deg);
-    }
-
-    &.dnb-accordion--expanded
-      .dnb-accordion__tertiary-button.dnb-button--icon-position-left
-      .dnb-icon {
-      transform: rotate(-180deg);
-    }
   }
 }

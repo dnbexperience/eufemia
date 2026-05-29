@@ -94,14 +94,24 @@ p > .dnb-icon {
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
 }
-.dnb-icon[style*="--icon-transition"] svg path {
-  d: var(--icon-transition, var(--icon-transition-default));
-  vector-effect: non-scaling-stroke;
-  transition: d 400ms var(--easing-default);
-}
-@media (prefers-reduced-motion: reduce) {
-  .dnb-icon[style*="--icon-transition"] svg path {
-    transition-duration: 0.01ms;
+@supports (d: path("")) {
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:not(:first-of-type) {
+    display: none;
+  }
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type path {
+    d: var(--icon-transition, var(--icon-transition-default));
+    vector-effect: non-scaling-stroke;
+    transition: d 400ms var(--easing-default);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type path {
+      transition-duration: 0.01ms;
+    }
   }
 }
 .dnb-icon--transition-fallback {
