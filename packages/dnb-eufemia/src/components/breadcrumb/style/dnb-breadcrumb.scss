@@ -151,16 +151,6 @@
     }
   }
 
-  /* stylelint-disable no-descending-specificity */
-  &__toggle .dnb-button__icon {
-    transition: transform 400ms var(--easing-default);
-  }
-
-  &__toggle[aria-expanded='true'] .dnb-button__icon {
-    transform: rotate(180deg);
-  }
-  /* stylelint-enable no-descending-specificity */
-
   &__collapse &__list.dnb-section {
     flex-direction: column;
     align-items: flex-start;

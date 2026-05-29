@@ -25,6 +25,7 @@ import type {
 } from '../section/Section'
 import Section from '../section/Section'
 import Button from '../button/Button'
+import Icon from '../icon/Icon'
 import Accordion from '../accordion/Accordion'
 
 // Shared
@@ -35,6 +36,12 @@ import type {
   SpaceTypeMedia,
   SpacingProps,
 } from '../../shared/types'
+import { chevron_down, chevron_up } from '../../icons'
+
+const toggleIcon = Icon.transition({
+  collapsed: chevron_down,
+  expanded: chevron_up,
+})
 import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
@@ -325,7 +332,10 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
                 className="dnb-breadcrumb__toggle"
                 text={backToText}
                 variant="tertiary"
-                icon="chevron_down"
+                icon={toggleIcon}
+                transitionState={
+                  !isCollapsedRef.current ? 'expanded' : 'collapsed'
+                }
                 iconPosition="left"
                 onClick={onClick ?? onClickHandler}
                 aria-expanded={!isCollapsedRef.current}
