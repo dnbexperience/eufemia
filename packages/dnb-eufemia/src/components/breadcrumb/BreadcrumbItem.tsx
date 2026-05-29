@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import type { CSSProperties, MouseEventHandler, ReactNode } from 'react'
 
 // Components
@@ -16,13 +16,11 @@ import P from '../../elements/P'
 import homeIcon from '../../icons/home'
 
 // Shared
-import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import BreadcrumbItemContext from './BreadcrumbItemContext'
 
-import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbItemProps = {
@@ -67,15 +65,14 @@ export type BreadcrumbItemProps = {
 } & (AnchorAllProps & Omit<ButtonProps, 'variant'>) &
   DataAttributes
 
-const determineIcon = (variant: string, isSmallScreen: boolean) => {
+const determineIcon = (variant: string) => {
   switch (variant) {
     case 'home':
       return 'home-icon'
     case 'single':
-    case 'collapse':
       return 'chevron_left'
     default:
-      return isSmallScreen ? 'chevron_left' : 'chevron_right'
+      return 'chevron_right'
   }
 }
 
@@ -103,22 +100,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
 
   const itemNo = itemNoProp ?? breadcrumbItemContext?.itemNo
 
-  const isSmallScreen = useMediaQuery({
-    matchOnSSR: true,
-    when: { max: 'medium' },
-  })
-
-  const [currentIcon, setCurrentIcon] = useState<IconIcon>('chevron_left')
-
-  useLayoutEffect(() => {
-    if (!icon) {
-      setCurrentIcon(determineIcon(variant, isSmallScreen))
-    } else {
-      if (variant !== 'home') {
-        setCurrentIcon(icon ?? 'chevron_left')
-      }
-    }
-  }, [icon, isSmallScreen, variant])
+  const currentIcon = icon ?? determineIcon(variant)
 
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive =

@@ -1,11 +1,8 @@
-import { act } from 'react'
 import { render } from '@testing-library/react'
 import { vi } from 'vitest'
 import type { BreadcrumbItemProps } from '../BreadcrumbItem'
 import BreadcrumbItem from '../BreadcrumbItem'
 import { Theme } from '../../../shared'
-import '../../../core/vitest/mockMatchMediaSetup'
-import { setMedia } from 'mock-match-media'
 
 describe('BreadcrumbItem', () => {
   const defaultProps: BreadcrumbItemProps = {
@@ -75,10 +72,6 @@ describe('BreadcrumbItem', () => {
   })
 
   describe('with icon', () => {
-    const SMALL = '39em' // 40em
-    const MEDIUM = '59em' // 60em
-    const LARGE = '79em' // 80em
-
     it('has a default icon', () => {
       render(<BreadcrumbItem {...defaultProps} />)
 
@@ -136,15 +129,13 @@ describe('BreadcrumbItem', () => {
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'chevron left icon'
+          'chevron right icon'
         )
 
         window.matchMedia = matchMedia
       })
 
-      it('should have icons based on screen sizes', () => {
-        setMedia({ width: LARGE })
-
+      it('should have icons based on variant', () => {
         const { rerender } = render(
           <Theme name="sbanken">
             <BreadcrumbItem {...defaultProps} variant="home" />
@@ -181,36 +172,14 @@ describe('BreadcrumbItem', () => {
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',
-          'chevron left icon'
+          'chevron right icon'
         )
-      })
 
-      it('should have icons based on variant', () => {
-        setMedia({ width: SMALL })
-
-        render(
+        rerender(
           <Theme name="sbanken">
             <BreadcrumbItem {...defaultProps} />
           </Theme>
         )
-
-        expect(document.querySelector('.dnb-icon')).toHaveAttribute(
-          'data-testid',
-          'chevron left icon'
-        )
-
-        act(() => {
-          setMedia({ width: MEDIUM })
-        })
-
-        expect(document.querySelector('.dnb-icon')).toHaveAttribute(
-          'data-testid',
-          'chevron left icon'
-        )
-
-        act(() => {
-          setMedia({ width: LARGE })
-        })
 
         expect(document.querySelector('.dnb-icon')).toHaveAttribute(
           'data-testid',

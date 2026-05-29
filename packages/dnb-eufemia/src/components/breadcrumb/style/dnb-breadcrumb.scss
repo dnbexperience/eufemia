@@ -108,7 +108,6 @@
   &__collapse &__item {
     padding: 0;
 
-    // Hide chevron icons in collapse mode, but keep the home icon
     &:not(:first-child) .dnb-breadcrumb__item__span__icon {
       display: none;
     }
