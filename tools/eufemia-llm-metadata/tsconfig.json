@@ -3,7 +3,6 @@
   "compilerOptions": {
     "rootDir": "../../../..",
     "outDir": "./out",
-    "downlevelIteration": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "target": "es2020",
