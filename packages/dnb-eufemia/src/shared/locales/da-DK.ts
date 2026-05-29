@@ -12,6 +12,11 @@ export default {
       altLabelCurrent: 'Nuværende',
       altLabelUpcoming: 'Kommende',
     },
+    Toaster: {
+      systemMessages: 'Systembeskeder',
+      dismissButton: 'Skjul',
+      dismissAriaLabel: 'Skjul besked',
+    },
     Breadcrumb: {
       navText: 'Sidehierarki',
       goBackText: 'Tilbage',
