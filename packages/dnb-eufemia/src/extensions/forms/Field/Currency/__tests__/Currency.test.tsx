@@ -4,6 +4,9 @@ import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import { Field, Form } from '../../../'
+import nbNO from '../../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 describe('Field.Currency', () => {
   it('defaults to "kr" and use "NOK" when locale is en-GB', () => {
@@ -529,10 +532,14 @@ describe('Field.Currency', () => {
       // The last digit is rejected because it would exceed MAX_SAFE_INTEGER
       expect(input).toHaveValue('900 719 925 474 099 kr')
 
-      // No error should appear
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).not.toBeInTheDocument()
+      // Error should be shown since the mask rejected the digit
+      const statusElement = document.querySelector('.dnb-form-status')
+      expect(statusElement).toBeInTheDocument()
+      const expectedText = nb.NumberField.errorMaximum.replace(
+        '{maximum}',
+        '9\u00A0007\u00A0199\u00A0254\u00A0740\u00A0991'
+      )
+      expect(statusElement.textContent).toContain(expectedText)
     })
 
     it('should prevent typing beyond MIN_SAFE_INTEGER', async () => {
@@ -544,10 +551,14 @@ describe('Field.Currency', () => {
       // The last digit is rejected because it would go below MIN_SAFE_INTEGER
       expect(input).toHaveValue('-900 719 925 474 099 kr')
 
-      // No error should appear
-      expect(
-        document.querySelector('.dnb-form-status')
-      ).not.toBeInTheDocument()
+      // Error should be shown since the mask rejected the digit
+      const minStatusElement = document.querySelector('.dnb-form-status')
+      expect(minStatusElement).toBeInTheDocument()
+      const expectedMinText = nb.NumberField.errorMinimum.replace(
+        '{minimum}',
+        '-9\u00A0007\u00A0199\u00A0254\u00A0740\u00A0991'
+      )
+      expect(minStatusElement.textContent).toContain(expectedMinText)
     })
 
     it('should allow typing up to MAX_SAFE_INTEGER', async () => {
