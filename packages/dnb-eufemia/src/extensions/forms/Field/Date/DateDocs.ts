@@ -26,6 +26,9 @@ export const DateProperties: PropertiesTableProps = {
       'The `value` needs to be a string containing two dates, separated by a pipe character (`|`) (`01-09-2024|30-09-2024`) when this is set to `true`. ' +
       'Defaults to `false`.',
   },
+  rangeSingleCalendar: {
+    ...DatePickerProperties.rangeSingleCalendar,
+  },
   showInput: {
     ...DatePickerProperties.showInput,
     doc: 'If the input fields with the mask should be visible. Defaults to `true`.',
