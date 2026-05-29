@@ -65,6 +65,7 @@ function ItemTitleBase({
 
   return content
 }
+export { ItemTitleBase }
 ItemTitleBase._supportsSpacingProps = true
 
 type ItemTitleComponent = typeof ItemTitleBase & {
