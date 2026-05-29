@@ -434,12 +434,12 @@ const DropdownInstance = memo(function DropdownInstance({
     preventClose,
     noAnimation,
     noScrollAnimation,
-    arrowPosition,
     skipPortal,
     portalClass,
     triggerElement: CustomTrigger,
     independentWidth,
     preventSelection,
+    noDivider,
     maxHeight,
     defaultValue,
     className,
@@ -530,7 +530,10 @@ const DropdownInstance = memo(function DropdownInstance({
   })
 
   const triggerParams = {
-    className: 'dnb-dropdown__trigger',
+    className: clsx(
+      'dnb-dropdown__trigger',
+      open && 'dnb-dropdown__trigger--open'
+    ),
     id,
     disabled,
     'aria-haspopup': handleAsMenu ? true : 'listbox',
@@ -663,12 +666,12 @@ const DropdownInstance = memo(function DropdownInstance({
               noScrollAnimation={noScrollAnimation}
               skipPortal={skipPortal}
               preventSelection={handleAsMenu}
-              arrowPosition={arrowPosition || iconPosition || 'right'}
               keepOpen={keepOpen}
               preventClose={preventClose}
               independentWidth={independentWidth || isPopupMenu}
               isPopup={isPopupMenu}
               alignDrawer={align || 'left'}
+              noDivider={noDivider}
               fixedPosition={fixedPosition}
               enableBodyLock={enableBodyLock}
               disabled={disabled}

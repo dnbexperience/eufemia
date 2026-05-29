@@ -402,6 +402,7 @@ button .dnb-form-status__text {
   --button-color-bg--focus: var(
     --token-color-background-action-focus-subtle
   );
+  --button-color-border--focus: var(--token-color-stroke-action-focus);
   --button-color-icon--focus: var(--token-color-icon-action-focus);
   --button-color-text--focus: var(--token-color-text-action-focus);
   color: var(--button-color-text, var(--button-color-text--default));
@@ -445,7 +446,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], h
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
   --button-color-bg: var(--button-color-bg--focus);
-  --button-color-border: var(--token-color-stroke-action-focus);
+  --button-color-border: var(--button-color-border--focus);
   --button-color-icon: var(--button-color-icon--focus);
   --button-color-text: var(--button-color-text--focus);
   --button-color-underline: var(--button-color-underline--focus);

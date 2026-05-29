@@ -1998,6 +1998,13 @@ describe('Dropdown component', () => {
       ).toContain('dnb-drawer-list__option--focus')
     })
   })
+
+  it('adds class "dnb-drawer-list--no-divider" when noDivider prop is set', () => {
+    render(<Dropdown {...props} data={mockData} open noDivider />)
+    expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
+  })
 })
 
 describe('Dropdown markup', () => {

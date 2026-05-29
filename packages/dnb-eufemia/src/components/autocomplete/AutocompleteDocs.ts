@@ -91,12 +91,6 @@ export const AutocompleteProperties: PropertiesTableProps = {
     type: ['"left"', '"right"'],
     status: 'optional',
   },
-
-  arrowPosition: {
-    doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.',
-    type: ['"left"', '"right"'],
-    status: 'optional',
-  },
   size: {
     doc: 'Define the height of the Autocomplete. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.',
     type: ['"small"', '"default"', '"medium"', '"large"'],

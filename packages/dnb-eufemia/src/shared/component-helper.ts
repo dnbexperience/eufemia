@@ -161,7 +161,7 @@ export function extendDeep(target = {}, ...sources) {
 export const dispatchCustomElementEvent = (
   src,
   eventName,
-  eventObjectOrig = undefined
+  eventObjectOrig: any = undefined
 ) => {
   let ret = undefined
 
