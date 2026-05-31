@@ -296,7 +296,7 @@ describe.each(['dnb', 'sbanken'])(`Button for %s`, (themeName) => {
     url: '/uilib/components/button/demos/',
   })
 
-  describe.each(['primary', 'secondary', 'tertiary'])(
+  describe.each(['primary', 'secondary', 'tertiary', 'tertiary-icon'])(
     `on dark background %s`,
     (variant) => {
       it('default', async () => {

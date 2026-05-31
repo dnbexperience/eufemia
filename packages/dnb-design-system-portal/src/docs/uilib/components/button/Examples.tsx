@@ -490,9 +490,15 @@ export const ButtonOnDarkSurface = () => (
         variant="tertiary"
         iconPosition="left"
         icon="chevron_left"
+        right
       >
         Tertiary button
       </Button>
+      <Button
+        data-visual-test="button-tertiary-icon-on-dark"
+        variant="tertiary"
+        icon="bell"
+      />
     </Section>
   </ComponentBox>
 )
