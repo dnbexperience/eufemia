@@ -1,34 +1,42 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import DatePicker from '../date-picker/DatePicker'
 import type { DatePickerProps } from '../date-picker/DatePicker'
-import { FilterContext } from './FilterContext'
-import { ListContext } from '../list/ListContext'
+import { FilterContext, FilterItemContext } from './FilterContext'
 import FilterItem from './FilterItem'
+import SharedContext from '../../shared/Context'
+import useMedia from '../../shared/useMedia'
+import formatDateRange from './utils/formatDateRange'
 
 export type FilterDateProps = {
-  label: string
+  label?: string
   filterKey?: string
   defaultOpen?: boolean
 } & Omit<DatePickerProps, 'onChange' | 'label'>
 
 function FilterDate({
-  label,
-  filterKey = '/date',
+  label: labelProp,
+  filterKey = 'date',
   defaultOpen,
   ...rest
 }: FilterDateProps) {
   const context = useContext(FilterContext)
-  const listContext = useContext(ListContext)
+  const sharedContext = useContext(SharedContext)
+  const { dateLabel } = sharedContext.getTranslation({}).Filter
+  const label = labelProp ?? dateLabel
 
   if (!context) {
-    throw new Error('Filter.Date must be used inside a Filter.Container.')
+    throw new Error('Filter.Date must be used inside a Filter.Root.')
   }
 
-  const isInsideDialog = listContext !== undefined
+  const { removeFilter, setFilter, getFilter } = context
 
-  const currentValue = context.getFilter(filterKey)?.value as
+  const currentValue = getFilter(filterKey)?.value as
     | { from: string; to: string }
     | undefined
+
+  const { dateFormat: defaultDateFormat } =
+    sharedContext.translation.DatePicker
+  const dateFormat = rest.dateFormat ?? defaultDateFormat
 
   const handleChange = useCallback(
     ({
@@ -39,27 +47,17 @@ function FilterDate({
       endDate?: string | null
     }) => {
       if (!startDate && !endDate) {
-        context.removeFilter(filterKey)
+        removeFilter(filterKey)
         return // stop here
       }
 
-      const parts: string[] = []
-
-      if (startDate) {
-        parts.push(startDate)
-      }
-
-      if (endDate && endDate !== startDate) {
-        parts.push(endDate)
-      }
-
-      context.setFilter(filterKey, {
+      setFilter(filterKey, {
         value: { from: startDate, to: endDate },
-        label: parts.join(' – '),
-        filterLabel: label,
+        label: formatDateRange(startDate, endDate, dateFormat),
+        categoryLabel: label,
       })
     },
-    [context, filterKey, label]
+    [removeFilter, setFilter, filterKey, label, dateFormat]
   )
 
   const sharedProps = {
@@ -67,34 +65,51 @@ function FilterDate({
     ...rest,
     label,
     labelSrOnly: true,
-    startDate: currentValue?.from ?? rest.startDate,
-    endDate: currentValue?.to ?? rest.endDate,
+    startDate: currentValue?.from ?? rest.startDate ?? null,
+    endDate: currentValue?.to ?? rest.endDate ?? null,
     onChange: handleChange,
   }
 
-  if (isInsideDialog) {
+  const itemContext = useContext(FilterItemContext)
+  const { isSmall } = useMedia()
+
+  const description = useMemo(
+    () =>
+      formatDateRange(currentValue?.from, currentValue?.to, dateFormat),
+    [currentValue, dateFormat]
+  )
+
+  const datePickerProps = {
+    rangeSingleCalendar: true as const,
+    ...sharedProps,
+    triggerProps: {
+      text: label,
+      variant: 'tertiary' as const,
+      iconPosition: 'left' as const,
+      ...rest.triggerProps,
+    },
+  }
+
+  if (itemContext) {
     return (
       <FilterItem
         label={label}
         filterKey={filterKey}
         defaultOpen={defaultOpen}
       >
-        <DatePicker showInput inline {...sharedProps} />
+        {isSmall ? (
+          <>
+            <DatePicker {...datePickerProps} triggerProps={undefined} />
+            {description}
+          </>
+        ) : (
+          <DatePicker showInput inline {...datePickerProps} />
+        )}
       </FilterItem>
     )
   }
 
-  return (
-    <DatePicker
-      {...sharedProps}
-      triggerProps={{
-        text: 'Date',
-        variant: 'tertiary',
-        iconPosition: 'left',
-        ...rest.triggerProps,
-      }}
-    />
-  )
+  return <DatePicker {...datePickerProps} />
 }
 
 export default FilterDate

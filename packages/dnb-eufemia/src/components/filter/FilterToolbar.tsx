@@ -1,7 +1,6 @@
-import { useContext } from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
-import { FilterContext } from './FilterContext'
+import Flex from '../flex/Flex'
 
 export type FilterToolbarProps = {
   className?: string
@@ -9,19 +8,33 @@ export type FilterToolbarProps = {
 }
 
 function FilterToolbar({ className, children }: FilterToolbarProps) {
-  const context = useContext(FilterContext)
-
-  if (!context) {
-    throw new Error(
-      'Filter.Toolbar must be used inside a Filter.Container.'
-    )
-  }
-
   return (
     <div className={clsx('dnb-filter__toolbar', className)}>
       {children}
     </div>
   )
 }
+
+export type FilterToolbarActionsProps = {
+  className?: string
+  children?: ReactNode
+}
+
+function FilterToolbarActions({
+  className,
+  children,
+}: FilterToolbarActionsProps) {
+  return (
+    <Flex.Horizontal
+      gap="small"
+      align="center"
+      className={clsx('dnb-filter__toolbar-actions', className)}
+    >
+      {children}
+    </Flex.Horizontal>
+  )
+}
+
+FilterToolbar.Actions = FilterToolbarActions
 
 export default FilterToolbar

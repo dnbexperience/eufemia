@@ -200,11 +200,15 @@ export default {
     Filter: {
       ariaLabel: 'Filter',
       activeFiltersLabel: 'Aktive filtre',
-      moreLabel: 'Flere filtre',
-      moreTitle: 'Filter',
-      showResultsButton: 'Vis %count resultater',
+      panelButtonLabel: 'Filter',
+      hideFilterLabel: 'Skjul filter',
+      applyFilterLabel: 'Anvend filter',
+      cancelFilterLabel: 'Annuller',
+      dateLabel: 'Dato',
+      sortButtonLabel: 'Sortér',
       noResultsMessage:
         'Ingen resultater. Prøv at ændre eller fjerne nogle filtre.',
+      resultCountMessage: '%s resultat(er)',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

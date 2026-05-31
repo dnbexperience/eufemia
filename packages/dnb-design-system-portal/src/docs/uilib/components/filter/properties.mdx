@@ -3,35 +3,48 @@ showTabs: true
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import {
-  ContainerProperties,
+  RootProperties,
+  HeaderProperties,
   SearchProperties,
-  MoreProperties,
+  PanelProperties,
+  PanelButtonProperties,
   ToolbarProperties,
+  ToolbarActionsProperties,
   ActiveFiltersProperties,
-  IndicatorProperties,
-  ResultsProperties as ResultsContainerProperties,
+  ContentProperties,
   NoResultsProperties,
-  QuickFilterProperties,
   ItemProperties,
   DateProperties,
   SelectionProperties,
+  MultiSelectionProperties,
   UseFilterProperties,
   UseFilterAsyncParams,
   UseFilterAsyncReturn,
+  QuickFiltersProperties,
+  SortButtonProperties,
 } from '@dnb/eufemia/src/components/filter/FilterDocs'
 
-## Filter.Container
+## Filter.Root
 
-<PropertiesTable props={ContainerProperties} />
+<PropertiesTable props={RootProperties} />
+
+## Filter.Header
+
+<PropertiesTable props={HeaderProperties} />
 
 ## Filter.Search
 
 <PropertiesTable props={SearchProperties} />
 
-## Filter.More
+## Filter.Panel
 
-<PropertiesTable props={MoreProperties} />
+<PropertiesTable props={PanelProperties} />
+
+## Filter.PanelButton
+
+<PropertiesTable props={PanelButtonProperties} />
 
 ## Filter.ActiveFilters
 
@@ -41,9 +54,9 @@ import {
 
 <PropertiesTable props={ToolbarProperties} />
 
-## Filter.QuickFilter
+## Filter.Toolbar.Actions
 
-<PropertiesTable props={QuickFilterProperties} />
+<PropertiesTable props={ToolbarActionsProperties} />
 
 ## Filter.Item
 
@@ -57,17 +70,25 @@ import {
 
 <PropertiesTable props={SelectionProperties} />
 
+## Filter.MultiSelection
+
+<PropertiesTable props={MultiSelectionProperties} />
+
+## Filter.QuickFilters
+
+<PropertiesTable props={QuickFiltersProperties} />
+
+## Filter.SortButton
+
+<PropertiesTable props={SortButtonProperties} />
+
 ## Filter.NoResults
 
 <PropertiesTable props={NoResultsProperties} />
 
-## Filter.ResultsContainer
+## Filter.Content
 
-<PropertiesTable props={ResultsContainerProperties} />
-
-## Filter.Indicator
-
-<PropertiesTable props={IndicatorProperties} />
+<PropertiesTable props={ContentProperties} />
 
 ## Filter.useFilter(id)
 
@@ -84,3 +105,7 @@ Parameters:
 Returns an object with:
 
 <PropertiesTable props={UseFilterAsyncReturn} />
+
+## Translations
+
+<TranslationsTable localeKey="Filter" />

@@ -7,13 +7,15 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 
 export type FilterActiveFiltersProps = {
   label?: string
-  showFilterLabel?: boolean
+  showCategoryLabel?: boolean
+  onRemove?: (filterKey: string) => void
   className?: string
 }
 
 function FilterActiveFilters({
   label,
-  showFilterLabel,
+  showCategoryLabel,
+  onRemove,
   className,
 }: FilterActiveFiltersProps) {
   const sharedContext = useContext(SharedContext)
@@ -23,30 +25,43 @@ function FilterActiveFilters({
 
   if (!context) {
     throw new Error(
-      'Filter.ActiveFilters must be used inside a Filter.Container.'
+      'Filter.ActiveFilters must be used inside a Filter.Root.'
     )
   }
 
-  const entries = Object.entries(context.state.filters)
+  const entries = Object.entries(
+    context.behavior === 'manual'
+      ? context.appliedState.filters
+      : context.state.filters
+  )
+  const hasEntries = entries.length > 0
 
   return (
-    <HeightAnimation open={entries.length > 0}>
+    <HeightAnimation open={hasEntries} keepInDOM>
       <div className={clsx('dnb-filter__active-filters', className)}>
-        <span className="dnb-filter__active-filters__label">
+        {/* aria-hidden because Tag.Group provides the accessible label */}
+        <span className="dnb-filter__active-filters__label" aria-hidden>
           {resolvedLabel}
         </span>
         <Tag.Group label={resolvedLabel}>
           {entries.map(([filterKey, filterValue]) => {
             const tagLabel =
-              showFilterLabel && filterValue.filterLabel
-                ? `${filterValue.filterLabel}: ${filterValue.label}`
+              showCategoryLabel && filterValue.categoryLabel
+                ? `${filterValue.categoryLabel}: ${filterValue.label}`
                 : filterValue.label
 
             return (
               <Tag
                 key={filterKey}
                 variant="removable"
-                onClick={() => context.removeFilter(filterKey)}
+                onClick={() => {
+                  if (context.behavior === 'manual') {
+                    context.removeAppliedFilter(filterKey)
+                  } else {
+                    context.removeFilter(filterKey)
+                  }
+                  onRemove?.(filterKey)
+                }}
               >
                 {tagLabel}
               </Tag>

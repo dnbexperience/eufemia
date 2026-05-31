@@ -1,30 +1,23 @@
-import { useContext } from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
-import { FilterContext } from './FilterContext'
+import { useSpacing } from '../space/SpacingUtils'
+import type { SpacingProps } from '../../shared/types'
 
-export type FilterQuickFilterProps = {
+export type FilterQuickFiltersProps = {
   className?: string
   children?: ReactNode
-}
+} & SpacingProps
 
-function FilterQuickFilter({
+function FilterQuickFilters({
   className,
   children,
-}: FilterQuickFilterProps) {
-  const context = useContext(FilterContext)
+  ...spacingRest
+}: FilterQuickFiltersProps) {
+  const spacingProps = useSpacing(spacingRest, {
+    className: clsx('dnb-filter__quick-filters', className),
+  })
 
-  if (!context) {
-    throw new Error(
-      'Filter.QuickFilter must be used inside a Filter.Container.'
-    )
-  }
-
-  return (
-    <div className={clsx('dnb-filter__quick-filter', className)}>
-      {children}
-    </div>
-  )
+  return <div {...spacingProps}>{children}</div>
 }
 
-export default FilterQuickFilter
+export default FilterQuickFilters

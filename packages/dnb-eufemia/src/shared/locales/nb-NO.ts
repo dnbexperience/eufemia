@@ -198,11 +198,15 @@ export default {
     Filter: {
       ariaLabel: 'Filter',
       activeFiltersLabel: 'Aktive filtre',
-      moreLabel: 'Flere filtre',
-      moreTitle: 'Filter',
-      showResultsButton: 'Vis %count treff',
+      panelButtonLabel: 'Filter',
+      hideFilterLabel: 'Skjul filter',
+      applyFilterLabel: 'Bruk filter',
+      cancelFilterLabel: 'Avbryt',
+      dateLabel: 'Dato',
+      sortButtonLabel: 'Sorter',
       noResultsMessage:
         'Ingen treff. Prøv å endre eller fjerne noen filtre.',
+      resultCountMessage: '%s treff',
     },
   },
 }

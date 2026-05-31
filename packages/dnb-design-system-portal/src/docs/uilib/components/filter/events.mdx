@@ -4,14 +4,15 @@ showTabs: true
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import {
-  ContainerEvents,
+  RootEvents,
   SearchEvents,
   ActiveFiltersEvents,
+  SortButtonEvents,
 } from '@dnb/eufemia/src/components/filter/FilterDocs'
 
-## Filter.Container Events
+## Filter.Root Events
 
-<PropertiesTable props={ContainerEvents} />
+<PropertiesTable props={RootEvents} />
 
 ## Filter.Search Events
 
@@ -20,3 +21,7 @@ import {
 ## Filter.ActiveFilters Events
 
 <PropertiesTable props={ActiveFiltersEvents} />
+
+## Filter.SortButton Events
+
+<PropertiesTable props={SortButtonEvents} />

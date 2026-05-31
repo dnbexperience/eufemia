@@ -6,27 +6,73 @@ import * as Examples from './Examples'
 
 ## Demos
 
-### Date and selection filters
+### Basic usage
 
-Combines `Filter.Date` and `Filter.Selection` inside `Filter.More`, with `resultCount` to show the number of matching transactions.
+Combines `Filter.Date` and `Filter.Selection` inside `Filter.Panel`, with search, toolbar tools, and `resultCount` for the number of matching transactions. Uses the list layout pattern.
 
 <Examples.WithDateAndSelection />
 
 ### Custom filter type
 
-Build your own filter using `Filter.useFilterContext()` and `Filter.Item`. This example shows a star-rating filter alongside built-in ones.
+Build your own filter using `Filter.useFilterContext()` and `Filter.Item`. This example shows a toggle filter alongside the built-in `Filter.Selection`.
 
 <Examples.CustomFilter />
 
 ### Async result count
 
-When the result count comes from an API, use `resultLoading` to show a loading state on the result button while the request is in progress. Open the dialog and change a filter to see the skeleton effect.
+When the result count comes from an API, use `resultLoading` to show a loading state while the request is in progress. Open the filter panel and change a filter to see the skeleton effect. This example uses `debounce: 300` to delay the API call while the user is typing.
 
 <Examples.AsyncResults />
 
-### Multi-selection filter
+### Manual behavior
 
-Use `Filter.MultiSelection` inside `Filter.More` to let users select one or more clients. Selected clients appear as active filter tags, and the transaction list updates accordingly.
+With `behavior="manual"`, filter changes are buffered internally and not emitted until the user clicks "Apply filter". The panel shows an Apply button and a Cancel button that reverts unsaved changes.
+
+<Examples.ManualBehavior />
+
+### Predefined filters
+
+Use `defaultFilters` to pre-select filters on mount. The panel and relevant filter accordions open automatically.
+
+<Examples.WithPredefinedFilters />
+
+### URL sync with router hooks
+
+Three hooks sync filter state with URL query parameters so users can share or bookmark filtered views. Back/forward navigation restores the previous filter state.
+
+- **`Filter.useQueryLocator(id, options?)`** — Uses the History API directly. Works without any router dependency. Pass `{ excludeSearch: true }` to exclude the search string from URL sync.
+- **`Filter.useReactRouter(id, { useSearchParams, excludeSearch? })`** — Uses React Router's `useSearchParams`.
+- **`Filter.useNextRouter(id, { useRouter, usePathname, useSearchParams, excludeSearch? })`** — Uses Next.js navigation hooks.
+
+<Examples.WithQueryLocator />
+
+### With sort button
+
+Use `Filter.SortButton` to add a sort dropdown to the toolbar. It renders a tertiary Dropdown with a sort icon and independent width. The sort state is managed outside the filter.
+
+<Examples.WithSortButton />
+
+### Quick filters
+
+Quick filters are toggle buttons placed directly below the toolbar, outside the panel. They let users apply common filters without opening the panel.
+
+<Examples.QuickFilters />
+
+### Toolbar with actions only
+
+A toolbar with only action buttons and no search field.
+
+<Examples.ToolbarActionsOnly />
+
+### Search only
+
+A simple search field with a secondary search button.
+
+<Examples.SearchOnly />
+
+### Multi-selection filter with grid layout
+
+Use `Filter.MultiSelection` inside `Filter.Panel` to let users select one or more clients. This example uses a `Grid` layout to place the filter and results side by side.
 
 <Examples.WithMultiSelection />
 

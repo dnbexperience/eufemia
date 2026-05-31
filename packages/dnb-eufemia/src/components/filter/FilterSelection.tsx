@@ -1,9 +1,10 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useMemo } from 'react'
 import Checkbox from '../checkbox/Checkbox'
+import Flex from '../flex/Flex'
 import { FilterContext } from './FilterContext'
 import FilterItem from './FilterItem'
 
-export type FilterSelectionOption = {
+export type FilterSelectionItem = {
   value: string
   label: string
 }
@@ -12,52 +13,47 @@ export type FilterSelectionProps = {
   label: string
   filterKey: string
   defaultOpen?: boolean
-  options: FilterSelectionOption[]
+  data: FilterSelectionItem[]
 }
 
 function FilterSelection({
   label,
   filterKey,
   defaultOpen,
-  options,
+  data: options,
 }: FilterSelectionProps) {
   const context = useContext(FilterContext)
 
   if (!context) {
-    throw new Error(
-      'Filter.Selection must be used inside a Filter.Container.'
-    )
+    throw new Error('Filter.Selection must be used inside a Filter.Root.')
   }
 
-  const currentValue =
-    (context.getFilter(filterKey)?.value as string[]) ?? []
+  const { state, setFilter, removeFilter } = context
+
+  const prefix = `${filterKey}/`
+
+  const currentValue = useMemo(() => {
+    return Object.keys(state.filters)
+      .filter((key) => key.startsWith(prefix))
+      .map((key) => key.slice(prefix.length))
+  }, [state.filters, prefix])
 
   const handleChange = useCallback(
     (optionValue: string, checked: boolean) => {
-      let next: string[]
+      const key = `${prefix}${optionValue}`
 
       if (checked) {
-        next = [...currentValue, optionValue]
+        const option = options.find((opt) => opt.value === optionValue)
+        setFilter(key, {
+          value: optionValue,
+          label: option?.label ?? optionValue,
+          categoryLabel: label,
+        })
       } else {
-        next = currentValue.filter((v) => v !== optionValue)
+        removeFilter(key)
       }
-
-      if (next.length === 0) {
-        context.removeFilter(filterKey)
-        return // stop here
-      }
-
-      const selectedLabels = options
-        .filter((opt) => next.includes(opt.value))
-        .map((opt) => opt.label)
-
-      context.setFilter(filterKey, {
-        value: next,
-        label: selectedLabels.join(', '),
-        filterLabel: label,
-      })
     },
-    [context, filterKey, label, options, currentValue]
+    [setFilter, removeFilter, prefix, label, options]
   )
 
   return (
@@ -66,15 +62,16 @@ function FilterSelection({
       filterKey={filterKey}
       defaultOpen={defaultOpen}
     >
-      {options.map((option) => (
-        <Checkbox
-          key={option.value}
-          label={option.label}
-          checked={currentValue.includes(option.value)}
-          onChange={({ checked }) => handleChange(option.value, checked)}
-          bottom="x-small"
-        />
-      ))}
+      <Flex.Vertical gap="small">
+        {options.map((option) => (
+          <Checkbox
+            key={option.value}
+            label={option.label}
+            checked={currentValue.includes(option.value)}
+            onChange={({ checked }) => handleChange(option.value, checked)}
+          />
+        ))}
+      </Flex.Vertical>
     </FilterItem>
   )
 }

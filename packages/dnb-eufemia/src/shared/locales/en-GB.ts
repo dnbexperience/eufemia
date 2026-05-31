@@ -200,11 +200,15 @@ export default {
     Filter: {
       ariaLabel: 'Filter',
       activeFiltersLabel: 'Active filters',
-      moreLabel: 'More filters',
-      moreTitle: 'Filter',
-      showResultsButton: 'Show %count results',
+      panelButtonLabel: 'Filter',
+      hideFilterLabel: 'Hide filter',
+      applyFilterLabel: 'Apply filter',
+      cancelFilterLabel: 'Cancel',
+      dateLabel: 'Date',
+      sortButtonLabel: 'Sort',
       noResultsMessage:
         'No results found. Try changing or removing some filters.',
+      resultCountMessage: '%s result(s)',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

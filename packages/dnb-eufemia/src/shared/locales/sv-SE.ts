@@ -199,11 +199,15 @@ export default {
     Filter: {
       ariaLabel: 'Filter',
       activeFiltersLabel: 'Aktiva filter',
-      moreLabel: 'Fler filter',
-      moreTitle: 'Filter',
-      showResultsButton: 'Visa %count resultat',
+      panelButtonLabel: 'Filter',
+      hideFilterLabel: 'Dölj filter',
+      applyFilterLabel: 'Använd filter',
+      cancelFilterLabel: 'Avbryt',
+      dateLabel: 'Datum',
+      sortButtonLabel: 'Sortera',
       noResultsMessage:
         'Inga resultat. Försök att ändra eller ta bort några filter.',
+      resultCountMessage: '%s resultat',
     },
   } satisfies (typeof nb)['nb-NO'],
 }
