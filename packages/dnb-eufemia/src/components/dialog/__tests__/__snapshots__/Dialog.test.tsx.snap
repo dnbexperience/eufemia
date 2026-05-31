@@ -742,6 +742,14 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-icon-action-hover-ondark
   );
 }
+.dnb-button--tertiary.dnb-button--surface-dark.dnb-button--icon-only {
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
+}
 .dnb-button--tertiary.dnb-button__status--error {
   --button-color-icon--default: var(
     --token-color-component-button-icon-action-destructive
