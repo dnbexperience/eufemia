@@ -104,10 +104,12 @@
       &.dnb-button--has-text {
         &.dnb-button--icon-position-left {
           --button-tertiary-focus-right: -1rem;
+          --button-tertiary-focus-left: -1rem;
         }
 
         &.dnb-button--icon-position-right {
           --button-tertiary-focus-left: -1rem;
+          --button-tertiary-focus-right: -1rem;
         }
       }
 
