@@ -2601,11 +2601,13 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   height: inherit;
 }
 .dnb-date-picker__container {
-  width: min-content;
   border-radius: var(--token-radius-sm);
   background-color: var(--token-color-background-neutral);
   position: relative;
   top: auto;
+}
+.dnb-date-picker--inline .dnb-date-picker__container {
+  background-color: transparent;
 }
 .dnb-date-picker__container table {
   position: relative;
@@ -2701,6 +2703,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 }
 .dnb-date-picker__views {
   display: flex;
+  flex-wrap: wrap;
   user-select: none;
 }
 @media screen and (max-width: 60em) {
