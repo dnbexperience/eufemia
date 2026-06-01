@@ -313,17 +313,14 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
               onToggle?.(!expanded)
             }}
           >
-            <Section
-              variant="divider"
-              className="dnb-breadcrumb__collapse"
-            >
+            <div className="dnb-breadcrumb__collapse">
               <BreadcrumbMultiple
                 data={data}
                 items={items}
                 collapsed={false}
                 noAnimation={noAnimation}
               />
-            </Section>
+            </div>
           </Accordion>
         ) : (
           <>
