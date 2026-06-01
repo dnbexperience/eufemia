@@ -177,11 +177,19 @@
     @include utilities.allBelow(medium) {
       flex-direction: column;
     }
+
+    .dnb-date-picker--inline & {
+      gap: 1.5rem;
+    }
   }
 
   &__calendar {
     position: relative;
     padding: 1rem;
+
+    .dnb-date-picker--inline & {
+      padding: 0;
+    }
 
     // border
     &::after {
