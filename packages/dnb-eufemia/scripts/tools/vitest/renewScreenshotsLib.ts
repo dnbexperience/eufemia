@@ -48,7 +48,10 @@ export function collectRenewScreenshotMatches(filters: string[]) {
         }
       ),
       testFiles: globby.sync(
-        `src/**/*${filter}*/**/*.screenshot.test.{ts,tsx}`,
+        [
+          `src/**/*${filter}*/**/*.screenshot.test.{ts,tsx}`,
+          `src/**/*${filter}*.screenshot.test.{ts,tsx}`,
+        ],
         {
           caseSensitiveMatch: false,
         }
