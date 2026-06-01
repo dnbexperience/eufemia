@@ -112,24 +112,21 @@
 
     background-color: var(--token-color-background-page-background);
 
-    @include utilities.allBelow(medium) {
-      &:has(.dnb-height-animation--is-visible) {
-        border-top: 0.0625rem solid
-          var(--token-color-stroke-neutral-subtle);
-        border-bottom: 0.0625rem solid
-          var(--token-color-stroke-neutral-subtle);
-      }
-    }
-  }
-
-  &--variant-collapse &__collapse {
-    width: 100%;
-
     &:has(.dnb-height-animation--is-visible) {
       border-top: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
       border-bottom: 0.0625rem solid
         var(--token-color-stroke-neutral-subtle);
     }
+  }
+
+  &--variant-responsive &__collapse {
+    @include utilities.allAbove(medium) {
+      border: none;
+    }
+  }
+
+  &--variant-collapse &__collapse {
+    width: 100%;
   }
 
   &--variant-collapse .dnb-accordion {
