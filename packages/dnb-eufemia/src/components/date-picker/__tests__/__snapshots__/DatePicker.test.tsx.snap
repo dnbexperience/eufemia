@@ -2607,9 +2607,6 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   position: relative;
   top: auto;
 }
-.dnb-date-picker--inline .dnb-date-picker__container {
-  box-shadow: var(--shadow-sharp);
-}
 .dnb-date-picker__container table {
   position: relative;
   z-index: 1;
