@@ -5,6 +5,12 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 
+@mixin collapse-button {
+  --button-height: 4.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .dnb-breadcrumb {
   margin: 0;
   padding: 0;
@@ -136,9 +142,7 @@
     gap: 0;
 
     .dnb-accordion__tertiary-button {
-      --button-height: 4.5rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      @include collapse-button;
     }
 
     .dnb-accordion__tertiary-content {
@@ -195,9 +199,7 @@
     }
 
     @include utilities.allBelow(medium) {
-      --button-height: 4.5rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      @include collapse-button;
     }
   }
 
