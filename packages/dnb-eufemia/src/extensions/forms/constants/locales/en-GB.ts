@@ -235,6 +235,8 @@ export default {
         'Mobile number must be filled in. If you don’t have a mobile number, you can enter another phone number.',
       warningRequired:
         'You have not entered a mobile number. You can still use this number if it is correct.',
+      errorLengthNorwegianPhoneNumbers:
+        'The phone number is too long. Norwegian phone numbers are 8 digits.',
     },
     PostalCodeAndCity: {
       label: 'Postcode and city', // Use British English

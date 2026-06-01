@@ -337,8 +337,8 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     )
   })
 
-  it('should only have a mask when +47 is given', async () => {
-    const { rerender } = render(<Field.PhoneNumber value="999999990000" />)
+  it('should format with spaces when +47 is given', () => {
+    const { rerender } = render(<Field.PhoneNumber value="99999999" />)
 
     const codeElement = document.querySelector(
       '.dnb-forms-field-phone-number__country-code input'
@@ -350,18 +350,22 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     expect(codeElement.value).toBe('NO (+47)')
     expect(numberElement.value).toBe('99 99 99 99')
 
-    await userEvent.type(numberElement, '123')
-
-    expect(numberElement.value).toBe('99 99 99 99')
-
-    rerender(<Field.PhoneNumber value="+41999999991234567890" />)
+    rerender(<Field.PhoneNumber value="+41999999999" />)
 
     expect(codeElement.value).toBe('CH (+41)')
-    expect(numberElement.value).toBe('999999991234567')
+    expect(numberElement.value).toBe('999999999')
+  })
 
-    await userEvent.type(numberElement, '123')
+  it('should allow typing beyond the mask length', async () => {
+    render(<Field.PhoneNumber />)
 
-    expect(numberElement.value).toBe('999999991234567')
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '1234567890')
+
+    expect(numberElement.value).toBe('12 34 56 7890')
   })
 
   it('should not have a default placeholder', () => {
@@ -370,6 +374,179 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     expect(
       document.querySelector('.dnb-input__placeholder')
     ).not.toBeInTheDocument()
+  })
+
+  it('should show validation error when Norwegian number exceeds 8 digits', async () => {
+    render(<Field.PhoneNumber />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789')
+    fireEvent.blur(numberElement)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        nbNO.PhoneNumber.errorLengthNorwegianPhoneNumbers
+      )
+    })
+  })
+
+  it('should not show validation error when Norwegian number is exactly 8 digits', async () => {
+    render(<Field.PhoneNumber />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '12345678')
+    fireEvent.blur(numberElement)
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
+  })
+
+  it('should not show length validation error for non-Norwegian country codes', async () => {
+    render(<Field.PhoneNumber value="+46" />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789012')
+    fireEvent.blur(numberElement)
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
+  })
+
+  it('should not show length validation error when a custom numberMask is provided', async () => {
+    render(<Field.PhoneNumber numberMask={Array(12).fill(/\d/)} />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789012')
+    fireEvent.blur(numberElement)
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
+  })
+
+  it('should prevent submitting a Norwegian number longer than 8 digits', async () => {
+    const onSubmit = vi.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.PhoneNumber path="/phone" required />
+      </Form.Handler>
+    )
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789')
+    fireEvent.submit(document.querySelector('form'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        nbNO.PhoneNumber.errorLengthNorwegianPhoneNumbers
+      )
+    })
+
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('should show length validation error when switching country code to Norway with a long number', async () => {
+    render(<Field.PhoneNumber value="+46987654321231" />)
+
+    const codeElement = document.querySelector(
+      '.dnb-forms-field-phone-number__country-code input'
+    ) as HTMLInputElement
+    const phoneElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    expect(codeElement.value).toEqual('SE (+46)')
+    expect(phoneElement.value).toEqual('987654321231')
+
+    await userEvent.clear(codeElement)
+    await userEvent.type(codeElement, 'Norge')
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[0]
+    )
+
+    expect(phoneElement.value).toEqual('98 76 54 321231')
+
+    fireEvent.blur(phoneElement)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        nbNO.PhoneNumber.errorLengthNorwegianPhoneNumbers
+      )
+    })
+  })
+
+  it('should allow overriding the length validation via onBlurValidator', async () => {
+    const customMessage = 'Custom length error'
+
+    render(
+      <Field.PhoneNumber onBlurValidator={() => Error(customMessage)} />
+    )
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789')
+    fireEvent.blur(numberElement)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(document.querySelector('.dnb-form-status').textContent).toBe(
+        customMessage
+      )
+    })
+  })
+
+  it('should disable the built-in length validation when onBlurValidator is false', async () => {
+    render(<Field.PhoneNumber onBlurValidator={false} />)
+
+    const numberElement = document.querySelector(
+      '.dnb-forms-field-phone-number__number input'
+    ) as HTMLInputElement
+
+    await userEvent.type(numberElement, '123456789')
+    fireEvent.blur(numberElement)
+
+    await expect(() => {
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+    }).toNeverResolve()
   })
 
   it('should return correct value onFocus and onBlur event', async () => {
@@ -424,8 +601,7 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     )
   })
 
-  // TODO: This is a temporary solution, and should be removed once the mask is updated to handle this case.
-  it('should truncate the phone number of more than 8 digits when changing country code to Norway', async () => {
+  it('should keep the full phone number when changing country code to Norway', async () => {
     const onNumberChange = vi.fn()
 
     render(
@@ -457,12 +633,8 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     })
 
     expect(item.textContent).toBe('Norge+47')
-    expect(phoneElement.value).toEqual('98 76 54 32')
-
-    await waitFor(() => {
-      expect(onNumberChange).toHaveBeenCalledTimes(1)
-      expect(onNumberChange).toHaveBeenLastCalledWith('98765432')
-    })
+    expect(phoneElement.value).toEqual('98 76 54 321231')
+    expect(onNumberChange).not.toHaveBeenCalled()
   })
 
   it('should have selected correct item', async () => {
