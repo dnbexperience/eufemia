@@ -15,6 +15,13 @@
     display: flex;
   }
 
+  &--variant-responsive &__bar.dnb-section {
+    @include utilities.allBelow(medium) {
+      --background-color: var(--token-color-background-neutral);
+      color: var(--token-color-text-neutral);
+    }
+  }
+
   &--variant-single &__bar .dnb-button {
     color: var(--token-color-text-neutral);
 
