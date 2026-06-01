@@ -10,4 +10,5 @@ export type MaskParams = {
   disallowLeadingZeroes?: boolean
   min?: number
   max?: number
+  onRejectSafeInteger?: (num: number) => void
 }

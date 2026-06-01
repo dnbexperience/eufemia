@@ -535,24 +535,14 @@ function cleanNumericValue(value: string, rawMask: TextMaskMask): string {
   return value
 }
 
-function createMaskitoNumberOptions(mp: {
-  decimalSymbol?: string
-  thousandsSeparatorSymbol?: string
-  allowDecimal?: boolean
-  decimalLimit?: number
-  integerLimit?: number
-  allowNegative?: boolean
-  disallowLeadingZeroes?: boolean
-  prefix?: string
-  suffix?: string
-}): MaskitoOptions {
+function createMaskitoNumberOptions(mp: MaskParams): MaskitoOptions {
   // Use Maskito number kit as base to format numbers and grouping
   const decimal = mp.decimalSymbol ?? ','
   const thousand = mp.thousandsSeparatorSymbol ?? ' '
   const prefix = mp.prefix ?? ''
   const suffix = mp.suffix ?? ''
   const allowNegative = mp.allowNegative !== false
-  const min = allowNegative ? Number.MIN_SAFE_INTEGER - 1 : 0
+  const min = allowNegative ? Number.MIN_SAFE_INTEGER : 0
   // If allowDecimal is true but decimalLimit is not specified, use a default of 2
   // Otherwise use decimalLimit if specified, or 0 if decimals are not allowed
   const defaultDecimalLimit = mp.allowDecimal === true ? 2 : 0
@@ -567,7 +557,7 @@ function createMaskitoNumberOptions(mp: {
 
   const base = maskitoNumberOptionsGenerator({
     min,
-    max: Number.MAX_SAFE_INTEGER + 1,
+    max: Number.MAX_SAFE_INTEGER,
     thousandSeparator: thousand,
     decimalSeparator: decimal,
     maximumFractionDigits,
@@ -621,11 +611,56 @@ function createMaskitoNumberOptions(mp: {
       ]
     : [...(base.postprocessors || []), clearEmptyPostprocessor]
 
+  // Reject digit/paste insertion that would produce a value beyond safe
+  // integer limits. This prevents Maskito's default clamp behavior which
+  // silently replaces the value with MAX/MIN_SAFE_INTEGER.
+  const stripFormatting = new RegExp(
+    `[^\\d\\-.${decimal === '.' ? '' : '\\' + decimal}]`,
+    'g'
+  )
+  const rejectBeyondSafeInteger: MaskitoPreprocessor = (
+    { elementState, data },
+    actionType
+  ) => {
+    if (actionType !== 'insert' || !data) {
+      return { elementState, data }
+    }
+
+    const { value, selection } = elementState
+    let raw = (
+      value.slice(0, selection[0]) +
+      data +
+      value.slice(selection[1])
+    ).replace(stripFormatting, '')
+
+    if (decimal !== '.') {
+      raw = raw.replace(decimal, '.')
+    }
+
+    const num = Number(raw)
+
+    if (
+      !isNaN(num) &&
+      (num > Number.MAX_SAFE_INTEGER || num < Number.MIN_SAFE_INTEGER)
+    ) {
+      mp.onRejectSafeInteger?.(num)
+      return { elementState, data: '' }
+    }
+
+    return { elementState, data }
+  }
+
+  const preprocessors = [
+    ...(base.preprocessors || []),
+    rejectBeyondSafeInteger,
+  ]
+
   const plugins = [...(base.plugins || []), caretGuard]
 
   return {
     ...base,
     plugins,
+    preprocessors,
     postprocessors,
   }
 }

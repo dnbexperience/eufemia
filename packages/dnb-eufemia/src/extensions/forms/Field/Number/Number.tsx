@@ -1,4 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import type { KeyboardEvent, RefObject } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
@@ -23,6 +30,7 @@ import type {
 } from '../../../../components/Button'
 import { clamp } from '../../../../shared/helpers/clamp'
 import DataContext from '../../DataContext/Context'
+import { FormError } from '../../utils'
 import * as z from 'zod'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -85,6 +93,7 @@ function NumberComponent(props: FieldNumberProps) {
   const locale = sharedContext?.locale
 
   const validateContinuouslyRef = useRef(props?.validateContinuously)
+  const [limitError, setLimitError] = useState<FormError | undefined>()
 
   const {
     currency,
@@ -139,7 +148,10 @@ function NumberComponent(props: FieldNumberProps) {
             if (val === null || val === undefined) {
               return
             }
-            // Default JavaScript safe integer limits
+            // Default JavaScript safe integer limits.
+            // The input mask prevents user-typed values from exceeding
+            // these bounds, but programmatically set values (e.g. via
+            // the value prop) can still bypass the mask.
             if (
               (p.minimum === undefined || p.minimum < defaultMinimum) &&
               val < defaultMinimum
@@ -324,6 +336,7 @@ function NumberComponent(props: FieldNumberProps) {
     valueType: 'number',
     validateContinuously: validateContinuouslyRef.current,
     ...props,
+    error: limitError || props.error,
     schema,
     toInput,
     // @ts-expect-error - strictFunctionTypes
@@ -418,18 +431,13 @@ function NumberComponent(props: FieldNumberProps) {
 
   const onChangeHandler = useCallback(
     (args: { numberValue?: number; stringValue?: string }) => {
-      handleChange(args)
-      if (typeof args?.numberValue === 'number') {
-        if (
-          args.numberValue > defaultMaximum ||
-          args.numberValue < defaultMinimum
-        ) {
-          // After the value/validation update, trigger blur logic to reveal immediately
-          handleBlur()
-        }
+      if (limitError) {
+        setLimitError(undefined)
       }
+
+      handleChange(args)
     },
-    [handleChange, handleBlur]
+    [handleChange, limitError]
   )
 
   const fieldBlockProps: FieldBlockProps = {
@@ -501,12 +509,30 @@ function NumberComponent(props: FieldNumberProps) {
     typeof suffixProp === 'function' ? suffixProp(value) : suffixProp
 
   const maskProps: Partial<InputMaskedProps> = useMemo(() => {
+    const onRejectSafeInteger = (num: number) => {
+      const isMax = num > 0
+      setLimitError(
+        new FormError(
+          `NumberField.${isMax ? 'errorMaximum' : 'errorMinimum'}`,
+          {
+            messageValues: {
+              [isMax ? 'maximum' : 'minimum']: formatNumber(
+                isMax ? Number.MAX_SAFE_INTEGER : Number.MIN_SAFE_INTEGER,
+                { locale }
+              ),
+            },
+          }
+        )
+      )
+    }
+
     const maskOptions = {
       prefix,
       suffix,
       decimalLimit,
       allowNegative,
       disallowLeadingZeroes,
+      onRejectSafeInteger,
     }
 
     if (currency) {
@@ -543,6 +569,7 @@ function NumberComponent(props: FieldNumberProps) {
     suffix,
     allowNegative,
     disallowLeadingZeroes,
+    locale,
   ])
 
   const ariaParams = showStepControls && {
@@ -568,9 +595,12 @@ function NumberComponent(props: FieldNumberProps) {
     value,
     align: showStepControls ? 'center' : align,
     onKeyDown: onKeyDownHandler,
-    onPaste: handleBlur, // So that we trigger validation on paste as well
+    onPaste: handleBlur,
     onFocus: handleFocus,
-    onBlur: handleBlur,
+    onBlur: () => {
+      setLimitError(undefined)
+      handleBlur()
+    },
     onChange: onChangeHandler,
     disabled,
     status: hasError ? 'error' : undefined,
