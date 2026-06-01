@@ -104,14 +104,14 @@ describe('token-name-policy stylelint rule', () => {
   it('flags wrong token reference prefix in carnegie tokens', async () => {
     const errors = await lintWithRule({
       code: `:root {
-        --token-color-component-table-background-neutral-alternative: var(--dnb-greyscale-25);
+        --token-color-background-neutral-subtle: var(--dnb-greyscale-50);
       }`,
       codeFilename: '/repo/src/style/themes/carnegie/tokens.scss',
     })
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'Unexpected token reference "--dnb-greyscale-25"'
+      'Unexpected token reference "--dnb-greyscale-50"'
     )
     expect(errors[0].text).toContain('Expected prefix "--carnegie-"')
   })
@@ -119,7 +119,7 @@ describe('token-name-policy stylelint rule', () => {
   it('allows carnegie-prefixed token references in carnegie tokens', async () => {
     const errors = await lintWithRule({
       code: `:root {
-        --token-color-component-table-background-neutral-alternative: var(--carnegie-greyscale-25);
+        --token-color-background-neutral-subtle: var(--carnegie-greyscale-50);
       }`,
       codeFilename: '/repo/src/style/themes/carnegie/tokens.scss',
     })
