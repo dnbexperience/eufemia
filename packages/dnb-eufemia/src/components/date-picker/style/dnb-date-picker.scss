@@ -44,7 +44,6 @@
   }
 
   &__container {
-    width: min-content;
     border-radius: var(--token-radius-sm);
     background-color: var(--token-color-background-neutral);
 
@@ -52,6 +51,10 @@
     // where both unscoped and scoped styles are imported together (both position and top).
     position: relative;
     top: auto;
+
+    .dnb-date-picker--inline & {
+      background-color: transparent;
+    }
 
     table {
       position: relative;
@@ -167,6 +170,7 @@
 
   &__views {
     display: flex;
+    flex-wrap: wrap;
     user-select: none;
 
     // Wrap already on "medium", because "small" is too narrow in range mode
