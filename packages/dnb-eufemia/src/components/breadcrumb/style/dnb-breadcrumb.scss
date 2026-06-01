@@ -136,7 +136,13 @@
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0;
+
+    .dnb-accordion__tertiary-button {
+      --button-height: 4.5rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
 
     .dnb-accordion__tertiary-content {
       width: 100%;
@@ -146,8 +152,12 @@
   &__collapse &__item {
     padding: 0;
 
-    &:not(:first-child) .dnb-breadcrumb__item__span__icon {
-      display: none;
+    &:not(:first-child) {
+      margin-left: 1.5rem;
+
+      .dnb-breadcrumb__item__span__icon {
+        display: none;
+      }
     }
   }
 
@@ -186,6 +196,12 @@
     @include utilities.allAbove(medium) {
       display: none;
     }
+
+    @include utilities.allBelow(medium) {
+      --button-height: 4.5rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 
   &__collapse &__list {
@@ -195,6 +211,6 @@
 
     margin: 0;
 
-    padding: 1rem 0 2rem 1rem;
+    padding: 1rem 1rem 2rem 1rem;
   }
 }
