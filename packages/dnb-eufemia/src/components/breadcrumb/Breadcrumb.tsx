@@ -292,11 +292,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   return (
     <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
-      <Section
-        className="dnb-breadcrumb__bar"
-        variant={currentVariant === 'collapse' ? undefined : 'transparent'}
-        innerSpace={barInnerSpace}
-      >
+      <div className="dnb-breadcrumb__bar">
         {currentVariant === 'single' ? (
           <Button
             text={goBackText}
@@ -354,20 +350,17 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             />
           </>
         )}
-      </Section>
+      </div>
 
       {currentVariant === 'responsive' && (
-        <Section
-          className="dnb-breadcrumb__collapse"
-          variant="transparent"
-        >
+        <div className="dnb-breadcrumb__collapse">
           <BreadcrumbMultiple
             data={data}
             items={items}
             collapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
           />
-        </Section>
+        </div>
       )}
     </nav>
   )
