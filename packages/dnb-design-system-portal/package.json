@@ -107,8 +107,8 @@
     "stylelint-config-standard-scss": "9.0.0",
     "typescript": "5.9.3",
     "unist-util-visit": "5.1.0",
-    "vite": "8.0.10",
-    "vitest": "4.1.5",
+    "vite": "8.0.16",
+    "vitest": "4.1.8",
     "wrangler": "4.66.0"
   },
   "buildVersion": "[LOCAL BUILD]",
