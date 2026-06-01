@@ -18,8 +18,8 @@ const localeProp: PropertiesTableProps = {
 
 const decimalsAndFormattingProps: PropertiesTableProps = {
   decimals: {
-    doc: 'Set a number to define the number of decimals. Like `decimals="0"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).',
-    type: 'number',
+    doc: 'Set a number to define the number of decimals. Like `decimals={0}` will ensure that decimals are simply not shown. Strings are also accepted (e.g. `decimals="0"`). The default decimals for currency usage are `2` (Browser API default).',
+    type: ['number', 'string'],
     status: 'optional',
   },
   rounding: {

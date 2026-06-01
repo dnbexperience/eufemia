@@ -68,7 +68,7 @@ export type NumberFormatSignDisplay =
   | 'exceptZero'
   | 'negative'
   | 'never'
-export type NumberFormatDecimals = number
+export type NumberFormatDecimals = number | string
 export type NumberFormatElement = string
 export type NumberFormatTooltip = string | (() => ReactNode) | ReactNode
 export type NumberFormatChildren = ReactNode | (() => ReactNode)

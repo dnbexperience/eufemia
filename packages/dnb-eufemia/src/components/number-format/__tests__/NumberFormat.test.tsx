@@ -416,6 +416,41 @@ describe('NumberFormat component', () => {
     ).toBe('-12346 kroner')
   })
 
+  it('should accept decimals as a string and produce the same result as a number', () => {
+    const { unmount: u1 } = render(
+      <Component value={12345.678} decimals={0} />
+    )
+    const withNumber0 = document.querySelector(
+      displaySelector
+    ).textContent
+    u1()
+
+    const { unmount: u2 } = render(
+      <Component value={12345.678} decimals={'0'} />
+    )
+    const withString0 = document.querySelector(
+      displaySelector
+    ).textContent
+    u2()
+
+    expect(withNumber0).toBe(withString0)
+
+    const { unmount: u3 } = render(
+      <Component value={12345.678} decimals={2} />
+    )
+    const withNumber2 = document.querySelector(
+      displaySelector
+    ).textContent
+    u3()
+
+    render(<Component value={12345.678} decimals={'2'} />)
+    const withString2 = document.querySelector(
+      displaySelector
+    ).textContent
+
+    expect(withNumber2).toBe(withString2)
+  })
+
   it('should yield strict zero when value gets rounded to zero because of decimals=0', () => {
     render(<NumberFormatBase value={-0.2} decimals={0} />)
     expect(document.querySelector('.dnb-number-format').textContent).toBe(

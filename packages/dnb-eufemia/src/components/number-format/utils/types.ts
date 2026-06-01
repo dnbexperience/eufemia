@@ -35,7 +35,7 @@ export type InternalNumberFormatOptions = Omit<
   Intl.NumberFormatOptions,
   'currencyDisplay'
 > & {
-  decimals?: number
+  decimals?: number | string
   currencyDisplay?: CurrencyDisplayValue
 }
 
@@ -81,7 +81,7 @@ export type NumberFormatOptionParams = {
   /** shortens any number or currency including an abbreviation. You can combine `compact` with `currency`. It gives you zero decimal by default `decimals={0}`. Use either a boolean, or a string with "short" or "long" */
   compact?: boolean | 'short' | 'long'
   /** How many decimals */
-  decimals?: number
+  decimals?: number | string
   /**
    * Rounding method
    * - If set to `omit`, the decimal will NOT be rounded.
