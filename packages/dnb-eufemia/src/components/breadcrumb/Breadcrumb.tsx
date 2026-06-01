@@ -26,7 +26,6 @@ import Accordion from '../accordion/Accordion'
 // Shared
 import Context from '../../shared/Context'
 import type {
-  InnerSpacingElementProps,
   SpaceTypeAll,
   SpaceTypeMedia,
   SpacingProps,
@@ -242,25 +241,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   }, [data, items, variant])
 
   validateDOMAttributes(allProps, props)
-
-  const innerSpace = spacing
-    ? spacing === true
-      ? 'small'
-      : spacing
-    : undefined
-
-  const barInnerSpace = useMemo(() => {
-    if (currentVariant === 'collapse' && innerSpace) {
-      return {
-        top: innerSpace,
-        left: innerSpace,
-        right: innerSpace,
-        bottom: 0,
-      } as InnerSpacingElementProps
-    }
-
-    return innerSpace
-  }, [currentVariant, innerSpace])
 
   const navProps = useSpacing(allProps, {
     ...props,
