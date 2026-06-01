@@ -53,10 +53,6 @@
     position: relative;
     top: auto;
 
-    .dnb-date-picker--inline & {
-      @include utilities.sharpDropShadow();
-    }
-
     table {
       position: relative;
       z-index: 1; // to make sure we show the focus ring over the header line on top
