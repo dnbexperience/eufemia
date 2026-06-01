@@ -1205,7 +1205,12 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-breadcrumb__bar.dnb-section {
   display: flex;
-  --background-color: var(--token-color-background-neutral);
+}
+@media screen and (max-width: 60em) {
+  .dnb-breadcrumb--variant-responsive .dnb-breadcrumb__bar.dnb-section {
+    --background-color: var(--token-color-background-neutral);
+    color: var(--token-color-text-neutral);
+  }
 }
 .dnb-breadcrumb--variant-single .dnb-breadcrumb__bar .dnb-button {
   color: var(--token-color-text-neutral);
@@ -1225,6 +1230,7 @@ button.dnb-button::-moz-focus-inner {
   align-items: center;
   row-gap: 1rem;
   column-gap: 0.5rem;
+  color: var(--token-color-text-neutral);
 }
 .dnb-breadcrumb__item {
   display: flex;
