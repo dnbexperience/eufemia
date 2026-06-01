@@ -377,6 +377,7 @@ button .dnb-form-status__text {
     --token-color-background-neutral-subtle
   );
   --textarea-color-text: var(--token-color-text-neutral-alternative);
+  --textarea-color-placeholder: var(--token-color-text-action-disabled);
   --textarea-color-border: var(--token-color-stroke-action-disabled);
 }
 .dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
