@@ -29,6 +29,15 @@ describe('Field.BankAccountNumber', () => {
     expect(input).toHaveAttribute('inputmode', 'numeric')
   })
 
+  it('should allow typing beyond the mask length', async () => {
+    render(<Field.BankAccountNumber />)
+
+    const input = document.querySelector('input')
+    await userEvent.type(input, '123456789012345')
+
+    expect(input.value).toBe('1234 56 789012345')
+  })
+
   it('should validate given function as onChangeValidator', async () => {
     const text = 'Custom Error message'
     const onChangeValidator = vi.fn((value) => {
