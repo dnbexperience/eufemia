@@ -13,8 +13,6 @@
 
   &__bar.dnb-section {
     display: flex;
-
-    --background-color: var(--token-color-background-neutral);
   }
 
   &--variant-single &__bar .dnb-button {
@@ -41,6 +39,8 @@
     align-items: center;
     row-gap: 1rem; // For when breaking into new lines (Anchor variant)
     column-gap: 0.5rem;
+
+    color: var(--token-color-text-neutral);
   }
 
   &__item {
