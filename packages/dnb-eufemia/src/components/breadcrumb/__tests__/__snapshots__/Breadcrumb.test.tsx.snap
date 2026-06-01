@@ -1277,18 +1277,17 @@ button.dnb-button::-moz-focus-inner {
   flex-direction: column;
   background-color: var(--token-color-background-page-background);
 }
-@media screen and (max-width: 60em) {
-  .dnb-breadcrumb__collapse:has(.dnb-height-animation--is-visible) {
-    border-top: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
-    border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+.dnb-breadcrumb__collapse:has(.dnb-height-animation--is-visible) {
+  border-top: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-breadcrumb--variant-responsive .dnb-breadcrumb__collapse {
+    border: none;
   }
 }
 .dnb-breadcrumb--variant-collapse .dnb-breadcrumb__collapse {
   width: 100%;
-}
-.dnb-breadcrumb--variant-collapse .dnb-breadcrumb__collapse:has(.dnb-height-animation--is-visible) {
-  border-top: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
-  border-bottom: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
 }
 .dnb-breadcrumb--variant-collapse .dnb-accordion {
   width: 100%;
