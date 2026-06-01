@@ -333,7 +333,7 @@ button .dnb-form-status__text {
 
 @keyframes attention-focus {
   0%, 100% {
-    color: var(--token-color-text-destructive);
+    color: var(--token-color-text-error);
     background-color: var(--token-color-background-error-subtle);
     border-color: var(--token-color-stroke-error);
   }
@@ -1501,7 +1501,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   background-color: var(--dialog-icon-background);
 }
 .dnb-dialog__icon__primary.dnb-dialog__icon--warning {
-  --dialog-icon-color: var(--token-color-icon-destructive);
+  --dialog-icon-color: var(--token-color-icon-error);
   --dialog-icon-background: var(--token-color-background-error-subtle);
 }
 .dnb-dialog__icon__primary.dnb-dialog__icon--information {
