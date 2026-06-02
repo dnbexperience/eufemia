@@ -129,10 +129,15 @@ export const AccordionProperties: PropertiesTableProps = {
 }
 
 export const AccordionContentProperties: PropertiesTableProps = {
-  id: {
-    doc: 'A unique `id` used to connect standalone `Accordion.Content` with an `Accordion` or `Accordion` tertiary button using the same `id`.',
+  connectedTo: {
+    doc: 'Connects this standalone `Accordion.Content` with an `Accordion` or `Accordion` tertiary button using the same identifier.',
     type: 'string',
     status: 'optional',
+  },
+  id: {
+    doc: 'Deprecated. Use `connectedTo` instead.',
+    type: 'string',
+    status: 'deprecated',
   },
   title: {
     doc: 'Provides a label for the content region in standalone tertiary mode. It is applied to both `aria-label` and `title`.',

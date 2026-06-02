@@ -342,7 +342,7 @@ export const AccordionTertiarySplitExample = () => (
       Text
     </P>
     <P>Other content between button and accordion content.</P>
-    <Accordion.Content id="accordion-tertiary">
+    <Accordion.Content connectedTo="accordion-tertiary">
       <P top>
         This content is placed separately from the button, connected via
         the id.
