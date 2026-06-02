@@ -8,7 +8,13 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type NumberFormatPhoneNumberProps = Omit<
   NumberFormatAllProps,
-  'currency' | 'currencyDisplay' | 'currencyPosition' | 'compact'
+  | 'currency'
+  | 'currencyDisplay'
+  | 'currencyPosition'
+  | 'compact'
+  | 'decimals'
+  | 'rounding'
+  | 'signDisplay'
 > & {
   /** Wraps the formatted phone value in a clickable link: `tel` (default) or `sms`. */
   link?: NumberFormatLink | true
