@@ -11,7 +11,7 @@
   }
 
   &--tone-negative {
-    color: var(--token-color-text-destructive);
+    color: var(--token-color-text-error);
   }
 
   &__content {
@@ -142,7 +142,7 @@
     }
 
     &--negative {
-      color: var(--token-color-text-destructive);
+      color: var(--token-color-text-error);
       background-color: var(--token-color-background-error-subtle);
     }
 

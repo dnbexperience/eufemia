@@ -87,13 +87,12 @@
   --token-color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-text-neutral-subtle: var(--sbanken-greyscale-600);
   --token-color-text-neutral-subtle-ondark: var(--sbanken-greyscale-200);
-  --token-color-text-destructive: var(--sbanken-red-700);
-  --token-color-text-destructive-inverse: var(--sbanken-orange-500);
+  --token-color-text-error: var(--sbanken-red-700);
+  --token-color-text-error-inverse: var(--sbanken-orange-500);
   --token-color-text-warning: var(--sbanken-yellow-800);
   --token-color-text-warning-inverse: var(--sbanken-yellow-600);
   --token-color-text-positive: var(--sbanken-green-700);
   --token-color-text-positive-inverse: var(--sbanken-green-600);
-  --token-color-text-error: var(--sbanken-red-700);
   --token-color-icon-action: var(--sbanken-purple-700);
   --token-color-icon-action-hover: var(--sbanken-purple-700);
   --token-color-icon-action-pressed: var(--sbanken-purple-900);
@@ -114,7 +113,6 @@
   --token-color-icon-neutral-inverse: var(--sbanken-greyscale-0);
   --token-color-icon-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-icon-neutral-alternative: var(--sbanken-greyscale-600);
-  --token-color-icon-destructive: var(--sbanken-red-700);
   --token-color-icon-info: var(--sbanken-green-600);
   --token-color-icon-info-subtle: var(--sbanken-green-50);
   --token-color-icon-positive: var(--sbanken-green-700);
@@ -133,7 +131,7 @@
   --token-color-stroke-action-hover-inverse: var(--sbanken-green-300);
   --token-color-stroke-action-pressed-inverse: var(--sbanken-green-500);
   --token-color-stroke-action-focus: var(--sbanken-blue-600);
-  --token-color-stroke-action-focus-subtle: var(--sbanken-blue-100);
+  --token-color-stroke-action-focus-subtle: var(--sbanken-greyscale-0);
   --token-color-stroke-action-disabled: var(--sbanken-greyscale-300);
   --token-color-stroke-selected: var(--sbanken-purple-950);
   --token-color-stroke-selected-ondark: var(--sbanken-green-100);
@@ -286,9 +284,6 @@
   );
   --token-color-component-tooltip-background-neutral: var(
     --sbanken-greyscale-800
-  );
-  --token-color-component-table-background-neutral-alternative: var(
-    --sbanken-greyscale-25
   );
   --token-color-component-dimmer-background: var(
     --sbanken-greyscale-1000-30

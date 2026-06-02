@@ -13,7 +13,7 @@
     --carnegie-greyscale-1000-10
   );
   --token-color-background-action-focus: var(--carnegie-blue-600);
-  --token-color-background-action-focus-subtle: var(--carnegie-blue-100);
+  --token-color-background-action-focus-subtle: var(--carnegie-blue-50);
   --token-color-background-action-disabled: var(--carnegie-greyscale-200);
   --token-color-background-action-inverse: var(--carnegie-greyscale-300);
   --token-color-background-action-hover-inverse: var(
@@ -95,13 +95,12 @@
   --token-color-text-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-text-neutral-subtle: var(--carnegie-greyscale-200);
   --token-color-text-neutral-subtle-ondark: var(--carnegie-greyscale-200);
-  --token-color-text-destructive: var(--carnegie-red-600);
-  --token-color-text-destructive-inverse: var(--carnegie-orange-600);
+  --token-color-text-error: var(--carnegie-red-600);
+  --token-color-text-error-inverse: var(--carnegie-red-500);
   --token-color-text-warning: var(--carnegie-yellow-800);
   --token-color-text-warning-inverse: var(--carnegie-yellow-500);
   --token-color-text-positive: var(--carnegie-green-700);
   --token-color-text-positive-inverse: var(--carnegie-green-600);
-  --token-color-text-error: var(--carnegie-red-600);
   --token-color-icon-action: var(--carnegie-greyscale-1000);
   --token-color-icon-action-hover: var(--carnegie-greyscale-1000);
   --token-color-icon-action-pressed: var(--carnegie-greyscale-1000);
@@ -124,7 +123,6 @@
   --token-color-icon-neutral-inverse: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-icon-neutral-alternative: var(--carnegie-greyscale-500);
-  --token-color-icon-destructive: var(--carnegie-red-600);
   --token-color-icon-info: var(--carnegie-coldgreen-600);
   --token-color-icon-info-subtle: var(--carnegie-green-50);
   --token-color-icon-positive: var(--carnegie-green-700);
@@ -145,7 +143,7 @@
     --carnegie-greyscale-400
   );
   --token-color-stroke-action-focus: var(--carnegie-blue-600);
-  --token-color-stroke-action-focus-subtle: var(--carnegie-blue-100);
+  --token-color-stroke-action-focus-subtle: var(--carnegie-greyscale-0);
   --token-color-stroke-action-disabled: var(--carnegie-greyscale-300);
   --token-color-stroke-selected: var(--carnegie-greyscale-1000);
   --token-color-stroke-selected-ondark: var(--carnegie-greyscale-300);
@@ -322,9 +320,6 @@
   );
   --token-color-component-tooltip-background-neutral: var(
     --carnegie-greyscale-800
-  );
-  --token-color-component-table-background-neutral-alternative: var(
-    --carnegie-greyscale-25
   );
   --token-color-component-dimmer-background: var(
     --carnegie-greyscale-1000-30

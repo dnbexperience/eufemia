@@ -12,7 +12,7 @@
     --carnegie-greyscale-1000-10
   );
   --color-background-action-focus: var(--carnegie-blue-600);
-  --color-background-action-focus-subtle: var(--carnegie-blue-100);
+  --color-background-action-focus-subtle: var(--carnegie-blue-50);
   --color-background-action-disabled: var(--carnegie-greyscale-200);
   --color-background-action-inverse: var(--carnegie-greyscale-300);
   --color-background-action-hover-inverse: var(--carnegie-greyscale-300);
@@ -80,13 +80,12 @@
   --color-text-neutral-ondark: var(--carnegie-greyscale-0);
   --color-text-neutral-subtle: var(--carnegie-greyscale-200);
   --color-text-neutral-subtle-ondark: var(--carnegie-greyscale-200);
-  --color-text-destructive: var(--carnegie-red-600);
-  --color-text-destructive-inverse: var(--carnegie-orange-600);
+  --color-text-error: var(--carnegie-red-600);
+  --color-text-error-inverse: var(--carnegie-red-500);
   --color-text-warning: var(--carnegie-yellow-800);
   --color-text-warning-inverse: var(--carnegie-yellow-500);
   --color-text-positive: var(--carnegie-green-700);
   --color-text-positive-inverse: var(--carnegie-green-600);
-  --color-text-error: var(--carnegie-red-600);
   --color-icon-action: var(--carnegie-greyscale-1000);
   --color-icon-action-hover: var(--carnegie-greyscale-1000);
   --color-icon-action-pressed: var(--carnegie-greyscale-1000);
@@ -107,7 +106,6 @@
   --color-icon-neutral-inverse: var(--carnegie-greyscale-0);
   --color-icon-neutral-ondark: var(--carnegie-greyscale-0);
   --color-icon-neutral-alternative: var(--carnegie-greyscale-500);
-  --color-icon-destructive: var(--carnegie-red-600);
   --color-icon-info: var(--carnegie-coldgreen-600);
   --color-icon-info-subtle: var(--carnegie-green-50);
   --color-icon-positive: var(--carnegie-green-700);
@@ -126,7 +124,7 @@
   --color-stroke-action-hover-inverse: var(--carnegie-greyscale-0);
   --color-stroke-action-pressed-inverse: var(--carnegie-greyscale-400);
   --color-stroke-action-focus: var(--carnegie-blue-600);
-  --color-stroke-action-focus-subtle: var(--carnegie-blue-100);
+  --color-stroke-action-focus-subtle: var(--carnegie-greyscale-0);
   --color-stroke-action-disabled: var(--carnegie-greyscale-300);
   --color-stroke-selected: var(--carnegie-greyscale-1000);
   --color-stroke-selected-ondark: var(--carnegie-greyscale-300);
@@ -271,9 +269,6 @@
   --color-component-button-stroke-selected: var(--carnegie-beige-700);
   --color-component-tooltip-background-neutral: var(
     --carnegie-greyscale-800
-  );
-  --color-component-table-background-neutral-alternative: var(
-    --carnegie-greyscale-25
   );
   --color-component-dimmer-background: var(--carnegie-greyscale-1000-30);
   --color-component-switch-action-disabled-ondark: var(

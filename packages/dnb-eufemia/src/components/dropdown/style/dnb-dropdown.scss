@@ -98,10 +98,10 @@
         --button-color-icon--focus: var(--token-color-icon-error);
 
         // Text
-        --button-color-text--default: var(--token-color-text-destructive);
-        --button-color-text--hover: var(--token-color-text-destructive);
-        --button-color-text--active: var(--token-color-text-destructive);
-        --button-color-text--focus: var(--token-color-text-destructive);
+        --button-color-text--default: var(--token-color-text-error);
+        --button-color-text--hover: var(--token-color-text-error);
+        --button-color-text--active: var(--token-color-text-error);
+        --button-color-text--focus: var(--token-color-text-error);
       }
 
       &,

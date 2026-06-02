@@ -9,7 +9,7 @@
   --token-color-background-action-pressed: var(--dnb-coldgreen-700);
   --token-color-background-action-pressed-subtle: var(--dnb-coldgreen-200);
   --token-color-background-action-focus: var(--dnb-blue-600);
-  --token-color-background-action-focus-subtle: var(--dnb-blue-100);
+  --token-color-background-action-focus-subtle: var(--dnb-blue-50);
   --token-color-background-action-disabled: var(--dnb-greyscale-200);
   --token-color-background-action-inverse: var(--dnb-coldgreen-300);
   --token-color-background-action-hover-inverse: var(--dnb-coldgreen-300);
@@ -77,13 +77,12 @@
   --token-color-text-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-text-neutral-subtle: var(--dnb-greyscale-200);
   --token-color-text-neutral-subtle-ondark: var(--dnb-greyscale-200);
-  --token-color-text-destructive: var(--dnb-red-600);
-  --token-color-text-destructive-inverse: var(--dnb-orange-600);
+  --token-color-text-error: var(--dnb-red-600);
+  --token-color-text-error-inverse: var(--dnb-orange-600);
   --token-color-text-warning: var(--dnb-yellow-800);
   --token-color-text-warning-inverse: var(--dnb-yellow-500);
   --token-color-text-positive: var(--dnb-green-700);
   --token-color-text-positive-inverse: var(--dnb-green-600);
-  --token-color-text-error: var(--dnb-red-600);
   --token-color-icon-action: var(--dnb-coldgreen-600);
   --token-color-icon-action-hover: var(--dnb-coldgreen-600);
   --token-color-icon-action-pressed: var(--dnb-coldgreen-700);
@@ -104,7 +103,6 @@
   --token-color-icon-neutral-inverse: var(--dnb-greyscale-0);
   --token-color-icon-neutral-ondark: var(--dnb-greyscale-0);
   --token-color-icon-neutral-alternative: var(--dnb-greyscale-500);
-  --token-color-icon-destructive: var(--dnb-red-600);
   --token-color-icon-info: var(--dnb-coldgreen-600);
   --token-color-icon-info-subtle: var(--dnb-warmgreen-50);
   --token-color-icon-positive: var(--dnb-green-700);
@@ -123,7 +121,7 @@
   --token-color-stroke-action-hover-inverse: var(--dnb-coldgreen-300);
   --token-color-stroke-action-pressed-inverse: var(--dnb-coldgreen-400);
   --token-color-stroke-action-focus: var(--dnb-blue-600);
-  --token-color-stroke-action-focus-subtle: var(--dnb-blue-100);
+  --token-color-stroke-action-focus-subtle: var(--dnb-greyscale-0);
   --token-color-stroke-action-disabled: var(--dnb-greyscale-300);
   --token-color-stroke-selected: var(--dnb-coldgreen-800);
   --token-color-stroke-selected-ondark: var(--dnb-coldgreen-100);
@@ -272,9 +270,6 @@
   );
   --token-color-component-tooltip-background-neutral: var(
     --dnb-greyscale-800
-  );
-  --token-color-component-table-background-neutral-alternative: var(
-    --dnb-greyscale-25
   );
   --token-color-component-dimmer-background: var(--dnb-greyscale-1000-30);
   --token-color-component-switch-action-disabled-ondark: var(
