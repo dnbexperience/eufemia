@@ -543,7 +543,9 @@ describe('makePropertiesFile', () => {
       it('should convert base variables to Tailwind namespaces', () => {
         expect(uiTailwindResult).toContain('--text-small: 1rem;')
         expect(uiTailwindResult).toContain('--leading-basis: 1.5rem;')
-        expect(uiTailwindResult).toContain('--breakpoint-small: 40em;')
+        expect(uiTailwindResult).toContain(
+          '--breakpoint-small: 40.00625em;'
+        )
       })
     })
 

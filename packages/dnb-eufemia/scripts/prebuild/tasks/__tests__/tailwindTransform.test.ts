@@ -136,9 +136,9 @@ describe('convertVariablesToTailwindFormat', () => {
       const result = convertVariablesToTailwindFormat(input)
 
       expect(result).toEqual({
-        '--breakpoint-sb-small': '40em',
-        '--breakpoint-sb-medium': '60em',
-        '--breakpoint-sb-large': '72em',
+        '--breakpoint-sb-small': '40.00625em',
+        '--breakpoint-sb-medium': '60.00625em',
+        '--breakpoint-sb-large': '72.00625em',
       })
     })
 
@@ -151,9 +151,9 @@ describe('convertVariablesToTailwindFormat', () => {
       const result = convertVariablesToTailwindFormat(input)
 
       expect(result).toEqual({
-        '--breakpoint-small': '40em',
-        '--breakpoint-medium': '60em',
-        '--breakpoint-large': '72em',
+        '--breakpoint-small': '40.00625em',
+        '--breakpoint-medium': '60.00625em',
+        '--breakpoint-large': '72.00625em',
       })
     })
   })
@@ -244,8 +244,8 @@ describe('convertVariablesToTailwindFormat', () => {
       const result = convertVariablesToTailwindFormat(input)
 
       expect(result).toEqual({
-        '--breakpoint-small': '40em',
-        '--breakpoint-large': '72em',
+        '--breakpoint-small': '40.00625em',
+        '--breakpoint-large': '72.00625em',
         '--text-small': '1rem',
         '--text-large': '1.625rem',
       })
