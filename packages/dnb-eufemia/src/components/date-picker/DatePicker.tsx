@@ -26,8 +26,8 @@ import {
   warn,
   extendPropsWithContext,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -590,8 +590,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
     stretch,
     skeleton,
     size,
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -625,17 +625,17 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [restProps]
   )
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
 
   const pickerParams = {} as HTMLProps<HTMLSpanElement>
 
@@ -680,7 +680,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-date-picker',
-      status && `dnb-date-picker__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-date-picker__status--${effectiveStatus}`,
       labelDirection && `dnb-date-picker--${labelDirection}`,
       open && 'dnb-date-picker--open',
       hidden && 'dnb-date-picker--hidden',
@@ -753,8 +753,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
             label={String(label)}
             textId={id + '-status'} // used for "aria-describedby"
             widthSelector={id + '-shell'}
-            text={status}
-            state={effectiveIntent}
+            text={statusMessage}
+            state={effectiveStatus}
             noAnimation={statusNoAnimation}
             skeleton={skeleton}
             {...statusProps}
@@ -813,8 +813,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   open={open}
                   hidden={hidden}
                   size={size}
-                  status={status ? 'error' : null}
-                  intent={effectiveIntent}
+                  status={effectiveStatus}
                   lang={context.locale}
                   _omitInputShellClass={_omitInputShellClass}
                   {...attributes}

@@ -39,17 +39,17 @@ export type SliderProps = {
   labelSrOnly?: boolean
 
   /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   * Text with a status message. The style defaults to an error message.
    */
-  status?: string | boolean
+  statusMessage?: string | boolean
 
   /**
-   * Visual intent of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied.
+   * Visual status of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied.
    */
-  intent?: 'error' | 'warning' | 'information' | 'success' | 'marketing'
+  status?: 'error' | 'warning' | 'information' | 'success' | 'marketing'
 
   /**
-   * @deprecated Use `intent` instead. Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.
+   * @deprecated Use `status` instead. Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.
    */
   statusState?: 'error' | 'information'
 
@@ -191,13 +191,13 @@ export type SliderContextValue = {
   thumbIndex: RefObject<number>
   showStatus: boolean
   showButtons: boolean
-  effectiveIntent:
+  effectiveStatus:
     | 'error'
     | 'warning'
     | 'information'
     | 'success'
     | 'marketing'
-  status: string | boolean | (() => ReactNode) | ReactNode
+  statusMessage: string | boolean | (() => ReactNode) | ReactNode
   attributes: unknown
   allProps: SliderProps
   value: SliderValue

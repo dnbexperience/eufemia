@@ -213,7 +213,7 @@ describe('Dropdown component', () => {
         skipPortal
         noAnimation
         data={mockData}
-        status="status text"
+        statusMessage="status text"
         statusState="warning"
         statusProps={{ stretch: true }}
       />
@@ -230,7 +230,7 @@ describe('Dropdown component', () => {
         skipPortal
         noAnimation
         data={mockData}
-        status="status text"
+        statusMessage="status text"
         statusState="error"
       />
     )
@@ -2087,7 +2087,7 @@ describe('Dropdown markup', () => {
       title: 'title',
       label: 'label',
       id: 'dropdown-id',
-      status: 'status',
+      statusMessage: 'status',
       statusState: 'error',
       value: 2,
       open: true,

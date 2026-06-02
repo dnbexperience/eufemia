@@ -158,8 +158,8 @@ export const DatePickerStatusMessage = () => (
       label="DatePicker"
       date={new Date()}
       showInput
-      status="Please select a valid date"
-      statusState="information"
+      statusMessage="Please select a valid date"
+      status="information"
     />
   </ComponentBox>
 )
@@ -187,7 +187,7 @@ export const DatePickerNoInputStatus = () => (
       label="DatePicker"
       date="2019-05-05"
       hideNavigation
-      status="Please select a valid date"
+      statusMessage="Please select a valid date"
     />
   </ComponentBox>
 )
@@ -199,7 +199,7 @@ export const DatePickerErrorMessage = () => (
       date="2019-05-05"
       showInput
       showSubmitButton
-      status={
+      statusMessage={
         <span>
           Status message with <b>HTML</b> inside
         </span>

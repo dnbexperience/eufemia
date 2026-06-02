@@ -29,7 +29,7 @@ describe('FormStatus component', () => {
     render(
       <Input
         style={{ width: '10rem' }}
-        status="Long status pulvinar per ad varius nostra faucibus enim ante posuere in"
+        statusMessage="Long status pulvinar per ad varius nostra faucibus enim ante posuere in"
       />
     )
 
@@ -42,7 +42,7 @@ describe('FormStatus component', () => {
   })
 
   it('should have correct icon label', () => {
-    render(<Input status="Error message" statusState="error" />)
+    render(<Input statusMessage="Error message" statusState="error" />)
     expect(
       document.querySelector('[role="presentation"]')
     ).toHaveAttribute('data-testid', 'ErrorIcon icon')
@@ -53,7 +53,7 @@ describe('FormStatus component', () => {
 
   it('should re-calculate max-width', () => {
     const { rerender } = render(
-      <Input style={{ width: '10rem' }} status="status message" />
+      <Input style={{ width: '10rem' }} statusMessage="status message" />
     )
 
     expect(
@@ -62,7 +62,7 @@ describe('FormStatus component', () => {
 
     rerender(
       <Input
-        status="status message"
+        statusMessage="status message"
         statusProps={{ text: 'change width to 35rem' }}
         style={{ width: '35rem' }}
       />
@@ -74,7 +74,7 @@ describe('FormStatus component', () => {
 
     rerender(
       <Input
-        status="status message"
+        statusMessage="status message"
         statusProps={{ text: 'change width to 40rem' }}
         style={{ width: '40rem' }}
       />
@@ -86,7 +86,7 @@ describe('FormStatus component', () => {
 
     rerender(
       <Input
-        status="status message"
+        statusMessage="status message"
         statusProps={{ text: 'change width to 10rem' }}
         style={{ width: '10rem' }}
       />
@@ -100,7 +100,7 @@ describe('FormStatus component', () => {
   })
 
   it('should set correct id', () => {
-    render(<Input id="custom-id" status="status text" />)
+    render(<Input id="custom-id" statusMessage="status text" />)
 
     expect(
       document.querySelector('.dnb-form-status').getAttribute('id')
@@ -113,7 +113,7 @@ describe('FormStatus component', () => {
   it('should be modifiable with status_prop', () => {
     render(
       <Input
-        status="status message"
+        statusMessage="status message"
         statusProps={{
           variant: 'outlined',
         }}

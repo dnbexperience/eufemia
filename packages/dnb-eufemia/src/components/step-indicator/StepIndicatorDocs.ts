@@ -46,13 +46,13 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  status: {
-    doc: 'Text for status shown below the step indicator when it is not expanded. Defaults to `undefined`.',
-    type: 'string',
+  statusMessage: {
+    doc: 'Text with a status message. The style defaults to an error message.',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  intent: {
-    doc: 'Visual intent of the component. When set, applies the corresponding visual styling even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `status` message, add a `aria-label` or `aria-labelledby` to convey the intent to assistive technologies.',
+  status: {
+    doc: 'Visual status of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `statusMessage`, add an `aria-label` or `aria-labelledby` to convey the status to assistive technologies.',
     type: [
       '"error"',
       '"warning"',
@@ -113,13 +113,13 @@ export const StepIndicatorStepProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  status: {
-    doc: 'Is used to set the status text.',
+  statusMessage: {
+    doc: 'Text with a status message. The style defaults to an error message.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  intent: {
-    doc: 'Visual intent of the step. When set, applies the corresponding visual styling even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `status` message, add a `aria-label` or `aria-labelledby` to convey the intent to assistive technologies.',
+  status: {
+    doc: 'Visual status of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `statusMessage`, add an `aria-label` or `aria-labelledby` to convey the status to assistive technologies.',
     type: [
       '"error"',
       '"warning"',

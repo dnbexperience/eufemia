@@ -47,7 +47,7 @@ export const StepIndicatorStrict = () => (
           title: 'Bestill eller erstatt',
           onClick: ({ currentStep }) =>
             console.log('currentStep:', currentStep),
-          status:
+          statusMessage:
             'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
         },
         {
@@ -223,18 +223,18 @@ export const StepIndicatorStatuses = () => (
         },
         {
           title: 'Warning',
-          status: 'Status message',
-          statusState: 'warning',
+          statusMessage: 'Status message',
+          status: 'warning',
         },
         {
           title: 'Error',
-          status: 'Status message',
-          statusState: 'error',
+          statusMessage: 'Status message',
+          status: 'error',
         },
         {
           title: 'Information',
-          status: 'Status message',
-          statusState: 'information',
+          statusMessage: 'Status message',
+          status: 'information',
         },
       ]}
     />

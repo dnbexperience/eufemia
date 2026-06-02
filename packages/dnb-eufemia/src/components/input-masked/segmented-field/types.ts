@@ -36,8 +36,8 @@ export type SegmentedFieldProps<T extends string> = {
   onChange?: (values: SegmentedFieldValue<T>) => void
   onFocus?: (values: SegmentedFieldValue<T>) => void
   onBlur?: (values: SegmentedFieldValue<T>) => void
-  status?: FormStatusText
-  intent?: FormStatusState
+  statusMessage?: FormStatusText
+  status?: FormStatusState
   statusState?: FormStatusState
   stretch?: boolean
   suffix?: ReactNode

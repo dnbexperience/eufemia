@@ -26,7 +26,7 @@ export const CheckboxChecked = () => (
 
 export const CheckboxWithError = () => (
   <ComponentBox data-visual-test="checkbox-error">
-    <Checkbox label="Checkbox" checked status="Error message" />
+    <Checkbox label="Checkbox" checked statusMessage="Error message" />
   </ComponentBox>
 )
 

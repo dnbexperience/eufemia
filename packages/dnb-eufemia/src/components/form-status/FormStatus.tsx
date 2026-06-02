@@ -64,18 +64,18 @@ export type FormStatusChildren = string | (() => ReactNode) | ReactNode
  */
 export type FormStatusBaseProps = {
   /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   * Text with a status message. The style defaults to an error message.
    */
-  status?: FormStatusText
+  statusMessage?: FormStatusText
   /**
-   * Visual intent of the component. Valid values are `error`, `warning`, `information`, `success` and `marketing`.
+   * Visual status of the component. Valid values are `error`, `warning`, `information`, `success` and `marketing`.
    * When set, applies the corresponding visual styling (e.g. red border for error) even without a status message.
    * When set to `error`, `aria-invalid` is automatically applied.
-   *
+   * When used without a `statusMessage`, add an `aria-label` or `aria-labelledby` to convey the status to assistive technologies.
    */
-  intent?: FormStatusState
+  status?: FormStatusState
   /**
-   * @deprecated Use `intent` instead. Defines the state of the status. Defaults to `error`.
+   * @deprecated Use `status` instead. Defines the state of the status. Defaults to `error`.
    */
   statusState?: FormStatusState
   /**
@@ -454,9 +454,12 @@ function FormStatusComponent(
 
       if (state === 'error') {
         const content = getContent(restOwnProps)
+        const prevContent = getContent(prevProps)
 
         if (!content) {
-          globalStatusRef.current?.remove(statusId)
+          if (prevContent) {
+            globalStatusRef.current?.remove(statusId)
+          }
         } else if (show) {
           globalStatusRef.current?.update(
             statusId,

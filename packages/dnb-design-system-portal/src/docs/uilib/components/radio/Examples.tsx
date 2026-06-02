@@ -67,13 +67,13 @@ export const RadioExampleGroupStatus = () => (
       }}
     >
       <Radio label="First" value="first" status="error" />
-      <Radio label="Second" value="second" status="Error message" />
+      <Radio label="Second" value="second" statusMessage="Error message" />
       <Radio
         label="Third"
         value="third"
         checked
-        status="Info message"
-        statusState="information"
+        statusMessage="Info message"
+        status="information"
       />
     </Radio.Group>
   </ComponentBox>
@@ -152,7 +152,7 @@ export const RadioExampleSuffix = () => (
       <Radio
         label="Third"
         value="third"
-        status="Error message"
+        statusMessage="Error message"
         suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
         checked
       />

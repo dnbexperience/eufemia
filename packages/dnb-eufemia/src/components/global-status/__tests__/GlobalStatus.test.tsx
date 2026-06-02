@@ -316,45 +316,45 @@ describe('GlobalStatus component', () => {
 
   it('should handle delayed interactions', async () => {
     const FormField1 = () => {
-      const [status, setStatus] = useState(null)
+      const [statusMsg, setStatusMsg] = useState(null)
       return (
         <Switch
           id="switch-1"
-          status={status}
+          statusMessage={statusMsg}
           statusNoAnimation={true}
           onChange={({ checked }) => {
-            setStatus(checked ? 'error-message-1' : null)
+            setStatusMsg(checked ? 'error-message-1' : null)
           }}
         />
       )
     }
 
     const FormField2 = () => {
-      const [status, setStatus] = useState(null)
+      const [statusMsg, setStatusMsg] = useState(null)
       return (
         <Switch
           id="switch-2"
-          status={status}
+          statusMessage={statusMsg}
           statusNoAnimation={true}
           onChange={({ checked }) => {
-            setStatus(checked ? 'error-message-2' : null)
+            setStatusMsg(checked ? 'error-message-2' : null)
           }}
         />
       )
     }
 
     const FormField3 = () => {
-      const [status, setStatus] = useState(null)
+      const [statusMsg, setStatusMsg] = useState(null)
       return (
         <Autocomplete
           id="autocomplete-3"
-          status={status}
+          statusMessage={statusMsg}
           statusNoAnimation={true}
           onFocus={() => {
-            setStatus('error-message-3')
+            setStatusMsg('error-message-3')
           }}
           onBlur={() => {
-            setStatus(null)
+            setStatusMsg(null)
           }}
         />
       )

@@ -25,8 +25,8 @@ import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
@@ -268,8 +268,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 
   const {
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -320,22 +320,22 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     }
   }
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
 
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-toggle-button',
-      status && `dnb-toggle-button__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-toggle-button__status--${effectiveStatus}`,
       resolvedChecked && `dnb-toggle-button--checked`,
       labelDirection && `dnb-toggle-button--${labelDirection}`,
       className
@@ -373,10 +373,10 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     title: null,
   }
 
-  if (status) {
+  if (effectiveStatus) {
     // do not send along the message, but only the status states
-    if (effectiveIntent === 'information') {
-      componentParams.intent = 'information'
+    if (effectiveStatus === 'information') {
+      componentParams.status = 'information'
     } else {
       componentParams.status = 'error'
     }
@@ -432,8 +432,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
           globalStatus={globalStatus}
           label={label}
           textId={id + '-status'} // used for "aria-describedby"
-          text={status}
-          state={effectiveIntent}
+          text={statusMessage}
+          state={effectiveStatus}
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}

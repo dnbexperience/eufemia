@@ -21,8 +21,8 @@ import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
@@ -334,8 +334,8 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 
   const {
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -361,14 +361,14 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     ...rest
   } = props
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
   // Re-apply any explicitly-passed extra props from ownProps that aren't
@@ -401,12 +401,12 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     group = rest.name
   }
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
 
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-radio',
-      status && `dnb-radio__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-radio__status--${effectiveStatus}`,
       size && `dnb-radio--${size}`,
       label && `dnb-radio--label-position-${labelPosition || 'right'}`,
       className
@@ -433,7 +433,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   if (readOnly) {
     inputParams['aria-readonly'] = inputParams.readOnly = true
   }
-  if (effectiveIntent === 'error') {
+  if (effectiveStatus === 'error') {
     inputParams['aria-invalid'] = true
   }
 
@@ -476,8 +476,8 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
             label={label as ReactNode}
             textId={id + '-status'} // used for "aria-describedby"
             widthSelector={id + ', ' + id + '-label'}
-            text={status}
-            state={effectiveIntent}
+            text={statusMessage}
+            state={effectiveStatus}
             noAnimation={statusNoAnimation}
             skeleton={skeleton}
             {...statusProps}

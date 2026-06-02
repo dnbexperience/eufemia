@@ -194,7 +194,7 @@ export const CreateComposedFieldComponent = () => {
                     onChange={handleBirthYearChange}
                     onDragStart={handleFocus}
                     onDragEnd={handleBlur}
-                    status={hasError}
+                    status={hasError ? 'error' : undefined}
                     tooltip
                   />
                 </FieldBlock>

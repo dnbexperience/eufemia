@@ -9,8 +9,8 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
   dispatchCustomElementEvent,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
@@ -63,8 +63,8 @@ export function SliderProvider(localProps: SliderAllProps) {
     label,
     labelDirection,
     labelSrOnly,
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -231,17 +231,17 @@ export function SliderProvider(localProps: SliderAllProps) {
     }
   }
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
   const showButtons = !isMulti && !hideButtons
   const values = (isMulti ? value : [value]) as Array<number>
 
@@ -258,8 +258,8 @@ export function SliderProvider(localProps: SliderAllProps) {
         attributes,
         showStatus,
         showButtons,
-        effectiveIntent,
-        status,
+        effectiveStatus,
+        statusMessage,
         thumbState,
         setThumbState,
         thumbIndex,

@@ -34,7 +34,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     isVertical,
     isReverse,
     showStatus,
-    effectiveIntent,
+    effectiveStatus,
     attributes,
     allProps,
     shouldAnimate,
@@ -91,7 +91,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
       suffix ? id + '-suffix' : null
     )
   }
-  if (effectiveIntent === 'error') {
+  if (effectiveStatus === 'error') {
     helperParams['aria-invalid'] = true
   }
 

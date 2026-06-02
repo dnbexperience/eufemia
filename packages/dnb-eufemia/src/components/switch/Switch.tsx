@@ -19,8 +19,8 @@ import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -129,8 +129,8 @@ function Switch(props: SwitchProps) {
   const {
     value,
     size,
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     globalStatus,
@@ -153,14 +153,14 @@ function Switch(props: SwitchProps) {
     ...rest
   } = allProps
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -263,13 +263,16 @@ function Switch(props: SwitchProps) {
     [onChangeHandler]
   )
 
-  const showStatus = useMemo(() => getStatusState(status), [status])
+  const showStatus = useMemo(
+    () => getStatusState(statusMessage),
+    [statusMessage]
+  )
 
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-switch',
       size && `dnb-switch--${size}`,
-      status && `dnb-switch__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-switch__status--${effectiveStatus}`,
       `dnb-switch--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
@@ -293,7 +296,7 @@ function Switch(props: SwitchProps) {
   if (readOnly) {
     inputParams['aria-readonly'] = readOnly
   }
-  if (effectiveIntent === 'error') {
+  if (effectiveStatus === 'error') {
     inputParams['aria-invalid'] = true
   }
 
@@ -337,8 +340,8 @@ function Switch(props: SwitchProps) {
             globalStatus={globalStatus}
             label={label}
             widthSelector={id + ', ' + id + '-label'}
-            text={status}
-            state={effectiveIntent}
+            text={statusMessage}
+            state={effectiveStatus}
             skeleton={skeleton}
             noAnimation={statusNoAnimation}
             {...statusProps}

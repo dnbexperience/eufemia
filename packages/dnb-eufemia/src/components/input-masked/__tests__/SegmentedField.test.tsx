@@ -223,7 +223,7 @@ describe('SegmentedField', () => {
     })
 
     it('should render status', () => {
-      renderSegmentedField({ status: 'error', statusState: 'error' })
+      renderSegmentedField({ statusMessage: 'error', status: 'error' })
 
       const input = document.querySelector('.dnb-input')
       expect(input.classList).toContain('dnb-input__status--error')

@@ -25,7 +25,7 @@ export const SwitchExampleChecked = () => (
 
 export const SwitchExampleErrorMessage = () => (
   <ComponentBox data-visual-test="switch-error">
-    <Switch label="Switch" checked status="Error message" />
+    <Switch label="Switch" checked statusMessage="Error message" />
   </ComponentBox>
 )
 

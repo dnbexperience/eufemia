@@ -370,7 +370,7 @@ export const GlobalStatusInfoExample3 = () => (
     <Provider
       formElement={{ globalStatus: { id: 'other-global-status' } }}
     >
-      <Input status="Message" />
+      <Input statusMessage="Message" />
     </Provider>
   </ComponentBox>
 )

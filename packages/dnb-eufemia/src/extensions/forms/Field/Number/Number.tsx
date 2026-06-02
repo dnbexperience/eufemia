@@ -603,7 +603,7 @@ function NumberComponent(props: FieldNumberProps) {
     },
     onChange: onChangeHandler,
     disabled,
-    status: hasError ? 'error' : undefined,
+    status: hasError ? ('error' as const) : undefined,
     stretch: Boolean(width),
     ...maskProps,
     ...htmlAttributes,

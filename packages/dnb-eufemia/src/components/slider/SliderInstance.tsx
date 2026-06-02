@@ -37,8 +37,8 @@ export function SliderInstance() {
     isVertical,
     showButtons,
     showStatus,
-    effectiveIntent,
-    status,
+    effectiveStatus,
+    statusMessage,
     shouldAnimate,
     allProps,
   } = useSliderProps()
@@ -68,7 +68,7 @@ export function SliderInstance() {
       stretch && 'dnb-slider--stretch',
       label && labelDirection && `dnb-slider__label--${labelDirection}`,
       showStatus && 'dnb-slider__form-status',
-      status && `dnb-slider__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-slider__status--${effectiveStatus}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
       className
@@ -102,8 +102,8 @@ export function SliderInstance() {
           id={id + '-form-status'}
           globalStatus={globalStatus}
           textId={id + '-status'} // used for "aria-describedby"
-          text={status}
-          state={effectiveIntent}
+          text={statusMessage}
+          state={effectiveStatus}
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}

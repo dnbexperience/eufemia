@@ -24,8 +24,8 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
@@ -218,6 +218,7 @@ const buttonDefaultProps: Partial<ButtonProps> = {
   skeleton: null,
   disabled: null,
   tooltip: null,
+  statusMessage: null,
   status: null,
   statusState: 'error',
   statusProps: null,
@@ -248,7 +249,10 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
   // needs one for aria linking.
   const generatedId = useId(restProps.id)
   const resolvedId =
-    restProps.id || restProps.status || restProps.tooltip
+    restProps.id ||
+    restProps.status ||
+    restProps.statusMessage ||
+    restProps.tooltip
       ? generatedId
       : undefined
 
@@ -272,8 +276,8 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     title,
     customContent,
     tooltip,
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -292,17 +296,17 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     ...attributes
   } = props
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
 
   const { text } = props
   let { icon: usedIcon } = props
@@ -388,7 +392,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
       isIconOnly && 'dnb-button--icon-only',
       selected && 'dnb-button--selected',
       wrap && 'dnb-button--wrap',
-      status && `dnb-button__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-button__status--${effectiveStatus}`,
       createSkeletonClass(
         variant === 'tertiary' ? 'font' : 'shape',
         skeleton,
@@ -474,8 +478,8 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
         id={resolvedId + '-form-status'}
         globalStatus={globalStatus}
         label={text}
-        text={status}
-        state={effectiveIntent}
+        text={statusMessage}
+        state={effectiveStatus}
         textId={resolvedId + '-status'} // used for "aria-describedby"
         noAnimation={statusNoAnimation}
         skeleton={skeleton}

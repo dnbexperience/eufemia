@@ -447,7 +447,7 @@ describe('Input component', () => {
   })
 
   it('has to have a status value as defined in the prop', () => {
-    render(<Input {...props} status="status" statusState="error" />)
+    render(<Input {...props} statusMessage="status" statusState="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
@@ -457,7 +457,7 @@ describe('Input component', () => {
     render(
       <Input
         value="value"
-        status="status text"
+        statusMessage="status text"
         statusState="warning"
         statusProps={{ stretch: true }}
       />
@@ -969,30 +969,34 @@ describe('Input scss', () => {
   })
 })
 
-describe('Input intent prop', () => {
-  it('applies aria-invalid when intent is error', () => {
-    render(<Input intent="error" />)
+describe('Input status prop', () => {
+  it('applies aria-invalid when status is error', () => {
+    render(<Input status="error" />)
     const input = document.querySelector('.dnb-input__input')
     expect(input.getAttribute('aria-invalid')).toBe('true')
   })
 
-  it('does not apply aria-invalid for non-error intents', () => {
-    render(<Input intent="warning" />)
+  it('does not apply aria-invalid for non-error status', () => {
+    render(<Input status="warning" />)
     const input = document.querySelector('.dnb-input__input')
     expect(input.getAttribute('aria-invalid')).toBeNull()
   })
 
-  it('applies status class from intent', () => {
-    render(<Input intent="warning" status="Some warning" />)
+  it('applies status class from status', () => {
+    render(<Input status="warning" statusMessage="Some warning" />)
     const element = document.querySelector('.dnb-input')
     expect(element.classList.contains('dnb-input__status--warning')).toBe(
       true
     )
   })
 
-  it('intent takes priority over statusState', () => {
+  it('status takes priority over statusState', () => {
     render(
-      <Input intent="warning" statusState="error" status="A message" />
+      <Input
+        status="warning"
+        statusState="error"
+        statusMessage="A message"
+      />
     )
     const element = document.querySelector('.dnb-input')
     expect(element.classList.contains('dnb-input__status--warning')).toBe(
@@ -1004,7 +1008,7 @@ describe('Input intent prop', () => {
   })
 
   it('shows visual styling without a status message', () => {
-    render(<Input intent="error" />)
+    render(<Input status="error" />)
     const input = document.querySelector('.dnb-input__input')
     expect(input.getAttribute('aria-invalid')).toBe('true')
   })

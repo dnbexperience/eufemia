@@ -10,8 +10,8 @@ import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
@@ -78,6 +78,7 @@ const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   id: null,
   name: null,
   size: null,
+  statusMessage: null,
   status: null,
   statusState: 'error',
   statusProps: null,
@@ -163,8 +164,8 @@ function RadioGroup(ownProps: RadioGroupProps) {
   )
 
   const {
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -190,22 +191,22 @@ function RadioGroup(ownProps: RadioGroupProps) {
     ...rest
   } = props
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
 
   const rootProps = useSpacing(props, {
     className: clsx(
       'dnb-radio-group',
-      status && `dnb-radio-group__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-radio-group__status--${effectiveStatus}`,
       `dnb-radio-group--${layoutDirection}`,
       'dnb-form-component',
       className
@@ -292,8 +293,8 @@ function RadioGroup(ownProps: RadioGroupProps) {
                 id={id + '-form-status'}
                 globalStatus={globalStatus}
                 label={label}
-                text={status}
-                state={effectiveIntent}
+                text={statusMessage}
+                state={effectiveStatus}
                 textId={id + '-status'} // used for "aria-describedby"
                 widthSelector={id + ', ' + legendId}
                 noAnimation={statusNoAnimation}

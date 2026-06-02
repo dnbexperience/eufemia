@@ -209,8 +209,8 @@ function Expiry(props: ExpiryProps = {}) {
     className,
     label = expiryLabel,
     hasError,
-    info,
-    warning,
+    info: _info,
+    warning: _warning,
     disabled,
     size,
     value = '',
@@ -236,14 +236,6 @@ function Expiry(props: ExpiryProps = {}) {
     }
   }, [expiry.month, expiry.year, itemPath, path, setDisplayValue])
 
-  const status = hasError
-    ? 'error'
-    : warning
-      ? 'warning'
-      : info
-        ? 'information'
-        : null
-
   const fieldBlockProps: FieldBlockProps = {
     id,
     forId: `${id}-input`,
@@ -258,7 +250,7 @@ function Expiry(props: ExpiryProps = {}) {
         stretch
         id={`${id}-input`}
         values={expiry}
-        status={status === 'error'}
+        status={hasError ? 'error' : undefined}
         disabled={disabled}
         size={size}
         onChange={handleChange}

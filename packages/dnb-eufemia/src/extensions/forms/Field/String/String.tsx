@@ -306,7 +306,7 @@ function StringComponent(props: FieldStringProps) {
     ...htmlAttributes,
     stretch: Boolean(width),
     ref: inputRef as any,
-    status: hasError ? 'error' : undefined,
+    status: hasError ? ('error' as const) : undefined,
     value: transformInstantly(value?.toString() ?? ''),
   }
 

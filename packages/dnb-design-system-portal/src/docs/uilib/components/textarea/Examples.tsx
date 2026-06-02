@@ -59,7 +59,7 @@ export const CharacterCounter = () => (
         label="Count characters"
         autoResize
         value="Textarea value\nNewline"
-        status="Message to the user"
+        statusMessage="Message to the user"
         characterCounter={40}
       />
     </ComponentBox>
@@ -105,7 +105,7 @@ export const FormStatus = () => (
         label="Error Message"
         cols="33"
         value="Nec litora inceptos vestibulum id interdum donec gravida."
-        status="Message to the user"
+        statusMessage="Message to the user"
       />
     </ComponentBox>
   </Wrapper>

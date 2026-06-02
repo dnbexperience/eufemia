@@ -3,7 +3,7 @@ import type { FocusEvent, RefObject } from 'react'
 import { flushSync } from 'react-dom'
 import { clsx } from 'clsx'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
-import { resolveIntent } from '../../../shared/component-helper'
+import { resolveStatus } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import Input from '../../Input'
 import FormLabel from '../../FormLabel'
@@ -38,8 +38,8 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
     delimiter,
     onChange: onChangeExternal,
     disabled,
+    statusMessage,
     status,
-    intent,
     statusState,
     values: defaultValues,
     className,
@@ -56,10 +56,10 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   } = props
   const hasExternalScopeRef = Boolean(props.scopeRef)
 
-  const effectiveIntent = resolveIntent({
-    intent,
-    statusState,
+  const effectiveStatus = resolveStatus({
     status,
+    statusState,
+    statusMessage,
   })
 
   const [values, onChangeBase] = useSegmentedFieldValues({
@@ -401,8 +401,8 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         size={size}
         labelDirection={labelDirection}
         disabled={disabled}
-        status={status}
-        intent={effectiveIntent}
+        statusMessage={statusMessage}
+        status={effectiveStatus}
         suffix={suffix}
         stretch={stretch}
         inputElement={inputElement}

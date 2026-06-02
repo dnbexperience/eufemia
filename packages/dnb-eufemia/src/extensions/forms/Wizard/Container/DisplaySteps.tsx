@@ -31,8 +31,8 @@ export function DisplaySteps({
     if (hasInvalidStepsState(undefined, ['error'])) {
       return {
         // Show FormStatus inside the StepIndicator
-        status: translations.Step.stepHasError,
-        statusState: 'error',
+        statusMessage: translations.Step.stepHasError,
+        status: 'error',
       } satisfies Omit<StepIndicatorItemProps, 'title' | 'currentItemNum'>
     }
     return {}
@@ -42,7 +42,7 @@ export function DisplaySteps({
     translations.Step.stepHasError,
   ])
 
-  const { status, statusState } = getStepIndicatorStatus() ?? {}
+  const { statusMessage, status } = getStepIndicatorStatus() ?? {}
 
   return (
     <div className="dnb-forms-wizard-layout__indicator">
@@ -50,12 +50,18 @@ export function DisplaySteps({
         bottom
         currentStep={activeIndexRef.current}
         data={Array.from(stepsRef.current.values()).map(
-          ({ stringifiedTitle, title, inactive, status, statusState }) =>
+          ({
+            stringifiedTitle,
+            title,
+            inactive,
+            status: statusMessage,
+            statusState: status,
+          }) =>
             ({
               title: stringifiedTitle || title,
               inactive,
+              statusMessage,
               status,
-              statusState: statusState,
             }) satisfies Omit<StepIndicatorItemProps, 'currentItemNum'>
         )}
         mode={mode}
@@ -63,8 +69,8 @@ export function DisplaySteps({
         expandedInitially={expandedInitially}
         onChange={handleChange}
         outset={outset}
+        statusMessage={statusMessage}
         status={status}
-        statusState={statusState}
       />
     </div>
   )

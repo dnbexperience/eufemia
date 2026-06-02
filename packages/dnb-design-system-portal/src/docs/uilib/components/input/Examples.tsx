@@ -78,14 +78,14 @@ export const InputExampleFormStatus = () => (
       <section data-visual-test="input-error">
         <Input
           label="With FormStatus"
-          status="You have to fill in this field"
+          statusMessage="You have to fill in this field"
           value="Input value with error"
         />
       </section>
       <section data-visual-test="input-error-button">
         <Input
           label="With button"
-          status="You have to fill in this field"
+          statusMessage="You have to fill in this field"
           value="Input value with error"
           type="search"
         />
@@ -122,8 +122,8 @@ export const InputExampleStretched = () => (
         id="input-id"
         value="I stretch ..."
         stretch
-        status="Status message"
-        statusState="warning"
+        statusMessage="Status message"
+        status="warning"
       />
     </FieldBlock>
   </ComponentBox>
@@ -135,8 +135,8 @@ export const InputExampleNumbers = () => (
       label="Label"
       autocomplete="on"
       placeholder="Placeholder text"
-      status="Numbers are using DNB Mono (monospace)"
-      statusState="information"
+      statusMessage="Numbers are using DNB Mono (monospace)"
+      status="information"
       value="1234567890"
       onChange={({ value }) => {
         console.log('onChange', value)

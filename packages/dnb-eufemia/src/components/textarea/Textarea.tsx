@@ -29,8 +29,8 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   warn,
   dispatchCustomElementEvent,
@@ -231,8 +231,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     label,
     labelDirection,
     labelSrOnly,
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -259,14 +259,14 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     ...attributes
   } = props
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
@@ -471,7 +471,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     }
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
   const currentHasValue = hasValue(value)
 
   let TextareaElement: TextareaElement = props.textareaElement
@@ -511,7 +511,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   if (readOnly) {
     textareaParams['aria-readonly'] = textareaParams.readOnly = true
   }
-  if (effectiveIntent === 'error') {
+  if (effectiveStatus === 'error') {
     textareaParams['aria-invalid'] = true
   }
 
@@ -523,7 +523,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       currentHasValue && 'dnb-textarea--has-content',
       align && `dnb-textarea__align--${align}`,
       typeof size === 'string' && `dnb-textarea__size--${size}`,
-      status && `dnb-textarea__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-textarea__status--${effectiveStatus}`,
       autoResize && 'dnb-textarea__autoresize',
       labelDirection && `dnb-textarea--${labelDirection}`,
       stretch && `dnb-textarea--stretch`,
@@ -591,8 +591,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           globalStatus={globalStatus}
           label={label}
           textId={id + '-status'}
-          text={status}
-          state={effectiveIntent}
+          text={statusMessage}
+          state={effectiveStatus}
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}

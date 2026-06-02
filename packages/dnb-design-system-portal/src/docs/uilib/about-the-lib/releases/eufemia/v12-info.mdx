@@ -13,7 +13,7 @@ draft: true
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
     - [Accordion](#accordion)
-    - [statusState → intent](#statusstate--intent)
+    - [statusState → status, status → statusMessage](#statusstate--status-status--statusmessage)
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [InfoCard](#infocard)
     - [Popover](#popover)
@@ -68,19 +68,19 @@ When removing these properties, also update the documentation in `classes.mdx` (
 
 - Replace `id` with `connectedTo` on `Accordion.Content` when connecting to a standalone tertiary button.
 
-### statusState → intent
+### statusState → status, status → statusMessage
 
-The `statusState` prop has been deprecated in favor of `intent`. Replace `statusState` with `intent` on all form components that support it.
+The `statusState` prop has been deprecated in favor of `status`. The old `status` prop (which held the message text) has been renamed to `statusMessage`. Replace `statusState` with `status` and `status` with `statusMessage` on all form components that support it.
 
 ```diff
 -<Input status="Error message" statusState="error" />
-+<Input status="Error message" intent="error" />
++<Input statusMessage="Error message" status="error" />
 ```
 
-The `intent` prop also supports setting visual intent without a status message. When used this way, consider adding `aria-label` or `aria-labelledby` to convey the intent to assistive technologies:
+The `status` prop also supports setting visual status without a status message. When used this way, consider adding `aria-label` or `aria-labelledby` to convey the status to assistive technologies:
 
 ```jsx
-<Input intent="error" aria-label="Error in field" />
+<Input status="error" aria-label="Error in field" />
 ```
 
 Affected components: Autocomplete, Button, Checkbox, DatePicker, Dropdown, Input, Radio, RadioGroup, SegmentedField, Slider, StepIndicator, Switch, Textarea, ToggleButton, ToggleButtonGroup.

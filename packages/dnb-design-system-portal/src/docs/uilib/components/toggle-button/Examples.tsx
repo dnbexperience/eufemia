@@ -80,7 +80,7 @@ export const ToggleButtonStatus = () => (
   <ComponentBox>
     <ToggleButton.Group
       label="ToggleButton Group with status"
-      status="Error message"
+      statusMessage="Error message"
       multiselect={true}
       onChange={({ values }) => {
         console.log('onChange', values)
@@ -107,13 +107,13 @@ export const ToggleButtonStatusMessages = () => (
         text="Second"
         value="second"
         checked
-        status="Error message"
+        statusMessage="Error message"
       />
       <ToggleButton
         text="Third"
         value="third"
-        status="Info message"
-        statusState="information"
+        statusMessage="Info message"
+        status="information"
       />
     </ToggleButton.Group>
   </ComponentBox>
@@ -144,7 +144,7 @@ export const ToggleButtonSuffix = () => (
       <ToggleButton
         text="Second"
         value="second"
-        status="Error message"
+        statusMessage="Error message"
         suffix={
           <HelpButton title="Button suffix">Button suffix</HelpButton>
         }

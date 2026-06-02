@@ -31,7 +31,7 @@ import type { InputElement, InputSize } from '../Input'
 import {
   warn,
   validateDOMAttributes,
-  resolveIntent,
+  resolveStatus,
 } from '../../shared/component-helper'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
@@ -149,8 +149,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     skeleton,
     open,
     size,
+    statusMessage,
     status,
-    intent,
     statusState,
     statusProps,
     triggerProps,
@@ -159,10 +159,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     ...attributes
   } = props
 
-  const effectiveIntent = resolveIntent({
-    intent,
-    statusState,
+  const effectiveStatus = resolveStatus({
     status,
+    statusState,
+    statusMessage,
   })
 
   const [focusState, setFocusState] = useState<string>('virgin')
@@ -792,8 +792,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           id={`${id}-start`}
           _omitInputShellClass
           size={size}
-          status={!open ? status : null}
-          intent={effectiveIntent}
+          statusMessage={!open ? statusMessage : null}
+          status={effectiveStatus}
           inputs={buildInputs('start')}
           values={getValues('start')}
           delimiter={delimiter}
@@ -834,8 +834,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             id={`${id}-end`}
             _omitInputShellClass
             size={size}
-            status={!open ? status : null}
-            intent={effectiveIntent}
+            statusMessage={!open ? statusMessage : null}
+            status={effectiveStatus}
             inputs={buildInputs('end')}
             values={getValues('end')}
             delimiter={delimiter}
@@ -878,8 +878,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     disabled,
     skeleton,
     open,
+    statusMessage,
     status,
-    intent,
     statusState,
     attributes,
     isRange,
@@ -923,8 +923,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         disabled={disabled || skeleton}
         skeleton={skeleton}
         size={size}
-        status={!open ? status : null}
-        intent={effectiveIntent}
+        statusMessage={!open ? statusMessage : null}
+        status={effectiveStatus}
         {...(statusProps as Record<string, unknown>)}
         submitElement={
           <SubmitElement
@@ -936,8 +936,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             aria-label={ariaLabel}
             title={title}
             size={size}
-            status={status}
-            intent={effectiveIntent}
+            statusMessage={statusMessage}
+            status={effectiveStatus}
             type="button"
             icon="calendar"
             variant="secondary"

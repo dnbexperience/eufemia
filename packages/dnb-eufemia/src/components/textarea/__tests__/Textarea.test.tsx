@@ -223,7 +223,9 @@ describe('Textarea component', () => {
   })
 
   it('has to have a status value as defined in the prop', () => {
-    render(<Textarea {...props} status="status" statusState="error" />)
+    render(
+      <Textarea {...props} statusMessage="status" statusState="error" />
+    )
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')

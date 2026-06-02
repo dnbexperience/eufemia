@@ -43,8 +43,8 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   dispatchCustomElementEvent,
   convertJsxToString,
@@ -522,9 +522,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     label,
     labelDirection,
     labelSrOnly,
+    statusMessage: statusMessageProp,
     status: statusProp,
     globalStatus,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -579,18 +579,18 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   }
   const sizeIsNumber = parseFloat(size) > 0
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
   const id = _id
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
   const hasSubmitButton =
     submitElement || (submitElement !== false && type === 'search')
   const hasVal = hasValue(value)
@@ -610,7 +610,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       innerElement && 'dnb-input--has-inner-element',
       showClearButton && 'dnb-input--has-clear-button',
       align && `dnb-input__align--${align}`,
-      status && `dnb-input__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-input__status--${effectiveStatus}`,
       disabled && 'dnb-input--disabled',
       icon && `dnb-input--icon-position-${iconPosition}`,
       icon && 'dnb-input--has-icon',
@@ -681,7 +681,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   if (readOnly) {
     inputParams['aria-readonly'] = inputParams.readOnly = true
   }
-  if (effectiveIntent === 'error') {
+  if (effectiveStatus === 'error') {
     inputParams['aria-invalid'] = true
   }
 
@@ -732,8 +732,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
           id={id + '-form-status'}
           globalStatus={globalStatus}
           label={label}
-          text={status}
-          state={effectiveIntent}
+          text={statusMessage}
+          state={effectiveStatus}
           textId={id + '-status'} // used for "aria-describedby"
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
@@ -805,14 +805,12 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                   value={hasVal ? value : ''}
                   icon={submitButtonIcon}
                   status={
-                    submitButtonStatus || status ? effectiveIntent : null
+                    submitButtonStatus || statusMessage
+                      ? effectiveStatus
+                      : null
                   }
-                  intent={effectiveIntent}
-                  iconSize={
-                    size === 'medium' || size === 'large'
-                      ? 'medium'
-                      : 'default'
-                  }
+                  statusState={effectiveStatus}
+                  iconSize={size === 'large' ? 'medium' : 'default'}
                   title={submitButtonTitle}
                   variant={submitButtonVariant}
                   disabled={disabled}
@@ -925,7 +923,6 @@ function InputSubmitButton({
     icon,
     iconSize,
     status,
-    intent,
     statusState,
     statusProps,
     className,
@@ -968,7 +965,7 @@ function InputSubmitButton({
         icon={icon}
         iconSize={iconSize}
         status={status}
-        intent={intent}
+        statusState={statusState}
         onClick={onSubmitHandler}
         onFocus={onSubmitFocusHandler}
         onBlur={onSubmitBlurHandler}

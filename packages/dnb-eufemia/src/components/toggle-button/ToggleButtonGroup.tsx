@@ -11,8 +11,8 @@ import {
   extendExistingPropsWithContext,
   validateDOMAttributes,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
@@ -42,6 +42,7 @@ const toggleButtonGroupDefaultProps: Partial<ToggleButtonGroupProps> = {
   id: null,
   name: null,
   size: null,
+  statusMessage: null,
   status: null,
   statusState: 'error',
   statusProps: null,
@@ -164,8 +165,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   )
 
   const {
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -194,22 +195,23 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     ...rest
   } = props
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
 
   const rootProps = useSpacing(props, {
     className: clsx(
       'dnb-toggle-button-group',
-      status && `dnb-toggle-button-group__status--${effectiveIntent}`,
+      statusMessage &&
+        `dnb-toggle-button-group__status--${effectiveStatus}`,
       !label && 'dnb-toggle-button-group--no-label',
       `dnb-toggle-button-group--${layoutDirection}`,
       'dnb-form-component',
@@ -317,8 +319,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
                 globalStatus={globalStatus}
                 label={label}
                 textId={id + '-status'} // used for "aria-describedby"
-                text={status}
-                state={effectiveIntent}
+                text={statusMessage}
+                state={effectiveStatus}
                 noAnimation={statusNoAnimation}
                 skeleton={skeleton}
                 {...statusProps}

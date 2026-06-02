@@ -106,13 +106,13 @@ export const ButtonProperties: PropertiesTableProps = {
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  status: {
-    doc: 'Set it to either `status="error"` or a text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
-    type: ['"error"', '"information"', 'boolean'],
+  statusMessage: {
+    doc: 'Text with a status message. The style defaults to an error message.',
+    type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
-  intent: {
-    doc: 'Visual intent of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `status` message, add a `aria-label` or `aria-labelledby` to convey the intent to assistive technologies.',
+  status: {
+    doc: 'Visual status of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied. When used without a `statusMessage`, add an `aria-label` or `aria-labelledby` to convey the status to assistive technologies.',
     type: [
       '"error"',
       '"warning"',

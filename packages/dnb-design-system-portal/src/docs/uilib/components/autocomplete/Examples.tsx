@@ -48,8 +48,8 @@ export const AutocompleteStatusInfoExample = () => (
       <Autocomplete
         data={topMovies}
         label="Label"
-        status="You need to select a movie"
-        statusState="information"
+        statusMessage="You need to select a movie"
+        status="information"
         showSubmitButton
       />
     </ComponentBox>
@@ -65,8 +65,8 @@ export const AutocompleteStatusErrorExample = () => (
       <Autocomplete
         label="Status error"
         data={[topMovies[0]]}
-        status="Error"
-        statusState="error"
+        statusMessage="Error"
+        status="error"
         showSubmitButton
         open
         noAnimation

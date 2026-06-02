@@ -23,8 +23,8 @@ import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -140,8 +140,8 @@ function Checkbox(localProps: CheckboxProps) {
 
   const {
     value,
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -166,14 +166,14 @@ function Checkbox(localProps: CheckboxProps) {
     ...rest
   } = props
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -273,7 +273,7 @@ function Checkbox(localProps: CheckboxProps) {
     [handleChange]
   )
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
 
   /**
    * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result
@@ -296,7 +296,7 @@ function Checkbox(localProps: CheckboxProps) {
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
-    if (effectiveIntent === 'error') {
+    if (effectiveStatus === 'error') {
       inputParams['aria-invalid'] = true
     }
 
@@ -308,7 +308,7 @@ function Checkbox(localProps: CheckboxProps) {
   }, [
     context,
     disabled,
-    effectiveIntent,
+    effectiveStatus,
     id,
     props,
     readOnly,
@@ -321,7 +321,7 @@ function Checkbox(localProps: CheckboxProps) {
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-checkbox',
-      status && `dnb-checkbox__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-checkbox__status--${effectiveStatus}`,
       size && `dnb-checkbox--${size}`,
       label && `dnb-checkbox--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
@@ -340,8 +340,8 @@ function Checkbox(localProps: CheckboxProps) {
       label={label}
       textId={id + '-status'} // used for "aria-describedby"
       widthSelector={id + ', ' + id + '-label'}
-      text={status}
-      state={effectiveIntent}
+      text={statusMessage}
+      state={effectiveStatus}
       noAnimation={statusNoAnimation}
       skeleton={skeleton}
       {...statusProps}

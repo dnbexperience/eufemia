@@ -22,8 +22,8 @@ import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
   getStatusState,
-  resolveIntent,
-  resolveStatusForIntent,
+  resolveStatus,
+  resolveStatusMessage,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
@@ -423,8 +423,8 @@ const DropdownInstance = memo(function DropdownInstance({
     size,
     fixedPosition,
     enableBodyLock,
+    statusMessage: statusMessageProp,
     status: statusProp,
-    intent: intentProp,
     statusState,
     statusProps,
     statusNoAnimation,
@@ -506,17 +506,17 @@ const DropdownInstance = memo(function DropdownInstance({
 
   const { id, selectedItem, direction, open } = context.drawerList
 
-  const effectiveIntent = resolveIntent({
-    intent: intentProp,
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
     statusState,
-    status: statusProp,
+    statusMessage: statusMessageProp,
   })
-  const status = resolveStatusForIntent({
-    intent: intentProp,
+  const statusMessage = resolveStatusMessage({
     status: statusProp,
+    statusMessage: statusMessageProp,
   })
 
-  const showStatus = getStatusState(status)
+  const showStatus = getStatusState(statusMessage)
 
   Object.assign(
     context.drawerList.attributes,
@@ -535,7 +535,7 @@ const DropdownInstance = memo(function DropdownInstance({
       size && `dnb-dropdown--${size}`,
       stretch && `dnb-dropdown--stretch`,
       `dnb-dropdown--${align || 'right'}`,
-      status && `dnb-dropdown__status--${effectiveIntent}`,
+      effectiveStatus && `dnb-dropdown__status--${effectiveStatus}`,
       showStatus && 'dnb-dropdown__form-status',
       'dnb-form-component',
       className
@@ -577,7 +577,7 @@ const DropdownInstance = memo(function DropdownInstance({
       id // used to read the current value
     )
   }
-  if (effectiveIntent === 'error') {
+  if (effectiveStatus === 'error') {
     triggerParams['aria-invalid'] = true
   }
 
@@ -612,8 +612,8 @@ const DropdownInstance = memo(function DropdownInstance({
           globalStatus={globalStatus}
           label={label}
           textId={id + '-status'} // used for "aria-describedby"
-          text={status}
-          state={effectiveIntent}
+          text={statusMessage}
+          state={effectiveStatus}
           noAnimation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}
@@ -626,8 +626,7 @@ const DropdownInstance = memo(function DropdownInstance({
             ) : (
               <Button
                 variant={variant}
-                status={status ? effectiveIntent : null}
-                intent={effectiveIntent}
+                status={effectiveStatus}
                 icon={false} // only to suppress the warning about the icon when tertiary variant is used
                 size={(size === 'default' ? 'medium' : size) as ButtonSize}
                 ref={setButtonRef}

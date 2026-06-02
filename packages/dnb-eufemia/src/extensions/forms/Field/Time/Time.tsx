@@ -198,8 +198,8 @@ function Time(props: TimeProps = {}) {
     className,
     label = timeLabel,
     hasError,
-    info,
-    warning,
+    info: _info,
+    warning: _warning,
     disabled,
     size,
     value = '',
@@ -237,14 +237,6 @@ function Time(props: TimeProps = {}) {
     setDisplayValue,
   ])
 
-  const status = hasError
-    ? 'error'
-    : warning
-      ? 'warning'
-      : info
-        ? 'information'
-        : null
-
   const fieldBlockProps: FieldBlockProps = {
     id,
     forId: `${id}-input`,
@@ -259,7 +251,7 @@ function Time(props: TimeProps = {}) {
         stretch
         id={`${id}-input`}
         values={time}
-        status={status === 'error'}
+        status={hasError ? 'error' : undefined}
         disabled={disabled}
         size={size}
         onChange={handleChange}

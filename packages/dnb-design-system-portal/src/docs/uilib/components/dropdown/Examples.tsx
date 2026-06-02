@@ -467,7 +467,11 @@ export const DropdownStatusVertical = () => (
       data-visual-test="dropdown-status-error"
       scope={{ data }}
     >
-      <Dropdown data={data} label="Label" status="Message to the user" />
+      <Dropdown
+        data={data}
+        label="Label"
+        statusMessage="Message to the user"
+      />
     </ComponentBox>
   </Wrapper>
 )

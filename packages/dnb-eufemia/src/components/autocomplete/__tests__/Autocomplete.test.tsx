@@ -414,7 +414,7 @@ describe('Autocomplete component', () => {
         <Autocomplete
           data={mockData}
           {...mockProps}
-          status="status text"
+          statusMessage="status text"
           statusState="information"
           statusProps={{ stretch: true }}
           showSubmitButton
@@ -553,7 +553,7 @@ describe('Autocomplete component', () => {
       data: ['A', { content: 'B', suffixValue: 'suffix B' }, 'C'],
       showSubmitButton: true,
       value: 1,
-      status: 'status text',
+      statusMessage: 'status text',
       suffix: 'suffix text',
       label: 'Autocomplete label',
       noAnimation: true,
@@ -3326,7 +3326,7 @@ describe('Autocomplete component', () => {
       <Autocomplete
         data={mockData}
         {...mockProps}
-        status="status text"
+        statusMessage="status text"
         showSubmitButton
       />
     )
@@ -3351,7 +3351,7 @@ describe('Autocomplete component', () => {
       <Autocomplete
         data={mockData}
         {...mockProps}
-        status="status text"
+        statusMessage="status text"
         statusState="error"
         showSubmitButton
       />
@@ -3377,7 +3377,7 @@ describe('Autocomplete component', () => {
       <Autocomplete
         data={mockData}
         {...mockProps}
-        status="status text"
+        statusMessage="status text"
         statusState="information"
         showSubmitButton
       />
@@ -4624,7 +4624,7 @@ describe('Autocomplete markup', () => {
   it('should validate with ARIA rules', async () => {
     const snapshotProps: AutocompleteAllProps = {
       label: 'Autocomplete Label:',
-      status: 'status',
+      statusMessage: 'status',
       statusState: 'error',
       statusProps: null,
       value: 2,

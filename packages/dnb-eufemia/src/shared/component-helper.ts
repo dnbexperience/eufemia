@@ -340,62 +340,78 @@ export function getStatusState(status) {
 }
 
 /**
- * Resolves the effective intent from `intent`, `statusState`, and `status`.
+ * Resolves the effective status from `status`, `statusState`, and `statusMessage`.
  *
- * - `intent` takes priority over `statusState` (which is deprecated).
- * - If `status` is a known state string ("error", "warn", etc.) and no explicit
- *   intent/statusState is set, the status value is used as the intent.
- * - Falls back to `'error'` when a status message is present but no intent is specified.
+ * - `status` takes priority over `statusState` (which is deprecated).
+ * - Falls back to `'error'` when a status message is present but no status is specified.
+ * - Handles backwards compatibility: if `status` receives a non-FormStatusState
+ *   string (old `status` message pattern), falls back to `statusState` or `'error'`.
  */
-export function resolveIntent({
-  intent,
-  statusState,
+export function resolveStatus({
   status,
+  statusState,
+  statusMessage,
 }: {
-  intent?: FormStatusState
+  status?: FormStatusState | unknown
   statusState?: FormStatusState
-  status?: unknown
+  statusMessage?: unknown
 }): FormStatusState | undefined {
-  if (intent) {
-    return intent
-  }
-
-  if (statusState && status) {
-    return statusState
-  }
-
-  if (
-    typeof status === 'string' &&
-    (status === 'error' ||
-      status === 'warning' ||
-      status === 'information')
-  ) {
+  if (isFormStatusState(status)) {
     return status
   }
 
-  if (status) {
+  // Backwards compat: status used as a message (old API)
+  if (status && !isFormStatusState(status)) {
+    warn(
+      'Passing a message to `status` is deprecated. Use `statusMessage` instead.'
+    )
+    return statusState || 'error'
+  }
+
+  if (statusState && statusMessage) {
+    return statusState
+  }
+
+  if (statusMessage) {
     return 'error'
   }
 
   return undefined
 }
 
+const VALID_STATUS_STATES = new Set([
+  'error',
+  'warning',
+  'information',
+  'success',
+  'marketing',
+])
+
+function isFormStatusState(value: unknown): value is FormStatusState {
+  return typeof value === 'string' && VALID_STATUS_STATES.has(value)
+}
+
 /**
- * Returns the effective status value when `intent` is set.
- * If `intent` is provided but `status` is not, returns `true`
- * so the component applies visual styling without a message.
+ * Resolves the effective status message.
+ *
+ * - If `status` is set but `statusMessage` is not, returns `true`
+ *   so the component applies visual styling without a message.
+ * - Handles backwards compatibility: if `status` receives a non-FormStatusState
+ *   value (old API pattern), that value is used as the message.
  */
-export function resolveStatusForIntent<T>({
-  intent,
+export function resolveStatusMessage<T>({
   status,
+  statusMessage,
 }: {
-  intent?: FormStatusState
-  status?: T
-}): T | true {
-  if (intent && status === undefined) {
-    return true
+  status?: unknown
+  statusMessage?: T
+}): T | undefined {
+  // Backwards compat: status used as a message (old API)
+  if (status && !isFormStatusState(status)) {
+    return status as unknown as T
   }
-  return status as T
+
+  return statusMessage
 }
 
 export function combineLabelledBy(...params) {
