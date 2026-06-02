@@ -26,6 +26,7 @@ import type { DrawerListContextValue } from '../DrawerListContext'
 import DrawerListContext from '../DrawerListContext'
 import { IsolatedStyleScope } from '../../../shared'
 import Dialog from '../../../components/dialog/Dialog'
+import PortalRoot from '../../../components/portal-root/PortalRoot'
 import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
@@ -114,6 +115,17 @@ describe('DrawerList component', () => {
         .querySelector('.dnb-drawer-list--open')
         .closest('#eufemia-portal-root')
     ).toBeInTheDocument()
+  })
+
+  it('should forward translate="no" from PortalRoot.Provider to portal content', () => {
+    render(
+      <PortalRoot.Provider translate="no">
+        <DrawerList {...props} data={mockData} />
+      </PortalRoot.Provider>
+    )
+    const portalRoot = document.querySelector('.eufemia-portal-root')
+    expect(portalRoot).toBeInTheDocument()
+    expect(portalRoot).toHaveAttribute('translate', 'no')
   })
 
   it('has correct state after changing prop to opened', () => {

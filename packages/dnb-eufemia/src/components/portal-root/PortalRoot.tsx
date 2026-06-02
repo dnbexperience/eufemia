@@ -47,22 +47,36 @@ export type PortalRootProps = {
 } & SelectorOptions &
   Omit<HTMLProps<HTMLElement>, 'ref' | 'id'>
 
-type PortalRootContextValue = SelectorOptions
+type PortalRootContextValue = SelectorOptions & {
+  /**
+   * Set to `"no"` to prevent external translation tools (e.g. Google Translate)
+   * from mutating DOM inside portals, which can crash React.
+   */
+  translate?: 'no' | 'yes'
+}
 
 const PortalRootContext = createContext<PortalRootContextValue | null>(
   null
 )
 
-export type PortalRootProviderProps = PropsWithChildren<SelectorOptions>
+export type PortalRootProviderProps = PropsWithChildren<
+  SelectorOptions & {
+    /**
+     * Set to `"no"` to prevent external translation tools (e.g. Google Translate)
+     * from mutating DOM inside portals, which can crash React.
+     */
+    translate?: 'no' | 'yes'
+  }
+>
 
 export function PortalRootProvider(
   props: PortalRootProviderProps
 ): JSX.Element | null {
-  const { id, insideSelector, beforeSelector, children } = props
+  const { id, insideSelector, beforeSelector, translate, children } = props
 
   const value = useMemo(
-    () => ({ id, insideSelector, beforeSelector }),
-    [id, insideSelector, beforeSelector]
+    () => ({ id, insideSelector, beforeSelector, translate }),
+    [id, insideSelector, beforeSelector, translate]
   )
 
   return <PortalRootContext value={value}>{children}</PortalRootContext>
@@ -154,6 +168,7 @@ function PortalRootInstance(props: PortalRootProps = {}): ReactNode {
           className
         )}
         style={{ ...scopeStyle, ...style }}
+        translate={selectorContext?.translate}
         {...rest}
       >
         {children}

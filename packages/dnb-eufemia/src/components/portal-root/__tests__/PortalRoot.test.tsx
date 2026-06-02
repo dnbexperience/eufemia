@@ -40,6 +40,32 @@ describe('PortalRoot', () => {
     expect(content).toHaveTextContent('Portal Content')
   })
 
+  it('should not have translate attribute by default', () => {
+    render(
+      <PortalRoot>
+        <div>Content</div>
+      </PortalRoot>
+    )
+
+    const portalWrapper = document.querySelector('.eufemia-portal-root')
+    expect(portalWrapper).toBeInTheDocument()
+    expect(portalWrapper).not.toHaveAttribute('translate')
+  })
+
+  it('should forward translate="no" from PortalRoot.Provider', () => {
+    render(
+      <PortalRoot.Provider translate="no">
+        <PortalRoot>
+          <div>Content</div>
+        </PortalRoot>
+      </PortalRoot.Provider>
+    )
+
+    const portalWrapper = document.querySelector('.eufemia-portal-root')
+    expect(portalWrapper).toBeInTheDocument()
+    expect(portalWrapper).toHaveAttribute('translate', 'no')
+  })
+
   it('should handle ref forwarding', () => {
     const ref: RefObject<HTMLElement | null> = { current: null }
     render(
