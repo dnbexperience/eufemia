@@ -178,7 +178,6 @@ export type DropdownAllProps = DropdownProps &
   >
 
 const dropdownDefaultProps: Partial<DropdownAllProps> = {
-  title: 'Option Menu',
   variant: 'secondary',
   labelDirection: 'vertical',
   statusState: 'error',
