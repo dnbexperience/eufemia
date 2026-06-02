@@ -4,7 +4,6 @@
 */
 
 @use '../../../style/core/utilities.scss' as utilities;
-@use '../../button/style/themes/button-mixins.scss' as button-mixins;
 @use './tag-mixins.scss' as tag-mixins;
 
 .dnb-tag {
@@ -59,17 +58,24 @@
         );
       }
 
-      @include button-mixins.buttonHover(
-        $color: var(--token-color-text-action-hover),
-        $border-color: var(--token-color-stroke-action-hover)
-      );
+      @include utilities.hover() {
+        color: var(--token-color-text-action-hover);
 
-      @include button-mixins.buttonActive(
-        $color: var(--token-color-text-action-pressed),
-        $background-color: var(
-            --token-color-background-action-pressed-subtle
-          )
-      );
+        @include utilities.fakeBorder(
+          var(--token-color-stroke-action-hover),
+          0.125rem /*2px*/
+        );
+      }
+
+      @include utilities.active() {
+        color: var(--token-color-text-action-pressed);
+        background-color: var(
+          --token-color-background-action-pressed-subtle
+        );
+
+        // no animation yet
+        @include utilities.fakeBorder(transparent);
+      }
 
       &[disabled] {
         color: var(--token-color-component-button-text-action-disabled);

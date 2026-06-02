@@ -4,7 +4,6 @@
 */
 
 @use '../../../style/core/utilities.scss' as utilities;
-@use '../../button/style/themes/button-mixins.scss' as button-mixins;
 
 .dnb-dropdown {
   --dropdown-width: 16rem;
@@ -229,7 +228,22 @@
   }
 
   &__status--error .dnb-button--tertiary {
-    @include button-mixins.buttonFocusRing('always');
+    // Focus ring
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+
+      top: 0;
+      left: -0.5rem;
+      bottom: 0;
+      right: -0.5rem;
+
+      height: inherit;
+      border-radius: inherit;
+
+      @include utilities.focusRing('always');
+    }
 
     &::before {
       --border-color: var(--token-color-stroke-error);

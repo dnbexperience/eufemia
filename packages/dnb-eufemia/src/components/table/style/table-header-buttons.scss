@@ -1,4 +1,3 @@
-@use '../../button/style/themes/button-mixins.scss';
 @use '../../../style/core/utilities.scss' as utilities;
 
 @mixin tableFocusRing() {
@@ -101,12 +100,24 @@
       }
 
       @include utilities.active() {
-        @include button-mixins.buttonFocusRing(
-          'mouse'
-        ); // also, make a mouse ring
-        @include button-mixins.buttonFocusRing(
-          'touch'
-        ); // also, make a touch ring
+        // Focus ring
+        &::before {
+          content: '';
+          position: absolute;
+          z-index: 1;
+
+          top: 0;
+          left: -0.5rem;
+          bottom: 0;
+          right: -0.5rem;
+
+          height: inherit;
+          border-radius: inherit;
+
+          @include utilities.focusRing('mouse');
+          @include utilities.focusRing('touch');
+        }
+
         @include tableFocusRing();
 
         .dnb-button__text {

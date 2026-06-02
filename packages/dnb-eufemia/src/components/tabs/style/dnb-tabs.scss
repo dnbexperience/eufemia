@@ -4,7 +4,6 @@
  */
 
 @use '../../../style/core/utilities.scss' as utilities;
-@use '../../button/style/themes/button-mixins.scss';
 
 .dnb-tabs {
   --tablist-border-color--default: var(
@@ -298,7 +297,22 @@
     }
 
     &:not(:hover):focus-visible {
-      @include button-mixins.buttonFocusRing();
+      // Focus ring
+      &::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+
+        top: 0;
+        left: -0.5rem;
+        bottom: 0;
+        right: -0.5rem;
+
+        height: inherit;
+        border-radius: inherit;
+
+        @include utilities.focusRing();
+      }
 
       overflow: visible;
 
