@@ -9,6 +9,7 @@ import {
 import type {
   HTMLAttributes,
   HTMLProps,
+  MouseEvent,
   MouseEventHandler,
   ReactElement,
   ReactNode,
@@ -272,7 +273,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             expanded={!isCollapsedRef.current}
             noAnimation={noAnimation}
             onChange={({ expanded, event }) => {
-              onClick?.(event as React.MouseEvent<HTMLButtonElement>)
+              onClick?.(event as MouseEvent<HTMLButtonElement>)
               isCollapsedRef.current = !expanded
               onToggle?.(!expanded)
             }}
