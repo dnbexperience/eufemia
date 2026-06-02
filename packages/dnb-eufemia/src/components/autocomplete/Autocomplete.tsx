@@ -392,7 +392,6 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
 } = {
   id: null,
   mode: 'sync',
-  title: 'Option Menu',
   placeholder: null,
   noOptions: null,
   showAll: null,
