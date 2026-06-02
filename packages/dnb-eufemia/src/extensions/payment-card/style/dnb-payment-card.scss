@@ -296,6 +296,11 @@
         background-color: var(--dnb-payment-overlay-bg-light);
         color: var(--color-black);
       }
+
+      // stylelint-disable-next-line no-descending-specificity -- targets overlay, not card
+      .dnb-p {
+        color: inherit;
+      }
     }
   }
 

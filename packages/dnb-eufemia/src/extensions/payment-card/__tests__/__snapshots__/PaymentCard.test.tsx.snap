@@ -343,6 +343,9 @@ exports[`PaymentCard scss > has to match style dependencies css 1`] = `
   background-color: var(--dnb-payment-overlay-bg-light);
   color: var(--color-black);
 }
+.dnb-payment-card__overlay__content .dnb-p {
+  color: inherit;
+}
 .dnb-payment-card {
   /* Compact mode styling for PaymentCard component
    * This defines the styles and visual appearance of the card in its compact variant.
