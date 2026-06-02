@@ -116,20 +116,15 @@
 
           @include utilities.focusRing('mouse');
           @include utilities.focusRing('touch');
+
+          --border-color: currentcolor;
+          --border-width: 0.125rem;
         }
 
         @include tableFocusRing();
 
         .dnb-button__text {
           text-decoration: none;
-        }
-
-        // focus ring
-        &::before {
-          --border-color: currentcolor;
-          --border-width: 0.125rem;
-
-          right: -0.5rem;
         }
       }
     }
