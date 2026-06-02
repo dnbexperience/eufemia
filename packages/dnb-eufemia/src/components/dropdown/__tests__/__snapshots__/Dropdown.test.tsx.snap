@@ -329,7 +329,7 @@ button .dnb-form-status__text {
 
 @keyframes attention-focus {
   0%, 100% {
-    color: var(--token-color-text-destructive);
+    color: var(--token-color-text-error);
     background-color: var(--token-color-background-error-subtle);
     border-color: var(--token-color-stroke-error);
   }
@@ -1125,10 +1125,10 @@ legend.dnb-form-label {
   --button-color-icon--hover: var(--token-color-icon-error);
   --button-color-icon--active: var(--token-color-icon-error);
   --button-color-icon--focus: var(--token-color-icon-error);
-  --button-color-text--default: var(--token-color-text-destructive);
-  --button-color-text--hover: var(--token-color-text-destructive);
-  --button-color-text--active: var(--token-color-text-destructive);
-  --button-color-text--focus: var(--token-color-text-destructive);
+  --button-color-text--default: var(--token-color-text-error);
+  --button-color-text--hover: var(--token-color-text-error);
+  --button-color-text--active: var(--token-color-text-error);
+  --button-color-text--focus: var(--token-color-text-error);
 }
 .dnb-dropdown__trigger.dnb-button--secondary, .dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error.dnb-dropdown__trigger--open {
   --button-color-bg--hover: var(--token-color-background-neutral);
@@ -1442,10 +1442,10 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
   --button-color-icon--hover: var(--token-color-icon-error);
   --button-color-icon--active: var(--token-color-icon-error);
   --button-color-icon--focus: var(--token-color-icon-error);
-  --button-color-text--default: var(--token-color-text-destructive);
-  --button-color-text--hover: var(--token-color-text-destructive);
-  --button-color-text--active: var(--token-color-text-destructive);
-  --button-color-text--focus: var(--token-color-text-destructive);
+  --button-color-text--default: var(--token-color-text-error);
+  --button-color-text--hover: var(--token-color-text-error);
+  --button-color-text--active: var(--token-color-text-error);
+  --button-color-text--focus: var(--token-color-text-error);
 }
 .dnb-dropdown__trigger.dnb-button--secondary, .dnb-dropdown__trigger.dnb-button--secondary.dnb-button__status--error.dnb-dropdown__trigger--open {
   --button-color-bg--hover: var(--token-color-background-neutral);

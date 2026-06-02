@@ -74,13 +74,12 @@
   --color-text-neutral-ondark: var(--sbanken-greyscale-0);
   --color-text-neutral-subtle: var(--sbanken-greyscale-600);
   --color-text-neutral-subtle-ondark: var(--sbanken-greyscale-200);
-  --color-text-destructive: var(--sbanken-red-700);
-  --color-text-destructive-inverse: var(--sbanken-orange-500);
+  --color-text-error: var(--sbanken-red-700);
+  --color-text-error-inverse: var(--sbanken-orange-500);
   --color-text-warning: var(--sbanken-yellow-800);
   --color-text-warning-inverse: var(--sbanken-yellow-600);
   --color-text-positive: var(--sbanken-green-700);
   --color-text-positive-inverse: var(--sbanken-green-600);
-  --color-text-error: var(--sbanken-red-700);
   --color-icon-action: var(--sbanken-purple-700);
   --color-icon-action-hover: var(--sbanken-purple-700);
   --color-icon-action-pressed: var(--sbanken-purple-900);
@@ -101,7 +100,6 @@
   --color-icon-neutral-inverse: var(--sbanken-greyscale-0);
   --color-icon-neutral-ondark: var(--sbanken-greyscale-0);
   --color-icon-neutral-alternative: var(--sbanken-greyscale-600);
-  --color-icon-destructive: var(--sbanken-red-700);
   --color-icon-info: var(--sbanken-green-600);
   --color-icon-info-subtle: var(--sbanken-green-50);
   --color-icon-positive: var(--sbanken-green-700);
@@ -120,7 +118,7 @@
   --color-stroke-action-hover-inverse: var(--sbanken-green-300);
   --color-stroke-action-pressed-inverse: var(--sbanken-green-500);
   --color-stroke-action-focus: var(--sbanken-blue-600);
-  --color-stroke-action-focus-subtle: var(--sbanken-blue-100);
+  --color-stroke-action-focus-subtle: var(--sbanken-greyscale-0);
   --color-stroke-action-disabled: var(--sbanken-greyscale-300);
   --color-stroke-selected: var(--sbanken-purple-950);
   --color-stroke-selected-ondark: var(--sbanken-green-100);
@@ -251,9 +249,6 @@
   --color-component-button-stroke-selected: var(--sbanken-purple-700-40);
   --color-component-tooltip-background-neutral: var(
     --sbanken-greyscale-800
-  );
-  --color-component-table-background-neutral-alternative: var(
-    --sbanken-greyscale-25
   );
   --color-component-dimmer-background: var(--sbanken-greyscale-1000-30);
   --color-component-switch-action-disabled-ondark: var(
