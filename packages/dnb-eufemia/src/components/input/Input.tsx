@@ -792,11 +792,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                     submitButtonStatus || status ? statusState : null
                   }
                   statusState={statusState}
-                  iconSize={
-                    size === 'medium' || size === 'large'
-                      ? 'medium'
-                      : 'default'
-                  }
+                  iconSize={size === 'large' ? 'medium' : 'default'}
                   title={submitButtonTitle}
                   variant={submitButtonVariant}
                   disabled={disabled}

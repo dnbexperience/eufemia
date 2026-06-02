@@ -612,6 +612,27 @@ describe('Input component', () => {
     expect(onSubmitBlur).toHaveBeenCalledTimes(1)
     expect(onSubmitBlur.mock.calls[0][0].value).toBe('value')
   })
+
+  it('should use default icon size for medium input submit button', () => {
+    render(<Input type="search" size="medium" />)
+
+    const icon = document.querySelector(
+      '.dnb-input__submit-button .dnb-icon'
+    )
+
+    expect(icon).toHaveClass('dnb-icon--default')
+    expect(icon).not.toHaveClass('dnb-icon--medium')
+  })
+
+  it('should use medium icon size for large input submit button', () => {
+    render(<Input type="search" size="large" />)
+
+    const icon = document.querySelector(
+      '.dnb-input__submit-button .dnb-icon'
+    )
+
+    expect(icon).toHaveClass('dnb-icon--medium')
+  })
 })
 
 describe('Input with clear button', () => {
