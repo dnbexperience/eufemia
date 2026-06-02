@@ -169,6 +169,18 @@
     }
   }
 
+  &__collapse &__item {
+    padding: 0;
+
+    &:not(:first-child) {
+      margin-left: 1.5rem;
+
+      .dnb-breadcrumb__item__span__icon {
+        display: none;
+      }
+    }
+  }
+
   &__multiple.dnb-height-animation--parallax &__item {
     transform: translateX(0);
   }
@@ -186,18 +198,6 @@
 
     @include utilities.allBelow(small) {
       @include collapse-button();
-    }
-  }
-
-  &__collapse &__item {
-    padding: 0;
-
-    &:not(:first-child) {
-      margin-left: 1.5rem;
-
-      .dnb-breadcrumb__item__span__icon {
-        display: none;
-      }
     }
   }
 
