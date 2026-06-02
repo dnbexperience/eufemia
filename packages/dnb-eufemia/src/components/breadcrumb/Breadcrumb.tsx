@@ -271,7 +271,8 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             title={backToText}
             expanded={!isCollapsedRef.current}
             noAnimation={noAnimation}
-            onChange={({ expanded }) => {
+            onChange={({ expanded, event }) => {
+              onClick?.(event as React.MouseEvent<HTMLButtonElement>)
               isCollapsedRef.current = !expanded
               onToggle?.(!expanded)
             }}
