@@ -22,6 +22,7 @@
   &--variant-collapse &__bar {
     background-color: var(--token-color-background-neutral);
     color: var(--token-color-text-neutral);
+    cursor: pointer;
   }
 
   &--variant-responsive &__bar {
