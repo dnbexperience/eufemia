@@ -6,9 +6,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 @mixin collapse-button {
-  --button-height: 4.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin: 1rem;
 }
 
 .dnb-breadcrumb {
@@ -27,7 +25,7 @@
   }
 
   &--variant-responsive &__bar {
-    @include utilities.allBelow(medium) {
+    @include utilities.allBelow(small) {
       background-color: var(--token-color-background-neutral);
       color: var(--token-color-text-neutral);
     }
@@ -126,7 +124,7 @@
   }
 
   &--variant-responsive &__collapse {
-    @include utilities.allAbove(medium) {
+    @include utilities.allAbove(small) {
       border: none;
     }
   }
@@ -188,17 +186,17 @@
   }
 
   &--variant-responsive &__bar &__multiple {
-    @include utilities.allBelow(medium) {
+    @include utilities.allBelow(small) {
       display: none;
     }
   }
 
   &--variant-responsive &__toggle {
-    @include utilities.allAbove(medium) {
+    @include utilities.allAbove(small) {
       display: none;
     }
 
-    @include utilities.allBelow(medium) {
+    @include utilities.allBelow(small) {
       @include collapse-button;
     }
   }
