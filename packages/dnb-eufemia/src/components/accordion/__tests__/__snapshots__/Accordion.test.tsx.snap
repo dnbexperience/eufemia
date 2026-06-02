@@ -529,5 +529,8 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
   border: none;
   background: none;
   box-shadow: none;
+}
+.dnb-accordion__tertiary-button {
+  align-self: flex-start;
 }"
 `;
