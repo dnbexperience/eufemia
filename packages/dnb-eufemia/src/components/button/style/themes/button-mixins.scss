@@ -79,36 +79,3 @@
     );
   }
 }
-
-@mixin drawUnderlineBorder() {
-  // underline border
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: 1;
-
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    width: auto;
-    height: 0.095rem; // 1.5 - because of webkit, we round to .095
-    border-radius: calc(0.095rem / 2);
-
-    color: var(
-      --button-color-underline,
-      var(--button-color-underline--default)
-    ); // border color
-    background-color: currentcolor;
-
-    // using box-shadow works well to get 1.5px
-    // but not for the transition to opacity
-    // box-shadow: 0 0 0 calc(0.0625rem / 2) currentColor;
-
-    @content;
-  }
-
-  .dnb-skeleton &::after {
-    content: none;
-  }
-}
