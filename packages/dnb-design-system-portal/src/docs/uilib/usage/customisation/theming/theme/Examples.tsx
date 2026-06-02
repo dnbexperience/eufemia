@@ -42,9 +42,11 @@ export const ThemeBasis = () => (
         return (
           <MyColors>
             <Dropdown
-              data={['dnb', 'sbanken']}
+              data={{ dnb: 'DNB', sbanken: 'Sbanken' }}
               value={name}
-              onChange={({ data }) => setName(String(data) as ThemeNames)}
+              onChange={({ data }) =>
+                setName(data.selectedKey as ThemeNames)
+              }
             />
             <Theme name={name}>
               <MyComponent />
