@@ -32,12 +32,12 @@ import type {
   SpacingProps,
 } from '../../shared/types'
 import { chevron_down, chevron_up } from '../../icons'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 
 const toggleIcon = Icon.transition({
   collapsed: chevron_down,
   expanded: chevron_up,
 })
-import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
 import type { BreadcrumbItemProps } from './BreadcrumbItem'
@@ -199,7 +199,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   const isCollapsedRef = useRef(overrideCollapsed)
 
-  const { isLarge } = useMedia()
+  const { isSmall } = useMedia()
 
   useEffect(() => {
     if (overrideCollapsed !== isCollapsedRef.current) {
@@ -208,10 +208,10 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     }
   }, [overrideCollapsed])
 
-  // Auto-collapse breadcrumbs if going from small screen to large screen.
+  // Auto-collapse breadcrumbs if going from small screen to larger screen.
   useEffect(() => {
-    if (isLarge && overrideCollapsed !== false) {
-      // Call onToggle if breadcrumbs is expanded and is going to collapse due to large screen size.
+    if (!isSmall && overrideCollapsed !== false) {
+      // Call onToggle if breadcrumbs is expanded and is going to collapse due to larger screen size.
       if (isCollapsedRef.current === false) {
         onToggle?.(true)
       }
@@ -220,7 +220,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
       forceUpdate()
     }
-  }, [isLarge, overrideCollapsed, onToggle])
+  }, [isSmall, overrideCollapsed, onToggle])
 
   const onClickHandler = useCallback(() => {
     isCollapsedRef.current = !isCollapsedRef.current
