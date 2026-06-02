@@ -154,10 +154,6 @@ export type BreadcrumbAllProps = BreadcrumbProps &
 
 const defaultProps: Partial<BreadcrumbAllProps> = {
   skeleton: false,
-  navText: 'Back',
-  goBackText: 'Back',
-  homeText: 'Home',
-  backToText: 'Gå til ...',
   collapsed: true,
   spacing: false,
 }
