@@ -255,21 +255,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
   return (
     <nav {...(navProps as HTMLAttributes<HTMLElement>)}>
-      <div
-        className="dnb-breadcrumb__bar"
-        onClick={
-          currentVariant === 'collapse'
-            ? (event) => {
-                onClick?.(
-                  event as unknown as React.MouseEvent<HTMLButtonElement>
-                )
-                isCollapsedRef.current = !isCollapsedRef.current
-                forceUpdate()
-                onToggle?.(isCollapsedRef.current)
-              }
-            : undefined
-        }
-      >
+      <div className="dnb-breadcrumb__bar">
         {currentVariant === 'single' ? (
           <Button
             text={goBackText}
@@ -285,6 +271,10 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             title={backToText}
             expanded={!isCollapsedRef.current}
             noAnimation={noAnimation}
+            onChange={({ expanded }) => {
+              isCollapsedRef.current = !expanded
+              onToggle?.(!expanded)
+            }}
           >
             <div className="dnb-breadcrumb__collapse">
               <BreadcrumbMultiple
