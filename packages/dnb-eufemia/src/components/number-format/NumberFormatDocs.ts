@@ -159,6 +159,15 @@ const commonProps: PropertiesTableProps = {
   ...presentationProps,
 }
 
+const commonIdentifierProps: PropertiesTableProps = {
+  ...valueProp,
+  ...localeProp,
+  clean: decimalsAndFormattingProps.clean,
+  ...affixProps,
+  ...interactionProps,
+  ...presentationProps,
+}
+
 export const NumberFormatNumberProperties: PropertiesTableProps = {
   ...commonProps,
   ...compactProp,
@@ -183,24 +192,24 @@ export const NumberFormatPercentProperties: PropertiesTableProps = {
 }
 
 export const NumberFormatPhoneNumberProperties: PropertiesTableProps = {
-  ...commonProps,
+  ...commonIdentifierProps,
   ...linkProp,
   ...spacingProps,
 }
 
 export const NumberFormatBankAccountNumberProperties: PropertiesTableProps =
   {
-    ...commonProps,
+    ...commonIdentifierProps,
     ...spacingProps,
   }
 
 export const NumberFormatNationalIdentityNumberProperties: PropertiesTableProps =
   {
-    ...commonProps,
+    ...commonIdentifierProps,
     ...spacingProps,
   }
 
 export const NumberFormatOrganizationProperties: PropertiesTableProps = {
-  ...commonProps,
+  ...commonIdentifierProps,
   ...spacingProps,
 }
