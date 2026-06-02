@@ -1,7 +1,6 @@
 import { isValidElement } from 'react'
 import type { ReactElement } from 'react'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import Section from '../section/Section'
 import type { BreadcrumbItemProps } from './BreadcrumbItem'
 import BreadcrumbItem from './BreadcrumbItem'
 import BreadcrumbItemContext from './BreadcrumbItemContext'
@@ -27,7 +26,7 @@ export const BreadcrumbMultiple = ({
       animate={!noAnimation}
       className="dnb-breadcrumb__multiple"
     >
-      <Section className="dnb-breadcrumb__list" element="ol">
+      <ol className="dnb-breadcrumb__list">
         {data?.map((breadcrumbItem, i) => {
           return (
             <BreadcrumbItemContext key={i} value={{ itemNo: i }}>
@@ -51,7 +50,7 @@ export const BreadcrumbMultiple = ({
               {item}
             </BreadcrumbItemContext>
           ))}
-      </Section>
+      </ol>
     </HeightAnimation>
   )
 }
