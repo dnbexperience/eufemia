@@ -36,6 +36,10 @@ export type AccordionContentProps = Omit<
   SpacingProps & {
     instance?: RefObject<unknown>
     /**
+     * Connects this standalone `Accordion.Content` to an `Accordion` tertiary button using the same identifier.
+     */
+    connectedTo?: string
+    /**
      * If set to `true` the content will be present, even when the accordion is not expanded. In standalone tertiary mode, the content region stays mounted to preserve `aria-controls`.
      */
     keepInDOM?: boolean
@@ -54,11 +58,15 @@ export type AccordionContentProps = Omit<
 export default function AccordionContent(props: AccordionContentProps) {
   const context = useContext<AccordionContextValue>(AccordionContext)
 
-  // Standalone mode: when used outside an Accordion parent with an explicit id,
+  const connectionId = props.connectedTo ?? props.id
+
+  // Standalone mode: when used outside an Accordion parent with an explicit connectedTo (or legacy id),
   // subscribe to the shared state from an AccordionTertiary button.
-  const isStandalone = !context.id && props.id
+  const isStandalone = !context.id && connectionId
   if (isStandalone) {
-    return <AccordionContentStandalone {...props} />
+    return (
+      <AccordionContentStandalone {...props} connectionId={connectionId} />
+    )
   }
 
   return <AccordionContentInner {...props} />
@@ -66,10 +74,12 @@ export default function AccordionContent(props: AccordionContentProps) {
 
 function AccordionContentStandalone({
   ref: _ref,
+  connectionId,
   ...props
-}: AccordionContentProps) {
+}: AccordionContentProps & { connectionId: string }) {
   const {
-    id,
+    connectedTo: _connectedTo,
+    id: _id,
     className,
     children,
     title,
@@ -80,10 +90,10 @@ function AccordionContentStandalone({
 
   const contentRef = useRef<HTMLElement>(null)
   const { data: sharedData, set } =
-    useSharedState<AccordionTertiarySharedState>(id)
+    useSharedState<AccordionTertiarySharedState>(connectionId)
   const expanded = sharedData?.expanded ?? false
   const shouldFocusContent = sharedData?.shouldFocusContent ?? false
-  const contentId = `${id}-content`
+  const contentId = `${connectionId}-content`
   const content = processChildren(props) as ReactNode
 
   const wrapperParams = useSpacing(props, {
