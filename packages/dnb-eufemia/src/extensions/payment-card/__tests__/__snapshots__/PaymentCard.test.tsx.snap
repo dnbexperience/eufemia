@@ -231,11 +231,13 @@ exports[`PaymentCard scss > has to match style dependencies css 1`] = `
   font-size: 1.375rem;
   line-height: 1.143rem;
   font-weight: var(--font-weight-regular);
+  color: inherit;
 }
 .dnb-payment-card__card__type-text.dnb-p {
   font-size: 0.938rem;
   line-height: 1.188rem;
   padding-top: 6px;
+  color: inherit;
 }
 .dnb-payment-card__card {
   /* Provider Icons Container
