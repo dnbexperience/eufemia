@@ -243,12 +243,11 @@
       border-radius: inherit;
 
       @include utilities.focusRing('always');
-    }
 
-    &::before {
       --border-color: var(--token-color-stroke-error);
       --border-width: 0.0625rem;
     }
+
     &:disabled::before {
       --border-color: var(--token-color-stroke-action-disabled);
     }
