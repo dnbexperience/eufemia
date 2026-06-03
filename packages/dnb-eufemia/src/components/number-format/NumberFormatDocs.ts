@@ -77,7 +77,7 @@ const interactionProps: PropertiesTableProps = {
 
 const presentationProps: PropertiesTableProps = {
   srLabel: {
-    doc: 'Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.',
+    doc: 'Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.',
     type: 'React.ReactNode',
     status: 'optional',
   },

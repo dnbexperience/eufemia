@@ -37,7 +37,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   iconSize: {
-    doc: 'The icon size of the title icon shows. Defaults to `medium`.',
+    doc: 'The size of the title icon. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },
