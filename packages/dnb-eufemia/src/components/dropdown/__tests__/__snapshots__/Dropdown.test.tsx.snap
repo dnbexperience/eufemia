@@ -1054,10 +1054,6 @@ legend.dnb-form-label {
 * Dropdown component
 *
 */
-/*
-* Button mixins
-*
-*/
 .dnb-dropdown {
   --dropdown-width: 16rem;
   --dropdown-height: 2rem;
@@ -1234,8 +1230,6 @@ legend.dnb-form-label {
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-.dnb-dropdown__status--error .dnb-button--tertiary::before {
   --border-color: var(--token-color-stroke-error);
   --border-width: 0.0625rem;
 }
@@ -1367,14 +1361,6 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
-* Dropdown component
-*
-*/
-/*
-* Button mixins
-*
-*/
 .dnb-dropdown {
   --dropdown-width: 16rem;
   --dropdown-height: 2rem;
@@ -1551,8 +1537,6 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
-}
-.dnb-dropdown__status--error .dnb-button--tertiary::before {
   --border-color: var(--token-color-stroke-error);
   --border-width: 0.0625rem;
 }

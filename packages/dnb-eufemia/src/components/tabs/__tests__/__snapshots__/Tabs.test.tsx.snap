@@ -12,14 +12,6 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
 /*
  * Utilities
  */
-/*
- * Tabs component
- *
- */
-/*
-* Button mixins
-*
-*/
 .dnb-tabs {
   --tablist-border-color--default: var(
     --token-color-stroke-neutral-subtle
@@ -295,13 +287,14 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hov
 .dnb-tabs__button:not(:hover):focus-visible::before, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
   content: "";
   position: absolute;
-  z-index: 1;
-  top: 0;
-  left: -0.5rem;
-  bottom: 0;
-  right: -0.5rem;
+  z-index: -1;
+  top: 0.5rem;
+  left: -0.375rem;
+  bottom: 0.5rem;
+  right: -0.375rem;
   height: inherit;
-  border-radius: inherit;
+  border-radius: var(--token-radius-xl);
+  background-color: var(--token-color-background-action-focus-subtle);
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
@@ -312,15 +305,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 }
 .dnb-tabs__button:not(:hover):focus-visible, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
-}
-.dnb-tabs__button:not(:hover):focus-visible::before, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
-  top: 0.5rem;
-  left: -0.375rem;
-  right: -0.375rem;
-  bottom: 0.5rem;
-  z-index: -1;
-  border-radius: var(--token-radius-xl);
-  background-color: var(--token-color-background-action-focus-subtle);
 }
 .dnb-tabs__button:not([disabled]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title {
   color: var(--token-color-text-action-focus);
@@ -399,14 +383,6 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
- * Tabs component
- *
- */
-/*
-* Button mixins
-*
-*/
 .dnb-tabs {
   --tablist-border-color--default: var(
     --token-color-stroke-neutral-subtle
@@ -682,13 +658,14 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hov
 .dnb-tabs__button:not(:hover):focus-visible::before, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
   content: "";
   position: absolute;
-  z-index: 1;
-  top: 0;
-  left: -0.5rem;
-  bottom: 0;
-  right: -0.5rem;
+  z-index: -1;
+  top: 0.5rem;
+  left: -0.375rem;
+  bottom: 0.5rem;
+  right: -0.375rem;
   height: inherit;
-  border-radius: inherit;
+  border-radius: var(--token-radius-xl);
+  background-color: var(--token-color-background-action-focus-subtle);
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
@@ -699,15 +676,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 }
 .dnb-tabs__button:not(:hover):focus-visible, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
-}
-.dnb-tabs__button:not(:hover):focus-visible::before, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
-  top: 0.5rem;
-  left: -0.375rem;
-  right: -0.375rem;
-  bottom: 0.5rem;
-  z-index: -1;
-  border-radius: var(--token-radius-xl);
-  background-color: var(--token-color-background-action-focus-subtle);
 }
 .dnb-tabs__button:not([disabled]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title {
   color: var(--token-color-text-action-focus);
