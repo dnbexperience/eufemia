@@ -399,18 +399,21 @@
       --drawer-list-option-color-bg: var(
         --drawer-list-option-color-bg--focus
       );
-      --drawer-list-option-color-border: var(
-        --drawer-list-option-color-border--focus
-      );
-      --drawer-list-option-extra-border: var(
-        --drawer-list-option-extra-border--focus
-      );
 
       .dnb-drawer-list__option__inner {
         &::before {
           background-color: transparent;
         }
       }
+    }
+
+    html[data-whatinput='keyboard'] &--focus {
+      --drawer-list-option-color-border: var(
+        --drawer-list-option-color-border--focus
+      );
+      --drawer-list-option-extra-border: var(
+        --drawer-list-option-extra-border--focus
+      );
     }
 
     &__suffix {
