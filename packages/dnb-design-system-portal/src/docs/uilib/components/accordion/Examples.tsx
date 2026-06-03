@@ -345,7 +345,7 @@ export const AccordionTertiarySplitExample = () => (
     <Accordion.Content connectedTo="accordion-tertiary">
       <P top>
         This content is placed separately from the button, connected via
-        the id.
+        the <code>connectedTo</code> prop.
       </P>
     </Accordion.Content>
   </ComponentBox>
