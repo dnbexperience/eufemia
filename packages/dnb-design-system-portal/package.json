@@ -95,7 +95,7 @@
     "prismjs": "1.30.0",
     "react-live-ssr": "workspace:*",
     "react-markdown": "9.1.0",
-    "react-router-dom": "7.14.2",
+    "react-router-dom": "7.16.0",
     "remark-frontmatter": "5.0.0",
     "remark-gfm": "4",
     "remark-gfm-react-markdown": "npm:remark-gfm@4.0.1",
