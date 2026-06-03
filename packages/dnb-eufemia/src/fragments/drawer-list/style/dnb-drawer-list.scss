@@ -630,9 +630,6 @@
     right: 0;
     left: auto;
   }
-  &__portal &--right {
-    right: 100%;
-  }
 
   &:not(.dnb-drawer-list--open) &__list {
     @include closeDrawerList();
