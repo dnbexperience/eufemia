@@ -182,7 +182,7 @@ export type InputProps = Omit<
      */
     keepPlaceholder?: boolean
     /**
-     * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
+     * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
      */
     suffix?: InputSuffix
     /**

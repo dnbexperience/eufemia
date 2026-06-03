@@ -160,7 +160,7 @@ export type DatePickerProps = {
    */
   hideLastWeek?: boolean
   /**
-   * Once the date picker gets opened, there is a focus handling to ensure good accessibility. can be disabled with property. Defaults to `false`.
+   * Once the date picker gets opened, there is a focus handling to ensure good accessibility. Can be disabled with this property. Defaults to `false`.
    */
   disableAutofocus?: boolean
   enableKeyboardNav?: boolean

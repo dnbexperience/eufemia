@@ -63,7 +63,6 @@ function PushButton(props: IteratePushButtonProps) {
       return // stop here
     }
 
-    // console.log('handlePush')
     const newValue =
       typeof pushValue === 'function' ? pushValue(arrayValue) : pushValue
 

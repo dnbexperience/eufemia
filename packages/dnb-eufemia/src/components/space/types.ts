@@ -1,24 +1,24 @@
 export type SpacingElementProps = {
   /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
+   * Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-top`.
    *
    */
   top?: SpaceType
 
   /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
+   * Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-right`.
    *
    */
   right?: SpaceType
 
   /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
+   * Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-bottom`.
    *
    */
   bottom?: SpaceType
 
   /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
+   * Use spacing values like: `small`, `1rem`, `1` or `16px`. Will use `margin-left`.
    *
    */
   left?: SpaceType
