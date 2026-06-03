@@ -6,6 +6,8 @@
 // For backward compatibility
 export { debounce, debounceAsync } from './helpers/debounce'
 
+export { patchGoogleTranslateCrash } from './helpers/patchGoogleTranslateCrash'
+
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
 export const PLATFORM_WIN = 'Win'
 export const PLATFORM_ANDROID = 'Android'

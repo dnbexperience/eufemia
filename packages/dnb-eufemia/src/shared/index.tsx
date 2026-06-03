@@ -16,6 +16,7 @@ export { default as useTranslation } from './useTranslation'
 export { default as useSharedContext } from './useSharedContext'
 export { default as Translation } from './Translation'
 export { default as renderWithFormatting } from './renderWithFormatting'
+export { patchGoogleTranslateCrash } from './helpers/patchGoogleTranslateCrash'
 export * from './Translation'
 export { icu } from './icuFormatMessage'
 

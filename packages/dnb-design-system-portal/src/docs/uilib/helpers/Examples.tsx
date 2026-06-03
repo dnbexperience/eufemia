@@ -3,6 +3,7 @@
  *
  */
 
+import { useState } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
 import {
@@ -14,7 +15,8 @@ import {
   showWhenMediumOffset,
   showWhenLargeOffset,
 } from './Examples.module.scss'
-import { Li, Ul } from '@dnb/eufemia/src'
+import { Flex, Li, P, Switch, Ul, Button } from '@dnb/eufemia/src'
+import { patchGoogleTranslateCrash } from '@dnb/eufemia/src/shared'
 
 // have a limit because this page is used for screenshot tests
 const Wrapper = styled.div`
@@ -158,6 +160,54 @@ export function MediaSizeOffset() {
           <span className={showWhenLargeOffset}>+ offset is active</span>
         </Li>
       </Ul>
+    </ComponentBox>
+  )
+}
+
+export function GoogleTranslateDemo() {
+  return (
+    <ComponentBox hideCode scope={{ patchGoogleTranslateCrash }}>
+      {() => {
+        function Example() {
+          const [patched, setPatched] = useState(false)
+          const [enabled, setEnabled] = useState(false)
+
+          return (
+            <Flex.Stack>
+              <Button
+                text={patched ? 'Patch active' : 'Enable patch'}
+                translate="no"
+                disabled={patched}
+                variant="secondary"
+                onClick={() => {
+                  patchGoogleTranslateCrash()
+                  setPatched(true)
+                }}
+              />
+
+              <P>
+                Translate this page, then toggle the switch below.
+                <br />
+                Without the patch, the example/app will crash.
+              </P>
+
+              <Switch
+                label="Toggle conditional text"
+                translate="no"
+                checked={enabled}
+                onChange={({ checked }) => setEnabled(checked)}
+              />
+
+              <P>
+                {enabled && 'This text is conditionally rendered.'}
+                {!enabled && 'Now this text is rendered instead.'}
+              </P>
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
+      }}
     </ComponentBox>
   )
 }
