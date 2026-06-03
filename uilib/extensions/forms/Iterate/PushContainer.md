@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.PushContainer'
 description: '`Iterate.PushContainer` enables users to create a new item in the array.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.010Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:24.694Z
 checksum: 8cd3382923d837703c0c254f89691158d72c5e342606f2caa400df09037c9260
 ---
 

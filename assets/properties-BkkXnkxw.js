@@ -1,6 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";import{n as r}from"./PropertiesTable-Ch1b2I7Q.js";import{n as i,r as a,t as o}from"./OlDocs-CaU5HHpP.js";var s=e(t()),c={layout:{doc:"Sets the layout of the list. Can be `vertical`, `horizontal` or `grid`. Defaults to `vertical`.",type:[`"vertical"`,`"horizontal"`,`"grid"`],status:`optional`},...a};function l(e){let t={code:`code`,h2:`h2`,...n(),...e.components};return(0,s.jsxs)(s.Fragment,{children:[(0,s.jsxs)(t.h2,{children:[(0,s.jsx)(t.code,{children:`Dl`}),` Properties`]}),`
-`,(0,s.jsx)(r,{props:c}),`
-`,(0,s.jsxs)(t.h2,{children:[(0,s.jsx)(t.code,{children:`Ol`}),` Properties`]}),`
-`,(0,s.jsx)(r,{props:o}),`
-`,(0,s.jsxs)(t.h2,{children:[(0,s.jsx)(t.code,{children:`Ul`}),` Properties`]}),`
-`,(0,s.jsx)(r,{props:i})]})}function u(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,s.jsx)(t,{...e,children:(0,s.jsx)(l,{...e})}):l(e)}export{u as default};

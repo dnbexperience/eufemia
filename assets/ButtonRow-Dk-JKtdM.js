@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{s as n}from"./SpacingUtils-nbqXIwIZ.js";import{t as r}from"./withComponentMarkers-awRs7Lr9.js";import{t as i}from"./Space-D5PuuilP2.js";var a=e(t());function o(e){let{className:t,children:r,...o}=e;return(0,a.jsx)(i,{className:n(`dnb-forms-button-row`,t),...o,children:r})}r(o,{_supportsSpacingProps:!0});export{o as t};

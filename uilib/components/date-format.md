@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'A ready-to-use DNB date formatter.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.058Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.761Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 
@@ -421,6 +421,29 @@ render(<Style>
         "object"
       ],
       "status": "optional"
+    }
+  }
+}
+```
+
+
+## Translations
+
+
+```json
+{
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
+  "entries": {
+    "DateFormat.invalidDate": {
+      "nb-NO": "Ugyldig dato: {value}",
+      "en-GB": "Invalid date: {value}",
+      "sv-SE": "Ogiltigt datum: {value}",
+      "da-DK": "Ugyldig dato: {value}"
     }
   }
 }

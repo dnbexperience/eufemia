@@ -1,6 +1,6 @@
 ---
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.350Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:25.097Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -60,7 +60,7 @@ Background tokens are used for surfaces, fills and interactive fill states. Typi
 | action-disabled | `--token-color-background-action-disabled` | `#CCCCCC` | `#48484A` | `#EBEBF1` | `#4A4A5B` | `#CCCCCC` |
 | action-disabled-ondark | `--token-color-background-action-disabled-ondark` | `#48484A` | `#48484A` | `#666578` | `#4A4A5B` | `#48484A` |
 | action-focus | `--token-color-background-action-focus` | `#276ACE` | `#276ACE` | `#005CFF` | `#005CFF` | `#276ACE` |
-| action-focus-subtle | `--token-color-background-action-focus-subtle` | `#E1E9F9` | `#E1E9F9` | `#EBF6FF` | `#EBF6FF` | `#E1E9F9` |
+| action-focus-subtle | `--token-color-background-action-focus-subtle` | `#F2F2F5` | `#F2F2F5` | `#EBF6FF` | `#EBF6FF` | `#F2F2F5` |
 | action-hover | `--token-color-background-action-hover` | `#007272` | `#A5E1D2` | `#4E08BC` | `#64D7B4` | `#333333` |
 | action-hover-inverse | `--token-color-background-action-hover-inverse` | `#A5E1D2` | `#007272` | `#92EECD` | `#4E08BC` | `#B1B1B5` |
 | action-hover-ondark | `--token-color-background-action-hover-ondark` | `#A5E1D2` | `#A5E1D2` | `#92EECD` | `#92EECD` | `#FFFFFF` |
@@ -75,17 +75,17 @@ Background tokens are used for surfaces, fills and interactive fill states. Typi
 | action-pressed-subtle-inverse | `--token-color-background-action-pressed-subtle-inverse` | `#14555A` | `#BCE8DC` | `#1C1B4E` | `#E0D0FF` | `#333333` |
 | action-pressed-subtle-ondark | `--token-color-background-action-pressed-subtle-ondark` | `#14555A` | `#14555A` | `#0D1F1B` | `#0D1F1B` | `rgba(0 0 0 / 50%)` |
 | error | `--token-color-background-error` | `#D52525` | `#D52525` | `#D8134B` | `#DF280F` | `#D52525` |
-| error-subtle | `--token-color-background-error-subtle` | `#FCEEEE` | `#401A1A` | `#FFDBE9` | `#4D1E08` | `#FCEEEE` |
+| error-subtle | `--token-color-background-error-subtle` | `#FCEEEE` | `#401A1A` | `#FFDBE9` | `#3C010B` | `#FCEEEE` |
 | info | `--token-color-background-info` | `#007272` | `#A5E1D2` | `#1E9F73` | `#64D7B4` | `#007272` |
 | info-subtle | `--token-color-background-info-subtle` | `#F2F4EC` | `#1C342D` | `#F4FFFB` | `#16342D` | `#EBF4F2` |
 | marketing | `--token-color-background-marketing` | `#333333` | `#F8F8F8` | `#222163` | `#E0D0FF` | `#333333` |
 | marketing-subtle | `--token-color-background-marketing-subtle` | `#F2F2F5` | `#48484A` | `#F1EBFF` | `#3A3A4A` | `#F2F2F5` |
 | neutral | `--token-color-background-neutral` | `#FFFFFF` | `#1C1C1E` | `#FFFFFF` | `#21202D` | `#FFFFFF` |
 | neutral-alternative | `--token-color-background-neutral-alternative` | `#F2F2F5` | `#333333` | `#EBEBF1` | `#161620` | `#F2F2F5` |
-| neutral-base | `--token-color-background-neutral-base` | `#EBEBEB` | `#333333` | `#F2F2F7` | `#3A3A4A` | `#EBEBEB` |
-| neutral-bold | `--token-color-background-neutral-bold` | `#CCCCCC` | `#48484A` | `#D9D9E4` | `#4A4A5B` | `#CCCCCC` |
+| neutral-base | `--token-color-background-neutral-base` | `#EBEBEB` | `#333333` | `#F2F2F7` | `#4A4A5B` | `#EBEBEB` |
+| neutral-bold | `--token-color-background-neutral-bold` | `#CCCCCC` | `#48484A` | `#D9D9E4` | `#666578` | `#CCCCCC` |
 | neutral-static | `--token-color-background-neutral-static` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
-| neutral-subtle | `--token-color-background-neutral-subtle` | `#F8F8F8` | `#2C2C2E` | `#F9F9FD` | `#21202D` | `#F8F8F8` |
+| neutral-subtle | `--token-color-background-neutral-subtle` | `#F8F8F8` | `#2C2C2E` | `#F9F9FD` | `#3A3A4A` | `#F8F8F8` |
 | page-background | `--token-color-background-page-background` | `#FFFFFF` | `#000000` | `#FFFFFF` | `#161620` | `#FFFFFF` |
 | positive | `--token-color-background-positive` | `#007B5E` | `#47D197` | `#00785B` | `#64D7B4` | `#007B5E` |
 | positive-subtle | `--token-color-background-positive-subtle` | `#EBF4F2` | `#1C342D` | `#E5FFF7` | `#16342D` | `#EBF4F2` |
@@ -117,9 +117,8 @@ Text tokens are used for readable content, labels and text states.
 | action-pressed | `--token-color-text-action-pressed` | `#14555A` | `#5CBDAD` | `#222163` | `#64D7B4` | `#000000` |
 | action-pressed-inverse | `--token-color-text-action-pressed-inverse` | `#5CBDAD` | `#14555A` | `#64D7B4` | `#222163` | `#FFFFFF` |
 | action-pressed-ondark | `--token-color-text-action-pressed-ondark` | `#5CBDAD` | `#5CBDAD` | `#64D7B4` | `#64D7B4` | `#FFFFFF` |
-| destructive | `--token-color-text-destructive` | `#D52525` | `#FF5400` | `#D8134B` | `#FF5B44` | `#D52525` |
-| destructive-inverse | `--token-color-text-destructive-inverse` | `#FF5400` | `#D52525` | `#FF5B44` | `#A02615` | `#FF5400` |
-| error | `--token-color-text-error` | `#D52525` | `#D52525` | `#D8134B` | `#DF280F` | `#D52525` |
+| error | `--token-color-text-error` | `#D52525` | `#FF4646` | `#D8134B` | `#FF3C64` | `#D52525` |
+| error-inverse | `--token-color-text-error-inverse` | `#FF5400` | `#D52525` | `#FF5B44` | `#3C010B` | `#ED4C4C` |
 | neutral | `--token-color-text-neutral` | `#333333` | `#FFFFFF` | `#18172A` | `#FFFFFF` | `#000000` |
 | neutral-alternative | `--token-color-text-neutral-alternative` | `#737373` | `#8E8E93` | `#666578` | `#9090A3` | `#737373` |
 | neutral-alternative-inverse | `--token-color-text-neutral-alternative-inverse` | `#CCCCCC` | `#636366` | `#C0C0D1` | `#666578` | `#CCCCCC` |
@@ -155,8 +154,7 @@ Icon tokens are used for icon colors.
 | action-pressed | `--token-color-icon-action-pressed` | `#14555A` | `#5CBDAD` | `#222163` | `#64D7B4` | `#000000` |
 | action-pressed-inverse | `--token-color-icon-action-pressed-inverse` | `#5CBDAD` | `#14555A` | `#92EECD` | `#222163` | `#FFFFFF` |
 | action-pressed-ondark | `--token-color-icon-action-pressed-ondark` | `#5CBDAD` | `#5CBDAD` | `#64D7B4` | `#64D7B4` | `#FFFFFF` |
-| destructive | `--token-color-icon-destructive` | `#D52525` | `#FF5400` | `#D8134B` | `#FF5B44` | `#D52525` |
-| error | `--token-color-icon-error` | `#D52525` | `#D52525` | `#D8134B` | `#DF280F` | `#D52525` |
+| error | `--token-color-icon-error` | `#D52525` | `#FF4646` | `#D8134B` | `#FF3C64` | `#D52525` |
 | error-subtle | `--token-color-icon-error-subtle` | `#FCEEEE` | `#401A1A` | `#FFDBE9` | `#4D1E08` | `#FCEEEE` |
 | info | `--token-color-icon-info` | `#007272` | `#A5E1D2` | `#1E9F73` | `#64D7B4` | `#007272` |
 | info-subtle | `--token-color-icon-info-subtle` | `#F2F4EC` | `#1C342D` | `#F4FFFB` | `#0D1F1B` | `#EBF4F2` |
@@ -188,7 +186,7 @@ Stroke tokens are used for borders, dividers, outlines and focus-related line wo
 | action-disabled | `--token-color-stroke-action-disabled` | `#B1B1B5` | `#636366` | `#D9D9E4` | `#666578` | `#B1B1B5` |
 | action-disabled-ondark | `--token-color-stroke-action-disabled-ondark` | `#636366` | `#636366` | `#666578` | `#666578` | `#636366` |
 | action-focus | `--token-color-stroke-action-focus` | `#276ACE` | `#276ACE` | `#005CFF` | `#005CFF` | `#276ACE` |
-| action-focus-subtle | `--token-color-stroke-action-focus-subtle` | `#E1E9F9` | `#E1E9F9` | `#EBF6FF` | `#EBF6FF` | `#E1E9F9` |
+| action-focus-subtle | `--token-color-stroke-action-focus-subtle` | `#FFFFFF` | `#000000` | `#FFFFFF` | `#161620` | `#FFFFFF` |
 | action-hover | `--token-color-stroke-action-hover` | `#007272` | `#A5E1D2` | `#4E08BC` | `#64D7B4` | `#000000` |
 | action-hover-inverse | `--token-color-stroke-action-hover-inverse` | `#A5E1D2` | `#007272` | `#92EECD` | `#4E08BC` | `#FFFFFF` |
 | action-hover-ondark | `--token-color-stroke-action-hover-ondark` | `#A5E1D2` | `#A5E1D2` | `#92EECD` | `#92EECD` | `#FFFFFF` |
@@ -197,7 +195,7 @@ Stroke tokens are used for borders, dividers, outlines and focus-related line wo
 | action-pressed | `--token-color-stroke-action-pressed` | `#14555A` | `#5CBDAD` | `#1C1B4E` | `#37B992` | `#48484A` |
 | action-pressed-inverse | `--token-color-stroke-action-pressed-inverse` | `#5CBDAD` | `#14555A` | `#37B992` | `#1C1B4E` | `#8E8E93` |
 | action-pressed-ondark | `--token-color-stroke-action-pressed-ondark` | `#5CBDAD` | `#5CBDAD` | `#64D7B4` | `#64D7B4` | `#FFFFFF` |
-| error | `--token-color-stroke-error` | `#D52525` | `#FF5400` | `#D8134B` | `#FF5B44` | `#D52525` |
+| error | `--token-color-stroke-error` | `#D52525` | `#FF4646` | `#D8134B` | `#FF3C64` | `#D52525` |
 | info | `--token-color-stroke-info` | `#007272` | `#A5E1D2` | `#1E9F73` | `#00785B` | `#007272` |
 | marketing | `--token-color-stroke-marketing` | `#333333` | `#F2F2F5` | `#222163` | `#E0D0FF` | `#333333` |
 | neutral | `--token-color-stroke-neutral` | `#333333` | `#CCCCCC` | `#222163` | `#C0C0D1` | `#DBCDC5` |
@@ -266,10 +264,10 @@ After `-component-`, the next segment is the component name, followed by the rol
 | Group | Token | DNB Light | DNB Dark | Sbanken Light | Sbanken Dark | Carnegie |
 | --- | --- | --- | --- | --- | --- | --- |
 | button | `--token-color-component-button-background-action` | `#007272` | `#A5E1D2` | `#222163` | `#92EECD` | `#000000` |
-| button | `--token-color-component-button-background-action-destructive` | `#D52525` | `#D52525` | `#DF280F` | `#FF5B44` | `#D52525` |
-| button | `--token-color-component-button-background-action-destructive-hover` | `#D52525` | `#D52525` | `#DF280F` | `#FF5B44` | `#D52525` |
+| button | `--token-color-component-button-background-action-destructive` | `#D52525` | `#D52525` | `#DF280F` | `#DF280F` | `#D52525` |
+| button | `--token-color-component-button-background-action-destructive-hover` | `#D52525` | `#D52525` | `#DF280F` | `#DF280F` | `#D52525` |
 | button | `--token-color-component-button-background-action-destructive-hover-subtle` | `#FCEEEE` | `#401A1A` | `#FFECF3` | `#350E02` | `#FCEEEE` |
-| button | `--token-color-component-button-background-action-destructive-pressed` | `#B21E1E` | `#ED4C4C` | `#A02615` | `#FF817B` | `#B21E1E` |
+| button | `--token-color-component-button-background-action-destructive-pressed` | `#B21E1E` | `#ED4C4C` | `#A02615` | `#FF361B` | `#B21E1E` |
 | button | `--token-color-component-button-background-action-destructive-pressed-subtle` | `#FCDDDD` | `#541515` | `#FFDBE9` | `#591703` | `#FCDDDD` |
 | button | `--token-color-component-button-background-action-hover` | `#007272` | `#A5E1D2` | `#222163` | `#92EECD` | `#000000` |
 | button | `--token-color-component-button-icon-action` | `#007272` | `#A5E1D2` | `#222163` | `#92EECD` | `#000000` |
@@ -279,7 +277,7 @@ After `-component-`, the next segment is the component name, followed by the rol
 | button | `--token-color-component-button-icon-action-disabled` | `#FFFFFF` | `#737373` | `#FFFFFF` | `#9090A3` | `#FFFFFF` |
 | button | `--token-color-component-button-icon-action-hover` | `#007272` | `#A5E1D2` | `#222163` | `#92EECD` | `#000000` |
 | button | `--token-color-component-button-icon-neutral` | `#FFFFFF` | `#023939` | `#FFFFFF` | `#18172A` | `#FFFFFF` |
-| button | `--token-color-component-button-icon-neutral-destructive` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#18172A` | `#FFFFFF` |
+| button | `--token-color-component-button-icon-neutral-destructive` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
 | button | `--token-color-component-button-icon-neutral-ondark` | `#023939` | `#023939` | `#18172A` | `#18172A` | `#000000` |
 | button | `--token-color-component-button-stroke-action` | `#007272` | `#A5E1D2` | `#222163` | `#92EECD` | `#000000` |
 | button | `--token-color-component-button-stroke-action-destructive` | `#D52525` | `#FF5400` | `#DF280F` | `#FF5B44` | `#D52525` |
@@ -298,11 +296,10 @@ After `-component-`, the next segment is the component name, followed by the rol
 | button | `--token-color-component-button-text-action-inverse` | `#A5E1D2` | `#007272` | `#92EECD` | `#222163` | `#FFFFFF` |
 | button | `--token-color-component-button-text-action-ondark` | `#A5E1D2` | `#007272` | `#92EECD` | `#222163` | `#FFFFFF` |
 | button | `--token-color-component-button-text-neutral` | `#FFFFFF` | `#023939` | `#FFFFFF` | `#18172A` | `#FFFFFF` |
-| button | `--token-color-component-button-text-neutral-destructive` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#18172A` | `#FFFFFF` |
+| button | `--token-color-component-button-text-neutral-destructive` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
 | button | `--token-color-component-button-text-neutral-inverse` | `#023939` | `#FFFFFF` | `#18172A` | `#FFFFFF` | `#000000` |
 | button | `--token-color-component-button-text-neutral-ondark` | `#023939` | `#023939` | `#18172A` | `#18172A` | `#000000` |
 | dimmer | `--token-color-component-dimmer-background` | `rgba(0 0 0 / 30%)` | `rgba(51 51 51 / 60%)` | `rgba(0 0 0 / 30%)` | `rgba(58 58 74 / 60%)` | `rgba(0 0 0 / 30%)` |
 | progressbar | `--token-color-component-progressbar-neutral-onsubtle` | `#CCCCCC` | `#48484A` | `#D9D9E4` | `#3A3A4A` | `#CCCCCC` |
 | switch | `--token-color-component-switch-action-disabled-ondark` | `#333333` | `#333333` | `#18172A` | `#18172A` | `#333333` |
-| table | `--token-color-component-table-background-neutral-alternative` | `#FAFAFA` | `#333333` | `#FCFCFD` | `#3A3A4A` | `#FAFAFA` |
 | tooltip | `--token-color-component-tooltip-background-neutral` | `#333333` | `#EBEBEB` | `#3A3A4A` | `#F2F2F7` | `#333333` |

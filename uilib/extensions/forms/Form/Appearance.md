@@ -1,8 +1,8 @@
 ---
 title: 'Form.Appearance'
 description: '`Form.Appearance` is a provider for theming form fields.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.769Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:24.506Z
 checksum: 3cad5b648f2771011cc5342a029432a50f9c1e66c07d6d1debcad49dcc3e34ce
 ---
 
@@ -22,8 +22,6 @@ render(<Form.Appearance />)
 For now, it only provides theming of sizes for [base fields](/uilib/extensions/forms/base-fields/) and all [feature fields](/uilib/extensions/forms/feature-fields/) that utilize them. See example below.
 
 You can nest `Form.Appearance` to provide different themes for different parts of the form.
-
-**BETA:** The sizes are not 100% finalised and may change to be officially approved by UX through an RFC.
 
 ## Usage
 

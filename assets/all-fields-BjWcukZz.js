@@ -1,3 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";import r from"./ListBaseFieldComponents-DJ0VlsgH.js";import i from"./ListFeatureFieldComponents-9FjPNaZN.js";var a=e(t());function o(e){return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)({h1:`h1`,...n(),...e.components}.h1,{children:`All fields`}),`
-`,(0,a.jsx)(r,{size:`small`}),`
-`,(0,a.jsx)(i,{size:`small`})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

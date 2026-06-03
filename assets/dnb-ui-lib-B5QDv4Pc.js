@@ -1,2 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";import r from"./ListUiLibVersions-BGx7qCGL.js";var i=e(t());function a(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)({h1:`h1`,...n(),...e.components}.h1,{children:`dnb-ui-lib releases`}),`
-`,(0,i.jsx)(r,{size:`small`,returnListItems:!0})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

@@ -1,8 +1,8 @@
 ---
 title: 'HeightAnimation'
 description: 'HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.133Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.846Z
 checksum: dc40cc6e002dad1a4144d8e7ab8ecc12fdc944eb49ba7f1568ec5fba93d13582
 ---
 

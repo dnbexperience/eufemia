@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{t as n}from"./Element-BTubLRYu.js";var r=e(t());function i({ref:e,...t}){return(0,r.jsx)(n,{as:`dd`,ref:e,...t})}var a=i;function o({ref:e,...t}){return(0,r.jsx)(n,{as:`dt`,ref:e,...t})}var s=o;export{a as n,s as t};

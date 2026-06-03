@@ -1,9 +1,9 @@
 ---
 title: 'Autocomplete'
 description: 'The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:21.989Z
-checksum: 50bbf3ad0fbd18a2e04c8704b5e74c7276f76aa277bcd738479f9ec5192c0e74
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.680Z
+checksum: a0ef2027f714db09280e21d2d373afd1dc20684b21e6011d975978350a9b674f
 ---
 
 # Autocomplete
@@ -543,6 +543,20 @@ render(<Wrapper>
   </Wrapper>)
 ```
 
+
+## No divider
+
+We can remove the divider between items with the `noDivider` prop. Beware that this can make information dense lists difficult to parse.
+
+
+```tsx
+render(<Wrapper>
+    <ComponentBox>
+      <Autocomplete noDivider data={['Cat', 'Dog', 'Canary', 'Hamster', 'Piglet']} />
+    </ComponentBox>
+  </Wrapper>)
+```
+
 ## Properties
 
 You may check out the [DrawerList Properties](#drawerlist-properties) down below as well as the [Data structure examples](#the-data-property).
@@ -650,14 +664,6 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "iconPosition": {
       "doc": "Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.",
-      "type": [
-        "\"left\"",
-        "\"right\""
-      ],
-      "status": "optional"
-    },
-    "arrowPosition": {
-      "doc": "Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.",
       "type": [
         "\"left\"",
         "\"right\""
@@ -883,9 +889,9 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "type": "number",
       "status": "optional"
     },
-    "arrowPosition": {
-      "doc": "Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
-      "type": "string",
+    "noDivider": {
+      "doc": "Removes the divider line between options. Defaults to `false`.",
+      "type": "boolean",
       "status": "optional"
     },
     "direction": {
@@ -1027,6 +1033,11 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
         "object"
       ],
       "status": "optional"
+    },
+    "arrowPosition": {
+      "doc": "Does nothing as there is no longer any arrow. Legacy docs: Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
+      "type": "string",
+      "status": "deprecated"
     }
   }
 }

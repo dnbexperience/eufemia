@@ -1,0 +1,16 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-BCXtuv-b.js";import{n as r}from"./PropertiesTable-D2Qlpz5c.js";import{t as i}from"./TranslationsTable-D4-Ofv6C.js";import{n as a}from"./FieldDocs-Bbu-0sX5.js";var o=e(t()),s={variant:{doc:"Defines the variant of the component. `popover` renders a trigger button that opens a popover with the item list. `inline` renders the item list inline as checkboxes.",type:[`"popover"`,`"inline"`],status:`optional`},data:{doc:"Array of objects where each object contains at least `value` and `title`. Can also include `text` for an optional primary extra line, `description` for an optional secondary grey line, plus `disabled`, `help`, and `className`.",type:[`Array<{ value, title, text?: ReactNode, description?: ReactNode, disabled?, ... }>`],status:`optional`},dataPath:{doc:"Path to data in Form.Handler context. The context data array should contain objects with `value` and `title` properties.",type:[`string`],status:`optional`},showSearchField:{doc:`Show a search/filter input field to search through items.`,type:[`boolean`],status:`optional`},showSelectAll:{doc:`Show a "Select all" checkbox at the top of the list.`,type:[`boolean`],status:`optional`},showSelectedTags:{doc:`Show selected items as removable tags inside the popover. When enabled and nothing is selected, a placeholder text is shown.`,type:[`boolean`],status:`optional`},showConfirmButton:{doc:`Show confirm and cancel buttons at the bottom of the popover. Selections are only applied when the user confirms.`,type:[`boolean`],status:`optional`},selectedItemsCollapsibleThreshold:{doc:`When the number of selected items exceeds this threshold, the selected items are hidden by default and can be toggled with a header.`,type:[`number`],status:`optional`},minItems:{doc:`Minimum number of items required to be selected. Triggers a validation error if fewer items are selected.`,type:[`number`],status:`optional`},maxItems:{doc:`Maximum number of items allowed to be selected. Triggers a validation error if more items are selected.`,type:[`number`],status:`optional`},width:{doc:'The width of the component. Supported values: `"medium"` and `"large"`. Defaults to `"large"`.',type:[`"medium"`,`"large"`],status:`optional`}};function c(e){let t={code:`code`,h2:`h2`,h3:`h3`,pre:`pre`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(t.h2,{children:`Properties`}),`
+`,(0,o.jsx)(t.h3,{children:`Field-specific properties`}),`
+`,(0,o.jsx)(r,{props:s,showDefaultValue:!0}),`
+`,(0,o.jsx)(t.h3,{children:`General properties`}),`
+`,(0,o.jsx)(t.pre,{children:(0,o.jsx)(t.code,{className:`language-ts`,children:`type MultiSelectionItem = {
+  value: number | string
+  title: ReactNode
+  text?: ReactNode
+  description?: ReactNode
+  disabled?: boolean
+  children?: Array<MultiSelectionItem> // Optional nested items for grouping
+}
+`})}),`
+`,(0,o.jsx)(r,{props:a,omit:[`width`,`contentWidth`],valueType:`Array<MultiSelectionItem>`}),`
+`,(0,o.jsx)(t.h2,{children:`Translations`}),`
+`,(0,o.jsx)(i,{localeKey:[`MultiSelectionField`,`Field`]})]})}function l(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(c,{...e})}):c(e)}export{l as default};

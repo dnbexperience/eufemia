@@ -1,1 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Ki as n}from"./index-Da-r8F54.js";var r=e(t());function i({ref:e,...t}){return(0,r.jsx)(n,{as:`dd`,ref:e,...t})}var a=i;function o({ref:e,...t}){return(0,r.jsx)(n,{as:`dt`,ref:e,...t})}var s=o;export{a as n,s as t};

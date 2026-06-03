@@ -1,4 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";import{n as r}from"./PropertiesTable-Ch1b2I7Q.js";import{t as i}from"./TranslationsTable-DDJqRs9g.js";import{t as a}from"./EditContainerDocs-Qy9IwJuy.js";var o=e(t());function s(e){let t={h2:`h2`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(t.h2,{children:`Properties`}),`
-`,(0,o.jsx)(r,{props:a}),`
-`,(0,o.jsx)(t.h2,{children:`Translations`}),`
-`,(0,o.jsx)(i,{localeKey:[`IterateEditContainer`]})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

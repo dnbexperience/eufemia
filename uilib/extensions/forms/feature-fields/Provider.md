@@ -1,8 +1,8 @@
 ---
 title: 'Field.Provider'
 description: '`Field.Provider` is a provider for forwarding fields properties, such as `required` or `disabled` to all nested field components.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.287Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:25.035Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

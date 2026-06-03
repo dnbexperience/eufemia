@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.069Z
-checksum: 3b3e1daad08f6463036b4f0afac7e56371f85ba424c687fd2e9fd21451c7b3d6
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.776Z
+checksum: bd2caf37d3146b7831796384567928f9d4051bb763b07a32d3233d5c2f7ada6f
 ---
 
 # DatePicker
@@ -383,7 +383,7 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
 {
   "props": {
     "date": {
-      "doc": "Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date=\"2019-05-05\"`.",
+      "doc": "Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date=\"2019-05-05\"`.",
       "type": [
         "string",
         "Date"
@@ -458,6 +458,11 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
     },
     "range": {
       "doc": "Defines if the date picker should support a range of two dates (starting and ending date).Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "rangeSingleCalendar": {
+      "doc": "If set to `true`, only one calendar is shown in range mode instead of two side-by-side calendars. Only meant to be used if `range` is set to `true`. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

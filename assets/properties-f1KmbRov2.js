@@ -1,0 +1,7 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-BCXtuv-b.js";import{n as r}from"./PropertiesTable-D2Qlpz5c.js";import{t as i}from"./TranslationsTable-D4-Ofv6C.js";import{n as a}from"./FieldDocs-Bbu-0sX5.js";import{t as o}from"./StringDocs--0vXqVlp.js";var s=e(t()),c={...o,validate:{doc:`Using this prop you can disable the default validation.`,type:`boolean`,status:`optional`},onBlurValidator:{doc:"Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validation of the identification number (national identity numbers and D numbers), using `dnrAndFnrValidator`. Can be disabled using `false`.",type:`function`,status:`optional`}};function l(e){let t={h2:`h2`,h3:`h3`,...n(),...e.components};return(0,s.jsxs)(s.Fragment,{children:[(0,s.jsx)(t.h2,{children:`Properties`}),`
+`,(0,s.jsx)(t.h3,{children:`Field-specific properties`}),`
+`,(0,s.jsx)(r,{props:c}),`
+`,(0,s.jsx)(t.h3,{children:`General properties`}),`
+`,(0,s.jsx)(r,{props:a}),`
+`,(0,s.jsx)(t.h2,{children:`Translations`}),`
+`,(0,s.jsx)(i,{localeKey:[`NationalIdentityNumber`,`Field`]})]})}function u(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,s.jsx)(t,{...e,children:(0,s.jsx)(l,{...e})}):l(e)}export{u as default};

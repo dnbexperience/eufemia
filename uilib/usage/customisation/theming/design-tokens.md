@@ -1,8 +1,8 @@
 ---
 title: 'Design Tokens (beta)'
 description: 'How to use Eufemia semantic design tokens in your application.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.355Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:25.101Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -59,7 +59,7 @@ These examples show how to apply design tokens in typical UI scenarios. Each pat
 ```css
 .my-field--error {
   border-color: var(--token-color-stroke-error);
-  color: var(--token-color-text-destructive);
+  color: var(--token-color-text-error);
 }
 
 .my-field--success {

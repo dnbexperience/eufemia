@@ -1,8 +1,8 @@
 ---
 title: 'Timeline'
 description: 'The Timeline component shows events in chronological order and gives a great overview of the overall process.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.589Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:24.315Z
 checksum: 2865ac048fbac54c4de5c574c5b125f61119c348b0b0bdd5ea90b959dcb47092
 ---
 
@@ -352,7 +352,7 @@ render(<Timeline data={[{
 ```
 
 
-### `Timeline.Item` translations
+## `Timeline.Item` translations
 
 
 ```json

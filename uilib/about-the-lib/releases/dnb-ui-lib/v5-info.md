@@ -1,8 +1,8 @@
 ---
 title: 'v5.0'
 description: 'October, 30. 2019'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:21.273Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:22.943Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -27,14 +27,14 @@ v5 contains a couple of breaking changes. As a migration process, you can simply
 
 ## Typography preparations
 
-Soon we will have our own _DNB font_. This will have impact on both, `font-family`, `font-size`, `font-weight` and `line-height`.
+Soon we will have our own _DNB font_. This will have an impact on `font-family`, `font-size`, `font-weight` and `line-height`.
 
-To get prepared for these changes, you can today already (since `v4.24`) use the now exposed properties for both:
+To prepare for these changes, you can already today (since `v4.24`) use the now exposed properties for both:
 
 - [font-size](/uilib/typography/font-size)
 - [line-height](/uilib/typography/line-height)
 
-From before we had [font-weight](/uilib/typography/font-weight).
+Previously, we had [font-weight](/uilib/typography/font-weight).
 
 Read more on how to make CSS vars (Custom Properties) [work on IE](/uilib/usage/customisation/styling/polyfill).
 

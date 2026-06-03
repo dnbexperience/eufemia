@@ -4,7 +4,7 @@
 
 ## Version
 
-This documentation reflects Eufemia **v0.0.0-development**, generated 2026-05-27T11:24:28.800Z.
+This documentation reflects Eufemia **v11.5.0**, generated 2026-06-03T07:21:30.540Z.
 
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
@@ -209,11 +209,7 @@ For any page (component, field, value, etc.):
 
 - [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker.md): The DatePicker component should be used whenever the user is to enter a single date or a date period.
 
-- [Prop-Table](https://eufemia.dnb.no/uilib/components/dialog/prop-table.md): Look into the documentation for more details.
-
 - [Dialog](https://eufemia.dnb.no/uilib/components/dialog.md): The Dialog component is a Modal variation that appears at the center of the screen.
-
-- [Prop-Table](https://eufemia.dnb.no/uilib/components/drawer/prop-table.md): Look into the documentation for more details.
 
 - [Drawer](https://eufemia.dnb.no/uilib/components/drawer.md): The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.
 
@@ -256,12 +252,6 @@ For any page (component, field, value, etc.):
 - [Logo](https://eufemia.dnb.no/uilib/components/logo.md): A ready to use Logo component with the needed SVGs.
 
 - [Menu](https://eufemia.dnb.no/uilib/components/menu.md): Menu is a composable dropdown menu component for actions and navigation, with keyboard navigation, nested menus, and full accessibility support.
-
-- [Event-Table-Camel-Case](https://eufemia.dnb.no/uilib/components/modal/event-table-camel-case.md): Look into the documentation for more details.
-
-- [Event-Table](https://eufemia.dnb.no/uilib/components/modal/event-table.md): Look into the documentation for more details.
-
-- [Prop-Table](https://eufemia.dnb.no/uilib/components/modal/prop-table.md): Look into the documentation for more details.
 
 - [Modal](https://eufemia.dnb.no/uilib/components/modal.md): Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.
 
@@ -749,5 +739,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 0.0.0-development
-GeneratedAt: 2026-05-27T11:24:28.800Z
+Version: 11.5.0
+GeneratedAt: 2026-06-03T07:21:30.540Z

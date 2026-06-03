@@ -1,6 +1,6 @@
 ---
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:21.967Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.654Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -155,14 +155,6 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "iconPosition": {
       "doc": "Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.",
-      "type": [
-        "\"left\"",
-        "\"right\""
-      ],
-      "status": "optional"
-    },
-    "arrowPosition": {
-      "doc": "Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `left`.",
       "type": [
         "\"left\"",
         "\"right\""
@@ -388,9 +380,9 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "type": "number",
       "status": "optional"
     },
-    "arrowPosition": {
-      "doc": "Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
-      "type": "string",
+    "noDivider": {
+      "doc": "Removes the divider line between options. Defaults to `false`.",
+      "type": "boolean",
       "status": "optional"
     },
     "direction": {
@@ -532,6 +524,11 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
         "object"
       ],
       "status": "optional"
+    },
+    "arrowPosition": {
+      "doc": "Does nothing as there is no longer any arrow. Legacy docs: Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
+      "type": "string",
+      "status": "deprecated"
     }
   }
 }

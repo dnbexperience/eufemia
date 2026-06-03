@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.945Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:24.666Z
 checksum: 7de0da6b383745c27475497c9f7478a9fc68eeee197f8230e3b44dd10106380b
 ---
 
@@ -1069,6 +1069,35 @@ render(<Form.Handler required onSubmit={data => console.log('onSubmit', data)}>
       "doc": "All Flex.Stack properties.",
       "type": "Various",
       "status": "optional"
+    }
+  }
+}
+```
+
+
+## Translations
+
+
+```json
+{
+  "locales": [
+    "da-DK",
+    "en-GB",
+    "nb-NO",
+    "sv-SE"
+  ],
+  "entries": {
+    "IterateArray.errorMaxItems": {
+      "nb-NO": "Du kan ikke legge til flere enn {maxItems}.",
+      "en-GB": "You cannot add more than {maxItems} items.",
+      "sv-SE": "Du kan inte lägga till fler än {maxItems}.",
+      "da-DK": "Du kan ikke tilføje flere end {maxItems}."
+    },
+    "IterateArray.errorMinItems": {
+      "nb-NO": "Du må legge til minst {minItems}.",
+      "en-GB": "You must add at least {minItems} items.",
+      "sv-SE": "Du måste lägga till minst {minItems}.",
+      "da-DK": "Du skal tilføje mindst {minItems}."
     }
   }
 }

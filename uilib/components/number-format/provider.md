@@ -1,6 +1,6 @@
 ---
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.237Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.944Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -579,31 +579,6 @@ import { NumberFormat } from '@dnb/eufemia/cjs/components'
       "type": "string",
       "status": "optional"
     },
-    "decimals": {
-      "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
-      "type": "number",
-      "status": "optional"
-    },
-    "rounding": {
-      "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": [
-        "\"omit\"",
-        "\"half-even\"",
-        "\"half-up\""
-      ],
-      "status": "optional"
-    },
-    "signDisplay": {
-      "doc": "When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.",
-      "type": [
-        "\"auto\"",
-        "\"always\"",
-        "\"exceptZero\"",
-        "\"negative\"",
-        "\"never\""
-      ],
-      "status": "optional"
-    },
     "clean": {
       "doc": "If set to `true` a dirty string will be parsed to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`).",
       "type": "boolean",
@@ -708,31 +683,6 @@ Norwegian bank account number (e.g. `2000 12 34567`).
       "type": "string",
       "status": "optional"
     },
-    "decimals": {
-      "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
-      "type": "number",
-      "status": "optional"
-    },
-    "rounding": {
-      "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": [
-        "\"omit\"",
-        "\"half-even\"",
-        "\"half-up\""
-      ],
-      "status": "optional"
-    },
-    "signDisplay": {
-      "doc": "When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.",
-      "type": [
-        "\"auto\"",
-        "\"always\"",
-        "\"exceptZero\"",
-        "\"negative\"",
-        "\"never\""
-      ],
-      "status": "optional"
-    },
     "clean": {
       "doc": "If set to `true` a dirty string will be parsed to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`).",
       "type": "boolean",
@@ -832,31 +782,6 @@ Norwegian national identification number (e.g. `180892 12345`).
       "type": "string",
       "status": "optional"
     },
-    "decimals": {
-      "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
-      "type": "number",
-      "status": "optional"
-    },
-    "rounding": {
-      "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": [
-        "\"omit\"",
-        "\"half-even\"",
-        "\"half-up\""
-      ],
-      "status": "optional"
-    },
-    "signDisplay": {
-      "doc": "When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.",
-      "type": [
-        "\"auto\"",
-        "\"always\"",
-        "\"exceptZero\"",
-        "\"negative\"",
-        "\"never\""
-      ],
-      "status": "optional"
-    },
     "clean": {
       "doc": "If set to `true` a dirty string will be parsed to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`).",
       "type": "boolean",
@@ -954,31 +879,6 @@ Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by
     "locale": {
       "doc": "Use a [2 Letter Language Code](https://www.sitepoint.com/iso-2-letter-language-codes/) or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.",
       "type": "string",
-      "status": "optional"
-    },
-    "decimals": {
-      "doc": "Set a number to define the number of decimals. Like `decimals=\"0\"` will ensure that decimals are simply not shown. The default decimals for currency usage are `2` (Browser API default).",
-      "type": "number",
-      "status": "optional"
-    },
-    "rounding": {
-      "doc": "If `omit` is given, the decimal will NOT be rounded. If set to `half-even`, the value will be rounded to the nearest even number. If set to `half-up`, the fractional part is 0.5 or greater, the number is rounded up. If the fractional part is less than 0.5, the number is rounded down. Defaults to `half-up`.",
-      "type": [
-        "\"omit\"",
-        "\"half-even\"",
-        "\"half-up\""
-      ],
-      "status": "optional"
-    },
-    "signDisplay": {
-      "doc": "When to display the sign for the number. Use `auto` (default) for negative numbers only, `always` to always display sign, `exceptZero` for positive and negative numbers but not zero, `negative` for negative numbers only including negative zero, or `never` to never display sign.",
-      "type": [
-        "\"auto\"",
-        "\"always\"",
-        "\"exceptZero\"",
-        "\"negative\"",
-        "\"never\""
-      ],
       "status": "optional"
     },
     "clean": {

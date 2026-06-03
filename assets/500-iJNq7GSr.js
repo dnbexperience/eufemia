@@ -1,1 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{t as n}from"./GlobalError-yKj1Tbun.js";var r=e(t());function i(){return(0,r.jsx)(n,{center:!0,statusCode:`500`})}export{i as default};

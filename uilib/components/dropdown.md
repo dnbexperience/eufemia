@@ -1,9 +1,9 @@
 ---
 title: 'Dropdown'
 description: 'The Dropdown component is a custom-made data selection component.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.094Z
-checksum: 5931fa131c628f6089361105dfc1491b9f7aba317e5db34ef1301f24103af0b3
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.801Z
+checksum: de35e6c470795868976c22d5dcd76a3d27c3d6ceaff9981d15addb9f6ebe04d2
 ---
 
 # Dropdown
@@ -444,51 +444,54 @@ render(<Wrapper>
     <ComponentBox data-visual-test="dropdown-list" scope={{
     data
   }} hideCode>
-      <span className="dnb-drawer-list__list">
-        <ul className="dnb-drawer-list__options">
-          <li className="dnb-drawer-list__option first-of-type">
-            <span className="dnb-drawer-list__option__inner">
-              Brukskonto - Kari Nordmann
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-1">
-                  12345678902
-                </NumberFormat.BankAccountNumber>
+      <span className="dnb-drawer-list dnb-drawer-list--open">
+        <span className="dnb-drawer-list__list">
+          <ul className="dnb-drawer-list__options">
+            <li className="dnb-drawer-list__option first-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                Brukskonto - Kari Nordmann
               </span>
-              <span className="dnb-drawer-list__option__item">
-                Sparekonto - Ole Nordmann
+            </li>
+            <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber alwaysSelectAll key="n-1">
+                    12345678902
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Sparekonto - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-2">
-                  11345678962
-                </NumberFormat.BankAccountNumber>
+            </li>
+            <li className="dnb-drawer-list__option">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber alwaysSelectAll key="n-2">
+                    11345678962
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Feriekonto - Kari Nordmann med et kjempelangt
+                  etternavnsen
+                </span>
               </span>
-              <span className="dnb-drawer-list__option__item">
-                Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+            </li>
+            <li className="dnb-drawer-list__option last-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber alwaysSelectAll key="n-3">
+                    15349648901
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Oppussing - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option last-of-type">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-3">
-                  15349648901
-                </NumberFormat.BankAccountNumber>
-              </span>
-              <span className="dnb-drawer-list__option__item">
-                Oppussing - Ole Nordmann
-              </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__arrow" />
-        </ul>
+            </li>
+            <li className="dnb-drawer-list__arrow" />
+          </ul>
+        </span>
       </span>
     </ComponentBox>
   </Wrapper>)
@@ -560,6 +563,20 @@ render(<Wrapper>
     </Wrapper>)
 ```
 
+
+## No divider
+
+We can remove the divider between items with the `noDivider` prop. Beware that this can make information dense lists difficult to parse.
+
+
+```tsx
+render(<Wrapper>
+      <ComponentBox>
+        <Dropdown noDivider data={['Cat', 'Dog', 'Canary', 'Hamster', 'Piglet']} />
+      </ComponentBox>
+    </Wrapper>)
+```
+
 ## Properties
 
 You may check out the [DrawerList Properties](#drawerlist-properties) down below as well as the [Data structure examples](#the-data-property).
@@ -603,14 +620,6 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
     },
     "iconPosition": {
       "doc": "Position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.",
-      "type": [
-        "\"left\"",
-        "\"right\""
-      ],
-      "status": "optional"
-    },
-    "arrowPosition": {
-      "doc": "Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `right`.",
       "type": [
         "\"left\"",
         "\"right\""
@@ -785,9 +794,9 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "type": "number",
       "status": "optional"
     },
-    "arrowPosition": {
-      "doc": "Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
-      "type": "string",
+    "noDivider": {
+      "doc": "Removes the divider line between options. Defaults to `false`.",
+      "type": "boolean",
       "status": "optional"
     },
     "direction": {
@@ -929,6 +938,11 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
         "object"
       ],
       "status": "optional"
+    },
+    "arrowPosition": {
+      "doc": "Does nothing as there is no longer any arrow. Legacy docs: Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
+      "type": "string",
+      "status": "deprecated"
     }
   }
 }

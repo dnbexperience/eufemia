@@ -1,8 +1,8 @@
 ---
 title: 'Modal'
 description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.236Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.942Z
 checksum: d2bd13787247f0b15e477b68ef9d479bafcd482a7ac14c47585e297607972452
 ---
 
@@ -442,7 +442,7 @@ render(<Modal triggerProps={{
 ```
 
 
-## Modal Translations
+## Translations
 
 
 ```json
@@ -505,7 +505,6 @@ The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` e
 - `keyboard`: The escape key that triggered the event.
 - `overlay`: The overlay element that triggered the event.
 - `unmount`: The unmount event that triggered the `open` property change.
-
 
 ### Selective onClosePrevent
 

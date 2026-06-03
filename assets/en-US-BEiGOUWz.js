@@ -1,0 +1,1 @@
+import{t as e}from"./en-GB-BeGif691.js";var t=e[`en-GB`],n={"en-US":{...t,DatePicker:{...t.DatePicker,maskOrder:`mm/dd/yyyy`,maskPlaceholder:`mm/dd/yyyy`,firstDay:`sunday`}}};export{n as default};

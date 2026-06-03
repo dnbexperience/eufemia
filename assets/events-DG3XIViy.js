@@ -1,3 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";import r from"./event-table-camel-case-DXRVr1id.js";var i=e(t());function a(e){let t={a:`a`,h2:`h2`,p:`p`,...n(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(t.h2,{children:`Events`}),`
-`,(0,i.jsxs)(t.p,{children:[`Drawer includes the same events as `,(0,i.jsx)(t.a,{href:`/uilib/components/modal`,children:`Modal`}),`, only formatted as camel case.`]}),`
-`,(0,i.jsx)(r,{})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

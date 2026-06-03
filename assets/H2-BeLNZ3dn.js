@@ -1,1 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Gi as n,jn as r}from"./index-Da-r8F54.js";var i=e(t()),a=({size:e,...t})=>(0,i.jsx)(r,{element:`h2`,size:e||`auto`,...t});n(a,{_isHeadingElement:!0,_supportsSpacingProps:!0});var o=a;export{o as t};

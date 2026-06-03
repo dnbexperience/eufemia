@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.EditButton'
 description: '`Wizard.EditButton` is a button to be placed in a summary step.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.227Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:24.972Z
 checksum: d43acdbd40599e17d5d5ac71404f1b13ab47c7e14fcd42693e31368e140df117
 ---
 

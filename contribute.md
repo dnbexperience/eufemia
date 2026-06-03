@@ -1,8 +1,8 @@
 ---
 title: 'Contribution Guide'
 description: 'Project overview, development guides, conventions, etc.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:21.250Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:22.917Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -35,35 +35,26 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
 
 ## Dive in
 
-<ul
-  style={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    margin: 0,
-    marginBottom: '1rem',
-    padding: 0,
-  }}
->
-  <Card
+<Card.List bottom="small">
+  <MenuCard
     url="/contribute/rules"
     about="Code of conduct and Development principles"
     title="Ground rules"
     icon={Principles}
   />
-  <Card
+  <MenuCard
     url="/contribute/first-contribution"
     about="Your first contribution, Pull Requests and Technical information"
     title="New contributor"
     icon={NewContributor}
   />
-  <Card
+  <MenuCard
     url="/contribute/getting-started"
     about="Set up environment, Make changes and Run tests"
     title="Getting started"
     icon={GettingStarted}
   />
-</ul>
+</Card.List>
 
 ### Or go directly to
 

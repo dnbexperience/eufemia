@@ -1,8 +1,8 @@
 ---
 title: 'Forms for applications'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.295Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:25.042Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

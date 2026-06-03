@@ -1,8 +1,8 @@
 ---
 title: 'Field.PhoneNumber'
 description: '`Field.PhoneNumber` is a wrapper component for the input of strings, with user experience tailored for phone number values.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.285Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:25.033Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -772,6 +772,12 @@ render(<Form.Card>
       "en-GB": "Country code",
       "sv-SE": "Landskod",
       "da-DK": "Landskode"
+    },
+    "PhoneNumber.errorLengthNorwegianPhoneNumbers": {
+      "nb-NO": "Telefonnummeret er for langt. Norske telefonnumre har 8 siffer.",
+      "en-GB": "The phone number is too long. Norwegian phone numbers are 8 digits.",
+      "sv-SE": "Telefonnumret är för långt. Norska telefonnummer har 8 siffror.",
+      "da-DK": "Telefonnummeret er for langt. Norske telefonnumre har 8 cifre."
     },
     "PhoneNumber.errorRequired": {
       "nb-NO": "Mobilnummer må fylles ut. Hvis du ikke har et mobilnummer, kan du oppgi et annet telefonnummer.",

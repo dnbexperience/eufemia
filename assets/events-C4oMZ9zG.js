@@ -1,2 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";import{n as r}from"./PropertiesTable-Ch1b2I7Q.js";import{t as i}from"./ButtonDocs-Dhf_H_cP.js";var a=e(t());function o(e){return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)({h2:`h2`,...n(),...e.components}.h2,{children:`Events`}),`
-`,(0,a.jsx)(r,{props:i})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

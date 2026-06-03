@@ -1,0 +1,1 @@
+import{t as e}from"./TypographyDocs-BiCbAzWe.js";var t={...e};export{t};

@@ -1,4 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{wr as n}from"./index-Da-r8F54.js";import{t as r}from"./ComponentBox-DXeEXSK2.js";var i=e(t()),a=()=>(0,i.jsx)(r,{stableName:`BasicButtonsExample`,sourceImports:[`import { Button } from '@dnb/eufemia'`],__buildScope:{Button:n},children:`<Button text="Basic Button" />
-`}),o=()=>(0,i.jsx)(r,{stableName:`EventsExample`,sourceImports:[`import { Button } from '@dnb/eufemia'`],__buildScope:{Button:n},children:`<Button text="Button" onClick={() => console.log('click')} />
-`}),s=()=>(0,i.jsx)(r,{hideCode:!0,hideToolbar:!0,stableName:`PrimaryButtonExample`,sourceImports:[`import { Button } from '@dnb/eufemia'`],__buildScope:{Button:n},children:`<Button text="Primary Button" />
-`});export{o as n,s as r,a as t};

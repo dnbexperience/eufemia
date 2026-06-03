@@ -1,9 +1,9 @@
 ---
 title: 'Accordion'
 description: 'The Accordion component is a combination of an accessible button (header area) and a content container.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:21.936Z
-checksum: a7dc2d915a47ed9563c4a29e7f20b3c8f0ee1e8cb6b6f7100c140d8de10423e6
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.625Z
+checksum: 0beca27a3d6fce1681b4536993e7db95605189d2f6257a35fa8d58597d035a14
 ---
 
 # Accordion
@@ -54,7 +54,7 @@ Both `Accordion.Provider` and `Accordion.Group` are available. They're technical
 <Accordion expanded id="single-accordion" title="Accordion title">
     <P>Accordion content</P>
   </Accordion>
-<Accordion.Provider top icon="chevron_down" iconPosition="right">
+<Accordion.Provider top iconPosition="right">
     <Accordion id="single-provider-accordion" title="Accordion title">
       <P>Accordion content</P>
     </Accordion>
@@ -253,7 +253,7 @@ Accordion can be disabled, though is not exactly defined what the use case is.
 <Accordion expanded disabled title="Disabled (expanded)">
     <P>I am expanded, but disabled, so I can't be closed</P>
   </Accordion>
-<Accordion.Provider top disabled icon="chevron_down" iconPosition="right">
+<Accordion.Provider top disabled iconPosition="right">
     <Accordion title="Disabled (closed)">
       <P>You can't see this text because I am disabled and closed.</P>
     </Accordion>
@@ -290,7 +290,7 @@ A lightweight variant that renders a tertiary button with a chevron icon. The bu
     Text
   </P>
 <P>Other content between button and accordion content.</P>
-<Accordion.Content id="accordion-tertiary">
+<Accordion.Content connectedTo="accordion-tertiary">
     <P top>
       This content is placed separately from the button, connected via
       the id.
@@ -305,7 +305,7 @@ A lightweight variant that renders a tertiary button with a chevron icon. The bu
 <Accordion expanded title="Accordion title" description="Accordion description">
     <P>Accordion content</P>
   </Accordion>
-<Accordion top icon="chevron_down" iconPosition="right" id="description-provider-accordion" title="Accordion title" description="Accordion description">
+<Accordion top iconPosition="right" id="description-provider-accordion" title="Accordion title" description="Accordion description">
     <P>Accordion content</P>
   </Accordion>
 ```
@@ -527,16 +527,21 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
 ```
 
 
-## Accordion.Content Properties
+### `Accordion.Content` properties
 
 
 ```json
 {
   "props": {
-    "id": {
-      "doc": "A unique `id` used to connect standalone `Accordion.Content` with an `Accordion` or `Accordion` tertiary button using the same `id`.",
+    "connectedTo": {
+      "doc": "Connects this standalone `Accordion.Content` with an `Accordion` or `Accordion` tertiary button using the same identifier.",
       "type": "string",
       "status": "optional"
+    },
+    "id": {
+      "doc": "Deprecated. Use `connectedTo` instead.",
+      "type": "string",
+      "status": "deprecated"
     },
     "title": {
       "doc": "Provides a label for the content region in standalone tertiary mode. It is applied to both `aria-label` and `title`.",
@@ -571,7 +576,7 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
 ```
 
 
-## Accordion.Provider and Accordion.Group Properties
+### `Accordion.Provider` and `Accordion.Group` properties
 
 
 ```json

@@ -1,8 +1,8 @@
 ---
 title: 'Field.PostalCodeAndCity'
 description: '`Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.286Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:25.034Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -480,6 +480,18 @@ render(<Field.PostalCodeAndCity postalCode={{
       "en-GB": "Postcode",
       "sv-SE": "Postnr.",
       "da-DK": "Postnr."
+    },
+    "PostalCodeAndCity.invalidCode": {
+      "nb-NO": "Ugyldig postnummer.",
+      "en-GB": "Invalid postal code.",
+      "sv-SE": "Ogiltigt postnummer.",
+      "da-DK": "Ugyldigt postnummer."
+    },
+    "PostalCodeAndCity.label": {
+      "nb-NO": "Postnummer og sted",
+      "en-GB": "Postcode and city",
+      "sv-SE": "Postnummer och ort",
+      "da-DK": "Postnummer og by"
     }
   }
 }

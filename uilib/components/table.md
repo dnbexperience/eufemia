@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.562Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:24.285Z
 checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 
@@ -619,47 +619,11 @@ const AccordionTable = ({
   const TdInput = () => {
     return <Input label="Label" labelSrOnly size={4} />;
   };
-  const Content = ({
-    shareId
-  }) => {
-    const ref = useRef(undefined);
-    const {
-      copy,
-      copyTooltip
-    } = useCopyWithNotice();
-    const shareHandler = () => {
-      const url = new URL(location.href);
-      url.hash = '#' + shareId;
-      copy(url.toString());
-    };
-    return <>
-              <Button top icon="bell" variant="secondary">
-                Ring the bell
-              </Button>
-
-              <Section top innerSpace={{
-        block: 'large'
-      }}>
-                <Dl>
-                  <Dt>Favorittfarge</Dt>
-                  <Dd>Grønn</Dd>
-                  <Dt>Favorittmat</Dt>
-                  <Dd>Taco</Dd>
-                </Dl>
-              </Section>
-
-              <Button top variant="tertiary" icon={copyIcon} iconPosition="left" onClick={shareHandler} ref={ref}>
-                Copy link to this row
-              </Button>
-
-              {copyTooltip(ref.current)}
-            </>;
-  };
   const Row = ({
-    nr
+    nr,
+    ...rest
   }) => {
-    const shareId = id + '-' + nr;
-    return <Tr id={shareId}>
+    return <Tr id={id + '-' + nr} {...rest}>
               <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
               <Td>Row {nr}</Td>
               <Td spacing="horizontal">
@@ -668,7 +632,14 @@ const AccordionTable = ({
               <Td align="right">Row {nr}</Td>
 
               <Td.AccordionContent>
-                <Content shareId={shareId} />
+                <Section innerSpace={{
+          block: 'small'
+        }}>
+                  <Dl>
+                    <Dt>Favorittfarge</Dt>
+                    <Dd>Grønn</Dd>
+                  </Dl>
+                </Section>
               </Td.AccordionContent>
             </Tr>;
   };
@@ -687,7 +658,7 @@ const AccordionTable = ({
             <tbody>
               <Row nr="1" />
               <Row nr="2" />
-              <Row nr="3" />
+              <Row nr="3" expanded />
             </tbody>
           </Table>;
 };
@@ -1780,12 +1751,12 @@ render(<Table.ScrollView>
         <thead>
           <tr className="dnb-table__tr">
             <th className="dnb-table__th">.dnb-table__th</th>
-            <th className="dnb-table__th dnb-table--sortable dnb-table--reversed">
+            <Th sortable reversed>
               <Th.SortButton text="dnb-table--reversed" title="dnb-table__th dnb-table--sortable dnb-table--reversed" />
-            </th>
-            <th className="dnb-table__th dnb-table--sortable dnb-table--active">
+            </Th>
+            <Th sortable active>
               <Th.SortButton text="dnb-table--active" title="dnb-table__th dnb-table--sortable dnb-table--active" />
-            </th>
+            </Th>
           </tr>
         </thead>
         <tbody>
@@ -1827,42 +1798,6 @@ const AccordionTable = ({
   const TdInput = () => {
     return <Input label="Label" labelSrOnly size={4} />;
   };
-  const Content = ({
-    shareId
-  }) => {
-    const ref = useRef(undefined);
-    const {
-      copy,
-      copyTooltip
-    } = useCopyWithNotice();
-    const shareHandler = () => {
-      const url = new URL(location.href);
-      url.hash = '#' + shareId;
-      copy(url.toString());
-    };
-    return <>
-              <Button top icon="bell" variant="secondary">
-                Ring the bell
-              </Button>
-
-              <Section top innerSpace={{
-        block: 'large'
-      }}>
-                <Dl>
-                  <Dt>Favorittfarge</Dt>
-                  <Dd>Grønn</Dd>
-                  <Dt>Favorittmat</Dt>
-                  <Dd>Taco</Dd>
-                </Dl>
-              </Section>
-
-              <Button top variant="tertiary" icon={copyIcon} iconPosition="left" onClick={shareHandler} ref={ref}>
-                Copy link to this row
-              </Button>
-
-              {copyTooltip(ref.current)}
-            </>;
-  };
   return <Table mode="accordion" id={id} {...props}>
             <caption className="dnb-sr-only">A Table Caption</caption>
 
@@ -1885,7 +1820,14 @@ const AccordionTable = ({
                 <Td align="right">Row {1}</Td>
 
                 <Td.AccordionContent>
-                  <Content shareId={id + '-' + 1} />
+                  <Section innerSpace={{
+            block: 'small'
+          }}>
+                    <Dl>
+                      <Dt>Favorittfarge</Dt>
+                      <Dd>Grønn</Dd>
+                    </Dl>
+                  </Section>
                 </Td.AccordionContent>
               </Tr>
               <Tr id={id + '-' + 2}>
@@ -1905,7 +1847,14 @@ const AccordionTable = ({
                 <Td align="right">Row {3}</Td>
 
                 <Td.AccordionContent>
-                  <Content shareId={id + '-' + 3} />
+                  <Section innerSpace={{
+            block: 'small'
+          }}>
+                    <Dl>
+                      <Dt>Favorittfarge</Dt>
+                      <Dd>Grønn</Dd>
+                    </Dl>
+                  </Section>
                 </Td.AccordionContent>
               </Tr>
             </tbody>
@@ -2351,7 +2300,7 @@ render(<Table.ScrollView>
 ```
 
 
-## Table Translations
+## Translations
 
 
 ```json

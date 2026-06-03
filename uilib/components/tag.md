@@ -1,8 +1,8 @@
 ---
 title: 'Tag'
 description: 'The Tag component is a compact element for displaying discrete information.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.575Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:24.299Z
 checksum: 1059dd4ae201d0a98d491bb6096bc1cb8a6392d46b7a5bdb50d61d93d7660bcf
 ---
 
@@ -279,7 +279,7 @@ render(<Tag.Group label="Skeletons">
 ```
 
 
-### `Tag` translations
+## Translations
 
 
 ```json

@@ -1,4 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";import{n as r}from"./PropertiesTable-Ch1b2I7Q.js";import{t as i}from"./TranslationsTable-DDJqRs9g.js";var a=e(t()),o={showConfirmDialog:{doc:"Use `true` to show a confirmation dialog before removing the item.",type:`boolean`,status:`optional`},"[Button](/uilib/components/button/properties)":{doc:`All button properties.`,type:`Various`,status:`optional`}};function s(e){let t={h2:`h2`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Properties`}),`
-`,(0,a.jsx)(r,{props:o}),`
-`,(0,a.jsx)(t.h2,{children:`Translations`}),`
-`,(0,a.jsx)(i,{localeKey:[`RemoveButton`]})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(s,{...e})}):s(e)}export{c as default};

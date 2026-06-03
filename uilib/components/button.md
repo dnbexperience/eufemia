@@ -1,8 +1,8 @@
 ---
 title: 'Button'
 description: 'The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.026Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.723Z
 checksum: 6a97999fa0abeb2712362b73f48b6c51fc08909f6b254b37e1e57a951977226f
 ---
 
@@ -245,9 +245,10 @@ render(<Section innerSpace={{
       <Button data-visual-test="button-secondary-on-dark" right variant="secondary">
         Secondary button
       </Button>
-      <Button data-visual-test="button-tertiary-on-dark" variant="tertiary" iconPosition="left" icon="chevron_left">
+      <Button data-visual-test="button-tertiary-on-dark" variant="tertiary" iconPosition="left" icon="chevron_left" right>
         Tertiary button
       </Button>
+      <Button data-visual-test="button-tertiary-icon-on-dark" variant="tertiary" icon="bell" />
     </Section>)
 ```
 

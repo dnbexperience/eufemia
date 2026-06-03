@@ -1,2 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";import{t as r}from"./TranslationsTable-DDJqRs9g.js";var i=e(t());function a(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)({h2:`h2`,...n(),...e.components}.h2,{children:`Translations`}),`
-`,(0,i.jsx)(r,{localeKey:[`Step`,`WizardEditButton`,`WizardPreviousButton`,`WizardNextButton`]})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

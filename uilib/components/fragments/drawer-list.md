@@ -1,8 +1,8 @@
 ---
 title: 'DrawerList'
 description: 'The DrawerList component is a fragment inside other components.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.105Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.820Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -131,56 +131,59 @@ render(<Wrapper>
     <ComponentBox data-visual-test="drawer-list" scope={{
     data
   }} hideCode>
-      <span className="dnb-drawer-list__list">
-        <ul className="dnb-drawer-list__options">
-          <li className="dnb-drawer-list__option first-of-type">
-            <span className="dnb-drawer-list__option__inner">
-              Brukskonto - Kari Nordmann
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber>
-                  12345678902
-                </NumberFormat.BankAccountNumber>
+      <span className="dnb-drawer-list dnb-drawer-list--open">
+        <span className="dnb-drawer-list__list">
+          <ul className="dnb-drawer-list__options">
+            <li className="dnb-drawer-list__option first-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                Brukskonto - Kari Nordmann
               </span>
-              <span className="dnb-drawer-list__option__item">
-                Sparekonto - Ole Nordmann
+            </li>
+            <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber>
+                    12345678902
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Sparekonto - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber>
-                  11345678962
-                </NumberFormat.BankAccountNumber>
+            </li>
+            <li className="dnb-drawer-list__option">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber>
+                    11345678962
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item item-nr-2">
+                  <a className="dnb-anchor dnb-anchor--has-icon" href="/uilib/components/fragments/drawer-list/">
+                    Long link that will wrap over several lines
+                  </a>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Feriekonto - Kari Nordmann med et kjempelangt
+                  etternavnsen
+                </span>
               </span>
-              <span className="dnb-drawer-list__option__item item-nr-2">
-                <a className="dnb-anchor dnb-anchor--has-icon" href="/uilib/components/fragments/drawer-list/">
-                  Long link that will wrap over several lines
-                </a>
+            </li>
+            <li className="dnb-drawer-list__option last-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber>
+                    15349648901
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Oppussing - Ole Nordmann
+                </span>
               </span>
-              <span className="dnb-drawer-list__option__item">
-                Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
-              </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option last-of-type">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber>
-                  15349648901
-                </NumberFormat.BankAccountNumber>
-              </span>
-              <span className="dnb-drawer-list__option__item">
-                Oppussing - Ole Nordmann
-              </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__arrow" />
-        </ul>
+            </li>
+            <li className="dnb-drawer-list__arrow" />
+          </ul>
+        </span>
       </span>
     </ComponentBox>
   </Wrapper>)
@@ -411,6 +414,42 @@ render(<Wrapper>
   </Wrapper>)
 ```
 
+
+### No dividers
+
+
+```tsx
+render(<Wrapper>
+    <ComponentBox data-visual-test="drawer-list-no-divider">
+      <DrawerList noDivider skipPortal open preventClose observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+    groups={[undefined, 'Pets', undefined, 'Cars']} data={[{
+      groupIndex: 0,
+      content: 'Default 1'
+    }, {
+      groupIndex: 0,
+      content: 'Default 2'
+    }, {
+      groupIndex: 1,
+      content: 'Cat'
+    }, {
+      groupIndex: 1,
+      content: 'Dog'
+    }, {
+      groupIndex: 2,
+      content: 'Something'
+    }, {
+      groupIndex: 3,
+      content: 'Jeep'
+    }, {
+      groupIndex: 3,
+      content: 'Van'
+    }, {
+      content: 'No group'
+    }]} />
+    </ComponentBox>
+  </Wrapper>)
+```
+
 ## Properties
 
 
@@ -443,9 +482,9 @@ render(<Wrapper>
       "type": "number",
       "status": "optional"
     },
-    "arrowPosition": {
-      "doc": "Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
-      "type": "string",
+    "noDivider": {
+      "doc": "Removes the divider line between options. Defaults to `false`.",
+      "type": "boolean",
       "status": "optional"
     },
     "direction": {
@@ -587,6 +626,11 @@ render(<Wrapper>
         "object"
       ],
       "status": "optional"
+    },
+    "arrowPosition": {
+      "doc": "Does nothing as there is no longer any arrow. Legacy docs: Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.",
+      "type": "string",
+      "status": "deprecated"
     }
   }
 }

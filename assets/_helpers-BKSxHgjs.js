@@ -1,1 +1,0 @@
-import{Ar as e,Pi as t,jr as n}from"./index-Da-r8F54.js";import{t as r}from"./properties-BmyYXABM.js";var i={sbanken:e,ui:n,eiendom:r},a=e=>{let n=(i[t().name]||i.ui)[e];return n&&n.startsWith(`var(`)?a(n.substring(4,n.indexOf(`)`))):n},o=e=>s(a(e)),s=(e=``)=>e.endsWith(`rem`)?parseFloat(e)*16+`px`:e;export{a as n,o as t};

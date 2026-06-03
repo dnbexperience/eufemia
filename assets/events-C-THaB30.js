@@ -1,0 +1,2 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-BCXtuv-b.js";import{n as r}from"./PropertiesTable-D2Qlpz5c.js";import{t as i}from"./TagDocs-CvomPRQs.js";var a=e(t());function o(e){let t={code:`code`,h2:`h2`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsxs)(t.h2,{children:[(0,a.jsx)(t.code,{children:`Tag`}),` events`]}),`
+`,(0,a.jsx)(r,{props:i})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

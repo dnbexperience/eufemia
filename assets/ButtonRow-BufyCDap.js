@@ -1,1 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Gi as n,Lr as r,Zi as i}from"./index-Da-r8F54.js";var a=e(t());function o(e){let{className:t,children:n,...o}=e;return(0,a.jsx)(r,{className:i(`dnb-forms-button-row`,t),...o,children:n})}n(o,{_supportsSpacingProps:!0});export{o as t};

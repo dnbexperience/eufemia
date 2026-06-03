@@ -1,1 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Gi as n,Ln as r,Zi as i}from"./index-Da-r8F54.js";var a=e(t()),o=({className:e,...t})=>(0,a.jsx)(r,{className:i(`dnb-p--lead`,e),...t});n(o,{_supportsSpacingProps:!0});var s=o;export{s as t};

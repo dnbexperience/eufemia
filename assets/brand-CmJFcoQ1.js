@@ -1,4 +1,0 @@
-import{a as e}from"./rolldown-runtime-BYbx6iT9.js";import{t}from"./jsx-runtime-BgMs7Gb-.js";import{Rr as n}from"./index-Da-r8F54.js";var r=e(t());function i(e){let t={a:`a`,h1:`h1`,h2:`h2`,p:`p`,...n(),...e.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(t.h1,{children:`Brand`}),`
-`,(0,r.jsx)(t.p,{children:`Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital version, Brand Center. Please make sure to familiarize yourself with them.`}),`
-`,(0,r.jsx)(t.h2,{children:`Brand Center and Brandbook`}),`
-`,(0,r.jsx)(t.p,{children:(0,r.jsx)(t.a,{href:`https://bc.dnb.no/`,children:`bc.dnb.no`})})]})}function a(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,r.jsx)(t,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

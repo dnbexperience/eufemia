@@ -1,0 +1,2 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-BCXtuv-b.js";import{t as r}from"./TranslationsTable-D4-Ofv6C.js";var i=e(t());function a(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)({h2:`h2`,...n(),...e.components}.h2,{children:`Translations`}),`
+`,(0,i.jsx)(r,{localeKey:[`Step`,`WizardEditButton`,`WizardPreviousButton`,`WizardNextButton`]})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

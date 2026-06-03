@@ -1,9 +1,9 @@
 ---
 title: 'Breadcrumb'
 description: 'The Breadcrumb component is a bar for navigation showing current web path.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:22.016Z
-checksum: 317a42d5c4db2efc4251f681ead15be677a426f81fe9825d4cd49cce4d0dee16
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:23.710Z
+checksum: 69961006f2a91fb32032f9ab274215ceced4424c4dc7a062cfd6b9f591d579d1
 ---
 
 # Breadcrumb
@@ -138,12 +138,12 @@ render(<Breadcrumb variant="multiple" data={pages} spacing />);
 {
   "props": {
     "data": {
-      "doc": "List of pages to render as breadcrumbitems. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).",
+      "doc": "List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).",
       "type": "Array<BreadcrumbItemProps>",
       "status": "optional"
     },
     "children": {
-      "doc": "Content of the component. Can be used instead of property `data`, by adding Breadcrumbitem children `<Breadcrumb.Item {...properties} />`.",
+      "doc": "Content of the component. Can be used instead of property `data`, by adding `Breadcrumb.Item` children `<Breadcrumb.Item {...properties} />`.",
       "type": "React.ReactNode",
       "status": "optional"
     },

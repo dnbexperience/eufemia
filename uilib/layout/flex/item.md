@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Item'
 description: '`Flex.Item` is a building block for flexbox based layout of contents and components.'
-version: 0.0.0-development
-generatedAt: 2026-05-27T11:24:23.319Z
+version: 11.5.0
+generatedAt: 2026-06-03T07:21:25.069Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -17,7 +17,7 @@ render(<Flex.Item />)
 
 ## Description
 
-`Flex.Item` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) based layout of contents and components. Should be used in combination with [Flex.Container](/uilib/layout/flex/container/).
+`Flex.Item` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout)-based layout of contents and components. Should be used in combination with [Flex.Container](/uilib/layout/flex/container/).
 
 ## Relevant links
 
