@@ -17,13 +17,14 @@ describe('build-info plugin', () => {
   })
 
   describe('getBuildInfo', () => {
-    it('returns default values when files are missing', () => {
+    it('returns git tag version when files are missing', () => {
       const info = getBuildInfo({
         packageJsonPath: path.join(tmpDir, 'missing.json'),
         changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
-      expect(info.releaseVersion).toBe('[LOCAL BUILD]')
+      // Falls back to git tag since we're running in the eufemia repo
+      expect(info.releaseVersion).toMatch(/^\d+\.\d+\.\d+/)
       expect(info.changelogVersion).toBe('[LOCAL BUILD]')
       expect(info.buildVersion).toMatch(/\d/)
     })
@@ -43,7 +44,7 @@ describe('build-info plugin', () => {
       expect(info.releaseVersion).toBe('11.0.4')
     })
 
-    it('falls back to [LOCAL BUILD] when releaseVersion is not set', () => {
+    it('falls back to git tag when releaseVersion is not set', () => {
       const pkgPath = path.join(tmpDir, 'package.json')
       fs.writeFileSync(
         pkgPath,
@@ -55,7 +56,25 @@ describe('build-info plugin', () => {
         changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
-      expect(info.releaseVersion).toBe('[LOCAL BUILD]')
+      // Falls back to the latest git tag (e.g. "11.5.0") since we're in a git repo
+      expect(info.releaseVersion).toMatch(/^\d+\.\d+\.\d+/)
+    })
+
+    it('rejects "Not released" from package.json and falls back to git tag', () => {
+      const pkgPath = path.join(tmpDir, 'package.json')
+      fs.writeFileSync(
+        pkgPath,
+        JSON.stringify({ releaseVersion: 'Not released' })
+      )
+
+      const info = getBuildInfo({
+        packageJsonPath: pkgPath,
+        changelogPath: path.join(tmpDir, 'missing.mdx'),
+      })
+
+      // Should NOT be "Not released", should fall back to git tag
+      expect(info.releaseVersion).not.toBe('Not released')
+      expect(info.releaseVersion).toMatch(/^\d+\.\d+\.\d+/)
     })
 
     it('extracts changelogVersion from the first heading', () => {

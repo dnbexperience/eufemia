@@ -16,6 +16,7 @@
 import { type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
+import { execSync } from 'node:child_process'
 
 const VIRTUAL_MODULE_ID = 'virtual:build-info'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -44,11 +45,33 @@ export function getBuildInfo({
   // Release version from package.json (set by build:version on CI)
   try {
     const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
-    if (pkg.releaseVersion && pkg.releaseVersion !== '[LOCAL BUILD]') {
+    if (
+      pkg.releaseVersion &&
+      pkg.releaseVersion !== '[LOCAL BUILD]' &&
+      pkg.releaseVersion !== 'Not released'
+    ) {
       releaseVersion = pkg.releaseVersion
     }
   } catch {
     // Ignore — use default
+  }
+
+  // Fallback: use the latest stable git tag.
+  // Uses `git tag` listing instead of `git describe` so it works in
+  // shallow clones (CI uses fetch-depth: 2).
+  if (releaseVersion === '[LOCAL BUILD]') {
+    try {
+      const tags = execSync('git tag --sort=-v:refname -l "v*"', {
+        encoding: 'utf-8',
+        stdio: ['pipe', 'pipe', 'pipe'],
+      }).trim()
+      const tag = tags.split('\n').find((t) => /^v\d+\.\d+\.\d+$/.test(t))
+      if (tag) {
+        releaseVersion = tag.replace(/^v/, '')
+      }
+    } catch {
+      // Ignore — use default
+    }
   }
 
   // Changelog version from the first heading in the changelog file
