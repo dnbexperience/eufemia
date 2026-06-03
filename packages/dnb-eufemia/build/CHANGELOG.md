@@ -3,6 +3,62 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.5.0](https://github.com/dnbexperience/eufemia/compare/v11.4.0...v11.5.0) (2026-06-03)
+
+### :sparkles: Features
+
+* **Accordion:** rename standalone Content `id` prop to `connectedTo` ([#8364](https://github.com/dnbexperience/eufemia/issues/8364)) ([7acbe14](https://github.com/dnbexperience/eufemia/commit/7acbe14c43d08c78bd13e5db2d31fad99e9d097a))
+* **Accordion:** transition chevron icon during open/closing ([#8289](https://github.com/dnbexperience/eufemia/issues/8289)) ([8624327](https://github.com/dnbexperience/eufemia/commit/86243270d8b9a36350876e8dba222f3f44bc912a))
+* allow atlassian-bot full access in robots.txt ([#8335](https://github.com/dnbexperience/eufemia/issues/8335)) ([f042203](https://github.com/dnbexperience/eufemia/commit/f04220374fa7827fa02b53ed4850a40a385c7da5))
+* **Autocomplete:** transition chevron icon during open/closing ([#8290](https://github.com/dnbexperience/eufemia/issues/8290)) ([7999bb7](https://github.com/dnbexperience/eufemia/commit/7999bb73dcf4a16fcd051238c50832fab44e0d08))
+* **Breadcrumb:** transition chevron icon during open/closing ([#8291](https://github.com/dnbexperience/eufemia/issues/8291)) ([7167b3f](https://github.com/dnbexperience/eufemia/commit/7167b3fe20d546abb63d9951c59a55cd2b337220))
+* **DatePicker:** add `rangeSingleCalendar` prop ([#8279](https://github.com/dnbexperience/eufemia/issues/8279)) ([a1fbb95](https://github.com/dnbexperience/eufemia/commit/a1fbb95f6fe359aa2d9532bf99b4fcb12966f2e9))
+* **Field.BankAccountNumber:** allow typing beyond the 11-digit mask length ([#8225](https://github.com/dnbexperience/eufemia/issues/8225)) ([127b547](https://github.com/dnbexperience/eufemia/commit/127b54711baff44f0b0c1ef17f6a9ef9874ec2a7))
+* **Field.Date:** add `rangeSingleCalendar` prop ([#8339](https://github.com/dnbexperience/eufemia/issues/8339)) ([fd03d8d](https://github.com/dnbexperience/eufemia/commit/fd03d8daefd13afe88ef22b08a75520ed87cf9b9))
+* **Field.NationalIdentityNumber:** allow typing beyond the 11-digit mask length ([#8224](https://github.com/dnbexperience/eufemia/issues/8224)) ([1f65c18](https://github.com/dnbexperience/eufemia/commit/1f65c1816eb83049c5bc662550e62ad959f28d17))
+* **Field.OrganizationNumber:** allow typing beyond the 9-digit mask length ([#8226](https://github.com/dnbexperience/eufemia/issues/8226)) ([8744064](https://github.com/dnbexperience/eufemia/commit/874406407531dd0cb4828db0f6372b3d892be439))
+* **Field.Password:** transition visibility toggle icons ([#8295](https://github.com/dnbexperience/eufemia/issues/8295)) ([f08129a](https://github.com/dnbexperience/eufemia/commit/f08129af9dc993743dc63362361233ae1b77fdac))
+* **Field.PhoneNumber:** allow typing beyond the 8-digit mask length ([#8227](https://github.com/dnbexperience/eufemia/issues/8227)) ([004f8c8](https://github.com/dnbexperience/eufemia/commit/004f8c823cc5d017f475c24b4ae2cd3e5f8897a1))
+* **Field.PostalCodeAndCIty:** allow typing beyond the 4-digit postal code mask length ([#8229](https://github.com/dnbexperience/eufemia/issues/8229)) ([bb46886](https://github.com/dnbexperience/eufemia/commit/bb46886666c19d02eee9f253751be2cf8d248eab))
+* **HelpButton:** transition inline icon during open/closing ([#8292](https://github.com/dnbexperience/eufemia/issues/8292)) ([03c5b0a](https://github.com/dnbexperience/eufemia/commit/03c5b0adca6047633311c0f58188fea25608203d))
+* **List:** transition accordion chevron icon during open/closing ([#8293](https://github.com/dnbexperience/eufemia/issues/8293)) ([6edc02a](https://github.com/dnbexperience/eufemia/commit/6edc02a02434ceb6c777c87adb9caaed4b6a0e79))
+* **Menu:** transition accordion chevron icon during open/closing ([#8294](https://github.com/dnbexperience/eufemia/issues/8294)) ([2518e89](https://github.com/dnbexperience/eufemia/commit/2518e89a3bf97b09f61e03b056019e83d2f363e1))
+* **StepIndicator:** transition chevron icon during open/closing ([#8296](https://github.com/dnbexperience/eufemia/issues/8296)) ([57f1728](https://github.com/dnbexperience/eufemia/commit/57f1728d5df61c9356bdb5343ae8e3dc8dbcdc42))
+* **Table:** transition sort/accordion icons during open/closing ([#8297](https://github.com/dnbexperience/eufemia/issues/8297)) ([15d2a97](https://github.com/dnbexperience/eufemia/commit/15d2a976ff05d91777afed9a6ce74c660791122f))
+
+### :bug: Bug Fixes
+
+* **Accordion:** prevent tertiary button from stretching when expanded ([#8384](https://github.com/dnbexperience/eufemia/issues/8384)) ([51edd08](https://github.com/dnbexperience/eufemia/commit/51edd086f3ffa498d282c20fc3e29b7dd5c87aa2))
+* align Tailwind breakpoint variables with allAbove mixin ([#8371](https://github.com/dnbexperience/eufemia/issues/8371)) ([c5644d2](https://github.com/dnbexperience/eufemia/commit/c5644d26396a3aba70de9a624884fa028c397631))
+* **Breadcrumb:** prevent chevrons on breadcrumb row from changing direction on smaller screen sizes ([#8288](https://github.com/dnbexperience/eufemia/issues/8288)) ([9f449e8](https://github.com/dnbexperience/eufemia/commit/9f449e83f2bece8534eeb246dc43fc439462c676))
+* **Breadcrumb:** set background color for non collapsable breadcrumbs to transparent and correct paddings and indents ([#8357](https://github.com/dnbexperience/eufemia/issues/8357)) ([1654729](https://github.com/dnbexperience/eufemia/commit/165472975acc53118e549c0336369f6063b9f3fe))
+* **Button:** add ondark background tokens for tertiary icon-only buttons ([#8345](https://github.com/dnbexperience/eufemia/issues/8345)) ([0e11b26](https://github.com/dnbexperience/eufemia/commit/0e11b26771fc23f7c15ae9eedcae218ec391d803))
+* **Button:** symmetric focus ring padding for tertiary buttons with icons ([#8346](https://github.com/dnbexperience/eufemia/issues/8346)) ([6ff6541](https://github.com/dnbexperience/eufemia/commit/6ff654147f5efd98a2ffdcef6e93780ca93cd13c))
+* **DatePicker:** remove calendar padding in inline mode to avoid unnecessary whitespace ([#8358](https://github.com/dnbexperience/eufemia/issues/8358)) ([0698a59](https://github.com/dnbexperience/eufemia/commit/0698a59c3473453a5088d241231a710114ba9b7c))
+* **DatePicker:** remove drop shadow when `inline` ([#8348](https://github.com/dnbexperience/eufemia/issues/8348)) ([1e4165d](https://github.com/dnbexperience/eufemia/commit/1e4165d7fc61c9d12f57ac1dd1f1bdf1d5c70477))
+* **DatePicker:** support responsive range calendars and use transparent background color when `inline` ([#8347](https://github.com/dnbexperience/eufemia/issues/8347)) ([bfa9bd5](https://github.com/dnbexperience/eufemia/commit/bfa9bd512564ac7414e5c8ccff4cf68f19b3f8bd))
+* **DatePicker:** use focus color tokens for keyboard navigation ([#8349](https://github.com/dnbexperience/eufemia/issues/8349)) ([3620d9f](https://github.com/dnbexperience/eufemia/commit/3620d9f4e102853483462d7daf50873ad5bc5799))
+* **Field.MultiSelection:** match popover border-radius on first and last items ([#8298](https://github.com/dnbexperience/eufemia/issues/8298)) ([2f082af](https://github.com/dnbexperience/eufemia/commit/2f082afea675100c2fa3c5343fff44ac4d1bdf97))
+* **InputMasked, Field.Number:** prevent input beyond MAX_SAFE_INTEGER ([#8260](https://github.com/dnbexperience/eufemia/issues/8260)) ([daa7a2f](https://github.com/dnbexperience/eufemia/commit/daa7a2f0cd2b3ccd08fd8c48330c9e73cc70ae8d))
+* **List:** scope CSS vars to prevent collision with other components inside ([#8300](https://github.com/dnbexperience/eufemia/issues/8300)) ([50ac16e](https://github.com/dnbexperience/eufemia/commit/50ac16eda49fb349ada29b70a4c49927bf409b77))
+* **PaymentCard:** inherit text color from card instead of typography token ([#8367](https://github.com/dnbexperience/eufemia/issues/8367)) ([c27f3f1](https://github.com/dnbexperience/eufemia/commit/c27f3f122fe040d7ae38f75df8be4a59914f9ba2))
+* **Textarea:** add disabled placeholder color token to match input ([#8356](https://github.com/dnbexperience/eufemia/issues/8356)) ([f1d8bdf](https://github.com/dnbexperience/eufemia/commit/f1d8bdf84381b1064e6c93a527b5842a20468ed6))
+* **Textarea:** use consistent disabled background token with Input  ([#8355](https://github.com/dnbexperience/eufemia/issues/8355)) ([15d8d77](https://github.com/dnbexperience/eufemia/commit/15d8d7729603012da11fd4e0fc9c3528d78f953c))
+
+### :memo: Documentation
+
+* **PaymentCard:** add alternative CSS import for styles ([#8369](https://github.com/dnbexperience/eufemia/issues/8369)) ([aa94472](https://github.com/dnbexperience/eufemia/commit/aa9447216d61622a3d914ee61e8fddcb2f0820f2))
+
+### :barber: Style Changes
+
+* **Dropdown, Autocomplete:** unify design across brands ([#7767](https://github.com/dnbexperience/eufemia/issues/7767)) ([ae6746f](https://github.com/dnbexperience/eufemia/commit/ae6746f21f31388340fdc0806d6373c2813b18aa))
+* **Field.Number:** unify theme styles (Sbanken) ([#8344](https://github.com/dnbexperience/eufemia/issues/8344)) ([0890ceb](https://github.com/dnbexperience/eufemia/commit/0890ceb83ec24bb8e46c519973a311a5480f096e))
+
+### :art: Design Changes
+
+* **Accordion:** update `Sbanken` styling ([#8264](https://github.com/dnbexperience/eufemia/issues/8264)) ([61207ed](https://github.com/dnbexperience/eufemia/commit/61207ed4a994f1ed77c9a64e95a7b3b9dbc87ba7))
+* update color design tokens ([#8360](https://github.com/dnbexperience/eufemia/issues/8360)) ([0780387](https://github.com/dnbexperience/eufemia/commit/07803870d3f61206f23a3a413a60f7e8cece7a26))
+
 ## [11.4.0](https://github.com/dnbexperience/eufemia/compare/v11.3.0...v11.4.0) (2026-05-27)
 
 ### :sparkles: Features
