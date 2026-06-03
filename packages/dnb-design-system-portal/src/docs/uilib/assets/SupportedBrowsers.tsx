@@ -30,7 +30,7 @@ export function SupportedBrowsersConfig() {
 
 export function SupportedBrowsersTable() {
   return (
-    <Table size="small" outline>
+    <Table size="small" border outline>
       <thead>
         <Tr>
           <Th
