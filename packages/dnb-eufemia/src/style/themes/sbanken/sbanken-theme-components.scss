@@ -17,9 +17,7 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
  * You may want to update it by running "yarn build" locally.
  */
 
-@use '../../../components/accordion/style/themes/dnb-accordion-theme-sbanken.scss';
 @use '../../../components/anchor/style/themes/dnb-anchor-theme-sbanken.scss';
-@use '../../../components/autocomplete/style/themes/dnb-autocomplete-theme-sbanken.scss';
 @use '../../../components/avatar/style/themes/dnb-avatar-theme-sbanken.scss';
 @use '../../../components/button/style/themes/dnb-button-theme-sbanken.scss';
 @use '../../../components/card/style/themes/dnb-card-theme-sbanken.scss';
@@ -28,9 +26,7 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 @use '../../../components/global-status/style/themes/dnb-global-status-theme-sbanken.scss';
 @use '../../../components/help-button/style/themes/dnb-help-button-theme-sbanken.scss';
 @use '../../../components/input/style/themes/dnb-input-theme-sbanken.scss';
-@use '../../../components/pagination/style/themes/dnb-pagination-theme-sbanken.scss';
 @use '../../../components/table/style/themes/dnb-table-theme-sbanken.scss';
-@use '../../../components/term-definition/style/themes/dnb-term-definition-theme-sbanken.scss';
 @use '../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-sbanken.scss';
 @use '../../../components/icon/style/themes/dnb-icon-theme-ui.scss';
 @use '../../../components/timeline/style/themes/dnb-timeline-theme-ui.scss';

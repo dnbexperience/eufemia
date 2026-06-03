@@ -79,4 +79,11 @@ export default defineConfig({
       'repo-utils': path.resolve(__dirname, '../../tools/repo-utils'),
     },
   },
+
+  // Vite only exposes VITE_* env vars to browser code by default.
+  // The screenshot setup reads import.meta.env.CI to set
+  // allowedMismatchedPixelRatio, so we inject it explicitly.
+  define: {
+    'import.meta.env.CI': JSON.stringify(process.env.CI ?? ''),
+  },
 })

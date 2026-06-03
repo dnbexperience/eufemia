@@ -1107,7 +1107,7 @@ const handleWrapper = async (
       wrapperEl.setAttribute('data-visual-test-id', id)
       wrapperEl.setAttribute('data-visual-test-wrapper', attrValue ?? '')
 
-      element.parentNode!.insertBefore(wrapperEl, element)
+      element.parentNode.insertBefore(wrapperEl, element)
       wrapperEl.appendChild(element)
       wrapperEl.setAttribute('style', style)
 
@@ -1130,7 +1130,9 @@ const handleWrapper = async (
     { id: wrapperId, style: styleStr }
   )
 
-  await page.waitForSelector(`[data-visual-test-id="${wrapperId}"]`)
+  await page.waitForSelector(`[data-visual-test-id="${wrapperId}"]`, {
+    state: 'attached',
+  })
 
   const screenshotElement = await page.$(
     `[data-visual-test-id="${wrapperId}"]`
@@ -1165,7 +1167,7 @@ const syncWrapperBounds = async (page: Page, selector: string) => {
         '[data-visual-test-wrapper]'
       ) as HTMLElement | null
       if (wrapper) {
-        const elRect = el!.getBoundingClientRect()
+        const elRect = el.getBoundingClientRect()
         const wRect = wrapper.getBoundingClientRect()
         const overflow = Math.ceil(elRect.bottom - wRect.bottom)
         if (overflow > 0) {
@@ -1217,7 +1219,7 @@ const measureWrapperWidth = async (
         element.parentElement?.getBoundingClientRect().width ?? Infinity
 
       const placeholder = document.createComment('vis-measure-anchor')
-      element.parentNode!.insertBefore(placeholder, element)
+      element.parentNode.insertBefore(placeholder, element)
 
       const probe = document.createElement('div')
       probe.setAttribute(
@@ -1247,13 +1249,13 @@ const measureWrapperWidth = async (
 
       wrapperEl.appendChild(element)
       probe.appendChild(wrapperEl)
-      placeholder.parentNode!.insertBefore(probe, placeholder)
+      placeholder.parentNode.insertBefore(probe, placeholder)
 
       const measured = wrapperEl.getBoundingClientRect().width
 
       // Move the element back to its original spot before the
       // anchor comment, then remove the anchor and the probe.
-      placeholder.parentNode!.insertBefore(element, placeholder)
+      placeholder.parentNode.insertBefore(element, placeholder)
       placeholder.remove()
       probe.remove()
 
@@ -1421,7 +1423,7 @@ const takeScreenshot = async (
 ): Promise<Buffer> => {
   const target = screenshotSelector || screenshotTargetSelector || selector
   if (target) {
-    await page.waitForSelector(target, { state: 'visible' })
+    await page.waitForSelector(target, { state: 'attached' })
     return await page.locator(target).first().screenshot()
   }
 
@@ -1440,7 +1442,7 @@ const takeScreenshot = async (
     }
   }
 
-  return await screenshotElement!.screenshot()
+  return await screenshotElement.screenshot()
 }
 
 // ── core orchestration ───────────────────────────────────────────────

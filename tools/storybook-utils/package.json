@@ -5,7 +5,6 @@
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
   "version": "1.0.0",
-  "main": "index.js",
   "peerDependencies": {
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.0",

@@ -21,7 +21,14 @@ import CardContext from '../card/CardContext'
 import type { SpacingProps } from '../../shared/types'
 import Dialog from '../Dialog'
 import { question as QuestionIcon, close as CloseIcon } from '../../icons'
+import { transition } from '../icon/IconTransition'
+import IconPrimary from '../icon-primary/IconPrimary'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+
+const helpButtonIcon = transition({
+  question: QuestionIcon,
+  close: CloseIcon,
+})
 
 export type HelpProps = {
   title?: ReactNode
@@ -129,16 +136,19 @@ function HelpButtonInline(props: HelpButtonInlineProps) {
       <HelpButtonInstance
         bounding
         size={size ?? 'small'}
-        icon={HelpButtonIcon}
+        icon={
+          <IconPrimary
+            icon={helpButtonIcon}
+            transitionState={isOpen ? 'close' : 'question'}
+          />
+        }
         title={!isOpen && !wasOpenRef.current ? help?.title : undefined}
         {...rest}
         id={controlId}
         className={clsx(
           'dnb-help-button__inline',
-          isOpen && 'dnb-help-button__inline--open',
-          isUserIntent && 'dnb-help-button__inline--user-intent',
-          typeof wasOpenRef.current === 'boolean' &&
-            'dnb-help-button__inline--was-open',
+          isUserIntent !== undefined &&
+            'dnb-help-button__inline--user-intent',
           className
         )}
         selected={isOpen}
@@ -318,15 +328,6 @@ function HelpButtonInlineContentComponent(
         {children}
       </Section>
     </HeightAnimation>
-  )
-}
-
-function HelpButtonIcon() {
-  return (
-    <>
-      <QuestionIcon />
-      <CloseIcon />
-    </>
   )
 }
 

@@ -1,17 +1,14 @@
 import { cloneElement } from 'react'
+import { clsx } from 'clsx'
 import type { IconFunction, IconSVGProps } from './Icon'
 
 type Point = { cmd: string; x: number; y: number }
 
-/** True when the browser supports the CSS `d` property (Safari does not). */
-const supportsCssDProperty =
-  typeof CSS !== 'undefined' &&
-  typeof CSS.supports === 'function' &&
-  CSS.supports('d: path("M0 0")')
-
-// Creates a morphable icon that transitions between SVG icon states via CSS `d` interpolation.
-// When the paths are structurally incompatible or CSS `d` is unsupported,
-// it falls back to stacked SVGs with a transform/opacity crossfade.
+// Creates a morphable icon that transitions between SVG icon states.
+// Always renders stacked SVGs (the fallback) to guarantee identical SSR
+// and client markup. When paths are structurally compatible, it also
+// attaches CSS `d` custom properties so browsers that support CSS `d`
+// interpolation can smoothly morph the path shape instead.
 export function transition(
   states: Record<string, IconFunction>
 ): IconFunction {
@@ -19,8 +16,7 @@ export function transition(
   const [defaultName, defaultIcon] = entries[0]
   const defaultPoints = parsePath(extractPathD(defaultIcon))
 
-  const isCompatible =
-    transition.isSupported &&
+  const canMorph =
     defaultPoints.length > 0 &&
     entries.every(([name, icon]) => {
       const d = extractPathD(icon)
@@ -37,76 +33,81 @@ export function transition(
       return points.length === defaultPoints.length
     })
 
-  if (!isCompatible) {
-    return createFallbackTransition(entries, defaultName)
+  // Always render stacked SVGs for SSR safety and Safari fallback.
+  // The active state is determined by `data-transition-state` (passed
+  // from Icon via iconParams) so that SSR/SSG renders the correct icon.
+  const iconFn: IconFunction = (
+    props?: IconSVGProps & { 'data-transition-state'?: string }
+  ) => {
+    const activeState = props?.['data-transition-state'] || defaultName
+    const { 'data-transition-state': _, ...svgProps } = props || {}
+
+    return (
+      <>
+        {entries.map(([name, iconRenderer]) => {
+          const element = iconRenderer(svgProps as IconSVGProps)
+          return cloneElement(
+            element as React.ReactElement<Record<string, unknown>>,
+            {
+              key: name,
+              'data-icon-state': name,
+              className: clsx(
+                (element as React.ReactElement<{ className?: string }>)
+                  .props.className,
+                name === activeState && 'dnb-icon__state--active'
+              ),
+            }
+          )
+        })}
+      </>
+    )
   }
-
-  const style: Record<string, string> = {}
-
-  for (const [name, icon] of entries) {
-    const points =
-      name === defaultName
-        ? defaultPoints
-        : alignPath(defaultPoints, parsePath(extractPathD(icon)))
-
-    style[`--icon-transition-${name}`] =
-      `path('${pointsToString(points)}')`
-  }
-
-  style['--icon-transition-default'] =
-    `var(--icon-transition-${defaultName})`
-
-  const iconFn: IconFunction = (props?: IconSVGProps) => defaultIcon(props)
-  iconFn.__iconTransitionStyle = style
-  Object.defineProperty(iconFn, 'name', { value: defaultIcon.name })
-
-  return iconFn
-}
-
-/** Fallback: renders all SVGs stacked, toggling visibility via class. */
-function createFallbackTransition(
-  entries: Array<[string, IconFunction]>,
-  defaultName: string
-): IconFunction {
-  const iconFn: IconFunction = (props?: IconSVGProps) => (
-    <>
-      {entries.map(([name, iconRenderer]) => {
-        const element = iconRenderer(props)
-        return cloneElement(
-          element as React.ReactElement<Record<string, unknown>>,
-          {
-            key: name,
-            'data-icon-state': name,
-            ...(name === defaultName
-              ? { className: 'dnb-icon__state--active' }
-              : {}),
-          }
-        )
-      })}
-    </>
-  )
 
   iconFn.__iconTransitionFallback = true
-  Object.defineProperty(iconFn, 'name', {
-    value: entries[0][1].name,
-  })
+
+  // When paths are compatible, also attach CSS d custom properties.
+  // Browsers that support CSS `d` will morph the first SVG's path
+  // and hide the rest via @supports in the stylesheet.
+  if (canMorph) {
+    const style: Record<string, string> = {}
+
+    for (const [name, icon] of entries) {
+      const points =
+        name === defaultName
+          ? defaultPoints
+          : alignPath(defaultPoints, parsePath(extractPathD(icon)))
+
+      style[`--icon-transition-${name}`] =
+        `path('${pointsToString(points)}')`
+    }
+
+    style['--icon-transition-default'] =
+      `var(--icon-transition-${defaultName})`
+
+    iconFn.__iconTransitionStyle = style
+  }
+
+  Object.defineProperty(iconFn, 'name', { value: defaultIcon.name })
 
   return iconFn
 }
 
 /**
  * Activates a named transition state on an icon element.
- * Works for both d-interpolation and fallback transitions.
+ * Toggles both the fallback SVG classes and the CSS `d` custom
+ * property so the active approach (determined by @supports) works.
  */
 transition.activate = (element: HTMLElement, state: string) => {
-  if (element.classList.contains('dnb-icon--transition-fallback')) {
-    element.querySelectorAll('svg[data-icon-state]').forEach((svg) => {
-      svg.classList.toggle(
-        'dnb-icon__state--active',
-        (svg as SVGElement).dataset.iconState === state
-      )
-    })
-  } else {
+  // Fallback: toggle active class on stacked SVGs
+  element.querySelectorAll('svg[data-icon-state]').forEach((svg) => {
+    svg.classList.toggle(
+      'dnb-icon__state--active',
+      (svg as SVGElement).dataset.iconState === state
+    )
+  })
+
+  // CSS d: update the custom property for browsers that support it
+  if (element.style.getPropertyValue('--icon-transition-default')) {
     element.style.setProperty(
       '--icon-transition',
       `var(--icon-transition-${state})`
@@ -141,7 +142,10 @@ export function suppressTransitions(
   }
 }
 
-transition.isSupported = supportsCssDProperty
+transition.isSupported =
+  typeof CSS !== 'undefined' &&
+  typeof CSS.supports === 'function' &&
+  CSS.supports('d: path("M0 0")')
 
 function extractPathD(iconFn: IconFunction): string {
   const svg = iconFn() as React.ReactElement<

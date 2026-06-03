@@ -94,14 +94,24 @@ p > .dnb-icon {
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
 }
-.dnb-icon[style*="--icon-transition"] svg path {
-  d: var(--icon-transition, var(--icon-transition-default));
-  vector-effect: non-scaling-stroke;
-  transition: d 400ms var(--easing-default);
-}
-@media (prefers-reduced-motion: reduce) {
-  .dnb-icon[style*="--icon-transition"] svg path {
-    transition-duration: 0.01ms;
+@supports (d: path("")) {
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:not(:first-of-type) {
+    display: none;
+  }
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type path {
+    d: var(--icon-transition, var(--icon-transition-default));
+    vector-effect: non-scaling-stroke;
+    transition: d 400ms var(--easing-default);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type path {
+      transition-duration: 0.01ms;
+    }
   }
 }
 .dnb-icon--transition-fallback {
@@ -258,12 +268,6 @@ html:not([data-whatinput=touch]) .dnb-accordion__header:focus-visible:not([disab
   margin: var(--accordion-header-margin-vertical) var(--accordion-header-icon-gutter) var(--accordion-header-margin-vertical) var(--accordion-header-icon-margin);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
-  transition: transform 400ms var(--accordion-easing);
-}
-@media (prefers-reduced-motion: reduce) {
-  .dnb-accordion__header__icon {
-    transition-duration: 0.01ms;
-  }
 }
 .dnb-accordion__header--description .dnb-accordion__header__icon {
   margin-top: var(--accordion-header-margin-vertical--description);
@@ -333,9 +337,6 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
 .dnb-accordion__header__description + .dnb-accordion__header__title {
   margin-top: 0.25rem;
 }
-.dnb-accordion--expanded > .dnb-accordion__header .dnb-accordion__header__icon {
-  transform: rotate(-180deg);
-}
 .dnb-accordion__content {
   display: flex;
   width: 100%;
@@ -383,11 +384,6 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
     margin-top: 0;
   }
 }
-@media screen and (min-width: 40.00625em) {
-  .dnb-accordion-group--single-container .dnb-accordion > .dnb-accordion__header .dnb-accordion__header__icon {
-    transform: rotate(-90deg);
-  }
-}
 .dnb-accordion-group--single-container .dnb-accordion-group__children {
   max-width: 60rem;
 }
@@ -411,33 +407,6 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
 .dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon {
   transition: none;
 }
-.dnb-accordion__variant--tertiary {
-  display: inline-flex;
-  border: none;
-  background: none;
-  box-shadow: none;
-}
-.dnb-accordion__variant--tertiary .dnb-accordion__tertiary-button .dnb-icon {
-  transition: transform 0.4s var(--easing-default);
-}
-@media (prefers-reduced-motion: reduce) {
-  .dnb-accordion__variant--tertiary .dnb-accordion__tertiary-button .dnb-icon {
-    transition-duration: 0.01ms;
-  }
-}
-.dnb-accordion__variant--tertiary.dnb-accordion--expanded .dnb-accordion__tertiary-button .dnb-icon {
-  transform: rotate(180deg);
-}
-.dnb-accordion__variant--tertiary.dnb-accordion--expanded .dnb-accordion__tertiary-button.dnb-button--icon-position-left .dnb-icon {
-  transform: rotate(-180deg);
-}"
-`;
-
-exports[`Accordion scss > have to match default theme snapshot 1`] = `
-"/* 
- * Accordion theme
- *
- */
 .dnb-accordion__variant--outlined {
   --accordion-color-text--default: var(
     --token-color-text-action
@@ -554,5 +523,14 @@ exports[`Accordion scss > have to match default theme snapshot 1`] = `
   --accordion-color-border--disabled: var(
     --accordion-color-bg--disabled
   );
+}
+.dnb-accordion__variant--tertiary {
+  display: inline-flex;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+.dnb-accordion__tertiary-button {
+  align-self: flex-start;
 }"
 `;

@@ -717,3 +717,14 @@ export const AutocompleteGroups = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const AutocompleteNoDivider = () => (
+  <Wrapper>
+    <ComponentBox>
+      <Autocomplete
+        noDivider
+        data={['Cat', 'Dog', 'Canary', 'Hamster', 'Piglet']}
+      />
+    </ComponentBox>
+  </Wrapper>
+)

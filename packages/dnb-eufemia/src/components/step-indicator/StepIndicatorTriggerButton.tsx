@@ -10,7 +10,9 @@ import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 import Section from '../section/Section'
 import HeightAnimation from '../height-animation/HeightAnimation'
-import chevron_down from '../../icons/chevron_down'
+import { chevron_down, chevron_up } from '../../icons'
+import Icon from '../icon/Icon'
+import IconPrimary from '../icon-primary/IconPrimary'
 import {
   validateDOMAttributes,
   combineDescribedBy,
@@ -22,6 +24,11 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
+
+const chevronIcon = Icon.transition({
+  collapsed: chevron_down,
+  expanded: chevron_up,
+})
 
 type StepIndicatorTriggerButtonProps = ButtonProps & {
   isNested?: boolean
@@ -131,7 +138,12 @@ function StepIndicatorTriggerButton({
             aria-label={label} // To support NVDA properly
             wrap
             variant="tertiary"
-            icon={chevron_down}
+            icon={
+              <IconPrimary
+                icon={chevronIcon}
+                transitionState={open ? 'expanded' : 'collapsed'}
+              />
+            }
             iconPosition="right"
           >
             {(typeof item === 'string' ? item : item && item.title) || ''}

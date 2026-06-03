@@ -11,6 +11,7 @@ export type ViewDates = {
 
 export type UseViewsParams = ViewDates & {
   isRange?: boolean
+  rangeSingleCalendar?: boolean
 }
 
 export default function useViews({ isRange, ...dates }: UseViewsParams) {
@@ -67,9 +68,10 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
 
 export function getViews({
   isRange,
+  rangeSingleCalendar = false,
   ...dates
 }: ViewDates & UseViewsParams): Array<DatePickerCalendarView> {
-  return isRange
+  return isRange && !rangeSingleCalendar
     ? [
         { nr: 0, month: getMonthView({ months: dates, nr: 0 }) },
         { nr: 1, month: getMonthView({ months: dates, nr: 1 }) },

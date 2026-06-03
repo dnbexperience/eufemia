@@ -59,6 +59,10 @@ export type DateProps = Omit<
    */
   range?: DatePickerProps['range']
   /**
+   * If set to `true`, only one calendar is shown in range mode instead of two side-by-side calendars. Only meant to be used if `range` is set to `true`. Defaults to `false`.
+   */
+  rangeSingleCalendar?: DatePickerProps['rangeSingleCalendar']
+  /**
    * If the input fields with the mask should be visible. Defaults to `true`.
    */
   showInput?: DatePickerProps['showInput']
@@ -237,6 +241,7 @@ function DateComponent(props: DateProps): ReactElement {
     setChanged,
     setDisplayValue,
     range,
+    rangeSingleCalendar,
     showCancelButton = true,
     showResetButton = true,
     showInput = true,
@@ -420,6 +425,7 @@ function DateComponent(props: DateProps): ReactElement {
         maxDate={maxDate}
         status={hasError ? 'error' : undefined}
         range={range}
+        rangeSingleCalendar={rangeSingleCalendar}
         onReset={handleReset}
         onType={onType} // To support validation while typing (e.g. required)
         onChange={handleChange}
@@ -720,6 +726,7 @@ type ExcludedDatePickerProps =
   | 'endDate'
   // Props with different defaults, handled separately
   | 'range'
+  | 'rangeSingleCalendar'
   | 'showInput'
   | 'showCancelButton'
   | 'showResetButton'

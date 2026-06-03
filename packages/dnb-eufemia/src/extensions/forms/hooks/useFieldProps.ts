@@ -19,6 +19,7 @@ import type {
   FieldStatus,
   ReceiveAdditionalEventArgs,
   EventReturnWithStateObjectAndSuccess,
+  EventStateObject,
 } from '../types'
 import type { ContextState } from '../DataContext'
 import { Context as DataContext } from '../DataContext'
@@ -1170,12 +1171,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     const sharedAttachments = createSharedState<{
-      fieldStatusRef?: RefObject<Record<Identifier, unknown>>
+      fieldStatusRef?: RefObject<Record<Identifier, EventStateObject>>
     }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
 
     const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
     if (status) {
-      void setEventResult(status as any)
+      void setEventResult(status)
     }
   }, [
     dataContext?.id,

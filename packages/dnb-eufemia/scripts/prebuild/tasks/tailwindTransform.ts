@@ -102,6 +102,20 @@ const convertBaseVarReferences = (value: string): string => {
   return value
 }
 
+/**
+ * Adds a 0.00625em offset to a breakpoint value so that Tailwind
+ * min-width breakpoints trigger at the same viewport width as the
+ * allAbove SCSS mixin used by the Grid component.
+ */
+const addBreakpointOffset = (value: string): string => {
+  const match = value.match(/^([\d.]+)em$/)
+  if (match) {
+    const num = parseFloat(match[1]) + 0.00625
+    return `${num}em`
+  }
+  return value
+}
+
 export const convertVariablesToTailwindFormat = (
   variables: CSSVariables
 ): CSSVariables => {
@@ -147,6 +161,12 @@ export const convertVariablesToTailwindFormat = (
 
     // Convert var() references for base variables (non-brand)
     convertedValue = convertBaseVarReferences(convertedValue)
+
+    // Add 0.00625em offset to breakpoint values so Tailwind min-width
+    // breakpoints match the allAbove mixin used by the Grid component.
+    if (convertedKey.startsWith('--breakpoint-')) {
+      convertedValue = addBreakpointOffset(convertedValue)
+    }
 
     convertedVariables[convertedKey] = convertedValue
   })

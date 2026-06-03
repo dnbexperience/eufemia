@@ -44,7 +44,6 @@
   }
 
   &__container {
-    width: min-content;
     border-radius: var(--token-radius-sm);
     background-color: var(--token-color-background-neutral);
 
@@ -54,7 +53,7 @@
     top: auto;
 
     .dnb-date-picker--inline & {
-      @include utilities.sharpDropShadow();
+      background-color: transparent;
     }
 
     table {
@@ -171,17 +170,26 @@
 
   &__views {
     display: flex;
+    flex-wrap: wrap;
     user-select: none;
 
     // Wrap already on "medium", because "small" is too narrow in range mode
     @include utilities.allBelow(medium) {
       flex-direction: column;
     }
+
+    .dnb-date-picker--inline & {
+      gap: 1.5rem;
+    }
   }
 
   &__calendar {
     position: relative;
     padding: 1rem;
+
+    .dnb-date-picker--inline & {
+      padding: 0;
+    }
 
     // border
     &::after {
@@ -489,8 +497,8 @@
     // Focus state for keyboard navigation (hover visual + focus outline)
     &--selectable .dnb-button:focus-visible:not([disabled]) {
       z-index: 2;
-      color: var(--token-color-component-button-text-action-hover);
-      background-color: var(--token-color-background-action-hover-subtle);
+      color: var(--token-color-text-action-focus);
+      background-color: var(--token-color-background-action-focus-subtle);
 
       @include utilities.fakeBorder(
         var(--token-color-stroke-action-focus),

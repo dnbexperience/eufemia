@@ -53,7 +53,7 @@ export type UseFieldValidationParams<Value> = {
   ) => void
   getValueByPath: (path: string) => unknown
   getSourceValue: (path: string) => unknown
-  exportValidators: unknown
+  exportValidators: Record<string, Validator<Value>>
   props: unknown
   dataContext: unknown
   combinedErrorMessages: Record<string, string>
@@ -243,7 +243,7 @@ export default function useFieldValidation<Value>({
     getSourceValue,
     setFieldEventListener,
   } as Partial<ReceiveAdditionalEventArgs<Value>>)
-  additionalArgsRef.current.validators = exportValidators as any
+  additionalArgsRef.current.validators = exportValidators
   additionalArgsRef.current.props = props
 
   const additionalArgs = useMemo(() => {

@@ -8,11 +8,13 @@ export type RootElement = Element
  *
  * @param  {string} selector CSS class or tag name (tag name with upper case chars, like "BUTTON")
  * @param  {Element} element The element to begin with
+ * @param  {boolean} excludeSelf Whether to exclude the given element itself from the search. Default: `false`.
  * @return {Element} Found element or `null`
  */
 export const getClosestParent = (
   selector: TargetSelector,
-  element: RootElement
+  element: RootElement,
+  excludeSelf = false
 ): Element | null => {
   try {
     const tagName = /[A-Z]/.test(selector) ? selector : null
@@ -28,6 +30,10 @@ export const getClosestParent = (
       }
 
       return element?.classList.contains(className)
+    }
+
+    if (excludeSelf) {
+      element = element?.parentElement
     }
 
     while (element && !contains(element)) {

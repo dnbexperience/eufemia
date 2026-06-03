@@ -17,6 +17,11 @@
 
   &__contents {
     &--has-controls {
+      .dnb-button.dnb-button--size-small {
+        --button-height--small: 2rem;
+        --button-width--small: 2rem;
+      }
+
       .dnb-input {
         &__input {
           align-items: center;

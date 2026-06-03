@@ -18,20 +18,24 @@ describe('Field.NationalIdentityNumber', () => {
 
   it('should have correct mask', () => {
     const { rerender } = render(
-      <Field.NationalIdentityNumber value="12345678901234567890" />
+      <Field.NationalIdentityNumber value="16120101181" />
     )
 
     const inputElement = document.querySelector('input')
-    expect(inputElement.value).toBe('123456 78901')
+    expect(inputElement.value).toBe('161201 01181')
 
-    rerender(
-      <Field.NationalIdentityNumber
-        omitMask
-        value="12345678901234567890"
-      />
-    )
+    rerender(<Field.NationalIdentityNumber omitMask value="16120101181" />)
 
-    expect(inputElement.value).toBe('12345678901')
+    expect(inputElement.value).toBe('16120101181')
+  })
+
+  it('should allow typing beyond the mask length', async () => {
+    render(<Field.NationalIdentityNumber />)
+
+    const inputElement = document.querySelector('input')
+    await userEvent.type(inputElement, '123456789012345')
+
+    expect(inputElement.value).toBe('123456 789012345')
   })
 
   it('should validate when required', () => {

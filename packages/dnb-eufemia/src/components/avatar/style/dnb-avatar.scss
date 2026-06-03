@@ -130,6 +130,7 @@
     display: inline-flex;
     justify-content: flex;
     flex-direction: row;
+    align-items: center;
 
     .dnb-avatar {
       // No stroke token equivalent for this color, Figma sketches use --token-color-icon-neutral-inverse to create the border that separates avatars in a group.

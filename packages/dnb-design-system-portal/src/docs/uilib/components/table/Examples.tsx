@@ -3,10 +3,10 @@
  *
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { useMedia, useTranslation } from '@dnb/eufemia/src/shared'
+import { useMedia } from '@dnb/eufemia/src/shared'
 import {
   H2,
   P,
@@ -18,7 +18,6 @@ import {
   Card,
   Flex,
   Badge,
-  Tooltip,
   Heading,
   Icon,
   Menu,
@@ -26,7 +25,6 @@ import {
 import {
   stop as stopIcon,
   compose as composeIcon,
-  copy as copyIcon,
   view as eyeIcon,
   launch as launchIcon,
   trash as trashIcon,
@@ -49,36 +47,6 @@ import Table, {
   useTableHighlight,
 } from '@dnb/eufemia/src/components/Table'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
-import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
-
-function useCopyWithNotice() {
-  const [active, setActive] = useState(false)
-  const { NumberFormat } = useTranslation()
-  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
-
-  const copyTooltip = useCallback(
-    (target: HTMLElement | null) => {
-      return (
-        <Tooltip open={active} targetElement={target}>
-          {NumberFormat.clipboardCopy}
-        </Tooltip>
-      )
-    },
-    [NumberFormat.clipboardCopy, active]
-  )
-
-  const copy = useCallback((str: string) => {
-    copyToClipboard(str)
-    setActive(true)
-    clearTimeout(timeoutRef.current)
-    timeoutRef.current = setTimeout(() => {
-      setActive(false)
-    }, 1500)
-  }, [])
-
-  return { copy, copyTooltip }
-}
-
 export const VariantBasic = () => (
   <ComponentBox
     hideCode
@@ -668,18 +636,18 @@ export const ClassHelpers = () => (
         <thead>
           <tr className="dnb-table__tr">
             <th className="dnb-table__th">.dnb-table__th</th>
-            <th className="dnb-table__th dnb-table--sortable dnb-table--reversed">
+            <Th sortable reversed>
               <Th.SortButton
                 text="dnb-table--reversed"
                 title="dnb-table__th dnb-table--sortable dnb-table--reversed"
               />
-            </th>
-            <th className="dnb-table__th dnb-table--sortable dnb-table--active">
+            </Th>
+            <Th sortable active>
               <Th.SortButton
                 text="dnb-table--active"
                 title="dnb-table__th dnb-table--sortable dnb-table--active"
               />
-            </th>
+            </Th>
           </tr>
         </thead>
         <tbody>
@@ -737,11 +705,7 @@ export const LongHeader = () => (
 )
 
 export const Accordion = () => (
-  <ComponentBox
-    hideCode
-    data-visual-test="table-accordion"
-    scope={{ copyIcon, useCopyWithNotice }}
-  >
+  <ComponentBox hideCode data-visual-test="table-accordion">
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
@@ -750,51 +714,10 @@ export const Accordion = () => (
         const TdInput = () => {
           return <Input label="Label" labelSrOnly size={4} />
         }
-        const Content = ({ shareId }) => {
-          const ref = useRef(undefined)
-          const { copy, copyTooltip } = useCopyWithNotice()
 
-          const shareHandler = () => {
-            const url = new URL(location.href)
-            url.hash = '#' + shareId
-            copy(url.toString())
-          }
-
+        const Row = ({ nr, ...rest }) => {
           return (
-            <>
-              <Button top icon="bell" variant="secondary">
-                Ring the bell
-              </Button>
-
-              <Section top innerSpace={{ block: 'large' }}>
-                <Dl>
-                  <Dt>Favorittfarge</Dt>
-                  <Dd>Grønn</Dd>
-                  <Dt>Favorittmat</Dt>
-                  <Dd>Taco</Dd>
-                </Dl>
-              </Section>
-
-              <Button
-                top
-                variant="tertiary"
-                icon={copyIcon}
-                iconPosition="left"
-                onClick={shareHandler}
-                ref={ref}
-              >
-                Copy link to this row
-              </Button>
-
-              {copyTooltip(ref.current)}
-            </>
-          )
-        }
-
-        const Row = ({ nr }) => {
-          const shareId = id + '-' + nr
-          return (
-            <Tr id={shareId}>
+            <Tr id={id + '-' + nr} {...rest}>
               <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
               <Td>Row {nr}</Td>
               <Td spacing="horizontal">
@@ -803,7 +726,12 @@ export const Accordion = () => (
               <Td align="right">Row {nr}</Td>
 
               <Td.AccordionContent>
-                <Content shareId={shareId} />
+                <Section innerSpace={{ block: 'small' }}>
+                  <Dl>
+                    <Dt>Favorittfarge</Dt>
+                    <Dd>Grønn</Dd>
+                  </Dl>
+                </Section>
               </Td.AccordionContent>
             </Tr>
           )
@@ -825,7 +753,7 @@ export const Accordion = () => (
             <tbody>
               <Row nr="1" />
               <Row nr="2" />
-              <Row nr="3" />
+              <Row nr="3" expanded />
             </tbody>
           </Table>
         )
@@ -856,11 +784,7 @@ export const Accordion = () => (
 )
 
 export const AccordionMixed = () => (
-  <ComponentBox
-    hideCode
-    data-visual-test="table-accordion-mixed"
-    scope={{ copyIcon, useCopyWithNotice }}
-  >
+  <ComponentBox hideCode data-visual-test="table-accordion-mixed">
     {() => {
       const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
         const TdCheckbox = () => {
@@ -868,46 +792,6 @@ export const AccordionMixed = () => (
         }
         const TdInput = () => {
           return <Input label="Label" labelSrOnly size={4} />
-        }
-        const Content = ({ shareId }) => {
-          const ref = useRef(undefined)
-          const { copy, copyTooltip } = useCopyWithNotice()
-
-          const shareHandler = () => {
-            const url = new URL(location.href)
-            url.hash = '#' + shareId
-            copy(url.toString())
-          }
-
-          return (
-            <>
-              <Button top icon="bell" variant="secondary">
-                Ring the bell
-              </Button>
-
-              <Section top innerSpace={{ block: 'large' }}>
-                <Dl>
-                  <Dt>Favorittfarge</Dt>
-                  <Dd>Grønn</Dd>
-                  <Dt>Favorittmat</Dt>
-                  <Dd>Taco</Dd>
-                </Dl>
-              </Section>
-
-              <Button
-                top
-                variant="tertiary"
-                icon={copyIcon}
-                iconPosition="left"
-                onClick={shareHandler}
-                ref={ref}
-              >
-                Copy link to this row
-              </Button>
-
-              {copyTooltip(ref.current)}
-            </>
-          )
         }
 
         return (
@@ -933,7 +817,12 @@ export const AccordionMixed = () => (
                 <Td align="right">Row {1}</Td>
 
                 <Td.AccordionContent>
-                  <Content shareId={id + '-' + 1} />
+                  <Section innerSpace={{ block: 'small' }}>
+                    <Dl>
+                      <Dt>Favorittfarge</Dt>
+                      <Dd>Grønn</Dd>
+                    </Dl>
+                  </Section>
                 </Td.AccordionContent>
               </Tr>
               <Tr id={id + '-' + 2}>
@@ -953,7 +842,12 @@ export const AccordionMixed = () => (
                 <Td align="right">Row {3}</Td>
 
                 <Td.AccordionContent>
-                  <Content shareId={id + '-' + 3} />
+                  <Section innerSpace={{ block: 'small' }}>
+                    <Dl>
+                      <Dt>Favorittfarge</Dt>
+                      <Dd>Grønn</Dd>
+                    </Dl>
+                  </Section>
                 </Td.AccordionContent>
               </Tr>
             </tbody>

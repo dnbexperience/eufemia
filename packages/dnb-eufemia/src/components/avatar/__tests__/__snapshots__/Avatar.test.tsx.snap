@@ -109,6 +109,7 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
   display: inline-flex;
   justify-content: flex;
   flex-direction: row;
+  align-items: center;
 }
 .dnb-avatar__group .dnb-avatar {
   --border-color: var(--token-color-icon-neutral-inverse);

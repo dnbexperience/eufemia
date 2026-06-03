@@ -2,11 +2,18 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent } from 'react'
 import { clsx } from 'clsx'
 import IconPrimary from '../IconPrimary'
+import Icon from '../icon/Icon'
+import { chevron_down, chevron_up } from '../../icons'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { MenuContext, useMenuContext } from './MenuContext'
 import MenuItemContent from './MenuItemContent'
 import useMenuItemRegistration from './useMenuItemRegistration'
 import type { MenuAccordionProps, MenuContextValue } from './types'
+
+const accordionIcon = Icon.transition({
+  collapsed: chevron_down,
+  expanded: chevron_up,
+})
 
 export default function MenuAccordion(props: MenuAccordionProps) {
   const {
@@ -164,7 +171,10 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         <MenuItemContent icon={icon} text={text} />
 
         <span className="dnb-menu__accordion__indicator">
-          <IconPrimary icon="chevron_right" />
+          <IconPrimary
+            icon={accordionIcon}
+            transitionState={isOpen ? 'expanded' : 'collapsed'}
+          />
         </span>
       </div>
 

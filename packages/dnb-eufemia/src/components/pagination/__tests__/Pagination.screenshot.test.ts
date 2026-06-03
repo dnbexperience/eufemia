@@ -134,14 +134,12 @@ describe('Pagination for ui', () => {
   it('have to match pagination with href', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="pagination-href"]',
-      style: { width: 'fit-content' },
     })
   })
 
   it('have to match pagination with href link hover', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="pagination-href"]',
-      style: { width: 'fit-content' },
       simulateSelector:
         '[data-visual-test="pagination-href"] a.dnb-pagination__button:nth-of-type(2)',
       simulate: 'hover',
@@ -151,7 +149,6 @@ describe('Pagination for ui', () => {
   it('have to match pagination with href link focus', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="pagination-href"]',
-      style: { width: 'fit-content' },
       simulateSelector:
         '[data-visual-test="pagination-href"] a.dnb-pagination__button:nth-of-type(2)',
       simulate: 'focus',
@@ -161,7 +158,6 @@ describe('Pagination for ui', () => {
   it('have to match pagination with href current page', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="pagination-href"]',
-      style: { width: 'fit-content' },
       simulateSelector:
         '[data-visual-test="pagination-href"] .dnb-pagination__button--current',
       simulate: 'hover',

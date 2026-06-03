@@ -132,13 +132,29 @@
   // Icon.transition() — animate between SVG path states via CSS d property.
   // non-scaling-stroke keeps stroke width constant when a 16×16 icon is
   // displayed at a larger size (e.g. medium/24px wrapper).
-  &[style*='--icon-transition'] svg path {
-    d: var(--icon-transition, var(--icon-transition-default));
-    vector-effect: non-scaling-stroke;
-    transition: d 400ms var(--easing-default);
+  // When CSS d is supported, morph the first SVG's path and hide the rest.
+  @supports (d: path('')) {
+    &--transition-fallback[style*='--icon-transition'] {
+      svg[data-icon-state]:not(:first-of-type) {
+        display: none;
+      }
 
-    @include utilities.reducedMotion() {
-      transition-duration: 0.01ms;
+      // Keep the first SVG always visible — its path is morphed via d.
+      svg[data-icon-state]:first-of-type {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+
+      svg[data-icon-state]:first-of-type path {
+        d: var(--icon-transition, var(--icon-transition-default));
+        vector-effect: non-scaling-stroke;
+        transition: d 400ms var(--easing-default);
+
+        @include utilities.reducedMotion() {
+          transition-duration: 0.01ms;
+        }
+      }
     }
   }
 

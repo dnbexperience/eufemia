@@ -116,7 +116,7 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   --badge-information-subtle-bg: var(
     --token-color-background-error-subtle
   );
-  --badge-information-subtle-color: var(--token-color-text-destructive);
+  --badge-information-subtle-color: var(--token-color-text-error);
   --badge-information-subtle-border: var(--token-color-stroke-error);
 }"
 `;

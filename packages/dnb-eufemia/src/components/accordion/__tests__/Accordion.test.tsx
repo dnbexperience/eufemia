@@ -758,7 +758,7 @@ describe('Accordion tertiary variant', () => {
           id="split-test"
           noAnimation
         />
-        <Accordion.Content id="split-test">
+        <Accordion.Content connectedTo="split-test">
           <p>Remote content</p>
         </Accordion.Content>
       </>
@@ -789,6 +789,29 @@ describe('Accordion tertiary variant', () => {
     // Click collapses again
     fireEvent.click(button)
     expect(button.getAttribute('aria-expanded')).toBe('false')
+  })
+
+  it('supports deprecated id prop as fallback for connectedTo', () => {
+    render(
+      <>
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="deprecated-id-test"
+          noAnimation
+        />
+        <Accordion.Content id="deprecated-id-test">
+          <p>Remote content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+
+    fireEvent.click(button)
+    expect(button.getAttribute('aria-expanded')).toBe('true')
   })
 
   it('does not focus content on pointer click', () => {
@@ -898,7 +921,7 @@ describe('Accordion tertiary variant', () => {
           id="focus-split-mouse"
           noAnimation
         />
-        <Accordion.Content id="focus-split-mouse" title="Details">
+        <Accordion.Content connectedTo="focus-split-mouse" title="Details">
           <p>Remote content</p>
         </Accordion.Content>
       </>
@@ -926,7 +949,7 @@ describe('Accordion tertiary variant', () => {
           id="focus-split"
           noAnimation
         />
-        <Accordion.Content id="focus-split" title="Details">
+        <Accordion.Content connectedTo="focus-split" title="Details">
           <p>Remote content</p>
         </Accordion.Content>
       </>
@@ -970,7 +993,7 @@ describe('Accordion tertiary variant', () => {
           id="axe-split"
           noAnimation
         />
-        <Accordion.Content id="axe-split">
+        <Accordion.Content connectedTo="axe-split">
           <p>Content</p>
         </Accordion.Content>
       </>
@@ -988,7 +1011,7 @@ describe('Accordion tertiary variant', () => {
           id="section-test"
           noAnimation
         />
-        <Accordion.Content id="section-test" title="Details">
+        <Accordion.Content connectedTo="section-test" title="Details">
           <p>Content</p>
         </Accordion.Content>
       </>
@@ -1011,7 +1034,7 @@ describe('Accordion tertiary variant', () => {
           id="default-keep-test"
           noAnimation
         />
-        <Accordion.Content id="default-keep-test">
+        <Accordion.Content connectedTo="default-keep-test">
           <p>Content</p>
         </Accordion.Content>
       </>
@@ -1033,7 +1056,7 @@ describe('Accordion tertiary variant', () => {
           id="keep-test"
           noAnimation
         />
-        <Accordion.Content id="keep-test" keepInDOM={false}>
+        <Accordion.Content connectedTo="keep-test" keepInDOM={false}>
           <p>Content</p>
         </Accordion.Content>
       </>
@@ -1054,7 +1077,7 @@ describe('Accordion tertiary variant', () => {
           id="keep-in-dom-test"
           noAnimation
         />
-        <Accordion.Content id="keep-in-dom-test" keepInDOM>
+        <Accordion.Content connectedTo="keep-in-dom-test" keepInDOM>
           <p>Content</p>
         </Accordion.Content>
       </>
@@ -1073,7 +1096,7 @@ describe('Accordion tertiary variant', () => {
           title="Toggle"
           id="no-animation-test"
         />
-        <Accordion.Content id="no-animation-test" noAnimation>
+        <Accordion.Content connectedTo="no-animation-test" noAnimation>
           <p>Content</p>
         </Accordion.Content>
       </>
@@ -1102,7 +1125,7 @@ describe('Accordion tertiary variant', () => {
           id="function-child-test"
           noAnimation
         />
-        <Accordion.Content id="function-child-test">
+        <Accordion.Content connectedTo="function-child-test">
           {() => <p>Content</p>}
         </Accordion.Content>
       </>
@@ -1123,7 +1146,7 @@ describe('Accordion tertiary variant', () => {
     render(
       <>
         <Accordion variant="tertiary" title="Toggle" id="spacing-test" />
-        <Accordion.Content id="spacing-test" top="large">
+        <Accordion.Content connectedTo="spacing-test" top="large">
           <p>Content</p>
         </Accordion.Content>
       </>
@@ -1139,13 +1162,6 @@ describe('Accordion tertiary variant', () => {
 describe('Accordion scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
-  it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-accordion-theme-ui.scss')
-    )
     expect(css).toMatchSnapshot()
   })
 })

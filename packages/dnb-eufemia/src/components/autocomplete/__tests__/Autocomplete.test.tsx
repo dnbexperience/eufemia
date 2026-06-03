@@ -818,7 +818,7 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-item closest-to-top closest-to-bottom first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
+      '<li class="first-item first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="3" id="option-autocomplete-id-3"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span> second</span></span></span></li>'
     )
 
     // Do not find item, as there is defined a searchContent
@@ -4584,6 +4584,13 @@ describe('Autocomplete component', () => {
       )
     })
   })
+
+  it('adds class "dnb-drawer-list--no-divider" when noDivider prop is set', () => {
+    render(<Autocomplete {...mockProps} data={mockData} open noDivider />)
+    expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
+  })
 })
 
 describe('Autocomplete markup', () => {
@@ -4748,9 +4755,7 @@ describe('Autocomplete scss', () => {
   })
 
   it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-autocomplete-theme-ui.scss')
-    )
+    const css = loadScss(require.resolve('../style/dnb-autocomplete.scss'))
     expect(css).toMatchSnapshot()
   })
 })

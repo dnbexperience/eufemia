@@ -463,11 +463,20 @@ export function prepareIcon(
   if (typeof iconToRender === 'function') {
     if (iconToRender.__iconTransitionFallback) {
       wrapperParams.className += ' dnb-icon--transition-fallback'
+
+      // Pass transitionState so the icon function renders the correct
+      // SVG as active during SSR — avoids a flash on hydration.
+      if (_transitionState) {
+        iconParams['data-transition-state'] = _transitionState
+      }
     }
     if (iconToRender.__iconTransitionStyle) {
       wrapperParams.style = {
         ...wrapperParams.style,
         ...iconToRender.__iconTransitionStyle,
+        ...(_transitionState && {
+          '--icon-transition': `var(--icon-transition-${_transitionState})`,
+        }),
       }
     }
   }

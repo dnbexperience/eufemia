@@ -106,14 +106,24 @@ p > .dnb-icon {
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
 }
-.dnb-icon[style*="--icon-transition"] svg path {
-  d: var(--icon-transition, var(--icon-transition-default));
-  vector-effect: non-scaling-stroke;
-  transition: d 400ms var(--easing-default);
-}
-@media (prefers-reduced-motion: reduce) {
-  .dnb-icon[style*="--icon-transition"] svg path {
-    transition-duration: 0.01ms;
+@supports (d: path("")) {
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:not(:first-of-type) {
+    display: none;
+  }
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type path {
+    d: var(--icon-transition, var(--icon-transition-default));
+    vector-effect: non-scaling-stroke;
+    transition: d 400ms var(--easing-default);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type path {
+      transition-duration: 0.01ms;
+    }
   }
 }
 .dnb-icon--transition-fallback {
@@ -323,7 +333,7 @@ button .dnb-form-status__text {
 
 @keyframes attention-focus {
   0%, 100% {
-    color: var(--token-color-text-destructive);
+    color: var(--token-color-text-error);
     background-color: var(--token-color-background-error-subtle);
     border-color: var(--token-color-stroke-error);
   }
@@ -396,6 +406,7 @@ button .dnb-form-status__text {
   --button-color-bg--focus: var(
     --token-color-background-action-focus-subtle
   );
+  --button-color-border--focus: var(--token-color-stroke-action-focus);
   --button-color-icon--focus: var(--token-color-icon-action-focus);
   --button-color-text--focus: var(--token-color-text-action-focus);
   color: var(--button-color-text, var(--button-color-text--default));
@@ -439,7 +450,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], h
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
   --button-color-bg: var(--button-color-bg--focus);
-  --button-color-border: var(--token-color-stroke-action-focus);
+  --button-color-border: var(--button-color-border--focus);
   --button-color-icon: var(--button-color-icon--focus);
   --button-color-text: var(--button-color-text--focus);
   --button-color-underline: var(--button-color-underline--focus);
@@ -731,6 +742,14 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     --token-color-icon-action-hover-ondark
   );
 }
+.dnb-button--tertiary.dnb-button--surface-dark.dnb-button--icon-only {
+  --button-color-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --button-color-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
+}
 .dnb-button--tertiary.dnb-button__status--error {
   --button-color-icon--default: var(
     --token-color-component-button-icon-action-destructive
@@ -1001,68 +1020,8 @@ button.dnb-button::-moz-focus-inner {
  * HelpButton component
  *
  */
-.dnb-help-button__inline svg {
-  will-change: transform;
-}
-.dnb-help-button__inline svg:nth-of-type(2) {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  opacity: 0;
-}
-.dnb-help-button__inline--open svg:nth-of-type(1) {
-  opacity: 0;
-}
-.dnb-help-button__inline--open svg:nth-of-type(2) {
-  animation: rotate-icon-in 400ms var(--easing-default) forwards;
-}
-.dnb-help-button__inline:not(.dnb-help-button__inline--open).dnb-help-button__inline--was-open svg:nth-of-type(1) {
-  opacity: 0;
-  animation: animate-question 400ms var(--easing-default) 200ms forwards;
-}
-.dnb-help-button__inline:not(.dnb-help-button__inline--open).dnb-help-button__inline--was-open svg:nth-of-type(2) {
-  animation: rotate-icon-out 400ms var(--easing-default) forwards;
-}
-.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) svg {
-  animation-duration: 0ms;
-}
-@media (prefers-reduced-motion: reduce) {
-  .dnb-help-button__inline svg {
-    animation-duration: 0.01ms !important;
-  }
-}
-@keyframes rotate-icon-in {
-  from {
-    opacity: 0;
-    transform: rotate(0deg);
-  }
-  to {
-    opacity: 1;
-    transform: rotate(90deg);
-  }
-}
-@keyframes rotate-icon-out {
-  0% {
-    opacity: 1;
-    transform: rotate(90deg);
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: rotate(0deg);
-  }
-}
-@keyframes animate-question {
-  from {
-    opacity: 0;
-    transform: rotate(10deg);
-  }
-  to {
-    opacity: 1;
-    transform: rotate(0deg);
-  }
+.dnb-help-button__inline:not(.dnb-help-button__inline--user-intent) .dnb-icon--transition-fallback svg[data-icon-state] {
+  transition-duration: 0ms;
 }
 
 .dnb-help-button__content .dnb-section {
@@ -1542,7 +1501,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   background-color: var(--dialog-icon-background);
 }
 .dnb-dialog__icon__primary.dnb-dialog__icon--warning {
-  --dialog-icon-color: var(--token-color-icon-destructive);
+  --dialog-icon-color: var(--token-color-icon-error);
   --dialog-icon-background: var(--token-color-background-error-subtle);
 }
 .dnb-dialog__icon__primary.dnb-dialog__icon--information {

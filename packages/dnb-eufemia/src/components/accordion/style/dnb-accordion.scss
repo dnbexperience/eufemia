@@ -13,6 +13,7 @@
   );
   --accordion-color-bg: var(--accordion-color-bg--default);
   --accordion-color-border: var(--accordion-color-border--default);
+
   // border
   --accordion-border-width: var(
     --accordion-border-width--default,
@@ -160,11 +161,6 @@
       line-height: var(
         --line-height-small
       ); // to ensure correct icon height
-      transition: transform 400ms var(--accordion-easing);
-
-      @include utilities.reducedMotion() {
-        transition-duration: 0.01ms;
-      }
     }
     &--description &__icon {
       margin-top: var(--accordion-header-margin-vertical--description);
@@ -247,9 +243,8 @@
     }
   }
 
-  &--expanded > &__header &__header__icon {
-    transform: rotate(-180deg);
-  }
+  // Icon.transition() state is driven by the transitionState prop
+  // set in AccordionHeader — no CSS rule needed here.
 
   &__content {
     display: flex;
@@ -312,11 +307,6 @@
     //   }
     // }
   }
-  &-group--single-container & > &__header &__header__icon {
-    @include utilities.allAbove(small) {
-      transform: rotate(-90deg);
-    }
-  }
 
   &-group {
     &--single-container & {
@@ -354,6 +344,168 @@
     transition: none;
   }
 
+  // Variant: "outlined"
+  &__variant--outlined {
+    // text
+    --accordion-color-text--default: var(
+      --token-color-text-action
+    ); // TODO: icon has own token
+
+    --accordion-color-text--hover: var(--token-color-text-action);
+    --accordion-color-text--after-click: var(
+      --token-color-text-neutral-inverse
+    );
+
+    // background
+    --accordion-color-bg--default: var(--token-color-background-neutral);
+    --accordion-color-bg--after-click: var(
+      --token-color-background-action
+    );
+    --accordion-color-bg--hover: var(--token-color-background-neutral);
+    --accordion-color-bg--active: var(
+      --token-color-background-action-pressed-subtle
+    );
+    --accordion-color-bg--disabled: var(--token-color-background-neutral);
+
+    // border
+    --accordion-color-border--default: var(
+      --token-color-stroke-neutral-bold
+    );
+    --accordion-color-border--hover: var(
+      --token-color-stroke-action-hover
+    );
+    --accordion-color-border--active: var(
+      --token-color-stroke-action-pressed
+    );
+    --accordion-color-border--after-click: var(
+      --token-color-stroke-action
+    );
+
+    // other
+    --accordion-border-width--hover: 0.125rem;
+    --accordion-border-width--active: 0.125rem;
+
+    &.dnb-accordion--expanded {
+      // text
+      --accordion-color-text--default: var(
+        --token-color-text-neutral-inverse
+      );
+      --accordion-color-text--active: var(--token-color-text-action);
+
+      // background
+      --accordion-color-bg--default: var(--token-color-background-action);
+
+      // border
+      --accordion-color-border--default: var(--accordion-color-bg);
+    }
+  }
+
+  // Variant: "filled"
+  &__variant--filled {
+    // text
+    --accordion-color-text--default: var(--token-color-text-action);
+    --accordion-color-text--hover: var(--token-color-text-action-hover);
+    --accordion-color-text--active: var(
+      --token-color-text-neutral-inverse
+    );
+    --accordion-color-text--disabled: var(
+      --token-color-text-action-disabled
+    );
+
+    // background
+    --accordion-color-bg--default: var(
+      --token-color-decorative-third-muted
+    );
+    --accordion-color-bg--hover: var(--token-color-background-neutral);
+    --accordion-color-bg--active: var(
+      --token-color-background-action-pressed
+    );
+
+    // border
+    --accordion-color-border--default: var(
+      --token-color-decorative-third-muted
+    );
+    --accordion-color-border--active: var(
+      --token-color-stroke-action-pressed
+    );
+
+    // other
+    --accordion-border-width--default: 0.125rem;
+  }
+
+  // Shared variant color properties
+  &__variant--outlined,
+  &__variant--filled {
+    // text
+    --accordion-color-text--disabled: var(
+      --token-color-text-action-disabled
+    );
+    --accordion-color-text--focus: var(--token-color-text-action-focus);
+
+    // description // TODO: not defined in design
+    --accordion-color-description--default: var(
+      --token-color-text-neutral-alternative
+    );
+    --accordion-color-description--hover: var(
+      --token-color-text-neutral-alternative
+    );
+    --accordion-color-description--active: var(
+      --token-color-text-neutral-alternative
+    );
+    --accordion-color-description--focus: var(
+      --token-color-text-neutral-alternative
+    );
+    --accordion-color-description--after-click: var(
+      --accordion-color-text
+    );
+    --accordion-color-description--disabled: var(
+      --token-color-text-action-disabled
+    );
+
+    // background
+    --accordion-color-bg--focus: var(
+      --token-color-background-action-focus-subtle
+    );
+
+    // border
+    --accordion-color-border--focus: var(
+      --token-color-stroke-action-focus
+    );
+    --accordion-color-border--disabled: var(
+      --token-color-stroke-action-disabled
+    );
+
+    // other
+    --accordion-border-width--focus: 0.25rem;
+    --accordion-border-inset--default: inset;
+    --accordion-border-inset--hover: ;
+    --accordion-border-inset--active: inset;
+    --accordion-border-inset--focus: ;
+
+    &.dnb-accordion--expanded {
+      // text
+      --accordion-color-text--disabled: var(
+        --token-color-text-neutral-inverse
+      );
+
+      // description
+      --accordion-color-description--default: var(--accordion-color-text);
+      --accordion-color-description--disabled: var(
+        --token-color-text-neutral-inverse
+      );
+
+      // background
+      --accordion-color-bg--disabled: var(
+        --token-color-background-action-disabled
+      );
+
+      // border
+      --accordion-color-border--disabled: var(
+        --accordion-color-bg--disabled
+      );
+    }
+  }
+
   // Variant: "tertiary"
   &__variant--tertiary {
     display: inline-flex;
@@ -361,25 +513,8 @@
     border: none;
     background: none;
     box-shadow: none;
-
-    .dnb-accordion__tertiary-button {
-      .dnb-icon {
-        transition: transform 0.4s var(--easing-default);
-
-        @include utilities.reducedMotion() {
-          transition-duration: 0.01ms;
-        }
-      }
-    }
-
-    &.dnb-accordion--expanded .dnb-accordion__tertiary-button .dnb-icon {
-      transform: rotate(180deg);
-    }
-
-    &.dnb-accordion--expanded
-      .dnb-accordion__tertiary-button.dnb-button--icon-position-left
-      .dnb-icon {
-      transform: rotate(-180deg);
-    }
+  }
+  &__tertiary-button {
+    align-self: flex-start;
   }
 }

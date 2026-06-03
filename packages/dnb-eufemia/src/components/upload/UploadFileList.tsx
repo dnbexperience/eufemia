@@ -3,6 +3,7 @@ import type { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'
+import { isSameFile } from './uploadFileUtils'
 import { isAsync } from '../../shared/helpers/isAsync'
 
 function UploadFileList() {
@@ -34,15 +35,8 @@ function UploadFileList() {
 
   const removeFile = (fileToBeRemoved: UploadFile) => {
     return filesRef.current.filter(
-      (fileListElement) => !fileIsSame(fileListElement, fileToBeRemoved)
+      (fileListElement) => !isSameFile(fileListElement, fileToBeRemoved)
     )
-  }
-
-  const fileIsSame = (fileA: UploadFile, fileB: UploadFile) => {
-    const idIsSame = fileA.id && fileA.id === fileB.id
-    const fileIsSame = fileA.file && fileA.file === fileB.file
-
-    return idIsSame || fileIsSame
   }
 
   const updateFile = (
@@ -50,7 +44,7 @@ function UploadFileList() {
     props: Partial<UploadFile>
   ) => {
     return filesRef.current.map((fileListElement: UploadFile) => {
-      return fileIsSame(fileListElement, fileToBeUpdated)
+      return isSameFile(fileListElement, fileToBeUpdated)
         ? {
             ...fileListElement,
             ...props,

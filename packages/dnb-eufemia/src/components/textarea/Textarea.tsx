@@ -3,14 +3,7 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import {
-  memo,
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { memo, useCallback, useContext, useRef, useState } from 'react'
 import type {
   CSSProperties,
   ChangeEvent,
@@ -41,7 +34,6 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
-import { isWin, isMac } from '../../shared/helpers'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { useSpacing } from '../space/SpacingUtils'
@@ -214,27 +206,6 @@ function getValue(props: TextareaProps) {
   return props.value
 }
 
-function getResizeModifier() {
-  try {
-    if (typeof navigator !== 'undefined') {
-      if (
-        /Firefox|Edg/.test(navigator.userAgent) ||
-        (/Chrome/.test(navigator.userAgent) && isWin())
-      ) {
-        return 'large'
-      }
-
-      if (/Safari|Chrome/.test(navigator.userAgent) && isMac()) {
-        return 'medium'
-      }
-    }
-  } catch (error) {
-    console.error(error)
-  }
-
-  return false
-}
-
 /**
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
@@ -290,7 +261,6 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   const id = useId(ownProps.id)
 
-  const resizeModifier = useMemo(() => getResizeModifier(), [])
   const heightOffsetRef = useRef<number | undefined>(undefined)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
@@ -540,9 +510,6 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       typeof size === 'string' && `dnb-textarea__size--${size}`,
       status && `dnb-textarea__status--${statusState}`,
       autoResize && 'dnb-textarea__autoresize',
-      !autoResize &&
-        resizeModifier &&
-        `dnb-textarea__resize--${resizeModifier}`,
       labelDirection && `dnb-textarea--${labelDirection}`,
       stretch && `dnb-textarea--stretch`,
       keepPlaceholder && `dnb-textarea--keep-placeholder`,

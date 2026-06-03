@@ -16,7 +16,7 @@ $ git checkout -b feat/my-feature
 
 ## Add changes
 
-Inside `./packages/dnb-eufemia` you will find the directory `/src/components` or `/src/extensions`. There you can place a new directory with all the necessary sub folders. As a reference, take a look at Component folder section in [Before getting started](/contribute/first-contribution/before-started#component-folder).
+Inside `./packages/dnb-eufemia` you will find the directory `/src/components` or `/src/extensions`. There you can place a new directory with all the necessary subfolders. As a reference, take a look at Component folder section in [Before getting started](/contribute/first-contribution/before-started#component-folder).
 
 Run an environment with either `yarn dev` (for Storybook) or `yarn start` (for Eufemia Portal). Make sure you follow the [Code guide](/contribute/style-guides/coding) under development.
 
@@ -49,13 +49,13 @@ All layout and position related styles go here:
 
 ### CSS packages
 
-SCSS file names starting with `dnb-` are later possible to get imported as individual packages:
+SCSS file names starting with `dnb-` can later be imported as individual packages:
 
 - `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
 
 ### Style dependencies
 
-In order to test related style dependencies of components, we add style imports in the `deps.scss` file, which again is used in Jest tests to perform a snapshot comparison:
+In order to test related style dependencies of components, we add style imports in the `deps.scss` file, which is then used in Jest tests to perform a snapshot comparison:
 
 - `./packages/dnb-eufemia/src/components/button/style/deps.scss`
 

@@ -16,6 +16,15 @@ describe('Field.OrganizationNumber', () => {
     expect(element.value).toBe('123 456 789')
   })
 
+  it('should allow typing beyond the mask length', async () => {
+    render(<Field.OrganizationNumber />)
+
+    const element = document.querySelector('input')
+    await userEvent.type(element, '12345678901234')
+
+    expect(element.value).toBe('123 456 78901234')
+  })
+
   it('should have medium width', () => {
     render(<Field.OrganizationNumber />)
 

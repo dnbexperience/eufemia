@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Questions / Help
+    url: https://eufemia.dnb.no/contribute/faq/
+    about: For questions or help, please check the Eufemia FAQ.
+  - name: 📖 Documentation
+    url: https://eufemia.dnb.no/
+    about: Check the Eufemia documentation for guides and API references.

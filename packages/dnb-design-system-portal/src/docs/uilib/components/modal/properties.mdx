@@ -2,13 +2,14 @@
 showTabs: true
 ---
 
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
-import ModalPropTable from 'Docs/uilib/components/modal/prop-table'
+import { ModalProperties } from '@dnb/eufemia/src/components/modal/ModalDocs'
 import { ModalExampleTriggerProps } from 'Docs/uilib/components/modal/Examples'
 
 ## Properties
 
-<ModalPropTable />
+<PropertiesTable props={ModalProperties} />
 
 ## Trigger Properties
 
@@ -16,6 +17,6 @@ Properties targeting the trigger component (Button), but they will be set the sa
 
 <ModalExampleTriggerProps />
 
-## Modal Translations
+## Translations
 
 <TranslationsTable localeKey="Modal" />

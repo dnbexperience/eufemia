@@ -64,11 +64,6 @@ export const DropdownProperties: PropertiesTableProps = {
     type: ['"left"', '"right"'],
     status: 'optional',
   },
-  arrowPosition: {
-    doc: 'Position of arrow on the popup drawer. Set to `left` or `right`. Defaults to `right`.',
-    type: ['"left"', '"right"'],
-    status: 'optional',
-  },
   size: {
     doc: 'Define the height of the Dropdown. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.',
     type: ['"default"', '"small"', '"medium"', '"large"'],

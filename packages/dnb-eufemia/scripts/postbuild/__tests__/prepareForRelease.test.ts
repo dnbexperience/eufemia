@@ -342,48 +342,15 @@ describe('package.json', () => {
     })
   })
 
-  it('has publishConfig', () => {
+  it('has publishConfig with provenance', () => {
     expect(packageJson.publishConfig).toEqual(
-      expect.objectContaining({ access: 'public' })
+      expect.objectContaining({ access: 'public', provenance: true })
     )
   })
 })
 
 describe('release config', () => {
-  type ReleasePlugin =
-    | string
-    | [string, Record<string, unknown> | undefined]
-  type ReleaseConfig = {
-    plugins?: ReleasePlugin[]
-  }
-  type PackageJsonWithRelease = {
-    release?: ReleaseConfig
-  }
-
-  let packageJson: PackageJsonWithRelease = {}
-
-  beforeAll(async () => {
-    packageJson = await fs.readJson(path.resolve(PKG_ROOT, 'package.json'))
-  })
-
-  it('has npm plugin provenance config', () => {
-    const plugins = packageJson.release?.plugins ?? []
-    const npmPlugin = plugins.find(
-      (plugin) =>
-        Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
-    )
-
-    expect(npmPlugin).toBeTruthy()
-
-    const npmConfig = Array.isArray(npmPlugin) ? npmPlugin[1] : undefined
-    expect(npmConfig).toMatchObject({
-      npmPublish: true,
-      pkgRoot: '.',
-      provenance: true,
-    })
-  })
-
-  it('creates .releaserc.json with provenance config in build directory', async () => {
+  it('creates .releaserc.json in build directory', async () => {
     const buildDir = path.resolve(PKG_ROOT, 'build')
 
     // Ensure build directory exists
@@ -404,7 +371,7 @@ describe('release config', () => {
     expect(releaseRc).toHaveProperty('plugins')
     expect(Array.isArray(releaseRc.plugins)).toBe(true)
 
-    // Verify npm plugin has provenance config
+    // Verify npm plugin config
     const npmPlugin = releaseRc.plugins.find(
       (plugin) =>
         Array.isArray(plugin) && plugin[0] === '@semantic-release/npm'
@@ -415,7 +382,20 @@ describe('release config', () => {
     expect(npmConfig).toMatchObject({
       npmPublish: true,
       pkgRoot: '.',
-      provenance: true,
     })
+  })
+
+  it('creates build package.json with provenance in publishConfig', async () => {
+    const buildDir = path.resolve(PKG_ROOT, 'build')
+
+    await fs.ensureDir(buildDir)
+    await prepareForRelease()
+
+    const buildPkgPath = path.join(buildDir, 'package.json')
+    const buildPkg = await fs.readJson(buildPkgPath)
+
+    expect(buildPkg.publishConfig).toEqual(
+      expect.objectContaining({ access: 'public', provenance: true })
+    )
   })
 })

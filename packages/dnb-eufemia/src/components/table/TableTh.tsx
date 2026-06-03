@@ -4,6 +4,7 @@ import { clsx } from 'clsx'
 import TableSortButton from './TableSortButton'
 import TableHelpButton from './TableHelpButton'
 import { TableTrContext } from './TableTrContext'
+import { TableThContext } from './TableThContext'
 
 export type TableThChildren =
   | ReactNode
@@ -111,7 +112,7 @@ export default function Th(
       )}
       {...props}
     >
-      {children}
+      <TableThContext value={{ reversed }}>{children}</TableThContext>
     </th>
   )
 }

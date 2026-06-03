@@ -52,8 +52,6 @@ export type ModalAllProps = ModalProps &
 
 const modalDefaultProps: Partial<ModalAllProps> = {
   spacing: true,
-  dialogTitle: 'Vindu',
-  closeTitle: 'Lukk',
   hideCloseButton: false,
   preventClose: false,
   preventCoreStyle: false,

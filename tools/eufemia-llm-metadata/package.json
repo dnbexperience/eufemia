@@ -11,7 +11,7 @@
     "test": "vitest run",
     "test:types": "../../node_modules/.bin/tsc --noEmit",
     "lint": "node ../../node_modules/.bin/eslint **/*.ts",
-    "generate": "node --experimental-strip-types scripts/run-llm-metadata.ts"
+    "generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/run-llm-metadata.ts"
   },
   "dependencies": {
     "@dnb/eufemia": "workspace:*",
@@ -28,7 +28,7 @@
     "front-matter": "4.0.2",
     "fs-extra": "10.0.0",
     "prettier": "3.8.1",
-    "vitest": "4.1.5"
+    "vitest": "4.1.8"
   },
   "volta": {
     "extends": "../../package.json"

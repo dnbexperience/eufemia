@@ -479,51 +479,63 @@ export const DropdownListOpened = () => (
       scope={{ data }}
       hideCode
     >
-      <span className="dnb-drawer-list__list">
-        <ul className="dnb-drawer-list__options">
-          <li className="dnb-drawer-list__option first-of-type">
-            <span className="dnb-drawer-list__option__inner">
-              Brukskonto - Kari Nordmann
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-1">
-                  12345678902
-                </NumberFormat.BankAccountNumber>
+      <span className="dnb-drawer-list dnb-drawer-list--open">
+        <span className="dnb-drawer-list__list">
+          <ul className="dnb-drawer-list__options">
+            <li className="dnb-drawer-list__option first-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                Brukskonto - Kari Nordmann
               </span>
-              <span className="dnb-drawer-list__option__item">
-                Sparekonto - Ole Nordmann
+            </li>
+            <li className="dnb-drawer-list__option dnb-drawer-list__option--selected">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber
+                    alwaysSelectAll
+                    key="n-1"
+                  >
+                    12345678902
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Sparekonto - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-2">
-                  11345678962
-                </NumberFormat.BankAccountNumber>
+            </li>
+            <li className="dnb-drawer-list__option">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber
+                    alwaysSelectAll
+                    key="n-2"
+                  >
+                    11345678962
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Feriekonto - Kari Nordmann med et kjempelangt
+                  etternavnsen
+                </span>
               </span>
-              <span className="dnb-drawer-list__option__item">
-                Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
+            </li>
+            <li className="dnb-drawer-list__option last-of-type">
+              <span className="dnb-drawer-list__option__inner">
+                <span className="dnb-drawer-list__option__item item-nr-1">
+                  <NumberFormat.BankAccountNumber
+                    alwaysSelectAll
+                    key="n-3"
+                  >
+                    15349648901
+                  </NumberFormat.BankAccountNumber>
+                </span>
+                <span className="dnb-drawer-list__option__item">
+                  Oppussing - Ole Nordmann
+                </span>
               </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__option last-of-type">
-            <span className="dnb-drawer-list__option__inner">
-              <span className="dnb-drawer-list__option__item item-nr-1">
-                <NumberFormat.BankAccountNumber alwaysSelectAll key="n-3">
-                  15349648901
-                </NumberFormat.BankAccountNumber>
-              </span>
-              <span className="dnb-drawer-list__option__item">
-                Oppussing - Ole Nordmann
-              </span>
-            </span>
-          </li>
-          <li className="dnb-drawer-list__arrow" />
-        </ul>
+            </li>
+            <li className="dnb-drawer-list__arrow" />
+          </ul>
+        </span>
       </span>
     </ComponentBox>
   </Wrapper>
@@ -629,6 +641,19 @@ export const DropdownGroups = () => {
             { groupIndex: 2, content: 'Jeep' },
             { groupIndex: 2, content: 'Van' },
           ]}
+        />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownNoDivider = () => {
+  return (
+    <Wrapper>
+      <ComponentBox>
+        <Dropdown
+          noDivider
+          data={['Cat', 'Dog', 'Canary', 'Hamster', 'Piglet']}
         />
       </ComponentBox>
     </Wrapper>

@@ -75,10 +75,15 @@
   &--secondary,
   &--tertiary {
     // Shared values
+    // Background
     --button-color-bg--focus: var(
       --token-color-background-action-focus-subtle
     );
+    // Border
+    --button-color-border--focus: var(--token-color-stroke-action-focus);
+    // Icon
     --button-color-icon--focus: var(--token-color-icon-action-focus);
+    // Text
     --button-color-text--focus: var(--token-color-text-action-focus);
 
     // Template base
@@ -121,7 +126,7 @@
 
     @include utilities.focusVisible() {
       --button-color-bg: var(--button-color-bg--focus);
-      --button-color-border: var(--token-color-stroke-action-focus);
+      --button-color-border: var(--button-color-border--focus);
       --button-color-icon: var(--button-color-icon--focus);
       --button-color-text: var(--button-color-text--focus);
       --button-color-underline: var(--button-color-underline--focus);
@@ -491,6 +496,16 @@
       --button-color-underline--hover: var(
         --token-color-icon-action-hover-ondark
       );
+
+      &.dnb-button--icon-only {
+        // Background
+        --button-color-bg--hover: var(
+          --token-color-background-action-hover-subtle-ondark
+        );
+        --button-color-bg--active: var(
+          --token-color-background-action-pressed-subtle-ondark
+        );
+      }
     }
 
     &.dnb-button__status--error {

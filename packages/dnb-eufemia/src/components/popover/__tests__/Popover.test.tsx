@@ -1656,23 +1656,23 @@ describe('Popover', () => {
       document.querySelector('button[aria-controls]')
     )) as HTMLButtonElement
 
+    // Spy before clicking so we capture all focus calls
+    const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus')
+
     await userEvent.click(trigger)
 
-    const content = (await waitFor(() =>
-      document.querySelector('.dnb-popover__content')
-    )) as HTMLElement
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-popover__content')
+      ).toBeInTheDocument()
+    })
 
-    // Spy on the content element's focus method
-    // Note: focus is called immediately and again after 10ms, so we spy after opening
-    // to catch at least the second call
-    const focusSpy = vi.spyOn(content, 'focus')
-
-    // Wait for the second focus call (after 10ms delay)
+    // Wait for the delayed focus call (after 10ms)
     await waitFor(
       () => {
         expect(focusSpy).toHaveBeenCalledWith({ preventScroll: true })
       },
-      { timeout: 100 }
+      { timeout: 200 }
     )
 
     focusSpy.mockRestore()

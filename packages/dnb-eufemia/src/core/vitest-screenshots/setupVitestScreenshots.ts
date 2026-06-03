@@ -9,6 +9,7 @@
 import {
   afterAll,
   beforeAll,
+  beforeEach,
   expect,
   expect as vitestExpect,
 } from 'vitest'
@@ -23,7 +24,7 @@ import type {
 } from './commands/screenshotEngine'
 import type { LoadImagePayload } from './commands/loadImage'
 
-export { expect, beforeAll, afterAll }
+export { expect, beforeAll, beforeEach, afterAll }
 export { onMain, runOnMain, selectThemes }
 
 // @ts-expect-error
@@ -165,6 +166,33 @@ const stateBySession = new WeakMap<object, SnapshotState>()
 // than enough; older keys are evicted FIFO.
 const MAX_PER_TITLE_ENTRIES = 1024
 
+// Track how many times each test has been attempted so we can derive
+// the retry count. beforeEach runs before every attempt (including
+// retries), so we increment a counter keyed by the full test name.
+// The first attempt sets the count to 1 (retry = 0); the second sets
+// it to 2 (retry = 1), etc.
+const attemptCountByTest = new Map<string, number>()
+
+// Reset the per-title snapshot counter before each test attempt
+// (including retries). Without this, a retried test would produce
+// "-2.png" instead of "-1.png", which has no baseline, causing
+// diffAndPersist to treat it as a new snapshot and pass incorrectly.
+beforeEach(() => {
+  const s = vitestExpect.getState() as unknown as {
+    currentTestName?: string
+  }
+  const testName = s.currentTestName ?? ''
+
+  const count = (attemptCountByTest.get(testName) ?? 0) + 1
+  attemptCountByTest.set(testName, count)
+
+  const state = stateBySession.get(s as unknown as object)
+  if (state) {
+    state.perTitleCount.clear()
+    state.retry = count - 1
+  }
+})
+
 const resolveSnapshotName = (state: SnapshotState) => {
   const titleSegments = [...state.describeStack, state.testTitle]
     .filter(Boolean)
@@ -189,7 +217,6 @@ const getSnapshotState = (): SnapshotState => {
     testPath?: string
     currentTestName?: string
     snapshotState?: { _updateSnapshot?: string }
-    task?: { result?: { retryCount?: number } }
   }
 
   if (!s.testPath) {
@@ -221,7 +248,7 @@ const getSnapshotState = (): SnapshotState => {
   }
 
   state.update = s.snapshotState?._updateSnapshot === 'all'
-  state.retry = s.task?.result?.retryCount ?? 0
+  // retry is set by beforeEach via attemptCountByTest
 
   const fullName = s.currentTestName ?? ''
   const segments = fullName.split(' > ')

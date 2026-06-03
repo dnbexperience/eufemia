@@ -8,12 +8,17 @@ import useId from '../../../../shared/helpers/useId'
 
 import type { InputProps } from '../../../../components/Input'
 import { SubmitButton } from '../../../../components/Input'
-import IconView from '../../../../icons/view'
-import IconViewOff from '../../../../icons/hide'
-import IconViewMedium from '../../../../icons/view_medium'
-import IconViewOffMedium from '../../../../icons/hide_medium'
+import Icon from '../../../../components/icon/Icon'
+import IconPrimary from '../../../../components/icon-primary/IconPrimary'
+import { view, hide, view_medium, hide_medium } from '../../../../icons'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+
+const passwordIcon = Icon.transition({ view, hide })
+const passwordIconLarge = Icon.transition({
+  view: view_medium,
+  hide: hide_medium,
+})
 
 export type PasswordVisibilityEvent = MouseEvent<HTMLButtonElement> & {
   value: string
@@ -105,13 +110,10 @@ function Password({
           hidden ? translations.ariaLabelShow : translations.ariaLabelHide
         }
         icon={
-          size === 'large'
-            ? hidden
-              ? IconViewMedium
-              : IconViewOffMedium
-            : hidden
-              ? IconView
-              : IconViewOff
+          <IconPrimary
+            icon={size === 'large' ? passwordIconLarge : passwordIcon}
+            transitionState={hidden ? 'view' : 'hide'}
+          />
         }
         disabled={disabled}
         skeleton={sharedContext.skeleton}

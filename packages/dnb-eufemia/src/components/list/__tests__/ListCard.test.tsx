@@ -195,12 +195,12 @@ describe('List.ScrollView', () => {
     ) as HTMLElement
 
     expect(element.style.maxHeight).toBe(
-      'calc(calc(var(--item-height, 4rem) * 3) + 0.125rem)'
+      'calc(calc(var(--list-item-height, 4rem) * 3) + 0.125rem)'
     )
     expect(element.style.marginBottom).toBe('-0.125rem')
   })
 
-  it('derives outline compensation from --item-outline-width', async () => {
+  it('derives outline compensation from --list-item-outline-width', async () => {
     const originalGetComputedStyle = window.getComputedStyle
 
     const getComputedStyleSpy = vi
@@ -215,7 +215,7 @@ describe('List.ScrollView', () => {
           return {
             ...styles,
             getPropertyValue: (property: string) => {
-              if (property === '--item-outline-width') {
+              if (property === '--list-item-outline-width') {
                 return '0.0625rem'
               }
 

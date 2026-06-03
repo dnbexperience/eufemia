@@ -25,7 +25,7 @@ export const AccordionDefaultExample = () => (
     <Accordion expanded id="single-accordion" title="Accordion title">
       <P>Accordion content</P>
     </Accordion>
-    <Accordion.Provider top icon="chevron_down" iconPosition="right">
+    <Accordion.Provider top iconPosition="right">
       <Accordion id="single-provider-accordion" title="Accordion title">
         <P>Accordion content</P>
       </Accordion>
@@ -172,12 +172,7 @@ export const AccordionDisabledExample = () => (
     <Accordion expanded disabled title="Disabled (expanded)">
       <P>I am expanded, but disabled, so I can't be closed</P>
     </Accordion>
-    <Accordion.Provider
-      top
-      disabled
-      icon="chevron_down"
-      iconPosition="right"
-    >
+    <Accordion.Provider top disabled iconPosition="right">
       <Accordion title="Disabled (closed)">
         <P>You can't see this text because I am disabled and closed.</P>
       </Accordion>
@@ -196,7 +191,6 @@ export const AccordionDescriptionExample = () => (
     </Accordion>
     <Accordion
       top
-      icon="chevron_down"
       iconPosition="right"
       id="description-provider-accordion"
       title="Accordion title"
@@ -348,7 +342,7 @@ export const AccordionTertiarySplitExample = () => (
       Text
     </P>
     <P>Other content between button and accordion content.</P>
-    <Accordion.Content id="accordion-tertiary">
+    <Accordion.Content connectedTo="accordion-tertiary">
       <P top>
         This content is placed separately from the button, connected via
         the id.

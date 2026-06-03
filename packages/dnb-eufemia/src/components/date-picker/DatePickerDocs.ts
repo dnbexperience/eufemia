@@ -4,7 +4,7 @@ const dateType = ['string', 'Date']
 
 export const DatePickerProperties: PropertiesTableProps = {
   date: {
-    doc: 'Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"`.',
+    doc: 'Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`.',
     type: dateType,
     status: 'optional',
   },
@@ -57,6 +57,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     doc:
       'Defines if the date picker should support a range of two dates (starting and ending date).' +
       'Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  rangeSingleCalendar: {
+    doc: 'If set to `true`, only one calendar is shown in range mode instead of two side-by-side calendars. Only meant to be used if `range` is set to `true`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

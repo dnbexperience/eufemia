@@ -238,4 +238,75 @@ describe('Icon.transition', () => {
       expect(externalRef.current.classList.contains('dnb-icon')).toBe(true)
     })
   })
+
+  describe('SSR active state', () => {
+    it('renders the correct SVG as active based on transitionState', () => {
+      const icon = Icon.transition({
+        collapsed: chevron_down,
+        expanded: chevron_up,
+      })
+
+      render(<Icon icon={icon} transitionState="expanded" />)
+
+      const svgs = document.querySelectorAll('svg[data-icon-state]')
+      expect(svgs[0].getAttribute('data-icon-state')).toBe('collapsed')
+      expect(svgs[0].classList.contains('dnb-icon__state--active')).toBe(
+        false
+      )
+      expect(svgs[1].getAttribute('data-icon-state')).toBe('expanded')
+      expect(svgs[1].classList.contains('dnb-icon__state--active')).toBe(
+        true
+      )
+    })
+
+    it('defaults to first state when transitionState is not set', () => {
+      transition.isSupported = false
+
+      const icon = Icon.transition({
+        collapsed: chevron_down,
+        expanded: chevron_up,
+      })
+
+      render(<Icon icon={icon} />)
+
+      const svgs = document.querySelectorAll('svg[data-icon-state]')
+      expect(svgs[0].classList.contains('dnb-icon__state--active')).toBe(
+        true
+      )
+      expect(svgs[1].classList.contains('dnb-icon__state--active')).toBe(
+        false
+      )
+    })
+  })
+
+  describe('transition.activate', () => {
+    it('toggles both fallback classes and CSS d property', () => {
+      const icon = Icon.transition({
+        collapsed: chevron_down,
+        expanded: chevron_up,
+      })
+
+      render(<Icon icon={icon} transitionState="collapsed" />)
+
+      const wrapper = document.querySelector('.dnb-icon') as HTMLElement
+
+      act(() => {
+        transition.activate(wrapper, 'expanded')
+      })
+
+      // CSS d property is updated
+      expect(wrapper.style.getPropertyValue('--icon-transition')).toBe(
+        'var(--icon-transition-expanded)'
+      )
+
+      // Fallback classes are also toggled
+      const svgs = wrapper.querySelectorAll('svg[data-icon-state]')
+      expect(svgs[0].classList.contains('dnb-icon__state--active')).toBe(
+        false
+      )
+      expect(svgs[1].classList.contains('dnb-icon__state--active')).toBe(
+        true
+      )
+    })
+  })
 })

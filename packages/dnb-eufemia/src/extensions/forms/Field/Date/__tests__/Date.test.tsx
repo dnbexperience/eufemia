@@ -221,6 +221,26 @@ describe('Field.Date', () => {
     ).toHaveTextContent(nb.Date.errorRequiredRange)
   })
 
+  it('should forward rangeSingleCalendar to DatePicker', async () => {
+    render(
+      <Field.Date
+        range
+        rangeSingleCalendar
+        value="2024-09-01|2024-09-30"
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-date-picker .dnb-input__submit-button__button'
+    )
+    await userEvent.click(button)
+
+    const tables = document.querySelectorAll(
+      '.dnb-date-picker__calendar table'
+    )
+    expect(tables).toHaveLength(1)
+  })
+
   it('should support date range', () => {
     const { rerender } = render(
       <Field.Date range value="2024-09-01|2024-09-30" />

@@ -16,6 +16,23 @@ if (missingFilters.length > 0) {
   process.exit(1)
 }
 
+// Increase the V8 heap limit for the vitest process and its forked
+// workers. Long screenshot runs (1000+ tests) accumulate Playwright
+// CDP state and decoded PNG pixel buffers faster than GC can reclaim,
+// hitting the default ~4 GB limit.
+const nodeOptions = [process.env.NODE_OPTIONS, '--max-old-space-size=8192']
+  .filter(Boolean)
+  .join(' ')
+
+const env: Record<string, string> = {
+  ...process.env,
+  NODE_OPTIONS: nodeOptions,
+} as Record<string, string>
+
+if (screenshotInclude) {
+  env.SCREENSHOT_INCLUDE = screenshotInclude
+}
+
 const result = spawnSync(
   'yarn',
   [
@@ -27,9 +44,7 @@ const result = spawnSync(
   ],
   {
     stdio: 'inherit',
-    env: screenshotInclude
-      ? { ...process.env, SCREENSHOT_INCLUDE: screenshotInclude }
-      : process.env,
+    env,
   }
 )
 

@@ -47,4 +47,14 @@ describe.each(['ui', 'sbanken'])(`DrawerList for %s`, (themeName) => {
       selector: '[data-visual-test="drawer-list-groups"]',
     })
   })
+
+  it('have to match the no divider example', async () => {
+    await makeScreenshot({
+      style: {
+        width: '14rem',
+        'padding-top': '3rem',
+      },
+      selector: '[data-visual-test="drawer-list-no-divider"]',
+    })
+  })
 })

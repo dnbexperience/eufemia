@@ -123,9 +123,13 @@ function buildFilteredEdges(
       // ignore invalid regex
     }
   } else if (globMatch) {
-    // Convert simple glob like "**/uilib/elements/*" to a slug prefix
+    // Convert glob like "**/uilib/elements/*" or
+    // "**/uilib/about-the-lib/releases/eufemia/**/*" to a slug prefix
     const globPattern = globMatch[1]
-    const prefix = globPattern.replace(/^\*\*\//, '').replace(/\/\*$/, '')
+    const prefix = globPattern
+      .replace(/^\*\*\//, '')
+      .replace(/\/\*\*\/\*$/, '')
+      .replace(/\/\*$/, '')
     filtered = filtered.filter((node) => {
       const slug = (node.fields as Record<string, unknown>)?.slug as string
       return slug && slug.startsWith(prefix + '/')

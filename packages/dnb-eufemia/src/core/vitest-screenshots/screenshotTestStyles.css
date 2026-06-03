@@ -11,7 +11,8 @@ html {
 }
 
 .sticky-menu,
-#portal-sidebar-menu {
+#portal-sidebar-menu,
+.dnb-tab-bar {
   display: none !important;
 }
 

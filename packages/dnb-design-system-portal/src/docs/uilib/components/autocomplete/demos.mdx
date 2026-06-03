@@ -16,6 +16,7 @@ import {
   AutocompleteStatusInfoExample,
   AutocompleteStatusErrorExample,
   AutocompleteGroups,
+  AutocompleteNoDivider,
 } from 'Docs/uilib/components/autocomplete/Examples'
 
 ## Demos
@@ -101,3 +102,9 @@ const data = [
 If an item has a `groupIndex` property, it will use the groups in the `groups` property. Only the first group can be without title, all other groups must have a title.
 
 <AutocompleteGroups />
+
+## No divider
+
+We can remove the divider between items with the `noDivider` prop. Beware that this can make information dense lists difficult to parse.
+
+<AutocompleteNoDivider />

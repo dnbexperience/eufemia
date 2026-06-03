@@ -281,7 +281,7 @@
     }
 
     &__primary#{&}--warning {
-      --dialog-icon-color: var(--token-color-icon-destructive);
+      --dialog-icon-color: var(--token-color-icon-error);
       --dialog-icon-background: var(--token-color-background-error-subtle);
     }
     &__primary#{&}--information {

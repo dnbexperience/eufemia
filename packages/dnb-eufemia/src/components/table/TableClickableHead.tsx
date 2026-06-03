@@ -10,6 +10,7 @@ import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import { emptySelectedText, hasSelectedText } from '../../shared/helpers'
 import Button from '../button/Button'
+import type { IconIcon } from '../icon/Icon'
 import IconPrimary from '../icon/IconPrimary'
 import Th from './TableTh'
 import Td from './TableTd'
@@ -148,7 +149,7 @@ export function onClickTr(
 export function TableClickableButtonTd(props: {
   trIsOpen?: boolean
   ariaLabel: string
-  icon: 'chevron_down' | 'chevron_right'
+  icon: IconIcon
   onClick: (
     event: SyntheticEvent,
     allowInteractiveElement: boolean
@@ -181,7 +182,17 @@ export function TableClickableButtonTd(props: {
     <Td className="dnb-table__td__button-icon">
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <span className="dnb-table__button" onClick={emptyTextHandler}>
-        <IconPrimary icon={icon} size={iconSize} />
+        <IconPrimary
+          icon={icon}
+          size={iconSize}
+          transitionState={
+            trIsOpen != null
+              ? trIsOpen
+                ? 'expanded'
+                : 'collapsed'
+              : undefined
+          }
+        />
         <Button
           className="dnb-sr-only"
           tabIndex={-1}

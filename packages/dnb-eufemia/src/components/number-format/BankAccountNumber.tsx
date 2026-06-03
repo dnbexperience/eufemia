@@ -4,7 +4,13 @@ import { withFormatter } from './withFormatter'
 
 export type NumberFormatBankAccountNumberProps = Omit<
   NumberFormatAllProps,
-  'currency' | 'currencyDisplay' | 'currencyPosition' | 'compact'
+  | 'currency'
+  | 'currencyDisplay'
+  | 'currencyPosition'
+  | 'compact'
+  | 'decimals'
+  | 'rounding'
+  | 'signDisplay'
 >
 
 const NumberFormatBankAccountNumber =

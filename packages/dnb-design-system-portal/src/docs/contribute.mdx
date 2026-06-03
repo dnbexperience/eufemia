@@ -3,8 +3,8 @@ title: 'Contribution Guide'
 description: 'Project overview, development guides, conventions, etc.'
 ---
 
-import { Button } from '@dnb/eufemia/src'
-import Card from 'dnb-design-system-portal/src/shared/menu/Card'
+import { Button, Card } from '@dnb/eufemia/src'
+import MenuCard from 'dnb-design-system-portal/src/shared/menu/Card'
 import {
   NewContributor,
   GettingStarted,
@@ -40,35 +40,26 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
 
 ## Dive in
 
-<ul
-  style={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    margin: 0,
-    marginBottom: '1rem',
-    padding: 0,
-  }}
->
-  <Card
+<Card.List bottom="small">
+  <MenuCard
     url="/contribute/rules"
     about="Code of conduct and Development principles"
     title="Ground rules"
     icon={Principles}
   />
-  <Card
+  <MenuCard
     url="/contribute/first-contribution"
     about="Your first contribution, Pull Requests and Technical information"
     title="New contributor"
     icon={NewContributor}
   />
-  <Card
+  <MenuCard
     url="/contribute/getting-started"
     about="Set up environment, Make changes and Run tests"
     title="Getting started"
     icon={GettingStarted}
   />
-</ul>
+</Card.List>
 
 ### Or go directly to
 

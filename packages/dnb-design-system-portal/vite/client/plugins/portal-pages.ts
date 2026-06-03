@@ -270,10 +270,10 @@ export default function portalPagesPlugin(
           if (isFirstTab) {
             const parentSlug = file.slug.replace(/\/info$/, '')
             redirectDefs.push(
-              `  { path: '/${file.slug}', loader: () => redirect('/${parentSlug}/') },`
+              `  { path: '/${file.slug}', Component: Noop, loader: () => redirect('/${parentSlug}/') },`
             )
             redirectDefs.push(
-              `  { path: '/${file.slug}/', loader: () => redirect('/${parentSlug}/') },`
+              `  { path: '/${file.slug}/', Component: Noop, loader: () => redirect('/${parentSlug}/') },`
             )
           } else if (file.slug === '') {
             // Homepage: index route
@@ -309,10 +309,10 @@ export default function portalPagesPlugin(
                 const fromPath = String(from).replace(/\/$/, '')
                 const target = `/${file.slug}/`
                 redirectDefs.push(
-                  `  { path: '${fromPath}', loader: () => redirect('${target}') },`
+                  `  { path: '${fromPath}', Component: Noop, loader: () => redirect('${target}') },`
                 )
                 redirectDefs.push(
-                  `  { path: '${fromPath}/', loader: () => redirect('${target}') },`
+                  `  { path: '${fromPath}/', Component: Noop, loader: () => redirect('${target}') },`
                 )
               }
             }
@@ -330,6 +330,12 @@ export default function portalPagesPlugin(
         return `
 import React from 'react';
 import { redirect, useLocation } from 'react-router-dom';
+
+// No-op component for redirect routes so React Router does not warn
+// about a matched leaf route without an element or Component.
+function Noop() {
+  return null;
+}
 
 // Wrapper for page components that expect Gatsby-style props (location, etc.)
 function WithLocationProps({ Component }) {

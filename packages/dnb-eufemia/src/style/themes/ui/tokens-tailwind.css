@@ -10,7 +10,7 @@
   --color-background-action-pressed: var(--dnb-coldgreen-700);
   --color-background-action-pressed-subtle: var(--dnb-coldgreen-200);
   --color-background-action-focus: var(--dnb-blue-600);
-  --color-background-action-focus-subtle: var(--dnb-blue-100);
+  --color-background-action-focus-subtle: var(--dnb-blue-50);
   --color-background-action-disabled: var(--dnb-greyscale-200);
   --color-background-action-inverse: var(--dnb-coldgreen-300);
   --color-background-action-hover-inverse: var(--dnb-coldgreen-300);
@@ -72,13 +72,12 @@
   --color-text-neutral-ondark: var(--dnb-greyscale-0);
   --color-text-neutral-subtle: var(--dnb-greyscale-200);
   --color-text-neutral-subtle-ondark: var(--dnb-greyscale-200);
-  --color-text-destructive: var(--dnb-red-600);
-  --color-text-destructive-inverse: var(--dnb-orange-600);
+  --color-text-error: var(--dnb-red-600);
+  --color-text-error-inverse: var(--dnb-orange-600);
   --color-text-warning: var(--dnb-yellow-800);
   --color-text-warning-inverse: var(--dnb-yellow-500);
   --color-text-positive: var(--dnb-green-700);
   --color-text-positive-inverse: var(--dnb-green-600);
-  --color-text-error: var(--dnb-red-600);
   --color-icon-action: var(--dnb-coldgreen-600);
   --color-icon-action-hover: var(--dnb-coldgreen-600);
   --color-icon-action-pressed: var(--dnb-coldgreen-700);
@@ -99,7 +98,6 @@
   --color-icon-neutral-inverse: var(--dnb-greyscale-0);
   --color-icon-neutral-ondark: var(--dnb-greyscale-0);
   --color-icon-neutral-alternative: var(--dnb-greyscale-500);
-  --color-icon-destructive: var(--dnb-red-600);
   --color-icon-info: var(--dnb-coldgreen-600);
   --color-icon-info-subtle: var(--dnb-warmgreen-50);
   --color-icon-positive: var(--dnb-green-700);
@@ -118,7 +116,7 @@
   --color-stroke-action-hover-inverse: var(--dnb-coldgreen-300);
   --color-stroke-action-pressed-inverse: var(--dnb-coldgreen-400);
   --color-stroke-action-focus: var(--dnb-blue-600);
-  --color-stroke-action-focus-subtle: var(--dnb-blue-100);
+  --color-stroke-action-focus-subtle: var(--dnb-greyscale-0);
   --color-stroke-action-disabled: var(--dnb-greyscale-300);
   --color-stroke-selected: var(--dnb-coldgreen-800);
   --color-stroke-selected-ondark: var(--dnb-coldgreen-100);
@@ -236,9 +234,6 @@
   );
   --color-component-button-stroke-selected: var(--dnb-coldgreen-700-40);
   --color-component-tooltip-background-neutral: var(--dnb-greyscale-800);
-  --color-component-table-background-neutral-alternative: var(
-    --dnb-greyscale-25
-  );
   --color-component-dimmer-background: var(--dnb-greyscale-1000-30);
   --color-component-switch-action-disabled-ondark: var(
     --dnb-greyscale-800

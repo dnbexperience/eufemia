@@ -185,7 +185,7 @@ button .dnb-form-status__text {
 
 @keyframes attention-focus {
   0%, 100% {
-    color: var(--token-color-text-destructive);
+    color: var(--token-color-text-error);
     background-color: var(--token-color-background-error-subtle);
     border-color: var(--token-color-stroke-error);
   }
@@ -232,29 +232,24 @@ button .dnb-form-status__text {
   font-size: var(--font-size-basis);
 }
 .dnb-textarea__shell::after {
-  --size: 0.5rem;
-  --bg-size: cover;
-  --bg-pos: 0;
+  --grip-color: var(--textarea-color-text);
+  --grip-size: 1rem;
+  --grip-line-1: 2px;
+  --grip-line-1-stroke: 0.7px;
+  --grip-line-2: 3.7px;
+  --grip-line-2-stroke: 0.8px;
+  --grip-line-3: 5.7px;
+  --grip-line-3-stroke: 0.7px;
   pointer-events: none;
+  content: "";
   position: absolute;
   z-index: 2;
   bottom: 0;
   right: 0;
-  width: var(--size);
-  height: var(--size);
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="none"><path stroke="%23000" stroke-linecap="round" stroke-width=".5" d="m1 7 6-6M3.5 7 7 3.5M6 7l1-1"/></svg>');
-  background-size: var(--bg-size);
-  background-position: var(--bg-pos) var(--bg-pos);
+  width: var(--grip-size);
+  height: var(--grip-size);
+  background: linear-gradient(-45deg, transparent var(--grip-line-1), var(--grip-color) var(--grip-line-1), var(--grip-color) calc(var(--grip-line-1) + var(--grip-line-1-stroke)), transparent calc(var(--grip-line-1) + var(--grip-line-1-stroke)), transparent var(--grip-line-2), var(--grip-color) var(--grip-line-2), var(--grip-color) calc(var(--grip-line-2) + var(--grip-line-2-stroke)), transparent calc(var(--grip-line-2) + var(--grip-line-2-stroke)), transparent var(--grip-line-3), var(--grip-color) var(--grip-line-3), var(--grip-color) calc(var(--grip-line-3) + var(--grip-line-3-stroke)), transparent calc(var(--grip-line-3) + var(--grip-line-3-stroke)));
   background-color: var(--textarea-color-background);
-}
-.dnb-textarea__resize--medium .dnb-textarea__shell::after {
-  content: "";
-}
-.dnb-textarea__resize--large .dnb-textarea__shell::after {
-  content: "";
-  --size: 1rem;
-  --bg-size: 60%;
-  --bg-pos: 0.25rem;
 }
 .dnb-textarea__autoresize .dnb-textarea__shell::after {
   content: none;
@@ -379,9 +374,10 @@ button .dnb-form-status__text {
 }
 .dnb-textarea--disabled {
   --textarea-color-background: var(
-    --token-color-background-action-disabled
+    --token-color-background-neutral-subtle
   );
   --textarea-color-text: var(--token-color-text-neutral-alternative);
+  --textarea-color-placeholder: var(--token-color-text-action-disabled);
   --textarea-color-border: var(--token-color-stroke-action-disabled);
 }
 .dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {

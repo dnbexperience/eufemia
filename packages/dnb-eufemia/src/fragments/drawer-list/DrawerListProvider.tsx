@@ -40,7 +40,6 @@ import {
 import {
   getData,
   normalizeData,
-  findClosest,
   getSelectedItemValue,
   parseContentTitle,
   getEventData,
@@ -99,7 +98,7 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     | 'onResize'
   > &
   SpacingProps & {
-    hasFocusOnElement?: boolean
+    _hasFocusOnElementRef?: React.RefObject<boolean>
     setData?: (
       data: DrawerListData,
       cb?: (data: DrawerListInternalData) => void,
@@ -126,9 +125,6 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
     ) => void
     selectedItem?: string | number
     activeItem?: string | number
-    showFocusRing?: boolean
-    closestToTop?: string
-    closestToBottom?: string
     skipPortal?: boolean
     addObservers?: () => void
     removeObservers?: () => void
@@ -161,7 +157,6 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
       }
     ) => void
     _refShell?: RefObject<HTMLSpanElement>
-    _refTriangle?: RefObject<HTMLLIElement & HTMLSpanElement>
     _refUl?: RefObject<HTMLUListElement>
     _refRoot?: RefObject<HTMLSpanElement>
     _rootElem?: Window | Element
@@ -187,16 +182,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   propsRef.current = props
 
   // Mutable state stored in ref
-  const stateRef = useRef<DrawerListContextState>(null)
-  if (!stateRef.current) {
-    stateRef.current = {
-      cacheHash: '',
-      activeItem: undefined,
-      selectedItem: undefined,
-      ignoreEvents: false,
-      ...prepareStartupState({ ...props, id }),
-    }
-  }
+  const stateRef = useRef<DrawerListContextState>({
+    cacheHash: '',
+    activeItem: undefined,
+    selectedItem: undefined,
+    ignoreEvents: false,
+    ...prepareStartupState({ ...props, id }),
+  })
 
   // Re-render trigger
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -243,19 +235,15 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const _refRoot = useRef<HTMLSpanElement>(null)
   const _refShell = useRef<HTMLSpanElement>(null)
   const _refUl = useRef<HTMLUListElement>(null)
-  const _refTriangle = useRef<HTMLLIElement & HTMLSpanElement>(null)
 
   // Instance variables
+  const _hasFocusOnElementRef = useRef<boolean>(false)
   const attributesRef = useRef<Record<string, any>>({})
   const showTimeoutRef = useRef<NodeJS.Timeout>(null)
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null)
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>(null)
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>(undefined)
   const directionTimeoutRef = useRef<NodeJS.Timeout>(null)
-  const itemSpotsRef = useRef<{
-    [key: number]: { id: string }
-  }>({})
-  const itemSpotsCountRef = useRef(0)
-  const setOnScrollRef = useRef<(() => void) | null>(null)
+
   const bodyLockEnabledRef = useRef(false)
   const setDirectionFnRef = useRef<(() => void) | null>(null)
   const rootElemRef = useRef<Window | Element>(null)
@@ -273,85 +261,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const isOpenRef = useRef(false)
 
   // --- Methods ---
-
-  const refreshScrollObserver = useCallback(() => {
-    if (typeof window === 'undefined' || !_refUl.current) {
-      return
-    }
-    const elements = _refUl.current?.querySelectorAll<HTMLLIElement>(
-      'li.dnb-drawer-list__option,li.dnb-drawer-list__group-title'
-    )
-    itemSpotsRef.current = {}
-    elements.forEach((element) => {
-      itemSpotsRef.current[element.offsetTop] = {
-        id: element.getAttribute('id'),
-      }
-    })
-    itemSpotsCountRef.current = Object.keys(itemSpotsRef.current).length
-  }, [])
-
-  const removeScrollObserverFn = useCallback(() => {
-    if (typeof window !== 'undefined' && setOnScrollRef.current) {
-      window.removeEventListener('resize', setOnScrollRef.current)
-      setOnScrollRef.current = null
-    }
-  }, [])
-
-  const setScrollObserver = useCallback(() => {
-    if (typeof window === 'undefined' || !_refUl.current) {
-      return
-    }
-
-    removeScrollObserverFn()
-    itemSpotsCountRef.current = 1
-
-    try {
-      let closestToTop = null,
-        closestToBottom = null,
-        tmpToTop: string,
-        tmpToBottom: string
-
-      setOnScrollRef.current = () => {
-        if (!_refUl.current) {
-          return // stop here
-        }
-
-        if (itemSpotsCountRef.current <= 1) {
-          refreshScrollObserver()
-        }
-
-        const counts = Object.keys(itemSpotsRef.current)
-        closestToBottom = findClosest(
-          counts,
-          _refUl.current.scrollTop + _refUl.current.offsetHeight
-        )
-        closestToTop = findClosest(counts, _refUl.current.scrollTop)
-        if (
-          itemSpotsRef.current[closestToTop] &&
-          itemSpotsRef.current[closestToTop].id !== tmpToTop
-        ) {
-          tmpToTop = itemSpotsRef.current[closestToTop].id
-          mergeState({
-            closestToTop: itemSpotsRef.current[closestToTop].id,
-          })
-        }
-        if (
-          itemSpotsRef.current[closestToBottom] &&
-          itemSpotsRef.current[closestToBottom].id !== tmpToBottom
-        ) {
-          tmpToBottom = itemSpotsRef.current[closestToBottom].id
-          mergeState({
-            closestToBottom: itemSpotsRef.current[closestToBottom].id,
-          })
-        }
-      }
-
-      _refUl.current.addEventListener('scroll', setOnScrollRef.current)
-      setOnScrollRef.current()
-    } catch (e) {
-      warn('List could not set onScroll:', e)
-    }
-  }, [removeScrollObserverFn, refreshScrollObserver, mergeState])
 
   const enableBodyLock = useCallback(() => {
     if (_refUl.current) {
@@ -378,21 +287,16 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         window.innerWidth -
         (getOffsetLeft(_refUl.current) + _refUl.current.offsetWidth)
 
-      const triangleStyle = _refTriangle.current.style
       const shellStyle = _refShell.current.style
 
       if (spaceToLeft < 0) {
         shellStyle.transform =
           'translateX(' + Math.abs(spaceToLeft / 16) + 'rem)'
-        triangleStyle.right = Math.abs(spaceToLeft / 16) + 'rem'
       } else if (spaceToRight < 0) {
         shellStyle.transform = 'translateX(' + spaceToRight / 16 + 'rem)'
-        triangleStyle.left = Math.abs(spaceToRight / 16) + 'rem'
       } else {
         if (shellStyle.transform) {
           shellStyle.transform = ''
-          triangleStyle.left = 'auto'
-          triangleStyle.right = 'auto'
         }
       }
     } catch (e) {
@@ -594,15 +498,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       enableBodyLock()
     }
 
-    refreshScrollObserver()
-
     renderDirection()
   }, [
     removeDirectionObserver,
     mergeState,
     correctHiddenView,
     enableBodyLock,
-    refreshScrollObserver,
   ])
 
   const findItemByValue = useCallback((value) => {
@@ -733,9 +634,15 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     return getItemData(elem)
   }, [getItemData])
 
-  const getAnchorElem = useCallback((activeElement) => {
+  /**
+   * Returns the first anchor element within the given element, or null if none found.
+   *
+   * @param  {Element} element The element to begin with
+   * @return {Element} Found element or `null`
+   */
+  const getAnchorElem = useCallback((element) => {
     try {
-      return activeElement?.querySelector('a:first-of-type')
+      return element?.querySelector('a:first-of-type')
     } catch (e) {
       return null
     }
@@ -763,56 +670,79 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
   }, [])
 
-  const scrollToItem = useCallback(
-    (activeItem, { scrollTo = true, element = null } = {}) => {
-      clearTimeout(scrollTimeoutRef.current)
-      scrollTimeoutRef.current = setTimeout(() => {
-        if (_refUl.current && parseFloat(activeItem) > -1) {
-          try {
-            const ulElement = _refUl.current
-            const liElement =
-              element || getActiveElement() || getSelectedElement()
-            if (liElement) {
-              const top = liElement.offsetTop
-              if (ulElement.scrollTo) {
-                if (
+  const scrollToItem: DrawerListProviderProps['scrollToItem'] =
+    useCallback(
+      (activeItem, { scrollTo = true, element } = {}) => {
+        clearTimeout(scrollTimeoutRef.current)
+
+        scrollTimeoutRef.current = setTimeout(() => {
+          if (_refUl.current && parseFloat(activeItem as string) > -1) {
+            try {
+              const ulElement = _refUl.current
+              const liElement =
+                element || getActiveElement() || getSelectedElement()
+              if (liElement) {
+                const instantScroll =
                   scrollTo === false ||
-                  (window as Window & { IS_TEST?: boolean })['IS_TEST']
-                ) {
+                  Boolean(
+                    (window as Window & { IS_TEST?: boolean })['IS_TEST']
+                  )
+
+                if (instantScroll) {
+                  // must have both css and js use "auto" to get instant scroll.
                   ulElement.style.scrollBehavior = 'auto'
                 }
-                ulElement.scrollTo({
-                  top,
-                  behavior: scrollTo ? 'smooth' : 'auto',
-                })
-                if (scrollTo === false) {
-                  ulElement.style.scrollBehavior = 'smooth'
-                }
-              } else if (ulElement.scrollTop) {
-                ulElement.scrollTop = top
-              }
 
-              if (!propsRef.current.preventFocus && liElement) {
-                liElement.focus()
-                dispatchCustomElementEvent(
-                  { props: propsRef.current, state: stateRef.current },
-                  'onOpenFocus',
-                  {
-                    element: liElement,
+                if (liElement.scrollIntoView) {
+                  liElement.scrollIntoView({
+                    behavior: instantScroll ? 'auto' : 'smooth',
+                    block: 'nearest', // only scroll if element is out of view, and align to nearest edge
+                  })
+                } else {
+                  // Is this fallback ever needed? Are we concerned about browser support, or
+                  // is there some cases where a li element exists, has a position, but does
+                  // not have .scrollIntoView?
+
+                  const top = liElement.offsetTop - 8 // 8px to account for container padding
+
+                  if (ulElement.scrollTo) {
+                    ulElement.scrollTo({
+                      top,
+                      behavior: scrollTo ? 'smooth' : 'auto',
+                    })
+                  } else if (ulElement.scrollTop) {
+                    ulElement.scrollTop = top
                   }
-                )
+                }
+
+                if (instantScroll) {
+                  // reset behaviour after scrolling
+                  ulElement.style.scrollBehavior = ''
+                }
+
+                if (!propsRef.current.preventFocus) {
+                  liElement.focus({
+                    preventScroll: true,
+                  })
+                  dispatchCustomElementEvent(
+                    { props: propsRef.current, state: stateRef.current },
+                    'onOpenFocus',
+                    {
+                      element: liElement,
+                    }
+                  )
+                }
+              } else {
+                warn('The DrawerList item was not a DOM Element')
               }
-            } else {
-              warn('The DrawerList item was not a DOM Element')
+            } catch (e) {
+              warn('List could not scroll into element:', e)
             }
-          } catch (e) {
-            warn('List could not scroll into element:', e)
           }
-        }
-      }, 1)
-    },
-    [getActiveElement, getSelectedElement]
-  )
+        }, 1)
+      },
+      [getActiveElement, getSelectedElement]
+    )
 
   const setActiveItemAndScrollToIt = useCallback(
     (
@@ -821,6 +751,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     ) => {
       mergeState({ activeItem }, () => {
         if (parseFloat(activeItem) === -1) {
+          // Keep focus on Autocomplete text input
           if (document.activeElement?.tagName !== 'INPUT') {
             _refUl.current?.focus({ preventScroll: true })
           }
@@ -927,7 +858,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
     outsideClickRef.current = detectOutsideClick(
       [stateRef.current.wrapperElement, _refRoot.current, _refUl.current],
-      () => setHiddenFnRef.current({ preventHideFocus: true }),
+      ({ event }) => {
+        setHiddenFnRef.current({
+          preventHideFocus:
+            event.type !== 'keydown' ||
+            (event as KeyboardEvent).key !== 'Tab',
+        })
+      },
       { includedKeys: ['Tab'] }
     )
 
@@ -939,25 +876,30 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   const addObservers = useCallback(() => {
     setDirectionObserver()
-    setScrollObserver()
+
     setOutsideClickObserver()
-  }, [setDirectionObserver, setScrollObserver, setOutsideClickObserver])
+  }, [setDirectionObserver, setOutsideClickObserver])
 
   const removeObservers = useCallback(() => {
     removeDirectionObserver()
-    removeScrollObserverFn()
     removeOutsideClickObserver()
-  }, [
-    removeDirectionObserver,
-    removeScrollObserverFn,
-    removeOutsideClickObserver,
-  ])
+  }, [removeDirectionObserver, removeOutsideClickObserver])
 
   // Forward refs for setVisible/setHidden so they can reference each other
   const setVisibleFnRef =
-    useRef<(args?: any, onStateComplete?: any) => void>(null)
+    useRef<
+      (
+        args?: any,
+        onStateComplete?: ((isVisible: boolean) => void) | null
+      ) => void
+    >(null)
   const setHiddenFnRef =
-    useRef<(args?: any, onStateComplete?: any) => void>(null)
+    useRef<
+      (
+        args?: any,
+        onStateComplete?: ((isVisible: boolean) => void) | null
+      ) => void
+    >(null)
 
   const setVisible = useCallback((args = {}, onStateComplete = null) => {
     setVisibleFnRef.current(args, onStateComplete)
@@ -1121,14 +1063,13 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             : stateRef.current.originalData,
         },
         () => {
-          refreshScrollObserver()
           typeof cb === 'function' && cb(data)
         }
       )
 
       return selfRef.current
     },
-    [mergeState, refreshScrollObserver]
+    [mergeState]
   )
 
   const setStateHandler = useCallback(
@@ -1354,16 +1295,19 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         {
           if (activeItem > -1) {
             const activeElement = getActiveElement()
-            const hasFocusOnElement = Boolean(getAnchorElem(activeElement))
+            const activeElementHasAnchor = Boolean(
+              getAnchorElem(activeElement)
+            )
 
-            mergeState({ hasFocusOnElement })
+            _hasFocusOnElementRef.current = activeElementHasAnchor
 
-            if (hasFocusOnElement) {
+            if (activeElementHasAnchor) {
               e.stopPropagation()
 
               const currentActiveElement = getClosestParent(
                 'dnb-drawer-list__option',
-                document.activeElement
+                document.activeElement,
+                true
               )
 
               if (currentActiveElement !== activeElement) {
@@ -1379,6 +1323,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                       elem.removeEventListener('focus', focus)
                       activeElement.removeChild(after)
                       activeElement.removeChild(before)
+                      _hasFocusOnElementRef.current = false
                     }
                     elem.addEventListener('focus', focus)
                     return elem
@@ -1394,6 +1339,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                 const after = createTabElem()
                 const before = createTabElem()
 
+                // focus active element before Tab focus is handled by browser
                 activeElement.focus()
 
                 const insertElem = () => {
@@ -1447,10 +1393,8 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
       if (ulElem === _refUl.current) {
         mergeState({
-          showFocusRing: true,
           activeItem,
         })
-
         _refUl.current.focus({ preventScroll: true })
         dispatchCustomElementEvent(stateRef.current, 'handleDismissFocus')
       }
@@ -1458,7 +1402,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       activeItem > -1 &&
       activeItem !== stateRef.current.activeItem
     ) {
-      mergeState({ showFocusRing: false })
       setActiveItemAndScrollToIt(activeItem, {
         fireSelectEvent: true,
         event: e,
@@ -1500,6 +1443,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const prevDataRef = useRef(props.data)
   const prevDirectionRef = useRef(stateRef.current.direction)
   useEffect(() => {
+    _hasFocusOnElementRef.current = false
     if (stateRef.current.open) {
       if (
         props.data !== prevDataRef.current &&
@@ -1507,16 +1451,6 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         document.activeElement?.tagName === 'BODY'
       ) {
         _refUl.current?.focus()
-      }
-
-      if (
-        stateRef.current.direction !== prevDirectionRef.current ||
-        props.data !== prevDataRef.current
-      ) {
-        window?.requestAnimationFrame?.(() => {
-          refreshScrollObserver()
-          setOnScrollRef.current?.()
-        })
       }
     }
     prevDataRef.current = props.data
@@ -1548,10 +1482,10 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         ...context,
         drawerList: {
           attributes: attributesRef.current,
+          _hasFocusOnElementRef,
           _refRoot,
           _refShell,
           _refUl,
-          _refTriangle,
           _rootElem: rootElemRef.current,
           setData: setDataHandler,
           setState: setStateHandler,

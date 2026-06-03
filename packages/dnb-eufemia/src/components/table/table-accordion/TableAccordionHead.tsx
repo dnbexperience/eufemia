@@ -13,6 +13,8 @@ import type {
 } from 'react'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
+import { chevron_down, chevron_up } from '../../../icons'
+import Icon from '../../icon/Icon'
 import {
   TableClickableButtonTd,
   TableClickableHead,
@@ -25,12 +27,16 @@ import {
   TableAccordionContentSingle,
   TableAccordionContentRow,
 } from './TableAccordionContent'
-
 import type {
   TableAccordionContentSingleProps,
   TableAccordionContentRowProps,
 } from './TableAccordionContent'
 import type { TableTrProps } from '../TableTr'
+
+const accordionChevron = Icon.transition({
+  collapsed: chevron_down,
+  expanded: chevron_up,
+})
 
 // Extend the ViewTransition API types
 type DocumentWithViewTransition = Document & {
@@ -176,7 +182,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
       <TableClickableButtonTd
         trIsOpen={trIsOpen}
         ariaLabel={tableContextAllProps?.accordionToggleButtonSR}
-        icon="chevron_down"
+        icon={accordionChevron}
         onClick={toggleOpenTr}
         key="td-icon"
       />

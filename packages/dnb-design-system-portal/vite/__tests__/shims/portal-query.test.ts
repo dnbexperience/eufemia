@@ -35,6 +35,18 @@ vi.mock('virtual:portal-pages', () => ({
       fields: { slug: 'quickguide-designer' },
       frontmatter: { title: 'Design', hideInMenu: true, order: 5 },
     },
+    {
+      fields: { slug: 'uilib/about-the-lib/releases/eufemia/v11-info' },
+      frontmatter: { title: 'v11', order: 1 },
+    },
+    {
+      fields: { slug: 'uilib/about-the-lib/releases/eufemia/v10-info' },
+      frontmatter: { title: 'v10', order: 2 },
+    },
+    {
+      fields: { slug: 'uilib/about-the-lib/releases/dnb-ui-lib/v8-info' },
+      frontmatter: { title: 'v8' },
+    },
   ],
 }))
 
@@ -176,6 +188,27 @@ describe('portal-query', () => {
       for (const slug of slugs) {
         expect(slug).toMatch(/^uilib\/elements\//)
       }
+    })
+
+    it('filters by contentFilePath glob with nested **/* pattern', () => {
+      const query = `
+        query { allMdx(filter: { frontmatter: { title: { ne: null } }, internal: { contentFilePath: { glob: "**/uilib/about-the-lib/releases/eufemia/**/*" } } }) {
+          edges { node { fields { slug } frontmatter { title } } }
+        }}
+      `
+      const result = runQuery(query)
+      const slugs = result.allMdx.edges.map(
+        (e: { node: { fields: { slug: string } } }) => e.node.fields.slug
+      )
+      expect(slugs).toContain(
+        'uilib/about-the-lib/releases/eufemia/v11-info'
+      )
+      expect(slugs).toContain(
+        'uilib/about-the-lib/releases/eufemia/v10-info'
+      )
+      expect(slugs).not.toContain(
+        'uilib/about-the-lib/releases/dnb-ui-lib/v8-info'
+      )
     })
 
     it('filters by hideInMenu', () => {

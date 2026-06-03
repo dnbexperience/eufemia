@@ -3,9 +3,6 @@
   "compilerOptions": {
     "rootDir": "../../../..",
     "outDir": "./out",
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
-    "downlevelIteration": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "target": "es2020",

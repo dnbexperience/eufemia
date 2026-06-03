@@ -231,11 +231,13 @@ exports[`PaymentCard scss > has to match style dependencies css 1`] = `
   font-size: 1.375rem;
   line-height: 1.143rem;
   font-weight: var(--font-weight-regular);
+  color: inherit;
 }
 .dnb-payment-card__card__type-text.dnb-p {
   font-size: 0.938rem;
   line-height: 1.188rem;
   padding-top: 6px;
+  color: inherit;
 }
 .dnb-payment-card__card {
   /* Provider Icons Container
@@ -341,6 +343,9 @@ exports[`PaymentCard scss > has to match style dependencies css 1`] = `
   background-color: var(--dnb-payment-overlay-bg-light);
   color: var(--color-black);
 }
+.dnb-payment-card__overlay__content .dnb-p {
+  color: inherit;
+}
 .dnb-payment-card {
   /* Compact mode styling for PaymentCard component
    * This defines the styles and visual appearance of the card in its compact variant.
@@ -378,11 +383,4 @@ exports[`PaymentCard scss > has to match style dependencies css 1`] = `
 .dnb-payment-card--compact .dnb-payment-card__overlay__content {
   display: none;
 }"
-`;
-
-exports[`PaymentCard scss > have to match default theme snapshot 1`] = `
-"/*
-* PaymentCard theme
-*
-*/"
 `;

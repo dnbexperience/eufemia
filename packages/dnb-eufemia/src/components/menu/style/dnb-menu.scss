@@ -188,15 +188,10 @@
       align-items: center;
       flex-shrink: 0;
       margin-inline-start: auto;
-
-      .dnb-icon {
-        transition: transform 400ms var(--easing-default);
-        transform: rotate(90deg);
-      }
     }
 
     &--open > &__trigger &__indicator .dnb-icon {
-      transform: rotate(270deg);
+      --icon-transition: var(--icon-transition-expanded);
     }
 
     .dnb-menu__list {

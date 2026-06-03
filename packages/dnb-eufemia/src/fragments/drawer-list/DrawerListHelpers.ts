@@ -24,7 +24,6 @@ export const drawerListDefaultProps: Partial<DrawerListProps> = {
   id: null,
   role: 'listbox',
   cacheHash: null,
-  arrowPosition: 'left',
   scrollable: true,
   focusable: false,
   maxHeight: null,
@@ -466,9 +465,3 @@ export const getCurrentDataTitle = (selectedItem, data) => {
     preferSelectedValue: true,
   })
 }
-
-export const findClosest = (arr, val) =>
-  Math.max.apply(
-    null,
-    arr.filter((v) => v <= val)
-  )

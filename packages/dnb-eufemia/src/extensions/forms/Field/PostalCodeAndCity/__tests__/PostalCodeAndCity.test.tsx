@@ -14,7 +14,7 @@ describe('Field.PostalCodeAndCity', () => {
     expect(screen.getByLabelText(nb.City.label)).toBeInTheDocument()
   })
 
-  it('postal code should only allow four numbers', async () => {
+  it('postal code should format with mask for four digits', async () => {
     render(<Field.PostalCodeAndCity />)
 
     const postalCodeInput = document.querySelector(
@@ -23,9 +23,21 @@ describe('Field.PostalCodeAndCity', () => {
 
     expect(postalCodeInput).toHaveValue('')
 
-    await userEvent.type(postalCodeInput, '123456')
+    await userEvent.type(postalCodeInput, '1234')
 
     expect(postalCodeInput).toHaveValue('1234')
+  })
+
+  it('should allow typing beyond the mask length in postal code', async () => {
+    render(<Field.PostalCodeAndCity />)
+
+    const postalCodeInput = document.querySelector(
+      '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+    ) as HTMLInputElement
+
+    await userEvent.type(postalCodeInput, '123456')
+
+    expect(postalCodeInput).toHaveValue('123456')
   })
 
   it('should support size', () => {
@@ -273,7 +285,16 @@ describe('Field.PostalCodeAndCity', () => {
       expect(postalCode).toHaveAttribute('aria-placeholder', '00000')
       await userEvent.type(postalCode, 'abcs123456')
 
+      expect(postalCode).toHaveValue('123456')
+      fireEvent.blur(postalCode)
+
+      expect(screen.queryByRole('alert')).toBeInTheDocument()
+
+      await userEvent.type(postalCode, '{Backspace}')
+      fireEvent.blur(postalCode)
+
       expect(postalCode).toHaveValue('12345')
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 
       await userEvent.type(city, 'München')
 
@@ -306,8 +327,8 @@ describe('Field.PostalCodeAndCity', () => {
         '.dnb-forms-field-postal-code-and-city input'
       )
 
-      await userEvent.type(postalCodeNo, '{Backspace>4}987654')
-      expect(postalCodeNo).toHaveValue('9876')
+      await userEvent.type(postalCodeNo, '{Backspace>6}987654')
+      expect(postalCodeNo).toHaveValue('987654')
     })
 
     it('should use value from countryCode inside iterate', async () => {
@@ -327,16 +348,10 @@ describe('Field.PostalCodeAndCity', () => {
         document.querySelectorAll('.dnb-forms-field-postal-code-and-city')
       )
 
-      await userEvent.type(
-        norway.querySelector('input'),
-        '{Backspace>4}987654'
-      )
-      expect(norway.querySelector('input').value).toBe('9876')
+      await userEvent.type(norway.querySelector('input'), '987654')
+      expect(norway.querySelector('input').value).toBe('987654')
 
-      await userEvent.type(
-        germany.querySelector('input'),
-        '{Backspace>4}987654'
-      )
+      await userEvent.type(germany.querySelector('input'), '987654')
       expect(germany.querySelector('input').value).toBe('987654')
     })
 

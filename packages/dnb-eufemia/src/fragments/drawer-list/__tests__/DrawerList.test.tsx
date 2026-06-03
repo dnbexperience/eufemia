@@ -84,10 +84,8 @@ describe('DrawerList component', () => {
   }
 
   const isListFocused = () => {
-    const item = document.querySelector(
-      'ul.dnb-drawer-list__options.dnb-drawer-list__options--focusring'
-    )
-    return getFocusedItemIndex() === -1 && item !== null
+    const item = document.querySelector('ul.dnb-drawer-list__options')
+    return getFocusedItemIndex() === -1 && item === document.activeElement
   }
 
   it('has correct state at startup', () => {
@@ -365,7 +363,6 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} value={undefined} data={mockData} />)
 
     expect(getFocusedItemIndex()).toBe(-1)
-    expect(isListFocused()).toBe(false)
 
     keydown('ArrowDown')
 
@@ -856,7 +853,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} onClose={onClose} />)
 
     expect(document.querySelector('span.dnb-drawer-list')).toHaveClass(
-      'dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--open dnb-drawer-list--arrow-position-left dnb-drawer-list--left dnb-drawer-list--default dnb-drawer-list--scroll',
+      'dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--open dnb-drawer-list--left dnb-drawer-list--default dnb-drawer-list--scroll',
       { exact: true }
     )
 
@@ -865,7 +862,7 @@ describe('DrawerList component', () => {
 
     await waitFor(() => {
       expect(document.querySelector('span.dnb-drawer-list')).toHaveClass(
-        'dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--hidden dnb-drawer-list--arrow-position-left dnb-drawer-list--left dnb-drawer-list--default dnb-drawer-list--scroll',
+        'dnb-drawer-list dnb-drawer-list--bottom dnb-drawer-list--hidden dnb-drawer-list--left dnb-drawer-list--default dnb-drawer-list--scroll',
         { exact: true }
       )
     })
@@ -1406,6 +1403,13 @@ describe('DrawerList component', () => {
       )
     })
   })
+
+  it('adds class "dnb-drawer-list--no-divider" when noDivider prop is set', () => {
+    render(<DrawerList {...props} data={mockData} noDivider />)
+    expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
+  })
 })
 
 describe('DrawerList markup', () => {
@@ -1569,9 +1573,7 @@ describe('DrawerList scss', () => {
   })
 
   it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-drawer-list-theme-ui.scss')
-    )
+    const css = loadScss(require.resolve('../style/dnb-drawer-list.scss'))
     expect(css).toMatchSnapshot()
   })
 })

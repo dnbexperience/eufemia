@@ -2,31 +2,31 @@
 
 .dnb-list {
   &--variant-basic {
-    --item-padding: 1rem;
-    --item-height: 4rem;
-    --item-rounded-corner: var(--token-radius-xl);
-    --item-row-gap: 0.5rem;
-    --item-chevron-margin: 1rem;
-    --item-chevron-height: 1.5rem;
-    --item-outline-width: 0.0625rem;
-    --item-outline-color: var(--token-color-stroke-neutral-subtle);
-    --item-navigation-color: var(--token-color-icon-action);
-    --item-navigation-outline-color: var(--token-color-stroke-action);
-    --item-navigation-outline-color--active: var(
+    --list-item-padding: 1rem;
+    --list-item-height: 4rem;
+    --list-item-rounded-corner: var(--token-radius-xl);
+    --list-item-row-gap: 0.5rem;
+    --list-item-chevron-margin: 1rem;
+    --list-item-chevron-height: 1.5rem;
+    --list-item-outline-width: 0.0625rem;
+    --list-item-outline-color: var(--token-color-stroke-neutral-subtle);
+    --list-item-navigation-color: var(--token-color-icon-action);
+    --list-item-navigation-outline-color: var(--token-color-stroke-action);
+    --list-item-navigation-outline-color--active: var(
       --token-color-stroke-action-pressed
     );
-    --item-navigation-icon-color--active: var(
+    --list-item-navigation-icon-color--active: var(
       --token-color-icon-action-pressed
     );
-    --item-icon-color: var(--item-navigation-color);
-    --item-pending-color: var(--token-color-stroke-neutral-subtle);
-    --item-background-color: var(--token-color-background-neutral);
-    --item-selected-background-color: var(
+    --list-item-icon-color: var(--list-item-navigation-color);
+    --list-item-pending-color: var(--token-color-stroke-neutral-subtle);
+    --list-item-background-color: var(--token-color-background-neutral);
+    --list-item-selected-background-color: var(
       --token-color-background-selected-subtle,
-      var(--item-background-color)
+      var(--list-item-background-color)
     );
 
-    border-radius: var(--item-rounded-corner);
+    border-radius: var(--list-item-rounded-corner);
   }
 
   &__item {
@@ -38,33 +38,34 @@
       content: '';
       position: absolute;
       inset: var(
-        --item-outline-inset,
-        calc(var(--item-outline-width) * -1)
+        --list-item-outline-inset,
+        calc(var(--list-item-outline-width) * -1)
       );
       z-index: 10;
 
       border-radius: inherit;
       pointer-events: none;
 
-      border: var(--item-outline-width) solid var(--item-outline-color);
+      border: var(--list-item-outline-width) solid
+        var(--list-item-outline-color);
     }
 
     // Grid layout: each slot (start, icon, title, center, end) is placed by its
     // grid-area, so e.g. Item.End always goes in the end area even if "center" is
     // not used.
-    --item-grid-template-columns: auto auto auto minmax(0, 1fr)
+    --list-item-grid-template-columns: auto auto auto minmax(0, 1fr)
       minmax(0, 1fr) auto auto;
-    --item-grid-template-areas: 'chevron-left start icon title center end chevron-right'
+    --list-item-grid-template-areas: 'chevron-left start icon title center end chevron-right'
       'footer footer footer footer footer footer footer';
 
     // On small screens, use 2-row layout so end wraps to a new line
     @include utilities.allBelow(small) {
-      --item-grid-template-areas: 'chevron-left start icon title center . chevron-right'
+      --list-item-grid-template-areas: 'chevron-left start icon title center . chevron-right'
         'chevron-left end end end end end chevron-right'
         'footer footer footer footer footer footer footer';
       &:has(#{&}__start):has(#{&}__title),
       &:has(#{&}__icon) {
-        --item-grid-template-areas: 'chevron-left start icon title center . chevron-right'
+        --list-item-grid-template-areas: 'chevron-left start icon title center . chevron-right'
           'chevron-left . . end end end .'
           'footer footer footer footer footer footer footer';
       }
@@ -72,13 +73,13 @@
 
     // On x-small screens, use 3-row layout so end wraps to a new line
     @include utilities.allBelow(x-small) {
-      --item-grid-template-areas: 'chevron-left start icon title title . chevron-right'
+      --list-item-grid-template-areas: 'chevron-left start icon title title . chevron-right'
         'chevron-left center center center center center chevron-right'
         'chevron-left end end end end end chevron-right'
         'footer footer footer footer footer footer footer';
       &:has(#{&}__start):has(#{&}__title),
       &:has(#{&}__icon) {
-        --item-grid-template-areas: 'chevron-left start icon title title . chevron-right'
+        --list-item-grid-template-areas: 'chevron-left start icon title title . chevron-right'
           'chevron-left . . center center center .'
           'chevron-left . . end end end .'
           'footer footer footer footer footer footer footer';
@@ -87,8 +88,8 @@
 
     // If no center is used, adjust the grid columns
     &:not(:has(#{&}__center)) {
-      --item-grid-template-columns: auto auto auto minmax(0, 1fr) 0 auto
-        auto;
+      --list-item-grid-template-columns: auto auto auto minmax(0, 1fr) 0
+        auto auto;
     }
 
     // Deal with the item layout
@@ -96,13 +97,13 @@
     &__accordion__header {
       display: grid;
       grid-template:
-        var(--item-grid-template-areas) /
-        var(--item-grid-template-columns);
+        var(--list-item-grid-template-areas) /
+        var(--list-item-grid-template-columns);
       place-content: center; // Center vertically
       align-items: center; // Center vertically
 
-      min-height: var(--item-height);
-      padding: calc(var(--item-padding)) 0;
+      min-height: var(--list-item-height);
+      padding: calc(var(--list-item-padding)) 0;
     }
     &:has(#{&}__overline) &__center,
     &:has(#{&}__overline) &__end {
@@ -137,28 +138,28 @@
     &__accordion__header:has(#{&}__center),
     &__accordion__header:has(#{&}__end) {
       @include utilities.allBelow(small) {
-        row-gap: var(--item-row-gap);
+        row-gap: var(--list-item-row-gap);
       }
     }
 
     // Handle border radius
     border-radius: 0;
     .dnb-list--separated & {
-      border-radius: var(--item-rounded-corner);
+      border-radius: var(--list-item-rounded-corner);
     }
     &:first-of-type:not([hidden]) {
-      border-top-left-radius: var(--item-rounded-corner);
-      border-top-right-radius: var(--item-rounded-corner);
+      border-top-left-radius: var(--list-item-rounded-corner);
+      border-top-right-radius: var(--list-item-rounded-corner);
     }
     &:not([hidden]):has(+ [hidden]),
     &:last-of-type:not([hidden]) {
-      border-bottom-left-radius: var(--item-rounded-corner);
-      border-bottom-right-radius: var(--item-rounded-corner);
+      border-bottom-left-radius: var(--list-item-rounded-corner);
+      border-bottom-right-radius: var(--list-item-rounded-corner);
     }
 
-    background-color: var(--item-background-color);
+    background-color: var(--list-item-background-color);
     &--selected {
-      background-color: var(--item-selected-background-color);
+      background-color: var(--list-item-selected-background-color);
     }
 
     &__title,
@@ -209,22 +210,22 @@
     }
     &__footer-separator {
       grid-area: footer;
-      margin-top: var(--item-padding);
+      margin-top: var(--list-item-padding);
       place-self: flex-start;
 
       &.dnb-space__top--zero {
-        margin-top: var(--item-padding);
+        margin-top: var(--list-item-padding);
       }
     }
     &__footer {
       grid-area: footer;
-      margin-top: var(--item-padding);
-      padding: var(--item-padding);
+      margin-top: var(--list-item-padding);
+      padding: var(--list-item-padding);
     }
     &:not([hidden]):has(+ [hidden]):not(#{&}__accordion--open) &__footer,
     &:last-of-type:not([hidden]):not(#{&}__accordion--open) &__footer {
-      border-bottom-left-radius: var(--item-rounded-corner);
-      border-bottom-right-radius: var(--item-rounded-corner);
+      border-bottom-left-radius: var(--list-item-rounded-corner);
+      border-bottom-right-radius: var(--list-item-rounded-corner);
     }
     &__subline--description {
       color: var(--token-color-text-neutral-alternative);
@@ -236,26 +237,26 @@
       display: flex;
       align-items: center;
       grid-area: chevron-right;
-      height: var(--item-chevron-height);
-      margin-right: var(--item-chevron-margin);
+      height: var(--list-item-chevron-height);
+      margin-right: var(--list-item-chevron-margin);
     }
     &--chevron-left &__action--href a .dnb-anchor__launch-icon,
     &--chevron-left &__chevron {
       grid-area: chevron-left;
       margin-right: 0;
-      margin-left: var(--item-chevron-margin);
+      margin-left: var(--list-item-chevron-margin);
     }
 
     // Handle form elements alignment
     .dnb-checkbox .dnb-form-label,
     .dnb-radio .dnb-radio__order .dnb-form-label {
-      padding-left: var(--item-padding);
+      padding-left: var(--list-item-padding);
     }
     // So the __end is aligned with checkbox/radio label on small screens
     &:has(.dnb-form-label) &__end {
       @include utilities.allBelow(small) {
         display: flex;
-        margin-left: calc(var(--item-padding) * 2 + 0.5rem);
+        margin-left: calc(var(--list-item-padding) * 2 + 0.5rem);
       }
     }
 
@@ -263,7 +264,7 @@
     &--selection:has(.dnb-checkbox__input),
     &--selection:has(.dnb-radio__input) {
       overflow: clip;
-      overflow-clip-margin: var(--item-outline-width);
+      overflow-clip-margin: var(--list-item-outline-width);
     }
     &--selection .dnb-checkbox__input {
       --checkbox-bounding--medium: 100;
@@ -276,21 +277,14 @@
       display: none;
     }
 
-    // Accordion chevron rotations
-    &__chevron:where(#{&}__accordion &__chevron) .dnb-icon {
-      transition: transform 400ms var(--easing-default);
-      transform: rotate(90deg);
-    }
-    &__chevron:where(#{&}__accordion--open &__chevron) .dnb-icon {
-      transform: rotate(270deg);
-    }
+    // Accordion chevron
 
     &__action {
       cursor: pointer;
       outline: none;
 
       .dnb-icon {
-        color: var(--item-icon-color);
+        color: var(--list-item-icon-color);
       }
 
       // When href is set, the anchor wraps the slots; make it the grid container
@@ -299,8 +293,8 @@
       &--href a {
         display: grid;
         grid-template:
-          var(--item-grid-template-areas) /
-          var(--item-grid-template-columns);
+          var(--list-item-grid-template-areas) /
+          var(--list-item-grid-template-columns);
         grid-column: 1 / -1; // Span full width
         grid-row: 1 / -1; // Center vertically
         text-decoration: none;
@@ -312,8 +306,8 @@
       &__button {
         display: grid;
         grid-template:
-          var(--item-grid-template-areas) /
-          var(--item-grid-template-columns);
+          var(--list-item-grid-template-areas) /
+          var(--list-item-grid-template-columns);
         grid-column: 1 / -1;
         grid-row: 1 / -1;
         outline: none;
@@ -332,15 +326,21 @@
       // Handle action states
       &:not(.dnb-list__item--disabled):hover,
       &:not(.dnb-list__item--disabled):has(:focus-visible) {
-        --item-outline-color: var(--item-navigation-outline-color);
-        --item-outline-width: 0.125rem;
-        --item-outline-inset: 0;
+        --list-item-outline-color: var(
+          --list-item-navigation-outline-color
+        );
+        --list-item-outline-width: 0.125rem;
+        --list-item-outline-inset: 0;
         z-index: 2;
       }
       &:not(.dnb-list__item--disabled):active {
-        --item-outline-color: var(--item-navigation-outline-color--active);
-        --item-icon-color: var(--item-navigation-icon-color--active);
-        --item-outline-width: 0.0625rem;
+        --list-item-outline-color: var(
+          --list-item-navigation-outline-color--active
+        );
+        --list-item-icon-color: var(
+          --list-item-navigation-icon-color--active
+        );
+        --list-item-outline-width: 0.0625rem;
         z-index: 2;
       }
     }
@@ -350,15 +350,19 @@
     &:not(.dnb-list__item--disabled):has(
         #{&}__accordion__header:focus-visible
       ) {
-      --item-outline-color: var(--item-navigation-outline-color);
-      --item-outline-width: 0.125rem;
-      --item-outline-inset: 0;
+      --list-item-outline-color: var(--list-item-navigation-outline-color);
+      --list-item-outline-width: 0.125rem;
+      --list-item-outline-inset: 0;
       z-index: 2;
     }
     &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
-      --item-outline-color: var(--item-navigation-outline-color--active);
-      --item-icon-color: var(--item-navigation-icon-color--active);
-      --item-outline-width: 0.0625rem;
+      --list-item-outline-color: var(
+        --list-item-navigation-outline-color--active
+      );
+      --list-item-icon-color: var(
+        --list-item-navigation-icon-color--active
+      );
+      --list-item-outline-width: 0.0625rem;
       z-index: 2;
     }
 
@@ -368,8 +372,8 @@
       padding: 0;
 
       .dnb-hr::after {
-        left: var(--item-outline-width);
-        right: var(--item-outline-width);
+        left: var(--list-item-outline-width);
+        right: var(--list-item-outline-width);
       }
 
       &__header {
@@ -379,7 +383,7 @@
         outline: none;
 
         .dnb-icon {
-          color: var(--item-icon-color);
+          color: var(--list-item-icon-color);
         }
       }
 
@@ -394,7 +398,7 @@
     }
 
     &--pending {
-      --item-outline-inset: 0;
+      --list-item-outline-inset: 0;
       pointer-events: none;
       overflow: clip;
     }
@@ -402,18 +406,20 @@
       cursor: not-allowed;
       color: var(--token-color-text-action-disabled);
 
-      --item-navigation-color: var(--token-color-icon-action-disabled);
-      --item-navigation-outline-color: var(
-        --token-color-stroke-action-disabled
-      );
-      --item-navigation-outline-color--active: var(
-        --token-color-stroke-action-disabled
-      );
-      --item-navigation-icon-color--active: var(
+      --list-item-navigation-color: var(
         --token-color-icon-action-disabled
       );
-      --item-icon-color: var(--token-color-icon-action-disabled);
-      --item-outline-color: var(--token-color-stroke-action-disabled);
+      --list-item-navigation-outline-color: var(
+        --token-color-stroke-action-disabled
+      );
+      --list-item-navigation-outline-color--active: var(
+        --token-color-stroke-action-disabled
+      );
+      --list-item-navigation-icon-color--active: var(
+        --token-color-icon-action-disabled
+      );
+      --list-item-icon-color: var(--token-color-icon-action-disabled);
+      --list-item-outline-color: var(--token-color-stroke-action-disabled);
 
       .dnb-list__item__accordion__header {
         cursor: not-allowed;
@@ -434,7 +440,7 @@
 
       background-image: repeating-linear-gradient(
         -45deg,
-        var(--item-pending-color) 1px 2px,
+        var(--list-item-pending-color) 1px 2px,
         transparent 0 6px
       );
     }
@@ -452,7 +458,7 @@
     .dnb-list--inset-outline & .dnb-list__item {
       &::after {
         inset: 0;
-        bottom: calc(var(--item-outline-width) * -1);
+        bottom: calc(var(--list-item-outline-width) * -1);
       }
       &:not([hidden]):has(+ [hidden])::after,
       &:last-of-type:not([hidden])::after {

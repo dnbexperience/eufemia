@@ -1,4 +1,3 @@
-import { act } from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../shared/component-helper'
@@ -27,10 +26,10 @@ describe('HelpButtonInline', () => {
     const button = document.querySelector('button')
 
     await userEvent.click(button)
-    expect(button).toHaveClass('dnb-help-button__inline--open')
+    expect(button).toHaveAttribute('aria-expanded', 'true')
 
     await userEvent.click(button)
-    expect(button).not.toHaveClass('dnb-help-button__inline--open')
+    expect(button).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('should toggle open state when Space key gets pressed', async () => {
@@ -40,22 +39,25 @@ describe('HelpButtonInline', () => {
 
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
-    expect(document.querySelector('button')).not.toHaveClass(
-      'dnb-help-button__inline--open'
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'false'
     )
 
     await userEvent.type(document.querySelector('button'), '{Space}')
     expect(document.querySelector('button')).toHaveFocus()
-    expect(document.querySelector('button')).toHaveClass(
-      'dnb-help-button__inline--open'
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'true'
     )
 
     await userEvent.keyboard('{Space}')
     expect(document.querySelector('button')).toHaveFocus()
 
     // Will not close when Space is pressed
-    expect(document.querySelector('button')).toHaveClass(
-      'dnb-help-button__inline--open'
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'true'
     )
   })
 
@@ -66,20 +68,23 @@ describe('HelpButtonInline', () => {
 
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
-    expect(document.querySelector('button')).not.toHaveClass(
-      'dnb-help-button__inline--open'
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'false'
     )
 
     await userEvent.keyboard('{Enter}')
     expect(document.querySelector('button')).toHaveFocus()
-    expect(document.querySelector('button')).toHaveClass(
-      'dnb-help-button__inline--open'
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'true'
     )
 
     await userEvent.keyboard('{Enter}')
     expect(document.querySelector('button')).toHaveFocus()
-    expect(document.querySelector('button')).not.toHaveClass(
-      'dnb-help-button__inline--open'
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'false'
     )
   })
 
@@ -90,21 +95,24 @@ describe('HelpButtonInline', () => {
 
     await userEvent.tab()
     expect(document.querySelector('button')).toHaveFocus()
-    expect(document.querySelector('button')).not.toHaveClass(
-      'dnb-help-button__inline--open'
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'false'
     )
 
     await userEvent.keyboard('{Enter}')
     expect(document.querySelector('button')).toHaveFocus()
-    expect(document.querySelector('button')).toHaveClass(
-      'dnb-help-button__inline--open'
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'true'
     )
 
     await userEvent.keyboard('{Escape}')
     await waitFor(() => {
       expect(document.querySelector('button')).toHaveFocus()
-      expect(document.querySelector('button')).not.toHaveClass(
-        'dnb-help-button__inline--open'
+      expect(document.querySelector('button')).toHaveAttribute(
+        'aria-expanded',
+        'false'
       )
     })
   })
@@ -397,10 +405,10 @@ describe('HelpButtonInline', () => {
     const button = document.querySelector('button')
 
     await userEvent.type(button, '{Space}')
-    expect(button).toHaveClass('dnb-help-button__inline--open')
+    expect(button).toHaveAttribute('aria-expanded', 'true')
 
     await userEvent.type(button, '{Escape}')
-    expect(button).not.toHaveClass('dnb-help-button__inline--open')
+    expect(button).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('should display title when open', async () => {
@@ -585,7 +593,7 @@ describe('HelpButtonInline', () => {
     // Open the help button
     await userEvent.click(button)
     await waitFor(() => {
-      expect(button).toHaveClass('dnb-help-button__inline--open')
+      expect(button).toHaveAttribute('aria-expanded', 'true')
     })
 
     // Get the content section element (where onKeyDown is attached when focusOnOpen is true)
@@ -617,63 +625,43 @@ describe('HelpButtonInline', () => {
 })
 
 describe('animation end reset', () => {
-  const simulateAnimationEnd = (
-    element: Element = document.querySelector('.dnb-height-animation')
-  ) => {
-    act(() => {
-      element.dispatchEvent(new CustomEvent('transitionend'))
-    })
-  }
-
-  it('should remove --was-open class after closing animation ends', async () => {
+  it('should switch icon state when toggled', async () => {
     render(<HelpButtonInline help={{ title: 'Help title' }} />)
 
     const button = document.querySelector('button')
-
-    await userEvent.click(button)
-    expect(button).toHaveClass('dnb-help-button__inline--open')
-    expect(button).toHaveClass('dnb-help-button__inline--was-open')
-
-    await userEvent.click(button)
-    expect(button).not.toHaveClass('dnb-help-button__inline--open')
-
-    await waitFor(() => {
-      expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
-    })
-  })
-
-  it('should remove --was-open class when using separate content', async () => {
-    const id = makeUniqueId()
-
-    render(
-      <>
-        <HelpButtonInline contentId={id} help={{ title: 'Help title' }} />
-        <HelpButtonInlineContent contentId={id} />
-      </>
+    const questionSvg = button.querySelector(
+      'svg[data-icon-state="question"]'
     )
+    const closeSvg = button.querySelector('svg[data-icon-state="close"]')
 
-    const button = document.querySelector('button')
+    expect(questionSvg).toHaveClass('dnb-icon__state--active')
+    expect(closeSvg).not.toHaveClass('dnb-icon__state--active')
 
     await userEvent.click(button)
-    expect(button).toHaveClass('dnb-help-button__inline--was-open')
-
-    await userEvent.click(button)
-
-    const heightAnimation = document.querySelector('.dnb-height-animation')
-    if (heightAnimation) {
-      simulateAnimationEnd(heightAnimation)
-    }
-
     await waitFor(() => {
-      expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
+      expect(questionSvg).not.toHaveClass('dnb-icon__state--active')
+      expect(closeSvg).toHaveClass('dnb-icon__state--active')
+    })
+
+    await userEvent.click(button)
+    await waitFor(() => {
+      expect(questionSvg).toHaveClass('dnb-icon__state--active')
+      expect(closeSvg).not.toHaveClass('dnb-icon__state--active')
     })
   })
 
-  it('should not have --was-open class initially', () => {
+  it('should use transition fallback class', () => {
+    render(<HelpButtonInline help={{ title: 'Help title' }} />)
+
+    const icon = document.querySelector('.dnb-icon')
+    expect(icon).toHaveClass('dnb-icon--transition-fallback')
+  })
+
+  it('should not have --user-intent class initially', () => {
     render(<HelpButtonInline help={{ title: 'Help title' }} />)
 
     const button = document.querySelector('button')
-    expect(button).not.toHaveClass('dnb-help-button__inline--was-open')
+    expect(button).not.toHaveClass('dnb-help-button__inline--user-intent')
   })
 })
 

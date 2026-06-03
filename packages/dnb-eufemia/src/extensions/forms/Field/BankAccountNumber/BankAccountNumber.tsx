@@ -172,6 +172,7 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
     label,
     errorMessages,
     mask,
+    allowOverflow: true,
     value,
     defaultValue,
     // @ts-expect-error - strictFunctionTypes

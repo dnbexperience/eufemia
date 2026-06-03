@@ -266,7 +266,6 @@ const globalStatusDefaultProps: Record<string, unknown> = {
   autoScroll: true,
   autoClose: true,
   noAnimation: false,
-  closeText: 'Lukk',
   hideCloseButton: false,
   omitSetFocus: false,
   omitSetFocusOnUpdate: true,

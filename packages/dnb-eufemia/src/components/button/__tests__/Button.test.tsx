@@ -8,6 +8,8 @@ import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { ButtonOnClick, ButtonProps } from '../Button'
 import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
+import Icon from '../../icon/Icon'
+import { chevron_down, chevron_up } from '../../../icons'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Provider, Theme } from '../../../shared'
 import userEvent from '@testing-library/user-event'
@@ -606,6 +608,44 @@ describe('undefined props should fall through to defaults', () => {
 
     // 'medium' differs from the default null, so context cannot override it
     expect(button.classList).toContain('dnb-button--icon-size-medium')
+  })
+})
+
+describe('Button transitionState', () => {
+  it('forwards transitionState to IconPrimary', () => {
+    const icon = Icon.transition({
+      collapsed: chevron_down,
+      expanded: chevron_up,
+    })
+
+    render(<Button text="Toggle" icon={icon} transitionState="expanded" />)
+
+    const wrapper = document.querySelector(
+      '.dnb-icon--transition-fallback'
+    ) as HTMLElement
+
+    expect(wrapper).toBeInTheDocument()
+
+    const svgs = wrapper.querySelectorAll('svg[data-icon-state]')
+    expect(svgs).toHaveLength(2)
+    expect(svgs[0].getAttribute('data-icon-state')).toBe('collapsed')
+    expect(svgs[1].getAttribute('data-icon-state')).toBe('expanded')
+    expect(svgs[1].classList.contains('dnb-icon__state--active')).toBe(
+      true
+    )
+  })
+
+  it('does not leak transitionState onto the DOM element', () => {
+    const icon = Icon.transition({
+      collapsed: chevron_down,
+      expanded: chevron_up,
+    })
+
+    render(<Button text="Toggle" icon={icon} transitionState="expanded" />)
+
+    const button = document.querySelector('.dnb-button')
+    expect(button.getAttribute('transitionState')).toBeNull()
+    expect(button.getAttribute('transitionstate')).toBeNull()
   })
 })
 

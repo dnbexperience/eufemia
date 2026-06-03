@@ -65,6 +65,8 @@ import AriaLive from '../aria-live/AriaLive'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
+import Icon from '../icon/Icon'
+import { chevron_down, chevron_up } from '../../icons'
 import Input, {
   SubmitButton,
   type InputSubmitButtonProps,
@@ -98,6 +100,11 @@ type AutocompleteShowAll = string | ReactNode
 type AutocompleteAriaLiveOptions = string | ReactNode
 type AutocompleteIndicatorLabel = string | ReactNode
 type AutocompleteSubmitButtonIcon = string | ReactNode | (() => ReactNode)
+
+const autocompleteChevron = Icon.transition({
+  closed: chevron_down,
+  open: chevron_up,
+})
 type AutocompleteInputRef =
   | ((element: HTMLInputElement | null) => void)
   | RefObject<HTMLInputElement | undefined>
@@ -385,7 +392,6 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
 } = {
   id: null,
   mode: 'sync',
-  title: 'Option Menu',
   placeholder: null,
   noOptions: null,
   showAll: null,
@@ -394,12 +400,11 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   showOptionsSr: null,
   selectedSr: null,
   submitButtonTitle: null,
-  submitButtonIcon: 'chevron_down',
+  submitButtonIcon: autocompleteChevron,
   inputRef: null,
   icon: 'loupe',
   iconSize: null,
   iconPosition: 'left',
-  arrowPosition: null,
   label: null,
   labelDirection: 'vertical',
   labelSrOnly: null,
@@ -599,7 +604,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disabled,
     stretch,
     skeleton,
-    arrowPosition,
     iconPosition,
     skipPortal,
     independentWidth,
@@ -609,6 +613,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disableReorder,
     onClear,
     selectAll,
+    noDivider,
 
     mode: _mode,
     data: _data,
@@ -2000,7 +2005,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     (event: FocusEvent<HTMLInputElement>) => {
       if (
         preventFiringBlurEvent.current ||
-        drawerList.hasFocusOnElement ||
+        drawerList._hasFocusOnElementRef?.current ||
         hasBlurRef.current
       ) {
         preventFiringBlurEvent.current = null
@@ -2050,7 +2055,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       return undefined
     },
     [
-      drawerList.hasFocusOnElement,
+      drawerList._hasFocusOnElementRef,
       keepValue,
       keepValueAndSelection,
       preventSelection,
@@ -2450,7 +2455,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   } else if (showSubmitButton) {
     submitButton = (
       <SubmitButton
-        icon={submitButtonIcon as IconIcon}
+        icon={
+          <IconPrimary
+            icon={submitButtonIcon as IconIcon}
+            transitionState={isExpanded ? 'open' : 'closed'}
+          />
+        }
         iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
         variant="secondary"
         size={size === 'default' ? 'medium' : (size as ButtonSize)}
@@ -2615,10 +2625,10 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               noScrollAnimation={noScrollAnimation}
               skipPortal={skipPortal}
               preventSelection={preventSelection}
-              arrowPosition={arrowPosition || iconPosition}
               keepOpen={keepOpen}
               preventClose={preventClose}
               alignDrawer={align}
+              noDivider={noDivider}
               fixedPosition={fixedPosition}
               disabled={disabled}
               maxHeight={maxHeight}
