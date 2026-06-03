@@ -310,15 +310,17 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   --drawer-list-option-color-bg: var(
     --drawer-list-option-color-bg--focus
   );
+}
+.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
+  background-color: transparent;
+}
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   --drawer-list-option-color-border: var(
     --drawer-list-option-color-border--focus
   );
   --drawer-list-option-extra-border: var(
     --drawer-list-option-extra-border--focus
   );
-}
-.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
-  background-color: transparent;
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
@@ -881,15 +883,17 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   --drawer-list-option-color-bg: var(
     --drawer-list-option-color-bg--focus
   );
+}
+.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
+  background-color: transparent;
+}
+html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   --drawer-list-option-color-border: var(
     --drawer-list-option-color-border--focus
   );
   --drawer-list-option-extra-border: var(
     --drawer-list-option-extra-border--focus
   );
-}
-.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
-  background-color: transparent;
 }
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
