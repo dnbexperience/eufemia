@@ -52,7 +52,7 @@
       width: 343px;
       height: 216px;
       border-radius: inherit;
-      border: 1px solid var(--color-black-8);
+      border: 1px solid rgba(0 0 0 / 8%);
 
       // Creates a transparent overlay to prevent user selection
       &::after {
