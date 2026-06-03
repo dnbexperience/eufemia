@@ -100,15 +100,14 @@
       }
 
       @include utilities.active() {
-        // Focus ring
         &::before {
           content: '';
           position: absolute;
           z-index: 1;
 
-          top: 0;
-          left: -0.5rem;
-          bottom: 0;
+          top: -0.5rem;
+          bottom: -0.5rem;
+          left: -1rem;
           right: -0.5rem;
 
           height: inherit;
@@ -119,12 +118,6 @@
 
           --border-color: currentcolor;
           --border-width: 0.125rem;
-        }
-
-        @include tableFocusRing();
-
-        &::before {
-          right: -0.5rem;
         }
 
         .dnb-button__text {
