@@ -1,45 +1,45 @@
 import data from '@dnb/eufemia/src/extensions/payment-card/utils/cardProducts'
-import { Table } from '@dnb/eufemia/src/components'
+import { Table, Td, Th, Tr } from '@dnb/eufemia/src'
 
 export default function CardProductsTable() {
   return (
     <Table.ScrollView>
-      <Table>
+      <Table border outline>
         <thead>
-          <tr>
-            <th>Product Id</th>
-            <th>Product name cards</th>
-            <th>Card name to show in app</th>
-            <th>Design</th>
-            <th>Bank Logo</th>
-            <th>Product Logo</th>
-            <th>Product Logo Variant</th>
-            <th>Type of Card</th>
-            <th>Type of Card Variant</th>
-          </tr>
+          <Tr>
+            <Th>Product Id</Th>
+            <Th>Product name cards</Th>
+            <Th>Card name to show in app</Th>
+            <Th>Design</Th>
+            <Th>Bank Logo</Th>
+            <Th>Product Logo</Th>
+            <Th>Product Logo Variant</Th>
+            <Th>Type of Card</Th>
+            <Th>Type of Card Variant</Th>
+          </Tr>
         </thead>
         <tbody>
           {data.map((card) => {
             return (
-              <tr key={card.productCode}>
-                <td>{card.productCode}</td>
-                <td>{card.productName}</td>
-                <td>{card.displayName}</td>
-                <td>{card.cardDesign.name}</td>
-                <td>{getProductLogo(card.cardDesign.bankLogo)}</td>
-                <td>
+              <Tr key={card.productCode}>
+                <Td>{card.productCode}</Td>
+                <Td>{card.productName}</Td>
+                <Td>{card.displayName}</Td>
+                <Td>{card.cardDesign.name}</Td>
+                <Td>{getProductLogo(card.cardDesign.bankLogo)}</Td>
+                <Td>
                   {card.productType.tag === 'None'
                     ? '-'
                     : card.productType.tag}
-                </td>
-                <td>
+                </Td>
+                <Td>
                   {getProductVariant(card.productType, card.cardDesign)}
-                </td>
-                <td>
+                </Td>
+                <Td>
                   {card.cardType.tag === 'None' ? '-' : card.cardType.tag}
-                </td>
-                <td>{getTypeVariant(card.cardType, card.cardDesign)}</td>
-              </tr>
+                </Td>
+                <Td>{getTypeVariant(card.cardType, card.cardDesign)}</Td>
+              </Tr>
             )
           })}
         </tbody>
