@@ -531,6 +531,81 @@ describe('DrawerList component', () => {
     })
   })
 
+  it('scrolls selected item to top when opening downwards', () => {
+    vi.useFakeTimers()
+
+    const data = Array.from({ length: 20 }, (_, i) => ({
+      content: `Item ${i}`,
+    }))
+
+    render(
+      <DrawerListProvider
+        open
+        noAnimation
+        value={15}
+        data={data}
+        direction="bottom"
+      >
+        <DrawerList noAnimation />
+      </DrawerListProvider>
+    )
+
+    act(() => {
+      vi.runAllTimers()
+    })
+
+    const ulElement = document.querySelector('ul.dnb-drawer-list__options')
+    const selectedItem = document.querySelector(
+      'li.dnb-drawer-list__option--selected'
+    ) as HTMLElement
+
+    // Should scroll the container to place the selected item near the top
+    expect(ulElement.scrollTop).toBe(selectedItem.offsetTop - 8)
+
+    vi.useRealTimers()
+  })
+
+  it('scrolls selected item to bottom when opening upwards', () => {
+    vi.useFakeTimers()
+
+    const data = Array.from({ length: 20 }, (_, i) => ({
+      content: `Item ${i}`,
+    }))
+
+    render(
+      <DrawerListProvider
+        open
+        noAnimation
+        value={15}
+        data={data}
+        direction="top"
+      >
+        <DrawerList noAnimation />
+      </DrawerListProvider>
+    )
+
+    act(() => {
+      vi.runAllTimers()
+    })
+
+    const ulElement = document.querySelector(
+      'ul.dnb-drawer-list__options'
+    ) as HTMLElement
+    const selectedItem = document.querySelector(
+      'li.dnb-drawer-list__option--selected'
+    ) as HTMLElement
+
+    // Should scroll the container to place the selected item near the bottom
+    const expectedTop =
+      selectedItem.offsetTop -
+      8 -
+      ulElement.clientHeight +
+      selectedItem.offsetHeight
+    expect(ulElement.scrollTop).toBe(Math.max(0, expectedTop))
+
+    vi.useRealTimers()
+  })
+
   it('has valid onSelect callback', async () => {
     const onSelect = vi.fn()
 
