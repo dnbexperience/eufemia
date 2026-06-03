@@ -218,11 +218,11 @@ export type DrawerListProps = {
    */
   skipPortal?: boolean
   /**
-   * Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
+   * Define an HTML class that will be set on the DOM portal alongside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
    */
   portalClass?: string
   /**
-   * Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.
+   * Define an HTML class that will be set on the list, alongside `dnb-drawer-list__list`.
    */
   listClass?: string
   /**

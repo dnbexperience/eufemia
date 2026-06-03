@@ -106,11 +106,11 @@ export type FormStatusProps = {
    */
   globalStatus?: GlobalStatusConfigObject
   /**
-   * The `icon` show before the status text. Default: `error`
+   * The `icon` shown before the status text. Default: `error`
    */
   icon?: IconIcon
   /**
-   * The icon size of the icon shows. Default: `medium`
+   * The size of the icon. Default: `medium`
    */
   iconSize?: IconSize
   /**
@@ -757,7 +757,7 @@ function sumElementWidth({
     return width // stop here
   }
   try {
-    // beside "selector" - which is straight forward, we
+    // Besides "selector" - which is straightforward, we
     // also check if we can get an ID given by textId
     const ids = widthElement
       ? [widthElement]
