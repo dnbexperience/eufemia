@@ -4,7 +4,7 @@ import propertiesEiendom from '@dnb/eufemia/src/style/themes/eiendom/properties'
 import propertiesCarnegie from '@dnb/eufemia/src/style/themes/carnegie/properties'
 
 import type { ThemeNames } from '@dnb/eufemia/shared'
-import { basicComponents } from '../../../shared/tags'
+import { Code, CopyOnClick, Table, Td, Th, Tr } from '@dnb/eufemia/src'
 
 type ColorData = {
   name: string
@@ -12,9 +12,6 @@ type ColorData = {
   brandName: string
   figmaName: string
 }
-
-const MDXCode = basicComponents.code
-const MDXTable = basicComponents.table
 
 const dataEiendom = [
   {
@@ -600,48 +597,56 @@ const getRow = (
 
   if (!color) {
     return (
-      <tr key={name}>
-        <td colSpan={7}>
-          Color <MDXCode>{name}</MDXCode> could not be found
-        </td>
-      </tr>
+      <Tr key={name}>
+        <Td colSpan={7}>
+          Color{' '}
+          <Code>
+            <CopyOnClick>{name}</CopyOnClick>
+          </Code>{' '}
+          could not be found
+        </Td>
+      </Tr>
     )
   }
 
   return (
-    <tr key={name}>
-      <td>{color}</td>
-      <td>{type || 'N/A'}</td>
-      <td>{brandName || 'N/A'}</td>
-      <td>
-        <MDXCode>{color}</MDXCode>
-      </td>
-      <td>{hexToRGB(color)}</td>
-      <td>{figmaName || 'N/A'}</td>
-      <td>
-        <MDXCode>{name}</MDXCode>
-      </td>
-    </tr>
+    <Tr key={name}>
+      <Td>{color}</Td>
+      <Td>{type || 'N/A'}</Td>
+      <Td>{brandName || 'N/A'}</Td>
+      <Td>
+        <Code>
+          <CopyOnClick>{color}</CopyOnClick>
+        </Code>
+      </Td>
+      <Td>{hexToRGB(color)}</Td>
+      <Td>{figmaName || 'N/A'}</Td>
+      <Td>
+        <Code>
+          <CopyOnClick>{name}</CopyOnClick>
+        </Code>
+      </Td>
+    </Tr>
   )
 }
 
 export const ColorTable = ({ theme }: { theme: ThemeNames }) => (
-  <>
-    <MDXTable>
+  <Table.ScrollView>
+    <Table border outline>
       <thead>
-        <tr>
-          <th>Sample</th>
-          <th>Type</th>
-          <th>Brand name</th>
-          <th>Hex</th>
-          <th>RGB</th>
-          <th>Figma Library name</th>
-          <th>CSS Custom Properties name</th>
-        </tr>
+        <Tr>
+          <Th>Sample</Th>
+          <Th>Type</Th>
+          <Th>Brand name</Th>
+          <Th>Hex</Th>
+          <Th>RGB</Th>
+          <Th>Figma Library name</Th>
+          <Th>CSS Custom Properties name</Th>
+        </Tr>
       </thead>
       <tbody>
         {themes[theme].data.map((color) => getRow(color, theme))}
       </tbody>
-    </MDXTable>
-  </>
+    </Table>
+  </Table.ScrollView>
 )
