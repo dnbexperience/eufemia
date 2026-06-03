@@ -47,22 +47,35 @@ export type PortalRootProps = {
 } & SelectorOptions &
   Omit<HTMLProps<HTMLElement>, 'ref' | 'id'>
 
-type PortalRootContextValue = SelectorOptions
+type PortalRootContextValue = SelectorOptions & {
+  portalAttributes?: Record<string, unknown>
+}
 
 const PortalRootContext = createContext<PortalRootContextValue | null>(
   null
 )
 
-export type PortalRootProviderProps = PropsWithChildren<SelectorOptions>
+export type PortalRootProviderProps = PropsWithChildren<
+  SelectorOptions & Omit<HTMLProps<HTMLElement>, 'id' | 'children' | 'ref'>
+>
 
 export function PortalRootProvider(
   props: PortalRootProviderProps
 ): JSX.Element | null {
-  const { id, insideSelector, beforeSelector, children } = props
+  const { id, insideSelector, beforeSelector, children, ...rest } = props
+
+  const hasRest = Object.keys(rest).length > 0
+  const restKey = hasRest ? JSON.stringify(rest) : ''
 
   const value = useMemo(
-    () => ({ id, insideSelector, beforeSelector }),
-    [id, insideSelector, beforeSelector]
+    () => ({
+      id,
+      insideSelector,
+      beforeSelector,
+      ...(hasRest ? { portalAttributes: rest } : undefined),
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [id, insideSelector, beforeSelector, restKey]
   )
 
   return <PortalRootContext value={value}>{children}</PortalRootContext>
@@ -154,6 +167,7 @@ function PortalRootInstance(props: PortalRootProps = {}): ReactNode {
           className
         )}
         style={{ ...scopeStyle, ...style }}
+        {...selectorContext?.portalAttributes}
         {...rest}
       >
         {children}

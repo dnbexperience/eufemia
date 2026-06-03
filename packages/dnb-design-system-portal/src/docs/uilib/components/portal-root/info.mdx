@@ -131,3 +131,20 @@ This makes the `DatePicker` render its portal content right before `my-custom-id
   </div>
 </body>
 ```
+
+### Forward HTML attributes to portal content
+
+`PortalRoot.Provider` also forwards any extra HTML attributes to the portal DOM element. Any standard HTML attribute you pass will be applied to every portal element rendered by components inside the provider (such as Dropdown, Autocomplete, DatePicker, Dialog, Drawer, Popover, and Tooltip).
+
+```tsx
+import { PortalRoot, Dropdown, Dialog } from '@dnb/eufemia'
+
+render(
+  <PortalRoot.Provider data-my-need="something">
+    <Dropdown />
+    <Dialog />
+  </PortalRoot.Provider>
+)
+```
+
+In this example, every portal element will receive `data-my-need="something"` for content rendered outside the main React tree.
