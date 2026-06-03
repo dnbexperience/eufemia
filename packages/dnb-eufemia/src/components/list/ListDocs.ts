@@ -163,7 +163,7 @@ export const ItemSublineProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Subline content of the list item, shown below the title. Use via `List.Cell.Title.Subline` when nesting inside the title block (or as standalone `List.Cell.Title.Subline`). Pairs with List.Cell.Title.Overline or `List.Cell.Title.Overline`.',
+    doc: 'Subline content of the list item, shown below the title. Use via `List.Cell.Title.Subline` when nesting inside the title block (or as standalone `List.Cell.Title.Subline`). Pairs with `List.Cell.Title.Overline` inside the block.',
     type: 'React.ReactNode',
     status: 'required',
   },
