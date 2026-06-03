@@ -498,18 +498,6 @@
       }
     }
 
-    // show focus border when using keyboard
-    html[data-whatinput='keyboard']
-      &--selected#{&}--focus
-      &__inner::before {
-      visibility: visible;
-
-      @include utilities.fakeBorder(
-        var(--token-color-stroke-action-hover-inverse),
-        var(--drawer-list-option-border-width)
-      );
-    }
-
     // remove last bottom border
     &.last-of-type:not(#{&}--focus) &__inner::before {
       content: none;
