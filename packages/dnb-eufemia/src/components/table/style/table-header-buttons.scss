@@ -1,16 +1,5 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
-@mixin tableFocusRing() {
-  &::before {
-    content: '';
-    position: absolute;
-    top: -0.5rem;
-    bottom: -0.5rem;
-    left: -1rem;
-    right: 0.5rem;
-  }
-}
-
 @mixin buttonsInTable {
   // sortable
   & > thead > tr > th#{&}--sortable,
@@ -74,10 +63,12 @@
       }
 
       @include utilities.focus() {
-        @include tableFocusRing();
-
-        // focus ring
         &::before {
+          content: '';
+          position: absolute;
+          top: -0.5rem;
+          bottom: -0.5rem;
+          left: -1rem;
           right: -0.5rem;
         }
 
