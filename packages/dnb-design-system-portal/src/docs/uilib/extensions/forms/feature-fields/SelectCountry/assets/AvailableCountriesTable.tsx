@@ -8,7 +8,7 @@ export function AvailableCountriesTable() {
   })
   return (
     <Table.ScrollView>
-      <Table>
+      <Table border outline>
         <thead>
           <Tr>
             <Th>ISO 3166-1 alpha-2 code</Th>
