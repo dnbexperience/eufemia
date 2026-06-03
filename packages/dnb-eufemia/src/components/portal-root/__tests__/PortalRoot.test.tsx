@@ -1138,4 +1138,66 @@ describe('PortalRoot theme', () => {
 
     expect(innerDiv).not.toHaveClass('eufemia-theme')
   })
+
+  describe('Provider HTML attributes', () => {
+    it('should forward translate="no" from Provider to portal element', () => {
+      render(
+        <PortalRoot.Provider translate="no">
+          <PortalRoot>
+            <div data-testid="content">Content</div>
+          </PortalRoot>
+        </PortalRoot.Provider>
+      )
+
+      const portalElement = document.getElementById('eufemia-portal-root')
+      const innerDiv = portalElement?.querySelector('.eufemia-portal-root')
+
+      expect(innerDiv).toHaveAttribute('translate', 'no')
+    })
+
+    it('should forward data attributes from Provider to portal element', () => {
+      render(
+        <PortalRoot.Provider data-testid="portal-wrapper">
+          <PortalRoot>
+            <div>Content</div>
+          </PortalRoot>
+        </PortalRoot.Provider>
+      )
+
+      const portalElement = document.getElementById('eufemia-portal-root')
+      const innerDiv = portalElement?.querySelector('.eufemia-portal-root')
+
+      expect(innerDiv).toHaveAttribute('data-testid', 'portal-wrapper')
+    })
+
+    it('should allow PortalRoot props to override Provider attributes', () => {
+      render(
+        <PortalRoot.Provider translate="no">
+          <PortalRoot translate="yes">
+            <div data-testid="content">Content</div>
+          </PortalRoot>
+        </PortalRoot.Provider>
+      )
+
+      const portalElement = document.getElementById('eufemia-portal-root')
+      const innerDiv = portalElement?.querySelector('.eufemia-portal-root')
+
+      expect(innerDiv).toHaveAttribute('translate', 'yes')
+    })
+
+    it('should not set extra attributes when Provider has none', () => {
+      render(
+        <PortalRoot.Provider>
+          <PortalRoot>
+            <div data-testid="content">Content</div>
+          </PortalRoot>
+        </PortalRoot.Provider>
+      )
+
+      const portalElement = document.getElementById('eufemia-portal-root')
+      const innerDiv = portalElement?.querySelector('.eufemia-portal-root')
+
+      expect(innerDiv).not.toHaveAttribute('translate')
+    })
+  })
 })

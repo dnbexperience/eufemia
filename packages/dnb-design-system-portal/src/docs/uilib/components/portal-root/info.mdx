@@ -131,3 +131,19 @@ This makes the `DatePicker` render its portal content right before `my-custom-id
   </div>
 </body>
 ```
+
+### Forward HTML attributes to portal content
+
+`PortalRoot.Provider` also forwards any extra HTML attributes to the portal DOM element. This is useful when you need to prevent browser features like Google Translate from modifying portal content, which can cause React crashes.
+
+```tsx
+import { PortalRoot, Dropdown } from '@dnb/eufemia'
+
+render(
+  <PortalRoot.Provider translate="no">
+    <Dropdown />
+  </PortalRoot.Provider>
+)
+```
+
+Every portal rendered by components inside the provider (such as Dropdown, Autocomplete, DatePicker, Dialog, Drawer, Popover, and Tooltip) will have `translate="no"` on its portal element, preventing Google Translate from wrapping text nodes in those portals.
