@@ -611,7 +611,17 @@ const getRow = (
 
   return (
     <Tr key={name}>
-      <Td>{color}</Td>
+      <Td
+        aria-hidden
+        style={{
+          color,
+          background: color,
+          fontFamily: 'var(--font-family-monospace)',
+          width: 0,
+        }}
+      >
+        {color}
+      </Td>
       <Td>{type || 'N/A'}</Td>
       <Td>{brandName || 'N/A'}</Td>
       <Td>
