@@ -325,7 +325,7 @@ export const BackgroundColor = () => {
 
         <List.Item.Basic
           style={{
-            ['--item-background-color' as string]:
+            ['--list-item-background-color' as string]:
               'var(--color-mint-green-12)',
           }}
         >
