@@ -123,6 +123,10 @@
 
         @include tableFocusRing();
 
+        &::before {
+          right: -0.5rem;
+        }
+
         .dnb-button__text {
           text-decoration: none;
         }
