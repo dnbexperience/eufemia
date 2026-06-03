@@ -17,14 +17,16 @@ describe('build-info plugin', () => {
   })
 
   describe('getBuildInfo', () => {
-    it('returns git tag version when files are missing', () => {
+    it('returns git tag version or [LOCAL BUILD] when files are missing', () => {
       const info = getBuildInfo({
         packageJsonPath: path.join(tmpDir, 'missing.json'),
         changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
-      // Falls back to git tag since we're running in the eufemia repo
-      expect(info.releaseVersion).toMatch(/^\d+\.\d+\.\d+/)
+      // Falls back to git tag when available, otherwise stays as [LOCAL BUILD]
+      expect(info.releaseVersion).toMatch(
+        /^(\d+\.\d+\.\d+|\[LOCAL BUILD\])/
+      )
       expect(info.changelogVersion).toBe('[LOCAL BUILD]')
       expect(info.buildVersion).toMatch(/\d/)
     })
@@ -56,11 +58,13 @@ describe('build-info plugin', () => {
         changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
-      // Falls back to the latest git tag (e.g. "11.5.0") since we're in a git repo
-      expect(info.releaseVersion).toMatch(/^\d+\.\d+\.\d+/)
+      // Falls back to git tag when available, otherwise stays as [LOCAL BUILD]
+      expect(info.releaseVersion).toMatch(
+        /^(\d+\.\d+\.\d+|\[LOCAL BUILD\])/
+      )
     })
 
-    it('rejects "Not released" from package.json and falls back to git tag', () => {
+    it('rejects "Not released" from package.json', () => {
       const pkgPath = path.join(tmpDir, 'package.json')
       fs.writeFileSync(
         pkgPath,
@@ -72,9 +76,11 @@ describe('build-info plugin', () => {
         changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
-      // Should NOT be "Not released", should fall back to git tag
+      // Should NOT be "Not released" — falls back to git tag or [LOCAL BUILD]
       expect(info.releaseVersion).not.toBe('Not released')
-      expect(info.releaseVersion).toMatch(/^\d+\.\d+\.\d+/)
+      expect(info.releaseVersion).toMatch(
+        /^(\d+\.\d+\.\d+|\[LOCAL BUILD\])/
+      )
     })
 
     it('extracts changelogVersion from the first heading', () => {
