@@ -1,10 +1,10 @@
 import { FlatCompat } from '@eslint/eslintrc'
+import { fixupConfigRules, fixupPluginRules } from '@eslint/compat'
 import js from '@eslint/js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import globals from 'globals'
 
-import babelParser from '@babel/eslint-parser'
 import importPlugin from 'eslint-plugin-import'
 import vitestPlugin from '@vitest/eslint-plugin'
 import playwrightPlugin from 'eslint-plugin-playwright'
@@ -63,26 +63,26 @@ export default [
   {
     ignores: ignorePatterns,
   },
-  ...basePlugins.extends(
+  ...fixupConfigRules(basePlugins.extends(
     'eslint:recommended',
     'plugin:import/recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended'
-  ),
-  ...basePlugins.extends('plugin:compat/recommended').map((config) => ({
+  )),
+  ...fixupConfigRules(basePlugins.extends('plugin:compat/recommended').map((config) => ({
     ...config,
     files: ['**/src/**/*.{js,jsx,ts,tsx}'],
+    ignores: ['**/*.stories.*'],
     settings: {
       ...(config.settings || {}),
       polyfills: [...(config.settings?.polyfills || []), 'Object.hasOwn'],
       lintAllEsApis: true,
       ignoreConditionalChecks: true,
     },
-  })),
+  }))),
   {
     languageOptions: {
-      parser: babelParser,
       ecmaVersion: 2020,
       sourceType: 'module',
       globals: {
@@ -92,9 +92,6 @@ export default [
         ...vitestGlobals,
       },
       parserOptions: {
-        babelOptions: {
-          configFile: '@dnb/eufemia/babel.config.js',
-        },
         ecmaFeatures: {
           modules: true,
           jsx: true,
@@ -102,11 +99,7 @@ export default [
       },
     },
     plugins: {
-      import: importPlugin,
       prettier: prettierPlugin,
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
-      'jsx-a11y': jsxA11yPlugin,
       security: securityPlugin,
     },
     settings: {
@@ -116,6 +109,12 @@ export default [
     },
     rules: {
       ...securityRecommendedRules,
+
+      // New rules added to eslint:recommended in ESLint 10 – set to warn
+      // so they don't block CI while the codebase is incrementally updated.
+      'no-useless-assignment': 'warn',
+      'preserve-caught-error': 'warn',
+
       'react-hooks/immutability': 'off',
       'react-hooks/preserve-manual-memoization': 'off',
       'react-hooks/purity': 'off',
@@ -290,12 +289,12 @@ export default [
       ],
     },
   },
-  ...basePlugins
+  ...fixupConfigRules(basePlugins
     .extends('plugin:@typescript-eslint/recommended')
     .map((config) => ({
       ...config,
       files: tsConfigFiles,
-    })),
+    }))),
   {
     files: tsConfigFiles,
     languageOptions: {
@@ -315,9 +314,6 @@ export default [
         ...vitestGlobals,
         JSX: 'readonly',
       },
-    },
-    plugins: {
-      '@typescript-eslint': tsPlugin,
     },
     rules: {
       'import/named': 'off',
@@ -382,6 +378,7 @@ export default [
     rules: {
       ...vitestPlugin.configs.recommended.rules,
       'vitest/no-focused-tests': 'error',
+      'vitest/no-conditional-expect': 'warn',
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
@@ -401,9 +398,6 @@ export default [
   },
   {
     files: ['**/__tests__/**/*.{ts,tsx}'],
-    plugins: {
-      '@typescript-eslint': tsPlugin,
-    },
     rules: {
       '@typescript-eslint/consistent-type-imports': [
         'error',
@@ -460,7 +454,6 @@ export default [
     files: ['**/*Docs.{ts,tsx}'],
     plugins: {
       'docs-types': docsTypesPlugin,
-      '@typescript-eslint': tsPlugin,
     },
     rules: {
       'docs-types/warn-supported-types': 'warn',

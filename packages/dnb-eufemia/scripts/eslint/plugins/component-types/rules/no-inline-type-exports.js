@@ -40,7 +40,7 @@ module.exports = {
     ],
   },
   create(context) {
-    const filename = context.filename || context.getFilename()
+    const filename = context.filename
 
     // Only apply to .tsx files (component files)
     if (!filename.endsWith('.tsx')) {

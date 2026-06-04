@@ -10,6 +10,7 @@
 import { format } from 'prettier/standalone'
 import * as prettierPluginBabel from 'prettier/plugins/babel'
 import * as prettierPluginEstree from 'prettier/plugins/estree'
+// eslint-disable-next-line workspaces/require-dependency -- workspace sibling used at build-time only
 import starterPackageJson from 'eufemia-starter/package.json'
 
 /**
