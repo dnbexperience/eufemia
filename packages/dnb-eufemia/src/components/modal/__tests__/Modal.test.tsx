@@ -353,11 +353,11 @@ describe('Modal component', () => {
     // Open modal
     fireEvent.click(document.querySelector('button'))
 
-    // Focus moves to title
+    // Focus moves to dialog container
     await waitFor(() => {
-      const title = document.querySelector('h1') as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      expect(document.activeElement).toBe(title)
+      const content = document.querySelector('.dnb-modal__content')
+      expect(content).toBeInTheDocument()
+      expect(document.activeElement).toBe(content)
     })
   })
 

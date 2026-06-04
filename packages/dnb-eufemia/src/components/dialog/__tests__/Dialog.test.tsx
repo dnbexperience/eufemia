@@ -290,11 +290,9 @@ describe('Dialog', () => {
     render(<Dialog noAnimation open title="Title" />)
 
     await waitFor(() => {
-      const title = document.querySelector(
-        '.dnb-modal__title'
-      ) as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      expect(document.activeElement).toBe(title)
+      const content = document.querySelector('.dnb-modal__content')
+      expect(content).toBeInTheDocument()
+      expect(document.activeElement).toBe(content)
     })
   })
 
@@ -613,9 +611,9 @@ describe('Dialog', () => {
 
     // Wait a bit more for focus management to complete
     await waitFor(() => {
-      const modalTitle = document.querySelector('.dnb-modal__title')
-      expect(modalTitle).toBeInTheDocument()
-      expect(document.activeElement).toBe(modalTitle)
+      const content = document.querySelector('.dnb-modal__content')
+      expect(content).toBeInTheDocument()
+      expect(document.activeElement).toBe(content)
     })
 
     // Verify that focus is NOT on the submit button

@@ -190,10 +190,17 @@ export default function ModalContent(props: ModalContentProps) {
                 warn('A Dialog or Drawer needs a h1 as its first element!')
               }
 
-              firstHeading.setAttribute('tabIndex', '-1')
-              firstHeading.classList.add('dnb-no-focus')
-
-              focusElement = firstHeading
+              // Focus the dialog container instead of the heading to
+              // prevent VoiceOver from announcing the title twice —
+              // once via aria-labelledby and once as the focused heading.
+              const dialogContainer = document.getElementById(
+                usedContentId
+              ) as HTMLElement
+              if (dialogContainer) {
+                dialogContainer.setAttribute('tabIndex', '-1')
+                dialogContainer.classList.add('dnb-no-focus')
+                focusElement = dialogContainer
+              }
             } else {
               const focusHelper = elem.querySelector(
                 '.dnb-modal__close-button, .dnb-modal__focus-helper'
@@ -215,7 +222,13 @@ export default function ModalContent(props: ModalContentProps) {
         noAnimation ? 0 : timeoutDuration || 0
       )
     }
-  }, [contentRef, animationDuration, focusSelector, noAnimation])
+  }, [
+    contentRef,
+    animationDuration,
+    focusSelector,
+    noAnimation,
+    usedContentId,
+  ])
 
   const androidFocusHelperRef = useRef<() => void>(null)
   androidFocusHelperRef.current = () => {
