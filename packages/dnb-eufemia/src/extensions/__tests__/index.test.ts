@@ -4,7 +4,6 @@
  */
 
 import '../../core/test-utils/testSetup'
-// eslint-disable-next-line import/named
 import { PaymentCard } from '../index'
 
 describe('Library', () => {
