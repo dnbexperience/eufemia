@@ -157,7 +157,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
             {title}
           </Heading>
           <P bottom {...textParams} />
-          {errorMessageCode && (
+          {errorMessageCode && statusCode && (
             <P bottom className="dnb-global-error__status">
               {String(errorMessageCode).replace('%statusCode', statusCode)}
             </P>
