@@ -197,8 +197,6 @@ export default function ModalContent(props: ModalContentProps) {
                 usedContentId
               ) as HTMLElement
               if (dialogContainer) {
-                dialogContainer.setAttribute('tabIndex', '-1')
-                dialogContainer.classList.add('dnb-no-focus')
                 focusElement = dialogContainer
               }
             } else {
@@ -477,6 +475,7 @@ export default function ModalContent(props: ModalContentProps) {
 
   const contentParams = {
     role,
+    tabIndex: -1,
     'aria-modal': true,
     'aria-labelledby': combineLabelledBy(
       props,
@@ -490,6 +489,7 @@ export default function ModalContent(props: ModalContentProps) {
     'aria-label': !title && !labelledBy ? dialogTitle : undefined,
     className: clsx(
       'dnb-modal__content',
+      'dnb-no-focus',
       fullscreen === true
         ? 'dnb-modal__content--fullscreen'
         : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
