@@ -156,6 +156,30 @@ export const FullDialogExample = () => (
   </ComponentBox>
 )
 
+export const DialogExampleNested = () => (
+  <ComponentBox>
+    <Dialog
+      title="Account settings"
+      triggerProps={{ text: 'Open settings' }}
+    >
+      <P bottom>
+        Review your account settings below. To permanently remove your
+        account, use the button below.
+      </P>
+      <Dialog
+        variant="confirmation"
+        confirmType="warning"
+        title="Are you sure?"
+        description="Deleting your account is permanent and cannot be undone. All your data will be lost."
+        triggerProps={{
+          text: 'Delete account',
+          variant: 'secondary',
+        }}
+      />
+    </Dialog>
+  </ComponentBox>
+)
+
 export const DialogExampleProgressIndicator = () => (
   <ComponentBox data-visual-test="dialog-progress-indicator">
     <Dialog

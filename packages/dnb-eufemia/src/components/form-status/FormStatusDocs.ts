@@ -38,12 +38,12 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'The `icon` show before the status text. Defaults to `error`.',
+    doc: 'The `icon` shown before the status text. Defaults to `error`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   iconSize: {
-    doc: 'The icon size of the icon shows. Defaults to `medium`.',
+    doc: 'The size of the icon. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },

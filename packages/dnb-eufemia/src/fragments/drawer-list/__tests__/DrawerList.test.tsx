@@ -531,6 +531,81 @@ describe('DrawerList component', () => {
     })
   })
 
+  it('scrolls selected item to top when opening downwards', () => {
+    vi.useFakeTimers()
+
+    const data = Array.from({ length: 20 }, (_, i) => ({
+      content: `Item ${i}`,
+    }))
+
+    render(
+      <DrawerListProvider
+        open
+        noAnimation
+        value={15}
+        data={data}
+        direction="bottom"
+      >
+        <DrawerList noAnimation />
+      </DrawerListProvider>
+    )
+
+    act(() => {
+      vi.runAllTimers()
+    })
+
+    const ulElement = document.querySelector('ul.dnb-drawer-list__options')
+    const selectedItem = document.querySelector(
+      'li.dnb-drawer-list__option--selected'
+    ) as HTMLElement
+
+    // Should scroll the container to place the selected item near the top
+    expect(ulElement.scrollTop).toBe(selectedItem.offsetTop - 8)
+
+    vi.useRealTimers()
+  })
+
+  it('scrolls selected item to bottom when opening upwards', () => {
+    vi.useFakeTimers()
+
+    const data = Array.from({ length: 20 }, (_, i) => ({
+      content: `Item ${i}`,
+    }))
+
+    render(
+      <DrawerListProvider
+        open
+        noAnimation
+        value={15}
+        data={data}
+        direction="top"
+      >
+        <DrawerList noAnimation />
+      </DrawerListProvider>
+    )
+
+    act(() => {
+      vi.runAllTimers()
+    })
+
+    const ulElement = document.querySelector(
+      'ul.dnb-drawer-list__options'
+    ) as HTMLElement
+    const selectedItem = document.querySelector(
+      'li.dnb-drawer-list__option--selected'
+    ) as HTMLElement
+
+    // Should scroll the container to place the selected item near the bottom
+    const expectedTop =
+      selectedItem.offsetTop -
+      8 -
+      ulElement.clientHeight +
+      selectedItem.offsetHeight
+    expect(ulElement.scrollTop).toBe(Math.max(0, expectedTop))
+
+    vi.useRealTimers()
+  })
+
   it('has valid onSelect callback', async () => {
     const onSelect = vi.fn()
 
@@ -1495,6 +1570,80 @@ describe('DrawerList markup', () => {
 })
 
 describe('DrawerList portal', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('should right-align portal when alignDrawer is right', async () => {
+    const ownerRight = 500
+
+    const style = {
+      width: '100px',
+      getPropertyValue: () => 16,
+    } as undefined
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function () {
+      return {
+        left: 400,
+        right: ownerRight,
+        top: 100,
+        width: 100,
+        height: 40,
+        bottom: 140,
+        x: 400,
+        y: 100,
+        toJSON: () => '',
+      } as DOMRect
+    })
+
+    const { rerender } = render(
+      <DrawerList open noAnimation alignDrawer="right" />
+    )
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      expect(styleElement.getAttribute('style')).toContain('top:')
+    })
+
+    rerender(
+      <DrawerList open noAnimation independentWidth alignDrawer="right" />
+    )
+
+    await waitFor(() => {
+      const portalStyle = styleElement.getAttribute('style')
+      // Portal width is 256px (16 * 16), so left = ownerRight - width = 500 - 256 = 244
+      expect(portalStyle).toContain('left: 244px')
+    })
+  })
+
+  it('should left-align portal by default', async () => {
+    const style = {
+      width: '100px',
+      getPropertyValue: () => 16,
+    } as undefined
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    render(<DrawerList open noAnimation alignDrawer="left" />)
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      const style = styleElement.getAttribute('style')
+      expect(style).toContain('left: 0px')
+    })
+  })
+
   it('will set correct width when independentWidth is set', async () => {
     const style = {
       getPropertyValue: () => 20,

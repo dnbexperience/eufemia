@@ -202,7 +202,7 @@ export type DrawerListProps = {
    */
   optionsRender?: DrawerListOptionsRender
   /**
-   * Has to be an HTML Element, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
+   * Has to be an HTML Element, ideally a parent element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
    */
   wrapperElement?: string | HTMLElement
   /**
@@ -218,11 +218,11 @@ export type DrawerListProps = {
    */
   skipPortal?: boolean
   /**
-   * Define an HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
+   * Define an HTML class that will be set on the DOM portal alongside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
    */
   portalClass?: string
   /**
-   * Define an HTML class that will be set on the list, beside `dnb-drawer-list__list`.
+   * Define an HTML class that will be set on the list, alongside `dnb-drawer-list__list`.
    */
   listClass?: string
   /**
@@ -230,7 +230,7 @@ export type DrawerListProps = {
    */
   preventClose?: boolean
   /**
-   * If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.
+   * If set to `true`, the DrawerList will handle its width and position independently of the parent element.
    */
   independentWidth?: boolean
   /**

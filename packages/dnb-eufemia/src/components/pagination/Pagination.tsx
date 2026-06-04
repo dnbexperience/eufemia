@@ -208,7 +208,7 @@ export type PaginationProps = {
    */
   morePages?: string
   /**
-   * Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.
+   * Shown until new content is inserted into the page. Defaults to `Laster nytt innhold`.
    */
   isLoadingText?: string
   /**
@@ -216,7 +216,7 @@ export type PaginationProps = {
    */
   loadButton?: PaginationLoadButtonProps
   /**
-   * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`. See property [space](/uilib/layout/space/properties).
+   * Used to set spacing for the pagination bar. Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or `16px`. See property [space](/uilib/layout/space/properties).
    */
   barSpace?: SpaceTypeAll
   /**

@@ -111,7 +111,7 @@ export type GlobalStatusProps = {
    */
   icon?: IconIcon
   /**
-   * The icon size of the title icon shows. Defaults to `medium`.
+   * The size of the title icon. Defaults to `medium`.
    */
   iconSize?: IconSize
   /**

@@ -21,7 +21,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import ModalContext from './ModalContext'
-import { IS_IOS, IS_SAFARI, IS_MAC, isAndroid } from '../../shared/helpers'
+import { isAndroid } from '../../shared/helpers'
 import type {
   ModalCloseHandlerParams,
   ModalContentProps,
@@ -190,10 +190,15 @@ export default function ModalContent(props: ModalContentProps) {
                 warn('A Dialog or Drawer needs a h1 as its first element!')
               }
 
-              firstHeading.setAttribute('tabIndex', '-1')
-              firstHeading.classList.add('dnb-no-focus')
-
-              focusElement = firstHeading
+              // Focus the dialog container instead of the heading to
+              // prevent VoiceOver from announcing the title twice —
+              // once via aria-labelledby and once as the focused heading.
+              const dialogContainer = document.getElementById(
+                usedContentId
+              ) as HTMLElement
+              if (dialogContainer) {
+                focusElement = dialogContainer
+              }
             } else {
               const focusHelper = elem.querySelector(
                 '.dnb-modal__close-button, .dnb-modal__focus-helper'
@@ -215,7 +220,13 @@ export default function ModalContent(props: ModalContentProps) {
         noAnimation ? 0 : timeoutDuration || 0
       )
     }
-  }, [contentRef, animationDuration, focusSelector, noAnimation])
+  }, [
+    contentRef,
+    animationDuration,
+    focusSelector,
+    noAnimation,
+    usedContentId,
+  ])
 
   const androidFocusHelperRef = useRef<() => void>(null)
   androidFocusHelperRef.current = () => {
@@ -460,15 +471,12 @@ export default function ModalContent(props: ModalContentProps) {
     }
   }, [children, setFocus])
 
-  const useDialogRole = !(IS_MAC || IS_SAFARI || IS_IOS)
-  let role = dialogRole || 'dialog'
-  if (!useDialogRole && role === 'dialog') {
-    role = 'region'
-  }
+  const role = dialogRole || 'dialog'
 
   const contentParams = {
     role,
-    'aria-modal': useDialogRole ? true : undefined,
+    tabIndex: -1,
+    'aria-modal': true,
     'aria-labelledby': combineLabelledBy(
       props,
       title ? usedContentId + '-title' : null,
@@ -481,6 +489,7 @@ export default function ModalContent(props: ModalContentProps) {
     'aria-label': !title && !labelledBy ? dialogTitle : undefined,
     className: clsx(
       'dnb-modal__content',
+      'dnb-no-focus',
       fullscreen === true
         ? 'dnb-modal__content--fullscreen'
         : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',

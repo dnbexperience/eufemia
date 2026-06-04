@@ -182,7 +182,7 @@ export type InputProps = Omit<
      */
     keepPlaceholder?: boolean
     /**
-     * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
+     * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
      */
     suffix?: InputSuffix
     /**
@@ -224,7 +224,7 @@ export type InputProps = Omit<
      */
     icon?: IconIcon
     /**
-     * The icon size of the icon shows. Defaults to `medium`.
+     * The size of the icon. Defaults to `medium`.
      */
     iconSize?: IconSize
     /**
@@ -271,7 +271,7 @@ export type InputSubmitButtonProps = Omit<
     title?: string
     variant?: ButtonVariant
     /**
-     * The sizes you can choose is `small`, `default`, `medium` and `large`.
+     * The sizes you can choose are `small`, `default`, `medium` and `large`.
      */
     size?: ButtonSize
     disabled?: boolean
@@ -284,7 +284,7 @@ export type InputSubmitButtonProps = Omit<
      */
     icon?: IconIcon
     /**
-     * The icon size of the icon shows. Defaults to `medium`.
+     * The size of the icon. Defaults to `medium`.
      */
     iconSize?: IconSize
     onSubmit?: (event: InputEvent) => void
@@ -792,11 +792,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                     submitButtonStatus || status ? statusState : null
                   }
                   statusState={statusState}
-                  iconSize={
-                    size === 'medium' || size === 'large'
-                      ? 'medium'
-                      : 'default'
-                  }
+                  iconSize={size === 'large' ? 'medium' : 'default'}
                   title={submitButtonTitle}
                   variant={submitButtonVariant}
                   disabled={disabled}

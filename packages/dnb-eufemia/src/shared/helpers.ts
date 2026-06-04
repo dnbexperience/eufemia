@@ -395,10 +395,10 @@ export async function copyToClipboard(string: string) {
  * Uses console.log to warn about Eufemia usage issues
  *
  * It uses log instead of warn,
- * because of the stack track some browser do add
+ * because of the stack trace some browsers do add
  * which takes a lot of visual space in the console
  *
- * @param  {...any} params Send in what ever you would
+ * @param  {...any} params Pass in whatever you would
  */
 export const warn = (...params) => {
   if (

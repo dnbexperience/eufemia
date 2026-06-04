@@ -171,6 +171,34 @@ tester.run('sync-docs-jsdoc', rule, {
       `,
       filename: path.join(fixturesDir, 'basic/types.ts'),
     },
+
+    // ── Compound sub-component: matches only its own export group ──
+    {
+      code: `
+        export type CompoundSortButtonProps = {
+          /** Sort options for the dropdown. */
+          data?: Array<unknown>
+
+          /** Called when a sort option is selected. */
+          onChange?: () => void
+        }
+      `,
+      filename: path.join(fixturesDir, 'compound/CompoundSortButton.tsx'),
+    },
+
+    // ── Compound sub-component: onChange from Search group is not matched ──
+    {
+      code: `
+        export type CompoundSearchProps = {
+          /** Label for the search input. */
+          label?: string
+
+          /** Called when the search value changes. */
+          onChange?: () => void
+        }
+      `,
+      filename: path.join(fixturesDir, 'compound/CompoundSearch.tsx'),
+    },
   ],
 
   invalid: [
@@ -612,6 +640,34 @@ tester.run('sync-docs-jsdoc', rule, {
       filename: path.join(fixturesDir, 'basic/types.ts'),
       options: [{ requireJsdoc: true }],
       errors: [{ messageId: 'missingJsdoc' }],
+    },
+
+    // ── Compound sub-component: wrong onChange doc uses SortButton group ──
+    {
+      code: `
+        export type CompoundSortButtonProps = {
+          /** Wrong description for onChange. */
+          onChange?: () => void
+        }
+      `,
+      output: `
+        export type CompoundSortButtonProps = {
+          /**
+           * Called when a sort option is selected.
+           */
+          onChange?: () => void
+        }
+      `,
+      filename: path.join(fixturesDir, 'compound/CompoundSortButton.tsx'),
+      errors: [
+        {
+          messageId: 'mismatchedJsdoc',
+          data: {
+            docsFile: 'CompoundDocs.ts',
+            expected: 'Called when a sort option is selected.',
+          },
+        },
+      ],
     },
   ],
 })

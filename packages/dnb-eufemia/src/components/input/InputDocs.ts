@@ -62,7 +62,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   iconSize: {
-    doc: 'The icon size of the icon shows. Defaults to `medium`.',
+    doc: 'The size of the icon. Defaults to `medium`.',
     type: 'string',
     status: 'optional',
   },

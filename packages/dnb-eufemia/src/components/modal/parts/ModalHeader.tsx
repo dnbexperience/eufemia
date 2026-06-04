@@ -56,12 +56,10 @@ export default function ModalHeader({
   const fontSize = size || 'large'
 
   return (
-    <Section
-      id={showTitle ? 'dnb-modal-' + context.id + '-title' : undefined}
-      {...sectionProps}
-    >
+    <Section {...sectionProps}>
       {showTitle ? (
         <Space
+          id={'dnb-modal-' + context.id + '-title'}
           element="h1"
           top="zero"
           bottom="small"

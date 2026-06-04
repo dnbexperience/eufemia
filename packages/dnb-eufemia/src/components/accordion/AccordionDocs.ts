@@ -130,7 +130,7 @@ export const AccordionProperties: PropertiesTableProps = {
 
 export const AccordionContentProperties: PropertiesTableProps = {
   connectedTo: {
-    doc: 'Connects this standalone `Accordion.Content` with an `Accordion` or `Accordion` tertiary button using the same identifier.',
+    doc: 'Connects this standalone `Accordion.Content` with an `Accordion` component or a tertiary `Accordion` button using the same identifier.',
     type: 'string',
     status: 'optional',
   },

@@ -1009,10 +1009,6 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 /*
-* Button mixins
-*
-*/
-/*
 * Tag mixins
 *
 */

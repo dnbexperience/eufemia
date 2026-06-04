@@ -55,7 +55,30 @@ async function createReleaseNewVersion() {
   try {
     const file = path.resolve(__dirname, '../package.json')
     const packageJson = await fs.readJson(file)
-    const version = (await getNextReleaseVersion()) || 'Not released'
+    let version = await getNextReleaseVersion()
+
+    // Fallback: use the latest stable git tag.
+    // Uses `git tag` listing instead of `git describe` so it works in
+    // shallow clones (CI uses fetch-depth: 2).
+    if (!version) {
+      try {
+        const { execSync } = require('child_process')
+        const tags = execSync('git tag --sort=-v:refname -l "v*"', {
+          encoding: 'utf-8',
+          stdio: ['pipe', 'pipe', 'pipe'],
+        }).trim()
+        const tag = tags
+          .split('\n')
+          .find((t) => /^v\d+\.\d+\.\d+$/.test(t))
+        if (tag) {
+          version = tag.replace(/^v/, '')
+        }
+      } catch {
+        // Ignore
+      }
+    }
+
+    version = version || 'Not released'
     packageJson.releaseVersion = version
 
     // Update the extracted version of package.json with the build version

@@ -133,10 +133,11 @@ function DrawerListPortal({
       const scrollX = fixedPosition ? 0 : window.scrollX
 
       let top = scrollY + rect.top
-      let left =
-        scrollX +
-        rect.left +
-        (includeOwnerWidth ? parseFloat(ownerWidth || '0') : 0)
+      let left = scrollX + rect.left
+      if (includeOwnerWidth) {
+        const ownerRight = ownerElem.getBoundingClientRect().right
+        left = scrollX + ownerRight - width
+      }
 
       if (width > window.innerWidth) {
         width = window.innerWidth

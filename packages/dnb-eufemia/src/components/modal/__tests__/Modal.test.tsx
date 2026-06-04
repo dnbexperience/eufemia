@@ -353,11 +353,11 @@ describe('Modal component', () => {
     // Open modal
     fireEvent.click(document.querySelector('button'))
 
-    // Focus moves to title
+    // Focus moves to dialog container
     await waitFor(() => {
-      const title = document.querySelector('h1') as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      expect(document.activeElement).toBe(title)
+      const content = document.querySelector('.dnb-modal__content')
+      expect(content).toBeInTheDocument()
+      expect(document.activeElement).toBe(content)
     })
   })
 
@@ -1496,28 +1496,15 @@ describe('Modal component', () => {
   })
 
   it('should have correct role and aria-modal', () => {
-    let elem
-
     const { rerender } = render(<Modal {...props} open />)
-    elem = document.querySelector('.dnb-modal__content')
+    const elem = document.querySelector('.dnb-modal__content')
     expect(elem).toHaveAttribute('role', 'dialog')
     expect(elem).toHaveAttribute('aria-modal')
 
-    Object.defineProperty(helpers, 'IS_MAC', {
-      value: true,
-      writable: true,
-    })
-
     rerender(<Modal {...props} open title="re-render" />)
 
-    elem = document.querySelector('.dnb-modal__content')
-    expect(elem).toHaveAttribute('role', 'region')
-    expect(elem).not.toHaveAttribute('aria-modal')
-
-    Object.defineProperty(helpers, 'IS_MAC', {
-      value: false,
-      writable: true,
-    })
+    expect(elem).toHaveAttribute('role', 'dialog')
+    expect(elem).toHaveAttribute('aria-modal')
   })
 
   it('should have a close button', () => {
@@ -1570,7 +1557,7 @@ describe('Modal component', () => {
         .getAttribute('aria-describedby')
     ).toBe('dnb-modal-modal_id-content')
     expect(
-      document.querySelector('.dnb-dialog__header').getAttribute('id')
+      document.querySelector('.dnb-modal__title').getAttribute('id')
     ).toBe('dnb-modal-modal_id-title')
     expect(
       document.querySelector('.dnb-dialog__content').getAttribute('id')

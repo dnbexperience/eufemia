@@ -127,7 +127,7 @@ export const PaginationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   isLoadingText: {
-    doc: 'Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.',
+    doc: 'Shown until new content is inserted into the page. Defaults to `Laster nytt innhold`.',
     type: 'string',
     status: 'optional',
   },

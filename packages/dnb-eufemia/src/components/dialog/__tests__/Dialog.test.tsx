@@ -6,7 +6,6 @@ import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
-import * as helpers from '../../../shared/helpers'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Form } from '../../../extensions/forms'
 import Translation from '../../../shared/Translation'
@@ -214,25 +213,6 @@ describe('Dialog', () => {
     expect(elem.getAttribute('role')).toBe('dialog')
     expect(elem).toHaveAttribute('aria-modal')
 
-    Object.defineProperty(helpers, 'IS_MAC', {
-      value: true,
-      writable: true,
-    })
-
-    rerender(
-      <Dialog {...props} open={true} title="re-render">
-        <button>button</button>
-      </Dialog>
-    )
-
-    expect(elem.getAttribute('role')).toBe('region')
-    expect(elem).not.toHaveAttribute('aria-modal')
-
-    Object.defineProperty(helpers, 'IS_MAC', {
-      value: false,
-      writable: true,
-    })
-
     rerender(
       <Dialog
         {...props}
@@ -310,15 +290,13 @@ describe('Dialog', () => {
     render(<Dialog noAnimation open title="Title" />)
 
     await waitFor(() => {
-      const title = document.querySelector(
-        '.dnb-modal__title'
-      ) as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      expect(document.activeElement).toBe(title)
+      const content = document.querySelector('.dnb-modal__content')
+      expect(content).toBeInTheDocument()
+      expect(document.activeElement).toBe(content)
     })
   })
 
-  it('respects focusSelector over close button', async () => {
+  it('respects focusSelector over dialog container and close button', async () => {
     render(
       <Dialog noAnimation open title="Title" focusSelector="#focus-me">
         <Dialog.Body>
@@ -330,6 +308,10 @@ describe('Dialog', () => {
     await waitFor(() => {
       expect(document.activeElement?.id).toBe('focus-me')
     })
+
+    const content = document.querySelector('.dnb-modal__content')
+    expect(content).toBeInTheDocument()
+    expect(document.activeElement).not.toBe(content)
 
     const closeBtn = document.querySelector(
       'button.dnb-modal__close-button'
@@ -526,6 +508,57 @@ describe('Dialog', () => {
     })
   })
 
+  it('closes only the nested confirmation dialog when declining', async () => {
+    const onCloseOuter = vi.fn()
+    const onCloseInner = vi.fn()
+
+    render(
+      <Dialog
+        noAnimation
+        id="outer-dialog"
+        title="Outer"
+        onClose={onCloseOuter}
+      >
+        <Dialog
+          noAnimation
+          id="inner-dialog"
+          variant="confirmation"
+          title="Confirm?"
+          triggerProps={{ text: 'Delete' }}
+          onClose={onCloseInner}
+        />
+      </Dialog>
+    )
+
+    // Open outer dialog
+    fireEvent.click(document.querySelector('button#outer-dialog'))
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('outer-dialog')
+
+    // Open inner confirmation dialog
+    fireEvent.click(document.querySelector('button#inner-dialog'))
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('inner-dialog')
+
+    // Click decline (Avbryt) – should close only the inner dialog
+    const declineButton = Array.from(
+      document.querySelectorAll('.dnb-dialog__actions button')
+    ).find((btn) => btn.classList.contains('dnb-button--secondary'))
+
+    fireEvent.click(declineButton)
+
+    await waitFor(() => {
+      expect(onCloseInner).toHaveBeenCalledTimes(1)
+      expect(onCloseOuter).toHaveBeenCalledTimes(0)
+    })
+
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('outer-dialog')
+  })
+
   it('will close dialog by using callback method', () => {
     const onClose = vi.fn()
     const onOpen = vi.fn()
@@ -633,9 +666,9 @@ describe('Dialog', () => {
 
     // Wait a bit more for focus management to complete
     await waitFor(() => {
-      const modalTitle = document.querySelector('.dnb-modal__title')
-      expect(modalTitle).toBeInTheDocument()
-      expect(document.activeElement).toBe(modalTitle)
+      const content = document.querySelector('.dnb-modal__content')
+      expect(content).toBeInTheDocument()
+      expect(document.activeElement).toBe(content)
     })
 
     // Verify that focus is NOT on the submit button

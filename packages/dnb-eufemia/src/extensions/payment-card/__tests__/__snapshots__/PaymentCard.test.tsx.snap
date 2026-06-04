@@ -145,7 +145,7 @@ exports[`PaymentCard scss > has to match style dependencies css 1`] = `
   width: 343px;
   height: 216px;
   border-radius: inherit;
-  border: 1px solid var(--color-black-8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 .dnb-payment-card__card__wrapper::after {
   content: "";
