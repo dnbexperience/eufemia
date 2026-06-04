@@ -5,16 +5,10 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import globals from 'globals'
 
-import importPlugin from 'eslint-plugin-import'
 import vitestPlugin from '@vitest/eslint-plugin'
 import playwrightPlugin from 'eslint-plugin-playwright'
-import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
-import prettierPlugin from 'eslint-plugin-prettier'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import securityPlugin from 'eslint-plugin-security'
 import tsParser from '@typescript-eslint/parser'
-import tsPlugin from '@typescript-eslint/eslint-plugin'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
 import componentTypesPlugin from './scripts/eslint/plugins/component-types/index.js'
 import namingConventionsPlugin from './scripts/eslint/plugins/naming-conventions/index.js'
@@ -93,13 +87,11 @@ export default [
       },
       parserOptions: {
         ecmaFeatures: {
-          modules: true,
           jsx: true,
         },
       },
     },
     plugins: {
-      prettier: prettierPlugin,
       security: securityPlugin,
     },
     settings: {
@@ -203,7 +195,6 @@ export default [
           ignoreTranspilerName: false,
         },
       ],
-      'jsx-a11y/href-no-hash': 'off',
       'jsx-a11y/anchor-is-valid': [
         'warn',
         {
@@ -240,16 +231,6 @@ export default [
       'import/default': 'off',
       'import/no-named-as-default-member': 'off',
       'import/no-named-as-default': 'off',
-      'no-unused-vars': [
-        'error',
-        {
-          args: 'none',
-          ignoreRestSiblings: true,
-          varsIgnorePattern: '^_',
-          caughtErrors: 'none',
-          caughtErrorsIgnorePattern: '^_',
-        },
-      ],
     },
   },
   {

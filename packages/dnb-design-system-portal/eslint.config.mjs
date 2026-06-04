@@ -68,7 +68,6 @@ export default [
       'no-undef': 'off', // MDX components are provided at runtime
 
       // These rules don't apply well to MDX
-      'prettier/prettier': 'off',
       'react/no-unescaped-entities': 'off',
       'react/self-closing-comp': 'off', // false positives: MDX components wrapping markdown content appear "empty" to the parser
       'no-unused-expressions': 'off',
