@@ -324,7 +324,7 @@ export type ModalContentProps = {
   /**
    * Internal
    */
-  dialogRole?: 'dialog' | 'alertdialog' | 'region'
+  dialogRole?: 'dialog' | 'alertdialog'
   contentRef?: RefObject<HTMLElement>
   scrollRef?: RefObject<HTMLElement>
   open?: boolean
