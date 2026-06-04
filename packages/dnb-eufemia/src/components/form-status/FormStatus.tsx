@@ -122,7 +122,7 @@ export type FormStatusProps = {
    */
   variant?: FormStatusVariant
   /**
-   * Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
+   * Defines the appearance size. There are these sizes `default`, `large`. The default size is `default`.
    */
   size?: FormStatusSize
   attributes?: FormStatusAttributes
