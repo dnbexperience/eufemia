@@ -526,6 +526,57 @@ describe('Dialog', () => {
     })
   })
 
+  it('closes only the nested confirmation dialog when declining', async () => {
+    const onCloseOuter = vi.fn()
+    const onCloseInner = vi.fn()
+
+    render(
+      <Dialog
+        noAnimation
+        id="outer-dialog"
+        title="Outer"
+        onClose={onCloseOuter}
+      >
+        <Dialog
+          noAnimation
+          id="inner-dialog"
+          variant="confirmation"
+          title="Confirm?"
+          triggerProps={{ text: 'Delete' }}
+          onClose={onCloseInner}
+        />
+      </Dialog>
+    )
+
+    // Open outer dialog
+    fireEvent.click(document.querySelector('button#outer-dialog'))
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('outer-dialog')
+
+    // Open inner confirmation dialog
+    fireEvent.click(document.querySelector('button#inner-dialog'))
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('inner-dialog')
+
+    // Click decline (Avbryt) – should close only the inner dialog
+    const declineButton = Array.from(
+      document.querySelectorAll('.dnb-dialog__actions button')
+    ).find((btn) => btn.classList.contains('dnb-button--secondary'))
+
+    fireEvent.click(declineButton)
+
+    await waitFor(() => {
+      expect(onCloseInner).toHaveBeenCalledTimes(1)
+      expect(onCloseOuter).toHaveBeenCalledTimes(0)
+    })
+
+    expect(
+      document.documentElement.getAttribute('data-dnb-modal-active')
+    ).toBe('outer-dialog')
+  })
+
   it('will close dialog by using callback method', () => {
     const onClose = vi.fn()
     const onOpen = vi.fn()
