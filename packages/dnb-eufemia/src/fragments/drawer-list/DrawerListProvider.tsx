@@ -691,20 +691,22 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                 if (instantScroll) {
                   // must have both css and js use "auto" to get instant scroll.
                   ulElement.style.scrollBehavior = 'auto'
-                }
 
-                if (instantScroll) {
                   // Scroll only the container (not the page) to place the selected item in view
-                  const top = liElement.offsetTop - 8 // 8px to account for container padding
+                  const top = liElement.offsetTop
 
                   if (stateRef.current.direction === 'top') {
                     // When pointing upwards, place selected item at the bottom
                     const bottomAlignedTop =
-                      top - ulElement.clientHeight + liElement.offsetHeight
+                      top -
+                      ulElement.clientHeight +
+                      liElement.offsetHeight +
+                      8 // 8px to account for container bottom padding
+
                     ulElement.scrollTop = Math.max(0, bottomAlignedTop)
                   } else {
                     // When pointing downwards, place selected item at the top
-                    ulElement.scrollTop = top
+                    ulElement.scrollTop = top - 8 // 8px to account for container top padding
                   }
                 } else if (liElement.scrollIntoView) {
                   liElement.scrollIntoView({
