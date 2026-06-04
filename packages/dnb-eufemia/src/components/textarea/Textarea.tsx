@@ -432,7 +432,6 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     if (autoResize && typeof window !== 'undefined') {
       setAutosizeRef.current()
       try {
-        // eslint-disable-next-line compat/compat
         const observer = new ResizeObserver((entries) => {
           window.requestAnimationFrame(() => {
             if (!Array.isArray(entries) || !entries.length) {
