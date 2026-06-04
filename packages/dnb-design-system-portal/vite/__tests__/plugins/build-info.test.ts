@@ -17,16 +17,13 @@ describe('build-info plugin', () => {
   })
 
   describe('getBuildInfo', () => {
-    it('returns git tag version or [LOCAL BUILD] when files are missing', () => {
+    it('returns default values when files are missing', () => {
       const info = getBuildInfo({
         packageJsonPath: path.join(tmpDir, 'missing.json'),
         changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
-      // Falls back to git tag when available, otherwise stays as [LOCAL BUILD]
-      expect(info.releaseVersion).toMatch(
-        /^(\d+\.\d+\.\d+|\[LOCAL BUILD\])/
-      )
+      expect(info.releaseVersion).toBe('[LOCAL BUILD]')
       expect(info.changelogVersion).toBe('[LOCAL BUILD]')
       expect(info.buildVersion).toMatch(/\d/)
     })
@@ -46,7 +43,7 @@ describe('build-info plugin', () => {
       expect(info.releaseVersion).toBe('11.0.4')
     })
 
-    it('falls back to git tag when releaseVersion is not set', () => {
+    it('falls back to [LOCAL BUILD] when releaseVersion is not set', () => {
       const pkgPath = path.join(tmpDir, 'package.json')
       fs.writeFileSync(
         pkgPath,
@@ -58,29 +55,7 @@ describe('build-info plugin', () => {
         changelogPath: path.join(tmpDir, 'missing.mdx'),
       })
 
-      // Falls back to git tag when available, otherwise stays as [LOCAL BUILD]
-      expect(info.releaseVersion).toMatch(
-        /^(\d+\.\d+\.\d+|\[LOCAL BUILD\])/
-      )
-    })
-
-    it('rejects "Not released" from package.json', () => {
-      const pkgPath = path.join(tmpDir, 'package.json')
-      fs.writeFileSync(
-        pkgPath,
-        JSON.stringify({ releaseVersion: 'Not released' })
-      )
-
-      const info = getBuildInfo({
-        packageJsonPath: pkgPath,
-        changelogPath: path.join(tmpDir, 'missing.mdx'),
-      })
-
-      // Should NOT be "Not released" — falls back to git tag or [LOCAL BUILD]
-      expect(info.releaseVersion).not.toBe('Not released')
-      expect(info.releaseVersion).toMatch(
-        /^(\d+\.\d+\.\d+|\[LOCAL BUILD\])/
-      )
+      expect(info.releaseVersion).toBe('[LOCAL BUILD]')
     })
 
     it('extracts changelogVersion from the first heading', () => {
