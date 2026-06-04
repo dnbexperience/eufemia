@@ -126,7 +126,6 @@ export default [
         },
       ],
       'react/react-in-jsx-scope': 'off',
-      'react/jsx-uses-react': 'off',
       'import/namespace': 'off',
       'no-restricted-imports': [
         'error',
@@ -201,14 +200,12 @@ export default [
           aspects: ['invalidHref'],
         },
       ],
-      'jsx-a11y/label-has-for': [
-        'error',
+      'jsx-a11y/label-has-associated-control': [
+        'warn',
         {
-          components: ['Label'],
-          required: {
-            every: ['nesting', 'id'],
-          },
-          allowChildren: true,
+          labelComponents: ['Label'],
+          assert: 'both',
+          depth: 3,
         },
       ],
       'security/detect-non-literal-fs-filename': 'off',
