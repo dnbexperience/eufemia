@@ -184,6 +184,7 @@ function Switch(props: SwitchProps) {
   const onChangeHandler = useCallback(
     (event) => {
       if (preventChangeRef.current) {
+        preventChangeRef.current = false
         return // stop here
       }
 
@@ -210,18 +211,16 @@ function Switch(props: SwitchProps) {
 
   const onClickHandler: MouseEventHandler<HTMLInputElement> = useCallback(
     (event) => {
-      const preventDefault = () => {
-        event.preventDefault()
+      preventChangeRef.current = false
 
-        if (event.target['checked'] !== isCheckedRef.current) {
-          preventChangeRef.current = true
-          isCheckedRef.current = !isCheckedRef.current
-          forceUpdate()
-        }
+      const preventDefault = () => {
+        preventChangeRef.current = true
       }
 
       if (readOnly) {
-        return preventDefault()
+        event.preventDefault()
+        preventChangeRef.current = true
+        return // stop here
       }
 
       onClick?.({
@@ -230,6 +229,11 @@ function Switch(props: SwitchProps) {
         event,
         ...event,
       })
+
+      if (preventChangeRef.current) {
+        event.preventDefault()
+        forceUpdate()
+      }
     },
     [onClick, readOnly]
   )
