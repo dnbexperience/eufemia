@@ -389,7 +389,7 @@ module.exports = {
             messageId: 'missingJsdoc',
             data: { docsFile, expected },
             fix(fixer) {
-              const line = sourceCode.lines[node.loc.start.line - 1]
+              const line = sourceCode.getText().split('\n')[node.loc.start.line - 1]
               const match = line.match(/^(\s*)/)
               const indent = match ? match[1] : ''
               const jsdoc =
@@ -422,7 +422,7 @@ module.exports = {
           fix(fixer) {
             const commentNode = jsdocComment
             const startLine =
-              sourceCode.lines[commentNode.loc.start.line - 1]
+              sourceCode.getText().split('\n')[commentNode.loc.start.line - 1]
             const indentMatch = startLine.match(/^(\s*)/)
             const indent = indentMatch ? indentMatch[1] : ''
             const replacement = buildJsdocBlock(
