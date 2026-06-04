@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.5.1](https://github.com/dnbexperience/eufemia/compare/v11.5.0...v11.5.1) (2026-06-04)
+
+### :bug: Bug Fixes
+
+* **Autocomplete, Dropdown:** scroll selected item to top when opening ([#8400](https://github.com/dnbexperience/eufemia/issues/8400)) ([7f93986](https://github.com/dnbexperience/eufemia/commit/7f9398624cae4554ac53715bc2915fe51134659d))
+* **Dialog:** close nested confirmation dialog when declining ([#8404](https://github.com/dnbexperience/eufemia/issues/8404)) ([b341856](https://github.com/dnbexperience/eufemia/commit/b341856822da490c44c64800f3f80d9b17953967))
+* **Dialog:** use role="dialog" on all platforms to prevent VoiceOver double titles ([#8308](https://github.com/dnbexperience/eufemia/issues/8308)) ([99c9958](https://github.com/dnbexperience/eufemia/commit/99c9958786fabf51bcc2896b7a8ba23995f68811)), closes [#5919](https://github.com/dnbexperience/eufemia/issues/5919)
+* **Dropdown, Autocomplete, DrawerList:** remove outline around divider on selected focused item ([#8398](https://github.com/dnbexperience/eufemia/issues/8398)) ([767fb0a](https://github.com/dnbexperience/eufemia/commit/767fb0a37cb1181a23e6146dd51c9e3318f42e46))
+* **Dropdown, Autocomplete, DrawerList:** show DrawerList focus border only with keyboard input ([#8397](https://github.com/dnbexperience/eufemia/issues/8397)) ([441f192](https://github.com/dnbexperience/eufemia/commit/441f19266ae102bfdbe55ffbce87e1631456c332))
+* **Dropdown, Autocomplete, DrawerList:** use mask-image for DrawerList checkmark to support dark mode ([#8399](https://github.com/dnbexperience/eufemia/issues/8399)) ([c2f401b](https://github.com/dnbexperience/eufemia/commit/c2f401bc731457f2f2247bf3608e3768cf039fc8))
+* **Dropdown:** correct portal positioning for right-aligned dropdowns ([#8401](https://github.com/dnbexperience/eufemia/issues/8401)) ([b927c22](https://github.com/dnbexperience/eufemia/commit/b927c22013193098dfa9d595fe568893cc0870fd))
+* **Input:** keep submit button icon at default size for medium inputs ([#8386](https://github.com/dnbexperience/eufemia/issues/8386)) ([4ec53d6](https://github.com/dnbexperience/eufemia/commit/4ec53d670811c4a31c9bc95d6b6bf6374749ed19))
+* **PaymentCard:** remove visible border in dark mode ([#8391](https://github.com/dnbexperience/eufemia/issues/8391)) ([8102d40](https://github.com/dnbexperience/eufemia/commit/8102d401fc6a3c71da90c8329388f5bcb14cc716)), closes [#ebebeb](https://github.com/dnbexperience/eufemia/issues/ebebeb)
+
 ## [11.5.0](https://github.com/dnbexperience/eufemia/compare/v11.4.0...v11.5.0) (2026-06-03)
 
 ### :sparkles: Features
