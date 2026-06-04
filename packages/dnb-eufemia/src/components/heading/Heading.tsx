@@ -30,7 +30,7 @@ import type { HeadingCounter, HeadingDebugCounter } from './HeadingCounter'
 import { initCounter } from './HeadingCounter'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
-import { useTheme, Context } from '../../shared'
+import { Context } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type HeadingLevelSizeResolutions = {
@@ -243,9 +243,8 @@ export default function Heading(props: HeadingAllProps) {
     }
   }, [props.level])
 
-  const theme = useTheme()
-
   let { size, element, skeleton } = props as HeadingProps
+  const isAutoSize = size == null
   const { level } = state
 
   const debug = _debug || headingContext?.heading?.debug
@@ -258,8 +257,8 @@ export default function Heading(props: HeadingAllProps) {
 
   if (element == null) {
     element = getHeadingElement(level)
-    if (size == null) {
-      size = getHeadingSize(theme?.name)[level]
+    if (isAutoSize) {
+      size = getHeadingSize()[level]
     }
   } else {
     if (!attributes.role) {
@@ -285,6 +284,7 @@ export default function Heading(props: HeadingAllProps) {
     ref: _ref,
     className: clsx(
       'dnb-heading',
+      isAutoSize && 'dnb-heading--auto-size',
       context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
       `dnb-h--${size}`,
       createSkeletonClass('font', skeleton, headingContext),

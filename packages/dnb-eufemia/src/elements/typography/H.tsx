@@ -15,7 +15,6 @@ import {
   setNextLevel,
   getHeadingSize,
 } from '../../components/heading/HeadingHelpers'
-import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
 import { TypographyContext } from './Typography'
 
@@ -62,11 +61,9 @@ const H = ({
     setNextLevel(numSiz)
   }
 
-  const theme = useTheme()
+  const isAutoSize = size === 'auto'
   const targetSize =
-    (size === 'auto' && getHeadingSize(theme?.name)[numSiz]) ||
-    size ||
-    'xx-large'
+    (isAutoSize && getHeadingSize()[numSiz]) || size || 'xx-large'
 
   const context = useContext(Context)
   const { proseMaxWidth: proseMaxWidthContext } =
@@ -84,6 +81,7 @@ const H = ({
       as={resolvedElement}
       internalClass={clsx(
         targetSize && `dnb-h--${targetSize}`,
+        isAutoSize && 'dnb-heading--auto-size',
         context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
         className
       )}
