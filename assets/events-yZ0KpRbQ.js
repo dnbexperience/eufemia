@@ -1,4 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-BCXtuv-b.js";import{n as r}from"./PropertiesTable-D2Qlpz5c.js";import{n as i,t as a}from"./RadioDocs-DfzbI59-.js";var o=e(t());function s(e){let t={code:`code`,h2:`h2`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`Radio`}),` events`]}),`
-`,(0,o.jsx)(r,{props:a}),`
-`,(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`Radio.Group`}),` events`]}),`
-`,(0,o.jsx)(r,{props:i})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

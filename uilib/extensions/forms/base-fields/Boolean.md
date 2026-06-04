@@ -1,8 +1,8 @@
 ---
 title: 'Field.Boolean'
 description: '`Field.Boolean` is the base component for receiving user input where the target data is of type `boolean`.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:24.989Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.935Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -408,7 +408,7 @@ render(<Field.Boolean variant="switch" label="Switch variant" help={{
       "status": "optional"
     },
     "size": {
-      "doc": "The sizes you can choose is small (1.5rem), default (2rem), medium (2.5rem) and large (3rem) are supported component sizes. Defaults to default / null. Also, if you define a number like size=\"2\" then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
+      "doc": "The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size=\"2\"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
       "type": "string",
       "status": "optional"
     }
@@ -540,7 +540,7 @@ render(<Field.Boolean variant="switch" label="Switch variant" help={{
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (i.e. for \"(optional)\").",
+      "doc": "A more discreet text displayed beside the label (e.g. \"(optional)\")",
       "type": "string",
       "status": "optional"
     },

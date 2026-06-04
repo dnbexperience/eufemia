@@ -1,9 +1,9 @@
 ---
 title: 'Value.Currency'
 description: '`Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:24.809Z
-checksum: 53e1414693ea679e7fe0f32285e0b77836ef75408a4785fdb6c31eb06e80eb7f
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.778Z
+checksum: c4cc1dcda0920d6a481a962a9ff493637d21c7a14ea0d092c911e944aa915bb9
 ---
 
 # Value.Currency
@@ -212,7 +212,7 @@ render(<P>
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },

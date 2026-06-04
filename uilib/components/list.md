@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.921Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.963Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -1320,7 +1320,7 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
       "status": "optional"
     },
     "children": {
-      "doc": "Subline content of the list item, shown below the title. Use via `List.Cell.Title.Subline` when nesting inside the title block (or as standalone `List.Cell.Title.Subline`). Pairs with List.Cell.Title.Overline or `List.Cell.Title.Overline`.",
+      "doc": "Subline content of the list item, shown below the title. Use via `List.Cell.Title.Subline` when nesting inside the title block (or as standalone `List.Cell.Title.Subline`). Pairs with `List.Cell.Title.Overline` inside the block.",
       "type": "React.ReactNode",
       "status": "required"
     },

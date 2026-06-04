@@ -1,5 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-BCXtuv-b.js";import r from"./provider-info-BwhxE3r8.js";var i=e(t());function a(e){let t={h1:`h1`,p:`p`,...n(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(t.h1,{children:`Provider / Context`}),`
-`,(0,i.jsx)(t.p,{children:`To use the provider, you currently need to use React as your rendering library.`}),`
-`,(0,i.jsx)(t.p,{children:`Many components have some default translated strings. But also other things like the default currency and so on, can be controlled globally by using a Provider. Changing the properties of the provider, will automatically update all the components who has used a value from it.`}),`
-`,(0,i.jsx)(t.p,{children:`Here are some example usage of the Provider / Context relation ship.`}),`
-`,(0,i.jsx)(r,{})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

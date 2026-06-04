@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.680Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.739Z
 checksum: a0ef2027f714db09280e21d2d373afd1dc20684b21e6011d975978350a9b674f
 ---
 
@@ -929,7 +929,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "independentWidth": {
-      "doc": "If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.",
+      "doc": "If set to `true`, the DrawerList will handle its width and position independently of the parent element.",
       "type": "boolean",
       "status": "optional"
     },
@@ -1014,7 +1014,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "wrapperElement": {
-      "doc": "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
+      "doc": "Has to be an HTML Element, or a selector for one, ideally a parent element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
       "type": [
         "string",
         "HTMLElement"

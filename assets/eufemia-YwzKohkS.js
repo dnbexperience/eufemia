@@ -1,0 +1,2 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-D7e1avVt.js";import r from"./ListEufemiaVersions-B1cCtZEg.js";var i=e(t());function a(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)({h1:`h1`,...n(),...e.components}.h1,{children:`@dnb/eufemia releases`}),`
+`,(0,i.jsx)(r,{size:`small`,returnListItems:!0})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

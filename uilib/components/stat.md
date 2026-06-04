@@ -1,9 +1,9 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:24.255Z
-checksum: 9f97f348797f3f7f76bb39e17f84fe34b688885bf4e9e471db5c2085ddc3c0a1
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.291Z
+checksum: 10e6ce458bd5b69e932c2f0faa29d87d88d52cb7ce308c7dcffaf884e9db1a5c
 ---
 
 # Stat
@@ -466,7 +466,7 @@ render(<Example />);
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -622,7 +622,7 @@ render(<Example />);
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -796,7 +796,7 @@ render(<Example />);
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -925,7 +925,7 @@ render(<Example />);
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -981,7 +981,7 @@ render(<Example />);
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -1277,7 +1277,7 @@ render(<Example />);
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },

@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.785Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.827Z
 checksum: 6aa284be4c200df6bb88adf3cedbff09cfbc9e27ca3746453ebaadea5c3d5ab8
 ---
 
@@ -164,6 +164,27 @@ render(<Dialog spacing={false} fullscreen={false} alignContent="centered" hideCl
   text: 'Show'
 }} preventClose={false} maxWidth="12rem">
       <ProgressIndicator showDefaultLabel top="large" bottom="large" />
+    </Dialog>)
+```
+
+
+### Nested Dialog
+
+Open a confirmation dialog from within another dialog — for example to confirm a destructive action.
+
+
+```tsx
+render(<Dialog title="Account settings" triggerProps={{
+  text: 'Open settings'
+}}>
+      <P bottom>
+        Review your account settings below. To permanently remove your
+        account, use the button below.
+      </P>
+      <Dialog variant="confirmation" confirmType="warning" title="Are you sure?" description="Deleting your account is permanent and cannot be undone. All your data will be lost." triggerProps={{
+    text: 'Delete account',
+    variant: 'secondary'
+  }} />
     </Dialog>)
 ```
 

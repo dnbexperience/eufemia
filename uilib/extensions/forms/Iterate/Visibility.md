@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Visibility'
 description: 'The `Iterate.Visibility` component allows you to conditionally display content based on relative paths (`itemPath`) within an `Iterate.Array` component.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:24.706Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.708Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

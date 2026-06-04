@@ -1,8 +1,8 @@
 ---
 title: 'Value.PostalCodeAndCity'
 description: '`Value.PostalCodeAndCity` is a wrapper component for displaying string values, with user experience tailored for Norwegian postal code and city values.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:24.883Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.831Z
 checksum: db7961bd44ab12a64bab31243b3343951db454ed0712fe7eecda3297bc12ae76
 ---
 

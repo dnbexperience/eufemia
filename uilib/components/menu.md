@@ -1,8 +1,8 @@
 ---
 title: 'Menu'
 description: 'Menu is a composable dropdown menu component for actions and navigation, with keyboard navigation, nested menus, and full accessibility support.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.935Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.975Z
 checksum: 1fc99517592ef537de08c221f7492a20a5f0da34d4c6422f3025968fc4f94199
 ---
 

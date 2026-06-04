@@ -1,9 +1,9 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.819Z
-checksum: 1917a74e4d47bb4108acb0382b864fc14f65214e17d98302bb720f1ceb1d227c
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.855Z
+checksum: d8c460428acda18e9fe40be14fb5266b26448274ddcf5cc87e815f9b68ad9653
 ---
 
 # FormStatus (Messageboxes)
@@ -234,12 +234,12 @@ render(<Grid.Container columns={{
       "status": "optional"
     },
     "icon": {
-      "doc": "The `icon` show before the status text. Defaults to `error`.",
+      "doc": "The `icon` shown before the status text. Defaults to `error`.",
       "type": "React.ReactNode",
       "status": "optional"
     },
     "iconSize": {
-      "doc": "The icon size of the icon shows. Defaults to `medium`.",
+      "doc": "The size of the icon. Defaults to `medium`.",
       "type": "string",
       "status": "optional"
     },

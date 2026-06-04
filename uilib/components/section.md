@@ -1,8 +1,8 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.996Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.030Z
 checksum: fffcbcb63ca8e59f33048125db5b3de0f3cdd0152aace0013092f258f7ddba4f
 ---
 

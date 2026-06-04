@@ -1,8 +1,8 @@
 ---
 title: 'Dropdown'
 description: 'The Dropdown component is a custom-made data selection component.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.801Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.843Z
 checksum: de35e6c470795868976c22d5dcd76a3d27c3d6ceaff9981d15addb9f6ebe04d2
 ---
 
@@ -834,7 +834,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "independentWidth": {
-      "doc": "If set to `true`, the DrawerList will handle its width and position independently of the parent/mother element.",
+      "doc": "If set to `true`, the DrawerList will handle its width and position independently of the parent element.",
       "type": "boolean",
       "status": "optional"
     },
@@ -919,7 +919,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "wrapperElement": {
-      "doc": "Has to be an HTML Element, or a selector for one, ideally a mother element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
+      "doc": "Has to be an HTML Element, or a selector for one, ideally a parent element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.",
       "type": [
         "string",
         "HTMLElement"

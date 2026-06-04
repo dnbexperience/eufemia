@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{s as n}from"./SpacingUtils-BLnSccCA.js";import{t as r}from"./withComponentMarkers-CUe-k8po.js";import{t as i}from"./Space-DaXjLjpB2.js";var a=e(t());function o({className:e=null,...t}){return(0,a.jsx)(i,{className:n(`dnb-forms-test-element`,e),...t})}r(o,{_supportsSpacingProps:!0});export{o as t};

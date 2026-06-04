@@ -1,4 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-BCXtuv-b.js";import{n as r}from"./PropertiesTable-D2Qlpz5c.js";import{t as i}from"./TranslationsTable-D4-Ofv6C.js";var a=e(t()),o={showConfirmDialog:{doc:"Use `true` to show a confirmation dialog before removing the item.",type:`boolean`,status:`optional`},"[Button](/uilib/components/button/properties)":{doc:`All button properties.`,type:`Various`,status:`optional`}};function s(e){let t={h2:`h2`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Properties`}),`
-`,(0,a.jsx)(r,{props:o}),`
-`,(0,a.jsx)(t.h2,{children:`Translations`}),`
-`,(0,a.jsx)(i,{localeKey:[`RemoveButton`]})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(s,{...e})}):s(e)}export{c as default};

@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{s as n}from"./SpacingUtils-BLnSccCA.js";import{t as r}from"./withComponentMarkers-CUe-k8po.js";import{t as i}from"./P-CBguHr6l.js";var a=e(t()),o=({className:e,...t})=>(0,a.jsx)(i,{className:n(`dnb-p--lead`,e),...t});r(o,{_supportsSpacingProps:!0});var s=o;export{s as t};

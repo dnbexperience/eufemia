@@ -1,9 +1,9 @@
 ---
 title: 'Value.Number'
 description: '`Value.Number` is a base component for displaying values of the type `number`.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:24.876Z
-checksum: 0f307fc9ab46854e5268683f8f4217f9372ca167662cbb832362a6a5abb6e3a6
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.825Z
+checksum: 6c1c91b9974ff31fbcda09244725a59ebc83a9f9b5331574717ed557bbe70d1d
 ---
 
 # Value.Number
@@ -183,7 +183,7 @@ render(<P>
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },

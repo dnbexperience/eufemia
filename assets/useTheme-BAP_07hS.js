@@ -1,1 +1,0 @@
-import{n as e,s as t}from"./jsx-runtime-DnlWeMvz.js";import{c as n}from"./SpacingUtils-nbqXIwIZ.js";var r=t(e());function i(){let{theme:e}=(0,r.useContext)(n)||{};if(e){let{name:t}=e;return{...e,isUi:t===`ui`,isSbanken:t===`sbanken`,isEiendom:t===`eiendom`,isCarnegie:t===`carnegie`}}return null}export{i as t};

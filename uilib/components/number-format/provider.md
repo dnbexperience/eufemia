@@ -1,6 +1,6 @@
 ---
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.944Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.984Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -240,7 +240,7 @@ import { NumberFormat } from '@dnb/eufemia/cjs/components'
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -396,7 +396,7 @@ import { NumberFormat } from '@dnb/eufemia/cjs/components'
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -518,7 +518,7 @@ import { NumberFormat } from '@dnb/eufemia/cjs/components'
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -615,7 +615,7 @@ import { NumberFormat } from '@dnb/eufemia/cjs/components'
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -719,7 +719,7 @@ Norwegian bank account number (e.g. `2000 12 34567`).
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -818,7 +818,7 @@ Norwegian national identification number (e.g. `180892 12345`).
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -917,7 +917,7 @@ Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },

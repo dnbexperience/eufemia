@@ -1,9 +1,9 @@
 ---
 title: 'Accordion'
 description: 'The Accordion component is a combination of an accessible button (header area) and a content container.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.625Z
-checksum: 0beca27a3d6fce1681b4536993e7db95605189d2f6257a35fa8d58597d035a14
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.687Z
+checksum: ed8bd1d380d09a80db321e550b4bbe69b0d9e81646d6e8dd672db3fccbe8b736
 ---
 
 # Accordion
@@ -246,7 +246,7 @@ expanded: SubtractIcon
 
 ### Disabled
 
-Accordion can be disabled, though is not exactly defined what the use case is.
+Accordion can be disabled, though it is not exactly defined what the use case is.
 
 
 ```tsx
@@ -280,7 +280,7 @@ Accordion can be disabled, though is not exactly defined what the use case is.
 
 ### Variant `tertiary`
 
-A lightweight variant that renders a tertiary button with a chevron icon. The button and content can be placed separately in the tree by sharing the same `id`. The button automatically sets `aria-expanded` and `aria-controls` to link it with the content panel. When activated by keyboard or screen reader style input, focus moves to the content region. Pointer clicks do not move focus.
+A lightweight variant that renders a tertiary button with a chevron icon. The button and content can be placed separately in the tree by sharing the same `connectedTo` identifier. The button automatically sets `aria-expanded` and `aria-controls` to link it with the content panel. When activated by keyboard or screen reader style input, focus moves to the content region. Pointer clicks do not move focus.
 
 
 ```tsx
@@ -293,7 +293,7 @@ A lightweight variant that renders a tertiary button with a chevron icon. The bu
 <Accordion.Content connectedTo="accordion-tertiary">
     <P top>
       This content is placed separately from the button, connected via
-      the id.
+      the <code>connectedTo</code> prop.
     </P>
   </Accordion.Content>
 ```
@@ -534,7 +534,7 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
 {
   "props": {
     "connectedTo": {
-      "doc": "Connects this standalone `Accordion.Content` with an `Accordion` or `Accordion` tertiary button using the same identifier.",
+      "doc": "Connects this standalone `Accordion.Content` with an `Accordion` component or a tertiary `Accordion` button using the same identifier.",
       "type": "string",
       "status": "optional"
     },

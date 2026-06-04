@@ -1,9 +1,9 @@
 ---
 title: 'GlobalStatus'
 description: 'The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.835Z
-checksum: 64fd2964805d3bba1c5674a24c6ac1d85698d1ba3e8c10234215a4e6ddc0d5a7
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.873Z
+checksum: 386c9d6672c8290be4a5be8acc4cb299be11fb9bd262d0593dd8e13ad20af2fa
 ---
 
 # GlobalStatus
@@ -422,7 +422,7 @@ render(<Button text="Scroll to main GlobalStatus" onClick={() => {
       "status": "optional"
     },
     "iconSize": {
-      "doc": "The icon size of the title icon shows. Defaults to `medium`.",
+      "doc": "The size of the title icon. Defaults to `medium`.",
       "type": "string",
       "status": "optional"
     },

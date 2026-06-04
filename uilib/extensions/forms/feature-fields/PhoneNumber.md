@@ -1,8 +1,8 @@
 ---
 title: 'Field.PhoneNumber'
 description: '`Field.PhoneNumber` is a wrapper component for the input of strings, with user experience tailored for phone number values.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:25.033Z
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.970Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -409,7 +409,7 @@ render(<Form.Card>
 {
   "props": {
     "countries": {
-      "doc": "List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized`(all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.",
+      "doc": "List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.",
       "type": [
         "\"Scandinavia\"",
         "\"Nordic\"",
@@ -630,7 +630,7 @@ render(<Form.Card>
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (i.e. for \"(optional)\").",
+      "doc": "A more discreet text displayed beside the label (e.g. \"(optional)\")",
       "type": "string",
       "status": "optional"
     },

@@ -1,9 +1,9 @@
 ---
 title: 'NumberFormat'
 description: 'A ready-to-use DNB number formatter.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.954Z
-checksum: 87a61c9318dc3fae366890f0d7cdbfb0a19ea0463fd4d7c1c87b54848f81d727
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.994Z
+checksum: 68e073c08d5e400e3242bee3c99f2786e89d4b0f1e972ec6e8391ee3cb799946
 ---
 
 # NumberFormat
@@ -698,7 +698,7 @@ render(<Style>
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -854,7 +854,7 @@ render(<Style>
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -976,7 +976,7 @@ render(<Style>
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -1073,7 +1073,7 @@ render(<Style>
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -1177,7 +1177,7 @@ Norwegian bank account number (e.g. `2000 12 34567`).
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -1276,7 +1276,7 @@ Norwegian national identification number (e.g. `180892 12345`).
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },
@@ -1375,7 +1375,7 @@ Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by
       "status": "optional"
     },
     "srLabel": {
-      "doc": "Will add a visually hidden label, to give screen reader users the missing context to easier understand what the number represents.",
+      "doc": "Will add a visually hidden label, to give screen reader users the missing context to more easily understand what the number represents.",
       "type": "React.ReactNode",
       "status": "optional"
     },

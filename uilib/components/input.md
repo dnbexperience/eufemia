@@ -1,9 +1,9 @@
 ---
 title: 'Input'
 description: 'The Input component is an umbrella component for all inputs which share the same style as the classic text input field.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.883Z
-checksum: be649a9ff91a38a580f5e1bc9e9180c65cde0483daa4ac26f852d969d2f43eb3
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:29.929Z
+checksum: f76ef02a8d064f9a99461aca20ed69bb3902c4257f050353562605648bb4049a
 ---
 
 # Input
@@ -328,7 +328,7 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/Pa
       "status": "optional"
     },
     "iconSize": {
-      "doc": "The icon size of the icon shows. Defaults to `medium`.",
+      "doc": "The size of the icon. Defaults to `medium`.",
       "type": "string",
       "status": "optional"
     },

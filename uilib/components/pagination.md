@@ -1,9 +1,9 @@
 ---
 title: 'Pagination'
 description: 'The Pagination component supports both classical pagination and infinity scrolling.'
-version: 11.5.0
-generatedAt: 2026-06-03T07:21:23.962Z
-checksum: 8ae8e29089d8364f8f2ac7b6f30d996c37704cfa1817790faa389a7c6e44abda
+version: 11.5.1
+generatedAt: 2026-06-04T08:46:30.002Z
+checksum: 856dc55e3ab4563a6134b945efda1abdbb22ce98c4b6c0c06564e0c54d0b1a6c
 ---
 
 # Pagination
@@ -376,7 +376,7 @@ Check out [demos for the Infinity Scroller](/uilib/components/pagination/infinit
       "status": "optional"
     },
     "isLoadingText": {
-      "doc": "Shown until new content is inserted in to the page. Defaults to `Laster nytt innhold`.",
+      "doc": "Shown until new content is inserted into the page. Defaults to `Laster nytt innhold`.",
       "type": "string",
       "status": "optional"
     },
