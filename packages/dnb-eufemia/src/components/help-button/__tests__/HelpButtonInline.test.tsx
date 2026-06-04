@@ -543,23 +543,15 @@ describe('HelpButtonInline', () => {
 
     const button = document.querySelector('.dnb-help-button')
 
-    // Tooltip only sets aria-describedby when active (hover/focus)
-    // So we need to trigger focus to activate the tooltip
+    // Tooltip only renders when active (hover/focus)
     await userEvent.hover(button)
 
-    const ariaDescribedBy = await waitFor(() => {
-      const id = button.getAttribute('aria-describedby')
-      expect(id).toBeTruthy()
-      return id
-    })
+    // aria-describedby is omitted because tooltip text matches aria-label
+    expect(button).not.toHaveAttribute('aria-describedby')
 
-    const tooltipContent = await waitFor(() => {
-      const tooltip = document.querySelector(`#${ariaDescribedBy}`)
-      expect(tooltip).toBeInTheDocument()
-      return tooltip
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
     })
-
-    expect(ariaDescribedBy).toBe(tooltipContent.id)
   })
 
   it('calls focus with preventScroll when opening', async () => {
