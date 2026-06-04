@@ -16,6 +16,22 @@ It gives applications a shared way to show, announce, store and review messages 
 
 The goal is not only to display a message visually. The goal is to make sure the message remains reachable and understandable for keyboard users, screen reader users, users with screen magnification, users with cognitive limitations, and users who simply missed the message when it appeared.
 
+## The idea
+
+Short status messages are useful. They can confirm that something was saved, warn about a technical issue, or tell the user that something changed.
+
+The problem is not the message itself. The problem is when the message only appears temporarily and then disappears without giving the user a reliable way to find it again.
+
+The Toaster solves this by connecting temporary messages to a more stable place where they can be consumed again. This can be an existing notification center in the application, or a simple notification center provided by Eufemia.
+
+In applications that already have a notification center, these temporary status updates can be shown in their own tab, section, or category. For example, an application may have one area for permanent bank messages and another area for temporary status updates from the current session.
+
+In applications that do not have a notification center, Eufemia can provide one. This can be exposed through a floating notification button, or through an inline button placed in a header, navigation area, or near the start of `main`.
+
+The important part is that automatically appearing messages have one predictable entry point.
+
+Most users may never need to open it. But that is often how accessibility works: the structure needs to be there for the users who do need it.
+
 ## Why not just use a toast?
 
 Toasts and snackbars are commonly used for short status messages, but they are difficult to make reliably accessible.
@@ -37,20 +53,77 @@ Users may miss a message for many reasons. They may use a screen reader that is 
 
 For that reason, every automatically appearing message should also have a predictable way back to it.
 
-The notification center button is that entry point.
+That is the role of the entry point.
 
-It gives users one stable place to review messages that appeared during the current session, even if the visual toast has disappeared, the live announcement was missed, or the user was not looking at the relevant part of the page.
+The entry point gives users one stable place to review messages that appeared during the current session, even if the visual toast has disappeared, the live announcement was missed, or the user was not looking at the relevant part of the page.
+
+The entry point can be:
+
+- an existing notification center in the application
+- a dedicated tab or section inside an existing notification center
+- a temporary status update area provided by Eufemia
+- a floating notification button
+- an inline notification button placed in a header, navigation area, or near the start of `main`
+- an inline message list rendered directly in the page
 
 This is the main accessibility difference between the Toaster and a traditional toast/snackbar pattern:
 
 > Messages are not only displayed or announced. They are reachable and reviewable.
+
+## How this can fit into an application
+
+Applications can integrate the Toaster in different ways depending on their information architecture.
+
+### Existing notification center
+
+If the application already has a notification center, temporary status updates can be integrated there.
+
+They should normally be separated from permanent or customer-facing messages, for example by using:
+
+- a separate tab
+- a separate section
+- a separate category
+- a separate filter
+
+Example structure:
+
+- Bank messages
+- Tasks
+- Status updates
+
+This keeps temporary application messages available without mixing them with permanent messages from the bank.
+
+### No existing notification center
+
+If the application does not have a notification center, Eufemia can provide a simple one.
+
+The application can choose between:
+
+- a floating notification button
+- an inline notification button placed in the header or navigation
+- an inline message list rendered directly in the page
+
+The floating button can be useful when the application has no obvious header placement. The inline button is usually preferable when the application already has a predictable header, toolbar, or navigation area.
+
+### Inline message list
+
+Some applications may not want a popup panel at all. In those cases, the messages can be rendered directly in the page together with other messages.
+
+This can be useful for:
+
+- dedicated notification pages
+- status areas
+- dashboards
+- applications with their own notification center UI
+- message feeds
+- pages where messages should be visible without opening a drawer or popup
 
 ## How the Toaster solves this
 
 The Toaster treats application messages as structured content, not as temporary decoration.
 
 - **Temporary visual message** → The message can be shown briefly in the toast stack, but it remains available in the notification center until it is dismissed, expired, or intentionally removed for privacy reasons.
-- **No way to find the message again** → The notification center button gives users one predictable entry point to review messages from the current session.
+- **No way to find the message again** → The notification center gives users one predictable entry point to review messages from the current session.
 - **Difficult to reach with keyboard** → The notification center button and inline list are part of the document structure. Users have a predictable way to reach messages without relying on the toast stack itself.
 - **Overlap and obstruction** → Messages can be reviewed in a controlled notification center or inline list instead of relying only on floating content. The toast stack is a temporary presentation layer, not the only way to access the message.
 - **Single announcement** → New messages are announced via `aria-live`, but the full content remains available in the notification center for users to read at their own pace.
@@ -82,6 +155,16 @@ Do not use Toaster for:
 - content that should be part of the page itself
 
 The Toaster is intended for temporary application status and event messages. It is not a replacement for page content, validation, permanent bank messages, or legally important communication.
+
+## Temporary messages and permanent messages
+
+Temporary status updates and permanent customer messages should not be treated as the same thing.
+
+A message like “Draft saved” only describes something that happened during the current session. It does not need to be kept forever.
+
+A message from the bank may be permanent, legally relevant, or important for the customer to find later. That kind of message belongs in the application's ordinary message or inbox structure.
+
+The Toaster can be integrated with an existing notification center, but temporary status updates should be clearly separated from permanent messages. This helps users understand what kind of message they are reading, how long it will be available, and whether it needs action.
 
 ## Passive and action-required messages
 
@@ -185,6 +268,28 @@ For inline placement, where the button is part of the document flow instead of f
   <Toaster.NotificationCenter.Button hostId="unique-id" floating={false} />
 </header>
 ```
+
+## Integrating with an existing notification center
+
+If your application already has a notification center, you can use `Toaster.NotificationCenterList` to render temporary status updates inside it.
+
+For example:
+
+```tsx
+<ExistingNotificationCenter>
+  <Tabs>
+    <Tab title="Messages">
+      <BankMessages />
+    </Tab>
+
+    <Tab title="Status updates">
+      <Toaster.NotificationCenterList hostId="unique-id" />
+    </Tab>
+  </Tabs>
+</ExistingNotificationCenter>
+```
+
+This gives users one known place for notifications, while still keeping temporary status updates separate from permanent bank messages.
 
 ## Alternative: inline notification list
 
@@ -303,7 +408,7 @@ Only the relevant message content should be announced. The full message remains 
 
 ### Semantic structure
 
-- The notification center and inline list use `role="log"` with a descriptive accessible name, such as `aria-label="System messages"`.
+- The notification center and inline list use `role="log"` with a descriptive accessible name, such as `aria-label="Status updates"`.
 - Each message is grouped semantically, for example with `role="group"` and an accessible name based on the message title.
 - The notification center button uses `aria-expanded` and `aria-haspopup` to communicate the notification center state.
 - Interactive elements inside messages use native elements where possible, such as `<button>` and `<a>`.
