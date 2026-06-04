@@ -24,12 +24,10 @@ const props: AccordionProps = {
 
 const setInputIntent = (value: 'keyboard' | 'mouse') => {
   document.documentElement.setAttribute('data-whatinput', value)
-  document.documentElement.setAttribute('data-whatintent', value)
 }
 
 afterEach(() => {
   document.documentElement.removeAttribute('data-whatinput')
-  document.documentElement.removeAttribute('data-whatintent')
 })
 
 describe('Accordion component', () => {
