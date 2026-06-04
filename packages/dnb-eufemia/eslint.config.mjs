@@ -1,5 +1,5 @@
 import { FlatCompat } from '@eslint/eslintrc'
-import { fixupConfigRules, fixupPluginRules } from '@eslint/compat'
+import { fixupConfigRules } from '@eslint/compat'
 import js from '@eslint/js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
