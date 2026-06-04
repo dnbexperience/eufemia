@@ -185,6 +185,13 @@ function Switch(props: SwitchProps) {
     (event) => {
       if (preventChangeRef.current) {
         preventChangeRef.current = false
+
+        // Revert the checked state that was toggled by the browser's
+        // activation behavior, since the change is being prevented
+        if (inputRef.current) {
+          inputRef.current.checked = isCheckedRef.current
+        }
+
         return // stop here
       }
 
@@ -218,22 +225,16 @@ function Switch(props: SwitchProps) {
       }
 
       if (readOnly) {
-        event.preventDefault()
         preventChangeRef.current = true
         return // stop here
       }
 
       onClick?.({
         checked: isCheckedRef.current,
-        preventDefault,
         event,
         ...event,
+        preventDefault,
       })
-
-      if (preventChangeRef.current) {
-        event.preventDefault()
-        forceUpdate()
-      }
     },
     [onClick, readOnly]
   )
