@@ -21,6 +21,13 @@ button.dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
     @include anchor-mixins.anchorStyle();
 
+    &__launch-icon.dnb-icon.dnb-icon--default {
+      font-size: 1em;
+      svg path {
+        stroke-width: 1.2;
+      }
+    }
+
     &.dnb-anchor--surface-dark {
       @include anchor-mixins.useAnchorDarkSurfaceStyle();
     }
