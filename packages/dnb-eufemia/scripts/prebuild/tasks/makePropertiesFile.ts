@@ -663,14 +663,14 @@ const runDesignTokenFactory = async () => {
   }> = [
     {
       theme: 'ui',
-      in: './src/style/themes/figma/dnb-light.tokens.json',
+      in: './src/style/themes/figma/brand/dnb-light.tokens.json',
       out: './src/style/themes/ui/tokens.scss',
       prefix: 'token',
       referencePrefixOverride: 'dnb',
     },
     {
       theme: 'ui',
-      in: './src/style/themes/figma/dnb-dark.tokens.json',
+      in: './src/style/themes/figma/brand/dnb-dark.tokens.json',
       out: './src/style/themes/ui/tokens-dark.scss',
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
@@ -679,14 +679,14 @@ const runDesignTokenFactory = async () => {
 
     {
       theme: 'sbanken',
-      in: './src/style/themes/figma/sbanken-light.tokens.json',
+      in: './src/style/themes/figma/brand/sbanken-light.tokens.json',
       out: './src/style/themes/sbanken/tokens.scss',
       prefix: 'token',
       referencePrefixOverride: 'sbanken',
     },
     {
       theme: 'sbanken',
-      in: './src/style/themes/figma/sbanken-dark.tokens.json',
+      in: './src/style/themes/figma/brand/sbanken-dark.tokens.json',
       out: './src/style/themes/sbanken/tokens-dark.scss',
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
@@ -694,7 +694,7 @@ const runDesignTokenFactory = async () => {
     },
     {
       theme: 'carnegie',
-      in: './src/style/themes/figma/dnbcarnegie-light.tokens.json',
+      in: './src/style/themes/figma/brand/dnbcarnegie-light.tokens.json',
       out: './src/style/themes/carnegie/tokens.scss',
       prefix: 'token',
       referencePrefixOverride: 'carnegie',

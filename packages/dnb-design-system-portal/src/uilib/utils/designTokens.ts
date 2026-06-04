@@ -1,8 +1,8 @@
-import carnegieTokens from '@dnb/eufemia/src/style/themes/figma/dnbcarnegie-light.tokens.json'
-import uiDarkTokens from '@dnb/eufemia/src/style/themes/figma/dnb-dark.tokens.json'
-import sbankenLightTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-light.tokens.json'
-import sbankenDarkTokens from '@dnb/eufemia/src/style/themes/figma/sbanken-dark.tokens.json'
-import uiLightTokens from '@dnb/eufemia/src/style/themes/figma/dnb-light.tokens.json'
+import carnegieTokens from '@dnb/eufemia/src/style/themes/figma/brand/dnbcarnegie-light.tokens.json'
+import uiDarkTokens from '@dnb/eufemia/src/style/themes/figma/brand/dnb-dark.tokens.json'
+import sbankenLightTokens from '@dnb/eufemia/src/style/themes/figma/brand/sbanken-light.tokens.json'
+import sbankenDarkTokens from '@dnb/eufemia/src/style/themes/figma/brand/sbanken-dark.tokens.json'
+import uiLightTokens from '@dnb/eufemia/src/style/themes/figma/brand/dnb-light.tokens.json'
 import { formatNumberValue } from '@dnb/eufemia/src/style/themes/figma/tokenValueUtils'
 
 export const tokenNamingPolicy = {
