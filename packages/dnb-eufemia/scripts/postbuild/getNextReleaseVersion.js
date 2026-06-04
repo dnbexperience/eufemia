@@ -8,6 +8,7 @@
 // run (mjs): yarn nodemon --exec 'node --experimental-import-meta-resolve ./scripts/postbuild/getNextReleaseVersion.mjs' --ext mjs --watch './scripts/**/*'
 
 const { execFile } = require('child_process')
+const path = require('path')
 const simpleGit = require('simple-git')
 
 try {
@@ -17,6 +18,7 @@ try {
 }
 
 const srBin = require.resolve('semantic-release/bin/semantic-release.js')
+const eufemiaRoot = path.resolve(__dirname, '..', '..')
 const releaseBranches = ['release', 'beta', 'alpha']
 
 // run this script if it is called from bash / command line
@@ -33,7 +35,7 @@ async function getNextReleaseVersion() {
         execFile(
           process.execPath,
           [srBin, '--dry-run'],
-          { timeout: 120000 },
+          { timeout: 120000, cwd: eufemiaRoot },
           (_error, stdout, stderr) => {
             // Resolve with combined output regardless of exit code —
             // semantic-release may exit non-zero in dry-run mode
