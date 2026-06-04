@@ -74,5 +74,12 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
     params.title = null
   }
 
+  if (
+    params['aria-label'] &&
+    convertJsxToString(params.tooltip) === params['aria-label']
+  ) {
+    params.omitDescribedBy = true
+  }
+
   return <Button onClick={onClick} {...params} />
 }
