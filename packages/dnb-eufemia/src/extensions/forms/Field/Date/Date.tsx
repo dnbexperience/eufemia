@@ -757,7 +757,6 @@ type ExcludedDatePickerProps =
 // forwarded (datePickerPropKeys) or explicitly excluded.
 // If this errors, a new DatePickerProps key needs to be added
 // to one of the two lists above.
-// eslint-disable-next-line @typescript-eslint/naming-convention
 type AssertNever<T extends never> = T
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type _AssertAllPropsHandled = AssertNever<

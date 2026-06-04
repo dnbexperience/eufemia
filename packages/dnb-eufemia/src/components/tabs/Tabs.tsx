@@ -907,7 +907,6 @@ function TabsComponent(ownProps: TabsProps) {
 
     let resizeObserver: ResizeObserver | undefined
     if (tabsRef.current && typeof ResizeObserver !== 'undefined') {
-      // eslint-disable-next-line compat/compat
       resizeObserver = new ResizeObserver(onResizeHandler)
       resizeObserver.observe(tabsRef.current)
     }
@@ -923,7 +922,6 @@ function TabsComponent(ownProps: TabsProps) {
     }
     // Mount-only effect — all referenced functions either use refs for latest state
     // or are stable (useCallback with [] deps). Intentionally not re-run on updates.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Update shared state when props change selectedKey or data
