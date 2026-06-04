@@ -498,9 +498,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   right: 0;
   left: auto;
 }
-.dnb-drawer-list__portal .dnb-drawer-list--right {
-  right: 100%;
-}
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list:not(.dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation) {
   animation: drawer-list-slide-top-up 150ms ease-out 1 forwards;
 }
@@ -1067,9 +1064,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   position: absolute;
   right: 0;
   left: auto;
-}
-.dnb-drawer-list__portal .dnb-drawer-list--right {
-  right: 100%;
 }
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list:not(.dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation) {
   animation: drawer-list-slide-top-up 150ms ease-out 1 forwards;

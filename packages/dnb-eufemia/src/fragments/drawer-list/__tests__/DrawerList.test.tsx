@@ -1570,6 +1570,80 @@ describe('DrawerList markup', () => {
 })
 
 describe('DrawerList portal', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('should right-align portal when alignDrawer is right', async () => {
+    const ownerRight = 500
+
+    const style = {
+      width: '100px',
+      getPropertyValue: () => 16,
+    } as undefined
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function () {
+      return {
+        left: 400,
+        right: ownerRight,
+        top: 100,
+        width: 100,
+        height: 40,
+        bottom: 140,
+        x: 400,
+        y: 100,
+        toJSON: () => '',
+      } as DOMRect
+    })
+
+    const { rerender } = render(
+      <DrawerList open noAnimation alignDrawer="right" />
+    )
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      expect(styleElement.getAttribute('style')).toContain('top:')
+    })
+
+    rerender(
+      <DrawerList open noAnimation independentWidth alignDrawer="right" />
+    )
+
+    await waitFor(() => {
+      const portalStyle = styleElement.getAttribute('style')
+      // Portal width is 256px (16 * 16), so left = ownerRight - width = 500 - 256 = 244
+      expect(portalStyle).toContain('left: 244px')
+    })
+  })
+
+  it('should left-align portal by default', async () => {
+    const style = {
+      width: '100px',
+      getPropertyValue: () => 16,
+    } as undefined
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    render(<DrawerList open noAnimation alignDrawer="left" />)
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      const style = styleElement.getAttribute('style')
+      expect(style).toContain('left: 0px')
+    })
+  })
+
   it('will set correct width when independentWidth is set', async () => {
     const style = {
       getPropertyValue: () => 20,

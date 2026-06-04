@@ -17,7 +17,7 @@ import {
   loadScss,
   wait,
 } from '../../../core/test-utils/testSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { DropdownAllProps } from '../Dropdown'
 import Dropdown from '../Dropdown'
@@ -1698,6 +1698,63 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-drawer-list--left')
     ).toBeInTheDocument()
+  })
+
+  it('should right-align the portal popup when align is right', async () => {
+    const ownerRight = 780
+
+    const style = {
+      width: '80px',
+      getPropertyValue: () => 16,
+    } as undefined
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function () {
+      return {
+        left: 700,
+        right: ownerRight,
+        top: 100,
+        width: 80,
+        height: 40,
+        bottom: 140,
+        x: 700,
+        y: 100,
+        toJSON: () => '',
+      } as DOMRect
+    })
+
+    const { rerender } = render(
+      <Dropdown data={mockData} align="right" noAnimation />
+    )
+
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      expect(styleElement.getAttribute('style')).toContain('top:')
+    })
+
+    rerender(
+      <Dropdown
+        data={mockData}
+        independentWidth
+        align="right"
+        noAnimation
+      />
+    )
+
+    await waitFor(() => {
+      const portalStyle = styleElement.getAttribute('style')
+      // Portal width is 256px (16 * 16), so left = ownerRight - width = 780 - 256 = 524
+      expect(portalStyle).toContain('left: 524px')
+    })
   })
 
   describe('groups', () => {
