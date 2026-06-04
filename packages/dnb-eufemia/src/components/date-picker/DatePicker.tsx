@@ -463,7 +463,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 preventScroll: true,
               })
             } catch (e) {
-              warn(e)
+              warn(
+                'DatePicker: Failed to focus submit button on close:',
+                e
+              )
             }
           }
         },
