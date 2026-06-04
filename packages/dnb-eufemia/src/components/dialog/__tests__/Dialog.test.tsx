@@ -296,7 +296,7 @@ describe('Dialog', () => {
     })
   })
 
-  it('respects focusSelector over close button', async () => {
+  it('respects focusSelector over dialog container and close button', async () => {
     render(
       <Dialog noAnimation open title="Title" focusSelector="#focus-me">
         <Dialog.Body>
@@ -308,6 +308,10 @@ describe('Dialog', () => {
     await waitFor(() => {
       expect(document.activeElement?.id).toBe('focus-me')
     })
+
+    const content = document.querySelector('.dnb-modal__content')
+    expect(content).toBeInTheDocument()
+    expect(document.activeElement).not.toBe(content)
 
     const closeBtn = document.querySelector(
       'button.dnb-modal__close-button'
