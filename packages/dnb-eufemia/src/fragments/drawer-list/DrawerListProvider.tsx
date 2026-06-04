@@ -693,22 +693,31 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                   ulElement.style.scrollBehavior = 'auto'
                 }
 
-                if (liElement.scrollIntoView) {
+                if (instantScroll) {
+                  // Scroll only the container (not the page) to place the selected item in view
+                  const top = liElement.offsetTop - 8 // 8px to account for container padding
+
+                  if (stateRef.current.direction === 'top') {
+                    // When pointing upwards, place selected item at the bottom
+                    const bottomAlignedTop =
+                      top - ulElement.clientHeight + liElement.offsetHeight
+                    ulElement.scrollTop = Math.max(0, bottomAlignedTop)
+                  } else {
+                    // When pointing downwards, place selected item at the top
+                    ulElement.scrollTop = top
+                  }
+                } else if (liElement.scrollIntoView) {
                   liElement.scrollIntoView({
-                    behavior: instantScroll ? 'auto' : 'smooth',
-                    block: 'nearest', // only scroll if element is out of view, and align to nearest edge
+                    behavior: 'smooth',
+                    block: 'nearest',
                   })
                 } else {
-                  // Is this fallback ever needed? Are we concerned about browser support, or
-                  // is there some cases where a li element exists, has a position, but does
-                  // not have .scrollIntoView?
-
-                  const top = liElement.offsetTop - 8 // 8px to account for container padding
+                  const top = liElement.offsetTop - 8
 
                   if (ulElement.scrollTo) {
                     ulElement.scrollTo({
                       top,
-                      behavior: scrollTo ? 'smooth' : 'auto',
+                      behavior: 'smooth',
                     })
                   } else if (ulElement.scrollTop) {
                     ulElement.scrollTop = top
