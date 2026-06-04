@@ -43,6 +43,49 @@ function extractDocsFromFile(filePath) {
   return docs
 }
 
+/**
+ * Like extractDocsFromFile, but returns docs grouped by their export
+ * variable name.  e.g. { SortButtonProperties: Map { data → …, … } }
+ */
+function extractGroupedDocsFromFile(filePath) {
+  if (!ts) {
+    return new Map()
+  }
+
+  const content = fs.readFileSync(filePath, 'utf-8')
+  const sourceFile = ts.createSourceFile(
+    filePath,
+    content,
+    ts.ScriptTarget.Latest,
+    true
+  )
+
+  const groups = new Map()
+
+  function visit(node) {
+    if (
+      ts.isVariableDeclaration(node) &&
+      node.initializer &&
+      ts.isObjectLiteralExpression(node.initializer) &&
+      node.name &&
+      ts.isIdentifier(node.name)
+    ) {
+      const varName = node.name.text
+      const props = new Map()
+      extractFromObjectLiteral(node.initializer, props)
+
+      if (props.size > 0) {
+        groups.set(varName, props)
+      }
+    }
+
+    ts.forEachChild(node, visit)
+  }
+
+  visit(sourceFile)
+  return groups
+}
+
 function extractFromObjectLiteral(objLiteral, docs) {
   for (const prop of objLiteral.properties) {
     if (!ts.isPropertyAssignment(prop)) {
@@ -172,7 +215,7 @@ function extractJsdocTags(commentValue) {
   return tags
 }
 
-function getDocsMap(dir) {
+function getDocsMap(dir, sourceBasename) {
   let files
 
   try {
@@ -192,11 +235,34 @@ function getDocsMap(dir) {
     const filePath = path.join(dir, file)
 
     try {
-      const extracted = extractDocsFromFile(filePath)
+      const groups = extractGroupedDocsFromFile(filePath)
 
-      for (const [key, value] of extracted) {
-        docs.set(key, value)
-        fileMap.set(key, file)
+      // Derive the component prefix from the docs filename,
+      // e.g. "FilterDocs.ts" → "Filter"
+      const docsPrefix = file.replace(/Docs\.[jt]sx?$/, '')
+
+      // Derive the sub-component name from the source filename,
+      // e.g. sourceBasename "FilterSortButton" with prefix "Filter"
+      //      → subComponent "SortButton"
+      let subComponent = null
+
+      if (sourceBasename && sourceBasename.startsWith(docsPrefix)) {
+        subComponent = sourceBasename.slice(docsPrefix.length)
+      }
+
+      for (const [varName, props] of groups) {
+        // When a sub-component name is known and multiple groups exist,
+        // only include exports that belong to this sub-component.
+        if (subComponent && groups.size > 1) {
+          if (!varName.startsWith(subComponent)) {
+            continue
+          }
+        }
+
+        for (const [key, value] of props) {
+          docs.set(key, value)
+          fileMap.set(key, file)
+        }
       }
     } catch {
       // Skip files that fail to parse
@@ -257,7 +323,10 @@ module.exports = {
 
     const resolvedPath = path.resolve(filename)
     const dir = path.dirname(resolvedPath)
-    const docsData = getDocsMap(dir)
+    const sourceBasename = path
+      .basename(filename)
+      .replace(/\.[jt]sx?$/, '')
+    const docsData = getDocsMap(dir, sourceBasename)
 
     if (!docsData) {
       return {} // stop here
