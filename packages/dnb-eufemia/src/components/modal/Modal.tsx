@@ -358,7 +358,7 @@ function ModalComponent(ownProps: ModalAllProps) {
           const list = getListOfModalRoots()
           if (list.length > 1) {
             const last = getModalRoot(-1)
-            if (last !== modalStackIdentityRef.current) {
+            if (last?._id !== modalStackIdentityRef.current._id) {
               return // stop here
             }
           }
