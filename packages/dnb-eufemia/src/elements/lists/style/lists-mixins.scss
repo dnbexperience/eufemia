@@ -7,7 +7,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 @mixin listDefaults() {
-  color: var(--token-color-text-neutral, currentColor);
+  color: var(--token-color-text-neutral);
 
   &--surface-dark {
     color: var(--token-color-text-neutral-ondark);

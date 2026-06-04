@@ -384,7 +384,7 @@ del .dnb-code {
 .dnb-ul {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--token-color-text-neutral, currentColor);
+  color: var(--token-color-text-neutral);
 }
 .dnb-ul--surface-dark {
   color: var(--token-color-text-neutral-ondark);
@@ -441,7 +441,7 @@ del .dnb-code {
 .dnb-ol {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--token-color-text-neutral, currentColor);
+  color: var(--token-color-text-neutral);
 }
 .dnb-ol--surface-dark {
   color: var(--token-color-text-neutral-ondark);
@@ -477,7 +477,7 @@ del .dnb-code {
   margin-bottom: 0.5rem;
 }
 .dnb-ol {
-  color: var(--token-color-text-neutral, currentColor);
+  color: var(--token-color-text-neutral);
 }
 .dnb-ol--surface-dark {
   color: var(--token-color-text-neutral-ondark);

@@ -1254,10 +1254,9 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   --drawer-max-width: 40rem;
   --drawer-spacing: 2rem;
   --drawer-spacing-minus: -2rem;
-  --drawer-background-color: var(--token-color-background-neutral, white);
+  --drawer-background-color: var(--token-color-background-neutral);
   --drawer-body-background-color: var(
-    --token-color-background-neutral-subtle,
-    white
+    --token-color-background-neutral-subtle
   );
 }
 @media screen and (max-width: 40em) {
