@@ -24,6 +24,7 @@ import {
   contentStyle,
   wrapperStyle,
   fullscreenStyle,
+  hideSidebarStyle,
 } from './Layout.module.scss'
 import SidebarMenu from '../menu/SidebarMenu'
 import { scrollToAnimation } from './layout-utils'
@@ -153,6 +154,7 @@ function Layout(props: LayoutProps) {
       className={clsx(
         portalStyle,
         fs && fullscreenStyle,
+        hideSidebar && hideSidebarStyle,
         codeFocusMode && 'focusmode'
       )}
     >

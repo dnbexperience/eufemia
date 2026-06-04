@@ -239,7 +239,7 @@
   }
 }
 
-.fullscreenStyle {
-  /* ensure the sidebar has not left over margin during fullscreen (SSR issue) */
+.fullscreenStyle,
+.hideSidebarStyle {
   --aside-width: 0;
 }
