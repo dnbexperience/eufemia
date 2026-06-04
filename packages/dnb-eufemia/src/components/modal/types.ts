@@ -317,14 +317,14 @@ export type ModalContentProps = {
   children?: ReactNode | ((props: ModalContentProps) => ReactNode)
 
   /**
-   * The displayed text for the 'close' button. Defaults to `Lukk`.
+   * The displayed text for the 'close' button. Resolved from locale translations.
    */
   closeTitle?: string
 
   /**
    * Internal
    */
-  dialogRole?: 'dialog' | 'alertdialog' | 'region'
+  dialogRole?: 'dialog' | 'alertdialog'
   contentRef?: RefObject<HTMLElement>
   scrollRef?: RefObject<HTMLElement>
   open?: boolean
