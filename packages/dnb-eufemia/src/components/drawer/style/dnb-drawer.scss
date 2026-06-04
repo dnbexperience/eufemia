@@ -28,10 +28,9 @@
   --drawer-max-width: 40rem;
   --drawer-spacing: 2rem; // should reflect --spacing-large
   --drawer-spacing-minus: -2rem; // should reflect --spacing-large
-  --drawer-background-color: var(--token-color-background-neutral, white);
+  --drawer-background-color: var(--token-color-background-neutral);
   --drawer-body-background-color: var(
-    --token-color-background-neutral-subtle,
-    white
+    --token-color-background-neutral-subtle
   );
 
   @include utilities.allBelow(small) {

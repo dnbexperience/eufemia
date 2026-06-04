@@ -17,7 +17,7 @@
   --dialog-radius: var(--token-radius-md);
   --dialog-padding: calc(var(--dialog-spacing) * 1.75);
   --dialog-icon-positioning: -50%;
-  --dialog-background-color: var(--token-color-background-neutral, white);
+  --dialog-background-color: var(--token-color-background-neutral);
   --dialog-stroke-color: var(--token-color-stroke-neutral-subtle);
 
   position: relative;

@@ -212,7 +212,11 @@
   // Also, on macOS, it changes the scrollbar to be so small,
   // that e.g. the textarea resize grabber gets way smaller.
 
-  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
+  scrollbar-color: var(
+      --scrollbar-thumb-color,
+      var(--token-color-text-neutral-alternative)
+    )
+    transparent;
 
   @supports not (scrollbar-color: auto) {
     // stylelint-disable
@@ -225,13 +229,22 @@
       }
 
       border-radius: var(--scrollbar-thumb-width, 0.5rem);
-      background-color: var(--scrollbar-track-color, #eee);
+      background-color: var(
+        --scrollbar-track-color,
+        var(--token-color-background-neutral-base)
+      );
     }
     &::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar-thumb-color, #888);
+      background-color: var(
+        --scrollbar-thumb-color,
+        var(--token-color-text-neutral-alternative)
+      );
 
       &:hover {
-        background-color: var(--scrollbar-thumb-hover-color, #666);
+        background-color: var(
+          --scrollbar-thumb-hover-color,
+          var(--token-color-text-neutral)
+        );
       }
 
       border-radius: var(--scrollbar-thumb-width, 0.5rem);

@@ -4,7 +4,7 @@
     var(--easing-default);
   --opacity-animation: opacity var(--opacity-animation-duration, 0ms)
     var(--easing-default) var(--opacity-animation-delay, 0ms);
-  --dots-color: var(--token-color-text-neutral, currentColor);
+  --dots-color: var(--token-color-text-neutral);
 
   &:has(&__label) {
     --font-animation-duration: 400ms;
