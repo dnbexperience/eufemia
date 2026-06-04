@@ -317,7 +317,7 @@ export type ModalContentProps = {
   children?: ReactNode | ((props: ModalContentProps) => ReactNode)
 
   /**
-   * The displayed text for the 'close' button. Defaults to `Lukk`.
+   * The displayed text for the 'close' button. Resolved from locale translations.
    */
   closeTitle?: string
 
