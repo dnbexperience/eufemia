@@ -598,9 +598,9 @@ describe('DrawerList component', () => {
     // Should scroll the container to place the selected item near the bottom
     const expectedTop =
       selectedItem.offsetTop -
-      8 -
       ulElement.clientHeight +
-      selectedItem.offsetHeight
+      selectedItem.offsetHeight +
+      8
     expect(ulElement.scrollTop).toBe(Math.max(0, expectedTop))
 
     vi.useRealTimers()
