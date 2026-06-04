@@ -211,6 +211,68 @@ describe('Checkbox component', () => {
     expect(checkbox.checked).toBe(true)
   })
 
+  it('should not visually flip when custom preventDefault is called in onClick', async () => {
+    const onChange = vi.fn()
+
+    const Controlled = () => {
+      const [checked, setChecked] = useState(false)
+
+      return (
+        <Checkbox
+          checked={checked}
+          onChange={({ checked }) => {
+            onChange(checked)
+            setChecked(checked)
+          }}
+          onClick={({ preventDefault }) => {
+            preventDefault()
+          }}
+        />
+      )
+    }
+
+    render(<Controlled />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.click(input)
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+
+    await userEvent.click(input)
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('should allow normal toggling when custom preventDefault is not called in onClick', async () => {
+    const onChange = vi.fn()
+
+    const Controlled = () => {
+      const [checked, setChecked] = useState(false)
+
+      return (
+        <Checkbox
+          checked={checked}
+          onChange={({ checked }) => {
+            onChange(checked)
+            setChecked(checked)
+          }}
+          onClick={() => {
+            // onClick present but not calling preventDefault
+          }}
+        />
+      )
+    }
+
+    render(<Controlled />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.click(input)
+    expect(input.checked).toBe(true)
+    expect(onChange).toHaveBeenCalledWith(true)
+  })
+
   it('has "onChange" event which will trigger on a input change', () => {
     const myEvent = vi.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)

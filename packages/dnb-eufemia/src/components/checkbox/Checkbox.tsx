@@ -197,9 +197,9 @@ function Checkbox(localProps: CheckboxProps) {
   const handleChange = useCallback(
     (event: CheckboxOnChangeParams['event']) => {
       if (preventChangeRef.current) {
+        preventChangeRef.current = false
         return // stop here
       }
-      preventChangeRef.current = false
       const updatedCheck = !isCheckedRef.current
 
       isCheckedRef.current = updatedCheck
@@ -225,6 +225,8 @@ function Checkbox(localProps: CheckboxProps) {
 
   const onClickHandler: MouseEventHandler<HTMLInputElement> = useCallback(
     (event) => {
+      preventChangeRef.current = false
+
       const preventDefault = () => {
         event.preventDefault()
 
