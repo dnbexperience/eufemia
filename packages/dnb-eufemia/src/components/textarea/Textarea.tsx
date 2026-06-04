@@ -311,7 +311,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     try {
       elem.style.height = 'auto'
     } catch (e) {
-      warn(e)
+      warn('Textarea: Failed to prepare autosize:', e)
     }
   }, [])
 
@@ -351,7 +351,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
         elem.style.height = newHeight + 'px'
       } catch (e) {
-        warn(e)
+        warn('Textarea: Failed to set autosize height:', e)
       }
     },
     [autoResizeMaxRows, getLineHeight, getRows]

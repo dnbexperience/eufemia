@@ -166,7 +166,7 @@ function AccordionContentInner(props: AccordionContentProps) {
             (contentElem.offsetHeight + contentElem.offsetTop) / 16
           containerElement.style.minHeight = `${minHeight}rem`
         } catch (e) {
-          warn(e)
+          warn('AccordionContent: Failed to calculate content height:', e)
         }
       }
     }

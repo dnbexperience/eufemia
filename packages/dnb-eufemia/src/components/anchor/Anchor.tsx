@@ -291,7 +291,7 @@ export function scrollToHash(hash: string) {
 
       return { element: anchorElem }
     } catch (error) {
-      console.error(error)
+      console.error('Anchor: Failed to scroll to element:', error)
     }
   }
   return undefined

@@ -83,7 +83,7 @@ export default function DrawerContent({
         `${height}rem`
       )
     } catch (e) {
-      warn(e)
+      warn('DrawerContent: Failed to calculate header height:', e)
     }
   }, [content, context?.scrollRef, context?.contentRef])
 

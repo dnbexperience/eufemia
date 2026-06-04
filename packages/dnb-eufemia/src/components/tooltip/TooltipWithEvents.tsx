@@ -77,7 +77,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           elem.style.userSelect = 'none'
         }
       } catch (e) {
-        warn(e)
+        warn('Tooltip: Failed to handle mouse enter event:', e)
       }
 
       const run = () => {
@@ -119,7 +119,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           elem.style.userSelect = ''
         }
       } catch (e) {
-        warn(e)
+        warn('Tooltip: Failed to handle mouse leave event:', e)
       }
 
       clearTimers()
@@ -150,7 +150,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.addEventListener('touchstart', onMouseEnter)
         element.addEventListener('touchend', onMouseLeave)
       } catch (e) {
-        warn(e)
+        warn(
+          'Tooltip: Failed to add event listeners to target element:',
+          e
+        )
       }
     },
     [onFocus, onMouseLeave, onMouseEnter]
@@ -169,7 +172,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.removeEventListener('touchstart', onMouseEnter)
         element.removeEventListener('touchend', onMouseLeave)
       } catch (e) {
-        warn(e)
+        warn(
+          'Tooltip: Failed to remove event listeners from target element:',
+          e
+        )
       }
     },
     [onFocus, onMouseEnter, onMouseLeave]

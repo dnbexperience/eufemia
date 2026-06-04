@@ -791,7 +791,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         })
       }
     } catch (e) {
-      warn(e)
+      warn('Autocomplete: Failed to focus input element:', e)
     }
   }, [])
 

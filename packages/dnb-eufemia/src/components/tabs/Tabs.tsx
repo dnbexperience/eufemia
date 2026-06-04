@@ -469,7 +469,10 @@ function TabsComponent(ownProps: TabsProps) {
         window.localStorage.removeItem(`tabs-pos-${_id}`)
         return isNaN(pos) ? -1 : pos
       } catch (e) {
-        warn(e)
+        warn(
+          'Tabs: Failed to read last scroll position from localStorage:',
+          e
+        )
       }
     }
     return -1
@@ -488,7 +491,7 @@ function TabsComponent(ownProps: TabsProps) {
         window.localStorage.removeItem(`tabs-last-${_id}`)
         return key
       } catch (e) {
-        warn(e)
+        warn('Tabs: Failed to read last used tab from localStorage:', e)
       }
     }
     return -1
@@ -502,7 +505,7 @@ function TabsComponent(ownProps: TabsProps) {
           String(selectedKeyRef.current)
         )
       } catch (e) {
-        warn(e)
+        warn('Tabs: Failed to save last used tab to localStorage:', e)
       }
     }
   }
@@ -512,7 +515,7 @@ function TabsComponent(ownProps: TabsProps) {
       try {
         window.localStorage.setItem(`tabs-pos-${_id}`, String(position))
       } catch (e) {
-        warn(e)
+        warn('Tabs: Failed to save scroll position to localStorage:', e)
       }
     }
   }
@@ -561,7 +564,7 @@ function TabsComponent(ownProps: TabsProps) {
       tablistRef.current.scrollLeft = scrollLeft
       tablistRef.current.style.scrollBehavior = 'smooth'
     } catch (e) {
-      //
+      warn('Tabs: Failed to set scroll position:', e)
     }
   }
 
@@ -638,7 +641,7 @@ function TabsComponent(ownProps: TabsProps) {
             setIsLast(isLastItem)
           }
         } catch (e) {
-          warn(e)
+          warn('Tabs: Failed to scroll to tab:', e)
         }
       }
 
@@ -683,7 +686,7 @@ function TabsComponent(ownProps: TabsProps) {
         )
       }
     } catch (e) {
-      warn(e)
+      warn('Tabs: Failed to set focus on tab button:', e)
     }
   }, [_id])
 
@@ -803,7 +806,7 @@ function TabsComponent(ownProps: TabsProps) {
       try {
         propsRef.current.onOpenTabNavigationFn(newSelectedKey)
       } catch (e) {
-        warn('Tabs Error:', e)
+        warn('Tabs: Failed to call onOpenTabNavigationFn callback:', e)
       }
     }
 
@@ -1008,7 +1011,7 @@ function TabsComponent(ownProps: TabsProps) {
       ) as HTMLElement | null
       currentKey = elem?.dataset?.tabKey
     } catch (e) {
-      warn('Tabs Error:', e)
+      warn('Tabs: Failed to get tab key from event target:', e)
     }
     return currentKey
   }
