@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useMemo } from 'react'
 import type { MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import {
@@ -90,28 +90,22 @@ function Toggle(props: FieldToggleProps) {
     ) : undefined
   const hideHelpButton = Boolean(helpButton)
 
-  const preventChangeRef = useRef(false)
-
   const onClick = preparedProps?.onClick
   const handleClick = useCallback(
     (args: CheckboxOnClickParams) => {
       const preventDefault = () => {
-        preventChangeRef.current = true
         args.preventDefault?.()
       }
 
-      if (preventChangeRef.current) {
-        args.checked = !args.checked
-        preventChangeRef.current = false
-      }
-
+      const checked = value === valueOn
       const event = {
         ...args,
+        checked,
         preventDefault,
       }
-      onClick?.(args.checked ? valueOn : valueOff, event)
+      onClick?.(checked ? valueOn : valueOff, event)
     },
-    [onClick, valueOff, valueOn]
+    [onClick, value, valueOff, valueOn]
   )
   const handleCheckboxChange = useCallback(
     (args: CheckboxOnChangeParams | ToggleButtonChangeEvent) => {
