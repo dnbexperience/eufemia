@@ -9,6 +9,7 @@ import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import GlobalStatus from '@dnb/eufemia/src/components/global-status/GlobalStatus'
+import ErrorBoundary from './ErrorBoundary'
 import PortalLayout, { type PortalLayoutProps } from './PortalLayout'
 import { useThemeHandler } from '../../vite/client/shims/theme-handler'
 import type { TranslationsLoader } from '@dnb/eufemia/src/shared/Context'
@@ -117,7 +118,7 @@ function ThemeProvider({ children }) {
 
   return (
     <Theme colorScheme="auto" {...theme}>
-      {children}
+      <ErrorBoundary>{children}</ErrorBoundary>
     </Theme>
   )
 }
