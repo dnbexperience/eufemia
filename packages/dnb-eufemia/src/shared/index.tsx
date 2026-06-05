@@ -5,7 +5,7 @@
 
 export { default as Context } from './Context'
 export { default as Provider } from './Provider'
-export { default as GoogleTranslate } from './GoogleTranslate'
+export { default as AutoTranslate } from './AutoTranslate'
 export { default as IsolatedStyleScope } from './IsolatedStyleScope'
 export { default as Theme } from './Theme'
 export { default as useTheme } from './useTheme'

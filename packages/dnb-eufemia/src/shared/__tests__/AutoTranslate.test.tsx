@@ -1,18 +1,18 @@
 import { render } from '@testing-library/react'
-import GoogleTranslate from '../GoogleTranslate'
+import AutoTranslate from '../AutoTranslate'
 import Provider from '../Provider'
 import Dropdown from '../../components/dropdown/Dropdown'
 
-describe('GoogleTranslate', () => {
+describe('AutoTranslate', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
   })
 
   it('should set translate="no" on portal content via PortalRoot.Provider', () => {
     render(
-      <GoogleTranslate off>
+      <AutoTranslate off>
         <Dropdown data={['Item 1', 'Item 2']} open />
-      </GoogleTranslate>
+      </AutoTranslate>
     )
 
     const portalElement = document.getElementById('eufemia-portal-root')
@@ -24,9 +24,9 @@ describe('GoogleTranslate', () => {
 
   it('should set translate="no" on form element via formElement context', () => {
     render(
-      <GoogleTranslate off>
+      <AutoTranslate off>
         <Dropdown data={['Item 1', 'Item 2']} />
-      </GoogleTranslate>
+      </AutoTranslate>
     )
 
     const trigger = document.querySelector('.dnb-dropdown__trigger')
@@ -35,9 +35,9 @@ describe('GoogleTranslate', () => {
 
   it('should not set translate when off is not provided', () => {
     render(
-      <GoogleTranslate>
+      <AutoTranslate>
         <Dropdown data={['Item 1', 'Item 2']} />
-      </GoogleTranslate>
+      </AutoTranslate>
     )
 
     const trigger = document.querySelector('.dnb-dropdown__trigger')
@@ -46,9 +46,9 @@ describe('GoogleTranslate', () => {
 
   it('should not set translate when off is false', () => {
     render(
-      <GoogleTranslate off={false}>
+      <AutoTranslate off={false}>
         <Dropdown data={['Item 1', 'Item 2']} />
-      </GoogleTranslate>
+      </AutoTranslate>
     )
 
     const trigger = document.querySelector('.dnb-dropdown__trigger')
@@ -58,9 +58,9 @@ describe('GoogleTranslate', () => {
   it('should allow nesting inside an existing Provider', () => {
     render(
       <Provider locale="en-GB">
-        <GoogleTranslate off>
+        <AutoTranslate off>
           <Dropdown data={['Item 1', 'Item 2']} />
-        </GoogleTranslate>
+        </AutoTranslate>
       </Provider>
     )
 

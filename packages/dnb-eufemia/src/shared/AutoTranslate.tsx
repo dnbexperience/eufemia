@@ -2,7 +2,7 @@ import type { JSX, ReactNode } from 'react'
 import Provider from './Provider'
 import { PortalRootProvider } from '../components/portal-root/PortalRoot'
 
-export type GoogleTranslateProps = {
+export type AutoTranslateProps = {
   /**
    * Set to `true` to disable browser translation (e.g. Google Translate)
    * on all form components and their portal content within this scope.
@@ -12,10 +12,10 @@ export type GoogleTranslateProps = {
   children: ReactNode
 }
 
-export default function GoogleTranslate({
+export default function AutoTranslate({
   off,
   children,
-}: GoogleTranslateProps): JSX.Element {
+}: AutoTranslateProps): JSX.Element {
   if (!off) {
     return <>{children}</>
   }

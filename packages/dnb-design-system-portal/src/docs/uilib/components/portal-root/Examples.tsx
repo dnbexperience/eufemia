@@ -5,7 +5,7 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { P, PortalRoot, Dropdown } from '@dnb/eufemia/src'
-import { GoogleTranslate } from '@dnb/eufemia/src/shared'
+import { AutoTranslate } from '@dnb/eufemia/src/shared'
 
 export const PortalRootExample = () => (
   <ComponentBox>
@@ -30,13 +30,13 @@ export const PortalRootExample = () => (
   </ComponentBox>
 )
 
-export const GoogleTranslateExample = () => (
-  <ComponentBox scope={{ GoogleTranslate }}>
-    <GoogleTranslate off>
+export const AutoTranslateExample = () => (
+  <ComponentBox scope={{ AutoTranslate }}>
+    <AutoTranslate off>
       <Dropdown
         label="Velg farge"
         data={['Rød', 'Blå', 'Grønn', 'Gul', 'Hvit', 'Svart']}
       />
-    </GoogleTranslate>
+    </AutoTranslate>
   </ComponentBox>
 )
