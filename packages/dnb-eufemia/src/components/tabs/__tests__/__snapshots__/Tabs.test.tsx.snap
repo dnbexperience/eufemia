@@ -62,7 +62,7 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
 .dnb-tabs__tabs__tablist {
   overscroll-behavior: contain;
   scroll-behavior: smooth;
-  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
+  scrollbar-color: var(--scrollbar-thumb-color, var(--token-color-text-neutral-alternative)) transparent;
 }
 @supports not (scrollbar-color: auto) {
   .dnb-tabs__tabs__tablist::-webkit-scrollbar:vertical {
@@ -73,13 +73,13 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   }
   .dnb-tabs__tabs__tablist::-webkit-scrollbar {
     border-radius: var(--scrollbar-thumb-width, 0.5rem);
-    background-color: var(--scrollbar-track-color, #eee);
+    background-color: var(--scrollbar-track-color, var(--token-color-background-neutral-base));
   }
   .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-color, #888);
+    background-color: var(--scrollbar-thumb-color, var(--token-color-text-neutral-alternative));
   }
   .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar-thumb-hover-color, #666);
+    background-color: var(--scrollbar-thumb-hover-color, var(--token-color-text-neutral));
   }
   .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
     border-radius: var(--scrollbar-thumb-width, 0.5rem);
@@ -433,7 +433,7 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
 .dnb-tabs__tabs__tablist {
   overscroll-behavior: contain;
   scroll-behavior: smooth;
-  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
+  scrollbar-color: var(--scrollbar-thumb-color, var(--token-color-text-neutral-alternative)) transparent;
 }
 @supports not (scrollbar-color: auto) {
   .dnb-tabs__tabs__tablist::-webkit-scrollbar:vertical {
@@ -444,13 +444,13 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   }
   .dnb-tabs__tabs__tablist::-webkit-scrollbar {
     border-radius: var(--scrollbar-thumb-width, 0.5rem);
-    background-color: var(--scrollbar-track-color, #eee);
+    background-color: var(--scrollbar-track-color, var(--token-color-background-neutral-base));
   }
   .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-color, #888);
+    background-color: var(--scrollbar-thumb-color, var(--token-color-text-neutral-alternative));
   }
   .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar-thumb-hover-color, #666);
+    background-color: var(--scrollbar-thumb-hover-color, var(--token-color-text-neutral));
   }
   .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
     border-radius: var(--scrollbar-thumb-width, 0.5rem);

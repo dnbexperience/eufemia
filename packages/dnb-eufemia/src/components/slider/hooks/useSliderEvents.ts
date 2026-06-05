@@ -65,7 +65,7 @@ export function useSliderEvents() {
         document.body.addEventListener('mousemove', onBodyMouseMoveHandler)
         document.body.addEventListener('mouseup', onBodyMouseUpHandler)
       } catch (e) {
-        warn(e)
+        warn('Slider: Failed to add drag event listeners:', e)
       }
     }
   }
@@ -88,7 +88,7 @@ export function useSliderEvents() {
         )
         document.body.removeEventListener('mouseup', onBodyMouseUpHandler)
       } catch (e) {
-        warn(e)
+        warn('Slider: Failed to remove drag event listeners:', e)
       }
     }
   }

@@ -11,7 +11,7 @@ export const InlineProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  '[Flex.Horizontal](/uilib/layout/flex/horizontal/properties)': {
+  '[Flex.Horizontal](/uilib/layout/flex/container/properties)': {
     doc: 'Supports all additional `Flex.Horizontal` properties.',
     type: 'Various',
     status: 'optional',

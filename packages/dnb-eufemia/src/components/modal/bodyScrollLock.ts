@@ -54,11 +54,11 @@ const setOverflowHidden = () => {
         })
         htmlElement.style.removeProperty('--scrollbar-width')
       } catch (e) {
-        warn(e)
+        warn('bodyScrollLock: Failed to restore overflow styles:', e)
       }
     }
   } catch (e) {
-    warn(e)
+    warn('bodyScrollLock: Failed to set overflow hidden:', e)
   }
   return undefined
 }
@@ -149,11 +149,14 @@ const setOverflowHiddenAndroid = () => {
         htmlElement.scrollTop = scrollTop
         htmlElement.style.scrollBehavior = scrollBehavior
       } catch (e) {
-        warn(e)
+        warn(
+          'bodyScrollLock: Failed to restore Android scroll position:',
+          e
+        )
       }
     }
   } catch (e) {
-    warn(e)
+    warn('bodyScrollLock: Failed to set Android overflow hidden:', e)
   }
   return undefined
 }
@@ -213,7 +216,7 @@ const handleScroll = (event: TouchEvent, targetElement: HTMLElement) => {
 
     return true
   } catch (e) {
-    warn(e)
+    warn('bodyScrollLock: Failed to handle touch scroll:', e)
   }
 }
 
@@ -253,7 +256,7 @@ export const disableBodyScroll = (
 
     lockedNum += 1
   } catch (e) {
-    warn(e)
+    warn('bodyScrollLock: Failed to disable body scroll:', e)
   }
 }
 
@@ -277,7 +280,7 @@ export const enableBodyScroll = (
       callbackUnlock()
     }
   } catch (e) {
-    warn(e)
+    warn('bodyScrollLock: Failed to enable body scroll:', e)
   }
 }
 
@@ -306,6 +309,6 @@ export const clearAllBodyScrollLocks = () => {
       }
     }
   } catch (e) {
-    warn(e)
+    warn('bodyScrollLock: Failed to clear all body scroll locks:', e)
   }
 }

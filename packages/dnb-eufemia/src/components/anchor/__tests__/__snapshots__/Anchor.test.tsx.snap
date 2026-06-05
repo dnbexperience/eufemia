@@ -317,6 +317,12 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 :where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default {
   font-size: 0.8888888889em;
 }
+:where(:not(.dnb-anchor--no-style)).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default {
+  font-size: 1em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default svg path {
+  stroke-width: 1.2;
+}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--surface-dark {
   --anchor-color--default: var(--token-color-text-action-ondark);
   --anchor-color--hover: var(--token-color-text-action-ondark);
@@ -452,6 +458,12 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon--default {
     font-size: 0.8888888889em;
   }
+  :not(.dnb-anchor--no-style).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default {
+    font-size: 1em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default svg path {
+    stroke-width: 1.2;
+  }
   :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--surface-dark {
     --anchor-color--default: var(--token-color-text-action-ondark);
     --anchor-color--hover: var(--token-color-text-action-ondark);
@@ -529,179 +541,5 @@ a.dnb-button {
 .dnb-skeleton > .dnb-anchor .dnb-icon,
 .dnb-anchor.dnb-skeleton .dnb-icon {
   filter: grayscale(100%) opacity(0.3);
-}"
-`;
-
-exports[`Anchor scss > should match theme css for sbanken 1`] = `
-"/*
- * Anchor theme
- *
- */
-/*
- * Anchor mixins
- *
- */
-/*
- * Utilities
- */
-:where(:not(.dnb-anchor--no-style)).dnb-anchor {
-  --anchor-underline-thickness: 0.125rem;
-  --anchor-background-gutter-left: 0.25rem;
-  --anchor-background-gutter-right: 0.25rem;
-  --anchor-icon-position: translateY(-0.125em);
-  font-weight: var(--font-weight-medium);
-  padding: 0.15625em 0;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default {
-  font-size: 1em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
-  transition: none;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
-  /* stylelint-disable-next-line scss/operator-no-unspaced */
-}
-@supports not (selector(*:where(*))) {
-  :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
-    transition: none;
-  }
-}
-:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor {
-  --anchor-icon-gutter: 0.125em;
-  --anchor-icon-separator: '\\00a0';
-}
-:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
-  --anchor-background-gutter-right: 0rem;
-}
-:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-  content: var(--anchor-icon-separator);
-}
-:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
-  --anchor-background-gutter-left: 0rem;
-}
-:where(:not(.dnb-anchor--no-style)):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
-  content: var(--anchor-icon-separator);
-}
-:where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline) {
-  /* stylelint-disable-next-line scss/operator-no-unspaced */
-}
-@supports not (selector(*:where(*))) {
-  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor {
-    --anchor-icon-gutter: 0.125em;
-    --anchor-icon-separator: '\\00a0';
-  }
-  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
-    --anchor-background-gutter-right: 0rem;
-  }
-  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-    content: var(--anchor-icon-separator);
-  }
-  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
-    --anchor-background-gutter-left: 0rem;
-  }
-  :where(:not(.dnb-anchor--no-style)):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
-    content: var(--anchor-icon-separator);
-  }
-}
-
-:not(.dnb-anchor--no-style) {
-  /* stylelint-disable-next-line scss/operator-no-unspaced */
-}
-@supports not (selector(*:where(*))) {
-  :not(.dnb-anchor--no-style).dnb-anchor {
-    --anchor-underline-thickness: 0.125rem;
-    --anchor-background-gutter-left: 0.25rem;
-    --anchor-background-gutter-right: 0.25rem;
-    --anchor-icon-position: translateY(-0.125em);
-    font-weight: var(--font-weight-medium);
-    padding: 0.15625em 0;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon--default {
-    font-size: 1em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
-    transition: none;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
-    /* stylelint-disable-next-line scss/operator-no-unspaced */
-  }
-  @supports not (selector(*:where(*))) {
-    :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
-      transition: none;
-    }
-  }
-  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor {
-    --anchor-icon-gutter: 0.125em;
-    --anchor-icon-separator: '\\00a0';
-  }
-  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
-    --anchor-background-gutter-right: 0rem;
-  }
-  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-    content: var(--anchor-icon-separator);
-  }
-  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
-    --anchor-background-gutter-left: 0rem;
-  }
-  :not(.dnb-anchor--no-style):where(:not(.dnb-anchor--inline)).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
-    content: var(--anchor-icon-separator);
-  }
-  :not(.dnb-anchor--no-style):not(.dnb-anchor--inline) {
-    /* stylelint-disable-next-line scss/operator-no-unspaced */
-  }
-  @supports not (selector(*:where(*))) {
-    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor {
-      --anchor-icon-gutter: 0.125em;
-      --anchor-icon-separator: '\\00a0';
-    }
-    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right) {
-      --anchor-background-gutter-right: 0rem;
-    }
-    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-left:not(.dnb-anchor--icon-right)::after {
-      content: var(--anchor-icon-separator);
-    }
-    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left) {
-      --anchor-background-gutter-left: 0rem;
-    }
-    :not(.dnb-anchor--no-style):not(.dnb-anchor--inline).dnb-anchor--icon-right:not(.dnb-anchor--icon-left)::before {
-      content: var(--anchor-icon-separator);
-    }
-  }
-}
-
-.dnb-anchor--inline {
-  text-decoration-color: currentcolor;
-}"
-`;
-
-exports[`Anchor scss > should match theme css for ui 1`] = `
-"/*
- * Anchor theme
- *
- */
-/*
- * Anchor mixins
- *
- */
-/*
- * Utilities
- */
-:where(:not(.dnb-anchor--no-style)).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default {
-  font-size: 1em;
-}
-:where(:not(.dnb-anchor--no-style)).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default svg path {
-  stroke-width: 1.2;
-}
-
-:not(.dnb-anchor--no-style) {
-  /* stylelint-disable-next-line scss/operator-no-unspaced */
-}
-@supports not (selector(*:where(*))) {
-  :not(.dnb-anchor--no-style).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default {
-    font-size: 1em;
-  }
-  :not(.dnb-anchor--no-style).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default svg path {
-    stroke-width: 1.2;
-  }
 }"
 `;

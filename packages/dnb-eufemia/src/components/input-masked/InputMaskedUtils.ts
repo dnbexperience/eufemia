@@ -303,7 +303,7 @@ export const correctCaretPosition = (
         }
       }
     } catch (e) {
-      warn(e)
+      warn('InputMasked: Failed to correct cursor position:', e)
     }
   }
 

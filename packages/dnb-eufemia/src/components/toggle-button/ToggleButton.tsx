@@ -215,7 +215,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
         try {
           refButton.current.focus()
         } catch (e) {
-          warn(e)
+          warn('ToggleButton: Failed to focus button element:', e)
         }
       }
     },

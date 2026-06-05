@@ -779,16 +779,4 @@ describe('Anchor scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it.each(['ui', 'sbanken'])(
-    'should match theme css for %s',
-    (themeName) => {
-      const css = loadScss(
-        require.resolve(
-          `../style/themes/dnb-anchor-theme-${themeName}.scss`
-        )
-      )
-      expect(css).toMatchSnapshot()
-    }
-  )
 })

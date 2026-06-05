@@ -51,7 +51,6 @@ import Button from '../button/Button'
 import useId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
-import whatInput from '../../shared/helpers/whatInput'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import {
@@ -469,7 +468,10 @@ function TabsComponent(ownProps: TabsProps) {
         window.localStorage.removeItem(`tabs-pos-${_id}`)
         return isNaN(pos) ? -1 : pos
       } catch (e) {
-        warn(e)
+        warn(
+          'Tabs: Failed to read last scroll position from localStorage:',
+          e
+        )
       }
     }
     return -1
@@ -488,7 +490,7 @@ function TabsComponent(ownProps: TabsProps) {
         window.localStorage.removeItem(`tabs-last-${_id}`)
         return key
       } catch (e) {
-        warn(e)
+        warn('Tabs: Failed to read last used tab from localStorage:', e)
       }
     }
     return -1
@@ -502,7 +504,7 @@ function TabsComponent(ownProps: TabsProps) {
           String(selectedKeyRef.current)
         )
       } catch (e) {
-        warn(e)
+        warn('Tabs: Failed to save last used tab to localStorage:', e)
       }
     }
   }
@@ -512,7 +514,7 @@ function TabsComponent(ownProps: TabsProps) {
       try {
         window.localStorage.setItem(`tabs-pos-${_id}`, String(position))
       } catch (e) {
-        warn(e)
+        warn('Tabs: Failed to save scroll position to localStorage:', e)
       }
     }
   }
@@ -561,7 +563,7 @@ function TabsComponent(ownProps: TabsProps) {
       tablistRef.current.scrollLeft = scrollLeft
       tablistRef.current.style.scrollBehavior = 'smooth'
     } catch (e) {
-      //
+      warn('Tabs: Failed to set scroll position:', e)
     }
   }
 
@@ -638,7 +640,7 @@ function TabsComponent(ownProps: TabsProps) {
             setIsLast(isLastItem)
           }
         } catch (e) {
-          warn(e)
+          warn('Tabs: Failed to scroll to tab:', e)
         }
       }
 
@@ -683,7 +685,7 @@ function TabsComponent(ownProps: TabsProps) {
         )
       }
     } catch (e) {
-      warn(e)
+      warn('Tabs: Failed to set focus on tab button:', e)
     }
   }, [_id])
 
@@ -752,16 +754,6 @@ function TabsComponent(ownProps: TabsProps) {
       'onFocus',
       getEventArgs({ event, focusKey: newFocusKey })
     )
-
-    whatInput.specificKeys([
-      'Tab',
-      'ArrowLeft',
-      'ArrowRight',
-      'PageUp',
-      'PageDown',
-      'End',
-      'Home',
-    ])
   }
 
   // Focus tab button when focusKey changes
@@ -777,7 +769,6 @@ function TabsComponent(ownProps: TabsProps) {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     saveLastPosition()
     saveLastUsedTab()
-    whatInput.specificKeys(['Tab'])
 
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(newSelectedKey))) {
@@ -803,7 +794,7 @@ function TabsComponent(ownProps: TabsProps) {
       try {
         propsRef.current.onOpenTabNavigationFn(newSelectedKey)
       } catch (e) {
-        warn('Tabs Error:', e)
+        warn('Tabs: Failed to call onOpenTabNavigationFn callback:', e)
       }
     }
 
@@ -907,14 +898,12 @@ function TabsComponent(ownProps: TabsProps) {
 
     let resizeObserver: ResizeObserver | undefined
     if (tabsRef.current && typeof ResizeObserver !== 'undefined') {
-      // eslint-disable-next-line compat/compat
       resizeObserver = new ResizeObserver(onResizeHandler)
       resizeObserver.observe(tabsRef.current)
     }
 
     return () => {
       isMounted = false
-      whatInput.specificKeys(['Tab'])
       sharedStateRef.current = null
       resizeObserver?.disconnect()
       if (typeof window !== 'undefined') {
@@ -923,7 +912,6 @@ function TabsComponent(ownProps: TabsProps) {
     }
     // Mount-only effect — all referenced functions either use refs for latest state
     // or are stable (useCallback with [] deps). Intentionally not re-run on updates.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Update shared state when props change selectedKey or data
@@ -1010,7 +998,7 @@ function TabsComponent(ownProps: TabsProps) {
       ) as HTMLElement | null
       currentKey = elem?.dataset?.tabKey
     } catch (e) {
-      warn('Tabs Error:', e)
+      warn('Tabs: Failed to get tab key from event target:', e)
     }
     return currentKey
   }

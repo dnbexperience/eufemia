@@ -40,7 +40,7 @@ export const getClosestParent = (
       element = element?.parentElement
     }
   } catch (e) {
-    warn(e)
+    warn('getClosest: Failed to traverse DOM tree:', e)
   }
 
   return element

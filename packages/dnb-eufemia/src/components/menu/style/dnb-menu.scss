@@ -86,8 +86,8 @@
     // Use :focus + whatInput('keyboard') instead of focusVisible().
     // focusVisible() relies on the browser's :focus-visible heuristic,
     // which doesn't reliably fire when .focus() is called programmatically.
-    // We control data-whatinput via specificKeys() in MenuRoot, so
-    // arrow/nav keys register as keyboard input — making this reliable.
+    // whatInput detects all non-modifier keys as keyboard input globally,
+    // so it works even when focus is triggered programmatically.
     @include utilities.whatInput('keyboard') {
       &:focus:not([disabled]) {
         --menu-action-background-color: var(

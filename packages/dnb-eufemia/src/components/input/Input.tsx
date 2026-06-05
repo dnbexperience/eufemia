@@ -426,7 +426,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
           try {
             inputRef.current.select()
           } catch (e) {
-            warn(e)
+            warn('Input: Failed to select all text:', e)
           }
         }, 1) // safari needs a delay
       }

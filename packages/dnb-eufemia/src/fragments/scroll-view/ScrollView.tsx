@@ -20,14 +20,12 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ScrollViewProps = {
   /**
-   * To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation.
-   * Default: `false`
+   * To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation. Defaults to `false`.
    */
   interactive?: boolean | 'auto'
 
   /**
-   * Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. Maps to the CSS `scrollbar-gutter` property.
-   * Default: `undefined`
+   * Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. Maps to the CSS `scrollbar-gutter` property. Defaults to `undefined`.
    */
   scrollbarGutter?: 'stable'
 }
@@ -92,7 +90,6 @@ function useInteractive({ interactive, children, ref }) {
 
   useLayoutEffect(() => {
     if (interactive === 'auto' && typeof ResizeObserver !== 'undefined') {
-      // eslint-disable-next-line compat/compat
       const observer = new ResizeObserver(() => {
         setAsInteractive(hasScrollbar())
       })

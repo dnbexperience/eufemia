@@ -156,7 +156,7 @@ export type DatePickerProps = {
    */
   onlyMonth?: boolean
   /**
-   * Use `true` to only show the last week in the current month if it needs to be shown. The result is that there will mainly be shows five (5) weeks (rows) instead of six (6). Defaults to `false`.
+   * Use `true` to only show the last week in the current month if it needs to be shown. The result is that there will mainly be shown five (5) weeks (rows) instead of six (6). Defaults to `false`.
    */
   hideLastWeek?: boolean
   /**
@@ -463,7 +463,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
                 preventScroll: true,
               })
             } catch (e) {
-              warn(e)
+              warn(
+                'DatePicker: Failed to focus submit button on close:',
+                e
+              )
             }
           }
         },

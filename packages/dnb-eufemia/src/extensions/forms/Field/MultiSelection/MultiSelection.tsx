@@ -19,8 +19,6 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import useTranslation from '../../hooks/useTranslation'
 import { convertJsxToString } from '../../../../shared/component-helper'
-import whatInput from '../../../../shared/helpers/whatInput'
-import useIsomorphicLayoutEffect from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 import { createSharedState } from '../../../../shared/helpers/useSharedState'
 import { MultiSelectionTrigger } from './MultiSelectionTrigger'
@@ -247,28 +245,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const toSearchText = useCallback((content?: ReactNode) => {
     return convertJsxToString(content || '').toLowerCase()
   }, [])
-
-  // Match the existing menu pattern so arrow-key navigation is treated as
-  // keyboard input even when focus is moved programmatically after mouse-open.
-  useIsomorphicLayoutEffect(() => {
-    if (isOpen) {
-      whatInput.specificKeys([
-        'Tab',
-        'ArrowLeft',
-        'ArrowUp',
-        'ArrowRight',
-        'ArrowDown',
-        'PageUp',
-        'PageDown',
-        'End',
-        'Home',
-      ])
-    }
-
-    return () => {
-      whatInput.specificKeys(['Tab'])
-    }
-  }, [isOpen])
 
   // Flatten nested items to a single array for searching and counting
   const flattenItems = useCallback(

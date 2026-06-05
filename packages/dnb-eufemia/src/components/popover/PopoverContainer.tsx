@@ -206,7 +206,6 @@ function PopoverContainer(props: PopoverContainerProps) {
     }
 
     try {
-      // eslint-disable-next-line compat/compat
       resizeObserver.current = new ResizeObserver(() => {
         clearTimers()
         debounceTimeout.current = setTimeout(

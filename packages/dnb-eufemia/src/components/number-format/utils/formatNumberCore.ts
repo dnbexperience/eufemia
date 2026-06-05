@@ -54,7 +54,10 @@ export function formatToParts({
         return [{ value: inst.format(Number(number)), type: 'unknown' }]
       }
     } catch (e) {
-      warn(e)
+      warn(
+        'NumberFormat: Failed to format number with Intl.NumberFormat:',
+        e
+      )
     }
   }
 

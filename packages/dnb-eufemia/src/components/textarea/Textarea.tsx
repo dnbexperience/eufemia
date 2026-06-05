@@ -311,7 +311,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     try {
       elem.style.height = 'auto'
     } catch (e) {
-      warn(e)
+      warn('Textarea: Failed to prepare autosize:', e)
     }
   }, [])
 
@@ -351,7 +351,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
         elem.style.height = newHeight + 'px'
       } catch (e) {
-        warn(e)
+        warn('Textarea: Failed to set autosize height:', e)
       }
     },
     [autoResizeMaxRows, getLineHeight, getRows]
@@ -432,7 +432,6 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     if (autoResize && typeof window !== 'undefined') {
       setAutosizeRef.current()
       try {
-        // eslint-disable-next-line compat/compat
         const observer = new ResizeObserver((entries) => {
           window.requestAnimationFrame(() => {
             if (!Array.isArray(entries) || !entries.length) {

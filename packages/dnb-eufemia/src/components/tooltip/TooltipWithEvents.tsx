@@ -48,6 +48,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     size,
     keepInDOM = false,
     targetRefreshKey,
+    omitDescribedBy,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
@@ -77,7 +78,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           elem.style.userSelect = 'none'
         }
       } catch (e) {
-        warn(e)
+        warn('Tooltip: Failed to handle mouse enter event:', e)
       }
 
       const run = () => {
@@ -119,7 +120,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
           elem.style.userSelect = ''
         }
       } catch (e) {
-        warn(e)
+        warn('Tooltip: Failed to handle mouse leave event:', e)
       }
 
       clearTimers()
@@ -150,7 +151,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.addEventListener('touchstart', onMouseEnter)
         element.addEventListener('touchend', onMouseLeave)
       } catch (e) {
-        warn(e)
+        warn(
+          'Tooltip: Failed to add event listeners to target element:',
+          e
+        )
       }
     },
     [onFocus, onMouseLeave, onMouseEnter]
@@ -169,7 +173,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.removeEventListener('touchstart', onMouseEnter)
         element.removeEventListener('touchend', onMouseLeave)
       } catch (e) {
-        warn(e)
+        warn(
+          'Tooltip: Failed to remove event listeners from target element:',
+          e
+        )
       }
     },
     [onFocus, onMouseEnter, onMouseLeave]
@@ -177,7 +184,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const overlayOpen = Boolean(isOpen || isOverlayHovered)
 
-  const describedById = overlayOpen ? internalId : null
+  const describedById = overlayOpen && !omitDescribedBy ? internalId : null
 
   /**
    * Get our "target"
@@ -187,16 +194,18 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       return createElement(target.type as ComponentType<any>, {
         ...target.props,
         ref: cloneRef,
-        'aria-describedby': combineDescribedBy(
-          target.props['aria-describedby'],
-          describedById
-        ),
+        ...(!omitDescribedBy && {
+          'aria-describedby': combineDescribedBy(
+            target.props['aria-describedby'],
+            describedById
+          ),
+        }),
       })
     }
 
     cloneRef.current = target as HTMLElement
     return null
-  }, [describedById, target])
+  }, [describedById, omitDescribedBy, target])
 
   useEffect(() => {
     if (!target) {

@@ -52,10 +52,7 @@ function shouldFocusContentFromClick(event: MouseEvent) {
 
   const { documentElement } = document
 
-  return (
-    documentElement.getAttribute('data-whatinput') === 'keyboard' ||
-    documentElement.getAttribute('data-whatintent') === 'keyboard'
-  )
+  return documentElement.getAttribute('data-whatinput') === 'keyboard'
 }
 
 export default function AccordionTertiary(props: AccordionTertiaryProps) {

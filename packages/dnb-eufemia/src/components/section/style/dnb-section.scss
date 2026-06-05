@@ -39,9 +39,9 @@
   --rounded-corner--medium: 0;
   --rounded-corner--large: 0;
 
-  color: var(--text-color, black);
+  color: var(--text-color);
   border-radius: var(--rounded-corner, 0);
-  background-color: var(--background-color, white);
+  background-color: var(--background-color);
 
   // The outline border
   &::before {

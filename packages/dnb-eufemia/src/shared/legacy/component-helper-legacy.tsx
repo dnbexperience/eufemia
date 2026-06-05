@@ -51,7 +51,7 @@ export function defineNavigator() {
         document.documentElement.setAttribute('data-os', 'other')
       }
     } catch (e) {
-      warn(e)
+      warn('setRunOnceDetectOS: Failed to detect OS:', e)
     }
 
     document.removeEventListener('DOMContentLoaded', handleNavigator)
@@ -248,7 +248,7 @@ export class DetectOutsideClickClass {
         onSuccess()
       }
     } catch (e) {
-      warn(e)
+      warn('detectOutsideClick: Failed to handle outside click:', e)
     }
   }
 }

@@ -23,10 +23,8 @@ import {
 import type { MenuRootProps, MenuContextValue } from './types'
 import type { PopoverTriggerRenderProps } from '../popover/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import whatInput from '../../shared/helpers/whatInput'
 import MenuButton from './MenuButton'
 import MenuAction from './MenuAction'
-import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export default function MenuRoot(props: MenuRootProps) {
   const {
@@ -153,31 +151,6 @@ export default function MenuRoot(props: MenuRootProps) {
       setActiveIndex(-1)
     }
   }, [isOpen, setActiveIndex])
-
-  // Register arrow/nav keys with whatInput so they count as "keyboard" input.
-  // This lets the focus ring show during arrow navigation, even when the menu
-  // was opened by mouse click. Uses useLayoutEffect to ensure specificKeys is
-  // set before the browser paints, preventing a race on re-open.
-  useIsomorphicLayoutEffect(() => {
-    if (isOpen) {
-      // Tab, Left/Up/Right/Down, PageUp/PageDown, End/Home.
-      whatInput.specificKeys([
-        'Tab',
-        'ArrowLeft',
-        'ArrowUp',
-        'ArrowRight',
-        'ArrowDown',
-        'PageUp',
-        'PageDown',
-        'End',
-        'Home',
-      ])
-    }
-
-    return () => {
-      whatInput.specificKeys(['Tab'])
-    }
-  }, [isOpen])
 
   // Focus the <ul> when the menu opens — it's always in the DOM before items
   const focusOnOpenElement = useCallback(() => {

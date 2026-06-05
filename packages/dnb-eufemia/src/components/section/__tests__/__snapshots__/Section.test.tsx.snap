@@ -36,9 +36,9 @@ exports[`Section scss > has to match style dependencies css 1`] = `
   --rounded-corner--small: 0;
   --rounded-corner--medium: 0;
   --rounded-corner--large: 0;
-  color: var(--text-color, black);
+  color: var(--text-color);
   border-radius: var(--rounded-corner, 0);
-  background-color: var(--background-color, white);
+  background-color: var(--background-color);
 }
 .dnb-section::before {
   content: "";
