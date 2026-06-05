@@ -4,6 +4,7 @@
  */
 
 import fs, { promises } from 'fs'
+import util from 'util'
 import path from 'path'
 import globby from 'globby'
 import prettier from 'prettier'
@@ -215,6 +216,10 @@ type FigmaExport = {
   [x: string]: FigmaNode
 }
 
+type TokenList = TokenItem[]
+
+type TokenItem = { figmaPath: string[] } & FigmaValue
+
 const foundationPrefixMap = {
   ui: { css: 'dnb', figma: 'dnb' },
   sbanken: { css: 'sbanken', figma: 'sbanken' },
@@ -396,54 +401,45 @@ const keepOnlyReferencedVariableDeclarations = (
     .join('\n')
 }
 
-/** Recursively generates CSS variables from a Figma export json */
-const generateCSSVariablesFromFigmaExport = (
-  value: FigmaNode | string | number,
+/** Generates CSS variables as a SCSS string from a token list */
+const generateCSSVariablesFromTokenList = (
+  /** An exported figma collection converted to a token list */
+  tokenList: TokenList,
   /** string placed first in the css variable: `--namespace-color-blue-500` */
-  namespace?: string,
-  path: string[] = []
+  namespace?: string
 ) => {
-  try {
-    if (typeof value == 'string' || typeof value === 'number') {
-      return ''
-    }
+  let returnValue = ''
 
-    if (typeof value.$type === 'string') {
-      const val = transformFigmaValue(value)
-      return val
-        ? `${transformNamespace(namespace)}${transformFigmaPath(
-            path
-          )}: ${val};\n`
-        : ''
-    } else {
-      let result = ''
-      for (const [key, val] of Object.entries(value)) {
-        const newPath = key === '$root' ? path : [...path, key]
-        result += generateCSSVariablesFromFigmaExport(
-          val,
+  tokenList.forEach((value) => {
+    try {
+      const valuePart = transformFigmaValue(value)
+
+      if (valuePart) {
+        const namespacePart = transformNamespace(namespace)
+        const pathPart = transformFigmaPath(value.figmaPath)
+
+        returnValue += `${namespacePart}${pathPart}: ${valuePart};\n`
+      }
+    } catch (e) {
+      const err = e as Error & {
+        recursionContext?: {
+          path: string[]
+          namespace: string
+          value: unknown
+        }
+      }
+      if (!err.recursionContext) {
+        err.recursionContext = {
+          path: value.figmaPath,
           namespace,
-          newPath
-        )
+          value,
+        }
       }
-      return result
+      throw err
     }
-  } catch (e) {
-    const err = e as Error & {
-      recursionContext?: {
-        path: string[]
-        namespace: string
-        value: unknown
-      }
-    }
-    if (!err.recursionContext) {
-      err.recursionContext = {
-        path,
-        namespace,
-        value,
-      }
-    }
-    throw err
-  }
+  })
+
+  return returnValue
 }
 
 const makeDesignTokenTailwindCSS = async (
@@ -591,8 +587,8 @@ const makeDesignTokenSCSS = async (
   } = {}
 ) => {
   try {
-    const json = filter(
-      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
+    const tokenList = convertToTokenList(
+      filter(JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8')))
     )
 
     // When scoping to :root, also add .eufemia-theme__color-scheme--light
@@ -603,7 +599,7 @@ const makeDesignTokenSCSS = async (
         : scopeSelector
 
     let scssContent = `${combinedSelector} {\n`
-    scssContent += generateCSSVariablesFromFigmaExport(json, namespace)
+    scssContent += generateCSSVariablesFromTokenList(tokenList, namespace)
     scssContent += '}\n'
 
     if (options.referencedVariables) {
@@ -647,6 +643,36 @@ const makeDesignTokenSCSS = async (
     log.fail(`Failed to generate SCSS file: ${outputPath}`)
     throw e
   }
+}
+
+const convertToTokenList = (node: FigmaNode, figmaPath: string[] = []) => {
+  let list: TokenList = []
+
+  if (typeof node !== 'object' || node === null) {
+    const formattedText = util.inspect(
+      { figmaPath, node },
+      { colors: true, depth: null }
+    )
+    log.warn(`unknown node: ${formattedText}`)
+    return []
+  }
+
+  if ('$type' in node) {
+    list.push({ figmaPath, ...(node as FigmaValue) })
+  } else {
+    Object.entries(node).forEach(([key, value]) => {
+      if (key !== '$extensions') {
+        list = list.concat(
+          convertToTokenList(value, [
+            ...figmaPath,
+            key === '$root' ? '' : key,
+          ])
+        )
+      }
+    })
+  }
+
+  return list
 }
 
 const runDesignTokenFactory = async () => {
