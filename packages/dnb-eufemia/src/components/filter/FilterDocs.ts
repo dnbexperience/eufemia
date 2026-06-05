@@ -54,6 +54,11 @@ export const RootProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
 }
 
 export const SearchProperties: PropertiesTableProps = {
@@ -262,6 +267,11 @@ export const NoResultsProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
 }
 
 export const ResultCountProperties: PropertiesTableProps = {
@@ -311,6 +321,11 @@ export const ContentProperties: PropertiesTableProps = {
   children: {
     doc: 'Result content to render. Wrapped in a skeleton when the linked filter is loading.',
     type: 'React.ReactNode',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
     status: 'optional',
   },
 }
