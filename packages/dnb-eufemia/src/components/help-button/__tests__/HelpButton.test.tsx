@@ -11,7 +11,7 @@ import {
   question as QuestionIcon,
   information_medium as InformationIcon,
 } from '../../../icons'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 
 const props: HelpButtonProps = { id: 'help-button' }
 
@@ -216,6 +216,36 @@ describe('HelpButton', () => {
 
     const button = document.querySelector('.dnb-help-button')
     expect(button).toHaveClass('dnb-space__left--small')
+  })
+
+  it('should not set aria-describedby when tooltip matches aria-label', async () => {
+    render(<HelpButton {...props} title="Hjelpetekst" />)
+
+    const button = document.querySelector('.dnb-button')
+    expect(button.getAttribute('aria-label')).toBe('Hjelpetekst')
+
+    fireEvent.focus(button)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+    })
+
+    expect(button).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('should set aria-describedby when tooltip differs from aria-label', async () => {
+    render(
+      <HelpButton {...props} title="Custom title" aria-label="Other" />
+    )
+
+    const button = document.querySelector('.dnb-button')
+    expect(button.getAttribute('aria-label')).toBe('Other')
+
+    fireEvent.focus(button)
+
+    await waitFor(() => {
+      expect(button).toHaveAttribute('aria-describedby')
+    })
   })
 })
 

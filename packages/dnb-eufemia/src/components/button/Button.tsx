@@ -474,6 +474,10 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
           id={resolvedId + '-tooltip'}
           targetElement={elementRef}
           tooltip={tooltip}
+          omitDescribedBy={
+            Boolean(params['aria-label']) &&
+            convertJsxToString(tooltip) === params['aria-label']
+          }
         />
       )}
     </>

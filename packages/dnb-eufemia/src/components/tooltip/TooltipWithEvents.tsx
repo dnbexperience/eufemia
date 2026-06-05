@@ -48,6 +48,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     size,
     keepInDOM = false,
     targetRefreshKey,
+    omitDescribedBy,
   } = restProps
 
   const { internalId, isControlled } = useContext(TooltipContext)
@@ -177,7 +178,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const overlayOpen = Boolean(isOpen || isOverlayHovered)
 
-  const describedById = overlayOpen ? internalId : null
+  const describedById = overlayOpen && !omitDescribedBy ? internalId : null
 
   /**
    * Get our "target"
@@ -187,16 +188,18 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       return createElement(target.type as ComponentType<any>, {
         ...target.props,
         ref: cloneRef,
-        'aria-describedby': combineDescribedBy(
-          target.props['aria-describedby'],
-          describedById
-        ),
+        ...(!omitDescribedBy && {
+          'aria-describedby': combineDescribedBy(
+            target.props['aria-describedby'],
+            describedById
+          ),
+        }),
       })
     }
 
     cloneRef.current = target as HTMLElement
     return null
-  }, [describedById, target])
+  }, [describedById, omitDescribedBy, target])
 
   useEffect(() => {
     if (!target) {

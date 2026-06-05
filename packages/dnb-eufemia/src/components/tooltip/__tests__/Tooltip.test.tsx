@@ -681,7 +681,7 @@ describe('Tooltip', () => {
         expect(ariaDescribedBy).toContain('tooltip')
       })
 
-      it('should set aria-describedby even when omitDescribedBy is true (prop is ignored)', () => {
+      it('should not set aria-describedby when omitDescribedBy is true', () => {
         render(
           <Tooltip open showDelay={0} omitDescribedBy>
             Tooltip content
@@ -691,12 +691,10 @@ describe('Tooltip', () => {
         const buttonElem = document.querySelector('button')
         const ariaDescribedBy = buttonElem.getAttribute('aria-describedby')
 
-        // omitDescribedBy is no longer handled in TooltipWithEvents
-        expect(ariaDescribedBy).toBeTruthy()
-        expect(ariaDescribedBy).toContain('tooltip')
+        expect(ariaDescribedBy).toBeNull()
       })
 
-      it('should set aria-describedby even when omitDescribedBy is true with targetSelector (prop is ignored)', () => {
+      it('should not set aria-describedby when omitDescribedBy is true with targetSelector', () => {
         render(
           <>
             <button id="test-button">Button</button>
@@ -715,11 +713,10 @@ describe('Tooltip', () => {
         const buttonElem = document.querySelector('#test-button')
         const ariaDescribedBy = buttonElem.getAttribute('aria-describedby')
 
-        // omitDescribedBy is no longer handled in TooltipWithEvents
-        expect(ariaDescribedBy).toBeTruthy()
+        expect(ariaDescribedBy).toBeNull()
       })
 
-      it('should combine existing aria-describedby with tooltip id when omitDescribedBy is true (prop is ignored)', () => {
+      it('should preserve existing aria-describedby when omitDescribedBy is true', () => {
         const buttonWithAria = (
           <button aria-describedby="existing-id">Button</button>
         )
@@ -739,9 +736,8 @@ describe('Tooltip', () => {
         const ariaDescribedBy =
           buttonElem?.getAttribute('aria-describedby')
 
-        // omitDescribedBy is no longer handled, so aria-describedby includes both
-        expect(ariaDescribedBy).toContain('existing-id')
-        expect(ariaDescribedBy).toContain('tooltip')
+        expect(ariaDescribedBy).toBe('existing-id')
+        expect(ariaDescribedBy).not.toContain('tooltip')
       })
     })
   })
