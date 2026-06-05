@@ -9,6 +9,7 @@ import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import P from '../../elements/P'
 import HeightAnimation from '../HeightAnimation'
+import Skeleton from '../skeleton/Skeleton'
 
 export type FilterResultCountProps = {
   connectedTo?: string
@@ -36,6 +37,8 @@ function FilterResultCount({
   const resultCount =
     resultCountProp ?? sharedData?.resultCount ?? context?.resultCount
 
+  const isLoading = sharedData?.resultLoading ?? false
+
   const hasActiveFilters =
     context?.hasActiveFilters ??
     Boolean(
@@ -48,18 +51,22 @@ function FilterResultCount({
   })
 
   const isVisible =
-    resultCount !== undefined && (alwaysVisible || hasActiveFilters)
+    (resultCount !== undefined || isLoading) &&
+    (alwaysVisible || hasActiveFilters)
 
   const message =
-    children || resultCountMessage.replace('%s', String(resultCount))
+    children || resultCountMessage.replace('%s', String(resultCount ?? 0))
 
   return (
-    <HeightAnimation className="dnb-filter__result-count-wrapper">
-      {isVisible && (
+    <HeightAnimation
+      open={isVisible}
+      className="dnb-filter__result-count-wrapper"
+    >
+      <Skeleton show={isLoading}>
         <P top="small" {...spacingProps}>
           {message}
         </P>
-      )}
+      </Skeleton>
     </HeightAnimation>
   )
 }

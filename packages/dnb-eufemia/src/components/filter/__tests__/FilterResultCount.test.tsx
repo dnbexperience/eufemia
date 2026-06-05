@@ -1,7 +1,8 @@
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import FilterRoot from '../FilterRoot'
 import FilterResultCount from '../FilterResultCount'
 import FilterContent from '../FilterContent'
+import { useFilterAsync } from '../hooks/useFilter'
 
 const defaultFilters = {
   '/type/card': {
@@ -186,5 +187,47 @@ describe('Filter.ResultCount', () => {
     const element = document.querySelector('.dnb-filter__result-count')
 
     expect(element.className).toContain('my-custom-class')
+  })
+
+  it('shows skeleton while async result is loading', async () => {
+    let resolveFetch: (value: string[]) => void
+    const fetcher = vi.fn().mockReturnValue(
+      new Promise<string[]>((resolve) => {
+        resolveFetch = resolve
+      })
+    )
+
+    function Consumer() {
+      useFilterAsync('count-skeleton-test', fetcher)
+      return null
+    }
+
+    render(
+      <>
+        <FilterRoot id="count-skeleton-test">
+          <Consumer />
+        </FilterRoot>
+        <FilterResultCount
+          connectedTo="count-skeleton-test"
+          alwaysVisible
+        />
+      </>
+    )
+
+    await waitFor(() => {
+      const skeleton = document.querySelector(
+        '.dnb-filter__result-count-wrapper .dnb-skeleton'
+      )
+      expect(skeleton).toBeInTheDocument()
+    })
+
+    resolveFetch(['a', 'b', 'c'])
+
+    await waitFor(() => {
+      const skeleton = document.querySelector(
+        '.dnb-filter__result-count-wrapper .dnb-skeleton'
+      )
+      expect(skeleton).not.toBeInTheDocument()
+    })
   })
 })
