@@ -298,6 +298,7 @@ describe('Field.Currency', () => {
     expect(document.querySelector('input')).toHaveValue('123 invalid')
     expect(log).toHaveBeenCalledWith(
       expect.any(String),
+      expect.any(String),
       new RangeError('Invalid currency code : invalid')
     )
 
