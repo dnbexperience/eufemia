@@ -206,8 +206,7 @@ export default {
       cancelFilterLabel: 'Avbryt',
       dateLabel: 'Dato',
       sortButtonLabel: 'Sorter',
-      noResultsMessage:
-        'Ingen treff. Prøv å endre eller fjerne noen filtre.',
+      noResultsMessage: 'Prøv å endre eller fjerne noen filtre.',
       resultCountMessage: '%s treff',
     },
   },

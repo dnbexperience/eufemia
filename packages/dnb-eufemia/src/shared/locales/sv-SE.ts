@@ -207,8 +207,7 @@ export default {
       cancelFilterLabel: 'Avbryt',
       dateLabel: 'Datum',
       sortButtonLabel: 'Sortera',
-      noResultsMessage:
-        'Inga resultat. Försök att ändra eller ta bort några filter.',
+      noResultsMessage: 'Försök att ändra eller ta bort några filter.',
       resultCountMessage: '%s resultat',
     },
   } satisfies (typeof nb)['nb-NO'],

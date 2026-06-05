@@ -312,7 +312,7 @@ describe('Filter.Content aria-live', () => {
 
     await waitFor(() => {
       expect(ariaLive.textContent).toBe(
-        'Ingen treff. Prøv å endre eller fjerne noen filtre.'
+        'Prøv å endre eller fjerne noen filtre.'
       )
     })
   })

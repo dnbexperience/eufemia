@@ -208,8 +208,7 @@ export default {
       cancelFilterLabel: 'Annuller',
       dateLabel: 'Dato',
       sortButtonLabel: 'Sortér',
-      noResultsMessage:
-        'Ingen resultater. Prøv at ændre eller fjerne nogle filtre.',
+      noResultsMessage: 'Prøv at ændre eller fjerne nogle filtre.',
       resultCountMessage: '%s resultat(er)',
     },
   } satisfies (typeof nb)['nb-NO'],

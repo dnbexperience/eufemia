@@ -208,8 +208,7 @@ export default {
       cancelFilterLabel: 'Cancel',
       dateLabel: 'Date',
       sortButtonLabel: 'Sort',
-      noResultsMessage:
-        'No results found. Try changing or removing some filters.',
+      noResultsMessage: 'Try changing or removing some filters.',
       resultCountMessage: '%s result(s)',
     },
   } satisfies (typeof nb)['nb-NO'],
