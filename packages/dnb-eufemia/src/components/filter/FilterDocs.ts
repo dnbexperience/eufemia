@@ -264,6 +264,39 @@ export const NoResultsProperties: PropertiesTableProps = {
   },
 }
 
+export const ResultCountProperties: PropertiesTableProps = {
+  connectedTo: {
+    doc: 'Links to a `Filter.Root` by its `id`. Reads `resultCount` from the shared filter state.',
+    type: 'string',
+    status: 'optional',
+  },
+  resultCount: {
+    doc: 'The number of results to display. When omitted, falls back to the `resultCount` from the linked `connectedTo` or nearest `Filter.Root`.',
+    type: 'number',
+    status: 'optional',
+  },
+  alwaysVisible: {
+    doc: 'When `true`, the result count is always visible even when no filters or search text are active. By default the count is only shown when filters are active.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Custom message to display instead of the default translated text.',
+    type: 'string',
+    status: 'optional',
+  },
+  className: {
+    doc: 'Custom CSS class name.',
+    type: 'string',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
 export const ContentProperties: PropertiesTableProps = {
   connectedTo: {
     doc: 'Links to a `Filter.Root` by its `id`. When omitted and used inside a `Filter.Root`, the id is inherited from context.',

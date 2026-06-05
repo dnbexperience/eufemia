@@ -58,6 +58,7 @@ The filter component can be used in two layout patterns:
 - **`Filter.Highlighting`** — Highlights matching search text within result items. Reads the `search` string from the linked filter state and wraps matching substrings in `<mark>` tags. Can be linked via `connectedTo` or inherits the id from the nearest `Filter.Root` or `Filter.Content`.
 - **`Filter.Content`** — Wraps result content and shows a `Skeleton` loading state when the filter is loading. When used inside a `Filter.Root`, the id is inherited automatically. When used outside, link it via `connectedTo`. Supports spacing props.
 - **`Filter.NoResults`** — Renders a translated "no results" message when `resultCount` is `0`. When placed inside a `List.Container`, it automatically renders as a list item. Can be placed after `Filter.ActiveFilters` inside a container, or inside a `Filter.Content` where it inherits `connectedTo` automatically.
+- **`Filter.ResultCount`** — Displays the current result count as a translated message (e.g. "3 result(s)") when filters are active. Hidden when no filters or search text are applied. Reads `resultCount` from the nearest `Filter.Root`, a `connectedTo` id, or a `resultCount` prop. Supports spacing props.
 
 ### Hooks
 

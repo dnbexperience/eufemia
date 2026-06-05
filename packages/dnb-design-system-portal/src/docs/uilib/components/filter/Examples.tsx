@@ -102,6 +102,7 @@ export const WithDateAndSelection = () => {
                   </Filter.Panel>
 
                   <Filter.ActiveFilters />
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
@@ -218,6 +219,7 @@ export const WithPredefinedFilters = () => {
                   </Filter.Panel>
 
                   <Filter.ActiveFilters />
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
@@ -363,6 +365,7 @@ export const CustomFilter = () => {
                     />
                   </Filter.Panel>
                   <Filter.ActiveFilters />
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
@@ -538,6 +541,7 @@ export const AsyncResults = () => {
                     />
                   </Filter.Panel>
                   <Filter.ActiveFilters />
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
@@ -644,6 +648,7 @@ export const ManualBehavior = () => {
                     />
                   </Filter.Panel>
                   <Filter.ActiveFilters />
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
@@ -789,6 +794,7 @@ export const WithMultiSelection = () => {
                     />
                   </Filter.Panel>
                   <Filter.ActiveFilters />
+                  <Filter.ResultCount />
                 </Filter.Root>
               </Grid.Item>
 
@@ -901,6 +907,7 @@ export const QuickFilters = () => {
                     <QuickFilter label="Card" filterKey="/card" />
                     <QuickFilter label="Transfer" filterKey="/transfer" />
                   </Filter.QuickFilters>
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
@@ -1036,6 +1043,7 @@ export const SearchOnly = () => {
                       placeholder="Search..."
                     />
                   </Filter.Toolbar>
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
@@ -1134,6 +1142,7 @@ export const WithSortButton = () => {
                       />
                     </Filter.Toolbar.Actions>
                   </Filter.Toolbar>
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
@@ -1237,6 +1246,7 @@ export const WithQueryLocator = () => {
                     />
                   </Filter.Panel>
                   <Filter.ActiveFilters />
+                  <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>
 
