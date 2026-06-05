@@ -34,9 +34,7 @@ function FilterDate({
     | { from: string; to: string }
     | undefined
 
-  const { dateFormat: defaultDateFormat } =
-    sharedContext.translation.DatePicker
-  const dateFormat = rest.dateFormat ?? defaultDateFormat
+  const locale = sharedContext.locale
 
   const handleChange = useCallback(
     ({
@@ -53,11 +51,11 @@ function FilterDate({
 
       setFilter(filterKey, {
         value: { from: startDate, to: endDate },
-        label: formatDateRange(startDate, endDate, dateFormat),
+        label: formatDateRange(startDate, endDate, locale),
         categoryLabel: label,
       })
     },
-    [removeFilter, setFilter, filterKey, label, dateFormat]
+    [removeFilter, setFilter, filterKey, label, locale]
   )
 
   const sharedProps = {
@@ -74,9 +72,8 @@ function FilterDate({
   const { isSmall } = useMedia()
 
   const description = useMemo(
-    () =>
-      formatDateRange(currentValue?.from, currentValue?.to, dateFormat),
-    [currentValue, dateFormat]
+    () => formatDateRange(currentValue?.from, currentValue?.to, locale),
+    [currentValue, locale]
   )
 
   const datePickerProps = {

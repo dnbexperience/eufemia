@@ -1,21 +1,26 @@
-import { format, parseISO, isValid } from 'date-fns'
+import {
+  formatDate,
+  formatDateRange as formatRange,
+} from '../../date-format/DateFormatUtils'
 
 export default function formatDateRange(
   from: string | null | undefined,
   to: string | null | undefined,
-  dateFormat: string
+  locale?: string
 ): string | undefined {
-  const parts: string[] = []
-
-  if (from) {
-    const date = parseISO(from)
-    parts.push(isValid(date) ? format(date, dateFormat) : from)
+  if (!from && !to) {
+    return undefined
   }
 
-  if (to && to !== from) {
-    const date = parseISO(to)
-    parts.push(isValid(date) ? format(date, dateFormat) : to)
+  if (from && to && to !== from) {
+    return formatRange(
+      { startDate: from, endDate: to },
+      { locale, options: { dateStyle: 'long' } }
+    )
   }
 
-  return parts.length > 0 ? parts.join(' – ') : undefined
+  return formatDate(from || to, {
+    locale,
+    options: { dateStyle: 'long' },
+  })
 }
