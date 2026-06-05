@@ -1332,10 +1332,9 @@ describe('DatePicker component', () => {
     expect(
       leftPicker.querySelector('.dnb-date-picker__header__title')
     ).toHaveTextContent('oktober 2024')
-    // Known pre-existing bug: right picker shows oktober instead of november
     expect(
       rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('oktober 2024')
+    ).toHaveTextContent('november 2024')
 
     await userEvent.click(leftPrev)
     await userEvent.click(leftPrev)
@@ -1346,7 +1345,7 @@ describe('DatePicker component', () => {
     ).toHaveTextContent('juli 2024')
     expect(
       rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('oktober 2024')
+    ).toHaveTextContent('november 2024')
 
     await userEvent.hover(screen.getByLabelText('torsdag 11. juli 2024'))
 
@@ -1355,7 +1354,7 @@ describe('DatePicker component', () => {
     ).toHaveTextContent('juli 2024')
     expect(
       rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('oktober 2024')
+    ).toHaveTextContent('november 2024')
 
     await userEvent.click(rightPrev)
     await userEvent.click(rightPrev)
@@ -1365,25 +1364,29 @@ describe('DatePicker component', () => {
     ).toHaveTextContent('juli 2024')
     expect(
       rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('august 2024')
+    ).toHaveTextContent('september 2024')
 
-    await userEvent.hover(screen.getByLabelText('tirsdag 20. august 2024'))
-
-    expect(
-      leftPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('juli 2024')
-    expect(
-      rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('august 2024')
-
-    await userEvent.click(screen.getByLabelText('tirsdag 20. august 2024'))
+    await userEvent.hover(
+      screen.getByLabelText('fredag 20. september 2024')
+    )
 
     expect(
       leftPicker.querySelector('.dnb-date-picker__header__title')
     ).toHaveTextContent('juli 2024')
     expect(
       rightPicker.querySelector('.dnb-date-picker__header__title')
-    ).toHaveTextContent('august 2024')
+    ).toHaveTextContent('september 2024')
+
+    await userEvent.click(
+      screen.getByLabelText('fredag 20. september 2024')
+    )
+
+    expect(
+      leftPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('juli 2024')
+    expect(
+      rightPicker.querySelector('.dnb-date-picker__header__title')
+    ).toHaveTextContent('september 2024')
   })
 
   it('should not set the month pickers to same month when `startDate` and `endDate` are set to same day in range mode', async () => {
