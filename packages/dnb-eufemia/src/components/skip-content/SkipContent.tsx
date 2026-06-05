@@ -131,7 +131,11 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     >
       <>
         {!visible && (
-          <button className="dnb-sr-only" onKeyUp={handleKeyUp}>
+          <button
+            className="dnb-sr-only"
+            type="button"
+            onKeyUp={handleKeyUp}
+          >
             {text || children}
           </button>
         )}

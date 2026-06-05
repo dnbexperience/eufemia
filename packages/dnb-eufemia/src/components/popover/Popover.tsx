@@ -661,7 +661,7 @@ export default function Popover(props: PopoverProps) {
   const overlayContent = (
     <>
       {!disableFocusTrap && (
-        <button className="dnb-sr-only" onFocus={close}>
+        <button className="dnb-sr-only" type="button" onFocus={close}>
           {tr.focusTrapTitle}
         </button>
       )}
@@ -687,7 +687,7 @@ export default function Popover(props: PopoverProps) {
       {closeButton}
 
       {!disableFocusTrap && (
-        <button className="dnb-sr-only" onFocus={close}>
+        <button className="dnb-sr-only" type="button" onFocus={close}>
           {tr.focusTrapTitle}
         </button>
       )}
