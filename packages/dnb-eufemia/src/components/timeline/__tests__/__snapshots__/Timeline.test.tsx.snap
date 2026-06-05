@@ -20,7 +20,7 @@ exports[`Timeline scss > should match default theme snapshot 1`] = `
       ) /
       2
   );
-  --timeline-border-spacing: var(--spacing-small);
+  --timeline-border-spacing: 1rem;
   --timeline-border-spacing--icon-adjusted: calc(
     var(--timeline-icon-width-diff) + var(--timeline-border-spacing)
   );
@@ -110,7 +110,7 @@ exports[`Timeline scss > should match style dependencies css 1`] = `
   cursor: text;
 }
 .dnb-timeline__item__content {
-  padding-bottom: var(--spacing-small);
+  padding-bottom: 1rem;
   border-left: 1px dashed var(--token-color-text-neutral-alternative);
 }
 .dnb-timeline__item__content__subtitle {
@@ -120,7 +120,7 @@ exports[`Timeline scss > should match style dependencies css 1`] = `
   color: var(--token-color-text-neutral-alternative);
 }
 .dnb-timeline__item__content__info {
-  padding-top: var(--spacing-x-small);
+  padding-top: 0.5rem;
 }
 .dnb-timeline__item--completed .dnb-timeline__item__content {
   border-left: 1px solid var(--token-color-stroke-neutral);
