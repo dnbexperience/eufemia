@@ -3,6 +3,22 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.5.2](https://github.com/dnbexperience/eufemia/compare/v11.5.1...v11.5.2) (2026-06-05)
+
+### :bug: Bug Fixes
+
+* **Accordion:** remove redundant whatintent check from tertiary focus detection ([#8412](https://github.com/dnbexperience/eufemia/issues/8412)) ([0627351](https://github.com/dnbexperience/eufemia/commit/0627351a27a5f4b7fb352d022c57f8eabe8dacf0))
+* **Checkbox:** fix preventChangeRef never being reset after preventDefault ([#8414](https://github.com/dnbexperience/eufemia/issues/8414)) ([ade881c](https://github.com/dnbexperience/eufemia/commit/ade881cef14d3299dd72bfb0100b1cbfa291ed31))
+* **DatePicker:** range mode showing same month in both calendar views ([#8436](https://github.com/dnbexperience/eufemia/issues/8436)) ([198d45c](https://github.com/dnbexperience/eufemia/commit/198d45cb449a1bbfe9bf32bc7fb5b3cfaa6e0276))
+* **DrawerList:** add padding to scroll when list is on top ([#8423](https://github.com/dnbexperience/eufemia/issues/8423)) ([21601fb](https://github.com/dnbexperience/eufemia/commit/21601fb15ec2487819c27ffa69e7f493a8e7e09d))
+* **HelpButton:** prevent VoiceOver from announcing title twice ([#8405](https://github.com/dnbexperience/eufemia/issues/8405)) ([0a72c76](https://github.com/dnbexperience/eufemia/commit/0a72c7621ac3d7720af07a9ddc353e20af8566c0))
+* show focus ring on all keyboard key usage  ([#8420](https://github.com/dnbexperience/eufemia/issues/8420)) ([3cb4968](https://github.com/dnbexperience/eufemia/commit/3cb49680ed8d8cd43aa558dc1537d2e41255be90))
+* **Switch:** prevent visual toggle when preventDefault is called in onClick ([#8413](https://github.com/dnbexperience/eufemia/issues/8413)) ([65e90b7](https://github.com/dnbexperience/eufemia/commit/65e90b70d5e5dca69d14105d09496f4696ed2732))
+
+### :barber: Style Changes
+
+* **Anchor:** unify design (Sbanken) ([#8396](https://github.com/dnbexperience/eufemia/issues/8396)) ([1c7f387](https://github.com/dnbexperience/eufemia/commit/1c7f3873b4b53526a429950332efa3d504dc7ee6))
+
 ## [11.5.1](https://github.com/dnbexperience/eufemia/compare/v11.5.0...v11.5.1) (2026-06-04)
 
 ### :bug: Bug Fixes
