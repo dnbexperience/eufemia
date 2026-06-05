@@ -24,6 +24,7 @@ export type FilterRootProps = {
   id: string
   behavior?: 'realtime' | 'manual'
   defaultFilters?: Record<string, FilterValue>
+  defaultPanelOpen?: boolean
   resultCount?: number
   resultLoading?: boolean
   onChange?: (state: FilterChangeState) => void
@@ -37,10 +38,31 @@ const initialState: FilterState = {
   filters: {},
 }
 
+function deriveAccordionState(
+  filters: Record<string, FilterValue>
+): Record<string, boolean> {
+  const keys = new Set<string>()
+
+  for (const key of Object.keys(filters)) {
+    const lastSlash = key.lastIndexOf('/')
+    if (lastSlash > 0) {
+      keys.add(key.slice(0, lastSlash))
+    }
+  }
+
+  const state: Record<string, boolean> = {}
+  for (const k of Array.from(keys)) {
+    state[k] = true
+  }
+
+  return state
+}
+
 function FilterRoot({
   id,
   behavior = 'realtime',
   defaultFilters,
+  defaultPanelOpen,
   resultCount,
   resultLoading,
   onChange,
@@ -63,21 +85,7 @@ function FilterRoot({
       return {}
     }
 
-    const keys = new Set<string>()
-
-    for (const key of Object.keys(defaultFilters)) {
-      const lastSlash = key.lastIndexOf('/')
-      if (lastSlash > 0) {
-        keys.add(key.slice(0, lastSlash))
-      }
-    }
-
-    const state: Record<string, boolean> = {}
-    for (const k of Array.from(keys)) {
-      state[k] = true
-    }
-
-    return state
+    return deriveAccordionState(defaultFilters)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const { data: savedAccordionState, extend: extendAccordionState } =
@@ -255,8 +263,32 @@ function FilterRoot({
   const hasActiveFilters =
     state.search.length > 0 || Object.keys(state.filters).length > 0
 
-  const [panelOpen, setPanelOpen] = useState(!!hasDefaultFilters)
+  const [panelOpen, setPanelOpen] = useState(
+    defaultPanelOpen ?? !!hasDefaultFilters
+  )
   const panelButtonRef = useRef<HTMLButtonElement | null>(null)
+
+  // When filters are already present on mount (e.g. restored from URL by
+  // useQueryLocator), open the panel and the affected accordions.
+  useEffect(() => {
+    if (defaultPanelOpen !== undefined || hasDefaultFilters) {
+      return // stop here — explicit defaultPanelOpen or defaultFilters already handles this
+    }
+
+    const current = get()
+    const filters = current?.filters ?? {}
+
+    if (Object.keys(filters).length > 0) {
+      setPanelOpen(true)
+
+      const accordionState = deriveAccordionState(filters)
+      accordionStateRef.current = {
+        ...accordionStateRef.current,
+        ...accordionState,
+      }
+      extendAccordionState(accordionState)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const getAccordionOpen = useCallback((filterKey: string) => {
     return accordionStateRef.current[filterKey]

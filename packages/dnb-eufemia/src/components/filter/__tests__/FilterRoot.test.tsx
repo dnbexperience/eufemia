@@ -1,3 +1,4 @@
+import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
@@ -9,6 +10,8 @@ import FilterSelection from '../FilterSelection'
 import FilterMultiSelection from '../FilterMultiSelection'
 import FilterDate from '../FilterDate'
 import { useFilter, useFilterContext } from '../hooks/useFilter'
+import type { FilterState } from '../FilterContext'
+import { useSharedState } from '../../../shared/helpers/useSharedState'
 
 describe('Filter.Root', () => {
   it('renders with dnb-filter class', () => {
@@ -473,5 +476,165 @@ describe('defaultFilters', () => {
     expect(items).toHaveLength(2)
     expect(items[0].textContent).toBe('Rema 1000')
     expect(items[1].textContent).toBe('Elkjøp')
+  })
+})
+
+describe('URL-restored filters', () => {
+  // Simulates useQueryLocator pre-setting shared state before FilterRoot mounts
+  function PresetFilters({
+    id,
+    children,
+  }: {
+    id: string
+    children: React.ReactNode
+  }) {
+    const { extend } = useSharedState<FilterState>(id, {
+      search: '',
+      filters: {},
+    })
+
+    const initialized = React.useRef(false)
+    if (!initialized.current) {
+      initialized.current = true
+      extend({
+        filters: {
+          '/type/card': {
+            value: 'card',
+            label: 'Card',
+            categoryLabel: 'Payment type',
+          },
+        },
+      })
+    }
+
+    return <>{children}</>
+  }
+
+  it('opens the panel when filters are pre-set in shared state', () => {
+    render(
+      <PresetFilters id="url-panel-test">
+        <FilterRoot id="url-panel-test">
+          <FilterPanelButton>Filters</FilterPanelButton>
+          <FilterPanel>
+            <p>Panel content</p>
+          </FilterPanel>
+        </FilterRoot>
+      </PresetFilters>
+    )
+
+    const panel = document.querySelector('.dnb-filter__panel')
+
+    expect(panel).toBeInTheDocument()
+    expect(panel.textContent).toContain('Panel content')
+  })
+
+  it('opens the relevant accordion when filters are pre-set', () => {
+    render(
+      <PresetFilters id="url-accordion-test">
+        <FilterRoot id="url-accordion-test">
+          <FilterPanelButton>Filters</FilterPanelButton>
+          <FilterPanel>
+            <FilterSelection
+              label="Payment type"
+              filterKey="/type"
+              data={[
+                { value: 'card', label: 'Card' },
+                { value: 'transfer', label: 'Transfer' },
+              ]}
+            />
+            <FilterSelection
+              label="Status"
+              filterKey="/status"
+              data={[
+                { value: 'active', label: 'Active' },
+                { value: 'inactive', label: 'Inactive' },
+              ]}
+            />
+          </FilterPanel>
+        </FilterRoot>
+      </PresetFilters>
+    )
+
+    const accordions = document.querySelectorAll('.dnb-accordion')
+    const typeAccordion = accordions[0]
+    const statusAccordion = accordions[1]
+
+    expect(typeAccordion).toHaveClass('dnb-accordion--expanded')
+    expect(statusAccordion).not.toHaveClass('dnb-accordion--expanded')
+  })
+
+  it('shows pre-set filters in active filters', () => {
+    render(
+      <PresetFilters id="url-active-test">
+        <FilterRoot id="url-active-test">
+          <FilterActiveFilters />
+        </FilterRoot>
+      </PresetFilters>
+    )
+
+    const tag = document.querySelector('.dnb-tag')
+
+    expect(tag).toBeInTheDocument()
+    expect(tag.textContent).toContain('Card')
+  })
+
+  it('does not open the panel when defaultPanelOpen is false', () => {
+    render(
+      <PresetFilters id="url-panel-closed">
+        <FilterRoot id="url-panel-closed" defaultPanelOpen={false}>
+          <FilterPanelButton>Filters</FilterPanelButton>
+          <FilterPanel>
+            <p>Panel content</p>
+          </FilterPanel>
+        </FilterRoot>
+      </PresetFilters>
+    )
+
+    const panel = document.querySelector('.dnb-filter__panel')
+
+    expect(panel).not.toBeInTheDocument()
+  })
+})
+
+describe('defaultPanelOpen', () => {
+  it('opens the panel initially when set to true', () => {
+    render(
+      <FilterRoot id="default-open-true" defaultPanelOpen>
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <p>Panel content</p>
+        </FilterPanel>
+      </FilterRoot>
+    )
+
+    const panel = document.querySelector('.dnb-filter__panel')
+
+    expect(panel).toBeInTheDocument()
+    expect(panel.textContent).toContain('Panel content')
+  })
+
+  it('keeps the panel closed when set to false with defaultFilters', () => {
+    render(
+      <FilterRoot
+        id="default-open-false-filters"
+        defaultPanelOpen={false}
+        defaultFilters={{
+          '/type/card': {
+            value: 'card',
+            label: 'Card',
+            categoryLabel: 'Payment type',
+          },
+        }}
+      >
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <p>Panel content</p>
+        </FilterPanel>
+      </FilterRoot>
+    )
+
+    const panel = document.querySelector('.dnb-filter__panel')
+
+    expect(panel).not.toBeInTheDocument()
   })
 })

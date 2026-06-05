@@ -34,6 +34,11 @@ export const RootProperties: PropertiesTableProps = {
     type: 'Record<string, FilterValue>',
     status: 'optional',
   },
+  defaultPanelOpen: {
+    doc: 'Controls whether the filter panel is open on mount. When `true`, the panel opens even without active filters. When `false`, the panel stays closed even with `defaultFilters` or URL-restored filters. Defaults to opening automatically when filters are present.',
+    type: 'boolean',
+    status: 'optional',
+  },
   resultLoading: {
     doc: 'When `true`, the result count shows a skeleton loading state. Use this while fetching result counts asynchronously.',
     type: 'boolean',
