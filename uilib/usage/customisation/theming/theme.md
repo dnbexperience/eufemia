@@ -1,8 +1,8 @@
 ---
 title: 'Theme component'
 description: 'The Theme component is a helper component that lets you create nested theming solutions.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:31.025Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:38.049Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

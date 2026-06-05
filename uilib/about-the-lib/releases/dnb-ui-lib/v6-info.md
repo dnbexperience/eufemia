@@ -1,8 +1,8 @@
 ---
 title: 'v6.0'
 description: 'January, 30. 2020'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:28.998Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:35.991Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

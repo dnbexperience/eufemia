@@ -1,8 +1,8 @@
 ---
 title: 'Modal'
 description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:29.983Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:36.977Z
 checksum: d2bd13787247f0b15e477b68ef9d479bafcd482a7ac14c47585e297607972452
 ---
 

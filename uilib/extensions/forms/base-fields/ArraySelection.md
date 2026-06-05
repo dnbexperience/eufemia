@@ -1,8 +1,8 @@
 ---
 title: 'Field.ArraySelection'
 description: '`Field.ArraySelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.934Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:37.930Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -821,7 +821,7 @@ render(<Field.ArraySelection label="Label text" value={['bar']} variant="checkbo
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (e.g. \"(optional)\")",
+      "doc": "A more discreet text displayed beside the label (e.g. \"(optional)\").",
       "type": "string",
       "status": "optional"
     },

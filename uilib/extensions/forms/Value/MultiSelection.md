@@ -1,8 +1,8 @@
 ---
 title: 'Value.MultiSelection'
 description: '`Value.MultiSelection` displays the selected values from a `Field.MultiSelection` as a formatted list of titles.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.802Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:37.809Z
 checksum: 5abf1bfacf7933b5dd84dd62cfcfb4c3e1d77a726924f6c7e1d2283dde982873
 ---
 

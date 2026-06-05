@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.976Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:37.982Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -336,7 +336,7 @@ render(
 
 #### How do I use it?
 
-You can utilizing the `filterData` method in:
+You can utilize the `filterData` method in:
 
 - [Form.Handler](/uilib/extensions/forms/Form/Handler/#filter-data) component.
 - [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.

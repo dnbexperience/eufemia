@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.291Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:37.285Z
 checksum: 10e6ce458bd5b69e932c2f0faa29d87d88d52cb7ce308c7dcffaf884e9db1a5c
 ---
 
@@ -1223,7 +1223,7 @@ render(<Example />);
       "type": "boolean",
       "status": "optional"
     },
-    "[Flex.Horizontal](/uilib/layout/flex/horizontal/properties)": {
+    "[Flex.Horizontal](/uilib/layout/flex/container/properties)": {
       "doc": "Supports all additional `Flex.Horizontal` properties.",
       "type": "Various",
       "status": "optional"

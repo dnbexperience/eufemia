@@ -1,0 +1,25 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{K as n}from"./index-Bx3ttow-.js";import r from"./demos-C79lFz9Y.js";var i=e(t());function a(e){let t={a:`a`,code:`code`,h2:`h2`,li:`li`,p:`p`,pre:`pre`,ul:`ul`,...n(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(t.h2,{children:`Import`}),`
+`,(0,i.jsx)(t.pre,{children:(0,i.jsx)(t.code,{className:`language-tsx`,children:`import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.Composition />)
+`})}),`
+`,(0,i.jsx)(t.h2,{children:`Description`}),`
+`,(0,i.jsxs)(t.p,{children:[(0,i.jsx)(t.code,{children:`Value.Composition`}),` combines two or more `,(0,i.jsx)(t.code,{children:`Value.*`}),` components into one.`]}),`
+`,(0,i.jsx)(t.p,{children:`By default, they will be placed in a horizontal layout. When rendered on a small screen and the Composition contains Values with labels, they will be placed in a vertical layout.`}),`
+`,(0,i.jsxs)(t.p,{children:[`There is a corresponding `,(0,i.jsx)(t.a,{href:`/uilib/extensions/forms/base-fields/Composition/`,children:`Field.Composition`}),` component that can be used for `,(0,i.jsx)(t.a,{href:`/uilib/extensions/forms/all-fields/`,children:`field`}),` components.`]}),`
+`,(0,i.jsx)(t.pre,{children:(0,i.jsx)(t.code,{className:`language-jsx`,children:`import { Value } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Value.Composition label="Label">
+    <Value.String label="First" path="/first" />
+    <Value.String label="Second" path="/second" />
+  </Value.Composition>
+)
+`})}),`
+`,(0,i.jsx)(t.h2,{children:`Relevant links`}),`
+`,(0,i.jsxs)(t.ul,{children:[`
+`,(0,i.jsx)(t.li,{children:(0,i.jsx)(t.a,{href:`https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Composition`,children:`Source code`})}),`
+`,(0,i.jsx)(t.li,{children:(0,i.jsx)(t.a,{href:`https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Value/Composition`,children:`Docs code`})}),`
+`]}),`
+`,(0,i.jsx)(t.h2,{children:`Accessibility`}),`
+`,(0,i.jsxs)(t.p,{children:[`When you combine multiple `,(0,i.jsx)(t.code,{children:`Value.*`}),` components together, consider enclosing them within the `,(0,i.jsx)(t.a,{href:`/uilib/extensions/forms/Value/SummaryList/`,children:`SummaryList`}),` component. This component offers a standardized approach for presenting labels and values within an accessible definition list structure.`]})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}function s(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(o,{}),`
+`,(0,i.jsx)(r,{})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(s,{...e})}):s(e)}export{c as default};

@@ -1,3 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-D7e1avVt.js";import{t as r}from"./Examples-C0byyb2I.js";var i=e(t());function a(e){let t={h1:`h1`,p:`p`,...n(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(t.h1,{children:`Case Demo 1`}),`
-`,(0,i.jsx)(t.p,{children:`Below, you can extend the demo code.`}),`
-`,(0,i.jsx)(r,{})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

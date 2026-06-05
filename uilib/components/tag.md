@@ -1,8 +1,8 @@
 ---
 title: 'Tag'
 description: 'The Tag component is a compact element for displaying discrete information.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.326Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:37.321Z
 checksum: 1059dd4ae201d0a98d491bb6096bc1cb8a6392d46b7a5bdb50d61d93d7660bcf
 ---
 

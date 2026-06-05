@@ -1,3 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-D7e1avVt.js";import{n as r}from"./PropertiesTable-BTN7mlQS.js";import{t as i}from"./ModalDocs-SgeIJ4y-.js";var a=e(t());function o(e){let t={a:`a`,h2:`h2`,p:`p`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Events`}),`
-`,(0,a.jsxs)(t.p,{children:[`Drawer includes the same events as `,(0,a.jsx)(t.a,{href:`/uilib/components/modal`,children:`Modal`}),`, only formatted as camel case.`]}),`
-`,(0,a.jsx)(r,{props:i})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

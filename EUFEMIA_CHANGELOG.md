@@ -1,6 +1,6 @@
 ---
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:28.957Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:35.940Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -187,7 +187,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 - New components released:
   - [Upload](/uilib/components/upload)
-  - [useMedia](/uilib/usage/layout/media-queries/#usemedia-hook-usage)
+  - [useMedia](/uilib/layout/media-queries/#usemedia-hook-usage)
 
 ## October, 5. 2022
 
@@ -268,7 +268,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 ## January, 28. 2021
 
-- Change the [Number](/uilib/components/number) currency display from `symbol` to `narrowSymbol` when locale is `no`.
+- Change the [Number](/uilib/components/number-format) currency display from `symbol` to `narrowSymbol` when locale is `no`.
 - Change the [Tabs](/uilib/components/tabs) spacing from 80px to 40px as basis, and use 32px for small viewports.
 - Change the [Tabs](/uilib/components/tabs) line color from `mint-green-50` to `black-8`.
 
@@ -443,7 +443,7 @@ Get more details about the `@dnb/eufemia` [v5.8 release](/uilib/about-the-lib/re
 
 ## October, 30. 2019
 
-- New component in the `@dnb/eufemia`: [Number](/uilib/components/number)
+- New component in the `@dnb/eufemia`: [Number](/uilib/components/number-format)
 - New [colors](/uilib/usage/customisation/colors):
   1. `fire-red`, which replaces `cherry-red` (_default error color_)
   1. `fire-red-8`, which replaces `cherry-red-8`
@@ -471,7 +471,7 @@ Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/rele
 - Read more about the `@dnb/eufemia` [v4.10 release](/uilib/about-the-lib/releases/dnb-ui-lib/v4.10-info)
 - New component in the `@dnb/eufemia`: [GlobalStatus](/uilib/components/global-status)
 - Updated [FormStatus](/uilib/components/form-status) with new text color and new icon
-- Added link to example usage of a [Table](/uilib/elements/tables) styles using `react-table`
+- Added link to example usage of a [Table](/uilib/components/table) styles using `react-table`
 - Added info about [Custom project Icons](/uilib/components/icon#custom-project-icons)
 
 ## July, 21. 2019
@@ -482,7 +482,7 @@ Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/rele
 
 ## June, 26. 2019
 
-- The `@dnb/eufemia` got new helpers for [Spacing](/uilib/usage/layout/spacing#spacing-helpers) and [Layout](/uilib/usage/layout)
+- The `@dnb/eufemia` got new helpers for [Spacing](/uilib/layout/spacing#spacing-helpers) and [Layout](/uilib/layout)
 - Added first Demo App
 
 ## June, 19. 2019
@@ -571,6 +571,6 @@ Get more details about the `@dnb/eufemia` [v5 release](/uilib/about-the-lib/rele
 - Hover on Tabs looks more like an anchor
 - Color change: Sea Green 4% -> Mint Green 12%
 
-Get more [details about releases](/uilib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
+Get more [details about releases](/uilib/about-the-lib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
 
 ---

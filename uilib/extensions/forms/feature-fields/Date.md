@@ -1,8 +1,8 @@
 ---
 title: 'Field.Date'
 description: '`Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.964Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:37.964Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -319,7 +319,7 @@ render(<Form.Card>
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (e.g. \"(optional)\")",
+      "doc": "A more discreet text displayed beside the label (e.g. \"(optional)\").",
       "type": "string",
       "status": "optional"
     },

@@ -1,8 +1,8 @@
 ---
 title: 'Pagination'
 description: 'The Pagination component supports both classical pagination and infinity scrolling.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.002Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:36.999Z
 checksum: 856dc55e3ab4563a6134b945efda1abdbb22ce98c4b6c0c06564e0c54d0b1a6c
 ---
 

@@ -1,0 +1,34 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{K as n}from"./index-Bx3ttow-.js";import{n as r}from"./PropertiesTable-ByB9iCYz.js";import{t as i}from"./TranslationsTable-BtZckhq5.js";import{_ as a,a as o,c as s,d as c,f as l,g as u,h as d,l as f,m as p,n as m,o as h,p as g,r as _,t as v,u as y,v as b}from"./ListDocs-lnQN86Kp.js";var x=e(t());function S(e){let t={h2:`h2`,...n(),...e.components};return(0,x.jsxs)(x.Fragment,{children:[(0,x.jsx)(t.h2,{children:`List.Container`}),`
+`,(0,x.jsx)(r,{props:m}),`
+`,(0,x.jsx)(t.h2,{children:`List.Item.Basic`}),`
+`,(0,x.jsx)(r,{props:y}),`
+`,(0,x.jsx)(t.h2,{children:`List.Item.Action`}),`
+`,(0,x.jsx)(r,{props:s}),`
+`,(0,x.jsx)(t.h2,{children:`List.Item.Accordion`}),`
+`,(0,x.jsx)(r,{props:h}),`
+`,(0,x.jsx)(t.h2,{children:`List.Item.Accordion.Header`}),`
+`,(0,x.jsx)(r,{props:o}),`
+`,(0,x.jsx)(t.h2,{children:`List.Item.Accordion.Content`}),`
+`,(0,x.jsx)(r,{props:_}),`
+`,(0,x.jsx)(t.h2,{children:`List.Cell.Title`}),`
+`,(0,x.jsx)(r,{props:u}),`
+`,(0,x.jsx)(t.h2,{children:`List.Cell.Title.Overline`}),`
+`,(0,x.jsx)(r,{props:g}),`
+`,(0,x.jsx)(t.h2,{children:`List.Cell.Title.Subline`}),`
+`,(0,x.jsx)(r,{props:d}),`
+`,(0,x.jsx)(t.h2,{children:`List.Cell.Start`}),`
+`,(0,x.jsx)(r,{props:p}),`
+`,(0,x.jsx)(t.h2,{children:`List.Cell.Center`}),`
+`,(0,x.jsx)(r,{props:f}),`
+`,(0,x.jsx)(t.h2,{children:`List.Cell.End`}),`
+`,(0,x.jsx)(r,{props:c}),`
+`,(0,x.jsx)(t.h2,{children:`List.Cell.Footer`}),`
+`,(0,x.jsx)(r,{props:l}),`
+`,(0,x.jsx)(t.h2,{children:`List.Card`}),`
+`,(0,x.jsx)(r,{props:v}),`
+`,(0,x.jsx)(t.h2,{children:`List.ScrollView`}),`
+`,(0,x.jsx)(r,{props:a}),`
+`,(0,x.jsx)(t.h2,{children:`List.ShowMoreButton`}),`
+`,(0,x.jsx)(r,{props:b}),`
+`,(0,x.jsx)(t.h2,{children:`Translations`}),`
+`,(0,x.jsx)(i,{localeKey:`List`})]})}function C(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,x.jsx)(t,{...e,children:(0,x.jsx)(S,{...e})}):S(e)}export{C as default};

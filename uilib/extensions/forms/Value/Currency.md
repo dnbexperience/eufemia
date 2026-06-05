@@ -1,8 +1,8 @@
 ---
 title: 'Value.Currency'
 description: '`Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.778Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:37.782Z
 checksum: c4cc1dcda0920d6a481a962a9ff493637d21c7a14ea0d092c911e944aa915bb9
 ---
 

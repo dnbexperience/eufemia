@@ -1,3 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-D7e1avVt.js";import r from"./info-pyFuRhvc.js";import i from"./demos-C2ovY5er.js";import a from"./properties-C_E6242e.js";var o=e(t());function s(e){return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(r,{}),`
-`,(0,o.jsx)(i,{}),`
-`,(0,o.jsx)(a,{})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

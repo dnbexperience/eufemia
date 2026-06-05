@@ -1,8 +1,8 @@
 ---
 title: 'Field.Selection'
 description: '`Field.Selection` is a wrapper component for selecting between options using a dropdown or similar user experiences.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:30.941Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:37.938Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -1072,7 +1072,7 @@ render(<Field.Selection label="Label" warning="I'm warning you...">
       "status": "optional"
     },
     "labelDescription": {
-      "doc": "A more discreet text displayed beside the label (e.g. \"(optional)\")",
+      "doc": "A more discreet text displayed beside the label (e.g. \"(optional)\").",
       "type": "string",
       "status": "optional"
     },

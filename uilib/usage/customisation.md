@@ -1,8 +1,8 @@
 ---
 title: 'Customization'
 description: 'Customization and tools is a section dedicated to how to use and customize Eufemia in various situations.'
-version: 11.5.1
-generatedAt: 2026-06-04T08:46:31.027Z
+version: 11.5.2
+generatedAt: 2026-06-05T08:55:38.050Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -13,7 +13,6 @@ For details, have a look at the submenu for all the customizations topics:
 - [Component Properties](/uilib/usage/customisation/component-properties)
 - [CSS Styles](/uilib/usage/customisation/styling)
   - [Importing the CSS](/uilib/usage/customisation/styling/consume-styles)
-  - [Polyfill](/uilib/usage/customisation/styling/polyfill)
 - [Design Tokens](/uilib/usage/customisation/theming/design-tokens)
 - [Colors](/uilib/usage/customisation/colors)
 - [Theming](/uilib/usage/customisation/theming)

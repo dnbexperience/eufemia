@@ -1,1 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{t as n}from"./GlobalError-DK_GVJRK.js";var r=e(t());function i(){return(0,r.jsx)(n,{center:!0,statusCode:`500`})}export{i as default};

@@ -1,3 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{W as n}from"./index-D7e1avVt.js";import r from"./ListBaseFieldComponents-D82my5j_.js";import i from"./ListFeatureFieldComponents-BaFlO2Hy.js";var a=e(t());function o(e){return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)({h1:`h1`,...n(),...e.components}.h1,{children:`All fields`}),`
-`,(0,a.jsx)(r,{size:`small`}),`
-`,(0,a.jsx)(i,{size:`small`})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};
