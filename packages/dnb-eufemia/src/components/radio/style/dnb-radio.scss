@@ -309,8 +309,8 @@
   // On
   &__input:checked ~ &__button,
   &__input[data-checked='true'] ~ &__button {
-    --radio-border-width--default: 0.09375rem;
-    --radio-border-width--active: 0.09375rem;
+    --radio-border-width--default: 0.125rem;
+    --radio-border-width--active: 0.125rem;
     --radio-color-border--default: var(--token-color-stroke-selected);
     --radio-color-background--default: var(
       --token-color-background-selected-subtle

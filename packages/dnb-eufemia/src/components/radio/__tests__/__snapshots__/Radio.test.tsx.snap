@@ -432,8 +432,8 @@ button .dnb-form-status__text {
   /** Normal state **/
 }
 .dnb-radio__input:checked ~ .dnb-radio__button, .dnb-radio__input[data-checked=true] ~ .dnb-radio__button {
-  --radio-border-width--default: 0.09375rem;
-  --radio-border-width--active: 0.09375rem;
+  --radio-border-width--default: 0.125rem;
+  --radio-border-width--active: 0.125rem;
   --radio-color-border--default: var(--token-color-stroke-selected);
   --radio-color-background--default: var(
     --token-color-background-selected-subtle
