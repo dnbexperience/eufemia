@@ -48,6 +48,22 @@ render(
 
 During render, the items within the "Wrapper" container are wrapped with the same properties. This ensures that all the items have the same appearance.
 
+### Align vs Justify
+
+`Flex.Container` has two props for positioning its children: `justify` and `align`. These map directly to CSS flexbox properties and their effect depends on the `direction` of the container:
+
+- **`justify`** controls placement along the **main axis** (CSS `justify-content`).
+- **`align`** controls alignment along the **cross axis** (CSS `align-items`).
+
+In practice, this means:
+
+|                         | `Flex.Horizontal`  | `Flex.Vertical`    |
+| ----------------------- | ------------------ | ------------------ |
+| **Center horizontally** | `justify="center"` | `align="center"`   |
+| **Center vertically**   | `align="center"`   | `justify="center"` |
+
+The main axis follows the direction: horizontal for `Flex.Horizontal`, vertical for `Flex.Vertical`. The cross axis is always perpendicular.
+
 ### Horizontal and Vertical aliases
 
 For shortening the usage of `direction="..."`, you can use:
