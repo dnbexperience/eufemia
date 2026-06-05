@@ -100,6 +100,45 @@ export const HorizontalWithFlexItemJustifyFlexEnd = () => {
   )
 }
 
+export const HorizontalWithFlexItemAlignCenter = () => {
+  return (
+    <ComponentBox scope={{ TestElement }}>
+      <Flex.Container align="center">
+        <Flex.Item>
+          <TestElement style={{ height: '4rem' }}>Tall</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>Short</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement style={{ height: '6rem' }}>Taller</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>Short</TestElement>
+        </Flex.Item>
+      </Flex.Container>
+    </ComponentBox>
+  )
+}
+
+export const VerticalWithFlexItemAlignCenter = () => {
+  return (
+    <ComponentBox scope={{ TestElement }}>
+      <Flex.Container direction="vertical" align="center">
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>Wider FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+      </Flex.Container>
+    </ComponentBox>
+  )
+}
+
 export const VerticalWithFlexItem = () => {
   return (
     <ComponentBox scope={{ TestElement }}>

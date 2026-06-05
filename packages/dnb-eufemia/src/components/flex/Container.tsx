@@ -46,6 +46,7 @@ export type FlexContainerProps = {
   wrapChildrenInSpace?: boolean
   rowGap?: Gap
   sizeCount?: number
+  /** Distribute sub components along the main axis (CSS `justify-content`). In horizontal direction, this controls left-to-right placement. In vertical direction, this controls top-to-bottom placement. */
   justify?:
     | 'flex-start'
     | 'flex-end'
@@ -53,6 +54,7 @@ export type FlexContainerProps = {
     | 'space-between'
     | 'space-around'
     | 'space-evenly'
+  /** Align sub components along the cross axis (CSS `align-items`). In horizontal direction, this controls vertical alignment. In vertical direction, this controls horizontal alignment. */
   align?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline'
   /** For when used as a flex item in an outer container in addition to being a container: */
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
