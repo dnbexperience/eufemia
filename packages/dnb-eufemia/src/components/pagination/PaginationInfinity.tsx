@@ -506,7 +506,9 @@ function InteractionMarker({
         }
       })
     } else {
-      warn('Pagination is missing IntersectionObserver supported!')
+      warn(
+        'Pagination: IntersectionObserver is not supported by this browser!'
+      )
     }
 
     isMountedRef.current = true
