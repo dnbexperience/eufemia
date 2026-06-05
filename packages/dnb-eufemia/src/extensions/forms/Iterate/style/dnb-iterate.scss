@@ -6,13 +6,13 @@
   }
 
   &:has(.dnb-forms-iterate__element.dnb-space__top--small) {
-    --block-gap: var(--spacing-small);
+    --block-gap: 1rem;
   }
   &:has(.dnb-forms-iterate__element.dnb-space__top--medium) {
-    --block-gap: var(--spacing-medium);
+    --block-gap: 1.5rem;
   }
   &:has(.dnb-forms-iterate__element.dnb-space__top--large) {
-    --block-gap: var(--spacing-large);
+    --block-gap: 2rem;
   }
 
   & > &__element:has(> .dnb-forms-section-block) {
@@ -21,7 +21,7 @@
     margin-top: 0;
     .dnb-forms-section-block__inner {
       // ... add "margin-bottom" in the inner element (.dnb-forms-section-block__inner).
-      margin-bottom: var(--block-gap, var(--spacing-large));
+      margin-bottom: var(--block-gap, 2rem);
     }
 
     // To align the divider to the above margin swap.

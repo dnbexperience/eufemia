@@ -17,8 +17,8 @@
 .dnb-help-button__content {
   .dnb-section {
     --background-color: var(--token-color-background-neutral-subtle);
-    --outset-left: calc(var(--spacing-small));
-    --outset-right: calc(var(--spacing-small));
+    --outset-left: 1rem;
+    --outset-right: 1rem;
 
     // Because we don't use/need an outline, we need to add to get a wider corner radius.
     --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);

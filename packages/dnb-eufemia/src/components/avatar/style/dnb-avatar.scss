@@ -183,12 +183,12 @@
 
       &--size-large {
         font-size: var(--avatar-font-size-left--large);
-        margin-left: var(--spacing-xx-small);
+        margin-left: 0.25rem;
       }
 
       &--size-x-large {
         font-size: var(--avatar-font-size-left--x-large);
-        margin-left: var(--spacing-xx-small);
+        margin-left: 0.25rem;
       }
     }
   }

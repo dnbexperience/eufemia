@@ -34,7 +34,7 @@
     }
 
     &--variant-filled &__inner {
-      --space: var(--spacing-small);
+      --space: 1rem;
       background-color: var(--token-color-background-neutral-alternative);
     }
 

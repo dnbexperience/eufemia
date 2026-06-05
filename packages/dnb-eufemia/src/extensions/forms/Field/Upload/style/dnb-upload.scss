@@ -4,12 +4,12 @@
   .dnb-help-button__content {
     .dnb-section {
       --outset: 1; // Enable outset
-      --outset-left: calc(var(--spacing-medium));
-      --outset-right: calc(var(--spacing-medium));
+      --outset-left: 1.5rem;
+      --outset-right: 1.5rem;
 
       @include utilities.allBelow(small) {
-        --outset-left: calc(var(--spacing-small));
-        --outset-right: calc(var(--spacing-small));
+        --outset-left: 1rem;
+        --outset-right: 1rem;
       }
     }
   }
