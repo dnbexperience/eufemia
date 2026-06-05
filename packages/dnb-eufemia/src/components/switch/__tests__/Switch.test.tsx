@@ -195,6 +195,70 @@ describe('Switch component', () => {
     expect(ref.current.getAttribute('id')).toBe('unique')
     expect(ref.current.classList).toContain('dnb-switch__input')
   })
+
+  it('should not visually flip when preventDefault is called in onClick', () => {
+    const onChange = vi.fn()
+
+    const Controlled = () => {
+      const [checked, setChecked] = useState(false)
+
+      return (
+        <Switch
+          checked={checked}
+          onChange={({ checked }) => {
+            onChange(checked)
+            setChecked(checked)
+          }}
+          onClick={({ preventDefault }) => {
+            preventDefault()
+          }}
+        />
+      )
+    }
+
+    render(<Controlled />)
+
+    const input = document.querySelector('input')
+
+    // Click should be prevented — state stays false
+    fireEvent.click(input)
+    expect(input.getAttribute('aria-checked')).toBe('false')
+    expect(onChange).not.toHaveBeenCalled()
+
+    // Click again — still prevented, still false
+    fireEvent.click(input)
+    expect(input.getAttribute('aria-checked')).toBe('false')
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('should allow normal toggling when preventDefault is not called in onClick', () => {
+    const onChange = vi.fn()
+
+    const Controlled = () => {
+      const [checked, setChecked] = useState(false)
+
+      return (
+        <Switch
+          checked={checked}
+          onChange={({ checked }) => {
+            onChange(checked)
+            setChecked(checked)
+          }}
+          onClick={() => {
+            // onClick present but not calling preventDefault
+          }}
+        />
+      )
+    }
+
+    render(<Controlled />)
+
+    const input = document.querySelector('input')
+
+    fireEvent.click(input)
+    expect(input.getAttribute('aria-checked')).toBe('true')
+    expect(onChange).toHaveBeenCalledWith(true)
+  })
 })
 
 describe('Switch scss', () => {

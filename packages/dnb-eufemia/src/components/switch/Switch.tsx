@@ -184,6 +184,14 @@ function Switch(props: SwitchProps) {
   const onChangeHandler = useCallback(
     (event) => {
       if (preventChangeRef.current) {
+        preventChangeRef.current = false
+
+        // Revert the checked state that was toggled by the browser's
+        // activation behavior, since the change is being prevented
+        if (inputRef.current) {
+          inputRef.current.checked = isCheckedRef.current
+        }
+
         return // stop here
       }
 
@@ -210,25 +218,22 @@ function Switch(props: SwitchProps) {
 
   const onClickHandler: MouseEventHandler<HTMLInputElement> = useCallback(
     (event) => {
-      const preventDefault = () => {
-        event.preventDefault()
+      preventChangeRef.current = false
 
-        if (event.target['checked'] !== isCheckedRef.current) {
-          preventChangeRef.current = true
-          isCheckedRef.current = !isCheckedRef.current
-          forceUpdate()
-        }
+      const preventDefault = () => {
+        preventChangeRef.current = true
       }
 
       if (readOnly) {
-        return preventDefault()
+        preventChangeRef.current = true
+        return // stop here
       }
 
       onClick?.({
         checked: isCheckedRef.current,
-        preventDefault,
         event,
         ...event,
+        preventDefault,
       })
     },
     [onClick, readOnly]
