@@ -173,7 +173,7 @@ function ArrayItemArea(
         localContextRef.current.elementRef.current.parentElement.childNodes
       ).at(index - 1) as HTMLElement
     } catch (e) {
-      //
+      // Gracefully handle missing DOM elements during removal animation
     }
     isRemoving.current = true
     setOpenState(false)
