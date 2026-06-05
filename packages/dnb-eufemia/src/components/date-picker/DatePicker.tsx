@@ -424,6 +424,13 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const getReturnObject =
     useRef<DatePickerContextValue['getReturnObject']>(undefined)
   const hideTimeout = useRef<NodeJS.Timeout>(undefined)
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(hideTimeout.current)
+    }
+  }, [])
+
   const calendarContainerRef = useRef<HTMLSpanElement>(null)
 
   const translation = useTranslation().DatePicker
