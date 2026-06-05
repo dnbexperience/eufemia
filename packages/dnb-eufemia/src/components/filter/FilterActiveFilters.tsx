@@ -82,51 +82,53 @@ function FilterActiveFilters({
   )
 
   return (
-    <HeightAnimation open={hasEntries} keepInDOM>
-      <div className={clsx('dnb-filter__active-filters', className)}>
-        {isCollapsible ? (
-          <>
-            <Flex.Horizontal
-              className="dnb-filter__active-filters__header"
-              justify="space-between"
-              align="center"
-            >
-              <Accordion
-                variant="tertiary"
-                title={activeFiltersCountLabel.replace(
-                  '%s',
-                  String(entries.length)
-                )}
-                id={accordionId}
-                iconPosition="right"
-              />
-              <Button
-                variant="tertiary"
-                icon={close}
-                onClick={handleClearAll}
+    <HeightAnimation>
+      {hasEntries && (
+        <div className={clsx('dnb-filter__active-filters', className)}>
+          {isCollapsible ? (
+            <>
+              <Flex.Horizontal
+                className="dnb-filter__active-filters__header"
+                justify="space-between"
+                align="center"
               >
-                {clearAllLabel}
-              </Button>
-            </Flex.Horizontal>
+                <Accordion
+                  variant="tertiary"
+                  title={activeFiltersCountLabel.replace(
+                    '%s',
+                    String(entries.length)
+                  )}
+                  id={accordionId}
+                  iconPosition="right"
+                />
+                <Button
+                  variant="tertiary"
+                  icon={close}
+                  onClick={handleClearAll}
+                >
+                  {clearAllLabel}
+                </Button>
+              </Flex.Horizontal>
 
-            <Accordion.Content id={accordionId}>
-              <ScrollView className="dnb-filter__active-filters__scroll">
-                {tags}
-              </ScrollView>
-            </Accordion.Content>
-          </>
-        ) : (
-          <>
-            <span
-              className="dnb-filter__active-filters__label"
-              aria-hidden
-            >
-              {resolvedLabel}
-            </span>
-            {tags}
-          </>
-        )}
-      </div>
+              <Accordion.Content id={accordionId}>
+                <ScrollView className="dnb-filter__active-filters__scroll">
+                  {tags}
+                </ScrollView>
+              </Accordion.Content>
+            </>
+          ) : (
+            <>
+              <span
+                className="dnb-filter__active-filters__label"
+                aria-hidden
+              >
+                {resolvedLabel}
+              </span>
+              {tags}
+            </>
+          )}
+        </div>
+      )}
     </HeightAnimation>
   )
 }

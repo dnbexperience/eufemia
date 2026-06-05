@@ -15,11 +15,9 @@ describe('Filter.ActiveFilters', () => {
       </FilterRoot>
     )
 
-    const wrapper = document.querySelector(
-      '.dnb-height-animation--is-in-dom'
-    )
+    const content = document.querySelector('.dnb-filter__active-filters')
 
-    expect(wrapper).not.toBeInTheDocument()
+    expect(content).not.toBeInTheDocument()
   })
 
   it('renders active filter tags', () => {
