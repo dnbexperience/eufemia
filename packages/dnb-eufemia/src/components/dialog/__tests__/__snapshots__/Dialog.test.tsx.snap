@@ -1026,8 +1026,8 @@ button.dnb-button::-moz-focus-inner {
 
 .dnb-help-button__content .dnb-section {
   --background-color: var(--token-color-background-neutral-subtle);
-  --outset-left: calc(var(--spacing-small));
-  --outset-right: calc(var(--spacing-small));
+  --outset-left: 1rem;
+  --outset-right: 1rem;
   --rounded-corner--value: calc(var(--card-outline-width) + 0.5rem);
 }
 .dnb-help-button__content .dnb-section .dnb-p {
@@ -1390,10 +1390,10 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   }
 }
 .dnb-dialog--information .dnb-dialog__title {
-  margin-bottom: var(--spacing-small) !important;
+  margin-bottom: 1rem !important;
 }
 .dnb-dialog--confirmation .dnb-dialog__title {
-  margin-bottom: var(--spacing-x-small) !important;
+  margin-bottom: 0.5rem !important;
 }
 .dnb-dialog__navigation.dnb-section {
   display: flex;
@@ -1426,7 +1426,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   margin: 0;
 }
 .dnb-dialog--spacing .dnb-dialog__navigation.dnb-section + .dnb-dialog__title {
-  margin-top: var(--spacing-medium);
+  margin-top: 1.5rem;
 }
 .dnb-dialog .dnb-dialog__navigation--sticky::before {
   left: calc(-1 * var(--dialog-padding));

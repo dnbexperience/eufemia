@@ -153,10 +153,10 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
 }
 .dnb-avatar__group--elements-left--size-large {
   font-size: var(--avatar-font-size-left--large);
-  margin-left: var(--spacing-xx-small);
+  margin-left: 0.25rem;
 }
 .dnb-avatar__group--elements-left--size-x-large {
   font-size: var(--avatar-font-size-left--x-large);
-  margin-left: var(--spacing-xx-small);
+  margin-left: 0.25rem;
 }"
 `;
