@@ -214,7 +214,7 @@ export default function ModalContent(props: ModalContentProps) {
               focusElement?.focus({ preventScroll: true })
             }
           } catch (e) {
-            warn(e)
+            warn('ModalContent: Failed to set initial focus:', e)
           }
         },
         noAnimation ? 0 : timeoutDuration || 0
@@ -394,7 +394,10 @@ export default function ModalContent(props: ModalContentProps) {
           delete modal._iiLocal
         }
       } catch (e) {
-        warn(e)
+        warn(
+          'ModalContent: Failed to revert inert state on parent modal:',
+          e
+        )
       }
     }
 

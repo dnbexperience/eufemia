@@ -465,7 +465,10 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
         ;(initialActiveElementRef.current as HTMLElement).focus()
         initialActiveElementRef.current = null
       } catch (e) {
-        warn(e)
+        warn(
+          'GlobalStatus: Failed to restore focus to previous element:',
+          e
+        )
       }
     }
 
@@ -553,7 +556,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
               // we use "attention-focus" in #form-status theme
               elem.focus({ preventScroll: true })
             } catch (e) {
-              warn(e)
+              warn('GlobalStatus: Failed to focus status element:', e)
             }
           })
 
@@ -565,7 +568,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             })
           }
         } catch (e) {
-          warn(e)
+          warn('GlobalStatus: Failed to scroll to status element:', e)
         }
       }
     },

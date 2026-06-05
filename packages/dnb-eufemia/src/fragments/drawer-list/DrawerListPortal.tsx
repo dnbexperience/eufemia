@@ -159,7 +159,7 @@ function DrawerListPortal({
 
       return style
     } catch (e) {
-      warn(e)
+      warn('DrawerListPortal: Failed to calculate portal position:', e)
     }
 
     return undefined

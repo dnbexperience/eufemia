@@ -17,7 +17,7 @@ export function getListOfModalRoots(): ModalStackEntry[] {
       const stack = window.__modalStack || []
       return stack
     } catch (e) {
-      warn(e)
+      warn('Modal: Failed to get modal stack:', e)
     }
   }
 
@@ -38,7 +38,7 @@ export function getModalRoot(index?: number): ModalStackEntry | null {
 
       return null
     } catch (e) {
-      warn(e)
+      warn('Modal: Failed to get modal root from stack:', e)
     }
   }
 
@@ -53,7 +53,7 @@ export function addToIndex(elem: ModalStackEntry) {
       }
       window.__modalStack.push(elem)
     } catch (e) {
-      warn(e)
+      warn('Modal: Failed to add modal to stack:', e)
     }
   }
 }
@@ -68,7 +68,7 @@ export function removeFromIndex(elem: ModalStackEntry) {
         (cur) => cur !== elem
       )
     } catch (e) {
-      warn(e)
+      warn('Modal: Failed to remove modal from stack:', e)
     }
   }
 }

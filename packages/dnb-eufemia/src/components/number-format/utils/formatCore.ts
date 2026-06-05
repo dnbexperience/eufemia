@@ -43,7 +43,7 @@ export function resolveLocale(locale: string | null): string {
         return window.navigator.language
       }
     } catch (e) {
-      warn(e)
+      warn('NumberFormat: Failed to resolve locale:', e)
     }
     return LOCALE
   }

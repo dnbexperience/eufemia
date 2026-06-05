@@ -273,7 +273,7 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
         selection.addRange(range)
       }
     } catch (e) {
-      warn(e)
+      warn('NumberFormat: Failed to select all text:', e)
     }
   }, [])
 

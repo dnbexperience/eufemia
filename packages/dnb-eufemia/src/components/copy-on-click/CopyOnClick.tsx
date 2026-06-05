@@ -53,7 +53,7 @@ const CopyOnClick = ({
         timeoutRef.current = setTimeout(() => setActive(false), 2000)
       }
     } catch (e) {
-      warn(e)
+      warn('CopyOnClick: Failed to copy text to clipboard:', e)
     }
 
     return () => clear()
@@ -76,7 +76,7 @@ const CopyOnClick = ({
           copy(str)
         }
       } catch (e) {
-        warn(e)
+        warn('CopyOnClick: Failed to select and copy content:', e)
       }
     }
   }, [children, copyContent, copy])
