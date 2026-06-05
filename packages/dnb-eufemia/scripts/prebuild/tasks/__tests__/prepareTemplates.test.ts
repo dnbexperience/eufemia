@@ -175,11 +175,6 @@ describe('prepareTemplates', () => {
       dest2,
       expect.stringContaining(`export { ComponentA, ComponentB }`)
     )
-    expect(writeFile).toHaveBeenNthCalledWith(
-      2,
-      dest2,
-      expect.stringContaining(`return { ComponentA, ComponentB }`)
-    )
 
     const dest3 = expect.stringContaining('/src/components/ComponentA.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
@@ -239,7 +234,7 @@ describe('prepareTemplates', () => {
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
-      expect.stringContaining(`return { FragmentA, FragmentB }`)
+      expect.stringContaining(`export { FragmentA, FragmentB }`)
     )
 
     const dest3 = expect.stringContaining('/fragments/FragmentA.ts')
@@ -278,7 +273,7 @@ describe('prepareTemplates', () => {
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
-      expect.stringContaining(`return { ElementA, ElementB }`)
+      expect.stringContaining(`export { ElementA, ElementB }`)
     )
   })
 

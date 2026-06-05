@@ -70,7 +70,7 @@
     "skeleton:font": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js'",
     "start": "storybook dev -p 8002 --no-open --ci --no-version-updates --disable-telemetry",
     "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts",
-    "test:ci": "yarn test",
+    "test:ci": "yarn test && yarn test:scripts",
     "test:deps": "depcruise -c .dependency-cruiser.js src",
     "test:e2e": "playwright test --config=./playwright.config.e2e.ts",
     "test:e2e:ci": "PLAYWRIGHT_BASE_URL=http://localhost:8001 start-server-and-test 'yarn workspace dnb-design-system-portal serve:8001' http://localhost:8001 test:e2e",
