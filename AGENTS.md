@@ -22,6 +22,7 @@
 - Use kebab-case for CSS classes (prefixed with `dnb-`).
 - Write CSS in SCSS, using the documented rational property order.
 - Write CSS with recommended or correct units (e.g. `rem` as default).
+- Use `rem` values directly in component SCSS instead of `var(--spacing-*)` custom properties. The spacing custom properties (`--spacing-small`, `--spacing-medium`, etc.) are only for the spacing infrastructure (`space/`, `flex/`, `grid/`). Reference: `--spacing-xx-small` = `0.25rem`, `--spacing-x-small` = `0.5rem`, `--spacing-small` = `1rem`, `--spacing-medium` = `1.5rem`, `--spacing-large` = `2rem`, `--spacing-x-large` = `3rem`, `--spacing-xx-large` = `3.5rem`.
 - Use BEM for CSS class naming (block\_\_element--modifier) together with nested selectors in SCSS.
 - Always use braces for `if`, `for`, `while`, `do-while`, and `switch` statements, even for single-line blocks.
 - Early return statements that break control flow can use the comment `// stop here` when it makes sense to clarify intent.

@@ -161,11 +161,11 @@
   }
 
   &--information &__title {
-    margin-bottom: var(--spacing-small) !important;
+    margin-bottom: 1rem !important;
   }
 
   &--confirmation &__title {
-    margin-bottom: var(--spacing-x-small) !important;
+    margin-bottom: 0.5rem !important;
   }
 
   &__navigation.dnb-section {
@@ -185,7 +185,7 @@
 
   // Only add spacing between navigation and title when title exists
   &--spacing &__navigation.dnb-section + &__title {
-    margin-top: var(--spacing-medium);
+    margin-top: 1.5rem;
   }
 
   // Dialog-specific shadow height override

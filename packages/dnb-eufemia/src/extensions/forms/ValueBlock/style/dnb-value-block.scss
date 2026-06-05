@@ -15,7 +15,7 @@
     }
 
     &:not(.dnb-dl__layout--grid) > .dnb-dd {
-      margin-bottom: var(--spacing-medium);
+      margin-bottom: 1.5rem;
 
       // Add support for using animated Form.Visibility in a SummaryList (VisibilityWrapper).
       transition: margin-bottom 300ms var(--easing-default);
@@ -112,26 +112,26 @@
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
-    row-gap: var(--row-gap, var(--spacing-medium));
+    row-gap: var(--row-gap, 1.5rem);
     column-gap: var(--column-gap, 0);
 
     &--gap-none {
       --column-gap: 0;
     }
     &--gap-xx-small {
-      --column-gap: var(--spacing-xx-small);
+      --column-gap: 0.25rem;
     }
     &--gap-x-small {
-      --column-gap: var(--spacing-x-small);
+      --column-gap: 0.5rem;
     }
     &--gap-small {
-      --column-gap: var(--spacing-small);
+      --column-gap: 1rem;
     }
     &--gap-medium {
-      --column-gap: var(--spacing-medium);
+      --column-gap: 1.5rem;
     }
     &--gap-large {
-      --column-gap: var(--spacing-large);
+      --column-gap: 2rem;
     }
 
     @include utilities.allAbove(x-small) {
@@ -139,7 +139,7 @@
     }
     @include utilities.allBelow(x-small) {
       &:not(:has(.dnb-forms-value-block__label)) {
-        --row-gap: var(--spacing-x-small);
+        --row-gap: 0.5rem;
         flex-flow: row wrap;
       }
       flex-flow: column;

@@ -131,12 +131,8 @@
       padding-right: calc(var(--padding-right) * calc(1 - var(--outset)));
     }
     &.dnb-card > .dnb-flex-container {
-      margin-left: calc(
-        var(--padding-left, var(--spacing-small)) * -1 * var(--outset)
-      );
-      margin-right: calc(
-        var(--padding-right, var(--spacing-small)) * -1 * var(--outset)
-      );
+      margin-left: calc(var(--padding-left, 1rem) * -1 * var(--outset));
+      margin-right: calc(var(--padding-right, 1rem) * -1 * var(--outset));
     }
   }
 }

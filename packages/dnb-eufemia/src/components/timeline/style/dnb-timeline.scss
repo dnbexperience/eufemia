@@ -45,7 +45,7 @@
     }
 
     &__content {
-      padding-bottom: var(--spacing-small);
+      padding-bottom: 1rem;
       // No stroke token equivalent for this color, the figma sketch is using --token-color-text-neutral-alternative
       border-left: 1px dashed var(--token-color-text-neutral-alternative);
 
@@ -58,7 +58,7 @@
       }
 
       &__info {
-        padding-top: var(--spacing-x-small);
+        padding-top: 0.5rem;
       }
     }
 

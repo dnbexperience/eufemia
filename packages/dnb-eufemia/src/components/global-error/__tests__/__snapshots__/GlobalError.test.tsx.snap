@@ -1029,11 +1029,11 @@ button.dnb-button::-moz-focus-inner {
   /* for large screens */
   width: 100%;
   max-width: var(--layout-large);
-  padding: var(--spacing-large);
+  padding: 2rem;
 }
 @media screen and (max-width: 40em) {
   .dnb-global-error__inner {
-    padding: 0 var(--spacing-x-small);
+    padding: 0 0.5rem;
   }
 }
 .dnb-global-error__inner {

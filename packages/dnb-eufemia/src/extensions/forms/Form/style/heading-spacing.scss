@@ -6,7 +6,7 @@
     + .dnb-help-button__content + .dnb-section + .dnb-card
   ) {
     &:not([class*='space__bottom']) {
-      margin-bottom: var(--spacing-small);
+      margin-bottom: 1rem;
     }
   }
 }
