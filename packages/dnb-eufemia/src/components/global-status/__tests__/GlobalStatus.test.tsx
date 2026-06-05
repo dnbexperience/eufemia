@@ -851,17 +851,19 @@ describe('GlobalStatus component', () => {
 
     fireEvent.click(document.querySelector('input#switch'))
 
-    await refresh()
-
-    expect(
-      document.querySelectorAll('.dnb-global-status__message p')[0]
-        .textContent
-    ).toBe("'error-message'")
-    expect(
-      document
-        .querySelectorAll('.dnb-global-status__message__content ul li')[0]
-        .querySelector('a.dnb-anchor').textContent
-    ).toBe("custom anchor text 'my-label'")
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-global-status__message p')[0]
+          .textContent
+      ).toBe("'error-message'")
+      expect(
+        document
+          .querySelectorAll(
+            '.dnb-global-status__message__content ul li'
+          )[0]
+          .querySelector('a.dnb-anchor').textContent
+      ).toBe("custom anchor text 'my-label'")
+    })
   })
 
   it('should have a working auto close', async () => {
