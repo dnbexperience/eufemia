@@ -111,7 +111,7 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
   --avatar-font-size-left--large: var(--font-size-large);
   --avatar-font-size-left--x-large: var(--font-size-large);
   display: inline-flex;
-  justify-content: flex;
+  justify-content: flex-start;
   flex-direction: row;
   align-items: center;
 }
