@@ -427,3 +427,16 @@ describe('FormStatus role', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
+
+describe('FormStatus formElement', () => {
+  it('should inherit formElement skeleton', () => {
+    render(
+      <Provider formElement={{ skeleton: true }}>
+        <FormStatus text="status text" />
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-form-status')
+    expect(element.querySelector('.dnb-skeleton')).toBeInTheDocument()
+  })
+})

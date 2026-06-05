@@ -2236,6 +2236,17 @@ describe('Upload', () => {
       ).not.toBeInTheDocument()
     })
   })
+
+  it('should inherit formElement disabled', () => {
+    render(
+      <Provider formElement={{ disabled: true }}>
+        <Upload {...defaultProps} />
+      </Provider>
+    )
+
+    const input = document.querySelector('.dnb-upload input')
+    expect(input).toBeDisabled()
+  })
 })
 
 describe('Upload aria', () => {
