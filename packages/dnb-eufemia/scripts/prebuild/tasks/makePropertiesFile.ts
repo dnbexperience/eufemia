@@ -67,6 +67,10 @@ const TOKEN_SETS = {
     targetVariableSetId:
       'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
   },
+  typography: {
+    targetVariableSetId:
+      'VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045',
+  },
 }
 
 const ROOT_DIR = path.resolve(__dirname, '../../..')
@@ -226,21 +230,8 @@ const foundationPrefixMap = {
   carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
 }
 
-export const transformFigmaAlias = (
-  alias: FigmaAlias,
-  value?: FigmaValue
-) => {
+export const transformFigmaAlias = (alias: FigmaAlias) => {
   const figmaVariableName = alias.targetVariableName
-
-  if (alias.targetVariableSetId === TOKEN_SETS.sizes.targetVariableSetId) {
-    // Size aliases resolve to literal values instead of var() references
-    // because there is no size foundation SCSS file.
-    if (value) {
-      return transformNumberValue(value.$value as number)
-    }
-
-    return undefined
-  }
 
   if (
     alias.targetVariableSetId === TOKEN_SETS.colors.targetVariableSetId
@@ -306,17 +297,45 @@ const alphaAsPercent = (alpha: number) => {
   return `${value}%`
 }
 
-export const transformFigmaValue = (value: FigmaValue) => {
-  if (value.$type === 'string') {
-    return undefined // Exclude font-family and font weight
-  }
-
+const shouldTransformFigmaAlias = (value: FigmaValue) => {
   const alias = value?.$extensions?.['com.figma.aliasData']
 
   if (alias) {
-    return transformFigmaAlias(alias, value)
+    switch (alias.targetVariableSetId) {
+      case TOKEN_SETS.colors.targetVariableSetId:
+        return true
+      case TOKEN_SETS.sizes.targetVariableSetId: {
+        // Size aliases resolve to literal values instead of var() references
+        // because there is no size foundation SCSS file.
+        if (value.$type !== 'number') {
+          const errorMessage = `Unexpected type : ${value.$type} for in variable set ${alias.targetVariableSetName}`
+          log.fail(errorMessage)
+          throw new Error(errorMessage)
+        }
+        return false
+      }
+    }
+
+    // Any unknown aliases should throw error
+    throw new Error(
+      `Unsupported variable set: ${alias.targetVariableSetName}`
+    )
   }
 
+  return false
+}
+
+export const transformFigmaValue = (value: FigmaValue) => {
+  if (shouldTransformFigmaAlias(value)) {
+    return transformFigmaAlias(
+      value.$extensions?.['com.figma.aliasData'] as FigmaAlias
+    )
+  } else {
+    return transformFigmaRawValue(value)
+  }
+}
+
+const transformFigmaRawValue = (value: FigmaValue) => {
   if (value.$type === 'number') {
     return transformNumberValue(value.$value as number)
   }
@@ -329,7 +348,6 @@ export const transformFigmaValue = (value: FigmaValue) => {
       ? compressHex(hex)
       : `rgba(${hexAsRgb(hex)} / ${alphaAsPercent(alpha)})`
   } else {
-    // @ts-expect-error: we are expecting a bad value
     throw new Error(`Unsupported $type: ${value.$type}`)
   }
 }
@@ -401,8 +419,21 @@ const keepOnlyReferencedVariableDeclarations = (
     .join('\n')
 }
 
+const shouldGenerateCSSVariable = (value: FigmaValue) => {
+  if (value.$type === 'string') {
+    return false // Exclude font-family and font weight
+  }
+  if (
+    value?.$extensions?.['com.figma.aliasData']?.targetVariableSetId ===
+    TOKEN_SETS.typography.targetVariableSetId
+  ) {
+    return false // Exclude typography
+  }
+  return true
+}
+
 /** Generates CSS variables as a SCSS string from a token list */
-const generateCSSVariablesFromTokenList = (
+export const generateCSSVariablesFromTokenList = (
   /** An exported figma collection converted to a token list */
   tokenList: TokenList,
   /** string placed first in the css variable: `--namespace-color-blue-500` */
@@ -412,13 +443,15 @@ const generateCSSVariablesFromTokenList = (
 
   tokenList.forEach((value) => {
     try {
-      const valuePart = transformFigmaValue(value)
+      if (shouldGenerateCSSVariable(value)) {
+        const valuePart = transformFigmaValue(value)
 
-      if (valuePart) {
-        const namespacePart = transformNamespace(namespace)
-        const pathPart = transformFigmaPath(value.figmaPath)
+        if (valuePart) {
+          const namespacePart = transformNamespace(namespace)
+          const pathPart = transformFigmaPath(value.figmaPath)
 
-        returnValue += `${namespacePart}${pathPart}: ${valuePart};\n`
+          returnValue += `${namespacePart}${pathPart}: ${valuePart};\n`
+        }
       }
     } catch (e) {
       const err = e as Error & {

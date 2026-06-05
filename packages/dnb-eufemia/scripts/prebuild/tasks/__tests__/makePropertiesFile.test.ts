@@ -4,6 +4,7 @@ import makePropertiesFile, {
   transformFigmaValue,
   transformFigmaPath,
   transformNamespace,
+  generateCSSVariablesFromTokenList,
 } from '../makePropertiesFile'
 
 describe('makePropertiesFile', () => {
@@ -202,6 +203,17 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Figma file generation', () => {
+    describe('generateCSSVariablesFromTokenList', () => {
+      it('skip string', () => {
+        expect(
+          generateCSSVariablesFromTokenList([
+            { figmaPath: ['bad'], $type: 'string', $value: 'Medium' },
+            { figmaPath: ['good'], $type: 'number', $value: 2 },
+          ])
+        ).toEqual(`--good: 0.125rem;\n`)
+      })
+    })
+
     describe('extractReferencedCssVariables', () => {
       it('extracts css variables from var() usage', () => {
         const result = extractReferencedCssVariables(`
@@ -264,9 +276,10 @@ describe('makePropertiesFile', () => {
         const value = {
           $type: 'number' as const,
           $value: 4,
+          $extensions: { ['com.figma.aliasData']: alias },
         }
 
-        const result = transformFigmaAlias(alias, value)
+        const result = transformFigmaValue(value)
         expect(result).toEqual('0.25rem')
       })
 
@@ -281,9 +294,10 @@ describe('makePropertiesFile', () => {
         const value = {
           $type: 'number' as const,
           $value: 0,
+          $extensions: { ['com.figma.aliasData']: alias },
         }
 
-        const result = transformFigmaAlias(alias, value)
+        const result = transformFigmaValue(value)
         expect(result).toEqual('0')
       })
 
@@ -391,15 +405,6 @@ describe('makePropertiesFile', () => {
         }
         // @ts-expect-error: we are testing a bad value
         expect(() => transformFigmaValue(val)).toThrow()
-      })
-
-      it('skip string', () => {
-        expect(
-          transformFigmaValue({
-            $type: 'string',
-            $value: 'Medium',
-          })
-        ).toBeUndefined()
       })
 
       it('converts number to rem', () => {
