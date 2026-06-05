@@ -199,6 +199,8 @@ export default {
     Filter: {
       ariaLabel: 'Filter',
       activeFiltersLabel: 'Aktiva filter',
+      activeFiltersCountLabel: '%s aktiva filter',
+      clearAllLabel: 'Rensa alla',
       panelButtonLabel: 'Filter',
       hideFilterLabel: 'Dölj filter',
       applyFilterLabel: 'Använd filter',

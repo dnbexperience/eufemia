@@ -186,6 +186,61 @@ export const WithPredefinedFilters = () => {
                     label: 'Card',
                     categoryLabel: 'Payment type',
                   },
+                  '/type/transfer': {
+                    value: 'transfer',
+                    label: 'Transfer',
+                    categoryLabel: 'Payment type',
+                  },
+                  '/status/pending': {
+                    value: 'pending',
+                    label: 'Pending',
+                    categoryLabel: 'Status',
+                  },
+                  '/status/completed': {
+                    value: 'completed',
+                    label: 'Completed',
+                    categoryLabel: 'Status',
+                  },
+                  '/status/failed': {
+                    value: 'failed',
+                    label: 'Failed',
+                    categoryLabel: 'Status',
+                  },
+                  '/region/oslo': {
+                    value: 'oslo',
+                    label: 'Oslo',
+                    categoryLabel: 'Region',
+                  },
+                  '/region/bergen': {
+                    value: 'bergen',
+                    label: 'Bergen',
+                    categoryLabel: 'Region',
+                  },
+                  '/region/trondheim': {
+                    value: 'trondheim',
+                    label: 'Trondheim',
+                    categoryLabel: 'Region',
+                  },
+                  '/category/groceries': {
+                    value: 'groceries',
+                    label: 'Groceries',
+                    categoryLabel: 'Category',
+                  },
+                  '/category/electronics': {
+                    value: 'electronics',
+                    label: 'Electronics',
+                    categoryLabel: 'Category',
+                  },
+                  '/category/salary': {
+                    value: 'salary',
+                    label: 'Salary',
+                    categoryLabel: 'Category',
+                  },
+                  '/category/subscription': {
+                    value: 'subscription',
+                    label: 'Subscription',
+                    categoryLabel: 'Category',
+                  },
                 }}
               >
                 <Filter.Header>
@@ -218,7 +273,10 @@ export const WithPredefinedFilters = () => {
                     />
                   </Filter.Panel>
 
-                  <Filter.ActiveFilters />
+                  <Filter.ActiveFilters
+                    showCategoryLabel
+                    collapsibleThreshold={5}
+                  />
                   <Filter.ResultCount />
                 </Filter.Header>
               </Filter.Root>

@@ -70,17 +70,26 @@
     gap: 0.5rem;
 
     margin-top: 1rem;
+
+    &__scroll {
+      display: flex;
+      flex-wrap: wrap;
+      max-height: 10rem;
+      gap: 0.5rem;
+
+      padding: 0.125rem 0 0.5rem 0.125rem;
+      margin: -0.125rem 0 0 -0.125rem;
+    }
+
+    &__header {
+      padding: 0;
+    }
   }
 
   &__item-content {
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
-  .dnb-accordion__tertiary-content {
-    margin-left: 1rem;
-    padding: 0.5rem 0.5rem 0;
-    border-radius: var(--token-radius-md);
   }
 
   &__panel {
@@ -99,6 +108,12 @@
     .dnb-filter__hr {
       width: calc(100% + 2rem);
       margin-left: -1rem;
+    }
+
+    .dnb-accordion__tertiary-content {
+      margin-left: 1rem;
+      padding: 0.5rem 0.5rem 0;
+      border-radius: var(--token-radius-md);
     }
   }
 

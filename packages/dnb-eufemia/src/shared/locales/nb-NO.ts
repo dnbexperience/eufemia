@@ -198,6 +198,8 @@ export default {
     Filter: {
       ariaLabel: 'Filter',
       activeFiltersLabel: 'Aktive filtre',
+      activeFiltersCountLabel: '%s aktive filtre',
+      clearAllLabel: 'Fjern alle',
       panelButtonLabel: 'Filter',
       hideFilterLabel: 'Skjul filter',
       applyFilterLabel: 'Bruk filter',

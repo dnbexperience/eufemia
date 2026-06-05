@@ -1,13 +1,19 @@
-import { useContext } from 'react'
+import { useContext, useId } from 'react'
 import { clsx } from 'clsx'
 import SharedContext from '../../shared/Context'
 import { FilterContext } from './FilterContext'
 import Tag from '../tag/Tag'
 import HeightAnimation from '../height-animation/HeightAnimation'
+import Accordion from '../accordion/Accordion'
+import Button from '../button/Button'
+import ScrollView from '../../fragments/scroll-view/ScrollView'
+import Flex from '../flex/Flex'
+import { close } from '../../icons'
 
 export type FilterActiveFiltersProps = {
   label?: string
   showCategoryLabel?: boolean
+  collapsibleThreshold?: number
   onRemove?: (filterKey: string) => void
   className?: string
 }
@@ -15,13 +21,16 @@ export type FilterActiveFiltersProps = {
 function FilterActiveFilters({
   label,
   showCategoryLabel,
+  collapsibleThreshold,
   onRemove,
   className,
 }: FilterActiveFiltersProps) {
   const sharedContext = useContext(SharedContext)
-  const { activeFiltersLabel } = sharedContext.getTranslation({}).Filter
+  const { activeFiltersLabel, activeFiltersCountLabel, clearAllLabel } =
+    sharedContext.getTranslation({}).Filter
   const resolvedLabel = label ?? activeFiltersLabel
   const context = useContext(FilterContext)
+  const accordionId = useId()
 
   if (!context) {
     throw new Error(
@@ -35,39 +44,88 @@ function FilterActiveFilters({
       : context.state.filters
   )
   const hasEntries = entries.length > 0
+  const isCollapsible =
+    collapsibleThreshold != null && entries.length > collapsibleThreshold
+
+  const handleRemove = (filterKey: string) => {
+    if (context.behavior === 'manual') {
+      context.removeAppliedFilter(filterKey)
+    } else {
+      context.removeFilter(filterKey)
+    }
+    onRemove?.(filterKey)
+  }
+
+  const handleClearAll = () => {
+    context.resetFilters()
+  }
+
+  const tags = (
+    <Tag.Group label={resolvedLabel}>
+      {entries.map(([filterKey, filterValue]) => {
+        const tagLabel =
+          showCategoryLabel && filterValue.categoryLabel
+            ? `${filterValue.categoryLabel}: ${filterValue.label}`
+            : filterValue.label
+
+        return (
+          <Tag
+            key={filterKey}
+            variant="removable"
+            onClick={() => handleRemove(filterKey)}
+          >
+            {tagLabel}
+          </Tag>
+        )
+      })}
+    </Tag.Group>
+  )
 
   return (
     <HeightAnimation open={hasEntries} keepInDOM>
       <div className={clsx('dnb-filter__active-filters', className)}>
-        {/* aria-hidden because Tag.Group provides the accessible label */}
-        <span className="dnb-filter__active-filters__label" aria-hidden>
-          {resolvedLabel}
-        </span>
-        <Tag.Group label={resolvedLabel}>
-          {entries.map(([filterKey, filterValue]) => {
-            const tagLabel =
-              showCategoryLabel && filterValue.categoryLabel
-                ? `${filterValue.categoryLabel}: ${filterValue.label}`
-                : filterValue.label
-
-            return (
-              <Tag
-                key={filterKey}
-                variant="removable"
-                onClick={() => {
-                  if (context.behavior === 'manual') {
-                    context.removeAppliedFilter(filterKey)
-                  } else {
-                    context.removeFilter(filterKey)
-                  }
-                  onRemove?.(filterKey)
-                }}
+        {isCollapsible ? (
+          <>
+            <Flex.Horizontal
+              className="dnb-filter__active-filters__header"
+              justify="space-between"
+              align="center"
+            >
+              <Accordion
+                variant="tertiary"
+                title={activeFiltersCountLabel.replace(
+                  '%s',
+                  String(entries.length)
+                )}
+                id={accordionId}
+                iconPosition="right"
+              />
+              <Button
+                variant="tertiary"
+                icon={close}
+                onClick={handleClearAll}
               >
-                {tagLabel}
-              </Tag>
-            )
-          })}
-        </Tag.Group>
+                {clearAllLabel}
+              </Button>
+            </Flex.Horizontal>
+
+            <Accordion.Content id={accordionId}>
+              <ScrollView className="dnb-filter__active-filters__scroll">
+                {tags}
+              </ScrollView>
+            </Accordion.Content>
+          </>
+        ) : (
+          <>
+            <span
+              className="dnb-filter__active-filters__label"
+              aria-hidden
+            >
+              {resolvedLabel}
+            </span>
+            {tags}
+          </>
+        )}
       </div>
     </HeightAnimation>
   )

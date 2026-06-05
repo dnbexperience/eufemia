@@ -121,6 +121,11 @@ export const ActiveFiltersProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  collapsibleThreshold: {
+    doc: 'When the number of active filters exceeds this threshold, tags are shown inside a collapsible accordion with a scrollable area and a "Clear all" button.',
+    type: 'number',
+    status: 'optional',
+  },
   className: {
     doc: 'Custom CSS class name.',
     type: 'string',

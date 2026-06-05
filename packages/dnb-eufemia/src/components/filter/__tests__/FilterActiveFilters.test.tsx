@@ -293,3 +293,171 @@ describe('Filter.ActiveFilters accessibility', () => {
     expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
+
+describe('Filter.ActiveFilters collapsible', () => {
+  function SetManyFilters({ count }: { count: number }) {
+    const ctx = useFilterContext()
+    return (
+      <button
+        data-testid="set-many"
+        onClick={() => {
+          for (let i = 0; i < count; i++) {
+            ctx.setFilter(`/type/${i}`, {
+              value: String(i),
+              label: `Filter ${i}`,
+            })
+          }
+        }}
+      >
+        Set
+      </button>
+    )
+  }
+
+  it('does not show collapsible when below threshold', () => {
+    render(
+      <FilterRoot id="collapse-below-test">
+        <SetManyFilters count={3} />
+        <FilterActiveFilters collapsibleThreshold={5} />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    expect(
+      document.querySelector('.dnb-filter__active-filters__label')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-accordion')
+    ).not.toBeInTheDocument()
+  })
+
+  it('shows collapsible accordion when above threshold', () => {
+    render(
+      <FilterRoot id="collapse-above-test">
+        <SetManyFilters count={6} />
+        <FilterActiveFilters collapsibleThreshold={5} />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    expect(document.querySelector('.dnb-accordion')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-filter__active-filters__label')
+    ).not.toBeInTheDocument()
+  })
+
+  it('shows filter count in the accordion title', () => {
+    render(
+      <FilterRoot id="collapse-count-test">
+        <SetManyFilters count={6} />
+        <FilterActiveFilters collapsibleThreshold={5} />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    const accordion = document.querySelector('.dnb-accordion')
+
+    expect(accordion.textContent).toContain('6')
+  })
+
+  it('shows a clear all button', () => {
+    render(
+      <FilterRoot id="collapse-clear-test">
+        <SetManyFilters count={6} />
+        <FilterActiveFilters collapsibleThreshold={5} />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    const buttons = document.querySelectorAll(
+      '.dnb-filter__active-filters .dnb-button--tertiary'
+    )
+    const clearButton = Array.from(buttons).find((btn) =>
+      btn.textContent.includes('Fjern alle')
+    )
+
+    expect(clearButton).toBeInTheDocument()
+  })
+
+  it('clears all filters when clear all is clicked', () => {
+    function FilterState() {
+      const ctx = useFilterContext()
+      return (
+        <span data-testid="count">{Object.keys(ctx.filters).length}</span>
+      )
+    }
+
+    render(
+      <FilterRoot id="collapse-clear-action-test">
+        <SetManyFilters count={6} />
+        <FilterActiveFilters collapsibleThreshold={5} />
+        <FilterState />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    expect(
+      document.querySelector('[data-testid="count"]').textContent
+    ).toBe('6')
+
+    const buttons = document.querySelectorAll(
+      '.dnb-filter__active-filters .dnb-button--tertiary'
+    )
+    const clearButton = Array.from(buttons).find((btn) =>
+      btn.textContent.includes('Fjern alle')
+    )
+    fireEvent.click(clearButton)
+
+    expect(
+      document.querySelector('[data-testid="count"]').textContent
+    ).toBe('0')
+  })
+
+  it('wraps tags in a scroll view when accordion is expanded', () => {
+    render(
+      <FilterRoot id="collapse-scroll-test">
+        <SetManyFilters count={6} />
+        <FilterActiveFilters collapsibleThreshold={5} />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    // Expand the accordion
+    const accordionButton = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    fireEvent.click(accordionButton)
+
+    expect(
+      document.querySelector('.dnb-filter__active-filters__scroll')
+    ).toBeInTheDocument()
+    expect(document.querySelector('.dnb-scroll-view')).toBeInTheDocument()
+  })
+
+  it('renders tags inside the accordion content when expanded', () => {
+    render(
+      <FilterRoot id="collapse-tags-test">
+        <SetManyFilters count={6} />
+        <FilterActiveFilters collapsibleThreshold={5} />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    // Expand the accordion
+    const accordionButton = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    fireEvent.click(accordionButton)
+
+    const tags = document.querySelectorAll('.dnb-tag')
+
+    expect(tags.length).toBe(6)
+  })
+})

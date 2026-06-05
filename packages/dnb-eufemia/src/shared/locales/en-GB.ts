@@ -200,6 +200,8 @@ export default {
     Filter: {
       ariaLabel: 'Filter',
       activeFiltersLabel: 'Active filters',
+      activeFiltersCountLabel: '%s active filters',
+      clearAllLabel: 'Clear all',
       panelButtonLabel: 'Filter',
       hideFilterLabel: 'Hide filter',
       applyFilterLabel: 'Apply filter',
