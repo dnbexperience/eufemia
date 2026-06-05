@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const ScrollViewProperties: PropertiesTableProps = {
   interactive: {
-    doc: 'To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation. Defaults to `false`.',
+    doc: 'To make the content accessible for keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation. Defaults to `false`.',
     type: ['boolean', '"auto"'],
     status: 'optional',
   },
