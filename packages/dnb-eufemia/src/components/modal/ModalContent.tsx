@@ -121,8 +121,8 @@ export default function ModalContent(props: ModalContentProps) {
   // Sync modalContentCloseRef
   useEffect(() => {
     if (modalContentCloseRef) {
-      const mutableRef = modalContentCloseRef as RefObject<any>
-      mutableRef.current = setModalContentState
+      ;(modalContentCloseRef as { current: unknown }).current =
+        setModalContentState
     }
   }, [modalContentCloseRef, setModalContentState])
 

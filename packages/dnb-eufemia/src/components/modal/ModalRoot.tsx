@@ -1,6 +1,6 @@
-import type { ReactNode, RefObject } from 'react'
+import type { ReactNode, RefObject, SyntheticEvent } from 'react'
 import ModalContent from './ModalContent'
-import type { ModalContentProps } from './types'
+import type { ModalCloseHandlerParams, ModalContentProps } from './types'
 import PortalRoot from '../PortalRoot'
 
 declare global {
@@ -23,7 +23,10 @@ export type ModalRootProps = {
   children?: ReactNode | ((props: ModalContentProps) => ReactNode)
 
   /** For internal use only */
-  modalContentCloseRef?: RefObject<any>
+  modalContentCloseRef?: RefObject<
+    | ((event: SyntheticEvent, params: ModalCloseHandlerParams) => void)
+    | null
+  >
 } & ModalContentProps
 
 export default function ModalRoot({
