@@ -407,7 +407,8 @@ function WizardContainer(props: WizardContainerProps) {
             // because the form contains errors. Thats why onSubmit will not be called via handleSubmitCall.
             if (
               !hasInvalidStepsState(activeIndexRef.current) &&
-              !hasFieldState?.('pending')
+              !hasFieldState?.('pending') &&
+              !hasFieldState?.('error')
             ) {
               await onSubmit()
             }

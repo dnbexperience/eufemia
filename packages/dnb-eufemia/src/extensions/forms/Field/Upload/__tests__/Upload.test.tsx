@@ -2193,6 +2193,141 @@ describe('Field.Upload', () => {
         expect(screen.queryByText('fileName.png')).toBeInTheDocument()
       })
     })
+
+    it('should prevent navigation to next step when required Field.Upload has validateInitially={false} and no files', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.Upload
+                required
+                validateInitially={false}
+                path="/files"
+              />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      // No error should be shown initially because validateInitially={false}
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      // Click next without uploading any files
+      await userEvent.click(nextButton())
+
+      // Should still be on Step 1 — navigation prevented
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Required error should now be visible
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-block__status .dnb-form-status'
+          )
+        ).toHaveTextContent(nbForms.Upload.errorRequired)
+      })
+    })
+
+    it('should allow navigation to next step when required Field.Upload has validateInitially={false} and files are uploaded', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.Upload
+                required
+                validateInitially={false}
+                path="/files"
+              />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const element = getRootElement()
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+
+      fireEvent.drop(element, {
+        dataTransfer: {
+          files: [file],
+        },
+      })
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(nextButton())
+
+      // Should navigate to Step 2 since a file was uploaded
+      expect(output()).toHaveTextContent('Step 2')
+    })
+
+    it('should prevent navigation when required comes from schema and validateInitially={false}', async () => {
+      const schema = {
+        type: 'object',
+        required: ['files'],
+        properties: {
+          files: {
+            type: 'array',
+          },
+        },
+      } as const
+
+      render(
+        <Form.Handler schema={schema}>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.Upload validateInitially={false} path="/files" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      // No error initially
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      // Click next without uploading
+      await userEvent.click(nextButton())
+
+      // Should still be on Step 1
+      expect(output()).toHaveTextContent('Step 1')
+
+      // Required error should be shown
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-block__status .dnb-form-status'
+          )
+        ).toHaveTextContent(nbForms.Upload.errorRequired)
+      })
+    })
   })
 
   it('should handle a mix of successful and failed files in fileHandler with async function', async () => {

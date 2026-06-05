@@ -1478,13 +1478,23 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
   // ─── Show / hide errors based on context ─────────────────────────────
 
+  const prevShowAllErrorsRef = useRef(showAllErrors)
+
   useEffect(() => {
+    const showAllErrorsTransitioned =
+      showAllErrors && !prevShowAllErrorsRef.current
+    prevShowAllErrorsRef.current = showAllErrors
+
     if (showAllErrors || showBoundaryErrors) {
       // In case of async validation, we don't want to show existing errors before the validation has been completed
       if (fieldStateRef.current !== 'validating') {
-        // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
-        // something else that should lead to showing the user all errors.
-        revealError()
+        // When showAllErrors transitions from false to true (e.g., Wizard next button),
+        // force reveal to bypass the validateInitially={false} skip.
+        // We don't force when showAllErrors is already true on mount (e.g., EditContainer),
+        // because validateInitially={false} should still be respected until user interaction.
+        revealError(
+          showAllErrorsTransitioned ? { force: true } : undefined
+        )
       }
     } else if (showBoundaryErrors === false) {
       hideError()

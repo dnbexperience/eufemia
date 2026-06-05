@@ -546,17 +546,25 @@ export default function useFieldError<Value>({
   )
 
   // Will reveal the error as a visible error (hasVisibleError)
-  const revealError = useCallback(() => {
-    // To support "validateInitially={false}" prop
-    if (validateInitially === false && revealErrorRef.current === false) {
-      revealErrorRef.current = undefined
-      return undefined // stop here
-    }
+  const revealError = useCallback(
+    (options?: { force?: boolean }) => {
+      // To support "validateInitially={false}" prop
+      if (
+        validateInitially === false &&
+        revealErrorRef.current === false
+      ) {
+        if (!options?.force) {
+          revealErrorRef.current = undefined
+          return undefined // stop here
+        }
+      }
 
-    const hasError = Boolean(localErrorRef.current)
-    revealErrorRef.current = true
-    setErrorState(hasError)
-  }, [validateInitially, setErrorState])
+      const hasError = Boolean(localErrorRef.current)
+      revealErrorRef.current = true
+      setErrorState(hasError)
+    },
+    [validateInitially, setErrorState]
+  )
 
   const hideError = useCallback(() => {
     if (revealErrorRef.current) {
