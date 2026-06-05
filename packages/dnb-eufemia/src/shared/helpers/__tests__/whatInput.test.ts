@@ -71,6 +71,28 @@ describe('whatInput', () => {
     // Reset
     whatInput.specificKeys([])
   })
+
+  it('should treat all non-modifier keys as keyboard input by default', () => {
+    whatInput.specificKeys([])
+
+    dispatchMouse()
+
+    window.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })
+    )
+    expect(document.documentElement.getAttribute('data-whatinput')).toBe(
+      'keyboard'
+    )
+
+    dispatchMouse()
+
+    window.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'a', bubbles: true })
+    )
+    expect(document.documentElement.getAttribute('data-whatinput')).toBe(
+      'keyboard'
+    )
+  })
 })
 
 describe('whatInput deferred setup', () => {
