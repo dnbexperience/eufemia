@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate } from '../DatePickerCalc'
-import { addMonths, isSameDay } from 'date-fns'
+import { addMonths, isSameDay, isSameMonth } from 'date-fns'
 import type { DatePickerDateType } from '../DatePickerContext'
 
 export type DatePickerDateProps = {
@@ -155,10 +155,11 @@ function mapDates(
       dateFormat: dateFormat,
     }) ??
     (isRange
-      ? // If startMonth is explicitly provided, use it + 1 month; otherwise fallback to endDate
-        hasExplicitStartMonth
+      ? hasExplicitStartMonth
         ? addMonths(startMonth, 1)
-        : (endDate ?? addMonths(startMonth, 1))
+        : endDate && !isSameMonth(endDate, startMonth)
+          ? endDate
+          : addMonths(startMonth, 1)
       : startMonth)
 
   const minDate = convertStringToDate(dateProps.minDate, {

@@ -3312,7 +3312,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent('oktober 2024')
       expect(
         leftCalendar.querySelector('.dnb-date-picker__header__title')
-      ).toHaveTextContent('oktober 2024')
+      ).toHaveTextContent('november 2024')
 
       await userEvent.click(rightPrev)
 
@@ -3321,7 +3321,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent('oktober 2024')
       expect(
         leftCalendar.querySelector('.dnb-date-picker__header__title')
-      ).toHaveTextContent('oktober 2024')
+      ).toHaveTextContent('november 2024')
 
       await userEvent.click(rightNext)
 
@@ -3330,7 +3330,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent('oktober 2024')
       expect(
         leftCalendar.querySelector('.dnb-date-picker__header__title')
-      ).toHaveTextContent('oktober 2024')
+      ).toHaveTextContent('november 2024')
 
       await userEvent.click(leftPrev)
 
