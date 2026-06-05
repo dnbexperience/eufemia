@@ -156,7 +156,7 @@ export type DatePickerProps = {
    */
   onlyMonth?: boolean
   /**
-   * Use `true` to only show the last week in the current month if it needs to be shown. The result is that there will mainly be shown five (5) weeks (rows) instead of six (6). Defaults to `false`.
+   * Use `true` to only show the last week in the current month if it needs to be shown. The result is that mainly five (5) weeks (rows) will be shown instead of six (6). Defaults to `false`.
    */
   hideLastWeek?: boolean
   /**

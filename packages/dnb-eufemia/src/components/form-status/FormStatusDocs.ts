@@ -33,7 +33,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'Defines the appearance size. There are these sizes `default`, `large`. The default size is `default`.',
+    doc: 'Defines the appearance size. Available sizes are `default` and `large`. The default size is `default`.',
     type: ['"default"', '"large"'],
     status: 'optional',
   },
