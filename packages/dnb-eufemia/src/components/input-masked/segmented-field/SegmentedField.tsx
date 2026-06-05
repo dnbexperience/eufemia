@@ -3,7 +3,10 @@ import type { FocusEvent, RefObject } from 'react'
 import { flushSync } from 'react-dom'
 import { clsx } from 'clsx'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
-import { resolveStatus } from '../../../shared/component-helper'
+import {
+  resolveStatus,
+  resolveStatusMessage,
+} from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import Input from '../../Input'
 import FormLabel from '../../FormLabel'
@@ -59,6 +62,10 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
   const effectiveStatus = resolveStatus({
     status,
     statusState,
+    statusMessage,
+  })
+  const effectiveStatusMessage = resolveStatusMessage({
+    status,
     statusMessage,
   })
 
@@ -401,7 +408,7 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         size={size}
         labelDirection={labelDirection}
         disabled={disabled}
-        statusMessage={statusMessage}
+        statusMessage={effectiveStatusMessage}
         status={effectiveStatus}
         suffix={suffix}
         stretch={stretch}

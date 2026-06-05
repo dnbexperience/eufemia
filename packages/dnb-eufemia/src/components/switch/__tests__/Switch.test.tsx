@@ -259,6 +259,23 @@ describe('Switch component', () => {
     expect(input.getAttribute('aria-checked')).toBe('true')
     expect(onChange).toHaveBeenCalledWith(true)
   })
+
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <Switch
+        label="Switch"
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-switch')).toHaveClass(
+      'dnb-switch__status--information'
+    )
+  })
 })
 
 describe('Switch scss', () => {

@@ -343,9 +343,9 @@ export function getStatusState(status) {
  * Resolves the effective status from `status`, `statusState`, and `statusMessage`.
  *
  * - `status` takes priority over `statusState` (which is deprecated).
- * - Falls back to `'error'` when a status message is present but no status is specified.
+ * - Defaults to `undefined` when no status is specified.
  * - Handles backwards compatibility: if `status` receives a non-FormStatusState
- *   string (old `status` message pattern), falls back to `statusState` or `'error'`.
+ *   message value (old `status` message pattern), falls back to `statusState` or `'error'`.
  */
 export function resolveStatus({
   status,
@@ -361,7 +361,7 @@ export function resolveStatus({
   }
 
   // Backwards compat: status used as a message (old API)
-  if (status && !isFormStatusState(status)) {
+  if (isLegacyStatusMessage(status)) {
     warn(
       'Passing a message to `status` is deprecated. Use `statusMessage` instead.'
     )
@@ -370,10 +370,6 @@ export function resolveStatus({
 
   if (statusState && statusMessage) {
     return statusState
-  }
-
-  if (statusMessage) {
-    return 'error'
   }
 
   return undefined
@@ -394,10 +390,9 @@ function isFormStatusState(value: unknown): value is FormStatusState {
 /**
  * Resolves the effective status message.
  *
- * - If `status` is set but `statusMessage` is not, returns `true`
- *   so the component applies visual styling without a message.
+ * - `statusMessage` takes precedence whenever provided.
  * - Handles backwards compatibility: if `status` receives a non-FormStatusState
- *   value (old API pattern), that value is used as the message.
+ *   message value (old API pattern), that value is used as the message.
  */
 export function resolveStatusMessage<T>({
   status,
@@ -406,12 +401,29 @@ export function resolveStatusMessage<T>({
   status?: unknown
   statusMessage?: T
 }): T | undefined {
+  // statusMessage takes priority over legacy status message
+  if (statusMessage !== undefined && statusMessage !== null) {
+    return statusMessage
+  }
+
   // Backwards compat: status used as a message (old API)
-  if (status && !isFormStatusState(status)) {
+  if (isLegacyStatusMessage(status)) {
     return status as unknown as T
   }
 
-  return statusMessage
+  return undefined
+}
+
+function isLegacyStatusMessage(status: unknown): boolean {
+  if (status === undefined || status === null) {
+    return false
+  }
+
+  if (typeof status === 'boolean') {
+    return false
+  }
+
+  return !isFormStatusState(status)
 }
 
 export function combineLabelledBy(...params) {

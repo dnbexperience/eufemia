@@ -5128,6 +5128,76 @@ describe('DatePicker component', () => {
       calendar.querySelector('.dnb-date-picker__labels')
     ).not.toBeInTheDocument()
   })
+
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <DatePicker
+        showInput
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-date-picker')).toHaveClass(
+      'dnb-date-picker__status--information'
+    )
+  })
+
+  it('supports deprecated status message via status when passing a React element', () => {
+    const statusElement = (
+      <span>
+        Status message with <b>HTML</b> inside
+      </span>
+    )
+
+    const { rerender } = render(
+      <DatePicker
+        label="DatePicker"
+        date="2019-05-05"
+        showInput
+        showSubmitButton
+        statusMessage={statusElement}
+      />
+    )
+
+    const statusWithStatusMessage = document.querySelector(
+      '.dnb-form-status__text'
+    ) as HTMLElement
+
+    expect(statusWithStatusMessage).toHaveTextContent(
+      'Status message with HTML inside'
+    )
+    expect(statusWithStatusMessage.querySelector('b')).toHaveTextContent(
+      'HTML'
+    )
+
+    const expectedStatusMarkup = statusWithStatusMessage.innerHTML
+
+    rerender(
+      <DatePicker
+        label="DatePicker"
+        date="2019-05-05"
+        showInput
+        showSubmitButton
+        status={statusElement}
+      />
+    )
+
+    const statusWithLegacyStatus = document.querySelector(
+      '.dnb-form-status__text'
+    ) as HTMLElement
+
+    expect(statusWithLegacyStatus).toHaveTextContent(
+      'Status message with HTML inside'
+    )
+    expect(statusWithLegacyStatus.querySelector('b')).toHaveTextContent(
+      'HTML'
+    )
+    expect(statusWithLegacyStatus.innerHTML).toBe(expectedStatusMarkup)
+  })
 })
 
 // for the unit calc tests

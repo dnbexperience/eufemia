@@ -240,6 +240,25 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <Dropdown
+        skipPortal
+        noAnimation
+        data={mockData}
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-dropdown')).toHaveClass(
+      'dnb-dropdown__status--information'
+    )
+  })
+
   it('will stay open when keepOpen and a selection is made', () => {
     const onChange = vi.fn()
     render(

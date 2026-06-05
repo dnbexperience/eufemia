@@ -923,6 +923,23 @@ describe('Slider component', () => {
     const Component = render(<Slider {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
+
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <Slider
+        {...props}
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-slider')).toHaveClass(
+      'dnb-slider__status--information'
+    )
+  })
 })
 
 describe('Slider scss', () => {

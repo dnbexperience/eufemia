@@ -45,7 +45,7 @@ export const ToggleButtonProperties: PropertiesTableProps = {
   tooltip: ButtonProperties.tooltip,
   size: ButtonProperties.size,
   statusMessage: {
-    doc: 'Text with a status message. The style defaults to an error message.',
+    doc: 'Text with a status message. Use `status` to set the visual style.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },

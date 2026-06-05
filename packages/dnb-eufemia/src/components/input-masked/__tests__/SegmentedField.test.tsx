@@ -228,6 +228,31 @@ describe('SegmentedField', () => {
       const input = document.querySelector('.dnb-input')
       expect(input.classList).toContain('dnb-input__status--error')
     })
+
+    it('should support deprecated status message via status', () => {
+      renderSegmentedField({ status: 'Legacy error message' })
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent('Legacy error message')
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-input__status--error'
+      )
+    })
+
+    it('should support deprecated statusState with statusMessage', () => {
+      renderSegmentedField({
+        statusMessage: 'Information message',
+        statusState: 'information',
+      })
+
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent('Information message')
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-input__status--information'
+      )
+    })
   })
 
   describe('typing', () => {

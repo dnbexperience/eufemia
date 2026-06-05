@@ -698,9 +698,28 @@ describe('resolveStatus', () => {
     expect(resolveStatus({ status: 'information' })).toBe('information')
   })
 
-  it('falls back to error when status is a non-state truthy value', () => {
+  it('falls back to error when status is a non-state string', () => {
     expect(resolveStatus({ status: 'Some error message' })).toBe('error')
-    expect(resolveStatus({ status: true })).toBe('error')
+  })
+
+  it('falls back to error when status is a non-state React element', () => {
+    expect(
+      resolveStatus({ status: <span>Some error message</span> })
+    ).toBe('error')
+  })
+
+  it('returns undefined when status is boolean true without statusMessage', () => {
+    expect(resolveStatus({ status: true })).toBeUndefined()
+  })
+
+  it('returns undefined when status is boolean true with statusMessage', () => {
+    expect(
+      resolveStatus({ status: true, statusMessage: 'A message' })
+    ).toBeUndefined()
+  })
+
+  it('returns undefined when only statusMessage is set', () => {
+    expect(resolveStatus({ statusMessage: 'A message' })).toBeUndefined()
   })
 
   it('returns undefined when nothing is set', () => {
@@ -729,5 +748,43 @@ describe('resolveStatusMessage', () => {
 
   it('returns undefined when neither status nor statusMessage is set', () => {
     expect(resolveStatusMessage({})).toBeUndefined()
+  })
+
+  it('returns status as message when status is a non-state string (backwards compat)', () => {
+    expect(resolveStatusMessage({ status: 'Some error message' })).toBe(
+      'Some error message'
+    )
+  })
+
+  it('returns status as message when status is a non-state React element (backwards compat)', () => {
+    const message = (
+      <span>
+        Status message with <b>HTML</b> inside
+      </span>
+    )
+
+    expect(resolveStatusMessage({ status: message })).toBe(message)
+  })
+
+  it('returns statusMessage over legacy string status', () => {
+    expect(
+      resolveStatusMessage({
+        status: 'legacy message',
+        statusMessage: 'preferred message',
+      })
+    ).toBe('preferred message')
+  })
+
+  it('falls back to legacy string status when statusMessage is null', () => {
+    expect(
+      resolveStatusMessage({
+        status: 'legacy message',
+        statusMessage: null,
+      })
+    ).toBe('legacy message')
+  })
+
+  it('returns undefined when status is boolean true', () => {
+    expect(resolveStatusMessage({ status: true })).toBeUndefined()
   })
 })

@@ -3398,6 +3398,28 @@ describe('Autocomplete component', () => {
     ).toContain('dnb-button__status--information')
   })
 
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <Autocomplete
+        data={mockData}
+        {...mockProps}
+        status="Legacy information message"
+        statusState="information"
+        showSubmitButton
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
+      'dnb-autocomplete__status--information'
+    )
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input__status--information'
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Autocomplete top="2rem" />)
 

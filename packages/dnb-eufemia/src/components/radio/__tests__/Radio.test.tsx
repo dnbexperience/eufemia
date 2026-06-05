@@ -165,6 +165,23 @@ describe('Radio component', () => {
       { exact: true }
     )
   })
+
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <Radio
+        label="Radio"
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-radio')).toHaveClass(
+      'dnb-radio__status--information'
+    )
+  })
 })
 
 describe('Radio ARIA', () => {

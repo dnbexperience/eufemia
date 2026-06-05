@@ -6,6 +6,7 @@ import { memo, useCallback, useContext, useEffect, useRef } from 'react'
 import type {
   HTMLProps,
   MemoExoticComponent,
+  ReactElement,
   ReactNode,
   Ref,
   SVGProps,
@@ -64,7 +65,7 @@ export type FormStatusChildren = string | (() => ReactNode) | ReactNode
  */
 export type FormStatusBaseProps = {
   /**
-   * Text with a status message. The style defaults to an error message.
+   * Text with a status message. Use `status` to set the visual style.
    */
   statusMessage?: FormStatusText
   /**
@@ -72,8 +73,9 @@ export type FormStatusBaseProps = {
    * When set, applies the corresponding visual styling (e.g. red border for error) even without a status message.
    * When set to `error`, `aria-invalid` is automatically applied.
    * When used without a `statusMessage`, add an `aria-label` or `aria-labelledby` to convey the status to assistive technologies.
+    * Passing a message value (such as string or React element) is supported for backwards compatibility but deprecated — use `statusMessage` instead.
    */
-  status?: FormStatusState
+    status?: FormStatusState | string | ReactElement
   /**
    * @deprecated Use `status` instead. Defines the state of the status. Defaults to `error`.
    */

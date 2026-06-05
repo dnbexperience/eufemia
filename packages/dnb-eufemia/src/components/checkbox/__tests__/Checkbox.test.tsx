@@ -423,6 +423,23 @@ describe('Checkbox component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <Checkbox
+        label="Checkbox"
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-checkbox')).toHaveClass(
+      'dnb-checkbox__status--information'
+    )
+  })
+
   it('gets valid ref element', () => {
     let ref: RefObject<HTMLInputElement>
 

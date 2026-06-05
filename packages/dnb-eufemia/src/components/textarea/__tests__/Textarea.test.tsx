@@ -231,6 +231,23 @@ describe('Textarea component', () => {
     ).toBe('status')
   })
 
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <Textarea
+        {...props}
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__status--information'
+    )
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Textarea />)
     rerender(<Textarea disabled={true} />)

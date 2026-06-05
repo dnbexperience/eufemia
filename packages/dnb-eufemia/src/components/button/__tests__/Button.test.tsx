@@ -501,6 +501,51 @@ describe('Button component', () => {
       ).toBeInTheDocument()
     })
   })
+
+  it('supports deprecated status message via status', () => {
+    render(<Button text="Button" status="Legacy error message" />)
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy error message')
+    expect(document.querySelector('.dnb-button')).toHaveClass(
+      'dnb-button__status--error'
+    )
+  })
+
+  it('supports deprecated statusState together with legacy status message', () => {
+    render(
+      <Button
+        text="Button"
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-button')).toHaveClass(
+      'dnb-button__status--information'
+    )
+  })
+
+  it('prioritizes statusMessage over deprecated legacy status string', () => {
+    render(
+      <Button
+        text="Button"
+        status="Legacy message"
+        statusMessage="Preferred message"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Preferred message')
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).not.toHaveTextContent('Legacy message')
+  })
 })
 
 // React's deprecated .defaultProps would convert undefined values to the

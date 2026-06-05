@@ -23,7 +23,10 @@ import type {
   FormStatusText,
 } from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
-import { resolveStatus } from '../../shared/component-helper'
+import {
+  resolveStatus,
+  resolveStatusMessage,
+} from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
@@ -102,8 +105,9 @@ export type StepIndicatorProps = Omit<
     statusMessage?: FormStatusText
     /**
      * Visual status.
+     * Passing a message string is supported for backwards compatibility, but deprecated. Use `statusMessage` instead.
      */
-    status?: FormStatusState
+    status?: FormStatusState | string
     /**
      * The type of status for the `statusMessage` prop. Is either `information`, `error` or `warning`.
      * Defaults to `warning`.
@@ -149,6 +153,16 @@ function StepIndicator({
     ...restOfProps,
   }
 
+  const effectiveStatus = resolveStatus({
+    status: statusProp,
+    statusState,
+    statusMessage,
+  })
+  const effectiveStatusMessage = resolveStatusMessage({
+    status: statusProp,
+    statusMessage,
+  })
+
   return (
     <StepIndicatorProvider {...props}>
       <div className="dnb-step-indicator-wrapper">
@@ -166,12 +180,8 @@ function StepIndicator({
           <StepIndicatorList />
         </Card>
         <StepIndicatorStatus
-          status={statusMessage}
-          effectiveStatus={resolveStatus({
-            status: statusProp,
-            statusState,
-            statusMessage,
-          })}
+          status={effectiveStatusMessage}
+          effectiveStatus={effectiveStatus}
         />
       </div>
     </StepIndicatorProvider>

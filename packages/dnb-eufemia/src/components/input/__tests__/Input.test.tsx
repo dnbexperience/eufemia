@@ -1012,4 +1012,48 @@ describe('Input status prop', () => {
     const input = document.querySelector('.dnb-input__input')
     expect(input.getAttribute('aria-invalid')).toBe('true')
   })
+
+  it('defaults to error when only statusMessage is set (via statusState default)', () => {
+    render(<Input statusMessage="A message" />)
+    const element = document.querySelector('.dnb-input')
+    expect(element.classList.contains('dnb-input__status--error')).toBe(
+      true
+    )
+  })
+
+  it('supports legacy string message in status with deprecation warning', () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => null)
+
+    render(<Input status="Legacy error message" />)
+
+    expect(
+      document.querySelector('.dnb-form-status__text').textContent
+    ).toBe('Legacy error message')
+    expect(document.querySelector('.dnb-form-status').classList).toContain(
+      'dnb-form-status--error'
+    )
+
+    expect(log).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining(
+        'Passing a message to `status` is deprecated'
+      )
+    )
+
+    log.mockRestore()
+  })
+
+  it('uses statusMessage over legacy string status', () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => null)
+
+    render(
+      <Input status="do not show this" statusMessage="show this instead" />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text').textContent
+    ).toBe('show this instead')
+
+    log.mockRestore()
+  })
 })

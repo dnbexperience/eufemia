@@ -526,6 +526,27 @@ describe('ToggleButton group component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <ToggleButton.Group
+        id="group"
+        label="Label"
+        status="Legacy information message"
+        statusState="information"
+      >
+        <ToggleButton text="First" value="first" />
+        <ToggleButton text="Second" value="second" />
+      </ToggleButton.Group>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-toggle-button-group')).toHaveClass(
+      'dnb-toggle-button-group__status--information'
+    )
+  })
+
   it('should validate with ARIA rules for group variant', async () => {
     const Comp = render(
       <ToggleButton.Group label="Label" id="group">

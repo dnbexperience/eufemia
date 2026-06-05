@@ -243,6 +243,26 @@ describe('Radio group component', () => {
       expect(shell).not.toHaveAttribute('role')
     })
   })
+
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <Radio.Group
+        label="Label"
+        status="Legacy information message"
+        statusState="information"
+      >
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+      </Radio.Group>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-radio-group')).toHaveClass(
+      'dnb-radio-group__status--information'
+    )
+  })
 })
 
 describe('Radio ARIA', () => {

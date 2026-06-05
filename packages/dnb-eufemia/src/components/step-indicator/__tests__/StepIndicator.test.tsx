@@ -718,6 +718,62 @@ describe('StepIndicator ARIA', () => {
   })
 })
 
+describe('StepIndicator deprecated status compatibility', () => {
+  it('supports deprecated status message on the component via status', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        data={stepIndicatorListData}
+        status="Legacy status message"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy status message')
+  })
+
+  it('supports deprecated status message on items via status', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        expandedInitially
+        data={[
+          {
+            title: 'Step A',
+            status: 'Legacy item message',
+          },
+          {
+            title: 'Step B',
+          },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-step-indicator__item-content__status')
+    ).toHaveTextContent('Legacy item message')
+  })
+
+  it('supports deprecated statusState with statusMessage', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        data={stepIndicatorListData}
+        statusMessage="Information message"
+        statusState="information"
+      />
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveClass(
+      'dnb-form-status--information'
+    )
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Information message')
+  })
+})
+
 describe('StepIndicator scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

@@ -391,6 +391,23 @@ describe('ToggleButton component', () => {
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('supports deprecated status message via status and statusState', () => {
+    render(
+      <ToggleButton
+        text="Toggle"
+        status="Legacy information message"
+        statusState="information"
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).toHaveTextContent('Legacy information message')
+    expect(document.querySelector('.dnb-toggle-button')).toHaveClass(
+      'dnb-toggle-button__status--information'
+    )
+  })
 })
 
 describe('ToggleButton scss', () => {

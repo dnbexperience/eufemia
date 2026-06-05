@@ -45,8 +45,15 @@ export type SliderProps = {
 
   /**
    * Visual status of the component. When set, applies the corresponding visual styling (e.g. red border for error) even without a status message. When set to `error`, `aria-invalid` is automatically applied.
+   * Passing a message string is supported for backwards compatibility but deprecated — use `statusMessage` instead.
    */
-  status?: 'error' | 'warning' | 'information' | 'success' | 'marketing'
+  status?:
+    | 'error'
+    | 'warning'
+    | 'information'
+    | 'success'
+    | 'marketing'
+    | string
 
   /**
    * @deprecated Use `status` instead. Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.

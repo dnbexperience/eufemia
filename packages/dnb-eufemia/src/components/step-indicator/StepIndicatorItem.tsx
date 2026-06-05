@@ -10,6 +10,7 @@ import { clsx } from 'clsx'
 import {
   dispatchCustomElementEvent,
   resolveStatus,
+  resolveStatusMessage,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import type { AnchorAllProps } from '../anchor/Anchor'
@@ -54,8 +55,9 @@ export type StepIndicatorItemProps = Omit<
   statusMessage?: string | ReactNode
   /**
    * Visual status of the step.
+   * Passing a message string is supported for backwards compatibility, but deprecated. Use `statusMessage` instead.
    */
-  status?: StepIndicatorStatusState
+  status?: StepIndicatorStatusState | string
   /**
    * Used to set the status state to be either `information`, `error` or `warning`.
    * Defaults to `warning`.
@@ -163,6 +165,10 @@ function StepIndicatorItem({
     statusState,
     statusMessage,
   })
+  const effectiveStatusMessage = resolveStatusMessage({
+    status,
+    statusMessage,
+  })
 
   const hasPassedAndIsCurrent =
     mode === 'loose' ||
@@ -187,7 +193,7 @@ function StepIndicatorItem({
 
   const itemParams = {} as HTMLProps<HTMLLIElement>
   const buttonParams = {
-    status: statusMessage,
+    status: effectiveStatusMessage,
     effectiveStatus,
     'aria-describedby': id,
   } as StepItemButtonProps
@@ -234,7 +240,7 @@ function StepIndicatorItem({
       <div
         className={clsx(
           'dnb-step-indicator__item__wrapper',
-          !statusMessage &&
+          !effectiveStatusMessage &&
             isVisited &&
             'dnb-step-indicator__item__wrapper--check'
         )}
@@ -244,14 +250,14 @@ function StepIndicatorItem({
             'dnb-step-indicator__item__bullet',
             usedIsCurrent
               ? 'dnb-step-indicator__item__bullet--current'
-              : !statusMessage &&
+              : !effectiveStatusMessage &&
                   (isVisited
                     ? 'dnb-step-indicator__item__bullet--check'
                     : 'dnb-step-indicator__item__bullet--empty'),
             createSkeletonClass('shape', skeleton)
           )}
         >
-          {statusMessage && !usedIsCurrent ? (
+          {effectiveStatusMessage && !usedIsCurrent ? (
             <Icon
               icon={stateIcons[effectiveStatus] || stateIcons.warning}
               className="dnb-step-indicator__item__icon"
@@ -288,10 +294,10 @@ function StepIndicatorItem({
             <FormStatus
               shellSpace={{ top: '1rem' }}
               noAnimation={noAnimation}
-              state={statusMessage ? effectiveStatus : undefined}
+              state={effectiveStatusMessage ? effectiveStatus : undefined}
               variant="outlined"
               className="dnb-step-indicator__item-content__status"
-              text={statusMessage}
+              text={effectiveStatusMessage}
             />
           </div>
         </div>
