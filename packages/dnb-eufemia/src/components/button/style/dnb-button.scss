@@ -122,6 +122,12 @@
       --button-input-separator-color: var(
         --button-input-separator-color--active
       );
+
+      .dnb-button__text {
+        html[data-whatintent='touch'] & {
+          --button-color-underline: var(--button-color-underline--hover);
+        }
+      }
     }
 
     @include utilities.focusVisible() {
@@ -744,6 +750,14 @@
     --button-padding-right: var(--button-padding--large);
   }
 
+  &--secondary:not(#{&}--has-text):not(#{&}--input-button):not(
+      #{&}--control-before
+    ):not(#{&}--control-after)#{&}--size-large {
+    // Make exception for icon button as it should be smaller than the original large button
+    width: calc(var(--button-width--large) - 0.5rem);
+    line-height: calc(var(--button-height) - 0.5rem);
+  }
+
   // size default
 
   /* stylelint-disable-next-line */
@@ -817,6 +831,16 @@
   &--control-after {
     border-radius: 0 var(--button-border-radius--control-button)
       var(--button-border-radius--control-button) 0;
+  }
+
+  &--secondary:not(#{&}--has-text)#{&}--control-before,
+  &--secondary:not(#{&}--has-text)#{&}--control-after {
+    box-shadow: none;
+    border: none;
+    @include utilities.hover() {
+      box-shadow: none;
+      border: none;
+    }
   }
 
   // because we have "appearance: button" in some css resets (not our)
