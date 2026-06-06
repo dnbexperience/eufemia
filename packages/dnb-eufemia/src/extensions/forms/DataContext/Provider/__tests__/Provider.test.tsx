@@ -987,7 +987,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       const submitButton = document.querySelector('button')
       const indicator = submitButton.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
 
       fireEvent.click(submitButton)
@@ -995,7 +995,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(submitButton).toBeDisabled()
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
 
@@ -1011,7 +1011,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(submitButton).toBeDisabled()
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
     })
@@ -1037,14 +1037,14 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeNull()
       })
@@ -1483,7 +1483,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       const submitButton = document.querySelector('button')
       const input = document.querySelector('input')
       const indicator = submitButton.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
 
       await userEvent.click(submitButton)
@@ -1491,7 +1491,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
         expect(indicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
@@ -1513,7 +1513,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
         expect(indicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
@@ -1535,7 +1535,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
         expect(indicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
@@ -1587,7 +1587,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
         expect(indicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
         const status = document.querySelector(
           '.dnb-forms-field-block .dnb-form-status'
@@ -1833,7 +1833,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       const inputElement = document.querySelector('input')
       const pendingField = () =>
         document.querySelector(
-          '.dnb-forms-field-block .dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-field-block .dnb-forms-submit-indicator-glow__status--state-pending'
         )
 
       // 1. start the async validation
@@ -1860,7 +1860,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         expect(buttonElement).toBeDisabled()
         expect(
           buttonElement.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeTruthy()
       })
@@ -1953,7 +1953,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       const inputElement = document.querySelector('input')
       const pendingField = () =>
         document.querySelector(
-          '.dnb-forms-field-block .dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-field-block .dnb-forms-submit-indicator-glow__status--state-pending'
         )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -2063,7 +2063,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -2072,12 +2072,12 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       })
 
       expect(indicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
 
       await waitFor(() => {
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator-glow__status--state-complete'
         )
       })
     })
@@ -2096,7 +2096,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
 
       // Use fireEvent over userEvent, because of its sync nature
@@ -2105,12 +2105,12 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       })
 
       expect(indicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
 
       await waitFor(() => {
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-success'
+          'dnb-forms-submit-indicator-glow__status--state-success'
         )
       })
     })
@@ -2427,7 +2427,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
 
       await userEvent.type(input, '123')
@@ -2435,14 +2435,14 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(events).toEqual(['onChangeValidator'])
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
 
       await waitFor(() => {
         expect(events).toEqual(['onChangeValidator', 'onChangeForm'])
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
 
@@ -2453,7 +2453,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
           'onChangeField',
         ])
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator-glow__status--state-complete'
         )
       })
     })
