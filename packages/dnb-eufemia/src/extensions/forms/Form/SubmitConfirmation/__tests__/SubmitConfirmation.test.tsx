@@ -72,7 +72,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeTruthy()
       })
@@ -83,7 +83,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(
           submitButton.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeFalsy()
       })
@@ -155,7 +155,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeTruthy()
       })
@@ -166,7 +166,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(
           submitButton.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeFalsy()
       })
@@ -205,7 +205,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
         await waitFor(() => {
           expect(
             submitButton.querySelector(
-              '.dnb-forms-submit-indicator--state-pending'
+              '.dnb-forms-submit-indicator-glow__status--state-pending'
             )
           ).toBeTruthy()
         })
@@ -216,7 +216,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
         await waitFor(() => {
           expect(
             submitButton.querySelector(
-              '.dnb-forms-submit-indicator--state-pending'
+              '.dnb-forms-submit-indicator-glow__status--state-pending'
             )
           ).toBeFalsy()
         })
@@ -256,7 +256,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
         await waitFor(() => {
           expect(
             submitButton.querySelector(
-              '.dnb-forms-submit-indicator--state-pending'
+              '.dnb-forms-submit-indicator-glow__status--state-pending'
             )
           ).toBeTruthy()
         })
@@ -267,7 +267,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
         await waitFor(() => {
           expect(
             submitButton.querySelector(
-              '.dnb-forms-submit-indicator--state-pending'
+              '.dnb-forms-submit-indicator-glow__status--state-pending'
             )
           ).toBeFalsy()
         })
@@ -510,7 +510,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeInTheDocument()
       })
@@ -622,7 +622,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(
           submitButton.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeTruthy()
       })
@@ -694,7 +694,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
     await waitFor(() => {
       expect(
         submitButton.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeTruthy()
     })
