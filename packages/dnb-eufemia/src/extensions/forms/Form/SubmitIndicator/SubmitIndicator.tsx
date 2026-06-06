@@ -77,7 +77,7 @@ function SubmitIndicator(props: FormSubmitIndicatorProps) {
           'aria-hidden': true,
         }
 
-  const dot = <b>.</b>
+  const dot = <b />
   const indicator = (
     <span
       className="dnb-forms-submit-indicator__content"
