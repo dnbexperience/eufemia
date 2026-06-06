@@ -5746,8 +5746,12 @@ describe('useFieldProps', () => {
         )
 
         expect(
-          document.querySelector('.dnb-forms-submit-indicator')
-        ).toHaveClass('dnb-forms-submit-indicator--state-pending')
+          document.querySelector(
+            '.dnb-forms-submit-indicator-glow__status'
+          )
+        ).toHaveClass(
+          'dnb-forms-submit-indicator-glow__status--state-pending'
+        )
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()

@@ -23,7 +23,6 @@ fieldset.dnb-forms-field-block {
       'label'
       'help'
       'contents'
-      'indicator'
       'status';
   }
 
@@ -136,7 +135,6 @@ fieldset.dnb-forms-field-block {
       grid-template-areas:
         'label contents'
         '. help'
-        '. indicator'
         '. status';
 
       .dnb-help-button__content {
@@ -150,15 +148,6 @@ fieldset.dnb-forms-field-block {
       .dnb-forms-field-block__contents {
         align-self: end;
       }
-    }
-  }
-
-  &__indicator {
-    grid-area: indicator;
-
-    position: relative;
-    .dnb-forms-submit-indicator__content {
-      position: absolute;
     }
   }
 
@@ -206,8 +195,7 @@ fieldset.dnb-forms-field-block {
       'label'
       'help'
       'status'
-      'contents'
-      'indicator';
+      'contents';
   }
 
   &--status-position-above {
@@ -220,8 +208,7 @@ fieldset.dnb-forms-field-block {
       grid-template-areas:
         'label status'
         '. contents'
-        '. help'
-        '. indicator';
+        '. help';
     }
   }
 
@@ -298,24 +285,6 @@ fieldset.dnb-forms-field-block {
     @include utilities.allBelow(x-small) {
       row-gap: 0.5rem;
       flex-flow: column;
-    }
-  }
-
-  // Because we want to hide / show the indicator responsively,
-  // we render both, but hide the one we don't want to show.
-  // Use the specific __indicator class to avoid hiding the
-  // SubmitIndicator inside Form.SubmitButton.
-  @include utilities.allBelow(x-small) {
-    &__composition > &__grid > .dnb-forms-field-block__indicator {
-      display: none;
-    }
-  }
-  @include utilities.allAbove(x-small) {
-    &__composition
-      > &__grid
-      > &__contents
-      .dnb-forms-field-block__indicator {
-      display: none;
     }
   }
 }

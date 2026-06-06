@@ -801,16 +801,18 @@ describe('Field.Composition', () => {
     )
 
     const button = document.querySelector('button')
-    const indicator = button.querySelector('.dnb-forms-submit-indicator')
+    const indicator = button.querySelector(
+      '.dnb-forms-submit-indicator-glow__status'
+    )
 
     expect(indicator).not.toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator-glow__status--state-pending'
     )
 
     await userEvent.click(button)
 
     expect(indicator).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator-glow__status--state-pending'
     )
   })
 })

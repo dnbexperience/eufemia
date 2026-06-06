@@ -642,7 +642,7 @@ type EventStateObjectInfo = ReactNode
 type EventStateObjectStatus = 'pending'
 
 /**
- * Provide a success state that will show an indicator on the related field label
+ * Provide a success state that will show an indicator for the related field
  */
 type EventStateObjectSuccess = 'saved'
 

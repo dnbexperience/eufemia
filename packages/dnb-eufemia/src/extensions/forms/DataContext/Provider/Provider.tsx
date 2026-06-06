@@ -131,7 +131,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
     transformOut?: TransformData
     /**
      * Change handler for the whole data set.
-     * You can provide an async function to show an indicator on the current label during a field change.
+     * You can provide an async function to show an indicator for the current field during a field change.
      */
     onChange?: OnChange<Data>
     /**

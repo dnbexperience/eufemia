@@ -11,6 +11,16 @@ export const Default = () => {
   )
 }
 
+export const SubmitButton = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Form.SubmitButton showIndicator />
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
 export const AsyncSubmitBehavior = () => {
   return (
     <ComponentBox scope={{ createRequest, debounceAsync }}>
@@ -111,7 +121,6 @@ export const WithinOtherComponents = () => {
     <ComponentBox>
       <Form.Handler>
         <Flex.Horizontal align="center">
-          <Form.SubmitButton showIndicator />
           <Button variant="secondary" icon="chevron_right">
             Secondary
             <Form.SubmitIndicator state="pending" />
@@ -120,7 +129,7 @@ export const WithinOtherComponents = () => {
             Tertiary
             <Form.SubmitIndicator state="pending" />
           </Button>
-          <FormLabel>
+          <FormLabel bottom={0}>
             Label
             <Form.SubmitIndicator state="pending" />
           </FormLabel>
@@ -130,11 +139,101 @@ export const WithinOtherComponents = () => {
   )
 }
 
-export const WithinALabel = () => {
+export const BorderGlow = () => {
   return (
-    <ComponentBox data-visual-test="submit-indicator-with-label">
-      <Form.Handler>
-        <Form.SubmitIndicator state="pending" showLabel />
+    <ComponentBox>
+      <Form.Handler onSubmit={async () => await new Promise(() => {})}>
+        <Flex.Stack className="dnb-indicator-border-glow dnb-indicator-border-glow--active">
+          <Field.String
+            label="Field.String"
+            path="/string"
+            defaultValue="Ada"
+          />
+          <Field.Number
+            label="Field.Number"
+            path="/number"
+            defaultValue={1000}
+          />
+          <Field.String
+            label="Field.String (multiline)"
+            path="/multiline"
+            defaultValue="Hello world"
+            multiline
+          />
+          <Field.Selection
+            label="Field.Selection (dropdown)"
+            path="/dropdown"
+            defaultValue="no"
+            variant="dropdown"
+          >
+            <Field.Option value="no" title="Norway" />
+            <Field.Option value="se" title="Sweden" />
+            <Field.Option value="dk" title="Denmark" />
+          </Field.Selection>
+          <Field.Selection
+            label="Field.Selection (autocomplete)"
+            path="/autocomplete"
+            defaultValue="nb"
+            variant="autocomplete"
+          >
+            <Field.Option value="nb" title="Norsk bokmål" />
+            <Field.Option value="nn" title="Norsk nynorsk" />
+            <Field.Option value="en" title="English" />
+            <Field.Option value="sv" title="Svenska" />
+          </Field.Selection>
+          <Field.Toggle
+            label="Field.Toggle (buttons)"
+            path="/toggle"
+            valueOn="yes"
+            valueOff="no"
+            defaultValue="yes"
+            variant="buttons"
+            textOn="On"
+            textOff="Off"
+          />
+          <Field.Boolean
+            label="Field.Boolean (checkbox)"
+            path="/checkbox"
+            defaultValue={true}
+          />
+          <Field.Boolean
+            label="Field.Boolean (checkbox-button)"
+            path="/checkboxButton"
+            defaultValue={false}
+            variant="checkbox-button"
+          />
+          <Field.Boolean
+            label="Field.Boolean (switch)"
+            path="/switch"
+            defaultValue={false}
+            variant="switch"
+          />
+          <Field.Selection
+            label="Field.Selection (radio)"
+            path="/radio"
+            defaultValue="medium"
+            variant="radio"
+          >
+            <Field.Option value="low" title="Low" />
+            <Field.Option value="medium" title="Medium" />
+            <Field.Option value="high" title="High" />
+          </Field.Selection>
+          <Field.Slider
+            label="Field.Slider"
+            path="/slider"
+            defaultValue={50}
+            min={0}
+            max={100}
+          />
+          <Field.PhoneNumber
+            label="Field.PhoneNumber"
+            path="/phone"
+            defaultValue="+47 12345678"
+          />
+          <Field.Date label="Field.Date" path="/date" />
+          <Field.Expiry label="Field.Expiry" path="/expiry" />
+          <Form.SubmitButton showIndicator />
+        </Flex.Stack>
       </Form.Handler>
     </ComponentBox>
   )

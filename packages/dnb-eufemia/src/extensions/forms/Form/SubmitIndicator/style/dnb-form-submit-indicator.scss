@@ -1,3 +1,5 @@
+@use './border-glow.scss';
+
 .dnb-forms-submit-indicator {
   --padding-left: 0.5em;
   --font-animation: font-size var(--font-animation-duration, 400ms)
