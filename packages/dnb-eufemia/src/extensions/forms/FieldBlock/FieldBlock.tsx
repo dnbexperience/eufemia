@@ -46,7 +46,7 @@ import type { HelpProps } from '../../../components/help-button/HelpButtonInline
 import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../../../components/help-button/HelpButtonInline'
-import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
+import SubmitIndicatorGlow from '../Form/SubmitIndicator/SubmitIndicatorGlow'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
 import { FormError } from '../utils'
@@ -525,6 +525,9 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     return null
   }
 
+  const indicatorState =
+    fieldState ?? getAggregateFieldState(fieldStatesRef.current)
+
   const hasLabelDescription = isFragment(labelDescription)
     ? fragmentHasChildren(labelDescription) &&
       !fragmentHasOnlyUndefinedChildren(labelDescription)
@@ -621,6 +624,9 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
                   hasCustomContentWidth ? 'custom' : contentWidth
                 }`,
               align && `dnb-forms-field-block__contents--align-${align}`,
+              indicatorState && 'dnb-indicator-border-glow',
+              indicatorState === 'pending' &&
+                'dnb-indicator-border-glow--active',
               contentClassName
             )}
             ref={contentsRef}
@@ -658,12 +664,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
             />
           </Suspense>
 
-          <SubmitIndicator
-            state={
-              fieldState ?? getAggregateFieldState(fieldStatesRef.current)
-            }
-            className="dnb-forms-field-block__indicator dnb-forms-submit-indicator--inline-wrap"
-          />
+          <SubmitIndicatorGlow state={indicatorState} />
         </div>
       </Space>
     </FieldBlockContext>
