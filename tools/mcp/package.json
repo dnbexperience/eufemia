@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE FILE",
   "type": "module",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.1060.0",
