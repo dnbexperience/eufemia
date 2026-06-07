@@ -1,5 +1,10 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
+:root {
+  // Keep these outside of the .dnb-card class so they can be used globally (dnb-help-button-inline)
+  --card-outline-width: 0.0625rem;
+}
+
 .dnb-card {
   --card-outline-color: var(
     --border-color,
@@ -28,9 +33,15 @@
   // Prevent inherited drop shadow from parent cards.
   // Nested cards should only show shadow when they explicitly set dropShadow.
   & .dnb-card {
+    --rounded-corner: var(--token-radius-lg);
     --drop-shadow--small: var(--drop-shadow-none);
     --drop-shadow--medium: var(--drop-shadow-none);
     --drop-shadow--large: var(--drop-shadow-none);
+
+    // Third level and deeper nested Cards
+    & .dnb-card {
+      --rounded-corner: var(--token-radius-md);
+    }
   }
 
   @include utilities.allAbove(small) {
