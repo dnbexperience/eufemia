@@ -12,16 +12,6 @@
   );
   --card-background-color: var(--token-color-background-neutral);
 
-  // Nested Cards
-  & .dnb-card {
-    --rounded-corner: var(--token-radius-lg);
-  }
-
-  // Third level and deeper nested Cards
-  & .dnb-card .dnb-card {
-    --rounded-corner: var(--token-radius-md);
-  }
-
   &__title {
     padding-bottom: 1rem;
     font-size: var(--font-size-basis);
@@ -43,9 +33,15 @@
   // Prevent inherited drop shadow from parent cards.
   // Nested cards should only show shadow when they explicitly set dropShadow.
   & .dnb-card {
+    --rounded-corner: var(--token-radius-lg);
     --drop-shadow--small: var(--drop-shadow-none);
     --drop-shadow--medium: var(--drop-shadow-none);
     --drop-shadow--large: var(--drop-shadow-none);
+
+    // Third level and deeper nested Cards
+    & .dnb-card {
+      --rounded-corner: var(--token-radius-md);
+    }
   }
 
   @include utilities.allAbove(small) {
