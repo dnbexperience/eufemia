@@ -1,8 +1,11 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
+import type {
+  APIGatewayProxyEventV2,
+  APIGatewayProxyResultV2,
+} from 'aws-lambda'
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
 import server from '../server.js'
 
-function toWebRequest(event: APIGatewayProxyEvent): Request {
+function toWebRequest(event: APIGatewayProxyEventV2): Request {
   const headers = new Headers()
   for (const [key, value] of Object.entries(event.headers)) {
     if (value) {
@@ -10,8 +13,8 @@ function toWebRequest(event: APIGatewayProxyEvent): Request {
     }
   }
 
-  const url = `https://${event.headers['Host'] || 'localhost'}${event.path}`
-  const method = event.httpMethod
+  const url = `https://${event.headers['host'] || 'localhost'}${event.rawPath}`
+  const method = event.requestContext.http.method
 
   return new Request(url, {
     method,
@@ -22,7 +25,7 @@ function toWebRequest(event: APIGatewayProxyEvent): Request {
 
 async function toApiGatewayResult(
   response: Response
-): Promise<APIGatewayProxyResult> {
+): Promise<APIGatewayProxyResultV2> {
   const headers: Record<string, string> = {}
   response.headers.forEach((value, key) => {
     headers[key] = value
@@ -36,8 +39,8 @@ async function toApiGatewayResult(
 }
 
 export async function handler(
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> {
+  event: APIGatewayProxyEventV2
+): Promise<APIGatewayProxyResultV2> {
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,
