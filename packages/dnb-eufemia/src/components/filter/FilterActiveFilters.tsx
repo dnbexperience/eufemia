@@ -118,12 +118,25 @@ function FilterActiveFilters({
             </>
           ) : (
             <>
-              <span
-                className="dnb-filter__active-filters__label"
-                aria-hidden
+              <Flex.Horizontal
+                className="dnb-filter__active-filters__header"
+                justify="space-between"
+                align="center"
               >
-                {resolvedLabel}
-              </span>
+                <span
+                  className="dnb-filter__active-filters__label"
+                  aria-hidden
+                >
+                  {resolvedLabel}
+                </span>
+                <Button
+                  variant="tertiary"
+                  icon={close}
+                  onClick={handleClearAll}
+                >
+                  {clearAllLabel}
+                </Button>
+              </Flex.Horizontal>
               {tags}
             </>
           )}

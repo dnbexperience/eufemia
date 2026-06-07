@@ -330,6 +330,61 @@ describe('Filter.ActiveFilters collapsible', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('shows a clear all button without collapsibleThreshold', () => {
+    render(
+      <FilterRoot id="non-collapse-clear-test">
+        <SetManyFilters count={2} />
+        <FilterActiveFilters />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    const buttons = document.querySelectorAll(
+      '.dnb-filter__active-filters .dnb-button--tertiary'
+    )
+    const clearButton = Array.from(buttons).find((btn) =>
+      btn.textContent.includes('Fjern alle')
+    )
+
+    expect(clearButton).toBeInTheDocument()
+  })
+
+  it('clears all filters when clear all is clicked without collapsibleThreshold', () => {
+    function FilterState() {
+      const ctx = useFilterContext()
+      return (
+        <span data-testid="count">{Object.keys(ctx.filters).length}</span>
+      )
+    }
+
+    render(
+      <FilterRoot id="non-collapse-clear-action-test">
+        <SetManyFilters count={3} />
+        <FilterActiveFilters />
+        <FilterState />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    expect(
+      document.querySelector('[data-testid="count"]').textContent
+    ).toBe('3')
+
+    const buttons = document.querySelectorAll(
+      '.dnb-filter__active-filters .dnb-button--tertiary'
+    )
+    const clearButton = Array.from(buttons).find((btn) =>
+      btn.textContent.includes('Fjern alle')
+    )
+    fireEvent.click(clearButton)
+
+    expect(
+      document.querySelector('[data-testid="count"]').textContent
+    ).toBe('0')
+  })
+
   it('shows collapsible accordion when above threshold', () => {
     render(
       <FilterRoot id="collapse-above-test">

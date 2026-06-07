@@ -81,6 +81,10 @@
       margin: -0.125rem 0 0 -0.125rem;
     }
 
+    &__label {
+      font-size: var(--font-size-basis);
+    }
+
     &__header {
       padding: 0;
     }
