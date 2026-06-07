@@ -1,10 +1,12 @@
 {
   "name": "mcp",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Eufemia MCP server for AWS Lambda",
+  "main": "dist/lambda-handler.mjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild src/transports/lambda-handler.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/lambda-handler.mjs '--external:@aws-sdk/*' && cd dist && zip -j lambda.zip lambda-handler.mjs",
+    "dev": "tsx src/transports/stdio.ts",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +21,7 @@
   "devDependencies": {
     "@types/aws-lambda": "8.10.161",
     "@types/node": "25.9.1",
+    "esbuild": "0.25.5",
     "tsx": "4.22.4",
     "typescript": "6.0.3"
   }
