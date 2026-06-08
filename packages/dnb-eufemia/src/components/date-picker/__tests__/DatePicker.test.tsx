@@ -5894,7 +5894,6 @@ describe('DatePicker ARIA', () => {
     )
 
     await userEvent.click(getOpenButton())
-    // console.log('sv-SE labels', Array.from(document.querySelectorAll('[aria-label$="2025"]')).map((btn) => btn.getAttribute('aria-label')))
     await userEvent.click(screen.getByLabelText(/onsdag 2\.? april 2025/i))
     await userEvent.click(
       screen.getByLabelText(/lördag 19\.? april 2025/i)

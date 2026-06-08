@@ -355,7 +355,6 @@ describe('TableTr', () => {
 
       elements = document.querySelectorAll('tbody tr')
       expect(elements).toHaveLength(4)
-      // console.log('document.body', document.body.innerHTML)
       expect(Array.from(elements[0].classList)).toContain(
         'dnb-table__tr--odd'
       )
