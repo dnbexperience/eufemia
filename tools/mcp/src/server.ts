@@ -27,7 +27,11 @@ async function resolveDocsRoot(): Promise<string> {
     }
   }
 
-  return candidates[0] ?? path.resolve(moduleDir, '../dist/docs')
+  throw new Error(
+    `No docs directory found. Searched:\n` +
+      candidates.map((c) => `  - ${c}`).join('\n') +
+      '\n  Run `yarn workspace @dnb/eufemia build:docs` or set EUFEMIA_DOCS_ROOT.'
+  )
 }
 
 const docsRoot = await resolveDocsRoot()
