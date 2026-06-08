@@ -113,7 +113,6 @@ exports[`PaymentCard scss > has to match style dependencies css 1`] = `
    * Define custom CSS variables used throughout the PaymentCard component.
    * These variables allow for reusable colors, border-radius, and overlay background transitions.
    */
-  --color-dark-cyan: #003b47;
   --dnb-payment-bg-default: var(--color-sea-green);
   --dnb-payment-bg-pluss: var(--color-ocean-green);
   --dnb-payment-bg-white: var(--color-white);

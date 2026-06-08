@@ -51,7 +51,6 @@
   --drawer-list-option-divider: 0.0625rem;
 
   // Template
-  --drawer-list-padding-horizontal--default: 1rem;
   --drawer-list-padding-horizontal--large: 1.25rem;
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--default: 2rem;
@@ -64,13 +63,6 @@
   );
   --drawer-list-list-background: var(--token-color-background-neutral);
   --drawer-list-list-line-height: var(--line-height-basis);
-  // Disabled option
-  --drawer-list-option-disabled-background: var(
-    --token-color-background-neutral
-  );
-  --drawer-list-option-disabled-color: var(
-    --token-color-text-action-disabled
-  );
   // Group
   --drawer-list-group-title-color: var(--token-color-text-neutral);
   --drawer-list-group-title-bg: var(
