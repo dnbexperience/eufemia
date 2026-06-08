@@ -1047,6 +1047,50 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
     })
 
+    it('should clear abort state timeout on unmount', async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, 'setTimeout')
+      const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout')
+      const onSubmit: OnSubmit = vi.fn().mockImplementation(async () => {
+        throw new Error('Submit failed')
+      })
+
+      try {
+        const { unmount } = render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            minimumAsyncBehaviorTime={9876}
+          >
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.click(document.querySelector('button'))
+
+        await waitFor(() => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-submit-indicator--state-abort'
+            )
+          ).toBeInTheDocument()
+        })
+
+        const abortResetTimer = setTimeoutSpy.mock.results.find(
+          (_, index) => setTimeoutSpy.mock.calls[index][1] === 9876
+        )?.value
+
+        expect(abortResetTimer).toBeDefined()
+
+        clearTimeoutSpy.mockClear()
+
+        unmount()
+
+        expect(clearTimeoutSpy).toHaveBeenCalledWith(abortResetTimer)
+      } finally {
+        setTimeoutSpy.mockRestore()
+        clearTimeoutSpy.mockRestore()
+      }
+    })
+
     describe('should evaluate long onChangeValidator and onBlurValidator before continue with async onSubmit', () => {
       let eventsStart = []
       let eventsEnd = []
