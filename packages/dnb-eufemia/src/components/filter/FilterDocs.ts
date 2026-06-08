@@ -340,6 +340,19 @@ export const ContentProperties: PropertiesTableProps = {
   },
 }
 
+export const HighlightingProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Text to highlight based on the current search value.',
+    type: 'string',
+    status: 'required',
+  },
+  connectedTo: {
+    doc: 'Links to a `Filter.Root` by its `id`. When omitted, the id is inherited from the nearest `Filter.Root` or `Filter.Content`.',
+    type: 'string',
+    status: 'optional',
+  },
+}
+
 export const QuickFiltersProperties: PropertiesTableProps = {
   className: {
     doc: 'Custom CSS class name.',
@@ -460,7 +473,7 @@ export const UseFilterAsyncReturn: PropertiesTableProps = {
 
 export const RootEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Called whenever the filter state changes. Receives a `FilterChangeState` object with `search` and `filters`. When `behavior="manual"`, this is called immediately for search changes but only when the user applies for filter changes.',
+    doc: 'Called whenever the applied filter state changes. Receives a `FilterChangeState` object with `search` and `filters`. When `behavior="manual"`, this is called immediately for search changes and applied filter removals, while draft panel filter changes are only emitted when the user applies them.',
     type: '(state: FilterChangeState) => void',
     status: 'optional',
   },
