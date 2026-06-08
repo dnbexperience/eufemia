@@ -38,6 +38,13 @@ const initialState: FilterState = {
   filters: {},
 }
 
+function toChangeState({
+  search,
+  filters,
+}: FilterChangeState): FilterChangeState {
+  return { search, filters }
+}
+
 function deriveAccordionState(
   filters: Record<string, FilterValue>
 ): Record<string, boolean> {
@@ -180,7 +187,7 @@ function FilterRoot({
         }
 
         extend({ filters: next })
-        onChangeRef.current?.({ ...latest, filters: next })
+        onChangeRef.current?.(toChangeState({ ...latest, filters: next }))
       }
     },
     [isManual, extend, get]
@@ -203,7 +210,7 @@ function FilterRoot({
 
       setDraftState(nextState)
       extend({ search: nextState.search, filters: nextState.filters })
-      onChangeRef.current?.(nextState)
+      onChangeRef.current?.(toChangeState(nextState))
     },
     [extend]
   )
@@ -245,7 +252,7 @@ function FilterRoot({
     }
 
     extend({ search: nextState.search, filters: nextState.filters })
-    onChangeRef.current?.(nextState)
+    onChangeRef.current?.(toChangeState(nextState))
   }, [extend, get, isManual])
 
   const replaceFilters = useCallback(
@@ -255,7 +262,7 @@ function FilterRoot({
       } else {
         extend({ filters })
         const latest = get() ?? initialState
-        onChangeRef.current?.({ ...latest, filters })
+        onChangeRef.current?.(toChangeState({ ...latest, filters }))
       }
     },
     [isManual, extend, get]
@@ -277,7 +284,7 @@ function FilterRoot({
   const commitFilters = useCallback(() => {
     const draft = draftRef.current
     extend({ search: draft.search, filters: draft.filters })
-    onChangeRef.current?.(draft)
+    onChangeRef.current?.(toChangeState(draft))
   }, [extend])
 
   const revertFilters = useCallback(() => {

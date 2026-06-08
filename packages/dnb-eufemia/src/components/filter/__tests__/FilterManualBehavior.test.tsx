@@ -188,7 +188,12 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-commit" behavior="manual" onChange={onChange}>
+      <FilterRoot
+        id="manual-commit"
+        behavior="manual"
+        resultCount={5}
+        onChange={onChange}
+      >
         <TestInner />
       </FilterRoot>
     )
@@ -200,11 +205,11 @@ describe('behavior="manual"', () => {
     fireEvent.click(document.querySelector('[data-testid="commit"]'))
 
     expect(onChange).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        filters: { status: { value: 'paid', label: 'Paid' } },
-      })
-    )
+    expect(onChange).toHaveBeenCalledWith({
+      search: '',
+      filters: { status: { value: 'paid', label: 'Paid' } },
+    })
+    expect(onChange.mock.calls[0][0]).not.toHaveProperty('resultCount')
   })
 
   it('reverts state when revertFilters is called', () => {
@@ -543,6 +548,7 @@ describe('behavior="manual"', () => {
         id="manual-remove-one-active-filter"
         behavior="manual"
         defaultFilters={defaultFiltersMultiple}
+        resultCount={5}
         onChange={onChange}
       >
         <FilterSearch label="Søk" />
@@ -571,6 +577,7 @@ describe('behavior="manual"', () => {
         },
       },
     })
+    expect(onChange.mock.calls[0][0]).not.toHaveProperty('resultCount')
     expect(input).toHaveValue('salary')
     expect(document.querySelector('.dnb-tag').textContent).toContain(
       'Transfer'
@@ -585,6 +592,7 @@ describe('behavior="manual"', () => {
         id="manual-clear-applied-filters"
         behavior="manual"
         defaultFilters={defaultFiltersMultiple}
+        resultCount={5}
         onChange={onChange}
       >
         <FilterPanel>
@@ -612,6 +620,7 @@ describe('behavior="manual"', () => {
       search: 'card',
       filters: {},
     })
+    expect(onChange.mock.calls[0][0]).not.toHaveProperty('resultCount')
     expect(input).toHaveValue('card')
     expect(document.querySelector('.dnb-tag')).not.toBeInTheDocument()
     expect(
