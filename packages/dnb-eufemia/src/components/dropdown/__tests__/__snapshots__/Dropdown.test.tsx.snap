@@ -1056,7 +1056,7 @@ legend.dnb-form-label {
 */
 .dnb-dropdown {
   --dropdown-width: 16rem;
-  --dropdown-height: 2.5rem;
+  --dropdown-height: 2rem;
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
@@ -1102,9 +1102,6 @@ legend.dnb-form-label {
   z-index: 1;
   user-select: none;
   width: 100%;
-}
-.dnb-dropdown__trigger:not(.dnb-button--tertiary) {
-  line-height: var(--dropdown-height);
 }
 .dnb-dropdown__trigger.dnb-button {
   padding: var(--dropdown-button-padding);
@@ -1366,7 +1363,7 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
  */
 .dnb-dropdown {
   --dropdown-width: 16rem;
-  --dropdown-height: 2.5rem;
+  --dropdown-height: 2rem;
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
@@ -1412,9 +1409,6 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
   z-index: 1;
   user-select: none;
   width: 100%;
-}
-.dnb-dropdown__trigger:not(.dnb-button--tertiary) {
-  line-height: var(--dropdown-height);
 }
 .dnb-dropdown__trigger.dnb-button {
   padding: var(--dropdown-button-padding);
