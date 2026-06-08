@@ -27,14 +27,6 @@ type InnerSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
   innerSpace?: InnerSpaceType
 }
 
-export const spacingDefaultProps: SpacingProps = {
-  space: null,
-  innerSpace: null,
-  top: null,
-  right: null,
-  bottom: null,
-  left: null,
-}
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns: Record<
   SpacePositiveSize,
