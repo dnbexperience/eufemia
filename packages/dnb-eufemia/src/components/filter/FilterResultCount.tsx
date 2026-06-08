@@ -40,11 +40,14 @@ function FilterResultCount({
   const isLoading = sharedData?.resultLoading ?? false
 
   const hasActiveFilters =
-    context?.hasActiveFilters ??
-    Boolean(
-      sharedData?.search ||
-      (sharedData?.filters && Object.keys(sharedData.filters).length > 0)
-    )
+    context?.behavior === 'manual'
+      ? Object.keys(context.appliedState.filters).length > 0
+      : (context?.hasActiveFilters ??
+        Boolean(
+          sharedData?.search ||
+          (sharedData?.filters &&
+            Object.keys(sharedData.filters).length > 0)
+        ))
 
   const spacingProps = useSpacing(spacingRest, {
     className: clsx('dnb-filter__result-count', className),

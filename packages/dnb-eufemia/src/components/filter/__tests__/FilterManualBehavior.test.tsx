@@ -4,6 +4,7 @@ import FilterSearch from '../FilterSearch'
 import FilterPanel from '../FilterPanel'
 import FilterPanelButton from '../FilterPanelButton'
 import FilterActiveFilters from '../FilterActiveFilters'
+import FilterResultCount from '../FilterResultCount'
 import { useFilter, useFilterContext } from '../hooks/useFilter'
 
 describe('behavior="manual"', () => {
@@ -416,6 +417,51 @@ describe('behavior="manual"', () => {
 
     expect(tagsAfterCommit).toHaveLength(1)
     expect(tagsAfterCommit[0].textContent).toContain('A')
+  })
+
+  it('does not show result count until filters are applied', () => {
+    function SetFilter() {
+      const ctx = useFilterContext()
+      return (
+        <>
+          <button
+            data-testid="set"
+            onClick={() =>
+              ctx.setFilter('/type', { value: 'a', label: 'A' })
+            }
+          >
+            Set
+          </button>
+          <button data-testid="commit" onClick={() => ctx.commitFilters()}>
+            Commit
+          </button>
+        </>
+      )
+    }
+
+    render(
+      <FilterRoot
+        id="manual-result-count-committed"
+        behavior="manual"
+        resultCount={5}
+      >
+        <SetFilter />
+        <FilterResultCount />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set"]'))
+
+    expect(
+      document.querySelector('.dnb-filter__result-count')
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('[data-testid="commit"]'))
+
+    const resultCount = document.querySelector('.dnb-filter__result-count')
+
+    expect(resultCount).toBeInTheDocument()
+    expect(resultCount.textContent).toContain('5')
   })
 
   it('resets shared search state when resetFilters is called', () => {
