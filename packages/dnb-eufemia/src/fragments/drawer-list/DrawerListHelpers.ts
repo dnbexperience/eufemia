@@ -139,12 +139,12 @@ export function parseContentTitle(
   return ret
 }
 
-export const hasObjectKeyAsValue = (data) => {
+const hasObjectKeyAsValue = (data) => {
   data = data?.rawData || data
   return data && typeof data === 'object' && !Array.isArray(data)
 }
 
-export function preSelectData(data: DrawerListData): DrawerListDataAll {
+function preSelectData(data: DrawerListData): DrawerListDataAll {
   if (typeof data === 'string') {
     data =
       data[0] === '{' || data[0] === '['
@@ -255,7 +255,7 @@ export const getSelectedItemValue = (value, state) => {
   return value
 }
 
-export const parseCurrentValue = (current) => {
+const parseCurrentValue = (current) => {
   if (typeof current?.selectedKey !== 'undefined') {
     return current?.selectedKey
   }
