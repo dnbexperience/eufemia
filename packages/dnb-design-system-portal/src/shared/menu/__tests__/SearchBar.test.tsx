@@ -90,4 +90,32 @@ describe('SearchBar', () => {
     expect(highlight).not.toBeNull()
     expect(highlight?.textContent).toBe('--z-index')
   })
+
+  it('keeps inline code highlighting inside linked search results', () => {
+    const { container } = render(
+      <Autocomplete
+        data={[
+          <a key="result" href="/components/card">
+            {formatSearchResultMarkdown('Use `Card`')}
+          </a>,
+        ]}
+        open
+        inputValue="Ca"
+        id="portal-search-link-test"
+        disableFilter
+        noAnimation
+        skipPortal
+      />
+    )
+
+    const link = container.querySelector('a')
+    const code = link?.querySelector('code')
+    const highlight = code?.querySelector(
+      '.dnb-drawer-list__option__item--highlight'
+    )
+
+    expect(link).not.toBeNull()
+    expect(code?.textContent).toBe('Card')
+    expect(highlight?.textContent).toBe('Ca')
+  })
 })
