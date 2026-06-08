@@ -1,14 +1,38 @@
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { z } from 'zod'
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const server = new McpServer(
-  { name: 'my-mcp-server', version: '1.0.0' },
-  { debouncedNotificationMethods: [] }
-)
+import { createDocsServer, validateDocsRoot } from './docs-server.js'
 
-// Register a tool
-server.tool('hello', { name: z.string() }, async ({ name }) => ({
-  content: [{ type: 'text', text: `Hello, ${name}!` }],
-}))
+const moduleDir = path.dirname(fileURLToPath(import.meta.url))
+
+async function resolveDocsRoot(): Promise<string> {
+  if (process.env.EUFEMIA_DOCS_ROOT) {
+    return path.resolve(process.env.EUFEMIA_DOCS_ROOT)
+  }
+
+  const candidates = [
+    path.resolve(moduleDir, '../dist/docs'),
+    path.resolve(moduleDir, '../../../packages/dnb-eufemia/build/docs'),
+  ]
+
+  for (const candidate of candidates) {
+    try {
+      const stats = await fs.stat(candidate)
+      if (stats.isDirectory()) {
+        return candidate
+      }
+    } catch {
+      // try the next candidate
+    }
+  }
+
+  return candidates[0] ?? path.resolve(moduleDir, '../dist/docs')
+}
+
+const docsRoot = await resolveDocsRoot()
+await validateDocsRoot(docsRoot)
+
+const { server } = await createDocsServer({ docsRoot })
 
 export default server
