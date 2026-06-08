@@ -130,17 +130,6 @@
     margin-bottom: 0.6666666em;
   }
 
-  // This would be a "real" large sizing
-  // &__size--large &__text {
-  //   padding: 1rem 1.5rem;
-  // }
-  // &__size--large .dnb-icon + &__text {
-  //   padding-left: 1rem;
-  // }
-  // &__size--large &__shell > .dnb-icon {
-  //   margin: 0.6666666em 0.3333333em 0.6666666em 0.9999999em;
-  // }
-
   // Stretch support
   &--stretch {
     flex-grow: 1;
