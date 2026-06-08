@@ -53,6 +53,14 @@
 }
 
 .dnb-segmented-field {
+  &:not(.dnb-input--disabled) .dnb-input__shell {
+    cursor: text;
+  }
+
+  &.dnb-input--disabled .dnb-input__shell {
+    cursor: not-allowed;
+  }
+
   &__delimiter {
     display: flex;
     user-select: none;
@@ -85,11 +93,17 @@
     overflow: hidden;
     outline: none;
 
-    cursor: text;
-
     white-space: nowrap;
     font-family: var(--font-family-monospace);
     border: none;
     background: transparent;
+
+    &:not([aria-disabled='true']) {
+      cursor: text;
+    }
+
+    &[aria-disabled='true'] {
+      cursor: not-allowed;
+    }
   }
 }

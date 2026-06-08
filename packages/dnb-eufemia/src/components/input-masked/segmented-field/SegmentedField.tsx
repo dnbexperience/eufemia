@@ -339,15 +339,23 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         first contentEditable section, while still exposing the joined value
         as the canonical field string.
       */}
-      <input
-        id={id}
-        className="dnb-segmented-field__hidden-input dnb-sr-only"
-        value={hiddenInputValue}
-        onFocus={focusFirstSection}
-        readOnly
-        tabIndex={-1}
-        aria-hidden
-      />
+      {disabled ? (
+        <span
+          id={id}
+          className="dnb-segmented-field__hidden-input dnb-sr-only"
+          aria-hidden
+        />
+      ) : (
+        <input
+          id={id}
+          className="dnb-segmented-field__hidden-input dnb-sr-only"
+          value={hiddenInputValue}
+          onFocus={focusFirstSection}
+          readOnly
+          tabIndex={-1}
+          aria-hidden
+        />
+      )}
     </>
   )
   const labelElement = label && (
