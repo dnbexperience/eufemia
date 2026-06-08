@@ -1,5 +1,5 @@
 locals {
-  function_name = "eufemia-mcp"
+  function_name = "eufemia-dev-mcp"
 
   tags = {
     CostAllocation = var.cost_allocation
