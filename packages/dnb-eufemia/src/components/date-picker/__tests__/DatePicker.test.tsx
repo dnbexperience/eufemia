@@ -4,13 +4,7 @@
  */
 
 import { StrictMode, useLayoutEffect, useState } from 'react'
-import {
-  act,
-  fireEvent,
-  render,
-  waitFor,
-  screen,
-} from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import {
