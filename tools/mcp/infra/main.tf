@@ -1,5 +1,10 @@
 locals {
   function_name = "eufemia-mcp"
+
+  tags = {
+    CostAllocation = var.cost_allocation
+    Environment    = var.environment
+  }
 }
 
 # Lambda function
@@ -9,7 +14,7 @@ resource "aws_lambda_function" "mcp" {
   handler       = "lambda-handler.handler"
   runtime       = "nodejs22.x"
   timeout       = 30
-  memory_size   = 256
+  memory_size   = 512
 
   filename         = "${path.module}/../dist/lambda.zip"
   source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")
@@ -19,11 +24,14 @@ resource "aws_lambda_function" "mcp" {
       NODE_OPTIONS = "--enable-source-maps"
     }
   }
+
+  tags = local.tags
 }
 
 # IAM role for Lambda
 resource "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
+  tags = local.tags
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -42,59 +50,23 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-# DynamoDB access
-resource "aws_iam_role_policy" "dynamodb" {
-  name = "${local.function_name}-dynamodb"
-  role = aws_iam_role.lambda.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Action = [
-        "dynamodb:GetItem",
-        "dynamodb:PutItem",
-        "dynamodb:Query",
-        "dynamodb:Scan",
-        "dynamodb:UpdateItem",
-        "dynamodb:DeleteItem"
-      ]
-      Resource = "arn:aws:dynamodb:${var.aws_region}:*:table/eufemia-mcp-*"
-    }]
-  })
-}
-
-# S3 access
-resource "aws_iam_role_policy" "s3" {
-  name = "${local.function_name}-s3"
-  role = aws_iam_role.lambda.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Action = [
-        "s3:GetObject",
-        "s3:ListBucket"
-      ]
-      Resource = [
-        "arn:aws:s3:::eufemia-mcp-*",
-        "arn:aws:s3:::eufemia-mcp-*/*"
-      ]
-    }]
-  })
-}
-
 # API Gateway HTTP API
 resource "aws_apigatewayv2_api" "mcp" {
   name          = local.function_name
   protocol_type = "HTTP"
+  tags          = local.tags
 }
 
 resource "aws_apigatewayv2_stage" "mcp" {
   api_id      = aws_apigatewayv2_api.mcp.id
   name        = "$default"
   auto_deploy = true
+  tags        = local.tags
+
+  default_route_settings {
+    throttling_burst_limit = 50
+    throttling_rate_limit  = 100
+  }
 }
 
 resource "aws_apigatewayv2_integration" "mcp" {
@@ -106,7 +78,7 @@ resource "aws_apigatewayv2_integration" "mcp" {
 
 resource "aws_apigatewayv2_route" "mcp" {
   api_id    = aws_apigatewayv2_api.mcp.id
-  route_key = "ANY /{proxy+}"
+  route_key = "POST /mcp"
   target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
 }
 
@@ -115,5 +87,5 @@ resource "aws_lambda_permission" "apigw" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.mcp.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.mcp.execution_arn}/*/*"
+  source_arn    = "${aws_apigatewayv2_api.mcp.execution_arn}/*/POST/mcp"
 }
