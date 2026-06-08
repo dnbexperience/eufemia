@@ -5,7 +5,25 @@ import FilterPanel from '../FilterPanel'
 import FilterPanelButton from '../FilterPanelButton'
 import FilterActiveFilters from '../FilterActiveFilters'
 import FilterResultCount from '../FilterResultCount'
+import FilterSelection from '../FilterSelection'
 import { useFilter, useFilterContext } from '../hooks/useFilter'
+
+const defaultFilters = {
+  '/type/card': {
+    value: 'card',
+    label: 'Card',
+    categoryLabel: 'Type',
+  },
+}
+
+const defaultFiltersMultiple = {
+  ...defaultFilters,
+  '/type/transfer': {
+    value: 'transfer',
+    label: 'Transfer',
+    categoryLabel: 'Type',
+  },
+}
 
 describe('behavior="manual"', () => {
   it('does not call onChange when a filter changes', () => {
@@ -462,6 +480,201 @@ describe('behavior="manual"', () => {
 
     expect(resultCount).toBeInTheDocument()
     expect(resultCount.textContent).toContain('5')
+  })
+
+  it('shows result count when search is typed', () => {
+    render(
+      <FilterRoot
+        id="manual-result-count-search"
+        behavior="manual"
+        resultCount={5}
+      >
+        <FilterSearch label="Søk" />
+        <FilterResultCount />
+      </FilterRoot>
+    )
+
+    expect(
+      document.querySelector('.dnb-filter__result-count')
+    ).not.toBeInTheDocument()
+
+    const input = document.querySelector('input')
+    fireEvent.change(input, { target: { value: 'card' } })
+
+    const resultCount = document.querySelector('.dnb-filter__result-count')
+
+    expect(resultCount).toBeInTheDocument()
+    expect(resultCount.textContent).toContain('5')
+  })
+
+  it('submits filters when an applied filter tag is removed', () => {
+    const onChange = vi.fn()
+
+    render(
+      <FilterRoot
+        id="manual-remove-active-filter"
+        behavior="manual"
+        defaultFilters={defaultFilters}
+        onChange={onChange}
+      >
+        <FilterActiveFilters />
+      </FilterRoot>
+    )
+
+    const removeButton = document.querySelector(
+      '.dnb-tag.dnb-tag--removable'
+    )
+
+    fireEvent.click(removeButton)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({
+      search: '',
+      filters: {},
+    })
+    expect(document.querySelector('.dnb-tag')).not.toBeInTheDocument()
+  })
+
+  it('submits remaining filters and preserves search when an applied filter tag is removed', () => {
+    const onChange = vi.fn()
+
+    render(
+      <FilterRoot
+        id="manual-remove-one-active-filter"
+        behavior="manual"
+        defaultFilters={defaultFiltersMultiple}
+        onChange={onChange}
+      >
+        <FilterSearch label="Søk" />
+        <FilterActiveFilters />
+      </FilterRoot>
+    )
+
+    const input = document.querySelector('input')
+    fireEvent.change(input, { target: { value: 'salary' } })
+
+    const tags = document.querySelectorAll('.dnb-tag.dnb-tag--removable')
+    const removeButton = Array.from(tags).find((tag) =>
+      tag.textContent.includes('Card')
+    )
+
+    fireEvent.click(removeButton)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({
+      search: 'salary',
+      filters: {
+        '/type/transfer': {
+          value: 'transfer',
+          label: 'Transfer',
+          categoryLabel: 'Type',
+        },
+      },
+    })
+    expect(input).toHaveValue('salary')
+    expect(document.querySelector('.dnb-tag').textContent).toContain(
+      'Transfer'
+    )
+  })
+
+  it('submits filters and preserves search when applied filters are cleared', () => {
+    const onChange = vi.fn()
+
+    render(
+      <FilterRoot
+        id="manual-clear-applied-filters"
+        behavior="manual"
+        defaultFilters={defaultFiltersMultiple}
+        onChange={onChange}
+      >
+        <FilterPanel>
+          <p>Content</p>
+        </FilterPanel>
+        <FilterSearch label="Søk" />
+        <FilterActiveFilters />
+      </FilterRoot>
+    )
+
+    const input = document.querySelector('input')
+    fireEvent.change(input, { target: { value: 'card' } })
+
+    const buttons = document.querySelectorAll(
+      '.dnb-filter__active-filters .dnb-button--tertiary'
+    )
+    const clearButton = Array.from(buttons).find((button) =>
+      button.textContent.includes('Fjern alle')
+    )
+
+    fireEvent.click(clearButton)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({
+      search: 'card',
+      filters: {},
+    })
+    expect(input).toHaveValue('card')
+    expect(document.querySelector('.dnb-tag')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-filter__panel')
+    ).not.toBeInTheDocument()
+  })
+
+  it('submits filters when an applied selection is unchecked', () => {
+    const onChange = vi.fn()
+
+    render(
+      <FilterRoot
+        id="manual-uncheck-applied-filter"
+        behavior="manual"
+        defaultFilters={defaultFilters}
+        onChange={onChange}
+      >
+        <FilterSelection
+          label="Type"
+          filterKey="/type"
+          defaultOpen
+          data={[{ value: 'card', label: 'Card' }]}
+        />
+      </FilterRoot>
+    )
+
+    const checkbox = document.querySelector('.dnb-checkbox__input')
+
+    expect(checkbox).toBeChecked()
+
+    fireEvent.click(checkbox)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({
+      search: '',
+      filters: {},
+    })
+  })
+
+  it('does not submit filters when an unapplied selection is unchecked', () => {
+    const onChange = vi.fn()
+
+    render(
+      <FilterRoot
+        id="manual-uncheck-unapplied-filter"
+        behavior="manual"
+        onChange={onChange}
+      >
+        <FilterSelection
+          label="Type"
+          filterKey="/type"
+          defaultOpen
+          data={[{ value: 'card', label: 'Card' }]}
+        />
+      </FilterRoot>
+    )
+
+    const checkbox = document.querySelector('.dnb-checkbox__input')
+
+    fireEvent.click(checkbox)
+    fireEvent.click(checkbox)
+
+    expect(onChange).not.toHaveBeenCalled()
   })
 
   it('resets shared search state when resetFilters is called', () => {

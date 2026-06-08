@@ -2,6 +2,7 @@ import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterActiveFilters from '../FilterActiveFilters'
+import FilterSearch from '../FilterSearch'
 import FilterSelection from '../FilterSelection'
 import FilterPanel from '../FilterPanel'
 import FilterPanelButton from '../FilterPanelButton'
@@ -383,6 +384,63 @@ describe('Filter.ActiveFilters collapsible', () => {
     expect(
       document.querySelector('[data-testid="count"]').textContent
     ).toBe('0')
+  })
+
+  it('preserves search when clear all is clicked', () => {
+    function FilterState() {
+      const ctx = useFilterContext()
+      return (
+        <>
+          <span data-testid="count">
+            {Object.keys(ctx.filters).length}
+          </span>
+          <span data-testid="search">{ctx.search}</span>
+        </>
+      )
+    }
+
+    render(
+      <FilterRoot id="clear-action-preserve-search-test">
+        <FilterSearch label="Søk" />
+        <SetManyFilters count={3} />
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <p>Content</p>
+        </FilterPanel>
+        <FilterActiveFilters />
+        <FilterState />
+      </FilterRoot>
+    )
+
+    const input = document.querySelector('input')
+
+    fireEvent.change(input, { target: { value: 'card' } })
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+    fireEvent.click(document.querySelector('button[aria-expanded]'))
+
+    expect(
+      document.querySelector('.dnb-filter__panel')
+    ).toBeInTheDocument()
+
+    const buttons = document.querySelectorAll(
+      '.dnb-filter__active-filters .dnb-button--tertiary'
+    )
+    const clearButton = Array.from(buttons).find((btn) =>
+      btn.textContent.includes('Fjern alle')
+    )
+    fireEvent.click(clearButton)
+
+    expect(
+      document.querySelector('[data-testid="count"]').textContent
+    ).toBe('0')
+    expect(
+      document.querySelector('[data-testid="search"]').textContent
+    ).toBe('card')
+    expect(input).toHaveValue('card')
+    expect(
+      document.querySelector('.dnb-filter__panel')
+    ).not.toBeInTheDocument()
+    expect(document.querySelector('button[aria-expanded]')).toHaveFocus()
   })
 
   it('shows collapsible accordion when above threshold', () => {

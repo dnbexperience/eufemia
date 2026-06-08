@@ -193,31 +193,60 @@ function FilterRoot({
     [state.filters]
   )
 
+  const submitFilterRemoval = useCallback(
+    (filterKey: string) => {
+      const draft = draftRef.current
+      const nextFilters = { ...draft.filters }
+      delete nextFilters[filterKey]
+
+      const nextState = { ...draft, filters: nextFilters }
+
+      setDraftState(nextState)
+      extend({ search: nextState.search, filters: nextState.filters })
+      onChangeRef.current?.(nextState)
+    },
+    [extend]
+  )
+
   const removeFilter = useCallback(
     (filterKey: string) => {
-      setFilter(filterKey, undefined)
+      if (isManual) {
+        const appliedFilters = (get() ?? initialState).filters
+
+        if (Object.hasOwn(appliedFilters, filterKey)) {
+          submitFilterRemoval(filterKey)
+        } else {
+          setFilter(filterKey, undefined)
+        }
+      } else {
+        setFilter(filterKey, undefined)
+      }
     },
-    [setFilter]
+    [get, isManual, setFilter, submitFilterRemoval]
   )
 
   const removeAppliedFilter = useCallback(
     (filterKey: string) => {
-      // Remove from draft state
-      setDraftState((prev) => {
-        const next = { ...prev.filters }
-        delete next[filterKey]
-        return { ...prev, filters: next }
-      })
-
-      // Remove from applied (shared) state
-      const latest = get() ?? initialState
-      const next = { ...latest.filters }
-      delete next[filterKey]
-      extend({ filters: next })
-      onChangeRef.current?.({ ...latest, filters: next })
+      if (isManual) {
+        submitFilterRemoval(filterKey)
+      } else {
+        removeFilter(filterKey)
+      }
     },
-    [extend, get]
+    [isManual, removeFilter, submitFilterRemoval]
   )
+
+  const clearFilters = useCallback(() => {
+    const latest = isManual ? draftRef.current : (get() ?? initialState)
+    const nextState = { ...latest, filters: {} }
+
+    if (isManual) {
+      setDraftState(nextState)
+    }
+
+    extend({ search: nextState.search, filters: nextState.filters })
+    onChangeRef.current?.(nextState)
+  }, [extend, get, isManual])
 
   const replaceFilters = useCallback(
     (filters: Record<string, FilterValue>) => {
@@ -237,8 +266,7 @@ function FilterRoot({
 
     if (isManual) {
       setDraftState(next)
-      // Search is always emitted in real time, even in manual mode
-      extend({ search: '' })
+      extend(next)
     } else {
       extend(next)
     }
@@ -320,6 +348,7 @@ function FilterRoot({
       getFilter,
       removeFilter,
       removeAppliedFilter,
+      clearFilters,
       replaceFilters,
       resetFilters,
       commitFilters,
@@ -343,6 +372,7 @@ function FilterRoot({
       getFilter,
       removeFilter,
       removeAppliedFilter,
+      clearFilters,
       replaceFilters,
       resetFilters,
       commitFilters,

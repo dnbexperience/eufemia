@@ -57,7 +57,9 @@ function FilterActiveFilters({
   }
 
   const handleClearAll = () => {
-    context.resetFilters()
+    context.clearFilters()
+    context.setPanelOpen(false)
+    context.panelButtonRef.current?.focus()
   }
 
   const tags = (

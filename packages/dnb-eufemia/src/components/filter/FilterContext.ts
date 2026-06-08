@@ -27,6 +27,7 @@ export type FilterContextValue = {
   getFilter: (filterKey: string) => FilterValue | undefined
   removeFilter: (filterKey: string) => void
   removeAppliedFilter: (filterKey: string) => void
+  clearFilters: () => void
   replaceFilters: (filters: Record<string, FilterValue>) => void
   resetFilters: () => void
   commitFilters: () => void

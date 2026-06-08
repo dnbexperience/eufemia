@@ -41,7 +41,8 @@ function FilterResultCount({
 
   const hasActiveFilters =
     context?.behavior === 'manual'
-      ? Object.keys(context.appliedState.filters).length > 0
+      ? context.appliedState.search.length > 0 ||
+        Object.keys(context.appliedState.filters).length > 0
       : (context?.hasActiveFilters ??
         Boolean(
           sharedData?.search ||
