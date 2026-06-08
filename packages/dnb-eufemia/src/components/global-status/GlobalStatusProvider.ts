@@ -146,10 +146,6 @@ export class GlobalStatusProviderItem {
     } else {
       this.stack = this.stack.map((cur, i, arr) => {
         if (statusId ? cur.statusId === statusId : i === arr.length - 1) {
-          // if (!statusId) {
-          //   // newProps = { ...newProps }
-          //   delete newProps.statusId
-          // }
           return { ...cur, ...newProps }
         }
 
