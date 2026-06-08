@@ -7,7 +7,7 @@
 
 .dnb-dropdown {
   --dropdown-width: 16rem;
-  --dropdown-height: 2.5rem;
+  --dropdown-height: 2rem;
   --dropdown-height--small: 1.5rem;
   --dropdown-height--medium: 2.5rem;
   --dropdown-height--large: 3rem;
@@ -69,10 +69,6 @@
     user-select: none; // Safari / Touch fix
 
     width: 100%;
-
-    &:not(.dnb-button--tertiary) {
-      line-height: var(--dropdown-height);
-    }
 
     &.dnb-button {
       padding: var(--dropdown-button-padding);
