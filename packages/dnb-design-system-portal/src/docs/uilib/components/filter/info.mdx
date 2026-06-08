@@ -32,6 +32,14 @@ The leading `/` is a convention to namespace filter keys — it is not a URL pat
 
 When building custom filters with `Filter.useFilterContext()`, you can use any key format — the `{filterKey}/{value}` pattern is only used by the built-in selection components.
 
+### Combining search and filters
+
+The Filter component stores `search` and `filters`, but does not decide how your data should match them. As a rule of thumb, each active filter should narrow the result set.
+
+Different filter groups are also usually combined with **AND**, such as status and region. Multiple values inside the same filter group usually behave as **OR**. For example, selecting two statuses means the item can match status active or inactive. Search can also match several fields with **OR**, such as name or amount.
+
+For custom filters and quick filters, choose the logic that matches the meaning of the controls. Use **OR** when the buttons are alternatives in the same category, and **AND** when they represent independent conditions that should all be true.
+
 ### Layout
 
 The filter component can be used in two layout patterns:
