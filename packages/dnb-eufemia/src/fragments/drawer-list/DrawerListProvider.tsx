@@ -424,7 +424,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
           maxH = spaceToBottom - spaceToBottomOffset
         }
 
-        let vh = 0
+        let vh: number
         if (typeof window.visualViewport !== 'undefined') {
           vh = window.visualViewport.height
         } else {

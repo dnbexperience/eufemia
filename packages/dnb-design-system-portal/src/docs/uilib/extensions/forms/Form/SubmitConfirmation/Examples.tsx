@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Dialog, Flex, Section } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
@@ -49,7 +50,7 @@ export const WithStateContent = () => {
             console.log('onStateChange', confirmationState)
           }}
           renderWithState={({ confirmationState, connectWithDialog }) => {
-            let content = null
+            let content: ReactNode
 
             switch (confirmationState) {
               case 'readyToBeSubmitted':

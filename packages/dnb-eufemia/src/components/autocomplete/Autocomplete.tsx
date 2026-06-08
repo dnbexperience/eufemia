@@ -2508,18 +2508,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     if (open) {
       const count = countData()
 
-      let newString = null
-
       if (count > 0) {
-        newString = String(props.ariaLiveOptions).replace(
-          '%s',
-          String(count)
-        )
+        return String(props.ariaLiveOptions).replace('%s', String(count))
       } else {
-        newString = props.noOptions
+        return props.noOptions
       }
-
-      return newString
     }
 
     return ''

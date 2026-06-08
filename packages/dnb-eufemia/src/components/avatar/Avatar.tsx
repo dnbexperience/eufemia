@@ -156,12 +156,11 @@ const Avatar = (localProps: AvatarAllProps) => {
     ...props
   } = allProps
 
-  let children = null
-
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
 
   const childrenIsString = typeof childrenProp === 'string'
 
+  let children: ReactNode
   if (icon) {
     children = isIconComponent(icon) ? (
       iconAutoSize(icon)

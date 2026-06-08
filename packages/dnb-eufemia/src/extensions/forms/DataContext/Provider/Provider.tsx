@@ -22,6 +22,7 @@ import type {
   Path,
   EventStateObject,
   OnSubmit,
+  OnSubmitReturn,
   OnChange,
   EventReturnWithStateObject,
   ValueProps,
@@ -1148,7 +1149,7 @@ export default function Provider<Data extends JsonObject>(
             (path.match(isArrayJsonPointer) ? [] : {}))
       ) as Data
 
-      let newData: Data = null
+      let newData: Data
       try {
         // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
         newData = structuredClone(givenData)
@@ -1599,7 +1600,8 @@ export default function Provider<Data extends JsonObject>(
 
         const data = getSubmitData()
         const options = getSubmitParams()
-        let result = undefined
+        // eslint-disable-next-line no-useless-assignment -- result is assigned conditionally below
+        let result: OnSubmitReturn = undefined
 
         if (isAsync(onSubmit)) {
           result = await onSubmit(data, options)
@@ -1610,7 +1612,7 @@ export default function Provider<Data extends JsonObject>(
         const completeResult = await onSubmitComplete?.(data, result)
         if (completeResult) {
           result =
-            Object.keys(result).length > 0
+            result && Object.keys(result).length > 0
               ? { ...result, ...completeResult }
               : completeResult
         }

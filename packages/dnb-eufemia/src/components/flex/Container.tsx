@@ -157,7 +157,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     const start: FlexStart = direction === 'horizontal' ? 'left' : 'top'
     const end: FlexEnd = direction === 'horizontal' ? 'right' : 'bottom'
     const endSpacing = 0
-    let startSpacing = null
+    let startSpacing: SpaceType
 
     if (
       // No line above heading

@@ -110,7 +110,7 @@ export function SliderProvider(localProps: SliderAllProps) {
   }
 
   const getAndUpdateCurrentIndex = (currentValue: number) => {
-    let currentIndex = null
+    let currentIndex: number
 
     if (thumbIndex.current > -1) {
       currentIndex = thumbIndex.current

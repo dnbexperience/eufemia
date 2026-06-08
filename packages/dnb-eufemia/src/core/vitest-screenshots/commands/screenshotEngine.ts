@@ -1469,7 +1469,7 @@ async function performScreenshot(
   let styleCleanup: (() => Promise<void>) | null = null
   let hoverCleanup: (() => Promise<void>) | null = null
   let lastMouseAction: ActionName | undefined
-  let delaySimulation = 0
+  let delaySimulation: number
   let wrapperWasAdded = false
   const { page } = state
 
@@ -1650,7 +1650,10 @@ async function diffAndPersist(
       htmlDumpPath: payload.htmlDumpPath,
     })
 
+    // Help V8 reclaim memory before return
+    // eslint-disable-next-line no-useless-assignment
     referencePng = null
+    // eslint-disable-next-line no-useless-assignment
     actualPng = null
 
     return {
@@ -1688,8 +1691,12 @@ async function diffAndPersist(
       htmlDumpPath: payload.htmlDumpPath,
     })
 
+    // Help V8 reclaim memory before return
+    // eslint-disable-next-line no-useless-assignment
     referencePng = null
+    // eslint-disable-next-line no-useless-assignment
     actualPng = null
+    // eslint-disable-next-line no-useless-assignment
     diff = null
 
     return {
@@ -1703,8 +1710,12 @@ async function diffAndPersist(
     }
   }
 
+  // Help V8 reclaim memory before return
+  // eslint-disable-next-line no-useless-assignment
   referencePng = null
+  // eslint-disable-next-line no-useless-assignment
   actualPng = null
+  // eslint-disable-next-line no-useless-assignment
   diff = null
 
   await removeIfExists(payload.diffPath)
@@ -1742,6 +1753,8 @@ export const makeScreenshot = defineBrowserCommand<
   try {
     result = await diffAndPersist(payload, buffer)
   } finally {
+    // Help V8 reclaim memory
+    // eslint-disable-next-line no-useless-assignment
     buffer = null
   }
 

@@ -161,7 +161,7 @@ function ValueBlock(localProps: ValueBlockProps) {
     [hasHelp, help, id, summaryListLayout]
   )
 
-  let content = null
+  let content: ReactNode
 
   const defaultClass = clsx(
     'dnb-forms-value-block__content',

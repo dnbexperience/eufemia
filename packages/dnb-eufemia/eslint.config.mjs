@@ -1,20 +1,14 @@
 import { FlatCompat } from '@eslint/eslintrc'
+import { fixupConfigRules } from '@eslint/compat'
 import js from '@eslint/js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import globals from 'globals'
 
-import babelParser from '@babel/eslint-parser'
-import importPlugin from 'eslint-plugin-import'
 import vitestPlugin from '@vitest/eslint-plugin'
 import playwrightPlugin from 'eslint-plugin-playwright'
-import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
-import prettierPlugin from 'eslint-plugin-prettier'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import securityPlugin from 'eslint-plugin-security'
 import tsParser from '@typescript-eslint/parser'
-import tsPlugin from '@typescript-eslint/eslint-plugin'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
 import componentTypesPlugin from './scripts/eslint/plugins/component-types/index.js'
 import namingConventionsPlugin from './scripts/eslint/plugins/naming-conventions/index.js'
@@ -63,26 +57,33 @@ export default [
   {
     ignores: ignorePatterns,
   },
-  ...basePlugins.extends(
-    'eslint:recommended',
-    'plugin:import/recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended'
+  ...fixupConfigRules(
+    basePlugins.extends(
+      'eslint:recommended',
+      'plugin:import/recommended',
+      'plugin:react/recommended',
+      'plugin:react-hooks/recommended',
+      'plugin:jsx-a11y/recommended'
+    )
   ),
-  ...basePlugins.extends('plugin:compat/recommended').map((config) => ({
-    ...config,
-    files: ['**/src/**/*.{js,jsx,ts,tsx}'],
-    settings: {
-      ...(config.settings || {}),
-      polyfills: [...(config.settings?.polyfills || []), 'Object.hasOwn'],
-      lintAllEsApis: true,
-      ignoreConditionalChecks: true,
-    },
-  })),
+  ...fixupConfigRules(
+    basePlugins.extends('plugin:compat/recommended').map((config) => ({
+      ...config,
+      files: ['**/src/**/*.{js,jsx,ts,tsx}'],
+      ignores: ['**/*.stories.*'],
+      settings: {
+        ...(config.settings || {}),
+        polyfills: [
+          ...(config.settings?.polyfills || []),
+          'Object.hasOwn',
+        ],
+        lintAllEsApis: true,
+        ignoreConditionalChecks: true,
+      },
+    }))
+  ),
   {
     languageOptions: {
-      parser: babelParser,
       ecmaVersion: 2020,
       sourceType: 'module',
       globals: {
@@ -92,21 +93,12 @@ export default [
         ...vitestGlobals,
       },
       parserOptions: {
-        babelOptions: {
-          configFile: '@dnb/eufemia/babel.config.js',
-        },
         ecmaFeatures: {
-          modules: true,
           jsx: true,
         },
       },
     },
     plugins: {
-      import: importPlugin,
-      prettier: prettierPlugin,
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
-      'jsx-a11y': jsxA11yPlugin,
       security: securityPlugin,
     },
     settings: {
@@ -116,6 +108,9 @@ export default [
     },
     rules: {
       ...securityRecommendedRules,
+
+      // React Compiler rules added to plugin:react-hooks/recommended in v7 –
+      // disable them until the React Compiler is adopted.
       'react-hooks/immutability': 'off',
       'react-hooks/preserve-manual-memoization': 'off',
       'react-hooks/purity': 'off',
@@ -124,6 +119,13 @@ export default [
       'react-hooks/static-components': 'off',
       'react-hooks/use-memo': 'off',
       'react-hooks/globals': 'off',
+      'react-hooks/void-use-memo': 'off',
+      'react-hooks/incompatible-library': 'off',
+      'react-hooks/error-boundaries': 'off',
+      'react-hooks/set-state-in-render': 'off',
+      'react-hooks/unsupported-syntax': 'off',
+      'react-hooks/config': 'off',
+      'react-hooks/gating': 'off',
       'no-unused-vars': [
         'error',
         {
@@ -135,7 +137,6 @@ export default [
         },
       ],
       'react/react-in-jsx-scope': 'off',
-      'react/jsx-uses-react': 'off',
       'import/namespace': 'off',
       'no-restricted-imports': [
         'error',
@@ -204,21 +205,18 @@ export default [
           ignoreTranspilerName: false,
         },
       ],
-      'jsx-a11y/href-no-hash': 'off',
       'jsx-a11y/anchor-is-valid': [
         'warn',
         {
           aspects: ['invalidHref'],
         },
       ],
-      'jsx-a11y/label-has-for': [
+      'jsx-a11y/label-has-associated-control': [
         'error',
         {
-          components: ['Label'],
-          required: {
-            every: ['nesting', 'id'],
-          },
-          allowChildren: true,
+          labelComponents: ['Label'],
+          assert: 'either',
+          depth: 3,
         },
       ],
       'security/detect-non-literal-fs-filename': 'off',
@@ -241,16 +239,6 @@ export default [
       'import/default': 'off',
       'import/no-named-as-default-member': 'off',
       'import/no-named-as-default': 'off',
-      'no-unused-vars': [
-        'error',
-        {
-          args: 'none',
-          ignoreRestSiblings: true,
-          varsIgnorePattern: '^_',
-          caughtErrors: 'none',
-          caughtErrorsIgnorePattern: '^_',
-        },
-      ],
     },
   },
   {
@@ -290,12 +278,14 @@ export default [
       ],
     },
   },
-  ...basePlugins
-    .extends('plugin:@typescript-eslint/recommended')
-    .map((config) => ({
-      ...config,
-      files: tsConfigFiles,
-    })),
+  ...fixupConfigRules(
+    basePlugins
+      .extends('plugin:@typescript-eslint/recommended')
+      .map((config) => ({
+        ...config,
+        files: tsConfigFiles,
+      }))
+  ),
   {
     files: tsConfigFiles,
     languageOptions: {
@@ -315,9 +305,6 @@ export default [
         ...vitestGlobals,
         JSX: 'readonly',
       },
-    },
-    plugins: {
-      '@typescript-eslint': tsPlugin,
     },
     rules: {
       'import/named': 'off',
@@ -382,6 +369,7 @@ export default [
     rules: {
       ...vitestPlugin.configs.recommended.rules,
       'vitest/no-focused-tests': 'error',
+      'vitest/no-conditional-expect': 'warn',
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
@@ -401,9 +389,6 @@ export default [
   },
   {
     files: ['**/__tests__/**/*.{ts,tsx}'],
-    plugins: {
-      '@typescript-eslint': tsPlugin,
-    },
     rules: {
       '@typescript-eslint/consistent-type-imports': [
         'error',
@@ -460,7 +445,6 @@ export default [
     files: ['**/*Docs.{ts,tsx}'],
     plugins: {
       'docs-types': docsTypesPlugin,
-      '@typescript-eslint': tsPlugin,
     },
     rules: {
       'docs-types/warn-supported-types': 'warn',

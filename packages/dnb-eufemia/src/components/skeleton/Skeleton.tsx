@@ -107,7 +107,7 @@ function Skeleton(props: SkeletonProps) {
     ariaLiveUpdateTimeoutRef.current = setTimeout(() => {
       const { ariaBusy, ariaReady } = getProps()
 
-      let newString = null
+      let newString: string | null
 
       if (props.show) {
         newString = ariaBusy

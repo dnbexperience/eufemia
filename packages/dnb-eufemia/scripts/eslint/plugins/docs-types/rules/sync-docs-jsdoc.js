@@ -311,7 +311,7 @@ module.exports = {
       return {}
     }
 
-    const filename = context.filename || context.getFilename()
+    const filename = context.filename
 
     if (/Docs\.[jt]sx?$/.test(path.basename(filename))) {
       return {} // stop here
@@ -334,7 +334,7 @@ module.exports = {
 
     const options = context.options[0] || {}
     const requireJsdoc = options.requireJsdoc === true
-    const sourceCode = context.sourceCode || context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     function buildExpectedDoc(doc, defaultValue) {
       if (defaultValue != null) {
@@ -389,7 +389,9 @@ module.exports = {
             messageId: 'missingJsdoc',
             data: { docsFile, expected },
             fix(fixer) {
-              const line = sourceCode.lines[node.loc.start.line - 1]
+              const line = sourceCode.getText().split('\n')[
+                node.loc.start.line - 1
+              ]
               const match = line.match(/^(\s*)/)
               const indent = match ? match[1] : ''
               const jsdoc =
@@ -421,8 +423,9 @@ module.exports = {
           data: { docsFile, expected },
           fix(fixer) {
             const commentNode = jsdocComment
-            const startLine =
-              sourceCode.lines[commentNode.loc.start.line - 1]
+            const startLine = sourceCode.getText().split('\n')[
+              commentNode.loc.start.line - 1
+            ]
             const indentMatch = startLine.match(/^(\s*)/)
             const indent = indentMatch ? indentMatch[1] : ''
             const replacement = buildJsdocBlock(

@@ -35,7 +35,7 @@ export default async function makeLibStyles() {
     )
   } catch (e) {
     // @ts-expect-error - strictFunctionTypes
-    throw new Error(e)
+    throw new Error(e, { cause: e })
   }
 }
 
