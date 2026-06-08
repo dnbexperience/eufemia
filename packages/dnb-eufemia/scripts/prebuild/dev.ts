@@ -6,39 +6,13 @@
  *
  */
 
-import {
-  log,
-  // convertSvgToCjs,
-  // makeIconLib,
-  // makeIconsUMDBundle
-  // runStyleFactory,
-  runThemeFactory,
-  // convertSvgToJsx,
-  // makeLibStyles,
-  // makeMainStyle,
-  // makePropertiesFile
-  // prepareTemplates
-  // makeLibModules
-  // makeMainUMDBundle
-} from './index'
+import { log, runThemeFactory } from './index'
 
 const dev = async () => {
   process.env.NODE_ENV = 'production'
   log.start('Starting dev prepublish...')
-  // const preventDelete = true
 
-  // // await convertSvgToCjs({ preventDelete })
-  // await makeIconLib({ preventDelete })
-  // await makeIconsUMDBundle()
-  // await runStyleFactory()
   await runThemeFactory()
-  // await convertSvgToJsx({ preventDelete })
-  // await makeLibStyles()
-  // await makeMainStyle()
-  // await makePropertiesFile()
-  // await prepareTemplates()
-  // await makeLibModules()
-  // await makeMainUMDBundle()
 
   log.succeed('Nice')
   return true
