@@ -1960,7 +1960,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
         nowRef.current = 0
         setState(undefined)
       }, minimum)
-      return undefined
+      return clear
     }
 
     if (formState === 'complete') {
