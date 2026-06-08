@@ -73,8 +73,8 @@ export const SearchProperties: PropertiesTableProps = {
     status: 'required',
   },
   submitBehavior: {
-    doc: 'When set to `"onSubmit"`, the search state is only updated when the user presses Enter or clicks the submit button. Automatically applies `type="search"` to show the submit button.',
-    type: '"onSubmit"',
+    doc: 'When set to `"manual"`, the search state is only updated when the user presses Enter or clicks the submit button. Automatically applies `type="search"` to show the submit button.',
+    type: '"manual"',
     status: 'optional',
   },
   placeholder: {

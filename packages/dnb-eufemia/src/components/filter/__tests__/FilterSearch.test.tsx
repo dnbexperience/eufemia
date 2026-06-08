@@ -212,7 +212,7 @@ describe('Filter.Search prop forwarding', () => {
   })
 })
 
-describe('Filter.Search submitBehavior="onSubmit"', () => {
+describe('Filter.Search submitBehavior="manual"', () => {
   it('does not update search state on input change', () => {
     function SearchState() {
       const ctx = useFilterContext()
@@ -221,7 +221,7 @@ describe('Filter.Search submitBehavior="onSubmit"', () => {
 
     render(
       <FilterRoot id="manual-no-update-test">
-        <FilterSearch label="Søk" submitBehavior="onSubmit" />
+        <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
     )
@@ -243,7 +243,7 @@ describe('Filter.Search submitBehavior="onSubmit"', () => {
 
     render(
       <FilterRoot id="manual-enter-test">
-        <FilterSearch label="Søk" submitBehavior="onSubmit" />
+        <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
     )
@@ -266,7 +266,7 @@ describe('Filter.Search submitBehavior="onSubmit"', () => {
 
     render(
       <FilterRoot id="manual-submit-btn-test">
-        <FilterSearch label="Søk" submitBehavior="onSubmit" />
+        <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
     )
@@ -298,7 +298,7 @@ describe('Filter.Search submitBehavior="onSubmit"', () => {
 
     render(
       <FilterRoot id="manual-clear-test">
-        <FilterSearch label="Søk" submitBehavior="onSubmit" />
+        <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
     )
@@ -327,7 +327,7 @@ describe('Filter.Search submitBehavior="onSubmit"', () => {
       <FilterRoot id="manual-onchange-test">
         <FilterSearch
           label="Søk"
-          submitBehavior="onSubmit"
+          submitBehavior="manual"
           onChange={onChange}
         />
       </FilterRoot>
@@ -351,7 +351,7 @@ describe('Filter.Search submitBehavior="onSubmit"', () => {
 
     render(
       <FilterRoot id="manual-empty-commit-test">
-        <FilterSearch label="Søk" submitBehavior="onSubmit" />
+        <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
     )
@@ -384,7 +384,7 @@ describe('Filter.Search submitBehavior="onSubmit"', () => {
 
     render(
       <FilterRoot id="manual-reset-test">
-        <FilterSearch label="Søk" submitBehavior="onSubmit" />
+        <FilterSearch label="Søk" submitBehavior="manual" />
         <Controls />
       </FilterRoot>
     )

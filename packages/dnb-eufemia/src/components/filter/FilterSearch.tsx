@@ -14,7 +14,7 @@ import { loupe as searchIcon } from '../../icons'
 
 export type FilterSearchProps = {
   label: string
-  submitBehavior?: 'onSubmit'
+  submitBehavior?: 'manual'
   onChange?: (value: string) => void
   className?: string
 } & Omit<
@@ -47,7 +47,7 @@ function FilterSearch({
     throw new Error('Filter.Search must be used inside a Filter.Root.')
   }
 
-  const isManual = submitBehavior === 'onSubmit'
+  const isManual = submitBehavior === 'manual'
   const isTypingRef = useRef(false)
   const [localValue, setLocalValue] = useState(context.state.search)
 

@@ -1096,7 +1096,7 @@ export const SearchOnly = () => {
                 <Filter.Header>
                   <Filter.Toolbar>
                     <Filter.Search
-                      submitBehavior="onSubmit"
+                      submitBehavior="manual"
                       label="Search"
                       placeholder="Search..."
                     />
