@@ -20,7 +20,6 @@ import type {
   KeyboardEvent,
   MouseEvent,
   MouseEventHandler,
-  ReactElement,
   ReactNode,
   RefObject,
   SyntheticEvent,
@@ -49,7 +48,6 @@ import {
   dispatchCustomElementEvent,
   getStatusState,
   combineDescribedBy,
-  convertJsxToString,
   escapeRegexChars,
   getClosestParent,
 } from '../../shared/component-helper'
@@ -1250,164 +1248,153 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             return cacheMemoryRef.current[cacheHash] as ReactNode
           }
 
-          const isComponent =
-            typeof children !== 'string' && isValidElement(children)
+          const highlightText = (
+            text: string,
+            keyPart: string
+          ): ReactNode[] | string => {
+            let segment = text
 
-          let childArray: Array<ReactNode>
-          if (
-            isComponent &&
-            Array.isArray(
-              (
-                children as ReactElement<{
-                  children?: ReactNode[]
-                }>
-              ).props?.children
-            )
-          ) {
-            childArray = (
-              children as ReactElement<{
-                children: ReactNode[]
-              }>
-            ).props.children
-          } else if (!Array.isArray(children)) {
-            childArray = [children]
-          } else {
-            childArray = children
-          }
+            searchWords.forEach((word, wordIndex) => {
+              if (segment) {
+                word = escapeRegexChars(word)
 
-          const segments = childArray.map((originalChild) => ({
-            originalChild,
-            segment: convertJsxToString(originalChild, ' '),
-          }))
-
-          const processed = segments.map(
-            ({ originalChild, segment }, idx) => {
-              searchWords.forEach((word, wordIndex) => {
-                if (segment) {
-                  word = escapeRegexChars(word)
-
-                  if (snParam) {
-                    const cleanedWord = word.replace(
-                      // @ts-expect-error Unicode property escapes are supported at runtime here
-                      /[^\p{L}\p{N}]+/gu,
-                      ''
-                    )
-                    if (cleanedWord) {
-                      const escapedWord = escapeRegexChars(cleanedWord)
-                      segment = segment.replace(
-                        new RegExp(`(${escapedWord})`, 'gi'),
-                        (match) => {
-                          if (match.includes(strS)) {
-                            return match
-                          }
-                          return `${strS}${match}${strE}`
+                if (snParam) {
+                  const cleanedWord = word.replace(
+                    // @ts-expect-error Unicode property escapes are supported at runtime here
+                    /[^\p{L}\p{N}]+/gu,
+                    ''
+                  )
+                  if (cleanedWord) {
+                    const escapedWord = escapeRegexChars(cleanedWord)
+                    segment = segment.replace(
+                      new RegExp(`(${escapedWord})`, 'gi'),
+                      (match) => {
+                        if (match.includes(strS)) {
+                          return match
                         }
-                      )
-                    }
+                        return `${strS}${match}${strE}`
+                      }
+                    )
+                  }
+                } else {
+                  if (wordIndex >= inWordIndex) {
+                    segment = segment.replace(
+                      new RegExp(`(${word})`, 'gi'),
+                      `${strS}$1${strE}`
+                    )
                   } else {
-                    if (wordIndex >= inWordIndex) {
-                      segment = segment.replace(
-                        new RegExp(`(${word})`, 'gi'),
-                        `${strS}$1${strE}`
-                      )
-                    } else {
-                      segment = segment.replace(
-                        new RegExp(
-                          `(${getWordBoundary(wordIndex)})(${word})`,
-                          'gi'
-                        ),
-                        `$1${strS}$2${strE}`
-                      )
-                    }
+                    segment = segment.replace(
+                      new RegExp(
+                        `(${getWordBoundary(wordIndex)})(${word})`,
+                        'gi'
+                      ),
+                      `$1${strS}$2${strE}`
+                    )
                   }
                 }
+              }
+            })
+
+            if (segment.includes(strS)) {
+              const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
+              const endRepeatRegex = new RegExp(`(${strE})+`, 'g')
+              const adjacentRegex = new RegExp(`(${strE}${strS})`, 'g')
+              const splitRegex = new RegExp(`(${strS}|${strE})`, 'g')
+
+              const normalized = segment
+                .replace(startRepeatRegex, strS)
+                .replace(endRepeatRegex, strE)
+                .replace(adjacentRegex, '')
+
+              const tokens = normalized.split(splitRegex).filter(Boolean)
+
+              let isHighlighted = false
+              let highlightIndex = 0
+              const parts = tokens.map((token) => {
+                if (token === strS) {
+                  isHighlighted = true
+                  return null
+                }
+                if (token === strE) {
+                  isHighlighted = false
+                  return null
+                }
+
+                if (isHighlighted) {
+                  const key = `highlight-${cacheHash}-${keyPart}-${highlightIndex++}`
+                  return (
+                    <span
+                      key={key}
+                      className="dnb-drawer-list__option__item--highlight"
+                    >
+                      {token}
+                    </span>
+                  )
+                }
+
+                return token
               })
 
-              let result: ReactNode = segment
-
-              if (segment.includes(strS)) {
-                const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
-                const endRepeatRegex = new RegExp(`(${strE})+`, 'g')
-                const adjacentRegex = new RegExp(`(${strE}${strS})`, 'g')
-                const splitRegex = new RegExp(`(${strS}|${strE})`, 'g')
-
-                const normalized = segment
-                  .replace(startRepeatRegex, strS)
-                  .replace(endRepeatRegex, strE)
-                  .replace(adjacentRegex, '')
-
-                const tokens = normalized.split(splitRegex).filter(Boolean)
-
-                let isHighlighted = false
-                let highlightIndex = 0
-                const parts = tokens.map((token) => {
-                  if (token === strS) {
-                    isHighlighted = true
-                    return null
-                  }
-                  if (token === strE) {
-                    isHighlighted = false
-                    return null
-                  }
-
-                  if (isHighlighted) {
-                    const key = `highlight-${cacheHash}-${idx}-${highlightIndex++}`
-                    return (
-                      <span
-                        key={key}
-                        className="dnb-drawer-list__option__item--highlight"
-                      >
-                        {token}
-                      </span>
-                    )
-                  }
-
-                  return token
-                })
-
-                result = <span key={cacheHash + idx}>{parts}</span>
-              } else {
-                result = <span key={cacheHash + idx}>{segment}</span>
-              }
-
-              if (isComponent) {
-                const element = originalChild as ReactElement<{
-                  children?: ReactNode | ReactNode[]
-                }>
-                if (Array.isArray(element?.props?.children)) {
-                  result = element.props.children.map(
-                    (Comp: ReactNode) => {
-                      const compEl = Comp as ReactElement<{
-                        children?: ReactNode
-                      }>
-                      return Comp === originalChild ||
-                        (compEl.props &&
-                          compEl.props.children === originalChild)
-                        ? result
-                        : Comp
-                    }
-                  )
-                } else if (typeof originalChild === 'string') {
-                  result = originalChild
-                }
-
-                if (
-                  isValidElement<Record<string, unknown>>(originalChild)
-                ) {
-                  result = createElement(
-                    originalChild.type as ComponentType<any>,
-                    {
-                      ...originalChild.props,
-                      key: 'clone' + cacheHash + idx,
-                    },
-                    result
-                  )
-                }
-              }
-
-              return result
+              return parts
             }
-          )
+
+            return segment
+          }
+
+          const renderText = (
+            text: string,
+            keyPart: string,
+            wrapInSpan: boolean
+          ) => {
+            const result = highlightText(text, keyPart)
+
+            if (wrapInSpan) {
+              return <span key={cacheHash + keyPart}>{result}</span>
+            }
+
+            return result
+          }
+
+          const renderNode = (
+            node: ReactNode,
+            keyPart: string,
+            wrapText = false
+          ): ReactNode => {
+            if (Array.isArray(node)) {
+              return node.map((child, idx) =>
+                renderNode(child, `${keyPart}-${idx}`)
+              )
+            }
+
+            if (typeof node === 'string' || typeof node === 'number') {
+              return renderText(String(node), keyPart, wrapText)
+            }
+
+            if (isValidElement<{ children?: ReactNode }>(node)) {
+              const child = node.props.children
+
+              if (typeof child === 'undefined') {
+                return node
+              }
+
+              return createElement(
+                node.type as ComponentType<any>,
+                {
+                  ...node.props,
+                  key: node.key ?? 'clone' + cacheHash + keyPart,
+                },
+                renderNode(child, keyPart)
+              )
+            }
+
+            return node
+          }
+
+          const processed = Array.isArray(children)
+            ? children.map((child, idx) =>
+                renderNode(child, String(idx), true)
+              )
+            : renderNode(children, '0', true)
 
           return (cacheMemoryRef.current[cacheHash] = processed)
         }
