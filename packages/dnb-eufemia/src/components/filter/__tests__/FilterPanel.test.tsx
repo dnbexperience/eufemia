@@ -154,6 +154,27 @@ describe('Filter.Panel', () => {
     expect(document.activeElement).toBe(panelButton)
   })
 
+  it('renders cancel button without icon in manual mode', () => {
+    render(
+      <FilterRoot id="panel-cancel-icon-test" behavior="manual">
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <p>Content</p>
+        </FilterPanel>
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-button'))
+
+    const cancelButton = document.querySelector(
+      '.dnb-filter__panel-actions .dnb-button--tertiary'
+    )
+
+    expect(cancelButton).toBeInTheDocument()
+    expect(cancelButton.textContent).toContain('Avbryt')
+    expect(cancelButton.querySelector('.dnb-icon')).not.toBeInTheDocument()
+  })
+
   it('moves focus to the panel button when cancel is clicked in manual mode', () => {
     render(
       <FilterRoot id="panel-cancel-focus-test" behavior="manual">

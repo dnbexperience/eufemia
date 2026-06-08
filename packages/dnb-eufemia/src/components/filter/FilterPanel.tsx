@@ -68,7 +68,11 @@ function FilterPanel({ className, children }: FilterPanelProps) {
               <Button variant="primary" onClick={handleApply}>
                 {applyFilterLabel}
               </Button>
-              <Button variant="tertiary" onClick={handleClose}>
+              <Button
+                variant="tertiary"
+                icon={false}
+                onClick={handleClose}
+              >
                 {cancelFilterLabel}
               </Button>
             </div>
