@@ -212,6 +212,17 @@ function createDocsContext(source: DocsSource) {
   let cachedMarkdownFiles: string[] | null = null
   let cachedAt = 0
   const ttlMs = 30_000
+  const contentCache = new Map<string, string | null>()
+
+  async function readCached(filePath: string): Promise<string | null> {
+    if (contentCache.has(filePath)) {
+      return contentCache.get(filePath) ?? null
+    }
+
+    const text = await source.read(filePath)
+    contentCache.set(filePath, text)
+    return text
+  }
 
   async function getMarkdownFilesCached(prefix?: string) {
     const now = Date.now()
@@ -221,6 +232,7 @@ function createDocsContext(source: DocsSource) {
         withLeadingSlash(filePath)
       )
       cachedAt = now
+      contentCache.clear()
     }
 
     if (!prefix) {
@@ -254,7 +266,7 @@ function createDocsContext(source: DocsSource) {
     let properties = doc
     let events = doc
 
-    const markdown = await source.read(doc)
+    const markdown = await readCached(doc)
     if (markdown) {
       const links = extractFrontmatterLinks(markdown)
       if (links?.properties) {
@@ -307,7 +319,7 @@ function createDocsContext(source: DocsSource) {
     const hits: SearchHit[] = []
 
     for (const filePath of files) {
-      const text = await source.read(filePath)
+      const text = await readCached(filePath)
       if (text === null) {
         continue
       }
@@ -342,6 +354,7 @@ function createDocsContext(source: DocsSource) {
 
   return {
     getMarkdownFilesCached,
+    readCached,
     resolveComponentPaths,
     searchInMarkdown,
     source,
@@ -377,7 +390,7 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
       inputSchema: EmptyInput.shape,
     },
     async () => {
-      const text = await context.source.read('llm.md')
+      const text = await context.readCached('llm.md')
       return makeTextResult(text ?? 'llm.md not found in docs root.')
     }
   )
@@ -440,7 +453,7 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
         )
       }
 
-      const text = await context.source.read(normalizedPath)
+      const text = await context.readCached(normalizedPath)
       return makeTextResult(text ?? '')
     }
   )
@@ -481,7 +494,7 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
     },
     async ({ name }) => {
       const info = await context.resolveComponentPaths(name)
-      const text = await context.source.read(info.doc)
+      const text = await context.readCached(info.doc)
       return makeTextResult(text ?? `Component doc not found: ${info.doc}`)
     }
   )
@@ -490,12 +503,13 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
     'component_api',
     {
       title: 'Component API',
-      description: 'Return parsed JSON code blocks from a component doc.',
+      description:
+        'Return parsed JSON code blocks from a component doc (properties, events, etc).',
       inputSchema: ComponentNameInput.shape,
     },
     async ({ name }) => {
       const info = await context.resolveComponentPaths(name)
-      const text = await context.source.read(info.doc)
+      const text = await context.readCached(info.doc)
 
       return makeTextResult(
         JSON.stringify(
@@ -506,23 +520,6 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
           null,
           2
         )
-      )
-    }
-  )
-
-  server.registerTool(
-    'component_props',
-    {
-      title: 'Component props',
-      description:
-        'Return parsed JSON blocks for component properties and events.',
-      inputSchema: ComponentNameInput.shape,
-    },
-    async ({ name }) => {
-      const info = await context.resolveComponentPaths(name)
-      const text = await context.source.read(info.doc)
-      return makeTextResult(
-        JSON.stringify(extractJsonBlocks(text ?? ''), null, 2)
       )
     }
   )
