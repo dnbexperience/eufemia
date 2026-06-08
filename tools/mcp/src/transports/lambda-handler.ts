@@ -2,44 +2,8 @@ import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
-import { timingSafeEqual } from 'node:crypto'
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
 import server from '../server.js'
-
-let cachedApiKey: string | null = null
-
-async function getApiKey(): Promise<string | null> {
-  if (cachedApiKey) {
-    return cachedApiKey
-  }
-
-  const ssmName = process.env.MCP_API_KEY_SSM
-  if (!ssmName) {
-    return null
-  }
-
-  // @aws-sdk/client-ssm is provided by the Lambda runtime
-  const { SSMClient, GetParameterCommand } = await (import(
-    '@aws-sdk/client-ssm'
-  ) as Promise<typeof import('@aws-sdk/client-ssm')>)
-  const ssm = new SSMClient({})
-  const result = await ssm.send(
-    new GetParameterCommand({ Name: ssmName, WithDecryption: true })
-  )
-
-  cachedApiKey = result.Parameter?.Value ?? null
-  return cachedApiKey
-}
-
-function isValidApiKey(provided: string, expected: string): boolean {
-  const a = Buffer.from(provided)
-  const b = Buffer.from(expected)
-  if (a.length !== b.length) {
-    return false
-  }
-
-  return timingSafeEqual(a, b)
-}
 
 function toWebRequest(event: APIGatewayProxyEventV2): Request {
   const headers = new Headers()
@@ -77,32 +41,6 @@ async function toApiGatewayResult(
 export async function handler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
-  const apiKey = await getApiKey()
-  if (!apiKey) {
-    return {
-      statusCode: 503,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        error: { code: -32603, message: 'Server misconfigured' },
-        id: null,
-      }),
-    }
-  }
-
-  const providedKey = event.headers['x-api-key']
-  if (!providedKey || !isValidApiKey(providedKey, apiKey)) {
-    return {
-      statusCode: 401,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        error: { code: -32600, message: 'Unauthorized' },
-        id: null,
-      }),
-    }
-  }
-
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,
