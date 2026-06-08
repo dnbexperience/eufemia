@@ -120,7 +120,6 @@ export const validateDOMAttributes = (
         // we don't want if there are any characters except "a-z", "A-Z" or "-"
         // Removes non-standard DOM attribute names (e.g. containing underscores)
         notOnlyAZOrHyphenRegex.test(i)
-        // (typeof params[i] !== 'string' && /[^a-z-]/i.test(i))
       ) {
         delete params[i]
       }
