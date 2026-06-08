@@ -39,8 +39,10 @@ describe('Form.SubmitIndicator', () => {
   it('should have three dots', () => {
     render(<Form.SubmitIndicator state="pending" />)
 
-    const element = document.querySelector('.dnb-forms-submit-indicator')
-    expect(element).toHaveTextContent('...')
+    const dots = document.querySelectorAll(
+      '.dnb-forms-submit-indicator__content b'
+    )
+    expect(dots).toHaveLength(3)
   })
 
   it('should support spacing props', () => {
@@ -187,31 +189,41 @@ describe('Form.SubmitIndicator', () => {
   it('should not add dots when state is "success" or "abort"', () => {
     const { rerender } = render(<Form.SubmitIndicator state="abort" />)
 
-    const element = document.querySelector('.dnb-forms-submit-indicator')
-    expect(element).toHaveTextContent('')
+    expect(
+      document.querySelectorAll('.dnb-forms-submit-indicator__content b')
+    ).toHaveLength(0)
 
     rerender(<Form.SubmitIndicator state="success" />)
 
-    expect(element).toHaveTextContent('')
+    expect(
+      document.querySelectorAll('.dnb-forms-submit-indicator__content b')
+    ).toHaveLength(0)
 
     rerender(<Form.SubmitIndicator state="complete" />)
 
-    expect(element).toHaveTextContent('...')
+    expect(
+      document.querySelectorAll('.dnb-forms-submit-indicator__content b')
+    ).toHaveLength(3)
   })
 
   it('should remove dots when state is "complete"', async () => {
     const { rerender } = render(<Form.SubmitIndicator state="abort" />)
 
-    const element = document.querySelector('.dnb-forms-submit-indicator')
-    expect(element).toHaveTextContent('')
+    expect(
+      document.querySelectorAll('.dnb-forms-submit-indicator__content b')
+    ).toHaveLength(0)
 
     rerender(<Form.SubmitIndicator state="success" />)
 
-    expect(element).toHaveTextContent('')
+    expect(
+      document.querySelectorAll('.dnb-forms-submit-indicator__content b')
+    ).toHaveLength(0)
 
     rerender(<Form.SubmitIndicator state="complete" />)
 
-    expect(element).toHaveTextContent('...')
+    expect(
+      document.querySelectorAll('.dnb-forms-submit-indicator__content b')
+    ).toHaveLength(3)
   })
 
   it('should check if a newline is needed', () => {

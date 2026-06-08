@@ -28,11 +28,22 @@
     transition: var(--font-animation), var(--opacity-animation);
 
     b {
-      padding-left: 0.125em;
-      color: var(--dots-color,);
+      display: inline-block;
+      width: 0.25em;
+      height: 0.25em;
+      margin-left: 0.25em;
+      border-radius: 50%;
+      background-color: var(--dots-color);
+
+      opacity: 0.2;
+      transform: scale(0.75);
+
+      animation-name: submit-indicator-dot;
+      animation-iteration-count: infinite;
+      animation-duration: 1.2s;
 
       &:nth-of-type(1) {
-        padding-left: var(--padding-left);
+        margin-left: var(--padding-left);
         animation-delay: 50ms;
       }
       &:nth-of-type(2) {
@@ -41,15 +52,6 @@
       &:nth-of-type(3) {
         animation-delay: 400ms;
       }
-
-      opacity: 0.2;
-
-      animation-name: submit-indicator-dot;
-      animation-iteration-count: infinite;
-      animation-duration: 1.3s;
-      animation-delay: 200ms; // to get a nicer fade in
-
-      font-weight: var(--font-weight-bold);
     }
   }
 
@@ -73,18 +75,23 @@
 @keyframes submit-indicator-dot {
   0% {
     opacity: 0.2;
+    transform: scale(0.75);
   }
-  15% {
+  20% {
     opacity: 1;
+    transform: scale(1);
   }
   50% {
     opacity: 1;
+    transform: scale(1);
   }
-  60% {
-    opacity: 0.3;
+  70% {
+    opacity: 0.2;
+    transform: scale(0.75);
   }
   100% {
     opacity: 0.2;
+    transform: scale(0.75);
   }
 }
 

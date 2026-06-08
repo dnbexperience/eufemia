@@ -253,7 +253,12 @@ describe('Form.SubmitButton', () => {
 
     rerender(<Form.SubmitButton showIndicator />)
 
-    expect(buttonElement).toHaveTextContent('Send...')
+    expect(buttonElement).toHaveTextContent('Send')
+    expect(
+      buttonElement.querySelectorAll(
+        '.dnb-forms-submit-indicator__content b'
+      )
+    ).toHaveLength(3)
     expect(indicatorElement).toHaveClass(
       'dnb-forms-submit-indicator--state-pending'
     )
@@ -278,7 +283,12 @@ describe('Form.SubmitButton', () => {
 
     rerender(<Form.SubmitButton text="Save" showIndicator />)
 
-    expect(buttonElement).toHaveTextContent('Save...')
+    expect(buttonElement).toHaveTextContent('Save')
+    expect(
+      buttonElement.querySelectorAll(
+        '.dnb-forms-submit-indicator__content b'
+      )
+    ).toHaveLength(3)
     expect(indicatorElement).toHaveClass(
       'dnb-forms-submit-indicator--state-pending'
     )
