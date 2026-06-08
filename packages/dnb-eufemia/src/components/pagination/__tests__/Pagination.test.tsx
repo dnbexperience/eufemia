@@ -888,9 +888,13 @@ describe('Infinity scroller', () => {
 
     await waitForComponent()
 
-    const loadButton = document.querySelector(
-      '.dnb-button--secondary'
-    ) as HTMLButtonElement
+    const loadButton = await waitFor(() => {
+      const element = document.querySelector('.dnb-button--secondary')
+
+      expect(element).toBeInTheDocument()
+
+      return element as HTMLButtonElement
+    })
 
     expect(loadButton).toHaveTextContent('Load please')
     expect(loadButton).toHaveClass('dnb-button--icon-position-right')
