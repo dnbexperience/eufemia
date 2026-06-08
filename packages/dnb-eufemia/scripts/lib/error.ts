@@ -4,7 +4,7 @@
  */
 
 export const ERROR_HARMLESS = 100
-export const ERROR_FATAL = 500
+const ERROR_FATAL = 500
 
 type ErrorHandlerMessage = string
 

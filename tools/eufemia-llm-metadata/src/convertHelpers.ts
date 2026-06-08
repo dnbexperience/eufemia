@@ -203,14 +203,6 @@ export function formatUnhandledStandaloneMdxWarnings() {
  */
 export const LLM_DOCS_SLUG_PREFIX = 'uilib'
 
-export function getPortalPaths(store: any) {
-  const { program } = store.getState()
-  const siteDir = program.directory
-  const docsRoot = path.join(siteDir, 'src', 'docs')
-  const metadataRoot = path.join(siteDir, 'public')
-  return { siteDir, docsRoot, metadataRoot }
-}
-
 export async function findDocExtras(file: string) {
   const extrasDir = path.join(
     path.dirname(file),
