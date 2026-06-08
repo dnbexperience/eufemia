@@ -57,7 +57,7 @@ describe('behavior="manual"', () => {
     expect(onChange).not.toHaveBeenCalled()
   })
 
-  it('does not call onChange when search changes', () => {
+  it('calls onChange when search changes', () => {
     const onChange = vi.fn()
 
     render(
@@ -74,25 +74,15 @@ describe('behavior="manual"', () => {
 
     fireEvent.change(input, { target: { value: 'hello' } })
 
-    expect(onChange).not.toHaveBeenCalled()
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({
+      search: 'hello',
+      filters: {},
+    })
   })
 
-  it('does not apply uncommitted filters when typing in search', () => {
+  it('applies search with only committed filters when panel filters are uncommitted', () => {
     const onChange = vi.fn()
-
-    function SetFilter() {
-      const ctx = useFilterContext()
-      return (
-        <button
-          data-testid="set"
-          onClick={() =>
-            ctx.setFilter('status', { value: 'paid', label: 'Paid' })
-          }
-        >
-          Set
-        </button>
-      )
-    }
 
     render(
       <FilterRoot
@@ -101,11 +91,20 @@ describe('behavior="manual"', () => {
         onChange={onChange}
       >
         <FilterSearch label="Søk" />
-        <SetFilter />
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <FilterSelection
+            label="Status"
+            filterKey="/status"
+            defaultOpen
+            data={[{ value: 'active', label: 'Active' }]}
+          />
+        </FilterPanel>
       </FilterRoot>
     )
 
-    fireEvent.click(document.querySelector('[data-testid="set"]'))
+    fireEvent.click(document.querySelector('button[aria-expanded]'))
+    fireEvent.click(document.querySelector('.dnb-checkbox__input'))
 
     expect(onChange).not.toHaveBeenCalled()
 
@@ -113,7 +112,11 @@ describe('behavior="manual"', () => {
 
     fireEvent.change(input, { target: { value: 'hello' } })
 
-    expect(onChange).not.toHaveBeenCalled()
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({
+      search: 'hello',
+      filters: {},
+    })
   })
 
   it('propagates search to shared state in realtime', () => {
@@ -559,6 +562,12 @@ describe('behavior="manual"', () => {
     const input = document.querySelector('input')
     fireEvent.change(input, { target: { value: 'salary' } })
 
+    expect(onChange).toHaveBeenCalledWith({
+      search: 'salary',
+      filters: defaultFiltersMultiple,
+    })
+    onChange.mockClear()
+
     const tags = document.querySelectorAll('.dnb-tag.dnb-tag--removable')
     const removeButton = Array.from(tags).find((tag) =>
       tag.textContent.includes('Card')
@@ -605,6 +614,12 @@ describe('behavior="manual"', () => {
 
     const input = document.querySelector('input')
     fireEvent.change(input, { target: { value: 'card' } })
+
+    expect(onChange).toHaveBeenCalledWith({
+      search: 'card',
+      filters: defaultFiltersMultiple,
+    })
+    onChange.mockClear()
 
     const buttons = document.querySelectorAll(
       '.dnb-filter__active-filters .dnb-button--tertiary'

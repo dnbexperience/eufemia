@@ -151,8 +151,11 @@ function FilterRoot({
   const setSearch = useCallback(
     (search: string) => {
       if (isManual) {
+        const filters = (get() ?? initialState).filters
+
         setDraftState((prev) => ({ ...prev, search }))
         extend({ search })
+        onChangeRef.current?.({ search, filters })
       } else {
         extend({ search })
         const filters = (get() ?? initialState).filters

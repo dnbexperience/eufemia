@@ -2,7 +2,12 @@ import { render, fireEvent, waitFor, act } from '@testing-library/react'
 import FilterRoot from '../FilterRoot'
 import FilterContent from '../FilterContent'
 import FilterNoResults from '../FilterNoResults'
+import FilterPanel from '../FilterPanel'
+import FilterPanelButton from '../FilterPanelButton'
+import FilterActiveFilters from '../FilterActiveFilters'
+import FilterResultCount from '../FilterResultCount'
 import FilterSearch from '../FilterSearch'
+import FilterSelection from '../FilterSelection'
 import { useFilterAsync } from '../hooks/useFilter'
 
 describe('useFilterAsync', () => {
@@ -191,6 +196,114 @@ describe('useFilterAsync', () => {
         expect.objectContaining({ search: 'hello' })
       )
     })
+  })
+
+  it('does not apply uncommitted manual filters when search changes', async () => {
+    const allTransactions = [
+      { name: 'Rema 1000', amount: -245, status: 'active' },
+      { name: 'DNB Salary', amount: 25000, status: 'active' },
+      { name: 'Elkjøp', amount: -3999, status: 'inactive' },
+      { name: 'Kiwi', amount: -189, status: 'active' },
+      { name: 'Spotify', amount: -119, status: 'inactive' },
+    ]
+    const fetcher = vi.fn().mockImplementation(({ filters, search }) => {
+      const selectedStatuses = Object.keys(filters)
+        .filter((key) => key.startsWith('/status/'))
+        .map((key) => key.replace('/status/', ''))
+
+      return Promise.resolve(
+        allTransactions.filter((transaction) => {
+          if (
+            search &&
+            !transaction.name
+              .toLowerCase()
+              .includes(search.toLowerCase()) &&
+            !String(transaction.amount).includes(search)
+          ) {
+            return false
+          }
+
+          if (
+            selectedStatuses.length > 0 &&
+            !selectedStatuses.includes(transaction.status)
+          ) {
+            return false
+          }
+
+          return true
+        })
+      )
+    })
+
+    function Example() {
+      const { data: filtered = [] } = useFilterAsync(
+        'manual-async-search-draft-test',
+        fetcher,
+        { initialData: allTransactions }
+      )
+
+      return (
+        <>
+          <FilterRoot
+            id="manual-async-search-draft-test"
+            behavior="manual"
+          >
+            <FilterSearch label="Søk" />
+            <FilterPanelButton>Filters</FilterPanelButton>
+            <FilterPanel>
+              <FilterSelection
+                label="Status"
+                filterKey="/status"
+                defaultOpen
+                data={[
+                  { value: 'active', label: 'Active' },
+                  { value: 'inactive', label: 'Inactive' },
+                ]}
+              />
+            </FilterPanel>
+            <FilterActiveFilters />
+            <FilterResultCount />
+          </FilterRoot>
+          <FilterContent connectedTo="manual-async-search-draft-test">
+            <span data-testid="result-names">
+              {filtered.map((transaction) => transaction.name).join(',')}
+            </span>
+          </FilterContent>
+        </>
+      )
+    }
+
+    render(<Example />)
+
+    await waitFor(() => {
+      expect(fetcher).toHaveBeenCalledWith({ filters: {}, search: '' })
+    })
+
+    fireEvent.click(document.querySelector('button[aria-expanded]'))
+    fireEvent.click(document.querySelector('.dnb-checkbox__input'))
+
+    expect(document.querySelector('.dnb-checkbox__input')).toBeChecked()
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    fireEvent.change(document.querySelector('.dnb-filter__search input'), {
+      target: { value: 'Elkjøp' },
+    })
+
+    await waitFor(() => {
+      expect(fetcher).toHaveBeenLastCalledWith({
+        filters: {},
+        search: 'Elkjøp',
+      })
+    })
+    await waitFor(() => {
+      expect(
+        document.querySelector('[data-testid="result-names"]').textContent
+      ).toBe('Elkjøp')
+    })
+    expect(document.querySelector('.dnb-tag')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-filter__result-count').textContent
+    ).toContain('1')
   })
 
   it('shows skeleton on Results while fetching', async () => {
