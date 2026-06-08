@@ -3,7 +3,7 @@
  *
  */
 
-import sass from 'sass'
+import * as sass from 'sass'
 import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
