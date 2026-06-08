@@ -1148,7 +1148,7 @@ export default function Provider<Data extends JsonObject>(
             (path.match(isArrayJsonPointer) ? [] : {}))
       ) as Data
 
-      let newData: Data = null
+      let newData: Data
       try {
         // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
         newData = structuredClone(givenData)
@@ -1599,7 +1599,7 @@ export default function Provider<Data extends JsonObject>(
 
         const data = getSubmitData()
         const options = getSubmitParams()
-        let result = undefined
+        let result: OnSubmitResult
 
         if (isAsync(onSubmit)) {
           result = await onSubmit(data, options)

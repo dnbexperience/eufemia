@@ -57,24 +57,31 @@ export default [
   {
     ignores: ignorePatterns,
   },
-  ...fixupConfigRules(basePlugins.extends(
-    'eslint:recommended',
-    'plugin:import/recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:jsx-a11y/recommended'
-  )),
-  ...fixupConfigRules(basePlugins.extends('plugin:compat/recommended').map((config) => ({
-    ...config,
-    files: ['**/src/**/*.{js,jsx,ts,tsx}'],
-    ignores: ['**/*.stories.*'],
-    settings: {
-      ...(config.settings || {}),
-      polyfills: [...(config.settings?.polyfills || []), 'Object.hasOwn'],
-      lintAllEsApis: true,
-      ignoreConditionalChecks: true,
-    },
-  }))),
+  ...fixupConfigRules(
+    basePlugins.extends(
+      'eslint:recommended',
+      'plugin:import/recommended',
+      'plugin:react/recommended',
+      'plugin:react-hooks/recommended',
+      'plugin:jsx-a11y/recommended'
+    )
+  ),
+  ...fixupConfigRules(
+    basePlugins.extends('plugin:compat/recommended').map((config) => ({
+      ...config,
+      files: ['**/src/**/*.{js,jsx,ts,tsx}'],
+      ignores: ['**/*.stories.*'],
+      settings: {
+        ...(config.settings || {}),
+        polyfills: [
+          ...(config.settings?.polyfills || []),
+          'Object.hasOwn',
+        ],
+        lintAllEsApis: true,
+        ignoreConditionalChecks: true,
+      },
+    }))
+  ),
   {
     languageOptions: {
       ecmaVersion: 2020,
@@ -101,11 +108,6 @@ export default [
     },
     rules: {
       ...securityRecommendedRules,
-
-      // New rules added to eslint:recommended in ESLint 10 – set to warn
-      // so they don't block CI while the codebase is incrementally updated.
-      'no-useless-assignment': 'warn',
-      'preserve-caught-error': 'warn',
 
       // React Compiler rules added to plugin:react-hooks/recommended in v7 –
       // disable them until the React Compiler is adopted.
@@ -276,12 +278,14 @@ export default [
       ],
     },
   },
-  ...fixupConfigRules(basePlugins
-    .extends('plugin:@typescript-eslint/recommended')
-    .map((config) => ({
-      ...config,
-      files: tsConfigFiles,
-    }))),
+  ...fixupConfigRules(
+    basePlugins
+      .extends('plugin:@typescript-eslint/recommended')
+      .map((config) => ({
+        ...config,
+        files: tsConfigFiles,
+      }))
+  ),
   {
     files: tsConfigFiles,
     languageOptions: {

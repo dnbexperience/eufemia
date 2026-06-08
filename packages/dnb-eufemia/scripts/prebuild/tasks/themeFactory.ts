@@ -184,7 +184,7 @@ export async function runFactory({
     await asyncForEach(themesWithRelatedFiles, async ({ name, files }) => {
       const file = `${scssOutputPath}/${name}/${name}-theme-${targetFile}.scss`
 
-      let fileContent = ''
+      let fileContent: string
 
       if (!fs.existsSync(file)) {
         fileContent = `${editAdvice.replace(
@@ -193,9 +193,9 @@ export async function runFactory({
         )}${insertBelowAdvice}\n\n${files.join('')}`
 
         await write(file, fileContent)
+      } else {
+        fileContent = await fs.readFile(file, 'utf-8')
       }
-
-      fileContent = await fs.readFile(file, 'utf-8')
 
       const updatedFiles = getFallbackFiles({
         files,

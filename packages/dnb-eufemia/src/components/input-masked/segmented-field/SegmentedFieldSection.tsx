@@ -163,7 +163,7 @@ export default function SegmentedFieldSection({
         parseValue?.(currentValue) ??
         (currentValue ? Number(currentValue) : undefined)
 
-      let nextValue = parsedValue
+      let nextValue: number | undefined
 
       if (typeof parsedValue !== 'number' || Number.isNaN(parsedValue)) {
         const initialValue = getInitialValue?.()

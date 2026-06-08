@@ -381,7 +381,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     buttonParams['readOnly'] = true
   }
 
-  let usedLeftComponent = null
+  let usedLeftComponent: ReactNode
   switch (variant) {
     case 'radio':
       usedLeftComponent = <Radio id={`${id}-radio`} {...componentParams} />

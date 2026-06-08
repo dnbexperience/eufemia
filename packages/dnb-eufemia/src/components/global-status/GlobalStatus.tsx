@@ -292,7 +292,7 @@ function getIcon({
   theme?: string
 }): ReactNode {
   if (typeof icon === 'string') {
-    let IconToLoad: ComponentType<{ state?: FormStatusState }> = ErrorIcon
+    let IconToLoad: ComponentType<{ state?: FormStatusState }>
 
     switch (state) {
       case 'information':
@@ -305,6 +305,7 @@ function getIcon({
       case 'error':
       default:
         IconToLoad = ErrorIcon
+        break
     }
 
     icon = (
@@ -742,7 +743,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     const id =
       item.id || item.itemId ? `${item.itemId}-${i}` : makeUniqueId()
 
-    let anchorText = statusAnchorText
+    let anchorText: ReactNode
 
     if (isValidElement(item.statusAnchorLabel)) {
       anchorText = (

@@ -157,7 +157,6 @@ function FlexContainer(props: FlexContainerAllProps) {
     const start: FlexStart = direction === 'horizontal' ? 'left' : 'top'
     const end: FlexEnd = direction === 'horizontal' ? 'right' : 'bottom'
     const endSpacing = 0
-    let startSpacing = null
 
     if (
       // No line above heading
@@ -165,7 +164,8 @@ function FlexContainer(props: FlexContainerAllProps) {
       ((divider === 'line' && !isFirst) || divider === 'line-framed')
     ) {
       const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
-      startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType
+      const startSpacing = (getSpaceValue(start, child) ??
+        spacing) as SpaceType
 
       return (
         <Fragment key={`element-${i}`}>

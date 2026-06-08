@@ -85,8 +85,8 @@ export function parseContentTitle(
     return null
   }
 
-  let ret = ''
-  const onlyNumericRegex = /[0-9.,-\s]+/
+  let ret: string
+  const onlyNumericRegex = /[0-9.,-\\s]+/
 
   const hasValue = dataItem && dataItem.selectedValue
 
