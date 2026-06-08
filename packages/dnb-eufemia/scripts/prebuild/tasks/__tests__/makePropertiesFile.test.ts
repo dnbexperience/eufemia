@@ -207,8 +207,20 @@ describe('makePropertiesFile', () => {
       it('skip string', () => {
         expect(
           generateCSSVariablesFromTokenList([
-            { figmaPath: ['bad'], $type: 'string', $value: 'Medium' },
-            { figmaPath: ['good'], $type: 'number', $value: 2 },
+            {
+              figmaPath: ['bad'],
+              figmaSetId:
+                'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+              $type: 'string',
+              $value: 'Medium',
+            },
+            {
+              figmaPath: ['good'],
+              figmaSetId:
+                'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+              $type: 'number',
+              $value: 2,
+            },
           ])
         ).toEqual(`--good: 0.125rem;\n`)
       })
@@ -255,14 +267,14 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--carnegie-coldgreen-600)')
       })
 
-      it('returns undefined for unsupported variable set', () => {
+      it('error on unsupported variable set', () => {
         const val = {
           targetVariableName: 'dnb/ColdGreen/600',
           targetVariableSetId: 'VariableCollectionId:nonsense/5552:1080',
           targetVariableSetName: 'nonsense',
         }
 
-        expect(transformFigmaAlias(val)).toBeUndefined()
+        expect(() => transformFigmaAlias(val)).toThrow()
       })
 
       it('resolves size alias to literal value', () => {
@@ -440,14 +452,31 @@ describe('makePropertiesFile', () => {
 
     describe('transformFigmaPath', () => {
       it('transforms normally', () => {
-        const result = transformFigmaPath(['Colors', 'Primary', 'Dark'])
+        const result = transformFigmaPath({
+          figmaPath: ['Colors', 'Primary', 'Dark'],
+          figmaSetId:
+            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+        })
         expect(result).toEqual('colors-primary-dark')
+      })
+
+      it('transforms prefixes', () => {
+        const result = transformFigmaPath({
+          figmaPath: ['dnbcarnegie', 'Primary', 'Dark'],
+          figmaSetId:
+            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+        })
+        expect(result).toEqual('carnegie-primary-dark')
       })
 
       it('error on unsupported characters', () => {
         let err
         try {
-          transformFigmaPath(['Colo*rs', 'Pri ma?ry', 'Da(rk'])
+          transformFigmaPath({
+            figmaPath: ['Colo*rs', 'Pri ma?ry', 'Da(rk'],
+            figmaSetId:
+              'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+          })
         } catch (e) {
           err = e
         }
