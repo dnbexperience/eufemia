@@ -438,7 +438,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   right: -0.5rem;
 }
 .dnb-drawer-list--open .dnb-drawer-list__list {
-  z-index: 100;
+  z-index: var(--z-index-dropdown);
   display: flex;
   flex-direction: column;
 }
@@ -1005,7 +1005,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   right: -0.5rem;
 }
 .dnb-drawer-list--open .dnb-drawer-list__list {
-  z-index: 100;
+  z-index: var(--z-index-dropdown);
   display: flex;
   flex-direction: column;
 }
