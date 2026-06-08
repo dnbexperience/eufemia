@@ -1212,7 +1212,7 @@ exports[`makePropertiesFile > Tokens snapshots for > sbanken 2`] = `
   --token-color-icon-warning: var(--sbanken-yellow-600);
   --token-color-icon-warning-subtle: var(--sbanken-yellow-950);
   --token-color-icon-error: var(--sbanken-red-600);
-  --token-color-icon-error-subtle: var(--sbanken-orange-950);
+  --token-color-icon-error-subtle: var(--sbanken-red-950);
   --token-color-icon-marketing: var(--sbanken-purple-200);
   --token-color-icon-marketing-subtle: var(--sbanken-greyscale-800);
   --token-color-stroke-action: var(--sbanken-green-400);
@@ -1273,7 +1273,7 @@ exports[`makePropertiesFile > Tokens snapshots for > sbanken 2`] = `
   --token-color-decorative-third-base: var(--sbanken-green-500);
   --token-color-decorative-third-base-static: var(--sbanken-green-500);
   --token-color-decorative-third-bold: var(--sbanken-green-300);
-  --token-color-decorative-third-bold-static: var(--sbanken-green-700);
+  --token-color-decorative-third-bold-static: var(--sbanken-green-300);
   --token-color-decorative-third-intense: var(--sbanken-green-100);
   --token-color-decorative-third-intense-static: var(--sbanken-green-900);
   --token-color-component-button-background-action: var(
@@ -2091,7 +2091,7 @@ exports[`makePropertiesFile > Tokens snapshots for > ui 3`] = `
   --dnb-green-950: #1c342d;
   --dnb-red-50: #fceeee;
   --dnb-red-100: #fcdddd;
-  --dnb-red-500: #ed4c4c;
+  --dnb-red-500: #ff4646;
   --dnb-red-600: #d52525;
   --dnb-red-700: #b21e1e;
   --dnb-red-900: #541515;

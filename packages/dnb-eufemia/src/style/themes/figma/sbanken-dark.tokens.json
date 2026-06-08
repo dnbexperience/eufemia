@@ -2767,12 +2767,12 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.3019607961177826,
-            0.11764705926179886,
-            0.0313725508749485
+            0.23529411852359772,
+            0.003921568859368563,
+            0.04313725605607033
           ],
           "alpha": 1,
-          "hex": "#4D1E08"
+          "hex": "#3C010B"
         },
         "$extensions": {
           "com.figma.variableId": "VariableID:62150:1991",
@@ -2784,8 +2784,8 @@
             "WEB": "--token-color-icon-error-subtle"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:821bf099c3ac77d4ca8005b1ed7a6f2a7fd2cfe1/5552:1605",
-            "targetVariableName": "dnb/orange/950",
+            "targetVariableId": "VariableID:6b7235e37eb8bc2b89981570c334f23103a31983/5552:1794",
+            "targetVariableName": "sbanken/red/950",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -4376,12 +4376,12 @@
           "$value": {
             "colorSpace": "srgb",
             "components": [
-              0,
-              0.48235294222831726,
-              0.3686274588108063
+              0.572549045085907,
+              0.9333333373069763,
+              0.8039215803146362
             ],
             "alpha": 1,
-            "hex": "#007B5E"
+            "hex": "#92EECD"
           },
           "$extensions": {
             "com.figma.variableId": "VariableID:53820:6436",
@@ -4392,8 +4392,8 @@
               "WEB": "--token-color-decorative-third-bold-static"
             },
             "com.figma.aliasData": {
-              "targetVariableId": "VariableID:0a34ae85d1fa46131e7aa1e27270d2985b08de73/5552:1575",
-              "targetVariableName": "dnb/green/700",
+              "targetVariableId": "VariableID:7d4f5eff80fa7e179e28b3e6815b16783630406e/5552:1791",
+              "targetVariableName": "sbanken/green/300",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -5226,8 +5226,8 @@
                 "WEB": "--token-color-component-button-icon-neutral-destructive"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:6298df1ecd7673ad11a868ad535d1c74d6eb319e/5552:1666",
-                "targetVariableName": "dnb/greyscale/0",
+                "targetVariableId": "VariableID:df039608ce704fb23149d725481966eae0435000/5552:1852",
+                "targetVariableName": "sbanken/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5619,7 +5619,7 @@
   },
   "font": {
     "size": {
-      "heading-xx-large": {
+      "heading-2xl": {
         "$type": "number",
         "$value": 48,
         "$extensions": {
@@ -5638,7 +5638,7 @@
           }
         }
       },
-      "heading-x-large": {
+      "heading-xl": {
         "$type": "number",
         "$value": 34,
         "$extensions": {
@@ -5657,7 +5657,7 @@
           }
         }
       },
-      "heading-large": {
+      "heading-lg": {
         "$type": "number",
         "$value": 26,
         "$extensions": {
@@ -5733,7 +5733,7 @@
           }
         }
       },
-      "text-small": {
+      "text-sm": {
         "$type": "number",
         "$value": 16,
         "$extensions": {
@@ -5752,7 +5752,7 @@
           }
         }
       },
-      "text-small-medium": {
+      "text-sm-medium": {
         "$type": "number",
         "$value": 16,
         "$extensions": {
@@ -5771,7 +5771,7 @@
           }
         }
       },
-      "text-x-small": {
+      "text-xs": {
         "$type": "number",
         "$value": 14,
         "$extensions": {
@@ -5790,7 +5790,7 @@
           }
         }
       },
-      "text-x-small-medium": {
+      "text-xs-medium": {
         "$type": "number",
         "$value": 14,
         "$extensions": {
@@ -5809,7 +5809,7 @@
           }
         }
       },
-      "text-xx-small": {
+      "text-2xs": {
         "$type": "number",
         "$value": 13,
         "$extensions": {
@@ -5829,7 +5829,7 @@
           }
         }
       },
-      "text-xx-small-medium": {
+      "text-2xs-medium": {
         "$type": "number",
         "$value": 13,
         "$extensions": {
@@ -5851,7 +5851,7 @@
       }
     },
     "height": {
-      "heading-xx-large": {
+      "heading-2xl": {
         "$type": "number",
         "$value": 56,
         "$extensions": {
@@ -5870,7 +5870,7 @@
           }
         }
       },
-      "heading-x-large": {
+      "heading-xl": {
         "$type": "number",
         "$value": 40,
         "$extensions": {
@@ -5965,7 +5965,7 @@
           }
         }
       },
-      "text-small": {
+      "text-sm": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5984,7 +5984,7 @@
           }
         }
       },
-      "text-small-medium": {
+      "text-sm-medium": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -6003,7 +6003,7 @@
           }
         }
       },
-      "text-x-small": {
+      "text-xs": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -6022,7 +6022,7 @@
           }
         }
       },
-      "text-x-small-medium": {
+      "text-xs-medium": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -6043,7 +6043,7 @@
       }
     },
     "weight": {
-      "heading-xx-large": {
+      "heading-2xl": {
         "$type": "string",
         "$value": "Book Sbanken",
         "$extensions": {
@@ -6063,7 +6063,7 @@
           }
         }
       },
-      "heading-x-large": {
+      "heading-xl": {
         "$type": "string",
         "$value": "Book Sbanken",
         "$extensions": {
@@ -6083,7 +6083,7 @@
           }
         }
       },
-      "heading-large": {
+      "heading-lg": {
         "$type": "string",
         "$value": "Book Sbanken",
         "$extensions": {
@@ -6163,7 +6163,7 @@
           }
         }
       },
-      "text-small": {
+      "text-sm": {
         "$type": "string",
         "$value": "Regular",
         "$extensions": {
@@ -6183,7 +6183,7 @@
           }
         }
       },
-      "text-small-medium": {
+      "text-sm-medium": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
@@ -6203,7 +6203,7 @@
           }
         }
       },
-      "text-x-small": {
+      "text-xs": {
         "$type": "string",
         "$value": "Regular",
         "$extensions": {
@@ -6223,7 +6223,7 @@
           }
         }
       },
-      "text-x-small-medium": {
+      "text-xs-medium": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
