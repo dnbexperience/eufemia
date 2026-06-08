@@ -3,8 +3,14 @@
  *
  */
 
-import { StrictMode, useLayoutEffect, useState } from 'react'
-import { fireEvent, render, waitFor, screen } from '@testing-library/react'
+import { StrictMode, useLayoutEffect, useRef, useState } from 'react'
+import {
+  act,
+  fireEvent,
+  render,
+  waitFor,
+  screen,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import {
@@ -16,6 +22,7 @@ import {
 } from 'date-fns'
 import type { DatePickerAllProps } from '../DatePicker'
 import DatePicker from '../DatePicker'
+import DatePickerPortal from '../DatePickerPortal'
 import {
   toRange,
   dayOffset,
@@ -6144,5 +6151,232 @@ describe('DatePicker ARIA', () => {
       expect(button.classList).toContain('dnb-button--tertiary')
       expect(button.textContent).toContain('Open')
     })
+  })
+})
+
+describe('DatePickerPortal', () => {
+  let targetElement: HTMLElement
+  let getBoundingClientRectSpy: ReturnType<typeof vi.spyOn>
+
+  beforeEach(() => {
+    targetElement = document.createElement('div')
+    document.body.appendChild(targetElement)
+
+    getBoundingClientRectSpy = vi
+      .spyOn(targetElement, 'getBoundingClientRect')
+      .mockReturnValue({
+        top: 100,
+        left: 50,
+        width: 200,
+        height: 40,
+        right: 250,
+        bottom: 140,
+        x: 50,
+        y: 100,
+        toJSON: () => ({}),
+      } as DOMRect)
+  })
+
+  afterEach(() => {
+    document.body.removeChild(targetElement)
+    vi.restoreAllMocks()
+  })
+
+  function PortalWrapper({
+    skipPortal = false,
+    alignment = undefined as 'left' | 'center' | 'right' | undefined,
+  } = {}) {
+    const ref = useRef<HTMLElement>(targetElement)
+    return (
+      <DatePickerPortal
+        skipPortal={skipPortal}
+        alignment={alignment}
+        targetElementRef={ref}
+      >
+        <div data-testid="portal-content">content</div>
+      </DatePickerPortal>
+    )
+  }
+
+  it('registers resize and scroll listeners on mount', () => {
+    const addSpy = vi.spyOn(window, 'addEventListener')
+
+    render(<PortalWrapper />)
+
+    const resizeCalls = addSpy.mock.calls.filter(
+      ([type]) => type === 'resize'
+    )
+    const scrollCalls = addSpy.mock.calls.filter(
+      ([type]) => type === 'scroll'
+    )
+
+    expect(resizeCalls).toHaveLength(1)
+    expect(scrollCalls).toHaveLength(1)
+  })
+
+  it('removes event listeners on unmount using the same reference that was added', () => {
+    const addSpy = vi.spyOn(window, 'addEventListener')
+    const removeSpy = vi.spyOn(window, 'removeEventListener')
+
+    const { unmount } = render(<PortalWrapper />)
+
+    const addedResizeListener = addSpy.mock.calls.find(
+      ([type]) => type === 'resize'
+    )?.[1]
+    const addedScrollListener = addSpy.mock.calls.find(
+      ([type]) => type === 'scroll'
+    )?.[1]
+
+    unmount()
+
+    const removedResizeListener = removeSpy.mock.calls.find(
+      ([type]) => type === 'resize'
+    )?.[1]
+    const removedScrollListener = removeSpy.mock.calls.find(
+      ([type]) => type === 'scroll'
+    )?.[1]
+
+    expect(addedResizeListener).toBeDefined()
+    expect(addedScrollListener).toBeDefined()
+    expect(addedResizeListener).toBe(removedResizeListener)
+    expect(addedScrollListener).toBe(removedScrollListener)
+  })
+
+  it('keeps the same listener reference after re-renders', () => {
+    const addSpy = vi.spyOn(window, 'addEventListener')
+    const removeSpy = vi.spyOn(window, 'removeEventListener')
+
+    const { rerender, unmount } = render(
+      <PortalWrapper alignment="left" />
+    )
+
+    const addedListener = addSpy.mock.calls.find(
+      ([type]) => type === 'resize'
+    )?.[1]
+
+    rerender(<PortalWrapper alignment="right" />)
+    rerender(<PortalWrapper alignment="left" />)
+
+    unmount()
+
+    const removedListeners = removeSpy.mock.calls
+      .filter(([type]) => type === 'resize')
+      .map(([, fn]) => fn)
+
+    expect(removedListeners).toHaveLength(1)
+    expect(removedListeners[0]).toBe(addedListener)
+  })
+
+  it('does not register listeners when skipPortal is true', () => {
+    const addSpy = vi.spyOn(window, 'addEventListener')
+
+    render(<PortalWrapper skipPortal />)
+
+    const resizeCalls = addSpy.mock.calls.filter(
+      ([type]) => type === 'resize'
+    )
+    const scrollCalls = addSpy.mock.calls.filter(
+      ([type]) => type === 'scroll'
+    )
+
+    expect(resizeCalls).toHaveLength(0)
+    expect(scrollCalls).toHaveLength(0)
+  })
+
+  it('updates portal position after the debounce delay on resize', () => {
+    vi.useFakeTimers()
+
+    render(<PortalWrapper />)
+
+    const portal = document.querySelector(
+      '.dnb-date-picker__portal'
+    ) as HTMLElement
+
+    expect(portal).toHaveStyle({ top: '100px', left: '50px' })
+
+    getBoundingClientRectSpy.mockReturnValue({
+      top: 200,
+      left: 100,
+      width: 200,
+      height: 40,
+      right: 300,
+      bottom: 240,
+      x: 100,
+      y: 200,
+      toJSON: () => ({}),
+    } as DOMRect)
+
+    act(() => {
+      window.dispatchEvent(new Event('resize'))
+    })
+
+    expect(portal).toHaveStyle({ top: '100px', left: '50px' })
+
+    act(() => {
+      vi.advanceTimersByTime(200)
+    })
+
+    expect(portal).toHaveStyle({ top: '200px', left: '100px' })
+
+    vi.useRealTimers()
+  })
+
+  it('updates portal position after the debounce delay on scroll', () => {
+    vi.useFakeTimers()
+
+    render(<PortalWrapper />)
+
+    const portal = document.querySelector(
+      '.dnb-date-picker__portal'
+    ) as HTMLElement
+
+    expect(portal).toHaveStyle({ top: '100px' })
+
+    getBoundingClientRectSpy.mockReturnValue({
+      top: 300,
+      left: 80,
+      width: 200,
+      height: 40,
+      right: 280,
+      bottom: 340,
+      x: 80,
+      y: 300,
+      toJSON: () => ({}),
+    } as DOMRect)
+
+    act(() => {
+      window.dispatchEvent(new Event('scroll'))
+    })
+
+    expect(portal).toHaveStyle({ top: '100px' })
+
+    act(() => {
+      vi.advanceTimersByTime(200)
+    })
+
+    expect(portal).toHaveStyle({ top: '300px' })
+
+    vi.useRealTimers()
+  })
+
+  it('reflects updated alignment after re-render when a resize fires', () => {
+    vi.useFakeTimers()
+
+    const { rerender } = render(<PortalWrapper alignment="left" />)
+
+    rerender(<PortalWrapper alignment="right" />)
+
+    act(() => {
+      window.dispatchEvent(new Event('resize'))
+      vi.advanceTimersByTime(200)
+    })
+
+    const portal = document.querySelector(
+      '.dnb-date-picker__portal'
+    ) as HTMLElement
+
+    expect(portal).toHaveStyle({ left: '250px' })
+
+    vi.useRealTimers()
   })
 })
