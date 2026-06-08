@@ -6,6 +6,7 @@
   "scripts": {
     "build": "rm -rf dist && yarn workspace @dnb/eufemia build:docs && esbuild src/transports/lambda-handler.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/lambda-handler.mjs '--external:@aws-sdk/*' && mkdir -p dist/docs && cp -R ../../packages/dnb-eufemia/build/docs/. dist/docs && cd dist && zip -rq lambda.zip lambda-handler.mjs docs",
     "dev": "tsx src/transports/stdio.ts",
+    "test": "vitest run",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply",
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan",
     "typecheck": "tsc --noEmit"
@@ -19,10 +20,12 @@
     "zod": "4.1.8"
   },
   "devDependencies": {
+    "@aws-sdk/client-ssm": "3.1060.0",
     "@types/aws-lambda": "8.10.161",
     "@types/node": "25.9.1",
     "esbuild": "0.25.5",
     "tsx": "4.22.4",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vitest": "4.1.8"
   }
 }
