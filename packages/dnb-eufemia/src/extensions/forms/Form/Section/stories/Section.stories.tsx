@@ -321,38 +321,8 @@ export const SectionLevelZodSchema = () => {
       .refine(...asRequired('LastName.errorRequired')),
   })
 
-  // const formSchema = z.object({
-  //   customer: z.object({
-  //     firstName: z
-  //       .union([
-  //         z.string().min(4, 'StringField.errorMinLength'),
-  //         z.undefined(),
-  //       ])
-  //       .refine((val) => val !== undefined, {
-  //         message: 'FirstName.errorRequired',
-  //       }),
-  //     lastName: z
-  //       .union([
-  //         z.string().min(4, 'StringField.errorMinLength'),
-  //         z.undefined(),
-  //       ])
-  //       .refine((val) => val !== undefined, {
-  //         message: 'LastName.errorRequired',
-  //       }),
-  //   }),
-  // })
-
   return (
-    <Form.Handler
-      onSubmit={(data) => console.log('Submitted:', data)}
-      // schema={formSchema} // Form level schema
-      // defaultData={{
-      //   customer: {
-      //     firstName: 'Aa',
-      //     lastName: 'Bb',
-      //   },
-      // }}
-    >
+    <Form.Handler onSubmit={(data) => console.log('Submitted:', data)}>
       <Flex.Stack>
         <Form.Section
           path="/customer"
