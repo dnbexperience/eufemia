@@ -18,9 +18,3 @@ variable "cost_allocation" {
   type        = string
   description = "BA number from ServiceNow for cost allocation tagging"
 }
-
-variable "api_key" {
-  type        = string
-  description = "API key for x-api-key header validation"
-  sensitive   = true
-}

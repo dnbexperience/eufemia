@@ -21,20 +21,11 @@ resource "aws_lambda_function" "mcp" {
 
   environment {
     variables = {
-      NODE_OPTIONS       = "--enable-source-maps"
-      MCP_API_KEY_SSM    = aws_ssm_parameter.api_key.name
+      NODE_OPTIONS = "--enable-source-maps"
     }
   }
 
   tags = local.tags
-}
-
-# SSM Parameter for API key
-resource "aws_ssm_parameter" "api_key" {
-  name  = "/${local.function_name}/api-key"
-  type  = "SecureString"
-  value = var.api_key
-  tags  = local.tags
 }
 
 # IAM role for Lambda
@@ -57,20 +48,6 @@ resource "aws_iam_role" "lambda" {
 resource "aws_iam_role_policy_attachment" "lambda_basic" {
   role       = aws_iam_role.lambda.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
-resource "aws_iam_role_policy" "ssm_read" {
-  name = "${local.function_name}-ssm-read"
-  role = aws_iam_role.lambda.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect   = "Allow"
-      Action   = ["ssm:GetParameter"]
-      Resource = aws_ssm_parameter.api_key.arn
-    }]
-  })
 }
 
 # API Gateway HTTP API
