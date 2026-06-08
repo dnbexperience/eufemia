@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useLayoutEffect, useState } from 'react'
-import type { HTMLProps, RefObject } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import type { CSSProperties, HTMLProps, RefObject } from 'react'
 import type { DatePickerProps } from './DatePicker'
 import PortalRoot from '../PortalRoot'
 import { debounce } from '../../shared/helpers'
@@ -16,37 +16,43 @@ export default function DatePickerPortal({
   targetElementRef,
   children,
 }: DatePickerPortalProps) {
-  const [position, setPosition] = useState({})
+  const [position, setPosition] = useState<CSSProperties | null>(null)
 
   useLayoutEffect(() => {
-    if (targetElementRef.current) {
+    if (targetElementRef?.current) {
       setPosition(getPosition(targetElementRef.current, alignment))
     }
   }, [alignment, targetElementRef])
 
-  const setPositionDebounce = useCallback(() => {
-    const debounced = debounce(() => {
-      if (targetElementRef.current) {
-        setPosition(getPosition(targetElementRef.current, alignment))
+  const alignmentRef = useRef(alignment)
+  alignmentRef.current = alignment
+
+  const setPositionDebounce = useRef(
+    debounce(() => {
+      if (targetElementRef?.current) {
+        setPosition(
+          getPosition(targetElementRef.current, alignmentRef.current)
+        )
       }
     }, 200)
-
-    debounced()
-  }, [alignment, targetElementRef])
+  )
 
   useEffect(() => {
+    const debouncedFn = setPositionDebounce.current
+
     if (!skipPortal) {
-      window.addEventListener('resize', setPositionDebounce)
-      window.addEventListener('scroll', setPositionDebounce)
+      window.addEventListener('resize', debouncedFn)
+      window.addEventListener('scroll', debouncedFn)
     }
 
     return () => {
       if (!skipPortal) {
-        window.removeEventListener('resize', setPositionDebounce)
-        window.removeEventListener('scroll', setPositionDebounce)
+        window.removeEventListener('resize', debouncedFn)
+        window.removeEventListener('scroll', debouncedFn)
       }
+      debouncedFn.cancel()
     }
-  }, [setPositionDebounce, skipPortal])
+  }, [skipPortal])
 
   return (
     position &&
