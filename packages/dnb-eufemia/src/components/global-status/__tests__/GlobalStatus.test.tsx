@@ -459,12 +459,21 @@ describe('GlobalStatus component', () => {
       </>
     )
 
+    Object.defineProperty(
+      document.querySelector('.dnb-global-status__wrapper') as HTMLElement,
+      'scrollIntoView',
+      {
+        configurable: true,
+        value: undefined,
+      }
+    )
+
     // Open
     fireEvent.click(document.querySelector('input#switch'))
 
-    await refresh()
-
-    expect(scrollTo).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+    })
     expect(scrollTo).toHaveBeenCalledWith({
       behavior: 'smooth',
       top: 0,
@@ -478,15 +487,15 @@ describe('GlobalStatus component', () => {
 
     // Close
     fireEvent.click(document.querySelector('input#switch'))
-    await refresh()
-
-    expect(scrollTo).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+    })
 
     // Open
     fireEvent.click(document.querySelector('input#switch'))
-    await refresh()
-
-    expect(scrollTo).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(2)
+    })
     expect(scrollTo).toHaveBeenCalledWith({
       behavior: 'smooth',
       top: offsetTop,
