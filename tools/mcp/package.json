@@ -20,7 +20,6 @@
     "zod": "4.1.8"
   },
   "devDependencies": {
-    "@aws-sdk/client-ssm": "3.1060.0",
     "@types/aws-lambda": "8.10.161",
     "@types/node": "25.9.1",
     "esbuild": "0.25.5",
