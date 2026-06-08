@@ -106,7 +106,7 @@
   --color-icon-warning: var(--sbanken-yellow-600);
   --color-icon-warning-subtle: var(--sbanken-yellow-950);
   --color-icon-error: var(--sbanken-red-600);
-  --color-icon-error-subtle: var(--sbanken-orange-950);
+  --color-icon-error-subtle: var(--sbanken-red-950);
   --color-icon-marketing: var(--sbanken-purple-200);
   --color-icon-marketing-subtle: var(--sbanken-greyscale-800);
   --color-stroke-action: var(--sbanken-green-400);
@@ -163,7 +163,7 @@
   --color-decorative-third-base: var(--sbanken-green-500);
   --color-decorative-third-base-static: var(--sbanken-green-500);
   --color-decorative-third-bold: var(--sbanken-green-300);
-  --color-decorative-third-bold-static: var(--sbanken-green-700);
+  --color-decorative-third-bold-static: var(--sbanken-green-300);
   --color-decorative-third-intense: var(--sbanken-green-100);
   --color-decorative-third-intense-static: var(--sbanken-green-900);
   --color-component-button-background-action: var(--sbanken-green-300);
