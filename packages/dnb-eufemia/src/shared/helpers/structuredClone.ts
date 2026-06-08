@@ -23,4 +23,3 @@ const cloneFunction =
       structuredClonePolyfill
 
 export { cloneFunction as structuredClone }
-export default cloneFunction
