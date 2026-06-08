@@ -212,10 +212,10 @@ export default [
         },
       ],
       'jsx-a11y/label-has-associated-control': [
-        'warn',
+        'error',
         {
           labelComponents: ['Label'],
-          assert: 'both',
+          assert: 'either',
           depth: 3,
         },
       ],
