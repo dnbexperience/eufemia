@@ -3,7 +3,6 @@
  */
 
 import { axe, toHaveNoViolations } from 'jest-axe'
-import fs from 'fs-extra'
 import path from 'path'
 import * as sass from 'sass'
 import { vi } from 'vitest'
@@ -122,9 +121,6 @@ export const mockClipboard = () => {
     },
   })
 }
-
-export const loadImage = async (imagePath: string) =>
-  await fs.readFile(path.resolve(imagePath))
 
 export const axeComponent = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
