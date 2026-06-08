@@ -44,3 +44,7 @@ When you pass the `open` property, the Tooltip becomes controlled:
 - `open={false}`: The Tooltip stays hidden and ignores DOM events. It will not auto-show on `mouseenter` or focus.
 
 To use the built-in hover/focus/touch behavior, omit the `open` property and let the component manage visibility internally.
+
+## Root Element (React Portal)
+
+The Tooltip component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.

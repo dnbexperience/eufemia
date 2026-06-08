@@ -149,18 +149,18 @@ render(
 
 In this example, every portal element will receive `data-my-need="something"` for content rendered outside the main React tree.
 
-### AutoTranslate helper
+### BrowserTranslate helper
 
-The `AutoTranslate` helper component prevents browser translation tools (such as Google Translate) from modifying the content of form components. It works by combining the Eufemia Provider's `formElement` context with `PortalRoot.Provider`, so both the visible component (e.g. a button) and its portal-rendered content (e.g. a dropdown list) receive `translate="no"`.
+The `BrowserTranslate` helper component prevents browser translation tools (such as Google Translate) from modifying the content of form components. It works by combining the Eufemia Provider's `formElement` context with `PortalRoot.Provider`, so both the visible component (e.g. a button) and its portal-rendered content (e.g. a dropdown list) receive `translate="no"`.
 
 ```tsx
-import { AutoTranslate } from '@dnb/eufemia/shared'
+import { BrowserTranslate } from '@dnb/eufemia/shared'
 import { Dropdown } from '@dnb/eufemia'
 
 render(
-  <AutoTranslate off>
+  <BrowserTranslate off>
     <Dropdown data={['Brukskonto', 'Sparekonto', 'BSU']} />
-  </AutoTranslate>
+  </BrowserTranslate>
 )
 ```
 
