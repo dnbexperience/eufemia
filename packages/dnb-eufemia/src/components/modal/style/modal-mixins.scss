@@ -114,13 +114,6 @@
   }
 }
 
-@mixin modalReducedMotion() {
-  @include utilities.reducedMotion() {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
-
 // Mixin for sticky navigation bar with drop shadow
 // Used by Dialog and Drawer components
 @mixin modalStickyNav() {
