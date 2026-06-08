@@ -156,8 +156,6 @@ function FlexContainer(props: FlexContainerAllProps) {
     // having to divide spacing between both with smaller values.
     const start: FlexStart = direction === 'horizontal' ? 'left' : 'top'
     const end: FlexEnd = direction === 'horizontal' ? 'right' : 'bottom'
-    // const start: Start | End = direction === 'horizontal' ? 'right' : 'top'
-    // const end: Start | End = direction === 'horizontal' ? 'left' : 'bottom'
     const endSpacing = 0
     let startSpacing = null
 
