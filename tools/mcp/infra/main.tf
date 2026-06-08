@@ -22,6 +22,7 @@ resource "aws_lambda_function" "mcp" {
   environment {
     variables = {
       NODE_OPTIONS = "--enable-source-maps"
+      MCP_API_KEY  = var.api_key
     }
   }
 

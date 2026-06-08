@@ -41,6 +41,22 @@ async function toApiGatewayResult(
 export async function handler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
+  const apiKey = process.env.MCP_API_KEY
+  if (apiKey) {
+    const providedKey = event.headers['x-api-key']
+    if (!providedKey || providedKey !== apiKey) {
+      return {
+        statusCode: 401,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          error: { code: -32600, message: 'Unauthorized' },
+          id: null,
+        }),
+      }
+    }
+  }
+
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,
