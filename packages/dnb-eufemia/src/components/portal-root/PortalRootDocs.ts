@@ -7,7 +7,7 @@ export const PortalRootProperties: PropertiesTableProps = {
     status: 'optional',
   },
   id: {
-    doc: 'The id attribute for the portal root element.',
+    doc: 'The id used for the portal root element. Defaults to `eufemia-portal-root`. If an element with this id already exists in the DOM, it will be reused.',
     type: 'string',
     status: 'optional',
   },
@@ -25,5 +25,10 @@ export const PortalRootProperties: PropertiesTableProps = {
     doc: 'The content that will be placed in a React Portal.',
     type: 'React.ReactNode',
     status: 'required',
+  },
+  '[HTML attributes]': {
+    doc: 'When used on `PortalRoot.Provider`, any extra HTML attributes (e.g. `translate`, `lang`, `dir`, `data-*`) are forwarded to the portal DOM element. Props on `PortalRoot` itself take precedence.',
+    type: 'various',
+    status: 'optional',
   },
 }
