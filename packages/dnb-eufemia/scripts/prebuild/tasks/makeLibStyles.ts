@@ -63,7 +63,6 @@ export const runFactory = async (
   const filePatterns = [
     src,
     '!**/__tests__/**',
-    '!**/stories/**',
     '!**/*_not_in_use*/**/*',
   ]
   const matchedFiles = await globby(filePatterns, { cwd: ROOT_DIR })

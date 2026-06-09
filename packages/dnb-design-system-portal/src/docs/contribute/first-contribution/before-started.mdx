@@ -23,7 +23,6 @@ Before you get started, there are some technical decisions you should know about
     - [Component folder](#component-folder)
       - [Modifications](#modifications)
   - [Development environments](#development-environments)
-    - [Storybook development](#storybook-development)
     - [Eufemia portal](#eufemia-portal)
       - [Local build](#local-build)
     - [Testing](#testing)
@@ -141,26 +140,9 @@ As an example, we show the folder structure of component Breadcrumb. You can als
 
 There are a couple of environments for different purposes.
 
-- For developing and styling new components, you can run [Storybook development](/contribute/first-contribution/before-started#storybook-development).
 - For writing documentation and displaying the components, you can run [the portal](/contribute/first-contribution/before-started#eufemia-portal) locally.
 - After development, you can run [your tests](/contribute/getting-started#make-and-run-tests).
 - If you want to see the local changes in the search results, you can run [Algolia search queries locally](/).
-
-### Storybook development
-
-[Storybook](https://storybook.js.org/) is used for quick examples and component development. They do not need to be perfect.
-
-Stories are placed inside a `/stories` directory and contain _.stories_ in the filename: `/components/button/stories/Button.stories.tsx`
-
-Run Storybook locally by running
-
-```bash
-yarn dev
-```
-
-in the root folder. Then you can view the Storybook website by visiting [localhost:8002](http://localhost:8002/).
-
-Add new pages to the storybook by adding a new directory `/stories` and a new file under `ComponentName.stories.tsx` and following the similar structure of the other files.
 
 ### Eufemia portal
 

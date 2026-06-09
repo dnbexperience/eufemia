@@ -21,7 +21,6 @@ const presets: Record<string, Preset> = {
       '**/scripts/postbuild/**',
       '**/build/**',
       '**/assets/**',
-      '**/stories/**',
       '**/node_modules/**',
     ],
   },

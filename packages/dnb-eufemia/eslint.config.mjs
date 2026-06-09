@@ -70,7 +70,6 @@ export default [
     basePlugins.extends('plugin:compat/recommended').map((config) => ({
       ...config,
       files: ['**/src/**/*.{js,jsx,ts,tsx}'],
-      ignores: ['**/*.stories.*'],
       settings: {
         ...(config.settings || {}),
         polyfills: [
@@ -436,12 +435,6 @@ export default [
     },
   },
   {
-    files: ['**/*.stories.{ts,tsx,js,jsx}'],
-    rules: {
-      'no-console': 'off',
-    },
-  },
-  {
     files: ['**/*Docs.{ts,tsx}'],
     plugins: {
       'docs-types': docsTypesPlugin,
@@ -528,7 +521,6 @@ export default [
       '**/__tests__/**',
       '**/*.test.*',
       '**/*.spec.*',
-      '**/*.stories.*',
       '**/*.d.ts',
     ],
     plugins: {

@@ -47,12 +47,11 @@ module.exports = {
       return {}
     }
 
-    // Skip test files and stories
+    // Skip test files
     if (
       filename.includes('__tests__') ||
       filename.includes('.test.') ||
-      filename.includes('.spec.') ||
-      filename.includes('.stories.')
+      filename.includes('.spec.')
     ) {
       return {}
     }
