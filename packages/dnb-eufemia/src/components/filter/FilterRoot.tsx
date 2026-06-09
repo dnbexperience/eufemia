@@ -206,17 +206,26 @@ function FilterRoot({
   const submitFilterRemoval = useCallback(
     (filterKey: string) => {
       const committed = get() ?? initialState
-      const nextFilters = { ...committed.filters }
-      delete nextFilters[filterKey]
+      const nextAppliedFilters = { ...committed.filters }
+      delete nextAppliedFilters[filterKey]
 
-      const nextState = {
-        search: committed.search,
-        filters: nextFilters,
+      const draft = draftRef.current
+      const nextDraftFilters = { ...draft.filters }
+      delete nextDraftFilters[filterKey]
+
+      const nextDraftState = {
+        ...draft,
+        filters: nextDraftFilters,
       }
 
-      setDraftState(nextState)
-      extend({ search: nextState.search, filters: nextState.filters })
-      onChangeRef.current?.(toChangeState(nextState))
+      const nextAppliedState = {
+        search: committed.search,
+        filters: nextAppliedFilters,
+      }
+
+      setDraftState(nextDraftState)
+      extend(nextAppliedState)
+      onChangeRef.current?.(toChangeState(nextAppliedState))
     },
     [extend, get]
   )

@@ -35,6 +35,7 @@ function FilterDate({
     | undefined
 
   const locale = sharedContext.locale
+  const itemContext = useContext(FilterItemContext)
 
   const handleChange = useCallback(
     ({
@@ -45,7 +46,11 @@ function FilterDate({
       endDate?: string | null
     }) => {
       if (!startDate && !endDate) {
-        removeFilter(filterKey)
+        if (itemContext) {
+          setFilter(filterKey, undefined)
+        } else {
+          removeFilter(filterKey)
+        }
         return // stop here
       }
 
@@ -55,7 +60,7 @@ function FilterDate({
         categoryLabel: label,
       })
     },
-    [removeFilter, setFilter, filterKey, label, locale]
+    [itemContext, removeFilter, setFilter, filterKey, label, locale]
   )
 
   const sharedProps = {
@@ -68,7 +73,6 @@ function FilterDate({
     onChange: handleChange,
   }
 
-  const itemContext = useContext(FilterItemContext)
   const { isSmall } = useMedia()
 
   const description = useMemo(

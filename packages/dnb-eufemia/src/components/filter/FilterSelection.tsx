@@ -1,7 +1,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import Checkbox from '../checkbox/Checkbox'
 import Flex from '../flex/Flex'
-import { FilterContext } from './FilterContext'
+import { FilterContext, FilterItemContext } from './FilterContext'
 import FilterItem from './FilterItem'
 
 export type FilterSelectionItem = {
@@ -29,6 +29,7 @@ function FilterSelection({
   }
 
   const { state, setFilter, removeFilter } = context
+  const itemContext = useContext(FilterItemContext)
 
   const prefix = `${filterKey}/`
 
@@ -50,10 +51,14 @@ function FilterSelection({
           categoryLabel: label,
         })
       } else {
-        removeFilter(key)
+        if (itemContext) {
+          setFilter(key, undefined)
+        } else {
+          removeFilter(key)
+        }
       }
     },
-    [setFilter, removeFilter, prefix, label, options]
+    [itemContext, setFilter, removeFilter, prefix, label, options]
   )
 
   return (

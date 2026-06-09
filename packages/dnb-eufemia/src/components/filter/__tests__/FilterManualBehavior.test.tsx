@@ -119,7 +119,7 @@ describe('behavior="manual"', () => {
     })
   })
 
-  it('does not apply pending draft filters when an applied tag is removed', () => {
+  it('preserves unrelated draft filters when an applied tag is removed', () => {
     const onChange = vi.fn()
 
     render(
@@ -171,7 +171,8 @@ describe('behavior="manual"', () => {
       search: '',
       filters: {},
     })
-    expect(checkboxes[1]).not.toBeChecked()
+    expect(checkboxes[0]).not.toBeChecked()
+    expect(checkboxes[1]).toBeChecked()
     expect(document.querySelector('.dnb-tag')).not.toBeInTheDocument()
   })
 
@@ -729,6 +730,40 @@ describe('behavior="manual"', () => {
       search: '',
       filters: {},
     })
+  })
+
+  it('does not submit filters when an applied selection is unchecked inside the panel', () => {
+    const onChange = vi.fn()
+
+    render(
+      <FilterRoot
+        id="manual-uncheck-applied-filter-in-panel"
+        behavior="manual"
+        defaultFilters={defaultFilters}
+        onChange={onChange}
+      >
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <FilterSelection
+            label="Type"
+            filterKey="/type"
+            defaultOpen
+            data={[{ value: 'card', label: 'Card' }]}
+          />
+        </FilterPanel>
+        <FilterActiveFilters />
+      </FilterRoot>
+    )
+
+    const checkbox = document.querySelector('.dnb-checkbox__input')
+
+    expect(checkbox).toBeChecked()
+
+    fireEvent.click(checkbox)
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(checkbox).not.toBeChecked()
+    expect(document.querySelector('.dnb-tag')).toBeInTheDocument()
   })
 
   it('does not submit filters when an unapplied selection is unchecked', () => {
