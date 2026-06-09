@@ -61,4 +61,29 @@ test.describe('Page Scroll', () => {
     })
     expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
   })
+
+  test('should scroll to hash element after route change', async ({
+    page,
+  }) => {
+    await page.goto(
+      '/contribute/first-contribution#how-to-report-an-issue-or-suggest-a-new-feature'
+    )
+
+    await expect(page).toHaveURL(
+      /\/contribute\/first-contribution\/?#how-to-report-an-issue-or-suggest-a-new-feature$/
+    )
+
+    const target = page.locator(
+      '#how-to-report-an-issue-or-suggest-a-new-feature'
+    )
+    await expect(target).toBeAttached()
+
+    await expect
+      .poll(async () => {
+        return target.evaluate((element) => {
+          return element.getBoundingClientRect().top
+        })
+      })
+      .toBeLessThan(300)
+  })
 })
