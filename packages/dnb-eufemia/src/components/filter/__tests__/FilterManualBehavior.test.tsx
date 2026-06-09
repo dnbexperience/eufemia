@@ -119,6 +119,62 @@ describe('behavior="manual"', () => {
     })
   })
 
+  it('does not apply pending draft filters when an applied tag is removed', () => {
+    const onChange = vi.fn()
+
+    render(
+      <FilterRoot
+        id="manual-remove-tag-with-pending-draft"
+        behavior="manual"
+        defaultFilters={{
+          '/status/active': {
+            value: 'active',
+            label: 'Active',
+            categoryLabel: 'Status',
+          },
+        }}
+        onChange={onChange}
+      >
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <FilterSelection
+            label="Status"
+            filterKey="/status"
+            defaultOpen
+            data={[
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' },
+            ]}
+          />
+        </FilterPanel>
+        <FilterActiveFilters />
+      </FilterRoot>
+    )
+
+    const checkboxes = document.querySelectorAll(
+      '.dnb-checkbox input[type="checkbox"]'
+    )
+
+    fireEvent.click(checkboxes[1])
+
+    expect(checkboxes[1]).toBeChecked()
+    expect(onChange).not.toHaveBeenCalled()
+
+    const removeButton = document.querySelector(
+      '.dnb-tag.dnb-tag--removable'
+    )
+
+    fireEvent.click(removeButton)
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({
+      search: '',
+      filters: {},
+    })
+    expect(checkboxes[1]).not.toBeChecked()
+    expect(document.querySelector('.dnb-tag')).not.toBeInTheDocument()
+  })
+
   it('propagates search to shared state in realtime', () => {
     function HookReader() {
       const { search } = useFilter('manual-search-shared')
