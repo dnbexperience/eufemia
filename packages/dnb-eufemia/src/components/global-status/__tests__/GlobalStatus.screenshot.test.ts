@@ -43,25 +43,23 @@ describe.each(['ui', 'sbanken'])(`GlobalStatus for %s`, (themeName) => {
     })
   })
 
-  if (themeName !== 'sbanken') {
-    it('have to match the close button in focus state', async () => {
-      await makeScreenshot({
-        style,
-        selector: '[data-visual-test="global-status"] .dnb-global-status',
-        simulateSelector:
-          '[data-visual-test="global-status"] .dnb-global-status__close-button',
-        simulate: 'focus',
-      })
+  it('have to match the close button in focus state', async () => {
+    await makeScreenshot({
+      style,
+      selector: '[data-visual-test="global-status"] .dnb-global-status',
+      simulateSelector:
+        '[data-visual-test="global-status"] .dnb-global-status__close-button',
+      simulate: 'focus',
     })
+  })
 
-    it('have to match the close button in hover state', async () => {
-      await makeScreenshot({
-        style,
-        selector: '[data-visual-test="global-status"] .dnb-global-status',
-        simulateSelector:
-          '[data-visual-test="global-status"] .dnb-global-status__close-button',
-        simulate: 'hover',
-      })
+  it('have to match the close button in hover state', async () => {
+    await makeScreenshot({
+      style,
+      selector: '[data-visual-test="global-status"] .dnb-global-status',
+      simulateSelector:
+        '[data-visual-test="global-status"] .dnb-global-status__close-button',
+      simulate: 'hover',
     })
-  }
+  })
 })
