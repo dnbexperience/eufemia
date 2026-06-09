@@ -8,8 +8,6 @@
 @use './typography-mixins.scss';
 
 @include typography-mixins.typographySelectors() {
-  --typography-h-default-font-weight: var(--font-weight-medium);
-
   // Heading xx-large
   --typography-h-xx-large-font-size: var(--font-size-xx-large);
   --typography-h-xx-large-line-height: var(--line-height-xx-large);

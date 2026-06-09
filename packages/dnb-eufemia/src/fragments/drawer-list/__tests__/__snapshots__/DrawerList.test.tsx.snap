@@ -20,7 +20,6 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
   --drawer-list-option-border-width: 0.25rem;
   --drawer-list-option-gap: 0.5rem;
   --drawer-list-option-divider: 0.0625rem;
-  --drawer-list-padding-horizontal--default: 1rem;
   --drawer-list-padding-horizontal--large: 1.25rem;
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--default: 2rem;
@@ -31,12 +30,6 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
   );
   --drawer-list-list-background: var(--token-color-background-neutral);
   --drawer-list-list-line-height: var(--line-height-basis);
-  --drawer-list-option-disabled-background: var(
-    --token-color-background-neutral
-  );
-  --drawer-list-option-disabled-color: var(
-    --token-color-text-action-disabled
-  );
   --drawer-list-group-title-color: var(--token-color-text-neutral);
   --drawer-list-group-title-bg: var(
     --token-color-background-neutral-alternative
@@ -587,7 +580,6 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
   --drawer-list-option-border-width: 0.25rem;
   --drawer-list-option-gap: 0.5rem;
   --drawer-list-option-divider: 0.0625rem;
-  --drawer-list-padding-horizontal--default: 1rem;
   --drawer-list-padding-horizontal--large: 1.25rem;
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--default: 2rem;
@@ -598,12 +590,6 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
   );
   --drawer-list-list-background: var(--token-color-background-neutral);
   --drawer-list-list-line-height: var(--line-height-basis);
-  --drawer-list-option-disabled-background: var(
-    --token-color-background-neutral
-  );
-  --drawer-list-option-disabled-color: var(
-    --token-color-text-action-disabled
-  );
   --drawer-list-group-title-color: var(--token-color-text-neutral);
   --drawer-list-group-title-bg: var(
     --token-color-background-neutral-alternative
