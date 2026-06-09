@@ -134,6 +134,38 @@ describe('Field.Expiry', () => {
     expect(year).toHaveAttribute('autocomplete', 'cc-exp-year')
   })
 
+  it('should not focus segmented inputs when disabled inputs are focused or clicked', async () => {
+    render(<Field.Expiry disabled />)
+
+    const month = getMonthInput()
+    const hiddenInput: HTMLInputElement = document.querySelector(
+      '.dnb-segmented-field__hidden-input'
+    )
+    const label = document.querySelector('label[for]')
+
+    expect(month).toHaveAttribute('aria-disabled', 'true')
+    expect(month).not.toHaveAttribute('tabindex')
+    expect(hiddenInput.tagName).toBe('SPAN')
+
+    month.focus()
+
+    expect(document.activeElement).not.toBe(month)
+
+    hiddenInput.focus()
+
+    expect(document.activeElement).not.toBe(hiddenInput)
+    expect(document.activeElement).not.toBe(month)
+
+    await userEvent.click(label)
+
+    expect(document.activeElement).not.toBe(hiddenInput)
+    expect(document.activeElement).not.toBe(month)
+
+    fireEvent.mouseDown(month)
+
+    expect(document.activeElement).not.toBe(month)
+  })
+
   it('should focus and select month input on label click', async () => {
     render(<Field.Expiry label="Expiry" value="1225" />)
 
