@@ -51,7 +51,7 @@ The filter component can be used in two layout patterns:
 
 - **`Filter.Root`** — Root wrapper. Provides filter context and syncs state via `useSharedState`. Requires a unique `id`. Supports spacing props.
 - **`Filter.Header`** — Groups the filter controls (toolbar, panel, active filters) above the results. When used together with `Filter.Content` containing a `List.Container`, the header receives a subtle background and top border-radius to visually connect with the list below.
-- **`Filter.Search`** — Text input with a loupe icon. Updates the shared `search` string. Browser autocomplete, autocorrect, autocapitalize and spellcheck are disabled by default.
+- **`Filter.Search`** — Text input with a loupe icon. Updates the shared `search` string. Browser autocomplete, autocorrect, autocapitalize, and spellcheck are disabled by default.
 - **`Filter.Toolbar`** — Horizontal row that wraps `Filter.Search` and `Filter.Toolbar.Actions`.
 - **`Filter.Toolbar.Actions`** — Groups action buttons (e.g. `Filter.PanelButton`) for proper responsiveness.
 - **`Filter.Panel`** — Expandable inline panel toggled by `Filter.PanelButton`. Renders filter children as tertiary accordions with a white background.
