@@ -107,6 +107,33 @@ describe('Autocomplete component', () => {
     expect(option.innerHTML).toContain('&lt;/em&gt;')
   })
 
+  it('keeps highlighting inside nested components', () => {
+    render(
+      <Autocomplete
+        data={[
+          <a key="item" href="/styling">
+            Use <code>Card</code>
+          </a>,
+        ]}
+        open
+        inputValue="Ca"
+        disableFilter
+        {...mockProps}
+      />
+    )
+
+    const option = document.querySelector('li.dnb-drawer-list__option')
+    const link = option?.querySelector('a')
+    const code = link?.querySelector('code')
+    const highlight = code?.querySelector(
+      '.dnb-drawer-list__option__item--highlight'
+    )
+
+    expect(link).toBeInTheDocument()
+    expect(code).toHaveTextContent('Card')
+    expect(highlight).toHaveTextContent('Ca')
+  })
+
   it('has correct attributes on input', () => {
     render(<Autocomplete data={mockData} open {...mockProps} />)
 
