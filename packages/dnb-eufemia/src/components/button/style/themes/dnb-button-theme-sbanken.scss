@@ -3,8 +3,6 @@
 *
 */
 
-@use '../../../../style/core/utilities.scss' as utilities;
-
 // Because the tertiary button has so much code,
 // we slice the shareable parts out in a separate file
 @use '../button--tertiary.scss';
