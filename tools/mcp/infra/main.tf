@@ -16,6 +16,8 @@ resource "aws_lambda_function" "mcp" {
   timeout       = 30
   memory_size   = 512
 
+  reserved_concurrent_executions = 10
+
   filename         = "${path.module}/../dist/lambda.zip"
   source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")
 
@@ -25,7 +27,17 @@ resource "aws_lambda_function" "mcp" {
     }
   }
 
-  tags = local.tags
+  depends_on = [aws_cloudwatch_log_group.lambda]
+  tags       = local.tags
+}
+
+# CloudWatch log group with retention policy.
+# Created before the Lambda so the function does not auto-create one
+# with infinite retention.
+resource "aws_cloudwatch_log_group" "lambda" {
+  name              = "/aws/lambda/${local.function_name}"
+  retention_in_days = 30
+  tags              = local.tags
 }
 
 # IAM role for Lambda
