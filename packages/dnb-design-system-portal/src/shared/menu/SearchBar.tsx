@@ -21,6 +21,7 @@ import {
   applyPageFocus,
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
+import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 
 export const SearchBarInput = () => {
   const searchIndex = useRef(null)
@@ -156,10 +157,10 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
         onMouseDown={(event) => event.stopPropagation()}
         onClick={handleTitleClick}
       >
-        {title}
+        {formatSearchResultMarkdown(title)}
       </Anchor>,
-      description,
-      search,
+      formatSearchResultMarkdown(description),
+      formatSearchResultMarkdown(search),
     ].filter(Boolean)
 
     hit.headings?.forEach(({ value, slug: hash }, i) => {
@@ -189,7 +190,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
             onMouseDown={(event) => event.stopPropagation()}
             onClick={handleHeadingClick}
           >
-            {value}
+            {formatSearchResultMarkdown(value)}
           </Anchor>
         )
       }
