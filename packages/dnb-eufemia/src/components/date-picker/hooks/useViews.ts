@@ -66,7 +66,7 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   } as const
 }
 
-export function getViews({
+function getViews({
   isRange,
   rangeSingleCalendar = false,
   ...dates
