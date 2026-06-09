@@ -12,8 +12,6 @@ import DatePickerContext from './DatePickerContext'
 import type { DatePickerDates } from './hooks/useDates'
 import type { DatePickerChangeEvent } from './DatePickerProvider'
 
-export type DatePickerRangeViews = number | Record<string, unknown>[]
-
 export type DatePickerRangeProps = Omit<
   HTMLProps<HTMLElement>,
   'onChange'
