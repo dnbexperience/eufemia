@@ -104,8 +104,6 @@ render(
 
 #### Infinity scroller method #4
 
-Using a `InfinityMarker` only.
-
 This method will basically add a load button on top, if `startupPage` or `currentPage` is higher than `1` at the first render.
 
 Also, it adds an indicator at the bottom until next render, and as long as `pageCount` has not reached the internal page count. But instead of setting `pageCount` (total pages), you can pragmatically call `endInfinity()` instead.

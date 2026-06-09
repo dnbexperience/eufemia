@@ -15,8 +15,7 @@ export function isAsync(fn: unknown): boolean {
   const secondCheck = fn?.constructor?.name === 'AsyncFunction'
 
   if (firstCheck !== secondCheck) {
-    // In some environments, the two checks may disagree.
-    // As of now, we rather want to return true in that situation.
+    // If the two checks disagree, we rather want to return true.
     return true
   }
 
