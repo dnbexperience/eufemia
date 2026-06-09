@@ -317,7 +317,7 @@ module.exports = {
       return {} // stop here
     }
 
-    if (/\.(test|spec|stories)\.[jt]sx?$/.test(filename)) {
+    if (/\.(test|spec)\.[jt]sx?$/.test(filename)) {
       return {} // stop here
     }
 

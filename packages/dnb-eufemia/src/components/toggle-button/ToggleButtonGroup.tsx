@@ -424,7 +424,7 @@ export type ToggleButtonGroupProps = Omit<
     className?: string
     children?: ToggleButtonGroupChildren
     onChange?: (event: ToggleButtonGroupChangeEvent) => void
-    // Additional properties that are used in tests and stories
+    // Additional properties that are used in tests
     top?: SpaceType
     right?: SpaceType
     bottom?: SpaceType

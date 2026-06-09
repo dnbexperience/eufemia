@@ -13,7 +13,7 @@ babel ./src \
 --out-dir ./build/es \
 --copy-files \
 --no-copy-ignored \
---ignore 'src/cjs,src/esm,src/umd,src/core,**/*.test.*,**/__tests__/**/*,**/*.stories.*,**/stories,**/*.d.ts'
+--ignore 'src/cjs,src/esm,src/umd,src/core,**/*.test.*,**/__tests__/**/*,**/*.d.ts'
 
 echo 'Copy additional files to es ...'
 

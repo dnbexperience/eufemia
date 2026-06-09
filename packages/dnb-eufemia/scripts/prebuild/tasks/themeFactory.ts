@@ -48,7 +48,6 @@ const baseGlob = '**/src/style/themes/**/*.scss'
 const baseMatch = /\/themes\/(.*)\//
 const processToNamesIgnoreList = [
   '!**/__tests__/',
-  '!**/stories/',
   '!**/style/',
   '!**/helper-classes/',
   '!**/*_not_in_use*',

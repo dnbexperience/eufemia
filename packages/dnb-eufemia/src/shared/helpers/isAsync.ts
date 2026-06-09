@@ -15,11 +15,9 @@ export function isAsync(fn: unknown): boolean {
   const secondCheck = fn?.constructor?.name === 'AsyncFunction'
 
   if (firstCheck !== secondCheck) {
-    // Storybook has a problem with async functions.
-    // E.g. "fn?.constructor?.name === 'AsyncFunction'" logic returns always "Function" instead of "AsyncFunction"
-    // Even this "Object.prototype.toString.call(fn) === '[object AsyncFunction]'" logic returns always "false" in Storybook.
-    // The issue persists with "instanceof" logic, where it returns "true" for non-async functions.
-    // As of now, we rather want to return true in that situation.
+    // Defensive fallback: if the two checks disagree (e.g. due to
+    // transpilation or bundler quirks), err on the side of treating
+    // the function as async.
     return true
   }
 

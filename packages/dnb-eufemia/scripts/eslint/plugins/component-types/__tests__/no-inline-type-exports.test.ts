@@ -57,18 +57,6 @@ tester.run('no-inline-type-exports', rule, {
       `,
       filename: '/src/components/foo/__tests__/Foo.test.tsx',
     },
-    // Stories are ignored
-    {
-      code: `
-        export type A = string
-        export type B = string
-        export type C = string
-        export type D = string
-        export type E = string
-        export type F = string
-      `,
-      filename: '/src/components/foo/Foo.stories.tsx',
-    },
     // Custom threshold: 10
     {
       code: `

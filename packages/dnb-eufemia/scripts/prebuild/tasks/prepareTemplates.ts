@@ -162,7 +162,6 @@ export const processElements = async () => {
       'index',
       'lib',
       'Element',
-      'stories',
       'label',
       'lists',
       'typography',

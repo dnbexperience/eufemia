@@ -60,12 +60,7 @@ export const runFactory = async (
   const postcssTransform = transformPostcss(postcssConfig({ sass }))
   const cssnanoTransform = transformCssnano({ reduceIdents: false })
 
-  const filePatterns = [
-    src,
-    '!**/__tests__/**',
-    '!**/stories/**',
-    '!**/*_not_in_use*/**/*',
-  ]
+  const filePatterns = [src, '!**/__tests__/**', '!**/*_not_in_use*/**/*']
   const matchedFiles = await globby(filePatterns, { cwd: ROOT_DIR })
 
   const collectedEntries: Array<{ path: string; result: string }> = []

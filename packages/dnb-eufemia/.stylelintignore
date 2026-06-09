@@ -1,7 +1,6 @@
 *__tests__*
 *not_in_use*
 /scripts
-/stories
 *.cjs
 *.js
 *.ts
