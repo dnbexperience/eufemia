@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useRef } from 'react'
 import { clsx } from 'clsx'
 import SharedContext from '../../shared/Context'
 import { FilterContext, FilterConnectedIdContext } from './FilterContext'
@@ -58,8 +58,19 @@ function FilterResultCount({
     (resultCount !== undefined || isLoading) &&
     (alwaysVisible || hasActiveFilters)
 
+  const lastVisibleResultCountRef = useRef<number | undefined>(undefined)
+
+  if (isVisible && resultCount !== undefined) {
+    lastVisibleResultCountRef.current = resultCount
+  }
+
+  const displayedResultCount = isVisible
+    ? resultCount
+    : (lastVisibleResultCountRef.current ?? resultCount)
+
   const message =
-    children || resultCountMessage.replace('%s', String(resultCount ?? 0))
+    children ||
+    resultCountMessage.replace('%s', String(displayedResultCount ?? 0))
 
   return (
     <HeightAnimation
