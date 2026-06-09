@@ -6,4 +6,16 @@ import * as Examples from './Examples'
 
 ## Demos
 
+### PortalRoot
+
 <Examples.PortalRootExample />
+
+### BrowserTranslate
+
+The `BrowserTranslate` helper prevents browser translation tools (e.g. Google Translate) from modifying form component content. It sets `translate="no"` on both the component itself and any portal-rendered content like dropdown lists.
+
+```tsx
+import { BrowserTranslate } from '@dnb/eufemia/shared'
+```
+
+<Examples.BrowserTranslateExample />

@@ -36,6 +36,7 @@ import NumberFormat from '../../NumberFormat'
 import { CountryFlag } from '../../lib'
 import Dialog from '../../dialog/Dialog'
 
+import Provider from '../../../shared/Provider'
 import locales from '../../../shared/locales/nb-NO'
 
 const nbNO = locales['nb-NO'].DrawerList
@@ -2061,6 +2062,22 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
       'dnb-drawer-list--no-divider'
     )
+  })
+
+  it('should inherit formElement vertical label', () => {
+    render(
+      <Provider
+        formElement={{ labelDirection: 'vertical', disabled: true }}
+      >
+        <Dropdown {...props} data={mockData} label="Label" />
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-dropdown')
+    expect(element).toHaveClass('dnb-dropdown--vertical')
+
+    const trigger = document.querySelector('button.dnb-dropdown__trigger')
+    expect(trigger).toBeDisabled()
   })
 })
 

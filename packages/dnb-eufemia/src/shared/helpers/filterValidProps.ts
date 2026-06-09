@@ -55,10 +55,12 @@ export type FormElementProps = {
   disabled?: boolean
   vertical?: boolean
   labelDirection?: 'vertical' | 'horizontal'
+  translate?: 'yes' | 'no'
 }
 const validFormElementProps = {
   skeleton: null,
   disabled: null,
   vertical: null,
   labelDirection: null,
+  translate: null,
 }
