@@ -52,6 +52,7 @@ export function prepareFormElementContext<Props>(
   return props
 }
 export type FormElementProps = {
+  skeleton?: boolean
   disabled?: boolean
   vertical?: boolean
   labelDirection?: 'vertical' | 'horizontal'
