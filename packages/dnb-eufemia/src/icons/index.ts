@@ -2,6 +2,8 @@
 
 import above_the_line from './dnb/above_the_line'
 import above_the_line_medium from './dnb/above_the_line_medium'
+import accessibility from './dnb/accessibility'
+import accessibility_medium from './dnb/accessibility_medium'
 import account from './dnb/account'
 import account_card from './dnb/account_card'
 import account_card_medium from './dnb/account_card_medium'
@@ -18,6 +20,8 @@ import add from './dnb/add'
 import add_circled from './dnb/add_circled'
 import add_circled_medium from './dnb/add_circled_medium'
 import add_medium from './dnb/add_medium'
+import ai from './dnb/ai'
+import ai_medium from './dnb/ai_medium'
 import aino from './dnb/aino'
 import aino_medium from './dnb/aino_medium'
 import ainvoice from './dnb/ainvoice'
@@ -128,6 +132,8 @@ import chevron_up from './dnb/chevron_up'
 import chevron_up_medium from './dnb/chevron_up_medium'
 import chip from './dnb/chip'
 import chip_medium from './dnb/chip_medium'
+import clearing_house from './dnb/clearing_house'
+import clearing_house_medium from './dnb/clearing_house_medium'
 import clock from './dnb/clock'
 import clock_medium from './dnb/clock_medium'
 import close from './dnb/close'
@@ -256,6 +262,8 @@ import flying_money from './dnb/flying_money'
 import flying_money_medium from './dnb/flying_money_medium'
 import folder from './dnb/folder'
 import folder_medium from './dnb/folder_medium'
+import football from './dnb/football'
+import football_medium from './dnb/football_medium'
 import fortune_ball from './dnb/fortune_ball'
 import fortune_ball_medium from './dnb/fortune_ball_medium'
 import fridge from './dnb/fridge'
@@ -298,6 +306,8 @@ import hierarchy from './dnb/hierarchy'
 import hierarchy_medium from './dnb/hierarchy_medium'
 import history from './dnb/history'
 import history_medium from './dnb/history_medium'
+import holiday_home from './dnb/holiday_home'
+import holiday_home_medium from './dnb/holiday_home_medium'
 import home from './dnb/home'
 import home_medium from './dnb/home_medium'
 import horse from './dnb/horse'
@@ -380,6 +390,10 @@ import mobilephone from './dnb/mobilephone'
 import mobilephone_medium from './dnb/mobilephone_medium'
 import money_left from './dnb/money_left'
 import money_left_medium from './dnb/money_left_medium'
+import moneybag_in_hand from './dnb/moneybag_in_hand'
+import moneybag_in_hand_medium from './dnb/moneybag_in_hand_medium'
+import moon from './dnb/moon'
+import moon_medium from './dnb/moon_medium'
 import more from './dnb/more'
 import more_medium from './dnb/more_medium'
 import more_vertical from './dnb/more_vertical'
@@ -404,6 +418,8 @@ import paperclip from './dnb/paperclip'
 import paperclip_medium from './dnb/paperclip_medium'
 import paragraph from './dnb/paragraph'
 import paragraph_medium from './dnb/paragraph_medium'
+import passkey from './dnb/passkey'
+import passkey_medium from './dnb/passkey_medium'
 import pause from './dnb/pause'
 import pause_medium from './dnb/pause_medium'
 import pay_from from './dnb/pay_from'
@@ -430,6 +446,8 @@ import plant from './dnb/plant'
 import plant_medium from './dnb/plant_medium'
 import play from './dnb/play'
 import play_medium from './dnb/play_medium'
+import plot from './dnb/plot'
+import plot_medium from './dnb/plot_medium'
 import podcast from './dnb/podcast'
 import podcast_medium from './dnb/podcast_medium'
 import portfolio_analytics from './dnb/portfolio_analytics'
@@ -504,12 +522,16 @@ import stocks from './dnb/stocks'
 import stocks_medium from './dnb/stocks_medium'
 import stop from './dnb/stop'
 import stop_medium from './dnb/stop_medium'
+import stop_square from './dnb/stop_square'
+import stop_square_medium from './dnb/stop_square_medium'
 import stopwatch from './dnb/stopwatch'
 import stopwatch_medium from './dnb/stopwatch_medium'
 import subtract from './dnb/subtract'
 import subtract_circled from './dnb/subtract_circled'
 import subtract_circled_medium from './dnb/subtract_circled_medium'
 import subtract_medium from './dnb/subtract_medium'
+import sun from './dnb/sun'
+import sun_medium from './dnb/sun_medium'
 import support from './dnb/support'
 import support_medium from './dnb/support_medium'
 import swap from './dnb/swap'
@@ -572,6 +594,8 @@ import widget_ios_medium from './dnb/widget_ios_medium'
 export {
   above_the_line,
   above_the_line_medium,
+  accessibility,
+  accessibility_medium,
   account,
   account_card,
   account_card_medium,
@@ -588,6 +612,8 @@ export {
   add_circled,
   add_circled_medium,
   add_medium,
+  ai,
+  ai_medium,
   aino,
   aino_medium,
   ainvoice,
@@ -698,6 +724,8 @@ export {
   chevron_up_medium,
   chip,
   chip_medium,
+  clearing_house,
+  clearing_house_medium,
   clock,
   clock_medium,
   close,
@@ -826,6 +854,8 @@ export {
   flying_money_medium,
   folder,
   folder_medium,
+  football,
+  football_medium,
   fortune_ball,
   fortune_ball_medium,
   fridge,
@@ -868,6 +898,8 @@ export {
   hierarchy_medium,
   history,
   history_medium,
+  holiday_home,
+  holiday_home_medium,
   home,
   home_medium,
   horse,
@@ -950,6 +982,10 @@ export {
   mobilephone_medium,
   money_left,
   money_left_medium,
+  moneybag_in_hand,
+  moneybag_in_hand_medium,
+  moon,
+  moon_medium,
   more,
   more_medium,
   more_vertical,
@@ -974,6 +1010,8 @@ export {
   paperclip_medium,
   paragraph,
   paragraph_medium,
+  passkey,
+  passkey_medium,
   pause,
   pause_medium,
   pay_from,
@@ -1000,6 +1038,8 @@ export {
   plant_medium,
   play,
   play_medium,
+  plot,
+  plot_medium,
   podcast,
   podcast_medium,
   portfolio_analytics,
@@ -1074,12 +1114,16 @@ export {
   stocks_medium,
   stop,
   stop_medium,
+  stop_square,
+  stop_square_medium,
   stopwatch,
   stopwatch_medium,
   subtract,
   subtract_circled,
   subtract_circled_medium,
   subtract_medium,
+  sun,
+  sun_medium,
   support,
   support_medium,
   swap,

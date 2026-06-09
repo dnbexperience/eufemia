@@ -16,7 +16,7 @@ const fullscreen = (props?: IconSVGProps) => (
       strokeLinejoin="round"
       strokeMiterlimit={10}
       strokeWidth={1.5}
-      d="m1 15 4.978-4.978M1 15h3.111M1 15v-3.111m9.022-5.911L15 1m0 0v3.111M15 1h-3.111M1 1l4.978 4.978M1 1v3.111M1 1h3.111m5.911 9.022L15 15m0 0h-3.111M15 15v-3.111"
+      d="m1 15 4.978-4.978M1 11.89V15h3.111m5.911-9.022L15 1m-3.111 0H15v3.111M1 1l4.978 4.978M4.11 1H1v3.111m9.022 5.911L15 15m0-3.111V15h-3.111"
     />
   </svg>
 )

@@ -15,7 +15,7 @@ const redo_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M10.375 21.25a9.375 9.375 0 1 1 9.375-9.375V13.5m0 0-3.25-3.25m3.25 3.25L23 10.25"
+      d="M10.375 21.25a9.375 9.375 0 1 1 9.375-9.375V13.5M23 10.25l-3.25 3.25-3.25-3.25"
     />
   </svg>
 )
