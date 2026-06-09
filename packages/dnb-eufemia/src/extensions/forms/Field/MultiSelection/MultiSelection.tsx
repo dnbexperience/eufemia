@@ -818,6 +818,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             }
           }}
           placement="bottom"
+          triggerOffset={8}
           autoAlignViewportThreshold={0.75}
           horizontalOffset={width === 'medium' ? 40 : 0}
           hideCloseButton
