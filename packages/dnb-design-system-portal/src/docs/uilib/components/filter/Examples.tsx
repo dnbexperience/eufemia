@@ -1247,7 +1247,7 @@ export const WithQueryLocator = () => {
         const Example = () => {
           // Syncs filter state to/from URL query parameters
           Filter.useQueryLocator('query-locator-demo', {
-            // excludeSearch: true,// You can exclude search from the URL if you want, by default it is included
+            // excludeSearch: true, // You can exclude search from the URL if you want, by default it is included
           })
 
           const { filters, search } = Filter.useFilter(

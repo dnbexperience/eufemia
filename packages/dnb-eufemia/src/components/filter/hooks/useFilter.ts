@@ -84,7 +84,7 @@ export type FilterAsyncOptions<T> = {
 /**
  * Hook for async data fetching linked to a Filter.Root.
  * Handles loading state, race conditions, and syncs resultLoading/resultCount
- * to the shared filter state so Filter.Content pick them up.
+ * to the shared filter state so Filter.Content picks them up.
  */
 export function useFilterAsync<T>(
   id: string,
