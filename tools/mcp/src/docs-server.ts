@@ -289,8 +289,7 @@ function createDocsContext(source: DocsSource) {
     }
 
     if (!doc) {
-      doc =
-        candidates[0] ?? `/uilib/components/${normalizeName(name)}.md`
+      doc = candidates[0] ?? `/uilib/components/${normalizeName(name)}.md`
     }
 
     let properties: string | null = null
@@ -407,10 +406,7 @@ function createDocsContext(source: DocsSource) {
           const occurrences = lower.split(term).length - 1
           const score = Math.max(1, 1000 - idx) + occurrences * 25
           const snippetStart = Math.max(0, idx - 80)
-          const snippetEnd = Math.min(
-            text.length,
-            idx + term.length + 220
-          )
+          const snippetEnd = Math.min(text.length, idx + term.length + 220)
 
           hits.push({
             path: filePath,
@@ -472,8 +468,7 @@ function createDocsContext(source: DocsSource) {
               for (let j = i; j < allIndices.length; j++) {
                 foundWords.add(allIndices[j]!.word)
                 if (foundWords.size === wordSet.size) {
-                  const span =
-                    allIndices[j]!.idx - allIndices[i]!.idx
+                  const span = allIndices[j]!.idx - allIndices[i]!.idx
                   minSpan = Math.min(minSpan, span)
                   break
                 }
@@ -616,8 +611,7 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
 
         let mdExists = false
         try {
-          mdExists =
-            (await context.source.stat(mdGuess)).kind === 'file'
+          mdExists = (await context.source.stat(mdGuess)).kind === 'file'
         } catch {
           mdExists = false
         }
