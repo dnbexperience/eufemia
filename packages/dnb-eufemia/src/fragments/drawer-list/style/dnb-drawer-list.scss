@@ -6,7 +6,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 @mixin openDrawerList($type: 'slide') {
-  z-index: 100; // make sure we are over e.g. switch
+  z-index: var(--z-index-dropdown); // make sure we are over e.g. switch
   display: flex;
   flex-direction: column;
 
