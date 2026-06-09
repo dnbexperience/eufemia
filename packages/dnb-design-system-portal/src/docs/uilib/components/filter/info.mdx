@@ -1,0 +1,286 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Filter } from '@dnb/eufemia'
+```
+
+## Description
+
+`Filter` is a composable filter UI for building search and filter experiences. It does **not** own your data — instead it provides shared state that you read with the `Filter.useFilter(id)` hook and apply to your own data source.
+
+The component uses a namespace pattern where `Filter` is the import and `Filter.Root` is the renderable root.
+
+### Behavior
+
+By default, `Filter.Root` emits changes in real time via `onChange`. Set `behavior="manual"` to buffer filter changes internally — the panel will show an "Apply filter" button to commit changes and a "Cancel" button to revert. This is useful when filter changes trigger expensive operations like API calls. Note that search input is always emitted in real time, even in manual mode. `Filter.ActiveFilters` only shows applied filters, so tags won't appear until the user applies.
+
+### Filter keys
+
+Each filter is identified by a `filterKey` string. For `Filter.Selection` and `Filter.MultiSelection`, individual selected values are stored as `{filterKey}/{value}` entries in the state (e.g. `/status/active`, `/status/inactive`). This convention lets you inspect which values are selected by filtering the keys that start with the filter's prefix:
+
+```ts
+const selectedStatuses = Object.keys(filters)
+  .filter((key) => key.startsWith('/status/'))
+  .map((key) => key.replace('/status/', ''))
+```
+
+The leading `/` is a convention to namespace filter keys — it is not a URL path or an Eufemia Forms JSON Pointer. You can use any string as a `filterKey`, but we recommend starting with `/` for consistency.
+
+When building custom filters with `Filter.useFilterContext()`, you can use any key format — the `{filterKey}/{value}` pattern is only used by the built-in selection components.
+
+### Combining search and filters
+
+The Filter component stores `search` and `filters`, but does not decide how your data should match them. As a rule of thumb, each active filter should narrow the result set.
+
+Different filter groups are also usually combined with **AND**, such as status and region. Multiple values inside the same filter group usually behave as **OR**. For example, selecting two statuses means the item can match status active or inactive. Search can also match several fields with **OR**, such as name or amount.
+
+For custom filters and quick filters, choose the logic that matches the meaning of the controls. Use **OR** when the buttons are alternatives in the same category, and **AND** when they represent independent conditions that should all be true.
+
+### Layout
+
+The filter component can be used in two layout patterns:
+
+- **Inside a list** — Place `Filter.Root` inside the first `List.Item.Basic`. Filtered results render as subsequent list items. This is the most common pattern.
+- **Column layout with Grid** — Use `Grid.Container` with `Grid.Item` to place the filter and results side by side. Use `Filter.Content` to link the results area to the filter via `connectedTo`.
+
+### Sub-components
+
+- **`Filter.Root`** — Root wrapper. Provides filter context and syncs state via `useSharedState`. Requires a unique `id`. Supports spacing props.
+- **`Filter.Header`** — Groups the filter controls (toolbar, panel, active filters) above the results. When used together with `Filter.Content` containing a `List.Container`, the header receives a subtle background and top border-radius to visually connect with the list below.
+- **`Filter.Search`** — Text input with a loupe icon. Updates the shared `search` string. Browser autocomplete, autocorrect, autocapitalize and spellcheck are disabled by default.
+- **`Filter.Toolbar`** — Horizontal row that wraps `Filter.Search` and `Filter.Toolbar.Actions`.
+- **`Filter.Toolbar.Actions`** — Groups action buttons (e.g. `Filter.PanelButton`) for proper responsiveness.
+- **`Filter.Panel`** — Expandable inline panel toggled by `Filter.PanelButton`. Renders filter children as tertiary accordions with a white background.
+- **`Filter.PanelButton`** — Toggle button for `Filter.Panel`. Shows a filter icon when closed and a close icon when open. Accepts all `Button` props.
+- **`Filter.ActiveFilters`** — Renders active filters as removable `Tag` chips. Returns nothing when no filters are active. Set `showCategoryLabel` to prefix each tag with its category name (e.g. "Betalingstype: Kort" instead of "Kort"). Set `collapsibleThreshold` to collapse the tags behind a tertiary accordion with a scrollable area and a "Clear all" button when the number of active filters exceeds the threshold. In `behavior="manual"` mode, only applied filters are shown — draft changes in the panel won't appear as tags until the user clicks Apply.
+- **`Filter.Item`** — Accordion wrapper for a single filter section. Supports `defaultOpen` to start expanded. Open/closed state is remembered across panel opens.
+- **`Filter.Date`** — Built-in date range filter using `DatePicker`. When placed inside a `Filter.Panel`, it renders as an accordion with an inline calendar on larger screens. On small screens, it skips the accordion and renders as a tertiary trigger button that opens a calendar popover. When placed outside the panel, it always renders as a trigger button.
+- **`Filter.Selection`** — Built-in checkbox selection filter. Each selected option creates its own active filter tag.
+- **`Filter.MultiSelection`** — Built-in multi-selection filter using the Forms `MultiSelection` component. Each selected item creates its own active filter tag.
+- **`Filter.SortButton`** — Sort dropdown styled as a tertiary button with a sort icon. The trigger always displays the translated "Sort" label regardless of the selected option.
+- **`Filter.QuickFilters`** — Wrapper for quick filter toggle buttons placed outside the panel. Renders as a horizontal flex row with wrapping.
+- **`Filter.Highlighting`** — Highlights matching search text within result items. Reads the `search` string from the linked filter state and wraps matching substrings in `<mark>` tags. Can be linked via `connectedTo` or inherits the id from the nearest `Filter.Root` or `Filter.Content`.
+- **`Filter.Content`** — Wraps result content and shows a `Skeleton` loading state when the filter is loading. When used inside a `Filter.Root`, the id is inherited automatically. When used outside, link it via `connectedTo`. Supports spacing props.
+- **`Filter.NoResults`** — Renders a translated "no results" message when `resultCount` is `0`. When placed inside a `List.Container`, it automatically renders as a list item. Can be placed after `Filter.ActiveFilters` inside a container, or inside a `Filter.Content` where it inherits `connectedTo` automatically.
+- **`Filter.ResultCount`** — Displays the current result count as a translated message (e.g. "3 result(s)") when filters are active. Hidden when no filters or search text are applied. Reads `resultCount` from the nearest `Filter.Root`, a `connectedTo` id, or a `resultCount` prop. Supports spacing props.
+
+### Hooks
+
+- **`Filter.useFilter(id)`** — Read filter state from anywhere — does not need to be inside `Filter.Root`. Returns `{ filters, search, hasActiveFilters, resetFilters, removeFilter }`.
+- **`Filter.useFilterAsync(id, fetcher, options?)`** — Async data fetching linked to a filter. Handles loading state, race conditions, and syncs `resultLoading`/`resultCount` to shared state. Options: `initialData` for immediate rendering, `debounce` (ms) to delay fetcher calls while the user is typing. Returns `{ data, loading, error }`.
+- **`Filter.useFilterContext()`** — Access the full filter context from inside `Filter.Root`. Use this to build custom filter types. Returns `{ setFilter, getFilter, removeFilter, resetFilters, commitFilters, revertFilters, filters, search, hasActiveFilters }`.
+
+### URL sync hooks
+
+These hooks sync filter state to URL query parameters so filters survive page reloads and browser navigation. Each hook writes `{id}-search` and `{id}-filters` query parameters. Pass `excludeSearch: true` to skip syncing the search string.
+
+- **`Filter.useQueryLocator(id, options?)`** — Uses the History API directly. Works without any router. Best for plain React apps or when no router is available.
+- **`Filter.useReactRouter(id, { useSearchParams, ...options })`** — Uses React Router's `useSearchParams`. Pass the hook from your router version.
+- **`Filter.useNextRouter(id, { useRouter, usePathname, useSearchParams, ...options })`** — Uses Next.js App Router hooks. Pass `useRouter`, `usePathname` and `useSearchParams` from `next/navigation`.
+
+## Basic usage
+
+```tsx
+import { Filter, List } from '@dnb/eufemia'
+
+function MyPage() {
+  const { filters, search, hasActiveFilters } =
+    Filter.useFilter('my-filter')
+
+  const filtered = myData.filter((item) => {
+    if (search && !item.name.includes(search)) {
+      return false
+    }
+    return true
+  })
+
+  return (
+    <List.Container>
+      <List.Item.Basic>
+        <Filter.Root id="my-filter" resultCount={filtered.length}>
+          <Filter.Toolbar>
+            <Filter.Search label="Søk" placeholder="Søk ..." />
+            <Filter.Toolbar.Actions>
+              <Filter.Date />
+              <Filter.PanelButton />
+            </Filter.Toolbar.Actions>
+          </Filter.Toolbar>
+          <Filter.Panel>
+            <Filter.Selection
+              label="Status"
+              filterKey="/status"
+              data={[
+                { value: 'active', label: 'Aktiv' },
+                { value: 'inactive', label: 'Inaktiv' },
+              ]}
+            />
+          </Filter.Panel>
+          <Filter.ActiveFilters />
+        </Filter.Root>
+      </List.Item.Basic>
+
+      <Filter.NoResults />
+
+      {filtered.map((item) => (
+        <List.Item.Basic key={item.id} title={item.name} />
+      ))}
+    </List.Container>
+  )
+}
+```
+
+## Decoupled hook usage
+
+`Filter.useFilter(id)` can be called from a completely separate component tree. The filter UI and the data consumer are linked only by the shared `id`:
+
+```tsx
+function FilterUI() {
+  return (
+    <Filter.Root id="transactions">
+      <Filter.Toolbar>
+        <Filter.Search label="Søk" />
+        <Filter.Toolbar.Actions>
+          <Filter.PanelButton />
+        </Filter.Toolbar.Actions>
+      </Filter.Toolbar>
+      <Filter.Panel>
+        <Filter.Selection
+          label="Type"
+          filterKey="/type"
+          data={[
+            { value: 'card', label: 'Kort' },
+            { value: 'transfer', label: 'Overføring' },
+          ]}
+        />
+      </Filter.Panel>
+      <Filter.ActiveFilters />
+      <Filter.NoResults />
+    </Filter.Root>
+  )
+}
+
+function TransactionList() {
+  const { search, filters, hasActiveFilters } =
+    Filter.useFilter('transactions')
+
+  // Use search/filters to filter your data
+}
+```
+
+## Custom filters
+
+Create custom filter types using `Filter.useFilterContext()` and `Filter.Item`:
+
+```tsx
+function AmountRangeFilter({ label, filterKey }) {
+  const { setFilter, getFilter } = Filter.useFilterContext()
+  const current = getFilter(filterKey)
+
+  const handleChange = (min, max) => {
+    if (min == null && max == null) {
+      setFilter(filterKey, undefined)
+    } else {
+      setFilter(filterKey, {
+        value: { min, max },
+        label: `${label}: ${min ?? ''}–${max ?? ''}`,
+      })
+    }
+  }
+
+  return (
+    <Filter.Item label={label} filterKey={filterKey}>
+      <Flex.Horizontal>
+        <Input
+          label="Min"
+          onChange={({ value }) =>
+            handleChange(value, current?.value?.max)
+          }
+        />
+        <Input
+          label="Max"
+          onChange={({ value }) =>
+            handleChange(current?.value?.min, value)
+          }
+        />
+      </Flex.Horizontal>
+    </Filter.Item>
+  )
+}
+
+// Usage inside Filter.Panel:
+render(
+  <Filter.Panel>
+    <AmountRangeFilter label="Beløp" filterKey="/amount" />
+  </Filter.Panel>
+)
+```
+
+## Async data fetching
+
+`Filter.useFilterAsync(id, fetcher)` handles the full fetch lifecycle — loading state, race conditions, and result count — so you don't have to wire it up yourself.
+
+It calls your `fetcher` whenever the linked filter state changes and syncs `resultLoading` and `resultCount` to the shared state. That means `Filter.Content` and `Filter.NoResults` react automatically.
+
+```tsx
+function TransactionList() {
+  const { data } = Filter.useFilterAsync(
+    'my-filter',
+    async ({ filters, search }) => {
+      const res = await fetch(`/api/transactions?q=${search}`)
+      return res.json()
+    },
+    { initialData: [] }
+  )
+
+  return (
+    <Filter.Content connectedTo="my-filter">
+      {data.map((tx) => (
+        <p key={tx.id}>{tx.name}</p>
+      ))}
+    </Filter.Content>
+  )
+}
+```
+
+The hook returns `{ data, loading, error }`. If the fetcher returns an array, `resultCount` is set to its length automatically. Pass `initialData` to render immediately before the first fetch resolves.
+
+Use the `debounce` option (in milliseconds) to delay the fetcher while the user is still typing. The initial fetch always runs immediately.
+
+```tsx
+const { data } = Filter.useFilterAsync('my-filter', fetcher, {
+  initialData: [],
+  debounce: 300,
+})
+```
+
+## Accessibility
+
+The Filter component includes several accessibility features out of the box:
+
+### Live announcements
+
+`Filter.Content` uses an `aria-live` region to announce filter result changes to screen readers:
+
+- When the result count changes, it announces the number of results (e.g. "3 treff").
+- When no results are found (`resultCount={0}`), it announces the no-results message.
+- During loading, announcements are suppressed to avoid noisy updates.
+
+### Focus management
+
+When the filter panel is closed — via the "Hide filter" button, the "Apply" button, or "Cancel" in manual mode — focus is automatically returned to the `Filter.PanelButton`. This ensures keyboard users don't lose their place in the page.
+
+### ARIA attributes
+
+- `Filter.Root` renders with `role="search"` and an `aria-label` to identify the filter region.
+- `Filter.PanelButton` uses `aria-expanded` to communicate whether the panel is open or closed.
+- `Filter.ActiveFilters` renders a labeled group so screen readers can identify the active filter tags.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=15807-0)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/filter)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/filter)

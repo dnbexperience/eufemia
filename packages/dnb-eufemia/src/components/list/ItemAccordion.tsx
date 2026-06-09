@@ -51,7 +51,7 @@ export type ItemAccordionProps = {
   icon?: IconIcon
   title?: ReactNode
   id?: string
-} & Omit<ItemContentProps, 'title'>
+} & Omit<ItemContentProps, 'title' | 'onChange'>
 
 const ItemAccordionContext = createContext<{
   openState: boolean
