@@ -42,6 +42,8 @@ Screen readers will also read the mask before the user enters the content. Addit
 
 Both entering a comma or a dot will act as a decimal separator if [decimals are enabled](/uilib/components/input-masked/#decimals) and one of the internal masks for numbers is used.
 
+**Note:** When pasting values that contain a dot (`.`) or comma (`,`) in a locale where that character is not the native thousands separator (e.g. Norwegian), the component uses a heuristic to disambiguate: a separator followed by exactly three digits is treated as a thousands separator and removed, while any other occurrence is treated as a decimal separator. For example, pasting `20.500` or `25,000` in Norwegian locale produces 20 500 and 25 000 respectively, while pasting `20.5` or `25,5` is treated as a decimal value.
+
 #### InputMode
 
 **NB:** Please do not set `inputMode="numeric"` or `inputMode="decimal"` because devices may or may not show a minus key (`-`)!

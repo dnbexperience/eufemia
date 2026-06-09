@@ -1515,6 +1515,150 @@ describe('InputMasked component asNumber', () => {
     expect(document.querySelector('input').value).toBe('12 345')
   })
 
+  it('should treat dot + 3 digits as thousands in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "20.500" → dot + 3 digits = thousands → 20500
+    fireEvent.change(input, { target: { value: '20.500' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 20500 })
+    )
+  })
+
+  it('should treat dot + 2 digits as decimal in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "20.50" → dot + 2 digits = decimal → 20.5
+    fireEvent.change(input, { target: { value: '20.50' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 20.5 })
+    )
+  })
+
+  it('should treat dot + 1 digit as decimal in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "20.5" → dot + 1 digit = decimal → 20.5
+    fireEvent.change(input, { target: { value: '20.5' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 20.5 })
+    )
+  })
+
+  it('should treat multiple dots + 3 digits as thousands in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "1.234.567" → each dot + 3 digits = thousands → 1234567
+    fireEvent.change(input, { target: { value: '1.234.567' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 1234567 })
+    )
+  })
+
+  it('should treat comma + 3 digits as thousands when pasting in nb-NO locale', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "25,000" → comma + 3 digits = thousands → 25000
+    await userEvent.click(input)
+    await userEvent.paste('25,000')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 25000 })
+    )
+  })
+
+  it('should treat comma + 1 digit as decimal when pasting in nb-NO locale', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "25,5" → comma + 1 digit = decimal → 25.5
+    await userEvent.click(input)
+    await userEvent.paste('25,5')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 25.5 })
+    )
+  })
+
+  it('should treat dot as decimal separator in en-GB locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <Provider locale="en-GB">
+        <InputMasked
+          asNumber
+          maskOptions={{ allowDecimal: true }}
+          onChange={onChange}
+        />
+      </Provider>
+    )
+
+    const input = document.querySelector('input')
+
+    // In en-GB, dot is the native decimal separator — no disambiguation needed
+    fireEvent.change(input, { target: { value: '20.5' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 20.5 })
+    )
+  })
+
   it('should react to locale change', () => {
     const { rerender } = render(
       <InputMasked

@@ -555,6 +555,11 @@ function createMaskitoNumberOptions(mp: MaskParams): MaskitoOptions {
   const suffixStartsWithComma = suffix && suffix.startsWith(',')
   const postfixToUse = suffixStartsWithComma ? suffix.slice(1) : suffix
 
+  // Only use middle dot (·) as a built-in pseudo-separator.
+  // Dots and commas are disambiguated by disambiguateSeparatorsPreprocessor
+  // below using the "3-digit" heuristic instead.
+  const decimalPseudoSeparators = ['·']
+
   const base = maskitoNumberOptionsGenerator({
     min,
     max: Number.MAX_SAFE_INTEGER,
@@ -564,7 +569,7 @@ function createMaskitoNumberOptions(mp: MaskParams): MaskitoOptions {
     minimumFractionDigits: 0,
     prefix,
     postfix: postfixToUse,
-    decimalPseudoSeparators: ['.', ',', '·'],
+    decimalPseudoSeparators,
     minusSign: '-', // Define "-" (U+002D) because Maskito uses "−" (U+2212) by default, and would replace "-" (U+002D) with it.
   })
 
@@ -650,7 +655,70 @@ function createMaskitoNumberOptions(mp: MaskParams): MaskitoOptions {
     return { elementState, data }
   }
 
+  // Disambiguate '.' and ',' in pasted/programmatic values when they
+  // are not the locale's native thousands separator.
+  //
+  // Heuristic: separator followed by exactly 3 digits (then non-digit
+  // or end of string) is treated as a thousands separator and stripped.
+  // Any remaining separator is kept as the decimal separator.
+  //
+  // Dot disambiguation applies to both 'insert' (paste) and 'validation'
+  // (programmatic value changes) because correctNumberValue() in
+  // InputMaskedUtils already converts dots to the locale's decimal
+  // separator — so dots in the validation path are always foreign.
+  //
+  // Comma disambiguation applies only to 'insert' (paste) because in
+  // the validation path, commas may be legitimate locale-decimal
+  // separators placed by correctNumberValue().
+  //
+  // Examples in nb-NO (decimal=',', thousands=' '):
+  //   "20.500"     → "20500"  (thousands — dot + 3 digits)
+  //   "1.234.567"  → "1234567" (thousands — each dot + 3 digits)
+  //   "20.5"       → "20,5"   (decimal — dot + 1 digit)
+  //   "20.50"      → "20,50"  (decimal — dot + 2 digits)
+  //   "25,000"     → "25000"  (thousands — comma + 3 digits, paste only)
+  //   "25,5"       → "25,5"   (decimal — comma + 1 digit, already correct)
+  const disambiguateDot = (value: string): string =>
+    value.replace(/\.(\d{3})(?=\D|$)/g, '$1').replace(/\./g, decimal)
+
+  const disambiguateComma = (value: string): string =>
+    value.replace(/,(\d{3})(?=\D|$)/g, '$1')
+
+  const disambiguateSeparatorsPreprocessor: MaskitoPreprocessor = (
+    { elementState, data },
+    actionType
+  ) => {
+    if (decimal === '.' || thousand === '.') {
+      return { elementState, data }
+    }
+
+    if (actionType === 'insert' && data) {
+      let d = disambiguateDot(data)
+
+      // Also disambiguate commas in pasted data when comma is the
+      // locale's decimal separator (e.g. nb-NO) — "25,000" → "25000"
+      if (decimal === ',' && thousand !== ',') {
+        d = disambiguateComma(d)
+      }
+
+      return { elementState, data: d }
+    }
+
+    if (actionType === 'validation' && elementState.value.includes('.')) {
+      return {
+        elementState: {
+          ...elementState,
+          value: disambiguateDot(elementState.value),
+        },
+        data,
+      }
+    }
+
+    return { elementState, data }
+  }
+
   const preprocessors = [
+    disambiguateSeparatorsPreprocessor,
     ...(base.preprocessors || []),
     rejectBeyondSafeInteger,
   ]

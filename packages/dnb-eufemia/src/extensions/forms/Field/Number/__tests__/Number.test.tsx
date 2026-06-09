@@ -100,6 +100,110 @@ describe('Field.Number', () => {
       expect(document.querySelector('input')).toHaveValue('1.234,56')
     })
 
+    it('should treat dot + 3 digits as thousands in nb-NO locale', () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "20.500" → dot + 3 digits = thousands → 20500
+      fireEvent.change(input, { target: { value: '20.500' } })
+      fireEvent.blur(input)
+      expect(input).toHaveValue('20 500')
+      expect(onChange).toHaveBeenLastCalledWith(20500, expect.anything())
+    })
+
+    it('should treat dot + 2 digits as decimal in nb-NO locale', () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "20.50" → dot + 2 digits = decimal → 20.5
+      fireEvent.change(input, { target: { value: '20.50' } })
+      fireEvent.blur(input)
+      expect(input).toHaveValue('20,5')
+      expect(onChange).toHaveBeenLastCalledWith(20.5, expect.anything())
+    })
+
+    it('should treat dot + 1 digit as decimal in nb-NO locale', () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "20.5" → dot + 1 digit = decimal → 20.5
+      fireEvent.change(input, { target: { value: '20.5' } })
+      fireEvent.blur(input)
+      expect(input).toHaveValue('20,5')
+      expect(onChange).toHaveBeenLastCalledWith(20.5, expect.anything())
+    })
+
+    it('should treat multiple dots + 3 digits as thousands in nb-NO locale', () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "1.234.567" → dots + 3 digits = thousands → 1234567
+      fireEvent.change(input, { target: { value: '1.234.567' } })
+      fireEvent.blur(input)
+      expect(input).toHaveValue('1 234 567')
+      expect(onChange).toHaveBeenLastCalledWith(1234567, expect.anything())
+    })
+
+    it('should treat comma + 3 digits as thousands when pasting in nb-NO locale', async () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "25,000" → comma + 3 digits = thousands → 25000
+      await userEvent.click(input)
+      await userEvent.paste('25,000')
+      fireEvent.blur(input)
+      expect(input).toHaveValue('25 000')
+      expect(onChange).toHaveBeenLastCalledWith(25000, expect.anything())
+    })
+
+    it('should treat comma + 1 digit as decimal when pasting in nb-NO locale', async () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "25,5" → comma + 1 digit = decimal → 25.5
+      await userEvent.click(input)
+      await userEvent.paste('25,5')
+      fireEvent.blur(input)
+      expect(input).toHaveValue('25,5')
+      expect(onChange).toHaveBeenLastCalledWith(25.5, expect.anything())
+    })
+
+    it('should treat dot as decimal separator in en-GB locale', () => {
+      const onChange = vi.fn()
+
+      render(
+        <SharedProvider locale="en-GB">
+          <Field.Number onChange={onChange} />
+        </SharedProvider>
+      )
+
+      const input = document.querySelector('input')
+
+      // In en-GB, dot is the native decimal separator
+      fireEvent.change(input, { target: { value: '20.500' } })
+      fireEvent.blur(input)
+      expect(input).toHaveValue('20.5')
+      expect(onChange).toHaveBeenLastCalledWith(20.5, expect.anything())
+    })
+
     it('should limit value to MIN_SAFE_INTEGER when change event exceeds safe range', () => {
       render(<Field.Number value={Number.MIN_SAFE_INTEGER} />)
 
