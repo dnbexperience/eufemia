@@ -163,6 +163,29 @@
     }
   }
 
+  // When the popover has no inner space, items are flush against the
+  // popover edges. Apply matching border-radius so backgrounds and
+  // borders follow the popover's rounded corners in every state.
+  .dnb-popover--no-inner-space &__list {
+    > li:first-child {
+      border-top-left-radius: var(--popover-border-radius);
+      border-top-right-radius: var(--popover-border-radius);
+
+      &::after {
+        border-radius: inherit;
+      }
+    }
+
+    > li:last-of-type {
+      border-bottom-left-radius: var(--popover-border-radius);
+      border-bottom-right-radius: var(--popover-border-radius);
+
+      &::after {
+        border-radius: inherit;
+      }
+    }
+  }
+
   &__popover-content {
     display: flex;
     flex-direction: column;
@@ -208,29 +231,6 @@
   }
   &__item--level-3 {
     padding-left: 4rem;
-  }
-
-  // When the popover has no inner space, items are flush against the
-  // popover edges. Apply matching border-radius so backgrounds and
-  // borders follow the popover's rounded corners in every state.
-  .dnb-popover--no-inner-space &__list {
-    > li:first-child {
-      border-top-left-radius: var(--popover-border-radius);
-      border-top-right-radius: var(--popover-border-radius);
-
-      &::after {
-        border-radius: inherit;
-      }
-    }
-
-    > li:last-of-type {
-      border-bottom-left-radius: var(--popover-border-radius);
-      border-bottom-right-radius: var(--popover-border-radius);
-
-      &::after {
-        border-radius: inherit;
-      }
-    }
   }
 
   &__no-options {
