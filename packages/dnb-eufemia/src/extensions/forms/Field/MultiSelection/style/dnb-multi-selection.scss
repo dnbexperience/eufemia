@@ -210,23 +210,9 @@
     padding-left: 4rem;
   }
 
-  &__no-options {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-  &__no-options-text {
-    color: var(--token-color-text-neutral-alternative);
-  }
-
   // When the popover has no inner space, items are flush against the
   // popover edges. Apply matching border-radius so backgrounds and
   // borders follow the popover's rounded corners in every state.
-  .dnb-popover--no-inner-space &__items {
-    border-radius: var(--popover-border-radius);
-  }
-
   .dnb-popover--no-inner-space &__list {
     > li:first-child {
       border-top-left-radius: var(--popover-border-radius);
@@ -237,18 +223,24 @@
       }
     }
 
-    > :last-child,
-    > :last-child
-      .dnb-forms-field-multi-selection__nested-items:last-child,
-    > :last-child .dnb-forms-field-multi-selection__item:last-child {
+    > li:last-of-type {
       border-bottom-left-radius: var(--popover-border-radius);
       border-bottom-right-radius: var(--popover-border-radius);
-      overflow: clip;
 
       &::after {
         border-radius: inherit;
       }
     }
+  }
+
+  &__no-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  &__no-options-text {
+    color: var(--token-color-text-neutral-alternative);
   }
 
   &__selected-items__inner {
