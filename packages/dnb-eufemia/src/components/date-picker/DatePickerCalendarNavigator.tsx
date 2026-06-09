@@ -19,7 +19,7 @@ import { formatDate } from '../date-format/DateFormatUtils'
 type CalendarNavigationDateType = 'month' | 'year'
 type CalendarNavigationType = 'both' | CalendarNavigationDateType
 
-export type DatePickerCalendarNavigationProps = Omit<
+type DatePickerCalendarNavigationProps = Omit<
   HTMLProps<HTMLElement>,
   'onSelect' | 'onChange'
 > & {
@@ -153,7 +153,7 @@ export function DatePickerCalendarNav({
   )
 }
 
-export type CalendarNavButtonType = 'prev' | 'next'
+type CalendarNavButtonType = 'prev' | 'next'
 
 export type CalendarNavButtonProps = {
   dateType: CalendarNavigationDateType

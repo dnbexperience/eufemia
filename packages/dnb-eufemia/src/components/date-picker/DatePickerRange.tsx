@@ -12,10 +12,7 @@ import DatePickerContext from './DatePickerContext'
 import type { DatePickerDates } from './hooks/useDates'
 import type { DatePickerChangeEvent } from './DatePickerProvider'
 
-export type DatePickerRangeProps = Omit<
-  HTMLProps<HTMLElement>,
-  'onChange'
-> &
+type DatePickerRangeProps = Omit<HTMLProps<HTMLElement>, 'onChange'> &
   DatePickerCalendarProps & {
     id?: string
     isRange?: boolean

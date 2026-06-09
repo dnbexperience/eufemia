@@ -16,7 +16,7 @@ type DatePickerFooterEvent = MouseEvent<HTMLButtonElement> &
     event: MouseEvent<HTMLButtonElement>
   }
 
-export type DatePickerFooterProps = Omit<
+type DatePickerFooterProps = Omit<
   HTMLProps<HTMLElement>,
   'onSubmit' | 'onCancel' | 'onReset'
 > & {
