@@ -15,7 +15,9 @@ export function isAsync(fn: unknown): boolean {
   const secondCheck = fn?.constructor?.name === 'AsyncFunction'
 
   if (firstCheck !== secondCheck) {
-    // If the two checks disagree, we rather want to return true.
+    // Defensive fallback: if the two checks disagree (e.g. due to
+    // transpilation or bundler quirks), err on the side of treating
+    // the function as async.
     return true
   }
 
