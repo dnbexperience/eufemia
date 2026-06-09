@@ -61,6 +61,7 @@ describe('filterValidProps', () => {
     const props: Props = {
       labelDirection: 'horizontal',
       vertical: true,
+      skeleton: true,
       foo: 'test',
       bar: false,
       fizz: 123,
@@ -71,6 +72,7 @@ describe('filterValidProps', () => {
     expect(elementProps).toEqual({
       labelDirection: 'horizontal',
       vertical: true,
+      skeleton: true,
     })
   })
 
