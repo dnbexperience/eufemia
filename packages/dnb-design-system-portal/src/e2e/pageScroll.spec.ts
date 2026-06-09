@@ -61,4 +61,31 @@ test.describe('Page Scroll', () => {
     })
     expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
   })
+
+  test('should scroll to hash element after route change', async ({
+    page,
+  }) => {
+    await page
+      .locator(
+        'main a[href="/contribute/first-contribution#what-should-i-know-before-getting-started"]'
+      )
+      .click()
+
+    await expect(page).toHaveURL(
+      /\/contribute\/first-contribution#what-should-i-know-before-getting-started$/
+    )
+
+    const target = page.locator(
+      '#what-should-i-know-before-getting-started'
+    )
+    await expect(target).toBeAttached()
+
+    await expect
+      .poll(async () => {
+        return target.evaluate((element) => {
+          return element.getBoundingClientRect().top
+        })
+      })
+      .toBeLessThan(300)
+  })
 })

@@ -128,8 +128,11 @@ function Layout(props: LayoutProps) {
     // gets applied on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
+    // Keep pathname and hash as dependencies because Layout is not
+    // remounted on SPA route changes, and hash targets may only exist
+    // after the new page content has mounted.
     scrollToAnimation()
-  }, [])
+  }, [location.hash, location.pathname])
 
   const skipToContentHandler = (event) => {
     // because we want to avoid that the hash get's set (#dnb-app-content)
