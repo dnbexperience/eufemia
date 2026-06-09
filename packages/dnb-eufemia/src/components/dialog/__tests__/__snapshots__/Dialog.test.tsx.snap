@@ -445,6 +445,9 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), ht
     --button-input-separator-color--active
   );
 }
+html[data-whatintent=touch] .dnb-button--primary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] .dnb-button--secondary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
+  --button-color-underline: var(--button-color-underline--hover);
+}
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
 }
@@ -936,6 +939,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-padding-left: var(--button-padding--large);
   --button-padding-right: var(--button-padding--large);
 }
+.dnb-button--secondary:not(.dnb-button--has-text):not(.dnb-button--input-button):not(.dnb-button--control-before):not(.dnb-button--control-after).dnb-button--size-large {
+  width: calc(var(--button-width--large) - 0.5rem);
+  line-height: calc(var(--button-height) - 0.5rem);
+}
 .dnb-button {
   /* stylelint-disable-next-line */
 }
@@ -991,6 +998,17 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 }
 .dnb-button--control-after {
   border-radius: 0 var(--button-border-radius--control-button) var(--button-border-radius--control-button) 0;
+}
+.dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before, .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after {
+  box-shadow: none;
+  border: none;
+}
+html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-before:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text).dnb-button--control-after:hover:not([disabled]) {
+  box-shadow: none;
+  border: none;
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
