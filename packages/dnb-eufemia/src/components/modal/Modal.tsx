@@ -406,8 +406,8 @@ function ModalComponent(ownProps: ModalAllProps) {
       prevOwnPropsRef.current !== ownProps
     prevOwnPropsRef.current = ownProps
 
-    const openChanged = prevEffectOpenRef.current !== open
-    prevEffectOpenRef.current = open
+    const prevOpen = prevEffectOpenRef.current
+    const openChanged = prevOpen !== open
 
     if (!openChanged && !isNewProps) {
       return // stop here
@@ -417,10 +417,20 @@ function ModalComponent(ownProps: ModalAllProps) {
       return // stop here
     }
 
-    if (!hide && open === true) {
-      toggleOpenClose(null, true)
-    } else if (hide && open === false) {
-      toggleOpenClose(null, false)
+    prevEffectOpenRef.current = open
+
+    if (openChanged) {
+      if (open === true) {
+        toggleOpenClose(null, true)
+      } else if (open === false && prevOpen === true) {
+        toggleOpenClose(null, false)
+      }
+    } else if (isNewProps) {
+      if (!hide && open === true) {
+        toggleOpenClose(null, true)
+      } else if (hide && open === false) {
+        toggleOpenClose(null, false)
+      }
     }
   })
 
