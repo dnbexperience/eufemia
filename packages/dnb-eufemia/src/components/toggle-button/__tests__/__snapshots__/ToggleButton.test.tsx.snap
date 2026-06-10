@@ -406,6 +406,106 @@ button .dnb-form-status__text {
 * Button component
 *
 */
+/*
+* Icon component
+*
+*/
+.dnb-button--tertiary {
+  --button-tertiary-focus-left: -0.5rem;
+  --button-tertiary-focus-right: -0.5rem;
+  --button-tertiary-focus-overflow--icon-top: -0.5rem;
+  --button-tertiary-underline-overflow: 0;
+}
+.dnb-button--tertiary .dnb-button__text {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 0.095rem;
+  text-underline-offset: 0.375em;
+  transition: text-decoration-color 250ms ease-in-out;
+}
+.dnb-button--tertiary .dnb-skeleton .dnb-button__text {
+  text-decoration: none;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text {
+  text-decoration: none;
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
+  text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
+}
+.dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+  outline: initial;
+}
+html[data-whatinput=keyboard] .dnb-button--tertiary:active:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+  box-shadow: none;
+}
+html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
+  transition: none;
+  text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
+  text-decoration: none;
+}
+.dnb-button--tertiary.dnb-button--has-text {
+  --button-padding-left: 0;
+  --button-padding-right: 0;
+  --button-icon-margin-top: calc(
+    (var(--button-height) - var(--button-icon-size)) / 2
+  );
+}
+.dnb-button--tertiary.dnb-button--has-text .dnb-button__icon {
+  align-self: flex-start;
+}
+.dnb-button--tertiary.dnb-button--icon-position-top {
+  --button-tertiary-focus-left: var(
+    --button-tertiary-focus-overflow--icon-top
+  );
+  --button-tertiary-focus-right: var(
+    --button-tertiary-focus-overflow--icon-top
+  );
+  flex-direction: column;
+  border-radius: var(--token-radius-md);
+  vertical-align: middle;
+}
+.dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
+  --button-icon-margin-top: 0.5rem;
+}
+.dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text .dnb-button__icon {
+  align-self: center;
+}
+.dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  font-size: var(--font-size-x-small);
+}
+.dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--size-large .dnb-button__text {
+  font-size: var(--font-size-small);
+}
+.dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__alignment {
+  order: 3;
+  height: 0;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left {
+  --button-tertiary-focus-right: -1rem;
+  --button-tertiary-focus-left: -1rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right {
+  --button-tertiary-focus-left: -1rem;
+  --button-tertiary-focus-right: -1rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text) {
+  --button-tertiary-focus-left: 0;
+  --button-tertiary-focus-right: 0;
+}
+
 :root {
   --button-icon-size: 1rem;
   --button-height: 2.5rem;
