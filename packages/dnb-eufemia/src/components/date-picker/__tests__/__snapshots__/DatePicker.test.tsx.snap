@@ -2876,7 +2876,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   border-radius: 50%;
   background-color: currentcolor;
 }
-.dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover) {
+.dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover):not(:focus-visible) {
   background-color: transparent;
 }
 .dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date), .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) {
