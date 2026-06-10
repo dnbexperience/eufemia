@@ -408,7 +408,6 @@ function ModalComponent(ownProps: ModalAllProps) {
 
     const prevOpen = prevEffectOpenRef.current
     const openChanged = prevOpen !== open
-    prevEffectOpenRef.current = open
 
     if (!openChanged && !isNewProps) {
       return // stop here
@@ -417,6 +416,8 @@ function ModalComponent(ownProps: ModalAllProps) {
     if (isInTransitionRef.current) {
       return // stop here
     }
+
+    prevEffectOpenRef.current = open
 
     if (openChanged) {
       if (open === true) {

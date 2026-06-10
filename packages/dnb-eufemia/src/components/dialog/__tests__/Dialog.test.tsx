@@ -679,39 +679,60 @@ describe('Dialog', () => {
     const originalIsTest = window['IS_TEST']
     window['IS_TEST'] = false
 
-    const TestComponent = () => {
-      const [showDialog, setShowDialog] = useState(false)
+    try {
+      const TestComponent = () => {
+        const [showDialog, setShowDialog] = useState(false)
 
-      return (
-        <>
-          <button
-            data-testid="trigger"
-            onClick={() => setShowDialog(true)}
-          >
-            Open
-          </button>
-          <Dialog
-            omitTriggerButton
-            open={showDialog}
-            onClose={() => setShowDialog(false)}
-          >
-            Dialog content
-          </Dialog>
-        </>
+        return (
+          <>
+            <button
+              data-testid="trigger"
+              onClick={() => setShowDialog(true)}
+            >
+              Open
+            </button>
+            <Dialog
+              omitTriggerButton
+              open={showDialog}
+              onClose={() => setShowDialog(false)}
+            >
+              Dialog content
+            </Dialog>
+          </>
+        )
+      }
+
+      render(<TestComponent />)
+
+      expect(document.querySelector('.dnb-dialog')).not.toBeInTheDocument()
+
+      // Open
+      await userEvent.click(screen.getByTestId('trigger'))
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
+      })
+
+      // Close via the close button
+      await userEvent.click(
+        document.querySelector('button.dnb-modal__close-button')
       )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-dialog')
+        ).not.toBeInTheDocument()
+      })
+
+      // Reopen
+      await userEvent.click(screen.getByTestId('trigger'))
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
+      })
+    } finally {
+      window['IS_TEST'] = originalIsTest
     }
-
-    render(<TestComponent />)
-
-    expect(document.querySelector('.dnb-dialog')).not.toBeInTheDocument()
-
-    await userEvent.click(screen.getByTestId('trigger'))
-
-    await waitFor(() => {
-      expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
-    })
-
-    window['IS_TEST'] = originalIsTest
   })
 })
 
