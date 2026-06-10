@@ -240,6 +240,7 @@ import split_medium from './split_medium'
 import star_medium from './star_medium'
 import stocks_medium from './stocks_medium'
 import stop_medium from './stop_medium'
+import stop_square_medium from './stop_square_medium'
 import stopwatch_medium from './stopwatch_medium'
 import subtract_circled_medium from './subtract_circled_medium'
 import sun_medium from './sun_medium'
@@ -514,6 +515,7 @@ export {
   star_medium,
   stocks_medium,
   stop_medium,
+  stop_square_medium,
   stopwatch_medium,
   subtract_circled_medium,
   sun_medium,

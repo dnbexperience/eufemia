@@ -240,6 +240,7 @@ import split from './split'
 import star from './star'
 import stocks from './stocks'
 import stop from './stop'
+import stop_square from './stop_square'
 import stopwatch from './stopwatch'
 import subtract_circled from './subtract_circled'
 import sun from './sun'
@@ -514,6 +515,7 @@ export {
   star,
   stocks,
   stop,
+  stop_square,
   stopwatch,
   subtract_circled,
   sun,
