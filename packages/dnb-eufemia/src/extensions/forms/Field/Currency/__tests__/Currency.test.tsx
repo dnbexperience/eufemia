@@ -29,6 +29,49 @@ describe('Field.Currency', () => {
     expect(input).toHaveValue('123 NOK')
   })
 
+  it('should treat dot + 3 digits as thousands in nb-NO locale with kr suffix', () => {
+    const onChange = vi.fn()
+
+    render(<Field.Currency onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    // "20.500" → dot + 3 digits = thousands → 20500 kr
+    fireEvent.change(input, { target: { value: '20.500' } })
+    fireEvent.blur(input)
+    expect(input).toHaveValue('20 500 kr')
+    expect(onChange).toHaveBeenLastCalledWith(20500, expect.anything())
+  })
+
+  it('should treat dot + 1 digit as decimal in nb-NO locale with kr suffix', () => {
+    const onChange = vi.fn()
+
+    render(<Field.Currency onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    // "20.5" → dot + 1 digit = decimal → 20,5 kr
+    fireEvent.change(input, { target: { value: '20.5' } })
+    fireEvent.blur(input)
+    expect(input).toHaveValue('20,5 kr')
+    expect(onChange).toHaveBeenLastCalledWith(20.5, expect.anything())
+  })
+
+  it('should disambiguate mixed dot+comma (US format) when pasting in nb-NO locale', async () => {
+    const onChange = vi.fn()
+
+    render(<Field.Currency onChange={onChange} />)
+
+    const input = document.querySelector('input')
+
+    // "1,234.56" → both separators, dot is last = decimal → 1234.56
+    await userEvent.click(input)
+    await userEvent.paste('1,234.56')
+    fireEvent.blur(input)
+    expect(input).toHaveValue('1 234,56 kr')
+    expect(onChange).toHaveBeenLastCalledWith(1234.56, expect.anything())
+  })
+
   it('should use custom placeholder when provided', () => {
     render(<Field.Currency placeholder="Enter amount" />)
 
