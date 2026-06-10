@@ -2,7 +2,11 @@
 
 :global {
   :root {
-    --aside-width: calc(25vw + 5rem);
+    --portal-sidebar-scrollbar-gutter: 1.5rem;
+    --aside-width: calc(
+      25vw + 5rem + var(--portal-sidebar-scrollbar-gutter)
+    );
+    --portal-sidebar-top: 3.5rem;
   }
 
   .dnb-sidebar-menu {
@@ -264,6 +268,12 @@
       }
     }
   }
+
+  html.portal-sidebar-is-resizing,
+  html.portal-sidebar-is-resizing * {
+    cursor: ew-resize !important;
+    user-select: none;
+  }
 }
 
 .navStyle {
@@ -276,6 +286,7 @@
   z-index: 1;
 
   @include utilities.scrollY(auto);
+  overflow-x: auto;
 
   @include utilities.allBelow(medium) {
     position: relative;
@@ -286,15 +297,71 @@
 
   @include utilities.allAbove(medium) {
     width: var(--aside-width); // has to be the same value as margin-left
-    height: calc(100vh - 4rem); // height of StickyMenuBar
+    height: calc(100vh - var(--portal-sidebar-top));
   }
 
-  margin: 3.5rem 0 0;
+  margin: var(--portal-sidebar-top) 0 0;
 
   ul {
+    width: max-content;
+    min-width: 100%;
     margin: 0;
     padding: 0;
   }
 
   background-color: var(--token-color-background-neutral);
+}
+
+.resizeHandleStyle {
+  position: fixed;
+  z-index: 3;
+  top: var(--portal-sidebar-top);
+  bottom: 0;
+  left: calc(var(--aside-width) - 0.375rem);
+
+  width: 1.5rem;
+  margin: 0;
+  padding: 0;
+
+  color: var(--token-color-stroke-neutral-subtle);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  cursor: ew-resize !important;
+  touch-action: none;
+
+  @include utilities.allBelow(medium) {
+    display: none;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0.375rem;
+
+    width: 1px;
+
+    background-color: currentcolor;
+    opacity: 0;
+
+    transform: translateX(-50%);
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--token-color-stroke-action);
+
+    &::before {
+      width: 2px;
+      opacity: 1;
+    }
+  }
+
+  &:focus-visible {
+    outline: var(--focus-ring-width) solid
+      var(--token-color-stroke-action-focus);
+    outline-offset: -0.25rem;
+  }
 }
