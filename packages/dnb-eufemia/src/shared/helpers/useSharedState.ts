@@ -195,6 +195,7 @@ type SharedStateInstance<Data> = {
   subscribe: (subscriber: Subscriber) => void
   unsubscribe: (subscriber: Subscriber) => void
   hadInitialData: boolean
+  needsReseed: boolean
 } & SharedStateReturn<Data>
 
 const sharedStates: Map<
@@ -324,6 +325,7 @@ export function createSharedState<Data>(
       subscribe,
       unsubscribe,
       hadInitialData: Boolean(initialData),
+      needsReseed: false,
       subscribersRef,
     } as SharedStateInstance<Data>)
 
@@ -331,7 +333,8 @@ export function createSharedState<Data>(
       extend(initialData)
     }
   } else if (
-    sharedStates.get(id).data === undefined &&
+    (sharedStates.get(id).data === undefined ||
+      sharedStates.get(id).needsReseed) &&
     initialData !== undefined
   ) {
     // Silently seed the store so children render with data on their first pass.
@@ -339,6 +342,7 @@ export function createSharedState<Data>(
     // would cause a "setState during render" warning. The store value will be
     // picked up by useSyncExternalStore's getSnapshot on the next render.
     sharedStates.get(id).data = cloneData(initialData) as Data
+    sharedStates.get(id).needsReseed = false
   }
 
   return sharedStates.get(id)
@@ -360,8 +364,28 @@ export function preSeedSharedState<Data>(
   // Ensure the store exists with hadInitialData = false
   createSharedState<Data>(id)
   const store = sharedStates.get(id)
-  if (store && store.data === undefined && data !== undefined) {
+  if (
+    store &&
+    (store.data === undefined || store.needsReseed) &&
+    data !== undefined
+  ) {
     store.data = cloneData(data) as Data
+    store.needsReseed = false
+  }
+}
+
+/**
+ * Mark a shared state for re-seeding. The next call to preSeedSharedState
+ * or createSharedState with initialData will overwrite the current value.
+ *
+ * Used by clearData so that a remounted Provider (or useData consumer)
+ * can re-seed the store even though store.data is not undefined.
+ */
+export function markForReseed(id: SharedStateId): void {
+  const store = sharedStates.get(id)
+  if (store) {
+    store.needsReseed = true
+    store.hadInitialData = false
   }
 }
 

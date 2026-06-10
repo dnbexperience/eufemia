@@ -43,6 +43,7 @@ import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   createSharedState,
+  markForReseed,
   preSeedSharedState,
   shallowEqual,
   useSharedState,
@@ -894,8 +895,17 @@ export default function Provider<Data extends JsonObject>(
   // preSeedSharedState is used instead of createSharedState so that
   // hadInitialData stays false, allowing Form.useData(..., initialData) calls
   // to still merge their own initialData via useMountEffect.
+  //
+  // The id-tracking ref ensures we only pre-seed once per mount (or when id
+  // changes). Without it, a clearData call on a *mounted* form would be
+  // immediately undone by the next re-render’s preSeedSharedState, because
+  // markForReseed sets needsReseed = true.
+  const preSeededIdRef = useRef<SharedStateId>(undefined)
   if (id && initialData !== undefined) {
-    preSeedSharedState<Data>(id, initialData)
+    if (preSeededIdRef.current !== id) {
+      preSeededIdRef.current = id
+      preSeedSharedState<Data>(id, initialData)
+    }
   }
   const sharedData = useSharedState<Data>(id)
   const sharedAttachments = useSharedState<SharedAttachments<Data>>(
@@ -1022,6 +1032,7 @@ export default function Provider<Data extends JsonObject>(
 
     if (id) {
       setSharedData(internalDataRef.current)
+      markForReseed(id)
     }
 
     forceUpdate()

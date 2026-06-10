@@ -1,4 +1,4 @@
-import { StrictMode, act } from 'react'
+import { StrictMode, act, useEffect } from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
@@ -86,5 +86,103 @@ describe('Form.clearData', () => {
 
       expect(document.querySelector('input')).toHaveValue('')
     })
+  })
+
+  it('should re-seed shared state on first render when remounting after clearData', () => {
+    const formId = 'reseed-first-render'
+    const renderSnapshots: unknown[] = []
+
+    function DataProbe() {
+      const { data } = Form.useData(formId)
+      renderSnapshots.push(data)
+      return null
+    }
+
+    function MyForm() {
+      useEffect(() => {
+        return () => {
+          Form.clearData(formId)
+        }
+      }, [])
+
+      return (
+        <Form.Handler id={formId} data={{ myString: 'hello' }}>
+          <Field.String path="/myString" />
+        </Form.Handler>
+      )
+    }
+
+    const { unmount } = render(
+      <>
+        <MyForm />
+        <DataProbe />
+      </>
+    )
+
+    // Clear snapshots from the initial mount
+    renderSnapshots.length = 0
+
+    unmount()
+
+    render(
+      <>
+        <MyForm />
+        <DataProbe />
+      </>
+    )
+
+    // The very first render after remount must already have the data —
+    // not an empty object that only gets fixed in a later commit phase.
+    expect(renderSnapshots[0]).toEqual({ myString: 'hello' })
+  })
+
+  it('should re-seed shared state for external useData(id, initialData) after clearData', () => {
+    const formId = 'reseed-usedata-initial'
+    const renderSnapshots: unknown[] = []
+
+    function ExternalSeeder() {
+      const { data } = Form.useData(formId, {
+        myString: 'fromOutside',
+      })
+      renderSnapshots.push(data)
+      return null
+    }
+
+    function MyForm() {
+      useEffect(() => {
+        return () => {
+          Form.clearData(formId)
+        }
+      }, [])
+
+      return (
+        <Form.Handler id={formId}>
+          <Field.String path="/myString" />
+        </Form.Handler>
+      )
+    }
+
+    const { unmount } = render(
+      <>
+        <MyForm />
+        <ExternalSeeder />
+      </>
+    )
+
+    expect(document.querySelector('input')).toHaveValue('fromOutside')
+
+    renderSnapshots.length = 0
+
+    unmount()
+
+    render(
+      <>
+        <MyForm />
+        <ExternalSeeder />
+      </>
+    )
+
+    // External useData with initialData must also re-seed after clearData
+    expect(renderSnapshots[0]).toEqual({ myString: 'fromOutside' })
   })
 })
