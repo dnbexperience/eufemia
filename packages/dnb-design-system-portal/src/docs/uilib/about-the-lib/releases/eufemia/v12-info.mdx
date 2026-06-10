@@ -77,6 +77,13 @@ The `statusState` prop has been deprecated in favor of `status`. The old `status
 +<Input statusMessage="Error message" status="error" />
 ```
 
+If you used `status={true}` to only get the status color without a message, replace it with the status state you want to show. Do not move `true` to `statusMessage`.
+
+```diff
+-<Input status={true} />
++<Input status="error" />
+```
+
 The `status` prop also supports setting visual status without a status message. When used this way, consider adding `aria-label` or `aria-labelledby` to convey the status to assistive technologies:
 
 ```jsx

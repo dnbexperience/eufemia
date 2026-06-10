@@ -708,14 +708,24 @@ describe('resolveStatus', () => {
     ).toBe('error')
   })
 
-  it('returns undefined when status is boolean true without statusMessage', () => {
-    expect(resolveStatus({ status: true })).toBeUndefined()
+  it('falls back to error when status is boolean true', () => {
+    expect(resolveStatus({ status: true })).toBe('error')
   })
 
-  it('returns undefined when status is boolean true with statusMessage', () => {
+  it('returns statusState when status is boolean true', () => {
+    expect(resolveStatus({ status: true, statusState: 'warning' })).toBe(
+      'warning'
+    )
+  })
+
+  it('falls back to error when status is boolean true with statusMessage', () => {
     expect(
       resolveStatus({ status: true, statusMessage: 'A message' })
-    ).toBeUndefined()
+    ).toBe('error')
+  })
+
+  it('returns undefined when status is boolean false', () => {
+    expect(resolveStatus({ status: false })).toBeUndefined()
   })
 
   it('returns undefined when only statusMessage is set', () => {
@@ -786,5 +796,18 @@ describe('resolveStatusMessage', () => {
 
   it('returns undefined when status is boolean true', () => {
     expect(resolveStatusMessage({ status: true })).toBeUndefined()
+  })
+
+  it('returns undefined when statusMessage is boolean true', () => {
+    expect(resolveStatusMessage({ statusMessage: true })).toBeUndefined()
+  })
+
+  it('falls back to legacy status when statusMessage is boolean true', () => {
+    expect(
+      resolveStatusMessage({
+        status: 'legacy message',
+        statusMessage: true,
+      })
+    ).toBe('legacy message')
   })
 })

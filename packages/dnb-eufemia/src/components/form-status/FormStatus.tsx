@@ -6,7 +6,6 @@ import { memo, useCallback, useContext, useEffect, useRef } from 'react'
 import type {
   HTMLProps,
   MemoExoticComponent,
-  ReactElement,
   ReactNode,
   Ref,
   SVGProps,
@@ -45,10 +44,9 @@ import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
 const properties = { ui, sbanken }
 
 export type FormStatusText =
-  | string
-  | boolean
+  | Exclude<ReactNode, boolean>
   | (() => ReactNode)
-  | ReactNode
+type FormStatusLegacyText = FormStatusText | boolean
 export type FormStatusState =
   | 'error'
   | 'warning'
@@ -73,9 +71,9 @@ export type FormStatusBaseProps = {
    * When set, applies the corresponding visual styling (e.g. red border for error) even without a status message.
    * When set to `error`, `aria-invalid` is automatically applied.
    * When used without a `statusMessage`, add an `aria-label` or `aria-labelledby` to convey the status to assistive technologies.
-    * Passing a message value (such as string or React element) is supported for backwards compatibility but deprecated — use `statusMessage` instead.
+   * Passing a message value or boolean is supported for backwards compatibility but deprecated — use `statusMessage` instead.
    */
-    status?: FormStatusState | string | ReactElement
+  status?: FormStatusState | FormStatusLegacyText
   /**
    * @deprecated Use `status` instead. Defines the state of the status. Defaults to `error`.
    */
@@ -108,7 +106,7 @@ export type FormStatusProps = {
   /**
    * The `text` appears as the status message. Besides plain text, you can send in a React component as well.
    */
-  text?: FormStatusText
+  text?: FormStatusLegacyText
   /**
    * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
    */

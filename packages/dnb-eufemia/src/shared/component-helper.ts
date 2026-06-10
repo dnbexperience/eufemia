@@ -346,6 +346,8 @@ export function getStatusState(status) {
  * - Defaults to `undefined` when no status is specified.
  * - Handles backwards compatibility: if `status` receives a non-FormStatusState
  *   message value (old `status` message pattern), falls back to `statusState` or `'error'`.
+ *
+ * @deprecated should be removed in favor of using `status` and `statusMessage` directly without the need for a helper function.
  */
 export function resolveStatus({
   status,
@@ -360,6 +362,10 @@ export function resolveStatus({
     return status
   }
 
+  if (status === true) {
+    return statusState || 'error'
+  }
+
   // Backwards compat: status used as a message (old API)
   if (isLegacyStatusMessage(status)) {
     warn(
@@ -368,7 +374,7 @@ export function resolveStatus({
     return statusState || 'error'
   }
 
-  if (statusState && statusMessage) {
+  if (statusState && isStatusMessageValue(statusMessage)) {
     return statusState
   }
 
@@ -402,7 +408,7 @@ export function resolveStatusMessage<T>({
   statusMessage?: T
 }): T | undefined {
   // statusMessage takes priority over legacy status message
-  if (statusMessage !== undefined && statusMessage !== null) {
+  if (isStatusMessageValue(statusMessage)) {
     return statusMessage
   }
 
@@ -424,6 +430,12 @@ function isLegacyStatusMessage(status: unknown): boolean {
   }
 
   return !isFormStatusState(status)
+}
+
+function isStatusMessageValue(value: unknown): boolean {
+  return (
+    value !== undefined && value !== null && typeof value !== 'boolean'
+  )
 }
 
 export function combineLabelledBy(...params) {
