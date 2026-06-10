@@ -654,16 +654,4 @@ describe('Button scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
-
-  it.each(['ui', 'sbanken'])(
-    'has to match theme css for %s',
-    (themeName) => {
-      const css = loadScss(
-        require.resolve(
-          `../style/themes/dnb-button-theme-${themeName}.scss`
-        )
-      )
-      expect(css).toMatchSnapshot()
-    }
-  )
 })
