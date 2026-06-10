@@ -2777,6 +2777,7 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 }
 .dnb-date-picker__addon {
   display: flex;
+  contain: inline-size;
   flex-flow: row wrap;
   justify-content: flex-start;
   gap: 1rem;

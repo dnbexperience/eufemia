@@ -265,6 +265,7 @@
 
   &__addon {
     display: flex;
+    contain: inline-size;
     flex-flow: row wrap;
     justify-content: flex-start;
     gap: 1rem;
