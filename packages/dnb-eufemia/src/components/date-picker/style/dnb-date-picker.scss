@@ -395,7 +395,7 @@
     &--preview .dnb-button,
     &--inactive .dnb-button,
     &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
-      .dnb-button:not(:hover) {
+      .dnb-button:not(:hover):not(:focus-visible) {
       background-color: transparent;
     }
 
