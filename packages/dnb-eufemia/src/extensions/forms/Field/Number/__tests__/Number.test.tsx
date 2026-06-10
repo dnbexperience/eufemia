@@ -156,19 +156,34 @@ describe('Field.Number', () => {
       expect(onChange).toHaveBeenLastCalledWith(1234567, expect.anything())
     })
 
-    it('should treat comma + 3 digits as thousands when pasting in nb-NO locale', async () => {
+    it('should treat single comma + 3 digits as decimal when pasting in nb-NO locale', async () => {
       const onChange = vi.fn()
 
       render(<Field.Number onChange={onChange} />)
 
       const input = document.querySelector('input')
 
-      // "25,000" → comma + 3 digits = thousands → 25000
+      // "25,000" → single comma group = decimal in nb-NO → 25
       await userEvent.click(input)
       await userEvent.paste('25,000')
       fireEvent.blur(input)
-      expect(input).toHaveValue('25 000')
-      expect(onChange).toHaveBeenLastCalledWith(25000, expect.anything())
+      expect(input).toHaveValue('25')
+      expect(onChange).toHaveBeenLastCalledWith(25, expect.anything())
+    })
+
+    it('should treat multiple comma groups as thousands when pasting in nb-NO locale', async () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "1,234,567" → multiple comma groups = thousands → 1234567
+      await userEvent.click(input)
+      await userEvent.paste('1,234,567')
+      fireEvent.blur(input)
+      expect(input).toHaveValue('1 234 567')
+      expect(onChange).toHaveBeenLastCalledWith(1234567, expect.anything())
     })
 
     it('should treat comma + 1 digit as decimal when pasting in nb-NO locale', async () => {
@@ -184,6 +199,64 @@ describe('Field.Number', () => {
       fireEvent.blur(input)
       expect(input).toHaveValue('25,5')
       expect(onChange).toHaveBeenLastCalledWith(25.5, expect.anything())
+    })
+
+    it('should disambiguate mixed dot+comma (US format) when pasting in nb-NO locale', async () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "1,234.56" → both separators, dot is last = decimal → 1234.56
+      await userEvent.click(input)
+      await userEvent.paste('1,234.56')
+      fireEvent.blur(input)
+      expect(input).toHaveValue('1 234,56')
+      expect(onChange).toHaveBeenLastCalledWith(1234.56, expect.anything())
+    })
+
+    it('should disambiguate mixed dot+comma (EU format) when pasting in nb-NO locale', async () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "1.234,56" → both separators, comma is last = decimal → 1234.56
+      await userEvent.click(input)
+      await userEvent.paste('1.234,56')
+      fireEvent.blur(input)
+      expect(input).toHaveValue('1 234,56')
+      expect(onChange).toHaveBeenLastCalledWith(1234.56, expect.anything())
+    })
+
+    it('should treat dot after leading zero as decimal in nb-NO locale', () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} />)
+
+      const input = document.querySelector('input')
+
+      // "0.500" → leading zero = always decimal → 0.5
+      fireEvent.change(input, { target: { value: '0.500' } })
+      fireEvent.blur(input)
+      expect(input).toHaveValue('0,500')
+      expect(onChange).toHaveBeenLastCalledWith(0.5, expect.anything())
+    })
+
+    it('should treat dot after negative leading zero as decimal in nb-NO locale', () => {
+      const onChange = vi.fn()
+
+      render(<Field.Number onChange={onChange} minimum={-1} />)
+
+      const input = document.querySelector('input')
+
+      // "-0.500" → leading zero = always decimal → -0.5
+      fireEvent.change(input, { target: { value: '-0.500' } })
+      fireEvent.blur(input)
+      expect(input).toHaveValue('-0,500')
+      expect(onChange).toHaveBeenLastCalledWith(-0.5, expect.anything())
     })
 
     it('should treat dot as decimal separator in en-GB locale', () => {

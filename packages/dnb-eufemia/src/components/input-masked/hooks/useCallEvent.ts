@@ -59,7 +59,6 @@ export const useCallEvent = ({
     const maskParams = maskParamsRef.current as ReturnType<
       typeof useMaskParams
     >
-
     value = value || event.target.value
     const selStart = event.target.selectionStart
     let keyCode = event.key
