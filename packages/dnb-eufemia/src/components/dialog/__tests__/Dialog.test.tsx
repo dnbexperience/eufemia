@@ -697,6 +697,12 @@ describe('Dialog', () => {
               onClose={() => setShowDialog(false)}
             >
               Dialog content
+              <button
+                data-testid="close"
+                onClick={() => setShowDialog(false)}
+              >
+                Close
+              </button>
             </Dialog>
           </>
         )
@@ -704,32 +710,29 @@ describe('Dialog', () => {
 
       render(<TestComponent />)
 
+      const triggerButton = document.querySelector(
+        '[data-testid="trigger"]'
+      )
+
       expect(document.querySelector('.dnb-dialog')).not.toBeInTheDocument()
 
       // Open
-      await userEvent.click(screen.getByTestId('trigger'))
+      await userEvent.click(triggerButton)
 
       await waitFor(() => {
         expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
       })
 
-      // Close via the close button
       await userEvent.click(
-        document.querySelector('button.dnb-modal__close-button')
+        document.querySelector('[data-testid="close"]')
       )
 
-      await waitFor(() => {
-        expect(
-          document.querySelector('.dnb-dialog')
-        ).not.toBeInTheDocument()
-      })
+      // Reopen while the close animation is still in progress.
+      await userEvent.click(triggerButton)
 
-      // Reopen
-      await userEvent.click(screen.getByTestId('trigger'))
+      await new Promise((resolve) => setTimeout(resolve, 350))
 
-      await waitFor(() => {
-        expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
-      })
+      expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
     } finally {
       window['IS_TEST'] = originalIsTest
     }
