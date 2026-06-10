@@ -4,6 +4,7 @@
 */
 
 @use '../../../style/core/utilities.scss' as utilities;
+@use './button--tertiary.scss';
 
 :root {
   --button-icon-size: 1rem;

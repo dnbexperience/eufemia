@@ -3,10 +3,6 @@
 *
 */
 
-// Because the tertiary button has so much code,
-// we slice the shareable parts out in a separate file
-@use '../button--tertiary.scss';
-
 .dnb-button {
   // For internal usage only, we have also "unstyled"
   // &--unstyled {}
