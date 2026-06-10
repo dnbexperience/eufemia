@@ -1821,6 +1821,30 @@ describe('InputMasked component asNumber', () => {
     expect(input).toHaveValue('0,5')
   })
 
+  it('should handle comma paste in en-GB locale (comma is thousands, not pseudo-decimal)', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <Provider locale="en-GB">
+        <InputMasked
+          asNumber
+          maskOptions={{ allowDecimal: true }}
+          onChange={onChange}
+        />
+      </Provider>
+    )
+
+    const input = document.querySelector('input')
+
+    // In en-GB, comma is the native thousands separator.
+    // Pasting "1,5" should treat comma as thousands → 15, not as decimal 1.5
+    await userEvent.click(input)
+    await userEvent.paste('1,5')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 15 })
+    )
+  })
+
   it('should react to locale change', () => {
     const { rerender } = render(
       <InputMasked
