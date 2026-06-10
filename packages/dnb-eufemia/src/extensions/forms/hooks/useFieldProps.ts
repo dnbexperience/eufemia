@@ -282,6 +282,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const valueRef = useRef<Value>(undefined as Value)
   const changedRef = useRef<boolean>(undefined)
   const hasFocusRef = useRef<boolean>(undefined)
+  const blurValidatorCalledRef = useRef(false)
 
   // ─── useFieldTransform ───────────────────────────────────────────────
 
@@ -637,6 +638,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     if (valueRef.current !== externalValue) {
       valueRef.current = externalValue
       externalValueDidChangeRef.current = true
+      blurValidatorCalledRef.current = false
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -697,9 +699,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           return undefined
         }
 
+        if (blurValidatorCalledRef.current) {
+          // Avoid re-running the blur validator when the value hasn't changed since the last blur
+          return undefined
+        }
+
         addToPool(
           'onBlurValidator',
-          async () => await startOnBlurValidatorProcess({ overrideValue }),
+          async () => {
+            await startOnBlurValidatorProcess({ overrideValue })
+            blurValidatorCalledRef.current = true
+          },
           isAsync(onBlurValidatorRef.current)
         )
 
@@ -751,6 +761,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       )
 
       valueRef.current = transformedValue
+      blurValidatorCalledRef.current = false
 
       if (hasPath || itemPath) {
         handlePathChangeUnvalidatedDataContext(
@@ -1523,11 +1534,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       isAsync(onChangeValidatorRef.current)
     )
 
-    addToPool(
-      'onBlurValidator',
-      startOnBlurValidatorProcess,
-      isAsync(onBlurValidatorRef.current)
-    )
+    if (!blurValidatorCalledRef.current) {
+      addToPool(
+        'onBlurValidator',
+        startOnBlurValidatorProcess,
+        isAsync(onBlurValidatorRef.current)
+      )
+    }
 
     await runPool()
   }, [

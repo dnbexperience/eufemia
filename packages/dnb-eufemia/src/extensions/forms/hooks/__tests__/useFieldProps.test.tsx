@@ -6982,6 +6982,206 @@ describe('useFieldProps', () => {
         document.querySelector('.dnb-form-status')
       ).not.toBeInTheDocument()
     })
+
+    it('should not re-call onBlurValidator on submit when it already ran on blur with the same value', async () => {
+      const onBlurValidator = vi.fn(() => undefined)
+
+      render(
+        <Form.Handler>
+          <Field.String
+            path="/myField"
+            onBlurValidator={onBlurValidator}
+          />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      // Type a value and blur
+      await userEvent.type(input, '123')
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+
+      // Submit the form
+      fireEvent.submit(document.querySelector('form'))
+
+      await wait(100)
+
+      // Should still be 1 — not re-called on submit since the value hasn't changed
+      expect(onBlurValidator).toHaveBeenCalledTimes(1)
+    })
+
+    it('should not re-call async onBlurValidator on submit when it already ran on blur', async () => {
+      const onBlurValidator = vi.fn(async () => undefined)
+
+      render(
+        <Form.Handler>
+          <Field.String
+            path="/myField"
+            onBlurValidator={onBlurValidator}
+          />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      // Type a value and blur
+      await userEvent.type(input, '123')
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+
+      // Submit the form
+      fireEvent.submit(document.querySelector('form'))
+
+      await wait(100)
+
+      // Should still be 1 — not re-called on submit since the value hasn't changed
+      expect(onBlurValidator).toHaveBeenCalledTimes(1)
+    })
+
+    it('should not re-call async onBlurValidator on submit via Form.useSubmit', async () => {
+      const onBlurValidator = vi.fn(async () => undefined)
+
+      const SubmitButton = ({ id }: { id: string }) => {
+        const { submit } = Form.useSubmit(id)
+        return <button data-testid="submit" onClick={() => submit()} />
+      }
+
+      render(
+        <>
+          <Form.Handler id="submit-test">
+            <Field.String
+              path="/myField"
+              onBlurValidator={onBlurValidator}
+            />
+          </Form.Handler>
+          <SubmitButton id="submit-test" />
+        </>
+      )
+
+      const input = document.querySelector('input')
+
+      // Type a value and blur
+      await userEvent.type(input, '123')
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+
+      // Submit via external Form.useSubmit — clicking the button
+      // triggers a blur on the input, but the validator should not re-run
+      await userEvent.click(screen.getByTestId('submit'))
+
+      await wait(100)
+
+      // Should still be 1 — not re-called on blur or submit since the value hasn't changed
+      expect(onBlurValidator).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call onBlurValidator on submit when field was never blurred', async () => {
+      const onBlurValidator = vi.fn(() => undefined)
+
+      render(
+        <Form.Handler>
+          <Field.String
+            path="/myField"
+            defaultValue="hello"
+            onBlurValidator={onBlurValidator}
+          />
+        </Form.Handler>
+      )
+
+      // Submit without blur
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    it('should re-call onBlurValidator on submit when value changed after blur', async () => {
+      const onBlurValidator = vi.fn(() => undefined)
+
+      render(
+        <Form.Handler>
+          <Field.String
+            path="/myField"
+            onBlurValidator={onBlurValidator}
+          />
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+
+      // Type a value and blur
+      await userEvent.type(input, '1')
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+
+      // Focus, type more (value changes)
+      await userEvent.type(input, '23')
+
+      // Submit without blurring again
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+      })
+    })
+
+    it('should re-call onBlurValidator on submit when value was changed externally after blur', async () => {
+      const onBlurValidator = vi.fn(() => undefined)
+
+      const MockComponent = () => {
+        const { update } = Form.useData('external-change-form')
+        return (
+          <>
+            <Form.Handler id="external-change-form">
+              <Field.String
+                path="/myField"
+                onBlurValidator={onBlurValidator}
+              />
+            </Form.Handler>
+            <button
+              data-testid="external-set"
+              onClick={() => update('/myField', () => 'externally-set')}
+            />
+          </>
+        )
+      }
+
+      render(<MockComponent />)
+
+      const input = document.querySelector('input')
+
+      // Type a value and blur
+      await userEvent.type(input, 'hello')
+      fireEvent.blur(input)
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+
+      // Change value externally
+      await userEvent.click(screen.getByTestId('external-set'))
+
+      // Submit
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+      })
+    })
   })
 
   describe('revealError', () => {
