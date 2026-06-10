@@ -2,8 +2,7 @@ import eufemiaConfig from '@dnb/eufemia/eslint.config.mjs'
 import * as mdxPlugin from 'eslint-plugin-mdx'
 import workspacesPlugin from 'eslint-plugin-workspaces'
 
-const workspacesRecommended =
-  workspacesPlugin.configs?.['flat/recommended'] || {}
+const workspacesRecommended = workspacesPlugin.configs?.recommended || {}
 
 export default [
   {
