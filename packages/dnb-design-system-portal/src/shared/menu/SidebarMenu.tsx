@@ -4,7 +4,12 @@
  */
 
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
-import type { RefObject } from 'react'
+import type {
+  KeyboardEvent as ReactKeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+  PointerEvent as ReactPointerEvent,
+  RefObject,
+} from 'react'
 import { clsx } from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'portal-query'
@@ -24,10 +29,11 @@ import {
   applyPageFocus,
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
-import { navStyle } from './SidebarMenu.module.scss'
+import { navStyle, resizeHandleStyle } from './SidebarMenu.module.scss'
 import { defaultTabsValue } from '../tags/defaultValues'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
+const sidebarWidthScopeSelector = '.eufemia-scope--portal'
 
 type SidebarLayoutProps = {
   location: Location
@@ -40,6 +46,7 @@ export default function SidebarLayout({
 }: SidebarLayoutProps) {
   const { isClosing, closeMenu, isOpen } = useContext(SidebarMenuContext)
   const scrollRef = useRef<HTMLElement>(null)
+  const sidebarResizeHandlers = useSidebarResize(scrollRef)
 
   const {
     allMdx,
@@ -82,12 +89,18 @@ export default function SidebarLayout({
   useEffect(() => {
     setPageFocusElement('nav ul li.is-active a:nth-of-type(1)', 'sidebar')
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeMenu()
+      }
+    }
+
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', handleKeyDown)
     }
 
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [closeMenu])
 
   useEffect(() => {
     if (isOpen && !isClosing) {
@@ -150,31 +163,35 @@ export default function SidebarLayout({
     )
 
   return (
-    <nav
-      id="portal-sidebar-menu"
-      aria-labelledby="toggle-sidebar-menu"
-      className={clsx(
-        navStyle,
-        'dnb-scrollbar-appearance',
-        isOpen && 'show-mobile-menu',
-        isClosing && 'hide-mobile-menu'
-      )}
-      ref={scrollRef}
-    >
-      <PortalToolsMenu
-        triggerProps={{
-          left: 'large',
-          top: 'large',
-          bottom: 'large',
-          text: 'Portal Tools',
-          icon: 'chevron_right',
-          iconPosition: 'right',
-        }}
-        tooltipPosition="bottom"
-        hideWhenMediaLarge
-      />
-      <ul className="dev-grid">{navItems}</ul>
-    </nav>
+    <>
+      <nav
+        id="portal-sidebar-menu"
+        aria-labelledby="toggle-sidebar-menu"
+        className={clsx(
+          navStyle,
+          'dnb-scrollbar-appearance',
+          isOpen && 'show-mobile-menu',
+          isClosing && 'hide-mobile-menu'
+        )}
+        ref={scrollRef}
+      >
+        <PortalToolsMenu
+          triggerProps={{
+            left: 'large',
+            top: 'large',
+            bottom: 'large',
+            text: 'Portal Tools',
+            icon: 'chevron_right',
+            iconPosition: 'right',
+          }}
+          tooltipPosition="bottom"
+          hideWhenMediaLarge
+        />
+        <ul className="dev-grid">{navItems}</ul>
+      </nav>
+
+      <SidebarResizeHandle {...sidebarResizeHandlers} />
+    </>
   )
 
   function scrollToActiveItem() {
@@ -200,14 +217,169 @@ export default function SidebarLayout({
         behavior: 'smooth',
       })
     } catch (e) {
-      console.error('Could not set scrollToActiveItem', e)
+      // Ignore scroll errors.
+    }
+  }
+}
+
+type SidebarResizeHandleProps = ReturnType<typeof useSidebarResize>
+
+function SidebarResizeHandle({
+  handleResizePointerDown,
+  handleResizeMouseDown,
+  handleResizeKeyDown,
+  resetSidebarWidth,
+}: SidebarResizeHandleProps) {
+  return (
+    <button
+      type="button"
+      className={resizeHandleStyle}
+      aria-label="Resize sidebar"
+      aria-controls="portal-sidebar-menu"
+      onPointerDown={handleResizePointerDown}
+      onMouseDown={handleResizeMouseDown}
+      onKeyDown={handleResizeKeyDown}
+      onDoubleClick={resetSidebarWidth}
+    />
+  )
+}
+
+function useSidebarResize(scrollRef: RefObject<HTMLElement>) {
+  const cleanupResizeRef = useRef<() => void>(undefined)
+
+  useEffect(() => {
+    return () => {
+      cleanupResizeRef.current?.()
+    }
+  }, [])
+
+  function getSidebarWidth() {
+    return scrollRef.current?.getBoundingClientRect().width || 0
+  }
+
+  function getSidebarWidthStyleElement() {
+    return (
+      scrollRef.current?.closest<HTMLElement>(sidebarWidthScopeSelector) ||
+      document.querySelector<HTMLElement>(sidebarWidthScopeSelector) ||
+      document.documentElement
+    )
+  }
+
+  function setSidebarWidth(width: number) {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    const widthWithMin = Math.round(Math.max(width, 1))
+    getSidebarWidthStyleElement().style.setProperty(
+      '--aside-width',
+      `${widthWithMin}px`
+    )
+  }
+
+  function resetSidebarWidth() {
+    if (typeof document === 'undefined') {
+      return
+    }
+
+    getSidebarWidthStyleElement().style.removeProperty('--aside-width')
+    document.documentElement.style.removeProperty('--aside-width')
+  }
+
+  function handleResizePointerDown(
+    event: ReactPointerEvent<HTMLButtonElement>
+  ) {
+    if (event.button !== 0) {
+      return
+    }
+
+    event.preventDefault()
+    startSidebarResize(event.clientX, (handleMove, handleEnd) => {
+      window.addEventListener('pointermove', handleMove)
+      window.addEventListener('pointerup', handleEnd, { once: true })
+
+      return () => {
+        window.removeEventListener('pointermove', handleMove)
+        window.removeEventListener('pointerup', handleEnd)
+      }
+    })
+  }
+
+  function handleResizeMouseDown(
+    event: ReactMouseEvent<HTMLButtonElement>
+  ) {
+    if (event.button !== 0) {
+      return
+    }
+
+    event.preventDefault()
+    startSidebarResize(event.clientX, (handleMove, handleEnd) => {
+      window.addEventListener('mousemove', handleMove)
+      window.addEventListener('mouseup', handleEnd, { once: true })
+
+      return () => {
+        window.removeEventListener('mousemove', handleMove)
+        window.removeEventListener('mouseup', handleEnd)
+      }
+    })
+  }
+
+  function startSidebarResize(
+    clientX: number,
+    addListeners: (
+      handleMove: (event: MouseEvent | PointerEvent) => void,
+      handleEnd: () => void
+    ) => () => void
+  ) {
+    cleanupResizeRef.current?.()
+    document.documentElement.classList.add('portal-sidebar-is-resizing')
+
+    const pointerOffset = clientX - getSidebarWidth()
+
+    const handleMove = (event: MouseEvent | PointerEvent) => {
+      setSidebarWidth(event.clientX - pointerOffset)
+    }
+
+    let removeListeners = () => null
+
+    const cleanupResize = () => {
+      removeListeners()
+      document.documentElement.classList.remove(
+        'portal-sidebar-is-resizing'
+      )
+      cleanupResizeRef.current = undefined
+    }
+
+    const handleEnd = () => {
+      cleanupResize()
+    }
+
+    removeListeners = addListeners(handleMove, handleEnd)
+    cleanupResizeRef.current = cleanupResize
+  }
+
+  function handleResizeKeyDown(
+    event: ReactKeyboardEvent<HTMLButtonElement>
+  ) {
+    const width = getSidebarWidth()
+    const step = event.shiftKey ? 48 : 16
+
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      setSidebarWidth(width - step)
+    }
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      setSidebarWidth(width + step)
     }
   }
 
-  function handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      closeMenu()
-    }
+  return {
+    handleResizePointerDown,
+    handleResizeMouseDown,
+    handleResizeKeyDown,
+    resetSidebarWidth,
   }
 }
 
