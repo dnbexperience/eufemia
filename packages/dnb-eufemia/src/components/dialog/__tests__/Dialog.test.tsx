@@ -674,6 +674,45 @@ describe('Dialog', () => {
     // Verify that focus is NOT on the submit button
     expect(document.activeElement).not.toBe(submitButton)
   })
+
+  it('should open controlled dialog without noAnimation', async () => {
+    const originalIsTest = window['IS_TEST']
+    window['IS_TEST'] = false
+
+    const TestComponent = () => {
+      const [showDialog, setShowDialog] = useState(false)
+
+      return (
+        <>
+          <button
+            data-testid="trigger"
+            onClick={() => setShowDialog(true)}
+          >
+            Open
+          </button>
+          <Dialog
+            omitTriggerButton
+            open={showDialog}
+            onClose={() => setShowDialog(false)}
+          >
+            Dialog content
+          </Dialog>
+        </>
+      )
+    }
+
+    render(<TestComponent />)
+
+    expect(document.querySelector('.dnb-dialog')).not.toBeInTheDocument()
+
+    await userEvent.click(screen.getByTestId('trigger'))
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
+    })
+
+    window['IS_TEST'] = originalIsTest
+  })
 })
 
 describe('Dialog aria', () => {
