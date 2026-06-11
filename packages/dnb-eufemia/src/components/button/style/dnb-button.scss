@@ -123,12 +123,6 @@
       --button-input-separator-color: var(
         --button-input-separator-color--active
       );
-
-      .dnb-button__text {
-        html[data-whatintent='touch'] & {
-          --button-color-underline: var(--button-color-underline--hover);
-        }
-      }
     }
 
     @include utilities.focusVisible() {

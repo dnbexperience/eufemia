@@ -386,6 +386,7 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:active:not([disabled]), html
   box-shadow: none;
 }
 html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
+  --button-color-underline: var(--button-color-underline--hover);
   transition: none;
   text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
 }
@@ -539,9 +540,6 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), ht
   --button-input-separator-color: var(
     --button-input-separator-color--active
   );
-}
-html[data-whatintent=touch] .dnb-button--primary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] .dnb-button--secondary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
-  --button-color-underline: var(--button-color-underline--hover);
 }
 html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible[disabled], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
   cursor: not-allowed;
