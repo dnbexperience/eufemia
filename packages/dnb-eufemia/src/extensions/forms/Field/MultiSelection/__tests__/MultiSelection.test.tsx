@@ -2212,9 +2212,9 @@ describe('MultiSelection', () => {
         '.dnb-forms-field-multi-selection__item'
       )
       expect(items).toHaveLength(1)
-      expect(
-        items[0].querySelector('.dnb-form-label')
-      ).toHaveTextContent('Banana')
+      expect(items[0].querySelector('.dnb-form-label')).toHaveTextContent(
+        'Banana'
+      )
     })
 
     it('does not render a popover', () => {
