@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 import FilterRoot from '../FilterRoot'
@@ -203,5 +204,22 @@ describe('Filter.Date inline behavior', () => {
       document.querySelector('.dnb-date-picker--inline')
     ).not.toBeInTheDocument()
     expect(document.querySelector('.dnb-accordion')).toBeInTheDocument()
+  })
+})
+
+describe('Filter.Date accessibility', () => {
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <FilterRoot id="date-a11y-test">
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <FilterDate label="Dato" defaultOpen />
+        </FilterPanel>
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-button'))
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterPanel from '../FilterPanel'
 import FilterPanelButton from '../FilterPanelButton'
@@ -223,6 +224,25 @@ describe('Filter.Panel', () => {
         </FilterPanel>
       )
     ).toThrow('Filter.Panel must be used inside a Filter.Root.')
+  })
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <FilterRoot id="panel-a11y-test">
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <FilterSelection
+            label="Type"
+            filterKey="/type"
+            data={[{ value: 'a', label: 'A' }]}
+          />
+        </FilterPanel>
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-button'))
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
 
