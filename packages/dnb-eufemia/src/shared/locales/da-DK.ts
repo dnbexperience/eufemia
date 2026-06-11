@@ -207,6 +207,7 @@ export default {
       applyFilterLabel: 'Anvend filter',
       cancelFilterLabel: 'Annuller',
       dateLabel: 'Dato',
+      searchSubmitLabel: 'Søg',
       sortButtonLabel: 'Sortér',
       noResultsMessage: 'Prøv at ændre eller fjerne nogle filtre.',
       resultCountMessage: '%s resultat(er)',

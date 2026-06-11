@@ -205,6 +205,7 @@ export default {
       applyFilterLabel: 'Bruk filter',
       cancelFilterLabel: 'Avbryt',
       dateLabel: 'Dato',
+      searchSubmitLabel: 'Søk',
       sortButtonLabel: 'Sorter',
       noResultsMessage: 'Prøv å endre eller fjerne noen filtre.',
       resultCountMessage: '%s treff',

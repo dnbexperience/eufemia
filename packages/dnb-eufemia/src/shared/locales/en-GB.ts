@@ -207,6 +207,7 @@ export default {
       applyFilterLabel: 'Apply filter',
       cancelFilterLabel: 'Cancel',
       dateLabel: 'Date',
+      searchSubmitLabel: 'Search',
       sortButtonLabel: 'Sort',
       noResultsMessage: 'Try changing or removing some filters.',
       resultCountMessage: '%s result(s)',

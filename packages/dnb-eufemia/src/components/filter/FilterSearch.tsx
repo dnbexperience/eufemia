@@ -9,6 +9,7 @@ import { clsx } from 'clsx'
 import Input from '../input/Input'
 import type { InputProps } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
+import SharedContext from '../../shared/Context'
 import { FilterContext } from './FilterContext'
 import { loupe as searchIcon } from '../../icons'
 
@@ -42,6 +43,8 @@ function FilterSearch({
   ...rest
 }: FilterSearchProps) {
   const context = useContext(FilterContext)
+  const sharedContext = useContext(SharedContext)
+  const { searchSubmitLabel } = sharedContext.getTranslation({}).Filter
 
   if (!context) {
     throw new Error('Filter.Search must be used inside a Filter.Root.')
@@ -116,7 +119,11 @@ function FilterSearch({
         value={isManual ? localValue : context.state.search}
         onChange={handleChange}
         {...(isManual
-          ? { onSubmit: handleSubmit, onClear: handleClear }
+          ? {
+              onSubmit: handleSubmit,
+              onClear: handleClear,
+              submitButtonTitle: rest.submitButtonTitle ?? searchSubmitLabel,
+            }
           : undefined)}
         icon={
           showIndicator ? (

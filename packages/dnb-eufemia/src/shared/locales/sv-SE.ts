@@ -206,6 +206,7 @@ export default {
       applyFilterLabel: 'Använd filter',
       cancelFilterLabel: 'Avbryt',
       dateLabel: 'Datum',
+      searchSubmitLabel: 'Sök',
       sortButtonLabel: 'Sortera',
       noResultsMessage: 'Försök att ändra eller ta bort några filter.',
       resultCountMessage: '%s resultat',

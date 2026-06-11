@@ -1,5 +1,8 @@
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
+import Provider from '../../../shared/Provider'
+import nbNO from '../../../shared/locales/nb-NO'
+import enGB from '../../../shared/locales/en-GB'
 import FilterRoot from '../FilterRoot'
 import FilterSearch from '../FilterSearch'
 import { useFilterContext } from '../hooks/useFilter'
@@ -399,5 +402,43 @@ describe('Filter.Search submitBehavior="manual"', () => {
     fireEvent.click(document.querySelector('[data-testid="reset"]'))
 
     expect(input).toHaveValue('')
+  })
+
+  it('sets aria-label on submit button from locale', () => {
+    render(
+      <Provider locale="nb-NO">
+        <FilterRoot id="manual-aria-label-test">
+          <FilterSearch label="Søk" submitBehavior="manual" />
+        </FilterRoot>
+      </Provider>
+    )
+
+    const submitButton = document.querySelector(
+      '.dnb-input__submit-button__button'
+    )
+
+    expect(submitButton).toHaveAttribute(
+      'aria-label',
+      nbNO['nb-NO'].Filter.searchSubmitLabel
+    )
+  })
+
+  it('uses English aria-label when locale is en-GB', () => {
+    render(
+      <Provider locale="en-GB">
+        <FilterRoot id="manual-aria-label-en-test">
+          <FilterSearch label="Søk" submitBehavior="manual" />
+        </FilterRoot>
+      </Provider>
+    )
+
+    const submitButton = document.querySelector(
+      '.dnb-input__submit-button__button'
+    )
+
+    expect(submitButton).toHaveAttribute(
+      'aria-label',
+      enGB['en-GB'].Filter.searchSubmitLabel
+    )
   })
 })
