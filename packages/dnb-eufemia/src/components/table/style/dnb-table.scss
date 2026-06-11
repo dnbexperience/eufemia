@@ -156,6 +156,7 @@
   text-align: left;
 
   // Variants
+  /* stylelint-disable-next-line no-descending-specificity */
   &,
   &__th--emphasis {
     --table-th-text-color: var(--theme-color-black-80, currentColor);
@@ -174,6 +175,7 @@
   }
 
   // Header
+  /* stylelint-disable no-descending-specificity */
   &__th,
   & thead th {
     // spacing
@@ -208,6 +210,7 @@
       line-height: var(--line-height-small);
     }
   }
+  /* stylelint-enable no-descending-specificity */
 
   // body data
   /* stylelint-disable */
@@ -259,6 +262,7 @@
   /* stylelint-enable */
 
   // bottom border
+  /* stylelint-disable-next-line no-descending-specificity */
   &:not(&--outline):not(&--no-border) > tbody {
     position: relative;
 
