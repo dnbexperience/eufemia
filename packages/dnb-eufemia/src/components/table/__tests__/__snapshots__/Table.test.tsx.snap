@@ -283,6 +283,7 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
 }
 .dnb-table {
   text-align: left;
+  /* stylelint-disable-next-line no-descending-specificity */
 }
 .dnb-table, .dnb-table__th--emphasis {
   --table-th-text-color: var(--theme-color-black-80, currentColor);
@@ -297,6 +298,9 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
 .dnb-table__th--subtle.dnb-table__th--subtle {
   padding-top: 1.5rem;
   padding-bottom: 0.5rem;
+}
+.dnb-table {
+  /* stylelint-disable no-descending-specificity */
 }
 .dnb-table__th, .dnb-table thead th {
   padding: 2rem 1rem 1rem;
@@ -320,6 +324,7 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
   line-height: var(--line-height-small);
 }
 .dnb-table {
+  /* stylelint-enable no-descending-specificity */
   /* stylelint-disable */
 }
 .dnb-table__td, .dnb-table tbody .dnb-table__th, .dnb-table tbody td, .dnb-table tbody th {
@@ -349,6 +354,7 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
 }
 .dnb-table {
   /* stylelint-enable */
+  /* stylelint-disable-next-line no-descending-specificity */
 }
 .dnb-table:not(.dnb-table--outline):not(.dnb-table--no-border) > tbody {
   position: relative;
