@@ -89,12 +89,12 @@ export const useFieldPropsParameters: PropertiesTableProps = {
     status: 'optional',
   },
   onChangeValidator: {
-    doc: 'Custom validation function called on every change. Can be async. Returns Error, FormError, or array of validators.',
+    doc: "Custom validation function called on every change. Can be async. Returns Error, FormError, or array of validators. It runs during form submit by default. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran.",
     type: '(value, { errorMessages, connectWithPath, validators }) => Error | undefined',
     status: 'optional',
   },
   onBlurValidator: {
-    doc: 'Custom validation function called on blur. Preferred for validations with side-effects. Can be async.',
+    doc: "Custom validation function called on blur. Preferred for validations with side-effects. Can be async. It runs during form submit by default. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran.",
     type: '(value, { errorMessages, connectWithPath, validators }) => Error | undefined',
     status: 'optional',
   },
