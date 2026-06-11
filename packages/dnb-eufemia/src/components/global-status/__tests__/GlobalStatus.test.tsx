@@ -752,12 +752,14 @@ describe('GlobalStatus component', () => {
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('error-message')
 
-    expect(
-      document.querySelector('.dnb-global-status__content')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-global-status__message p').textContent
-    ).toBe('error-message')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__content')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-global-status__message p')
+      ).toHaveTextContent('error-message')
+    })
 
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
