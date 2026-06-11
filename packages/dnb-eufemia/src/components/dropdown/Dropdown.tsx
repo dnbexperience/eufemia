@@ -92,7 +92,7 @@ export type DropdownProps = {
    */
   icon?: IconIcon
   /**
-   * Change the size of the icon pragmatically.
+   * Change the size of the icon programmatically.
    */
   iconSize?: IconSize
   /**

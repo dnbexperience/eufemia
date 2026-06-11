@@ -149,7 +149,7 @@ export type ModalProps = ModalRootProps & {
   modalContent?: ReactNode | ((props: ModalProps) => ReactNode)
 
   /**
-   * If true, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
+   * If true, the drawer will not open in a new DOM but directly in the current DOM. Defaults to `false`.
    */
   directDomReturn?: boolean
 
@@ -176,7 +176,7 @@ export type ModalContentProps = {
   barContent?: ReactNode
 
   /**
-   * The content which will appear in the header of the modal/drawer the modal/drawer.
+   * The content which will appear in the header of the modal/drawer.
    */
   headerContent?: ReactNode
   hide?: boolean

@@ -40,9 +40,9 @@ You can also use `allowOverflow` to let users type beyond the defined mask lengt
 
 Screen readers will also read the mask before the user enters the content. Additionally, the user will hear the mask during typing. This behavior can have both positive and negative side effects for the user, but overall, it works well.
 
-Both entering a comma or a dot will act as a decimal separator if [decimals are enabled](/uilib/components/input-masked/#decimals) and one of the internal masks for numbers is used.
+Entering either a comma or a dot will act as a decimal separator if [decimals are enabled](/uilib/components/input-masked/#decimals) and one of the internal masks for numbers is used.
 
-**Note:** When pasting values that contain a dot (`.`) in a locale where dot is not the native decimal or thousands separator (e.g. Norwegian), the component uses a heuristic to disambiguate: a dot followed by exactly three digits is treated as a thousands separator and removed, while any other dot is treated as a decimal separator. For example, pasting `20.500` in Norwegian locale produces 20 500 (twenty thousand five hundred), while pasting `20.5` produces 20,5 (twenty point five). Values with a leading zero (e.g. `0.500`) are always treated as decimals. Be aware that a dot-decimal value with exactly three fractional digits (e.g. `2.000` meaning 2.0) will be interpreted as thousands (2 000) — this is an inherent limitation of the heuristic. Commas are only treated as thousands separators when multiple comma-separated groups appear (e.g. `1,234,567`); a single trailing `,###` is kept as a decimal. When both dots and commas are present (e.g. `1,234.56` or `1.234,56`), the rightmost separator is always treated as the decimal and the others as thousands separators.
+**Note:** When pasting values that contain a dot (`.`) in a locale where the dot is not the native decimal or thousands separator (e.g. Norwegian), the component uses a heuristic to disambiguate: a dot followed by exactly three digits is treated as a thousands separator and removed, while any other dot is treated as a decimal separator. For example, pasting `20.500` in Norwegian locale produces 20 500 (twenty thousand five hundred), while pasting `20.5` produces 20,5 (twenty point five). Values with a leading zero (e.g. `0.500`) are always treated as decimals. Be aware that a dot-decimal value with exactly three fractional digits (e.g. `2.000` meaning 2.0) will be interpreted as thousands (2 000) — this is an inherent limitation of the heuristic. Commas are only treated as thousands separators when multiple comma-separated groups appear (e.g. `1,234,567`); a single trailing `,###` is kept as a decimal. When both dots and commas are present (e.g. `1,234.56` or `1.234,56`), the rightmost separator is always treated as the decimal and the others as thousands separators.
 
 #### InputMode
 
@@ -50,7 +50,7 @@ Both entering a comma or a dot will act as a decimal separator if [decimals are 
 
 The InputMasked component handles soft keyboards (iOS and Android) by using either `inputMode="numeric"` or `inputMode="decimal"`, depending on `allowNegative` and `allowDecimal` (getSoftKeyboardAttributes).
 
-For iOS it additionally sets `type="number"` during focus (InputModeNumber). This way the correct numeric soft keyboard is shown.
+For iOS, it additionally sets `type="number"` during focus (InputModeNumber). This way, the correct numeric soft keyboard is shown.
 
 <InputMaskedInfoInputMode />
 
@@ -73,7 +73,7 @@ If you use `asCurrency` or `asNumber`, you must always provide a clean number wi
 
 <InputMaskedInfoCleanNumberValues />
 
-You can also receive a clean number value you can use and send back in again:
+You can also receive a clean number value you can use and pass back in:
 
 <InputMaskedInfoCleanNumberValues2 />
 
@@ -86,7 +86,7 @@ You can also receive a clean number value you can use and send back in again:
 
 You can change the number of decimals by sending in options to the `currencyMask`, `numberMask`, or `maskOptions` (see example above).
 
-This example here also shows how to affect every InputMasked component in your application, by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
+This example also shows how to affect every InputMasked component in your application by setting these options on the [Eufemia Provider](/uilib/usage/customisation/provider).
 
 <InputMaskedInfoDecimalsCurrencyProvider />
 <InputMaskedInfoDecimalsNumberProvider />
