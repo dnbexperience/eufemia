@@ -392,8 +392,6 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   text-decoration: none;
 }
 .dnb-button--tertiary.dnb-button--has-text {
-  --button-padding-left: 0;
-  --button-padding-right: 0;
   --button-icon-margin-top: calc(
     (var(--button-height) - var(--button-icon-size)) / 2
   );
@@ -1054,6 +1052,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 .dnb-button--has-text.dnb-button--icon-position-right {
   --button-padding-right: var(--button-padding-icon);
   --button-icon-margin-left: var(--button-icon-gutter);
+}
+.dnb-button--tertiary.dnb-button--has-text {
+  --button-padding-left: 0;
+  --button-padding-right: 0;
 }
 .dnb-button--icon-size-small {
   --button-icon-size: var(--button-icon-size--small);
