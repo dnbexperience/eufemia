@@ -776,6 +776,12 @@
     --button-icon-margin-left: var(--button-icon-gutter);
   }
 
+  // Tertiary buttons should have no side padding
+  &--tertiary#{&}--has-text {
+    --button-padding-left: 0;
+    --button-padding-right: 0;
+  }
+
   // Icon sizes
   &--icon-size-small {
     --button-icon-size: var(--button-icon-size--small);
