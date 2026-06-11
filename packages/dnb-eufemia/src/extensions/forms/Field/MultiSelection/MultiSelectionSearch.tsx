@@ -23,7 +23,8 @@ export function MultiSelectionSearch({
   return (
     <>
       <Input
-        label={false}
+        label={placeholder}
+        labelSrOnly
         icon="loupe"
         iconPosition="left"
         placeholder={placeholder}
