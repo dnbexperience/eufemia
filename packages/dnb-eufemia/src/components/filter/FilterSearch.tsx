@@ -122,7 +122,8 @@ function FilterSearch({
           ? {
               onSubmit: handleSubmit,
               onClear: handleClear,
-              submitButtonTitle: rest.submitButtonTitle ?? searchSubmitLabel,
+              submitButtonTitle:
+                rest.submitButtonTitle ?? searchSubmitLabel,
             }
           : undefined)}
         icon={
