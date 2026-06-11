@@ -855,6 +855,180 @@ describe('A single Tab component', () => {
   })
 })
 
+describe('Tabs wheel scrolling', () => {
+  function setupScrollableTabs() {
+    let triggerResize: ResizeObserverCallback
+    globalThis.ResizeObserver = class {
+      constructor(callback: ResizeObserverCallback) {
+        triggerResize = callback
+      }
+      observe() {
+        /* noop */
+      }
+      unobserve() {
+        /* noop */
+      }
+      disconnect() {
+        /* noop */
+      }
+    } as unknown as typeof ResizeObserver
+
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    Object.defineProperty(tablist, 'scrollWidth', {
+      value: 200,
+      configurable: true,
+    })
+    Object.defineProperty(tablist, 'offsetWidth', {
+      value: 100,
+      configurable: true,
+    })
+
+    act(() => {
+      triggerResize([] as unknown as ResizeObserverEntry[], null)
+    })
+
+    return tablist
+  }
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    delete (globalThis as Record<string, unknown>).ResizeObserver
+  })
+
+  it('should preventDefault on vertical wheel and scroll the page instead', () => {
+    const tablist = setupScrollableTabs()
+
+    expect(document.querySelector('.dnb-tabs__tabs')).toHaveClass(
+      'dnb-tabs--has-scrollbar'
+    )
+
+    document.documentElement.scrollBy =
+      document.documentElement.scrollBy || (() => undefined)
+    const scrollBySpy = vi
+      .spyOn(document.documentElement, 'scrollBy')
+      .mockImplementation(() => undefined)
+
+    const wheelEvent = new WheelEvent('wheel', {
+      deltaX: 0,
+      deltaY: 120,
+      bubbles: true,
+      cancelable: true,
+    })
+
+    const preventDefaultSpy = vi.spyOn(wheelEvent, 'preventDefault')
+
+    tablist.dispatchEvent(wheelEvent)
+
+    expect(preventDefaultSpy).toHaveBeenCalledTimes(1)
+    expect(scrollBySpy).toHaveBeenCalledWith({ top: 120 })
+  })
+
+  it('should not preventDefault on horizontal-dominant wheel', () => {
+    const tablist = setupScrollableTabs()
+
+    const wheelEvent = new WheelEvent('wheel', {
+      deltaX: 120,
+      deltaY: 10,
+      bubbles: true,
+      cancelable: true,
+    })
+
+    const preventDefaultSpy = vi.spyOn(wheelEvent, 'preventDefault')
+
+    tablist.dispatchEvent(wheelEvent)
+
+    expect(preventDefaultSpy).not.toHaveBeenCalled()
+  })
+
+  it('should not preventDefault when shiftKey is pressed', () => {
+    const tablist = setupScrollableTabs()
+
+    const wheelEvent = new WheelEvent('wheel', {
+      deltaX: 0,
+      deltaY: 120,
+      shiftKey: true,
+      bubbles: true,
+      cancelable: true,
+    })
+
+    const preventDefaultSpy = vi.spyOn(wheelEvent, 'preventDefault')
+
+    tablist.dispatchEvent(wheelEvent)
+
+    expect(preventDefaultSpy).not.toHaveBeenCalled()
+  })
+
+  it('should be a no-op when there is no horizontal overflow', () => {
+    let triggerResize: ResizeObserverCallback
+    globalThis.ResizeObserver = class {
+      constructor(callback: ResizeObserverCallback) {
+        triggerResize = callback
+      }
+      observe() {
+        /* noop */
+      }
+      unobserve() {
+        /* noop */
+      }
+      disconnect() {
+        /* noop */
+      }
+    } as unknown as typeof ResizeObserver
+
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    Object.defineProperty(tablist, 'scrollWidth', {
+      value: 100,
+      configurable: true,
+    })
+    Object.defineProperty(tablist, 'offsetWidth', {
+      value: 100,
+      configurable: true,
+    })
+
+    act(() => {
+      triggerResize([] as unknown as ResizeObserverEntry[], null)
+    })
+
+    expect(document.querySelector('.dnb-tabs__tabs')).not.toHaveClass(
+      'dnb-tabs--has-scrollbar'
+    )
+
+    document.documentElement.scrollBy =
+      document.documentElement.scrollBy || (() => undefined)
+    const scrollBySpy = vi
+      .spyOn(document.documentElement, 'scrollBy')
+      .mockImplementation(() => undefined)
+
+    const wheelEvent = new WheelEvent('wheel', {
+      deltaX: 0,
+      deltaY: 120,
+      bubbles: true,
+      cancelable: true,
+    })
+
+    const preventDefaultSpy = vi.spyOn(wheelEvent, 'preventDefault')
+
+    tablist.dispatchEvent(wheelEvent)
+
+    expect(preventDefaultSpy).not.toHaveBeenCalled()
+    expect(scrollBySpy).not.toHaveBeenCalled()
+  })
+})
+
 describe('Tabs scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

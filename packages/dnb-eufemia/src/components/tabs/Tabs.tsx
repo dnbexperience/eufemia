@@ -902,10 +902,64 @@ function TabsComponent(ownProps: TabsProps) {
       resizeObserver.observe(tabsRef.current)
     }
 
+    // Prevent vertical wheel events from being translated into horizontal
+    // scrolling of the tab strip (Chromium behavior). Instead, forward
+    // them to the nearest scrollable ancestor so the page scrolls normally.
+    const handleWheel = (event: WheelEvent) => {
+      if (!hasScrollbarRef.current) {
+        return
+      }
+
+      if (
+        Math.abs(event.deltaX) > Math.abs(event.deltaY) ||
+        event.shiftKey
+      ) {
+        return
+      }
+
+      event.preventDefault()
+
+      let deltaY = event.deltaY
+      if (event.deltaMode === 1) {
+        deltaY *= 16
+      } else if (event.deltaMode === 2) {
+        deltaY *= window.innerHeight
+      }
+
+      let scrollTarget: Element | null =
+        tablistRef.current?.parentElement ?? null
+      while (scrollTarget) {
+        const style = window.getComputedStyle(scrollTarget)
+        if (
+          (style.overflowY === 'auto' || style.overflowY === 'scroll') &&
+          scrollTarget.scrollHeight > scrollTarget.clientHeight
+        ) {
+          break
+        }
+        scrollTarget = scrollTarget.parentElement
+      }
+
+      const el =
+        scrollTarget ||
+        document.scrollingElement ||
+        document.documentElement
+      el.scrollBy({ top: deltaY })
+    }
+
+    const tablistEl = tablistRef.current
+    if (tablistEl) {
+      tablistEl.addEventListener('wheel', handleWheel, {
+        passive: false,
+      })
+    }
+
     return () => {
       isMounted = false
       sharedStateRef.current = null
       resizeObserver?.disconnect()
+      if (tablistEl) {
+        tablistEl.removeEventListener('wheel', handleWheel)
+      }
       if (typeof window !== 'undefined') {
         window.removeEventListener('load', init)
       }
