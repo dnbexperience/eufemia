@@ -1,4 +1,5 @@
 import { render, waitFor } from '@testing-library/react'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterContent from '../FilterContent'
 import FilterNoResults from '../FilterNoResults'
@@ -344,5 +345,31 @@ describe('Filter.Content aria-live', () => {
     const ariaLive = document.querySelector('.dnb-aria-live')
 
     expect(ariaLive.textContent).toBe('')
+  })
+})
+
+describe('Filter.Content accessibility', () => {
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <FilterRoot id="content-a11y-test">
+        <FilterContent connectedTo="content-a11y-test">
+          <p>Result content</p>
+        </FilterContent>
+      </FilterRoot>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
+  })
+
+  it('has no axe violations when loading', async () => {
+    const { container } = render(
+      <FilterRoot id="content-loading-a11y-test" resultLoading>
+        <FilterContent connectedTo="content-loading-a11y-test">
+          <p>Loading content</p>
+        </FilterContent>
+      </FilterRoot>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
