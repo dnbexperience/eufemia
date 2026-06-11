@@ -76,7 +76,7 @@ export const runFactory = async (
     const absolutePath = path.resolve(ROOT_DIR, filePath)
     const content = await fs.readFile(absolutePath, 'utf-8')
 
-    // Transform SASS → CSS
+    // Transform SCSS to CSS
     const cssContent = sassTransform(content, { path: absolutePath })
     const cssPath = absolutePath.replace(/\.scss$/, '.css')
 
