@@ -148,7 +148,7 @@ export const runFactory = async ({
     const absolutePath = path.resolve(ROOT_DIR, filePath)
     const content = fs.readFileSync(absolutePath, 'utf-8')
 
-    // Transform SASS to CSS
+    // Transform SCSS to CSS
     const cssContent = sassTransform(content, { path: absolutePath })
 
     // Generate JS properties file
@@ -732,7 +732,7 @@ const runDesignTokenFactory = async () => {
   ]
 
   log.info(
-    `> PrePublish: "makePropertiesFile" Generating Figma sass files:`
+    `> PrePublish: "makePropertiesFile" Generating Figma SCSS files:`
   )
 
   for (const file of tokenFiles) {

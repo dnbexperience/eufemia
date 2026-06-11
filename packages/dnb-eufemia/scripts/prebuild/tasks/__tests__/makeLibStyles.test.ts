@@ -19,7 +19,7 @@ vi.mock('ora', () => {
 
 vi.setConfig({ testTimeout: 30e3 })
 
-describe('makeLibStyles transform main SASS to CSS', () => {
+describe('makeLibStyles transform main SCSS to CSS', () => {
   beforeAll(async () => {
     global.css = await runFactory(
       './src/components/button/style/dnb-button.scss',
