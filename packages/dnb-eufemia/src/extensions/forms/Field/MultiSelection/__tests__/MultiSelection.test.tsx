@@ -821,6 +821,28 @@ describe('MultiSelection', () => {
   })
 
   describe('showSearchField', () => {
+    it('renders search input with accessible label', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(<Field.MultiSelection data={data} showSearchField />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      const searchWrapper = document.querySelector(
+        '.dnb-forms-field-multi-selection__search'
+      )
+      const searchInput = searchWrapper.querySelector('input')
+      const searchLabel = searchWrapper.querySelector('label')
+
+      expect(searchInput).toBeInTheDocument()
+      expect(searchLabel).toBeInTheDocument()
+      expect(searchLabel).toHaveClass('dnb-sr-only')
+      expect(searchLabel.getAttribute('for')).toBe(searchInput.id)
+    })
+
     it('filters on description text', async () => {
       const data = [
         {
@@ -2190,9 +2212,9 @@ describe('MultiSelection', () => {
         '.dnb-forms-field-multi-selection__item'
       )
       expect(items).toHaveLength(1)
-      expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'Banana'
-      )
+      expect(
+        items[0].querySelector('.dnb-form-label')
+      ).toHaveTextContent('Banana')
     })
 
     it('does not render a popover', () => {
