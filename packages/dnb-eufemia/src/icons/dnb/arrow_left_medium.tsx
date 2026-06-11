@@ -15,7 +15,7 @@ const arrow_left_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M22.25 11.5H2M9.5 4 2 11.5m0 0L9.5 19"
+      d="M22.25 11.5H2M9.5 19 2 11.5 9.5 4"
     />
   </svg>
 )

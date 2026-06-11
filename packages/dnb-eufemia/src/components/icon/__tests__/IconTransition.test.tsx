@@ -38,7 +38,7 @@ describe('Icon.transition', () => {
 
     // The SVG attribute keeps the original path data — no modification
     // so the icon renders identically to a non-transition icon
-    expect(path.getAttribute('d')).toBe('m3 9.75 5 5m0 0 5-5m-5 5V1.25')
+    expect(path.getAttribute('d')).toBe('m13 9.75-5 5-5-5m5 5V1.25')
   })
 
   it('sets named CSS custom properties on the wrapper when transitionState is provided', () => {
@@ -76,15 +76,14 @@ describe('Icon.transition', () => {
     const wrapper = document.querySelector('.dnb-icon') as HTMLElement
     const style = wrapper.getAttribute('style')
 
-    // arrow_down: m3 9.75 5 5m0 0 5-5m-5 5V1.25
+    // arrow_down: m13 9.75-5 5-5-5m5 5V1.25
     expect(style).toContain(
-      "path('M3 9.75 L8 14.75 M8 14.75 L13 9.75 M8 14.75 L8 1.25')"
+      "path('M13 9.75 L8 14.75 L3 9.75 M8 14.75 L8 1.25')"
     )
 
-    // arrow_up: m3 6.25 5-5m0 0 5 5m-5-5v13.5
-    // Last subpath reversed by alignPath to match arrow_down's direction
+    // arrow_up: m13 6.25-5-5-5 5m5-5v13.5
     expect(style).toContain(
-      "path('M3 6.25 L8 1.25 M8 1.25 L13 6.25 M8 14.75 L8 1.25')"
+      "path('M13 6.25 L8 1.25 L3 6.25 M8 14.75 L8 1.25')"
     )
   })
 

@@ -15,7 +15,7 @@ const above_the_line = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M8 14V6m0 0L5.333 8.666M8 6s1.495 1.365 2.667 2.666M1.333 2.333h1.334m2.666 0h1.334m2.666 0h1.334m2.666 0h1.334"
+      d="M8 14V6m2.667 2.666C9.495 7.365 8 6 8 6L5.333 8.666m-4-6.333h1.334m2.666 0h1.334m2.666 0h1.334m2.666 0h1.334"
     />
   </svg>
 )

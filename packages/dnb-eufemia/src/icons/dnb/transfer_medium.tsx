@@ -15,7 +15,7 @@ const transfer_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M10.5 15.5H23M19.5 19l3.5-3.5m0 0L19.5 12m-6-3.5H1M4.5 12 1 8.5m0 0L4.5 5"
+      d="M10.5 15.5H23M19.5 12l3.5 3.5-3.5 3.5m-6-10.5H1M4.5 5 1 8.5 4.5 12"
     />
   </svg>
 )

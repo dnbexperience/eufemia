@@ -15,7 +15,7 @@ const swap_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="m16.5 6.75 3-3m0 0 3 3m-3-3V15.5a3.75 3.75 0 1 1-7.5 0v-8a3.75 3.75 0 1 0-7.5 0v11.75m3-3-3 3m0 0-3-3"
+      d="m22.5 6.75-3-3-3 3m3-3V15.5a3.75 3.75 0 1 1-7.5 0v-8a3.75 3.75 0 1 0-7.5 0v11.75m-3-3 3 3 3-3"
     />
   </svg>
 )

@@ -10,13 +10,20 @@ const podcast = (props?: IconSVGProps) => (
     viewBox="0 0 16 16"
     {...props}
   >
-    <path
-      stroke="#000"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M8 11.36v3.84m-2 0h4M3 5.6v1.92c0 2.121 1.79 3.84 4 3.84h2c2.21 0 4-1.719 4-3.84V5.6m-5.248-.589h3m-1.835 4.14H7.083a1.966 1.966 0 0 1-1.835-2.077V2.917A1.966 1.966 0 0 1 7.083.84h1.834a1.966 1.966 0 0 1 1.835 2.078v4.157a1.966 1.966 0 0 1-1.835 2.078Z"
-    />
+    <g clipPath="url(#podcast_svg__a)">
+      <path
+        stroke="#000"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M8 11.36v3.84m-2 0h4M3 5.6v1.92c0 2.121 1.79 3.84 4 3.84h2c2.21 0 4-1.719 4-3.84V5.6m-5.248-.589h3m-1.835 4.14H7.083a1.966 1.966 0 0 1-1.835-2.077V2.917A1.966 1.966 0 0 1 7.083.84h1.834a1.966 1.966 0 0 1 1.835 2.078v4.157a1.966 1.966 0 0 1-1.835 2.078Z"
+      />
+    </g>
+    <defs>
+      <clipPath id="podcast_svg__a">
+        <path fill="#fff" d="M0 0h16v16H0z" />
+      </clipPath>
+    </defs>
   </svg>
 )
 export default podcast

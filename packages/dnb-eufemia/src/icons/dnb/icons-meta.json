@@ -4055,5 +4055,175 @@
     "name": "aino",
     "variant": "secondary",
     "category": "objects"
+  },
+  "holiday_home_medium": {
+    "tags": ["cabin", "holiday home"],
+    "created": 1781006549327,
+    "name": "holiday_home",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "holiday_home": {
+    "tags": ["Categorization: Utilities", "cabin", "holiday home"],
+    "created": 1781006549387,
+    "name": "holiday_home",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "plot_medium": {
+    "tags": ["land"],
+    "created": 1781006549429,
+    "name": "plot",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "plot": {
+    "tags": ["land"],
+    "created": 1781006549490,
+    "name": "plot",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "sun_medium": {
+    "tags": [
+      "Indicates the exchange is open. Represents daytime trading hours and market availability."
+    ],
+    "created": 1781006563398,
+    "name": "sun",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "sun": {
+    "tags": [
+      "Indicates the exchange is open. Represents daytime trading hours and market availability."
+    ],
+    "created": 1781006563444,
+    "name": "sun",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "moon_medium": {
+    "tags": [
+      "Indicates the exchange is open. Represents daytime trading hours and market availability.",
+      "Indicates the exchange is closed. Represents nighttime and non-trading hours."
+    ],
+    "created": 1781006563499,
+    "name": "moon",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "moon": {
+    "tags": [
+      "Indicates the exchange is open. Represents daytime trading hours and market availability.",
+      "Indicates the exchange is closed. Represents nighttime and non-trading hours."
+    ],
+    "created": 1781006563543,
+    "name": "moon",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "clearing_house_medium": {
+    "tags": [
+      "Indicates the exchange is open. Represents daytime trading hours and market availability.",
+      "Indicates the exchange is closed. Represents nighttime and non-trading hours."
+    ],
+    "created": 1781006563609,
+    "name": "clearing_house",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "clearing_house": {
+    "tags": [
+      "Indicates the exchange is open. Represents daytime trading hours and market availability.",
+      "Indicates the exchange is closed. Represents nighttime and non-trading hours."
+    ],
+    "created": 1781006563650,
+    "name": "clearing_house",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "passkey_medium": {
+    "tags": ["Used for digital advisory."],
+    "created": 1781006563697,
+    "name": "passkey",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "passkey": {
+    "tags": ["Used for digital advisory."],
+    "created": 1781006563745,
+    "name": "passkey",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "football_medium": {
+    "tags": [],
+    "created": 1781006563810,
+    "name": "football",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "football": {
+    "tags": [],
+    "created": 1781006563871,
+    "name": "football",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "moneybag_in_hand_medium": {
+    "tags": [],
+    "created": 1781006563918,
+    "name": "moneybag_in_hand",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "moneybag_in_hand": {
+    "tags": [],
+    "created": 1781006563993,
+    "name": "moneybag_in_hand",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "accessibility_medium": {
+    "tags": ["Human centered", "UU", "Accessibility"],
+    "created": 1781006569571,
+    "name": "accessibility",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "accessibility": {
+    "tags": ["Human centered", "UU", "Accessibility"],
+    "created": 1781006569613,
+    "name": "accessibility",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "ai_medium": {
+    "tags": ["AI sparkles", "KI"],
+    "created": 1781006569656,
+    "name": "ai",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "ai": {
+    "tags": ["AI sparkles", "KI"],
+    "created": 1781006569702,
+    "name": "ai",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "stop_square_medium": {
+    "tags": ["Stop"],
+    "created": 1781092728249,
+    "name": "stop_square",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "stop_square": {
+    "tags": ["Stop"],
+    "created": 1781092728446,
+    "name": "stop_square",
+    "variant": "secondary",
+    "category": "actions"
   }
 }

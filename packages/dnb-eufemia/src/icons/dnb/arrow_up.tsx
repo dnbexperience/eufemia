@@ -15,7 +15,7 @@ const arrow_up = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="m3 6.25 5-5m0 0 5 5m-5-5v13.5"
+      d="m13 6.25-5-5-5 5m5-5v13.5"
     />
   </svg>
 )
