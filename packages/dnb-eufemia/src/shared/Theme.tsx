@@ -90,9 +90,17 @@ export default function Theme(themeProps: ThemeAllProps) {
     theme.surface = undefined
   }
 
+  // Detect if this Theme is nested inside another Theme with colorScheme
+  const isNestedColorScheme = Boolean(context?.theme?.colorScheme)
+
   return (
     <Provider theme={theme}>
-      <ThemeWrapper element={element} theme={theme} {...restProps}>
+      <ThemeWrapper
+        element={element}
+        theme={theme}
+        isNestedColorScheme={isNestedColorScheme}
+        {...restProps}
+      >
         {children}
       </ThemeWrapper>
     </Provider>
@@ -111,12 +119,13 @@ export function ThemeWrapper({
   theme,
   element = null,
   className = null,
+  isNestedColorScheme = false,
   ...rest
 }) {
   const Wrapper = element === false ? Fragment : element || 'div'
   const ref = useRef<HTMLElement>(null)
 
-  useSyncBodyColorScheme(theme)
+  useSyncBodyColorScheme(theme, isNestedColorScheme)
   useSyncElementColorScheme(ref, theme)
 
   const classNames = getThemeClasses(theme, className)
@@ -184,11 +193,20 @@ function useSyncElementColorScheme(
   }, [colorScheme])
 }
 
-function useSyncBodyColorScheme(theme: ThemeProps) {
+function useSyncBodyColorScheme(
+  theme: ThemeProps,
+  isNestedColorScheme: boolean
+) {
   const colorScheme = theme?.colorScheme
 
   useIsomorphicLayoutEffect(() => {
-    if (typeof document === 'undefined' || !colorScheme) {
+    // Skip body sync for nested Theme components to avoid overriding
+    // the root Theme's color scheme
+    if (
+      typeof document === 'undefined' ||
+      !colorScheme ||
+      isNestedColorScheme
+    ) {
       return // stop here
     }
 
@@ -199,7 +217,7 @@ function useSyncBodyColorScheme(theme: ThemeProps) {
     document.body.classList.add(
       `eufemia-theme__color-scheme--${colorScheme}`
     )
-  }, [colorScheme])
+  }, [colorScheme, isNestedColorScheme])
 }
 
 const STORAGE_KEY = 'eufemia-theme'
