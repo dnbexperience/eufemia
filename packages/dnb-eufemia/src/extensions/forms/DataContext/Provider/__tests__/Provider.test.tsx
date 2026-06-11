@@ -1314,7 +1314,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         expect(onBlurValidator).toHaveBeenCalledTimes(0)
       })
 
-      it('should skip custom validators during submit when disabled', async () => {
+      it('should skip custom validators during submit when runOnSubmit is 'never'', async () => {
         const onSubmit = vi.fn()
         const onChangeValidator = vi.fn()
         const onBlurValidator = vi.fn()
