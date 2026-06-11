@@ -37,7 +37,8 @@ function FilterResultCount({
   const resultCount =
     resultCountProp ?? sharedData?.resultCount ?? context?.resultCount
 
-  const isLoading = sharedData?.resultLoading ?? false
+  const isLoading =
+    sharedData?.resultLoading ?? context?.resultLoading ?? false
 
   const hasActiveFilters =
     context?.behavior === 'manual'

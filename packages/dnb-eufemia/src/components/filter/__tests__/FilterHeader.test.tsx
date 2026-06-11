@@ -6,7 +6,7 @@ import FilterToolbar from '../FilterToolbar'
 describe('Filter.Header', () => {
   it('renders with dnb-filter__header class', () => {
     render(
-      <FilterRoot id="header-test">
+      <FilterRoot>
         <FilterHeader>
           <p>Header content</p>
         </FilterHeader>
@@ -21,7 +21,7 @@ describe('Filter.Header', () => {
 
   it('merges custom className', () => {
     render(
-      <FilterRoot id="header-class-test">
+      <FilterRoot>
         <FilterHeader className="my-header">
           <p>Content</p>
         </FilterHeader>
@@ -38,7 +38,7 @@ describe('Filter.Header', () => {
 describe('Filter.Toolbar.Actions', () => {
   it('renders children', () => {
     render(
-      <FilterRoot id="toolbar-actions-test">
+      <FilterRoot>
         <FilterToolbar>
           <FilterToolbar.Actions>
             <button>Action</button>
@@ -55,7 +55,7 @@ describe('Filter.Toolbar.Actions', () => {
 
   it('merges custom className', () => {
     render(
-      <FilterRoot id="toolbar-actions-class-test">
+      <FilterRoot>
         <FilterToolbar>
           <FilterToolbar.Actions className="my-actions">
             <button>Action</button>

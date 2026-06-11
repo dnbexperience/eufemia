@@ -16,7 +16,7 @@ import { useSharedState } from '../../../shared/helpers/useSharedState'
 describe('Filter.Root', () => {
   it('renders with dnb-filter class', () => {
     render(
-      <FilterRoot id="test-filter">
+      <FilterRoot>
         <p>Content</p>
       </FilterRoot>
     )
@@ -28,7 +28,7 @@ describe('Filter.Root', () => {
 
   it('renders with role="search"', () => {
     render(
-      <FilterRoot id="test-filter">
+      <FilterRoot>
         <p>Content</p>
       </FilterRoot>
     )
@@ -40,7 +40,7 @@ describe('Filter.Root', () => {
 
   it('merges custom className', () => {
     render(
-      <FilterRoot id="test-filter" className="my-custom">
+      <FilterRoot className="my-custom">
         <p>Content</p>
       </FilterRoot>
     )
@@ -53,7 +53,7 @@ describe('Filter.Root', () => {
 
   it('renders children', () => {
     render(
-      <FilterRoot id="test-filter">
+      <FilterRoot>
         <p>Hello</p>
       </FilterRoot>
     )
@@ -80,7 +80,7 @@ describe('Filter.Root', () => {
     }
 
     render(
-      <FilterRoot id="on-change-test" onChange={onChange}>
+      <FilterRoot onChange={onChange}>
         <TestInner />
       </FilterRoot>
     )
@@ -97,7 +97,7 @@ describe('Filter.Root', () => {
 
   it('has no axe violations', async () => {
     const { container } = render(
-      <FilterRoot id="a11y-test">
+      <FilterRoot>
         <p>Accessible</p>
       </FilterRoot>
     )
@@ -107,7 +107,7 @@ describe('Filter.Root', () => {
 
   it('supports spacing props', () => {
     render(
-      <FilterRoot id="container-spacing-test" top="large">
+      <FilterRoot top="large">
         <p>Content</p>
       </FilterRoot>
     )
@@ -173,7 +173,6 @@ describe('defaultFilters', () => {
 
     render(
       <FilterRoot
-        id="default-filters-test"
         defaultFilters={{
           '/status': { value: 'active', label: 'Active' },
         }}
@@ -190,7 +189,6 @@ describe('defaultFilters', () => {
   it('shows defaultFilters in active filters', () => {
     render(
       <FilterRoot
-        id="default-filters-active-test"
         defaultFilters={{
           '/status': { value: 'active', label: 'Active' },
         }}
@@ -207,7 +205,6 @@ describe('defaultFilters', () => {
   it('opens the panel by default', () => {
     render(
       <FilterRoot
-        id="default-filters-panel-test"
         defaultFilters={{
           '/type/card': {
             value: 'card',
@@ -232,7 +229,6 @@ describe('defaultFilters', () => {
   it('opens the relevant filter accordion', () => {
     render(
       <FilterRoot
-        id="default-filters-accordion-test"
         defaultFilters={{
           '/type/card': {
             value: 'card',
@@ -273,7 +269,7 @@ describe('defaultFilters', () => {
 
   it('does not open the panel when defaultFilters is not set', () => {
     render(
-      <FilterRoot id="no-default-filters-panel-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Panel content</p>
@@ -289,7 +285,6 @@ describe('defaultFilters', () => {
   it('checks the matching checkboxes in FilterSelection', () => {
     render(
       <FilterRoot
-        id="default-filters-checked-test"
         defaultFilters={{
           '/type/card': {
             value: 'card',
@@ -374,7 +369,6 @@ describe('defaultFilters', () => {
 
     render(
       <FilterRoot
-        id="default-filters-onchange-test"
         onChange={onChange}
         defaultFilters={{
           '/type/card': {
@@ -599,7 +593,7 @@ describe('URL-restored filters', () => {
 describe('defaultPanelOpen', () => {
   it('opens the panel initially when set to true', () => {
     render(
-      <FilterRoot id="default-open-true" defaultPanelOpen>
+      <FilterRoot defaultPanelOpen>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Panel content</p>
@@ -616,7 +610,6 @@ describe('defaultPanelOpen', () => {
   it('keeps the panel closed when set to false with defaultFilters', () => {
     render(
       <FilterRoot
-        id="default-open-false-filters"
         defaultPanelOpen={false}
         defaultFilters={{
           '/type/card': {

@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 import FilterRoot from '../FilterRoot'
@@ -11,7 +12,7 @@ import { useFilterContext } from '../hooks/useFilter'
 describe('Filter.Date', () => {
   it('renders accordion open when defaultOpen is true', () => {
     render(
-      <FilterRoot id="date-open-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterDate label="Dato" defaultOpen />
@@ -40,7 +41,7 @@ describe('Filter.Date filter values', () => {
     }
 
     render(
-      <FilterRoot id="date-value-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterDate label="Dato" />
@@ -77,7 +78,7 @@ describe('Filter.Date filter values', () => {
 
   it('uses custom filterKey when provided', () => {
     render(
-      <FilterRoot id="date-custom-key-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterDate label="Period" filterKey="/period" defaultOpen />
@@ -98,7 +99,7 @@ describe('Filter.Date filter values', () => {
 describe('Filter.Date outside panel', () => {
   it('renders as a popover trigger when outside FilterPanel', () => {
     render(
-      <FilterRoot id="date-popover-test">
+      <FilterRoot>
         <FilterDate label="Dato" />
       </FilterRoot>
     )
@@ -132,7 +133,7 @@ describe('Filter.Date clearing', () => {
     }
 
     render(
-      <FilterRoot id="date-clear-test">
+      <FilterRoot>
         <FilterDate label="Dato" />
         <FilterActiveFilters />
         <SetDateFilter />
@@ -169,7 +170,7 @@ describe('Filter.Date inline behavior', () => {
     setMedia({ width: '60em' })
 
     render(
-      <FilterRoot id="date-inline-large">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterDate label="Dato" defaultOpen />
@@ -189,7 +190,7 @@ describe('Filter.Date inline behavior', () => {
     setMedia({ width: '30em' })
 
     render(
-      <FilterRoot id="date-inline-small">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterDate label="Dato" defaultOpen />
@@ -203,5 +204,22 @@ describe('Filter.Date inline behavior', () => {
       document.querySelector('.dnb-date-picker--inline')
     ).not.toBeInTheDocument()
     expect(document.querySelector('.dnb-accordion')).toBeInTheDocument()
+  })
+})
+
+describe('Filter.Date accessibility', () => {
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <FilterRoot>
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel>
+          <FilterDate label="Dato" defaultOpen />
+        </FilterPanel>
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-button'))
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })

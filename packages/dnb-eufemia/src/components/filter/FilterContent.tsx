@@ -30,7 +30,7 @@ function FilterContent({
     sharedContext.getTranslation({}).Filter
   const resolvedId = connectedTo ?? context?.id
 
-  if (!resolvedId) {
+  if (!resolvedId && !context) {
     throw new Error(
       'Filter.Content requires a connectedTo prop or must be used inside a Filter.Root.'
     )
@@ -38,8 +38,8 @@ function FilterContent({
 
   const { data } = useSharedState<FilterState>(resolvedId)
 
-  const isLoading = data?.resultLoading ?? false
-  const resultCount = data?.resultCount
+  const isLoading = data?.resultLoading ?? context?.resultLoading ?? false
+  const resultCount = data?.resultCount ?? context?.resultCount
 
   const hadLoading = useRef(false)
   if (isLoading) {

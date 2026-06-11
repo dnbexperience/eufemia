@@ -11,7 +11,7 @@ describe('Filter.MultiSelection', () => {
 
   it('renders inside an accordion', () => {
     render(
-      <FilterRoot id="multi-sel-test">
+      <FilterRoot>
         <FilterMultiSelection
           label="Client"
           filterKey="/client"
@@ -56,7 +56,7 @@ describe('Filter.MultiSelection state', () => {
     }
 
     render(
-      <FilterRoot id="multi-sel-state-test">
+      <FilterRoot>
         <FilterMultiSelection
           label="Client"
           filterKey="client"
@@ -91,7 +91,7 @@ describe('Filter.MultiSelection state', () => {
     }
 
     render(
-      <FilterRoot id="multi-sel-remove-test">
+      <FilterRoot>
         <FilterMultiSelection
           label="Client"
           filterKey="client"

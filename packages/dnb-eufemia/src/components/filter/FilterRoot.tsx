@@ -21,7 +21,7 @@ import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type FilterRootProps = {
-  id: string
+  id?: string
   behavior?: 'realtime' | 'manual'
   defaultFilters?: Record<string, FilterValue>
   defaultPanelOpen?: boolean
@@ -95,9 +95,11 @@ function FilterRoot({
     return deriveAccordionState(defaultFilters)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const accordionStateId = id ? `${id}__accordion` : undefined
+
   const { data: savedAccordionState, extend: extendAccordionState } =
     useSharedState<Record<string, boolean>>(
-      `${id}__accordion`,
+      accordionStateId,
       defaultAccordionState
     )
 
@@ -105,9 +107,13 @@ function FilterRoot({
     savedAccordionState ?? defaultAccordionState
   )
 
-  const defaultState: FilterState = defaultFilters
-    ? { search: '', filters: defaultFilters }
-    : initialState
+  const defaultState = useMemo<FilterState>(
+    () =>
+      defaultFilters
+        ? { search: '', filters: defaultFilters }
+        : initialState,
+    [defaultFilters]
+  )
 
   const { data, get, extend } = useSharedState<FilterState>(
     id,
@@ -115,6 +121,28 @@ function FilterRoot({
   )
 
   const isManual = behavior === 'manual'
+  const [localState, setLocalState] = useState<FilterState>(defaultState)
+
+  const committedState = id ? (data ?? defaultState) : localState
+  const committedStateRef = useRef(committedState)
+  committedStateRef.current = committedState
+
+  const getCommittedState = useCallback(() => {
+    return id ? (get() ?? defaultState) : committedStateRef.current
+  }, [defaultState, get, id])
+
+  const updateCommittedState = useCallback(
+    (nextState: FilterState | Partial<FilterState>) => {
+      if (id) {
+        extend(nextState)
+      } else {
+        const next = { ...committedStateRef.current, ...nextState }
+        committedStateRef.current = next
+        setLocalState(next)
+      }
+    },
+    [extend, id]
+  )
 
   const [draftState, setDraftState] = useState<FilterState>(
     () => data ?? defaultState
@@ -126,7 +154,7 @@ function FilterRoot({
   // useFilter initializes the shared state to empty before FilterRoot renders.
   useEffect(() => {
     if (hasDefaultFilters) {
-      extend({ filters: defaultFilters })
+      updateCommittedState({ filters: defaultFilters })
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -142,27 +170,27 @@ function FilterRoot({
     }
 
     if (Object.keys(updates).length > 0) {
-      extend(updates)
+      updateCommittedState(updates)
     }
-  }, [extend, resultLoading, resultCount])
+  }, [resultLoading, resultCount, updateCommittedState])
 
-  const state = isManual ? draftState : (data ?? initialState)
+  const state = isManual ? draftState : committedState
 
   const setSearch = useCallback(
     (search: string) => {
       if (isManual) {
-        const filters = (get() ?? initialState).filters
+        const filters = getCommittedState().filters
 
         setDraftState((prev) => ({ ...prev, search }))
-        extend({ search })
+        updateCommittedState({ search })
         onChangeRef.current?.({ search, filters })
       } else {
-        extend({ search })
-        const filters = (get() ?? initialState).filters
+        updateCommittedState({ search })
+        const filters = getCommittedState().filters
         onChangeRef.current?.({ search, filters })
       }
     },
-    [isManual, extend, get]
+    [getCommittedState, isManual, updateCommittedState]
   )
 
   const setFilter = useCallback(
@@ -180,7 +208,7 @@ function FilterRoot({
           return { ...prev, filters: next }
         })
       } else {
-        const latest = get() ?? initialState
+        const latest = getCommittedState()
         const next = { ...latest.filters }
 
         if (value === undefined) {
@@ -189,11 +217,11 @@ function FilterRoot({
           next[filterKey] = value
         }
 
-        extend({ filters: next })
+        updateCommittedState({ filters: next })
         onChangeRef.current?.(toChangeState({ ...latest, filters: next }))
       }
     },
-    [isManual, extend, get]
+    [getCommittedState, isManual, updateCommittedState]
   )
 
   const getFilter = useCallback(
@@ -205,7 +233,7 @@ function FilterRoot({
 
   const submitFilterRemoval = useCallback(
     (filterKey: string) => {
-      const committed = get() ?? initialState
+      const committed = getCommittedState()
       const nextAppliedFilters = { ...committed.filters }
       delete nextAppliedFilters[filterKey]
 
@@ -224,16 +252,16 @@ function FilterRoot({
       }
 
       setDraftState(nextDraftState)
-      extend(nextAppliedState)
+      updateCommittedState(nextAppliedState)
       onChangeRef.current?.(toChangeState(nextAppliedState))
     },
-    [extend, get]
+    [getCommittedState, updateCommittedState]
   )
 
   const removeFilter = useCallback(
     (filterKey: string) => {
       if (isManual) {
-        const appliedFilters = (get() ?? initialState).filters
+        const appliedFilters = getCommittedState().filters
 
         if (Object.hasOwn(appliedFilters, filterKey)) {
           submitFilterRemoval(filterKey)
@@ -244,7 +272,7 @@ function FilterRoot({
         setFilter(filterKey, undefined)
       }
     },
-    [get, isManual, setFilter, submitFilterRemoval]
+    [getCommittedState, isManual, setFilter, submitFilterRemoval]
   )
 
   const removeAppliedFilter = useCallback(
@@ -259,28 +287,31 @@ function FilterRoot({
   )
 
   const clearFilters = useCallback(() => {
-    const latest = isManual ? draftRef.current : (get() ?? initialState)
+    const latest = isManual ? draftRef.current : getCommittedState()
     const nextState = { ...latest, filters: {} }
 
     if (isManual) {
       setDraftState(nextState)
     }
 
-    extend({ search: nextState.search, filters: nextState.filters })
+    updateCommittedState({
+      search: nextState.search,
+      filters: nextState.filters,
+    })
     onChangeRef.current?.(toChangeState(nextState))
-  }, [extend, get, isManual])
+  }, [getCommittedState, isManual, updateCommittedState])
 
   const replaceFilters = useCallback(
     (filters: Record<string, FilterValue>) => {
       if (isManual) {
         setDraftState((prev) => ({ ...prev, filters }))
       } else {
-        extend({ filters })
-        const latest = get() ?? initialState
+        updateCommittedState({ filters })
+        const latest = getCommittedState()
         onChangeRef.current?.(toChangeState({ ...latest, filters }))
       }
     },
-    [isManual, extend, get]
+    [getCommittedState, isManual, updateCommittedState]
   )
 
   const resetFilters = useCallback(() => {
@@ -288,27 +319,26 @@ function FilterRoot({
 
     if (isManual) {
       setDraftState(next)
-      extend(next)
-    } else {
-      extend(next)
     }
 
+    updateCommittedState(next)
+
     onChangeRef.current?.(next)
-  }, [isManual, extend])
+  }, [isManual, updateCommittedState])
 
   const commitFilters = useCallback(() => {
     const draft = draftRef.current
-    extend({ search: draft.search, filters: draft.filters })
+    updateCommittedState({ search: draft.search, filters: draft.filters })
     onChangeRef.current?.(toChangeState(draft))
-  }, [extend])
+  }, [updateCommittedState])
 
   const revertFilters = useCallback(() => {
-    const committed = get() ?? initialState
+    const committed = getCommittedState()
     setDraftState({
       search: committed.search,
       filters: committed.filters,
     })
-  }, [get])
+  }, [getCommittedState])
 
   const hasActiveFilters =
     state.search.length > 0 || Object.keys(state.filters).length > 0
@@ -325,7 +355,7 @@ function FilterRoot({
       return // stop here — explicit defaultPanelOpen or defaultFilters already handles this
     }
 
-    const current = get()
+    const current = getCommittedState()
     const filters = current?.filters ?? {}
 
     if (Object.keys(filters).length > 0) {
@@ -352,12 +382,11 @@ function FilterRoot({
     [extendAccordionState]
   )
 
-  const sharedState = data ?? initialState
-
   // The applied state is the committed shared state, separate from the local draft in manual mode
-  const appliedState = sharedState
-  const resolvedResultCount = resultCount ?? sharedState.resultCount
-  const resolvedResultLoading = resultLoading ?? sharedState.resultLoading
+  const appliedState = committedState
+  const resolvedResultCount = resultCount ?? committedState.resultCount
+  const resolvedResultLoading =
+    resultLoading ?? committedState.resultLoading
 
   const contextValue = useMemo(
     () => ({

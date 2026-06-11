@@ -1,16 +1,17 @@
 import { render, waitFor } from '@testing-library/react'
+import { useState } from 'react'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterContent from '../FilterContent'
 import FilterNoResults from '../FilterNoResults'
 import ListContainer from '../../list/Container'
-import { useSharedState } from '../../../shared/helpers/useSharedState'
 import userEvent from '@testing-library/user-event'
 
 describe('Filter.Content', () => {
   it('renders children', () => {
     render(
-      <FilterRoot id="results-render-test">
-        <FilterContent connectedTo="results-render-test">
+      <FilterRoot>
+        <FilterContent>
           <p>Result content</p>
         </FilterContent>
       </FilterRoot>
@@ -26,8 +27,8 @@ describe('Filter.Content', () => {
 
   it('shows skeleton when resultLoading is true', () => {
     render(
-      <FilterRoot id="results-skeleton-test" resultLoading>
-        <FilterContent connectedTo="results-skeleton-test">
+      <FilterRoot resultLoading>
+        <FilterContent>
           <p>Loading content</p>
         </FilterContent>
       </FilterRoot>
@@ -42,8 +43,8 @@ describe('Filter.Content', () => {
 
   it('does not show skeleton when resultLoading is false', () => {
     render(
-      <FilterRoot id="results-no-skeleton-test" resultLoading={false}>
-        <FilterContent connectedTo="results-no-skeleton-test">
+      <FilterRoot resultLoading={false}>
+        <FilterContent>
           <p>Normal content</p>
         </FilterContent>
       </FilterRoot>
@@ -75,8 +76,8 @@ describe('Filter.Content', () => {
 
   it('supports spacing props', () => {
     render(
-      <FilterRoot id="results-spacing-test">
-        <FilterContent connectedTo="results-spacing-test" top="large">
+      <FilterRoot>
+        <FilterContent top="large">
           <p>Content</p>
         </FilterContent>
       </FilterRoot>
@@ -87,9 +88,9 @@ describe('Filter.Content', () => {
     expect(element.className).toContain('dnb-space__top--large')
   })
 
-  it('uses context id when connectedTo is omitted', () => {
+  it('uses context when connectedTo is omitted', () => {
     render(
-      <FilterRoot id="results-context-test" resultLoading>
+      <FilterRoot resultLoading>
         <FilterContent>
           <p>Content</p>
         </FilterContent>
@@ -105,8 +106,8 @@ describe('Filter.Content', () => {
 
   it('does not wrap children in HeightAnimation on initial render', () => {
     render(
-      <FilterRoot id="results-no-anim-test">
-        <FilterContent connectedTo="results-no-anim-test">
+      <FilterRoot>
+        <FilterContent>
           <p>Content</p>
         </FilterContent>
       </FilterRoot>
@@ -118,27 +119,22 @@ describe('Filter.Content', () => {
   })
 
   it('wraps children in HeightAnimation after loading has occurred', async () => {
-    function Trigger({ id }) {
-      const { extend } = useSharedState(id)
+    function FilterWithLoading() {
+      const [loading, setLoading] = useState(true)
 
       return (
-        <button
-          onClick={() => extend({ resultLoading: false })}
-          data-testid="trigger"
-        >
-          Done
-        </button>
+        <FilterRoot resultLoading={loading}>
+          <FilterContent>
+            <p>Content</p>
+          </FilterContent>
+          <button onClick={() => setLoading(false)} data-testid="trigger">
+            Done
+          </button>
+        </FilterRoot>
       )
     }
 
-    render(
-      <FilterRoot id="results-anim-test" resultLoading>
-        <FilterContent connectedTo="results-anim-test">
-          <p>Content</p>
-        </FilterContent>
-        <Trigger id="results-anim-test" />
-      </FilterRoot>
-    )
+    render(<FilterWithLoading />)
 
     expect(
       document.querySelector('.dnb-height-animation')
@@ -177,7 +173,7 @@ describe('Filter.Content error handling', () => {
 describe('Filter.NoResults', () => {
   it('shows message when resultCount is 0', () => {
     render(
-      <FilterRoot id="no-results-zero-test" resultCount={0}>
+      <FilterRoot resultCount={0}>
         <FilterNoResults />
       </FilterRoot>
     )
@@ -189,7 +185,7 @@ describe('Filter.NoResults', () => {
 
   it('returns nothing when resultCount is greater than 0', () => {
     render(
-      <FilterRoot id="no-results-positive-test" resultCount={5}>
+      <FilterRoot resultCount={5}>
         <FilterNoResults />
       </FilterRoot>
     )
@@ -214,7 +210,7 @@ describe('Filter.NoResults', () => {
 
   it('shows custom children text', () => {
     render(
-      <FilterRoot id="no-results-custom-test" resultCount={0}>
+      <FilterRoot resultCount={0}>
         <FilterNoResults>Custom no results text</FilterNoResults>
       </FilterRoot>
     )
@@ -241,7 +237,7 @@ describe('Filter.NoResults', () => {
 
   it('renders as a list item when inside List.Container', () => {
     render(
-      <FilterRoot id="no-results-list-test" resultCount={0}>
+      <FilterRoot resultCount={0}>
         <ListContainer>
           <FilterNoResults />
         </ListContainer>
@@ -256,7 +252,7 @@ describe('Filter.NoResults', () => {
 
   it('renders as a paragraph when outside List.Container', () => {
     render(
-      <FilterRoot id="no-results-paragraph-test" resultCount={0}>
+      <FilterRoot resultCount={0}>
         <FilterNoResults />
       </FilterRoot>
     )
@@ -268,7 +264,7 @@ describe('Filter.NoResults', () => {
 
   it('supports spacing props', () => {
     render(
-      <FilterRoot id="no-results-spacing-test" resultCount={0}>
+      <FilterRoot resultCount={0}>
         <FilterNoResults top="large" />
       </FilterRoot>
     )
@@ -282,8 +278,8 @@ describe('Filter.NoResults', () => {
 describe('Filter.Content aria-live', () => {
   it('announces result count to screen readers', async () => {
     render(
-      <FilterRoot id="aria-count-test" resultCount={3}>
-        <FilterContent connectedTo="aria-count-test">
+      <FilterRoot resultCount={3}>
+        <FilterContent>
           <p>Results</p>
         </FilterContent>
       </FilterRoot>
@@ -301,8 +297,8 @@ describe('Filter.Content aria-live', () => {
 
   it('announces no results message when resultCount is 0', async () => {
     render(
-      <FilterRoot id="aria-no-results-test" resultCount={0}>
-        <FilterContent connectedTo="aria-no-results-test">
+      <FilterRoot resultCount={0}>
+        <FilterContent>
           <p>Results</p>
         </FilterContent>
       </FilterRoot>
@@ -319,8 +315,8 @@ describe('Filter.Content aria-live', () => {
 
   it('does not announce when resultCount is undefined', () => {
     render(
-      <FilterRoot id="aria-no-count-test">
-        <FilterContent connectedTo="aria-no-count-test">
+      <FilterRoot>
+        <FilterContent>
           <p>Results</p>
         </FilterContent>
       </FilterRoot>
@@ -334,8 +330,8 @@ describe('Filter.Content aria-live', () => {
 
   it('does not announce while loading', () => {
     render(
-      <FilterRoot id="aria-loading-test" resultCount={3} resultLoading>
-        <FilterContent connectedTo="aria-loading-test">
+      <FilterRoot resultCount={3} resultLoading>
+        <FilterContent>
           <p>Results</p>
         </FilterContent>
       </FilterRoot>
@@ -344,5 +340,31 @@ describe('Filter.Content aria-live', () => {
     const ariaLive = document.querySelector('.dnb-aria-live')
 
     expect(ariaLive.textContent).toBe('')
+  })
+})
+
+describe('Filter.Content accessibility', () => {
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <FilterRoot>
+        <FilterContent>
+          <p>Result content</p>
+        </FilterContent>
+      </FilterRoot>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
+  })
+
+  it('has no axe violations when loading', async () => {
+    const { container } = render(
+      <FilterRoot resultLoading>
+        <FilterContent>
+          <p>Loading content</p>
+        </FilterContent>
+      </FilterRoot>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
