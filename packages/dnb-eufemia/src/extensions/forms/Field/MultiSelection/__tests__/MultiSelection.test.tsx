@@ -821,6 +821,23 @@ describe('MultiSelection', () => {
   })
 
   describe('showSearchField', () => {
+    it('search input has type search', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(<Field.MultiSelection data={data} showSearchField />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      const input = document.querySelector(
+        '.dnb-forms-field-multi-selection__search input'
+      )
+
+      expect(input).toHaveAttribute('type', 'search')
+    })
+
     it('filters on description text', async () => {
       const data = [
         {
@@ -2190,7 +2207,7 @@ describe('MultiSelection', () => {
         '.dnb-forms-field-multi-selection__item'
       )
       expect(items).toHaveLength(1)
-      expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
+      expect(items[0].querySelector('.dnb-form-label')).toHaveTextContent(
         'Banana'
       )
     })

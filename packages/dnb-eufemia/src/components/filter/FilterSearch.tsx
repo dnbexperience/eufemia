@@ -21,6 +21,7 @@ export type FilterSearchProps = {
   InputProps,
   | 'label'
   | 'labelDirection'
+  | 'type'
   | 'value'
   | 'onChange'
   | 'icon'
@@ -110,7 +111,7 @@ function FilterSearch({
     >
       <Input
         {...rest}
-        type={isManual ? 'search' : rest.type}
+        type="search"
         label={label}
         labelDirection="vertical"
         value={isManual ? localValue : context.state.search}

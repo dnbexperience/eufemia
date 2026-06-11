@@ -149,10 +149,10 @@ describe('Filter.Search accessibility', () => {
 })
 
 describe('Filter.Search prop forwarding', () => {
-  it('forwards type prop to the input element', () => {
+  it('always has type search', () => {
     render(
       <FilterRoot id="search-type-test">
-        <FilterSearch label="Søk" type="search" />
+        <FilterSearch label="Søk" />
       </FilterRoot>
     )
 
