@@ -208,7 +208,7 @@ export type DatePickerProps = {
    */
   rangeSingleCalendar?: boolean
   /**
-   * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.
+   * Link both calendars once the user navigates between months. Only meant to use if the range is set to `true`. Defaults to `false`.
    */
   link?: boolean
   /**
@@ -340,7 +340,7 @@ export type DatePickerProps = {
    */
   onFocus?: (event: DatePickerEvent<FocusEvent<HTMLElement>>) => void
   /**
-   * Will be called once the input lose focus.
+   * Will be called once the input loses focus.
    */
   onBlur?: (event: DatePickerEvent<FocusEvent<HTMLElement>>) => void
   /** @internal */

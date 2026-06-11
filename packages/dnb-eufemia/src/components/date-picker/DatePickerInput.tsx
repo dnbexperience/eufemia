@@ -90,7 +90,7 @@ type DatePickerInputProps = Omit<
       event: DatePickerReturnObject<FocusEvent<HTMLInputElement>>
     ) => void
     /**
-     * Will be called once the input lose focus.
+     * Will be called once the input loses focus.
      */
     onBlur?: (
       event: DatePickerReturnObject<FocusEvent<HTMLInputElement>>

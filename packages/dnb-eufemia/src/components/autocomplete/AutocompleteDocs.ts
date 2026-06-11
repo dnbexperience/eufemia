@@ -82,7 +82,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   iconSize: {
-    doc: 'Change the size of the icon pragmatically.',
+    doc: 'Change the size of the icon programmatically.',
     type: 'string',
     status: 'optional',
   },

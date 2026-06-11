@@ -47,8 +47,8 @@ export const FilterContext = createContext<FilterContextValue | undefined>(
 )
 
 /**
- * Provides the connectedTo id from a parent Results
- * so child components like NoResults can inherit it.
+ * Provides the connectedTo id from a parent `Filter.Content`
+ * so child components like `Filter.NoResults` can inherit it.
  */
 export const FilterConnectedIdContext = createContext<string | undefined>(
   undefined

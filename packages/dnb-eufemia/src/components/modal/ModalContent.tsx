@@ -187,7 +187,7 @@ export default function ModalContent(props: ModalContentProps) {
 
             if (firstHeading) {
               if (firstHeading.tagName !== 'H1') {
-                warn('A Dialog or Drawer needs a h1 as its first element!')
+                warn('A Dialog or Drawer needs an h1 as its first element!')
               }
 
               // Focus the dialog container instead of the heading to

@@ -28,7 +28,7 @@ beforeEach(() => {
   global.console.log = vi.fn((...args) => {
     if (
       !String(args[1]).includes(
-        'A Dialog or Drawer needs a h1 as its first element!'
+        'A Dialog or Drawer needs an h1 as its first element!'
       )
     ) {
       log(...args)

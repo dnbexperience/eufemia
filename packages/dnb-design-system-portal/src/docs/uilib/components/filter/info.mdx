@@ -10,13 +10,13 @@ import { Filter } from '@dnb/eufemia'
 
 ## Description
 
-`Filter` is a composable filter UI for building search and filter experiences. It does **not** own your data — instead it provides shared state that you read with the `Filter.useFilter(id)` hook and apply to your own data source.
+`Filter` is a composable filter UI for building search and filter experiences. It does **not** own your data — instead, it provides shared state that you read with the `Filter.useFilter(id)` hook and apply to your own data source.
 
 The component uses a namespace pattern where `Filter` is the import and `Filter.Root` is the renderable root.
 
 ### Behavior
 
-By default, `Filter.Root` emits changes in real time via `onChange`. Set `behavior="manual"` to buffer filter changes internally — the panel will show an "Apply filter" button to commit changes and a "Cancel" button to revert. This is useful when filter changes trigger expensive operations like API calls. Note that search input is always emitted in real time, even in manual mode. `Filter.ActiveFilters` only shows applied filters, so tags won't appear until the user applies.
+By default, `Filter.Root` emits changes in real time via `onChange`. Set `behavior="manual"` to buffer filter changes internally — the panel will show an "Apply filter" button to commit changes and a "Cancel" button to revert changes. This is useful when filter changes trigger expensive operations like API calls. Note that search input is always emitted in real time, even in manual mode. `Filter.ActiveFilters` only shows applied filters, so tags won't appear until the user applies them.
 
 ### Filter keys
 
@@ -42,7 +42,7 @@ For custom filters and quick filters, choose the logic that matches the meaning 
 
 ### Layout
 
-The filter component can be used in two layout patterns:
+The Filter component can be used in two layout patterns:
 
 - **Inside a list** — Place `Filter.Root` inside the first `List.Item.Basic`. Filtered results render as subsequent list items. This is the most common pattern.
 - **Column layout with Grid** — Use `Grid.Container` with `Grid.Item` to place the filter and results side by side. Use `Filter.Content` to link the results area to the filter via `connectedTo`.
@@ -70,9 +70,9 @@ The filter component can be used in two layout patterns:
 
 ### Hooks
 
-- **`Filter.useFilter(id)`** — Read filter state from anywhere — does not need to be inside `Filter.Root`. Returns `{ filters, search, hasActiveFilters, resetFilters, removeFilter }`.
+- **`Filter.useFilter(id)`** — Reads filter state from anywhere — does not need to be inside `Filter.Root`. Returns `{ filters, search, hasActiveFilters, resetFilters, removeFilter }`.
 - **`Filter.useFilterAsync(id, fetcher, options?)`** — Async data fetching linked to a filter. Handles loading state, race conditions, and syncs `resultLoading`/`resultCount` to shared state. Options: `initialData` for immediate rendering, `debounce` (ms) to delay fetcher calls while the user is typing. Returns `{ data, loading, error }`.
-- **`Filter.useFilterContext()`** — Access the full filter context from inside `Filter.Root`. Use this to build custom filter types. Returns `{ setFilter, getFilter, removeFilter, resetFilters, commitFilters, revertFilters, filters, search, hasActiveFilters }`.
+- **`Filter.useFilterContext()`** — Accesses the full filter context from inside `Filter.Root`. Use this to build custom filter types. Returns `{ setFilter, getFilter, removeFilter, resetFilters, commitFilters, revertFilters, filters, search, hasActiveFilters }`.
 
 ### URL sync hooks
 
@@ -80,7 +80,7 @@ These hooks sync filter state to URL query parameters so filters survive page re
 
 - **`Filter.useQueryLocator(id, options?)`** — Uses the History API directly. Works without any router. Best for plain React apps or when no router is available.
 - **`Filter.useReactRouter(id, { useSearchParams, ...options })`** — Uses React Router's `useSearchParams`. Pass the hook from your router version.
-- **`Filter.useNextRouter(id, { useRouter, usePathname, useSearchParams, ...options })`** — Uses Next.js App Router hooks. Pass `useRouter`, `usePathname` and `useSearchParams` from `next/navigation`.
+- **`Filter.useNextRouter(id, { useRouter, usePathname, useSearchParams, ...options })`** — Uses Next.js App Router hooks. Pass `useRouter`, `usePathname`, and `useSearchParams` from `next/navigation`.
 
 ## Basic usage
 
@@ -271,7 +271,7 @@ The Filter component includes several accessibility features out of the box:
 
 ### Focus management
 
-When the filter panel is closed — via the "Hide filter" button, the "Apply" button, or "Cancel" in manual mode — focus is automatically returned to the `Filter.PanelButton`. This ensures keyboard users don't lose their place in the page.
+When the filter panel is closed — via the "Hide filter" button, the "Apply" button, or the "Cancel" button in manual mode — focus is automatically returned to the `Filter.PanelButton`. This ensures keyboard users don't lose their place in the page.
 
 ### ARIA attributes
 

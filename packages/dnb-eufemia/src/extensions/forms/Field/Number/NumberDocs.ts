@@ -8,7 +8,7 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   percent: {
-    doc: 'Format a number as percentage.',
+    doc: 'Format a number as a percentage.',
     type: 'boolean',
     status: 'optional',
   },
@@ -48,7 +48,7 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   multipleOf: {
-    doc: 'Validation that requires the number to be a multiple of given value.',
+    doc: 'Validation that requires the number to be a multiple of a given value.',
     type: 'number',
     status: 'optional',
   },
@@ -87,17 +87,17 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   step: {
-    doc: 'Determines step granularity when in/decreasing value input through step controls buttons or arrow keys. Defaults to `1`.',
+    doc: 'Determines step granularity when increasing/decreasing the value via step control buttons or arrow keys. Defaults to `1`.',
     type: 'number',
     status: 'optional',
   },
   startWith: {
-    doc: 'When no `value` or `defaultValue` is given, start with a given value when in/decreasing value input through step controls buttons or arrow keys. Defaults to `null`.',
+    doc: 'When no `value` or `defaultValue` is given, start with a given value when increasing/decreasing the value via step control buttons or arrow keys. Defaults to `null`.',
     type: 'number',
     status: 'optional',
   },
   showStepControls: {
-    doc: 'Show buttons that in/decreases value input by the step value.',
+    doc: 'Show buttons that increase/decrease the value by the step amount.',
     type: 'boolean',
     status: 'optional',
   },

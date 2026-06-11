@@ -258,12 +258,12 @@ export const MultiSelectionProperties: PropertiesTableProps = {
 
 export const NoResultsProperties: PropertiesTableProps = {
   connectedTo: {
-    doc: 'Links to a `Filter.Root` by its `id`. Reads `resultCount` from the shared filter state. When used, `resultCount` prop is not needed.',
+    doc: 'Links to a `Filter.Root` by its `id`. Reads `resultCount` from the shared filter state. When used, the `resultCount` prop is not needed.',
     type: 'string',
     status: 'optional',
   },
   resultCount: {
-    doc: 'The number of results. When `0`, the no-results message is shown. When omitted, falls back to the `resultCount` from the linked `connectedTo` or nearest `Filter.Root`.',
+    doc: 'The number of results. When `0`, the no-results message is shown. When omitted, falls back to the `resultCount` from the linked `connectedTo` or the nearest `Filter.Root`.',
     type: 'number',
     status: 'optional',
   },
@@ -296,7 +296,7 @@ export const ResultCountProperties: PropertiesTableProps = {
     status: 'optional',
   },
   alwaysVisible: {
-    doc: 'When `true`, the result count is always visible even when no filters or search text are active. By default the count is only shown when filters are active.',
+    doc: 'When `true`, the result count is always visible even when no filters or search text are active. By default, the count is only shown when filters are active.',
     type: 'boolean',
     status: 'optional',
   },
