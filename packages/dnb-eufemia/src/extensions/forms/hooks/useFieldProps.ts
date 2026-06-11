@@ -6,6 +6,7 @@ import {
   useReducer,
   useRef,
 } from 'react'
+import isEqual from 'lodash.isequal'
 import type { AriaAttributes, ReactNode, RefObject } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
@@ -648,7 +649,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return true
       }
 
-      return !Object.is(cachedValue.value, valueRef.current)
+      return !isEqual(cachedValue.value, valueRef.current)
     },
     []
   )

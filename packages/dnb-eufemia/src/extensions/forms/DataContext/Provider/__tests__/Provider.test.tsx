@@ -39,6 +39,7 @@ import {
   Iterate,
   Wizard,
   makeAjvInstance,
+  useFieldProps,
   withValidatorOptions,
 } from '../../../'
 import { isCI } from 'repo-utils'
@@ -1215,7 +1216,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         ])
       })
 
-      it('should not rerun onBlurValidator during submit when disabled', async () => {
+      it(`should not rerun onBlurValidator during submit when runOnSubmit is 'never'`, async () => {
         const onSubmit = vi.fn()
         const onBlurValidator = vi.fn()
 
@@ -1249,7 +1250,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         expect(onBlurValidator).toHaveBeenCalledTimes(1)
       })
 
-      it('should not rerun onChangeValidator during submit when disabled', async () => {
+      it(`should not rerun onChangeValidator during submit when runOnSubmit is 'never'`, async () => {
         const onSubmit = vi.fn()
         const onChangeValidator = vi.fn()
 
@@ -1284,7 +1285,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         expect(onChangeValidator).toHaveBeenCalledTimes(1)
       })
 
-      it('should still run remaining validators during submit when one is disabled', async () => {
+      it(`should still run remaining validators during submit when one runOnSubmit is 'never'`, async () => {
         const onSubmit = vi.fn()
         const onChangeValidator = vi.fn()
         const onBlurValidator = vi.fn()
@@ -1314,7 +1315,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         expect(onBlurValidator).toHaveBeenCalledTimes(0)
       })
 
-      it('should skip custom validators during submit when runOnSubmit is 'never'', async () => {
+      it(`should skip custom validators during submit when runOnSubmit is 'never'`, async () => {
         const onSubmit = vi.fn()
         const onChangeValidator = vi.fn()
         const onBlurValidator = vi.fn()
@@ -1439,6 +1440,57 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
           expect(onSubmit).toHaveBeenCalledTimes(3)
         })
         expect(onChangeValidator).toHaveBeenCalledTimes(2)
+      })
+
+      it('should not rerun onChangeValidator during submit when object value is unchanged', async () => {
+        type ObjectValue = { value: string; items: Array<string> }
+
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+        const createData = () => ({
+          myField: { value: 'valid', items: ['one'] },
+        })
+
+        function ObjectField() {
+          useFieldProps<ObjectValue, undefined, any>({
+            path: '/myField',
+            onChangeValidator: withValidatorOptions(onChangeValidator, {
+              runOnSubmit: 'when-changed',
+            }),
+          })
+
+          return null
+        }
+
+        const { rerender } = render(
+          <DataContext.Provider data={createData()} onSubmit={onSubmit}>
+            <ObjectField />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const button = document.querySelector('button')
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+
+        rerender(
+          <DataContext.Provider data={createData()} onSubmit={onSubmit}>
+            <ObjectField />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(2)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
       })
     })
 
