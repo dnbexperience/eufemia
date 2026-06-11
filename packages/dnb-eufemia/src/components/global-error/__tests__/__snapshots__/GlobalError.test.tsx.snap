@@ -86,6 +86,25 @@ exports[`GlobalError scss > should match style dependencies css 1`] = `
   align-items: center;
   justify-content: center;
 }
+.dnb-icon {
+  --icon-border-positioning: var(--icon-border-positioning--default, -25%);
+}
+.dnb-icon--border {
+  position: relative;
+  vertical-align: baseline;
+}
+.dnb-icon--border::after {
+  content: "";
+  position: absolute;
+  left: var(--icon-border-positioning);
+  right: var(--icon-border-positioning);
+  top: var(--icon-border-positioning);
+  bottom: var(--icon-border-positioning);
+  margin: auto;
+  border-radius: 50%;
+  border: 0.0875rem solid;
+  border-color: currentcolor;
+}
 h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
   vertical-align: middle;
 }
