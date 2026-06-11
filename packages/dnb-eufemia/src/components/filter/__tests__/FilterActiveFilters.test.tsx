@@ -11,7 +11,7 @@ import { useFilterContext } from '../hooks/useFilter'
 describe('Filter.ActiveFilters', () => {
   it('is hidden when no filters are active', () => {
     render(
-      <FilterRoot id="empty-active">
+      <FilterRoot>
         <FilterActiveFilters />
       </FilterRoot>
     )
@@ -39,7 +39,7 @@ describe('Filter.ActiveFilters', () => {
     }
 
     render(
-      <FilterRoot id="active-tags-test">
+      <FilterRoot>
         <SetFilter />
         <FilterActiveFilters />
       </FilterRoot>
@@ -72,7 +72,7 @@ describe('Filter.ActiveFilters', () => {
     }
 
     render(
-      <FilterRoot id="show-filter-label-test">
+      <FilterRoot>
         <SetFilter />
         <FilterActiveFilters showCategoryLabel />
       </FilterRoot>
@@ -104,7 +104,7 @@ describe('Filter.ActiveFilters', () => {
     }
 
     render(
-      <FilterRoot id="hide-filter-label-test">
+      <FilterRoot>
         <SetFilter />
         <FilterActiveFilters />
       </FilterRoot>
@@ -139,7 +139,7 @@ describe('Filter.ActiveFilters', () => {
     }
 
     render(
-      <FilterRoot id="remove-tag-test">
+      <FilterRoot>
         <SetFilter />
         <FilterActiveFilters />
         <FilterState />
@@ -164,7 +164,7 @@ describe('Filter.ActiveFilters', () => {
 
   it('shows tags when FilterSelection checkbox is checked', () => {
     render(
-      <FilterRoot id="active-via-selection">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterSelection
@@ -211,7 +211,7 @@ describe('Filter.ActiveFilters events', () => {
     }
 
     render(
-      <FilterRoot id="on-remove-test">
+      <FilterRoot>
         <SetFilter />
         <FilterActiveFilters onRemove={onRemove} />
       </FilterRoot>
@@ -248,7 +248,7 @@ describe('Filter.ActiveFilters accessibility', () => {
     }
 
     render(
-      <FilterRoot id="a11y-label-test">
+      <FilterRoot>
         <SetFilter />
         <FilterActiveFilters />
       </FilterRoot>
@@ -281,7 +281,7 @@ describe('Filter.ActiveFilters accessibility', () => {
     }
 
     const { container } = render(
-      <FilterRoot id="a11y-active-test">
+      <FilterRoot>
         <SetFilter />
         <FilterActiveFilters />
       </FilterRoot>
@@ -315,7 +315,7 @@ describe('Filter.ActiveFilters collapsible', () => {
 
   it('does not show collapsible when below threshold', () => {
     render(
-      <FilterRoot id="collapse-below-test">
+      <FilterRoot>
         <SetManyFilters count={3} />
         <FilterActiveFilters collapsibleThreshold={5} />
       </FilterRoot>
@@ -333,7 +333,7 @@ describe('Filter.ActiveFilters collapsible', () => {
 
   it('shows a clear all button without collapsibleThreshold', () => {
     render(
-      <FilterRoot id="non-collapse-clear-test">
+      <FilterRoot>
         <SetManyFilters count={2} />
         <FilterActiveFilters />
       </FilterRoot>
@@ -360,7 +360,7 @@ describe('Filter.ActiveFilters collapsible', () => {
     }
 
     render(
-      <FilterRoot id="non-collapse-clear-action-test">
+      <FilterRoot>
         <SetManyFilters count={3} />
         <FilterActiveFilters />
         <FilterState />
@@ -400,7 +400,7 @@ describe('Filter.ActiveFilters collapsible', () => {
     }
 
     render(
-      <FilterRoot id="clear-action-preserve-search-test">
+      <FilterRoot>
         <FilterSearch label="Søk" />
         <SetManyFilters count={3} />
         <FilterPanelButton>Filters</FilterPanelButton>
@@ -445,7 +445,7 @@ describe('Filter.ActiveFilters collapsible', () => {
 
   it('shows collapsible accordion when above threshold', () => {
     render(
-      <FilterRoot id="collapse-above-test">
+      <FilterRoot>
         <SetManyFilters count={6} />
         <FilterActiveFilters collapsibleThreshold={5} />
       </FilterRoot>
@@ -461,7 +461,7 @@ describe('Filter.ActiveFilters collapsible', () => {
 
   it('shows filter count in the accordion title', () => {
     render(
-      <FilterRoot id="collapse-count-test">
+      <FilterRoot>
         <SetManyFilters count={6} />
         <FilterActiveFilters collapsibleThreshold={5} />
       </FilterRoot>
@@ -476,7 +476,7 @@ describe('Filter.ActiveFilters collapsible', () => {
 
   it('shows a clear all button', () => {
     render(
-      <FilterRoot id="collapse-clear-test">
+      <FilterRoot>
         <SetManyFilters count={6} />
         <FilterActiveFilters collapsibleThreshold={5} />
       </FilterRoot>
@@ -503,7 +503,7 @@ describe('Filter.ActiveFilters collapsible', () => {
     }
 
     render(
-      <FilterRoot id="collapse-clear-action-test">
+      <FilterRoot>
         <SetManyFilters count={6} />
         <FilterActiveFilters collapsibleThreshold={5} />
         <FilterState />
@@ -531,7 +531,7 @@ describe('Filter.ActiveFilters collapsible', () => {
 
   it('wraps tags in a scroll view when accordion is expanded', () => {
     render(
-      <FilterRoot id="collapse-scroll-test">
+      <FilterRoot>
         <SetManyFilters count={6} />
         <FilterActiveFilters collapsibleThreshold={5} />
       </FilterRoot>
@@ -553,7 +553,7 @@ describe('Filter.ActiveFilters collapsible', () => {
 
   it('renders tags inside the accordion content when expanded', () => {
     render(
-      <FilterRoot id="collapse-tags-test">
+      <FilterRoot>
         <SetManyFilters count={6} />
         <FilterActiveFilters collapsibleThreshold={5} />
       </FilterRoot>

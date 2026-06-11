@@ -14,7 +14,7 @@ describe('Filter.Selection', () => {
 
   it('renders checkboxes for each option', () => {
     render(
-      <FilterRoot id="selection-test">
+      <FilterRoot>
         <FilterSelection label="Type" filterKey="type" data={options} />
       </FilterRoot>
     )
@@ -39,7 +39,7 @@ describe('Filter.Selection', () => {
     }
 
     render(
-      <FilterRoot id="selection-check-test">
+      <FilterRoot>
         <FilterSelection label="Type" filterKey="type" data={options} />
         <FilterState />
       </FilterRoot>
@@ -88,7 +88,7 @@ describe('Filter.Selection', () => {
     }
 
     render(
-      <FilterRoot id="selection-uncheck-test">
+      <FilterRoot>
         <FilterSelection label="Type" filterKey="type" data={options} />
         <FilterState />
       </FilterRoot>
@@ -118,7 +118,7 @@ describe('Filter.Selection', () => {
 
   it('renders accordion open when defaultOpen is true', () => {
     render(
-      <FilterRoot id="selection-open-test">
+      <FilterRoot>
         <FilterSelection
           label="Type"
           filterKey="type"
@@ -139,7 +139,7 @@ describe('Filter.Selection', () => {
 describe('Filter.Selection accessibility', () => {
   it('has no axe violations', async () => {
     const { container } = render(
-      <FilterRoot id="a11y-selection-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterSelection

@@ -51,11 +51,7 @@ describe('Filter.ResultCount closing state', () => {
       const [count, setCount] = useState(3)
 
       return (
-        <FilterRoot
-          id="count-close-freeze-test"
-          resultCount={count}
-          defaultFilters={defaultFilters}
-        >
+        <FilterRoot resultCount={count} defaultFilters={defaultFilters}>
           <Controls onClear={() => setCount(10)} />
           <FilterResultCount />
         </FilterRoot>

@@ -7,7 +7,7 @@ import { useFilterContext } from '../hooks/useFilter'
 describe('Filter.Search', () => {
   it('renders a search input', () => {
     render(
-      <FilterRoot id="search-test">
+      <FilterRoot>
         <FilterSearch label="Søk" placeholder="Søk..." />
       </FilterRoot>
     )
@@ -24,7 +24,7 @@ describe('Filter.Search', () => {
     }
 
     render(
-      <FilterRoot id="search-input-test">
+      <FilterRoot>
         <FilterSearch label="Søk" />
         <SearchValue />
       </FilterRoot>
@@ -41,7 +41,7 @@ describe('Filter.Search', () => {
 
   it('shows progress indicator when typing and resultLoading is true', () => {
     render(
-      <FilterRoot id="search-loading-test" resultLoading>
+      <FilterRoot resultLoading>
         <FilterSearch label="Søk" />
       </FilterRoot>
     )
@@ -59,7 +59,7 @@ describe('Filter.Search', () => {
 
   it('does not show progress indicator when resultLoading is true but not typing', () => {
     render(
-      <FilterRoot id="search-no-typing-test" resultLoading>
+      <FilterRoot resultLoading>
         <FilterSearch label="Søk" />
       </FilterRoot>
     )
@@ -73,7 +73,7 @@ describe('Filter.Search', () => {
 
   it('does not show progress indicator when resultLoading is false', () => {
     render(
-      <FilterRoot id="search-no-loading-test">
+      <FilterRoot>
         <FilterSearch label="Søk" />
       </FilterRoot>
     )
@@ -91,7 +91,7 @@ describe('Filter.Search events', () => {
     const onChange = vi.fn()
 
     render(
-      <FilterRoot id="search-on-change-test">
+      <FilterRoot>
         <FilterSearch label="Søk" onChange={onChange} />
       </FilterRoot>
     )
@@ -113,7 +113,7 @@ describe('Filter.Search clear button', () => {
     }
 
     render(
-      <FilterRoot id="clear-btn-test">
+      <FilterRoot>
         <FilterSearch label="Søk" />
         <SearchState />
       </FilterRoot>
@@ -139,7 +139,7 @@ describe('Filter.Search clear button', () => {
 describe('Filter.Search accessibility', () => {
   it('has no axe violations', async () => {
     const { container } = render(
-      <FilterRoot id="a11y-search-test">
+      <FilterRoot>
         <FilterSearch label="Search" placeholder="Search..." />
       </FilterRoot>
     )
@@ -151,7 +151,7 @@ describe('Filter.Search accessibility', () => {
 describe('Filter.Search prop forwarding', () => {
   it('forwards type prop to the input element', () => {
     render(
-      <FilterRoot id="search-type-test">
+      <FilterRoot>
         <FilterSearch label="Søk" type="search" />
       </FilterRoot>
     )
@@ -163,7 +163,7 @@ describe('Filter.Search prop forwarding', () => {
 
   it('has autocomplete off by default', () => {
     render(
-      <FilterRoot id="search-autocomplete-default-test">
+      <FilterRoot>
         <FilterSearch label="Søk" />
       </FilterRoot>
     )
@@ -175,7 +175,7 @@ describe('Filter.Search prop forwarding', () => {
 
   it('disables autoCorrect, autoCapitalize and spellCheck by default', () => {
     render(
-      <FilterRoot id="search-browser-features-test">
+      <FilterRoot>
         <FilterSearch label="Søk" />
       </FilterRoot>
     )
@@ -189,7 +189,7 @@ describe('Filter.Search prop forwarding', () => {
 
   it('forwards autoComplete prop to the input element', () => {
     render(
-      <FilterRoot id="search-autocomplete-test">
+      <FilterRoot>
         <FilterSearch label="Søk" autoComplete="name" />
       </FilterRoot>
     )
@@ -201,7 +201,7 @@ describe('Filter.Search prop forwarding', () => {
 
   it('forwards disabled prop to the input element', () => {
     render(
-      <FilterRoot id="search-disabled-test">
+      <FilterRoot>
         <FilterSearch label="Søk" disabled />
       </FilterRoot>
     )
@@ -220,7 +220,7 @@ describe('Filter.Search submitBehavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-no-update-test">
+      <FilterRoot>
         <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
@@ -242,7 +242,7 @@ describe('Filter.Search submitBehavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-enter-test">
+      <FilterRoot>
         <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
@@ -265,7 +265,7 @@ describe('Filter.Search submitBehavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-submit-btn-test">
+      <FilterRoot>
         <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
@@ -297,7 +297,7 @@ describe('Filter.Search submitBehavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-clear-test">
+      <FilterRoot>
         <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
@@ -324,7 +324,7 @@ describe('Filter.Search submitBehavior="manual"', () => {
     const onChange = vi.fn()
 
     render(
-      <FilterRoot id="manual-onchange-test">
+      <FilterRoot>
         <FilterSearch
           label="Søk"
           submitBehavior="manual"
@@ -350,7 +350,7 @@ describe('Filter.Search submitBehavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-empty-commit-test">
+      <FilterRoot>
         <FilterSearch label="Søk" submitBehavior="manual" />
         <SearchState />
       </FilterRoot>
@@ -383,7 +383,7 @@ describe('Filter.Search submitBehavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-reset-test">
+      <FilterRoot>
         <FilterSearch label="Søk" submitBehavior="manual" />
         <Controls />
       </FilterRoot>

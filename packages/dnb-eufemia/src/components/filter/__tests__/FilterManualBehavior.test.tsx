@@ -43,11 +43,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot
-        id="manual-no-emit"
-        behavior="manual"
-        onChange={onChange}
-      >
+      <FilterRoot behavior="manual" onChange={onChange}>
         <TestInner />
       </FilterRoot>
     )
@@ -61,11 +57,7 @@ describe('behavior="manual"', () => {
     const onChange = vi.fn()
 
     render(
-      <FilterRoot
-        id="manual-search-emit"
-        behavior="manual"
-        onChange={onChange}
-      >
+      <FilterRoot behavior="manual" onChange={onChange}>
         <FilterSearch label="Søk" />
       </FilterRoot>
     )
@@ -85,11 +77,7 @@ describe('behavior="manual"', () => {
     const onChange = vi.fn()
 
     render(
-      <FilterRoot
-        id="manual-search-no-apply"
-        behavior="manual"
-        onChange={onChange}
-      >
+      <FilterRoot behavior="manual" onChange={onChange}>
         <FilterSearch label="Søk" />
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
@@ -124,7 +112,6 @@ describe('behavior="manual"', () => {
 
     render(
       <FilterRoot
-        id="manual-remove-tag-with-pending-draft"
         behavior="manual"
         defaultFilters={{
           '/status/active': {
@@ -207,7 +194,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-internal-state" behavior="manual">
+      <FilterRoot behavior="manual">
         <FilterSearch label="Søk" />
         <StateReader />
       </FilterRoot>
@@ -248,12 +235,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot
-        id="manual-commit"
-        behavior="manual"
-        resultCount={5}
-        onChange={onChange}
-      >
+      <FilterRoot behavior="manual" resultCount={5} onChange={onChange}>
         <TestInner />
       </FilterRoot>
     )
@@ -299,7 +281,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-revert" behavior="manual">
+      <FilterRoot behavior="manual">
         <TestInner />
       </FilterRoot>
     )
@@ -319,7 +301,7 @@ describe('behavior="manual"', () => {
 
   it('renders apply and cancel buttons in the panel', () => {
     render(
-      <FilterRoot id="manual-panel-buttons" behavior="manual">
+      <FilterRoot behavior="manual">
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Content</p>
@@ -342,7 +324,7 @@ describe('behavior="manual"', () => {
 
   it('does not render apply/cancel in realtime mode', () => {
     render(
-      <FilterRoot id="realtime-panel-no-apply">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Content</p>
@@ -379,11 +361,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot
-        id="manual-apply-click"
-        behavior="manual"
-        onChange={onChange}
-      >
+      <FilterRoot behavior="manual" onChange={onChange}>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <SetFilter />
@@ -433,7 +411,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-cancel-click" behavior="manual">
+      <FilterRoot behavior="manual">
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <SetFilter />
@@ -482,7 +460,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot id="manual-active-committed" behavior="manual">
+      <FilterRoot behavior="manual">
         <SetFilter />
         <FilterActiveFilters />
       </FilterRoot>
@@ -523,11 +501,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot
-        id="manual-result-count-committed"
-        behavior="manual"
-        resultCount={5}
-      >
+      <FilterRoot behavior="manual" resultCount={5}>
         <SetFilter />
         <FilterResultCount />
       </FilterRoot>
@@ -549,11 +523,7 @@ describe('behavior="manual"', () => {
 
   it('shows result count when search is typed', () => {
     render(
-      <FilterRoot
-        id="manual-result-count-search"
-        behavior="manual"
-        resultCount={5}
-      >
+      <FilterRoot behavior="manual" resultCount={5}>
         <FilterSearch label="Søk" />
         <FilterResultCount />
       </FilterRoot>
@@ -577,7 +547,6 @@ describe('behavior="manual"', () => {
 
     render(
       <FilterRoot
-        id="manual-remove-active-filter"
         behavior="manual"
         defaultFilters={defaultFilters}
         onChange={onChange}
@@ -605,7 +574,6 @@ describe('behavior="manual"', () => {
 
     render(
       <FilterRoot
-        id="manual-remove-one-active-filter"
         behavior="manual"
         defaultFilters={defaultFiltersMultiple}
         resultCount={5}
@@ -655,7 +623,6 @@ describe('behavior="manual"', () => {
 
     render(
       <FilterRoot
-        id="manual-clear-applied-filters"
         behavior="manual"
         defaultFilters={defaultFiltersMultiple}
         resultCount={5}
@@ -705,7 +672,6 @@ describe('behavior="manual"', () => {
 
     render(
       <FilterRoot
-        id="manual-uncheck-applied-filter"
         behavior="manual"
         defaultFilters={defaultFilters}
         onChange={onChange}
@@ -737,7 +703,6 @@ describe('behavior="manual"', () => {
 
     render(
       <FilterRoot
-        id="manual-uncheck-applied-filter-in-panel"
         behavior="manual"
         defaultFilters={defaultFilters}
         onChange={onChange}
@@ -770,11 +735,7 @@ describe('behavior="manual"', () => {
     const onChange = vi.fn()
 
     render(
-      <FilterRoot
-        id="manual-uncheck-unapplied-filter"
-        behavior="manual"
-        onChange={onChange}
-      >
+      <FilterRoot behavior="manual" onChange={onChange}>
         <FilterSelection
           label="Type"
           filterKey="/type"
@@ -846,11 +807,7 @@ describe('behavior="manual"', () => {
     }
 
     render(
-      <FilterRoot
-        id="manual-reset-onchange"
-        behavior="manual"
-        onChange={onChange}
-      >
+      <FilterRoot behavior="manual" onChange={onChange}>
         <FilterSearch label="Search" />
         <Controls />
       </FilterRoot>
