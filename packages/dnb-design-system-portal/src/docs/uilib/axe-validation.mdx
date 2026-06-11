@@ -1,0 +1,139 @@
+---
+breadcrumb:
+  - text: UI Library
+    href: /uilib/
+  - text: Axe Validation
+    href: /uilib/axe-validation/
+---
+
+import * as Examples from './axe-validation/Examples'
+
+# Best Practices on Forms
+
+## Axe-core can pass while accessibility is incomplete
+
+Automated accessibility checks are a valuable baseline. A clean axe-core result means that the checked DOM did not violate the rules axe can evaluate, but it does not prove that the experience is accessible, understandable, or usable.
+
+These 20 examples show where axe-core can pass while important accessibility issues still remain.
+
+The examples use Eufemia components where practical, and keep native HTML when that is needed to show the exact accessibility pitfall.
+
+### Misleading disabled state
+
+Missing piece: the field looks and sounds disabled because of `aria-disabled`, but it is still editable.
+
+<Examples.AxePassesAriaDisabledStillEditable />
+
+### Noisy live region
+
+Missing piece: updates are announced, but the assertive live region is too chatty and can interrupt users repeatedly.
+
+<Examples.AxePassesNoisyLiveRegion />
+
+### Status message disappears too quickly
+
+Missing piece: a status message exists and is announced, but it vanishes before many users can read or review it.
+
+<Examples.AxePassesTransientStatusMessage />
+
+### Visual order differs from focus order
+
+Missing piece: CSS changes the visual order while keyboard and screen reader users still encounter the DOM order.
+
+<Examples.AxePassesVisualOrderMismatch />
+
+### Duplicate link text with different targets
+
+Missing piece: two links with identical text navigate to different destinations, which is confusing for users navigating by link list.
+
+<Examples.AxePassesDuplicateLinkTextDifferentTargets />
+
+### Generic icon button label
+
+Missing piece: the icon button has an accessible name, but the label is too generic to explain what action will happen.
+
+<Examples.AxePassesGenericIconButtonLabel />
+
+### Unnamed section landmark
+
+Missing piece: a `section` that is meant to help users navigate the page needs an accessible name, such as `aria-label` or `aria-labelledby` connected to a heading.
+
+<Examples.AxePassesUnnamedSection />
+
+### Complex table without guidance
+
+Missing piece: table semantics are present, but users still need supporting guidance to understand how grouped columns should be interpreted.
+
+<Examples.AxePassesComplexTableWithoutGuidance />
+
+### Toggle opens content elsewhere without focus handling
+
+Missing piece: the toggle exposes its expanded state, but the newly shown content appears in another area without moving focus, announcing the change, or otherwise helping users find it.
+
+<Examples.AxePassesRemoteToggleWithoutFocusHandling />
+
+### Dialog without focus management
+
+Missing piece: the dialog has valid ARIA, but opening it should move focus into the dialog, keep focus there while open, restore focus on close, and support Escape when appropriate.
+
+<Examples.AxePassesDialogWithoutFocusManagement />
+
+### Accordion toggle without expanded state
+
+Missing piece: the accordion-like button opens content, but it does not expose `aria-expanded` or connect to the content with `aria-controls`.
+
+<Examples.AxePassesAccordionWithoutExpandedState />
+
+### Custom slider without expected keyboard behavior
+
+Missing piece: the slider exposes ARIA state, but keyboard users still need Arrow, Home, and End key support that updates the value.
+
+<Examples.AxePassesCustomSliderMissingKeyboardSupport />
+
+### Unannounced dynamic result
+
+Missing piece: the result changes after a user action, but focus is not moved and no live region announces the update.
+
+<Examples.AxePassesUnannouncedResult />
+
+### Instructions only in placeholder
+
+Missing piece: the required input format is only shown in placeholder text and disappears as soon as the user starts typing.
+
+<Examples.AxePassesInstructionInPlaceholderOnly />
+
+### Missing autocomplete purpose
+
+Missing piece: personal data fields should use meaningful `autocomplete` values and semantic `name` values so browser autofill and assistive technology can help the user.
+
+<Examples.AxePassesMissingAutocomplete />
+
+### Ambiguous link purpose
+
+Missing piece: each link should make sense out of context, such as in a screen reader link list.
+
+<Examples.AxePassesAmbiguousLinks />
+
+### Vague error message
+
+Missing piece: the error is programmatically connected to the field, but it does not explain what failed or how to recover.
+
+<Examples.AxePassesVagueErrorMessage />
+
+### Chart without a data alternative
+
+Missing piece: the chart has an accessible name, but users still need the underlying values, trend, or table summary to understand the data.
+
+<Examples.AxePassesChartWithoutDataAlternative />
+
+### Color-only status
+
+Missing piece: status is only encoded by color. The status should also be available as text or another non-color cue.
+
+<Examples.AxePassesColorOnlyStatus />
+
+### Visual heading only
+
+Missing piece: the text looks like a section heading, but it is not exposed as a heading for screen reader navigation.
+
+<Examples.AxePassesVisualHeadingOnly />
