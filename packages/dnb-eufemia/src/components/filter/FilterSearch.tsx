@@ -28,6 +28,8 @@ export type FilterSearchProps = {
   | 'size'
   | 'iconPosition'
   | 'showClearButton'
+  | 'showSubmitButton'
+  | 'type'
   | 'className'
   | 'autoCapitalize'
   | 'autoCorrect'
@@ -110,7 +112,7 @@ function FilterSearch({
     >
       <Input
         {...rest}
-        type={isManual ? 'search' : rest.type}
+        type="search"
         label={label}
         labelDirection="vertical"
         value={isManual ? localValue : context.state.search}
@@ -118,6 +120,7 @@ function FilterSearch({
         {...(isManual
           ? { onSubmit: handleSubmit, onClear: handleClear }
           : undefined)}
+        showSubmitButton={isManual}
         icon={
           showIndicator ? (
             <ProgressIndicator type="circular" size="small" />
@@ -127,7 +130,6 @@ function FilterSearch({
         }
         stretch
         size="medium"
-        iconPosition="left"
         showClearButton
         autoCapitalize="none"
         autoCorrect="off"

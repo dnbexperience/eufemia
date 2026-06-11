@@ -23,6 +23,7 @@ export function MultiSelectionSearch({
   return (
     <>
       <Input
+        type="search"
         label={false}
         icon="loupe"
         iconPosition="left"
