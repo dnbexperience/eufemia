@@ -1,4 +1,5 @@
 import { render, fireEvent } from '@testing-library/react'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterMultiSelection from '../FilterMultiSelection'
 import { useFilterContext } from '../hooks/useFilter'
@@ -117,5 +118,27 @@ describe('Filter.MultiSelection state', () => {
     expect(
       document.querySelector('[data-testid="count"]').textContent
     ).toBe('0')
+  })
+})
+
+describe('Filter.MultiSelection accessibility', () => {
+  const data = [
+    { value: 'acme', title: 'Acme Corp' },
+    { value: 'globex', title: 'Globex Inc' },
+  ]
+
+  it('has no axe violations', async () => {
+    const { container } = render(
+      <FilterRoot id="multi-sel-a11y-test">
+        <FilterMultiSelection
+          label="Client"
+          filterKey="/client"
+          data={data}
+          defaultOpen
+        />
+      </FilterRoot>
+    )
+
+    expect(await axeComponent(container)).toHaveNoViolations()
   })
 })
