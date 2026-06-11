@@ -117,7 +117,7 @@ export default {
       ariaReady: 'Ready to interact',
     },
     Input: {
-      submitButtonTitle: 'Submit button',
+      submitButtonTitle: 'Search',
       clearButtonTitle: 'Clear value',
     },
     Pagination: {
