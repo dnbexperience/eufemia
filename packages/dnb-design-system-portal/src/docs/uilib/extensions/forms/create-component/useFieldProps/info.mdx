@@ -102,7 +102,7 @@ All properties are optional and can be used as needed. These properties can be p
 #### Validators
 
 - `exportValidators` object with your validators you want to export. More info down below.
-- `withValidatorOptions(validator, { runOnSubmit: 'never' })` keeps that validator from running during form submit. The default is `runOnSubmit: 'always'`. Use `runOnSubmit: 'when-changed'` to run during submit only if the value changed since the validator last ran.
+- `withValidatorOptions(validator, { runOnSubmit: 'never' })` keeps that validator from running during form submit. The default is `runOnSubmit: 'always'`. Use `runOnSubmit: 'when-changed'` to run during submit only if the value changed since the validator last ran. Object and array values are compared by reference.
 
 Many Field components also export a `<FieldName>Validator` type describing exactly what keys are available on `validators`. Import the type from the corresponding Field (for example `DateValidator` from `@dnb/eufemia/extensions/forms/Field/Date`) and cast the `validators` argument to it before destructuring so TypeScript can narrow the object.
 

@@ -744,7 +744,7 @@ render(<Field.PhoneNumber onBlurValidator={onChangeValidator} />)
 By default, `onChangeValidator` and `onBlurValidator` also run during form submit. For request-backed validators that should only run from field interaction, wrap the validator with `withValidatorOptions`:
 
 ```tsx
-import { withValidatorOptions } from '@dnb/eufemia/extensions/forms'
+import { Field, withValidatorOptions } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Field.NationalIdentityNumber
@@ -755,7 +755,7 @@ render(
 )
 ```
 
-Use `runOnSubmit: 'when-changed'` when the validator should run during submit only if the field value changed since the validator last ran.
+Use `runOnSubmit: 'when-changed'` when the validator should run during submit only if the field value changed since the validator last ran. Object and array values are compared by reference.
 
 #### Async validator with debounce
 
