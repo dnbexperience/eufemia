@@ -6,7 +6,6 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import isEqual from 'lodash.isequal'
 import type { AriaAttributes, ReactNode, RefObject } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
@@ -57,6 +56,54 @@ import useFieldValidation from './useFieldValidation'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 
 type ValidatorName = 'onChangeValidator' | 'onBlurValidator'
+
+function isFileLike(value: unknown): value is {
+  name?: string
+  size: number
+  type: string
+  lastModified?: number
+} {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'size' in value &&
+    'type' in value &&
+    typeof value.size === 'number' &&
+    typeof value.type === 'string'
+  )
+}
+
+function getComparableValidatorValue(value: unknown): unknown {
+  if (value instanceof Date) {
+    return value.getTime()
+  }
+
+  if (isFileLike(value)) {
+    const { lastModified, name, size, type } = value
+    return { lastModified, name, size, type }
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(getComparableValidatorValue)
+  }
+
+  if (typeof value === 'object' && value !== null) {
+    return Object.fromEntries(
+      Object.keys(value)
+        .sort()
+        .map((key) => [key, getComparableValidatorValue(value[key])])
+    )
+  }
+
+  return value
+}
+
+function isValidatorValueEqual(firstValue: unknown, secondValue: unknown) {
+  return (
+    JSON.stringify(getComparableValidatorValue(firstValue)) ===
+    JSON.stringify(getComparableValidatorValue(secondValue))
+  )
+}
 
 export type DataAttributes = {
   [property: `data-${string}`]: string | boolean | number
@@ -649,7 +696,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         return true
       }
 
-      return !isEqual(cachedValue.value, valueRef.current)
+      return !isValidatorValueEqual(cachedValue.value, valueRef.current)
     },
     []
   )
