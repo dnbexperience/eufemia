@@ -125,6 +125,17 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('does not show the popover arrow', () => {
+    render(<DatePicker {...defaultProps} />)
+
+    fireEvent.click(getDatePickerTriggerButton())
+
+    expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-popover__arrow')
+    ).not.toBeInTheDocument()
+  })
+
   it('will close the picker on click outside', async () => {
     render(<DatePicker {...defaultProps} />)
 
