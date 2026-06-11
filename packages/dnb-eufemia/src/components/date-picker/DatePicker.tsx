@@ -833,8 +833,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   onOpenChange={(isOpen) => !isOpen && hidePicker()}
                   hideCloseButton
                   preventClose={preventClose}
-                  triggerOffset={0}
+                  triggerOffset={8}
                   arrowEdgeOffset={4}
+                  hideArrow
                   noInnerSpace
                   noMaxWidth
                   portalRootClass="dnb-date-picker__portal"
