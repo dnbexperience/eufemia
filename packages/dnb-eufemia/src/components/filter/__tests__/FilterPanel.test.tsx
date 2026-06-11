@@ -10,7 +10,7 @@ import FilterToolbar from '../FilterToolbar'
 describe('Filter.Panel', () => {
   it('is hidden by default', () => {
     render(
-      <FilterRoot id="panel-hidden-test">
+      <FilterRoot>
         <FilterPanel>
           <FilterSelection
             label="Type"
@@ -28,7 +28,7 @@ describe('Filter.Panel', () => {
 
   it('becomes visible when panelOpen is toggled via PanelButton', () => {
     render(
-      <FilterRoot id="panel-toggle-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterSelection
@@ -51,7 +51,7 @@ describe('Filter.Panel', () => {
 
   it('renders filter children as tertiary accordions', () => {
     render(
-      <FilterRoot id="panel-children-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterSelection
@@ -74,7 +74,7 @@ describe('Filter.Panel', () => {
 
   it('renders a close button with hide label', () => {
     render(
-      <FilterRoot id="panel-close-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Content</p>
@@ -92,7 +92,7 @@ describe('Filter.Panel', () => {
 
   it('closes the panel when close button is clicked', () => {
     render(
-      <FilterRoot id="panel-close-click-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Content</p>
@@ -115,7 +115,7 @@ describe('Filter.Panel', () => {
 
   it('moves focus to the panel button when close button is clicked', () => {
     render(
-      <FilterRoot id="panel-close-focus-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Content</p>
@@ -135,7 +135,7 @@ describe('Filter.Panel', () => {
 
   it('moves focus to the panel button when apply is clicked in manual mode', () => {
     render(
-      <FilterRoot id="panel-apply-focus-test" behavior="manual">
+      <FilterRoot behavior="manual">
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Content</p>
@@ -157,7 +157,7 @@ describe('Filter.Panel', () => {
 
   it('renders cancel button without icon in manual mode', () => {
     render(
-      <FilterRoot id="panel-cancel-icon-test" behavior="manual">
+      <FilterRoot behavior="manual">
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Content</p>
@@ -178,7 +178,7 @@ describe('Filter.Panel', () => {
 
   it('moves focus to the panel button when cancel is clicked in manual mode', () => {
     render(
-      <FilterRoot id="panel-cancel-focus-test" behavior="manual">
+      <FilterRoot behavior="manual">
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <p>Content</p>
@@ -200,7 +200,7 @@ describe('Filter.Panel', () => {
 
   it('merges custom className', () => {
     render(
-      <FilterRoot id="panel-class-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel className="my-panel">
           <p>Content</p>
@@ -228,7 +228,7 @@ describe('Filter.Panel', () => {
 
   it('has no axe violations', async () => {
     const { container } = render(
-      <FilterRoot id="panel-a11y-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
         <FilterPanel>
           <FilterSelection
@@ -249,7 +249,7 @@ describe('Filter.Panel', () => {
 describe('Filter.PanelButton', () => {
   it('renders a tertiary button', () => {
     render(
-      <FilterRoot id="accordion-btn-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
       </FilterRoot>
     )
@@ -262,7 +262,7 @@ describe('Filter.PanelButton', () => {
 
   it('toggles aria-expanded on click', () => {
     render(
-      <FilterRoot id="accordion-btn-expanded-test">
+      <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
       </FilterRoot>
     )
@@ -288,7 +288,7 @@ describe('Filter.PanelButton', () => {
 
   it('renders the translated default label when no children are given', () => {
     render(
-      <FilterRoot id="default-label-test">
+      <FilterRoot>
         <FilterPanelButton />
       </FilterRoot>
     )
@@ -302,7 +302,7 @@ describe('Filter.PanelButton', () => {
 describe('Filter.Toolbar', () => {
   it('renders children inside toolbar', () => {
     render(
-      <FilterRoot id="toolbar-test">
+      <FilterRoot>
         <FilterToolbar>
           <FilterSearch label="Søk" />
         </FilterToolbar>
@@ -319,7 +319,7 @@ describe('Filter.Toolbar', () => {
 
   it('merges custom className', () => {
     render(
-      <FilterRoot id="toolbar-class-test">
+      <FilterRoot>
         <FilterToolbar className="my-toolbar">
           <p>Content</p>
         </FilterToolbar>
@@ -336,7 +336,7 @@ describe('Filter.Toolbar', () => {
 describe('Filter.Toolbar.Actions', () => {
   it('renders children inside actions container', () => {
     render(
-      <FilterRoot id="tools-test">
+      <FilterRoot>
         <FilterToolbar>
           <FilterToolbar.Actions>
             <FilterPanelButton>Filters</FilterPanelButton>
@@ -353,7 +353,7 @@ describe('Filter.Toolbar.Actions', () => {
 
   it('merges custom className', () => {
     render(
-      <FilterRoot id="toolbar-actions-class">
+      <FilterRoot>
         <FilterToolbar>
           <FilterToolbar.Actions className="my-actions">
             <FilterPanelButton>Filters</FilterPanelButton>

@@ -18,7 +18,7 @@ export type FilterState = FilterChangeState & {
 }
 
 export type FilterContextValue = {
-  id: string
+  id?: string
   behavior: 'realtime' | 'manual'
   state: FilterState
   appliedState: FilterState

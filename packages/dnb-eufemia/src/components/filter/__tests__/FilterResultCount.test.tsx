@@ -14,11 +14,7 @@ const defaultFilters = {
 describe('Filter.ResultCount', () => {
   it('renders the result count when filters are active', () => {
     render(
-      <FilterRoot
-        id="count-render-test"
-        resultCount={5}
-        defaultFilters={defaultFilters}
-      >
+      <FilterRoot resultCount={5} defaultFilters={defaultFilters}>
         <FilterResultCount />
       </FilterRoot>
     )
@@ -31,10 +27,7 @@ describe('Filter.ResultCount', () => {
 
   it('returns null when resultCount is undefined', () => {
     render(
-      <FilterRoot
-        id="count-undefined-test"
-        defaultFilters={defaultFilters}
-      >
+      <FilterRoot defaultFilters={defaultFilters}>
         <FilterResultCount />
       </FilterRoot>
     )
@@ -46,7 +39,7 @@ describe('Filter.ResultCount', () => {
 
   it('hides when no filters are active', () => {
     render(
-      <FilterRoot id="count-no-active-test" resultCount={5}>
+      <FilterRoot resultCount={5}>
         <FilterResultCount />
       </FilterRoot>
     )
@@ -58,7 +51,7 @@ describe('Filter.ResultCount', () => {
 
   it('shows without active filters when alwaysVisible is true', () => {
     render(
-      <FilterRoot id="count-always-test" resultCount={5}>
+      <FilterRoot resultCount={5}>
         <FilterResultCount alwaysVisible />
       </FilterRoot>
     )
@@ -71,11 +64,7 @@ describe('Filter.ResultCount', () => {
 
   it('shows 0 results when resultCount is 0 and filters are active', () => {
     render(
-      <FilterRoot
-        id="count-zero-test"
-        resultCount={0}
-        defaultFilters={defaultFilters}
-      >
+      <FilterRoot resultCount={0} defaultFilters={defaultFilters}>
         <FilterResultCount />
       </FilterRoot>
     )
@@ -88,11 +77,7 @@ describe('Filter.ResultCount', () => {
 
   it('uses the resultCount prop to override context', () => {
     render(
-      <FilterRoot
-        id="count-override-test"
-        resultCount={10}
-        defaultFilters={defaultFilters}
-      >
+      <FilterRoot resultCount={10} defaultFilters={defaultFilters}>
         <FilterResultCount resultCount={42} />
       </FilterRoot>
     )
@@ -105,11 +90,7 @@ describe('Filter.ResultCount', () => {
 
   it('renders custom children instead of the default message', () => {
     render(
-      <FilterRoot
-        id="count-children-test"
-        resultCount={3}
-        defaultFilters={defaultFilters}
-      >
+      <FilterRoot resultCount={3} defaultFilters={defaultFilters}>
         <FilterResultCount>Showing 3 items</FilterResultCount>
       </FilterRoot>
     )
@@ -159,11 +140,7 @@ describe('Filter.ResultCount', () => {
 
   it('supports spacing props', () => {
     render(
-      <FilterRoot
-        id="count-spacing-test"
-        resultCount={1}
-        defaultFilters={defaultFilters}
-      >
+      <FilterRoot resultCount={1} defaultFilters={defaultFilters}>
         <FilterResultCount top="large" />
       </FilterRoot>
     )
@@ -175,11 +152,7 @@ describe('Filter.ResultCount', () => {
 
   it('supports custom className', () => {
     render(
-      <FilterRoot
-        id="count-classname-test"
-        resultCount={2}
-        defaultFilters={defaultFilters}
-      >
+      <FilterRoot resultCount={2} defaultFilters={defaultFilters}>
         <FilterResultCount className="my-custom-class" />
       </FilterRoot>
     )
