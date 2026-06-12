@@ -3,6 +3,66 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.6.0](https://github.com/dnbexperience/eufemia/compare/v11.5.2...v11.6.0) (2026-06-12)
+
+### :sparkles: Features
+
+* **BrowserTranslate:** add shared helper to prevent browser translation (Google Translate) on form components ([#8429](https://github.com/dnbexperience/eufemia/issues/8429)) ([4a896e7](https://github.com/dnbexperience/eufemia/commit/4a896e7c8f04f75a614f836656a6f498b757fca6))
+* **Filter:** add new filter component ([#8366](https://github.com/dnbexperience/eufemia/issues/8366)) ([65824cb](https://github.com/dnbexperience/eufemia/commit/65824cb720293e204e95ccfbf33fe81a084f4d33))
+* **Form.SubmitIndicator:** refine dots animation with scale in/out ([#8459](https://github.com/dnbexperience/eufemia/issues/8459)) ([a83340f](https://github.com/dnbexperience/eufemia/commit/a83340f1ea91aaf1f28495c682274f87c6c6a443))
+* **Forms:** add validator options for submit control (`withValidatorOptions` including `runOnSubmit`) ([#8534](https://github.com/dnbexperience/eufemia/issues/8534)) ([d4de11a](https://github.com/dnbexperience/eufemia/commit/d4de11ac18eefce84fcb1a342b6ba3595b732ed0))
+* **MultiSelection:** highlight filtered options to be easier to scan ([#8554](https://github.com/dnbexperience/eufemia/issues/8554)) ([4579c52](https://github.com/dnbexperience/eufemia/commit/4579c523998421a426425931f220051409e92055))
+* **PortalRoot:** forward HTML attributes to portal elements ([#8422](https://github.com/dnbexperience/eufemia/issues/8422)) ([3d6f01e](https://github.com/dnbexperience/eufemia/commit/3d6f01ebb00199c092ea7fd8314d53ad01908246))
+* update icons with accessibility, ai, clearing_house, football, holiday_home, moneybag_in_hand, moon, passkey, plot, sun, stop_square ([#8515](https://github.com/dnbexperience/eufemia/issues/8515)) ([e0cffd1](https://github.com/dnbexperience/eufemia/commit/e0cffd1e681d5a982cbbbda9f1406d97bd2c29f6))
+
+### :bug: Bug Fixes
+
+* **DatePicker:** clear hide timeout on unmount ([#8443](https://github.com/dnbexperience/eufemia/issues/8443)) ([f65c383](https://github.com/dnbexperience/eufemia/commit/f65c3836356caf48a79d82c862929a0831944282))
+* **DatePicker:** preserve range focus contrast ([#8525](https://github.com/dnbexperience/eufemia/issues/8525)) ([f730281](https://github.com/dnbexperience/eufemia/commit/f73028140a662791263518c33ed23163eb75fbf5))
+* **DatePicker:** prevent shortcuts from widening picker ([#8523](https://github.com/dnbexperience/eufemia/issues/8523)) ([9c14678](https://github.com/dnbexperience/eufemia/commit/9c14678ca384631d0ab92a1fbb48915484a7fafb))
+* **Field.Expiry:** prevent disabled field focus ([#8491](https://github.com/dnbexperience/eufemia/issues/8491)) ([77cce97](https://github.com/dnbexperience/eufemia/commit/77cce977e278723cde82c0c4a99c1d5193d5a255))
+* **Field.MultiSelection:** align popover spacing ([#8516](https://github.com/dnbexperience/eufemia/issues/8516)) ([20dc81b](https://github.com/dnbexperience/eufemia/commit/20dc81baaf9c26fc166080d4798b2a369640fa43))
+* **Field.MultiSelection:** round nested list corners ([#8517](https://github.com/dnbexperience/eufemia/issues/8517)) ([92e0660](https://github.com/dnbexperience/eufemia/commit/92e0660fefff73b6e5e6fd91f67aba5c25a0da6e))
+* **Form.SubmitIndicator:** ensure correct dots color ([#8448](https://github.com/dnbexperience/eufemia/issues/8448)) ([8e523cb](https://github.com/dnbexperience/eufemia/commit/8e523cbbbc79006ae1fca6754818f73e316393c8))
+* **Form.useTranslation:** cache in sync ([#8550](https://github.com/dnbexperience/eufemia/issues/8550)) ([922574b](https://github.com/dnbexperience/eufemia/commit/922574b7d2d8565ac8ad20e07b6fb8055704f20e))
+* **Forms:** improve shared attachment render cascade ([#8552](https://github.com/dnbexperience/eufemia/issues/8552)) ([42d4bb1](https://github.com/dnbexperience/eufemia/commit/42d4bb12e6d10900a4814262178355c342cdc6cc))
+* **InputMasked, Field.Currency, Field.Number:** disambiguate dot as thousands or decimal separator ([#8508](https://github.com/dnbexperience/eufemia/issues/8508)) ([8d3f68b](https://github.com/dnbexperience/eufemia/commit/8d3f68b4ddeb3413758c7d467c670760b90f2c41))
+* **Modal:** fix controlled `open` prop not opening dialog ([#8521](https://github.com/dnbexperience/eufemia/issues/8521)) ([6ad37ec](https://github.com/dnbexperience/eufemia/commit/6ad37eccb1c06aea3180a5052ccf89e68c27e11c))
+* **MultiSelection:** keep search input literal ([#8555](https://github.com/dnbexperience/eufemia/issues/8555)) ([51b7ae5](https://github.com/dnbexperience/eufemia/commit/51b7ae546c88c755072d9b5fea7b505b8a0dfc3a))
+* **Theme:** prevent nested Theme from overriding body color scheme ([#8537](https://github.com/dnbexperience/eufemia/issues/8537)) ([1ddadc4](https://github.com/dnbexperience/eufemia/commit/1ddadc4d72a5e1569265cefa65f9c86f286e3c66))
+* **VippsWalletButton:** update pending state snapshot after dots color fix ([#8451](https://github.com/dnbexperience/eufemia/issues/8451)) ([92ee001](https://github.com/dnbexperience/eufemia/commit/92ee001da296ee54a5a6069c26d8a234180679dd))
+
+### :memo: Documentation
+
+* add dark surface context link in examples ([#8529](https://github.com/dnbexperience/eufemia/issues/8529)) ([77f1201](https://github.com/dnbexperience/eufemia/commit/77f1201acdf650640199cf6dc83e84137008c5c0))
+* **Flex:** clarify align vs justify property descriptions ([#8441](https://github.com/dnbexperience/eufemia/issues/8441)) ([0d7b732](https://github.com/dnbexperience/eufemia/commit/0d7b7324ffbebf564509aca8147a6dadb27c5702)), closes [#3166](https://github.com/dnbexperience/eufemia/issues/3166)
+* **Form.useSubmit:** add Properties tab ([#8471](https://github.com/dnbexperience/eufemia/issues/8471)) ([2b0a3bc](https://github.com/dnbexperience/eufemia/commit/2b0a3bc40572c79b73b842e501a712e3e502582a))
+
+### :barber: Style Changes
+
+* **Avatar:** unify design (Sbanken) ([#8437](https://github.com/dnbexperience/eufemia/issues/8437)) ([4478289](https://github.com/dnbexperience/eufemia/commit/44782895888f44132e8fcbaccfcc8912140c6297))
+* **Button:** unify design (Sbanken) ([#8449](https://github.com/dnbexperience/eufemia/issues/8449)) ([fba900e](https://github.com/dnbexperience/eufemia/commit/fba900e6b440e049b350d0f8cefba2cf0fb44258))
+* **Card:** unify design ([#8452](https://github.com/dnbexperience/eufemia/issues/8452)) ([204f728](https://github.com/dnbexperience/eufemia/commit/204f728d0ce768203a34fa23a95111c89054282a))
+* **Dialog:** unify styling ([#8470](https://github.com/dnbexperience/eufemia/issues/8470)) ([abbe888](https://github.com/dnbexperience/eufemia/commit/abbe8888deab5613f3f258495c5493c9c828086f))
+* **DrawerList:** unify styling (Sbanken) ([#8510](https://github.com/dnbexperience/eufemia/issues/8510)) ([b17c4fb](https://github.com/dnbexperience/eufemia/commit/b17c4fb2135024f5f5bc8bb78d1d3857e32cb823))
+* **Dropdown:** unify styling ([#8489](https://github.com/dnbexperience/eufemia/issues/8489)) ([726e926](https://github.com/dnbexperience/eufemia/commit/726e9269a9b9b74354d83bd32adb322bcd368f70))
+* **FieldBlock:** unify design (Sbanken) ([#8536](https://github.com/dnbexperience/eufemia/issues/8536)) ([422536e](https://github.com/dnbexperience/eufemia/commit/422536e9cdd3a6d4c5c01fdc483d76f7655053fc))
+* **GlobalStatus:** unify styles (Sbanken) ([#8503](https://github.com/dnbexperience/eufemia/issues/8503)) ([01ada21](https://github.com/dnbexperience/eufemia/commit/01ada217d6fa52b78ef52051a303cc37d93372dc))
+* **HelpButton:** unify design (Sbanken) ([#8533](https://github.com/dnbexperience/eufemia/issues/8533)) ([e4386d4](https://github.com/dnbexperience/eufemia/commit/e4386d4de9642c37305d05984a7b23b30ad3c70b))
+* **Input:** unify styling (Sbanken) ([#8514](https://github.com/dnbexperience/eufemia/issues/8514)) ([64a5227](https://github.com/dnbexperience/eufemia/commit/64a52271112a89581ebb973c8a0b52d05ab3ee7f))
+* replace spacing custom properties with rem values in component styles ([#8447](https://github.com/dnbexperience/eufemia/issues/8447)) ([5c8f54d](https://github.com/dnbexperience/eufemia/commit/5c8f54d339d158dbf38baf60e18239e46e97ea3a))
+* **Table:** unify design (Sbanken) ([#8528](https://github.com/dnbexperience/eufemia/issues/8528)) ([6950b93](https://github.com/dnbexperience/eufemia/commit/6950b936e46e8dfc188521acc6d24a7437990c61))
+
+### :art: Design Changes
+
+* **DatePicker:** remove picker arrow ([#8535](https://github.com/dnbexperience/eufemia/issues/8535)) ([37d0c08](https://github.com/dnbexperience/eufemia/commit/37d0c08c0298fb456ca6c0c671450501e8cac506))
+
+### :zap: Refactoring
+
+* **Autocomplete:** improve highlighting for nested content ([#8500](https://github.com/dnbexperience/eufemia/issues/8500)) ([93eb70b](https://github.com/dnbexperience/eufemia/commit/93eb70b3d09f56b7df729784466c5e0b45713c9b))
+* **Input:** change `type="search"` text from Send to Search/Søk ([#8544](https://github.com/dnbexperience/eufemia/issues/8544)) ([adb88f7](https://github.com/dnbexperience/eufemia/commit/adb88f7347f719e925bbc7b5f92d1a38c760490e))
+* **Input:** show search icon instead of submit button for `type="search"` ([#8548](https://github.com/dnbexperience/eufemia/issues/8548)) ([3b506f5](https://github.com/dnbexperience/eufemia/commit/3b506f53ef6c6b7ae032e33fd5c2bf24378ad46b))
+
 ## [11.5.2](https://github.com/dnbexperience/eufemia/compare/v11.5.1...v11.5.2) (2026-06-05)
 
 ### :bug: Bug Fixes
