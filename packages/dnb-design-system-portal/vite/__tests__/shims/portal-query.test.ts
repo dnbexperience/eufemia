@@ -308,5 +308,31 @@ describe('portal-query', () => {
       expect(result.categories).toBeDefined()
       expect(result.categories.edges.length).toBeGreaterThan(0)
     })
+
+    it('caches results by query string', () => {
+      const query = `
+        query { allMdx(filter: { frontmatter: { title: { ne: null } } }) {
+          edges { node { frontmatter { title } } }
+        }}
+      `
+
+      const firstResult = runQuery(query)
+      const secondResult = runQuery(query)
+
+      expect(secondResult).toBe(firstResult)
+      expect(
+        secondResult.allMdx.edges.map(
+          (edge: { node: { frontmatter: { title: string } } }) =>
+            edge.node.frontmatter.title
+        )
+      ).not.toContain(null)
+
+      const differentQuery = `
+        query { allMdx(filter: { frontmatter: { draft: { ne: true } } }) {
+          edges { node { frontmatter { draft } } }
+        }}
+      `
+      expect(runQuery(differentQuery)).not.toBe(firstResult)
+    })
   })
 })
