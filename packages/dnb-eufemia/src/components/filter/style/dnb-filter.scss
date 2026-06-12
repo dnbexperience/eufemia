@@ -137,6 +137,11 @@
     border-top-right-radius: 0;
   }
 
+  &__content .dnb-list__container:has(.dnb-list__item.dnb-skeleton) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
   &__highlighting {
     font-weight: var(--font-weight-bold);
     background-color: transparent;
