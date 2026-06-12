@@ -1,4 +1,0 @@
-/**
- * Imports only the extensions
- *
- */
