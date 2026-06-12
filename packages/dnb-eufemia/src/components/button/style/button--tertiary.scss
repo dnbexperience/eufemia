@@ -40,6 +40,7 @@
 
       .dnb-button__text {
         html[data-whatintent='touch'] & {
+          --button-color-underline: var(--button-color-underline--hover);
           transition: none;
           text-decoration-color: var(
             --button-color-underline,
@@ -54,8 +55,6 @@
     }
 
     &.dnb-button--has-text {
-      --button-padding-left: 0;
-      --button-padding-right: 0;
       --button-icon-margin-top: calc(
         (var(--button-height) - var(--button-icon-size)) / 2
       );

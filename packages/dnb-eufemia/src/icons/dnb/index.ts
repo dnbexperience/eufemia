@@ -2,6 +2,8 @@
 
 import above_the_line from './above_the_line'
 import above_the_line_medium from './above_the_line_medium'
+import accessibility from './accessibility'
+import accessibility_medium from './accessibility_medium'
 import account from './account'
 import account_card from './account_card'
 import account_card_medium from './account_card_medium'
@@ -18,6 +20,8 @@ import add from './add'
 import add_circled from './add_circled'
 import add_circled_medium from './add_circled_medium'
 import add_medium from './add_medium'
+import ai from './ai'
+import ai_medium from './ai_medium'
 import aino from './aino'
 import aino_medium from './aino_medium'
 import ainvoice from './ainvoice'
@@ -128,6 +132,8 @@ import chevron_up from './chevron_up'
 import chevron_up_medium from './chevron_up_medium'
 import chip from './chip'
 import chip_medium from './chip_medium'
+import clearing_house from './clearing_house'
+import clearing_house_medium from './clearing_house_medium'
 import clock from './clock'
 import clock_medium from './clock_medium'
 import close from './close'
@@ -256,6 +262,8 @@ import flying_money from './flying_money'
 import flying_money_medium from './flying_money_medium'
 import folder from './folder'
 import folder_medium from './folder_medium'
+import football from './football'
+import football_medium from './football_medium'
 import fortune_ball from './fortune_ball'
 import fortune_ball_medium from './fortune_ball_medium'
 import fridge from './fridge'
@@ -298,6 +306,8 @@ import hierarchy from './hierarchy'
 import hierarchy_medium from './hierarchy_medium'
 import history from './history'
 import history_medium from './history_medium'
+import holiday_home from './holiday_home'
+import holiday_home_medium from './holiday_home_medium'
 import home from './home'
 import home_medium from './home_medium'
 import horse from './horse'
@@ -380,6 +390,10 @@ import mobilephone from './mobilephone'
 import mobilephone_medium from './mobilephone_medium'
 import money_left from './money_left'
 import money_left_medium from './money_left_medium'
+import moneybag_in_hand from './moneybag_in_hand'
+import moneybag_in_hand_medium from './moneybag_in_hand_medium'
+import moon from './moon'
+import moon_medium from './moon_medium'
 import more from './more'
 import more_medium from './more_medium'
 import more_vertical from './more_vertical'
@@ -404,6 +418,8 @@ import paperclip from './paperclip'
 import paperclip_medium from './paperclip_medium'
 import paragraph from './paragraph'
 import paragraph_medium from './paragraph_medium'
+import passkey from './passkey'
+import passkey_medium from './passkey_medium'
 import pause from './pause'
 import pause_medium from './pause_medium'
 import pay_from from './pay_from'
@@ -430,6 +446,8 @@ import plant from './plant'
 import plant_medium from './plant_medium'
 import play from './play'
 import play_medium from './play_medium'
+import plot from './plot'
+import plot_medium from './plot_medium'
 import podcast from './podcast'
 import podcast_medium from './podcast_medium'
 import portfolio_analytics from './portfolio_analytics'
@@ -504,12 +522,16 @@ import stocks from './stocks'
 import stocks_medium from './stocks_medium'
 import stop from './stop'
 import stop_medium from './stop_medium'
+import stop_square from './stop_square'
+import stop_square_medium from './stop_square_medium'
 import stopwatch from './stopwatch'
 import stopwatch_medium from './stopwatch_medium'
 import subtract from './subtract'
 import subtract_circled from './subtract_circled'
 import subtract_circled_medium from './subtract_circled_medium'
 import subtract_medium from './subtract_medium'
+import sun from './sun'
+import sun_medium from './sun_medium'
 import support from './support'
 import support_medium from './support_medium'
 import swap from './swap'
@@ -572,6 +594,8 @@ import widget_ios_medium from './widget_ios_medium'
 export {
   above_the_line,
   above_the_line_medium,
+  accessibility,
+  accessibility_medium,
   account,
   account_card,
   account_card_medium,
@@ -588,6 +612,8 @@ export {
   add_circled,
   add_circled_medium,
   add_medium,
+  ai,
+  ai_medium,
   aino,
   aino_medium,
   ainvoice,
@@ -698,6 +724,8 @@ export {
   chevron_up_medium,
   chip,
   chip_medium,
+  clearing_house,
+  clearing_house_medium,
   clock,
   clock_medium,
   close,
@@ -826,6 +854,8 @@ export {
   flying_money_medium,
   folder,
   folder_medium,
+  football,
+  football_medium,
   fortune_ball,
   fortune_ball_medium,
   fridge,
@@ -868,6 +898,8 @@ export {
   hierarchy_medium,
   history,
   history_medium,
+  holiday_home,
+  holiday_home_medium,
   home,
   home_medium,
   horse,
@@ -950,6 +982,10 @@ export {
   mobilephone_medium,
   money_left,
   money_left_medium,
+  moneybag_in_hand,
+  moneybag_in_hand_medium,
+  moon,
+  moon_medium,
   more,
   more_medium,
   more_vertical,
@@ -974,6 +1010,8 @@ export {
   paperclip_medium,
   paragraph,
   paragraph_medium,
+  passkey,
+  passkey_medium,
   pause,
   pause_medium,
   pay_from,
@@ -1000,6 +1038,8 @@ export {
   plant_medium,
   play,
   play_medium,
+  plot,
+  plot_medium,
   podcast,
   podcast_medium,
   portfolio_analytics,
@@ -1074,12 +1114,16 @@ export {
   stocks_medium,
   stop,
   stop_medium,
+  stop_square,
+  stop_square_medium,
   stopwatch,
   stopwatch_medium,
   subtract,
   subtract_circled,
   subtract_circled_medium,
   subtract_medium,
+  sun,
+  sun_medium,
   support,
   support_medium,
   swap,

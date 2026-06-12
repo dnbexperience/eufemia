@@ -1,0 +1,145 @@
+@use './../../../style/core/utilities.scss' as utilities;
+
+.dnb-filter {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    border-top-left-radius: var(--token-radius-xl);
+    border-top-right-radius: var(--token-radius-xl);
+
+    background-color: var(--token-color-background-neutral-subtle);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -0.0625rem;
+      z-index: 10;
+
+      border-radius: inherit;
+      pointer-events: none;
+
+      border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+      border-bottom: none;
+    }
+  }
+
+  &__search {
+    flex: 1;
+
+    .dnb-input {
+      min-width: 160px; // Use "px" to prevent larger font sizes not creating layout/a11y issues
+    }
+
+    @include utilities.allBelow(small) {
+      flex-basis: 100%;
+    }
+
+    &--show-indicator .dnb-input__icon {
+      color: transparent;
+    }
+  }
+
+  &__toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__quick-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__active-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    margin-top: 1rem;
+
+    &__scroll {
+      display: flex;
+      flex-wrap: wrap;
+      max-height: 10rem;
+      gap: 0.5rem;
+
+      padding: 0.125rem 0 0.5rem 0.125rem;
+      margin: -0.125rem 0 0 -0.125rem;
+    }
+
+    &__label {
+      font-size: var(--font-size-basis);
+    }
+
+    &__header {
+      padding: 0;
+    }
+  }
+
+  &__item-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1rem;
+
+    margin-top: 1rem;
+    padding: 1rem;
+
+    border-radius: var(--token-radius-xl);
+    background-color: var(--token-color-background-neutral);
+
+    .dnb-filter__hr {
+      width: calc(100% + 2rem);
+      margin-left: -1rem;
+    }
+
+    .dnb-accordion__tertiary-content {
+      margin-left: 1rem;
+      padding: 0.5rem 0.5rem 0;
+      border-radius: var(--token-radius-md);
+    }
+  }
+
+  &__panel-actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  // Only a fallback for when skeleton loading is shown
+  &__content .dnb-list__container {
+    background-color: var(--list-item-background-color);
+  }
+
+  &__content .dnb-height-animation .dnb-list__container,// Match async loading state
+  &__content .dnb-list:first-child .dnb-list__item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  &__highlighting {
+    font-weight: var(--font-weight-bold);
+    background-color: transparent;
+    color: inherit;
+  }
+}

@@ -55,7 +55,7 @@ export const DatePickerProperties: PropertiesTableProps = {
   },
   range: {
     doc:
-      'Defines if the date picker should support a range of two dates (starting and ending date).' +
+      'Defines if the date picker should support a range of two dates (starting and ending date). ' +
       'Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
@@ -151,7 +151,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   link: {
-    doc: 'Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.',
+    doc: 'Link both calendars once the user navigates between months. Only meant to use if the range is set to `true`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -199,7 +199,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hideLastWeek: {
-    doc: 'Use `true` to only show the last week in the current month if it needs to be shown. The result is that there will mainly be shows five (5) weeks (rows) instead of six (6). Defaults to `false`.',
+    doc: 'Use `true` to only show the last week in the current month if it needs to be shown. The result is that mainly five (5) weeks (rows) will be shown instead of six (6). Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -342,7 +342,7 @@ export const DatePickerEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onBlur: {
-    doc: 'Will be called once the input lose focus.',
+    doc: 'Will be called once the input loses focus.',
     type: 'function',
     status: 'optional',
   },

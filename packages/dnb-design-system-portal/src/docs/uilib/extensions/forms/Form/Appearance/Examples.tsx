@@ -1,14 +1,20 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
 import { Flex } from '@dnb/eufemia/src'
+import type { FormAppearanceProps } from '@dnb/eufemia/src/extensions/forms/Form/Appearance'
 
 export const Size = () => {
   return (
     <ComponentBox data-visual-test="form-appearance-size">
       {() => {
+        type AppearanceData = {
+          size: 'default' | NonNullable<FormAppearanceProps['size']>
+        }
         const Appearance = () => {
-          const { data } = Form.useData('appearance', { size: 'medium' })
-          const size: any = data.size
+          const { data } = Form.useData<AppearanceData>('appearance', {
+            size: 'medium',
+          })
+          const size = data.size === 'default' ? undefined : data.size
           return (
             <Form.Appearance size={size}>
               <Form.Handler id="appearance">

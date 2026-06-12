@@ -117,7 +117,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   directDomReturn: {
-    doc: 'If true, the modal will not open in a new DOM but directly in current DOM. Defaults to `false`. Be aware of the side effects of setting this property to `true`.',
+    doc: 'If true, the modal will not open in a new DOM but directly in the current DOM. Defaults to `false`. Be aware of the side effects of setting this property to `true`.',
     type: 'boolean',
     status: 'optional',
   },

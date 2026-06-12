@@ -821,6 +821,31 @@ describe('MultiSelection', () => {
   })
 
   describe('showSearchField', () => {
+    it('renders the search input as type="search"', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(<Field.MultiSelection data={data} showSearchField />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(
+        () => {
+          const searchInput = document.querySelector(
+            '.dnb-forms-field-multi-selection__search input'
+          )
+
+          expect(searchInput).toHaveAttribute('type', 'search')
+          expect(searchInput).toHaveAttribute('autocapitalize', 'none')
+          expect(searchInput).toHaveAttribute('autocorrect', 'off')
+          expect(searchInput).toHaveAttribute('spellcheck', 'false')
+        },
+        { timeout: 3000 }
+      )
+    })
+
     it('filters on description text', async () => {
       const data = [
         {
@@ -849,6 +874,85 @@ describe('MultiSelection', () => {
       )
 
       expect(screen.queryByText('Option 2')).not.toBeInTheDocument()
+    })
+
+    it('highlights search matches in item titles', async () => {
+      const data = [
+        { value: 'option1', title: 'Savings account' },
+        { value: 'option2', title: 'Daily card' },
+      ]
+
+      render(<Field.MultiSelection data={data} showSearchField />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      const input = document.querySelector(
+        '.dnb-forms-field-multi-selection__search input'
+      ) as HTMLInputElement
+      fireEvent.change(input, { target: { value: 'account' } })
+
+      await waitFor(
+        () => {
+          const highlight = document.querySelector(
+            '.dnb-forms-field-multi-selection__highlighting'
+          )
+
+          expect(highlight).toBeInTheDocument()
+          expect(highlight?.tagName).toBe('MARK')
+          expect(highlight).toHaveTextContent('account')
+        },
+        { timeout: 3000 }
+      )
+
+      expect(screen.queryByText('Daily card')).not.toBeInTheDocument()
+    })
+
+    it('highlights search matches in item text and description', async () => {
+      const data = [
+        {
+          value: 'option1',
+          title: 'Account',
+          text: 'Daily banking',
+          description: 'Norwegian customer',
+        },
+        { value: 'option2', title: 'Card' },
+      ]
+
+      render(<Field.MultiSelection data={data} showSearchField />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      const input = document.querySelector(
+        '.dnb-forms-field-multi-selection__search input'
+      ) as HTMLInputElement
+
+      fireEvent.change(input, { target: { value: 'bank' } })
+
+      await waitFor(
+        () => {
+          const textHighlight = document.querySelector(
+            '.dnb-forms-field-multi-selection__item-text .dnb-forms-field-multi-selection__highlighting'
+          )
+
+          expect(textHighlight).toBeInTheDocument()
+          expect(textHighlight).toHaveTextContent('bank')
+        },
+        { timeout: 3000 }
+      )
+
+      fireEvent.change(input, { target: { value: 'customer' } })
+
+      await waitFor(
+        () => {
+          const descriptionHighlight = document.querySelector(
+            '.dnb-forms-field-multi-selection__item-description .dnb-forms-field-multi-selection__highlighting'
+          )
+
+          expect(descriptionHighlight).toBeInTheDocument()
+          expect(descriptionHighlight).toHaveTextContent('customer')
+        },
+        { timeout: 3000 }
+      )
     })
 
     it('focuses the search input when pressing ArrowDown on the trigger with showSearchField', async () => {
@@ -1070,19 +1174,30 @@ describe('MultiSelection', () => {
 
       await waitFor(
         () => {
-          expect(screen.getByText(/Bold Title/)).toBeInTheDocument()
+          expect(
+            document.querySelector('.dnb-form-label strong')
+          ).toHaveTextContent('Bold Title')
         },
         { timeout: 3000 }
       )
 
-      const input = document.querySelector('input') as HTMLInputElement
+      const input = document.querySelector(
+        '.dnb-forms-field-multi-selection__search input'
+      ) as HTMLInputElement
 
       // Search for text within JSX title
       fireEvent.change(input, { target: { value: 'bold' } })
 
       await waitFor(
         () => {
-          expect(screen.getByText(/Bold Title/)).toBeInTheDocument()
+          const title = document.querySelector('.dnb-form-label strong')
+
+          expect(title).toHaveTextContent('Bold Title')
+          expect(
+            title?.querySelector(
+              '.dnb-forms-field-multi-selection__highlighting'
+            )
+          ).toHaveTextContent('Bold')
         },
         { timeout: 3000 }
       )
@@ -1094,7 +1209,16 @@ describe('MultiSelection', () => {
 
       await waitFor(
         () => {
-          expect(screen.getByText(/Span description/)).toBeInTheDocument()
+          const description = document.querySelector(
+            '.dnb-forms-field-multi-selection__item-description'
+          )
+
+          expect(description).toHaveTextContent('Span description')
+          expect(
+            description?.querySelector(
+              '.dnb-forms-field-multi-selection__highlighting'
+            )
+          ).toHaveTextContent('Span')
         },
         { timeout: 3000 }
       )

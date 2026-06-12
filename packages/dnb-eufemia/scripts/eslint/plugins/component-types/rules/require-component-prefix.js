@@ -53,7 +53,7 @@ module.exports = {
   },
 
   create(context) {
-    const filePath = context.filename || context.getFilename()
+    const filePath = context.filename
     const componentDir = getComponentDirName(filePath)
 
     if (!componentDir) {

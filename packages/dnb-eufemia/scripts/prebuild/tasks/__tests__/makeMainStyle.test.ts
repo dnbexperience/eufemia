@@ -23,7 +23,7 @@ vi.mock('ora', () => {
 if (isCI) {
   vi.setConfig({ testTimeout: 50e3 })
 
-  describe('makeMainStyle transforms "core" SASS to CSS', () => {
+  describe('makeMainStyle transforms "core" SCSS to CSS', () => {
     beforeAll(async () => {
       global.core = await runFactory('./src/style/dnb-ui-core.scss', {
         returnResult: true,
@@ -41,7 +41,7 @@ if (isCI) {
     })
   })
 
-  describe('makeMainStyle transforms "components" SASS to CSS', () => {
+  describe('makeMainStyle transforms "components" SCSS to CSS', () => {
     beforeAll(async () => {
       global.components = await runFactory(
         './src/style/themes/ui/ui-theme-components.scss',
@@ -95,7 +95,7 @@ if (isCI) {
     })
   })
 
-  describe('makeMainStyle transforms "elements" SASS to CSS', () => {
+  describe('makeMainStyle transforms "elements" SCSS to CSS', () => {
     beforeAll(async () => {
       global.elements = await runFactory(
         './src/style/dnb-ui-elements.scss',
@@ -112,7 +112,7 @@ if (isCI) {
     })
   })
 
-  describe('makeMainStyle transforms "theme" SASS to CSS', () => {
+  describe('makeMainStyle transforms "theme" SCSS to CSS', () => {
     beforeAll(async () => {
       global.theme = await runFactory(
         './src/style/themes/ui/ui-theme-basis.scss',

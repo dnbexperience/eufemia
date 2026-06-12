@@ -15,7 +15,7 @@ const upload_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M7.75 11.75 12 7.5m0 0 4.25 4.25M12 7.5V21M4 2.75h16"
+      d="M16.25 11.75 12 7.5l-4.25 4.25M12 7.5V21M4 2.75h16"
     />
   </svg>
 )

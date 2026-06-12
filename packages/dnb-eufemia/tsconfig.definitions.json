@@ -27,7 +27,6 @@
     "build",
     "scripts",
     "src/core",
-    "**/stories/**/*",
     "**/__tests__/**/*"
   ]
 }

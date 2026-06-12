@@ -266,4 +266,4 @@ Or override a single component's z-index:
 
 ## Known styling and CSS issues
 
-- Safari, both on mobile and desktop, has a problem where we combine `border-radius` with the usage of `inset` in a `box-shadow`. The solution for now is to not use `inset`, which results in an outer border. This is not ideal as we don't follow the UX guidelines for these browsers. We have a SASS function handling this for us: `@mixin fakeBorder`.
+- Safari, both on mobile and desktop, has a problem where we combine `border-radius` with the usage of `inset` in a `box-shadow`. The solution for now is to not use `inset`, which results in an outer border. This is not ideal as we don't follow the UX guidelines for these browsers. We have an SCSS mixin handling this for us: `@mixin fakeBorder`.

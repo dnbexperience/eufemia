@@ -27,6 +27,7 @@ import DatePicker from './date-picker/DatePicker'
 import Dialog from './dialog/Dialog'
 import Drawer from './drawer/Drawer'
 import Dropdown from './dropdown/Dropdown'
+import Filter from './filter/Filter'
 import Flex from './flex/Flex'
 import FormLabel from './form-label/FormLabel'
 import FormStatus from './form-status/FormStatus'
@@ -90,6 +91,7 @@ export {
   Dialog,
   Drawer,
   Dropdown,
+  Filter,
   Flex,
   FormLabel,
   FormStatus,

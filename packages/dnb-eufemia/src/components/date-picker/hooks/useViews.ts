@@ -4,12 +4,12 @@ import type { DatePickerDates } from './useDates'
 
 export type DatePickerCalendarView = { nr: number; month?: Date }
 
-export type ViewDates = {
+type ViewDates = {
   startMonth?: DatePickerDates['startMonth']
   endMonth?: DatePickerDates['endMonth']
 }
 
-export type UseViewsParams = ViewDates & {
+type UseViewsParams = ViewDates & {
   isRange?: boolean
   rangeSingleCalendar?: boolean
 }
@@ -66,7 +66,7 @@ export default function useViews({ isRange, ...dates }: UseViewsParams) {
   } as const
 }
 
-export function getViews({
+function getViews({
   isRange,
   rangeSingleCalendar = false,
   ...dates

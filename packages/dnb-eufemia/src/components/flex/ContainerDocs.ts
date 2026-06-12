@@ -14,7 +14,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   justify: {
-    doc: 'How to place sub components if there is space available in the container.',
+    doc: 'Distribute sub components along the main axis (CSS `justify-content`). In horizontal direction, this controls left-to-right placement. In vertical direction, this controls top-to-bottom placement.',
     type: [
       `'flex-start'`,
       `'flex-end'`,
@@ -27,7 +27,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   align: {
-    doc: 'How to align sub components.',
+    doc: 'Align sub components along the cross axis (CSS `align-items`). In horizontal direction, this controls vertical alignment. In vertical direction, this controls horizontal alignment.',
     type: [
       `'flex-start'`,
       `'flex-end'`,

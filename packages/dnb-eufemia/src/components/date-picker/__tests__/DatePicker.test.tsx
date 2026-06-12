@@ -125,6 +125,17 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('does not show the popover arrow', () => {
+    render(<DatePicker {...defaultProps} />)
+
+    fireEvent.click(getDatePickerTriggerButton())
+
+    expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-popover__arrow')
+    ).not.toBeInTheDocument()
+  })
+
   it('will close the picker on click outside', async () => {
     render(<DatePicker {...defaultProps} />)
 
@@ -5566,106 +5577,6 @@ describe('Custom text for buttons', () => {
   })
 })
 
-describe('DatePickerPortal', () => {
-  it('should attach portal to document body on mount, and detach on unmount', async () => {
-    render(<DatePicker />)
-
-    const inputButton = screen.getByLabelText('Åpne datovelger')
-
-    expect(
-      document.body.querySelector('.dnb-date-picker__portal')
-    ).not.toBeInTheDocument()
-
-    await userEvent.click(inputButton)
-
-    await waitFor(() =>
-      expect(
-        document.body.querySelector('.dnb-date-picker__portal')
-      ).toBeInTheDocument()
-    )
-
-    await userEvent.click(inputButton)
-
-    await waitFor(() =>
-      expect(
-        document.body.querySelector('.dnb-date-picker__portal')
-      ).not.toBeInTheDocument()
-    )
-  })
-
-  it('should contain calendar views when mounted', async () => {
-    render(<DatePicker />)
-
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
-
-    const portal = document.body.querySelector('.dnb-date-picker__portal')
-
-    expect(
-      portal.querySelector('.dnb-date-picker__views')
-    ).toBeInTheDocument()
-    expect(
-      portal.querySelector('.dnb-date-picker__calendar')
-    ).toBeInTheDocument()
-  })
-
-  it('should skip portal when "skipPortal" is true', async () => {
-    render(<DatePicker skipPortal />)
-
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
-
-    // dnb-date-picker__container is within dnb-date-picker__shell when portal is skipped (wrapped by Popover span)
-    expect(
-      document.querySelector(
-        '.dnb-date-picker__shell .dnb-date-picker__container'
-      )
-    ).toBeInTheDocument()
-    expect(
-      document.body.querySelector('.dnb-date-picker__portal')
-    ).not.toBeInTheDocument()
-  })
-
-  it('should unmount portal when `onOpen` and `onClose` callbacks are setting a state', async () => {
-    const onClose = vi.fn()
-    const onOpen = vi.fn()
-
-    const DatePickerComponent = () => {
-      const [, setShow] = useState(false)
-
-      return (
-        <DatePicker
-          date="2025-02-19"
-          onOpen={() => {
-            onOpen()
-            setShow(true)
-          }}
-          onClose={() => {
-            onClose()
-            setShow(false)
-          }}
-        />
-      )
-    }
-
-    render(<DatePickerComponent />)
-
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
-    expect(onOpen).toHaveBeenCalledTimes(1)
-    expect(onClose).toHaveBeenCalledTimes(0)
-    expect(
-      document.querySelector('.dnb-date-picker__portal')
-    ).toBeInTheDocument()
-
-    await userEvent.click(screen.getByLabelText('fredag 14. februar 2025'))
-    await waitFor(() =>
-      expect(
-        document.querySelector('.dnb-date-picker__portal')
-      ).not.toBeInTheDocument()
-    )
-    expect(onOpen).toHaveBeenCalledTimes(1)
-    expect(onClose).toHaveBeenCalledTimes(1)
-  })
-})
-
 describe('DatePicker ARIA', () => {
   it('should validate', async () => {
     const Comp = render(
@@ -5894,7 +5805,6 @@ describe('DatePicker ARIA', () => {
     )
 
     await userEvent.click(getOpenButton())
-    // console.log('sv-SE labels', Array.from(document.querySelectorAll('[aria-label$="2025"]')).map((btn) => btn.getAttribute('aria-label')))
     await userEvent.click(screen.getByLabelText(/onsdag 2\.? april 2025/i))
     await userEvent.click(
       screen.getByLabelText(/lördag 19\.? april 2025/i)

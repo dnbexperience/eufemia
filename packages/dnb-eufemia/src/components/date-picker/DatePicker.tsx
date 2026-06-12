@@ -156,7 +156,7 @@ export type DatePickerProps = {
    */
   onlyMonth?: boolean
   /**
-   * Use `true` to only show the last week in the current month if it needs to be shown. The result is that there will mainly be shown five (5) weeks (rows) instead of six (6). Defaults to `false`.
+   * Use `true` to only show the last week in the current month if it needs to be shown. The result is that mainly five (5) weeks (rows) will be shown instead of six (6). Defaults to `false`.
    */
   hideLastWeek?: boolean
   /**
@@ -208,7 +208,7 @@ export type DatePickerProps = {
    */
   rangeSingleCalendar?: boolean
   /**
-   * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.
+   * Link both calendars once the user navigates between months. Only meant to use if the range is set to `true`. Defaults to `false`.
    */
   link?: boolean
   /**
@@ -340,7 +340,7 @@ export type DatePickerProps = {
    */
   onFocus?: (event: DatePickerEvent<FocusEvent<HTMLElement>>) => void
   /**
-   * Will be called once the input lose focus.
+   * Will be called once the input loses focus.
    */
   onBlur?: (event: DatePickerEvent<FocusEvent<HTMLElement>>) => void
   /** @internal */
@@ -424,6 +424,13 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const getReturnObject =
     useRef<DatePickerContextValue['getReturnObject']>(undefined)
   const hideTimeout = useRef<NodeJS.Timeout>(undefined)
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(hideTimeout.current)
+    }
+  }, [])
+
   const calendarContainerRef = useRef<HTMLSpanElement>(null)
 
   const translation = useTranslation().DatePicker
@@ -826,8 +833,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   onOpenChange={(isOpen) => !isOpen && hidePicker()}
                   hideCloseButton
                   preventClose={preventClose}
-                  triggerOffset={0}
+                  triggerOffset={8}
                   arrowEdgeOffset={4}
+                  hideArrow
                   noInnerSpace
                   noMaxWidth
                   portalRootClass="dnb-date-picker__portal"

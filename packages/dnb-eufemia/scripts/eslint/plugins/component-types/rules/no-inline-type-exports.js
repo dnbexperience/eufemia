@@ -40,19 +40,18 @@ module.exports = {
     ],
   },
   create(context) {
-    const filename = context.filename || context.getFilename()
+    const filename = context.filename
 
     // Only apply to .tsx files (component files)
     if (!filename.endsWith('.tsx')) {
       return {}
     }
 
-    // Skip test files and stories
+    // Skip test files
     if (
       filename.includes('__tests__') ||
       filename.includes('.test.') ||
-      filename.includes('.spec.') ||
-      filename.includes('.stories.')
+      filename.includes('.spec.')
     ) {
       return {}
     }

@@ -44,7 +44,7 @@ import type { DatePickerInputDates } from './hooks/useInputDates'
 import useInputDates from './hooks/useInputDates'
 import { formatDate } from '../date-format/DateFormatUtils'
 
-export type DatePickerInputProps = Omit<
+type DatePickerInputProps = Omit<
   HTMLProps<HTMLInputElement>,
   | 'children'
   | 'ref'
@@ -90,7 +90,7 @@ export type DatePickerInputProps = Omit<
       event: DatePickerReturnObject<FocusEvent<HTMLInputElement>>
     ) => void
     /**
-     * Will be called once the input lose focus.
+     * Will be called once the input loses focus.
      */
     onBlur?: (
       event: DatePickerReturnObject<FocusEvent<HTMLInputElement>>

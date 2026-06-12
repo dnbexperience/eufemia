@@ -1436,7 +1436,9 @@ describe('FieldBlock', () => {
       )
 
       const element = document.querySelector('.dnb-forms-submit-indicator')
-      expect(element).toHaveTextContent('...')
+      expect(
+        element.querySelectorAll('.dnb-forms-submit-indicator__content b')
+      ).toHaveLength(3)
     })
 
     it('should show indicator two (2) times when nested', async () => {

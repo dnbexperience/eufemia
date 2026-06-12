@@ -15,7 +15,7 @@ const download_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M7.75 12.25 12 16.5m0 0 4.25-4.25M12 16.5V3M4 21.25h16"
+      d="M16.25 12.25 12 16.5l-4.25-4.25M12 16.5V3M4 21.25h16"
     />
   </svg>
 )

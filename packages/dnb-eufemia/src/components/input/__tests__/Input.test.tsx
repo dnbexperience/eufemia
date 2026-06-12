@@ -482,9 +482,41 @@ describe('Input component', () => {
     )
   })
 
-  it('has a submit button on prop type="search"', () => {
+  it('has a search icon and no submit button on prop type="search"', () => {
     render(
       <Input {...props} type="search" value={null} aria-describedby="id">
+        {null}
+      </Input>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-input__input')
+        .getAttribute('aria-describedby')
+    ).toBe('id')
+
+    expect(document.querySelector('button')).not.toBeInTheDocument()
+    expect(document.querySelector('.dnb-input__submit-button')).toBeNull()
+
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input--has-icon',
+      'dnb-input--icon-position-left'
+    )
+    expect(document.querySelector('.dnb-input')).not.toHaveClass(
+      'dnb-input--has-submit-element'
+    )
+    expect(document.querySelector('.dnb-input__icon')).toBeInTheDocument()
+  })
+
+  it('has a submit button when showSubmitButton is true', () => {
+    render(
+      <Input
+        {...props}
+        type="search"
+        showSubmitButton
+        value={null}
+        aria-describedby="id"
+      >
         {null}
       </Input>
     )
@@ -497,6 +529,7 @@ describe('Input component', () => {
 
     const Button = document.querySelector('button')
     expect(Button).toBeInTheDocument()
+    expect(document.querySelector('.dnb-input__icon')).toBeNull()
 
     fireEvent.focus(Button)
     expect(
@@ -504,6 +537,24 @@ describe('Input component', () => {
         .querySelector('.dnb-input__submit-button')
         .getAttribute('data-input-state')
     ).toBe('focus')
+  })
+
+  it('does not use submitButtonIcon as search icon', () => {
+    render(
+      <Input
+        {...props}
+        type="search"
+        submitButtonIcon="calendar"
+        value={null}
+      >
+        {null}
+      </Input>
+    )
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveAttribute(
+      'data-testid',
+      'loupe icon'
+    )
   })
 
   it('should not expose the value as an html attribute', async () => {
@@ -560,6 +611,7 @@ describe('Input component', () => {
         id="input-id"
         value="value"
         type="search"
+        showSubmitButton
         onSubmit={onSubmit}
       />
     )
@@ -580,6 +632,7 @@ describe('Input component', () => {
         id="input-id"
         value="value"
         type="search"
+        showSubmitButton
         onSubmitFocus={onSubmitFocus}
       />
     )
@@ -600,6 +653,7 @@ describe('Input component', () => {
         id="input-id"
         value="value"
         type="search"
+        showSubmitButton
         onSubmitBlur={onSubmitBlur}
       />
     )
@@ -614,7 +668,7 @@ describe('Input component', () => {
   })
 
   it('should use default icon size for medium input submit button', () => {
-    render(<Input type="search" size="medium" />)
+    render(<Input type="search" size="medium" showSubmitButton />)
 
     const icon = document.querySelector(
       '.dnb-input__submit-button .dnb-icon'
@@ -625,7 +679,7 @@ describe('Input component', () => {
   })
 
   it('should use medium icon size for large input submit button', () => {
-    render(<Input type="search" size="large" />)
+    render(<Input type="search" size="large" showSubmitButton />)
 
     const icon = document.querySelector(
       '.dnb-input__submit-button .dnb-icon'

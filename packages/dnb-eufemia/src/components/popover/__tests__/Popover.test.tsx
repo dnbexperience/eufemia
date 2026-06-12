@@ -854,6 +854,26 @@ describe('Popover', () => {
     })
   })
 
+  it('renders focus trap buttons with type="button"', async () => {
+    renderWithTrigger()
+
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(document.querySelector('.dnb-popover')).toBeInTheDocument()
+    )
+
+    const focusTrapButtons = document.querySelectorAll(
+      '.dnb-popover button.dnb-sr-only'
+    )
+
+    expect(focusTrapButtons.length).toBeGreaterThanOrEqual(2)
+    focusTrapButtons.forEach((button) => {
+      expect(button).toHaveAttribute('type', 'button')
+    })
+  })
+
   it('provides default trigger aria attributes', () => {
     const baseTranslation = defaultLocales['nb-NO']
     const customTranslation = {

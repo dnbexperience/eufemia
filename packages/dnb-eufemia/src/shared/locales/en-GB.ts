@@ -117,7 +117,7 @@ export default {
       ariaReady: 'Ready to interact',
     },
     Input: {
-      submitButtonTitle: 'Submit button',
+      submitButtonTitle: 'Search',
       clearButtonTitle: 'Clear value',
     },
     Pagination: {
@@ -196,6 +196,20 @@ export default {
       closeButtonTitle: 'Close definition',
       openTriggerTitle: 'Click to open definition',
       closeTriggerTitle: 'Click to close definition',
+    },
+    Filter: {
+      ariaLabel: 'Filter',
+      activeFiltersLabel: 'Active filters',
+      activeFiltersCountLabel: '%s active filters',
+      clearAllLabel: 'Clear all',
+      panelButtonLabel: 'Filter',
+      hideFilterLabel: 'Hide filter',
+      applyFilterLabel: 'Apply filter',
+      cancelFilterLabel: 'Cancel',
+      dateLabel: 'Date',
+      sortButtonLabel: 'Sort',
+      noResultsMessage: 'Try changing or removing some filters.',
+      resultCountMessage: '%s result(s)',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

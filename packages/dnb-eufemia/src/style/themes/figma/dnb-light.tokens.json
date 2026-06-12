@@ -5619,7 +5619,7 @@
   },
   "font": {
     "size": {
-      "heading-xx-large": {
+      "heading-2xl": {
         "$type": "number",
         "$value": 48,
         "$extensions": {
@@ -5638,7 +5638,7 @@
           }
         }
       },
-      "heading-x-large": {
+      "heading-xl": {
         "$type": "number",
         "$value": 34,
         "$extensions": {
@@ -5657,7 +5657,7 @@
           }
         }
       },
-      "heading-large": {
+      "heading-lg": {
         "$type": "number",
         "$value": 26,
         "$extensions": {
@@ -5733,7 +5733,7 @@
           }
         }
       },
-      "text-small": {
+      "text-sm": {
         "$type": "number",
         "$value": 16,
         "$extensions": {
@@ -5752,7 +5752,7 @@
           }
         }
       },
-      "text-small-medium": {
+      "text-sm-medium": {
         "$type": "number",
         "$value": 16,
         "$extensions": {
@@ -5771,7 +5771,7 @@
           }
         }
       },
-      "text-x-small": {
+      "text-xs": {
         "$type": "number",
         "$value": 14,
         "$extensions": {
@@ -5790,7 +5790,7 @@
           }
         }
       },
-      "text-x-small-medium": {
+      "text-xs-medium": {
         "$type": "number",
         "$value": 14,
         "$extensions": {
@@ -5809,7 +5809,7 @@
           }
         }
       },
-      "text-xx-small": {
+      "text-2xs": {
         "$type": "number",
         "$value": 13,
         "$extensions": {
@@ -5829,7 +5829,7 @@
           }
         }
       },
-      "text-xx-small-medium": {
+      "text-2xs-medium": {
         "$type": "number",
         "$value": 13,
         "$extensions": {
@@ -5851,7 +5851,7 @@
       }
     },
     "height": {
-      "heading-xx-large": {
+      "heading-2xl": {
         "$type": "number",
         "$value": 56,
         "$extensions": {
@@ -5870,7 +5870,7 @@
           }
         }
       },
-      "heading-x-large": {
+      "heading-xl": {
         "$type": "number",
         "$value": 40,
         "$extensions": {
@@ -5965,7 +5965,7 @@
           }
         }
       },
-      "text-small": {
+      "text-sm": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -5984,7 +5984,7 @@
           }
         }
       },
-      "text-small-medium": {
+      "text-sm-medium": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -6003,7 +6003,7 @@
           }
         }
       },
-      "text-x-small": {
+      "text-xs": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -6022,7 +6022,7 @@
           }
         }
       },
-      "text-x-small-medium": {
+      "text-xs-medium": {
         "$type": "number",
         "$value": 20,
         "$extensions": {
@@ -6043,7 +6043,7 @@
       }
     },
     "weight": {
-      "heading-xx-large": {
+      "heading-2xl": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
@@ -6063,7 +6063,7 @@
           }
         }
       },
-      "heading-x-large": {
+      "heading-xl": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
@@ -6083,7 +6083,7 @@
           }
         }
       },
-      "heading-large": {
+      "heading-lg": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
@@ -6163,7 +6163,7 @@
           }
         }
       },
-      "text-small": {
+      "text-sm": {
         "$type": "string",
         "$value": "Regular",
         "$extensions": {
@@ -6183,7 +6183,7 @@
           }
         }
       },
-      "text-small-medium": {
+      "text-sm-medium": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {
@@ -6203,7 +6203,7 @@
           }
         }
       },
-      "text-x-small": {
+      "text-xs": {
         "$type": "string",
         "$value": "Regular",
         "$extensions": {
@@ -6223,7 +6223,7 @@
           }
         }
       },
-      "text-x-small-medium": {
+      "text-xs-medium": {
         "$type": "string",
         "$value": "Medium",
         "$extensions": {

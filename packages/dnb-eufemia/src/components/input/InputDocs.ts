@@ -78,7 +78,7 @@ export const InputProperties: PropertiesTableProps = {
   },
 
   type: {
-    doc: 'Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.',
+    doc: 'Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`. `search` shows a loupe icon by default when no submit button is shown.',
     type: 'string',
     status: 'optional',
   },
@@ -88,7 +88,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   submitButtonTitle: {
-    doc: 'Title attribute for the search/submit button. Only relevant when `type="search"`.',
+    doc: 'Title attribute for the submit button. Only relevant when `showSubmitButton` is used.',
     type: 'string',
     status: 'optional',
   },
@@ -109,6 +109,11 @@ export const InputProperties: PropertiesTableProps = {
   },
   showClearButton: {
     doc: 'If set to `true`, then a clear button will be shown which lets the user clear any given input value.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  showSubmitButton: {
+    doc: 'If set to `true`, then a submit button will be shown when `type="search"`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -133,7 +138,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   submitElement: {
-    doc: 'Accepts a React element which will show up like the "submit button" would do on `type="search"`.',
+    doc: 'Accepts a React element which will show up where the "submit button" would do.',
     type: ['string', 'React.Element'],
     status: 'optional',
   },
@@ -181,17 +186,17 @@ export const InputEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmit: {
-    doc: 'Will be called on enter key press or submit button click. Returns `{ value, event }`.',
+    doc: 'Will be called on enter key press, and on submit button click when a submit button is shown. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
   onSubmitFocus: {
-    doc: 'Will be called on submit button focus. Only relevant when `type="search"`. Returns `{ value, event }`.',
+    doc: 'Will be called on submit button focus. Only relevant when a submit button is shown. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },
   onSubmitBlur: {
-    doc: 'Will be called on submit button blur. Only relevant when `type="search"`. Returns `{ value, event }`.',
+    doc: 'Will be called on submit button blur. Only relevant when a submit button is shown. Returns `{ value, event }`.',
     type: 'function',
     status: 'optional',
   },

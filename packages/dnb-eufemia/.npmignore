@@ -15,14 +15,12 @@ __tests__
 /package
 /scripts
 /src
-/stories
 /dnb-ui-resources
 @dnb/eufemia-*.tgz
 README.md
 .ncurc.json
 
 # dev
-.storybook
 .eslintignore
 .eslintrc
 .flowconfig

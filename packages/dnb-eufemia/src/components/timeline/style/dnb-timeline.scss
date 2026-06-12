@@ -5,13 +5,42 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 
+@mixin centerBorder(
+  $width: var(--timeline-icon-width--medium),
+  $spacing: var(--timeline-border-spacing--icon-adjusted)
+) {
+  margin-left: calc(#{$width} / 2);
+  padding-left: calc(#{$width} / 2 + #{$spacing});
+}
+
 .dnb-timeline {
+  --timeline-icon-height--small: 1.5rem;
+  --timeline-icon-width--small: 1.5rem;
+  --timeline-icon-border-radius--small: var(--token-radius-full);
+  --timeline-icon-height--medium: 2rem;
+  --timeline-icon-width--medium: 2rem;
+  --timeline-icon-border-radius--medium: var(--token-radius-full);
+  --timeline-icon-width-diff: calc(
+    (
+        var(--timeline-icon-width--medium) - var(
+            --timeline-icon-width--small
+          )
+      ) /
+      2
+  );
+  --timeline-border-spacing: 1rem;
+  --timeline-border-spacing--icon-adjusted: calc(
+    var(--timeline-icon-width-diff) + var(--timeline-border-spacing)
+  );
+
   display: flex;
   flex-direction: column;
   padding: 0;
   list-style: none;
 
   &__item {
+    margin-left: var(--timeline-icon-width-diff);
+
     &__label {
       display: flex;
       align-items: center;
@@ -25,8 +54,12 @@
         align-items: center;
         justify-content: center;
 
+        width: var(--timeline-icon-width--small);
         height: auto;
         padding: 0;
+
+        line-height: var(--timeline-icon-height--small);
+        border-radius: var(--timeline-icon-border-radius--small);
 
         color: var(--token-color-icon-neutral);
         // No icon color token equivalent, figma sketch is using --token-color-background-page-background, as the icon fill should match the page background color
@@ -40,14 +73,19 @@
       }
 
       &__title {
+        margin-left: var(--timeline-border-spacing--icon-adjusted);
+        font-size: var(--font-size-small);
+        line-height: var(--line-height-small);
         cursor: text;
       }
     }
 
     &__content {
-      padding-bottom: var(--spacing-small);
+      padding-bottom: 1rem;
       // No stroke token equivalent for this color, the figma sketch is using --token-color-text-neutral-alternative
       border-left: 1px dashed var(--token-color-text-neutral-alternative);
+
+      @include centerBorder(var(--timeline-icon-width--small));
 
       &__subtitle {
         cursor: text;
@@ -58,7 +96,7 @@
       }
 
       &__info {
-        padding-top: var(--spacing-x-small);
+        padding-top: 0.5rem;
       }
     }
 
@@ -70,7 +108,32 @@
       color: var(--token-color-text-neutral);
     }
 
+    &--current &__content {
+      @include centerBorder(
+        var(--timeline-icon-width--medium),
+        var(--timeline-border-spacing)
+      );
+    }
+
+    &--current &__label__title {
+      margin-left: var(--timeline-border-spacing);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-basis);
+      line-height: var(--line-height-basis);
+    }
+
+    &--current &__label__icon {
+      width: var(--timeline-icon-width--medium);
+      line-height: var(--timeline-icon-height--medium);
+      border-radius: var(--timeline-icon-border-radius--medium);
+    }
+
+    &--current {
+      margin-left: 0;
+    }
+
     &--upcoming &__label__title {
+      font-weight: var(--font-weight-basis);
       color: var(--token-color-text-neutral-alternative);
     }
 
@@ -88,6 +151,10 @@
 
     &:last-child &__content {
       border-left: none;
+    }
+
+    &:only-child {
+      margin-left: 0;
     }
   }
 }

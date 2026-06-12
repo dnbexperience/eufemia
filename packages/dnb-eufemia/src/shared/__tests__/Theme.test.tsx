@@ -510,6 +510,34 @@ describe('Portals', () => {
         element.classList.contains('eufemia-theme__color-scheme--dark')
       ).toBe(true)
     })
+
+    it('does not sync body class for nested Theme', () => {
+      render(
+        <Theme colorScheme="light">
+          <Theme colorScheme="dark">nested content</Theme>
+        </Theme>
+      )
+
+      // Body should have the outer Theme's color scheme, not the nested one
+      expect(
+        document.body.classList.contains(
+          'eufemia-theme__color-scheme--light'
+        )
+      ).toBe(true)
+      expect(
+        document.body.classList.contains(
+          'eufemia-theme__color-scheme--dark'
+        )
+      ).toBe(false)
+
+      // But the nested element should still have the dark class
+      const nestedElement = document.querySelectorAll('.eufemia-theme')[1]
+      expect(
+        nestedElement.classList.contains(
+          'eufemia-theme__color-scheme--dark'
+        )
+      ).toBe(true)
+    })
   })
 
   describe('globalThis.__eufemiaColorScheme', () => {

@@ -62,7 +62,7 @@ export const isRequestingNumberMask = (
 
 /**
  * Probably the most complex part of this component
- * It will modify a given value based on certain criteria's
+ * It will modify a given value based on certain criteria
  *
  * @param {object} param0 object with properties
  * @property {string} localValue optional – if given, it will uses its ending to determine of what to return

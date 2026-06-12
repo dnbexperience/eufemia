@@ -15,7 +15,7 @@ const launch = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M5.857 2H2v12h12v-3.857M8.429 7.57 14 2m0 0H9.714M14 2v4.286"
+      d="M5.857 2H2v12h12v-3.857M8.429 7.57 14 2m0 4.286V2H9.714"
     />
   </svg>
 )

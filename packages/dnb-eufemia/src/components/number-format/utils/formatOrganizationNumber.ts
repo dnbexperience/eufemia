@@ -16,8 +16,8 @@ const formatOrganizationNumberParts = (
   // cleanup
   const num = String(number).replace(/[^0-9]/g, '')
 
-  let display = num
-  let aria: string | null = null
+  let display: string
+  let aria: string
 
   switch (locale) {
     default: {
@@ -32,10 +32,6 @@ const formatOrganizationNumberParts = (
         .filter((s) => s)
         .join(' ')
     }
-  }
-
-  if (aria === null) {
-    aria = display
   }
 
   return { number: display, aria }

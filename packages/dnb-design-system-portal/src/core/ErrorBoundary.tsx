@@ -30,7 +30,7 @@ export default class ErrorBoundary extends Component<
           text={
             <>
               <P>Here is the error message for debugging purposes:</P>
-              <Code>
+              <Code top>
                 <CopyOnClick>{this.state.error.message}</CopyOnClick>
               </Code>
             </>

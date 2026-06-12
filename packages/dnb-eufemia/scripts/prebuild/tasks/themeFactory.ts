@@ -48,7 +48,6 @@ const baseGlob = '**/src/style/themes/**/*.scss'
 const baseMatch = /\/themes\/(.*)\//
 const processToNamesIgnoreList = [
   '!**/__tests__/',
-  '!**/stories/',
   '!**/style/',
   '!**/helper-classes/',
   '!**/*_not_in_use*',
@@ -184,18 +183,16 @@ export async function runFactory({
     await asyncForEach(themesWithRelatedFiles, async ({ name, files }) => {
       const file = `${scssOutputPath}/${name}/${name}-theme-${targetFile}.scss`
 
-      let fileContent = ''
-
       if (!fs.existsSync(file)) {
-        fileContent = `${editAdvice.replace(
+        const initialContent = `${editAdvice.replace(
           '<file>',
           targetFile
         )}${insertBelowAdvice}\n\n${files.join('')}`
 
-        await write(file, fileContent)
+        await write(file, initialContent)
       }
 
-      fileContent = await fs.readFile(file, 'utf-8')
+      const fileContent = await fs.readFile(file, 'utf-8')
 
       const updatedFiles = getFallbackFiles({
         files,
@@ -211,7 +208,7 @@ export async function runFactory({
             })
           : ''
 
-      fileContent = fileContent.replace(
+      const updatedContent = fileContent.replace(
         new RegExp(`(\\/\\*\\*[^]*${insertBelowTitle}[^]*\\*\\/)([^]*)`),
         `$1\n\n${updatedFiles.join('')}\n${suffixContent}`
       )
@@ -220,9 +217,9 @@ export async function runFactory({
         if (!collectedOutput[file]) {
           collectedOutput[file] = []
         }
-        collectedOutput[file].push(fileContent)
+        collectedOutput[file].push(updatedContent)
       } else {
-        await write(file, fileContent)
+        await write(file, updatedContent)
       }
     })
   } catch (e) {

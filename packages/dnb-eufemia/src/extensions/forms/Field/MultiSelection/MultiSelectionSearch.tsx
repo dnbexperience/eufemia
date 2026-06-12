@@ -23,6 +23,7 @@ export function MultiSelectionSearch({
   return (
     <>
       <Input
+        type="search"
         label={false}
         icon="loupe"
         iconPosition="left"
@@ -31,8 +32,11 @@ export function MultiSelectionSearch({
         onChange={(e) => onSearchChange(e.value)}
         disabled={disabled}
         stretch
-        showClearButton={value.length > 0}
+        showClearButton
         onClear={() => onSearchChange('')}
+        autoCapitalize="none"
+        autoCorrect="off"
+        spellCheck={false}
         className="dnb-forms-field-multi-selection__search"
       />
       <Hr

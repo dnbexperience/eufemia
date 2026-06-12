@@ -12,7 +12,7 @@
 
   display: inline-flex;
   align-items: center;
-  column-gap: var(--spacing-small);
+  column-gap: 1rem;
 
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
@@ -265,6 +265,7 @@
 
   &__addon {
     display: flex;
+    contain: inline-size;
     flex-flow: row wrap;
     justify-content: flex-start;
     gap: 1rem;
@@ -395,7 +396,7 @@
     &--preview .dnb-button,
     &--inactive .dnb-button,
     &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
-      .dnb-button:not(:hover) {
+      .dnb-button:not(:hover):not(:focus-visible) {
       background-color: transparent;
     }
 

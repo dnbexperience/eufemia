@@ -20,7 +20,7 @@ const postcssThemeScopePlugin = require('./postcss-eufemia-theme-scope.cjs')
 module.exports = {
   plugins:
     /**
-     * We also need to process the SASS modules from the portal.
+     * We also need to process the SCSS modules from the portal.
      * The portal imports isolated style files: *--isolated.min.css
      */
     enableBuildStyleScope() || enablePortalStyleScope()

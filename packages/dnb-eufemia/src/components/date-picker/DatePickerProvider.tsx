@@ -26,7 +26,6 @@ import type { DatePickerDates } from './hooks/useDates'
 import useDates from './hooks/useDates'
 import useLastEventCallCache from './hooks/useLastEventCallCache'
 import type { DatePickerInvalidDates } from './DatePickerInput'
-import type { DatePickerPartialDates } from './hooks/usePartialDates'
 import useHoverDate from './hooks/useHoverDate'
 import useSubmittedDates from './hooks/useSubmittedDates'
 
@@ -47,23 +46,21 @@ export type DatePickerChangeEvent<E> = DatePickerDates &
   }
 
 export type GetReturnObjectParams<E> = DatePickerDates &
-  DatePickerPartialDates &
   DatePickerInvalidDates & {
     event?: E
   }
 
-export type DatePickerReturnObject<E> = DatePickerInvalidDates &
-  DatePickerPartialDates & {
-    event?: E
-    attributes?: Record<string, unknown>
-    daysBetween?: number
-    date?: string | null
-    startDate?: string | null
-    endDate?: string | null
-    isValid?: boolean
-    isValidStartDate?: boolean
-    isValidEndDate?: boolean
-  }
+export type DatePickerReturnObject<E> = DatePickerInvalidDates & {
+  event?: E
+  attributes?: Record<string, unknown>
+  daysBetween?: number
+  date?: string | null
+  startDate?: string | null
+  endDate?: string | null
+  isValid?: boolean
+  isValidStartDate?: boolean
+  isValidEndDate?: boolean
+}
 
 function DatePickerProvider(props: DatePickerProviderProps) {
   const sharedContext = useContext(SharedContext)

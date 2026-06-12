@@ -15,7 +15,7 @@ const launch_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M9.143 4H4v16h16v-5.143m-7.429-3.428L20 4m0 0h-5.714M20 4v5.714"
+      d="M9.143 4H4v16h16v-5.143m-7.429-3.428L20 4m0 5.714V4h-5.714"
     />
   </svg>
 )

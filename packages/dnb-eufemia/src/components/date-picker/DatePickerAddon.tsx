@@ -9,7 +9,7 @@ import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 
-export type DatePickerShortcut = {
+type DatePickerShortcut = {
   title?: string
   date?: string | Date | ((...args: unknown[]) => Date)
   startDate?: string | Date | ((...args: unknown[]) => Date)

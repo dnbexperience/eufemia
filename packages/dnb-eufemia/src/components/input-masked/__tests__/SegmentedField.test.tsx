@@ -175,11 +175,51 @@ describe('SegmentedField', () => {
     it('should support disabled state', () => {
       renderSegmentedField({ disabled: true })
 
+      const hiddenInput: HTMLInputElement = document.querySelector(
+        '.dnb-segmented-field__hidden-input'
+      )
+
+      expect(hiddenInput.tagName).toBe('SPAN')
+
       const sections = getSections()
       sections.forEach((section) => {
         expect(section).toHaveAttribute('aria-disabled', 'true')
         expect(section).toHaveAttribute('contenteditable', 'false')
+        expect(section).not.toHaveAttribute('tabindex')
       })
+    })
+
+    it('should not focus sections when disabled sections are focused', () => {
+      renderSegmentedField({ disabled: true })
+
+      const first = getFirst()
+
+      first.focus()
+
+      expect(document.activeElement).not.toBe(first)
+    })
+
+    it('should not redirect hidden input focus when disabled', () => {
+      renderSegmentedField({ disabled: true })
+
+      const hiddenInput: HTMLInputElement = document.querySelector(
+        '.dnb-segmented-field__hidden-input'
+      )
+
+      hiddenInput.focus()
+
+      expect(document.activeElement).not.toBe(hiddenInput)
+      expect(document.activeElement).not.toBe(getFirst())
+    })
+
+    it('should not focus sections when disabled sections are clicked', () => {
+      renderSegmentedField({ disabled: true })
+
+      const first = getFirst()
+
+      fireEvent.mouseDown(first)
+
+      expect(document.activeElement).not.toBe(first)
     })
 
     it('should render status', () => {

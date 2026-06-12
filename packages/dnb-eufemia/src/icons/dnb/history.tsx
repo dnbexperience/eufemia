@@ -15,7 +15,7 @@ const history = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M9.034 13.932a5.966 5.966 0 1 0-5.966-5.966V9m0 0 2.068-2.068M3.068 9 1 6.932M8.477 5.02v3.66h2.705"
+      d="M9.034 13.932a5.966 5.966 0 1 0-5.966-5.966V9M1 6.932 3.068 9l2.068-2.068M8.477 5.02v3.66h2.705"
     />
   </svg>
 )

@@ -112,7 +112,7 @@ export default {
       ariaRole: 'Hjelp-knapp',
     },
     Input: {
-      submitButtonTitle: 'Send',
+      submitButtonTitle: 'Søk',
       clearButtonTitle: 'Nullstill',
     },
     Pagination: {
@@ -194,6 +194,20 @@ export default {
       closeButtonTitle: 'Lukk ordforklaring',
       openTriggerTitle: 'Klikk for å åpne ordforklaring',
       closeTriggerTitle: 'Klikk for å lukke ordforklaring',
+    },
+    Filter: {
+      ariaLabel: 'Filter',
+      activeFiltersLabel: 'Aktive filtre',
+      activeFiltersCountLabel: '%s aktive filtre',
+      clearAllLabel: 'Fjern alle',
+      panelButtonLabel: 'Filter',
+      hideFilterLabel: 'Skjul filter',
+      applyFilterLabel: 'Bruk filter',
+      cancelFilterLabel: 'Avbryt',
+      dateLabel: 'Dato',
+      sortButtonLabel: 'Sorter',
+      noResultsMessage: 'Prøv å endre eller fjerne noen filtre.',
+      resultCountMessage: '%s treff',
     },
   },
 }

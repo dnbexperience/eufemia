@@ -62,6 +62,7 @@ describe('SkipContent', () => {
       .toMatchInlineSnapshot(`
       NamedNodeMap {
         "class": "dnb-sr-only",
+        "type": "button",
       }
     `)
   })

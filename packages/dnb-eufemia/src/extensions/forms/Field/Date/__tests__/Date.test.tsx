@@ -2412,19 +2412,6 @@ describe('Field.Date', () => {
     expect(firstDay).toHaveAttribute('aria-label', 'tirsdag')
   })
 
-  it('should be able to set picker alignment', async () => {
-    const { rerender } = render(<Field.Date alignPicker="right" open />)
-
-    expect(
-      document.querySelector('.dnb-popover__arrow__arrow--right')
-    ).toBeInTheDocument()
-
-    rerender(<Field.Date alignPicker="left" open />)
-    expect(
-      document.querySelector('.dnb-popover__arrow__arrow--left')
-    ).toBeInTheDocument()
-  })
-
   it('should be able to only show the month in calendar', async () => {
     render(<Field.Date onlyMonth />)
 

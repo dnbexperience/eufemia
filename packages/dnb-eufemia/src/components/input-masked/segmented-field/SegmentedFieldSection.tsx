@@ -163,7 +163,7 @@ export default function SegmentedFieldSection({
         parseValue?.(currentValue) ??
         (currentValue ? Number(currentValue) : undefined)
 
-      let nextValue = parsedValue
+      let nextValue: number | undefined
 
       if (typeof parsedValue !== 'number' || Number.isNaN(parsedValue)) {
         const initialValue = getInitialValue?.()
@@ -510,7 +510,7 @@ export default function SegmentedFieldSection({
          */
         suppressContentEditableWarning
         role={spinButton ? 'spinbutton' : 'textbox'}
-        tabIndex={disabled ? -1 : 0}
+        tabIndex={disabled ? undefined : 0}
         spellCheck={false}
         aria-label={String(label)}
         aria-readonly={disabled}
@@ -525,13 +525,22 @@ export default function SegmentedFieldSection({
         aria-valuetext={
           spinButton ? (hasTypedValue ? value : 'Empty') : undefined
         }
-        onFocus={() => {
+        onFocus={(event) => {
+          if (disabled) {
+            event.currentTarget.blur()
+            return
+          }
+
           clearGroupSelection()
           onGroupFocus()
           selectSection(inputId)
         }}
         onBlur={onGroupBlur}
         onMouseDown={(event) => {
+          if (disabled) {
+            return
+          }
+
           clearGroupSelection()
 
           event.preventDefault()

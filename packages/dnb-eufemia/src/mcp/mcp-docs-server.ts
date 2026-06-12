@@ -384,7 +384,7 @@ function createDocsContext(source: DocsSource) {
         }
 
         const relPath = files[i]
-        let text: string | null = null
+        let text: string | null
         try {
           text = await source.read(relPath)
         } catch {
@@ -683,12 +683,13 @@ export function createDocsTools(
       const base = relWithLeadingSlash.replace(/\/+$/, '')
       const mdGuess = `${base}.md`
 
-      let mdExists = false
-      try {
-        mdExists = (await context.source.stat(mdGuess)).kind === 'file'
-      } catch {
-        mdExists = false
-      }
+      const mdExists = await (async () => {
+        try {
+          return (await context.source.stat(mdGuess)).kind === 'file'
+        } catch {
+          return false
+        }
+      })()
 
       return makeTextResult(
         JSON.stringify(

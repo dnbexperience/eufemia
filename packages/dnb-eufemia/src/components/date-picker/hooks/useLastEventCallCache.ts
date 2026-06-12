@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { DatePickerDates } from './useDates'
 
-export type LastEventCallCache = {
+type LastEventCallCache = {
   startDate?: DatePickerDates['startDate']
   endDate?: DatePickerDates['startDate']
 }

@@ -1304,15 +1304,15 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.9300000071525574,
-            0.29760000109672546,
-            0.29760000109672546
+            1,
+            0.27450981736183167,
+            0.27450981736183167
           ],
           "alpha": 1,
-          "hex": "#ED4C4C"
+          "hex": "#FF4646"
         },
         "$extensions": {
-          "com.figma.variableId": "VariableID:7f9baf946ea77b1b3beed96bf00735952bee29f1/5552:1588",
+          "com.figma.variableId": "VariableID:7f9baf946ea77b1b3beed96bf00735952bee29f1/5719:0",
           "com.figma.scopes": [
             "ALL_SCOPES"
           ]
@@ -1981,9 +1981,9 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.7916666865348816,
-            0.6714136600494385,
-            0.3166666626930237
+            0.7921568751335144,
+            0.6705882549285889,
+            0.3176470696926117
           ],
           "alpha": 1,
           "hex": "#CAAB51"

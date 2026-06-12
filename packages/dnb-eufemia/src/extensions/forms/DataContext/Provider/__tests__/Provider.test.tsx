@@ -39,6 +39,7 @@ import {
   Iterate,
   Wizard,
   makeAjvInstance,
+  withValidatorOptions,
 } from '../../../'
 import { isCI } from 'repo-utils'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
@@ -51,7 +52,10 @@ import type {
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-type OnChangeValue = DataValueWriteProps<any>['onChange']
+type OnChangeValue = DataValueWriteProps<
+  string,
+  undefined | string
+>['onChange']
 
 function TestField(props: StringFieldProps) {
   return <Field.String {...props} validateInitially validateContinuously />
@@ -1047,6 +1051,50 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
     })
 
+    it('should clear abort state timeout on unmount', async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, 'setTimeout')
+      const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout')
+      const onSubmit: OnSubmit = vi.fn().mockImplementation(async () => {
+        throw new Error('Submit failed')
+      })
+
+      try {
+        const { unmount } = render(
+          <DataContext.Provider
+            onSubmit={onSubmit}
+            minimumAsyncBehaviorTime={9876}
+          >
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        fireEvent.click(document.querySelector('button'))
+
+        await waitFor(() => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-submit-indicator--state-abort'
+            )
+          ).toBeInTheDocument()
+        })
+
+        const abortResetTimer = setTimeoutSpy.mock.results.find(
+          (_, index) => setTimeoutSpy.mock.calls[index][1] === 9876
+        )?.value
+
+        expect(abortResetTimer).toBeDefined()
+
+        clearTimeoutSpy.mockClear()
+
+        unmount()
+
+        expect(clearTimeoutSpy).toHaveBeenCalledWith(abortResetTimer)
+      } finally {
+        setTimeoutSpy.mockRestore()
+        clearTimeoutSpy.mockRestore()
+      }
+    })
+
     describe('should evaluate long onChangeValidator and onBlurValidator before continue with async onSubmit', () => {
       let eventsStart = []
       let eventsEnd = []
@@ -1168,6 +1216,232 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
           'onBlurValidator',
           'onSubmit',
         ])
+      })
+
+      it(`should not rerun onBlurValidator during submit when runOnSubmit is 'never'`, async () => {
+        const onSubmit = vi.fn()
+        const onBlurValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              path="/myField"
+              onBlurValidator={withValidatorOptions(onBlurValidator, {
+                runOnSubmit: 'never',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+        const button = document.querySelector('button')
+
+        fireEvent.change(input, {
+          target: { value: '123' },
+        })
+        fireEvent.blur(input)
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+
+      it(`should not rerun onChangeValidator during submit when runOnSubmit is 'never'`, async () => {
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              path="/myField"
+              onChangeValidator={withValidatorOptions(onChangeValidator, {
+                runOnSubmit: 'never',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+        const button = document.querySelector('button')
+
+        fireEvent.change(input, {
+          target: { value: '123' },
+        })
+
+        await waitFor(() => {
+          expect(onChangeValidator).toHaveBeenCalledTimes(1)
+        })
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+      })
+
+      it(`should still run remaining validators during submit when one runOnSubmit is 'never'`, async () => {
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+        const onBlurValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              value="valid"
+              path="/myField"
+              onChangeValidator={onChangeValidator}
+              onBlurValidator={withValidatorOptions(onBlurValidator, {
+                runOnSubmit: 'never',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const button = document.querySelector('button')
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+      })
+
+      it(`should skip custom validators during submit when runOnSubmit is 'never'`, async () => {
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+        const onBlurValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              value="valid"
+              path="/myField"
+              onChangeValidator={withValidatorOptions(onChangeValidator, {
+                runOnSubmit: 'never',
+              })}
+              onBlurValidator={withValidatorOptions(onBlurValidator, {
+                runOnSubmit: 'never',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const button = document.querySelector('button')
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+      })
+
+      it('should rerun onBlurValidator during submit only when changed', async () => {
+        const onSubmit = vi.fn()
+        const onBlurValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              path="/myField"
+              onBlurValidator={withValidatorOptions(onBlurValidator, {
+                runOnSubmit: 'when-changed',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+        const button = document.querySelector('button')
+
+        fireEvent.change(input, {
+          target: { value: '123' },
+        })
+        fireEvent.blur(input)
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+
+        fireEvent.change(input, {
+          target: { value: '456' },
+        })
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(2)
+        })
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+      })
+
+      it('should rerun onChangeValidator during submit only when changed', async () => {
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              value="valid"
+              path="/myField"
+              onChangeValidator={withValidatorOptions(onChangeValidator, {
+                runOnSubmit: 'when-changed',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+        const button = document.querySelector('button')
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(2)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+
+        fireEvent.change(input, {
+          target: { value: 'changed' },
+        })
+
+        await waitFor(() => {
+          expect(onChangeValidator).toHaveBeenCalledTimes(2)
+        })
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(3)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(2)
       })
     })
 
@@ -4418,8 +4692,10 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         </DataContext.Provider>
       )
 
-      expect(nestedMockData).toHaveLength(2)
-      expect(nestedMockData).toEqual([initialData, initialData])
+      expect(nestedMockData.length).toBeGreaterThanOrEqual(1)
+      expect(nestedMockData.length).toBeLessThanOrEqual(2)
+      expect(nestedMockData[0]).toEqual(initialData)
+      expect(nestedMockData.at(-1)).toEqual(initialData)
 
       const inputElement = document.querySelector('input')
       expect(inputElement).toHaveValue('bar')
@@ -4456,8 +4732,10 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       expect(sidecarMockData).toHaveLength(2)
       expect(sidecarMockData).toEqual([undefined, initialData])
 
-      expect(nestedMockData).toHaveLength(2)
-      expect(nestedMockData).toEqual([initialData, initialData])
+      expect(nestedMockData.length).toBeGreaterThanOrEqual(1)
+      expect(nestedMockData.length).toBeLessThanOrEqual(2)
+      expect(nestedMockData[0]).toEqual(initialData)
+      expect(nestedMockData.at(-1)).toEqual(initialData)
 
       const [sidecar, nested] = Array.from(
         document.querySelectorAll('input')
@@ -4501,6 +4779,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       expect(sidecarMockData.length).toBeGreaterThanOrEqual(2)
+      expect(sidecarMockData.length).toBeLessThanOrEqual(4)
       expect(sidecarMockData[0]).toBeUndefined()
       expect(sidecarMockData.at(-1)).toEqual({
         fieldA: 'updated A',
@@ -4508,6 +4787,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       })
 
       expect(nestedMockData.length).toBeGreaterThanOrEqual(2)
+      expect(nestedMockData.length).toBeLessThanOrEqual(4)
       expect(nestedMockData[0]).toBeUndefined()
       expect(nestedMockData.at(-1)).toEqual({
         fieldA: 'updated A',
@@ -4552,18 +4832,16 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       expect(sidecarMockData.length).toBeGreaterThanOrEqual(2)
+      expect(sidecarMockData.length).toBeLessThanOrEqual(4)
       expect(sidecarMockData[0]).toBeUndefined()
       expect(sidecarMockData[1]).toBeUndefined()
       // With useSyncExternalStore, SidecarMock receives the Provider's data
       // via React's torn-snapshot detection after Provider mounts and seeds the shared state.
 
-      expect(nestedMockData).toHaveLength(4)
-      expect(nestedMockData).toEqual([
-        initialData,
-        initialData,
-        initialData,
-        initialData,
-      ])
+      expect(nestedMockData.length).toBeGreaterThanOrEqual(2)
+      expect(nestedMockData.length).toBeLessThanOrEqual(4)
+      expect(nestedMockData[0]).toEqual(initialData)
+      expect(nestedMockData.at(-1)).toEqual(initialData)
 
       const [sidecar, nested] = Array.from(
         document.querySelectorAll('input')

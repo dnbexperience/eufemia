@@ -555,6 +555,11 @@ function createMaskitoNumberOptions(mp: MaskParams): MaskitoOptions {
   const suffixStartsWithComma = suffix && suffix.startsWith(',')
   const postfixToUse = suffixStartsWithComma ? suffix.slice(1) : suffix
 
+  // Only use middle dot (·) as a built-in pseudo-separator.
+  // Dots and commas are disambiguated by disambiguateSeparatorsPreprocessor
+  // below using the "3-digit" heuristic instead.
+  const decimalPseudoSeparators = ['·']
+
   const base = maskitoNumberOptionsGenerator({
     min,
     max: Number.MAX_SAFE_INTEGER,
@@ -564,7 +569,7 @@ function createMaskitoNumberOptions(mp: MaskParams): MaskitoOptions {
     minimumFractionDigits: 0,
     prefix,
     postfix: postfixToUse,
-    decimalPseudoSeparators: ['.', ',', '·'],
+    decimalPseudoSeparators,
     minusSign: '-', // Define "-" (U+002D) because Maskito uses "−" (U+2212) by default, and would replace "-" (U+002D) with it.
   })
 
@@ -650,7 +655,136 @@ function createMaskitoNumberOptions(mp: MaskParams): MaskitoOptions {
     return { elementState, data }
   }
 
+  // Disambiguate '.' and ',' in pasted/programmatic values when they
+  // are not the locale's native thousands separator.
+  //
+  // 1. Mixed separators (both '.' and ',' present):
+  //    Unambiguous — the rightmost separator is the decimal, the rest
+  //    are thousands separators (stripped).
+  //    "1,234.56"     → "1234,56"  (dot last → dot=decimal, comma=thousands)
+  //    "1.234,56"     → "1234,56"  (comma last → comma=decimal, dot=thousands)
+  //    "1,234,567.89" → "1234567,89"
+  //
+  // 2. Single separator type — heuristic:
+  //    Dot: followed by exactly 3 digits → thousands (stripped),
+  //         otherwise → decimal (converted to locale decimal).
+  //    Comma: only stripped when 2+ comma groups exist (unambiguous
+  //           thousands like "1,234,567"); a single ",###" stays as decimal.
+  //
+  // Dot disambiguation applies to both 'insert' (paste) and 'validation'
+  // (programmatic value changes) because correctNumberValue() in
+  // InputMaskedUtils already converts dots to the locale's decimal
+  // separator — so dots in the validation path are always foreign.
+  //
+  // Comma disambiguation applies only to 'insert' (paste) because in
+  // the validation path, commas may be legitimate locale-decimal
+  // separators placed by correctNumberValue().
+  //
+  // Examples in nb-NO (decimal=',', thousands=' '):
+  //   "1,234.56"   → "1234,56"  (mixed — dot last = decimal)
+  //   "1.234,56"   → "1234,56"  (mixed — comma last = decimal)
+  //   "20.500"     → "20500"    (thousands — dot + 3 digits)
+  //   "1.234.567"  → "1234567"  (thousands — each dot + 3 digits)
+  //   "20.5"       → "20,5"     (decimal — dot + 1 digit)
+  //   "20.50"      → "20,50"    (decimal — dot + 2 digits)
+  //   "0.500"      → "0,500"    (decimal — leading zero, always fractional)
+  //   "1,234,567"  → "1234567"  (thousands — multiple comma groups, paste only)
+  //   "25,000"     → "25,000"   (decimal — single comma group, kept as decimal)
+  //   "25,5"       → "25,5"     (decimal — comma + 1 digit, already correct)
+
+  // When both '.' and ',' are present, there's no ambiguity: the
+  // rightmost one is the decimal separator, the other is thousands.
+  const disambiguateMixed = (value: string): string | null => {
+    const hasDot = value.includes('.')
+    const hasComma = value.includes(',')
+    if (!hasDot || !hasComma) {
+      return null // not mixed — fall through to single-separator heuristics
+    }
+
+    const lastDot = value.lastIndexOf('.')
+    const lastComma = value.lastIndexOf(',')
+
+    if (lastDot > lastComma) {
+      // Dot is rightmost → dot = decimal, commas = thousands
+      return value.replace(/,/g, '').replace('.', decimal)
+    } else {
+      // Comma is rightmost → comma = decimal, dots = thousands
+      return value.replace(/\./g, '').replace(',', decimal)
+    }
+  }
+
+  const disambiguateDot = (value: string): string => {
+    // A dot after a standalone zero (e.g. "0.500", "-0.500") is always
+    // decimal — nobody writes "zero thousands". Skip thousands stripping.
+    if (/(?:^|[^\d])0\./.test(value)) {
+      return value.replace(/\./g, decimal)
+    }
+    return value
+      .replace(/\.(\d{3})(?=\D|$)/g, '$1')
+      .replace(/\./g, decimal)
+  }
+
+  // Only strip commas when there are multiple comma-separated groups
+  // (e.g. "1,234,567"), which unambiguously indicates thousands formatting.
+  // A single trailing ",###" (e.g. "1,750") is genuinely ambiguous and
+  // in nb-NO is more likely a decimal, so we leave it for Maskito to handle.
+  const disambiguateComma = (value: string): string => {
+    const commaGroupCount = (value.match(/,\d{3}(?=\D|$)/g) || []).length
+    if (commaGroupCount >= 2) {
+      return value.replace(/,(\d{3})(?=\D|$)/g, '$1')
+    }
+    return value
+  }
+
+  const disambiguateSeparatorsPreprocessor: MaskitoPreprocessor = (
+    { elementState, data },
+    actionType
+  ) => {
+    if (decimal === '.' || thousand === '.') {
+      return { elementState, data }
+    }
+
+    if (actionType === 'insert' && data) {
+      // When both separators are present, resolve unambiguously first
+      const mixed = disambiguateMixed(data)
+      if (mixed !== null) {
+        return { elementState, data: mixed }
+      }
+
+      let d = disambiguateDot(data)
+
+      // Also disambiguate commas in pasted data when comma is the
+      // locale's decimal separator (e.g. nb-NO)
+      if (decimal === ',' && thousand !== ',') {
+        d = disambiguateComma(d)
+      }
+
+      return { elementState, data: d }
+    }
+
+    if (actionType === 'validation' && elementState.value.includes('.')) {
+      const mixed = disambiguateMixed(elementState.value)
+      if (mixed !== null) {
+        return {
+          elementState: { ...elementState, value: mixed },
+          data,
+        }
+      }
+
+      return {
+        elementState: {
+          ...elementState,
+          value: disambiguateDot(elementState.value),
+        },
+        data,
+      }
+    }
+
+    return { elementState, data }
+  }
+
   const preprocessors = [
+    disambiguateSeparatorsPreprocessor,
     ...(base.preprocessors || []),
     rejectBeyondSafeInteger,
   ]

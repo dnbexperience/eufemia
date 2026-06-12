@@ -15,7 +15,7 @@ const card_out_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M4.5 8h3.75M4.5 16H12m11.25-8V6.5a2 2 0 0 0-2-2H2.75a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h18.5a2 2 0 0 0 2-2V17m-7.75-4.5H23M20.5 15l2.5-2.5m0 0L20.5 10"
+      d="M4.5 8h3.75M4.5 16H12m11.25-8V6.5a2 2 0 0 0-2-2H2.75a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h18.5a2 2 0 0 0 2-2V17m-7.75-4.5H23M20.5 10l2.5 2.5-2.5 2.5"
     />
   </svg>
 )

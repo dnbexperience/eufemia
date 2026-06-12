@@ -15,7 +15,7 @@ const split_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="m20.25 14.998 3 3m0 0-3 3m3-3L18 18c-3.75 0-6.75-6-6.75-6m9-9.002 3 3m0 0-3 3m3-3L18 6c-3.75 0-6.75 6-6.75 6m0 0-10.5-.002"
+      d="m20.25 20.998 3-3-3-3m3 3L18 18c-3.75 0-6.75-6-6.75-6m9-3.002 3-3-3-3m3 3L18 6c-3.75 0-6.75 6-6.75 6m0 0-10.5-.002"
     />
   </svg>
 )

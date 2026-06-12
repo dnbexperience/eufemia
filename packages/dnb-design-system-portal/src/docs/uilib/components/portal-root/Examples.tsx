@@ -4,7 +4,8 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { P, PortalRoot } from '@dnb/eufemia/src'
+import { P, PortalRoot, Dropdown } from '@dnb/eufemia/src'
+import { BrowserTranslate } from '@dnb/eufemia/src/shared'
 
 export const PortalRootExample = () => (
   <ComponentBox>
@@ -26,5 +27,16 @@ export const PortalRootExample = () => (
       </div>
     </PortalRoot>
     <P>Do you see the red box?</P>
+  </ComponentBox>
+)
+
+export const BrowserTranslateExample = () => (
+  <ComponentBox scope={{ BrowserTranslate }}>
+    <BrowserTranslate off>
+      <Dropdown
+        label="Velg farge"
+        data={['Rød', 'Blå', 'Grønn', 'Gul', 'Hvit', 'Svart']}
+      />
+    </BrowserTranslate>
   </ComponentBox>
 )

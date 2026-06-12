@@ -113,7 +113,7 @@ export default {
       ariaRole: 'Hjälp-knapp',
     },
     Input: {
-      submitButtonTitle: 'Skicka',
+      submitButtonTitle: 'Sök',
       clearButtonTitle: 'Återställ',
     },
     Pagination: {
@@ -195,6 +195,20 @@ export default {
       closeButtonTitle: 'Stäng ordförklaring',
       openTriggerTitle: 'Klicka för att öppna ordförklaring',
       closeTriggerTitle: 'Klicka för att stänga ordförklaring',
+    },
+    Filter: {
+      ariaLabel: 'Filter',
+      activeFiltersLabel: 'Aktiva filter',
+      activeFiltersCountLabel: '%s aktiva filter',
+      clearAllLabel: 'Rensa alla',
+      panelButtonLabel: 'Filter',
+      hideFilterLabel: 'Dölj filter',
+      applyFilterLabel: 'Använd filter',
+      cancelFilterLabel: 'Avbryt',
+      dateLabel: 'Datum',
+      sortButtonLabel: 'Sortera',
+      noResultsMessage: 'Försök att ändra eller ta bort några filter.',
+      resultCountMessage: '%s resultat',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

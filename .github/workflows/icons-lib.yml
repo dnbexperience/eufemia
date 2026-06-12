@@ -68,7 +68,7 @@ jobs:
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
 
       - name: Prebuild Library
-        run: yarn workspace @dnb/eufemia prebuild:ci
+        run: yarn workspace @dnb/eufemia build:prebuild
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build

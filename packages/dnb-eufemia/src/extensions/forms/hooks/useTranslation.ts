@@ -11,6 +11,15 @@ import type { DeepPartial } from '../../../shared/types'
 import { LOCALE } from '../../../shared/defaults'
 import formsLocales from '../constants/locales'
 
+// Module-level cache for the merged base translation.
+// It is keyed by the SharedContext translation object and resolved locale,
+// avoiding a deep clone for every field while those inputs stay stable.
+let baseCache: {
+  globalTranslation: unknown
+  locale: string
+  result: unknown
+} | null = null
+
 export type FormsTranslationDefaultLocales = typeof formsLocales
 export type FormsTranslationLocale = keyof FormsTranslationDefaultLocales
 export type FormsTranslationKeys =
@@ -81,11 +90,22 @@ export default function useTranslation<T = FormsTranslation>(
   }
 
   const base = useMemo(() => {
-    return extendDeep(
+    const localeKey = translationLocale || LOCALE
+    if (
+      baseCache &&
+      baseCache.globalTranslation === globalTranslation &&
+      baseCache.locale === localeKey
+    ) {
+      return baseCache.result
+    }
+
+    const result = extendDeep(
       {},
-      formsLocales[translationLocale] || formsLocales[LOCALE],
+      formsLocales[localeKey] || formsLocales[LOCALE],
       globalTranslation
     )
+    baseCache = { globalTranslation, locale: localeKey, result }
+    return result
   }, [globalTranslation, translationLocale])
 
   return sharedUseTranslation<

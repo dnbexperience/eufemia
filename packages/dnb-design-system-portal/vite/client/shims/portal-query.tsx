@@ -14,6 +14,10 @@ export function graphql(strings: TemplateStringsArray) {
   return strings.join('')
 }
 
+// Cache for useStaticQuery results. Since allMdxNodes is static, consumers
+// should treat the returned result for a given query string as read-only.
+const staticQueryCache = new Map<string, unknown>()
+
 // useStaticQuery returns the pre-computed allMdx data.
 // Gatsby's GraphQL layer filters (e.g. title != null, draft != true) –
 // replicate the most common filters here so portal code that relies on
@@ -21,6 +25,11 @@ export function graphql(strings: TemplateStringsArray) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useStaticQuery(query: unknown): any {
   const queryStr = typeof query === 'string' ? query : ''
+
+  const cached = staticQueryCache.get(queryStr)
+  if (cached) {
+    return cached
+  }
 
   const siteData = {
     pathPrefix: '/',
@@ -57,6 +66,8 @@ export function useStaticQuery(query: unknown): any {
   for (const { alias, filterStr } of allMdxQueries) {
     result[alias] = { edges: buildFilteredEdges(queryStr, filterStr) }
   }
+
+  staticQueryCache.set(queryStr, result)
 
   return result
 }

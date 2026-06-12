@@ -273,17 +273,17 @@ fieldset.dnb-forms-field-block {
   &__composition--vertical &__contents {
     display: flex;
     flex-flow: column;
-    row-gap: var(--spacing-x-small);
+    row-gap: 0.5rem;
   }
 
   &__composition--horizontal &__contents {
     display: flex;
     flex-flow: row;
-    column-gap: var(--spacing-small);
+    column-gap: 1rem;
 
     // Support wrapping
     flex-wrap: wrap;
-    row-gap: var(--spacing-small);
+    row-gap: 1rem;
     & > .dnb-forms-field-block--width-stretch {
       flex: 1;
     }
@@ -296,7 +296,7 @@ fieldset.dnb-forms-field-block {
       }
     }
     @include utilities.allBelow(x-small) {
-      row-gap: var(--spacing-x-small);
+      row-gap: 0.5rem;
       flex-flow: column;
     }
   }

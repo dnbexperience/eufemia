@@ -10,12 +10,19 @@ const calculator_medium = (props?: IconSVGProps) => (
     viewBox="0 0 24 24"
     {...props}
   >
-    <path
-      stroke="#000"
-      strokeLinecap="round"
-      strokeWidth={1.5}
-      d="M7.5 7.75v3.5M5.75 9.5h3.5m5.5 0h3.5m-3.5 10.25h3.5m-3.5-2.5h3.5M3 5V3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2M3 5h9M3 5v9m18-9h-9m9 0v9m-9-9v18m0 0h7a2 2 0 0 0 2-2v-7m-9 9H5a2 2 0 0 1-2-2v-7m0 0h18M6.25 17.25l2.5 2.5m-2.5 0 2.5-2.5"
-    />
+    <g clipPath="url(#calculator_medium_svg__a)">
+      <path
+        stroke="#000"
+        strokeLinecap="round"
+        strokeWidth={1.5}
+        d="M7.5 7.75v3.5M5.75 9.5h3.5m5.5 0h3.5m-3.5 10.25h3.5m-3.5-2.5h3.5M3 5V3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2M3 5h9M3 5v9m18-9h-9m9 0v9m-9-9v18m0 0h7a2 2 0 0 0 2-2v-7m-9 9H5a2 2 0 0 1-2-2v-7m0 0h18M6.25 17.25l2.5 2.5m-2.5 0 2.5-2.5"
+      />
+    </g>
+    <defs>
+      <clipPath id="calculator_medium_svg__a">
+        <path fill="#fff" d="M0 0h24v24H0z" />
+      </clipPath>
+    </defs>
   </svg>
 )
 export default calculator_medium

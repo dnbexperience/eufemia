@@ -41,3 +41,7 @@ For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Roo
 - Focus is moved to the menu container when it opens. Arrow keys then move focus to individual items. Focus returns to the trigger when the menu closes.
 - Disabled items receive `aria-disabled` and are skipped during keyboard navigation.
 - Dividers use `role="separator"`.
+
+## Root Element (React Portal)
+
+The Menu component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its top-level menu. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.

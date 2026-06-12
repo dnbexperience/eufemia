@@ -28,7 +28,6 @@ export default defineConfig({
       '**/scripts/postbuild/**',
       '**/build/**',
       '**/assets/**',
-      '**/stories/**',
       '**/node_modules/**',
     ],
 

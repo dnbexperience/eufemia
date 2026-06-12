@@ -3,7 +3,7 @@
  *
  */
 
-import sass from 'sass'
+import * as sass from 'sass'
 import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
@@ -35,7 +35,7 @@ export default async function makeLibStyles() {
     )
   } catch (e) {
     // @ts-expect-error - strictFunctionTypes
-    throw new Error(e)
+    throw new Error(e, { cause: e })
   }
 }
 
@@ -60,12 +60,7 @@ export const runFactory = async (
   const postcssTransform = transformPostcss(postcssConfig({ sass }))
   const cssnanoTransform = transformCssnano({ reduceIdents: false })
 
-  const filePatterns = [
-    src,
-    '!**/__tests__/**',
-    '!**/stories/**',
-    '!**/*_not_in_use*/**/*',
-  ]
+  const filePatterns = [src, '!**/__tests__/**', '!**/*_not_in_use*/**/*']
   const matchedFiles = await globby(filePatterns, { cwd: ROOT_DIR })
 
   const collectedEntries: Array<{ path: string; result: string }> = []
@@ -74,7 +69,7 @@ export const runFactory = async (
     const absolutePath = path.resolve(ROOT_DIR, filePath)
     const content = await fs.readFile(absolutePath, 'utf-8')
 
-    // Transform SASS → CSS, fix asset paths
+    // Transform SCSS to CSS, fix asset paths
     const cssContent = sassTransform(content, { path: absolutePath })
     const cssPath = absolutePath.replace(/\.scss$/, '.css')
     const pathFixedContent = innerPathsTransform(cssContent)

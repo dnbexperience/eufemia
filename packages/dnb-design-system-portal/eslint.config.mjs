@@ -2,8 +2,7 @@ import eufemiaConfig from '@dnb/eufemia/eslint.config.mjs'
 import * as mdxPlugin from 'eslint-plugin-mdx'
 import workspacesPlugin from 'eslint-plugin-workspaces'
 
-const workspacesRecommended =
-  workspacesPlugin.configs?.['flat/recommended'] || {}
+const workspacesRecommended = workspacesPlugin.configs?.recommended || {}
 
 export default [
   {
@@ -15,6 +14,7 @@ export default [
       '**/reports/**',
       '**/node_modules/**',
       '*not_in_use*',
+      '**/vite/**',
     ],
   },
   ...eufemiaConfig,
@@ -39,6 +39,9 @@ export default [
           ],
         },
       ],
+      // The portal is a documentation site, not shipped to browsers with
+      // restricted compat requirements – disable compat checking.
+      'compat/compat': 'off',
     },
   },
 
@@ -61,9 +64,9 @@ export default [
 
       // Components are injected via the MDX provider (src/shared/tags/index.tsx)
       'react/jsx-no-undef': 'off',
+      'no-undef': 'off', // MDX components are provided at runtime
 
       // These rules don't apply well to MDX
-      'prettier/prettier': 'off',
       'react/no-unescaped-entities': 'off',
       'react/self-closing-comp': 'off', // false positives: MDX components wrapping markdown content appear "empty" to the parser
       'no-unused-expressions': 'off',

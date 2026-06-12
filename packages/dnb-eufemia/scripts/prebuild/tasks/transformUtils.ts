@@ -1,5 +1,5 @@
 import path from 'path'
-import sass from 'sass'
+import * as sass from 'sass'
 import postcss, { type AcceptedPlugin } from 'postcss'
 import cssnano from 'cssnano'
 import { log } from '../../lib'

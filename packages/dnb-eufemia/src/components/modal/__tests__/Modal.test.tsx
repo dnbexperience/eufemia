@@ -43,7 +43,7 @@ beforeEach(() => {
   global.console.log = vi.fn((...args) => {
     if (
       !String(args[1]).includes(
-        'A Dialog or Drawer needs a h1 as its first element!'
+        'A Dialog or Drawer needs an h1 as its first element!'
       )
     ) {
       log(...args)
@@ -566,7 +566,7 @@ describe('Modal component', () => {
 
     expect(helpers.warn).toHaveBeenCalledTimes(1)
     expect(helpers.warn).toHaveBeenCalledWith(
-      'A Dialog or Drawer needs a h1 as its first element!'
+      'A Dialog or Drawer needs an h1 as its first element!'
     )
 
     global.console.log = log

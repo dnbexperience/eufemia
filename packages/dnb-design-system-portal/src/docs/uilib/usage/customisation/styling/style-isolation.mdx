@@ -105,13 +105,13 @@ The plugin accepts an options object. The default options are:
 }
 ```
 
-CSS Modules are supported including SASS (SCSS) files.
+CSS Modules are supported including SCSS files.
 
 ## CSS Specificity
 
 When extending or overriding styles from Eufemia, it's essential to match the CSS specificity of the original selectors to ensure your styles are applied correctly.
 
-To help with this, you can use the PostCSS plugin (style-scope) that automatically adds the required scope class to your CSS or SCSS (SASS). This ensures your styles have the necessary specificity to take effect.
+To help with this, you can use the PostCSS plugin (style-scope) that automatically adds the required scope class to your CSS or SCSS. This ensures your styles have the necessary specificity to take effect.
 
 ```scss
 .myButtonStyle:global(.dnb-button) {

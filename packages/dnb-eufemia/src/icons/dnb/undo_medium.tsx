@@ -15,7 +15,7 @@ const undo_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M13.625 21.25a9.375 9.375 0 1 0 0-18.75 9.375 9.375 0 0 0-9.375 9.375V13.5m0 0 3.25-3.25M4.25 13.5 1 10.25"
+      d="M13.625 21.25a9.375 9.375 0 1 0 0-18.75 9.375 9.375 0 0 0-9.375 9.375V13.5M1 10.25l3.25 3.25 3.25-3.25"
     />
   </svg>
 )

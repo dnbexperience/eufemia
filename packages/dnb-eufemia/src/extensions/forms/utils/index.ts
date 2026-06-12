@@ -1,6 +1,7 @@
 export * from './ajv'
 export * from './errors'
 export * from './json-pointer'
+export * from './validatorOptions'
 export * from './zod'
 export { FormError } from './FormError'
 export { default as detectCountryCode } from '../../../shared/detectCountryCode'

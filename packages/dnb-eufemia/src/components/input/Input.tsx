@@ -132,7 +132,7 @@ export type InputProps = Omit<
   SpacingProps &
   FormStatusBaseProps & {
     /**
-     * Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.
+     * Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`. `search` shows a loupe icon by default when no submit button is shown.
      */
     type?: string
     /**
@@ -157,7 +157,7 @@ export type InputProps = Omit<
      */
     labelSrOnly?: boolean
     /**
-     * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. There are currently three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
+     * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. There are currently three statuses `virgin`, `focus` and `dirty`. Defaults to `null`.
      */
     inputState?: string
     /**
@@ -165,7 +165,7 @@ export type InputProps = Omit<
      */
     autocomplete?: string
     /**
-     * Title attribute for the search/submit button. Only relevant when `type="search"`.
+     * Title attribute for the submit button. Only relevant when `showSubmitButton` is used.
      */
     submitButtonTitle?: string
     clearButtonTitle?: string
@@ -232,7 +232,7 @@ export type InputProps = Omit<
      */
     iconPosition?: ButtonIconPosition
     /**
-     * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
+     * By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.
      */
     ref?: Ref<HTMLInputElement>
     readOnly?: boolean
@@ -241,7 +241,11 @@ export type InputProps = Omit<
      */
     innerElement?: ReactNode
     /**
-     * Accepts a React element which will show up like the "submit button" would do on `type="search"`.
+     * If set to `true`, then a submit button will be shown when `type="search"`.
+     */
+    showSubmitButton?: boolean
+    /**
+     * Accepts a React element which will show up where the "submit button" would do.
      */
     submitElement?: InputSubmitElement
     submitButtonVariant?: ButtonVariant
@@ -271,7 +275,7 @@ export type InputSubmitButtonProps = Omit<
     title?: string
     variant?: ButtonVariant
     /**
-     * The sizes you can choose are `small`, `default`, `medium` and `large`.
+     * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute.
      */
     size?: ButtonSize
     disabled?: boolean
@@ -539,6 +543,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     submitButtonVariant,
     submitButtonIcon,
     submitButtonStatus,
+    showSubmitButton,
     submitElement,
     innerElement,
     autocomplete,
@@ -578,9 +583,12 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   const id = _id
   const showStatus = getStatusState(status)
-  const hasSubmitButton =
-    submitElement || (submitElement !== false && type === 'search')
+  const showDefaultSubmitButton = type === 'search' && showSubmitButton
+  const hasCustomSubmitElement = Boolean(submitElement)
+  const hasSubmitButton = showDefaultSubmitButton || hasCustomSubmitElement
   const hasVal = hasValue(value)
+  const usedIcon =
+    icon || (type === 'search' && !hasSubmitButton ? 'loupe' : null)
 
   const usedIconSize =
     size === 'large' && (iconSize === 'default' || !iconSize)
@@ -599,9 +607,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       align && `dnb-input__align--${align}`,
       status && `dnb-input__status--${statusState}`,
       disabled && 'dnb-input--disabled',
-      icon && `dnb-input--icon-position-${iconPosition}`,
-      icon && 'dnb-input--has-icon',
-      icon && usedIconSize && `dnb-input--icon-size-${usedIconSize}`,
+      usedIcon && `dnb-input--icon-position-${iconPosition}`,
+      usedIcon && 'dnb-input--has-icon',
+      usedIcon && usedIconSize && `dnb-input--icon-size-${usedIconSize}`,
       labelDirection && `dnb-input--${labelDirection}`,
       stretch && `dnb-input--stretch`,
       keepPlaceholder && 'dnb-input--keep-placeholder',
@@ -660,7 +668,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   if (showStatus || suffix || hasSubmitButton) {
     inputParams['aria-describedby'] = combineDescribedBy(
       inputParams,
-      hasSubmitButton && !submitElement ? id + '-submit-button' : null,
+      showDefaultSubmitButton ? id + '-submit-button' : null,
       showStatus ? id + '-status' : null,
       suffix ? id + '-suffix' : null
     )
@@ -736,10 +744,10 @@ function InputComponent({ ref, ...restProps }: InputProps) {
               </span>
             )}
 
-            {icon && (
+            {usedIcon && (
               <InputIcon
                 className="dnb-input__icon"
-                icon={icon}
+                icon={usedIcon}
                 size={usedIconSize}
               />
             )}
@@ -780,7 +788,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
           </span>
           {hasSubmitButton && (
             <span className="dnb-input__submit-element">
-              {submitElement ? (
+              {hasCustomSubmitElement ? (
                 submitElement
               ) : (
                 <InputSubmitButton

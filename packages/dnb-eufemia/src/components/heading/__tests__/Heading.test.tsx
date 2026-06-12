@@ -98,7 +98,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h3] Heading #9')
     expect(elem[++i].textContent).toBe('[h3] Heading #10')
     expect(elem[++i].textContent).toBe('[h3] Heading #11')
-    expect(elem[++i].textContent).toBe('[h2] Heading #12')
+    expect(elem[i + 1].textContent).toBe('[h2] Heading #12')
   })
 
   it('should match global reset', () => {
@@ -124,7 +124,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h1] Heading #1')
     expect(elem[++i].textContent).toBe('[h1] Heading #2')
     expect(elem[++i].textContent).toBe('[h2] Heading #3')
-    expect(elem[++i].textContent).toBe('[h2] Heading #4')
+    expect(elem[i + 1].textContent).toBe('[h2] Heading #4')
   })
 
   it('should match context reset', () => {
@@ -148,7 +148,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h2] Heading #2')
     expect(elem[++i].textContent).toBe('[h3] Heading #3')
     expect(elem[++i].textContent).toBe('[h2] Heading #4')
-    expect(elem[++i].textContent).toBe('[h2] Heading #5')
+    expect(elem[i + 1].textContent).toBe('[h2] Heading #5')
   })
 
   it('should match level correction with manual heading', () => {
@@ -170,7 +170,7 @@ describe('Heading component', () => {
     const elem = document.querySelectorAll('.dnb-heading')
     expect(elem[++i].textContent).toBe('[h1] Heading #1')
     expect(elem[++i].textContent).toBe('[h2] Heading #2')
-    expect(elem[++i].textContent).toBe('[h3] Heading #4')
+    expect(elem[i + 1].textContent).toBe('[h3] Heading #4')
   })
 
   it('should match after level state update', () => {
@@ -461,7 +461,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h3] h3')
     expect(elem[++i].textContent).toBe('[h3] h3 before')
     expect(elem[++i].textContent).toBe('[h3] h3 after')
-    expect(elem[++i].textContent).toBe('[h2] h2')
+    expect(elem[i + 1].textContent).toBe('[h2] h2')
 
     rerender(<StateChanges showHeading3={true} />)
 
@@ -475,7 +475,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h4] h4 2')
     expect(elem[++i].textContent).toBe('[h5] h5 1')
     expect(elem[++i].textContent).toBe('[h3] h3 after')
-    expect(elem[++i].textContent).toBe('[h2] h2')
+    expect(elem[i + 1].textContent).toBe('[h2] h2')
 
     rerender(<StateChanges showHeading4={true} />)
 
@@ -492,7 +492,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h4] h4 1')
     expect(elem[++i].textContent).toBe('[h4] h4 2')
     expect(elem[++i].textContent).toBe('[h5] h5 1')
-    expect(elem[++i].textContent).toBe('[h2] h2')
+    expect(elem[i + 1].textContent).toBe('[h2] h2')
 
     rerender(<StateChanges showHeading4={false} />)
 
@@ -514,7 +514,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h4] h4 1')
     expect(elem[++i].textContent).toBe('[h4] h4 2')
     expect(elem[++i].textContent).toBe('[h5] h5 1')
-    expect(elem[++i].textContent).toBe('[h2] h2')
+    expect(elem[i + 1].textContent).toBe('[h2] h2')
   })
 
   it('should match default leveling', () => {
@@ -552,7 +552,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h2] Heading #6')
     expect(elem[++i].textContent).toBe('[h3] Heading #7')
     expect(elem[++i].textContent).toBe('[h2] Heading #8')
-    expect(elem[++i].textContent).toBe('[h2] Heading #9')
+    expect(elem[i + 1].textContent).toBe('[h2] Heading #9')
   })
 
   it('should validate with ARIA rules', async () => {

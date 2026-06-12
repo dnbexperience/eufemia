@@ -7,7 +7,7 @@ delete props.currencyDisplay
 
 export const CurrencyProperties: PropertiesTableProps = {
   currency: {
-    doc: 'Defines what format to show the currency value in, i.e. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`.',
+    doc: 'Defines what format to show the currency value in, e.g. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`.',
     type: 'string',
     status: 'optional',
   },

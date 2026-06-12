@@ -114,7 +114,7 @@ export default {
       ariaRole: 'Hjælp-knap',
     },
     Input: {
-      submitButtonTitle: 'Indsend',
+      submitButtonTitle: 'Søg',
       clearButtonTitle: 'Nulstil',
     },
     Pagination: {
@@ -196,6 +196,20 @@ export default {
       closeButtonTitle: 'Luk ordforklaring',
       openTriggerTitle: 'Klik for at åbne ordforklaring',
       closeTriggerTitle: 'Klik for at lukke ordforklaring',
+    },
+    Filter: {
+      ariaLabel: 'Filter',
+      activeFiltersLabel: 'Aktive filtre',
+      activeFiltersCountLabel: '%s aktive filtre',
+      clearAllLabel: 'Fjern alle',
+      panelButtonLabel: 'Filter',
+      hideFilterLabel: 'Skjul filter',
+      applyFilterLabel: 'Anvend filter',
+      cancelFilterLabel: 'Annuller',
+      dateLabel: 'Dato',
+      sortButtonLabel: 'Sortér',
+      noResultsMessage: 'Prøv at ændre eller fjerne nogle filtre.',
+      resultCountMessage: '%s resultat(er)',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

@@ -4,7 +4,6 @@
 
 import { memo, useCallback, useContext, useEffect, useRef } from 'react'
 import type {
-  ComponentType,
   HTMLProps,
   MemoExoticComponent,
   ReactNode,
@@ -122,7 +121,7 @@ export type FormStatusProps = {
    */
   variant?: FormStatusVariant
   /**
-   * Defines the appearance size. There are these sizes `default`, `large`. The default size is `default`.
+   * Defines the appearance size. Available sizes are `default` and `large`. The default size is `default`.
    */
   size?: FormStatusSize
   attributes?: FormStatusAttributes
@@ -226,33 +225,42 @@ function getIcon({
     return icon as ReactNode
   }
 
-  let IconToLoad: ComponentType<
-    ErrorIconProps | WarnIconProps | InfoIconProps | MarketingIconProps
-  > = ErrorIcon
-
   switch (correctStatus(state)) {
     case 'information':
     case 'success':
-      IconToLoad = InfoIcon
-      break
+      return (
+        <Icon
+          icon={<InfoIcon title={null} state={state} />}
+          size={iconSize}
+          inheritColor={false}
+        />
+      )
     case 'warning':
-      IconToLoad = WarnIcon
-      break
+      return (
+        <Icon
+          icon={<WarnIcon title={null} state={state} />}
+          size={iconSize}
+          inheritColor={false}
+        />
+      )
     case 'marketing':
-      IconToLoad = MarketingIcon
-      break
+      return (
+        <Icon
+          icon={<MarketingIcon title={null} state={state} />}
+          size={iconSize}
+          inheritColor={false}
+        />
+      )
     case 'error':
     default:
-      IconToLoad = ErrorIcon
+      return (
+        <Icon
+          icon={<ErrorIcon title={null} state={state} />}
+          size={iconSize}
+          inheritColor={false}
+        />
+      )
   }
-
-  return (
-    <Icon
-      icon={<IconToLoad title={null} state={state} />}
-      size={iconSize}
-      inheritColor={false}
-    />
-  )
 }
 
 function FormStatusComponent(

@@ -82,7 +82,7 @@ function getInputDates(type: 'start' | 'end', date: Date | undefined) {
   return {}
 }
 
-export function pad(date: string, size: number) {
+function pad(date: string, size: number) {
   const dateWithPadding = '000000000' + date
 
   return dateWithPadding.substring(dateWithPadding.length - size)

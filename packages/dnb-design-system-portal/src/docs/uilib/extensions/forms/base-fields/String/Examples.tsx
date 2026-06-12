@@ -529,8 +529,8 @@ export const OnInput = () => {
           const caretStart = inputEl.selectionStart
           const selectionStart = parseFloat(inputEl.dataset.selectionStart)
           const selectionEnd = parseFloat(inputEl.dataset.selectionEnd)
-          let inserted = ''
 
+          let inserted: string
           if (selectionStart !== selectionEnd) {
             inserted = inputEl.value.substring(
               selectionStart,

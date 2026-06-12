@@ -459,12 +459,21 @@ describe('GlobalStatus component', () => {
       </>
     )
 
+    Object.defineProperty(
+      document.querySelector('.dnb-global-status__wrapper') as HTMLElement,
+      'scrollIntoView',
+      {
+        configurable: true,
+        value: undefined,
+      }
+    )
+
     // Open
     fireEvent.click(document.querySelector('input#switch'))
 
-    await refresh()
-
-    expect(scrollTo).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+    })
     expect(scrollTo).toHaveBeenCalledWith({
       behavior: 'smooth',
       top: 0,
@@ -478,15 +487,15 @@ describe('GlobalStatus component', () => {
 
     // Close
     fireEvent.click(document.querySelector('input#switch'))
-    await refresh()
-
-    expect(scrollTo).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+    })
 
     // Open
     fireEvent.click(document.querySelector('input#switch'))
-    await refresh()
-
-    expect(scrollTo).toHaveBeenCalledTimes(2)
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(2)
+    })
     expect(scrollTo).toHaveBeenCalledWith({
       behavior: 'smooth',
       top: offsetTop,
@@ -743,12 +752,14 @@ describe('GlobalStatus component', () => {
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('error-message')
 
-    expect(
-      document.querySelector('.dnb-global-status__content')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('.dnb-global-status__message p').textContent
-    ).toBe('error-message')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-global-status__content')
+      ).toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-global-status__message p')
+      ).toHaveTextContent('error-message')
+    })
 
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
@@ -851,17 +862,19 @@ describe('GlobalStatus component', () => {
 
     fireEvent.click(document.querySelector('input#switch'))
 
-    await refresh()
-
-    expect(
-      document.querySelectorAll('.dnb-global-status__message p')[0]
-        .textContent
-    ).toBe("'error-message'")
-    expect(
-      document
-        .querySelectorAll('.dnb-global-status__message__content ul li')[0]
-        .querySelector('a.dnb-anchor').textContent
-    ).toBe("custom anchor text 'my-label'")
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-global-status__message p')[0]
+          .textContent
+      ).toBe("'error-message'")
+      expect(
+        document
+          .querySelectorAll(
+            '.dnb-global-status__message__content ul li'
+          )[0]
+          .querySelector('a.dnb-anchor').textContent
+      ).toBe("custom anchor text 'my-label'")
+    })
   })
 
   it('should have a working auto close', async () => {

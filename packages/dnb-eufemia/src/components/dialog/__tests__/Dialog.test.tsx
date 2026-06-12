@@ -32,7 +32,7 @@ beforeEach(() => {
   global.console.log = vi.fn((...args) => {
     if (
       !String(args[1]).includes(
-        'A Dialog or Drawer needs a h1 as its first element!'
+        'A Dialog or Drawer needs an h1 as its first element!'
       )
     ) {
       log(...args)
@@ -673,6 +673,69 @@ describe('Dialog', () => {
 
     // Verify that focus is NOT on the submit button
     expect(document.activeElement).not.toBe(submitButton)
+  })
+
+  it('should open controlled dialog without noAnimation', async () => {
+    const originalIsTest = window['IS_TEST']
+    window['IS_TEST'] = false
+
+    try {
+      const TestComponent = () => {
+        const [showDialog, setShowDialog] = useState(false)
+
+        return (
+          <>
+            <button
+              data-testid="trigger"
+              onClick={() => setShowDialog(true)}
+            >
+              Open
+            </button>
+            <Dialog
+              omitTriggerButton
+              open={showDialog}
+              onClose={() => setShowDialog(false)}
+            >
+              Dialog content
+              <button
+                data-testid="close"
+                onClick={() => setShowDialog(false)}
+              >
+                Close
+              </button>
+            </Dialog>
+          </>
+        )
+      }
+
+      render(<TestComponent />)
+
+      const triggerButton = document.querySelector(
+        '[data-testid="trigger"]'
+      )
+
+      expect(document.querySelector('.dnb-dialog')).not.toBeInTheDocument()
+
+      // Open
+      await userEvent.click(triggerButton)
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
+      })
+
+      await userEvent.click(
+        document.querySelector('[data-testid="close"]')
+      )
+
+      // Reopen while the close animation is still in progress.
+      await userEvent.click(triggerButton)
+
+      await new Promise((resolve) => setTimeout(resolve, 350))
+
+      expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
+    } finally {
+      window['IS_TEST'] = originalIsTest
+    }
   })
 })
 

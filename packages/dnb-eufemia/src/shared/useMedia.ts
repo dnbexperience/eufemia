@@ -180,7 +180,7 @@ export default function useMedia(
           key,
         })
 
-        let hasMatch = undefined
+        let hasMatch: boolean
 
         if (
           typeof initialValue?.[name] !== 'undefined' &&

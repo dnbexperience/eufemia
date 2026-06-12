@@ -1515,6 +1515,336 @@ describe('InputMasked component asNumber', () => {
     expect(document.querySelector('input').value).toBe('12 345')
   })
 
+  it('should treat dot + 3 digits as thousands in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "20.500" → dot + 3 digits = thousands → 20500
+    fireEvent.change(input, { target: { value: '20.500' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 20500 })
+    )
+  })
+
+  it('should treat dot + 2 digits as decimal in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "20.50" → dot + 2 digits = decimal → 20.5
+    fireEvent.change(input, { target: { value: '20.50' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 20.5 })
+    )
+  })
+
+  it('should treat dot + 1 digit as decimal in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "20.5" → dot + 1 digit = decimal → 20.5
+    fireEvent.change(input, { target: { value: '20.5' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 20.5 })
+    )
+  })
+
+  it('should treat multiple dots + 3 digits as thousands in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "1.234.567" → each dot + 3 digits = thousands → 1234567
+    fireEvent.change(input, { target: { value: '1.234.567' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 1234567 })
+    )
+  })
+
+  it('should treat single comma + 3 digits as decimal when pasting in nb-NO locale', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "25,000" → single comma group = decimal in nb-NO → 25
+    await userEvent.click(input)
+    await userEvent.paste('25,000')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 25 })
+    )
+  })
+
+  it('should treat multiple comma groups as thousands when pasting in nb-NO locale', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "1,234,567" → multiple comma groups = thousands → 1234567
+    await userEvent.click(input)
+    await userEvent.paste('1,234,567')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 1234567 })
+    )
+  })
+
+  it('should treat comma + 1 digit as decimal when pasting in nb-NO locale', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "25,5" → comma + 1 digit = decimal → 25.5
+    await userEvent.click(input)
+    await userEvent.paste('25,5')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 25.5 })
+    )
+  })
+
+  it('should disambiguate mixed dot+comma (US format) when pasting in nb-NO locale', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "1,234.56" → both separators, dot is last = decimal → 1234.56
+    await userEvent.click(input)
+    await userEvent.paste('1,234.56')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 1234.56 })
+    )
+  })
+
+  it('should disambiguate mixed dot+comma (EU format) when pasting in nb-NO locale', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "1.234,56" → both separators, comma is last = decimal → 1234.56
+    await userEvent.click(input)
+    await userEvent.paste('1.234,56')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 1234.56 })
+    )
+  })
+
+  it('should disambiguate mixed format with multiple thousands groups when pasting', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "1,234,567.89" → dot last = decimal → 1234567.89
+    await userEvent.click(input)
+    await userEvent.paste('1,234,567.89')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 1234567.89 })
+    )
+  })
+
+  it('should treat dot after leading zero as decimal in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "0.500" → leading zero = always decimal → 0.5
+    fireEvent.change(input, { target: { value: '0.500' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 0.5 })
+    )
+  })
+
+  it('should treat dot after negative leading zero as decimal in nb-NO locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true, allowNegative: true }}
+        onChange={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "-0.500" → leading zero = always decimal → -0.5
+    fireEvent.change(input, { target: { value: '-0.500' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: -0.5 })
+    )
+  })
+
+  it('should treat dot as decimal separator in en-GB locale', () => {
+    const onChange = vi.fn()
+
+    render(
+      <Provider locale="en-GB">
+        <InputMasked
+          asNumber
+          maskOptions={{ allowDecimal: true }}
+          onChange={onChange}
+        />
+      </Provider>
+    )
+
+    const input = document.querySelector('input')
+
+    // In en-GB, dot is the native decimal separator — no disambiguation needed
+    fireEvent.change(input, { target: { value: '20.5' } })
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 20.5 })
+    )
+  })
+
+  it('should disambiguate dot in programmatic value prop (validation path)', () => {
+    // When value is set as a string prop, correctNumberValue converts
+    // dots to locale decimal (comma in nb-NO) before Maskito. However
+    // the validation preprocessor still runs and would catch any dots
+    // that survive. This test verifies the value prop path produces
+    // correct results end-to-end.
+    const { rerender } = render(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true, decimalLimit: 3 }}
+        value=""
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // "12345.678" → correctNumberValue converts to "12345,678"
+    // → Maskito formats as "12 345,678"
+    rerender(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true, decimalLimit: 3 }}
+        value="12345.678"
+      />
+    )
+    expect(input).toHaveValue('12 345,678')
+
+    // "0.5" → correctNumberValue converts to "0,5" → stays "0,5"
+    rerender(
+      <InputMasked
+        asNumber
+        maskOptions={{ allowDecimal: true }}
+        value="0.5"
+      />
+    )
+    expect(input).toHaveValue('0,5')
+  })
+
+  it('should handle comma paste in en-GB locale (comma is thousands, not pseudo-decimal)', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <Provider locale="en-GB">
+        <InputMasked
+          asNumber
+          maskOptions={{ allowDecimal: true }}
+          onChange={onChange}
+        />
+      </Provider>
+    )
+
+    const input = document.querySelector('input')
+
+    // In en-GB, comma is the native thousands separator.
+    // Pasting "1,5" should treat comma as thousands → 15, not as decimal 1.5
+    await userEvent.click(input)
+    await userEvent.paste('1,5')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ numberValue: 15 })
+    )
+  })
+
   it('should react to locale change', () => {
     const { rerender } = render(
       <InputMasked

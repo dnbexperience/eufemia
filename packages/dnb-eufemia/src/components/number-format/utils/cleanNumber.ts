@@ -91,7 +91,6 @@ export function cleanNumber(
   // Make sure that there are only two digits after the comma, then we clean that up.
   // else we don't, because it can be a US number
   // therefore, check first, is there a chance of being a decimal?
-  // const decimalReg = new RegExp(`(${decimal})([0-9]{1,2})`, 'g')
   const decimalReg = decimalSeparator
     ? new RegExp(`(${escapeRegexChars(decimalSeparator)})([0-9]{0,})`, 'g')
     : new RegExp(`(${decimal})([0-9]{1,2})`, 'g')
