@@ -290,6 +290,21 @@ describe('Filter.Search submitBehavior="manual"', () => {
     ).toBe('world')
   })
 
+  it('does not render a separate search icon when submit button is shown', () => {
+    render(
+      <FilterRoot>
+        <FilterSearch label="Søk" submitBehavior="manual" />
+      </FilterRoot>
+    )
+
+    expect(
+      document.querySelector('.dnb-input__submit-button .dnb-icon')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-input__icon')
+    ).not.toBeInTheDocument()
+  })
+
   it('clears search state when clear button is clicked', () => {
     function SearchState() {
       const ctx = useFilterContext()
