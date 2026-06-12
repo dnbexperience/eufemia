@@ -156,6 +156,15 @@ describe('Autocomplete component', () => {
     expect(input).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('forwards type to input', () => {
+    render(<Autocomplete type="search" {...mockProps} />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'type',
+      'search'
+    )
+  })
+
   it('supports setting autocomplete', () => {
     render(
       <Autocomplete

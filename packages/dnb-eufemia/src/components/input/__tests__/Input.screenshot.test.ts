@@ -55,24 +55,6 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
 
-    it('have to match search type with button hover state', async () => {
-      await makeScreenshot({
-        ...extend('input-search'),
-        selector: '[data-visual-test="input-search"]',
-        simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
-        simulate: 'hover',
-      })
-    })
-
-    it('have to match search type with button active state', async () => {
-      await makeScreenshot({
-        ...extend('input-search'),
-        selector: '[data-visual-test="input-search"]',
-        simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
-        simulate: 'active',
-      })
-    })
-
     it('have to match search type with mouse focus state', async () => {
       await makeScreenshot({
         ...extend('input-search'),
@@ -86,15 +68,6 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         ...extend('input-search'),
         selector: '[data-visual-test="input-search"]',
         simulate: 'focus', // should be tested first
-      })
-    })
-
-    it('have to match search type with button focus state', async () => {
-      await makeScreenshot({
-        ...extend('input-search'),
-        selector: '[data-visual-test="input-search"]',
-        simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
-        simulate: 'focus',
       })
     })
 

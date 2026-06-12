@@ -35,6 +35,7 @@ export const InputExampleMedium = () => (
       size="medium"
       type="search"
       stretch={true}
+      showSubmitButton={true}
       value="Medium search value"
       onChange={({ value }) => {
         console.log('onChange', value)
@@ -88,6 +89,7 @@ export const InputExampleFormStatus = () => (
           status="You have to fill in this field"
           value="Input value with error"
           type="search"
+          showSubmitButton
         />
       </section>
     </Flex.Vertical>
@@ -181,8 +183,8 @@ export const InputExampleClear = () => (
       <Input
         showClearButton={true}
         value="Value ..."
-        icon="loupe"
         type="search"
+        showSubmitButton
       />
     </Flex.Vertical>
   </ComponentBox>
