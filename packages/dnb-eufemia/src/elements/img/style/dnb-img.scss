@@ -7,4 +7,14 @@
 
 .dnb-img {
   @include img-mixins.figureStyle();
+
+  &[alt]::after {
+    color: var(--token-color-text-neutral);
+    background-color: var(--token-color-background-neutral-base);
+  }
+
+  &__img--error {
+    color: var(--token-color-text-neutral);
+    background-color: var(--token-color-background-neutral-base);
+  }
 }
