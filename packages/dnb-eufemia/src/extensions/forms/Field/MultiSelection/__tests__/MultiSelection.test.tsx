@@ -838,6 +838,9 @@ describe('MultiSelection', () => {
           )
 
           expect(searchInput).toHaveAttribute('type', 'search')
+          expect(searchInput).toHaveAttribute('autocapitalize', 'none')
+          expect(searchInput).toHaveAttribute('autocorrect', 'off')
+          expect(searchInput).toHaveAttribute('spellcheck', 'false')
         },
         { timeout: 3000 }
       )
