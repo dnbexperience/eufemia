@@ -77,7 +77,6 @@ export type SharedAttachments<Data = unknown> = {
   hasFieldError?: ContextState['hasFieldError']
   setShowAllErrors?: ContextState['setShowAllErrors']
   setSubmitState?: ContextState['setSubmitState']
-  rerenderUseDataHook?: () => void
   updateDataValue?: ContextState['updateDataValue']
   clearData?: () => void
   setData?: ContextState['setData']
