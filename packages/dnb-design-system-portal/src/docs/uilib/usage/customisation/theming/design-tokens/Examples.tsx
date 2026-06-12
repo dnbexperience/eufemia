@@ -172,10 +172,9 @@ const darkModeSwatchRows: DarkModeSwatch[] = [
 ]
 
 const darkModeGridStyle: CSSProperties = {
-  display: 'inline-grid',
+  display: 'grid',
   gap: '1rem',
-  gridTemplateColumns: 'repeat(2, auto)',
-  placeItems: 'start',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 20rem), 1fr))',
 }
 
 const darkModeCardInnerStyle: CSSProperties = {
