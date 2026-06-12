@@ -77,7 +77,6 @@ async function runThemeFactory() {
       ),
       ...processToNamesIgnoreList,
     ],
-    customContent: ({ name }) => `@use './${name}-theme-forms.scss';`,
     // output
     targetFile: 'components', // ui-theme-components.scss
     scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),
@@ -110,47 +109,6 @@ async function runThemeFactory() {
     }
   })
 
-  // extensions
-  await runFactory({
-    // input
-    filesToFindGlob: [
-      path.resolve(
-        __dirname,
-        '../../../src/extensions/**/style/themes/**/*-theme-*.scss'
-      ),
-      ...processToNamesIgnoreList,
-    ].concat(['!**/forms/style/themes/*']),
-    // output
-    targetFile: 'extensions', // ui-theme-extensions.scss
-    scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),
-  }).then(() => {
-    if (isCLI) {
-      log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
-      )
-    }
-  })
-
-  // forms
-  await runFactory({
-    // input
-    filesToFindGlob: [
-      path.resolve(
-        __dirname,
-        '../../../src/extensions/forms/**/style/themes/**/*-theme-*.scss'
-      ),
-      ...processToNamesIgnoreList,
-    ].concat(['!**/forms/style/themes/*']),
-    // output
-    targetFile: 'forms', // ui-theme-forms.scss
-    scssOutputPath: path.resolve(__dirname, '../../../src/style/themes'),
-  }).then(() => {
-    if (isCLI) {
-      log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
-      )
-    }
-  })
 }
 
 export async function runFactory({
