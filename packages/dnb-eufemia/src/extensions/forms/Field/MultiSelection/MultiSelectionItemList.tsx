@@ -1,4 +1,4 @@
-import { Fragment, useCallback } from 'react'
+import { cloneElement, Fragment, isValidElement, useCallback } from 'react'
 import type { ReactNode, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
@@ -34,6 +34,76 @@ export type MultiSelectionItemListProps = {
   selectableFilteredFlat: MultiSelectionItem[]
   allFilteredSelected: boolean
   someFilteredSelected: boolean
+}
+
+function highlightText(
+  text: string,
+  searchValue: string,
+  keyPrefix: string
+): ReactNode {
+  if (!searchValue || !text) {
+    return text
+  }
+
+  const escapedSearch = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const regex = new RegExp(`(${escapedSearch})`, 'gi')
+  const exactRegex = new RegExp(`^${escapedSearch}$`, 'i')
+  const parts = text.split(regex)
+
+  if (parts.length === 1) {
+    return text
+  }
+
+  return parts.map((part, index) => {
+    if (exactRegex.test(part)) {
+      return (
+        <mark
+          key={`${keyPrefix}-${index}`}
+          className="dnb-forms-field-multi-selection__highlighting"
+        >
+          {part}
+        </mark>
+      )
+    }
+
+    return part
+  })
+}
+
+function highlightSearchValue(
+  node: ReactNode,
+  searchValue: string,
+  keyPrefix: string
+): ReactNode {
+  if (!searchValue) {
+    return node
+  }
+
+  if (Array.isArray(node)) {
+    return node.map((child, index) =>
+      highlightSearchValue(child, searchValue, `${keyPrefix}-${index}`)
+    )
+  }
+
+  if (typeof node === 'string' || typeof node === 'number') {
+    return highlightText(String(node), searchValue, keyPrefix)
+  }
+
+  if (isValidElement<{ children?: ReactNode }>(node)) {
+    const children = node.props.children
+
+    if (typeof children === 'undefined') {
+      return node
+    }
+
+    return cloneElement(
+      node,
+      undefined,
+      highlightSearchValue(children, searchValue, `${keyPrefix}-children`)
+    )
+  }
+
+  return node
 }
 
 export function MultiSelectionItemList({
@@ -120,7 +190,11 @@ export function MultiSelectionItemList({
                   : onToggleItem(item.value)
               }
               disabled={disabled || item.disabled}
-              label={item.title}
+              label={highlightSearchValue(
+                item.title,
+                searchValue,
+                `${itemPath}-title`
+              )}
               className="dnb-forms-field-multi-selection__checkbox"
               {...htmlAttributes}
             />
@@ -128,12 +202,20 @@ export function MultiSelectionItemList({
               <div className="dnb-forms-field-multi-selection__item-details">
                 {item.text && (
                   <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-text">
-                    {item.text}
+                    {highlightSearchValue(
+                      item.text,
+                      searchValue,
+                      `${itemPath}-text`
+                    )}
                   </span>
                 )}
                 {item.description && (
                   <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-description">
-                    {item.description}
+                    {highlightSearchValue(
+                      item.description,
+                      searchValue,
+                      `${itemPath}-description`
+                    )}
                   </span>
                 )}
               </div>

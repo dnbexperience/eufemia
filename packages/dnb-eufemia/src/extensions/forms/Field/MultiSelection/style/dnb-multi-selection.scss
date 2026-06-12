@@ -55,6 +55,12 @@
     color: var(--token-color-text-neutral-alternative);
   }
 
+  &__highlighting {
+    font-weight: var(--font-weight-bold);
+    background-color: transparent;
+    color: inherit;
+  }
+
   &__item {
     position: relative;
     display: flex;
