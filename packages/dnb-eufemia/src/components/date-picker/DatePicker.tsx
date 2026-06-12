@@ -826,7 +826,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   alignOnTarget={
                     alignPicker === 'right' || stretch ? 'right' : 'left'
                   }
-                  horizontalOffset={showInput ? 8 : -8}
+                  horizontalOffset={showInput ? 16 : 12}
                   placement={
                     props.direction === 'auto' ? 'bottom' : props.direction
                   }
