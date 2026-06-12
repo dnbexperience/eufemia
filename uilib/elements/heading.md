@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The heading element is used to indicate the quotation of a large section of text from another source.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.377Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.332Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -184,6 +184,8 @@ Only the largest margin takes effect.
 
 
 ### Dark surface
+
+Use [Section](/uilib/components/section/demos/#dark-surface) or [Theme.Context](/uilib/usage/customisation/theming/theme#surface-property) with `surface="dark"` to provide dark surface context to supporting components.
 
 Headings automatically adapt their color when rendered on a dark surface:
 

@@ -1,9 +1,9 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.665Z
-checksum: 7de0da6b383745c27475497c9f7478a9fc68eeee197f8230e3b44dd10106380b
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.651Z
+checksum: ae7887af29a363083e70cee1ef245b8ad92df8e01c4431b97ef595805f270b45
 ---
 
 # Iterate.Array
@@ -1043,7 +1043,7 @@ render(<Form.Handler required onSubmit={data => console.log('onSubmit', data)}>
       "status": "optional"
     },
     "onChangeValidator": {
-      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
+      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user, and runs during form submit by default. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "function",
       "status": "optional"
     },

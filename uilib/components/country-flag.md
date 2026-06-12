@@ -1,8 +1,8 @@
 ---
 title: 'CountryFlag'
 description: 'The CountryFlag component lets you display a country flag based on a country ISO code.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.792Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.633Z
 checksum: 96858d9c7269f72350401c3a9b92c476b3cbdcea7f967c9c12932cbbe1d8c391
 ---
 
@@ -16,7 +16,7 @@ import { CountryFlag } from '@dnb/eufemia'
 // Import the flag icons as CSS
 import '@dnb/eufemia/components/country-flag/style/dnb-country-flag-icons.min.css'
 
-// ... or as SASS
+// ... or as SCSS
 import '@dnb/eufemia/components/country-flag/style/dnb-country-flag-icons.scss'
 ```
 
@@ -24,7 +24,7 @@ import '@dnb/eufemia/components/country-flag/style/dnb-country-flag-icons.scss'
 
 The `CountryFlag` component lets you display a country flag based on a [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) like `NO` for Norway.
 
-In order to use the CountryFlag component, you need to import the flag styles as CSS or SASS. The flag styles are available in the `dnb-country-flag-icons.min.css` and `dnb-country-flag-icons.scss` files. See the import example above.
+In order to use the CountryFlag component, you need to import the flag styles as CSS or SCSS. The flag styles are available in the `dnb-country-flag-icons.min.css` and `dnb-country-flag-icons.scss` files. See the import example above.
 
 These style files will import the SVG flag icon via a CSS `background-image`. This way only the used flags will be loaded by the browser.
 

@@ -1,8 +1,8 @@
 ---
 title: 'InfinityScroller'
 description: 'The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.991Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.876Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -109,8 +109,6 @@ render(
 ```
 
 #### Infinity scroller method #4
-
-Using a `InfinityMarker` only. See [code example on GitHub](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/components/pagination/stories/PaginationTableMarker.stories.tsx).
 
 This method will basically add a load button on top, if `startupPage` or `currentPage` is higher than `1` at the first render.
 

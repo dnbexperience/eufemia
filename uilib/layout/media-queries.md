@@ -1,7 +1,7 @@
 ---
 title: 'Media Queries'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:38.010Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:37.045Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -23,13 +23,13 @@ UX designers are using a 12 column system during their design processes.
 
 Applications in DNB actually break only twice (`small` and `medium`), but have an HTML body max-width of `large`.
 
-| React hook | Range                             | SASS mixin                  | Columns |
+| React hook | Range                             | SCSS mixin                  | Columns |
 | ---------- | --------------------------------- | --------------------------- | ------- |
 | `isSmall`  | from 0 to 40em                    | `allBelow(small)`           | 4       |
 | `isMedium` | from (not including) 40em to 60em | `allBetween(small, medium)` | 6       |
 | `isLarge`  | from (not including) 60em         | `allAbove(medium)`          | 12      |
 
-Note: if you've set [custom sass breakpoints](/uilib/helpers/sass/#custom-offset) using `$breakpoints` or `$breakpoint-offset`, the sass mixins will be different.
+Note: if you've set [custom SCSS breakpoints](/uilib/helpers/sass/#custom-offset) using `$breakpoints` or `$breakpoint-offset`, the SCSS mixins will be different.
 
 So when dealing with the naming of breakpoint ranges (between breakpoints), we use the term "large" when a media query exceeds `medium`:
 
@@ -357,9 +357,9 @@ You get an object with the values and the types as the keys.
 import { defaultBreakpoints } from '@dnb/eufemia/shared/MediaQueryUtils'
 ```
 
-## SASS / SCSS mixins
+## SCSS mixins
 
-You can re-use the SASS mixins from Eufemia:
+You can re-use the SCSS mixins from Eufemia:
 
 ```scss
 // breakpoints.scss

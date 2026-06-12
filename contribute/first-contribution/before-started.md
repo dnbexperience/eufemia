@@ -1,7 +1,7 @@
 ---
 title: 'Before getting started'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:35.948Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:34.742Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -23,7 +23,6 @@ Before you get started, there are some technical decisions you should know about
     - [Component folder](#component-folder)
       - [Modifications](#modifications)
   - [Development environments](#development-environments)
-    - [Storybook development](#storybook-development)
     - [Eufemia portal](#eufemia-portal)
       - [Local build](#local-build)
     - [Testing](#testing)
@@ -40,7 +39,7 @@ The library consists of React components. The newer components are written as fu
 
 Components are written in [TypeScript](https://www.typescriptlang.org/).
 
-Components are styled using [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and [BEM](https://getbem.com/naming/) (Block Element Modifier).
+Components are styled using [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SCSS and [BEM](https://getbem.com/naming/) (Block Element Modifier).
 
 ## Eufemia is a Mono Repository
 
@@ -141,26 +140,9 @@ As an example, we show the folder structure of component Breadcrumb. You can als
 
 There are a couple of environments for different purposes.
 
-- For developing and styling new components, you can run [Storybook development](/contribute/first-contribution/before-started#storybook-development).
 - For writing documentation and displaying the components, you can run [the portal](/contribute/first-contribution/before-started#eufemia-portal) locally.
 - After development, you can run [your tests](/contribute/getting-started#make-and-run-tests).
 - If you want to see the local changes in the search results, you can run [Algolia search queries locally](/).
-
-### Storybook development
-
-[Storybook](https://storybook.js.org/) is used for quick examples and component development. They do not need to be perfect.
-
-Stories are placed inside a `/stories` directory and contain _.stories_ in the filename: `/components/button/stories/Button.stories.tsx`
-
-Run Storybook locally by running
-
-```bash
-yarn dev
-```
-
-in the root folder. Then you can view the Storybook website by visiting [localhost:8002](http://localhost:8002/).
-
-Add new pages to the storybook by adding a new directory `/stories` and a new file under `ComponentName.stories.tsx` and following the similar structure of the other files.
 
 ### Eufemia portal
 
@@ -203,7 +185,7 @@ $ yarn workspace @dnb/eufemia build
 - Assets are getting generated
 - All index and lib files are getting generated
 - All the lib code gets compiled (ECMAScript 6 and ECMAScript 5.1)
-- All SASS styles are validated and compiled (to support IE)
+- All SCSS styles are validated and compiled
 - Compiled CSS under `build/**/*.css` is parsed with [Lightning CSS](https://github.com/parcel-bundler/lightningcss) so invalid selectors (for example pseudo-elements not last in a compound selector) fail the build
 - All bundles get minified
 - Icons are getting converted

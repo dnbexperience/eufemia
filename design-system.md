@@ -1,8 +1,8 @@
 ---
 title: 'About Eufemia'
 description: 'Change log, contact, and more'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:35.969Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:34.764Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -14,6 +14,25 @@ You may also be interested in [details about releases](/uilib/about-the-lib/rele
 
 ---
 
+
+## June, 11. 2026
+
+- New component: [Filter](/uilib/components/filter) for composable, data-model-agnostic filter UIs with shared state via hooks.
+- New [Icons](/icons/secondary):
+  - `accessibility`
+  - `ai`
+  - `clearing_house`
+  - `football`
+  - `holiday_home`
+  - `moneybag_in_hand`
+  - `moon`
+  - `passkey`
+  - `plot`
+  - `sun`
+
+## May, 19. 2026
+
+- [Field.MultiSelection](/uilib/extensions/forms/base-fields/MultiSelection): aligned popover spacing and rounded corners for nested and scrollable lists.
 
 ## May, 1. 2026
 

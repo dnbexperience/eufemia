@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitConfirmation'
 description: '`Form.SubmitConfirmation` can be used to prevent the `Form.Handler` from submitting, and makes it possible to show a confirmation dialog in different scenarios.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.624Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.605Z
 checksum: 7bf2130a8c9d87f05ba44fb9f83d48ee659850d6119e13e570398d54a7d4d582
 ---
 
@@ -198,7 +198,7 @@ render(<Form.Handler locale="en-GB" onSubmit={async () => {
     confirmationState,
     connectWithDialog
   }) => {
-    let content = null;
+    let content: ReactNode;
     switch (confirmationState) {
       case 'readyToBeSubmitted':
         content = <>Is waiting ...</>;

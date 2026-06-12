@@ -1,7 +1,7 @@
 ---
 title: 'Theming'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:35.962Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:34.757Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -23,7 +23,7 @@ You may also check out the section about [how to use a theme in your application
     - [Button as an example](#button-as-an-example)
     - [CSS custom properties and :root](#css-custom-properties-and-root)
   - [Local Theming setup](#local-theming-setup)
-    - [yarn link and SASS](#yarn-link-and-sass)
+    - [yarn link and SCSS](#yarn-link-and-scss)
   - [Chrome Extension: Eufemia Theme Manager](#chrome-extension-eufemia-theme-manager)
 
 ## Basis information
@@ -32,7 +32,7 @@ The default DNB brand theme is called: `ui` which stands for _universal identity
 
 ## The building blocks
 
-A theme consists of several files, which again includes SASS import declarations to single component styles.
+A theme consists of several files, which again includes SCSS import declarations to single component styles.
 
 To include new or update component themes, run `yarn build`.
 
@@ -147,7 +147,7 @@ In some circumstances, you may make them share-able and place them inside `:root
 There are several solutions to **create a new theme**.
 One of which is by using the [linking feature of Yarn](https://yarnpkg.com/lang/en/docs/cli/link/).
 
-### yarn link and SASS
+### yarn link and SCSS
 
 Make sure your project can handle **\*.scss** files.
 

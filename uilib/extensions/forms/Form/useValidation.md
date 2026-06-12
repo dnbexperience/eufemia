@@ -1,8 +1,8 @@
 ---
 title: 'Form.useValidation'
 description: '`Form.useValidation` lets you monitor and modify field status or your form errors outside of the context.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.647Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.630Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: 'Value.Currency'
 description: '`Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.782Z
-checksum: c4cc1dcda0920d6a481a962a9ff493637d21c7a14ea0d092c911e944aa915bb9
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.783Z
+checksum: b7574bba2514115a6a0a64a06d272f3d03a0ff8966396df000a74da840a22823
 ---
 
 # Value.Currency
@@ -121,7 +121,7 @@ render(<P>
       "status": "optional"
     },
     "currency": {
-      "doc": "Defines what format to show the currency value in, i.e. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`.",
+      "doc": "Defines what format to show the currency value in, e.g. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`.",
       "type": "string",
       "status": "optional"
     },

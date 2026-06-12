@@ -1,8 +1,8 @@
 ---
 title: 'Form.useSubmit'
 description: '`Form.useSubmit` lets you trigger form submit from outside the form element, e.g. when the submit button is in a modal footer or toolbar.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.645Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.629Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -121,4 +121,39 @@ render(<Flex.Stack>
             </Form.Handler>
             <ExternalSubmitButton />
           </Flex.Stack>);
+```
+
+## Parameters
+
+Properties passed to the `Form.useSubmit` hook.
+
+
+```json
+{
+  "props": {
+    "id": {
+      "doc": "Optional id (string, function, object or React Context) to link to a Form.Handler outside the component tree. When provided, the hook can be used without being inside Form.Handler.",
+      "type": "SharedStateId",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+## Return Values
+
+Properties and methods returned from the `Form.useSubmit` hook.
+
+
+```json
+{
+  "props": {
+    "submit": {
+      "doc": "Triggers form submit. Runs validation and calls the form's `onSubmit` when valid. Use when the submit button is rendered outside Form.Element (e.g. in a modal footer). Returns a Promise that resolves with the submit result or `undefined`.",
+      "type": "() => Promise<EventStateObject | undefined>",
+      "status": "required"
+    }
+  }
+}
 ```

@@ -1,9 +1,9 @@
 ---
 title: 'Input'
 description: 'The Input component is an umbrella component for all inputs which share the same style as the classic text input field.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.921Z
-checksum: f76ef02a8d064f9a99461aca20ed69bb3902c4257f050353562605648bb4049a
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.792Z
+checksum: 8ae54b56864004ea62435cdb77dc967f40e2d4d7f17b6f220cd48f6a646fe646
 ---
 
 # Input
@@ -64,6 +64,8 @@ render(<Input label="Label" placeholder="Placeholder text" />)
 
 ### Search text placeholder
 
+Search inputs show a loupe icon by default. Add `showSubmitButton` only when an integrated submit button is needed. If you previously relied on `type="search"` to render a submit button, add `showSubmitButton`.
+
 
 ```tsx
 render(<Input label="Search" type="search" placeholder="Search text placeholder" onChange={({
@@ -80,9 +82,11 @@ render(<Input label="Search" type="search" placeholder="Search text placeholder"
 
 ### Medium and stretched search input
 
+This example uses `showSubmitButton` to show the integrated submit button.
+
 
 ```tsx
-render(<Input size="medium" type="search" stretch={true} value="Medium search value" onChange={({
+render(<Input size="medium" type="search" stretch={true} showSubmitButton={true} value="Medium search value" onChange={({
   value
 }) => {
   console.log('onChange', value);
@@ -118,7 +122,7 @@ render(<Flex.Vertical>
         <Input label="With FormStatus" status="You have to fill in this field" value="Input value with error" />
       </section>
       <section data-visual-test="input-error-button">
-        <Input label="With button" status="You have to fill in this field" value="Input value with error" type="search" />
+        <Input label="With button" status="You have to fill in this field" value="Input value with error" type="search" showSubmitButton />
       </section>
     </Flex.Vertical>)
 ```
@@ -189,14 +193,14 @@ render(<Form.Handler onSubmit={event => {
 
 ### Input with clear button
 
-Pushing the clear button will clear the input.
+Pushing the clear button will clear the input. The last example combines the clear button with an explicit search submit button.
 
 
 ```tsx
 render(<Flex.Vertical>
       <Input showClearButton={true} value="Value ..." size="medium" />
       <Input showClearButton={true} value="Value ..." type="search" />
-      <Input showClearButton={true} value="Value ..." icon="loupe" type="search" />
+      <Input showClearButton={true} value="Value ..." type="search" showSubmitButton />
     </Flex.Vertical>)
 ```
 
@@ -343,7 +347,7 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/Pa
       "status": "optional"
     },
     "type": {
-      "doc": "Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.",
+      "doc": "Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`. `search` shows a loupe icon by default when no submit button is shown.",
       "type": "string",
       "status": "optional"
     },
@@ -353,7 +357,7 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/Pa
       "status": "optional"
     },
     "submitButtonTitle": {
-      "doc": "Title attribute for the search/submit button. Only relevant when `type=\"search\"`.",
+      "doc": "Title attribute for the submit button. Only relevant when `showSubmitButton` is used.",
       "type": "string",
       "status": "optional"
     },
@@ -383,6 +387,11 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/Pa
       "type": "boolean",
       "status": "optional"
     },
+    "showSubmitButton": {
+      "doc": "If set to `true`, then a submit button will be shown when `type=\"search\"`.",
+      "type": "boolean",
+      "status": "optional"
+    },
     "stretch": {
       "doc": "If set to `true`, then the input field will be 100% in `width`.",
       "type": "boolean",
@@ -404,7 +413,7 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/Pa
       "status": "optional"
     },
     "submitElement": {
-      "doc": "Accepts a React element which will show up like the \"submit button\" would do on `type=\"search\"`.",
+      "doc": "Accepts a React element which will show up where the \"submit button\" would do.",
       "type": [
         "string",
         "React.Element"
@@ -464,10 +473,10 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/Pa
       "da-DK": "Nulstil"
     },
     "Input.submitButtonTitle": {
-      "nb-NO": "Send",
-      "en-GB": "Submit button",
-      "sv-SE": "Skicka",
-      "da-DK": "Indsend"
+      "nb-NO": "Søk",
+      "en-GB": "Search",
+      "sv-SE": "Sök",
+      "da-DK": "Søg"
     }
   }
 }
@@ -500,17 +509,17 @@ Read more about it in [Field.Password](/uilib/extensions/forms/feature-fields/Pa
       "status": "optional"
     },
     "onSubmit": {
-      "doc": "Will be called on enter key press or submit button click. Returns `{ value, event }`.",
+      "doc": "Will be called on enter key press, and on submit button click when a submit button is shown. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
     "onSubmitFocus": {
-      "doc": "Will be called on submit button focus. Only relevant when `type=\"search\"`. Returns `{ value, event }`.",
+      "doc": "Will be called on submit button focus. Only relevant when a submit button is shown. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },
     "onSubmitBlur": {
-      "doc": "Will be called on submit button blur. Only relevant when `type=\"search\"`. Returns `{ value, event }`.",
+      "doc": "Will be called on submit button blur. Only relevant when a submit button is shown. Returns `{ value, event }`.",
       "type": "function",
       "status": "optional"
     },

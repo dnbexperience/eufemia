@@ -1,7 +1,7 @@
 ---
 title: 'Style Isolation'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:38.044Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:37.068Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -108,13 +108,13 @@ The plugin accepts an options object. The default options are:
 }
 ```
 
-CSS Modules are supported including SASS (SCSS) files.
+CSS Modules are supported including SCSS files.
 
 ## CSS Specificity
 
 When extending or overriding styles from Eufemia, it's essential to match the CSS specificity of the original selectors to ensure your styles are applied correctly.
 
-To help with this, you can use the PostCSS plugin (style-scope) that automatically adds the required scope class to your CSS or SCSS (SASS). This ensures your styles have the necessary specificity to take effect.
+To help with this, you can use the PostCSS plugin (style-scope) that automatically adds the required scope class to your CSS or SCSS. This ensures your styles have the necessary specificity to take effect.
 
 ```scss
 .myButtonStyle:global(.dnb-button) {

@@ -1,8 +1,8 @@
 ---
 title: 'Form.Appearance'
 description: '`Form.Appearance` is a provider for theming form fields.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.518Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.479Z
 checksum: a92c9083ffd5526df49f918ca91053791ab1378d592b9102943adef6a5cf96e7
 ---
 
@@ -44,13 +44,16 @@ render(
 
 
 ```tsx
+type AppearanceData = {
+  size: 'default' | NonNullable<FormAppearanceProps['size']>;
+};
 const Appearance = () => {
   const {
     data
-  } = Form.useData('appearance', {
+  } = Form.useData<AppearanceData>('appearance', {
     size: 'medium'
   });
-  const size: any = data.size;
+  const size = data.size === 'default' ? undefined : data.size;
   return <Form.Appearance size={size}>
               <Form.Handler id="appearance">
                 <Flex.Stack>

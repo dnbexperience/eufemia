@@ -1,9 +1,9 @@
 ---
 title: 'PortalRoot'
 description: 'PortalRoot is a React component that helps you make React Portals.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.012Z
-checksum: c3ffa8555896797627d79901830e764235e7eba0e0098d804983b0ffa8f0bd14
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.900Z
+checksum: 9e4431df834c9b59cac82d30a49e56b95a0858679657373ee1a87dc1a6590110
 ---
 
 # PortalRoot
@@ -138,6 +138,40 @@ This makes the `DatePicker` render its portal content right before `my-custom-id
 </body>
 ```
 
+### Forward HTML attributes to portal content
+
+`PortalRoot.Provider` also forwards any extra HTML attributes to the portal DOM element. Any standard HTML attribute you pass will be applied to every portal element rendered by components inside the provider (such as Dropdown, Autocomplete, DatePicker, Dialog, Drawer, Popover, and Tooltip).
+
+```tsx
+import { PortalRoot, Dropdown, Dialog } from '@dnb/eufemia'
+
+render(
+  <PortalRoot.Provider data-my-need="something">
+    <Dropdown />
+    <Dialog />
+  </PortalRoot.Provider>
+)
+```
+
+In this example, every portal element will receive `data-my-need="something"` for content rendered outside the main React tree.
+
+### BrowserTranslate helper
+
+The `BrowserTranslate` helper component prevents browser translation tools (such as Google Translate) from modifying the content of form components. It works by combining the Eufemia Provider's `formElement` context with `PortalRoot.Provider`, so both the visible component (e.g. a button) and its portal-rendered content (e.g. a dropdown list) receive `translate="no"`.
+
+```tsx
+import { BrowserTranslate } from '@dnb/eufemia/shared'
+import { Dropdown } from '@dnb/eufemia'
+
+render(
+  <BrowserTranslate off>
+    <Dropdown data={['Brukskonto', 'Sparekonto', 'BSU']} />
+  </BrowserTranslate>
+)
+```
+
+When `off` is set, every form component inside the scope will have `translate="no"` on both its trigger element and its portal content. Without `off`, the component renders children as-is.
+
 ## Properties
 
 
@@ -153,7 +187,7 @@ This makes the `DatePicker` render its portal content right before `my-custom-id
       "status": "optional"
     },
     "id": {
-      "doc": "The id attribute for the portal root element.",
+      "doc": "The id used for the portal root element. Defaults to `eufemia-portal-root`. If an element with this id already exists in the DOM, it will be reused.",
       "type": "string",
       "status": "optional"
     },
@@ -171,6 +205,11 @@ This makes the `DatePicker` render its portal content right before `my-custom-id
       "doc": "The content that will be placed in a React Portal.",
       "type": "React.ReactNode",
       "status": "required"
+    },
+    "[HTML attributes]": {
+      "doc": "When used on `PortalRoot.Provider`, any extra HTML attributes (e.g. `translate`, `lang`, `dir`, `data-*`) are forwarded to the portal DOM element. Props on `PortalRoot` itself take precedence.",
+      "type": "various",
+      "status": "optional"
     }
   }
 }

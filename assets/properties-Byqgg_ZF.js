@@ -1,0 +1,4 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{K as n}from"./index-CsG353ar.js";import{n as r}from"./PropertiesTable-DMVZFM0Y.js";import{t as i}from"./TranslationsTable-Cf8zx66W.js";import{t as a}from"./FieldBlockDocs-BA_nbSdC.js";var o=e(t());function s(e){let t={h2:`h2`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(t.h2,{children:`Properties`}),`
+`,(0,o.jsx)(r,{props:a}),`
+`,(0,o.jsx)(t.h2,{children:`Translations`}),`
+`,(0,o.jsx)(i,{localeKey:`Field`})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

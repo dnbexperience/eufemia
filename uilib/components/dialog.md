@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.821Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.662Z
 checksum: 6aa284be4c200df6bb88adf3cedbff09cfbc9e27ca3746453ebaadea5c3d5ab8
 ---
 
@@ -56,6 +56,10 @@ To provide custom content to parts of the Dialog, a set of component parts are p
 ### More detailed information
 
 For more details regarding the component functionality, check out the [Modal documentation](/uilib/components/modal).
+
+## Root Element (React Portal)
+
+The Dialog component uses [PortalRoot](/uilib/components/portal-root) internally through Modal to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Table of contents
@@ -744,7 +748,7 @@ See the table below:
       "status": "optional"
     },
     "directDomReturn": {
-      "doc": "If true, the modal will not open in a new DOM but directly in current DOM. Defaults to `false`. Be aware of the side effects of setting this property to `true`.",
+      "doc": "If true, the modal will not open in a new DOM but directly in the current DOM. Defaults to `false`. Be aware of the side effects of setting this property to `true`.",
       "type": "boolean",
       "status": "optional"
     },

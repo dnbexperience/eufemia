@@ -1,9 +1,9 @@
 ---
 title: 'Modal'
 description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.977Z
-checksum: d2bd13787247f0b15e477b68ef9d479bafcd482a7ac14c47585e297607972452
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.861Z
+checksum: 4431fae2686531eb24d742fedbec3be76758e8aa485f3a72a7350a36d7dec116
 ---
 
 # Modal
@@ -80,10 +80,6 @@ Modal dialogs appear on top of the main content changing the _mode_ of the syste
 
 While it is possible to nest a Modal within another Modal, you as a developer must ensure the browser's back button (alongside the URL path) handles the nested Modal situation. A user should still be able to use the back button as expected and return to the last visited "page".
 
-## Root Element (React Portal)
-
-The Modal component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.
-
 ### Z-index
 
 The Modal component is using **3000** as the `z-index`.
@@ -105,6 +101,10 @@ html[data-dnb-modal-active='MODAL-ID'] {
   /* Your css */
 }
 ```
+
+## Root Element (React Portal)
+
+The Modal component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Demos
@@ -308,7 +308,7 @@ render(<Modal title="Auto close" triggerProps={{
       "status": "optional"
     },
     "directDomReturn": {
-      "doc": "If true, the modal will not open in a new DOM but directly in current DOM. Defaults to `false`. Be aware of the side effects of setting this property to `true`.",
+      "doc": "If true, the modal will not open in a new DOM but directly in the current DOM. Defaults to `false`. Be aware of the side effects of setting this property to `true`.",
       "type": "boolean",
       "status": "optional"
     },

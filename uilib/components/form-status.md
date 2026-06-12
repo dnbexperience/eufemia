@@ -1,9 +1,9 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.850Z
-checksum: 8409a710a54214a9182b47825ce6374e35d9ffa5241cb3e66b2341b7411ec14d
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.714Z
+checksum: a164f2e7f8ebab760dc1461c78b58b34a64c31a95b97c91b6d28f6a4cbb4ba82
 ---
 
 # FormStatus (Messageboxes)
@@ -226,7 +226,7 @@ render(<Grid.Container columns={{
       "status": "optional"
     },
     "size": {
-      "doc": "Defines the appearance size. There are these sizes `default`, `large`. The default size is `default`.",
+      "doc": "Defines the appearance size. Available sizes are `default` and `large`. The default size is `default`.",
       "type": [
         "\"default\"",
         "\"large\""

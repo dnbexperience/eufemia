@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.813Z
-checksum: bd2caf37d3146b7831796384567928f9d4051bb763b07a32d3233d5c2f7ada6f
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.653Z
+checksum: 835574e2f64f009f0d9bb3f535886cd2dae66e6182933d1036fa3cdc4b1ec338
 ---
 
 # DatePicker
@@ -47,10 +47,6 @@ Or use UTC constructors:
 ```js
 const utcDate = new Date(Date.UTC(2025, 0, 1))
 ```
-
-### Root Element (React Portal)
-
-The DatePicker component uses [PortalRoot](/uilib/components/portal-root) internally to render its calendar. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM.
 
 ### Manipulate the days in the calendar view
 
@@ -157,6 +153,10 @@ Additional event return object properties:
   isValidEndDate: boolean, /* Available if `range` is `true` */
 }
 ```
+
+## Root Element (React Portal)
+
+The DatePicker component uses [PortalRoot](/uilib/components/portal-root) internally to render its calendar. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Demos
@@ -457,7 +457,7 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
       "status": "optional"
     },
     "range": {
-      "doc": "Defines if the date picker should support a range of two dates (starting and ending date).Defaults to `false`.",
+      "doc": "Defines if the date picker should support a range of two dates (starting and ending date). Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -556,7 +556,7 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
       "status": "optional"
     },
     "link": {
-      "doc": "Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.",
+      "doc": "Link both calendars once the user navigates between months. Only meant to use if the range is set to `true`. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -608,7 +608,7 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
       "status": "optional"
     },
     "hideLastWeek": {
-      "doc": "Use `true` to only show the last week in the current month if it needs to be shown. The result is that there will mainly be shows five (5) weeks (rows) instead of six (6). Defaults to `false`.",
+      "doc": "Use `true` to only show the last week in the current month if it needs to be shown. The result is that mainly five (5) weeks (rows) will be shown instead of six (6). Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -979,7 +979,7 @@ render(<DatePicker shortcuts={[{
       "status": "optional"
     },
     "onBlur": {
-      "doc": "Will be called once the input lose focus.",
+      "doc": "Will be called once the input loses focus.",
       "type": "function",
       "status": "optional"
     }

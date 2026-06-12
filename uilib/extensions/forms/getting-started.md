@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.982Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:37.003Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -855,6 +855,22 @@ const onChangeValidator = async (value) => {
 }
 render(<Field.PhoneNumber onBlurValidator={onChangeValidator} />)
 ```
+
+By default, `onChangeValidator` and `onBlurValidator` also run during form submit. For request-backed validators that should only run from field interaction, wrap the validator with `withValidatorOptions`:
+
+```tsx
+import { Field, withValidatorOptions } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Field.NationalIdentityNumber
+    onBlurValidator={withValidatorOptions(checkSsnAgreement, {
+      runOnSubmit: 'never',
+    })}
+  />
+)
+```
+
+Use `runOnSubmit: 'when-changed'` when the validator should run during submit only if the field value changed since the validator last ran. Object and array values are compared by reference.
 
 #### Async validator with debounce
 

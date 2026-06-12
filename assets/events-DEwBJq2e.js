@@ -1,0 +1,3 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{K as n}from"./index-CsG353ar.js";import{n as r}from"./PropertiesTable-DMVZFM0Y.js";import{t as i}from"./IsolationDocs-IuEgS3IT.js";var a=e(t());function o(e){let t={h2:`h2`,h3:`h3`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Events`}),`
+`,(0,a.jsx)(t.h3,{children:`Isolation-specific events`}),`
+`,(0,a.jsx)(r,{props:i})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

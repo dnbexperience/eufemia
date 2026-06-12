@@ -1,8 +1,8 @@
 ---
 title: 'Requirements'
 description: 'Eufemia can be used within a UMD, ESM, CJS, or TypeScript environment. The purpose is to use it on top (or inside) of modern JavaScript frontend frameworks and setups.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.986Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:37.008Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -32,4 +32,4 @@ Why React is a good choice:
 
 ## Using the styles
 
-This library works perfectly with any styling techniques, such as **Styled Components** ([Emotion](https://emotion.sh)), CSS Modules, or SASS/LESS. You simply consume **ready-to-use CSS files** and CSS Custom Properties (CSS variables).
+This library works perfectly with any styling techniques, such as **Styled Components** ([Emotion](https://emotion.sh)), CSS Modules, or SCSS/LESS. You simply consume **ready-to-use CSS files** and CSS Custom Properties (CSS variables).

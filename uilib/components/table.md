@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.308Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.239Z
 checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 

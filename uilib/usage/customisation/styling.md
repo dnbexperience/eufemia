@@ -1,8 +1,8 @@
 ---
 title: 'CSS Styles'
 description: 'To ensure flexibility and the possibility of theming, the DNB CSS Styles area built as flexible packages you can import and combine.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:38.044Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:37.069Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -266,4 +266,4 @@ Or override a single component's z-index:
 
 ## Known styling and CSS issues
 
-- Safari, both on mobile and desktop, has a problem where we combine `border-radius` with the usage of `inset` in a `box-shadow`. The solution for now is to not use `inset`, which results in an outer border. This is not ideal as we don't follow the UX guidelines for these browsers. We have a SASS function handling this for us: `@mixin fakeBorder`.
+- Safari, both on mobile and desktop, has a problem where we combine `border-radius` with the usage of `inset` in a `box-shadow`. The solution for now is to not use `inset`, which results in an outer border. This is not ideal as we don't follow the UX guidelines for these browsers. We have an SCSS mixin handling this for us: `@mixin fakeBorder`.

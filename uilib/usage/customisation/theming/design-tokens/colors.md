@@ -1,6 +1,6 @@
 ---
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:38.045Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:37.070Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -155,7 +155,7 @@ Icon tokens are used for icon colors.
 | action-pressed-inverse | `--token-color-icon-action-pressed-inverse` | `#5CBDAD` | `#14555A` | `#92EECD` | `#222163` | `#FFFFFF` |
 | action-pressed-ondark | `--token-color-icon-action-pressed-ondark` | `#5CBDAD` | `#5CBDAD` | `#64D7B4` | `#64D7B4` | `#FFFFFF` |
 | error | `--token-color-icon-error` | `#D52525` | `#FF4646` | `#D8134B` | `#FF3C64` | `#D52525` |
-| error-subtle | `--token-color-icon-error-subtle` | `#FCEEEE` | `#401A1A` | `#FFDBE9` | `#4D1E08` | `#FCEEEE` |
+| error-subtle | `--token-color-icon-error-subtle` | `#FCEEEE` | `#401A1A` | `#FFDBE9` | `#3C010B` | `#FCEEEE` |
 | info | `--token-color-icon-info` | `#007272` | `#A5E1D2` | `#1E9F73` | `#64D7B4` | `#007272` |
 | info-subtle | `--token-color-icon-info-subtle` | `#F2F4EC` | `#1C342D` | `#F4FFFB` | `#0D1F1B` | `#EBF4F2` |
 | marketing | `--token-color-icon-marketing` | `#333333` | `#F8F8F8` | `#222163` | `#E0D0FF` | `#333333` |
@@ -241,7 +241,7 @@ If you use decorative tokens, the `First`, `Second`, and `Third` sets are intend
 | Third | base | `--token-color-decorative-third-base` | `#80BA77` | `#80BA77` | `#9761F1` | `#37B992` | `#24968D` |
 | Third | base-static | `--token-color-decorative-third-base-static` | `#80BA77` | `#80BA77` | `#9761F1` | `#37B992` | `#24968D` |
 | Third | bold | `--token-color-decorative-third-bold` | `#5D7650` | `#BCE5AC` | `#4E08BC` | `#92EECD` | `#14555A` |
-| Third | bold-static | `--token-color-decorative-third-bold-static` | `#5D7650` | `#5D7650` | `#4E08BC` | `#007B5E` | `#14555A` |
+| Third | bold-static | `--token-color-decorative-third-bold-static` | `#5D7650` | `#5D7650` | `#4E08BC` | `#92EECD` | `#14555A` |
 | Third | intense | `--token-color-decorative-third-intense` | `#3B4736` | `#F2F4EC` | `#222163` | `#E5FFF7` | `#00343E` |
 | Third | intense-static | `--token-color-decorative-third-intense-static` | `#3B4736` | `#3B4736` | `#222163` | `#16342D` | `#00343E` |
 | Third | muted | `--token-color-decorative-third-muted` | `#F2F4EC` | `#3B4736` | `#FBF9FF` | `#16342D` | `#DDF2EC` |

@@ -1,8 +1,8 @@
 ---
 title: 'Blockquote'
 description: 'The blockquote element is used to indicate the quotation of a large section of text from another source.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.375Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.329Z
 checksum: e276f4e25ce9c62881c14c2b94a0d457be21f54cfa55f6585fcce51fe9ece83b
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Field.Number'
 description: '`Field.Number` is the base component for receiving user input where the target data is of type `number`.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.936Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.957Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -436,7 +436,7 @@ render(<Field.Number label="Label text" showStepControls disabled />)
       "status": "optional"
     },
     "percent": {
-      "doc": "Format a number as percentage.",
+      "doc": "Format a number as a percentage.",
       "type": "boolean",
       "status": "optional"
     },
@@ -479,7 +479,7 @@ render(<Field.Number label="Label text" showStepControls disabled />)
       "status": "optional"
     },
     "multipleOf": {
-      "doc": "Validation that requires the number to be a multiple of given value.",
+      "doc": "Validation that requires the number to be a multiple of a given value.",
       "type": "number",
       "status": "optional"
     },
@@ -532,17 +532,17 @@ render(<Field.Number label="Label text" showStepControls disabled />)
       "status": "optional"
     },
     "step": {
-      "doc": "Determines step granularity when in/decreasing value input through step controls buttons or arrow keys. Defaults to `1`.",
+      "doc": "Determines step granularity when increasing/decreasing the value via step control buttons or arrow keys. Defaults to `1`.",
       "type": "number",
       "status": "optional"
     },
     "startWith": {
-      "doc": "When no `value` or `defaultValue` is given, start with a given value when in/decreasing value input through step controls buttons or arrow keys. Defaults to `null`.",
+      "doc": "When no `value` or `defaultValue` is given, start with a given value when increasing/decreasing the value via step control buttons or arrow keys. Defaults to `null`.",
       "type": "number",
       "status": "optional"
     },
     "showStepControls": {
-      "doc": "Show buttons that in/decreases value input by the step value.",
+      "doc": "Show buttons that increase/decrease the value by the step amount.",
       "type": "boolean",
       "status": "optional"
     },
@@ -657,12 +657,12 @@ render(<Field.Number label="Label text" showStepControls disabled />)
       "status": "optional"
     },
     "onChangeValidator": {
-      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
+      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user, and runs during form submit by default. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "function",
       "status": "optional"
     },
     "onBlurValidator": {
-      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
+      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown), and runs during form submit by default. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "function",
       "status": "optional"
     },

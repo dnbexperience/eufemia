@@ -1,8 +1,8 @@
 ---
 title: 'Timeline'
 description: 'The Timeline component shows events in chronological order and gives a great overview of the overall process.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.337Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.269Z
 checksum: 2865ac048fbac54c4de5c574c5b125f61119c348b0b0bdd5ea90b959dcb47092
 ---
 

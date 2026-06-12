@@ -1,9 +1,9 @@
 ---
 title: 'Autocomplete'
 description: 'The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.731Z
-checksum: a0ef2027f714db09280e21d2d373afd1dc20684b21e6011d975978350a9b674f
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.559Z
+checksum: 9f5ee4e27a8c8f720a2b58f6bdf653b2c233351fe064c151e49d813a11635940
 ---
 
 # Autocomplete
@@ -206,6 +206,11 @@ You can manipulate the used data dynamically, either by changing the `data` prop
   }}
 />
 ```
+
+
+## Root Element (React Portal)
+
+The Autocomplete component uses [PortalRoot](/uilib/components/portal-root) internally to render its option list. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Demos
@@ -658,7 +663,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "iconSize": {
-      "doc": "Change the size of the icon pragmatically.",
+      "doc": "Change the size of the icon programmatically.",
       "type": "string",
       "status": "optional"
     },

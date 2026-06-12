@@ -1,7 +1,7 @@
 ---
 title: 'Components'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.369Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.321Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -77,6 +77,10 @@ The Drawer component is a Modal variation that appears as a side panel at any ch
 ## [Dropdown](/uilib/components/dropdown/)
 
 The Dropdown component is a custom-made data selection component.
+
+## [Filter](/uilib/components/filter/)
+
+Filter is a composable, data-model-agnostic filter UI. It provides shared state via hooks so you can apply filters to your own data.
 
 ## [FormLabel](/uilib/components/form-label/)
 

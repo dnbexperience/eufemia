@@ -4,7 +4,7 @@
 
 ## Version
 
-This documentation reflects Eufemia **v11.5.2**, generated 2026-06-05T08:55:43.435Z.
+This documentation reflects Eufemia **v11.6.0**, generated 2026-06-12T08:43:43.075Z.
 
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
@@ -214,6 +214,8 @@ For any page (component, field, value, etc.):
 - [Drawer](https://eufemia.dnb.no/uilib/components/drawer.md): The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.
 
 - [Dropdown](https://eufemia.dnb.no/uilib/components/dropdown.md): The Dropdown component is a custom-made data selection component.
+
+- [Filter](https://eufemia.dnb.no/uilib/components/filter.md): Filter is a composable, data-model-agnostic filter UI. It provides shared state via hooks so you can apply filters to your own data.
 
 - [FormLabel](https://eufemia.dnb.no/uilib/components/form-label.md): The FormLabel component represents a caption for all sorts of HTML elements in a user interface.
 
@@ -603,7 +605,7 @@ For any page (component, field, value, etc.):
 
 - [Functions](https://eufemia.dnb.no/uilib/helpers/functions.md): Look into the documentation for more details.
 
-- [SASS mixins](https://eufemia.dnb.no/uilib/helpers/sass.md): Look into the documentation for more details.
+- [SCSS mixins](https://eufemia.dnb.no/uilib/helpers/sass.md): Look into the documentation for more details.
 
 - [Helpers](https://eufemia.dnb.no/uilib/helpers.md): A couple of helper functions used inside of components and extensions.
 
@@ -739,5 +741,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.5.2
-GeneratedAt: 2026-06-05T08:55:43.435Z
+Version: 11.6.0
+GeneratedAt: 2026-06-12T08:43:43.075Z

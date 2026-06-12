@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Container'
 description: '`Flex.Container` is a building block for CSS Grid based layouts.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:38.004Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:37.038Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -53,6 +53,22 @@ render(
 ```
 
 During render, the items within the "Wrapper" container are wrapped with the same properties. This ensures that all the items have the same appearance.
+
+### Align vs Justify
+
+`Flex.Container` has two props for positioning its children: `justify` and `align`. These map directly to CSS flexbox properties and their effect depends on the `direction` of the container:
+
+- **`justify`** controls placement along the **main axis** (CSS `justify-content`).
+- **`align`** controls alignment along the **cross axis** (CSS `align-items`).
+
+In practice, this means:
+
+|                         | `Flex.Horizontal`  | `Flex.Vertical`    |
+| ----------------------- | ------------------ | ------------------ |
+| **Center horizontally** | `justify="center"` | `align="center"`   |
+| **Center vertically**   | `align="center"`   | `justify="center"` |
+
+The main axis follows the direction: horizontal for `Flex.Horizontal`, vertical for `Flex.Vertical`. The cross axis is always perpendicular.
 
 ### Horizontal and Vertical aliases
 
@@ -223,6 +239,53 @@ render(<Flex.Container justify="flex-end">
 ```
 
 
+### Horizontal Flex.Item, `align="center"`
+
+Centers items vertically inside a horizontal container.
+
+
+```tsx
+render(<Flex.Container align="center">
+        <Flex.Item>
+          <TestElement style={{
+      height: '4rem'
+    }}>Tall</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>Short</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement style={{
+      height: '6rem'
+    }}>Taller</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>Short</TestElement>
+        </Flex.Item>
+      </Flex.Container>)
+```
+
+
+### Vertical Flex.Item, `align="center"`
+
+Centers items horizontally inside a vertical container.
+
+
+```tsx
+render(<Flex.Container direction="vertical" align="center">
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>Wider FlexItem</TestElement>
+        </Flex.Item>
+        <Flex.Item>
+          <TestElement>FlexItem</TestElement>
+        </Flex.Item>
+      </Flex.Container>)
+```
+
+
 ### Horizontal with `size` and `grow`
 
 
@@ -368,7 +431,7 @@ render(<Flex.Container direction="vertical">
       "status": "optional"
     },
     "justify": {
-      "doc": "How to place sub components if there is space available in the container.",
+      "doc": "Distribute sub components along the main axis (CSS `justify-content`). In horizontal direction, this controls left-to-right placement. In vertical direction, this controls top-to-bottom placement.",
       "type": [
         "'flex-start'",
         "'flex-end'",
@@ -381,7 +444,7 @@ render(<Flex.Container direction="vertical">
       "status": "optional"
     },
     "align": {
-      "doc": "How to align sub components.",
+      "doc": "Align sub components along the cross axis (CSS `align-items`). In horizontal direction, this controls vertical alignment. In vertical direction, this controls horizontal alignment.",
       "type": [
         "'flex-start'",
         "'flex-end'",

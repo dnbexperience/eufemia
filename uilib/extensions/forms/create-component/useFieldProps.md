@@ -1,8 +1,8 @@
 ---
 title: 'useFieldProps'
 description: 'The `useFieldProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.956Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.979Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -108,6 +108,7 @@ All properties are optional and can be used as needed. These properties can be p
 #### Validators
 
 - `exportValidators` object with your validators you want to export. More info down below.
+- `withValidatorOptions(validator, { runOnSubmit: 'never' })` keeps that validator from running during form submit. The default is `runOnSubmit: 'always'`. Use `runOnSubmit: 'when-changed'` to run during submit only if the value changed since the validator last ran. Object and array values are compared by reference.
 
 Many Field components also export a `<FieldName>Validator` type describing exactly what keys are available on `validators`. Import the type from the corresponding Field (for example `DateValidator` from `@dnb/eufemia/extensions/forms/Field/Date`) and cast the `validators` argument to it before destructuring so TypeScript can narrow the object.
 
@@ -542,12 +543,12 @@ Properties passed to the `useFieldProps` hook.
       "status": "optional"
     },
     "onChangeValidator": {
-      "doc": "Custom validation function called on every change. Can be async. Returns Error, FormError, or array of validators.",
+      "doc": "Custom validation function called on every change. Can be async. Returns Error, FormError, or array of validators. It runs during form submit by default. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "(value, { errorMessages, connectWithPath, validators }) => Error | undefined",
       "status": "optional"
     },
     "onBlurValidator": {
-      "doc": "Custom validation function called on blur. Preferred for validations with side-effects. Can be async.",
+      "doc": "Custom validation function called on blur. Preferred for validations with side-effects. Can be async. It runs during form submit by default. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "(value, { errorMessages, connectWithPath, validators }) => Error | undefined",
       "status": "optional"
     },
@@ -826,12 +827,12 @@ Properties passed to the `useFieldProps` hook.
       "status": "optional"
     },
     "onChangeValidator": {
-      "doc": "Custom validation function called on every change. Can be async. Returns Error, FormError, or array of validators.",
+      "doc": "Custom validation function called on every change. Can be async. Returns Error, FormError, or array of validators. It runs during form submit by default. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "(value, { errorMessages, connectWithPath, validators }) => Error | undefined",
       "status": "optional"
     },
     "onBlurValidator": {
-      "doc": "Custom validation function called on blur. Preferred for validations with side-effects. Can be async.",
+      "doc": "Custom validation function called on blur. Preferred for validations with side-effects. Can be async. It runs during form submit by default. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "(value, { errorMessages, connectWithPath, validators }) => Error | undefined",
       "status": "optional"
     },

@@ -1,7 +1,7 @@
 ---
 title: 'Ground rules'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:35.957Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:34.751Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -22,7 +22,7 @@ Many defaults are provided by the linting and Prettier configurations. However, 
 - Use [git message decoration](/contribute/style-guides/git) to ensure correct publish versioning.
 - Use [naming conventions](/contribute/style-guides/naming) when possible.
 - Use best practices for [CSS style structures](/uilib/usage/best-practices/for-styling#styling-structure).
-- Use [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SASS (SCSS) and [BEM](https://getbem.com/naming/) (Block Element Modifier).
+- Use [nested CSS class selectors](https://medium.com/@andrew_barnes/bem-and-sass-a-perfect-match-5e48d9bc3894) with SCSS and [BEM](https://getbem.com/naming/) (Block Element Modifier).
 - Use [React Hooks](https://react.dev/reference/react/hooks) over React class components when possible.
 - Use [TypeScript](https://www.typescriptlang.org).
 

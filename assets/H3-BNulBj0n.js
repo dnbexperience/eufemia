@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{t as n}from"./withComponentMarkers-DweGwA_f.js";import{f as r}from"./HelpButton-B8IG5rB3.js";var i=e(t()),a=({size:e,...t})=>(0,i.jsx)(r,{element:`h3`,size:e||`auto`,...t});n(a,{_isHeadingElement:!0,_supportsSpacingProps:!0});var o=a;export{o as t};

@@ -1,8 +1,8 @@
 ---
 title: 'Section'
 description: 'The Section component is a visual helper.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.032Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.921Z
 checksum: fffcbcb63ca8e59f33048125db5b3de0f3cdd0152aace0013092f258f7ddba4f
 ---
 
@@ -141,6 +141,8 @@ render(<Section breakout={false} backgroundColor="var(--token-color-background-n
 
 
 ### Dark surface
+
+Use [Section](/uilib/components/section/demos/#dark-surface) or [Theme.Context](/uilib/usage/customisation/theming/theme#surface-property) with `surface="dark"` to provide dark surface context to supporting components.
 
 
 ```tsx

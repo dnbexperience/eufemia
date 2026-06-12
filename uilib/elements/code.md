@@ -1,8 +1,8 @@
 ---
 title: 'Code'
 description: 'The code and pre element is used for code and syntax highlighting.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.376Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.331Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -21,7 +21,9 @@ import { Code } from '@dnb/eufemia/elements'
 
 ## `code` and `pre` tag usage
 
-Both `code` and `pre` tags are styled:
+Both `code` and `pre` tags are styled.
+
+Use [Section](/uilib/components/section/demos/#dark-surface) or [Theme.Context](/uilib/usage/customisation/theming/theme#surface-property) with `surface="dark"` to provide dark surface context to supporting components.
 
 
 ```tsx

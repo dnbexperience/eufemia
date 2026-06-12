@@ -1,8 +1,8 @@
 ---
 title: 'Field.Password'
 description: '`Field.Password` is a wrapper component for the input of strings, with user experience tailored for passwords.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.973Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:36.995Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -238,7 +238,7 @@ render(<Field.Password value="password123" pattern="\\w{8}[0-9]{2}" onChange={va
       "status": "optional"
     },
     "submitElement": {
-      "doc": "Accepts a React element which will show up like the \"submit button\" would do on `type=\"search\"`.",
+      "doc": "Accepts a React element which will show up where the \"submit button\" would do.",
       "type": "React.Element",
       "status": "optional"
     },
@@ -353,12 +353,12 @@ render(<Field.Password value="password123" pattern="\\w{8}[0-9]{2}" onChange={va
       "status": "optional"
     },
     "onChangeValidator": {
-      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
+      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user, and runs during form submit by default. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "function",
       "status": "optional"
     },
     "onBlurValidator": {
-      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.",
+      "doc": "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown), and runs during form submit by default. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
       "type": "function",
       "status": "optional"
     },

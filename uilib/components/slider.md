@@ -1,8 +1,8 @@
 ---
 title: 'Slider'
 description: 'The Slider component provides a visual indication of adjustable value.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:37.047Z
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.951Z
 checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 

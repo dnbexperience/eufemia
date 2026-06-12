@@ -1,9 +1,9 @@
 ---
 title: 'Dropdown'
 description: 'The Dropdown component is a custom-made data selection component.'
-version: 11.5.2
-generatedAt: 2026-06-05T08:55:36.838Z
-checksum: de35e6c470795868976c22d5dcd76a3d27c3d6ceaff9981d15addb9f6ebe04d2
+version: 11.6.0
+generatedAt: 2026-06-12T08:43:35.680Z
+checksum: 092b3cfcf92a27d3b81067d23b8f5b6550789133f7896c55499941a55f7db09f
 ---
 
 # Dropdown
@@ -70,6 +70,10 @@ You can also set the width directly, but then it has to be defined like so (incl
   width: 10rem;
 }
 ```
+
+## Root Element (React Portal)
+
+The Dropdown component uses [PortalRoot](/uilib/components/portal-root) internally to render its option list. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Demos
@@ -614,7 +618,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "iconSize": {
-      "doc": "Change the size of the icon pragmatically.",
+      "doc": "Change the size of the icon programmatically.",
       "type": "string",
       "status": "optional"
     },

@@ -1,4 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{K as n}from"./index-Bx3ttow-.js";import{n as r}from"./PropertiesTable-ByB9iCYz.js";import{n as i}from"./ButtonDocs-BFdyOy0o.js";var a=e(t());function o(e){let t={code:`code`,h2:`h2`,h3:`h3`,p:`p`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Properties`}),`
-`,(0,a.jsx)(r,{props:i}),`
-`,(0,a.jsx)(t.h3,{children:`Unstyled variant`}),`
-`,(0,a.jsxs)(t.p,{children:[`In cases where it makes sense to use the button component, but with very different styles, you can use `,(0,a.jsx)(t.code,{children:`unstyled`}),` as a variant. For now, it is only meant to be used internally.`]})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};
