@@ -251,6 +251,58 @@ describe('Form.useTranslation', () => {
         )
       )
     })
+
+    it('should update custom translation when translations object changes', () => {
+      type CustomTranslation = {
+        Custom: {
+          translation: string
+        }
+      }
+
+      const initialTranslations = {
+        'nb-NO': {
+          Custom: {
+            translation: 'Initial translation with a {myKey}',
+          },
+        },
+      }
+      const updatedTranslations = {
+        'nb-NO': {
+          Custom: {
+            translation: 'Updated translation with a {myKey}',
+          },
+        },
+      }
+
+      const MockComponent = () => {
+        const { formatMessage } = useTranslation<CustomTranslation>()
+        return (
+          <>
+            {formatMessage('Custom.translation', {
+              myKey: 'value!',
+            })}
+          </>
+        )
+      }
+
+      const { rerender } = render(
+        <Provider locale="nb-NO" translations={initialTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        'Initial translation with a value!'
+      )
+
+      rerender(
+        <Provider locale="nb-NO" translations={updatedTranslations}>
+          <MockComponent />
+        </Provider>
+      )
+      expect(document.body.textContent).toBe(
+        'Updated translation with a value!'
+      )
+    })
   })
 
   it('should support typing for flat translations', () => {
