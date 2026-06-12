@@ -39,6 +39,7 @@ import {
   Iterate,
   Wizard,
   makeAjvInstance,
+  withValidatorOptions,
 } from '../../../'
 import { isCI } from 'repo-utils'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
@@ -1212,6 +1213,232 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
           'onBlurValidator',
           'onSubmit',
         ])
+      })
+
+      it(`should not rerun onBlurValidator during submit when runOnSubmit is 'never'`, async () => {
+        const onSubmit = vi.fn()
+        const onBlurValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              path="/myField"
+              onBlurValidator={withValidatorOptions(onBlurValidator, {
+                runOnSubmit: 'never',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+        const button = document.querySelector('button')
+
+        fireEvent.change(input, {
+          target: { value: '123' },
+        })
+        fireEvent.blur(input)
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+      })
+
+      it(`should not rerun onChangeValidator during submit when runOnSubmit is 'never'`, async () => {
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              path="/myField"
+              onChangeValidator={withValidatorOptions(onChangeValidator, {
+                runOnSubmit: 'never',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+        const button = document.querySelector('button')
+
+        fireEvent.change(input, {
+          target: { value: '123' },
+        })
+
+        await waitFor(() => {
+          expect(onChangeValidator).toHaveBeenCalledTimes(1)
+        })
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+      })
+
+      it(`should still run remaining validators during submit when one runOnSubmit is 'never'`, async () => {
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+        const onBlurValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              value="valid"
+              path="/myField"
+              onChangeValidator={onChangeValidator}
+              onBlurValidator={withValidatorOptions(onBlurValidator, {
+                runOnSubmit: 'never',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const button = document.querySelector('button')
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+      })
+
+      it(`should skip custom validators during submit when runOnSubmit is 'never'`, async () => {
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+        const onBlurValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              value="valid"
+              path="/myField"
+              onChangeValidator={withValidatorOptions(onChangeValidator, {
+                runOnSubmit: 'never',
+              })}
+              onBlurValidator={withValidatorOptions(onBlurValidator, {
+                runOnSubmit: 'never',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const button = document.querySelector('button')
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(0)
+        expect(onBlurValidator).toHaveBeenCalledTimes(0)
+      })
+
+      it('should rerun onBlurValidator during submit only when changed', async () => {
+        const onSubmit = vi.fn()
+        const onBlurValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              path="/myField"
+              onBlurValidator={withValidatorOptions(onBlurValidator, {
+                runOnSubmit: 'when-changed',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+        const button = document.querySelector('button')
+
+        fireEvent.change(input, {
+          target: { value: '123' },
+        })
+        fireEvent.blur(input)
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+
+        fireEvent.change(input, {
+          target: { value: '456' },
+        })
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(2)
+        })
+        expect(onBlurValidator).toHaveBeenCalledTimes(2)
+      })
+
+      it('should rerun onChangeValidator during submit only when changed', async () => {
+        const onSubmit = vi.fn()
+        const onChangeValidator = vi.fn()
+
+        render(
+          <DataContext.Provider onSubmit={onSubmit}>
+            <Field.String
+              value="valid"
+              path="/myField"
+              onChangeValidator={withValidatorOptions(onChangeValidator, {
+                runOnSubmit: 'when-changed',
+              })}
+            />
+            <Form.SubmitButton />
+          </DataContext.Provider>
+        )
+
+        const input = document.querySelector('input')
+        const button = document.querySelector('button')
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(2)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(1)
+
+        fireEvent.change(input, {
+          target: { value: 'changed' },
+        })
+
+        await waitFor(() => {
+          expect(onChangeValidator).toHaveBeenCalledTimes(2)
+        })
+
+        await userEvent.click(button)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(3)
+        })
+        expect(onChangeValidator).toHaveBeenCalledTimes(2)
       })
     })
 

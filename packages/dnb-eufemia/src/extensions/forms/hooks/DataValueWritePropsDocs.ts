@@ -77,12 +77,12 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   onChangeValidator: {
-    doc: 'Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.',
+    doc: "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered on every change done by the user, and runs during form submit by default. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
     type: 'function',
     status: 'optional',
   },
   onBlurValidator: {
-    doc: 'Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }.',
+    doc: "Custom validator function where you can return `undefined`, `Error`, `FormError` or an Array with either several other validators or several `Error` or `FormError`. It is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown), and runs during form submit by default. The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Use `withValidatorOptions(validator, { runOnSubmit: 'never' })` to keep it from running during form submit, or `'when-changed'` to run it only when the value has changed since the validator last ran. Object and array values are compared by reference.",
     type: 'function',
     status: 'optional',
   },

@@ -9,7 +9,7 @@ import {
 import type { AriaAttributes, ReactNode, RefObject } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
-import { isZodSchema } from '../utils'
+import { getValidatorOptions, isZodSchema } from '../utils'
 import type * as z from 'zod'
 import type {
   FieldPropsGeneric,
@@ -54,6 +54,8 @@ import useFieldAsync from './useFieldAsync'
 import useFieldValidation from './useFieldValidation'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
+
+type ValidatorName = 'onChangeValidator' | 'onBlurValidator'
 
 export type DataAttributes = {
   [property: `data-${string}`]: string | boolean | number
@@ -282,6 +284,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const valueRef = useRef<Value>(undefined as Value)
   const changedRef = useRef<boolean>(undefined)
   const hasFocusRef = useRef<boolean>(undefined)
+  const validatedValidatorValuesRef = useRef<
+    Partial<Record<ValidatorName, { value: Value }>>
+  >({})
 
   // ─── useFieldTransform ───────────────────────────────────────────────
 
@@ -627,6 +632,27 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Update the ref so useFieldAsync's handleChangeEventResult uses the latest removeError
   removeErrorRef.current = removeError
 
+  const setValidatedValidatorValue = useCallback(
+    (validatorName: ValidatorName, value: Value = valueRef.current) => {
+      validatedValidatorValuesRef.current[validatorName] = { value }
+    },
+    []
+  )
+
+  const isValidatorValueChanged = useCallback(
+    (validatorName: ValidatorName) => {
+      const cachedValue =
+        validatedValidatorValuesRef.current[validatorName]
+
+      if (!cachedValue) {
+        return true
+      }
+
+      return !Object.is(cachedValue.value, valueRef.current)
+    },
+    []
+  )
+
   // ─── External value sync ─────────────────────────────────────────────
 
   // Use "useLayoutEffect" and "externalValueDidChangeRef"
@@ -699,7 +725,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
         addToPool(
           'onBlurValidator',
-          async () => await startOnBlurValidatorProcess({ overrideValue }),
+          () => {
+            setValidatedValidatorValue(
+              'onBlurValidator',
+              overrideValue ?? valueRef.current
+            )
+
+            return startOnBlurValidatorProcess({ overrideValue })
+          },
           isAsync(onBlurValidatorRef.current)
         )
 
@@ -722,6 +755,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       onBlurValidatorRef,
       runPool,
       startOnBlurValidatorProcess,
+      setValidatedValidatorValue,
       revealError,
     ]
   )
@@ -770,7 +804,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       addToPool(
         'onChangeValidator',
-        validateValue,
+        () => {
+          setValidatedValidatorValue('onChangeValidator')
+
+          return validateValue()
+        },
         isAsync(onChangeValidatorRef.current)
       )
 
@@ -793,6 +831,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       itemPath,
       addToPool,
       validateValue,
+      setValidatedValidatorValue,
       onChangeValidatorRef,
       callOnChangeContext,
       onChangeContext,
@@ -1139,7 +1178,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (onBlurValidatorRef.current && shouldRevalidateOnLocaleChange) {
         addToPool(
           'onBlurValidator',
-          async () => await startOnBlurValidatorProcess(),
+          () => {
+            setValidatedValidatorValue('onBlurValidator')
+
+            return startOnBlurValidatorProcess()
+          },
           isAsync(onBlurValidatorRef.current)
         )
 
@@ -1160,6 +1203,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     revealError,
     runPool,
     startOnBlurValidatorProcess,
+    setValidatedValidatorValue,
     validateInitially,
     validateUnchanged,
     valueEqualsEmptyValue,
@@ -1512,31 +1556,73 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     onChangeValidatorRef,
   ])
 
+  const shouldRunValidatorOnSubmit = useCallback(
+    (validatorName: ValidatorName, validator: unknown) => {
+      const runOnSubmit =
+        getValidatorOptions(validator)?.runOnSubmit ?? 'always'
+
+      if (runOnSubmit === 'never') {
+        return false
+      }
+
+      if (runOnSubmit === 'when-changed') {
+        return isValidatorValueChanged(validatorName)
+      }
+
+      return true
+    },
+    [isValidatorValueChanged]
+  )
+
   const onSubmitHandler = useCallback(async () => {
     if (hasError()) {
       return undefined // stop here
     }
 
-    addToPool(
-      'onChangeValidator',
-      startOnChangeValidatorValidation,
-      isAsync(onChangeValidatorRef.current)
-    )
+    if (
+      shouldRunValidatorOnSubmit(
+        'onChangeValidator',
+        onChangeValidatorRef.current
+      )
+    ) {
+      addToPool(
+        'onChangeValidator',
+        () => {
+          setValidatedValidatorValue('onChangeValidator')
 
-    addToPool(
-      'onBlurValidator',
-      startOnBlurValidatorProcess,
-      isAsync(onBlurValidatorRef.current)
-    )
+          return startOnChangeValidatorValidation()
+        },
+        isAsync(onChangeValidatorRef.current)
+      )
+    }
+
+    if (
+      shouldRunValidatorOnSubmit(
+        'onBlurValidator',
+        onBlurValidatorRef.current
+      )
+    ) {
+      addToPool(
+        'onBlurValidator',
+        () => {
+          setValidatedValidatorValue('onBlurValidator')
+
+          return startOnBlurValidatorProcess()
+        },
+        isAsync(onBlurValidatorRef.current)
+      )
+    }
 
     await runPool()
   }, [
     hasError,
     addToPool,
+    shouldRunValidatorOnSubmit,
     startOnChangeValidatorValidation,
     onChangeValidatorRef,
     startOnBlurValidatorProcess,
     onBlurValidatorRef,
+    setValidatedValidatorValue,
     runPool,
   ])
 
