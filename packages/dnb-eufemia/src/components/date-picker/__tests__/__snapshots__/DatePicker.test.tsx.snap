@@ -2398,6 +2398,9 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
 }
+.dnb-toggle-button > .dnb-form-status {
+  transform: translateY(0.1875rem);
+}
 .dnb-toggle-button__inner {
   display: inline-flex;
   flex-direction: column;

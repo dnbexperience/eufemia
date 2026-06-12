@@ -12,6 +12,11 @@
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
 
+  // adjust the form-status to the inner border for 3px
+  > .dnb-form-status {
+    transform: translateY(0.1875rem);
+  }
+
   &__inner {
     display: inline-flex;
     flex-direction: column;
