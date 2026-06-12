@@ -77,7 +77,6 @@ export type SharedAttachments<Data = unknown> = {
   hasFieldError?: ContextState['hasFieldError']
   setShowAllErrors?: ContextState['setShowAllErrors']
   setSubmitState?: ContextState['setSubmitState']
-  rerenderUseDataHook?: () => void
   updateDataValue?: ContextState['updateDataValue']
   clearData?: () => void
   setData?: ContextState['setData']
@@ -898,9 +897,11 @@ export default function Provider<Data extends JsonObject>(
     preSeedSharedState<Data>(id, initialData)
   }
   const sharedData = useSharedState<Data>(id)
-  const sharedAttachments = useSharedState<SharedAttachments<Data>>(
-    id ? createReferenceKey(id, 'attachments') : undefined
-  )
+  const sharedAttachments = id
+    ? createSharedState<SharedAttachments<Data>>(
+        createReferenceKey(id, 'attachments')
+      )
+    : null
   // Use createSharedState (non-reactive) instead of useSharedState here
   // because the Provider only writes to this store during render.
   // Using useSharedState (which subscribes via useSyncExternalStore)
@@ -915,21 +916,33 @@ export default function Provider<Data extends JsonObject>(
 
   const setSharedData = sharedData.set
   const extendSharedData = sharedData.extend
-  const extendAttachment = sharedAttachments.extend
-  const rerenderUseDataHook = sharedAttachments.data?.rerenderUseDataHook
+  const extendAttachment = sharedAttachments?.extend
+  const bumpValidationPendingRef = useRef(false)
   bumpValidationVersionRef.current = () => {
     if (id) {
       validationVersionRef.current += 1
-      extendAttachment(
-        { validationVersion: validationVersionRef.current },
-        { preventSyncOfSameInstance: true }
-      )
+
+      if (!bumpValidationPendingRef.current) {
+        bumpValidationPendingRef.current = true
+        const schedule =
+          typeof queueMicrotask === 'function'
+            ? queueMicrotask
+            : (callback: () => void) => Promise.resolve().then(callback)
+
+        schedule(() => {
+          bumpValidationPendingRef.current = false
+          extendAttachment?.(
+            { validationVersion: validationVersionRef.current },
+            { preventSyncOfSameInstance: true }
+          )
+        })
+      }
     }
   }
   const hasHydratedFieldErrorRef = useRef(false)
 
   if (!hasHydratedFieldErrorRef.current) {
-    const sharedFieldErrorRef = sharedAttachments.data?.fieldErrorRef
+    const sharedFieldErrorRef = sharedAttachments?.data?.fieldErrorRef
     if (sharedFieldErrorRef?.current) {
       fieldErrorRef.current = sharedFieldErrorRef.current
       hasHydratedFieldErrorRef.current = true
@@ -1706,7 +1719,7 @@ export default function Provider<Data extends JsonObject>(
 
   useLayoutEffect(() => {
     if (id) {
-      extendAttachment(
+      extendAttachment?.(
         {
           visibleDataHandler,
           filterDataHandler,
@@ -1733,7 +1746,6 @@ export default function Provider<Data extends JsonObject>(
     hasErrors,
     hasFieldError,
     id,
-    rerenderUseDataHook,
     setData,
     setShowAllErrors,
     setSubmitState,

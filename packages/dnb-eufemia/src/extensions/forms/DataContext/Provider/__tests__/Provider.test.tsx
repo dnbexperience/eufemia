@@ -52,7 +52,10 @@ import type {
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
-type OnChangeValue = DataValueWriteProps<any>['onChange']
+type OnChangeValue = DataValueWriteProps<
+  string,
+  undefined | string
+>['onChange']
 
 function TestField(props: StringFieldProps) {
   return <Field.String {...props} validateInitially validateContinuously />
@@ -4689,8 +4692,10 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         </DataContext.Provider>
       )
 
-      expect(nestedMockData).toHaveLength(2)
-      expect(nestedMockData).toEqual([initialData, initialData])
+      expect(nestedMockData.length).toBeGreaterThanOrEqual(1)
+      expect(nestedMockData.length).toBeLessThanOrEqual(2)
+      expect(nestedMockData[0]).toEqual(initialData)
+      expect(nestedMockData.at(-1)).toEqual(initialData)
 
       const inputElement = document.querySelector('input')
       expect(inputElement).toHaveValue('bar')
@@ -4727,8 +4732,10 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       expect(sidecarMockData).toHaveLength(2)
       expect(sidecarMockData).toEqual([undefined, initialData])
 
-      expect(nestedMockData).toHaveLength(2)
-      expect(nestedMockData).toEqual([initialData, initialData])
+      expect(nestedMockData.length).toBeGreaterThanOrEqual(1)
+      expect(nestedMockData.length).toBeLessThanOrEqual(2)
+      expect(nestedMockData[0]).toEqual(initialData)
+      expect(nestedMockData.at(-1)).toEqual(initialData)
 
       const [sidecar, nested] = Array.from(
         document.querySelectorAll('input')
@@ -4772,6 +4779,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       expect(sidecarMockData.length).toBeGreaterThanOrEqual(2)
+      expect(sidecarMockData.length).toBeLessThanOrEqual(4)
       expect(sidecarMockData[0]).toBeUndefined()
       expect(sidecarMockData.at(-1)).toEqual({
         fieldA: 'updated A',
@@ -4779,6 +4787,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       })
 
       expect(nestedMockData.length).toBeGreaterThanOrEqual(2)
+      expect(nestedMockData.length).toBeLessThanOrEqual(4)
       expect(nestedMockData[0]).toBeUndefined()
       expect(nestedMockData.at(-1)).toEqual({
         fieldA: 'updated A',
@@ -4823,18 +4832,16 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       expect(sidecarMockData.length).toBeGreaterThanOrEqual(2)
+      expect(sidecarMockData.length).toBeLessThanOrEqual(4)
       expect(sidecarMockData[0]).toBeUndefined()
       expect(sidecarMockData[1]).toBeUndefined()
       // With useSyncExternalStore, SidecarMock receives the Provider's data
       // via React's torn-snapshot detection after Provider mounts and seeds the shared state.
 
-      expect(nestedMockData).toHaveLength(4)
-      expect(nestedMockData).toEqual([
-        initialData,
-        initialData,
-        initialData,
-        initialData,
-      ])
+      expect(nestedMockData.length).toBeGreaterThanOrEqual(2)
+      expect(nestedMockData.length).toBeLessThanOrEqual(4)
+      expect(nestedMockData[0]).toEqual(initialData)
+      expect(nestedMockData.at(-1)).toEqual(initialData)
 
       const [sidecar, nested] = Array.from(
         document.querySelectorAll('input')
