@@ -141,8 +141,8 @@ export const BecomeCorporateCustomer = () => {
 
                   <Form.Card>
                     <Flex.Container>
-                      <Value.String path="/firstName" />
-                      <Value.String path="/lastName" />
+                      <Value.Name.First path="/firstName" />
+                      <Value.Name.Last path="/lastName" />
                     </Flex.Container>
 
                     <Value.NationalIdentityNumber path="/ssn" />

@@ -63,8 +63,8 @@ export const WithSummaryList = () => {
 
           <Value.SummaryList>
             <Value.Composition label="Name">
-              <Value.String path="/firstName" />
-              <Value.String path="/lastName" />
+              <Value.Name.First path="/firstName" />
+              <Value.Name.Last path="/lastName" />
             </Value.Composition>
 
             <Value.Composition label="Street">

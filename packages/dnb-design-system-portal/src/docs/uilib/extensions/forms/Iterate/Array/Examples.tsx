@@ -185,7 +185,7 @@ export const ArrayFromFormHandler = () => {
             >
               <Iterate.AnimatedContainer
                 title={
-                  <Value.String
+                  <Value.Name
                     label={false}
                     itemPath="/nickname"
                     placeholder="A Nick name"
@@ -698,7 +698,7 @@ export const FilledViewAndEditContainer = () => {
               <Avatar.Group label={firstName}>
                 <Avatar>{firstName.substring(0, 1).toUpperCase()}</Avatar>
               </Avatar.Group>
-              <Value.String itemPath="/firstName" />
+              <Value.Name.First itemPath="/firstName" label={false} />
             </Flex.Horizontal>
           )
         }

@@ -987,7 +987,7 @@ export const KeyboardNavigation = () => (
             <tbody>
               <tr>
                 <Td>
-                  <Field.String label="Name" labelSrOnly value="Ola" />
+                  <Field.Name labelSrOnly value="Ola" />
                 </Td>
                 <Td>
                   <Field.Email labelSrOnly value="ola@example.no" />
@@ -1002,12 +1002,7 @@ export const KeyboardNavigation = () => (
               </tr>
               <tr>
                 <Td>
-                  <Field.String
-                    label="Name"
-                    labelSrOnly
-                    value="Kari"
-                    multiline
-                  />
+                  <Field.Name labelSrOnly value="Kari" multiline />
                 </Td>
                 <Td>
                   <Field.Email

@@ -126,8 +126,8 @@ export const IsolatedData = () => {
           return (
             <Iterate.ViewContainer>
               <Value.Composition>
-                <Value.String itemPath="/firstName" />
-                <Value.String itemPath="/lastName" />
+                <Value.Name.First itemPath="/firstName" />
+                <Value.Name.Last itemPath="/lastName" />
               </Value.Composition>
             </Iterate.ViewContainer>
           )
