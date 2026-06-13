@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import useStep from './useStep'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
@@ -13,17 +13,32 @@ export default function useNextRouter(
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
+  const routerRef = useRef(router)
+  routerRef.current = router
+
+  const pathnameRef = useRef(pathname)
+  pathnameRef.current = pathname
+
+  const searchParamsRef = useRef(searchParams)
+  searchParamsRef.current = searchParams
+  const routerStepChangeRef = useRef<number>(undefined)
+
   const onStepChange = useCallback(
     (index: number) => {
       try {
-        const params = new URLSearchParams(searchParams.toString())
+        routerStepChangeRef.current = index
+        const params = new URLSearchParams(
+          searchParamsRef.current.toString()
+        )
         params.set(name, String(index))
-        router.push(`${pathname}?${params.toString()}`)
+        routerRef.current.push(
+          `${pathnameRef.current}?${params.toString()}`
+        )
       } catch (error) {
         setFormError(error as Error)
       }
     },
-    [name, pathname, router, searchParams, setFormError]
+    [name, setFormError]
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })
@@ -36,7 +51,14 @@ export default function useNextRouter(
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
+      const skipStepChangeCall =
+        routerIndex === routerStepChangeRef.current
+      if (skipStepChangeCall) {
+        routerStepChangeRef.current = undefined
+      }
+
       setActiveIndex?.(routerIndex, {
+        skipStepChangeCall,
         skipStepChangeCallFromHook: true,
         skipStepChangeCallBeforeMounted: true,
       })

@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import useStep from './useStep'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
@@ -11,17 +11,25 @@ export default function useReachRouter(
   const { setFormError } = useStep(id)
   const location = useLocation()
 
+  const locationRef = useRef(location)
+  locationRef.current = location
+
+  const navigateRef = useRef(navigate)
+  navigateRef.current = navigate
+  const routerStepChangeRef = useRef<number>(undefined)
+
   const onStepChange = useCallback(
     (index: number) => {
       try {
-        const url = new URL(location.href)
+        routerStepChangeRef.current = index
+        const url = new URL(locationRef.current.href)
         url.searchParams.set(name, String(index))
-        navigate(url.href)
+        navigateRef.current(url.href)
       } catch (error) {
         setFormError(error as Error)
       }
     },
-    [location.href, name, navigate, setFormError]
+    [name, setFormError]
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })
@@ -40,7 +48,14 @@ export default function useReachRouter(
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
+      const skipStepChangeCall =
+        routerIndex === routerStepChangeRef.current
+      if (skipStepChangeCall) {
+        routerStepChangeRef.current = undefined
+      }
+
       setActiveIndex?.(routerIndex, {
+        skipStepChangeCall,
         skipStepChangeCallFromHook: true,
         skipStepChangeCallBeforeMounted: true,
       })
