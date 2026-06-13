@@ -45,9 +45,13 @@ export type EventListenerCall = {
     | 'onAfterCommit'
     | 'onPathChange'
     | 'onMount'
+    | 'onSetMountedFieldState'
     | 'onSetFieldError'
   callback: (
-    params?: { value: unknown } | { preventSubmit: () => void }
+    params?:
+      | { value: unknown }
+      | { preventSubmit: () => void }
+      | { path: Path; state: MountState }
   ) => void | Promise<void | Error>
 }
 
@@ -143,6 +147,10 @@ export type ContextState = {
     value: any,
     options?: { preventUpdate?: boolean }
   ) => void
+  /** Subscribe to changes at a specific data path. Returns an unsubscribe function. */
+  subscribeDataValue?: (path: Path, callback: () => void) => () => void
+  /** Read the current value at a specific data path from the internal data ref. */
+  getDataValue?: (path: Path) => unknown
   setData: (data: any, options?: { preventUpdate?: boolean }) => void
   clearData?: () => void
   mutateDataHandler?: MutateDataHandler<unknown>

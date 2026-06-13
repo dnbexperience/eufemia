@@ -174,9 +174,11 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     [formatMessage, translation.selectionCount]
   )
 
-  const { getValueByPath } = useDataValue()
+  const { value: dataPathValue } = useDataValue(dataPath, undefined, {
+    pathType: 'absolute',
+  })
   const { setFieldInternals } = useContext(DataContext)
-  const dataList = dataPath ? getValueByPath(dataPath) : data
+  const dataList = dataPath ? dataPathValue : data
 
   const [isOpen, setIsOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')

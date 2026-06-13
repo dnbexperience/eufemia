@@ -34,8 +34,13 @@ export const schemaParams = [
 
 export default function GenerateSchema(props: GenerateSchemaProps) {
   const { generateRef, filterData, log, children } = props || {}
-  const { fieldInternalsRef, valueInternalsRef, data, hasContext } =
-    useContext(DataContext)
+  const {
+    fieldInternalsRef,
+    valueInternalsRef,
+    getDataValue,
+    data,
+    hasContext,
+  } = useContext(DataContext)
 
   const dataRef = useRef<JsonObject>({})
   dataRef.current = data
@@ -163,11 +168,11 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
 
     return {
       schema,
-      data: dataRef.current,
+      data: getDataValue?.('/') ?? dataRef.current,
       propsOfFields,
       propsOfValues,
     } as GenerateSchemaReturn
-  }, [fieldInternalsRef, filterData, valueInternalsRef])
+  }, [fieldInternalsRef, filterData, getDataValue, valueInternalsRef])
 
   if (hasContext) {
     if (log) {

@@ -456,6 +456,58 @@ export default function Provider<Data extends JsonObject>(
   }, [])
   const internalDataRef = useRef<Data>(initialData)
   const isEmptyDataRef = useRef(false)
+  const contextValueRef = useRef<ContextState>(undefined)
+  const dataValueSubscribersRef = useRef<Map<Path, Set<() => void>>>(
+    new Map()
+  )
+
+  const getDataValue = useCallback((path: Path) => {
+    const data = internalDataRef.current
+
+    if (path === '/') {
+      return data
+    }
+
+    return pointer.has(data, path) ? pointer.get(data, path) : undefined
+  }, [])
+
+  const subscribeDataValue = useCallback(
+    (path: Path, callback: () => void) => {
+      let subscribers = dataValueSubscribersRef.current.get(path)
+
+      if (!subscribers) {
+        subscribers = new Set()
+        dataValueSubscribersRef.current.set(path, subscribers)
+      }
+
+      subscribers.add(callback)
+
+      return () => {
+        subscribers.delete(callback)
+
+        if (subscribers.size === 0) {
+          dataValueSubscribersRef.current.delete(path)
+        }
+      }
+    },
+    []
+  )
+
+  const notifyDataValueSubscribers = useCallback((changedPath?: Path) => {
+    dataValueSubscribersRef.current.forEach((subscribers, path) => {
+      const shouldNotify =
+        !changedPath ||
+        changedPath === '/' ||
+        path === '/' ||
+        path === changedPath ||
+        path.startsWith(`${changedPath}/`) ||
+        changedPath.startsWith(`${path}/`)
+
+      if (shouldNotify) {
+        subscribers.forEach((callback) => callback())
+      }
+    })
+  }, [])
 
   // - Validator
   type UnifiedValidator = {
@@ -554,9 +606,12 @@ export default function Provider<Data extends JsonObject>(
     return undefined // stop here
   }, [])
   const validateData = useCallback(() => {
+    const previousErrors = errorsRef.current
     const contextErrors = executeAjvValidator()
     executeSectionValidators(contextErrors)
-    forceUpdate()
+    if (previousErrors !== errorsRef.current) {
+      forceUpdate()
+    }
   }, [executeAjvValidator, executeSectionValidators, forceUpdate])
 
   // - Error handling
@@ -613,8 +668,11 @@ export default function Provider<Data extends JsonObject>(
       bumpValidationVersionRef.current()
 
       for (const item of fieldEventListenersRef.current) {
-        const { type, callback } = item
-        if (type === 'onSetFieldError') {
+        const { path: listenerPath, type, callback } = item
+        if (
+          type === 'onSetFieldError' &&
+          (!listenerPath || listenerPath === path)
+        ) {
           callback()
         }
       }
@@ -1033,6 +1091,8 @@ export default function Provider<Data extends JsonObject>(
       : emptyData) ??
       (Array.isArray(internalDataRef.current) ? [] : clearedData)) as Data
 
+    notifyDataValueSubscribers()
+
     if (id) {
       setSharedData(internalDataRef.current)
     }
@@ -1043,7 +1103,7 @@ export default function Provider<Data extends JsonObject>(
     requestAnimationFrame?.(() => {
       isEmptyDataRef.current = false
     }) // Delay so the field validation error message are not shown
-  }, [emptyData, id, onClear, setSharedData])
+  }, [emptyData, id, notifyDataValueSubscribers, onClear, setSharedData])
 
   // Use layout effect to run validation when internal data has changed,
   // This makes it possible for Iterate.Array to set a new data value before the validation is run.
@@ -1120,6 +1180,9 @@ export default function Provider<Data extends JsonObject>(
       }
 
       internalDataRef.current = newData
+      if (contextValueRef.current) {
+        contextValueRef.current.data = newData
+      }
 
       if (id) {
         // Will ensure that Form.getData() gets the correct data
@@ -1131,6 +1194,7 @@ export default function Provider<Data extends JsonObject>(
       }
 
       if (!preventUpdate) {
+        notifyDataValueSubscribers()
         forceUpdate() // Will rerender the whole form initially
       }
     },
@@ -1138,6 +1202,7 @@ export default function Provider<Data extends JsonObject>(
       extendSharedData,
       id,
       mutateDataHandler,
+      notifyDataValueSubscribers,
       sessionStorageId,
       storeInSession,
       transformIn,
@@ -1153,6 +1218,11 @@ export default function Provider<Data extends JsonObject>(
         return undefined
       }
 
+      const existingData = internalDataRef.current
+      const hadValue =
+        path === '/'
+          ? existingData !== undefined
+          : pointer.has(existingData, path)
       const givenData = (
         path === '/'
           ? // When setting the root of the data, the whole data set should be the new value
@@ -1174,10 +1244,37 @@ export default function Provider<Data extends JsonObject>(
         pointer.set(newData, path, value)
       }
 
-      setData(newData, { preventUpdate })
+      setData(newData, { preventUpdate: true })
+
+      if (!preventUpdate) {
+        notifyDataValueSubscribers(transformIn ? undefined : path)
+
+        if (
+          path === '/' ||
+          !hadValue ||
+          (typeof countryCode === 'string' &&
+            countryCode.startsWith('/') &&
+            (path === countryCode ||
+              path.startsWith(`${countryCode}/`) ||
+              countryCode.startsWith(`${path}/`)))
+        ) {
+          forceUpdate()
+        } else {
+          validateData()
+        }
+      }
+
       onUpdateDataValue?.(path, value, { preventUpdate })
     },
-    [onUpdateDataValue, setData]
+    [
+      countryCode,
+      forceUpdate,
+      notifyDataValueSubscribers,
+      onUpdateDataValue,
+      setData,
+      transformIn,
+      validateData,
+    ]
   )
 
   /**
@@ -1292,6 +1389,16 @@ export default function Provider<Data extends JsonObject>(
         Promise.resolve().then(() => {
           bumpValidationVersionRef.current()
         })
+
+        for (const itm of fieldEventListenersRef.current) {
+          if (
+            itm.type === 'onSetMountedFieldState' &&
+            (!itm.path || itm.path === path)
+          ) {
+            const { callback } = itm
+            callback({ path, state })
+          }
+        }
       }
 
       for (const itm of fieldEventListenersRef.current) {
@@ -1808,6 +1915,8 @@ export default function Provider<Data extends JsonObject>(
     hasFieldWithAsyncValidator,
     validateData,
     updateDataValue,
+    subscribeDataValue,
+    getDataValue,
     setData,
     clearData,
     visibleDataHandler:
@@ -1858,6 +1967,7 @@ export default function Provider<Data extends JsonObject>(
     props: props as ContextState['props'],
     ...rest,
   }
+  contextValueRef.current = contextValue
 
   if (id) {
     sharedDataContext?.set(contextValue, { silent: true })

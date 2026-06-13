@@ -2944,6 +2944,12 @@ describe('PushContainer', () => {
     it('should add item to the correct array', async () => {
       let collectedData = null
 
+      const CollectData = () => {
+        const { data } = Form.useData()
+        collectedData = data
+        return null
+      }
+
       render(
         <Form.Handler
           data={{
@@ -2961,12 +2967,7 @@ describe('PushContainer', () => {
             </Iterate.PushContainer>
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedData = context.data
-              return null
-            }}
-          </DataContext.Consumer>
+          <CollectData />
         </Form.Handler>
       )
 
@@ -3075,6 +3076,55 @@ describe('PushContainer', () => {
       expect(
         document.querySelector('.dnb-forms-section-block')
       ).toHaveClass('dnb-height-animation--is-visible')
+    })
+
+    it('should update when itemPath data is changed externally', async () => {
+      function UpdateButton() {
+        const { update } = Form.useData()
+
+        return (
+          <button
+            type="button"
+            onClick={() =>
+              update('/outer/0/inner', ['initial item', 'external item'])
+            }
+          >
+            Update items
+          </button>
+        )
+      }
+
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: ['initial item'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.PushContainer
+              itemPath="/inner"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add no. {nextItemNo}" />
+              }
+              showOpenButtonWhen={() => true}
+            >
+              <Field.String itemPath="/" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+
+          <UpdateButton />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      ).toHaveTextContent('Add no. 2')
+
+      await userEvent.click(screen.getByText('Update items'))
+
+      expect(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      ).toHaveTextContent('Add no. 3')
     })
   })
 

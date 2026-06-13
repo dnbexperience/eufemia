@@ -34,7 +34,6 @@ export type FieldPostalCodeAndCityProps = Pick<
 
 function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
   const translations = useTranslation()
-  const { getSourceValue } = useDataValue()
   const countryCodeFromProvider = useContext(DataContext)?.countryCode
 
   const {
@@ -47,7 +46,15 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     ...compositionFieldProps
   } = props
 
-  const countryCodeValue = getSourceValue(countryCode)
+  const countryCodePath =
+    typeof countryCode === 'string' && countryCode.startsWith('/')
+      ? countryCode
+      : undefined
+  const { value: countryCodePathValue, getSourceValue } =
+    useDataValue(countryCodePath)
+  const countryCodeValue = countryCodePath
+    ? countryCodePathValue
+    : getSourceValue(countryCode)
 
   const handleCityDefaults = useCallback(
     (city: StringFieldProps) => {

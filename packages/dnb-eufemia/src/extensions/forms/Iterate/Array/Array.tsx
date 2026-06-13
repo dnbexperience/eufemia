@@ -73,15 +73,14 @@ function ArrayComponent(props: IterateArrayProps) {
     pathProp || absolutePath
   )
 
-  const { getValueByPath } = useDataValue()
+  const { value: countPathValue, getValueByPath } = useDataValue(countPath)
+  const { value: contextArrayValue } = useDataValue(pathProp)
   const countValue = useMemo(() => {
     if (!countPath) {
       return -1
     }
 
-    let countValue = parseFloat(
-      getValueByPath(countPath, dataContext.data)
-    )
+    let countValue = parseFloat(countPathValue as string)
     if (!(countValue >= 0)) {
       countValue = 0
     }
@@ -90,7 +89,7 @@ function ArrayComponent(props: IterateArrayProps) {
     }
 
     return countValue
-  }, [countPath, countPathLimit, getValueByPath, dataContext.data])
+  }, [countPath, countPathLimit, countPathValue])
 
   const validateRequired = useCallback(
     (value: Value, { emptyValue, required, error }) => {
@@ -130,7 +129,7 @@ function ArrayComponent(props: IterateArrayProps) {
     }
 
     if (countPath) {
-      const arrayValue = getValueByPath(pathProp)
+      const arrayValue = contextArrayValue as Array<Value> | undefined
       const newValue = []
       for (let i = 0, l = countValue; i < l; i++) {
         const value = arrayValue?.[i]
@@ -151,11 +150,10 @@ function ArrayComponent(props: IterateArrayProps) {
       ...shared,
     }
   }, [
+    contextArrayValue,
     countPath,
     countPathTransform,
     countValue,
-    getValueByPath,
-    pathProp,
     props,
     validateRequired,
   ])

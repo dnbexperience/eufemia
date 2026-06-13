@@ -1,6 +1,6 @@
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { DataContext, Field } from '../../../../'
+import { DataContext, Field, Form } from '../../../../'
 import FieldBoundaryContext from '../../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import ToolbarContext from '../../Toolbar/ToolbarContext'
 import SectionContainerContext from '../../containers/SectionContainerContext'
@@ -182,18 +182,19 @@ describe('CancelButton', () => {
     const onSubmit = vi.fn()
     let submitData = null
 
+    const CollectData = () => {
+      const { data } = Form.useData()
+      submitData = data
+      return null
+    }
+
     render(
       <DataContext.Provider
         data={{ foo: 'original value' }}
         onSubmit={onSubmit}
       >
         <Field.String path="/foo" />
-        <DataContext.Consumer>
-          {({ internalDataRef }) => {
-            submitData = internalDataRef.current
-            return null
-          }}
-        </DataContext.Consumer>
+        <CollectData />
         <SectionContainerContext value={{ containerMode: 'edit' }}>
           <Toolbar>
             <CancelButton showConfirmDialog={false} />

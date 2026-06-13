@@ -1,4 +1,3 @@
-import { useContext } from 'react'
 import type { ReactNode } from 'react'
 import {
   fireEvent,
@@ -3034,7 +3033,7 @@ describe('Field.Upload', () => {
 
     let dataContext = null
     function LogContext() {
-      dataContext = useContext(DataContext.Context).data
+      dataContext = Form.useData().data
       return null
     }
 

@@ -327,6 +327,37 @@ describe('Field.Currency', () => {
     )
   })
 
+  it('should update when currency path value changes', async () => {
+    function ChangeCurrency() {
+      const { update } = Form.useData()
+
+      return (
+        <button type="button" onClick={() => update('/currency', 'EUR')}>
+          Change currency
+        </button>
+      )
+    }
+
+    render(
+      <Form.Handler data={{ currency: 'SEK' }}>
+        <Field.Currency currency="/currency" />
+        <ChangeCurrency />
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-placeholder',
+      'kr'
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-placeholder',
+      '€'
+    )
+  })
+
   it('should handle unsupported currency', () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 

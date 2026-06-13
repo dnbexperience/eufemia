@@ -16,13 +16,19 @@ export type ValueSelectionProps = ValueProps<string> & {
 function Selection(props: ValueSelectionProps) {
   const { fieldInternalsRef } = useContext(Context) || {}
   const { path, dataPath, value, ...rest } = useValueProps(props)
-  const { getValueByPath } = useDataValue()
+  const { value: dataPathValue } = useDataValue<Data>(
+    dataPath,
+    undefined,
+    {
+      pathType: 'absolute',
+    }
+  )
 
   const valueToDisplay = useMemo<string | undefined>(() => {
     const fieldProp = fieldInternalsRef?.current?.[path]?.props
 
     if (path || dataPath) {
-      let list = getValueByPath(dataPath)?.map?.((props) => ({ props }))
+      let list = dataPathValue?.map?.((props) => ({ props }))
 
       if (!list) {
         list = fieldProp?.children as Array<
@@ -37,7 +43,7 @@ function Selection(props: ValueSelectionProps) {
     }
 
     return value
-  }, [dataPath, fieldInternalsRef, getValueByPath, path, value])
+  }, [dataPath, dataPathValue, fieldInternalsRef, path, value])
 
   return <StringValue value={valueToDisplay} path={path} {...rest} />
 }

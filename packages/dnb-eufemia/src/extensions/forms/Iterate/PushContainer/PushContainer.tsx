@@ -147,7 +147,8 @@ export type IteratePushContainerAllProps = IteratePushContainerProps &
 function PushContainer(props: IteratePushContainerAllProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const outerContext = useContext(DataContext)
-  const { data: outerData, required: requiredInherited } = outerContext
+  const { required: requiredInherited } = outerContext
+  const { value: outerData } = useDataValue<JsonObject>('//')
 
   const {
     data: dataProp,
@@ -179,7 +180,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
     value: entries = [],
     moveValueToPath,
     getValueByPath,
-  } = useDataValue<Array<unknown>>(path || itemPath)
+  } = useDataValue<Array<unknown>>(path || absolutePath)
 
   const { setNextContainerMode } = useSwitchContainerMode(
     path || absolutePath

@@ -554,7 +554,7 @@ describe('Iterate.Array', () => {
       )
       expect(collectedContext.data).toEqual({
         count: 1,
-        items: [22, 2, 2],
+        items: [22],
       })
 
       await waitFor(() => {
@@ -610,6 +610,52 @@ describe('Iterate.Array', () => {
       expect(inputs).toHaveLength(2)
       expect(inputs[0]).toHaveValue('0')
       expect(inputs[1]).toHaveValue('1')
+    })
+
+    it('should update item values when path data changes and countPath stays the same', async () => {
+      function ChangeItems() {
+        const { update } = Form.useData()
+
+        return (
+          <button
+            type="button"
+            onClick={() => {
+              update('/items', [{ item: 7 }, { item: 8 }])
+            }}
+          >
+            Change items
+          </button>
+        )
+      }
+
+      render(
+        <Form.Handler
+          data={{
+            count: 2,
+            items: [{ item: 1 }, { item: 2 }],
+          }}
+        >
+          <Iterate.Array
+            path="/items"
+            countPath="/count"
+            countPathTransform={({ value, index }) =>
+              value ?? { item: index }
+            }
+          >
+            <Field.Number itemPath="/item" />
+          </Iterate.Array>
+
+          <ChangeItems />
+        </Form.Handler>
+      )
+
+      expect(document.querySelectorAll('input')[0]).toHaveValue('1')
+      expect(document.querySelectorAll('input')[1]).toHaveValue('2')
+
+      await userEvent.click(screen.getByText('Change items'))
+
+      expect(document.querySelectorAll('input')[0]).toHaveValue('7')
+      expect(document.querySelectorAll('input')[1]).toHaveValue('8')
     })
 
     it('should support React.StrictMode when using "countPathTransform"', () => {

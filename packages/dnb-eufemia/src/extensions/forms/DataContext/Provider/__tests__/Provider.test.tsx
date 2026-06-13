@@ -1,4 +1,5 @@
 import {
+  Profiler,
   StrictMode,
   useCallback,
   useContext,
@@ -4659,6 +4660,68 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
     expect(countRendered).toHaveBeenCalledTimes(1)
     expect(countRendered).toHaveBeenLastCalledWith({ foo: 'bar' })
+  })
+
+  it('should only render the field for the changed path', () => {
+    const firstNameRender = vi.fn()
+    const lastNameRender = vi.fn()
+
+    render(
+      <Form.Handler
+        defaultData={{ firstName: 'John', lastName: 'Smith' }}
+        onChange={vi.fn()}
+        onPathChange={vi.fn()}
+      >
+        <Profiler id="firstName" onRender={firstNameRender}>
+          <Field.String path="/firstName" label="First name" />
+        </Profiler>
+        <Profiler id="lastName" onRender={lastNameRender}>
+          <Field.String path="/lastName" label="Last name" />
+        </Profiler>
+      </Form.Handler>
+    )
+
+    firstNameRender.mockClear()
+    lastNameRender.mockClear()
+
+    fireEvent.change(document.querySelector('input[name="firstName"]'), {
+      target: { value: 'Jane' },
+    })
+
+    expect(document.querySelector('input[name="firstName"]')).toHaveValue(
+      'Jane'
+    )
+    expect(firstNameRender).toHaveBeenCalled()
+    expect(lastNameRender).not.toHaveBeenCalled()
+  })
+
+  it('should only render the field for the changed path on first write', () => {
+    const firstNameRender = vi.fn()
+    const lastNameRender = vi.fn()
+
+    render(
+      <Form.Handler onChange={vi.fn()} onPathChange={vi.fn()}>
+        <Profiler id="firstName" onRender={firstNameRender}>
+          <Field.String path="/firstName" label="First name" />
+        </Profiler>
+        <Profiler id="lastName" onRender={lastNameRender}>
+          <Field.String path="/lastName" label="Last name" />
+        </Profiler>
+      </Form.Handler>
+    )
+
+    firstNameRender.mockClear()
+    lastNameRender.mockClear()
+
+    fireEvent.change(document.querySelector('input[name="firstName"]'), {
+      target: { value: 'Jane' },
+    })
+
+    expect(document.querySelector('input[name="firstName"]')).toHaveValue(
+      'Jane'
+    )
+    expect(firstNameRender).toHaveBeenCalled()
+    expect(lastNameRender).not.toHaveBeenCalled()
   })
 
   describe('with useData', () => {

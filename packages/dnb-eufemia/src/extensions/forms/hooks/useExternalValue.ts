@@ -1,4 +1,9 @@
-import { useContext, useMemo } from 'react'
+import {
+  useCallback,
+  useContext,
+  useMemo,
+  useSyncExternalStore,
+} from 'react'
 import type { RefObject } from 'react'
 import pointer from '../utils/json-pointer'
 import type { FieldProps, Path } from '../types'
@@ -25,10 +30,38 @@ export default function useExternalValue<Value>(
     transformers,
     emptyValue = undefined,
   } = props
-  const { data } = useContext(DataContext) || {}
+  const dataContext = useContext(DataContext)
+  const { data, subscribeDataValue, getDataValue } = dataContext || {}
   const iterateItemContext = useContext(IterateItemContext)
   const inIterate = Boolean(iterateItemContext)
   const { value: iterateElementValue } = iterateItemContext || {}
+  const subscribablePath =
+    path && (!inIterate || !itemPath) ? path : undefined
+
+  const subscribe = useCallback(
+    (callback: () => void) => {
+      if (subscribablePath && subscribeDataValue) {
+        return subscribeDataValue(subscribablePath, callback)
+      }
+
+      return () => undefined
+    },
+    [subscribablePath, subscribeDataValue]
+  )
+
+  const getSnapshot = useCallback(() => {
+    if (subscribablePath && getDataValue) {
+      return getDataValue(subscribablePath)
+    }
+
+    return undefined
+  }, [getDataValue, subscribablePath])
+
+  const dataValue = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getSnapshot
+  )
 
   return useMemo(() => {
     if (value !== undefined && value !== emptyValue) {
@@ -55,6 +88,13 @@ export default function useExternalValue<Value>(
       }
     }
 
+    if (path && getDataValue) {
+      return (
+        transformers?.current?.fromExternal?.(dataValue as Value) ??
+        emptyValue
+      )
+    }
+
     if (data && path) {
       // There is a surrounding data context and a path for where in the source to find the data
       if (path === '/') {
@@ -72,6 +112,8 @@ export default function useExternalValue<Value>(
     return emptyValue
   }, [
     data,
+    dataValue,
+    getDataValue,
     emptyValue,
     inIterate,
     itemPath,

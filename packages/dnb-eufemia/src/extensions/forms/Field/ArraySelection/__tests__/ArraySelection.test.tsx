@@ -518,6 +518,47 @@ describe('ArraySelection', () => {
       )
     })
 
+    it('should update options when "dataPath" data changes', async () => {
+      function ChangeOptions() {
+        const { update } = Form.useData()
+
+        return (
+          <button
+            type="button"
+            onClick={() => {
+              update('/myList', [{ value: 'baz', title: 'Baz!' }])
+            }}
+          >
+            Change options
+          </button>
+        )
+      }
+
+      render(
+        <Form.Handler
+          data={{
+            myList: [{ value: 'foo', title: 'Foo!' }],
+            mySelection: ['foo'],
+          }}
+        >
+          <Field.ArraySelection
+            variant="checkbox"
+            path="/mySelection"
+            dataPath="/myList"
+          />
+          <ChangeOptions />
+        </Form.Handler>
+      )
+
+      expect(screen.getByText('Foo!')).toBeInTheDocument()
+      expect(screen.queryByText('Baz!')).not.toBeInTheDocument()
+
+      await userEvent.click(screen.getByText('Change options'))
+
+      expect(screen.getByText('Baz!')).toBeInTheDocument()
+      expect(screen.queryByText('Foo!')).not.toBeInTheDocument()
+    })
+
     it('should store "displayValue" in data context', async () => {
       let dataContext = null
 

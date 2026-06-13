@@ -99,8 +99,10 @@ function ArraySelection(props: FieldArraySelectionProps) {
     label,
   } = useFieldProps(props)
 
-  const { getValueByPath } = useDataValue()
-  const dataList = dataPath ? getValueByPath(dataPath) : data
+  const { value: dataPathValue } = useDataValue(dataPath, undefined, {
+    pathType: 'absolute',
+  })
+  const dataList = dataPath ? dataPathValue : data
   const hasRenderPropChildren = typeof children === 'function'
   const renderedChildren = useMemo(() => {
     return resolveChildren(children, value, dataList)
