@@ -2737,7 +2737,7 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   height: inherit;
 }
 .dnb-date-picker__container {
-  border-radius: var(--token-radius-sm);
+  border-radius: var(--token-radius-lg);
   background-color: var(--token-color-background-neutral);
   position: relative;
   top: auto;
@@ -2758,6 +2758,9 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+.dnb-date-picker__container table th {
+  font-size: var(--font-size-medium);
 }
 .dnb-date-picker__container:not(.dnb-date-picker__container--show-footer) .dnb-date-picker__calendar::after {
   content: none;
@@ -3163,7 +3166,7 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
   line-height: var(--date-picker-input-height);
 }
 .dnb-date-picker__portal .dnb-popover {
-  --popover-border-radius: var(--token-radius-sm);
+  --popover-border-radius: var(--token-radius-md);
   box-shadow: var(--shadow-sharp);
 }
 .dnb-date-picker--open .dnb-button--input-button.dnb-button--selected {
