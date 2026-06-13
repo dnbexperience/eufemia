@@ -27,10 +27,15 @@ export default function useQueryLocator(id: string = undefined) {
     [name, setFormError]
   )
 
-  const { setActiveIndex } = useStep(id, {
+  const { setActiveIndex, onStepChangeEventsRef } = useStep(id, {
     onStepChange,
-    unregisterOnUnmount: true,
   })
+
+  useLayoutEffect(() => {
+    return () => {
+      onStepChangeEventsRef?.current?.delete(onStepChange)
+    }
+  }, [onStepChange, onStepChangeEventsRef])
 
   const getIndex = useCallback(() => {
     try {

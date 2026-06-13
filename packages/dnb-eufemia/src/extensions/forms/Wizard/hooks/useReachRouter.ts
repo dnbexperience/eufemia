@@ -51,9 +51,8 @@ export default function useReachRouter(
     [name, setFormError]
   )
 
-  const { setActiveIndex } = useStep(id, {
+  const { setActiveIndex, onStepChangeEventsRef } = useStep(id, {
     onStepChange,
-    unregisterOnUnmount: true,
   })
 
   useLayoutEffect(() => {
@@ -63,6 +62,12 @@ export default function useReachRouter(
       }
     }
   }, [name])
+
+  useLayoutEffect(() => {
+    return () => {
+      onStepChangeEventsRef?.current?.delete(onStepChange)
+    }
+  }, [onStepChange, onStepChangeEventsRef])
 
   const getIndex = useCallback(() => {
     try {

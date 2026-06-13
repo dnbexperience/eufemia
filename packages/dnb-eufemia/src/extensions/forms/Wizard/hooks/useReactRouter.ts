@@ -49,9 +49,8 @@ export default function useReactRouter(
     [name, setFormError, setSearchParams]
   )
 
-  const { setActiveIndex } = useStep(id, {
+  const { setActiveIndex, onStepChangeEventsRef } = useStep(id, {
     onStepChange,
-    unregisterOnUnmount: true,
   })
 
   useLayoutEffect(() => {
@@ -61,6 +60,12 @@ export default function useReactRouter(
       }
     }
   }, [name])
+
+  useLayoutEffect(() => {
+    return () => {
+      onStepChangeEventsRef?.current?.delete(onStepChange)
+    }
+  }, [onStepChange, onStepChangeEventsRef])
 
   const getIndex = useCallback(
     () => parseFloat(searchParams.get(name)),

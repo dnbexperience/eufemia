@@ -59,6 +59,15 @@ describe('useQueryLocator', () => {
       popstateListener()
     })
   }
+  const removeStep = () => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete(`${identifier}-step`)
+    window.history.replaceState({}, '', url.toString())
+
+    act(() => {
+      popstateListener()
+    })
+  }
   const Step = () => {
     const { activeIndex } = useStep(identifier)
     const { getIndex } = useQueryLocator(identifier)
@@ -205,6 +214,47 @@ describe('useQueryLocator', () => {
     expect(window.location.search).toBe(
       `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
+  })
+
+  it('should write one history entry when multiple hooks listen to the same wizard', async () => {
+    mockUrl()
+
+    const Step = () => {
+      const { activeIndex } = useStep(identifier)
+      return (
+        <Wizard.Step>
+          <output>{JSON.stringify({ activeIndex })}</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+    }
+
+    const MyForm = () => {
+      useQueryLocator(identifier)
+      useQueryLocator(identifier)
+
+      return (
+        <Form.Handler>
+          <Wizard.Container mode="loose" id={identifier}>
+            <Step />
+            <Step />
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":1}')
+    })
+
+    expect(window.location.search).toBe(
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
+    )
+    expect(window.history.pushState).toHaveBeenCalledTimes(1)
   })
 
   it('should call Wizard.Container onStepChange when reacting to url changes after button navigation', async () => {
@@ -390,6 +440,51 @@ describe('useQueryLocator', () => {
       '',
       `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`
     )
+  })
+
+  it('should restore the first step when the routed step is removed from the URL', async () => {
+    mockUrl()
+
+    const MyForm = () => {
+      const { getIndex } = useQueryLocator(identifier)
+
+      const Step = () => {
+        const { activeIndex } = useStep(identifier)
+        return (
+          <Wizard.Step>
+            <output>
+              {JSON.stringify({ activeIndex, index: getIndex() })}
+            </output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      return (
+        <Form.Handler>
+          <Wizard.Container mode="loose" id={identifier}>
+            <Step />
+            <Step />
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
+    })
+
+    removeStep()
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
+    })
+
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
   })
 
   it('should handle and show try/catch errors', async () => {

@@ -16,10 +16,7 @@ type SetActiveIndexHandler = NonNullable<
 
 export default function useStep(
   id: SharedStateId = null,
-  {
-    onStepChange,
-    unregisterOnUnmount,
-  }: { onStepChange?: OnStepChange; unregisterOnUnmount?: boolean } = {}
+  { onStepChange }: { onStepChange?: OnStepChange } = {}
 ) {
   const setFormError = useCallback(() => null, [])
   const wizardContext = useContext(WizardContext) || { setFormError }
@@ -95,13 +92,7 @@ export default function useStep(
     ) {
       onStepChangeEvents.add(onStepChange)
     }
-
-    return () => {
-      if (unregisterOnUnmount && onStepChange) {
-        onStepChangeEvents?.delete(onStepChange)
-      }
-    }
-  }, [context, onStepChange, unregisterOnUnmount])
+  }, [context, onStepChange])
 
   useLayoutEffect(() => {
     if (id) {
