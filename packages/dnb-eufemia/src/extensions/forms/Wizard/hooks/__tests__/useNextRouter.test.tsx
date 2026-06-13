@@ -1,6 +1,6 @@
 import { act, useCallback, useMemo, useReducer, useRef } from 'react'
 import type { RefObject } from 'react'
-import { render, renderHook } from '@testing-library/react'
+import { render, renderHook, waitFor } from '@testing-library/react'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useNextRouter from '../useNextRouter'
 import useStep from '../useStep'
@@ -142,6 +142,82 @@ describe('useNextRouter', () => {
     expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
     expect(window.location.search).toBe(
       `?existing-query=foo&bar=baz&${identifier}-step=0`
+    )
+  })
+
+  it('should call Wizard.Container onStepChange once for each button navigation when updating the URL query parameter', async () => {
+    mockUrl()
+
+    const onStepChange = vi.fn()
+    const { useRouter, usePathname, useSearchParams } = getHookMock()
+
+    const Step = () => {
+      const { activeIndex } = useStep(identifier)
+      return (
+        <Wizard.Step>
+          <output>{JSON.stringify({ activeIndex })}</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+    }
+
+    const MyForm = () => {
+      useNextRouter(identifier, {
+        useRouter,
+        usePathname,
+        useSearchParams,
+      })
+
+      return (
+        <Form.Handler>
+          <Wizard.Container
+            mode="loose"
+            id={identifier}
+            onStepChange={onStepChange}
+          >
+            <Step />
+            <Step />
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    expect(output()).toHaveTextContent('{"activeIndex":0}')
+    expect(onStepChange).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":1}')
+    })
+
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(window.location.search).toBe(
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
+    )
+
+    await userEvent.click(previousButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":0}')
+    })
+
+    expect(onStepChange).toHaveBeenCalledTimes(2)
+    expect(window.location.search).toBe(
+      `?existing-query=foo&bar=baz&${identifier}-step=0`
+    )
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":1}')
+    })
+
+    expect(onStepChange).toHaveBeenCalledTimes(3)
+    expect(window.location.search).toBe(
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
   })
 
