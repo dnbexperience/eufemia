@@ -21,6 +21,7 @@ import type {
   PropsWithChildren,
   ReactElement,
   ReactNode,
+  WheelEvent,
   SyntheticEvent,
 } from 'react'
 import { clsx } from 'clsx'
@@ -666,6 +667,19 @@ function TabsComponent(ownProps: TabsProps) {
         behavior: 'smooth',
       })
     }
+  }
+
+  const onTablistWheelHandler = (event: WheelEvent<HTMLDivElement>) => {
+    if (
+      event.ctrlKey ||
+      event.shiftKey ||
+      Math.abs(event.deltaY) <= Math.abs(event.deltaX)
+    ) {
+      return
+    }
+
+    event.preventDefault()
+    window.scrollBy({ top: event.deltaY, behavior: 'auto' })
   }
 
   const setFocusOnTabButton = useCallback(() => {
@@ -1362,6 +1376,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         className="dnb-tabs__tabs__tablist"
         tabIndex={0}
         onKeyDown={onTablistKeyDownHandler}
+        onWheelCapture={onTablistWheelHandler}
         ref={tablistRef}
         {...params}
       >
