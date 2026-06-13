@@ -49,8 +49,8 @@ export const LayoutComponents = () => {
         <Form.Card>
           <Form.SubHeading>Name</Form.SubHeading>
 
-          <Field.String label="Fornavn" value="John" />
-          <Field.String label="Etternavn" value="Smith" />
+          <Field.Name.First value="John" />
+          <Field.Name.Last value="Smith" />
         </Form.Card>
 
         <Form.Card>

@@ -470,7 +470,7 @@ export const DialogInformationScrollableContent = () => {
 
                   <Form.Card>
                     <Form.SubHeading>Kontaktinformasjon</Form.SubHeading>
-                    <Field.String label="Fullt navn" path="/name" />
+                    <Field.Name label="Fullt navn" path="/name" />
                     <Field.Email path="/email" />
                     <Field.PhoneNumber path="/phone" />
                   </Form.Card>

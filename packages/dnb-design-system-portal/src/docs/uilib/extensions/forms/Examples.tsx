@@ -257,8 +257,8 @@ export const FeatureFields = () => {
       }}
     >
       <Form.Card>
-        <Field.String label="Fornavn" value="John" />
-        <Field.String label="Etternavn" value="Smith" />
+        <Field.Name.First value="John" />
+        <Field.Name.Last value="Smith" />
         <Field.NationalIdentityNumber value="20058512345" />
         <Field.Email value="john@smith.email" />
         <Field.PhoneNumber value="+4798765432" />
@@ -280,8 +280,8 @@ export const LayoutComponents = () => {
         <Form.Card>
           <Form.SubHeading>Name</Form.SubHeading>
 
-          <Field.String label="Fornavn" value="John" />
-          <Field.String label="Etternavn" value="Smith" />
+          <Field.Name.First value="John" />
+          <Field.Name.Last value="Smith" />
         </Form.Card>
 
         <Form.Card>
@@ -324,8 +324,8 @@ export const VisibilityBasedOnData = () => {
           <Form.Card>
             <Form.SubHeading>Name</Form.SubHeading>
 
-            <Field.String path="/firstName" label="Fornavn" />
-            <Field.String path="/lastName" label="Etternavn" />
+            <Field.Name.First path="/firstName" />
+            <Field.Name.Last path="/lastName" />
           </Form.Card>
 
           <Field.Boolean
@@ -374,8 +374,8 @@ export const UsingFormHandler = () => {
         <Form.MainHeading>Profile</Form.MainHeading>
 
         <Form.Card>
-          <Field.String path="/firstName" label="Fornavn" />
-          <Field.String path="/lastName" label="Etternavn" />
+          <Field.Name.First path="/firstName" />
+          <Field.Name.Last path="/lastName" />
           <Field.NationalIdentityNumber path="/ssn" />
           <Field.Email path="/email" />
           <Field.PhoneNumber path="/phone" />
@@ -413,8 +413,8 @@ export const Validation = () => {
         <Form.MainHeading>Profile</Form.MainHeading>
 
         <Form.Card>
-          <Field.String path="/firstName" label="Fornavn" required />
-          <Field.String path="/lastName" label="Etternavn" required />
+          <Field.Name.First path="/firstName" required />
+          <Field.Name.Last path="/lastName" required />
           <Field.NationalIdentityNumber path="/ssn" validateInitially />
           <Field.Email path="/email" validateInitially />
           <Field.PhoneNumber path="/phone" validateInitially />
@@ -456,16 +456,8 @@ export const UsingWizard = () => {
                   <Form.Card>
                     <Form.SubHeading>Name</Form.SubHeading>
 
-                    <Field.String
-                      path="/firstName"
-                      label="Fornavn"
-                      required
-                    />
-                    <Field.String
-                      path="/lastName"
-                      label="Etternavn"
-                      required
-                    />
+                    <Field.Name.First path="/firstName" required />
+                    <Field.Name.Last path="/lastName" required />
                   </Form.Card>
 
                   <Wizard.Buttons />
@@ -490,8 +482,8 @@ export const UsingWizard = () => {
 
                   <Form.Card>
                     <Value.SummaryList layout="grid">
-                      <Value.String path="/firstName" label="Fornavn" />
-                      <Value.String path="/lastName" label="Etternavn" />
+                      <Value.Name.First path="/firstName" />
+                      <Value.Name.Last path="/lastName" />
 
                       <Value.NationalIdentityNumber path="/ssn" />
                       <Value.Email path="/email" />
