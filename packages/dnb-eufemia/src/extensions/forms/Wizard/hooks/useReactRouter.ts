@@ -49,7 +49,10 @@ export default function useReactRouter(
     [name, setFormError, setSearchParams]
   )
 
-  const { setActiveIndex } = useStep(id, { onStepChange })
+  const { setActiveIndex } = useStep(id, {
+    onStepChange,
+    unregisterOnUnmount: true,
+  })
 
   useLayoutEffect(() => {
     return () => {

@@ -61,7 +61,10 @@ export default function useNextRouter(
     [name, setFormError]
   )
 
-  const { setActiveIndex } = useStep(id, { onStepChange })
+  const { setActiveIndex } = useStep(id, {
+    onStepChange,
+    unregisterOnUnmount: true,
+  })
 
   useLayoutEffect(() => {
     return () => {
