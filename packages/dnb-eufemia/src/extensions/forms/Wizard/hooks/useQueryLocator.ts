@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import useStep from './useStep'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
@@ -6,11 +6,18 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared
 export default function useQueryLocator(id: string = undefined) {
   const { setFormError } = useStep(id)
   const name = id ? `${id}-step` : 'step'
+  const hasRouterStepRef = useRef(false)
 
   const onStepChange = useCallback(
     (index: number) => {
       try {
         const url = new URL(window.location.href)
+
+        if (parseFloat(url.searchParams.get(name)) === index) {
+          return
+        }
+
+        hasRouterStepRef.current = true
         url.searchParams.set(name, String(index))
         window.history.pushState({}, '', url.toString())
       } catch (error) {
@@ -37,8 +44,14 @@ export default function useQueryLocator(id: string = undefined) {
     try {
       const popstateListener = () => {
         const routerIndex = getIndex()
-        if (!isNaN(routerIndex)) {
-          setActiveIndex?.(routerIndex, {
+        const hasRouterIndex = !isNaN(routerIndex)
+
+        if (hasRouterIndex) {
+          hasRouterStepRef.current = true
+        }
+
+        if (hasRouterIndex || hasRouterStepRef.current) {
+          setActiveIndex?.(hasRouterIndex ? routerIndex : 0, {
             skipStepChangeCallFromHook: true,
             skipStepChangeCallBeforeMounted: true,
           })

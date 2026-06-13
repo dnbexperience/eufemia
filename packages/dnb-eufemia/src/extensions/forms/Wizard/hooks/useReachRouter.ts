@@ -3,6 +3,8 @@ import useStep from './useStep'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
+const routerStepChanges = new Map<string, number>()
+
 export default function useReachRouter(
   id: string = null,
   { useLocation, navigate }
@@ -17,15 +19,32 @@ export default function useReachRouter(
   const navigateRef = useRef(navigate)
   navigateRef.current = navigate
   const routerStepChangeRef = useRef<number>(undefined)
+  const hasRouterStepRef = useRef(false)
 
   const onStepChange = useCallback(
     (index: number) => {
       try {
+        const locationUrl = new URL(locationRef.current.href)
+        const url =
+          typeof window !== 'undefined'
+            ? new URL(window.location.href)
+            : locationUrl
+
+        if (
+          parseFloat(url.searchParams.get(name)) === index ||
+          routerStepChangeRef.current === index ||
+          routerStepChanges.get(name) === index
+        ) {
+          return
+        }
+
         routerStepChangeRef.current = index
-        const url = new URL(locationRef.current.href)
+        routerStepChanges.set(name, index)
+        hasRouterStepRef.current = true
         url.searchParams.set(name, String(index))
         navigateRef.current(url.href)
       } catch (error) {
+        routerStepChanges.delete(name)
         setFormError(error as Error)
       }
     },
@@ -33,6 +52,14 @@ export default function useReachRouter(
   )
 
   const { setActiveIndex } = useStep(id, { onStepChange })
+
+  useLayoutEffect(() => {
+    return () => {
+      if (routerStepChanges.get(name) === routerStepChangeRef.current) {
+        routerStepChanges.delete(name)
+      }
+    }
+  }, [name])
 
   const getIndex = useCallback(() => {
     try {
@@ -47,20 +74,26 @@ export default function useReachRouter(
 
   useLayoutEffect(() => {
     const routerIndex = getIndex()
-    if (!isNaN(routerIndex)) {
-      const skipStepChangeCall =
-        routerIndex === routerStepChangeRef.current
-      if (skipStepChangeCall) {
-        routerStepChangeRef.current = undefined
-      }
+    const hasRouterIndex = !isNaN(routerIndex)
 
-      setActiveIndex?.(routerIndex, {
+    if (hasRouterIndex) {
+      hasRouterStepRef.current = true
+    }
+
+    if (hasRouterIndex || hasRouterStepRef.current) {
+      const activeIndex = hasRouterIndex ? routerIndex : 0
+      const skipStepChangeCall =
+        hasRouterIndex && activeIndex === routerStepChangeRef.current
+      routerStepChangeRef.current = undefined
+      routerStepChanges.delete(name)
+
+      setActiveIndex?.(activeIndex, {
         skipStepChangeCall,
         skipStepChangeCallFromHook: true,
         skipStepChangeCallBeforeMounted: true,
       })
     }
-  }, [getIndex, setActiveIndex])
+  }, [getIndex, name, setActiveIndex])
 
   return { getIndex }
 }

@@ -83,12 +83,20 @@ export default function useStep(
 
   useLayoutEffect(() => {
     const { onStepChangeEventsRef } = context
+    const onStepChangeEvents = onStepChangeEventsRef?.current
+
     if (
       onStepChange &&
-      onStepChangeEventsRef?.current &&
-      !onStepChangeEventsRef.current.has(onStepChange)
+      onStepChangeEvents &&
+      !onStepChangeEvents.has(onStepChange)
     ) {
-      onStepChangeEventsRef?.current.add(onStepChange)
+      onStepChangeEvents.add(onStepChange)
+    }
+
+    return () => {
+      if (onStepChange) {
+        onStepChangeEvents?.delete(onStepChange)
+      }
     }
   }, [context, onStepChange])
 

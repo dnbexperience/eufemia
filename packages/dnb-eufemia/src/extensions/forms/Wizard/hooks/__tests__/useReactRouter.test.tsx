@@ -118,6 +118,12 @@ describe('useReactRouter', () => {
     url.searchParams.set(`${identifier}-step`, String(index))
     window.history.pushState({}, '', url.toString())
   }
+  const removeStep = () => {
+    stepIndex = null
+    const url = new URL(window.location.href)
+    url.searchParams.delete(`${identifier}-step`)
+    window.history.replaceState({}, '', url.toString())
+  }
 
   it('should not throw when using an id that has never been mounted', () => {
     mockUrl()
@@ -271,6 +277,49 @@ describe('useReactRouter', () => {
     )
   })
 
+  it('should write one history entry when multiple hooks listen to the same wizard', async () => {
+    mockUrl()
+
+    const { useSearchParams, setSearchParams } = getRerenderingHookMock()
+
+    const Step = () => {
+      const { activeIndex } = useStep(identifier)
+      return (
+        <Wizard.Step>
+          <output>{JSON.stringify({ activeIndex })}</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+    }
+
+    const MyForm = () => {
+      useReactRouter(identifier, { useSearchParams })
+      useReactRouter(identifier, { useSearchParams })
+
+      return (
+        <Form.Handler>
+          <Wizard.Container mode="loose" id={identifier}>
+            <Step />
+            <Step />
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":1}')
+    })
+
+    expect(window.location.search).toBe(
+      `?existing-query=foo&bar=baz&${identifier}-step=1`
+    )
+    expect(setSearchParams).toHaveBeenCalledTimes(1)
+  })
+
   it('should call Wizard.Container onStepChange when reacting to url changes after button navigation', async () => {
     mockUrl()
 
@@ -408,6 +457,54 @@ describe('useReactRouter', () => {
       '',
       `http://localhost/?existing-query=foo&bar=baz&${identifier}-step=1`
     )
+  })
+
+  it('should restore the first step when the routed step is removed from the URL', async () => {
+    mockUrl()
+
+    const { useSearchParams, forceUpdateRef } = getRerenderingHookMock()
+
+    const MyForm = () => {
+      const { getIndex } = useReactRouter(identifier, { useSearchParams })
+
+      const Step = () => {
+        const { activeIndex } = useStep(identifier)
+        return (
+          <Wizard.Step>
+            <output>
+              {JSON.stringify({ activeIndex, index: getIndex() })}
+            </output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      return (
+        <Form.Handler>
+          <Wizard.Container mode="loose" id={identifier}>
+            <Step />
+            <Step />
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
+    })
+
+    removeStep()
+    act(forceUpdateRef.current)
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":0,"index":null}')
+    })
+
+    expect(window.location.search).toBe('?existing-query=foo&bar=baz')
   })
 
   it('should handle and show try/catch errors', async () => {
