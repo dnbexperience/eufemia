@@ -21,10 +21,12 @@ export default function useNextRouter(
 
   const searchParamsRef = useRef(searchParams)
   searchParamsRef.current = searchParams
+  const routerStepChangeRef = useRef<number>(undefined)
 
   const onStepChange = useCallback(
     (index: number) => {
       try {
+        routerStepChangeRef.current = index
         const params = new URLSearchParams(
           searchParamsRef.current.toString()
         )
@@ -49,8 +51,14 @@ export default function useNextRouter(
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
+      const skipStepChangeCall =
+        routerIndex === routerStepChangeRef.current
+      if (skipStepChangeCall) {
+        routerStepChangeRef.current = undefined
+      }
+
       setActiveIndex?.(routerIndex, {
-        skipStepChangeCall: true,
+        skipStepChangeCall,
         skipStepChangeCallFromHook: true,
         skipStepChangeCallBeforeMounted: true,
       })

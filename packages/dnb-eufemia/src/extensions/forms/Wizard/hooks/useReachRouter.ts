@@ -16,10 +16,12 @@ export default function useReachRouter(
 
   const navigateRef = useRef(navigate)
   navigateRef.current = navigate
+  const routerStepChangeRef = useRef<number>(undefined)
 
   const onStepChange = useCallback(
     (index: number) => {
       try {
+        routerStepChangeRef.current = index
         const url = new URL(locationRef.current.href)
         url.searchParams.set(name, String(index))
         navigateRef.current(url.href)
@@ -46,8 +48,14 @@ export default function useReachRouter(
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
+      const skipStepChangeCall =
+        routerIndex === routerStepChangeRef.current
+      if (skipStepChangeCall) {
+        routerStepChangeRef.current = undefined
+      }
+
       setActiveIndex?.(routerIndex, {
-        skipStepChangeCall: true,
+        skipStepChangeCall,
         skipStepChangeCallFromHook: true,
         skipStepChangeCallBeforeMounted: true,
       })

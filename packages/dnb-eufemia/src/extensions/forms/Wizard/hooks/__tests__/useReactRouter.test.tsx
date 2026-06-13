@@ -1,6 +1,7 @@
 import { act, useCallback, useReducer, useRef } from 'react'
 import type { RefObject } from 'react'
 import { render, renderHook, waitFor } from '@testing-library/react'
+import { wait } from '../../../../../core/test-utils/testSetup'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import useReactRouter from '../useReactRouter'
 import useStep from '../useStep'
@@ -107,6 +108,7 @@ describe('useReactRouter', () => {
     return {
       useSearchParams,
       setSearchParams,
+      forceUpdateRef,
     }
   }
 
@@ -267,6 +269,73 @@ describe('useReactRouter', () => {
     expect(window.location.search).toBe(
       `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
+  })
+
+  it('should call Wizard.Container onStepChange when reacting to url changes after button navigation', async () => {
+    mockUrl()
+
+    const onStepChange = vi.fn()
+    const { useSearchParams, forceUpdateRef } = getRerenderingHookMock()
+
+    const Step = () => {
+      const { activeIndex } = useStep(identifier)
+      return (
+        <Wizard.Step>
+          <output>{JSON.stringify({ activeIndex })}</output>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      )
+    }
+
+    const MyForm = () => {
+      useReactRouter(identifier, { useSearchParams })
+
+      return (
+        <Form.Handler>
+          <Wizard.Container
+            mode="loose"
+            id={identifier}
+            onStepChange={onStepChange}
+          >
+            <Step />
+            <Step />
+          </Wizard.Container>
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    expect(output()).toHaveTextContent('{"activeIndex":0}')
+    expect(onStepChange).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":1}')
+    })
+
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+
+    await wait(10)
+
+    visitStep(0)
+    act(forceUpdateRef.current)
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":0}')
+    })
+
+    expect(onStepChange).toHaveBeenCalledTimes(2)
+
+    visitStep(1)
+    act(forceUpdateRef.current)
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('{"activeIndex":1}')
+    })
+
+    expect(onStepChange).toHaveBeenCalledTimes(3)
   })
 
   it('should react to url change', async () => {

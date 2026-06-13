@@ -13,11 +13,13 @@ export default function useReactRouter(
 
   const searchParamsRef = useRef(searchParams)
   searchParamsRef.current = searchParams
+  const routerStepChangeRef = useRef<number>(undefined)
 
   const onStepChange = useCallback(
     (index: number) => {
       try {
         const searchParams = searchParamsRef.current
+        routerStepChangeRef.current = index
         searchParams.set(name, index)
         setSearchParams(searchParams)
       } catch (error) {
@@ -37,8 +39,14 @@ export default function useReactRouter(
   useLayoutEffect(() => {
     const routerIndex = getIndex()
     if (!isNaN(routerIndex)) {
+      const skipStepChangeCall =
+        routerIndex === routerStepChangeRef.current
+      if (skipStepChangeCall) {
+        routerStepChangeRef.current = undefined
+      }
+
       setActiveIndex?.(routerIndex, {
-        skipStepChangeCall: true,
+        skipStepChangeCall,
         skipStepChangeCallFromHook: true,
         skipStepChangeCallBeforeMounted: true,
       })
