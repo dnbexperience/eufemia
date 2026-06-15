@@ -288,7 +288,7 @@ export const AnchorExampleIcons = () => (
           href="/uilib/components/anchor"
           icon={<IconPrimary icon="question" />}
         >
-          Anchor with icon left using a html/react element
+          Anchor with icon left using an html/react element
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-paragraph">

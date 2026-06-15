@@ -54,7 +54,7 @@ export type DateProps = Omit<
   pattern?: string
   /**
    * Defines if the Date field should support a value of two dates (starting and ending date).
-   * The value needs to be a string containing two dates, separated by a pipe character (`|`) i.e. (`01-09-2024|30-09-2024`) when this is set to `true`.
+   * The value needs to be a string containing two dates, separated by a pipe character (`|`) e.g. (`01-09-2024|30-09-2024`) when this is set to `true`.
    * Defaults to `false`.
    */
   range?: DatePickerProps['range']
