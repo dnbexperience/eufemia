@@ -36,7 +36,7 @@ export default function useExternalValue<Value>(
   const inIterate = Boolean(iterateItemContext)
   const { value: iterateElementValue } = iterateItemContext || {}
   const subscribablePath =
-    path && (!inIterate || !itemPath) ? path : undefined
+    isPath(path) && (!inIterate || !itemPath) ? path : undefined
 
   const subscribe = useCallback(
     (callback: () => void) => {
@@ -88,7 +88,7 @@ export default function useExternalValue<Value>(
       }
     }
 
-    if (path && getDataValue) {
+    if (subscribablePath && getDataValue) {
       return (
         transformers?.current?.fromExternal?.(dataValue as Value) ??
         emptyValue
@@ -119,7 +119,12 @@ export default function useExternalValue<Value>(
     itemPath,
     iterateElementValue,
     path,
+    subscribablePath,
     transformers,
     value,
   ])
+}
+
+function isPath(path: Path | unknown): path is Path {
+  return typeof path === 'string' && path.startsWith('/')
 }
