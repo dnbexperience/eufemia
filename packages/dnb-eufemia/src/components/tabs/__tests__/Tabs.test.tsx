@@ -405,6 +405,31 @@ describe('TabList component', () => {
     )
   })
 
+  it('passes only vertical wheel gestures to page scrolling', () => {
+    const scrollBy = vi
+      .spyOn(window, 'scrollBy')
+      .mockImplementation(() => undefined)
+
+    render(
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    fireEvent.wheel(tablist, { deltaX: 100 })
+    expect(scrollBy).not.toHaveBeenCalled()
+
+    fireEvent.wheel(tablist, { deltaY: 100 })
+    expect(scrollBy).toHaveBeenCalledWith({
+      top: 100,
+      behavior: 'auto',
+    })
+
+    scrollBy.mockRestore()
+  })
+
   it('has to have the right content on a "click event"', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>

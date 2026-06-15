@@ -44,7 +44,7 @@
   }
 
   &__container {
-    border-radius: var(--token-radius-sm);
+    border-radius: var(--token-radius-lg);
     background-color: var(--token-color-background-neutral);
 
     // Supports backwards compatibility with Nucleus and scenarios,
@@ -64,6 +64,10 @@
 
       &.dnb-no-focus:focus {
         @include utilities.focusRing();
+      }
+
+      th {
+        font-size: var(--font-size-medium);
       }
     }
     &:not(#{&}--show-footer) .dnb-date-picker__calendar::after {
@@ -615,8 +619,7 @@
     line-height: var(--date-picker-input-height);
 
     .dnb-popover {
-      // Popover uses the same border radius as calendar container
-      --popover-border-radius: var(--token-radius-sm);
+      --popover-border-radius: var(--token-radius-md);
 
       @include utilities.sharpDropShadow();
     }

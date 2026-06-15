@@ -2,7 +2,7 @@
  * Filter component examples for the portal docs.
  */
 
-import { useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Button,
@@ -1067,25 +1067,58 @@ export const SearchOnly = () => {
     <ComponentBox hideCode>
       {() => {
         const Example = () => {
-          const items = [
-            { id: 1, name: 'Rema 1000', amount: -245 },
-            { id: 2, name: 'Kiwi', amount: -189 },
-            { id: 3, name: 'Salary', amount: 35000 },
-          ]
+          const items = useMemo(
+            () => [
+              { id: 1, name: 'Rema 1000', amount: -245 },
+              { id: 2, name: 'Kiwi', amount: -189 },
+              { id: 3, name: 'Salary', amount: 35000 },
+            ],
+            []
+          )
+
+          const getFilteredItems = useCallback(
+            (searchValue: string) => {
+              return items.filter((item) => {
+                if (
+                  searchValue &&
+                  !item.name
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase()) &&
+                  !String(item.amount).includes(searchValue)
+                ) {
+                  return false
+                }
+
+                return true
+              })
+            },
+            [items]
+          )
 
           const { search } = Filter.useFilter('search-only-demo')
+          const previousSearchRef = useRef(search)
+          const [showSkeleton, setShowSkeleton] = useState(false)
+          const [filtered, setFiltered] = useState(() =>
+            getFilteredItems(search)
+          )
 
-          const filtered = items.filter((item) => {
-            if (
-              search &&
-              !item.name.toLowerCase().includes(search.toLowerCase()) &&
-              !String(item.amount).includes(search)
-            ) {
-              return false
+          useEffect(() => {
+            if (previousSearchRef.current === search) {
+              return // stop here
             }
 
-            return true
-          })
+            previousSearchRef.current = search
+            setShowSkeleton(true)
+
+            const timeout = setTimeout(() => {
+              setFiltered(getFilteredItems(search))
+              setShowSkeleton(false)
+            }, 1000)
+
+            return () => clearTimeout(timeout)
+          }, [getFilteredItems, search])
+
+          const visibleItems = showSkeleton ? items : filtered
 
           return (
             <>
@@ -1106,9 +1139,9 @@ export const SearchOnly = () => {
               </Filter.Root>
 
               <Filter.Content connectedTo="search-only-demo">
-                <List.Container>
-                  <Filter.NoResults />
-                  {filtered.map((item) => (
+                <List.Container skeleton={showSkeleton}>
+                  {!showSkeleton && <Filter.NoResults />}
+                  {visibleItems.map((item) => (
                     <List.Item.Action
                       key={item.id}
                       title={

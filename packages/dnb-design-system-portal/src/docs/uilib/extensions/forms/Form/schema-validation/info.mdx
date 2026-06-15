@@ -76,7 +76,7 @@ These two examples will result in the same validation for the user:
 
 ```jsx
 <Form.Handler data={user}>
-  <Field.String path="/name" label="Name" minLength={3} required />
+  <Field.Name path="/name" minLength={3} required />
   <Field.Email path="/email" label="E-mail" required />
   <Field.Number
     path="/birthyear"
@@ -100,7 +100,7 @@ const schema = z.object({
 })
 
 <Form.Handler data={user} schema={schema}>
-  <Field.String path="/name" label="Name" />
+  <Field.Name path="/name" />
   <Field.Email path="/email" label="E-mail" />
   <Field.Number path="/birthyear" label="Birth year" />
 </Form.Handler>
@@ -122,7 +122,7 @@ const schema: JSONSchema = {
 }
 
 <Form.Handler data={user} schema={schema} ajvInstance={ajv}>
-  <Field.String path="/name" label="Name" />
+  <Field.Name path="/name" />
   <Field.Email path="/email" label="E-mail" />
   <Field.Number path="/birthyear" label="Birth year" />
 </Form.Handler>

@@ -1601,6 +1601,64 @@ describe('Wizard.Container', () => {
       })
     })
 
+    it('should show required error when another async onChangeValidator is pending', async () => {
+      const asyncValidator = async () => undefined
+
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.String
+                path="/field1"
+                label="Required field with async validator"
+                required
+                onChangeValidator={asyncValidator}
+              />
+              <Field.String
+                path="/field2"
+                label="Field with async validator"
+                onChangeValidator={asyncValidator}
+              />
+              <Form.ButtonRow>
+                <Wizard.PreviousButton />
+                <Wizard.NextButton />
+              </Form.ButtonRow>
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Form.ButtonRow>
+                <Wizard.PreviousButton />
+                <Wizard.NextButton />
+              </Form.ButtonRow>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const [, fieldWithAsyncValidator] = Array.from(
+        document.querySelectorAll('input')
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(screen.queryAllByRole('alert')).toHaveLength(0)
+
+      await wait(1)
+
+      fireEvent.change(fieldWithAsyncValidator, {
+        target: { value: 'value' },
+      })
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(
+          screen.queryByText(nb.Field.errorRequired)
+        ).toBeInTheDocument()
+      })
+    })
+
     it('should handle async onChangeValidator', async () => {
       const asyncValidator = async () => null
 

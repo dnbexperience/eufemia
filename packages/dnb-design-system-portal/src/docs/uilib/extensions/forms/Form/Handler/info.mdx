@@ -234,12 +234,12 @@ The `info`, `warning`, and `error` messages will be displayed at the bottom of a
 
 ## Browser autofill
 
-You can set `autoComplete` on the `Form.Handler` – each [Field.String](/uilib/extensions/forms/base-fields/String/)-field will then get `autoComplete="on"`:
+You can set `autoComplete` on the `Form.Handler`, and each field will use autocomplete according to its field type:
 
 ```tsx
 <Form.Handler autoComplete={true}>
-  <Field.String path="/firstName" />
-  <Field.String path="/firstName" />
+  <Field.Name.First path="/firstName" />
+  <Field.Name.Last path="/lastName" />
 </Form.Handler>
 ```
 

@@ -332,6 +332,14 @@ del .dnb-code {
 .dnb-img figcaption {
   margin-top: 0.5rem;
 }
+.dnb-img[alt]::after {
+  color: var(--token-color-text-neutral);
+  background-color: var(--token-color-background-neutral-base);
+}
+.dnb-img__img--error {
+  color: var(--token-color-text-neutral);
+  background-color: var(--token-color-background-neutral-base);
+}
 
 /*
  * Label

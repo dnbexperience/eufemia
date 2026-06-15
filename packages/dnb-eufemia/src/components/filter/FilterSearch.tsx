@@ -10,7 +10,6 @@ import Input from '../input/Input'
 import type { InputProps } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import { FilterContext } from './FilterContext'
-import { loupe as searchIcon } from '../../icons'
 
 export type FilterSearchProps = {
   label: string
@@ -124,9 +123,7 @@ function FilterSearch({
         icon={
           showIndicator ? (
             <ProgressIndicator type="circular" size="small" />
-          ) : (
-            searchIcon
-          )
+          ) : undefined
         }
         stretch
         size="medium"

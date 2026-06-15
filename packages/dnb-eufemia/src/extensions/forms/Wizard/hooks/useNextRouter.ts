@@ -1,7 +1,9 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import useStep from './useStep'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+
+const routerStepChanges = new Map<string, number>()
 
 export default function useNextRouter(
   id: string = null,
@@ -13,20 +15,69 @@ export default function useNextRouter(
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
+  const routerRef = useRef(router)
+  routerRef.current = router
+
+  const pathnameRef = useRef(pathname)
+  pathnameRef.current = pathname
+
+  const searchParamsRef = useRef(searchParams)
+  searchParamsRef.current = searchParams
+  const routerStepChangeRef = useRef<number>(undefined)
+  const hasRouterStepRef = useRef(false)
+
   const onStepChange = useCallback(
     (index: number) => {
       try {
-        const params = new URLSearchParams(searchParams.toString())
+        const params = new URLSearchParams(
+          searchParamsRef.current.toString()
+        )
+        const currentParams = new URLSearchParams(
+          typeof window !== 'undefined'
+            ? window.location.search
+            : params.toString()
+        )
+
+        if (
+          parseFloat(currentParams.get(name)) === index ||
+          routerStepChangeRef.current === index ||
+          routerStepChanges.get(name) === index
+        ) {
+          return
+        }
+
+        routerStepChangeRef.current = index
+        routerStepChanges.set(name, index)
+        hasRouterStepRef.current = true
         params.set(name, String(index))
-        router.push(`${pathname}?${params.toString()}`)
+        routerRef.current.push(
+          `${pathnameRef.current}?${params.toString()}`
+        )
       } catch (error) {
+        routerStepChanges.delete(name)
         setFormError(error as Error)
       }
     },
-    [name, pathname, router, searchParams, setFormError]
+    [name, setFormError]
   )
 
-  const { setActiveIndex } = useStep(id, { onStepChange })
+  const { setActiveIndex, onStepChangeEventsRef } = useStep(id, {
+    onStepChange,
+  })
+
+  useLayoutEffect(() => {
+    return () => {
+      if (routerStepChanges.get(name) === routerStepChangeRef.current) {
+        routerStepChanges.delete(name)
+      }
+    }
+  }, [name])
+
+  useLayoutEffect(() => {
+    return () => {
+      onStepChangeEventsRef?.current?.delete(onStepChange)
+    }
+  }, [onStepChange, onStepChangeEventsRef])
 
   const getIndex = useCallback(
     () => parseFloat(searchParams.get(name)),
@@ -35,13 +86,26 @@ export default function useNextRouter(
 
   useLayoutEffect(() => {
     const routerIndex = getIndex()
-    if (!isNaN(routerIndex)) {
-      setActiveIndex?.(routerIndex, {
+    const hasRouterIndex = !isNaN(routerIndex)
+
+    if (hasRouterIndex) {
+      hasRouterStepRef.current = true
+    }
+
+    if (hasRouterIndex || hasRouterStepRef.current) {
+      const activeIndex = hasRouterIndex ? routerIndex : 0
+      const skipStepChangeCall =
+        hasRouterIndex && activeIndex === routerStepChangeRef.current
+      routerStepChangeRef.current = undefined
+      routerStepChanges.delete(name)
+
+      setActiveIndex?.(activeIndex, {
+        skipStepChangeCall,
         skipStepChangeCallFromHook: true,
         skipStepChangeCallBeforeMounted: true,
       })
     }
-  }, [getIndex, id, searchParams, setActiveIndex, setFormError])
+  }, [getIndex, id, name, searchParams, setActiveIndex, setFormError])
 
   return { getIndex }
 }

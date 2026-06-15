@@ -1,15 +1,5 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ToggleButton scss > should match default theme snapshot 1`] = `
-"/*
-* ToggleButton theme
-*
-*/
-.dnb-toggle-button > .dnb-form-status {
-  transform: translateY(0.1875rem);
-}"
-`;
-
 exports[`ToggleButton scss > should match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
@@ -1968,6 +1958,9 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
   align-items: center;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);
+}
+.dnb-toggle-button > .dnb-form-status {
+  transform: translateY(0.1875rem);
 }
 .dnb-toggle-button__inner {
   display: inline-flex;

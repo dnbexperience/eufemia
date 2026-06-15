@@ -49,7 +49,7 @@ export const DataSetSchema = () => {
             <Form.Card bottom="small">
               <Form.MainHeading>Company information</Form.MainHeading>
 
-              <Field.String path="/name" label="Name" />
+              <Field.Name path="/name" />
               <Field.String path="/address" label="Address" />
             </Form.Card>
 
@@ -88,7 +88,7 @@ export const IfRuleSchema = () => {
             <Form.Card>
               <Form.MainHeading>Customer information</Form.MainHeading>
 
-              <Field.String path="/name" label="Name" />
+              <Field.Name path="/name" />
               <Field.String
                 path="/customerType"
                 label="Customer type (corporate or private)"
@@ -179,7 +179,7 @@ export const DependentListSchema = () => {
             <Flex.Vertical>
               <Form.MainHeading>Customer information</Form.MainHeading>
               <Form.Card>
-                <Field.String path="/name" label="Name" />
+                <Field.Name path="/name" />
                 <Field.Email path="/email" label="E-mail" />
                 <Field.PhoneNumber path="/phone" label="Phone number" />
               </Form.Card>
@@ -356,7 +356,7 @@ export const DependentSchemaValidation = () => {
                     bottom
                     variant="information"
                   >
-                    <Field.String
+                    <Field.Name
                       itemPath="/name"
                       label="Owner name {itemNo}"
                     />
@@ -562,7 +562,7 @@ export const DependentSchemaValidationWithZod = () => {
                     bottom
                     variant="information"
                   >
-                    <Field.String
+                    <Field.Name
                       itemPath="/name"
                       label="Owner name {itemNo}"
                     />

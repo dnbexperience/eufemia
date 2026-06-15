@@ -4473,36 +4473,48 @@ describe('DatePicker component', () => {
     vi.restoreAllMocks()
   })
 
-  it('should align popover to left when stretch prop is false', async () => {
-    let capturedAlignOnTarget: string | undefined
+  it.each([
+    { showInput: true, expectedHorizontalOffset: 16 },
+    { showInput: false, expectedHorizontalOffset: 12 },
+  ])(
+    'should align popover to left when stretch prop is false and showInput is $showInput',
+    async ({ showInput, expectedHorizontalOffset }) => {
+      let capturedAlignOnTarget: string | undefined
+      let capturedHorizontalOffset: number | undefined
 
-    const PopoverModule = await import('../../popover/Popover')
+      const PopoverModule = await import('../../popover/Popover')
 
-    vi.spyOn(PopoverModule, 'default').mockImplementation((props) => {
-      capturedAlignOnTarget = props.alignOnTarget
-      // Return a simple div to avoid infinite loops
-      return (
-        <div className="dnb-popover--active" data-testid="popover-mock" />
-      )
-    })
+      vi.spyOn(PopoverModule, 'default').mockImplementation((props) => {
+        capturedAlignOnTarget = props.alignOnTarget
+        capturedHorizontalOffset = props.horizontalOffset
+        // Return a simple div to avoid infinite loops
+        return (
+          <div
+            className="dnb-popover--active"
+            data-testid="popover-mock"
+          />
+        )
+      })
 
-    render(<DatePicker showInput date="2023-01-16" />)
+      render(<DatePicker showInput={showInput} date="2023-01-16" />)
 
-    const trigger = getDatePickerTriggerButton()
-    await userEvent.click(trigger)
+      const trigger = getDatePickerTriggerButton()
+      await userEvent.click(trigger)
 
-    await waitFor(() => {
-      const popover = document.querySelector(
-        '[data-testid="popover-mock"]'
-      )
-      expect(popover).toBeInTheDocument()
-    })
+      await waitFor(() => {
+        const popover = document.querySelector(
+          '[data-testid="popover-mock"]'
+        )
+        expect(popover).toBeInTheDocument()
+      })
 
-    // Verify alignOnTarget is 'left' when stretch is false
-    expect(capturedAlignOnTarget).toBe('left')
+      // Verify alignOnTarget is 'left' when stretch is false
+      expect(capturedAlignOnTarget).toBe('left')
+      expect(capturedHorizontalOffset).toBe(expectedHorizontalOffset)
 
-    vi.restoreAllMocks()
-  })
+      vi.restoreAllMocks()
+    }
+  )
 
   it('should inherit formElement vertical label', () => {
     render(

@@ -35,8 +35,8 @@ The string component supports HTML `autocomplete` [attributes](https://developer
 
 ```tsx
 <Form.Handler>
-  <Field.String autoComplete="first-name" path="/your-pointer" />
-  <Field.String autoComplete="last-name" path="/your-pointer" />
+  <Field.String autoComplete="username" path="/username" />
+  <Field.String autoComplete="organization-title" path="/jobTitle" />
 </Form.Handler>
 ```
 
@@ -44,8 +44,8 @@ The string component supports HTML `autocomplete` [attributes](https://developer
 
 ```tsx
 <Form.Handler autoComplete={true}>
-  <Field.String path="/firstName" />
-  <Field.String path="/lastName" />
+  <Field.String path="/username" />
+  <Field.String path="/jobTitle" />
 </Form.Handler>
 ```
 
