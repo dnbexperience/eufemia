@@ -2903,11 +2903,11 @@ __metadata:
   linkType: hard
 
 "@hono/node-server@npm:^1.19.9":
-  version: 1.19.9
-  resolution: "@hono/node-server@npm:1.19.9"
+  version: 1.19.14
+  resolution: "@hono/node-server@npm:1.19.14"
   peerDependencies:
     hono: ^4
-  checksum: 10/d4915c2e736ee1e3934b5538cde92b19914dc71346340528a04e4c7219afc7367965080cd1a5291ac9cbda7b0780b89b6ca93472a9418aa105d6d1183033dc8a
+  checksum: 10/618dd95feeb3fd11ec8502e088879cd86529523788de19602edebd16892dd61899e73564d6e3d00875cc5a49488a908ddb2aa425d28f9cdeb7f22cfecabf022c
   languageName: node
   linkType: hard
 
@@ -9635,13 +9635,13 @@ __metadata:
   linkType: hard
 
 "fast-xml-parser@npm:^4.1.3":
-  version: 4.2.5
-  resolution: "fast-xml-parser@npm:4.2.5"
+  version: 4.5.6
+  resolution: "fast-xml-parser@npm:4.5.6"
   dependencies:
     strnum: "npm:^1.0.5"
   bin:
     fxparser: src/cli/cli.js
-  checksum: 10/4be7ebe24d6a9a60c278e1423cd86a7da9a77ec64c95563e2c552363caf7a777e0c87c9de1255c2f4e8dea9bce8905dc2bdc58a34e9f2b73c4693654456ad284
+  checksum: 10/dd77cce4b1b322400339147b72b2d315bddc12c6ed3ca82bfc87543ced6dd8d81a6e0b429489e2f048f39258aa2023580654c8934881c633b9d58a6e79672349
   languageName: node
   linkType: hard
 
@@ -10574,11 +10574,11 @@ __metadata:
   linkType: hard
 
 "handlebars@npm:^4.7.7":
-  version: 4.7.7
-  resolution: "handlebars@npm:4.7.7"
+  version: 4.7.9
+  resolution: "handlebars@npm:4.7.9"
   dependencies:
     minimist: "npm:^1.2.5"
-    neo-async: "npm:^2.6.0"
+    neo-async: "npm:^2.6.2"
     source-map: "npm:^0.6.1"
     uglify-js: "npm:^3.1.4"
     wordwrap: "npm:^1.0.0"
@@ -10587,7 +10587,7 @@ __metadata:
       optional: true
   bin:
     handlebars: bin/handlebars
-  checksum: 10/617b1e689b7577734abc74564bdb8cdaddf8fd48ce72afdb489f426e9c60a7d6ee2a2707c023720c4059070128243c948bded8f2716e4543378033e3971b85ea
+  checksum: 10/e755433d652e8a15fc02f83d7478e652359e7a4d354c4328818853ed4f8a39d4a09e1d22dad3c7213c5240864a65b3c840970b8b181745575dd957dd258f2b8d
   languageName: node
   linkType: hard
 
@@ -10774,9 +10774,9 @@ __metadata:
   linkType: hard
 
 "hono@npm:^4.11.4":
-  version: 4.11.7
-  resolution: "hono@npm:4.11.7"
-  checksum: 10/16f5a715f70430bd4050b250207adf7c567774c1d91386d5454577fbc191fc4a50b912628845ce8392fae0e3fd9f364a947412961e3747a9f0b2f714790b738e
+  version: 4.12.25
+  resolution: "hono@npm:4.12.25"
+  checksum: 10/0cbdcdfdfb45b43cc915beaa44604170bb73b45e647927917714ec222347e7f44c944708471a45b4733cfd20b03c53820593db5b3b19663b935afca9cf984817
   languageName: node
   linkType: hard
 
@@ -14247,7 +14247,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"neo-async@npm:^2.6.0":
+"neo-async@npm:^2.6.2":
   version: 2.6.2
   resolution: "neo-async@npm:2.6.2"
   checksum: 10/1a7948fea86f2b33ec766bc899c88796a51ba76a4afc9026764aedc6e7cde692a09067031e4a1bf6db4f978ccd99e7f5b6c03fe47ad9865c3d4f99050d67e002
