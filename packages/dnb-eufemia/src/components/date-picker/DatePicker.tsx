@@ -152,7 +152,7 @@ export type DatePickerProps = {
    */
   hideDays?: boolean
   /**
-   * Use `true` to only show the defined month. Disables the month navigation possibility. Defaults to `false`.
+   * If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Defaults to `false`.
    */
   onlyMonth?: boolean
   /**
