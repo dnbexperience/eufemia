@@ -1,8 +1,8 @@
 ---
 title: 'PortalRoot'
 description: 'PortalRoot is a React component that helps you make React Portals.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:35.900Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:00.874Z
 checksum: 9e4431df834c9b59cac82d30a49e56b95a0858679657373ee1a87dc1a6590110
 ---
 
@@ -155,7 +155,7 @@ render(
 
 In this example, every portal element will receive `data-my-need="something"` for content rendered outside the main React tree.
 
-### BrowserTranslate helper
+### BrowserTranslate helper (Google Translate)
 
 The `BrowserTranslate` helper component prevents browser translation tools (such as Google Translate) from modifying the content of form components. It works by combining the Eufemia Provider's `formElement` context with `PortalRoot.Provider`, so both the visible component (e.g. a button) and its portal-rendered content (e.g. a dropdown list) receive `translate="no"`.
 

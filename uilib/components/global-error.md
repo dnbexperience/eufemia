@@ -1,8 +1,8 @@
 ---
 title: 'GlobalError (404)'
 description: 'The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:35.724Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:00.721Z
 checksum: 13ac256feeabc3e001995d8962f3430577346f443035943756c245a398e694bc
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'Base fields'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.965Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.881Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,7 +11,7 @@ Base fields are data driven fields you choose depending on the type of input. Yo
 
 ```jsx
 import { Field } from '@dnb/eufemia/extensions/forms'
-render(<Field.String label="Name" />)
+render(<Field.String label="Text field" />)
 ```
 
 Here is also a list of [all available fields](/uilib/extensions/forms/all-fields/).

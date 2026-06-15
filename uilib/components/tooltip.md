@@ -1,8 +1,8 @@
 ---
 title: 'Tooltip'
 description: 'The Tooltip component is primarily meant to enhance the UX for various and additional information.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.293Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.230Z
 checksum: a1a83e458430ef1d1db7463d31d70f71e0d6d80606cccba00ca109e75d1b478b
 ---
 
@@ -53,7 +53,7 @@ To use the built-in hover/focus/touch behavior, omit the `open` property and let
 
 ## Root Element (React Portal)
 
-The Tooltip component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+The Tooltip component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Demos

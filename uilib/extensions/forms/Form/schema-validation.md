@@ -1,8 +1,8 @@
 ---
 title: 'Form.SchemaValidation'
 description: 'Schema validation can be done with a JSON Schema which makes it possible to describe the data structure and validation needs, both for the individual value, and more complex rules across the data set.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.625Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.528Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -82,7 +82,7 @@ These two examples will result in the same validation for the user:
 
 ```jsx
 <Form.Handler data={user}>
-  <Field.String path="/name" label="Name" minLength={3} required />
+  <Field.Name path="/name" minLength={3} required />
   <Field.Email path="/email" label="E-mail" required />
   <Field.Number
     path="/birthyear"
@@ -106,7 +106,7 @@ const schema = z.object({
 })
 
 <Form.Handler data={user} schema={schema}>
-  <Field.String path="/name" label="Name" />
+  <Field.Name path="/name" />
   <Field.Email path="/email" label="E-mail" />
   <Field.Number path="/birthyear" label="Birth year" />
 </Form.Handler>
@@ -128,7 +128,7 @@ const schema: JSONSchema = {
 }
 
 <Form.Handler data={user} schema={schema} ajvInstance={ajv}>
-  <Field.String path="/name" label="Name" />
+  <Field.Name path="/name" />
   <Field.Email path="/email" label="E-mail" />
   <Field.Number path="/birthyear" label="Birth year" />
 </Form.Handler>
@@ -478,7 +478,7 @@ render(<Form.Handler data={{
             <Form.Card bottom="small">
               <Form.MainHeading>Company information</Form.MainHeading>
 
-              <Field.String path="/name" label="Name" />
+              <Field.Name path="/name" />
               <Field.String path="/address" label="Address" />
             </Form.Card>
 
@@ -525,7 +525,7 @@ render(<Form.Handler schema={schema} ajvInstance={ajv}>
             <Form.Card>
               <Form.MainHeading>Customer information</Form.MainHeading>
 
-              <Field.String path="/name" label="Name" />
+              <Field.Name path="/name" />
               <Field.String path="/customerType" label="Customer type (corporate or private)" />
               <Field.Name.Company path="/companyName" labelDescription="Company name (required for corporate customers)" />
             </Form.Card>
@@ -610,7 +610,7 @@ render(<Form.Handler data={{
             <Flex.Vertical>
               <Form.MainHeading>Customer information</Form.MainHeading>
               <Form.Card>
-                <Field.String path="/name" label="Name" />
+                <Field.Name path="/name" />
                 <Field.Email path="/email" label="E-mail" />
                 <Field.PhoneNumber path="/phone" label="Phone number" />
               </Form.Card>
@@ -762,7 +762,7 @@ render(<Form.Handler schema={schema} ajvInstance={ajv}>
           top: 'small',
           bottom: 'small'
         }} bottom variant="information">
-                    <Field.String itemPath="/name" label="Owner name {itemNo}" />
+                    <Field.Name itemPath="/name" label="Owner name {itemNo}" />
                     <Iterate.RemoveButton />
                   </Section>
                 </Iterate.Array>
@@ -902,7 +902,7 @@ render(<Form.Handler schema={schema} defaultData={{
           top: 'small',
           bottom: 'small'
         }} bottom variant="information">
-                    <Field.String itemPath="/name" label="Owner name {itemNo}" />
+                    <Field.Name itemPath="/name" label="Owner name {itemNo}" />
                     <Iterate.RemoveButton />
                   </Section>
                 </Iterate.Array>

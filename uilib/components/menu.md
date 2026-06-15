@@ -1,8 +1,8 @@
 ---
 title: 'Menu'
 description: 'Menu is a composable dropdown menu component for actions and navigation, with keyboard navigation, nested menus, and full accessibility support.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:35.849Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:00.838Z
 checksum: 1fc99517592ef537de08c221f7492a20a5f0da34d4c6422f3025968fc4f94199
 ---
 
@@ -50,7 +50,7 @@ For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Roo
 
 ## Root Element (React Portal)
 
-The Menu component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its top-level menu. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+The Menu component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its top-level menu. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Demos

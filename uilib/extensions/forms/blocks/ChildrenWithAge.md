@@ -1,8 +1,8 @@
 ---
 title: 'Block.ChildrenWithAge'
 description: '`ChildrenWithAge` is a block for displaying children with age.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.972Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.887Z
 checksum: d07dfc0e234b77d0f4b45216dc8ec7fb6262a5240e4b585fc1f61dde8ac01e2b
 ---
 

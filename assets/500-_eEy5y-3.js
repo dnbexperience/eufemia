@@ -1,1 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{j as n}from"./index-CsG353ar.js";var r=e(t());function i(){return(0,r.jsx)(n,{center:!0,statusCode:`500`})}export{i as default};

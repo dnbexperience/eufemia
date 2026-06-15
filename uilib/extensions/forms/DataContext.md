@@ -1,8 +1,8 @@
 ---
 title: 'DataContext'
 description: '`DataContext` interweaves your data-set with your form fields.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.475Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.391Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -14,7 +14,7 @@ Example of using the `DataContext.Provider`:
 
 ```jsx
 <DataContext.Provider data={data} onChange={handleChange}>
-  <Field.String path="/firstName" />
+  <Field.Name.First path="/firstName" />
 </DataContext.Provider>
 ```
 
@@ -51,11 +51,11 @@ const handleChange = useCallback((path, value) => {
 
 return (
   <div id="my-form">
-    <Field.String
+    <Field.Name.First
       value={data.firstName}
       onChange={(value) => handleChange('firstName', value)}
     />
-    <Field.String
+    <Field.Name.Last
       value={data.lastName}
       onChange={(value) => handleChange('lastName', value)}
     />
@@ -81,8 +81,8 @@ const handleChange = useCallback((path, value) => {
 
 return (
   <DataContext.Provider data={data} onChange={handleChange}>
-    <Field.String path="/firstName" />
-    <Field.String path="/lastName" />
+    <Field.Name.First path="/firstName" />
+    <Field.Name.Last path="/lastName" />
     <Field.Email path="/email" />
     <Field.String
       path="/specialValue"

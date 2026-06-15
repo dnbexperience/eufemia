@@ -1,8 +1,8 @@
 ---
 title: 'FormLabel'
 description: 'The FormLabel component represents a caption for all sorts of HTML elements in a user interface.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:35.707Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:00.704Z
 checksum: a3e2d63a21c9bff5a2c312d26f4d4ee69485b847669f8c9599a421d01406725f
 ---
 

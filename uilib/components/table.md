@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Enhanced HTML Table element.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.239Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.186Z
 checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 
@@ -957,7 +957,7 @@ const KeyboardNavigationTable = () => {
             <tbody>
               <tr>
                 <Td>
-                  <Field.String label="Name" labelSrOnly value="Ola" />
+                  <Field.Name labelSrOnly value="Ola" />
                 </Td>
                 <Td>
                   <Field.Email labelSrOnly value="ola@example.no" />
@@ -968,7 +968,7 @@ const KeyboardNavigationTable = () => {
               </tr>
               <tr>
                 <Td>
-                  <Field.String label="Name" labelSrOnly value="Kari" multiline />
+                  <Field.Name labelSrOnly value="Kari" multiline />
                 </Td>
                 <Td>
                   <Field.Email labelSrOnly value="kari@example.no" multiline />

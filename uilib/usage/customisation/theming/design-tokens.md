@@ -1,8 +1,8 @@
 ---
 title: 'Design Tokens (beta)'
 description: 'How to use Eufemia semantic design tokens in your application.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:37.074Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.992Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

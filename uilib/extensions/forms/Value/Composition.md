@@ -1,8 +1,8 @@
 ---
 title: 'Value.Composition'
 description: '`Value.Composition` combines two or more `Value.*` components into one.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.741Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.676Z
 checksum: 0f360428d625266b5ecee54f5cd7c46b3429cbb750f9d31d8f898dee45c53818
 ---
 
@@ -88,8 +88,8 @@ render(<Form.Handler data={{
 
           <Value.SummaryList>
             <Value.Composition label="Name">
-              <Value.String path="/firstName" />
-              <Value.String path="/lastName" />
+              <Value.Name.First path="/firstName" />
+              <Value.Name.Last path="/lastName" />
             </Value.Composition>
 
             <Value.Composition label="Street">

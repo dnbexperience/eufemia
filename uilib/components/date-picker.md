@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:35.653Z
-checksum: 835574e2f64f009f0d9bb3f535886cd2dae66e6182933d1036fa3cdc4b1ec338
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:00.659Z
+checksum: c0a8dc94af78c9e0dcf8179c83193fcd5f1832cfd0461716f98d77663a2f4387
 ---
 
 # DatePicker
@@ -156,7 +156,7 @@ Additional event return object properties:
 
 ## Root Element (React Portal)
 
-The DatePicker component uses [PortalRoot](/uilib/components/portal-root) internally to render its calendar. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+The DatePicker component uses [PortalRoot](/uilib/components/portal-root) internally to render its calendar. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Demos
@@ -603,7 +603,7 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
       "status": "optional"
     },
     "onlyMonth": {
-      "doc": "Use `true` to only show the defined month. Disables the month navigation possibility. Defaults to `false`.",
+      "doc": "If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

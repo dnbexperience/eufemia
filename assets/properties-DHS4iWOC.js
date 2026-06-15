@@ -1,2 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{K as n}from"./index-CsG353ar.js";import{n as r}from"./PropertiesTable-DMVZFM0Y.js";import{t as i}from"./ValueDocs-B1fWsyLe.js";var a=e(t()),o={...i,children:{doc:`Contents.`,type:`React.ReactNode`,status:`required`}};function s(e){return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)({h2:`h2`,...n(),...e.components}.h2,{children:`Properties`}),`
-`,(0,a.jsx)(r,{props:o})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(s,{...e})}):s(e)}export{c as default};

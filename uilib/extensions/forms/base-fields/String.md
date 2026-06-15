@@ -1,8 +1,8 @@
 ---
 title: 'Field.String'
 description: '`Field.String` is the base component for receiving user input where the target data is of type `string`.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.961Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.876Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -41,8 +41,8 @@ The string component supports HTML `autocomplete` [attributes](https://developer
 
 ```tsx
 <Form.Handler>
-  <Field.String autoComplete="first-name" path="/your-pointer" />
-  <Field.String autoComplete="last-name" path="/your-pointer" />
+  <Field.String autoComplete="username" path="/username" />
+  <Field.String autoComplete="organization-title" path="/jobTitle" />
 </Form.Handler>
 ```
 
@@ -50,8 +50,8 @@ The string component supports HTML `autocomplete` [attributes](https://developer
 
 ```tsx
 <Form.Handler autoComplete={true}>
-  <Field.String path="/firstName" />
-  <Field.String path="/lastName" />
+  <Field.String path="/username" />
+  <Field.String path="/jobTitle" />
 </Form.Handler>
 ```
 

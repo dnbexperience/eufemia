@@ -1,0 +1,3 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{K as n}from"./index-ppRu2ktv.js";import r from"./ListAllBlocks-BJZK99ww.js";var i=e(t());function a(e){let t={h2:`h2`,p:`p`,...n(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(t.h2,{children:`List of all blocks`}),`
+`,(0,i.jsx)(t.p,{children:`These blocks are shown with both fields and values (summary) versions.`}),`
+`,(0,i.jsx)(r,{size:`small`})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

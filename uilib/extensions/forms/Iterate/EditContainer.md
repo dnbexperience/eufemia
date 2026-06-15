@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.EditContainer'
 description: '`Iterate.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.660Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.583Z
 checksum: aa35ac720365e3ad296f4e4665e72d5667c8d1b317fc96523207e2a2ecdd5aae
 ---
 
@@ -251,48 +251,48 @@ render(<Form.Handler data={{
         <Flex.Stack>
           <Iterate.Array path="/outsideOfCard">
             <Iterate.EditContainer title="Outside of card">
-              <Field.String label="Name" itemPath="/name" required />
+              <Field.Name itemPath="/name" required />
             </Iterate.EditContainer>
           </Iterate.Array>
 
           <Form.Card>
             <Iterate.Array path="/insideOfCard">
               <Iterate.EditContainer title="Inside of card">
-                <Field.String label="Name" itemPath="/name" required />
+                <Field.Name itemPath="/name" required />
               </Iterate.EditContainer>
             </Iterate.Array>
           </Form.Card>
 
           <Iterate.Array path="/withFilledVariant">
             <Iterate.EditContainer title="Filled variant" variant="filled">
-              <Field.String label="Name" itemPath="/name" required />
+              <Field.Name itemPath="/name" required />
             </Iterate.EditContainer>
           </Iterate.Array>
 
           <Form.Card>
             <Iterate.Array path="/withFilledVariantInsideOfCard">
               <Iterate.EditContainer title="Filled variant inside of card" variant="filled">
-                <Field.String label="Name" itemPath="/name" required />
+                <Field.Name itemPath="/name" required />
               </Iterate.EditContainer>
             </Iterate.Array>
           </Form.Card>
 
           <Iterate.Array path="/withBasicVariant">
             <Iterate.EditContainer title="Basic variant" variant="basic">
-              <Field.String label="Name" itemPath="/name" required />
+              <Field.Name itemPath="/name" required />
             </Iterate.EditContainer>
           </Iterate.Array>
 
           <Form.Card>
             <Iterate.Array path="/withBasicVariantInsideOfCard">
               <Iterate.EditContainer title="Basic variant inside of card" variant="basic">
-                <Field.String label="Name" itemPath="/name" required />
+                <Field.Name itemPath="/name" required />
               </Iterate.EditContainer>
             </Iterate.Array>
           </Form.Card>
-        </Flex.Stack>
 
-        <Form.SubmitButton text="Press me to see the error" />
+          <Form.SubmitButton text="Press me to see the error" />
+        </Flex.Stack>
       </Form.Handler>)
 ```
 

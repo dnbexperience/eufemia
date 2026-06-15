@@ -1,4 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{K as n}from"./index-CsG353ar.js";import{n as r}from"./PropertiesTable-DMVZFM0Y.js";import{t as i}from"./DialogDocs-CPdfg2MC.js";import{t as a}from"./ModalDocs-C-PbnJVC.js";var o=e(t());function s(e){let t={a:`a`,h2:`h2`,p:`p`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(t.h2,{children:`Events`}),`
-`,(0,o.jsx)(r,{props:i}),`
-`,(0,o.jsxs)(t.p,{children:[`Dialog also includes the same events as `,(0,o.jsx)(t.a,{href:`/uilib/components/modal`,children:`Modal`}),`, only formatted as camel case.`]}),`
-`,(0,o.jsx)(r,{props:a})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

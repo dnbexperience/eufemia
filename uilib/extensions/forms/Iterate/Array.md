@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.651Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.566Z
 checksum: ae7887af29a363083e70cee1ef245b8ad92df8e01c4431b97ef595805f270b45
 ---
 
@@ -435,7 +435,7 @@ const ValueWithAvatar = () => {
               <Avatar.Group label={firstName}>
                 <Avatar>{firstName.substring(0, 1).toUpperCase()}</Avatar>
               </Avatar.Group>
-              <Value.String itemPath="/firstName" />
+              <Value.Name.First itemPath="/firstName" label={false} />
             </Flex.Horizontal>;
 };
 const MyViewItem = () => {
@@ -755,7 +755,7 @@ render(<Form.Handler data={{
 
           <Form.Card>
             <Iterate.Array path="/avengers" onChange={value => console.log('Iterate/onChange', value)} animate>
-              <Iterate.AnimatedContainer title={<Value.String label={false} itemPath="/nickname" placeholder="A Nick name" />}>
+              <Iterate.AnimatedContainer title={<Value.Name label={false} itemPath="/nickname" placeholder="A Nick name" />}>
                 <Field.Name itemPath="/nickname" width="medium" label="Nick name" />
 
                 <Field.Composition>

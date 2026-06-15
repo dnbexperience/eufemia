@@ -1,8 +1,8 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:36.503Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.415Z
 checksum: 7a494ed5dd1e6120b75cfbfd31835c9367979aa7dfce9b26a63fce7fb530366e
 ---
 
@@ -303,12 +303,12 @@ The `info`, `warning`, and `error` messages will be displayed at the bottom of a
 
 ## Browser autofill
 
-You can set `autoComplete` on the `Form.Handler` – each [Field.String](/uilib/extensions/forms/base-fields/String/)-field will then get `autoComplete="on"`:
+You can set `autoComplete` on the `Form.Handler`, and each field will use autocomplete according to its field type:
 
 ```tsx
 <Form.Handler autoComplete={true}>
-  <Field.String path="/firstName" />
-  <Field.String path="/firstName" />
+  <Field.Name.First path="/firstName" />
+  <Field.Name.Last path="/lastName" />
 </Form.Handler>
 ```
 
@@ -644,7 +644,7 @@ render(<Form.Handler onSubmit={(data, {
   clearData();
 }} sessionStorageId="session-key">
         <Form.Card>
-          <Field.String label="Name" path="/name" />
+          <Field.Name path="/name" />
           <Field.Email path="/email" />
           <Form.ButtonRow>
             <Form.SubmitButton />

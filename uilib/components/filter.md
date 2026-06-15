@@ -1,8 +1,8 @@
 ---
 title: 'Filter'
 description: 'Filter is a composable, data-model-agnostic filter UI. It provides shared state via hooks so you can apply filters to your own data.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:35.701Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:00.699Z
 checksum: d880adfaa9ce2c1b007fb153044b524a0cf8f15772be0b91997fce5008d24928
 ---
 
@@ -1184,7 +1184,7 @@ A simple search field with a secondary search button.
 
 ```tsx
 const Example = () => {
-  const items = [{
+  const items = useMemo(() => [{
     id: 1,
     name: 'Rema 1000',
     amount: -245
@@ -1196,16 +1196,34 @@ const Example = () => {
     id: 3,
     name: 'Salary',
     amount: 35000
-  }];
+  }], []);
+  const getFilteredItems = useCallback((searchValue: string) => {
+    return items.filter(item => {
+      if (searchValue && !item.name.toLowerCase().includes(searchValue.toLowerCase()) && !String(item.amount).includes(searchValue)) {
+        return false;
+      }
+      return true;
+    });
+  }, [items]);
   const {
     search
   } = Filter.useFilter('search-only-demo');
-  const filtered = items.filter(item => {
-    if (search && !item.name.toLowerCase().includes(search.toLowerCase()) && !String(item.amount).includes(search)) {
-      return false;
+  const previousSearchRef = useRef(search);
+  const [showSkeleton, setShowSkeleton] = useState(false);
+  const [filtered, setFiltered] = useState(() => getFilteredItems(search));
+  useEffect(() => {
+    if (previousSearchRef.current === search) {
+      return; // stop here
     }
-    return true;
-  });
+    previousSearchRef.current = search;
+    setShowSkeleton(true);
+    const timeout = setTimeout(() => {
+      setFiltered(getFilteredItems(search));
+      setShowSkeleton(false);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [getFilteredItems, search]);
+  const visibleItems = showSkeleton ? items : filtered;
   return <>
               <Filter.Root id="search-only-demo" resultCount={filtered.length}>
                 <Filter.Header>
@@ -1217,9 +1235,9 @@ const Example = () => {
               </Filter.Root>
 
               <Filter.Content connectedTo="search-only-demo">
-                <List.Container>
-                  <Filter.NoResults />
-                  {filtered.map(item => <List.Item.Action key={item.id} title={<Filter.Highlighting>
+                <List.Container skeleton={showSkeleton}>
+                  {!showSkeleton && <Filter.NoResults />}
+                  {visibleItems.map(item => <List.Item.Action key={item.id} title={<Filter.Highlighting>
                           {item.name}
                         </Filter.Highlighting>}>
                       <List.Cell.End>

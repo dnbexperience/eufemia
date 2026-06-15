@@ -1,2 +1,0 @@
-import{a as e,s as t,t as n}from"./jsx-runtime-DnlWeMvz.js";import{K as r}from"./index-CsG353ar.js";import{t as i}from"./ColorTable-Sj02pg5Z.js";var a=e({default:()=>c}),o=t(n());function s(e){return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)({h2:`h2`,...r(),...e.components}.h2,{children:`DNB Eiendom Colors`}),`
-`,(0,o.jsx)(i,{theme:`eiendom`})]})}function c(e={}){let{wrapper:t}={...r(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{a as n,c as t};

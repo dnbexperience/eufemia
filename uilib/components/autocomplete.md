@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:35.559Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:00.580Z
 checksum: 9f5ee4e27a8c8f720a2b58f6bdf653b2c233351fe064c151e49d813a11635940
 ---
 
@@ -210,7 +210,7 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 
 ## Root Element (React Portal)
 
-The Autocomplete component uses [PortalRoot](/uilib/components/portal-root) internally to render its option list. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+The Autocomplete component uses [PortalRoot](/uilib/components/portal-root) internally to render its option list. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Demos

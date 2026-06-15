@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'The Dialog component is a Modal variation that appears at the center of the screen.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:35.662Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:00.666Z
 checksum: 6aa284be4c200df6bb88adf3cedbff09cfbc9e27ca3746453ebaadea5c3d5ab8
 ---
 
@@ -59,7 +59,7 @@ For more details regarding the component functionality, check out the [Modal doc
 
 ## Root Element (React Portal)
 
-The Dialog component uses [PortalRoot](/uilib/components/portal-root) internally through Modal to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+The Dialog component uses [PortalRoot](/uilib/components/portal-root) internally through Modal to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
 
 ## Table of contents
@@ -419,7 +419,7 @@ const MockComponent = () => {
 
                   <Form.Card>
                     <Form.SubHeading>Kontaktinformasjon</Form.SubHeading>
-                    <Field.String label="Fullt navn" path="/name" />
+                    <Field.Name label="Fullt navn" path="/name" />
                     <Field.Email path="/email" />
                     <Field.PhoneNumber path="/phone" />
                   </Form.Card>

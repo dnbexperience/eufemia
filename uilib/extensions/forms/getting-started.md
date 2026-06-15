@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.6.0
-generatedAt: 2026-06-12T08:43:37.003Z
+version: 11.6.1
+generatedAt: 2026-06-15T12:17:01.924Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -164,7 +164,7 @@ How does this work?
 Let's say you have a form with a `name` field. In order to tell, e.g., the `onSubmit` event what the data structure is, you define a declaration (`path`) about it right on the field itself:
 
 ```jsx
-<Field.String path="/name" />
+<Field.Name path="/name" />
 ```
 
 Why call it `path`?
@@ -172,7 +172,7 @@ Why call it `path`?
 Because it can describe the structure of the data in several layers deep:
 
 ```jsx
-<Field.String path="/user/name" />
+<Field.Name path="/user/name" />
 ```
 
 Which results in the following data structure:
