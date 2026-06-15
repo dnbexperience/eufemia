@@ -103,3 +103,69 @@ resource "aws_lambda_permission" "apigw" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.mcp.execution_arn}/*/POST/mcp"
 }
+
+# Custom domain
+data "aws_route53_zone" "eufemia" {
+  name = var.domain_zone
+}
+
+resource "aws_acm_certificate" "mcp" {
+  domain_name       = var.domain_name
+  validation_method = "DNS"
+  tags              = local.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route53_record" "cert_validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.mcp.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      type   = dvo.resource_record_type
+      record = dvo.resource_record_value
+    }
+  }
+
+  zone_id = data.aws_route53_zone.eufemia.zone_id
+  name    = each.value.name
+  type    = each.value.type
+  records = [each.value.record]
+  ttl     = 300
+}
+
+resource "aws_acm_certificate_validation" "mcp" {
+  certificate_arn         = aws_acm_certificate.mcp.arn
+  validation_record_fqdns = [for r in aws_route53_record.cert_validation : r.fqdn]
+}
+
+resource "aws_apigatewayv2_domain_name" "mcp" {
+  domain_name = var.domain_name
+
+  domain_name_configuration {
+    certificate_arn = aws_acm_certificate_validation.mcp.certificate_arn
+    endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
+  }
+
+  tags = local.tags
+}
+
+resource "aws_apigatewayv2_api_mapping" "mcp" {
+  api_id      = aws_apigatewayv2_api.mcp.id
+  domain_name = aws_apigatewayv2_domain_name.mcp.id
+  stage       = aws_apigatewayv2_stage.mcp.id
+}
+
+resource "aws_route53_record" "mcp" {
+  zone_id = data.aws_route53_zone.eufemia.zone_id
+  name    = var.domain_name
+  type    = "A"
+
+  alias {
+    name                   = aws_apigatewayv2_domain_name.mcp.domain_name_configuration[0].target_domain_name
+    zone_id                = aws_apigatewayv2_domain_name.mcp.domain_name_configuration[0].hosted_zone_id
+    evaluate_target_health = false
+  }
+}
