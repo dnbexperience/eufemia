@@ -4277,7 +4277,7 @@ describe('Wizard.Container', () => {
       })
     })
 
-    it('should show a error beneath the trigger button when the step status has an error and the screen width is small', async () => {
+    it('should show an error beneath the trigger button when the step status has an error and the screen width is small', async () => {
       simulateSmallScreen()
 
       render(

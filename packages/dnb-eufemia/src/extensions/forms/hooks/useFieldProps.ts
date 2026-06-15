@@ -1356,7 +1356,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           }
 
           if (hasDefaultValue && Array.isArray(existingValue)) {
-            // Ensures support to have a field with a defaultValue and a itemPath of "/"
+            // Ensures support to have a field with a defaultValue and an itemPath of "/"
             // This way, we ensure the defaultValue is actually set in the data context.
             skipEqualCheck = true
           }

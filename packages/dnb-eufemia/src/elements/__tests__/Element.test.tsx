@@ -121,7 +121,7 @@ describe('Element', () => {
     expect(defaultProps['ref']).toBe(undefined)
   })
 
-  it('should validate with ARIA rules as a Element element', async () => {
+  it('should validate with ARIA rules as an Element element', async () => {
     const Component = render(<Element {...props}>text</Element>)
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
