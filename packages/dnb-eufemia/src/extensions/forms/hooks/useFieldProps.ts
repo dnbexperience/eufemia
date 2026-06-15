@@ -61,6 +61,16 @@ export type DataAttributes = {
   [property: `data-${string}`]: string | boolean | number
 }
 
+type UseFieldPropsOptions = {
+  executeOnChangeRegardlessOfError?: boolean
+  executeOnChangeRegardlessOfUnchangedValue?: boolean
+  updateContextDataInSync?: boolean
+  omitMultiplePathWarning?: boolean
+  forceUpdateWhenContextDataIsSet?: boolean
+  omitSectionPath?: boolean
+  getExternalValueSnapshot?: (value: unknown) => unknown
+}
+
 // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
 // useEffect depend on them (like the external `value`)
 
@@ -73,7 +83,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     omitMultiplePathWarning = false,
     forceUpdateWhenContextDataIsSet = false,
     omitSectionPath = false,
-  } = {}
+    getExternalValueSnapshot = undefined,
+  }: UseFieldPropsOptions = {}
 ): typeof localProps & ReturnAdditional<Value> {
   const { extend } = useContext(FieldProviderContext)
   const props = extend(localProps)
@@ -309,6 +320,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     path: identifier,
     itemPath,
     value: valueProp,
+    getValueSnapshot: getExternalValueSnapshot,
     transformers,
     emptyValue: defaultValue ? undefined : emptyValue,
   })

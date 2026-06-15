@@ -14,6 +14,7 @@ export type UseExternalValueProps<Value> = {
   path?: Path | undefined
   itemPath?: Path
   value?: Value
+  getValueSnapshot?: (value: unknown) => unknown
   transformers?: RefObject<{
     fromExternal: FieldProps<Value>['fromExternal']
   }>
@@ -27,6 +28,7 @@ export default function useExternalValue<Value>(
     path,
     itemPath,
     value = undefined,
+    getValueSnapshot,
     transformers,
     emptyValue = undefined,
   } = props
@@ -35,8 +37,7 @@ export default function useExternalValue<Value>(
   const iterateItemContext = useContext(IterateItemContext)
   const inIterate = Boolean(iterateItemContext)
   const { value: iterateElementValue } = iterateItemContext || {}
-  const subscribablePath =
-    isPath(path) && (!inIterate || !itemPath) ? path : undefined
+  const subscribablePath = isPath(path) ? path : undefined
 
   const subscribe = useCallback(
     (callback: () => void) => {
@@ -51,22 +52,39 @@ export default function useExternalValue<Value>(
 
   const getSnapshot = useCallback(() => {
     if (subscribablePath && getDataValue) {
-      return getDataValue(subscribablePath)
+      const value = getDataValue(subscribablePath)
+      return getValueSnapshot ? getValueSnapshot(value) : value
     }
 
     return undefined
-  }, [getDataValue, subscribablePath])
+  }, [getDataValue, getValueSnapshot, subscribablePath])
 
-  const dataValue = useSyncExternalStore(
+  const dataValueSnapshot = useSyncExternalStore(
     subscribe,
     getSnapshot,
     getSnapshot
   )
 
+  const dataValue =
+    getValueSnapshot && subscribablePath && getDataValue
+      ? getDataValue(subscribablePath)
+      : dataValueSnapshot
+
   return useMemo(() => {
     if (value !== undefined && value !== emptyValue) {
       // Value-prop sent directly to the field has highest priority, overriding any surrounding source
       return transformers?.current?.fromExternal?.(value) ?? emptyValue
+    }
+
+    if (
+      subscribablePath &&
+      getDataValue &&
+      (!inIterate || !itemPath || dataValue !== undefined)
+    ) {
+      return (
+        transformers?.current?.fromExternal?.(dataValue as Value) ??
+        emptyValue
+      )
     }
 
     if (inIterate && itemPath) {
@@ -88,13 +106,6 @@ export default function useExternalValue<Value>(
       }
     }
 
-    if (subscribablePath && getDataValue) {
-      return (
-        transformers?.current?.fromExternal?.(dataValue as Value) ??
-        emptyValue
-      )
-    }
-
     if (data && path) {
       // There is a surrounding data context and a path for where in the source to find the data
       if (path === '/') {
@@ -114,6 +125,7 @@ export default function useExternalValue<Value>(
     data,
     dataValue,
     getDataValue,
+    getValueSnapshot,
     emptyValue,
     inIterate,
     itemPath,

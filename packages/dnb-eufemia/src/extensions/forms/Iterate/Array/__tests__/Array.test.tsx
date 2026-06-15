@@ -414,6 +414,43 @@ describe('Iterate.Array', () => {
       expect(inputs[1]).toHaveValue('Captain America')
       expect(inputs[2]).toHaveValue('Thor')
     })
+
+    it('should not rerender array items when a scoped item path changes', async () => {
+      const callback = vi.fn(() => {
+        return <Field.String itemPath="/name" />
+      })
+
+      render(
+        <Form.Handler
+          data={{ items: [{ name: 'Tony' }, { name: 'Steve' }] }}
+        >
+          <Iterate.Array path="/items">{callback}</Iterate.Array>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).toHaveValue('Tony')
+      expect(inputs[1]).toHaveValue('Steve')
+
+      const getRenderCountForIndex = (index: number) => {
+        return callback.mock.calls.filter(([, itemIndex]) => {
+          return itemIndex === index
+        }).length
+      }
+
+      const initialFirstItemRenderCount = getRenderCountForIndex(0)
+      const initialSecondItemRenderCount = getRenderCountForIndex(1)
+
+      await userEvent.type(inputs[0], ' Stark')
+
+      expect(inputs[0]).toHaveValue('Tony Stark')
+      expect(inputs[1]).toHaveValue('Steve')
+      expect(getRenderCountForIndex(0)).toBeGreaterThan(
+        initialFirstItemRenderCount
+      )
+      expect(getRenderCountForIndex(1)).toBe(initialSecondItemRenderCount)
+    })
   })
 
   describe('countPath', () => {

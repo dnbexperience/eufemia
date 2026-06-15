@@ -1,4 +1,5 @@
 import {
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -6,7 +7,7 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import type { RefObject } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import * as z from 'zod'
 import { clsx } from 'clsx'
 import pointer from '../../utils/json-pointer'
@@ -74,7 +75,9 @@ function ArrayComponent(props: IterateArrayProps) {
   )
 
   const { value: countPathValue, getValueByPath } = useDataValue(countPath)
-  const { value: contextArrayValue } = useDataValue(pathProp)
+  const { value: contextArrayValue } = useDataValue(
+    countPath ? pathProp : undefined
+  )
   const countValue = useMemo(() => {
     if (!countPath) {
       return -1
@@ -90,7 +93,6 @@ function ArrayComponent(props: IterateArrayProps) {
 
     return countValue
   }, [countPath, countPathLimit, countPathValue])
-
   const validateRequired = useCallback(
     (value: Value, { emptyValue, required, error }) => {
       if (
@@ -180,6 +182,7 @@ function ArrayComponent(props: IterateArrayProps) {
     omitMultiplePathWarning: true,
     forceUpdateWhenContextDataIsSet: Boolean(countPath),
     omitSectionPath,
+    getExternalValueSnapshot: getArrayShapeSnapshot,
   })
 
   // Ensure the path exists as an array before children try to set values at numeric paths
@@ -239,7 +242,8 @@ function ArrayComponent(props: IterateArrayProps) {
   const hadPushRef = useRef<boolean>(undefined)
   const elementRefs = useRef<Record<string, RefObject<HTMLDivElement>>>({})
 
-  const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
+  const omitFlex =
+    withoutFlex ?? Boolean(summaryListContext || valueBlockContext)
 
   const { getNextContainerMode } = useSwitchContainerMode()
 
@@ -298,15 +302,18 @@ function ArrayComponent(props: IterateArrayProps) {
           }
         },
         handleChange: (path, value) => {
-          const newArrayValue = structuredClone(
-            arrayValueRef.current || []
-          )
+          const newArrayValue = [...(arrayValueRef.current || [])]
+          const currentItemValue = newArrayValue[index]
 
-          // Make sure we have a new object reference,
-          // else two new objects will be the same
-          newArrayValue[index] = { ...newArrayValue[index] }
+          // Make sure the changed item has a new object reference,
+          // while unchanged items keep their references.
+          newArrayValue[index] =
+            currentItemValue && typeof currentItemValue === 'object'
+              ? structuredClone(currentItemValue)
+              : {}
 
           pointer.set(newArrayValue, path, value)
+          arrayValueRef.current = newArrayValue
           handleChange(newArrayValue)
         },
         handlePush: (element) => {
@@ -421,45 +428,20 @@ function ArrayComponent(props: IterateArrayProps) {
       )
     ) : (
       arrayItems.map((itemProps) => {
-        const { id, value, index } = itemProps
+        const { id } = itemProps
         const elementRef = (elementRefs.current[id] = elementRefs.current[
           id
         ] || { current: null as HTMLDivElement | null })
-
-        const renderChildren = (elementChild: ElementChild) => {
-          return typeof elementChild === 'function'
-            ? elementChild(value, index, arrayItems)
-            : elementChild
-        }
-
-        const contextValue = {
-          ...itemProps,
-          elementRef,
-        }
-
-        const content = Array.isArray(children)
-          ? children.map((child) => renderChildren(child))
-          : renderChildren(children)
-
-        if (omitFlex) {
-          return (
-            <IterateItemContext key={`element-${id}`} value={contextValue}>
-              <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-            </IterateItemContext>
-          )
-        }
-
         return (
-          <Flex.Item
-            className="dnb-forms-iterate__element"
-            tabIndex={-1}
-            ref={elementRef}
+          <ArrayElement
             key={`element-${id}`}
+            itemProps={itemProps}
+            elementRef={elementRef}
+            arrayItems={arrayItems}
+            omitFlex={omitFlex}
           >
-            <IterateItemContext value={contextValue}>
-              <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-            </IterateItemContext>
-          </Flex.Item>
+            {children}
+          </ArrayElement>
         )
       })
     )
@@ -492,3 +474,83 @@ withComponentMarkers(ArrayComponent, {
 })
 
 export default ArrayComponent
+
+type ArrayElementProps = {
+  itemProps: IterateItemContextState
+  elementRef: RefObject<HTMLDivElement>
+  arrayItems: Array<IterateItemContextState>
+  omitFlex?: boolean
+  children: ElementChild | Array<ElementChild>
+}
+
+const ArrayElement = memo(function ArrayElement({
+  itemProps,
+  elementRef,
+  arrayItems,
+  omitFlex,
+  children,
+}: ArrayElementProps) {
+  const { value, index } = itemProps
+
+  const renderChildren = (elementChild: ElementChild): ReactNode => {
+    return typeof elementChild === 'function'
+      ? elementChild(value, index, arrayItems)
+      : elementChild
+  }
+
+  const contextValue = {
+    ...itemProps,
+    elementRef,
+  }
+
+  const content = Array.isArray(children)
+    ? children.map((child) => renderChildren(child))
+    : renderChildren(children)
+
+  if (omitFlex) {
+    return (
+      <IterateItemContext value={contextValue}>
+        <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+      </IterateItemContext>
+    )
+  }
+
+  return (
+    <Flex.Item
+      className="dnb-forms-iterate__element"
+      tabIndex={-1}
+      ref={elementRef}
+    >
+      <IterateItemContext value={contextValue}>
+        <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+      </IterateItemContext>
+    </Flex.Item>
+  )
+}, shouldKeepArrayElement)
+
+function shouldKeepArrayElement(
+  previous: ArrayElementProps,
+  next: ArrayElementProps
+) {
+  return (
+    previous.children === next.children &&
+    previous.elementRef === next.elementRef &&
+    previous.omitFlex === next.omitFlex &&
+    previous.itemProps.id === next.itemProps.id &&
+    previous.itemProps.index === next.itemProps.index &&
+    previous.itemProps.path === next.itemProps.path &&
+    previous.itemProps.itemPath === next.itemProps.itemPath &&
+    previous.itemProps.value === next.itemProps.value &&
+    previous.itemProps.isNew === next.itemProps.isNew &&
+    previous.itemProps.containerMode === next.itemProps.containerMode &&
+    previous.itemProps.previousContainerMode ===
+      next.itemProps.previousContainerMode &&
+    previous.itemProps.initialContainerMode ===
+      next.itemProps.initialContainerMode &&
+    previous.itemProps.modeOptions === next.itemProps.modeOptions
+  )
+}
+
+function getArrayShapeSnapshot(value: unknown) {
+  return Array.isArray(value) ? value.length : value
+}
