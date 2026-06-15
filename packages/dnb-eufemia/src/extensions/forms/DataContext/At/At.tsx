@@ -43,7 +43,7 @@ function At(props: DataContextAtProps) {
       return getDataValue(path as Path)
     }
 
-    return getValue(contextData, path as Path)
+    return getValueByPath(contextData, path as Path)
   }, [contextData, getDataValue, path])
 
   const data = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
@@ -51,7 +51,7 @@ function At(props: DataContextAtProps) {
   internalDataRef.current = data
 
   const makeScopedPath = useCallback(
-    (changePath: Path) => makePath(path as Path, changePath),
+    (changePath: Path) => joinPath(path as Path, changePath),
     [path]
   )
 
@@ -101,7 +101,7 @@ function At(props: DataContextAtProps) {
         return getDataValue(makeScopedPath(changePath))
       }
 
-      return getValue(data, changePath)
+      return getValueByPath(data, changePath)
     },
     [data, getDataValue, makeScopedPath]
   )
@@ -136,9 +136,9 @@ function At(props: DataContextAtProps) {
     return (
       <>
         {data.map((element, index) => {
-          const itemPath = makePath(path as Path, `/${index}` as Path)
+          const itemPath = joinPath(path as Path, `/${index}` as Path)
           const makeScopedItemPath = (changePath: Path) => {
-            return makePath(itemPath, changePath)
+            return joinPath(itemPath, changePath)
           }
 
           return (
@@ -180,7 +180,7 @@ function At(props: DataContextAtProps) {
                     return getDataValue(makeScopedItemPath(changePath))
                   }
 
-                  return getValue(element, changePath)
+                  return getValueByPath(element, changePath)
                 },
               }}
             >
@@ -195,7 +195,7 @@ function At(props: DataContextAtProps) {
   return <Context value={scopedDataContext}>{children}</Context>
 }
 
-function getValue(data: unknown, path: Path) {
+function getValueByPath(data: unknown, path: Path) {
   if (path === '/') {
     return data
   }
@@ -205,7 +205,7 @@ function getValue(data: unknown, path: Path) {
     : undefined
 }
 
-function makePath(path: Path, changePath: Path): Path {
+function joinPath(path: Path, changePath: Path): Path {
   if (!changePath || changePath === '/') {
     return path
   }
