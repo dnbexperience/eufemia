@@ -1,12 +1,18 @@
 @use '../typography-mixins.scss' as typography;
 
 @include typography.typographySelectors() {
-  --typography-h-x-large-small-font-size: var(--font-size-x-large);
-  --typography-h-x-large-small-line-height: var(--line-height-x-large);
-  --typography-h-large-small-line-height: calc(
-    var(--line-height-large) - 0.125rem
+  --typography-h-x-large-small-font-size: var(
+    --typography-font-size-x-large
   );
-  --typography-lead-small-font-size: var(--font-size-basis);
-  --typography-lead-small-line-height: var(--line-height-basis);
-  --typography-h-small-small-line-height: var(--line-height-small);
+  --typography-h-x-large-small-line-height: var(
+    --typography-line-height-x-large
+  );
+  --typography-h-large-small-line-height: calc(
+    var(--typography-line-height-large) - 0.125rem
+  );
+  --typography-lead-small-font-size: var(--typography-font-size-basis);
+  --typography-lead-small-line-height: var(--typography-line-height-basis);
+  --typography-h-small-small-line-height: var(
+    --typography-line-height-small
+  );
 }

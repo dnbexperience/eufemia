@@ -751,7 +751,7 @@ describe('style build', () => {
       expect(normalizeCss(content)).toContain(
         normalizeCss(`
 .dnb-p {
-  font-size: var(--font-size-basis);
+  font-size: var(--typography-font-size-basis);
   color: var(--token-color-text-neutral);
 }`)
       )
@@ -789,7 +789,7 @@ describe('style build', () => {
       expect(normalizeCss(content)).toContain(
         normalizeCss(`
 .dnb-p {
-  font-size: var(--font-size-basis);
+  font-size: var(--typography-font-size-basis);
   color: var(--token-color-text-neutral);
 }`)
       )

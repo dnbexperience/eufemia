@@ -65,7 +65,9 @@
   .dnb-small,
   .dnb-table,
   sub,
-  sup {
+  sup,
+  [class^='dnb-t__'],
+  [class*=' dnb-t__'] {
     @content;
   }
 }
@@ -224,7 +226,7 @@
 }
 
 @mixin paragraphDefaults() {
-  font-size: var(--font-size-basis);
+  font-size: var(--typography-font-size-basis);
   color: var(--token-color-text-neutral);
 
   &.dnb-t--surface-dark {
@@ -250,13 +252,13 @@
   }
 
   & > small {
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small);
+    font-size: var(--typography-font-size-small);
+    line-height: var(--typography-line-height-small);
   }
 
   & > cite {
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-basis);
+    line-height: var(--typography-line-height-basis);
     font-style: italic;
   }
 }
@@ -299,4 +301,24 @@
   &:not([class*='space__bottom']) {
     margin-bottom: 1rem;
   }
+}
+
+@mixin responsiveOff() {
+  // Base sizes
+  --typography-font-size-x-small: var(--font-size-x-small);
+  --typography-font-size-small: var(--font-size-small);
+  --typography-font-size-basis: var(--font-size-basis);
+  --typography-font-size-medium: var(--font-size-medium);
+  --typography-font-size-large: var(--font-size-large);
+  --typography-font-size-x-large: var(--font-size-x-large);
+  --typography-font-size-xx-large: var(--font-size-xx-large);
+
+  // Base line-heights
+  --typography-line-height-x-small: var(--line-height-x-small);
+  --typography-line-height-small: var(--line-height-small);
+  --typography-line-height-basis: var(--line-height-basis);
+  --typography-line-height-medium: var(--line-height-medium);
+  --typography-line-height-large: var(--line-height-large);
+  --typography-line-height-x-large: var(--line-height-x-large);
+  --typography-line-height-xx-large: var(--line-height-xx-large);
 }
