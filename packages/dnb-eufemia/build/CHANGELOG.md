@@ -3,6 +3,26 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.6.1](https://github.com/dnbexperience/eufemia/compare/v11.6.0...v11.6.1) (2026-06-15)
+
+### :bug: Bug Fixes
+
+* **Filter:** show only submit button when search is in manual mode ([#8562](https://github.com/dnbexperience/eufemia/issues/8562)) ([3f99287](https://github.com/dnbexperience/eufemia/commit/3f992877e512175096a6cd12b6c3a96a0f65ce0c))
+* **Forms:** show Wizard required errors during async validation ([#8573](https://github.com/dnbexperience/eufemia/issues/8573)) ([9a39add](https://github.com/dnbexperience/eufemia/commit/9a39add621eb1b73bbab568778bf201d8e0aca82)), closes [#6048](https://github.com/dnbexperience/eufemia/issues/6048)
+* **Tabs:** restore page scrolling over tablist ([#8566](https://github.com/dnbexperience/eufemia/issues/8566)) ([0c6da09](https://github.com/dnbexperience/eufemia/commit/0c6da098d05a4a5d2695c8cdc60bce6483027e93))
+* **Wizard:** improve routed step history ([#8569](https://github.com/dnbexperience/eufemia/issues/8569)) ([8321bfa](https://github.com/dnbexperience/eufemia/commit/8321bfa829870bb9657c4afb1117bfd063e6e0e0))
+* **Wizard:** prevent duplicate route step changes ([#8567](https://github.com/dnbexperience/eufemia/issues/8567)) ([7c37bc5](https://github.com/dnbexperience/eufemia/commit/7c37bc5486a94ad6f61a7cf4d48acb3cb530d90b))
+
+### :memo: Documentation
+
+* **DatePicker:** improve `onlyMonth` property description ([#8578](https://github.com/dnbexperience/eufemia/issues/8578)) ([12529e6](https://github.com/dnbexperience/eufemia/commit/12529e665a74e8256878cd0274ca7c0810655d3a))
+* **PortalRoot:** mention Google Translate in BrowserTranslate headings ([#8563](https://github.com/dnbexperience/eufemia/issues/8563)) ([ef6d10b](https://github.com/dnbexperience/eufemia/commit/ef6d10be621400804d53f05ee9013dfda02c32f0))
+* prefer name fields in examples ([#8568](https://github.com/dnbexperience/eufemia/issues/8568)) ([0ffa67f](https://github.com/dnbexperience/eufemia/commit/0ffa67f272a8ae0d357f335a27b3b2423617cdfc))
+
+### :art: Design Changes
+
+* **DatePicker:** align border radius, font-size of days and relative horizontal placement ([#8565](https://github.com/dnbexperience/eufemia/issues/8565)) ([0a7227e](https://github.com/dnbexperience/eufemia/commit/0a7227e9f6d478745923dfae0368ea42df03c7e1))
+
 ## [11.6.0](https://github.com/dnbexperience/eufemia/compare/v11.5.2...v11.6.0) (2026-06-12)
 
 ### :sparkles: Features
