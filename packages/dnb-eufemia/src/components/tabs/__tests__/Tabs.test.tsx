@@ -430,6 +430,63 @@ describe('TabList component', () => {
     scrollBy.mockRestore()
   })
 
+  it('skips page scrolling when ctrlKey is held', () => {
+    const scrollBy = vi
+      .spyOn(window, 'scrollBy')
+      .mockImplementation(() => undefined)
+
+    render(
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    fireEvent.wheel(tablist, { deltaY: 100, ctrlKey: true })
+    expect(scrollBy).not.toHaveBeenCalled()
+
+    scrollBy.mockRestore()
+  })
+
+  it('skips page scrolling when shiftKey is held', () => {
+    const scrollBy = vi
+      .spyOn(window, 'scrollBy')
+      .mockImplementation(() => undefined)
+
+    render(
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    fireEvent.wheel(tablist, { deltaY: 100, shiftKey: true })
+    expect(scrollBy).not.toHaveBeenCalled()
+
+    scrollBy.mockRestore()
+  })
+
+  it('skips page scrolling when deltaX equals deltaY', () => {
+    const scrollBy = vi
+      .spyOn(window, 'scrollBy')
+      .mockImplementation(() => undefined)
+
+    render(
+      <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector('.dnb-tabs__tabs__tablist')
+
+    fireEvent.wheel(tablist, { deltaX: 100, deltaY: 100 })
+    expect(scrollBy).not.toHaveBeenCalled()
+
+    scrollBy.mockRestore()
+  })
+
   it('has to have the right content on a "click event"', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
