@@ -176,7 +176,7 @@ describe('useReactRouter', () => {
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
-    expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, 1)
+    expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, '1')
     expect(window.location.search).toBe(
       `?existing-query=foo&bar=baz&${identifier}-step=1`
     )
@@ -184,7 +184,7 @@ describe('useReactRouter', () => {
     await userEvent.click(nextButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":2,"index":2}')
-    expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, 2)
+    expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, '2')
     expect(window.location.search).toBe(
       `?existing-query=foo&bar=baz&${identifier}-step=2`
     )
@@ -192,7 +192,7 @@ describe('useReactRouter', () => {
     await userEvent.click(previousButton())
 
     expect(output()).toHaveTextContent('{"activeIndex":1,"index":1}')
-    expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, 1)
+    expect(set).toHaveBeenLastCalledWith(`${identifier}-step`, '1')
     expect(window.location.search).toBe(
       `?existing-query=foo&bar=baz&${identifier}-step=1`
     )

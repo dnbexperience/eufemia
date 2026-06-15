@@ -39,7 +39,7 @@ export default function useReactRouter(
         routerStepChangeRef.current = index
         routerStepChanges.set(name, index)
         hasRouterStepRef.current = true
-        searchParams.set(name, index)
+        searchParams.set(name, String(index))
         setSearchParams(searchParams)
       } catch (error) {
         routerStepChanges.delete(name)
