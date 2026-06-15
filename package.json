@@ -37,7 +37,8 @@
   },
   "resolutions": {
     "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3"
+    "@types/react-dom": "19.2.3",
+    "ttf2woff2@npm:^6.0.1": "npm:8.0.1"
   },
   "engines": {
     "node": ">=24.x",
