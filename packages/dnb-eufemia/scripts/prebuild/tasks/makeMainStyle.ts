@@ -64,7 +64,7 @@ export const runFactory = async (
   log.start('> PrePublish: transforming main style')
 
   const sassTransform = transformSass()
-  const postcssTransform = transformPostcss(postcssConfig({ sass }))
+  const postcssTransform = transformPostcss(await postcssConfig({ sass }))
   const cssnanoTransform = transformCssnano({ reduceIdents: false })
   const pathsTransform = transformPaths('../../assets/', '../assets/')
 
@@ -98,7 +98,7 @@ export const runFactory = async (
     // Branch 3 & 4: scoped styles (if enabled)
     if (enableBuildStyleScope()) {
       const scopedPostcssTransform = transformPostcss(
-        postcssConfig(
+        await postcssConfig(
           { sass },
           {
             plugins: [
