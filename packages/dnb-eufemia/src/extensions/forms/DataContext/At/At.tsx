@@ -64,10 +64,11 @@ function At(props: DataContextAtProps) {
 
   const handlePathChangeUnvalidated: ContextState['handlePathChangeUnvalidated'] =
     useCallback(
-      (changePath, value) => {
+      (changePath, value, options) => {
         return handlePathChangeUnvalidatedDataContext(
           makeScopedPath(changePath),
-          value
+          value,
+          options
         )
       },
       [handlePathChangeUnvalidatedDataContext, makeScopedPath]
@@ -154,10 +155,15 @@ function At(props: DataContextAtProps) {
                     value
                   )
                 },
-                handlePathChangeUnvalidated: (changePath, value) => {
+                handlePathChangeUnvalidated: (
+                  changePath,
+                  value,
+                  options
+                ) => {
                   return handlePathChangeUnvalidatedDataContext(
                     makeScopedItemPath(changePath),
-                    value
+                    value,
+                    options
                   )
                 },
                 updateDataValue: (changePath, value, options) => {

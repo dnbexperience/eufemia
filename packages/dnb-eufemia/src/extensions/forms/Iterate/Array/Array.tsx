@@ -47,7 +47,7 @@ import type {
   IterateArrayProps,
   Value,
 } from './types'
-import type { Identifier } from '../../types'
+import type { Identifier, Path } from '../../types'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -236,6 +236,7 @@ function ArrayComponent(props: IterateArrayProps) {
       }
     >
   >({})
+  const restoreValueCountRef = useRef<Record<Identifier, number>>({})
   const valueCountRef = useRef(arrayValue)
   const arrayValueRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>(undefined)
@@ -291,6 +292,7 @@ function ArrayComponent(props: IterateArrayProps) {
         previousContainerMode: modesRef.current[id].previous,
         initialContainerMode: containerMode || 'auto',
         modeOptions: modesRef.current[id].options,
+        restoreValueCount: restoreValueCountRef.current[id] || 0,
         nestedIteratePath: absolutePath,
         switchContainerMode: (mode, options = {}) => {
           modesRef.current[id].previous = modesRef.current[id].current
@@ -314,7 +316,9 @@ function ArrayComponent(props: IterateArrayProps) {
 
           pointer.set(newArrayValue, path, value)
           arrayValueRef.current = newArrayValue
-          handleChange(newArrayValue)
+          handleChange(newArrayValue, undefined, {
+            preventUpdate: true,
+          })
         },
         handlePush: (element) => {
           hadPushRef.current = true
@@ -340,19 +344,31 @@ function ArrayComponent(props: IterateArrayProps) {
 
           delete modesRef.current?.[id]
           delete isNewRef.current?.[id]
+          delete restoreValueCountRef.current?.[id]
           const findIndex = idsRef.current.indexOf(id)
           idsRef.current.splice(findIndex, 1)
           forceUpdate()
         },
 
         // - Called when cancel button press
-        restoreOriginalValue: (value) => {
-          if (value) {
+        restoreOriginalValue: (...args: [value?: unknown]) => {
+          if (args.length > 0) {
+            const [value] = args
             const newArrayValue = structuredClone(
               arrayValueRef.current || []
             )
             newArrayValue[index] = value
+            arrayValueRef.current = newArrayValue
+            restoreValueCountRef.current[id] =
+              (restoreValueCountRef.current[id] || 0) + 1
+            const restorePath = `${path && path !== '/' ? path : ''}/${index}`
+            dataContext?.handlePathChangeUnvalidated?.(
+              restorePath as Path,
+              value,
+              { preventUpdate: true }
+            )
             handleChange(newArrayValue)
+            forceUpdate()
           }
         },
       }
@@ -432,9 +448,9 @@ function ArrayComponent(props: IterateArrayProps) {
         const elementRef = (elementRefs.current[id] = elementRefs.current[
           id
         ] || { current: null as HTMLDivElement | null })
-        return (
+        const element = (
           <ArrayElement
-            key={`element-${id}`}
+            key={omitFlex ? `element-${id}` : undefined}
             itemProps={itemProps}
             elementRef={elementRef}
             arrayItems={arrayItems}
@@ -442,6 +458,21 @@ function ArrayComponent(props: IterateArrayProps) {
           >
             {children}
           </ArrayElement>
+        )
+
+        if (omitFlex) {
+          return element
+        }
+
+        return (
+          <Flex.Item
+            key={`element-${id}`}
+            className="dnb-forms-iterate__element"
+            tabIndex={-1}
+            ref={elementRef}
+          >
+            {element}
+          </Flex.Item>
         )
       })
     )
@@ -487,7 +518,6 @@ const ArrayElement = memo(function ArrayElement({
   itemProps,
   elementRef,
   arrayItems,
-  omitFlex,
   children,
 }: ArrayElementProps) {
   const { value, index } = itemProps
@@ -507,24 +537,10 @@ const ArrayElement = memo(function ArrayElement({
     ? children.map((child) => renderChildren(child))
     : renderChildren(children)
 
-  if (omitFlex) {
-    return (
-      <IterateItemContext value={contextValue}>
-        <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-      </IterateItemContext>
-    )
-  }
-
   return (
-    <Flex.Item
-      className="dnb-forms-iterate__element"
-      tabIndex={-1}
-      ref={elementRef}
-    >
-      <IterateItemContext value={contextValue}>
-        <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-      </IterateItemContext>
-    </Flex.Item>
+    <IterateItemContext value={contextValue}>
+      <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+    </IterateItemContext>
   )
 }, shouldKeepArrayElement)
 
@@ -541,12 +557,16 @@ function shouldKeepArrayElement(
     previous.itemProps.path === next.itemProps.path &&
     previous.itemProps.itemPath === next.itemProps.itemPath &&
     previous.itemProps.value === next.itemProps.value &&
+    previous.itemProps.arrayValue?.length ===
+      next.itemProps.arrayValue?.length &&
     previous.itemProps.isNew === next.itemProps.isNew &&
     previous.itemProps.containerMode === next.itemProps.containerMode &&
     previous.itemProps.previousContainerMode ===
       next.itemProps.previousContainerMode &&
     previous.itemProps.initialContainerMode ===
       next.itemProps.initialContainerMode &&
+    previous.itemProps.restoreValueCount ===
+      next.itemProps.restoreValueCount &&
     previous.itemProps.modeOptions === next.itemProps.modeOptions
   )
 }

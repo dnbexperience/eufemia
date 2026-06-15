@@ -71,6 +71,10 @@ type UseFieldPropsOptions = {
   getExternalValueSnapshot?: (value: unknown) => unknown
 }
 
+type ChangeOptions = {
+  preventUpdate?: boolean
+}
+
 // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
 // useEffect depend on them (like the external `value`)
 
@@ -244,6 +248,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     index: iterateIndex,
     arrayValue: iterateArrayValue,
     nestedIteratePath,
+    restoreValueCount,
   } = iterateItemContext || {}
   const { path: sectionPath, errorPrioritization } = sectionContext || {}
   const {
@@ -325,6 +330,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     emptyValue: defaultValue ? undefined : emptyValue,
   })
   const externalValueDeps = tmpValue
+  const iterateArrayValueDeps = hasItemPath ? iterateArrayValue : undefined
+  const iterateRestoreValueDeps = hasItemPath
+    ? restoreValueCount
+    : undefined
 
   // Ensure externalValue is strongly typed as Value (transformIn returns Value by contract)
   const externalValue: Value = transformers.current.transformIn(
@@ -678,10 +687,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [externalValueDeps, hasItemPath])
+  }, [
+    externalValueDeps,
+    hasItemPath,
+    iterateArrayValueDeps,
+    iterateRestoreValueDeps,
+  ])
 
-  useUpdateEffect(() => {
-    // Error or removed error for this field from the surrounding data context (by path)
+  const syncExternalValueUpdate = useCallback(() => {
     if (externalValueDidChangeRef.current) {
       externalValueDidChangeRef.current = false
 
@@ -696,7 +709,37 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       validateValue()
       forceUpdate()
     }
-  }, [externalValueDeps, validateContinuously, valueEqualsEmptyValue]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
+  }, [
+    forceUpdate,
+    hideError,
+    validateContinuously,
+    validateValue,
+    valueEqualsEmptyValue,
+  ])
+
+  useLayoutEffect(() => {
+    if (hasItemPath) {
+      syncExternalValueUpdate()
+    }
+  }, [
+    externalValueDeps,
+    hasItemPath,
+    iterateArrayValueDeps,
+    iterateRestoreValueDeps,
+    syncExternalValueUpdate,
+  ])
+
+  useUpdateEffect(() => {
+    if (!hasItemPath) {
+      syncExternalValueUpdate()
+    }
+  }, [
+    externalValueDeps,
+    hasItemPath,
+    iterateArrayValueDeps,
+    iterateRestoreValueDeps,
+    syncExternalValueUpdate,
+  ]) // Keep "externalValue" in the dependency list, so it will be updated when it changes
 
   // ─── Focus / blur ────────────────────────────────────────────────────
 
@@ -775,7 +818,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // ─── Value updates ───────────────────────────────────────────────────
 
   const updateValue = useCallback(
-    async (newValue: Value) => {
+    async (newValue: Value, options?: ChangeOptions) => {
       const currentValue = valueRef.current
       const valueIsUnchanged = newValue === currentValue
       if (!executeOnChangeRegardlessOfUnchangedValue && valueIsUnchanged) {
@@ -801,7 +844,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (hasPath || itemPath) {
         handlePathChangeUnvalidatedDataContext(
           nestedIteratePath || identifier,
-          contextValue
+          contextValue,
+          { preventUpdate: options?.preventUpdate }
         )
       }
 
@@ -886,7 +930,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const handleChange = useCallback(
     async (
       argFromInput: Value | unknown,
-      localAdditionalArgs: ProvideAdditionalEventArgs = undefined
+      localAdditionalArgs: ProvideAdditionalEventArgs = undefined,
+      options?: ChangeOptions
     ) => {
       const currentValue = valueRef.current
       const fromInput = transformers.current.fromInput(
@@ -905,9 +950,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
       if (asyncBehaviorIsEnabled) {
         hideError()
-        await updateValue(fromInput)
+        await updateValue(fromInput, options)
       } else {
-        updateValue(fromInput)
+        updateValue(fromInput, options)
       }
 
       if (isAsync(onChange)) {
@@ -1908,9 +1953,10 @@ export type ReturnAdditional<Value> = {
   handleBlur: () => void
   handleChange: (
     value: Value | unknown,
-    additionalArgs?: ProvideAdditionalEventArgs
+    additionalArgs?: ProvideAdditionalEventArgs,
+    options?: ChangeOptions
   ) => void
-  updateValue: (value: Value) => void
+  updateValue: (value: Value, options?: ChangeOptions) => void
   setChanged: (state: boolean) => void
   setDisplayValue: (
     value: ReactNode,

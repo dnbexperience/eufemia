@@ -396,11 +396,18 @@ export default function Provider<Data extends JsonObject>(
     []
   )
   const revealError = useCallback((path: Path, hasError: boolean) => {
+    const hadVisibleError = hasVisibleErrorRef.current.has(path)
+
     if (hasError) {
       hasVisibleErrorRef.current.set(path, hasError)
     } else {
+      if (!hadVisibleError) {
+        return undefined // stop here
+      }
+
       hasVisibleErrorRef.current.delete(path)
     }
+
     forceUpdate() // Will rerender the whole form initially
   }, [])
   const submitStateRef = useRef<Partial<EventStateObject>>({})
@@ -1279,14 +1286,14 @@ export default function Provider<Data extends JsonObject>(
   /**
    * Update the data set on user interaction (unvalidated)
    */
-  const handlePathChangeUnvalidated: ContextState['handlePathChange'] =
+  const handlePathChangeUnvalidated: ContextState['handlePathChangeUnvalidated'] =
     useCallback(
-      async (path, value) => {
+      async (path, value, options) => {
         if (!path) {
           return null
         }
 
-        updateDataValue(path, value)
+        updateDataValue(path, value, options)
 
         if (isAsync(onPathChange)) {
           await onPathChange?.(path, value)

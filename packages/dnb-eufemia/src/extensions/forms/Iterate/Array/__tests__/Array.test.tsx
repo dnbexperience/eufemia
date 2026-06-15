@@ -1,4 +1,4 @@
-import { act, StrictMode, useContext, useEffect } from 'react'
+import { act, Profiler, StrictMode, useContext, useEffect } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
@@ -157,6 +157,124 @@ describe('Iterate.Array', () => {
           }),
         ])
       )
+    })
+
+    it('should not rerender sibling item fields when a primitive item path changes', async () => {
+      const firstItemRender = vi.fn()
+      const secondItemRender = vi.fn()
+      let collectedContext = null
+
+      function RenderCounter() {
+        const { index } = useContext(IterateItemContext) ?? {}
+
+        if (index === 0) {
+          firstItemRender()
+        }
+        if (index === 1) {
+          secondItemRender()
+        }
+
+        return (
+          <Profiler
+            id={`item-${index}`}
+            onRender={index === 0 ? firstItemRender : secondItemRender}
+          >
+            <Field.String itemPath="/" />
+          </Profiler>
+        )
+      }
+
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/myList" defaultValue={['a', 'b']}>
+            <RenderCounter />
+          </Iterate.Array>
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).toHaveValue('a')
+      expect(inputs[1]).toHaveValue('b')
+
+      await waitFor(() => {
+        expect(collectedContext.data).toEqual({ myList: ['a', 'b'] })
+      })
+
+      firstItemRender.mockClear()
+      secondItemRender.mockClear()
+
+      await userEvent.type(inputs[0], '1')
+
+      expect(inputs[0]).toHaveValue('a1')
+      expect(inputs[1]).toHaveValue('b')
+      expect(firstItemRender).toHaveBeenCalled()
+      expect(secondItemRender).not.toHaveBeenCalled()
+    })
+
+    it('should not rerender sibling name item fields when a primitive item path changes', async () => {
+      const firstItemRender = vi.fn()
+      const secondItemRender = vi.fn()
+      let collectedContext = null
+
+      function RenderCounter() {
+        const { index } = useContext(IterateItemContext) ?? {}
+
+        if (index === 0) {
+          firstItemRender()
+        }
+        if (index === 1) {
+          secondItemRender()
+        }
+
+        return (
+          <Profiler
+            id={`item-${index}`}
+            onRender={index === 0 ? firstItemRender : secondItemRender}
+          >
+            <Field.Name.First itemPath="/" />
+          </Profiler>
+        )
+      }
+
+      render(
+        <Form.Handler>
+          <Iterate.Array path="/myList" defaultValue={['a', 'b']}>
+            <RenderCounter />
+          </Iterate.Array>
+          <DataContext.Consumer>
+            {(context) => {
+              collectedContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      const inputs = document.querySelectorAll('input')
+      expect(inputs).toHaveLength(2)
+      expect(inputs[0]).toHaveValue('a')
+      expect(inputs[1]).toHaveValue('b')
+
+      await waitFor(() => {
+        expect(collectedContext.data).toEqual({ myList: ['a', 'b'] })
+      })
+
+      firstItemRender.mockClear()
+      secondItemRender.mockClear()
+
+      await userEvent.type(inputs[0], 'n')
+
+      expect(inputs[0]).toHaveValue('an')
+      expect(inputs[1]).toHaveValue('b')
+      expect(firstItemRender).toHaveBeenCalled()
+      expect(secondItemRender).not.toHaveBeenCalled()
     })
 
     describe('placeholder', () => {
@@ -416,9 +534,11 @@ describe('Iterate.Array', () => {
     })
 
     it('should not rerender array items when a scoped item path changes', async () => {
-      const callback = vi.fn(() => {
-        return <Field.String itemPath="/name" />
-      })
+      const callback = vi.fn(
+        (_value: { name: string }, _index: number) => {
+          return <Field.String itemPath="/name" />
+        }
+      )
 
       render(
         <Form.Handler

@@ -23,6 +23,7 @@ export type IterateItemContextState = {
   containerRef?: RefObject<HTMLDivElement>
   elementRef?: RefObject<HTMLDivElement>
   modeOptions?: ModeOptions
+  restoreValueCount?: number
   switchContainerMode?: (
     mode: ContainerMode,
     options?: ModeOptions

@@ -141,7 +141,11 @@ export type ContextState = {
     | EventReturnWithStateObject
     | unknown
     | Promise<EventReturnWithStateObject | unknown>
-  handlePathChangeUnvalidated: (path: Path, value: any) => void
+  handlePathChangeUnvalidated: (
+    path: Path,
+    value: any,
+    options?: { preventUpdate?: boolean }
+  ) => void
   updateDataValue: (
     path: Path,
     value: any,

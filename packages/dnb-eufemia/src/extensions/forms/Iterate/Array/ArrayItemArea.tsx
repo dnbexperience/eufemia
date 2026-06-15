@@ -91,7 +91,6 @@ function ArrayItemArea(
         const { switchContainerMode } = localContextRef.current
         switchContainerMode?.(editMode, {
           omitFocusManagement: true,
-          preventUpdate: true,
         })
       }
     }
@@ -158,9 +157,17 @@ function ArrayItemArea(
       if (!openRef.current && isRemoving.current) {
         isRemoving.current = false
         localContextRef.current.fulfillRemove?.()
-      }
 
-      setFocus(state)
+        const schedule =
+          typeof requestAnimationFrame === 'function'
+            ? requestAnimationFrame
+            : (callback: () => void) => setTimeout(callback)
+        schedule(() => {
+          setFocus(state)
+        })
+      } else {
+        setFocus(state)
+      }
       onAnimationEnd?.(state)
     },
     [onAnimationEnd, setFocus]
@@ -168,10 +175,16 @@ function ArrayItemArea(
 
   const handleRemoveItem = useCallback(() => {
     try {
-      // Because "previousElementSibling" did not work reliably in the test DOM
-      nextFocusElementRef.current = Array.from(
-        localContextRef.current.elementRef.current.parentElement.childNodes
-      ).at(index - 1) as HTMLElement
+      const containerElement = localContextRef.current.containerRef.current
+      const elements = Array.from(
+        containerElement.querySelectorAll<HTMLElement>(
+          '.dnb-forms-iterate__element'
+        )
+      ).filter((element) => {
+        return element.closest('.dnb-forms-iterate') === containerElement
+      })
+
+      nextFocusElementRef.current = elements.at(index - 1)
     } catch (e) {
       // Gracefully handle missing DOM elements during removal animation
     }

@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import At from '../At'
 import Provider from '../../Provider'
 import Context from '../../Context'
+import type { ContextState } from '../../Context'
 import { Field, Form, Value } from '../../..'
 
 describe('At', () => {
@@ -149,6 +150,45 @@ describe('At', () => {
     expect(screen.getByText('Updated title')).toBeInTheDocument()
     expect(screen.queryByText('Object 1')).not.toBeInTheDocument()
     expect(screen.getByText('Object 2')).toBeInTheDocument()
+  })
+
+  it('should forward unvalidated path change options when iterating', () => {
+    const onUpdateDataValue = vi.fn()
+    let handlePathChangeUnvalidated: ContextState['handlePathChangeUnvalidated'] =
+      () => undefined
+
+    const CaptureFirstItem = () => {
+      const context = useContext(Context)
+
+      if (context.data === 'First') {
+        handlePathChangeUnvalidated = context.handlePathChangeUnvalidated
+      }
+
+      return null
+    }
+
+    render(
+      <Provider
+        data={{ list: ['First', 'Second'] }}
+        onUpdateDataValue={onUpdateDataValue}
+      >
+        <At path="/list" iterate>
+          <CaptureFirstItem />
+        </At>
+      </Provider>
+    )
+
+    act(() => {
+      handlePathChangeUnvalidated('/', 'Updated', {
+        preventUpdate: true,
+      })
+    })
+
+    expect(onUpdateDataValue).toHaveBeenLastCalledWith(
+      '/list/0',
+      'Updated',
+      { preventUpdate: true }
+    )
   })
 
   it('should return null if iterate prop is true and data is not an array', () => {
