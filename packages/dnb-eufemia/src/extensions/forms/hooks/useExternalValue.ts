@@ -5,7 +5,7 @@ import {
   useSyncExternalStore,
 } from 'react'
 import type { RefObject } from 'react'
-import pointer from '../utils/json-pointer'
+import pointer, { isPath } from '../utils/json-pointer'
 import type { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
 import IterateItemContext from '../Iterate/IterateItemContext'
@@ -123,8 +123,4 @@ export default function useExternalValue<Value>(
     transformers,
     value,
   ])
-}
-
-function isPath(path: Path | unknown): path is Path {
-  return typeof path === 'string' && path.startsWith('/')
 }

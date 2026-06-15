@@ -8,6 +8,7 @@ import CompositionField from '../Composition'
 import type { CountryCode } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
+import { isPath } from '../../utils/json-pointer'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -46,10 +47,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     ...compositionFieldProps
   } = props
 
-  const countryCodePath =
-    typeof countryCode === 'string' && countryCode.startsWith('/')
-      ? countryCode
-      : undefined
+  const countryCodePath = isPath(countryCode) ? countryCode : undefined
   const { value: countryCodePathValue, getSourceValue } =
     useDataValue(countryCodePath)
   const countryCodeValue = countryCodePath

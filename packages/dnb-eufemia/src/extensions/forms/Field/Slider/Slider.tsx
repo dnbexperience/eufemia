@@ -11,6 +11,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import type { ContextState } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
+import { isPath } from '../../utils/json-pointer'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -51,10 +52,7 @@ function SliderComponent(props: FieldSliderProps) {
   } = useSharedTranslation()
 
   const subscriptionPaths = useMemo(() => {
-    const paths = [props.step, props.min, props.max].filter(
-      (value): value is Path =>
-        typeof value === 'string' && value.startsWith('/')
-    )
+    const paths = [props.step, props.min, props.max].filter(isPath)
 
     if (Array.isArray(props.paths)) {
       paths.push(...props.paths)

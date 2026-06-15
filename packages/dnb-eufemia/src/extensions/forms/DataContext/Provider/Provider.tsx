@@ -8,7 +8,7 @@ import {
 } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
-import pointer from '../../utils/json-pointer'
+import pointer, { isPath } from '../../utils/json-pointer'
 import type { z, FormError } from '../../utils'
 import type { AjvInstance } from '../../utils/ajv'
 import {
@@ -1252,8 +1252,7 @@ export default function Provider<Data extends JsonObject>(
         if (
           path === '/' ||
           !hadValue ||
-          (typeof countryCode === 'string' &&
-            countryCode.startsWith('/') &&
+          (isPath(countryCode) &&
             (path === countryCode ||
               path.startsWith(`${countryCode}/`) ||
               countryCode.startsWith(`${path}/`)))
@@ -1881,11 +1880,8 @@ export default function Provider<Data extends JsonObject>(
   const getSourceValue = useCallback(
     <Return extends string>(value: PathStrict | unknown): Return => {
       const data = internalDataRef.current
-      if (
-        String(value).startsWith('/') &&
-        pointer.has(data, String(value))
-      ) {
-        return pointer.get(data, String(value)) as unknown as Return
+      if (isPath(value) && pointer.has(data, value)) {
+        return pointer.get(data, value) as unknown as Return
       }
       return value as Return
     },

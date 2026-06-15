@@ -5,7 +5,7 @@ import {
   useRef,
   useSyncExternalStore,
 } from 'react'
-import pointer from '../utils/json-pointer'
+import pointer, { isPath } from '../utils/json-pointer'
 import type { Path } from '../types'
 import type { ContextState } from '../DataContext/Context'
 import DataContext from '../DataContext/Context'
@@ -207,8 +207,4 @@ export default function useDataValue<Value>(
     getData,
     value,
   }
-}
-
-function isPath(path: Path | unknown): path is Path {
-  return typeof path === 'string' && path.startsWith('/')
 }

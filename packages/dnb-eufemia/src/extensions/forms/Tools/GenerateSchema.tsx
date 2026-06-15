@@ -1,7 +1,7 @@
 import { useCallback, useContext, useRef } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../utils/json-pointer'
-import pointer from '../utils/json-pointer'
+import pointer, { isPath } from '../utils/json-pointer'
 import type { FilterData } from '../DataContext/Context'
 import DataContext from '../DataContext/Context'
 import type { JSONSchema } from '../types'
@@ -48,7 +48,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
   const generate = useCallback(() => {
     const schema = Object.entries(fieldInternalsRef?.current || {}).reduce(
       (acc, [path, { props }]) => {
-        if (path.startsWith('/')) {
+        if (isPath(path)) {
           const objectKey = path.substring(1)
 
           const pathList = objectKey.split('/')
@@ -123,7 +123,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     const propsOfFields = Object.entries(
       fieldInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
-      if (path.startsWith('/')) {
+      if (isPath(path)) {
         const propertyValue = {}
 
         for (const prop in props) {
@@ -144,7 +144,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     const propsOfValues = Object.entries(
       valueInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
-      if (path.startsWith('/')) {
+      if (isPath(path)) {
         const propertyValue = {}
 
         for (const prop in props) {
