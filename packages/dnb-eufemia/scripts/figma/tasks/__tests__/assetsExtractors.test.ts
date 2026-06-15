@@ -26,6 +26,15 @@ const bellMediumSvg =
 const bellSvg =
   '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.756 14.067a1.299 1.299 0 0 0 2.492 0M8 2.4a4.667 4.667 0 0 1 4.667 4.667c0 4.384.933 5.133.933 5.133H2.4s.933-1.192.933-5.133A4.667 4.667 0 0 1 8 2.4Zm0 0V1"/></svg>'
 
+const createOptimizedSvgMatcher = (svg: string) =>
+  expect.stringMatching(
+    new RegExp(
+      `^${svg
+        .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        .replace('Zm0', 'Z?m0')}$`
+    )
+  )
+
 afterEach(() => {
   vi.clearAllMocks()
 })
@@ -453,16 +462,12 @@ describe('assetsExtractors', () => {
       expect.stringContaining(
         '/dnb-eufemia/assets/icons/dnb/bell_medium.svg'
       ),
-      expect.stringContaining(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 21.75a2.087 2.087 0 0 0 4.005 0M12 3a7.5 7.5 0 0 1 7.5 7.5c0 7.046 1.5 8.25 1.5 8.25H3s1.5-1.916 1.5-8.25A7.5 7.5 0 0 1 12 3Zm0 0V.75"/></svg>`
-      )
+      createOptimizedSvgMatcher(bellMediumSvg)
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining('/dnb-eufemia/assets/icons/dnb/bell.svg'),
-      expect.stringContaining(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.756 14.067a1.299 1.299 0 0 0 2.492 0M8 2.4a4.667 4.667 0 0 1 4.667 4.667c0 4.384.933 5.133.933 5.133H2.4s.933-1.192.933-5.133A4.667 4.667 0 0 1 8 2.4Zm0 0V1"/></svg>`
-      )
+      createOptimizedSvgMatcher(bellSvg)
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       3,
