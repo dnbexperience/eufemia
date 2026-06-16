@@ -194,8 +194,8 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   onlyMonth: {
-    doc: 'If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Defaults to `false`.',
-    type: 'boolean',
+    doc: "If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Use `'without-label'` to also hide the month label. Defaults to `false`.",
+    type: ['boolean', `'without-label'`],
     status: 'optional',
   },
   hideLastWeek: {
