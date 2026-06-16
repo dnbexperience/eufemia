@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react'
-import { Dropdown } from '../../../../components'
+import { Dropdown, ToggleButton } from '../../../../components'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
@@ -13,6 +13,10 @@ import type {
   DrawerListChangeEvent,
   DrawerListEvent,
 } from '../../../../fragments/DrawerList'
+import type {
+  ToggleButtonGroupChangeEvent,
+  ToggleButtonGroupProps,
+} from '../../../../components/toggle-button/ToggleButtonGroup'
 
 export type InstallmentDateValue = number | 'last'
 
@@ -26,7 +30,7 @@ export type FieldInstallmentDateProps = Omit<
   width?: FieldBlockWidth
 
   /**
-   * The size of the Dropdown component.
+   * The size of the component.
    */
   size?: DropdownAllProps['size']
 
@@ -39,6 +43,11 @@ export type FieldInstallmentDateProps = Omit<
    * If set to `true`, a "Last day of month" option is appended to the list. Defaults to `true`.
    */
   showLastDay?: boolean
+
+  /**
+   * The display variant. `'dropdown'` renders a dropdown menu, `'tiles'` renders a grid of toggle buttons. Defaults to `'dropdown'`.
+   */
+  variant?: 'dropdown' | 'tiles'
 }
 
 function InstallmentDate(props: FieldInstallmentDateProps) {
@@ -75,6 +84,7 @@ function InstallmentDate(props: FieldInstallmentDateProps) {
     size,
     days,
     showLastDay,
+    variant = 'dropdown',
   } = useFieldProps(preparedProps)
 
   const data = useMemo(() => {
@@ -101,29 +111,28 @@ function InstallmentDate(props: FieldInstallmentDateProps) {
     return String(value)
   }, [value])
 
-  const onChangeHandler = useCallback(
-    ({ data }: DrawerListChangeEvent) => {
-      if (data?.selectedKey == null) {
-        return
-      }
-      const key = String(data.selectedKey)
-      const val = key === 'last' ? 'last' : Number(key)
-      handleChange(val)
-    },
-    [handleChange]
-  )
-
   const toInstallmentValue = useCallback(
     (
-      key: string | number | undefined
+      key: string | number | undefined | null
     ): InstallmentDateValue | undefined => {
-      if (key == null) {
+      if (key == null || key === '') {
         return undefined
       }
       const str = String(key)
       return str === 'last' ? 'last' : Number(str)
     },
     []
+  )
+
+  const onChangeHandler = useCallback(
+    ({ data }: DrawerListChangeEvent) => {
+      const val = toInstallmentValue(data?.selectedKey)
+      if (val == null) {
+        return
+      }
+      handleChange(val)
+    },
+    [handleChange, toInstallmentValue]
   )
 
   const handleOpen = useCallback(
@@ -150,17 +159,63 @@ function InstallmentDate(props: FieldInstallmentDateProps) {
     [setHasFocus, toInstallmentValue]
   )
 
+  const onTilesChangeHandler = useCallback(
+    ({ value: selectedValue }: ToggleButtonGroupChangeEvent) => {
+      if (selectedValue == null || typeof selectedValue === 'object') {
+        return
+      }
+      const val = toInstallmentValue(selectedValue)
+      if (val == null) {
+        return
+      }
+      handleChange(val)
+    },
+    [handleChange, toInstallmentValue]
+  )
+
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
     className: clsx('dnb-forms-field-installment-date', className),
     label: labelProp ?? defaultLabel,
-    width: width === 'stretch' ? width : undefined,
-    contentWidth: width ?? 'small',
     ...pickSpacingProps(props),
   }
 
+  if (variant === 'tiles') {
+    return (
+      <FieldBlock
+        {...fieldBlockProps}
+        width={width === 'stretch' ? width : undefined}
+        asFieldset={data.length > 1}
+        fieldsetRole={data.length > 1 ? 'group' : undefined}
+      >
+        <ToggleButton.Group
+          layoutDirection="row"
+          value={String(value ?? '')}
+          disabled={disabled}
+          size={size as ToggleButtonGroupProps['size']}
+          onChange={onTilesChangeHandler}
+        >
+          {data.map((item) => (
+            <ToggleButton
+              key={`day-${item.selectedKey}`}
+              text={item.content}
+              value={item.selectedKey}
+              role="radio"
+              status={hasError ? 'error' : undefined}
+              {...htmlAttributes}
+            />
+          ))}
+        </ToggleButton.Group>
+      </FieldBlock>
+    )
+  }
+
   return (
-    <FieldBlock {...fieldBlockProps}>
+    <FieldBlock
+      {...fieldBlockProps}
+      width={width === 'stretch' ? width : undefined}
+      contentWidth={width ?? 'small'}
+    >
       <Dropdown
         id={id}
         data={data}

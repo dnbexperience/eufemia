@@ -85,3 +85,27 @@ export const WithHelp = () => {
     </ComponentBox>
   )
 }
+
+export const Tiles = () => {
+  return (
+    <ComponentBox>
+      <Field.InstallmentDate
+        variant="tiles"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const ConstrainedTilesWithLastDay = () => {
+  return (
+    <ComponentBox>
+      <Field.InstallmentDate
+        variant="tiles"
+        days={[1, 5, 10, 15, 20, 25]}
+        showLastDay
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}

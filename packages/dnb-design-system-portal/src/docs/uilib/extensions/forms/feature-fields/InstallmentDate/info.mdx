@@ -15,6 +15,8 @@ render(<Field.InstallmentDate />)
 
 By default it shows days 1–28 plus a "Last day of month" option. Days 29–31 are excluded because they do not exist in every month, and late-month dates can roll into the next month on weekends/holidays. The "Last day of month" option serves customers paid at month end. Use the `days` prop to override the available days, and `showLastDay={false}` to remove the last day option.
 
+Use `variant="tiles"` for a grid of toggle buttons instead of the default dropdown.
+
 The value type is `number | 'last'`.
 
 There is a corresponding [Value.InstallmentDate](/uilib/extensions/forms/Value/InstallmentDate) component.

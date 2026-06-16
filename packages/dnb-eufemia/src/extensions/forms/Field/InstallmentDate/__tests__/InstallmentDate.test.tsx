@@ -195,3 +195,137 @@ describe('Field.InstallmentDate', () => {
     expect(trigger).toHaveAttribute('aria-label', 'Pick a day')
   })
 })
+
+describe('Field.InstallmentDate variant="tiles"', () => {
+  it('should render toggle buttons', () => {
+    render(<Field.InstallmentDate variant="tiles" />)
+
+    const buttons = document.querySelectorAll('.dnb-toggle-button')
+    expect(buttons.length).toBeGreaterThan(0)
+  })
+
+  it('should render 29 toggle buttons by default (28 days + last day)', () => {
+    render(<Field.InstallmentDate variant="tiles" />)
+
+    const buttons = document.querySelectorAll('.dnb-toggle-button')
+    expect(buttons).toHaveLength(29)
+  })
+
+  it('should not render a dropdown', () => {
+    render(<Field.InstallmentDate variant="tiles" />)
+
+    const dropdown = document.querySelector('.dnb-dropdown')
+    expect(dropdown).not.toBeInTheDocument()
+  })
+
+  it('should render constrained days as tiles', () => {
+    render(
+      <Field.InstallmentDate
+        variant="tiles"
+        days={[1, 10, 20]}
+        showLastDay={false}
+      />
+    )
+
+    const buttons = document.querySelectorAll('.dnb-toggle-button')
+    expect(buttons).toHaveLength(3)
+    expect(buttons[0]).toHaveTextContent('1')
+    expect(buttons[1]).toHaveTextContent('10')
+    expect(buttons[2]).toHaveTextContent('20')
+  })
+
+  it('should include last day tile with label', () => {
+    render(
+      <Field.InstallmentDate variant="tiles" days={[1, 15]} showLastDay />
+    )
+
+    const buttons = document.querySelectorAll('.dnb-toggle-button')
+    expect(buttons).toHaveLength(3)
+    expect(buttons[2]).toHaveTextContent(nb.lastDayLabel)
+  })
+
+  it('should show selected tile', () => {
+    render(<Field.InstallmentDate variant="tiles" value={15} />)
+
+    const checked = document.querySelector('.dnb-toggle-button--checked')
+    expect(checked).toHaveTextContent('15')
+  })
+
+  it('should select a tile and update value', async () => {
+    render(<Field.InstallmentDate variant="tiles" />)
+
+    const buttons = document.querySelectorAll('.dnb-toggle-button button')
+    await userEvent.click(buttons[4])
+
+    const checked = document.querySelector('.dnb-toggle-button--checked')
+    expect(checked).toHaveTextContent('5')
+  })
+
+  it('should show error when required and submitted without selection', async () => {
+    render(
+      <Form.Handler>
+        <Field.InstallmentDate variant="tiles" required />
+      </Form.Handler>
+    )
+
+    const form = document.querySelector('form')
+    fireEvent.submit(form)
+
+    await waitFor(() => {
+      const error = document.querySelector('.dnb-form-status')
+      expect(error).toHaveTextContent(nb.errorRequired)
+    })
+  })
+
+  it('should render tiles with role="radio"', () => {
+    render(
+      <Field.InstallmentDate
+        variant="tiles"
+        days={[1, 5, 10]}
+        showLastDay={false}
+      />
+    )
+
+    const buttons = document.querySelectorAll('.dnb-toggle-button button')
+    expect(buttons).toHaveLength(3)
+    buttons.forEach((button) => {
+      expect(button).toHaveAttribute('role', 'radio')
+    })
+  })
+
+  it('should not set value to 0 when attempting to deselect a tile', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <Form.Handler defaultData={{ day: 5 }} onChange={onChange}>
+        <Field.InstallmentDate
+          variant="tiles"
+          path="/day"
+          days={[1, 5, 10]}
+          showLastDay={false}
+        />
+      </Form.Handler>
+    )
+
+    const checked = document.querySelector(
+      '.dnb-toggle-button--checked button'
+    ) as HTMLElement
+    expect(checked).toHaveTextContent('5')
+
+    // Click the already-selected tile — should NOT deselect to 0
+    await userEvent.click(checked)
+
+    // Value should remain 5, never become 0
+    if (onChange.mock.calls.length > 0) {
+      const lastCall =
+        onChange.mock.calls[onChange.mock.calls.length - 1][0]
+      expect(lastCall.day).not.toBe(0)
+    }
+
+    // The tile should still be checked
+    const stillChecked = document.querySelector(
+      '.dnb-toggle-button--checked'
+    )
+    expect(stillChecked).toHaveTextContent('5')
+  })
+})

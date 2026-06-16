@@ -7,7 +7,7 @@ export const InstallmentDateProperties: PropertiesTableProps = {
     status: 'optional',
   },
   size: {
-    doc: 'The size of the Dropdown component.',
+    doc: 'The size of the component.',
     type: 'string',
     status: 'optional',
   },
@@ -19,6 +19,11 @@ export const InstallmentDateProperties: PropertiesTableProps = {
   showLastDay: {
     doc: 'If set to `true`, a "Last day of month" option is appended to the list. Defaults to `true`.',
     type: 'boolean',
+    status: 'optional',
+  },
+  variant: {
+    doc: "The display variant. `'dropdown'` renders a dropdown menu, `'tiles'` renders a grid of toggle buttons. Defaults to `'dropdown'`.",
+    type: [`'dropdown'`, `'tiles'`],
     status: 'optional',
   },
 }
