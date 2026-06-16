@@ -4,7 +4,7 @@ import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 export const Default = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate
+      <Field.InstallmentDay
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -14,7 +14,7 @@ export const Default = () => {
 export const WithValue = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate value={15} />
+      <Field.InstallmentDay value={15} />
     </ComponentBox>
   )
 }
@@ -22,7 +22,7 @@ export const WithValue = () => {
 export const ConstrainedDays = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate
+      <Field.InstallmentDay
         days={[1, 5, 10, 15, 20, 25]}
         onChange={(value) => console.log('onChange', value)}
       />
@@ -33,7 +33,7 @@ export const ConstrainedDays = () => {
 export const WithoutLastDay = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate
+      <Field.InstallmentDay
         showLastDay={false}
         onChange={(value) => console.log('onChange', value)}
       />
@@ -44,7 +44,7 @@ export const WithoutLastDay = () => {
 export const ConstrainedWithLastDay = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate
+      <Field.InstallmentDay
         days={[1, 5, 10, 15, 20, 25]}
         showLastDay
         onChange={(value) => console.log('onChange', value)}
@@ -57,7 +57,7 @@ export const Required = () => {
   return (
     <ComponentBox>
       <Form.Handler onSubmit={(data) => console.log('onSubmit', data)}>
-        <Field.InstallmentDate path="/installmentDay" required />
+        <Field.InstallmentDay path="/installmentDay" required />
         <Form.SubmitButton top="small" />
       </Form.Handler>
     </ComponentBox>
@@ -67,7 +67,7 @@ export const Required = () => {
 export const Disabled = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate value={10} disabled />
+      <Field.InstallmentDay value={10} disabled />
     </ComponentBox>
   )
 }
@@ -75,7 +75,7 @@ export const Disabled = () => {
 export const WithHelp = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate
+      <Field.InstallmentDay
         help={{
           title: 'What is an installment day?',
           content:
@@ -89,7 +89,7 @@ export const WithHelp = () => {
 export const Tiles = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate
+      <Field.InstallmentDay
         variant="tiles"
         onChange={(value) => console.log('onChange', value)}
       />
@@ -100,7 +100,7 @@ export const Tiles = () => {
 export const ConstrainedTilesWithLastDay = () => {
   return (
     <ComponentBox>
-      <Field.InstallmentDate
+      <Field.InstallmentDay
         variant="tiles"
         days={[1, 5, 10, 15, 20, 25]}
         showLastDay

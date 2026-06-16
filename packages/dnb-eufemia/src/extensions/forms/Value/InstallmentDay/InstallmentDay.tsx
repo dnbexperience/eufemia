@@ -4,13 +4,13 @@ import { useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
-import type { InstallmentDateValue } from '../../Field/InstallmentDate'
+import type { InstallmentDayValue } from '../../Field/InstallmentDay'
 
-export type ValueInstallmentDateProps = ValueProps<InstallmentDateValue>
+export type ValueInstallmentDayProps = ValueProps<InstallmentDayValue>
 
-function InstallmentDate(props: ValueInstallmentDateProps) {
+function InstallmentDay(props: ValueInstallmentDayProps) {
   const { label: defaultLabel, lastDayLabel } =
-    useTranslation().InstallmentDate
+    useTranslation().InstallmentDay
 
   const { value, className, label, ...rest } = useValueProps(props)
 
@@ -23,7 +23,7 @@ function InstallmentDate(props: ValueInstallmentDateProps) {
 
   return (
     <ValueBlock
-      className={clsx('dnb-forms-value-installment-date', className)}
+      className={clsx('dnb-forms-value-installment-day', className)}
       label={label ?? defaultLabel}
       {...rest}
     >
@@ -32,8 +32,8 @@ function InstallmentDate(props: ValueInstallmentDateProps) {
   )
 }
 
-withComponentMarkers(InstallmentDate, {
+withComponentMarkers(InstallmentDay, {
   _supportsSpacingProps: true,
 })
 
-export default InstallmentDate
+export default InstallmentDay

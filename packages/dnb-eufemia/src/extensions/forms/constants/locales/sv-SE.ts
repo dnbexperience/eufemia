@@ -275,7 +275,7 @@ export default {
       errorRequired: 'Du måste ladda upp minst en fil.',
       errorInvalidFiles: 'Ta bort alla filer som innehåller fel.',
     },
-    InstallmentDate: {
+    InstallmentDay: {
       label: 'Dragdag',
       errorRequired: 'Du måste välja en dragdag.',
       lastDayLabel: 'Sista dagen i månaden',

@@ -18,10 +18,10 @@ import type {
   ToggleButtonGroupProps,
 } from '../../../../components/toggle-button/ToggleButtonGroup'
 
-export type InstallmentDateValue = number | 'last'
+export type InstallmentDayValue = number | 'last'
 
-export type FieldInstallmentDateProps = Omit<
-  FieldProps<InstallmentDateValue, undefined | InstallmentDateValue>,
+export type FieldInstallmentDayProps = Omit<
+  FieldProps<InstallmentDayValue, undefined | InstallmentDayValue>,
   'layout' | 'layoutOptions'
 > & {
   /**
@@ -50,12 +50,12 @@ export type FieldInstallmentDateProps = Omit<
   variant?: 'dropdown' | 'tiles'
 }
 
-function InstallmentDate(props: FieldInstallmentDateProps) {
+function InstallmentDay(props: FieldInstallmentDayProps) {
   const {
     label: defaultLabel,
     errorRequired,
     lastDayLabel,
-  } = useTranslation().InstallmentDate
+  } = useTranslation().InstallmentDay
 
   const errorMessages = useMemo(
     () => ({
@@ -65,7 +65,7 @@ function InstallmentDate(props: FieldInstallmentDateProps) {
     [errorRequired, props.errorMessages]
   )
 
-  const preparedProps: FieldInstallmentDateProps = {
+  const preparedProps: FieldInstallmentDayProps = {
     ...props,
     errorMessages,
   }
@@ -114,7 +114,7 @@ function InstallmentDate(props: FieldInstallmentDateProps) {
   const toInstallmentValue = useCallback(
     (
       key: string | number | undefined | null
-    ): InstallmentDateValue | undefined => {
+    ): InstallmentDayValue | undefined => {
       if (key == null || key === '') {
         return undefined
       }
@@ -175,7 +175,7 @@ function InstallmentDate(props: FieldInstallmentDateProps) {
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
-    className: clsx('dnb-forms-field-installment-date', className),
+    className: clsx('dnb-forms-field-installment-day', className),
     label: labelProp ?? defaultLabel,
     ...pickSpacingProps(props),
   }
@@ -232,8 +232,8 @@ function InstallmentDate(props: FieldInstallmentDateProps) {
   )
 }
 
-withComponentMarkers(InstallmentDate, {
+withComponentMarkers(InstallmentDay, {
   _supportsSpacingProps: true,
 })
 
-export default InstallmentDate
+export default InstallmentDay

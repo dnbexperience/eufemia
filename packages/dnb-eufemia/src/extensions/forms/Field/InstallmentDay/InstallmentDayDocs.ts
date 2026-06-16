@@ -1,6 +1,6 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
 
-export const InstallmentDateProperties: PropertiesTableProps = {
+export const InstallmentDayProperties: PropertiesTableProps = {
   width: {
     doc: 'The width of the component. Defaults to `small`.',
     type: 'string',

@@ -5,7 +5,7 @@ import { Value } from '@dnb/eufemia/src/extensions/forms'
 export const WithValue = () => {
   return (
     <ComponentBox>
-      <Value.InstallmentDate value={15} />
+      <Value.InstallmentDay value={15} />
     </ComponentBox>
   )
 }
@@ -13,7 +13,7 @@ export const WithValue = () => {
 export const Label = () => {
   return (
     <ComponentBox>
-      <Value.InstallmentDate label="Label text" value={20} />
+      <Value.InstallmentDay label="Label text" value={20} />
     </ComponentBox>
   )
 }
@@ -21,7 +21,7 @@ export const Label = () => {
 export const LastDay = () => {
   return (
     <ComponentBox>
-      <Value.InstallmentDate value="last" />
+      <Value.InstallmentDay value="last" />
     </ComponentBox>
   )
 }
@@ -29,7 +29,7 @@ export const LastDay = () => {
 export const Placeholder = () => {
   return (
     <ComponentBox>
-      <Value.InstallmentDate placeholder="Not selected" />
+      <Value.InstallmentDay placeholder="Not selected" />
     </ComponentBox>
   )
 }
@@ -38,7 +38,7 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        The installment day is <Value.InstallmentDate value={15} inline />{' '}
+        The installment day is <Value.InstallmentDay value={15} inline />{' '}
         every month.
       </P>
     </ComponentBox>
