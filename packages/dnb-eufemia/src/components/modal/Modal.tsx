@@ -65,7 +65,7 @@ const modalDefaultProps: Partial<ModalAllProps> = {
   omitTriggerButton: false,
 }
 
-function getContent(props) {
+function getContent(props: ModalAllProps) {
   if (typeof props.modalContent === 'string') {
     return props.modalContent
   } else if (typeof props.modalContent === 'function') {
