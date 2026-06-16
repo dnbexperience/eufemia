@@ -14,7 +14,7 @@ import {
 } from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
-type ContentWrapperState = {
+export type ContentWrapperState = {
   key: string | number | null
 }
 
@@ -169,7 +169,7 @@ import type { SectionVariants } from '../Section'
 export type TabsContentWrapperSelectedKey = string | number
 export type TabsContentWrapperChildren =
   | ReactNode
-  | ((...args: any[]) => ReactNode)
+  | ((state: ContentWrapperState) => ReactNode)
 
 export type TabsContentWrapperProps = {
   id: string

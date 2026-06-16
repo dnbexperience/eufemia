@@ -4,6 +4,7 @@ import { useSpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import ContentWrapper, {
   type TabsContentWrapperProps,
+  type ContentWrapperState,
 } from './TabsContentWrapper'
 
 export type TabsCustomContentTitle =
@@ -13,7 +14,7 @@ export type TabsCustomContentTitle =
 
 export type TabsCustomContentChildren =
   | ReactNode
-  | ((...args: any[]) => ReactNode)
+  | ((state: ContentWrapperState) => ReactNode)
 
 export type TabsCustomContentProps = {
   displayName?: string
