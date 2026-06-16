@@ -5151,6 +5151,30 @@ describe('DatePicker component', () => {
       calendar.querySelector('.dnb-date-picker__labels')
     ).not.toBeInTheDocument()
   })
+
+  it('should hide month label when onlyMonth is "without-label"', async () => {
+    render(<DatePicker onlyMonth="without-label" />)
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const header = document.querySelector(
+      '.dnb-date-picker__header--only-month-label'
+    )
+
+    expect(header).not.toBeInTheDocument()
+  })
+
+  it('should show month label when onlyMonth is true', async () => {
+    render(<DatePicker onlyMonth />)
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const header = document.querySelector(
+      '.dnb-date-picker__header--only-month-label'
+    )
+
+    expect(header).toBeInTheDocument()
+  })
 })
 
 // for the unit calc tests
