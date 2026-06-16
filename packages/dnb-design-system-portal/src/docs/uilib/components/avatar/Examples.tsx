@@ -292,6 +292,34 @@ export const GroupedAvatarsXLarge = () => (
   </ComponentBox>
 )
 
+export const GroupedAvatarsCountryFlag = () => (
+  <ComponentBox hideCode>
+    <Avatar.Group label="Markets" size="small">
+      <Avatar>
+        <CountryFlag iso="NO" size="medium" />
+      </Avatar>
+      <Avatar>
+        <CountryFlag iso="FI" size="medium" />
+      </Avatar>
+      <Avatar>
+        <CountryFlag iso="SE" size="medium" />
+      </Avatar>
+    </Avatar.Group>
+
+    <Avatar.Group label="Markets">
+      <Avatar>
+        <CountryFlag iso="NO" size="large" />
+      </Avatar>
+      <Avatar>
+        <CountryFlag iso="FI" size="large" />
+      </Avatar>
+      <Avatar>
+        <CountryFlag iso="SE" size="large" />
+      </Avatar>
+    </Avatar.Group>
+  </ComponentBox>
+)
+
 export const GroupedAvatarsImg = () => (
   <ComponentBox hideCode data-visual-test="avatar-grouped-image">
     <Avatar.Group
