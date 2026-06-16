@@ -64,7 +64,7 @@ function FlexItem(props: FlexItemAllProps) {
     return typeof span === 'number' || span === 'auto'
   }, [])
 
-  const spaceStyles = {} as CSSProperties
+  const spaceStyles: CSSProperties = {}
 
   if (span) {
     if (isValidSpan(span as FlexSpans)) {
