@@ -165,9 +165,9 @@ function StepIndicatorItem({
 
   const usedIsCurrent = currentItemNum === activeStep
 
-  const element = (<StepItemWrapper>{title}</StepItemWrapper>) as ReactNode
+  const element = <StepItemWrapper>{title}</StepItemWrapper>
 
-  const itemParams = {} as HTMLProps<HTMLLIElement>
+  const itemParams: Partial<HTMLProps<HTMLLIElement>> = {}
   const buttonParams = {
     status,
     statusState,
