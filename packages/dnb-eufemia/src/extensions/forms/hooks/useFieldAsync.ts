@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useRef } from 'react'
 import type { RefObject } from 'react'
 import type {
+  EventReturnWithStateObject,
   EventReturnWithStateObjectAndSuccess,
   EventStateObjectWithSuccess,
   Identifier,
@@ -54,8 +55,16 @@ export type UseFieldAsyncParams<Value> = {
   handlePathChangeDataContext: (
     identifier: Identifier
   ) =>
+    | EventReturnWithStateObject
     | EventReturnWithStateObjectAndSuccess
-    | Promise<EventReturnWithStateObjectAndSuccess>
+    | void
+    | null
+    | Promise<
+        | EventReturnWithStateObject
+        | EventReturnWithStateObjectAndSuccess
+        | void
+        | null
+      >
 }
 
 export default function useFieldAsync<Value>({

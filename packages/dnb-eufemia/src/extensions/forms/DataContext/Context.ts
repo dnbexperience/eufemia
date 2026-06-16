@@ -8,6 +8,7 @@ import type {
   Path,
   EventStateObject,
   EventReturnWithStateObject,
+  EventReturnWithStateObjectAndSuccess,
   FieldProps,
   ValueProps,
   OnChange,
@@ -135,8 +136,15 @@ export type ContextState = {
     value?: any
   ) =>
     | EventReturnWithStateObject
-    | unknown
-    | Promise<EventReturnWithStateObject | unknown>
+    | EventReturnWithStateObjectAndSuccess
+    | void
+    | null
+    | Promise<
+        | EventReturnWithStateObject
+        | EventReturnWithStateObjectAndSuccess
+        | void
+        | null
+      >
   handlePathChangeUnvalidated: (path: Path, value: any) => void
   updateDataValue: (
     path: Path,
