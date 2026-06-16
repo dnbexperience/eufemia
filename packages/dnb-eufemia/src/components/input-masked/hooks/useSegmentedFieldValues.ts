@@ -53,9 +53,9 @@ export function useSegmentedFieldValues<T extends string>({
 }
 
 function createDefaultValues(inputs: SegmentedFieldDefinition<string>[]) {
-  return inputs.reduce((values, input) => {
+  return inputs.reduce<SegmentedFieldValue<string>>((values, input) => {
     values[input.id] = ''
 
     return values
-  }, {} as SegmentedFieldValue<string>)
+  }, {})
 }
