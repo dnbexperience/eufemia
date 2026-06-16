@@ -1,4 +1,4 @@
-import type { JSX, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import useTheme from './useTheme'
 import type { ThemeNames, ThemeProps } from './Theme'
 
@@ -45,7 +45,7 @@ export default function VisibilityByTheme({
     }
   }
 
-  return children as JSX.Element
+  return children
 
   function match(theme: ThemeProps) {
     return (themeItem: ThemeItem) => {
