@@ -72,6 +72,10 @@
       font-weight: inherit;
       border-radius: 0;
       transition: none;
+
+      &.has-icon .dnb-icon {
+        margin-right: 0.5rem;
+      }
     }
 
     &.is-inside,

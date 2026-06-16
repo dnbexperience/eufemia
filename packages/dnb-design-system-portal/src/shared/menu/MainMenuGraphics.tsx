@@ -143,7 +143,7 @@ export const DesignSystemSvg = (props) => (
     />
   </svg>
 )
-export const IconsSvg = (props) => (
+export const IconsSvg = ({ strokeWidth = '1.5', ...props }) => (
   <svg
     width="48"
     height="48"
@@ -155,25 +155,25 @@ export const IconsSvg = (props) => (
   >
     <path
       d="M16.5 1.494H4.5C2.84315 1.494 1.5 2.83715 1.5 4.494V16.494C1.5 18.1509 2.84315 19.494 4.5 19.494H16.5C18.1569 19.494 19.5 18.1509 19.5 16.494V4.494C19.5 2.83715 18.1569 1.494 16.5 1.494Z"
-      strokeWidth="1.5"
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M16.5 28.494H4.5C2.84315 28.494 1.5 29.8372 1.5 31.494V43.494C1.5 45.1509 2.84315 46.494 4.5 46.494H16.5C18.1569 46.494 19.5 45.1509 19.5 43.494V31.494C19.5 29.8372 18.1569 28.494 16.5 28.494Z"
-      strokeWidth="1.5"
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M43.5 1.494H31.5C29.8431 1.494 28.5 2.83715 28.5 4.494V16.494C28.5 18.1509 29.8431 19.494 31.5 19.494H43.5C45.1569 19.494 46.5 18.1509 46.5 16.494V4.494C46.5 2.83715 45.1569 1.494 43.5 1.494Z"
-      strokeWidth="1.5"
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M43.5 28.494H31.5C29.8431 28.494 28.5 29.8372 28.5 31.494V43.494C28.5 45.1509 29.8431 46.494 31.5 46.494H43.5C45.1569 46.494 46.5 45.1509 46.5 43.494V31.494C46.5 29.8372 45.1569 28.494 43.5 28.494Z"
-      strokeWidth="1.5"
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
