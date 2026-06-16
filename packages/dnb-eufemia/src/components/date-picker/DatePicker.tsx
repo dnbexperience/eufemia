@@ -624,7 +624,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const showStatus = getStatusState(status)
 
-  const pickerParams = {} as HTMLProps<HTMLSpanElement>
+  const pickerParams: Partial<HTMLProps<HTMLSpanElement>> = {}
 
   if (showStatus || suffix) {
     pickerParams['aria-describedby'] = combineDescribedBy(
