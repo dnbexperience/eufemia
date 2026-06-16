@@ -123,9 +123,8 @@ function IsolationProvider<Data extends JsonObject>(
   const dataContextRef = useRef<ContextState | null>(null)
   const outerContext = useContext(DataContext)
   const { path: pathSection } = useContext(SectionContext) || {}
-  const { handlePathChange: handlePathChangeOuter, data: dataOuter } =
-    outerContext || {}
-  const { moveValueToPath } = useDataValue()
+  const { handlePathChange: handlePathChangeOuter } = outerContext || {}
+  const { moveValueToPath, value: dataOuter } = useDataValue<Data>('//')
 
   const onPathChangeHandler = useCallback(
     async (path: Path, value: unknown) => {

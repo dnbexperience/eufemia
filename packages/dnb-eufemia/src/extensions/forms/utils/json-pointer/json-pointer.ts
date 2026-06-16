@@ -164,6 +164,13 @@ export function has<T = JsonObject>(obj: T, pointer: PointerPath) {
 }
 
 /**
+ * Tests if a value is a forms path / json pointer.
+ */
+export function isPath(path: unknown): path is string {
+  return typeof path === 'string' && path.startsWith('/')
+}
+
+/**
  * Escapes a reference token
  */
 export function escape(str: string): string {

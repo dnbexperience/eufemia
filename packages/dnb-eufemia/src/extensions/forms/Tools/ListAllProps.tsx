@@ -1,7 +1,7 @@
 import { isValidElement, useCallback, useContext, useRef } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../utils/json-pointer'
-import pointer from '../utils/json-pointer'
+import pointer, { isPath } from '../utils/json-pointer'
 import type { FilterData } from '../DataContext/Context'
 import DataContext from '../DataContext/Context'
 
@@ -34,7 +34,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     const propsOfFields = Object.entries(
       fieldInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
-      if (path.startsWith('/')) {
+      if (isPath(path)) {
         const propertyValue = {}
 
         for (const prop in props) {
@@ -78,7 +78,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     const propsOfValues = Object.entries(
       valueInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
-      if (path.startsWith('/')) {
+      if (isPath(path)) {
         const propertyValue = {}
 
         for (const prop in props) {

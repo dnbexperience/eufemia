@@ -47,7 +47,9 @@ function PushButton(props: IteratePushButtonProps) {
   const { absolutePath } = useItemPath(itemPath)
   const { path: relativePath } = usePath({ path, itemPath })
 
-  const arrayValue = useDataValue().getValueByPath(path || absolutePath)
+  const { value: arrayValue } = useDataValue<Array<unknown>>(
+    path || absolutePath
+  )
 
   const { hasReachedLimit, setShowStatus } = useArrayLimit(path)
 

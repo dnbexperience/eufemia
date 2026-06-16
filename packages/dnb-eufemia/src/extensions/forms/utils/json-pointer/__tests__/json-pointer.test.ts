@@ -4,6 +4,7 @@ import pointer, {
   dict,
   get,
   has,
+  isPath,
   parse,
   remove,
   set,
@@ -65,6 +66,19 @@ describe('json-pointer', () => {
 
   resetExamples()
   beforeEach(resetExamples)
+
+  describe('isPath', () => {
+    it('should return true for paths starting with a slash', () => {
+      expect(isPath('/')).toBe(true)
+      expect(isPath('/foo')).toBe(true)
+    })
+
+    it('should return false for non-path values', () => {
+      expect(isPath('foo')).toBe(false)
+      expect(isPath('')).toBe(false)
+      expect(isPath(undefined)).toBe(false)
+    })
+  })
 
   describe('get', () => {
     it('should work for root element', () => {

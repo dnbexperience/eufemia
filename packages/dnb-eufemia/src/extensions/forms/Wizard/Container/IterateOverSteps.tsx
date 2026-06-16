@@ -1,10 +1,33 @@
 import { Children, createElement, isValidElement, useContext } from 'react'
 import type { ComponentType, ReactElement, ReactNode } from 'react'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import WizardContext from '../Context/WizardContext'
 import WizardStepContext from '../Step/StepContext'
 import type { WizardStepProps as StepProps } from '../Step/Step'
 import Step from '../Step/Step'
 import { useCollectStepsData } from './useCollectStepsData'
+
+export function getWizardStepElement(
+  child: unknown
+): ReactElement<StepProps> | undefined {
+  if (isValidElement<StepProps>(child)) {
+    if (child.type === Step) {
+      return child
+    }
+
+    if (typeof child.type === 'function') {
+      const result = (child.type as (props: unknown) => ReactElement)(
+        child.props
+      )
+
+      if (result?.type === Step) {
+        return result as ReactElement<StepProps>
+      }
+    }
+  }
+
+  return undefined
+}
 
 export function IterateOverSteps({
   children,
@@ -17,6 +40,7 @@ export function IterateOverSteps({
     activeIndexRef,
     totalStepsRef,
     stepIndexRef,
+    updateTitlesRef,
     prerenderFieldProps,
     prerenderFieldPropsRef,
     hasErrorInOtherStepRef,
@@ -33,19 +57,13 @@ export function IterateOverSteps({
 
   const childrenArray = Children.map(children, (child) => {
     if (isValidElement<any>(child)) {
-      if (child?.type !== Step && typeof child.type === 'function') {
-        const result = (child.type as (props: unknown) => ReactElement)(
-          child.props
-        ) as ReactElement
+      const stepElement = getWizardStepElement(child)
 
-        if (result?.type === Step) {
-          child = result
-        }
-      }
+      if (stepElement) {
+        child = stepElement
 
-      if (child?.type === Step) {
         const { title, inactive, keepInDOM, include, id, includeWhen } =
-          (child as ReactElement<any>).props || {}
+          stepElement.props || {}
 
         if (include === false) {
           return null
@@ -109,6 +127,11 @@ export function IterateOverSteps({
   } else if (totalStepsRef.current < activeIndexRef.current + 1) {
     activeIndexRef.current = totalStepsRef.current - 1
   }
+
+  const totalSteps = totalStepsRef.current
+  useLayoutEffect(() => {
+    updateTitlesRef.current?.()
+  }, [totalSteps, updateTitlesRef])
 
   if (mapOverChildrenRef.current) {
     return childrenArray.map((child, index) => {

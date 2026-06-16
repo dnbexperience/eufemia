@@ -1,4 +1,5 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { Value, Form, Field } from '../../..'
 
 describe('Value.MultiSelection', () => {
@@ -161,6 +162,49 @@ describe('Value.MultiSelection', () => {
         '.dnb-forms-value-multi-selection .dnb-forms-value-block__content'
       )
     ).toHaveTextContent('Foo title and Bar title')
+  })
+
+  it('updates titles when dataPath data changes', async () => {
+    function ChangeOptions() {
+      const { update } = Form.useData()
+
+      return (
+        <button
+          type="button"
+          onClick={() => {
+            update('/myItems', [
+              { value: 'foo', title: 'Updated foo' },
+              { value: 'bar', title: 'Updated bar' },
+            ])
+          }}
+        >
+          Change options
+        </button>
+      )
+    }
+
+    render(
+      <Form.Handler
+        locale="en-GB"
+        data={{
+          myItems: data,
+          myPath: ['foo', 'bar'],
+        }}
+      >
+        <Value.MultiSelection path="/myPath" dataPath="/myItems" />
+        <ChangeOptions />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector(
+      '.dnb-forms-value-multi-selection .dnb-forms-value-block__content'
+    )
+
+    expect(element).toHaveTextContent('Foo title and Bar title')
+
+    await userEvent.click(screen.getByText('Change options'))
+
+    expect(element).toHaveTextContent('Updated foo and Updated bar')
   })
 
   it('resolves values to titles from Field.MultiSelection via field internals', () => {

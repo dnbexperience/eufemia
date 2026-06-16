@@ -8,6 +8,7 @@ import CompositionField from '../Composition'
 import type { CountryCode } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
+import { isPath } from '../../utils/json-pointer'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -34,7 +35,6 @@ export type FieldPostalCodeAndCityProps = Pick<
 
 function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
   const translations = useTranslation()
-  const { getSourceValue } = useDataValue()
   const countryCodeFromProvider = useContext(DataContext)?.countryCode
 
   const {
@@ -47,7 +47,12 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     ...compositionFieldProps
   } = props
 
-  const countryCodeValue = getSourceValue(countryCode)
+  const countryCodePath = isPath(countryCode) ? countryCode : undefined
+  const { value: countryCodePathValue, getSourceValue } =
+    useDataValue(countryCodePath)
+  const countryCodeValue = countryCodePath
+    ? countryCodePathValue
+    : getSourceValue(countryCode)
 
   const handleCityDefaults = useCallback(
     (city: StringFieldProps) => {

@@ -1,4 +1,10 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
@@ -86,6 +92,31 @@ export default function useData<Data = JsonObject>(
 
   // If no id is provided, use the context data
   const dataContext = useContext(DataContext)
+  const subscribeContextData = useCallback(
+    (callback: () => void) => {
+      if (!id && dataContext?.subscribeDataValue) {
+        return dataContext.subscribeDataValue('/', callback)
+      }
+
+      return () => undefined
+    },
+    [dataContext, id]
+  )
+
+  const getContextDataSnapshot = useCallback(() => {
+    if (!id && dataContext?.getDataValue) {
+      return dataContext.getDataValue('/') as Data
+    }
+
+    return undefined
+  }, [dataContext, id])
+
+  const contextData = useSyncExternalStore(
+    subscribeContextData,
+    getContextDataSnapshot,
+    getContextDataSnapshot
+  )
+
   if (!id) {
     if (!dataContext.hasContext) {
       throw new Error(
@@ -93,7 +124,9 @@ export default function useData<Data = JsonObject>(
       )
     }
 
-    sharedDataRef.current.data = dataContext.data
+    sharedDataRef.current.data = (
+      dataContext.getDataValue ? contextData : dataContext.data
+    ) as Data
     if (sharedAttachmentsRef.current?.data) {
       sharedAttachmentsRef.current.data.filterDataHandler =
         dataContext.filterDataHandler
@@ -109,13 +142,15 @@ export default function useData<Data = JsonObject>(
     // the stale internalDataRef.current, because Provider may not have
     // re-rendered yet to reflect a previous update().
     const liveStoreData = id ? sharedDataRef.current.get() : null
+    const liveContextData = !id ? dataContext?.getDataValue?.('/') : null
     return structuredClone(
       liveStoreData ??
+        liveContextData ??
         dataContext?.data ??
         sharedAttachmentsRef.current?.data?.internalDataRef?.current ??
         {}
     ) as Data & JsonObject
-  }, [dataContext?.data, id])
+  }, [dataContext, id])
 
   const set = useCallback(
     (newData: Data) => {

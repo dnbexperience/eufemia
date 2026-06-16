@@ -1,4 +1,5 @@
 import type { ReceiveAdditionalEventArgs } from '../types'
+import { isPath } from '../utils/json-pointer'
 import { COUNTRY as defaultCountry } from '../../../shared/defaults'
 
 export type UrlSecondParameter = {
@@ -193,7 +194,7 @@ export function handleCountryPath({
   })
 
   if (
-    String(countryCodeValue).startsWith('/') &&
+    isPath(countryCodeValue) &&
     additionalArgs[handler.name] !== handler
   ) {
     additionalArgs[handler.name] = handler

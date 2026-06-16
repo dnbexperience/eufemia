@@ -39,7 +39,9 @@ function MultiSelection(props: ValueMultiSelectionProps) {
     listType,
     ...rest
   } = useValueProps(props)
-  const { getValueByPath } = useDataValue()
+  const { value: dataPathValue } = useDataValue<
+    Array<{ value: number | string; title: ReactNode }>
+  >(dataPath, undefined, { pathType: 'absolute' })
 
   const list = useMemo(() => {
     let valueToUse = value
@@ -60,7 +62,7 @@ function MultiSelection(props: ValueMultiSelectionProps) {
 
       // Fall back to dataPath from context
       if (!items && dataPath) {
-        items = getValueByPath(dataPath)
+        items = dataPathValue
       }
 
       // Fall back to direct data prop
@@ -99,7 +101,7 @@ function MultiSelection(props: ValueMultiSelectionProps) {
     variant,
     listType,
     fieldInternalsRef,
-    getValueByPath,
+    dataPathValue,
   ])
 
   return (

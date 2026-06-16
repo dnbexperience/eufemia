@@ -5,6 +5,7 @@ import { getCurrencySymbol } from '../../../../components/number-format/NumberUt
 import { CURRENCY } from '../../../../shared/defaults'
 import type { CurrencyISO } from '../../constants/currencies'
 import useDataValue from '../../hooks/useDataValue'
+import { isPath } from '../../utils/json-pointer'
 import type { FieldNumberProps as NumberFieldProps } from '../Number'
 import NumberField from '../Number'
 import type { PathStrict } from '../../types'
@@ -20,9 +21,13 @@ export type FieldCurrencyProps = NumberFieldProps & {
 
 function Currency(props: FieldCurrencyProps) {
   const sharedContext = useContext(SharedContext)
-  const { getSourceValue } = useDataValue()
+  const currencyPath = isPath(props.currency) ? props.currency : undefined
+  const { value: currencyPathValue, getSourceValue } =
+    useDataValue(currencyPath)
 
-  const currencyValue = getSourceValue(props.currency)
+  const currencyValue = currencyPath
+    ? currencyPathValue
+    : getSourceValue(props.currency)
 
   const preparedProps = {
     ...props,

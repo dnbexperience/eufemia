@@ -177,11 +177,10 @@ function Selection(props: FieldSelectionProps) {
     dropdownProps,
   } = useFieldProps(props)
 
-  const { getValueByPath } = useDataValue()
-  let dataList = data
-  if (dataPath) {
-    dataList = getValueByPath(dataPath)
-  }
+  const { value: dataPathValue } = useDataValue(dataPath, undefined, {
+    pathType: 'absolute',
+  })
+  const dataList = dataPath ? dataPathValue : data
   const hasRenderPropChildren = typeof children === 'function'
   const renderedChildren = useMemo(() => {
     return resolveChildren(children, value, dataList)
