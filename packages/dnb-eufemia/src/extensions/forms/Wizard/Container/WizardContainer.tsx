@@ -191,7 +191,10 @@ function WizardContainer(props: WizardContainerProps) {
    * If an index is given, it will check if the step, with the given index, has an invalid state.
    */
   const syncStepsState = useCallback(
-    (index = undefined, forStates = ['unknown', 'error']) => {
+    (
+      index: StepIndex | undefined = undefined,
+      forStates: Array<InternalStepStatus> = ['unknown', 'error']
+    ) => {
       const checkUnknown = forStates.includes('unknown')
       const checkError = forStates.includes('error')
 
