@@ -2,6 +2,7 @@ import { useCallback, useContext, useState } from 'react'
 import type { RefObject } from 'react'
 import { getClosestScrollViewElement } from '../../../shared/component-helper'
 import { useHeightAnimation } from '../../height-animation/useHeightAnimation'
+import type { HeightAnimationOnEnd } from '../../height-animation/useHeightAnimation'
 import { TableAccordionContext } from './TableAccordionContext'
 import type { TableAccordionContentRowProps } from './TableAccordionContent'
 
@@ -38,7 +39,7 @@ export function useTableAnimationHandler({
     [trRef]
   )
 
-  const onOpen = useCallback((state) => {
+  const onOpen = useCallback((state: boolean) => {
     setAriaLive(state ? true : null)
   }, [])
 
@@ -47,7 +48,7 @@ export function useTableAnimationHandler({
   }, [scrollViewHandler])
 
   const onAnimationEnd = useCallback(
-    (state) => {
+    (state: HeightAnimationOnEnd) => {
       const event = { target: trRef.current }
       switch (state) {
         case 'opened':
