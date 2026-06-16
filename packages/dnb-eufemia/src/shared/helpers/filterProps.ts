@@ -7,7 +7,7 @@
  * @param allowed object|array|function with keys that should be included
  * @returns filtered properties
  */
-export function filterProps<Props = FilterProps>(
+export function filterProps<Props extends FilterProps = FilterProps>(
   props: Props,
   remove: FilterPropsRemove = null,
   allowed: FilterPropsAllowed = null
