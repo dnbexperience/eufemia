@@ -87,10 +87,25 @@ type Category = CategoryDefinition & {
 
 const categoryIds = new Set<string>(categoryOrder.map(({ id }) => id))
 
-const excludedSlugs = new Set(['uilib/components/overview'])
+const excludedSlugs = new Set([
+  'uilib/components/fragments',
+  'uilib/components/overview',
+])
 
 function isCategoryId(category: CategoryValue): category is CategoryId {
   return typeof category === 'string' && categoryIds.has(category)
+}
+
+function getCategoryId(category: CategoryValue): CategoryId | undefined {
+  if (category === false) {
+    return undefined
+  }
+
+  if (isCategoryId(category)) {
+    return category
+  }
+
+  return 'other'
 }
 
 export default function ListComponentsOverview() {
@@ -100,7 +115,6 @@ export default function ListComponentsOverview() {
         filter: {
           frontmatter: {
             title: { ne: null }
-            category: { ne: null }
             draft: { ne: true }
             hideInMenu: { ne: true }
           }
@@ -132,9 +146,9 @@ export default function ListComponentsOverview() {
   const items = data.components.edges.reduce<Entry[]>(
     (items, { node }) => {
       const slug = node.fields.slug
-      const category = node.frontmatter.category
+      const category = getCategoryId(node.frontmatter.category)
 
-      if (excludedSlugs.has(slug) || !isCategoryId(category)) {
+      if (excludedSlugs.has(slug) || !category) {
         return items
       }
 
