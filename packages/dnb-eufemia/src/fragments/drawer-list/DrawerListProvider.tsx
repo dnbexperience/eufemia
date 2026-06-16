@@ -828,7 +828,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   )
 
   // Stable event handlers for addEventListener
-  const setMetaKey = useCallback((e) => {
+  const setMetaKey = useCallback((e: KeyboardEvent) => {
     metaRef.current = {
       cmd: e.metaKey,
       ctrl: e.ctrlKey,
