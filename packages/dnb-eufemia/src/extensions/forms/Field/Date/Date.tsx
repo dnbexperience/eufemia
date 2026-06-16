@@ -576,7 +576,7 @@ function validateRangeOrder({
   isRange: DateProps['range']
   lastEditedDate: 'start' | 'end'
   locale: ProviderProps['locale']
-}) {
+}): Array<FormError> {
   if (!isRange || !value) {
     return []
   }
