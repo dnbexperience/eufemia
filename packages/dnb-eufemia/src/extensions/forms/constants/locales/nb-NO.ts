@@ -274,5 +274,10 @@ export default {
       errorRequired: 'Du må laste opp minst en fil.',
       errorInvalidFiles: 'Fjern alle filer som har feil.',
     },
+    InstallmentDate: {
+      label: 'Avdragsdag',
+      errorRequired: 'Du må velge en avdragsdag.',
+      lastDayLabel: 'Siste dag i måneden',
+    },
   },
 }
