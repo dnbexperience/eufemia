@@ -514,9 +514,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validatedValueRef,
     changeEventResultRef,
   } = useFieldAsync<Value>({
-    // @ts-expect-error - strictFunctionTypes
     onChange,
-    // @ts-expect-error - strictFunctionTypes
     onChangeContext,
     valueRef,
     forceUpdate,

@@ -26,8 +26,9 @@ type AsyncProcessesBuffer = {
 }
 
 export type UseFieldAsyncParams<Value> = {
-  onChange: (...args: unknown[]) => unknown
-  onChangeContext: (...args: unknown[]) => unknown
+  // Only used for async detection (isAsync) and truthiness checks, never called directly
+  onChange: unknown
+  onChangeContext: unknown
   valueRef: RefObject<Value>
   forceUpdate: () => void
 
