@@ -1,5 +1,4 @@
 import { useStaticQuery, graphql } from 'portal-query'
-import { Fragment } from 'react'
 import { Card, Li, P, Span, Ul } from '@dnb/eufemia/src'
 import ReactMarkdown from 'react-markdown'
 import Anchor from '../tags/Anchor'
@@ -8,13 +7,53 @@ import { basicComponents } from '../../shared/tags'
 import { makeSlug } from '../../uilib/utils/slug'
 import { cardItemStyle } from '../menu/MainMenu.module.scss'
 
+const categoryOrder = [
+  {
+    id: 'actions',
+    title: 'Actions',
+    description:
+      'For things people click to do something, open choices, follow a link, or get help.',
+  },
+  {
+    id: 'input',
+    title: 'Input',
+    description:
+      'For entering information, choosing options, uploading files, or changing values.',
+  },
+  {
+    id: 'navigation',
+    title: 'Navigation',
+    description:
+      'For helping people move between pages, jump to content, or continue through steps.',
+  },
+  {
+    id: 'feedback',
+    title: 'Feedback',
+    description:
+      'For messages and panels that tell people what happened, what is happening, or what needs attention.',
+  },
+  {
+    id: 'content',
+    title: 'Content',
+    description:
+      'For showing information, such as text, numbers, tables, icons, lists, and cards.',
+  },
+  {
+    id: 'other',
+    title: 'Other',
+    description:
+      'For special page behavior that does not fit the groups above.',
+  },
+] as const
+
+type CategoryId = (typeof categoryOrder)[number]['id']
 type CategoryValue = string | false | null | undefined
 
 type Entry = {
   slug: string
   title: string
   description?: string | undefined
-  category: string
+  category: CategoryId
 }
 
 type QueryEdge = {
@@ -36,48 +75,23 @@ type QueryData = {
   }
 }
 
-type Category = {
+type CategoryDefinition = {
+  id: CategoryId
   title: string
   description: string
+}
+
+type Category = CategoryDefinition & {
   entries: Entry[]
 }
 
-type CategoryDefinition = Omit<Category, 'entries'>
-
-const categoryOrder: CategoryDefinition[] = [
-  {
-    title: 'Action',
-    description:
-      'For things people click to do something, open choices, follow a link, or get help.',
-  },
-  {
-    title: 'Input',
-    description:
-      'For entering information, choosing options, uploading files, or changing values.',
-  },
-  {
-    title: 'Navigation',
-    description:
-      'For helping people move between pages, jump to content, or continue through steps.',
-  },
-  {
-    title: 'Feedback',
-    description:
-      'For messages and panels that tell people what happened, what is happening, or what needs attention.',
-  },
-  {
-    title: 'Content',
-    description:
-      'For showing information, such as text, numbers, tables, icons, lists, and cards.',
-  },
-  {
-    title: 'Other',
-    description:
-      'For special page behavior that does not fit the groups above.',
-  },
-]
+const categoryIds = new Set<string>(categoryOrder.map(({ id }) => id))
 
 const excludedSlugs = new Set(['uilib/components/overview'])
+
+function isCategoryId(category: CategoryValue): category is CategoryId {
+  return typeof category === 'string' && categoryIds.has(category)
+}
 
 export default function ListComponentsOverview() {
   const data = useStaticQuery(graphql`
@@ -120,11 +134,7 @@ export default function ListComponentsOverview() {
       const slug = node.fields.slug
       const category = node.frontmatter.category
 
-      if (
-        excludedSlugs.has(slug) ||
-        typeof category !== 'string' ||
-        category.length === 0
-      ) {
+      if (excludedSlugs.has(slug) || !isCategoryId(category)) {
         return items
       }
 
@@ -140,18 +150,19 @@ export default function ListComponentsOverview() {
     []
   )
 
-  const grouped: Record<string, Entry[]> = {}
+  const grouped: Partial<Record<CategoryId, Entry[]>> = {}
 
   items.forEach((entry) => {
     grouped[entry.category] = grouped[entry.category] || []
     grouped[entry.category].push(entry)
   })
 
-  const categories = categoryOrder
-    .map(({ title, description }) => ({
+  const categories: Category[] = categoryOrder
+    .map(({ id, title, description }) => ({
+      id,
       title,
       description,
-      entries: (grouped[title] || []).sort((a, b) =>
+      entries: (grouped[id] || []).sort((a, b) =>
         a.title.localeCompare(b.title)
       ),
     }))
@@ -161,13 +172,13 @@ export default function ListComponentsOverview() {
     <>
       <CategoriesTableOfContents categories={categories} />
 
-      {categories.map(({ title, entries }: Category) => (
-        <section key={title}>
-          <AutoLinkHeader level={2} size="large" useSlug={title}>
+      {categories.map(({ id, title, entries }: Category) => (
+        <section key={id}>
+          <AutoLinkHeader level={2} size="large" useSlug={id}>
             {title}
           </AutoLinkHeader>
 
-          {title === 'Input' && <FormsAndInputsIntro />}
+          {id === 'input' && <FormsAndInputsIntro />}
 
           <ComponentsOverviewList entries={entries} />
         </section>
@@ -184,31 +195,16 @@ function CategoriesTableOfContents({
   return (
     <nav aria-label="Component categories">
       <Card.List bottom="large">
-        {categories.map(({ title, description, entries }) => (
+        {categories.map(({ id, title, description }) => (
           <Card.ListItem
-            key={title}
+            key={id}
             center="when-small"
             className={cardItemStyle}
           >
-            <Card.Action
-              href={`#${makeSlug(title, title)}`}
-              stack
-              dropShadow
-            >
+            <Card.Action href={`#${makeSlug(title, id)}`} stack dropShadow>
               <Span size="large">{title}</Span>
 
-              <P>
-                {description}
-                <br />
-                <Span size="x-small" style={{ opacity: 0.7 }}>
-                  {entries.map(({ slug, title }, index) => (
-                    <Fragment key={slug}>
-                      {title}
-                      {index < entries.length - 1 ? ', ' : '.'}
-                    </Fragment>
-                  ))}
-                </Span>
-              </P>
+              <P>{description}</P>
             </Card.Action>
           </Card.ListItem>
         ))}
