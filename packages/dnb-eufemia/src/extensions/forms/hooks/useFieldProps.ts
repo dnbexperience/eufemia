@@ -412,7 +412,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   ])
 
   const getFieldByPath = useCallback(
-    (path) => {
+    (path: string) => {
       return (
         fieldInternalsRef.current?.[path] || {
           props: undefined,
