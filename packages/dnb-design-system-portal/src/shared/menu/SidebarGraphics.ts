@@ -29,6 +29,7 @@ import logos from './graphics/logos'
 import secondary from './graphics/secondary'
 import primary from './graphics/primary'
 import elements from './graphics/elements'
+import OverviewIcon from './graphics/OverviewIcon'
 
 const SidebarGraphics = {
   about_the_lib,
@@ -57,6 +58,7 @@ const SidebarGraphics = {
   secondary,
   primary,
   elements,
+  OverviewIcon,
 }
 
 export default SidebarGraphics
