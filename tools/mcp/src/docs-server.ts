@@ -708,7 +708,7 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
     async ({ query, limit, prefix }) => {
       const hits = await context.searchInMarkdown(query, limit, prefix, {
         concurrency: 12,
-        timeoutMs: 2000,
+        timeoutMs: 5000,
       })
       return makeTextResult(JSON.stringify(hits, null, 2))
     }
