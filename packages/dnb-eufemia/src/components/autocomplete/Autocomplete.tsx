@@ -1220,6 +1220,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           searchWords.length > 1 &&
           allWordsAreNumeric
         if (
+          !skipFilterRef.current &&
+          !skipFilter &&
           hasMultipleNumericTerms &&
           listOfFoundWords.length !== searchWords.length
         ) {
