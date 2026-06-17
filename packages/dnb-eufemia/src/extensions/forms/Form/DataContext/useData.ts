@@ -7,7 +7,10 @@ import {
 } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
-import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
+import type {
+  SharedStateId,
+  SharedStateReturn,
+} from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   createSharedState,
@@ -16,10 +19,12 @@ import {
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
 import type {
+  ContextState,
   FilterData,
   VisibleDataHandler,
 } from '../../DataContext/Context'
 import DataContext from '../../DataContext/Context'
+import type { DataContextRef } from '../../DataContext/DataContextRefContext'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
@@ -51,7 +56,7 @@ export type UseDataReturnFilterData<Data> = (
 
 export type UseDataReturnVisibleData<Data> = VisibleDataHandler<Data>
 
-type UseDataReturn<Data> = {
+export type UseDataReturn<Data> = {
   data: Data
   set: (newData: Data) => void
   update: UseDataReturnUpdate<Data>
@@ -59,6 +64,25 @@ type UseDataReturn<Data> = {
   getValue: UseDataReturnGetValue<Data>
   filterData: UseDataReturnFilterData<Data>
   reduceToVisibleFields: UseDataReturnVisibleData<Data>
+}
+
+export type UseDataSharedData<Data> = SharedStateReturn<Data> & {
+  hadInitialData?: boolean
+}
+
+type UseDataReturnOptions<Data> = {
+  id: SharedStateId
+  initialData: Data
+  sharedDataRef: { current: UseDataSharedData<Data> | null }
+  sharedAttachmentsRef: {
+    current: ReturnType<
+      typeof createSharedState<SharedAttachments<Data>>
+    > | null
+  }
+  dataContext: ContextState
+  dataContextRef?: DataContextRef
+  contextData?: Data
+  errorMessage: string
 }
 
 /**
@@ -73,9 +97,7 @@ export default function useData<Data = JsonObject>(
   id: SharedStateId = undefined,
   initialData: Data = undefined
 ): UseDataReturn<Data> {
-  const sharedDataRef = useRef<ReturnType<
-    typeof useSharedState<Data>
-  > | null>(null)
+  const sharedDataRef = useRef<UseDataSharedData<Data> | null>(null)
   const sharedAttachmentsRef = useRef<ReturnType<
     typeof createSharedState<SharedAttachments<Data>>
   > | null>(null)
@@ -117,32 +139,58 @@ export default function useData<Data = JsonObject>(
     getContextDataSnapshot
   )
 
-  if (!id) {
-    if (!dataContext.hasContext) {
-      throw new Error(
-        'useData needs to run inside DataContext (Form.Handler) or have a valid id'
-      )
-    }
+  return useDataReturn({
+    id,
+    initialData,
+    sharedDataRef,
+    sharedAttachmentsRef,
+    dataContext,
+    contextData,
+    errorMessage:
+      'useData needs to run inside DataContext (Form.Handler) or have a valid id',
+  })
+}
 
-    sharedDataRef.current.data = (
-      dataContext.getDataValue ? contextData : dataContext.data
-    ) as Data
-    if (sharedAttachmentsRef.current?.data) {
-      sharedAttachmentsRef.current.data.filterDataHandler =
-        dataContext.filterDataHandler
-    }
+export function useDataReturn<Data = JsonObject>({
+  id,
+  initialData,
+  sharedDataRef,
+  sharedAttachmentsRef,
+  dataContext,
+  dataContextRef,
+  contextData,
+  errorMessage,
+}: UseDataReturnOptions<Data>): UseDataReturn<Data> {
+  const fallbackDataContextRef = useRef(dataContext)
+  fallbackDataContextRef.current = dataContext
+
+  const getDataContext = useCallback(() => {
+    return dataContextRef?.current ?? fallbackDataContextRef.current
+  }, [dataContextRef])
+
+  const contextDataDependency = id ? undefined : dataContext
+
+  if (!id && !getDataContext().hasContext) {
+    throw new Error(errorMessage)
   }
 
-  const updateDataValue = dataContext?.updateDataValue
-  const setData = dataContext?.setData
+  const getCurrentData = useCallback(() => {
+    if (id) {
+      return sharedDataRef.current?.get?.()
+    }
+
+    const dataContext = getDataContext()
+    return (dataContext?.getDataValue?.('/') ?? dataContext?.data) as Data
+  }, [getDataContext, id, sharedDataRef])
 
   const getExistingData = useCallback(() => {
     // Use the live store value (always current) when available.
     // Prefer get() over the stale useSyncExternalStore snapshot (.data) and
     // the stale internalDataRef.current, because Provider may not have
     // re-rendered yet to reflect a previous update().
-    const liveStoreData = id ? sharedDataRef.current.get() : null
-    const liveContextData = !id ? dataContext?.getDataValue?.('/') : null
+    const liveStoreData = id ? sharedDataRef.current?.get?.() : null
+    const liveContextData = !id ? getCurrentData() : null
+    const dataContext = getDataContext()
     return structuredClone(
       liveStoreData ??
         liveContextData ??
@@ -150,17 +198,23 @@ export default function useData<Data = JsonObject>(
         sharedAttachmentsRef.current?.data?.internalDataRef?.current ??
         {}
     ) as Data & JsonObject
-  }, [dataContext, id])
+  }, [
+    getDataContext,
+    getCurrentData,
+    id,
+    sharedAttachmentsRef,
+    sharedDataRef,
+  ])
 
   const set = useCallback(
     (newData: Data) => {
       if (id) {
-        sharedDataRef.current.set(newData)
+        sharedDataRef.current?.set(newData)
       } else {
-        setData?.(newData)
+        getDataContext().setData?.(newData)
       }
     },
-    [id, setData]
+    [getDataContext, id, sharedDataRef]
   )
 
   const update = useCallback<UseDataReturnUpdate<Data>>(
@@ -180,13 +234,13 @@ export default function useData<Data = JsonObject>(
 
         // Update provider with new data
         if (id) {
-          sharedDataRef.current.extend(existingData)
+          sharedDataRef.current?.extend(existingData)
         } else {
-          updateDataValue?.(path, newValue)
+          getDataContext().updateDataValue?.(path, newValue)
         }
       }
     },
-    [getExistingData, id, updateDataValue]
+    [getDataContext, getExistingData, id, sharedDataRef]
   )
 
   const remove = useCallback<UseDataReturn<Data>['remove']>(
@@ -199,13 +253,13 @@ export default function useData<Data = JsonObject>(
 
         // Update provider with new data
         if (id) {
-          sharedDataRef.current.set(existingData)
+          sharedDataRef.current?.set(existingData)
         } else {
-          setData?.(existingData)
+          getDataContext().setData?.(existingData)
         }
       }
     },
-    [getExistingData, id, setData]
+    [getDataContext, getExistingData, id, sharedDataRef]
   )
 
   const reduceToVisibleFields = useCallback<
@@ -219,13 +273,13 @@ export default function useData<Data = JsonObject>(
         )
       }
 
-      return dataContext?.visibleDataHandler?.(data, options)
+      return getDataContext()?.visibleDataHandler?.(data, options)
     },
-    [dataContext, id]
+    [contextDataDependency, getDataContext, id, sharedAttachmentsRef]
   )
 
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
-    (filter, data = sharedDataRef.current.data) => {
+    (filter, data = getCurrentData()) => {
       if (id) {
         return sharedAttachmentsRef.current.data?.filterDataHandler?.(
           data,
@@ -233,26 +287,44 @@ export default function useData<Data = JsonObject>(
         )
       }
 
-      return dataContext?.filterDataHandler?.(data, filter)
+      return getDataContext()?.filterDataHandler?.(data, filter)
     },
-    [dataContext, id]
+    [
+      contextDataDependency,
+      getCurrentData,
+      getDataContext,
+      id,
+      sharedAttachmentsRef,
+    ]
   )
 
-  const getValue = useCallback<UseDataReturn<Data>['getValue']>((path) => {
-    if (pointer.has(sharedDataRef.current.data, path)) {
-      return pointer.get(sharedDataRef.current.data, path)
-    }
+  const getValue = useCallback<UseDataReturn<Data>['getValue']>(
+    (path) => {
+      const dataContext = getDataContext()
 
-    return undefined
-  }, [])
+      if (!id && dataContext?.getDataValue) {
+        return dataContext.getDataValue(path)
+      }
+
+      const data = getCurrentData()
+      if (pointer.has(data, path)) {
+        return pointer.get(data, path)
+      }
+
+      return undefined
+    },
+    [getCurrentData, getDataContext, id]
+  )
 
   useMountEffect(() => {
-    if (id && !sharedDataRef.current.hadInitialData && initialData) {
-      sharedDataRef.current.extend(initialData, { forceSync: true })
+    if (id && !sharedDataRef.current?.hadInitialData && initialData) {
+      sharedDataRef.current?.extend(initialData, { forceSync: true })
     }
   })
 
-  const { data } = sharedDataRef.current
+  const data = (
+    id ? sharedDataRef.current?.data : (contextData ?? getCurrentData())
+  ) as Data
 
   return useMemo(
     () => ({

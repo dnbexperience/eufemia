@@ -189,6 +189,8 @@ function MyApp() {
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
+If a custom field or integration needs the same helpers without subscribing the component to data changes, use `Form.useDataWithoutSubscription` instead.
+
 ### Using a form ID
 
 The form data can be handled outside the form. This is useful if you want to use the form data in other components:
