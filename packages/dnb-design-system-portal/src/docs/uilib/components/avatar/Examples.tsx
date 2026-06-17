@@ -209,8 +209,8 @@ export const AvatarImageProps = () => (
         variant="secondary"
         size="large"
         imgProps={{
-          width: '48',
-          height: '48',
+          width: '100%',
+          height: '100%',
           src: '/dnb/android-chrome-192x192.png',
           alt: 'DNB Logo',
         }}
