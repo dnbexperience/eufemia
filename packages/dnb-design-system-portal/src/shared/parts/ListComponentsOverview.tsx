@@ -1,5 +1,5 @@
 import { useStaticQuery, graphql } from 'portal-query'
-import { Card, Hr, Li, ListFormat, P, Span, Ul } from '@dnb/eufemia/src'
+import { Card, Hr, Li, P, Span, Ul } from '@dnb/eufemia/src'
 import ReactMarkdown from 'react-markdown'
 import Anchor from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
@@ -188,16 +188,14 @@ export default function ListComponentsOverview() {
 
       {categories.map(({ id, title, description, entries }: Category) => (
         <section key={id}>
-          <AutoLinkHeader level={2} size="large" useSlug={id}>
+          <Hr top="x-large" />
+          <AutoLinkHeader level={2} size="x-large" useSlug={id}>
             {title}
           </AutoLinkHeader>
 
           {id === 'input' && <FormsAndInputsIntro />}
 
-          <InlineComponentList
-            description={description}
-            entries={entries}
-          />
+          <P>{description}</P>
 
           <ComponentsOverviewList entries={entries} />
         </section>
@@ -221,39 +219,14 @@ function CategoriesTableOfContents({
             className={cardItemStyle}
           >
             <Card.Action href={`#${makeSlug(title, id)}`} stack dropShadow>
-              <Span size="large">{title}</Span>
+              <Span size="x-large">{title}</Span>
 
-              <P>{description}</P>
+              <P top="small">{description}</P>
             </Card.Action>
           </Card.ListItem>
         ))}
       </Card.List>
     </nav>
-  )
-}
-
-function InlineComponentList({
-  description,
-  entries,
-}: {
-  description: string
-  entries: Entry[]
-}) {
-  return (
-    <>
-      <P bottom="x-small">{description}</P>
-      <P size="small">
-        <ListFormat>
-          {entries.map(({ slug, title }) => (
-            <Anchor key={slug} href={`/${slug}`}>
-              {title}
-            </Anchor>
-          ))}
-        </ListFormat>
-      </P>
-
-      <Hr />
-    </>
   )
 }
 
