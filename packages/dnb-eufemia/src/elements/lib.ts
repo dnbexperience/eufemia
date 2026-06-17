@@ -36,6 +36,7 @@ import Span from './Span'
 import Td from './Td'
 import Th from './Th'
 import Tr from './Tr'
+import Typography from './Typography'
 import Ul from './Ul'
 
 // define / export all the available components
@@ -66,5 +67,6 @@ export {
   Td,
   Th,
   Tr,
+  Typography,
   Ul,
 }

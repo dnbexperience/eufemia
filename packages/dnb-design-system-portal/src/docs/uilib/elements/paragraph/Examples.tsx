@@ -7,7 +7,7 @@ import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Anchor from '@dnb/eufemia/src/components/Anchor'
 import P from '@dnb/eufemia/src/elements/P'
-import Typography from '@dnb/eufemia/src/elements/typography/Typography'
+import { Typography } from '@dnb/eufemia/src/elements'
 import { Flex, Section } from '@dnb/eufemia/src'
 
 const Case = styled.span`
@@ -235,9 +235,9 @@ export function ParagraphProseMaxWidthProvider() {
   return (
     <ComponentBox hideCode scope={{ Typography }}>
       <Flex.Stack>
-        <Typography.Provider proseMaxWidth={60}>
+        <Typography.Context proseMaxWidth={60}>
           <P>
-            This paragraph is inside a Typography.Provider with
+            This paragraph is inside a Typography.Context with
             proseMaxWidth={60}
           </P>
           <P>
@@ -248,7 +248,7 @@ export function ParagraphProseMaxWidthProvider() {
             This paragraph overrides the Provider value with its own
             proseMaxWidth={40}
           </P>
-        </Typography.Provider>
+        </Typography.Context>
       </Flex.Stack>
     </ComponentBox>
   )

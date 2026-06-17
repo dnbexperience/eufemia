@@ -166,11 +166,11 @@ describe('Heading', () => {
     }
   )
 
-  it('applies proseMaxWidth from Typography.Provider to heading elements', () => {
+  it('applies proseMaxWidth from Typography.Context to heading elements', () => {
     render(
-      <Typography.Provider proseMaxWidth={40}>
+      <Typography.Context proseMaxWidth={40}>
         <H>Heading with context width</H>
-      </Typography.Provider>
+      </Typography.Context>
     )
 
     const element = document.querySelector(

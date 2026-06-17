@@ -1,5 +1,4 @@
 @use '../typography-mixins.scss' as typography;
-@use '../../../../style/core/utilities.scss' as utilities;
 
 // Headings
 @include typography.headingClasses() {
@@ -12,47 +11,4 @@
   --typography-h-large-weight: var(--font-weight-regular);
   --typography-lead-weight: var(--font-weight-regular);
   --typography-h-medium-weight: var(--font-weight-regular);
-
-  @include utilities.allBelow(small) {
-    // xx-large
-    --typography-h-xx-large-font-size: var(--typography-font-size-x-large);
-    --typography-h-xx-large-line-height: var(
-      --typography-line-height-x-large
-    );
-    --typography-h-xx-large-small-font-size: var(
-      --typography-font-size-large
-    );
-    --typography-h-xx-large-small-line-height: var(
-      --typography-line-height-large
-    );
-    // x-large
-    --typography-h-x-large-font-size: var(--typography-font-size-large);
-    --typography-h-x-large-line-height: var(
-      --typography-line-height-large
-    );
-    --typography-h-x-large-small-font-size: var(
-      --typography-font-size-medium
-    );
-    --typography-h-x-large-small-line-height: var(
-      --typography-line-height-medium
-    );
-    // large
-    --typography-h-large-font-size: var(--typography-font-size-medium);
-    --typography-h-large-line-height: var(--typography-line-height-medium);
-    --typography-h-large-small-font-size: var(
-      --typography-font-size-basis
-    );
-    --typography-h-large-small-line-height: var(
-      --typography-line-height-basis
-    );
-    // medium
-    --typography-h-medium-font-size: var(--typography-font-size-basis);
-    --typography-h-medium-line-height: var(--typography-line-height-basis);
-    --typography-h-medium-small-font-size: var(
-      --typography-font-size-basis
-    );
-    --typography-h-medium-small-line-height: var(
-      --typography-line-height-basis
-    );
-  }
 }

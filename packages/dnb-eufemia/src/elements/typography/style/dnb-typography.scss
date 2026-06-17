@@ -92,6 +92,8 @@
   );
   --typography-h-x-small-weight: var(--font-weight-medium);
   --typography-h-x-small-font-family: var(--font-family-default);
+
+  @include typography-mixins.responsiveTypographyVariables();
 }
 
 @include typography-mixins.headingClasses() {

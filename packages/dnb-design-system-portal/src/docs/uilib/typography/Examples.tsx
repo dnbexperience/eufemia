@@ -5,7 +5,18 @@
 
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
-import { Code, H4, Lead, P } from '@dnb/eufemia/src'
+import {
+  Code,
+  Heading,
+  H4,
+  H2,
+  Lead,
+  P,
+  Span,
+  Button,
+} from '@dnb/eufemia/src'
+import { Typography } from '@dnb/eufemia/src/elements'
+
 import { useTheme } from '@dnb/eufemia/shared'
 
 import { TypographyBox } from '../../../shared/parts/TypographyBox'
@@ -158,3 +169,32 @@ export function TypographyVariants() {
     </ComponentBox>
   )
 }
+
+export const ResponsiveTypographyExample = () => (
+  <ComponentBox
+    scope={{ Typography }}
+    data-visual-test="typography-responsive"
+  >
+    <H2>Fixed H2</H2>
+    <Span>Fixed Span</Span>
+    <Heading level="3">Fixed Heading</Heading>
+    <P>Fixed P</P>
+    <Button>Fixed Button</Button>
+
+    <Typography.Context responsive>
+      <H2>Responsive H2</H2>
+      <Span>Responsive Span</Span>
+      <Heading level="3">Responsive Heading</Heading>
+      <P>Responsive P</P>
+      <Button>Fixed Button</Button>
+    </Typography.Context>
+
+    <Typography.Context responsiveAll>
+      <H2>Responsive H2</H2>
+      <Span>Responsive Span</Span>
+      <Heading level="3">Responsive Heading</Heading>
+      <P>Responsive P</P>
+      <Button>Responsive Button</Button>
+    </Typography.Context>
+  </ComponentBox>
+)

@@ -135,11 +135,11 @@ describe('H element', () => {
       expect(element.style.maxWidth).toBe('30ch')
     })
 
-    it('style maxWidth overrides proseMaxWidth from Typography.Provider', () => {
+    it('style maxWidth overrides proseMaxWidth from Typography.Context', () => {
       render(
-        <Typography.Provider proseMaxWidth={80}>
+        <Typography.Context proseMaxWidth={80}>
           <H style={{ maxWidth: '30ch' }}>Test heading</H>
-        </Typography.Provider>
+        </Typography.Context>
       )
       const element = document.querySelector(
         '.dnb-h--xx-large'

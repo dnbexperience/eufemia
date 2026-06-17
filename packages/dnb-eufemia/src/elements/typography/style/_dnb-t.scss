@@ -1,3 +1,5 @@
+@use './typography-mixins.scss';
+
 /*
  * Typography
  * Universal set of helper classes that do not have a specific element. 
@@ -89,5 +91,21 @@
   }
   &__slant--italic {
     font-style: italic;
+  }
+
+  &__responsive-all-on {
+    @include typography-mixins.responsiveAllOn();
+  }
+
+  &__responsive-all-off {
+    @include typography-mixins.responsiveAllOff();
+  }
+
+  &__responsive-off {
+    @include typography-mixins.responsiveOff();
+  }
+
+  &__responsive-on {
+    @include typography-mixins.responsiveOn();
   }
 }
