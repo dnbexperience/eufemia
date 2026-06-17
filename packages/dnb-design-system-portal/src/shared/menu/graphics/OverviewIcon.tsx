@@ -7,5 +7,6 @@ import type { SVGProps } from 'react'
 import { IconsSvg } from '../MainMenuGraphics'
 
 export default function OverviewIcon(props: SVGProps<SVGSVGElement> = {}) {
-  return <IconsSvg {...props} strokeWidth="3" />
+  // Keep the thicker stroke inside the SVG viewport.
+  return <IconsSvg {...props} strokeWidth="3" viewBox="-1 -1 50 50" />
 }
