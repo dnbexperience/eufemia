@@ -12,6 +12,12 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListFormatProps = {
   /**
+   * Locale used to format the value when variant is `text`.
+   * Defaults to the shared Provider locale.
+   */
+  locale?: InternalLocale
+
+  /**
    * Formatting options for the value when variant is `text`.
    * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat
    */
@@ -57,12 +63,13 @@ function ListFormat(
     Omit<OlAllProps, 'value'> &
     ListFormatProps
 ) {
-  const { locale, ListFormat } = useContext(SharedContext)
+  const { locale: contextLocale, ListFormat } = useContext(SharedContext)
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(localProps, {}, ListFormat)
   const {
     value,
+    locale = contextLocale,
     format,
     variant = 'text',
     listType,
