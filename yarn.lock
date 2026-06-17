@@ -6245,15 +6245,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.19.2":
-  version: 20.19.2
-  resolution: "@types/node@npm:20.19.2"
-  dependencies:
-    undici-types: "npm:~6.21.0"
-  checksum: 10/c9ee1f7eadd32d88d8bd47ff8e98cbabba3086267c49af62895bcf7347b97892daff52865f3068c358cec8ebd5b19bdc15d075039a226e145787cfe4a513dc4c
-  languageName: node
-  linkType: hard
-
 "@types/node@npm:^22.0.0":
   version: 22.19.19
   resolution: "@types/node@npm:22.19.19"
@@ -14348,7 +14339,6 @@ __metadata:
   dependencies:
     "@modelcontextprotocol/sdk": "npm:1.29.0"
     "@types/aws-lambda": "npm:8.10.161"
-    "@types/node": "npm:20.19.2"
     esbuild: "npm:0.25.5"
     tsx: "npm:4.22.4"
     typescript: "npm:6.0.3"
