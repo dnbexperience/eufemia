@@ -193,9 +193,9 @@ export default function ListComponentsOverview() {
             {title}
           </AutoLinkHeader>
 
-          {id === 'input' && <FormsAndInputsIntro />}
-
           <P>{description}</P>
+
+          {id === 'input' && <FormsAndInputsIntro />}
 
           <ComponentsOverviewList entries={entries} />
         </section>
@@ -233,7 +233,7 @@ function CategoriesTableOfContents({
 function FormsAndInputsIntro() {
   return (
     <P>
-      When creating application forms, use{' '}
+      <strong>NB:</strong> When creating application forms, use{' '}
       <Anchor href="/uilib/extensions/forms/">Eufemia Forms</Anchor>{' '}
       instead of composing forms from the base components below.
     </P>
