@@ -378,33 +378,4 @@ describe('docs-server tools', () => {
       expect(result.error).toBe('ENOENT')
     })
   })
-
-  describe('component_props', () => {
-    it('returns JSON blocks from component doc', async () => {
-      const result = parseResult(
-        await client.callTool({
-          name: 'component_props',
-          arguments: { name: 'Button' },
-        })
-      )
-
-      expect(result).toBeInstanceOf(Array)
-      expect(result).toHaveLength(1)
-      expect(result[0]).toEqual({
-        name: 'Button',
-        props: { variant: 'primary' },
-      })
-    })
-
-    it('returns ENOENT for missing component', async () => {
-      const result = parseResult(
-        await client.callTool({
-          name: 'component_props',
-          arguments: { name: 'Nonexistent' },
-        })
-      )
-
-      expect(result.error).toBe('ENOENT')
-    })
-  })
 })

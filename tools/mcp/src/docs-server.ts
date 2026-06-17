@@ -781,37 +781,6 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
       )
     }
   )
-
-  server.registerTool(
-    'component_props',
-    {
-      title: 'Component props',
-      description:
-        'Return the structured JSON blocks describing a component\u2019s properties and events, as derived from its main documentation file. Use this when you specifically need the props- and events-level schema or configuration for a component, rather than the full documentation text, and want to drive code generation, validation, or other automated reasoning from that data.',
-      inputSchema: ComponentNameInput.shape,
-    },
-    async ({ name }) => {
-      const info = await context.resolveComponentPaths(name)
-      const text = await context.readCached(info.doc)
-
-      if (text === null) {
-        return makeTextResult(
-          JSON.stringify(
-            {
-              error: 'ENOENT',
-              message: 'component doc not found',
-              doc: info.doc,
-            },
-            null,
-            2
-          )
-        )
-      }
-
-      const blocks = extractJsonBlocks(text)
-      return makeTextResult(JSON.stringify(blocks, null, 2))
-    }
-  )
 }
 
 export async function createDocsServer(options: {
