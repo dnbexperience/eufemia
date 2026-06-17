@@ -46,8 +46,11 @@ export async function handler(
     enableJsonResponse: true,
   })
 
-  // The server singleton supports sequential connect/close cycles.
-  // Each invocation creates a fresh transport and closes it in finally.
+  // The MCP SDK McpServer supports sequential connect/close cycles on
+  // the same instance. Each Lambda invocation creates a fresh transport,
+  // connects, handles one request, and closes in `finally`. On warm
+  // starts the same `server` singleton is reused — this is safe because
+  // `close()` resets the transport binding before the next invocation.
   await server.connect(transport)
 
   try {
