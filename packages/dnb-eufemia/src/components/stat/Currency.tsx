@@ -5,7 +5,9 @@ export type CurrencyProps = Omit<AmountProps, 'percent'> & {
 }
 
 function Currency(props: CurrencyProps) {
-  return <AmountBase {...props} currency />
+  const { currency = true } = props
+
+  return <AmountBase {...props} currency={currency} />
 }
 
 Currency._supportsSpacingProps = true
