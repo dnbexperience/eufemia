@@ -77,7 +77,7 @@ function MyComponent() {
 }
 ```
 
-The `data` property is the value from the current render. Use `getValue` inside callbacks when you need the latest value without subscribing. The component can still re-render for other reasons, such as parent renders or other context changes.
+The `data` property is the value from the current render. Because `Form.useDataWithoutSubscription` does not subscribe to form data updates, `data` can be out of date after the form changes. Use `getValue` inside callbacks when you need the latest value without subscribing. The component can still re-render for other reasons, such as parent renders or other context changes.
 
 ## Usage
 
