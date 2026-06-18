@@ -9,7 +9,7 @@
     "test": "vitest run",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan",
-    "typecheck": "yarn exec tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
