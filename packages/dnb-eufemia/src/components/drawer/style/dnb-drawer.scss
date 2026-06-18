@@ -184,7 +184,7 @@
   &__title {
     @include utilities.allBelow(medium) {
       font-size: var(--font-size-large) !important;
-      line-height: var(--line-height-medium) !important;
+      line-height: var(--line-height-large) !important;
     }
   }
 

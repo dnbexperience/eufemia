@@ -1547,7 +1547,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 @media screen and (max-width: 60em) {
   .dnb-drawer__title {
     font-size: var(--font-size-large) !important;
-    line-height: var(--line-height-medium) !important;
+    line-height: var(--line-height-large) !important;
   }
 }
 .dnb-drawer__title ~ .dnb-drawer__content {

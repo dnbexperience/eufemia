@@ -154,9 +154,9 @@ const HEADING_LINE_HEIGHT_MAP: Record<TypographySize, TypographySize> = {
   'x-small': 'x-small',
   small: 'small',
   basis: 'basis',
-  medium: 'basis',
-  large: 'medium',
-  'x-large': 'large',
+  medium: 'medium',
+  large: 'large',
+  'x-large': 'x-large',
   'xx-large': 'xx-large',
 }
 
