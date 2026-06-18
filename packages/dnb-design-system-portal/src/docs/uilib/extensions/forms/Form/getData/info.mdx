@@ -47,6 +47,8 @@ Related helpers:
 - [Form.useData](/uilib/extensions/forms/Form/useData/)
 - [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription)
 
+For custom field or value components that render form data, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). Use `Form.useDataWithoutSubscription` for non-subscribing imperative reads and writes.
+
 ## Visible data
 
 You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.

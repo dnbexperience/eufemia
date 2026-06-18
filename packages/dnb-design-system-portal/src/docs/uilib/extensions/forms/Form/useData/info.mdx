@@ -15,6 +15,8 @@ With the `Form.useData` hook, you can manage your form data from nested componen
 
 If you need the imperative helpers without subscribing the component to form data changes, use `Form.useDataWithoutSubscription`.
 
+For custom field or value components that render a form value, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). They keep the component reactive with path-scoped form updates.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useData.ts)
@@ -62,6 +64,8 @@ render(
 For custom fields and other internal integrations that only need imperative access to form data, use `Form.useDataWithoutSubscription`. It accepts the same optional `id` and `initialData` arguments as `Form.useData`, but does not subscribe the component to data updates.
 
 It returns `getValue`, `update`, `remove`, `set`, `filterData` and `reduceToVisibleFields`. It does not return `data`, because `data` would be a stale render snapshot after form changes. Use `getValue` when you need the latest value without subscribing.
+
+`Form.useDataWithoutSubscription` is not a replacement for [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/) inside custom fields that render form data. Use those hooks for the rendered field value, and use `Form.useDataWithoutSubscription` only for additional imperative reads or writes in callbacks, effects or internal handlers.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
