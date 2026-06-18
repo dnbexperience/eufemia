@@ -5,6 +5,7 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { H, H1, H2, H3, H4, H5, H6, P, Section } from '@dnb/eufemia/src'
+import Typography from '@dnb/eufemia/src/elements/typography/Typography'
 import styled from '@emotion/styled'
 
 export const HeadingBasicsExample = () => (
@@ -70,23 +71,39 @@ export const HeadingModifiersExample = () => (
 
 export const HeadingProseMaxWidthExample = () => (
   <ComponentBox data-visual-test="heading-prose-max-width">
-    <H2>
+    <H4>
       This is a regular heading without any width constraints. It will
       extend to the full width of its container.
-    </H2>
-    <H2 proseMaxWidth={40}>
+    </H4>
+    <H4 proseMaxWidth={40}>
       This heading uses proseMaxWidth={40} to limit its width to
       approximately 40 characters.
-    </H2>
-    <H2 proseMaxWidth={20}>
+    </H4>
+    <H4 proseMaxWidth={20}>
       This heading uses proseMaxWidth={20} for an even narrower reading
       width.
-    </H2>
-    <H2 proseMaxWidth>
+    </H4>
+    <H4 proseMaxWidth>
       This heading uses proseMaxWidth with its default value.
-    </H2>
+    </H4>
   </ComponentBox>
 )
+
+export function HeadingProseMaxWidthProvider() {
+  return (
+    <ComponentBox hideCode scope={{ Typography }}>
+      <Typography.Provider proseMaxWidth={40}>
+        <H4>
+          This heading is inside a Typography.Provider with proseMaxWidth=
+          {40}
+        </H4>
+        <H4 proseMaxWidth={20}>
+          This heading overrides the provider with proseMaxWidth={20}
+        </H4>
+      </Typography.Provider>
+    </ComponentBox>
+  )
+}
 
 export const HeadingMarginCollapsingExample = () => (
   <ComponentBox>

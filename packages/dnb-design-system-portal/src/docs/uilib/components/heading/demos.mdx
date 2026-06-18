@@ -7,6 +7,8 @@ import {
   HeadingContext,
   HeadingIsolation,
   HeadingMix,
+  HeadingProseMaxWidthExample,
+  HeadingProseMaxWidthProvider,
 } from 'Docs/uilib/components/heading/Examples'
 
 ## Demos
@@ -28,3 +30,15 @@ import {
 ### Combine with manual heading
 
 <HeadingMix />
+
+### Prose max width
+
+The `proseMaxWidth` property allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
+
+<HeadingProseMaxWidthExample />
+
+#### Using Typography.Provider
+
+Use `Typography.Provider` to apply `proseMaxWidth` to multiple headings at once:
+
+<HeadingProseMaxWidthProvider />

@@ -32,6 +32,7 @@ import type { DynamicElement, SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { useTheme, Context } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { TypographyContext } from '../../elements/typography/Typography'
 
 export type HeadingLevelSizeResolutions = {
   1: HeadingSize
@@ -99,6 +100,11 @@ export type HeadingProps = {
   skipCorrection?: boolean
 
   /**
+   * Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.
+   */
+  proseMaxWidth?: number | boolean
+
+  /**
    * If set to `true`, the content will have a prefix, showing the heading level.
    */
   debug?: boolean | (() => void)
@@ -146,6 +152,7 @@ export default function Heading(props: HeadingAllProps) {
     debugCounter: _debugCounter,
     reset: _reset,
     skipCorrection: _skipCorrection,
+    proseMaxWidth: proseMaxWidthProp,
     increase: _increase,
     decrease: _decrease,
     up: _up,
@@ -252,8 +259,19 @@ export default function Heading(props: HeadingAllProps) {
   const debugCounter =
     _debugCounter || headingContext?.heading?.debugCounter
 
+  const { proseMaxWidth: proseMaxWidthContext } =
+    useContext(TypographyContext)
+
+  // Use prop value if provided, otherwise fall back to context
+  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
+
+  const style = proseMaxWidth
+    ? { maxWidth: `${proseMaxWidth === true ? 60 : proseMaxWidth}ch` }
+    : undefined
+
   const attributes: Record<string, unknown> = {
     ...rest,
+    style: { ...style, ...rest.style },
   }
 
   if (element == null) {
