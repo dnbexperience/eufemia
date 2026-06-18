@@ -63,7 +63,7 @@ render(
 
 For custom fields and other internal integrations that only need imperative access to form data, use `Form.useDataWithoutSubscription`. It accepts the same optional `id` and `initialData` arguments as `Form.useData`, but does not subscribe the component to data updates.
 
-It returns `getValue`, `update`, `remove`, `set`, `filterData` and `reduceToVisibleFields`. It does not return `data`, because `data` would be a stale render snapshot after form changes. Use `getValue` when you need the latest value without subscribing.
+It returns `getData`, `getValue`, `update`, `remove`, `set`, `filterData` and `reduceToVisibleFields`. It does not return `data`, because `data` would be a stale render snapshot after form changes. Use `getData` or `getValue` when you need the latest value without subscribing.
 
 `Form.useDataWithoutSubscription` is not a replacement for [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/) inside custom fields that render form data. Use those hooks for the rendered field value, and use `Form.useDataWithoutSubscription` only for additional imperative reads or writes in callbacks, effects or internal handlers.
 
@@ -71,10 +71,11 @@ It returns `getValue`, `update`, `remove`, `set`, `filterData` and `reduceToVisi
 import { Form } from '@dnb/eufemia/extensions/forms'
 
 function MyComponent() {
-  const { getValue, update, filterData } =
+  const { getData, getValue, update, filterData } =
     Form.useDataWithoutSubscription()
 
   const handleClick = () => {
+    const data = getData()
     const value = getValue('/foo')
     update('/bar', value)
   }

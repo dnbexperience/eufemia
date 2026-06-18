@@ -20,6 +20,7 @@ describe('Form.useDataWithoutSubscription', () => {
     )
 
     expect(result.current).toEqual({
+      getData: expect.any(Function),
       reduceToVisibleFields: expect.any(Function),
       filterData: expect.any(Function),
       getValue: expect.any(Function),
@@ -109,7 +110,7 @@ describe('Form.useDataWithoutSubscription', () => {
     expect(document.querySelector('output')).toHaveTextContent('1')
   })
 
-  it('should use getValue for the latest context value', async () => {
+  it('should use getValue and getData for the latest context value', async () => {
     let dataContext: ReturnType<typeof Form.useDataWithoutSubscription>
 
     const MockComponent = () => {
@@ -129,6 +130,7 @@ describe('Form.useDataWithoutSubscription', () => {
       JSON.stringify({ foo: '' })
     )
     expect(dataContext).not.toHaveProperty('data')
+    expect(dataContext.getData()).toEqual({ foo: '' })
     expect(dataContext.getValue('/foo')).toBe('')
 
     await userEvent.type(document.querySelector('input'), 'bar')
@@ -136,6 +138,7 @@ describe('Form.useDataWithoutSubscription', () => {
     expect(document.querySelector('output')).toHaveTextContent(
       JSON.stringify({ foo: '' })
     )
+    expect(dataContext.getData()).toEqual({ foo: 'bar' })
     expect(dataContext.getValue('/foo')).toBe('bar')
   })
 
@@ -185,7 +188,7 @@ describe('Form.useDataWithoutSubscription', () => {
     )
 
     expect(
-      dataContext.reduceToVisibleFields(dataContext.getValue('/'))
+      dataContext.reduceToVisibleFields(dataContext.getData())
     ).toEqual({
       field1: 'foo',
       field2: 'bar',
@@ -202,7 +205,7 @@ describe('Form.useDataWithoutSubscription', () => {
     )
 
     expect(
-      dataContext.reduceToVisibleFields(dataContext.getValue('/'))
+      dataContext.reduceToVisibleFields(dataContext.getData())
     ).toEqual({
       field2: 'bar',
     })
@@ -224,6 +227,7 @@ describe('Form.useDataWithoutSubscription', () => {
     render(<MockComponent />)
 
     expect(renderCount).toBe(1)
+    expect(dataContext.getData()).toEqual({ foo: 'bar' })
     expect(dataContext.getValue('/foo')).toBe('bar')
 
     act(() => {
@@ -231,6 +235,7 @@ describe('Form.useDataWithoutSubscription', () => {
     })
 
     expect(renderCount).toBe(1)
+    expect(dataContext.getData()).toEqual({ foo: 'baz' })
     expect(dataContext.getValue('/foo')).toBe('baz')
   })
 })
