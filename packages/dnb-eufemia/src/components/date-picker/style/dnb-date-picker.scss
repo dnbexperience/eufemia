@@ -44,17 +44,10 @@
   }
 
   &__container {
-    border-radius: var(--token-radius-lg);
-    background-color: var(--token-color-background-neutral);
-
     // Supports backwards compatibility with Nucleus and scenarios,
     // where both unscoped and scoped styles are imported together (both position and top).
     position: relative;
     top: auto;
-
-    .dnb-date-picker--inline & {
-      background-color: transparent;
-    }
 
     table {
       position: relative;

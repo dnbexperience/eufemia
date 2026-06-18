@@ -2737,13 +2737,8 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   height: inherit;
 }
 .dnb-date-picker__container {
-  border-radius: var(--token-radius-lg);
-  background-color: var(--token-color-background-neutral);
   position: relative;
   top: auto;
-}
-.dnb-date-picker--inline .dnb-date-picker__container {
-  background-color: transparent;
 }
 .dnb-date-picker__container table {
   position: relative;
