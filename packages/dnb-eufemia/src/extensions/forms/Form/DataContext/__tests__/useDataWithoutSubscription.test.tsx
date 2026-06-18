@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
 import { Field, Form } from '../../..'
 import type { FilterData } from '../../../DataContext/Context'
-import type { UseDataReturn } from '../useData'
-import useDataWithoutSubscription from '../useDataWithoutSubscription'
+import useDataWithoutSubscription, {
+  type UseDataWithoutSubscriptionReturn,
+} from '../useDataWithoutSubscription'
 
 describe('Form.useDataWithoutSubscription', () => {
   let identifier: string
@@ -13,13 +14,12 @@ describe('Form.useDataWithoutSubscription', () => {
     identifier = makeUniqueId()
   })
 
-  it('should return the same helper API as useData', () => {
+  it('should return the helper API without data', () => {
     const { result } = renderHook(() =>
       useDataWithoutSubscription(identifier, { foo: 'bar' })
     )
 
     expect(result.current).toEqual({
-      data: { foo: 'bar' },
       reduceToVisibleFields: expect.any(Function),
       filterData: expect.any(Function),
       getValue: expect.any(Function),
@@ -27,6 +27,7 @@ describe('Form.useDataWithoutSubscription', () => {
       remove: expect.any(Function),
       set: expect.any(Function),
     })
+    expect(result.current).not.toHaveProperty('data')
   })
 
   it('should throw when used without a valid id', () => {
@@ -108,13 +109,13 @@ describe('Form.useDataWithoutSubscription', () => {
     expect(document.querySelector('output')).toHaveTextContent('1')
   })
 
-  it('should keep data as the render snapshot while getValue returns the latest context value', async () => {
+  it('should use getValue for the latest context value', async () => {
     let dataContext: ReturnType<typeof Form.useDataWithoutSubscription>
 
     const MockComponent = () => {
       dataContext = Form.useDataWithoutSubscription()
 
-      return <output>{JSON.stringify(dataContext.data)}</output>
+      return <output>{JSON.stringify(dataContext.getValue('/'))}</output>
     }
 
     render(
@@ -127,7 +128,7 @@ describe('Form.useDataWithoutSubscription', () => {
     expect(document.querySelector('output')).toHaveTextContent(
       JSON.stringify({ foo: '' })
     )
-    expect(dataContext.data).toEqual({ foo: '' })
+    expect(dataContext).not.toHaveProperty('data')
     expect(dataContext.getValue('/foo')).toBe('')
 
     await userEvent.type(document.querySelector('input'), 'bar')
@@ -135,7 +136,6 @@ describe('Form.useDataWithoutSubscription', () => {
     expect(document.querySelector('output')).toHaveTextContent(
       JSON.stringify({ foo: '' })
     )
-    expect(dataContext.data).toEqual({ foo: '' })
     expect(dataContext.getValue('/foo')).toBe('bar')
   })
 
@@ -210,7 +210,7 @@ describe('Form.useDataWithoutSubscription', () => {
 
   it('should not rerender when shared state data changes', () => {
     let renderCount = 0
-    let dataContext: UseDataReturn<{ foo: string }>
+    let dataContext: UseDataWithoutSubscriptionReturn<{ foo: string }>
 
     const MockComponent = () => {
       renderCount += 1

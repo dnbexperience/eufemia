@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react'
+import { useContext, useMemo, useRef } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
@@ -11,14 +11,19 @@ import type { SharedAttachments } from '../../DataContext/Provider'
 import type { UseDataReturn, UseDataSharedData } from './useData'
 import { useDataReturn } from './useData'
 
+export type UseDataWithoutSubscriptionReturn<Data> = Omit<
+  UseDataReturn<Data>,
+  'data'
+>
+
 /**
- * Provides the same data management helpers as Form.useData without subscribing
- * the component to data changes.
+ * Provides data management helpers without subscribing the component to data
+ * changes.
  */
 export default function useDataWithoutSubscription<Data = JsonObject>(
   id: SharedStateId = undefined,
   initialData: Data = undefined
-): UseDataReturn<Data> {
+): UseDataWithoutSubscriptionReturn<Data> {
   const sharedDataRef = useRef<UseDataSharedData<Data> | null>(null)
   const sharedAttachmentsRef = useRef<ReturnType<
     typeof createSharedState<SharedAttachments<Data>>
@@ -37,7 +42,14 @@ export default function useDataWithoutSubscription<Data = JsonObject>(
   const dataContextRef = useContext(DataContextRefContext)
   const dataContext = dataContextRef?.current ?? defaultContextState
 
-  return useDataReturn({
+  const {
+    remove,
+    update,
+    set,
+    getValue,
+    reduceToVisibleFields,
+    filterData,
+  } = useDataReturn({
     id,
     initialData,
     sharedDataRef,
@@ -47,4 +59,16 @@ export default function useDataWithoutSubscription<Data = JsonObject>(
     errorMessage:
       'useDataWithoutSubscription needs to run inside DataContext (Form.Handler) or have a valid id',
   })
+
+  return useMemo(
+    () => ({
+      remove,
+      update,
+      set,
+      getValue,
+      reduceToVisibleFields,
+      filterData,
+    }),
+    [remove, update, set, getValue, reduceToVisibleFields, filterData]
+  )
 }

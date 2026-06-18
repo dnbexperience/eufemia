@@ -13,7 +13,7 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 
 With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
 
-If you need the same helper API without subscribing the component to form data changes, use `Form.useDataWithoutSubscription`.
+If you need the imperative helpers without subscribing the component to form data changes, use `Form.useDataWithoutSubscription`.
 
 ## Relevant links
 
@@ -59,7 +59,9 @@ render(
 
 `Form.useData` subscribes the component to form data changes. This is useful when rendered output depends on the data.
 
-For custom fields and other internal integrations that only need imperative access to the same helpers, use `Form.useDataWithoutSubscription`. It returns the same API and accepts the same optional `id` and `initialData` arguments as `Form.useData`, but does not subscribe the component to data updates.
+For custom fields and other internal integrations that only need imperative access to form data, use `Form.useDataWithoutSubscription`. It accepts the same optional `id` and `initialData` arguments as `Form.useData`, but does not subscribe the component to data updates.
+
+It returns `getValue`, `update`, `remove`, `set`, `filterData` and `reduceToVisibleFields`. It does not return `data`, because `data` would be a stale render snapshot after form changes. Use `getValue` when you need the latest value without subscribing.
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
@@ -76,8 +78,6 @@ function MyComponent() {
   return <button onClick={handleClick}>Update</button>
 }
 ```
-
-The `data` property is the value from the current render. Because `Form.useDataWithoutSubscription` does not subscribe to form data updates, `data` can be out of date after the form changes. Use `getValue` inside callbacks when you need the latest value without subscribing. The component can still re-render for other reasons, such as parent renders or other context changes.
 
 ## Usage
 
