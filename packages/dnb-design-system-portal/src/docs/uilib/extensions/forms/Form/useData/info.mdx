@@ -13,7 +13,7 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 
 With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
 
-If you need the imperative helpers without subscribing the component to form data changes, use `Form.useDataWithoutSubscription`.
+If you need the imperative helpers without subscribing to form data changes, use `Form.useDataWithoutSubscription`.
 
 For custom field or value components that render a form value, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). They keep the component reactive with path-scoped form updates.
 
@@ -59,9 +59,9 @@ render(
 
 ### Without subscription
 
-`Form.useData` subscribes the component to form data changes. This is useful when rendered output depends on the data.
+`Form.useData` subscribes the hook consumer to form data changes. This is useful when rendered output depends on the data.
 
-For custom fields and other internal integrations that only need imperative access to form data, use `Form.useDataWithoutSubscription`. It accepts the same optional `id` and `initialData` arguments as `Form.useData`, but does not subscribe the component to data updates.
+For custom fields and other internal integrations that only need imperative access to form data, use `Form.useDataWithoutSubscription`. It accepts the same optional `id` and `initialData` arguments as `Form.useData`, but does not subscribe to form data updates.
 
 It returns `getData`, `getValue`, `update`, `remove`, `set`, `filterData` and `reduceToVisibleFields`. It does not return `data`, because `data` would be a stale render snapshot after form changes. Use `getData` or `getValue` when you need the latest value without subscribing.
 
@@ -76,7 +76,7 @@ function MyComponent() {
 
   const handleClick = () => {
     const data = getData()
-    const value = getValue('/foo')
+    const value = getValue('/foo') ?? data?.foo
     update('/bar', value)
   }
 
