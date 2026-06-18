@@ -26,6 +26,22 @@ describe('Stat.Currency', () => {
     expect(currency.textContent).toBe('kr')
   })
 
+  it('supports custom currency codes', () => {
+    render(
+      <Stat.Currency
+        value={12345.67}
+        currency="EUR"
+        currencyDisplay="code"
+      />
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.textContent).toBe('12 346')
+    expect(currency.textContent).toBe('EUR')
+  })
+
   it('supports sign tone colorization', () => {
     render(
       <Stat.Currency
