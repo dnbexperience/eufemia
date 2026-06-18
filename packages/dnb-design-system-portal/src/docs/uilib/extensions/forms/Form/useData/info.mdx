@@ -6,16 +6,21 @@ showTabs: true
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
-// Use Form.useData
+// Use Form.useData or Form.useDataWithoutSubscription
 ```
 
 ## Description
 
 With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
 
+If you need the imperative helpers without subscribing to form data changes, use `Form.useDataWithoutSubscription`.
+
+For custom field or value components that render a form value, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). They keep the component reactive with path-scoped form updates.
+
 ## Relevant links
 
-- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/useData.ts)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useData.ts)
+- [Source code for useDataWithoutSubscription](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useDataWithoutSubscription.ts)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/useData)
 
 The hook returns an object with the following properties:
@@ -51,6 +56,33 @@ render(
 - `data` will return the whole dataset (unvalidated).
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
+
+### Without subscription
+
+`Form.useData` subscribes the hook consumer to form data changes. This is useful when rendered output depends on the data.
+
+For custom fields and other internal integrations that only need imperative access to form data, use `Form.useDataWithoutSubscription`. It accepts the same optional `id` and `initialData` arguments as `Form.useData`, but does not subscribe to form data updates.
+
+It returns `getData`, `getValue`, `update`, `remove`, `set`, `filterData` and `reduceToVisibleFields`. It does not return `data`, because `data` would be a stale render snapshot after form changes. Use `getData` or `getValue` when you need the latest value without subscribing.
+
+`Form.useDataWithoutSubscription` is not a replacement for [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/) inside custom fields that render form data. Use those hooks for the rendered field value, and use `Form.useDataWithoutSubscription` only for additional imperative reads or writes in callbacks, effects or internal handlers.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const { getData, getValue, update, filterData } =
+    Form.useDataWithoutSubscription()
+
+  const handleClick = () => {
+    const data = getData()
+    const value = getValue('/foo') ?? data?.foo
+    update('/bar', value)
+  }
+
+  return <button onClick={handleClick}>Update</button>
+}
+```
 
 ## Usage
 

@@ -65,6 +65,7 @@ import type {
   SectionSchemaRegistration,
 } from '../Context'
 import DataContext from '../Context'
+import DataContextRefContext from '../DataContextRefContext'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
@@ -2004,18 +2005,22 @@ export default function Provider<Data extends JsonObject>(
 
   return (
     <DataContext value={contextValue}>
-      <FieldPropsProvider
-        FormStatus={formStatusConfig}
-        formElement={disabled ? { disabled: true } : undefined}
-        locale={locale ? locale : undefined}
-        translations={translations ? translations : undefined}
-        translationsLoader={
-          translationsLoader ? translationsLoader : undefined
-        }
-        messageFormatter={messageFormatter ? messageFormatter : undefined}
-      >
-        {children}
-      </FieldPropsProvider>
+      <DataContextRefContext value={contextValueRef}>
+        <FieldPropsProvider
+          FormStatus={formStatusConfig}
+          formElement={disabled ? { disabled: true } : undefined}
+          locale={locale ? locale : undefined}
+          translations={translations ? translations : undefined}
+          translationsLoader={
+            translationsLoader ? translationsLoader : undefined
+          }
+          messageFormatter={
+            messageFormatter ? messageFormatter : undefined
+          }
+        >
+          {children}
+        </FieldPropsProvider>
+      </DataContextRefContext>
     </DataContext>
   )
 }
