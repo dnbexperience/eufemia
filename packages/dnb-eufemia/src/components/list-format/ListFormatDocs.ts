@@ -16,6 +16,11 @@ export const ListFormatProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  locale: {
+    doc: 'Locale used to format the value when variant is `text`. Defaults to the shared Provider locale.',
+    type: 'string',
+    status: 'optional',
+  },
   format: {
     doc: 'Formatting options for the value when variant is `text`. See the [Intl.ListFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat) documentation.',
     type: 'Intl.ListFormatOptions',

@@ -478,6 +478,16 @@ describe('ListFormat', () => {
     expect(container).toHaveTextContent('Baz, Bar and Foo')
   })
 
+  it('formats value in different locale using locale prop', () => {
+    const { container } = render(
+      <Provider locale="nb-NO">
+        <ListFormat locale="en-GB" value={['Baz', 'Bar', 'Foo']} />
+      </Provider>
+    )
+
+    expect(container).toHaveTextContent('Baz, Bar and Foo')
+  })
+
   it('formats value in different locale using children', () => {
     const { container } = render(
       <Provider locale="en-GB">
