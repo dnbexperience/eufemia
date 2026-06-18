@@ -5,7 +5,6 @@ name: MCP Lambda
 # Triggers:
 # - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
 # - Any branch named `**/mcp-server` (e.g. `feat/mcp-server`).
-# - `chore/add-terraform` — initial setup branch.
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # Requires the following GitHub secrets:
@@ -21,7 +20,6 @@ on:
   push:
     branches:
       - release
-      - chore/add-terraform
       - '**/mcp-server'
     tags:
       - 'v*'
