@@ -1265,6 +1265,44 @@ describe('Autocomplete component', () => {
     ).toContain('Vis alt')
   })
 
+  it('does not crash when showing all after searching a full number with whitespace', () => {
+    const mockData = [
+      formatBankAccountNumber(20001234567),
+      formatBankAccountNumber(22233344425),
+      formatCurrency(1234.5),
+      formatPhoneNumber('+47116000'),
+    ] as DrawerListData
+
+    render(
+      <Autocomplete
+        data={mockData}
+        searchNumbers
+        showSubmitButton
+        {...mockProps}
+      />
+    )
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: '2000 12 34567' },
+    })
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+
+    fireEvent.click(
+      document.querySelector('li.dnb-autocomplete__show-all')
+    )
+
+    expect(
+      document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+    ).toHaveLength(4)
+  })
+
   it('has correct options when using searchNumbers, and searching with æøå', () => {
     const mockData = [
       ['Åge Ørn Ærlig', formatNumber('12345678901')],
