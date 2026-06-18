@@ -175,4 +175,16 @@ describe('Stat.Currency', () => {
     expect(srOnly.getAttribute('data-text')).toContain('12,346')
     expect(srOnly.getAttribute('data-text')).toContain('kroner')
   })
+
+  it('renders non-breaking space between currency and suffix with leading space', () => {
+    render(<Stat.Currency value={1234} suffix=" per mnd" />)
+
+    const suffix = document.querySelector('.dnb-stat__suffix')
+    const content = document.querySelector('.dnb-stat__content')
+    const sr = document.querySelector('.dnb-stat .dnb-sr-only')
+
+    expect(suffix.textContent).toBe('\u00A0per mnd')
+    expect(content.textContent).toContain('kr\u00A0per mnd')
+    expect(sr.getAttribute('data-text')).toContain('kroner per mnd')
+  })
 })
