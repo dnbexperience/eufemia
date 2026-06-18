@@ -33,6 +33,20 @@ describe('Stat.Percent', () => {
     expect(sr.getAttribute('data-text')).toContain('+0 %')
   })
 
+  describe('compact', () => {
+    it('keeps percent sign separate', () => {
+      render(<Stat.Percent value={1300} compact />)
+
+      const content = document.querySelector('.dnb-stat__content')
+      const amount = document.querySelector('.dnb-stat__amount')
+      const percentSign = document.querySelector('.dnb-stat__percent')
+
+      expect(content.textContent).toBe('1 300 %')
+      expect(amount.textContent).toBe('1 300')
+      expect(percentSign.textContent).toBe('%')
+    })
+  })
+
   it('supports sign tone colorization', () => {
     render(<Stat.Percent value={-12.3} colorizeBySign />)
 
