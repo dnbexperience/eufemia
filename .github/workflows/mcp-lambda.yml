@@ -3,7 +3,9 @@ name: MCP Lambda
 # Deploy the Eufemia MCP server as an AWS Lambda function.
 #
 # Triggers:
-# - On `v*` / `v*.*.*` tags (releases) — deploys automatically.
+# - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
+# - Any branch named `**/mcp-server` (e.g. `feat/mcp-server`).
+# - `chore/add-terraform` — initial setup branch.
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # Requires the following GitHub secrets:
@@ -17,6 +19,10 @@ name: MCP Lambda
 
 on:
   push:
+    branches:
+      - release
+      - chore/add-terraform
+      - '**/mcp-server'
     tags:
       - 'v*'
       - 'v*.*.*'
