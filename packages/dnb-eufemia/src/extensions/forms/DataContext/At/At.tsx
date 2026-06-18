@@ -10,6 +10,7 @@ import pointer from '../../utils/json-pointer'
 import type { ComponentProps, Path } from '../../types'
 import type { ContextState } from '../Context'
 import Context from '../Context'
+import DataContextRefContext from '../DataContextRefContext'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type DataContextAtProps = ComponentProps & {
@@ -143,7 +144,7 @@ function At(props: DataContextAtProps) {
           }
 
           return (
-            <Context
+            <ScopedContextProvider
               key={`element${index}`}
               value={{
                 ...scopedDataContext,
@@ -191,14 +192,38 @@ function At(props: DataContextAtProps) {
               }}
             >
               {children}
-            </Context>
+            </ScopedContextProvider>
           )
         })}
       </>
     )
   }
 
-  return <Context value={scopedDataContext}>{children}</Context>
+  return (
+    <ScopedContextProvider value={scopedDataContext}>
+      {children}
+    </ScopedContextProvider>
+  )
+}
+
+function ScopedContextProvider({
+  value,
+  children,
+}: {
+  value: ContextState
+  children?: ReactNode
+}) {
+  const dataContextRef = useRef<ContextState>(undefined)
+  dataContextRef.current = value
+
+  return (
+    <Context value={value}>
+      {/* Keep ref-based data hooks scoped to DataContext.At. */}
+      <DataContextRefContext value={dataContextRef}>
+        {children}
+      </DataContextRefContext>
+    </Context>
+  )
 }
 
 function getValueByPath(data: unknown, path: Path) {

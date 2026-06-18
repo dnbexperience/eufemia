@@ -189,6 +189,8 @@ function MyApp() {
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
+If rendered output depends on one form data path inside `Form.Handler`, use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) to subscribe only to that path.
+
 If an integration needs imperative helpers without subscribing to data changes, use `Form.useDataWithoutSubscription` instead. Inside custom field or value components that render form data, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/) so the component stays reactive with path-scoped form updates.
 
 ### Using a form ID

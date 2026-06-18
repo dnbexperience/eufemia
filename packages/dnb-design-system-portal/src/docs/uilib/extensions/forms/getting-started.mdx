@@ -172,9 +172,9 @@ How do I handle complex data logic?
 
 You can show or hide parts of your form based on your own logic. This is done by using the [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component (yes, it can even animate the visibility).
 
-You can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/), [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription), [Form.getData](/uilib/extensions/forms/Form/getData/), or [Form.setData](/uilib/extensions/forms/Form/setData/).
+You can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/), [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/), [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription), [Form.getData](/uilib/extensions/forms/Form/getData/), or [Form.setData](/uilib/extensions/forms/Form/setData/).
 
-Inside custom field or value components that render form data, use [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). They subscribe only to the component's own path, while `Form.useDataWithoutSubscription` is for non-subscribing imperative reads and writes, such as `getData()` in callbacks or effects.
+Use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) when rendered output depends on one form data path inside `Form.Handler`. Inside custom field or value components that render form data, use [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). They subscribe only to the component's own path, while `Form.useDataWithoutSubscription` is for non-subscribing imperative reads and writes, such as `getData()` in callbacks or effects.
 
 Here is an example of how to use these methods:
 
@@ -192,6 +192,8 @@ function MyForm() {
 }
 
 function MyComponent() {
+  const companyName = Form.useDataValue('/companyName')
+
   const {
     getValue,
     update,
