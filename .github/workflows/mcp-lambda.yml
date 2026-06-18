@@ -8,10 +8,10 @@ name: MCP Lambda
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # Requires the following GitHub secrets:
-# - AWS_DEPLOY_ROLE_ARN: IAM role ARN for OIDC federation
-#   (e.g. arn:aws:iam::123456789012:role/eufemia-mcp-deploy)
+# - AWS_ACCESS_KEY_ID: IAM access key ID
+# - AWS_SECRET_ACCESS_KEY: IAM secret access key
 #
-# The IAM role must trust the GitHub OIDC provider and allow:
+# The IAM user must have permissions for:
 # lambda, apigateway, iam, logs, route53, acm, s3, dynamodb.
 #
 # See tools/mcp/README.md for manual deploy instructions.
@@ -28,7 +28,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write # Required for OIDC federation
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -105,10 +104,10 @@ jobs:
       - name: Skip if AWS credentials are missing
         id: gate
         env:
-          AWS_ROLE_ARN: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          AWS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
         run: |
-          if [ -z "${AWS_ROLE_ARN:-}" ]; then
-            echo "AWS_DEPLOY_ROLE_ARN is not set; skipping deploy."
+          if [ -z "${AWS_KEY:-}" ]; then
+            echo "AWS credentials are not set; skipping deploy."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
@@ -118,7 +117,8 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6
         with:
-          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
 
       - name: Setup Terraform
