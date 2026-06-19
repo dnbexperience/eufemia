@@ -621,6 +621,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     return cache.current[cacheKey]
   }, [cacheKey, getDays, month])
 
+  const monthLabel = formatDate(month, {
+    locale,
+    options: { month: 'long' },
+  })
+
   return (
     <div
       className={clsx('dnb-date-picker__calendar', rtl && 'rtl')}
@@ -651,19 +656,10 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           <label
             id={`${id}--title`}
             className="dnb-date-picker__header__title dnb-no-focus"
-            title={selectedMonth.replace(
-              /%s/,
-              formatDate(month, {
-                locale,
-                options: { month: 'long' },
-              })
-            )}
+            title={selectedMonth.replace(/%s/, monthLabel)}
             tabIndex={-1}
           >
-            {formatDate(month, {
-              locale,
-              options: { month: 'long' },
-            })}
+            {monthLabel}
           </label>
         </div>
       )}
@@ -674,6 +670,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         aria-labelledby={
           onlyMonth && hideMonthLabel ? undefined : `${id}--title`
         }
+        aria-label={onlyMonth && hideMonthLabel ? monthLabel : undefined}
         onKeyDown={onKeyDownHandler}
         onMouseLeave={onMouseLeaveHandler}
         ref={tableRef}

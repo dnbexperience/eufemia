@@ -5153,7 +5153,7 @@ describe('DatePicker component', () => {
   })
 
   it('should hide month label when onlyMonth is "without-label"', async () => {
-    render(<DatePicker onlyMonth="without-label" />)
+    render(<DatePicker onlyMonth="without-label" month="2024-01-01" />)
 
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
@@ -5164,8 +5164,19 @@ describe('DatePicker component', () => {
     expect(header).not.toBeInTheDocument()
   })
 
+  it('should keep an accessible name on the grid when onlyMonth is "without-label"', async () => {
+    render(<DatePicker onlyMonth="without-label" month="2024-01-01" />)
+
+    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+
+    const grid = document.querySelector('table[role="grid"]')
+
+    expect(grid).toHaveAttribute('aria-label', 'januar')
+    expect(grid).not.toHaveAttribute('aria-labelledby')
+  })
+
   it('should show month label when onlyMonth is true', async () => {
-    render(<DatePicker onlyMonth />)
+    render(<DatePicker onlyMonth month="2024-01-01" />)
 
     await userEvent.click(screen.getByLabelText('Åpne datovelger'))
 
@@ -5174,6 +5185,11 @@ describe('DatePicker component', () => {
     )
 
     expect(header).toBeInTheDocument()
+
+    const grid = document.querySelector('table[role="grid"]')
+
+    expect(grid).toHaveAttribute('aria-labelledby')
+    expect(grid).not.toHaveAttribute('aria-label')
   })
 })
 
