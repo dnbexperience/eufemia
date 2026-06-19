@@ -59,7 +59,6 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - 'dependencies'
-      - 'ci'
     commit-message:
       prefix: 'chore(ci)'
       include: 'scope'
