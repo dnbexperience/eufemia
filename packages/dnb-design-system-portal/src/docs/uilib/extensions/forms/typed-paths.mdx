@@ -56,6 +56,35 @@ function MyForm() {
 
 `TypedValue<MyData>` narrows the `Value` namespace the same way.
 
+## Register the data type once
+
+Repeating the generic (`TypedField<MyData>`) on every cast can be avoided by registering your data type globally — the same approach as [TanStack Router's `Register` interface](https://tanstack.com/router/latest/docs/framework/react/guide/creating-a-router#router-type-safety). Augment the `Register` interface once, then cast without a generic and the helpers resolve your data type automatically.
+
+```tsx
+// forms-register.ts — imported once (e.g. from your app entry)
+import type { MyData } from './types'
+
+declare module '@dnb/eufemia/extensions/forms' {
+  interface Register {
+    formData: MyData
+  }
+}
+```
+
+```tsx
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+import type { TypedField, TypedForm } from '@dnb/eufemia/extensions/forms'
+
+// No generic needed — the data type comes from the registration
+const { String, Number } = Field as TypedField
+const { Handler, Card } = Form as TypedForm
+
+// Still autocompleted and type-checked
+;<String path="/firstName" />
+```
+
+The cast is still required (it is what keeps tree-shaking intact, see below); registration only removes the repeated generic. Like TanStack Router's single registered router, this binds **one** data type globally. For an additional form with a different shape, pass the generic explicitly: `Field as TypedField<OtherData>`.
+
 ## Demo
 
 <Examples.TypedPaths />

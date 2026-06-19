@@ -16,6 +16,9 @@ import type { JsonObject } from './utils/json-pointer'
  *
  * const { Name, Number } = Field as TypedField<MyData>
  * const { Handler, Card } = Form as TypedForm<MyData>
+ *
+ * Optionally register your data type once (see {@link Register}) to drop the
+ * generic argument: `Field as TypedField`.
  */
 
 /**
@@ -100,6 +103,42 @@ export type TypedNamespace<Namespace, Data> = {
   [Key in keyof Namespace]: WithTypedPath<Namespace[Key], Data>
 }
 
+/**
+ * Augmentable registry for binding a form data type globally, mirroring
+ * TanStack Router's `Register` interface. Augment it once in your app to make
+ * {@link TypedField}, {@link TypedValue} and {@link TypedForm} resolve their
+ * data type automatically, so the generic argument can be omitted:
+ *
+ * @example
+ * declare module '@dnb/eufemia/extensions/forms' {
+ *   interface Register {
+ *     formData: MyData
+ *   }
+ * }
+ *
+ * // Anywhere afterwards — no generic needed:
+ * const { Name } = Field as TypedField
+ *
+ * @remarks
+ * Like TanStack Router's single registered router, this binds one data type
+ * globally. For an additional form with a different shape, pass the generic
+ * explicitly (`Field as TypedField<OtherData>`).
+ */
+// `interface` is required so the registry can be augmented via `declare module`.
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type, @typescript-eslint/consistent-type-definitions
+export interface Register {}
+
+/**
+ * Resolves the form data type registered via {@link Register}, mirroring
+ * TanStack Router's `RegisteredRouter`. Falls back to `JsonObject` when no
+ * `formData` has been registered.
+ */
+export type RegisteredFormData = Register extends {
+  formData: infer Data extends JsonObject
+}
+  ? Data
+  : JsonObject
+
 type TypedHandler<Data extends JsonObject> = (
   props: Parameters<typeof FormNS.Handler<Data>>[0]
 ) => ReturnType<typeof FormNS.Handler<Data>>
@@ -109,7 +148,7 @@ type TypedHandler<Data extends JsonObject> = (
  * gets typed `data`/`defaultData` while the rest of the namespace
  * (`Form.Card`, `Form.SubmitButton`, …) stays available unchanged.
  */
-export type TypedForm<Data extends JsonObject> = Omit<
+export type TypedForm<Data extends JsonObject = RegisteredFormData> = Omit<
   typeof FormNS,
   'Handler'
 > & {
@@ -126,22 +165,21 @@ export type TypedForm<Data extends JsonObject> = Omit<
  * Rollup/Vite/webpack). Do not alias the whole namespace
  * (`const F = Field as TypedField<MyData>`); destructure instead.
  *
+ * Pass the data type as the generic argument, or register it once via
+ * {@link Register} and omit the generic.
+ *
  * @example
  * import { Field } from '@dnb/eufemia/extensions/forms'
  * import type { TypedField } from '@dnb/eufemia/extensions/forms'
  * const { Name, Number } = Field as TypedField<MyData>
  * <Name path="/firstName" /> // typed + tree-shakeable
  */
-export type TypedField<Data extends JsonObject> = TypedNamespace<
-  typeof FieldNS,
-  Data
->
+export type TypedField<Data extends JsonObject = RegisteredFormData> =
+  TypedNamespace<typeof FieldNS, Data>
 
 /**
  * The `Value` namespace with every member's `path` prop narrowed to the valid
  * paths of `Data`. See {@link TypedField} for usage.
  */
-export type TypedValue<Data extends JsonObject> = TypedNamespace<
-  typeof ValueNS,
-  Data
->
+export type TypedValue<Data extends JsonObject = RegisteredFormData> =
+  TypedNamespace<typeof ValueNS, Data>

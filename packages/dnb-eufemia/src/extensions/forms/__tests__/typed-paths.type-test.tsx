@@ -70,3 +70,45 @@ export function Example() {
     </Handler>
   )
 }
+
+// Registering the form data type once (TanStack Router's `Register` pattern)
+// lets the helpers resolve `MyData` automatically, so the generic argument can
+// be omitted. The augmentation is global to the type-check, so it lives in a
+// single place with a single data shape.
+declare module '..' {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface Register {
+    formData: MyData
+  }
+}
+
+// With the data type registered, casting without a generic narrows the `path`
+// prop to the valid paths of `MyData`.
+export function RegisteredExample() {
+  const { String: StringField, Number: NumberField } =
+    FieldNamespace as TypedField
+  const { String: StringValue } = ValueNamespace as TypedValue
+  const { Handler, Card } = FormNamespace as TypedForm
+
+  return (
+    <Handler
+      defaultData={{
+        firstName: 'John',
+        age: 30,
+        address: { street: 'Main St', zip: '0001' },
+        hobbies: [{ title: 'Climbing', years: 3 }],
+      }}
+    >
+      <Card>
+        {/* ✅ Valid paths resolved from the registered data type */}
+        <StringField path="/firstName" />
+        <NumberField path="/age" />
+        <StringValue path="/address/street" />
+
+        {/* ❌ Invalid path must still error */}
+        {/* @ts-expect-error path does not exist in the registered MyData */}
+        <StringField path="/nope" />
+      </Card>
+    </Handler>
+  )
+}

@@ -18,6 +18,8 @@ export type {
   TypedField,
   TypedValue,
   TypedForm,
+  Register,
+  RegisteredFormData,
 } from './typed-paths'
 
 // Types
