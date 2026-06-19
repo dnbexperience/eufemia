@@ -64,7 +64,7 @@
     "react-dom": "19.2.5"
   },
   "devDependencies": {
-    "@babel/core": "7.28.5",
+    "@babel/core": "7.29.6",
     "@dnb/browserslist-config": "1.4.1",
     "@mdx-js/rollup": "3.1.1",
     "@playwright/test": "1.60.0",
