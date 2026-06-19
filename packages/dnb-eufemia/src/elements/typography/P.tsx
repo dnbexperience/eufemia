@@ -6,7 +6,7 @@
 import { createContext, useContext } from 'react'
 import { clsx } from 'clsx'
 import type { TypographySize, TypographyProps } from './Typography'
-import Typography, { TypographyContext } from './Typography'
+import Typography from './Typography'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type PSize = TypographySize
@@ -14,19 +14,9 @@ export type PSize = TypographySize
 export type PProps = TypographyProps<HTMLParagraphElement>
 
 function P(props: PProps) {
-  const {
-    element = 'p',
-    className,
-    proseMaxWidth: proseMaxWidthProp,
-    ...rest
-  } = props
+  const { element = 'p', className, ...rest } = props
 
   const paragraphContext = useContext(ParagraphContext)
-  const { proseMaxWidth: proseMaxWidthContext } =
-    useContext(TypographyContext)
-
-  // Use prop value if provided, otherwise fall back to context
-  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
 
   return (
     <ParagraphContext value={{ isNested: true }}>
@@ -35,7 +25,6 @@ function P(props: PProps) {
           element === 'p' && paragraphContext?.isNested ? 'span' : element
         }
         className={clsx('dnb-p', className)}
-        proseMaxWidth={proseMaxWidth}
         {...rest}
       />
     </ParagraphContext>

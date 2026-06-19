@@ -32,7 +32,7 @@ import type { DynamicElement, SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { useTheme, Context } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { TypographyContext } from '../../elements/typography/Typography'
+import { useTypography } from '../../elements/typography/Typography'
 
 export type HeadingLevelSizeResolutions = {
   1: HeadingSize
@@ -152,7 +152,6 @@ export default function Heading(props: HeadingAllProps) {
     debugCounter: _debugCounter,
     reset: _reset,
     skipCorrection: _skipCorrection,
-    proseMaxWidth: proseMaxWidthProp,
     increase: _increase,
     decrease: _decrease,
     up: _up,
@@ -165,7 +164,7 @@ export default function Heading(props: HeadingAllProps) {
     className,
     children,
     ...rest
-  } = props
+  } = useTypography(props)
 
   const [state, setState] = useState(() => {
     type State = {
@@ -259,19 +258,8 @@ export default function Heading(props: HeadingAllProps) {
   const debugCounter =
     _debugCounter || headingContext?.heading?.debugCounter
 
-  const { proseMaxWidth: proseMaxWidthContext } =
-    useContext(TypographyContext)
-
-  // Use prop value if provided, otherwise fall back to context
-  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
-
-  const style = proseMaxWidth
-    ? { maxWidth: `${proseMaxWidth === true ? 60 : proseMaxWidth}ch` }
-    : undefined
-
   const attributes: Record<string, unknown> = {
     ...rest,
-    style: { ...style, ...rest.style },
   }
 
   if (element == null) {

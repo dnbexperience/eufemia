@@ -6,8 +6,11 @@
 import { useRef } from 'react'
 import type { RefObject } from 'react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
-import type { TypographyProps } from '../Typography'
-import Typography from '../Typography'
+import type { TypographyProps, TypographyUseProps } from '../Typography'
+import Typography, {
+  TypographyContext,
+  useTypography,
+} from '../Typography'
 import P from '../P'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
@@ -161,6 +164,28 @@ describe('Typography element', () => {
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element.style.maxWidth).toBe('60ch')
+    })
+
+    it('style maxWidth overrides proseMaxWidth prop', () => {
+      render(
+        <Typography proseMaxWidth={80} style={{ maxWidth: '30ch' }}>
+          Test text
+        </Typography>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('30ch')
+    })
+
+    it('style maxWidth overrides proseMaxWidth from Typography.Provider', () => {
+      render(
+        <Typography.Provider proseMaxWidth={80}>
+          <Typography style={{ maxWidth: '30ch' }}>Test text</Typography>
+        </Typography.Provider>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('30ch')
     })
   })
 
@@ -346,5 +371,127 @@ describe('Typography element', () => {
 
       expect(element.classList.contains('dnb-t--surface-dark')).toBe(true)
     })
+  })
+})
+
+describe('useTypography', () => {
+  function Fixture(props: TypographyUseProps & { randomProp?: string }) {
+    // @ts-expect-error: ts(2339) proseMaxWidth is intentionally omitted from the return type
+    const { randomProp, proseMaxWidth, ...result } = useTypography(props)
+    return (
+      <div
+        data-testid="result"
+        {...result}
+        data-random-prop={randomProp}
+        data-prose-max-width-prop={proseMaxWidth}
+      />
+    )
+  }
+
+  it('removes proseMaxWidth from props', () => {
+    render(<Fixture proseMaxWidth={80} randomProp="test" />)
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+    expect(el.dataset.proseMaxWidthProp).toBeUndefined()
+  })
+
+  it('returns no style when proseMaxWidth is not set', () => {
+    render(<Fixture />)
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.style.maxWidth).toBe('')
+  })
+  it('returns maxWidth style from proseMaxWidth prop (number)', () => {
+    render(<Fixture proseMaxWidth={80} />)
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.style.maxWidth).toBe('80ch')
+  })
+
+  it('returns 60ch when proseMaxWidth is true', () => {
+    render(<Fixture proseMaxWidth />)
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.style.maxWidth).toBe('60ch')
+  })
+
+  it('reads proseMaxWidth from TypographyContext when prop is not set', () => {
+    render(
+      <TypographyContext value={{ proseMaxWidth: 50 }}>
+        <Fixture />
+      </TypographyContext>
+    )
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.style.maxWidth).toBe('50ch')
+  })
+
+  it('prop value takes priority over TypographyContext', () => {
+    render(
+      <TypographyContext value={{ proseMaxWidth: 50 }}>
+        <Fixture proseMaxWidth={120} />
+      </TypographyContext>
+    )
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.style.maxWidth).toBe('120ch')
+  })
+
+  it('style prop maxWidth overrides proseMaxWidth prop', () => {
+    render(<Fixture proseMaxWidth={80} style={{ maxWidth: '30ch' }} />)
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.style.maxWidth).toBe('30ch')
+  })
+
+  it('style prop maxWidth overrides proseMaxWidth from TypographyContext', () => {
+    render(
+      <TypographyContext value={{ proseMaxWidth: 80 }}>
+        <Fixture style={{ maxWidth: '30ch' }} />
+      </TypographyContext>
+    )
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.style.maxWidth).toBe('30ch')
+  })
+
+  it('merges proseMaxWidth style with other style props', () => {
+    render(<Fixture proseMaxWidth={60} style={{ color: 'red' }} />)
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.style.maxWidth).toBe('60ch')
+    expect(el.style.color).toBe('red')
+  })
+
+  it('passes through other props untouched', () => {
+    render(
+      <Fixture
+        proseMaxWidth={60}
+        style={{ color: 'blue' }}
+        randomProp="test"
+      />
+    )
+    const el = document.querySelector(
+      '[data-testid="result"]'
+    ) as HTMLElement
+
+    expect(el.dataset.randomProp).toBe('test')
   })
 })
