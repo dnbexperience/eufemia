@@ -230,7 +230,7 @@ describe('InfoCard', () => {
     ).toBeInTheDocument()
   })
 
-  // Deprecated: acceptButtonAttributes – remove this test in v12
+  // Deprecated: acceptButtonAttributes – remove this test in v13
   it('renders the accept button with additional props', () => {
     const href = 'href'
 
@@ -284,7 +284,7 @@ describe('InfoCard', () => {
     expect(buttonElement.getAttribute('data-testid')).toBe('new-prop')
   })
 
-  // Deprecated: closeButtonAttributes – remove this test in v12
+  // Deprecated: closeButtonAttributes – remove this test in v13
   it('renders the close button with additional props', () => {
     const href = 'href'
 

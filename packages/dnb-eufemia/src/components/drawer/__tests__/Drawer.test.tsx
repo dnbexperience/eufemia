@@ -161,7 +161,7 @@ describe('Drawer', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  // Deprecated: closeButtonAttributes – remove this test in v12
+  // Deprecated: closeButtonAttributes – remove this test in v13
   it('sends along closeButtonAttributes to close button', () => {
     render(
       <Drawer
