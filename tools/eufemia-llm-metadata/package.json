@@ -18,7 +18,7 @@
     "markdown-tables-utils": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "7.28.5",
+    "@babel/core": "7.29.6",
     "@babel/generator": "7.28.5",
     "@babel/parser": "7.28.5",
     "@babel/plugin-transform-modules-commonjs": "7.27.1",
