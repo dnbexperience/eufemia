@@ -177,10 +177,38 @@ export const AutocompleteDynamicallyUpdatedData = () => (
             250
           )
         }
+
+        const onOpenHandler = ({
+          dataList,
+          showIndicator,
+          hideIndicator,
+          updateData,
+          /* ... */
+        }) => {
+          // Fetch the data when the list opens (e.g. via the submit button)
+          // while nothing has been typed and no data is loaded yet
+          if (!dataList.length) {
+            showIndicator()
+
+            // simulate server delay
+            setTimeout(() => {
+              try {
+                updateData(topMovies)
+              } finally {
+                // always hide the indicator, also on error,
+                // so the submit button does not stay disabled
+                hideIndicator()
+              }
+            }, 600)
+          }
+        }
+
         return (
           <Autocomplete
             mode="async"
             onType={onTypeHandler}
+            onOpen={onOpenHandler}
+            showSubmitButton
             noScrollAnimation={true}
             placeholder="Search ..."
           />
@@ -443,6 +471,37 @@ export const AutocompleteOpened = () => {
           className="focus-trigger"
           labelDirection="horizontal"
         />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const AutocompleteSubmitButtonIndicator = () => {
+  return (
+    <Wrapper>
+      <ComponentBox
+        data-visual-test="autocomplete-submit-button-indicator"
+        scope={{ topMovies }}
+        hideCode
+      >
+        {() => {
+          const onOpenHandler = ({ showIndicator }) => {
+            showIndicator()
+          }
+
+          return (
+            <Autocomplete
+              label="Label"
+              showSubmitButton
+              preventClose
+              noAnimation
+              skipPortal
+              direction="bottom"
+              data={topMovies}
+              onOpen={onOpenHandler}
+            />
+          )
+        }}
       </ComponentBox>
     </Wrapper>
   )

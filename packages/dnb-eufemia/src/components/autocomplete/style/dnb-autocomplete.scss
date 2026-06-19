@@ -256,6 +256,30 @@
     color: transparent;
   }
 
+  // Keep the circular progress indicator intact when it is shown as the submit
+  // button icon while loading. The generic button icon styles would otherwise
+  // force a fixed svg size and fill the circles with the button text color
+  // (collapsing the spinner into a solid dot). The icon wrapper is also full
+  // button width and left-aligned, so center the indicator within it.
+  &--show-indicator
+    .dnb-input__submit-button__button
+    .dnb-button__icon.dnb-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .dnb-progress-indicator__circular {
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      circle {
+        fill: none;
+      }
+    }
+  }
+
   .dnb-form-label:hover ~ &__inner {
     .dnb-input {
       --input-border-width--default: 0.125rem;
