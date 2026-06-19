@@ -25,7 +25,6 @@ updates:
     commit-message:
       prefix: 'chore(deps)'
       prefix-development: 'chore(deps-dev)'
-      include: 'scope'
     # Groups apply to scheduled updates (not security updates). Ready for when
     # open-pull-requests-limit is raised above 0.
     groups:
@@ -61,7 +60,6 @@ updates:
       - 'dependencies'
     commit-message:
       prefix: 'chore(ci)'
-      include: 'scope'
     groups:
       actions:
         patterns:
