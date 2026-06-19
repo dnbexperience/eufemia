@@ -11,6 +11,14 @@ export * as Tools from './Tools'
 export * as Connectors from './Connectors'
 export { default as FieldBlock } from './FieldBlock'
 export { default as ValueBlock } from './ValueBlock'
+export { createForm } from './createForm'
+export type {
+  Paths,
+  PathValue,
+  TypedNamespace,
+  TypedForm,
+  CreateFormReturn,
+} from './createForm'
 
 // Types
 export type { SectionProps } from './Form/Section'

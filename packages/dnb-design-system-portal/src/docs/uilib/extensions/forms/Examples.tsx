@@ -11,6 +11,7 @@ import {
   ValueBlock,
   Wizard,
   Iterate,
+  createForm,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const CreateBasicValueComponent = () => {
@@ -741,6 +742,53 @@ export const QuickStart = () => {
         }
 
         return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const TypedPaths = () => {
+  return (
+    <ComponentBox scope={{ createForm }}>
+      {() => {
+        type MyData = {
+          /** The first name of the user */
+          firstName: string
+          /** The age of the user */
+          age: number
+          /** The address of the user */
+          address?: {
+            /** The street of the user's address */
+            street: string
+          }
+        }
+
+        // Bind the data type once – every `path` is now type-checked
+        // and offers autocomplete based on the shape of `MyData`.
+        const { Form, Field } = createForm<MyData>()
+
+        return (
+          <Form.Handler
+            defaultData={{
+              firstName: 'Nora',
+              age: 30,
+            }}
+            onSubmit={(data) => console.log('onSubmit', data)}
+          >
+            <Form.Card>
+              <Field.Name path="/firstName" label="First name" />
+              <Field.Number path="/age" label="Age" />
+              <Field.Address.Street
+                path="/address/street"
+                label="Street"
+              />
+
+              {/* Invalid paths like path="/unknown" are caught at compile time */}
+
+              <Form.SubmitButton />
+            </Form.Card>
+          </Form.Handler>
+        )
       }}
     </ComponentBox>
   )
