@@ -77,7 +77,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'To be included in the autocomplete input.',
+    doc: 'To be included in the autocomplete input. Defaults to `loupe`. Set to `null` to remove the icon entirely – no progress indicator will then be shown while loading.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },
