@@ -267,7 +267,9 @@ function AmountBase(props: AmountProps) {
     )
     content = (
       <>
-        {prefixElement} {content}
+        {prefixElement}
+        {'\u00A0'}
+        {content}
       </>
     )
     aria = `${convertJsxToString(prefixElement)} ${aria}`
