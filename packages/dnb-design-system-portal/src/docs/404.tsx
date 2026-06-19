@@ -3,11 +3,13 @@
  *
  */
 
+import { useLocation } from 'react-router-dom'
 import { GlobalError } from '@dnb/eufemia/src/components'
 import { Provider } from '@dnb/eufemia/src/shared'
 import Layout from '../shared/parts/Layout'
 
-export default function PageNotFound({ location }) {
+export default function PageNotFound() {
+  const location = useLocation()
   const { pathname } = location
 
   return (
