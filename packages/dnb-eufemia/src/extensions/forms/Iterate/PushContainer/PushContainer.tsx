@@ -15,6 +15,7 @@ import * as z from 'zod'
 import { isZodSchema } from '../../utils/zod'
 import pointer from '../../utils/json-pointer'
 import useHandleStatus from '../../Form/Isolation/useHandleStatus'
+import SectionContext from '../../Form/Section/SectionContext'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
 import DataContext from '../../DataContext/Context'
@@ -147,6 +148,7 @@ export type IteratePushContainerAllProps = IteratePushContainerProps &
 function PushContainer(props: IteratePushContainerAllProps) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const outerContext = useContext(DataContext)
+  const sectionContext = useContext(SectionContext)
   const { required: requiredInherited } = outerContext
   const { value: outerData } = useDataValue<JsonObject>('//')
 
@@ -172,6 +174,33 @@ function PushContainer(props: IteratePushContainerAllProps) {
 
   const { absolutePath } = useItemPath(itemPath)
   const { path: relativePath } = usePath({ path, itemPath })
+  const targetPath = useMemo(() => {
+    if (absolutePath) {
+      return absolutePath
+    }
+
+    if (!path) {
+      return relativePath
+    }
+
+    const sectionPath = sectionContext?.path
+    if (
+      sectionPath &&
+      !path.startsWith('//') &&
+      (path === sectionPath || path.startsWith(`${sectionPath}/`))
+    ) {
+      return path
+    }
+
+    return relativePath
+  }, [absolutePath, path, relativePath, sectionContext?.path])
+  const rootRelativeTargetPath = useMemo(() => {
+    if (!targetPath || targetPath === '/') {
+      return targetPath
+    }
+
+    return `//${targetPath.slice(1)}` as Path
+  }, [targetPath])
   const commitHandleRef = useRef<() => void>(undefined)
   const switchContainerModeRef =
     useRef<(mode: ContainerMode) => void>(undefined)
@@ -180,14 +209,10 @@ function PushContainer(props: IteratePushContainerAllProps) {
     value: entries = [],
     moveValueToPath,
     getValueByPath,
-  } = useDataValue<Array<unknown>>(path || absolutePath)
+  } = useDataValue<Array<unknown>>(rootRelativeTargetPath)
 
-  const { setNextContainerMode } = useSwitchContainerMode(
-    path || absolutePath
-  )
-  const { hasReachedLimit, setShowStatus } = useArrayLimit(
-    path || absolutePath
-  )
+  const { setNextContainerMode } = useSwitchContainerMode(targetPath)
+  const { hasReachedLimit, setShowStatus } = useArrayLimit(targetPath)
   const cancelHandler = useCallback(() => {
     if (hasReachedLimit) {
       setShowStatus(false)
@@ -252,7 +277,6 @@ function PushContainer(props: IteratePushContainerAllProps) {
   // so that fields inside PushContainer validate against the target array's item schema.
   const isolationSchema = useMemo(() => {
     const parentSchema = outerContext?.props?.schema as unknown
-    const targetPath = absolutePath || relativePath
 
     if (!parentSchema || !targetPath) {
       return undefined // stop here
@@ -290,7 +314,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
         },
       }
     }
-  }, [outerContext?.props?.schema, absolutePath, relativePath])
+  }, [outerContext?.props?.schema, targetPath])
 
   return (
     <Isolation
@@ -306,7 +330,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
       schema={isolationSchema}
       transformOnCommit={({ pushContainerItems }) => {
         return moveValueToPath(
-          absolutePath || relativePath,
+          targetPath,
           typeof insertAt === 'number'
             ? [
                 ...entries.slice(0, insertAt),
@@ -314,7 +338,9 @@ function PushContainer(props: IteratePushContainerAllProps) {
                 ...entries.slice(insertAt),
               ]
             : [...entries, ...pushContainerItems],
-          absolutePath ? structuredClone(getValueByPath('/')) : {}
+          targetPath && targetPath !== '/'
+            ? structuredClone(getValueByPath('/'))
+            : {}
         )
       }}
       onCommit={(data, options) => {
@@ -331,29 +357,37 @@ function PushContainer(props: IteratePushContainerAllProps) {
       }}
     >
       <PushContainerContext value={newItemContextProps}>
-        <IterateArray
-          path="/pushContainerItems"
-          containerMode={showOpenButton ? 'view' : 'edit'}
-          withoutFlex
-          omitSectionPath
+        <SectionContext
+          value={
+            sectionContext
+              ? { ...sectionContext, path: undefined }
+              : undefined
+          }
         >
-          <NewContainer
-            title={title}
-            openButton={openButton}
-            switchContainerModeRef={switchContainerModeRef}
-            showOpenButton={showOpenButton}
-            cancelHandler={cancelHandler}
-            containerModeRef={containerModeRef}
-            rerenderPushContainer={forceUpdate}
-            preventUncommittedChanges={preventUncommittedChanges}
-            showResetButton={showResetButton}
-            outerContext={outerContext}
-            required={required}
-            {...rest}
+          <IterateArray
+            path="/pushContainerItems"
+            containerMode={showOpenButton ? 'view' : 'edit'}
+            withoutFlex
+            omitSectionPath
           >
-            {children}
-          </NewContainer>
-        </IterateArray>
+            <NewContainer
+              title={title}
+              openButton={openButton}
+              switchContainerModeRef={switchContainerModeRef}
+              showOpenButton={showOpenButton}
+              cancelHandler={cancelHandler}
+              containerModeRef={containerModeRef}
+              rerenderPushContainer={forceUpdate}
+              preventUncommittedChanges={preventUncommittedChanges}
+              showResetButton={showResetButton}
+              outerContext={outerContext}
+              required={required}
+              {...rest}
+            >
+              {children}
+            </NewContainer>
+          </IterateArray>
+        </SectionContext>
       </PushContainerContext>
     </Isolation>
   )
