@@ -42,6 +42,40 @@ describe('Stat.Currency', () => {
     expect(currency.textContent).toBe('EUR')
   })
 
+  describe('compact', () => {
+    it('renders currency suffix and symbol', () => {
+      render(<Stat.Currency value={1300000} compact decimals={1} />)
+
+      const content = document.querySelector('.dnb-stat__content')
+      const amount = document.querySelector('.dnb-stat__amount')
+      const currency = document.querySelector('.dnb-stat__currency')
+
+      expect(content.textContent).toBe('1,3 mill. kr')
+      expect(amount.textContent).toBe('1,3 mill.')
+      expect(currency.textContent).toBe('kr')
+    })
+
+    it('keeps compact suffix in the amount when auxiliarySize is set', () => {
+      render(
+        <Stat.Currency
+          value={1300000}
+          compact
+          decimals={1}
+          mainSize="x-large"
+          auxiliarySize="basis"
+        />
+      )
+
+      const amount = document.querySelector('.dnb-stat__amount')
+      const currency = document.querySelector('.dnb-stat__currency')
+
+      expect(amount.textContent).toBe('1,3 mill.')
+      expect(amount.classList).toContain('dnb-t__size--x-large')
+      expect(currency.textContent).toBe('kr')
+      expect(currency.classList).toContain('dnb-t__size--basis')
+    })
+  })
+
   it('supports sign tone colorization', () => {
     render(
       <Stat.Currency

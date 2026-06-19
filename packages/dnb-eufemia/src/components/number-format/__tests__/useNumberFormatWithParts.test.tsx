@@ -6,6 +6,7 @@
 import { renderHook } from '@testing-library/react'
 import useNumberFormatWithParts from '../useNumberFormatWithParts'
 import { formatCurrency, formatPercent, formatNumber } from '../utils'
+import type { NumberFormatter } from '../useNumberFormat'
 import Provider from '../../../shared/Provider'
 
 describe('useNumberFormatWithParts', () => {
@@ -44,6 +45,148 @@ describe('useNumberFormatWithParts', () => {
         }),
       })
     )
+  })
+
+  describe('compact', () => {
+    describe('currency', () => {
+      it('will include compact suffix in the number part', () => {
+        const { result } = renderHook(() =>
+          useNumberFormatWithParts(1300000, formatCurrency, {
+            compact: true,
+            decimals: 1,
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            number: '1,3 mill. kr',
+            parts: expect.objectContaining({
+              signedNumber: '1,3 mill.',
+              number: '1,3 mill.',
+              currency: 'kr',
+              currencyPosition: 'after',
+              spaceBeforeCurrency: true,
+            }),
+          })
+        )
+      })
+
+      it('will include compact suffix in the number part for before-position currency', () => {
+        const { result } = renderHook(() =>
+          useNumberFormatWithParts(1300000, formatCurrency, {
+            compact: true,
+            currency: 'NOK',
+            decimals: 1,
+            locale: 'en-GB',
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            number: 'NOK 1.3m',
+            parts: expect.objectContaining({
+              signedNumber: '1.3m',
+              number: '1.3m',
+              currency: 'NOK',
+              currencyPosition: 'before',
+              spaceAfterCurrency: true,
+            }),
+          })
+        )
+      })
+
+      it('will include compact suffix when value is cleaned', () => {
+        const { result } = renderHook(() =>
+          useNumberFormatWithParts('1 300 000', formatCurrency, {
+            clean: true,
+            compact: true,
+            decimals: 1,
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            number: '1,3 mill. kr',
+            parts: expect.objectContaining({
+              signedNumber: '1,3 mill.',
+              number: '1,3 mill.',
+              currency: 'kr',
+              currencyPosition: 'after',
+            }),
+          })
+        )
+      })
+    })
+
+    describe('number', () => {
+      it('will include compact suffix in the number part', () => {
+        const { result } = renderHook(() =>
+          useNumberFormatWithParts(1300000, formatNumber, {
+            compact: true,
+            decimals: 1,
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            number: '1,3 mill.',
+            parts: expect.objectContaining({
+              signedNumber: '1,3 mill.',
+              number: '1,3 mill.',
+              currency: null,
+              currencyPosition: null,
+            }),
+          })
+        )
+      })
+
+      it('will include compact suffix when formatter wraps formatNumber', () => {
+        const formatWrappedNumber: NumberFormatter = ((value, options) =>
+          formatNumber(value, options)) as NumberFormatter
+
+        const { result } = renderHook(() =>
+          useNumberFormatWithParts(1300000, formatWrappedNumber, {
+            compact: true,
+            decimals: 1,
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            number: '1,3 mill.',
+            parts: expect.objectContaining({
+              signedNumber: '1,3 mill.',
+              number: '1,3 mill.',
+              currency: null,
+              currencyPosition: null,
+            }),
+          })
+        )
+      })
+    })
+
+    describe('percent', () => {
+      it('will not include percent sign in the number part', () => {
+        const { result } = renderHook(() =>
+          useNumberFormatWithParts(1300, formatPercent, {
+            compact: true,
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            number: '1 300 %',
+            parts: expect.objectContaining({
+              signedNumber: '1 300',
+              number: '1 300',
+              currency: null,
+              currencyPosition: null,
+              percent: '%',
+            }),
+          })
+        )
+      })
+    })
   })
 
   it('will derive before-position and after-currency space for en-GB currency', () => {

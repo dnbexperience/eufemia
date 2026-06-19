@@ -6,7 +6,8 @@ import type {
   NumberFormatReturnValue,
   NumberFormatValue,
 } from './NumberUtils'
-import { formatNumber } from './utils'
+import { cleanNumber, formatNumber } from './utils'
+import { canHandleCompact } from './utils/compact'
 import type { NumberFormatter } from './useNumberFormat'
 
 export type NumberFormatParts = {
@@ -65,9 +66,15 @@ function useNumberFormatWithParts(
     return result
   }
 
+  const compactValue = params.clean ? cleanNumber(value) : value
+  const compact = canHandleCompact({
+    value: compactValue ?? '',
+    compact: params.compact ?? null,
+  })
+
   return {
     ...result,
-    parts: parseParts(result.number),
+    parts: parseParts(result.number, result.type, compact),
   }
 }
 
@@ -75,7 +82,11 @@ const SIGN_RE = /^[\u200e\u200f\u061c\s]*([+\-\u2212])?\s*/
 const NUMBER_RE = /[0-9](?:[0-9.,]|[\s\u00A0\u202F](?=[0-9]))*/
 const PERCENT_RE = /^([\u00A0\u202F\s]*)([%٪])\s*$/
 
-function parseParts(input: string): NumberFormatParts {
+function parseParts(
+  input: string,
+  type: NumberFormatReturnValue['type'] = 'number',
+  compact = false
+): NumberFormatParts {
   const source = String(input ?? '')
   const signMatch = source.match(SIGN_RE) as RegExpMatchArray
   const sign = signMatch[1] ?? null
@@ -96,26 +107,52 @@ function parseParts(input: string): NumberFormatParts {
     }
   }
 
-  const number = numberMatch[0].trim()
-  const signedNumber = sign ? `${sign}${number}` : number
+  let number = numberMatch[0].trim()
   const before = afterSign.slice(0, numberMatch.index).trim()
-  const after = afterSign.slice(numberMatch.index! + numberMatch[0].length)
+  let after = afterSign.slice(numberMatch.index! + numberMatch[0].length)
+
+  if (compact && !PERCENT_RE.test(after)) {
+    const compactMatch = after.match(
+      /^([\s\u00A0\u202F]*[^\d\s\u00A0\u202F]+)/
+    )
+
+    if (compactMatch) {
+      number += compactMatch[1]
+      after = after.slice(compactMatch[1].length)
+    }
+  }
+
+  const signedNumber = sign ? `${sign}${number}` : number
   const percentMatch = after.match(PERCENT_RE)
   const percent = percentMatch ? percentMatch[2] : null
   const percentSpacing = percentMatch ? percentMatch[1] : ''
   const trailing = percentMatch ? '' : after.trim()
   const hasBefore = before.length > 0
   const hasAfter = trailing.length > 0
-  const currency = hasBefore ? before : hasAfter ? trailing : null
+  const currency =
+    type === 'currency'
+      ? hasBefore
+        ? before
+        : hasAfter
+          ? trailing
+          : null
+      : null
 
   return {
     sign,
     signedNumber,
     number,
     currency,
-    currencyPosition: hasBefore ? 'before' : hasAfter ? 'after' : null,
-    spaceAfterCurrency: hasBefore,
-    spaceBeforeCurrency: hasAfter,
+    currencyPosition:
+      type === 'currency'
+        ? hasBefore
+          ? 'before'
+          : hasAfter
+            ? 'after'
+            : null
+        : null,
+    spaceAfterCurrency: type === 'currency' && hasBefore,
+    spaceBeforeCurrency: type === 'currency' && hasAfter,
     percent,
     percentSpacing,
   }
