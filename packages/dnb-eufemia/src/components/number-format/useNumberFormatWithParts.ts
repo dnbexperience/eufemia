@@ -8,6 +8,8 @@ import type {
 } from './NumberUtils'
 import { cleanNumber, formatNumber } from './utils'
 import { canHandleCompact } from './utils/compact'
+import { getReturnValueParts } from './utils/formatCore'
+import type { FormatPartItem } from './utils/types'
 import type { NumberFormatter } from './useNumberFormat'
 
 export type NumberFormatParts = {
@@ -32,9 +34,9 @@ export type NumberFormatReturnWithParts = NumberFormatReturnValue & {
  * percent) so consumers can style each piece independently.
  *
  * `formatter` defaults to `formatNumber`. Pass `formatCurrency` or
- * `formatPercent` for currency/percent output. The returned `parts` are
- * derived from the formatter's display string, so any formatter that
- * returns a `NumberFormatReturnValue` works.
+ * `formatPercent` for currency/percent output. Standard Eufemia formatters
+ * preserve semantic formatter parts; custom formatter objects fall back to
+ * parsing the returned display string.
  */
 function useNumberFormatWithParts(
   value: NumberFormatValue,
@@ -71,16 +73,125 @@ function useNumberFormatWithParts(
     value: compactValue ?? '',
     compact: params.compact ?? null,
   })
+  const formatParts = getReturnValueParts(result)
 
   return {
     ...result,
-    parts: parseParts(result.number, result.type, compact),
+    parts:
+      parseFormatParts(formatParts, result.type) ??
+      parseParts(result.number, result.type, compact),
   }
 }
 
 const SIGN_RE = /^[\u200e\u200f\u061c\s]*([+\-\u2212])?\s*/
 const NUMBER_RE = /[0-9](?:[0-9.,]|[\s\u00A0\u202F](?=[0-9]))*/
 const PERCENT_RE = /^([\u00A0\u202F\s]*)([%٪])\s*$/
+const NUMBER_PART_TYPES = new Set([
+  'integer',
+  'group',
+  'decimal',
+  'fraction',
+  'compact',
+  'nan',
+  'infinity',
+])
+const SIGN_PART_TYPES = new Set(['minusSign', 'plusSign'])
+
+function parseFormatParts(
+  parts: FormatPartItem[] | undefined,
+  type: NumberFormatReturnValue['type'] = 'number'
+): NumberFormatParts | null {
+  if (!parts?.length) {
+    return null
+  }
+
+  let sign: string | null = null
+  let number = ''
+  let currencyBefore = ''
+  let currencyAfter = ''
+  let spacingBeforeNumber = ''
+  let spacingAfterNumber = ''
+  let percent = ''
+  let percentSpacing = ''
+  let hasNumber = false
+
+  parts.forEach((part, index) => {
+    if (SIGN_PART_TYPES.has(part.type)) {
+      sign = part.value
+      return
+    }
+
+    if (NUMBER_PART_TYPES.has(part.type)) {
+      hasNumber = true
+      number += part.value
+      return
+    }
+
+    if (part.type === 'currency') {
+      if (hasNumber) {
+        currencyAfter += part.value
+      } else {
+        currencyBefore += part.value
+      }
+      return
+    }
+
+    if (part.type === 'percentSign') {
+      percent += part.value
+      return
+    }
+
+    if (part.type === 'literal') {
+      if (percent) {
+        return
+      }
+
+      if (hasNumber && parts[index + 1]?.type === 'compact') {
+        number += part.value
+        return
+      }
+
+      if (hasNumber) {
+        spacingAfterNumber += part.value
+      } else {
+        spacingBeforeNumber += part.value
+      }
+    }
+  })
+
+  if (!hasNumber) {
+    return null
+  }
+
+  const currency =
+    type === 'currency' ? currencyBefore || currencyAfter || null : null
+
+  if (percent) {
+    const percentIndex = parts.findIndex(
+      ({ type }) => type === 'percentSign'
+    )
+    const previousPart = parts[percentIndex - 1]
+    if (previousPart?.type === 'literal') {
+      percentSpacing = previousPart.value
+    }
+  }
+
+  return {
+    sign,
+    signedNumber: sign ? `${sign}${number}` : number,
+    number,
+    currency,
+    currencyPosition: currencyBefore
+      ? 'before'
+      : currencyAfter
+        ? 'after'
+        : null,
+    spaceAfterCurrency: Boolean(currencyBefore && spacingBeforeNumber),
+    spaceBeforeCurrency: Boolean(currencyAfter && spacingAfterNumber),
+    percent: percent || null,
+    percentSpacing,
+  }
+}
 
 function parseParts(
   input: string,
@@ -108,8 +219,9 @@ function parseParts(
   }
 
   let number = numberMatch[0].trim()
-  const before = afterSign.slice(0, numberMatch.index).trim()
-  let after = afterSign.slice(numberMatch.index! + numberMatch[0].length)
+  const numberIndex = numberMatch.index ?? 0
+  const before = afterSign.slice(0, numberIndex).trim()
+  let after = afterSign.slice(numberIndex + numberMatch[0].length)
 
   if (compact && !PERCENT_RE.test(after)) {
     const compactMatch = after.match(

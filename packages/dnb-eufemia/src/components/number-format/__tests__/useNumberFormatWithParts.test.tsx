@@ -6,6 +6,11 @@
 import { renderHook } from '@testing-library/react'
 import useNumberFormatWithParts from '../useNumberFormatWithParts'
 import { formatCurrency, formatPercent, formatNumber } from '../utils'
+import type {
+  NumberFormatOptionParams,
+  NumberFormatReturnValue,
+  NumberFormatValue,
+} from '../NumberUtils'
 import type { NumberFormatter } from '../useNumberFormat'
 import Provider from '../../../shared/Provider'
 
@@ -116,6 +121,39 @@ describe('useNumberFormatWithParts', () => {
           })
         )
       })
+
+      it('will parse compact suffix from custom formatter objects', () => {
+        const formatCustomCurrency = ((
+          value: NumberFormatValue,
+          options: NumberFormatOptionParams
+        ): NumberFormatReturnValue => ({
+          value,
+          cleanedValue: String(value),
+          number: '1,3 mill. kr',
+          aria: '1,3 million kroner',
+          locale: options.locale ?? 'nb-NO',
+          type: 'currency',
+        })) as NumberFormatter
+
+        const { result } = renderHook(() =>
+          useNumberFormatWithParts(1300000, formatCustomCurrency, {
+            compact: true,
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            number: '1,3 mill. kr',
+            parts: expect.objectContaining({
+              signedNumber: '1,3 mill.',
+              number: '1,3 mill.',
+              currency: 'kr',
+              currencyPosition: 'after',
+              spaceBeforeCurrency: true,
+            }),
+          })
+        )
+      })
     })
 
     describe('number', () => {
@@ -204,6 +242,29 @@ describe('useNumberFormatWithParts', () => {
           currency: 'NOK',
           spaceAfterCurrency: true,
           spaceBeforeCurrency: false,
+        }),
+      })
+    )
+  })
+
+  it('will keep the sign separate when currency is before the sign', () => {
+    const { result } = renderHook(() =>
+      useNumberFormatWithParts(-123456789.5, formatCurrency, {
+        currency: 'CHF',
+        locale: 'de-CH',
+      })
+    )
+
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        number: "CHF-123'456'789.50",
+        parts: expect.objectContaining({
+          sign: '-',
+          signedNumber: "-123'456'789.50",
+          number: "123'456'789.50",
+          currency: 'CHF',
+          currencyPosition: 'before',
+          spaceAfterCurrency: false,
         }),
       })
     )

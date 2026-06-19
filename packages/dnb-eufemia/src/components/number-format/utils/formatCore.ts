@@ -10,6 +10,7 @@ import { cleanNumber } from './cleanNumber'
 import { formatDecimals } from './decimals'
 import {
   formatNumberCore,
+  formatNumberCoreParts,
   prepareMinus,
   enhanceSR,
 } from './formatNumberCore'
@@ -29,6 +30,17 @@ import type {
   FormatPartItem,
   FormattedParts,
 } from './types'
+
+const returnValueParts = new WeakMap<
+  NumberFormatReturnValue,
+  FormatPartItem[]
+>()
+
+export function getReturnValueParts(
+  value: NumberFormatReturnValue
+): FormatPartItem[] | undefined {
+  return returnValueParts.get(value)
+}
 
 /**
  * Normalises locale (handles `null` + `auto`).
@@ -90,6 +102,7 @@ export function buildReturn({
   opts,
   cleanCopyValue,
   invalidAriaText,
+  parts,
 }: {
   value: NumberFormatValue
   locale: string
@@ -99,6 +112,7 @@ export function buildReturn({
   opts: InternalNumberFormatOptions
   cleanCopyValue: boolean | null
   invalidAriaText: string | null
+  parts?: FormatPartItem[]
 }): NumberFormatReturnValue {
   let cleanedValue
 
@@ -135,7 +149,20 @@ export function buildReturn({
       'N/A'
   }
 
-  return { value, cleanedValue, number: display, aria, locale, type }
+  const result = {
+    value,
+    cleanedValue,
+    number: display,
+    aria,
+    locale,
+    type,
+  }
+
+  if (parts) {
+    returnValueParts.set(result, parts)
+  }
+
+  return result
 }
 
 /**
@@ -156,7 +183,7 @@ export function applyDecimalsForPlain({
     return formatDecimals(value, decimals, rounding, opts)
   } else if (typeof opts.maximumFractionDigits === 'undefined') {
     // if no decimals are set, opts.maximumFractionDigits is set
-    // why do we this? because the ".toLocaleString" will else use 3 as the default
+    // because Intl.NumberFormat otherwise uses 3 as the default
     opts.maximumFractionDigits = 20
   }
   return value
@@ -166,6 +193,7 @@ export {
   cleanNumber,
   formatDecimals,
   formatNumberCore,
+  formatNumberCoreParts,
   prepareMinus,
   enhanceSR,
   handleCompactBeforeDisplay,

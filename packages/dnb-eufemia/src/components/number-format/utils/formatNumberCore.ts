@@ -25,12 +25,7 @@ function toIntlOptions({
   return rest
 }
 
-/**
- * For internal usage.
- * Returns an array that contains all the parts of the given number
- * `[{ value, type }]`.
- */
-export function formatToParts({
+function getFormatParts({
   number,
   locale = null,
   options = null,
@@ -43,25 +38,64 @@ export function formatToParts({
     typeof Intl !== 'undefined' &&
     typeof Intl.NumberFormat === 'function'
   ) {
-    try {
-      const inst = new Intl.NumberFormat(
-        locale || LOCALE,
-        toIntlOptions(options || {})
-      )
-      if (typeof inst.formatToParts === 'function') {
-        return inst.formatToParts(Number(number))
-      } else {
-        return [{ value: inst.format(Number(number)), type: 'unknown' }]
-      }
-    } catch (e) {
-      warn(
-        'NumberFormat: Failed to format number with Intl.NumberFormat:',
-        e
-      )
+    const inst = new Intl.NumberFormat(
+      locale || LOCALE,
+      toIntlOptions(options || {})
+    )
+    if (typeof inst.formatToParts === 'function') {
+      return inst.formatToParts(Number(number))
     }
+    return [{ value: inst.format(Number(number)), type: 'unknown' }]
   }
 
   return [{ value: String(number), type: 'unknown' }]
+}
+
+/**
+ * For internal usage.
+ * Returns an array that contains all the parts of the given number
+ * `[{ value, type }]`.
+ */
+export function formatToParts(args: {
+  number: NumberFormatValue
+  locale?: string | null
+  options?: InternalNumberFormatOptions | null
+}): FormatPartItem[] {
+  try {
+    return getFormatParts(args)
+  } catch (e) {
+    warn(
+      'NumberFormat: Failed to format number with Intl.NumberFormat:',
+      e
+    )
+  }
+
+  return [{ value: String(args.number), type: 'unknown' }]
+}
+
+export type FormatNumberCoreResult = {
+  number: string
+  parts: FormatPartItem[]
+}
+
+function joinParts(parts: FormatPartItem[]): string {
+  return parts.reduce((acc, { value }) => acc + value, '')
+}
+
+function alignParts(
+  parts: FormatPartItem[],
+  currencyDisplay: InternalNumberFormatOptions['currencyDisplay']
+): FormatPartItem[] {
+  return parts.map((item) => {
+    if (item.type === 'currency') {
+      return {
+        ...item,
+        value: alignCurrencySymbol(item.value, currencyDisplay),
+      }
+    }
+
+    return item
+  })
 }
 
 /**
@@ -155,7 +189,7 @@ function replaceNaNWithDash(number: string | number): string {
 
 /**
  * The main number formatter function.
- * Calls the browser/Node.js `Intl.NumberFormat` or `Number.toLocaleString` APIs.
+ * Calls the browser/Node.js `Intl.NumberFormat` API.
  */
 export const formatNumberCore = (
   number: NumberFormatValue,
@@ -163,6 +197,17 @@ export const formatNumberCore = (
   options: InternalNumberFormatOptions = {},
   formatter: PartFormatter | null = null
 ): string => {
+  return formatNumberCoreParts(number, locale, options, formatter).number
+}
+
+export const formatNumberCoreParts = (
+  number: NumberFormatValue,
+  locale: string | null,
+  options: InternalNumberFormatOptions = {},
+  formatter: PartFormatter | null = null
+): FormatNumberCoreResult => {
+  let parts: FormatPartItem[] = []
+
   try {
     if (options.currencyDisplay) {
       options.currencyDisplay = getFallbackCurrencyDisplay(
@@ -174,19 +219,14 @@ export const formatNumberCore = (
     // remove unsupported decimals
     delete options.decimals
 
-    if (formatter) {
-      number = formatToParts({ number, locale, options })
-        .map(formatter)
-        .reduce((acc: string, { value }) => acc + value, '')
-    } else if (
-      typeof Number !== 'undefined' &&
-      typeof Number.toLocaleString === 'function'
-    ) {
-      number = parseFloat(String(number)).toLocaleString(
-        locale || LOCALE,
-        toIntlOptions(options)
-      )
-    }
+    parts = getFormatParts({
+      number: formatter ? Number(number) : parseFloat(String(number)),
+      locale,
+      options,
+    }).map((item) => (formatter ? formatter(item) : item))
+    parts = alignParts(parts, options.currencyDisplay)
+    number = joinParts(parts)
+
     if (
       new RegExp(`^(${NUMBER_MINUS})(0|0[^\\d]|0\\s.*)$`).test(
         String(number)
@@ -208,7 +248,13 @@ export const formatNumberCore = (
     )
   }
 
-  return replaceNaNWithDash(
+  number = replaceNaNWithDash(
     alignCurrencySymbol(number, options.currencyDisplay)
   )
+
+  if (joinParts(parts) !== String(number)) {
+    parts = []
+  }
+
+  return { number: String(number), parts }
 }
