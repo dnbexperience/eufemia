@@ -340,6 +340,23 @@ export const AutocompleteCustomWidth = () => (
   </ComponentBox>
 )
 
+export const AutocompleteIconRightWithSubmitButton = () => (
+  <Wrapper>
+    <ComponentBox
+      data-visual-test="autocomplete-icon-right-submit-button"
+      scope={{ topMovies }}
+    >
+      <Autocomplete
+        label="Label"
+        icon="bell"
+        iconPosition="right"
+        showSubmitButton
+        data={topMovies}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const AutocompleteSuffix = () => {
   const { locale } = useContext(Context)
   const ban = formatBankAccountNumber(20001234567, { locale })
