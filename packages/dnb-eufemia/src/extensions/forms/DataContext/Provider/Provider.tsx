@@ -74,6 +74,7 @@ export type SharedAttachments<Data = unknown> = {
   visibleDataHandler?: VisibleDataHandler<Data>
   filterDataHandler?: FilterDataHandler<Data>
   validationVersion?: number
+  showAllErrors?: ContextState['showAllErrors']
   hasErrors?: ContextState['hasErrors']
   hasFieldError?: ContextState['hasFieldError']
   setShowAllErrors?: ContextState['setShowAllErrors']
@@ -1838,6 +1839,7 @@ export default function Provider<Data extends JsonObject>(
           visibleDataHandler,
           filterDataHandler,
           validationVersion: validationVersionRef.current,
+          showAllErrors: showAllErrorsRef.current,
           hasErrors,
           hasFieldError,
           setShowAllErrors,
@@ -1865,6 +1867,7 @@ export default function Provider<Data extends JsonObject>(
     setSubmitState,
     updateDataValue,
     visibleDataHandler,
+    showAllErrorsRef.current,
   ])
 
   const { bufferedFormState: formState } = useFormStatusBuffer({
