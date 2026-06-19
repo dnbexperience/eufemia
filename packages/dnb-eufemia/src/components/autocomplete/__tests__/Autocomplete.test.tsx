@@ -1971,6 +1971,38 @@ describe('Autocomplete component', () => {
     ).toBeInTheDocument()
   })
 
+  it('should keep submit button open when no-options is shown', async () => {
+    render(
+      <Autocomplete data={mockData} showSubmitButton {...mockProps} />
+    )
+
+    toggle()
+
+    const submitButton = document.querySelector(
+      'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+    )
+
+    const openIcon = submitButton.querySelector(
+      'svg[data-icon-state="open"]'
+    )
+    const closedIcon = submitButton.querySelector(
+      'svg[data-icon-state="closed"]'
+    )
+
+    expect(submitButton).toHaveAttribute('aria-expanded', 'true')
+    expect(openIcon).toHaveClass('dnb-icon__state--active')
+    expect(closedIcon).not.toHaveClass('dnb-icon__state--active')
+
+    await userEvent.type(document.querySelector('input'), 'invalid')
+
+    expect(
+      document.querySelector('.dnb-autocomplete__no-options')
+    ).toBeInTheDocument()
+    expect(submitButton).toHaveAttribute('aria-expanded', 'true')
+    expect(openIcon).toHaveClass('dnb-icon__state--active')
+    expect(closedIcon).not.toHaveClass('dnb-icon__state--active')
+  })
+
   it('should not show "no-options" during async mode', async () => {
     const mockData = [
       { selectedKey: 'a', content: 'AA c' },

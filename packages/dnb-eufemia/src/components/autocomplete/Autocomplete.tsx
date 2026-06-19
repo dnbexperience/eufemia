@@ -2340,7 +2340,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
   const { id, hidden, selectedItem, direction, open } = drawerList
 
-  const isExpanded = Boolean(open) && hasValidData()
+  const hasVisibleListContent = drawerList.data.length > 0
+  const isExpanded = Boolean(open) && hasVisibleListContent
 
   attributesRef.current = validateDOMAttributes(null, attributes)
   Object.assign(drawerList.attributes, attributesRef.current)
