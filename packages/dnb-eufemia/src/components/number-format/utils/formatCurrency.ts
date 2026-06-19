@@ -16,16 +16,44 @@ import {
   cleanNumber,
   formatDecimals,
   formatNumberCore,
+  formatNumberCoreParts,
   handleCompactBeforeAria,
   handleCompactBeforeDisplay,
   prepareFormatOptions,
-  prepareMinus,
+  prepareMinusParts,
   resolveLocale,
   enhanceSR,
 } from './formatCore'
 import { currencyPositionFormatter } from './currencyPosition'
 import { getFallbackCurrencyDisplay, CURRENCY } from './currencyDisplay'
 import { alignCurrencySymbol } from './formatNumberCore'
+
+function joinParts(parts: FormatPartItem[]): string {
+  return parts.reduce((acc, { value }) => acc + value, '')
+}
+
+function trimBoundaryLiterals(parts: FormatPartItem[]): FormatPartItem[] {
+  const nextParts = parts.filter((item) => item.value)
+
+  while (
+    nextParts[0]?.type === 'literal' &&
+    nextParts[0].value.trim() === ''
+  ) {
+    nextParts.shift()
+  }
+
+  while (nextParts.length > 0) {
+    const lastPart = nextParts[nextParts.length - 1]
+
+    if (lastPart.type !== 'literal' || lastPart.value.trim() !== '') {
+      break
+    }
+
+    nextParts.pop()
+  }
+
+  return nextParts
+}
 
 export function formatCurrency(
   value: NumberFormatValue | null | undefined,
@@ -143,15 +171,40 @@ export function formatCurrency(
     )
   }
 
-  let display = formatNumberCore(cleanedNumber, locale, opts, formatter)
-  display = prepareMinus(display, locale)
+  const formatted = formatNumberCoreParts(
+    cleanedNumber,
+    locale,
+    opts,
+    formatter
+  )
+  const prepared = prepareMinusParts(
+    formatted.number,
+    formatted.parts,
+    locale
+  )
+  let display = prepared.number
+  let parts = prepared.parts.length ? prepared.parts : undefined
 
   if (resolvedPosition && currencySuffix) {
     if (resolvedPosition === 'after') {
       display = `${display.trim()} ${currencySuffix}`
+      parts = parts && [
+        ...trimBoundaryLiterals(parts),
+        { type: 'literal', value: ' ' },
+        { type: 'currency', value: currencySuffix },
+      ]
     } else if (resolvedPosition === 'before') {
       display = `${currencySuffix} ${display.trim()}`
+      parts = parts && [
+        { type: 'currency', value: currencySuffix },
+        { type: 'literal', value: ' ' },
+        ...trimBoundaryLiterals(parts),
+      ]
     }
+  }
+
+  if (parts && joinParts(parts) !== display) {
+    parts = undefined
   }
 
   handleCompactBeforeAria({ value, compact, opts })
@@ -178,5 +231,6 @@ export function formatCurrency(
     opts,
     cleanCopyValue,
     invalidAriaText,
+    parts,
   })
 }
