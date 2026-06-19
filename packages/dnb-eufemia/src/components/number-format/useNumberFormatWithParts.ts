@@ -8,6 +8,12 @@ import type {
 } from './NumberUtils'
 import { cleanNumber, formatNumber } from './utils'
 import { canHandleCompact } from './utils/compact'
+import {
+  numberFormatDisplayPartsSymbol,
+  type NumberFormatInternalOptionParams,
+  type NumberFormatReturnValueWithDisplayParts,
+} from './utils/displayParts'
+import type { FormatPartItem } from './utils/types'
 import type { NumberFormatter } from './useNumberFormat'
 
 export type NumberFormatParts = {
@@ -58,9 +64,12 @@ function useNumberFormatWithParts(
     context.NumberFormat
   ) as NumberFormatOptionParams
 
-  const result = formatter(value, params) as
-    | NumberFormatReturnValue
-    | string
+  const result = formatter(value, {
+    ...params,
+    returnDisplayParts: true,
+  } as NumberFormatInternalOptionParams & {
+    returnAria: true
+  }) as NumberFormatReturnValueWithDisplayParts | string
 
   if (typeof result === 'string') {
     return result
@@ -74,13 +83,127 @@ function useNumberFormatWithParts(
 
   return {
     ...result,
-    parts: parseParts(result.number, result.type, compact),
+    parts:
+      parseDisplayParts(
+        result[numberFormatDisplayPartsSymbol],
+        result.number,
+        result.type
+      ) ?? parseParts(result.number, result.type, compact),
   }
 }
 
 const SIGN_RE = /^[\u200e\u200f\u061c\s]*([+\-\u2212])?\s*/
 const NUMBER_RE = /[0-9](?:[0-9.,]|[\s\u00A0\u202F](?=[0-9]))*/
 const PERCENT_RE = /^([\u00A0\u202F\s]*)([%٪])\s*$/
+const NUMBER_PART_TYPES = new Set([
+  'integer',
+  'group',
+  'decimal',
+  'fraction',
+  'compact',
+  'nan',
+  'infinity',
+])
+const SIGN_PART_TYPES = new Set(['minusSign', 'plusSign'])
+
+function joinParts(parts: FormatPartItem[]): string {
+  return parts.reduce((acc, { value }) => acc + value, '')
+}
+
+function findLastIndex(
+  parts: FormatPartItem[],
+  callback: (part: FormatPartItem) => boolean
+): number {
+  for (let i = parts.length - 1; i >= 0; i--) {
+    if (callback(parts[i])) {
+      return i
+    }
+  }
+
+  return -1
+}
+
+function isNumberPart(part: FormatPartItem): boolean {
+  return NUMBER_PART_TYPES.has(part.type)
+}
+
+function isSignPart(part: FormatPartItem): boolean {
+  return SIGN_PART_TYPES.has(part.type)
+}
+
+function hasSpacingBetween(
+  parts: FormatPartItem[],
+  fromIndex: number,
+  toIndex: number
+): boolean {
+  return parts
+    .slice(fromIndex + 1, toIndex)
+    .some(({ type, value }) => type === 'literal' && value.length > 0)
+}
+
+function parseDisplayParts(
+  displayParts: FormatPartItem[] | undefined,
+  input: string,
+  type: NumberFormatReturnValue['type'] = 'number'
+): NumberFormatParts | null {
+  if (!displayParts?.length || joinParts(displayParts) !== input) {
+    return null
+  }
+
+  const firstNumberIndex = displayParts.findIndex(isNumberPart)
+  const lastNumberIndex = findLastIndex(displayParts, isNumberPart)
+
+  if (firstNumberIndex === -1 || lastNumberIndex === -1) {
+    return null
+  }
+
+  const sign = displayParts.find(isSignPart)?.value ?? null
+  const number = joinParts(
+    displayParts.slice(firstNumberIndex, lastNumberIndex + 1)
+  ).trim()
+  const signedNumber = sign ? `${sign}${number}` : number
+  const percentIndex = displayParts.findIndex(
+    ({ type }) => type === 'percentSign'
+  )
+  const percentPart = displayParts[percentIndex]
+  const percent = percentPart?.value ?? null
+  const percentSpacing = percent
+    ? joinParts(displayParts.slice(lastNumberIndex + 1, percentIndex))
+    : ''
+  const firstCurrencyIndex = displayParts.findIndex(
+    ({ type }) => type === 'currency'
+  )
+  const lastCurrencyIndex = findLastIndex(
+    displayParts,
+    ({ type }) => type === 'currency'
+  )
+  const currency =
+    type === 'currency' && firstCurrencyIndex !== -1
+      ? joinParts(displayParts.filter(({ type }) => type === 'currency'))
+      : null
+  const currencyPosition =
+    currency && firstCurrencyIndex < firstNumberIndex
+      ? 'before'
+      : currency
+        ? 'after'
+        : null
+
+  return {
+    sign,
+    signedNumber,
+    number,
+    currency,
+    currencyPosition,
+    spaceAfterCurrency:
+      currencyPosition === 'before' &&
+      hasSpacingBetween(displayParts, lastCurrencyIndex, firstNumberIndex),
+    spaceBeforeCurrency:
+      currencyPosition === 'after' &&
+      hasSpacingBetween(displayParts, lastNumberIndex, firstCurrencyIndex),
+    percent,
+    percentSpacing,
+  }
+}
 
 function parseParts(
   input: string,
@@ -108,8 +231,9 @@ function parseParts(
   }
 
   let number = numberMatch[0].trim()
-  const before = afterSign.slice(0, numberMatch.index).trim()
-  let after = afterSign.slice(numberMatch.index! + numberMatch[0].length)
+  const numberIndex = numberMatch.index ?? 0
+  const before = afterSign.slice(0, numberIndex).trim()
+  let after = afterSign.slice(numberIndex + numberMatch[0].length)
 
   if (compact && !PERCENT_RE.test(after)) {
     const compactMatch = after.match(

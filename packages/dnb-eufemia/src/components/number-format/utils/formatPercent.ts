@@ -3,6 +3,7 @@ import type {
   NumberFormatReturnValue,
   NumberFormatValue,
 } from './types'
+import type { NumberFormatInternalOptionParams } from './displayParts'
 /**
  * Formatter for percent numbers.
  *
@@ -19,7 +20,7 @@ import {
   buildReturn,
   cleanNumber,
   formatDecimals,
-  formatNumberCore,
+  formatNumberCoreWithParts,
   prepareFormatOptions,
   resolveLocale,
 } from './formatCore'
@@ -43,9 +44,10 @@ export function formatPercent(
     signDisplay = null,
     options = null,
     returnAria = false,
+    returnDisplayParts = false,
     invalidAriaText = null,
     cleanCopyValue = null,
-  }: NumberFormatOptionParams = {}
+  }: NumberFormatInternalOptionParams = {}
 ): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
@@ -71,7 +73,14 @@ export function formatPercent(
     opts.style = 'percent'
   }
 
-  const display = formatNumberCore(Number(value) / 100, locale, opts)
+  const displayResult = formatNumberCoreWithParts(
+    Number(value) / 100,
+    locale,
+    opts,
+    null,
+    returnDisplayParts
+  )
+  const display = displayResult.display
   const aria = display
 
   if (!returnAria) {
@@ -82,6 +91,7 @@ export function formatPercent(
     value,
     locale,
     display,
+    displayParts: returnDisplayParts ? displayResult.displayParts : null,
     aria,
     // Original `format()` only assigns `type = 'currency'` – percent keeps
     // the default "number" type.

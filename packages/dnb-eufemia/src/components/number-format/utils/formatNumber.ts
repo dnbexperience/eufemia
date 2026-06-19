@@ -3,6 +3,7 @@ import type {
   NumberFormatReturnValue,
   NumberFormatValue,
 } from './types'
+import type { NumberFormatInternalOptionParams } from './displayParts'
 /**
  * Formatter for plain (non-currency / non-percent) numbers. Supports `compact`.
  */
@@ -14,6 +15,7 @@ import {
   buildReturn,
   cleanNumber,
   formatNumberCore,
+  formatNumberCoreWithParts,
   handleCompactBeforeAria,
   handleCompactBeforeDisplay,
   prepareFormatOptions,
@@ -41,9 +43,10 @@ export function formatNumber(
     signDisplay = null,
     options = null,
     returnAria = false,
+    returnDisplayParts = false,
     invalidAriaText = null,
     cleanCopyValue = null,
-  }: NumberFormatOptionParams = {}
+  }: NumberFormatInternalOptionParams = {}
 ): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
@@ -58,8 +61,18 @@ export function formatNumber(
 
   handleCompactBeforeDisplay({ value, locale, compact, decimals, opts })
 
-  let display = formatNumberCore(value, locale, opts)
-  display = prepareMinus(display, locale)
+  const displayResult = formatNumberCoreWithParts(
+    value,
+    locale,
+    opts,
+    null,
+    returnDisplayParts
+  )
+  const display = prepareMinus(displayResult.display, locale)
+  const displayParts =
+    returnDisplayParts && display === displayResult.display
+      ? displayResult.displayParts
+      : null
 
   handleCompactBeforeAria({ value, compact, opts })
 
@@ -75,6 +88,7 @@ export function formatNumber(
     value,
     locale,
     display,
+    displayParts,
     aria,
     type: 'number',
     opts,

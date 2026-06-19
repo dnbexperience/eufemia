@@ -7,6 +7,11 @@ import { renderHook } from '@testing-library/react'
 import useNumberFormatWithParts from '../useNumberFormatWithParts'
 import { formatCurrency, formatPercent, formatNumber } from '../utils'
 import type { NumberFormatter } from '../useNumberFormat'
+import {
+  numberFormatDisplayPartsSymbol,
+  type NumberFormatInternalOptionParams,
+  type NumberFormatReturnValueWithDisplayParts,
+} from '../utils/displayParts'
 import Provider from '../../../shared/Provider'
 
 describe('useNumberFormatWithParts', () => {
@@ -114,6 +119,83 @@ describe('useNumberFormatWithParts', () => {
               currencyPosition: 'after',
             }),
           })
+        )
+      })
+
+      it('will use display parts when fallback parsing cannot split joined compact currency output', () => {
+        const formatJoinedCurrency = (() => {
+          const result: NumberFormatReturnValueWithDisplayParts = {
+            value: 1000000,
+            cleanedValue: '1000000',
+            number: '1Mkr',
+            aria: '1 million kroner',
+            locale: 'nb-NO',
+            type: 'currency',
+          }
+
+          Object.defineProperty(result, numberFormatDisplayPartsSymbol, {
+            value: [
+              { type: 'integer', value: '1' },
+              { type: 'compact', value: 'M' },
+              { type: 'currency', value: 'kr' },
+            ],
+          })
+
+          return result
+        }) as unknown as NumberFormatter
+
+        const { result } = renderHook(() =>
+          useNumberFormatWithParts(1000000, formatJoinedCurrency, {
+            compact: true,
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            number: '1Mkr',
+            parts: expect.objectContaining({
+              signedNumber: '1M',
+              number: '1M',
+              currency: 'kr',
+              currencyPosition: 'after',
+              spaceBeforeCurrency: false,
+            }),
+          })
+        )
+      })
+
+      it('will keep display parts internal and opt-in for formatters', () => {
+        const regularResult = formatCurrency(1300000, {
+          compact: true,
+          decimals: 1,
+          returnAria: true,
+        })
+
+        expect(numberFormatDisplayPartsSymbol in regularResult).toBe(false)
+
+        const internalResult = formatCurrency(1300000, {
+          compact: true,
+          decimals: 1,
+          returnAria: true,
+          returnDisplayParts: true,
+        } as NumberFormatInternalOptionParams & {
+          returnAria: true
+        }) as NumberFormatReturnValueWithDisplayParts
+        const descriptor = Object.getOwnPropertyDescriptor(
+          internalResult,
+          numberFormatDisplayPartsSymbol
+        )
+        const displayParts = internalResult[numberFormatDisplayPartsSymbol]
+
+        expect(descriptor?.enumerable).toBe(false)
+        expect(displayParts).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ type: 'compact', value: 'mill.' }),
+            expect.objectContaining({ type: 'currency', value: 'kr' }),
+          ])
+        )
+        expect(displayParts.map(({ value }) => value).join('')).toBe(
+          internalResult.number
         )
       })
     })

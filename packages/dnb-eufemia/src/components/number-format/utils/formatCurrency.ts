@@ -5,6 +5,7 @@ import type {
   FormatPartItem,
   PartFormatter,
 } from './types'
+import type { NumberFormatInternalOptionParams } from './displayParts'
 /**
  * Formatter for currency numbers.
  */
@@ -16,6 +17,7 @@ import {
   cleanNumber,
   formatDecimals,
   formatNumberCore,
+  formatNumberCoreWithParts,
   handleCompactBeforeAria,
   handleCompactBeforeDisplay,
   prepareFormatOptions,
@@ -26,6 +28,30 @@ import {
 import { currencyPositionFormatter } from './currencyPosition'
 import { getFallbackCurrencyDisplay, CURRENCY } from './currencyDisplay'
 import { alignCurrencySymbol } from './formatNumberCore'
+
+function trimDisplayParts(parts: FormatPartItem[]): FormatPartItem[] {
+  const displayParts = parts.map((part) => ({ ...part }))
+
+  while (displayParts[0]?.value.length === 0) {
+    displayParts.shift()
+  }
+
+  while (displayParts.at(-1)?.value.length === 0) {
+    displayParts.pop()
+  }
+
+  const firstPart = displayParts[0]
+  if (firstPart) {
+    firstPart.value = firstPart.value.trimStart()
+  }
+
+  const lastPart = displayParts.at(-1)
+  if (lastPart) {
+    lastPart.value = lastPart.value.trimEnd()
+  }
+
+  return displayParts.filter(({ value }) => value.length > 0)
+}
 
 export function formatCurrency(
   value: NumberFormatValue | null | undefined,
@@ -50,9 +76,10 @@ export function formatCurrency(
     signDisplay = null,
     options = null,
     returnAria = false,
+    returnDisplayParts = false,
     invalidAriaText = null,
     cleanCopyValue = null,
-  }: NumberFormatOptionParams = {}
+  }: NumberFormatInternalOptionParams = {}
 ): string | NumberFormatReturnValue {
   value = isAbsent(value) ? ABSENT_VALUE_FORMAT : value
 
@@ -143,14 +170,38 @@ export function formatCurrency(
     )
   }
 
-  let display = formatNumberCore(cleanedNumber, locale, opts, formatter)
-  display = prepareMinus(display, locale)
+  const displayResult = formatNumberCoreWithParts(
+    cleanedNumber,
+    locale,
+    opts,
+    formatter,
+    returnDisplayParts
+  )
+  let display = prepareMinus(displayResult.display, locale)
+  let displayParts =
+    returnDisplayParts && display === displayResult.display
+      ? displayResult.displayParts
+      : null
 
   if (resolvedPosition && currencySuffix) {
     if (resolvedPosition === 'after') {
       display = `${display.trim()} ${currencySuffix}`
+      displayParts = displayParts
+        ? [
+            ...trimDisplayParts(displayParts),
+            { type: 'literal', value: ' ' },
+            { type: 'currency', value: currencySuffix },
+          ]
+        : null
     } else if (resolvedPosition === 'before') {
       display = `${currencySuffix} ${display.trim()}`
+      displayParts = displayParts
+        ? [
+            { type: 'currency', value: currencySuffix },
+            { type: 'literal', value: ' ' },
+            ...trimDisplayParts(displayParts),
+          ]
+        : null
     }
   }
 
@@ -173,6 +224,7 @@ export function formatCurrency(
     value,
     locale,
     display,
+    displayParts,
     aria,
     type: 'currency',
     opts,

@@ -14,6 +14,11 @@ import type {
   InternalNumberFormatOptions,
 } from './types'
 
+export type FormatNumberCoreResult = {
+  display: string
+  displayParts: FormatPartItem[] | null
+}
+
 /**
  * Strips custom properties (e.g. `decimals`) so the object
  * is compatible with the native `Intl.NumberFormatOptions` type.
@@ -163,6 +168,20 @@ export const formatNumberCore = (
   options: InternalNumberFormatOptions = {},
   formatter: PartFormatter | null = null
 ): string => {
+  return formatNumberCoreWithParts(number, locale, options, formatter)
+    .display
+}
+
+export const formatNumberCoreWithParts = (
+  number: NumberFormatValue,
+  locale: string | null,
+  options: InternalNumberFormatOptions = {},
+  formatter: PartFormatter | null = null,
+  returnDisplayParts = false
+): FormatNumberCoreResult => {
+  const sourceNumber = number
+  let displayParts: FormatPartItem[] | null = null
+
   try {
     if (options.currencyDisplay) {
       options.currencyDisplay = getFallbackCurrencyDisplay(
@@ -175,9 +194,16 @@ export const formatNumberCore = (
     delete options.decimals
 
     if (formatter) {
-      number = formatToParts({ number, locale, options })
-        .map(formatter)
-        .reduce((acc: string, { value }) => acc + value, '')
+      const formattedParts = formatToParts({
+        number,
+        locale,
+        options,
+      }).map(formatter)
+      number = formattedParts.reduce(
+        (acc: string, { value }) => acc + value,
+        ''
+      )
+      displayParts = returnDisplayParts ? formattedParts : null
     } else if (
       typeof Number !== 'undefined' &&
       typeof Number.toLocaleString === 'function'
@@ -186,7 +212,16 @@ export const formatNumberCore = (
         locale || LOCALE,
         toIntlOptions(options)
       )
+
+      if (returnDisplayParts) {
+        displayParts = formatToParts({
+          number: sourceNumber,
+          locale,
+          options,
+        })
+      }
     }
+
     if (
       new RegExp(`^(${NUMBER_MINUS})(0|0[^\\d]|0\\s.*)$`).test(
         String(number)
@@ -208,7 +243,9 @@ export const formatNumberCore = (
     )
   }
 
-  return replaceNaNWithDash(
+  const display = replaceNaNWithDash(
     alignCurrencySymbol(number, options.currencyDisplay)
   )
+
+  return { display, displayParts }
 }

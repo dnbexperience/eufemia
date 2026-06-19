@@ -10,6 +10,7 @@ import { cleanNumber } from './cleanNumber'
 import { formatDecimals } from './decimals'
 import {
   formatNumberCore,
+  formatNumberCoreWithParts,
   prepareMinus,
   enhanceSR,
 } from './formatNumberCore'
@@ -19,6 +20,7 @@ import {
   handleCompactBeforeAria,
 } from './compact'
 import locales from '../../../shared/locales'
+import { numberFormatDisplayPartsSymbol } from './displayParts'
 import type {
   NumberFormatType,
   NumberFormatValue,
@@ -85,6 +87,7 @@ export function buildReturn({
   value,
   locale,
   display,
+  displayParts,
   aria,
   type,
   opts,
@@ -94,6 +97,7 @@ export function buildReturn({
   value: NumberFormatValue
   locale: string
   display: string
+  displayParts?: FormatPartItem[] | null
   aria: string
   type: NumberFormatType
   opts: InternalNumberFormatOptions
@@ -135,7 +139,22 @@ export function buildReturn({
       'N/A'
   }
 
-  return { value, cleanedValue, number: display, aria, locale, type }
+  const result = {
+    value,
+    cleanedValue,
+    number: display,
+    aria,
+    locale,
+    type,
+  }
+
+  if (displayParts) {
+    Object.defineProperty(result, numberFormatDisplayPartsSymbol, {
+      value: displayParts,
+    })
+  }
+
+  return result
 }
 
 /**
@@ -166,6 +185,7 @@ export {
   cleanNumber,
   formatDecimals,
   formatNumberCore,
+  formatNumberCoreWithParts,
   prepareMinus,
   enhanceSR,
   handleCompactBeforeDisplay,
