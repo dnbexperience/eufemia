@@ -1678,14 +1678,18 @@ describe('Autocomplete component', () => {
     toggle()
     expect(onOpen).toHaveBeenCalledTimes(1)
     expect(onOpen.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(onOpen).toHaveBeenCalledWith({
-      attributes: {
-        ...params,
-        onMouseDown: expect.any(Function),
-      },
-      data: null,
-      ulElement: null,
-    })
+    expect(onOpen).toHaveBeenCalledWith(
+      expect.objectContaining({
+        attributes: expect.objectContaining(params),
+        data: null,
+        ulElement: null,
+        updateData: expect.any(Function),
+        showIndicator: expect.any(Function),
+        hideIndicator: expect.any(Function),
+        showNoOptionsItem: expect.any(Function),
+        debounce: expect.any(Function),
+      })
+    )
 
     keyDownOnInput('Escape')
     expect(onClose).toHaveBeenCalledTimes(1)
@@ -1718,6 +1722,116 @@ describe('Autocomplete component', () => {
 
     toggle()
     expect(onOpen).toHaveBeenCalledTimes(3)
+  })
+
+  it('fires onOpen with data methods so the submit button can fetch data in async mode', async () => {
+    const onType = vi.fn()
+    const onOpen = vi.fn(({ updateData }) => {
+      updateData(mockData)
+    })
+
+    render(
+      <Autocomplete
+        mode="async"
+        onType={onType}
+        onOpen={onOpen}
+        showSubmitButton
+        {...mockProps}
+      />
+    )
+
+    // No data has been fetched yet
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option').length
+    ).toBe(0)
+
+    // Open the drawer-list via the submit button, without typing
+    toggle()
+
+    expect(onType).not.toHaveBeenCalled()
+    expect(onOpen).toHaveBeenCalledTimes(1)
+    expect(onOpen.mock.calls[0][0].updateData).toEqual(
+      expect.any(Function)
+    )
+
+    // Data fetched inside onOpen is rendered
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll(
+          'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+        ).length
+      ).toBe(mockData.length)
+    })
+  })
+
+  it('shows a progress indicator in the submit button while loading', () => {
+    const onOpen = vi.fn(({ showIndicator }) => {
+      showIndicator()
+    })
+
+    render(
+      <Autocomplete
+        mode="async"
+        onOpen={onOpen}
+        showSubmitButton
+        {...mockProps}
+      />
+    )
+
+    const submitButton = document.querySelector(
+      'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+    )
+
+    // No indicator before opening
+    expect(
+      submitButton.querySelector('.dnb-progress-indicator')
+    ).toBeNull()
+
+    // Opening triggers onOpen, which shows the indicator
+    fireEvent.click(submitButton)
+
+    expect(
+      submitButton.querySelector('.dnb-progress-indicator')
+    ).toBeInTheDocument()
+  })
+
+  it('does not toggle the drawer-list when the submit button is clicked while loading', () => {
+    const onOpen = vi.fn(({ showIndicator, updateData }) => {
+      updateData(mockData)
+      showIndicator()
+    })
+
+    render(
+      <Autocomplete
+        mode="async"
+        onOpen={onOpen}
+        showSubmitButton
+        {...mockProps}
+      />
+    )
+
+    const elem = document.querySelector('.dnb-autocomplete')
+    const submitButton = document.querySelector(
+      'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+    )
+
+    // First click opens the list and shows the indicator
+    fireEvent.click(submitButton)
+
+    expect(elem.classList).toContain('dnb-autocomplete--open')
+    expect(submitButton).toHaveAttribute('aria-expanded', 'true')
+    expect(submitButton).toHaveAttribute('aria-disabled', 'true')
+    expect(submitButton).toHaveAttribute('aria-busy', 'true')
+    expect(
+      submitButton.querySelector('.dnb-progress-indicator')
+    ).toBeInTheDocument()
+
+    // Clicking again while loading must not close the list
+    fireEvent.click(submitButton)
+
+    expect(elem.classList).toContain('dnb-autocomplete--open')
+    expect(submitButton).toHaveAttribute('aria-expanded', 'true')
+    expect(onOpen).toHaveBeenCalledTimes(1)
   })
 
   it('updates its input value if value and data prop changes', async () => {

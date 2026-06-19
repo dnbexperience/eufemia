@@ -275,7 +275,7 @@ export const AutocompleteEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onOpen: {
-    doc: 'Will be called once the user presses the autocomplete. Returns the data item `{ data, attributes }`.',
+    doc: 'Will be called once the drawer-list opens (e.g. on focus, keyboard or the submit button). Returns the data item `{ data, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). Useful for fetching data when the list opens, e.g. via the submit button before the user starts typing.',
     type: 'function',
     status: 'optional',
   },

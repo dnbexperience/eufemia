@@ -2474,6 +2474,18 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
 }
+.dnb-autocomplete--show-indicator .dnb-input__submit-button__button .dnb-button__icon.dnb-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dnb-autocomplete--show-indicator .dnb-input__submit-button__button .dnb-button__icon.dnb-icon .dnb-progress-indicator__circular svg {
+  width: 100%;
+  height: 100%;
+}
+.dnb-autocomplete--show-indicator .dnb-input__submit-button__button .dnb-button__icon.dnb-icon .dnb-progress-indicator__circular circle {
+  fill: none;
+}
 .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
   --input-border-width--default: 0.125rem;
 }
@@ -2720,6 +2732,18 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 }
 .dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
   color: transparent;
+}
+.dnb-autocomplete--show-indicator .dnb-input__submit-button__button .dnb-button__icon.dnb-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dnb-autocomplete--show-indicator .dnb-input__submit-button__button .dnb-button__icon.dnb-icon .dnb-progress-indicator__circular svg {
+  width: 100%;
+  height: 100%;
+}
+.dnb-autocomplete--show-indicator .dnb-input__submit-button__button .dnb-button__icon.dnb-icon .dnb-progress-indicator__circular circle {
+  fill: none;
 }
 .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input {
   --input-border-width--default: 0.125rem;
