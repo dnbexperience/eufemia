@@ -95,6 +95,22 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
+  it('does not forward the deprecated arrowPosition prop to the DOM', () => {
+    render(
+      <DrawerList
+        {...props}
+        data={mockData}
+        skipPortal
+        arrowPosition="left"
+      />
+    )
+
+    const element = document.querySelector('.dnb-drawer-list')
+    expect(element).toBeInTheDocument()
+    expect(element.hasAttribute('arrowposition')).toBe(false)
+    expect(element.hasAttribute('arrowPosition')).toBe(false)
+  })
+
   it('should skip portal when skipPortal is set', () => {
     render(<DrawerList {...props} data={mockData} skipPortal />)
     expect(

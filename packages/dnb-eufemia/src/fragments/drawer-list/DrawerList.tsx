@@ -422,6 +422,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
     ignoreEvents,
     optionsRender,
     className,
+    arrowPosition: _arrowPosition,
     cacheHash: _cacheHash,
     wrapperElement: _wrapperElement,
     direction: _direction,
