@@ -24,6 +24,7 @@ For custom field or value components that render a form value, prefer [useFieldP
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useData.ts)
 - [Source code for useDataWithoutSubscription](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useDataWithoutSubscription.ts)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/useData)
+- [Form.Bridge](/uilib/extensions/forms/Form/Bridge/)
 
 The hook returns an object with the following properties:
 
@@ -155,6 +156,8 @@ function Component() {
 ```
 
 This is beneficial when you need to utilize the form data in other places within your application.
+
+If you need to render fields, values, or other `Form.*` components in another part of the component tree, use [Form.Bridge](/uilib/extensions/forms/Form/Bridge/) with the same form handler id (`formHandlerId`).
 
 ### Select a single value
 

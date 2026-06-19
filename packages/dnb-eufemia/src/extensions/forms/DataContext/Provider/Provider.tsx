@@ -74,6 +74,7 @@ export type SharedAttachments<Data = unknown> = {
   visibleDataHandler?: VisibleDataHandler<Data>
   filterDataHandler?: FilterDataHandler<Data>
   validationVersion?: number
+  showAllErrors?: ContextState['showAllErrors']
   hasErrors?: ContextState['hasErrors']
   hasFieldError?: ContextState['hasFieldError']
   setShowAllErrors?: ContextState['setShowAllErrors']
@@ -1838,6 +1839,7 @@ export default function Provider<Data extends JsonObject>(
           visibleDataHandler,
           filterDataHandler,
           validationVersion: validationVersionRef.current,
+          showAllErrors: showAllErrorsRef.current,
           hasErrors,
           hasFieldError,
           setShowAllErrors,
@@ -1865,6 +1867,7 @@ export default function Provider<Data extends JsonObject>(
     setSubmitState,
     updateDataValue,
     visibleDataHandler,
+    showAllErrorsRef.current,
   ])
 
   const { bufferedFormState: formState } = useFormStatusBuffer({
@@ -1875,6 +1878,7 @@ export default function Provider<Data extends JsonObject>(
     onTimeout,
   })
 
+  const showAllErrors = showAllErrorsRef.current
   const submitState = submitStateRef.current
   const disabled =
     typeof rest?.['disabled'] === 'boolean'
@@ -1944,7 +1948,7 @@ export default function Provider<Data extends JsonObject>(
     contextErrorMessages,
     hasContext: true,
     errors: errorsRef.current,
-    showAllErrors: showAllErrorsRef.current,
+    showAllErrors,
     hasVisibleError: hasVisibleErrorRef.current.size > 0,
     addSetShowAllErrorsRef,
     fieldConnectionsRef,
@@ -1977,7 +1981,7 @@ export default function Provider<Data extends JsonObject>(
     sharedDataContext?.set(contextValue, { silent: true })
   }
 
-  const show = Boolean(showAllErrorsRef.current)
+  const show = Boolean(showAllErrors)
   const showGlobalStatus = show || showGlobalStatusRef.current
   const resolvedLocale = locale || sharedLocale
   const customErrorSummaryTitle =
