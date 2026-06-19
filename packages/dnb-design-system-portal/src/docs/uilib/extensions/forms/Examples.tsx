@@ -11,7 +11,10 @@ import {
   ValueBlock,
   Wizard,
   Iterate,
-  createForm,
+} from '@dnb/eufemia/src/extensions/forms'
+import type {
+  TypedField,
+  TypedForm,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const CreateBasicValueComponent = () => {
@@ -749,7 +752,7 @@ export const QuickStart = () => {
 
 export const TypedPaths = () => {
   return (
-    <ComponentBox scope={{ createForm }}>
+    <ComponentBox>
       {() => {
         type MyData = {
           /** The first name of the user */
@@ -763,31 +766,31 @@ export const TypedPaths = () => {
           }
         }
 
-        // Bind the data type once – every `path` is now type-checked
-        // and offers autocomplete based on the shape of `MyData`.
-        const { Form, Field } = createForm<MyData>()
+        // Bind the data type with a type-only cast, then destructure the
+        // members you use. Every `path` is now type-checked and offers
+        // autocomplete based on the shape of `MyData`, while the cast erases
+        // at build time so tree-shaking stays intact.
+        const { Name, Number, Address } = Field as TypedField<MyData>
+        const { Handler, Card, SubmitButton } = Form as TypedForm<MyData>
 
         return (
-          <Form.Handler
+          <Handler
             defaultData={{
               firstName: 'Nora',
               age: 30,
             }}
             onSubmit={(data) => console.log('onSubmit', data)}
           >
-            <Form.Card>
-              <Field.Name path="/firstName" label="First name" />
-              <Field.Number path="/age" label="Age" />
-              <Field.Address.Street
-                path="/address/street"
-                label="Street"
-              />
+            <Card>
+              <Name path="/firstName" label="First name" />
+              <Number path="/age" label="Age" />
+              <Address.Street path="/address/street" label="Street" />
 
               {/* Invalid paths like path="/unknown" are caught at compile time */}
 
-              <Form.SubmitButton />
-            </Form.Card>
-          </Form.Handler>
+              <SubmitButton />
+            </Card>
+          </Handler>
         )
       }}
     </ComponentBox>

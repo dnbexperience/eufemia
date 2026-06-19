@@ -1,6 +1,6 @@
 ---
 title: 'Type-checked paths'
-description: 'Use createForm to get TypeScript autocomplete and compile-time checking on every Field, Value and Form.Handler path.'
+description: 'Use TypedField, TypedValue and TypedForm to get TypeScript autocomplete and compile-time checking on every Field, Value and Form.Handler path.'
 order: 4
 breadcrumb:
   - text: Forms
@@ -15,14 +15,15 @@ import * as Examples from './Examples'
 
 Eufemia Forms uses [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) strings (such as `/firstName`) for the `path` prop. By default these are plain strings, so a typo like `/firstNme` is not caught until runtime.
 
-With `createForm<MyData>()` you bind your data type once and get **autocomplete** and **compile-time type checking** on the `path` prop of every `Field.*` and `Value.*`, while `Form.Handler` keeps its typed `data` and `defaultData`.
+The `TypedField`, `TypedValue` and `TypedForm` helper types bind your data type to the components, giving **autocomplete** and **compile-time type checking** on the `path` prop of every `Field.*` and `Value.*`, while `Form.Handler` keeps its typed `data` and `defaultData`.
 
 ## Usage
 
-`createForm<MyData>()` returns the same `Form`, `Field` and `Value` you already know — only the `path` prop is narrowed to the valid paths of `MyData`. The rest of the `Form` namespace (`Form.Card`, `Form.SubmitButton`, …) stays available unchanged.
+Apply a type-only cast to a namespace and **destructure** the members you use. The cast is erased at build time, and the destructuring keeps each member statically trackable so tree-shaking still works (under Rollup/Vite/webpack).
 
 ```tsx
-import { createForm } from '@dnb/eufemia/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+import type { TypedField, TypedForm } from '@dnb/eufemia/extensions/forms'
 
 type MyData = {
   firstName: string
@@ -32,22 +33,28 @@ type MyData = {
   }
 }
 
-const { Form, Field, Value } = createForm<MyData>()
+// Bind the type once with a cast, then destructure the members you use
+const { String, Number } = Field as TypedField<MyData>
+const { Handler, Card } = Form as TypedForm<MyData>
 
 function MyForm() {
   return (
-    <Form.Handler defaultData={{ firstName: 'Nora', age: 30 }}>
-      {/* Autocompleted and type-checked */}
-      <Field.String path="/firstName" />
-      <Field.Number path="/age" />
-      <Field.String path="/address/street" />
+    <Handler defaultData={{ firstName: 'Nora', age: 30 }}>
+      <Card>
+        {/* Autocompleted and type-checked */}
+        <String path="/firstName" />
+        <Number path="/age" />
+        <String path="/address/street" />
 
-      {/* Type error: "/unknown" is not a path in MyData */}
-      <Field.String path="/unknown" />
-    </Form.Handler>
+        {/* Type error: "/unknown" is not a path in MyData */}
+        <String path="/unknown" />
+      </Card>
+    </Handler>
   )
 }
 ```
+
+`TypedValue<MyData>` narrows the `Value` namespace the same way.
 
 ## Demo
 
@@ -58,5 +65,11 @@ function MyForm() {
 - The typing is purely type-level and is erased at build time, so the types themselves add no runtime or bundle-size cost.
 - Nested objects and arrays are supported, e.g. `/address/street` or `/items/0/title`.
 - Paths are typed against the root data type. Relative paths used inside [Form.Section](/uilib/extensions/forms/Form/Section/) and [Iterate](/uilib/extensions/forms/Iterate/) are therefore not narrowed.
-- Tree-shaking tradeoff: `createForm` returns the `Form`, `Field` and `Value` namespaces as runtime values, so bundlers pull in the full Forms field set (verified with both esbuild and Rollup). If bundle size is critical, keep the standard `import { Field } from '@dnb/eufemia/extensions/forms'` usage (which tree-shakes under Rollup/Vite) and apply the exported `Paths<MyData>` type only to the path values.
 - See also the [TypeScript support](/uilib/extensions/forms/getting-started/#typescript-support) section in Getting started.
+
+## Keeping tree-shaking
+
+Casting and destructuring is what keeps tree-shaking intact. Two things to keep in mind:
+
+- Do **not** alias the whole namespace (`const F = Field as TypedField<MyData>`) — that lets the namespace "escape" and bundlers pull in the full Forms field set. Always destructure the individual members you use.
+- esbuild used as the final bundler still includes the full set (it does not split the namespace object); Rollup, Vite (production) and webpack tree-shake to only the destructured members.

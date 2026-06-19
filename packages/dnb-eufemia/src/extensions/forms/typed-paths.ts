@@ -1,5 +1,22 @@
-import { Form as FormNS, Field as FieldNS, Value as ValueNS } from './'
+import type {
+  Form as FormNS,
+  Field as FieldNS,
+  Value as ValueNS,
+} from './'
 import type { JsonObject } from './utils/json-pointer'
+
+/**
+ * Type-level helpers for type-checking Eufemia Forms `path` props against a
+ * data model. Cast a namespace and destructure the members you use — the cast
+ * erases at build time and destructuring keeps tree-shaking intact:
+ *
+ * @example
+ * import { Field, Form } from '@dnb/eufemia/extensions/forms'
+ * import type { TypedField, TypedForm } from '@dnb/eufemia/extensions/forms'
+ *
+ * const { Name, Number } = Field as TypedField<MyData>
+ * const { Handler, Card } = Form as TypedForm<MyData>
+ */
 
 /**
  * Depth limiter for the recursive `Paths` type, to avoid
@@ -99,57 +116,32 @@ export type TypedForm<Data extends JsonObject> = Omit<
   Handler: TypedHandler<Data>
 }
 
-export type CreateFormReturn<Data extends JsonObject> = {
-  Form: TypedForm<Data>
-  Field: TypedNamespace<typeof FieldNS, Data>
-  Value: TypedNamespace<typeof ValueNS, Data>
-}
-
 /**
- * Binds a data type to the Forms components so that the `path` prop on every
- * `Field.*` and `Value.*` gets autocomplete and type checking based on the
- * shape of `Data`.
+ * The `Field` namespace with every member's `path` prop narrowed to the valid
+ * paths of `Data`.
  *
- * @example
- * type MyData = { firstName: string; age: number }
- * const { Form, Field } = createForm<MyData>()
- *
- * <Form.Handler defaultData={{ firstName: 'John' }}>
- *   <Field.String path="/firstName" /> // ✅ autocompletes + type-checked
- *   <Field.Number path="/age" />       // ✅
- *   <Field.String path="/nope" />      // ❌ type error
- * </Form.Handler>
- *
- * @remarks
- * The path typing itself is purely type-level — `Paths<Data>` and
- * `PathValue<Data, P>` are erased at build time, so the types add no runtime
- * or bundle-size cost.
- *
- * Tree-shaking caveat: `createForm` returns the `Form`, `Field` and `Value`
- * namespace objects as runtime values. Because the namespaces "escape" through
- * the returned object, bundlers can no longer tell which members are used and
- * include the full Forms field set in the bundle. This was verified with both
- * esbuild and Rollup. A type-only cast over the namespace
- * (`Field as TypedNamespace<typeof Field, MyData>`) does not help either — it
- * has the same escape problem.
- *
- * If bundle size is critical, keep the standard imports (which tree-shake under
- * Rollup/Vite) and apply the exported `Paths<Data>` type only to the path
- * values:
+ * Apply it with a type-only cast and destructure the fields you use directly
+ * from the namespace. The cast erases at build time and the destructuring keeps
+ * member access statically trackable, so tree-shaking still works (under
+ * Rollup/Vite/webpack). Do not alias the whole namespace
+ * (`const F = Field as TypedField<MyData>`); destructure instead.
  *
  * @example
  * import { Field } from '@dnb/eufemia/extensions/forms'
- * import type { Paths } from '@dnb/eufemia/extensions/forms'
- *
- * const path = (p: Paths<MyData>) => p
- * <Field.String path={path('/firstName')} /> // typed and tree-shakeable
+ * import type { TypedField } from '@dnb/eufemia/extensions/forms'
+ * const { Name, Number } = Field as TypedField<MyData>
+ * <Name path="/firstName" /> // typed + tree-shakeable
  */
-export function createForm<
-  Data extends JsonObject,
->(): CreateFormReturn<Data> {
-  return {
-    Form: FormNS as unknown as TypedForm<Data>,
-    Field: FieldNS as unknown as TypedNamespace<typeof FieldNS, Data>,
-    Value: ValueNS as unknown as TypedNamespace<typeof ValueNS, Data>,
-  }
-}
+export type TypedField<Data extends JsonObject> = TypedNamespace<
+  typeof FieldNS,
+  Data
+>
+
+/**
+ * The `Value` namespace with every member's `path` prop narrowed to the valid
+ * paths of `Data`. See {@link TypedField} for usage.
+ */
+export type TypedValue<Data extends JsonObject> = TypedNamespace<
+  typeof ValueNS,
+  Data
+>
