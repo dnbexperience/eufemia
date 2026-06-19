@@ -3037,6 +3037,67 @@ describe('Autocomplete component', () => {
     ).toBe('c value')
   })
 
+  describe('indicator', () => {
+    const onTypeHandler = ({ showIndicator }) => {
+      showIndicator()
+    }
+
+    it('shows a ProgressIndicator as the input icon while loading', async () => {
+      render(
+        <Autocomplete
+          {...mockProps}
+          mode="async"
+          data={mockData}
+          onType={onTypeHandler}
+          showSubmitButton
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-input__icon .dnb-progress-indicator'
+          )
+        ).toBeInTheDocument()
+      })
+    })
+
+    it('does not show a ProgressIndicator while loading when icon is null', async () => {
+      render(
+        <Autocomplete
+          {...mockProps}
+          mode="async"
+          data={mockData}
+          icon={null}
+          onType={onTypeHandler}
+          showSubmitButton
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-autocomplete--show-indicator')
+        ).toBeInTheDocument()
+      })
+
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).not.toBeInTheDocument()
+    })
+  })
+
   it('will filter items with current value after data prop has changed', async () => {
     const mockDataA = ['first', 'foo']
     const mockDataB = ['second', 'bar', 'baz']
