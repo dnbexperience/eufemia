@@ -145,7 +145,7 @@ It returns all of the given component properties, in addition to these:
 
 - `value` the output value.
 - `id` creates a memorized id.
-- `dataContext` the internal shared data context. It is intended for low-level integrations; read render-dependent values through `value`, `Form.useData().getValue('/path')` or validator connection helpers instead of reading `dataContext.data` during render. Use `Form.useDataWithoutSubscription().getValue('/path')` only for non-subscribing imperative reads in callbacks, effects or internal handlers.
+- `dataContext` the internal shared data context. It is intended for low-level integrations; read render-dependent values through `value`, [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) or validator connection helpers instead of reading `dataContext.data` during render. Use `Form.useDataWithoutSubscription().getValue('/path')` only for non-subscribing imperative reads in callbacks, effects or internal handlers.
 - `error` the error object, in case an error is invoked. Will skip returning the error object, if the hook is used in a nested [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
 - `hasError` will return true in case of an error, even if the hook is nested in a `FieldBlock`.
 - `htmlAttributes` object that include needed HTML (e.g. aria-_ or data-_) attributes, ready to be spread on form elements. It includes in addition internal aria attributes such as `aria-invalid`, `aria-required` and `aria-describedby`.

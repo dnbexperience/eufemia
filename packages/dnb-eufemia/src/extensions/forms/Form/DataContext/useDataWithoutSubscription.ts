@@ -19,8 +19,7 @@ export type UseDataWithoutSubscriptionReturn<Data> = Omit<
 }
 
 /**
- * Provides data management helpers without subscribing the component to data
- * changes.
+ * Provides data management helpers without subscribing to data changes.
  */
 export default function useDataWithoutSubscription<Data = JsonObject>(
   id: SharedStateId = undefined,

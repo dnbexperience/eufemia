@@ -2,7 +2,7 @@ import { render, renderHook, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import useDataValue from '../useDataValue'
 import Provider from '../../DataContext/Provider'
-import { Form, Iterate } from '../..'
+import { DataContext, Form, Iterate } from '../..'
 
 describe('useDataValue', () => {
   describe('getValue', () => {
@@ -208,6 +208,55 @@ describe('useDataValue', () => {
       expect(screen.getByText('Updated Value')).toBeInTheDocument()
     })
 
+    it('should not update when another path changes', async () => {
+      let renderCount = 0
+
+      function Value() {
+        renderCount += 1
+        const { value } = useDataValue('/first')
+
+        return <output>{value as string}</output>
+      }
+
+      function ChangeValue() {
+        const { update } = Form.useData()
+
+        return (
+          <>
+            <button type="button" onClick={() => update('/second', 'Two')}>
+              Change second
+            </button>
+            <button
+              type="button"
+              onClick={() => update('/first', 'Updated')}
+            >
+              Change first
+            </button>
+          </>
+        )
+      }
+
+      render(
+        <Provider data={{ first: 'One', second: 'Second' }}>
+          <Value />
+          <ChangeValue />
+        </Provider>
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent('One')
+      expect(renderCount).toBe(1)
+
+      await userEvent.click(document.querySelectorAll('button')[0])
+
+      expect(document.querySelector('output')).toHaveTextContent('One')
+      expect(renderCount).toBe(1)
+
+      await userEvent.click(document.querySelectorAll('button')[1])
+
+      expect(document.querySelector('output')).toHaveTextContent('Updated')
+      expect(renderCount).toBe(2)
+    })
+
     it('should update when any subscribed path changes', async () => {
       function Value() {
         const { getSourceValue } = useDataValue(['/first', '/second'])
@@ -287,6 +336,42 @@ describe('useDataValue', () => {
       )
 
       expect(screen.getByText('Item Value')).toBeInTheDocument()
+    })
+
+    it('should support scoped DataContext.At paths', async () => {
+      function Value() {
+        const { value } = useDataValue('/name')
+
+        return <output>{value as string}</output>
+      }
+
+      function ChangeValue() {
+        const { update } = Form.useData()
+
+        return (
+          <button
+            type="button"
+            onClick={() => update('/customer/name', 'Grace')}
+          >
+            Change customer
+          </button>
+        )
+      }
+
+      render(
+        <Provider data={{ customer: { name: 'Ada' }, name: 'Root' }}>
+          <DataContext.At path="/customer">
+            <Value />
+          </DataContext.At>
+          <ChangeValue />
+        </Provider>
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent('Ada')
+
+      await userEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('output')).toHaveTextContent('Grace')
     })
   })
 })

@@ -8,7 +8,7 @@ import {
 import pointer, { isPath } from '../utils/json-pointer'
 import type { Path } from '../types'
 import type { ContextState } from '../DataContext/Context'
-import DataContext from '../DataContext/Context'
+import DataContextRefContext from '../DataContext/DataContextRefContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import usePath from './usePath'
 
@@ -28,8 +28,9 @@ export default function useDataValue<Value>(
   value?: Value,
   options: UseDataValueOptions = {}
 ) {
-  const dataContextRef = useRef<ContextState>(undefined)
-  dataContextRef.current = useContext(DataContext)
+  const providedDataContextRef = useContext(DataContextRefContext)
+  const fallbackDataContextRef = useRef<ContextState>(undefined)
+  const dataContextRef = providedDataContextRef ?? fallbackDataContextRef
   const iterateItemContext = useContext(IterateItemContext)
   const snapshotVersionRef = useRef(0)
   const { pathType = 'auto' } = options
@@ -105,7 +106,7 @@ export default function useDataValue<Value>(
 
       return () => undefined
     },
-    [subscribablePaths]
+    [dataContextRef, subscribablePaths]
   )
 
   const getSnapshot = useCallback(() => {
@@ -114,7 +115,7 @@ export default function useDataValue<Value>(
     }
 
     return snapshotVersionRef.current
-  }, [subscribablePath])
+  }, [dataContextRef, subscribablePath])
 
   const subscribedValue = useSyncExternalStore(
     subscribe,
@@ -134,7 +135,7 @@ export default function useDataValue<Value>(
         ? pointer.get(data, selector)
         : undefined
     },
-    []
+    [dataContextRef]
   )
 
   const getValueByPath = useCallback(
