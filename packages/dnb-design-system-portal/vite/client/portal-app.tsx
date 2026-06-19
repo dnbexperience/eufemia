@@ -162,11 +162,21 @@ type PortalAppProps = {
   routes: RouteObject[]
 }
 
+/**
+ * Rendered by React Router during the initial hydration of a data router
+ * while the matched route's lazy() chunk is still loading. Returning null
+ * avoids a layout shift, as index.html already provides preload styling.
+ */
+function HydrateFallback() {
+  return null
+}
+
 function createPortalRouter(routes: RouteObject[]) {
   return createBrowserRouter([
     {
       path: '/',
       element: <RootLayout />,
+      HydrateFallback,
       children: routes,
     },
   ])
