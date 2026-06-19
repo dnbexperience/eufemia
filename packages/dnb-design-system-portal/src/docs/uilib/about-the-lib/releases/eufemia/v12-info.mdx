@@ -10,7 +10,6 @@ draft: true
 - [v12](#v12)
   - [Migration](#migration)
   - [Install](#install)
-  - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
     - [Accordion](#accordion)
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
@@ -32,36 +31,6 @@ $ yarn add @dnb/eufemia@12
 ```
 
 ## Component changes
-
-### TODO: Remove unused CSS custom properties
-
-> **This task has not been completed yet.** The properties listed below are still present in the codebase and documentation.
-
-The following CSS custom properties are defined but never consumed via `var()` in the codebase. They are currently documented and should be removed along with their documentation:
-
-**Layout breakpoints** (documented in [media queries](/uilib/layout/media-queries) and v10-info.mdx):
-
-- `--layout-small` (`40em`)
-- `--layout-x-large` (`80em`)
-- `--layout-xx-large` (`90em`)
-
-**Shadow partials** (documented in [helper classes](/uilib/helpers/classes)):
-
-- `--shadow-default-blur-radius` (`16px`)
-- `--shadow-sharp-x` (`0`)
-- `--shadow-sharp-y` (`1px`)
-- `--shadow-sharp-blur-radius` (`6px`)
-- `--shadow-sharp-color` (`rgb(0 0 0 / 16%)`)
-
-**Typography** (documented in [styling](/uilib/usage/customisation/styling)):
-
-- `--font-weight-default` (`400`)
-
-**Colors** (documented in color table):
-
-- `--color-mint-green-25` (`#e0f5f0`)
-
-When removing these properties, also update the documentation in `classes.mdx` (shadow helper classes), `media-queries.mdx`, `styling.mdx`, and `ColorTable.tsx` accordingly.
 
 ### [Accordion](/uilib/components/accordion/)
 
