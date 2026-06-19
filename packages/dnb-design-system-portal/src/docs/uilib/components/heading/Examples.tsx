@@ -7,6 +7,7 @@ import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Heading, H3, ToggleButton, H1, H2 } from '@dnb/eufemia/src'
+import Typography from '@dnb/eufemia/src/elements/typography/Typography'
 
 const Style = styled.div`
   .dnb-heading {
@@ -164,3 +165,44 @@ export const HeadingInfoBasic = () => (
     </article>
   </ComponentBox>
 )
+
+export const HeadingProseMaxWidthExample = () => (
+  <ComponentBox data-visual-test="heading-prose-max-width">
+    <Heading.Level reset={3}>
+      <Heading>
+        This is a regular heading without any width constraints. It will
+        extend to the full width of its container.
+      </Heading>
+      <Heading proseMaxWidth={40}>
+        This heading uses proseMaxWidth={40} to limit its width to
+        approximately 40 characters.
+      </Heading>
+      <Heading proseMaxWidth={20}>
+        This heading uses proseMaxWidth={20} for an even narrower reading
+        width.
+      </Heading>
+      <Heading proseMaxWidth>
+        This heading uses proseMaxWidth with its default value.
+      </Heading>
+    </Heading.Level>
+  </ComponentBox>
+)
+
+export function HeadingProseMaxWidthProvider() {
+  return (
+    <ComponentBox hideCode scope={{ Typography }}>
+      <Heading.Level reset={3}>
+        <Typography.Provider proseMaxWidth={40}>
+          <Heading>
+            This heading is inside a Typography.Provider with
+            proseMaxWidth=
+            {40}
+          </Heading>
+          <Heading proseMaxWidth={20}>
+            This heading overrides the provider with proseMaxWidth={20}
+          </Heading>
+        </Typography.Provider>
+      </Heading.Level>
+    </ComponentBox>
+  )
+}

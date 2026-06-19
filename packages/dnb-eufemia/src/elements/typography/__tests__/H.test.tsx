@@ -6,6 +6,7 @@
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { SharedHProps } from '../H'
 import H from '../H'
+import Typography from '../Typography'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
 
@@ -119,6 +120,32 @@ describe('H element', () => {
       ) as HTMLElement
 
       expect(element.style.maxWidth).toBe('60ch')
+    })
+
+    it('style maxWidth overrides proseMaxWidth prop', () => {
+      render(
+        <H proseMaxWidth={80} style={{ maxWidth: '30ch' }}>
+          Test heading
+        </H>
+      )
+      const element = document.querySelector(
+        '.dnb-h--xx-large'
+      ) as HTMLElement
+
+      expect(element.style.maxWidth).toBe('30ch')
+    })
+
+    it('style maxWidth overrides proseMaxWidth from Typography.Provider', () => {
+      render(
+        <Typography.Provider proseMaxWidth={80}>
+          <H style={{ maxWidth: '30ch' }}>Test heading</H>
+        </Typography.Provider>
+      )
+      const element = document.querySelector(
+        '.dnb-h--xx-large'
+      ) as HTMLElement
+
+      expect(element.style.maxWidth).toBe('30ch')
     })
   })
 

@@ -26,19 +26,13 @@ export type TypographyWeight = 'regular' | 'medium' | 'bold'
 export type TypographyDecoration = 'underline'
 export type TypographySlant = 'italic'
 
-export type TypographyContextType = {
-  proseMaxWidth?: number | boolean
-}
+export type TypographyContextType = Pick<TypographyProps, 'proseMaxWidth'>
 
 export const TypographyContext = createContext<TypographyContextType>({
   proseMaxWidth: undefined,
 })
 
-export type TypographyProviderProps = {
-  /**
-   * Sets the maximum width based on character count for all Typography children. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.
-   */
-  proseMaxWidth?: number | boolean
+export type TypographyProviderProps = TypographyContextType & {
   children: ReactNode
 }
 
@@ -84,40 +78,35 @@ export type TypographyProps<
     proseMaxWidth?: number | boolean
   }
 
+export type TypographyUseProps = Pick<
+  TypographyProps,
+  'proseMaxWidth' | 'style'
+>
+
 type TypographyInternalProps = {
   ref?: RefObject<HTMLElement> | Ref<unknown>
 }
 
-const Typography = ({
-  element = 'p',
-  className,
-  size,
-  lineHeight,
-  align,
-  family,
-  weight,
-  decoration,
-  slant,
-  proseMaxWidth: proseMaxWidthProp,
-  ...props
-}: TypographyProps & TypographyInternalProps) => {
+const Typography = (props: TypographyProps & TypographyInternalProps) => {
+  const {
+    element = 'p',
+    className,
+    size,
+    lineHeight,
+    align,
+    family,
+    weight,
+    decoration,
+    slant,
+    ...rest
+  } = useTypography(props)
+
   const context = useContext(Context)
-
-  const { proseMaxWidth: proseMaxWidthContext } =
-    useContext(TypographyContext)
-
-  // Use prop value if provided, otherwise fall back to context
-  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
-
-  const style = proseMaxWidth
-    ? { maxWidth: `${proseMaxWidth === true ? 60 : proseMaxWidth}ch` }
-    : undefined
 
   return (
     <E
       as={element as DynamicElement<unknown>}
-      {...props}
-      style={{ ...props.style, ...style }}
+      {...rest}
       className={clsx(
         className,
         size && `dnb-t__size--${size}`,
@@ -164,4 +153,27 @@ export function getHeadingLineHeightSize(
   fontSize: TypographySize
 ): TypographySize {
   return HEADING_LINE_HEIGHT_MAP[fontSize] || 'basis'
+}
+
+/** Updates props.style based on props.proseMaxWidth and typography context values */
+export const useTypography = <Props extends TypographyUseProps>({
+  proseMaxWidth: proseMaxWidthProp,
+  ...rest
+}: Props): Omit<Props & TypographyUseProps, 'proseMaxWidth'> => {
+  const { proseMaxWidth: proseMaxWidthContext } =
+    useContext(TypographyContext)
+
+  // Use prop value if provided, otherwise fall back to context
+  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
+
+  const style = proseMaxWidth
+    ? { maxWidth: `${proseMaxWidth === true ? 60 : proseMaxWidth}ch` }
+    : undefined
+
+  return {
+    ...rest,
+    ...(style !== undefined && {
+      style: { ...style, ...rest.style },
+    }),
+  }
 }

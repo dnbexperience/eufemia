@@ -54,6 +54,11 @@ export const HeadingProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  proseMaxWidth: {
+    doc: 'Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.',
+    type: ['number', 'boolean'],
+    status: 'optional',
+  },
   debug: {
     doc: 'If set to `true`, the content will have a prefix, showing the heading level.',
     type: ['boolean', 'function'],

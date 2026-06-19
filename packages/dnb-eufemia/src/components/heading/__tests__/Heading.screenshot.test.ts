@@ -29,6 +29,16 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
         selector: '[data-visual-test="heading-mixin"]',
       })
     })
+
+    it('matches prose max width', async () => {
+      await makeScreenshot({
+        style: {
+          'padding-bottom': '1rem',
+          'padding-left': '1rem',
+        },
+        selector: '[data-visual-test="heading-prose-max-width"]',
+      })
+    })
   }
 )
 

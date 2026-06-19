@@ -8,7 +8,7 @@ import H3 from '../H3'
 import H4 from '../H4'
 import H5 from '../H5'
 import H6 from '../H6'
-import {
+import Typography, {
   getHeadingLineHeightSize,
   type TypographySize,
 } from '../Typography'
@@ -165,6 +165,20 @@ describe('Heading', () => {
       expect(attributes).toEqual(['aria-label', 'class'])
     }
   )
+
+  it('applies proseMaxWidth from Typography.Provider to heading elements', () => {
+    render(
+      <Typography.Provider proseMaxWidth={40}>
+        <H>Heading with context width</H>
+      </Typography.Provider>
+    )
+
+    const element = document.querySelector(
+      '.dnb-h--xx-large'
+    ) as HTMLElement
+
+    expect(element.style.maxWidth).toBe('40ch')
+  })
 
   describe('surface', () => {
     it.each(headings)(

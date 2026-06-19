@@ -17,7 +17,7 @@ import {
 } from '../../components/heading/HeadingHelpers'
 import { useTheme } from '../../shared'
 import Context from '../../shared/Context'
-import { TypographyContext } from './Typography'
+import { useTypography } from './Typography'
 
 export type HSize = HeadingSize
 
@@ -46,15 +46,16 @@ type HProps = SpacingProps &
 
 export type SharedHProps = Omit<HProps, 'element'>
 
-const H = ({
-  element = 'h1',
-  is,
-  level,
-  size,
-  proseMaxWidth: proseMaxWidthProp,
-  className,
-  ...props
-}: HProps) => {
+const H = (props: HProps) => {
+  const {
+    element = 'h1',
+    is,
+    level,
+    size,
+    className,
+    ...rest
+  } = useTypography(props)
+
   const resolvedElement = element ?? is
   const numSiz = parseFloat(String(resolvedElement).substring(1))
 
@@ -69,15 +70,6 @@ const H = ({
     'xx-large'
 
   const context = useContext(Context)
-  const { proseMaxWidth: proseMaxWidthContext } =
-    useContext(TypographyContext)
-
-  // Use prop value if provided, otherwise fall back to context
-  const proseMaxWidth = proseMaxWidthProp ?? proseMaxWidthContext
-
-  const style = proseMaxWidth
-    ? { maxWidth: `${proseMaxWidth === true ? 60 : proseMaxWidth}ch` }
-    : undefined
 
   return (
     <E
@@ -87,8 +79,7 @@ const H = ({
         context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
         className
       )}
-      {...props}
-      style={{ ...style, ...props.style }}
+      {...rest}
     />
   )
 }

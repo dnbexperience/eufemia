@@ -7,6 +7,7 @@ import { StrictMode, useEffect, useState } from 'react'
 import { renderToString } from 'react-dom/server'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
+import Typography from '../../../elements/typography/Typography'
 import { Theme } from '../../../shared'
 import type { HeadingProps, HeadingLevel } from '../Heading'
 import Heading, { resetLevels, setNextLevel } from '../Heading'
@@ -415,6 +416,42 @@ describe('Heading component', () => {
     expect(elem[0].getAttribute('class')).toBe(
       'dnb-heading dnb-h--x-large'
     )
+  })
+
+  it('should apply proseMaxWidth from Typography.Provider', () => {
+    render(
+      <Typography.Provider proseMaxWidth={40}>
+        <Heading>Heading #1</Heading>
+      </Typography.Provider>
+    )
+
+    const element = document.querySelector('.dnb-heading') as HTMLElement
+
+    expect(element.style.maxWidth).toBe('40ch')
+  })
+
+  it('should override proseMaxWidth prop with style maxWidth', () => {
+    render(
+      <Heading proseMaxWidth={80} style={{ maxWidth: '30ch' }}>
+        Heading #1
+      </Heading>
+    )
+
+    const element = document.querySelector('.dnb-heading') as HTMLElement
+
+    expect(element.style.maxWidth).toBe('30ch')
+  })
+
+  it('should override proseMaxWidth from Typography.Provider with style maxWidth', () => {
+    render(
+      <Typography.Provider proseMaxWidth={80}>
+        <Heading style={{ maxWidth: '30ch' }}>Heading #1</Heading>
+      </Typography.Provider>
+    )
+
+    const element = document.querySelector('.dnb-heading') as HTMLElement
+
+    expect(element.style.maxWidth).toBe('30ch')
   })
 
   it('should set level if skipCorrection is true', () => {

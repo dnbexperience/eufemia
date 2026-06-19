@@ -9,6 +9,7 @@ import {
   HeadingVanillaHTMLExample,
   HeadingModifiersExample,
   HeadingProseMaxWidthExample,
+  HeadingProseMaxWidthProvider,
   HeadingMarginCollapsingExample,
   HeadingRegressionTest,
   HeadingDarkSurfaceExample,
@@ -37,6 +38,12 @@ By using the `<small>` element, we decrease the size one level (default size is 
 The `proseMaxWidth` property allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
 
 <HeadingProseMaxWidthExample />
+
+#### Using Typography.Provider
+
+Use `Typography.Provider` to apply `proseMaxWidth` to multiple headings at once:
+
+<HeadingProseMaxWidthProvider />
 
 ## Heading styles in vanilla HTML
 
