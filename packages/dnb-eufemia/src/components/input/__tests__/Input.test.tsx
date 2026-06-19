@@ -557,6 +557,27 @@ describe('Input component', () => {
     )
   })
 
+  it('renders both the icon and the submit button when icon is positioned right', () => {
+    render(
+      <Input
+        type="search"
+        icon="bell"
+        iconPosition="right"
+        showSubmitButton
+      />
+    )
+
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-input--has-icon',
+      'dnb-input--icon-position-right',
+      'dnb-input--has-submit-element'
+    )
+    expect(document.querySelector('.dnb-input__icon')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-input__submit-button')
+    ).toBeInTheDocument()
+  })
+
   it('should not expose the value as an html attribute', async () => {
     render(<Input />)
 

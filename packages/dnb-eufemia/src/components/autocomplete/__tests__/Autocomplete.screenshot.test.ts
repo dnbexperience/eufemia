@@ -60,6 +60,13 @@ describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {
     })
   })
 
+  it('have to match icon positioned right with a submit button', async () => {
+    await makeScreenshot({
+      selector:
+        '[data-visual-test="autocomplete-icon-right-submit-button"] .dnb-autocomplete__inner',
+    })
+  })
+
   it('have to match autocomplete with suffix value', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="autocomplete-suffix"]',
