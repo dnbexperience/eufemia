@@ -3,7 +3,7 @@
  *
  */
 
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   formatPhoneNumber,
@@ -14,9 +14,11 @@ import styled from '@emotion/styled'
 import Context from '@dnb/eufemia/src/shared/Context'
 import {
   Autocomplete,
+  Button,
   Flex,
   IconPrimary,
   NumberFormat,
+  ProgressIndicator,
 } from '@dnb/eufemia/src'
 
 const Wrapper = styled.div`
@@ -218,6 +220,61 @@ export const AutocompleteFirstFocusUpdate = () => (
             onFocus={onFocusHandler}
           />
         )
+      }}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteInitialLoad = () => (
+  <Wrapper>
+    <ComponentBox scope={{ topMovies }}>
+      {() => {
+        const Component = () => {
+          const [data, setData] = useState(topMovies)
+          const [isLoading, setIsLoading] = useState(true)
+
+          const fetchData = () => {
+            setIsLoading(true)
+
+            // Simulate fetching the initial data from a server
+            const timeout = setTimeout(() => {
+              setData(topMovies)
+              setIsLoading(false)
+            }, 2000)
+
+            return () => clearTimeout(timeout)
+          }
+
+          useEffect(fetchData, [])
+
+          return (
+            <Flex.Stack>
+              <Autocomplete
+                label="Label"
+                data={isLoading ? undefined : data}
+                disabled={isLoading}
+                icon={
+                  isLoading ? (
+                    <ProgressIndicator size="small" />
+                  ) : undefined
+                }
+                placeholder={
+                  isLoading ? 'Loading data …' : 'Type to search …'
+                }
+              />
+
+              <Button
+                variant="secondary"
+                onClick={fetchData}
+                disabled={isLoading}
+              >
+                Reload data
+              </Button>
+            </Flex.Stack>
+          )
+        }
+
+        return <Component />
       }}
     </ComponentBox>
   </Wrapper>

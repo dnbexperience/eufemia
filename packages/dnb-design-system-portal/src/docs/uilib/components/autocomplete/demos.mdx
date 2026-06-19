@@ -8,6 +8,7 @@ import {
   AutocompleteWithCustomTitle,
   AutocompleteDynamicallyUpdatedData,
   AutocompleteFirstFocusUpdate,
+  AutocompleteInitialLoad,
   AutocompleteToggleExample,
   AutocompletePredefinedInput,
   AutocompleteDifferentSizes,
@@ -47,6 +48,12 @@ Also, you may consider using `disableFilter` if you have a backend doing the sea
 ### Update data dynamically on the first focus
 
 <AutocompleteFirstFocusUpdate />
+
+### Show a progress indicator during initial data load
+
+While fetching the initial data, you can display a `ProgressIndicator` inside the input by passing it to the `icon` property and toggling it with your own loading state. The field is disabled until the data is ready.
+
+<AutocompleteInitialLoad />
 
 ### With a Button to toggle the open / close state
 
