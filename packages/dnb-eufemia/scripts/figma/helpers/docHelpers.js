@@ -8,8 +8,7 @@ import https from 'https'
 import path from 'path'
 import { Client } from 'figma-js'
 import traverse from 'traverse'
-import isEqual from 'lodash.isequal'
-import isEqualWith from 'lodash.isequalwith'
+import { isDeepStrictEqual } from 'node:util'
 import { ErrorHandler, ERROR_HARMLESS } from '../../lib/error'
 import { log } from '../../lib'
 import crypto from 'crypto'
@@ -102,28 +101,24 @@ export const findAll = (
 ) => {
   const objToReturn = []
   if (!tree) return objToReturn
-  const customizer = (objValue, othValue) => {
+  const compareValues = (objValue, othValue) => {
     // is RegExp
     if (String(othValue)[0] === '/') {
       return othValue.test(objValue)
     }
-    return isEqual(objValue, othValue)
+    return isDeepStrictEqual(objValue, othValue)
   }
   const innerFunc = (tree, childrenKey, objToFindBy, objToIgnoreBy) => {
     let ignoreSuccess = false
     const findKeys = Object.keys(objToFindBy)
-    // find the first matching key
-    // const findSuccess = findKeys.some(key =>
-    //   isEqualWith(tree[key], objToFindBy[key], customizer)
-    // )
     // make sure we match all
     const findSuccess = findKeys.every((key) =>
-      isEqualWith(tree[key], objToFindBy[key], customizer)
+      compareValues(tree[key], objToFindBy[key])
     )
     if (objToIgnoreBy) {
       const ignoreKeys = Object.keys(objToIgnoreBy)
       ignoreSuccess = ignoreKeys.some((key) =>
-        isEqualWith(tree[key], objToIgnoreBy[key], customizer)
+        compareValues(tree[key], objToIgnoreBy[key])
       )
     }
     if (findSuccess && !ignoreSuccess) {
