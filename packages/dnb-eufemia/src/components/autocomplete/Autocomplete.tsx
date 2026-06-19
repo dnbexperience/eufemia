@@ -1594,7 +1594,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       if (typeof args.hasFilter === 'undefined') {
         args.hasFilter = false
       }
-      if (disabled) {
+      if (disabled || visibleIndicator) {
         return undefined // stop here
       }
       if (
@@ -1610,6 +1610,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     },
     [
       disabled,
+      visibleIndicator,
       preventClose,
       drawerList.hidden,
       drawerList.isOpen,
@@ -2419,7 +2420,9 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
   let submitButton: ReactNode = false
   const triggerParams = {
     id: id + '-submit-button',
-    disabled,
+    // Disable the submit button while the loading indicator is shown,
+    // so it can't be used to open the drawer over loading or stale data.
+    disabled: disabled || visibleIndicator,
     status: status ? statusState : null,
     onKeyDown: onTriggerKeyDownHandler,
     onSubmit: toggleVisible as any as InputSubmitButtonProps['onSubmit'],

@@ -1961,6 +1961,56 @@ describe('Autocomplete component', () => {
     ).toHaveTextContent('No options')
   })
 
+  it('disables the submit button while the loading indicator is shown', async () => {
+    const onTypeHandler = ({ value, showIndicator, hideIndicator }) => {
+      if (value === 'x') {
+        showIndicator()
+      } else {
+        hideIndicator()
+      }
+    }
+
+    render(
+      <Autocomplete
+        {...mockProps}
+        mode="async"
+        showSubmitButton
+        data={mockData}
+        onType={onTypeHandler}
+      />
+    )
+
+    const submitButton = document.querySelector(
+      'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+    )
+
+    expect(submitButton).not.toHaveAttribute('disabled')
+
+    const inputElement = document.querySelector('input')
+
+    // Trigger the loading indicator
+    await userEvent.type(inputElement, 'x')
+
+    await waitFor(() => {
+      expect(submitButton).toHaveAttribute('disabled')
+    })
+
+    expect(
+      document.querySelector('.dnb-autocomplete--show-indicator')
+    ).toBeInTheDocument()
+
+    // Remove the value to hide the loading indicator again
+    await userEvent.clear(inputElement)
+
+    await waitFor(() => {
+      expect(submitButton).not.toHaveAttribute('disabled')
+    })
+
+    expect(
+      document.querySelector('.dnb-autocomplete--show-indicator')
+    ).not.toBeInTheDocument()
+  })
+
   it('should support inline styling', () => {
     render(<Autocomplete data={[]} style={{ color: 'red' }} />)
 
