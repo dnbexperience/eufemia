@@ -95,6 +95,28 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
+  it('does not crash when a data item content is a non-renderable object', () => {
+    // Simulates internal scoring/filtering objects leaking into the render
+    // path (regression guard for "Objects are not valid as a React child").
+    const dataWithInvalidItem = [
+      { content: 'Valid option' },
+      { totalScore: 0, item: {} },
+    ] as unknown as DrawerListDataArray
+
+    expect(() =>
+      render(<DrawerList {...props} data={dataWithInvalidItem} />)
+    ).not.toThrow()
+
+    const options = document.querySelectorAll('li.dnb-drawer-list__option')
+    expect(options).toHaveLength(2)
+
+    expect(options[0].textContent).toBe('Valid option')
+    expect(
+      options[1].querySelector('.dnb-drawer-list__option__inner')
+        .textContent
+    ).toBe('')
+  })
+
   // TODO: remove this test in v13 when the deprecated arrowPosition prop is removed
   it('does not forward the deprecated arrowPosition prop to the DOM', () => {
     render(

@@ -1,3 +1,4 @@
+import { isValidElement } from 'react'
 import type { HTMLProps, ReactNode, Ref } from 'react'
 import { clsx } from 'clsx'
 import type { DrawerListDataArrayObject } from './DrawerList'
@@ -96,13 +97,28 @@ export type ItemContentProps = {
   children?: ItemContentChildren
 }
 
+/**
+ * Guards against non-renderable values (e.g. plain objects from internal
+ * filtering/scoring logic) leaking into React's render and crashing the app
+ * with "Objects are not valid as a React child".
+ */
+function isRenderableNode(node: unknown): boolean {
+  if (node === null || node === undefined || typeof node !== 'object') {
+    return true
+  }
+  if (Array.isArray(node)) {
+    return node.every(isRenderableNode)
+  }
+  return isValidElement(node)
+}
+
 export function ItemContent({ hash = '', children }: ItemContentProps) {
   let renderedContent = undefined
   const isDataObject =
     typeof children === 'object' && 'content' in children
 
   const content = isDataObject ? children.content : children
-  if (content) {
+  if (content && isRenderableNode(content)) {
     if (Array.isArray(content)) {
       renderedContent = content.map((contentItem, n) => (
         <DrawerListOptionItem
