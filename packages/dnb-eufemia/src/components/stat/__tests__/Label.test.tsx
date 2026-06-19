@@ -37,7 +37,7 @@ describe('Stat.Label', () => {
 
     expect(label.classList).toContain('dnb-stat__label--subtle')
     expect(label.classList).toContain('dnb-t__size--medium')
-    expect(label.classList).toContain('dnb-t__line-height--basis')
+    expect(label.classList).toContain('dnb-t__line-height--medium')
     expect(label.classList).toContain('dnb-t__weight--bold')
     expect(label.classList).not.toContain('dnb-t__weight--medium')
   })

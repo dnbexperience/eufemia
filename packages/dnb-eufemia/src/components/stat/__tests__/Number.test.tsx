@@ -167,7 +167,7 @@ describe('Stat.Number', () => {
     const amount = document.querySelector('.dnb-stat__amount')
 
     expect(amount.classList).toContain('dnb-t__size--large')
-    expect(amount.classList).toContain('dnb-t__line-height--medium')
+    expect(amount.classList).toContain('dnb-t__line-height--large')
   })
 
   it('defaults to medium weight', () => {

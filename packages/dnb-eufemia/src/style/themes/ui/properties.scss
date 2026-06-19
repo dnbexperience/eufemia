@@ -31,15 +31,15 @@
 
   // Typography Line heights
   --line-height-xx-small--em: 1em; // 16px
-  --line-height-x-small: 1.125rem; // 18px
+  --line-height-x-small: 1.25rem; // 20px
   --line-height-small: 1.25rem; // 20px
   --line-height-basis: 1.5rem; // 24px
   --line-height-basis--em: 1.333em; // 1.33333333333*18 = 24
-  --line-height-lead: 1.5rem; // 24px
-  --line-height-medium: 2rem; // 32px
-  --line-height-large: 2.5rem; // 40px
-  --line-height-x-large: 3.5rem; // 56px
-  --line-height-xx-large: var(--line-height-x-large); // 56px
+  --line-height-lead: var(--line-height-medium); // 24px
+  --line-height-medium: 1.5rem; // 24px
+  --line-height-large: 2rem; // 32px
+  --line-height-x-large: 2.5rem; // 40px
+  --line-height-xx-large: 3.5rem; // 56px
 
   // UX colors
   --color-mint-green-50: #d2f0e9;
