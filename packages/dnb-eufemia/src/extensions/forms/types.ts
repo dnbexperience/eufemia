@@ -19,6 +19,7 @@ import type {
 } from './hooks/useTranslation'
 import type { GetValueByPath } from './hooks/useDataValue'
 import type { HelpProps } from '../../components/help-button/HelpButtonInline'
+import type { RegisteredPath } from './typed-paths'
 
 export type * from 'json-schema'
 export type JSONSchema = JSONSchema7
@@ -184,7 +185,7 @@ export type VariousErrorMessages =
 
 export type DataValueReadProps<Value = unknown> = {
   /** JSON Pointer for where the data for this field is located in the source dataset */
-  path?: Path
+  path?: RegisteredPath
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
   itemPath?: Path
   /** Source data value for the field. Will take precedence over the path value given in the data context */

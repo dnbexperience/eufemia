@@ -18,6 +18,7 @@ Get more [details about releases](/uilib/about-the-lib/releases) or have a look 
 ## v11.7.0
 
 - Added [Form.Outlet](/uilib/extensions/forms/Form/Outlet/) to connect fields and submit controls outside a `Form.Handler` subtree to the same form state.
+- Added [type-checked paths](/uilib/extensions/forms/typed-paths/): register your form data type once via the `Register` interface, then use the pre-typed `RegisteredField`, `RegisteredValue`, `RegisteredForm` and `RegisteredIterate` namespaces for autocomplete and compile-time checking of the `path` prop.
 - Optimized data updates to reduce unnecessary field and derived-value updates when unrelated form data paths change, improving responsiveness in large forms.
 
 ## v11.4.0
