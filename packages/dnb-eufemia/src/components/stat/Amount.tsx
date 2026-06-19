@@ -76,10 +76,6 @@ const renderAffix = (
     resolved = resolved()
   }
 
-  if (typeof resolved === 'string' && resolved.startsWith(' ')) {
-    resolved = `\u00A0${resolved.slice(1)}`
-  }
-
   return <span className={className}>{resolved as ReactNode}</span>
 }
 
@@ -287,10 +283,7 @@ function AmountBase(props: AmountProps) {
         resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
       )
     )
-    const suffixStartsWithSlashOrSpace =
-      typeof suffix === 'string' &&
-      (suffix.startsWith('/') || suffix.startsWith(' '))
-    const suffixSpace = suffixStartsWithSlashOrSpace ? '' : ' '
+    const suffixSpace = suffixStartsWithSlash ? '' : '\u00A0'
     content = (
       <>
         {content}
@@ -298,14 +291,7 @@ function AmountBase(props: AmountProps) {
         {suffixElement}
       </>
     )
-
-    const ariaSpace =
-      typeof suffix === 'string' && suffix.startsWith('/') ? '' : ' '
-    const ariaSuffix = convertJsxToString(suffixElement).replace(
-      /^\u00A0/,
-      ''
-    )
-    aria = `${aria}${ariaSpace}${ariaSuffix}`
+    aria = `${aria}${suffixStartsWithSlash ? '' : ' '}${convertJsxToString(suffixElement)}`
   }
 
   const srText = srLabel
