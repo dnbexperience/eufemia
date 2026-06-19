@@ -95,6 +95,7 @@ describe('DrawerList component', () => {
     ).toBeInTheDocument()
   })
 
+  // TODO: remove this test in v12 when the deprecated arrowPosition prop is removed
   it('does not forward the deprecated arrowPosition prop to the DOM', () => {
     render(
       <DrawerList
