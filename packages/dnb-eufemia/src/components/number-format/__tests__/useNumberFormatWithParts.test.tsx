@@ -6,6 +6,7 @@
 import { renderHook } from '@testing-library/react'
 import useNumberFormatWithParts from '../useNumberFormatWithParts'
 import { formatCurrency, formatPercent, formatNumber } from '../utils'
+import { getReturnValueParts } from '../utils/formatCore'
 import type {
   NumberFormatOptionParams,
   NumberFormatReturnValue,
@@ -13,6 +14,9 @@ import type {
 } from '../NumberUtils'
 import type { NumberFormatter } from '../useNumberFormat'
 import Provider from '../../../shared/Provider'
+
+const joinParts = (parts: Array<{ value: string }>) =>
+  parts.reduce((acc, { value }) => acc + value, '')
 
 describe('useNumberFormatWithParts', () => {
   it('will return object with parts by default', () => {
@@ -47,6 +51,86 @@ describe('useNumberFormatWithParts', () => {
           number: '1\u00A0234,00',
           currency: 'kr',
           currencyPosition: 'after',
+        }),
+      })
+    )
+  })
+
+  it('will preserve semantic parts for negative Norwegian currency', () => {
+    const formatted = formatCurrency(-1234, {
+      locale: 'nb-NO',
+      returnAria: true,
+    })
+    const parts = getReturnValueParts(formatted) ?? []
+
+    expect(parts.length).toBeGreaterThan(0)
+    expect(joinParts(parts)).toBe(formatted.number)
+    expect(parts).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: 'minusSign', value: '-' }),
+        expect.objectContaining({ type: 'currency', value: 'kr' }),
+      ])
+    )
+  })
+
+  it('will preserve semantic parts for negative Norwegian numbers', () => {
+    const formatted = formatNumber(-1234, {
+      locale: 'nb-NO',
+      returnAria: true,
+    })
+    const parts = getReturnValueParts(formatted) ?? []
+
+    expect(parts.length).toBeGreaterThan(0)
+    expect(joinParts(parts)).toBe(formatted.number)
+    expect(parts).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: 'minusSign', value: '-' }),
+      ])
+    )
+  })
+
+  it('will expose normalized sign parts for negative Norwegian numbers', () => {
+    const { result } = renderHook(() =>
+      useNumberFormatWithParts(-1234, formatNumber, {
+        locale: 'nb-NO',
+      })
+    )
+
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        number: '-1\u00A0234',
+        parts: expect.objectContaining({
+          sign: '-',
+          signedNumber: '-1\u00A0234',
+          number: '1\u00A0234',
+          currency: null,
+          currencyPosition: null,
+        }),
+      })
+    )
+  })
+
+  it('will not treat accounting literals as currency spacing', () => {
+    const { result } = renderHook(() =>
+      useNumberFormatWithParts(-1234, formatCurrency, {
+        currency: 'USD',
+        currencyDisplay: 'symbol',
+        locale: 'en-US',
+        options: { currencySign: 'accounting' },
+      })
+    )
+
+    expect(result.current).toEqual(
+      expect.objectContaining({
+        number: '($1,234.00)',
+        parts: expect.objectContaining({
+          sign: null,
+          signedNumber: '1,234.00',
+          number: '1,234.00',
+          currency: '$',
+          currencyPosition: 'before',
+          spaceAfterCurrency: false,
+          spaceBeforeCurrency: false,
         }),
       })
     )

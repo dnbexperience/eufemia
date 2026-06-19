@@ -12,6 +12,7 @@ import {
   formatNumberCore,
   formatNumberCoreParts,
   prepareMinus,
+  prepareMinusParts,
   enhanceSR,
 } from './formatNumberCore'
 import { getThousandsSeparator } from './separators'
@@ -195,6 +196,7 @@ export {
   formatNumberCore,
   formatNumberCoreParts,
   prepareMinus,
+  prepareMinusParts,
   enhanceSR,
   handleCompactBeforeDisplay,
   handleCompactBeforeAria,

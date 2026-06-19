@@ -97,6 +97,10 @@ const NUMBER_PART_TYPES = new Set([
 ])
 const SIGN_PART_TYPES = new Set(['minusSign', 'plusSign'])
 
+function isSpacingLiteral(value: string): boolean {
+  return value.trim() === ''
+}
+
 function parseFormatParts(
   parts: FormatPartItem[] | undefined,
   type: NumberFormatReturnValue['type'] = 'number'
@@ -148,6 +152,10 @@ function parseFormatParts(
 
       if (hasNumber && parts[index + 1]?.type === 'compact') {
         number += part.value
+        return
+      }
+
+      if (!isSpacingLiteral(part.value)) {
         return
       }
 

@@ -20,7 +20,7 @@ import {
   handleCompactBeforeAria,
   handleCompactBeforeDisplay,
   prepareFormatOptions,
-  prepareMinus,
+  prepareMinusParts,
   resolveLocale,
   enhanceSR,
 } from './formatCore'
@@ -177,8 +177,13 @@ export function formatCurrency(
     opts,
     formatter
   )
-  let display = prepareMinus(formatted.number, locale)
-  let parts = display === formatted.number ? formatted.parts : undefined
+  const prepared = prepareMinusParts(
+    formatted.number,
+    formatted.parts,
+    locale
+  )
+  let display = prepared.number
+  let parts = prepared.parts.length ? prepared.parts : undefined
 
   if (resolvedPosition && currencySuffix) {
     if (resolvedPosition === 'after') {

@@ -154,6 +154,36 @@ export const prepareMinus = (
   return display
 }
 
+export function prepareMinusParts(
+  display: string,
+  parts: FormatPartItem[] | undefined,
+  locale: string | null
+): FormatNumberCoreResult {
+  const number = prepareMinus(display, locale)
+
+  if (!parts || number === display) {
+    return { number, parts: parts ?? [] }
+  }
+
+  const nextParts = parts.map((part) => {
+    if (
+      part.type === 'minusSign' &&
+      display.startsWith(part.value) &&
+      number.startsWith('-')
+    ) {
+      return { ...part, value: '-' }
+    }
+
+    return part
+  })
+
+  if (joinParts(nextParts) === number) {
+    return { number, parts: nextParts }
+  }
+
+  return { number, parts: [] }
+}
+
 /**
  * Enhance VoiceOver support on mobile devices.
  * Numbers under 99.999 are read out correctly, but only if we remove the spaces.
