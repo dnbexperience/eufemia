@@ -221,4 +221,16 @@ describe('Stat.Currency', () => {
     expect(content.textContent).toContain('kr\u00A0per mnd')
     expect(sr.getAttribute('data-text')).toContain('kroner per mnd')
   })
+
+  it('renders space between prefix and currency', () => {
+    render(<Stat.Currency value={1234} locale="en-GB" prefix="From" />)
+
+    const prefix = document.querySelector('.dnb-stat__prefix')
+    const content = document.querySelector('.dnb-stat__content')
+    const sr = document.querySelector('.dnb-stat .dnb-sr-only')
+
+    expect(prefix.textContent).toBe('From')
+    expect(content.textContent).toContain('From\u00A0NOK')
+    expect(sr.getAttribute('data-text')).toContain('From 1,234 kroner')
+  })
 })

@@ -82,7 +82,7 @@ describe('Stat.Number', () => {
 
     expect(prefix.textContent).toBe('Fra')
     expect(suffix.textContent).toBe('/mnd')
-    expect(content.textContent).toBe('Fra 12 346 kr/mnd')
+    expect(content.textContent).toBe('Fra 12 346 kr/mnd')
     expect(sr.getAttribute('data-text')).toContain('/mnd')
   })
 
