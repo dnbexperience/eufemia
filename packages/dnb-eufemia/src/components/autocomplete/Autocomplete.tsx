@@ -2547,7 +2547,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
             ) : (
               <Input
                 icon={
-                  visibleIndicator ? (
+                  visibleIndicator && icon ? (
                     <ProgressIndicator
                       size={size === 'large' ? 'medium' : 'small'}
                     />
