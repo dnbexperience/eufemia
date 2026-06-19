@@ -152,7 +152,7 @@ export type DrawerListProps = {
   cacheHash?: string
   /**
    * Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.
-   * @deprecated does nothing as there is no longer any arrow, and will be removed in v12.
+   * @deprecated does nothing as there is no longer any arrow, and will be removed in v13.
    */
   arrowPosition?: string
   /**

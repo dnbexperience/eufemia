@@ -1447,7 +1447,7 @@ describe('Popover', () => {
     expect(popoverElement).toHaveClass('dnb-popover--no-inner-space')
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('merges triggerAttributes with defaults and triggerClassName', async () => {
     const triggerOnClick = vi.fn()
     renderWithTrigger({

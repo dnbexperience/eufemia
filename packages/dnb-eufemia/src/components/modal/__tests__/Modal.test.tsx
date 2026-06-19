@@ -1564,7 +1564,7 @@ describe('Modal component', () => {
     ).toBe('dnb-modal-modal_id-content')
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('should have no icon', () => {
     render(<Modal triggerAttributes={{ text: 'Open Modal' }} />)
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
@@ -1581,7 +1581,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('should have an icon', () => {
     render(
       <Modal
@@ -1595,7 +1595,7 @@ describe('Modal component', () => {
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('should render props', () => {
     const customText = 'Custom text in camelcase'
     render(
@@ -1611,7 +1611,7 @@ describe('Modal component', () => {
     ).toBe(customText)
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('should call triggerAttributes onClick', () => {
     const onClick = vi.fn()
 
@@ -1824,7 +1824,7 @@ describe('Modal component', () => {
 describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('will act by default as a HelpButton', () => {
     render(<Modal {...props} triggerAttributes={{ text: '' }} />)
     expect(
@@ -1834,7 +1834,7 @@ describe('Modal trigger', () => {
     ).toBe(roledescription)
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('will have a aria-label', () => {
     render(
       <Modal {...props} triggerAttributes={{ 'aria-label': 'label' }} />
@@ -1851,7 +1851,7 @@ describe('Modal trigger', () => {
     ).toBe('label')
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('will not act as a HelpButton if only triggerText was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
@@ -1869,7 +1869,7 @@ describe('Modal trigger', () => {
     ).toBe('text')
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('will not act as a HelpButton if a different icon was given', () => {
     render(<Modal {...props} triggerAttributes={{ icon: 'bell' }} />)
     expect(
@@ -1882,7 +1882,7 @@ describe('Modal trigger', () => {
     ).toBeInTheDocument()
   })
 
-  // Deprecated: triggerAttributes – remove this test in v12
+  // Deprecated: triggerAttributes – remove this test in v13
   it('will not act as a HelpButton if trigger text was given', () => {
     render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
     expect(
