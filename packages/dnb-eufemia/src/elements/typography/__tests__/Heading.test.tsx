@@ -8,6 +8,10 @@ import H3 from '../H3'
 import H4 from '../H4'
 import H5 from '../H5'
 import H6 from '../H6'
+import {
+  getHeadingLineHeightSize,
+  type TypographySize,
+} from '../Typography'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('Heading', () => {
@@ -46,6 +50,40 @@ describe('Heading', () => {
     {
       selector: '.dnb-h--x-small',
       component: H6,
+    },
+  ]
+
+  const headingLineHeights: Array<{
+    size: TypographySize
+    expectedLineHeight: TypographySize
+  }> = [
+    {
+      size: 'x-small',
+      expectedLineHeight: 'x-small',
+    },
+    {
+      size: 'small',
+      expectedLineHeight: 'small',
+    },
+    {
+      size: 'basis',
+      expectedLineHeight: 'basis',
+    },
+    {
+      size: 'medium',
+      expectedLineHeight: 'medium',
+    },
+    {
+      size: 'large',
+      expectedLineHeight: 'large',
+    },
+    {
+      size: 'x-large',
+      expectedLineHeight: 'x-large',
+    },
+    {
+      size: 'xx-large',
+      expectedLineHeight: 'xx-large',
     },
   ]
 
@@ -104,6 +142,13 @@ describe('Heading', () => {
       expect(element.tagName).toEqual(
         Component.name === 'H' ? 'H1' : Component.name
       )
+    }
+  )
+
+  it.each(headingLineHeights)(
+    'maps heading size "$size" to line-height "$expectedLineHeight"',
+    ({ size, expectedLineHeight }) => {
+      expect(getHeadingLineHeightSize(size)).toBe(expectedLineHeight)
     }
   )
 
