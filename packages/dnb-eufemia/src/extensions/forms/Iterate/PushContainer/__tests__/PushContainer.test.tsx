@@ -3234,6 +3234,214 @@ describe('PushContainer', () => {
         expect.anything()
       )
     })
+
+    it('should apply Form.Section schema validation when PushContainer has relative path', async () => {
+      const onChange = vi.fn()
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          section: {
+            type: 'object',
+            properties: {
+              items: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string', minLength: 4 },
+                  },
+                  required: ['name'],
+                },
+              },
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={makeAjvInstance()}
+          onChange={onChange}
+        >
+          <Form.Section path="/section">
+            <Iterate.Array path="/items">...</Iterate.Array>
+
+            <Iterate.PushContainer path="/items">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'foo')
+      await userEvent.click(doneButton)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(onChange).toHaveBeenCalledTimes(0)
+    })
+
+    it('should not duplicate Form.Section path when PushContainer has an absolute path', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Section path="/section">
+            <Iterate.PushContainer path="/section/component">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'bar')
+      await userEvent.click(doneButton)
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          section: {
+            component: [{ name: 'bar' }],
+          },
+        },
+        expect.anything()
+      )
+    })
+
+    it('should apply Form.Section Zod schema validation when PushContainer has relative path', async () => {
+      const onChange = vi.fn()
+      const schema = z.object({
+        section: z.object({
+          items: z.array(z.object({ name: z.string().min(4) })),
+        }),
+      })
+
+      render(
+        <Form.Handler schema={schema} onChange={onChange}>
+          <Form.Section path="/section">
+            <Iterate.Array path="/items">...</Iterate.Array>
+
+            <Iterate.PushContainer path="/items">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'foo')
+      await userEvent.click(doneButton)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(onChange).toHaveBeenCalledTimes(0)
+    })
+
+    it('should preserve Form.Section errorPrioritization in isolated fields', async () => {
+      const onChange = vi.fn()
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          section: {
+            type: 'object',
+            properties: {
+              items: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string', minLength: 4 },
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={makeAjvInstance()}
+          onChange={onChange}
+        >
+          <Form.Section
+            path="/section"
+            errorPrioritization={['contextSchema']}
+          >
+            <Iterate.Array path="/items">...</Iterate.Array>
+
+            <Iterate.PushContainer path="/items">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'foo')
+      await userEvent.click(doneButton)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(onChange).toHaveBeenCalledTimes(0)
+    })
+
+    it('should handle root-relative path //items under Form.Section', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Section path="/section">
+            <Iterate.PushContainer path="//items">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'bar')
+      await userEvent.click(doneButton)
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          items: [{ name: 'bar' }],
+        },
+        expect.anything()
+      )
+    })
   })
 
   it('should clear Field.Currency value when opening PushContainer again after committing', async () => {
