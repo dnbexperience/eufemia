@@ -5,18 +5,64 @@
 
 version: 2
 updates:
-  - package-ecosystem: 'npm' # See documentation for possible values
-    directory: '/' # Location of package manifests
+  - package-ecosystem: 'npm'
+    # Cover the root and every Yarn workspace (see "workspaces" in package.json),
+    # so security updates resolve and commit the root yarn.lock alongside the
+    # workspace package.json change.
+    directories:
+      - '/'
+      - '/packages/*'
+      - '/packages/**/plugins/*'
+      - '/tools/*'
     schedule:
       interval: 'monthly'
-    open-pull-requests-limit: 0 # disable dependeabit deps updates because of too many PRs (for each dependency)
-  - package-ecosystem: 'npm' # See documentation for possible values
-    directory: '/packages/dnb-eufemia' # Location of package manifests
+    # Disable scheduled dependency update PRs (too noisy across the monorepo).
+    # Security updates are still opened by Dependabot regardless of this limit.
+    open-pull-requests-limit: 0
+    # Match Yarn 4 setup (defaultSemverRangePrefix: "" in .yarnrc.yml) by only
+    # widening package.json ranges when the new version requires it.
+    versioning-strategy: increase-if-necessary
+    commit-message:
+      prefix: 'chore(deps)'
+      prefix-development: 'chore(deps-dev)'
+      include: 'scope'
+    # Groups apply to scheduled updates (not security updates). Ready for when
+    # open-pull-requests-limit is raised above 0.
+    groups:
+      babel:
+        patterns:
+          - '@babel/*'
+          - 'babel-*'
+      types:
+        patterns:
+          - '@types/*'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - '@eslint/*'
+          - 'typescript-eslint'
+      testing:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+          - 'jest'
+          - 'jest-*'
+          - '@testing-library/*'
+          - 'playwright'
+          - '@playwright/*'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
       interval: 'monthly'
-    open-pull-requests-limit: 0 # disable dependeabit deps updates because of too many PRs (for each dependency)
-  - package-ecosystem: 'npm' # See documentation for possible values
-    directory: '/packages/dnb-design-system-portal' # Location of package manifests
-    schedule:
-      interval: 'monthly'
-    open-pull-requests-limit: 0 # disable dependeabit deps updates because of too many PRs (for each dependency)
+    open-pull-requests-limit: 5
+    labels:
+      - 'dependencies'
+    commit-message:
+      prefix: 'chore(ci)'
+      include: 'scope'
+    groups:
+      actions:
+        patterns:
+          - '*'
