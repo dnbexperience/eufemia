@@ -86,12 +86,93 @@ vi.mock('@dnb/eufemia/src/shared/helpers', async (importOriginal) => {
 
 // Mock Eufemia components
 vi.mock('@dnb/eufemia/src/components', async () => {
-  const { createElement } = (await vi.importActual('react')) as {
-    createElement: typeof CreateElement
+  const { createElement, useEffect, useState } = (await vi.importActual(
+    'react'
+  )) as typeof import('react')
+
+  // Faithfully model the tertiary Accordion + connected content pair backed by
+  // an order-independent shared store (mirroring Eufemia's useSharedState). The
+  // connected content subscribes to its trigger's expanded state, so it stays
+  // in sync even when it renders before the trigger in the tree — as the preview
+  // content does, since it sits above the toolbar that holds its toggle.
+  const expandedById = new Map<string, boolean>()
+  const listenersById = new Map<string, Set<() => void>>()
+  const getExpanded = (id: string) => expandedById.get(id) ?? false
+  const setExpanded = (id: string, value: boolean) => {
+    expandedById.set(id, value)
+    listenersById.get(id)?.forEach((notify) => notify())
   }
+  const subscribe = (id: string, notify: () => void) => {
+    let listeners = listenersById.get(id)
+    if (!listeners) {
+      listeners = new Set()
+      listenersById.set(id, listeners)
+    }
+    listeners.add(notify)
+    return () => {
+      listeners?.delete(notify)
+    }
+  }
+
+  const Accordion = ({
+    title,
+    expanded,
+    onChange,
+    id,
+    variant: _variant,
+    ...rest
+  }: any) => {
+    if (!expandedById.has(id)) {
+      expandedById.set(id, expanded)
+    }
+    useEffect(() => {
+      setExpanded(id, expanded)
+    }, [id, expanded])
+
+    return createElement(
+      'button',
+      {
+        type: 'button',
+        id,
+        'aria-expanded': expanded,
+        'aria-controls': `${id}-content`,
+        onClick: (event: any) =>
+          onChange?.({ expanded: !expanded, event }),
+        ...rest,
+      },
+      title
+    )
+  }
+  const AccordionContent = ({ children, connectedTo, ...rest }: any) => {
+    const [, forceRender] = useState(0)
+    useEffect(
+      () =>
+        subscribe(connectedTo, () => forceRender((count) => count + 1)),
+      [connectedTo]
+    )
+    const expanded = getExpanded(connectedTo)
+
+    return createElement(
+      'section',
+      {
+        id: `${connectedTo}-content`,
+        'aria-hidden': !expanded,
+        ...rest,
+      },
+      createElement(
+        'div',
+        { 'data-height-animation-open': expanded },
+        expanded ? children : null
+      )
+    )
+  }
+  Accordion.Content = AccordionContent
+
   return {
+    Accordion,
     Button: ({ text, onClick, icon: _icon, ...rest }: any) =>
       createElement('button', { onClick, ...rest }, text),
+
     Checkbox: ({ label, checked, onChange, ...rest }: any) =>
       createElement(
         'label',
@@ -111,17 +192,6 @@ vi.mock('@dnb/eufemia/src/components', async () => {
       Horizontal: ({ children, ...rest }: any) =>
         createElement('div', rest, children),
     },
-    ToggleButton: ({ children, checked, onChange, ...rest }: any) =>
-      createElement(
-        'button',
-        {
-          type: 'button',
-          'aria-pressed': checked,
-          onClick: () => onChange?.({ checked: !checked }),
-          ...rest,
-        },
-        children
-      ),
   }
 })
 
@@ -853,6 +923,207 @@ describe('CodeBlock', () => {
       expect(appCode).toContain('<Example />')
 
       vi.restoreAllMocks()
+    })
+  })
+
+  describe('Show/Hide Code toggle (omitWrapper)', () => {
+    it('should wire aria-controls and aria-expanded to the code content section', () => {
+      const { container } = render(
+        <CodeBlock
+          reactLive
+          omitWrapper
+          hideCode
+          scope={{}}
+          language="jsx"
+        >
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const toggle = container.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      expect(toggle).toBeTruthy()
+
+      const contentId = toggle.getAttribute('aria-controls')
+      const content = container.querySelector(`#${contentId}`)
+      expect(content).toBeTruthy()
+
+      // Collapsed by default when hideCode is set
+      expect(toggle.getAttribute('aria-expanded')).toBe('false')
+      expect(content.getAttribute('aria-hidden')).toBe('true')
+
+      const heightAnimation = content.querySelector(
+        '[data-height-animation-open]'
+      )
+      expect(
+        heightAnimation.getAttribute('data-height-animation-open')
+      ).toBe('false')
+    })
+
+    it('should toggle the aria state and HeightAnimation open prop on click', () => {
+      const { container } = render(
+        <CodeBlock
+          reactLive
+          omitWrapper
+          hideCode
+          scope={{}}
+          language="jsx"
+        >
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const toggle = container.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      const contentId = toggle.getAttribute('aria-controls')
+      const content = container.querySelector(`#${contentId}`)
+
+      act(() => {
+        toggle.click()
+      })
+
+      // Expanded: aria state flips and the editor is animated open
+      expect(toggle.getAttribute('aria-expanded')).toBe('true')
+      expect(content.getAttribute('aria-hidden')).toBe('false')
+      expect(
+        content
+          .querySelector('[data-height-animation-open]')
+          .getAttribute('data-height-animation-open')
+      ).toBe('true')
+
+      act(() => {
+        toggle.click()
+      })
+
+      // Collapsed again
+      expect(toggle.getAttribute('aria-expanded')).toBe('false')
+      expect(content.getAttribute('aria-hidden')).toBe('true')
+    })
+  })
+
+  describe('Show/Hide Code toggle (standard wrapper)', () => {
+    it('should render the code toggle as an accordion alongside the preview', () => {
+      const { container } = render(
+        <CodeBlock reactLive hideCode scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      // The preview stays visible while the code is collapsed behind a toggle
+      expect(
+        container.querySelector('[data-testid="live-preview"]')
+      ).toBeTruthy()
+
+      const toggle = container.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      expect(toggle).toBeTruthy()
+      expect(toggle.textContent).toContain('Code')
+
+      const contentId = toggle.getAttribute('aria-controls')
+      const content = container.querySelector(`#${contentId}`)
+      expect(content).toBeTruthy()
+
+      // Collapsed by default when hideCode is set
+      expect(toggle.getAttribute('aria-expanded')).toBe('false')
+      expect(content.getAttribute('aria-hidden')).toBe('true')
+      expect(
+        content.querySelector('[data-testid="live-editor"]')
+      ).toBeNull()
+
+      // Expanding reveals the editor
+      act(() => {
+        toggle.click()
+      })
+
+      expect(toggle.getAttribute('aria-expanded')).toBe('true')
+      expect(content.getAttribute('aria-hidden')).toBe('false')
+      expect(
+        content.querySelector('[data-testid="live-editor"]')
+      ).toBeTruthy()
+    })
+
+    it('should render the editor directly without a toggle when the toolbar is hidden', () => {
+      const { container } = render(
+        <CodeBlock reactLive hideToolbar scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      // No toolbar, so no accordion toggle is rendered
+      expect(container.querySelector('.dnb-live-toolbar')).toBeNull()
+      expect(container.querySelector('button[aria-controls]')).toBeNull()
+
+      // The editor renders directly (not wrapped in an Accordion.Content region)
+      expect(
+        container.querySelector('[data-testid="live-editor"]')
+      ).toBeTruthy()
+    })
+  })
+
+  describe('Preview toggle', () => {
+    it('should wire aria-controls to the preview content section', () => {
+      const { container } = render(
+        <CodeBlock reactLive hidePreview scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const toggle = container.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      expect(toggle).toBeTruthy()
+      expect(toggle.textContent).toContain('Preview')
+
+      const contentId = toggle.getAttribute('aria-controls')
+      const content = container.querySelector(`#${contentId}`)
+      expect(content).toBeTruthy()
+
+      // Hidden by default when hidePreview is set
+      expect(toggle.getAttribute('aria-expanded')).toBe('false')
+      expect(content.getAttribute('aria-hidden')).toBe('true')
+      expect(
+        content
+          .querySelector('[data-height-animation-open]')
+          .getAttribute('data-height-animation-open')
+      ).toBe('false')
+    })
+
+    it('should toggle the preview aria state and HeightAnimation open prop on click', () => {
+      const { container } = render(
+        <CodeBlock reactLive hidePreview scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const toggle = container.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      const contentId = toggle.getAttribute('aria-controls')
+      const content = container.querySelector(`#${contentId}`)
+
+      act(() => {
+        toggle.click()
+      })
+
+      // Visible: aria state flips and the preview is animated open
+      expect(toggle.getAttribute('aria-expanded')).toBe('true')
+      expect(content.getAttribute('aria-hidden')).toBe('false')
+      expect(
+        content
+          .querySelector('[data-height-animation-open]')
+          .getAttribute('data-height-animation-open')
+      ).toBe('true')
+
+      act(() => {
+        toggle.click()
+      })
+
+      // Hidden again
+      expect(toggle.getAttribute('aria-expanded')).toBe('false')
+      expect(content.getAttribute('aria-hidden')).toBe('true')
     })
   })
 })
