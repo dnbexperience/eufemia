@@ -12,10 +12,6 @@ import {
   Wizard,
   Iterate,
 } from '@dnb/eufemia/src/extensions/forms'
-import type {
-  TypedField,
-  TypedForm,
-} from '@dnb/eufemia/src/extensions/forms'
 
 export const CreateBasicValueComponent = () => {
   return (
@@ -745,53 +741,6 @@ export const QuickStart = () => {
         }
 
         return <MyForm />
-      }}
-    </ComponentBox>
-  )
-}
-
-export const TypedPaths = () => {
-  return (
-    <ComponentBox>
-      {() => {
-        type MyData = {
-          /** The first name of the user */
-          firstName: string
-          /** The age of the user */
-          age: number
-          /** The address of the user */
-          address?: {
-            /** The street of the user's address */
-            street: string
-          }
-        }
-
-        // Bind the data type with a type-only cast, then destructure the
-        // members you use. Every `path` is now type-checked and offers
-        // autocomplete based on the shape of `MyData`, while the cast erases
-        // at build time so tree-shaking stays intact.
-        const { Name, Number, Address } = Field as TypedField<MyData>
-        const { Handler, Card, SubmitButton } = Form as TypedForm<MyData>
-
-        return (
-          <Handler
-            defaultData={{
-              firstName: 'Nora',
-              age: 30,
-            }}
-            onSubmit={(data) => console.log('onSubmit', data)}
-          >
-            <Card>
-              <Name path="/firstName" label="First name" />
-              <Number path="/age" label="Age" />
-              <Address.Street path="/address/street" label="Street" />
-
-              {/* Invalid paths like path="/unknown" are caught at compile time */}
-
-              <SubmitButton />
-            </Card>
-          </Handler>
-        )
       }}
     </ComponentBox>
   )

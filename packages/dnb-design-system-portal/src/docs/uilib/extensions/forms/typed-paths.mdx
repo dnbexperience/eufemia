@@ -9,13 +9,15 @@ breadcrumb:
     href: /uilib/extensions/forms/typed-paths/
 ---
 
-import * as Examples from './Examples'
+import * as Examples from './typed-paths/Examples'
 
 # Type-checked paths
 
 Eufemia Forms uses [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) strings (such as `/firstName`) for the `path` prop. By default these are plain strings, so a typo like `/firstNme` is not caught until runtime.
 
 The `TypedField`, `TypedValue` and `TypedForm` helper types bind your data type to the components, giving **autocomplete** and **compile-time type checking** on the `path` prop of every `Field.*` and `Value.*`, while `Form.Handler` keeps its typed `data` and `defaultData`.
+
+Alternatively, [register your data type once](#register-the-data-type-once) to get path **autocomplete directly** on every `Field`/`Value` — without any cast. With a registration in place, the pre-typed `RegisteredField`/`RegisteredValue`/`RegisteredForm` namespaces also give **hard compile-time errors** on typos without a cast.
 
 ## Usage
 
@@ -58,7 +60,7 @@ function MyForm() {
 
 ## Register the data type once
 
-Repeating the generic (`TypedField<MyData>`) on every cast can be avoided by registering your data type globally — the same approach as [TanStack Router's `Register` interface](https://tanstack.com/router/latest/docs/framework/react/guide/creating-a-router#router-type-safety). Augment the `Register` interface once, then cast without a generic and the helpers resolve your data type automatically.
+Instead of casting on every form, you can register your data type **globally** — the same approach as [TanStack Router's `Register` interface](https://tanstack.com/router/latest/docs/framework/react/guide/creating-a-router#router-type-safety). Augment the `Register` interface once:
 
 ```tsx
 // forms-register.ts — imported once (e.g. from your app entry)
@@ -71,29 +73,130 @@ declare module '@dnb/eufemia/extensions/forms' {
 }
 ```
 
+With the registration in place, the `path` prop on every `Field.*` and `Value.*` autocompletes the valid paths **directly — no cast needed**:
+
 ```tsx
 import { Field, Form } from '@dnb/eufemia/extensions/forms'
-import type { TypedField, TypedForm } from '@dnb/eufemia/extensions/forms'
 
-// No generic needed — the data type comes from the registration
-const { String, Number } = Field as TypedField
-const { Handler, Card } = Form as TypedForm
-
-// Still autocompleted and type-checked
-;<String path="/firstName" />
+function MyForm() {
+  return (
+    <Form.Handler defaultData={{ firstName: 'Nora', age: 30 }}>
+      <Form.Card>
+        {/* Autocompletes /firstName, /age, /address/street … */}
+        <Field.Name path="/firstName" />
+        <Field.Number path="/age" />
+      </Form.Card>
+    </Form.Handler>
+  )
+}
 ```
 
-The cast is still required (it is what keeps tree-shaking intact, see below); registration only removes the repeated generic. Like TanStack Router's single registered router, this binds **one** data type globally. For an additional form with a different shape, pass the generic explicitly: `Field as TypedField<OtherData>`.
+This is **non-breaking**: any string is still accepted, so relative paths inside [Form.Section](/uilib/extensions/forms/Form/Section/) and [Iterate](/uilib/extensions/forms/Iterate/), as well as dynamic paths, keep working. Because of that, a typo like `path="/unknown"` is **not** a hard error on the plain `Field`/`Value` — they get autocomplete, not compile-time errors.
 
-## Demo
+### Hard errors without a cast
 
-<Examples.TypedPaths />
+To turn typos into **compile-time errors** without writing a cast, import the pre-typed `RegisteredForm`/`RegisteredField`/`RegisteredValue` namespaces and alias them to `Form`/`Field`/`Value`. They resolve the registered data type, so bare namespace access is fully type-checked:
+
+```tsx
+import {
+  RegisteredForm as Form,
+  RegisteredField as Field,
+} from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler defaultData={{ firstName: 'Nora', age: 30 }}>
+      <Form.Card>
+        <Field.Name.First path="/firstName" />
+        <Field.Number path="/age" />
+        <Field.Name.Company path="/company/name" />
+
+        {/* Type error: "/firstLast" is not a path in the registered data */}
+        <Field.Name.Last path="/firstLast" />
+      </Form.Card>
+    </Form.Handler>
+  )
+}
+```
+
+<Examples.BasicFields />
+
+The `path` is checked against the **root** data type, so absolute paths like `/company/name` are typed and typos are rejected. The section-relative `path` inside [Form.Section](/uilib/extensions/forms/Form/Section/) (such as `/name` for `company.name`) and the item-relative `itemPath` inside [Iterate](/uilib/extensions/forms/Iterate/) are not narrowed by the registered **root** namespace — but both can be typed by deriving the nested type from the same registered root, with [`TypedSectionField`](#type-checking-section-relative-paths) and [`TypedItemField`](#type-checking-itempath-inside-iterate). Member access on a namespace is also not tree-shakeable; when that matters, use the cast-and-destructure form instead (see [Keeping tree-shaking](#keeping-tree-shaking)) — with a registration in place you can drop the generic:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { TypedField } from '@dnb/eufemia/extensions/forms'
+
+// No generic needed — the data type comes from the registration
+const { Name, Number } = Field as TypedField
+
+// Type error: "/unknown" is not a path in the registered data
+;<Name path="/unknown" />
+```
+
+Like TanStack Router's single registered router, this binds **one** data type globally. For an additional form with a different shape, use the cast with an explicit generic: `Field as TypedField<OtherData>`.
+
+### Type-checking `itemPath` inside Iterate
+
+Inside an [Iterate.Array](/uilib/extensions/forms/Iterate/Array/), fields address each item with the **item-relative** `itemPath` prop. Its valid paths come from the array **item** type, not the root, so the registered root namespace leaves it as a plain string. You do not need a second registration: derive the item type from the **single** registered root with `TypedItemField`, passing the same path you give to `Iterate.Array`.
+
+```tsx
+import { Field, Iterate } from '@dnb/eufemia/extensions/forms'
+import type { TypedItemField } from '@dnb/eufemia/extensions/forms'
+
+// Registered data: { accounts: Array<{ name: string; balance: number }> }
+const { String, Number } = Field as TypedItemField<'/accounts'>
+
+function MyForm() {
+  return (
+    <Iterate.Array path="/accounts">
+      <String itemPath="/name" />
+      <Number itemPath="/balance" />
+
+      {/* Type error: "/nope" is not a path in the array item */}
+      <String itemPath="/nope" />
+    </Iterate.Array>
+  )
+}
+```
+
+`TypedItemValue` narrows the `Value` namespace the same way. Because a single global `Register` binds one root data type, you cannot register several shapes through it — but you rarely need to: every nested object and array-item type is reachable from the one root, via `TypedItemField` for `itemPath` and the `PathValue` helper for deriving a sub-type. For a genuinely separate form with a different shape, pass the type explicitly instead: `Field as TypedField<OtherData>`.
+
+<Examples.IterateExample />
+
+### Type-checking section-relative paths
+
+Inside a [Form.Section](/uilib/extensions/forms/Form/Section/), fields address values with a `path` **relative to the section** — the section path is prefixed automatically. Those relative paths come from the section's **object** type, not the root, so the registered root namespace does not narrow them. As with Iterate, you do not need a second registration: derive the section type from the **single** registered root with `TypedSectionField`, passing the same path you give to `Form.Section`.
+
+```tsx
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+import type { TypedSectionField } from '@dnb/eufemia/extensions/forms'
+
+// Registered data: { company?: { name: string } }
+const { Name } = Field as TypedSectionField<'/company'>
+
+function MyForm() {
+  return (
+    <Form.Section path="/company">
+      {/* Checked against the section type, relative to /company */}
+      <Name.Company path="/name" />
+
+      {/* Type error: "/nope" is not a path in the section object */}
+      <Name.Company path="/nope" />
+    </Form.Section>
+  )
+}
+```
+
+`TypedSectionValue` narrows the `Value` namespace the same way. This is the same single-registered-root model as `TypedItemField`: the section's type is resolved from the one registered root, so there is a single source of truth.
+
+<Examples.SectionExample />
 
 ## Good to know
 
 - The typing is purely type-level and is erased at build time, so the types themselves add no runtime or bundle-size cost.
 - Nested objects and arrays are supported, e.g. `/address/street` or `/items/0/title`.
-- Paths are typed against the root data type. Relative paths used inside [Form.Section](/uilib/extensions/forms/Form/Section/) and [Iterate](/uilib/extensions/forms/Iterate/) are therefore not narrowed.
+- The plain `path` prop is typed against the **root** data type. The section-relative `path` inside [Form.Section](/uilib/extensions/forms/Form/Section/) is not narrowed on the registered **root** namespace — use [`TypedSectionField`](#type-checking-section-relative-paths) (or the regular `Field`/`Value`, which accept any string) there. For the item-relative `itemPath` inside [Iterate](/uilib/extensions/forms/Iterate/), use [`TypedItemField`](#type-checking-itempath-inside-iterate).
 - See also the [TypeScript support](/uilib/extensions/forms/getting-started/#typescript-support) section in Getting started.
 
 ## Keeping tree-shaking
