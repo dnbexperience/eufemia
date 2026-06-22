@@ -26,6 +26,56 @@ describe('Stat.Currency', () => {
     expect(currency.textContent).toBe('kr')
   })
 
+  it('supports custom currency codes', () => {
+    render(
+      <Stat.Currency
+        value={12345.67}
+        currency="EUR"
+        currencyDisplay="code"
+      />
+    )
+
+    const amount = document.querySelector('.dnb-stat__amount')
+    const currency = document.querySelector('.dnb-stat__currency')
+
+    expect(amount.textContent).toBe('12 346')
+    expect(currency.textContent).toBe('EUR')
+  })
+
+  describe('compact', () => {
+    it('renders currency suffix and symbol', () => {
+      render(<Stat.Currency value={1300000} compact decimals={1} />)
+
+      const content = document.querySelector('.dnb-stat__content')
+      const amount = document.querySelector('.dnb-stat__amount')
+      const currency = document.querySelector('.dnb-stat__currency')
+
+      expect(content.textContent).toBe('1,3 mill. kr')
+      expect(amount.textContent).toBe('1,3 mill.')
+      expect(currency.textContent).toBe('kr')
+    })
+
+    it('keeps compact suffix in the amount when auxiliarySize is set', () => {
+      render(
+        <Stat.Currency
+          value={1300000}
+          compact
+          decimals={1}
+          mainSize="x-large"
+          auxiliarySize="basis"
+        />
+      )
+
+      const amount = document.querySelector('.dnb-stat__amount')
+      const currency = document.querySelector('.dnb-stat__currency')
+
+      expect(amount.textContent).toBe('1,3 mill.')
+      expect(amount.classList).toContain('dnb-t__size--x-large')
+      expect(currency.textContent).toBe('kr')
+      expect(currency.classList).toContain('dnb-t__size--basis')
+    })
+  })
+
   it('supports sign tone colorization', () => {
     render(
       <Stat.Currency
@@ -158,5 +208,29 @@ describe('Stat.Currency', () => {
     const srOnly = container.querySelector('.dnb-sr-only')
     expect(srOnly.getAttribute('data-text')).toContain('12,346')
     expect(srOnly.getAttribute('data-text')).toContain('kroner')
+  })
+
+  it('renders space between currency and suffix without slash', () => {
+    render(<Stat.Currency value={1234} suffix="per mnd" />)
+
+    const suffix = document.querySelector('.dnb-stat__suffix')
+    const content = document.querySelector('.dnb-stat__content')
+    const sr = document.querySelector('.dnb-stat .dnb-sr-only')
+
+    expect(suffix.textContent).toBe('per mnd')
+    expect(content.textContent).toContain('kr\u00A0per mnd')
+    expect(sr.getAttribute('data-text')).toContain('kroner per mnd')
+  })
+
+  it('renders space between prefix and currency', () => {
+    render(<Stat.Currency value={1234} locale="en-GB" prefix="From" />)
+
+    const prefix = document.querySelector('.dnb-stat__prefix')
+    const content = document.querySelector('.dnb-stat__content')
+    const sr = document.querySelector('.dnb-stat .dnb-sr-only')
+
+    expect(prefix.textContent).toBe('From')
+    expect(content.textContent).toContain('From\u00A0NOK')
+    expect(sr.getAttribute('data-text')).toContain('From 1,234 kroner')
   })
 })

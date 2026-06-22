@@ -29,8 +29,8 @@ export function ParagraphSizeModifiers() {
     <ComponentBox hideCode data-visual-test="paragraph-modifiers-size">
       <P size="x-small">x-small paragraph</P>
       <P size="small">small paragraph</P>
-      <P size="medium">medium paragraph</P>
       <P size="basis">basis paragraph (same as default)</P>
+      <P size="medium">medium paragraph</P>
       <P size="large">large paragraph</P>
       <P size="x-large">x-large paragraph</P>
       <P size="xx-large">xx-large paragraph</P>
@@ -63,10 +63,10 @@ export function ParagraphLineHeightModifiers() {
     <ComponentBox hideCode data-visual-test="paragraph-modifiers-line">
       <P lineHeight="x-small">x-small line-height paragraph</P>
       <P lineHeight="small">small line-height paragraph</P>
-      <P lineHeight="medium">medium line-height paragraph</P>
       <P lineHeight="basis">
         basis line-height paragraph (same as default)
       </P>
+      <P lineHeight="medium">medium line-height paragraph</P>
       <P lineHeight="large">large line-height paragraph</P>
       <P lineHeight="x-large">x-large line-height paragraph</P>
       <P lineHeight="xx-large">xx-large line-height paragraph</P>

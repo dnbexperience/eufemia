@@ -191,6 +191,21 @@ describe('Visibility', () => {
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
+
+    it('updates when target path changes', async () => {
+      render(
+        <Form.Handler defaultData={{ isTruthy: '' }}>
+          <Field.String path="/isTruthy" />
+          <Visibility pathTruthy="/isTruthy">Child</Visibility>
+        </Form.Handler>
+      )
+
+      expect(screen.queryByText('Child')).not.toBeInTheDocument()
+
+      await userEvent.type(document.querySelector('input'), 'value')
+
+      expect(screen.getByText('Child')).toBeInTheDocument()
+    })
   })
 
   describe('pathFalsy', () => {

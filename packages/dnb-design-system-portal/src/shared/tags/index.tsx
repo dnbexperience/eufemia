@@ -57,7 +57,7 @@ export const basicComponents = {
 
   a: (props) => {
     if (props?.children[0]?.type === Icon) {
-      // If first children is a Icon, we pass it to Anchor's icon property and sets is position to left
+      // If first children is an Icon, we pass it to Anchor's icon property and sets its position to left
       const { children } = props
       const [icon, ...restChildren] = children
       return (

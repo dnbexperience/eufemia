@@ -267,7 +267,9 @@ function AmountBase(props: AmountProps) {
     )
     content = (
       <>
-        {prefixElement} {content}
+        {prefixElement}
+        {'\u00A0'}
+        {content}
       </>
     )
     aria = `${convertJsxToString(prefixElement)} ${aria}`
@@ -283,8 +285,7 @@ function AmountBase(props: AmountProps) {
         resolvedAuxWeight && `dnb-t__weight--${resolvedAuxWeight}`
       )
     )
-    const suffixSpace =
-      typeof suffix === 'string' && suffix.startsWith('/') ? '' : ' '
+    const suffixSpace = suffixStartsWithSlash ? '' : '\u00A0'
     content = (
       <>
         {content}
@@ -292,7 +293,7 @@ function AmountBase(props: AmountProps) {
         {suffixElement}
       </>
     )
-    aria = `${aria}${suffixSpace}${convertJsxToString(suffixElement)}`
+    aria = `${aria}${suffixStartsWithSlash ? '' : ' '}${convertJsxToString(suffixElement)}`
   }
 
   const srText = srLabel

@@ -82,7 +82,7 @@ describe('Stat.Number', () => {
 
     expect(prefix.textContent).toBe('Fra')
     expect(suffix.textContent).toBe('/mnd')
-    expect(content.textContent).toBe('Fra 12 346 kr/mnd')
+    expect(content.textContent).toBe('Fra 12 346 kr/mnd')
     expect(sr.getAttribute('data-text')).toContain('/mnd')
   })
 
@@ -167,7 +167,7 @@ describe('Stat.Number', () => {
     const amount = document.querySelector('.dnb-stat__amount')
 
     expect(amount.classList).toContain('dnb-t__size--large')
-    expect(amount.classList).toContain('dnb-t__line-height--medium')
+    expect(amount.classList).toContain('dnb-t__line-height--large')
   })
 
   it('defaults to medium weight', () => {

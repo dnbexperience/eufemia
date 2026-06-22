@@ -59,6 +59,49 @@ describe('MultiSelection', () => {
     )
   })
 
+  it('should update options when "dataPath" data changes', async () => {
+    function ChangeOptions() {
+      const { update } = Form.useData()
+
+      return (
+        <button
+          type="button"
+          onClick={() => {
+            update('/myList', [{ value: 'baz', title: 'Baz!' }])
+          }}
+        >
+          Change options
+        </button>
+      )
+    }
+
+    render(
+      <Form.Handler
+        data={{
+          myList: [{ value: 'foo', title: 'Foo!' }],
+          mySelection: ['foo'],
+        }}
+      >
+        <Field.MultiSelection path="/mySelection" dataPath="/myList" />
+        <ChangeOptions />
+      </Form.Handler>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Foo!')).toBeInTheDocument()
+    })
+    expect(screen.queryByText('Baz!')).not.toBeInTheDocument()
+
+    fireEvent.click(screen.getByText('Change options'))
+
+    await waitFor(() => {
+      expect(screen.getByText('Baz!')).toBeInTheDocument()
+    })
+    expect(screen.queryByText('Foo!')).not.toBeInTheDocument()
+  })
+
   it('renders trigger with dropdown styling classes', () => {
     const data = [
       { value: 'option1', title: 'Option 1' },

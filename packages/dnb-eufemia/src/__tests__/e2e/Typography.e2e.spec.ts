@@ -122,7 +122,7 @@ test.describe('Typography for Sbanken', () => {
   }) => {
     await page.waitForSelector('h2', { state: 'attached' })
     const element = page.locator('.typography-box > h4.dnb-h--x-large')
-    await expect(element).toHaveCSS('font-size', '38px')
+    await expect(element).toHaveCSS('font-size', '34px')
   })
 
   test('docs should include heading large example with correct font-size', async ({
@@ -130,7 +130,7 @@ test.describe('Typography for Sbanken', () => {
   }) => {
     await page.waitForSelector('h2', { state: 'attached' })
     const element = page.locator('.typography-box > h4.dnb-h--large')
-    await expect(element).toHaveCSS('font-size', '32px')
+    await expect(element).toHaveCSS('font-size', '26px')
   })
 
   test('examples should have correct color', async ({ page }) => {

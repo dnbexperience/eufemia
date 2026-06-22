@@ -112,6 +112,8 @@ To disable types you can:
 <Form.Handler<any>>...</Form.Handler>
 ```
 
+To also get autocomplete and compile-time checking on the `path` prop of every field and value, see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
+
 ## Decoupling the form element
 
 For more flexibility, you can decouple the form element from the form context by using the `decoupleForm` property. It is recommended to use `Form.Element` to wrap the rest of your form:
@@ -189,6 +191,10 @@ function MyApp() {
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
+If rendered output depends on one form data path inside `Form.Handler`, use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) to subscribe only to that path.
+
+If an integration needs imperative helpers without subscribing to data changes, use `Form.useDataWithoutSubscription` instead. Inside custom field or value components that render form data, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/) so the component stays reactive with path-scoped form updates.
+
 ### Using a form ID
 
 The form data can be handled outside the form. This is useful if you want to use the form data in other components:
@@ -213,6 +219,8 @@ function MyApp() {
   )
 }
 ```
+
+You can also render fields and other form components outside the `Form.Handler` tree by using [Form.Outlet](/uilib/extensions/forms/Form/Outlet/) with the same `id`.
 
 More examples can be found in the [Form.useData](/uilib/extensions/forms/Form/useData/) hook docs.
 

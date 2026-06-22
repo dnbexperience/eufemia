@@ -6,17 +6,25 @@ showTabs: true
 
 ```tsx
 import { Form } from '@dnb/eufemia/extensions/forms'
-// Use Form.useData
+// Use Form.useData, Form.useDataValue or Form.useDataWithoutSubscription
 ```
 
 ## Description
 
 With the `Form.useData` hook, you can manage your form data from nested components and outside the form context (`Form.Handler`).
 
+If rendered output depends on one form data path inside `Form.Handler`, use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/).
+
+If you need the imperative helpers without subscribing to form data changes, use `Form.useDataWithoutSubscription`.
+
+For custom field or value components that render a form value, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). They keep the component reactive with path-scoped form updates.
+
 ## Relevant links
 
-- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/useData.ts)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useData.ts)
+- [Source code for useDataWithoutSubscription](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useDataWithoutSubscription.ts)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/useData)
+- [Form.Outlet](/uilib/extensions/forms/Form/Outlet/)
 
 The hook returns an object with the following properties:
 
@@ -52,6 +60,38 @@ render(
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
+### Path value subscription
+
+Use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) when rendered output depends on a single form value inside `Form.Handler`. It subscribes only to that path.
+
+### Without subscription
+
+`Form.useData` subscribes the hook consumer to form data changes. This is useful when rendered output depends on the data.
+
+If rendered output depends on one value, use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) to subscribe only to that path.
+
+For custom fields and other internal integrations that only need imperative access to form data, use `Form.useDataWithoutSubscription`. It accepts the same optional `id` and `initialData` arguments as `Form.useData`, but does not subscribe to form data updates.
+
+It returns `getData`, `getValue`, `update`, `remove`, `set`, `filterData` and `reduceToVisibleFields`. It does not return `data`, because `data` would be a stale render snapshot after form changes. Use `getData` or `getValue` when you need the latest value without subscribing.
+
+`Form.useDataWithoutSubscription` is not a replacement for [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/) inside custom fields that render form data. Use those hooks for the rendered field value, and use `Form.useDataWithoutSubscription` only for additional imperative reads or writes in callbacks, effects or internal handlers.
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const { getData, getValue, update } = Form.useDataWithoutSubscription()
+
+  const handleClick = () => {
+    const data = getData()
+    const value = getValue('/foo') ?? data?.foo
+    update('/bar', value)
+  }
+
+  return <button onClick={handleClick}>Update</button>
+}
+```
+
 ## Usage
 
 You can use the `Form.useData` hook with or without an `id` (string, function, object or React Context as the reference) property, which is optional and can be used to link the data to a specific [Form.Handler](/uilib/extensions/forms/Form/Handler/) component.
@@ -67,6 +107,7 @@ type MyData = { firstName: string }
 
 const MyComponent = () => {
   const { data } = Form.useData<MyData>()
+
   return data.firstName
 }
 ```
@@ -115,6 +156,8 @@ function Component() {
 ```
 
 This is beneficial when you need to utilize the form data in other places within your application.
+
+If you need to render fields, values, or other `Form.*` components in another part of the component tree, use [Form.Outlet](/uilib/extensions/forms/Form/Outlet/) with the same form handler id (`formHandlerId`).
 
 ### Select a single value
 

@@ -1,10 +1,13 @@
 import {
+  Children,
   useCallback,
   useContext,
   useEffect,
+  isValidElement,
   useMemo,
   useReducer,
   useRef,
+  useSyncExternalStore,
 } from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
@@ -27,6 +30,7 @@ import type {
   InternalStepStatuses,
 } from '../Context/types'
 import DataContext from '../../DataContext/Context'
+import type { EventListenerCall } from '../../DataContext/Context'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 import Handler from '../../Form/Handler/Handler'
 import type { SharedStateReturn } from '../../../../shared/helpers/useSharedState'
@@ -36,11 +40,15 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
-import type { ComponentProps } from '../../types'
+import type { ComponentProps, Path } from '../../types'
 import useVisibility from '../../Form/Visibility/useVisibility'
+import type { VisibleWhen } from '../../Form/Visibility/Visibility'
+import useDataValue from '../../hooks/useDataValue'
+import usePath from '../../hooks/usePath'
 import { DisplaySteps } from './DisplaySteps'
 import { IterateOverSteps } from './IterateOverSteps'
 import { PrerenderFieldPropsOfOtherSteps } from './PrerenderFieldPropsOfOtherSteps'
+import Step from '../Step/Step'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -106,6 +114,67 @@ export type WizardContainerProps = ComponentProps & {
   children: ReactNode
 }
 
+type IncludeWhenDependencies = {
+  dataPaths: Array<Path>
+  dataItemPaths: Array<Path>
+  fieldStatePaths: Array<Path>
+  fieldStateItemPaths: Array<Path>
+  hasWrappedStepChildren: boolean
+}
+
+function collectIncludeWhenDependencies(
+  children: ReactNode
+): IncludeWhenDependencies {
+  const dataPaths = new Set<Path>()
+  const dataItemPaths = new Set<Path>()
+  const fieldStatePaths = new Set<Path>()
+  const fieldStateItemPaths = new Set<Path>()
+  let hasWrappedStepChildren = false
+
+  const addIncludeWhen = (includeWhen?: VisibleWhen) => {
+    if (!includeWhen) {
+      return
+    }
+
+    const usesItemPath = 'itemPath' in includeWhen
+    const path = usesItemPath ? includeWhen.itemPath : includeWhen.path
+
+    if ('hasValue' in includeWhen) {
+      if (usesItemPath) {
+        dataItemPaths.add(path)
+      } else {
+        dataPaths.add(path)
+      }
+    }
+
+    if ('isValid' in includeWhen) {
+      if (usesItemPath) {
+        fieldStateItemPaths.add(path)
+      } else {
+        fieldStatePaths.add(path)
+      }
+    }
+  }
+
+  Children.forEach(children, (child) => {
+    if (isValidElement<{ includeWhen?: VisibleWhen }>(child)) {
+      if (child.type === Step) {
+        addIncludeWhen(child.props.includeWhen)
+      } else if (typeof child.type === 'function') {
+        hasWrappedStepChildren = true
+      }
+    }
+  })
+
+  return {
+    dataPaths: Array.from(dataPaths),
+    dataItemPaths: Array.from(dataItemPaths),
+    fieldStatePaths: Array.from(fieldStatePaths),
+    fieldStateItemPaths: Array.from(fieldStateItemPaths),
+    hasWrappedStepChildren,
+  }
+}
+
 function WizardContainer(props: WizardContainerProps) {
   const {
     className,
@@ -134,6 +203,7 @@ function WizardContainer(props: WizardContainerProps) {
     setSubmitState,
     hasFieldState,
     hasErrors,
+    setFieldEventListener,
   } = dataContext
 
   const id = useId(idProp)
@@ -191,7 +261,10 @@ function WizardContainer(props: WizardContainerProps) {
    * If an index is given, it will check if the step, with the given index, has an invalid state.
    */
   const syncStepsState = useCallback(
-    (index = undefined, forStates = ['unknown', 'error']) => {
+    (
+      index: StepIndex | undefined = undefined,
+      forStates: Array<InternalStepStatus> = ['unknown', 'error']
+    ) => {
       const checkUnknown = forStates.includes('unknown')
       const checkError = forStates.includes('error')
 
@@ -495,7 +568,116 @@ function WizardContainer(props: WizardContainerProps) {
 
   // NB: useVisibility needs to be imported here,
   // because it need the outer context to be available.
-  const { check } = useVisibility()
+  const { check } = useVisibility({})
+  const includeWhenDependencies = useMemo(
+    () => collectIncludeWhenDependencies(children),
+    [children]
+  )
+  const includeWhenDataPaths = useMemo(() => {
+    if (includeWhenDependencies.hasWrappedStepChildren) {
+      return [...includeWhenDependencies.dataPaths, '//'] as Array<Path>
+    }
+
+    return includeWhenDependencies.dataPaths
+  }, [includeWhenDependencies])
+
+  useDataValue(includeWhenDataPaths, undefined, {
+    pathType: 'absolute',
+  })
+  useDataValue(includeWhenDependencies.dataItemPaths, undefined, {
+    pathType: 'iterate',
+  })
+
+  const { makePath, makeIteratePath } = usePath()
+  const includeWhenFieldStateDependencyPaths = useMemo(() => {
+    const paths = new Set<EventListenerCall['path']>()
+
+    includeWhenDependencies.fieldStatePaths.forEach((path) => {
+      paths.add(makePath(path))
+    })
+    includeWhenDependencies.fieldStateItemPaths.forEach((path) => {
+      paths.add(makeIteratePath(path))
+    })
+
+    if (includeWhenDependencies.hasWrappedStepChildren) {
+      paths.add(undefined)
+    }
+
+    return Array.from(paths)
+  }, [includeWhenDependencies, makeIteratePath, makePath])
+  const includeWhenSnapshotVersionRef = useRef(0)
+  const subscribeIncludeWhenFieldState = useCallback(
+    (callback: () => void) => {
+      if (
+        includeWhenFieldStateDependencyPaths.length === 0 ||
+        !setFieldEventListener
+      ) {
+        return () => undefined
+      }
+
+      let isSubscribed = true
+      const handleFieldStateUpdate: EventListenerCall['callback'] = (
+        params
+      ) => {
+        if (
+          params &&
+          'state' in params &&
+          params.state.isFocused === true
+        ) {
+          return undefined // stop here
+        }
+
+        includeWhenSnapshotVersionRef.current += 1
+        queueMicrotask(() => {
+          if (isSubscribed) {
+            callback()
+          }
+        })
+      }
+
+      includeWhenFieldStateDependencyPaths.forEach((path) => {
+        setFieldEventListener(
+          path,
+          'onSetMountedFieldState',
+          handleFieldStateUpdate
+        )
+        setFieldEventListener(
+          path,
+          'onSetFieldError',
+          handleFieldStateUpdate
+        )
+      })
+
+      return () => {
+        isSubscribed = false
+
+        includeWhenFieldStateDependencyPaths.forEach((path) => {
+          setFieldEventListener(
+            path,
+            'onSetMountedFieldState',
+            handleFieldStateUpdate,
+            { remove: true }
+          )
+          setFieldEventListener(
+            path,
+            'onSetFieldError',
+            handleFieldStateUpdate,
+            { remove: true }
+          )
+        })
+      }
+    },
+    [includeWhenFieldStateDependencyPaths, setFieldEventListener]
+  )
+  const getIncludeWhenSnapshot = useCallback(
+    () => includeWhenSnapshotVersionRef.current,
+    []
+  )
+  useSyncExternalStore(
+    subscribeIncludeWhenFieldState,
+    getIncludeWhenSnapshot,
+    getIncludeWhenSnapshot
+  )
 
   // This is used to map over the children and to give them the correct index,
   // in case it could NOT be given properly, like if no id or title was given in React.StrictMode.

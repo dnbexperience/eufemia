@@ -1,6 +1,11 @@
-import { useContext, useMemo } from 'react'
+import {
+  useCallback,
+  useContext,
+  useMemo,
+  useSyncExternalStore,
+} from 'react'
 import type { RefObject } from 'react'
-import pointer from '../utils/json-pointer'
+import pointer, { isPath } from '../utils/json-pointer'
 import type { FieldProps, Path } from '../types'
 import DataContext from '../DataContext/Context'
 import IterateItemContext from '../Iterate/IterateItemContext'
@@ -9,6 +14,7 @@ export type UseExternalValueProps<Value> = {
   path?: Path | undefined
   itemPath?: Path
   value?: Value
+  getValueSnapshot?: (value: unknown) => unknown
   transformers?: RefObject<{
     fromExternal: FieldProps<Value>['fromExternal']
   }>
@@ -22,18 +28,63 @@ export default function useExternalValue<Value>(
     path,
     itemPath,
     value = undefined,
+    getValueSnapshot,
     transformers,
     emptyValue = undefined,
   } = props
-  const { data } = useContext(DataContext) || {}
+  const dataContext = useContext(DataContext)
+  const { data, subscribeDataValue, getDataValue } = dataContext || {}
   const iterateItemContext = useContext(IterateItemContext)
   const inIterate = Boolean(iterateItemContext)
   const { value: iterateElementValue } = iterateItemContext || {}
+  const subscribablePath = isPath(path) ? path : undefined
+
+  const subscribe = useCallback(
+    (callback: () => void) => {
+      if (subscribablePath && subscribeDataValue) {
+        return subscribeDataValue(subscribablePath, callback)
+      }
+
+      return () => undefined
+    },
+    [subscribablePath, subscribeDataValue]
+  )
+
+  const getSnapshot = useCallback(() => {
+    if (subscribablePath && getDataValue) {
+      const value = getDataValue(subscribablePath)
+      return getValueSnapshot ? getValueSnapshot(value) : value
+    }
+
+    return undefined
+  }, [getDataValue, getValueSnapshot, subscribablePath])
+
+  const dataValueSnapshot = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getSnapshot
+  )
+
+  const dataValue =
+    getValueSnapshot && subscribablePath && getDataValue
+      ? getDataValue(subscribablePath)
+      : dataValueSnapshot
 
   return useMemo(() => {
     if (value !== undefined && value !== emptyValue) {
       // Value-prop sent directly to the field has highest priority, overriding any surrounding source
       return transformers?.current?.fromExternal?.(value) ?? emptyValue
+    }
+
+    if (
+      subscribablePath &&
+      getDataValue &&
+      (!inIterate || !itemPath || dataValue !== undefined)
+    ) {
+      return (
+        transformers?.current?.fromExternal?.(dataValue as Value) ??
+        emptyValue
+      )
     }
 
     if (inIterate && itemPath) {
@@ -72,11 +123,15 @@ export default function useExternalValue<Value>(
     return emptyValue
   }, [
     data,
+    dataValue,
+    getDataValue,
+    getValueSnapshot,
     emptyValue,
     inIterate,
     itemPath,
     iterateElementValue,
     path,
+    subscribablePath,
     transformers,
     value,
   ])

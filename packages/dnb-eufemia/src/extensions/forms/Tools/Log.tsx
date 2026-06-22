@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import type { ReactNode } from 'react'
 import DataContext from '../DataContext/Context'
+import useDataValue from '../hooks/useDataValue'
 import type { SectionAllProps } from '../../../components/Section'
 import Section from '../../../components/Section'
 import { FormLabel } from '../../../components'
@@ -17,7 +18,11 @@ function Log({
   placeholder?: ReactNode
 }) {
   const { internalDataRef } = useContext(DataContext)
-  const data = internalDataRef?.current
+  const { value: contextData } = useDataValue('/')
+  const data =
+    typeof contextData !== 'undefined'
+      ? contextData
+      : internalDataRef?.current
 
   return (
     <Section

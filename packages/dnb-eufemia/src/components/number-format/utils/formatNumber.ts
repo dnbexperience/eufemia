@@ -14,10 +14,11 @@ import {
   buildReturn,
   cleanNumber,
   formatNumberCore,
+  formatNumberCoreParts,
   handleCompactBeforeAria,
   handleCompactBeforeDisplay,
   prepareFormatOptions,
-  prepareMinus,
+  prepareMinusParts,
   resolveLocale,
   enhanceSR,
 } from './formatCore'
@@ -58,8 +59,12 @@ export function formatNumber(
 
   handleCompactBeforeDisplay({ value, locale, compact, decimals, opts })
 
-  let display = formatNumberCore(value, locale, opts)
-  display = prepareMinus(display, locale)
+  const formatted = formatNumberCoreParts(value, locale, opts)
+  const { number: display, parts } = prepareMinusParts(
+    formatted.number,
+    formatted.parts,
+    locale
+  )
 
   handleCompactBeforeAria({ value, compact, opts })
 
@@ -80,5 +85,6 @@ export function formatNumber(
     opts,
     cleanCopyValue,
     invalidAriaText,
+    parts: parts.length ? parts : undefined,
   })
 }

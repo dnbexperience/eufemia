@@ -209,8 +209,8 @@ export const AvatarImageProps = () => (
         variant="secondary"
         size="large"
         imgProps={{
-          width: '48',
-          height: '48',
+          width: '100%',
+          height: '100%',
           src: '/dnb/android-chrome-192x192.png',
           alt: 'DNB Logo',
         }}
@@ -288,6 +288,34 @@ export const GroupedAvatarsXLarge = () => (
       <Avatar>Erlend</Avatar>
       <Avatar>Frida</Avatar>
       <Avatar>Gøril</Avatar>
+    </Avatar.Group>
+  </ComponentBox>
+)
+
+export const GroupedAvatarsCountryFlag = () => (
+  <ComponentBox hideCode>
+    <Avatar.Group label="Markets" size="small">
+      <Avatar>
+        <CountryFlag iso="NO" size="medium" />
+      </Avatar>
+      <Avatar>
+        <CountryFlag iso="FI" size="medium" />
+      </Avatar>
+      <Avatar>
+        <CountryFlag iso="SE" size="medium" />
+      </Avatar>
+    </Avatar.Group>
+
+    <Avatar.Group label="Markets">
+      <Avatar>
+        <CountryFlag iso="NO" size="large" />
+      </Avatar>
+      <Avatar>
+        <CountryFlag iso="FI" size="large" />
+      </Avatar>
+      <Avatar>
+        <CountryFlag iso="SE" size="large" />
+      </Avatar>
     </Avatar.Group>
   </ComponentBox>
 )

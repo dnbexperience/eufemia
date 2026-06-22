@@ -47,6 +47,7 @@
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
+  --input-height-current: var(--input-height);
   --input-background-color: var(--token-color-background-neutral);
   --input-background-color--disabled: var(
     --token-color-background-neutral-subtle
@@ -330,6 +331,8 @@
   }
 
   &--small {
+    --input-height-current: var(--input-height--small);
+
     line-height: var(--input-height--small);
 
     .dnb-input__shell,
@@ -362,6 +365,8 @@
   }
 
   &--medium {
+    --input-height-current: var(--input-height--medium);
+
     line-height: var(--input-height--medium);
 
     .dnb-input__shell,
@@ -394,6 +399,8 @@
   }
 
   &--large {
+    --input-height-current: var(--input-height--large);
+
     line-height: var(--input-height--large);
 
     .dnb-input__shell,
@@ -591,6 +598,19 @@
   &--icon-size-medium#{&}--icon-position-right#{&}--has-icon
     &__placeholder {
     padding-right: 3rem;
+  }
+
+  // When an icon is positioned to the right together with a submit button,
+  // place the icon to the left of the button so they don't overlap.
+  &--icon-position-right#{&}--has-submit-element &__icon {
+    right: calc(var(--input-height-current) + 1rem);
+  }
+
+  // Make room for both the icon and the submit button
+  &--icon-position-right#{&}--has-icon#{&}--has-submit-element &__input,
+  &--icon-position-right#{&}--has-icon#{&}--has-submit-element
+    &__placeholder {
+    padding-right: calc(var(--input-height-current) + 2.5rem);
   }
 
   html[data-visual-test] &__input {

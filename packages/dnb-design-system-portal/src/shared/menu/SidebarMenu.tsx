@@ -504,6 +504,7 @@ function ListItem({
   const expandButtonTitle = isExpanded
     ? `Collapse ${title}`
     : `Expand ${title}`
+  const iconSize = icon === 'OverviewIcon' ? 'default' : 'medium'
 
   return (
     <>
@@ -544,7 +545,7 @@ function ListItem({
           >
             <span>
               {icon && graphics[icon] && (
-                <Icon icon={graphics[icon]} size="medium" />
+                <Icon icon={graphics[icon]} size={iconSize} />
               )}
               <span
                 className={clsx(createSkeletonClass('font', skeleton))}

@@ -1513,7 +1513,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
 @media screen and (max-width: 60em) {
   .dnb-dialog__title {
     font-size: var(--font-size-large) !important;
-    line-height: var(--line-height-medium) !important;
+    line-height: var(--line-height-large) !important;
   }
 }
 @media screen and (max-width: 40em) {

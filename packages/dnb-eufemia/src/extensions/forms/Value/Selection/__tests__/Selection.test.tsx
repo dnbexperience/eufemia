@@ -200,6 +200,45 @@ describe('Value.Selection', () => {
     expect(element).toHaveTextContent('Bar title')
   })
 
+  it('should update title when "dataPath" data changes', async () => {
+    function ChangeOptions() {
+      const { update } = Form.useData()
+
+      return (
+        <button
+          type="button"
+          onClick={() => {
+            update('/myList', [{ value: 'bar', title: 'Updated title' }])
+          }}
+        >
+          Change options
+        </button>
+      )
+    }
+
+    render(
+      <Form.Handler
+        data={{
+          selection: 'bar',
+          myList: [{ value: 'bar', title: 'Bar title' }],
+        }}
+      >
+        <Value.Selection path="/selection" dataPath="/myList" />
+        <ChangeOptions />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector(
+      '.dnb-forms-value-string .dnb-forms-value-block__content'
+    )
+
+    expect(element).toHaveTextContent('Bar title')
+
+    await userEvent.click(screen.getByText('Change options'))
+
+    expect(element).toHaveTextContent('Updated title')
+  })
+
   it('should use data from context when "dataPath" is defined without "path"', () => {
     render(
       <Form.Handler

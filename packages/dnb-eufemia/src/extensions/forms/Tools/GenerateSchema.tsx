@@ -1,7 +1,7 @@
 import { useCallback, useContext, useRef } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../utils/json-pointer'
-import pointer from '../utils/json-pointer'
+import pointer, { isPath } from '../utils/json-pointer'
 import type { FilterData } from '../DataContext/Context'
 import DataContext from '../DataContext/Context'
 import type { JSONSchema } from '../types'
@@ -34,8 +34,13 @@ export const schemaParams = [
 
 export default function GenerateSchema(props: GenerateSchemaProps) {
   const { generateRef, filterData, log, children } = props || {}
-  const { fieldInternalsRef, valueInternalsRef, data, hasContext } =
-    useContext(DataContext)
+  const {
+    fieldInternalsRef,
+    valueInternalsRef,
+    getDataValue,
+    data,
+    hasContext,
+  } = useContext(DataContext)
 
   const dataRef = useRef<JsonObject>({})
   dataRef.current = data
@@ -43,7 +48,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
   const generate = useCallback(() => {
     const schema = Object.entries(fieldInternalsRef?.current || {}).reduce(
       (acc, [path, { props }]) => {
-        if (path.startsWith('/')) {
+        if (isPath(path)) {
           const objectKey = path.substring(1)
 
           const pathList = objectKey.split('/')
@@ -118,7 +123,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     const propsOfFields = Object.entries(
       fieldInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
-      if (path.startsWith('/')) {
+      if (isPath(path)) {
         const propertyValue = {}
 
         for (const prop in props) {
@@ -139,7 +144,7 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
     const propsOfValues = Object.entries(
       valueInternalsRef?.current || {}
     ).reduce((acc, [path, { props }]) => {
-      if (path.startsWith('/')) {
+      if (isPath(path)) {
         const propertyValue = {}
 
         for (const prop in props) {
@@ -163,11 +168,11 @@ export default function GenerateSchema(props: GenerateSchemaProps) {
 
     return {
       schema,
-      data: dataRef.current,
+      data: getDataValue?.('/') ?? dataRef.current,
       propsOfFields,
       propsOfValues,
     } as GenerateSchemaReturn
-  }, [fieldInternalsRef, filterData, valueInternalsRef])
+  }, [fieldInternalsRef, filterData, getDataValue, valueInternalsRef])
 
   if (hasContext) {
     if (log) {

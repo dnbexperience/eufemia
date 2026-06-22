@@ -1225,6 +1225,7 @@ legend.dnb-form-label {
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
+  --input-height-current: var(--input-height);
   --input-background-color: var(--token-color-background-neutral);
   --input-background-color--disabled: var(
     --token-color-background-neutral-subtle
@@ -1433,6 +1434,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   margin-top: 0.25rem;
 }
 .dnb-input--small {
+  --input-height-current: var(--input-height--small);
   line-height: var(--input-height--small);
 }
 .dnb-input--small .dnb-input__shell,
@@ -1457,6 +1459,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   padding-right: calc(var(--input-padding--small) * 2);
 }
 .dnb-input--medium {
+  --input-height-current: var(--input-height--medium);
   line-height: var(--input-height--medium);
 }
 .dnb-input--medium .dnb-input__shell,
@@ -1481,6 +1484,7 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
   padding-right: calc(var(--input-padding--medium) * 3);
 }
 .dnb-input--large {
+  --input-height-current: var(--input-height--large);
   line-height: var(--input-height--large);
 }
 .dnb-input--large .dnb-input__shell,
@@ -1623,6 +1627,12 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 }
 .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__input, .dnb-input--icon-size-medium.dnb-input--icon-position-right.dnb-input--has-icon .dnb-input__placeholder {
   padding-right: 3rem;
+}
+.dnb-input--icon-position-right.dnb-input--has-submit-element .dnb-input__icon {
+  right: calc(var(--input-height-current) + 1rem);
+}
+.dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__input, .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__placeholder {
+  padding-right: calc(var(--input-height-current) + 2.5rem);
 }
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--token-color-background-neutral);

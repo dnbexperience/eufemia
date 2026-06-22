@@ -1,0 +1,171 @@
+---
+title: 'Type-checked paths'
+description: 'Register your form data type once to get TypeScript autocomplete and compile-time path checking on every Field, Value and Form.Handler.'
+hideInMenu: true
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Type-checked paths
+    href: /uilib/extensions/forms/typed-paths/
+---
+
+import * as Examples from './typed-paths/Examples'
+
+# Type-checked paths
+
+Eufemia Forms uses [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) strings (such as `/firstName`) for the `path` prop. By default these are plain strings, so a typo like `/firstNme` is not caught until runtime.
+
+Register your data type **once**, and every `Field.*` and `Value.*` gets path **autocomplete**, while `Form.Handler` keeps its typed `data`/`defaultData`. Opt into the [pre-typed namespaces](#pre-typed-namespaces) to turn typos into **hard compile-time errors**.
+
+## Good to know
+
+- The typing is purely type-level and is erased at build time, so the types themselves add no runtime or bundle-size cost.
+- Nested objects and arrays are supported, e.g. `/address/street` or `/items/0/title`.
+- The exported `Paths<Data>` helper produces the union of all valid paths for a data type, and `PathValue<Data, Path>` resolves the value type at a given path – both are available for advanced use.
+- The registered data type is available as `RegisteredFormData`, handy for typing your own helpers against the same shape, e.g. `function onSubmit(data: RegisteredFormData) {}`.
+- The plain `path` prop is typed against the **root** data type. The section-relative `path` inside [Form.Section](/uilib/extensions/forms/Form/Section/) is not narrowed on the registered **root** namespace – use [`TypedSectionField`](#type-checking-section-relative-paths) (or the regular `Field`/`Value`, which accept any string) there. For the item-relative `itemPath` inside [Iterate](/uilib/extensions/forms/Iterate/), use [`TypedItemField`](#type-checking-itempath-inside-iterate).
+- A `path` stored in a `const` keeps its literal type (e.g. `'/company'`), so it is type-checked exactly like an inline string. Use `const`, not `let` – `let` widens the value to `string` and loses the narrowing. The same const can drive the type helpers with `typeof`, e.g. `TypedSectionField<typeof path>`, keeping the section type and the `path` prop in sync.
+- See also the [TypeScript support](/uilib/extensions/forms/getting-started/#typescript-support) section in Getting started.
+
+## Register the data type once
+
+Register your data type **globally**. Augment the `Register` interface once:
+
+```tsx
+// forms-register.ts – imported once (e.g. from your app entry)
+import type { MyData } from './types'
+
+declare module '@dnb/eufemia/extensions/forms' {
+  interface Register {
+    formData: MyData
+  }
+}
+```
+
+With the registration in place, the `path` prop on every `Field.*` and `Value.*` autocompletes the valid paths directly:
+
+```tsx
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler defaultData={{ firstName: 'Nora', age: 30 }}>
+      <Form.Card>
+        {/* Autocompletes /firstName, /age, /address/street … */}
+        <Field.Name path="/firstName" />
+        <Field.Number path="/age" />
+      </Form.Card>
+    </Form.Handler>
+  )
+}
+```
+
+This is **non-breaking**: any string is still accepted, so relative paths inside [Form.Section](/uilib/extensions/forms/Form/Section/) and [Iterate](/uilib/extensions/forms/Iterate/), as well as dynamic paths, keep working. Because of that, a typo like `path="/unknown"` is **not** a hard error on the plain `Field`/`Value` – they get autocomplete, not compile-time errors.
+
+### Pre-typed namespaces
+
+To turn typos into **compile-time errors**, import the pre-typed namespaces (e.g. `RegisteredForm`) and alias them to `Form`/`Field`/`Value`/`Iterate`. They resolve the registered data type, so bare namespace access is fully type-checked:
+
+- `RegisteredForm`
+- `RegisteredField`
+- `RegisteredValue`
+- `RegisteredIterate`
+
+This relies on the [`declare module` registration](#register-the-data-type-once) being set – without it, the namespaces fall back to the default and accept any string instead of your data paths.
+
+```tsx
+import {
+  RegisteredForm as Form,
+  RegisteredField as Field,
+} from '@dnb/eufemia/extensions/forms'
+
+function MyForm() {
+  return (
+    <Form.Handler defaultData={{ firstName: 'Nora', age: 30 }}>
+      <Form.Card>
+        <Field.Name.First path="/firstName" />
+        <Field.Name.Company path="/company/name" />
+
+        {/* Type error: "/firstLast" is not a path in the registered data */}
+        <Field.Name.Last path="/firstLast" />
+      </Form.Card>
+    </Form.Handler>
+  )
+}
+```
+
+<Examples.BasicFields />
+
+The `path` is checked against the **root** data type, so absolute paths like `/company/name` are typed and typos are rejected. The section-relative `path` inside [Form.Section](/uilib/extensions/forms/Form/Section/) (such as `/name` for `company.name`) and the item-relative `itemPath` inside [Iterate](/uilib/extensions/forms/Iterate/) are not narrowed by the registered **root** namespace – but both can be typed by deriving the nested type from the same registered root, with [`TypedSectionField`](#type-checking-section-relative-paths) and [`TypedItemField`](#type-checking-itempath-inside-iterate).
+
+This binds **one** data type globally.
+
+### Type-checking container paths
+
+When you use the pre-typed `RegisteredForm` and `RegisteredIterate` namespaces, the `path` on the containers themselves is narrowed too: [Form.Section](/uilib/extensions/forms/Form/Section/) only accepts paths that point to an **object**, and [Iterate.Array](/uilib/extensions/forms/Iterate/Array/) only accepts paths that point to an **array**. A typo like `path="/accountss"` is therefore a compile-time error.
+
+### Type-checking `itemPath` inside Iterate
+
+Inside an [Iterate.Array](/uilib/extensions/forms/Iterate/Array/), fields address each item with the **item-relative** `itemPath` prop. Its valid paths come from the array **item** type, not the root, so the registered root namespace leaves it as a plain string. You do not need a second registration: derive the item type from the **single** registered root with `TypedItemField`, passing the same path you give to `Iterate.Array`.
+
+```tsx
+import {
+  RegisteredField as Field,
+  RegisteredIterate as Iterate,
+} from '@dnb/eufemia/extensions/forms'
+import type { TypedItemField } from '@dnb/eufemia/extensions/forms'
+
+// Registered data: { accounts: Array<{ name: string; balance: number }> }
+const { String: StringItem, Number: NumberItem } =
+  Field as TypedItemField<'/accounts'>
+
+function MyForm() {
+  return (
+    // The container path is checked too: "/accounts" must be an array path
+    <Iterate.Array path="/accounts">
+      <StringItem itemPath="/name" />
+      <NumberItem itemPath="/balance" />
+
+      {/* Type error: "/nope" is not a path in the array item */}
+      <StringItem itemPath="/nope" />
+    </Iterate.Array>
+  )
+}
+```
+
+`TypedItemValue` narrows the `Value` namespace the same way. Because a single global `Register` binds one root data type, every nested object and array-item type is reachable from the one root – via `TypedItemField` for `itemPath` and the `PathValue` helper for deriving a sub-type.
+
+<Examples.IterateExample />
+
+### Type-checking section-relative paths
+
+Inside a [Form.Section](/uilib/extensions/forms/Form/Section/), fields address values with a `path` **relative to the section** – the section path is prefixed automatically. Those relative paths come from the section's **object** type, not the root, so the registered root namespace does not narrow them. As with Iterate, you do not need a second registration: derive the section type from the **single** registered root with `TypedSectionField`, passing the same path you give to `Form.Section`.
+
+```tsx
+import {
+  RegisteredField as Field,
+  RegisteredForm as Form,
+} from '@dnb/eufemia/extensions/forms'
+import type { TypedSectionField } from '@dnb/eufemia/extensions/forms'
+
+// Registered data: { company?: { name: string } }
+// `as unknown as` because we re-narrow the already-root-typed namespace.
+const { Name } = Field as unknown as TypedSectionField<'/company'>
+
+function MyForm() {
+  return (
+    // The container path is checked too: "/company" must be an object path
+    <Form.Section path="/company">
+      {/* Checked against the section type, relative to /company */}
+      <Name.Company path="/name" />
+
+      {/* Type error: "/nope" is not a path in the section object */}
+      <Name.Company path="/nope" />
+    </Form.Section>
+  )
+}
+```
+
+`TypedSectionValue` narrows the `Value` namespace the same way. This is the same single-registered-root model as `TypedItemField`: the section's type is resolved from the one registered root, so there is a single source of truth.
+
+<Examples.SectionExample />

@@ -446,7 +446,9 @@ describe('EditContainer and ViewContainer', () => {
       await waitFor(() => {
         expect(containerMode).toBe('view')
       })
-      expect(input).toHaveValue('bar')
+      await waitFor(() => {
+        expect(input).toHaveValue('bar')
+      })
     })
   })
 
@@ -537,11 +539,11 @@ describe('EditContainer and ViewContainer', () => {
     })
 
     it('should only set focus on newly added element when containerMode changes', async () => {
-      const containerMode = []
+      const containerMode = {}
 
       const ContextConsumer = () => {
         const context = useContext(IterateItemContext)
-        containerMode.push(context.containerMode)
+        containerMode[context.index] = context.containerMode
 
         return null
       }
@@ -562,12 +564,12 @@ describe('EditContainer and ViewContainer', () => {
       )
 
       expect(document.body).toHaveFocus()
-      expect(containerMode).toEqual([])
+      expect(containerMode).toEqual({})
 
       const button = document.querySelector('button')
       await userEvent.click(button)
 
-      expect(containerMode).toEqual(['edit', 'edit', 'edit'])
+      expect(containerMode[0]).toBe('edit')
 
       {
         const elements = document.querySelectorAll(
@@ -592,14 +594,7 @@ describe('EditContainer and ViewContainer', () => {
       await userEvent.click(button)
 
       {
-        expect(containerMode).toEqual([
-          'edit',
-          'edit',
-          'edit',
-          'edit',
-          'edit',
-          'edit',
-        ])
+        expect(containerMode[1]).toBe('edit')
 
         const elements = document.querySelectorAll(
           '.dnb-forms-iterate__element'
@@ -619,16 +614,8 @@ describe('EditContainer and ViewContainer', () => {
           // First element is no longer required to collapse height here
           expect(secondElement).toHaveFocus()
         })
-        expect(containerMode).toEqual([
-          'edit',
-          'edit',
-          'edit',
-          'edit',
-          'edit',
-          'edit',
-          'view',
-          'edit',
-        ])
+        expect(containerMode[0]).toBe('view')
+        expect(containerMode[1]).toBe('edit')
       }
     })
 

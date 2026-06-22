@@ -1265,6 +1265,117 @@ describe('Autocomplete component', () => {
     ).toContain('Vis alt')
   })
 
+  it('does not crash when showing all after searching a full number with whitespace', () => {
+    const mockData = [
+      formatBankAccountNumber(20001234567),
+      formatBankAccountNumber(22233344425),
+      formatCurrency(1234.5),
+      formatPhoneNumber('+47116000'),
+    ] as DrawerListData
+
+    render(
+      <Autocomplete
+        data={mockData}
+        searchNumbers
+        showSubmitButton
+        {...mockProps}
+      />
+    )
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: '2000 12 34567' },
+    })
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+
+    fireEvent.click(
+      document.querySelector('li.dnb-autocomplete__show-all')
+    )
+
+    expect(
+      document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+    ).toHaveLength(4)
+  })
+
+  it('does not crash with disableFilter when searching a full number with whitespace', () => {
+    const mockData = [
+      formatBankAccountNumber(20001234567),
+      formatBankAccountNumber(22233344425),
+      formatCurrency(1234.5),
+      formatPhoneNumber('+47116000'),
+    ] as DrawerListData
+
+    render(
+      <Autocomplete
+        data={mockData}
+        searchNumbers
+        disableFilter
+        showSubmitButton
+        {...mockProps}
+      />
+    )
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: '2000 12 34567' },
+    })
+
+    expect(
+      document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+    ).toHaveLength(4)
+  })
+
+  it('does not crash when showing all with nested content after searching a full number with whitespace', () => {
+    const mockData = [
+      {
+        selectedKey: 'a',
+        content: <span>{formatBankAccountNumber(20001234567)}</span>,
+      },
+      {
+        selectedKey: 'b',
+        content: <span>{formatBankAccountNumber(22233344425)}</span>,
+      },
+    ] as DrawerListData
+
+    render(
+      <Autocomplete
+        data={mockData}
+        searchNumbers
+        showSubmitButton
+        {...mockProps}
+      />
+    )
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: '2000 12 34567' },
+    })
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(2)
+
+    fireEvent.click(
+      document.querySelector('li.dnb-autocomplete__show-all')
+    )
+
+    expect(
+      document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+    ).toHaveLength(2)
+  })
+
   it('has correct options when using searchNumbers, and searching with æøå', () => {
     const mockData = [
       ['Åge Ørn Ærlig', formatNumber('12345678901')],
@@ -1858,6 +1969,38 @@ describe('Autocomplete component', () => {
     expect(
       document.querySelector('.dnb-autocomplete__no-options')
     ).toBeInTheDocument()
+  })
+
+  it('should keep submit button open when no-options is shown', async () => {
+    render(
+      <Autocomplete data={mockData} showSubmitButton {...mockProps} />
+    )
+
+    toggle()
+
+    const submitButton = document.querySelector(
+      'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+    )
+
+    const openIcon = submitButton.querySelector(
+      'svg[data-icon-state="open"]'
+    )
+    const closedIcon = submitButton.querySelector(
+      'svg[data-icon-state="closed"]'
+    )
+
+    expect(submitButton).toHaveAttribute('aria-expanded', 'true')
+    expect(openIcon).toHaveClass('dnb-icon__state--active')
+    expect(closedIcon).not.toHaveClass('dnb-icon__state--active')
+
+    await userEvent.type(document.querySelector('input'), 'invalid')
+
+    expect(
+      document.querySelector('.dnb-autocomplete__no-options')
+    ).toBeInTheDocument()
+    expect(submitButton).toHaveAttribute('aria-expanded', 'true')
+    expect(openIcon).toHaveClass('dnb-icon__state--active')
+    expect(closedIcon).not.toHaveClass('dnb-icon__state--active')
   })
 
   it('should not show "no-options" during async mode', async () => {
@@ -2997,6 +3140,67 @@ describe('Autocomplete component', () => {
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
     ).toBe('c value')
+  })
+
+  describe('indicator', () => {
+    const onTypeHandler = ({ showIndicator }) => {
+      showIndicator()
+    }
+
+    it('shows a ProgressIndicator as the input icon while loading', async () => {
+      render(
+        <Autocomplete
+          {...mockProps}
+          mode="async"
+          data={mockData}
+          onType={onTypeHandler}
+          showSubmitButton
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-input__icon .dnb-progress-indicator'
+          )
+        ).toBeInTheDocument()
+      })
+    })
+
+    it('does not show a ProgressIndicator while loading when icon is null', async () => {
+      render(
+        <Autocomplete
+          {...mockProps}
+          mode="async"
+          data={mockData}
+          icon={null}
+          onType={onTypeHandler}
+          showSubmitButton
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aa' },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-autocomplete--show-indicator')
+        ).toBeInTheDocument()
+      })
+
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).not.toBeInTheDocument()
+    })
   })
 
   it('will filter items with current value after data prop has changed', async () => {

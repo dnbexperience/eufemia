@@ -1,4 +1,5 @@
 import {
+  memo,
   useCallback,
   useContext,
   useEffect,
@@ -6,7 +7,7 @@ import {
   useReducer,
   useRef,
 } from 'react'
-import type { RefObject } from 'react'
+import type { ReactNode, RefObject } from 'react'
 import * as z from 'zod'
 import { clsx } from 'clsx'
 import pointer from '../../utils/json-pointer'
@@ -46,7 +47,7 @@ import type {
   IterateArrayProps,
   Value,
 } from './types'
-import type { Identifier } from '../../types'
+import type { Identifier, Path } from '../../types'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -73,15 +74,16 @@ function ArrayComponent(props: IterateArrayProps) {
     pathProp || absolutePath
   )
 
-  const { getValueByPath } = useDataValue()
+  const { value: countPathValue, getValueByPath } = useDataValue(countPath)
+  const { value: contextArrayValue } = useDataValue(
+    countPath ? pathProp : undefined
+  )
   const countValue = useMemo(() => {
     if (!countPath) {
       return -1
     }
 
-    let countValue = parseFloat(
-      getValueByPath(countPath, dataContext.data)
-    )
+    let countValue = parseFloat(countPathValue as string)
     if (!(countValue >= 0)) {
       countValue = 0
     }
@@ -90,8 +92,7 @@ function ArrayComponent(props: IterateArrayProps) {
     }
 
     return countValue
-  }, [countPath, countPathLimit, getValueByPath, dataContext.data])
-
+  }, [countPath, countPathLimit, countPathValue])
   const validateRequired = useCallback(
     (value: Value, { emptyValue, required, error }) => {
       if (
@@ -130,7 +131,7 @@ function ArrayComponent(props: IterateArrayProps) {
     }
 
     if (countPath) {
-      const arrayValue = getValueByPath(pathProp)
+      const arrayValue = contextArrayValue as Array<Value> | undefined
       const newValue = []
       for (let i = 0, l = countValue; i < l; i++) {
         const value = arrayValue?.[i]
@@ -151,11 +152,10 @@ function ArrayComponent(props: IterateArrayProps) {
       ...shared,
     }
   }, [
+    contextArrayValue,
     countPath,
     countPathTransform,
     countValue,
-    getValueByPath,
-    pathProp,
     props,
     validateRequired,
   ])
@@ -182,6 +182,7 @@ function ArrayComponent(props: IterateArrayProps) {
     omitMultiplePathWarning: true,
     forceUpdateWhenContextDataIsSet: Boolean(countPath),
     omitSectionPath,
+    getExternalValueSnapshot: getArrayShapeSnapshot,
   })
 
   // Ensure the path exists as an array before children try to set values at numeric paths
@@ -235,13 +236,15 @@ function ArrayComponent(props: IterateArrayProps) {
       }
     >
   >({})
+  const restoreValueCountRef = useRef<Record<Identifier, number>>({})
   const valueCountRef = useRef(arrayValue)
   const arrayValueRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>(undefined)
   const hadPushRef = useRef<boolean>(undefined)
   const elementRefs = useRef<Record<string, RefObject<HTMLDivElement>>>({})
 
-  const omitFlex = withoutFlex ?? (summaryListContext || valueBlockContext)
+  const omitFlex =
+    withoutFlex ?? Boolean(summaryListContext || valueBlockContext)
 
   const { getNextContainerMode } = useSwitchContainerMode()
 
@@ -289,6 +292,7 @@ function ArrayComponent(props: IterateArrayProps) {
         previousContainerMode: modesRef.current[id].previous,
         initialContainerMode: containerMode || 'auto',
         modeOptions: modesRef.current[id].options,
+        restoreValueCount: restoreValueCountRef.current[id] || 0,
         nestedIteratePath: absolutePath,
         switchContainerMode: (mode, options = {}) => {
           modesRef.current[id].previous = modesRef.current[id].current
@@ -300,16 +304,21 @@ function ArrayComponent(props: IterateArrayProps) {
           }
         },
         handleChange: (path, value) => {
-          const newArrayValue = structuredClone(
-            arrayValueRef.current || []
-          )
+          const newArrayValue = [...(arrayValueRef.current || [])]
+          const currentItemValue = newArrayValue[index]
 
-          // Make sure we have a new object reference,
-          // else two new objects will be the same
-          newArrayValue[index] = { ...newArrayValue[index] }
+          // Make sure the changed item has a new object reference,
+          // while unchanged items keep their references.
+          newArrayValue[index] =
+            currentItemValue && typeof currentItemValue === 'object'
+              ? structuredClone(currentItemValue)
+              : {}
 
           pointer.set(newArrayValue, path, value)
-          handleChange(newArrayValue)
+          arrayValueRef.current = newArrayValue
+          handleChange(newArrayValue, undefined, {
+            preventUpdate: true,
+          })
         },
         handlePush: (element) => {
           hadPushRef.current = true
@@ -335,19 +344,31 @@ function ArrayComponent(props: IterateArrayProps) {
 
           delete modesRef.current?.[id]
           delete isNewRef.current?.[id]
+          delete restoreValueCountRef.current?.[id]
           const findIndex = idsRef.current.indexOf(id)
           idsRef.current.splice(findIndex, 1)
           forceUpdate()
         },
 
         // - Called when cancel button press
-        restoreOriginalValue: (value) => {
-          if (value) {
+        restoreOriginalValue: (...args: [value?: unknown]) => {
+          if (args.length > 0) {
+            const [value] = args
             const newArrayValue = structuredClone(
               arrayValueRef.current || []
             )
             newArrayValue[index] = value
+            arrayValueRef.current = newArrayValue
+            restoreValueCountRef.current[id] =
+              (restoreValueCountRef.current[id] || 0) + 1
+            const restorePath = `${path && path !== '/' ? path : ''}/${index}`
+            dataContext?.handlePathChangeUnvalidated?.(
+              restorePath as Path,
+              value,
+              { preventUpdate: true }
+            )
             handleChange(newArrayValue)
+            forceUpdate()
           }
         },
       }
@@ -423,44 +444,34 @@ function ArrayComponent(props: IterateArrayProps) {
       )
     ) : (
       arrayItems.map((itemProps) => {
-        const { id, value, index } = itemProps
+        const { id } = itemProps
         const elementRef = (elementRefs.current[id] = elementRefs.current[
           id
         ] || { current: null as HTMLDivElement | null })
-
-        const renderChildren = (elementChild: ElementChild) => {
-          return typeof elementChild === 'function'
-            ? elementChild(value, index, arrayItems)
-            : elementChild
-        }
-
-        const contextValue = {
-          ...itemProps,
-          elementRef,
-        }
-
-        const content = Array.isArray(children)
-          ? children.map((child) => renderChildren(child))
-          : renderChildren(children)
+        const element = (
+          <ArrayElement
+            key={omitFlex ? `element-${id}` : undefined}
+            itemProps={itemProps}
+            elementRef={elementRef}
+            arrayItems={arrayItems}
+            omitFlex={omitFlex}
+          >
+            {children}
+          </ArrayElement>
+        )
 
         if (omitFlex) {
-          return (
-            <IterateItemContext key={`element-${id}`} value={contextValue}>
-              <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-            </IterateItemContext>
-          )
+          return element
         }
 
         return (
           <Flex.Item
+            key={`element-${id}`}
             className="dnb-forms-iterate__element"
             tabIndex={-1}
             ref={elementRef}
-            key={`element-${id}`}
           >
-            <IterateItemContext value={contextValue}>
-              <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
-            </IterateItemContext>
+            {element}
           </Flex.Item>
         )
       })
@@ -494,3 +505,72 @@ withComponentMarkers(ArrayComponent, {
 })
 
 export default ArrayComponent
+
+type ArrayElementProps = {
+  itemProps: IterateItemContextState
+  elementRef: RefObject<HTMLDivElement>
+  arrayItems: Array<IterateItemContextState>
+  omitFlex?: boolean
+  children: ElementChild | Array<ElementChild>
+}
+
+const ArrayElement = memo(function ArrayElement({
+  itemProps,
+  elementRef,
+  arrayItems,
+  children,
+}: ArrayElementProps) {
+  const { value, index } = itemProps
+
+  const renderChildren = (elementChild: ElementChild): ReactNode => {
+    return typeof elementChild === 'function'
+      ? elementChild(value, index, arrayItems)
+      : elementChild
+  }
+
+  const contextValue = {
+    ...itemProps,
+    elementRef,
+  }
+
+  const content = Array.isArray(children)
+    ? children.map((child) => renderChildren(child))
+    : renderChildren(children)
+
+  return (
+    <IterateItemContext value={contextValue}>
+      <FieldBoundaryProvider>{content}</FieldBoundaryProvider>
+    </IterateItemContext>
+  )
+}, shouldKeepArrayElement)
+
+function shouldKeepArrayElement(
+  previous: ArrayElementProps,
+  next: ArrayElementProps
+) {
+  return (
+    previous.children === next.children &&
+    previous.elementRef === next.elementRef &&
+    previous.omitFlex === next.omitFlex &&
+    previous.itemProps.id === next.itemProps.id &&
+    previous.itemProps.index === next.itemProps.index &&
+    previous.itemProps.path === next.itemProps.path &&
+    previous.itemProps.itemPath === next.itemProps.itemPath &&
+    previous.itemProps.value === next.itemProps.value &&
+    previous.itemProps.arrayValue?.length ===
+      next.itemProps.arrayValue?.length &&
+    previous.itemProps.isNew === next.itemProps.isNew &&
+    previous.itemProps.containerMode === next.itemProps.containerMode &&
+    previous.itemProps.previousContainerMode ===
+      next.itemProps.previousContainerMode &&
+    previous.itemProps.initialContainerMode ===
+      next.itemProps.initialContainerMode &&
+    previous.itemProps.restoreValueCount ===
+      next.itemProps.restoreValueCount &&
+    previous.itemProps.modeOptions === next.itemProps.modeOptions
+  )
+}
+
+function getArrayShapeSnapshot(value: unknown) {
+  return Array.isArray(value) ? value.length : value
+}

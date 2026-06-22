@@ -1,8 +1,14 @@
-import { useCallback, useContext, useRef } from 'react'
-import pointer from '../utils/json-pointer'
+import {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from 'react'
+import pointer, { isPath } from '../utils/json-pointer'
 import type { Path } from '../types'
 import type { ContextState } from '../DataContext/Context'
-import DataContext from '../DataContext/Context'
+import DataContextRefContext from '../DataContext/DataContextRefContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import usePath from './usePath'
 
@@ -13,15 +19,109 @@ export type UseDataValueProps<Value> = {
 
 export type GetValueByPath<Value = unknown> = <T = Value>(path: Path) => T
 
+type UseDataValueOptions = {
+  pathType?: 'auto' | 'absolute' | 'iterate'
+}
+
 export default function useDataValue<Value>(
-  pathProp?: Path | undefined,
-  value?: Value
+  pathProp?: Path | Array<Path> | undefined,
+  value?: Value,
+  options: UseDataValueOptions = {}
 ) {
-  const dataContextRef = useRef<ContextState>(undefined)
-  dataContextRef.current = useContext(DataContext)
+  const providedDataContextRef = useContext(DataContextRefContext)
+  const fallbackDataContextRef = useRef<ContextState>(undefined)
+  const dataContextRef = providedDataContextRef ?? fallbackDataContextRef
   const iterateItemContext = useContext(IterateItemContext)
+  const snapshotVersionRef = useRef(0)
+  const { pathType = 'auto' } = options
 
   const { makePath, makeIteratePath } = usePath()
+  const resolvePath = useCallback(
+    (path: Path) => {
+      if (pathType === 'absolute') {
+        return makePath(path)
+      }
+
+      if (pathType === 'iterate') {
+        return makeIteratePath(path)
+      }
+
+      if (iterateItemContext) {
+        if (path.startsWith('//')) {
+          return makePath(path)
+        }
+
+        const currentItemPath = makeIteratePath('/')
+        if (
+          path === currentItemPath ||
+          path.startsWith(`${currentItemPath}/`)
+        ) {
+          return path
+        }
+
+        return makeIteratePath(path)
+      }
+
+      return makePath(path)
+    },
+    [iterateItemContext, makeIteratePath, makePath, pathType]
+  )
+
+  const subscribablePaths = useMemo(() => {
+    if (!pathProp) {
+      return undefined
+    }
+
+    const paths = Array.isArray(pathProp) ? pathProp : [pathProp]
+    const normalizedPaths = paths
+      .filter(isPath)
+      .map((path) => resolvePath(path))
+
+    return normalizedPaths.length > 0 ? normalizedPaths : undefined
+  }, [pathProp, resolvePath])
+
+  const subscribablePath =
+    typeof pathProp === 'string' && subscribablePaths?.length === 1
+      ? subscribablePaths[0]
+      : undefined
+
+  const subscribe = useCallback(
+    (callback: () => void) => {
+      if (
+        subscribablePaths?.length &&
+        dataContextRef.current?.subscribeDataValue
+      ) {
+        const handleUpdate = () => {
+          snapshotVersionRef.current += 1
+          callback()
+        }
+        const unsubscribers = subscribablePaths.map((path) =>
+          dataContextRef.current.subscribeDataValue(path, handleUpdate)
+        )
+
+        return () => {
+          unsubscribers.forEach((unsubscribe) => unsubscribe())
+        }
+      }
+
+      return () => undefined
+    },
+    [dataContextRef, subscribablePaths]
+  )
+
+  const getSnapshot = useCallback(() => {
+    if (subscribablePath) {
+      return dataContextRef.current?.getDataValue?.(subscribablePath)
+    }
+
+    return snapshotVersionRef.current
+  }, [dataContextRef, subscribablePath])
+
+  const subscribedValue = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getSnapshot
+  )
 
   const get = useCallback(
     (
@@ -35,7 +135,7 @@ export default function useDataValue<Value>(
         ? pointer.get(data, selector)
         : undefined
     },
-    []
+    [dataContextRef]
   )
 
   const getValueByPath = useCallback(
@@ -86,20 +186,18 @@ export default function useDataValue<Value>(
   const getSourceValue = useCallback(
     (source: Path | Value) => {
       if (typeof source === 'string' && isPath(source)) {
-        if (iterateItemContext) {
-          return getValueByIteratePath(source)
-        }
-
-        return getValueByPath(source)
+        return get(resolvePath(source))
       }
 
       return source
     },
-    [getValueByIteratePath, getValueByPath, iterateItemContext]
+    [get, resolvePath]
   )
 
-  if (pathProp) {
-    value = getSourceValue(pathProp)
+  if (typeof pathProp === 'string') {
+    value = subscribablePath
+      ? (subscribedValue as Value)
+      : getSourceValue(pathProp)
   }
 
   return {
@@ -110,8 +208,4 @@ export default function useDataValue<Value>(
     getData,
     value,
   }
-}
-
-function isPath(path: Path | unknown): path is Path {
-  return typeof path === 'string' && path.startsWith('/')
 }

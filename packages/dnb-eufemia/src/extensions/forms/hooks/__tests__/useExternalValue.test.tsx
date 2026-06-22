@@ -229,6 +229,43 @@ describe('useExternalValue', () => {
 
       expect(result.current).toBe('empty')
     })
+
+    it('should not subscribe when path is not a JSON pointer', () => {
+      const subscribeDataValue = vi.fn(() => vi.fn())
+      const getDataValue = vi.fn(() => 'context-value')
+
+      const wrapper = ({ children }) => (
+        <DataContext.Context
+          value={{
+            ...DataContext.defaultContextState,
+            hasContext: true,
+            data: {
+              nested: {
+                value: 'context-value',
+              },
+            },
+            subscribeDataValue,
+            getDataValue,
+          }}
+        >
+          {children}
+        </DataContext.Context>
+      )
+
+      const { result } = renderHook(
+        () =>
+          useExternalValue({
+            path: 'generated-field-id',
+            emptyValue: 'empty',
+            transformers,
+          }),
+        { wrapper }
+      )
+
+      expect(result.current).toBe('empty')
+      expect(subscribeDataValue).not.toHaveBeenCalled()
+      expect(getDataValue).not.toHaveBeenCalled()
+    })
   })
 
   it('should handle priority order: value > iterate > data context', () => {

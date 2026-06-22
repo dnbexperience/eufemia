@@ -152,9 +152,9 @@ export type DatePickerProps = {
    */
   hideDays?: boolean
   /**
-   * If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Defaults to `false`.
+   * If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Use `'without-label'` to also hide the month label. Defaults to `false`.
    */
-  onlyMonth?: boolean
+  onlyMonth?: boolean | 'without-label'
   /**
    * Use `true` to only show the last week in the current month if it needs to be shown. The result is that mainly five (5) weeks (rows) will be shown instead of six (6). Defaults to `false`.
    */
@@ -762,7 +762,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   isSync={sync}
                   hideDays={hideDays}
                   hideNavigation={hideNavigation}
-                  onlyMonth={onlyMonth}
+                  onlyMonth={Boolean(onlyMonth)}
+                  hideMonthLabel={onlyMonth === 'without-label'}
                   hideNextMonthWeek={hideLastWeek}
                   onPickerChange={onPickerChange}
                   locale={context.locale}
@@ -857,7 +858,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       isSync={sync}
                       hideDays={hideDays}
                       hideNavigation={hideNavigation}
-                      onlyMonth={onlyMonth}
+                      onlyMonth={Boolean(onlyMonth)}
+                      hideMonthLabel={onlyMonth === 'without-label'}
                       hideNextMonthWeek={hideLastWeek}
                       onPickerChange={onPickerChange}
                       locale={context.locale}

@@ -2944,6 +2944,12 @@ describe('PushContainer', () => {
     it('should add item to the correct array', async () => {
       let collectedData = null
 
+      const CollectData = () => {
+        const { data } = Form.useData()
+        collectedData = data
+        return null
+      }
+
       render(
         <Form.Handler
           data={{
@@ -2961,12 +2967,7 @@ describe('PushContainer', () => {
             </Iterate.PushContainer>
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedData = context.data
-              return null
-            }}
-          </DataContext.Consumer>
+          <CollectData />
         </Form.Handler>
       )
 
@@ -3076,6 +3077,55 @@ describe('PushContainer', () => {
         document.querySelector('.dnb-forms-section-block')
       ).toHaveClass('dnb-height-animation--is-visible')
     })
+
+    it('should update when itemPath data is changed externally', async () => {
+      function UpdateButton() {
+        const { update } = Form.useData()
+
+        return (
+          <button
+            type="button"
+            onClick={() =>
+              update('/outer/0/inner', ['initial item', 'external item'])
+            }
+          >
+            Update items
+          </button>
+        )
+      }
+
+      render(
+        <Form.Handler
+          data={{
+            outer: [{ inner: ['initial item'] }],
+          }}
+        >
+          <Iterate.Array path="/outer">
+            <Iterate.PushContainer
+              itemPath="/inner"
+              openButton={
+                <Iterate.PushContainer.OpenButton text="Add no. {nextItemNo}" />
+              }
+              showOpenButtonWhen={() => true}
+            >
+              <Field.String itemPath="/" />
+            </Iterate.PushContainer>
+          </Iterate.Array>
+
+          <UpdateButton />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      ).toHaveTextContent('Add no. 2')
+
+      await userEvent.click(screen.getByText('Update items'))
+
+      expect(
+        document.querySelector('.dnb-forms-iterate__open-button')
+      ).toHaveTextContent('Add no. 3')
+    })
   })
 
   describe('insertAt', () => {
@@ -3180,6 +3230,214 @@ describe('PushContainer', () => {
           mySection: {
             myList: [{ foo: 'bar' }],
           },
+        },
+        expect.anything()
+      )
+    })
+
+    it('should apply Form.Section schema validation when PushContainer has relative path', async () => {
+      const onChange = vi.fn()
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          section: {
+            type: 'object',
+            properties: {
+              items: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string', minLength: 4 },
+                  },
+                  required: ['name'],
+                },
+              },
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={makeAjvInstance()}
+          onChange={onChange}
+        >
+          <Form.Section path="/section">
+            <Iterate.Array path="/items">...</Iterate.Array>
+
+            <Iterate.PushContainer path="/items">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'foo')
+      await userEvent.click(doneButton)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(onChange).toHaveBeenCalledTimes(0)
+    })
+
+    it('should not duplicate Form.Section path when PushContainer has an absolute path', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Section path="/section">
+            <Iterate.PushContainer path="/section/component">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'bar')
+      await userEvent.click(doneButton)
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          section: {
+            component: [{ name: 'bar' }],
+          },
+        },
+        expect.anything()
+      )
+    })
+
+    it('should apply Form.Section Zod schema validation when PushContainer has relative path', async () => {
+      const onChange = vi.fn()
+      const schema = z.object({
+        section: z.object({
+          items: z.array(z.object({ name: z.string().min(4) })),
+        }),
+      })
+
+      render(
+        <Form.Handler schema={schema} onChange={onChange}>
+          <Form.Section path="/section">
+            <Iterate.Array path="/items">...</Iterate.Array>
+
+            <Iterate.PushContainer path="/items">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'foo')
+      await userEvent.click(doneButton)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(onChange).toHaveBeenCalledTimes(0)
+    })
+
+    it('should preserve Form.Section errorPrioritization in isolated fields', async () => {
+      const onChange = vi.fn()
+      const schema: JSONSchema = {
+        type: 'object',
+        properties: {
+          section: {
+            type: 'object',
+            properties: {
+              items: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: { type: 'string', minLength: 4 },
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler
+          schema={schema}
+          ajvInstance={makeAjvInstance()}
+          onChange={onChange}
+        >
+          <Form.Section
+            path="/section"
+            errorPrioritization={['contextSchema']}
+          >
+            <Iterate.Array path="/items">...</Iterate.Array>
+
+            <Iterate.PushContainer path="/items">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'foo')
+      await userEvent.click(doneButton)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).toBeInTheDocument()
+      expect(onChange).toHaveBeenCalledTimes(0)
+    })
+
+    it('should handle root-relative path //items under Form.Section', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Section path="/section">
+            <Iterate.PushContainer path="//items">
+              <Field.String itemPath="/name" />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      const doneButton = document.querySelector(
+        '.dnb-forms-iterate__done-button'
+      )
+
+      await userEvent.type(input, 'bar')
+      await userEvent.click(doneButton)
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        {
+          items: [{ name: 'bar' }],
         },
         expect.anything()
       )

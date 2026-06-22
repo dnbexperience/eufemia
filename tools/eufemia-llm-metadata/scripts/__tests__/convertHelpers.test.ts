@@ -430,7 +430,7 @@ describe('convertMdxToMd', () => {
       '## [Accordion](/uilib/components/accordion/)'
     )
     expect(output).toContain(
-      'The Accordion component is a combination of an accessible button (header area) and a content container.'
+      'Use Accordion to let people open and close sections of related content.'
     )
   })
 

@@ -1265,6 +1265,108 @@ describe('Wizard.Container', () => {
       expect(nextButton()).toBeNull()
     })
 
+    it('should render dynamically enabled steps based on includeWhen with isValid', async () => {
+      render(
+        <Form.Handler>
+          <Field.Boolean id="enableStep" path="/enabledStep" required />
+
+          <Wizard.Container mode="loose">
+            <Wizard.Step
+              title="Step 1"
+              includeWhen={{ path: '/enabledStep', isValid: true }}
+            >
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      await expandStepIndicator()
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+
+      await userEvent.click(document.querySelector('#enableStep'))
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+      })
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+    })
+
+    it('should render dynamically enabled wrapped steps based on includeWhen', async () => {
+      const Step1 = () => {
+        return (
+          <Wizard.Step
+            title="Step 1"
+            includeWhen={{ path: '/enabledStep', hasValue: 'group-1' }}
+          >
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        )
+      }
+
+      render(
+        <Form.Handler defaultData={{ enabledStep: 'group-2' }}>
+          <Field.Selection path="/enabledStep" variant="button">
+            <Field.Option value="group-1" title="1" />
+            <Field.Option value="group-2" title="2" />
+          </Field.Selection>
+
+          <Wizard.Container mode="loose">
+            <Step1 />
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      await expandStepIndicator()
+      const [groupOne] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button button')
+      )
+
+      expect(output()).toHaveTextContent('Step 2')
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 1')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(1)
+
+      await userEvent.click(groupOne)
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+      })
+      expect(
+        document.querySelector('.dnb-step-indicator')
+      ).toHaveTextContent('Steg 1 av 2')
+      expect(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      ).toHaveLength(2)
+    })
+
     it('should provide "id" prop and "same" mode in "onStepChange"', async () => {
       const onStepChange = vi.fn(async () => null)
 
@@ -4277,7 +4379,7 @@ describe('Wizard.Container', () => {
       })
     })
 
-    it('should show a error beneath the trigger button when the step status has an error and the screen width is small', async () => {
+    it('should show an error beneath the trigger button when the step status has an error and the screen width is small', async () => {
       simulateSmallScreen()
 
       render(

@@ -7,6 +7,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -16,11 +17,11 @@ import clsx from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
 import {
+  Accordion,
   Button,
   Checkbox,
   Flex,
   Space,
-  ToggleButton,
 } from '@dnb/eufemia/src/components'
 import {
   copy as copyIcon,
@@ -237,6 +238,9 @@ function prepareCode(code: string) {
 function LiveCode(props: LiveCodeProps) {
   const context = useContext(Context)
   const focusModeId = props.stableName
+  const baseId = useId()
+  const codeAccordionId = `${baseId}-code`
+  const previewAccordionId = `${baseId}-preview`
 
   const [hideCode, setHideCode] = useState(props.hideCode)
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
@@ -422,6 +426,68 @@ function LiveCode(props: LiveCodeProps) {
     />
   )
 
+  const codeEditor = (
+    <Space
+      title="Make changes to see them live!"
+      element="section"
+      className={clsx(
+        'dnb-live-editor',
+        createSkeletonClass('code', context.skeleton)
+      )}
+    >
+      <LiveCodeEditor onCodeChange={setEditedCode} />
+    </Space>
+  )
+
+  const previewContent = (
+    <Theme colorScheme={colorScheme} surface={surface}>
+      {omitWrapper ? (
+        <LivePreview
+          className={clsx('dnb-live-preview')}
+          data-visual-test={visualTest}
+        />
+      ) : (
+        <div
+          className={clsx(
+            'example-box',
+            exampleBoxStyle,
+            showFocusModePadding && showFocusModePaddingStyle
+          )}
+        >
+          <LivePreview
+            className={clsx('dnb-live-preview')}
+            data-visual-test={visualTest}
+          />
+        </div>
+      )}
+    </Theme>
+  )
+
+  // The code editor is collapsible via an Accordion whenever a toggle is
+  // rendered in the toolbar (always for omitWrapper, or when hideCode is set).
+  // Without a toolbar there is no toggle, so the editor renders directly.
+  const showCodeToggle = !hideToolbar && (omitWrapper || hideCodeProp)
+
+  const codeToggleAccordion = (
+    <Accordion
+      variant="tertiary"
+      id={codeAccordionId}
+      expanded={!hideCode}
+      onChange={({ expanded }) => setHideCode(!expanded)}
+      title="Code"
+    />
+  )
+
+  const previewToggleAccordion = (
+    <Accordion
+      variant="tertiary"
+      id={previewAccordionId}
+      expanded={!hidePreview}
+      onChange={({ expanded }) => setHidePreview(!expanded)}
+      title="Preview"
+    />
+  )
+
   return (
     <div
       ref={wrapperRef}
@@ -445,28 +511,12 @@ function LiveCode(props: LiveCodeProps) {
           noInline={noInline}
           {...restProps}
         >
-          {!hidePreview && (
-            <Theme colorScheme={colorScheme} surface={surface}>
-              {omitWrapper ? (
-                <LivePreview
-                  className={clsx('dnb-live-preview')}
-                  data-visual-test={visualTest}
-                />
-              ) : (
-                <div
-                  className={clsx(
-                    'example-box',
-                    exampleBoxStyle,
-                    showFocusModePadding && showFocusModePaddingStyle
-                  )}
-                >
-                  <LivePreview
-                    className={clsx('dnb-live-preview')}
-                    data-visual-test={visualTest}
-                  />
-                </div>
-              )}
-            </Theme>
+          {!omitWrapper && hidePreviewProp ? (
+            <Accordion.Content connectedTo={previewAccordionId}>
+              {previewContent}
+            </Accordion.Content>
+          ) : (
+            !hidePreview && previewContent
           )}
 
           {!global.IS_TEST && !hideToolbar && (
@@ -476,36 +526,10 @@ function LiveCode(props: LiveCodeProps) {
               className={clsx('dnb-live-toolbar', toolbarStyle)}
             >
               {omitWrapper ? (
-                <Button
-                  variant="tertiary"
-                  icon={hideCode ? 'chevron_down' : 'chevron_up'}
-                  onClick={() => setHideCode((checked) => !checked)}
-                  size="medium"
-                  left
-                >
-                  {hideCode ? 'Show Code' : 'Hide Code'}
-                </Button>
+                codeToggleAccordion
               ) : (
                 <>
-                  {hideCodeProp && (
-                    <ToggleButton
-                      checked={!hideCode}
-                      onChange={({ checked }) => setHideCode(!checked)}
-                      size="medium"
-                    >
-                      {hideCode ? 'Show Code' : 'Hide Code'}
-                    </ToggleButton>
-                  )}
-
-                  {hidePreviewProp && (
-                    <ToggleButton
-                      checked={!hidePreview}
-                      onChange={({ checked }) => setHidePreview(!checked)}
-                      size="medium"
-                    >
-                      Preview
-                    </ToggleButton>
-                  )}
+                  {hideCodeProp && codeToggleAccordion}
 
                   {isInFocusMode && (
                     <ChangeStyleTheme
@@ -517,22 +541,27 @@ function LiveCode(props: LiveCodeProps) {
                   )}
 
                   <Flex.Horizontal align="center">
-                    <Checkbox
-                      checked={
-                        colorScheme === (inheritedDark ? 'light' : 'dark')
-                      }
-                      onChange={({ checked }) => {
-                        setColorScheme(
-                          checked
-                            ? inheritedDark
-                              ? 'light'
-                              : 'dark'
-                            : undefined
-                        )
-                      }}
-                      size="medium"
-                      label={inheritedDark ? 'Light mode' : 'Dark mode'}
-                    />
+                    {!hidePreview && (
+                      <Checkbox
+                        checked={
+                          colorScheme ===
+                          (inheritedDark ? 'light' : 'dark')
+                        }
+                        onChange={({ checked }) => {
+                          setColorScheme(
+                            checked
+                              ? inheritedDark
+                                ? 'light'
+                                : 'dark'
+                              : undefined
+                          )
+                        }}
+                        size="medium"
+                        label={inheritedDark ? 'Light mode' : 'Dark mode'}
+                      />
+                    )}
+
+                    {hidePreviewProp && previewToggleAccordion}
 
                     {surfaceProp === 'dark' && (
                       <Checkbox
@@ -560,18 +589,14 @@ function LiveCode(props: LiveCodeProps) {
             </Space>
           )}
 
-          {!global.IS_TEST && !hideCode && (
-            <Space
-              title="Make changes to see them live!"
-              element="section"
-              className={clsx(
-                'dnb-live-editor',
-                createSkeletonClass('code', context.skeleton)
-              )}
-            >
-              <LiveCodeEditor onCodeChange={setEditedCode} />
-            </Space>
-          )}
+          {!global.IS_TEST &&
+            (showCodeToggle ? (
+              <Accordion.Content connectedTo={codeAccordionId}>
+                {codeEditor}
+              </Accordion.Content>
+            ) : (
+              !hideCode && codeEditor
+            ))}
 
           <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
         </LiveProvider>

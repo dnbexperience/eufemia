@@ -5,6 +5,15 @@ import IterateItemContext from '../../IterateItemContext'
 import { DataContext, Field, Form, Iterate } from '../../..'
 
 describe('PushButton', () => {
+  function DataCollector({
+    collect,
+  }: {
+    collect: (data: unknown) => void
+  }) {
+    collect(Form.useData().data)
+    return null
+  }
+
   it('should call handlePush when clicked inside an Iterate element', () => {
     const handlePush = vi.fn()
     const pushValue = 'push value'
@@ -274,12 +283,7 @@ describe('PushButton', () => {
             <Iterate.PushButton itemPath="/inner" pushValue="bar" />
           </Iterate.Array>
 
-          <DataContext.Consumer>
-            {(context) => {
-              collectedData = context.data
-              return null
-            }}
-          </DataContext.Consumer>
+          <DataCollector collect={(data) => (collectedData = data)} />
         </Form.Handler>
       )
 
@@ -341,24 +345,16 @@ describe('PushButton', () => {
 
             <Iterate.PushButton itemPath="/inner" pushValue="new value" />
 
-            <DataContext.Consumer>
-              {(context) => {
-                pushContainerData = context.data
-                return null
-              }}
-            </DataContext.Consumer>
+            <DataCollector
+              collect={(data) => (pushContainerData = data)}
+            />
           </Iterate.PushContainer>
 
-          <DataContext.Consumer>
-            {(context) => {
-              outerData = context.data
-              return null
-            }}
-          </DataContext.Consumer>
+          <DataCollector collect={(data) => (outerData = data)} />
         </Form.Handler>
       )
 
-      expect(outerData).toEqual(undefined)
+      expect(outerData).toEqual({ outer: undefined })
       expect(pushContainerData).toEqual({
         pushContainerItems: [
           {
@@ -371,7 +367,7 @@ describe('PushButton', () => {
         document.querySelector('.dnb-forms-iterate-push-button')
       )
 
-      expect(outerData).toEqual(undefined)
+      expect(outerData).toEqual({ outer: undefined })
       expect(pushContainerData).toEqual({
         pushContainerItems: [
           {

@@ -152,7 +152,7 @@ export type DrawerListProps = {
   cacheHash?: string
   /**
    * Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.
-   * @deprecated does nothing as there is no longer any arrow.
+   * @deprecated does nothing as there is no longer any arrow, and will be removed in v13.
    */
   arrowPosition?: string
   /**
@@ -422,6 +422,7 @@ const DrawerListInstance = memo(function DrawerListInstance(
     ignoreEvents,
     optionsRender,
     className,
+    arrowPosition: _arrowPosition,
     cacheHash: _cacheHash,
     wrapperElement: _wrapperElement,
     direction: _direction,

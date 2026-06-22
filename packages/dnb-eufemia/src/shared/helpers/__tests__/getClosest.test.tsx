@@ -22,12 +22,12 @@ describe('getClosestParent', () => {
 
   const root = document.querySelector('.five')
 
-  it('returns a HTML element based on its class name', () => {
+  it('returns an HTML element based on its class name', () => {
     const element = getClosestParent('two', root)
     expect(element?.getAttribute('class')).toBe('some two more classes')
   })
 
-  it('returns a HTML element based on its class selector', () => {
+  it('returns an HTML element based on its class selector', () => {
     const element = getClosestParent('.two', root)
     expect(element?.getAttribute('class')).toBe('some two more classes')
   })
@@ -42,7 +42,7 @@ describe('getClosestParent', () => {
     expect(element).toBe(null)
   })
 
-  it('returns a HTML element based on its tag name', () => {
+  it('returns an HTML element based on its tag name', () => {
     const element = getClosestParent('BUTTON', root)
     expect(element?.tagName).toBe('BUTTON')
   })

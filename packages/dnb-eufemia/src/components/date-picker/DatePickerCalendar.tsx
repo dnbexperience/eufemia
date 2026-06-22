@@ -83,6 +83,7 @@ export type DatePickerCalendarProps = Omit<
   hideNavigation?: boolean
   hideDays?: boolean
   onlyMonth?: boolean
+  hideMonthLabel?: boolean
   hideNextMonthWeek?: boolean
   onSelect?: (
     event: DatePickerChangeEvent<
@@ -123,6 +124,7 @@ const defaultProps: DatePickerCalendarProps = {
   hideNavigation: false,
   hideDays: false,
   onlyMonth: false,
+  hideMonthLabel: false,
   hideNextMonthWeek: false,
   rtl: false,
   resetDate: true,
@@ -169,6 +171,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     resetDate,
     hideNextMonthWeek,
     onlyMonth,
+    hideMonthLabel,
   } = props
 
   const tableRef = useRef<ElementRef<'table'> | null>(null)
@@ -643,7 +646,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           )}
         </div>
       )}
-      {onlyMonth && (
+      {onlyMonth && !hideMonthLabel && (
         <div className="dnb-date-picker__header dnb-date-picker__header--only-month-label">
           <label
             id={`${id}--title`}
@@ -668,7 +671,9 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         role="grid"
         className="dnb-no-focus"
         tabIndex={0}
-        aria-labelledby={`${id}--title`}
+        aria-labelledby={
+          onlyMonth && hideMonthLabel ? undefined : `${id}--title`
+        }
         onKeyDown={onKeyDownHandler}
         onMouseLeave={onMouseLeaveHandler}
         ref={tableRef}

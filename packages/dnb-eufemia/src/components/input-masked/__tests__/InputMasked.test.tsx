@@ -1129,7 +1129,7 @@ describe('InputMasked component with currencyMask', () => {
     expect(document.querySelector('input').value).toBe('1 234 NOK')
   })
 
-  it('should accept the currency inside a object property', () => {
+  it('should accept the currency inside an object property', () => {
     render(
       <InputMasked
         {...props}

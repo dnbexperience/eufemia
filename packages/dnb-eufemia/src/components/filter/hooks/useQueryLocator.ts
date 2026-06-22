@@ -105,9 +105,12 @@ export default function useFilterQueryLocator(
   }, [restoreFromUrl])
 
   // Write state to URL when filters or search change
-  const prevRef = useRef({
+  const prevRef = useRef<{
+    search: string
+    filters: Record<string, FilterValue>
+  }>({
     search: '',
-    filters: {} as Record<string, FilterValue>,
+    filters: {},
   })
   useLayoutEffect(() => {
     const prev = prevRef.current

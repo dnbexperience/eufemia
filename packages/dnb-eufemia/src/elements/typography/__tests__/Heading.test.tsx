@@ -8,6 +8,10 @@ import H3 from '../H3'
 import H4 from '../H4'
 import H5 from '../H5'
 import H6 from '../H6'
+import Typography, {
+  getHeadingLineHeightSize,
+  type TypographySize,
+} from '../Typography'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('Heading', () => {
@@ -46,6 +50,40 @@ describe('Heading', () => {
     {
       selector: '.dnb-h--x-small',
       component: H6,
+    },
+  ]
+
+  const headingLineHeights: Array<{
+    size: TypographySize
+    expectedLineHeight: TypographySize
+  }> = [
+    {
+      size: 'x-small',
+      expectedLineHeight: 'x-small',
+    },
+    {
+      size: 'small',
+      expectedLineHeight: 'small',
+    },
+    {
+      size: 'basis',
+      expectedLineHeight: 'basis',
+    },
+    {
+      size: 'medium',
+      expectedLineHeight: 'medium',
+    },
+    {
+      size: 'large',
+      expectedLineHeight: 'large',
+    },
+    {
+      size: 'x-large',
+      expectedLineHeight: 'x-large',
+    },
+    {
+      size: 'xx-large',
+      expectedLineHeight: 'xx-large',
     },
   ]
 
@@ -107,6 +145,13 @@ describe('Heading', () => {
     }
   )
 
+  it.each(headingLineHeights)(
+    'maps heading size "$size" to line-height "$expectedLineHeight"',
+    ({ size, expectedLineHeight }) => {
+      expect(getHeadingLineHeightSize(size)).toBe(expectedLineHeight)
+    }
+  )
+
   it.each(headings)(
     '%s forward custom attributes',
     ({ component: Component, selector }) => {
@@ -120,6 +165,20 @@ describe('Heading', () => {
       expect(attributes).toEqual(['aria-label', 'class'])
     }
   )
+
+  it('applies proseMaxWidth from Typography.Provider to heading elements', () => {
+    render(
+      <Typography.Provider proseMaxWidth={40}>
+        <H>Heading with context width</H>
+      </Typography.Provider>
+    )
+
+    const element = document.querySelector(
+      '.dnb-h--xx-large'
+    ) as HTMLElement
+
+    expect(element.style.maxWidth).toBe('40ch')
+  })
 
   describe('surface', () => {
     it.each(headings)(

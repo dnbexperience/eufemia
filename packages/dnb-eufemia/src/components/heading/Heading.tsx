@@ -32,6 +32,7 @@ import type { DynamicElement, SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import { useTheme, Context } from '../../shared'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { useTypography } from '../../elements/typography/Typography'
 
 export type HeadingLevelSizeResolutions = {
   1: HeadingSize
@@ -99,6 +100,11 @@ export type HeadingProps = {
   skipCorrection?: boolean
 
   /**
+   * Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.
+   */
+  proseMaxWidth?: number | boolean
+
+  /**
    * If set to `true`, the content will have a prefix, showing the heading level.
    */
   debug?: boolean | (() => void)
@@ -158,7 +164,7 @@ export default function Heading(props: HeadingAllProps) {
     className,
     children,
     ...rest
-  } = props
+  } = useTypography(props)
 
   const [state, setState] = useState(() => {
     type State = {
