@@ -290,6 +290,13 @@ describe('Button component', () => {
       expect(document.querySelector('a').getAttribute('rel')).toBe('me')
     })
 
+    it('removes a javascript: href to prevent script execution', () => {
+      render(
+        <Button {...props} href="javascript:alert('XSS')" icon={null} />
+      )
+      expect(document.querySelector('a')).not.toHaveAttribute('href')
+    })
+
     describe('disabled', () => {
       it('should validate with ARIA rules as a anchor', async () => {
         const Comp = render(<Button {...props} href="https://url" />)
