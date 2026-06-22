@@ -160,7 +160,6 @@ export const FullscreenDrawerExample = () => (
   </ComponentBox>
 )
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const handleBack = () => {}
 
 export const FullDrawerExample = () => (
