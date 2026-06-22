@@ -550,7 +550,7 @@ const DocsReadInput = z.object({
     ),
 })
 
-const DocsSearchInput = z.object({
+export const DocsSearchInput = z.object({
   query: z
     .preprocess(
       // Coerce to string and truncate up front, mirroring the runtime cap in

@@ -4,6 +4,7 @@ import os from 'os'
 import path from 'path'
 import {
   createDocsTools,
+  DocsSearchInput,
   MAX_SEARCH_QUERY_LENGTH,
 } from '../mcp-docs-server'
 
@@ -398,9 +399,21 @@ describe('docs_search', () => {
     expect(hits.length).toBe(0)
   })
 
-  it('caps oversized queries at the maximum length without throwing', async () => {
+  it('truncates an oversized query before scoring so words past the cap are ignored', async () => {
     const tools = createDocsTools({ docsRoot })
-    const oversizedQuery = 'input'.repeat(MAX_SEARCH_QUERY_LENGTH)
+
+    // "form" and "input" both appear in the fixture docs. Pad the real query
+    // out to exactly the cap with spaces, then append a word that exists in no
+    // document *beyond* the cap. Multi-word search uses AND matching, so if the
+    // query were NOT truncated, the bogus trailing word would be required and
+    // every file would be rejected, yielding zero hits. Because searchInMarkdown
+    // caps the query first, the trailing word is sliced off and the real words
+    // still match. This test therefore fails if the length cap is removed.
+    const realWords = 'form input'.padEnd(MAX_SEARCH_QUERY_LENGTH, ' ')
+    const wordPastTheCap = 'zzqwxneverpresent'
+    const oversizedQuery = realWords + wordPastTheCap
+    expect(oversizedQuery.length).toBeGreaterThan(MAX_SEARCH_QUERY_LENGTH)
+
     const result = await tools.docsSearch({
       query: oversizedQuery,
       limit: 5,
@@ -408,10 +421,8 @@ describe('docs_search', () => {
     const hits = JSON.parse(getText(result)) as Array<{
       path: string
     }>
-    // The query is truncated to MAX_SEARCH_QUERY_LENGTH before scoring, so an
-    // enormous query is handled safely and returns a bounded result array
-    // instead of doing unbounded work.
-    expect(Array.isArray(hits)).toBe(true)
+
+    expect(hits.length).toBeGreaterThan(0)
     expect(hits.length).toBeLessThanOrEqual(5)
   })
 
@@ -460,6 +471,30 @@ describe('docs_search', () => {
       (h) => h.path === '/uilib/components/input.md'
     )
     expect(inputHit?.occurrences).toBeGreaterThan(0)
+  })
+})
+
+describe('DocsSearchInput schema', () => {
+  it('truncates a query longer than the maximum length', () => {
+    const parsed = DocsSearchInput.parse({
+      query: 'a'.repeat(MAX_SEARCH_QUERY_LENGTH + 25),
+    })
+    // Without the length cap an oversized query would pass through unchanged
+    // and could be split into an unbounded word list (denial of service).
+    expect(parsed.query).toHaveLength(MAX_SEARCH_QUERY_LENGTH)
+  })
+
+  it('leaves a query within the limit unchanged', () => {
+    const query = 'a'.repeat(MAX_SEARCH_QUERY_LENGTH)
+    expect(DocsSearchInput.parse({ query }).query).toBe(query)
+  })
+
+  it('coerces a non-string query to a string', () => {
+    expect(DocsSearchInput.parse({ query: 12345 }).query).toBe('12345')
+  })
+
+  it('coerces a missing query to an empty string', () => {
+    expect(DocsSearchInput.parse({ query: undefined }).query).toBe('')
   })
 })
 
