@@ -199,6 +199,56 @@ tester.run('sync-docs-jsdoc', rule, {
       `,
       filename: path.join(fixturesDir, 'compound/CompoundSearch.tsx'),
     },
+
+    // ── Source name without the docs prefix matches its own export group ──
+    {
+      code: `
+        export type ItemCenterProps = {
+          /** Font size of the center content. */
+          fontSize?: string
+        }
+      `,
+      filename: path.join(fixturesDir, 'cross-prefix/ItemCenter.tsx'),
+    },
+
+    // ── Multiple types in one file resolve via their enclosing type name ──
+    {
+      code: `
+        export type WidgetRootProps = {
+          /** Root children content. */
+          children?: React.ReactNode
+        }
+
+        export type WidgetButtonProps = {
+          /** Button label content. */
+          children?: React.ReactNode
+        }
+      `,
+      filename: path.join(fixturesDir, 'multi-type/types.ts'),
+    },
+
+    // ── A source file matching no docs group is left untouched ──
+    {
+      code: `
+        export type OrphanProps = {
+          /** Some hand-written description that matches no docs group. */
+          children?: React.ReactNode
+        }
+      `,
+      filename: path.join(fixturesDir, 'multi-type/Orphan.tsx'),
+    },
+
+    // ── In a directory with several docs files, a source file with no name
+    // match has no source of truth and is left untouched ──
+    {
+      code: `
+        export type GammaProps = {
+          /** Hand-written font size that matches no docs file. */
+          fontSize?: string
+        }
+      `,
+      filename: path.join(fixturesDir, 'multi-file/Gamma.tsx'),
+    },
   ],
 
   invalid: [
@@ -665,6 +715,91 @@ tester.run('sync-docs-jsdoc', rule, {
           data: {
             docsFile: 'CompoundDocs.ts',
             expected: 'Called when a sort option is selected.',
+          },
+        },
+      ],
+    },
+
+    // ── Source name without the docs prefix is fixed from its own group ──
+    {
+      code: `
+        export type ItemCenterProps = {
+          /** Font size of the start content. */
+          fontSize?: string
+        }
+      `,
+      output: `
+        export type ItemCenterProps = {
+          /**
+           * Font size of the center content.
+           */
+          fontSize?: string
+        }
+      `,
+      filename: path.join(fixturesDir, 'cross-prefix/ItemCenter.tsx'),
+      errors: [
+        {
+          messageId: 'mismatchedJsdoc',
+          data: {
+            docsFile: 'GroupDocs.ts',
+            expected: 'Font size of the center content.',
+          },
+        },
+      ],
+    },
+
+    // ── Wrong group via shared property name is fixed by enclosing type ──
+    {
+      code: `
+        export type WidgetButtonProps = {
+          /** Root children content. */
+          children?: React.ReactNode
+        }
+      `,
+      output: `
+        export type WidgetButtonProps = {
+          /**
+           * Button label content.
+           */
+          children?: React.ReactNode
+        }
+      `,
+      filename: path.join(fixturesDir, 'multi-type/types.ts'),
+      errors: [
+        {
+          messageId: 'mismatchedJsdoc',
+          data: {
+            docsFile: 'WidgetDocs.ts',
+            expected: 'Button label content.',
+          },
+        },
+      ],
+    },
+
+    // ── A name-matched source file syncs from its own docs file even when
+    // the directory has several docs files ──
+    {
+      code: `
+        export type AlphaProps = {
+          /** Outdated alpha font size. */
+          fontSize?: string
+        }
+      `,
+      output: `
+        export type AlphaProps = {
+          /**
+           * Font size of the alpha content.
+           */
+          fontSize?: string
+        }
+      `,
+      filename: path.join(fixturesDir, 'multi-file/Alpha.tsx'),
+      errors: [
+        {
+          messageId: 'mismatchedJsdoc',
+          data: {
+            docsFile: 'AlphaDocs.ts',
+            expected: 'Font size of the alpha content.',
           },
         },
       ],
