@@ -44,15 +44,7 @@ You can turn it off for a section using `<Typography.Context responsive={false}>
 | `--responsive-font-size-x-large`  | 1.625rem  | 2.125rem         | 2.125rem   |
 | `--responsive-font-size-xx-large` | 2.125rem  | 3rem             | 3rem       |
 
-All `--responsive-font-size-*` CSS variables are scoped to typography components as of now. If you need to use them elsewhere use the `.dnb-t` class.
-
-#### Turning all typography responsive (BETA)
-
-If you use `<Typography.Context responsiveAll>` all the regular font size variables `--font-size-*` will be remapped to the responsive `--responsive-font-size-*` values.
-
-It can be turned off using `<Typography.Context responsiveAll={false}>`
-
-Since `responsiveAll={true}` remaps the global variables, it will effectively override `responsive={false}`
+All `--responsive-font-size-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere use the `.dnb-t` class.
 
 ### Code Editor Extensions
 

@@ -44,15 +44,7 @@ You can turn it off for a section using `<Typography.Context responsive={false}>
 | `--responsive-line-height-x-large`  | 2rem      | 2.5rem           | 2.5rem     |
 | `--responsive-line-height-xx-large` | 2rem      | 2.5rem           | 3.5rem     |
 
-All `--responsive-line-height-*` CSS variables are scoped to typography components as of now. If you need to use them elsewhere you can use the `.dnb-t` class.
-
-#### Turning all typography responsive (BETA)
-
-If you use `<Typography.Context responsiveAll>` all the regular line-height variables `--line-height-*` will be remapped to the responsive `--responsive-line-height-*` values.
-
-It can be turned off using `<Typography.Context responsiveAll={false}>`
-
-Since `responsiveAll={true}` remaps the global variables, it will effectively override `responsive={false}`
+All `--responsive-line-height-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere you can use the `.dnb-t` class.
 
 ### Code Editor Extensions
 

@@ -3,7 +3,7 @@
  *
  */
 
-import { Fragment, createContext, useContext } from 'react'
+import { createContext, useContext } from 'react'
 import type { HTMLAttributes, ReactNode, Ref, RefObject } from 'react'
 import { clsx } from 'clsx'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
@@ -32,14 +32,11 @@ export type TypographyContextType = Pick<
 > & {
   /**  Whether or not responsive typography is enabled for typography components. Default is `false`. */
   responsive?: boolean
-  /**  Whether or not responsive typography is enabled for all components. Default is `false`. */
-  responsiveAll?: boolean
 }
 
 export const TypographyContext = createContext<TypographyContextType>({
   proseMaxWidth: undefined,
   responsive: undefined,
-  responsiveAll: undefined,
 })
 
 export type TypographyProviderProps = TypographyContextType & {
@@ -134,22 +131,10 @@ const Typography = (props: TypographyProps & TypographyInternalProps) => {
 
 const Provider = ({ children, ...rest }: TypographyProviderProps) => {
   const parentContext = useContext(TypographyContext)
-
   const newContext = { ...parentContext, ...rest }
-  const responsiveAllChanged =
-    rest.responsiveAll !== undefined &&
-    rest.responsiveAll !== parentContext.responsiveAll
-  const Element = responsiveAllChanged ? 'div' : Fragment
+
   return (
-    <Element
-      className={
-        newContext.responsiveAll
-          ? 'dnb-t__responsive-all-on'
-          : 'dnb-t__responsive-all-off'
-      }
-    >
-      <TypographyContext value={newContext}>{children}</TypographyContext>
-    </Element>
+    <TypographyContext value={newContext}>{children}</TypographyContext>
   )
 }
 

@@ -93,14 +93,6 @@
     font-style: italic;
   }
 
-  &__responsive-all-on {
-    @include typography-mixins.responsiveAllOn();
-  }
-
-  &__responsive-all-off {
-    @include typography-mixins.responsiveAllOff();
-  }
-
   &__responsive-off {
     @include typography-mixins.responsiveOff();
   }

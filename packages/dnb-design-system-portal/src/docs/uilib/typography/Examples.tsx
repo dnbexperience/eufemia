@@ -8,18 +8,30 @@ import ComponentBox from '../../../shared/tags/ComponentBox'
 import {
   Code,
   Heading,
-  H4,
+  H1,
   H2,
+  H3,
+  H4,
+  H5,
+  H6,
   Lead,
   P,
   Span,
-  Button,
 } from '@dnb/eufemia/src'
 import { Typography } from '@dnb/eufemia/src/elements'
 
 import { useTheme } from '@dnb/eufemia/shared'
 
 import { TypographyBox } from '../../../shared/parts/TypographyBox'
+
+const MarginReset = styled.div`
+  .dnb-heading,
+  [class^='dnb-h'],
+  [class*=' dnb-h'] {
+    display: block;
+    margin: 0 !important;
+  }
+`
 
 const Wrapper = styled.div`
   margin-bottom: 3rem;
@@ -171,30 +183,67 @@ export function TypographyVariants() {
 }
 
 export const ResponsiveTypographyExample = () => (
-  <ComponentBox
-    scope={{ Typography }}
-    data-visual-test="typography-responsive"
-  >
+  <ComponentBox scope={{ Typography }}>
     <H2>Fixed H2</H2>
-    <Span>Fixed Span</Span>
+    <Span size="medium">Fixed Span</Span>
     <Heading level="3">Fixed Heading</Heading>
     <P>Fixed P</P>
-    <Button>Fixed Button</Button>
 
     <Typography.Context responsive>
       <H2>Responsive H2</H2>
-      <Span>Responsive Span</Span>
+      <Span size="medium">Responsive Span</Span>
       <Heading level="3">Responsive Heading</Heading>
       <P>Responsive P</P>
-      <Button>Fixed Button</Button>
-    </Typography.Context>
-
-    <Typography.Context responsiveAll>
-      <H2>Responsive H2</H2>
-      <Span>Responsive Span</Span>
-      <Heading level="3">Responsive Heading</Heading>
-      <P>Responsive P</P>
-      <Button>Responsive Button</Button>
     </Typography.Context>
   </ComponentBox>
+)
+
+export const ResponsiveTypographyFullExample = () => (
+  <MarginReset>
+    <ComponentBox
+      scope={{ Typography }}
+      data-visual-test="typography-responsive"
+    >
+      <Typography.Context responsive>
+        <H1>H1</H1>
+        <H2>H2</H2>
+        <H3>H3</H3>
+        <H4>H4</H4>
+        <H5>H5</H5>
+        <H6>H6</H6>
+
+        <Heading level="1">Heading 1</Heading>
+        <Heading level="2">Heading 2</Heading>
+        <Heading level="3">Heading 3</Heading>
+        <Heading level="4">Heading 4</Heading>
+        <Heading level="5">Heading 5</Heading>
+        <Heading level="6">Heading 6</Heading>
+
+        <Span>Span default</Span>
+        <br />
+        <Span size="x-small">Span x-small</Span>
+        <br />
+        <Span size="small">Span small</Span>
+        <br />
+        <Span size="basis">Span basis</Span>
+        <br />
+        <Span size="medium">Span medium</Span>
+        <br />
+        <Span size="large">Span large</Span>
+        <br />
+        <Span size="x-large">Span x-large</Span>
+        <br />
+        <Span size="xx-large">Span xx-large</Span>
+
+        <P>P default</P>
+        <P size="x-small">P x-small</P>
+        <P size="small">P small</P>
+        <P size="basis">P basis</P>
+        <P size="medium">P medium</P>
+        <P size="large">P large</P>
+        <P size="x-large">P x-large</P>
+        <P size="xx-large">P xx-large</P>
+      </Typography.Context>
+    </ComponentBox>
+  </MarginReset>
 )

@@ -1212,40 +1212,6 @@ sub {
   font-style: italic;
 }
 
-.dnb-t__responsive-all-on {
-  --font-size-x-small: var(--responsive-font-size-x-small);
-  --font-size-small: var(--responsive-font-size-small);
-  --font-size-basis: var(--responsive-font-size-basis);
-  --font-size-medium: var(--responsive-font-size-medium);
-  --font-size-large: var(--responsive-font-size-large);
-  --font-size-x-large: var(--responsive-font-size-x-large);
-  --font-size-xx-large: var(--responsive-font-size-xx-large);
-  --line-height-x-small: var(--responsive-line-height-x-small);
-  --line-height-small: var(--responsive-line-height-small);
-  --line-height-basis: var(--responsive-line-height-basis);
-  --line-height-medium: var(--responsive-line-height-medium);
-  --line-height-large: var(--responsive-line-height-large);
-  --line-height-x-large: var(--responsive-line-height-x-large);
-  --line-height-xx-large: var(--responsive-line-height-xx-large);
-}
-
-.dnb-t__responsive-all-off {
-  --font-size-x-small: 0.875rem;
-  --font-size-small: 1rem;
-  --font-size-basis: 1.125rem;
-  --font-size-medium: 1.25rem;
-  --font-size-large: 1.625rem;
-  --font-size-x-large: 2.125rem;
-  --font-size-xx-large: 3rem;
-  --line-height-x-small: 1.25rem;
-  --line-height-small: 1.25rem;
-  --line-height-basis: 1.5rem;
-  --line-height-medium: 1.5rem;
-  --line-height-large: 2rem;
-  --line-height-x-large: 2.5rem;
-  --line-height-xx-large: 3.5rem;
-}
-
 .dnb-t__responsive-off {
   --typography-font-size-x-small: var(--font-size-x-small);
   --typography-font-size-small: var(--font-size-small);
