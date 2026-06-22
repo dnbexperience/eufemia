@@ -366,9 +366,6 @@
       --drawer-list-option-color-bg: var(
         --drawer-list-option-color-bg--hover
       );
-      --drawer-list-option-color-border: var(
-        --drawer-list-option-color-border--hover
-      );
     }
 
     @include utilities.active() {
@@ -377,9 +374,6 @@
       );
       --drawer-list-option-color-bg: var(
         --drawer-list-option-color-bg--active
-      );
-      --drawer-list-option-color-border: var(
-        --drawer-list-option-color-border--active
       );
     }
 
@@ -507,9 +501,6 @@
       );
       --drawer-list-option-color-bg: var(
         --drawer-list-option-color-bg--disabled
-      );
-      --drawer-list-option-color-border: var(
-        --drawer-list-option-color-border--disabled
       );
       cursor: not-allowed;
     }
