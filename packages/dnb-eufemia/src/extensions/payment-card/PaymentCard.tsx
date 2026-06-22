@@ -4,7 +4,7 @@
 import { useContext } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
-import Context, { type Translation } from '../../shared/Context'
+import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
   validateDOMAttributes,
@@ -28,7 +28,7 @@ import cardProducts from './utils/cardProducts'
 
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../../components/skeleton/Skeleton'
-import type { InternalLocale } from '../../shared/Context'
+import type { Translation, InternalLocale } from '../../shared/Context'
 
 export { Designs, ProductType, CardType, BankAxeptType }
 

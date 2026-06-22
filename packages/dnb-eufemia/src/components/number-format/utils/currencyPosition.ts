@@ -1,5 +1,8 @@
-import type { FormatPartItem, PartFormatter } from './types'
-import type { NumberFormatCurrencyPosition } from './types'
+import type {
+  FormatPartItem,
+  PartFormatter,
+  NumberFormatCurrencyPosition,
+} from './types'
 
 /**
  * Changes the currency sign position.

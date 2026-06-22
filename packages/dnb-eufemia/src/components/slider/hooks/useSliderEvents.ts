@@ -1,6 +1,7 @@
 import { useContext } from 'react'
-import type { FormEvent, SyntheticEvent } from 'react'
 import type {
+  FormEvent,
+  SyntheticEvent,
   MouseEvent as ReactMouseEvent,
   TouchEvent as ReactTouchEvent,
 } from 'react'
