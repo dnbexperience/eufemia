@@ -26,60 +26,50 @@ export type BadgeProps = {
   label?: ReactNode
 
   /**
-   * Custom className on the component root
-   * Default: `null`
+   * Custom `className` for the component.
    */
   className?: string
 
   /**
    * Applies loading skeleton.
-   * Default: `false`
    */
   skeleton?: SkeletonShow
 
   /**
-   * The content to display the badge on top of.
-   * Default: `null`
+   * Content to display the badge on top of.
    */
   children?: ReactNode
 
   /**
-   * The content of the component.
-   * Default: `null`
+   * Content of the component.
    */
   content?: string | number | ReactNode
 
   /**
-   * The vertical positioning of the component.
-   * Default: `null`
+   * Vertical positioning of the component. Options: `bottom` | `top`.
    */
   vertical?: 'bottom' | 'top'
 
   /**
-   * The horizontal positioning of the component.
-   * Default: `null`
+   * Horizontal positioning of the component. Options: `left` | `right`.
    */
   horizontal?: 'left' | 'right'
 
   /**
-   * The variant of the component.
-   * Default: `information`
+   * Defines the visual appearance of the badge. There are two main variants `notification` and `information`. The `content` variant is just for placement purposes, and will require you to style the `content` all by yourself. Default variant is `information`.
    */
   variant?: 'information' | 'notification' | 'content'
 
   /**
-   * Defines the status color of the `"information"` variant. Has no effect on other variants.
-   * Default: `default`
+   * Defines the status color of the `"information"` variant. Has no effect on other variants. Defaults to `"default"`.
    */
   status?: 'default' | 'neutral' | 'positive' | 'warning' | 'negative'
   /**
-   * Applies subtle style to `"information"` variant. Has no effect on other variants.
-   * Default: `false`
+   * Applies subtle style to `"information"` variant. Has no effect on other variants. Defaults to `false`.
    */
   subtle?: boolean
   /**
-   * Removes the badge without removing children. Useful when Badge wraps content.
-   * Default: `false`
+   * Removes the badge without removing children. Useful when Badge wraps content. Defaults to `false`.
    */
   hideBadge?: boolean
 }

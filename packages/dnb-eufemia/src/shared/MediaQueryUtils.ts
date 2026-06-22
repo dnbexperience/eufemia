@@ -74,7 +74,7 @@ export type MediaQueryListener = () => void
 
 export type MediaQueryProps = {
   /**
-   * If set to true, it will match and return the given children during SSR.
+   * If set to `true`, it will match and return the given children during SSR.
    */
   matchOnSSR?: boolean
 

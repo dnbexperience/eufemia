@@ -53,8 +53,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type BreadcrumbProps = {
   /**
-   * Custom className on the component root
-   * Default: `null`
+   * Custom `className` for the component root.
    */
   className?: string
 
@@ -64,76 +63,64 @@ export type BreadcrumbProps = {
   skeleton?: SkeletonShow
 
   /**
-   * Pass in a list of your pages as objects of breadcrumbitem to render them as breadcrumbitems.
-   * Default: `null`
+   * List of pages to render as breadcrumb items. Each object in data can include all properties from [BreadcrumbItem properties](/uilib/components/breadcrumb/properties#breadcrumbitem-properties).
    */
   data?: Array<BreadcrumbItemProps>
 
   /**
-   * The content of the component. Can be used instead of prop "data".
-   * Default: `null`
+   * Content of the component. Can be used instead of property `data`, by adding `Breadcrumb.Item` children `<Breadcrumb.Item {...properties} />`.
    */
   children?:
     | ReactElement<BreadcrumbItemProps>
     | Array<ReactElement<BreadcrumbItemProps>>
 
   /**
-   * The variant of the component.
-   * Defaults to `single` when children and data are not defined, `responsive` if they are.
+   * Defaults to `responsive` or `single` depending on content. Options: `responsive` | `single` | `multiple` | `collapse`.
    */
   variant?: 'responsive' | 'single' | 'multiple' | 'collapse'
 
   /**
-   * Handle the click event on 'single'/'collapse'
-   * Default: `null`
+   * Will be called by user click interaction, to handle click event on "Back" for variant `single` and "Back to..." for variant `collapse`.
    */
   onClick?: MouseEventHandler<HTMLButtonElement>
 
   /**
-   * For variant 'single', use href (or onClick) to set href when clicking "Back"
-   * Default: `null`
+   * For variant `single`, set `href` for button click. Can be used instead of event/property `onClick`.
    */
   href?: string
 
   /**
-   * Every <nav> on a page needs a unique aria-label text
-   * Default: `Page hierarchy`
+   * Every `<nav>` on a page needs a unique `aria-label` text.
    */
   navText?: ReactNode
 
   /**
-   * Add custom 'Back' text for variant 'single'
-   * Default: `'Back' or defined by Context translation`
+   * Override with a custom 'Back' text for variant `single` (Not recommended).
    */
   goBackText?: ReactNode
 
   /**
-   * Add custom 'Home' text
-   * Default: `'Home' or defined by Context translation`
+   * Override with a custom 'Home' text (Not recommended).
    */
   homeText?: ReactNode
 
   /**
-   * Add custom 'Back to...' text, for variant collapse
-   * Default 'Gå til ...' or defined by Context translation
+   * Override with a custom 'Back to...' text (Not recommended).
    */
   backToText?: ReactNode
 
   /**
-   * If variant='collapse', you can override collapsed state for the collapsed content by updating this value.
-   * Default: `null`
+   * For variant `collapse`, override collapsed state for the collapsed content by updating this value using the provided property `onClick`.
    */
   collapsed?: boolean
 
   /**
-   * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`.
-   * Default: `false`
+   * Include spacing properties in breadcrumb. If only `true` is given, the spacing will be `small`. Defaults to `false`.
    */
   spacing?: SpaceTypeAll | SpaceTypeMedia
 
   /**
-   * Will disable the height animation
-   * Default: `false`
+   * Disables the height animation. Defaults to `false`.
    */
   noAnimation?: boolean
   /**

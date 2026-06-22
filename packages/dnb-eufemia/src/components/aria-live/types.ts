@@ -3,12 +3,12 @@ export type AriaLiveProps = {
   element?: ElementType
 
   /**
-   * The variant of the announcement. Can be `text` or `content`. Defaults to `text`.
+   * Can be `text` for text messages or `content` for whole application content. Defaults to `text`.
    */
   variant?: 'text' | 'content'
 
   /**
-   * The priority level of the announcement. Can be `low`, or `high`.
+   * Priority of the announcement. Can be `low` or `high`. Defaults to `low`.
    */
   priority?: 'low' | 'high'
 
@@ -23,28 +23,27 @@ export type AriaLiveProps = {
   disabled?: boolean
 
   /**
-   * The politeness level of the announcement. Can be 'off', 'polite', or 'assertive'.
+   * The politeness level of the announcement. Can be `off`, `polite`, or `assertive`.
    */
   politeness?: HTMLAttributes<HTMLElement>['aria-live']
 
   /**
-   * Whether the entire region should be considered as a whole when communicating updates.
+   * If `true`, assistive technologies will present the entire region as a whole. If `false`, only additions will be announced.
    */
   atomic?: HTMLAttributes<HTMLElement>['aria-atomic']
 
   /**
-   * What types of changes should be presented to the user. Can be 'additions', 'removals', 'text', or 'all'.
+   * A space-separated list of the types of changes that should be announced. Can be `additions`, `removals`, `text`, or `all`.
    */
   relevant?: HTMLAttributes<HTMLElement>['aria-relevant']
 
   /**
-   * Whether to show the children or not.
-   * Default: `false`
+   * Whether to show the children or not. Defaults to `false`.
    */
   showAnnouncement?: boolean
 
   /**
-   * The content to be announced.
+   * The content that will be announced to the user.
    */
   children: ReactNode
 }

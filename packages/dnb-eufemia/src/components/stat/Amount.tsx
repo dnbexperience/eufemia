@@ -28,10 +28,8 @@ type AmountOwnProps = Omit<
   currencyDisplay?: NumberFormatProps['currencyDisplay']
   currencyPosition?: NumberFormatProps['currencyPosition']
   /**
-   * Typography size fallback.
-   *
-   * Is used for both main and auxiliary content unless `mainSize` and/or
-   * `auxiliarySize` are set.
+   * Typography size for the label. Line-height is derived from the shared heading/text scale.
+   * Default: `"basis"`
    */
   fontSize?: TypographySize
   /**
@@ -54,7 +52,8 @@ type AmountOwnProps = Omit<
    */
   auxiliaryWeight?: TypographyWeight
   /**
-   * Opt-in sign-based text color (`+` => green, `-` => red).
+   * If `true`, text color follows a signed child value when possible. You can also pass a number directly to control the tone for custom content.
+   * Default: `false`
    */
   colorizeBySign?: boolean
   /** Formats the value as a percentage. */

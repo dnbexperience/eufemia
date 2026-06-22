@@ -19,12 +19,13 @@ export type TableTrClickInfo = {
 
 export type TableTrProps = {
   /**
-   * The variant of the tr
+   * Override the automatic variant of the current row. The next row one will continue with the opposite.
+   * Default: `undefined`
    */
   variant?: 'even' | 'odd'
 
   /**
-   * If set to true, the inherited header text will not wrap to new lines.
+   * If set to `true`, the inherited header text will not wrap to new lines.
    * Default: `false`
    */
   noWrap?: boolean
@@ -36,55 +37,50 @@ export type TableTrProps = {
   verticalAlign?: 'top' | 'middle' | 'bottom'
 
   /**
-   * Highlights all cells in the row with a subtle background.
+   * If set to `true`, all `<Td>` and `<Th>` cells in the row receive a highlighted background.
    * Default: `false`
    */
   highlight?: boolean
 
   /**
-   * Set true to render the tr initially as expanded.
-   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
+   * Use `true` to render the `<Tr>` initially as expanded.
    * Default: `false`
    */
   expanded?: boolean
 
   /**
-   * Set true to disable the tr to be accessible as an interactive element.
-   * Is part of the accordion feature and needs to be enabled with `mode="accordion"`prop in main Table.
+   * Use `true` to disable the `<Tr>` to be accessible as an interactive element.
    * Default: `false`
    */
   disabled?: boolean
 
   /**
-   * Set to true to skip animation.
-   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
+   * Use `true` to disable the expand/collapse animation.
    * Default: `false`
    */
   noAnimation?: boolean
 
   /**
-   * Set to `true` to keep the accordion content in the DOM when closed.
-   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
+   * When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.
    * Default: `false`
    */
   keepInDOM?: boolean
 
   /**
-   * Will emit when user clicks/expands or on keydown space/enter(in mode="accordion" and mode="navigation") in the table row.
-   * Is part of the mode feature and needs to be enabled with the `mode` prop in main Table.
-   * The second argument contains `trElement`.
+   * Will emit when user clicks/expands or on keydown space/enter (in `mode="accordion"` and `mode="navigation"`) in the table row. The second argument is an object with `trElement` (the `HTMLTableRowElement`).
+   * Default: `undefined`
    */
   onClick?: (event: SyntheticEvent, info: TableTrClickInfo) => void
 
   /**
-   * Will emit when table row is expanded.
-   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
+   * Will emit when table row is expanded. Returns an object with the table row as the target: `{ target }`.
+   * Default: `undefined`
    */
   onOpen?: ({ target }: { target: HTMLTableRowElement }) => void
 
   /**
-   * Will emit when table row is closed (after it was open)
-   * Is part of the accordion feature and needs to be enabled with `mode="accordion"` prop in main Table.
+   * Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.
+   * Default: `undefined`
    */
   onClose?: ({ target }: { target: HTMLTableRowElement }) => void
 

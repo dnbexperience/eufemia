@@ -180,152 +180,152 @@ export type AutocompleteProps = {
    */
   mode?: AutocompleteMode
   /**
-   * Give a title to let the user know what they have to do.
+   * Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.
    */
   title?: AutocompleteTitle
   /**
-   * Pre-filled placeholder text in the input.
+   * Use this to define the pre-filled placeholder text in the input. Defaults to `title="Skriv og velg"`.
    */
   placeholder?: AutocompletePlaceholder
   /**
-   * Text shown in the "no options" item. If set to `false`, the list will not be rendered when there are no options.
+   * Text shown in the "no options" item. If set to `false`, the list will not be rendered when there are no options available. Defaults to `Ingen alternativer`.
    */
   noOptions?: AutocompleteNoOptions
   /**
-   * Text that lets a user unravel all the available options.
+   * Text that lets a user unravel all the available options. Defaults to `Vis alt`.
    */
   showAll?: AutocompleteShowAll
   /**
-   * Text read out by screen readers to announce number of options.
+   * Text read out by screen readers. This way users with screen readers know how many options they got during typing. Defaults to `%s alternativer`.
    */
   ariaLiveOptions?: AutocompleteAriaLiveOptions
   /**
-   * Text shown on indicator item.
+   * Text shown on indicator "options" item. Defaults to `Henter data ...`.
    */
   indicatorLabel?: AutocompleteIndicatorLabel
   /**
-   * Screen-reader title for the button that opens options.
+   * Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer`.
    */
   showOptionsSr?: string
   /**
-   * Label used to announce the selected item for screen readers.
+   * Only for screen readers (VoiceOver). The label used to announce the selected item. Defaults to `Valgt:`.
    */
   selectedSr?: string
   /**
-   * If set to `true`, the whole input value gets selected on focus.
+   * If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.
    */
   selectAll?: boolean
   /**
-   * Title on submit button.
+   * Title on submit button. Defaults to `Vis alternativer`.
    */
   submitButtonTitle?: string
   /**
-   * The icon used in the submit button.
+   * The icon used in the submit button. Defaults to `chevron_down`.
    */
   submitButtonIcon?: AutocompleteSubmitButtonIcon
   /**
-   * React ref for access to the input DOM element.
+   * Use a `React.Ref` to get access to the `input` DOM element.
    */
   inputRef?: AutocompleteInputRef
   /**
-   * Icon to be included in the autocomplete input. Defaults to `'loupe'`.
+   * To be included in the autocomplete input. Defaults to `loupe`. Set to `null` to remove the icon entirely – no progress indicator will then be shown while loading.
    */
   icon?: IconIcon | ReactNode | (() => ReactNode)
   /**
-   * Change icon size.
+   * Change the size of the icon programmatically.
    */
   iconSize?: IconSize
   /**
-   * Icon position inside autocomplete.
+   * Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.
    */
   iconPosition?: ButtonIconPosition
   /**
-   * Prepends the form label.
+   * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
   label?: ReactNode
   /**
-   * Set `vertical` to change label layout direction.
+   * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
   labelDirection?: FormLabelLabelDirection
   /**
-   * Makes label readable by screen readers only.
+   * Use `true` to make the label only readable by screen readers.
    */
   labelSrOnly?: boolean
   /**
-   * Keep typed value on blur even when invalid.
+   * Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / be replaced by a selected value from the data list during the input field blur. Defaults to `false`.
    */
   keepValue?: boolean
   /**
-   * Keep selected item on blur when input value is empty.
+   * Use `true` to not remove selected item on input blur, when the input value is empty. Defaults to `false`.
    */
   keepSelection?: boolean
   /**
-   * Keep typed value and selected item on blur.
+   * Like `keepValue` – but would not reset to the selected value during input field blur. Also, the selected value would still be kept. Defaults to `false`.
    */
   keepValueAndSelection?: boolean
   /**
-   * Show clear button inside input.
+   * If set to `true`, a clear button is shown inside the input field. Defaults to `false`.
    */
   showClearButton?: boolean
   /**
-   * Keep highlighting but disable filtering.
+   * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.
    */
   disableFilter?: boolean
   /**
-   * Disable reordering of search results.
+   * If set to `true`, reordering of search results will be disabled. Defaults to `false`.
    */
   disableReorder?: boolean
   /**
-   * Disable highlighting but keep filtering.
+   * If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.
    */
   disableHighlighting?: boolean
   /**
-   * Show autocomplete submit/toggle button.
+   * Use `true` to show an Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.
    */
   showSubmitButton?: boolean
   /**
-   * Replace submit button with a custom element.
+   * Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from '@dnb/eufemia/components/input/Input'`.
    */
   submitElement?: ReactNode
   /**
-   * Change options alignment.
+   * Use `right` to change the options alignment direction. Defaults to `left`.
    */
   align?: AutocompleteAlign
   /**
-   * Provide a custom input element.
+   * Lets you provide a custom React element as the input HTML element.
    */
   inputElement?: AutocompleteInputElement
   /**
-   * Threshold deciding from which word to search inside words.
+   * This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.
    */
   searchInWordIndex?: AutocompleteSearchInWordIndex
   /**
-   * Search matching mode.
+   * Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.
    */
   searchMatch?: AutocompleteSearchMatch
   /**
-   * Better number searching/filtering behavior.
+   * If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.
    */
   searchNumbers?: boolean
   /**
-   * Auto-open list on focus.
+   * Use `true` to auto open the list once the user is entering the input field with the keyboard.
    */
   openOnFocus?: boolean
   disabled?: boolean
   /**
-   * Stretch to full available width.
+   * If set to `true`, then the autocomplete will be 100% in available `width`.
    */
   stretch?: boolean
   /**
-   * Show skeleton loading overlay.
+   * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
   /**
-   * Additional content rendered as suffix.
+   * Text describing the content of the Autocomplete more than the label. You can also send in a React component, so it gets wrapped inside the Autocomplete component.
    */
   suffix?: DrawerListSuffix
   /**
-   * Custom class for internal drawer list.
+   * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawerClass?: string
   /**
@@ -337,17 +337,17 @@ export type AutocompleteProps = {
    */
   defaultValue?: string | number
   /**
-   * Controlled input value.
+   * Lets you define a custom input value. Setting it to an empty string `""` will reset the input value.
    */
   inputValue?: string
   size?: DrawerListProps['size']
   data?: DrawerListData
   /**
-   * Will be called once the Autocomplete shows up.
+   * Will be called once the user presses the autocomplete. Returns the data item `{ data, attributes }`.
    */
   onOpen?: (event: AutocompleteOnTypeParams) => void
   /**
-   * Will be called once the Autocomplete gets closed.
+   * Will be called once the user presses the autocomplete again, or clicks somewhere else. Returns the data item `{ data, attributes }`.
    */
   onClose?: (event: AutocompleteOnTypeParams) => void
   onType?: (event: AutocompleteOnTypeParams) => void
@@ -357,7 +357,7 @@ export type AutocompleteProps = {
   onSelect?: (event: AutocompleteOnSelectParams) => void
   onClear?: (event: AutocompleteOnClearParams) => void
   /**
-   * Will be called when the user presses Enter in the input field without selecting an item from the list. Returns an object with the input `value` and the `event`.
+   * Will be called when the user presses Enter in the input field without selecting an item from the list. Useful for triggering custom actions like navigating to a search results page. Returns `{ value, event, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data).
    */
   onSubmit?: (event: AutocompleteOnSubmitParams) => void
 }

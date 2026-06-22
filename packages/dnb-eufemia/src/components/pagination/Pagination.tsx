@@ -123,7 +123,7 @@ export type PaginationProps = {
    */
   parallelLoadCount?: PaginationParallelLoadCount
   /**
-   * if set to `true`, the infinity marker will be placed before the content (on top of). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
+   * If set to `true`, the infinity marker will be placed before the content (on top of). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
   placeMarkerBeforeContent?: boolean
   /**
@@ -147,28 +147,28 @@ export type PaginationProps = {
    */
   paginationBarLayout?: PaginationLayout
   /**
-   * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the end of the content instead.
+   * If set to `true`, it will disable the automated infinity scrolling, but shows a load more button at the end of the content instead.
    */
   useLoadButton?: boolean
   items?: PaginationItems
   /**
-   * If set to `true` no indicator will be shown.
+   * If set to `true`, no indicator will be shown.
    */
   hideProgressIndicator?: boolean
   /**
-   * Callback function to get the `setContent` handler from the current pagination instance. e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.
+   * Callback function to get the `setContent` handler from the current pagination instance, e.g. `setContentHandler={fn => (...)}`. Use this handler to insert content during infinity mode.
    */
   setContentHandler?: PaginationSetContentHandler
   /**
-   * Callback function to get the `resetContent` handler from the current pagination instance. e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
+   * Callback function to get the `resetContent` handler from the current pagination instance, e.g. `resetContentHandler={fn => (...)}`. Use this handler to reset all the content. You can set it to `true`, to programmatically reset the content.
    */
   resetContentHandler?: PaginationResetContentHandler
   /**
-   * Callback function to get the `resetInfinity` handler from the current pagination instance. e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
+   * Callback function to get the `resetInfinity` handler from the current pagination instance, e.g. `resetPaginationHandler={fn => (...)}`. Use this handler to reset all the internal states. You can set it to `true`, to programmatically reset the states.
    */
   resetPaginationHandler?: PaginationResetPaginationHandler
   /**
-   * Callback function to get the `endInfinity` handler from the current pagination instance. e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
+   * Callback function to get the `endInfinity` handler from the current pagination instance, e.g. `endInfinityHandler={fn => (...)}`. Use this handler to end the infinity scrolling procedure, in case the `pageCount` is unknown.
    */
   endInfinityHandler?: PaginationEndInfinityHandler
   /**

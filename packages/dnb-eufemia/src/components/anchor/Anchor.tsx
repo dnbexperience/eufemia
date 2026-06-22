@@ -51,38 +51,31 @@ export type AnchorProps = {
   ref?: Ref<HTMLAnchorElement>
 
   /**
-   * Removes default animation.
-   * Default: `false`
+   * Removes animations if set to `true`. Defaults to `false`.
    */
   noAnimation?: boolean
   /**
-   * Removes default styling.
-   * Default: `false`
+   * Removes styling if set to `true`. Defaults to `false`.
    */
   noStyle?: boolean
   /**
-   * Removes default hover style.
-   * Default: `false`
+   * Removes hover effects if set to `true`. Defaults to `false`.
    */
   noHover?: boolean
   /**
-   * Removes underline.
-   * Default: `false`
+   * Removes underline if set to `true`. Defaults to `false`.
    */
   noUnderline?: boolean
   /**
-   * Removes Icon.
-   * Default: `false`
+   * Removes icons if set to `true`. Defaults to `false`.
    */
   noIcon?: boolean
   /**
-   * Removes Launch Icon.
-   * Default: `false`
+   * Removes launch icon if set to `true`. Defaults to `false`.
    */
   noLaunchIcon?: boolean
   /**
-   * Disables the Anchor element.
-   * Default: `false`
+   * Disables the Anchor (no navigation, no hover). Keep a short reason nearby (e.g. using the `tooltip` property).
    */
   disabled?: boolean
 }

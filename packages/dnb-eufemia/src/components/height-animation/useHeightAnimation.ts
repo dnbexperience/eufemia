@@ -6,20 +6,17 @@ import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpe
 
 export type UseHeightAnimationOptions = {
   /**
-   * Set to `true`, when initially `false` was given, to animate from 0px to auto.
-   * Default: `true`
+   * Set to `true` on second re-render when the view should animate from 0px to auto. Defaults to `true`.
    */
   open?: boolean
 
   /**
-   * Set to `false` to omit the animation.
-   * Default: `true`
+   * Set to `false` to omit the animation. Defaults to `true`.
    */
   animate?: boolean
 
   /**
-   * To compensate for CSS gap between the rows, so animation does not jump during the animation.
-   * Provide a CSS unit or `var(--row-gap)`.
+   * To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`.
    */
   compensateForGap?: string | 'auto'
 
@@ -29,22 +26,22 @@ export type UseHeightAnimationOptions = {
   children?: ReactNode | HTMLElement
 
   /**
-   * Is called once before mounting the component (useLayoutEffect)
+   * Is called once before mounting the component (useLayoutEffect). Returns the instance of the internal animation class.
    */
   onInit?: (instance: HeightAnimationInstance) => void
 
   /**
-   * Is called when fully opened or closed
+   * Is called when fully opened or closed. Returns `true` or `false` depending on the state.
    */
   onOpen?: (isOpen: boolean) => void
 
   /**
-   * Is called when animation has started.
+   * Is called when animation has started. The first parameter is a string. Depending on the state, the value can be `opening`, `closing` or `adjusting`.
    */
   onAnimationStart?: (state: HeightAnimationOnStart) => void
 
   /**
-   * Is called when animation is done and the full height is reached.
+   * Is called when animation is done and the full height is reached. The first parameter is a string. Depending on the state, the value can be `opened`, `closed` or `adjusted`.
    */
   onAnimationEnd?: (state: HeightAnimationOnEnd) => void
 }

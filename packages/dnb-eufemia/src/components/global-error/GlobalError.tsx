@@ -28,44 +28,42 @@ export type GlobalErrorLink = {
 
 export type GlobalErrorProps = {
   /**
-   * When `404` or `500` is given, a predefined text will be shown.
-   * Defaults to `404`.
+   * Defines a status code as a string. When `404` or `500` is given, predefined `text` and `title` will be shown. Defaults to `404`.
    */
   statusCode?: '404' | '500' | string
 
   /**
-   * Will overwrite the default title.
+   * Overwrites the default title for the provided `statusCode`.
    */
   title?: ReactNode
 
   /**
-   * Will overwrite the default text.
+   * Overwrites the default text for the provided `statusCode`.
    */
   text?: ReactNode
 
   /**
-   * Will overwrite the default error message code.
+   * Overwrites the default error message code text `Feilmeldings-kode: %statusCode`.
    */
   errorMessageCode?: ReactNode
 
   /**
-   * Will overwrite the default additional help text.
+   * Overwrites the default additional help text `Her er noen lenker som kanskje kan hjelpe:`. This text is only rendered when `links` are provided.
    */
   help?: ReactNode
 
   /**
-   * Provide an array with objects `{ text: 'Text', url: 'https://...' }` to display a list of anchor links.
+   * Provide an array with objects `{ text: "Text", url: "https://..." }` to display a list of anchor links.
    */
   links?: Array<GlobalErrorLink>
 
   /**
-   * If true, it will use 80vh as the height and center its content.
+   * If `true`, it will use `80vh` as the height and center its content.
    */
   center?: boolean
 
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
 }
@@ -77,12 +75,12 @@ export type GlobalErrorAllProps = GlobalErrorProps &
 
 export type GlobalErrorTranslationContent = {
   /**
-   * Defining a `title` will overwrite the default provided by the `statusCode` translation.
+   * Overwrites the default title for the provided `statusCode`.
    */
   title?: ReactNode
 
   /**
-   * Defining a `text` will overwrite the default provided by the `statusCode` translation.
+   * Overwrites the default text for the provided `statusCode`.
    */
   text?: ReactNode
 }

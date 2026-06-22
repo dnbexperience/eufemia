@@ -35,8 +35,7 @@ export type {
 
 export type SpaceProps = {
   /**
-   * Defines the HTML element used.
-   * Default: `div`
+   * Defines the HTML element used. Defaults to `div`.
    */
   element?: DynamicElement
 
@@ -51,8 +50,7 @@ export type SpaceProps = {
   noCollapse?: boolean
 
   /**
-   * If set to `true`, then the space element will be 100% in width.
-   * Default: `false`
+   * If set to `true`, then the space element will be 100% in `width`.
    */
   stretch?: boolean
 

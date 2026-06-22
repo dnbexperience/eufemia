@@ -27,18 +27,14 @@ export type TooltipProps = {
   fixedPosition?: boolean
   contentRef?: RefObject<HTMLSpanElement>
   /**
-   * Skip rendering the tooltip in a React Portal.
-   * When `true`, the tooltip renders inline in the DOM tree instead of being portaled to document.body.
-   * Useful for cases where you need the tooltip to be part of the same DOM hierarchy for styling or event handling.
-   * Default: `false`
+   * Skip rendering the tooltip in a React Portal. When `true`, the tooltip renders inline in the DOM tree instead of being portaled to document.body. Useful for cases where you need the tooltip to be part of the same DOM hierarchy for styling or event handling. Defaults to `false`.
    */
   skipPortal?: boolean
   noAnimation?: boolean
   showDelay?: number
   hideDelay?: number
   /**
-   * CSS class name applied to the Tooltip portal root element.
-   * Has effect only when not using `skipPortal`.
+   * CSS class name applied to the Tooltip portal root element. Has effect only when not using `skipPortal`.
    */
   portalRootClass?: string
   targetSelector?: string
@@ -48,19 +44,15 @@ export type TooltipProps = {
   children?: ReactNode
   style?: CSSProperties
   /**
-   * Whether to omit the aria-describedby attribute.
+   * Set to `true` to omit the `aria-describedby` attribute on the target element. Defaults to `false`.
    */
   omitDescribedBy?: boolean
   /**
-   * Keep the tooltip portal mounted in the DOM even when closed.
-   * Useful if you want the tooltip markup to stay mounted to avoid layout shifts.
-   * Default: `false`
+   * Keep the tooltip portal mounted in the DOM even when closed. When `true`, the tooltip remains in the DOM when inactive. Defaults to `false`.
    */
   keepInDOM?: boolean
   /**
-   * Additional spacing in pixels between the tooltip and its trigger.
-   * Maps directly to the Popover `triggerOffset`.
-   * Default: `16`
+   * Adjust the pixel gap between the tooltip content and its trigger. Use positive values to place the tooltip further away (e.g., to match custom spacing). Defaults to `16`.
    */
   triggerOffset?: number
   /**

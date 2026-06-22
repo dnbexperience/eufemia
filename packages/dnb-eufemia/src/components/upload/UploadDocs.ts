@@ -62,7 +62,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   skeleton: {
-    doc: 'Skeleton should be applied when loading content.',
+    doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
     status: 'optional',
   },

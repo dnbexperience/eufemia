@@ -105,11 +105,11 @@ export type FormStatusProps = {
    */
   globalStatus?: GlobalStatusConfigObject
   /**
-   * The `icon` shown before the status text. Default: `error`
+   * The `icon` shown before the status text. Defaults to `error`.
    */
   icon?: IconIcon
   /**
-   * The size of the icon. Default: `medium`
+   * The size of the icon. Defaults to `medium`.
    */
   iconSize?: IconSize
   /**
@@ -129,7 +129,7 @@ export type FormStatusProps = {
   widthSelector?: string
   widthElement?: { current: HTMLElement | null } | null
   /**
-   * NB: Animation is disabled as of now. ~~use `true` to omit the animation on content visibility. Defaults to `false`.~~
+   * **NB:** Animation is disabled as of now. ~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~
    */
   noAnimation?: boolean
   /**

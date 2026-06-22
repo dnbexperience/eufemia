@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react'
 
 export type UseHandleSortStateOptions = {
   /**
-   * Defines if the current column should be active or not.
-   * Defaults to `false`.
+   * Defines the sortable column as the current active (ascending).
+   * Default: `false`
    */
   active?: boolean
 

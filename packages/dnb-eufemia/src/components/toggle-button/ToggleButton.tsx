@@ -542,7 +542,7 @@ export type ToggleButtonProps = Omit<
      */
     tooltip?: ButtonTooltip
     /**
-     * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
+     * Defines the `value`. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
      */
     value?: ToggleButtonValue
     /**

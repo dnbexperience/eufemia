@@ -32,24 +32,26 @@ export type TableProps = {
   children: ReactNode
 
   /**
-   * Custom className on the component root
+   * Custom `className` on the component root.
+   * Default: `undefined`
    */
   className?: string
 
   /**
-   * Skeleton should be applied when loading content
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   * Default: `undefined`
    */
   skeleton?: SkeletonShow
 
   /**
-   * The size of the component.
-   * Default: `large`
+   * Spacing size inside the table header and data.
+   * Default: `"large"`
    */
   size?: TableSizes
 
   /**
-   * The style variant of the component. Currently not implemented.
-   * Default: `generic`
+   * Defines the visual style of the table header. Use `subtle` for a lighter appearance with reduced font-weight, smaller font-size, and muted text color.
+   * Default: `"emphasis"`
    */
   variant?: TableVariants
 
@@ -73,24 +75,24 @@ export type TableProps = {
 
   /**
    * Defines how the Table should look. Use `accordion` for an accordion-like table. Use `navigation` for a navigation table.
+   * Default: `null`
    */
   mode?: 'accordion' | 'navigation'
 
   /**
-   * Defines where the chevron will be placed, should only be used together with mode="accordion".
-   * Default: `'left'`
+   * Defines where the chevron will be placed, should only be used together with `mode="accordion"`.
+   * Default: `"left"`
    */
   accordionChevronPlacement?: 'left' | 'right'
 
   /**
-   * Defines if the table should behave with a fixed table layout, using: "table-layout: fixed;"
+   * If set to `true`, the table will behave with a fixed table layout, using: `table-layout: fixed;`. Use e.g. CSS `width: 40%` on a table column to define the width.
    * Default: `null`
    */
   fixed?: boolean
 
   /**
-   * ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.
-   *
+   * Ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.
    * Default: `undefined`
    */
   collapseAllHandleRef?: RefObject<() => void>
