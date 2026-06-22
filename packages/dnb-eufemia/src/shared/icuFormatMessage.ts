@@ -1,4 +1,4 @@
-import IntlMessageFormat from 'intl-messageformat'
+import { IntlMessageFormat } from 'intl-messageformat'
 
 const ICU_PATTERN =
   /\{[^}]+,\s*(?:plural|select|selectordinal|number|date|time)\b/

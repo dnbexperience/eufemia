@@ -13,7 +13,7 @@ import {
   useState,
 } from 'react'
 import type { ReactNode } from 'react'
-import clsx from 'clsx'
+import { clsx } from 'clsx'
 import { Highlight, Prism } from 'prism-react-renderer'
 import Tag from './Tag'
 import {
