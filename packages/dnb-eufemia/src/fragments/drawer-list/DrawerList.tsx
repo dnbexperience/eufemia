@@ -53,7 +53,9 @@ const propsToFilterOut: Record<string, null> = {
 export type DrawerListContent = string | ReactNode | (string | ReactNode)[]
 
 export type DrawerListDataArrayObjectStrict = {
-  /** index of group supplied in the `groups` prop */
+  /**
+   * What group index in the `groups` property this item belongs to.
+   */
   groupIndex?: number
   selectedValue?: string | ReactNode
   selectedKey?: string | number
@@ -66,7 +68,9 @@ export type DrawerListDataArrayObjectStrict = {
   style?: CSSProperties
   /** classname added to the html list item */
   className?: string
-  /** set to true to disable mouse events selected style. Keyboard can still select. */
+  /**
+   * If set to `true`, mouse events selected style will be disabled. Keyboard can still select.
+   */
   ignoreEvents?: boolean
   /** internal use only */
   render?: (children: ReactNode, id: string) => ReactNode
@@ -151,7 +155,7 @@ export type DrawerListProps = {
    */
   cacheHash?: string
   /**
-   * Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.
+   * Does nothing as there is no longer any arrow. Legacy docs: Position of the arrow on the popup drawer. Set to `left` or `right`. Defaults to `left` if not set.
    * @deprecated does nothing as there is no longer any arrow, and will be removed in v13.
    */
   arrowPosition?: string
@@ -202,15 +206,15 @@ export type DrawerListProps = {
    */
   optionsRender?: DrawerListOptionsRender
   /**
-   * Has to be an HTML Element, ideally a parent element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
+   * Has to be an HTML Element, or a selector for one, ideally a parent element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
    */
   wrapperElement?: string | HTMLElement
   /**
-   * Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to null.
+   * Define a startup value or handle a re-render without handling the state during the re-render by yourself. Defaults to `null`.
    */
   defaultValue?: DrawerListValue
   /**
-   * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` prop (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
+   * Define a preselected `data` entry. In order of priority, `value` can be set to: object key (if `data` is an object), `selectedKey` property (if `data` is an array), array index (if no `selectedKey`) or content (if `value` is a non-integer string).
    */
   value?: DrawerListValue
   /**

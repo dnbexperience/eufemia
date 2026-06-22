@@ -41,11 +41,11 @@ export type TypographyProps<
 > = SpacingProps &
   HTMLAttributes<ElementType> & {
     /**
-     * Defines the Element Type, like "p".
+     * Defines the Element Type, like `p`.
      */
     element?: DynamicElement
     /**
-     * Sets the font size, also sets the line-height if `line` prop is not set
+     * Sets the font size, also sets the line-height if `lineHeight` property is not set.
      */
     size?: TypographySize
     /**
@@ -53,27 +53,27 @@ export type TypographyProps<
      */
     lineHeight?: TypographySize
     /**
-     * Sets the text alignment
+     * Sets the text alignment.
      */
     align?: TypographyAlign
     /**
-     * Sets the font family
+     * Sets the font family.
      */
     family?: TypographyFamily
     /**
-     * Sets the font weight
+     * Sets the font weight.
      */
     weight?: TypographyWeight
     /**
-     * Sets the font decoration
+     * Sets the font decoration.
      */
     decoration?: TypographyDecoration
     /**
-     * Sets the font style
+     * Sets the font style.
      */
     slant?: TypographySlant
     /**
-     * Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.
+     * Sets the maximum width based on character count for all Typography children. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.
      */
     proseMaxWidth?: number | boolean
   }

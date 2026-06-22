@@ -13,12 +13,11 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 type BlockquoteProps = SpacingProps &
   HTMLAttributes<HTMLElement> & {
     /**
-     * Hides the blockquote background by making it transparent
+     * Hides the blockquote background by making it transparent.
      */
     noBackground?: boolean
     /**
-     * Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`
-     * Default: `horizontal`
+     * Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`. Defaults to `horizontal`.
      */
     direction?: 'horizontal' | 'vertical'
   }

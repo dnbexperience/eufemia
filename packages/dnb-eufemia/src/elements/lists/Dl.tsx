@@ -14,7 +14,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type DlProps = {
   /**
-   * Use "true" to horizontally align both the term and the description
+   * Sets the layout of the list. Can be `vertical`, `horizontal` or `grid`. Defaults to `vertical`.
    */
   layout?: 'vertical' | 'horizontal' | 'grid'
 }

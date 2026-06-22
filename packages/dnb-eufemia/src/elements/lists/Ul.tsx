@@ -13,17 +13,17 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type UlProps = {
   /**
-   * Defines the position of the marker
+   * Defines the position of the marker.
    */
   inside?: boolean
 
   /**
-   * Defines the position of the marker (default)
+   * Defines the position of the marker (default).
    */
   outside?: boolean
 
   /**
-   * Will ensure a nested structure of several lists
+   * Will ensure a nested structure of several lists.
    */
   nested?: boolean
 }
