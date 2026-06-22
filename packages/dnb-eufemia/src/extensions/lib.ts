@@ -11,12 +11,23 @@
 
 // import all the available components
 import Forms from './forms/Forms'
+import GlobalResponsiveTypography from './global-responsive-typography/GlobalResponsiveTypography'
 import PaymentCard from './payment-card/PaymentCard'
 import VippsWalletButton from './vipps-wallet-button/VippsWalletButton'
 
 // define / export all the available components
-export { Forms, PaymentCard, VippsWalletButton }
+export {
+  Forms,
+  GlobalResponsiveTypography,
+  PaymentCard,
+  VippsWalletButton,
+}
 
 export const getExtensions = () => {
-  return { Forms, PaymentCard, VippsWalletButton }
+  return {
+    Forms,
+    GlobalResponsiveTypography,
+    PaymentCard,
+    VippsWalletButton,
+  }
 }

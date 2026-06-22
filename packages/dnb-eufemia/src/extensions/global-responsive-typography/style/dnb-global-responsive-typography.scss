@@ -1,0 +1,64 @@
+/*
+ * GlobalResponsiveTypography component
+ *
+ */
+
+@use '../../../elements/typography/style/typography-mixins.scss' as
+  typography-mixins;
+
+/**
+ * Turn on responsive typography for all elements
+ */
+@mixin responsiveAllOn() {
+  // Global sizes
+  --font-size-x-small: var(--responsive-font-size-x-small);
+  --font-size-small: var(--responsive-font-size-small);
+  --font-size-basis: var(--responsive-font-size-basis);
+  --font-size-medium: var(--responsive-font-size-medium);
+  --font-size-large: var(--responsive-font-size-large);
+  --font-size-x-large: var(--responsive-font-size-x-large);
+  --font-size-xx-large: var(--responsive-font-size-xx-large);
+
+  // Global line-heights
+  --line-height-x-small: var(--responsive-line-height-x-small);
+  --line-height-small: var(--responsive-line-height-small);
+  --line-height-basis: var(--responsive-line-height-basis);
+  --line-height-medium: var(--responsive-line-height-medium);
+  --line-height-large: var(--responsive-line-height-large);
+  --line-height-x-large: var(--responsive-line-height-x-large);
+  --line-height-xx-large: var(--responsive-line-height-xx-large);
+}
+
+/**
+ * Turn off responsive typography for all elements
+ */
+@mixin responsiveAllOff() {
+  // Global sizes
+  --font-size-x-small: #{typography-mixins.$t-fs-xs};
+  --font-size-small: #{typography-mixins.$t-fs-sm};
+  --font-size-basis: #{typography-mixins.$t-fs-bs};
+  --font-size-medium: #{typography-mixins.$t-fs-md};
+  --font-size-large: #{typography-mixins.$t-fs-lg};
+  --font-size-x-large: #{typography-mixins.$t-fs-xl};
+  --font-size-xx-large: #{typography-mixins.$t-fs-2xl};
+
+  // Global line-heights
+  --line-height-x-small: #{typography-mixins.$t-lh-xs};
+  --line-height-small: #{typography-mixins.$t-lh-sm};
+  --line-height-basis: #{typography-mixins.$t-lh-bs};
+  --line-height-medium: #{typography-mixins.$t-lh-md};
+  --line-height-large: #{typography-mixins.$t-lh-lg};
+  --line-height-x-large: #{typography-mixins.$t-lh-xl};
+  --line-height-xx-large: #{typography-mixins.$t-lh-2xl};
+}
+
+.dnb-global-responsive-typography {
+  &__responsive-all-on {
+    @include typography-mixins.responsiveTypographyVariables();
+    @include responsiveAllOn();
+  }
+
+  &__responsive-all-off {
+    @include responsiveAllOff();
+  }
+}
