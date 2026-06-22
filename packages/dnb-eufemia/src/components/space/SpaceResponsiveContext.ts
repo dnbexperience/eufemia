@@ -1,15 +1,12 @@
 import { createContext } from 'react'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
 
-export type SpaceDensity = 'compact' | 'basis' | 'spacious'
-export type SpaceBreakpoint = Extract<
-  MediaQuerySizes,
-  'small' | 'medium' | 'large'
->
+export type SpaceDensity = 'compact' | 'basis'
+export type SpaceBreakpoint = Extract<MediaQuerySizes, 'small' | 'medium'>
 
 export type SpaceResponsiveContextValue = {
   defaultBreakpoint?: SpaceBreakpoint
-  density?: SpaceDensity
+  density?: SpaceDensity | false
   off?: boolean
 }
 

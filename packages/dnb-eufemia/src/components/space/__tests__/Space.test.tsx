@@ -553,27 +553,6 @@ describe('Space.ResponsiveContext', () => {
     )
   })
 
-  it('should apply spacious density class', () => {
-    const TestComponent = () => {
-      const params = useSpacing(
-        { top: 'large' },
-        { className: 'test-component' }
-      )
-      return <div {...params} />
-    }
-
-    render(
-      <Space.ResponsiveContext density="spacious">
-        <TestComponent />
-      </Space.ResponsiveContext>
-    )
-
-    const element = document.querySelector('.test-component')
-    expect(element.className).toContain(
-      'dnb-space-responsive--force-spacious'
-    )
-  })
-
   it('should use defaultBreakpoint when density is not set', () => {
     const TestComponent = () => {
       const params = useSpacing(
@@ -584,21 +563,21 @@ describe('Space.ResponsiveContext', () => {
     }
 
     render(
-      <Space.ResponsiveContext defaultBreakpoint="small">
+      <Space.ResponsiveContext defaultBreakpoint="medium">
         <TestComponent />
       </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.test-component')
     expect(element.className).toContain(
-      'dnb-space-responsive--breakpoint-small'
+      'dnb-space-responsive--breakpoint-medium'
     )
     expect(element.className).not.toContain(
       'dnb-space-responsive--force-compact'
     )
   })
 
-  it('should apply both default and density classes', () => {
+  it('should apply both defaultBreakpoint and density classes', () => {
     const TestComponent = () => {
       const params = useSpacing(
         { top: 'large' },
@@ -609,8 +588,8 @@ describe('Space.ResponsiveContext', () => {
 
     render(
       <Space.ResponsiveContext
-        density="spacious"
-        defaultBreakpoint="small"
+        density="compact"
+        defaultBreakpoint="medium"
       >
         <TestComponent />
       </Space.ResponsiveContext>
@@ -618,10 +597,10 @@ describe('Space.ResponsiveContext', () => {
 
     const element = document.querySelector('.test-component')
     expect(element.className).toContain(
-      'dnb-space-responsive--breakpoint-small'
+      'dnb-space-responsive--breakpoint-medium'
     )
     expect(element.className).toContain(
-      'dnb-space-responsive--force-spacious'
+      'dnb-space-responsive--force-compact'
     )
   })
 
@@ -639,14 +618,14 @@ describe('Space.ResponsiveContext', () => {
 
   it('should add breakpoint class to Space component', () => {
     render(
-      <Space.ResponsiveContext defaultBreakpoint="small">
+      <Space.ResponsiveContext defaultBreakpoint="medium">
         <Space top="large">Content</Space>
       </Space.ResponsiveContext>
     )
 
     const element = document.querySelector('.dnb-space')
     expect(element.className).toContain(
-      'dnb-space-responsive--breakpoint-small'
+      'dnb-space-responsive--breakpoint-medium'
     )
   })
 
@@ -744,7 +723,7 @@ describe('Space.ResponsiveContext', () => {
 
     render(
       <Space.ResponsiveContext density="compact">
-        <Space.ResponsiveContext defaultBreakpoint="small">
+        <Space.ResponsiveContext defaultBreakpoint="medium">
           <TestComponent />
         </Space.ResponsiveContext>
       </Space.ResponsiveContext>
@@ -755,7 +734,7 @@ describe('Space.ResponsiveContext', () => {
       'dnb-space-responsive--force-compact'
     )
     expect(element.className).toContain(
-      'dnb-space-responsive--breakpoint-small'
+      'dnb-space-responsive--breakpoint-medium'
     )
   })
 
@@ -770,7 +749,7 @@ describe('Space.ResponsiveContext', () => {
 
     render(
       <Space.ResponsiveContext density="compact">
-        <Space.ResponsiveContext density="spacious">
+        <Space.ResponsiveContext density="basis">
           <TestComponent />
         </Space.ResponsiveContext>
       </Space.ResponsiveContext>
@@ -778,7 +757,7 @@ describe('Space.ResponsiveContext', () => {
 
     const element = document.querySelector('.test-component')
     expect(element.className).toContain(
-      'dnb-space-responsive--force-spacious'
+      'dnb-space-responsive--force-basis'
     )
     expect(element.className).not.toContain(
       'dnb-space-responsive--force-compact'
