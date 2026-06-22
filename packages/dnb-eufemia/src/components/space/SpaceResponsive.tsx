@@ -39,6 +39,7 @@ function SpaceResponsive({
         ...(parent || undefined),
         ...(density !== undefined && { density }),
         ...(defaultBreakpoint !== undefined && { defaultBreakpoint }),
+        ...(off !== undefined && { off }),
       }
 
   return (

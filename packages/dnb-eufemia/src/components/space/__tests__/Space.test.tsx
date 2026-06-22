@@ -486,6 +486,30 @@ describe('Space.ResponsiveContext', () => {
     )
   })
 
+  it('should reenable responsive context when off is false', () => {
+    const TestComponent = () => {
+      const params = useSpacing(
+        { top: 'large' },
+        { className: 'test-component' }
+      )
+      return <div {...params} />
+    }
+
+    render(
+      <Space.ResponsiveContext>
+        <Space.ResponsiveContext off>
+          <Space.ResponsiveContext off={false}>
+            <TestComponent />
+          </Space.ResponsiveContext>
+        </Space.ResponsiveContext>
+      </Space.ResponsiveContext>
+    )
+
+    const element = document.querySelector('.test-component')
+    expect(element.className).not.toContain('dnb-space-responsive--off')
+    expect(element.className).toContain('dnb-space-responsive')
+  })
+
   it('should enable responsive context with medium default by default', () => {
     const TestComponent = () => {
       const params = useSpacing(
