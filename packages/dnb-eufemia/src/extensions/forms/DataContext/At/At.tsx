@@ -14,7 +14,9 @@ import DataContextRefContext from '../DataContextRefContext'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type DataContextAtProps = ComponentProps & {
-  /** JSON Pointer for where in the source dataset to point at in sub components */
+  /**
+   * JSON Pointer path to where in the outer DataContext source to point at.
+   */
   path?: string
   iterate?: boolean
   children?: ReactNode

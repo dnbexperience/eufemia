@@ -3,7 +3,7 @@ import { HeightAnimationEvents } from '../../../../components/height-animation/H
 
 export const VisibilityProperties: PropertiesTableProps = {
   visibleWhen: {
-    doc: 'Provide a `path` or `itemPath`, and a `hasValue` function that returns either a boolean or the expected value to determine whether the children should be shown. The first parameter passed to `hasValue` is the value at the given `path`. If the `path` does not exist, the value will be `undefined`. \nAlternatively, you can use `isValid` instead of `hasValue` to show the children only when the field has no validation errors and has been blurred (lost focus). You can change this behavior by setting the `validateContinuously` property.',
+    doc: 'Provide a `path` or `itemPath`, and a `hasValue` function that returns either a boolean or the expected value to determine whether the children should be shown. The first parameter passed to `hasValue` is the value at the given `path`. If the `path` does not exist, the value will be `undefined`. Alternatively, you can use `isValid` instead of `hasValue` to show the children only when the field has no validation errors and has been blurred (lost focus). You can change this behavior by setting the `validateContinuously` property.',
     type: 'object',
     status: 'optional',
   },

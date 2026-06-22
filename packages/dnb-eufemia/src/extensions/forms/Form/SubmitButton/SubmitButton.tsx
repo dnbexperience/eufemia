@@ -13,7 +13,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type FormSubmitButtonProps = {
   /**
-   * Show the submit indicator
+   * Show the submit indicator.
    */
   showIndicator?: boolean
 } & ComponentProps &

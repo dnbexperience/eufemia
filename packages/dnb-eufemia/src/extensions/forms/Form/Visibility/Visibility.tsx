@@ -40,30 +40,52 @@ export type FormVisibilityProps = {
   /** A unique identifier for the component's wrapper element. */
   id?: string
   visible?: boolean
-  /** Given data context path must be defined to show children */
+  /**
+   * Given data context path must be defined to show children.
+   */
   pathDefined?: Path
-  /** Given data context path must be undefined to show children */
+  /**
+   * Given data context path must be `undefined` to show children.
+   */
   pathUndefined?: Path
-  /** Given data context path must be truthy to show children */
+  /**
+   * Given data context path must be truthy to show children.
+   */
   pathTruthy?: Path
-  /** Given data context path must be falsy to show children */
+  /**
+   * Given data context path must be falsy to show children.
+   */
   pathFalsy?: Path
-  /** Given data context path must be true to show children */
+  /**
+   * Given data context path must be `true` to show children.
+   */
   pathTrue?: Path
-  /** Given data context path must be false to show children */
+  /**
+   * Given data context path must be `false` to show children.
+   */
   pathFalse?: Path
-  /** Provide a `path` or `itemPath` and a `hasValue` method that returns a boolean or the expected value in order to show children. The first parameter is the value of the path. */
+  /**
+   * Provide a `path` or `itemPath`, and a `hasValue` function that returns either a boolean or the expected value to determine whether the children should be shown. The first parameter passed to `hasValue` is the value at the given `path`. If the `path` does not exist, the value will be `undefined`. Alternatively, you can use `isValid` instead of `hasValue` to show the children only when the field has no validation errors and has been blurred (lost focus). You can change this behavior by setting the `validateContinuously` property.
+   */
   visibleWhen?: VisibleWhen
   /** Same as `visibleWhen`, but with inverted logic. */
   visibleWhenNot?: VisibleWhen
-  /** Infer visibility calling given derivative function with the whole data set. Should return true/false for visibility.   */
+  /**
+   * Will be called to decide by external logic, and show/hide contents based on the return value.
+   */
   inferData?: (data: unknown) => boolean
-  /** Filter data based on provided criteria. The first parameter is the path, the second is the value, and the third is the props, and the fourth is the internal. Return false to filter out the data. */
+  /**
+   * Filter data based on provided criteria. More info about `filterData` can be found in the [Getting Started](/uilib/extensions/forms/getting-started/#filter-data) documentation.
+   */
   filterData?: FilterData
-  /** Callback for when the content gets visible. */
+  /**
+   * Callback for when the content gets visible. Returns a boolean as the first parameter.
+   */
   onVisible?: HeightAnimationAllProps['onOpen']
 
-  /** When visibility is hidden, and `keepInDOM` is true, pass these props to the children */
+  /**
+   * When visibility is hidden, and `keepInDOM` is `true`, pass these properties to the children.
+   */
   fieldPropsWhenHidden?: UseFieldProps & DataAttributes & AriaAttributes
   children: ReactNode
 
