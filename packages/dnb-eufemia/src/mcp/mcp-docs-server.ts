@@ -553,7 +553,11 @@ const DocsReadInput = z.object({
 const DocsSearchInput = z.object({
   query: z
     .preprocess(
-      (value) => (value == null ? '' : String(value)),
+      // Coerce to string and truncate up front, mirroring the runtime cap in
+      // searchInMarkdown. Truncating (rather than rejecting) means an
+      // oversized query still returns useful results instead of failing the
+      // whole tool call, while never doing unbounded work.
+      (value) => String(value ?? '').slice(0, MAX_SEARCH_QUERY_LENGTH),
       z.string().max(MAX_SEARCH_QUERY_LENGTH)
     )
     .describe('Search query (string recommended).'),
