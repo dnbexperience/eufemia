@@ -13,7 +13,7 @@ export type FieldProviderProps = FieldProps & {
   children: ReactNode
 
   /**
-   * Locale to use for all nested Eufemia components
+   * Locale (language) to use for all nested Eufemia components.
    */
   locale?: DataContextProps<JsonObject>['locale']
 

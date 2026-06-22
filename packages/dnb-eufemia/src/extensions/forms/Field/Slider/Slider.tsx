@@ -22,7 +22,7 @@ export type SliderVisibilityEvent = MouseEvent<HTMLButtonElement> & {
 export type SliderValue = number | Array<number>
 export type FieldSliderProps = FieldProps<SliderValue> & {
   /**
-   * Define an array with JSON Pointers for multiple thumb buttons.
+   * Define an array with JSON Pointer paths for multiple thumb buttons.
    */
   paths?: Array<Path>
   step?: SliderProps['step'] | Path

@@ -27,8 +27,7 @@ export type FieldBankAccountNumberProps = Omit<
   onBlurValidator?: BankAccountNumberValidator | false
 
   /**
-   * The type of bank account number, used for input mask and formatting.
-   * Defaults to `norwegianBban`.
+   * The type of bank account number, used for input mask, label, and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Validation is currently only supported for `norwegianBban`. Defaults to `norwegianBban`.
    */
   bankAccountType?: BankAccountType
 }
