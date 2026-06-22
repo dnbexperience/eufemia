@@ -170,6 +170,7 @@ export default [
         },
       ],
       'import/export': 'off',
+      'import/no-named-as-default': 'error',
       'import/no-anonymous-default-export': [
         'error',
         {

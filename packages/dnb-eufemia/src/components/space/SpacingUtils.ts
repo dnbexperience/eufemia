@@ -5,7 +5,7 @@
 
 import type { CSSProperties } from 'react'
 import { useContext } from 'react'
-import clsx, { type ClassValue } from 'clsx'
+import { clsx, type ClassValue } from 'clsx'
 
 import { warn } from '../../shared/component-helper'
 import SpaceResponsiveContext from './SpaceResponsiveContext'
