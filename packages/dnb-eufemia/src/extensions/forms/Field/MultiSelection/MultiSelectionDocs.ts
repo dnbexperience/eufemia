@@ -9,7 +9,7 @@ export const MultiSelectionProperties: PropertiesTableProps = {
   data: {
     doc: 'Array of objects where each object contains at least `value` and `title`. Can also include `text` for an optional primary extra line, `description` for an optional secondary grey line, plus `disabled`, `help`, and `className`.',
     type: [
-      'Array<{ value, title, text?: ReactNode, description?: ReactNode, disabled?, ... }>',
+      'Array<{ value, title, text?: React.ReactNode, description?: React.ReactNode, disabled?, ... }>',
     ],
     status: 'optional',
   },
