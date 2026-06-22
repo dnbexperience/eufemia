@@ -44,7 +44,9 @@ export type FormLabelProps = {
   srOnly?: boolean
   ref?: Ref<HTMLElement>
 
-  /** Is not a part of HTMLLabelElement and not documented as of now */
+  /**
+   * If set to `true`, the label will behave as not interactive.
+   */
   disabled?: boolean
 
   /**

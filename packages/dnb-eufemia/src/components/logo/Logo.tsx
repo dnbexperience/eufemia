@@ -56,12 +56,11 @@ export type LogoProps = {
    */
   inheritColor?: boolean
   /**
-   * Set to `true` if you want the logo to inherit the parent `height`. Defaults to `false`.
+   * Set to `true` if you want to inherit the `height` of the parent. Defaults to `false`.
    */
   inheritSize?: boolean
   /**
-   * Provide a custom SVG to render instead of the built-in logos.
-   * Can be a React component (receives standard SVG props), a React element, or a function that receives the theme and returns an SVG component.
+   * Provide a custom SVG to render instead of the built-in logos. Accepts a React SVG component, element, or a function that receives the theme and returns an SVG component. Width, height and color properties still apply. If not provided, defaults to DNB logo. Import SVGs from `@dnb/eufemia/components/Logo` (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`). When using a function, it receives the theme context (useTheme return value) allowing theme-aware logo selection.
    */
   svg?: Svg
 } & SpacingProps &

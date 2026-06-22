@@ -27,7 +27,7 @@ export const AriaLiveProperties: PropertiesTableProps = {
     status: 'optional',
   },
   politeness: {
-    doc: 'The politeness setting for the announcement. Can be `polite` or `assertive`.',
+    doc: 'The politeness level of the announcement. Can be `off`, `polite`, or `assertive`.',
     type: 'string',
     status: 'optional',
   },

@@ -40,9 +40,13 @@ type DateFormatProps = SpacingProps & {
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
   timeStyle?: Intl.DateTimeFormatOptions['timeStyle']
   dateTimeSeparator?: string
-  /** When `true`, hides the year if the date is in the current year (any `dateStyle`). */
+  /**
+   * When `true`, the year is hidden if the date is in the current year, for any `dateStyle` (e.g. "4. feb." instead of "4. feb. 2025"). Defaults to `false`.
+   */
   hideCurrentYear?: boolean
-  /** When `true`, always hides the year from the formatted date (any `dateStyle`). */
+  /**
+   * When `true`, the year is always hidden from the formatted date, for any `dateStyle`. Defaults to `false`.
+   */
   hideYear?: boolean
   relativeTimeStyle?: Intl.DateTimeFormatOptions['dateStyle']
   relativeTime?: boolean

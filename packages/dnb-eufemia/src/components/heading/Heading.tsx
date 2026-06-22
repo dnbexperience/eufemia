@@ -72,12 +72,12 @@ export type HeadingProps = {
   group?: string
 
   /**
-   * A heading, can be text or ReactNode.
+   * A heading, can be text or `React.ReactNode`.
    */
   text?: ReactNode
 
   /**
-   * Define the typography font-size by a size type, e.g. `x-large`. Defaults to the predefined heading sizes.
+   * Define the typography [font-size](/uilib/typography/font-size) by a size _type_, e.g. `x-large`. Defaults to the predefined heading sizes.
    */
   size?: HeadingSize
   level?: HeadingLevel
@@ -95,7 +95,7 @@ export type HeadingProps = {
   down?: boolean
 
   /**
-   * If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in production builds else either.
+   * If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either.
    */
   skipCorrection?: boolean
 

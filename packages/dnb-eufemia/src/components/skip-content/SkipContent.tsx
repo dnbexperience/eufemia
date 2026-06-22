@@ -9,20 +9,17 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SkipContentProps = {
   /**
-   * Define an existing `Section` id to focus when the inner button got pressed.
-   * Required
+   * Define an existing HTML element selector to focus when the inner button got pressed.
    */
   selector: string
 
   /**
    * Define a clear message describing the choices the user has.
-   * Optional
    */
   text?: ReactNode
 
   /**
-   * Defines the delay after the enter key has been pressed
-   * Defaults to 400
+   * Defines the delay after the enter key has been pressed.
    */
   focusDelay?: number
 }

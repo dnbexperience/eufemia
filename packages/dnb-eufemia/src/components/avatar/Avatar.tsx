@@ -45,7 +45,6 @@ export type AvatarImgProps = ImgProps
 export type AvatarProps = Omit<HTMLProps<HTMLElement>, 'size'> & {
   /**
    * Used in combination with `src` to provide an alt attribute for the `img` element.
-   * Default: `null`
    */
   alt?: string
 
@@ -56,63 +55,53 @@ export type AvatarProps = Omit<HTMLProps<HTMLElement>, 'size'> & {
   className?: string
 
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
 
   /**
-   * The content of the component. Can be used instead of prop "data".
-   * Default: `null`
+   * Content of the component.
    */
   children?: ReactNode
 
   /**
-   * The size of the component.
-   * Default: `medium`
+   * Size of the Avatar. Options: `small` | `medium` | `large` | `x-large`. Defaults to `medium`.
    */
   size?: AvatarSizes
 
   /**
-   * Specifies the path to the image
-   * Default: `null`
+   * Specifies the path to the image.
    */
   src?: string
 
   /**
-   * Props applied to the `img` element if the component is used to display an image.
-   * Default: `null`
+   * [Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.
    */
   imgProps?: ImgProps
 
   /**
-   * An icon name or component
+   * An icon name or component. (Will override the `src` property.)
    */
 
   icon?: IconIcon
 
   /**
-   * The variant of the component.
-   * Default: `primary`
+   * Override the variant of the component. Options: `primary` | `secondary` | `tertiary`. Defaults to `primary`.
    */
   variant?: AvatarVariants
 
   /**
-   * If an avatar is hidden from the screen reader (by setting aria-hidden={true}) or if label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar.
-   * Use `true` to omit the `Avatar group required:` warning.
-   * Default: `null`
+   * If `aria-hidden` is set to `true` or if a label is given, typically inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar. Use `true` to omit the `Avatar group required:` warning.
    */
   hasLabel?: boolean
 
   /**
    * Define a custom background color, instead of a variant. Use a Eufemia color.
-   * Default: `undefined`
    */
   backgroundColor?: string
 
   /**
    * Define a custom color to complement the backgroundColor. Use a Eufemia color.
-   * Default: `undefined`
    */
   color?: string
 }

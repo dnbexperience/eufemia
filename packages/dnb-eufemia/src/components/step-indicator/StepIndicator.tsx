@@ -50,28 +50,23 @@ export type StepIndicatorProps = Omit<
 > &
   SpacingProps & {
     /**
-     * (required) defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
+     * Defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
      */
     mode: StepIndicatorMode
     /**
-     * (required) defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,isCurrent}]`. See parameters and the example above.
+     * Defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,isCurrent}]`. See below for properties of `STEP_DATA`.
      */
     data: StepIndicatorData
     /**
-     *  The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`
-     *  Defaults to `Steps Overview`
+     * The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`. Defaults to `Steps Overview`.
      */
     overviewTitle?: string
     /**
-     *  The label for `<StepIndicatorTriggerButton />` and supplemental screen reader text for `<StepIndicatorItem />`
-     *  This value need to contain `%step` and `%count` if you want to display the current step and total amount of steps
-     * `%step` is used to place the current step into the text
-     * `%count` is used to place the step total into the text
-     *  Defaults to `Step %step of %count`
+     * Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `currentStep` and `stepCount` into the text. Defaults to `Step %step of %count`.
      */
     stepTitle?: string
     /**
-     * Defines the active number marked step starting by 0. Defaults to `0`.
+     * Defines the initial step starting from 0. Also defines the furthest step visited when `mode="strict"`. Will update to the new step if changed (but will not trigger the `onChange` event). Defaults to `0`.
      */
     currentStep?: number
     /**
@@ -79,7 +74,7 @@ export type StepIndicatorProps = Omit<
      */
     hideNumbers?: boolean
     /**
-     * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, currentStep }`.
+     * Will be called when the user clicks on any clickable step in the list. Is called right before `onChange`. Receives parameter `{ event, item, currentStep }`.
      */
     onClick?: ({
       event,
@@ -87,7 +82,7 @@ export type StepIndicatorProps = Omit<
       currentStep,
     }: StepIndicatorMouseEvent) => void
     /**
-     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, currentStep }`.
+     * Will be called when the user changes step by clicking in the steps list (changing the `currentStep` property does not trigger the event). Receives parameter `{ event, item, currentStep }`.
      */
     onChange?: ({
       event,
@@ -95,12 +90,11 @@ export type StepIndicatorProps = Omit<
       currentStep,
     }: StepIndicatorMouseEvent) => void
     /**
-     * Status text. Status is only shown if this prop has text. Defaults to `undefined`
+     * Text for status shown below the step indicator when it is not expanded. Defaults to `undefined`.
      */
     status?: FormStatusText
     /**
-     * The type of status for the `status` prop. Is either `information`, `error` or `warning`.
-     * Defaults to `warning`.
+     * The type of status shown when the `status` property is set. Defaults to `warning`.
      */
     statusState?: FormStatusState
     /**
@@ -112,7 +106,7 @@ export type StepIndicatorProps = Omit<
      */
     expandedInitially?: boolean
     /**
-     * Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.
+     * Whether or not to break out (using negative margins) on larger screens. Defaults to `false`. Same as `outset` in [Card](/uilib/components/card/properties).
      */
     outset?: boolean
     skeleton?: SkeletonShow

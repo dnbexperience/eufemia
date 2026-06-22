@@ -22,20 +22,17 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TimelineProps = {
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
 
   /**
-   * Pass in a list of your events as objects of TimelineItem, to render them as TimelineItems.
-   * Default: `null`
+   * List of [timeline items](/uilib/components/timeline/properties#timelineitem-properties) to render. Each object in data can include all properties from [Timeline.Item properties](/uilib/components/timeline/properties#timelineitem-properties).
    */
   data?: TimelineItemProps[]
 
   /**
-   * The content of the component. Can be used instead of prop "data".
-   * Default: `null`
+   * Content of the component. Can be used instead of property `data`, by adding [Timeline Item](/uilib/components/timeline/properties#timelineitem-properties) as children `<Timeline.Item {...properties} />`.
    */
   children?:
     | ReactElement<TimelineItemProps>[]

@@ -9,7 +9,9 @@ import type { SkeletonShow } from '../Skeleton'
 
 export type ItemIconProps = Omit<FlexItemProps, 'children'> & {
   children: IconIcon
-  /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
+  /**
+   * When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.
+   */
   skeleton?: SkeletonShow
 }
 

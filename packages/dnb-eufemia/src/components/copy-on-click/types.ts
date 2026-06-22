@@ -3,20 +3,17 @@ import type { SpacingProps } from '../../shared/types'
 
 export type CopyOnClickProps = {
   /**
-   * Whether to show the copy cursor or not.
-   * Default: `true`
+   * Define if the copy cursor should be visible. Defaults to `true`.
    */
   showCursor?: boolean
 
   /**
-   * If `true`, the copy functionality and copy cursor will be omitted.
-   * Default: `false`
+   * If `true`, the copy functionality and copy cursor will be omitted. Defaults to `false`.
    */
   disabled?: boolean
 
   /**
-   * The content to be copied.
-   * Used when the copied value should differ from the visually shown value(`children`).
+   * Contents to copy. Used when the copied value should differ from the visually shown value(`children`).
    */
   copyContent?: ReactNode
 
@@ -27,7 +24,7 @@ export type CopyOnClickProps = {
   tooltipContent?: ReactNode
 
   /**
-   * The content/children to be copied.
+   * Contents.
    */
   children: ReactNode
 }

@@ -78,7 +78,7 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
   noAnimationOnMobile?: boolean
 
   /**
-   * Variant of Dialog. Defaults to `information`.
+   * The dialog variant. Can either be `information` or `confirmation`. Defaults to `information`.
    */
   variant?: 'information' | 'confirmation'
 

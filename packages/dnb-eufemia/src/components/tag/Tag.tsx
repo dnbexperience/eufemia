@@ -25,55 +25,47 @@ import { useSpacing } from '../space/SpacingUtils'
 
 export type TagProps = {
   /**
-   * The content of the tag element, can be a string or a React Element.
-   * Default: `null`
+   * The content of the tag can be a string or a React Element.
    */
   text?: string | ReactNode
 
   /**
-   * To be included in the tag. [Primary Icons](/icons/primary) can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.
+   * To be included in the tag. Primary Icons can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements. Note, we recommend not to use icons with clickable tags.
    */
   icon?: IconIcon
 
   /**
    * If a label is given, typically inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.
-   * Default: `null`
    */
   hasLabel?: boolean
 
   /**
-   * Defines the variant. Possible values are `default`, `clickable`, `addable`, or `removable`.
-   * Default: `'default'`
+   * Possible values are `default`, `clickable`, `addable`, or `removable`. Defaults to `default`.
    */
   variant?: 'default' | 'clickable' | 'addable' | 'removable'
 
   /**
-   * Custom className on the component root
-   * Default: `null`
+   * Custom `className` for the component root.
    */
   className?: string
 
   /**
-   * Skeleton should be applied when loading content
-   * Default: `null`
+   * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow
 
   /**
-   * The content of the tag element, can be a string or a React Element. Will be overwritten by text prop
-   * Default: `null`
+   * The content of the tag can be a string or a React Element.
    */
   children?: string | ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
 
   /**
-   * Handle the click event on 'tag' element
-   * Default: `null`
+   * Will be called on a click event. Returns the native event.
    */
   onClick?: (args: { event: MouseEvent<HTMLButtonElement> }) => void
 
   /**
-   * Set to `true` to omit triggering an event when the user releases the `Delete` or `Backspace` keys.
-   * Default: `false`
+   * Set to `true` to omit triggering an event when the user releases the `Delete` or `Backspace` keys. Defaults to `false`.
    */
   omitOnKeyUpDeleteEvent?: boolean
 

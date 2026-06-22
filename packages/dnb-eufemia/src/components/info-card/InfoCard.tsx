@@ -29,94 +29,80 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type InfoCardProps = {
   /**
-   * Used in combination with `src` to provide an alt attribute for the `img` element.
-   * Default: `null`
+   * Used in combination with `src` to provide an alt attribute for the image element.
    */
   alt?: ReactNode
   /**
-   * Aligns the content to center, rather than left
-   * Default: `false`
+   * Centers the content. Defaults to `false`.
    */
   centered?: boolean
   /**
-   * Determines whether to display a drop shadow around the card.
-   * Default: `true`
+   * Sets the drop shadow of the info card. Defaults to `true`.
    */
   dropShadow?: boolean
   /**
-   * Replace the default icon with custom icon.
-   * Default: `Lightbulb (icon)`
+   * Custom icon. Defaults to the `lightbulb` icon.
    */
   icon?: IconIcon
   /**
-   * Props applied to the `img` element if the component is used to display an image. Replaces the icon.
-   * Default: `null`
+   * [Image properties](/uilib/elements/image) applied to the `img` element if the component is used to display an image.
    */
   imgProps?: ImgProps
   /**
-   * If set to `true`, an overlaying skeleton with animation will be shown.
-   * Default: `false`
+   * If set to `true`, an overlaying skeleton with animation will be shown. Defaults to `false`.
    */
   skeleton?: SkeletonShow
   /**
-   * Stretch the card to fill the container
+   * Stretch the card to fill the container.
    */
   stretch?: boolean
   /**
-   * Specifies the path to the image
-   * Default: `null`
+   * Specifies the path to the image.
    */
   src?: string
   /**
-   * The text content of the InfoCard
-   * Default: `null`
+   * The text content of the InfoCard, displayed/rendered in a paragraph. To fully customize the content, see `children` property.
    */
   text?: ReactNode
   /**
    * Can be used to add custom content, which is displayed/rendered between the `text` property and buttons.
-   * Default: `null`
    */
   children?: ReactNode
   /**
-   * Component title
-   * Default: `null`
+   * The title of the InfoCard.
    */
   title?: ReactNode
   /**
-   * Is called when the close button is clicked
-   * Default: `null`
+   * Will be called when user clicks the close button.
    */
   onClose?: MouseEventHandler<HTMLButtonElement>
   /**
-   * The text of the close button.
-   * Default: `null`
+   * The close button text.
    */
   closeButtonText?: ReactNode
   /**
-   * Is called when the accept button is clicked
-   * Default: `null`
+   * Will be called when user clicks the accept button.
    */
   onAccept?: MouseEventHandler<HTMLButtonElement>
   /**
-   * The text of the accept button.
-   * Default: `null`
+   * The accept button text.
    */
   acceptButtonText?: ReactNode
   /**
    * Props forwarded to the close button.
-   * Default: `null`
    */
   closeButtonProps?: ButtonProps
   /**
+   * Deprecated. Use `closeButtonProps` instead.
    * @deprecated Use `closeButtonProps` instead.
    */
   closeButtonAttributes?: ButtonProps
   /**
    * Props forwarded to the accept button.
-   * Default: `null`
    */
   acceptButtonProps?: ButtonProps
   /**
+   * Deprecated. Use `acceptButtonProps` instead.
    * @deprecated Use `acceptButtonProps` instead.
    */
   acceptButtonAttributes?: ButtonProps

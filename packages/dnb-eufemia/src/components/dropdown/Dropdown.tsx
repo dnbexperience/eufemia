@@ -112,11 +112,11 @@ export type DropdownProps = {
    */
   labelSrOnly?: boolean
   /**
-   * By providing a React.Ref you can get the internally used main element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
+   * By providing a `React.Ref` you can get the internally used main element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.
    */
   ref?: Ref<HTMLElement>
   /**
-   * By providing a React.Ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.useRef(null)`.
+   * By providing a `React.Ref` you can get the internally used button element (DOM), e.g. `buttonRef={myRef}` by using `React.useRef(null)`.
    */
   buttonRef?: Ref<HTMLElement>
   /**
@@ -145,11 +145,11 @@ export type DropdownProps = {
    */
   suffix?: DrawerListSuffix
   /**
-   * Will be called once the Dropdown shows up.
+   * Will be called once the user presses the dropdown. Returns the data item `{ data, attributes }`.
    */
   onOpen?: (event: DropdownOpenEvent) => void
   /**
-   * Will be called once the Dropdown gets closed.
+   * Will be called once the user presses the dropdown again, or clicks somewhere else. Returns the data item `{ data, attributes }`.
    */
   onClose?: (event: DropdownCloseEvent) => void
   onOpenFocus?: (args: { element: HTMLElement }) => void

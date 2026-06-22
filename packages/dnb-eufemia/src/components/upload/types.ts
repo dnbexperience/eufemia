@@ -16,17 +16,17 @@ export type UploadAcceptedFileTypeObject = {
 
 export type UploadProps = {
   /**
-   * unique id used with the useUpload hook to manage the files
+   * Unique id used together with the `useUpload` hook to manage the files. Needed when wanting to connect with the `useUpload` hook.
    */
   id?: SharedStateId
 
   /**
-   * defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.
+   * Defines the appearance. Use one of these: `default` or `compact`. Defaults to `default`.
    */
   variant?: 'default' | 'compact'
 
   /**
-   * List of accepted file types.
+   * List of accepted file types. Either as a string or an [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype). When providing a list of [AcceptedFileType](/uilib/components/upload/properties/#acceptedfiletype), the accepted file types will be presented in a table (see [example](/uilib/components/upload/demos/#upload-with-file-max-size-based-on-file-type)).
    */
   acceptedFileTypes:
     | UploadAcceptedFiles
@@ -38,24 +38,22 @@ export type UploadProps = {
   skeleton?: SkeletonShow
 
   /**
-   * Defines the amount of files the user can select and upload
-   * Default: `100`
+   * Defines the amount of files the user can select and upload. Defaults to `100`.
    */
   filesAmountLimit?: number
 
   /**
-   * Defines the max file size of each file in MB. Use either `0` or `false` to disable.
-   * Default: `5 MB`
+   * Defines the max file size of each file in MB. Use either `0` or `false` to disable. Defaults to 5 MB.
    */
   fileMaxSize?: number | false
 
   /**
-   * will be called on `files` changes made by the user. Access the files with `{ files }`.
+   * Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).
    */
   onChange?: ({ files }: { files: Array<UploadFile> }) => void
 
   /**
-   * will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.
+   * Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.
    */
   onFileDelete?: ({
     fileItem,
@@ -73,20 +71,17 @@ export type UploadProps = {
   }) => void | Promise<void>
 
   /**
-   * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window.
-   * Default: `false`
+   * Causes the browser to treat all listed files as downloadable instead of opening them in a new browser tab or window. Defaults to `false`.
    */
   download?: boolean
 
   /**
-   * Allows uploading of duplicate files.
-   * Default: `false`
+   * Allows uploading of duplicate files. Defaults to `false`.
    */
   allowDuplicates?: boolean
 
   /**
-   * Disables file drag and drop, by removing the drop zone.
-   * Default: `false`
+   * Disables file drag and drop, by removing the drop zone. Defaults to `false`.
    */
   disableDragAndDrop?: boolean
 
@@ -96,7 +91,7 @@ export type UploadProps = {
   buttonProps?: ButtonProps
 
   /**
-   * Custom text properties
+   * Custom text property. Replaces the default title. Can be disabled using `false`.
    */
   title?: ReactNode
   text?: ReactNode

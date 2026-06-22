@@ -14,13 +14,23 @@ export type ItemSublineVariant = 'description'
  * Secondary line under the title; pairs with List.Cell.Title.Overline (above the row).
  */
 export type ItemSublineProps = FlexItemProps & {
-  /** Visual variant. Use `description` for smaller, muted text. */
+  /**
+   * Visual variant. Use `description` for smaller, muted text style.
+   */
   variant?: ItemSublineVariant
-  /** Font size of the subline content. Defaults to `small`. When `variant="description"`, defaults to `x-small`. */
+  /**
+   * Font size of the subline content. Defaults to `small`. When `variant="description"`, defaults to `x-small`.
+   * Default: `"small"`
+   */
   fontSize?: 'basis' | 'small' | 'x-small'
-  /** Font weight of the subline content. Defaults to `regular`. */
+  /**
+   * Font weight of the subline content. Defaults to `regular`.
+   * Default: `"regular"`
+   */
   fontWeight?: 'regular' | 'medium'
-  /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
+  /**
+   * When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.
+   */
   skeleton?: SkeletonShow
 }
 

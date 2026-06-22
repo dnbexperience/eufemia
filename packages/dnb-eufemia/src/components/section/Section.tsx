@@ -41,52 +41,51 @@ export type SectionProps = {
   variant?: SectionVariants | string
 
   /**
-   * Define if the background color should break-out to a fullscreen view. Defaults to `true`.
+   * Use `true` to enable a fullscreen breakout look. Also supports media query breakpoints like `{ small: boolean }`. Defaults to `true`.
    */
   breakout?: boolean | ResponsiveProp<boolean>
 
   /**
-   * Define if the Section should break out negatively on larger screens. You cannot use `breakout` and `outset` together.
-   * Defaults to `false`
+   * Define if the Section should break out negatively on larger screens. You cannot use `breakout` and `outset` together. Defaults to `false`.
    */
   outset?: boolean | ResponsiveProp<boolean>
 
   /**
-   * Define if the section should have rounded corners. Defaults to `false`.
+   * Use `true` to enable rounded corners (border-radius). Also supports media query breakpoints like `{ small: boolean }`. Defaults to `false`.
    */
   roundedCorner?:
     | SectionRoundedCorner
     | ResponsiveProp<SectionRoundedCorner>
 
   /**
-   * Define a custom border color. Use a Eufemia color.
+   * Define a custom border color. If `true` is given, `color-black-8` is used. Use a Eufemia color. Also supports media query breakpoints like `{ small: 'black-8' }`.
    */
   outline?: SectionOutlineColor | ResponsiveProp<SectionOutlineColor>
 
   /**
-   * Define a custom border width. Defaults to `var(--card-outline-width)`.
+   * Define a custom border width. Defaults to `var(--card-outline-width)`. Also supports media query breakpoints like `{ small: '2px' }`.
    */
   outlineWidth?: number | string | ResponsiveProp<number | string>
 
   /**
-   * Define a custom text color to complement the backgroundColor. Use a Eufemia color.
+   * Define a custom text color to complement the `backgroundColor`. Use a Eufemia color. Also supports media query breakpoints like `{ small: 'black-80' }`.
    */
   textColor?: SectionTextColor | ResponsiveProp<SectionTextColor>
 
   /**
-   * Define a custom background color, instead of a variant. Use a Eufemia color.
+   * Define a custom background color, instead of a variant. Use a Eufemia color. Also supports media query breakpoints like `{ small: 'white' }`.
    */
   backgroundColor?:
     | SectionBackgroundColor
     | ResponsiveProp<SectionBackgroundColor>
 
   /**
-   * Use `true` to show the default Eufemia DropShadow. Supports media query breakpoints like `{ small: true }`.
+   * Use `true` to show the default Eufemia DropShadow. Also supports media query breakpoints like `{ small: true }`.
    */
   dropShadow?: SectionDropShadow | ResponsiveProp<SectionDropShadow>
 
   /**
-   * Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Use `initial` to reset to the component's default behavior, ignoring any parent surface context.
+   * Define the surface color context. When set to `dark`, ondark design tokens will be used for text and outline colors. Use `initial` to reset to the component's default behavior, ignoring any parent surface context. Uses `--token-color-decorative-first-bold-static` as the default background color and `--token-color-text-neutral-ondark` as the text color.
    */
   surface?: ThemeSurface
 
@@ -96,7 +95,7 @@ export type SectionProps = {
   element?: DynamicElement
 
   /**
-   * Define a React.Ref.
+   * By providing a `React.Ref` we can get the internally used element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.
    */
   ref?: RefObject<HTMLElement>
 }

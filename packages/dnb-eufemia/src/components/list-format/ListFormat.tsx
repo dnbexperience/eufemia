@@ -18,20 +18,15 @@ export type ListFormatProps = {
   locale?: InternalLocale
 
   /**
-   * Formatting options for the value when variant is `text`.
-   * See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat
+   * Formatting options for the value when variant is `text`. See the [Intl.ListFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/ListFormat/ListFormat) documentation.
    */
   format?: Intl.ListFormatOptions
   /**
-   * Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line.
-   * Default: `text`
+   * Defines if the value should be displayed in list format (`ol`, `ul`) or regular text format in one line. Defaults to `text`.
    */
   variant?: 'ol' | 'ul' | 'text'
   /**
-   * Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`.
-   * Variant `ol`: `a`, `A`, `i`, `I` and `1`.
-   * Variant `ul`: `circle`, `disc` and `square`.
-   * Default: `undefined`
+   * Defines the type of list styling used for list variants. Used together with variant `ol` and `ul`. Variant `ol`: `a`, `A`, `i`, `I` and `1`. Variant `ul`: `circle`, `disc` and `square`. Defaults to `undefined`.
    */
   listType?:
     | 'a'
@@ -46,14 +41,12 @@ export type ListFormatProps = {
     | undefined
 
   /**
-   * The value to format as list.
-   * Default: `null`
+   * The value to format. Can be given as `children` instead.
    */
   value?: Array<ReactNode>
 
   /**
-   * The children to format as list.
-   * Default: `null`
+   * The children to format.
    */
   children?: ReactNode
 }

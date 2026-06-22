@@ -68,40 +68,32 @@ type PopoverPropsBase = {
   placement?: PopoverPlacement
   arrowPosition?: PopoverArrow
   /**
-   * CSS selector used to pick the element that controls arrow alignment.
+   * CSS selector that points to the element the arrow should align with. When the popover points vertically it aligns horizontally, and vice versa for horizontal placements.
    */
   arrowPositionSelector?: string
   /**
-   * Hide the arrow element from the popover.
-   * When `true`, the arrow will not be rendered regardless of the `arrowPosition` prop.
+   * Hide the arrow element from the popover. When `true`, the arrow will not be rendered regardless of the `arrowPosition` property.
    * Default: `false`
    */
   hideArrow?: boolean
   alignOnTarget?: PopoverAlign
   /**
-   * Horizontal offset in pixels to adjust the popover placement.
-   * Positive values move the popover to the right, negative values move it to the left.
+   * Horizontal offset in pixels to adjust the popover placement. Positive values move the popover to the right, negative values move it to the left. Useful for fine-tuning alignment when the default placement needs adjustment.
    * Default: `0`
    */
   horizontalOffset?: number
   /**
-   * Offset in pixels from the edge when the arrow is positioned at the edge.
-   * When set, this value replaces the default edge spacing (8px) and arrow boundary (8px).
-   * Useful for components like Tooltip that need the arrow closer to the edge.
-   * Default: `undefined` (uses default 8px)
+   * Offset in pixels from the edge when the arrow is positioned at the edge. When set, this value replaces the default edge spacing (8px) and arrow boundary (8px). Useful for components like Tooltip that need the arrow closer to the edge.
    */
   arrowEdgeOffset?: number
   fixedPosition?: boolean
   contentRef?: RefObject<HTMLSpanElement>
   /**
-   * Skip rendering the popover in a React Portal.
-   * When `true`, the popover renders inline in the DOM tree instead of being portaled to document.body.
-   * Useful for cases where you need the popover to be part of the same DOM hierarchy for styling or event handling.
-   * Default: `false`
+   * Render inline instead of inside the shared Popover portal.
    */
   skipPortal?: boolean
   /**
-   * Forces PopoverContainer to recalculate its layout when the value changes.
+   * Forces the popover to recalculate its layout whenever this value changes. Useful when the trigger moves but the DOM tree stays mounted.
    */
   targetRefreshKey?: unknown
   noAnimation?: boolean
@@ -115,19 +107,12 @@ type PopoverPropsBase = {
   style?: CSSProperties
   omitDescribedBy?: boolean
   /**
-   * Control when the popover automatically flips its placement to fit within the viewport.
-   * - `"initial"` (default): Flip placement only on initial open when there's limited space.
-   * - `"scroll"`: Flip placement on initial open and during scroll events.
-   * - `"never"`: Never automatically flip placement, always use the specified `placement` prop.
-   * Default: `initial`
+   * Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.
+   * Default: `"initial"`
    */
   autoAlignMode?: PopoverAutoAlignMode
   /**
-   * Bias vertical auto alignment toward the preferred placement until the trigger crosses
-   * a viewport threshold. Only used for `placement="top"` and `placement="bottom"`.
-   * Example: `0.75` keeps `placement="bottom"` until the trigger reaches the bottom quarter
-   * of the viewport, and keeps `placement="top"` until it leaves the top quarter.
-   * Default: `undefined`
+   * Bias vertical auto alignment toward the preferred placement until the trigger crosses a viewport threshold. Only applies to `placement="top"` and `placement="bottom"`. Example: `0.75` keeps `placement="bottom"` until the trigger reaches the bottom quarter of the viewport.
    */
   autoAlignViewportThreshold?: number
 }
@@ -137,71 +122,56 @@ export type PopoverAllProps = PopoverPropsBase &
 
 export type PopoverProps = PopoverOverlayProps & {
   /**
-   * Alternative content prop. Accepts React nodes or a render function that receives
-   * context helpers (`active`, `open`, `close`, `toggle`, `id`).
-   * If both `children` and `content` are provided, `content` takes precedence.
+   * Alternative content property. Accepts nodes or a render function that receives the same helpers as `content`.
    */
   children?: PopoverRenderable<PopoverContentRenderProps>
   /**
-   * Content rendered inside the popover. Can be React nodes or a render function
-   * that receives context helpers (`active`, `open`, `close`, `toggle`, `id`).
-   * Takes precedence over `children` when both are provided.
+   * Content rendered inside the popover. Can also be a render function that receives helpers such as `close`.
    */
   content?: PopoverRenderable<PopoverContentRenderProps>
   /**
-   * Optional heading shown above the body content.
-   * Matches the typography style used in TermDefinition component.
+   * Optional heading shown above the body content. Matches the typography used in TermDefinition.
    */
   title?: ReactNode
   /**
-   * Custom trigger element or render function. Required unless you point Popover
-   * at an existing element using `targetElement` or `targetSelector`.
-   * The render function receives trigger props including `ref`, `active`, `open`, `close`, and `toggle`.
+   * Custom trigger element or render function. Required unless you point Popover at an existing element using `targetElement` / `targetSelector`.
    */
   trigger?: PopoverRenderable<PopoverTriggerRenderProps>
   /**
-   * Props forwarded to the trigger wrapper element.
-   * Useful for adding aria-* attributes, data-* attributes, or event handlers.
-   * These are merged with the default trigger props.
+   * Props forwarded to the default trigger wrapper (e.g. aria-*).
    */
   triggerProps?: PopoverTriggerAttributes
   /**
+   * Deprecated. Use `triggerProps` instead.
    * @deprecated Use `triggerProps` instead.
    */
   triggerAttributes?: PopoverTriggerAttributes
   /**
-   * Additional class name(s) merged with the default trigger wrapper classes.
-   * The default class `dnb-popover__trigger` is always included.
+   * Class name merged with the default trigger wrapper.
    */
   triggerClassName?: string
   /**
-   * Distance in pixels between the popover and its trigger element.
-   * Default: `16`
+   * Spacing in pixels between the trigger element and the popover surface.
    */
   triggerOffset?: number
   /**
-   * Controlled open state. When provided, the popover becomes a controlled component.
-   * Use together with `onOpenChange` to manage the open state externally.
+   * Controls the open state when provided. Use together with `onOpenChange`.
    */
   open?: boolean
   /**
-   * Uncontrolled initial open state. Use this for uncontrolled popovers.
-   * Default: `false`
+   * Whether the popover should be open by default when uncontrolled.
    */
   openInitially?: boolean
   /**
-   * Callback fired when the open state changes. Receives the new open state as a parameter.
-   * Useful for syncing state with external state management or tracking user interactions.
+   * Called whenever the open state changes (both controlled and uncontrolled).
    */
   onOpenChange?: (open: boolean) => void
   /**
-   * If true, focus is moved into the popover content when it opens.
-   * Default: `true`
+   * If `true`, focus is moved into the popover content when it opens.
    */
   focusOnOpen?: boolean
   /**
    * Provide a specific element (or function returning one) to receive focus when the popover opens.
-   * Takes precedence over the default focus behavior when `focusOnOpen` is true.
    */
   focusOnOpenElement?: HTMLElement | null | (() => HTMLElement | null)
   /**
@@ -209,71 +179,56 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   onFocusComplete?: () => void
   /**
-   * Moves focus back to the trigger element once the popover closes.
-   * Default: `true`
+   * Moves focus back to the trigger element once the popover closes (defaults to `true`).
    */
   restoreFocus?: boolean
   /**
-   * Prevent closing the popover when interacting outside of it or pressing Escape.
-   * Useful when you need the popover to stay open while the user interacts elsewhere in the document.
+   * Prevent closing the popover when interacting outside of it or pressing Escape. Useful when the popover needs to stay open while other parts of the page are interacted with.
    */
   preventClose?: boolean
   /**
-   * Convenience prop to remove the built-in close button.
-   * Default: `false`
+   * Removes the built-in close button.
    */
   hideCloseButton?: boolean
   /**
    * Customize the built-in close button (icon, title, variant, etc.).
-   * Only applies when the close button is rendered.
    */
   closeButtonProps?: Partial<ButtonProps>
   /**
-   * Disable inner spacing (padding) of the popover content.
-   * When set to `true`, sets `--inner-space: 0` to remove padding.
-   * Useful for components like DatePicker that manage their own spacing.
+   * Remove the default padding inside the popover by setting `--inner-space: 0` on the surface.
    */
   noInnerSpace?: boolean
   /**
-   * Disable the max-width constraint on the popover content.
-   * When set to `true`, removes the max-width limit, allowing the popover to expand to its natural width.
-   * Default: `false`
+   * If set to `true`, the popover will not have a max-width limitation.
    */
   noMaxWidth?: boolean
   /**
-   * Keep the popover portal mounted in the DOM even when closed.
-   * When `true`, the popover remains in the DOM when inactive, which is useful for:
-   * - Maintaining `aria-describedby` references for accessibility
-   * - Ensuring screen readers can always find the associated element
-   * - Preventing layout shifts when the popover appears/disappears
+   * Keep the portal mounted in the DOM even when the popover is closed. Useful when the content should preserve its state.
    * Default: `false`
    */
   keepInDOM?: boolean
   /**
-   * Control when the popover automatically flips its placement to fit within the viewport.
-   * - `"initial"` (default): Flip placement only on initial open when there's limited space.
-   * - `"scroll"`: Flip placement on initial open and during scroll events.
-   * - `"never"`: Never automatically flip placement, always use the specified `placement` prop.
-   * Default: `initial`
+   * Control when the popover automatically flips its placement to fit within the viewport. `initial` (default): Flip placement only on initial open when there's limited space. `scroll`: Flip placement on initial open and during scroll events. `never`: Never automatically flip placement, always use the specified `placement` property.
+   * Default: `"initial"`
    */
   autoAlignMode?: PopoverAutoAlignMode
   /**
-   * Additional class name(s) for the popover content element.
+   * Additional class name(s) merged into the popover content wrapper.
    * @private For internal use only.
    */
   contentClassName?: string
   /**
-   * Optional secondary base class name used to mirror Popover BEM classes.
+   * Overrides the default BEM root block. Useful when mirroring Popover styles.
    * @private For internal use only.
    */
   baseClassName?: string
   /**
-   * Disable rendering of the focus-trap button used to return focus to the trigger.
+   * Stops rendering the focus-trap button used to return focus to the trigger.
    * @private For internal use only.
    */
   disableFocusTrap?: boolean
   /**
-   * Hide outline around the popover.
+   * Removes the outline/border that normally surrounds the popover surface.
    * @private For internal use only.
    */
   hideOutline?: boolean

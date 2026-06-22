@@ -36,11 +36,13 @@ export type ItemAccordionProps = {
   variant?: ListVariant
   open?: boolean
   /**
-   * When true, keeps the accordion content in the DOM when closed. Defaults to `false`.
+   * When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.
+   * Default: `false`
    */
   keepInDOM?: boolean
   /**
-   * When true, the accordion is visually dimmed and interaction is prevented.
+   * If set to `true`, the accordion is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.
+   * Default: `false`
    */
   disabled?: boolean
   /**

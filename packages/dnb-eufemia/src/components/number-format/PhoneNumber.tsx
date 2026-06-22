@@ -16,7 +16,9 @@ export type NumberFormatPhoneNumberProps = Omit<
   | 'rounding'
   | 'signDisplay'
 > & {
-  /** Wraps the formatted phone value in a clickable link: `tel` (default) or `sms`. */
+  /**
+   * Use `tel` (default) or `sms` to enable a clickable / touchable anchor link. Only available on `NumberFormat.PhoneNumber`.
+   */
   link?: NumberFormatLink | true
 }
 

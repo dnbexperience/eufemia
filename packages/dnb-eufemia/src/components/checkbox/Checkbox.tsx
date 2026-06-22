@@ -79,7 +79,7 @@ export type CheckboxProps = {
    */
   checked?: boolean | undefined | null
   /**
-   * Controls the checkbox indeterminate (partial) state. The default is `false`.
+   * Controls the checkbox indeterminate (partial) state.
    */
   indeterminate?: boolean
   /**
@@ -97,15 +97,15 @@ export type CheckboxProps = {
    */
   skeleton?: SkeletonShow
   /**
-   * Will be called on state changes made by the user. Returns `{ checked, event }`.
+   * Will be called on state changes made by the user.
    */
   onChange?: (args: CheckboxOnChangeParams) => void
   /**
-   * Will be called on click made by the user. Returns the ClickEvent.
+   * Will be called on click.
    */
   onClick?: (args: CheckboxOnClickParams) => void
   /**
-   * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
+   * By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.
    */
   ref?: RefObject<HTMLInputElement> | ((elem: HTMLInputElement) => void)
 } & FormStatusBaseProps &
