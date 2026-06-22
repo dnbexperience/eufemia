@@ -57,32 +57,32 @@ export type WizardContainerProps = ComponentProps & {
   id?: string
 
   /**
-   * The mode of the wizard.
+   * How to show the wizard. Inherited from StepIndicator. Defaults to `strict`.
    */
   mode?: 'static' | 'strict' | 'loose'
 
   /**
-   * If set to `true`, the wizard will not scroll to the first step when the user clicks on the next button.
+   * If set to `true`, the wizard will not scroll to the first step when the user navigates to a different step.
    */
   omitScrollManagement?: boolean
 
   /**
-   * If set to `true`, the wizard will not focus on the next step when the user clicks on the next button.
+   * If set to `true`, the wizard will not set focus on the next step when the user navigates to a different step.
    */
   omitFocusManagement?: boolean
 
   /**
-   * The index of the first step to be rendered.
+   * What step should show initially (defaults to `0` for the first one).
    */
   initialActiveIndex?: StepIndex
 
   /**
-   * The callback function that will be called when the user clicks on the next button.
+   * Will be called when the user navigates to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related Form.Handler properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.
    */
   onStepChange?: OnStepChange
 
   /**
-   * If set to `true`, the wizard will not animate the steps.
+   * If set to `true`, the height animation on step change and list expansion will be omitted. Inherited from StepIndicator. Defaults to `false`.
    */
   noAnimation?: boolean
   /**
@@ -90,11 +90,11 @@ export type WizardContainerProps = ComponentProps & {
    */
   expandedInitially?: boolean
   /**
-   * If set to `true`, the wizard will not unmount the steps when navigating back and forth.
+   * Determines if all steps should be kept in the DOM. Defaults to `false`.
    */
   keepInDOM?: boolean
   /**
-   * Whether or not to break out (using negative margins) on larger screens. Defaults to `true`.
+   * Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`.
    */
   outset?: boolean
   /**
@@ -109,7 +109,7 @@ export type WizardContainerProps = ComponentProps & {
   validationMode?: 'bypassOnNavigation'
 
   /**
-   * The children of the wizard container.
+   * Contents (Step components).
    */
   children: ReactNode
 }

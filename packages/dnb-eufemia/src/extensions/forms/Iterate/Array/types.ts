@@ -31,39 +31,69 @@ export type IterateArrayProps = Omit<
     | 'validateContinuously'
     | 'schema'
   > & {
-    /** Render function or React nodes for each array item. When a function, receives `(value, index, arrayItems)`. */
+    /**
+     * `React.ReactNode` or a function so you can get the current value as the first function parameter, and the index as the second parameter as well as the array of internal items as the third parameter.
+     */
     children: ElementChild | Array<ElementChild>
-    /** JSON Pointer path to the array data in the form data context. */
+    /**
+     * A path (JSON Pointer) to the array to iterate over.
+     */
     path?: Path
-    /** JSON Pointer sub-path within each array item for value access. */
+    /**
+     * A path (JSON Pointer) to nested array items.
+     */
     itemPath?: Path
-    /** Maximum number of items to render from the array. */
+    /**
+     * Limit the number of rendered items to iterate over. Defaults to `undefined`.
+     */
     limit?: number
-    /** If `true`, renders array items in reverse order. */
+    /**
+     * When `true` it will reverse the order of the items.
+     */
     reverse?: boolean
-    /** JSON Pointer path to a counter value that tracks the number of items. */
+    /**
+     * A path (JSON Pointer) to the array length.
+     */
     countPath?: Path
-    /** Maximum value the counter at `countPath` can reach. */
+    /**
+     * Will limit the iterate amount by given "countPathLimit" value.
+     */
     countPathLimit?: number
-    /** Minimum number of items required. Triggers a validation error if fewer. */
+    /**
+     * The minimum amount of items required to iterate over.
+     */
     minItems?: number
-    /** Maximum number of items allowed. Triggers a validation error if more. */
+    /**
+     * The maximum amount of items to iterate over before showing the error.
+     */
     maxItems?: number
     /** Custom validator function called when the array value changes. */
     onChangeValidator?: Validator<Value>
-    /** If `true`, renders children without a Flex container wrapper. */
+    /**
+     * When `true` it will omit the Flex.Stack wrapper so it can be used for tables and lists.
+     */
     withoutFlex?: boolean
-    /** If `true`, animates item additions and removals. */
+    /**
+     * When `true` it will animate the height of the items.
+     */
     animate?: boolean
-    /** Content to display when the array is empty. */
+    /**
+     * Will be shown if the value or data context value is empty.
+     */
     placeholder?: ReactNode
-    /** Controls the initial display mode for items: `view`, `edit`, or `auto`. */
+    /**
+     * Defines the container mode for all nested containers. Can be `view`, `edit` or `auto`. When using `auto`, it will automatically open if there is an error in the container. When a new item is added, the item before it will change to `view` mode, if it had no validation errors. Defaults to `auto`.
+     */
     containerMode?: ContainerMode
-    /** If `true`, at least one item is required. */
+    /**
+     * If the array is required. It does not automatically inherit the `required` property in the same way that `Field.*` components do. You may provide a custom error message to give the user a more useful message than the default one: `errorMessages={{ 'Field.errorRequired': 'Custom message' }}`.
+     */
     required?: boolean
     /** Custom error messages for validation states. */
     errorMessages?: DefaultErrorMessages
-    /** Transform function applied to each item before updating the count path. */
+    /**
+     * Will transform the current value before it is displayed.
+     */
     countPathTransform?: (params: { value: any; index: number }) => any
 
     // internal
