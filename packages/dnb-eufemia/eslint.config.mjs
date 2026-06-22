@@ -527,7 +527,7 @@ export default [
       'docs-types': docsTypesPlugin,
     },
     rules: {
-      'docs-types/sync-docs-jsdoc': 'warn',
+      'docs-types/sync-docs-jsdoc': 'error',
     },
   },
   {
