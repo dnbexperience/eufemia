@@ -1939,7 +1939,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 }
 
 export type ReturnAdditional<Value> = {
-  /** Documented APIs */
+  /**
+   * The transformed value ready for display, or `undefined` if the associated field is not visible.
+   */
   value: Value
   isChanged: boolean
   htmlAttributes: AriaAttributes | DataAttributes
@@ -1965,7 +1967,9 @@ export type ReturnAdditional<Value> = {
   forceUpdate: () => void
   hasError?: boolean
 
-  /** Internal */
+  /**
+   * The DataContext state object, providing access to form-level data and methods.
+   */
   dataContext: ContextState
   fieldState: SubmitState
   additionalArgs: ReceiveAdditionalEventArgs<Value>

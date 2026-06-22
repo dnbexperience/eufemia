@@ -35,7 +35,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type IsolationProviderProps<Data extends JsonObject> = {
   /**
-   * Form.Isolation: Will be called when the isolated context is committed.
+   * Will be called on a nested form context commit – if validation has passed. The first parameter is the committed data object. The second parameter is an object containing a method to clear the internal data `{ clearData }`.
    */
   onCommit?: OnCommit<Data>
   /**
@@ -43,9 +43,7 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    */
   onClear?: () => void
   /**
-   * Form.Isolation: A function that will be called when the isolated context is committed.
-   * It will receive the data from the isolated context and the data from the outer context.
-   * You can use this to transform the data before it is committed.
+   * Transform the data before it gets committed to the form. The first parameter is the isolated data object. The second parameter is the outer context data object (Form.Handler).
    */
   transformOnCommit?: (isolatedData: Data, handlerData: Data) => JsonObject
   /**
@@ -61,11 +59,11 @@ export type IsolationProviderProps<Data extends JsonObject> = {
    */
   resetDataAfterCommit?: boolean
   /**
-   * Provide a reference by using Form.Isolation.createDataReference.
+   * Provide a reference by using `Form.Isolation.createDataReference`.
    */
   dataReference?: IsolationDataReference
   /**
-   * Used internally by the Form.Isolation component
+   * JSON Pointer to define the object key for all the generated nested field data. When provided, Form.Isolation will inherit schema validation from the parent Form.Handler for fields within this path.
    */
   path?: Path
   /**
@@ -86,7 +84,7 @@ export type IsolationProps<Data extends JsonObject> = Omit<
   | 'globalStatusId'
 > & {
   /**
-   * A ref (function) that you can call in order to commit the data programmatically to the outer context.
+   * Provide a ref to a function that can be called from any location to commit the data to the form.
    */
   commitHandleRef?: RefObject<() => void>
 }

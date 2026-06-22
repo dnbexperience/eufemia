@@ -30,13 +30,12 @@ export type SectionBaseProps<
   Data extends JsonObject = JsonObject,
 > = {
   /**
-   * Path to the section.
-   * When defined, fields inside the section will get this path as a prefix of their own path.
+   * A path to the section (JSON Pointer). When defined, fields inside the section will get this path as a prefix of their own path.
    */
   path?: Path
 
   /**
-   * Overwrite field props for the section.
+   * Overwrite field properties for the section.
    */
   overwriteProps?: overwriteProps | OverwritePropsDefaults
 
@@ -57,9 +56,7 @@ export type SectionBaseProps<
    */
   containerMode?: ContainerMode
   /**
-   * Disables editing for the section.
-   * When set to `true`, the section will stay in view mode even if an EditContainer is provided.
-   * Defaults to `false`.
+   * If set to `true`, the section will stay in view mode and hide the edit toolbar.
    */
   disableEditing?: boolean
 
