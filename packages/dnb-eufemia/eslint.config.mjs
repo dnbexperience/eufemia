@@ -540,6 +540,7 @@ export default [
     },
     rules: {
       ...playwrightPlugin.configs['flat/recommended'].rules,
+      'playwright/prefer-to-have-length': 'error',
       'playwright-extras/no-identical-title': 'error',
     },
   },
