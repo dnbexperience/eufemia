@@ -92,7 +92,7 @@ test.describe('Typography for UI', () => {
     const headings = await page.$$('.typography-box *[class^="dnb-h--"]')
     for (const heading of headings) {
       const paragraphs = await heading.$$('.dnb-p')
-      expect(paragraphs.length).toBe(0)
+      expect(paragraphs).toHaveLength(0)
     }
   })
 })
@@ -182,7 +182,7 @@ test.describe('Typography for Sbanken', () => {
     const headings = await page.$$('.typography-box *[class^="dnb-h--"]')
     for (const heading of headings) {
       const paragraphs = await heading.$$('.dnb-p')
-      expect(paragraphs.length).toBe(0)
+      expect(paragraphs).toHaveLength(0)
     }
   })
 })
