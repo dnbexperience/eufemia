@@ -92,6 +92,19 @@ export function remove<T = JsonObject>(obj: T, pointer: PointerPath) {
     throw new Error('Invalid JSON pointer for remove: "' + pointer + '"')
   }
 
+  // Prevent prototype tampering: a token like "__proto__" would make the
+  // traversal below resolve to Object.prototype and delete from it globally.
+  if (
+    refTokens.some(
+      (tok) =>
+        String(tok) === '__proto__' ||
+        String(tok) === 'constructor' ||
+        String(tok) === 'prototype'
+    )
+  ) {
+    return
+  }
+
   const parent = get(obj, refTokens.slice(0, -1))
   if (Array.isArray(parent)) {
     const index = +finalToken

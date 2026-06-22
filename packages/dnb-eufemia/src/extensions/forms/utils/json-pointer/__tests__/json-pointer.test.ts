@@ -275,6 +275,32 @@ describe('json-pointer', () => {
       remove(rfcExample, p)
       expect(() => get(pointer, rfcExample)).toThrow(Error)
     })
+
+    it('should not delete from Object.prototype via a nested "__proto__" token', () => {
+      const obj = { keep: 'me' }
+      remove(obj, '/__proto__/hasOwnProperty')
+      expect(typeof ({} as object).hasOwnProperty).toBe('function')
+      expect(obj.keep).toBe('me')
+    })
+
+    it('should not delete from Object.prototype via a "constructor/prototype" chain', () => {
+      const obj = {}
+      remove(obj, '/constructor/prototype/toString')
+      expect(typeof ({} as object).toString).toBe('function')
+    })
+
+    it('should ignore a "__proto__" final token', () => {
+      const obj = {}
+      remove(obj, '/__proto__')
+      expect(Object.getPrototypeOf(obj)).toBe(Object.prototype)
+    })
+
+    it('should still remove a legitimate key named like a sibling', () => {
+      const obj = { a: { b: 'gone', c: 'stay' } }
+      remove(obj, '/a/b')
+      expect(obj.a).not.toHaveProperty('b')
+      expect(obj.a.c).toBe('stay')
+    })
   })
 
   describe('dict', () => {
