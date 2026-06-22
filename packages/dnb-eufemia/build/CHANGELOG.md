@@ -3,6 +3,41 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.7.0](https://github.com/dnbexperience/eufemia/compare/v11.6.1...v11.7.0) (2026-06-22)
+
+### :sparkles: Features
+
+* **DatePicker:** add `onlyMonth="without-label"` variant to hide month label ([#8579](https://github.com/dnbexperience/eufemia/issues/8579)) ([2f8dfef](https://github.com/dnbexperience/eufemia/commit/2f8dfefb2c0a65b4fc296ff1a8ad59da28c1db5a))
+* **Forms:** add `Form.Outlet` component to render form fields outside the `Form.Handler` subtree ([#8648](https://github.com/dnbexperience/eufemia/issues/8648)) ([18039cb](https://github.com/dnbexperience/eufemia/commit/18039cb08ea935cdd8c5ea58894eed2d0772e6d1))
+* **Forms:** add `Form.useDataValue('/path')` hook for path-scoped data value ([#8608](https://github.com/dnbexperience/eufemia/issues/8608)) ([78df2f5](https://github.com/dnbexperience/eufemia/commit/78df2f53cf9137a775c492a2df3669979e2aa34c))
+* **Forms:** add `useDataWithoutSubscription` hook for non-subscribing data access ([#8607](https://github.com/dnbexperience/eufemia/issues/8607)) ([7d05e67](https://github.com/dnbexperience/eufemia/commit/7d05e678c79e3aa4329c95ea8c84a09b7bb3d003))
+* **Forms:** add type-checked paths support ([#8649](https://github.com/dnbexperience/eufemia/issues/8649)) ([e46a3c4](https://github.com/dnbexperience/eufemia/commit/e46a3c4a5518b34ca199dea005d854fc6d16914a))
+* **Forms:** reduce rerenders for path-based fields ([#8570](https://github.com/dnbexperience/eufemia/issues/8570)) ([fcc6d1d](https://github.com/dnbexperience/eufemia/commit/fcc6d1dd954e7ec9e76507e8645a13fce018d746))
+* **ListFormat:** support `locale` prop ([#8603](https://github.com/dnbexperience/eufemia/issues/8603)) ([18b0683](https://github.com/dnbexperience/eufemia/commit/18b0683b4cbf6586a4d26f612e65bd546eb20afb))
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** keep open button open when no-results is shown ([#8644](https://github.com/dnbexperience/eufemia/issues/8644)) ([6673611](https://github.com/dnbexperience/eufemia/commit/66736118a54fb37dccfec32840b084531d4ccbea))
+* **Autocomplete:** prevent show all crash for spaced numbers ([#8605](https://github.com/dnbexperience/eufemia/issues/8605)) ([8dd2704](https://github.com/dnbexperience/eufemia/commit/8dd270478b233cc1577c0a6c8e659bfd3605a9ed))
+* change line-height sizes to corresponding font-size and design ([#8613](https://github.com/dnbexperience/eufemia/issues/8613)) ([279ab13](https://github.com/dnbexperience/eufemia/commit/279ab13bd76dede4003e7994f00602063bc077a4))
+* **Forms:** ensure PushContainer resolves section paths and validates schema correctly ([#8618](https://github.com/dnbexperience/eufemia/issues/8618)) ([2d8fe46](https://github.com/dnbexperience/eufemia/commit/2d8fe46a8a886bb1551578e3ff71450d879a17da))
+* **Heading:** add `proseMaxWidth` ([#8615](https://github.com/dnbexperience/eufemia/issues/8615)) ([f9b0385](https://github.com/dnbexperience/eufemia/commit/f9b0385bf4342f8a7dc6978d838376ba389b6024))
+* **Input:** prevent icon overlap with submit button when iconPosition is right ([#8620](https://github.com/dnbexperience/eufemia/issues/8620)) ([8178ca3](https://github.com/dnbexperience/eufemia/commit/8178ca36507078f3e8518bdd671d4e5a2c960161))
+* **NumberFormat:** preserve formatted part boundaries ([#8629](https://github.com/dnbexperience/eufemia/issues/8629)) ([c1ff36a](https://github.com/dnbexperience/eufemia/commit/c1ff36a5eeb2e8f8eb5f0545eb0fa80c145d7604))
+* **Stat.Currency:** fix missing space between currency and suffix in flex layout ([#8616](https://github.com/dnbexperience/eufemia/issues/8616)) ([a4f0f6b](https://github.com/dnbexperience/eufemia/commit/a4f0f6b6b0a5bb7e368360ba02fc320ab2591198))
+* **Stat.Currency:** fix missing space between prefix and currency in flex layout ([#8646](https://github.com/dnbexperience/eufemia/issues/8646)) ([809f676](https://github.com/dnbexperience/eufemia/commit/809f6760add80b872e16f821d2ea438532ecfaf1))
+* **Stat.Currency:** support custom currency codes ([#8604](https://github.com/dnbexperience/eufemia/issues/8604)) ([72350c1](https://github.com/dnbexperience/eufemia/commit/72350c1a08ff2890ce0dc543fb124c936fc48236))
+* **Stat:** align font-size when `compact` and `auxiliarySize` is used ([#8611](https://github.com/dnbexperience/eufemia/issues/8611)) ([ce335a0](https://github.com/dnbexperience/eufemia/commit/ce335a05f2e5d456aad0d3ad31357afc98abc882))
+
+### :memo: Documentation
+
+* **Avatar:** add grouped CountryFlag example ([#8601](https://github.com/dnbexperience/eufemia/issues/8601)) ([ec6e737](https://github.com/dnbexperience/eufemia/commit/ec6e737a12272346dd1eef90a25fe6ff0905d045))
+* improve components discoverability with overview page ([#8526](https://github.com/dnbexperience/eufemia/issues/8526)) ([3c6268d](https://github.com/dnbexperience/eufemia/commit/3c6268d8f777bbbececfcda674d3a446edff3425))
+
+### :barber: Style Changes
+
+* Sbanken typography values to be same as other brands ([#8614](https://github.com/dnbexperience/eufemia/issues/8614)) ([f0e30d6](https://github.com/dnbexperience/eufemia/commit/f0e30d62732718d23527ca922a3d08ce7a384829))
+
 ## [11.6.1](https://github.com/dnbexperience/eufemia/compare/v11.6.0...v11.6.1) (2026-06-15)
 
 ### :bug: Bug Fixes
