@@ -28,7 +28,7 @@ export const PortalRootProperties: PropertiesTableProps = {
   },
   '[HTML attributes]': {
     doc: 'When used on `PortalRoot.Provider`, any extra HTML attributes (e.g. `translate`, `lang`, `dir`, `data-*`) are forwarded to the portal DOM element. Props on `PortalRoot` itself take precedence.',
-    type: 'various',
+    type: '"various"',
     status: 'optional',
   },
 }

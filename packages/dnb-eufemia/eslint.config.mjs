@@ -441,7 +441,7 @@ export default [
     },
     rules: {
       'docs-types/warn-supported-types': 'warn',
-      'docs-types/validate-supported-types': 'warn',
+      'docs-types/validate-supported-types': 'error',
       'docs-types/doc-trailing-period': 'warn',
       'docs-types/defaultvalue-inner-quotes': 'warn',
       'docs-types/doc-no-double-spaces': 'warn',
