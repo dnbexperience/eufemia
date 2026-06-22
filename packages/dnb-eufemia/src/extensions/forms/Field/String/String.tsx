@@ -24,13 +24,21 @@ import type { FieldProps, Schema } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FieldStringProps = FieldProps<string, undefined | string> & {
-  /** Renders a multiline textarea instead of a single-line input. */
+  /**
+   * True to be able to write in multiple lines (switching from input-element to textarea-element).
+   */
   multiline?: boolean
-  /** Additional CSS class applied to the inner input element. */
+  /**
+   * Class name set on the `<input>` DOM element.
+   */
   inputClassName?: string
-  /** Ref to the underlying input or textarea element. */
+  /**
+   * By providing a `React.Ref` we can get the internally used input element (DOM).
+   */
   ref?: RefObject<HTMLInputElement | HTMLTextAreaElement>
-  /** Defines the width of the field block container. */
+  /**
+   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.
+   */
   width?: FieldBlockWidth
   /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
   size?: InputProps['size'] | TextareaProps['size']
@@ -38,11 +46,17 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   keepPlaceholder?: InputProps['keepPlaceholder']
 
   // - Validation
-  /** Minimum number of characters required. Triggers a validation error if the value is shorter. */
+  /**
+   * Validation for minimum length of the text (number of characters).
+   */
   minLength?: number
-  /** Maximum number of characters allowed. Triggers a validation error if the value is longer. */
+  /**
+   * Validation for maximum length of the text (number of characters).
+   */
   maxLength?: number
-  /** Regex pattern string the value must match. Triggers a validation error on mismatch. */
+  /**
+   * Validation based on regex pattern.
+   */
   pattern?: string
 
   // - Input props
@@ -58,31 +72,53 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   mask?: InputMaskedProps['mask']
   /** If `true`, allows typing beyond the defined mask boundaries. */
   allowOverflow?: InputMaskedProps['allowOverflow']
-  /** Icon displayed on the left side of the input. Accepts icon name strings. */
+  /**
+   * For icon at the left side of the text input. Only one of `leftIcon` or `rightIcon` can be used at the same time.
+   */
   leftIcon?: string
-  /** Icon displayed on the right side of the input. Accepts icon name strings. */
+  /**
+   * For icon at the right side of the text input. Only one of `leftIcon` or `rightIcon` can be used at the same time.
+   */
   rightIcon?: string
-  /** Custom React element rendered as a submit button inside the input. */
+  /**
+   * Accepts a React element which will show up where the "submit button" would do.
+   */
   submitElement?: InputProps['submitElement']
-  /** If `true`, capitalizes the first letter of the input value. */
+  /**
+   * When set to `true`, it will capitalize the first letter of every word, transforming the rest to lower case.
+   */
   capitalize?: boolean
-  /** If `true`, trims leading and trailing whitespace from the value on blur. */
+  /**
+   * When `true`, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.
+   */
   trim?: boolean
 
   // - Textarea props
-  /** Number of visible text rows for the textarea (when `multiline` is true). */
+  /**
+   * To be used together with `multiline`. Set how many rows of text can be shown by default. Defaults to `2`.
+   */
   rows?: TextareaProps['rows']
-  /** Maximum number of rows the textarea can grow to when `autoResize` is enabled. */
+  /**
+   * To be used together with `multiline`. Set how many rows of text can be shown at max. Defaults to `6`.
+   */
   autoResizeMaxRows?: TextareaProps['autoResizeMaxRows']
-  /** If `true`, the textarea height adjusts automatically to its content. */
+  /**
+   * To be used together with `multiline`. Set true to expand when writing longer texts. Defaults to `true`.
+   */
   autoResize?: TextareaProps['autoResize']
-  /** Displays a character counter. Pass a number to set the max count, or a config object. */
+  /**
+   * To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.
+   */
   characterCounter?: Omit<TextCounterProps, 'text'> | number
 
   // - Html props
-  /** HTML `autocomplete` attribute for browser autofill hints. */
+  /**
+   * For HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attributes.
+   */
   autoComplete?: HTMLInputElement['autocomplete']
-  /** Hint for the virtual keyboard type on touch devices, e.g. `numeric`, `email`, `tel`. */
+  /**
+   * Define an [inputmode](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode).
+   */
   inputMode?: HTMLAttributes<HTMLInputElement>['inputMode']
   /** Controls browser autocorrect behavior. */
   autoCorrect?: HTMLAttributes<HTMLInputElement>['autoCorrect']

@@ -5,15 +5,23 @@ import type { FieldProps } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type BooleanProps = {
-  /** Custom label text shown when the value is `true`. Defaults to localized "Yes". */
+  /**
+   * Text to show in the UI when value is `true`.
+   */
   trueText?: string
-  /** Custom label text shown when the value is `false`. Defaults to localized "No". */
+  /**
+   * Text to show in the UI when value is `false`.
+   */
   falseText?: string
-  /** The visual variant of the toggle field: `checkbox`, `checkbox-button`, `button`, or `buttons`. */
+  /**
+   * Choice of input feature. Can be: `checkbox`, `switch`, `button`, `checkbox-button` or `buttons`.
+   */
   variant?: ToggleFieldProps['variant']
   /** The size of the toggle. Available sizes: `small`, `medium` (default), `large`. */
   size?: ToggleFieldProps['size']
-  /** Callback fired when the toggle is clicked. */
+  /**
+   * Will be called on click.
+   */
   onClick?: ToggleFieldProps['onClick']
 }
 

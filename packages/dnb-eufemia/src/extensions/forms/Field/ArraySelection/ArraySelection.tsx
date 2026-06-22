@@ -52,19 +52,17 @@ export type FieldArraySelectionProps = FieldProps<
   width?: FieldBlockWidth
 
   /**
-   * The path to the context data (Form.Handler).
-   * The context data object needs to have a `value` and a `title` property.
+   * The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children. When `children` is a function, the generated options are instead provided as `options` to the function.
    */
   dataPath?: Path
 
   /**
-   * Data to be used for the component. The object needs to have a `value` and a `title` property.
-   * The generated options will be placed above given JSX based children.
+   * Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.
    */
   data?: Data
 
   /**
-   * The size of the component.
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
    */
   size?: ToggleButtonProps['size'] | CheckboxProps['size']
 

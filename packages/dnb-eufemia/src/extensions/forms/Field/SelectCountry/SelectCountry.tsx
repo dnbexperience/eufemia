@@ -37,13 +37,12 @@ export type FieldSelectCountryProps = FieldPropsWithExtraValue<
   undefined | string
 > & {
   /**
-   * Lists only the countries you want to show. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
-   * Defaults to `Prioritized`.
+   * List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.
    */
   countries?: CountryFilterSet
 
   /**
-   * Use this prop to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
+   * Use this property to filter out certain countries. The function receives the country object and should return a boolean. Returning `false` will omit the country.
    */
   filterCountries?: (country: CountryType) => boolean
 
