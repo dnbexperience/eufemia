@@ -199,6 +199,14 @@ describe('Anchor element', () => {
       expect(document.querySelector('a')).not.toHaveAttribute('href')
     })
 
+    it('should remove a javascript: "to" prop to prevent script execution', () => {
+      render(<Anchor to="javascript:alert('XSS')">text</Anchor>)
+
+      const anchorElement = document.querySelector('a')
+      expect(anchorElement).not.toHaveAttribute('to')
+      expect(anchorElement).not.toHaveAttribute('href')
+    })
+
     it('should remove an uppercase JavaScript: href', () => {
       render(<Anchor href="JavaScript:alert(1)">text</Anchor>)
 
