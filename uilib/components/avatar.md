@@ -1,8 +1,8 @@
 ---
 title: 'Avatar'
-description: 'The Avatar component is an identifier that makes people and companies more scannable.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.590Z
+description: 'Use Avatar to make a person, company, or profile easier to recognize.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.395Z
 checksum: 43faf12b64b7da2f3d211c39b5dd628df0287e84db83733c36c5117b778785fd
 ---
 
@@ -222,8 +222,8 @@ render(<Avatar.Group label="Profiles">
 ```tsx
 render(<Avatar.Group label="Images of banks">
       <Avatar variant="secondary" size="large" imgProps={{
-    width: '48',
-    height: '48',
+    width: '100%',
+    height: '100%',
     src: '/dnb/android-chrome-192x192.png',
     alt: 'DNB Logo'
   }} />
@@ -339,6 +339,35 @@ render(<Avatar.Group label="Persons">
       <Avatar size="x-large">A</Avatar>
     </Avatar.Group>
   </Badge>
+```
+
+
+### Avatar with [CountryFlag](/uilib/components/country-flag) children
+
+
+```tsx
+<Avatar.Group label="Markets" size="small">
+    <Avatar>
+      <CountryFlag iso="NO" size="medium" />
+    </Avatar>
+    <Avatar>
+      <CountryFlag iso="FI" size="medium" />
+    </Avatar>
+    <Avatar>
+      <CountryFlag iso="SE" size="medium" />
+    </Avatar>
+  </Avatar.Group>
+<Avatar.Group label="Markets">
+    <Avatar>
+      <CountryFlag iso="NO" size="large" />
+    </Avatar>
+    <Avatar>
+      <CountryFlag iso="FI" size="large" />
+    </Avatar>
+    <Avatar>
+      <CountryFlag iso="SE" size="large" />
+    </Avatar>
+  </Avatar.Group>
 ```
 
 ## Properties

@@ -1,8 +1,8 @@
 ---
 title: 'Tabs'
-description: 'Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.191Z
+description: 'Use Tabs to let people switch between related views on the same page.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.997Z
 checksum: 91776e74210d6ca9e623100b8ac4eb5f0e1a682d3c673ade1e4340cc544176fb
 ---
 

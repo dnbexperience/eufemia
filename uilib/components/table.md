@@ -1,8 +1,8 @@
 ---
 title: 'Table'
-description: 'Enhanced HTML Table element.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.186Z
+description: 'Use Table to show structured data in rows and columns.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.990Z
 checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 

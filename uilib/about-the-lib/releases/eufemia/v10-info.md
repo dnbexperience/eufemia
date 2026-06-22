@@ -1,8 +1,8 @@
 ---
 title: 'v10'
 description: 'May, 31. 2023'
-version: 11.6.1
-generatedAt: 2026-06-15T12:16:59.841Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:27:59.652Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -83,7 +83,7 @@ yarn add @dnb/eufemia@10
 ### TypeScript
 
 1. Updated multiple types from `string | boolean` to `boolean`, as there was a lot of properties who should only support boolean values and not strings.
-   Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. i.e., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
+   Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. E.g., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
    Following is a non-exhaustive list of affected properties:
    - `vertical`
    - `prevent_selection`

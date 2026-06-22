@@ -1,8 +1,8 @@
 ---
 title: 'Value.BankAccountNumber'
 description: '`Value.BankAccountNumber` is a wrapper component for displaying string values, with user experience tailored for bank account number values.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.661Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.424Z
 checksum: ec13490d1c2f56c9d3d84678ebcd37a4304e0d258fafc5afec118ddeff725cff
 ---
 

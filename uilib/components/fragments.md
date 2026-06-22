@@ -1,8 +1,8 @@
 ---
 title: 'Fragments'
 description: 'Fragments are small, low-level and reusable parts used inside other components.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.716Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.533Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -31,12 +31,12 @@ You may use them only to build new components from.
 
 ## [DrawerList](/uilib/components/fragments/drawer-list/)
 
-The DrawerList component is a fragment inside other components.
+Use DrawerList as an internal list pattern inside drawer-based components.
 
 ## [ScrollView](/uilib/components/fragments/scroll-view/)
 
-ScrollView is a tiny helper component helping the user controlling overflowing content horizontally or vertically
+Use ScrollView when content needs its own horizontal or vertical scrolling area.
 
 ## [TextCounter](/uilib/components/fragments/text-counter/)
 
-The TextCounter is a component designed to provide real-time character count feedback in text input fields.
+Use TextCounter to show how many characters someone has typed or can still type.

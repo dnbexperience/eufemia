@@ -1,8 +1,8 @@
 ---
 title: 'Field.PostalCodeAndCity'
 description: '`Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.916Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.675Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -230,7 +230,7 @@ render(<Field.PostalCodeAndCity postalCode={{
 {
   "props": {
     "countryCode": {
-      "doc": "Defines which country the postal code and city is for, based on the [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) i.e. `NO`, `DE` etc. Setting it to anything other than `NO` will remove the default norwegian postal code pattern. You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`. Defaults to `NO`.",
+      "doc": "Defines which country the postal code and city is for, based on the [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) e.g. `NO`, `DE` etc. Setting it to anything other than `NO` will remove the default norwegian postal code pattern. You can also use the value of another field to define the countryCode, by using a path value e.g. `/myCountryCodePath`. Defaults to `NO`.",
       "type": [
         "Path",
         "string"

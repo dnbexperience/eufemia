@@ -1,7 +1,7 @@
 ---
 title: 'Create your own component'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.897Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.660Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -49,7 +49,7 @@ render(<MyValue label="Label" value={1234} />);
 ```
 
 
-The `useValueProps` provides a standardized way to handle data flow in a consistent manner.
+The `useValueProps` provides a standardized way to handle data flow in a consistent manner. It also keeps custom value components reactive with path-scoped form updates. If rendered output depends on additional form data paths, use Forms APIs such as [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) or compose with another value component. Use `Form.useDataWithoutSubscription().getValue('/other/path')` only for non-subscribing imperative reads in callbacks, effects or internal handlers. Avoid reading `DataContext.data` or `internalDataRef.current` directly during render, because that does not create a data subscription.
 
 The `FieldBlock` provides a standardized way to display a label and other surrounding elements in a consistent manner.
 
@@ -90,7 +90,7 @@ const MyField = (props) => {
 render(<MyField label="Label text" path="/dataSelector" />)
 ```
 
-The `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner.
+The `useFieldProps` provides a standardized way to handle data flow, validation and error messages in a consistent manner. It also keeps custom field components reactive with path-scoped form updates. If rendered output depends on additional form data paths, use Forms APIs such as [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) or compose with another field or value component. Use `Form.useDataWithoutSubscription().getValue('/other/path')` only for non-subscribing imperative reads in callbacks, effects or internal handlers. Avoid reading `DataContext.data` or `internalDataRef.current` directly during render, because that does not create a data subscription. For validators that depend on another field, use [`connectWithPath`](/uilib/extensions/forms/getting-started/#connect-with-another-field) or [`connectWithItemPath`](/uilib/extensions/forms/getting-started/#connect-with-another-field) from the validator arguments.
 
 The `FieldBlock` provides a standardized way to display labels, error messages and other surrounding elements in a consistent manner.
 

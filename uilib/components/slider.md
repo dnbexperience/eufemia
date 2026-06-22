@@ -1,8 +1,8 @@
 ---
 title: 'Slider'
-description: 'The Slider component provides a visual indication of adjustable value.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.908Z
+description: 'Use Slider when people need to choose a value from a range.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.740Z
 checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 

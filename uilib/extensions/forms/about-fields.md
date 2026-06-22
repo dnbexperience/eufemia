@@ -1,7 +1,7 @@
 ---
 title: 'What are fields?'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.861Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.619Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -213,6 +213,8 @@ All input components have a fixed set of properties that make it possible to bui
 It is deliberate that `onChange` sends out the value from the field, and not the event object that comes from the actual HTML tag into which the user enters data. This is to create a less tight coupling between application code that uses the components and the internal implementation in the field components. In addition, this makes the surrounding logic simpler by not having to extract, for example, `e.target.value` everywhere.
 
 The basic components have a number of properties that make it possible to control how they function in the interface, such as `multiline` on `Field.String`, which chooses whether to get one line of text (input tag) or several lines (textarea tag). In addition, they have a number of validation properties, such as `minLength` and `required`.
+
+Inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/) (or [DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/)), fields connect to the surrounding data set with the `path` prop — a [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) such as `/firstName`. The `path` can be type-checked against your data model for autocomplete and compile-time errors on typos — see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
 
 ### Controlled & Uncontrolled
 

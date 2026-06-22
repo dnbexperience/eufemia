@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
-description: 'The DatePicker component should be used whenever the user is to enter a single date or a date period.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.659Z
-checksum: c0a8dc94af78c9e0dcf8179c83193fcd5f1832cfd0461716f98d77663a2f4387
+description: 'Use DatePicker when people need to choose one date or a date range.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.471Z
+checksum: 75e8fe81c05abab5db45b746b7f846b1bd9f0baa4a93401740216e7397f2ad30
 ---
 
 # DatePicker
@@ -603,8 +603,11 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
       "status": "optional"
     },
     "onlyMonth": {
-      "doc": "If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Defaults to `false`.",
-      "type": "boolean",
+      "doc": "If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Use `'without-label'` to also hide the month label. Defaults to `false`.",
+      "type": [
+        "boolean",
+        "'without-label'"
+      ],
       "status": "optional"
     },
     "hideLastWeek": {

@@ -1,8 +1,8 @@
 ---
 title: 'InputMasked'
-description: 'The InputMasked component uses the basic input component, but with some additional masking functionality.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.781Z
+description: 'Use InputMasked when people must enter text in a fixed format.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.592Z
 checksum: ec854c3f7edab3767cebaea07e1723cb55406d476c88740bcf81d27b7291d502
 ---
 

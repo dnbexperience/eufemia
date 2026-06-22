@@ -1,0 +1,3 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{B as n}from"./index-DdG6L_K8.js";import{n as r}from"./PropertiesTable-CoZ69GOv.js";import{t as i}from"./ArrayDocs-jg-HVHyE.js";var a=e(t());function o(e){let t={h2:`h2`,h3:`h3`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Events`}),`
+`,(0,a.jsx)(t.h3,{children:`Iterate-specific events`}),`
+`,(0,a.jsx)(r,{props:i})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

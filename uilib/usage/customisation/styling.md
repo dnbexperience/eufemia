@@ -1,8 +1,8 @@
 ---
 title: 'CSS Styles'
 description: 'To ensure flexibility and the possibility of theming, the DNB CSS Styles area built as flexible packages you can import and combine.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.985Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.733Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -191,10 +191,8 @@ For brand-specific properties, variables are transformed to include the brand id
 For Sbanken, the following namespaces are available:
 
 - **`--color-sb-*`** - (e.g., `--color-sb-purple`, `--color-sb-green`)
-- **`--font-sb-*`** - (e.g., `--font-sb-default`, `--font-sb-heading`)
 - **`--font-weight-sb-*`** - (e.g., `--font-weight-sb-default`, `--font-weight-sb-medium`)
 - **`--text-sb-*`** - (e.g., `--text-sb-small`, `--text-sb-large`)
-- **`--leading-sb-*`** - (e.g., `--leading-sb-small`, `--leading-sb-medium`)
 - **`--spacing-sb-*`** - (e.g., `--spacing-sb-small`, `--spacing-sb-large`)
 - **`--shadow-sb-*`** - (e.g., `--shadow-sb-small`, `--shadow-sb-medium`)
 - **`--ease-sb-*`** - (e.g., `--ease-sb-default`)

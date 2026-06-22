@@ -1,8 +1,8 @@
 ---
 title: 'Forms for applications'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.925Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.684Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -41,7 +41,8 @@ Key features:
 - Ready-to-use, data-driven form components
 - Tree-shakeable structure — unused code will not be included in the production bundle
 - All functionality in components can be controlled and overridden via properties
-- Data management using the declarative [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) directive (e.g., `path="/firstName"`)
+- Data management using the declarative [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) directive (e.g., `path="/firstName"`), optionally [type-checked](/uilib/extensions/forms/typed-paths/) with TypeScript
+- Path-scoped form updates help large forms stay responsive by reducing unnecessary updates when unrelated data paths change
 - State can be handled outside [Form.Handler](/uilib/extensions/forms/Form/Handler) (Provider Context) with the [useData](/uilib/extensions/forms/Form/useData) hook
 - Support for both Zod and Ajv JSON Schema
 - Async form [submission](/uilib/extensions/forms/getting-started/#async-form-behavior) and [validation](/uilib/extensions/forms/getting-started/#async-validation) support

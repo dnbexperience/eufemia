@@ -1,9 +1,9 @@
 ---
 title: 'Autocomplete'
-description: 'The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.580Z
-checksum: 9f5ee4e27a8c8f720a2b58f6bdf653b2c233351fe064c151e49d813a11635940
+description: 'Use Autocomplete to help people find and choose from matching suggestions as they type.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.386Z
+checksum: 27e85a1eff285950c54cb6946eec7ab5504783064cb7f5ca016adc662982fe89
 ---
 
 # Autocomplete
@@ -177,7 +177,7 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 - `setInputValue` update the input value.
 - `clearInputValue` will set the current input value to an empty string.
 - `focusInput` will set focus on the input element.
-- `showIndicator` shows a progress indicator instead of the icon (inside the input).
+- `showIndicator` shows a progress indicator instead of the icon (inside the input). When `icon={null}` is set, no progress indicator is shown.
 - `hideIndicator` hides the progress indicator inside the input.
 - `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as a data option item.
 - `showNoOptionsItem` shows the "no entries found" status as a data option item.
@@ -489,6 +489,20 @@ render(<Flex.Vertical>
 ```
 
 
+
+  
+```tsx
+render(<Wrapper>
+    <ComponentBox data-visual-test="autocomplete-icon-right-submit-button" scope={{
+    topMovies
+  }}>
+      <Autocomplete label="Label" icon="bell" iconPosition="right" showSubmitButton data={topMovies} />
+    </ComponentBox>
+  </Wrapper>)
+```
+
+
+
 ### Autocomplete with status message
 
 
@@ -655,7 +669,7 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
       "status": "optional"
     },
     "icon": {
-      "doc": "To be included in the autocomplete input.",
+      "doc": "To be included in the autocomplete input. Defaults to `loupe`. Set to `null` to remove the icon entirely – no progress indicator will then be shown while loading.",
       "type": [
         "string",
         "React.ReactNode"
@@ -1424,7 +1438,7 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 - `setInputValue` update the input value.
 - `clearInputValue` will set the current input value to an empty string.
 - `focusInput` will set focus on the input element.
-- `showIndicator` shows a progress indicator instead of the icon (inside the input).
+- `showIndicator` shows a progress indicator instead of the icon (inside the input). When `icon={null}` is set, no progress indicator is shown.
 - `hideIndicator` hides the progress indicator inside the input.
 - `showIndicatorItem` shows an item with a [ProgressIndicator](/uilib/components/progress-indicator) status as a data option item.
 - `showNoOptionsItem` shows the "no entries found" status as a data option item.

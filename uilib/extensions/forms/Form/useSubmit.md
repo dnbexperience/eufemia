@@ -1,8 +1,8 @@
 ---
 title: 'Form.useSubmit'
 description: '`Form.useSubmit` lets you trigger form submit from outside the form element, e.g. when the submit button is in a modal footer or toolbar.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.532Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.338Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,8 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 ## Description
 
 The `Form.useSubmit` hook lets you trigger form submit from a component that is **outside** [Form.Handler](/uilib/extensions/forms/Form/Handler/). Give `Form.Handler` an `id` and pass the same `id` to `Form.useSubmit(id)`. This is useful when the submit button is placed in a modal footer, drawer, toolbar, or another part of the layout.
+
+For rendering fields and other form components outside the handler tree, use [Form.Outlet](/uilib/extensions/forms/Form/Outlet/) with the same form handler id (`formHandlerId`).
 
 The hook returns an object with a `submit` function. Calling `submit()` runs validation and, if valid, calls the form's `onSubmit` handler – the same flow as when using [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) inside the form.
 

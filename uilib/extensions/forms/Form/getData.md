@@ -1,8 +1,8 @@
 ---
 title: 'Form.getData'
 description: '`Form.getData` lets you access your form data outside of the form context.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.527Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.332Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -51,6 +51,10 @@ Related helpers:
 
 - [Form.setData](/uilib/extensions/forms/Form/setData/)
 - [Form.useData](/uilib/extensions/forms/Form/useData/)
+- [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/)
+- [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription)
+
+For rendered values inside `Form.Handler`, use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) to subscribe to one path. For custom field or value components that render form data, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). Use `Form.useDataWithoutSubscription().getData()` for non-subscribing imperative reads inside a component.
 
 ## Visible data
 

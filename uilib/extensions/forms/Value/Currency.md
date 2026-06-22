@@ -1,9 +1,9 @@
 ---
 title: 'Value.Currency'
 description: '`Value.Currency` is a wrapper component for displaying number values, with user experience tailored for currency values.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.701Z
-checksum: b7574bba2514115a6a0a64a06d272f3d03a0ff8966396df000a74da840a22823
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.478Z
+checksum: 2131e5836bfd7237ef28fb861a20eb2238f6bb774247a97f1ce9be3f382afcf9
 ---
 
 # Value.Currency
@@ -227,7 +227,7 @@ render(<P>
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },

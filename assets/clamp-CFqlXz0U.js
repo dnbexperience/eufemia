@@ -1,1 +1,0 @@
-function e(e,t=0,n=100){return Math.min(Math.max(e,t),n)}export{e as t};

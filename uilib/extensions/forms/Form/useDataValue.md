@@ -1,0 +1,75 @@
+---
+title: 'Form.useDataValue'
+description: '`Form.useDataValue` lets you render one form data value with a path-scoped subscription.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.336Z
+checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+---
+
+# Form.useDataValue
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+// Use Form.useDataValue
+```
+
+## Description
+
+`Form.useDataValue(path)` returns the current value at a [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) path and subscribes only to that path while used inside `Form.Handler`.
+
+Use it when rendered output depends on one form data value. It rerenders when that path, a parent path or a child path changes, but not when unrelated form data or other form context state changes.
+
+For custom field or value components, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/) for the component's own path.
+
+Related helpers:
+
+- [Form.useData](/uilib/extensions/forms/Form/useData/)
+- [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription)
+- [Form.getData](/uilib/extensions/forms/Form/getData/)
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useDataValue.ts)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/useDataValue)
+
+## Usage
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const name = Form.useDataValue<string>('/customer/name')
+
+  return <output>{name}</output>
+}
+
+render(
+  <Form.Handler data={{ customer: { name: 'Ada' } }}>
+    <MyComponent />
+  </Form.Handler>
+)
+```
+
+## TypeScript support
+
+You can define the value type returned from the path.
+
+```tsx
+type MyData = { firstName: string }
+
+const MyComponent = () => {
+  const firstName = Form.useDataValue<MyData['firstName']>('/firstName')
+
+  return firstName
+}
+```
+
+## When to use it
+
+Use `Form.useDataValue` for rendered values inside `Form.Handler`.
+
+Use [Form.useData](/uilib/extensions/forms/Form/useData/) when rendered output depends on the whole form data object.
+
+Use [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription) for non-subscribing imperative reads or writes in callbacks, effects or internal handlers.

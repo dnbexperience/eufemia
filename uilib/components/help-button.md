@@ -1,8 +1,8 @@
 ---
 title: 'HelpButton'
-description: 'A help button with custom semantics, helping screen readers determine the meaning of that button.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.748Z
+description: 'Use HelpButton when a short explanation should be available next to a label or control.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.570Z
 checksum: 5241f932b12afce6aefcbc6a511134e8e32f093f2b57d60afa7efad863b9417c
 ---
 

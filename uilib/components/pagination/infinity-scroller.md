@@ -1,8 +1,8 @@
 ---
 title: 'InfinityScroller'
-description: 'The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.856Z
+description: 'Use InfinityScroller to load more content automatically as people scroll.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.673Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -112,7 +112,7 @@ render(
 
 This method will basically add a load button on top, if `startupPage` or `currentPage` is higher than `1` at the first render.
 
-Also, it adds an indicator at the bottom until next render, and as long as `pageCount` has not reached the internal page count. But instead of setting `pageCount` (total pages), you can pragmatically call `endInfinity()` instead.
+Also, it adds an indicator at the bottom until next render, and as long as `pageCount` has not reached the internal page count. But instead of setting `pageCount` (total pages), you can programmatically call `endInfinity()` instead.
 
 ```jsx
 import { createPagination } from '@dnb/eufemia/components/Pagination'

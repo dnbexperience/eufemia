@@ -1,8 +1,8 @@
 ---
 title: 'Lists'
 description: 'Lists are used to specify lists of information.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.335Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.144Z
 checksum: 0b40c0df9c0324d04a4dc5af29934df83fda4e1758d20cd1df07895093890829
 ---
 

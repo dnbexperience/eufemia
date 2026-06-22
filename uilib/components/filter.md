@@ -1,8 +1,8 @@
 ---
 title: 'Filter'
-description: 'Filter is a composable, data-model-agnostic filter UI. It provides shared state via hooks so you can apply filters to your own data.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.699Z
+description: 'Use Filter to help people narrow down a list or data set.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.515Z
 checksum: d880adfaa9ce2c1b007fb153044b524a0cf8f15772be0b91997fce5008d24928
 ---
 

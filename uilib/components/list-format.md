@@ -1,9 +1,9 @@
 ---
 title: 'ListFormat'
-description: 'A ready-to-use DNB list formatter.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.806Z
-checksum: 44c18c65e32f3c3c03b2e733470174561e22f2ad28aa124b7264af569cd9d669
+description: 'Use ListFormat to show lists of values in the correct DNB format.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.616Z
+checksum: 4703040dec6c8fb984f2068d6befe66becaa5ac363c99ed4ed4d91b2313548e1
 ---
 
 # ListFormat
@@ -192,6 +192,11 @@ render(<P>
     "children": {
       "doc": "The children to format.",
       "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Locale used to format the value when variant is `text`. Defaults to the shared Provider locale.",
+      "type": "string",
       "status": "optional"
     },
     "format": {

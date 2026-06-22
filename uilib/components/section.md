@@ -1,8 +1,8 @@
 ---
 title: 'Section'
-description: 'The Section component is a visual helper.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.893Z
+description: 'Use Section to give an area of the page a visual background or surface.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.714Z
 checksum: fffcbcb63ca8e59f33048125db5b3de0f3cdd0152aace0013092f258f7ddba4f
 ---
 

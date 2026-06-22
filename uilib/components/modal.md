@@ -1,8 +1,8 @@
 ---
 title: 'Modal'
-description: 'Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.845Z
+description: 'Use Modal when people must focus on one task or message before returning to the page.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.660Z
 checksum: 4431fae2686531eb24d742fedbec3be76758e8aa485f3a72a7350a36d7dec116
 ---
 

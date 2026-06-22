@@ -1,9 +1,9 @@
 ---
 title: 'Value.Number'
 description: '`Value.Number` is a base component for displaying values of the type `number`.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.742Z
-checksum: 6c1c91b9974ff31fbcda09244725a59ebc83a9f9b5331574717ed557bbe70d1d
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.518Z
+checksum: 684088d618bdc0d71e27e1473c55f8718dffe93f35683ee953e39f70a4e0aa53
 ---
 
 # Value.Number
@@ -198,7 +198,7 @@ render(<P>
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },

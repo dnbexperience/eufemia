@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.566Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.360Z
 checksum: ae7887af29a363083e70cee1ef245b8ad92df8e01c4431b97ef595805f270b45
 ---
 
@@ -69,6 +69,8 @@ Since `Iterate.Array` renders its children once per item, the field components i
 ### 1. itemPath
 
 If field components inside `Iterate.Array` are given an `itemPath` property, this will look for values based on the array item being the root of the structure, even if the array often comes from a surrounding data set. This means you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can treat the individual item as its own structure.
+
+To get autocomplete and compile-time checking on the `itemPath` prop, derive the item type from your registered root data with `TypedItemField`. See [Type-checked paths](/uilib/extensions/forms/typed-paths/#type-checking-itempath-inside-iterate).
 
 ### 2. Function callback as children (render property)
 

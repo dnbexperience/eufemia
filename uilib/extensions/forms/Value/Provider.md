@@ -1,8 +1,8 @@
 ---
 title: 'Value.Provider'
 description: 'The `Value.Provider` lets you pass generic properties to all nested Value.* components.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.762Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.535Z
 checksum: e7b12e28bd1ae9d0be358d8e055696956c8ffd03ffe702cea4ffc9b0dcce4fb0
 ---
 

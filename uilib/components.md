@@ -1,7 +1,7 @@
 ---
 title: 'Components'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.242Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.062Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -10,234 +10,238 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 DNB Eufemia components are ready-to-use, styled, and custom-built HTML elements.
 
 
+## [Overview](/uilib/components/overview/)
+
+All components and fragments grouped by practical usage categories.
+
 ## [Accordion](/uilib/components/accordion/)
 
-The Accordion component is a combination of an accessible button (header area) and a content container.
+Use Accordion to let people open and close sections of related content.
 
 ## [Anchor (Text Link)](/uilib/components/anchor/)
 
-The Anchor, also known as "Link" is used to navigate from one page to the next HTML page.
+Use Anchor to take people to another page, section, or website.
 
 ## [AriaLive](/uilib/components/aria-live/)
 
-AriaLive is a React component and hook that helps make your web app more accessible by announcing dynamic changes to screen readers.
+Use AriaLive to announce page changes to screen reader users.
 
 ## [Autocomplete](/uilib/components/autocomplete/)
 
-The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.
+Use Autocomplete to help people find and choose from matching suggestions as they type.
 
 ## [Avatar](/uilib/components/avatar/)
 
-The Avatar component is an identifier that makes people and companies more scannable.
+Use Avatar to make a person, company, or profile easier to recognize.
 
 ## [Badge](/uilib/components/badge/)
 
-The Badge component allows the user to focus on new or unread content or notifications.
+Use Badge to highlight new, unread, or important information.
 
 ## [Breadcrumb](/uilib/components/breadcrumb/)
 
-The Breadcrumb component is a bar for navigation showing current web path.
+Use Breadcrumb to show where someone is and let them move back up the path.
 
 ## [Button](/uilib/components/button/)
 
-The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
+Use Button when people need to start, confirm, or submit an action.
 
 ## [Card](/uilib/components/card/)
 
-`Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.
+Use Card to group related content in a clear, separated area.
 
 ## [Checkbox](/uilib/components/checkbox/)
 
-The Checkbox component is shown as a square box that is ticked (checked) when activated.
+Use Checkbox when people can turn one or more options on or off.
 
 ## [CopyOnClick](/uilib/components/copy-on-click/)
 
-The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.
+Use CopyOnClick when people should copy text by clicking it.
 
 ## [CountryFlag](/uilib/components/country-flag/)
 
-The CountryFlag component lets you display a country flag based on a country ISO code.
+Use CountryFlag to show a country by its flag from an ISO country code.
 
 ## [DateFormat](/uilib/components/date-format/)
 
-A ready-to-use DNB date formatter.
+Use DateFormat to show dates in the correct DNB format.
 
 ## [DatePicker](/uilib/components/date-picker/)
 
-The DatePicker component should be used whenever the user is to enter a single date or a date period.
+Use DatePicker when people need to choose one date or a date range.
 
 ## [Dialog](/uilib/components/dialog/)
 
-The Dialog component is a Modal variation that appears at the center of the screen.
+Use Dialog when people need to make a choice or read an important message before continuing.
 
 ## [Drawer](/uilib/components/drawer/)
 
-The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.
+Use Drawer to show extra content in a panel that slides in from the side.
 
 ## [Dropdown](/uilib/components/dropdown/)
 
-The Dropdown component is a custom-made data selection component.
+Use Dropdown when people need to choose one option from a list.
 
 ## [Filter](/uilib/components/filter/)
 
-Filter is a composable, data-model-agnostic filter UI. It provides shared state via hooks so you can apply filters to your own data.
+Use Filter to help people narrow down a list or data set.
 
 ## [FormLabel](/uilib/components/form-label/)
 
-The FormLabel component represents a caption for all sorts of HTML elements in a user interface.
+Use FormLabel to name an input, control, or form-related field.
 
 ## [FormStatus (Messageboxes)](/uilib/components/form-status/)
 
-The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).
+Use FormStatus to show validation errors, warnings, or messages near a form.
 
 ## [GlobalError (404)](/uilib/components/global-error/)
 
-The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.
+Use GlobalError to show a clear 404 or 500 error page.
 
 ## [GlobalStatus](/uilib/components/global-status/)
 
-The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.
+Use GlobalStatus to show important page-level messages or a summary of form errors.
 
-## [Heading](/uilib/components/heading/)
+## [Heading (auto level)](/uilib/components/heading/)
 
-The Heading component is a helper to create automated semantic headings within a boundary of some rules.
+Use Heading to create accessible page headings with the correct level.
 
 ## [HeightAnimation](/uilib/components/height-animation/)
 
-HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.
+Use HeightAnimation to animate content as it opens or closes.
 
 ## [HelpButton](/uilib/components/help-button/)
 
-A help button with custom semantics, helping screen readers determine the meaning of that button.
+Use HelpButton when a short explanation should be available next to a label or control.
 
 ## [Icon](/uilib/components/icon/)
 
-The main Icon component is basically a wrapper for whatever icon you place within it.
+Use Icon to render and size an icon in line with Eufemia styling.
 
 ## [InfinityScroller](/uilib/components/pagination/infinity-scroller/)
 
-The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.
+Use InfinityScroller to load more content automatically as people scroll.
 
 ## [InfoCard](/uilib/components/info-card/)
 
-The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.
+Use InfoCard to show helpful information, tips, or guidance in a highlighted area.
 
 ## [Input](/uilib/components/input/)
 
-The Input component is an umbrella component for all inputs which share the same style as the classic text input field.
+Use Input when people need to enter a short line of text.
 
 ## [InputMasked](/uilib/components/input-masked/)
 
-The InputMasked component uses the basic input component, but with some additional masking functionality.
+Use InputMasked when people must enter text in a fixed format.
 
 ## [List](/uilib/components/list/)
 
-List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.
+Use List to show rows of related content, with optional actions or navigation.
 
 ## [ListFormat](/uilib/components/list-format/)
 
-A ready-to-use DNB list formatter.
+Use ListFormat to show lists of values in the correct DNB format.
 
 ## [Logo](/uilib/components/logo/)
 
-A ready to use Logo component with the needed SVGs.
+Use Logo to show the DNB logo with the correct SVG and styling.
 
 ## [Menu](/uilib/components/menu/)
 
-Menu is a composable dropdown menu component for actions and navigation, with keyboard navigation, nested menus, and full accessibility support.
+Use Menu when people need to choose from a small list of actions or links.
 
 ## [Modal](/uilib/components/modal/)
 
-Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.
+Use Modal when people must focus on one task or message before returning to the page.
 
 ## [NumberFormat](/uilib/components/number-format/)
 
-A ready-to-use DNB number formatter.
+Use NumberFormat to show numbers in the correct DNB format.
 
 ## [Pagination](/uilib/components/pagination/)
 
-The Pagination component supports both classical pagination and infinity scrolling.
+Use Pagination to split long content into pages or load more content as people move through it.
 
 ## [Popover](/uilib/components/popover/)
 
-Popover renders its own floating surface anchored to a trigger element. (For internal use only)
+Use Popover to show a small floating panel connected to a trigger.
 
 ## [PortalRoot](/uilib/components/portal-root/)
 
-PortalRoot is a React component that helps you make React Portals.
+Use PortalRoot to render floating content outside the normal page structure.
 
 ## [ProgressIndicator](/uilib/components/progress-indicator/)
 
-The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.
+Use ProgressIndicator to show that something is loading or processing.
 
 ## [Radio](/uilib/components/radio/)
 
-The Radio component is shown as a circle that is filled (checked) when activated.
+Use Radio when people must choose one option from a set.
 
 ## [Section](/uilib/components/section/)
 
-The Section component is a visual helper.
+Use Section to give an area of the page a visual background or surface.
 
 ## [Skeleton](/uilib/components/skeleton/)
 
-The Skeleton component is a visual building block helper.
+Use Skeleton to show where content will appear while it is loading.
 
 ## [SkipContent](/uilib/components/skip-content/)
 
-SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.
+Use SkipContent to help keyboard users jump past large or repeated content.
 
 ## [Slider](/uilib/components/slider/)
 
-The Slider component provides a visual indication of adjustable value.
+Use Slider when people need to choose a value from a range.
 
 ## [Stat](/uilib/components/stat/)
 
-Composable metric components for highlighted values, trends, and labels.
+Use Stat to highlight an important number, label, or trend.
 
 ## [StepIndicator](/uilib/components/step-indicator/)
 
-The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions.
+Use StepIndicator to show progress through a process with several steps.
 
 ## [Switch](/uilib/components/switch/)
 
-The Switch component (toggle) is a digital on/off switch.
+Use Switch when people can turn one setting on or off.
 
 ## [Table](/uilib/components/table/)
 
-Enhanced HTML Table element.
+Use Table to show structured data in rows and columns.
 
 ## [Tabs](/uilib/components/tabs/)
 
-Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.
+Use Tabs to let people switch between related views on the same page.
 
 ## [Tag](/uilib/components/tag/)
 
-The Tag component is a compact element for displaying discrete information.
+Use Tag to show a small label, status, or selected value.
 
 ## [TermDefinition](/uilib/components/term-definition/)
 
-TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.
+Use TermDefinition to explain a word or phrase without leaving the page.
 
 ## [Textarea](/uilib/components/textarea/)
 
-The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.
+Use Textarea when people need to write longer text over several lines.
 
 ## [Timeline](/uilib/components/timeline/)
 
-The Timeline component shows events in chronological order and gives a great overview of the overall process.
+Use Timeline to show events or steps in chronological order.
 
 ## [ToggleButton](/uilib/components/toggle-button/)
 
-The ToggleButton component should be used to toggle on or off a limited number of choices.
+Use ToggleButton when people can turn one or more visible choices on or off.
 
 ## [Tooltip](/uilib/components/tooltip/)
 
-The Tooltip component is primarily meant to enhance the UX for various and additional information.
+Use Tooltip to give a short hint or explanation for nearby content.
 
 ## [Upload](/uilib/components/upload/)
 
-The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
+Use Upload when people need to choose or drag files into a page.
 
 ## [VisuallyHidden](/uilib/components/visually-hidden/)
 
-VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.
+Use VisuallyHidden to keep helpful text available to screen readers but hidden visually.

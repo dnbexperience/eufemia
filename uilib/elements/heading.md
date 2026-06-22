@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The heading element is used to indicate the quotation of a large section of text from another source.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.250Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.072Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -114,21 +114,39 @@ The `proseMaxWidth` property allows you to limit the width of heading text based
 
 
 ```tsx
-<H2>
+<H4>
     This is a regular heading without any width constraints. It will
     extend to the full width of its container.
-  </H2>
-<H2 proseMaxWidth={40}>
+  </H4>
+<H4 proseMaxWidth={40}>
     This heading uses proseMaxWidth={40} to limit its width to
     approximately 40 characters.
-  </H2>
-<H2 proseMaxWidth={20}>
+  </H4>
+<H4 proseMaxWidth={20}>
     This heading uses proseMaxWidth={20} for an even narrower reading
     width.
-  </H2>
-<H2 proseMaxWidth>
+  </H4>
+<H4 proseMaxWidth>
     This heading uses proseMaxWidth with its default value.
-  </H2>
+  </H4>
+```
+
+
+#### Using Typography.Provider
+
+Use `Typography.Provider` to apply `proseMaxWidth` to multiple headings at once:
+
+
+```tsx
+render(<Typography.Provider proseMaxWidth={40}>
+        <H4>
+          This heading is inside a Typography.Provider with proseMaxWidth=
+          {40}
+        </H4>
+        <H4 proseMaxWidth={20}>
+          This heading overrides the provider with proseMaxWidth={20}
+        </H4>
+      </Typography.Provider>)
 ```
 
 
@@ -294,6 +312,14 @@ HWrap
     "skipCorrection": {
       "doc": "If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either.",
       "type": "boolean",
+      "status": "optional"
+    },
+    "proseMaxWidth": {
+      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
+      "type": [
+        "number",
+        "boolean"
+      ],
       "status": "optional"
     },
     "debug": {

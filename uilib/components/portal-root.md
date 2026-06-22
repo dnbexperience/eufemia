@@ -1,8 +1,8 @@
 ---
 title: 'PortalRoot'
-description: 'PortalRoot is a React component that helps you make React Portals.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.874Z
+description: 'Use PortalRoot to render floating content outside the normal page structure.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.694Z
 checksum: 9e4431df834c9b59cac82d30a49e56b95a0858679657373ee1a87dc1a6590110
 ---
 

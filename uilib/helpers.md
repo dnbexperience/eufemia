@@ -1,8 +1,8 @@
 ---
 title: 'Helpers'
 description: 'A couple of helper functions used inside of components and extensions.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.935Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.691Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

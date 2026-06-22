@@ -1,7 +1,7 @@
 ---
 title: 'Line Height'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.965Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.716Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,16 +11,16 @@ For details about what values Typographic elements use, have a look at the [Font
 
 ## Default `line-height` **rem** table
 
-| Pixel                                   | Type       | Rem                                          | CSS variable / property  | CSS Classname                   | Info                             |
-| --------------------------------------- | ---------- | -------------------------------------------- | ------------------------ | ------------------------------- | -------------------------------- |
-| {GetPropAsPx('--line-height-x-small')}  | `x-small`  | **{GetPropValue('--line-height-x-small')}**  | `--line-height-x-small`  | `.dnb-t__line-height--x-small`  |                                  |
-| {GetPropAsPx('--line-height-small')}    | `small`    | **{GetPropValue('--line-height-small')}**    | `--line-height-small`    | `.dnb-t__line-height--small`    |                                  |
-| {GetPropAsPx('--line-height-basis')}    | `basis`    | **{GetPropValue('--line-height-basis')}**    | `--line-height-basis`    | `.dnb-t__line-height--basis`    |                                  |
-| {GetPropAsPx('--line-height-lead')}     | `lead`     | **{GetPropValue('--line-height-lead')}**     | `--line-height-lead`     | `.dnb-t__line-height--lead`     | Unique line-height for `<Lead>`. |
-| {GetPropAsPx('--line-height-medium')}   | `medium`   | **{GetPropValue('--line-height-medium')}**   | `--line-height-medium`   | `.dnb-t__line-height--medium`   |                                  |
-| {GetPropAsPx('--line-height-large')}    | `large`    | **{GetPropValue('--line-height-large')}**    | `--line-height-large`    | `.dnb-t__line-height--large`    |                                  |
-| {GetPropAsPx('--line-height-x-large')}  | `x-large`  | **{GetPropValue('--line-height-x-large')}**  | `--line-height-x-large`  | `.dnb-t__line-height--x-large`  |                                  |
-| {GetPropAsPx('--line-height-xx-large')} | `xx-large` | **{GetPropValue('--line-height-xx-large')}** | `--line-height-xx-large` | `.dnb-t__line-height--xx-large` | Same as `x-large`                |
+| Pixel                                   | Type       | Rem                                          | CSS variable / property  | CSS Classname                   | Info             |
+| --------------------------------------- | ---------- | -------------------------------------------- | ------------------------ | ------------------------------- | ---------------- |
+| {GetPropAsPx('--line-height-x-small')}  | `x-small`  | **{GetPropValue('--line-height-x-small')}**  | `--line-height-x-small`  | `.dnb-t__line-height--x-small`  |                  |
+| {GetPropAsPx('--line-height-small')}    | `small`    | **{GetPropValue('--line-height-small')}**    | `--line-height-small`    | `.dnb-t__line-height--small`    |                  |
+| {GetPropAsPx('--line-height-basis')}    | `basis`    | **{GetPropValue('--line-height-basis')}**    | `--line-height-basis`    | `.dnb-t__line-height--basis`    |                  |
+| {GetPropAsPx('--line-height-lead')}     | `lead`     | **{GetPropValue('--line-height-lead')}**     | `--line-height-lead`     | `.dnb-t__line-height--lead`     | Same as `medium` |
+| {GetPropAsPx('--line-height-medium')}   | `medium`   | **{GetPropValue('--line-height-medium')}**   | `--line-height-medium`   | `.dnb-t__line-height--medium`   |                  |
+| {GetPropAsPx('--line-height-large')}    | `large`    | **{GetPropValue('--line-height-large')}**    | `--line-height-large`    | `.dnb-t__line-height--large`    |                  |
+| {GetPropAsPx('--line-height-x-large')}  | `x-large`  | **{GetPropValue('--line-height-x-large')}**  | `--line-height-x-large`  | `.dnb-t__line-height--x-large`  |                  |
+| {GetPropAsPx('--line-height-xx-large')} | `xx-large` | **{GetPropValue('--line-height-xx-large')}** | `--line-height-xx-large` | `.dnb-t__line-height--xx-large` |                  |
 
 ### Code Editor Extensions
 

@@ -1,9 +1,9 @@
 ---
 title: 'Value.MultiSelection'
 description: '`Value.MultiSelection` displays the selected values from a `Field.MultiSelection` as a formatted list of titles.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.729Z
-checksum: 5abf1bfacf7933b5dd84dd62cfcfb4c3e1d77a726924f6c7e1d2283dde982873
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.503Z
+checksum: c8943d90dbf0005b71713183521df7f0d1e21b82301277d7b28126f274d9d45e
 ---
 
 # Value.MultiSelection
@@ -160,6 +160,11 @@ render(<Value.SummaryList>
     "children": {
       "doc": "The children to format.",
       "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Locale used to format the value when variant is `text`. Defaults to the shared Provider locale.",
+      "type": "string",
       "status": "optional"
     },
     "format": {

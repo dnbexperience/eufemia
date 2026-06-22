@@ -1,8 +1,8 @@
 ---
 title: 'Popover'
-description: 'Popover renders its own floating surface anchored to a trigger element. (For internal use only)'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.870Z
+description: 'Use Popover to show a small floating panel connected to a trigger.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.690Z
 checksum: d7dcb4803a912ef0dc3fabb33bfb73f029c9da82f9eee9d1fe282bd2d4937771
 ---
 

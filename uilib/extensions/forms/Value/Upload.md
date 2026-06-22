@@ -1,9 +1,9 @@
 ---
 title: 'Value.Upload'
 description: '`Value.Upload` is a value component for displaying a list of files.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.822Z
-checksum: 2a7a52120d556efbd19d5c6c8685173ae3f11d714033e0126daa1692311cdf8c
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.584Z
+checksum: dff0593953a685e464fa2e392dc2ee8cc39cbeb92402f0aa5488904fb57ea013
 ---
 
 # Value.Upload
@@ -416,6 +416,11 @@ isLoading: true
     "children": {
       "doc": "The children to format.",
       "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "locale": {
+      "doc": "Locale used to format the value when variant is `text`. Defaults to the shared Provider locale.",
+      "type": "string",
       "status": "optional"
     },
     "format": {

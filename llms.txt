@@ -4,7 +4,7 @@
 
 ## Version
 
-This documentation reflects Eufemia **v11.6.1**, generated 2026-06-15T12:17:07.555Z.
+This documentation reflects Eufemia **v11.7.0**, generated 2026-06-22T08:28:07.391Z.
 
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
@@ -177,135 +177,137 @@ For any page (component, field, value, etc.):
 
 - [About the Library](https://eufemia.dnb.no/uilib/about-the-lib.md): Look into the documentation for more details.
 
-- [Accordion](https://eufemia.dnb.no/uilib/components/accordion.md): The Accordion component is a combination of an accessible button (header area) and a content container.
+- [Accordion](https://eufemia.dnb.no/uilib/components/accordion.md): Use Accordion to let people open and close sections of related content.
 
-- [Anchor (Text Link)](https://eufemia.dnb.no/uilib/components/anchor.md): The Anchor, also known as "Link" is used to navigate from one page to the next HTML page.
+- [Anchor (Text Link)](https://eufemia.dnb.no/uilib/components/anchor.md): Use Anchor to take people to another page, section, or website.
 
-- [AriaLive](https://eufemia.dnb.no/uilib/components/aria-live.md): AriaLive is a React component and hook that helps make your web app more accessible by announcing dynamic changes to screen readers.
+- [AriaLive](https://eufemia.dnb.no/uilib/components/aria-live.md): Use AriaLive to announce page changes to screen reader users.
 
 - [Methods](https://eufemia.dnb.no/uilib/components/autocomplete/methods.md): Look into the documentation for more details.
 
-- [Autocomplete](https://eufemia.dnb.no/uilib/components/autocomplete.md): The Autocomplete component is a combination of an Input and a Dropdown (ComboBox) that suggests matching data items during typing.
+- [Autocomplete](https://eufemia.dnb.no/uilib/components/autocomplete.md): Use Autocomplete to help people find and choose from matching suggestions as they type.
 
-- [Avatar](https://eufemia.dnb.no/uilib/components/avatar.md): The Avatar component is an identifier that makes people and companies more scannable.
+- [Avatar](https://eufemia.dnb.no/uilib/components/avatar.md): Use Avatar to make a person, company, or profile easier to recognize.
 
-- [Badge](https://eufemia.dnb.no/uilib/components/badge.md): The Badge component allows the user to focus on new or unread content or notifications.
+- [Badge](https://eufemia.dnb.no/uilib/components/badge.md): Use Badge to highlight new, unread, or important information.
 
-- [Breadcrumb](https://eufemia.dnb.no/uilib/components/breadcrumb.md): The Breadcrumb component is a bar for navigation showing current web path.
+- [Breadcrumb](https://eufemia.dnb.no/uilib/components/breadcrumb.md): Use Breadcrumb to show where someone is and let them move back up the path.
 
-- [Button](https://eufemia.dnb.no/uilib/components/button.md): The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.
+- [Button](https://eufemia.dnb.no/uilib/components/button.md): Use Button when people need to start, confirm, or submit an action.
 
-- [Card](https://eufemia.dnb.no/uilib/components/card.md): `Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.
+- [Card](https://eufemia.dnb.no/uilib/components/card.md): Use Card to group related content in a clear, separated area.
 
-- [Checkbox](https://eufemia.dnb.no/uilib/components/checkbox.md): The Checkbox component is shown as a square box that is ticked (checked) when activated.
+- [Checkbox](https://eufemia.dnb.no/uilib/components/checkbox.md): Use Checkbox when people can turn one or more options on or off.
 
 - [Screenshot-Test](https://eufemia.dnb.no/uilib/components/copy-on-click/screenshot-test.md): Look into the documentation for more details.
 
-- [CopyOnClick](https://eufemia.dnb.no/uilib/components/copy-on-click.md): The CopyOnClick component allows users to copy text to their clipboard simply by clicking on it.
+- [CopyOnClick](https://eufemia.dnb.no/uilib/components/copy-on-click.md): Use CopyOnClick when people should copy text by clicking it.
 
-- [CountryFlag](https://eufemia.dnb.no/uilib/components/country-flag.md): The CountryFlag component lets you display a country flag based on a country ISO code.
+- [CountryFlag](https://eufemia.dnb.no/uilib/components/country-flag.md): Use CountryFlag to show a country by its flag from an ISO country code.
 
-- [DateFormat](https://eufemia.dnb.no/uilib/components/date-format.md): A ready-to-use DNB date formatter.
+- [DateFormat](https://eufemia.dnb.no/uilib/components/date-format.md): Use DateFormat to show dates in the correct DNB format.
 
-- [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker.md): The DatePicker component should be used whenever the user is to enter a single date or a date period.
+- [DatePicker](https://eufemia.dnb.no/uilib/components/date-picker.md): Use DatePicker when people need to choose one date or a date range.
 
-- [Dialog](https://eufemia.dnb.no/uilib/components/dialog.md): The Dialog component is a Modal variation that appears at the center of the screen.
+- [Dialog](https://eufemia.dnb.no/uilib/components/dialog.md): Use Dialog when people need to make a choice or read an important message before continuing.
 
-- [Drawer](https://eufemia.dnb.no/uilib/components/drawer.md): The Drawer component is a Modal variation that appears as a side panel at any chosen side of the page.
+- [Drawer](https://eufemia.dnb.no/uilib/components/drawer.md): Use Drawer to show extra content in a panel that slides in from the side.
 
-- [Dropdown](https://eufemia.dnb.no/uilib/components/dropdown.md): The Dropdown component is a custom-made data selection component.
+- [Dropdown](https://eufemia.dnb.no/uilib/components/dropdown.md): Use Dropdown when people need to choose one option from a list.
 
-- [Filter](https://eufemia.dnb.no/uilib/components/filter.md): Filter is a composable, data-model-agnostic filter UI. It provides shared state via hooks so you can apply filters to your own data.
+- [Filter](https://eufemia.dnb.no/uilib/components/filter.md): Use Filter to help people narrow down a list or data set.
 
-- [FormLabel](https://eufemia.dnb.no/uilib/components/form-label.md): The FormLabel component represents a caption for all sorts of HTML elements in a user interface.
+- [FormLabel](https://eufemia.dnb.no/uilib/components/form-label.md): Use FormLabel to name an input, control, or form-related field.
 
-- [FormStatus (Messageboxes)](https://eufemia.dnb.no/uilib/components/form-status.md): The FormStatus is a simple component meant for displaying the status of a form (errors, messages, etc.).
+- [FormStatus (Messageboxes)](https://eufemia.dnb.no/uilib/components/form-status.md): Use FormStatus to show validation errors, warnings, or messages near a form.
 
-- [DrawerList](https://eufemia.dnb.no/uilib/components/fragments/drawer-list.md): The DrawerList component is a fragment inside other components.
+- [DrawerList](https://eufemia.dnb.no/uilib/components/fragments/drawer-list.md): Use DrawerList as an internal list pattern inside drawer-based components.
 
-- [ScrollView](https://eufemia.dnb.no/uilib/components/fragments/scroll-view.md): ScrollView is a tiny helper component helping the user controlling overflowing content horizontally or vertically
+- [ScrollView](https://eufemia.dnb.no/uilib/components/fragments/scroll-view.md): Use ScrollView when content needs its own horizontal or vertical scrolling area.
 
-- [TextCounter](https://eufemia.dnb.no/uilib/components/fragments/text-counter.md): The TextCounter is a component designed to provide real-time character count feedback in text input fields.
+- [TextCounter](https://eufemia.dnb.no/uilib/components/fragments/text-counter.md): Use TextCounter to show how many characters someone has typed or can still type.
 
 - [Fragments](https://eufemia.dnb.no/uilib/components/fragments.md): Fragments are small, low-level and reusable parts used inside other components.
 
-- [GlobalError (404)](https://eufemia.dnb.no/uilib/components/global-error.md): The GlobalError is a simple component to integrate where a 404 or 500 message has to be shown.
+- [GlobalError (404)](https://eufemia.dnb.no/uilib/components/global-error.md): Use GlobalError to show a clear 404 or 500 error page.
 
-- [GlobalStatus](https://eufemia.dnb.no/uilib/components/global-status.md): The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form.
+- [GlobalStatus](https://eufemia.dnb.no/uilib/components/global-status.md): Use GlobalStatus to show important page-level messages or a summary of form errors.
 
-- [Heading](https://eufemia.dnb.no/uilib/components/heading.md): The Heading component is a helper to create automated semantic headings within a boundary of some rules.
+- [Heading (auto level)](https://eufemia.dnb.no/uilib/components/heading.md): Use Heading to create accessible page headings with the correct level.
 
-- [HeightAnimation](https://eufemia.dnb.no/uilib/components/height-animation.md): HeightAnimation is a helper component to animate from 0 to height:auto powered by CSS.
+- [HeightAnimation](https://eufemia.dnb.no/uilib/components/height-animation.md): Use HeightAnimation to animate content as it opens or closes.
 
-- [HelpButton](https://eufemia.dnb.no/uilib/components/help-button.md): A help button with custom semantics, helping screen readers determine the meaning of that button.
+- [HelpButton](https://eufemia.dnb.no/uilib/components/help-button.md): Use HelpButton when a short explanation should be available next to a label or control.
 
-- [Icon](https://eufemia.dnb.no/uilib/components/icon.md): The main Icon component is basically a wrapper for whatever icon you place within it.
+- [Icon](https://eufemia.dnb.no/uilib/components/icon.md): Use Icon to render and size an icon in line with Eufemia styling.
 
-- [InfoCard](https://eufemia.dnb.no/uilib/components/info-card.md): The InfoCard is used to give the user more information than a message box. It can also be used to give useful tips.
+- [InfoCard](https://eufemia.dnb.no/uilib/components/info-card.md): Use InfoCard to show helpful information, tips, or guidance in a highlighted area.
 
-- [InputMasked](https://eufemia.dnb.no/uilib/components/input-masked.md): The InputMasked component uses the basic input component, but with some additional masking functionality.
+- [InputMasked](https://eufemia.dnb.no/uilib/components/input-masked.md): Use InputMasked when people must enter text in a fixed format.
 
-- [Input](https://eufemia.dnb.no/uilib/components/input.md): The Input component is an umbrella component for all inputs which share the same style as the classic text input field.
+- [Input](https://eufemia.dnb.no/uilib/components/input.md): Use Input when people need to enter a short line of text.
 
-- [ListFormat](https://eufemia.dnb.no/uilib/components/list-format.md): A ready-to-use DNB list formatter.
+- [ListFormat](https://eufemia.dnb.no/uilib/components/list-format.md): Use ListFormat to show lists of values in the correct DNB format.
 
-- [List](https://eufemia.dnb.no/uilib/components/list.md): List is a layout component for displaying rows of content, with optional start/center/end slots and a navigable item variant.
+- [List](https://eufemia.dnb.no/uilib/components/list.md): Use List to show rows of related content, with optional actions or navigation.
 
-- [Logo](https://eufemia.dnb.no/uilib/components/logo.md): A ready to use Logo component with the needed SVGs.
+- [Logo](https://eufemia.dnb.no/uilib/components/logo.md): Use Logo to show the DNB logo with the correct SVG and styling.
 
-- [Menu](https://eufemia.dnb.no/uilib/components/menu.md): Menu is a composable dropdown menu component for actions and navigation, with keyboard navigation, nested menus, and full accessibility support.
+- [Menu](https://eufemia.dnb.no/uilib/components/menu.md): Use Menu when people need to choose from a small list of actions or links.
 
-- [Modal](https://eufemia.dnb.no/uilib/components/modal.md): Modal dialogs appear on top of the main content changing the mode of the system into a special mode requiring user interaction.
+- [Modal](https://eufemia.dnb.no/uilib/components/modal.md): Use Modal when people must focus on one task or message before returning to the page.
 
 - [Provider](https://eufemia.dnb.no/uilib/components/number-format/provider.md): Look into the documentation for more details.
 
-- [NumberFormat](https://eufemia.dnb.no/uilib/components/number-format.md): A ready-to-use DNB number formatter.
+- [NumberFormat](https://eufemia.dnb.no/uilib/components/number-format.md): Use NumberFormat to show numbers in the correct DNB format.
 
-- [InfinityScroller](https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller.md): The InfinityScroller component is a mode of the Pagination component which loads content continuously as the user scrolls down the page.
+- [Overview](https://eufemia.dnb.no/uilib/components/overview.md): All components and fragments grouped by practical usage categories.
 
-- [Pagination](https://eufemia.dnb.no/uilib/components/pagination.md): The Pagination component supports both classical pagination and infinity scrolling.
+- [InfinityScroller](https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller.md): Use InfinityScroller to load more content automatically as people scroll.
 
-- [Popover](https://eufemia.dnb.no/uilib/components/popover.md): Popover renders its own floating surface anchored to a trigger element. (For internal use only)
+- [Pagination](https://eufemia.dnb.no/uilib/components/pagination.md): Use Pagination to split long content into pages or load more content as people move through it.
 
-- [PortalRoot](https://eufemia.dnb.no/uilib/components/portal-root.md): PortalRoot is a React component that helps you make React Portals.
+- [Popover](https://eufemia.dnb.no/uilib/components/popover.md): Use Popover to show a small floating panel connected to a trigger.
 
-- [ProgressIndicator](https://eufemia.dnb.no/uilib/components/progress-indicator.md): The ProgressIndicator component is a waiting loader / spinner to show while other content is in progression.
+- [PortalRoot](https://eufemia.dnb.no/uilib/components/portal-root.md): Use PortalRoot to render floating content outside the normal page structure.
 
-- [Radio](https://eufemia.dnb.no/uilib/components/radio.md): The Radio component is shown as a circle that is filled (checked) when activated.
+- [ProgressIndicator](https://eufemia.dnb.no/uilib/components/progress-indicator.md): Use ProgressIndicator to show that something is loading or processing.
 
-- [Section](https://eufemia.dnb.no/uilib/components/section.md): The Section component is a visual helper.
+- [Radio](https://eufemia.dnb.no/uilib/components/radio.md): Use Radio when people must choose one option from a set.
 
-- [Skeleton](https://eufemia.dnb.no/uilib/components/skeleton.md): The Skeleton component is a visual building block helper.
+- [Section](https://eufemia.dnb.no/uilib/components/section.md): Use Section to give an area of the page a visual background or surface.
 
-- [SkipContent](https://eufemia.dnb.no/uilib/components/skip-content.md): SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.
+- [Skeleton](https://eufemia.dnb.no/uilib/components/skeleton.md): Use Skeleton to show where content will appear while it is loading.
 
-- [Slider](https://eufemia.dnb.no/uilib/components/slider.md): The Slider component provides a visual indication of adjustable value.
+- [SkipContent](https://eufemia.dnb.no/uilib/components/skip-content.md): Use SkipContent to help keyboard users jump past large or repeated content.
 
-- [Stat](https://eufemia.dnb.no/uilib/components/stat.md): Composable metric components for highlighted values, trends, and labels.
+- [Slider](https://eufemia.dnb.no/uilib/components/slider.md): Use Slider when people need to choose a value from a range.
 
-- [StepIndicator](https://eufemia.dnb.no/uilib/components/step-indicator.md): The StepIndicator (progress indicator) is a visual representation of a user's progress through a set of steps or series of actions.
+- [Stat](https://eufemia.dnb.no/uilib/components/stat.md): Use Stat to highlight an important number, label, or trend.
 
-- [Switch](https://eufemia.dnb.no/uilib/components/switch.md): The Switch component (toggle) is a digital on/off switch.
+- [StepIndicator](https://eufemia.dnb.no/uilib/components/step-indicator.md): Use StepIndicator to show progress through a process with several steps.
 
-- [Table](https://eufemia.dnb.no/uilib/components/table.md): Enhanced HTML Table element.
+- [Switch](https://eufemia.dnb.no/uilib/components/switch.md): Use Switch when people can turn one setting on or off.
 
-- [Tabs](https://eufemia.dnb.no/uilib/components/tabs.md): Tabs are a set of buttons which allow navigation between content that is related and on the same level of hierarchy.
+- [Table](https://eufemia.dnb.no/uilib/components/table.md): Use Table to show structured data in rows and columns.
 
-- [Tag](https://eufemia.dnb.no/uilib/components/tag.md): The Tag component is a compact element for displaying discrete information.
+- [Tabs](https://eufemia.dnb.no/uilib/components/tabs.md): Use Tabs to let people switch between related views on the same page.
 
-- [TermDefinition](https://eufemia.dnb.no/uilib/components/term-definition.md): TermDefinition renders a compact, inline explanation for a word or phrase with an anchor-style trigger button.
+- [Tag](https://eufemia.dnb.no/uilib/components/tag.md): Use Tag to show a small label, status, or selected value.
 
-- [Textarea](https://eufemia.dnb.no/uilib/components/textarea.md): The Textarea component has to be used as a multi-line text input control with an unlimited number of characters possible.
+- [TermDefinition](https://eufemia.dnb.no/uilib/components/term-definition.md): Use TermDefinition to explain a word or phrase without leaving the page.
 
-- [Timeline](https://eufemia.dnb.no/uilib/components/timeline.md): The Timeline component shows events in chronological order and gives a great overview of the overall process.
+- [Textarea](https://eufemia.dnb.no/uilib/components/textarea.md): Use Textarea when people need to write longer text over several lines.
 
-- [ToggleButton](https://eufemia.dnb.no/uilib/components/toggle-button.md): The ToggleButton component should be used to toggle on or off a limited number of choices.
+- [Timeline](https://eufemia.dnb.no/uilib/components/timeline.md): Use Timeline to show events or steps in chronological order.
 
-- [Tooltip](https://eufemia.dnb.no/uilib/components/tooltip.md): The Tooltip component is primarily meant to enhance the UX for various and additional information.
+- [ToggleButton](https://eufemia.dnb.no/uilib/components/toggle-button.md): Use ToggleButton when people can turn one or more visible choices on or off.
 
-- [Upload](https://eufemia.dnb.no/uilib/components/upload.md): The Upload component should be used in scenarios where the user has to upload files. Files can be uploaded by clicking a button. You also have the opportunity to add descriptive texts below the title where you could put max file size, allowed file formats etc.
+- [Tooltip](https://eufemia.dnb.no/uilib/components/tooltip.md): Use Tooltip to give a short hint or explanation for nearby content.
 
-- [VisuallyHidden](https://eufemia.dnb.no/uilib/components/visually-hidden.md): VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.
+- [Upload](https://eufemia.dnb.no/uilib/components/upload.md): Use Upload when people need to choose or drag files into a page.
+
+- [VisuallyHidden](https://eufemia.dnb.no/uilib/components/visually-hidden.md): Use VisuallyHidden to keep helpful text available to screen readers but hidden visually.
 
 - [Components](https://eufemia.dnb.no/uilib/components.md): Look into the documentation for more details.
 
@@ -357,6 +359,8 @@ For any page (component, field, value, etc.):
 
 - [Form.MainHeading](https://eufemia.dnb.no/uilib/extensions/forms/Form/MainHeading.md): `Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.
 
+- [Form.Outlet](https://eufemia.dnb.no/uilib/extensions/forms/Form/Outlet.md): `Form.Outlet` lets you render fields and form components in another part of the tree while linking them to a specific `Form.Handler` by id.
+
 - [Form.Section.EditContainer](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/EditContainer.md): `Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.
 
 - [Form.Section.Toolbar](https://eufemia.dnb.no/uilib/extensions/forms/Form/Section/Toolbar.md): `Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.
@@ -388,6 +392,8 @@ For any page (component, field, value, etc.):
 - [Form.setData](https://eufemia.dnb.no/uilib/extensions/forms/Form/setData.md): `Form.setData` lets you set or modify your form data outside of the form context.
 
 - [Form.useData](https://eufemia.dnb.no/uilib/extensions/forms/Form/useData.md): `Form.useData` lets you access or modify your form data outside of the form context within your application.
+
+- [Form.useDataValue](https://eufemia.dnb.no/uilib/extensions/forms/Form/useDataValue.md): `Form.useDataValue` lets you render one form data value with a path-scoped subscription.
 
 - [Form.useSnapshot](https://eufemia.dnb.no/uilib/extensions/forms/Form/useSnapshot.md): `Form.useSnapshot` lets you store data snapshots of your form data, either inside or outside of the form context.
 
@@ -591,6 +597,8 @@ For any page (component, field, value, etc.):
 
 - [Getting started](https://eufemia.dnb.no/uilib/extensions/forms/getting-started.md): Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.
 
+- [Type-checked paths](https://eufemia.dnb.no/uilib/extensions/forms/typed-paths.md): Register your form data type once to get TypeScript autocomplete and compile-time path checking on every Field, Value and Form.Handler.
+
 - [Forms for applications](https://eufemia.dnb.no/uilib/extensions/forms.md): Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.
 
 - [VippsWalletButton](https://eufemia.dnb.no/uilib/extensions/vipps-wallet-button.md): A branded Vipps wallet call-to-action button extension.
@@ -741,5 +749,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.6.1
-GeneratedAt: 2026-06-15T12:17:07.555Z
+Version: 11.7.0
+GeneratedAt: 2026-06-22T08:28:07.391Z

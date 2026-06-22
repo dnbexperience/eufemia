@@ -1,8 +1,8 @@
 ---
 title: 'Form'
 description: '`Form` provides the main forms-helpers including data provider and event handling.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.535Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.341Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -52,6 +52,7 @@ function MyForm() {
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form)
+- [Form.Outlet](/uilib/extensions/forms/Form/Outlet/)
 
 
 ## Demos
@@ -225,6 +226,10 @@ The `Form.Handler` is the root component of your form. It provides an HTML form 
 
 `Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.
 
+## [Form.Outlet](/uilib/extensions/forms/Form/Outlet/)
+
+`Form.Outlet` lets you render fields and form components in another part of the tree while linking them to a specific `Form.Handler` by id.
+
 ## [Form.Section.Toolbar](/uilib/extensions/forms/Form/Section/Toolbar/)
 
 `Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.
@@ -252,6 +257,10 @@ The `Form.Handler` is the root component of your form. It provides an HTML form 
 ## [Form.useData](/uilib/extensions/forms/Form/useData/)
 
 `Form.useData` lets you access or modify your form data outside of the form context within your application.
+
+## [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/)
+
+`Form.useDataValue` lets you render one form data value with a path-scoped subscription.
 
 ## [Form.useSnapshot](/uilib/extensions/forms/Form/useSnapshot/)
 

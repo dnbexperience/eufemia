@@ -1,8 +1,8 @@
 ---
 title: 'useFieldProps'
 description: 'The `useFieldProps` hook standardize handling of the value flow for a single consumer component representing one data point.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.895Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.658Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -151,7 +151,7 @@ It returns all of the given component properties, in addition to these:
 
 - `value` the output value.
 - `id` creates a memorized id.
-- `dataContext` the internal shared data context.
+- `dataContext` the internal shared data context. It is intended for low-level integrations; read render-dependent values through `value`, [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) or validator connection helpers instead of reading `dataContext.data` during render. Use `Form.useDataWithoutSubscription().getValue('/path')` only for non-subscribing imperative reads in callbacks, effects or internal handlers.
 - `error` the error object, in case an error is invoked. Will skip returning the error object, if the hook is used in a nested [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/).
 - `hasError` will return true in case of an error, even if the hook is nested in a `FieldBlock`.
 - `htmlAttributes` object that include needed HTML (e.g. aria-_ or data-_) attributes, ready to be spread on form elements. It includes in addition internal aria attributes such as `aria-invalid`, `aria-required` and `aria-describedby`.

@@ -1,8 +1,8 @@
 ---
 title: 'Pagination'
-description: 'The Pagination component supports both classical pagination and infinity scrolling.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.862Z
+description: 'Use Pagination to split long content into pages or load more content as people move through it.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.681Z
 checksum: 856dc55e3ab4563a6134b945efda1abdbb22ce98c4b6c0c06564e0c54d0b1a6c
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'All features and APIs'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.862Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.620Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -14,6 +14,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 - [Wizard](#wizard)
 - [Iterate](#iterate)
 - [Data Context](#data-context)
+- [Type-checked paths](#type-checked-paths)
 - [FieldBlock](#fieldblock)
 - [ValueBlock](#valueblock)
 - [useFieldProps](#usefieldprops)
@@ -108,6 +109,10 @@ The `Form.Handler` is the root component of your form. It provides an HTML form 
 
 `Form.MainHeading` is a standardized main heading for sections, ensuring default layout, spacing etc.
 
+## [Form.Outlet](/uilib/extensions/forms/Form/Outlet/)
+
+`Form.Outlet` lets you render fields and form components in another part of the tree while linking them to a specific `Form.Handler` by id.
+
 ## [Form.Section.Toolbar](/uilib/extensions/forms/Form/Section/Toolbar/)
 
 `Form.Section.Toolbar` is a helper component to be used within an `Form.Section.ViewContainer` and `Form.Section.EditContainer`.
@@ -136,6 +141,10 @@ The `Form.Handler` is the root component of your form. It provides an HTML form 
 
 `Form.useData` lets you access or modify your form data outside of the form context within your application.
 
+## [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/)
+
+`Form.useDataValue` lets you render one form data value with a path-scoped subscription.
+
 ## [Form.useSnapshot](/uilib/extensions/forms/Form/useSnapshot/)
 
 `Form.useSnapshot` lets you store data snapshots of your form data, either inside or outside of the form context.
@@ -156,6 +165,8 @@ The `Form.Handler` is the root component of your form. It provides an HTML form 
 
 `Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.
 
+
+To render fields and form building blocks outside the `Form.Handler` subtree while still linking to the same handler data context, use [Form.Outlet](/uilib/extensions/forms/Form/Outlet/) with a shared form handler id (`formHandlerId`).
 
 ### Validation and error handling
 
@@ -302,6 +313,10 @@ The context object used in `DataContext.Provider`.
 
 `DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.
 
+
+## [Type-checked paths](/uilib/extensions/forms/typed-paths/)
+
+Register your form data type once via the `Register` interface, and the `path` prop on every field and value gets autocomplete and compile-time checking. Opt into the pre-typed `RegisteredField`, `RegisteredValue`, `RegisteredForm` and `RegisteredIterate` namespaces to turn path typos into hard compile-time errors.
 
 ## [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock)
 

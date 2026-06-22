@@ -1,2 +1,0 @@
-import{a as e,s as t,t as n}from"./jsx-runtime-DnlWeMvz.js";import{K as r}from"./index-ppRu2ktv.js";import{t as i}from"./ColorTable-C_i3nCsI.js";var a=e({default:()=>c}),o=t(n());function s(e){return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)({h2:`h2`,...r(),...e.components}.h2,{children:`Sbanken Colors`}),`
-`,(0,o.jsx)(i,{theme:`sbanken`})]})}function c(e={}){let{wrapper:t}={...r(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{a as n,c as t};

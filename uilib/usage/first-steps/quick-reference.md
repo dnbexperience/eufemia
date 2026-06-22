@@ -1,8 +1,8 @@
 ---
 title: 'Quick Reference'
 description: 'A compact, practical guide for building with Eufemia: install, components, forms, and key conventions. AI-friendly.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.997Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.744Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -86,6 +86,7 @@ See [Forms](/uilib/extensions/forms) for validation, schema, and more fields.
 
 - Start with [Getting started](/uilib/extensions/forms/getting-started) for forms patterns, validation, and data handling.
 - Use [Form.Handler](/uilib/extensions/forms/Form/Handler) for submit/validation and [GlobalStatus](/uilib/components/global-status) for error summaries.
+- For rendering fields or form UI outside the handler subtree, use [Form.Outlet](/uilib/extensions/forms/Form/Outlet) together with a shared form handler id (`formHandlerId`).
 - For multi-step flows, use [Wizard](/uilib/extensions/forms/Wizard).
 - For edit/view modes, use [Form.Section](/uilib/extensions/forms/Form/Section).
 - Prefer [feature fields](/uilib/extensions/forms/feature-fields) (e.g. `Field.*`) when available.

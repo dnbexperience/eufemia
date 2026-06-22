@@ -1,9 +1,9 @@
 ---
 title: 'Form.Handler'
 description: 'The `Form.Handler` is the root component of your form. It provides an HTML form element and handles the form data.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.415Z
-checksum: 7a494ed5dd1e6120b75cfbfd31835c9367979aa7dfce9b26a63fce7fb530366e
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.223Z
+checksum: d109ef4891cf78ce094fec88d990a16576ec83834150534be644e423c73f49f8
 ---
 
 # Form.Handler
@@ -115,6 +115,8 @@ To disable types you can:
 <Form.Handler<any>>...</Form.Handler>
 ```
 
+To also get autocomplete and compile-time checking on the `path` prop of every field and value, see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
+
 ## Decoupling the form element
 
 For more flexibility, you can decouple the form element from the form context by using the `decoupleForm` property. It is recommended to use `Form.Element` to wrap the rest of your form:
@@ -192,6 +194,10 @@ function MyApp() {
 - `filterData` will filter the data based on your own logic.
 - `reduceToVisibleFields` will reduce the given data set to only contain the visible fields (mounted fields).
 
+If rendered output depends on one form data path inside `Form.Handler`, use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) to subscribe only to that path.
+
+If an integration needs imperative helpers without subscribing to data changes, use `Form.useDataWithoutSubscription` instead. Inside custom field or value components that render form data, prefer [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/) so the component stays reactive with path-scoped form updates.
+
 ### Using a form ID
 
 The form data can be handled outside the form. This is useful if you want to use the form data in other components:
@@ -216,6 +222,8 @@ function MyApp() {
   )
 }
 ```
+
+You can also render fields and other form components outside the `Form.Handler` tree by using [Form.Outlet](/uilib/extensions/forms/Form/Outlet/) with the same `id`.
 
 More examples can be found in the [Form.useData](/uilib/extensions/forms/Form/useData/) hook docs.
 
@@ -1090,7 +1098,7 @@ render(<MyForm />);
       "status": "optional"
     },
     "onSubmit": {
-      "doc": "Will be called (on validation success) when the user submits the form (i.e. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
+      "doc": "Will be called (on validation success) when the user submits the form (e.g. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.",
       "type": "function",
       "status": "optional"
     },

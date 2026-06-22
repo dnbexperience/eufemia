@@ -1,8 +1,8 @@
 ---
 title: 'Paragraph'
 description: 'Paragraphs are block-level elements, used to structure and format text contents.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.361Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.170Z
 checksum: 845c380cad6e85ab625f75477db6dbace5110a754208c56db0e04a179d35b607
 ---
 
@@ -64,8 +64,8 @@ Also automatically sets the matching line-height (`line` property).
 ```tsx
 <P size="x-small">x-small paragraph</P>
 <P size="small">small paragraph</P>
-<P size="medium">medium paragraph</P>
 <P size="basis">basis paragraph (same as default)</P>
+<P size="medium">medium paragraph</P>
 <P size="large">large paragraph</P>
 <P size="x-large">x-large paragraph</P>
 <P size="xx-large">xx-large paragraph</P>
@@ -102,10 +102,10 @@ Line-height will be set automatically based on the `size` properties, but can al
 ```tsx
 <P lineHeight="x-small">x-small line-height paragraph</P>
 <P lineHeight="small">small line-height paragraph</P>
-<P lineHeight="medium">medium line-height paragraph</P>
 <P lineHeight="basis">
       basis line-height paragraph (same as default)
     </P>
+<P lineHeight="medium">medium line-height paragraph</P>
 <P lineHeight="large">large line-height paragraph</P>
 <P lineHeight="x-large">x-large line-height paragraph</P>
 <P lineHeight="xx-large">xx-large line-height paragraph</P>

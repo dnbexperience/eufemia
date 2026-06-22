@@ -1,9 +1,9 @@
 ---
 title: 'Wizard.Step'
 description: 'Each step should be wrapped with a `Wizard.Step` component directly inside Wizard.Container.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.855Z
-checksum: d4267f979af5fd389dfd0fcb23341d7377c957d5fed19b67aca6b01b91944c75
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.614Z
+checksum: eb61282cf6969ea1cac57b649eb80534c9d17d1653e2d7db645a4a9c111060db
 ---
 
 # Wizard.Step
@@ -211,7 +211,7 @@ render(<Component />);
       "status": "optional"
     },
     "includeWhen": {
-      "doc": "Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.",
+      "doc": "Provide a `path` or `itemPath` together with `hasValue` or `isValid` in order to enable the step. `hasValue` can be a value or a function that returns a boolean. `isValid` uses the validation state of the referenced field.",
       "type": "object",
       "status": "optional"
     },

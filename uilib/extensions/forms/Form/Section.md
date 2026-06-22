@@ -1,8 +1,8 @@
 ---
 title: 'Form.Section'
 description: '`Form.Section` lets you compose blocks of fields and values to be reused in different contexts.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.468Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.289Z
 checksum: 331caa573f5cc2c579960751e1ff9f48a542e73740f08295e62068ec0d5f6085
 ---
 
@@ -267,6 +267,8 @@ render(
   </Form.Handler>
 )
 ```
+
+To get autocomplete and compile-time checking on the section-relative `path` props, derive the section type from your registered root data with `TypedSectionField`. See [Type-checked paths](/uilib/extensions/forms/typed-paths/#type-checking-section-relative-paths).
 
 ## Schema support
 

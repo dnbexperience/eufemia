@@ -1,8 +1,8 @@
 ---
 title: 'VisuallyHidden'
-description: 'VisuallyHidden has all the styles necessary to hide it from visual clients, but keep it for screen readers.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.241Z
+description: 'Use VisuallyHidden to keep helpful text available to screen readers but hidden visually.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.048Z
 checksum: 04379dde0690518a2fc76a24effa77b9dc53bb2dbbf2bc55765063299a7adf41
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'v11'
 description: 'April 21, 2026'
-version: 11.6.1
-generatedAt: 2026-06-15T12:16:59.843Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:27:59.654Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -2198,7 +2198,7 @@ const formatted = useNumberFormatWithParts(value, formatCurrency, {
 | `useNumberFormatWithParts(value, { percent: true })`                  | `useNumberFormatWithParts(value, formatPercent)`                                 |
 | `useNumberFormatWithParts(value, { forceCurrencyAfterAmount: true })` | `useNumberFormatWithParts(value, formatCurrency, { currencyPosition: 'after' })` |
 
-The returned `parts` shape is unchanged. `parts` are now derived from the formatter's display string, so any formatter returning a `NumberFormatReturnValue` (including custom ones) can be passed in.
+The returned `parts` shape is unchanged. Standard Eufemia formatters preserve semantic formatter parts, while custom formatter objects fall back to parsing the returned display string.
 
 #### Behavioral changes
 

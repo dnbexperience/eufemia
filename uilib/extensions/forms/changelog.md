@@ -1,8 +1,8 @@
 ---
 title: 'Change log'
 description: 'Change log for the Eufemia Forms extension'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.891Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.644Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,6 +11,12 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 Change log for the Eufemia Forms extension.
 
 Get more [details about releases](/uilib/about-the-lib/releases) or have a look on all [release notes on GitHub](https://github.com/dnbexperience/eufemia/releases).
+
+## v11.7.0
+
+- Added [Form.Outlet](/uilib/extensions/forms/Form/Outlet/) to connect fields and submit controls outside a `Form.Handler` subtree to the same form state.
+- Added [type-checked paths](/uilib/extensions/forms/typed-paths/): register your form data type once via the `Register` interface, then use the pre-typed `RegisteredField`, `RegisteredValue`, `RegisteredForm` and `RegisteredIterate` namespaces for autocomplete and compile-time checking of the `path` prop.
+- Optimized data updates to reduce unnecessary field and derived-value updates when unrelated form data paths change, improving responsiveness in large forms.
 
 ## v11.4.0
 

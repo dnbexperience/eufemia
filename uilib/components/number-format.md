@@ -1,9 +1,9 @@
 ---
 title: 'NumberFormat'
-description: 'A ready-to-use DNB number formatter.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.855Z
-checksum: 68e073c08d5e400e3242bee3c99f2786e89d4b0f1e972ec6e8391ee3cb799946
+description: 'Use NumberFormat to show numbers in the correct DNB format.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.671Z
+checksum: 1288e9fa33e5c61a53eacfeff4c357e6d535d99373b72e1aa9f6efed11e65caa
 ---
 
 # NumberFormat
@@ -45,7 +45,7 @@ Good reasons for why we have this:
 
 ### Defaults
 
-It uses the browser APIs `number.toLocaleString` or `Intl.NumberFormat.format` under the hood. As well as some custom formatter. The locale defaults to:
+It uses the browser API `Intl.NumberFormat` under the hood, as well as some custom formatters. The locale defaults to:
 
 - Locale: `nb-NO`
 - Currency: `NOK`
@@ -713,7 +713,7 @@ render(<Style>
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },
@@ -869,7 +869,7 @@ render(<Style>
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },
@@ -991,7 +991,7 @@ render(<Style>
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },
@@ -1088,7 +1088,7 @@ render(<Style>
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },
@@ -1192,7 +1192,7 @@ Norwegian bank account number (e.g. `2000 12 34567`).
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },
@@ -1291,7 +1291,7 @@ Norwegian national identification number (e.g. `180892 12345`).
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },
@@ -1390,7 +1390,7 @@ Norwegian organization number (e.g. `123 456 789`). Screen readers read digit by
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },

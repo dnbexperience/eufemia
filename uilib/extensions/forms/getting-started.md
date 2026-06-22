@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.924Z
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:01.682Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -153,6 +153,8 @@ const MyComponent = () => {
 
 Read more about TypeScript support and the other methods in the [Form.Handler](/uilib/extensions/forms/Form/Handler/#typescript-support) section or in the [Form.useData](/uilib/extensions/forms/Form/useData/#typescript-support) hook docs.
 
+To also get autocomplete and compile-time checking on the `path` props of every field and value, see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
+
 ## State management
 
 While you can use a controlled approach to handle field or form state, we recommend a declarative approach where you keep the form state inside the data context instead of managing it with your own `useState` hooks (imperative).
@@ -208,13 +210,17 @@ const data = {
 const pointer = '/foo/bar/0/baz' // points to 'value'
 ```
 
+You can make these paths type-safe with autocomplete and compile-time checking — see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
+
 ### Data handling
 
 How do I handle complex data logic?
 
 You can show or hide parts of your form based on your own logic. This is done by using the [Form.Visibility](/uilib/extensions/forms/Form/Visibility/) component (yes, it can even animate the visibility).
 
-You can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/), [Form.getData](/uilib/extensions/forms/Form/getData/), or [Form.setData](/uilib/extensions/forms/Form/setData/).
+You can access and modify your form data with [Form.useData](/uilib/extensions/forms/Form/useData/), [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/), [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription), [Form.getData](/uilib/extensions/forms/Form/getData/), or [Form.setData](/uilib/extensions/forms/Form/setData/).
+
+Use [Form.useDataValue](/uilib/extensions/forms/Form/useDataValue/) when rendered output depends on one form data path inside `Form.Handler`. Inside custom field or value components that render form data, use [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps/) or [useValueProps](/uilib/extensions/forms/create-component/useValueProps/). They subscribe only to the component's own path, while `Form.useDataWithoutSubscription` is for non-subscribing imperative reads and writes, such as `getData()` in callbacks or effects.
 
 Here is an example of how to use these methods:
 
@@ -232,6 +238,8 @@ function MyForm() {
 }
 
 function MyComponent() {
+  const companyName = Form.useDataValue('/companyName')
+
   const {
     getValue,
     update,
@@ -241,6 +249,11 @@ function MyComponent() {
     filterData,
     reduceToVisibleFields,
   } = Form.useData() // optionally provide an id or reference
+
+  // Use Form.useDataWithoutSubscription() when you need
+  // imperative helpers without subscribing to data changes.
+
+  return <output>{companyName}</output>
 }
 
 // You can also use the setData:
@@ -340,6 +353,7 @@ You can utilize the `filterData` method in:
 
 - [Form.Handler](/uilib/extensions/forms/Form/Handler/#filter-data) component.
 - [Form.useData](/uilib/extensions/forms/Form/useData/#filter-data) hook.
+- [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription) hook.
 - [Form.getData](/uilib/extensions/forms/Form/getData/#filter-data) method.
 - [Form.Visibility](/uilib/extensions/forms/Form/Visibility/#filter-data) component.
 

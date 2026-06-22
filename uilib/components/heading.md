@@ -1,12 +1,12 @@
 ---
-title: 'Heading'
-description: 'The Heading component is a helper to create automated semantic headings within a boundary of some rules.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.737Z
-checksum: 0ce3addcfcfa735263d0f47955de9dc9632600df2345c730edde9e2d95f50e31
+title: 'Heading (auto level)'
+description: 'Use Heading to create accessible page headings with the correct level.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.560Z
+checksum: f2ba0868c40cefe7513a73171e0443adb11ed19430690bb3d1f90545b838de9a
 ---
 
-# Heading
+# Heading (auto level)
 
 ## Import
 
@@ -276,6 +276,53 @@ render(<Style>
   </Style>)
 ```
 
+
+### Prose max width
+
+The `proseMaxWidth` property allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
+
+
+```tsx
+render(<Heading.Level reset={3}>
+      <Heading>
+        This is a regular heading without any width constraints. It will
+        extend to the full width of its container.
+      </Heading>
+      <Heading proseMaxWidth={40}>
+        This heading uses proseMaxWidth={40} to limit its width to
+        approximately 40 characters.
+      </Heading>
+      <Heading proseMaxWidth={20}>
+        This heading uses proseMaxWidth={20} for an even narrower reading
+        width.
+      </Heading>
+      <Heading proseMaxWidth>
+        This heading uses proseMaxWidth with its default value.
+      </Heading>
+    </Heading.Level>)
+```
+
+
+#### Using Typography.Provider
+
+Use `Typography.Provider` to apply `proseMaxWidth` to multiple headings at once:
+
+
+```tsx
+render(<Heading.Level reset={3}>
+        <Typography.Provider proseMaxWidth={40}>
+          <Heading>
+            This heading is inside a Typography.Provider with
+            proseMaxWidth=
+            {40}
+          </Heading>
+          <Heading proseMaxWidth={20}>
+            This heading overrides the provider with proseMaxWidth={20}
+          </Heading>
+        </Typography.Provider>
+      </Heading.Level>)
+```
+
 ## Properties
 
 
@@ -343,6 +390,14 @@ render(<Style>
     "skipCorrection": {
       "doc": "If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in **production builds** else either.",
       "type": "boolean",
+      "status": "optional"
+    },
+    "proseMaxWidth": {
+      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
+      "type": [
+        "number",
+        "boolean"
+      ],
       "status": "optional"
     },
     "debug": {

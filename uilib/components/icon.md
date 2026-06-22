@@ -1,8 +1,8 @@
 ---
 title: 'Icon'
-description: 'The main Icon component is basically a wrapper for whatever icon you place within it.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.756Z
+description: 'Use Icon to render and size an icon in line with Eufemia styling.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.578Z
 checksum: b98a4453b871bd7a5f0c3d48e34ad2f3f5acac3fed6daf200822fe89dc43f67d
 ---
 

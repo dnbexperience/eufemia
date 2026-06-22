@@ -1,9 +1,9 @@
 ---
 title: 'Stat'
-description: 'Composable metric components for highlighted values, trends, and labels.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:01.159Z
-checksum: 10e6ce458bd5b69e932c2f0faa29d87d88d52cb7ce308c7dcffaf884e9db1a5c
+description: 'Use Stat to highlight an important number, label, or trend.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.967Z
+checksum: c798923712167dbf7054c673bd7787654db7d2abd1c22bcf48055fcbce114b64
 ---
 
 # Stat
@@ -399,6 +399,14 @@ render(<Example />);
 ```json
 {
   "props": {
+    "currency": {
+      "doc": "Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true` when using `NumberFormat.Currency`. Uses two decimals by default.",
+      "type": [
+        "string",
+        "boolean"
+      ],
+      "status": "optional"
+    },
     "currencyDisplay": {
       "doc": "Use either empty/false to hide the sign/name or use `code` (NOK), `name` (kroner), `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.",
       "type": "string",
@@ -476,7 +484,7 @@ render(<Example />);
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },
@@ -632,7 +640,7 @@ render(<Example />);
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },
@@ -806,7 +814,7 @@ render(<Example />);
       "status": "optional"
     },
     "options": {
-      "doc": "Accepts all [number.toLocaleString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toLocaleString) or [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
+      "doc": "Accepts all [Intl.NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) options as an object - can also be a JSON given as the parameter e.g. `options={{ 'minimumFractionDigits': 2 }}`.",
       "type": "object",
       "status": "optional"
     },

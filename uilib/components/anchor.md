@@ -1,8 +1,8 @@
 ---
 title: 'Anchor (Text Link)'
-description: 'The Anchor, also known as "Link" is used to navigate from one page to the next HTML page.'
-version: 11.6.1
-generatedAt: 2026-06-15T12:17:00.533Z
+description: 'Use Anchor to take people to another page, section, or website.'
+version: 11.7.0
+generatedAt: 2026-06-22T08:28:00.355Z
 checksum: e0c93f5872857a54516c5d10979a9cf859f429d97a14c72576018d152c739499
 ---
 
