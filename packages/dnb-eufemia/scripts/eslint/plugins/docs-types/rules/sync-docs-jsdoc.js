@@ -215,6 +215,22 @@ function extractJsdocTags(commentValue) {
   return tags
 }
 
+// Strips the conventional suffix from a *docs export* variable name to get its
+// component base, e.g. "MenuButtonProperties" → "MenuButton". Docs exports use
+// the "Properties" / "Props" / "Events" suffixes.
+function stripDocsSuffix(varName) {
+  return varName.replace(/(Properties|Props|Events)$/, '')
+}
+
+// Strips the conventional suffix from a *source type/interface* name to get its
+// component base, e.g. "MenuButtonProps" → "MenuButton". The suffix set
+// deliberately differs from stripDocsSuffix: source types can be "...AllProps"
+// but never "...Events", whereas docs exports can be "...Events" but never
+// "...AllProps". Keep both in sync with their respective naming conventions.
+function stripTypeSuffix(typeName) {
+  return typeName.replace(/(AllProps|Props|Properties)$/, '')
+}
+
 function getDocsMap(dir, sourceBasename) {
   let files
 
@@ -252,11 +268,16 @@ function getDocsMap(dir, sourceBasename) {
       const groups = extractGroupedDocsFromFile(filePath)
 
       for (const [varName, props] of groups) {
-        const base = varName.replace(/(Properties|Props|Events)$/, '')
+        const base = stripDocsSuffix(varName)
 
         let group = groupMap.get(base)
 
         if (!group) {
+          // `file` records where the group was first seen. When one base
+          // spans several docs files, the reported docsFile may therefore
+          // point at the first contributing file rather than the exact one
+          // a later merged property came from — acceptable for an error
+          // message, which only needs to name a relevant docs file.
           group = { props: new Map(), file }
           groupMap.set(base, group)
         }
@@ -292,7 +313,7 @@ function getDocsMap(dir, sourceBasename) {
         explicitGroups = new Set()
 
         for (const [varName] of groups) {
-          const base = varName.replace(/(Properties|Props|Events)$/, '')
+          const base = stripDocsSuffix(varName)
 
           if (base === sourceBasename) {
             explicitGroups.add(varName)
@@ -346,6 +367,8 @@ function getDocsMap(dir, sourceBasename) {
     fileMap,
     groupMap,
     fileCount: files.length,
+    // A missing source basename is treated as "matched": there is nothing to
+    // disambiguate by, so fall back to the merged map rather than skipping.
     fileMatched: fileMatched || !sourceBasename,
   }
 }
@@ -461,8 +484,8 @@ module.exports = {
     function resolveDoc(propName, node) {
       const typeName = getEnclosingTypeName(node)
 
-      if (typeName && docsData.groupMap) {
-        const base = typeName.replace(/(AllProps|Props|Properties)$/, '')
+      if (typeName) {
+        const base = stripTypeSuffix(typeName)
         const group = docsData.groupMap.get(base)
 
         if (group && group.props.has(propName)) {
@@ -480,8 +503,7 @@ module.exports = {
       // same file (e.g. "DrawerListDataArrayObject") which would otherwise
       // inherit unrelated component-level text.
       const unambiguous =
-        (!docsData.groupMap || docsData.groupMap.size <= 1) &&
-        docsData.fileCount <= 1
+        docsData.groupMap.size <= 1 && docsData.fileCount <= 1
 
       const isComponentPropsType =
         !typeName || /(Props|Properties)$/.test(typeName)
