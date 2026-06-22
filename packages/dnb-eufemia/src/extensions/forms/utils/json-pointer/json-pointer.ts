@@ -70,6 +70,15 @@ export function set<T = JsonObject>(
     nextTok = obj.length
   }
 
+  // Prevent prototype pollution via the final token (e.g. "/__proto__").
+  if (
+    nextTok === '__proto__' ||
+    nextTok === 'constructor' ||
+    nextTok === 'prototype'
+  ) {
+    return
+  }
+
   obj[nextTok] = value
 }
 

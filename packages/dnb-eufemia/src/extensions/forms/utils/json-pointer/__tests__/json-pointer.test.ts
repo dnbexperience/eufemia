@@ -197,6 +197,32 @@ describe('json-pointer', () => {
       expect(obj[1].test).toHaveLength(1)
       expect(obj[1].test[0]).toBe('expected')
     })
+
+    it('should not pollute Object.prototype via a "__proto__" final token', () => {
+      const obj = {}
+      set(obj, '/__proto__', { polluted: 'yes' })
+      expect(({} as { polluted?: string }).polluted).toBeUndefined()
+      expect(Object.prototype).not.toHaveProperty('polluted')
+    })
+
+    it('should not pollute Object.prototype via a nested "__proto__" token', () => {
+      const obj = {}
+      set(obj, '/__proto__/polluted', 'yes')
+      expect(({} as { polluted?: string }).polluted).toBeUndefined()
+      expect(Object.prototype).not.toHaveProperty('polluted')
+    })
+
+    it('should ignore a "constructor" final token', () => {
+      const obj = {}
+      set(obj, '/constructor', 'tampered')
+      expect(obj.constructor).toBe(Object)
+    })
+
+    it('should ignore a "prototype" final token', () => {
+      const obj: Record<string, unknown> = {}
+      set(obj, '/prototype', 'tampered')
+      expect(obj.prototype).toBeUndefined()
+    })
   })
 
   describe('remove', () => {
