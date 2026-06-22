@@ -198,12 +198,7 @@ export default [
           forbid: ['>', '}'],
         },
       ],
-      'react/display-name': [
-        'off',
-        {
-          ignoreTranspilerName: false,
-        },
-      ],
+      'react/display-name': 'off',
       'jsx-a11y/anchor-is-valid': [
         'warn',
         {
