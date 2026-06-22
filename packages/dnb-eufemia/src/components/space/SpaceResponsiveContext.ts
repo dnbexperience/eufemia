@@ -5,7 +5,7 @@ export type SpaceDensity = 'compact' | 'basis'
 export type SpaceBreakpoint = Extract<MediaQuerySizes, 'small' | 'medium'>
 
 export type SpaceResponsiveContextValue = {
-  defaultBreakpoint?: SpaceBreakpoint
+  breakpoint?: SpaceBreakpoint
   density?: SpaceDensity | false
   off?: boolean
 }

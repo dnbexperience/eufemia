@@ -553,7 +553,7 @@ describe('Space.ResponsiveContext', () => {
     )
   })
 
-  it('should use defaultBreakpoint when density is not set', () => {
+  it('should use breakpoint when density is not set', () => {
     const TestComponent = () => {
       const params = useSpacing(
         { top: 'large' },
@@ -563,7 +563,7 @@ describe('Space.ResponsiveContext', () => {
     }
 
     render(
-      <Space.ResponsiveContext defaultBreakpoint="medium">
+      <Space.ResponsiveContext breakpoint="medium">
         <TestComponent />
       </Space.ResponsiveContext>
     )
@@ -577,7 +577,7 @@ describe('Space.ResponsiveContext', () => {
     )
   })
 
-  it('should apply both defaultBreakpoint and density classes', () => {
+  it('should apply both breakpoint and density classes', () => {
     const TestComponent = () => {
       const params = useSpacing(
         { top: 'large' },
@@ -587,10 +587,7 @@ describe('Space.ResponsiveContext', () => {
     }
 
     render(
-      <Space.ResponsiveContext
-        density="compact"
-        defaultBreakpoint="medium"
-      >
+      <Space.ResponsiveContext density="compact" breakpoint="medium">
         <TestComponent />
       </Space.ResponsiveContext>
     )
@@ -618,7 +615,7 @@ describe('Space.ResponsiveContext', () => {
 
   it('should add breakpoint class to Space component', () => {
     render(
-      <Space.ResponsiveContext defaultBreakpoint="medium">
+      <Space.ResponsiveContext breakpoint="medium">
         <Space top="large">Content</Space>
       </Space.ResponsiveContext>
     )
@@ -712,7 +709,7 @@ describe('Space.ResponsiveContext', () => {
     expect(SpaceResponsive['_supportsSpacingProps']).toBe('passthrough')
   })
 
-  it('should inherit parent density when inner only sets defaultBreakpoint', () => {
+  it('should inherit parent density when inner only sets breakpoint', () => {
     const TestComponent = () => {
       const params = useSpacing(
         { top: 'large' },
@@ -723,7 +720,7 @@ describe('Space.ResponsiveContext', () => {
 
     render(
       <Space.ResponsiveContext density="compact">
-        <Space.ResponsiveContext defaultBreakpoint="medium">
+        <Space.ResponsiveContext breakpoint="medium">
           <TestComponent />
         </Space.ResponsiveContext>
       </Space.ResponsiveContext>

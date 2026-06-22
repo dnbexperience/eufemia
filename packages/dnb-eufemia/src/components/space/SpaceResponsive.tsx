@@ -9,14 +9,14 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type SpaceResponsiveProps = {
   /**
-   * Forces a specific spacing density for descendants. Overrides `defaultBreakpoint` when set.
+   * Forces a specific spacing density for descendants. Overrides `breakpoint` when set.
    */
   density?: SpaceDensity
 
   /**
    * Sets which breakpoint's spacing scale to use as the default. Default: `medium`.
    */
-  defaultBreakpoint?: SpaceBreakpoint
+  breakpoint?: SpaceBreakpoint
 
   /**
    * When `true`, disables responsive spacing for descendants, overriding a parent `Space.ResponsiveContext`. Defaults to `false`.
@@ -27,7 +27,7 @@ export type SpaceResponsiveProps = {
 
 function SpaceResponsive({
   density,
-  defaultBreakpoint,
+  breakpoint,
   off,
   children,
 }: SpaceResponsiveProps) {
@@ -38,7 +38,7 @@ function SpaceResponsive({
     : {
         ...(parent || undefined),
         ...(density !== undefined && { density }),
-        ...(defaultBreakpoint !== undefined && { defaultBreakpoint }),
+        ...(breakpoint !== undefined && { breakpoint }),
         ...(off !== undefined && { off }),
       }
 
