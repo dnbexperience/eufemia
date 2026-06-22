@@ -57,6 +57,11 @@ export default [
   {
     ignores: ignorePatterns,
   },
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
+  },
   ...fixupConfigRules(
     basePlugins.extends(
       'eslint:recommended',

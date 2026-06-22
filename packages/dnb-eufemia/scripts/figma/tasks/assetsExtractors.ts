@@ -6,7 +6,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import prettier from 'prettier'
-import { optimize, loadConfig } from 'svgo' // eslint-disable-line
+import { optimize, loadConfig } from 'svgo'
 import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
 import { log, ErrorHandler } from '../../lib'
