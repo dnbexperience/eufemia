@@ -13,7 +13,7 @@ export type { BankAccountType } from '../../../../components/number-format/utils
 
 export type ValueBankAccountNumberProps = StringValueProps & {
   /**
-   * The type of bank account number for formatting. Defaults to `norwegianBban`.
+   * The type of bank account number, used for label and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Defaults to `norwegianBban`.
    */
   bankAccountType?: BankAccountType
 }

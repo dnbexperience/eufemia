@@ -30,7 +30,7 @@ export type WizardStepProps = ComponentProps &
     index?: number
 
     /**
-     * Will make all the fields inside the step to be required.
+     * Will make all nested form fields required.
      */
     required?: boolean
 
@@ -40,7 +40,7 @@ export type WizardStepProps = ComponentProps &
 
     include?: boolean
     /**
-     * Provide a `path` and a `hasValue` property with the expected value in order to enable the step. You can alternatively provide a `hasValue` function that returns a boolean. The first parameter is the value of the path.
+     * Provide a `path` or `itemPath` together with `hasValue` or `isValid` in order to enable the step. `hasValue` can be a value or a function that returns a boolean. `isValid` uses the validation state of the referenced field.
      */
     includeWhen?: VisibleWhen
 
