@@ -64,7 +64,7 @@ export type PaymentCardRawData = {
 
 export type PaymentCardProps = {
   /**
-   * Product code for the given card.
+   * If product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
    */
   productCode: string
   /**
