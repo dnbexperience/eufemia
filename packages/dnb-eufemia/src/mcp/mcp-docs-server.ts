@@ -43,6 +43,13 @@ function withLeadingSlash(p: string): string {
 }
 
 /**
+ * Upper bound for the length of a search query. Prevents a single oversized
+ * query string from being split into a huge word list and scored against
+ * every documentation file (denial of service).
+ */
+export const MAX_SEARCH_QUERY_LENGTH = 10_000
+
+/**
  * Computes the default Node.js docs root (used when neither `{ docsRoot }`
  * nor `{ source }` is passed to {@link createDocsTools}). Imports `node:*`
  * lazily so this module can still be bundled for non-Node runtimes.
@@ -340,7 +347,11 @@ function createDocsContext(source: DocsSource) {
     prefix?: string,
     opts: { concurrency?: number; timeoutMs?: number } = {}
   ): Promise<SearchHit[]> {
-    const q = String(query ?? '').trim()
+    // Cap the query length before any further processing to avoid scoring an
+    // unbounded word list against every file (denial of service).
+    const q = String(query ?? '')
+      .slice(0, MAX_SEARCH_QUERY_LENGTH)
+      .trim()
     if (q.length < 2) {
       return []
     }
@@ -539,8 +550,17 @@ const DocsReadInput = z.object({
     ),
 })
 
-const DocsSearchInput = z.object({
-  query: z.any().describe('Search query (string recommended).'),
+export const DocsSearchInput = z.object({
+  query: z
+    .preprocess(
+      // Coerce to string and truncate up front, mirroring the runtime cap in
+      // searchInMarkdown. Truncating (rather than rejecting) means an
+      // oversized query still returns useful results instead of failing the
+      // whole tool call, while never doing unbounded work.
+      (value) => String(value ?? '').slice(0, MAX_SEARCH_QUERY_LENGTH),
+      z.string().max(MAX_SEARCH_QUERY_LENGTH)
+    )
+    .describe('Search query (string recommended).'),
   limit: z.number().int().min(1).max(50).default(10),
   prefix: z
     .string()
