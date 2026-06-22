@@ -80,6 +80,8 @@ It is deliberate that `onChange` sends out the value from the field, and not the
 
 The basic components have a number of properties that make it possible to control how they function in the interface, such as `multiline` on `Field.String`, which chooses whether to get one line of text (input tag) or several lines (textarea tag). In addition, they have a number of validation properties, such as `minLength` and `required`.
 
+Inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/) (or [DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/)), fields connect to the surrounding data set with the `path` prop — a [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) such as `/firstName`. The `path` can be type-checked against your data model for autocomplete and compile-time errors on typos — see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
+
 ### Controlled & Uncontrolled
 
 In React, it's important to be aware of where the states of a given set of data "lives". This can be an entire object that represents an entity the user is going to make changes to (e.g. a user or a bank account), but it also applies to the individual value a form makes changes to. A form field can be [controlled](https://reactjs.org/docs/forms.html#controlled-components) or [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html). The components in this package make it possible to work in both ways.

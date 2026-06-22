@@ -22,6 +22,7 @@ import ListIterateComponents from './Iterate/ListIterateComponents'
 - [Wizard](#wizard)
 - [Iterate](#iterate)
 - [Data Context](#data-context)
+- [Type-checked paths](#type-checked-paths)
 - [FieldBlock](#fieldblock)
 - [ValueBlock](#valueblock)
 - [useFieldProps](#usefieldprops)
@@ -128,6 +129,10 @@ Here is a list of all available `Wizard.*` components:
 `DataContext` builds a surrounding [React context](https://react.dev/learn/passing-data-deeply-with-context) that binds an entire source dataset together with the fields placed within. It enables fields and other components to retrieve data from the source data using `path` parameters that identify where in the source data the target value is located, and the same components will report changes to the data back so the context can update the dataset.
 
 <ListDataContextComponents size="small" />
+
+## [Type-checked paths](/uilib/extensions/forms/typed-paths/)
+
+Register your form data type once via the `Register` interface, and the `path` prop on every field and value gets autocomplete and compile-time checking. Opt into the pre-typed `RegisteredField`, `RegisteredValue`, `RegisteredForm` and `RegisteredIterate` namespaces to turn path typos into hard compile-time errors.
 
 ## [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock)
 
