@@ -198,9 +198,11 @@ describe('json-pointer', () => {
       expect(obj[1].test[0]).toBe('expected')
     })
 
-    it('should not pollute Object.prototype via a "__proto__" final token', () => {
+    it('should not reassign the object prototype via a "__proto__" final token', () => {
       const obj = {}
       set(obj, '/__proto__', { polluted: 'yes' })
+      // Without the guard, this swaps the object's own prototype.
+      expect(Object.getPrototypeOf(obj)).toBe(Object.prototype)
       expect(({} as { polluted?: string }).polluted).toBeUndefined()
       expect(Object.prototype).not.toHaveProperty('polluted')
     })
@@ -208,6 +210,7 @@ describe('json-pointer', () => {
     it('should not pollute Object.prototype via a nested "__proto__" token', () => {
       const obj = {}
       set(obj, '/__proto__/polluted', 'yes')
+      expect(Object.getPrototypeOf(obj)).toBe(Object.prototype)
       expect(({} as { polluted?: string }).polluted).toBeUndefined()
       expect(Object.prototype).not.toHaveProperty('polluted')
     })
