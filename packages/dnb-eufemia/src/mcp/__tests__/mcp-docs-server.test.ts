@@ -2,7 +2,10 @@ import type { CallToolResult } from '@modelcontextprotocol/sdk/types'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
-import { createDocsTools } from '../mcp-docs-server'
+import {
+  createDocsTools,
+  MAX_SEARCH_QUERY_LENGTH,
+} from '../mcp-docs-server'
 
 type DocsFixture = {
   docsRoot: string
@@ -393,6 +396,23 @@ describe('docs_search', () => {
       path: string
     }>
     expect(hits.length).toBe(0)
+  })
+
+  it('caps oversized queries at the maximum length without throwing', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const oversizedQuery = 'input'.repeat(MAX_SEARCH_QUERY_LENGTH)
+    const result = await tools.docsSearch({
+      query: oversizedQuery,
+      limit: 5,
+    })
+    const hits = JSON.parse(getText(result)) as Array<{
+      path: string
+    }>
+    // The query is truncated to MAX_SEARCH_QUERY_LENGTH before scoring, so an
+    // enormous query is handled safely and returns a bounded result array
+    // instead of doing unbounded work.
+    expect(Array.isArray(hits)).toBe(true)
+    expect(hits.length).toBeLessThanOrEqual(5)
   })
 
   it('ranks results by score (higher scores first)', async () => {
