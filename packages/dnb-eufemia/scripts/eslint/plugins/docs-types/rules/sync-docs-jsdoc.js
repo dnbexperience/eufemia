@@ -231,11 +231,40 @@ function getDocsMap(dir, sourceBasename) {
   const docs = new Map()
   const fileMap = new Map()
 
+  // Docs grouped by their component base name (e.g. "MenuButton"), so a
+  // property can be resolved against the export group that matches its
+  // enclosing type, e.g. type "MenuButtonProps" → "MenuButtonProperties".
+  // Groups sharing a base (e.g. "MenuRootProperties" and "MenuRootEvents")
+  // are merged together.
+  const groupMap = new Map()
+
+  // Whether the source file name maps to a docs file in this directory,
+  // either by sharing its prefix (e.g. "FilterSortButton" ↔ "FilterDocs")
+  // or by matching an export group name (e.g. "ItemCenter" ↔
+  // "ItemCenterProperties"). When it does not, the merged docs map is an
+  // arbitrary mix of unrelated groups and must not be used as a fallback.
+  let fileMatched = false
+
   for (const file of files) {
     const filePath = path.join(dir, file)
 
     try {
       const groups = extractGroupedDocsFromFile(filePath)
+
+      for (const [varName, props] of groups) {
+        const base = varName.replace(/(Properties|Props|Events)$/, '')
+
+        let group = groupMap.get(base)
+
+        if (!group) {
+          group = { props: new Map(), file }
+          groupMap.set(base, group)
+        }
+
+        for (const [key, value] of props) {
+          group.props.set(key, value)
+        }
+      }
 
       // Derive the component prefix from the docs filename,
       // e.g. "FilterDocs.ts" → "Filter"
@@ -248,6 +277,33 @@ function getDocsMap(dir, sourceBasename) {
 
       if (sourceBasename && sourceBasename.startsWith(docsPrefix)) {
         subComponent = sourceBasename.slice(docsPrefix.length)
+        fileMatched = true
+      }
+
+      // When the source file name does not share the docs-file prefix
+      // (e.g. "ItemCenter.tsx" alongside "ListDocs.ts"), match the source
+      // file name directly against an export group name instead, e.g.
+      // "ItemCenter" → "ItemCenterProperties". Without this, the ambiguous
+      // match would merge every group and the last one would win, producing
+      // the wrong docs for sibling sub-components.
+      let explicitGroups = null
+
+      if (!subComponent && groups.size > 1 && sourceBasename) {
+        explicitGroups = new Set()
+
+        for (const [varName] of groups) {
+          const base = varName.replace(/(Properties|Props|Events)$/, '')
+
+          if (base === sourceBasename) {
+            explicitGroups.add(varName)
+          }
+        }
+
+        if (explicitGroups.size === 0) {
+          explicitGroups = null
+        } else {
+          fileMatched = true
+        }
       }
 
       for (const [varName, props] of groups) {
@@ -257,6 +313,12 @@ function getDocsMap(dir, sourceBasename) {
           if (!varName.startsWith(subComponent)) {
             continue
           }
+        }
+
+        // When matching the source file name directly to export groups,
+        // only include the matched group(s).
+        if (explicitGroups && !explicitGroups.has(varName)) {
+          continue
         }
 
         for (const [key, value] of props) {
@@ -273,7 +335,19 @@ function getDocsMap(dir, sourceBasename) {
     return null
   }
 
-  return { docs, fileMap }
+  // A source file maps to the directory's docs when its name matches a docs
+  // file or export group (see above), or when the directory has a single
+  // docs file (the common "types.ts" + "XDocs.ts" convention). When there
+  // are several docs files (e.g. the typography directory's Ingress/Lead/P/
+  // Typography docs), a source file with no name match (e.g. "H.tsx") has no
+  // source of truth and must be left untouched.
+  return {
+    docs,
+    fileMap,
+    groupMap,
+    fileCount: files.length,
+    fileMatched: fileMatched || !sourceBasename,
+  }
 }
 
 /** @type {import('eslint').Rule.RuleModule} */
@@ -361,16 +435,86 @@ module.exports = {
       return lines.join('\n')
     }
 
+    // Walks up to the nearest named type/interface declaration and returns
+    // its identifier, e.g. a property inside `type MenuButtonProps = {…}`
+    // resolves to "MenuButtonProps".
+    function getEnclosingTypeName(node) {
+      let current = node.parent
+
+      while (current) {
+        if (
+          current.type === 'TSInterfaceDeclaration' ||
+          current.type === 'TSTypeAliasDeclaration'
+        ) {
+          return current.id && current.id.name ? current.id.name : null
+        }
+
+        current = current.parent
+      }
+
+      return null
+    }
+
+    // Resolves the doc entry for a property, preferring the export group that
+    // matches the property's enclosing type (e.g. "MenuButtonProps" →
+    // "MenuButtonProperties"), and falling back to the file-level docs map.
+    function resolveDoc(propName, node) {
+      const typeName = getEnclosingTypeName(node)
+
+      if (typeName && docsData.groupMap) {
+        const base = typeName.replace(/(AllProps|Props|Properties)$/, '')
+        const group = docsData.groupMap.get(base)
+
+        if (group && group.props.has(propName)) {
+          return { entry: group.props.get(propName), docsFile: group.file }
+        }
+      }
+
+      // A directory is unambiguous only when it has a single docs file with a
+      // single group. In that case the merged map is the one source of truth
+      // and applies to any source file in the directory (e.g. the common
+      // "types.ts" + "XDocs.ts" convention). When there are several docs files
+      // or several groups, only fall back to the merged map for files that map
+      // to this directory's docs, and only for the component's own props type
+      // (e.g. "DrawerListProps"), never for nested data types declared in the
+      // same file (e.g. "DrawerListDataArrayObject") which would otherwise
+      // inherit unrelated component-level text.
+      const unambiguous =
+        (!docsData.groupMap || docsData.groupMap.size <= 1) &&
+        docsData.fileCount <= 1
+
+      const isComponentPropsType =
+        !typeName || /(Props|Properties)$/.test(typeName)
+
+      if (
+        (unambiguous || (docsData.fileMatched && isComponentPropsType)) &&
+        docsData.docs.has(propName)
+      ) {
+        return {
+          entry: docsData.docs.get(propName),
+          docsFile: docsData.fileMap.get(propName),
+        }
+      }
+
+      return null
+    }
+
     function checkProperty(node) {
       const propName = getEslintPropertyName(node)
 
-      if (!propName || !docsData.docs.has(propName)) {
+      if (!propName) {
+        return // stop here
+      }
+
+      const resolved = resolveDoc(propName, node)
+
+      if (!resolved) {
         return // stop here
       }
 
       const { doc: expectedDoc, defaultValue: expectedDefault } =
-        docsData.docs.get(propName)
-      const docsFile = docsData.fileMap.get(propName)
+        resolved.entry
+      const docsFile = resolved.docsFile
 
       const comments = sourceCode.getCommentsBefore(node)
 
