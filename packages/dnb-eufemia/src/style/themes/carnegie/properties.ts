@@ -112,6 +112,7 @@ export default {
   '--font-weight-regular': 'normal',
   '--font-weight-medium': '500',
   '--font-weight-bold': '600',
+  '--font-size-xx-small': '0.8125rem',
   '--font-size-x-small': '0.875rem',
   '--font-size-small': '1rem',
   '--font-size-basis': '1.125rem',

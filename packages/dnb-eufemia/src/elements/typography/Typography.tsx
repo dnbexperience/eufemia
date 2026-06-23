@@ -26,10 +26,17 @@ export type TypographyWeight = 'regular' | 'medium' | 'bold'
 export type TypographyDecoration = 'underline'
 export type TypographySlant = 'italic'
 
-export type TypographyContextType = Pick<TypographyProps, 'proseMaxWidth'>
+export type TypographyContextType = Pick<
+  TypographyProps,
+  'proseMaxWidth'
+> & {
+  /**  Whether or not responsive typography is enabled for typography components. Default is `false`. */
+  responsive?: boolean
+}
 
 export const TypographyContext = createContext<TypographyContextType>({
   proseMaxWidth: undefined,
+  responsive: undefined,
 })
 
 export type TypographyProviderProps = TypographyContextType & {
@@ -80,7 +87,7 @@ export type TypographyProps<
 
 export type TypographyUseProps = Pick<
   TypographyProps,
-  'proseMaxWidth' | 'style'
+  'proseMaxWidth' | 'style' | 'className'
 >
 
 type TypographyInternalProps = {
@@ -122,19 +129,19 @@ const Typography = (props: TypographyProps & TypographyInternalProps) => {
   )
 }
 
-const Provider = ({
-  children,
-  proseMaxWidth,
-}: TypographyProviderProps) => {
+const Provider = ({ children, ...rest }: TypographyProviderProps) => {
+  const parentContext = useContext(TypographyContext)
+  const newContext = { ...parentContext, ...rest }
+
   return (
-    <TypographyContext value={{ proseMaxWidth }}>
-      {children}
-    </TypographyContext>
+    <TypographyContext value={newContext}>{children}</TypographyContext>
   )
 }
 
 withComponentMarkers(Typography, { _supportsSpacingProps: true })
+/** @deprecated use Typography.Context */
 Typography.Provider = Provider
+Typography.Context = Provider
 
 export default Typography
 export { Provider }
@@ -160,7 +167,7 @@ export const useTypography = <Props extends TypographyUseProps>({
   proseMaxWidth: proseMaxWidthProp,
   ...rest
 }: Props): Omit<Props & TypographyUseProps, 'proseMaxWidth'> => {
-  const { proseMaxWidth: proseMaxWidthContext } =
+  const { proseMaxWidth: proseMaxWidthContext, responsive } =
     useContext(TypographyContext)
 
   // Use prop value if provided, otherwise fall back to context
@@ -174,6 +181,13 @@ export const useTypography = <Props extends TypographyUseProps>({
     ...rest,
     ...(style !== undefined && {
       style: { ...style, ...rest.style },
+    }),
+    ...(responsive !== undefined && {
+      className: clsx(
+        rest.className,
+        responsive && 'dnb-t__responsive-on',
+        responsive === false && 'dnb-t__responsive-off'
+      ),
     }),
   }
 }

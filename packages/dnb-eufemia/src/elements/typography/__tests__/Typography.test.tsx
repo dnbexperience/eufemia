@@ -12,6 +12,10 @@ import Typography, {
   useTypography,
 } from '../Typography'
 import P from '../P'
+import H1 from '../H1'
+import H2 from '../H2'
+import Span from '../../span/Span'
+import Heading from '../../../components/heading/Heading'
 import { render } from '@testing-library/react'
 import { Theme } from '../../../shared'
 
@@ -157,9 +161,9 @@ describe('Typography element', () => {
 
     it('works with proseMaxWidth from Provider when true', () => {
       render(
-        <Typography.Provider proseMaxWidth>
+        <Typography.Context proseMaxWidth>
           <Typography>Text with auto width</Typography>
-        </Typography.Provider>
+        </Typography.Context>
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -177,11 +181,11 @@ describe('Typography element', () => {
       expect(element.style.maxWidth).toBe('30ch')
     })
 
-    it('style maxWidth overrides proseMaxWidth from Typography.Provider', () => {
+    it('style maxWidth overrides proseMaxWidth from Typography.Context', () => {
       render(
-        <Typography.Provider proseMaxWidth={80}>
+        <Typography.Context proseMaxWidth={80}>
           <Typography style={{ maxWidth: '30ch' }}>Test text</Typography>
-        </Typography.Provider>
+        </Typography.Context>
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -189,12 +193,12 @@ describe('Typography element', () => {
     })
   })
 
-  describe('Typography.Provider', () => {
+  describe('Typography.Context', () => {
     it('applies proseMaxWidth from Provider to Typography children', () => {
       render(
-        <Typography.Provider proseMaxWidth={80}>
+        <Typography.Context proseMaxWidth={80}>
           <Typography>Text with context width</Typography>
-        </Typography.Provider>
+        </Typography.Context>
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -203,11 +207,11 @@ describe('Typography element', () => {
 
     it('uses prop value over Provider value when both are provided', () => {
       render(
-        <Typography.Provider proseMaxWidth={80}>
+        <Typography.Context proseMaxWidth={80}>
           <Typography proseMaxWidth={120}>
             Text with explicit width
           </Typography>
-        </Typography.Provider>
+        </Typography.Context>
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
@@ -216,10 +220,10 @@ describe('Typography element', () => {
 
     it('applies to multiple Typography children', () => {
       render(
-        <Typography.Provider proseMaxWidth={70}>
+        <Typography.Context proseMaxWidth={70}>
           <Typography>First paragraph</Typography>
           <Typography>Second paragraph</Typography>
-        </Typography.Provider>
+        </Typography.Context>
       )
       const elements = document.querySelectorAll(
         '.dnb-p'
@@ -233,12 +237,12 @@ describe('Typography element', () => {
 
     it('supports nested Providers with different values', () => {
       render(
-        <Typography.Provider proseMaxWidth={80}>
+        <Typography.Context proseMaxWidth={80}>
           <Typography>Outer paragraph</Typography>
-          <Typography.Provider proseMaxWidth={60}>
+          <Typography.Context proseMaxWidth={60}>
             <Typography>Inner paragraph</Typography>
-          </Typography.Provider>
-        </Typography.Provider>
+          </Typography.Context>
+        </Typography.Context>
       )
 
       const outerElement = document.querySelectorAll(
@@ -254,12 +258,12 @@ describe('Typography element', () => {
 
     it('inner Provider overrides outer Provider', () => {
       render(
-        <Typography.Provider proseMaxWidth={100}>
+        <Typography.Context proseMaxWidth={100}>
           <Typography>Outer paragraph</Typography>
-          <Typography.Provider proseMaxWidth={50}>
+          <Typography.Context proseMaxWidth={50}>
             <Typography>Inner paragraph</Typography>
-          </Typography.Provider>
-        </Typography.Provider>
+          </Typography.Context>
+        </Typography.Context>
       )
 
       const outerElement = document.querySelectorAll(
@@ -275,10 +279,10 @@ describe('Typography element', () => {
 
     it('works with mixed Typography and P components', () => {
       render(
-        <Typography.Provider proseMaxWidth={75}>
+        <Typography.Context proseMaxWidth={75}>
           <Typography>Typography component</Typography>
           <P>Paragraph component</P>
-        </Typography.Provider>
+        </Typography.Context>
       )
 
       const typographyElement = document.querySelectorAll(
@@ -294,13 +298,141 @@ describe('Typography element', () => {
 
     it('does not apply maxWidth when Provider value is undefined', () => {
       render(
-        <Typography.Provider>
+        <Typography.Context>
           <Typography>No width limit</Typography>
-        </Typography.Provider>
+        </Typography.Context>
       )
       const element = document.querySelector('.dnb-p') as HTMLElement
 
       expect(element.style.maxWidth).toBe('')
+    })
+
+    it('merges inner context with outer context values', () => {
+      render(
+        <Typography.Context proseMaxWidth={80}>
+          <Typography.Context responsive>
+            <Typography>Merged context</Typography>
+          </Typography.Context>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-p') as HTMLElement
+
+      expect(element.style.maxWidth).toBe('80ch')
+      expect(element.classList.contains('dnb-t__responsive-on')).toBe(true)
+    })
+  })
+
+  describe('responsive', () => {
+    it('adds dnb-t__responsive-on class when responsive is true', () => {
+      render(
+        <Typography.Context responsive>
+          <Typography>Responsive text</Typography>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-p')
+
+      expect(element.classList.contains('dnb-t__responsive-on')).toBe(true)
+    })
+
+    it('adds dnb-t__responsive-off class when responsive is false', () => {
+      render(
+        <Typography.Context responsive={false}>
+          <Typography>Non-responsive text</Typography>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-p')
+
+      expect(element.classList.contains('dnb-t__responsive-off')).toBe(
+        true
+      )
+    })
+
+    it('does not add responsive classes when responsive is not set', () => {
+      render(
+        <Typography.Context>
+          <Typography>Default text</Typography>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-p')
+
+      expect(element.classList.contains('dnb-t__responsive-on')).toBe(
+        false
+      )
+      expect(element.classList.contains('dnb-t__responsive-off')).toBe(
+        false
+      )
+    })
+
+    it('applies dnb-t__responsive-on to H elements', () => {
+      render(
+        <Typography.Context responsive>
+          <H1>Heading</H1>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-h--xx-large')
+
+      expect(element.classList.contains('dnb-t__responsive-on')).toBe(true)
+    })
+
+    it('applies dnb-t__responsive-off to H elements when false', () => {
+      render(
+        <Typography.Context responsive={false}>
+          <H2>Heading</H2>
+        </Typography.Context>
+      )
+      const element = document.querySelector('h2')
+
+      expect(element.classList.contains('dnb-t__responsive-off')).toBe(
+        true
+      )
+    })
+
+    it('applies dnb-t__responsive-on to Span element', () => {
+      render(
+        <Typography.Context responsive>
+          <Span>Span text</Span>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-span')
+
+      expect(element.classList.contains('dnb-t__responsive-on')).toBe(true)
+    })
+
+    it('applies dnb-t__responsive-off to Span element when false', () => {
+      render(
+        <Typography.Context responsive={false}>
+          <Span>Span text</Span>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-span')
+
+      expect(element.classList.contains('dnb-t__responsive-off')).toBe(
+        true
+      )
+    })
+
+    it('applies dnb-t__responsive-on to Heading component', () => {
+      render(
+        <Typography.Context responsive>
+          <Heading>Heading text</Heading>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-heading')
+
+      expect(element.classList.contains('dnb-t__responsive-on')).toBe(true)
+    })
+
+    it('applies dnb-t__responsive-off to Heading component when false', () => {
+      render(
+        <Typography.Context responsive={false}>
+          <Heading>Heading text</Heading>
+        </Typography.Context>
+      )
+      const element = document.querySelector('.dnb-heading')
+
+      expect(element.classList.contains('dnb-t__responsive-off')).toBe(
+        true
+      )
     })
   })
 

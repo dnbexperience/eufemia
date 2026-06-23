@@ -418,11 +418,11 @@ describe('Heading component', () => {
     )
   })
 
-  it('should apply proseMaxWidth from Typography.Provider', () => {
+  it('should apply proseMaxWidth from Typography.Context', () => {
     render(
-      <Typography.Provider proseMaxWidth={40}>
+      <Typography.Context proseMaxWidth={40}>
         <Heading>Heading #1</Heading>
-      </Typography.Provider>
+      </Typography.Context>
     )
 
     const element = document.querySelector('.dnb-heading') as HTMLElement
@@ -442,11 +442,11 @@ describe('Heading component', () => {
     expect(element.style.maxWidth).toBe('30ch')
   })
 
-  it('should override proseMaxWidth from Typography.Provider with style maxWidth', () => {
+  it('should override proseMaxWidth from Typography.Context with style maxWidth', () => {
     render(
-      <Typography.Provider proseMaxWidth={80}>
+      <Typography.Context proseMaxWidth={80}>
         <Heading style={{ maxWidth: '30ch' }}>Heading #1</Heading>
-      </Typography.Provider>
+      </Typography.Context>
     )
 
     const element = document.querySelector('.dnb-heading') as HTMLElement

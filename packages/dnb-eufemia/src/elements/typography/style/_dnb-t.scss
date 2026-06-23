@@ -1,3 +1,5 @@
+@use './typography-mixins.scss';
+
 /*
  * Typography
  * Universal set of helper classes that do not have a specific element. 
@@ -6,48 +8,48 @@
 .dnb-t {
   // size
   &__size--xx-large {
-    font-size: var(--font-size-xx-large);
+    font-size: var(--typography-font-size-xx-large);
   }
   &__size--x-large {
-    font-size: var(--font-size-x-large);
+    font-size: var(--typography-font-size-x-large);
   }
   &__size--large {
-    font-size: var(--font-size-large);
+    font-size: var(--typography-font-size-large);
   }
   &__size--medium {
-    font-size: var(--font-size-medium);
+    font-size: var(--typography-font-size-medium);
   }
   &__size--basis {
-    font-size: var(--font-size-basis);
+    font-size: var(--typography-font-size-basis);
   }
   &__size--small {
-    font-size: var(--font-size-small);
+    font-size: var(--typography-font-size-small);
   }
   &__size--x-small {
-    font-size: var(--font-size-x-small);
+    font-size: var(--typography-font-size-x-small);
   }
 
   // line height
   &__line-height--xx-large {
-    line-height: var(--line-height-xx-large);
+    line-height: var(--typography-line-height-xx-large);
   }
   &__line-height--x-large {
-    line-height: var(--line-height-x-large);
+    line-height: var(--typography-line-height-x-large);
   }
   &__line-height--large {
-    line-height: var(--line-height-large);
+    line-height: var(--typography-line-height-large);
   }
   &__line-height--medium {
-    line-height: var(--line-height-medium);
+    line-height: var(--typography-line-height-medium);
   }
   &__line-height--basis {
-    line-height: var(--line-height-basis);
+    line-height: var(--typography-line-height-basis);
   }
   &__line-height--small {
-    line-height: var(--line-height-small);
+    line-height: var(--typography-line-height-small);
   }
   &__line-height--x-small {
-    line-height: var(--line-height-x-small);
+    line-height: var(--typography-line-height-x-small);
   }
 
   // weight
@@ -89,5 +91,13 @@
   }
   &__slant--italic {
     font-style: italic;
+  }
+
+  &__responsive-off {
+    @include typography-mixins.responsiveOff();
+  }
+
+  &__responsive-on {
+    @include typography-mixins.responsiveOn();
   }
 }
