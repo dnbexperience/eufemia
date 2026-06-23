@@ -42,11 +42,6 @@ html[data-dnb-modal-active] {
       justify-content: flex-start;
     }
 
-    // Is this used?
-    &--fullscreen &__content {
-      height: auto;
-    }
-
     &--left,
     &--top {
       align-items: flex-start;
