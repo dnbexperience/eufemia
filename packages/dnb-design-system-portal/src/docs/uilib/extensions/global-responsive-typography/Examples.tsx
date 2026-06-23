@@ -34,7 +34,6 @@ export const ResponsiveTypographyFullExample = () => (
   <MarginReset>
     <ComponentBox
       scope={{ Typography, GlobalResponsiveTypography }}
-      data-visual-test="global-typography-responsive"
     >
       <GlobalResponsiveTypography>
         <H1>H1</H1>
@@ -80,4 +79,18 @@ export const ResponsiveTypographyFullExample = () => (
       </GlobalResponsiveTypography>
     </ComponentBox>
   </MarginReset>
+)
+
+export const ResponsiveTypographyScreenshotExample = () => (
+  <ComponentBox
+    scope={{ Typography, GlobalResponsiveTypography }}
+    data-visual-test="global-typography-responsive"
+  >
+    <GlobalResponsiveTypography>
+      <P style={{ backgroundColor: 'var(--token-color-decorative-first-subtle)' }}>
+        Paragraph text
+      </P>
+      <Button>Button</Button>
+    </GlobalResponsiveTypography>
+  </ComponentBox>
 )

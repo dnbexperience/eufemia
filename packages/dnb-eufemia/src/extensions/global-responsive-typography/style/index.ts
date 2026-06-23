@@ -3,4 +3,4 @@
  *
  */
 
-import './global-responsive-typography.scss'
+import './dnb-global-responsive-typography.scss'
