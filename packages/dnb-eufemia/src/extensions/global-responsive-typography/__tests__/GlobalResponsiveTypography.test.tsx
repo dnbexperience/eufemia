@@ -77,9 +77,7 @@ describe('GlobalResponsiveTypography', () => {
       )
       const heading = document.querySelector('.dnb-h--xx-large')
 
-      expect(heading.classList.contains('dnb-t__responsive-on')).toBe(
-        true
-      )
+      expect(heading.classList.contains('dnb-t__responsive-on')).toBe(true)
     })
 
     it('adds dnb-t__responsive-on class to Span children', () => {
