@@ -39,8 +39,6 @@ const StatusOverlay = ({
 
   const cardStatusOverlayThemeMap: Record<string, string> = {
     'card--design-default': 'light',
-    'card--design-business-no-visa': 'light',
-    'card--design-business-with-visa': 'light',
     'card--design-ung': 'light',
     'card--design-youth': 'light',
     'card--design-my-first': 'light',

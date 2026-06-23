@@ -124,18 +124,6 @@
         color: var(--color-white);
       }
 
-      // Design for a business card without Visa support
-      &-business-no-visa {
-        background-color: var(--dnb-payment-bg-business-no-visa);
-        color: var(--color-white);
-      }
-
-      // Design for a business card with Visa support
-      &-business-with-visa {
-        background-color: var(--dnb-payment-bg-business-with-visa);
-        color: var(--color-white);
-      }
-
       // Sbanken-themed Mastercard with purple background
       &-sbanken-mastercard {
         background-color: var(--sb-color-purple);
