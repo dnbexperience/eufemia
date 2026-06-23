@@ -32,9 +32,7 @@ const MarginReset = styled.div`
 
 export const ResponsiveTypographyFullExample = () => (
   <MarginReset>
-    <ComponentBox
-      scope={{ Typography, GlobalResponsiveTypography }}
-    >
+    <ComponentBox scope={{ Typography, GlobalResponsiveTypography }}>
       <GlobalResponsiveTypography>
         <H1>H1</H1>
         <H2>H2</H2>
@@ -87,7 +85,11 @@ export const ResponsiveTypographyScreenshotExample = () => (
     data-visual-test="global-typography-responsive"
   >
     <GlobalResponsiveTypography>
-      <P style={{ backgroundColor: 'var(--token-color-decorative-first-subtle)' }}>
+      <P
+        style={{
+          backgroundColor: 'var(--token-color-decorative-first-subtle)',
+        }}
+      >
         Paragraph text
       </P>
       <Button>Button</Button>
