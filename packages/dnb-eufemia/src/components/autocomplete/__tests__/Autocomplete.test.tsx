@@ -4988,6 +4988,144 @@ describe('Autocomplete onItemMouseEnter', () => {
   })
 })
 
+describe('Autocomplete shows all suggestions when input is empty (#4662)', () => {
+  const visibleOptions = () =>
+    document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all):not(.dnb-autocomplete__no-options)'
+    ).length
+
+  describe('sync mode', () => {
+    it('shows all options when opening with an empty input', () => {
+      render(<Autocomplete data={mockData} {...mockProps} />)
+
+      const input = document.querySelector('.dnb-input__input')
+      fireEvent.focus(input)
+      fireEvent.mouseDown(input)
+      fireEvent.click(input)
+
+      expect(visibleOptions()).toBe(mockData.length)
+    })
+
+    it('shows all options again after typing and then clearing the input', () => {
+      render(<Autocomplete data={mockData} {...mockProps} />)
+
+      const input = document.querySelector('.dnb-input__input')
+      fireEvent.focus(input)
+
+      fireEvent.change(input, { target: { value: 'cc' } })
+      expect(visibleOptions()).toBe(2)
+
+      fireEvent.change(input, { target: { value: '' } })
+      expect(visibleOptions()).toBe(mockData.length)
+    })
+
+    it('shows all options after selecting an item and then clearing the input', () => {
+      render(<Autocomplete data={mockData} {...mockProps} />)
+
+      const input = document.querySelector('.dnb-input__input')
+      fireEvent.focus(input)
+      fireEvent.mouseDown(input)
+
+      const firstOption = document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )[0]
+      fireEvent.click(firstOption)
+      expect((input as HTMLInputElement).value).toBe('AA c')
+
+      fireEvent.change(input, { target: { value: '' } })
+      fireEvent.mouseDown(input)
+      fireEvent.click(input)
+
+      expect(visibleOptions()).toBe(mockData.length)
+    })
+
+    it('clears the input and shows all options when using the clear button', () => {
+      render(
+        <Autocomplete data={mockData} showClearButton {...mockProps} />
+      )
+
+      const input = document.querySelector('.dnb-input__input')
+      fireEvent.focus(input)
+      fireEvent.change(input, { target: { value: 'cc' } })
+      expect(visibleOptions()).toBe(2)
+
+      const clearButton = document.querySelector(
+        'button.dnb-input__clear-button'
+      )
+      fireEvent.click(clearButton)
+
+      expect((input as HTMLInputElement).value).toBe('')
+      expect(visibleOptions()).toBe(mockData.length)
+    })
+  })
+
+  describe('async mode', () => {
+    const asyncData = [
+      { selectedKey: 'a', content: 'AA c' },
+      { selectedKey: 'b', content: 'BB cc zethx' },
+      { selectedKey: 'c', content: 'CC dd' },
+    ]
+
+    const filterData = (value: string) => {
+      const normalized = value.trim().toLowerCase()
+      if (!normalized) {
+        return asyncData
+      }
+      return asyncData.filter(({ content }) =>
+        content.toLowerCase().includes(normalized)
+      )
+    }
+
+    const onType = ({ value, updateData }) => {
+      updateData(filterData(value))
+    }
+
+    it('shows all options again after typing and then clearing the input', async () => {
+      render(
+        <Autocomplete
+          mode="async"
+          data={asyncData}
+          onType={onType}
+          {...mockProps}
+        />
+      )
+
+      const input = document.querySelector('input')
+      fireEvent.focus(input)
+
+      await userEvent.type(input, 'AA')
+      expect(visibleOptions()).toBe(1)
+
+      await userEvent.clear(input)
+      expect(visibleOptions()).toBe(asyncData.length)
+    })
+
+    it('shows all options after selecting an item and then clearing the input', async () => {
+      render(
+        <Autocomplete
+          mode="async"
+          data={asyncData}
+          onType={onType}
+          {...mockProps}
+        />
+      )
+
+      const input = document.querySelector('input')
+      fireEvent.focus(input)
+      fireEvent.mouseDown(input)
+
+      const firstOption = document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )[0]
+      fireEvent.click(firstOption)
+      expect(input.value).toBe('AA c')
+
+      await userEvent.clear(input)
+      expect(visibleOptions()).toBe(asyncData.length)
+    })
+  })
+})
+
 describe('Autocomplete scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
