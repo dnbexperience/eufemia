@@ -1244,9 +1244,5 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--clickable.dnb-table__tr.dnb-
 
 .dnb-table__tr--clickable:has(.dnb-table + .dnb-table__tr__accordion-content--animating) {
   user-select: none;
-}
-
-.dnb-table__td-wrapper {
-  display: flex;
 }"
 `;

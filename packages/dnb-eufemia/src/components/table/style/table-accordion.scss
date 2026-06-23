@@ -327,8 +327,4 @@
   &__tr--clickable:has(& + &__tr__accordion-content--animating) {
     user-select: none;
   }
-
-  &__td-wrapper {
-    display: flex;
-  }
 }
