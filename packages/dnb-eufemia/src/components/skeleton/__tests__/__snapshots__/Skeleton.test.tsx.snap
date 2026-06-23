@@ -77,13 +77,13 @@ exports[`Skeleton scss > has to match style dependencies css 1`] = `
   font-style: unset !important;
   box-shadow: none !important;
 }
-.dnb-skeleton--font-only, .dnb-skeleton--font, .dnb-skeleton--font .dnb-skeleton--show-font, .dnb-skeleton--font .dnb-p {
+.dnb-skeleton--font, .dnb-skeleton--font .dnb-skeleton--show-font, .dnb-skeleton--font .dnb-p {
   pointer-events: none;
   --font-family-default: 'DNBSkeleton' !important;
   font-family: var(--font-family-default) !important;
   font-style: unset !important;
 }
-.dnb-skeleton--font-only::marker, .dnb-skeleton--font::marker, .dnb-skeleton--font .dnb-skeleton--show-font::marker, .dnb-skeleton--font .dnb-p::marker {
+.dnb-skeleton--font::marker, .dnb-skeleton--font .dnb-skeleton--show-font::marker, .dnb-skeleton--font .dnb-p::marker {
   color: var(--skeleton-color);
 }
 .dnb-skeleton--font, .dnb-skeleton--font .dnb-skeleton--show-font, .dnb-skeleton--font .dnb-p {
