@@ -5,6 +5,11 @@ status: 'beta'
 order: 3
 ---
 
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import VSCodeExtensionSpacing from 'Docs/uilib/usage/first-steps/assets/eufemia-vscode-extension-spacing.png'
+import VSCodeExtensionHover from 'Docs/uilib/usage/first-steps/assets/eufemia-vscode-extension-hover.png'
+import VSCodeExtensionFontSize from 'Docs/uilib/usage/first-steps/assets/eufemia-vscode-extension-font-size.png'
+
 # Tools
 
 ## AI Assistance and MCP Server
@@ -102,15 +107,30 @@ Install the [VSCode Extension](https://marketplace.visualstudio.com/items?itemNa
 
 1. Spacing System example
 
-![Auto completion for px/rem spacing system](./assets/eufemia-vscode-extension-spacing.png)
+<InlineImg
+  src={VSCodeExtensionSpacing}
+  caption="Auto completion for px/rem spacing system"
+  width="auto"
+  className="blank x-10"
+/>
 
 2. Equivalent to `px` or `rem` value example
 
-![Tooltip for px/rem equivalent](./assets/eufemia-vscode-extension-hover.png)
+<InlineImg
+  src={VSCodeExtensionHover}
+  caption="Tooltip for px/rem equivalent"
+  width="auto"
+  className="blank x-10"
+/>
 
 3. `font-size` example
 
-![Auto completion for font-size](./assets/eufemia-vscode-extension-font-size.png)
+<InlineImg
+  src={VSCodeExtensionFontSize}
+  caption="Auto completion for font-size"
+  width="auto"
+  className="blank x-10"
+/>
 
 ## Lint Plugins
 
