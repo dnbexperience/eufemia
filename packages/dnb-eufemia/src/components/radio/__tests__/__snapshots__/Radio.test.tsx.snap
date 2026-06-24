@@ -501,8 +501,6 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
   /** Disabled state **/
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button {
-  --radio-border-inset: var(--radio-border-inset--disabled);
-  --radio-border-width: var(--radio-border-width--disabled);
   --radio-color-border: var(--radio-color-border--disabled);
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button:not(.dnb-skeleton) {
