@@ -12,8 +12,8 @@ name: MCP Lambda
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # Requires the following GitHub secrets:
-# - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo push access
-# - GHE_DEPLOY_REPO: The GHE repo (e.g. `dnb/eufemia-mcp-deploy`)
+# - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo + workflow push access
+# - GHE_DEPLOY_REPO: The GHE repo (e.g. `eufemia/eufemia-mcp`)
 #
 # See tools/mcp/README.md for manual deploy instructions.
 
