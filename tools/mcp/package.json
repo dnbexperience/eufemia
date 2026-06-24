@@ -1,5 +1,5 @@
 {
-  "name": "mcp",
+  "name": "@dnb/eufemia-mcp",
   "version": "1.0.0",
   "description": "Eufemia MCP server for AWS Lambda",
   "main": "dist/lambda-handler.mjs",
