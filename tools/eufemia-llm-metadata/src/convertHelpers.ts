@@ -352,6 +352,8 @@ export async function resolveMetaText(file: string) {
   return { name, description, infoFile }
 }
 
+export type SourceInfo = Awaited<ReturnType<typeof findSourceInfo>>
+
 export function buildMetadata({
   file,
   siteDir,
@@ -451,7 +453,6 @@ export function buildMetadata({
 
 export type ComponentMetadata = ReturnType<typeof buildMetadata>
 export type LlmsResultEntry = { slug: string; meta: ComponentMetadata }
-export type SourceInfo = Awaited<ReturnType<typeof findSourceInfo>>
 
 export async function writeLlmsText({
   siteDir,
