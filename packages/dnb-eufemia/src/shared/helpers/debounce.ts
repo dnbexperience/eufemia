@@ -4,6 +4,7 @@ type ReturnHelpers = {
   cancel: () => void
   addCancelEvent: (fn: () => void) => () => boolean
 }
+type DebounceInstance = Partial<ReturnHelpers>
 type DebouncedFunction<T extends any[], R> = (...args: T) => R
 type DebouncedOptions = {
   /**
@@ -14,7 +15,7 @@ type DebouncedOptions = {
   /**
    * The instance to bind the debounced function to.
    */
-  instance?: any
+  instance?: object
 
   /**
    * Whether to return a promise that resolves with the result of the debounced function.
@@ -73,14 +74,14 @@ export function debounce<T extends any[], R>(
     }
   }
 
-  function executedFunction(this: any, ...args: T) {
+  function executedFunction(this: object | void, ...args: T) {
     if (typeof recall === 'function') {
       recall()
     }
 
     canceled = false
 
-    const inst = instance || this || {}
+    const inst = (instance || this || {}) as DebounceInstance
     inst.cancel = cancel
     inst.addCancelEvent = addCancelEvent
 

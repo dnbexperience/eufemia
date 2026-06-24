@@ -379,7 +379,7 @@ export function buildMetadata({
   props: Record<string, any>
   events: Record<string, any>
   related: string[]
-  sourceInfo: any
+  sourceInfo: SourceInfo
   infoFile: string | null
   propsFile: string | null
   eventsFile: string | null
@@ -449,6 +449,10 @@ export function buildMetadata({
   }
 }
 
+export type ComponentMetadata = ReturnType<typeof buildMetadata>
+export type LlmsResultEntry = { slug: string; meta: ComponentMetadata }
+export type SourceInfo = Awaited<ReturnType<typeof findSourceInfo>>
+
 export async function writeLlmsText({
   siteDir,
   results,
@@ -460,7 +464,7 @@ export async function writeLlmsText({
   publicUrlBase = DEFAULT_PUBLIC_URL,
 }: {
   siteDir: string
-  results: Array<any>
+  results: Array<LlmsResultEntry>
   version: string
   commit?: string
   generatedAt?: string
@@ -468,7 +472,7 @@ export async function writeLlmsText({
   llmsFilename?: string
   publicUrlBase?: string
 }) {
-  const hydrated: Array<any> = results || []
+  const hydrated: Array<LlmsResultEntry> = results || []
   const llmsPath = path.join(
     outputRoot || path.join(siteDir, 'public'),
     llmsFilename
@@ -885,7 +889,7 @@ export async function extractDescriptionFromMdx(mdxFile: string | null) {
 }
 
 export function buildLlmsText(
-  results: Array<any>,
+  results: Array<LlmsResultEntry>,
   {
     version,
     commit,
@@ -920,7 +924,7 @@ export function buildLlmsText(
     }
   })
 
-  const byGroup = new Map<string, Array<any>>()
+  const byGroup = new Map<string, Array<LlmsResultEntry>>()
 
   for (const entry of filtered) {
     const g = entry.meta.group || 'unlisted'
@@ -941,7 +945,7 @@ export function buildLlmsText(
           : 'Unlisted'
 
   const printed = new Set<string>()
-  const pushEntry = (meta: any) => {
+  const pushEntry = (meta: ComponentMetadata) => {
     const slug = String(meta?.slug || '')
     const prefix = slug.includes('/extensions/forms/Value/')
       ? 'Value'
