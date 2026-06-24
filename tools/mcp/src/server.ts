@@ -12,6 +12,8 @@ async function resolveDocsRoot(): Promise<string> {
   }
 
   const candidates = [
+    // Lambda bundle: handler and docs are unzipped side by side in the task root.
+    path.resolve(moduleDir, 'docs'),
     path.resolve(moduleDir, '../dist/docs'),
     path.resolve(moduleDir, '../../../packages/dnb-eufemia/build/docs'),
   ]
