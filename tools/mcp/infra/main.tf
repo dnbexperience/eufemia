@@ -16,7 +16,10 @@ resource "aws_lambda_function" "mcp" {
   timeout       = 30
   memory_size   = 512
 
-  reserved_concurrent_executions = 10
+  # LLM clients fan out tool calls in parallel, so the cap must absorb
+  # bursts well above the previous 10 to avoid Lambda throttling (429 ->
+  # surfaced by the HTTP API as 503).
+  reserved_concurrent_executions = 100
 
   filename         = "${path.module}/../dist/lambda.zip"
   source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")
@@ -63,8 +66,8 @@ resource "aws_apigatewayv2_stage" "mcp" {
   tags        = local.tags
 
   default_route_settings {
-    throttling_burst_limit = 50
-    throttling_rate_limit  = 100
+    throttling_burst_limit = 200
+    throttling_rate_limit  = 400
   }
 }
 
