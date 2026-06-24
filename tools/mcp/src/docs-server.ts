@@ -48,7 +48,7 @@ const DocsReadInput = z.object({
 })
 
 const DocsSearchInput = z.object({
-  query: z.any().describe('Search query (string recommended).'),
+  query: z.string().describe('Search query.'),
   limit: z.number().int().min(1).max(50).default(10),
   prefix: z
     .string()
