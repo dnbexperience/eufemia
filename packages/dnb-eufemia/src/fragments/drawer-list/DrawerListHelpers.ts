@@ -3,7 +3,7 @@
  */
 
 import { isValidElement } from 'react'
-import type { ReactElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import { convertJsxToString } from '../../shared/component-helper'
 import type {
   DrawerListDataArrayItem,
@@ -118,7 +118,7 @@ export function parseContentTitle(
     if (preferSelectedValue) {
       ret = String(
         convertJsxToString(dataItem.selectedValue, separator, (word) => {
-          const element = word as ReactElement<any>
+          const element = word as ReactElement<{ children?: ReactNode }>
           const nestedChildren =
             !element.props.children &&
             element?.type !== Icon &&
@@ -126,7 +126,8 @@ export function parseContentTitle(
             typeof element?.type === 'function' &&
             (element.type as () => ReactElement)()
 
-          return (nestedChildren as ReactElement<any>)?.props?.children
+          return (nestedChildren as ReactElement<{ children?: ReactNode }>)
+            ?.props?.children
             ? nestedChildren
             : element
         })
@@ -148,7 +149,7 @@ export function preSelectData(data: DrawerListData): DrawerListDataAll {
   if (typeof data === 'string') {
     data =
       data[0] === '{' || data[0] === '['
-        ? (JSON.parse(data) as Array<any> | Record<string, any>)
+        ? (JSON.parse(data) as DrawerListDataAll)
         : undefined
   } else if (data && isValidElement(data)) {
     data = []
