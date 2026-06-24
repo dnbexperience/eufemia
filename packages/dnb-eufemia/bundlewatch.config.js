@@ -37,14 +37,6 @@ const cssBundles = [
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/carnegie/carnegie-theme-extensions.min.css',
-    maxSize: '10kB',
-  },
-  {
-    path: 'build/style/themes/carnegie/carnegie-theme-forms.min.css',
-    maxSize: '10kB',
-  },
-  {
     path: 'build/style/themes/eiendom/eiendom-theme-basis.min.css',
     maxSize: '10kB',
   },
@@ -54,14 +46,6 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/eiendom/eiendom-theme-elements.min.css',
-    maxSize: '10kB',
-  },
-  {
-    path: 'build/style/themes/eiendom/eiendom-theme-extensions.min.css',
-    maxSize: '10kB',
-  },
-  {
-    path: 'build/style/themes/eiendom/eiendom-theme-forms.min.css',
     maxSize: '10kB',
   },
   {
@@ -77,14 +61,6 @@ const cssBundles = [
     maxSize: '10kB',
   },
   {
-    path: 'build/style/themes/sbanken/sbanken-theme-extensions.min.css',
-    maxSize: '10kB',
-  },
-  {
-    path: 'build/style/themes/sbanken/sbanken-theme-forms.min.css',
-    maxSize: '10kB',
-  },
-  {
     path: 'build/style/themes/ui/ui-theme-basis.min.css',
     maxSize: '10kB',
   },
@@ -94,14 +70,6 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/ui/ui-theme-elements.min.css',
-    maxSize: '10kB',
-  },
-  {
-    path: 'build/style/themes/ui/ui-theme-extensions.min.css',
-    maxSize: '10kB',
-  },
-  {
-    path: 'build/style/themes/ui/ui-theme-forms.min.css',
     maxSize: '10kB',
   },
   {

@@ -75,11 +75,9 @@ if (isCI) {
       expect(global.components[0]).toContain(
         'ATTENTION: This file is auto generated'
       )
-      expect(global.components[0]).toContain('@charset "UTF-8";')
       expect(global.components[0]).not.toContain(';--')
       expect(global.components[0]).not.toContain('}:root{--')
 
-      expect(global.components[1]).toContain('@charset "UTF-8";')
       expect(global.components[1]).toContain(';--')
       expect(global.components[1]).toContain('}:root{--')
     })

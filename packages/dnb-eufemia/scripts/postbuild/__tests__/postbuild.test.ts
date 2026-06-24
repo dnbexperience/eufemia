@@ -846,7 +846,7 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).toContain(`.dnb-forms-`)
+      expect(content).not.toContain(`.dnb-forms-`)
     }
 
     {
