@@ -135,8 +135,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Copy the built zip and Terraform config
-          cp "$GITHUB_WORKSPACE/tools/mcp/dist/lambda.zip" .
+          # Copy the built zip and Terraform config, preserving the
+          # dist/ + infra/ layout that main.tf expects (../dist/lambda.zip)
+          mkdir -p dist
+          cp "$GITHUB_WORKSPACE/tools/mcp/dist/lambda.zip" dist/
           cp -R "$GITHUB_WORKSPACE/tools/mcp/infra" .
 
           # Include the deploy workflow so it lives on (and triggers from) the deploy branch
