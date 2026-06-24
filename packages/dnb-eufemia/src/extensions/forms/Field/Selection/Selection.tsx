@@ -518,7 +518,7 @@ export function mapOptions(
             createOption,
           })
           return createElement(
-            child.type as ComponentType<any>,
+            child.type as ComponentType<OptionProps>,
             child.props,
             nestedChildren
           )
