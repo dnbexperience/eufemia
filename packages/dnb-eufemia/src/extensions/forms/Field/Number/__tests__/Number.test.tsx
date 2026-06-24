@@ -1069,6 +1069,89 @@ describe('Field.Number', () => {
     })
   })
 
+  describe('non-finite values', () => {
+    it('displays nothing when value is Infinity', () => {
+      render(<Field.Number value={Infinity} />)
+      expect(document.querySelector('input')).toHaveValue('')
+    })
+
+    it('displays nothing when value is -Infinity', () => {
+      render(<Field.Number value={-Infinity} />)
+      expect(document.querySelector('input')).toHaveValue('')
+    })
+
+    it('displays nothing when value is NaN', () => {
+      render(<Field.Number value={NaN} />)
+      expect(document.querySelector('input')).toHaveValue('')
+    })
+
+    it('does not show a validation error for Infinity with validateInitially', async () => {
+      render(<Field.Number value={Infinity} validateInitially />)
+
+      await act(async () => undefined)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('does not show a validation error for -Infinity with validateInitially', async () => {
+      render(<Field.Number value={-Infinity} validateInitially />)
+
+      await act(async () => undefined)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('does not block form submit when value is Infinity', () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler
+          defaultData={{ percentage: Infinity }}
+          onSubmit={onSubmit}
+        >
+          <Field.Number path="/percentage" />
+        </Form.Handler>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(onSubmit).toHaveBeenCalledWith(
+        { percentage: Infinity },
+        expect.anything()
+      )
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+    })
+
+    it('still validates finite out-of-range values through the preprocess wrapper', async () => {
+      render(
+        <Field.Number value={1500} maximum={1000} validateInitially />
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
+    })
+
+    it('still validates finite below-minimum values through the preprocess wrapper', async () => {
+      render(<Field.Number value={500} minimum={1000} validateInitially />)
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toBeInTheDocument()
+      })
+    })
+  })
+
   describe('localized number formatting in error messages', () => {
     it('formats {maximum} using nb-NO locale', async () => {
       render(<Field.Number maximum={1000} />)
