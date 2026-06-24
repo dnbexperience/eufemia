@@ -18,6 +18,12 @@ import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers
 
 export const omitSpacingProps = removeSpaceProps
 
+type SpacingElementProps = Partial<
+  Record<FlexStart | FlexEnd, SpaceType>
+> & {
+  space?: Partial<Record<FlexStart | FlexEnd, SpaceType>>
+}
+
 /**
  * Picks the spacing props from the given props object.
  * @template Props - The type of the props object.
@@ -46,11 +52,11 @@ export function getSpaceValue(
   type: FlexStart | FlexEnd,
   element: ReactNode
 ): SpaceType | undefined {
-  if (!isValidElement<Record<string, any>>(element)) {
+  if (!isValidElement<SpacingElementProps>(element)) {
     return undefined
   }
 
-  const elementProps = (element as ReactElement<any>).props || {}
+  const elementProps = element.props || {}
 
   return (
     elementProps?.[type] ??
@@ -78,7 +84,7 @@ export function isHeadingElement(element: ReactNode): boolean {
  * @returns The spacing variant (true, false or "children") of the element, or undefined if it does not support spacing props.
  */
 export function getSpaceVariant(element: ReactNode) {
-  if (isValidElement<Record<string, any>>(element)) {
+  if (isValidElement<SpacingElementProps>(element)) {
     if (element?.type === Fragment) {
       return 'children'
     }
@@ -90,7 +96,7 @@ export function getSpaceVariant(element: ReactNode) {
     }
 
     const keys = ['space', 'top', 'right', 'bottom', 'left']
-    const props = (element as ReactElement<any>)?.props ?? {}
+    const props = element?.props ?? {}
     if (keys.some((key) => key in (props as object))) {
       return true
     }
@@ -125,7 +131,7 @@ export function renderWithSpacing(
   }
 
   if (variant === 'passthrough') {
-    const childElement = element as ReactElement<any>
+    const childElement = element as ReactElement<{ children?: ReactNode }>
     const children = childElement?.props?.children
     const childKey = childElement?.key
     const childProps = childElement?.props || {}
@@ -225,11 +231,13 @@ function cloneIntrinsicElementWithSpacing(
     wrapInSpace?: boolean
   }
 ) {
-  if (!isValidElement<Record<string, any>>(element)) {
+  if (
+    !isValidElement<{ className?: string; style?: CSSProperties }>(element)
+  ) {
     return element
   }
 
-  const elementProps = (element as ReactElement<any>).props || {}
+  const elementProps = element.props || {}
 
   const spacing = createSpacing(spaceProps)
 
