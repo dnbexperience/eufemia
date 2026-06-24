@@ -113,6 +113,7 @@ describe('babel build', () => {
       '/plugin-scope-hash.cjs',
       '/token-name-policy.cjs',
       '/no-unused-use.cjs',
+      '/no-undefined-custom-property.cjs',
       '/dnb-ui-lib.min.mjs',
       '/dnb-ui-basis.min.mjs',
       '/dnb-ui-components.min.mjs',

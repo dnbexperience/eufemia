@@ -266,7 +266,9 @@ del .dnb-code {
   border-radius: 0;
 }
 .dnb-hr {
-  --thickness: calc(var(--hr-thickness, 0.0625rem) + var(--modifier, 0px));
+  --thickness: calc(
+    var(--hr-thickness, 0.0625rem) + var(--hr-thickness-modifier, 0px)
+  );
 }
 .dnb-spacing .dnb-hr:not([class*=dnb-space__top]) {
   margin-top: 0;
