@@ -1,12 +1,12 @@
 terraform {
-  required_version = "~> 1.5"
+  required_version = "~> 1.10"
 
   backend "s3" {
-    bucket         = "eufemia-mcp-terraform-state"
-    key            = "terraform.tfstate"
-    region         = "eu-north-1"
-    dynamodb_table = "eufemia-mcp-terraform-lock"
-    encrypt        = true
+    bucket       = "eufemia-mcp-terraform-state"
+    key          = "terraform.tfstate"
+    region       = "eu-north-1"
+    use_lockfile = true
+    encrypt      = true
   }
 
   required_providers {

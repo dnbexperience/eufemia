@@ -87,7 +87,7 @@ yarn deploy:plan
 yarn deploy
 ```
 
-Terraform state is stored in S3 (`eufemia-mcp-terraform-state`) with DynamoDB locking.
+Terraform state is stored in S3 (`eufemia-mcp-terraform-state`) with the S3 native state lockfile (`use_lockfile`).
 
 ### Continuous deployment
 

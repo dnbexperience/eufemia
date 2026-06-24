@@ -46,7 +46,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
         with:
-          terraform_version: '~> 1.5'
+          terraform_version: '~> 1.10'
 
       - name: Deploy
         env:
@@ -54,7 +54,10 @@ jobs:
         run: |
           set -euo pipefail
           cd infra
-          terraform init -input=false
+          # -reconfigure: the backend switched from a DynamoDB lock table to the
+          # S3 native lockfile (use_lockfile). The state location is unchanged,
+          # so reconfigure adopts the new backend config without migrating state.
+          terraform init -input=false -reconfigure
           terraform apply -auto-approve -input=false
 
       - name: Post deploy summary
