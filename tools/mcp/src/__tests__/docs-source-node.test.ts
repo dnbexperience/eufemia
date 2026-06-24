@@ -93,4 +93,35 @@ describe('createNodeDocsSource', () => {
     expect(files).toContain('visible.md')
     expect(files).not.toContain('.hidden.md')
   })
+
+  it('does not read through a symlink that escapes the docs root', async () => {
+    const root = await createTempDocs({ 'llm.md': 'x' })
+    const outside = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'mcp-outside-')
+    )
+    await fs.writeFile(path.join(outside, 'secret.md'), 'top secret')
+    await fs.symlink(
+      path.join(outside, 'secret.md'),
+      path.join(root, 'leak.md')
+    )
+
+    const source = await createNodeDocsSource(root)
+
+    expect(await source.read('leak.md')).toBeNull()
+    expect(await source.stat('leak.md')).toEqual({ kind: 'missing' })
+  })
+
+  it('does not list through a symlinked directory that escapes the root', async () => {
+    const root = await createTempDocs({ 'llm.md': 'x' })
+    const outside = await fs.mkdtemp(
+      path.join(os.tmpdir(), 'mcp-outside-')
+    )
+    await fs.writeFile(path.join(outside, 'secret.md'), 'top secret')
+    await fs.symlink(outside, path.join(root, 'leak'))
+
+    const source = await createNodeDocsSource(root)
+
+    expect(await source.stat('leak')).toEqual({ kind: 'missing' })
+    expect(await source.listDir('leak')).toEqual([])
+  })
 })

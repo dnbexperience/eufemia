@@ -43,6 +43,10 @@ export async function createNodeDocsSource(
 
   const root = path.resolve(rootAbs)
 
+  // Canonical root used for symlink-escape checks. If the root itself is a
+  // symlink, realpath resolves it once so containment comparisons are stable.
+  const realRoot = await fs.realpath(root).catch(() => root)
+
   function resolveInside(relPath: string) {
     const cleaned = normalizeDocsPath(relPath)
     const abs = path.resolve(root, cleaned)
@@ -53,6 +57,28 @@ export async function createNodeDocsSource(
     }
 
     return abs
+  }
+
+  // Resolve the real (symlink-followed) path and confirm it stays inside the
+  // docs root. Returns the canonical path when contained, otherwise null.
+  // A null result covers both missing paths and symlinks escaping the root,
+  // so callers treat an escape exactly like a not-found (no content leaks).
+  async function realInside(abs: string): Promise<string | null> {
+    try {
+      const real = await fs.realpath(abs)
+      const relative = path.relative(realRoot, real)
+
+      if (
+        relative !== '' &&
+        (relative.startsWith('..') || path.isAbsolute(relative))
+      ) {
+        return null
+      }
+
+      return real
+    } catch {
+      return null
+    }
   }
 
   async function statSafe(abs: string) {
@@ -118,12 +144,17 @@ export async function createNodeDocsSource(
         return null
       }
 
-      const stats = await statSafe(abs)
+      const real = await realInside(abs)
+      if (!real) {
+        return null
+      }
+
+      const stats = await statSafe(real)
       if (!stats?.isFile()) {
         return null
       }
 
-      const buffer = await fs.readFile(abs)
+      const buffer = await fs.readFile(real)
       return buffer.toString('utf8')
     },
 
@@ -135,7 +166,12 @@ export async function createNodeDocsSource(
         return { kind: 'missing' }
       }
 
-      const stats = await statSafe(abs)
+      const real = await realInside(abs)
+      if (!real) {
+        return { kind: 'missing' }
+      }
+
+      const stats = await statSafe(real)
       if (!stats) {
         return { kind: 'missing' }
       }
@@ -159,8 +195,13 @@ export async function createNodeDocsSource(
         return []
       }
 
+      const real = await realInside(abs)
+      if (!real) {
+        return []
+      }
+
       try {
-        const items = await fs.readdir(abs)
+        const items = await fs.readdir(real)
         return items.slice(0, max)
       } catch {
         return []
