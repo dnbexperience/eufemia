@@ -4,10 +4,13 @@ import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
 import ScrollView from '../../../../fragments/scroll-view/ScrollView'
 import { P } from '../../../../elements'
-import type { MultiSelectionItem } from './MultiSelection'
+import type {
+  FieldMultiSelectionProps,
+  MultiSelectionItem,
+} from './MultiSelection'
 
 export type MultiSelectionItemInternal = MultiSelectionItem & {
-  error?: Error | any
+  error?: Error
   help?: { title: string; content: ReactNode }
   className?: string
   [key: string]: any
@@ -19,7 +22,7 @@ export type MultiSelectionItemListProps = {
   tempValue: Array<number | string>
   searchValue: string
   showSelectAll: boolean
-  htmlAttributes?: any
+  htmlAttributes?: FieldMultiSelectionProps['htmlAttributes']
   translation: {
     selectAll: string
     noOptions: string
