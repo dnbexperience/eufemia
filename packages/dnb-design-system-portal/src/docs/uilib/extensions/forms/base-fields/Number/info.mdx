@@ -37,6 +37,14 @@ However, for a customer number, you should rather use [Field.String](/uilib/exte
 
 Internally, it is used by e.g. [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/).
 
+## Non-finite values (Infinity and NaN)
+
+A derived value can sometimes resolve to a non-finite number. A common example is a calculated percentage where the previous value is `0`, which results in a division by zero and produces `Infinity`.
+
+`Field.Number`'s built-in validation treats non-finite values (`Infinity`, `-Infinity` and `NaN`) as empty. Nothing is shown in the input and no validation error is raised, so the user is not blocked by an impossible calculation. The value stored in the data context is left untouched.
+
+This applies to the built-in default schema only. If you provide your own `schema` – on the field or on [Form.Handler](/uilib/extensions/forms/Form/Handler/) – non-finite numbers are validated by your schema. See [Schema validation](/uilib/extensions/forms/Form/schema-validation/#non-finite-numbers-infinity-and-nan) for details.
+
 ## Browser autofill
 
 Check out the [Field.String](/uilib/extensions/forms/base-fields/String/#browser-autofill) docs about autocomplete.
