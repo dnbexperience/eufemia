@@ -146,7 +146,7 @@
   &__shell,
   &__input {
     height: var(--input-height);
-    border-radius: var(--b-radius, var(--input-border-radius--default));
+    border-radius: var(--input-border-radius);
   }
 
   &__placeholder,
@@ -195,7 +195,7 @@
   &__border {
     display: flex;
 
-    border-radius: var(--b-radius, var(--input-border-radius--default));
+    border-radius: var(--input-border-radius);
 
     @include utilities.fakeBorder(
       var(--b-color, var(--input-border-color)),

@@ -286,7 +286,7 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
   /* stylelint-disable-next-line no-descending-specificity */
 }
 .dnb-table, .dnb-table__th--emphasis {
-  --table-th-text-color: var(--theme-color-black-80, currentColor);
+  --table-th-text-color: currentcolor;
   --table-th-font-weight: var(--font-weight-medium);
   --table-th-font-size: var(--font-size-basis);
 }
@@ -329,7 +329,7 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
 }
 .dnb-table__td, .dnb-table tbody .dnb-table__th, .dnb-table tbody td, .dnb-table tbody th {
   padding: 1rem;
-  color: var(--theme-color-black-80, currentColor);
+  color: currentcolor;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
   vertical-align: baseline;

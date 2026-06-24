@@ -159,7 +159,7 @@
   /* stylelint-disable-next-line no-descending-specificity */
   &,
   &__th--emphasis {
-    --table-th-text-color: var(--theme-color-black-80, currentColor);
+    --table-th-text-color: currentcolor;
     --table-th-font-weight: var(--font-weight-medium);
     --table-th-font-size: var(--font-size-basis);
   }
@@ -222,7 +222,7 @@
     padding: 1rem;
 
     // typography
-    color: var(--theme-color-black-80, currentColor);
+    color: currentcolor;
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
     vertical-align: baseline;
