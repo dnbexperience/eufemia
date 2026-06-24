@@ -14,6 +14,7 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import Button from '../../button/Button'
+import type { ButtonProps } from '../../button/Button'
 import Space from '../../space/Space'
 import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
@@ -106,11 +107,11 @@ const DialogAction = ({
 
   if (children) {
     childrenWithCloseFunc = Children.map(children, (child) => {
-      if (isValidElement<any>(child) && child.type === Button) {
-        const childElement = child as ReactElement<any>
+      if (isValidElement<ButtonProps>(child) && child.type === Button) {
+        const childElement = child as ReactElement<ButtonProps>
 
         return createElement(
-          childElement.type as ComponentType<any>,
+          childElement.type as ComponentType<ButtonProps>,
           {
             ...(childElement.props || {}),
             onClick: (event) => {

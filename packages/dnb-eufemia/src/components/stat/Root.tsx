@@ -1,5 +1,5 @@
 import { Children, Fragment, isValidElement } from 'react'
-import type { HTMLProps, ReactElement, ReactNode } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Space from '../space/Space'
 import type { SpacingProps } from '../../shared/types'
@@ -74,7 +74,7 @@ function hasOnlySupportedChildren(children: ReactNode): boolean {
 }
 
 function isSupportedChild(child: ReactNode): boolean {
-  if (!isValidElement<Record<string, any>>(child)) {
+  if (!isValidElement<{ children?: ReactNode }>(child)) {
     // allow null/boolean and whitespace-only text nodes
     if (typeof child === 'string') {
       return child.trim().length === 0
@@ -83,9 +83,7 @@ function isSupportedChild(child: ReactNode): boolean {
   }
 
   if (child.type === Fragment) {
-    return hasOnlySupportedChildren(
-      (child as ReactElement<any>).props.children
-    )
+    return hasOnlySupportedChildren(child.props.children)
   }
 
   const role = (child.type as { _statRole?: string })?._statRole
@@ -97,12 +95,12 @@ function hasRequiredLabel(children: ReactNode): boolean {
 }
 
 function hasLabelChild(child: ReactNode): boolean {
-  if (!isValidElement<Record<string, any>>(child)) {
+  if (!isValidElement<{ children?: ReactNode }>(child)) {
     return false
   }
 
   if (child.type === Fragment) {
-    return hasRequiredLabel((child as ReactElement<any>).props.children)
+    return hasRequiredLabel(child.props.children)
   }
 
   const role = (child.type as { _statRole?: string })?._statRole
@@ -113,14 +111,12 @@ function flattenRoles(children: ReactNode): Array<'label' | 'content'> {
   const roles: Array<'label' | 'content'> = []
 
   for (const child of Children.toArray(children)) {
-    if (!isValidElement<Record<string, any>>(child)) {
+    if (!isValidElement<{ children?: ReactNode }>(child)) {
       continue
     }
 
     if (child.type === Fragment) {
-      roles.push(
-        ...flattenRoles((child as ReactElement<any>).props.children)
-      )
+      roles.push(...flattenRoles(child.props.children))
       continue
     }
 

@@ -28,6 +28,7 @@ import type { SpaceType } from '../../shared/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
 import type { FlexEnd, FlexStart } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
 type Gap =
   | false
@@ -278,14 +279,15 @@ function FlexContainer(props: FlexContainerAllProps) {
 function wrapChildren(props: FlexContainerAllProps, children: ReactNode) {
   return Children.toArray(children).map((child) => {
     if (
-      isValidElement<any>(child) &&
-      child.type['_supportsSpacingProps'] === 'children'
+      isValidElement<{ children?: ReactNode }>(child) &&
+      (child.type as ComponentMarkers)?._supportsSpacingProps ===
+        'children'
     ) {
-      const childElement = child as ReactElement<any>
+      const childElement = child as ReactElement<{ children?: ReactNode }>
       const childKey = childElement.key
       const childProps = childElement.props || {}
       return createElement(
-        childElement.type as ComponentType<any>,
+        childElement.type as ComponentType<{ children?: ReactNode }>,
         { ...childProps, key: childKey },
         <FlexContainer {...props}>
           {childElement.props.children}
