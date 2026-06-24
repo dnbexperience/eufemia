@@ -133,6 +133,18 @@ describe('docs-server tools', () => {
 
       expect(result).toHaveLength(2)
     })
+
+    it('returns an empty list for a path-escaping prefix', async () => {
+      const result = parseResult(
+        await client.callTool({
+          name: 'docs_list',
+          arguments: { prefix: '../etc' },
+        })
+      )
+
+      expect(result).toBeInstanceOf(Array)
+      expect(result).toHaveLength(0)
+    })
   })
 
   describe('docs_read', () => {

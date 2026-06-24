@@ -263,9 +263,17 @@ function createDocsContext(source: DocsSource) {
       return cachedMarkdownFiles
     }
 
-    const normalizedPrefix = withLeadingSlash(
-      normalizeDocsPath(prefix)
-    ).replace(/\/?$/, '/')
+    // An invalid prefix (e.g. containing `..`) makes normalizeDocsPath throw.
+    // Treat it as "no matching docs" so search/list degrade gracefully
+    // instead of surfacing a thrown error to the caller.
+    let normalizedPrefix: string
+    try {
+      normalizedPrefix = withLeadingSlash(
+        normalizeDocsPath(prefix)
+      ).replace(/\/?$/, '/')
+    } catch {
+      return []
+    }
 
     return cachedMarkdownFiles.filter((filePath) =>
       filePath.startsWith(normalizedPrefix)
