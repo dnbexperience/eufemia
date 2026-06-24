@@ -1,42 +1,12 @@
-import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { createDocsServer, validateDocsRoot } from './docs-server.js'
+import { resolveDocsRoot } from './resolve-docs-root.js'
 
 const moduleDir = path.dirname(fileURLToPath(import.meta.url))
 
-async function resolveDocsRoot(): Promise<string> {
-  if (process.env.EUFEMIA_DOCS_ROOT) {
-    return path.resolve(process.env.EUFEMIA_DOCS_ROOT)
-  }
-
-  const candidates = [
-    // Lambda bundle: handler and docs are unzipped side by side in the task root.
-    path.resolve(moduleDir, 'docs'),
-    path.resolve(moduleDir, '../dist/docs'),
-    path.resolve(moduleDir, '../../../packages/dnb-eufemia/build/docs'),
-  ]
-
-  for (const candidate of candidates) {
-    try {
-      const stats = await fs.stat(candidate)
-      if (stats.isDirectory()) {
-        return candidate
-      }
-    } catch {
-      // try the next candidate
-    }
-  }
-
-  throw new Error(
-    `No docs directory found. Searched:\n` +
-      candidates.map((c) => `  - ${c}`).join('\n') +
-      '\n  Run `yarn workspace @dnb/eufemia build:docs` or set EUFEMIA_DOCS_ROOT.'
-  )
-}
-
-const docsRoot = await resolveDocsRoot()
+const docsRoot = await resolveDocsRoot(moduleDir)
 await validateDocsRoot(docsRoot)
 
 const { server } = await createDocsServer({ docsRoot })
