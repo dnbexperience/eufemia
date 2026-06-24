@@ -233,6 +233,10 @@ function createDocsContext(source: DocsSource) {
     }
 
     const text = await source.read(filePath)
+    // Negative results (`null` for a missing file) are cached intentionally:
+    // component path resolution probes several candidate paths per lookup, and
+    // caching the misses avoids repeated filesystem stats within the TTL. They
+    // count toward the cap and are cleared on the 30s markdown-list refresh.
     contentCache.set(filePath, text)
 
     // Bound the cache so a long-lived (warm) container cannot accumulate
