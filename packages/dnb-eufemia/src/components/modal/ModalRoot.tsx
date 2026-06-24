@@ -23,7 +23,9 @@ export type ModalRootProps = {
   children?: ReactNode | ((props: ModalContentProps) => ReactNode)
 
   /** For internal use only */
-  modalContentCloseRef?: RefObject<any>
+  modalContentCloseRef?: RefObject<
+    ((event: Event, options: { triggeredBy?: string }) => void) | null
+  >
 } & ModalContentProps
 
 export default function ModalRoot({
