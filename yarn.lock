@@ -2455,6 +2455,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@dnb/eufemia-mcp@workspace:tools/mcp":
+  version: 0.0.0-use.local
+  resolution: "@dnb/eufemia-mcp@workspace:tools/mcp"
+  dependencies:
+    "@modelcontextprotocol/sdk": "npm:1.29.0"
+    "@types/aws-lambda": "npm:8.10.161"
+    esbuild: "npm:0.25.5"
+    tsx: "npm:4.22.4"
+    typescript: "npm:6.0.3"
+    vitest: "npm:4.1.8"
+    zod: "npm:4.1.8"
+  languageName: unknown
+  linkType: soft
+
 "@dnb/eufemia@workspace:*, @dnb/eufemia@workspace:packages/dnb-eufemia":
   version: 0.0.0-use.local
   resolution: "@dnb/eufemia@workspace:packages/dnb-eufemia"
@@ -14316,20 +14330,6 @@ __metadata:
   checksum: 10/1201a25a137d6b9e328facd67912058b8b45b19a6c4cc62641c9476195da28a275ca6e0eca070af5378b905c2b11abc1114676ba703411db0b9ce007de921ad0
   languageName: node
   linkType: hard
-
-"mcp@workspace:tools/mcp":
-  version: 0.0.0-use.local
-  resolution: "mcp@workspace:tools/mcp"
-  dependencies:
-    "@modelcontextprotocol/sdk": "npm:1.29.0"
-    "@types/aws-lambda": "npm:8.10.161"
-    esbuild: "npm:0.25.5"
-    tsx: "npm:4.22.4"
-    typescript: "npm:6.0.3"
-    vitest: "npm:4.1.8"
-    zod: "npm:4.1.8"
-  languageName: unknown
-  linkType: soft
 
 "mdast-util-find-and-replace@npm:^3.0.0":
   version: 3.0.2
