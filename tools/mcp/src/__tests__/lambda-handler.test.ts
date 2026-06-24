@@ -100,3 +100,39 @@ describe('lambda-handler transport reuse', () => {
     expect((second.json as { id: number }).id).toBe(42)
   })
 })
+
+describe('lambda-handler health check', () => {
+  let docsRoot: string
+
+  beforeAll(async () => {
+    docsRoot = await createTempDocs()
+    // server.js (imported transitively by the handler) resolves the docs root
+    // at module load; point it at the temp docs so the import succeeds.
+    process.env.EUFEMIA_DOCS_ROOT = docsRoot
+  })
+
+  afterAll(async () => {
+    delete process.env.EUFEMIA_DOCS_ROOT
+    await fs.rm(docsRoot, { recursive: true, force: true })
+  })
+
+  it('answers GET /healthz with 200 without using the MCP transport', async () => {
+    const { handler } = await import('../transports/lambda-handler.js')
+
+    const event = {
+      rawPath: '/healthz',
+      requestContext: { http: { method: 'GET' } },
+      headers: {},
+    } as unknown as Parameters<typeof handler>[0]
+
+    const result = await handler(event)
+
+    expect(typeof result).toBe('object')
+    const response = result as {
+      statusCode: number
+      body: string
+    }
+    expect(response.statusCode).toBe(200)
+    expect(JSON.parse(response.body)).toEqual({ status: 'ok' })
+  })
+})

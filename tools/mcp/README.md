@@ -121,7 +121,7 @@ Managed via Terraform in `infra/`:
 | Resource    | Configuration                                      |
 | ----------- | -------------------------------------------------- |
 | Lambda      | Node.js 22, 512 MB, 30s timeout, 30 max concurrent |
-| API Gateway | HTTP API, `POST /mcp` only                         |
+| API Gateway | HTTP API, `POST /mcp` + `GET /healthz`             |
 | Throttling  | 200 burst / 400 requests per second                |
 | CloudWatch  | 30-day log retention                               |
 | Region      | eu-north-1                                         |

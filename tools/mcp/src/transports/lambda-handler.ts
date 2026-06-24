@@ -49,6 +49,19 @@ async function toApiGatewayResult(
 export async function handler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
+  // Cheap health check for uptime monitoring: answer without spinning up the
+  // MCP transport or touching the docs source.
+  if (
+    event.requestContext.http.method === 'GET' &&
+    event.rawPath === '/healthz'
+  ) {
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'ok' }),
+    }
+  }
+
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,

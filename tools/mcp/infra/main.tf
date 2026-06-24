@@ -87,12 +87,28 @@ resource "aws_apigatewayv2_route" "mcp" {
   target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
 }
 
+# Cheap health check for uptime monitoring; the handler short-circuits this
+# route and returns 200 without touching the MCP transport.
+resource "aws_apigatewayv2_route" "health" {
+  api_id    = aws_apigatewayv2_api.mcp.id
+  route_key = "GET /healthz"
+  target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
+}
+
 resource "aws_lambda_permission" "apigw" {
   statement_id  = "AllowAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.mcp.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.mcp.execution_arn}/*/POST/mcp"
+}
+
+resource "aws_lambda_permission" "apigw_health" {
+  statement_id  = "AllowAPIGatewayHealth"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.mcp.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.mcp.execution_arn}/*/GET/healthz"
 }
 
 # Custom domain
