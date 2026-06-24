@@ -1,6 +1,10 @@
 name: MCP Lambda
 
-# Deploy the Eufemia MCP server as an AWS Lambda function.
+# Build, test and deploy the Eufemia MCP server as an AWS Lambda function.
+#
+# This workflow runs tests and builds the Lambda zip on public GitHub,
+# then pushes the built artifact + Terraform config to a GitHub Enterprise
+# repository where OIDC federation handles AWS authentication.
 #
 # Triggers:
 # - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
@@ -8,11 +12,8 @@ name: MCP Lambda
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # Requires the following GitHub secrets:
-# - AWS_ACCESS_KEY_ID: IAM access key ID
-# - AWS_SECRET_ACCESS_KEY: IAM secret access key
-#
-# The IAM user must have permissions for:
-# lambda, apigateway, iam, logs, route53, acm, s3, dynamodb.
+# - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo push access
+# - GHE_DEPLOY_REPO: The GHE repo (e.g. `dnb/eufemia-mcp-deploy`)
 #
 # See tools/mcp/README.md for manual deploy instructions.
 
@@ -70,8 +71,8 @@ jobs:
       - name: Run tests
         run: cd tools/mcp && yarn test
 
-  deploy:
-    name: Deploy
+  build-and-push:
+    name: Build & Push to GHE
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -101,42 +102,49 @@ jobs:
         if: steps.modules-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
-      - name: Skip if AWS credentials are missing
+      - name: Skip if GHE credentials are missing
         id: gate
         env:
-          AWS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
         run: |
-          if [ -z "${AWS_KEY:-}" ]; then
-            echo "AWS credentials are not set; skipping deploy."
+          if [ -z "${GHE_PAT:-}" ]; then
+            echo "GHE_DEPLOY_PAT is not set; skipping push."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Configure AWS credentials
+      - name: Build Lambda zip
         if: steps.gate.outputs.skip != 'true'
-        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-north-1
+        run: cd tools/mcp && yarn build
 
-      - name: Setup Terraform
+      - name: Push to GHE deploy repo
         if: steps.gate.outputs.skip != 'true'
-        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
-        with:
-          terraform_version: '~> 1.5'
-
-      - name: Build and deploy
-        if: steps.gate.outputs.skip != 'true'
-        run: cd tools/mcp && yarn deploy
-
-      - name: Post deploy summary
-        if: steps.gate.outputs.skip != 'true'
+        env:
+          GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
+          GHE_REPO: ${{ secrets.GHE_DEPLOY_REPO }}
+          SOURCE_REF: ${{ github.ref_name }}
+          SOURCE_SHA: ${{ github.sha }}
         run: |
-          cd tools/mcp/infra
-          ENDPOINT=$(terraform output -raw custom_domain 2>/dev/null || terraform output -raw api_endpoint)
-          echo "## MCP Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Ref:** \`${{ github.ref_name }}\` (\`${{ github.sha }}\`)" >> "$GITHUB_STEP_SUMMARY"
+          set -euo pipefail
+
+          DEPLOY_DIR=$(mktemp -d)
+          cd "$DEPLOY_DIR"
+
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Copy the built zip and Terraform config
+          cp "$GITHUB_WORKSPACE/tools/mcp/dist/lambda.zip" .
+          cp -R "$GITHUB_WORKSPACE/tools/mcp/infra" .
+
+          # Include the deploy workflow so it lives on (and triggers from) the deploy branch
+          mkdir -p .github/workflows
+          cp "$GITHUB_WORKSPACE/tools/mcp/ghe-deploy-workflow.yml" .github/workflows/deploy.yml
+
+          git add -A
+          git commit -m "Deploy from ${SOURCE_REF} (${SOURCE_SHA:0:7})"
+
+          git remote add ghe "https://x-access-token:${GHE_PAT}@dnb.ghe.com/${GHE_REPO}.git"
+          git push ghe HEAD:refs/heads/deploy --force

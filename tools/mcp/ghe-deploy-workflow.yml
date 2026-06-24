@@ -1,0 +1,61 @@
+# This workflow runs in the GitHub Enterprise deploy repo.
+# It is triggered when the public GitHub workflow pushes a built
+# lambda.zip + Terraform config to the `deploy` branch.
+#
+# The public workflow (.github/workflows/mcp-lambda.yml) copies this file
+# to .github/workflows/deploy.yml on the `deploy` branch automatically, so
+# no manual installation in the GHE repo is required.
+
+name: Deploy MCP Lambda
+
+on:
+  push:
+    branches:
+      - deploy
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-north-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: '~> 1.5'
+
+      - name: Deploy
+        run: |
+          set -euo pipefail
+          cd infra
+          terraform init
+          terraform apply -auto-approve
+
+      - name: Post deploy summary
+        run: |
+          cd infra
+          ENDPOINT=$(terraform output -raw custom_domain 2>/dev/null || terraform output -raw api_endpoint)
+          echo "## MCP Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"
