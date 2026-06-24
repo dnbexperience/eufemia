@@ -38,6 +38,20 @@ import { findPackageRoot, toPascalCase } from './shared/workspaceUtils.ts'
 
 export { toPascalCase, findUnhandledStandaloneMdxComponents }
 
+/**
+ * A normalized documentation entry for a single component prop or event,
+ * as extracted from TypeScript `*Docs` files or Markdown property tables.
+ */
+export type DocEntry = {
+  doc: string
+  type?: string | null
+  status?: string | null
+  defaultValue?: string | null
+}
+
+/** A map of prop/event names to their documentation entries. */
+export type DocEntryMap = Record<string, DocEntry>
+
 type FrontMatterParser = {
   <T>(file: string, options?: FrontMatterOptions): FrontMatterResult<T>
   test(file: string): boolean
@@ -228,8 +242,8 @@ export async function findDocExtras(file: string) {
 export async function loadTsDocs(rel: string) {
   let tsDocsDir: string | null = null
   let related: string[] = []
-  let props: Record<string, any> = {}
-  let events: Record<string, any> = {}
+  let props: DocEntryMap = {}
+  let events: DocEntryMap = {}
 
   const tsRoot = findPackageRoot('@dnb/eufemia')
 
@@ -324,9 +338,9 @@ export async function loadTsDocsForDocPath(rel: string) {
 }
 
 export function mergeDocs(
-  base: Record<string, any>,
-  extra: Record<string, any>
-) {
+  base: DocEntryMap,
+  extra?: DocEntryMap
+): DocEntryMap {
   return { ...base, ...(extra || {}) }
 }
 
@@ -378,8 +392,8 @@ export function buildMetadata({
   group: string
   name: string
   description: string | null
-  props: Record<string, any>
-  events: Record<string, any>
+  props: DocEntryMap
+  events: DocEntryMap
   related: string[]
   sourceInfo: SourceInfo
   infoFile: string | null
@@ -647,7 +661,7 @@ export async function findExisting(candidates: string[]) {
 export async function extractTableDocs(mdxFile: string) {
   const md = await fs.readFile(mdxFile, 'utf-8')
   const tables = extractMarkdownTables(md)
-  const collection: Record<string, any> = {}
+  const collection: DocEntryMap = {}
 
   tables.forEach((rows: Array<any>) => {
     const headerRow = rows.shift()
@@ -697,7 +711,7 @@ export function cleanDescription(s: string) {
     .replace(/&amp;/g, '&')
 }
 
-export function mapToArray(map: Record<string, any>) {
+export function mapToArray(map: DocEntryMap) {
   try {
     return Object.entries(map || {}).map(([name, v]) => ({
       name,
@@ -1070,8 +1084,8 @@ async function formatLlmsText(content: string, siteDir: string) {
 
 export async function extractTsDocs(dir: string) {
   const out: {
-    props: Record<string, any>
-    events: Record<string, any>
+    props: DocEntryMap
+    events: DocEntryMap
     __exportNames: string[]
     related: string[]
   } = { props: {}, events: {}, __exportNames: [], related: [] }
@@ -1315,8 +1329,8 @@ function addDocsFromExport(
   exportName: string,
   value: Record<string, any>,
   out: {
-    props: Record<string, any>
-    events: Record<string, any>
+    props: DocEntryMap
+    events: DocEntryMap
     related: string[]
   }
 ) {
@@ -1331,7 +1345,7 @@ function addDocsFromExport(
     if (!entry || typeof entry !== 'object') {
       continue
     }
-    const normalized: Record<string, any> = {
+    const normalized: DocEntry = {
       doc: String((entry as any).doc ?? (entry as any).description ?? ''),
       type: (entry as any).type ?? null,
       status: (entry as any).status ?? null,
