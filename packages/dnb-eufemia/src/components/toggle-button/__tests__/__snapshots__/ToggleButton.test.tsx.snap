@@ -605,8 +605,8 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), ht
   --button-color-border: var(--button-color-border--active);
   --button-color-icon: var(--button-color-icon--active);
   --button-color-text: var(--button-color-text--active);
-  --button-color-underline: var(--button-color-underline--active);
-  --button-border-inset: var(--button-border-inset--active);
+  --button-color-underline: var(--button-color-underline--default);
+  --button-border-inset: var(--button-border-inset--default);
   --button-border-width: var(--button-border-width--active);
   --button-input-separator-color: var(
     --button-input-separator-color--active
@@ -620,7 +620,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-color-border: var(--button-color-border--focus);
   --button-color-icon: var(--button-color-icon--focus);
   --button-color-text: var(--button-color-text--focus);
-  --button-color-underline: var(--button-color-underline--focus);
+  --button-color-underline: var(--button-color-underline--default);
   --button-border-inset: var(--button-border-inset--focus);
   --button-border-width: var(--button-border-width--focus);
   --button-input-separator-color: var(
