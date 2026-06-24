@@ -2107,6 +2107,13 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         ...getEventObjects('onClose'),
       })
 
+      if (res !== false) {
+        // Reset the indicator so the submit button does not stay
+        // disabled if the list closes (e.g. blur or Escape) while a
+        // consumer forgot to call hideIndicator()
+        setVisibleIndicator(false)
+      }
+
       if (res !== false && !closingFromChangeRef.current) {
         setFocusOnInput()
       }

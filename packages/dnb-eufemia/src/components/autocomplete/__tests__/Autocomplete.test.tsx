@@ -1834,6 +1834,50 @@ describe('Autocomplete component', () => {
     expect(onOpen).toHaveBeenCalledTimes(1)
   })
 
+  it('resets the submit button indicator when the list closes', async () => {
+    const onOpen = vi.fn(({ updateData, showIndicator }) => {
+      updateData(mockData)
+      showIndicator()
+    })
+
+    render(
+      <Autocomplete
+        mode="async"
+        onOpen={onOpen}
+        showSubmitButton
+        {...mockProps}
+      />
+    )
+
+    const elem = document.querySelector('.dnb-autocomplete')
+    const submitButton = document.querySelector(
+      'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+    )
+
+    // Opening shows the indicator and disables the submit button
+    fireEvent.click(submitButton)
+
+    expect(elem.classList).toContain('dnb-autocomplete--open')
+    expect(submitButton).toHaveAttribute('aria-disabled', 'true')
+    expect(
+      submitButton.querySelector('.dnb-progress-indicator')
+    ).toBeInTheDocument()
+
+    // Closing the list (e.g. via Escape) resets the indicator, so the
+    // submit button does not stay disabled if hideIndicator() was missed
+    keyDownOnInput('Escape')
+
+    await waitFor(() => {
+      expect(elem.classList).not.toContain('dnb-autocomplete--open')
+    })
+
+    expect(submitButton).not.toHaveAttribute('aria-disabled')
+    expect(submitButton).not.toHaveAttribute('aria-busy')
+    expect(
+      submitButton.querySelector('.dnb-progress-indicator')
+    ).toBeNull()
+  })
+
   it('updates its input value if value and data prop changes', async () => {
     const value = 0
     const data = mockData
@@ -3312,7 +3356,7 @@ describe('Autocomplete component', () => {
       })
 
       expect(
-        document.querySelector('.dnb-progress-indicator')
+        document.querySelector('.dnb-input__icon .dnb-progress-indicator')
       ).not.toBeInTheDocument()
     })
   })
