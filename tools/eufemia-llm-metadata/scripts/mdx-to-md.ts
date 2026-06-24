@@ -410,7 +410,10 @@ function resolveWithExtension(basePath: string) {
   return null
 }
 
-async function extractExports(ast: any, prettierConfig: PrettierConfig) {
+async function extractExports(
+  ast: t.File,
+  prettierConfig: PrettierConfig
+) {
   const exportsMap: ComponentCodeMap = new Map()
   const exportEntries: Array<{
     name: string
@@ -452,7 +455,9 @@ async function extractExports(ast: any, prettierConfig: PrettierConfig) {
   return exportsMap
 }
 
-function getReturnedJSX(fnNode?: any) {
+function getReturnedJSX(
+  fnNode?: t.Expression | t.FunctionDeclaration | null
+) {
   if (!fnNode) {
     return null
   }
@@ -489,7 +494,7 @@ async function formatJSXChildren(
   jsxNode: t.JSXElement | t.JSXFragment,
   prettierConfig: PrettierConfig
 ) {
-  let children: Array<any> = []
+  let children: t.JSXElement['children'] = []
 
   if (t.isJSXElement(jsxNode)) {
     const name = jsxNode.openingElement.name

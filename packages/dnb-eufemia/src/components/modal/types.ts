@@ -329,7 +329,9 @@ export type ModalContentProps = {
   contentRef?: RefObject<HTMLElement>
   scrollRef?: RefObject<HTMLElement>
   open?: boolean
-  modalContentCloseRef?: RefObject<any>
+  modalContentCloseRef?: RefObject<
+    ((event: Event, options: { triggeredBy?: string }) => void) | null
+  >
 }
 
 /**
