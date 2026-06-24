@@ -10,7 +10,7 @@ locals {
 # Lambda function
 resource "aws_lambda_function" "mcp" {
   function_name = local.function_name
-  role          = aws_iam_role.lambda.arn
+  role          = data.aws_iam_role.lambda.arn
   handler       = "lambda-handler.handler"
   runtime       = "nodejs22.x"
   timeout       = 30
@@ -40,26 +40,13 @@ resource "aws_cloudwatch_log_group" "lambda" {
   tags              = local.tags
 }
 
-# IAM role for Lambda
-resource "aws_iam_role" "lambda" {
+# IAM role for Lambda.
+# Pre-created out-of-band: the OIDC deploy role's permissions boundary
+# forbids iam:CreateRole, so the execution role (with its trust policy and
+# AWSLambdaBasicExecutionRole attachment) is provisioned by an account admin
+# and only referenced here.
+data "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
-  tags = local.tags
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Principal = {
-        Service = "lambda.amazonaws.com"
-      }
-    }]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_basic" {
-  role       = aws_iam_role.lambda.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 # API Gateway HTTP API
