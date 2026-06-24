@@ -278,9 +278,6 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   --drawer-list-option-color-bg: var(
     --drawer-list-option-color-bg--hover
   );
-  --drawer-list-option-color-border: var(
-    --drawer-list-option-color-border--hover
-  );
 }
 .dnb-drawer-list__option:active[disabled], html:not([data-whatintent=touch]) .dnb-drawer-list__option:active[disabled] {
   cursor: not-allowed;
@@ -291,9 +288,6 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   );
   --drawer-list-option-color-bg: var(
     --drawer-list-option-color-bg--active
-  );
-  --drawer-list-option-color-border: var(
-    --drawer-list-option-color-border--active
   );
 }
 .dnb-drawer-list__option--focus {
@@ -389,9 +383,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   );
   --drawer-list-option-color-bg: var(
     --drawer-list-option-color-bg--disabled
-  );
-  --drawer-list-option-color-border: var(
-    --drawer-list-option-color-border--disabled
   );
   cursor: not-allowed;
 }
@@ -838,9 +829,6 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   --drawer-list-option-color-bg: var(
     --drawer-list-option-color-bg--hover
   );
-  --drawer-list-option-color-border: var(
-    --drawer-list-option-color-border--hover
-  );
 }
 .dnb-drawer-list__option:active[disabled], html:not([data-whatintent=touch]) .dnb-drawer-list__option:active[disabled] {
   cursor: not-allowed;
@@ -851,9 +839,6 @@ html:not([data-whatintent=touch]) .dnb-drawer-list__option:hover:not([disabled])
   );
   --drawer-list-option-color-bg: var(
     --drawer-list-option-color-bg--active
-  );
-  --drawer-list-option-color-border: var(
-    --drawer-list-option-color-border--active
   );
 }
 .dnb-drawer-list__option--focus {
@@ -949,9 +934,6 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   );
   --drawer-list-option-color-bg: var(
     --drawer-list-option-color-bg--disabled
-  );
-  --drawer-list-option-color-border: var(
-    --drawer-list-option-color-border--disabled
   );
   cursor: not-allowed;
 }

@@ -161,4 +161,30 @@ describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {
       },
     })
   })
+
+  it('have to match keyboard focused option that is also hovered', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="autocomplete-opened"]',
+      // Put the first option into the keyboard navigation state (the
+      // keyboard focus ring is only shown when data-whatinput is
+      // "keyboard" and the option has the --focus class).
+      executeBeforeSimulate: () => {
+        document.documentElement.setAttribute('data-whatinput', 'keyboard')
+        const option = document.querySelector(
+          '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type'
+        )
+        option?.classList.add('dnb-drawer-list__option--focus')
+      },
+      // Hover that same option with the mouse. The keyboard focus ring
+      // has to stay visible underneath the hover highlight.
+      simulate: {
+        action: 'hover',
+        selector:
+          '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
+      },
+      style: {
+        height: '40rem',
+      },
+    })
+  })
 })
