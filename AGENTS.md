@@ -39,6 +39,5 @@ Follow the [Git convention style guide](packages/dnb-design-system-portal/src/do
 
 - `fix(Button): prevent double click submission`
 - `feat(DatePicker): add month-only mode`
-- `test(Field.Number): add edge case for negative values`
 
 For extensions/forms, use the compound name: `feat(Field.Date): ...`, `fix(Form.Section): ...`.
