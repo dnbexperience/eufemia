@@ -148,5 +148,9 @@ jobs:
           git add -A
           git commit -m "Deploy from ${SOURCE_REF} (${SOURCE_SHA:0:7})"
 
-          git remote add ghe "https://x-access-token:${GHE_PAT}@dnb.ghe.com/${GHE_REPO}.git"
-          git push ghe HEAD:refs/heads/deploy --force
+          # Authenticate via a per-invocation http.extraheader instead of
+          # embedding the PAT in the remote URL. This keeps the token out of
+          # .git/config on disk and out of the stored remote URL.
+          AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
+          git -c http.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" \
+            push "https://dnb.ghe.com/${GHE_REPO}.git" HEAD:refs/heads/deploy --force
