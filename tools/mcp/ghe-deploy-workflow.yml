@@ -18,9 +18,12 @@ permissions:
   contents: read
   id-token: write
 
+# Never cancel an in-flight deploy: interrupting `terraform apply` can leave
+# the DynamoDB state lock dangling and require a manual force-unlock. Queue
+# concurrent deploys instead so they run one after another.
 concurrency:
   group: ${{ github.workflow }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
