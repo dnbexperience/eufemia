@@ -220,15 +220,31 @@ function createDocsContext(source: DocsSource) {
   let cachedMarkdownFiles: string[] | null = null
   let cachedAt = 0
   const ttlMs = 30_000
+  const maxContentCacheEntries = 256
   const contentCache = new Map<string, string | null>()
 
   async function readCached(filePath: string): Promise<string | null> {
     if (contentCache.has(filePath)) {
-      return contentCache.get(filePath) ?? null
+      const cached = contentCache.get(filePath) ?? null
+      // Refresh recency: re-insert so this key becomes the most recently used.
+      contentCache.delete(filePath)
+      contentCache.set(filePath, cached)
+      return cached
     }
 
     const text = await source.read(filePath)
     contentCache.set(filePath, text)
+
+    // Bound the cache so a long-lived (warm) container cannot accumulate
+    // every file ever read. Evict the least recently used entry (the first
+    // key in insertion order) once over the cap.
+    if (contentCache.size > maxContentCacheEntries) {
+      const oldest = contentCache.keys().next().value
+      if (oldest !== undefined) {
+        contentCache.delete(oldest)
+      }
+    }
+
     return text
   }
 
