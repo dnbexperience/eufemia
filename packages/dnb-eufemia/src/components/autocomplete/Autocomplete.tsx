@@ -1380,7 +1380,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
               }
 
               return createElement(
-                node.type as ComponentType<any>,
+                node.type as ComponentType<{ children?: ReactNode }>,
                 {
                   ...node.props,
                   key: node.key ?? 'clone' + cacheHash + keyPart,

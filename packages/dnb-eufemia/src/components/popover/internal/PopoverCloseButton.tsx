@@ -49,7 +49,7 @@ export default function PopoverCloseButton({
   const hasContent = Boolean(content)
   const isIconOnly = Boolean(hasIcon && !hasContent)
   const iconElement = isValidElement<{ className?: string }>(icon)
-    ? createElement(icon.type as ComponentType<any>, {
+    ? createElement(icon.type as ComponentType<{ className?: string }>, {
         ...icon.props,
         className: clsx(icon.props.className, 'dnb-button__icon'),
       })
