@@ -46,11 +46,13 @@ jobs:
           terraform_version: '~> 1.5'
 
       - name: Deploy
+        env:
+          TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
         run: |
           set -euo pipefail
           cd infra
-          terraform init
-          terraform apply -auto-approve
+          terraform init -input=false
+          terraform apply -auto-approve -input=false
 
       - name: Post deploy summary
         run: |
