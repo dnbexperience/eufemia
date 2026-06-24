@@ -9,6 +9,7 @@ import {
   getDecimalSeparator,
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
+import type { NumberFormatValue } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/safeSetSelection'
@@ -330,7 +331,7 @@ export const handlePercentMask = ({
   locale: string
   maskParams: InputMaskParams
 }) => {
-  const value = formatPercent(props.value as any, { locale })
+  const value = formatPercent(props.value as NumberFormatValue, { locale })
   const m = String(value).match(/((\s|)%)$/g)
   maskParams.suffix = m?.[0] || ' %'
 
