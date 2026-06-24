@@ -18,8 +18,9 @@ resource "aws_lambda_function" "mcp" {
 
   # LLM clients fan out tool calls in parallel, so the cap must absorb
   # bursts well above the previous 10 to avoid Lambda throttling (429 ->
-  # surfaced by the HTTP API as 503).
-  reserved_concurrent_executions = 100
+  # surfaced by the HTTP API as 503). Kept conservative while the endpoint
+  # is unauthenticated; raise once Akamai edge rate-limiting fronts it.
+  reserved_concurrent_executions = 30
 
   filename         = "${path.module}/../dist/lambda.zip"
   source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")

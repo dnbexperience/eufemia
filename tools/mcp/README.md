@@ -118,13 +118,13 @@ Required secrets/variables:
 
 Managed via Terraform in `infra/`:
 
-| Resource    | Configuration                                       |
-| ----------- | --------------------------------------------------- |
-| Lambda      | Node.js 22, 512 MB, 30s timeout, 100 max concurrent |
-| API Gateway | HTTP API, `POST /mcp` only                          |
-| Throttling  | 200 burst / 400 requests per second                 |
-| CloudWatch  | 30-day log retention                                |
-| Region      | eu-north-1                                          |
+| Resource    | Configuration                                      |
+| ----------- | -------------------------------------------------- |
+| Lambda      | Node.js 22, 512 MB, 30s timeout, 30 max concurrent |
+| API Gateway | HTTP API, `POST /mcp` only                         |
+| Throttling  | 200 burst / 400 requests per second                |
+| CloudWatch  | 30-day log retention                               |
+| Region      | eu-north-1                                         |
 
 ### Emergency stop
 
@@ -141,7 +141,7 @@ Reverse it:
 ```bash
 aws lambda put-function-concurrency \
   --function-name eufemia-dev-mcp \
-  --reserved-concurrent-executions 100
+  --reserved-concurrent-executions 30
 ```
 
 ## Project structure
