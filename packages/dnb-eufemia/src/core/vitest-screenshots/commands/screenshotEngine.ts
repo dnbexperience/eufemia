@@ -14,7 +14,12 @@ import path from 'node:path'
 import { defineBrowserCommand } from '@vitest/browser-playwright'
 import blazediff from '@blazediff/core'
 import { PNG } from 'pngjs'
-import type { Browser, BrowserContext, Page } from 'playwright'
+import type {
+  Browser,
+  BrowserContext,
+  BrowserType,
+  Page,
+} from 'playwright'
 
 import {
   getPageResetStrategyFromMutation,
@@ -144,8 +149,7 @@ type BrowserSlot = {
 
 const browserSlots: BrowserSlot[] = []
 const sessionToSlot = new Map<string, BrowserSlot>()
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let playwrightModule: any = null
+let playwrightModule: { firefox: BrowserType } | null = null
 let poolCleanedUp = false
 
 const getPlaywright = async () => {

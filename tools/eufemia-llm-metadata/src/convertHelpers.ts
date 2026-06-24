@@ -1140,7 +1140,7 @@ async function evaluateTsModule(file: string, seen = new Set<string>()) {
     await import('@babel/plugin-transform-modules-commonjs')
   const vm = await import('node:vm')
   const moduleApi = await import('node:module')
-  const localRequire = (moduleApi as any).createRequire(file)
+  const localRequire = moduleApi.Module.createRequire(file)
 
   let code = await fs.readFile(file, 'utf-8')
   const bindings = await buildModuleInjectionBindings(
