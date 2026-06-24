@@ -26,6 +26,16 @@ type DurationFormatConstructor = {
   new (locale?: string, options?: DurationFormatOptions): DurationFormat
 }
 
+// Augment the global Intl namespace with the newer DurationFormat API,
+// which is not yet part of the bundled TypeScript lib definitions.
+// Runtime availability is guarded with a try/catch where it is used.
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Intl {
+    const DurationFormat: DurationFormatConstructor
+  }
+}
+
 export type DateFormatOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
@@ -533,8 +543,7 @@ function createDurationFormatter(
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
 ): DurationFormat | null {
   try {
-    const DurationFormat = (Intl as any)
-      .DurationFormat as DurationFormatConstructor
+    const DurationFormat = Intl.DurationFormat
     return new DurationFormat(locale, {
       style:
         dateStyle === 'short'

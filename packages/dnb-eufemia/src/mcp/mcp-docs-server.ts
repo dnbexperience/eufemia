@@ -16,6 +16,14 @@ import { type DocsSource, normalizeDocsPath } from './docs-source'
 
 type ToolResult = CallToolResult
 
+type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue }
+
 type ResolvedComponent = {
   name: string
   doc: string
@@ -207,7 +215,7 @@ function conventionalDocPath(name: string): string[] {
 }
 
 function extractJsonBlocks(markdown: string) {
-  const blocks: Array<any> = []
+  const blocks: Array<JsonValue> = []
   const regex = /```json\s*([\s\S]*?)```/gi
   let match: RegExpExecArray | null
   while ((match = regex.exec(markdown))) {
@@ -216,7 +224,7 @@ function extractJsonBlocks(markdown: string) {
       continue
     }
     try {
-      blocks.push(JSON.parse(raw))
+      blocks.push(JSON.parse(raw) as JsonValue)
     } catch {
       // ignore invalid JSON blocks
     }
