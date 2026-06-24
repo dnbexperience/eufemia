@@ -41,6 +41,22 @@ function normalizeZodIssueMessage(
     return 'NumberField.errorInteger'
   }
 
+  // Non-finite numbers (NaN, Infinity, -Infinity) fail Zod's `z.number()`
+  // type check with a confusing default message ("expected number, received
+  // number"). Map these to a clear, translated message. Genuine wrong types
+  // (string, boolean, etc.) don't set `received` to a number-like value, so
+  // they keep Zod's regular type-error message.
+  if (issue?.code === 'invalid_type' && issue.expected === 'number') {
+    const received = (issue as { received?: unknown }).received
+    if (
+      received === 'NaN' ||
+      received === 'Infinity' ||
+      received === '-Infinity'
+    ) {
+      return 'NumberField.errorInvalidNumber'
+    }
+  }
+
   if (
     issue?.code === 'too_small' &&
     issue.origin === 'number' &&
