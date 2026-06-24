@@ -14,17 +14,16 @@ For local development, a stdio transport is also available.
 
 ## Available tools
 
-| Tool              | Description                                                    |
-| ----------------- | -------------------------------------------------------------- |
-| `docs_entry`      | Read `llm.md` — the AI entrypoint to understand docs structure |
-| `docs_index`      | List all markdown/MDX file paths                               |
-| `docs_list`       | List docs under an optional prefix                             |
-| `docs_read`       | Read a single file by path                                     |
-| `docs_search`     | Full-text search with ranked results                           |
-| `component_find`  | Resolve doc/properties/events paths for a component            |
-| `component_doc`   | Read full markdown for a component                             |
-| `component_api`   | Extract JSON code blocks from a component doc                  |
-| `component_props` | Get structured JSON blocks for props/events                    |
+| Tool             | Description                                                    |
+| ---------------- | -------------------------------------------------------------- |
+| `docs_entry`     | Read `llm.md` — the AI entrypoint to understand docs structure |
+| `docs_index`     | List all markdown/MDX file paths                               |
+| `docs_list`      | List docs under an optional prefix                             |
+| `docs_read`      | Read a single file by path                                     |
+| `docs_search`    | Full-text search with ranked results                           |
+| `component_find` | Resolve doc/properties/events paths for a component            |
+| `component_doc`  | Read full markdown for a component                             |
+| `component_api`  | Extract JSON code blocks from a component doc                  |
 
 Component names support dot-notation: `Button`, `Field.Address`, `Value.Name`, `Form.Section`.
 
