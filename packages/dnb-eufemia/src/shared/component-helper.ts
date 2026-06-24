@@ -279,16 +279,16 @@ export function convertJsxToString(
   elements: ReactNode | ReactNode[],
   separator: string = undefined,
   transformWord: (
-    element: ReactElement<any>
-  ) => ReactElement<any> = undefined
+    element: ReactElement<{ children?: ReactNode }>
+  ) => ReactElement<{ children?: ReactNode }> = undefined
 ): string {
   if (!Array.isArray(elements)) {
     elements = [elements]
   }
 
   const process = (word: ReactNode) => {
-    if (isValidElement<any>(word)) {
-      let element = word as ReactElement<any>
+    if (isValidElement<{ children?: ReactNode }>(word)) {
+      let element = word
 
       if (transformWord) {
         element = transformWord(element)
