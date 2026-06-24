@@ -613,8 +613,8 @@ async function listFilesRecursive(dir: string) {
 async function isDraftMdx(file: string) {
   try {
     const src = await fs.readFile(file, 'utf-8')
-    const { attributes } = fm(src)
-    const raw = attributes && (attributes as any).draft
+    const { attributes } = fm<{ draft?: boolean | string }>(src)
+    const raw = attributes && attributes.draft
 
     if (raw === true) {
       return true
@@ -649,7 +649,7 @@ export async function extractTableDocs(mdxFile: string) {
   const tables = extractMarkdownTables(md)
   const collection: Record<string, any> = {}
 
-  tables.forEach((rows: Array<any>) => {
+  tables.forEach((rows: Array<Array<string>>) => {
     const headerRow = rows.shift()
 
     if (!Array.isArray(headerRow)) {
@@ -754,10 +754,10 @@ export async function extractTitleFromMdx(mdxFile: string | null) {
 
   try {
     const src = await fs.readFile(mdxFile, 'utf-8')
-    const { attributes, body } = fm(src)
+    const { attributes, body } = fm<{ title?: string }>(src)
 
-    if (attributes && typeof (attributes as any).title === 'string') {
-      return String((attributes as any).title).trim()
+    if (attributes && typeof attributes.title === 'string') {
+      return String(attributes.title).trim()
     }
     const m = /\n\s*#\s+([^\n]+)\n/.exec(body || src)
 
@@ -875,13 +875,10 @@ export async function extractDescriptionFromMdx(mdxFile: string | null) {
 
   try {
     const src = await fs.readFile(mdxFile, 'utf-8')
-    const { attributes } = fm(src)
+    const { attributes } = fm<{ description?: string }>(src)
 
-    if (
-      attributes &&
-      typeof (attributes as any).description === 'string'
-    ) {
-      return String((attributes as any).description).trim()
+    if (attributes && typeof attributes.description === 'string') {
+      return String(attributes.description).trim()
     }
   } catch {
     // ignore
@@ -1556,10 +1553,10 @@ export async function convertMdxToMd({
 
   if (frontmatter) {
     try {
-      const { attributes } = fm(frontmatter)
+      const { attributes } = fm<{ title?: string }>(frontmatter)
 
-      if (attributes && typeof (attributes as any).title === 'string') {
-        const title = String((attributes as any).title).trim()
+      if (attributes && typeof attributes.title === 'string') {
+        const title = String(attributes.title).trim()
         // Check if body already starts with an H1 heading
         const trimmedBody = outputBody.trim()
         const startsWithHeading = /^#\s+/.test(trimmedBody)
