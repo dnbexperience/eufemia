@@ -19,6 +19,9 @@ type ResolvedComponent = {
   propertiesExists: boolean
   events: string
   eventsExists: boolean
+  // TODO: `slug` (always null) and `fromIndex` (always false) are dead fields
+  // kept only for 1:1 parity with the legacy MCP at
+  // packages/dnb-eufemia/src/mcp/. Remove them once the old MCP is deleted.
   slug: string | null
   fromIndex: boolean
 }
