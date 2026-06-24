@@ -136,12 +136,16 @@ aws lambda put-function-concurrency \
   --reserved-concurrent-executions 0
 ```
 
-Reverse it:
+Reverse it by restoring the value declared in [`infra/main.tf`](infra/main.tf)
+(`reserved_concurrent_executions`). The simplest way is to re-run the deploy
+(or `terraform apply`), which resets it to the source-of-truth value. To restore
+manually without a deploy, pass that same number:
 
 ```bash
+# Use the current reserved_concurrent_executions from infra/main.tf
 aws lambda put-function-concurrency \
   --function-name eufemia-dev-mcp \
-  --reserved-concurrent-executions 30
+  --reserved-concurrent-executions <value-from-main.tf>
 ```
 
 ## Project structure
