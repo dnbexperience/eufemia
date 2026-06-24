@@ -336,12 +336,12 @@ function createDocsContext(source: DocsSource) {
   }
 
   async function searchInMarkdown(
-    query: unknown,
+    query: string,
     limit: number,
     prefix?: string,
     opts: { concurrency?: number; timeoutMs?: number } = {}
   ): Promise<SearchHit[]> {
-    const q = String(query ?? '').trim()
+    const q = query.trim()
     if (q.length < 2) {
       return []
     }
