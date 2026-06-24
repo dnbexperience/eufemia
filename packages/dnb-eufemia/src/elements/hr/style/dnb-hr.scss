@@ -32,7 +32,9 @@
     border-radius: 0;
   }
 
-  --thickness: calc(var(--hr-thickness, 0.0625rem) + var(--modifier, 0px));
+  --thickness: calc(
+    var(--hr-thickness, 0.0625rem) + var(--hr-thickness-modifier, 0px)
+  );
 
   .dnb-spacing & {
     @include ui-spacing.defaultSpacing();
