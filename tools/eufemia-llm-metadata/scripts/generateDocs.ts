@@ -18,6 +18,7 @@ import {
   toSlugAndDir,
   writeLlmsText,
 } from '../src/convertHelpers.ts'
+import type { LlmsResultEntry } from '../src/convertHelpers.ts'
 import {
   getNextReleaseVersion,
   getCommitHash,
@@ -74,7 +75,7 @@ export async function generateDocs() {
   const entryFiles = await findEntryMdxFiles(docsRoot)
   const allowedEntryFiles: string[] = []
 
-  const results: Array<any> = []
+  const results: Array<LlmsResultEntry> = []
   const metadataBySlug = new Map<
     string,
     {
