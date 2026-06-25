@@ -74,7 +74,7 @@ export type FlexContainerProps = {
    */
   divider?: 'space' | 'line' | 'line-framed'
   /**
-   * How much space between child items. Use `false` for no spacing. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)
+   * How much space between child items. Use `false` for no spacing. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.).
    * Default: `'small'`
    */
   gap?: Gap
