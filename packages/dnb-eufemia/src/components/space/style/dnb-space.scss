@@ -243,8 +243,9 @@
 
   // Responsive modifiers
   // A single --responsive-spacing-tier variable controls the active tier.
-  // Each --responsive-spacing-* is computed from its basis value + tier × 0.5rem.
-  // Default mapping: small viewport = -1, medium = 0, large = +1.
+  // Each --responsive-spacing-* is computed from its basis value + tier × 0.5rem,
+  // with a minimum value to avoid negative spacing.
+  // Default mapping: below small = -1, above small = 0.
   // Shifting the breakpoint shifts the tier integers accordingly.
 
   &-responsive {
