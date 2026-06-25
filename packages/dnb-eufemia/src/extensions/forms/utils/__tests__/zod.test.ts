@@ -2,8 +2,9 @@ import { z, zodErrorsToFormErrors } from '../zod'
 
 describe('zod custom vs default message detection', () => {
   afterEach(() => {
-    // Restore the default (English) Zod error map in case a test changed it
-    z.config(z.locales.en())
+    // Restore the default (English) Zod error map and clear any global
+    // customError a test may have configured
+    z.config({ ...z.locales.en(), customError: undefined })
   })
 
   it('normalizes Zod default messages to our translation keys', () => {
@@ -87,5 +88,20 @@ describe('zod custom vs default message detection', () => {
 
     const errors = zodErrorsToFormErrors(result.error.issues)
     expect(errors['/'].message).toBe('NumberField.errorInteger')
+  })
+
+  it('preserves a globally configured customError as a custom message', () => {
+    // A global customError is a consumer-defined override, not a built-in
+    // default, so it must be preserved rather than normalized to our key.
+    z.config({ customError: () => 'Global override' })
+
+    const result = z.string().min(2).safeParse('a')
+    expect(result.success).toBe(false)
+    if (result.success) {
+      return // stop here
+    }
+
+    const errors = zodErrorsToFormErrors(result.error.issues)
+    expect(errors['/'].message).toBe('Global override')
   })
 })

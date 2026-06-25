@@ -43,21 +43,25 @@ function runZodErrorMap(
 
 /**
  * Determine whether `issue.message` is a built-in Zod default, as opposed to a
- * user-provided custom message, by recomputing what Zod's active error-map
- * chain would produce for the issue and comparing it with the actual message.
+ * user-provided custom message, by recomputing what Zod's error map would
+ * produce for the issue and comparing it with the actual message.
  *
  * Check/schema-level custom messages (e.g. `z.string().min(2, 'My message')`)
- * are applied *after* this chain, so a recomputed default that differs from
- * `issue.message` reveals a custom message. This mirrors Zod's `finalizeIssue`
- * precedence (global `customError`, then `localeError`) and is locale-aware: a
- * localized default (e.g. via `z.config(z.locales.no())`) is still recognized
- * as a default instead of being misclassified as custom.
+ * are applied *before* the error map, so a recomputed default that differs from
+ * `issue.message` reveals a custom message. We compare against the active
+ * `localeError` (falling back to the built-in English map), which makes this
+ * locale-aware: a localized default (e.g. via `z.config(z.locales.no())`) is
+ * still recognized as a default instead of being misclassified as custom.
+ *
+ * A globally configured `customError` is intentionally excluded: its output is
+ * a consumer-defined customization, so — like per-field custom messages — it is
+ * preserved rather than normalized to our translation keys.
  */
 function isZodDefaultMessage(issue: z.core.$ZodIssue): boolean {
   const { message: _message, ...rest } = issue
   const rawIssue = rest as z.core.$ZodRawIssue
   const config = z.core.config()
-  const errorMaps = [config.customError, config.localeError, enLocaleError]
+  const errorMaps = [config.localeError, enLocaleError]
 
   for (const errorMap of errorMaps) {
     if (runZodErrorMap(errorMap, rawIssue) === issue.message) {
