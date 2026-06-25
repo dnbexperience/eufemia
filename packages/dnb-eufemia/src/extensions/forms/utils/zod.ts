@@ -187,13 +187,17 @@ function getMessageValuesFromZodIssue(
       }
     }
     if (code === 'not_multiple_of') {
-      // Type guard: Zod's not_multiple_of issue may have multipleOf or multiple property
+      // Type guard: Zod v4 emits the value on `divisor`. Older/alternative
+      // shapes may use `multipleOf` or `multiple`, so we check those too.
       const issueWithMultiple = issue as z.core.$ZodIssue & {
+        divisor?: number
         multipleOf?: number
         multiple?: number
       }
       const multipleOf =
-        issueWithMultiple.multipleOf ?? issueWithMultiple.multiple
+        issueWithMultiple.divisor ??
+        issueWithMultiple.multipleOf ??
+        issueWithMultiple.multiple
       if (typeof multipleOf === 'number') {
         return { multipleOf: String(multipleOf) }
       }
