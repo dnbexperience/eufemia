@@ -198,6 +198,24 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const onChangeContext = dataContext?.props?.onChange
   const locale = dataContext?.props?.locale ?? sharedLocale
 
+  // The data context mutation function can change its identity between renders
+  // (e.g. when a linked Form.Outlet re-creates its context on every validation
+  // version bump). A stable wrapper ensures the field registration/lifecycle
+  // effects below only re-run when the field identity actually changes, which
+  // prevents a re-render feedback loop on mount.
+  const setMountedFieldStateRef = useRef(setMountedFieldStateDataContext)
+  setMountedFieldStateRef.current = setMountedFieldStateDataContext
+  const setMountedFieldState = useCallback(
+    (
+      ...args: Parameters<
+        NonNullable<typeof setMountedFieldStateDataContext>
+      >
+    ) => {
+      return setMountedFieldStateRef.current?.(...args)
+    },
+    []
+  )
+
   const disabled = disabledProp ?? readOnly
   const inFieldBlock = Boolean(
     fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
@@ -761,14 +779,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
         hasFocusRef.current = true
         onFocus?.(...(args as [any]))
-        setMountedFieldStateDataContext(identifier, {
+        setMountedFieldState(identifier, {
           isFocused: true,
         })
       } else {
         // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
         hasFocusRef.current = false
         onBlur?.(...(args as [any]))
-        setMountedFieldStateDataContext(identifier, {
+        setMountedFieldState(identifier, {
           isFocused: false,
         })
 
@@ -802,7 +820,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       getEventArgs,
       additionalArgs,
       onFocus,
-      setMountedFieldStateDataContext,
+      setMountedFieldState,
       identifier,
       onBlur,
       validateUnchanged,
@@ -1054,14 +1072,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [activeIndex]) // We want to watch for step changes
 
   useMemo(() => {
-    setMountedFieldStateDataContext(identifier, {
+    setMountedFieldState(identifier, {
       isPreMounted: true,
     })
 
     if (typeof isVisible === 'boolean') {
-      setMountedFieldStateDataContext(identifier, { isVisible })
+      setMountedFieldState(identifier, { isVisible })
     }
-  }, [setMountedFieldStateDataContext, identifier, isVisible])
+  }, [setMountedFieldState, identifier, isVisible])
 
   useEffect(() => {
     if (prerenderFieldProps) {
@@ -1069,7 +1087,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     if (typeof activeIndexRef?.current === 'number') {
-      setMountedFieldStateDataContext(identifier, {
+      setMountedFieldState(identifier, {
         wasStepChange: false,
       })
 
@@ -1079,7 +1097,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           // eslint-disable-next-line react-hooks/exhaustive-deps
           activeIndexRef.current !== activeIndexTmpRef.current
 
-        setMountedFieldStateDataContext(identifier, {
+        setMountedFieldState(identifier, {
           wasStepChange,
         })
       }
@@ -1091,7 +1109,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     activeIndexRef,
     identifier,
     prerenderFieldProps,
-    setMountedFieldStateDataContext,
+    setMountedFieldState,
   ])
 
   useEffect(() => {
@@ -1100,7 +1118,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     // Mount procedure.
-    setMountedFieldStateDataContext(identifier, {
+    setMountedFieldState(identifier, {
       isMounted: true,
       isPreMounted: true,
     })
@@ -1108,7 +1126,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     // Unmount procedure.
     return () => {
-      setMountedFieldStateDataContext(identifier, {
+      setMountedFieldState(identifier, {
         isMounted: false,
         isPreMounted: false,
       })
@@ -1118,7 +1136,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     identifier,
     prerenderFieldProps,
     setMountedFieldSnapshot,
-    setMountedFieldStateDataContext,
+    setMountedFieldState,
   ])
 
   // - Warn when a field path is used multiple times
