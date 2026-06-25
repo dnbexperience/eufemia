@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { eufemiaCssOptimizer } from '@dnb/eufemia/src/style/vite-plugin.ts'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), eufemiaCssOptimizer()],
 
   // Ensure dependency pre-bundling handles .js files that may contain JSX
   optimizeDeps: {

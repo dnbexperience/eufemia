@@ -31,9 +31,10 @@
     "build:mini": "BUILD_MINI=1 yarn build:ci && rm -rf ./build/assets/icons ./build/assets/flags && find ./build/assets/fonts/ -type f \\( -name \"*.otf\" -o -name \"*.ttf\" -o -name \"*.zip\" \\) -delete",
     "build:pack": "yarn build && yarn publish:prepare && cd ./build && npm pack",
     "build:packages": "./scripts/postbuild/build-packages.sh",
-    "build:prebuild": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/runPrepub && yarn build:validate-css",
+    "build:prebuild": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/runPrepub && yarn build:style-manifest && yarn build:validate-css",
     "build:resources": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/resources/makeResourcesPackage",
     "build:size": "bundlewatch --config bundlewatch.config.js",
+    "build:style-manifest": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ../../tools/eufemia-css-optimizer/src/cli.ts --source=./src --out=./build/style/style-manifest.json",
     "build:types:definitions": "yarn tsc --project tsconfig.definitions.json",
     "build:types:esm": "yarn tsc --project tsconfig.definitions.json --declarationDir ./build/esm --rootDir src",
     "build:validate-css": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/validateCompiledCss.ts",
@@ -68,7 +69,7 @@
     "publish:prepare": "./scripts/postbuild/publish-prepare.sh",
     "reset": "rm -rf ./node_modules ./build",
     "skeleton:font": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js'",
-    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts",
+    "test": "yarn test:prepare && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts",
     "test:ci": "yarn test && yarn test:scripts",
     "test:deps": "depcruise -c .dependency-cruiser.js src",
     "test:e2e": "playwright test --config=./playwright.config.e2e.ts",
@@ -76,6 +77,7 @@
     "test:e2e:watch": "playwright test --config=./playwright.config.e2e.ts --ui",
     "test:postbuild": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/postbuild.test.ts",
     "test:postbuild:publish": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/prepareForRelease.test.ts",
+    "test:prepare": "yarn build:style-manifest",
     "test:screenshots": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runScreenshotVitest.ts",
     "test:screenshots:ci": "yarn test:screenshots",
     "test:screenshots:ci:conditional": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/runScreenshotsConditionally/cli.ts",
@@ -121,6 +123,7 @@
   "peerDependencies": {
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "purgecss": "^8.0.0",
     "react": "^19",
     "react-dom": "^19"
   },
@@ -129,6 +132,9 @@
       "optional": true
     },
     "@types/react-dom": {
+      "optional": true
+    },
+    "purgecss": {
       "optional": true
     }
   },
@@ -210,6 +216,7 @@
     "postcss-preset-env": "11.2.1",
     "prettier": "3.8.1",
     "prettier-package-json": "2.8.0",
+    "purgecss": "8.0.0",
     "react": "19.2.5",
     "react-dom": "19.2.5",
     "repo-utils": "workspace:*",

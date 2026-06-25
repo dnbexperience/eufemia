@@ -5,6 +5,8 @@ import { stat } from 'fs/promises'
 const folderPath = './src'
 const targetString = '@dnb/eufemia/src'
 const replacementString = '@dnb/eufemia'
+const sourcePluginImport = '@dnb/eufemia/src/style/vite-plugin.ts'
+const publishedPluginImport = '@dnb/eufemia/style/vite-plugin.js'
 
 async function replaceInFile(filePath) {
   const content = await readFile(filePath, 'utf8')
@@ -32,3 +34,18 @@ async function processFolder(folder) {
 }
 
 await processFolder(folderPath)
+
+const viteConfigPath = './vite.config.ts'
+const viteConfig = await readFile(viteConfigPath, 'utf8')
+const publishedViteConfig = viteConfig.replace(
+  sourcePluginImport,
+  publishedPluginImport
+)
+
+if (publishedViteConfig === viteConfig) {
+  throw new Error(
+    `Could not find "${sourcePluginImport}" in ${viteConfigPath}`
+  )
+}
+
+await writeFile(viteConfigPath, publishedViteConfig, 'utf8')

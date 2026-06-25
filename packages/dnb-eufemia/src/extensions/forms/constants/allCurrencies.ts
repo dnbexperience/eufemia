@@ -1,7 +1,7 @@
-import nbLocale from './locales/countries/nb-NO'
-import enLocale from './locales/countries/en-GB'
+import nbLocale from '../../../shared/constants/locales/countries/nb-NO'
+import enLocale from '../../../shared/constants/locales/countries/en-GB'
 
-import type { RegionType } from './countries'
+import type { RegionType } from '../../../shared/constants/countries'
 import type { CurrencyType } from './currencies'
 
 const en = enLocale['en-GB']

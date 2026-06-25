@@ -1,5 +1,5 @@
 import { Table, Th, Tr, Td } from '@dnb/eufemia/src'
-import useCountries from '@dnb/eufemia/src/extensions/forms/Field/SelectCountry/useCountries'
+import useCountries from '@dnb/eufemia/src/shared/useCountries'
 import { FormattedCode } from '../../../../../../../shared/parts/PropertiesTable'
 
 export function AvailableCountriesTable() {

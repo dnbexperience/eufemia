@@ -48,7 +48,7 @@ async function loadAvailableCountries(deps: SpecialMdxRendererDeps) {
   }
 
   const countries = await deps.loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/countries'
+    '@dnb/eufemia/src/shared/constants/countries'
   )
 
   if (!Array.isArray(countries)) {

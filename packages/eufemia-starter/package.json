@@ -16,11 +16,11 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node prepare-eufemia.mjs && vite --configLoader runner",
+    "build": "node prepare-eufemia.mjs && vite build --configLoader runner",
     "lint": "eslint .",
     "remove-src": "node remove-src.mjs",
-    "preview": "vite preview"
+    "preview": "node prepare-eufemia.mjs && vite preview --configLoader runner"
   },
   "dependencies": {
     "@dnb/eufemia": "workspace:*",
@@ -36,6 +36,7 @@
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.2",
     "globals": "17.6.0",
+    "purgecss": "8.0.0",
     "sass": "1.97.2",
     "typescript": "5.9.3",
     "typescript-eslint": "8.60.0",

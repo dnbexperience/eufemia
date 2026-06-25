@@ -6,7 +6,7 @@ import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { Field, Form, FieldBlock, Value, Iterate } from '../../..'
-import type { CountryISO } from '../../../constants/countries'
+import type { CountryISO } from '../../../../../shared/constants/countries'
 
 describe('Field.SelectCountry', () => {
   it('should render with props', () => {

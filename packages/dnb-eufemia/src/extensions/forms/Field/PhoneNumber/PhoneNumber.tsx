@@ -8,8 +8,8 @@ import type {
   CountryISO,
   CountryLang,
   CountryType,
-} from '../../constants/countries'
-import useCountries from '../SelectCountry/useCountries'
+} from '../../../../shared/constants/countries'
+import useCountries from '../../../../shared/useCountries'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import type { FieldCompositionProps as CompositionFieldProps } from '../Composition'
