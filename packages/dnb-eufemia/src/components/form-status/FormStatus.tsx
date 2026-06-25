@@ -129,7 +129,7 @@ export type FormStatusProps = {
   widthSelector?: string
   widthElement?: { current: HTMLElement | null } | null
   /**
-   * **NB:** Animation is disabled as of now. ~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~
+   * ~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~ **NB:** Animation is disabled as of now.
    */
   noAnimation?: boolean
   /**

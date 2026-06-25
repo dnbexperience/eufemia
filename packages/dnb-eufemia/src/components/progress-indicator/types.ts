@@ -40,7 +40,7 @@ export type ProgressIndicatorProps = {
    */
   progress?: string | number
   /**
-   * Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`.)
+   * Content of a custom label (overrides `indicatorLabel` and `showDefaultLabel`).
    * Default: `undefined`
    */
   label?: ReactNode

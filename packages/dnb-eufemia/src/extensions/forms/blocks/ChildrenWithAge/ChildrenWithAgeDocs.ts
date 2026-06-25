@@ -7,7 +7,7 @@ export const ChildrenWithAgeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   enableAdditionalQuestions: {
-    doc: '[`joint-responsibility`, `daycare`]',
+    doc: '[`joint-responsibility`, `daycare`].',
     type: 'array',
     status: 'optional',
   },
