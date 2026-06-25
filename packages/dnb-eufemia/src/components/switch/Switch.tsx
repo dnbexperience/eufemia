@@ -320,6 +320,7 @@ function Switch(props: SwitchProps) {
             id={id + '-form-status'}
             globalStatus={globalStatus}
             label={label}
+            textId={id + '-status'} // used for "aria-describedby"
             widthSelector={id + ', ' + id + '-label'}
             text={status}
             state={statusState}
