@@ -1023,7 +1023,7 @@ export default function Provider<Data extends JsonObject>(
     // from the first render via the getSnapshot function, so we no longer need to
     // call update during render (which would cause "setState while rendering" warnings).
 
-    // Merge both internal data and the shared state, if it both where given
+    // Merge both internal data and the shared state, if both were given
     if (
       id &&
       initialData &&
