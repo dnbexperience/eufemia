@@ -8,7 +8,6 @@ import type {
   ModalContentMaxWidth,
 } from '../modal/types'
 import type { ReactNode } from 'react'
-import type { FormStatusBaseProps } from '../FormStatus'
 
 export type DialogProps = ModalAllProps & {
   /**
@@ -17,95 +16,94 @@ export type DialogProps = ModalAllProps & {
   title?: ReactNode
 }
 
-export type DialogContentProps = Omit<DialogActionProps, 'children'> &
-  FormStatusBaseProps & {
-    /**
-     * The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
-     */
-    minWidth?: ModalContentMinWidth
+export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
+  /**
+   * The minimum Dialog content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful when using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
+   */
+  minWidth?: ModalContentMinWidth
 
-    /**
-     * The maximum Dialog content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).
-     */
-    maxWidth?: ModalContentMaxWidth
+  /**
+   * The maximum Dialog content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).
+   */
+  maxWidth?: ModalContentMaxWidth
 
-    /**
-     * Give the Dialog content a class name (maps to `dnb-dialog`).
-     */
-    className?: string
+  /**
+   * Give the Dialog content a class name (maps to `dnb-dialog`).
+   */
+  className?: string
 
-    /**
-     * If set to `false` then the dialog content will be shown without any spacing. Defaults to `true`.
-     */
-    spacing?: boolean
+  /**
+   * If set to `false` then the dialog content will be shown without any spacing. Defaults to `true`.
+   */
+  spacing?: boolean
 
-    /**
-     * By default the dialog content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.
-     */
-    preventCoreStyle?: boolean
+  /**
+   * By default the dialog content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.
+   */
+  preventCoreStyle?: boolean
 
-    /**
-     * The content which will appear in the navigation, above the header, and side-by-side the close button.
-     */
-    navContent?: ReactNode
+  /**
+   * The content which will appear in the navigation, above the header, and side-by-side the close button.
+   */
+  navContent?: ReactNode
 
-    /**
-     * The content which will appear in the header of the dialog.
-     */
-    headerContent?: ReactNode
+  /**
+   * The content which will appear in the header of the dialog.
+   */
+  headerContent?: ReactNode
 
-    /**
-     * The content which will appear when triggering the dialog.
-     */
-    modalContent?: ReactNode | ((props: DialogContentProps) => ReactNode)
+  /**
+   * The content which will appear when triggering the dialog.
+   */
+  modalContent?: ReactNode | ((props: DialogContentProps) => ReactNode)
 
-    /**
-     * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
-     */
-    alignContent?: ModalAlignContent
+  /**
+   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
+   */
+  alignContent?: ModalAlignContent
 
-    /**
-     * If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.
-     */
-    fullscreen?: ModalFullscreen
+  /**
+   * If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.
+   */
+  fullscreen?: ModalFullscreen
 
-    /**
-     * If set to `true`, no open/close animation will be shown. Defaults to `false`.
-     */
-    noAnimation?: boolean
+  /**
+   * If set to `true`, no open/close animation will be shown. Defaults to `false`.
+   */
+  noAnimation?: boolean
 
-    /**
-     * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to `false`.
-     */
-    noAnimationOnMobile?: boolean
+  /**
+   * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to `false`.
+   */
+  noAnimationOnMobile?: boolean
 
-    /**
-     * The dialog variant. Can either be `information` or `confirmation`. Defaults to `information`.
-     */
-    variant?: 'information' | 'confirmation'
+  /**
+   * The dialog variant. Can either be `information` or `confirmation`. Defaults to `information`.
+   */
+  variant?: 'information' | 'confirmation'
 
-    /**
-     * An icon to display at the top of the component. Should be of size medium, so make sure you import the `_medium` version of the Eufemia icon.
-     */
-    icon?: IconIcon
+  /**
+   * An icon to display at the top of the component. Should be of size medium, so make sure you import the `_medium` version of the Eufemia icon.
+   */
+  icon?: IconIcon
 
-    /**
-     * For variant confirmation, the dialog is either an informational (`information`) or a warning (`warning`) message. Defaults to `information`.
-     */
-    confirmType?: 'information' | 'warning'
+  /**
+   * For variant confirmation, the dialog is either an informational (`information`) or a warning (`warning`) message. Defaults to `information`.
+   */
+  confirmType?: 'information' | 'warning'
 
-    /**
-     * A description will be positioned below the title, but before the content. Used for Dialog variant `confirmation` to further describe what the actions will do.
-     */
-    description?: ReactNode
+  /**
+   * A description will be positioned below the title, but before the content. Used for Dialog variant `confirmation` to further describe what the actions will do.
+   */
+  description?: ReactNode
 
-    /**
-     * Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` for the `information` variant with spacing. Set to `false` to disable.
-     */
-    scrollbarGutter?: 'stable' | false
+  /**
+   * Reserves space for the scrollbar gutter, preventing layout shifts when content overflows. By default, it enables `stable` for the `information` variant with spacing. Set to `false` to disable.
+   */
+  scrollbarGutter?: 'stable' | false
 
-    /**
-     * The content of the modal.
-     */
-    children?: ReactNode | ((props: DialogContentProps) => ReactNode)
-  }
+  /**
+   * The content of the modal.
+   */
+  children?: ReactNode | ((props: DialogContentProps) => ReactNode)
+}
