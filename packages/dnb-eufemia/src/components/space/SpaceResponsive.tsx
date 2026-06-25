@@ -14,7 +14,7 @@ export type SpaceResponsiveProps = {
   density?: SpaceDensity
 
   /**
-   * Sets which breakpoint's spacing scale to use as the default. Default: `medium`.
+   * Sets at which breakpoint we switch from `compact` to `basis` density. Default: `small`.
    */
   breakpoint?: SpaceBreakpoint
 
