@@ -335,8 +335,11 @@ function NumberComponent(props: FieldNumberProps) {
     if (external === undefined || external === null) {
       return null
     }
-    // Handle invalid types (e.g., strings) by converting to empty string for display
-    if (typeof external !== 'number' || isNaN(external)) {
+    // Handle invalid types (e.g., strings) and non-finite numbers
+    // (NaN, Infinity, -Infinity) by converting to empty string for display.
+    // Such values still fail validation, but should not render as partial
+    // output (e.g. "-" for -Infinity).
+    if (typeof external !== 'number' || !Number.isFinite(external)) {
       return ''
     }
     return external

@@ -97,6 +97,7 @@ export default {
       errorExclusiveMaximum: 'Must be less than {exclusiveMaximum}.',
       errorMultipleOf: 'Must be divisible by {multipleOf}.',
       errorInteger: 'Must be a whole number (no decimals).',
+      errorInvalidNumber: 'Must be a valid number.',
     },
     BooleanField: {
       yes: 'Yes',
