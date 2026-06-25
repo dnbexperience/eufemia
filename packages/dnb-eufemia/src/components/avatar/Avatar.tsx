@@ -80,7 +80,7 @@ export type AvatarProps = Omit<HTMLProps<HTMLElement>, 'size'> & {
   imgProps?: ImgProps
 
   /**
-   * An icon name or component. (Will override the `src` property.).
+   * An icon name or component (will override the `src` property).
    */
 
   icon?: IconIcon

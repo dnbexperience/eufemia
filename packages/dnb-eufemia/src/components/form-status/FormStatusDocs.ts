@@ -63,7 +63,7 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   noAnimation: {
-    doc: '**NB:** Animation is disabled as of now. ~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~.',
+    doc: '~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~ **NB:** Animation is disabled as of now.',
     type: 'boolean',
     status: 'optional',
   },

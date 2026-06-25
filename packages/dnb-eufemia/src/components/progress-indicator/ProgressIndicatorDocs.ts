@@ -39,7 +39,7 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   label: {
-    doc: 'Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`.).',
+    doc: 'Content of a custom label (overrides `indicatorLabel` and `showDefaultLabel`).',
     type: 'React.ReactNode',
     defaultValue: 'undefined',
     status: 'optional',
