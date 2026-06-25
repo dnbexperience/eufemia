@@ -14,14 +14,16 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import Button from '../../button/Button'
-import type { ButtonProps } from '../../button/Button'
+import FormStatus from '../../FormStatus'
 import Space from '../../space/Space'
-import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
-
-import type { SpacingProps } from '../../../shared/types'
+import { Context } from '../../../shared'
+import useId from '../../../shared/helpers/useId'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
+
+import type { ButtonProps } from '../../button/Button'
+import type { SpacingProps } from '../../../shared/types'
 
 type ExtendedMouseEvent = {
   event: MouseEvent<HTMLElement>
@@ -83,9 +85,10 @@ const DialogAction = ({
   ...props
 }: DialogActionAllProps) => {
   const { translation, Button: ButtonContext } = useContext(Context)
-  const { close } = useContext(ModalContext)
+  const { close, status } = useContext(ModalContext)
   let childrenWithCloseFunc: ReactNode
 
+  const statusId = useId()
   const onConfirmHandler = useCallback(
     (event) => {
       dispatchCustomElementEvent({ onConfirm }, 'onConfirm', {
@@ -130,30 +133,44 @@ const DialogAction = ({
   }
 
   return (
-    <Space
-      element="section"
-      className={clsx('dnb-dialog__actions', className)}
-      {...props}
-    >
-      {childrenWithCloseFunc}
+    <>
+      <Space
+        element="section"
+        className={clsx('dnb-dialog__actions', className)}
+        {...props}
+      >
+        {childrenWithCloseFunc}
 
-      {!children && !hideDecline && (
-        <Button
-          text={declineText || translation?.Dialog?.declineText}
-          variant="secondary"
-          onClick={onDeclineHandler}
-          size={ButtonContext?.size || 'large'}
-        />
-      )}
-      {!children && !hideConfirm && (
-        <Button
-          text={confirmText || translation?.Dialog?.confirmText}
-          variant="primary"
-          onClick={onConfirmHandler}
-          size={ButtonContext?.size || 'large'}
-        />
-      )}
-    </Space>
+        {!children && !hideDecline && (
+          <Button
+            text={declineText || translation?.Dialog?.declineText}
+            variant="secondary"
+            onClick={onDeclineHandler}
+            size={ButtonContext?.size || 'large'}
+          />
+        )}
+        {!children && !hideConfirm && (
+          <Button
+            text={confirmText || translation?.Dialog?.confirmText}
+            variant="primary"
+            onClick={onConfirmHandler}
+            size={ButtonContext?.size || 'large'}
+            status={status ? 'error' : undefined}
+            aria-describedby={status ? statusId + '-status' : undefined}
+          />
+        )}
+      </Space>
+
+      <FormStatus
+        show={!!status}
+        id={statusId + '-form-status'}
+        textId={statusId + '-status'}
+        noAnimation={false}
+        shellSpace={{ top: 'small' }}
+      >
+        {status}
+      </FormStatus>
+    </>
   )
 }
 
