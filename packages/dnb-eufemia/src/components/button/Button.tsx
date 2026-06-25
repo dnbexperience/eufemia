@@ -24,6 +24,7 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
@@ -285,6 +286,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     skeleton,
     element,
     selected,
+    id: _id, // excluded so the default `null` does not override the resolvedId
     ...attributes
   } = props
 
@@ -430,6 +432,15 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
   }
   if (isIconOnly) {
     params['aria-label'] = params['aria-label'] || titleString
+  }
+
+  // Link the FormStatus message to the button for screen readers.
+  // The FormStatus text element uses the same id (see "textId" below).
+  if (showStatus) {
+    params['aria-describedby'] = combineDescribedBy(
+      params,
+      resolvedId + '-status'
+    )
   }
 
   skeletonDOMAttributes(params, skeleton, context)
