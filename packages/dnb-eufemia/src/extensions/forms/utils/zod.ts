@@ -187,24 +187,13 @@ function getMessageValuesFromZodIssue(
       }
     }
     if (code === 'not_multiple_of') {
-      // Type guard: Zod v4 emits the value on `divisor`. Older/alternative
-      // shapes may use `multipleOf` or `multiple`, so we check those too.
-      const issueWithMultiple = issue as z.core.$ZodIssue & {
-        divisor?: number
-        multipleOf?: number
-        multiple?: number
-      }
-      const multipleOf =
-        issueWithMultiple.divisor ??
-        issueWithMultiple.multipleOf ??
-        issueWithMultiple.multiple
-      if (typeof multipleOf === 'number') {
-        return { multipleOf: String(multipleOf) }
-      }
-      const fallbackMsg = String(issue?.message ?? '')
-      const m = fallbackMsg.match(/multiple\s*of\s*([0-9]+(?:\.[0-9]+)?)/i)
-      if (m && m[1]) {
-        return { multipleOf: m[1] }
+      // Zod v4 exposes the value on the canonical, always-present `divisor`
+      // field (typed as `number`, even for bigint inputs). Read it directly,
+      // like the other issue fields above, instead of parsing the message
+      // text, which would break for custom or non-English Zod error maps.
+      const { divisor } = issue as z.core.$ZodIssueNotMultipleOf
+      if (typeof divisor === 'number') {
+        return { multipleOf: String(divisor) }
       }
     }
   }

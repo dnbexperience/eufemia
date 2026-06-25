@@ -18,14 +18,15 @@ describe('zod not_multiple_of', () => {
   })
 
   it('reads the `divisor` property instead of relying on the message text', () => {
-    // Zod v4 emits the value on `divisor`. Use a non-English message that does
-    // not contain "multiple of", so only the `divisor` lookup can resolve it.
+    // Zod v4 exposes the value on `divisor`. The issue carries a message that
+    // does not contain a parseable number, so a passing assertion proves the
+    // value is taken from `divisor` and not scraped from the message text.
     const issue = {
       code: 'not_multiple_of',
       origin: 'number',
       divisor: 0.5,
       path: [],
-      message: 'Må kunne deles på 0,5',
+      message: 'Må kunne deles på et halvtall',
     } as unknown as zType.core.$ZodIssue
 
     const errors = zodErrorsToFormErrors([issue])
