@@ -98,3 +98,5 @@ render(
 - **List.Item.Action** uses `role="button"` so assistive technologies announce it as a button. It is focusable (`tabIndex={0}`) and activates on Enter and Space. When `pending` is true, it is not focusable and has `aria-disabled="true"`. You can override the role via the `role` prop (e.g. `role="link"`).
 - **List.Item.Accordion** exposes full ARIA for expand/collapse: the header has `id`, `aria-controls`, and `aria-expanded`; the content region has `id`, `aria-labelledby`, `aria-hidden`, and `aria-expanded`. Pass an `id` prop for stable references, or leave it unset for an auto-generated id. When `pending` is true, the header is not focusable and has `aria-disabled="true"`.
 - Use `aria-label` or other ARIA attributes on the container or items when needed for screen readers.
+
+<RelatedComponents />

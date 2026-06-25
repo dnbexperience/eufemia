@@ -22,6 +22,7 @@ import VisibilityByTheme from '@dnb/eufemia/src/shared/VisibilityByTheme'
 import { TypographyBox } from '../parts/TypographyBox'
 import Details from './Details'
 import Summary from './Summary'
+import RelatedComponents from '../parts/RelatedComponents'
 
 export const basicComponents = {
   // img: Img, // -> <figure> cannot appear as a descendant of <p>
@@ -77,6 +78,7 @@ export default {
   VisibilityByTheme,
   Details,
   Summary,
+  RelatedComponents,
   VisibleWhenVisualTest: ({ children }) => {
     if (typeof globalThis !== 'undefined' && globalThis.IS_TEST) {
       return children
