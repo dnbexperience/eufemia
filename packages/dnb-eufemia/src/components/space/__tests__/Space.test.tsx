@@ -563,7 +563,7 @@ describe('Space.ResponsiveContext', () => {
     }
 
     render(
-      <Space.ResponsiveContext breakpoint="medium">
+      <Space.ResponsiveContext breakOn="medium">
         <TestComponent />
       </Space.ResponsiveContext>
     )
@@ -587,7 +587,7 @@ describe('Space.ResponsiveContext', () => {
     }
 
     render(
-      <Space.ResponsiveContext density="compact" breakpoint="medium">
+      <Space.ResponsiveContext density="compact" breakOn="medium">
         <TestComponent />
       </Space.ResponsiveContext>
     )
@@ -615,7 +615,7 @@ describe('Space.ResponsiveContext', () => {
 
   it('should add breakpoint class to Space component', () => {
     render(
-      <Space.ResponsiveContext breakpoint="medium">
+      <Space.ResponsiveContext breakOn="medium">
         <Space top="large">Content</Space>
       </Space.ResponsiveContext>
     )
@@ -720,7 +720,7 @@ describe('Space.ResponsiveContext', () => {
 
     render(
       <Space.ResponsiveContext density="compact">
-        <Space.ResponsiveContext breakpoint="medium">
+        <Space.ResponsiveContext breakOn="medium">
           <TestComponent />
         </Space.ResponsiveContext>
       </Space.ResponsiveContext>

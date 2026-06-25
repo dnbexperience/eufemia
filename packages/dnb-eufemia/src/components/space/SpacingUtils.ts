@@ -548,9 +548,9 @@ export const useSpacing = <T extends ApplySpacingTarget>(
     result.className = clsx(
       result.className,
       'dnb-space-responsive',
-      responsive.breakpoint &&
-        responsive.breakpoint !== 'small' &&
-        `dnb-space-responsive--breakpoint-${responsive.breakpoint}`,
+      responsive.breakOn &&
+        responsive.breakOn !== 'small' &&
+        `dnb-space-responsive--breakpoint-${responsive.breakOn}`,
       responsive.density &&
         `dnb-space-responsive--force-${responsive.density}`
     )
