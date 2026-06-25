@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "eufemia-css-optimizer",
+  "version": "1.0.0",
+  "description": "Generate a Eufemia style manifest and derive a safe PurgeCSS safelist for removing unused component CSS in apps",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "author": "DNB Team & Tobias Høegh",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:types": "../../node_modules/.bin/tsc --noEmit",
+    "lint": "node ../../node_modules/.bin/eslint **/*.ts",
+    "generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts"
+  },
+  "devDependencies": {
+    "vitest": "4.1.8"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

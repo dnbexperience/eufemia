@@ -371,6 +371,30 @@ describe('babel build', () => {
   })
 })
 
+describe('style optimizer', () => {
+  it('ships the generated style manifest', () => {
+    const manifestPath = path.resolve(
+      PKG_ROOT,
+      'build/style/style-manifest.json'
+    )
+
+    expect(fs.existsSync(manifestPath)).toBe(true)
+
+    const manifest = fs.readJsonSync(manifestPath)
+    expect(manifest.version).toBeGreaterThan(0)
+    expect(Object.keys(manifest.entries).length).toBeGreaterThan(0)
+  })
+
+  it('ships the createSafelist helper', () => {
+    expect(
+      fs.existsSync(path.resolve(PKG_ROOT, 'build/style/optimizer.js'))
+    ).toBe(true)
+    expect(
+      fs.existsSync(path.resolve(PKG_ROOT, 'build/style/optimizer.d.ts'))
+    ).toBe(true)
+  })
+})
+
 const describeDocsBuild = process.env.BUILD_MINI ? describe.skip : describe
 describeDocsBuild('docs build', () => {
   const docsRoot = path.resolve(PKG_ROOT, 'build/docs')

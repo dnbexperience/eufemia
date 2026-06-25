@@ -10091,6 +10091,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer":
+  version: 0.0.0-use.local
+  resolution: "eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer"
+  dependencies:
+    vitest: "npm:4.1.8"
+  languageName: unknown
+  linkType: soft
+
 "eufemia-llm-metadata@workspace:tools/eufemia-llm-metadata":
   version: 0.0.0-use.local
   resolution: "eufemia-llm-metadata@workspace:tools/eufemia-llm-metadata"

@@ -20,6 +20,8 @@ yarn build:copy
 rm -rf build/esm
 yarn build:packages
 
+yarn build:style-manifest
+
 if [ -z "$BUILD_MINI" ]; then
   echo 'Testing the postbuild ...'
   yarn test:postbuild

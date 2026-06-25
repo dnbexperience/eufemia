@@ -78,3 +78,116 @@ import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
 import '@dnb/eufemia/components/button/style/dnb-button.min.css'
 import '@dnb/eufemia/components/button/style/themes/dnb-button-theme-ui.min.css'
 ```
+
+## Removing unused CSS (beta)
+
+> **Beta:** The style manifest and the `createSafelist` / `protectWhereSelectors` helpers are a beta feature. The API and the manifest shape may change in a future release.
+
+Eufemia's JavaScript is tree-shakeable, but the CSS is not: `import '@dnb/eufemia/style'` always ships every component's styles. Class-based purging on its own is unsafe, because Eufemia composes modifier classes at runtime (for example `` `dnb-button--${variant}` ``), so the full class name never appears literally in your source and a naive purge would delete rules that are actually used.
+
+The safe unit of removal is the whole component block, together with the other blocks it depends on. A component depends on another block when it _styles_ it (for example `Autocomplete` styles `Input` and `DrawerList`) or when it _renders_ it (for example `Button` renders `Tooltip` through the `tooltip` prop). Both kinds of dependency are derived automatically – from the `dnb-*` class selectors in each component's stylesheet and from the components it renders as JSX – so you never have to track them by hand.
+
+### The style manifest
+
+To make this easy, `@dnb/eufemia` ships a prebuilt manifest that describes every component's BEM class prefix and its transitive CSS dependencies:
+
+```js
+import manifest from '@dnb/eufemia/style/style-manifest.json'
+
+// manifest.entries.button === {
+//   name: 'button',
+//   classPrefix: 'dnb-button',
+//   dependencies: [
+//     'anchor', 'card', 'flex', 'form-status', 'height-animation',
+//     'icon', 'popover', 'scroll-view', 'section', 'skeleton',
+//     'space', 'tooltip',
+//   ],
+// }
+```
+
+Keep `dnb-ui-core` and the theme basis unpurged, and import them once in your app:
+
+```js
+import '@dnb/eufemia/style/dnb-ui-core.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
+```
+
+> **Note:** The `dependencies` include both the blocks a component _styles_ and the blocks it _renders_, including cross-cutting components pulled in through props or state (for example `Tooltip` via the `tooltip` prop, or `ProgressIndicator` in a loading state). You therefore do not need to track these by hand – keeping a component's `dependencies` keeps everything it can put on the page.
+
+### PurgeCSS safelist
+
+`@dnb/eufemia` ships a `createSafelist` helper that does all of this for you. It runs in Node as part of your PurgeCSS config: it loads the manifest, scans your source for `@dnb/eufemia` imports to detect the components you use, expands each one with its dependencies, and returns greedy regexes ready for PurgeCSS:
+
+```js
+// purgecss.config.js (ESM)
+import { createSafelist } from '@dnb/eufemia/style/optimizer.js'
+
+export default {
+  content: ['src/**/*.{ts,tsx}'],
+  css: ['@dnb/eufemia/style/themes/ui/ui-theme-components.min.css'],
+  safelist: { greedy: createSafelist({ sources: ['src'] }).greedy },
+}
+```
+
+If your config file is CommonJS, require the same helper:
+
+```js
+// purgecss.config.cjs (CommonJS)
+const { createSafelist } = require('@dnb/eufemia/style/optimizer.js')
+
+module.exports = {
+  content: ['src/**/*.{ts,tsx}'],
+  css: ['@dnb/eufemia/style/themes/ui/ui-theme-components.min.css'],
+  safelist: { greedy: createSafelist({ sources: ['src'] }).greedy },
+}
+```
+
+> **Note:** Always include the `.js` extension when importing the helper (`@dnb/eufemia/style/optimizer.js`). `@dnb/eufemia` is published as an ES module without an `exports` map, so Node will not resolve the extensionless subpath in a plain config file.
+
+The greedy patterns keep `dnb-button` and `dnb-button--primary` without also keeping unrelated blocks that share a dash-prefix such as `dnb-button-row`.
+
+The `sources` option controls **import detection** – which files are scanned for `@dnb/eufemia` imports to decide which components to keep. PurgeCSS's own `content` option controls **class scanning** – which files PurgeCSS reads to find the selectors actually used. They often point to the same files, but they serve different purposes.
+
+Automatic detection covers named imports (including aliases such as `import { Button as Btn } from '@dnb/eufemia'`), deep imports where the component is identified by the path (`import Button from '@dnb/eufemia/components/Button'`, including default imports), namespace imports together with their member usage (`import * as Eufemia from '@dnb/eufemia'` followed by `<Eufemia.Button />`), and Eufemia Forms.
+
+For Eufemia Forms, any import from `@dnb/eufemia/extensions/forms` keeps the forms style namespace (every `dnb-forms-*` block) plus the base components that every field renders – for example `FormStatus`, `FormLabel`, and the always-present help button (which pulls in `Dialog`, and therefore `Modal` and `Tabs`). Field- and value-specific components that are not part of that base are only kept when the matching member is actually used: `<Field.Upload />` or `<Value.Upload />` keeps `Upload` (and its `Table` and `ProgressIndicator` dependencies), `<Field.Slider />` keeps `Slider`, `<Field.Date />` keeps `DatePicker`, and so on. Aliased bindings such as `import { Field as F } from '@dnb/eufemia/extensions/forms'` followed by `<F.Upload />` are resolved too. So a form that only uses `<Field.String />` no longer ships the CSS for `Upload`, `Table`, `Slider`, `DatePicker`, `Dropdown`, and the other heavy fields it never renders.
+
+Because detection is static, it cannot see a component selected through a value computed at runtime. For those cases, pass an explicit `components` array to manage the list yourself:
+
+```js
+safelist: {
+  greedy: createSafelist({
+    components: ['autocomplete', 'button'],
+  }).greedy,
+}
+```
+
+### Protecting modern `:where()` selectors
+
+Some Eufemia rules use `:where(:not(…))` / `:is(:not(…))` for specificity control (for example the `Anchor` styles emit `:where(:not(.dnb-anchor--no-style)).dnb-anchor`). PurgeCSS walks _into_ these pseudo-classes and removes the nested selector it considers unused, which empties the `:where()` and deletes the whole rule – even when the component is in your safelist. The result is that modern browsers lose the styling while the `@supports` fallback keeps working only in older ones.
+
+No safelist entry can reach that nesting level, so `@dnb/eufemia` ships a `protectWhereSelectors` helper. Run it on each CSS string _before_ PurgeCSS: it annotates the affected rules with a `/* purgecss ignore */` comment, which makes PurgeCSS keep the rule untouched and strip the comment from the output. Only rules whose selector matches the safelist are protected, so unused components are still purged.
+
+```js
+import {
+  createSafelist,
+  protectWhereSelectors,
+} from '@dnb/eufemia/style/optimizer.js'
+import { PurgeCSS } from 'purgecss'
+import { readFileSync, writeFileSync } from 'node:fs'
+
+const { greedy } = createSafelist({ sources: ['src'] })
+
+// Run the guard on each built CSS file before purging.
+const cssFile = 'dist/assets/index.css'
+const css = readFileSync(cssFile, 'utf-8')
+writeFileSync(cssFile, protectWhereSelectors(css, greedy))
+
+const [result] = await new PurgeCSS().purge({
+  content: ['dist/**/*.{html,js}'],
+  css: [cssFile],
+  safelist: { greedy },
+})
+```
+
+This step is only needed when you purge a built CSS file in place (as in the post-build flow above). If you pass raw CSS to PurgeCSS, run `protectWhereSelectors` on that string first.
