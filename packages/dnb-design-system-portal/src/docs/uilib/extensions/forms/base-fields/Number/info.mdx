@@ -41,9 +41,9 @@ Internally, it is used by e.g. [Field.Currency](/uilib/extensions/forms/feature-
 
 A derived value can sometimes resolve to a non-finite number. A common example is a calculated percentage where the previous value is `0`, which results in a division by zero and produces `Infinity`.
 
-`Field.Number`'s built-in validation treats non-finite values (`Infinity`, `-Infinity` and `NaN`) as empty. Nothing is shown in the input and no validation error is raised, so the user is not blocked by an impossible calculation. The value stored in the data context is left untouched.
+`Field.Number` renders non-finite values (`Infinity`, `-Infinity` and `NaN`) as an empty input rather than a partial value like `-`. They are still invalid: validation fails with a clear, localized message (`NumberField.errorInvalidNumber`, for example "Must be a valid number.") instead of a cryptic type error, so the user is blocked until an empty or finite value is provided. The value stored in the data context is left untouched.
 
-This applies to the built-in default schema only. If you provide your own `schema` – on the field or on [Form.Handler](/uilib/extensions/forms/Form/Handler/) – non-finite numbers are validated by your schema. See [Schema validation](/uilib/extensions/forms/Form/schema-validation/#non-finite-numbers-infinity-and-nan) for details.
+For an impossible calculation, store an empty value (such as `undefined`) instead of a non-finite number so the field is valid. The same applies when you provide your own `schema` – see [Schema validation](/uilib/extensions/forms/Form/schema-validation/#non-finite-numbers-infinity-and-nan) for details.
 
 ## Browser autofill
 

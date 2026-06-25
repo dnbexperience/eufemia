@@ -139,9 +139,9 @@ Fields which have the `disabled` property or the `readOnly` property, will skip 
 
 ## Non-finite numbers (Infinity and NaN)
 
-Zod's `z.number()` does not accept non-finite numbers (`Infinity`, `-Infinity` and `NaN`) and rejects them with a type error. A user-supplied schema will therefore block submit if the data contains such a value – for example a calculated percentage where the previous value was `0`, where the division by zero produces `Infinity`.
+Zod's `z.number()` does not accept non-finite numbers (`Infinity`, `-Infinity` and `NaN`) and rejects them with a type error. A schema you supply will therefore block submit if the data contains such a value – for example a calculated percentage where the previous value was `0`, where the division by zero produces `Infinity`. Eufemia shows a clear, localized message for this instead of a cryptic type error, but does not change the verdict: the value is still invalid.
 
-Eufemia does not override your schema, so the recommended approach is to store an empty value (such as `undefined`) for impossible results instead of a non-finite number:
+The recommended approach is to store an empty value (such as `undefined`) for impossible results instead of a non-finite number:
 
 ```ts
 const change =
@@ -150,7 +150,7 @@ const change =
 
 If you do need to accept non-finite numbers, widen your schema accordingly, for example with a `z.preprocess` that maps non-finite values to `undefined`.
 
-Note that [Field.Number](/uilib/extensions/forms/base-fields/Number/#non-finite-values-infinity-and-nan)'s built-in default schema already treats non-finite values as empty.
+See [Field.Number](/uilib/extensions/forms/base-fields/Number/#non-finite-values-infinity-and-nan) for how the field displays and validates these values.
 
 ## Zod schemas and TypeScript
 
