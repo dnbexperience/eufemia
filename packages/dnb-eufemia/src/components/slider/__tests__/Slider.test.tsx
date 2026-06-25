@@ -165,7 +165,7 @@ describe('Slider component', () => {
   })
 
   describe('max', () => {
-    it('should respect max value value', () => {
+    it('should respect max value', () => {
       const onChange = vi.fn()
 
       render(<Slider max={200} onChange={onChange} />)

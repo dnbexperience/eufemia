@@ -32,7 +32,7 @@ export type StepIndicatorItemProps = Omit<
 > & {
   title: string | ReactNode
   /**
-   * If set to true, this item step will be set as the current current selected step. This can be used instead of `currentStep` on the component itself.
+   * If set to true, this item step will be set as the current selected step. This can be used instead of `currentStep` on the component itself.
    */
   isCurrent?: boolean
   /**
