@@ -228,6 +228,55 @@ describe('Dialog', () => {
     expect(elem).toHaveAttribute('aria-modal')
   })
 
+  it('displays a status message via the confirm button when status prop is given', () => {
+    const { rerender } = render(
+      <Dialog {...props} open variant="confirmation" title="Title">
+        content
+      </Dialog>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
+
+    rerender(
+      <Dialog
+        {...props}
+        open
+        variant="confirmation"
+        title="Title"
+        status="Something went wrong"
+      >
+        content
+      </Dialog>
+    )
+
+    const confirmButton = document.querySelector(
+      '.dnb-dialog__actions .dnb-button--primary'
+    )
+    expect(confirmButton).toHaveClass('dnb-button__status--error')
+  })
+
+  it('supports statusState to change the confirm button status state', () => {
+    render(
+      <Dialog
+        {...props}
+        open
+        variant="confirmation"
+        title="Title"
+        status="A warning"
+        statusState="warning"
+      >
+        content
+      </Dialog>
+    )
+
+    const confirmButton = document.querySelector(
+      '.dnb-dialog__actions .dnb-button--primary'
+    )
+    expect(confirmButton).toHaveClass('dnb-button__status--warning')
+  })
+
   it('omits action buttons when hideDecline or hideConfirm is given', () => {
     const props: DialogProps & DialogContentProps = {
       noAnimation: true,
