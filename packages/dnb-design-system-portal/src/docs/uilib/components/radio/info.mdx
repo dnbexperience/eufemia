@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
+
 ## Import
 
 ```tsx
@@ -13,6 +15,12 @@ import { Radio } from '@dnb/eufemia'
 The Radio component is displayed as a circle that is filled (checked) when activated. Radio buttons let users select one option from a limited number of choices within a group.
 
 It is recommended to use radio buttons in a group. You can use either the React component `<Radio.Group>` or the property `group="NAME"` to define the group.
+
+## When to use Radio vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `Radio` is [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the radio variant (`variant="radio"`).
 
 ## Relevant links
 
