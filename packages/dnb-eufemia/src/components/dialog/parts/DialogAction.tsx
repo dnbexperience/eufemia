@@ -21,6 +21,7 @@ import ModalContext from '../../modal/ModalContext'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 
 import type { SpacingProps } from '../../../shared/types'
+import type { FormStatusBaseProps } from '../../FormStatus'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 
 type ExtendedMouseEvent = {
@@ -63,7 +64,7 @@ export type DialogActionProps = {
    * Pass in custom confirm/decline buttons for action handling. Every child of type Button will be provided with a `close` function attribute.
    */
   children?: ReactElement | Array<ReactElement>
-}
+} & FormStatusBaseProps
 
 export type DialogActionAllProps = DialogActionProps &
   SpacingProps &
@@ -76,6 +77,11 @@ const DialogAction = ({
   confirmText = null,
   hideDecline = false,
   hideConfirm = false,
+  status,
+  statusState,
+  statusProps,
+  statusNoAnimation = false,
+  globalStatus,
   onConfirm = fallbackCloseAction,
   onDecline = fallbackCloseAction,
   className,
@@ -151,6 +157,11 @@ const DialogAction = ({
           variant="primary"
           onClick={onConfirmHandler}
           size={ButtonContext?.size || 'large'}
+          status={status}
+          statusState={statusState}
+          statusProps={statusProps}
+          statusNoAnimation={statusNoAnimation}
+          globalStatus={globalStatus}
         />
       )}
     </Space>
