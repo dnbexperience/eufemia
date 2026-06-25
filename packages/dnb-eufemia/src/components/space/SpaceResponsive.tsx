@@ -1,27 +1,11 @@
 import { useContext } from 'react'
 import type { ReactNode } from 'react'
-import SpaceResponsiveContext from './SpaceResponsiveContext'
-import type {
-  SpaceDensity,
-  SpaceBreakpoint,
+import SpaceResponsiveContext, {
+  type SpaceResponsiveContextValue,
 } from './SpaceResponsiveContext'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type SpaceResponsiveProps = {
-  /**
-   * Forces a specific spacing density for descendants. Overrides `breakpoint` when set.
-   */
-  density?: SpaceDensity
-
-  /**
-   * Sets at which breakpoint we switch from `compact` to `basis` density. Default: `small`.
-   */
-  breakpoint?: SpaceBreakpoint
-
-  /**
-   * When `true`, disables responsive spacing for descendants, overriding a parent `Space.ResponsiveContext`. Defaults to `false`.
-   */
-  off?: boolean
+type SpaceResponsiveProps = SpaceResponsiveContextValue & {
   children?: ReactNode
 }
 

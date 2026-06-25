@@ -58,7 +58,7 @@ export const SpaceProperties: PropertiesTableProps = {
 
 export const SpaceResponsiveContextProperties: PropertiesTableProps = {
   density: {
-    doc: 'Forces a specific spacing density for descendants. Overrides `breakpoint` when set. Defaults to `false`.',
+    doc: 'Forces a specific spacing density for descendants. Overrides `breakpoint` when set. Use `false` to disable.',
     type: ['"compact"', '"basis"', 'false'],
     status: 'optional',
   },

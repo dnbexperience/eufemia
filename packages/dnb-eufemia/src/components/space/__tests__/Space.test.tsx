@@ -760,4 +760,31 @@ describe('Space.ResponsiveContext', () => {
       'dnb-space-responsive--force-compact'
     )
   })
+
+  it('should disable density when inner context sets density to false', () => {
+    const TestComponent = () => {
+      const params = useSpacing(
+        { top: 'large' },
+        { className: 'test-component' }
+      )
+      return <div {...params} />
+    }
+
+    render(
+      <Space.ResponsiveContext density="compact">
+        <Space.ResponsiveContext density={false}>
+          <TestComponent />
+        </Space.ResponsiveContext>
+      </Space.ResponsiveContext>
+    )
+
+    const element = document.querySelector('.test-component')
+    expect(element.className).toContain('dnb-space-responsive')
+    expect(element.className).not.toContain(
+      'dnb-space-responsive--force-compact'
+    )
+    expect(element.className).not.toContain(
+      'dnb-space-responsive--force-basis'
+    )
+  })
 })
