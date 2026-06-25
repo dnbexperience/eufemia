@@ -226,7 +226,7 @@ function prepareCode(code: string) {
   code = String(code).trim()
   if (
     /data-visual-test|visualTestProp/.test(code) &&
-    // remove test attribute only if: we run live, and are not not test
+    // remove test attribute only if: we run live, and are not in test
     !globalThis.IS_TEST
   ) {
     code = code.replace(/\s+data-visual-test="[^"]*"/g, '') // remove test data
