@@ -6,20 +6,85 @@ export type ZodSchema = z.ZodTypeAny
 // Re-export Zod so consumers can `import { z } from '@dnb/eufemia/extensions/forms'`
 export { z }
 
-// Common Zod default prefixes/messages we should NOT treat as custom
-const defaultPatterns: RegExp[] = [
-  /^Too small:/, // e.g. "Too small: expected number to be >= 5"
-  /^Too big:/, // e.g. "Too big: expected number to be <= 5"
-  /^Invalid input:/, // e.g. "Invalid input: expected int, received number"
-  /^Invalid string:/, // e.g. "Invalid string: must match pattern ..."
-  /^Invalid number: must be a multiple of/, // For .multipleOf()
+// The built-in English locale error map, used as a last-resort fallback when
+// no global error map is configured.
+const enLocaleError = z.locales.en().localeError
+
+// Representative inputs used to reproduce `invalid_type` default messages. Their
+// text embeds the received type, derived from `issue.input` — a field Zod omits
+// from finalized issues — so we retry the error map with these to match it.
+const receivedSamples: unknown[] = [
+  '',
+  0,
+  false,
+  undefined,
+  null,
+  [],
+  {},
+  NaN,
+  BigInt(0),
+  Symbol('sample'),
 ]
+
+function runZodErrorMap(
+  errorMap: z.core.$ZodErrorMap | undefined,
+  rawIssue: z.core.$ZodRawIssue
+): string | undefined {
+  if (!errorMap) {
+    return undefined
+  }
+  try {
+    const result = errorMap(rawIssue)
+    return typeof result === 'string' ? result : result?.message
+  } catch {
+    return undefined // Ignore and let the caller try the next error map
+  }
+}
+
 /**
- * Zod doesn’t mark “custom vs default” on the issue; the only signal we have at runtime is the message text.
+ * Determine whether `issue.message` is a built-in Zod default, as opposed to a
+ * user-provided custom message, by recomputing what Zod's active error-map
+ * chain would produce for the issue and comparing it with the actual message.
  *
- * Detect if a Zod issue.message is a user-provided custom message
- * versus Zod's built-in, English default messages. We preserve custom messages
- * and localize/normalize default ones to our translation keys.
+ * Check/schema-level custom messages (e.g. `z.string().min(2, 'My message')`)
+ * are applied *after* this chain, so a recomputed default that differs from
+ * `issue.message` reveals a custom message. This mirrors Zod's `finalizeIssue`
+ * precedence (global `customError`, then `localeError`) and is locale-aware: a
+ * localized default (e.g. via `z.config(z.locales.no())`) is still recognized
+ * as a default instead of being misclassified as custom.
+ */
+function isZodDefaultMessage(issue: z.core.$ZodIssue): boolean {
+  const { message: _message, ...rest } = issue
+  const rawIssue = rest as z.core.$ZodRawIssue
+  const config = z.core.config()
+  const errorMaps = [config.customError, config.localeError, enLocaleError]
+
+  for (const errorMap of errorMaps) {
+    if (runZodErrorMap(errorMap, rawIssue) === issue.message) {
+      return true
+    }
+  }
+
+  // `invalid_type` messages embed the received type (from the dropped
+  // `issue.input`), so retry with representative inputs to reproduce them.
+  if (issue.code === 'invalid_type') {
+    for (const errorMap of errorMaps) {
+      for (const input of receivedSamples) {
+        const sampleIssue = { ...rawIssue, input } as z.core.$ZodRawIssue
+        if (runZodErrorMap(errorMap, sampleIssue) === issue.message) {
+          return true
+        }
+      }
+    }
+  }
+
+  return false
+}
+
+/**
+ * Detect whether a Zod issue carries a user-provided custom message. Custom
+ * messages are preserved as-is; built-in defaults are normalized/localized to
+ * our own translation keys.
  */
 function isLikelyCustomZodMessage(issue: z.core.$ZodIssue): boolean {
   const msg = issue?.message ?? ''
@@ -27,17 +92,15 @@ function isLikelyCustomZodMessage(issue: z.core.$ZodIssue): boolean {
     return false
   }
 
-  return !defaultPatterns.some((regex) => regex.test(msg))
+  return !isZodDefaultMessage(issue)
 }
 
 function normalizeZodIssueMessage(
   issue: z.core.$ZodIssue
 ): string | undefined {
-  // Map common Zod issue messages to our translation keys
-  if (
-    typeof issue?.message === 'string' &&
-    /expected int/.test(issue.message)
-  ) {
+  // Map common Zod issues to our translation keys, based on the structured
+  // issue fields rather than the (potentially localized) message text.
+  if (issue?.code === 'invalid_type' && issue.expected === 'int') {
     return 'NumberField.errorInteger'
   }
 
