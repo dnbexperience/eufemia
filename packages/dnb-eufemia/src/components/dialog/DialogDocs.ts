@@ -56,6 +56,32 @@ export const DialogProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  status: {
+    doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
+    type: ['string', 'boolean', 'React.ReactNode'],
+    status: 'optional',
+  },
+  statusState: {
+    doc: 'Defines the state of the status. Defaults to `error`.',
+    type: [
+      '"error"',
+      '"warning"',
+      '"information"',
+      '"success"',
+      '"marketing"',
+    ],
+    status: 'optional',
+  },
+  statusProps: {
+    doc: 'Use an object to define additional [FormStatus](/uilib/components/form-status) properties.',
+    type: 'object',
+    status: 'optional',
+  },
+  statusNoAnimation: {
+    doc: 'Set to `true` to disable the status animation. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   verticalAlignment: {
     doc: 'Define the vertical alignment of the container. Can be set to `top` or `center`. Defaults to `center`.',
     type: ['"top"', '"center"'],

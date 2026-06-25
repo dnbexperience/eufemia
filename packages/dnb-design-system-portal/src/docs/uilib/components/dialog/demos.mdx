@@ -14,6 +14,7 @@ import {
   FullDialogExample,
   DialogConfirmDefault,
   DialogConfirmDelete,
+  DialogConfirmError,
   DialogConfirmLoggedOut,
   DialogConfirmCookies,
   DialogConfirmScrollableContent,
@@ -76,6 +77,12 @@ Open a confirmation dialog from within another dialog — for example to confirm
 A `confirmType="warning"` will enhance the context by applying a red color to the icon, as in the deletion scenario.
 
 <DialogConfirmDelete />
+
+### Dialog with a status message
+
+Use the `status` property to display a status message as a [FormStatus](/uilib/components/form-status) inside the dialog. Defaults to the `error` state. Use `statusState` to change it to `warning`, `information`, etc.
+
+<DialogConfirmError />
 
 ### Logged out Dialog
 
