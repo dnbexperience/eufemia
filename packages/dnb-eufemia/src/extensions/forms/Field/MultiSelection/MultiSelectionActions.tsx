@@ -7,7 +7,10 @@ export type MultiSelectionActionsProps = {
   show: boolean
   disabled?: boolean
   tempValueLength: number
-  formatMessage: (key: string, values?: Record<string, any>) => string
+  formatMessage: (
+    key: string,
+    values?: Record<string, string | number>
+  ) => string
   translation: {
     confirmButton: string
     cancelButton: string
