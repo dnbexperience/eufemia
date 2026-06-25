@@ -40,6 +40,61 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
+          fields: { slug: 'uilib/components/checkbox' },
+          frontmatter: {
+            title: 'Checkbox',
+            description:
+              'Use Checkbox when people can turn one or more options on or off.',
+            category: 'input',
+          },
+        },
+      },
+      {
+        node: {
+          fields: { slug: 'uilib/components/input' },
+          frontmatter: {
+            title: 'Input',
+            description:
+              'Use Input when people need to enter a short line of text.',
+            category: 'input',
+          },
+        },
+      },
+      {
+        node: {
+          fields: { slug: 'uilib/components/slider' },
+          frontmatter: {
+            title: 'Slider',
+            description:
+              'Use Slider when people need to choose a value from a range.',
+            category: 'input',
+          },
+        },
+      },
+      {
+        node: {
+          fields: { slug: 'uilib/components/switch' },
+          frontmatter: {
+            title: 'Switch',
+            description:
+              'Use Switch when people can turn one setting on or off.',
+            category: 'input',
+          },
+        },
+      },
+      {
+        node: {
+          fields: { slug: 'uilib/components/textarea' },
+          frontmatter: {
+            title: 'Textarea',
+            description:
+              'Use Textarea when people need to write longer text over several lines.',
+            category: 'input',
+          },
+        },
+      },
+      {
+        node: {
           fields: { slug: 'uilib/components/anchor' },
           frontmatter: {
             title: 'Anchor (Text Link)',
@@ -125,11 +180,48 @@ describe('RelatedComponents', () => {
       (a as HTMLAnchorElement).getAttribute('href')
     )
 
+    expect(links).toContain('/uilib/components/autocomplete')
+    expect(links).toContain('/uilib/components/radio')
+    expect(links).not.toContain('/uilib/components/dropdown')
+  })
+
+  it('caps the inline list at six and links to the rest of the category', () => {
+    const { container } = renderAt('/uilib/components/dropdown')
+
+    const links = Array.from(container.querySelectorAll('li a')).map((a) =>
+      (a as HTMLAnchorElement).getAttribute('href')
+    )
+
+    // Input has 7 siblings here; only the first six (alphabetical) show.
     expect(links).toEqual([
       '/uilib/components/autocomplete',
+      '/uilib/components/checkbox',
+      '/uilib/components/input',
       '/uilib/components/radio',
+      '/uilib/components/slider',
+      '/uilib/components/switch',
     ])
-    expect(links).not.toContain('/uilib/components/dropdown')
+    expect(links).not.toContain('/uilib/components/textarea')
+
+    const seeAll = Array.from(container.querySelectorAll('a')).find((a) =>
+      a.textContent?.includes('See all')
+    )
+
+    expect(seeAll).toBeTruthy()
+    expect(seeAll?.getAttribute('href')).toBe(
+      '/uilib/components/overview/#input'
+    )
+    expect(seeAll?.textContent).toContain('Input')
+  })
+
+  it('omits the See all link when the whole category fits inline', () => {
+    const { container } = renderAt('/uilib/components/button')
+
+    const hasSeeAll = Array.from(container.querySelectorAll('a')).some(
+      (a) => a.textContent?.includes('See all')
+    )
+
+    expect(hasSeeAll).toBe(false)
   })
 
   it('links to the matching overview category anchor', () => {

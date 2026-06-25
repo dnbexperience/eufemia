@@ -47,6 +47,11 @@ function cleanTitle(title: string): string {
   return title.replace(/\s*\(.*\)\s*$/, '')
 }
 
+// Cap how many siblings are listed inline; the rest are reachable via the
+// "See all" link to the overview category, to avoid long lists on big
+// categories like Content and Input.
+const MAX_VISIBLE_RELATED = 6
+
 function toReason(description?: string): string | undefined {
   if (!description) {
     return undefined
@@ -139,6 +144,8 @@ export default function RelatedComponents() {
   }
 
   const categoryTitle = getCategoryTitle(current.category)
+  const visibleRelated = related.slice(0, MAX_VISIBLE_RELATED)
+  const hasMore = related.length > visibleRelated.length
 
   return (
     <>
@@ -155,7 +162,7 @@ export default function RelatedComponents() {
       </P>
 
       <Ul>
-        {related.map(({ slug, title, description }) => {
+        {visibleRelated.map(({ slug, title, description }) => {
           const reason = toReason(description)
 
           return (
@@ -166,6 +173,14 @@ export default function RelatedComponents() {
           )
         })}
       </Ul>
+
+      {hasMore && (
+        <P top="x-small">
+          <Anchor href={`/uilib/components/overview/#${current.category}`}>
+            See all in {categoryTitle} →
+          </Anchor>
+        </P>
+      )}
     </>
   )
 }
