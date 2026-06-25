@@ -46,6 +46,7 @@ import type { FormLabelProps } from '../components/FormLabel'
 import type { InputProps } from '../components/Input'
 import type { TextareaProps } from '../components/Textarea'
 import type { InputMaskedProps } from '../components/InputMasked'
+import type { DropdownProps } from '../components/Dropdown'
 import type {
   NumberFormatCurrency,
   NumberFormatAllProps,
@@ -98,6 +99,7 @@ export type ContextComponents = {
   Input?: Partial<InputProps>
   Textarea?: Partial<TextareaProps>
   InputMasked?: Partial<InputMaskedProps>
+  Dropdown?: Partial<DropdownProps>
   ProgressIndicator?: Partial<ProgressIndicatorProps>
   FormStatus?: Partial<FormStatusProps>
   Logo?: Partial<LogoProps>
