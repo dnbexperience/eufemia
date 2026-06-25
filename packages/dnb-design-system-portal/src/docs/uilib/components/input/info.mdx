@@ -15,6 +15,18 @@ import { Input } from '@dnb/eufemia'
 
 The Input component is an umbrella component for all inputs that share the same style as the classic `text` input field.
 
+## When to use Input vs Eufemia Forms
+
+The classic `Input` component is a presentational form control. It handles the styling, sizing, icons, and basic events, while you manage its value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on the same input, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/):
+
+- [Field.String](/uilib/extensions/forms/base-fields/String/) is the Eufemia Forms equivalent of `Input` for text values.
+- [Field.Number](/uilib/extensions/forms/base-fields/Number/) and [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/) handle numbers and amounts.
+- Browse all [field components](/uilib/extensions/forms/all-fields/) for more specific needs such as email, phone number or date.
+
+Reach for the classic `Input` when you need a standalone input outside of a form context, or when you handle the value and validation yourself.
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1495)
