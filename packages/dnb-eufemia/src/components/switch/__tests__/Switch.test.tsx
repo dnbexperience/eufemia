@@ -170,6 +170,33 @@ describe('Switch component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
+  it('connects the status message to the input via aria-describedby', () => {
+    render(<Switch {...props} status="switch error" />)
+
+    const input = document.querySelector('input')
+    const describedBy = input.getAttribute('aria-describedby')
+
+    expect(describedBy).toBeTruthy()
+
+    // The referenced element must exist and contain the status text
+    const statusText = document.getElementById(describedBy)
+    expect(statusText).toBeInTheDocument()
+    expect(statusText).toHaveTextContent('switch error')
+    expect(statusText).toHaveClass('dnb-form-status__text')
+  })
+
+  it('does not set aria-describedby when no status is given', () => {
+    render(<Switch {...props} />)
+
+    const input = document.querySelector('input')
+    expect(input).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('should validate with ARIA rules when a status is set', async () => {
+    const Comp = render(<Switch {...props} status="switch error" />)
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
   it('gets valid ref element', () => {
     let ref: RefObject<HTMLInputElement>
 
