@@ -22,6 +22,17 @@ exports[`Space scss > should match style dependencies css 1`] = `
  */
 @media screen and (max-width: 40em) {
   .dnb-space {
+    --responsive-spacing-xx-small: 0.125rem;
+    --responsive-spacing-x-small: 0.25rem;
+    --responsive-spacing-small: 0.5rem;
+    --responsive-spacing-medium: 1rem;
+    --responsive-spacing-large: 1.5rem;
+    --responsive-spacing-x-large: 2rem;
+    --responsive-spacing-xx-large: 2.5rem;
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space {
     --responsive-spacing-xx-small: 0.25rem;
     --responsive-spacing-x-small: 0.5rem;
     --responsive-spacing-small: 1rem;
@@ -31,26 +42,15 @@ exports[`Space scss > should match style dependencies css 1`] = `
     --responsive-spacing-xx-large: 3rem;
   }
 }
-@media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-space {
-    --responsive-spacing-xx-small: 0.5rem;
-    --responsive-spacing-x-small: 1rem;
-    --responsive-spacing-small: 1.5rem;
-    --responsive-spacing-medium: 2rem;
-    --responsive-spacing-large: 2.5rem;
-    --responsive-spacing-x-large: 3rem;
-    --responsive-spacing-xx-large: 3.5rem;
-  }
-}
 @media screen and (min-width: 60.00625em) {
   .dnb-space {
-    --responsive-spacing-xx-small: 1rem;
-    --responsive-spacing-x-small: 1.5rem;
-    --responsive-spacing-small: 2rem;
-    --responsive-spacing-medium: 2.5rem;
-    --responsive-spacing-large: 3rem;
-    --responsive-spacing-x-large: 3.5rem;
-    --responsive-spacing-xx-large: 4rem;
+    --responsive-spacing-xx-small: 0.25rem;
+    --responsive-spacing-x-small: 0.5rem;
+    --responsive-spacing-small: 1rem;
+    --responsive-spacing-medium: 1.5rem;
+    --responsive-spacing-large: 2rem;
+    --responsive-spacing-x-large: 2.5rem;
+    --responsive-spacing-xx-large: 3rem;
   }
 }
 
@@ -779,81 +779,72 @@ exports[`Space scss > should match style dependencies css 1`] = `
 .dnb-space-responsive {
   --responsive-spacing-tier: 0;
   --responsive-spacing-xx-small: max(
-    0.25rem,
-    calc(0.5rem + var(--responsive-spacing-tier) * 0.5rem)
+    0.125rem,
+    calc(0.25rem + var(--responsive-spacing-tier) * 0.5rem)
   );
   --responsive-spacing-x-small: max(
     0.25rem,
+    calc(0.5rem + var(--responsive-spacing-tier) * 0.5rem)
+  );
+  --responsive-spacing-small: max(
+    0.5rem,
     calc(1rem + var(--responsive-spacing-tier) * 0.5rem)
   );
-  --responsive-spacing-small: calc(
+  --responsive-spacing-medium: calc(
     1.5rem + var(--responsive-spacing-tier) * 0.5rem
   );
-  --responsive-spacing-medium: calc(
+  --responsive-spacing-large: calc(
     2rem + var(--responsive-spacing-tier) * 0.5rem
   );
-  --responsive-spacing-large: calc(
+  --responsive-spacing-x-large: calc(
     2.5rem + var(--responsive-spacing-tier) * 0.5rem
   );
-  --responsive-spacing-x-large: calc(
+  --responsive-spacing-xx-large: calc(
     3rem + var(--responsive-spacing-tier) * 0.5rem
   );
-  --responsive-spacing-xx-large: calc(
-    3.5rem + var(--responsive-spacing-tier) * 0.5rem
-  );
   --spacing-xx-small: var(--responsive-spacing-xx-small);
-  --spacing-x-small: var(--responsive-spacing-xx-small);
-  --spacing-small: var(--responsive-spacing-x-small);
-  --spacing-medium: var(--responsive-spacing-small);
-  --spacing-large: var(--responsive-spacing-medium);
-  --spacing-x-large: var(--responsive-spacing-large);
-  --spacing-xx-large: var(--responsive-spacing-x-large);
+  --spacing-x-small: var(--responsive-spacing-x-small);
+  --spacing-small: var(--responsive-spacing-small);
+  --spacing-medium: var(--responsive-spacing-medium);
+  --spacing-large: var(--responsive-spacing-large);
+  --spacing-x-large: var(--responsive-spacing-x-large);
+  --spacing-xx-large: var(--responsive-spacing-xx-large);
 }
 @media screen and (max-width: 40em) {
   .dnb-space-responsive {
     --responsive-spacing-tier: -1;
   }
 }
-@media screen and (min-width: 60.00625em) {
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
   .dnb-space-responsive {
-    --responsive-spacing-tier: 1;
-  }
-}
-@media screen and (max-width: 40em) {
-  .dnb-space-responsive--breakpoint-small {
     --responsive-spacing-tier: 0;
   }
 }
-@media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-space-responsive--breakpoint-small {
-    --responsive-spacing-tier: 1;
-  }
-}
 @media screen and (min-width: 60.00625em) {
-  .dnb-space-responsive--breakpoint-small {
-    --responsive-spacing-tier: 2;
+  .dnb-space-responsive {
+    --responsive-spacing-tier: 0;
   }
 }
 @media screen and (max-width: 40em) {
-  .dnb-space-responsive--breakpoint-large {
-    --responsive-spacing-tier: -2;
+  .dnb-space-responsive--breakpoint-medium {
+    --responsive-spacing-tier: -1;
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-space-responsive--breakpoint-large {
+  .dnb-space-responsive--breakpoint-medium {
     --responsive-spacing-tier: -1;
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-space-responsive--breakpoint-large {
+  .dnb-space-responsive--breakpoint-medium {
     --responsive-spacing-tier: 0;
   }
 }
 .dnb-space-responsive--force-compact {
   --responsive-spacing-tier: -1;
 }
-.dnb-space-responsive--force-spacious {
-  --responsive-spacing-tier: 1;
+.dnb-space-responsive--force-basis {
+  --responsive-spacing-tier: 0;
 }
 .dnb-space-responsive--off {
   --spacing-xx-small: 0.25rem;

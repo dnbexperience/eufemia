@@ -1,33 +1,17 @@
 import { useContext } from 'react'
 import type { ReactNode } from 'react'
-import SpaceResponsiveContext from './SpaceResponsiveContext'
-import type {
-  SpaceDensity,
-  SpaceBreakpoint,
+import SpaceResponsiveContext, {
+  type SpaceResponsiveContextValue,
 } from './SpaceResponsiveContext'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type SpaceResponsiveProps = {
-  /**
-   * Forces a specific spacing density for descendants. Overrides `defaultBreakpoint` when set.
-   */
-  density?: SpaceDensity
-
-  /**
-   * Sets which breakpoint's spacing scale to use as the default. Default: `medium`.
-   */
-  defaultBreakpoint?: SpaceBreakpoint
-
-  /**
-   * When `true`, disables responsive spacing for descendants, overriding a parent `Space.ResponsiveContext`. Defaults to `false`.
-   */
-  off?: boolean
+type SpaceResponsiveProps = SpaceResponsiveContextValue & {
   children?: ReactNode
 }
 
 function SpaceResponsive({
   density,
-  defaultBreakpoint,
+  breakpoint,
   off,
   children,
 }: SpaceResponsiveProps) {
@@ -38,7 +22,8 @@ function SpaceResponsive({
     : {
         ...(parent || undefined),
         ...(density !== undefined && { density }),
-        ...(defaultBreakpoint !== undefined && { defaultBreakpoint }),
+        ...(breakpoint !== undefined && { breakpoint }),
+        ...(off !== undefined && { off }),
       }
 
   return (

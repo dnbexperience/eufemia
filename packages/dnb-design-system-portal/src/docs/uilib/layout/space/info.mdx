@@ -104,20 +104,20 @@ element.setAttribute('style', merged)
 
 **NB**: This feature is in beta and may be subject to change.
 
-Wrap a section of your UI in `Space.ResponsiveContext` to enable spacing that adapts automatically across breakpoints. Components inside the wrapper that use `useSpacing` will receive a `dnb-space-responsive--<density>` CSS class, which remaps static `--spacing-*` values to the responsive `--responsive-spacing-*` custom properties below.
+Wrap a section of your UI in `Space.ResponsiveContext` to enable spacing that adapts automatically across breakpoints. Components inside the wrapper that use `useSpacing` will receive a `dnb-space-responsive` CSS class, which remaps static `--spacing-*` values to the responsive `--responsive-spacing-*` custom properties below.
 
 This is useful when you want consistent, viewport-aware gaps between elements without managing breakpoint-specific spacing props on every component.
 
 See the [Responsive layout gap demo](/uilib/layout/space/demos/#responsive-layout-gap) for a live example.
 
-| CSS Variable                    | Compact `← small` | Basis `small → medium` | Spacious `medium →` |
-| ------------------------------- | ----------------- | ---------------------- | ------------------- |
-| `--responsive-spacing-xx-small` | 0.25rem (4px)     | 0.5rem (8px)           | 1rem (16px)         |
-| `--responsive-spacing-x-small`  | 0.5rem (8px)      | 1rem (16px)            | 1.5rem (24px)       |
-| `--responsive-spacing-small`    | 1rem (16px)       | 1.5rem (24px)          | 2rem (32px)         |
-| `--responsive-spacing-medium`   | 1.5rem (24px)     | 2rem (32px)            | 2.5rem (40px)       |
-| `--responsive-spacing-large`    | 2rem (32px)       | 2.5rem (40px)          | 3rem (48px)         |
-| `--responsive-spacing-x-large`  | 2.5rem (40px)     | 3rem (48px)            | 3.5rem (56px)       |
-| `--responsive-spacing-xx-large` | 3rem (48px)       | 3.5rem (56px)          | 4rem (64px)         |
+| CSS Variable                    | `← small`      | `small → medium` | `medium →`    |
+| ------------------------------- | -------------- | ---------------- | ------------- |
+| `--responsive-spacing-xx-small` | 0.125rem (2px) | 0.25rem (4px)    | 0.25rem (4px) |
+| `--responsive-spacing-x-small`  | 0.25rem (4px)  | 0.5rem (8px)     | 0.5rem (8px)  |
+| `--responsive-spacing-small`    | 0.5rem (8px)   | 1rem (16px)      | 1rem (16px)   |
+| `--responsive-spacing-medium`   | 1rem (16px)    | 1.5rem (24px)    | 1.5rem (24px) |
+| `--responsive-spacing-large`    | 1.5rem (24px)  | 2rem (32px)      | 2rem (32px)   |
+| `--responsive-spacing-x-large`  | 2rem (32px)    | 2.5rem (40px)    | 2.5rem (40px) |
+| `--responsive-spacing-xx-large` | 2.5rem (40px)  | 3rem (48px)      | 3rem (48px)   |
 
 All `--responsive-spacing-*` CSS variables are scoped to the `.dnb-space` class as of now.
