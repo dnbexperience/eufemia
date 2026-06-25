@@ -444,7 +444,7 @@ export default [
     rules: {
       'docs-types/warn-supported-types': 'warn',
       'docs-types/validate-supported-types': 'error',
-      'docs-types/doc-trailing-period': 'warn',
+      'docs-types/doc-trailing-period': 'error',
       'docs-types/defaultvalue-inner-quotes': 'warn',
       'docs-types/doc-no-double-spaces': 'warn',
       '@typescript-eslint/naming-convention': [
