@@ -1493,10 +1493,6 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   gap: 1rem;
   width: 100%;
 }
-.dnb-dialog__actions .dnb-button + .dnb-form-status {
-  flex-basis: 100%;
-  justify-content: center;
-}
 .dnb-dialog--information .dnb-dialog__actions {
   justify-content: left;
 }

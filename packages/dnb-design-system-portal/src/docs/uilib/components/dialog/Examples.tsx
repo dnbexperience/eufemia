@@ -327,10 +327,7 @@ export const DialogConfirmCookies = () => (
 )
 
 export const DialogConfirmError = () => (
-  <ComponentBox
-    data-visual-test="dialog-confirm-error"
-    scope={{ trash_medium }}
-  >
+  <ComponentBox scope={{ trash_medium }}>
     <Dialog
       variant="confirmation"
       confirmType="warning"
