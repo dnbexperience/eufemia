@@ -5,7 +5,7 @@ type ReturnHelpers = {
   addCancelEvent: (fn: () => void) => () => boolean
 }
 type DebounceInstance = Partial<ReturnHelpers>
-type DebouncedFunction<T extends any[], R> = (...args: T) => R
+type DebouncedFunction<T extends unknown[], R> = (...args: T) => R
 type DebouncedOptions = {
   /**
    * Whether to execute the debounced function immediately.
@@ -26,7 +26,7 @@ type DebouncedOptions = {
 /**
  * Debounces a function in async to be executed after a specified wait time.
  */
-export function debounceAsync<T extends any[], R>(
+export function debounceAsync<T extends unknown[], R>(
   debouncedFunction: DebouncedFunction<T, R>,
   wait = 500,
   opts: Omit<DebouncedOptions, 'async'> = null
@@ -37,7 +37,7 @@ export function debounceAsync<T extends any[], R>(
 /**
  * Debounces a function to be executed after a specified wait time.
  */
-export function debounce<T extends any[], R>(
+export function debounce<T extends unknown[], R>(
   debouncedFunction: DebouncedFunction<T, R>,
   wait = 500,
   {
