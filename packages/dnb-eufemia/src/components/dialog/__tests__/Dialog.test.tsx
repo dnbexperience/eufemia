@@ -257,7 +257,7 @@ describe('Dialog', () => {
     expect(confirmButton).toHaveClass('dnb-button__status--error')
   })
 
-  it('renders the status message text via the confirm button FormStatus', () => {
+  it('renders the status message text via FormStatus', () => {
     render(
       <Dialog
         {...props}
@@ -270,31 +270,9 @@ describe('Dialog', () => {
       </Dialog>
     )
 
-    const formStatus = document.querySelector(
-      '.dnb-dialog__actions .dnb-form-status'
-    )
+    const formStatus = document.querySelector('.dnb-form-status')
     expect(formStatus).toBeInTheDocument()
     expect(formStatus.textContent).toBe('Something went wrong')
-  })
-
-  it('supports statusState to change the confirm button status state', () => {
-    render(
-      <Dialog
-        {...props}
-        open
-        variant="confirmation"
-        title="Title"
-        status="A warning"
-        statusState="warning"
-      >
-        content
-      </Dialog>
-    )
-
-    const confirmButton = document.querySelector(
-      '.dnb-dialog__actions .dnb-button--primary'
-    )
-    expect(confirmButton).toHaveClass('dnb-button__status--warning')
   })
 
   it('omits action buttons when hideDecline or hideConfirm is given', () => {

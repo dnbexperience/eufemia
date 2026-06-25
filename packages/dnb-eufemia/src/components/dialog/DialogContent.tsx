@@ -41,10 +41,6 @@ export default function DialogContent({
   icon = null,
   description,
   status,
-  statusState,
-  statusProps,
-  statusNoAnimation,
-  globalStatus,
   hideDecline,
   hideConfirm,
   onConfirm,
@@ -117,10 +113,6 @@ export default function DialogContent({
     hideDecline,
     hideConfirm,
     status,
-    statusState,
-    statusProps,
-    statusNoAnimation,
-    globalStatus,
   }
 
   validateDOMAttributes({}, contentParams)

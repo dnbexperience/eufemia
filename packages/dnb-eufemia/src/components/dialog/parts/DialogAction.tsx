@@ -14,15 +14,16 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import Button from '../../button/Button'
-import type { ButtonProps } from '../../button/Button'
+import FormStatus from '../../FormStatus'
 import Space from '../../space/Space'
-import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
-
-import type { SpacingProps } from '../../../shared/types'
-import type { FormStatusBaseProps } from '../../FormStatus'
+import { Context } from '../../../shared'
+import useId from '../../../shared/helpers/useId'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
+
+import type { ButtonProps } from '../../button/Button'
+import type { SpacingProps } from '../../../shared/types'
 
 type ExtendedMouseEvent = {
   event: MouseEvent<HTMLElement>
@@ -64,7 +65,12 @@ export type DialogActionProps = {
    * Pass in custom confirm/decline buttons for action handling. Every child of type Button will be provided with a `close` function attribute.
    */
   children?: ReactElement | Array<ReactElement>
-} & FormStatusBaseProps
+
+  /**
+   * Provide a status message that will be displayed below the action buttons.
+   */
+  status?: ReactNode
+}
 
 export type DialogActionAllProps = DialogActionProps &
   SpacingProps &
@@ -78,10 +84,6 @@ const DialogAction = ({
   hideDecline = false,
   hideConfirm = false,
   status,
-  statusState,
-  statusProps,
-  statusNoAnimation = false,
-  globalStatus,
   onConfirm = fallbackCloseAction,
   onDecline = fallbackCloseAction,
   className,
@@ -91,6 +93,8 @@ const DialogAction = ({
   const { translation, Button: ButtonContext } = useContext(Context)
   const { close } = useContext(ModalContext)
   let childrenWithCloseFunc: ReactNode
+
+  const statusId = useId()
 
   const onConfirmHandler = useCallback(
     (event) => {
@@ -136,35 +140,44 @@ const DialogAction = ({
   }
 
   return (
-    <Space
-      element="section"
-      className={clsx('dnb-dialog__actions', className)}
-      {...props}
-    >
-      {childrenWithCloseFunc}
+    <>
+      <Space
+        element="section"
+        className={clsx('dnb-dialog__actions', className)}
+        {...props}
+      >
+        {childrenWithCloseFunc}
 
-      {!children && !hideDecline && (
-        <Button
-          text={declineText || translation?.Dialog?.declineText}
-          variant="secondary"
-          onClick={onDeclineHandler}
-          size={ButtonContext?.size || 'large'}
-        />
-      )}
-      {!children && !hideConfirm && (
-        <Button
-          text={confirmText || translation?.Dialog?.confirmText}
-          variant="primary"
-          onClick={onConfirmHandler}
-          size={ButtonContext?.size || 'large'}
-          status={status}
-          statusState={statusState}
-          statusProps={statusProps}
-          statusNoAnimation={statusNoAnimation}
-          globalStatus={globalStatus}
-        />
-      )}
-    </Space>
+        {!children && !hideDecline && (
+          <Button
+            text={declineText || translation?.Dialog?.declineText}
+            variant="secondary"
+            onClick={onDeclineHandler}
+            size={ButtonContext?.size || 'large'}
+          />
+        )}
+        {!children && !hideConfirm && (
+          <Button
+            text={confirmText || translation?.Dialog?.confirmText}
+            variant="primary"
+            onClick={onConfirmHandler}
+            size={ButtonContext?.size || 'large'}
+            status={status ? 'error' : undefined}
+            aria-describedby={status ? statusId + '-status' : undefined}
+          />
+        )}
+      </Space>
+
+      <FormStatus
+        show={!!status}
+        id={statusId + '-form-status'}
+        textId={statusId + '-status'}
+        noAnimation={false}
+        shellSpace={{ top: 'small' }}
+      >
+        {status}
+      </FormStatus>
+    </>
   )
 }
 
