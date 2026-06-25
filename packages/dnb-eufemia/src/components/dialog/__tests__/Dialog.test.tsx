@@ -257,6 +257,26 @@ describe('Dialog', () => {
     expect(confirmButton).toHaveClass('dnb-button__status--error')
   })
 
+  it('renders the status message text via the confirm button FormStatus', () => {
+    render(
+      <Dialog
+        {...props}
+        open
+        variant="confirmation"
+        title="Title"
+        status="Something went wrong"
+      >
+        content
+      </Dialog>
+    )
+
+    const formStatus = document.querySelector(
+      '.dnb-dialog__actions .dnb-form-status'
+    )
+    expect(formStatus).toBeInTheDocument()
+    expect(formStatus.textContent).toBe('Something went wrong')
+  })
+
   it('supports statusState to change the confirm button status state', () => {
     render(
       <Dialog
