@@ -13,11 +13,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import { chevron_down, chevron_up } from '../../icons'
 import Icon from '../icon/Icon'
 import IconPrimary from '../icon-primary/IconPrimary'
-import {
-  validateDOMAttributes,
-  combineDescribedBy,
-} from '../../shared/component-helper'
-import useId from '../../shared/helpers/useId'
+import { validateDOMAttributes } from '../../shared/component-helper'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
 import {
@@ -57,7 +53,6 @@ function StepIndicatorTriggerButton({
 
   const item = data[activeStep || 0]
   const label = stepsLabel
-  const id = useId()
 
   const triggerParams = {
     ...contextWithoutDataRest,
@@ -78,11 +73,6 @@ function StepIndicatorTriggerButton({
       className
     ),
   }
-
-  buttonParams['aria-describedby'] = combineDescribedBy(
-    buttonParams,
-    id + '-overview'
-  )
 
   // Cache Object.keys() result for performance
   const triggerParamKeys = Object.keys(triggerParams)
@@ -117,7 +107,6 @@ function StepIndicatorTriggerButton({
         <div {...(triggerParams as HTMLProps<HTMLDivElement>)}>
           <FormLabel
             element="span"
-            aria-describedby={id}
             aria-hidden // In order to not duplicate information for screen readers
             className="dnb-step-indicator__label"
             vertical={false}

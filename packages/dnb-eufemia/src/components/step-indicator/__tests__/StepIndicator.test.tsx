@@ -782,6 +782,21 @@ describe('StepIndicator ARIA', () => {
       .filter((refId) => refId.endsWith('-status'))
     expect(statusRefs).toHaveLength(0)
   })
+
+  it('does not leave dangling aria-describedby references', () => {
+    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
+
+    const refs: string[] = []
+    document.querySelectorAll('[aria-describedby]').forEach((el) => {
+      ;(el.getAttribute('aria-describedby') || '')
+        .split(/\s+/)
+        .filter(Boolean)
+        .forEach((id) => refs.push(id))
+    })
+
+    const unresolved = refs.filter((id) => !document.getElementById(id))
+    expect(unresolved).toEqual([])
+  })
 })
 
 describe('StepIndicator scss', () => {
