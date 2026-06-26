@@ -281,5 +281,12 @@ export default {
       errorInvalidFiles: 'Fjern alle filer som har feil.',
       errorUploadFailed: 'Filen kunne ikke lastes opp.',
     },
+    InstallmentDay: {
+      label: 'Avdragsdag',
+      errorRequired: 'Du må velge en avdragsdag.',
+      lastDayLabel: 'Siste dagen i måneden',
+      dayDisplay: '{day} dagen i måneden',
+      placeholder: 'Velg dag',
+    },
   },
 }
