@@ -11,7 +11,7 @@ type SpaceResponsiveProps = SpaceResponsiveContextValue & {
 
 function SpaceResponsive({
   density,
-  breakpoint,
+  breakOn,
   off,
   children,
 }: SpaceResponsiveProps) {
@@ -22,7 +22,7 @@ function SpaceResponsive({
     : {
         ...(parent || undefined),
         ...(density !== undefined && { density }),
-        ...(breakpoint !== undefined && { breakpoint }),
+        ...(breakOn !== undefined && { breakOn }),
         ...(off !== undefined && { off }),
       }
 

@@ -826,17 +826,17 @@ exports[`Space scss > should match style dependencies css 1`] = `
   }
 }
 @media screen and (max-width: 40em) {
-  .dnb-space-responsive--breakpoint-medium {
+  .dnb-space-responsive--break-on-medium {
     --responsive-spacing-tier: -1;
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
-  .dnb-space-responsive--breakpoint-medium {
+  .dnb-space-responsive--break-on-medium {
     --responsive-spacing-tier: -1;
   }
 }
 @media screen and (min-width: 60.00625em) {
-  .dnb-space-responsive--breakpoint-medium {
+  .dnb-space-responsive--break-on-medium {
     --responsive-spacing-tier: 0;
   }
 }
