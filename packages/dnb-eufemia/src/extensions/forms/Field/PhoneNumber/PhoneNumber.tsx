@@ -548,7 +548,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           onChange={handleCountryCodeChange}
           onType={onTypeHandler}
           independentWidth
-          searchNumbers
+          search={{ numbers: true }}
           keepSelection
           selectAll
           autoComplete="tel-country-code"

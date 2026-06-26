@@ -92,7 +92,7 @@ export const AutocompleteNumbersExample = () => (
         showClearButton
         label="Label"
         data={numbersData}
-        searchNumbers={true}
+        search={{ numbers: true }}
       />
     </ComponentBox>
   </Wrapper>
@@ -712,6 +712,18 @@ export const AutocompleteContentDecoupledExample = () => (
           },
         ]}
         label="Label"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteSearchOptionsExample = () => (
+  <Wrapper>
+    <ComponentBox scope={{ topMovies }}>
+      <Autocomplete
+        label="Search movies (starts-with)"
+        data={topMovies}
+        search={{ match: 'starts-with', highlight: false }}
       />
     </ComponentBox>
   </Wrapper>
