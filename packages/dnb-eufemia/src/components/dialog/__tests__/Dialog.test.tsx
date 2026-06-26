@@ -350,6 +350,25 @@ describe('Dialog', () => {
     ).toContain(statusTextId)
   })
 
+  it('does not reference the status from the decline button by default', () => {
+    render(
+      <Dialog
+        {...props}
+        open
+        variant="confirmation"
+        title="Title"
+        status="Something went wrong"
+      >
+        content
+      </Dialog>
+    )
+
+    const declineButton = document.querySelector(
+      '.dnb-dialog__actions .dnb-button--secondary'
+    )
+    expect(declineButton).not.toHaveAttribute('aria-describedby')
+  })
+
   it('omits action buttons when hideDecline or hideConfirm is given', () => {
     const props: DialogProps & DialogContentProps = {
       noAnimation: true,
