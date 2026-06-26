@@ -312,8 +312,9 @@ function createDocsContext(source: DocsSource) {
         }
 
         if (stats.kind === 'dir') {
-          const tryMd = candidate.replace(/\.(mdx?)?$/, '') + '.md'
-          const tryMdx = candidate.replace(/\.(mdx?)?$/, '') + '.mdx'
+          const base = candidate.replace(/\.mdx?$/, '')
+          const tryMd = `${base}.md`
+          const tryMdx = `${base}.mdx`
           for (const tryPath of [tryMd, tryMdx]) {
             const trySt = await source.stat(tryPath)
             if (trySt.kind === 'file') {
@@ -426,7 +427,11 @@ function createDocsContext(source: DocsSource) {
           return
         }
 
-        const filePath = files[i]!
+        const filePath = files[i]
+        if (filePath === undefined) {
+          continue
+        }
+
         let text: string | null
         try {
           text = await source.read(filePath)
@@ -440,7 +445,11 @@ function createDocsContext(source: DocsSource) {
         const lower = text.toLowerCase()
 
         if (searchTerms.length === 1) {
-          const term = searchTerms[0]!
+          const term = searchTerms[0]
+          if (term === undefined) {
+            continue
+          }
+
           const idx = lower.indexOf(term)
           if (idx === -1) {
             continue
@@ -490,7 +499,7 @@ function createDocsContext(source: DocsSource) {
           }
 
           const firstMatchIdx = Math.min(
-            ...wordMatches.map((m) => m.indices[0]!)
+            ...wordMatches.map((m) => m.indices[0] ?? Infinity)
           )
           const totalOccurrences = wordMatches.reduce(
             (sum, m) => sum + m.indices.length,
@@ -507,11 +516,21 @@ function createDocsContext(source: DocsSource) {
             const wordSet = new Set(searchTerms)
             let minSpan = Infinity
             for (let i = 0; i < allIndices.length; i++) {
+              const start = allIndices[i]
+              if (start === undefined) {
+                continue
+              }
+
               const foundWords = new Set<string>()
               for (let j = i; j < allIndices.length; j++) {
-                foundWords.add(allIndices[j]!.word)
+                const current = allIndices[j]
+                if (current === undefined) {
+                  continue
+                }
+
+                foundWords.add(current.word)
                 if (foundWords.size === wordSet.size) {
-                  const span = allIndices[j]!.idx - allIndices[i]!.idx
+                  const span = current.idx - start.idx
                   minSpan = Math.min(minSpan, span)
                   break
                 }

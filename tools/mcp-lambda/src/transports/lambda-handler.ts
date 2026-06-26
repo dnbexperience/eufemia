@@ -82,6 +82,9 @@ export async function handler(
     // the transport, rather than racing the close against `response.text()`.
     return await toApiGatewayResult(response)
   } catch (error) {
+    // Lambda surfaces logs to CloudWatch through the console; this is the
+    // intended sink for unexpected handler failures.
+    // eslint-disable-next-line no-console -- server-side logging to CloudWatch
     console.error('MCP handler error:', error)
 
     return {
