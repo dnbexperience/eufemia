@@ -7,7 +7,10 @@ import { useCallback, useContext, useMemo } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 
 import { clsx } from 'clsx'
-import { dispatchCustomElementEvent } from '../../shared/component-helper'
+import {
+  dispatchCustomElementEvent,
+  combineDescribedBy,
+} from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import type { AnchorAllProps } from '../anchor/Anchor'
 import Anchor from '../anchor/Anchor'
@@ -171,7 +174,12 @@ function StepIndicatorItem({
   const buttonParams = {
     status,
     statusState,
-    'aria-describedby': id,
+    // Describe the button by its screen-reader label and, when present,
+    // the step status message (see "textId" on the FormStatus below).
+    'aria-describedby': combineDescribedBy(
+      id,
+      status ? id + '-status' : null
+    ),
   } as StepItemButtonProps
 
   if (usedIsCurrent) {
@@ -273,6 +281,7 @@ function StepIndicatorItem({
               state={status ? statusState : undefined}
               variant="outlined"
               className="dnb-step-indicator__item-content__status"
+              textId={id + '-status'} // used for "aria-describedby"
               text={status}
             />
           </div>
