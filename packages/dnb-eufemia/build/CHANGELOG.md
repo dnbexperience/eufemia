@@ -3,6 +3,44 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.8.0](https://github.com/dnbexperience/eufemia/compare/v11.7.0...v11.8.0) (2026-06-26)
+
+### :sparkles: Features
+
+* **Dialog:** add `status` message prop ([#8715](https://github.com/dnbexperience/eufemia/issues/8715)) ([88be468](https://github.com/dnbexperience/eufemia/commit/88be468acb9e1a7528e62954a2800e2bccce2bbf))
+* **Provider:** add missing component types to ContextComponents ([#8703](https://github.com/dnbexperience/eufemia/issues/8703)) ([729e5d2](https://github.com/dnbexperience/eufemia/commit/729e5d2b25eaebfa810d9d2e133f5a4180840e2c))
+
+### :bug: Bug Fixes
+
+* **Anchor:** strip javascript:/vbscript: hrefs to prevent XSS ([#8655](https://github.com/dnbexperience/eufemia/issues/8655)) ([eaacd6e](https://github.com/dnbexperience/eufemia/commit/eaacd6e086775f1f126503909ab8a9f9bfb74df1))
+* **Button:** connect status message to button via aria-describedby ([#8714](https://github.com/dnbexperience/eufemia/issues/8714)) ([942cd2a](https://github.com/dnbexperience/eufemia/commit/942cd2a204200b22f11335cc811e56624b6fe02b))
+* **Dialog:** link action status to a visible button in all cases ([#8722](https://github.com/dnbexperience/eufemia/issues/8722)) ([66768ee](https://github.com/dnbexperience/eufemia/commit/66768ee542395aff40469e17bb5f598a536a2380))
+* **DrawerList:** keep keyboard focus ring visible when option is also hovered ([#8656](https://github.com/dnbexperience/eufemia/issues/8656)) ([172a5ce](https://github.com/dnbexperience/eufemia/commit/172a5ce73a18ca44d0b8cbd6a059549c2f9ef9e5))
+* **Field.Number:** show clear error for non-finite numbers ([#8699](https://github.com/dnbexperience/eufemia/issues/8699)) ([c8926ee](https://github.com/dnbexperience/eufemia/commit/c8926eeb55564b94d0ba96c549152f5705106c01))
+* **Forms:** read `not_multiple_of` value from Zod v4 `divisor` property ([#8706](https://github.com/dnbexperience/eufemia/issues/8706)) ([90212f8](https://github.com/dnbexperience/eufemia/commit/90212f8c353007ed0ac141a4a2de29fe31485af2))
+* **Forms:** stabilize mounted fields to prevent field re-render loop on mount ([#8720](https://github.com/dnbexperience/eufemia/issues/8720)) ([49fcecf](https://github.com/dnbexperience/eufemia/commit/49fcecf01edf3e8637855f468e1a94ff94ce7f96))
+* **Input:** correct reference to undefined CSS custom property ([#8667](https://github.com/dnbexperience/eufemia/issues/8667)) ([1d54c16](https://github.com/dnbexperience/eufemia/commit/1d54c16687e2508b9955403fa4098c8ad409cda1))
+* **List:** add selected-subtle background to expanded accordion header ([#8710](https://github.com/dnbexperience/eufemia/issues/8710)) ([12d66c4](https://github.com/dnbexperience/eufemia/commit/12d66c4eefeb6717ddfb48acb4f4e641bd6061a3))
+* **StepIndicator:** connect step status message to step button via aria-describedby ([#8721](https://github.com/dnbexperience/eufemia/issues/8721)) ([b3ef5b6](https://github.com/dnbexperience/eufemia/commit/b3ef5b687487dbbd8bf598829cc254cd34100451))
+* **Switch:** connect status message to input via aria-describedby ([#8718](https://github.com/dnbexperience/eufemia/issues/8718)) ([47e2f2b](https://github.com/dnbexperience/eufemia/commit/47e2f2bcf2708a52c63483433faacaf7bf01a1ac))
+
+### :memo: Documentation
+
+* clarify when to use classic inputs vs Eufemia Forms ([#8708](https://github.com/dnbexperience/eufemia/issues/8708)) ([9a97b52](https://github.com/dnbexperience/eufemia/commit/9a97b5219961a390612f4953887c73e3e89e7e1e))
+* **Field.Number:** make step controls discoverable in search ([#8704](https://github.com/dnbexperience/eufemia/issues/8704)) ([8b28cf4](https://github.com/dnbexperience/eufemia/commit/8b28cf424458b05ef5392c267e863d6adc68074d))
+* **Forms:** clarify how non-finite numbers (Infinity, NaN) are validated ([#8701](https://github.com/dnbexperience/eufemia/issues/8701)) ([12f3b35](https://github.com/dnbexperience/eufemia/commit/12f3b356b1e7511f8e887221c52fbe2785980a19))
+* link related components on component info pages ([#8709](https://github.com/dnbexperience/eufemia/issues/8709)) ([d605e9f](https://github.com/dnbexperience/eufemia/commit/d605e9f8f85957b37c8b18432274f0d54ab9e40c))
+
+### :barber: Style Changes
+
+* **Space:** update responsive spacing values BETA ([#8671](https://github.com/dnbexperience/eufemia/issues/8671)) ([9f4bdc1](https://github.com/dnbexperience/eufemia/commit/9f4bdc1979bc0777b89402bd4e57ee58380d1669))
+* **Typography:** responsive font size BETA ([#8425](https://github.com/dnbexperience/eufemia/issues/8425)) ([136034f](https://github.com/dnbexperience/eufemia/commit/136034f67ca6875a35cfd22e8ea88e95408852df))
+
+### :zap: Refactoring
+
+* **Button:** control status spacing via FormStatus shellSpace ([#8716](https://github.com/dnbexperience/eufemia/issues/8716)) ([9c408c9](https://github.com/dnbexperience/eufemia/commit/9c408c9e74fc8f3207a935e1f335c8121ff90cab))
+* **Space:** rename ResponsiveContext `breakpoint` prop to `breakOn` ([#8719](https://github.com/dnbexperience/eufemia/issues/8719)) ([fce043c](https://github.com/dnbexperience/eufemia/commit/fce043c28f737eae663e257dd245ebc624406eae))
+
 ## [11.7.0](https://github.com/dnbexperience/eufemia/compare/v11.6.1...v11.7.0) (2026-06-22)
 
 ### :sparkles: Features
