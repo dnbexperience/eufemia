@@ -476,6 +476,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
         textId={resolvedId + '-status'} // used for "aria-describedby"
         noAnimation={statusNoAnimation}
         skeleton={skeleton}
+        shellSpace={{ top: 'x-small' }}
         {...statusProps}
       />
 
