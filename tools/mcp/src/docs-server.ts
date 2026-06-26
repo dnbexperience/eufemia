@@ -156,7 +156,7 @@ function conventionalDocPaths(name: string): string[] {
 function extractJsonBlocks(markdown: string): Array<unknown> {
   const blocks: Array<unknown> = []
   const regex = /```json\s*([\s\S]*?)```/gi
-  let match: RegExpExecArray | null = null
+  let match: RegExpExecArray | null
 
   while ((match = regex.exec(markdown))) {
     const raw = match[1]?.trim()
@@ -194,7 +194,7 @@ export async function validateDocsRoot(
 ): Promise<void> {
   const fs = await import('node:fs/promises')
 
-  let stats: Awaited<ReturnType<typeof fs.stat>> | null = null
+  let stats: Awaited<ReturnType<typeof fs.stat>> | null
   try {
     stats = await fs.stat(docsRootAbs)
   } catch {
@@ -415,7 +415,7 @@ function createDocsContext(source: DocsSource) {
         }
 
         const filePath = files[i]!
-        let text: string | null = null
+        let text: string | null
         try {
           text = await source.read(filePath)
         } catch {
@@ -640,7 +640,7 @@ function registerDocsTools(server: McpServer, source: DocsSource): void {
         const base = relWithLeadingSlash.replace(/\/+$/, '')
         const mdGuess = `${base}.md`
 
-        let mdExists = false
+        let mdExists: boolean
         try {
           mdExists = (await context.source.stat(mdGuess)).kind === 'file'
         } catch {

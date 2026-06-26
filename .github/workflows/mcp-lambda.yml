@@ -68,6 +68,9 @@ jobs:
       - name: Typecheck
         run: cd tools/mcp && yarn typecheck
 
+      - name: Lint
+        run: cd tools/mcp && yarn lint
+
       - name: Run tests
         run: cd tools/mcp && yarn test
 
