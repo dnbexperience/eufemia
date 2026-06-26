@@ -17,7 +17,10 @@ import Button from '../../button/Button'
 import FormStatus from '../../FormStatus'
 import Space from '../../space/Space'
 import ModalContext from '../../modal/ModalContext'
-import { dispatchCustomElementEvent } from '../../../shared/component-helper'
+import {
+  dispatchCustomElementEvent,
+  combineDescribedBy,
+} from '../../../shared/component-helper'
 import { Context } from '../../../shared'
 import useId from '../../../shared/helpers/useId'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
@@ -95,6 +98,8 @@ const DialogAction = ({
   let childrenWithCloseFunc: ReactNode
 
   const statusId = useId()
+  // Id of the FormStatus message, used to link it to the action button(s).
+  const statusDescribedBy = status ? statusId + '-status' : undefined
 
   const onConfirmHandler = useCallback(
     (event) => {
@@ -130,6 +135,13 @@ const DialogAction = ({
                 close,
               })
             },
+            // Link the status message to custom action buttons too.
+            ...(statusDescribedBy && {
+              'aria-describedby': combineDescribedBy(
+                childElement.props,
+                statusDescribedBy
+              ),
+            }),
           },
           childElement.props.children
         )
@@ -154,6 +166,9 @@ const DialogAction = ({
             variant="secondary"
             onClick={onDeclineHandler}
             size={ButtonContext?.size || 'large'}
+            // When the confirm button is hidden, the status must still be
+            // linked to a visible action button.
+            aria-describedby={hideConfirm ? statusDescribedBy : undefined}
           />
         )}
         {!children && !hideConfirm && (
@@ -163,7 +178,7 @@ const DialogAction = ({
             onClick={onConfirmHandler}
             size={ButtonContext?.size || 'large'}
             status={status ? 'error' : undefined}
-            aria-describedby={status ? statusId + '-status' : undefined}
+            aria-describedby={statusDescribedBy}
           />
         )}
       </Space>
