@@ -40,7 +40,7 @@ Component names support dot-notation: `Button`, `Field.Address`, `Value.Name`, `
 - Node.js — the repo pins Node 24 via Volta for local development; the deployed Lambda runtime is Node 22
 - Yarn (workspace-aware)
 - AWS CLI configured with appropriate credentials
-- Terraform >= 1.5
+- Terraform >= 1.10
 
 ## Local development
 
@@ -168,10 +168,11 @@ tools/mcp-lambda/
 │   │   ├── stdio.ts           # Local dev entry point
 │   │   └── lambda-handler.ts  # AWS Lambda entry point
 │   └── __tests__/
+│       ├── docs-server.test.ts
 │       ├── docs-source.test.ts
 │       ├── docs-source-node.test.ts
-│       ├── resolve-docs-root.test.ts
-│       └── docs-server.test.ts
+│       ├── lambda-handler.test.ts
+│       └── resolve-docs-root.test.ts
 ├── infra/
 │   ├── main.tf                # Lambda, API Gateway, IAM, CloudWatch
 │   ├── variables.tf           # Region, environment, cost allocation
