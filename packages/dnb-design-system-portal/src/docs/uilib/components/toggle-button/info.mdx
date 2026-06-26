@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
+
 ## Import
 
 ```tsx
@@ -11,6 +13,12 @@ import { ToggleButton } from '@dnb/eufemia'
 ## Description
 
 The ToggleButton component is used to toggle on or off a limited number of choices.
+
+## When to use ToggleButton vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `ToggleButton` is [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the buttons variant (`variant="buttons"`), or [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) with the button variant for on/off choices.
 
 ## Relevant links
 

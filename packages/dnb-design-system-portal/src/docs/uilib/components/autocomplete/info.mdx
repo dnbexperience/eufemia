@@ -8,6 +8,7 @@ import {
   AutocompleteContentAsFragmentExample,
   AutocompleteContentDecoupledExample,
 } from 'Docs/uilib/components/autocomplete/Examples'
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
 
 ## Import
 
@@ -18,6 +19,12 @@ import { Autocomplete } from '@dnb/eufemia'
 ## Description
 
 The Autocomplete component is a combination of an [Input](/uilib/components/input) and a [Dropdown](/uilib/components/dropdown), also called **ComboBox**. During typing, matching data items get suggested in an option menu (listbox).
+
+## When to use Autocomplete vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `Autocomplete` is [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the autocomplete variant (`variant="autocomplete"`), or [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) for selecting multiple values.
 
 ## Relevant links
 
