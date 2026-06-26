@@ -119,7 +119,7 @@ export function onClickTr(
   if (
     /**
      * Do not toggle if user clicked an interactive element (input, button, etc.).
-     * Interactive to set activeElement on mouseDown, we we can check against it.
+     * Interactive to set activeElement on mouseDown, we can check against it.
      */
     ((document.activeElement !== target &&
       /**
