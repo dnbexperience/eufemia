@@ -22,5 +22,3 @@ export const PushButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const PushButtonEvents: PropertiesTableProps = {}

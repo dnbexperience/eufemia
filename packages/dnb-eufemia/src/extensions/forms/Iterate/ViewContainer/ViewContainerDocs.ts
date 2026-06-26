@@ -27,5 +27,3 @@ export const ViewContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const ViewContainerEvents: PropertiesTableProps = {}

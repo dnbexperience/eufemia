@@ -87,5 +87,3 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const AnchorEvents: PropertiesTableProps = {}

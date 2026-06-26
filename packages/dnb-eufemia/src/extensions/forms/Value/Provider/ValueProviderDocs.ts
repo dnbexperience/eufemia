@@ -9,5 +9,3 @@ export const ValueProviderProperties: PropertiesTableProps = {
     status: 'required',
   },
 }
-
-export const StepEvents: PropertiesTableProps = {}

@@ -7,5 +7,3 @@ export const SnapshotProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const SnapshotEvents: PropertiesTableProps = {}

@@ -37,5 +37,3 @@ export const EditContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const EditContainerEvents: PropertiesTableProps = {}
