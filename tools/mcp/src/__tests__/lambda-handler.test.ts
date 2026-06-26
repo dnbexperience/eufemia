@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
@@ -134,5 +134,51 @@ describe('lambda-handler health check', () => {
     }
     expect(response.statusCode).toBe(200)
     expect(JSON.parse(response.body)).toEqual({ status: 'ok' })
+  })
+})
+
+describe('lambda-handler error handling', () => {
+  let docsRoot: string
+
+  beforeAll(async () => {
+    docsRoot = await createTempDocs()
+    process.env.EUFEMIA_DOCS_ROOT = docsRoot
+  })
+
+  afterAll(async () => {
+    delete process.env.EUFEMIA_DOCS_ROOT
+    await fs.rm(docsRoot, { recursive: true, force: true })
+  })
+
+  it('returns a 500 JSON-RPC error when request processing throws', async () => {
+    const { handler } = await import('../transports/lambda-handler.js')
+
+    // A POST event without `headers` makes toWebRequest throw inside the
+    // handler's try/catch, exercising the 500 fallback.
+    const event = {
+      rawPath: '/mcp',
+      requestContext: {
+        domainName: 'example.test',
+        http: { method: 'POST' },
+      },
+    } as unknown as Parameters<typeof handler>[0]
+
+    const errorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {})
+
+    try {
+      const result = await handler(event)
+      const response = result as {
+        statusCode: number
+        body: string
+      }
+
+      expect(response.statusCode).toBe(500)
+      expect(JSON.parse(response.body).error.code).toBe(-32603)
+      expect(errorSpy).toHaveBeenCalled()
+    } finally {
+      errorSpy.mockRestore()
+    }
   })
 })
