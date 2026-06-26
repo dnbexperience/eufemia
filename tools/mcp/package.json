@@ -11,8 +11,6 @@
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
   "license": "SEE LICENSE IN LICENSE FILE",
   "type": "module",
   "dependencies": {
