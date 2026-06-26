@@ -23,87 +23,139 @@ export type SliderExtensions = Record<
 >
 
 export type SliderProps = {
-  /** prepends the Form Label component. If no ID is provided, a random ID is created. */
+  /**
+   * Prepends the Form Label component. If no ID is provided, a random ID is created.
+   */
   label?: ReactNode
 
-  /** use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`. */
+  /**
+   * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
+   */
   labelDirection?: 'vertical' | 'horizontal'
 
-  /** use `true` to make the label only readable by screen readers. */
+  /**
+   * Use `true` to make the label only readable by screen readers.
+   */
   labelSrOnly?: boolean
 
-  /** text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message. */
+  /**
+   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   */
   status?: string | boolean
 
-  /** defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`. */
+  /**
+   * Defines the state of the status. Currently, there are two statuses `[error, information]`. Defaults to `error`.
+   */
   statusState?: 'error' | 'information'
 
-  /** use an object to define additional FormStatus properties. */
+  /**
+   * Use an object to define additional FormStatus properties.
+   */
   statusProps?: Record<string, unknown>
   statusNoAnimation?: boolean
 
-  /** the `statusId` used for the target [GlobalStatus](/uilib/components/global-status). */
+  /**
+   * The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).
+   */
   globalStatus?: GlobalStatusConfigObject
 
-  /** text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component. */
+  /**
+   * Text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component.
+   */
   suffix?: SuffixChildren
 
-  /** give the slider thumb button a title for accessibility reasons. Defaults to `null`. */
+  /**
+   * Give the slider thumb button a title for accessibility reasons. Defaults to `null`.
+   */
   thumbTitle?: string
 
-  /** give the add button a title for accessibility reasons. Defaults to `Increase (%s)`. */
+  /**
+   * Give the add button a title for accessibility reasons. Defaults to `Increase (%s)`.
+   */
   addTitle?: string
 
-  /** give the subtract button a title for accessibility reasons. Defaults to `Decrease (%s)`. */
+  /**
+   * Give the subtract button a title for accessibility reasons. Defaults to `Decrease (%s)`.
+   */
   subtractTitle?: string
 
-  /** the minimum value. Defaults to `0`. */
+  /**
+   * The minimum value. Can be a negative number as well. Defaults to `0`.
+   */
   min?: number
 
-  /** the maximum value. Defaults to `100`. */
+  /**
+   * The maximum value. Defaults to `100`.
+   */
   max?: number
 
-  /** the `value` of the slider as a number. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs). */
+  /**
+   * The `value` of the slider as a number or an array. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs).
+   */
   value?: SliderValue
 
-  /** the steps the slider takes on changing the value. Defaults to `null`. */
+  /**
+   * The steps the slider takes on changing the value. Defaults to `null`.
+   */
   step?: number
 
-  /** makes it possible to display overlays with other functionality such as a marker on the slider marking a given value. */
+  /**
+   * Makes it possible to display overlays with other functionality such as a marker on the slider marking a given value.
+   */
   extensions?: SliderExtensions
 
-  /** show the slider vertically. Defaults to `false`. */
+  /**
+   * Show the slider vertically. Defaults to `false`.
+   */
   vertical?: boolean
 
-  /** show the slider reversed. Defaults to `false`. */
+  /**
+   * Show the slider reversed. Defaults to `false`.
+   */
   reverse?: boolean
 
-  /** if set to `true`, then the slider will be 100% in `width`. */
+  /**
+   * If set to `true`, then the slider will be 100% in `width`.
+   */
   stretch?: boolean
 
-  /** provide a function callback or use the options from the [NumberFormat](/uilib/components/number-format/properties) component. It will show a formatted number in the Tooltip (`tooltip={true}`) and enhance the screen reader UX. It will also extend the `onChange` event return object with a formatted `number` property. */
+  /**
+   * Will extend the return object with a `number` property (from `onChange` event). You can use all the options from the [NumberFormat](/uilib/components/number-format/properties) component. It also will use that formatted number in the increase/decrease buttons. If it has to represent a currency, then use e.g. `numberFormat={{ currency: true, decimals: 0 }}`.
+   */
   numberFormat?: SliderNumberFormat
 
-  /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
+  /**
+   * Use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value.
+   */
   tooltip?: boolean
 
-  /** use `true` to always show the tooltip, in addition to the `tooltip` property.  */
+  /**
+   * Use `true` to always show the tooltip, in addition to the `tooltip` property.
+   */
   alwaysShowTooltip?: boolean
 
-  /** removes the helper buttons. Defaults to `false`. */
+  /**
+   * Removes the helper buttons. Defaults to `false`.
+   */
   hideButtons?: boolean
 
-  /** use either `omit`, `push` or `swap`. This property only works for two (range) or more thumb buttons, while `omit` will stop the thumb from swapping, `push` will push its nearest thumb along. Defaults to `swap`. */
+  /**
+   * Use either `omit`, `push` or `swap`. This property only works for two (range) or more thumb buttons, while `omit` will stop the thumb from swapping, `push` will push its nearest thumb along. Defaults to `swap`.
+   */
   multiThumbBehavior?: 'swap' | 'omit' | 'push'
 
-  /** if set to `true`, an overlaying skeleton with animation will be shown. */
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
   skeleton?: SkeletonShow
 
   id?: string
   disabled?: boolean
   className?: string
 
-  /** Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the prop `numberFormat` is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`. */
+  /**
+   * Will be called on state changes made by the user. The callback `value` and `rawValue` is a number `{ value, rawValue, event }`. But if the `numberFormat` property is given, then it will return an additional `number` with the given format `{ value, number, rawValue, event }`.
+   */
   onChange?: (props: SliderOnChangeParams) => void
 
   /** Will be called once the user starts dragging. Returns `{ event }`. */

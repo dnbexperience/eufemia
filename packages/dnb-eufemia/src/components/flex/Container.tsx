@@ -28,6 +28,7 @@ import type { SpaceType } from '../../shared/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
 import type { FlexEnd, FlexStart } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 
 type Gap =
   | false
@@ -42,11 +43,17 @@ type Gap =
 export type FlexContainerProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
-  /** Disable automatic Space wrappers for intrinsic DOM children such as `li` or `p`. */
+  /**
+   * Define if intrinsic DOM child elements such as `li` should be wrapped in `Space` to receive spacing. Set to `false` to keep them as direct descendants.
+   * Default: `true`
+   */
   wrapChildrenInSpace?: boolean
   rowGap?: Gap
   sizeCount?: number
-  /** Distribute sub components along the main axis (CSS `justify-content`). In horizontal direction, this controls left-to-right placement. In vertical direction, this controls top-to-bottom placement. */
+  /**
+   * Distribute sub components along the main axis (CSS `justify-content`). In horizontal direction, this controls left-to-right placement. In vertical direction, this controls top-to-bottom placement.
+   * Default: `'flex-start'`
+   */
   justify?:
     | 'flex-start'
     | 'flex-end'
@@ -54,13 +61,22 @@ export type FlexContainerProps = {
     | 'space-between'
     | 'space-around'
     | 'space-evenly'
-  /** Align sub components along the cross axis (CSS `align-items`). In horizontal direction, this controls vertical alignment. In vertical direction, this controls horizontal alignment. */
+  /**
+   * Align sub components along the cross axis (CSS `align-items`). In horizontal direction, this controls vertical alignment. In vertical direction, this controls horizontal alignment.
+   * Default: `'flex-start'`
+   */
   align?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline'
   /** For when used as a flex item in an outer container in addition to being a container: */
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
-  /** When "line-framed" is used, a line will be shown between items and above the first and below the last item */
+  /**
+   * How to separate sub components.
+   * Default: `'space'`
+   */
   divider?: 'space' | 'line' | 'line-framed'
-  /** Spacing between items inside */
+  /**
+   * How much space between child items. Use `false` for no spacing. If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.
+   * Default: `'small'`
+   */
   gap?: Gap
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
@@ -263,14 +279,15 @@ function FlexContainer(props: FlexContainerAllProps) {
 function wrapChildren(props: FlexContainerAllProps, children: ReactNode) {
   return Children.toArray(children).map((child) => {
     if (
-      isValidElement<any>(child) &&
-      child.type['_supportsSpacingProps'] === 'children'
+      isValidElement<{ children?: ReactNode }>(child) &&
+      (child.type as ComponentMarkers)?._supportsSpacingProps ===
+        'children'
     ) {
-      const childElement = child as ReactElement<any>
+      const childElement = child as ReactElement<{ children?: ReactNode }>
       const childKey = childElement.key
       const childProps = childElement.props || {}
       return createElement(
-        childElement.type as ComponentType<any>,
+        childElement.type as ComponentType<{ children?: ReactNode }>,
         { ...childProps, key: childKey },
         <FlexContainer {...props}>
           {childElement.props.children}

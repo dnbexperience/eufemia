@@ -158,8 +158,14 @@
     }
 
     background-color: var(--list-item-background-color);
-    &--selected {
+    &--selected:not(#{&}__accordion) {
       background-color: var(--list-item-selected-background-color);
+    }
+
+    // Expanded accordion: highlight only the header row, not the content
+    &__accordion--open #{&}__accordion__header {
+      background-color: var(--list-item-selected-background-color);
+      border-radius: inherit;
     }
 
     &__title,

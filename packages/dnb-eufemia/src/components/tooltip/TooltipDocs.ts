@@ -27,7 +27,7 @@ export const TooltipProperties: PropertiesTableProps = {
     status: 'optional',
   },
   portalRootClass: {
-    doc: 'CSS class name applied to the portal root element. Used to style or identify the portal container.',
+    doc: 'CSS class name applied to the Tooltip portal root element. Has effect only when not using `skipPortal`.',
     type: 'string',
     status: 'optional',
   },

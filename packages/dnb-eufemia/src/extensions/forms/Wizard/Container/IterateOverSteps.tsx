@@ -56,7 +56,7 @@ export function IterateOverSteps({
   totalStepsRef.current = 0
 
   const childrenArray = Children.map(children, (child) => {
-    if (isValidElement<any>(child)) {
+    if (isValidElement<StepProps>(child)) {
       const stepElement = getWizardStepElement(child)
 
       if (stepElement) {

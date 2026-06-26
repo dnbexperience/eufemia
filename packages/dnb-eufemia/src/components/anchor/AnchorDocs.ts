@@ -7,12 +7,12 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   href: {
-    doc: 'Relative or absolute url.',
+    doc: 'Relative or absolute url. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed for security reasons.',
     type: 'string',
     status: 'optional',
   },
   to: {
-    doc: 'Use this property only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.',
+    doc: 'Use this property only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed for security reasons.',
     type: 'string',
     status: 'optional',
   },
@@ -87,5 +87,3 @@ export const AnchorProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const AnchorEvents: PropertiesTableProps = {}

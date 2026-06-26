@@ -258,11 +258,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     contextProps,
     (context.translation as Record<string, unknown>)
       ?.ToggleButton as Record<string, unknown>,
-    pickFormElementProps(context.formElement as Record<string, unknown>),
-    (context as Record<string, unknown>).ToggleButton as Record<
-      string,
-      unknown
-    >
+    pickFormElementProps(context.formElement),
+    context.ToggleButton
   )
 
   const {
@@ -542,7 +539,7 @@ export type ToggleButtonProps = Omit<
      */
     tooltip?: ButtonTooltip
     /**
-     * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
+     * Defines the `value`. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
      */
     value?: ToggleButtonValue
     /**

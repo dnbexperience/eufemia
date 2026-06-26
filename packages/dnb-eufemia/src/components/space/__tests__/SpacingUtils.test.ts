@@ -883,7 +883,7 @@ describe('useSpacing', () => {
 
     expect(result.current.className).toContain('dnb-space-responsive')
     expect(result.current.className).not.toContain(
-      'dnb-space-responsive--breakpoint'
+      'dnb-space-responsive--break-on'
     )
     expect(result.current.className).toContain('dnb-space__top--large')
   })
@@ -924,7 +924,7 @@ describe('useSpacing', () => {
 
     expect(result.current.className).toContain('dnb-space-responsive--off')
     expect(result.current.className).not.toContain(
-      'dnb-space-responsive dnb-space-responsive--breakpoint'
+      'dnb-space-responsive dnb-space-responsive--break-on'
     )
   })
 

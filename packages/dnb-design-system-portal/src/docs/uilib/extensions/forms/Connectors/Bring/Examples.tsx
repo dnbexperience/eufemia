@@ -13,7 +13,7 @@ async function mockFetch(countryCode: string, data) {
       json: () => {
         return Promise.resolve(data)
       },
-    }) as any
+    }) as Promise<Response>
   }
 
   await new Promise((resolve) => setTimeout(resolve, 1000))

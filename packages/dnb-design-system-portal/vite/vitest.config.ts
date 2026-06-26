@@ -13,6 +13,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      'portal-query': path.resolve(
+        __dirname,
+        'client/shims/portal-query.tsx'
+      ),
       'virtual:portal-pages': path.resolve(
         __dirname,
         '__tests__/mocks/virtual-portal-pages.ts'

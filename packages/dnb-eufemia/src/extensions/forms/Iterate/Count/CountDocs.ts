@@ -17,5 +17,3 @@ export const CountProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const CountEvents: PropertiesTableProps = {}

@@ -15,6 +15,7 @@ import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
 
 // All TypeScript based Eufemia components
 import type { AnchorProps } from '../components/Anchor'
+import type { AutocompleteProps } from '../components/autocomplete/Autocomplete'
 import type { ButtonProps } from '../components/button/Button'
 import type { AvatarProps } from '../components/avatar/Avatar'
 import type { AvatarGroupProps } from '../components/avatar/AvatarGroup'
@@ -31,6 +32,7 @@ import type { TimelineItemProps } from '../components/timeline/TimelineItem'
 import type { VisuallyHiddenProps } from '../components/visually-hidden/VisuallyHidden'
 import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
+import type { DropdownProps } from '../components/dropdown/Dropdown'
 import type { TooltipProps } from '../components/tooltip/types'
 import type { SectionProps } from '../components/section/Section'
 import type { UploadProps } from '../components/upload/types'
@@ -57,6 +59,10 @@ import type { IconProps } from '../components/Icon'
 import type { ListFormatProps } from '../components/list-format/ListFormat'
 import type { IconPrimaryProps } from '../components/IconPrimary'
 import type { SwitchProps } from '../components/Switch'
+import type { RadioProps } from '../components/radio/Radio'
+import type { RadioGroupProps } from '../components/radio/RadioGroup'
+import type { ToggleButtonProps } from '../components/toggle-button/ToggleButton'
+import type { ToggleButtonGroupProps } from '../components/toggle-button/ToggleButtonGroup'
 import type { TermDefinitionProps } from '../components/term-definition/TermDefinition'
 
 import type { FormElementProps } from './helpers/filterValidProps'
@@ -68,6 +74,7 @@ import type { DatePickerAllProps } from '../components/DatePicker'
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
   Anchor?: Partial<AnchorProps>
+  Autocomplete?: Partial<AutocompleteProps>
   Avatar?: Partial<AvatarProps>
   AvatarGroup?: Partial<AvatarGroupProps>
   Badge?: Partial<BadgeProps>
@@ -83,6 +90,7 @@ export type ContextComponents = {
   VisuallyHidden?: Partial<VisuallyHiddenProps>
   Drawer?: Partial<DrawerProps>
   Dialog?: Partial<DialogProps>
+  Dropdown?: Partial<DropdownProps>
   Tooltip?: Partial<TooltipProps>
   Section?: Partial<SectionProps>
   ScrollView?: Partial<ScrollViewProps>
@@ -107,6 +115,10 @@ export type ContextComponents = {
   ListFormat?: Partial<ListFormatProps>
 
   Switch?: Partial<SwitchProps>
+  Radio?: Partial<RadioProps>
+  RadioGroup?: Partial<RadioGroupProps>
+  ToggleButton?: Partial<ToggleButtonProps>
+  ToggleButtonGroup?: Partial<ToggleButtonGroupProps>
   NumberFormat?: Partial<NumberFormatAllProps>
   Pagination?: Partial<PaginationProps>
   TermDefinition?: Partial<TermDefinitionProps>

@@ -13,9 +13,7 @@ const invalidUseSubmitErrorMessage =
 
 export type UseSubmitReturn = {
   /**
-   * Triggers form submit. Runs validation and calls the form's onSubmit when valid.
-   * Use this when the submit button is rendered outside Form.Element (e.g. in a modal footer).
-   * Resolves with the submit result or undefined.
+   * Triggers form submit. Runs validation and calls the form's `onSubmit` when valid. Use when the submit button is rendered outside Form.Element (e.g. in a modal footer). Returns a Promise that resolves with the submit result or `undefined`.
    */
   submit: () => Promise<EventStateObject | undefined>
 }

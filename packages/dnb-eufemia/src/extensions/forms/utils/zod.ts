@@ -41,6 +41,22 @@ function normalizeZodIssueMessage(
     return 'NumberField.errorInteger'
   }
 
+  // Non-finite numbers (NaN, Infinity, -Infinity) fail Zod's `z.number()`
+  // type check with a confusing default message ("expected number, received
+  // number"). Map these to a clear, translated message. Genuine wrong types
+  // (string, boolean, etc.) don't set `received` to a number-like value, so
+  // they keep Zod's regular type-error message.
+  if (issue?.code === 'invalid_type' && issue.expected === 'number') {
+    const received = (issue as { received?: unknown }).received
+    if (
+      received === 'NaN' ||
+      received === 'Infinity' ||
+      received === '-Infinity'
+    ) {
+      return 'NumberField.errorInvalidNumber'
+    }
+  }
+
   if (
     issue?.code === 'too_small' &&
     issue.origin === 'number' &&
@@ -171,20 +187,13 @@ function getMessageValuesFromZodIssue(
       }
     }
     if (code === 'not_multiple_of') {
-      // Type guard: Zod's not_multiple_of issue may have multipleOf or multiple property
-      const issueWithMultiple = issue as z.core.$ZodIssue & {
-        multipleOf?: number
-        multiple?: number
-      }
-      const multipleOf =
-        issueWithMultiple.multipleOf ?? issueWithMultiple.multiple
-      if (typeof multipleOf === 'number') {
-        return { multipleOf: String(multipleOf) }
-      }
-      const fallbackMsg = String(issue?.message ?? '')
-      const m = fallbackMsg.match(/multiple\s*of\s*([0-9]+(?:\.[0-9]+)?)/i)
-      if (m && m[1]) {
-        return { multipleOf: m[1] }
+      // Zod v4 exposes the value on the canonical, always-present `divisor`
+      // field (typed as `number`, even for bigint inputs). Read it directly,
+      // like the other issue fields above, instead of parsing the message
+      // text, which would break for custom or non-English Zod error maps.
+      const { divisor } = issue as z.core.$ZodIssueNotMultipleOf
+      if (typeof divisor === 'number') {
+        return { multipleOf: String(divisor) }
       }
     }
   }

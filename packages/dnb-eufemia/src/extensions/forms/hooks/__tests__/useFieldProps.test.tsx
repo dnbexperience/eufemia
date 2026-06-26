@@ -7222,6 +7222,49 @@ describe('useFieldProps', () => {
       })
     })
 
+    it('should not re-register the field when the data context setMountedFieldState identity changes between renders', () => {
+      const setMountedFieldState = vi.fn()
+
+      const { rerender } = renderHook(
+        (props: any) => useFieldProps(props),
+        {
+          initialProps: {
+            path: '/foo',
+          },
+          wrapper: ({ children }) => {
+            // Provide a new function identity on every render, like a linked
+            // Form.Outlet does when it re-creates its data context on each
+            // validation version bump. The field must stay registered without
+            // tearing down and re-running its mount effect, otherwise it
+            // triggers a re-render feedback loop on mount.
+            const value = {
+              setMountedFieldState: (
+                ...args: Parameters<typeof setMountedFieldState>
+              ) => setMountedFieldState(...args),
+            } as unknown as ContextState
+            return <Context value={value}>{children}</Context>
+          },
+        }
+      )
+
+      expect(setMountedFieldState).toHaveBeenCalledTimes(2)
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(1, '/foo', {
+        isPreMounted: true,
+      })
+      expect(setMountedFieldState).toHaveBeenNthCalledWith(2, '/foo', {
+        isMounted: true,
+        isPreMounted: true,
+      })
+
+      rerender({ path: '/foo' })
+      rerender({ path: '/foo' })
+      rerender({ path: '/foo' })
+
+      // The field stays registered: no extra mount/unmount toggling even
+      // though the context function identity changed on every render.
+      expect(setMountedFieldState).toHaveBeenCalledTimes(2)
+    })
+
     it('should set isVisible when within a visibility context', () => {
       const setMountedFieldState = vi.fn()
 

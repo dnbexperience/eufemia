@@ -10,6 +10,7 @@ import {
   InputMaskedInfoDecimalsNumberProvider,
   InputMaskedInfoRemoveDecimalLimit,
 } from 'Docs/uilib/components/input-masked/Examples'
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
 
 ## Import
 
@@ -20,6 +21,12 @@ import { InputMasked } from '@dnb/eufemia'
 ## Description
 
 The InputMasked component uses the basic [Input](/uilib/components/input) component, but with input masking powered by [Maskito](https://maskito.dev/).
+
+## When to use InputMasked vs Eufemia Forms
+
+<WhenToUseForms />
+
+For masked numbers and amounts, the Eufemia Forms equivalents are [Field.Number](/uilib/extensions/forms/base-fields/Number/) and [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/). For common formatted values, use the dedicated fields such as [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/), [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/), [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber/), [Field.OrganizationNumber](/uilib/extensions/forms/feature-fields/OrganizationNumber/), and [Field.Expiry](/uilib/extensions/forms/feature-fields/Expiry/).
 
 ## Relevant links
 
@@ -94,3 +101,5 @@ This example also shows how to affect every InputMasked component in your applic
 To remove a decimal limit, you can provide `null` and allow decimals with `allowDecimal`:
 
 <InputMaskedInfoRemoveDecimalLimit />
+
+<RelatedComponents />

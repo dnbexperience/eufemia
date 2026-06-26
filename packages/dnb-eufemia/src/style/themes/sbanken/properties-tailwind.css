@@ -114,6 +114,7 @@
   --font-weight-regular: normal;
   --font-weight-medium: var(--font-weight-sb-medium);
   --font-weight-bold: var(--font-weight-sb-bold);
+  --text-xx-small: 0.8125rem;
   --text-x-small: 0.875rem;
   --text-small: 1rem;
   --text-basis: 1.125rem;

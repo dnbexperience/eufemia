@@ -44,7 +44,7 @@ export type ToggleProps = {
   size?: ToggleButtonProps['size'] | CheckboxProps['size']
 
   /**
-   * Checkbox props
+   * Will be called on click.
    */
   onClick?: (
     value: unknown,

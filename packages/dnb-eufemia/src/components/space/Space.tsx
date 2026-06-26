@@ -27,16 +27,10 @@ import type { SkeletonShow } from '../Skeleton'
 import type { InnerSpaceType } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import SpaceResponsive from './SpaceResponsive'
-export type { SpaceResponsiveProps } from './SpaceResponsive'
-export type {
-  SpaceDensity,
-  SpaceBreakpoint,
-} from './SpaceResponsiveContext'
 
 export type SpaceProps = {
   /**
-   * Defines the HTML element used.
-   * Default: `div`
+   * Defines the HTML element used. Defaults to `div`.
    */
   element?: DynamicElement
 
@@ -51,8 +45,7 @@ export type SpaceProps = {
   noCollapse?: boolean
 
   /**
-   * If set to `true`, then the space element will be 100% in width.
-   * Default: `false`
+   * If set to `true`, then the space element will be 100% in `width`.
    */
   stretch?: boolean
 

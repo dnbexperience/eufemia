@@ -9,7 +9,7 @@ import type { ContextState } from '../../DataContext'
 
 export type FormHandlerProps = FormElementProps & {
   /**
-   * Will enable autoComplete for all nested Field.String fields
+   * Will set `autoComplete="on"` on all nested [Field.String](/uilib/extensions/forms/base-fields/String/)-fields.
    */
   autoComplete?: boolean
 

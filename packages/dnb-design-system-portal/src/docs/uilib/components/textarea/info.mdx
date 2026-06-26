@@ -3,6 +3,7 @@ showTabs: true
 ---
 
 import * as Examples from './Examples'
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
 
 ## Import
 
@@ -13,6 +14,12 @@ import { Textarea } from '@dnb/eufemia'
 ## Description
 
 The Textarea component is a multi-line text input control with an unlimited number of characters.
+
+## When to use Textarea vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `Textarea` is [Field.String](/uilib/extensions/forms/base-fields/String/) with the `multiline` property.
 
 ## Relevant links
 
@@ -33,3 +40,5 @@ This way, the user gets visual feedback on the number of characters entered and 
 You can still set the requirement for your desired maximum number of characters by setting the `maxLength` property in [Eufemia Forms](/uilib/extensions/forms/base-fields/String/).
 
 <Examples.MaxLength />
+
+<RelatedComponents />

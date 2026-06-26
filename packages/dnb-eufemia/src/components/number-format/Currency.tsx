@@ -9,9 +9,13 @@ export type NumberFormatCurrencyProps = Omit<
   NumberFormatAllProps,
   'compact'
 > & {
-  /** Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true`. */
+  /**
+   * Currency code (ISO 4217) or `true` to use the default `NOK`. Defaults to `true` when using `NumberFormat.Currency`. Uses two decimals by default.
+   */
   currency?: NumberFormatProps['currency']
-  /** Compact display: `short` (e.g., 1.2K kr), `long` (e.g., 1.2 thousand kroner) or `true` for short. */
+  /**
+   * Shortens any number or currency including an abbreviation. Available on both `NumberFormat.Number` and `NumberFormat.Currency`. It gives you zero decimal by default `decimals={0}`. Use either `short` or `long`. Defaults to `short` if `true` is given.
+   */
   compact?: NumberFormatProps['compact']
 }
 

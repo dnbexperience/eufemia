@@ -118,7 +118,7 @@ export type TextareaProps = Omit<
      */
     size?: TextareaSize
     /**
-     * To control the visual focus state as a prop, like `focus` or `blur`.
+     * To control the visual focus state as a property, like `focus` or `blur`.
      */
     textareaState?: string
     /**
@@ -134,7 +134,7 @@ export type TextareaProps = Omit<
      */
     keepPlaceholder?: boolean
     /**
-     * Defines the `text-align` of the Textarea. Defaults to `left`.
+     * Defines the `text-align` of the Textarea. Can be `left`, `center`, `right`, or `justify`. Defaults to `left`.
      */
     align?: TextareaAlign
     /**
@@ -178,7 +178,7 @@ export type TextareaProps = Omit<
      */
     locale?: InternalLocale
     /**
-     * By providing a React.Ref we can get the internally used Textarea element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
+     * By providing a `React.Ref` we can get the internally used Textarea element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.
      */
     ref?: Ref<HTMLTextAreaElement> | null
   }

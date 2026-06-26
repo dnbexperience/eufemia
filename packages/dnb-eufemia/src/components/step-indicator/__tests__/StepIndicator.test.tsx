@@ -716,6 +716,72 @@ describe('StepIndicator ARIA', () => {
     // Verify the aria-label contains step information (e.g., "Steg 1 av 4:")
     expect(buttonHTML).toMatch(/aria-label="Steg \d+ av \d+:"/)
   })
+
+  it('connects a step status message to the step button via aria-describedby', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        expandedInitially
+        data={[
+          { title: 'Step A', status: 'Step A has an error' },
+          { title: 'Step B' },
+        ]}
+      />
+    )
+
+    const firstStepItem = document.querySelectorAll(
+      'li.dnb-step-indicator__item'
+    )[0]
+
+    // The status message of the first step
+    const statusText = firstStepItem.querySelector(
+      '.dnb-step-indicator__item-content__status .dnb-form-status__text'
+    )
+    expect(statusText).toBeInTheDocument()
+    expect(statusText).toHaveTextContent('Step A has an error')
+
+    const statusTextId = statusText.getAttribute('id')
+    expect(statusTextId).toBeTruthy()
+
+    // The step button must reference both the screen-reader label and the status
+    const button = firstStepItem.querySelector(
+      '.dnb-step-indicator__button'
+    )
+    const describedBy = (
+      button.getAttribute('aria-describedby') || ''
+    ).split(/\s+/)
+
+    const srOnlyId = firstStepItem
+      .querySelector('.dnb-sr-only')
+      .getAttribute('id')
+
+    expect(describedBy).toContain(srOnlyId)
+    expect(describedBy).toContain(statusTextId)
+  })
+
+  it('does not reference a status id when the step has no status', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        expandedInitially
+        data={[{ title: 'Step A' }, { title: 'Step B' }]}
+      />
+    )
+
+    const firstStepItem = document.querySelectorAll(
+      'li.dnb-step-indicator__item'
+    )[0]
+    const button = firstStepItem.querySelector(
+      '.dnb-step-indicator__button'
+    )
+    const describedBy = button.getAttribute('aria-describedby') || ''
+
+    // No "-status" reference at all when there is no status
+    const statusRefs = describedBy
+      .split(/\s+/)
+      .filter((refId) => refId.endsWith('-status'))
+    expect(statusRefs).toHaveLength(0)
+  })
 })
 
 describe('StepIndicator scss', () => {

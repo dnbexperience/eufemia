@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
+
 ## Import
 
 ```tsx
@@ -12,6 +14,12 @@ import { Checkbox } from '@dnb/eufemia'
 
 The Checkbox component is displayed as a square box that is ticked (checked) when activated. Checkboxes let users select one or more options from a limited number of choices.
 
+## When to use Checkbox vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of a single `Checkbox` is [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/), while [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) handles selecting multiple values with checkboxes.
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1493)
@@ -21,3 +29,5 @@ The Checkbox component is displayed as a square box that is ticked (checked) whe
 ## Accessibility
 
 Checkbox components use semantic `<input type="checkbox">` elements, ensuring full keyboard accessibility (Space to toggle) and proper state announcement by screen readers. Labels are properly associated using `htmlFor` attributes.
+
+<RelatedComponents />

@@ -14,13 +14,19 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import Button from '../../button/Button'
+import FormStatus from '../../FormStatus'
 import Space from '../../space/Space'
-import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
-import { dispatchCustomElementEvent } from '../../../shared/component-helper'
-
-import type { SpacingProps } from '../../../shared/types'
+import {
+  dispatchCustomElementEvent,
+  combineDescribedBy,
+} from '../../../shared/component-helper'
+import { Context } from '../../../shared'
+import useId from '../../../shared/helpers/useId'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
+
+import type { ButtonProps } from '../../button/Button'
+import type { SpacingProps } from '../../../shared/types'
 
 type ExtendedMouseEvent = {
   event: MouseEvent<HTMLElement>
@@ -62,6 +68,11 @@ export type DialogActionProps = {
    * Pass in custom confirm/decline buttons for action handling. Every child of type Button will be provided with a `close` function attribute.
    */
   children?: ReactElement | Array<ReactElement>
+
+  /**
+   * Provide a status message that will be displayed below the action buttons.
+   */
+  status?: ReactNode
 }
 
 export type DialogActionAllProps = DialogActionProps &
@@ -75,6 +86,7 @@ const DialogAction = ({
   confirmText = null,
   hideDecline = false,
   hideConfirm = false,
+  status,
   onConfirm = fallbackCloseAction,
   onDecline = fallbackCloseAction,
   className,
@@ -84,6 +96,10 @@ const DialogAction = ({
   const { translation, Button: ButtonContext } = useContext(Context)
   const { close } = useContext(ModalContext)
   let childrenWithCloseFunc: ReactNode
+
+  const statusId = useId()
+  // Id of the FormStatus message, used to link it to the action button(s).
+  const statusDescribedBy = status ? statusId + '-status' : undefined
 
   const onConfirmHandler = useCallback(
     (event) => {
@@ -106,11 +122,11 @@ const DialogAction = ({
 
   if (children) {
     childrenWithCloseFunc = Children.map(children, (child) => {
-      if (isValidElement<any>(child) && child.type === Button) {
-        const childElement = child as ReactElement<any>
+      if (isValidElement<ButtonProps>(child) && child.type === Button) {
+        const childElement = child as ReactElement<ButtonProps>
 
         return createElement(
-          childElement.type as ComponentType<any>,
+          childElement.type as ComponentType<ButtonProps>,
           {
             ...(childElement.props || {}),
             onClick: (event) => {
@@ -119,6 +135,13 @@ const DialogAction = ({
                 close,
               })
             },
+            // Link the status message to custom action buttons too.
+            ...(statusDescribedBy && {
+              'aria-describedby': combineDescribedBy(
+                childElement.props,
+                statusDescribedBy
+              ),
+            }),
           },
           childElement.props.children
         )
@@ -129,30 +152,47 @@ const DialogAction = ({
   }
 
   return (
-    <Space
-      element="section"
-      className={clsx('dnb-dialog__actions', className)}
-      {...props}
-    >
-      {childrenWithCloseFunc}
+    <>
+      <Space
+        element="section"
+        className={clsx('dnb-dialog__actions', className)}
+        {...props}
+      >
+        {childrenWithCloseFunc}
 
-      {!children && !hideDecline && (
-        <Button
-          text={declineText || translation?.Dialog?.declineText}
-          variant="secondary"
-          onClick={onDeclineHandler}
-          size={ButtonContext?.size || 'large'}
-        />
-      )}
-      {!children && !hideConfirm && (
-        <Button
-          text={confirmText || translation?.Dialog?.confirmText}
-          variant="primary"
-          onClick={onConfirmHandler}
-          size={ButtonContext?.size || 'large'}
-        />
-      )}
-    </Space>
+        {!children && !hideDecline && (
+          <Button
+            text={declineText || translation?.Dialog?.declineText}
+            variant="secondary"
+            onClick={onDeclineHandler}
+            size={ButtonContext?.size || 'large'}
+            // When the confirm button is hidden, the status must still be
+            // linked to a visible action button.
+            aria-describedby={hideConfirm ? statusDescribedBy : undefined}
+          />
+        )}
+        {!children && !hideConfirm && (
+          <Button
+            text={confirmText || translation?.Dialog?.confirmText}
+            variant="primary"
+            onClick={onConfirmHandler}
+            size={ButtonContext?.size || 'large'}
+            status={status ? 'error' : undefined}
+            aria-describedby={statusDescribedBy}
+          />
+        )}
+      </Space>
+
+      <FormStatus
+        show={!!status}
+        id={statusId + '-form-status'}
+        textId={statusId + '-status'}
+        noAnimation={false}
+        shellSpace={{ top: 'small' }}
+      >
+        {status}
+      </FormStatus>
+    </>
   )
 }
 

@@ -48,64 +48,57 @@ export type FieldMultiSelectionProps = FieldProps<
   Array<number | string> | undefined
 > & {
   /**
-   * Data to be used for the component. Array of objects with `value` and `title` properties.
-   * Supports nested items via `children` property.
+   * Array of objects where each object contains at least `value` and `title`. Can also include `text` for an optional primary extra line, `description` for an optional secondary grey line, plus `disabled`, `help`, and `className`.
    */
   data?: MultiSelectionData
 
   /**
-   * The path to the context data (Form.Handler).
+   * Path to data in Form.Handler context. The context data array should contain objects with `value` and `title` properties.
    */
   dataPath?: Path
 
   /**
-   * Defines the variant of the component.
-   * `popover` renders a trigger button that opens a popover with the item list.
-   * `inline` renders the item list inline as checkboxes.
-   * Default: `popover`
+   * Defines the variant of the component. `popover` renders a trigger button that opens a popover with the item list. `inline` renders the item list inline as checkboxes.
    */
   variant?: 'popover' | 'inline'
 
   /**
-   * The width of the component. Supported values: false, 'medium', 'large', or a custom width.
+   * The width of the component. Supported values: `"medium"` and `"large"`. Defaults to `"large"`.
    */
   width?: MultiSelectionFieldBlockWidth
 
   /**
-   * Show search field to filter options. Defaults to false.
+   * Show a search/filter input field to search through items.
    */
   showSearchField?: boolean
 
   /**
-   * Show "Select all" checkbox at top of list. Defaults to false.
+   * Show a "Select all" checkbox at the top of the list.
    */
   showSelectAll?: boolean
 
   /**
-   * Show selected items as tags inside the popover. When enabled and nothing is
-   * selected a placeholder text is shown. Defaults to false.
+   * Show selected items as removable tags inside the popover. When enabled and nothing is selected, a placeholder text is shown.
    */
   showSelectedTags?: boolean
 
   /**
-   * Threshold for collapsing selected items when showSelectedTags is enabled.
-   * When the number of selected items exceeds this threshold, a toggle button
-   * and "Clear all" button appear, and the tags are hidden by default. Defaults to 10.
+   * When the number of selected items exceeds this threshold, the selected items are hidden by default and can be toggled with a header.
    */
   selectedItemsCollapsibleThreshold?: number
 
   /**
-   * Show confirm/cancel buttons. Defaults to false.
+   * Show confirm and cancel buttons at the bottom of the popover. Selections are only applied when the user confirms.
    */
   showConfirmButton?: boolean
 
   /**
-   * Minimum number of items required to be selected
+   * Minimum number of items required to be selected. Triggers a validation error if fewer items are selected.
    */
   minItems?: number
 
   /**
-   * Maximum number of items allowed to be selected
+   * Maximum number of items allowed to be selected. Triggers a validation error if more items are selected.
    */
   maxItems?: number
 

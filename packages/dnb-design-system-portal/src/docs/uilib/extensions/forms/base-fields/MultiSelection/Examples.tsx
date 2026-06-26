@@ -1,6 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Form } from '@dnb/eufemia/src/extensions/forms'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
 import { NumberFormat } from '@dnb/eufemia/src'
 
 export const Basic = () => (

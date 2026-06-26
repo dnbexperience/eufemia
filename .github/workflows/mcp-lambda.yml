@@ -1,0 +1,159 @@
+name: MCP Lambda
+
+# Build, test and deploy the Eufemia MCP server as an AWS Lambda function.
+#
+# This workflow runs tests and builds the Lambda zip on public GitHub,
+# then pushes the built artifact + Terraform config to a GitHub Enterprise
+# repository where OIDC federation handles AWS authentication.
+#
+# Triggers:
+# - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
+# - Any branch named `**/mcp-server` (e.g. `feat/mcp-server`).
+# - `workflow_dispatch` — manual deploy from the Actions tab.
+#
+# Requires the following GitHub secrets:
+# - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo + workflow push access
+# - GHE_DEPLOY_REPO: The GHE repo (e.g. `eufemia/eufemia-mcp`)
+#
+# See tools/mcp-lambda/README.md for manual deploy instructions.
+
+on:
+  push:
+    branches:
+      - release
+      - '**/mcp-server'
+    tags:
+      - 'v*'
+      - 'v*.*.*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        id: modules-cache
+        with:
+          path: |
+            node_modules
+            tools/mcp-lambda/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
+
+      - name: Install dependencies
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --immutable
+
+      - name: Typecheck
+        run: cd tools/mcp-lambda && yarn typecheck
+
+      - name: Lint
+        run: cd tools/mcp-lambda && yarn lint
+
+      - name: Run tests
+        run: cd tools/mcp-lambda && yarn test
+
+  build-and-push:
+    name: Build & Push to GHE
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        id: modules-cache
+        with:
+          path: |
+            node_modules
+            tools/mcp-lambda/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
+
+      - name: Install dependencies
+        if: steps.modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --immutable
+
+      - name: Skip if GHE credentials are missing
+        id: gate
+        env:
+          GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
+        run: |
+          if [ -z "${GHE_PAT:-}" ]; then
+            echo "GHE_DEPLOY_PAT is not set; skipping push."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build Lambda zip
+        if: steps.gate.outputs.skip != 'true'
+        run: cd tools/mcp-lambda && yarn build
+
+      - name: Push to GHE deploy repo
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
+          GHE_REPO: ${{ secrets.GHE_DEPLOY_REPO }}
+          SOURCE_REF: ${{ github.ref_name }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          DEPLOY_DIR=$(mktemp -d)
+          cd "$DEPLOY_DIR"
+
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Copy the built zip and Terraform config, preserving the
+          # dist/ + infra/ layout that main.tf expects (../dist/lambda.zip)
+          mkdir -p dist
+          cp "$GITHUB_WORKSPACE/tools/mcp-lambda/dist/lambda.zip" dist/
+          cp -R "$GITHUB_WORKSPACE/tools/mcp-lambda/infra" .
+
+          # Include the deploy workflow so it lives on (and triggers from) the deploy branch
+          mkdir -p .github/workflows
+          cp "$GITHUB_WORKSPACE/tools/mcp-lambda/ghe-deploy-workflow.yml" .github/workflows/deploy.yml
+
+          git add -A
+          git commit -m "Deploy from ${SOURCE_REF} (${SOURCE_SHA:0:7})"
+
+          # Authenticate via a per-invocation http.extraheader instead of
+          # embedding the PAT in the remote URL. This keeps the token out of
+          # .git/config on disk and out of the stored remote URL.
+          AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
+          git -c http.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" \
+            push "https://dnb.ghe.com/${GHE_REPO}.git" HEAD:refs/heads/deploy --force

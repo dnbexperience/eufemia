@@ -1,0 +1,69 @@
+# This workflow runs in the GitHub Enterprise deploy repo.
+# It is triggered when the public GitHub workflow pushes a built
+# lambda.zip + Terraform config to the `deploy` branch.
+#
+# The public workflow (.github/workflows/mcp-lambda.yml) copies this file
+# to .github/workflows/deploy.yml on the `deploy` branch automatically, so
+# no manual installation in the GHE repo is required.
+
+name: Deploy MCP Lambda
+
+on:
+  push:
+    branches:
+      - deploy
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+# Never cancel an in-flight deploy: interrupting `terraform apply` can leave
+# the DynamoDB state lock dangling and require a manual force-unlock. Queue
+# concurrent deploys instead so they run one after another.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-north-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: '~> 1.10'
+
+      - name: Deploy
+        env:
+          TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
+        run: |
+          set -euo pipefail
+          cd infra
+          # -reconfigure: the backend switched from a DynamoDB lock table to the
+          # S3 native lockfile (use_lockfile). The state location is unchanged,
+          # so reconfigure adopts the new backend config without migrating state.
+          terraform init -input=false -reconfigure
+          terraform apply -auto-approve -input=false
+
+      - name: Post deploy summary
+        run: |
+          cd infra
+          ENDPOINT=$(terraform output -raw custom_domain 2>/dev/null || terraform output -raw api_endpoint)
+          echo "## MCP Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"

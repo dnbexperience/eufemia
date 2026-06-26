@@ -2,8 +2,10 @@
  * Helpers to configure the `Intl.NumberFormat` compact notation.
  */
 
-import type { NumberFormatValue } from './types'
-import type { InternalNumberFormatOptions } from './types'
+import type {
+  NumberFormatValue,
+  InternalNumberFormatOptions,
+} from './types'
 
 /**
  * Helper for getting a consistent compact format.

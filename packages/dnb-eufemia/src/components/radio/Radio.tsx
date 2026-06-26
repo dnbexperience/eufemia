@@ -102,7 +102,7 @@ export type RadioProps = {
   children?: RadioChildren
   onChange?: (event: RadioChangeEvent) => void
   /**
-   * By providing a React.Ref we can get the internally used input element (DOM). E.g. `ref={myRef}` by using `React.useRef(null)`.
+   * By providing a `React.Ref` we can get the internally used input element (DOM), e.g. `ref={myRef}` by using `React.useRef(null)`.
    */
   ref?: Ref<HTMLInputElement>
 } & Omit<
@@ -326,9 +326,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     contextProps,
     { skeleton: context?.skeleton },
     pickFormElementProps(context.formElement),
-    (context as Record<string, unknown>)?.Radio as
-      | Record<string, unknown>
-      | undefined
+    context.Radio
   )
 
   const {

@@ -113,6 +113,7 @@ describe('babel build', () => {
       '/plugin-scope-hash.cjs',
       '/token-name-policy.cjs',
       '/no-unused-use.cjs',
+      '/no-undefined-custom-property.cjs',
       '/dnb-ui-lib.min.mjs',
       '/dnb-ui-basis.min.mjs',
       '/dnb-ui-components.min.mjs',
@@ -751,7 +752,7 @@ describe('style build', () => {
       expect(normalizeCss(content)).toContain(
         normalizeCss(`
 .dnb-p {
-  font-size: var(--font-size-basis);
+  font-size: var(--typography-font-size-basis);
   color: var(--token-color-text-neutral);
 }`)
       )
@@ -789,7 +790,7 @@ describe('style build', () => {
       expect(normalizeCss(content)).toContain(
         normalizeCss(`
 .dnb-p {
-  font-size: var(--font-size-basis);
+  font-size: var(--typography-font-size-basis);
   color: var(--token-color-text-neutral);
 }`)
       )

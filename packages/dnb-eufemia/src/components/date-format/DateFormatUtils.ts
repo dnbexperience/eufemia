@@ -26,13 +26,27 @@ type DurationFormatConstructor = {
   new (locale?: string, options?: DurationFormatOptions): DurationFormat
 }
 
+// Augment the global Intl namespace with the newer DurationFormat API,
+// which is not yet part of the bundled TypeScript lib definitions.
+// Runtime availability is guarded with a try/catch where it is used.
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Intl {
+    const DurationFormat: DurationFormatConstructor
+  }
+}
+
 export type DateFormatOptions = {
   locale?: AnyLocale
   options?: Intl.DateTimeFormatOptions
   timeZone?: string
-  /** When true, hides the year if the date is in the current year (any dateStyle). */
+  /**
+   * When `true`, the year is hidden if the date is in the current year, for any `dateStyle` (e.g. "4. feb." instead of "4. feb. 2025"). Defaults to `false`.
+   */
   hideCurrentYear?: boolean
-  /** When true, always hides the year from the formatted date (any dateStyle). */
+  /**
+   * When `true`, the year is always hidden from the formatted date, for any `dateStyle`. Defaults to `false`.
+   */
   hideYear?: boolean
 }
 
@@ -529,8 +543,7 @@ function createDurationFormatter(
   dateStyle?: Intl.DateTimeFormatOptions['dateStyle']
 ): DurationFormat | null {
   try {
-    const DurationFormat = (Intl as any)
-      .DurationFormat as DurationFormatConstructor
+    const DurationFormat = Intl.DurationFormat
     return new DurationFormat(locale, {
       style:
         dateStyle === 'short'

@@ -8,15 +8,12 @@ export type FieldIndeterminateProps = Partial<
   Omit<ToggleAllProps, 'textOn' | 'textOff'>
 > & {
   /**
-   * An array of paths to the data object.
+   * Provide an array with the related paths of other [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) or [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) fields.
    */
   dependencePaths: Array<Path>
 
   /**
-   * When `checked`, the dependent checkboxes will always be set to "checked" when in indeterminate state.
-   * When `unchecked`, the dependent checkboxes will be set to "unchecked" when in indeterminate state.
-   * When "auto", the dependent checkboxes will get the inverted state from where the (this) parent checkbox is in.
-   * Default: `checked`.
+   * When `checked`, the dependent checkboxes will always be set to "checked" when in indeterminate state. When `unchecked`, the dependent checkboxes will be set to "unchecked" when in indeterminate state. When "auto", the dependent checkboxes will get the inverted state from where the (this) parent checkbox is in. Defaults to `checked`.
    */
   propagateIndeterminateState?: 'checked' | 'unchecked' | 'auto'
 }

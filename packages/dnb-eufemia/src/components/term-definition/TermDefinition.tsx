@@ -22,11 +22,11 @@ import { extendPropsWithContext } from '../../shared/component-helper'
 
 export type TermDefinitionProps = {
   /**
-   * The term shown as the anchor trigger.
+   * Term shown as the trigger. Typically a short word or phrase.
    */
   children: ReactNode
   /**
-   * The explanatory text/content shown inside the tooltip.
+   * Definition text that will be displayed inside.
    */
   content: ReactNode
   /**
@@ -34,7 +34,8 @@ export type TermDefinitionProps = {
    */
   className?: string
   /**
-   * Tooltip placement relative to the trigger.
+   * Defines the preferred popover placement relative to the trigger.
+   * Default: `"bottom"`
    */
   placement?: 'top' | 'right' | 'bottom' | 'left'
   /**

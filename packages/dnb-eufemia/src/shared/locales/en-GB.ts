@@ -140,6 +140,9 @@ export default {
       addTitle: 'Increase (%s)',
       subtractTitle: 'Decrease (%s)',
     },
+    VippsWalletButton: {
+      text: 'Add to',
+    },
     PaymentCard: {
       textBlocked: 'Blocked',
       textExpired: 'Expired',

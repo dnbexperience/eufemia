@@ -5,7 +5,7 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { H, H1, H2, H3, H4, H5, H6, P, Section } from '@dnb/eufemia/src'
-import Typography from '@dnb/eufemia/src/elements/typography/Typography'
+import { Typography } from '@dnb/eufemia/src/elements'
 import styled from '@emotion/styled'
 
 export const HeadingBasicsExample = () => (
@@ -92,15 +92,15 @@ export const HeadingProseMaxWidthExample = () => (
 export function HeadingProseMaxWidthProvider() {
   return (
     <ComponentBox hideCode scope={{ Typography }}>
-      <Typography.Provider proseMaxWidth={40}>
+      <Typography.Context proseMaxWidth={40}>
         <H4>
-          This heading is inside a Typography.Provider with proseMaxWidth=
+          This heading is inside a Typography.Context with proseMaxWidth=
           {40}
         </H4>
         <H4 proseMaxWidth={20}>
           This heading overrides the provider with proseMaxWidth={20}
         </H4>
-      </Typography.Provider>
+      </Typography.Context>
     </ComponentBox>
   )
 }

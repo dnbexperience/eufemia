@@ -36,6 +36,7 @@ import Span from './elements/Span'
 import Td from './elements/Td'
 import Th from './elements/Th'
 import Tr from './elements/Tr'
+import Typography from './elements/Typography'
 import Ul from './elements/Ul'
 import Accordion from './components/accordion/Accordion'
 import Anchor from './components/anchor/Anchor'
@@ -127,6 +128,7 @@ export {
   Td,
   Th,
   Tr,
+  Typography,
   Ul,
   Accordion,
   Anchor,

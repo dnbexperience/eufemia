@@ -2,8 +2,10 @@
  * Decimal helpers (rounding, formatting fraction digits).
  */
 
-import type { NumberFormatValue } from './types'
-import type { InternalNumberFormatOptions } from './types'
+import type {
+  NumberFormatValue,
+  InternalNumberFormatOptions,
+} from './types'
 
 /**
  * Rounds the number to the nearest even number.

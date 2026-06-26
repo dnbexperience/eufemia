@@ -243,8 +243,9 @@
 
   // Responsive modifiers
   // A single --responsive-spacing-tier variable controls the active tier.
-  // Each --responsive-spacing-* is computed from its basis value + tier × 0.5rem.
-  // Default mapping: small viewport = -1, medium = 0, large = +1.
+  // Each --responsive-spacing-* is computed from its basis value + tier × 0.5rem,
+  // with a minimum value to avoid negative spacing.
+  // Default mapping: below small = -1, above small = 0.
   // Shifting the breakpoint shifts the tier integers accordingly.
 
   &-responsive {
@@ -252,63 +253,55 @@
 
     // Compute responsive spacing values
     --responsive-spacing-xx-small: max(
-      0.25rem,
-      calc(0.5rem + var(--responsive-spacing-tier) * 0.5rem)
+      0.125rem,
+      calc(0.25rem + var(--responsive-spacing-tier) * 0.5rem)
     );
     --responsive-spacing-x-small: max(
       0.25rem,
+      calc(0.5rem + var(--responsive-spacing-tier) * 0.5rem)
+    );
+    --responsive-spacing-small: max(
+      0.5rem,
       calc(1rem + var(--responsive-spacing-tier) * 0.5rem)
     );
-    --responsive-spacing-small: calc(
+    --responsive-spacing-medium: calc(
       1.5rem + var(--responsive-spacing-tier) * 0.5rem
     );
-    --responsive-spacing-medium: calc(
+    --responsive-spacing-large: calc(
       2rem + var(--responsive-spacing-tier) * 0.5rem
     );
-    --responsive-spacing-large: calc(
+    --responsive-spacing-x-large: calc(
       2.5rem + var(--responsive-spacing-tier) * 0.5rem
     );
-    --responsive-spacing-x-large: calc(
-      3rem + var(--responsive-spacing-tier) * 0.5rem
-    );
     --responsive-spacing-xx-large: calc(
-      3.5rem + var(--responsive-spacing-tier) * 0.5rem
+      3rem + var(--responsive-spacing-tier) * 0.5rem
     );
 
     // Map spacing tokens to responsive spacing values
     --spacing-xx-small: var(--responsive-spacing-xx-small);
-    --spacing-x-small: var(--responsive-spacing-xx-small);
-    --spacing-small: var(--responsive-spacing-x-small);
-    --spacing-medium: var(--responsive-spacing-small);
-    --spacing-large: var(--responsive-spacing-medium);
-    --spacing-x-large: var(--responsive-spacing-large);
-    --spacing-xx-large: var(--responsive-spacing-x-large);
+    --spacing-x-small: var(--responsive-spacing-x-small);
+    --spacing-small: var(--responsive-spacing-small);
+    --spacing-medium: var(--responsive-spacing-medium);
+    --spacing-large: var(--responsive-spacing-large);
+    --spacing-x-large: var(--responsive-spacing-x-large);
+    --spacing-xx-large: var(--responsive-spacing-xx-large);
 
-    // Default viewport mapping (medium = basis)
+    // Default breakpoint changes size at "small" viewport
     @include utilities.allBelow(small) {
       --responsive-spacing-tier: -1;
     }
-    @include utilities.allAbove(medium) {
-      --responsive-spacing-tier: 1;
-    }
-  }
-
-  // Breakpoint overrides – shift which viewport gets the "basis" tier
-  &-responsive--breakpoint-small {
-    @include utilities.allBelow(small) {
+    @include utilities.allBetween(small, medium) {
       --responsive-spacing-tier: 0;
     }
-    @include utilities.allBetween(small, medium) {
-      --responsive-spacing-tier: 1;
-    }
     @include utilities.allAbove(medium) {
-      --responsive-spacing-tier: 2;
+      --responsive-spacing-tier: 0;
     }
   }
 
-  &-responsive--breakpoint-large {
+  // Breakpoint overrides – shift at which breakpoint the sizes change
+  &-responsive--break-on-medium {
     @include utilities.allBelow(small) {
-      --responsive-spacing-tier: -2;
+      --responsive-spacing-tier: -1;
     }
     @include utilities.allBetween(small, medium) {
       --responsive-spacing-tier: -1;
@@ -323,8 +316,8 @@
     --responsive-spacing-tier: -1;
   }
 
-  &-responsive--force-spacious {
-    --responsive-spacing-tier: 1;
+  &-responsive--force-basis {
+    --responsive-spacing-tier: 0;
   }
 
   // Reset responsive overrides when Space.ResponsiveContext off is set,

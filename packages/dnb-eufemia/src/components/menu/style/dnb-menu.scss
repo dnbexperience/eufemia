@@ -191,7 +191,10 @@
     }
 
     &--open > &__trigger &__indicator .dnb-icon {
-      --icon-transition: var(--icon-transition-expanded);
+      --icon-transition: var(
+        --icon-transition-expanded,
+        var(--icon-transition-default)
+      );
     }
 
     .dnb-menu__list {

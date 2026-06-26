@@ -33,3 +33,12 @@
 - Tests act as a contract to verify the intention of the functionality.
 - Write tests before implementing a fix - this ensures the test captures the expected behavior and verifies the fix works correctly.
 - Prefer document.querySelector over screen from @testing-library/react.
+
+## Commit Messages
+
+Follow the [Git convention style guide](packages/dnb-design-system-portal/src/docs/contribute/style-guides/git.mdx). Use Conventional Commits with imperative mood and a PascalCase scope when targeting a specific component:
+
+- `fix(Button): prevent double click submission`
+- `feat(DatePicker): add month-only mode`
+
+For extensions/forms, use the compound name: `feat(Field.Date): ...`, `fix(Form.Section): ...`.

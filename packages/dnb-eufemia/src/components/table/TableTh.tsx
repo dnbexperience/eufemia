@@ -13,46 +13,44 @@ export type TableThChildren =
 
 export type TableThProps = {
   /**
-   * Defines the table header as sortable (ascending)
+   * Defines the table header as sortable if set to `true` (ascending).
    * Default: `false`
    */
   sortable?: boolean
 
   /**
-   * Defines the sortable column as the current active (ascending)
+   * Defines the sortable column as the current active (ascending).
    * Default: `false`
    */
   active?: boolean
 
   /**
-   * Defines the sortable column as in reversed order (descending)
+   * Defines the sortable column as in reversed order (descending).
    * Default: `false`
    */
   reversed?: boolean
 
   /**
-   * If set to true, the header text will not wrap to new lines
+   * If set to `true`, the header text will not wrap to new lines.
    * Default: `false`
    */
   noWrap?: boolean
 
   /**
-   * Highlights the cell with a subtle background overlay.
-   * Use together with `useTableHighlight` to highlight the entire column.
+   * If set to `true`, the header cell and all `<Td>` cells in the same column receive a highlighted background. Also inherited from the parent `<Tr>` when it has `highlight`.
    * Default: `false`
    */
   highlight?: boolean
 
   /**
-   * Defines the visual variant of the table header.
-   * `emphasis` renders with medium font weight.
-   * `subtle` renders with regular font weight, smaller font size, and lighter color.
-   * Default: `emphasis`
+   * Defines the visual style of the table header. Use `subtle` for a lighter appearance with reduced font-weight, smaller font-size, and muted text color.
+   * Default: `"emphasis"`
    */
   variant?: 'emphasis' | 'subtle'
 
   /**
-   * The content of the table header given as Tr.
+   * The content of the component.
+   * Default: `undefined`
    */
   children?: TableThChildren | Array<TableThChildren>
 

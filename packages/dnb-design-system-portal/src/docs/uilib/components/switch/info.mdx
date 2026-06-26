@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
+
 ## Import
 
 ```tsx
@@ -15,6 +17,12 @@ _Also known as a toggle switch or toggle._
 The Switch component (toggle) is a digital on/off switch. Toggle switches are best used for changing system functionalities and preferences. "Toggles may replace two radio buttons or a single checkbox to allow users to choose between two opposing states." – [Source][1]
 
 You may also check out the [Checkbox](/uilib/components/checkbox) component.
+
+## When to use Switch vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `Switch` is [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) with the switch variant (`variant="switch"`), or [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) for toggling between two values.
 
 ## Relevant links
 
@@ -41,3 +49,5 @@ Do not use a toggle switch if the user is required to click Save or Update to ap
 The label should describe what the toggle will do when the switch is on.
 
 [1]: https://www.nngroup.com/articles/toggle-switch-guidelines/
+
+<RelatedComponents />

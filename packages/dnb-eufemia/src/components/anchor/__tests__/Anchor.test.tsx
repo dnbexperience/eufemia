@@ -8,7 +8,7 @@ import type { AnchorHTMLAttributes, Ref, RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { AnchorAllProps } from '../Anchor'
-import Anchor from '../Anchor'
+import Anchor, { isDangerousHref } from '../Anchor'
 import { bell } from '../../../icons'
 import IconPrimary from '../../IconPrimary'
 import locales from '../../../shared/locales'
@@ -179,6 +179,84 @@ describe('Anchor element', () => {
 
       const anchorElement = document.querySelector('a')
       expect(anchorElement).toHaveAttribute('rel', 'custom-rel')
+    })
+
+    it('should remove a javascript: href to prevent script execution', () => {
+      render(<Anchor href="javascript:alert('XSS')">text</Anchor>)
+
+      expect(document.querySelector('a')).not.toHaveAttribute('href')
+    })
+
+    it('should remove a vbscript: href to prevent script execution', () => {
+      render(<Anchor href="vbscript:msgbox(1)">text</Anchor>)
+
+      expect(document.querySelector('a')).not.toHaveAttribute('href')
+    })
+
+    it('should remove an obfuscated javascript: href with control characters', () => {
+      render(<Anchor href={'  java\tscript:alert(1)'}>text</Anchor>)
+
+      expect(document.querySelector('a')).not.toHaveAttribute('href')
+    })
+
+    it('should remove a javascript: "to" prop to prevent script execution', () => {
+      render(<Anchor to="javascript:alert('XSS')">text</Anchor>)
+
+      const anchorElement = document.querySelector('a')
+      expect(anchorElement).not.toHaveAttribute('to')
+      expect(anchorElement).not.toHaveAttribute('href')
+    })
+
+    it('should remove an uppercase JavaScript: href', () => {
+      render(<Anchor href="JavaScript:alert(1)">text</Anchor>)
+
+      expect(document.querySelector('a')).not.toHaveAttribute('href')
+    })
+
+    it('should keep a safe http href untouched', () => {
+      render(<Anchor href="https://www.dnb.no">text</Anchor>)
+
+      expect(document.querySelector('a')).toHaveAttribute(
+        'href',
+        'https://www.dnb.no'
+      )
+    })
+
+    it('should keep a relative href untouched', () => {
+      render(<Anchor href="/uilib/components">text</Anchor>)
+
+      expect(document.querySelector('a')).toHaveAttribute(
+        'href',
+        '/uilib/components'
+      )
+    })
+
+    it('should keep mailto and tel hrefs untouched', () => {
+      const { rerender } = render(
+        <Anchor href="mailto:test@dnb.no">text</Anchor>
+      )
+      expect(document.querySelector('a')).toHaveAttribute(
+        'href',
+        'mailto:test@dnb.no'
+      )
+
+      rerender(<Anchor href="tel:+4712345678">text</Anchor>)
+      expect(document.querySelector('a')).toHaveAttribute(
+        'href',
+        'tel:+4712345678'
+      )
+    })
+
+    it('isDangerousHref flags script-executing protocols only', () => {
+      expect(isDangerousHref('javascript:alert(1)')).toBe(true)
+      expect(isDangerousHref('JAVASCRIPT:alert(1)')).toBe(true)
+      expect(isDangerousHref('vbscript:msgbox(1)')).toBe(true)
+      expect(isDangerousHref('  java\tscript:alert(1)')).toBe(true)
+      expect(isDangerousHref('https://www.dnb.no')).toBe(false)
+      expect(isDangerousHref('/relative/path')).toBe(false)
+      expect(isDangerousHref('mailto:test@dnb.no')).toBe(false)
+      expect(isDangerousHref(undefined)).toBe(false)
+      expect(isDangerousHref(123)).toBe(false)
     })
 
     it('has no "__launch-icon" class when adding class dnb-anchor--no-launch-icon', () => {

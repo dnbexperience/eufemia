@@ -13,8 +13,7 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type FieldCurrencyProps = NumberFieldProps & {
   /**
-   * Will change the currency.
-   * You can also set a path as the value, e.g. `/myCurrencyPath`.
+   * Defines what format to show the currency value in, e.g. `NOK` or `USD`. You can also set a path as the value, e.g. `/myCurrencyPath`.
    */
   currency?: PathStrict | CurrencyISO
 }

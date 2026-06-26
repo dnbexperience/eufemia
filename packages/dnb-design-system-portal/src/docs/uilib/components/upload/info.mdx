@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
+
 ## Import
 
 ```tsx
@@ -11,6 +13,12 @@ import { Upload } from '@dnb/eufemia'
 ## Description
 
 The Upload component should be used in scenarios where the user has to upload any kind of files.
+
+## When to use Upload vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `Upload` is [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 
 ## Relevant links
 
@@ -96,3 +104,5 @@ In some situations, it's more suitable to have each link download the file inste
 ## Prevents uploading duplicate files
 
 By default, the Upload component prevents uploading duplicate files. It determines if a file is a duplicate if the file's `name`, `size` (if existing), and `lastModified` (if existing) values are equal. You can use the property `allowDuplicates={true}` to allow duplicate files.
+
+<RelatedComponents />

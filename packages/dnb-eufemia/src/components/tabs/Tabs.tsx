@@ -114,12 +114,12 @@ export type TabsProps = Omit<
      */
     contentStyle?: SectionVariants | string
     /**
-     * To modify the inner space of the content wrapper. Use a supported modifier from the [Section component](/uilib/components/section/properties). Defaults to `{ top: 'large' }`.
+     * To modify the inner space of the content wrapper. Defaults to `{ top: 'large' }`.
      */
     contentInnerSpace?: InnerSpaceType | boolean
     label?: string
     /**
-     * Define what HTML element should be used. You can provide e.g. `tabElement={Link}` and then pass the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.
+     * Define what HTML element should be used. You can provide e.g. `tabElement={Link}` – you may then provide the `to` property inside every entry (`data={[{ to: '/url', ... }]}`). Defaults to `<button>`.
      */
     tabElement?: TabsTabElement
     /**

@@ -15,17 +15,17 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type IterateViewContainerProps = {
   /**
-   * The title of the ViewContainer.
+   * The title of the container.
    */
   title?: ReactNode
 
   /**
-   * An alternative toolbar to be shown in the ViewContainer.
+   * An alternative toolbar to be shown in the container.
    */
   toolbar?: ReactNode
 
   /**
-   * The variant of the toolbar.
+   * Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.
    */
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }

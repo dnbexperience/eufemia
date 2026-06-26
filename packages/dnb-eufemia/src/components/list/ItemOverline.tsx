@@ -12,11 +12,19 @@ import Context from '../../shared/Context'
  * Secondary line above the main row; pairs with List.Cell.Title.Subline (below title).
  */
 export type ItemOverlineProps = FlexItemProps & {
-  /** Font size of the overline content. Defaults to `x-small`. */
+  /**
+   * Font size of the overline content. Defaults to `x-small`.
+   * Default: `"x-small"`
+   */
   fontSize?: 'basis' | 'small' | 'x-small'
-  /** Font weight of the overline content. Defaults to `medium`. */
+  /**
+   * Font weight of the overline content. Defaults to `medium`.
+   * Default: `"medium"`
+   */
   fontWeight?: 'regular' | 'medium'
-  /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
+  /**
+   * When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.
+   */
   skeleton?: SkeletonShow
 }
 

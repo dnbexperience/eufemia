@@ -42,6 +42,23 @@
     "eufemia/no-deprecated-color-variables": [
       true,
       { "severity": "warning" }
+    ],
+    "eufemia/no-undefined-custom-property": [
+      true,
+      {
+        "reportFallbacks": true,
+        "ignoreProperties": [
+          "/^--(small|medium|large)-columns$/",
+          "/^--(small|medium|large)-c-[se]$/",
+          "/^--icon-transition-/",
+          "/^--anchor-background-gutter-/",
+          "--block-content-width",
+          "--blockquote-icon-color",
+          "--hr-thickness",
+          "--hr-thickness-modifier",
+          "--table-td-background--selected"
+        ]
+      }
     ]
   },
   "overrides": [
@@ -54,6 +71,38 @@
       ],
       "rules": {
         "eufemia/no-deprecated-color-variables": null
+      }
+    },
+    {
+      "files": ["src/components/section/**/*.scss"],
+      "rules": {
+        "eufemia/no-undefined-custom-property": [
+          true,
+          {
+            "reportFallbacks": true,
+            "ignoreProperties": [
+              "/^--breakout--/",
+              "/^--outset--/",
+              "/^--rounded-corner--/",
+              "/^--text-color--/",
+              "/^--background-color--/",
+              "/^--outline-color--/",
+              "/^--outline-width--/"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/components/space/**/*.scss"],
+      "rules": {
+        "eufemia/no-undefined-custom-property": [
+          true,
+          {
+            "reportFallbacks": true,
+            "ignoreProperties": ["/^--padding-[trbl]-[sml]$/"]
+          }
+        ]
       }
     }
   ]

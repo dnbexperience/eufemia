@@ -7,7 +7,7 @@ import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Heading, H3, ToggleButton, H1, H2 } from '@dnb/eufemia/src'
-import Typography from '@dnb/eufemia/src/elements/typography/Typography'
+import { Typography } from '@dnb/eufemia/src/elements'
 
 const Style = styled.div`
   .dnb-heading {
@@ -192,16 +192,15 @@ export function HeadingProseMaxWidthProvider() {
   return (
     <ComponentBox hideCode scope={{ Typography }}>
       <Heading.Level reset={3}>
-        <Typography.Provider proseMaxWidth={40}>
+        <Typography.Context proseMaxWidth={40}>
           <Heading>
-            This heading is inside a Typography.Provider with
-            proseMaxWidth=
+            This heading is inside a Typography.Context with proseMaxWidth=
             {40}
           </Heading>
           <Heading proseMaxWidth={20}>
             This heading overrides the provider with proseMaxWidth={20}
           </Heading>
-        </Typography.Provider>
+        </Typography.Context>
       </Heading.Level>
     </ComponentBox>
   )

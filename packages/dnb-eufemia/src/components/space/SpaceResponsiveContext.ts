@@ -1,15 +1,20 @@
 import { createContext } from 'react'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
 
-export type SpaceDensity = 'compact' | 'basis' | 'spacious'
-export type SpaceBreakpoint = Extract<
-  MediaQuerySizes,
-  'small' | 'medium' | 'large'
->
-
 export type SpaceResponsiveContextValue = {
-  defaultBreakpoint?: SpaceBreakpoint
-  density?: SpaceDensity
+  /**
+   * Forces a specific spacing density for descendants. Overrides `breakOn` when set. Use `false` to disable.
+   */
+  density?: 'compact' | 'basis' | false
+
+  /**
+   * Sets the breakpoint at which density switches from `compact` to `basis`. Default: `small`.
+   */
+  breakOn?: Extract<MediaQuerySizes, 'small' | 'medium'>
+
+  /**
+   * When `true`, disables responsive spacing for descendants, overriding a parent `Space.ResponsiveContext`. Defaults to `false`.
+   */
   off?: boolean
 }
 

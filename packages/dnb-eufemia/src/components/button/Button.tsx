@@ -24,6 +24,7 @@ import {
   validateDOMAttributes,
   processChildren,
   getStatusState,
+  combineDescribedBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
@@ -103,16 +104,15 @@ export type ButtonProps = {
    */
   type?: string
   /**
-   * Required if there is no text in the button. If `text` and `children` are undefined, setting the `title` property will automatically set `aria-label` with the same value.
-   * Accepts `ReactNode`. If a JSX element is provided, it will be converted to a plain string using `convertJsxToString` — only static text content is extracted. Custom components that don't render static children will result in an empty string.
+   * Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value. Accepts `ReactNode`. If a JSX element is provided, it will be converted to a plain string using `convertJsxToString` — only static text content is extracted. Custom components that don't render static children will result in an empty string.
    */
   title?: ReactNode
   /**
-   * Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only).
+   * Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.
    */
   variant?: ButtonVariant
   /**
-   * The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large.
+   * The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.
    */
   size?: ButtonSize
   /**
@@ -286,6 +286,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     skeleton,
     element,
     selected,
+    id: _id, // excluded so the default `null` does not override the resolvedId
     ...attributes
   } = props
 
@@ -433,6 +434,15 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     params['aria-label'] = params['aria-label'] || titleString
   }
 
+  // Link the FormStatus message to the button for screen readers.
+  // The FormStatus text element uses the same id (see "textId" below).
+  if (showStatus) {
+    params['aria-describedby'] = combineDescribedBy(
+      params,
+      resolvedId + '-status'
+    )
+  }
+
   skeletonDOMAttributes(params, skeleton, context)
 
   // also used for code markup simulation
@@ -466,6 +476,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
         textId={resolvedId + '-status'} // used for "aria-describedby"
         noAnimation={statusNoAnimation}
         skeleton={skeleton}
+        shellSpace={{ top: 'x-small' }}
         {...statusProps}
       />
 

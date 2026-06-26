@@ -326,6 +326,25 @@ export const DialogConfirmCookies = () => (
   </ComponentBox>
 )
 
+export const DialogConfirmError = () => (
+  <ComponentBox scope={{ trash_medium }}>
+    <Dialog
+      variant="confirmation"
+      confirmType="warning"
+      title="Are you sure you want to delete this?"
+      icon={trash_medium}
+      description="This action cannot be undone."
+      status="Could not delete the record. Try again."
+      confirmText="Delete"
+      declineText="Cancel"
+      triggerProps={{
+        text: 'Delete record',
+        icon: trash_medium,
+      }}
+    />
+  </ComponentBox>
+)
+
 export const DialogConfirmScrollableContent = () => {
   return (
     <ComponentBox data-visual-test="dialog-scroll-content">

@@ -155,10 +155,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       >
     ).ToggleButton,
     pickFormElementProps(context?.formElement),
-    (context as Record<string, unknown>).ToggleButtonGroup as Record<
-      string,
-      unknown
-    >
+    context.ToggleButtonGroup
   )
 
   const {
@@ -385,7 +382,7 @@ export type ToggleButtonGroupProps = Omit<
     labelDirection?: 'horizontal' | 'vertical'
     labelSrOnly?: boolean
     /**
-     * The `title` of the input - describing it a bit further for accessibility reasons.
+     * The `title` of group, describing it a bit further for accessibility reasons.
      */
     title?: string
     /**
@@ -405,7 +402,7 @@ export type ToggleButtonGroupProps = Omit<
      */
     suffix?: ToggleButtonGroupSuffix
     /**
-     * Defines the `value` as a string. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
+     * Defines the pre-selected ToggleButton button. The value has to match the one provided in the ToggleButton button. Use a string value.
      */
     value?: ToggleButtonGroupValue
     /**
@@ -413,11 +410,11 @@ export type ToggleButtonGroupProps = Omit<
      */
     size?: ButtonSize
     /**
-     * Defines the layout direction of the ToggleButtonGroup. Set to `column` or `row`. Defaults to `row` if not set.
+     * Define the layout direction of the ToggleButton buttons. Can be either `column` or `row`. Defaults to `row`.
      */
     layoutDirection?: ToggleButtonGroupLayoutDirection
     /**
-     * Defines the `values` as a string. Use it to get the values during the `onChange` event listener callback in the **ToggleButtonGroup**.
+     * Defines the pre-selected ToggleButton buttons in `multiselect` mode. The values have to match the one provided in the ToggleButton buttons. Use array, either as JS or JSON string.
      */
     values?: ToggleButtonGroupValues
     readOnly?: boolean

@@ -10,20 +10,21 @@ export type AccordionInstance = {
 }
 
 export type AccordionGroupProps = AccordionProps & {
-  /** If `true`, all accordions can be collapsed at once (none expanded). Defaults to `false`. */
+  /**
+   * If set to `true`, the group of accordions will allow all to close.
+   */
   allowCloseAll?: boolean
   /**
-   * Determines how many accordions can be expanded at once.
-   * Default: `single`
+   * Determines how many accordions can be expanded at once. Defaults to `single`.
    */
   expandBehavior?: 'single' | 'multiple'
   /**
-   * ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions.
-   *
-   * Default: `undefined`
+   * Define an `id` of a nested accordion that will get expanded.
    */
   expandedId?: string
-  /** Ref that exposes a function to programmatically collapse all expanded accordions. Call `.current()` to trigger. */
+  /**
+   * Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Defaults to `undefined`.
+   */
   collapseAllHandleRef?: RefObject<() => void>
 }
 

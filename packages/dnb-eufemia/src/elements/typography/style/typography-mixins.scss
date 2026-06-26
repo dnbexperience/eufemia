@@ -1,4 +1,24 @@
 @use '../../../components/space/style/space-mixins.scss' as space-mixins;
+@use '../../../style/core/utilities.scss' as utilities;
+
+// Global sizes
+$t-fs-2xs: 0.8125rem; // 13px --font-size-xx-small
+$t-fs-xs: 0.875rem; // 14px --font-size-x-small
+$t-fs-sm: 1rem; // 16px --font-size-small
+$t-fs-bs: 1.125rem; // 18px --font-size-basis
+$t-fs-md: 1.25rem; // 20px --font-size-medium
+$t-fs-lg: 1.625rem; // 26px --font-size-large
+$t-fs-xl: 2.125rem; // 34px --font-size-x-large
+$t-fs-2xl: 3rem; // 48px --font-size-xx-large
+
+// Global line-heights
+$t-lh-xs: 1.25rem; // 20px --line-height-x-small
+$t-lh-sm: 1.25rem; // 20px --line-height-small
+$t-lh-bs: 1.5rem; // 24px --line-height-basis
+$t-lh-md: 1.5rem; // 24px --line-height-medium
+$t-lh-lg: 2rem; // 32px --line-height-large
+$t-lh-xl: 2.5rem; // 40px --line-height-x-large
+$t-lh-2xl: 3.5rem; // 56px --line-height-xx-large
 
 // includes all classes, tags, etc. needed for "global" typography rules (like css variables)
 @mixin typographySelectors() {
@@ -65,7 +85,10 @@
   .dnb-small,
   .dnb-table,
   sub,
-  sup {
+  sup,
+  .dnb-t,
+  [class^='dnb-t__'],
+  [class*=' dnb-t__'] {
     @content;
   }
 }
@@ -224,7 +247,7 @@
 }
 
 @mixin paragraphDefaults() {
-  font-size: var(--font-size-basis);
+  font-size: var(--typography-font-size-basis);
   color: var(--token-color-text-neutral);
 
   &.dnb-t--surface-dark {
@@ -250,13 +273,13 @@
   }
 
   & > small {
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small);
+    font-size: var(--typography-font-size-small);
+    line-height: var(--typography-line-height-small);
   }
 
   & > cite {
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-basis);
+    line-height: var(--typography-line-height-basis);
     font-style: italic;
   }
 }
@@ -299,4 +322,109 @@
   &:not([class*='space__bottom']) {
     margin-bottom: 1rem;
   }
+}
+
+@mixin responsiveTypographyVariables() {
+  @include utilities.allBelow(small) {
+    // mobile
+    // font-size
+    --responsive-font-size-x-small: #{$t-fs-2xs};
+    --responsive-font-size-small: #{$t-fs-xs};
+    --responsive-font-size-basis: #{$t-fs-sm};
+    --responsive-font-size-medium: #{$t-fs-bs};
+    --responsive-font-size-large: #{$t-fs-md};
+    --responsive-font-size-x-large: #{$t-fs-lg};
+    --responsive-font-size-xx-large: #{$t-fs-xl};
+
+    // line-height
+    --responsive-line-height-x-small: #{$t-lh-xs};
+    --responsive-line-height-small: #{$t-lh-xs};
+    --responsive-line-height-basis: #{$t-lh-sm};
+    --responsive-line-height-medium: #{$t-lh-md};
+    --responsive-line-height-large: #{$t-lh-lg};
+    --responsive-line-height-x-large: #{$t-lh-lg};
+    --responsive-line-height-xx-large: #{$t-lh-lg};
+  }
+
+  @include utilities.allBetween(small, medium) {
+    // tablet
+    --responsive-font-size-x-small: #{$t-fs-xs};
+    --responsive-font-size-small: #{$t-fs-sm};
+    --responsive-font-size-basis: #{$t-fs-bs};
+    --responsive-font-size-medium: #{$t-fs-md};
+    --responsive-font-size-large: #{$t-fs-lg};
+    --responsive-font-size-x-large: #{$t-fs-xl};
+    --responsive-font-size-xx-large: #{$t-fs-2xl};
+
+    // line-height
+    --responsive-line-height-x-small: #{$t-lh-xs};
+    --responsive-line-height-small: #{$t-lh-sm};
+    --responsive-line-height-basis: #{$t-lh-bs};
+    --responsive-line-height-medium: #{$t-lh-md};
+    --responsive-line-height-large: #{$t-lh-lg};
+    --responsive-line-height-x-large: #{$t-lh-xl};
+    --responsive-line-height-xx-large: #{$t-lh-xl};
+  }
+
+  @include utilities.allAbove(medium) {
+    // desktop
+    --responsive-font-size-x-small: #{$t-fs-xs};
+    --responsive-font-size-small: #{$t-fs-sm};
+    --responsive-font-size-basis: #{$t-fs-bs};
+    --responsive-font-size-medium: #{$t-fs-md};
+    --responsive-font-size-large: #{$t-fs-lg};
+    --responsive-font-size-x-large: #{$t-fs-xl};
+    --responsive-font-size-xx-large: #{$t-fs-2xl};
+
+    // line-height
+    --responsive-line-height-x-small: #{$t-lh-xs};
+    --responsive-line-height-small: #{$t-lh-sm};
+    --responsive-line-height-basis: #{$t-lh-bs};
+    --responsive-line-height-medium: #{$t-lh-md};
+    --responsive-line-height-large: #{$t-lh-lg};
+    --responsive-line-height-x-large: #{$t-lh-xl};
+    --responsive-line-height-xx-large: #{$t-lh-2xl};
+  }
+}
+
+@mixin responsiveOn() {
+  // Base sizes
+  --typography-font-size-x-small: var(--responsive-font-size-x-small);
+  --typography-font-size-small: var(--responsive-font-size-small);
+  --typography-font-size-basis: var(--responsive-font-size-basis);
+  --typography-font-size-medium: var(--responsive-font-size-medium);
+  --typography-font-size-large: var(--responsive-font-size-large);
+  --typography-font-size-x-large: var(--responsive-font-size-x-large);
+  --typography-font-size-xx-large: var(--responsive-font-size-xx-large);
+
+  // Base line-heights
+  --typography-line-height-x-small: var(--responsive-line-height-x-small);
+  --typography-line-height-small: var(--responsive-line-height-small);
+  --typography-line-height-basis: var(--responsive-line-height-basis);
+  --typography-line-height-medium: var(--responsive-line-height-medium);
+  --typography-line-height-large: var(--responsive-line-height-large);
+  --typography-line-height-x-large: var(--responsive-line-height-x-large);
+  --typography-line-height-xx-large: var(
+    --responsive-line-height-xx-large
+  );
+}
+
+@mixin responsiveOff() {
+  // Base sizes
+  --typography-font-size-x-small: var(--font-size-x-small);
+  --typography-font-size-small: var(--font-size-small);
+  --typography-font-size-basis: var(--font-size-basis);
+  --typography-font-size-medium: var(--font-size-medium);
+  --typography-font-size-large: var(--font-size-large);
+  --typography-font-size-x-large: var(--font-size-x-large);
+  --typography-font-size-xx-large: var(--font-size-xx-large);
+
+  // Base line-heights
+  --typography-line-height-x-small: var(--line-height-x-small);
+  --typography-line-height-small: var(--line-height-small);
+  --typography-line-height-basis: var(--line-height-basis);
+  --typography-line-height-medium: var(--line-height-medium);
+  --typography-line-height-large: var(--line-height-large);
+  --typography-line-height-x-large: var(--line-height-x-large);
+  --typography-line-height-xx-large: var(--line-height-xx-large);
 }

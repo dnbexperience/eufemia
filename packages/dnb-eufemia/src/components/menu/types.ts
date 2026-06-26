@@ -21,25 +21,25 @@ export type MenuRootProps = {
   className?: string
   children?: ReactNode
   /**
-   * Placement of the menu relative to the trigger.
-   * Default: `bottom`
+   * Preferred placement of the menu relative to the trigger.
+   * Default: `"bottom"`
    */
   placement?: PopoverPlacement
   /**
-   * Position of the popover arrow relative to the popover.
-   * Default: `left`
+   * Position of the popover arrow relative to the popover. `top` and `bottom` positions are only applicable when `placement` is `left` or `right`, and vice versa.
+   * Default: `"center"`
    */
   arrowPosition?: PopoverArrow
   /**
-   * Controlled open state.
+   * Controlled open state. Use together with `onOpenChange`.
    */
   open?: boolean
   /**
-   * Callback fired when the open state changes.
+   * Called whenever the open state changes. Receives the new open state as a boolean.
    */
   onOpenChange?: (open: boolean) => void
   /**
-   * Skip rendering in a React Portal.
+   * Render inline instead of inside a portal.
    * Default: `false`
    */
   skipPortal?: boolean
@@ -49,8 +49,8 @@ export type MenuRootProps = {
    */
   noAnimation?: boolean
   /**
-   * Control auto-flip behavior.
-   * Default: `initial`
+   * Control when the menu automatically flips its placement to fit within the viewport. `"initial"`: flip only on open. `"scroll"`: also flip during scroll. `"never"`: always use specified placement.
+   * Default: `"initial"`
    */
   autoAlignMode?: PopoverAutoAlignMode
 }
@@ -62,8 +62,7 @@ export type MenuRootProps = {
  */
 export type MenuButtonProps = Omit<ButtonProps, 'children'> & {
   /**
-   * Render function for a custom trigger element.
-   * Receives trigger props including `ref`, `active`, `open`, `close`, `toggle`.
+   * Alternative to `text`. Content rendered inside the header.
    */
   children?: ReactNode | ((context: MenuTriggerRenderProps) => ReactNode)
 }
@@ -72,7 +71,7 @@ export type MenuListProps = {
   children?: ReactNode
   className?: string
   /**
-   * Maximum number of visible items before the list scrolls.
+   * Sets the maximum visible list items before the content scrolls. The component measures the rendered height of the first visible items. An explicit `style.maxHeight` overrides this.
    */
   maxVisibleListItems?: number
 } & Omit<HTMLAttributes<HTMLUListElement>, 'children'>
@@ -90,7 +89,7 @@ export type MenuActionProps = {
    */
   text?: ReactNode
   /**
-   * Click handler for the action.
+   * Called when the action is clicked or activated via keyboard (Enter/Space). The menu closes automatically after the handler is invoked unless used as a trigger for a nested `Menu.Root`.
    */
   onClick?: MouseEventHandler<HTMLLIElement>
   /**
@@ -111,7 +110,7 @@ export type MenuActionProps = {
   target?: string
   rel?: string
   /**
-   * Whether the action is disabled.
+   * Disables the action. Sets `aria-disabled` and prevents click/keyboard activation.
    * Default: `false`
    */
   disabled?: boolean
@@ -136,12 +135,12 @@ export type MenuAccordionProps = {
    */
   text?: ReactNode
   /**
-   * Whether the accordion is disabled.
+   * Disables the accordion trigger. Sets `aria-disabled` and prevents toggling.
    * Default: `false`
    */
   disabled?: boolean
   /**
-   * Callback fired when the open state changes.
+   * Called whenever the accordion open state changes. Receives the new open state as a boolean.
    */
   onOpenChange?: (open: boolean) => void
 } & Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'onClick'>
@@ -153,11 +152,11 @@ export type MenuDividerProps = {
 export type MenuHeaderProps = {
   className?: string
   /**
-   * Header text.
+   * Header text displayed in the menu.
    */
   text?: ReactNode
   /**
-   * Alternative to `text`. Rendered inside the header.
+   * Alternative to `text`. Content rendered inside the header.
    */
   children?: ReactNode
 } & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'role'>

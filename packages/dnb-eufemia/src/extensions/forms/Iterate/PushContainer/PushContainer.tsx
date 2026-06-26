@@ -51,7 +51,9 @@ type OnlyPathRequired = {
    */
   path: Path
 
-  /** The sub path to the array to add the new item to. */
+  /**
+   * The path to the item in a nested array, to add the new item to.
+   */
   itemPath?: Path
 }
 
@@ -61,7 +63,9 @@ type OnlyItemPathRequired = {
    */
   path?: Path
 
-  /** The sub path to the array to add the new item to. */
+  /**
+   * The path to the item in a nested array, to add the new item to.
+   */
   itemPath: Path
 }
 
@@ -96,17 +100,17 @@ export type IteratePushContainerProps = (
   showOpenButtonWhen?: (list: unknown[]) => boolean
 
   /**
-   * Prefilled data to add to the fields. The data will be put into this path: "/pushContainerItems/0".
+   * Prefilled data to be used by fields. The data will be put into this path: `/pushContainerItems/0`. Use `defaultData` when possible.
    */
   data?: unknown | Record<string, unknown>
 
   /**
-   * Prefilled data to add to the fields. The data will be put into this path: "/pushContainerItems/0".
+   * Prefilled data to be used by fields. The data will be put into this path: `/pushContainerItems/0`.
    */
   defaultData?: unknown | Record<string, unknown>
 
   /**
-   * Provide additional data that will be put into the root of the isolated data context (parallel to "/pushContainerItems/0").
+   * Provide additional data that will be put into the root of the isolated data context (parallel to `/pushContainerItems/0`).
    */
   isolatedData?: Record<string, unknown>
 

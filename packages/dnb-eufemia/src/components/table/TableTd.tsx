@@ -23,13 +23,13 @@ export type TableTdClickInfo = {
 
 export type TableTdProps = {
   /**
-   * if set to `true`, no padding will be added
+   * If set to `true`, no padding will be added.
    * Default: `false`
    */
   noSpacing?: boolean
 
   /**
-   * Set to `horizontal` for padding on left and right side
+   * Set to `horizontal` for padding on left and right side.
    * Default: `undefined`
    */
   spacing?: 'horizontal'
@@ -41,39 +41,32 @@ export type TableTdProps = {
   verticalAlign?: 'top' | 'middle' | 'bottom'
 
   /**
-   * If set to `true`, the cell will be styled as selected.
-   * When provided (either `true` or `false`), the cell button will be
-   * announced as a toggle button by screen readers.
+   * When `true`, the cell is styled as selected (highlighted background and selected icon/border). Requires `onClick` to take effect, since the selected styling targets the cell button. When provided (either `true` or `false`), the cell button is announced as a toggle button by screen readers via `aria-pressed`. Use `setSelected` from the `onClick` callback to toggle the state.
    * Default: `undefined`
    */
   selected?: boolean
 
   /**
-   * Highlights this cell with a subtle background.
-   * Automatically set when the parent Tr has `highlight`.
+   * If set to `true`, the cell receives a highlighted background. Automatically set when the parent `<Tr>` has `highlight`, or when the corresponding `<Th>` in the same column has `highlight`.
    * Default: `false`
    */
   highlight?: boolean
 
   /**
-   * Will emit when user clicks the cell button.
-   * Renders a native button inside the cell for accessibility.
-   * The second argument contains `trElement`, `tdElement`, `thElement` (the matching Th in thead), `isSelected`, and `setSelected`.
+   * Will emit when user clicks the cell button. The second argument is an object with `trElement` (the parent `HTMLTableRowElement`), `tdElement` (the `HTMLTableCellElement`), `thElement` (the matching `<Th>` from `<thead>`, or `null` if not found), `isSelected` (current selected state), and `setSelected` (function to update the selected state — only effective when the `selected` prop is provided).
+   * Default: `undefined`
    */
   onClick?: (event: SyntheticEvent, info: TableTdClickInfo) => void
 
   /**
-   * Icon to show in the navigable cell.
-   * Set to `true` for the default chevron icon, or pass a custom icon.
-   * Set to `false` to hide the icon.
-   * Only takes effect when `onClick` is provided.
+   * Icon to show in the clickable cell. Set to `true` for the default chevron icon, or pass a custom icon. Set to `false` to hide the icon. Only takes effect when `onClick` is provided.
    * Default: `true`
    */
   icon?: boolean | IconIcon
 
   /**
    * The content of the component.
-   * Default: `null`
+   * Default: `undefined`
    */
   children?: ReactNode
 }

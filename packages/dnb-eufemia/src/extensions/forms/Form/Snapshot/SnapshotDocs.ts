@@ -4,8 +4,6 @@ export const SnapshotProperties: PropertiesTableProps = {
   name: {
     doc: 'A unique name for the sliced snapshot area.',
     type: 'string',
-    status: 'optional',
+    status: 'required',
   },
 }
-
-export const SnapshotEvents: PropertiesTableProps = {}

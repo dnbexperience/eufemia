@@ -57,6 +57,11 @@ export default [
   {
     ignores: ignorePatterns,
   },
+  {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+    },
+  },
   ...fixupConfigRules(
     basePlugins.extends(
       'eslint:recommended',
@@ -170,6 +175,8 @@ export default [
         },
       ],
       'import/export': 'off',
+      'import/no-duplicates': 'error',
+      'import/no-named-as-default': 'error',
       'import/no-anonymous-default-export': [
         'error',
         {
@@ -198,12 +205,7 @@ export default [
           forbid: ['>', '}'],
         },
       ],
-      'react/display-name': [
-        'off',
-        {
-          ignoreTranspilerName: false,
-        },
-      ],
+      'react/display-name': 'off',
       'jsx-a11y/anchor-is-valid': [
         'warn',
         {
@@ -441,8 +443,8 @@ export default [
     },
     rules: {
       'docs-types/warn-supported-types': 'warn',
-      'docs-types/validate-supported-types': 'warn',
-      'docs-types/doc-trailing-period': 'warn',
+      'docs-types/validate-supported-types': 'error',
+      'docs-types/doc-trailing-period': 'error',
       'docs-types/defaultvalue-inner-quotes': 'warn',
       'docs-types/doc-no-double-spaces': 'warn',
       '@typescript-eslint/naming-convention': [
@@ -527,7 +529,7 @@ export default [
       'docs-types': docsTypesPlugin,
     },
     rules: {
-      'docs-types/sync-docs-jsdoc': 'warn',
+      'docs-types/sync-docs-jsdoc': 'error',
     },
   },
   {
@@ -540,6 +542,7 @@ export default [
     },
     rules: {
       ...playwrightPlugin.configs['flat/recommended'].rules,
+      'playwright/prefer-to-have-length': 'error',
       'playwright-extras/no-identical-title': 'error',
     },
   },

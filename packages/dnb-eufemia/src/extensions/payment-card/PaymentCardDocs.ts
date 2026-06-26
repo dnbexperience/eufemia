@@ -141,72 +141,72 @@ export const PaymentCardDesign: PropertiesTableProps = {
 }
 export const PaymentCardDesigns: PropertiesTableProps = {
   defaultDesign: {
-    doc: 'Default',
+    doc: 'Default.',
     type: 'object',
     status: 'optional',
   },
   pluss: {
-    doc: 'Pluss',
+    doc: 'Pluss.',
     type: 'object',
     status: 'optional',
   },
   young: {
-    doc: 'Ung',
+    doc: 'Ung.',
     type: 'object',
     status: 'optional',
   },
   myFirst: {
-    doc: 'My first',
+    doc: 'My first.',
     type: 'object',
     status: 'optional',
   },
   youth: {
-    doc: 'Youth',
+    doc: 'Youth.',
     type: 'object',
     status: 'optional',
   },
   gold: {
-    doc: 'Gold',
+    doc: 'Gold.',
     type: 'object',
     status: 'optional',
   },
   saga: {
-    doc: 'Saga',
+    doc: 'Saga.',
     type: 'object',
     status: 'optional',
   },
   sagaPlatinum: {
-    doc: 'Saga Platinum',
+    doc: 'Saga Platinum.',
     type: 'object',
     status: 'optional',
   },
   privateBanking: {
-    doc: 'Private Banking',
+    doc: 'Private Banking.',
     type: 'object',
     status: 'optional',
   },
   mcBlack: {
-    doc: 'Mastercard Black',
+    doc: 'Mastercard Black.',
     type: 'object',
     status: 'optional',
   },
   businessNoVisa: {
-    doc: 'Bedriftskort BankAxept',
+    doc: 'Bedriftskort BankAxept.',
     type: 'object',
     status: 'optional',
   },
   businessWithVisa: {
-    doc: 'Bedriftskort Visa',
+    doc: 'Bedriftskort Visa.',
     type: 'object',
     status: 'optional',
   },
   sbankenVisa: {
-    doc: 'Sbanken Visa',
+    doc: 'Sbanken Visa.',
     type: 'object',
     status: 'optional',
   },
   sbankenMastercard: {
-    doc: 'Sbanken Mastercard',
+    doc: 'Sbanken Mastercard.',
     type: 'object',
     status: 'optional',
   },

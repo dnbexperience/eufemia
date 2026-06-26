@@ -16,27 +16,27 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type IterateEditContainerProps = {
   /**
-   * The title of the EditContainer.
+   * The title of the container.
    */
   title?: ReactNode
 
   /**
-   * The title for a new item show within the EditContainer.
+   * The title for a new item.
    */
   titleWhenNew?: ReactNode
 
   /**
-   * If the EditContainer is open or not.
+   * If the container should be open or not. This is taken care of internally by default.
    */
   open?: boolean
 
   /**
-   * An alternative toolbar to be shown in the EditContainer.
+   * An alternative toolbar to be shown in the container.
    */
   toolbar?: ReactNode
 
   /**
-   * The variant of the toolbar.
+   * Use variants to render the toolbar differently. Currently there are the `minimumOneItem` and `custom` variants. See the info section for more info.
    */
   toolbarVariant?: ArrayItemAreaProps['toolbarVariant']
 }

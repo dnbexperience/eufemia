@@ -26,10 +26,17 @@ export type TypographyWeight = 'regular' | 'medium' | 'bold'
 export type TypographyDecoration = 'underline'
 export type TypographySlant = 'italic'
 
-export type TypographyContextType = Pick<TypographyProps, 'proseMaxWidth'>
+export type TypographyContextType = Pick<
+  TypographyProps,
+  'proseMaxWidth'
+> & {
+  /**  Whether or not responsive typography is enabled for typography components. Default is `false`. */
+  responsive?: boolean
+}
 
 export const TypographyContext = createContext<TypographyContextType>({
   proseMaxWidth: undefined,
+  responsive: undefined,
 })
 
 export type TypographyProviderProps = TypographyContextType & {
@@ -41,11 +48,11 @@ export type TypographyProps<
 > = SpacingProps &
   HTMLAttributes<ElementType> & {
     /**
-     * Defines the Element Type, like "p".
+     * Defines the Element Type, like `p`.
      */
     element?: DynamicElement
     /**
-     * Sets the font size, also sets the line-height if `line` prop is not set
+     * Sets the font size, also sets the line-height if `lineHeight` property is not set.
      */
     size?: TypographySize
     /**
@@ -53,34 +60,34 @@ export type TypographyProps<
      */
     lineHeight?: TypographySize
     /**
-     * Sets the text alignment
+     * Sets the text alignment.
      */
     align?: TypographyAlign
     /**
-     * Sets the font family
+     * Sets the font family.
      */
     family?: TypographyFamily
     /**
-     * Sets the font weight
+     * Sets the font weight.
      */
     weight?: TypographyWeight
     /**
-     * Sets the font decoration
+     * Sets the font decoration.
      */
     decoration?: TypographyDecoration
     /**
-     * Sets the font style
+     * Sets the font style.
      */
     slant?: TypographySlant
     /**
-     * Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.
+     * Sets the maximum width based on character count for all Typography children. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.
      */
     proseMaxWidth?: number | boolean
   }
 
 export type TypographyUseProps = Pick<
   TypographyProps,
-  'proseMaxWidth' | 'style'
+  'proseMaxWidth' | 'style' | 'className'
 >
 
 type TypographyInternalProps = {
@@ -122,19 +129,19 @@ const Typography = (props: TypographyProps & TypographyInternalProps) => {
   )
 }
 
-const Provider = ({
-  children,
-  proseMaxWidth,
-}: TypographyProviderProps) => {
+const Provider = ({ children, ...rest }: TypographyProviderProps) => {
+  const parentContext = useContext(TypographyContext)
+  const newContext = { ...parentContext, ...rest }
+
   return (
-    <TypographyContext value={{ proseMaxWidth }}>
-      {children}
-    </TypographyContext>
+    <TypographyContext value={newContext}>{children}</TypographyContext>
   )
 }
 
 withComponentMarkers(Typography, { _supportsSpacingProps: true })
+/** @deprecated use Typography.Context */
 Typography.Provider = Provider
+Typography.Context = Provider
 
 export default Typography
 export { Provider }
@@ -160,7 +167,7 @@ export const useTypography = <Props extends TypographyUseProps>({
   proseMaxWidth: proseMaxWidthProp,
   ...rest
 }: Props): Omit<Props & TypographyUseProps, 'proseMaxWidth'> => {
-  const { proseMaxWidth: proseMaxWidthContext } =
+  const { proseMaxWidth: proseMaxWidthContext, responsive } =
     useContext(TypographyContext)
 
   // Use prop value if provided, otherwise fall back to context
@@ -174,6 +181,13 @@ export const useTypography = <Props extends TypographyUseProps>({
     ...rest,
     ...(style !== undefined && {
       style: { ...style, ...rest.style },
+    }),
+    ...(responsive !== undefined && {
+      className: clsx(
+        rest.className,
+        responsive && 'dnb-t__responsive-on',
+        responsive === false && 'dnb-t__responsive-off'
+      ),
     }),
   }
 }

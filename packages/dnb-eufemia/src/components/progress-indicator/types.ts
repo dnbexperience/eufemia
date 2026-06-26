@@ -15,51 +15,63 @@ export function isValidSize(
 
 export type ProgressIndicatorProps = {
   /**
-   * Defines the visibility of the progress. Toggling the `show` property to `false` will force a fade-out animation. Defaults to `true`.
+   * Defines the visibility of the progress. Toggling the `show` property to `false` will force a fade-out animation.
+   * Default: `true`
    */
   show?: boolean
   /**
-   * Defines the type. Defaults to `circular`.
+   * Defines the type.
+   * Default: `"circular"`
    */
   type?: 'circular' | 'linear' | 'countdown'
   /**
-   * Disables the fade-in and fade-out animation. Defaults to `false`.
+   * Disables the fade-in and fade-out animation.
+   * Default: `false`
    */
   noAnimation?: boolean
   /**
-   * Defines the size. Defaults to `default`.
+   * Defines the size.
+   * Default: `"default"`
    */
   size?: ValidSizes | ProgressIndicatorCustomSize
   /**
-   * A number between 0-100, if not supplied a continuous loading-type animation will be used. Defaults to `undefined`
+   * A number between 0-100, if not supplied a continuous loading-type animation will be used.
+   * Default: `undefined`
    */
   progress?: string | number
   /**
-   * Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`)
+   * Content of a custom label (overrides `indicatorLabel` and `showDefaultLabel`).
+   * Default: `undefined`
    */
   label?: ReactNode
   /**
-   * Same as `label` prop (`label` prop has priority)
+   * Same as `label` prop (`label` prop has priority).
+   * Default: `undefined`
    */
   children?: ReactNode
   /**
-   * Sets the position of the label. `'inside'` only works with `type='circular'. Defaults to `vertical`.
+   * Sets the position of the label. `'inside'` only works with `type='circular'`.
+   * Default: `"vertical"`
    */
   labelDirection?: 'horizontal' | 'vertical' | 'inside'
   /**
    * If set to `true` a default label (from text locales) will be shown.
+   * Default: `false`
    */
   showDefaultLabel?: boolean
   /**
    * Use this to override the default label from text locales.
+   * Default: `undefined`
    */
   indicatorLabel?: string
   /**
-   * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
+   * Used to set title and `aria-label`. Defaults to the value of progress property, formatted as a percent.
+   * Default: `undefined`
    */
   title?: string
   /**
-   * Will be called once it's no longer visible (show=false).
+   * Will be called once it's no longer visible (`show=false`).
+   * Default: `undefined`
    */
   onComplete?: () => void
   /**
@@ -68,19 +80,23 @@ export type ProgressIndicatorProps = {
   customColors?: {
     /**
      * Override the moving line color.
+     * Default: `undefined`
      */
     line?: CSS.Property.BackgroundColor
     /**
      * Override the background line color.
+     * Default: `undefined`
      */
     shaft?: CSS.Property.BackgroundColor
     /**
      * Set a background color for the center of the circle.
+     * Default: `undefined`
      */
     background?: CSS.Property.BackgroundColor
   }
   /**
-   * Send in custom CSS width for circle progress line. Default: `undefined`. (`undefined` defaults to one eighth of the size).
+   * Send in custom CSS width for circle progress line. (`undefined` defaults to one eighth of the size).
+   * Default: `undefined`
    */
   customCircleWidth?: CSS.Property.StrokeWidth
 }

@@ -1174,7 +1174,7 @@ describe('formatPhoneNumber', () => {
   )
 
   describe('Norway', () => {
-    it('should format a the country code without space', () => {
+    it('should format the country code without space', () => {
       const result = formatPhoneNumber('+4712345678', { returnAria: true })
       expect(result.number).toBe('+47 12 34 56 78')
       expect(result.aria).toBe('+47 12 34 56 78')

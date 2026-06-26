@@ -91,19 +91,19 @@ export type SharedAttachments<Data = unknown> = {
 export type DataContextProviderProps<Data extends JsonObject> =
   IsolationProviderProps<Data> & {
     /**
-     * Unique ID to communicate with the hook Form.useData
+     * Unique id for connecting Form.Handler and helper tools such as Form.useData.
      */
     id?: SharedStateId
     /**
-     * Unique ID to connect with a GlobalStatus
+     * If needed, you can define a custom [GlobalStatus](/uilib/components/global-status) id. Defaults to `main`.
      */
     globalStatusId?: string
     /**
-     * Source data, will be used instead of defaultData, and leading to updates if changed after mount
+     * Dynamic source data used as both initial data, and updates internal data if changed after mount.
      */
     data?: Data
     /**
-     * Default source data, only used if no other source is available, and not leading to updates if changed after mount
+     * Default source data is used only when no other source is provided and does not trigger updates after mount. Initializing fields with an empty value is optional. If you do, use the field's `emptyValue`, which is often `undefined`.
      */
     defaultData?: Data
     /**
@@ -111,32 +111,31 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     emptyData?: unknown
     /**
-     * JSON Schema to validate the data against.
+     * JSON Schema for validation of the data set. IMPORTANT: When using JSON Schema validation, you MUST provide an `ajvInstance` property.
      */
     schema?: Schema<Data>
     /**
-     * Custom Ajv instance, if you want to use your own
+     * REQUIRED when using JSON Schema validation. Provide your own custom Ajv instance: `import Ajv from "@dnb/eufemia/extensions/forms"` and pass `ajvInstance={makeAjvInstance()}`. This ensures your bundle only includes AJV when you actually need it. More info in the [Schema validation](/uilib/extensions/forms/Form/schema-validation/#custom-ajv-instance-and-keywords) section.
      */
     ajvInstance?: AjvInstance
     /**
-     * Custom error messages for the whole data set
+     * Object containing error messages by either type of JSON Pointer path and type. The messages can be a `React.ReactNode` or a string.
      */
     errorMessages?: GlobalErrorMessagesWithPaths
     /**
-     * Transform the data context (internally as well) based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
+     * Mutate the data context (internally as well) based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).
      */
     transformIn?: TransformData
     /**
-     * Mutate the data before it enters onSubmit or onChange based on your criteria: `({ path, value, data, props, internal }) => 'new value'`. It will iterate on each data entry (/path).
+     * Mutate the data before it enters `onSubmit` or `onChange` based on your criteria: `({ path, value, data, properties, internal }) => 'new value'`. It will iterate on each data entry (/path).
      */
     transformOut?: TransformData
     /**
-     * Change handler for the whole data set.
-     * You can provide an async function to show an indicator on the current label during a field change.
+     * Will be called when a value of a field was changed by the user, with the data set (including the changed value) as argument. When an async function is provided, it will show an indicator on the current label during a field change. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` in addition to { success: 'saved' } indicate the field was saved. Will emit unvalidated by default and validated when an async function is provided (like `onSubmit`). The second parameter is an object containing the `filterData`, `resetForm` and `clearData` functions.
      */
     onChange?: OnChange<Data>
     /**
-     * Change handler for each value
+     * Will be called when a value of a field was changed by the user, with the `path` (JSON Pointer) and new `value` as arguments. Can be an async function. Will emit unvalidated by default and validated when `onChange` is an async function.
      */
     onPathChange?: (
       path: Path,
@@ -146,16 +145,15 @@ export type DataContextProviderProps<Data extends JsonObject> =
       | void
       | Promise<EventReturnWithStateObject | void>
     /**
-     * Will emit on a form submit – if validation has passed.
-     * You can provide an async function to shows a submit indicator during submit. All form elements will be disabled during the submit.
+     * Will be called (on validation success) when the user submits the form (e.g. by clicking a [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton) component inside), with the data set as argument. When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`. You can return an error or an object with these keys `{ status: 'pending', info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status). Will only emit when every validation has passed. The second parameter is an object containing the `filterData`, `reduceToVisibleFields`, `transformData`, `resetForm` and `clearData` functions.
      */
     onSubmit?: OnSubmit<Data>
     /**
-     * Submit was requested, but data was invalid
+     * Will be called when the user tries to submit, but errors stop the data from being submitted. The first parameter is an object containing the `getErrors` method, returning an array with field errors. Each error object contains the `path`, `error` and `properties` of the field. You can use this to log the errors before the form is submitted. You can return an error or an object with these keys `{ info: 'Info message', warning: 'Warning message', error: Error('My error') } as const` to be shown in a [FormStatus](/uilib/components/form-status) at the form level. Supports async functions.
      */
     onSubmitRequest?: OnSubmitRequest
     /**
-     * Will be called when the onSubmit is finished and had not errors
+     * Will be called after onSubmit has finished and had no errors. It supports the same return values as `onSubmit` and will be merged together.
      */
     onSubmitComplete?: (
       data: Data,
@@ -173,19 +171,19 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     onUpdateDataValue?: ContextState['updateDataValue']
     /**
-     * Minimum time to display the submit indicator.
+     * Minimum time to display the submit indicator. Defaults to 1s.
      */
     minimumAsyncBehaviorTime?: number
     /**
-     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission.
+     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Defaults to 30s.
      */
     asyncSubmitTimeout?: number
     /**
-     * Scroll to top on submit
+     * True for the UI to scroll to the top of the page when data is submitted.
      */
     scrollTopOnSubmit?: boolean
     /**
-     * Key for caching the data in session storage
+     * Key for saving active data to session storage and loading it on mount.
      */
     sessionStorageId?: string
     /**
@@ -194,17 +192,15 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     countryCode?: ContextState['countryCode']
     /**
-     * Locale to use for all nested Eufemia components
+     * Locale (language) to use for all nested Eufemia components.
      */
     locale?: ContextProps['locale']
     /**
-     * Provide your own translations. Use the same format as defined in the translation files
+     * Provide translation strings. Can be a flat or nested object keyed by locale, e.g. `{ "nb-NO": { MyKey: "value" } }`. See [Localization](/uilib/usage/customisation/localization).
      */
     translations?: ContextProps['translations']
     /**
-     * Async function to load translations for a given locale.
-     * Called on mount and whenever the locale changes.
-     * The returned translations are merged with any existing translations.
+     * Async function that receives the current locale and returns a translations object. Called on mount and when the locale changes. Loaded translations are merged on top of static `translations`. See [Load translations dynamically](/uilib/usage/customisation/localization/#load-translations-dynamically).
      */
     translationsLoader?: ContextProps['translationsLoader']
     /**
@@ -214,11 +210,11 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     messageFormatter?: ContextProps['messageFormatter']
     /**
-     * Make all fields required
+     * Make all fields required.
      */
     required?: boolean
     /**
-     * The children of the context provider
+     * Contents.
      */
     children: ReactNode
   }
@@ -1027,7 +1023,7 @@ export default function Provider<Data extends JsonObject>(
     // from the first render via the getSnapshot function, so we no longer need to
     // call update during render (which would cause "setState while rendering" warnings).
 
-    // Merge both internal data and the shared state, if it both where given
+    // Merge both internal data and the shared state, if both were given
     if (
       id &&
       initialData &&

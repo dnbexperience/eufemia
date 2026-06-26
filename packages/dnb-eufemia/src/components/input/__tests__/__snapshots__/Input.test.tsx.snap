@@ -544,8 +544,8 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), ht
   --button-color-border: var(--button-color-border--active);
   --button-color-icon: var(--button-color-icon--active);
   --button-color-text: var(--button-color-text--active);
-  --button-color-underline: var(--button-color-underline--active);
-  --button-border-inset: var(--button-border-inset--active);
+  --button-color-underline: var(--button-color-underline--default);
+  --button-border-inset: var(--button-border-inset--default);
   --button-border-width: var(--button-border-width--active);
   --button-input-separator-color: var(
     --button-input-separator-color--active
@@ -559,7 +559,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-color-border: var(--button-color-border--focus);
   --button-color-icon: var(--button-color-icon--focus);
   --button-color-text: var(--button-color-text--focus);
-  --button-color-underline: var(--button-color-underline--focus);
+  --button-color-underline: var(--button-color-underline--default);
   --button-border-inset: var(--button-border-inset--focus);
   --button-border-width: var(--button-border-width--focus);
   --button-input-separator-color: var(
@@ -1128,9 +1128,6 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
   cursor: not-allowed;
   outline: none;
 }
-.dnb-button + .dnb-form-status {
-  margin-top: 0.5rem;
-}
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -1241,7 +1238,7 @@ legend.dnb-form-label {
   color: var(--input-color-text);
   display: inline-flex;
   align-items: center;
-  font-size: var(--input-font-small);
+  font-size: var(--input-font-size--small);
   line-height: var(--input-height);
   text-align: left;
 }
@@ -1298,7 +1295,7 @@ legend.dnb-form-label {
 }
 .dnb-input__shell, .dnb-input__input {
   height: var(--input-height);
-  border-radius: var(--b-radius, var(--input-border-radius--default));
+  border-radius: var(--input-border-radius);
 }
 .dnb-input__placeholder, .dnb-input__input {
   width: 100%;
@@ -1327,7 +1324,7 @@ legend.dnb-form-label {
 }
 .dnb-input__border {
   display: flex;
-  border-radius: var(--b-radius, var(--input-border-radius--default));
+  border-radius: var(--input-border-radius);
   --border-color: var(--b-color, var(--input-border-color));
   --border-width: var(--b-width, var(--input-border-width, var(--input-border-width--default)));
   box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);

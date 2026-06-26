@@ -39,45 +39,81 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
   ref?: RefObject<HTMLInputElement>
   /** Additional CSS class applied to the inner input element. */
   inputClassName?: string
-  /** Formats the value as a currency. Pass `true` for locale default or a currency code string. */
+  /**
+   * Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.
+   */
   currency?: InputMaskedProps['asCurrency']
   /** How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. */
   currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name' | false
-  /** Formats the value as a percentage. */
+  /**
+   * Format a number as a percentage.
+   */
   percent?: InputMaskedProps['asPercent']
-  /** Input mask configuration for the underlying masked input. */
+  /**
+   * An array or a function returning an array of regexes to use as a mask for the input. If not given, the input will not be masked.
+   */
   mask?: InputMaskedProps['mask']
-  /** Step increment/decrement value for the step controls. Defaults to `1`. */
+  /**
+   * Determines step granularity when increasing/decreasing the value via step control buttons or arrow keys. Defaults to `1`.
+   */
   step?: number
-  /** Initial value when the field is empty and the user clicks a step control. */
+  /**
+   * When no `value` or `defaultValue` is given, start with a given value when increasing/decreasing the value via step control buttons or arrow keys. Defaults to `null`.
+   */
   startWith?: number
-  /** Maximum number of decimal digits allowed. Defaults to `12`. */
+  /**
+   * Max number of decimals. Values with more decimals will be rounded. Defaults to `12`.
+   */
   decimalLimit?: number
-  /** If `true`, allows negative numbers. Defaults to `true`. */
+  /**
+   * Whether or not to allow negative numbers. Defaults to `true`.
+   */
   allowNegative?: boolean
-  /** If `true`, disallows leading zeroes (e.g. `007`). */
+  /**
+   * Whether or not to allow leading zeroes during typing. Defaults to `false`.
+   */
   disallowLeadingZeroes?: boolean
-  /** Text or function returning text to display before the number value. */
+  /**
+   * Text added before the value input.
+   */
   prefix?: string | ((value: number) => string)
-  /** Text or function returning text to display after the number value. */
+  /**
+   * Text added after the value input.
+   */
   suffix?: string | ((value: number) => string)
-  /** Minimum allowed value (inclusive, i.e. greater than or equal to). */
+  /**
+   * Validation for inclusive minimum number value (greater than or equal). Defaults to `Number.MIN_SAFE_INTEGER`.
+   */
   minimum?: number
-  /** Maximum allowed value (inclusive, i.e. less than or equal to). */
+  /**
+   * Validation for inclusive maximum number value (less than or equal). Defaults to `Number.MAX_SAFE_INTEGER`.
+   */
   maximum?: number
-  /** Exclusive minimum (value must be strictly greater than this). */
+  /**
+   * Validation for exclusive minimum number value (greater than).
+   */
   exclusiveMinimum?: number
-  /** Exclusive maximum (value must be strictly less than this). */
+  /**
+   * Validation for exclusive maximum number value (less than).
+   */
   exclusiveMaximum?: number
-  /** Value must be a multiple of this number. */
+  /**
+   * Validation that requires the number to be a multiple of a given value.
+   */
   multipleOf?: number
   /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
   size?: InputSize
-  /** Defines the width of the field block container. */
+  /**
+   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.
+   */
   width?: FieldBlockWidth
-  /** Text alignment inside the input: `left`, `center`, or `right`. */
+  /**
+   * Lateral alignment of contents of input field, one of `left` (default), `center`, or `right`.
+   */
   align?: InputAlign
-  /** If `true`, shows increment/decrement step control buttons. */
+  /**
+   * Show buttons that increase/decrease the value by the step amount.
+   */
   showStepControls?: boolean
   /** Text showing in place of the value if no value is given. */
   placeholder?: string
@@ -299,8 +335,11 @@ function NumberComponent(props: FieldNumberProps) {
     if (external === undefined || external === null) {
       return null
     }
-    // Handle invalid types (e.g., strings) by converting to empty string for display
-    if (typeof external !== 'number' || isNaN(external)) {
+    // Handle invalid types (e.g., strings) and non-finite numbers
+    // (NaN, Infinity, -Infinity) by converting to empty string for display.
+    // Such values still fail validation, but should not render as partial
+    // output (e.g. "-" for -Infinity).
+    if (typeof external !== 'number' || !Number.isFinite(external)) {
       return ''
     }
     return external

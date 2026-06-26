@@ -27,7 +27,6 @@
     &:focus-visible {
       outline: var(--focus-ring-width) solid
         var(--token-color-stroke-action-focus);
-      outline-offset: var(--focus-ring-offset);
     }
   }
 
@@ -192,7 +191,6 @@
     &:focus-visible {
       outline: var(--focus-ring-width) solid
         var(--token-color-stroke-action-focus);
-      outline-offset: var(--focus-ring-offset);
     }
   }
 

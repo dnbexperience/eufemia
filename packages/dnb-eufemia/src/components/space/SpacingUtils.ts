@@ -5,7 +5,7 @@
 
 import type { CSSProperties } from 'react'
 import { useContext } from 'react'
-import clsx, { type ClassValue } from 'clsx'
+import { clsx, type ClassValue } from 'clsx'
 
 import { warn } from '../../shared/component-helper'
 import SpaceResponsiveContext from './SpaceResponsiveContext'
@@ -510,7 +510,7 @@ export const applySpacing = <T extends ApplySpacingTarget>(
  *
  * Additionally reads `SpaceResponsiveContext` (provided by
  * `Space.ResponsiveContext`) and, when the component is rendered inside that
- * wrapper, appends a `dnb-space-responsive--<density>` CSS class.
+ * wrapper, appends a `dnb-space-responsive` CSS class.
  * This lets descendant components opt into responsive spacing driven
  * by `--responsive-spacing-*` custom properties.
  *
@@ -528,7 +528,7 @@ export const applySpacing = <T extends ApplySpacingTarget>(
  *   <Space.ResponsiveContext>
  *     <Button top="large">Click</Button>
  *   </Space.ResponsiveContext>
- *   // Button's root element will include 'dnb-space-responsive--basis'
+ *   // Button's root element will include 'dnb-space-responsive'
  *
  * @param props - component props containing spacing properties
  *                (top, right, bottom, left, space, innerSpace, noCollapse)
@@ -548,8 +548,9 @@ export const useSpacing = <T extends ApplySpacingTarget>(
     result.className = clsx(
       result.className,
       'dnb-space-responsive',
-      responsive.defaultBreakpoint &&
-        `dnb-space-responsive--breakpoint-${responsive.defaultBreakpoint}`,
+      responsive.breakOn &&
+        responsive.breakOn !== 'small' &&
+        `dnb-space-responsive--break-on-${responsive.breakOn}`,
       responsive.density &&
         `dnb-space-responsive--force-${responsive.density}`
     )

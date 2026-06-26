@@ -12,12 +12,12 @@ export const WizardContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   omitScrollManagement: {
-    doc: 'True to omit scroll management.',
+    doc: 'If set to `true`, the wizard will not scroll to the first step when the user navigates to a different step.',
     type: 'boolean',
     status: 'optional',
   },
   omitFocusManagement: {
-    doc: 'True to omit focus management.',
+    doc: 'If set to `true`, the wizard will not set focus on the next step when the user navigates to a different step.',
     type: 'boolean',
     status: 'optional',
   },

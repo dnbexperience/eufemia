@@ -40,6 +40,7 @@ export default function DialogContent({
   confirmType = 'information',
   icon = null,
   description,
+  status,
   hideDecline,
   hideConfirm,
   onConfirm,
@@ -111,6 +112,7 @@ export default function DialogContent({
     confirmText,
     hideDecline,
     hideConfirm,
+    status,
   }
 
   validateDOMAttributes({}, contentParams)

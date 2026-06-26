@@ -4,6 +4,7 @@ showTabs: true
 
 import * as Examples from './Examples'
 import { MultipleOneRow } from '../../extensions/forms/base-fields/String/Examples'
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
 
 ## Import
 
@@ -14,6 +15,12 @@ import { Input } from '@dnb/eufemia'
 ## Description
 
 The Input component is an umbrella component for all inputs that share the same style as the classic `text` input field.
+
+## When to use Input vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `Input` is [Field.String](/uilib/extensions/forms/base-fields/String/) for text values, while [Field.Number](/uilib/extensions/forms/base-fields/Number/) and [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/) handle numbers and amounts.
 
 ## Relevant links
 
@@ -26,6 +33,10 @@ The Input component is an umbrella component for all inputs that share the same 
 You may consider using [InputMasked](/uilib/components/input-masked/) for formatted strings and [Eufemia Forms](/uilib/extensions/forms/) fields like [Field.Number](/uilib/extensions/forms/base-fields/Number/) and [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/) for formatted numbers:
 
 <Examples.CurrencyField />
+
+### Step controls (increment and decrement)
+
+For a number input with stepper buttons to increment and decrement the value (plus/minus, number spinner), use [Field.Number](/uilib/extensions/forms/base-fields/Number/#step-controls) (or [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/)) with the `showStepControls` property.
 
 ### Browser autofill styling
 
@@ -40,3 +51,5 @@ Please avoid using the `maxlength` attribute when possible, as it may reduce acc
 You may also consider using a multiline input with a `characterCounter`:
 
 <MultipleOneRow />
+
+<RelatedComponents />

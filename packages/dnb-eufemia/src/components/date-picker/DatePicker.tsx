@@ -96,7 +96,7 @@ export type DisplayPickerEvent = (
 
 export type DatePickerProps = {
   /**
-   * Defines the pre-filled date by either a JavaScript DateInstance or (ISO 8601) like `date="2019-05-05"`.
+   * Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`.
    */
   date?: DatePickerDateType
   /**
@@ -120,15 +120,15 @@ export type DatePickerProps = {
    */
   endMonth?: DatePickerDateType
   /**
-   * To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Does not validate dates typed in the input field. Defaults to `null`.
+   * To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.
    */
   minDate?: DatePickerDateType
   /**
-   * To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Does not validate dates typed in the input field. Defaults to `null`.
+   * To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.
    */
   maxDate?: DatePickerDateType
   /**
-   * To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`
+   * To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`.
    */
   maskOrder?: string
   /**
@@ -136,7 +136,7 @@ export type DatePickerProps = {
    */
   maskPlaceholder?: string
   /**
-   * Defines how the prop dates (`date`, `startDate` and `endDate`) should be parsed, e.g. `yyyy/MM/dd`. Defaults to `yyyy-MM-dd`.
+   * Defines how the property dates (`date`, `startDate` and `endDate`) should be parsed, e.g. `yyyy/MM/dd`. Defaults to `yyyy-MM-dd`.
    */
   dateFormat?: string
   /**
@@ -160,7 +160,7 @@ export type DatePickerProps = {
    */
   hideLastWeek?: boolean
   /**
-   * Once the date picker gets opened, there is a focus handling to ensure good accessibility. Can be disabled with this property. Defaults to `false`.
+   * Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.
    */
   disableAutofocus?: boolean
   enableKeyboardNav?: boolean
@@ -173,15 +173,15 @@ export type DatePickerProps = {
    */
   inline?: boolean
   /**
-   * If set to `true`, a submit button will be shown. You can change the default text by using `submitButtonText="Ok"`. Defaults to `false`. If the `range` prop is `true`, then the submit button is shown.
+   * If set to `true`, a submit button will be shown. You can change the default text by using `submitButtonText="Ok"`. Defaults to `false`. If the `range` property is `true`, then the submit button is shown.
    */
   showSubmitButton?: boolean
   /**
-   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. Defaults to `false`. If the `range` prop is `true`, then the cancel button is shown.
+   * If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText="Avbryt"`. If the `range` property is `true`, then the cancel button is shown. Defaults to `false`.
    */
   showCancelButton?: boolean
   /**
-   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. Defaults to `false`.
+   * If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText="Tilbakestill"`. When clicked, the date picker reverts to the value it had when it was first rendered. If no initial value was provided, the date is cleared. Defaults to `false`.
    */
   showResetButton?: boolean
   submitButtonText?: string
@@ -204,7 +204,7 @@ export type DatePickerProps = {
    */
   range?: boolean
   /**
-   * If set to `true`, only one calendar is shown in range mode instead of two side-by-side calendars. Only meant to use if the range is set to `true`. Defaults to `false`.
+   * If set to `true`, only one calendar is shown in range mode instead of two side-by-side calendars. Only meant to be used if `range` is set to `true`. Defaults to `false`.
    */
   rangeSingleCalendar?: boolean
   /**
@@ -220,7 +220,7 @@ export type DatePickerProps = {
    */
   label?: ReactNode
   /**
-   * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
+   *  Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
   labelDirection?: 'vertical' | 'horizontal'
   /**
@@ -265,7 +265,7 @@ export type DatePickerProps = {
    */
   tooltip?: ReactNode
   /**
-   * Props to forward to the trigger button. Can be used to change the button `variant`, add a `text` label, or override other button properties.
+   * Props to forward to the trigger button. Can be used to change the button `variant`, add a `text` label, or override other button properties such as `icon` and `iconPosition`.
    */
   triggerProps?: Partial<
     Pick<
@@ -278,7 +278,7 @@ export type DatePickerProps = {
   noAnimation?: boolean
   direction?: 'auto' | 'top' | 'bottom'
   /**
-   * Use `right` to change the calendar alignment direction. Defaults to `left`.
+   * Use `right` to change the preferred calendar alignment direction. Defaults to `left`. If the DatePicker is close to the edge of the screen, the alignment of the calendar will change automatically to fit in the viewport.
    */
   alignPicker?: 'left' | 'center' | 'right'
   /**
@@ -302,7 +302,7 @@ export type DatePickerProps = {
     nr?: DatePickerCalendarProps['nr']
   ) => void
   /**
-   * Will be called on a date change event. Returns an `object`. See Returned Object below.
+   * Will be called on a date change event. Returns an object. See Returned Object below.
    */
   onChange?: (
     event: DatePickerEvent<ChangeEvent<HTMLInputElement>>
@@ -332,7 +332,7 @@ export type DatePickerProps = {
     event: DatePickerEvent<MouseEvent<HTMLButtonElement>>
   ) => void
   /**
-   * Will be called once a user presses the reset button. The DatePicker will revert to the value it had when it was first rendered (the initial `date`, `startDate`, or `endDate` prop values). If no initial value was provided, the date will be cleared.
+   * Will be called once a user presses the reset button. The date picker will revert to the value it had when first rendered. If no initial value was provided, the date is cleared.
    */
   onReset?: (event: DatePickerEvent<MouseEvent<HTMLButtonElement>>) => void
   /**

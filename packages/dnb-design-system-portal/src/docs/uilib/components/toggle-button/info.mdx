@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import WhenToUseForms from 'Docs/uilib/extensions/forms/when-to-use-forms.mdx'
+
 ## Import
 
 ```tsx
@@ -11,6 +13,12 @@ import { ToggleButton } from '@dnb/eufemia'
 ## Description
 
 The ToggleButton component is used to toggle on or off a limited number of choices.
+
+## When to use ToggleButton vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `ToggleButton` is [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the buttons variant (`variant="buttons"`), or [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) with the button variant for on/off choices.
 
 ## Relevant links
 
@@ -35,3 +43,5 @@ You can use the ToggleButton in different modes. Either as a stand-alone compone
 If `multiselect` is enabled on the group, several items can be enabled or disabled by the user.
 
 You need to decide if you want to track the state yourself by using the `checked` property, or if you want to listen to the internal state with `onChange(({ values }) => console.log(values))`. In this case, you also need to give every item a `value` property.
+
+<RelatedComponents />

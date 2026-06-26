@@ -27,7 +27,7 @@ export const AvatarProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'An icon name or component. (Will override the `src` property.)',
+    doc: 'An icon name or component (will override the `src` property).',
     type: ['string', '[Icon](/uilib/components/icon)'],
     status: 'optional',
   },

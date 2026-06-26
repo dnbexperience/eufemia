@@ -87,17 +87,19 @@ export type FieldBlockHorizontalLabelHeight =
 
 export type SharedFieldBlockProps = {
   /**
-   * The layout of the field block
+   * Layout for the label and input. Can be `horizontal` or `vertical`.
    */
   layout?: 'vertical' | 'horizontal'
-  /** Use this to set additional options for the layout */
+  /**
+   * Use this to set additional options for the `horizontal` layout, e.g. `{ width: "medium" }`. You can also use a custom width `{number}rem`. Instead of a width, you can use a min/max width, e.g. `{ minWidth: "6rem", maxWidth: "12rem" }`.
+   */
   layoutOptions?: {
     width?: FieldBlockHorizontalLabelWidth
     minWidth?: FieldBlockHorizontalLabelWidth
     maxWidth?: FieldBlockHorizontalLabelWidth
   }
   /**
-   * Main label text for the field
+   * Label text displayed above the field. Most fields already have a default label, so check the field translations for an existing label entry. Only set `label` when you need to override the default.
    */
   label?: ReactNode
   /**
@@ -109,35 +111,35 @@ export type SharedFieldBlockProps = {
    */
   labelSuffix?: ReactNode
   /**
-   * A more discreet text displayed beside the label
+   * A more discreet text displayed beside the label (e.g. "(optional)").
    */
   labelDescription?: ReactNode
   /**
-   * If true, the labelDescription will be displayed on the same line as the label.
+   * If `true`, the `labelDescription` will be displayed on the same line as the label.
    */
   labelDescriptionInline?: boolean
   /**
-   * Define the font-size of the label based on the [heading sizes](/uilib/elements/heading/) table.
+   * Define one of the following [heading sizes](/uilib/elements/heading/): `medium` or `large`.
    */
   labelSize?: 'medium' | 'large'
   /**
-   * Width of outer block element
+   * Will set the width for the whole block. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.
    */
   width?: FieldBlockWidth
   /**
-   * Width of contents block, while label etc can be wider if space is available
+   * Will set the width for its contents. Use `small`, `medium`, `large` for predefined standard widths. You can also set a custom width `{number}rem` or use `stretch` or `false`.
    */
   contentWidth?: FieldBlockWidth
   /**
-   * Provide help content for the field.
+   * Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).
    */
   help?: HelpProps
   /**
-   * Hide the help button that is normally rendered beside the label.
+   * Set `true` when you render the inline help button outside the label (e.g. inside a checkbox suffix) so FieldBlock skips drawing the default label help button.
    */
   hideHelpButton?: boolean
   /**
-   * Controls where status messages (error, warning, information) are visually shown.
+   * Controls where status messages (`error`, `warning`, `information`) are visually shown. Use `below` (default) or `above`.
    */
   statusPosition?: 'below' | 'above'
 }
@@ -149,19 +151,29 @@ export type FieldBlockProps<Value = unknown> = SharedFieldBlockProps &
   > & {
     /** The id to link an element with */
     forId?: string
-    /** Use true if you have more than one form element */
+    /**
+     * Use `true` when you have several form elements. This way a `fieldset` with a `legend` is used.
+     */
     asFieldset?: boolean
-    /** Defines the layout of nested fields */
+    /**
+     * Use `true` for when you have more than one field wrapped.
+     */
     composition?: FieldBlockContextProps['composition']
-    /** For composition only: Align the contents vertically */
+    /**
+     * `center` or `bottom` for aligning the contents vertically. Defaults to `bottom`.
+     */
     align?: 'center' | 'bottom'
     /** Class name for the contents block */
     contentClassName?: string
     /** To show the SubmitIndicator during async validation */
     fieldState?: SubmitState
-    /** Defines the height of a component (size prop), so the label can be aligned correctly */
+    /**
+     * Defines the height of a component (size property), so the label can be aligned correctly. Can be `default`, `small`, `medium`, `large`.
+     */
     labelHeight?: FieldBlockHorizontalLabelHeight
-    /** Disable the error summary for this field block */
+    /**
+     * Use `true` to disable the error summary.
+     */
     disableStatusSummary?: boolean
     /** For internal use only */
     required?: boolean
@@ -702,19 +714,22 @@ function useEnableFieldset({
     if (label && !result && !nestedFieldBlockContext) {
       let count = 0
 
-      findElementInChildren(children, (child: ReactElement<any>) => {
-        if (
-          child?.props?.label ||
-          (child?.type as ComponentMarkers)?._formElement === true
-        ) {
-          count++
-        }
-        if (count > 1) {
-          return (result = true)
-        }
+      findElementInChildren(
+        children,
+        (child: ReactElement<{ label?: ReactNode }>) => {
+          if (
+            child?.props?.label ||
+            (child?.type as ComponentMarkers)?._formElement === true
+          ) {
+            count++
+          }
+          if (count > 1) {
+            return (result = true)
+          }
 
-        return undefined
-      })
+          return undefined
+        }
+      )
     }
 
     return Boolean(result)

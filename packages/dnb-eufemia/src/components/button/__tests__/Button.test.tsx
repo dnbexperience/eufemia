@@ -290,6 +290,13 @@ describe('Button component', () => {
       expect(document.querySelector('a').getAttribute('rel')).toBe('me')
     })
 
+    it('removes a javascript: href to prevent script execution', () => {
+      render(
+        <Button {...props} href="javascript:alert('XSS')" icon={null} />
+      )
+      expect(document.querySelector('a')).not.toHaveAttribute('href')
+    })
+
     describe('disabled', () => {
       it('should validate with ARIA rules as a anchor', async () => {
         const Comp = render(<Button {...props} href="https://url" />)
@@ -646,6 +653,90 @@ describe('Button transitionState', () => {
     const button = document.querySelector('.dnb-button')
     expect(button.getAttribute('transitionState')).toBeNull()
     expect(button.getAttribute('transitionstate')).toBeNull()
+  })
+})
+
+describe('Button status', () => {
+  it('connects the status message to the button via aria-describedby', () => {
+    render(
+      <Button text="Primary button with text only" status="my error" />
+    )
+
+    const button = document.querySelector('button')
+    const describedBy = button.getAttribute('aria-describedby')
+
+    expect(describedBy).toBeTruthy()
+
+    // The referenced element must exist and contain the status text
+    const statusText = document.getElementById(describedBy)
+    expect(statusText).toBeInTheDocument()
+    expect(statusText).toHaveTextContent('my error')
+    expect(statusText).toHaveClass('dnb-form-status__text')
+  })
+
+  it('derives the button id and the form-status ids from the same id', () => {
+    render(<Button text="With status" status="my error" />)
+
+    const button = document.querySelector('button')
+    const buttonId = button.getAttribute('id')
+
+    expect(buttonId).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-form-status').getAttribute('id')
+    ).toBe(`${buttonId}-form-status`)
+    expect(button.getAttribute('aria-describedby')).toBe(
+      `${buttonId}-status`
+    )
+  })
+
+  it('does not set aria-describedby when no status is given', () => {
+    render(<Button text="No status" />)
+
+    const button = document.querySelector('button')
+    expect(button).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('combines a user provided aria-describedby with the status id', () => {
+    render(
+      <Button
+        text="With custom describedby"
+        status="my error"
+        aria-describedby="custom-id"
+      />
+    )
+
+    const button = document.querySelector('button')
+    const describedBy = button.getAttribute('aria-describedby')
+    const statusId = document
+      .querySelector('.dnb-form-status__text')
+      .getAttribute('id')
+
+    expect(describedBy).toContain('custom-id')
+    expect(describedBy).toContain(statusId)
+  })
+
+  it('keeps the status describedby when a tooltip is also set', () => {
+    render(
+      <Button
+        text="With status and tooltip"
+        status="my error"
+        tooltip="Helpful hint"
+      />
+    )
+
+    const button = document.querySelector('button')
+    const statusId = document
+      .querySelector('.dnb-form-status__text')
+      .getAttribute('id')
+
+    // The tooltip id is only added on hover/focus, but the status link
+    // must already be present and share the same base id.
+    expect(button.getAttribute('aria-describedby')).toBe(statusId)
+  })
+
+  it('should validate with ARIA rules when a status is set', async () => {
+    const Comp = render(<Button text="With status" status="my error" />)
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

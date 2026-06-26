@@ -110,12 +110,11 @@ export type InputMaskedProps = Omit<
      */
     showMask?: boolean
     /**
-     * Allow users to keep typing after the provided mask has been filled. Extra characters will be appended unmasked.
+     * Allow users to keep typing after the defined mask has been filled. Extra characters will be appended without masking.
      */
     allowOverflow?: boolean
     /**
-     * Controls how overwriting characters is handled;
-     * `shift` (default) moves to the next slot, `replace` keeps the cursor in place.
+     * Control how overwriting characters is handled; `shift` (default) moves to the next slot while `replace` stays on the current slot.
      */
     overwriteMode?: InputMaskedOverwriteMode | null
     onSubmit?: InputMaskedEventHandler

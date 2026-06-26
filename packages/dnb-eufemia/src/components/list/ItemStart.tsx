@@ -12,11 +12,19 @@ import Context from '../../shared/Context'
  * Extends Flex.Item; supports spacing props.
  */
 export type ItemStartProps = FlexItemProps & {
-  /** Font size of the start content. Defaults to `basis`. */
+  /**
+   * Font size of the start content. Defaults to `basis`. Use `small` for smaller text.
+   * Default: `"basis"`
+   */
   fontSize?: 'small' | 'basis'
-  /** Font weight of the start content. Defaults to `regular`. */
+  /**
+   * Font weight of the start content. Defaults to `regular`.
+   * Default: `"regular"`
+   */
   fontWeight?: 'regular' | 'medium'
-  /** If `true`, applies skeleton loading state. Inherits from parent List context when not set. */
+  /**
+   * When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.
+   */
   skeleton?: SkeletonShow
 }
 

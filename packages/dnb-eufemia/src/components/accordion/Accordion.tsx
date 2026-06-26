@@ -59,7 +59,7 @@ export type AccordionIcon =
   | {
       closed?: IconIcon
       /**
-       * If set to `true` the accordion will be expanded as its initial state.
+       * Use `true` or `false` to control the expanded/collapsed state of the accordion.
        */
       expanded?: IconIcon
     }
@@ -105,7 +105,7 @@ export type AccordionProps = Omit<
      */
     rememberState?: boolean
     /**
-     * Send along a custom React Ref for `.dnb-accordion__content`.
+     * Send along a custom `React.Ref` for `.dnb-accordion__content`.
      */
     contentRef?: RefObject<HTMLElement | null>
     /**
@@ -164,7 +164,7 @@ export type AccordionProps = Omit<
     className?: string
     children?: ReactNode
     /**
-     * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.
+     * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.
      */
     onChange?: (event: AccordionChangeEvent) => void
   }

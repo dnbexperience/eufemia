@@ -38,6 +38,20 @@ import { findPackageRoot, toPascalCase } from './shared/workspaceUtils.ts'
 
 export { toPascalCase, findUnhandledStandaloneMdxComponents }
 
+/**
+ * A normalized documentation entry for a single component prop or event,
+ * as extracted from TypeScript `*Docs` files or Markdown property tables.
+ */
+export type DocEntry = {
+  doc: string
+  type?: string | null
+  status?: string | null
+  defaultValue?: string | null
+}
+
+/** A map of prop/event names to their documentation entries. */
+export type DocEntryMap = Record<string, DocEntry>
+
 type FrontMatterParser = {
   <T>(file: string, options?: FrontMatterOptions): FrontMatterResult<T>
   test(file: string): boolean
@@ -228,8 +242,8 @@ export async function findDocExtras(file: string) {
 export async function loadTsDocs(rel: string) {
   let tsDocsDir: string | null = null
   let related: string[] = []
-  let props: Record<string, any> = {}
-  let events: Record<string, any> = {}
+  let props: DocEntryMap = {}
+  let events: DocEntryMap = {}
 
   const tsRoot = findPackageRoot('@dnb/eufemia')
 
@@ -324,9 +338,9 @@ export async function loadTsDocsForDocPath(rel: string) {
 }
 
 export function mergeDocs(
-  base: Record<string, any>,
-  extra: Record<string, any>
-) {
+  base: DocEntryMap,
+  extra?: DocEntryMap
+): DocEntryMap {
   return { ...base, ...(extra || {}) }
 }
 
@@ -352,6 +366,8 @@ export async function resolveMetaText(file: string) {
   return { name, description, infoFile }
 }
 
+export type SourceInfo = Awaited<ReturnType<typeof findSourceInfo>>
+
 export function buildMetadata({
   file,
   siteDir,
@@ -376,10 +392,10 @@ export function buildMetadata({
   group: string
   name: string
   description: string | null
-  props: Record<string, any>
-  events: Record<string, any>
+  props: DocEntryMap
+  events: DocEntryMap
   related: string[]
-  sourceInfo: any
+  sourceInfo: SourceInfo
   infoFile: string | null
   propsFile: string | null
   eventsFile: string | null
@@ -449,6 +465,9 @@ export function buildMetadata({
   }
 }
 
+export type ComponentMetadata = ReturnType<typeof buildMetadata>
+export type LlmsResultEntry = { slug: string; meta: ComponentMetadata }
+
 export async function writeLlmsText({
   siteDir,
   results,
@@ -460,7 +479,7 @@ export async function writeLlmsText({
   publicUrlBase = DEFAULT_PUBLIC_URL,
 }: {
   siteDir: string
-  results: Array<any>
+  results: Array<LlmsResultEntry>
   version: string
   commit?: string
   generatedAt?: string
@@ -468,7 +487,7 @@ export async function writeLlmsText({
   llmsFilename?: string
   publicUrlBase?: string
 }) {
-  const hydrated: Array<any> = results || []
+  const hydrated: Array<LlmsResultEntry> = results || []
   const llmsPath = path.join(
     outputRoot || path.join(siteDir, 'public'),
     llmsFilename
@@ -608,8 +627,8 @@ async function listFilesRecursive(dir: string) {
 async function isDraftMdx(file: string) {
   try {
     const src = await fs.readFile(file, 'utf-8')
-    const { attributes } = fm(src)
-    const raw = attributes && (attributes as any).draft
+    const { attributes } = fm<{ draft?: boolean | string }>(src)
+    const raw = attributes && attributes.draft
 
     if (raw === true) {
       return true
@@ -642,9 +661,9 @@ export async function findExisting(candidates: string[]) {
 export async function extractTableDocs(mdxFile: string) {
   const md = await fs.readFile(mdxFile, 'utf-8')
   const tables = extractMarkdownTables(md)
-  const collection: Record<string, any> = {}
+  const collection: DocEntryMap = {}
 
-  tables.forEach((rows: Array<any>) => {
+  tables.forEach((rows: Array<Array<string>>) => {
     const headerRow = rows.shift()
 
     if (!Array.isArray(headerRow)) {
@@ -692,7 +711,7 @@ export function cleanDescription(s: string) {
     .replace(/&amp;/g, '&')
 }
 
-export function mapToArray(map: Record<string, any>) {
+export function mapToArray(map: DocEntryMap) {
   try {
     return Object.entries(map || {}).map(([name, v]) => ({
       name,
@@ -749,10 +768,10 @@ export async function extractTitleFromMdx(mdxFile: string | null) {
 
   try {
     const src = await fs.readFile(mdxFile, 'utf-8')
-    const { attributes, body } = fm(src)
+    const { attributes, body } = fm<{ title?: string }>(src)
 
-    if (attributes && typeof (attributes as any).title === 'string') {
-      return String((attributes as any).title).trim()
+    if (attributes && typeof attributes.title === 'string') {
+      return String(attributes.title).trim()
     }
     const m = /\n\s*#\s+([^\n]+)\n/.exec(body || src)
 
@@ -870,13 +889,10 @@ export async function extractDescriptionFromMdx(mdxFile: string | null) {
 
   try {
     const src = await fs.readFile(mdxFile, 'utf-8')
-    const { attributes } = fm(src)
+    const { attributes } = fm<{ description?: string }>(src)
 
-    if (
-      attributes &&
-      typeof (attributes as any).description === 'string'
-    ) {
-      return String((attributes as any).description).trim()
+    if (attributes && typeof attributes.description === 'string') {
+      return String(attributes.description).trim()
     }
   } catch {
     // ignore
@@ -885,7 +901,7 @@ export async function extractDescriptionFromMdx(mdxFile: string | null) {
 }
 
 export function buildLlmsText(
-  results: Array<any>,
+  results: Array<LlmsResultEntry>,
   {
     version,
     commit,
@@ -920,7 +936,7 @@ export function buildLlmsText(
     }
   })
 
-  const byGroup = new Map<string, Array<any>>()
+  const byGroup = new Map<string, Array<LlmsResultEntry>>()
 
   for (const entry of filtered) {
     const g = entry.meta.group || 'unlisted'
@@ -941,7 +957,7 @@ export function buildLlmsText(
           : 'Unlisted'
 
   const printed = new Set<string>()
-  const pushEntry = (meta: any) => {
+  const pushEntry = (meta: ComponentMetadata) => {
     const slug = String(meta?.slug || '')
     const prefix = slug.includes('/extensions/forms/Value/')
       ? 'Value'
@@ -1065,8 +1081,8 @@ async function formatLlmsText(content: string, siteDir: string) {
 
 export async function extractTsDocs(dir: string) {
   const out: {
-    props: Record<string, any>
-    events: Record<string, any>
+    props: DocEntryMap
+    events: DocEntryMap
     __exportNames: string[]
     related: string[]
   } = { props: {}, events: {}, __exportNames: [], related: [] }
@@ -1124,7 +1140,7 @@ async function evaluateTsModule(file: string, seen = new Set<string>()) {
     await import('@babel/plugin-transform-modules-commonjs')
   const vm = await import('node:vm')
   const moduleApi = await import('node:module')
-  const localRequire = (moduleApi as any).createRequire(file)
+  const localRequire = moduleApi.Module.createRequire(file)
 
   let code = await fs.readFile(file, 'utf-8')
   const bindings = await buildModuleInjectionBindings(
@@ -1310,8 +1326,8 @@ function addDocsFromExport(
   exportName: string,
   value: Record<string, any>,
   out: {
-    props: Record<string, any>
-    events: Record<string, any>
+    props: DocEntryMap
+    events: DocEntryMap
     related: string[]
   }
 ) {
@@ -1326,7 +1342,7 @@ function addDocsFromExport(
     if (!entry || typeof entry !== 'object') {
       continue
     }
-    const normalized: Record<string, any> = {
+    const normalized: DocEntry = {
       doc: String((entry as any).doc ?? (entry as any).description ?? ''),
       type: (entry as any).type ?? null,
       status: (entry as any).status ?? null,
@@ -1551,10 +1567,10 @@ export async function convertMdxToMd({
 
   if (frontmatter) {
     try {
-      const { attributes } = fm(frontmatter)
+      const { attributes } = fm<{ title?: string }>(frontmatter)
 
-      if (attributes && typeof (attributes as any).title === 'string') {
-        const title = String((attributes as any).title).trim()
+      if (attributes && typeof attributes.title === 'string') {
+        const title = String(attributes.title).trim()
         // Check if body already starts with an H1 heading
         const trimmedBody = outputBody.trim()
         const startsWithHeading = /^#\s+/.test(trimmedBody)

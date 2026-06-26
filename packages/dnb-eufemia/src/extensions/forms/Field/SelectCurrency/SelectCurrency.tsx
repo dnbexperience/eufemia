@@ -35,13 +35,12 @@ export type FieldSelectCurrencyProps = FieldPropsWithExtraValue<
   undefined | string
 > & {
   /**
-   * Lists only the currencies you want to show. Can be `Scandinavia`, `Nordic`, `Europe` or `Prioritized`.
-   * Defaults to `Prioritized`.
+   * List only a certain set of currencies: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all currencies [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCurrency/#filter-or-prioritize-currency-listing)). Defaults to `Prioritized`.
    */
   currencies?: CurrencyFilterSet
 
   /**
-   * Use this prop to filter out certain currencies. The function receives the currency object and should return a boolean. Returning `false` will omit the currency.
+   * Use this property to filter out certain currencies. The function receives the currency object and should return a boolean. Returning `false` will omit the currency.
    */
   filterCurrencies?: (currency: CurrencyType) => boolean
 

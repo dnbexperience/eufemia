@@ -4,12 +4,12 @@ import type { ModalAllProps } from '../modal/Modal'
 
 export type DrawerProps = {
   /**
-   * Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
+   * Defines on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
    */
   containerPlacement?: 'left' | 'right' | 'top' | 'bottom'
 
   /**
-   * The drawer title. Displays on the very top of the content.
+   * The drawer title. Displays at the very top of the content.
    */
   title?: ReactNode
 } & ModalAllProps
@@ -61,7 +61,7 @@ export type DrawerContentProps = {
   children?: ReactNode | ((props: DrawerContentProps) => ReactNode)
 
   /**
-   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
+   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `centered` and `right`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
    */
   alignContent?: 'left' | 'right' | 'centered' | 'center'
 
@@ -71,7 +71,7 @@ export type DrawerContentProps = {
   fullscreen?: boolean | string
 
   /**
-   * Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
+   * Defines on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
    */
   containerPlacement?: string
 

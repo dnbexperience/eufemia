@@ -6,48 +6,14 @@ import AutoLinkHeader from '../tags/AutoLinkHeader'
 import { basicComponents } from '../../shared/tags'
 import { makeSlug } from '../../uilib/utils/slug'
 import { cardItemStyle } from '../menu/MainMenu.module.scss'
-
-const categoryOrder = [
-  {
-    id: 'actions',
-    title: 'Actions',
-    description:
-      'For things people click to do something, open choices, follow a link, or get help.',
-  },
-  {
-    id: 'input',
-    title: 'Input',
-    description:
-      'For entering information, choosing options, uploading files, or changing values.',
-  },
-  {
-    id: 'navigation',
-    title: 'Navigation',
-    description:
-      'For helping people move between pages, jump to content, or continue through steps.',
-  },
-  {
-    id: 'feedback',
-    title: 'Feedback',
-    description:
-      'For messages and panels that tell people what happened, what is happening, or what needs attention.',
-  },
-  {
-    id: 'content',
-    title: 'Content',
-    description:
-      'For showing information, such as text, numbers, tables, icons, lists, and cards.',
-  },
-  {
-    id: 'other',
-    title: 'Other',
-    description:
-      'For special page behavior that does not fit the groups above.',
-  },
-] as const
-
-type CategoryId = (typeof categoryOrder)[number]['id']
-type CategoryValue = string | false | null | undefined
+import {
+  categoryOrder,
+  excludedSlugs,
+  getCategoryId,
+  type CategoryDefinition,
+  type CategoryId,
+  type CategoryValue,
+} from './componentCategories'
 
 type Entry = {
   slug: string
@@ -75,37 +41,8 @@ type QueryData = {
   }
 }
 
-type CategoryDefinition = {
-  id: CategoryId
-  title: string
-  description: string
-}
-
 type Category = CategoryDefinition & {
   entries: Entry[]
-}
-
-const categoryIds = new Set<string>(categoryOrder.map(({ id }) => id))
-
-const excludedSlugs = new Set([
-  'uilib/components/fragments',
-  'uilib/components/overview',
-])
-
-function isCategoryId(category: CategoryValue): category is CategoryId {
-  return typeof category === 'string' && categoryIds.has(category)
-}
-
-function getCategoryId(category: CategoryValue): CategoryId | undefined {
-  if (category === false) {
-    return undefined
-  }
-
-  if (isCategoryId(category)) {
-    return category
-  }
-
-  return 'other'
 }
 
 export default function ListComponentsOverview() {

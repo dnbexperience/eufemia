@@ -58,13 +58,13 @@ export const SpaceProperties: PropertiesTableProps = {
 
 export const SpaceResponsiveContextProperties: PropertiesTableProps = {
   density: {
-    doc: 'Forces a specific spacing density for descendants. Overrides `defaultBreakpoint` when set.',
-    type: ['"compact"', '"basis"', '"spacious"'],
+    doc: 'Forces a specific spacing density for descendants. Overrides `breakOn` when set. Use `false` to disable.',
+    type: ['"compact"', '"basis"', 'false'],
     status: 'optional',
   },
-  defaultBreakpoint: {
-    doc: "Sets which breakpoint's spacing scale to use as the default. Default: `medium`.",
-    type: ['"small"', '"medium"', '"large"'],
+  breakOn: {
+    doc: 'Sets the breakpoint at which density switches from `compact` to `basis`. Default: `small`.',
+    type: ['"small"', '"medium"'],
     status: 'optional',
   },
   off: {

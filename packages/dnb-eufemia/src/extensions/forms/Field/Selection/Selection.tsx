@@ -79,56 +79,51 @@ type DrawerListVisibilityParams = {
 
 export type FieldSelectionProps = FieldProps<IOption['value']> & {
   /**
-   * Defines the variant of the component.
-   * Default: `dropdown`
+   * Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.
    */
   variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
 
   /**
-   * The width of the component.
-   * Default: `large`
+   * `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.
    */
   width?: FieldBlockWidth
 
   /**
-   * Defines the layout of the options for radio and button variants.
+   * Layout for the list of options. Can be `horizontal` or `vertical`.
    */
   optionsLayout?: 'horizontal' | 'vertical'
 
   /**
-   * Transform the displayed selection for Dropdown and Autocomplete variant.
-   * Use it to display a different value than the one in the data set.
+   * Transform the displayed selection for Dropdown and Autocomplete variant. Use it to display a different value than the one in the data set. The first parameter is the properties of the Option component or data item. You can return a `React.ReactNode` that will be displayed in the selection.
    */
   transformSelection?: (props: OptionFieldProps) => ReactNode
 
   /**
-   * The path to the context data (Form.Handler).
-   * The context data object needs to have a `value` and a `title` property.
+   * The path to the context data (Form.Handler). The context data object needs to have a `value` and a `title` property. The generated options will be placed above given JSX based children. When `children` is a function, the generated options are instead provided as `options` to the function.
    */
   dataPath?: Path
 
   /**
-   * Data to be used for the component. The object needs to have a `value` and a `title` property.
-   * The generated options will be placed above given JSX based children.
+   * Data to be used for the component. The object needs to have a `value` and a `title` property. Provide the Dropdown or Autocomplete data in the format documented here: [Dropdown](/uilib/components/dropdown) and [Autocomplete](/uilib/components/autocomplete) documentation.
    */
   data?: Data
 
   /**
-   * Array of groups, only the first can be `undefined`
+   * An array of group titles for the list items. Only the first group can be `undefined`.
    */
   groups?: ReactNode[]
   /**
-   * Autocomplete specific props
+   * Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
    */
   autocompleteProps?: AutocompleteAllProps
 
   /**
-   * Dropdown specific props
+   * Forward any additional properties to the [Dropdown](/uilib/components/dropdown/) component.
    */
   dropdownProps?: DropdownAllProps
 
   /**
-   * The size of the component.
+   * The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).
    */
   size?:
     | ToggleButtonGroupProps['size']
@@ -137,7 +132,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
     | DropdownAllProps['size']
 
   /**
-   * The content of the component.
+   * For providing [Field.Option](/uilib/extensions/forms/base-fields/Option/) components and other children. Can also be a render function that receives `{ value, options }`, where `options` are from `data` or `dataPath` and may include additional custom properties.
    */
   children?: ReactNode | RenderSelectionChildren
 }
@@ -523,7 +518,7 @@ export function mapOptions(
             createOption,
           })
           return createElement(
-            child.type as ComponentType<any>,
+            child.type as ComponentType<OptionProps>,
             child.props,
             nestedChildren
           )

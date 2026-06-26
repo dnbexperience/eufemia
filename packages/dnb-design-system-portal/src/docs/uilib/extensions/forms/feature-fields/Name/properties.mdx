@@ -5,12 +5,17 @@ showTabs: true
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { NameProperties } from '@dnb/eufemia/src/extensions/forms/Field/Name/NameDocs'
 
 ## Properties
 
+### Field-specific properties
+
+<PropertiesTable props={NameProperties} />
+
 ### General properties
 
-<PropertiesTable props={FieldProperties} />
+<PropertiesTable props={FieldProperties} omit={['onBlurValidator']} />
 
 ## Translations
 

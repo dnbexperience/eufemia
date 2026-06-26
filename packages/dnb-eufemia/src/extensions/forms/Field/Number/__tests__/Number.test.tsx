@@ -1910,6 +1910,72 @@ describe('Field.Number', () => {
       })
     })
 
+    describe('non-finite values (NaN, Infinity, -Infinity)', () => {
+      it.each([Infinity, -Infinity, NaN])(
+        'should show a clear, translated error message for %p',
+        async (value) => {
+          render(<Field.Number value={value} validateInitially />)
+
+          await waitFor(() => {
+            const status = document.querySelector('.dnb-form-status')
+            expect(status).toBeInTheDocument()
+            expect(status).toHaveTextContent(
+              nb.NumberField.errorInvalidNumber
+            )
+          })
+        }
+      )
+
+      it('should show the message in the active locale', async () => {
+        render(
+          <SharedProvider locale="en-GB">
+            <Field.Number value={Infinity} validateInitially />
+          </SharedProvider>
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent(en.NumberField.errorInvalidNumber)
+        })
+      })
+
+      it('should display non-finite values as an empty input', () => {
+        const { rerender } = render(<Field.Number value={NaN} />)
+        expect(document.querySelector('input')).toHaveValue('')
+
+        rerender(<Field.Number value={Infinity} />)
+        expect(document.querySelector('input')).toHaveValue('')
+
+        rerender(<Field.Number value={-Infinity} />)
+        expect(document.querySelector('input')).toHaveValue('')
+      })
+
+      it('should not use the clear message for genuinely invalid types', async () => {
+        const log = vi
+          .spyOn(console, 'error')
+          .mockImplementation(() => undefined)
+
+        const schema = z.object({ myField: z.number() }) as never
+
+        render(
+          <Form.Handler schema={schema} data={{ myField: 'foo' }}>
+            <Field.Number path="/myField" validateInitially />
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          const status = document.querySelector('.dnb-form-status')
+          expect(status).toBeInTheDocument()
+          expect(status).not.toHaveTextContent(
+            nb.NumberField.errorInvalidNumber
+          )
+        })
+
+        log.mockRestore()
+      })
+    })
+
     describe('validation based on required-prop', () => {
       it('should show error for empty value', async () => {
         render(<Field.Number value={1} required />)

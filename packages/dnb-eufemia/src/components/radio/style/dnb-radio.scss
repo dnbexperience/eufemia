@@ -394,8 +394,6 @@
 
   // General
   &__input[disabled] ~ &__button {
-    --radio-border-inset: var(--radio-border-inset--disabled);
-    --radio-border-width: var(--radio-border-width--disabled);
     --radio-color-border: var(--radio-color-border--disabled);
     &:not(.dnb-skeleton) {
       --radio-color-background: var(--radio-color-background--disabled);
