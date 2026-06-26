@@ -15,7 +15,7 @@ name: MCP Lambda
 # - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo + workflow push access
 # - GHE_DEPLOY_REPO: The GHE repo (e.g. `eufemia/eufemia-mcp`)
 #
-# See tools/mcp/README.md for manual deploy instructions.
+# See tools/mcp-lambda/README.md for manual deploy instructions.
 
 on:
   push:
@@ -57,7 +57,7 @@ jobs:
         with:
           path: |
             node_modules
-            tools/mcp/node_modules
+            tools/mcp-lambda/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
@@ -66,13 +66,13 @@ jobs:
         run: yarn install --immutable
 
       - name: Typecheck
-        run: cd tools/mcp && yarn typecheck
+        run: cd tools/mcp-lambda && yarn typecheck
 
       - name: Lint
-        run: cd tools/mcp && yarn lint
+        run: cd tools/mcp-lambda && yarn lint
 
       - name: Run tests
-        run: cd tools/mcp && yarn test
+        run: cd tools/mcp-lambda && yarn test
 
   build-and-push:
     name: Build & Push to GHE
@@ -97,7 +97,7 @@ jobs:
         with:
           path: |
             node_modules
-            tools/mcp/node_modules
+            tools/mcp-lambda/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
@@ -119,7 +119,7 @@ jobs:
 
       - name: Build Lambda zip
         if: steps.gate.outputs.skip != 'true'
-        run: cd tools/mcp && yarn build
+        run: cd tools/mcp-lambda && yarn build
 
       - name: Push to GHE deploy repo
         if: steps.gate.outputs.skip != 'true'
@@ -141,12 +141,12 @@ jobs:
           # Copy the built zip and Terraform config, preserving the
           # dist/ + infra/ layout that main.tf expects (../dist/lambda.zip)
           mkdir -p dist
-          cp "$GITHUB_WORKSPACE/tools/mcp/dist/lambda.zip" dist/
-          cp -R "$GITHUB_WORKSPACE/tools/mcp/infra" .
+          cp "$GITHUB_WORKSPACE/tools/mcp-lambda/dist/lambda.zip" dist/
+          cp -R "$GITHUB_WORKSPACE/tools/mcp-lambda/infra" .
 
           # Include the deploy workflow so it lives on (and triggers from) the deploy branch
           mkdir -p .github/workflows
-          cp "$GITHUB_WORKSPACE/tools/mcp/ghe-deploy-workflow.yml" .github/workflows/deploy.yml
+          cp "$GITHUB_WORKSPACE/tools/mcp-lambda/ghe-deploy-workflow.yml" .github/workflows/deploy.yml
 
           git add -A
           git commit -m "Deploy from ${SOURCE_REF} (${SOURCE_SHA:0:7})"

@@ -158,7 +158,7 @@ aws lambda put-function-concurrency \
 ## Project structure
 
 ```
-tools/mcp/
+tools/mcp-lambda/
 ├── src/
 │   ├── server.ts              # Server singleton (resolves docs root)
 │   ├── resolve-docs-root.ts   # Docs-root resolution (env + candidates)
