@@ -78,7 +78,9 @@ export async function handler(
     const request = toWebRequest(event)
     const response = await transport.handleRequest(request)
 
-    return toApiGatewayResult(response)
+    // Await here so the response body is fully read before `finally` closes
+    // the transport, rather than racing the close against `response.text()`.
+    return await toApiGatewayResult(response)
   } catch (error) {
     console.error('MCP handler error:', error)
 
