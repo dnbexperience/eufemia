@@ -6,6 +6,12 @@ const folderPath = './src'
 const targetString = '@dnb/eufemia/src'
 const replacementString = '@dnb/eufemia'
 
+// Workspace-only dev dependencies that must not reach the published StackBlitz
+// template (their `workspace:*` ranges are not installable outside the monorepo).
+// The optimized build falls back to these only inside the monorepo; on
+// StackBlitz it consumes the built `@dnb/eufemia` package instead.
+const workspaceOnlyDevDependencies = ['eufemia-css-optimizer']
+
 async function replaceInFile(filePath) {
   const content = await readFile(filePath, 'utf8')
   const newContent = content.split(targetString).join(replacementString)
@@ -31,4 +37,31 @@ async function processFolder(folder) {
   }
 }
 
+async function removeWorkspaceOnlyDevDependencies() {
+  const packageJsonPath = './package.json'
+  const pkg = JSON.parse(await readFile(packageJsonPath, 'utf8'))
+
+  if (!pkg.devDependencies) {
+    return
+  }
+
+  let changed = false
+  for (const name of workspaceOnlyDevDependencies) {
+    if (name in pkg.devDependencies) {
+      delete pkg.devDependencies[name]
+      changed = true
+      console.log(`Removed devDependency: ${name}`)
+    }
+  }
+
+  if (changed) {
+    await writeFile(
+      packageJsonPath,
+      JSON.stringify(pkg, null, 2) + '\n',
+      'utf8'
+    )
+  }
+}
+
 await processFolder(folderPath)
+await removeWorkspaceOnlyDevDependencies()

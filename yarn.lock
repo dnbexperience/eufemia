@@ -8010,6 +8010,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^12.1.0":
+  version: 12.1.0
+  resolution: "commander@npm:12.1.0"
+  checksum: 10/cdaeb672d979816853a4eed7f1310a9319e8b976172485c2a6b437ed0db0a389a44cfb222bfbde772781efa9f215bdd1b936f80d6b249485b465c6cb906e1f93
+  languageName: node
+  linkType: hard
+
 "commander@npm:^4.0.0, commander@npm:^4.0.1":
   version: 4.1.1
   resolution: "commander@npm:4.1.1"
@@ -10091,7 +10098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer":
+"eufemia-css-optimizer@workspace:*, eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer":
   version: 0.0.0-use.local
   resolution: "eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer"
   dependencies:
@@ -10131,7 +10138,9 @@ __metadata:
     eslint: "npm:10.4.1"
     eslint-plugin-react-hooks: "npm:7.1.1"
     eslint-plugin-react-refresh: "npm:0.5.2"
+    eufemia-css-optimizer: "workspace:*"
     globals: "npm:17.6.0"
+    purgecss: "npm:8.0.0"
     react: "npm:19.2.5"
     react-dom: "npm:19.2.5"
     sass: "npm:1.97.2"
@@ -17008,7 +17017,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:8.5.15, postcss@npm:^8.5.15, postcss@npm:^8.5.3":
+"postcss@npm:8.5.15, postcss@npm:^8.4.47, postcss@npm:^8.5.15, postcss@npm:^8.5.3":
   version: 8.5.15
   resolution: "postcss@npm:8.5.15"
   dependencies:
@@ -17310,6 +17319,20 @@ __metadata:
   dependencies:
     escape-goat: "npm:^2.0.0"
   checksum: 10/49529e50372ffdb0cccf0efa0f3b3cb0a2c77805d0d9cc2725bd2a0f6bb414631e61c93a38561b26be1259550b7bb6c2cb92315aa09c8bf93f3bdcb49f2b2fb7
+  languageName: node
+  linkType: hard
+
+"purgecss@npm:8.0.0":
+  version: 8.0.0
+  resolution: "purgecss@npm:8.0.0"
+  dependencies:
+    commander: "npm:^12.1.0"
+    fast-glob: "npm:^3.3.2"
+    postcss: "npm:^8.4.47"
+    postcss-selector-parser: "npm:^7.0.0"
+  bin:
+    purgecss: bin/purgecss.js
+  checksum: 10/8b672c612ff24dc40b5a98507d2553b39307a5df7e4e759f1726db8969f3a303d9b27b8f9d9e9993e842c4c9c2257a43bf50b7830a296ac729b6940e3948965f
   languageName: node
   linkType: hard
 
