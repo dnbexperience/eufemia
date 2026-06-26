@@ -1,8 +1,8 @@
 ---
 title: 'Textarea'
 description: 'Use Textarea when people need to write longer text over several lines.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.013Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.771Z
 checksum: 8f79daa9efcfecb14f029267ef3b3c2bc0cfac94003138e897cd4e3fd0756103
 ---
 
@@ -17,6 +17,20 @@ import { Textarea } from '@dnb/eufemia'
 ## Description
 
 The Textarea component is a multi-line text input control with an unlimited number of characters.
+
+## When to use Textarea vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `Textarea` is [Field.String](/uilib/extensions/forms/base-fields/String/) with the `multiline` property.
 
 ## Relevant links
 
@@ -52,6 +66,9 @@ render(<Wrapper>
     </ComponentBox>
   </Wrapper>)
 ```
+
+
+<RelatedComponents />
 
 
 ## Demos

@@ -1,7 +1,7 @@
 ---
 title: 'Spacing'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.712Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.526Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -11,7 +11,12 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 Eufemia has a [Spatial System](/quickguide-designer/spatial-system) with a grid of **8px** (0.5rem). This is simply a guide grid which helps with making design decisions about the sizes of components, elements, margins, paddings etc.
 
-![UX layout spacing](../usage/assets/ux-layout-spacing.png)
+<InlineImg
+  src={UxLayoutSpacing}
+  caption="UX layout spacing"
+  width="auto"
+  className="blank x-10"
+/>
 
 Also have a look at the designers example guide on [using Eufemia's spatial system for layout](/quickguide-designer/inspiration#using-eufemias-spatial-system-for-layout).
 
@@ -20,16 +25,17 @@ Also have a look at the designers example guide on [using Eufemia's spatial syst
 Spacing follows a specific pattern:
 
 
-| Pixel | Type       | Rem     | CSS Variable         |
-| ----- | ---------- | ------- | -------------------- |
-| 8     | `x-small`  | **0.5** | `--spacing-x-small`  |
-| 16    | `small`    | **1**   | `--spacing-small`    |
-| 24    | `medium`   | **1.5** | `--spacing-medium`   |
-| 32    | `large`    | **2**   | `--spacing-large`    |
-| 48    | `x-large`  | **3**   | `--spacing-x-large`  |
-| 56    | `xx-large` | **3.5** | `--spacing-xx-large` |
+| Pixel | Type       | Rem      | CSS Variable         |
+| ----- | ---------- | -------- | -------------------- |
+| 4     | `xx-small` | **0.25** | `--spacing-xx-small` |
+| 8     | `x-small`  | **0.5**  | `--spacing-x-small`  |
+| 16    | `small`    | **1**    | `--spacing-small`    |
+| 24    | `medium`   | **1.5**  | `--spacing-medium`   |
+| 32    | `large`    | **2**    | `--spacing-large`    |
+| 48    | `x-large`  | **3**    | `--spacing-x-large`  |
+| 56    | `xx-large` | **3.5**  | `--spacing-xx-large` |
 
-**NB:** In some circumstances you may be in need of using **0.25rem** (4px) - therefore `xx-small` also exists, but as a single type. So, combining `xx-small` and `small` would not result in 0.25rem, but still remain 1rem.
+**NB:** When combining sizes we only allow increments of `0.5rem`, so `xx-small` will not increment by `0.25rem` when combined with other sizes.
 
 
 ### Code Editor Extensions

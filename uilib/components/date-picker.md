@@ -1,9 +1,9 @@
 ---
 title: 'DatePicker'
 description: 'Use DatePicker when people need to choose one date or a date range.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.471Z
-checksum: 75e8fe81c05abab5db45b746b7f846b1bd9f0baa4a93401740216e7397f2ad30
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.178Z
+checksum: 433ef38440ca57d9aaa51d5089a06f2a76a59db8999ad58827dc8ac0d88fbfea
 ---
 
 # DatePicker
@@ -17,6 +17,20 @@ import { DatePicker } from '@dnb/eufemia'
 ## Description
 
 The DatePicker component should be used whenever the user is to enter a single date or a date range/period with a start and end date.
+
+## When to use DatePicker vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `DatePicker` is [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
 
 ## Relevant links
 
@@ -157,6 +171,8 @@ Additional event return object properties:
 ## Root Element (React Portal)
 
 The DatePicker component uses [PortalRoot](/uilib/components/portal-root) internally to render its calendar. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />
 
 
 ## Demos
@@ -626,7 +642,7 @@ render(<DatePicker inline range startDate="2019-05-05" endDate="2019-06-05" />)
       "status": "optional"
     },
     "labelDirection": {
-      "doc": " Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
+      "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
       "type": [
         "\"vertical\"",
         "\"horizontal\""

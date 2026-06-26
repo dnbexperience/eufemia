@@ -1,8 +1,8 @@
 ---
 title: 'InputMasked'
 description: 'Use InputMasked when people must enter text in a fixed format.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.592Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.305Z
 checksum: ec854c3f7edab3767cebaea07e1723cb55406d476c88740bcf81d27b7291d502
 ---
 
@@ -17,6 +17,20 @@ import { InputMasked } from '@dnb/eufemia'
 ## Description
 
 The InputMasked component uses the basic [Input](/uilib/components/input) component, but with input masking powered by [Maskito](https://maskito.dev/).
+
+## When to use InputMasked vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+For masked numbers and amounts, the Eufemia Forms equivalents are [Field.Number](/uilib/extensions/forms/base-fields/Number/) and [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/). For common formatted values, use the dedicated fields such as [Field.PhoneNumber](/uilib/extensions/forms/feature-fields/PhoneNumber/), [Field.NationalIdentityNumber](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/), [Field.BankAccountNumber](/uilib/extensions/forms/feature-fields/BankAccountNumber/), [Field.OrganizationNumber](/uilib/extensions/forms/feature-fields/OrganizationNumber/), and [Field.Expiry](/uilib/extensions/forms/feature-fields/Expiry/).
 
 ## Relevant links
 
@@ -159,6 +173,9 @@ render(<Wrapper>
     </ComponentBox>
   </Wrapper>)
 ```
+
+
+<RelatedComponents />
 
 
 ## Demos

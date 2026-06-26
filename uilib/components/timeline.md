@@ -1,8 +1,8 @@
 ---
 title: 'Timeline'
 description: 'Use Timeline to show events or steps in chronological order.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.017Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.776Z
 checksum: 2865ac048fbac54c4de5c574c5b125f61119c348b0b0bdd5ea90b959dcb47092
 ---
 
@@ -23,6 +23,8 @@ A timeline shows events in chronological order and gives a great overview of the
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=19517-7350)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/timeline)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/timeline)
+
+<RelatedComponents />
 
 
 ## Demos

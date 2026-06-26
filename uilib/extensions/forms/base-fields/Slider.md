@@ -1,8 +1,8 @@
 ---
 title: 'Field.Slider'
 description: '`Field.Slider` is a wrapper component for the Slider to make it easier to use inside a form.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.630Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.449Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

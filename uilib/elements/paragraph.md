@@ -1,9 +1,9 @@
 ---
 title: 'Paragraph'
 description: 'Paragraphs are block-level elements, used to structure and format text contents.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.170Z
-checksum: 845c380cad6e85ab625f75477db6dbace5110a754208c56db0e04a179d35b607
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.923Z
+checksum: 4774a0918e79dc38bc1ffed225923a088efeec3346db6b43950bdf06c2a7748b
 ---
 
 # Paragraph
@@ -152,16 +152,16 @@ render(<Flex.Stack>
 ```
 
 
-#### Using Typography.Provider
+#### Using Typography.Context
 
-Use `Typography.Provider` to apply `proseMaxWidth` to multiple paragraphs at once:
+Use `Typography.Context` to apply `proseMaxWidth` to multiple paragraphs at once:
 
 
 ```tsx
 render(<Flex.Stack>
-        <Typography.Provider proseMaxWidth={60}>
+        <Typography.Context proseMaxWidth={60}>
           <P>
-            This paragraph is inside a Typography.Provider with
+            This paragraph is inside a Typography.Context with
             proseMaxWidth={60}
           </P>
           <P>
@@ -172,7 +172,7 @@ render(<Flex.Stack>
             This paragraph overrides the Provider value with its own
             proseMaxWidth={40}
           </P>
-        </Typography.Provider>
+        </Typography.Context>
       </Flex.Stack>)
 ```
 
@@ -434,7 +434,7 @@ render(<Section innerSpace={{
       "status": "optional"
     },
     "proseMaxWidth": {
-      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
+      "doc": "Sets the maximum width based on character count for all Typography children. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
       "type": [
         "number",
         "boolean"

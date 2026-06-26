@@ -1,8 +1,8 @@
 ---
 title: 'Switch'
 description: 'Use Switch when people can turn one setting on or off.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.979Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.736Z
 checksum: e288cce458a9b54ddbb5f5d40392a7f958ceb267c5d4fcb59e172bd5f8205a0e
 ---
 
@@ -21,6 +21,20 @@ _Also known as a toggle switch or toggle._
 The Switch component (toggle) is a digital on/off switch. Toggle switches are best used for changing system functionalities and preferences. "Toggles may replace two radio buttons or a single checkbox to allow users to choose between two opposing states." – [Source][1]
 
 You may also check out the [Checkbox](/uilib/components/checkbox) component.
+
+## When to use Switch vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `Switch` is [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) with the switch variant (`variant="switch"`), or [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) for toggling between two values.
 
 ## Relevant links
 
@@ -47,6 +61,8 @@ Do not use a toggle switch if the user is required to click Save or Update to ap
 The label should describe what the toggle will do when the switch is on.
 
 [1]: https://www.nngroup.com/articles/toggle-switch-guidelines/
+
+<RelatedComponents />
 
 
 ## Demos

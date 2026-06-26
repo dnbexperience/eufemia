@@ -1,8 +1,8 @@
 ---
 title: 'Field.Number'
 description: '`Field.Number` is the base component for receiving user input where the target data is of type `number`.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.627Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.446Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -42,6 +42,14 @@ If a number has the type of number and cannot start with a zero, this field may 
 However, for a customer number, you should rather use [Field.String](/uilib/extensions/forms/base-fields/String/).
 
 Internally, it is used by e.g. [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/).
+
+## Non-finite values (Infinity and NaN)
+
+A derived value can sometimes resolve to a non-finite number. A common example is a calculated percentage where the previous value is `0`, which results in a division by zero and produces `Infinity`.
+
+`Field.Number` renders non-finite values (`Infinity`, `-Infinity` and `NaN`) as an empty input rather than a partial value like `-`. They are still invalid: validation fails with a clear, localized message (`NumberField.errorInvalidNumber`, for example "Must be a valid number.") instead of a cryptic type error, so the user is blocked until an empty or finite value is provided. The value stored in the data context is left untouched.
+
+For an impossible calculation, store an empty value (such as `undefined`) instead of a non-finite number so the field is valid. The same applies when you provide your own `schema` – see [Schema validation](/uilib/extensions/forms/Form/schema-validation/#non-finite-numbers-infinity-and-nan) for details.
 
 ## Browser autofill
 
@@ -830,6 +838,12 @@ render(<Field.Number label="Label text" showStepControls disabled />)
       "en-GB": "Must be a whole number (no decimals).",
       "sv-SE": "Måste vara ett heltal (utan decimaler).",
       "da-DK": "Skal være et helt tal (uden decimaler)."
+    },
+    "NumberField.errorInvalidNumber": {
+      "nb-NO": "Må være et gyldig tall.",
+      "en-GB": "Must be a valid number.",
+      "sv-SE": "Måste vara ett giltigt tal.",
+      "da-DK": "Skal være et gyldigt tal."
     },
     "NumberField.errorMaximum": {
       "nb-NO": "Må være maks. {maximum}.",

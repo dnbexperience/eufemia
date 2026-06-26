@@ -1,8 +1,8 @@
 ---
 title: 'AI, MCP and Tools'
 description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.746Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.567Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -103,15 +103,30 @@ Install the [VSCode Extension](https://marketplace.visualstudio.com/items?itemNa
 
 1. Spacing System example
 
-![Auto completion for px/rem spacing system](./assets/eufemia-vscode-extension-spacing.png)
+<InlineImg
+  src={VSCodeExtensionSpacing}
+  caption="Auto completion for px/rem spacing system"
+  width="auto"
+  className="blank x-10"
+/>
 
 2. Equivalent to `px` or `rem` value example
 
-![Tooltip for px/rem equivalent](./assets/eufemia-vscode-extension-hover.png)
+<InlineImg
+  src={VSCodeExtensionHover}
+  caption="Tooltip for px/rem equivalent"
+  width="auto"
+  className="blank x-10"
+/>
 
 3. `font-size` example
 
-![Auto completion for font-size](./assets/eufemia-vscode-extension-font-size.png)
+<InlineImg
+  src={VSCodeExtensionFontSize}
+  caption="Auto completion for font-size"
+  width="auto"
+  className="blank x-10"
+/>
 
 ## Lint Plugins
 

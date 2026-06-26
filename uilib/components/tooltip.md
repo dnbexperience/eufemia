@@ -1,9 +1,9 @@
 ---
 title: 'Tooltip'
 description: 'Use Tooltip to give a short hint or explanation for nearby content.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.036Z
-checksum: a1a83e458430ef1d1db7463d31d70f71e0d6d80606cccba00ca109e75d1b478b
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.803Z
+checksum: 9a14205f7fc333b4351e0d7c7aec4a20279bf674123a0e8595aba3e53981cb0c
 ---
 
 # Tooltip
@@ -54,6 +54,8 @@ To use the built-in hover/focus/touch behavior, omit the `open` property and let
 ## Root Element (React Portal)
 
 The Tooltip component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />
 
 
 ## Demos
@@ -392,7 +394,7 @@ render(<Button tooltip={`${longText} ${longText}`} text="Long text" />)
       "status": "optional"
     },
     "portalRootClass": {
-      "doc": "CSS class name applied to the portal root element. Used to style or identify the portal container.",
+      "doc": "CSS class name applied to the Tooltip portal root element. Has effect only when not using `skipPortal`.",
       "type": "string",
       "status": "optional"
     },

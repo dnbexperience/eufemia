@@ -1,8 +1,8 @@
 ---
 title: 'CountryFlag'
 description: 'Use CountryFlag to show a country by its flag from an ISO country code.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.452Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.154Z
 checksum: 96858d9c7269f72350401c3a9b92c476b3cbdcea7f967c9c12932cbbe1d8c391
 ---
 
@@ -34,6 +34,8 @@ For UX designers, there is the [Figma Flags Library](https://www.figma.com/desig
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/country-flag)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/country-flag)
+
+<RelatedComponents />
 
 
 ## Demos

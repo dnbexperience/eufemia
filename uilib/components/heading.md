@@ -1,8 +1,8 @@
 ---
 title: 'Heading (auto level)'
 description: 'Use Heading to create accessible page headings with the correct level.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.560Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.272Z
 checksum: f2ba0868c40cefe7513a73171e0443adb11ed19430690bb3d1f90545b838de9a
 ---
 
@@ -168,6 +168,9 @@ render(<article>
 ```
 
 
+<RelatedComponents />
+
+
 ## Demos
 
 **NB:** All the demos do use `<Heading.Level reset={1} ...`. This way every demo does reset the global level handling. You do not need that in your app.
@@ -303,23 +306,22 @@ render(<Heading.Level reset={3}>
 ```
 
 
-#### Using Typography.Provider
+#### Using Typography.Context
 
-Use `Typography.Provider` to apply `proseMaxWidth` to multiple headings at once:
+Use `Typography.Context` to apply `proseMaxWidth` to multiple headings at once:
 
 
 ```tsx
 render(<Heading.Level reset={3}>
-        <Typography.Provider proseMaxWidth={40}>
+        <Typography.Context proseMaxWidth={40}>
           <Heading>
-            This heading is inside a Typography.Provider with
-            proseMaxWidth=
+            This heading is inside a Typography.Context with proseMaxWidth=
             {40}
           </Heading>
           <Heading proseMaxWidth={20}>
             This heading overrides the provider with proseMaxWidth={20}
           </Heading>
-        </Typography.Provider>
+        </Typography.Context>
       </Heading.Level>)
 ```
 

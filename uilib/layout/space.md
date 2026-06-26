@@ -1,8 +1,8 @@
 ---
 title: 'Space'
 description: 'The Space component provides margins within the provided spacing patterns.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.711Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.525Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -28,16 +28,17 @@ The reason this exists is to make your syntax as clean as possible. This way, yo
 ### Spacing Table
 
 
-| Pixel | Type       | Rem     | CSS Variable         |
-| ----- | ---------- | ------- | -------------------- |
-| 8     | `x-small`  | **0.5** | `--spacing-x-small`  |
-| 16    | `small`    | **1**   | `--spacing-small`    |
-| 24    | `medium`   | **1.5** | `--spacing-medium`   |
-| 32    | `large`    | **2**   | `--spacing-large`    |
-| 48    | `x-large`  | **3**   | `--spacing-x-large`  |
-| 56    | `xx-large` | **3.5** | `--spacing-xx-large` |
+| Pixel | Type       | Rem      | CSS Variable         |
+| ----- | ---------- | -------- | -------------------- |
+| 4     | `xx-small` | **0.25** | `--spacing-xx-small` |
+| 8     | `x-small`  | **0.5**  | `--spacing-x-small`  |
+| 16    | `small`    | **1**    | `--spacing-small`    |
+| 24    | `medium`   | **1.5**  | `--spacing-medium`   |
+| 32    | `large`    | **2**    | `--spacing-large`    |
+| 48    | `x-large`  | **3**    | `--spacing-x-large`  |
+| 56    | `xx-large` | **3.5**  | `--spacing-xx-large` |
 
-**NB:** In some circumstances you may be in need of using **0.25rem** (4px) - therefore `xx-small` also exists, but as a single type. So, combining `xx-small` and `small` would not result in 0.25rem, but still remain 1rem.
+**NB:** When combining sizes we only allow increments of `0.5rem`, so `xx-small` will not increment by `0.25rem` when combined with other sizes.
 
 
 ### Value Format
@@ -151,21 +152,21 @@ element.setAttribute('style', merged)
 
 **NB**: This feature is in beta and may be subject to change.
 
-Wrap a section of your UI in `Space.ResponsiveContext` to enable spacing that adapts automatically across breakpoints. Components inside the wrapper that use `useSpacing` will receive a `dnb-space-responsive--<density>` CSS class, which remaps static `--spacing-*` values to the responsive `--responsive-spacing-*` custom properties below.
+Wrap a section of your UI in `Space.ResponsiveContext` to enable spacing that adapts automatically across breakpoints. Components inside the wrapper that use `useSpacing` will receive a `dnb-space-responsive` CSS class, which remaps static `--spacing-*` values to the responsive `--responsive-spacing-*` custom properties below.
 
 This is useful when you want consistent, viewport-aware gaps between elements without managing breakpoint-specific spacing props on every component.
 
 See the [Responsive layout gap demo](/uilib/layout/space/demos/#responsive-layout-gap) for a live example.
 
-| CSS Variable                    | Compact `← small` | Basis `small → medium` | Spacious `medium →` |
-| ------------------------------- | ----------------- | ---------------------- | ------------------- |
-| `--responsive-spacing-xx-small` | 0.25rem (4px)     | 0.5rem (8px)           | 1rem (16px)         |
-| `--responsive-spacing-x-small`  | 0.5rem (8px)      | 1rem (16px)            | 1.5rem (24px)       |
-| `--responsive-spacing-small`    | 1rem (16px)       | 1.5rem (24px)          | 2rem (32px)         |
-| `--responsive-spacing-medium`   | 1.5rem (24px)     | 2rem (32px)            | 2.5rem (40px)       |
-| `--responsive-spacing-large`    | 2rem (32px)       | 2.5rem (40px)          | 3rem (48px)         |
-| `--responsive-spacing-x-large`  | 2.5rem (40px)     | 3rem (48px)            | 3.5rem (56px)       |
-| `--responsive-spacing-xx-large` | 3rem (48px)       | 3.5rem (56px)          | 4rem (64px)         |
+| CSS Variable                    | `← small`      | `small → medium` | `medium →`    |
+| ------------------------------- | -------------- | ---------------- | ------------- |
+| `--responsive-spacing-xx-small` | 0.125rem (2px) | 0.25rem (4px)    | 0.25rem (4px) |
+| `--responsive-spacing-x-small`  | 0.25rem (4px)  | 0.5rem (8px)     | 0.5rem (8px)  |
+| `--responsive-spacing-small`    | 0.5rem (8px)   | 1rem (16px)      | 1rem (16px)   |
+| `--responsive-spacing-medium`   | 1rem (16px)    | 1.5rem (24px)    | 1.5rem (24px) |
+| `--responsive-spacing-large`    | 1.5rem (24px)  | 2rem (32px)      | 2rem (32px)   |
+| `--responsive-spacing-x-large`  | 2rem (32px)    | 2.5rem (40px)    | 2.5rem (40px) |
+| `--responsive-spacing-xx-large` | 2.5rem (40px)  | 3rem (48px)      | 3rem (48px)   |
 
 All `--responsive-spacing-*` CSS variables are scoped to the `.dnb-space` class as of now.
 
@@ -409,7 +410,7 @@ render(<TestStyles>
 
 **NB**: This feature is in beta and may be subject to change.
 
-Use `Space.ResponsiveContext` to preview responsive spacing in practice. The default `basis` density follows viewport breakpoints.
+Use `Space.ResponsiveContext` to make spacing used in child components responsive. Does not affect `innerSpace` sizes.
 
 See the [responsive spacing](/uilib/layout/space#responsive-spacing) table for the specific values.
 
@@ -782,20 +783,19 @@ Wrap components in `Space.ResponsiveContext` to opt into viewport-aware spacing.
 {
   "props": {
     "density": {
-      "doc": "Forces a specific spacing density for descendants. Overrides `defaultBreakpoint` when set.",
+      "doc": "Forces a specific spacing density for descendants. Overrides `breakOn` when set. Use `false` to disable.",
       "type": [
         "\"compact\"",
         "\"basis\"",
-        "\"spacious\""
+        "false"
       ],
       "status": "optional"
     },
-    "defaultBreakpoint": {
-      "doc": "Sets which breakpoint's spacing scale to use as the default. Default: `medium`.",
+    "breakOn": {
+      "doc": "Sets the breakpoint at which density switches from `compact` to `basis`. Default: `small`.",
       "type": [
         "\"small\"",
-        "\"medium\"",
-        "\"large\""
+        "\"medium\""
       ],
       "status": "optional"
     },

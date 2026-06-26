@@ -1,9 +1,9 @@
 ---
 title: 'Lead'
 description: 'A lead paragraph is the opening paragraph of an article, etc.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.128Z
-checksum: 845c380cad6e85ab625f75477db6dbace5110a754208c56db0e04a179d35b607
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.882Z
+checksum: 4774a0918e79dc38bc1ffed225923a088efeec3346db6b43950bdf06c2a7748b
 ---
 
 # Lead
@@ -118,7 +118,7 @@ render(<div>
       "status": "optional"
     },
     "proseMaxWidth": {
-      "doc": "Sets the maximum width based on character count. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
+      "doc": "Sets the maximum width based on character count for all Typography children. This will limit the text width to approximately the specified number of characters. Use `true` for a default value of 60ch.",
       "type": [
         "number",
         "boolean"

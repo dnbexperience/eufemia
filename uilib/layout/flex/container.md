@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Container'
 description: '`Flex.Container` is a building block for CSS Grid based layouts.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.704Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.518Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -472,7 +472,7 @@ render(<Flex.Container direction="vertical">
       "status": "optional"
     },
     "gap": {
-      "doc": "How much space between child items. Use `false` for no spacing. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)",
+      "doc": "How much space between child items. Use `false` for no spacing. If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.",
       "type": [
         "'xx-small'",
         "'x-small'",
@@ -487,7 +487,7 @@ render(<Flex.Container direction="vertical">
       "status": "optional"
     },
     "rowGap": {
-      "doc": "How much space between rows. Use `false` for no row gap. (If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.)",
+      "doc": "How much space between rows. Use `false` for no row gap. If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.",
       "type": [
         "'xx-small'",
         "'x-small'",

@@ -1,8 +1,8 @@
 ---
 title: 'Dropdown'
 description: 'Use Dropdown when people need to choose one option from a list.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.495Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.211Z
 checksum: 092b3cfcf92a27d3b81067d23b8f5b6550789133f7896c55499941a55f7db09f
 ---
 
@@ -17,6 +17,20 @@ import { Dropdown } from '@dnb/eufemia'
 ## Description
 
 The Dropdown component is a fully custom-made component. This allows us to change its form based on context (small screens, touch devices, etc.).
+
+## When to use Dropdown vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `Dropdown` is [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) (the default dropdown variant).
 
 ## Relevant links
 
@@ -74,6 +88,8 @@ You can also set the width directly, but then it has to be defined like so (incl
 ## Root Element (React Portal)
 
 The Dropdown component uses [PortalRoot](/uilib/components/portal-root) internally to render its option list. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />
 
 
 ## Demos

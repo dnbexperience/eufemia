@@ -1,8 +1,8 @@
 ---
 title: 'PortalRoot'
 description: 'Use PortalRoot to render floating content outside the normal page structure.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.694Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.426Z
 checksum: 9e4431df834c9b59cac82d30a49e56b95a0858679657373ee1a87dc1a6590110
 ---
 
@@ -172,6 +172,8 @@ render(
 
 When `off` is set, every form component inside the scope will have `translate="no"` on both its trigger element and its portal content. Without `off`, the component renders children as-is.
 
+<RelatedComponents />
+
 ## Properties
 
 
@@ -208,7 +210,7 @@ When `off` is set, every form component inside the scope will have `translate="n
     },
     "[HTML attributes]": {
       "doc": "When used on `PortalRoot.Provider`, any extra HTML attributes (e.g. `translate`, `lang`, `dir`, `data-*`) are forwarded to the portal DOM element. Props on `PortalRoot` itself take precedence.",
-      "type": "various",
+      "type": "\"various\"",
       "status": "optional"
     }
   }

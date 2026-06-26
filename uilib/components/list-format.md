@@ -1,8 +1,8 @@
 ---
 title: 'ListFormat'
 description: 'Use ListFormat to show lists of values in the correct DNB format.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.616Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.336Z
 checksum: 4703040dec6c8fb984f2068d6befe66becaa5ac363c99ed4ed4d91b2313548e1
 ---
 
@@ -52,6 +52,8 @@ return listFormat(myList, {
 See the following [demo](/uilib/components/list-format/demos/#using-listformat-function) for a more detailed example.
 
 The `listFormat` function supports an object with `{ format, locale }` as the second parameter. `format` and `locale` will accept the same values as documented in [format property](/uilib/components/list-format/properties/) of the `ListFormat` component.
+
+<RelatedComponents />
 
 
 ## Demos

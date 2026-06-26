@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.360Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.145Z
 checksum: ae7887af29a363083e70cee1ef245b8ad92df8e01c4431b97ef595805f270b45
 ---
 

@@ -1,9 +1,9 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'Use FormStatus to show validation errors, warnings, or messages near a form.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.528Z
-checksum: a164f2e7f8ebab760dc1461c78b58b34a64c31a95b97c91b6d28f6a4cbb4ba82
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.245Z
+checksum: 37b289c1c4e8e7dd2caefd1a03e804b03c53c76bd12eb7df7b04ffb16ad7ba05
 ---
 
 # FormStatus (Messageboxes)
@@ -63,6 +63,8 @@ Also, all the [fields](/uilib/extensions/forms/all-fields/) based on the [FieldB
 In order to enhance accessibility (readability), the FormStatus will align its width to a linked component. This means that if the FormStatus is built into the Input component, it will inherit the width of the input.
 
 The `min-width` is set to be **12rem**. Use CSS `min-width` or `max-width` to set a custom (manual) width.
+
+<RelatedComponents />
 
 
 ## Demos
@@ -262,7 +264,7 @@ render(<Grid.Container columns={{
       "status": "optional"
     },
     "noAnimation": {
-      "doc": "**NB:** Animation is disabled as of now. ~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~",
+      "doc": "~~Use `true` to omit the animation on content visibility. Defaults to `false`.~~ **NB:** Animation is disabled as of now.",
       "type": "boolean",
       "status": "optional"
     },

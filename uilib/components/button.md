@@ -1,9 +1,9 @@
 ---
 title: 'Button'
 description: 'Use Button when people need to start, confirm, or submit an action.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.423Z
-checksum: 6a97999fa0abeb2712362b73f48b6c51fc08909f6b254b37e1e57a951977226f
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.120Z
+checksum: e191edb6ca429fd518e06ebb0a9ade1e3e4a3f8bdac8c578c6d68d6d3f987294
 ---
 
 # Button
@@ -107,6 +107,9 @@ Icon buttons come in all sizes.
 <Button title="Default sized button with add icon (not default)" icon="add" size="default" left />
 <Button title="Large sized button with add icon" icon="add" size="large" left />
 ```
+
+
+<RelatedComponents />
 
 
 ## Demos
@@ -307,7 +310,7 @@ render(<Button variant="secondary">
       "status": "optional"
     },
     "title": {
-      "doc": "Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value.",
+      "doc": "Required if there is no text in the button. If `text` and `children` are `undefined`, setting the `title` property will automatically set `aria-label` with the same value. Accepts `ReactNode`. If a JSX element is provided, it will be converted to a plain string using `convertJsxToString` — only static text content is extracted. Custom components that don't render static children will result in an empty string.",
       "type": "string",
       "status": "optional"
     },

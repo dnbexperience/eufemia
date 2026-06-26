@@ -1,8 +1,8 @@
 ---
 title: 'Icon'
 description: 'Use Icon to render and size an icon in line with Eufemia styling.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.578Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.290Z
 checksum: b98a4453b871bd7a5f0c3d48e34ad2f3f5acac3fed6daf200822fe89dc43f67d
 ---
 
@@ -120,6 +120,8 @@ render(<Icon size="medium">{CustomIcon}</Icon>)
 ### Primary Icon
 
 There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in `@dnb/eufemia`. You do not have to import the primary icons separately.
+
+<RelatedComponents />
 
 
 ## Demos

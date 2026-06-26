@@ -1,9 +1,9 @@
 ---
 title: 'Block.ChildrenWithAge'
 description: '`ChildrenWithAge` is a block for displaying children with age.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.640Z
-checksum: d07dfc0e234b77d0f4b45216dc8ec7fb6262a5240e4b585fc1f61dde8ac01e2b
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.461Z
+checksum: 45a70c27096cd8fee76e665f3e977d02b3b3a6f74ae2bd9edeaf019f72d2ebe8
 ---
 
 # Block.ChildrenWithAge
@@ -216,7 +216,7 @@ render(<Form.Handler data={{
       "status": "optional"
     },
     "enableAdditionalQuestions": {
-      "doc": "[`joint-responsibility`, `daycare`]",
+      "doc": "[`joint-responsibility`, `daycare`].",
       "type": "array",
       "status": "optional"
     },

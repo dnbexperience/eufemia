@@ -1,8 +1,8 @@
 ---
 title: 'CopyOnClick'
 description: 'Use CopyOnClick when people should copy text by clicking it.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.447Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.150Z
 checksum: d295fb202d99102f67fd6615cb964c459dc2d8eea69dfec0225775022aaef4b0
 ---
 
@@ -37,6 +37,8 @@ render(
   </P>
 )
 ```
+
+<RelatedComponents />
 
 
 ## Demos

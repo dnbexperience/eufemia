@@ -1,8 +1,8 @@
 ---
 title: 'Modal'
 description: 'Use Modal when people must focus on one task or message before returning to the page.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.660Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.393Z
 checksum: 4431fae2686531eb24d742fedbec3be76758e8aa485f3a72a7350a36d7dec116
 ---
 
@@ -105,6 +105,8 @@ html[data-dnb-modal-active='MODAL-ID'] {
 ## Root Element (React Portal)
 
 The Modal component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />
 
 
 ## Demos

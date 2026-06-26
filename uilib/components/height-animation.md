@@ -1,8 +1,8 @@
 ---
 title: 'HeightAnimation'
 description: 'Use HeightAnimation to animate content as it opens or closes.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.566Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.278Z
 checksum: dc40cc6e002dad1a4144d8e7ab8ecc12fdc944eb49ba7f1568ec5fba93d13582
 ---
 
@@ -44,6 +44,8 @@ It is important to never animate from 0 to e.g. 64px – because:
 - The content may differ based on the viewport width (screen size)
 - The content itself may change
 - The user may have a larger `font-size`
+
+<RelatedComponents />
 
 
 ## Demos

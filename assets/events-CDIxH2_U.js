@@ -1,2 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{B as n}from"./index-DdG6L_K8.js";import{n as r}from"./PropertiesTable-CoZ69GOv.js";import{t as i}from"./UploadDocs-6vAeEkPb.js";var a=e(t());function o(e){return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)({h2:`h2`,...n(),...e.components}.h2,{children:`Events`}),`
-`,(0,a.jsx)(r,{props:i})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(o,{...e})}):o(e)}export{s as default};

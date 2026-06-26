@@ -1,8 +1,8 @@
 ---
 title: 'ToggleButton'
 description: 'Use ToggleButton when people can turn one or more visible choices on or off.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.031Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.790Z
 checksum: 2c3b808fef08d0bfb8763edccfd9ac9869ede62ef435e4369d8a80aa4f8ad9ee
 ---
 
@@ -17,6 +17,20 @@ import { ToggleButton } from '@dnb/eufemia'
 ## Description
 
 The ToggleButton component is used to toggle on or off a limited number of choices.
+
+## When to use ToggleButton vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `ToggleButton` is [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the buttons variant (`variant="buttons"`), or [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) with the button variant for on/off choices.
 
 ## Relevant links
 
@@ -41,6 +55,8 @@ You can use the ToggleButton in different modes. Either as a stand-alone compone
 If `multiselect` is enabled on the group, several items can be enabled or disabled by the user.
 
 You need to decide if you want to track the state yourself by using the `checked` property, or if you want to listen to the internal state with `onChange(({ values }) => console.log(values))`. In this case, you also need to give every item a `value` property.
+
+<RelatedComponents />
 
 
 ## Demos

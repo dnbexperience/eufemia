@@ -1,0 +1,1 @@
+import{t as e}from"./TypographyDocs-DiQOibs7.js";var t={...e};export{t};

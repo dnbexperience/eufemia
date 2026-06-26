@@ -1,0 +1,6 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-kfZVC31v.js";import{n as r}from"./PropertiesTable-BIB66Y92.js";import{t as i}from"./TranslationsTable-iPBn5EeB.js";import{t as a}from"./ValueDocs-B1fWsyLe.js";var o=e(t()),s={postalCode:{doc:"Properties such as `value` and `path` for the [Value.String](/uilib/extensions/forms/Value/String) component for postal code.",type:`object`,status:`optional`},city:{doc:"Properties such as `value` and `path` for the [Value.String](/uilib/extensions/forms/Value/String) component for city.",type:`object`,status:`optional`}};function c(e){let t={h2:`h2`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(t.h2,{children:`Value-specific properties`}),`
+`,(0,o.jsx)(r,{props:s}),`
+`,(0,o.jsx)(t.h2,{children:`Properties`}),`
+`,(0,o.jsx)(r,{props:a}),`
+`,(0,o.jsx)(t.h2,{children:`Translations`}),`
+`,(0,o.jsx)(i,{localeKey:[`PostalCodeAndCity`]})]})}function l(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(c,{...e})}):c(e)}export{l as default};

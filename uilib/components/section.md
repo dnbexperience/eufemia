@@ -1,8 +1,8 @@
 ---
 title: 'Section'
 description: 'Use Section to give an area of the page a visual background or surface.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.714Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.446Z
 checksum: fffcbcb63ca8e59f33048125db5b3de0f3cdd0152aace0013092f258f7ddba4f
 ---
 
@@ -47,6 +47,8 @@ Each of these properties do support either a single value or an object containin
 - `backgroundColor={string}` or e.g. `backgroundColor={{ small: 'white' }}`
 - `textColor={string}` or e.g. `textColor={{ small: 'black-80' }}`
 - `innerSpace={string}` or e.g. `innerSpace={{ small: { top: 'small' } }}`
+
+<RelatedComponents />
 
 
 ## Demos

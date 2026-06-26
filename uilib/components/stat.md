@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Use Stat to highlight an important number, label, or trend.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.967Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.723Z
 checksum: c798923712167dbf7054c673bd7787654db7d2abd1c22bcf48055fcbce114b64
 ---
 
@@ -56,6 +56,8 @@ import { Stat } from '@dnb/eufemia'
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/stat)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/stat)
+
+<RelatedComponents />
 
 
 ## Demos

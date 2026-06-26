@@ -1,9 +1,9 @@
 ---
 title: 'AriaLive'
 description: 'Use AriaLive to announce page changes to screen reader users.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.363Z
-checksum: 37d6f9de1d851f832bada8ac3d611762cc0b7718429f09afd06e1cb9d7c5e34b
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.056Z
+checksum: 7bfa90b0a7eed957c9b4b1bf03bed1f726b946b899ca116a453f4360c72f2106
 ---
 
 # AriaLive
@@ -67,6 +67,8 @@ function MyCustomAriaLive(props) {
   return <section {...ariaAttributes} />
 }
 ```
+
+<RelatedComponents />
 
 
 ## Demos
@@ -210,7 +212,7 @@ render(<AriaLiveExample />);
       "status": "optional"
     },
     "politeness": {
-      "doc": "The politeness setting for the announcement. Can be `polite` or `assertive`.",
+      "doc": "The politeness level of the announcement. Can be `off`, `polite`, or `assertive`.",
       "type": "string",
       "status": "optional"
     },

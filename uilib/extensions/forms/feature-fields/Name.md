@@ -1,8 +1,8 @@
 ---
 title: 'Field.Name'
 description: '`Field.Name` is a wrapper component for the input of strings, with user experience tailored for first name, last name and company names.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.670Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.479Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -215,6 +215,152 @@ render(<Field.Name.First onChange={value => console.log('onChange', value)} requ
 
 ## Properties
 
+### Field-specific properties
+
+
+```json
+{
+  "props": {
+    "multiline": {
+      "doc": "True to be able to write in multiple lines (switching from input-element to textarea-element).",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "leftIcon": {
+      "doc": "For icon at the left side of the text input. Only one of `leftIcon` or `rightIcon` can be used at the same time.",
+      "type": "string",
+      "status": "optional"
+    },
+    "rightIcon": {
+      "doc": "For icon at the right side of the text input. Only one of `leftIcon` or `rightIcon` can be used at the same time.",
+      "type": "string",
+      "status": "optional"
+    },
+    "capitalize": {
+      "doc": "When set to `true`, it will capitalize the first letter of every word, transforming the rest to lower case.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "trim": {
+      "doc": "When `true`, it will trim leading and trailing whitespaces on blur, triggering `onChange` if the value changes.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "inputMode": {
+      "doc": "Define an [inputmode](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/inputmode).",
+      "type": [
+        "\"none\"",
+        "\"text\"",
+        "\"tel\"",
+        "\"url\"",
+        "\"email\"",
+        "\"numeric\"",
+        "\"decimal\"",
+        "\"search\""
+      ],
+      "status": "optional"
+    },
+    "autoComplete": {
+      "doc": "For HTML [autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete) attributes.",
+      "type": [
+        "\"on\"",
+        "string"
+      ],
+      "status": "optional"
+    },
+    "minLength": {
+      "doc": "Validation for minimum length of the text (number of characters). Defaults to `1`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "maxLength": {
+      "doc": "Validation for maximum length of the text (number of characters).",
+      "type": "number",
+      "status": "optional"
+    },
+    "pattern": {
+      "doc": "Validation based on regex pattern.",
+      "type": "string",
+      "status": "optional"
+    },
+    "width": {
+      "doc": "`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.",
+      "type": [
+        "string",
+        "false"
+      ],
+      "status": "optional"
+    },
+    "size": {
+      "doc": "The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`. Also, if you define a number like `size={2}` then it will be forwarded as the input element attribute. Consider rather setting field sizes with [Form.Appearance](/uilib/extensions/forms/Form/Appearance/).",
+      "type": [
+        "string",
+        "number"
+      ],
+      "status": "optional"
+    },
+    "align": {
+      "doc": "Defines the text alignment of the input. Can be `left`, `right` or `center`. Defaults to `left`.",
+      "type": [
+        "\"left\"",
+        "\"center\"",
+        "\"right\""
+      ],
+      "status": "optional"
+    },
+    "selectAll": {
+      "doc": "If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "keepPlaceholder": {
+      "doc": "Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "rows": {
+      "doc": "To be used together with `multiline`. Set how many rows of text can be shown by default. Defaults to `2`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "autoResizeMaxRows": {
+      "doc": "To be used together with `multiline`. Set how many rows of text can be shown at max. Defaults to `6`.",
+      "type": "number",
+      "status": "optional"
+    },
+    "characterCounter": {
+      "doc": "To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.",
+      "type": [
+        "number",
+        "object"
+      ],
+      "status": "optional"
+    },
+    "autoResize": {
+      "doc": "To be used together with `multiline`. Set true to expand when writing longer texts. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "inputClassName": {
+      "doc": "Class name set on the `<input>` DOM element.",
+      "type": "string",
+      "status": "optional"
+    },
+    "ref": {
+      "doc": "By providing a `React.Ref` we can get the internally used input element (DOM).",
+      "type": "React.RefObject",
+      "status": "optional"
+    },
+    "submitElement": {
+      "doc": "Accepts a React element which will show up where the \"submit button\" would do.",
+      "type": "React.Element",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
 ### General properties
 
 
@@ -415,7 +561,10 @@ render(<Field.Name.First onChange={value => console.log('onChange', value)} requ
       ],
       "status": "optional"
     }
-  }
+  },
+  "omit": [
+    "onBlurValidator"
+  ]
 }
 ```
 
@@ -527,6 +676,24 @@ render(<Field.Name.First onChange={value => console.log('onChange', value)} requ
 ```
 
 ## Events
+
+### Field-specific events
+
+
+```json
+{
+  "props": {
+    "onBlurValidator": {
+      "doc": "Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to name validation, using `nameValidator`. For `Field.Name.Company` it uses `companyValidator`. Can be disabled using `false`.",
+      "type": "function",
+      "status": "optional"
+    }
+  }
+}
+```
+
+
+### General events
 
 
 ```json

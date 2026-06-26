@@ -1,8 +1,8 @@
 ---
 title: 'ESM / SSR'
 description: 'Eufemia uses ESM as their default module format. More info on this topic below.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.743Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.563Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

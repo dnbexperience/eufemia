@@ -1,8 +1,8 @@
 ---
 title: 'HelpButton'
 description: 'Use HelpButton when a short explanation should be available next to a label or control.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.570Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.283Z
 checksum: 5241f932b12afce6aefcbc6a511134e8e32f093f2b57d60afa7efad863b9417c
 ---
 
@@ -25,6 +25,8 @@ This button is used as the default [Modal trigger button](/uilib/components/moda
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=43836-5699)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/help-button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/help-button)
+
+<RelatedComponents />
 
 
 ## Demos

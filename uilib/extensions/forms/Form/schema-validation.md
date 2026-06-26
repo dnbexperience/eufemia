@@ -1,8 +1,8 @@
 ---
 title: 'Form.SchemaValidation'
 description: 'Schema validation can be done with a JSON Schema which makes it possible to describe the data structure and validation needs, both for the individual value, and more complex rules across the data set.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.333Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.113Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -18,6 +18,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 - [About schemas](#about-schemas)
 - [Using schema with DataContext](#using-schema-with-datacontext)
 - [Fields which are disabled or read-only](#fields-which-are-disabled-or-read-only)
+- [Non-finite numbers (Infinity and NaN)](#non-finite-numbers-infinity-and-nan)
 - [JSONSchema and TypeScript](#jsonschema-and-typescript)
 - [Complex schemas](#complex-schemas)
   - [Custom Ajv instance and keywords](#custom-ajv-instance-and-keywords)
@@ -141,6 +142,21 @@ Also, note you can describe the schema without using the `type` property, as the
 ## Fields which are disabled or read-only
 
 Fields which have the `disabled` property or the `readOnly` property, will skip validation.
+
+## Non-finite numbers (Infinity and NaN)
+
+Zod's `z.number()` does not accept non-finite numbers (`Infinity`, `-Infinity` and `NaN`) and rejects them with a type error. A schema you supply will therefore block submit if the data contains such a value – for example a calculated percentage where the previous value was `0`, where the division by zero produces `Infinity`. Eufemia shows a clear, localized message for this instead of a cryptic type error, but does not change the verdict: the value is still invalid.
+
+The recommended approach is to store an empty value (such as `undefined`) for impossible results instead of a non-finite number:
+
+```ts
+const change =
+  previous === 0 ? undefined : ((current - previous) / previous) * 100
+```
+
+If you do need to accept non-finite numbers, widen your schema accordingly, for example with a `z.preprocess` that maps non-finite values to `undefined`.
+
+See [Field.Number](/uilib/extensions/forms/base-fields/Number/#non-finite-values-infinity-and-nan) for how the field displays and validates these values.
 
 ## Zod schemas and TypeScript
 

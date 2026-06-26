@@ -1,8 +1,8 @@
 ---
 title: 'Field.MultiSelection'
 description: '`Field.MultiSelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options. This field accepts structured data with objects containing `value` and `title` properties.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.626Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.445Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -521,7 +521,7 @@ render(<Form.Handler>
     "data": {
       "doc": "Array of objects where each object contains at least `value` and `title`. Can also include `text` for an optional primary extra line, `description` for an optional secondary grey line, plus `disabled`, `help`, and `className`.",
       "type": [
-        "Array<{ value, title, text?: ReactNode, description?: ReactNode, disabled?, ... }>"
+        "Array<{ value, title, text?: React.ReactNode, description?: React.ReactNode, disabled?, ... }>"
       ],
       "status": "optional"
     },

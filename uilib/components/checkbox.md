@@ -1,8 +1,8 @@
 ---
 title: 'Checkbox'
 description: 'Use Checkbox when people can turn one or more options on or off.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.441Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.143Z
 checksum: 939a8836250d6d2afd29993ca91817df714de36971250a394461495e70f32e64
 ---
 
@@ -18,6 +18,20 @@ import { Checkbox } from '@dnb/eufemia'
 
 The Checkbox component is displayed as a square box that is ticked (checked) when activated. Checkboxes let users select one or more options from a limited number of choices.
 
+## When to use Checkbox vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of a single `Checkbox` is [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/), while [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) handles selecting multiple values with checkboxes.
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1493)
@@ -27,6 +41,8 @@ The Checkbox component is displayed as a square box that is ticked (checked) whe
 ## Accessibility
 
 Checkbox components use semantic `<input type="checkbox">` elements, ensuring full keyboard accessibility (Space to toggle) and proper state announcement by screen readers. Labels are properly associated using `htmlFor` attributes.
+
+<RelatedComponents />
 
 
 ## Demos

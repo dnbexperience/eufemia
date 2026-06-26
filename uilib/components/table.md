@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Use Table to show structured data in rows and columns.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.990Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.749Z
 checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 
@@ -205,6 +205,8 @@ The hook accepts an optional options object:
 | Option    | Type      | Default | Description                           |
 | --------- | --------- | ------- | ------------------------------------- |
 | `enabled` | `boolean` | `true`  | Whether keyboard navigation is active |
+
+<RelatedComponents />
 
 
 ## Demos

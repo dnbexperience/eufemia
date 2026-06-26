@@ -1,8 +1,8 @@
 ---
 title: 'FormLabel'
 description: 'Use FormLabel to name an input, control, or form-related field.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.522Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.238Z
 checksum: a3e2d63a21c9bff5a2c312d26f4d4ee69485b847669f8c9599a421d01406725f
 ---
 
@@ -27,6 +27,8 @@ The FormLabel component represents a caption for all sorts of HTML elements in a
 ### Colon character
 
 DNB UX has chosen to not use colon on the end of form element labels. For consistency throughout our websites, please avoid using them.
+
+<RelatedComponents />
 
 
 ## Demos

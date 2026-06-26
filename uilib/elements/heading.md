@@ -1,8 +1,8 @@
 ---
 title: 'Heading'
 description: 'The heading element is used to indicate the quotation of a large section of text from another source.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.072Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.826Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -132,21 +132,21 @@ The `proseMaxWidth` property allows you to limit the width of heading text based
 ```
 
 
-#### Using Typography.Provider
+#### Using Typography.Context
 
-Use `Typography.Provider` to apply `proseMaxWidth` to multiple headings at once:
+Use `Typography.Context` to apply `proseMaxWidth` to multiple headings at once:
 
 
 ```tsx
-render(<Typography.Provider proseMaxWidth={40}>
+render(<Typography.Context proseMaxWidth={40}>
         <H4>
-          This heading is inside a Typography.Provider with proseMaxWidth=
+          This heading is inside a Typography.Context with proseMaxWidth=
           {40}
         </H4>
         <H4 proseMaxWidth={20}>
           This heading overrides the provider with proseMaxWidth={20}
         </H4>
-      </Typography.Provider>)
+      </Typography.Context>)
 ```
 
 

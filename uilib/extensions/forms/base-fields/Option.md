@@ -1,8 +1,8 @@
 ---
 title: 'Field.Option'
 description: '`Field.Option` is a pseudo-component for defining an option to be used in a dropdown or similar user experiences.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.628Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.447Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

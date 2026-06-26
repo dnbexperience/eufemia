@@ -1,9 +1,9 @@
 ---
 title: 'Avatar'
 description: 'Use Avatar to make a person, company, or profile easier to recognize.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.395Z
-checksum: 43faf12b64b7da2f3d211c39b5dd628df0287e84db83733c36c5117b778785fd
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.091Z
+checksum: 75123a1a9562842f0649bead3c3a09647f767cc4557d900e0a0b8abd7cc05bce
 ---
 
 # Avatar
@@ -23,6 +23,8 @@ Avatars are identifiers that make people and companies more scannable for paymen
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=17869-0)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/avatar)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/avatar)
+
+<RelatedComponents />
 
 
 ## Demos
@@ -411,7 +413,7 @@ render(<Avatar.Group label="Persons">
       "status": "optional"
     },
     "icon": {
-      "doc": "An icon name or component. (Will override the `src` property.)",
+      "doc": "An icon name or component (will override the `src` property).",
       "type": [
         "string",
         "[Icon](/uilib/components/icon)"

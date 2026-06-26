@@ -1,8 +1,8 @@
 ---
 title: 'InfoCard'
 description: 'Use InfoCard to show helpful information, tips, or guidance in a highlighted area.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.584Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.297Z
 checksum: 30ca028ab14e2ce04afdbcc8ec6cc429287c1f971830b15c83de976d44366a8e
 ---
 
@@ -25,6 +25,8 @@ The text content is set to a max width of 70 characters to ensure an optimal [UU
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=20315-8016)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/info-card)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/info-card)
+
+<RelatedComponents />
 
 
 ## Demos

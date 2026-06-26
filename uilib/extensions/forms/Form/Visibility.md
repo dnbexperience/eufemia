@@ -1,9 +1,9 @@
 ---
 title: 'Form.Visibility'
 description: '`Form.Visibility` makes it possible to hide components and elements on the screen based on the dynamic state of data.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.328Z
-checksum: 4124652588375b94b40a30fcb102910a53970d9a7800b7246035b0da7dd690a9
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.108Z
+checksum: ce4df755dc00edfd48e4f80e01a2cd7b609e39024254f301051c38d154bcde7a
 ---
 
 # Form.Visibility
@@ -426,7 +426,7 @@ render(<Form.Handler>
 {
   "props": {
     "visibleWhen": {
-      "doc": "Provide a `path` or `itemPath`, and a `hasValue` function that returns either a boolean or the expected value to determine whether the children should be shown. The first parameter passed to `hasValue` is the value at the given `path`. If the `path` does not exist, the value will be `undefined`. \nAlternatively, you can use `isValid` instead of `hasValue` to show the children only when the field has no validation errors and has been blurred (lost focus). You can change this behavior by setting the `validateContinuously` property.",
+      "doc": "Provide a `path` or `itemPath`, and a `hasValue` function that returns either a boolean or the expected value to determine whether the children should be shown. The first parameter passed to `hasValue` is the value at the given `path`. If the `path` does not exist, the value will be `undefined`. Alternatively, you can use `isValid` instead of `hasValue` to show the children only when the field has no validation errors and has been blurred (lost focus). You can change this behavior by setting the `validateContinuously` property.",
       "type": "object",
       "status": "optional"
     },

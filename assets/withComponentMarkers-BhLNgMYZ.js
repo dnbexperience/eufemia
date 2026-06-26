@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-DnlWeMvz.js";import{s as t}from"./SpacingUtils-BCd_iJVu.js";e();var n=(e,t,n)=>((t||t!==!1&&n?.skeleton)&&(e.disabled=!0,e[`aria-disabled`]=!0,e[`aria-label`]=n?.translation?.Skeleton?.ariaBusy),e),r=(e,n,r,i=null)=>n||n!==!1&&r?.skeleton?t(i,`dnb-skeleton`,e&&`dnb-skeleton--${e}`):i;function i(e,t){Object.assign(e,t)}export{r as n,n as r,i as t};

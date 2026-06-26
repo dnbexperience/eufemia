@@ -1,8 +1,8 @@
 ---
 title: 'Value.SummaryList'
 description: '`Value.SummaryList` uses definition lists to semantically make content consumable for screen readers.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.553Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.347Z
 checksum: ab5792e0a51ee639cd9c7ff93ac94246d2ca1b2d699dd5c70e174de1c4ff39d3
 ---
 

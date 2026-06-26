@@ -1,8 +1,8 @@
 ---
 title: 'Popover'
 description: 'Use Popover to show a small floating panel connected to a trigger.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.690Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.421Z
 checksum: d7dcb4803a912ef0dc3fabb33bfb73f029c9da82f9eee9d1fe282bd2d4937771
 ---
 
@@ -40,6 +40,8 @@ It is used in the [Tooltip](/uilib/components/tooltip) and [DatePicker](/uilib/c
 ## Root Element (React Portal)
 
 The Popover component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />
 
 
 ## Demos

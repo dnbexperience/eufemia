@@ -1,8 +1,8 @@
 ---
 title: 'GlobalError (404)'
 description: 'Use GlobalError to show a clear 404 or 500 error page.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.539Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.256Z
 checksum: 13ac256feeabc3e001995d8962f3430577346f443035943756c245a398e694bc
 ---
 
@@ -39,6 +39,8 @@ You may also take a look at how it behaves once [404](/404) or [500](/500) is us
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=22259-19235)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/global-error)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/global-error)
+
+<RelatedComponents />
 
 
 ## Demos

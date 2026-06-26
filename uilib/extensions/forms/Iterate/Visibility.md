@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Visibility'
 description: 'The `Iterate.Visibility` component allows you to conditionally display content based on relative paths (`itemPath`) within an `Iterate.Array` component.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.400Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.190Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -60,7 +60,7 @@ render(<Form.Handler defaultData={{
 {
   "props": {
     "visibleWhen": {
-      "doc": "Provide a `path` or `itemPath`, and a `hasValue` function that returns either a boolean or the expected value to determine whether the children should be shown. The first parameter passed to `hasValue` is the value at the given `path`. If the `path` does not exist, the value will be `undefined`. \nAlternatively, you can use `isValid` instead of `hasValue` to show the children only when the field has no validation errors and has been blurred (lost focus). You can change this behavior by setting the `validateContinuously` property.",
+      "doc": "Provide a `path` or `itemPath`, and a `hasValue` function that returns either a boolean or the expected value to determine whether the children should be shown. The first parameter passed to `hasValue` is the value at the given `path`. If the `path` does not exist, the value will be `undefined`. Alternatively, you can use `isValid` instead of `hasValue` to show the children only when the field has no validation errors and has been blurred (lost focus). You can change this behavior by setting the `validateContinuously` property.",
       "type": "object",
       "status": "optional"
     },

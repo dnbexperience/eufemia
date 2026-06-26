@@ -1,9 +1,9 @@
 ---
 title: 'Wizard.Container'
 description: 'The `Wizard.Container` is a container component for multi-page forms including a step indicator.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.603Z
-checksum: 8b632a0f0a7d1cedacf5c3c4d83e129b84828658a7d9ca90fd0b13334958a991
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.404Z
+checksum: b97ef2cb55ec0f8e4bd77de24737c67cd36c05fb0974b6ae71ed173641a87b04
 ---
 
 # Wizard.Container
@@ -529,12 +529,12 @@ render(<Form.Handler onSubmitRequest={({
       "status": "optional"
     },
     "omitScrollManagement": {
-      "doc": "True to omit scroll management.",
+      "doc": "If set to `true`, the wizard will not scroll to the first step when the user navigates to a different step.",
       "type": "boolean",
       "status": "optional"
     },
     "omitFocusManagement": {
-      "doc": "True to omit focus management.",
+      "doc": "If set to `true`, the wizard will not set focus on the next step when the user navigates to a different step.",
       "type": "boolean",
       "status": "optional"
     },

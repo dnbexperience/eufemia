@@ -1,9 +1,9 @@
 ---
 title: 'Upload'
 description: 'Use Upload when people need to choose or drag files into a page.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.045Z
-checksum: d3a8a00b18c6e6a9112ad2956a8c56788a7272b04874c248627d875ba23af2ab
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.811Z
+checksum: f3b102655328f8fa6375576d3976d0f668b2dfdf06a68fd85727abf2be3d46c3
 ---
 
 # Upload
@@ -17,6 +17,20 @@ import { Upload } from '@dnb/eufemia'
 ## Description
 
 The Upload component should be used in scenarios where the user has to upload any kind of files.
+
+## When to use Upload vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `Upload` is [Field.Upload](/uilib/extensions/forms/base-fields/Upload/).
 
 ## Relevant links
 
@@ -102,6 +116,8 @@ In some situations, it's more suitable to have each link download the file inste
 ## Prevents uploading duplicate files
 
 By default, the Upload component prevents uploading duplicate files. It determines if a file is a duplicate if the file's `name`, `size` (if existing), and `lastModified` (if existing) values are equal. You can use the property `allowDuplicates={true}` to allow duplicate files.
+
+<RelatedComponents />
 
 
 ## Demos
@@ -773,7 +789,7 @@ render(<Component />);
       "status": "optional"
     },
     "skeleton": {
-      "doc": "Skeleton should be applied when loading content.",
+      "doc": "If set to `true`, an overlaying skeleton with animation will be shown.",
       "type": "boolean",
       "status": "optional"
     },

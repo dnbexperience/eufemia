@@ -1,8 +1,8 @@
 ---
 title: 'VisuallyHidden'
 description: 'Use VisuallyHidden to keep helpful text available to screen readers but hidden visually.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.048Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.815Z
 checksum: 04379dde0690518a2fc76a24effa77b9dc53bb2dbbf2bc55765063299a7adf41
 ---
 
@@ -24,6 +24,8 @@ import { VisuallyHidden } from '@dnb/eufemia'
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/visually-hidden)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/visually-hidden)
+
+<RelatedComponents />
 
 
 ## Demos

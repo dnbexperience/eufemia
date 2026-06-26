@@ -1,6 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{B as n}from"./index-DdG6L_K8.js";import{n as r}from"./PropertiesTable-CoZ69GOv.js";var i=e(t()),a={submit:{doc:"Triggers form submit. Runs validation and calls the form's `onSubmit` when valid. Use when the submit button is rendered outside Form.Element (e.g. in a modal footer). Returns a Promise that resolves with the submit result or `undefined`.",type:`() => Promise<EventStateObject | undefined>`,status:`required`}},o={id:{doc:`Optional id (string, function, object or React Context) to link to a Form.Handler outside the component tree. When provided, the hook can be used without being inside Form.Handler.`,type:`SharedStateId`,status:`optional`}};function s(e){let t={code:`code`,h2:`h2`,p:`p`,...n(),...e.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(t.h2,{children:`Parameters`}),`
-`,(0,i.jsxs)(t.p,{children:[`Properties passed to the `,(0,i.jsx)(t.code,{children:`Form.useSubmit`}),` hook.`]}),`
-`,(0,i.jsx)(r,{props:o}),`
-`,(0,i.jsx)(t.h2,{children:`Return Values`}),`
-`,(0,i.jsxs)(t.p,{children:[`Properties and methods returned from the `,(0,i.jsx)(t.code,{children:`Form.useSubmit`}),` hook.`]}),`
-`,(0,i.jsx)(r,{props:a})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(s,{...e})}):s(e)}export{c as default};

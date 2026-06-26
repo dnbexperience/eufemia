@@ -1,8 +1,8 @@
 ---
 title: 'Logo'
 description: 'Use Logo to show the DNB logo with the correct SVG and styling.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.641Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.363Z
 checksum: b5f2e83235588ece761fcf16dc33d82a6ac8ad4ff716952496b47c01928e8f36
 ---
 
@@ -22,6 +22,8 @@ A ready-to-use Logo component with the needed SVGs.
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/logo)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/logo)
+
+<RelatedComponents />
 
 
 ## Demos

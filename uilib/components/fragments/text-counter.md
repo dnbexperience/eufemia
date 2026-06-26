@@ -1,8 +1,8 @@
 ---
 title: 'TextCounter'
 description: 'Use TextCounter to show how many characters someone has typed or can still type.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.532Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.249Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -26,6 +26,8 @@ It is used in the [Textarea](/uilib/components/textarea/) component.
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/fragments/text-counter)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/fragments/text-counter)
+
+<RelatedComponents />
 
 
 ## Demos

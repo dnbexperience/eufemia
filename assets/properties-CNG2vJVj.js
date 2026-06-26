@@ -1,4 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{B as n}from"./index-DdG6L_K8.js";import{n as r}from"./PropertiesTable-CoZ69GOv.js";import{i}from"./CardDocs-D7MtT0Z0.js";var a=e(t()),{stack:o,...s}=i,c={stack:{...o,doc:"True to stack the sub components with space between. Same as `stack` in [Card](/uilib/components/card/properties). But defaults to `true`."}},l={...s};function u(e){let t={a:`a`,h2:`h2`,...n(),...e.components};return(0,a.jsxs)(a.Fragment,{children:[(0,a.jsx)(t.h2,{children:`Properties`}),`
-`,(0,a.jsx)(r,{props:c}),`
-`,(0,a.jsxs)(t.h2,{children:[`Other properties inherited from `,(0,a.jsx)(t.a,{href:`/uilib/components/card/properties`,children:`Card`})]}),`
-`,(0,a.jsx)(r,{props:l})]})}function d(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,a.jsx)(t,{...e,children:(0,a.jsx)(u,{...e})}):u(e)}export{d as default};

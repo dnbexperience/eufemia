@@ -1,8 +1,8 @@
 ---
 title: 'StepIndicator'
 description: 'Use StepIndicator to show progress through a process with several steps.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.974Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.730Z
 checksum: 7094e7f08cf3afc69f190c375d8431006f20b457a07ad2e731e6ad137f4dbe05
 ---
 
@@ -64,6 +64,8 @@ const steps = [
 ```
 
 More details about modifying steps in the [properties panel](/uilib/components/step-indicator/properties#step-item-properties).
+
+<RelatedComponents />
 
 
 ## Demos

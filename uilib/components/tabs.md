@@ -1,8 +1,8 @@
 ---
 title: 'Tabs'
 description: 'Use Tabs to let people switch between related views on the same page.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.997Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.756Z
 checksum: 91776e74210d6ca9e623100b8ac4eb5f0e1a682d3c673ade1e4340cc544176fb
 ---
 
@@ -27,6 +27,8 @@ Tabs are a set of buttons that allow navigation between content that is related 
 ## Accessibility
 
 The Tabs component follows the [WAI-ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). It uses `role="tablist"`, `role="tab"`, and `role="tabpanel"` with proper ARIA attributes. Keyboard navigation includes arrow keys to move between tabs and Tab key to navigate into the active panel content.
+
+<RelatedComponents />
 
 
 ## Demos

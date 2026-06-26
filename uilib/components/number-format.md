@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
 description: 'Use NumberFormat to show numbers in the correct DNB format.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.671Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.403Z
 checksum: 1288e9fa33e5c61a53eacfeff4c357e6d535d99373b72e1aa9f6efed11e65caa
 ---
 
@@ -324,6 +324,8 @@ You can [disable this behavior](https://developer.mozilla.org/en-US/docs/Web/HTM
   ...
 </html>
 ```
+
+<RelatedComponents />
 
 
 ## Demos

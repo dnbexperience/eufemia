@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'Use Autocomplete to help people find and choose from matching suggestions as they type.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.386Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.080Z
 checksum: 27e85a1eff285950c54cb6946eec7ab5504783064cb7f5ca016adc662982fe89
 ---
 
@@ -17,6 +17,20 @@ import { Autocomplete } from '@dnb/eufemia'
 ## Description
 
 The Autocomplete component is a combination of an [Input](/uilib/components/input) and a [Dropdown](/uilib/components/dropdown), also called **ComboBox**. During typing, matching data items get suggested in an option menu (listbox).
+
+## When to use Autocomplete vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `Autocomplete` is [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the autocomplete variant (`variant="autocomplete"`), or [Field.ArraySelection](/uilib/extensions/forms/base-fields/ArraySelection/) for selecting multiple values.
 
 ## Relevant links
 
@@ -211,6 +225,8 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 ## Root Element (React Portal)
 
 The Autocomplete component uses [PortalRoot](/uilib/components/portal-root) internally to render its option list. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />
 
 
 ## Demos

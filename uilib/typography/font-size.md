@@ -1,7 +1,7 @@
 ---
 title: 'Font Size'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.714Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.528Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -21,6 +21,27 @@ For details about what values Typographic elements use, have a look at the
 | {GetPropAsPx('--font-size-large')}    | `large`    | **{GetPropValue('--font-size-large')}**    | `--font-size-large`     | `.dnb-t__size--large`    |                                 |
 | {GetPropAsPx('--font-size-x-large')}  | `x-large`  | **{GetPropValue('--font-size-x-large')}**  | `--font-size-x-large`   | `.dnb-t__size--x-large`  |                                 |
 | {GetPropAsPx('--font-size-xx-large')} | `xx-large` | **{GetPropValue('--font-size-xx-large')}** | `--font-size-xx-large`  | `.dnb-t__size--xx-large` |                                 |
+
+### Responsive typography (BETA)
+
+**NB**: This feature is in beta and may be subject to change.
+
+Wrap a section of your UI in `<Typography.Context responsive>` to enable typography that adapts automatically across breakpoints.
+Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, will start using the responsive variables in the table below.
+
+You can turn it off for a section using `<Typography.Context responsive={false}>`.
+
+| CSS Variable                      | `← small` | `small → medium` | `medium →` |
+| --------------------------------- | --------- | ---------------- | ---------- |
+| `--responsive-font-size-x-small`  | 0.8125rem | 0.875rem         | 0.875rem   |
+| `--responsive-font-size-small`    | 0.875rem  | 1rem             | 1rem       |
+| `--responsive-font-size-basis`    | 1rem      | 1.125rem         | 1.125rem   |
+| `--responsive-font-size-medium`   | 1.125rem  | 1.25rem          | 1.25rem    |
+| `--responsive-font-size-large`    | 1.25rem   | 1.625rem         | 1.625rem   |
+| `--responsive-font-size-x-large`  | 1.625rem  | 2.125rem         | 2.125rem   |
+| `--responsive-font-size-xx-large` | 2.125rem  | 3rem             | 3rem       |
+
+All `--responsive-font-size-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere use the `.dnb-t` class.
 
 ### Code Editor Extensions
 

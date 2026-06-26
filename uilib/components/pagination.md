@@ -1,8 +1,8 @@
 ---
 title: 'Pagination'
 description: 'Use Pagination to split long content into pages or load more content as people move through it.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.681Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.412Z
 checksum: 856dc55e3ab4563a6134b945efda1abdbb22ce98c4b6c0c06564e0c54d0b1a6c
 ---
 
@@ -108,6 +108,8 @@ render(<Pagination pageCount={2} />)
 ```
 
 ---
+
+<RelatedComponents />
 
 
 ## Demos

@@ -1,8 +1,8 @@
 ---
 title: 'Filter'
 description: 'Use Filter to help people narrow down a list or data set.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.515Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.233Z
 checksum: d880adfaa9ce2c1b007fb153044b524a0cf8f15772be0b91997fce5008d24928
 ---
 
@@ -290,6 +290,8 @@ When the filter panel is closed — via the "Hide filter" button, the "Apply" bu
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=15807-0)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/filter)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/filter)
+
+<RelatedComponents />
 
 
 ## Demos

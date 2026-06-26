@@ -1,8 +1,8 @@
 ---
 title: 'Value.DateOfBirth'
 description: '`Value.DateOfBirth` is a wrapper component for displaying string values, with user experience tailored for date of birth values.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.486Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.281Z
 checksum: 5bae6a0512b60fd0f2268face3cdc590307333de1e3d4bccf2cf560a395f3d74
 ---
 

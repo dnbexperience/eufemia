@@ -1,8 +1,8 @@
 ---
 title: 'Typography'
 description: 'DNB Headings and paragraphs, their properties and styling.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.717Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.532Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -127,18 +127,24 @@ Prose refers to written text in its natural form, particularly paragraphs and ot
 </P>
 ```
 
-### Using `Typography.Provider`
-
-Use `Typography.Provider` to apply `proseMaxWidth` to multiple typography components at once:
+### Using `Typography.Context`
 
 ```tsx
-<Typography.Provider proseMaxWidth={60}>
+import { Typography } from '@dnb/eufemia/elements'
+```
+
+#### Setting `proseMaxWidth`
+
+Use `Typography.Context` to apply `proseMaxWidth` to multiple typography components at once:
+
+```tsx
+<Typography.Context proseMaxWidth={60}>
   <P>This paragraph will be limited to approximately 60 characters wide</P>
   <P>
     This paragraph will also be limited to approximately 60 characters wide
   </P>
   <H2 proseMaxWidth={80}>This heading overrides with its own value</H2>
-</Typography.Provider>
+</Typography.Context>
 ```
 
 CSS example:
@@ -148,6 +154,25 @@ CSS example:
   max-width: var(--prose-max-width); /* 60ch by default */
 }
 ```
+
+#### Setting `responsive`
+
+Use `Typography.Context` to make typography components, or all components use responsive font size and line heights.
+
+
+```tsx
+<H2>Fixed H2</H2>
+<Span size="medium">Fixed Span</Span>
+<Heading level="3">Fixed Heading</Heading>
+<P>Fixed P</P>
+<Typography.Context responsive>
+    <H2>Responsive H2</H2>
+    <Span size="medium">Responsive Span</Span>
+    <Heading level="3">Responsive Heading</Heading>
+    <P>Responsive P</P>
+  </Typography.Context>
+```
+
 
 ## Font Face
 
@@ -216,3 +241,54 @@ The font files are hosted under the following URLs:
 - `https://eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Regular.woff2`
 - `https://eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Medium.woff2`
 - `https://eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Bold.woff2`
+
+
+  
+```tsx
+render(<MarginReset>
+    <ComponentBox scope={{
+    Typography
+  }} data-visual-test="typography-responsive">
+      <Typography.Context responsive>
+        <H1>H1</H1>
+        <H2>H2</H2>
+        <H3>H3</H3>
+        <H4>H4</H4>
+        <H5>H5</H5>
+        <H6>H6</H6>
+
+        <Heading level="1">Heading 1</Heading>
+        <Heading level="2">Heading 2</Heading>
+        <Heading level="3">Heading 3</Heading>
+        <Heading level="4">Heading 4</Heading>
+        <Heading level="5">Heading 5</Heading>
+        <Heading level="6">Heading 6</Heading>
+
+        <Span>Span default</Span>
+        <br />
+        <Span size="x-small">Span x-small</Span>
+        <br />
+        <Span size="small">Span small</Span>
+        <br />
+        <Span size="basis">Span basis</Span>
+        <br />
+        <Span size="medium">Span medium</Span>
+        <br />
+        <Span size="large">Span large</Span>
+        <br />
+        <Span size="x-large">Span x-large</Span>
+        <br />
+        <Span size="xx-large">Span xx-large</Span>
+
+        <P>P default</P>
+        <P size="x-small">P x-small</P>
+        <P size="small">P small</P>
+        <P size="basis">P basis</P>
+        <P size="medium">P medium</P>
+        <P size="large">P large</P>
+        <P size="x-large">P x-large</P>
+        <P size="xx-large">P xx-large</P>
+      </Typography.Context>
+    </ComponentBox>
+  </MarginReset>)
+```

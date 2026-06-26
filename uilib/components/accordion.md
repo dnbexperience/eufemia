@@ -1,8 +1,8 @@
 ---
 title: 'Accordion'
 description: 'Use Accordion to let people open and close sections of related content.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.341Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.037Z
 checksum: ed8bd1d380d09a80db321e550b4bbe69b0d9e81646d6e8dd672db3fccbe8b736
 ---
 
@@ -43,6 +43,8 @@ Both `Accordion.Provider` and `Accordion.Group` are available. They're technical
 #### Unexpected behavior
 
 **Note:** Please avoid using a group when possible, as it creates unexpected behavior from an accessibility perspective. When a user interacts with one accordion, it triggers an action elsewhere, outside the current context—something users may not expect. It's an automated, out-of-context UI execution.
+
+<RelatedComponents />
 
 
 ## Demos

@@ -1,8 +1,8 @@
 ---
 title: 'Skeleton'
 description: 'Use Skeleton to show where content will appear while it is loading.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.729Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.450Z
 checksum: 38d7202a365da531b3702e62d932ac6c2e55e712321889f177c476f349dee300
 ---
 
@@ -155,6 +155,9 @@ function Component({
 }
 render(<Component />);
 ```
+
+
+<RelatedComponents />
 
 
 ## Demos

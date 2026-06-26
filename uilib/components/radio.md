@@ -1,8 +1,8 @@
 ---
 title: 'Radio'
 description: 'Use Radio when people must choose one option from a set.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.708Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.439Z
 checksum: 0ff62ef4dc4f9902fb7503d2aff5efc2bb72d942d5a55d0a119bedfac85af14d
 ---
 
@@ -20,6 +20,20 @@ The Radio component is displayed as a circle that is filled (checked) when activ
 
 It is recommended to use radio buttons in a group. You can use either the React component `<Radio.Group>` or the property `group="NAME"` to define the group.
 
+## When to use Radio vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `Radio` is [Field.Selection](/uilib/extensions/forms/base-fields/Selection/) with the radio variant (`variant="radio"`).
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1493)
@@ -29,6 +43,8 @@ It is recommended to use radio buttons in a group. You can use either the React 
 ## Accessibility
 
 Radio buttons use semantic `<input type="radio">` elements grouped by the `name` attribute. Arrow keys navigate between options within a group, and Space selects an option. Screen readers announce the group label, current selection, and number of options.
+
+<RelatedComponents />
 
 
 ## Demos

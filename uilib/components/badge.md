@@ -1,8 +1,8 @@
 ---
 title: 'Badge'
 description: 'Use Badge to highlight new, unread, or important information.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.403Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.100Z
 checksum: e44c4039c20189a099f5d28fc7d21f0fc5bcbc5f2c5f3677fe8bc23bd807d85f
 ---
 
@@ -35,6 +35,8 @@ The notification badge has a very limited use. The area of use is currently limi
 Can be used to describe or inform about new activity or features in our applications. The label can be placed on top of element backgrounds or inline with text within cells.
 
 The logic of how long it should be visible would differ from case to case, so that's up to the designer.
+
+<RelatedComponents />
 
 
 ## Demos

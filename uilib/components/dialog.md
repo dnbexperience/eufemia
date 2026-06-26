@@ -1,9 +1,9 @@
 ---
 title: 'Dialog'
 description: 'Use Dialog when people need to make a choice or read an important message before continuing.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.480Z
-checksum: 6aa284be4c200df6bb88adf3cedbff09cfbc9e27ca3746453ebaadea5c3d5ab8
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.195Z
+checksum: eb9cbacb0a9165d28945a6bec69d5712f39b9c50a7bc75d12d2e48c1b906ba89
 ---
 
 # Dialog
@@ -60,6 +60,8 @@ For more details regarding the component functionality, check out the [Modal doc
 ## Root Element (React Portal)
 
 The Dialog component uses [PortalRoot](/uilib/components/portal-root) internally through Modal to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />
 
 
 ## Table of contents
@@ -239,6 +241,19 @@ A `confirmType="warning"` will enhance the context by applying a red color to th
 render(<Dialog variant="confirmation" confirmType="warning" title="Are you sure you want to delete this?" icon={trash_medium} description="This action cannot be undone." confirmText="Delete" declineText="Cancel" onConfirm={({
   close
 }) => close()} triggerProps={{
+  text: 'Delete record',
+  icon: trash_medium
+}} />)
+```
+
+
+### Dialog with a status message
+
+Use the `status` property to display a status message as a [FormStatus](/uilib/components/form-status) below the action buttons.
+
+
+```tsx
+render(<Dialog variant="confirmation" confirmType="warning" title="Are you sure you want to delete this?" icon={trash_medium} description="This action cannot be undone." status="Could not delete the record. Try again." confirmText="Delete" declineText="Cancel" triggerProps={{
   text: 'Delete record',
   icon: trash_medium
 }} />)
@@ -516,6 +531,14 @@ render(<MockComponent />);
     "description": {
       "doc": "A description will be positioned below the title, but before the content. Used for Dialog variant `confirmation` to further describe what the actions will do.",
       "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "status": {
+      "doc": "Provide a status message that will be displayed below the action buttons.",
+      "type": [
+        "string",
+        "React.ReactNode"
+      ],
       "status": "optional"
     },
     "verticalAlignment": {

@@ -1,9 +1,9 @@
 ---
 title: 'Anchor (Text Link)'
 description: 'Use Anchor to take people to another page, section, or website.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.355Z
-checksum: e0c93f5872857a54516c5d10979a9cf859f429d97a14c72576018d152c739499
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.049Z
+checksum: 2f8846fac54a31c519386d8947a0566977c4fb617bfc82b267b816c7d3d3a25a
 ---
 
 # Anchor (Text Link)
@@ -60,6 +60,12 @@ render(
   text (opens in new window)
 </a>
 ```
+
+## Security
+
+For security reasons, the Anchor removes `href` and `to` values that use a script-executing protocol (`javascript:` or `vbscript:`), including obfuscated variants such as `java\tscript:`. This prevents cross-site scripting (XSS) when untrusted input is passed to these properties; the element then renders without a link target. Other protocols, such as `data:` and `blob:`, are left untouched.
+
+<RelatedComponents />
 
 
 ## Demos
@@ -464,12 +470,12 @@ render(<Wrapper>
       "status": "optional"
     },
     "href": {
-      "doc": "Relative or absolute url.",
+      "doc": "Relative or absolute url. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed for security reasons.",
       "type": "string",
       "status": "optional"
     },
     "to": {
-      "doc": "Use this property only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.",
+      "doc": "Use this property only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed for security reasons.",
       "type": "string",
       "status": "optional"
     },

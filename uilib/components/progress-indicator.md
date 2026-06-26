@@ -1,9 +1,9 @@
 ---
 title: 'ProgressIndicator'
 description: 'Use ProgressIndicator to show that something is loading or processing.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.701Z
-checksum: ffaea90c327ad61cf29b7449ea1a5e4a21b58c395f921b970883d755dbd451d6
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.432Z
+checksum: cb68082ac8faec507182d0eebb60ddccffbf6e4af9c88aea4d6f1717bf59877f
 ---
 
 # ProgressIndicator
@@ -60,6 +60,8 @@ Use the `show` prop to control when the indicator appears and disappears. When `
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=21616-18893)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/progress-indicator)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/progress-indicator)
+
+<RelatedComponents />
 
 
 ## Demos
@@ -358,7 +360,7 @@ background: 'blue'
       "status": "optional"
     },
     "label": {
-      "doc": "Content of a custom label. (Overrides `indicatorLabel` and `showDefaultLabel`.)",
+      "doc": "Content of a custom label (overrides `indicatorLabel` and `showDefaultLabel`).",
       "type": "React.ReactNode",
       "defaultValue": "undefined",
       "status": "optional"

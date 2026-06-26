@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'Use List to show rows of related content, with optional actions or navigation.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.637Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.358Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -104,6 +104,8 @@ render(
 - **List.Item.Action** uses `role="button"` so assistive technologies announce it as a button. It is focusable (`tabIndex={0}`) and activates on Enter and Space. When `pending` is true, it is not focusable and has `aria-disabled="true"`. You can override the role via the `role` prop (e.g. `role="link"`).
 - **List.Item.Accordion** exposes full ARIA for expand/collapse: the header has `id`, `aria-controls`, and `aria-expanded`; the content region has `id`, `aria-labelledby`, `aria-hidden`, and `aria-expanded`. Pass an `id` prop for stable references, or leave it unset for an auto-generated id. When `pending` is true, the header is not focusable and has `aria-disabled="true"`.
 - Use `aria-label` or other ARIA attributes on the container or items when needed for screen readers.
+
+<RelatedComponents />
 
 
 ## Demos

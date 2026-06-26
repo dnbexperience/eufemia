@@ -1,8 +1,8 @@
 ---
 title: 'SkipContent'
 description: 'Use SkipContent to help keyboard users jump past large or repeated content.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.733Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.455Z
 checksum: 3827157a79b6b2af94d3f748ae7c4f7340cbd8ad13ed17fded2eb8c769066ec7
 ---
 
@@ -102,6 +102,8 @@ Optionally, you should consider including the `SkipContent.Return` utility as we
 The `SkipContent` helper component is mainly dedicated to keyboard navigation.
 
 In order to let screen readers skip large parts of content, you need to ensure your HTML has [logical landmarks and regions](/uilib/usage/accessibility/checklist/#landmark--and-semantics-example).
+
+<RelatedComponents />
 
 
 ## Demos

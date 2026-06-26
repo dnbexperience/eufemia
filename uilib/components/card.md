@@ -1,8 +1,8 @@
 ---
 title: 'Card'
 description: 'Use Card to group related content in a clear, separated area.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.433Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.132Z
 checksum: 0e50b33934d75ff8ee86042f8b38b80cfeb981cf163f459e0272d67f2eaf2b22
 ---
 
@@ -59,6 +59,8 @@ render(<Card aria-labelledby="unique-id">
 ## Card.List and Card.ListItem
 
 Use `Card.List` and `Card.ListItem` to render a semantic `<ul>` / `<li>` list of cards. `Card.List` provides a responsive flex layout with wrapping. `Card.ListItem` supports a `center` prop to center content vertically — set it to `true` to always center, or `"when-small"` to center only on small screens.
+
+<RelatedComponents />
 
 
 ## Demos

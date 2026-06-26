@@ -1,0 +1,1 @@
+var e=`/assets/ux-layout-spacing-DQ_8WwPN.png`;export{e as t};

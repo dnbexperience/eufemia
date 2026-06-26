@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'Use DateFormat to show dates in the correct DNB format.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.457Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.161Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 
@@ -89,6 +89,8 @@ This is helpful when you are comparing "today" against backend data or applying 
 | --------- | ---------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `locale`  | `AnyLocale`                  | `'nb-NO'`                | The locale to use for formatting.                                                                                                                                 |
 | `options` | `Intl.DateTimeFormatOptions` | `{ dateStyle: 'short' }` | The format options following the [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) API. |
+
+<RelatedComponents />
 
 
 ## Demos

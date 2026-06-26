@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.Buttons'
 description: '`Wizard.Buttons` is a combination of PreviousButton and NextButton for navigating between steps/pages.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.598Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.398Z
 checksum: 4ea56087d0680bf07da056cf40e953588811b3ff8876526853e7bcc84fb35e61
 ---
 

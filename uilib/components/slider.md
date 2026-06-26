@@ -1,8 +1,8 @@
 ---
 title: 'Slider'
 description: 'Use Slider when people need to choose a value from a range.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.740Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.461Z
 checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 
@@ -18,6 +18,20 @@ import { Slider } from '@dnb/eufemia'
 
 The Slider component provides a visual indication of an adjustable value. A value can be adjusted (increased or decreased) by moving the drag handle along a track (usually horizontal or vertical). Remember to inform users that they can also adjust the value directly in the value input field (if it exists).
 
+## When to use Slider vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `Slider` is [Field.Slider](/uilib/extensions/forms/base-fields/Slider/).
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4314-723)
@@ -31,6 +45,8 @@ The Slider uses a semantic `<input type="range">` element for the thumb control,
 ### Define a `min` and `max` value
 
 Keep in mind, you should most probably define your `min` and `max` value, because they are tied closely to your given value property.
+
+<RelatedComponents />
 
 
 ## Demos

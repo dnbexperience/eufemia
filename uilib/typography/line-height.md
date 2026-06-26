@@ -1,7 +1,7 @@
 ---
 title: 'Line Height'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.716Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:10.531Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -21,6 +21,27 @@ For details about what values Typographic elements use, have a look at the [Font
 | {GetPropAsPx('--line-height-large')}    | `large`    | **{GetPropValue('--line-height-large')}**    | `--line-height-large`    | `.dnb-t__line-height--large`    |                  |
 | {GetPropAsPx('--line-height-x-large')}  | `x-large`  | **{GetPropValue('--line-height-x-large')}**  | `--line-height-x-large`  | `.dnb-t__line-height--x-large`  |                  |
 | {GetPropAsPx('--line-height-xx-large')} | `xx-large` | **{GetPropValue('--line-height-xx-large')}** | `--line-height-xx-large` | `.dnb-t__line-height--xx-large` |                  |
+
+### Responsive typography (BETA)
+
+**NB**: This feature is in beta and may be subject to change.
+
+Wrap a section of your UI in `<Typography.Context responsive>` to enable typography that adapts automatically across breakpoints.
+Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, will start using the responsive variables in the table below.
+
+You can turn it off for a section using `<Typography.Context responsive={false}>`.
+
+| CSS Variable                        | `← small` | `small → medium` | `medium →` |
+| ----------------------------------- | --------- | ---------------- | ---------- |
+| `--responsive-line-height-x-small`  | 1.25rem   | 1.25rem          | 1.25rem    |
+| `--responsive-line-height-small`    | 1.25rem   | 1.25rem          | 1.25rem    |
+| `--responsive-line-height-basis`    | 1.25rem   | 1.5rem           | 1.5rem     |
+| `--responsive-line-height-medium`   | 1.5rem    | 1.5rem           | 1.5rem     |
+| `--responsive-line-height-large`    | 2rem      | 2rem             | 2rem       |
+| `--responsive-line-height-x-large`  | 2rem      | 2.5rem           | 2.5rem     |
+| `--responsive-line-height-xx-large` | 2rem      | 2.5rem           | 3.5rem     |
+
+All `--responsive-line-height-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere you can use the `.dnb-t` class.
 
 ### Code Editor Extensions
 

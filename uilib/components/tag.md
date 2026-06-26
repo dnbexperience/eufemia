@@ -1,8 +1,8 @@
 ---
 title: 'Tag'
 description: 'Use Tag to show a small label, status, or selected value.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:01.003Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.761Z
 checksum: 1059dd4ae201d0a98d491bb6096bc1cb8a6392d46b7a5bdb50d61d93d7660bcf
 ---
 
@@ -25,6 +25,8 @@ Tags with the `onDelete` property can be used to define an action. A clickable t
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=18412-7293)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/tag)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/tag)
+
+<RelatedComponents />
 
 
 ## Demos

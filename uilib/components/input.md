@@ -1,8 +1,8 @@
 ---
 title: 'Input'
 description: 'Use Input when people need to enter a short line of text.'
-version: 11.7.0
-generatedAt: 2026-06-22T08:28:00.599Z
+version: 11.8.0
+generatedAt: 2026-06-26T12:38:09.314Z
 checksum: 8ae54b56864004ea62435cdb77dc967f40e2d4d7f17b6f220cd48f6a646fe646
 ---
 
@@ -17,6 +17,20 @@ import { Input } from '@dnb/eufemia'
 ## Description
 
 The Input component is an umbrella component for all inputs that share the same style as the classic `text` input field.
+
+## When to use Input vs Eufemia Forms
+
+
+# When to use Eufemia Forms
+
+Classic form components like this one are presentational controls. They handle the styling, sizing, icons, and basic events, while you manage their value, validation, and error handling yourself.
+
+For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
+
+Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+
+The Eufemia Forms equivalent of `Input` is [Field.String](/uilib/extensions/forms/base-fields/String/) for text values, while [Field.Number](/uilib/extensions/forms/base-fields/Number/) and [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/) handle numbers and amounts.
 
 ## Relevant links
 
@@ -34,6 +48,10 @@ render(<Field.Currency label="Amount" value={1234} onChange={value => console.lo
 ```
 
 
+### Step controls (increment and decrement)
+
+For a number input with stepper buttons to increment and decrement the value (plus/minus, number spinner), use [Field.Number](/uilib/extensions/forms/base-fields/Number/#step-controls) (or [Field.Currency](/uilib/extensions/forms/feature-fields/Currency/)) with the `showStepControls` property.
+
 ### Browser autofill styling
 
 When users insert values using autofill in their browser, the browser applies its own background and text colors that override Eufemia's styling.
@@ -50,6 +68,9 @@ You may also consider using a multiline input with a `characterCounter`:
 ```tsx
 render(<Field.String label="Label text" placeholder="Enter your text" multiline rows={1} characterCounter={40} />)
 ```
+
+
+<RelatedComponents />
 
 
 ## Demos
