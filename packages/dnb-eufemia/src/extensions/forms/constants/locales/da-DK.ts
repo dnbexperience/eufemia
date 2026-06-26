@@ -276,5 +276,12 @@ export default {
       errorRequired: 'Du skal uploade mindst én fil.',
       errorInvalidFiles: 'Fjern alle filer, der indeholder fejl.',
     },
+    InstallmentDay: {
+      label: 'Trækdag',
+      errorRequired: 'Du skal vælge en trækdag.',
+      lastDayLabel: 'Sidste dag i måneden',
+      dayDisplay: '{day} dag i måneden',
+      placeholder: 'Vælg dag',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }
