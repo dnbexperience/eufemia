@@ -56,6 +56,33 @@ afterEach(() => {
 })
 
 describe('Modal component', () => {
+  it('does not leave dangling aria references when used standalone', () => {
+    render(
+      <Modal open noAnimation omitTriggerButton title="Standalone title">
+        Standalone content
+      </Modal>
+    )
+
+    const dialog = document.querySelector('.dnb-modal__content')
+    expect(dialog).toBeInTheDocument()
+
+    const dangling: string[] = []
+    ;['aria-describedby', 'aria-labelledby'].forEach((attr) => {
+      ;(dialog.getAttribute(attr) || '')
+        .split(/\s+/)
+        .filter(Boolean)
+        .forEach((id) => {
+          if (!document.getElementById(id)) {
+            dangling.push(`${attr}->${id}`)
+          }
+        })
+    })
+    expect(dangling).toEqual([])
+
+    // The standalone dialog still has an accessible name
+    expect(dialog.getAttribute('aria-label')).toBe('Standalone title')
+  })
+
   it('should add its instance to the stack', () => {
     render(
       <Modal {...props}>
@@ -1487,7 +1514,13 @@ describe('Modal component', () => {
   })
 
   it('should have the correct aria-describedby', () => {
-    render(<Modal {...props} open />)
+    // The "-content" target is provided by the content components
+    // (Dialog/Drawer). When present, the dialog references it.
+    render(
+      <Modal {...props} open modalContent={undefined}>
+        <DialogContent>content</DialogContent>
+      </Modal>
+    )
     expect(
       document.querySelector(
         `[aria-describedby="dnb-modal-${props.id}-content"]`
@@ -1533,9 +1566,13 @@ describe('Modal component', () => {
     ).toContain('Vindu')
 
     rerender(<Modal {...props} title="now there is a title" />)
+    // Without a rendered "-title" element (standalone Modal), the title is
+    // exposed via aria-label instead of a dangling aria-labelledby.
     expect(
-      document.querySelector('.dnb-modal__content')
-    ).not.toHaveAttribute('aria-label')
+      document
+        .querySelector('.dnb-modal__content')
+        .getAttribute('aria-label')
+    ).toBe('now there is a title')
   })
 
   it('should have aria-labelledby and aria-describedby', () => {

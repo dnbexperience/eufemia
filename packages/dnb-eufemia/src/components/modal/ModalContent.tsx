@@ -3,7 +3,13 @@
  *
  */
 
-import { useCallback, useContext, useEffect, useRef } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type { RefObject, SyntheticEvent } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { clsx } from 'clsx'
@@ -127,6 +133,25 @@ export default function ModalContent(props: ModalContentProps) {
   }, [modalContentCloseRef, setModalContentState])
 
   const usedContentId = useId(contentIdProp)
+
+  // The "-content" and "-title" elements are rendered by the content
+  // components (e.g. via Dialog/Drawer), not by the Modal itself. When the
+  // Modal is used standalone they are absent, so only reference them once they
+  // exist to avoid a dangling aria-describedby/aria-labelledby.
+  const [hasAriaTarget, setHasAriaTarget] = useState({
+    content: false,
+    title: false,
+  })
+  useEffect(() => {
+    setHasAriaTarget({
+      content: Boolean(
+        document.getElementById(usedContentId + '-content')
+      ),
+      title:
+        Boolean(title) &&
+        Boolean(document.getElementById(usedContentId + '-title')),
+    })
+  }, [usedContentId, title])
 
   const wasOpenedManually = useCallback(() => {
     if (triggeredByRef.current) {
@@ -478,20 +503,25 @@ export default function ModalContent(props: ModalContentProps) {
 
   const role = dialogRole || 'dialog'
 
+  const fallbackDialogTitle =
+    (typeof title === 'string' ? title : undefined) ?? dialogTitle
+
   const contentParams = {
     role,
     tabIndex: -1,
     'aria-modal': true,
     'aria-labelledby': combineLabelledBy(
       props,
-      title ? usedContentId + '-title' : null,
+      hasAriaTarget.title ? usedContentId + '-title' : null,
       labelledBy
     ),
     'aria-describedby': combineDescribedBy(
       props,
-      usedContentId + '-content'
+      hasAriaTarget.content ? usedContentId + '-content' : null
     ),
-    'aria-label': !title && !labelledBy ? dialogTitle : undefined,
+    'aria-label': !(hasAriaTarget.title || labelledBy)
+      ? fallbackDialogTitle
+      : undefined,
     className: clsx(
       'dnb-modal__content',
       'dnb-no-focus',
