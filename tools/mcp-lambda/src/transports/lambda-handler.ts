@@ -16,13 +16,13 @@ function toWebRequest(event: APIGatewayProxyEventV2): Request {
   const url = `https://${event.requestContext.domainName}${event.rawPath}`
   const method = event.requestContext.http.method
 
-  const hasBody =
-    method !== 'GET' && method !== 'HEAD' && event.body != null
-  const body = hasBody
-    ? event.isBase64Encoded
-      ? Buffer.from(event.body, 'base64').toString('utf8')
-      : event.body
-    : undefined
+  const hasBody = method !== 'GET' && method !== 'HEAD'
+  const body =
+    hasBody && event.body != null
+      ? event.isBase64Encoded
+        ? Buffer.from(event.body, 'base64').toString('utf8')
+        : event.body
+      : undefined
 
   return new Request(url, {
     method,
