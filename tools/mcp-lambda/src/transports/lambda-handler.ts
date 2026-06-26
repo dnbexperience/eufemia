@@ -20,7 +20,7 @@ function toWebRequest(event: APIGatewayProxyEventV2): Request {
     method !== 'GET' && method !== 'HEAD' && event.body != null
   const body = hasBody
     ? event.isBase64Encoded
-      ? Buffer.from(event.body!, 'base64').toString('utf8')
+      ? Buffer.from(event.body, 'base64').toString('utf8')
       : event.body
     : undefined
 

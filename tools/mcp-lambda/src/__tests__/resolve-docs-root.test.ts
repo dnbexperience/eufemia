@@ -18,7 +18,7 @@ async function trackTemp(): Promise<string> {
 
 afterEach(async () => {
   while (tempDirs.length > 0) {
-    const dir = tempDirs.pop()!
+    const dir = tempDirs.pop()
     await fs.rm(dir, { recursive: true, force: true })
   }
 })
