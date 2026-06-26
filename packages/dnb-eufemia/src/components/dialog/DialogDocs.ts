@@ -56,6 +56,11 @@ export const DialogProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  status: {
+    doc: 'Provide a status message that will be displayed below the action buttons.',
+    type: ['string', 'React.ReactNode'],
+    status: 'optional',
+  },
   verticalAlignment: {
     doc: 'Define the vertical alignment of the container. Can be set to `top` or `center`. Defaults to `center`.',
     type: ['"top"', '"center"'],
