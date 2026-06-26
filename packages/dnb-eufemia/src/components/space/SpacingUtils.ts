@@ -550,7 +550,7 @@ export const useSpacing = <T extends ApplySpacingTarget>(
       'dnb-space-responsive',
       responsive.breakOn &&
         responsive.breakOn !== 'small' &&
-        `dnb-space-responsive--breakpoint-${responsive.breakOn}`,
+        `dnb-space-responsive--break-on-${responsive.breakOn}`,
       responsive.density &&
         `dnb-space-responsive--force-${responsive.density}`
     )

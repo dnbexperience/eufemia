@@ -299,7 +299,7 @@
   }
 
   // Breakpoint overrides – shift at which breakpoint the sizes change
-  &-responsive--breakpoint-medium {
+  &-responsive--break-on-medium {
     @include utilities.allBelow(small) {
       --responsive-spacing-tier: -1;
     }

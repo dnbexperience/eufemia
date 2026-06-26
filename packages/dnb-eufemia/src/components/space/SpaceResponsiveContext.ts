@@ -8,7 +8,7 @@ export type SpaceResponsiveContextValue = {
   density?: 'compact' | 'basis' | false
 
   /**
-   * Sets at which breakpoint we switch from `compact` to `basis` density. Default: `small`.
+   * Sets the breakpoint at which density switches from `compact` to `basis`. Default: `small`.
    */
   breakOn?: Extract<MediaQuerySizes, 'small' | 'medium'>
 

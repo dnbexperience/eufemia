@@ -63,7 +63,7 @@ export const SpaceResponsiveContextProperties: PropertiesTableProps = {
     status: 'optional',
   },
   breakOn: {
-    doc: 'Sets at which breakpoint we switch from `compact` to `basis` density. Default: `small`.',
+    doc: 'Sets the breakpoint at which density switches from `compact` to `basis`. Default: `small`.',
     type: ['"small"', '"medium"'],
     status: 'optional',
   },
