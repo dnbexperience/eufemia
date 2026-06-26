@@ -193,7 +193,7 @@
   }
 
   :global(.eufemia-theme__color-scheme--dark) & :global(.dnb-logo) svg {
-    fill: #fff;
+    fill: var(--token-color-text-neutral);
   }
 }
 
