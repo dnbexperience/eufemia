@@ -139,6 +139,9 @@ export default {
       addTitle: 'Øk (%s)',
       subtractTitle: 'Reduser (%s)',
     },
+    VippsWalletButton: {
+      text: 'Legg til i',
+    },
     PaymentCard: {
       textBlocked: 'Sperret',
       textExpired: 'Utløpt',

@@ -141,6 +141,9 @@ export default {
       addTitle: 'Forøg (%s)',
       subtractTitle: 'Reducer (%s)',
     },
+    VippsWalletButton: {
+      text: 'Tilføj til',
+    },
     PaymentCard: {
       textBlocked: 'Spærret',
       textExpired: 'Udløbet',

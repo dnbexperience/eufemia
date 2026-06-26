@@ -12,37 +12,12 @@ export type VippsWalletButtonProps = Omit<ButtonProps, 'variant'> & {
   pending?: boolean
 }
 
-const messages = {
-  'nb-NO': {
-    VippsWalletButton: {
-      text: 'Legg til i',
-    },
-  },
-  'en-GB': {
-    VippsWalletButton: {
-      text: 'Add to',
-    },
-  },
-  'sv-SE': {
-    VippsWalletButton: {
-      text: 'Lägg till i',
-    },
-  },
-  'da-DK': {
-    VippsWalletButton: {
-      text: 'Tilføj til',
-    },
-  },
-}
-
 export default function VippsWalletButton({
   className,
   pending,
   ...props
 }: VippsWalletButtonProps) {
-  const {
-    VippsWalletButton: translation = messages['nb-NO'].VippsWalletButton,
-  } = useTranslation({ messages })
+  const { VippsWalletButton: translation } = useTranslation()
   const buttonText = translation?.text
 
   return (

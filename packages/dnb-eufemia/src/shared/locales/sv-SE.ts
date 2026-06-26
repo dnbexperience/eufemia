@@ -140,6 +140,9 @@ export default {
       addTitle: 'Öka (%s)',
       subtractTitle: 'Minska (%s)',
     },
+    VippsWalletButton: {
+      text: 'Lägg till i',
+    },
     PaymentCard: {
       textBlocked: 'Spärrat',
       textExpired: 'Utgånget',
