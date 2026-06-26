@@ -278,7 +278,7 @@ function detectComponentsInFile(
     }
   }
 
-  for (const match of code.matchAll(IMPORT_FROM_PATTERN)) {
+  for (const match of Array.from(code.matchAll(IMPORT_FROM_PATTERN))) {
     const source = match[2]
 
     if (!isEufemiaSource(source)) {
@@ -361,26 +361,26 @@ function detectComponentsInFile(
   }
 
   // Resolve namespace member usage, e.g. `Eufemia.Button` / `Eufemia.DatePicker`.
-  for (const alias of namespaceAliases) {
+  for (const alias of Array.from(namespaceAliases)) {
     const memberPattern = new RegExp(
       `\\b${escapeRegExp(alias)}\\.([A-Z][\\w$]*)`,
       'g'
     )
 
-    for (const memberMatch of code.matchAll(memberPattern)) {
+    for (const memberMatch of Array.from(code.matchAll(memberPattern))) {
       addIfKnown(memberMatch[1])
     }
   }
 
   // Resolve forms field/value member usage, e.g. `<Field.Upload>`, adding the
   // heavy components that specific field pulls in (Upload, Table, …).
-  for (const [local, namespace] of formsMemberAliases) {
+  for (const [local, namespace] of Array.from(formsMemberAliases)) {
     const memberPattern = new RegExp(
       `\\b${escapeRegExp(local)}\\.([A-Z][\\w$]*)`,
       'g'
     )
 
-    for (const memberMatch of code.matchAll(memberPattern)) {
+    for (const memberMatch of Array.from(code.matchAll(memberPattern))) {
       const deps = formsFields[`${namespace}.${memberMatch[1]}`]
 
       if (deps) {
@@ -469,7 +469,9 @@ export function detectUsedComponents(options: {
         continue
       }
 
-      for (const name of detectComponentsInFile(code, manifest)) {
+      for (const name of Array.from(
+        detectComponentsInFile(code, manifest)
+      )) {
         used.add(name)
       }
     }
@@ -537,7 +539,7 @@ function buildSafelist(
 
   const prefixes = new Set<string>()
 
-  for (const name of keptNames) {
+  for (const name of Array.from(keptNames)) {
     const prefix = manifest.entries[name]?.classPrefix ?? `dnb-${name}`
     prefixes.add(prefix)
   }
