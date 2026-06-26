@@ -193,15 +193,14 @@ async function prerender() {
   // Step: Generate LLM metadata (llms.txt + markdown copies)
   // Skip for visual-test builds — they only need rendered pages for screenshots.
   if (process.env.IS_VISUAL_TEST !== '1') {
-    try {
-      console.log('\nGenerating LLM metadata...')
-      execSync('node vite/prod/generate-llm-metadata.mts', {
-        cwd: portalRoot,
-        stdio: 'inherit',
-      })
-    } catch {
-      console.warn('Warning: LLM metadata generation failed (non-fatal)')
-    }
+    console.log('\nGenerating LLM metadata...')
+    // Fail the build if generation fails. Otherwise a broken llms.txt or
+    // missing .md files ship silently and only surface later as portal e2e
+    // failures (see src/e2e/llm-metadata.spec.ts).
+    execSync('node vite/prod/generate-llm-metadata.mts', {
+      cwd: portalRoot,
+      stdio: 'inherit',
+    })
   }
 
   // Step: Copy fonts to dist/fonts/ (serves as CDN for all Eufemia consumers)

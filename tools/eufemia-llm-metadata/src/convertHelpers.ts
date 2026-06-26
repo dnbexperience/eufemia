@@ -1150,6 +1150,14 @@ async function evaluateTsModule(file: string, seen = new Set<string>()) {
     nextSeen
   )
 
+  // Resolve `export ... from '...'` barrels ahead of time and remove those
+  // statements from the code. The sandboxed require cannot load sibling TS
+  // modules, so leaving them in would emit require() calls that fail and
+  // produce getters that throw when accessed.
+  const { values: reExports, code: codeWithoutReExports } =
+    await resolveReExports(file, code, localRequire, nextSeen)
+  code = codeWithoutReExports
+
   code = code.replace(
     /(^\s*import[\s\S]*?from\s+['"][^'"]+['"][^\n]*$)/gm,
     ''
@@ -1183,7 +1191,14 @@ async function evaluateTsModule(file: string, seen = new Set<string>()) {
 
   const exp = sandbox.exports
   const mod = sandbox.module && sandbox.module.exports
-  return (exp && Object.keys(exp).length ? exp : mod) || {}
+  const evaluated = (exp && Object.keys(exp).length ? exp : mod) || {}
+
+  if (Object.keys(reExports).length) {
+    // Locally defined exports take precedence over re-exported ones.
+    return { ...reExports, ...evaluated }
+  }
+
+  return evaluated
 }
 
 async function buildModuleInjectionBindings(
@@ -1261,6 +1276,134 @@ async function buildModuleInjectionBindings(
   }
 
   return bindings
+}
+
+/**
+ * Resolve values re-exported from sibling modules, e.g. barrel files that do
+ * `export { Foo } from './FooDocs'` or `export * from './FooDocs'`.
+ *
+ * Returns the resolved values plus the source code with the re-export
+ * statements removed. The sandboxed require used by evaluateTsModule cannot
+ * load sibling TypeScript modules, so the statements are resolved here and
+ * stripped before the code is evaluated.
+ */
+async function resolveReExports(
+  file: string,
+  source: string,
+  localRequire: NodeJS.Require,
+  seen: Set<string>
+): Promise<{ values: Record<string, unknown>; code: string }> {
+  const parser = await import('@babel/parser')
+  const dir = path.dirname(file)
+  let ast
+
+  try {
+    ast = parser.parse(source, {
+      sourceType: 'module',
+      plugins: ['typescript', 'jsx'],
+    })
+  } catch {
+    return { values: {}, code: source }
+  }
+
+  const values: Record<string, unknown> = {}
+  const ranges: Array<[number, number]> = []
+
+  const recordRange = (node: {
+    start?: number | null
+    end?: number | null
+  }) => {
+    if (typeof node.start === 'number' && typeof node.end === 'number') {
+      ranges.push([node.start, node.end])
+    }
+  }
+
+  for (const node of ast.program.body) {
+    // export * from './source'
+    if (node.type === 'ExportAllDeclaration') {
+      recordRange(node)
+
+      if (node.exportKind === 'type') {
+        continue
+      }
+
+      const mod = await loadImportedModuleForEvaluation({
+        baseDir: dir,
+        source: node.source.value,
+        localRequire,
+        seen,
+      })
+
+      if (!mod) {
+        continue
+      }
+
+      for (const key of Object.keys(mod)) {
+        if (key === 'default' || key === '__esModule') {
+          continue
+        }
+        values[key] = (mod as Record<string, unknown>)[key]
+      }
+      continue
+    }
+
+    // export { a, b as c } from './source' / export * as ns from './source'
+    if (node.type === 'ExportNamedDeclaration' && node.source) {
+      recordRange(node)
+
+      if (node.exportKind === 'type') {
+        continue
+      }
+
+      const mod = await loadImportedModuleForEvaluation({
+        baseDir: dir,
+        source: node.source.value,
+        localRequire,
+        seen,
+      })
+
+      if (!mod) {
+        continue
+      }
+
+      for (const specifier of node.specifiers) {
+        if (specifier.type === 'ExportNamespaceSpecifier') {
+          values[specifier.exported.name] = mod
+          continue
+        }
+
+        if (specifier.type !== 'ExportSpecifier') {
+          continue
+        }
+
+        if (specifier.exportKind === 'type') {
+          continue
+        }
+
+        const localName = specifier.local.name
+        const exportedName =
+          specifier.exported.type === 'Identifier'
+            ? specifier.exported.name
+            : specifier.exported.value
+
+        if (Object.prototype.hasOwnProperty.call(mod, localName)) {
+          values[exportedName] = (mod as Record<string, unknown>)[
+            localName
+          ]
+        }
+      }
+      continue
+    }
+  }
+
+  // Remove the re-export statements, highest offset first so earlier ranges
+  // stay valid.
+  let code = source
+  for (const [start, end] of ranges.sort((a, b) => b[0] - a[0])) {
+    code = code.slice(0, start) + code.slice(end)
+  }
+
+  return { values, code }
 }
 
 async function loadImportedModuleForEvaluation({

@@ -155,6 +155,101 @@ describe('convertMdxToMd', () => {
     expect(output).not.toContain('PropertiesTable')
   })
 
+  it('resolves PropertiesTable props imported through a named re-export barrel', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-barrel-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    fs.writeFileSync(
+      path.join(docsRoot, 'CurrencyDocs.ts'),
+      [
+        'export const CurrencyProperties = {',
+        "  currency: { doc: 'Currency code', type: 'string' },",
+        '};',
+      ].join('\n')
+    )
+
+    // Barrel that re-exports from the underlying module.
+    fs.writeFileSync(
+      path.join(docsRoot, 'StatDocs.ts'),
+      "export { CurrencyProperties } from './CurrencyDocs'\n"
+    )
+
+    const mdxPath = path.join(docsRoot, 'stat.mdx')
+    fs.writeFileSync(
+      mdxPath,
+      [
+        "import { CurrencyProperties } from './StatDocs'",
+        '',
+        '## Properties',
+        '',
+        '<PropertiesTable props={CurrencyProperties} />',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: mdxPath,
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain('```json')
+    expect(output).toContain('"currency"')
+    expect(output).toContain('"Currency code"')
+    expect(output).not.toContain('PropertiesTable')
+  })
+
+  it('resolves PropertiesTable props imported through a wildcard re-export barrel', async () => {
+    const tmpRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'mdx-barrel-star-')
+    )
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    fs.writeFileSync(
+      path.join(docsRoot, 'TrendDocs.ts'),
+      [
+        'export const TrendProperties = {',
+        "  trend: { doc: 'Trend direction', type: 'string' },",
+        '};',
+      ].join('\n')
+    )
+
+    fs.writeFileSync(
+      path.join(docsRoot, 'StatDocs.ts'),
+      "export * from './TrendDocs'\n"
+    )
+
+    const mdxPath = path.join(docsRoot, 'stat.mdx')
+    fs.writeFileSync(
+      mdxPath,
+      [
+        "import { TrendProperties } from './StatDocs'",
+        '',
+        '## Properties',
+        '',
+        '<PropertiesTable props={TrendProperties} />',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: mdxPath,
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain('```json')
+    expect(output).toContain('"trend"')
+    expect(output).toContain('"Trend direction"')
+    expect(output).not.toContain('PropertiesTable')
+  })
+
   it('includes extra attributes when converting PropertiesTable', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-attrs-'))
     const docsRoot = path.join(tmpRoot, 'docs')
