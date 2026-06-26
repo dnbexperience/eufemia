@@ -40,3 +40,31 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
     })
   }
 )
+
+describe(`Typography for sbanken is responsive by default`, () => {
+  setupPageScreenshot({
+    themeName: 'sbanken',
+    url: '/uilib/typography/',
+  })
+
+  it('on desktop', async () => {
+    await makeScreenshot({
+      pageViewport: { width: 1200 },
+      selector: '[data-visual-test="typography-responsive-sbanken"]',
+    })
+  })
+
+  it('on tablet', async () => {
+    await makeScreenshot({
+      pageViewport: { width: 750 },
+      selector: '[data-visual-test="typography-responsive-sbanken"]',
+    })
+  })
+
+  it('on mobile', async () => {
+    await makeScreenshot({
+      pageViewport: { width: 400 },
+      selector: '[data-visual-test="typography-responsive-sbanken"]',
+    })
+  })
+})

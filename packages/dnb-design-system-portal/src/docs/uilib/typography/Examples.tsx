@@ -247,3 +247,24 @@ export const ResponsiveTypographyFullExample = () => (
     </ComponentBox>
   </MarginReset>
 )
+
+export const ResponsiveTypographySbankenExample = () => (
+  <MarginReset>
+    <ComponentBox
+      scope={{ Typography }}
+      data-visual-test="typography-responsive-sbanken"
+    >
+      <H2>H2 responsive</H2>
+      <P>P responsive</P>
+
+      <Typography.Context responsive={false}>
+        <H2>H2 fixed</H2>
+        <P>P fixed</P>
+        <Typography.Context responsive>
+          <H2>H2 responsive</H2>
+          <P>P responsive</P>
+        </Typography.Context>
+      </Typography.Context>
+    </ComponentBox>
+  </MarginReset>
+)
