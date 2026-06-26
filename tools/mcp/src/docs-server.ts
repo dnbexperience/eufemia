@@ -94,15 +94,27 @@ function extractFrontmatterLinks(markdown: string) {
     return null
   }
 
-  const lines = match[1].split('\n').map((line) => line.trim())
+  const lines = match[1].split('\n')
   const readLine = (key: string) => {
-    const line = lines.find((entry) => entry.startsWith(`${key}:`))
-    if (!line) {
-      return null
+    for (const line of lines) {
+      // Only match top-level keys: skip indented lines so a nested key with
+      // the same name (e.g. under another mapping) is not picked up.
+      if (/^\s/.test(line)) {
+        continue
+      }
+
+      const colon = line.indexOf(':')
+      if (colon === -1 || line.slice(0, colon).trim() !== key) {
+        continue
+      }
+
+      // Everything after the first colon is the value, so paths or URLs that
+      // contain additional colons are preserved.
+      const value = line.slice(colon + 1).trim()
+      return value.replace(/^['"]|['"]$/g, '') || null
     }
 
-    const value = line.split(':').slice(1).join(':').trim()
-    return value.replace(/^['"]|['"]$/g, '')
+    return null
   }
 
   return {

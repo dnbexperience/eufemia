@@ -54,6 +54,8 @@ describe('docs-server tools', () => {
         '# Input Properties\n\n```json\n{"name": "Input", "props": {"type": "text"}}\n```',
       'uilib/components/input-events.md':
         '# Input Events\n\n```json\n{"name": "Input", "events": ["onChange", "onFocus"]}\n```',
+      'uilib/components/nested-frontmatter.md':
+        '---\nmeta:\n  properties: /uilib/components/wrong-properties.md\nproperties: /uilib/components/input-properties.md\nevents: /uilib/components/input-events.md\n---\n# Nested Frontmatter\nA component with a nested frontmatter key.',
       'uilib/extensions/forms/feature-fields/Address.mdx':
         '# Field.Address\nAddress field component.',
       'uilib/extensions/forms/Value/Name.md':
@@ -323,6 +325,20 @@ describe('docs-server tools', () => {
       expect(result.propertiesExists).toBe(true)
       expect(result.events).toBe('/uilib/components/input-events.md')
       expect(result.eventsExists).toBe(true)
+    })
+
+    it('ignores nested frontmatter keys and uses top-level links', async () => {
+      const result = parseResult(
+        await client.callTool({
+          name: 'component_find',
+          arguments: { name: 'Nested-frontmatter' },
+        })
+      )
+
+      expect(result.properties).toBe(
+        '/uilib/components/input-properties.md'
+      )
+      expect(result.events).toBe('/uilib/components/input-events.md')
     })
 
     it('reports docExists false for missing component', async () => {
