@@ -12,5 +12,3 @@ export const RemoveButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const RemoveButtonEvents: PropertiesTableProps = {}

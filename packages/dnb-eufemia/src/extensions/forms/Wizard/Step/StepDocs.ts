@@ -47,5 +47,3 @@ export const StepProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const StepEvents: PropertiesTableProps = {}

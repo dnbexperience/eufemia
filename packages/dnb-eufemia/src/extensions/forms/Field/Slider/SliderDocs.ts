@@ -25,5 +25,3 @@ export const SliderFieldProperties: PropertiesTableProps = {
   '[Space](/uilib/layout/space/properties)':
     SliderProperties['[Space](/uilib/layout/space/properties)'],
 }
-
-export const SliderFieldEvents: PropertiesTableProps = {}

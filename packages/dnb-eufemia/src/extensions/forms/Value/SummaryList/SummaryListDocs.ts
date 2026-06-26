@@ -31,5 +31,3 @@ export const SummaryListProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const StepEvents: PropertiesTableProps = {}
