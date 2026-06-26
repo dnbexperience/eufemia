@@ -18,6 +18,14 @@ export function escapeMarkdownTableCell(value: string) {
   return value.replace(/[\\|]/g, '\\$&').trim()
 }
 
+export function escapeMarkdownLinkText(value: string) {
+  return value.replace(/[\\[\]]/g, '\\$&')
+}
+
+export function escapeMarkdownLinkUrl(value: string) {
+  return value.replace(/[()]/g, (char) => (char === '(' ? '%28' : '%29'))
+}
+
 export function toRgbString(hex: string) {
   try {
     let hexOnly = hex.replace(/^#/, '')

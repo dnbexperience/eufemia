@@ -3,7 +3,7 @@ import {
   DatePickerEvents,
 } from '../../../../components/date-picker/DatePickerDocs'
 import type { PropertiesTableProps } from '../../../../shared/types'
-import { datePickerPropKeys } from './Date'
+import { datePickerPropKeys } from './datePickerPropKeys'
 
 // Build the subset of DatePickerProperties that Field.Date forwards,
 // using datePickerPropKeys as the source of truth.

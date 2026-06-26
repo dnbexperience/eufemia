@@ -3,6 +3,7 @@ export type SpecialMdxRendererDeps = {
   findPackageRoot: (pkgName: string) => string | null
   toPascalCase: (value: string) => string
   inputDir: string
+  inputPath: string
   docsRoot: string
   importsByFile: Map<string, string[]>
   toSlugAndDir: (
