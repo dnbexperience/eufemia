@@ -151,7 +151,7 @@
     "@eslint/compat": "2.1.0",
     "@eslint/eslintrc": "3.3.5",
     "@eslint/js": "10.0.1",
-    "@modelcontextprotocol/sdk": "1.26.0",
+    "@modelcontextprotocol/sdk": "1.29.0",
     "@playwright/test": "1.60.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "13.0.1",
