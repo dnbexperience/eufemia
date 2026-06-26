@@ -1,0 +1,27 @@
+{
+  "name": "@dnb/eufemia-mcp",
+  "version": "1.0.0",
+  "description": "Eufemia MCP server for AWS Lambda",
+  "main": "dist/lambda-handler.mjs",
+  "scripts": {
+    "build": "rm -rf dist && yarn workspace @dnb/eufemia build:docs && esbuild src/transports/lambda-handler.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/lambda-handler.mjs '--external:@aws-sdk/*' && mkdir -p dist/docs && cp -R ../../packages/dnb-eufemia/build/docs/. dist/docs && cd dist && zip -rq lambda.zip lambda-handler.mjs docs",
+    "dev": "tsx src/transports/stdio.ts",
+    "test": "vitest run",
+    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'",
+    "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
+    "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "zod": "4.1.8"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.161",
+    "esbuild": "0.25.5",
+    "tsx": "4.22.4",
+    "typescript": "5.9.3",
+    "vitest": "4.1.8"
+  }
+}

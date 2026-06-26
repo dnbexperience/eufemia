@@ -156,20 +156,36 @@ jobs:
         env:
           URL: ${{ steps.deploy.outputs.url }}
         run: |
-          set -euo pipefail
+          # Note: no `-e` during polling so a non-zero curl exit doesn't abort
+          # the loop; failures are handled explicitly below.
+          set -uo pipefail
+          body="$(mktemp)"
           echo "Polling ${URL}/healthz ..."
           for i in $(seq 1 30); do
-            if curl -fsS "${URL}/healthz" >/dev/null; then
+            code="$(curl -sS -o "${body}" -w '%{http_code}' "${URL}/healthz" || echo 000)"
+            if [ "${code}" = "200" ]; then
               echo "Healthy after ${i}s"
               break
             fi
+            # Cloudflare error 1027 = Workers Free plan daily request limit
+            # (100k/day, account-wide) exceeded. The edge returns 429 for every
+            # worker on the account until it resets at midnight UTC, so this is
+            # not a problem with this deploy. Treat it as a non-fatal skip
+            # rather than failing unrelated branch CI.
+            if [ "${code}" = "429" ] && grep -qi 'error code: 1027' "${body}"; then
+              echo "::warning::Skipping smoke test: Cloudflare edge returned 429 / error 1027 (Workers Free plan daily request limit exceeded, account-wide). The worker deployed successfully; the edge rate-limits all requests until the limit resets at midnight UTC."
+              exit 0
+            fi
             if [ "$i" -eq 30 ]; then
-              echo "Worker did not become healthy in 30s" >&2
-              curl -i "${URL}/healthz" || true
+              echo "Worker did not become healthy in 30s (last status: ${code})" >&2
+              cat "${body}" >&2 || true
               exit 1
             fi
             sleep 1
           done
+
+          # Restore strict mode for the post-health checks.
+          set -e
 
           echo "/healthz response:"
           curl -fsS "${URL}/healthz"
