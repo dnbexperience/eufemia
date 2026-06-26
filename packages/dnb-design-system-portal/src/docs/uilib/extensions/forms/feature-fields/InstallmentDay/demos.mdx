@@ -1,0 +1,53 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Default
+
+Days 1–28 with "Last day of month".
+
+<Examples.Default />
+
+### With a value
+
+<Examples.WithValue />
+
+### Constrained days
+
+Use the `days` prop to limit available options to specific days.
+
+<Examples.ConstrainedDays />
+
+### Without last day of month
+
+Use `showLastDay={false}` to hide the "Last day of month" option.
+
+<Examples.WithoutLastDay />
+
+### Constrained days without last day
+
+Combine `days` and `showLastDay={false}` for a compact selection without the "Last day of month" option.
+
+<Examples.ConstrainedWithoutLastDay />
+
+### Required
+
+<Examples.Required />
+
+### Disabled
+
+<Examples.Disabled />
+
+### With help
+
+<Examples.WithHelp />
+
+### Transform to a backend format
+
+Internally the field works with clean values – a number (`1`–`28`) or `'last'`. When the backend expects a different wire format, such as a fixed two-digit day (`'01'`–`'28'`) with a sentinel for the last day of the month, use `transformOut` to convert the value at the API boundary. The converted value is what gets stored in the form data and passed to `onChange` and `onSubmit`. Use `transformIn` to convert incoming data (for example initial values) back to the field's internal value so it displays correctly.
+
+<Examples.TransformToBackendFormat />
