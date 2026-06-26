@@ -12,6 +12,13 @@ The server is stateless — each request creates a fresh MCP transport, processe
 
 For local development, a stdio transport is also available.
 
+> **Relationship to the Worker MCP:** An earlier MCP implementation lives as a
+> Cloudflare Worker under [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/)
+> (deployed by [`mcp-worker.yml`](../../.github/workflows/mcp-worker.yml)). This
+> Lambda-based server is the standalone successor; the two currently coexist.
+> The `slug` and `fromIndex` fields in `component_find` results are retained
+> only for parity with the Worker MCP and will be removed once it is retired.
+
 ## Available tools
 
 | Tool              | Description                                                    |
@@ -30,7 +37,7 @@ Component names support dot-notation: `Button`, `Field.Address`, `Value.Name`, `
 
 ## Prerequisites
 
-- Node.js 22+
+- Node.js — the repo pins Node 24 via Volta for local development; the deployed Lambda runtime is Node 22
 - Yarn (workspace-aware)
 - AWS CLI configured with appropriate credentials
 - Terraform >= 1.5
