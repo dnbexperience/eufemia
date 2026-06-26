@@ -22,5 +22,3 @@ export const WizardNextButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
-
-export const WizardNextButtonEvents: PropertiesTableProps = {}
