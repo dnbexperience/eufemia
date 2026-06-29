@@ -5,11 +5,25 @@ import path from 'path'
 import {
   cleanComponentTitle,
   componentCategoryOrder,
+  excludedSlugs,
   getComponentCategoryTitle,
   loadComponentCatalog,
   normalizeComponentSlug,
   toRelatedReason,
 } from '../../src/extensions/mdx/componentCatalog.ts'
+import { MAX_VISIBLE_RELATED } from '../../src/extensions/mdx/relatedComponents.ts'
+
+function readPortalSource(repoRoot: string, ...segments: string[]) {
+  return fs.readFileSync(
+    path.join(
+      repoRoot,
+      'packages',
+      'dnb-design-system-portal',
+      ...segments
+    ),
+    'utf-8'
+  )
+}
 
 function writeComponent(
   componentsDir: string,
@@ -144,17 +158,12 @@ describe('componentCatalog', () => {
 
   it('stays in sync with the portal componentCategories source', () => {
     const repoRoot = path.resolve(process.cwd(), '..', '..')
-    const portalSource = fs.readFileSync(
-      path.join(
-        repoRoot,
-        'packages',
-        'dnb-design-system-portal',
-        'src',
-        'shared',
-        'parts',
-        'componentCategories.ts'
-      ),
-      'utf-8'
+    const portalSource = readPortalSource(
+      repoRoot,
+      'src',
+      'shared',
+      'parts',
+      'componentCategories.ts'
     )
 
     const blockMatch = portalSource.match(
@@ -162,17 +171,72 @@ describe('componentCatalog', () => {
     )
     expect(blockMatch).not.toBeNull()
 
-    const portalCategories: Array<{ id: string; title: string }> = []
-    const entryRegex = /\{\s*id:\s*'([^']+)',\s*title:\s*'([^']+)'/g
+    const portalCategories: Array<{
+      id: string
+      title: string
+      description: string
+    }> = []
+    // Captures id, title and description (the description value sits on the
+    // line after `description:`, so `\s*` spans the newline). None of the
+    // descriptions contain a single quote, so `'([^']+)'` is sufficient.
+    const entryRegex =
+      /\{\s*id:\s*'([^']+)',\s*title:\s*'([^']+)',\s*description:\s*'([^']+)'/g
     let match: RegExpExecArray | null
 
     while ((match = entryRegex.exec(blockMatch?.[1] || ''))) {
-      portalCategories.push({ id: match[1], title: match[2] })
+      portalCategories.push({
+        id: match[1],
+        title: match[2],
+        description: match[3],
+      })
     }
 
     expect(portalCategories.length).toBeGreaterThan(0)
     expect(
-      componentCategoryOrder.map(({ id, title }) => ({ id, title }))
+      componentCategoryOrder.map(({ id, title, description }) => ({
+        id,
+        title,
+        description,
+      }))
     ).toEqual(portalCategories)
+  })
+
+  it('excludedSlugs stays in sync with the portal source', () => {
+    const repoRoot = path.resolve(process.cwd(), '..', '..')
+    const portalSource = readPortalSource(
+      repoRoot,
+      'src',
+      'shared',
+      'parts',
+      'componentCategories.ts'
+    )
+
+    const blockMatch = portalSource.match(
+      /excludedSlugs\s*=\s*new Set\(\[([\s\S]*?)\]\)/
+    )
+    expect(blockMatch).not.toBeNull()
+
+    const portalExcluded = Array.from(
+      (blockMatch?.[1] || '').matchAll(/'([^']+)'/g),
+      (entry) => entry[1]
+    )
+
+    expect(portalExcluded.length).toBeGreaterThan(0)
+    expect([...excludedSlugs].sort()).toEqual([...portalExcluded].sort())
+  })
+
+  it('MAX_VISIBLE_RELATED stays in sync with the portal source', () => {
+    const repoRoot = path.resolve(process.cwd(), '..', '..')
+    const portalSource = readPortalSource(
+      repoRoot,
+      'src',
+      'shared',
+      'parts',
+      'RelatedComponents.tsx'
+    )
+
+    const match = portalSource.match(/MAX_VISIBLE_RELATED\s*=\s*(\d+)/)
+    expect(match).not.toBeNull()
+    expect(MAX_VISIBLE_RELATED).toBe(Number(match?.[1]))
   })
 })

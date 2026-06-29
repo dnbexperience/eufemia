@@ -68,7 +68,7 @@ const categoryIds = new Set<string>(
   componentCategoryOrder.map(({ id }) => id)
 )
 
-const excludedSlugs = new Set([
+export const excludedSlugs = new Set([
   'uilib/components/fragments',
   'uilib/components/overview',
 ])

@@ -16,7 +16,7 @@ import { escapeMarkdownLinkText, escapeMarkdownLinkUrl } from './utils.ts'
 
 // Mirrors MAX_VISIBLE_RELATED in
 // packages/dnb-design-system-portal/src/shared/parts/RelatedComponents.tsx
-const MAX_VISIBLE_RELATED = 6
+export const MAX_VISIBLE_RELATED = 6
 
 export function createRelatedComponentsExtension(
   deps: SpecialMdxRendererDeps

@@ -6,8 +6,11 @@ import {
 } from './utils.ts'
 
 /**
- * Renders the portal `MenuCard` navigation cards into a markdown link list
- * and strips the surrounding `Card.List` wrapper, e.g.
+ * Renders the portal `MenuCard` navigation cards into a markdown link list.
+ *
+ * A `Card.List` wrapper is only unwrapped when it actually contains
+ * `MenuCard`s, so unrelated `Card.List` blocks in the same file are left
+ * untouched. For example:
  *
  *   <Card.List>
  *     <MenuCard url="/x" title="X" about="About X" icon={Icon} />
@@ -29,28 +32,35 @@ function replaceMenuCards(content: string) {
     return content
   }
 
-  let output = content.replace(
-    /^[ \t]*<MenuCard\b[\s\S]*?\/>/gm,
-    (tag) => {
-      const attrs = parseSimpleJsxStringAttributes(tag)
-      const url = attrs.url?.trim()
-      const title = attrs.title?.trim()
-      const about = attrs.about?.trim()
+  // Unwrap only the `Card.List` blocks that actually contain `MenuCard`s,
+  // rendering the cards in place and dropping the surrounding wrapper. Other
+  // `Card.List` blocks in the same file are left untouched.
+  const cardListBlock =
+    /^[ \t]*<Card\.List\b[^>]*>[ \t]*\r?\n([\s\S]*?)\r?\n[ \t]*<\/Card\.List>[ \t]*$/gm
 
-      if (!url || !title) {
-        return tag
-      }
-
-      const link = `[${escapeMarkdownLinkText(title)}](${escapeMarkdownLinkUrl(url)})`
-
-      return about ? `- ${link} – ${about}` : `- ${link}`
-    }
+  let output = content.replace(cardListBlock, (block, inner) =>
+    inner.includes('<MenuCard') ? renderMenuCardTags(inner) : block
   )
 
-  // Remove the surrounding Card.List wrapper, keeping the rendered list items.
-  output = output
-    .replace(/^[ \t]*<Card\.List\b[^>]*>[ \t]*$/gm, '')
-    .replace(/^[ \t]*<\/Card\.List>[ \t]*$/gm, '')
+  // Render any `MenuCard`s that are not wrapped in a `Card.List`.
+  output = renderMenuCardTags(output)
 
   return output
+}
+
+function renderMenuCardTags(text: string) {
+  return text.replace(/^[ \t]*<MenuCard\b[\s\S]*?\/>/gm, (tag) => {
+    const attrs = parseSimpleJsxStringAttributes(tag)
+    const url = attrs.url?.trim()
+    const title = attrs.title?.trim()
+    const about = attrs.about?.trim()
+
+    if (!url || !title) {
+      return tag
+    }
+
+    const link = `[${escapeMarkdownLinkText(title)}](${escapeMarkdownLinkUrl(url)})`
+
+    return about ? `- ${link} – ${about}` : `- ${link}`
+  })
 }
