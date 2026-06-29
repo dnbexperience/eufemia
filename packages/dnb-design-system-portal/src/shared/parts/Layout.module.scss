@@ -191,6 +191,10 @@
   &:global(.dnb-section) {
     display: flex;
   }
+
+  :global(.eufemia-theme__color-scheme--dark) & :global(.dnb-logo) svg {
+    fill: var(--token-color-text-neutral);
+  }
 }
 
 .contentStyle {
