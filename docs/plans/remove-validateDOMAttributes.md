@@ -81,7 +81,8 @@ First arg is `null` (17) or `{}` (5): no `attributes` spread, so this is purely 
 The bulk of components. Drop the no-op `attributes` spread, destructure known/layout props, spread the rest. Migrate in small batches (5–8 files/PR), screenshot-tested each batch. Representative files:
 - [x] **Table, Avatar, Timeline, Breadcrumb** — calls were redundant: `validateDOMAttributes(allProps, props)` is immediately followed by `useSpacing(allProps, { ...props })`, which already strips spacing; none has a public `attributes` prop. Deleted calls + imports.
 - [x] **Badge** — used `removeSpaceProps` (the badge `<span>` spreads `restProps` directly, bypassing `useSpacing`); existing test already asserts the element's exact attribute list. **TableContainer** — turned out redundant (its `rest` flows through `useSpacing(props, { ...rest })`); deleted call + import.
-- [ ] Remaining: [Heading.tsx](packages/dnb-eufemia/src/components/heading/Heading.tsx#L279), [Accordion*.tsx](packages/dnb-eufemia/src/components/accordion/Accordion.tsx#L426), [Logo.tsx](packages/dnb-eufemia/src/components/logo/Logo.tsx#L176), [InfoCard.tsx](packages/dnb-eufemia/src/components/info-card/InfoCard.tsx#L169), the `stat/*` and `progress-indicator/*` files, etc.
+- [x] **stat/Content, stat/Label, stat/Text, Heading, Logo, InfoCard, ProgressIndicator (+Circular, +Linear)** — all redundant: the DOM object flows through `useSpacing` (and Circular/Linear have no `SpacingProps`, so their `rest` can't carry spacing). Removed calls + imports.
+- [ ] Remaining Phase 3: [Accordion.tsx](packages/dnb-eufemia/src/components/accordion/Accordion.tsx#L426), AccordionContent, AccordionGroup, AccordionHeader, plus any other single-call `props`-arg files surfaced by the live grep.
 
 ### Phase 4 — Migrate components WITH a public `attributes` prop (preserve Job A)
 Must keep spreading the public `attributes` prop (with the pollution guard) — only the layout-strip changes.
