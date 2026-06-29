@@ -7,10 +7,7 @@ import type {
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
 import type { SpacingProps } from '../../shared/types'
-import {
-  convertJsxToString,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { convertJsxToString } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import useStatSkeleton from './useStatSkeleton'
 import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
@@ -66,25 +63,22 @@ function TextInternal(props: TextInternalProps) {
     : textValue
   const ariaLabel = srLabel ? srText : rest['aria-label']
 
-  const attributes = validateDOMAttributes(
-    props,
-    useSpacing(props, {
-      ...rest,
-      'aria-label': ariaLabel,
-      style,
-      className: clsx(
-        textClassName,
-        textClassName && fontSize && `dnb-t__size--${fontSize}`,
-        textClassName &&
-          fontSize &&
-          `dnb-t__line-height--${getHeadingLineHeightSize(fontSize)}`,
-        textClassName && fontWeight && `dnb-t__weight--${fontWeight}`,
-        resolvedSignTone && `dnb-stat--tone-${resolvedSignTone}`,
-        skeletonClass,
-        className
-      ),
-    })
-  )
+  const attributes = useSpacing(props, {
+    ...rest,
+    'aria-label': ariaLabel,
+    style,
+    className: clsx(
+      textClassName,
+      textClassName && fontSize && `dnb-t__size--${fontSize}`,
+      textClassName &&
+        fontSize &&
+        `dnb-t__line-height--${getHeadingLineHeightSize(fontSize)}`,
+      textClassName && fontWeight && `dnb-t__weight--${fontWeight}`,
+      resolvedSignTone && `dnb-stat--tone-${resolvedSignTone}`,
+      skeletonClass,
+      className
+    ),
+  })
 
   applySkeletonAttributes(attributes)
 

@@ -8,7 +8,7 @@ import type {
   TypographyWeight,
 } from '../../elements/typography/Typography'
 import { getHeadingLineHeightSize } from '../../elements/typography/Typography'
-import { validateDOMAttributes, warn } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
@@ -63,24 +63,21 @@ function Label(props: LabelProps) {
     warn('Stat.Label should be used inside Stat.Root')
   }
 
-  const attributes = validateDOMAttributes(
-    props,
-    useSpacing(props, {
-      ...rest,
-      style,
-      className: clsx(
-        'dnb-stat',
-        'dnb-stat__label',
-        `dnb-stat__label--${variant}`,
-        srOnly && 'dnb-sr-only',
-        `dnb-t__size--${fontSize}`,
-        `dnb-t__line-height--${resolvedLineHeight}`,
-        `dnb-t__weight--${fontWeight}`,
-        skeletonClass,
-        className
-      ),
-    })
-  )
+  const attributes = useSpacing(props, {
+    ...rest,
+    style,
+    className: clsx(
+      'dnb-stat',
+      'dnb-stat__label',
+      `dnb-stat__label--${variant}`,
+      srOnly && 'dnb-sr-only',
+      `dnb-t__size--${fontSize}`,
+      `dnb-t__line-height--${resolvedLineHeight}`,
+      `dnb-t__weight--${fontWeight}`,
+      skeletonClass,
+      className
+    ),
+  })
 
   applySkeletonAttributes(attributes)
 
