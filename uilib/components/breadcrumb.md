@@ -1,8 +1,8 @@
 ---
 title: 'Breadcrumb'
 description: 'Use Breadcrumb to show where someone is and let them move back up the path.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.110Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.157Z
 checksum: 69961006f2a91fb32032f9ab274215ceced4424c4dc7a062cfd6b9f591d579d1
 ---
 
@@ -24,7 +24,16 @@ The Breadcrumb is a component for navigation and for showing the current website
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/breadcrumb)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/breadcrumb)
 
-<RelatedComponents />
+
+## Related components
+
+Breadcrumb is part of the [Navigation](/uilib/components/overview/#navigation) category. Other components for similar needs:
+
+- [InfinityScroller](/uilib/components/pagination/infinity-scroller/) – to load more content automatically as people scroll.
+- [Pagination](/uilib/components/pagination/) – to split long content into pages or load more content as people move through it.
+- [SkipContent](/uilib/components/skip-content/) – to help keyboard users jump past large or repeated content.
+- [StepIndicator](/uilib/components/step-indicator/) – to show progress through a process with several steps.
+- [Tabs](/uilib/components/tabs/) – to let people switch between related views on the same page.
 
 
 ## Demos

@@ -1,8 +1,8 @@
 ---
 title: 'PortalRoot'
 description: 'Use PortalRoot to render floating content outside the normal page structure.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.426Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.432Z
 checksum: 9e4431df834c9b59cac82d30a49e56b95a0858679657373ee1a87dc1a6590110
 ---
 
@@ -172,7 +172,14 @@ render(
 
 When `off` is set, every form component inside the scope will have `translate="no"` on both its trigger element and its portal content. Without `off`, the component renders children as-is.
 
-<RelatedComponents />
+
+## Related components
+
+PortalRoot is part of the [Other](/uilib/components/overview/#other) category. Other components for similar needs:
+
+- [CopyOnClick](/uilib/components/copy-on-click/) – when people should copy text by clicking it.
+- [HeightAnimation](/uilib/components/height-animation/) – to animate content as it opens or closes.
+- [ScrollView](/uilib/components/fragments/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
 
 ## Properties
 

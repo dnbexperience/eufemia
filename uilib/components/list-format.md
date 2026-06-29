@@ -1,8 +1,8 @@
 ---
 title: 'ListFormat'
 description: 'Use ListFormat to show lists of values in the correct DNB format.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.336Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.357Z
 checksum: 4703040dec6c8fb984f2068d6befe66becaa5ac363c99ed4ed4d91b2313548e1
 ---
 
@@ -53,7 +53,19 @@ See the following [demo](/uilib/components/list-format/demos/#using-listformat-f
 
 The `listFormat` function supports an object with `{ format, locale }` as the second parameter. `format` and `locale` will accept the same values as documented in [format property](/uilib/components/list-format/properties/) of the `ListFormat` component.
 
-<RelatedComponents />
+
+## Related components
+
+ListFormat is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

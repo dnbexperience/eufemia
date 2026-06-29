@@ -1,8 +1,8 @@
 ---
 title: 'Accordion'
 description: 'Use Accordion to let people open and close sections of related content.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.037Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.091Z
 checksum: ed8bd1d380d09a80db321e550b4bbe69b0d9e81646d6e8dd672db3fccbe8b736
 ---
 
@@ -44,7 +44,19 @@ Both `Accordion.Provider` and `Accordion.Group` are available. They're technical
 
 **Note:** Please avoid using a group when possible, as it creates unexpected behavior from an accessibility perspective. When a user interacts with one accordion, it triggers an action elsewhere, outside the current context—something users may not expect. It's an automated, out-of-context UI execution.
 
-<RelatedComponents />
+
+## Related components
+
+Accordion is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+- [Icon](/uilib/components/icon/) – to render and size an icon in line with Eufemia styling.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

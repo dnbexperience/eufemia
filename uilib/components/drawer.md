@@ -1,8 +1,8 @@
 ---
 title: 'Drawer'
 description: 'Use Drawer to show extra content in a panel that slides in from the side.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.202Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.230Z
 checksum: 7aed09685bfb5a1ba5a8c8a5a6765e51e8e9443dd03bb316b7dd6e4b56af7f9d
 ---
 
@@ -40,7 +40,19 @@ For more details regarding the component functionality, check out the [Modal doc
 
 The Drawer component uses [PortalRoot](/uilib/components/portal-root) internally to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
-<RelatedComponents />
+
+## Related components
+
+Drawer is part of the [Feedback](/uilib/components/overview/#feedback) category. Other components for similar needs:
+
+- [AriaLive](/uilib/components/aria-live/) – to announce page changes to screen reader users.
+- [Badge](/uilib/components/badge/) – to highlight new, unread, or important information.
+- [Dialog](/uilib/components/dialog/) – when people need to make a choice or read an important message before continuing.
+- [FormStatus](/uilib/components/form-status/) – to show validation errors, warnings, or messages near a form.
+- [GlobalError](/uilib/components/global-error/) – to show a clear 404 or 500 error page.
+- [GlobalStatus](/uilib/components/global-status/) – to show important page-level messages or a summary of form errors.
+
+[See all in Feedback](/uilib/components/overview/#feedback)
 
 
 ## Demos

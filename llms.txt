@@ -4,7 +4,7 @@
 
 ## Version
 
-This documentation reflects Eufemia **v11.8.0**, generated 2026-06-26T12:38:16.606Z.
+This documentation reflects Eufemia **v11.8.1**, generated 2026-06-29T11:30:09.575Z.
 
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
@@ -163,7 +163,7 @@ For any page (component, field, value, etc.):
 
 - [dnb-ui-lib](https://eufemia.dnb.no/uilib/about-the-lib/releases/dnb-ui-lib.md): Look into the documentation for more details.
 
-- [Form-Set-Row-Deprecation-V11](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11.md): Look into the documentation for more details.
+- [Deprecation](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11.md): Look into the documentation for more details.
 
 - [v10](https://eufemia.dnb.no/uilib/about-the-lib/releases/eufemia/v10-info.md): May, 31. 2023
 
@@ -749,5 +749,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.8.0
-GeneratedAt: 2026-06-26T12:38:16.606Z
+Version: 11.8.1
+GeneratedAt: 2026-06-29T11:30:09.575Z

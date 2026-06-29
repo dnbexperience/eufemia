@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'Use Autocomplete to help people find and choose from matching suggestions as they type.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.080Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.133Z
 checksum: 27e85a1eff285950c54cb6946eec7ab5504783064cb7f5ca016adc662982fe89
 ---
 
@@ -226,7 +226,19 @@ You can manipulate the used data dynamically, either by changing the `data` prop
 
 The Autocomplete component uses [PortalRoot](/uilib/components/portal-root) internally to render its option list. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
-<RelatedComponents />
+
+## Related components
+
+Autocomplete is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+- [Input](/uilib/components/input/) – when people need to enter a short line of text.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

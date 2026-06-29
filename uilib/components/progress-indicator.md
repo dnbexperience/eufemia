@@ -1,8 +1,8 @@
 ---
 title: 'ProgressIndicator'
 description: 'Use ProgressIndicator to show that something is loading or processing.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.432Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.439Z
 checksum: cb68082ac8faec507182d0eebb60ddccffbf6e4af9c88aea4d6f1717bf59877f
 ---
 
@@ -61,7 +61,19 @@ Use the `show` prop to control when the indicator appears and disappears. When `
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/progress-indicator)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/progress-indicator)
 
-<RelatedComponents />
+
+## Related components
+
+ProgressIndicator is part of the [Feedback](/uilib/components/overview/#feedback) category. Other components for similar needs:
+
+- [AriaLive](/uilib/components/aria-live/) – to announce page changes to screen reader users.
+- [Badge](/uilib/components/badge/) – to highlight new, unread, or important information.
+- [Dialog](/uilib/components/dialog/) – when people need to make a choice or read an important message before continuing.
+- [Drawer](/uilib/components/drawer/) – to show extra content in a panel that slides in from the side.
+- [FormStatus](/uilib/components/form-status/) – to show validation errors, warnings, or messages near a form.
+- [GlobalError](/uilib/components/global-error/) – to show a clear 404 or 500 error page.
+
+[See all in Feedback](/uilib/components/overview/#feedback)
 
 
 ## Demos

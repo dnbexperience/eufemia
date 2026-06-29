@@ -1,8 +1,8 @@
 ---
 title: 'CopyOnClick'
 description: 'Use CopyOnClick when people should copy text by clicking it.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.150Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.187Z
 checksum: d295fb202d99102f67fd6615cb964c459dc2d8eea69dfec0225775022aaef4b0
 ---
 
@@ -38,7 +38,14 @@ render(
 )
 ```
 
-<RelatedComponents />
+
+## Related components
+
+CopyOnClick is part of the [Other](/uilib/components/overview/#other) category. Other components for similar needs:
+
+- [HeightAnimation](/uilib/components/height-animation/) – to animate content as it opens or closes.
+- [PortalRoot](/uilib/components/portal-root/) – to render floating content outside the normal page structure.
+- [ScrollView](/uilib/components/fragments/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
 
 
 ## Demos

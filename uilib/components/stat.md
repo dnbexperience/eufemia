@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Use Stat to highlight an important number, label, or trend.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.723Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.694Z
 checksum: c798923712167dbf7054c673bd7787654db7d2abd1c22bcf48055fcbce114b64
 ---
 
@@ -57,7 +57,19 @@ import { Stat } from '@dnb/eufemia'
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/stat)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/stat)
 
-<RelatedComponents />
+
+## Related components
+
+Stat is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

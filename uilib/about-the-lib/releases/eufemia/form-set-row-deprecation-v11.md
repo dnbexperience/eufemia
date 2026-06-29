@@ -1,10 +1,10 @@
 ---
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:08.338Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:02.386Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-## Deprecation
+# Deprecation
 
 To replace FormSet or FormRow, use the Eufemia [Provider](/uilib/usage/customisation/provider-info) and [Flex](/uilib/layout/flex) as well as the Eufemia [Forms Extension](/uilib/extensions/forms).
 

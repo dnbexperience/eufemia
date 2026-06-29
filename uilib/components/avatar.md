@@ -1,8 +1,8 @@
 ---
 title: 'Avatar'
 description: 'Use Avatar to make a person, company, or profile easier to recognize.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.091Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.142Z
 checksum: 75123a1a9562842f0649bead3c3a09647f767cc4557d900e0a0b8abd7cc05bce
 ---
 
@@ -24,7 +24,19 @@ Avatars are identifiers that make people and companies more scannable for paymen
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/avatar)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/avatar)
 
-<RelatedComponents />
+
+## Related components
+
+Avatar is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+- [Icon](/uilib/components/icon/) – to render and size an icon in line with Eufemia styling.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

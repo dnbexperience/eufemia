@@ -1,8 +1,8 @@
 ---
 title: 'Lead'
 description: 'A lead paragraph is the opening paragraph of an article, etc.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.882Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.862Z
 checksum: 4774a0918e79dc38bc1ffed225923a088efeec3346db6b43950bdf06c2a7748b
 ---
 

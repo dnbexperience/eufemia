@@ -1,8 +1,8 @@
 ---
 title: 'Input'
 description: 'Use Input when people need to enter a short line of text.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.314Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.339Z
 checksum: 8ae54b56864004ea62435cdb77dc967f40e2d4d7f17b6f220cd48f6a646fe646
 ---
 
@@ -70,7 +70,19 @@ render(<Field.String label="Label text" placeholder="Enter your text" multiline 
 ```
 
 
-<RelatedComponents />
+
+## Related components
+
+Input is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

@@ -1,8 +1,8 @@
 ---
 title: 'StepIndicator'
 description: 'Use StepIndicator to show progress through a process with several steps.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.730Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.701Z
 checksum: 7094e7f08cf3afc69f190c375d8431006f20b457a07ad2e731e6ad137f4dbe05
 ---
 
@@ -65,7 +65,16 @@ const steps = [
 
 More details about modifying steps in the [properties panel](/uilib/components/step-indicator/properties#step-item-properties).
 
-<RelatedComponents />
+
+## Related components
+
+StepIndicator is part of the [Navigation](/uilib/components/overview/#navigation) category. Other components for similar needs:
+
+- [Breadcrumb](/uilib/components/breadcrumb/) – to show where someone is and let them move back up the path.
+- [InfinityScroller](/uilib/components/pagination/infinity-scroller/) – to load more content automatically as people scroll.
+- [Pagination](/uilib/components/pagination/) – to split long content into pages or load more content as people move through it.
+- [SkipContent](/uilib/components/skip-content/) – to help keyboard users jump past large or repeated content.
+- [Tabs](/uilib/components/tabs/) – to let people switch between related views on the same page.
 
 
 ## Demos

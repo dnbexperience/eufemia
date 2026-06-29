@@ -1,8 +1,8 @@
 ---
 title: 'Icon'
 description: 'Use Icon to render and size an icon in line with Eufemia styling.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.290Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.315Z
 checksum: b98a4453b871bd7a5f0c3d48e34ad2f3f5acac3fed6daf200822fe89dc43f67d
 ---
 
@@ -121,7 +121,19 @@ render(<Icon size="medium">{CustomIcon}</Icon>)
 
 There is also the [IconPrimary](/uilib/components/icon-primary) component, which comes with all the [Primary Icons](/icons/primary) included in `@dnb/eufemia`. You do not have to import the primary icons separately.
 
-<RelatedComponents />
+
+## Related components
+
+Icon is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

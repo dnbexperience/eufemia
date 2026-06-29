@@ -1,8 +1,8 @@
 ---
 title: 'HelpButton'
 description: 'Use HelpButton when a short explanation should be available next to a label or control.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.283Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.308Z
 checksum: 5241f932b12afce6aefcbc6a511134e8e32f093f2b57d60afa7efad863b9417c
 ---
 
@@ -26,7 +26,14 @@ This button is used as the default [Modal trigger button](/uilib/components/moda
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/help-button)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/help-button)
 
-<RelatedComponents />
+
+## Related components
+
+HelpButton is part of the [Actions](/uilib/components/overview/#actions) category. Other components for similar needs:
+
+- [Anchor](/uilib/components/anchor/) – to take people to another page, section, or website.
+- [Button](/uilib/components/button/) – when people need to start, confirm, or submit an action.
+- [Menu](/uilib/components/menu/) – when people need to choose from a small list of actions or links.
 
 
 ## Demos

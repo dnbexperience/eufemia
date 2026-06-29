@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'Use DateFormat to show dates in the correct DNB format.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.161Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.198Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 
@@ -90,7 +90,19 @@ This is helpful when you are comparing "today" against backend data or applying 
 | `locale`  | `AnyLocale`                  | `'nb-NO'`                | The locale to use for formatting.                                                                                                                                 |
 | `options` | `Intl.DateTimeFormatOptions` | `{ dateStyle: 'short' }` | The format options following the [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) API. |
 
-<RelatedComponents />
+
+## Related components
+
+DateFormat is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+- [Icon](/uilib/components/icon/) – to render and size an icon in line with Eufemia styling.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

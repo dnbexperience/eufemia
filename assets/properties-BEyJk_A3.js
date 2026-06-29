@@ -1,0 +1,6 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-BsJ3GLEw.js";import{n as r}from"./PropertiesTable-Dp9wIaVu.js";import{i,r as a}from"./RadioDocs-DfzbI59-.js";var o=e(t());function s(e){let t={code:`code`,h2:`h2`,h3:`h3`,p:`p`,strong:`strong`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`Radio`}),` properties`]}),`
+`,(0,o.jsx)(r,{props:i}),`
+`,(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`Radio.Group`}),` properties`]}),`
+`,(0,o.jsx)(r,{props:a}),`
+`,(0,o.jsx)(t.h3,{children:`Radio group Context`}),`
+`,(0,o.jsxs)(t.p,{children:[`You can also pass through `,(0,o.jsx)(t.code,{children:`labelPosition`}),` and some more `,(0,o.jsx)(t.strong,{children:`Radio button`}),` properties to the Group. This way all nested Radio buttons will get the properties.`]})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

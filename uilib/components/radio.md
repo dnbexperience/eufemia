@@ -1,8 +1,8 @@
 ---
 title: 'Radio'
 description: 'Use Radio when people must choose one option from a set.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.439Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.457Z
 checksum: 0ff62ef4dc4f9902fb7503d2aff5efc2bb72d942d5a55d0a119bedfac85af14d
 ---
 
@@ -44,7 +44,19 @@ The Eufemia Forms equivalent of `Radio` is [Field.Selection](/uilib/extensions/f
 
 Radio buttons use semantic `<input type="radio">` elements grouped by the `name` attribute. Arrow keys navigate between options within a group, and Space selects an option. Screen readers announce the group label, current selection, and number of options.
 
-<RelatedComponents />
+
+## Related components
+
+Radio is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

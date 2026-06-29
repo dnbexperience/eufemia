@@ -1,8 +1,8 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'Use FormStatus to show validation errors, warnings, or messages near a form.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.245Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.270Z
 checksum: 37b289c1c4e8e7dd2caefd1a03e804b03c53c76bd12eb7df7b04ffb16ad7ba05
 ---
 
@@ -64,7 +64,19 @@ In order to enhance accessibility (readability), the FormStatus will align its w
 
 The `min-width` is set to be **12rem**. Use CSS `min-width` or `max-width` to set a custom (manual) width.
 
-<RelatedComponents />
+
+## Related components
+
+FormStatus is part of the [Feedback](/uilib/components/overview/#feedback) category. Other components for similar needs:
+
+- [AriaLive](/uilib/components/aria-live/) – to announce page changes to screen reader users.
+- [Badge](/uilib/components/badge/) – to highlight new, unread, or important information.
+- [Dialog](/uilib/components/dialog/) – when people need to make a choice or read an important message before continuing.
+- [Drawer](/uilib/components/drawer/) – to show extra content in a panel that slides in from the side.
+- [GlobalError](/uilib/components/global-error/) – to show a clear 404 or 500 error page.
+- [GlobalStatus](/uilib/components/global-status/) – to show important page-level messages or a summary of form errors.
+
+[See all in Feedback](/uilib/components/overview/#feedback)
 
 
 ## Demos

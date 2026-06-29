@@ -1,8 +1,8 @@
 ---
 title: 'SkipContent'
 description: 'Use SkipContent to help keyboard users jump past large or repeated content.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.455Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.471Z
 checksum: 3827157a79b6b2af94d3f748ae7c4f7340cbd8ad13ed17fded2eb8c769066ec7
 ---
 
@@ -103,7 +103,16 @@ The `SkipContent` helper component is mainly dedicated to keyboard navigation.
 
 In order to let screen readers skip large parts of content, you need to ensure your HTML has [logical landmarks and regions](/uilib/usage/accessibility/checklist/#landmark--and-semantics-example).
 
-<RelatedComponents />
+
+## Related components
+
+SkipContent is part of the [Navigation](/uilib/components/overview/#navigation) category. Other components for similar needs:
+
+- [Breadcrumb](/uilib/components/breadcrumb/) – to show where someone is and let them move back up the path.
+- [InfinityScroller](/uilib/components/pagination/infinity-scroller/) – to load more content automatically as people scroll.
+- [Pagination](/uilib/components/pagination/) – to split long content into pages or load more content as people move through it.
+- [StepIndicator](/uilib/components/step-indicator/) – to show progress through a process with several steps.
+- [Tabs](/uilib/components/tabs/) – to let people switch between related views on the same page.
 
 
 ## Demos

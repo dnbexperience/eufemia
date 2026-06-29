@@ -1,8 +1,8 @@
 ---
 title: 'Connector.Bring'
 description: 'Bring is a connector that allows you to fetch data from their REST API and use it in your form.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.941Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.917Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

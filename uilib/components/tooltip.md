@@ -1,8 +1,8 @@
 ---
 title: 'Tooltip'
 description: 'Use Tooltip to give a short hint or explanation for nearby content.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.803Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.764Z
 checksum: 9a14205f7fc333b4351e0d7c7aec4a20279bf674123a0e8595aba3e53981cb0c
 ---
 
@@ -55,7 +55,19 @@ To use the built-in hover/focus/touch behavior, omit the `open` property and let
 
 The Tooltip component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
-<RelatedComponents />
+
+## Related components
+
+Tooltip is part of the [Feedback](/uilib/components/overview/#feedback) category. Other components for similar needs:
+
+- [AriaLive](/uilib/components/aria-live/) – to announce page changes to screen reader users.
+- [Badge](/uilib/components/badge/) – to highlight new, unread, or important information.
+- [Dialog](/uilib/components/dialog/) – when people need to make a choice or read an important message before continuing.
+- [Drawer](/uilib/components/drawer/) – to show extra content in a panel that slides in from the side.
+- [FormStatus](/uilib/components/form-status/) – to show validation errors, warnings, or messages near a form.
+- [GlobalError](/uilib/components/global-error/) – to show a clear 404 or 500 error page.
+
+[See all in Feedback](/uilib/components/overview/#feedback)
 
 
 ## Demos

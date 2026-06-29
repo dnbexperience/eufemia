@@ -1,8 +1,8 @@
 ---
 title: 'Field.Expiry'
 description: '`Field.Expiry` is a wrapper component for the input of strings, with user experience tailored for expiry dates for payment cards.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:10.478Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:04.400Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

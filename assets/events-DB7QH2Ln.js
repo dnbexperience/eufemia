@@ -1,0 +1,4 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-BsJ3GLEw.js";import{n as r}from"./PropertiesTable-Dp9wIaVu.js";import{n as i,t as a}from"./BreadcrumbDocs-DQcpJAGO.js";var o=e(t());function s(e){let t={code:`code`,h2:`h2`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`Breadcrumb`}),` events`]}),`
+`,(0,o.jsx)(r,{props:a}),`
+`,(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`Breadcrumb.Item`}),` events`]}),`
+`,(0,o.jsx)(r,{props:i})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

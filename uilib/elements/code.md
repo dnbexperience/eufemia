@@ -1,9 +1,9 @@
 ---
 title: 'Code'
 description: 'The code and pre element is used for code and syntax highlighting.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.824Z
-checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.806Z
+checksum: c6dca9365d4527fa38f65c8d0801933be8e1918dcb2f125eb85ed10e9d3c2d3a
 ---
 
 # Code
@@ -14,14 +14,35 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 import { Code } from '@dnb/eufemia/elements'
 ```
 
+## Description
+
+The `code` and `pre` elements are used for code and syntax highlighting. Both `code` and `pre` tags are styled.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/elements/code)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/elements/code)
 
-## `code` and `pre` tag usage
+## Code and Typography
 
-Both `code` and `pre` tags are styled.
+`<code>` and `<pre>` use the [DNBMono](/uilib/typography) font:
+
+```css
+font-family: var(--font-family-monospace);
+```
+
+## Code and Syntax highlighting
+
+[Prism](https://prismjs.com) is a popular Syntax Highlighting tool. DNB has its own **theme** you can use:
+
+- `@dnb/eufemia/style/themes/ui/prism/dnb-prism-theme.js`
+
+You can find the theme and its definitions in the [GitHub repository](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/style/themes/ui/prism/dnb-prism-theme.js).
+
+
+## Demos
+
+### `code` and `pre` tags
 
 Use [Section](/uilib/components/section/demos/#dark-surface) or [Theme.Context](/uilib/usage/customisation/theming/theme#surface-property) with `surface="dark"` to provide dark surface context to supporting components.
 
@@ -45,19 +66,20 @@ render(<Flex.Stack>
       </Flex.Stack>)
 ```
 
+## Properties
 
-### Code and Typography
 
-`<code>` and `<pre>` use the [DNBMono](/uilib/typography) font:
-
-```css
-font-family: var(--font-family-monospace);
+```json
+{
+  "props": {
+    "[Space](/uilib/layout/space/properties)": {
+      "doc": "Spacing properties like `top` or `bottom` are supported.",
+      "type": [
+        "string",
+        "object"
+      ],
+      "status": "optional"
+    }
+  }
+}
 ```
-
-## Code and Syntax highlighting
-
-[Prism](https://prismjs.com) is a popular Syntax Highlighting tool. DNB has its own **theme** you can use:
-
-- `@dnb/eufemia/style/themes/ui/prism/dnb-prism-theme.js`
-
-You can find the theme and its definitions in the [GitHub repository](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/style/themes/ui/prism/dnb-prism-theme.js).

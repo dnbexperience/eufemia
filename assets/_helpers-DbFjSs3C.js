@@ -1,1 +1,0 @@
-import{t as e}from"./useTheme-Qd9zaGHO.js";import{o as t,s as n}from"./FormStatus-CEyR4Fi2.js";import{t as r}from"./properties-BWYlm51i.js";var i={sbanken:t,ui:n,eiendom:r},a=t=>{let n=(i[e().name]||i.ui)[t];return n&&n.startsWith(`var(`)?a(n.substring(4,n.indexOf(`)`))):n},o=e=>s(a(e)),s=(e=``)=>e.endsWith(`rem`)?parseFloat(e)*16+`px`:e;export{a as n,o as t};

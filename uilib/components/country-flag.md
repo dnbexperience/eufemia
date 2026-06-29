@@ -1,8 +1,8 @@
 ---
 title: 'CountryFlag'
 description: 'Use CountryFlag to show a country by its flag from an ISO country code.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.154Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.192Z
 checksum: 96858d9c7269f72350401c3a9b92c476b3cbdcea7f967c9c12932cbbe1d8c391
 ---
 
@@ -35,7 +35,19 @@ For UX designers, there is the [Figma Flags Library](https://www.figma.com/desig
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/country-flag)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/country-flag)
 
-<RelatedComponents />
+
+## Related components
+
+CountryFlag is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+- [Icon](/uilib/components/icon/) – to render and size an icon in line with Eufemia styling.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

@@ -1,8 +1,8 @@
 ---
 title: 'Slider'
 description: 'Use Slider when people need to choose a value from a range.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.461Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.477Z
 checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 
@@ -46,7 +46,19 @@ The Slider uses a semantic `<input type="range">` element for the thumb control,
 
 Keep in mind, you should most probably define your `min` and `max` value, because they are tied closely to your given value property.
 
-<RelatedComponents />
+
+## Related components
+
+Slider is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

@@ -1,0 +1,4 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-BsJ3GLEw.js";var r=e(t());function i(e){let t={h1:`h1`,p:`p`,strong:`strong`,...n(),...e.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(t.h1,{children:`The Story of Eufemia`}),`
+`,(0,r.jsx)(t.p,{children:`Once upon a time, back in the 14th century, Queen Eufemia lived at Rügen. It was then agreed that she was to be married to Håkon Magnusson. She was then sent to a very desolate area called Bjørvika.
+What gave her courage were her books. She brought her library with her, which was one of Europe's largest at that time.`}),`
+`,(0,r.jsxs)(t.p,{children:[`So it is `,(0,r.jsx)(t.strong,{children:`Queen Eufemia's library`}),` that gave the DNB Design System its name.`]})]})}function a(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,r.jsx)(t,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

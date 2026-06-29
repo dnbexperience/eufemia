@@ -1,8 +1,8 @@
 ---
 title: 'GlobalStatus'
 description: 'Use GlobalStatus to show important page-level messages or a summary of form errors.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.266Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.293Z
 checksum: 386c9d6672c8290be4a5be8acc4cb299be11fb9bd262d0593dd8e13ad20af2fa
 ---
 
@@ -154,7 +154,19 @@ console.log('onClose', statusId);
 ```
 
 
-<RelatedComponents />
+
+## Related components
+
+GlobalStatus is part of the [Feedback](/uilib/components/overview/#feedback) category. Other components for similar needs:
+
+- [AriaLive](/uilib/components/aria-live/) – to announce page changes to screen reader users.
+- [Badge](/uilib/components/badge/) – to highlight new, unread, or important information.
+- [Dialog](/uilib/components/dialog/) – when people need to make a choice or read an important message before continuing.
+- [Drawer](/uilib/components/drawer/) – to show extra content in a panel that slides in from the side.
+- [FormStatus](/uilib/components/form-status/) – to show validation errors, warnings, or messages near a form.
+- [GlobalError](/uilib/components/global-error/) – to show a clear 404 or 500 error page.
+
+[See all in Feedback](/uilib/components/overview/#feedback)
 
 
 ## Demos

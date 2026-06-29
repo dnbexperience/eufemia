@@ -1,8 +1,8 @@
 ---
 title: 'Switch'
 description: 'Use Switch when people can turn one setting on or off.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.736Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.706Z
 checksum: e288cce458a9b54ddbb5f5d40392a7f958ceb267c5d4fcb59e172bd5f8205a0e
 ---
 
@@ -62,7 +62,19 @@ The label should describe what the toggle will do when the switch is on.
 
 [1]: https://www.nngroup.com/articles/toggle-switch-guidelines/
 
-<RelatedComponents />
+
+## Related components
+
+Switch is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

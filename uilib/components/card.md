@@ -1,8 +1,8 @@
 ---
 title: 'Card'
 description: 'Use Card to group related content in a clear, separated area.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.132Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.174Z
 checksum: 0e50b33934d75ff8ee86042f8b38b80cfeb981cf163f459e0272d67f2eaf2b22
 ---
 
@@ -60,7 +60,19 @@ render(<Card aria-labelledby="unique-id">
 
 Use `Card.List` and `Card.ListItem` to render a semantic `<ul>` / `<li>` list of cards. `Card.List` provides a responsive flex layout with wrapping. `Card.ListItem` supports a `center` prop to center content vertically — set it to `true` to always center, or `"when-small"` to center only on small screens.
 
-<RelatedComponents />
+
+## Related components
+
+Card is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+- [Icon](/uilib/components/icon/) – to render and size an icon in line with Eufemia styling.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

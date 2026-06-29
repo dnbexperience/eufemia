@@ -1,13 +1,11 @@
 ---
 title: 'Checklist for designers'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:08.312Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:02.366Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
-# Checklist for designers
-
-## Accessibility checklist for designers
+# Accessibility checklist for designers
 
 Building an accessible interface starts at the UX stage of design. Much of the DNB Design System's styling and development has taken accessibility into consideration to a certain extent (see [UI Library Accessibility](/uilib/usage/accessibility)). However, each interface design comes with its own challenges and requirements.
 

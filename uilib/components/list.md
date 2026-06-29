@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'Use List to show rows of related content, with optional actions or navigation.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.358Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.374Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -105,7 +105,19 @@ render(
 - **List.Item.Accordion** exposes full ARIA for expand/collapse: the header has `id`, `aria-controls`, and `aria-expanded`; the content region has `id`, `aria-labelledby`, `aria-hidden`, and `aria-expanded`. Pass an `id` prop for stable references, or leave it unset for an auto-generated id. When `pending` is true, the header is not focusable and has `aria-disabled="true"`.
 - Use `aria-label` or other ARIA attributes on the container or items when needed for screen readers.
 
-<RelatedComponents />
+
+## Related components
+
+List is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

@@ -1,6 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-kfZVC31v.js";var r=e(t());function i(e){let t={a:`a`,h1:`h1`,li:`li`,p:`p`,strong:`strong`,ul:`ul`,...n(),...e.components};return(0,r.jsxs)(r.Fragment,{children:[(0,r.jsx)(t.h1,{children:`Reproduce an issue`}),`
-`,(0,r.jsx)(t.p,{children:`When reporting a bug, a minimal reproduction helps us identify and fix the problem faster. Use the starter template below to get started:`}),`
-`,(0,r.jsxs)(t.ul,{children:[`
-`,(0,r.jsx)(t.li,{children:(0,r.jsx)(t.a,{href:`https://stackblitz.com/edit/eufemia-starter?file=src%2FApp.tsx`,children:`StackBlitz Starter`})}),`
-`]}),`
-`,(0,r.jsxs)(t.p,{children:[`You can also open any code example from the documentation directly in StackBlitz by clicking the `,(0,r.jsx)(t.strong,{children:`Open in StackBlitz`}),` button in the code example toolbar. This creates a new project pre-configured with the example code and all necessary dependencies.`]})]})}function a(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,r.jsx)(t,{...e,children:(0,r.jsx)(i,{...e})}):i(e)}export{a as default};

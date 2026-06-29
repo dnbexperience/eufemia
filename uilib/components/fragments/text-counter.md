@@ -1,8 +1,8 @@
 ---
 title: 'TextCounter'
 description: 'Use TextCounter to show how many characters someone has typed or can still type.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.249Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.279Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -27,7 +27,19 @@ It is used in the [Textarea](/uilib/components/textarea/) component.
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/fragments/text-counter)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/fragments/text-counter)
 
-<RelatedComponents />
+
+## Related components
+
+TextCounter is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

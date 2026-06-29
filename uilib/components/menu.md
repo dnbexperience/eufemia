@@ -1,8 +1,8 @@
 ---
 title: 'Menu'
 description: 'Use Menu when people need to choose from a small list of actions or links.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.373Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.390Z
 checksum: 1fc99517592ef537de08c221f7492a20a5f0da34d4c6422f3025968fc4f94199
 ---
 
@@ -52,7 +52,14 @@ For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Roo
 
 The Menu component uses [PortalRoot](/uilib/components/portal-root) internally through Popover to render its top-level menu. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
-<RelatedComponents />
+
+## Related components
+
+Menu is part of the [Actions](/uilib/components/overview/#actions) category. Other components for similar needs:
+
+- [Anchor](/uilib/components/anchor/) – to take people to another page, section, or website.
+- [Button](/uilib/components/button/) – when people need to start, confirm, or submit an action.
+- [HelpButton](/uilib/components/help-button/) – when a short explanation should be available next to a label or control.
 
 
 ## Demos

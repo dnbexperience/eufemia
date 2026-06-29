@@ -1,8 +1,8 @@
 ---
 title: 'Tabs'
 description: 'Use Tabs to let people switch between related views on the same page.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.756Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.727Z
 checksum: 91776e74210d6ca9e623100b8ac4eb5f0e1a682d3c673ade1e4340cc544176fb
 ---
 
@@ -28,7 +28,16 @@ Tabs are a set of buttons that allow navigation between content that is related 
 
 The Tabs component follows the [WAI-ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). It uses `role="tablist"`, `role="tab"`, and `role="tabpanel"` with proper ARIA attributes. Keyboard navigation includes arrow keys to move between tabs and Tab key to navigate into the active panel content.
 
-<RelatedComponents />
+
+## Related components
+
+Tabs is part of the [Navigation](/uilib/components/overview/#navigation) category. Other components for similar needs:
+
+- [Breadcrumb](/uilib/components/breadcrumb/) – to show where someone is and let them move back up the path.
+- [InfinityScroller](/uilib/components/pagination/infinity-scroller/) – to load more content automatically as people scroll.
+- [Pagination](/uilib/components/pagination/) – to split long content into pages or load more content as people move through it.
+- [SkipContent](/uilib/components/skip-content/) – to help keyboard users jump past large or repeated content.
+- [StepIndicator](/uilib/components/step-indicator/) – to show progress through a process with several steps.
 
 
 ## Demos

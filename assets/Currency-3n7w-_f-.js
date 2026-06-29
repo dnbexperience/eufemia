@@ -1,1 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{t as n}from"./withComponentMarkers-BhLNgMYZ.js";import{Vt as r,X as i}from"./forms-CFi5-4x5.js";var a=e(t());function o(e,t,r={}){function o(e){return(0,a.jsx)(i,{...r,...e,__format:t})}return o.displayName=e,n(o,{_supportsSpacingProps:!0}),o}var s=o(`NumberFormat.Currency`,r,{currency:!0});export{o as n,s as t};

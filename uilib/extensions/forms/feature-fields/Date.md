@@ -1,8 +1,8 @@
 ---
 title: 'Field.Date'
 description: '`Field.Date` is a wrapper component for the input of strings, with user experience tailored for date values.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:10.476Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:04.397Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -194,7 +194,234 @@ render(<Form.Card>
 
 ### Field-specific properties
 
-<PropertiesTable props={DateProperties} />
+
+```json
+{
+  "props": {
+    "range": {
+      "doc": "Defines if the Date field should support a value of two dates (starting and ending date). The `value` needs to be a string containing two dates, separated by a pipe character (`|`) (`01-09-2024|30-09-2024`) when this is set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "rangeSingleCalendar": {
+      "doc": "If set to `true`, only one calendar is shown in range mode instead of two side-by-side calendars. Only meant to be used if `range` is set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "showInput": {
+      "doc": "If the input fields with the mask should be visible. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "showCancelButton": {
+      "doc": "If set to `true`, a cancel button will be shown. You can change the default text by using `cancelButtonText=\"Avbryt\"`. Defaults to `true`. If the `range` property is `true`, then the cancel button is shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "showResetButton": {
+      "doc": "If set to `true`, a reset button will be shown. You can change the default text by using `resetButtonText=\"Tilbakestill\"`. When clicked, the field resets to the initial `value` or `defaultValue`. If no initial value was provided, the field is cleared. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "size": {
+      "doc": "The sizes you can choose are `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem). Defaults to `default` / `null`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "month": {
+      "doc": "To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.",
+      "type": [
+        "string",
+        "Date"
+      ],
+      "status": "optional"
+    },
+    "startMonth": {
+      "doc": "To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.",
+      "type": [
+        "string",
+        "Date"
+      ],
+      "status": "optional"
+    },
+    "endMonth": {
+      "doc": "To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.",
+      "type": [
+        "string",
+        "Date"
+      ],
+      "status": "optional"
+    },
+    "minDate": {
+      "doc": "To limit the selectable dates in the calendar view to a minimum date. Dates before this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
+      "type": [
+        "string",
+        "Date"
+      ],
+      "status": "optional"
+    },
+    "maxDate": {
+      "doc": "To limit the selectable dates in the calendar view to a maximum date. Dates after this will be disabled. Note: This does not validate dates typed in the input field. Use [Field.Date](/uilib/extensions/forms/feature-fields/Date/) for input validation. Defaults to `null`.",
+      "type": [
+        "string",
+        "Date"
+      ],
+      "status": "optional"
+    },
+    "maskOrder": {
+      "doc": "To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "maskPlaceholder": {
+      "doc": "To display the placeholder on input. Defaults to `dd/mm/åååå`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "dateFormat": {
+      "doc": "Defines how the property dates (`date`, `startDate` and `endDate`) should be parsed, e.g. `yyyy/MM/dd`. Defaults to `yyyy-MM-dd`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "returnFormat": {
+      "doc": "Defines how the returned date, as a string, should be formatted as. Defaults to `yyyy-MM-dd`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "hideNavigation": {
+      "doc": "If set to `true`, the navigation will be hidden. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "hideDays": {
+      "doc": "If set to `true`, the week days will be hidden. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "onlyMonth": {
+      "doc": "If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Use `'without-label'` to also hide the month label. Defaults to `false`.",
+      "type": [
+        "boolean",
+        "'without-label'"
+      ],
+      "status": "optional"
+    },
+    "hideLastWeek": {
+      "doc": "Use `true` to only show the last week in the current month if it needs to be shown. The result is that mainly five (5) weeks (rows) will be shown instead of six (6). Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "disableAutofocus": {
+      "doc": "Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "showSubmitButton": {
+      "doc": "If set to `true`, a submit button will be shown. You can change the default text by using `submitButtonText=\"Ok\"`. Defaults to `false`. If the `range` property is `true`, then the submit button is shown.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "submitButtonText": {
+      "doc": "Custom text for the submit button. Defaults to `Ok`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "cancelButtonText": {
+      "doc": "Custom text for the cancel button. Defaults to `Avbryt`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "resetButtonText": {
+      "doc": "Custom text for the reset button. Defaults to `Tilbakestill`.",
+      "type": "string",
+      "status": "optional"
+    },
+    "firstDay": {
+      "doc": "To define the first day of the week. Defaults to `monday`.",
+      "type": [
+        "\"monday\"",
+        "\"tuesday\"",
+        "\"wednesday\"",
+        "\"thursday\"",
+        "\"friday\"",
+        "\"saturday\"",
+        "\"sunday\""
+      ],
+      "status": "optional"
+    },
+    "link": {
+      "doc": "Link both calendars once the user navigates between months. Only meant to use if the range is set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "sync": {
+      "doc": "Sync input values with the calendars views. Once the input values get changed, the calendar changes its views in sync. Defaults to `true`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "addonElement": {
+      "doc": "Gives you the possibility to inject a React element showing up over the footer. Use it to customize `shortcuts`.",
+      "type": "object",
+      "status": "optional"
+    },
+    "shortcuts": {
+      "doc": "Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.",
+      "type": "object",
+      "status": "optional"
+    },
+    "open": {
+      "doc": "To open the date-picker by default. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "direction": {
+      "doc": "Defines the direction of the date picker popup. Defaults to `auto`.",
+      "type": [
+        "\"auto\"",
+        "\"top\"",
+        "\"bottom\""
+      ],
+      "status": "optional"
+    },
+    "alignPicker": {
+      "doc": "Use `right` to change the preferred calendar alignment direction. Defaults to `left`. If the DatePicker is close to the edge of the screen, the alignment of the calendar will change automatically to fit in the viewport.",
+      "type": "string",
+      "status": "optional"
+    },
+    "skipPortal": {
+      "doc": "If set to `true`, the calendar will not be rendered inside a react portal. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "yearNavigation": {
+      "doc": "Will enable year navigation in the calendar if set to `true`. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "tooltip": {
+      "doc": "Provide a short Tooltip content that shows up on the picker button.",
+      "type": "React.ReactNode",
+      "status": "optional"
+    },
+    "triggerProps": {
+      "doc": "Props to forward to the trigger button. Can be used to change the button `variant`, add a `text` label, or override other button properties such as `icon` and `iconPosition`.",
+      "type": "object",
+      "status": "optional"
+    },
+    "onType": {
+      "doc": "Event handler that is called when the user types in the input field. The first parameter is a string, the second parameter is an object containing { date, startDate, endDate, isValid, event }.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onBlurValidator": {
+      "doc": "Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validating invalid dates, and dates against `minDate` and `maxDate`, using `dateValidator`. Can be disabled using `false`.",
+      "type": "function",
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ### General properties
 
@@ -528,7 +755,49 @@ render(<Form.Card>
 
 ## Date Events
 
-<PropertiesTable props={DateEvents} />
+
+```json
+{
+  "props": {
+    "onType": {
+      "doc": "Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onSubmit": {
+      "doc": "Will be called once a user presses the submit button.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onCancel": {
+      "doc": "Will be called once a user presses the cancel button.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onReset": {
+      "doc": "Will be called once a user presses the reset button. The date picker will revert to the value it had when first rendered. If no initial value was provided, the date is cleared.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onOpen": {
+      "doc": "Will be called once date-picker is visible.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onClose": {
+      "doc": "Will be called once date-picker is hidden.",
+      "type": "function",
+      "status": "optional"
+    },
+    "onDaysRender": {
+      "doc": "Will be called right before every new calendar view gets rendered. See the example above.",
+      "type": "function",
+      "status": "optional"
+    }
+  }
+}
+```
+
 
 ## Events
 

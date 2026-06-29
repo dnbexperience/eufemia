@@ -1,8 +1,8 @@
 ---
 title: 'Checkbox'
 description: 'Use Checkbox when people can turn one or more options on or off.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.143Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.181Z
 checksum: 939a8836250d6d2afd29993ca91817df714de36971250a394461495e70f32e64
 ---
 
@@ -42,7 +42,19 @@ The Eufemia Forms equivalent of a single `Checkbox` is [Field.Boolean](/uilib/ex
 
 Checkbox components use semantic `<input type="checkbox">` elements, ensuring full keyboard accessibility (Space to toggle) and proper state announcement by screen readers. Labels are properly associated using `htmlFor` attributes.
 
-<RelatedComponents />
+
+## Related components
+
+Checkbox is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+- [Input](/uilib/components/input/) – when people need to enter a short line of text.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

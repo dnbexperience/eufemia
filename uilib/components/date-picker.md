@@ -1,8 +1,8 @@
 ---
 title: 'DatePicker'
 description: 'Use DatePicker when people need to choose one date or a date range.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.178Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.213Z
 checksum: 433ef38440ca57d9aaa51d5089a06f2a76a59db8999ad58827dc8ac0d88fbfea
 ---
 
@@ -172,7 +172,19 @@ Additional event return object properties:
 
 The DatePicker component uses [PortalRoot](/uilib/components/portal-root) internally to render its calendar. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
-<RelatedComponents />
+
+## Related components
+
+DatePicker is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+- [Input](/uilib/components/input/) – when people need to enter a short line of text.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

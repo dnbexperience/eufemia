@@ -1,8 +1,8 @@
 ---
 title: 'Filter'
 description: 'Use Filter to help people narrow down a list or data set.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.233Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.259Z
 checksum: d880adfaa9ce2c1b007fb153044b524a0cf8f15772be0b91997fce5008d24928
 ---
 
@@ -291,7 +291,19 @@ When the filter panel is closed — via the "Hide filter" button, the "Apply" bu
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/filter)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/filter)
 
-<RelatedComponents />
+
+## Related components
+
+Filter is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+- [Input](/uilib/components/input/) – when people need to enter a short line of text.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

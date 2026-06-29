@@ -1,8 +1,8 @@
 ---
 title: 'TermDefinition'
 description: 'Use TermDefinition to explain a word or phrase without leaving the page.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.766Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.735Z
 checksum: ddde1de4add0beaa3d7c7dbdc745c3cd9e3979a812b8f919df7d27f68010e307
 ---
 
@@ -43,7 +43,19 @@ To ensure that the TermDefinition component is accessible, it uses semantic HTML
 
 The TermDefinition component uses [PortalRoot](/uilib/components/portal-root) internally to render its explanation content. See the [PortalRoot documentation](/uilib/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/uilib/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
 
-<RelatedComponents />
+
+## Related components
+
+TermDefinition is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

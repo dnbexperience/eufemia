@@ -1,8 +1,8 @@
 ---
 title: 'Badge'
 description: 'Use Badge to highlight new, unread, or important information.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.100Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.149Z
 checksum: e44c4039c20189a099f5d28fc7d21f0fc5bcbc5f2c5f3677fe8bc23bd807d85f
 ---
 
@@ -36,7 +36,19 @@ Can be used to describe or inform about new activity or features in our applicat
 
 The logic of how long it should be visible would differ from case to case, so that's up to the designer.
 
-<RelatedComponents />
+
+## Related components
+
+Badge is part of the [Feedback](/uilib/components/overview/#feedback) category. Other components for similar needs:
+
+- [AriaLive](/uilib/components/aria-live/) – to announce page changes to screen reader users.
+- [Dialog](/uilib/components/dialog/) – when people need to make a choice or read an important message before continuing.
+- [Drawer](/uilib/components/drawer/) – to show extra content in a panel that slides in from the side.
+- [FormStatus](/uilib/components/form-status/) – to show validation errors, warnings, or messages near a form.
+- [GlobalError](/uilib/components/global-error/) – to show a clear 404 or 500 error page.
+- [GlobalStatus](/uilib/components/global-status/) – to show important page-level messages or a summary of form errors.
+
+[See all in Feedback](/uilib/components/overview/#feedback)
 
 
 ## Demos

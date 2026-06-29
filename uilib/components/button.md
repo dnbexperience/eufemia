@@ -1,8 +1,8 @@
 ---
 title: 'Button'
 description: 'Use Button when people need to start, confirm, or submit an action.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.120Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.165Z
 checksum: e191edb6ca429fd518e06ebb0a9ade1e3e4a3f8bdac8c578c6d68d6d3f987294
 ---
 
@@ -109,7 +109,14 @@ Icon buttons come in all sizes.
 ```
 
 
-<RelatedComponents />
+
+## Related components
+
+Button is part of the [Actions](/uilib/components/overview/#actions) category. Other components for similar needs:
+
+- [Anchor](/uilib/components/anchor/) – to take people to another page, section, or website.
+- [HelpButton](/uilib/components/help-button/) – when a short explanation should be available next to a label or control.
+- [Menu](/uilib/components/menu/) – when people need to choose from a small list of actions or links.
 
 
 ## Demos

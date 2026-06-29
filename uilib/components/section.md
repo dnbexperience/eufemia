@@ -1,8 +1,8 @@
 ---
 title: 'Section'
 description: 'Use Section to give an area of the page a visual background or surface.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.446Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.464Z
 checksum: fffcbcb63ca8e59f33048125db5b3de0f3cdd0152aace0013092f258f7ddba4f
 ---
 
@@ -48,7 +48,19 @@ Each of these properties do support either a single value or an object containin
 - `textColor={string}` or e.g. `textColor={{ small: 'black-80' }}`
 - `innerSpace={string}` or e.g. `innerSpace={{ small: { top: 'small' } }}`
 
-<RelatedComponents />
+
+## Related components
+
+Section is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

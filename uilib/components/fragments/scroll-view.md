@@ -1,8 +1,8 @@
 ---
 title: 'ScrollView'
 description: 'Use ScrollView when content needs its own horizontal or vertical scrolling area.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.248Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.278Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -39,7 +39,14 @@ render(<ScrollView>scrollable content</ScrollView>)
 ```
 
 
-<RelatedComponents />
+
+## Related components
+
+ScrollView is part of the [Other](/uilib/components/overview/#other) category. Other components for similar needs:
+
+- [CopyOnClick](/uilib/components/copy-on-click/) – when people should copy text by clicking it.
+- [HeightAnimation](/uilib/components/height-animation/) – to animate content as it opens or closes.
+- [PortalRoot](/uilib/components/portal-root/) – to render floating content outside the normal page structure.
 
 
 ## Demos

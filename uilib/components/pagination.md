@@ -1,8 +1,8 @@
 ---
 title: 'Pagination'
 description: 'Use Pagination to split long content into pages or load more content as people move through it.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.412Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.419Z
 checksum: 856dc55e3ab4563a6134b945efda1abdbb22ce98c4b6c0c06564e0c54d0b1a6c
 ---
 
@@ -109,7 +109,16 @@ render(<Pagination pageCount={2} />)
 
 ---
 
-<RelatedComponents />
+
+## Related components
+
+Pagination is part of the [Navigation](/uilib/components/overview/#navigation) category. Other components for similar needs:
+
+- [Breadcrumb](/uilib/components/breadcrumb/) – to show where someone is and let them move back up the path.
+- [InfinityScroller](/uilib/components/pagination/infinity-scroller/) – to load more content automatically as people scroll.
+- [SkipContent](/uilib/components/skip-content/) – to help keyboard users jump past large or repeated content.
+- [StepIndicator](/uilib/components/step-indicator/) – to show progress through a process with several steps.
+- [Tabs](/uilib/components/tabs/) – to let people switch between related views on the same page.
 
 
 ## Demos

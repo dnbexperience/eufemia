@@ -1,4 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-kfZVC31v.js";import{n as r}from"./PropertiesTable-BIB66Y92.js";import{i,n as a}from"./ToggleButtonGroupDocs-DBDdEpjj.js";var o=e(t());function s(e){let t={code:`code`,h2:`h2`,...n(),...e.components};return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`ToggleButton`}),` properties`]}),`
-`,(0,o.jsx)(r,{props:i}),`
-`,(0,o.jsxs)(t.h2,{children:[(0,o.jsx)(t.code,{children:`ToggleButton.Group`}),` properties`]}),`
-`,(0,o.jsx)(r,{props:a})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

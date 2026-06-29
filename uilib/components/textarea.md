@@ -1,8 +1,8 @@
 ---
 title: 'Textarea'
 description: 'Use Textarea when people need to write longer text over several lines.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.771Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.740Z
 checksum: 8f79daa9efcfecb14f029267ef3b3c2bc0cfac94003138e897cd4e3fd0756103
 ---
 
@@ -68,7 +68,19 @@ render(<Wrapper>
 ```
 
 
-<RelatedComponents />
+
+## Related components
+
+Textarea is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

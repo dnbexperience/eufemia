@@ -1,8 +1,8 @@
 ---
 title: 'Logo'
 description: 'Use Logo to show the DNB logo with the correct SVG and styling.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.363Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.379Z
 checksum: b5f2e83235588ece761fcf16dc33d82a6ac8ad4ff716952496b47c01928e8f36
 ---
 
@@ -23,7 +23,19 @@ A ready-to-use Logo component with the needed SVGs.
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/logo)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/logo)
 
-<RelatedComponents />
+
+## Related components
+
+Logo is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

@@ -1,8 +1,8 @@
 ---
 title: 'GlobalError (404)'
 description: 'Use GlobalError to show a clear 404 or 500 error page.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.256Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.285Z
 checksum: 13ac256feeabc3e001995d8962f3430577346f443035943756c245a398e694bc
 ---
 
@@ -40,7 +40,19 @@ You may also take a look at how it behaves once [404](/404) or [500](/500) is us
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/global-error)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/global-error)
 
-<RelatedComponents />
+
+## Related components
+
+GlobalError is part of the [Feedback](/uilib/components/overview/#feedback) category. Other components for similar needs:
+
+- [AriaLive](/uilib/components/aria-live/) – to announce page changes to screen reader users.
+- [Badge](/uilib/components/badge/) – to highlight new, unread, or important information.
+- [Dialog](/uilib/components/dialog/) – when people need to make a choice or read an important message before continuing.
+- [Drawer](/uilib/components/drawer/) – to show extra content in a panel that slides in from the side.
+- [FormStatus](/uilib/components/form-status/) – to show validation errors, warnings, or messages near a form.
+- [GlobalStatus](/uilib/components/global-status/) – to show important page-level messages or a summary of form errors.
+
+[See all in Feedback](/uilib/components/overview/#feedback)
 
 
 ## Demos

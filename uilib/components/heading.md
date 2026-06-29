@@ -1,8 +1,8 @@
 ---
 title: 'Heading (auto level)'
 description: 'Use Heading to create accessible page headings with the correct level.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.272Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.299Z
 checksum: f2ba0868c40cefe7513a73171e0443adb11ed19430690bb3d1f90545b838de9a
 ---
 
@@ -168,7 +168,19 @@ render(<article>
 ```
 
 
-<RelatedComponents />
+
+## Related components
+
+Heading is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Icon](/uilib/components/icon/) – to render and size an icon in line with Eufemia styling.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

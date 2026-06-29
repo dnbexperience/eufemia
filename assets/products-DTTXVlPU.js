@@ -1,2 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-kfZVC31v.js";import r from"./CardProductsTable-D3wuuRLq.js";var i=e(t());function a(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)({h2:`h2`,...n(),...e.components}.h2,{children:`List of all card products`}),`
-`,(0,i.jsx)(r,{})]})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

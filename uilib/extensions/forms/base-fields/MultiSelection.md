@@ -1,8 +1,8 @@
 ---
 title: 'Field.MultiSelection'
 description: '`Field.MultiSelection` is a component for selecting between a fixed set of options using checkboxes or similar, that will produce a value in the form of an array containing the values of selected options. This field accepts structured data with objects containing `value` and `title` properties.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:10.445Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:04.357Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

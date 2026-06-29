@@ -1,2 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-kfZVC31v.js";import{n as r}from"./PropertiesTable-BIB66Y92.js";var i=e(t()),a={name:{doc:`A unique name for the sliced snapshot area.`,type:`string`,status:`required`}};function o(e){return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)({h2:`h2`,...n(),...e.components}.h2,{children:`Form.Snapshot`}),`
-`,(0,i.jsx)(r,{props:a})]})}function s(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(o,{...e})}):o(e)}export{s as default};

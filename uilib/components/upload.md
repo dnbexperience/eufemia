@@ -1,8 +1,8 @@
 ---
 title: 'Upload'
 description: 'Use Upload when people need to choose or drag files into a page.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.811Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.788Z
 checksum: f3b102655328f8fa6375576d3976d0f668b2dfdf06a68fd85727abf2be3d46c3
 ---
 
@@ -117,7 +117,19 @@ In some situations, it's more suitable to have each link download the file inste
 
 By default, the Upload component prevents uploading duplicate files. It determines if a file is a duplicate if the file's `name`, `size` (if existing), and `lastModified` (if existing) values are equal. You can use the property `allowDuplicates={true}` to allow duplicate files.
 
-<RelatedComponents />
+
+## Related components
+
+Upload is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [FormLabel](/uilib/components/form-label/) – to name an input, control, or form-related field.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

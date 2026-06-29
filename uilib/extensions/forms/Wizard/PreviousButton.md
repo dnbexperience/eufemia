@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.PreviousButton'
 description: '`Wizard.PreviousButton` connects to the `Wizard.Context` to move the user to the previous step when clicked.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:10.429Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:04.341Z
 checksum: 2e434d6a3ef2aff33a13928ac7ca26f09a3676a13b2f369d62e72e749e4e5bec
 ---
 

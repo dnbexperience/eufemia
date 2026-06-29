@@ -1,8 +1,8 @@
 ---
 title: 'AriaLive'
 description: 'Use AriaLive to announce page changes to screen reader users.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.056Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.109Z
 checksum: 7bfa90b0a7eed957c9b4b1bf03bed1f726b946b899ca116a453f4360c72f2106
 ---
 
@@ -68,7 +68,19 @@ function MyCustomAriaLive(props) {
 }
 ```
 
-<RelatedComponents />
+
+## Related components
+
+AriaLive is part of the [Feedback](/uilib/components/overview/#feedback) category. Other components for similar needs:
+
+- [Badge](/uilib/components/badge/) – to highlight new, unread, or important information.
+- [Dialog](/uilib/components/dialog/) – when people need to make a choice or read an important message before continuing.
+- [Drawer](/uilib/components/drawer/) – to show extra content in a panel that slides in from the side.
+- [FormStatus](/uilib/components/form-status/) – to show validation errors, warnings, or messages near a form.
+- [GlobalError](/uilib/components/global-error/) – to show a clear 404 or 500 error page.
+- [GlobalStatus](/uilib/components/global-status/) – to show important page-level messages or a summary of form errors.
+
+[See all in Feedback](/uilib/components/overview/#feedback)
 
 
 ## Demos

@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Use Table to show structured data in rows and columns.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.749Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.721Z
 checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 
@@ -206,7 +206,19 @@ The hook accepts an optional options object:
 | --------- | --------- | ------- | ------------------------------------- |
 | `enabled` | `boolean` | `true`  | Whether keyboard navigation is active |
 
-<RelatedComponents />
+
+## Related components
+
+Table is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos

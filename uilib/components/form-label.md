@@ -1,8 +1,8 @@
 ---
 title: 'FormLabel'
 description: 'Use FormLabel to name an input, control, or form-related field.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.238Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.264Z
 checksum: a3e2d63a21c9bff5a2c312d26f4d4ee69485b847669f8c9599a421d01406725f
 ---
 
@@ -28,7 +28,19 @@ The FormLabel component represents a caption for all sorts of HTML elements in a
 
 DNB UX has chosen to not use colon on the end of form element labels. For consistency throughout our websites, please avoid using them.
 
-<RelatedComponents />
+
+## Related components
+
+FormLabel is part of the [Input](/uilib/components/overview/#input) category. Other components for similar needs:
+
+- [Autocomplete](/uilib/components/autocomplete/) – to help people find and choose from matching suggestions as they type.
+- [Checkbox](/uilib/components/checkbox/) – when people can turn one or more options on or off.
+- [DatePicker](/uilib/components/date-picker/) – when people need to choose one date or a date range.
+- [Dropdown](/uilib/components/dropdown/) – when people need to choose one option from a list.
+- [Filter](/uilib/components/filter/) – to help people narrow down a list or data set.
+- [Input](/uilib/components/input/) – when people need to enter a short line of text.
+
+[See all in Input](/uilib/components/overview/#input)
 
 
 ## Demos

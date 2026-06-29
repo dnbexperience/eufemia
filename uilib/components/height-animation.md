@@ -1,8 +1,8 @@
 ---
 title: 'HeightAnimation'
 description: 'Use HeightAnimation to animate content as it opens or closes.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.278Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.304Z
 checksum: dc40cc6e002dad1a4144d8e7ab8ecc12fdc944eb49ba7f1568ec5fba93d13582
 ---
 
@@ -45,7 +45,14 @@ It is important to never animate from 0 to e.g. 64px – because:
 - The content itself may change
 - The user may have a larger `font-size`
 
-<RelatedComponents />
+
+## Related components
+
+HeightAnimation is part of the [Other](/uilib/components/overview/#other) category. Other components for similar needs:
+
+- [CopyOnClick](/uilib/components/copy-on-click/) – when people should copy text by clicking it.
+- [PortalRoot](/uilib/components/portal-root/) – to render floating content outside the normal page structure.
+- [ScrollView](/uilib/components/fragments/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
 
 
 ## Demos

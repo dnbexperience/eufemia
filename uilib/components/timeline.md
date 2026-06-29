@@ -1,8 +1,8 @@
 ---
 title: 'Timeline'
 description: 'Use Timeline to show events or steps in chronological order.'
-version: 11.8.0
-generatedAt: 2026-06-26T12:38:09.776Z
+version: 11.8.1
+generatedAt: 2026-06-29T11:30:03.744Z
 checksum: 2865ac048fbac54c4de5c574c5b125f61119c348b0b0bdd5ea90b959dcb47092
 ---
 
@@ -24,7 +24,19 @@ A timeline shows events in chronological order and gives a great overview of the
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/timeline)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/timeline)
 
-<RelatedComponents />
+
+## Related components
+
+Timeline is part of the [Content](/uilib/components/overview/#content) category. Other components for similar needs:
+
+- [Accordion](/uilib/components/accordion/) – to let people open and close sections of related content.
+- [Avatar](/uilib/components/avatar/) – to make a person, company, or profile easier to recognize.
+- [Card](/uilib/components/card/) – to group related content in a clear, separated area.
+- [CountryFlag](/uilib/components/country-flag/) – to show a country by its flag from an ISO country code.
+- [DateFormat](/uilib/components/date-format/) – to show dates in the correct DNB format.
+- [Heading](/uilib/components/heading/) – to create accessible page headings with the correct level.
+
+[See all in Content](/uilib/components/overview/#content)
 
 
 ## Demos
