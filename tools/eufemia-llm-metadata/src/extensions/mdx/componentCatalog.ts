@@ -1,5 +1,10 @@
-import fs from 'fs-extra'
 import path from 'path'
+
+import {
+  findMdxFiles,
+  readFrontmatter,
+  type FrontmatterScalar,
+} from './mdxFiles.ts'
 
 /**
  * Component catalog used to render the portal-global `RelatedComponents`
@@ -214,102 +219,8 @@ async function buildComponentCatalog(
   return { byNormalizedSlug, byCategory }
 }
 
-async function findMdxFiles(root: string): Promise<string[]> {
-  const files: string[] = []
-
-  async function walk(currentPath: string): Promise<void> {
-    const dirEntries = await fs.readdir(currentPath, {
-      withFileTypes: true,
-    })
-
-    for (const dirEntry of dirEntries) {
-      const fullPath = path.join(currentPath, dirEntry.name)
-
-      if (dirEntry.isDirectory()) {
-        await walk(fullPath)
-        continue
-      }
-
-      if (dirEntry.isFile() && fullPath.endsWith('.mdx')) {
-        files.push(fullPath)
-      }
-    }
-  }
-
-  await walk(root)
-
-  return files
-}
-
-type CatalogFrontmatter = {
-  title?: string | null
-  description?: string | null
-  category?: string | boolean | null
-  draft?: boolean | null
-  hideInMenu?: boolean | null
-}
-
-async function readFrontmatter(
-  filePath: string
-): Promise<CatalogFrontmatter | null> {
-  try {
-    const source = await fs.readFile(filePath, 'utf-8')
-
-    return parseFrontmatter(source)
-  } catch {
-    return null
-  }
-}
-
-function parseFrontmatter(source: string): CatalogFrontmatter | null {
-  const match = source.match(/^---\n([\s\S]*?)\n---/)
-
-  if (!match?.[1]) {
-    return null
-  }
-
-  const frontmatter: CatalogFrontmatter = {}
-
-  for (const line of match[1].split('\n')) {
-    const separatorIndex = line.indexOf(':')
-
-    if (separatorIndex < 0) {
-      continue
-    }
-
-    const key = line.slice(0, separatorIndex).trim()
-    const rawValue = line.slice(separatorIndex + 1).trim()
-
-    if (key === 'title') {
-      frontmatter.title = parseScalar(rawValue) as string
-    } else if (key === 'description') {
-      frontmatter.description = parseScalar(rawValue) as string
-    } else if (key === 'category') {
-      frontmatter.category = parseScalar(rawValue) as string | boolean
-    } else if (key === 'draft') {
-      frontmatter.draft = rawValue === 'true'
-    } else if (key === 'hideInMenu') {
-      frontmatter.hideInMenu = rawValue === 'true'
-    }
-  }
-
-  return frontmatter
-}
-
-function parseScalar(value: string): string | boolean {
-  if (value === 'true') {
-    return true
-  }
-
-  if (value === 'false') {
-    return false
-  }
-
-  return value.replace(/^['"]|['"]$/g, '')
-}
-
 function getCategoryId(
-  category: string | boolean | null | undefined
+  category: FrontmatterScalar | undefined
 ): ComponentCategoryId | undefined {
   if (category === false) {
     return undefined
