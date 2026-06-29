@@ -405,7 +405,7 @@ describe('Logo component', () => {
       expect(svg).toHaveAttribute('fill', logoColors.carnegie.light)
     })
 
-    it('should use correct fill in dark mode for CarnegieDefault', () => {
+    it('should use light fill in dark mode for CarnegieDefault since it only supports light mode', () => {
       render(
         <Theme colorScheme="dark">
           <Logo svg={CarnegieDefault} />
@@ -413,7 +413,7 @@ describe('Logo component', () => {
       )
 
       const svg = document.querySelector('svg')
-      expect(svg).toHaveAttribute('fill', logoColors.carnegie.dark)
+      expect(svg).toHaveAttribute('fill', logoColors.carnegie.light)
     })
 
     it('should allow overriding fill via the fill prop', () => {

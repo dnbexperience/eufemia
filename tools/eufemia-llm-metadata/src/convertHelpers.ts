@@ -1525,6 +1525,7 @@ export async function convertMdxToMd({
   outputBody = await applySpecialMdxComponentRenderers(outputBody, {
     findPackageRoot,
     inputDir: path.dirname(inputPath),
+    inputPath,
     docsRoot,
     importsByFile,
     loadModuleDefault,

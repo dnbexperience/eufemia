@@ -1,0 +1,34 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Code } from '@dnb/eufemia/elements'
+```
+
+## Description
+
+The `code` and `pre` elements are used for code and syntax highlighting. Both `code` and `pre` tags are styled.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/elements/code)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/elements/code)
+
+## Code and Typography
+
+`<code>` and `<pre>` use the [DNBMono](/uilib/typography) font:
+
+```css
+font-family: var(--font-family-monospace);
+```
+
+## Code and Syntax highlighting
+
+[Prism](https://prismjs.com) is a popular Syntax Highlighting tool. DNB has its own **theme** you can use:
+
+- `@dnb/eufemia/style/themes/ui/prism/dnb-prism-theme.js`
+
+You can find the theme and its definitions in the [GitHub repository](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/style/themes/ui/prism/dnb-prism-theme.js).

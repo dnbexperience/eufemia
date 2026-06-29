@@ -4,17 +4,14 @@ import type {
   SpecialMdxComponentRenderer,
   SpecialMdxRendererDeps,
 } from './types.ts'
+import {
+  findMdxFiles,
+  readFrontmatter,
+  type FrontmatterRecord,
+} from './mdxFiles.ts'
 import { parseSimpleJsxStringAttributes } from './utils.ts'
 
-type ListSummaryFrontmatter = {
-  title?: string | null
-  description?: string | null
-  order?: number | string | null
-  draft?: boolean | null
-  hideInMenu?: boolean | null
-  componentType?: string | null
-  showTabs?: boolean | null
-}
+type ListSummaryFrontmatter = FrontmatterRecord
 
 type ListEntry = {
   slug: string
@@ -237,7 +234,7 @@ async function loadListSummaryData(
         continue
       }
 
-      const frontmatter = await readListSummaryFrontmatter(filePath)
+      const frontmatter = await readFrontmatter(filePath)
 
       if (
         !frontmatter ||
@@ -481,129 +478,16 @@ function parseFilterValue(
 }
 
 async function findAllDocFiles(docsRoot: string) {
-  if (docsFilesCache.has(docsRoot)) {
-    return docsFilesCache.get(docsRoot) || []
+  const cached = docsFilesCache.get(docsRoot)
+
+  if (cached) {
+    return cached
   }
 
-  const files: string[] = []
-
-  async function walk(currentPath: string): Promise<void> {
-    const entries = await fs.readdir(currentPath, { withFileTypes: true })
-
-    for (const entry of entries) {
-      const fullPath = path.join(currentPath, entry.name)
-
-      if (entry.isDirectory()) {
-        await walk(fullPath)
-        continue
-      }
-
-      if (entry.isFile() && fullPath.endsWith('.mdx')) {
-        files.push(fullPath)
-      }
-    }
-  }
-
-  await walk(docsRoot)
+  const files = await findMdxFiles(docsRoot)
   docsFilesCache.set(docsRoot, files)
 
   return files
-}
-
-async function readListSummaryFrontmatter(filePath: string) {
-  try {
-    const source = await fs.readFile(filePath, 'utf-8')
-    return parseSimpleFrontmatter(source)
-  } catch {
-    return null
-  }
-}
-
-function parseSimpleFrontmatter(source: string): ListSummaryFrontmatter {
-  const match = source.match(/^---\n([\s\S]*?)\n---/)
-
-  if (!match?.[1]) {
-    return {}
-  }
-
-  const frontmatter: ListSummaryFrontmatter = {}
-
-  for (const line of match[1].split('\n')) {
-    const trimmed = line.trim()
-
-    if (!trimmed || trimmed.startsWith('#')) {
-      continue
-    }
-
-    const separatorIndex = trimmed.indexOf(':')
-
-    if (separatorIndex < 0) {
-      continue
-    }
-
-    const key = trimmed.slice(0, separatorIndex).trim()
-    const rawValue = trimmed.slice(separatorIndex + 1).trim()
-
-    if (!key) {
-      continue
-    }
-
-    frontmatter[key as keyof ListSummaryFrontmatter] =
-      parseFrontmatterScalar(rawValue) as never
-  }
-
-  return frontmatter
-}
-
-function parseFrontmatterScalar(value: string) {
-  if (!value) {
-    return ''
-  }
-
-  if (value === 'true') {
-    return true
-  }
-
-  if (value === 'false') {
-    return false
-  }
-
-  if (value === 'null') {
-    return null
-  }
-
-  if (isNumericScalar(value)) {
-    return Number(value)
-  }
-
-  return value.replace(/^['"]|['"]$/g, '')
-}
-
-function isNumericScalar(value: string) {
-  let hasDigits = false
-  let hasDecimalSeparator = false
-
-  for (let index = 0; index < value.length; index += 1) {
-    const char = value[index]
-
-    if (char >= '0' && char <= '9') {
-      hasDigits = true
-      continue
-    }
-
-    if (char === '-' && index === 0) {
-      continue
-    }
-
-    if (char === '.' && !hasDecimalSeparator) {
-      hasDecimalSeparator = true
-      continue
-    }
-
-    return false
-  }
-
-  return hasDigits
 }
 
 function matchesPathFilter(

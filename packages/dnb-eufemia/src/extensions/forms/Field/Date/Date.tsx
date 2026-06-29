@@ -33,6 +33,7 @@ import useInvalidDates from './hooks/useInvalidDates'
 import type { DateFormatOptions } from '../../../../components/date-format/DateFormatUtils'
 import { formatDate } from '../../../../components/date-format/DateFormatUtils'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import { datePickerPropKeys } from './datePickerPropKeys'
 
 // `range`, `showInput`, `showCancelButton` and `showResetButton` are not picked from the `DatePickerProps`
 // Since they require `Field.Date` specific comments, due to them having different default values
@@ -666,50 +667,11 @@ function isEmptyOrPlaceholder(date: string): boolean {
   return !/\d/.test(date)
 }
 
-// Used to filter out DatePickerProps from the FieldProps.
-// Includes DatePickerProps that are not destructured in useFieldProps.
-// Single source of truth for both the type and the runtime key list.
-// Also used by DateDocs.ts to keep documentation in sync.
-export const datePickerPropKeys = [
-  'month',
-  'startMonth',
-  'endMonth',
-  'minDate',
-  'maxDate',
-  'maskOrder',
-  'maskPlaceholder',
-  'dateFormat',
-  'returnFormat',
-  'hideNavigation',
-  'hideDays',
-  'onlyMonth',
-  'hideLastWeek',
-  'disableAutofocus',
-  'showSubmitButton',
-  'submitButtonText',
-  'cancelButtonText',
-  'resetButtonText',
-  'firstDay',
-  'link',
-  'size',
-  'sync',
-  'addonElement',
-  'shortcuts',
-  'open',
-  'direction',
-  'alignPicker',
-  'onDaysRender',
-  'onType',
-  'onOpen',
-  'onClose',
-  'onSubmit',
-  'onCancel',
-  'onReset',
-  'skipPortal',
-  'yearNavigation',
-  'tooltip',
-  'triggerProps',
-] as const satisfies ReadonlyArray<keyof DatePickerProps>
+// `datePickerPropKeys` (used to filter DatePickerProps out of FieldProps)
+// lives in its own lightweight module so documentation tooling can import
+// it without evaluating this component. Re-exported here to preserve the
+// existing `./Date` import path.
+export { datePickerPropKeys }
 
 type PickedDatePickerProps = Pick<
   DatePickerProps,

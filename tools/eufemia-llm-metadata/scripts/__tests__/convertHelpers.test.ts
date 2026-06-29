@@ -976,4 +976,288 @@ describe('convertMdxToMd', () => {
       '| 043 | Sølv MasterCard | Pluss Mastercard | Pluss |'
     )
   })
+
+  it('renders MenuCard cards and strips the Card.List wrapper', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-menucard-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    const mdxPath = path.join(docsRoot, 'contribute.mdx')
+    fs.writeFileSync(
+      mdxPath,
+      [
+        '## Dive in',
+        '',
+        '<Card.List bottom="small">',
+        '  <MenuCard',
+        '    url="/contribute/rules"',
+        '    about="Code of conduct and Development principles"',
+        '    title="Ground rules"',
+        '    icon={Principles}',
+        '  />',
+        '  <MenuCard',
+        '    url="/contribute/getting-started"',
+        '    about="Set up environment"',
+        '    title="Getting started"',
+        '    icon={GettingStarted}',
+        '  />',
+        '</Card.List>',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: mdxPath,
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain(
+      '- [Ground rules](/contribute/rules) – Code of conduct and Development principles'
+    )
+    expect(output).toContain(
+      '- [Getting started](/contribute/getting-started) – Set up environment'
+    )
+    expect(output).not.toContain('<MenuCard')
+    expect(output).not.toContain('Card.List')
+  })
+
+  it('renders RelatedComponents into a related markdown list', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-related-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    const componentsDir = path.join(docsRoot, 'uilib', 'components')
+    fs.mkdirSync(path.join(componentsDir, 'button'), { recursive: true })
+
+    fs.writeFileSync(
+      path.join(componentsDir, 'button.mdx'),
+      [
+        '---',
+        'title: Button',
+        "category: 'actions'",
+        "description: 'Use Button when people need to confirm an action.'",
+        '---',
+        '',
+        '# Button',
+      ].join('\n')
+    )
+
+    fs.writeFileSync(
+      path.join(componentsDir, 'anchor.mdx'),
+      [
+        '---',
+        'title: Anchor',
+        "category: 'actions'",
+        "description: 'Use Anchor to take people to another page.'",
+        '---',
+        '',
+        '# Anchor',
+      ].join('\n')
+    )
+
+    fs.writeFileSync(
+      path.join(componentsDir, 'button', 'info.mdx'),
+      [
+        '---',
+        'showTabs: true',
+        '---',
+        '',
+        '## Description',
+        '',
+        'Button description.',
+        '',
+        '<RelatedComponents />',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: path.join(componentsDir, 'button', 'info.mdx'),
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain('## Related components')
+    expect(output).toContain(
+      'Button is part of the [Actions](/uilib/components/overview/#actions) category.'
+    )
+    expect(output).toContain(
+      '- [Anchor](/uilib/components/anchor/) – to take people to another page.'
+    )
+    expect(output).not.toContain('<RelatedComponents')
+  })
+
+  it('caps RelatedComponents and adds a "See all" link', async () => {
+    const tmpRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'mdx-related-cap-')
+    )
+    const docsRoot = path.join(tmpRoot, 'docs')
+    const componentsDir = path.join(docsRoot, 'uilib', 'components')
+    fs.mkdirSync(path.join(componentsDir, 'current'), { recursive: true })
+
+    // The current page plus 8 siblings in the same category (9 total).
+    const names = [
+      'Current',
+      'Alpha',
+      'Bravo',
+      'Charlie',
+      'Delta',
+      'Echo',
+      'Foxtrot',
+      'Golf',
+      'Hotel',
+    ]
+
+    for (const name of names) {
+      fs.writeFileSync(
+        path.join(componentsDir, `${name.toLowerCase()}.mdx`),
+        [
+          '---',
+          `title: ${name}`,
+          "category: 'content'",
+          `description: '${name} description.'`,
+          '---',
+          '',
+          `# ${name}`,
+        ].join('\n')
+      )
+    }
+
+    fs.writeFileSync(
+      path.join(componentsDir, 'current', 'info.mdx'),
+      ['---', 'showTabs: true', '---', '', '<RelatedComponents />'].join(
+        '\n'
+      )
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: path.join(componentsDir, 'current', 'info.mdx'),
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    // 8 siblings exist, but only the first 6 (alphabetical) are listed.
+    const listedCount = (output.match(/^- \[/gm) || []).length
+    expect(listedCount).toBe(6)
+    expect(output).toContain(
+      '[See all in Content](/uilib/components/overview/#content)'
+    )
+    // Alpha–Foxtrot are shown; Golf and Hotel are beyond the cap.
+    expect(output).toContain('- [Alpha](/uilib/components/alpha/)')
+    expect(output).not.toContain('- [Golf](/uilib/components/golf/)')
+    expect(output).not.toContain('- [Hotel](/uilib/components/hotel/)')
+  })
+
+  it('renders ListComponentsOverview grouped by category', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-overview-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    const componentsDir = path.join(docsRoot, 'uilib', 'components')
+    fs.mkdirSync(componentsDir, { recursive: true })
+
+    fs.writeFileSync(
+      path.join(componentsDir, 'button.mdx'),
+      [
+        '---',
+        'title: Button',
+        "category: 'actions'",
+        "description: 'Use Button to confirm an action.'",
+        '---',
+        '',
+        '# Button',
+      ].join('\n')
+    )
+
+    fs.writeFileSync(
+      path.join(componentsDir, 'checkbox.mdx'),
+      [
+        '---',
+        'title: Checkbox',
+        "category: 'input'",
+        "description: 'Use Checkbox to turn options on or off.'",
+        '---',
+        '',
+        '# Checkbox',
+      ].join('\n')
+    )
+
+    fs.writeFileSync(
+      path.join(componentsDir, 'overview.mdx'),
+      [
+        '---',
+        'title: Overview',
+        '---',
+        '',
+        '# Overview',
+        '',
+        '<ListComponentsOverview />',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: path.join(componentsDir, 'overview.mdx'),
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain('## Actions')
+    expect(output).toContain('## Input')
+    expect(output).toContain(
+      '- [Button](/uilib/components/button/): Use Button to confirm an action.'
+    )
+    expect(output).toContain(
+      '- [Checkbox](/uilib/components/checkbox/): Use Checkbox to turn options on or off.'
+    )
+    expect(output).toContain('[Eufemia Forms](/uilib/extensions/forms/)')
+    expect(output).not.toContain('<ListComponentsOverview')
+  })
+
+  it('resolves Field.Date PropertiesTable from extracted prop keys', async () => {
+    const repoRoot = path.resolve(process.cwd(), '..', '..')
+    const docsRoot = path.join(
+      repoRoot,
+      'packages',
+      'dnb-design-system-portal',
+      'src',
+      'docs'
+    )
+    const docsBaseRoot = path.join(
+      repoRoot,
+      'packages',
+      'dnb-design-system-portal',
+      'src'
+    )
+    const inputPath = path.join(
+      docsRoot,
+      'uilib',
+      'extensions',
+      'forms',
+      'feature-fields',
+      'Date',
+      'properties.mdx'
+    )
+
+    const output = await convertMdxToMd({
+      inputPath,
+      docsRoot,
+      docsBaseRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).not.toContain('<PropertiesTable')
+    // Field.Date specific property
+    expect(output).toContain('"range"')
+    // Property forwarded from DatePicker via datePickerPropKeys
+    expect(output).toContain('"minDate"')
+  })
 })

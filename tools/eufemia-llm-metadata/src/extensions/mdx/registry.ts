@@ -2,8 +2,11 @@ import { createAvailableCountriesTableExtension } from './availableCountriesTabl
 import { createCardProductsTableExtension } from './cardProductsTable.ts'
 import { createColorTableExtension } from './colorTable.ts'
 import { createListAllIconsExtension } from './listAllIcons.ts'
+import { createListComponentsOverviewExtension } from './listComponentsOverview.ts'
 import { createListSummaryFromEdgesExtension } from './listSummaryFromEdges.ts'
+import { createMenuCardExtension } from './menuCard.ts'
 import { createRadiusTokenTableExtension } from './radiusTokenTable.ts'
+import { createRelatedComponentsExtension } from './relatedComponents.ts'
 import { createTokenExampleExtension } from './tokenExample.ts'
 import { createTokenSectionTableExtension } from './tokenSectionTable.ts'
 import type {
@@ -33,6 +36,9 @@ function createSpecialMdxExtensions(
     createRadiusTokenTableExtension(deps),
     createColorTableExtension(deps),
     createListSummaryFromEdgesExtension(deps),
+    createListComponentsOverviewExtension(deps),
+    createRelatedComponentsExtension(deps),
+    createMenuCardExtension(),
     createListAllIconsExtension(deps),
     createAvailableCountriesTableExtension(deps),
     createCardProductsTableExtension(deps),
