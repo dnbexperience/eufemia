@@ -1,5 +1,6 @@
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { Field, Form } from '../../..'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
@@ -415,6 +416,25 @@ describe('Field.InstallmentDay', () => {
         type: 'field',
         value: nb.dayDisplay.replace('{day}', '15.'),
       },
+    })
+  })
+
+  describe('ARIA', () => {
+    it('should validate with ARIA rules', async () => {
+      const result = render(
+        <Field.InstallmentDay required validateInitially />
+      )
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('should have aria-required', () => {
+      render(<Field.InstallmentDay required />)
+
+      const trigger = document.querySelector(
+        'button.dnb-dropdown__trigger'
+      )
+      expect(trigger).toHaveAttribute('aria-required', 'true')
     })
   })
 })
