@@ -117,7 +117,11 @@ Multi-call files: `drawer-list/DrawerList.tsx` (4), `dropdown/Dropdown.tsx` (4),
 
 ## 7. Risks & guardrails
 
-- **Spacing leak at non-`useSpacing` sites (the real one):** form-control `<input>`s (Checkbox/Radio/Switch), Badge, TableContainer — see §4a. `removeSpaceProps` fully covers these (`noCollapse` isn't a component prop); **capture its return value**. ✅ Contract tests in place for the form controls.
+- **Form-control gotchas (discovered migrating Checkbox/Radio — apply to Switch/Input too):**
+  - **`disabled === true → aria-disabled`**: form controls RELY on `validateDOMAttributes` for this (they don't set it themselves, unlike Button/Textarea/AccordionHeader/Tabs). Re-add explicitly: `if (params.disabled === true) params['aria-disabled'] = true` (after `skeletonDOMAttributes`, before `removeSpaceProps`, to preserve attribute order — tests assert exact lists).
+  - **`labelDirection` leak**: form controls receive `labelDirection` (and `vertical`, `skeleton`, `disabled`, `translate`) from `formElement` context via `pickFormElementProps`. They don't destructure `labelDirection`, so it lands in `...rest` → `<input>`. `removeSpaceProps` does NOT strip it. Destructure it out (it becomes an `ignoreRestSiblings`-exempt sibling). `validateDOMAttributes` stripped `labelDirection` but NOT `vertical`/`translate`, so only strip `labelDirection`.
+  - ✅ Done for Checkbox, Radio (all 56 tests pass). Phase 0 spacing guards did NOT catch the aria-disabled regression — an existing exact-attribute-list test did; **always run the full component suite**.
+- **Spacing leak at non-`useSpacing` sites (the real one):** form-control `<input>`s (Checkbox/Radio/Switch), Badge, TableContainer — see §4a. `removeSpaceProps` fully covers spacing (`noCollapse` isn't a component prop); **capture its return value**. ✅ Contract tests in place for the form controls.
 - **In-place mutation vs. return:** ~48 sites mutate `params`; 25 capture the return. `removeSpaceProps` returns a new object — assign it back, or the strip silently no-ops.
 - **Public `attributes` prop:** preserve in the §4 components, including the prototype-pollution guard.
 - **Visual regression:** DOM structure and `dnb-` classes must be unchanged — lean on the screenshot suite.
