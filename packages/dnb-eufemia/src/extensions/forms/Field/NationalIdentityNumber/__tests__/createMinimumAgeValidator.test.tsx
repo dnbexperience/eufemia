@@ -180,10 +180,6 @@ describe('createMinimumAgeValidator', () => {
       '60075812380',
     ]
 
-    const validIds = [...fnr18YearsOldAndOlder, ...dnr18YearsOldAndOlder]
-
-    const invalidIds = [...fnrUnder18YearsOld, ...dnrUnder18YearsOld]
-
     const invalidDnums = ['69020112345']
     const invalidFnrs = ['29020112345']
 
@@ -275,19 +271,6 @@ describe('createMinimumAgeValidator', () => {
       const invalidDnum = invalidDnums[0]
       const invalidFnr = invalidFnrs[0]
 
-      const expectNoAlert = async () => {
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-      }
-
-      const expectAlertWithText = async (text: string) => {
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(text)
-        })
-      }
-
       describe('with the minimum-age validator only', () => {
         it('passes a valid adult value as onChangeValidator', async () => {
           render(
@@ -298,7 +281,9 @@ describe('createMinimumAgeValidator', () => {
               value={adultFnr}
             />
           )
-          await expectNoAlert()
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
         })
 
         it('rejects an underage value as onChangeValidator', async () => {
@@ -310,7 +295,12 @@ describe('createMinimumAgeValidator', () => {
               value={underageFnr}
             />
           )
-          await expectAlertWithText(errorMinimumAgeValidator)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              errorMinimumAgeValidator
+            )
+          })
         })
 
         it('passes a valid adult value as onBlurValidator', async () => {
@@ -321,7 +311,9 @@ describe('createMinimumAgeValidator', () => {
               value={adultFnr}
             />
           )
-          await expectNoAlert()
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
         })
 
         it('rejects an underage value as onBlurValidator', async () => {
@@ -332,7 +324,12 @@ describe('createMinimumAgeValidator', () => {
               value={underageFnr}
             />
           )
-          await expectAlertWithText(errorMinimumAgeValidator)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              errorMinimumAgeValidator
+            )
+          })
         })
       })
 
@@ -348,7 +345,9 @@ describe('createMinimumAgeValidator', () => {
               value={adultDnr}
             />
           )
-          await expectNoAlert()
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
         })
 
         it('shows the minimum-age error for a valid but underage value', async () => {
@@ -362,7 +361,12 @@ describe('createMinimumAgeValidator', () => {
               value={underageFnr}
             />
           )
-          await expectAlertWithText(errorMinimumAgeValidator)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              errorMinimumAgeValidator
+            )
+          })
         })
 
         it('shows the dnr error for an invalid d-number', async () => {
@@ -376,7 +380,12 @@ describe('createMinimumAgeValidator', () => {
               value={invalidDnum}
             />
           )
-          await expectAlertWithText(nb.NationalIdentityNumber.errorDnr)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              nb.NationalIdentityNumber.errorDnr
+            )
+          })
         })
 
         it('shows the fnr error for an invalid f-number', async () => {
@@ -390,7 +399,12 @@ describe('createMinimumAgeValidator', () => {
               value={invalidFnr}
             />
           )
-          await expectAlertWithText(nb.NationalIdentityNumber.errorFnr)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              nb.NationalIdentityNumber.errorFnr
+            )
+          })
         })
 
         it('also validates as an onBlurValidator', async () => {
@@ -403,7 +417,12 @@ describe('createMinimumAgeValidator', () => {
               value={underageFnr}
             />
           )
-          await expectAlertWithText(errorMinimumAgeValidator)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              errorMinimumAgeValidator
+            )
+          })
         })
       })
 
@@ -417,7 +436,9 @@ describe('createMinimumAgeValidator', () => {
               value={adultDnr}
             />
           )
-          await expectNoAlert()
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
         })
 
         it('shows the minimum-age error for an underage d-number', async () => {
@@ -429,7 +450,12 @@ describe('createMinimumAgeValidator', () => {
               value={underageDnr}
             />
           )
-          await expectAlertWithText(errorMinimumAgeValidator)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              errorMinimumAgeValidator
+            )
+          })
         })
 
         it('shows the dnr error when given an f-number', async () => {
@@ -441,7 +467,12 @@ describe('createMinimumAgeValidator', () => {
               value={adultFnr}
             />
           )
-          await expectAlertWithText(nb.NationalIdentityNumber.errorDnr)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              nb.NationalIdentityNumber.errorDnr
+            )
+          })
         })
       })
 
@@ -455,7 +486,9 @@ describe('createMinimumAgeValidator', () => {
               value={adultFnr}
             />
           )
-          await expectNoAlert()
+          await expect(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+          }).toNeverResolve()
         })
 
         it('shows the minimum-age error for an underage f-number', async () => {
@@ -467,7 +500,12 @@ describe('createMinimumAgeValidator', () => {
               value={underageFnr}
             />
           )
-          await expectAlertWithText(errorMinimumAgeValidator)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              errorMinimumAgeValidator
+            )
+          })
         })
 
         it('shows the fnr error when given a d-number', async () => {
@@ -479,7 +517,12 @@ describe('createMinimumAgeValidator', () => {
               value={adultDnr}
             />
           )
-          await expectAlertWithText(nb.NationalIdentityNumber.errorFnr)
+          await waitFor(() => {
+            expect(screen.queryByRole('alert')).toBeInTheDocument()
+            expect(screen.queryByRole('alert')).toHaveTextContent(
+              nb.NationalIdentityNumber.errorFnr
+            )
+          })
         })
       })
     })
