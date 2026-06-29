@@ -192,6 +192,7 @@
     display: flex;
   }
 
+  /* Logo resolves its colour via JS theme context, which can desync from the body's CSS color-scheme class; force it here. */
   :global(.eufemia-theme__color-scheme--dark) & :global(.dnb-logo) svg {
     fill: var(--token-color-text-neutral);
   }
