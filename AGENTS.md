@@ -36,6 +36,8 @@
 
 ## Commit Messages
 
+Never commit directly to the `main` branch. Always create a new branch for your changes and open a pull request to get them merged.
+
 Follow the [Git convention style guide](packages/dnb-design-system-portal/src/docs/contribute/style-guides/git.mdx). Use Conventional Commits with imperative mood and a PascalCase scope when targeting a specific component:
 
 - `fix(Button): prevent double click submission`
