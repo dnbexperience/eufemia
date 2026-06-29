@@ -35,7 +35,7 @@ export const logoColors = {
   dnb: { light: '#007272', dark: '#a5e1d2' },
   eiendom: { light: '#007272', dark: '#fff' },
   sbanken: { light: '#18172a', dark: '#fff' },
-  carnegie: { light: '#5c0022', dark: '#fff' },
+  carnegie: { light: '#5c0022' },
 }
 
 const DnbPaths = () => {
@@ -93,10 +93,8 @@ export const CarnegieDefault: LogoSvgComponent = function ({
   fill,
   ...props
 }) {
-  const theme = useTheme()
-  const isDark = theme?.colorScheme === 'dark'
-  const resolvedFill =
-    fill ?? (isDark ? logoColors.carnegie.dark : logoColors.carnegie.light)
+  // Carnegie only supports light mode, so it always uses the light fill color.
+  const resolvedFill = fill ?? logoColors.carnegie.light
 
   return (
     <svg fill={resolvedFill} {...props} viewBox="0 0 641.35 333.56">
