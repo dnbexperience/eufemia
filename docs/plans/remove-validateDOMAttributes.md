@@ -31,7 +31,7 @@ Source: [component-helper.ts](packages/dnb-eufemia/src/shared/component-helper.t
 - `pickSpacingProps` — [components/flex/utils.tsx](packages/dnb-eufemia/src/components/flex/utils.tsx#L33). Forwards spacing to a root element (already used across `extensions/forms`).
 - **React 19** (peer dep `^19`, dev `19.2.5` — [package.json](packages/dnb-eufemia/package.json#L124)) drops `null`/`undefined`/`false` attribute values automatically, so Job C's null-scrub is mostly redundant for correctness.
 
-> ⚠️ **Behavior gap (must not be missed):** `removeSpaceProps` removes 6 keys but **not** `noCollapse`, **not** `labelDirection`, and does **not** implement the `disabled === null` deletion or the `disabled === true → aria-disabled` mapping. A blind find-and-replace with `removeSpaceProps` would leak `noCollapse`/`labelDirection` onto the DOM and change `disabled` handling. These must be destructured/handled explicitly per component, or covered by a small successor helper (see §5, Phase 0).
+> ⚠️ **Behavior gap — narrower than it first looks (see §4a):** `removeSpaceProps` removes only `space, innerSpace, top, bottom, left, right`. The §4a review found that **`useSpacing` already strips all spacing keys *plus* `noCollapse`** before `validateDOMAttributes` runs, and `labelDirection` is explicitly destructured in every component that has it, and `aria-disabled` is set explicitly where needed. So the gap only bites at the few call sites whose DOM object does **not** pass through `useSpacing` — and at those, `removeSpaceProps` would still miss `noCollapse`. React 19 covers the `null`/function/invalid-name scrub.
 
 ## 4. Public-API safety assessment
 
@@ -39,16 +39,36 @@ Source: [component-helper.ts](packages/dnb-eufemia/src/shared/component-helper.t
 - **The `attributes` prop IS public** in several components and must be preserved (Job A cannot be globally dropped). Confirmed typed occurrences include: [Input.tsx](packages/dnb-eufemia/src/components/input/Input.tsx#L854), [Switch.tsx](packages/dnb-eufemia/src/components/switch/Switch.tsx#L87), [RadioGroup.tsx](packages/dnb-eufemia/src/components/radio/RadioGroup.tsx#L69), [FormStatus.tsx](packages/dnb-eufemia/src/components/form-status/FormStatus.tsx#L127), [TooltipWithEvents.tsx](packages/dnb-eufemia/src/components/tooltip/TooltipWithEvents.tsx#L28), [PopoverContainer.tsx](packages/dnb-eufemia/src/components/popover/PopoverContainer.tsx#L30), [DatePickerProvider.tsx](packages/dnb-eufemia/src/components/date-picker/DatePickerProvider.tsx#L37).
 - **Contributor docs teach the old pattern** and must be updated: [making-changes.mdx](packages/dnb-design-system-portal/src/docs/contribute/getting-started/making-changes.mdx#L233) shows `validateDOMAttributes(props, rest)` as the recommended spacing-support recipe.
 
+## 4a. Per-component leak review — will removal forward unwanted props to the DOM?
+
+Reviewed all 73 call sites. Four mechanics make the **majority of sites safe** (the helper is redundant):
+
+1. **`useSpacing` already strips spacing props *and* `noCollapse`.** Its `spacingKeys = [space, innerSpace, top, right, bottom, left, noCollapse]` are deleted from the returned object — [SpacingUtils.ts](packages/dnb-eufemia/src/components/space/SpacingUtils.ts#L564). Any DOM object routed through `useSpacing` is already clean.
+2. **`labelDirection` is always destructured** out to build class modifiers (e.g. [Input.tsx](packages/dnb-eufemia/src/components/input/Input.tsx#L525), [Dropdown.tsx](packages/dnb-eufemia/src/components/dropdown/Dropdown.tsx#L417), [RadioGroup.tsx](packages/dnb-eufemia/src/components/radio/RadioGroup.tsx#L177)) — it never sits in the spread object.
+3. **`aria-disabled` is set explicitly** by the components that need it ([Button.tsx](packages/dnb-eufemia/src/components/button/Button.tsx#L422), [Textarea.tsx](packages/dnb-eufemia/src/components/textarea/Textarea.tsx#L533), [AccordionHeader.tsx](packages/dnb-eufemia/src/components/accordion/AccordionHeader.tsx#L394), [Tabs.tsx](packages/dnb-eufemia/src/components/tabs/Tabs.tsx#L1314)).
+4. **React 19 drops `null`/`undefined`/`false` and unknown function-valued props**, covering the helper's invalid-key scrub.
+
+### SAFE — removal leaks nothing (call is redundant)
+These build the DOM object via `useSpacing`, **or** pass a destructured `rest` *back through* `useSpacing` afterward (so spacing + `noCollapse` are stripped regardless). Verified examples: `Table`, `Avatar`, `Timeline`, `Breadcrumb` (pattern `validateDOMAttributes(allProps, props)` immediately followed by `useSpacing(allProps, { ...props })`); plus `Element`, `AccordionContent`, `AccordionHeader`, `AccordionGroup`, `TagGroup`, `AvatarGroup`, `Heading`, `Logo`, `NumberFormatBase`, `stat/Content`, `stat/Label`, `stat/Text`, `DrawerList`, `Autocomplete`, `Dropdown` (main/list/ul), `Tabs`, `TabsContentWrapper`, `ScrollView`, `Skeleton`, `Space`, `ProgressIndicator`(+Circular/Linear), `Pagination`, `DialogContent`, `StepIndicatorTriggerButton`, `ToggleButton`, `ToggleButtonGroup`, `DatePicker`/`DatePickerInput` (non-`attributes` params).
+
+### RISK — needs explicit handling (would otherwise leak / drop wanted props)
+1. **Spacing leaks onto the inner `<input>` of form controls** — `Checkbox`, `Radio`, `Switch` build `inputParams = { disabled, checked, ...rest }` **separately** from `useSpacing` (which is applied to the outer `mainParams`). So `...rest` carries `space/top/right/bottom/left/innerSpace/noCollapse` onto `<input>`; today `validateDOMAttributes` strips them. Verified: [Switch.tsx](packages/dnb-eufemia/src/components/switch/Switch.tsx#L268), [Checkbox.tsx](packages/dnb-eufemia/src/components/checkbox/Checkbox.tsx#L269). Fix: `removeSpaceProps` (capturing the return) **plus** explicit `noCollapse` removal.
+2. **Other raw-`rest`-not-through-`useSpacing` objects** — e.g. [Badge.tsx](packages/dnb-eufemia/src/components/badge/Badge.tsx#L172) (inner span `restProps`), [TableContainer.tsx](packages/dnb-eufemia/src/components/table/TableContainer.tsx#L45). Same fix.
+3. **Public `attributes` prop must be preserved** (removing it drops props we DO want): `Input` (`inputAttributes` + `attributes`), `Switch`, `RadioGroup`, `FormStatus`, `Tooltip`, `Dropdown` trigger, `DatePicker`. Keep the prototype-pollution-guarded merge.
+4. **Mutation-vs-return trap (mechanical, ~48 sites):** these ignore the return value and rely on in-place mutation. `removeSpaceProps` returns a NEW object — the result **must be assigned back**, or the strip silently no-ops and spacing leaks.
+
+**Bottom line:** with a correct migration (lean on the existing `useSpacing`; add `removeSpaceProps` + `noCollapse` removal only at the raw-`rest` sites — the form-control `<input>`s, Badge, TableContainer; preserve the `attributes` prop; keep explicit `aria-disabled`), **no unwanted props reach the DOM**. The only way unwanted props leak is a naive/mechanical removal.
+
 ## 5. Phased execution plan
 
 Each phase is its own PR, keeps unit + screenshot/visual-regression suites green, and follows `AGENTS.md` (Conventional Commits, PascalCase scope, Prettier/ESLint via workspace Yarn). Recommended scope tag: `refactor(component-helper): ...` for shared work, component scope per migration PR.
 
 ### Phase 0 — Decide the replacement recipe (no behavior change)
-- [ ] Choose the approach for the Job-B gap props (`noCollapse`, `labelDirection`, `disabled`):
-  - **Option A (preferred): explicit destructuring per component** — most aligned with the deprecation note ("explicitly removed").
-  - **Option B: a tiny successor helper** (e.g. `removeNonDOMProps`) that wraps `removeSpaceProps` and also drops `noCollapse`/`labelDirection` and applies the `disabled` rules — useful if many components share the gap props.
+- [ ] Per §4a, the only spacing-leak sites are the ones whose DOM object bypasses `useSpacing` (form-control `<input>`s in Checkbox/Radio/Switch, plus Badge, TableContainer). Decide how to strip there:
+  - **Option A (preferred): explicit destructuring** of the residual props per component — most aligned with the deprecation note.
+  - **Option B: a tiny successor helper** wrapping `removeSpaceProps` that also drops `noCollapse` (the one key `removeSpaceProps` misses) — useful if several form controls share the pattern.
 - [ ] Write the canonical "before/after" snippet to apply everywhere (and reuse in docs).
-- [ ] Add/confirm test coverage that encodes the desired end-state behavior **before** migrating (per `AGENTS.md`: tests first).
+- [ ] Add/confirm test coverage that encodes the desired end-state behavior **before** migrating (per `AGENTS.md`: tests first). Include a test asserting no `space`/`top`/`noCollapse` attribute lands on the `<input>` of Checkbox/Radio/Switch.
 
 ### Phase 1 — Update contributor documentation
 - [ ] Replace the `validateDOMAttributes` example in [making-changes.mdx](packages/dnb-design-system-portal/src/docs/contribute/getting-started/making-changes.mdx#L233) with the Phase 0 recipe, so no new usage is introduced during the migration.
@@ -94,8 +114,8 @@ Multi-call files: `drawer-list/DrawerList.tsx` (4), `dropdown/Dropdown.tsx` (4),
 
 ## 7. Risks & guardrails
 
-- **Layout-prop gap:** `noCollapse`, `labelDirection`, and the `disabled`/`aria-disabled` rules are NOT covered by `removeSpaceProps` (§3). Handle explicitly.
-- **In-place mutation vs. return:** 48 sites mutate `params`; 25 capture the return. Don't break call sites that depend on either form.
+- **Spacing leak at non-`useSpacing` sites (the real one):** form-control `<input>`s (Checkbox/Radio/Switch), Badge, TableContainer — see §4a. `removeSpaceProps` covers all but `noCollapse`; strip that explicitly.
+- **In-place mutation vs. return:** ~48 sites mutate `params`; 25 capture the return. `removeSpaceProps` returns a new object — assign it back, or the strip silently no-ops.
 - **Public `attributes` prop:** preserve in the §4 components, including the prototype-pollution guard.
 - **Visual regression:** DOM structure and `dnb-` classes must be unchanged — lean on the screenshot suite.
 - **No changelog edits** (per `AGENTS.md`; humans write those).
