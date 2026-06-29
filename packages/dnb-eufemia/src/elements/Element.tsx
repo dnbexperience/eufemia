@@ -7,10 +7,7 @@ import { Fragment, useContext } from 'react'
 import type { HTMLProps, ReactNode, Ref, RefObject } from 'react'
 import { clsx } from 'clsx'
 import Context from '../shared/Context'
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../shared/component-helper'
+import { extendPropsWithContext } from '../shared/component-helper'
 import { useSpacing } from '../components/space/SpacingUtils'
 import type { SkeletonMethods } from '../components/skeleton/SkeletonHelper'
 import {
@@ -84,15 +81,13 @@ function Element(localProps: ElementAllProps) {
     createSkeletonClass(skeletonMethod, skeleton, context)
   )
 
-  // useSpacing must be called before validateDOMAttributes
-  // because the validator removes non-DOM attributes like spacing props
+  // useSpacing must be called before spreading onto the DOM element,
+  // because it strips non-DOM attributes like spacing props from the result
   const params = useSpacing(
     attributes,
     { ...attributes, className: internalClassName },
     typeof Tag === 'string' ? `dnb-${Tag}` : null
   )
-
-  validateDOMAttributes(null, params)
 
   skeletonDOMAttributes(params, skeleton, context)
 

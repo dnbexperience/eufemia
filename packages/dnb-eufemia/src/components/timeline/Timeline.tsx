@@ -14,10 +14,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { TimelineItemProps } from './TimelineItem'
 import TimelineItem from './TimelineItem'
 import TimelineContext from './TimelineContext'
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TimelineProps = {
@@ -69,8 +66,6 @@ const Timeline = (localProps: TimelineAllProps) => {
     children: childrenProp,
     ...props
   } = allProps
-
-  validateDOMAttributes(allProps, props)
 
   const olProps = useSpacing(allProps, {
     ...props,

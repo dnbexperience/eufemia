@@ -44,7 +44,6 @@ import type { BreadcrumbItemProps } from './BreadcrumbItem'
 import BreadcrumbItem from './BreadcrumbItem'
 import {
   convertJsxToString,
-  validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
@@ -223,8 +222,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
     return variant
   }, [data, items, variant])
-
-  validateDOMAttributes(allProps, props)
 
   const navProps = useSpacing(allProps, {
     ...props,
