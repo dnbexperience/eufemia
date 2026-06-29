@@ -336,7 +336,7 @@ describe('ArraySelection', () => {
       )
     })
 
-    it('has correct elements when "checkbox" is provided provided', () => {
+    it('has correct elements when "checkbox" is provided', () => {
       render(
         <Field.ArraySelection>
           <Field.Option value="option1">Option 1</Field.Option>
@@ -837,7 +837,7 @@ describe('ArraySelection', () => {
         expect(options[1].textContent).toBe('title b')
       })
 
-      it(`has correct elements when "${testVariant}" is provided provided`, () => {
+      it(`has correct elements when "${testVariant}" is provided`, () => {
         render(
           <Field.ArraySelection variant={testVariant}>
             <Field.Option value="option1">Option 1</Field.Option>
