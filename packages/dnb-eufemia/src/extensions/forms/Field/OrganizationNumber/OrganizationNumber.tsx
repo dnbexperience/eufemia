@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
+import { norwegianOrgNumberValidator } from './validators'
 import useTranslation from '../../hooks/useTranslation'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -35,20 +36,11 @@ function OrganizationNumber(props: FieldOrganizationNumberProps) {
   )
 
   const organizationNumberValidator = useCallback(
-    (value: string) => {
-      if (value !== undefined) {
-        const orgNoIs9Digits = value?.length === 9
-
-        if (!orgNoIs9Digits) {
-          return Error(errorOrgNoLength)
-        }
-        if (orgNoIs9Digits && !isValidOrgNumber(value)) {
-          return Error(errorOrgNo)
-        }
-      }
-
-      return undefined
-    },
+    (value: string) =>
+      norwegianOrgNumberValidator(value, {
+        errorOrgNo,
+        errorOrgNoLength,
+      }),
     [errorOrgNo, errorOrgNoLength]
   )
 
@@ -88,33 +80,6 @@ function OrganizationNumber(props: FieldOrganizationNumberProps) {
   }
 
   return <StringField {...StringFieldProps} />
-}
-
-/**
- * Source:
- * www.brreg.no/om-oss/registrene-vare/om-enhetsregisteret/organisasjonsnummeret/
- */
-function isValidOrgNumber(digits: string) {
-  if (parseFloat(digits) === 0) {
-    return false
-  }
-  let checkDigit = 2
-  let sum = 0
-
-  for (let i = digits.length - 2; i >= 0; --i) {
-    sum += parseInt(digits.charAt(i), 10) * checkDigit
-
-    checkDigit += 1
-
-    if (checkDigit > 7) {
-      checkDigit = 2
-    }
-  }
-
-  const result = 11 - (sum % 11)
-  const finalCheckDigit = result === 11 ? 0 : result
-
-  return parseInt(digits.charAt(digits.length - 1), 10) === finalCheckDigit
 }
 
 withComponentMarkers(OrganizationNumber, {
