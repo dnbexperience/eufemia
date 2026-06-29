@@ -21,13 +21,12 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import {
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -147,6 +146,7 @@ function Checkbox(localProps: CheckboxProps) {
     size,
     label,
     labelPosition,
+    labelDirection,
     labelSrOnly,
     title,
     element,
@@ -284,11 +284,17 @@ function Checkbox(localProps: CheckboxProps) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
 
-    // also used for code markup simulation
-    return validateDOMAttributes(
-      props,
-      skeletonDOMAttributes(inputParams, skeleton, context)
+    const domAttributes = skeletonDOMAttributes(
+      inputParams,
+      skeleton,
+      context
     )
+    if (domAttributes.disabled === true) {
+      domAttributes['aria-disabled'] = true
+    }
+
+    // also used for code markup simulation
+    return removeSpaceProps(domAttributes)
   }, [
     context,
     disabled,

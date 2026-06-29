@@ -19,14 +19,13 @@ import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -340,6 +339,7 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
     label,
     labelSrOnly,
     labelPosition,
+    labelDirection,
     size,
     readOnly,
     skeleton,
@@ -423,8 +423,12 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
+  if (inputParams.disabled === true) {
+    inputParams['aria-disabled'] = true
+  }
+
   // also used for code markup simulation
-  validateDOMAttributes(ownProps, inputParams)
+  inputParams = removeSpaceProps(inputParams)
 
   const labelComp = label && (
     <FormLabel
