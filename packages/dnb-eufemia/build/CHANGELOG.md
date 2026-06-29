@@ -3,6 +3,12 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.8.1](https://github.com/dnbexperience/eufemia/compare/v11.8.0...v11.8.1) (2026-06-29)
+
+### :bug: Bug Fixes
+
+* **Logo:** keep Carnegie logo legible since it only supports light mode ([#8735](https://github.com/dnbexperience/eufemia/issues/8735)) ([da6887f](https://github.com/dnbexperience/eufemia/commit/da6887f3bcb86be3cf9a93323e15974c14306f38))
+
 ## [11.8.0](https://github.com/dnbexperience/eufemia/compare/v11.7.0...v11.8.0) (2026-06-26)
 
 ### :sparkles: Features
