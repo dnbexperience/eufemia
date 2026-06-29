@@ -207,7 +207,7 @@ async function buildComponentCatalog(
     byCategory.set(entry.category, group)
   }
 
-  for (const group of byCategory.values()) {
+  for (const group of Array.from(byCategory.values())) {
     group.sort((a, b) => a.title.localeCompare(b.title))
   }
 
