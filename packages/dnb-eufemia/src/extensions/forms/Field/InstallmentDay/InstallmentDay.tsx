@@ -84,6 +84,8 @@ function InstallmentDay(props: FieldInstallmentDayProps) {
     days,
     showLastDay = true,
     placeholder = defaultPlaceholder,
+    path,
+    itemPath,
     setDisplayValue,
   } = useFieldProps(preparedProps)
 
@@ -151,7 +153,11 @@ function InstallmentDay(props: FieldInstallmentDayProps) {
     })
   }, [value, lastDayLabel, dayDisplay, locale])
 
-  setDisplayValue(displayValue)
+  useMemo(() => {
+    if (path || itemPath) {
+      setDisplayValue(displayValue)
+    }
+  }, [displayValue, path, itemPath, setDisplayValue])
 
   const onChangeHandler = useCallback(
     ({ data: eventData }: DrawerListChangeEvent) => {
