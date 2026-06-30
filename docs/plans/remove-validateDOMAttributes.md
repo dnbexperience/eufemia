@@ -1,6 +1,6 @@
 # Plan: Remove `validateDOMAttributes`
 
-> Status: **In progress.** ~42 of 52 files migrated; 10 remaining (Autocomplete, DatePicker, DatePickerInput, Dropdown, Input, SliderThumb, StepIndicatorTriggerButton, Tabs, Textarea, DrawerList). This document tracks the work to retire the deprecated `validateDOMAttributes` helper.
+> Status: **Helper removed.** All 73 call sites across 52 files migrated and `validateDOMAttributes` is deleted from `src` (0 references). `tsc --noEmit` is clean. Final verification (full unit suite / screenshots / bundlewatch) in progress. This document tracks the work to retire the deprecated `validateDOMAttributes` helper.
 > Branch: `refactor/remove-validate-dom-attributes`. Target package: `packages/dnb-eufemia`.
 
 ## 1. Goal
@@ -94,6 +94,8 @@ Must keep merging the public `attributes` prop (with the pollution guard) — on
 - [x] **FormStatus** — `mergeAttributes` for the typed `attributes` prop (`params` flows through `useSpacing`); destructured `attributes` out of `restOfProps`; deleted the redundant `textParams` scrub call. Added an attributes-prop test.
 - [ ] Remaining typed-`attributes` comps: [Input.tsx](packages/dnb-eufemia/src/components/input/Input.tsx#L691) (also has `inputAttributes`), [DatePicker.tsx](packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx#L701)/[DatePickerInput.tsx](packages/dnb-eufemia/src/components/date-picker/DatePickerInput.tsx#L889), [Dropdown.tsx](packages/dnb-eufemia/src/components/dropdown/Dropdown.tsx#L568) trigger.
 
+> **Phase 4 done.** Input (3 calls incl. `InputSubmitButton` which types `attributes` → `mergeAttributes`; main `attributes` was untyped/unused → dropped), DatePicker/DatePickerInput (no typed `attributes`; `removeSpaceProps`), Dropdown (trigger; `removeNullProps(removeSpaceProps(…))` for event metadata). Also Icon/IconPrimary keep a real typed-`attributes` merge via `mergeAttributes` (regression fix).
+
 ### Phase 3.5 — Remaining simpler leftovers (redundant deletes / removeSpaceProps)
 - [x] **ScrollView, Pagination** — redundant (`mainParams` from `useSpacing`, no typed `attributes` prop). Deleted.
 - [x] **Skeleton** (guard null `element` so it isn't forwarded to `Space`), **Space**, **NumberFormatBase**, **FormLabel**, **DialogContent** — redundant deletes (DOM object built via `useSpacing`; React 19 covers the scrub).
@@ -102,18 +104,20 @@ Must keep merging the public `attributes` prop (with the pollution guard) — on
 - [x] **PaymentCard** — redundant (params via `useSpacing`, spread on `<figure>`; no `ref`/`element` null default; no typed `attributes`).
 - [ ] Remaining: **SliderThumb**, **StepIndicatorTriggerButton** — context-based params (`useSliderProps` / `StepIndicatorContext`); review carefully.
 
+> All Phase 3.5 items are now done (SliderThumb/StepIndicatorTriggerButton migrated with `removeSpaceProps`).
+
 ### Phase 5 — Migrate multi-call / complex components
 Several calls per file and interdependent params; do these carefully and last.
 - [x] **TabsContentWrapper** — `removeSpaceProps` (params spread last onto `HeightAnimation`). **PaymentCard** — done (see Phase 3.5).
 - [ ] Remaining: [DrawerList.tsx](packages/dnb-eufemia/src/fragments/drawer-list/DrawerList.tsx#L555) (4), [Dropdown.tsx](packages/dnb-eufemia/src/components/dropdown/Dropdown.tsx#L508) (4), [Autocomplete.tsx](packages/dnb-eufemia/src/components/autocomplete/Autocomplete.tsx#L2346) (3), [Textarea.tsx](packages/dnb-eufemia/src/components/textarea/Textarea.tsx#L545) (3), [Tabs.tsx](packages/dnb-eufemia/src/components/tabs/Tabs.tsx#L1139) (1).
 
 ### Phase 6 — Delete the helper
-- [ ] Confirm zero non-test references: `grep -rE 'validateDOMAttributes' packages/dnb-eufemia/src | grep -v __tests__` returns nothing.
-- [ ] Remove `validateDOMAttributes` (and the now-unused `startsWithCamelCaseRegex` / `notOnlyAZOrHyphenRegex` if not used elsewhere) from [component-helper.ts](packages/dnb-eufemia/src/shared/component-helper.ts#L44).
-- [ ] Remove/relocate its unit tests in [component-helper.test.tsx](packages/dnb-eufemia/src/shared/__tests__/component-helper.test.tsx#L262); ensure equivalent behavior is covered on the replacement.
+- [x] Confirmed zero non-test references.
+- [x] Removed `validateDOMAttributes` (and the now-unused `startsWithCamelCaseRegex` / `notOnlyAZOrHyphenRegex`) from [component-helper.ts](packages/dnb-eufemia/src/shared/component-helper.ts).
+- [x] Removed its unit tests; behavior is covered by `mergeAttributes` / `removeNullProps` / `removeSpaceProps` and the per-component suites. Added `removeNullProps` (mirrors `removeUndefinedProps`) for non-DOM/event-metadata null stripping.
 
 ### Phase 7 — Final verification
-- [ ] Type-check, ESLint, Prettier (workspace Yarn).
+- [x] Type-check (`yarn test:types` / `tsc --noEmit`) — clean. (Surfaced narrowing that `validateDOMAttributes`' `any` return had masked; fixed with targeted casts.)
 - [ ] Full unit suite + screenshot/visual-regression suite green.
 - [ ] `bundlewatch` within limits.
 
