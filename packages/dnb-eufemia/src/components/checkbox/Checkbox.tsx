@@ -263,7 +263,7 @@ function Checkbox(localProps: CheckboxProps) {
   const showStatus = getStatusState(status)
 
   /**
-   * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result
+   * Adds aria attributes, applies skeletonDOMAttributes, strips spacing props and returns the result
    */
   const handleInputAttributes = useCallback(() => {
     const inputParams = {
