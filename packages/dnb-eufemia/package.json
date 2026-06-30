@@ -89,7 +89,7 @@
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts --update=true",
     "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts --watch",
-    "verify:generated-entries:ci": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/verifyGeneratedEntriesCommitted"
+    "verify:generated-entries:ci": "tsx ./scripts/prebuild/tasks/verifyGeneratedEntriesCommitted"
   },
   "sideEffects": [
     "*.css",
