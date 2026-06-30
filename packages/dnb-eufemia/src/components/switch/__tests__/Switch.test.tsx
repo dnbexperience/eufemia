@@ -153,6 +153,14 @@ describe('Switch component', () => {
     expect(input).not.toHaveAttribute('left')
   })
 
+  it('should forward the attributes prop to the input element', () => {
+    render(<Switch attributes={{ 'data-foo': 'bar' }} />)
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveAttribute('data-foo', 'bar')
+  })
+
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>
