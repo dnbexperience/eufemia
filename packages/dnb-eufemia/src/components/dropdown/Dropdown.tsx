@@ -534,7 +534,9 @@ const DropdownComponent = memo(function DropdownComponent({
     ),
     id,
     disabled,
-    'aria-haspopup': handleAsMenu ? true : 'listbox',
+    'aria-haspopup': (handleAsMenu ? true : 'listbox') as
+      | boolean
+      | 'listbox',
     'aria-expanded': open,
     ...cleanedAttributes,
     onFocus: onFocusHandler,

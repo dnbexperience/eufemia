@@ -161,7 +161,9 @@ function Checkbox(localProps: CheckboxProps) {
     onClick,
     ref: refProp,
     ...rest
-  } = props
+  } = props as typeof props & {
+    labelDirection?: 'vertical' | 'horizontal'
+  }
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
@@ -294,7 +296,9 @@ function Checkbox(localProps: CheckboxProps) {
     }
 
     // also used for code markup simulation
-    return removeSpaceProps(domAttributes)
+    return removeSpaceProps(
+      domAttributes as SpacingProps & Record<string, unknown>
+    )
   }, [
     context,
     disabled,

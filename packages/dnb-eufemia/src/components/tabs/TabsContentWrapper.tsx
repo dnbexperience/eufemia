@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode, RefObject } from 'react'
 import { clsx } from 'clsx'
-import type { DynamicElement, InnerSpaceType } from '../../shared/types'
+import type {
+  DynamicElement,
+  InnerSpaceType,
+  SpacingProps,
+} from '../../shared/types'
 import { combineLabelledBy } from '../../shared/component-helper'
 import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import Section from '../section/Section'
@@ -91,7 +95,9 @@ export default function ContentWrapper({
     return null
   }
 
-  const params: Record<string, unknown> = { ...removeSpaceProps(rest) }
+  const params: Record<string, unknown> = {
+    ...removeSpaceProps(rest as SpacingProps & Record<string, unknown>),
+  }
 
   // Use state.key if available (when linked with shared state),
   // otherwise fall back to selectedKey prop

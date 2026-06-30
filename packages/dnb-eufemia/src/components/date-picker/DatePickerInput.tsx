@@ -30,6 +30,7 @@ import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
 import { warn } from '../../shared/component-helper'
 import { removeSpaceProps } from '../space/SpacingUtils'
+import type { SpacingProps } from '../../shared/types'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
@@ -155,7 +156,9 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     ...restAttributes
   } = props
 
-  const attributes = removeSpaceProps(restAttributes)
+  const attributes = removeSpaceProps(
+    restAttributes as SpacingProps & Record<string, unknown>
+  )
   const [focusState, setFocusState] = useState<string>('virgin')
 
   const invalidDatesRef = useRef<DatePickerInvalidDates>({

@@ -422,7 +422,7 @@ export function prepareIcon(
   const isFilled = Boolean(fill)
 
   // some wrapper params
-  const wrapperParams = {
+  const wrapperParams: Record<string, any> = {
     role: alt ? 'img' : 'presentation',
     alt, // in case the image don't shows up (because we define the role to be img)
     'aria-label':

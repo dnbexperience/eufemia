@@ -150,7 +150,9 @@ function Switch(props: SwitchProps) {
     attributes,
     labelDirection,
     ...rest
-  } = allProps
+  } = allProps as typeof allProps & {
+    labelDirection?: 'vertical' | 'horizontal'
+  }
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
