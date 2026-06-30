@@ -17,14 +17,17 @@ import type {
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { clsx } from 'clsx'
 import {
-  validateDOMAttributes,
   removeUndefinedProps,
+  removeNullProps,
   warn,
 } from '../../shared/component-helper'
 import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
-import { useSpacing } from '../../components/space/SpacingUtils'
+import {
+  useSpacing,
+  removeSpaceProps,
+} from '../../components/space/SpacingUtils'
 
 import E from '../../elements/Element'
 import type { DrawerListContextValue } from './DrawerListContext'
@@ -551,14 +554,9 @@ const DrawerListComponent = memo(function DrawerListComponent(
     ulParams.tabIndex = 0
   }
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, mainParams)
-  validateDOMAttributes(null, listParams)
-  validateDOMAttributes(null, ulParams)
-
   Object.assign(
     context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
+    removeNullProps(removeSpaceProps(attributes))
   )
 
   const ignoreEventsBoolean = ignoreEvents
