@@ -2,7 +2,10 @@ import { parseISO, isValid, isAfter } from 'date-fns'
 
 export const DEFAULT_DATE_FORMAT = 'yyyy-MM-dd'
 
-export function splitValue(value: string, dateFormat = DEFAULT_DATE_FORMAT) {
+export function splitValue(
+  value: string,
+  dateFormat = DEFAULT_DATE_FORMAT
+) {
   if (typeof value !== 'string' || !value) {
     return [undefined, undefined, undefined]
   }

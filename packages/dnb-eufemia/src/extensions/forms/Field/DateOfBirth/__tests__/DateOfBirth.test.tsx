@@ -665,7 +665,9 @@ describe('Field.DateOfBirth', () => {
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(customError)
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            customError
+          )
         })
       })
 
@@ -720,7 +722,9 @@ describe('Field.DateOfBirth', () => {
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(customError)
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            customError
+          )
         })
       })
     })
