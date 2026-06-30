@@ -23,7 +23,6 @@ import useId from '../../shared/helpers/useId'
 import {
   warn,
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
@@ -32,7 +31,7 @@ import {
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
@@ -327,9 +326,6 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     ),
   })
 
-  // to remove spacing props
-  validateDOMAttributes(ownProps, rest)
-
   const buttonParams: Record<string, unknown> = {
     id,
     disabled,
@@ -343,7 +339,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       role === 'radio' || role === 'checkbox' ? 'checked' : 'pressed'
     }`]: String(resolvedChecked || false),
     role,
-    ...rest,
+    ...removeSpaceProps(rest),
   }
 
   const componentParams: Record<string, unknown> = {

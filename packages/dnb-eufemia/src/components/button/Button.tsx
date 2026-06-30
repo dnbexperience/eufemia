@@ -21,7 +21,6 @@ import {
   convertJsxToString,
   extendExistingPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -287,6 +286,7 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     element,
     selected,
     id: _id, // excluded so the default `null` does not override the resolvedId
+    ref: _ref, // excluded so the default `null` does not override the forwarded ref
     ...attributes
   } = props
 
@@ -445,8 +445,9 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
 
   skeletonDOMAttributes(params, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(restProps, params)
+  if (params.disabled === true) {
+    params['aria-disabled'] = true
+  }
 
   return (
     <>
