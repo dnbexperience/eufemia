@@ -85,9 +85,12 @@ The bulk of components. Drop the no-op `attributes` spread, destructure known/la
 - [x] **Accordion, AccordionContent, AccordionGroup, AccordionHeader** — mixed patterns: deleted redundant calls (the DOM object flows through `useSpacing`), used `removeSpaceProps` for the two plain-object spreads (AccordionContent's inner wrapper + AccordionGroup's shell `<span>`, which bypass `useSpacing`), and removed Accordion's dead `restOfExtendedProps` (kept as unused `_restOfExtendedProps` to preserve the destructure's prop-exclusion). **Phase 3 complete.**
 
 ### Phase 4 — Migrate components WITH a public `attributes` prop (preserve Job A)
-Must keep spreading the public `attributes` prop (with the pollution guard) — only the layout-strip changes.
-- [ ] [Input.tsx](packages/dnb-eufemia/src/components/input/Input.tsx#L691), [Switch.tsx](packages/dnb-eufemia/src/components/switch/Switch.tsx#L285), [RadioGroup.tsx](packages/dnb-eufemia/src/components/radio/RadioGroup.tsx#L223), [FormStatus.tsx](packages/dnb-eufemia/src/components/form-status/FormStatus.tsx#L551), [Tooltip.tsx](packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx#L67), [DatePicker.tsx](packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx#L701) / [DatePickerInput.tsx](packages/dnb-eufemia/src/components/date-picker/DatePickerInput.tsx#L889).
-- [ ] If the pollution-guarded spread is reused, factor it into a small explicit helper rather than re-inlining.
+Must keep merging the public `attributes` prop (with the pollution guard) — only the layout-strip changes.
+- [x] **Helper created:** `mergeAttributes(params, attributes)` in [component-helper.ts](packages/dnb-eufemia/src/shared/component-helper.ts) — guarded (`__proto__`/`constructor`/`prototype`) merge, with unit tests (incl. pollution test).
+- [x] **Checkbox, Radio** — form controls **without** a typed `attributes` prop: `removeSpaceProps` + `aria-disabled` + destructure `labelDirection` (Phase 3 batch).
+- [x] **Switch** — `removeSpaceProps` + `aria-disabled` + destructure `labelDirection` + `mergeAttributes(inputParams, attributes)`; added an attributes-prop test (was untested).
+- [ ] Remaining typed-`attributes` comps: [Input.tsx](packages/dnb-eufemia/src/components/input/Input.tsx#L691) (also has `inputAttributes`), [RadioGroup.tsx](packages/dnb-eufemia/src/components/radio/RadioGroup.tsx#L223), [FormStatus.tsx](packages/dnb-eufemia/src/components/form-status/FormStatus.tsx#L551), [DatePicker.tsx](packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx#L701)/[DatePickerInput.tsx](packages/dnb-eufemia/src/components/date-picker/DatePickerInput.tsx#L889), [Dropdown.tsx](packages/dnb-eufemia/src/components/dropdown/Dropdown.tsx#L568) trigger.
+- [ ] Note: [Tooltip.tsx](packages/dnb-eufemia/src/components/tooltip/Tooltip.tsx#L67) has **no** typed `attributes` prop (its `attributeProps` is the rest spread via `useSpacing`) — likely a redundant delete, not a `mergeAttributes` site. Verify.
 
 ### Phase 5 — Migrate multi-call / complex components
 Several calls per file and interdependent params; do these carefully and last.
