@@ -992,7 +992,6 @@ describe('Autocomplete component', () => {
     act(() => {
       keyDownOnInput('ArrowUp')
     })
-    await wait(10)
 
     await waitFor(
       () => {
