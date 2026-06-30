@@ -28,7 +28,8 @@ import Button from '../button/Button'
 import type { ButtonProps } from '../Button'
 import Input, { SubmitButton } from '../input/Input'
 import type { InputElement, InputSize } from '../Input'
-import { warn, validateDOMAttributes } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
+import { removeSpaceProps } from '../space/SpacingUtils'
 import { convertStringToDate } from './DatePickerCalc'
 import DatePickerContext from './DatePickerContext'
 
@@ -151,8 +152,10 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     triggerProps,
     _omitInputShellClass,
 
-    ...attributes
+    ...restAttributes
   } = props
+
+  const attributes = removeSpaceProps(restAttributes)
   const [focusState, setFocusState] = useState<string>('virgin')
 
   const invalidDatesRef = useRef<DatePickerInvalidDates>({
@@ -885,9 +888,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
         : translation.openPickerText,
     [selectedDateTitle, translation]
   )
-
-  validateDOMAttributes(props, attributes)
-  validateDOMAttributes(null, submitProps)
 
   const SubmitElement: ElementType = useMemo(
     () => (showInput ? SubmitButton : Button),
