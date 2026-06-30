@@ -4,6 +4,7 @@ import makePropertiesFile, {
   transformFigmaValue,
   transformFigmaPath,
   transformNamespace,
+  generateCSSVariablesFromTokenList,
 } from '../makePropertiesFile'
 
 describe('makePropertiesFile', () => {
@@ -202,6 +203,29 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Figma file generation', () => {
+    describe('generateCSSVariablesFromTokenList', () => {
+      it('skip string', () => {
+        expect(
+          generateCSSVariablesFromTokenList([
+            {
+              figmaPath: ['bad'],
+              figmaSetId:
+                'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+              $type: 'string',
+              $value: 'Medium',
+            },
+            {
+              figmaPath: ['good'],
+              figmaSetId:
+                'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+              $type: 'number',
+              $value: 2,
+            },
+          ])
+        ).toEqual(`--good: 0.125rem;\n`)
+      })
+    })
+
     describe('extractReferencedCssVariables', () => {
       it('extracts css variables from var() usage', () => {
         const result = extractReferencedCssVariables(`
@@ -243,14 +267,14 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--carnegie-coldgreen-600)')
       })
 
-      it('returns undefined for unsupported variable set', () => {
+      it('error on unsupported variable set', () => {
         const val = {
           targetVariableName: 'dnb/ColdGreen/600',
           targetVariableSetId: 'VariableCollectionId:nonsense/5552:1080',
           targetVariableSetName: 'nonsense',
         }
 
-        expect(transformFigmaAlias(val)).toBeUndefined()
+        expect(() => transformFigmaAlias(val)).toThrow()
       })
 
       it('resolves size alias to literal value', () => {
@@ -264,9 +288,10 @@ describe('makePropertiesFile', () => {
         const value = {
           $type: 'number' as const,
           $value: 4,
+          $extensions: { ['com.figma.aliasData']: alias },
         }
 
-        const result = transformFigmaAlias(alias, value)
+        const result = transformFigmaValue(value)
         expect(result).toEqual('0.25rem')
       })
 
@@ -281,9 +306,10 @@ describe('makePropertiesFile', () => {
         const value = {
           $type: 'number' as const,
           $value: 0,
+          $extensions: { ['com.figma.aliasData']: alias },
         }
 
-        const result = transformFigmaAlias(alias, value)
+        const result = transformFigmaValue(value)
         expect(result).toEqual('0')
       })
 
@@ -393,15 +419,6 @@ describe('makePropertiesFile', () => {
         expect(() => transformFigmaValue(val)).toThrow()
       })
 
-      it('skip string', () => {
-        expect(
-          transformFigmaValue({
-            $type: 'string',
-            $value: 'Medium',
-          })
-        ).toBeUndefined()
-      })
-
       it('converts number to rem', () => {
         expect(
           transformFigmaValue({
@@ -435,14 +452,31 @@ describe('makePropertiesFile', () => {
 
     describe('transformFigmaPath', () => {
       it('transforms normally', () => {
-        const result = transformFigmaPath(['Colors', 'Primary', 'Dark'])
+        const result = transformFigmaPath({
+          figmaPath: ['Colors', 'Primary', 'Dark'],
+          figmaSetId:
+            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+        })
         expect(result).toEqual('colors-primary-dark')
+      })
+
+      it('transforms prefixes', () => {
+        const result = transformFigmaPath({
+          figmaPath: ['dnbcarnegie', 'Primary', 'Dark'],
+          figmaSetId:
+            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+        })
+        expect(result).toEqual('carnegie-primary-dark')
       })
 
       it('error on unsupported characters', () => {
         let err
         try {
-          transformFigmaPath(['Colo*rs', 'Pri ma?ry', 'Da(rk'])
+          transformFigmaPath({
+            figmaPath: ['Colo*rs', 'Pri ma?ry', 'Da(rk'],
+            figmaSetId:
+              'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+          })
         } catch (e) {
           err = e
         }
