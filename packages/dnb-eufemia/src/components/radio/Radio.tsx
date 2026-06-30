@@ -427,7 +427,6 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
     inputParams['aria-disabled'] = true
   }
 
-  // also used for code markup simulation
   inputParams = removeSpaceProps(inputParams)
 
   const labelComp = label && (

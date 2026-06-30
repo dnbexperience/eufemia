@@ -295,7 +295,6 @@ function Checkbox(localProps: CheckboxProps) {
       domAttributes['aria-disabled'] = true
     }
 
-    // also used for code markup simulation
     return removeSpaceProps(
       domAttributes as SpacingProps & Record<string, unknown>
     )
