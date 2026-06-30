@@ -199,6 +199,20 @@ jobs:
             tools/*/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
+      # Persist TypeScript's incremental build info so unchanged files are
+      # skipped on type-check. Unique key per commit + restore-keys pulls the
+      # latest prior build info; tsc re-checks only what changed (and falls
+      # back to a full check if the cache is missing or stale).
+      - name: Use TypeScript build-info cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: |
+            packages/dnb-eufemia/tsconfig.tsbuildinfo
+            packages/dnb-design-system-portal/tsconfig.tsbuildinfo
+            tools/eufemia-llm-metadata/tsconfig.tsbuildinfo
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-
+
       - name: Run type checks
         run: |
           yarn workspace @dnb/eufemia test:types
