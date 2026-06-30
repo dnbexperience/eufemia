@@ -433,3 +433,14 @@ export function removeUndefinedProps(object) {
   })
   return object
 }
+
+export function removeNullProps<T extends Record<string, unknown>>(
+  object: T
+): T {
+  Object.keys(object || {}).forEach((key) => {
+    if (object[key] === null) {
+      delete object[key]
+    }
+  })
+  return object
+}

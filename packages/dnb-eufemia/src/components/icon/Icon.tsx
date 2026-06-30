@@ -9,6 +9,8 @@ import type {
 import { clsx } from 'clsx'
 import {
   warn,
+  mergeAttributes,
+  removeNullProps,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -397,8 +399,9 @@ export function prepareIcon(
     skeleton,
     className,
     transitionState: _transitionState,
-    ...attributes
-  } = props
+    attributes: attributesProp,
+    ...restAttributes
+  } = props as IconAllProps & { attributes?: Record<string, unknown> }
 
   const { sizeAsString, iconParams } =
     cachedValues ||
@@ -427,8 +430,10 @@ export function prepareIcon(
         ? label.replace(/_/g, ' ') + ' icon'
         : null, // for screen readers only
     title, // to show on hover, if defined
-    ...removeSpaceProps(attributes),
+    ...removeSpaceProps(restAttributes),
   }
+  mergeAttributes(wrapperParams, attributesProp)
+  removeNullProps(wrapperParams)
   if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {
     wrapperParams['aria-hidden'] = true
   }

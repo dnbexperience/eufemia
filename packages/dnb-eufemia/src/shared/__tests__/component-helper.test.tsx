@@ -26,6 +26,7 @@ import {
   convertJsxToString,
   escapeRegexChars,
   removeUndefinedProps,
+  removeNullProps,
 } from '../component-helper'
 import userEvent from '@testing-library/user-event'
 
@@ -700,5 +701,27 @@ describe('"removeUndefinedProps" should', () => {
 
   it('remove support undefined as data', () => {
     expect(removeUndefinedProps(undefined)).toBeUndefined()
+  })
+})
+
+describe('"removeNullProps" should', () => {
+  it('remove null props', () => {
+    const object = {
+      foo: undefined,
+      bar: null,
+      baz: 'value',
+      qux: null,
+      quux: 0,
+    }
+
+    expect(removeNullProps(object)).toEqual({
+      foo: undefined,
+      baz: 'value',
+      quux: 0,
+    })
+  })
+
+  it('support an empty object', () => {
+    expect(removeNullProps({})).toEqual({})
   })
 })
