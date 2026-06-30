@@ -4,7 +4,6 @@
  */
 
 import { defineConfig } from 'vitest/config'
-import { isCI } from 'repo-utils'
 import path from 'node:path'
 
 export default defineConfig({
@@ -12,22 +11,6 @@ export default defineConfig({
     reporters: ['default'],
     globals: true,
     environment: 'jsdom',
-
-    // Run test files in worker threads instead of forked child processes.
-    // Thread workers start up far faster and rebuild the jsdom environment
-    // more cheaply, which roughly halves the total run time while keeping
-    // full per-file isolation (each file still gets a fresh module graph).
-    pool: 'threads',
-
-    // The default 5s is tight for the heavier integration tests (large
-    // Eufemia Forms compositions), which can momentarily exceed it under
-    // the more concurrent threads pool. Give them more headroom.
-    testTimeout: 10_000,
-
-    // The threads pool schedules more work concurrently, which can surface
-    // timing-sensitive tests under CI load. Retry only in CI to absorb such
-    // transient flakiness (mirrors the screenshot suite's retry policy).
-    retry: isCI ? 2 : 0,
 
     environmentOptions: {
       jsdom: {
