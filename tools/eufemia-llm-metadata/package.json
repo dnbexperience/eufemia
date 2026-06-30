@@ -9,7 +9,7 @@
   "license": "SEE LICENSE IN LICENSE FILE",
   "scripts": {
     "test": "vitest run",
-    "test:types": "../../node_modules/.bin/tsc --noEmit",
+    "test:types": "../../node_modules/.bin/tsc --noEmit --incremental --tsBuildInfoFile tsconfig.tsbuildinfo",
     "lint": "node ../../node_modules/.bin/eslint **/*.ts",
     "generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/run-llm-metadata.ts"
   },
