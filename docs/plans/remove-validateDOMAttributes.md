@@ -91,7 +91,12 @@ Must keep merging the public `attributes` prop (with the pollution guard) — on
 - [x] **Switch** — `removeSpaceProps` + `aria-disabled` + destructure `labelDirection` + `mergeAttributes(inputParams, attributes)`; added an attributes-prop test (was untested).
 - [x] **RadioGroup** — `removeSpaceProps` + `mergeAttributes` (params spread on `.dnb-radio-group__shell`, bypassing `useSpacing`; `labelDirection`/`disabled` already destructured). Added an attributes-prop test.
 - [x] **Tooltip** — confirmed redundant (no typed `attributes` prop; its `attributeProps` flows through `useSpacing`, and the `attributes` var is passed to `TooltipWithEvents`). Deleted call + import.
-- [ ] Remaining typed-`attributes` comps: [Input.tsx](packages/dnb-eufemia/src/components/input/Input.tsx#L691) (also has `inputAttributes`), [FormStatus.tsx](packages/dnb-eufemia/src/components/form-status/FormStatus.tsx#L551) (⚠️ multi-level rest: `restOwnProps`/`restOfProps`/`rest`, + a redundant `textParams` call), [DatePicker.tsx](packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx#L701)/[DatePickerInput.tsx](packages/dnb-eufemia/src/components/date-picker/DatePickerInput.tsx#L889), [Dropdown.tsx](packages/dnb-eufemia/src/components/dropdown/Dropdown.tsx#L568) trigger.
+- [x] **FormStatus** — `mergeAttributes` for the typed `attributes` prop (`params` flows through `useSpacing`); destructured `attributes` out of `restOfProps`; deleted the redundant `textParams` scrub call. Added an attributes-prop test.
+- [ ] Remaining typed-`attributes` comps: [Input.tsx](packages/dnb-eufemia/src/components/input/Input.tsx#L691) (also has `inputAttributes`), [DatePicker.tsx](packages/dnb-eufemia/src/components/date-picker/DatePicker.tsx#L701)/[DatePickerInput.tsx](packages/dnb-eufemia/src/components/date-picker/DatePickerInput.tsx#L889), [Dropdown.tsx](packages/dnb-eufemia/src/components/dropdown/Dropdown.tsx#L568) trigger.
+
+### Phase 3.5 — Remaining simpler leftovers (redundant deletes / removeSpaceProps)
+- [x] **ScrollView, Pagination** — redundant (`mainParams` from `useSpacing`, no typed `attributes` prop). Deleted.
+- [ ] Remaining: Skeleton, Space, SliderThumb, StepIndicatorTriggerButton, NumberFormatBase, FormLabel, GlobalStatus, Icon, DialogContent, TagGroup, Button, ToggleButton, ToggleButtonGroup, PaymentCard — verify each (useSpacing → delete; raw `rest` → `removeSpaceProps`; check `aria-disabled` reliance on Button/ToggleButton).
 
 ### Phase 5 — Migrate multi-call / complex components
 Several calls per file and interdependent params; do these carefully and last.
