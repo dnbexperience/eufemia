@@ -57,7 +57,8 @@ jobs:
         with:
           path: |
             node_modules
-            tools/mcp-lambda/node_modules
+            packages/*/node_modules
+            tools/*/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
@@ -97,7 +98,8 @@ jobs:
         with:
           path: |
             node_modules
-            tools/mcp-lambda/node_modules
+            packages/*/node_modules
+            tools/*/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
