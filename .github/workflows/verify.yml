@@ -119,10 +119,57 @@ jobs:
             tools/*/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
+      # Persist ESLint's --cache between runs so unchanged files are skipped.
+      # The key is unique per commit (always a miss), so restore-keys pulls
+      # the most recent prior cache and ESLint only re-lints what changed; a
+      # fresh entry is then saved at the end of the job.
+      - name: Use ESLint cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: packages/dnb-eufemia/.eslintcache
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-
+
       - name: Run lint
-        run: |
-          yarn workspace @dnb/eufemia lint:ci
-          yarn workspace dnb-design-system-portal lint:ci
+        run: yarn workspace @dnb/eufemia lint:ci
+
+  lint-portal:
+    name: Run portal lint
+    needs: setup
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Use ESLint cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: packages/dnb-design-system-portal/.eslintcache
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-
+
+      - name: Run lint
+        run: yarn workspace dnb-design-system-portal lint:ci
 
   typecheck:
     name: Run type checks
