@@ -46,25 +46,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        id: modules-cache
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
-
-      - name: Install dependencies
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Typecheck
         run: cd tools/mcp-lambda && yarn typecheck
@@ -87,25 +72,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        id: modules-cache
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
-
-      - name: Install dependencies
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Skip if GHE credentials are missing
         id: gate
