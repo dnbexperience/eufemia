@@ -297,6 +297,28 @@ describe('Button component', () => {
       expect(document.querySelector('a')).not.toHaveAttribute('href')
     })
 
+    it('does not forward null default props (such as "to") to a custom element', () => {
+      const receivedProps: Record<string, unknown> = {}
+      const CustomElement = (elementProps: Record<string, unknown>) => {
+        Object.assign(receivedProps, elementProps)
+        return <span className="custom-element" />
+      }
+
+      render(
+        <Button
+          text="Go"
+          element={CustomElement}
+          href="/local/path"
+          icon={null}
+        />
+      )
+
+      // The href has to be forwarded, but the null "to" default must be
+      // stripped – otherwise a router Link would navigate to to={null}
+      expect(receivedProps.href).toBe('/local/path')
+      expect('to' in receivedProps).toBe(false)
+    })
+
     describe('disabled', () => {
       it('should validate with ARIA rules as a anchor', async () => {
         const Comp = render(<Button {...props} href="https://url" />)

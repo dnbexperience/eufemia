@@ -21,6 +21,7 @@ import {
   convertJsxToString,
   extendExistingPropsWithContext,
   removeUndefinedProps,
+  removeNullProps,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -448,6 +449,12 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
   if (params.disabled === true) {
     params['aria-disabled'] = true
   }
+
+  // Strip the `null` default props (e.g. `to`, `target`, `rel`) so they are
+  // not forwarded to the element. React ignores `null` DOM attributes, but a
+  // custom `element` component (e.g. a router Link) would treat `to={null}`
+  // as a real prop and navigate to the wrong location.
+  removeNullProps(params)
 
   return (
     <>
