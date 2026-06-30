@@ -129,6 +129,38 @@ export const validateDOMAttributes = (
   return params
 }
 
+/**
+ * Merges a user-provided `attributes` prop object onto a target params object,
+ * skipping prototype-polluting keys (`__proto__`, `constructor`, `prototype`).
+ *
+ * This supports the public `attributes` prop on components without relying on
+ * the deprecated `validateDOMAttributes`.
+ *
+ * @param params target object that receives the attributes (mutated and returned)
+ * @param attributes the user-provided `attributes` prop, if any
+ */
+export function mergeAttributes<T extends Record<string, unknown>>(
+  params: T,
+  attributes?: unknown
+): T {
+  if (attributes && typeof attributes === 'object') {
+    for (const key of Object.keys(attributes)) {
+      if (
+        key === '__proto__' ||
+        key === 'constructor' ||
+        key === 'prototype'
+      ) {
+        continue
+      }
+      params[key as keyof T] = (attributes as Record<string, unknown>)[
+        key
+      ] as T[keyof T]
+    }
+  }
+
+  return params
+}
+
 export function isObject(item) {
   return item && typeof item === 'object' && !Array.isArray(item)
 }

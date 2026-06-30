@@ -10,6 +10,7 @@ import {
   extendDeep,
   defineNavigator,
   validateDOMAttributes,
+  mergeAttributes,
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
@@ -363,6 +364,42 @@ describe('"validateDOMAttributes" should', () => {
 
     // Verify that the result object itself was not polluted
     expect(res.polluted).toBeUndefined()
+  })
+})
+
+describe('"mergeAttributes" should', () => {
+  it('merge attribute contents onto the target and return it', () => {
+    const params = { id: 'x' }
+    const res = mergeAttributes(params, {
+      'data-foo': 'bar',
+      role: 'note',
+    })
+    expect(res).toBe(params)
+    expect(res).toEqual({ id: 'x', 'data-foo': 'bar', role: 'note' })
+  })
+
+  it('ignore nullish or non-object attributes', () => {
+    expect(mergeAttributes({ id: 'x' }, undefined)).toEqual({ id: 'x' })
+    expect(mergeAttributes({ id: 'x' }, null)).toEqual({ id: 'x' })
+    expect(mergeAttributes({ id: 'x' }, 'nope')).toEqual({ id: 'x' })
+  })
+
+  it('prevent prototype pollution', () => {
+    const params: Record<string, unknown> = {}
+    const res = mergeAttributes(params, {
+      constructor: { polluted: 'value' },
+      prototype: { polluted: 'value' },
+      safeKey: 'safeValue',
+    })
+
+    expect(res).toHaveProperty('safeKey', 'safeValue')
+    expect(Object.prototype.hasOwnProperty.call(res, 'constructor')).toBe(
+      false
+    )
+    expect(Object.prototype.hasOwnProperty.call(res, 'prototype')).toBe(
+      false
+    )
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined()
   })
 })
 
