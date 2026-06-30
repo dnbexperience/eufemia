@@ -1,6 +1,6 @@
 # Plan: Remove `validateDOMAttributes`
 
-> Status: **Plan only — no production code changed yet.** This document tracks the work to retire the deprecated `validateDOMAttributes` helper.
+> Status: **In progress.** ~42 of 52 files migrated; 10 remaining (Autocomplete, DatePicker, DatePickerInput, Dropdown, Input, SliderThumb, StepIndicatorTriggerButton, Tabs, Textarea, DrawerList). This document tracks the work to retire the deprecated `validateDOMAttributes` helper.
 > Branch: `refactor/remove-validate-dom-attributes`. Target package: `packages/dnb-eufemia`.
 
 ## 1. Goal
@@ -96,11 +96,16 @@ Must keep merging the public `attributes` prop (with the pollution guard) — on
 
 ### Phase 3.5 — Remaining simpler leftovers (redundant deletes / removeSpaceProps)
 - [x] **ScrollView, Pagination** — redundant (`mainParams` from `useSpacing`, no typed `attributes` prop). Deleted.
-- [ ] Remaining: Skeleton, Space, SliderThumb, StepIndicatorTriggerButton, NumberFormatBase, FormLabel, GlobalStatus, Icon, DialogContent, TagGroup, Button, ToggleButton, ToggleButtonGroup, PaymentCard — verify each (useSpacing → delete; raw `rest` → `removeSpaceProps`; check `aria-disabled` reliance on Button/ToggleButton).
+- [x] **Skeleton** (guard null `element` so it isn't forwarded to `Space`), **Space**, **NumberFormatBase**, **FormLabel**, **DialogContent** — redundant deletes (DOM object built via `useSpacing`; React 19 covers the scrub).
+- [x] **Icon, GlobalStatus, TagGroup** — `removeSpaceProps` (raw `rest` spread onto the DOM; none types a public `attributes` prop).
+- [x] **Button** — explicit `aria-disabled` guard + **exclude `ref` from the rest**: `buttonDefaultProps.ref: null` otherwise leaked into `params` and overrode the forwarded ref via `<Element ref={combinedRef} {...params}>` (validateDOMAttributes had been deleting that null). **ToggleButton, ToggleButtonGroup** — `removeSpaceProps`.
+- [x] **PaymentCard** — redundant (params via `useSpacing`, spread on `<figure>`; no `ref`/`element` null default; no typed `attributes`).
+- [ ] Remaining: **SliderThumb**, **StepIndicatorTriggerButton** — context-based params (`useSliderProps` / `StepIndicatorContext`); review carefully.
 
 ### Phase 5 — Migrate multi-call / complex components
 Several calls per file and interdependent params; do these carefully and last.
-- [ ] [DrawerList.tsx](packages/dnb-eufemia/src/fragments/drawer-list/DrawerList.tsx#L555) (4), [Dropdown.tsx](packages/dnb-eufemia/src/components/dropdown/Dropdown.tsx#L508) (4), [Autocomplete.tsx](packages/dnb-eufemia/src/components/autocomplete/Autocomplete.tsx#L2346) (3), [Textarea.tsx](packages/dnb-eufemia/src/components/textarea/Textarea.tsx#L545) (3), [Tabs.tsx](packages/dnb-eufemia/src/components/tabs/Tabs.tsx#L1139)/[TabsContentWrapper.tsx](packages/dnb-eufemia/src/components/tabs/TabsContentWrapper.tsx#L110), [PaymentCard.tsx](packages/dnb-eufemia/src/extensions/payment-card/PaymentCard.tsx#L178).
+- [x] **TabsContentWrapper** — `removeSpaceProps` (params spread last onto `HeightAnimation`). **PaymentCard** — done (see Phase 3.5).
+- [ ] Remaining: [DrawerList.tsx](packages/dnb-eufemia/src/fragments/drawer-list/DrawerList.tsx#L555) (4), [Dropdown.tsx](packages/dnb-eufemia/src/components/dropdown/Dropdown.tsx#L508) (4), [Autocomplete.tsx](packages/dnb-eufemia/src/components/autocomplete/Autocomplete.tsx#L2346) (3), [Textarea.tsx](packages/dnb-eufemia/src/components/textarea/Textarea.tsx#L545) (3), [Tabs.tsx](packages/dnb-eufemia/src/components/tabs/Tabs.tsx#L1139) (1).
 
 ### Phase 6 — Delete the helper
 - [ ] Confirm zero non-test references: `grep -rE 'validateDOMAttributes' packages/dnb-eufemia/src | grep -v __tests__` returns nothing.
@@ -126,6 +131,9 @@ Multi-call files: `drawer-list/DrawerList.tsx` (4), `dropdown/Dropdown.tsx` (4),
 
 ## 7. Risks & guardrails
 
+- **`ref: null` / `element: null` defaults (discovered migrating Skeleton & Button — the most dangerous gotcha):** `validateDOMAttributes` deletes **null values**. A `*DefaultProps` entry like `ref: null` or `element: null` that is **not** destructured out leaks into the `...rest` → `params`, and React 19 does **not** drop it the same way:
+  - **`ref: null`** spread as `<El ref={realRef} {...params}>` **overrides** the real ref with null → ref forwarding silently breaks (and anything depending on the element ref, e.g. Tooltip-on-hover). Fix: exclude `ref` from the rest (`ref: _ref,`). Audit every `*DefaultProps` for `ref: null`.
+  - **`element: null`** forwarded as another component's dynamic tag (`<Space element={null}>`) crashes ("Element type is invalid") because the receiver's `element = 'div'` default only applies to `undefined`. Fix: forward conditionally (`...(element ? { element } : undefined)`).
 - **Form-control gotchas (discovered migrating Checkbox/Radio — apply to Switch/Input too):**
   - **`disabled === true → aria-disabled`**: form controls RELY on `validateDOMAttributes` for this (they don't set it themselves, unlike Button/Textarea/AccordionHeader/Tabs). Re-add explicitly: `if (params.disabled === true) params['aria-disabled'] = true` (after `skeletonDOMAttributes`, before `removeSpaceProps`, to preserve attribute order — tests assert exact lists).
   - **`labelDirection` leak**: form controls receive `labelDirection` (and `vertical`, `skeleton`, `disabled`, `translate`) from `formElement` context via `pickFormElementProps`. They don't destructure `labelDirection`, so it lands in `...rest` → `<input>`. `removeSpaceProps` does NOT strip it. Destructure it out (it becomes an `ignoreRestSiblings`-exempt sibling). `validateDOMAttributes` stripped `labelDirection` but NOT `vertical`/`translate`, so only strip `labelDirection`.
