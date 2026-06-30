@@ -158,8 +158,54 @@ jobs:
           yarn workspace dnb-design-system-portal test:types
           yarn workspace eufemia-llm-metadata test:types
 
-  test:
-    name: Run tests
+  # The heavy @dnb/eufemia unit suite is split across parallel shards.
+  # Keep the shard list in matrix.shard and the `--shard=N/<count>` divisor
+  # below in sync. Results are aggregated by the "Run tests" job below.
+  #
+  # Why 4 shards: with 4, the heaviest shard runs ~175s, which is on par with
+  # the next-longest jobs in this workflow (build-check ~173s, lint ~144s).
+  # More shards would not make the overall run faster (those jobs become the
+  # limit) and just burn extra runners; fewer shards (e.g. 3) push each shard
+  # to ~215s and make the unit tests the sole bottleneck. Re-tune only if the
+  # unit work or those other jobs change materially.
+  test-shard:
+    name: Run unit tests (shard ${{ matrix.shard }}/4)
+    needs: setup
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: |
+            node_modules
+            packages/*/node_modules
+            tools/*/node_modules
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Run @dnb/eufemia unit tests (shard ${{ matrix.shard }}/4)
+        run: yarn workspace @dnb/eufemia test --shard=${{ matrix.shard }}/4
+
+  test-other:
+    name: Run other tests
     needs: setup
 
     runs-on: ubuntu-latest
@@ -186,12 +232,39 @@ jobs:
             tools/*/node_modules
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      - name: Run tests
+      - name: Run @dnb/eufemia build-script tests
+        run: yarn workspace @dnb/eufemia test:scripts
+
+      - name: Run portal tests
+        run: yarn workspace dnb-design-system-portal test:ci
+
+      - name: Run tooling tests
         run: |
-          yarn workspace @dnb/eufemia test:ci
-          yarn workspace dnb-design-system-portal test:ci
           yarn workspace markdown-tables-utils test
           yarn workspace eufemia-llm-metadata test
+
+  # Stable aggregate status check, so branch protection can keep requiring a
+  # single "Run tests" check instead of every individual shard. Fails if any
+  # of the sharded unit jobs or the other test job failed.
+  test:
+    name: Run tests
+    needs: [test-shard, test-other]
+
+    if: always()
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    steps:
+      - name: Verify all test jobs passed
+        run: |
+          if [ "${{ needs.test-shard.result }}" != "success" ] || [ "${{ needs.test-other.result }}" != "success" ]; then
+            echo "test-shard: ${{ needs.test-shard.result }}"
+            echo "test-other: ${{ needs.test-other.result }}"
+            exit 1
+          fi
+          echo "All test jobs passed."
 
   deps:
     name: Run dependency checks
