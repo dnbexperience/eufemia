@@ -9,13 +9,12 @@ import type {
 import { clsx } from 'clsx'
 import {
   warn,
-  validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
 import type { SpacingProps } from '../../shared/types'
@@ -371,8 +370,6 @@ function prepareIconParams({
     params.height = parseFloat(String(height))
   }
 
-  validateDOMAttributes({}, params)
-
   return { params, sizeAsString }
 }
 
@@ -422,8 +419,7 @@ export function prepareIcon(
   const isFilled = Boolean(fill)
 
   // some wrapper params
-  // also used for code markup simulation
-  const wrapperParams = validateDOMAttributes(props, {
+  const wrapperParams = {
     role: alt ? 'img' : 'presentation',
     alt, // in case the image don't shows up (because we define the role to be img)
     'aria-label':
@@ -431,8 +427,8 @@ export function prepareIcon(
         ? label.replace(/_/g, ' ') + ' icon'
         : null, // for screen readers only
     title, // to show on hover, if defined
-    ...attributes,
-  })
+    ...removeSpaceProps(attributes),
+  }
   if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {
     wrapperParams['aria-hidden'] = true
   }
