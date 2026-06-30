@@ -2579,6 +2579,7 @@ __metadata:
     tar: "npm:7.5.16"
     traverse: "npm:0.6.6"
     tsdown: "npm:0.14.2"
+    tsx: "npm:4.22.4"
     typescript: "npm:5.9.3"
     vd-tool: "npm:4.0.2"
     vite: "npm:8.0.16"

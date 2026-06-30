@@ -17,8 +17,8 @@ babel ./src \
 
 echo 'Copy additional files to cjs ...'
 
-OUT_DIR=./build/cjs babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyTypeScriptFiles.js
-OUT_DIR=./build/cjs babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyStyles.js
+OUT_DIR=./build/cjs tsx ./scripts/postbuild/copyTypeScriptFiles.js
+OUT_DIR=./build/cjs tsx ./scripts/postbuild/copyStyles.js
 
 echo 'Copy extra cjs package.json ...'
 

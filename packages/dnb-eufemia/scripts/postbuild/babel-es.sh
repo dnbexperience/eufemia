@@ -17,7 +17,7 @@ babel ./src \
 
 echo 'Copy additional files to es ...'
 
-OUT_DIR=./build/es babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyTypeScriptFiles.js
-OUT_DIR=./build/es babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyStyles.js
+OUT_DIR=./build/es tsx ./scripts/postbuild/copyTypeScriptFiles.js
+OUT_DIR=./build/es tsx ./scripts/postbuild/copyStyles.js
 
 echo 'Building es bundle done!'

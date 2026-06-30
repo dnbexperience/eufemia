@@ -11,6 +11,6 @@ cp .npmignore ./build/.npmignore
 cp README.md LICENSE ./build
 # Also provide an extensionless README for compatibility
 cp README.md ./build/README
-babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyFinaleBuild.js
+tsx ./scripts/postbuild/copyFinaleBuild.js
 
 echo 'Copy build artifacts done!'
