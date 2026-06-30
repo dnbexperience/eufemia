@@ -930,7 +930,9 @@ function InputSubmitButton({
     type: 'submit',
     'aria-label': title,
     disabled,
-    ...rest,
+    // Strip spacing props (e.g. `top` injected by a Flex parent) so they are
+    // not forwarded to the inner Button, where they would render as margins.
+    ...removeSpaceProps(rest as SpacingProps & typeof rest),
   }
 
   skeletonDOMAttributes(
