@@ -783,6 +783,19 @@ describe('Input with clear button', () => {
     )
   })
 
+  it('should not forward spacing props to the input element', () => {
+    render(<Input top="large" />)
+
+    const input = document.querySelector('input')
+    expect(input).not.toHaveAttribute('top')
+    expect(input).not.toHaveAttribute('space')
+
+    // spacing is applied to the outer component instead
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-space__top--large'
+    )
+  })
+
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>

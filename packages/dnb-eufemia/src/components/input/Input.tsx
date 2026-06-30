@@ -41,7 +41,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
   removeUndefinedProps,
-  validateDOMAttributes,
+  mergeAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -49,7 +49,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -644,7 +644,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     'aria-placeholder': placeholder
       ? convertJsxToString(placeholder)
       : undefined,
-    ...attributes,
+    ...removeSpaceProps(attributes),
     ...usedInputAttributes,
     onChange: onChangeHandler,
     onKeyDown: onKeyDownHandler,
@@ -688,9 +688,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(restProps, inputParams)
-  validateDOMAttributes(null, shellParams)
+  if (inputParams.disabled === true) {
+    inputParams['aria-disabled'] = true
+  }
 
   if (InputElement && typeof InputElement === 'function') {
     InputElement = (
@@ -917,6 +917,7 @@ function InputSubmitButton({
     statusState,
     statusProps,
     className,
+    attributes,
 
     onSubmitBlur: _onSubmitBlur, //eslint-disable-line
     onSubmitFocus: _onSubmitFocus, //eslint-disable-line
@@ -938,8 +939,7 @@ function InputSubmitButton({
     context
   )
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
+  mergeAttributes(params, attributes)
 
   return (
     <span
