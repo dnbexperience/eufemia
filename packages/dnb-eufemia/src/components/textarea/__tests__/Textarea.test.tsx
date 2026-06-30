@@ -238,6 +238,19 @@ describe('Textarea component', () => {
     )
   })
 
+  it('should not forward spacing props to the textarea element', () => {
+    render(<Textarea top="large" />)
+
+    const textarea = document.querySelector('textarea')
+    expect(textarea).not.toHaveAttribute('top')
+    expect(textarea).not.toHaveAttribute('space')
+
+    // spacing is applied to the outer component instead
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-space__top--large'
+    )
+  })
+
   it('should accept props like autoResize via provider', () => {
     render(
       <Provider Textarea={{ autoResize: true }}>
