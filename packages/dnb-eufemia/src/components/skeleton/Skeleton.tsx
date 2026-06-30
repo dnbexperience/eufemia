@@ -14,7 +14,6 @@ import { clsx } from 'clsx'
 import {
   extendExistingPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
 } from '../../shared/component-helper'
 import { LOCALE } from '../../shared/defaults'
 import Space from '../space/Space'
@@ -147,6 +146,7 @@ function Skeleton(props: SkeletonProps) {
     skeleton,
     ariaBusy,
     ariaReady,
+    element,
     className,
     children,
 
@@ -167,10 +167,9 @@ function Skeleton(props: SkeletonProps) {
     'aria-busy': showSkeleton,
     'aria-label': showSkeleton ? ariaBusy : undefined,
     lang: context.locale || LOCALE,
+    ...(element ? { element } : undefined),
     ...attributes,
   })
-
-  validateDOMAttributes(props, params)
 
   return (
     <Space {...params}>
