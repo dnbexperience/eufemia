@@ -9,7 +9,7 @@ import { render } from '@testing-library/react'
 import {
   extendDeep,
   defineNavigator,
-  validateDOMAttributes,
+  mergeAttributes,
   processChildren,
   dispatchCustomElementEvent,
   toPascalCase,
@@ -25,6 +25,7 @@ import {
   convertJsxToString,
   escapeRegexChars,
   removeUndefinedProps,
+  removeNullProps,
 } from '../component-helper'
 import userEvent from '@testing-library/user-event'
 
@@ -259,110 +260,57 @@ describe('"checkIfHasScrollbar" should', () => {
   })
 })
 
-describe('"validateDOMAttributes" should', () => {
-  it('work fine', () => {
-    const props = {}
-    const params = {}
-    const res = validateDOMAttributes(props, params)
-    expect(params).toEqual(res)
+describe('"mergeAttributes" should', () => {
+  it('merge attribute contents onto the target and return it', () => {
+    const params = { id: 'x' }
+    const res = mergeAttributes(params, {
+      'data-foo': 'bar',
+      role: 'note',
+    })
+    expect(res).toBe(params)
+    expect(res).toEqual({ id: 'x', 'data-foo': 'bar', role: 'note' })
   })
 
-  it('has equal object after sending an object as prop.attributes', () => {
-    const attr = { foo: 'bar' }
-    const props = { attributes: attr }
-    const params = {}
-    const res = validateDOMAttributes(props, params)
-    expect(res).toEqual(attr)
+  it('ignore nullish or non-object attributes', () => {
+    expect(mergeAttributes({ id: 'x' }, undefined)).toEqual({ id: 'x' })
+    expect(mergeAttributes({ id: 'x' }, null)).toEqual({ id: 'x' })
+    expect(mergeAttributes({ id: 'x' }, 'nope')).toEqual({ id: 'x' })
   })
 
-  it('"disabled" property should be removed once its value is null', () => {
-    const props = {}
-    const res1 = validateDOMAttributes(
-      props,
-      Object.assign({}, { disabled: null })
-    )
-    expect(res1).not.toHaveProperty('disabled')
-    const res2 = validateDOMAttributes(
-      props,
-      Object.assign({}, { disabled: 'disabled' })
-    )
-    expect(res2).toHaveProperty('disabled')
-  })
+  it('prevent prototype pollution', () => {
+    const params: Record<string, unknown> = {}
+    const res = mergeAttributes(params, {
+      constructor: { polluted: 'value' },
+      prototype: { polluted: 'value' },
+      safeKey: 'safeValue',
+    })
 
-  it('pass thru rest attributes', () => {
-    const props = {}
-    const params = { 'aria-hidden': true }
-    const res = validateDOMAttributes(props, params)
-    expect(res).toHaveProperty('aria-hidden')
-  })
-
-  it('remove values with null', () => {
-    const props = {}
-    const params = { 'aria-hidden': null }
-    const res = validateDOMAttributes(props, params)
-    expect(res).not.toHaveProperty('aria-hidden')
-  })
-
-  it('remove attributes with invalid names', () => {
-    const props = {}
-    const params = { aria_hidden: 'true' }
-    const res = validateDOMAttributes(props, params)
-    expect(res).not.toHaveProperty('aria_hidden')
-  })
-
-  it('function props should not be returned as long as they don\'t are "onClick"', () => {
-    const props = {
-      onClick: () => {},
-    }
-    const params = {
-      onChange: () => {},
-      something: () => {},
-    }
-    const res = validateDOMAttributes(props, params)
-    expect(res).toHaveProperty('onChange')
-    expect(res).not.toHaveProperty('something')
-  })
-
-  it('should preserve function ref props', () => {
-    const props = {}
-    const refFn = () => {}
-    const params = { ref: refFn }
-    const res = validateDOMAttributes(props, params)
-    expect(res).toHaveProperty('ref')
-    expect(res.ref).toBe(refFn)
-  })
-
-  it('should prevent prototype pollution via attributes', () => {
-    const props = {
-      attributes: {
-        __proto__: { polluted: 'value' },
-        constructor: { polluted: 'value' },
-        prototype: { polluted: 'value' },
-        safeKey: 'safeValue',
-      },
-    }
-    const params = {}
-    const res = validateDOMAttributes(props, params)
-
-    // Should include safe attributes
     expect(res).toHaveProperty('safeKey', 'safeValue')
-
-    // Should not include dangerous prototype-polluting keys as own properties
-    expect(Object.prototype.hasOwnProperty.call(res, '__proto__')).toBe(
-      false
-    )
     expect(Object.prototype.hasOwnProperty.call(res, 'constructor')).toBe(
       false
     )
     expect(Object.prototype.hasOwnProperty.call(res, 'prototype')).toBe(
       false
     )
-
-    // Verify that Object.prototype was not polluted
     expect(({} as Record<string, unknown>).polluted).toBeUndefined()
+  })
 
-    // Verify that the result object itself was not polluted
+  it('prevent prototype pollution via a JSON-sourced "__proto__" key', () => {
+    // A literal `{ __proto__: ... }` sets the prototype rather than creating
+    // an own key, so it never reaches the guard. `JSON.parse` creates a real,
+    // enumerable `__proto__` key — the actual attack vector. Without the
+    // guard, `params['__proto__'] = value` reassigns the target's prototype
+    // (so `params.polluted` would resolve through it).
+    const attributes = JSON.parse(
+      '{"__proto__":{"polluted":"yes"},"safeKey":"safeValue"}'
+    )
+    const params: Record<string, unknown> = {}
+    const res = mergeAttributes(params, attributes)
+
+    expect(res).toHaveProperty('safeKey', 'safeValue')
+    expect(Object.getPrototypeOf(res)).toBe(Object.prototype)
     expect(res.polluted).toBeUndefined()
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined()
   })
 })
 
@@ -663,5 +611,27 @@ describe('"removeUndefinedProps" should', () => {
 
   it('remove support undefined as data', () => {
     expect(removeUndefinedProps(undefined)).toBeUndefined()
+  })
+})
+
+describe('"removeNullProps" should', () => {
+  it('remove null props', () => {
+    const object = {
+      foo: undefined,
+      bar: null,
+      baz: 'value',
+      qux: null,
+      quux: 0,
+    }
+
+    expect(removeNullProps(object)).toEqual({
+      foo: undefined,
+      baz: 'value',
+      quux: 0,
+    })
+  })
+
+  it('support an empty object', () => {
+    expect(removeNullProps({})).toEqual({})
   })
 })

@@ -12,10 +12,7 @@ import type {
 } from 'react'
 import type { SpacingProps } from '../../shared/types'
 
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Icon from '../icon/Icon'
 import { chevron_down, chevron_up } from '../../icons'
@@ -400,8 +397,6 @@ export const AccordionHeader = ({
   }
 
   skeletonDOMAttributes(headerParams, skeleton, context)
-
-  validateDOMAttributes(props, headerParams)
 
   let Element = 'div'
 

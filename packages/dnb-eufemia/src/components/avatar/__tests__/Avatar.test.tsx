@@ -20,6 +20,29 @@ describe('Avatar', () => {
     expect(document.querySelector('.dnb-avatar')).toBeInTheDocument()
   })
 
+  it('should support spacing props without forwarding them to the DOM or child avatars', () => {
+    render(
+      <Avatar.Group label="label" top="2rem">
+        <Avatar>A</Avatar>
+      </Avatar.Group>
+    )
+
+    const group = document.querySelector('.dnb-avatar__group')
+
+    // Spacing becomes a class on the group wrapper
+    expect(group.classList).toContain('dnb-space__top--large')
+
+    // ...but the spacing prop must not leak onto the wrapper element
+    expect(group).not.toHaveAttribute('top')
+
+    // ...and must not propagate to the child avatars
+    const avatar = document.querySelector('.dnb-avatar')
+    expect(Array.from(avatar.classList)).not.toContain(
+      'dnb-space__top--large'
+    )
+    expect(avatar).not.toHaveAttribute('top')
+  })
+
   it('renders children as text', () => {
     const children = 'E'
     render(

@@ -103,6 +103,18 @@ describe('Radio group component', () => {
     )
   })
 
+  it('should forward the attributes prop to the shell element', () => {
+    render(
+      <Radio.Group attributes={{ 'data-foo': 'bar' }}>
+        <Radio id="radio-1" label="Radio 1" value="first" />
+      </Radio.Group>
+    )
+
+    const shell = document.querySelector('.dnb-radio-group__shell')
+
+    expect(shell).toHaveAttribute('data-foo', 'bar')
+  })
+
   it('should inherit formElement vertical label', () => {
     render(
       <Provider formElement={{ labelDirection: 'vertical' }}>

@@ -6,10 +6,7 @@
 import { useContext } from 'react'
 import type { JSX } from 'react'
 import { clsx } from 'clsx'
-import {
-  findElementInChildren,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { findElementInChildren } from '../../shared/component-helper'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DialogHeader from './parts/DialogHeader'
 import DialogNavigation from './parts/DialogNavigation'
@@ -114,8 +111,6 @@ export default function DialogContent({
     hideConfirm,
     status,
   }
-
-  validateDOMAttributes({}, contentParams)
 
   return (
     <div {...contentParams}>

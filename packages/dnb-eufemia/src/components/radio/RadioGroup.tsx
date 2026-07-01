@@ -8,7 +8,7 @@ import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
+  mergeAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
@@ -17,7 +17,7 @@ import {
 } from '../../shared/component-helper'
 import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Space from '../Space'
 import FormLabel from '../FormLabel'
@@ -191,6 +191,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     children,
     onChange,
 
+    attributes,
     ...rest
   } = props
 
@@ -206,7 +207,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     ),
   })
 
-  const params = { ...rest }
+  const params = removeSpaceProps(rest)
   const legendId = id + '-label'
 
   if (showStatus || suffix) {
@@ -220,8 +221,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
     params['aria-labelledby'] = combineLabelledBy(params, legendId)
   }
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
+  mergeAttributes(params, attributes)
 
   const groupContext = {
     name: nameRef.current,

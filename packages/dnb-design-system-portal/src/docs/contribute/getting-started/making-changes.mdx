@@ -229,10 +229,7 @@ How you make [spacing](/uilib/layout/space) support available varies from case t
 ```tsx
 import { Context } from '../../shared'
 import { clsx } from 'clsx'
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import { useSpacing } from '../space/SpacingUtils'
 
 import type { SpacingProps } from '../../shared/types'
@@ -255,10 +252,9 @@ function MyComponent(props: ComponentAllProps) {
     // ...
   )
 
-  // This helper will remove e.g. all spacing properties so you get only valid HTML attributes
-  validateDOMAttributes(props, rest)
-
-  // This hook applies spacing classes and CSS custom properties to the root element props
+  // This hook applies spacing classes and CSS custom properties to the root
+  // element props, and strips the spacing properties (space, top, right,
+  // bottom, left, innerSpace, noCollapse) so only valid HTML attributes remain.
   const rootParams = useSpacing(props, {
     ...rest,
     className: clsx('dnb-my-component', className),

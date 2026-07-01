@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode, RefObject } from 'react'
 import { clsx } from 'clsx'
-import type { DynamicElement, InnerSpaceType } from '../../shared/types'
-import {
-  validateDOMAttributes,
-  combineLabelledBy,
-} from '../../shared/component-helper'
-import { useSpacing } from '../space/SpacingUtils'
+import type {
+  DynamicElement,
+  InnerSpaceType,
+  SpacingProps,
+} from '../../shared/types'
+import { combineLabelledBy } from '../../shared/component-helper'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import Section from '../section/Section'
 import {
   createSharedState,
@@ -94,7 +95,9 @@ export default function ContentWrapper({
     return null
   }
 
-  const params = { ...rest }
+  const params: Record<string, unknown> = {
+    ...removeSpaceProps(rest as SpacingProps & Record<string, unknown>),
+  }
 
   // Use state.key if available (when linked with shared state),
   // otherwise fall back to selectedKey prop
@@ -106,19 +109,6 @@ export default function ContentWrapper({
       `${id}-tab-${activeKey}`
     )
   }
-
-  validateDOMAttributes(
-    {
-      id,
-      children,
-      selectedKey,
-      contentStyle,
-      animate,
-      contentInnerSpace,
-      ...rest,
-    },
-    params
-  )
 
   let content: ReactNode = children as ReactNode
   if (typeof children === 'function') {

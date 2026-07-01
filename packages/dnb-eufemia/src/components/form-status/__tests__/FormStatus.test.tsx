@@ -307,6 +307,17 @@ describe('FormStatus component', () => {
     )
   })
 
+  it('should forward the attributes prop to the form status element', () => {
+    render(
+      <FormStatus attributes={{ 'data-foo': 'bar' }}>test</FormStatus>
+    )
+
+    expect(document.querySelector('.dnb-form-status')).toHaveAttribute(
+      'data-foo',
+      'bar'
+    )
+  })
+
   it('should support "shellSpace" spacing props', () => {
     const { rerender } = render(
       <FormStatus shellSpace={{ top: '2rem' }}>test</FormStatus>

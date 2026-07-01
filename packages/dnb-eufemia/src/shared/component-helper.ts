@@ -29,100 +29,31 @@ init()
 whatInput.specificKeys([])
 defineNavigator()
 
-/** @private */
-const startsWithCamelCaseRegex = /(^[a-z]{1,}[A-Z]{1})/
-/** @private */
-const notOnlyAZOrHyphenRegex = /[^a-z-]/i
-
 /**
- * @deprecated stop using this function as it only removes things that should be handled in the component any documented prop should be explicitly removed, and props should not have default value `null`
- * @description Removes invalid DOM attributes from `params`.
- * @param props properties from `props.attributes` are added to `params`
- * @param params object with DOM attributes
- * @returns `params` cleaned from invalid DOM attributes
+ * Merges a user-provided `attributes` prop object onto a target params object,
+ * skipping prototype-polluting keys (`__proto__`, `constructor`, `prototype`).
+ *
+ * This supports the public `attributes` prop on components.
+ *
+ * @param params target object that receives the attributes (mutated and returned)
+ * @param attributes the user-provided `attributes` prop, if any
  */
-export const validateDOMAttributes = (
-  /** `null` or an object with property `attributes` that is merged with `params` */
-  props: Record<string, any>,
-  /** object with DOM attributes */
-  params: Record<string, any>
-) => {
-  // if there is an "attributes" prop, prepare these
-  // mostly used for prop example usage
-  if (props && props.attributes) {
-    const attr = props.attributes
-    if (attr && typeof attr === 'object') {
-      Object.entries(attr).forEach(([key, value]) => {
-        // Prevent prototype pollution
-        if (
-          key === '__proto__' ||
-          key === 'constructor' ||
-          key === 'prototype'
-        ) {
-          return
-        }
-        Object.assign(params, { [key]: value })
-      })
-    }
-    delete params.attributes
-  }
-
-  if (params.disabled === null) {
-    delete params.disabled
-  }
-  if (typeof params.space !== 'undefined') {
-    delete params.space
-  }
-  if (typeof params.top !== 'undefined') {
-    delete params.top
-  }
-  if (typeof params.right !== 'undefined') {
-    delete params.right
-  }
-  if (typeof params.bottom !== 'undefined') {
-    delete params.bottom
-  }
-  if (typeof params.left !== 'undefined') {
-    delete params.left
-  }
-  if (typeof params.noCollapse !== 'undefined') {
-    delete params.noCollapse
-  }
-  if (typeof params.innerSpace !== 'undefined') {
-    delete params.innerSpace
-  }
-  if (typeof params.labelDirection !== 'undefined') {
-    delete params.labelDirection
-  }
-
-  if (params.disabled === true) {
-    params['aria-disabled'] = true
-  }
-
-  // make sure we don't return a render prop as a DOM attribute
-  if (params && typeof params === 'object') {
-    for (const i in params) {
+export function mergeAttributes<T extends Record<string, unknown>>(
+  params: T,
+  attributes?: unknown
+): T {
+  if (attributes && typeof attributes === 'object') {
+    for (const key of Object.keys(attributes)) {
       if (
-        // is React
-        typeof params[i] === 'function' &&
-        // "ref" is a valid React prop (callback ref)
-        i !== 'ref' &&
-        // only React Style props, like "onClick" are allowed
-        // (starts with lowercase letters followed by at least on uppercase letter)
-        !startsWithCamelCaseRegex.test(i)
+        key === '__proto__' ||
+        key === 'constructor' ||
+        key === 'prototype'
       ) {
-        delete params[i]
-
-        // filter out invalid attributes
-      } else if (
-        // we don't want NULL values
-        params[i] === null ||
-        // we don't want if there are any characters except "a-z", "A-Z" or "-"
-        // Removes non-standard DOM attribute names (e.g. containing underscores)
-        notOnlyAZOrHyphenRegex.test(i)
-      ) {
-        delete params[i]
+        continue
       }
+      params[key as keyof T] = (attributes as Record<string, unknown>)[
+        key
+      ] as T[keyof T]
     }
   }
 
@@ -396,6 +327,17 @@ export function escapeRegexChars(str) {
 export function removeUndefinedProps(object) {
   Object.keys(object || {}).forEach((key) => {
     if (object[key] === undefined) {
+      delete object[key]
+    }
+  })
+  return object
+}
+
+export function removeNullProps<T extends Record<string, unknown>>(
+  object: T
+): T {
+  Object.keys(object || {}).forEach((key) => {
+    if (object[key] === null) {
       delete object[key]
     }
   })

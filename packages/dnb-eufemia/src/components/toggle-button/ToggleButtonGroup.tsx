@@ -9,14 +9,13 @@ import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
@@ -202,8 +201,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     ),
   })
 
-  const params = {
-    ...rest,
+  const params: Record<string, unknown> = {
+    ...removeSpaceProps(rest),
   }
 
   if (showStatus || suffix) {
@@ -216,9 +215,6 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   if (label) {
     params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
   }
-
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
 
   const setContext = useCallback(
     (

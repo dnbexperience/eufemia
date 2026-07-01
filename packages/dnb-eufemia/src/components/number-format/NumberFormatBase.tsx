@@ -25,7 +25,6 @@ import Context, { type ContextProps } from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
 import {
   warn,
-  validateDOMAttributes,
   convertJsxToString,
   extendExistingPropsWithContext,
   extendDeep,
@@ -530,7 +529,6 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
     displayParams.onContextMenu = onContextMenuHandler
   }
 
-  validateDOMAttributes(ownProps, attributes)
   skeletonDOMAttributes(attributes, skeleton as boolean, context)
 
   const Element = element as ElementType

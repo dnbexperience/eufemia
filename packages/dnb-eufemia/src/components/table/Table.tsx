@@ -5,10 +5,7 @@ import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import {
-  extendPropsWithContext,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import ScrollView from './TableScrollView'
 import { TableContext } from './TableContext'
 import { useStickyHeader } from './TableStickyHeader'
@@ -160,8 +157,6 @@ const Table = (componentProps: TableAllProps) => {
   }, [collapseAllHandleRef])
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
-
-  validateDOMAttributes(allProps, props)
 
   const tableProps = useSpacing(allProps, {
     ...props,

@@ -14,14 +14,13 @@ import type { HTMLProps, ReactNode, RefObject } from 'react'
 import { clsx } from 'clsx'
 import {
   warn,
-  validateDOMAttributes,
   processChildren,
   getClosestParent,
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
 import type { AccordionContextValue } from './AccordionContext'
 import AccordionContext from './AccordionContext'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -100,7 +99,6 @@ function AccordionContentStandalone({
     className: clsx('dnb-accordion__content', className),
     ...rest,
   })
-  validateDOMAttributes(props, wrapperParams)
 
   return (
     <AccordionTertiaryContent
@@ -234,7 +232,7 @@ function AccordionContentComponent(props: AccordionContentProps) {
 
   const wrapperParams = {
     className: clsx('dnb-accordion__content', className),
-    ...rest,
+    ...removeSpaceProps(rest),
   }
 
   const keepInDOMContent = keepInDOM || preventRerender
@@ -253,10 +251,6 @@ function AccordionContentComponent(props: AccordionContentProps) {
     innerParams.disabled = true
     innerParams['aria-hidden'] = true
   }
-
-  // to remove spacing props
-  validateDOMAttributes(props, wrapperParams)
-  validateDOMAttributes(null, innerParams)
 
   const animate = !noAnimation && (singleContainer ? isSmallScreen : true)
 

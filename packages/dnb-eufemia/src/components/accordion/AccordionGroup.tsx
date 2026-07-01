@@ -9,10 +9,9 @@ import type { HTMLProps, RefObject } from 'react'
 import { clsx } from 'clsx'
 import {
   extendPropsWithContext,
-  validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import useId from '../../shared/helpers/useId'
 
 import Context from '../../shared/Context'
@@ -110,12 +109,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     ),
   })
 
-  const params = {
-    ...restOfExtendedProps,
-  }
-
-  // also used for code markup simulation
-  validateDOMAttributes(props, params)
+  const params = removeSpaceProps(restOfExtendedProps)
 
   const fallbackGroup = useId()
 
