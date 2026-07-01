@@ -82,6 +82,7 @@
     "test:screenshots:ci:conditional:explain": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/runScreenshotsConditionally/cli.ts --explain",
     "test:screenshots:ci:update": "yarn test:screenshots:update",
     "test:screenshots:renew": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/renewScreenshots.ts",
+    "test:screenshots:timings": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/generateScreenshotTimings.ts",
     "test:screenshots:update": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runScreenshotVitest.ts --update=true",
     "test:screenshots:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runScreenshotVitest.ts --watch",
     "test:scripts": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts --preset=scripts",

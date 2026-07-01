@@ -177,7 +177,11 @@ jobs:
           echo "run_visual=$RUN_VISUAL_TEST" >> "$GITHUB_OUTPUT"
           echo "is_full=$should_shard" >> "$GITHUB_OUTPUT"
           if [[ "$should_shard" == "true" ]]; then
-            echo 'matrix={"shard":[1,2,3],"total":[3]}' >> "$GITHUB_OUTPUT"
+            # Files are split by measured duration (see screenshotShardingLib.ts),
+            # so shards stay balanced. Four shards keep the full suite around
+            # ~7 min; beyond this the fixed per-shard build/setup overhead
+            # (~2.5 min) gives diminishing returns.
+            echo 'matrix={"shard":[1,2,3,4],"total":[4]}' >> "$GITHUB_OUTPUT"
           else
             echo 'matrix={"shard":[1],"total":[1]}' >> "$GITHUB_OUTPUT"
           fi
