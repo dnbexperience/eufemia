@@ -131,7 +131,9 @@ describe('resolveShardIncludeFiles', () => {
 
     expect(first).toEqual(['a', 'd'])
     expect(second).toEqual(['b', 'c', 'e'])
-    expect([...(first ?? []), ...(second ?? [])].sort()).toEqual(candidates)
+    expect([...(first ?? []), ...(second ?? [])].sort()).toEqual(
+      candidates
+    )
   })
 
   it('falls back to a neutral weight when the manifest is missing', () => {

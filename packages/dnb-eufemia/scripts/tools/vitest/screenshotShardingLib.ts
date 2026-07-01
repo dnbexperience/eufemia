@@ -70,7 +70,11 @@ export function loadScreenshotTimings(
 
     const result: ScreenshotTimings = {}
     for (const [file, value] of Object.entries(durations)) {
-      if (typeof value === 'number' && Number.isFinite(value) && value > 0) {
+      if (
+        typeof value === 'number' &&
+        Number.isFinite(value) &&
+        value > 0
+      ) {
         result[file] = value
       }
     }
@@ -131,7 +135,9 @@ export function balanceShardsByWeight(
     lightest.files.push(file)
   }
 
-  return shards.map((shard) => shard.files.sort((a, b) => a.localeCompare(b)))
+  return shards.map((shard) =>
+    shard.files.sort((a, b) => a.localeCompare(b))
+  )
 }
 
 /**
