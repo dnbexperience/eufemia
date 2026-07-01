@@ -162,7 +162,7 @@ export function validator(
       countryCode: handlerConfig?.countryCode,
       // @ts-expect-error - strictFunctionTypes
       additionalArgs,
-      // @ts-expect-error - strictFunctionTypes
+      // @ts-ignore - strictFunctionTypes
       handler: validatorHandler,
     })
 

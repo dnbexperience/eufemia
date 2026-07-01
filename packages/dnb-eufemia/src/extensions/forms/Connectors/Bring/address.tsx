@@ -133,7 +133,7 @@ export function suggestions(
       countryCode: handlerConfig?.countryCode,
       // @ts-expect-error - strictFunctionTypes
       additionalArgs,
-      // @ts-expect-error - strictFunctionTypes
+      // @ts-ignore - strictFunctionTypes
       handler: suggestionsHandler,
     })
 
