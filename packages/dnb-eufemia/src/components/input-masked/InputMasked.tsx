@@ -26,6 +26,7 @@ import type {
 import type { NumberFormatProps } from '../NumberFormat'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import type { MaskitoOptions } from '@maskito/core'
 
 export type InputMaskedMask = RegExp | Array<RegExp | string> | false
@@ -128,7 +129,7 @@ export type InputMaskedProps = Omit<
     value?: InputMaskedValue
     id?: string
     label?: ReactNode
-    labelDirection?: 'horizontal' | 'vertical'
+    labelDirection?: FormElementProps['labelDirection']
     labelSrOnly?: boolean
     inputState?: string
     autocomplete?: string

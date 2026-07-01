@@ -15,6 +15,7 @@ import {
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { useSpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -48,7 +49,7 @@ export type RadioGroupChangeEvent = {
 
 export type RadioGroupProps = {
   label?: ReactNode
-  labelDirection?: 'vertical' | 'horizontal'
+  labelDirection?: FormElementProps['labelDirection']
   labelSrOnly?: boolean
   labelPosition?: RadioGroupLabelPosition
   title?: string

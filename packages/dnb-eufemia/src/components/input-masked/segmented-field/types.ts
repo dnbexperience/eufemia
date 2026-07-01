@@ -2,6 +2,7 @@ import type { FocusEvent, HTMLProps, ReactNode, RefObject } from 'react'
 import type { InputProps } from '../../Input'
 import type { FormStatusState, FormStatusText } from '../../FormStatus'
 import type { SpacingProps } from '../../../shared/types'
+import type { FormElementProps } from '../../../shared/helpers/filterValidProps'
 
 export type OverwriteMode = 'shift' | 'replace'
 
@@ -28,7 +29,7 @@ export type SegmentedFieldValue<T extends string> = {
 
 export type SegmentedFieldProps<T extends string> = {
   label?: ReactNode
-  labelDirection?: 'vertical' | 'horizontal'
+  labelDirection?: FormElementProps['labelDirection']
   inputs: SegmentedFieldItem<T>[]
   values?: SegmentedFieldValue<T>
   overwriteMode?: OverwriteMode

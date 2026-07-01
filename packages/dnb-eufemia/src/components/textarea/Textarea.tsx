@@ -34,6 +34,7 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { useSpacing } from '../space/SpacingUtils'
@@ -108,7 +109,7 @@ export type TextareaProps = Omit<
     /**
      * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
      */
-    labelDirection?: 'vertical' | 'horizontal'
+    labelDirection?: FormElementProps['labelDirection']
     /**
      * Use `true` to make the label only readable by screen readers.
      */
