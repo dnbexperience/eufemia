@@ -40,19 +40,19 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
         with:
           persist-credentials: false
           fetch-depth: 2
 
       - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version-file: 'package.json'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Use node_modules cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         id: modules-cache
         with:
           path: node_modules
@@ -85,7 +85,7 @@ jobs:
       - name: Deploy portal
         if: (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/portal')
-        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./packages/dnb-design-system-portal/public
