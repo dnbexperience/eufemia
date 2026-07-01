@@ -35,6 +35,7 @@ import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { useSpacing } from '../space/SpacingUtils'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -106,7 +107,7 @@ export type DropdownProps = {
   /**
    * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
-  labelDirection?: 'vertical' | 'horizontal'
+  labelDirection?: FormElementProps['labelDirection']
   /**
    * Use `true` to make the label only readable by screen readers.
    */

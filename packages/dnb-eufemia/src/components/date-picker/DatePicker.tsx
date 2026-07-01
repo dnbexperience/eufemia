@@ -52,6 +52,7 @@ import type { SpacingProps } from '../../shared/types'
 import type { InputElement, InputSize } from '../Input'
 import type { SkeletonShow } from '../Skeleton'
 import type { ButtonProps } from '../Button'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import type {
   DatePickerCalendarDay,
@@ -222,7 +223,7 @@ export type DatePickerProps = {
   /**
    *  Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
-  labelDirection?: 'vertical' | 'horizontal'
+  labelDirection?: FormElementProps['labelDirection']
   /**
    * Use `true` to make the label only readable by screen readers.
    */

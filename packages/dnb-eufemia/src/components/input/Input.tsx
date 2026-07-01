@@ -34,6 +34,7 @@ import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import Suffix from '../../shared/helpers/Suffix'
@@ -151,7 +152,7 @@ export type InputProps = Omit<
     /**
      * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
      */
-    labelDirection?: 'vertical' | 'horizontal'
+    labelDirection?: FormElementProps['labelDirection']
     /**
      * Use `true` to make the label only readable by screen readers.
      */
