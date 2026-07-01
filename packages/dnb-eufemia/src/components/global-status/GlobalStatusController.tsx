@@ -190,4 +190,4 @@ withComponentMarkers(GlobalStatusController, {
 })
 
 export default GlobalStatusController
-export { GlobalStatusRemove as GlobalStatusRemove }
+export { GlobalStatusRemove }
