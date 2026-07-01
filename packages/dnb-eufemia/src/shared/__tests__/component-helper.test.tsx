@@ -294,6 +294,24 @@ describe('"mergeAttributes" should', () => {
     )
     expect(({} as Record<string, unknown>).polluted).toBeUndefined()
   })
+
+  it('prevent prototype pollution via a JSON-sourced "__proto__" key', () => {
+    // A literal `{ __proto__: ... }` sets the prototype rather than creating
+    // an own key, so it never reaches the guard. `JSON.parse` creates a real,
+    // enumerable `__proto__` key — the actual attack vector. Without the
+    // guard, `params['__proto__'] = value` reassigns the target's prototype
+    // (so `params.polluted` would resolve through it).
+    const attributes = JSON.parse(
+      '{"__proto__":{"polluted":"yes"},"safeKey":"safeValue"}'
+    )
+    const params: Record<string, unknown> = {}
+    const res = mergeAttributes(params, attributes)
+
+    expect(res).toHaveProperty('safeKey', 'safeValue')
+    expect(Object.getPrototypeOf(res)).toBe(Object.prototype)
+    expect(res.polluted).toBeUndefined()
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined()
+  })
 })
 
 describe('"processChildren" should', () => {
