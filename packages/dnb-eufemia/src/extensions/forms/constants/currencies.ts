@@ -1,5 +1,5 @@
 import type { ContinentType, RegionType } from './countries'
-import { selectedCurrencies } from './allCurrencies'
+import { selectedCurrencies } from './selectedCurrencies'
 
 export type CurrencyType = {
   iso: string
