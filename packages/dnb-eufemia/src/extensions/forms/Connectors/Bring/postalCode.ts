@@ -160,7 +160,7 @@ export function validator(
     const { countryCode } = handleCountryPath({
       value,
       countryCode: handlerConfig?.countryCode,
-      // @ts-expect-error - strictFunctionTypes
+      // @ts-ignore - strictFunctionTypes
       additionalArgs,
       // @ts-ignore - strictFunctionTypes
       handler: validatorHandler,
