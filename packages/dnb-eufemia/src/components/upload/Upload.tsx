@@ -27,7 +27,7 @@ import UploadInfo from './UploadInfo'
 import FormLabel from '../FormLabel'
 
 export type * from './types'
-export { uploadDefaultProps as defaultProps }
+export { uploadDefaultProps }
 
 const Upload = (localProps: UploadAllProps) => {
   const context = useContext(Context)
