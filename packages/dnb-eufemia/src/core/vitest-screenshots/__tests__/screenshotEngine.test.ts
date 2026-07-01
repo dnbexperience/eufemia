@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest'
 
 // Mock external dependencies that aren't available outside browser mode

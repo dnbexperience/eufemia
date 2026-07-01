@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 /**
  * Tests for the Eufemia MCP HTTP server (SSE + Streamable HTTP transports).
  *

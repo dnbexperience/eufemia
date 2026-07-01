@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { filterProps } from '../filterProps'
 
 describe('"filterProps" should', () => {

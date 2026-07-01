@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { structuredClone } from '../structuredClone'
 
 describe('structuredClone', () => {

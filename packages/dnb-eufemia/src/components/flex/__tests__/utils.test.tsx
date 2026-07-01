@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import type { ReactElement } from 'react'
 import { MainHeading, SubHeading } from '../../../extensions/forms/Form'
 import Heading from '../../Heading'

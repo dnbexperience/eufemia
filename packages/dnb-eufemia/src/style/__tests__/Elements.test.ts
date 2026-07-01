@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 /**
  * Element Test
  *
