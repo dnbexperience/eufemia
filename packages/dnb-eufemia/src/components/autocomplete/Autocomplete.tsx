@@ -483,7 +483,7 @@ function Autocomplete(props: AutocompleteAllProps) {
 
   return (
     <DrawerListProvider {...providerProps}>
-      <AutocompleteInstance {...props} id={_id} />
+      <AutocompleteComponent {...props} id={_id} />
     </DrawerListProvider>
   )
 }
@@ -530,7 +530,7 @@ function getCurrentDataTitle(
   })
 }
 
-function AutocompleteInstance(ownProps: AutocompleteAllProps) {
+function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const context = useContext<
     DrawerListContextValue & {
       Autocomplete: Record<string, unknown>

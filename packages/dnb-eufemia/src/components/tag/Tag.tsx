@@ -82,7 +82,7 @@ export type TagProps = {
   addIconTitle?: string
 }
 
-const defaultProps: Partial<TagProps> = {
+const tagDefaultProps: Partial<TagProps> = {
   omitOnKeyUpDeleteEvent: false,
 }
 
@@ -98,7 +98,7 @@ const Tag = (
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    tagDefaultProps,
     context?.translation?.Tag,
     context?.Tag,
     tagGroupContext

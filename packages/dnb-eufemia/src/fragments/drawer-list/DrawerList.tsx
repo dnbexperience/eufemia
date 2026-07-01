@@ -318,7 +318,7 @@ function DrawerList(props: DrawerListAllProps) {
   const drawerListContext = useContext(DrawerListContext)
 
   if (drawerListContext?.drawerList) {
-    return <DrawerListInstance {...props} />
+    return <DrawerListComponent {...props} />
   }
 
   const { data, children, ...rest } = props
@@ -333,13 +333,13 @@ function DrawerList(props: DrawerListAllProps) {
           : undefined)
       }
     >
-      <DrawerListInstance {...props} />
+      <DrawerListComponent {...props} />
     </DrawerListProvider>
   )
 }
 DrawerList.blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms"
 
-const DrawerListInstance = memo(function DrawerListInstance(
+const DrawerListComponent = memo(function DrawerListComponent(
   ownProps: DrawerListAllProps
 ) {
   const context = useContext(DrawerListContext)

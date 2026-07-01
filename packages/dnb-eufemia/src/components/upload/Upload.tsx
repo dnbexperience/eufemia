@@ -18,7 +18,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import UploadFileInput from './UploadFileInput'
 import useUpload from './useUpload'
 import UploadDropzone from './UploadDropzone'
-import { UploadContext, defaultProps } from './UploadContext'
+import { UploadContext, uploadDefaultProps } from './UploadContext'
 import { verifyFiles } from './UploadVerify'
 
 import type { UploadFile, UploadAllProps } from './types'
@@ -27,7 +27,7 @@ import UploadInfo from './UploadInfo'
 import FormLabel from '../FormLabel'
 
 export type * from './types'
-export { defaultProps }
+export { uploadDefaultProps as defaultProps }
 
 const Upload = (localProps: UploadAllProps) => {
   const context = useContext(Context)
@@ -42,7 +42,7 @@ const Upload = (localProps: UploadAllProps) => {
 
   const extendedProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    uploadDefaultProps,
     { skeleton: context?.skeleton },
     pickFormElementProps(context?.formElement),
     translations,

@@ -69,7 +69,7 @@ export default function AccordionContent(props: AccordionContentProps) {
     )
   }
 
-  return <AccordionContentInner {...props} />
+  return <AccordionContentComponent {...props} />
 }
 
 function AccordionContentStandalone({
@@ -122,7 +122,7 @@ function AccordionContentStandalone({
   )
 }
 
-function AccordionContentInner(props: AccordionContentProps) {
+function AccordionContentComponent(props: AccordionContentProps) {
   const context = useContext<AccordionContextValue>(AccordionContext)
   const {
     id,

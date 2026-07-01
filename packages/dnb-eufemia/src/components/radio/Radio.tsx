@@ -146,7 +146,7 @@ const parseChecked = (state: string | boolean | null | undefined) =>
 /**
  * The radio component is our enhancement of the classic radio button.
  */
-function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
+function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   const groupContext = useContext(RadioGroupContext)
   const context = useContext(Context)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -517,7 +517,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 }
 
-const Radio = memo(RadioInner) as unknown as typeof RadioInner & {
+const Radio = memo(RadioComponent) as unknown as typeof RadioComponent & {
   Group: typeof RadioGroup
   parseChecked: typeof parseChecked
 }

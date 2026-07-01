@@ -120,7 +120,7 @@ type DayObject = {
   className?: string
 }
 
-const defaultProps: DatePickerCalendarProps = {
+const datePickerCalendarDefaultProps: DatePickerCalendarProps = {
   hideNavigation: false,
   hideDays: false,
   onlyMonth: false,
@@ -134,7 +134,7 @@ const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
 const keysToHandle = ['Enter', 'Space', ...arrowKeys]
 
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
-  const props = { ...defaultProps, ...restOfProps }
+  const props = { ...datePickerCalendarDefaultProps, ...restOfProps }
 
   const {
     updateDates,

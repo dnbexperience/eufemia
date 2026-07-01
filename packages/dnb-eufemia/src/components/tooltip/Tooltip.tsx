@@ -13,7 +13,7 @@ import useId from '../../shared/helpers/useId'
 import { useSpacing } from '../space/SpacingUtils'
 import TooltipWithEvents from './TooltipWithEvents'
 import {
-  defaultProps,
+  tooltipDefaultProps,
   getPropsFromTooltipProp,
   getTargetElement,
   injectTooltipSemantic,
@@ -97,7 +97,7 @@ function resolveProps(
   >
 
   return {
-    ...defaultProps,
+    ...tooltipDefaultProps,
     ...localProps,
     ...inherited,
     ...tooltipTranslation,

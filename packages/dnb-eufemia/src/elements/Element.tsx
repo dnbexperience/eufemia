@@ -49,13 +49,13 @@ export type ElementAllProps = ElementProps &
 
 type Attributes = Record<string, unknown>
 
-export const defaultProps = {
+export const elementDefaultProps = {
   skeletonMethod: 'font',
 }
 
 function Element(localProps: ElementAllProps) {
   const context = useContext(Context)
-  const props = extendPropsWithContext(localProps, defaultProps, {
+  const props = extendPropsWithContext(localProps, elementDefaultProps, {
     skeleton: context?.skeleton,
   })
 

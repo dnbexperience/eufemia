@@ -29,7 +29,7 @@ import type {
   SliderThumbState,
 } from './types'
 
-const defaultProps: Partial<SliderAllProps> = {
+const sliderDefaultProps: Partial<SliderAllProps> = {
   statusState: 'error',
   min: 0,
   max: 100,
@@ -44,7 +44,7 @@ export function SliderProvider(localProps: SliderAllProps) {
   const context = useContext(Context)
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    sliderDefaultProps,
     { skeleton: context?.skeleton },
     pickFormElementProps(context?.formElement),
     context?.getTranslation(localProps).Slider,

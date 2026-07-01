@@ -196,7 +196,7 @@ const dropdownDefaultProps: Partial<DropdownAllProps> = {
   open: false,
 }
 
-const DropdownInstance = memo(function DropdownInstance({
+const DropdownComponent = memo(function DropdownComponent({
   externalRef,
   externalButtonRef,
   ...ownProps
@@ -716,7 +716,7 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
       ignoreEvents={false}
       preventSelection={preventSelection}
     >
-      <DropdownInstance
+      <DropdownComponent
         {...props}
         id={id}
         externalRef={ref}

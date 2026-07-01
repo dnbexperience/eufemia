@@ -108,7 +108,7 @@ export type AvatarProps = Omit<HTMLProps<HTMLElement>, 'size'> & {
 
 export type AvatarAllProps = AvatarProps & SpacingProps
 
-const defaultProps: Partial<AvatarAllProps> = {
+const avatarDefaultProps: Partial<AvatarAllProps> = {
   size: 'medium',
   variant: 'primary',
   skeleton: false,
@@ -123,7 +123,7 @@ const Avatar = (localProps: AvatarAllProps) => {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    avatarDefaultProps,
     context?.Avatar,
     { skeleton: context?.skeleton },
     avatarGroupContext

@@ -6,7 +6,7 @@
 import { axeComponent } from '../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import type { ElementAllProps } from '../Element'
-import Element, { defaultProps } from '../Element'
+import Element, { elementDefaultProps } from '../Element'
 import { Provider } from '../../shared'
 
 const myPElement = (props) => <p {...props} />
@@ -118,7 +118,7 @@ describe('Element', () => {
   })
 
   it('does not have ref null inside default props', () => {
-    expect(defaultProps['ref']).toBe(undefined)
+    expect(elementDefaultProps['ref']).toBe(undefined)
   })
 
   it('should validate with ARIA rules as an Element element', async () => {

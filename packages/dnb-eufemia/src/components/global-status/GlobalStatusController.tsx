@@ -80,7 +80,9 @@ const globalStatusControllerDefaultProps: Partial<GlobalStatusControllerProps> =
   }
 
 // This is the Update controller
-function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
+function GlobalStatusControllerComponent(
+  ownProps: GlobalStatusControllerProps
+) {
   const props = {
     ...globalStatusControllerDefaultProps,
     ...removeUndefinedProps({ ...ownProps }),
@@ -127,11 +129,11 @@ function GlobalStatusController(ownProps: GlobalStatusControllerProps) {
   return null
 }
 
-const MemoizedGlobalStatusController = memo(
-  GlobalStatusController
-) as MemoExoticComponent<typeof GlobalStatusController> & {
-  Remove: typeof MemoizedGlobalStatusRemove
-  Update: typeof MemoizedGlobalStatusController
+const GlobalStatusController = memo(
+  GlobalStatusControllerComponent
+) as MemoExoticComponent<typeof GlobalStatusControllerComponent> & {
+  Remove: typeof GlobalStatusRemove
+  Update: typeof GlobalStatusController
 }
 
 type GlobalStatusRemovePropsLocal = {
@@ -145,7 +147,9 @@ const globalStatusRemoveDefaultProps: Partial<GlobalStatusRemovePropsLocal> =
     id: 'main',
   }
 
-function GlobalStatusRemove(ownProps: GlobalStatusRemovePropsLocal) {
+function GlobalStatusRemoveComponent(
+  ownProps: GlobalStatusRemovePropsLocal
+) {
   const props = {
     ...globalStatusRemoveDefaultProps,
     ...removeUndefinedProps({ ...ownProps }),
@@ -176,14 +180,14 @@ function GlobalStatusRemove(ownProps: GlobalStatusRemovePropsLocal) {
   return null
 }
 
-const MemoizedGlobalStatusRemove = memo(GlobalStatusRemove)
+const GlobalStatusRemove = memo(GlobalStatusRemoveComponent)
 
-MemoizedGlobalStatusController.Remove = MemoizedGlobalStatusRemove
-MemoizedGlobalStatusController.Update = MemoizedGlobalStatusController
+GlobalStatusController.Remove = GlobalStatusRemove
+GlobalStatusController.Update = GlobalStatusController
 
-withComponentMarkers(MemoizedGlobalStatusController, {
+withComponentMarkers(GlobalStatusController, {
   _supportsSpacingProps: true,
 })
 
-export default MemoizedGlobalStatusController
-export { MemoizedGlobalStatusRemove as GlobalStatusRemove }
+export default GlobalStatusController
+export { GlobalStatusRemove as GlobalStatusRemove }
