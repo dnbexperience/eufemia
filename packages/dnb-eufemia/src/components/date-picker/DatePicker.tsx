@@ -365,7 +365,7 @@ export type DatePickerAllProps = DatePickerProps &
     | 'start'
   >
 
-const defaultProps: Partial<DatePickerAllProps> = {
+const datePickerDefaultProps: Partial<DatePickerAllProps> = {
   hideNavigation: false,
   hideDays: false,
   onlyMonth: false,
@@ -388,7 +388,7 @@ const defaultProps: Partial<DatePickerAllProps> = {
 }
 
 function DatePicker(externalProps: DatePickerAllProps) {
-  const props = { ...defaultProps, ...externalProps }
+  const props = { ...datePickerDefaultProps, ...externalProps }
 
   const {
     preventClose,
@@ -563,7 +563,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContext(
     props,
-    defaultProps,
+    datePickerDefaultProps,
     { skeleton: context?.skeleton },
     context.getTranslation(props).DatePicker,
     pickFormElementProps(context?.formElement),

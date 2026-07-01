@@ -115,7 +115,7 @@ export type CheckboxProps = {
     'ref' | 'label' | 'size' | 'onChange' | 'onClick'
   >
 
-const defaultProps: CheckboxProps = {
+const checkboxDefaultProps: CheckboxProps = {
   statusState: 'error',
 }
 
@@ -125,7 +125,7 @@ function Checkbox(localProps: CheckboxProps) {
   const extractPropsFromContext = useCallback(() => {
     return extendPropsWithContext(
       localProps,
-      defaultProps,
+      checkboxDefaultProps,
       context.Checkbox,
       {
         skeleton: context?.Checkbox,

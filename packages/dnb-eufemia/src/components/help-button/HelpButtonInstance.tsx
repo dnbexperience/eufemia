@@ -14,7 +14,7 @@ import { useSpacing } from '../space/SpacingUtils'
 import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 
-const defaultProps: Partial<ButtonProps> = {
+const helpButtonInstanceDefaultProps: Partial<ButtonProps> = {
   variant: 'secondary',
   iconPosition: 'left',
 }
@@ -25,7 +25,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
     localProps,
-    defaultProps,
+    helpButtonInstanceDefaultProps,
     context.HelpButton
   )
 

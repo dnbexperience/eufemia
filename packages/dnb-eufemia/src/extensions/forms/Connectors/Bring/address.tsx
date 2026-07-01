@@ -131,9 +131,9 @@ export function suggestions(
     const { countryCode } = handleCountryPath({
       value,
       countryCode: handlerConfig?.countryCode,
-      // @ts-expect-error - strictFunctionTypes
+      // @ts-ignore - strictFunctionTypes
       additionalArgs,
-      // @ts-expect-error - strictFunctionTypes
+      // @ts-ignore - strictFunctionTypes
       handler: suggestionsHandler,
     })
 

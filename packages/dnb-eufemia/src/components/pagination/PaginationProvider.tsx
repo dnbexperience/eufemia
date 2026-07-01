@@ -24,7 +24,7 @@ import {
 
 import PaginationContext from './PaginationContext'
 
-const PaginationProvider = (props: any) => {
+const PaginationProviderComponent = (props: any) => {
   const sharedContext = useContext(Context)
 
   // ---- Derive state from props ----
@@ -660,6 +660,6 @@ const PaginationProvider = (props: any) => {
   )
 }
 
-const MemoizedPaginationProvider = memo(PaginationProvider)
+const PaginationProvider = memo(PaginationProviderComponent)
 
-export default MemoizedPaginationProvider
+export default PaginationProvider

@@ -187,7 +187,7 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
 
     return extendPropsWithContext(
       propsWithRef,
-      defaultProps,
+      inputMaskedDefaultProps,
       contextInputMasked
     )
   }, [contextInputMasked, restProps, ref])
@@ -200,7 +200,7 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
 }
 
 const { onKeyDown: _, ...inputBaseDefaults } = inputDefaultProps
-const defaultProps: Partial<InputMaskedProps> = {
+const inputMaskedDefaultProps: Partial<InputMaskedProps> = {
   ...inputBaseDefaults,
   mask: null,
   numberMask: null,

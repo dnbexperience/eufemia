@@ -139,7 +139,7 @@ export type BreadcrumbAllProps = BreadcrumbProps &
   SpacingProps &
   Omit<HTMLProps<HTMLElement>, keyof BreadcrumbProps>
 
-const defaultProps: Partial<BreadcrumbAllProps> = {
+const breadcrumbDefaultProps: Partial<BreadcrumbAllProps> = {
   skeleton: false,
   collapsed: true,
   spacing: false,
@@ -152,7 +152,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    breadcrumbDefaultProps,
     context?.translation?.Breadcrumb,
     context?.Breadcrumb,
     { skeleton: context?.skeleton }

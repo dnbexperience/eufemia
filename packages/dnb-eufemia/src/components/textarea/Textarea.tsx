@@ -637,11 +637,11 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
 TextareaComponent.displayName = 'Textarea'
 
-const MemoizedTextarea = memo(TextareaComponent)
+const Textarea = memo(TextareaComponent)
 
-withComponentMarkers(MemoizedTextarea, {
+withComponentMarkers(Textarea, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
 
-export default MemoizedTextarea
+export default Textarea

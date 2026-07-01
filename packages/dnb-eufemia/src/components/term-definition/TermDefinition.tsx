@@ -48,7 +48,7 @@ export type TermDefinitionAllProps = TermDefinitionProps &
   SpacingProps &
   HTMLAttributes<HTMLSpanElement>
 
-const defaultProps: Partial<TermDefinitionAllProps> = {
+const termDefinitionDefaultProps: Partial<TermDefinitionAllProps> = {
   placement: 'bottom',
 }
 
@@ -59,7 +59,7 @@ export default function TermDefinition(
 
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    termDefinitionDefaultProps,
     { skeleton: context?.skeleton },
     context?.TermDefinition
   )

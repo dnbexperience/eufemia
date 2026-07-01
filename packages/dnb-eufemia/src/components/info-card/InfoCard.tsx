@@ -112,7 +112,7 @@ export type InfoCardAllProps = InfoCardProps &
   Omit<HTMLAttributes<HTMLDivElement>, 'title'> &
   SpacingProps
 
-export const defaultProps = {
+export const infoCardDefaultProps = {
   centered: false,
   dropShadow: true,
   skeleton: false,
@@ -125,7 +125,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    infoCardDefaultProps,
     {
       skeleton: context?.skeleton,
     },

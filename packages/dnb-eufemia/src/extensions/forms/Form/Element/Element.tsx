@@ -21,10 +21,10 @@ export type FormElementProps = Omit<
   }
 
 export default function FormElement(props: FormElementProps) {
-  return <FormElementInstance {...props} />
+  return <FormElementComponent {...props} />
 }
 
-function FormElementInstance(props: FormElementProps) {
+function FormElementComponent(props: FormElementProps) {
   const id = useId()
   const dataContext = useContext(DataContext)
   const { submitState, restHandlerProps } = dataContext || {}
