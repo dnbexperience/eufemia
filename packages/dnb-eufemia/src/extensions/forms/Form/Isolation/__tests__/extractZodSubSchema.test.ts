@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import * as z from 'zod'
 import {
   extractZodSubSchema,

@@ -23,9 +23,19 @@ beforeEach(() => {
 })
 
 expect.extend({
-  async toNeverResolve(callable: () => void | Promise<void>) {
+  async toNeverResolve(
+    callable: () => void | Promise<void>,
+    options?: { timeout?: number; interval?: number }
+  ) {
+    // This matcher asserts that a condition never becomes true, so
+    // waitFor always polls for the full duration. The default waitFor
+    // timeout (1000ms) made every assertion needlessly slow; a short
+    // window is enough to confirm the negative. Callers can opt into a
+    // longer window via options when a slower condition must be ruled out.
+    const { timeout = 100, interval = 20 } = options ?? {}
+
     try {
-      await waitFor(callable)
+      await waitFor(callable, { timeout, interval })
       return {
         pass: false,
         message: () => 'Expected the function to reject, but it resolved.',

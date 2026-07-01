@@ -26,6 +26,7 @@ import type {
 import type { NumberFormatProps } from '../NumberFormat'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import type { MaskitoOptions } from '@maskito/core'
 
 export type InputMaskedMask = RegExp | Array<RegExp | string> | false
@@ -128,7 +129,7 @@ export type InputMaskedProps = Omit<
     value?: InputMaskedValue
     id?: string
     label?: ReactNode
-    labelDirection?: 'horizontal' | 'vertical'
+    labelDirection?: FormElementProps['labelDirection']
     labelSrOnly?: boolean
     inputState?: string
     autocomplete?: string
@@ -186,7 +187,7 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
 
     return extendPropsWithContext(
       propsWithRef,
-      defaultProps,
+      inputMaskedDefaultProps,
       contextInputMasked
     )
   }, [contextInputMasked, restProps, ref])
@@ -199,7 +200,7 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
 }
 
 const { onKeyDown: _, ...inputBaseDefaults } = inputDefaultProps
-const defaultProps: Partial<InputMaskedProps> = {
+const inputMaskedDefaultProps: Partial<InputMaskedProps> = {
   ...inputBaseDefaults,
   mask: null,
   numberMask: null,

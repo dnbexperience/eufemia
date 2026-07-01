@@ -183,7 +183,7 @@ function SubmitConfirmation(props: ConfirmProps) {
 
       submitStateRef.current = undefined
 
-      // Prevent the form form from being submitted
+      // Prevent the form from being submitted
       preventSubmit()
 
       await setConfirmationState('readyToBeSubmitted')

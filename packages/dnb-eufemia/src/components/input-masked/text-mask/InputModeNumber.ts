@@ -131,7 +131,12 @@ export default class InputModeNumber {
       return // stop here
     }
     try {
-      this.inputElement.type = this._type
+      // Only restore the type when a previous type was captured (in onFocus).
+      // When reset runs without a preceding focus (e.g. on unmount), _type is
+      // undefined and must not be assigned back as the input's type.
+      if (this._type) {
+        this.inputElement.type = this._type
+      }
       this.inputElement.style.cssText = this._cssText // Because we did set a width, we need to reset the cssText
       this.inputElement.classList.remove('dnb-input-masked--hide-controls')
       // Only restore the previous value if no new value was entered

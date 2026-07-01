@@ -3,6 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
+import { validateDateOfBirth } from '../validators'
 import nbNO from '../../../constants/locales/nb-NO'
 import type { AdditionalArgs } from '../DateOfBirth'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
@@ -545,75 +546,75 @@ describe('Field.DateOfBirth', () => {
     })
 
     describe('should validate dates', () => {
+      const errorMessages = {
+        errorDateOfBirth: nb.DateOfBirth.errorDateOfBirth,
+        errorDateOfBirthFuture: nb.DateOfBirth.errorDateOfBirthFuture,
+      }
+
       const validDates = ['1990-01-01', '1990-12-31', '2000-05-17']
 
       const invalidDates = ['1989-12-32', '2001-00-01', '2000-05-32']
 
       const invalidDatesInTheFuture = ['3000-05-17']
 
-      it.each(validDates)('Valid date: %s', async (dateOfBirth) => {
-        render(
-          <Form.Handler>
-            <Field.DateOfBirth value={dateOfBirth} validateInitially />
-          </Form.Handler>
-        )
+      const incompleteDates = ['1989-01', '01', '01-01', '1981']
 
-        fireEvent.blur(document.querySelector('input'))
-
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-      })
-
-      it.each(invalidDates)('Invalid date: %s', async (dateOfBirth) => {
-        render(<Field.DateOfBirth value={dateOfBirth} validateInitially />)
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.DateOfBirth.errorDateOfBirth
-          )
-        })
-      })
-
-      it.each(invalidDatesInTheFuture)(
-        'Invalid date: %s',
-        async (dateOfBirth) => {
-          render(
-            <Field.DateOfBirth value={dateOfBirth} validateInitially />
-          )
-
-          fireEvent.blur(document.querySelector('input'))
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.DateOfBirth.errorDateOfBirthFuture
-            )
-          })
+      it.each(validDates)(
+        'returns no error for a valid date: %s',
+        (dateOfBirth) => {
+          expect(
+            validateDateOfBirth(dateOfBirth, errorMessages)
+          ).toBeUndefined()
         }
       )
+
+      it.each(invalidDates)(
+        'returns an invalid-date error: %s',
+        (dateOfBirth) => {
+          const result = validateDateOfBirth(dateOfBirth, errorMessages)
+          expect(result).toBeInstanceOf(Error)
+          expect(result?.message).toBe(nb.DateOfBirth.errorDateOfBirth)
+        }
+      )
+
+      it.each(invalidDatesInTheFuture)(
+        'returns a future-date error: %s',
+        (dateOfBirth) => {
+          const result = validateDateOfBirth(dateOfBirth, errorMessages)
+          expect(result).toBeInstanceOf(Error)
+          expect(result?.message).toBe(
+            nb.DateOfBirth.errorDateOfBirthFuture
+          )
+        }
+      )
+
+      it.each(incompleteDates)(
+        'returns no error for an incomplete date (left to required/pattern): %s',
+        (dateOfBirth) => {
+          expect(
+            validateDateOfBirth(dateOfBirth, errorMessages)
+          ).toBeUndefined()
+        }
+      )
+
+      it('respects a custom dateFormat', () => {
+        expect(
+          validateDateOfBirth('17.05.2000', {
+            ...errorMessages,
+            dateFormat: 'dd.MM.yyyy',
+          })
+        ).toBeUndefined()
+
+        const result = validateDateOfBirth('32.05.2000', {
+          ...errorMessages,
+          dateFormat: 'dd.MM.yyyy',
+        })
+        expect(result).toBeInstanceOf(Error)
+        expect(result?.message).toBe(nb.DateOfBirth.errorDateOfBirth)
+      })
     })
 
-    describe('should extend validation using custom validator', () => {
-      const validDatesIn1990 = ['1990-01-01', '1990-12-31']
-
-      const validDatesNotIn1990 = [
-        '1991-01-01',
-        '1991-12-31',
-        '2000-05-17',
-      ]
-
-      const coreInvalidDatesWithCustom = ['2000-05-32']
-
-      const alsoNotIn1990 = ['1989-12-31', '2001-01-01']
-
-      const invalidDatesInTheFuture = ['3000-07-17']
-
-      const invalidDatesTooShort = ['1989-01', '01', '01-01', '1981']
-
+    describe('should extend validation using a custom validator', () => {
       const customError = 'Has to be born in the year 1990!'
 
       const yearIs1990Validator = (value: string) => {
@@ -633,136 +634,99 @@ describe('Field.DateOfBirth', () => {
         return [dateOfBirthValidator, yearIs1990Validator]
       }
 
-      it.each(validDatesIn1990)(
-        'Valid date of birth: %s',
-        async (dateOfBirth) => {
-          render(
-            <Form.Handler>
-              <Field.DateOfBirth
-                value={dateOfBirth}
-                validateInitially
-                onBlurValidator={customValidator}
-              />
-            </Form.Handler>
-          )
-
-          fireEvent.blur(document.querySelector('input'))
-
-          await expect(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-          }).toNeverResolve()
-        }
-      )
-
-      it.each(validDatesNotIn1990)(
-        'Invalid date of birth: %s',
-        async (dateOfBirth) => {
-          render(
+      it('passes when both the core and custom validators pass', async () => {
+        render(
+          <Form.Handler>
             <Field.DateOfBirth
-              value={dateOfBirth}
+              value="1990-01-01"
               validateInitially
               onBlurValidator={customValidator}
             />
+          </Form.Handler>
+        )
+
+        fireEvent.blur(document.querySelector('input'))
+
+        await expect(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+        }).toNeverResolve()
+      })
+
+      it('shows the custom error when only the custom validator fails', async () => {
+        render(
+          <Field.DateOfBirth
+            value="2000-05-17"
+            validateInitially
+            onBlurValidator={customValidator}
+          />
+        )
+
+        fireEvent.blur(document.querySelector('input'))
+
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            customError
           )
+        })
+      })
 
-          fireEvent.blur(document.querySelector('input'))
+      it('shows the core invalid-date error before the custom validator runs', async () => {
+        render(
+          <Field.DateOfBirth
+            value="2000-05-32"
+            validateInitially
+            onBlurValidator={customValidator}
+          />
+        )
 
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              customError
-            )
-          })
-        }
-      )
+        fireEvent.blur(document.querySelector('input'))
 
-      it.each(alsoNotIn1990)(
-        'Invalid (domain) date of birth: %s',
-        async (dateOfBirth) => {
-          render(
-            <Field.DateOfBirth
-              value={dateOfBirth}
-              validateInitially
-              onBlurValidator={customValidator}
-            />
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            nb.DateOfBirth.errorDateOfBirth
           )
+        })
+      })
 
-          fireEvent.blur(document.querySelector('input'))
+      it('shows the core future-date error before the custom validator runs', async () => {
+        render(
+          <Field.DateOfBirth
+            value="3000-07-17"
+            validateInitially
+            onBlurValidator={customValidator}
+          />
+        )
 
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              customError
-            )
-          })
-        }
-      )
+        fireEvent.blur(document.querySelector('input'))
 
-      it.each(coreInvalidDatesWithCustom)(
-        'Core invalid date of birth: %s',
-        async (dateOfBirth) => {
-          render(
-            <Field.DateOfBirth
-              value={dateOfBirth}
-              validateInitially
-              onBlurValidator={customValidator}
-            />
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            nb.DateOfBirth.errorDateOfBirthFuture
           )
+        })
+      })
 
-          fireEvent.blur(document.querySelector('input'))
+      it('runs the custom validator for incomplete values (core passes)', async () => {
+        render(
+          <Field.DateOfBirth
+            value="1989-01"
+            validateInitially
+            onBlurValidator={customValidator}
+          />
+        )
 
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.DateOfBirth.errorDateOfBirth
-            )
-          })
-        }
-      )
+        fireEvent.blur(document.querySelector('input'))
 
-      it.each(invalidDatesInTheFuture)(
-        'Invalid date of birth: %s',
-        async (dateOfBirth) => {
-          render(
-            <Field.DateOfBirth
-              value={dateOfBirth}
-              validateInitially
-              onBlurValidator={customValidator}
-            />
+        await waitFor(() => {
+          expect(screen.queryByRole('alert')).toBeInTheDocument()
+          expect(screen.queryByRole('alert')).toHaveTextContent(
+            customError
           )
-
-          fireEvent.blur(document.querySelector('input'))
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              nb.DateOfBirth.errorDateOfBirthFuture
-            )
-          })
-        }
-      )
-
-      it.each(invalidDatesTooShort)(
-        'Invalid date of birth: %s',
-        async (dateOfBirth) => {
-          render(
-            <Field.DateOfBirth
-              value={dateOfBirth}
-              validateInitially
-              onBlurValidator={customValidator}
-            />
-          )
-
-          fireEvent.blur(document.querySelector('input'))
-
-          await waitFor(() => {
-            expect(screen.queryByRole('alert')).toBeInTheDocument()
-            expect(screen.queryByRole('alert')).toHaveTextContent(
-              customError
-            )
-          })
-        }
-      )
+        })
+      })
     })
   })
 

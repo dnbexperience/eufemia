@@ -15,7 +15,6 @@ import { clsx } from 'clsx'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import {
-  validateDOMAttributes,
   dispatchCustomElementEvent,
   extendPropsWithContext,
 } from '../../shared/component-helper'
@@ -54,7 +53,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     ...rest
   } = allProps
 
-  const remainingDOMProps = validateDOMAttributes(allProps, { ...rest })
+  const remainingDOMProps = { ...rest }
 
   const [sizeVariant, customSize]: [
     ProgressIndicatorAnimationProps['size'],

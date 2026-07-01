@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
 const ENV_KEYS = ['CI', 'GITHUB_REF_NAME', 'GITHUB_REF'] as const

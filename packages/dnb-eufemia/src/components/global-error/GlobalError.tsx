@@ -89,7 +89,7 @@ export type GlobalErrorTranslation = {
   500?: GlobalErrorTranslationContent
 }
 
-const defaultProps: Partial<GlobalErrorAllProps> = {
+const globalErrorDefaultProps: Partial<GlobalErrorAllProps> = {
   statusCode: '404',
 }
 
@@ -103,10 +103,12 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    globalErrorDefaultProps,
     context?.GlobalError,
     translation,
-    translation[localProps.statusCode || defaultProps.statusCode],
+    translation[
+      localProps.statusCode || globalErrorDefaultProps.statusCode
+    ],
     { skeleton: context?.skeleton }
   )
 

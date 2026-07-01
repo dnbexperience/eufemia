@@ -34,13 +34,14 @@ import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
   removeUndefinedProps,
-  validateDOMAttributes,
+  mergeAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -48,7 +49,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -151,7 +152,7 @@ export type InputProps = Omit<
     /**
      * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
      */
-    labelDirection?: 'vertical' | 'horizontal'
+    labelDirection?: FormElementProps['labelDirection']
     /**
      * Use `true` to make the label only readable by screen readers.
      */
@@ -643,7 +644,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     'aria-placeholder': placeholder
       ? convertJsxToString(placeholder)
       : undefined,
-    ...attributes,
+    ...removeSpaceProps(attributes),
     ...usedInputAttributes,
     onChange: onChangeHandler,
     onKeyDown: onKeyDownHandler,
@@ -687,9 +688,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(restProps, inputParams)
-  validateDOMAttributes(null, shellParams)
+  if (inputParams.disabled === true) {
+    inputParams['aria-disabled'] = true
+  }
 
   if (InputElement && typeof InputElement === 'function') {
     InputElement = (
@@ -916,6 +917,7 @@ function InputSubmitButton({
     statusState,
     statusProps,
     className,
+    attributes,
 
     onSubmitBlur: _onSubmitBlur, //eslint-disable-line
     onSubmitFocus: _onSubmitFocus, //eslint-disable-line
@@ -928,7 +930,9 @@ function InputSubmitButton({
     type: 'submit',
     'aria-label': title,
     disabled,
-    ...rest,
+    // Strip spacing props (e.g. `top` injected by a Flex parent) so they are
+    // not forwarded to the inner Button, where they would render as margins.
+    ...removeSpaceProps(rest as SpacingProps & typeof rest),
   }
 
   skeletonDOMAttributes(
@@ -937,8 +941,7 @@ function InputSubmitButton({
     context
   )
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
+  mergeAttributes(params, attributes)
 
   return (
     <span

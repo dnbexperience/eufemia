@@ -708,6 +708,23 @@ describe('Input component', () => {
 
     expect(icon).toHaveClass('dnb-icon--medium')
   })
+
+  it('should not forward spacing props to the nested submit button', () => {
+    render(
+      <Input type="search" showSubmitButton value="value" top="large" />
+    )
+
+    // The spacing has to apply to the Input root only
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-space__top--large'
+    )
+
+    // and must not leak onto the nested submit button, where it would
+    // render as a margin and change the layout
+    expect(
+      document.querySelector('.dnb-input__submit-button__button')
+    ).not.toHaveClass('dnb-space__top--large')
+  })
 })
 
 describe('Input with clear button', () => {
@@ -780,6 +797,19 @@ describe('Input with clear button', () => {
     expect(element).toHaveClass(
       'dnb-input dnb-input__border--tokens dnb-form-component dnb-input--text dnb-input--vertical dnb-space__top--large',
       { exact: true }
+    )
+  })
+
+  it('should not forward spacing props to the input element', () => {
+    render(<Input top="large" />)
+
+    const input = document.querySelector('input')
+    expect(input).not.toHaveAttribute('top')
+    expect(input).not.toHaveAttribute('space')
+
+    // spacing is applied to the outer component instead
+    expect(document.querySelector('.dnb-input')).toHaveClass(
+      'dnb-space__top--large'
     )
   })
 

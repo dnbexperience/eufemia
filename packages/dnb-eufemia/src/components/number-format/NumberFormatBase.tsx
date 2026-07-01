@@ -25,7 +25,6 @@ import Context, { type ContextProps } from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
 import {
   warn,
-  validateDOMAttributes,
   convertJsxToString,
   extendExistingPropsWithContext,
   extendDeep,
@@ -206,7 +205,7 @@ function runFix(comp: unknown, className: string): ReactNode {
   return <span className={className}>{comp as ReactNode}</span>
 }
 
-function NumberFormat(ownProps: NumberFormatAllProps) {
+function NumberFormatComponent(ownProps: NumberFormatAllProps) {
   const context = useContext(Context) as ContextProps
 
   // Apply defaults early so callbacks see proper values
@@ -530,7 +529,6 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
     displayParams.onContextMenu = onContextMenuHandler
   }
 
-  validateDOMAttributes(ownProps, attributes)
   skeletonDOMAttributes(attributes, skeleton as boolean, context)
 
   const Element = element as ElementType
@@ -596,8 +594,8 @@ function NumberFormat(ownProps: NumberFormatAllProps) {
   )
 }
 
-const MemoizedNumberFormat = memo(NumberFormat)
+const NumberFormat = memo(NumberFormatComponent)
 
-withComponentMarkers(MemoizedNumberFormat, { _supportsSpacingProps: true })
+withComponentMarkers(NumberFormat, { _supportsSpacingProps: true })
 
-export default MemoizedNumberFormat
+export default NumberFormat

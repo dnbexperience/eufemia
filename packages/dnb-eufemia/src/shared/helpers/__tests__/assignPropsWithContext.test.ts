@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { assignPropsWithContext } from '../assignPropsWithContext'
 
 describe('assignPropsWithContext', () => {

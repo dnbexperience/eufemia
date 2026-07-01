@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import detectCountryCode from '../detectCountryCode'
 import countryCodes from '../constants/countryCodes'
 import countries from '../../extensions/forms/constants/countries'

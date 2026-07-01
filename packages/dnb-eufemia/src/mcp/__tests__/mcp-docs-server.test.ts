@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import type { CallToolResult } from '@modelcontextprotocol/sdk/types'
 import fs from 'fs'
 import os from 'os'

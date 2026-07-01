@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { isAsync } from '../isAsync'
 
 describe('isAsync', () => {

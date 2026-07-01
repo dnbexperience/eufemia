@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import type { ErrorObject } from 'ajv/dist/2020.js'
 import { FormError } from '../FormError'
 import {

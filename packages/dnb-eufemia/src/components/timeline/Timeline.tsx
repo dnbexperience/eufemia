@@ -14,10 +14,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { TimelineItemProps } from './TimelineItem'
 import TimelineItem from './TimelineItem'
 import TimelineContext from './TimelineContext'
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type TimelineProps = {
@@ -45,7 +42,7 @@ export type TimelineAllProps = TimelineProps &
     ref?: Ref<HTMLOListElement>
   }
 
-const defaultProps: Partial<TimelineAllProps> = {
+const timelineDefaultProps: Partial<TimelineAllProps> = {
   skeleton: false,
 }
 
@@ -56,7 +53,7 @@ const Timeline = (localProps: TimelineAllProps) => {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    timelineDefaultProps,
     context?.Timeline,
     {
       skeleton: context?.skeleton,
@@ -69,8 +66,6 @@ const Timeline = (localProps: TimelineAllProps) => {
     children: childrenProp,
     ...props
   } = allProps
-
-  validateDOMAttributes(allProps, props)
 
   const olProps = useSpacing(allProps, {
     ...props,

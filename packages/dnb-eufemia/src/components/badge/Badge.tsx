@@ -4,7 +4,7 @@ import type { CSSProperties, HTMLProps, JSX, ReactNode } from 'react'
 import { clsx } from 'clsx'
 
 // Components
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
@@ -15,7 +15,6 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
   extendPropsWithContext,
-  validateDOMAttributes,
 } from '../../shared/component-helper'
 import useNumberFormat from '../number-format/useNumberFormat'
 
@@ -80,7 +79,7 @@ export type BadgeAllProps = BadgeProps &
 
 type BadgeElemProps = BadgeAllProps & { context: ContextProps }
 
-export const defaultProps: BadgeAllProps = {
+export const badgeDefaultProps: BadgeAllProps = {
   skeleton: false,
   variant: 'information',
   status: 'default',
@@ -95,7 +94,7 @@ function Badge(localProps: BadgeAllProps) {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    badgeDefaultProps,
     context?.Badge,
     { skeleton: context?.skeleton }
   )
@@ -139,8 +138,8 @@ function propGuard(
     if (props.variant !== 'information') {
       return fn({
         ...props,
-        subtle: defaultProps.subtle,
-        status: defaultProps.status,
+        subtle: badgeDefaultProps.subtle,
+        status: badgeDefaultProps.status,
       })
     }
     return fn(props)
@@ -168,8 +167,8 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
     return null
   }
 
-  // to remove spacing props, etc.
-  validateDOMAttributes(props, restProps)
+  // remove spacing props so they don't leak onto the DOM element
+  const domAttributes = removeSpaceProps(restProps)
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const contentIsNum = typeof contentProp === 'number'
@@ -201,7 +200,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
         skeletonClasses,
         className
       )}
-      {...restProps}
+      {...domAttributes}
     >
       {label && <span className="dnb-sr-only">{label} </span>}
       {content}

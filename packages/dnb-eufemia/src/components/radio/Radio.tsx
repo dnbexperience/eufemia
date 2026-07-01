@@ -19,14 +19,13 @@ import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -146,7 +145,7 @@ const parseChecked = (state: string | boolean | null | undefined) =>
 /**
  * The radio component is our enhancement of the classic radio button.
  */
-function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
+function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   const groupContext = useContext(RadioGroupContext)
   const context = useContext(Context)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -340,6 +339,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
     label,
     labelSrOnly,
     labelPosition,
+    labelDirection,
     size,
     readOnly,
     skeleton,
@@ -423,8 +423,11 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, inputParams)
+  if (inputParams.disabled === true) {
+    inputParams['aria-disabled'] = true
+  }
+
+  inputParams = removeSpaceProps(inputParams)
 
   const labelComp = label && (
     <FormLabel
@@ -517,7 +520,7 @@ function RadioInner({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 }
 
-const Radio = memo(RadioInner) as unknown as typeof RadioInner & {
+const Radio = memo(RadioComponent) as unknown as typeof RadioComponent & {
   Group: typeof RadioGroup
   parseChecked: typeof parseChecked
 }

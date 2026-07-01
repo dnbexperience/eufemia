@@ -146,7 +146,9 @@ describe('SkipContent', () => {
     // 2. blur the event
     fireEvent.blur(element.querySelector('.dnb-button'))
 
-    expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
+    })
     expect(document.activeElement.tagName).toBe('BODY')
   })
 

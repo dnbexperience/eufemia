@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { verifyFiles, getFileTypeFromExtension } from '../UploadVerify'
 import { createMockFile } from './testHelpers'
 

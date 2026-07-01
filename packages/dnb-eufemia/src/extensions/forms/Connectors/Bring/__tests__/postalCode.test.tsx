@@ -192,7 +192,9 @@ describe('postalCode', () => {
 
       await userEvent.type(postalCodeInput, '{Backspace}1')
 
-      expect(postalCodeInput).toHaveValue('0001')
+      await waitFor(() => {
+        expect(postalCodeInput).toHaveValue('0001')
+      })
 
       fireEvent.submit(document.querySelector('form'))
       await expect(() => {
@@ -412,7 +414,9 @@ describe('postalCode', () => {
 
       await userEvent.type(postalCodeInput, '{Backspace}1')
 
-      expect(postalCodeInput).toHaveValue('0001')
+      await waitFor(() => {
+        expect(postalCodeInput).toHaveValue('0001')
+      })
 
       fireEvent.submit(document.querySelector('form'))
       await expect(() => {

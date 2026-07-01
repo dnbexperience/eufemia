@@ -44,7 +44,6 @@ import type { BreadcrumbItemProps } from './BreadcrumbItem'
 import BreadcrumbItem from './BreadcrumbItem'
 import {
   convertJsxToString,
-  validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
@@ -139,7 +138,7 @@ export type BreadcrumbAllProps = BreadcrumbProps &
   SpacingProps &
   Omit<HTMLProps<HTMLElement>, keyof BreadcrumbProps>
 
-const defaultProps: Partial<BreadcrumbAllProps> = {
+const breadcrumbDefaultProps: Partial<BreadcrumbAllProps> = {
   skeleton: false,
   collapsed: true,
   spacing: false,
@@ -152,7 +151,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    breadcrumbDefaultProps,
     context?.translation?.Breadcrumb,
     context?.Breadcrumb,
     { skeleton: context?.skeleton }
@@ -223,8 +222,6 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
 
     return variant
   }, [data, items, variant])
-
-  validateDOMAttributes(allProps, props)
 
   const navProps = useSpacing(allProps, {
     ...props,

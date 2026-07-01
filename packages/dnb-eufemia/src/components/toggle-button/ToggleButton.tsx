@@ -23,15 +23,15 @@ import useId from '../../shared/helpers/useId'
 import {
   warn,
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 
 import Radio from '../radio/Radio'
 import Checkbox from '../checkbox/Checkbox'
@@ -326,9 +326,6 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     ),
   })
 
-  // to remove spacing props
-  validateDOMAttributes(ownProps, rest)
-
   const buttonParams: Record<string, unknown> = {
     id,
     disabled,
@@ -342,7 +339,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       role === 'radio' || role === 'checkbox' ? 'checked' : 'pressed'
     }`]: String(resolvedChecked || false),
     role,
-    ...rest,
+    ...removeSpaceProps(rest),
   }
 
   const componentParams: Record<string, unknown> = {
@@ -512,7 +509,7 @@ export type ToggleButtonProps = Omit<
      * Use either the `label` property or provide a custom one.
      */
     label?: string | ReactNode
-    labelDirection?: 'horizontal' | 'vertical'
+    labelDirection?: FormElementProps['labelDirection']
     labelSrOnly?: boolean
     /**
      * The `title` of the input - describing it a bit further for accessibility reasons.

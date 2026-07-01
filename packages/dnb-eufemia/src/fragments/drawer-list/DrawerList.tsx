@@ -17,14 +17,17 @@ import type {
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { clsx } from 'clsx'
 import {
-  validateDOMAttributes,
   removeUndefinedProps,
+  removeNullProps,
   warn,
 } from '../../shared/component-helper'
 import type { SpacingProps } from '../../shared/types'
 import type { Translation } from '../../shared/Context'
 
-import { useSpacing } from '../../components/space/SpacingUtils'
+import {
+  useSpacing,
+  removeSpaceProps,
+} from '../../components/space/SpacingUtils'
 
 import E from '../../elements/Element'
 import type { DrawerListContextValue } from './DrawerListContext'
@@ -318,7 +321,7 @@ function DrawerList(props: DrawerListAllProps) {
   const drawerListContext = useContext(DrawerListContext)
 
   if (drawerListContext?.drawerList) {
-    return <DrawerListInstance {...props} />
+    return <DrawerListComponent {...props} />
   }
 
   const { data, children, ...rest } = props
@@ -333,13 +336,13 @@ function DrawerList(props: DrawerListAllProps) {
           : undefined)
       }
     >
-      <DrawerListInstance {...props} />
+      <DrawerListComponent {...props} />
     </DrawerListProvider>
   )
 }
 DrawerList.blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms"
 
-const DrawerListInstance = memo(function DrawerListInstance(
+const DrawerListComponent = memo(function DrawerListComponent(
   ownProps: DrawerListAllProps
 ) {
   const context = useContext(DrawerListContext)
@@ -551,14 +554,9 @@ const DrawerListInstance = memo(function DrawerListInstance(
     ulParams.tabIndex = 0
   }
 
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, mainParams)
-  validateDOMAttributes(null, listParams)
-  validateDOMAttributes(null, ulParams)
-
   Object.assign(
     context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
+    removeNullProps(removeSpaceProps(attributes))
   )
 
   const ignoreEventsBoolean = ignoreEvents

@@ -257,14 +257,14 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     props.onBlurValidator === false || props.pattern || props.schema
       ? undefined
       : (props.onBlurValidator ?? norwegianPhoneNumberLengthValidator)
-  const defaultProps: Partial<FieldPhoneNumberProps> = {
+  const phoneNumberDefaultProps: Partial<FieldPhoneNumberProps> = {
     ...(schema ? { schema } : {}),
     errorMessages,
   }
   const ref = useRef<HTMLInputElement>(undefined)
   const preparedProps: FieldPhoneNumberProps = {
     ...props,
-    ...defaultProps,
+    ...phoneNumberDefaultProps,
     onBlurValidator: onBlurValidatorToUse,
     validateRequired,
     fromExternal,

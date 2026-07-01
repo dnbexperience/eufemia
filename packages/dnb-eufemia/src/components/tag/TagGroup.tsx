@@ -3,13 +3,10 @@ import type { HTMLAttributes, HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 
 // Components
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 
 // Shared
-import {
-  validateDOMAttributes,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import { TagGroupContext } from './TagContext'
@@ -42,7 +39,7 @@ export type TagGroupProps = {
   skeleton?: SkeletonShow
 }
 
-const defaultProps: Partial<TagGroupProps> = {
+const tagGroupDefaultProps: Partial<TagGroupProps> = {
   skeleton: false,
 }
 
@@ -59,9 +56,14 @@ const TagGroup = (
     className,
     children: childrenProp,
     ...props
-  } = extendPropsWithContext(localProps, defaultProps, context?.TagGroup, {
-    skeleton: context?.skeleton,
-  })
+  } = extendPropsWithContext(
+    localProps,
+    tagGroupDefaultProps,
+    context?.TagGroup,
+    {
+      skeleton: context?.skeleton,
+    }
+  )
 
   let children = childrenProp
 
@@ -74,10 +76,10 @@ const TagGroup = (
   const spacingProps = useSpacing(props, {
     className: clsx('dnb-tag__group', className),
   })
-  const { skeleton, ...attributes } = validateDOMAttributes({}, {
+  const { skeleton, ...attributes } = removeSpaceProps({
     ...props,
     ...spacingProps,
-  } as Record<string, unknown>)
+  } as SpacingProps & Record<string, unknown>)
 
   return (
     <TagGroupContext value={props}>

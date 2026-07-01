@@ -115,16 +115,16 @@ type SectionReturnParams = Record<string, unknown> & {
   style: CSSProperties
 }
 
-const defaultProps: Partial<SectionAllProps> = {
+const sectionDefaultProps: Partial<SectionAllProps> = {
   element: 'section',
 }
 
-function SectionInstance(localProps: SectionAllProps) {
+function SectionComponent(localProps: SectionAllProps) {
   return <Space {...SectionParams(localProps)} />
 }
 
 export default function Section(props: SectionAllProps) {
-  return <SectionInstance {...props} />
+  return <SectionComponent {...props} />
 }
 
 export function SectionParams(
@@ -135,7 +135,7 @@ export function SectionParams(
   // use only the props from context, who are available here anyway
   const props = extendPropsWithContext(
     localProps,
-    defaultProps,
+    sectionDefaultProps,
     context.Section,
     { surface: localProps?.surface ?? context?.theme?.surface }
   )

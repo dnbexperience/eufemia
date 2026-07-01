@@ -125,6 +125,29 @@ describe('Radio component', () => {
     })
   })
 
+  it('should not forward spacing props to the input element', () => {
+    render(
+      <Radio
+        top="2rem"
+        right="2rem"
+        bottom="2rem"
+        left="2rem"
+        space="small"
+        innerSpace="small"
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    // Spacing props must become wrapper classes, never DOM attributes on the input
+    expect(input).not.toHaveAttribute('space')
+    expect(input).not.toHaveAttribute('innerSpace')
+    expect(input).not.toHaveAttribute('top')
+    expect(input).not.toHaveAttribute('right')
+    expect(input).not.toHaveAttribute('bottom')
+    expect(input).not.toHaveAttribute('left')
+  })
+
   it('should support inline styling', () => {
     render(<Radio style={{ color: 'red' }} />)
 

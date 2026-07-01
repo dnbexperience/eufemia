@@ -3,13 +3,14 @@ import type { CSSProperties } from 'react'
 import {
   combineDescribedBy,
   combineLabelledBy,
-  validateDOMAttributes,
 } from '../../shared/component-helper'
 import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
+import { removeSpaceProps } from '../space/SpacingUtils'
+import type { SpacingProps } from '../../shared/types'
 
 export function SliderThumb() {
   const { values } = useSliderProps()
@@ -91,10 +92,11 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     )
   }
 
-  const thumbParams = attributes as Record<string, unknown>
+  const thumbParams = removeSpaceProps(
+    attributes as SpacingProps & Record<string, unknown>
+  )
   const elemRef = useRef<HTMLElement>(undefined)
   const [forceActive, setForceActive] = useState(false)
-  validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
   return (
     <span className="dnb-slider__thumb" style={style}>

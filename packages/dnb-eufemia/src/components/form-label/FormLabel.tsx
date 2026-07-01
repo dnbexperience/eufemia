@@ -13,10 +13,7 @@ import {
 } from 'react'
 import type { HTMLAttributes, ReactNode, Ref, RefObject } from 'react'
 import { clsx } from 'clsx'
-import {
-  extendPropsWithContext,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import { useSpacing } from '../space/SpacingUtils'
 import {
   createSkeletonClass,
@@ -231,7 +228,6 @@ function FormLabel(localProps: FormLabelAllProps) {
   }, [forId, labelRef])
 
   skeletonDOMAttributes(params, skeleton, context)
-  validateDOMAttributes(localProps, params)
 
   return <Element {...params}>{content}</Element>
 }

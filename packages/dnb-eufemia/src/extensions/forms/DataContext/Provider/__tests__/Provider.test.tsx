@@ -1205,18 +1205,18 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
         await userEvent.click(button)
 
-        await wait(100)
-
-        expect(eventsStart).toEqual([
-          'onChangeValidator',
-          'onBlurValidator',
-          'onSubmit',
-        ])
-        expect(eventsEnd).toEqual([
-          'onChangeValidator',
-          'onBlurValidator',
-          'onSubmit',
-        ])
+        await waitFor(() => {
+          expect(eventsStart).toEqual([
+            'onChangeValidator',
+            'onBlurValidator',
+            'onSubmit',
+          ])
+          expect(eventsEnd).toEqual([
+            'onChangeValidator',
+            'onBlurValidator',
+            'onSubmit',
+          ])
+        })
       })
 
       it(`should not rerun onBlurValidator during submit when runOnSubmit is 'never'`, async () => {

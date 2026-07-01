@@ -20,13 +20,13 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import {
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
   convertJsxToString,
   removeUndefinedProps,
+  removeNullProps,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -34,7 +34,8 @@ import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLay
 import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
@@ -106,7 +107,7 @@ export type DropdownProps = {
   /**
    * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
-  labelDirection?: 'vertical' | 'horizontal'
+  labelDirection?: FormElementProps['labelDirection']
   /**
    * Use `true` to make the label only readable by screen readers.
    */
@@ -196,7 +197,7 @@ const dropdownDefaultProps: Partial<DropdownAllProps> = {
   open: false,
 }
 
-const DropdownInstance = memo(function DropdownInstance({
+const DropdownComponent = memo(function DropdownComponent({
   externalRef,
   externalButtonRef,
   ...ownProps
@@ -503,10 +504,9 @@ const DropdownInstance = memo(function DropdownInstance({
   const { id, selectedItem, direction, open } = context.drawerList
   const showStatus = getStatusState(status)
 
-  Object.assign(
-    context.drawerList.attributes,
-    validateDOMAttributes(null, attributes)
-  )
+  const cleanedAttributes = removeNullProps(removeSpaceProps(attributes))
+
+  Object.assign(context.drawerList.attributes, cleanedAttributes)
 
   const mainParams = useSpacing(props, {
     className: clsx(
@@ -534,9 +534,11 @@ const DropdownInstance = memo(function DropdownInstance({
     ),
     id,
     disabled,
-    'aria-haspopup': handleAsMenu ? true : 'listbox',
+    'aria-haspopup': (handleAsMenu ? true : 'listbox') as
+      | boolean
+      | 'listbox',
     'aria-expanded': open,
-    ...attributes,
+    ...cleanedAttributes,
     onFocus: onFocusHandler,
     onBlur: onBlurHandler,
     onClick: onClickHandler,
@@ -563,12 +565,8 @@ const DropdownInstance = memo(function DropdownInstance({
     )
   }
 
-  // also used for code markup simulation
-  validateDOMAttributes(null, mainParams)
-  validateDOMAttributes(ownProps, triggerParams)
-
   // make it possible to grab the rest attributes and return it with all events
-  attributesRef.current = validateDOMAttributes(null, attributes)
+  attributesRef.current = cleanedAttributes
 
   return (
     <span ref={setRootRef} {...mainParams}>
@@ -716,7 +714,7 @@ function Dropdown({ ref, buttonRef, ...props }: DropdownAllProps) {
       ignoreEvents={false}
       preventSelection={preventSelection}
     >
-      <DropdownInstance
+      <DropdownComponent
         {...props}
         id={id}
         externalRef={ref}

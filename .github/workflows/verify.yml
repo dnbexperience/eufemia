@@ -39,25 +39,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        id: modules-cache
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
-
-      - name: Install dependencies
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
   audit:
     name: Audit dependencies
@@ -74,19 +59,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Audit dependencies
         run: yarn workspace @dnb/eufemia audit:ci
@@ -105,24 +81,53 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
-      - name: Use node_modules cache
+      # Persist ESLint's --cache between runs so unchanged files are skipped.
+      # The key is unique per commit (always a miss), so restore-keys pulls
+      # the most recent prior cache and ESLint only re-lints what changed; a
+      # fresh entry is then saved at the end of the job.
+      - name: Use ESLint cache
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: packages/dnb-eufemia/.eslintcache
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-
 
       - name: Run lint
-        run: |
-          yarn workspace @dnb/eufemia lint:ci
-          yarn workspace dnb-design-system-portal lint:ci
+        run: yarn workspace @dnb/eufemia lint:ci
+
+  lint-portal:
+    name: Run portal lint
+    needs: setup
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 10
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Use ESLint cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: packages/dnb-design-system-portal/.eslintcache
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-
+
+      - name: Run lint
+        run: yarn workspace dnb-design-system-portal lint:ci
 
   typecheck:
     name: Run type checks
@@ -138,19 +143,24 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
-      - name: Use node_modules cache
+      # Persist TypeScript's incremental build info so unchanged files are
+      # skipped on type-check. Unique key per commit + restore-keys pulls the
+      # latest prior build info; tsc re-checks only what changed (and falls
+      # back to a full check if the cache is missing or stale).
+      - name: Use TypeScript build-info cache
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+            packages/dnb-eufemia/tsconfig.tsbuildinfo
+            packages/dnb-design-system-portal/tsconfig.tsbuildinfo
+            tools/eufemia-llm-metadata/tsconfig.tsbuildinfo
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-
 
       - name: Run type checks
         run: |
@@ -172,19 +182,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Run tests
         run: |
@@ -207,19 +208,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Run dependency checks
         run: yarn workspace @dnb/eufemia test:deps
@@ -236,25 +228,10 @@ jobs:
           persist-credentials: false
           fetch-depth: 20 # The "postbuild:ci" method "getCommittedFiles" needs all history
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        id: modules-cache
-        with:
-          path: |
-            node_modules
-            packages/*/node_modules
-            tools/*/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
-
-      - name: Install dependencies
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Verify isCI
         run: yarn workspace repo-utils test:ci

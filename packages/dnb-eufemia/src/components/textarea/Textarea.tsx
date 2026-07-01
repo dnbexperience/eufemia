@@ -26,7 +26,6 @@ import useId from '../../shared/helpers/useId'
 import {
   extendPropsWithContext,
   removeUndefinedProps,
-  validateDOMAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -34,9 +33,10 @@ import {
   dispatchCustomElementEvent,
   convertJsxToString,
 } from '../../shared/component-helper'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -108,7 +108,7 @@ export type TextareaProps = Omit<
     /**
      * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
      */
-    labelDirection?: 'vertical' | 'horizontal'
+    labelDirection?: FormElementProps['labelDirection']
     /**
      * Use `true` to make the label only readable by screen readers.
      */
@@ -480,7 +480,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     'aria-placeholder': placeholder
       ? convertJsxToString(placeholder)
       : undefined,
-    ...(attributes as unknown as TextareaHTMLAttributes<HTMLTextAreaElement>),
+    ...(removeSpaceProps(
+      attributes
+    ) as unknown as TextareaHTMLAttributes<HTMLTextAreaElement>),
     ...(typeof size === 'number' ? { size } : {}),
     onChange: onChangeHandler,
     onFocus: onFocusHandler,
@@ -542,9 +544,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   skeletonDOMAttributes(innerParams, skeleton, context)
 
-  validateDOMAttributes(ownProps, textareaParams)
-  validateDOMAttributes(null, innerParams)
-  validateDOMAttributes(null, shellParams)
+  if (textareaParams.disabled === true) {
+    textareaParams['aria-disabled'] = true
+  }
 
   if (TextareaElement && typeof TextareaElement === 'function') {
     TextareaElement = TextareaElement(textareaParams, textareaRef)
@@ -636,11 +638,11 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
 TextareaComponent.displayName = 'Textarea'
 
-const MemoizedTextarea = memo(TextareaComponent)
+const Textarea = memo(TextareaComponent)
 
-withComponentMarkers(MemoizedTextarea, {
+withComponentMarkers(Textarea, {
   _formElement: true,
   _supportsSpacingProps: true,
 })
 
-export default MemoizedTextarea
+export default Textarea

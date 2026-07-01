@@ -21,10 +21,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import type { SpacingProps } from '../../shared/types'
-import {
-  extendPropsWithContext,
-  validateDOMAttributes,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type InfoCardProps = {
@@ -112,7 +109,7 @@ export type InfoCardAllProps = InfoCardProps &
   Omit<HTMLAttributes<HTMLDivElement>, 'title'> &
   SpacingProps
 
-export const defaultProps = {
+export const infoCardDefaultProps = {
   centered: false,
   dropShadow: true,
   skeleton: false,
@@ -125,7 +122,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    infoCardDefaultProps,
     {
       skeleton: context?.skeleton,
     },
@@ -165,8 +162,6 @@ const InfoCard = (localProps: InfoCardAllProps) => {
 
   const closeButtonIsHidden = !onClose && !closeButtonText
   const acceptButtonIsHidden = !onAccept && !acceptButtonText
-
-  validateDOMAttributes(allProps, props)
 
   const rootProps = useSpacing(allProps, {
     ...props,

@@ -24,7 +24,6 @@ import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
-  validateDOMAttributes,
   extendPropsWithContext,
   warn,
 } from '../../shared/component-helper'
@@ -108,7 +107,7 @@ export type AvatarProps = Omit<HTMLProps<HTMLElement>, 'size'> & {
 
 export type AvatarAllProps = AvatarProps & SpacingProps
 
-const defaultProps: Partial<AvatarAllProps> = {
+const avatarDefaultProps: Partial<AvatarAllProps> = {
   size: 'medium',
   variant: 'primary',
   skeleton: false,
@@ -123,7 +122,7 @@ const Avatar = (localProps: AvatarAllProps) => {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    avatarDefaultProps,
     context?.Avatar,
     { skeleton: context?.skeleton },
     avatarGroupContext
@@ -181,8 +180,6 @@ const Avatar = (localProps: AvatarAllProps) => {
       `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantics and accessibility.`
     )
   }
-
-  validateDOMAttributes(allProps, props)
 
   const style = {
     '--avatar-background-color': getColor(backgroundColor),

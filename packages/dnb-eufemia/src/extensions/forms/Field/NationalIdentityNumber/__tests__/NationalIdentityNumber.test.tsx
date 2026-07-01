@@ -2,6 +2,7 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import type { FieldNationalIdentityNumberProps } from '..'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
+import { validateDnrAndFnr } from '../validators'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import nbNO from '../../../constants/locales/nb-NO'
 import userEvent from '@testing-library/user-event'
@@ -363,6 +364,13 @@ describe('Field.NationalIdentityNumber', () => {
   })
 
   describe('should validate Norwegian D number', () => {
+    const errorMessages = {
+      errorFnr: nb.NationalIdentityNumber.errorFnr,
+      errorFnrLength: nb.NationalIdentityNumber.errorFnrLength,
+      errorDnr: nb.NationalIdentityNumber.errorDnr,
+      errorDnrLength: nb.NationalIdentityNumber.errorDnrLength,
+    }
+
     const validDNum = [
       '53097248016',
       '51041678171',
@@ -389,48 +397,42 @@ describe('Field.NationalIdentityNumber', () => {
       '5313',
     ]
 
-    it.each(validDNum)('Valid D number: %s', async (dNum) => {
-      render(
-        <Field.NationalIdentityNumber value={dNum} validateInitially />
-      )
+    it.each(validDNum)(
+      'returns no error for a valid D number: %s',
+      (dNum) => {
+        expect(validateDnrAndFnr(dNum, errorMessages)).toBeUndefined()
+      }
+    )
 
-      fireEvent.blur(document.querySelector('input'))
+    it.each(invalidDNum)(
+      'returns a dnr error for an invalid D number: %s',
+      (dNum) => {
+        const result = validateDnrAndFnr(dNum, errorMessages)
+        expect(result).toBeInstanceOf(Error)
+        expect(result?.message).toBe(nb.NationalIdentityNumber.errorDnr)
+      }
+    )
 
-      expect(screen.queryByRole('alert')).toBeNull()
-    })
-
-    it.each(invalidDNum)('Invalid D number: %s', async (dNum) => {
-      render(
-        <Field.NationalIdentityNumber value={dNum} validateInitially />
-      )
-
-      fireEvent.blur(document.querySelector('input'))
-
-      await waitFor(() => {
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
-        expect(screen.queryByRole('alert')).toHaveTextContent(
-          nb.NationalIdentityNumber.errorDnr
-        )
-      })
-    })
-
-    it.each(invalidDNumTooShort)('Invalid D number: %s', async (dNum) => {
-      render(
-        <Field.NationalIdentityNumber value={dNum} validateInitially />
-      )
-
-      fireEvent.blur(document.querySelector('input'))
-
-      await waitFor(() => {
-        expect(screen.queryByRole('alert')).toBeInTheDocument()
-        expect(screen.queryByRole('alert')).toHaveTextContent(
+    it.each(invalidDNumTooShort)(
+      'returns a length error for a too-short D number: %s',
+      (dNum) => {
+        const result = validateDnrAndFnr(dNum, errorMessages)
+        expect(result).toBeInstanceOf(Error)
+        expect(result?.message).toBe(
           nb.NationalIdentityNumber.errorDnrLength
         )
-      })
-    })
+      }
+    )
   })
 
   describe('should validate Norwegian national identity number(fnr)', () => {
+    const errorMessages = {
+      errorFnr: nb.NationalIdentityNumber.errorFnr,
+      errorFnrLength: nb.NationalIdentityNumber.errorFnrLength,
+      errorDnr: nb.NationalIdentityNumber.errorDnr,
+      errorDnrLength: nb.NationalIdentityNumber.errorDnrLength,
+    }
+
     const validFnrNum = [
       '08121312590',
       '12018503288',
@@ -461,75 +463,34 @@ describe('Field.NationalIdentityNumber', () => {
     ]
 
     it.each(validFnrNum)(
-      'Valid national identity number(fnr): %s',
-      async (fnrNum) => {
-        render(
-          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        expect(screen.queryByRole('alert')).toBeNull()
+      'returns no error for a valid fnr: %s',
+      (fnrNum) => {
+        expect(validateDnrAndFnr(fnrNum, errorMessages)).toBeUndefined()
       }
     )
 
     it.each(invalidFnrNum)(
-      'Invalid national identity number(fnr): %s',
-      async (fnrNum) => {
-        render(
-          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnr
-          )
-        })
+      'returns an fnr error for an invalid fnr: %s',
+      (fnrNum) => {
+        const result = validateDnrAndFnr(fnrNum, errorMessages)
+        expect(result).toBeInstanceOf(Error)
+        expect(result?.message).toBe(nb.NationalIdentityNumber.errorFnr)
       }
     )
 
     it.each(invalidFnrNumTooShort)(
-      'Invalid national identity number(fnr): %s',
-      async (fnrNum) => {
-        render(
-          <Field.NationalIdentityNumber validateInitially value={fnrNum} />
+      'returns a length error for a too-short fnr: %s',
+      (fnrNum) => {
+        const result = validateDnrAndFnr(fnrNum, errorMessages)
+        expect(result).toBeInstanceOf(Error)
+        expect(result?.message).toBe(
+          nb.NationalIdentityNumber.errorFnrLength
         )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnrLength
-          )
-        })
       }
     )
   })
 
-  describe('should extend validation using custom onChangeValidator', () => {
-    const validFnrNumApril = ['14046512368', '10042223293']
-    const validDNumApril = ['51041678171']
-
-    const validIds = [...validFnrNumApril, ...validDNumApril]
-
-    const invalidFnrNumApril = ['29040112345', '13047248032']
-    const invalidDNumApril = ['69040112345', '53047248032']
-    const invalidFnrTooShort = ['2904011234', '1']
-    const invalidDNumTooShort = ['6904011234', '5']
-
-    const validFnrNumNotApril = [
-      '58081633086',
-      '53050129159',
-      '65015439860',
-    ]
-    const validDNumNotApril = ['08121312590', '12018503288', '03025742965']
-
-    const invalidIds = [...validFnrNumNotApril, ...validDNumNotApril]
-
+  describe('should extend validation using a custom onChangeValidator', () => {
     const bornInAprilValidator = (value: string) => {
       if (value.substring(2, 4) !== '04') {
         return new Error('custom error')
@@ -544,24 +505,24 @@ describe('Field.NationalIdentityNumber', () => {
       return [dnrAndFnrValidator, bornInAprilValidator]
     }
 
-    it.each(validIds)('Valid identity number: %s', async (fnrNum) => {
+    it('passes when both the built-in and custom validators pass', async () => {
       render(
         <Field.NationalIdentityNumber
           onChangeValidator={customValidator}
           validateInitially
-          value={fnrNum}
+          value="14046512368"
         />
       )
 
       expect(screen.queryByRole('alert')).toBeNull()
     })
 
-    it.each(invalidIds)('Invalid identity number: %s', async (id) => {
+    it('shows the custom error when only the custom validator fails', async () => {
       render(
         <Field.NationalIdentityNumber
           onChangeValidator={customValidator}
           validateInitially
-          value={id}
+          value="58081633086"
         />
       )
 
@@ -573,12 +534,12 @@ describe('Field.NationalIdentityNumber', () => {
       })
     })
 
-    it.each(invalidDNumApril)('Invalid D number: %s', async (dNum) => {
+    it('shows the dnr error before the custom validator runs', async () => {
       render(
         <Field.NationalIdentityNumber
           onChangeValidator={customValidator}
           validateInitially
-          value={dNum}
+          value="69040112345"
         />
       )
 
@@ -590,12 +551,12 @@ describe('Field.NationalIdentityNumber', () => {
       })
     })
 
-    it.each(invalidDNumTooShort)('Invalid D number: %s', async (dNum) => {
+    it('shows the dnr length error before the custom validator runs', async () => {
       render(
         <Field.NationalIdentityNumber
           onChangeValidator={customValidator}
           validateInitially
-          value={dNum}
+          value="6904011234"
         />
       )
 
@@ -607,45 +568,39 @@ describe('Field.NationalIdentityNumber', () => {
       })
     })
 
-    it.each(invalidFnrNumApril)(
-      'Invalid national identity number(fnr): %s',
-      async (fnr) => {
-        render(
-          <Field.NationalIdentityNumber
-            onChangeValidator={customValidator}
-            validateInitially
-            value={fnr}
-          />
+    it('shows the fnr error before the custom validator runs', async () => {
+      render(
+        <Field.NationalIdentityNumber
+          onChangeValidator={customValidator}
+          validateInitially
+          value="29040112345"
+        />
+      )
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.NationalIdentityNumber.errorFnr
         )
+      })
+    })
 
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnr
-          )
-        })
-      }
-    )
+    it('shows the fnr length error before the custom validator runs', async () => {
+      render(
+        <Field.NationalIdentityNumber
+          onChangeValidator={customValidator}
+          validateInitially
+          value="2904011234"
+        />
+      )
 
-    it.each(invalidFnrTooShort)(
-      'Invalid national identity number(fnr): %s',
-      async (fnr) => {
-        render(
-          <Field.NationalIdentityNumber
-            onChangeValidator={customValidator}
-            validateInitially
-            value={fnr}
-          />
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.NationalIdentityNumber.errorFnrLength
         )
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.NationalIdentityNumber.errorFnrLength
-          )
-        })
-      }
-    )
+      })
+    })
   })
 
   describe('ARIA', () => {

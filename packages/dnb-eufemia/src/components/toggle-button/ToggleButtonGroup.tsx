@@ -9,14 +9,13 @@ import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
   extendExistingPropsWithContext,
-  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   combineLabelledBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { useSpacing } from '../space/SpacingUtils'
+import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import FormLabel from '../FormLabel'
 import FormStatus from '../FormStatus'
@@ -25,6 +24,7 @@ import Space from '../Space'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 const toggleButtonGroupDefaultProps: Partial<ToggleButtonGroupProps> = {
@@ -201,8 +201,8 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
     ),
   })
 
-  const params = {
-    ...rest,
+  const params: Record<string, unknown> = {
+    ...removeSpaceProps(rest),
   }
 
   if (showStatus || suffix) {
@@ -215,9 +215,6 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
   if (label) {
     params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
   }
-
-  // also used for code markup simulation
-  validateDOMAttributes(ownProps, params)
 
   const setContext = useCallback(
     (
@@ -379,7 +376,7 @@ export type ToggleButtonGroupProps = Omit<
      * Use either the `label` property or provide a custom one.
      */
     label?: string | ReactNode
-    labelDirection?: 'horizontal' | 'vertical'
+    labelDirection?: FormElementProps['labelDirection']
     labelSrOnly?: boolean
     /**
      * The `title` of group, describing it a bit further for accessibility reasons.
