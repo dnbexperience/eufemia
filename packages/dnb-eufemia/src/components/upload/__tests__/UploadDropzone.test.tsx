@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import UploadDropzone from '../UploadDropzone'
 import { createMockFile } from './testHelpers'

@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { act } from 'react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'

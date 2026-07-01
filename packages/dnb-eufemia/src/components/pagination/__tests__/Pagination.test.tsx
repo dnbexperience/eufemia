@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 /**
  * Pagination Test
  *

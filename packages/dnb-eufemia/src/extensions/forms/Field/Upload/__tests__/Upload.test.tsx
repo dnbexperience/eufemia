@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import type { ReactNode } from 'react'
 import {
   fireEvent,

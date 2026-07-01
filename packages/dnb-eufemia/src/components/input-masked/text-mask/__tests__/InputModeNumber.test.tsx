@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { useCallback, useEffect, useRef } from 'react'
 import type { InputHTMLAttributes } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'

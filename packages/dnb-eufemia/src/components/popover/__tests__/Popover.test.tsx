@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { act } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'

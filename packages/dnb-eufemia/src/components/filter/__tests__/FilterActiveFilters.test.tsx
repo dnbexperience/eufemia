@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'

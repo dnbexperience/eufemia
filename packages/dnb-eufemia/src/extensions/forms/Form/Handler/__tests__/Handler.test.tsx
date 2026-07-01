@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 /* eslint-disable vitest/expect-expect */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { StrictMode } from 'react'

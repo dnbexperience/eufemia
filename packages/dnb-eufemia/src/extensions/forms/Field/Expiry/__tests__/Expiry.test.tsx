@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
   act,

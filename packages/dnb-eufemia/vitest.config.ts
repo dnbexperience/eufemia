@@ -11,10 +11,16 @@ export default defineConfig({
   test: {
     reporters: ['default'],
     globals: true,
-    environment: 'jsdom',
+
+    // happy-dom builds its DOM environment far more cheaply than jsdom,
+    // which is the largest per-file overhead in this suite. The handful of
+    // files that rely on jsdom-only behaviour (computed styles, specific
+    // getAttribute('style') semantics, etc.) opt back in per file with a
+    // `// @vitest-environment jsdom` docblock at the top of the file.
+    environment: 'happy-dom',
 
     // Run test files in worker threads instead of forked child processes.
-    // Thread workers start up far faster and rebuild the jsdom environment
+    // Thread workers start up far faster and rebuild the DOM environment
     // more cheaply, which roughly halves the total run time while keeping
     // full per-file isolation (each file still gets a fresh module graph).
     pool: 'threads',
@@ -30,7 +36,7 @@ export default defineConfig({
     retry: isCI ? 2 : 0,
 
     environmentOptions: {
-      jsdom: {
+      happyDOM: {
         url: 'http://localhost',
       },
     },

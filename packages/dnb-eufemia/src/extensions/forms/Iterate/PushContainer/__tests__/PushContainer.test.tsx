@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { useContext, useLayoutEffect } from 'react'
 import { wait } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'

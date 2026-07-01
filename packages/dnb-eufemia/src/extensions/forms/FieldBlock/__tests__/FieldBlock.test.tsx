@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { useCallback } from 'react'
 import { wait, axeComponent } from '../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'

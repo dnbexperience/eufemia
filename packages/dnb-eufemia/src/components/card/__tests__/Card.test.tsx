@@ -1,3 +1,5 @@
+// @vitest-environment jsdom
+
 import { useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
