@@ -46,12 +46,24 @@ env:
   PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
 
 jobs:
-  visual-regression:
-    name: Run visual-regression tests
+  # Resolves the changed files and decides whether this is a full-suite run.
+  # Full-suite runs (pushes to main/beta and PRs into the release-type branches
+  # this workflow watches) build the portal once here on a cheap/fast Linux
+  # runner and fan out across several macOS shards — the prerendered portal is
+  # OS-independent, so only the Firefox screenshot render must run on macOS.
+  # Subset runs skip the build here and build in-place on a single macOS job.
+  build:
+    name: Build portal for visual tests
 
-    runs-on: macos-26
+    runs-on: ubuntu-latest
 
-    timeout-minutes: 40
+    timeout-minutes: 20
+
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      changed_files: ${{ steps.changed.outputs.changed_files }}
+      run_visual: ${{ steps.plan.outputs.run_visual }}
+      is_full: ${{ steps.plan.outputs.is_full }}
 
     steps:
       - name: Git checkout
@@ -65,6 +77,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Resolve changed files
+        id: changed
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
           script: |
@@ -135,10 +148,97 @@ jobs:
               return
             }
 
-            core.exportVariable(
-              'VISUAL_TEST_CHANGED_FILES',
-              changedFiles.join('\n')
-            )
+            core.setOutput('changed_files', changedFiles.join('\n'))
+
+      # Full-suite runs (pushes to main/beta, PRs into the release-type branches
+      # this workflow watches, and any commit whose message contains --run-all)
+      # build once here and fan out across several macOS shards. Every other push
+      # resolves to a small conditional subset, so it skips this shared build and
+      # the macOS job builds the portal in-place — keeping the common,
+      # already-fast case a single job.
+      - name: Plan run
+        id: plan
+        shell: bash
+        run: |
+          # --run-all in the commit message forces the full suite (matches the
+          # conditional runner's RUN_ALL_COMMIT_FLAG) — shard it too so the
+          # forced run still finishes quickly.
+          commit_message="$(git log -1 --pretty=%B 2>/dev/null || true)"
+
+          should_shard=false
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            should_shard=true
+          elif [[ "$GITHUB_EVENT_NAME" == "push" && ( "$GITHUB_REF" == "refs/heads/main" || "$GITHUB_REF" == "refs/heads/beta" ) ]]; then
+            should_shard=true
+          elif [[ "$commit_message" == *"--run-all"* ]]; then
+            should_shard=true
+          fi
+
+          echo "run_visual=$RUN_VISUAL_TEST" >> "$GITHUB_OUTPUT"
+          echo "is_full=$should_shard" >> "$GITHUB_OUTPUT"
+          if [[ "$should_shard" == "true" ]]; then
+            echo 'matrix={"shard":[1,2,3],"total":[3]}' >> "$GITHUB_OUTPUT"
+          else
+            echo 'matrix={"shard":[1],"total":[1]}' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prebuild Library
+        if: steps.plan.outputs.is_full == 'true' && env.RUN_POST_BUILD == 'true'
+        run: yarn workspace @dnb/eufemia prebuild:ci
+
+      - name: Postbuild Library
+        if: steps.plan.outputs.is_full == 'true' && env.RUN_POST_BUILD == 'true'
+        run: yarn workspace @dnb/eufemia postbuild:ci
+
+      - name: Build portal
+        if: steps.plan.outputs.is_full == 'true' && env.RUN_VISUAL_TEST == 'true'
+        run: yarn workspace dnb-design-system-portal build:visual-test
+
+      - name: Upload portal build
+        if: steps.plan.outputs.is_full == 'true' && env.RUN_VISUAL_TEST == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: visual-test-portal
+          path: ./packages/dnb-design-system-portal/public
+          retention-days: 1
+          include-hidden-files: true
+
+  visual-regression:
+    name: Run visual-regression tests (${{ matrix.shard }}/${{ matrix.total }})
+
+    needs: build
+
+    if: needs.build.outputs.run_visual == 'true'
+
+    runs-on: macos-26
+
+    timeout-minutes: 40
+
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.build.outputs.matrix) }}
+
+    env:
+      VISUAL_TEST_CHANGED_FILES: ${{ needs.build.outputs.changed_files }}
+      SCREENSHOT_SHARD: ${{ matrix.shard }}/${{ matrix.total }}
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Download portal build
+        if: needs.build.outputs.is_full == 'true'
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: visual-test-portal
+          path: ./packages/dnb-design-system-portal/public
 
       - name: Use Playwright cache
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
@@ -156,30 +256,31 @@ jobs:
         run: yarn workspace @dnb/eufemia playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
+      # Subset runs skip the shared Linux build and build the portal here, so
+      # the common, already-fast case stays a single self-contained macOS job.
       - name: Prebuild Library
-        if: env.RUN_POST_BUILD == 'true'
+        if: needs.build.outputs.is_full != 'true' && env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Postbuild Library
-        if: env.RUN_POST_BUILD == 'true'
+        if: needs.build.outputs.is_full != 'true' && env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Build portal
-        if: env.RUN_VISUAL_TEST == 'true'
+        if: needs.build.outputs.is_full != 'true'
         run: yarn workspace dnb-design-system-portal build:visual-test
 
       - name: Run visual tests
-        if: env.RUN_VISUAL_TEST == 'true'
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
 
       - name: Store visual test artifacts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         if: failure()
         with:
-          name: visual-test-artifact
+          name: visual-test-artifact-shard-${{ matrix.shard }}
           path: |
             ./packages/dnb-eufemia/visual-diff-report/**
 
       - name: Run visual tests info
         if: failure()
-        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
+        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact-shard-${{ matrix.shard }}" and you find it in the test "Summary" under "Artifacts".\n\n\n'
