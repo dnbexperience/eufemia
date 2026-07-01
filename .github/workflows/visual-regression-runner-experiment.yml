@@ -18,23 +18,16 @@ name: Visual Regression — Runner Experiment
 # runner group; if the label is not available the job will simply stay queued.
 
 on:
+  # Auto-runs on this exploration branch so we can gather comparative data now.
+  # (workflow_dispatch is only dispatchable once a workflow is on the default
+  # branch, so push is used here to trigger from the feature branch.)
+  push:
+    branches:
+      - explore/visual-regression-runner-ceiling
   workflow_dispatch:
-    inputs:
-      runner:
-        description: 'runs-on label (macos-15-xlarge, macos-15-large, macos-26, ubuntu-latest, or a runner-group name)'
-        required: true
-        default: 'macos-15-xlarge'
-      workers:
-        description: 'PLAYWRIGHT_SCREENSHOT_WORKERS (e.g. 100%, 8, 12)'
-        required: false
-        default: '100%'
-      update_snapshots:
-        description: 'Regenerate baselines for this platform instead of comparing (recommended for non macos-26 runners)'
-        type: boolean
-        default: false
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.runner }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -50,15 +43,33 @@ env:
   ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
   ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
   ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
-  PLAYWRIGHT_SCREENSHOT_WORKERS: ${{ inputs.workers }}
+  # 100% auto-scales the worker count to the runner's vCPUs.
+  PLAYWRIGHT_SCREENSHOT_WORKERS: '100%'
 
 jobs:
   experiment:
-    name: Screenshots on ${{ inputs.runner }} (${{ inputs.workers }} workers)
+    name: ${{ matrix.label }}
 
-    runs-on: ${{ inputs.runner }}
+    runs-on: ${{ matrix.runner }}
 
-    timeout-minutes: 60
+    timeout-minutes: 45
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Strategic option: Linux is ~8x cheaper and highly concurrent. Runs in
+          # update mode because Linux rendering differs from the macOS baselines —
+          # this measures timing and uploads the Linux baselines as an artifact.
+          - label: linux (ubuntu-latest)
+            runner: ubuntu-latest
+            update: 'true'
+          # Larger arm64 macOS runner (5-core M2 Pro). Compare mode shows how far
+          # its rendering drifts from the macos-26 baselines (and whether the org
+          # has larger runners enabled at all — otherwise this job stays queued).
+          - label: macos-xlarge (macos-15-xlarge)
+            runner: macos-15-xlarge
+            update: 'false'
 
     steps:
       - name: Git checkout
@@ -70,9 +81,8 @@ jobs:
       - name: Report runner hardware
         shell: bash
         run: |
-          echo "Runner label : ${{ inputs.runner }}"
-          echo "Workers      : ${{ inputs.workers }}"
-          echo "Update mode  : ${{ inputs.update_snapshots }}"
+          echo "Runner label : ${{ matrix.runner }}"
+          echo "Update mode  : ${{ matrix.update }}"
           echo "OS           : $(uname -a)"
           if sysctl -n hw.ncpu >/dev/null 2>&1; then
             echo "CPU cores    : $(sysctl -n hw.ncpu)"
@@ -96,7 +106,7 @@ jobs:
       - name: Run screenshots (full suite)
         shell: bash
         run: |
-          if [[ "${{ inputs.update_snapshots }}" == "true" ]]; then
+          if [[ "${{ matrix.update }}" == "true" ]]; then
             yarn workspace dnb-design-system-portal test:screenshots:ci:update
           else
             yarn workspace dnb-design-system-portal test:screenshots:ci
@@ -106,14 +116,14 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: experiment-diff-${{ inputs.runner }}
+          name: experiment-diff-${{ matrix.runner }}
           path: ./packages/dnb-eufemia/visual-diff-report/**
           retention-days: 3
 
       - name: Upload regenerated baselines (update mode)
-        if: ${{ inputs.update_snapshots }}
+        if: ${{ matrix.update == 'true' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: experiment-baselines-${{ inputs.runner }}
+          name: experiment-baselines-${{ matrix.runner }}
           path: ./packages/dnb-eufemia/src/**/__image_snapshots__/**
           retention-days: 3
