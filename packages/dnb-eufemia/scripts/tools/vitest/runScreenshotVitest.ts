@@ -1,6 +1,9 @@
 import { spawnSync } from 'child_process'
 
-import { resolveScreenshotVitestRun } from './runScreenshotVitestLib.ts'
+import {
+  resolveScreenshotVitestRun,
+  resolveShardArgs,
+} from './runScreenshotVitestLib.ts'
 
 const rawArgs = process.argv.slice(2)
 const watch = rawArgs.includes('--watch')
@@ -33,6 +36,14 @@ if (screenshotInclude) {
   env.SCREENSHOT_INCLUDE = screenshotInclude
 }
 
+const shardArgs = resolveShardArgs(
+  process.env.SCREENSHOT_SHARD,
+  vitestArgs,
+  {
+    watch,
+  }
+)
+
 const result = spawnSync(
   'yarn',
   [
@@ -41,6 +52,7 @@ const result = spawnSync(
     '--config',
     'vitest.config.screenshots.ts',
     ...vitestArgs,
+    ...shardArgs,
   ],
   {
     stdio: 'inherit',
