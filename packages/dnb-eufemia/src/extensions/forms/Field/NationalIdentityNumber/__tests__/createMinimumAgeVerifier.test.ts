@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { createMinimumAgeVerifier } from '../NationalIdentityNumber'
 
 describe('createMinimumAgeVerifier', () => {

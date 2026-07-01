@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import type { FormsTranslation } from '../../hooks/useTranslation'
 import type { AdditionalReturnUtils } from '../../../../shared/useTranslation'
 import {

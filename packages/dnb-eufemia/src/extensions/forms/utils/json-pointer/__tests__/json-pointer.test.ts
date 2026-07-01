@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import type { PointerPath } from '../../json-pointer'
 import pointer, {
   compile,

@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import stylelint from 'stylelint'
 const noUnusedUsePlugin = require('../rules/no-unused-use.cjs')
 

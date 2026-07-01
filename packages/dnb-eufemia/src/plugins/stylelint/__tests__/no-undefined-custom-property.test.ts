@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import stylelint from 'stylelint'
 const noUndefinedCustomPropertyPlugin = require('../rules/no-undefined-custom-property.cjs')
 

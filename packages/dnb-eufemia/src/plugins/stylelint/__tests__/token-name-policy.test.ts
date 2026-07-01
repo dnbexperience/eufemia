@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import stylelint from 'stylelint'
 import fs from 'fs'
 import os from 'os'

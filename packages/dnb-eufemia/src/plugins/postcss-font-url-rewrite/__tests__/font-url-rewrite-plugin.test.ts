@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { URL } from 'url'
 import postcss from 'postcss'
 import postcssFontUrlRewrite from '../font-url-rewrite-plugin'

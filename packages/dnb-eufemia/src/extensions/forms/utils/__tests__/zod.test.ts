@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { z, zodErrorsToFormErrors } from '../zod'
 import type * as zType from 'zod'
 

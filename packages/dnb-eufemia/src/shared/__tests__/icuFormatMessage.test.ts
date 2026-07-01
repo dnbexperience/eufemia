@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { icu } from '../icuFormatMessage'
 
 const { isICU, format } = icu

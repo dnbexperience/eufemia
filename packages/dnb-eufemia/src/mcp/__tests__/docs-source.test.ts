@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { createBundledDocsSource, normalizeDocsPath } from '../docs-source'
 import { createDocsTools } from '../mcp-docs-server'
 
