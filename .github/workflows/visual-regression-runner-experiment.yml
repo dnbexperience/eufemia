@@ -1,0 +1,119 @@
+name: Visual Regression — Runner Experiment
+
+# Manual, non-production experiment for exploring how to "lift the runner
+# ceiling" for the visual-regression suite (follow-up to the sharding work in
+# PR #8767). It runs the FULL screenshot suite on a runner of your choosing so
+# you can compare timing, available concurrency, and rendering consistency across:
+#   - larger arm64 macOS runners   (macos-15-xlarge = 5-core M2 Pro, $0.102/min)
+#   - Intel macOS large runners    (macos-15-large  = 12-core x64,   $0.077/min)
+#   - Linux runners                (ubuntu-latest / larger — ~8x cheaper, highly
+#                                    concurrent; the strategic option)
+#
+# Baselines are currently rendered on macos-26 (arm64 / M1). Any other platform
+# (different arch, chip, macOS version, or Linux) will very likely mismatch — set
+# "update_snapshots: true" to regenerate baselines for that platform (uploaded as
+# an artifact, NOT committed) and measure timing without failing on diffs.
+#
+# Larger runners require a GitHub Team / Enterprise Cloud plan and an org-level
+# runner group; if the label is not available the job will simply stay queued.
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: 'runs-on label (macos-15-xlarge, macos-15-large, macos-26, ubuntu-latest, or a runner-group name)'
+        required: true
+        default: 'macos-15-xlarge'
+      workers:
+        description: 'PLAYWRIGHT_SCREENSHOT_WORKERS (e.g. 100%, 8, 12)'
+        required: false
+        default: '100%'
+      update_snapshots:
+        description: 'Regenerate baselines for this platform instead of comparing (recommended for non macos-26 runners)'
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.runner }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  GITHUB_TOKEN: ${{ github.token }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+  ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+  ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+  ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
+  ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+  PLAYWRIGHT_SCREENSHOT_WORKERS: ${{ inputs.workers }}
+
+jobs:
+  experiment:
+    name: Screenshots on ${{ inputs.runner }} (${{ inputs.workers }} workers)
+
+    runs-on: ${{ inputs.runner }}
+
+    timeout-minutes: 60
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      # Capture the actual hardware so timings can be correlated with the runner.
+      - name: Report runner hardware
+        shell: bash
+        run: |
+          echo "Runner label : ${{ inputs.runner }}"
+          echo "Workers      : ${{ inputs.workers }}"
+          echo "Update mode  : ${{ inputs.update_snapshots }}"
+          echo "OS           : $(uname -a)"
+          if sysctl -n hw.ncpu >/dev/null 2>&1; then
+            echo "CPU cores    : $(sysctl -n hw.ncpu)"
+            echo "Memory (GB)  : $(( $(sysctl -n hw.memsize) / 1024 / 1024 / 1024 ))"
+          else
+            echo "CPU cores    : $(nproc)"
+            free -h || true
+          fi
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Install Playwright browsers
+        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+
+      - name: Build portal
+        run: yarn workspace dnb-design-system-portal build:visual-test
+
+      - name: Run screenshots (full suite)
+        shell: bash
+        run: |
+          if [[ "${{ inputs.update_snapshots }}" == "true" ]]; then
+            yarn workspace dnb-design-system-portal test:screenshots:ci:update
+          else
+            yarn workspace dnb-design-system-portal test:screenshots:ci
+          fi
+
+      - name: Upload diff report (on failure)
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: experiment-diff-${{ inputs.runner }}
+          path: ./packages/dnb-eufemia/visual-diff-report/**
+          retention-days: 3
+
+      - name: Upload regenerated baselines (update mode)
+        if: ${{ inputs.update_snapshots }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: experiment-baselines-${{ inputs.runner }}
+          path: ./packages/dnb-eufemia/src/**/__image_snapshots__/**
+          retention-days: 3
