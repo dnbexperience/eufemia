@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  prepareScreenshotVitestRun,
-  resolveShardArgs,
-} from '../runScreenshotVitestLib'
+import { prepareScreenshotVitestRun } from '../runScreenshotVitestLib'
 
 describe('runScreenshotVitestLib', () => {
   it('separates vitest args from screenshot filters', () => {
@@ -69,47 +66,5 @@ describe('runScreenshotVitestLib', () => {
       missingFilters: [],
       screenshotInclude: undefined,
     })
-  })
-})
-
-describe('resolveShardArgs', () => {
-  it('forwards a valid shard as --shard with --passWithNoTests', () => {
-    expect(resolveShardArgs('2/4', [])).toEqual([
-      '--shard=2/4',
-      '--passWithNoTests',
-    ])
-  })
-
-  it('trims surrounding whitespace', () => {
-    expect(resolveShardArgs('  1/3  ', [])).toEqual([
-      '--shard=1/3',
-      '--passWithNoTests',
-    ])
-  })
-
-  it('returns nothing when the total is 1 (single, unsharded run)', () => {
-    expect(resolveShardArgs('1/1', [])).toEqual([])
-  })
-
-  it('returns nothing when unset or empty', () => {
-    expect(resolveShardArgs(undefined, [])).toEqual([])
-    expect(resolveShardArgs('', [])).toEqual([])
-    expect(resolveShardArgs('   ', [])).toEqual([])
-  })
-
-  it('returns nothing for malformed values', () => {
-    expect(resolveShardArgs('abc', [])).toEqual([])
-    expect(resolveShardArgs('2', [])).toEqual([])
-    expect(resolveShardArgs('2/', [])).toEqual([])
-    expect(resolveShardArgs('/4', [])).toEqual([])
-  })
-
-  it('does not override an explicit --shard already in the args', () => {
-    expect(resolveShardArgs('2/4', ['--shard=1/2'])).toEqual([])
-    expect(resolveShardArgs('2/4', ['--shard', '1/2'])).toEqual([])
-  })
-
-  it('is skipped in watch mode', () => {
-    expect(resolveShardArgs('2/4', [], { watch: true })).toEqual([])
   })
 })
