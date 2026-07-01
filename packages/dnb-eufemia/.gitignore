@@ -5,6 +5,7 @@
 /coverage
 **/__image_snapshots__/.diff/
 /visual-diff-report/*
+scripts/tools/vitest/.screenshot-timings.raw.json
 
 # production
 *.min.mjs
