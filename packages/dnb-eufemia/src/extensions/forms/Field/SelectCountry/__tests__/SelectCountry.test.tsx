@@ -157,7 +157,7 @@ describe('Field.SelectCountry', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should by default sort prioritized countries on top', () => {
+  it('should by default sort prioritized countries on top', async () => {
     render(<Field.SelectCountry />)
 
     const inputElement: HTMLInputElement = document.querySelector(
@@ -167,8 +167,12 @@ describe('Field.SelectCountry', () => {
     // open
     fireEvent.focus(inputElement)
 
+    await waitFor(() => {
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements.length).toBeGreaterThan(200)
+    })
+
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
-    expect(liElements.length).toBeGreaterThan(200)
     expect(liElements[0].textContent).toBe('Norge')
     expect(liElements[1].textContent).toBe('Sverige')
     expect(liElements[2].textContent).toBe('Danmark')
@@ -176,7 +180,7 @@ describe('Field.SelectCountry', () => {
     expect(liElements[4].textContent).toBe('Afghanistan')
   })
 
-  it('should sort "AX" as last', () => {
+  it('should sort "AX" as last', async () => {
     const { rerender } = render(
       <Form.Handler>
         <Field.SelectCountry />
@@ -190,10 +194,10 @@ describe('Field.SelectCountry', () => {
     // open
     fireEvent.focus(inputElement)
 
-    {
+    await waitFor(() => {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe('Åland')
-    }
+    })
 
     rerender(
       <Form.Handler locale="en-GB">
@@ -201,12 +205,12 @@ describe('Field.SelectCountry', () => {
       </Form.Handler>
     )
 
-    {
+    await waitFor(() => {
       const liElements = document.querySelectorAll('li:not([aria-hidden])')
       expect(liElements[liElements.length - 1].textContent).toBe(
         'Åland Islands'
       )
-    }
+    })
   })
 
   it('should show only Scandinavian countries', () => {
@@ -247,7 +251,7 @@ describe('Field.SelectCountry', () => {
     expect(liElements[1].textContent).toBe('Sverige')
   })
 
-  it('should sort prioritized countries on top', () => {
+  it('should sort prioritized countries on top', async () => {
     render(<Field.SelectCountry countries="Prioritized" />)
 
     const inputElement: HTMLInputElement = document.querySelector(
@@ -257,8 +261,12 @@ describe('Field.SelectCountry', () => {
     // open
     fireEvent.focus(inputElement)
 
+    await waitFor(() => {
+      const liElements = document.querySelectorAll('li:not([aria-hidden])')
+      expect(liElements.length).toBeGreaterThan(200)
+    })
+
     const liElements = document.querySelectorAll('li:not([aria-hidden])')
-    expect(liElements.length).toBeGreaterThan(200)
     expect(liElements[0].textContent).toBe('Norge')
     expect(liElements[1].textContent).toBe('Sverige')
     expect(liElements[2].textContent).toBe('Danmark')

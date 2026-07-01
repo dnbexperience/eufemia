@@ -39,13 +39,6 @@ export type ContinentType =
 
 export type CountryLang = keyof CountryType['i18n']
 
-export const prioritizedCountries = [
-  'Norway',
-  'Sweden',
-  'Denmark',
-  'Finland',
-]
-
 const en = enLocale['en-GB']
 const nb = nbLocale['nb-NO']
 

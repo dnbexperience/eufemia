@@ -1,4 +1,4 @@
-import { screen, render } from '@testing-library/react'
+import { screen, render, waitFor } from '@testing-library/react'
 import { Value, Form } from '../../..'
 import type { CountryISO } from '../../../constants/countries'
 
@@ -83,31 +83,35 @@ describe('Value.SelectCountry', () => {
     expect(screen.getByText('Please select a value')).toBeInTheDocument()
   })
 
-  it('renders value from path', () => {
+  it('renders value from path', async () => {
     render(
       <Form.Handler data={{ myCountry: 'CH' }}>
         <Value.SelectCountry path="/myCountry" />
       </Form.Handler>
     )
 
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('Sveits')
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+        )
+      ).toHaveTextContent('Sveits')
+    })
   })
 
-  it('formats value in different locale', () => {
+  it('formats value in different locale', async () => {
     render(
       <Form.Handler locale="en-GB" data={{ myCountry: 'CH' }}>
         <Value.SelectCountry path="/myCountry" />
       </Form.Handler>
     )
 
-    expect(
-      document.querySelector(
-        '.dnb-forms-value-select-country .dnb-forms-value-block__content'
-      )
-    ).toHaveTextContent('Switzerland')
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          '.dnb-forms-value-select-country .dnb-forms-value-block__content'
+        )
+      ).toHaveTextContent('Switzerland')
+    })
   })
 })

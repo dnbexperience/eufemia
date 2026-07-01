@@ -1,9 +1,40 @@
-import { useCallback, useContext, useMemo } from 'react'
-import listOfCountries from '../../constants/countries'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
+import type ListOfCountries from '../../constants/countries'
+import prioritizedCountriesData from '../../constants/countries-prioritized'
 import { warn } from '../../../../shared/helpers'
 import { LOCALE } from '../../../../shared/defaults'
 import type { InternalLocale } from '../../../../shared/Context'
 import SharedContext from '../../../../shared/Context'
+
+type CountriesList = typeof ListOfCountries
+
+// The full country list is large, so it is lazy-loaded on demand instead of
+// being bundled eagerly. The result is cached at module level so it is fetched
+// only once and shared across all instances — later mounts read it
+// synchronously through the useState initializer below.
+let fullCountriesCache: CountriesList | null = null
+let fullCountriesPromise: Promise<CountriesList> | null = null
+
+function loadFullCountries(): Promise<CountriesList> {
+  if (fullCountriesCache) {
+    return Promise.resolve(fullCountriesCache)
+  }
+  if (!fullCountriesPromise) {
+    fullCountriesPromise = import('../../constants/countries').then(
+      (module) => {
+        fullCountriesCache = module.default as CountriesList
+        return fullCountriesCache
+      }
+    )
+  }
+  return fullCountriesPromise
+}
 
 export default function useCountries({
   translateAllLocales = false,
@@ -15,6 +46,32 @@ export default function useCountries({
   translateAllLocales?: boolean
 } = {}) {
   const { locale, translations } = useContext(SharedContext)
+
+  const [fullCountries, setFullCountries] = useState<CountriesList | null>(
+    fullCountriesCache
+  )
+
+  useEffect(() => {
+    if (fullCountries) {
+      return // stop here
+    }
+
+    let isActive = true
+    loadFullCountries().then((list) => {
+      if (isActive) {
+        setFullCountries(list)
+      }
+    })
+
+    return () => {
+      isActive = false
+    }
+  }, [fullCountries])
+
+  // Use the full list once it has loaded; until then fall back to the small
+  // synchronous subset so the most common countries are available immediately.
+  const listOfCountries = (fullCountries ??
+    prioritizedCountriesData) as CountriesList
 
   const translateCountries = useCallback(
     (locales: Array<InternalLocale>) => {
@@ -59,7 +116,7 @@ export default function useCountries({
 
       return listOfCountries
     },
-    [translations]
+    [translations, listOfCountries]
   )
 
   const countries = useMemo(() => {

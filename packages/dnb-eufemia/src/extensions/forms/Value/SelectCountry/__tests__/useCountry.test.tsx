@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { renderHook } from '@testing-library/react'
+import { renderHook, waitFor } from '@testing-library/react'
 import SharedContext from '../../../../../shared/Context'
 import { getCountryData } from '../../../Field/SelectCountry'
 import useCountry from '../useCountry'
@@ -24,15 +24,19 @@ describe('useCountry', () => {
     </SharedContext>
   )
 
-  it('should return country name by ISO code', () => {
+  it('should return country name by ISO code', async () => {
     const { result } = renderHook(() => useCountry(), { wrapper })
     const { getCountryNameByIso } = result.current
 
     expect(getCountryNameByIso('US')).toBe('United States')
-    expect(getCountryData).toHaveBeenCalledWith({
-      lang: 'en',
-      filter: expect.any(Function),
-      countries,
+
+    await waitFor(() => {
+      result.current.getCountryNameByIso('US')
+      expect(getCountryData).toHaveBeenCalledWith({
+        lang: 'en',
+        filter: expect.any(Function),
+        countries,
+      })
     })
   })
 

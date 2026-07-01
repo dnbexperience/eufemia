@@ -6,12 +6,12 @@ import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import type listOfCountries from '../../constants/countries'
-import {
-  prioritizedCountries,
-  type CountryType,
-  type CountryLang,
-  type CountryISO,
+import type {
+  CountryType,
+  CountryLang,
+  CountryISO,
 } from '../../constants/countries'
+import { prioritizedCountries } from '../../constants/countries-prioritized'
 import useCountries from './useCountries'
 import { useFieldProps } from '../../hooks'
 import type { FieldPropsWithExtraValue } from '../../types'
@@ -143,6 +143,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
 
   const dataRef = useRef<ReturnType<typeof getCountryData>>(null)
   const langRef = useRef(lang)
+  const countriesRef = useRef(countries)
   const wasFilled = useRef(false)
 
   const filter = useCallback(
@@ -159,12 +160,17 @@ function SelectCountry(props: FieldSelectCountryProps) {
    *
    * We set or update the data list depending on if the country code changes or lang changes.
    * We then update data set when value changes.
+   *
+   * Because the full country list is lazy-loaded, we also refresh the data
+   * when the list reference changes (i.e. once the full list has loaded).
    */
   useMemo(() => {
     const isLangChange = lang !== langRef.current
+    const isCountriesChange = countries !== countriesRef.current
 
-    if (isLangChange || !wasFilled.current) {
+    if (isLangChange || isCountriesChange || !wasFilled.current) {
       langRef.current = lang
+      countriesRef.current = countries
       dataRef.current = getCountryData({
         countries,
         lang,

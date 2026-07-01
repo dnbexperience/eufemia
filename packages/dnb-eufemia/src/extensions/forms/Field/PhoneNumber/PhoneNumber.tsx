@@ -1,4 +1,11 @@
-import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react'
 import type { ReactNode, RefObject } from 'react'
 import * as z from 'zod'
 import { Autocomplete } from '../../../../components'
@@ -337,21 +344,28 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   )
 
   const { countries } = useCountries()
+  const countriesRef = useRef(countries)
+  const [, forceUpdate] = useReducer(() => ({}), {})
 
   const updateCurrentDataSet = useCallback(() => {
-    dataRef.current = getCountryData({
-      countries,
-      lang,
-      filter:
-        // Make sure the whole cc list is displayed when cc filter is set to specific region
-        ccFilter === 'Prioritized' && !wasFilled.current
-          ? (country) =>
-              `${formatCountryCode(country.cdc)}` ===
-              countryCodeRef.current
-          : filter,
-      sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
-      makeObject,
-    })
+    dataRef.current =
+      getCountryData({
+        countries,
+        lang,
+        filter:
+          // Make sure the whole cc list is displayed when cc filter is set to specific region
+          ccFilter === 'Prioritized' && !wasFilled.current
+            ? (country) =>
+                `${formatCountryCode(country.cdc)}` ===
+                countryCodeRef.current
+            : filter,
+        sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
+        makeObject,
+      }) ??
+      // An empty array (instead of undefined) lets the Autocomplete
+      // re-derive the displayed value once the lazy-loaded country list
+      // populates the data (empty -> populated transition).
+      []
   }, [countries, lang, ccFilter, filter])
 
   const prepareEventValues = useCallback(
@@ -415,15 +429,41 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     const [countryCode, phoneNumber] = splitValue(props.value || value)
     numberRef.current = phoneNumber
 
-    if (lang !== langRef.current || !wasFilled.current) {
+    const isCountriesChange = countries !== countriesRef.current
+
+    if (
+      lang !== langRef.current ||
+      isCountriesChange ||
+      !wasFilled.current
+    ) {
       if (!countryCodeRef.current || countryCode) {
         countryCodeRef.current = countryCode || defaultCountryCode
       }
       langRef.current = lang
+      countriesRef.current = countries
 
+      const hadResolvedData = dataRef.current?.length > 0
       updateCurrentDataSet()
+
+      // When the full country list has loaded, the current country code may
+      // have become resolvable (it was not part of the synchronous subset).
+      // Toggle the value so the Autocomplete re-derives its displayed label.
+      if (
+        isCountriesChange &&
+        !hadResolvedData &&
+        dataRef.current?.length &&
+        countryCodeRef.current &&
+        typeof window !== 'undefined'
+      ) {
+        const currentCountryCode = countryCodeRef.current
+        countryCodeRef.current = null
+        window.requestAnimationFrame(() => {
+          countryCodeRef.current = currentCountryCode
+          forceUpdate()
+        })
+      }
     }
-  }, [value, props.value, lang, updateCurrentDataSet])
+  }, [value, props.value, lang, countries, updateCurrentDataSet])
 
   const handleCountryCodeChange = useCallback(
     (event: AutocompleteOnChangeParams) => {

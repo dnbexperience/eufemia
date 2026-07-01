@@ -337,7 +337,7 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
     )
   })
 
-  it('should format with spaces when +47 is given', () => {
+  it('should format with spaces when +47 is given', async () => {
     const { rerender } = render(<Field.PhoneNumber value="99999999" />)
 
     const codeElement = document.querySelector(
@@ -352,7 +352,9 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
 
     rerender(<Field.PhoneNumber value="+41999999999" />)
 
-    expect(codeElement.value).toBe('CH (+41)')
+    await waitFor(() => {
+      expect(codeElement.value).toBe('CH (+41)')
+    })
     expect(numberElement.value).toBe('999999999')
   })
 

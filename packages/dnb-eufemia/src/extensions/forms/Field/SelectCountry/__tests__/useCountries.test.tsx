@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react'
+import { renderHook, waitFor } from '@testing-library/react'
 import useCountries from '../useCountries'
 import listOfCountries from '../../../constants/countries'
 import Provider from '../../../../../shared/Provider'
@@ -11,12 +11,25 @@ const getOneCountry = (countries, country: string) => {
 }
 
 describe('useCountries', () => {
-  it('should return the correct countries', () => {
+  it('should return the correct countries once the full list has loaded', async () => {
     const { result } = renderHook(useCountries)
-    expect(result.current.countries).toStrictEqual(listOfCountries)
+
+    await waitFor(() => {
+      expect(result.current.countries).toStrictEqual(listOfCountries)
+    })
   })
 
-  it('should extend the list of countries with the provided swedish translations', () => {
+  it('should provide the prioritized countries synchronously', () => {
+    const { result } = renderHook(useCountries)
+
+    // The prioritized (Nordic) countries — including Norway (+47) — are
+    // available immediately, without waiting for the full list to load.
+    expect(result.current.countries.map((country) => country.iso)).toEqual(
+      expect.arrayContaining(['NO', 'SE', 'DK', 'FI'])
+    )
+  })
+
+  it('should extend the list of countries with the provided swedish translations', async () => {
     const translations = mergeTranslations(svSE_forms_countries)
 
     const { result } = renderHook(useCountries, {
@@ -27,12 +40,14 @@ describe('useCountries', () => {
       ),
     })
 
-    expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
-      'Julön'
-    )
+    await waitFor(() => {
+      expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
+        'Julön'
+      )
+    })
   })
 
-  it('should extend the list of countries with the provided danish translations', () => {
+  it('should extend the list of countries with the provided danish translations', async () => {
     const translations = mergeTranslations(daDK_forms_countries)
 
     const { result } = renderHook(useCountries, {
@@ -43,12 +58,14 @@ describe('useCountries', () => {
       ),
     })
 
-    expect(getOneCountry(result.current.countries, 'CX').i18n['da']).toBe(
-      'Juleøen'
-    )
+    await waitFor(() => {
+      expect(getOneCountry(result.current.countries, 'CX').i18n['da']).toBe(
+        'Juleøen'
+      )
+    })
   })
 
-  it('should translate all locales, regardless of the current locale', () => {
+  it('should translate all locales, regardless of the current locale', async () => {
     const translations = mergeTranslations(svSE_forms_countries)
 
     const { result } = renderHook(useCountries, {
@@ -62,12 +79,14 @@ describe('useCountries', () => {
       ),
     })
 
-    expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
-      'Julön'
-    )
+    await waitFor(() => {
+      expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
+        'Julön'
+      )
+    })
   })
 
-  it('should not mutate the original list of countries', () => {
+  it('should not mutate the original list of countries', async () => {
     const translations = mergeTranslations(svSE_forms_countries)
 
     const { result } = renderHook(useCountries, {
@@ -78,11 +97,13 @@ describe('useCountries', () => {
       ),
     })
 
-    expect(result.current.countries).not.toStrictEqual(listOfCountries)
+    await waitFor(() => {
+      expect(result.current.countries).not.toStrictEqual(listOfCountries)
+    })
     expect(getOneCountry(listOfCountries, 'CX').i18n['sv']).toBeUndefined()
   })
 
-  it('should warn about missing translations', () => {
+  it('should warn about missing translations', async () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     // Remove some countries from the translations to simulate missing translations
@@ -105,16 +126,18 @@ describe('useCountries', () => {
       ),
     })
 
-    expect(log).toHaveBeenCalledWith(
-      expect.any(String),
-      'Missing country translation:',
-      ['BQ', 'FK', 'XK', 'GS', 'TK']
-    )
+    await waitFor(() => {
+      expect(log).toHaveBeenCalledWith(
+        expect.any(String),
+        'Missing country translation:',
+        ['BQ', 'FK', 'XK', 'GS', 'TK']
+      )
+    })
 
     log.mockRestore()
   })
 
-  it('should fall back using the default translations when a translations is missing', () => {
+  it('should fall back using the default translations when a translations is missing', async () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => {})
 
     // Remove some countries from the translations to simulate missing translations
@@ -133,9 +156,11 @@ describe('useCountries', () => {
       ),
     })
 
-    expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
-      'Juleøya'
-    )
+    await waitFor(() => {
+      expect(getOneCountry(result.current.countries, 'CX').i18n['sv']).toBe(
+        'Juleøya'
+      )
+    })
 
     log.mockRestore()
   })
