@@ -46,12 +46,12 @@ export function debounce<T extends any[], R>(
     async = false,
   }: DebouncedOptions = {}
 ): DebouncedFunction<T, R> & ReturnHelpers {
-  let timeout
-  let recall
-  let resolvePromise
-  let rejectPromise
+  let timeout: ReturnType<typeof setTimeout> | number
+  let recall: R
+  let resolvePromise: ((value?: R) => void) | undefined
+  let rejectPromise: ((reason?: Error) => void) | undefined
   let canceled = false
-  const customCancels = []
+  const customCancels: Array<() => void> = []
 
   const cancel = () => {
     canceled = true
@@ -64,7 +64,7 @@ export function debounce<T extends any[], R>(
     })
   }
 
-  const addCancelEvent = (fn) => {
+  const addCancelEvent = (fn: () => void) => {
     if (!customCancels.includes(fn)) {
       customCancels.push(fn)
     }
@@ -85,14 +85,14 @@ export function debounce<T extends any[], R>(
     inst.cancel = cancel
     inst.addCancelEvent = addCancelEvent
 
-    const later = (callNow) => {
+    const later = (callNow: boolean) => {
       timeout = null
       if (callNow || !immediate) {
         try {
           recall = debouncedFunction.apply(inst, args)
           resolvePromise?.(recall)
         } catch (error) {
-          rejectPromise?.(error)
+          rejectPromise?.(error as Error)
         }
       }
     }
@@ -107,8 +107,8 @@ export function debounce<T extends any[], R>(
     }
 
     if (async) {
-      return new Promise((resolve, reject) => {
-        resolvePromise = resolve
+      return new Promise<R>((resolve, reject) => {
+        resolvePromise = (value?: R) => resolve(value as R)
         rejectPromise = reject
       })
     }
@@ -134,5 +134,5 @@ export function debounce<T extends any[], R>(
     return asyncFunction as DebouncedFunction<T, R> & ReturnHelpers
   }
 
-  return syncFunction
+  return syncFunction as DebouncedFunction<T, R> & ReturnHelpers
 }
