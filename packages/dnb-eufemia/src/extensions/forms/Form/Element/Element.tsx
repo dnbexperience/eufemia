@@ -90,6 +90,8 @@ function FormElementComponent(props: FormElementProps) {
       element="form"
       className={clsx('dnb-forms-form', className)}
       onSubmit={onSubmitHandler}
+      // The id can be a non-string value (e.g. a function reference used as a shared-state id).
+      // Only forward a string to the DOM, to avoid React's "Invalid value for prop `id`" warning.
       id={typeof idProp === 'string' ? idProp : undefined}
       aria-labelledby={
         combineLabelledBy(
