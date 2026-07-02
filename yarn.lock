@@ -2266,7 +2266,7 @@ __metadata:
     "@eslint/eslintrc": "npm:3.3.5"
     "@eslint/js": "npm:10.0.1"
     "@maskito/core": "npm:5.1.0"
-    "@maskito/kit": "npm:5.1.0"
+    "@maskito/kit": "npm:5.3.1"
     "@maskito/react": "npm:5.1.0"
     "@modelcontextprotocol/sdk": "npm:1.29.0"
     "@navikt/fnrvalidator": "npm:2.1.5"
@@ -3646,12 +3646,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maskito/kit@npm:5.1.0":
-  version: 5.1.0
-  resolution: "@maskito/kit@npm:5.1.0"
+"@maskito/kit@npm:5.3.1":
+  version: 5.3.1
+  resolution: "@maskito/kit@npm:5.3.1"
   peerDependencies:
-    "@maskito/core": ^5.1.0
-  checksum: 10/dbfef7e4b2a61f649519df8f04b0f2f3c52278e1684d9a1e99281be9b23155a8f4bf28614d1b26a40e0a24b87c0b9a7a096fda19339448327a1a1bd324dccb18
+    "@maskito/core": ^5.3.1
+  checksum: 10/bfccb5405d6c2be1551026a273c117be3e0c2dd25df8958b6e6face273bdd4a5571c5844ee4a26099c4f8c5e72ab13f98bfa043b1f7a44aeb60c7449faafe0b9
   languageName: node
   linkType: hard
 
