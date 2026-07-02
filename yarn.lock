@@ -2308,7 +2308,7 @@ __metadata:
     dependency-cruiser: "npm:17.3.8"
     dnb-design-system-portal: "workspace:*"
     dotenv-cli: "npm:4.1.0"
-    eslint: "npm:10.4.1"
+    eslint: "npm:10.6.0"
     eslint-plugin-compat: "npm:7.0.2"
     eslint-plugin-import: "npm:2.32.0"
     eslint-plugin-jsx-a11y: "npm:6.10.2"
@@ -8312,7 +8312,7 @@ __metadata:
     babel-plugin-react-live: "npm:1.4.5"
     clsx: "npm:2.1.1"
     date-fns: "npm:4.1.0"
-    eslint: "npm:10.4.1"
+    eslint: "npm:10.6.0"
     eslint-plugin-jsx-a11y: "npm:6.10.2"
     eslint-plugin-mdx: "npm:3.8.1"
     eslint-plugin-react: "npm:7.37.5"
@@ -9398,9 +9398,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:10.4.1":
-  version: 10.4.1
-  resolution: "eslint@npm:10.4.1"
+"eslint@npm:10.6.0":
+  version: 10.6.0
+  resolution: "eslint@npm:10.6.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.8.0"
     "@eslint-community/regexpp": "npm:^4.12.2"
@@ -9439,7 +9439,7 @@ __metadata:
       optional: true
   bin:
     eslint: bin/eslint.js
-  checksum: 10/5722bd0ec1a87f49ee4511c7549dcfa69df0076927b0290b0a3b145425fd357906ffe6dc1307214a0bd344131bf53795fa2cdebfd36ee9146c01d98147044679
+  checksum: 10/36d02cdbe37668e601f255917c605d10a5d06d278648dc72cec21fe23b7b60a53453241b32c382ba8107533cacba70aeec97581cc4f4bb591544b1ada2516335
   languageName: node
   linkType: hard
 
@@ -9636,7 +9636,7 @@ __metadata:
     "@types/react": "npm:19.2.14"
     "@types/react-dom": "npm:19.2.3"
     "@vitejs/plugin-react": "npm:6.0.1"
-    eslint: "npm:10.4.1"
+    eslint: "npm:10.6.0"
     eslint-plugin-react-hooks: "npm:7.1.1"
     eslint-plugin-react-refresh: "npm:0.5.2"
     globals: "npm:17.6.0"

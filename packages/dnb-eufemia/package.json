@@ -184,7 +184,7 @@
     "dependency-cruiser": "17.3.8",
     "dnb-design-system-portal": "workspace:*",
     "dotenv-cli": "4.1.0",
-    "eslint": "10.4.1",
+    "eslint": "10.6.0",
     "eslint-plugin-compat": "7.0.2",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
