@@ -171,6 +171,7 @@ jobs:
       - name: Run type checks
         run: |
           yarn workspace @dnb/eufemia test:types
+          yarn workspace @dnb/eufemia test:types:no-implicit-any
           yarn workspace dnb-design-system-portal test:types
           yarn workspace eufemia-llm-metadata test:types
 
