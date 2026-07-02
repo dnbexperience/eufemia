@@ -107,3 +107,5 @@ export type DialogContentProps = Omit<DialogActionProps, 'children'> & {
    */
   children?: ReactNode | ((props: DialogContentProps) => ReactNode)
 }
+
+export type DialogAllProps = DialogProps & DialogContentProps

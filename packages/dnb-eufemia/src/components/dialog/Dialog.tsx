@@ -8,19 +8,21 @@ import DialogContent from './DialogContent'
 import DialogBody from './parts/DialogBody'
 import DialogHeader from './parts/DialogHeader'
 import DialogNavigation from './parts/DialogNavigation'
-import type { DialogProps, DialogContentProps } from './types'
+import type { DialogAllProps } from './types'
 import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import DialogAction from './parts/DialogAction'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-const dialogDefaultProps: Partial<DialogProps & DialogContentProps> = {
+export type * from './types'
+
+const dialogDefaultProps: Partial<DialogAllProps> = {
   variant: 'information',
   spacing: true,
 }
 
-function Dialog(localProps: DialogProps & DialogContentProps) {
+function Dialog(localProps: DialogAllProps) {
   const context = useContext(Context)
 
   const propsWithContext = extendPropsWithContext(
