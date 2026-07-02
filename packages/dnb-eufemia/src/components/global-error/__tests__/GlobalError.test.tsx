@@ -21,6 +21,29 @@ const props: GlobalErrorAllProps = {
 }
 
 describe('GlobalError', () => {
+  // Keep this test first: React can suppress the "Invalid attribute name"
+  // warning after the first render that triggers it. Running before any other
+  // GlobalError render ensures the warning is emitted if the regression exists.
+  it('should not forward status-code translation keys as DOM attributes', () => {
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+
+    render(<GlobalError statusCode="404" />)
+
+    const invalidAttributeWarnings = consoleError.mock.calls.filter(
+      (call) =>
+        call.some(
+          (arg) =>
+            typeof arg === 'string' &&
+            arg.includes('Invalid attribute name')
+        )
+    )
+    expect(invalidAttributeWarnings).toHaveLength(0)
+
+    consoleError.mockRestore()
+  })
+
   it('has default text for 404', () => {
     render(<GlobalError statusCode="404" />)
 
