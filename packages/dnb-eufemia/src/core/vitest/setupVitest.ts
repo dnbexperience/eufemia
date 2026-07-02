@@ -77,15 +77,66 @@ const originalWarn = console.warn
 const eufemiaAnsiPrefix =
   '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152m'
 
+// Known-noisy console.error output that should never reach the test report.
+function isSilencedError(msg: string) {
+  return (
+    /not wrapped in act/.test(msg) ||
+    /not configured to support act/.test(msg) ||
+    /component suspended inside an `act` scope/.test(msg) ||
+    /Not implemented: navigation/.test(msg)
+  )
+}
+
+// jsdom reports its own errors (e.g. "Not implemented: navigation to another
+// Document") through a VirtualConsole that captured a console reference when
+// the environment was created — before the overrides below were installed — so
+// those messages bypass the console.error override entirely. Re-point the
+// jsdomError handler so it runs the same silence filter and forwards the rest
+// through the captured originalError. Forwarding via originalError (rather than
+// the live console.error) keeps jsdom's internal errors out of any per-test
+// console.error spy, matching the behaviour before this redirect.
+type JSDOMError = {
+  type?: string
+  message?: string
+  cause?: { stack?: string }
+}
+type VirtualConsole = {
+  removeAllListeners: (event: string) => void
+  on: (event: string, listener: (error: JSDOMError) => void) => void
+}
+
+function redirectJSDOMErrors() {
+  if (typeof window === 'undefined') {
+    return // stop here
+  }
+
+  const virtualConsole = (
+    window as unknown as { _virtualConsole?: VirtualConsole }
+  )._virtualConsole
+
+  if (!virtualConsole) {
+    return // stop here
+  }
+
+  virtualConsole.removeAllListeners('jsdomError')
+  virtualConsole.on('jsdomError', (error) => {
+    const output =
+      error?.type === 'unhandled-exception'
+        ? error.cause?.stack
+        : error?.message
+
+    if (isSilencedError(String(output ?? ''))) {
+      return // stop here
+    }
+
+    originalError.call(console, output)
+  })
+}
+
 beforeAll(() => {
   console.error = (...args) => {
     const msg = String(args[0] ?? '')
-    if (
-      /not wrapped in act/.test(msg) ||
-      /not configured to support act/.test(msg) ||
-      /component suspended inside an `act` scope/.test(msg) ||
-      /Not implemented: navigation/.test(msg)
-    ) {
+    if (isSilencedError(msg)) {
       return
     }
     originalError.call(console, ...args)
@@ -106,6 +157,8 @@ beforeAll(() => {
     }
     originalWarn.call(console, ...args)
   }
+
+  redirectJSDOMErrors()
 })
 
 afterAll(() => {
