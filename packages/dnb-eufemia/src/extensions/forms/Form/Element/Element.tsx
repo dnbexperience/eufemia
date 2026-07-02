@@ -35,6 +35,7 @@ function FormElementComponent(props: FormElementProps) {
   const {
     children,
     className,
+    id: idProp,
     onSubmit,
     preventDefaultOnSubmit = true,
     ...restProps
@@ -89,6 +90,7 @@ function FormElementComponent(props: FormElementProps) {
       element="form"
       className={clsx('dnb-forms-form', className)}
       onSubmit={onSubmitHandler}
+      id={typeof idProp === 'string' ? idProp : undefined}
       aria-labelledby={
         combineLabelledBy(
           restProps,
