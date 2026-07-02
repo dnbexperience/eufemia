@@ -16,17 +16,18 @@ updates:
       - '/tools/*'
     schedule:
       interval: 'monthly'
-    # Disable scheduled dependency update PRs (too noisy across the monorepo).
-    # Security updates are still opened by Dependabot regardless of this limit.
-    open-pull-requests-limit: 0
+    # Grouped scheduled updates keep build/dev tooling current, which prevents
+    # the kind of rot that silently accumulates Dependabot alerts. Grouping (see
+    # below) keeps PR noise low across the monorepo. Security updates are opened
+    # by Dependabot regardless of this limit.
+    open-pull-requests-limit: 10
     # Match Yarn 4 setup (defaultSemverRangePrefix: "" in .yarnrc.yml) by only
     # widening package.json ranges when the new version requires it.
     versioning-strategy: increase-if-necessary
     commit-message:
       prefix: 'chore(deps)'
       prefix-development: 'chore(deps-dev)'
-    # Groups apply to scheduled updates (not security updates). Ready for when
-    # open-pull-requests-limit is raised above 0.
+    # Groups apply to scheduled updates (not security updates).
     groups:
       babel:
         patterns:
@@ -50,6 +51,15 @@ updates:
           - '@testing-library/*'
           - 'playwright'
           - '@playwright/*'
+      # Catch-all: batch all remaining dev-dependency minor/patch bumps into a
+      # single PR (per directory). Major bumps and production dependencies are
+      # still opened individually so they get proper review. Keep this group
+      # LAST — a dependency is assigned to the first group it matches.
+      dev-dependencies:
+        dependency-type: 'development'
+        update-types:
+          - 'minor'
+          - 'patch'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
