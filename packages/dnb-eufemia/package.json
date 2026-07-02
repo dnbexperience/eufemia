@@ -202,7 +202,7 @@
     "lightningcss": "1.32.0",
     "lockfile-lint": "4.14.1",
     "mock-match-media": "0.3.0",
-    "nodemon": "2.0.15",
+    "nodemon": "3.1.14",
     "opentype.js": "1.3.4",
     "ora": "5.4.1",
     "playwright": "1.60.0",
