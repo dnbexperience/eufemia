@@ -64,6 +64,12 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
+      - name: Check lockfile is deduplicated
+        # Guards against a plain `yarn install` reintroducing duplicate (and
+        # potentially vulnerable) transitive versions. Run `yarn dedupe` locally
+        # and commit yarn.lock if this fails.
+        run: yarn dedupe --check
+
       - name: Audit dependencies
         run: yarn workspace @dnb/eufemia audit:ci
 
