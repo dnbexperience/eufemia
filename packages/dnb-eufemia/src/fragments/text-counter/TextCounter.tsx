@@ -42,7 +42,7 @@ export default function TextCounter(localProps: TextCounterProps) {
     const count =
       variant === 'down' || isExceeded ? Math.abs(max - length) : length
     const key = `character${
-      isExceeded ? 'Exceeded' : toPascalCase(variant)
+      isExceeded ? 'Exceeded' : toPascalCase(String(variant))
     }`
 
     return context
