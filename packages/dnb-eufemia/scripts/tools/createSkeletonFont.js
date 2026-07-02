@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 import opentype from 'opentype.js'
-import Fontmin from 'fontmin'
+import { Font, woff2 } from 'fonteditor-core'
 import { asyncForEach } from './'
 import { makeUniqueId } from '../../src/shared/component-helper'
 import ora from 'ora'
@@ -129,26 +129,40 @@ function changePath(glyph, bottom) {
   return glyph
 }
 
+let woff2Ready = false
+
+// Convert every generated skeleton .otf into .ttf, .woff and .woff2
+// (previously handled by "fontmin"; replaced with the maintained
+// "fonteditor-core" to avoid its abandoned/vulnerable dependencies).
 async function minifyFonts() {
-  return new Promise((resolve, reject) => {
-    const fontmin = new Fontmin()
+  const dir = path.resolve(__dirname, '../../assets/fonts/dnb/skeleton')
 
-    fontmin.src(
-      path.resolve(__dirname, '../../assets/fonts/dnb/skeleton/*.otf')
-    )
+  if (!woff2Ready) {
+    await woff2.init()
+    woff2Ready = true
+  }
 
-    fontmin.use(Fontmin.otf2ttf())
-    fontmin.use(Fontmin.ttf2woff())
-    fontmin.use(Fontmin.ttf2woff2())
+  const otfFiles = fs
+    .readdirSync(dir)
+    .filter((file) => file.toLowerCase().endsWith('.otf'))
 
-    fontmin.dest(
-      path.resolve(__dirname, '../../assets/fonts/dnb/skeleton/')
-    )
-
-    fontmin.run(function (err) {
-      reject(err)
+  otfFiles.forEach((file) => {
+    const base = path.join(dir, file.replace(/\.otf$/i, ''))
+    const font = Font.create(fs.readFileSync(path.join(dir, file)), {
+      type: 'otf',
     })
 
-    resolve()
+    fs.writeFileSync(
+      `${base}.ttf`,
+      Buffer.from(font.write({ type: 'ttf' }))
+    )
+    fs.writeFileSync(
+      `${base}.woff`,
+      Buffer.from(font.write({ type: 'woff' }))
+    )
+    fs.writeFileSync(
+      `${base}.woff2`,
+      Buffer.from(font.write({ type: 'woff2' }))
+    )
   })
 }
