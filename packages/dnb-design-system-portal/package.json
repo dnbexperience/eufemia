@@ -108,7 +108,7 @@
     "unist-util-visit": "5.1.0",
     "vite": "8.0.16",
     "vitest": "4.1.8",
-    "wrangler": "4.66.0"
+    "wrangler": "4.102.0"
   },
   "buildVersion": "[LOCAL BUILD]",
   "changelogVersion": "[LOCAL BUILD]",
