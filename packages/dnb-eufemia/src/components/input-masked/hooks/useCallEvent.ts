@@ -6,7 +6,7 @@
  * @returns event handler function
  */
 
-import { useContext, useRef } from 'react'
+import { useContext, useMemo, useRef } from 'react'
 import { cleanNumber } from '../../number-format/NumberUtils'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
 import { safeSetSelection } from '../text-mask/safeSetSelection'
@@ -18,6 +18,14 @@ import { useNumberMask } from './useNumberMask'
 
 // Local minus class pattern, matches multiple minus-like characters
 const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
+
+// Matches a leading minus-like character.
+// Hoisted to module scope to avoid recompiling it on every event.
+const LEADING_MINUS = new RegExp(`^${NUMBER_MINUS}`)
+
+// Matches decimal separator characters.
+// Source: https://en.wikipedia.org/wiki/Decimal_separator
+const DECIMAL_SEPARATORS = /[,.'·]/
 
 // Represents the combined event shape received by callEvent.
 // Covers keyboard, input, mouse, and focus events on the masked input.
@@ -43,13 +51,19 @@ export const useCallEvent = ({
   const maskParamsRef = useRef<ReturnType<typeof useMaskParams> | null>(
     null
   )
-  maskParamsRef.current = useMaskParams()
+  const currentMaskParams = useMaskParams()
+  maskParamsRef.current = currentMaskParams
 
   const { props } = useContext(InputMaskedContext)
   const isNumberMask = useNumberMask()
 
-  // Source: https://en.wikipedia.org/wiki/Decimal_separator
-  const decimalSeparators = /[,.'·]/
+  // Matches everything that is not a digit or the current decimal symbol.
+  // Memoized so it is only recompiled when the decimal symbol changes.
+  const nonDigitsExceptDecimal = useMemo(
+    () => new RegExp(`[^\\d${currentMaskParams.decimalSymbol}]`, 'g'),
+    [currentMaskParams.decimalSymbol]
+  )
+
   let isUnidentified = false
 
   const callEvent = (
@@ -95,15 +109,12 @@ export const useCallEvent = ({
       maskParams?.disallowLeadingZeroes &&
       (name === 'onInput' || name === 'onBlur')
     ) {
-      const isNegative = new RegExp(`^${NUMBER_MINUS}`, 'g').test(value)
+      const isNegative = LEADING_MINUS.test(value)
       if (
         (isNegative ? selStart > 1 : selStart > 0) ||
         name === 'onBlur'
       ) {
-        const onlyNumber = value.replace(
-          new RegExp(`[^\\d${maskParams.decimalSymbol}]`, 'g'),
-          ''
-        )
+        const onlyNumber = value.replace(nonDigitsExceptDecimal, '')
         let leadingZeroes = 0
         for (let i = 0; i < onlyNumber.length - 1; i++) {
           if (
@@ -161,7 +172,7 @@ export const useCallEvent = ({
       const allowedDecimals =
         maskParams.decimalLimit > 0 || maskParams.allowDecimal !== false
 
-      if (!allowedDecimals && decimalSeparators.test(keyCode)) {
+      if (!allowedDecimals && DECIMAL_SEPARATORS.test(keyCode)) {
         event.preventDefault()
       }
 
@@ -169,9 +180,9 @@ export const useCallEvent = ({
 
       if (allowedDecimals) {
         // if we have already a decimal ...
-        if (hasDecimalSymbol && decimalSeparators.test(keyCode)) {
-          // ... we set the cursor on after the decimalSeparators
-          if (decimalSeparators.test(charAtSelection)) {
+        if (hasDecimalSymbol && DECIMAL_SEPARATORS.test(keyCode)) {
+          // ... we set the cursor on after the decimal separators
+          if (DECIMAL_SEPARATORS.test(charAtSelection)) {
             const index = value.indexOf(maskParams.decimalSymbol)
             if (index > -1) {
               safeSetSelection(event.target, index + 1)
@@ -186,7 +197,7 @@ export const useCallEvent = ({
         else if (
           !hasDecimalSymbol &&
           keyCode !== maskParams.decimalSymbol &&
-          decimalSeparators.test(keyCode)
+          DECIMAL_SEPARATORS.test(keyCode)
         ) {
           value = value.slice(0, selStart)
           setLocalValue(value + maskParams.decimalSymbol)
