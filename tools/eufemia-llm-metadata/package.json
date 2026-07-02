@@ -27,7 +27,7 @@
     "@babel/types": "7.28.5",
     "front-matter": "4.0.2",
     "fs-extra": "10.0.0",
-    "prettier": "3.8.1",
+    "prettier": "3.9.4",
     "vitest": "4.1.8"
   },
   "volta": {
