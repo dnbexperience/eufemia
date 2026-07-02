@@ -65,10 +65,7 @@ import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Icon from '../icon/Icon'
 import { chevron_down, chevron_up } from '../../icons'
-import Input, {
-  SubmitButton,
-  type InputSubmitButtonProps,
-} from '../input/Input'
+import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
@@ -2424,7 +2421,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     disabled,
     status: status ? statusState : null,
     onKeyDown: onTriggerKeyDownHandler,
-    onSubmit: toggleVisible as any as InputSubmitButtonProps['onSubmit'],
+    onSubmit: () => toggleVisible(),
     onMouseDown: reserveActivityHandler,
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,
