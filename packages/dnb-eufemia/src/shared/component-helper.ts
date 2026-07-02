@@ -90,7 +90,7 @@ export function extendDeep(target = {}, ...sources) {
 
 export const dispatchCustomElementEvent = (
   src,
-  eventName,
+  eventName: string,
   eventObjectOrig: any = undefined
 ) => {
   let ret = undefined
@@ -113,7 +113,7 @@ export const dispatchCustomElementEvent = (
 }
 
 // transform my_component to MyComponent
-export const toPascalCase = (s) =>
+export const toPascalCase = (s: string) =>
   s
     .split(/_/g)
     .reduce(
@@ -127,7 +127,7 @@ export const toPascalCase = (s) =>
     )
 
 // transform MyComponent to my-component
-export const toKebabCase = (str) =>
+export const toKebabCase = (str: string) =>
   str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
 
 export function toCapitalized(str) {
