@@ -2269,7 +2269,7 @@ __metadata:
     "@maskito/kit": "npm:5.1.0"
     "@maskito/react": "npm:5.1.0"
     "@modelcontextprotocol/sdk": "npm:1.29.0"
-    "@navikt/fnrvalidator": "npm:2.1.5"
+    "@navikt/fnrvalidator": "npm:2.2.1"
     "@playwright/test": "npm:1.60.0"
     "@semantic-release/changelog": "npm:6.0.3"
     "@semantic-release/commit-analyzer": "npm:13.0.1"
@@ -3784,10 +3784,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/fnrvalidator@npm:2.1.5":
-  version: 2.1.5
-  resolution: "@navikt/fnrvalidator@npm:2.1.5"
-  checksum: 10/6004890b3046d957f117b8566d6b12bc254cb5417a6fa9dd800a807bbb78d6775165d8c2aba5f1c1561b499341d4e97d662589a9d708651ae59aee06411ce66d
+"@navikt/fnrvalidator@npm:2.2.1":
+  version: 2.2.1
+  resolution: "@navikt/fnrvalidator@npm:2.2.1"
+  checksum: 10/a072275b24aa6332d403d7f98c30ce408e5638649b3bca98b12462ce88b8492599516c6ee5d3d7d3b7f27cd9314e0f70c4e131cd963ba38271907bb56403fedf
   languageName: node
   linkType: hard
 
