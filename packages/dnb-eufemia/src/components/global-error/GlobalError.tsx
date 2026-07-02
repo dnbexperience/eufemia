@@ -87,6 +87,8 @@ export type GlobalErrorTranslationContent = {
 export type GlobalErrorTranslation = {
   404?: GlobalErrorTranslationContent
   500?: GlobalErrorTranslationContent
+  errorMessageCode?: ReactNode
+  help?: ReactNode
 }
 
 const globalErrorDefaultProps: Partial<GlobalErrorAllProps> = {
@@ -100,12 +102,17 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
   const translation = context.getTranslation(localProps)
     .GlobalError as GlobalErrorTranslation
 
+  // Exclude the status-code lookup objects (e.g. `404` and `500`) so they are
+  // not merged in as props and forwarded to the DOM element, where they would
+  // trigger "Invalid attribute name" warnings.
+  const { 404: _404, 500: _500, ...generalTranslation } = translation
+
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
     globalErrorDefaultProps,
     context?.GlobalError,
-    translation,
+    generalTranslation,
     translation[
       localProps.statusCode || globalErrorDefaultProps.statusCode
     ],
