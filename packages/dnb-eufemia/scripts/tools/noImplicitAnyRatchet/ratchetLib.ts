@@ -17,6 +17,7 @@
  */
 export const noImplicitAnyAllowlist: Array<string> = [
   'src/shared/helpers/debounce.ts',
+  'src/shared/helpers/InteractionInvalidation.ts',
   'src/shared/helpers/runCssVersionMismatchWarning.ts',
 ]
 
