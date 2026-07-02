@@ -22,6 +22,7 @@ import Context from '../../shared/Context'
 import { getThemeClasses } from '../../shared/Theme'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import useStableMemoKey from '../../shared/helpers/useStableMemoKey'
 
 type SelectorOptions = {
   /**
@@ -65,7 +66,7 @@ export function PortalRootProvider(
   const { id, insideSelector, beforeSelector, children, ...rest } = props
 
   const hasRest = Object.keys(rest).length > 0
-  const restKey = hasRest ? JSON.stringify(rest) : ''
+  const restKey = useStableMemoKey(rest)
 
   const value = useMemo(
     () => ({

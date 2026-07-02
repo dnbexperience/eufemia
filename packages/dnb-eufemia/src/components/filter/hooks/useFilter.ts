@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { useSharedState } from '../../../shared/helpers/useSharedState'
 import { debounceAsync } from '../../../shared/helpers/debounce'
+import useStableMemoKey from '../../../shared/helpers/useStableMemoKey'
 import type { FilterState, FilterValue } from '../FilterContext'
 import { FilterContext } from '../FilterContext'
 
@@ -132,7 +133,7 @@ export function useFilterAsync<T>(
     ) as DebouncedFetcher
   }
 
-  const filtersKey = JSON.stringify(state.filters)
+  const filtersKey = useStableMemoKey(state.filters)
   const search = state.search
 
   useEffect(() => {
