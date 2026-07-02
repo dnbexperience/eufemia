@@ -216,7 +216,7 @@ export default UploadFileListCell
 function useExistsHighlight(id: string, file: File) {
   const { internalFiles } = useUpload(id)
   const [exists, updateExists] = useState(false)
-  const timerRef = useRef<NodeJS.Timer>(undefined)
+  const timerRef = useRef<NodeJS.Timeout>(undefined)
 
   const clearTimers = () => {
     clearTimeout(timerRef.current)

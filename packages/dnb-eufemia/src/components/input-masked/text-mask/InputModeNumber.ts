@@ -7,7 +7,7 @@ import { IS_IOS } from '../../../shared/helpers'
 export default class InputModeNumber {
   inputElement: HTMLInputElement
   labelElement: HTMLLabelElement
-  timeout: NodeJS.Timer
+  timeout: NodeJS.Timeout
   hasFocus: boolean
   focusEventName: string
   blurEventName: string

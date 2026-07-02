@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, type Dirent } from 'node:fs'
 import path from 'node:path'
 import {
   IGNORED_ENTITY_SEGMENTS,
@@ -18,7 +18,7 @@ export function collectFilesRecursively(
   const foundFiles: string[] = []
 
   function walkDirectory(directory: string) {
-    let entries: ReturnType<typeof readdirSync>
+    let entries: Dirent[]
 
     try {
       entries = readdirSync(directory, { withFileTypes: true })
