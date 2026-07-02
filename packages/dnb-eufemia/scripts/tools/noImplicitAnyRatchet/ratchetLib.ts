@@ -12,8 +12,8 @@
 
 /**
  * Files that are verified free of implicit `any` and must stay that way.
- * Add a file here (workspace-relative path) once it compiles cleanly under
- * `--noImplicitAny`.
+ * Add a file here (path relative to the `dnb-eufemia` package root, matching the
+ * paths `tsc` prints) once it compiles cleanly under `--noImplicitAny`.
  */
 export const noImplicitAnyAllowlist: Array<string> = [
   'src/shared/helpers/debounce.ts',

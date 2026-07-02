@@ -8,12 +8,34 @@ import {
 /**
  * Runs the TypeScript compiler with `--noImplicitAny` and fails only if a file
  * on the ratchet allowlist has regressed. See `ratchetLib.ts` for details.
+ *
+ * `--pretty false` keeps the diagnostics in the plain
+ * `file(line,col): error TSxxxx: ...` format that `findImplicitAnyRegressions`
+ * parses, regardless of whether the process is attached to a TTY.
  */
 const result = spawnSync(
   'yarn',
-  ['tsc', '--noEmit', '--noImplicitAny', '-p', 'tsconfig.json'],
+  [
+    'tsc',
+    '--noEmit',
+    '--noImplicitAny',
+    '--pretty',
+    'false',
+    '-p',
+    'tsconfig.json',
+  ],
   { encoding: 'utf8', env: process.env }
 )
+
+// Guard against a spawn failure (e.g. tsc could not be started). Without this,
+// stdout/stderr would be empty, which looks like "no regressions" and would let
+// the ratchet pass silently even though nothing was actually type-checked.
+if (result.error) {
+  console.error(
+    `noImplicitAny ratchet could not run tsc: ${result.error.message}`
+  )
+  process.exit(1)
+}
 
 const output = `${result.stdout ?? ''}${result.stderr ?? ''}`
 const regressions = findImplicitAnyRegressions(
