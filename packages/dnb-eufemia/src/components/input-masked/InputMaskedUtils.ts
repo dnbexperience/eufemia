@@ -13,6 +13,7 @@ import type { NumberFormatValue } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/safeSetSelection'
+import type { MaskParams } from './text-mask/types'
 import type { InputMaskedProps } from './InputMasked'
 
 const enableLocaleSupportWhen = [
@@ -84,6 +85,16 @@ export type InputMaskParams = {
   suffix?: string
   disallowLeadingZeroes?: boolean
   integerLimit?: number
+}
+
+/**
+ * Options accepted by the number/currency mask handlers.
+ * Extends the internal number-mask parameters with currency-specific fields.
+ */
+export type InputMaskedMaskHandlerOptions = MaskParams & {
+  showMask?: boolean
+  currency?: string
+  currencyDisplay?: string | false
 }
 
 export const correctNumberValue = ({
@@ -352,13 +363,13 @@ export const handleCurrencyMask = ({
   maskOptions,
   currencyMask,
 }: {
-  maskOptions: Record<string, any>
-  currencyMask: string | Record<string, any>
+  maskOptions: InputMaskedMaskHandlerOptions
+  currencyMask: string | InputMaskedMaskHandlerOptions
 }): InputMaskParams => {
   const givenParams =
     typeof currencyMask === 'string'
-      ? { ...maskOptions, ...({ 0: String(currencyMask) } as any) }
-      : { ...maskOptions, ...(currencyMask as Record<string, any>) }
+      ? { ...maskOptions, 0: String(currencyMask) }
+      : { ...maskOptions, ...currencyMask }
   const paramsWithDefaults: InputMaskParams = {
     showMask: true,
     allowDecimal: true,
@@ -413,8 +424,8 @@ export const handleNumberMask = ({
   maskOptions,
   numberMask,
 }: {
-  maskOptions: Record<string, any>
-  numberMask: Record<string, any>
+  maskOptions: InputMaskedMaskHandlerOptions
+  numberMask: InputMaskedMaskHandlerOptions
 }): InputMaskParams => {
   const maskParams: InputMaskParams = {
     decimalSymbol: ',',
@@ -498,10 +509,10 @@ export function handleDecimalSeparator(locale: string): string {
 export function fromJSON<T = unknown>(
   str: unknown,
   fallback: T | null = null
-): T | unknown {
+): T {
   if (typeof str === 'string' && str[0] === '{') {
-    return JSON.parse(str)
+    return JSON.parse(str) as T
   }
 
-  return str || fallback
+  return (str || fallback) as T
 }
