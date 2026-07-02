@@ -15,6 +15,8 @@ import DialogAction from './parts/DialogAction'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
+export type * from './types'
+
 const dialogDefaultProps: Partial<DialogAllProps> = {
   variant: 'information',
   spacing: true,
