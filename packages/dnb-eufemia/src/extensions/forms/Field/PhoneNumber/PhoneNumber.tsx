@@ -262,7 +262,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     errorMessages,
   }
   const ref = useRef<HTMLInputElement>(undefined)
-  const preparedProps: FieldPhoneNumberProps = {
+  const preparedProps = {
     ...props,
     ...phoneNumberDefaultProps,
     onBlurValidator: onBlurValidatorToUse,
@@ -272,7 +272,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     provideAdditionalArgs,
     transformIn,
     inputRef: props.inputRef ?? ref,
-  }
+  } satisfies FieldPhoneNumberProps
 
   const {
     id,
@@ -312,7 +312,6 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     onCountryCodeChange,
     onNumberChange,
     filterCountries,
-    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps, {
     executeOnChangeRegardlessOfUnchangedValue: true,
   })
@@ -362,9 +361,8 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         type Item = DrawerListDataArrayItem & { country: CountryType }
 
         const cdcVal = countryCode?.replace(/^\+/, '').replace(/-/g, '')
-        // @ts-expect-error - strictFunctionTypes
-        const item = dataRef.current.find((item: Item) => {
-          const cdc = item?.country?.cdc?.replace(/-/g, '')
+        const item = dataRef.current.find((item) => {
+          const cdc = (item as Item)?.country?.cdc?.replace(/-/g, '')
           return cdc === cdcVal
         }) as Item
 

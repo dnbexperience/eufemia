@@ -180,7 +180,6 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
     width: width ?? getWidth(bankAccountType),
     inputMode: getInputMode(bankAccountType),
     onChangeValidator: validate ? onChangeValidator : undefined,
-    // @ts-expect-error - strictFunctionTypes
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: { bankAccountNumberValidator },
   }

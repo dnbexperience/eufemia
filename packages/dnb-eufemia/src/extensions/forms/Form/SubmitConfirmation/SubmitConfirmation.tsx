@@ -33,16 +33,16 @@ export type ConfirmParams = {
     DialogProps & DialogContentProps,
     'open' | 'onConfirm' | 'onDecline' | 'onClose'
   >
-  setConfirmationState: (state: ConfirmationState) => void
-  submitHandler: () => void | Promise<void>
-  cancelHandler: () => void | Promise<void>
+  setConfirmationState(state: ConfirmationState): void
+  submitHandler(): void | Promise<void>
+  cancelHandler(): void | Promise<void>
 }
 
 export type ConfirmProps = {
-  preventSubmitWhen?: (params: ConfirmParams) => boolean
-  onStateChange?: (params: ConfirmParams) => void | Promise<void>
-  onSubmitResult?: (params: ConfirmParams) => void
-  renderWithState?: (params: ConfirmParams) => ReactNode
+  preventSubmitWhen?(params: ConfirmParams): boolean
+  onStateChange?(params: ConfirmParams): void | Promise<void>
+  onSubmitResult?(params: ConfirmParams): void
+  renderWithState?(params: ConfirmParams): ReactNode
   children?: ReactNode
 }
 
@@ -71,7 +71,6 @@ function SubmitConfirmation(props: ConfirmProps) {
 
   const validatePreventSubmit = useCallback(() => {
     return (preventSubmitRef.current = preventSubmitWhen?.(
-      // @ts-expect-error - strictFunctionTypes
       getParamsRef.current()
     ))
   }, [preventSubmitWhen])
@@ -79,7 +78,6 @@ function SubmitConfirmation(props: ConfirmProps) {
   const setConfirmationState = useCallback(
     async (state: ConfirmationState) => {
       confirmationStateRef.current = state
-      // @ts-expect-error - strictFunctionTypes
       await onStateChange?.(getParamsRef.current())
 
       const setBuffered = (
@@ -125,7 +123,7 @@ function SubmitConfirmation(props: ConfirmProps) {
       open: confirmationState === 'readyToBeSubmitted',
       onConfirm: submitHandler,
       onDecline: cancelHandler,
-      onClose: ({ triggeredBy }) => {
+      onClose: ({ triggeredBy }: { triggeredBy?: string }) => {
         if (triggeredBy === 'keyboard') {
           cancelHandler()
         }
@@ -138,7 +136,6 @@ function SubmitConfirmation(props: ConfirmProps) {
       setConfirmationState,
       submitHandler,
       cancelHandler,
-      // @ts-expect-error - strictFunctionTypes
       connectWithDialog,
       submitState: submitStateRef.current,
     } satisfies ConfirmParams
@@ -149,7 +146,6 @@ function SubmitConfirmation(props: ConfirmProps) {
       submitStateRef.current = {
         ...submitState,
       } as EventStateObject
-      // @ts-expect-error - strictFunctionTypes
       onSubmitResult?.(getParamsRef.current())
     }
   }, [submitState, onSubmitResult])
@@ -219,7 +215,6 @@ function SubmitConfirmation(props: ConfirmProps) {
 
       <SharedProvider {...sharedProviderParams}>
         <HeightAnimation>
-          {/* @ts-expect-error -- strictFunctionTypes */}
           {renderWithState?.(getParamsRef.current())}
         </HeightAnimation>
       </SharedProvider>

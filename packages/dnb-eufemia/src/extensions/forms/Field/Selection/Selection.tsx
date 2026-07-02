@@ -10,7 +10,6 @@ import type {
   ComponentProps,
   ComponentType,
   JSX,
-  ReactElement,
   ReactNode,
 } from 'react'
 import { clsx } from 'clsx'
@@ -502,32 +501,28 @@ export function mapOptions(
   children: ReactNode,
   {
     createOption,
-  }: { createOption: (props: OptionProps, i: number) => ReactNode }
+  }: { createOption(props: OptionProps, i: number): ReactNode }
 ) {
-  return Children.map(
-    // @ts-expect-error - strictFunctionTypes
-    children,
-    (child: ReactElement<OptionProps>, i) => {
-      if (isValidElement(child)) {
-        if (child.type === OptionField) {
-          return createOption(child.props, i)
-        }
-
-        if (child.props.children) {
-          const nestedChildren = mapOptions(child.props.children, {
-            createOption,
-          })
-          return createElement(
-            child.type as ComponentType<OptionProps>,
-            child.props,
-            nestedChildren
-          )
-        }
+  return Children.map(children, (child, i) => {
+    if (isValidElement<OptionProps>(child)) {
+      if (child.type === OptionField) {
+        return createOption(child.props, i)
       }
 
-      return child
+      if (child.props.children) {
+        const nestedChildren = mapOptions(child.props.children, {
+          createOption,
+        })
+        return createElement(
+          child.type as ComponentType<OptionProps>,
+          child.props,
+          nestedChildren
+        )
+      }
     }
-  )
+
+    return child
+  })
 }
 
 export function makeOptions<T = DrawerListProps['data']>(

@@ -65,10 +65,15 @@ export type ValidatorReturnSync<Value> =
 export type ValidatorReturnAsync<Value> =
   | ValidatorReturnSync<Value>
   | Promise<ValidatorReturnSync<Value>>
-export type Validator<Value, ErrorMessages = DefaultErrorMessages> = (
-  value: Value,
-  additionalArgs: ReceiveAdditionalEventArgs<Value, ErrorMessages>
-) => ValidatorReturnAsync<Value>
+export type Validator<Value, ErrorMessages = DefaultErrorMessages> = {
+  // Method syntax gives the parameters bivariant checking, so that field
+  // components can assign validators typed for a narrower `Value` without
+  // tripping `strictFunctionTypes`.
+  bivarianceHack(
+    value: Value,
+    additionalArgs: ReceiveAdditionalEventArgs<Value, ErrorMessages>
+  ): ValidatorReturnAsync<Value>
+}['bivarianceHack']
 
 export type ValidatorWithCustomValidators<
   Value,
@@ -118,11 +123,11 @@ export type ReceiveAdditionalEventArgs<
   /**
    * Used internally to connect a field event listener to a path.
    */
-  setFieldEventListener: (
+  setFieldEventListener(
     path: Path,
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback']
-  ) => void
+  ): void
 
   /**
    * Returns the validators from the { exportValidators } object.
@@ -228,11 +233,11 @@ export type DataValueWriteProps<
     ProvideAdditionalEventArgs,
 > = {
   emptyValue?: EmptyValue
-  onFocus?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
-  onBlur?: (...args: EventArgs<Value | EmptyValue, ExtraValue>) => void
-  onChange?: (
+  onFocus?(...args: EventArgs<Value | EmptyValue, ExtraValue>): void
+  onBlur?(...args: EventArgs<Value | EmptyValue, ExtraValue>): void
+  onChange?(
     ...args: EventArgs<Value | EmptyValue, ExtraValue>
-  ) => OnChangeReturnType
+  ): OnChangeReturnType
 }
 
 const dataValueWriteProps = ['emptyValue', 'onFocus', 'onBlur', 'onChange']
@@ -314,10 +319,15 @@ export type MessagePropParams<Value, ReturnValue> = {
 }
 export type MessageProp<Value, ReturnValue> =
   | ReturnValue
-  | ((
-      value: Value,
-      options: MessagePropParams<Value, ReturnValue>
-    ) => ReturnValue | undefined)
+  | {
+      // Method syntax gives the parameters bivariant checking, so that a
+      // message callback typed for a narrower `Value` stays assignable under
+      // `strictFunctionTypes`.
+      bivarianceHack(
+        value: Value,
+        options: MessagePropParams<Value, ReturnValue>
+      ): ReturnValue | undefined
+    }['bivarianceHack']
 export type MessageTypes<Value> =
   | UseFieldProps<Value>['info']
   | UseFieldProps<Value>['warning']

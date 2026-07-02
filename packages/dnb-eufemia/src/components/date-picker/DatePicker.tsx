@@ -808,7 +808,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   _omitInputShellClass={_omitInputShellClass}
                   {...attributes}
                   submitProps={remainingSubmitProps}
-                  // @ts-expect-error - strictFunctionTypes
+                  // @ts-expect-error statusProps (FormStatusProps) spreads a DOM `onSubmit` (SubmitEvent) that conflicts with the button `onSubmit` (MouseEvent)
                   onSubmit={togglePicker}
                   triggerProps={triggerProps}
                   {...statusProps}
