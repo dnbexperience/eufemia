@@ -192,7 +192,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-security": "4.0.0",
-    "fontmin": "2.0.3",
+    "fonteditor-core": "2.6.3",
     "fs-extra": "10.0.0",
     "globals": "17.6.0",
     "globby": "11.0.4",
