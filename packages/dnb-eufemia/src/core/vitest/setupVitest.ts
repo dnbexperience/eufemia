@@ -77,14 +77,36 @@ const originalWarn = console.warn
 const eufemiaAnsiPrefix =
   '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152m'
 
+// jsdom reports its "Not implemented" notices (such as "navigation to another
+// Document", triggered whenever a test clicks a real anchor or assigns
+// window.location) through the VirtualConsole that vitest wires up when the
+// jsdom environment is created. That console is captured before the beforeAll
+// below runs, so the globalThis.console override never sees these messages —
+// they are written straight to process.stderr. Filtering the expected, harmless
+// navigation notice therefore has to happen at the stream level. The guard
+// keeps the patch idempotent across the setup files that share a worker.
+const stderrState = process.stderr as typeof process.stderr & {
+  __eufemiaNavFilter?: boolean
+}
+if (!stderrState.__eufemiaNavFilter) {
+  stderrState.__eufemiaNavFilter = true
+
+  const originalStderrWrite = process.stderr.write.bind(process.stderr)
+  process.stderr.write = (chunk, ...args) => {
+    if (String(chunk).includes('Not implemented: navigation')) {
+      return true
+    }
+    return originalStderrWrite(chunk, ...args)
+  }
+}
+
 beforeAll(() => {
   console.error = (...args) => {
     const msg = String(args[0] ?? '')
     if (
       /not wrapped in act/.test(msg) ||
       /not configured to support act/.test(msg) ||
-      /component suspended inside an `act` scope/.test(msg) ||
-      /Not implemented: navigation/.test(msg)
+      /component suspended inside an `act` scope/.test(msg)
     ) {
       return
     }
