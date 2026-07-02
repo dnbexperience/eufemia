@@ -16,11 +16,9 @@ updates:
       - '/tools/*'
     schedule:
       interval: 'monthly'
-    # Grouped scheduled updates keep build/dev tooling current, which prevents
-    # the kind of rot that silently accumulates Dependabot alerts. Grouping (see
-    # below) keeps PR noise low across the monorepo. Security updates are opened
-    # by Dependabot regardless of this limit.
-    open-pull-requests-limit: 10
+    # Disable scheduled dependency update PRs (too noisy across the monorepo).
+    # Security updates are still opened by Dependabot regardless of this limit.
+    open-pull-requests-limit: 0
     # Match Yarn 4 setup (defaultSemverRangePrefix: "" in .yarnrc.yml) by only
     # widening package.json ranges when the new version requires it.
     versioning-strategy: increase-if-necessary
