@@ -1522,12 +1522,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime-corejs3@npm:7.28.4":
-  version: 7.28.4
-  resolution: "@babel/runtime-corejs3@npm:7.28.4"
+"@babel/runtime-corejs3@npm:8.0.0":
+  version: 8.0.0
+  resolution: "@babel/runtime-corejs3@npm:8.0.0"
   dependencies:
-    core-js-pure: "npm:^3.43.0"
-  checksum: 10/99079931145c0606a9967fe002c3528ae237b759cee115fc97a5dc17101d5ccdf9a794fd4ce5d94c7e2e8ee1f9f6816fb50b4472e980b5e4dd878fbdfac02619
+    core-js-pure: "npm:^3.48.0"
+  checksum: 10/1813856967ad246f76266977a06f16801e31512acafdfe33cc9218d6fcbb8087787d338a6f2ea540f7de49ff6e37e03272b0e08d038090d63bd8cc0c4a9ee6cb
   languageName: node
   linkType: hard
 
@@ -2257,7 +2257,7 @@ __metadata:
     "@babel/preset-env": "npm:7.28.5"
     "@babel/preset-react": "npm:7.28.5"
     "@babel/preset-typescript": "npm:7.28.5"
-    "@babel/runtime-corejs3": "npm:7.28.4"
+    "@babel/runtime-corejs3": "npm:8.0.0"
     "@blazediff/core": "npm:1.9.1"
     "@dnb/browserslist-config": "npm:1.4.1"
     "@emotion/react": "npm:11.14.0"
@@ -7701,10 +7701,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js-pure@npm:3.47.0, core-js-pure@npm:^3.43.0":
+"core-js-pure@npm:3.47.0":
   version: 3.47.0
   resolution: "core-js-pure@npm:3.47.0"
   checksum: 10/363b1aedc4949bb765157ae1d59e7ad967391a5288c5b0bfd718c26f788ca358489e49edcde74a8a91095f283463a4fdc85eeaa63ba126444e12b32447144bfb
+  languageName: node
+  linkType: hard
+
+"core-js-pure@npm:^3.48.0":
+  version: 3.49.0
+  resolution: "core-js-pure@npm:3.49.0"
+  checksum: 10/ae769f3df1b8b1dd6a1620090a12d3cafb6ba2f9a835aaf23cb837666dbee1495d308ac28344879898e2229b635e93f15ec0dc9879fa1f0cf4891d2be75d73ea
   languageName: node
   linkType: hard
 
