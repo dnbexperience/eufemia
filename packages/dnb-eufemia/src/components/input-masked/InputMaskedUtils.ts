@@ -13,6 +13,7 @@ import type { NumberFormatValue } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/safeSetSelection'
+import type { InputMaskedProps } from './InputMasked'
 
 const enableLocaleSupportWhen = [
   'asNumber',
@@ -38,7 +39,7 @@ const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
  * @returns Boolean
  */
 export const isRequestingLocaleSupport = (
-  props: Record<string, any>
+  props: InputMaskedProps
 ): boolean => {
   return Object.entries(props).some(
     ([k, v]) =>
@@ -53,7 +54,7 @@ export const isRequestingLocaleSupport = (
  * @returns Boolean
  */
 export const isRequestingNumberMask = (
-  props: Record<string, any>
+  props: InputMaskedProps
 ): boolean => {
   return Object.entries(props).some(
     ([k, v]) =>
@@ -327,7 +328,7 @@ export const handlePercentMask = ({
   locale,
   maskParams,
 }: {
-  props: Record<string, any>
+  props: InputMaskedProps
   locale: string
   maskParams: InputMaskParams
 }) => {
