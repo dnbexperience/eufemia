@@ -270,7 +270,6 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
     fromExternal,
     toEvent,
     provideAdditionalArgs,
-    // @ts-expect-error - strictFunctionTypes
     transformIn,
     inputRef: props.inputRef ?? ref,
   }

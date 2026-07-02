@@ -408,7 +408,7 @@ interface UseFieldPropsInterface<
   onChangeValidator?: Validator<Value>
   onBlurValidator?: Validator<Value>
   exportValidators?: Record<string, Validator<Value>>
-  validateRequired?: (
+  validateRequired?(
     internal: Value,
     {
       emptyValue,
@@ -421,7 +421,7 @@ interface UseFieldPropsInterface<
       isChanged: boolean
       error: FormError | undefined
     }
-  ) => FormError | undefined
+  ): FormError | undefined
   /**
    * Should error messages based on validation be shown initially (from given value-prop or source data)
    * before the user interacts with the field?
@@ -448,52 +448,52 @@ interface UseFieldPropsInterface<
    * Transforms the `value` before it's displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
-  transformIn?: (external: unknown) => Value | ExtraValue
+  transformIn?(external: unknown): Value | ExtraValue
 
   /**
    * Transforms the value before it gets forwarded to the form data object or returned as the onChange value parameter.
    * Public API. Should not be used internally.
    */
-  transformOut?: (
+  transformOut?(
     internal: Value | ExtraValue,
     additionalArgs?: unknown
-  ) => unknown
+  ): unknown
 
   /**
    * Transforms the value given by `handleChange` after `fromInput` and before `updateValue` and `toEvent`. The second parameter returns the current value.
    */
-  transformValue?: (value: Value, currentValue?: Value) => Value
+  transformValue?(value: Value, currentValue?: Value): Value
 
   /**
    * Transform additionalArgs or generate it based on `value`.
    */
-  provideAdditionalArgs?: (
+  provideAdditionalArgs?(
     value: Value,
     additionalArgs?: ProvideAdditionalEventArgs
-  ) => ProvideAdditionalEventArgs
+  ): ProvideAdditionalEventArgs
 
   /**
    * Transforms the value before it gets returned as the `value`.
    */
-  toInput?: (external: Value | unknown) => Value | unknown
+  toInput?(external: Value | unknown): Value | unknown
 
   /**
    * Transforms the internal value before it gets returned by even callbacks such as `onChange`, `onFocus` and `onBlur`. The second parameter returns the event type: `onChange`, `onFocus`, `onBlur` or `onBlurValidator`.
    */
-  toEvent?: (
+  toEvent?(
     internal: Value,
     type: 'onChange' | 'onFocus' | 'onBlur' | 'onBlurValidator'
-  ) => Value
+  ): Value
 
   /**
    * Transforms the value given by `handleChange` before it is used in the further process flow. Use it to destruct the value from the original event object.
    */
-  fromInput?: (external: Value | unknown) => Value
+  fromInput?(external: Value | unknown): Value
 
   /**
    * Transforms the given props `value` before any other step gets entered.
    */
-  fromExternal?: (external: Value) => Value
+  fromExternal?(external: Value): Value
 
   /**
    * For internal use only.
@@ -597,17 +597,17 @@ interface ValuePropsInterface<
    * Transforms the `value` before it's displayed in the field (e.g. input).
    * Public API. Should not be used internally.
    */
-  transformIn?: (external: Value | unknown) => Value | unknown
+  transformIn?(external: Value | unknown): Value | unknown
 
   /**
    * Transforms the value before it gets returned as the `value`.
    */
-  toInput?: (external: Value | unknown) => Value | unknown
+  toInput?(external: Value | unknown): Value | unknown
 
   /**
    * Transforms the given props `value` before any other step gets entered.
    */
-  fromExternal?: (external: Value) => Value
+  fromExternal?(external: Value): Value
 }
 
 export type ValueProps<Value = unknown> = ValuePropsInterface<Value>

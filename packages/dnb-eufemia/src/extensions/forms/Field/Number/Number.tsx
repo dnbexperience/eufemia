@@ -378,7 +378,6 @@ function NumberComponent(props: FieldNumberProps) {
     error: limitError || props.error,
     schema,
     toInput,
-    // @ts-expect-error - strictFunctionTypes
     fromInput,
     width:
       props.width ??

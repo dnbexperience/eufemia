@@ -3,18 +3,18 @@ import type { RefObject } from 'react'
 import type { ProvideAdditionalEventArgs } from '../types'
 
 export type TransformerFns<Value> = {
-  transformIn: (external: unknown) => Value
-  transformOut: (internal: Value, args?: unknown) => unknown
-  toInput: (value: Value) => Value
-  fromInput: (value: Value) => Value
-  toEvent: (value: Value, eventName?: string) => Value
-  transformValue: (value: Value, currentValue?: Value) => Value
-  provideAdditionalArgs: (
+  transformIn(external: unknown): Value
+  transformOut(internal: Value, args?: unknown): unknown
+  toInput(value: Value): Value
+  fromInput(value: Value): Value
+  toEvent(value: Value, eventName?: string): Value
+  transformValue(value: Value, currentValue?: Value): Value
+  provideAdditionalArgs(
     value: Value,
     additionalArgs?: ProvideAdditionalEventArgs
-  ) => ProvideAdditionalEventArgs
-  fromExternal: (value: Value) => Value
-  validateRequired: (
+  ): ProvideAdditionalEventArgs
+  fromExternal(value: Value): Value
+  validateRequired(
     value: Value,
     options: {
       emptyValue: unknown
@@ -22,7 +22,7 @@ export type TransformerFns<Value> = {
       isChanged: boolean
       error: Error
     }
-  ) => Error | undefined
+  ): Error | undefined
 }
 
 export default function useFieldTransform<Value>({
@@ -36,16 +36,7 @@ export default function useFieldTransform<Value>({
   fromExternal,
   validateRequired,
   valueRef,
-}: {
-  transformIn: TransformerFns<Value>['transformIn']
-  transformOut: TransformerFns<Value>['transformOut']
-  toInput: TransformerFns<Value>['toInput']
-  fromInput: TransformerFns<Value>['fromInput']
-  toEvent: TransformerFns<Value>['toEvent']
-  transformValue: TransformerFns<Value>['transformValue']
-  provideAdditionalArgs: TransformerFns<Value>['provideAdditionalArgs']
-  fromExternal: TransformerFns<Value>['fromExternal']
-  validateRequired: TransformerFns<Value>['validateRequired']
+}: TransformerFns<Value> & {
   valueRef: RefObject<Value>
 }) {
   const transformers = useRef<TransformerFns<Value>>({

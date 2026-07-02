@@ -46,11 +46,11 @@ export type UseFieldValidationParams<Value> = {
   required: boolean
   hasDataContext: boolean
   getAjvInstanceDataContext: () => AjvInstance
-  setFieldEventListener: (
+  setFieldEventListener(
     identifier: Identifier,
     event: string,
     fn: () => void
-  ) => void
+  ): void
   getValueByPath: (path: string) => unknown
   getSourceValue: (path: string) => unknown
   exportValidators: Record<string, Validator<Value>>

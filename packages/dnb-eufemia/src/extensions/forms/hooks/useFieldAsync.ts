@@ -26,8 +26,8 @@ type AsyncProcessesBuffer = {
 }
 
 export type UseFieldAsyncParams<Value> = {
-  onChange: (...args: unknown[]) => unknown
-  onChangeContext: (...args: unknown[]) => unknown
+  onChange(...args: unknown[]): unknown
+  onChangeContext(...args: unknown[]): unknown
   valueRef: RefObject<Value>
   forceUpdate: () => void
 
@@ -51,9 +51,9 @@ export type UseFieldAsyncParams<Value> = {
   hasPath: boolean
   identifier: Identifier
   executeOnChangeRegardlessOfError: boolean
-  handlePathChangeDataContext: (
+  handlePathChangeDataContext(
     identifier: Identifier
-  ) =>
+  ):
     | EventReturnWithStateObjectAndSuccess
     | Promise<EventReturnWithStateObjectAndSuccess>
 }
