@@ -191,4 +191,15 @@ describe('Form.Element', () => {
     const formElement = document.querySelector('form')
     expect(formElement).not.toHaveAttribute('id')
   })
+
+  it('should set a string "id" on the form element', () => {
+    render(
+      <Form.Element id="my-form-id">
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Form.Element>
+    )
+
+    const formElement = document.querySelector('form')
+    expect(formElement).toHaveAttribute('id', 'my-form-id')
+  })
 })
