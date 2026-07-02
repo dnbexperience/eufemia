@@ -18,6 +18,14 @@ Install [Node.js](https://nodejs.org) and [yarn](https://yarnpkg.com).
 
    `cd eufemia && yarn install`
 
+## Managing dependencies
+
+When you add, remove, or upgrade a dependency, run `yarn dedupe` afterwards and commit the updated `yarn.lock`:
+
+`yarn dedupe`
+
+CI enforces a deduplicated lockfile (via a `yarn dedupe --check` step). A plain `yarn install` can leave duplicate — and occasionally vulnerable — transitive versions in the tree, so deduplicating keeps the dependency graph lean and the lockfile consistent across contributors.
+
 ## Use `main` and the _GitHub Flow_
 
 1. Make sure you run `git checkout main` - as **main** is the working branch
