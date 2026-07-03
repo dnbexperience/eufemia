@@ -204,6 +204,54 @@ describe('Form.useData', () => {
     })
   })
 
+  describe('update value type', () => {
+    it('types the updater callback param for typed data', () => {
+      type UIMemberProps = { name: string; age: number }
+      type Data = { members: Partial<UIMemberProps>[]; count: number }
+
+      const { result } = renderHook(() =>
+        useData<Data>(identifier, {
+          members: [{ name: 'Nora' }],
+          count: 0,
+        })
+      )
+
+      // Runtime behavior is unchanged
+      act(() => {
+        result.current.update('/count', (count) => count + 1)
+      })
+      expect(result.current.getValue('/count')).toBe(1)
+
+      // The fix: the updater's current-value param is precisely typed
+      // (it used to be `any`, because `| unknown` collapsed the union).
+      act(() => {
+        result.current.update('/members', (members) => {
+          expectTypeOf(members).toEqualTypeOf<Partial<UIMemberProps>[]>()
+          expectTypeOf(members).not.toBeAny()
+          return members
+        })
+        result.current.update('/count', (count) => {
+          expectTypeOf(count).toEqualTypeOf<number>()
+          return count
+        })
+      })
+    })
+
+    it('keeps the updater param loose (any) for untyped data', () => {
+      const { result } = renderHook(() => useData(identifier))
+
+      act(() => {
+        result.current.update('/x', (value) => {
+          expectTypeOf(value).toBeAny()
+          return value
+        })
+      })
+
+      // Runtime sanity: an unchanged updater result is a no-op
+      expect(result.current.getValue('/x')).toBeUndefined()
+    })
+  })
+
   it('should return "update" method that lets you update the data', () => {
     const props = { key: 'value' }
     const { result } = renderHook(() => useData(identifier, props))
