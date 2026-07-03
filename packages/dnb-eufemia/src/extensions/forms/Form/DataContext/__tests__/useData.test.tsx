@@ -205,7 +205,7 @@ describe('Form.useData', () => {
   })
 
   describe('update value type', () => {
-    it('types the updater callback param for typed data', () => {
+    it('types the updater callback param and direct value for typed data', () => {
       type UIMemberProps = { name: string; age: number }
       type Data = { members: Partial<UIMemberProps>[]; count: number }
 
@@ -216,11 +216,17 @@ describe('Form.useData', () => {
         })
       )
 
-      // Runtime behavior is unchanged
+      // Runtime behavior is unchanged (updater form)
       act(() => {
         result.current.update('/count', (count) => count + 1)
       })
       expect(result.current.getValue('/count')).toBe(1)
+
+      // Direct-value form also works and is type-checked
+      act(() => {
+        result.current.update('/count', 5)
+      })
+      expect(result.current.getValue('/count')).toBe(5)
 
       // The fix: the updater's current-value param is precisely typed
       // (it used to be `any`, because `| unknown` collapsed the union).
@@ -234,6 +240,15 @@ describe('Form.useData', () => {
           expectTypeOf(count).toEqualTypeOf<number>()
           return count
         })
+      })
+
+      // Wrong-typed values/returns are compile errors. The calls run (inside
+      // act) but their result is not asserted – they exist only to type-check.
+      act(() => {
+        // @ts-expect-error /count is a number, not a string
+        result.current.update('/count', 'nope')
+        // @ts-expect-error the updater for /count must return a number
+        result.current.update('/count', () => 'nope')
       })
     })
 

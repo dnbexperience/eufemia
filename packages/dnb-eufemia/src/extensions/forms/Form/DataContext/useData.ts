@@ -63,6 +63,14 @@ export type PathType<Data, P extends string> =
     ? any
     : PathValue<Data, P>
 
+/**
+ * Updates the value at `path`, accepting either the new value directly or a
+ * `setState`-style updater callback that receives the current value. The value,
+ * and the updater's argument and return, are all typed as {@link PathType} for
+ * the given path (so `any` for untyped data). Like `getValue`, the current
+ * value is typed optimistically – not `PathType<Data, P> | undefined` – for
+ * ergonomics and to stay consistent with `getValue`.
+ */
 export type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
   value:
