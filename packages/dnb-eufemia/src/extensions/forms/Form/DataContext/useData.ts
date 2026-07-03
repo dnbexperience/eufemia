@@ -44,13 +44,18 @@ type IsUnknownOrNever<T> =
  * Resolves the value type located at the JSON Pointer path `P` in `Data`,
  * reusing the shared {@link PathValue} resolver from the typed-paths support.
  *
- * When `Data` is a concrete type – e.g. passed explicitly to `useData`/`getData`
- * as a generic (or `RegisteredFormData` from the typed-paths `Register`) – this
- * yields the precise value type. It falls back to `any` when the type cannot be
- * resolved (for example the default untyped `JsonObject` data, or an explicit
- * `any`), so untyped usage stays cast-free while typed data no longer collapses
- * to `any` (which is what the previous `PathType<Data, P> | any` union always
- * did).
+ * When `Data` is a concrete type, this yields the precise value type. `Data`
+ * becomes concrete when it is passed explicitly as a generic
+ * (`useData<MyData>()` / `getData<MyData>()`) or inferred from the passed
+ * `initialData`. It falls back to `any` when the type cannot be resolved (for
+ * example the default untyped `JsonObject` data, or an explicit `any`), so
+ * untyped usage stays cast-free while typed data no longer collapses to `any`
+ * (which is what the previous `PathType<Data, P> | any` union always did).
+ *
+ * Note: `useData`/`getData` default their `Data` generic to `JsonObject`, so a
+ * globally registered form data type (via the typed-paths `Register`) is not
+ * adopted automatically here – pass `RegisteredFormData` (or your own type)
+ * explicitly to get precise `getValue` types.
  */
 export type PathType<Data, P extends string> =
   IsUnknownOrNever<PathValue<Data, P>> extends true
