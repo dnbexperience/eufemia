@@ -63,9 +63,19 @@ export type PathType<Data, P extends string> =
     ? any
     : PathValue<Data, P>
 
+/**
+ * Updates the value at `path`, accepting either the new value directly or a
+ * `setState`-style updater callback that receives the current value. The value,
+ * and the updater's argument and return, are all typed as {@link PathType} for
+ * the given path (so `any` for untyped data). Like `getValue`, the current
+ * value is typed optimistically – not `PathType<Data, P> | undefined` – for
+ * ergonomics and to stay consistent with `getValue`.
+ */
 export type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
-  value: ((value: PathType<Data, P>) => unknown) | unknown
+  value:
+    | PathType<Data, P>
+    | ((value: PathType<Data, P>) => PathType<Data, P>)
 ) => void
 
 export type UseDataReturnGetValue<Data> = <P extends Path>(
@@ -240,8 +250,11 @@ export function useDataReturn<Data = JsonObject>({
     [getDataContext, id, sharedDataRef]
   )
 
-  const update = useCallback<UseDataReturnUpdate<Data>>(
-    (path, value = undefined) => {
+  // The runtime resolver takes a plain `Path` and a loose value; cast it to the
+  // public generic signature so the value is checked against the literal path
+  // (`update` maps `P` to `PathType<Data, P>`).
+  const update = useCallback(
+    (path: Path, value: unknown = undefined) => {
       const existingData = getExistingData()
       const existingValue = pointer.has(existingData, path)
         ? pointer.get(existingData, path)
@@ -264,7 +277,7 @@ export function useDataReturn<Data = JsonObject>({
       }
     },
     [getDataContext, getExistingData, id, sharedDataRef]
-  )
+  ) as unknown as UseDataReturnUpdate<Data>
 
   const remove = useCallback<UseDataReturn<Data>['remove']>(
     (path) => {

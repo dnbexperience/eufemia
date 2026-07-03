@@ -204,6 +204,69 @@ describe('Form.useData', () => {
     })
   })
 
+  describe('update value type', () => {
+    it('types the updater callback param and direct value for typed data', () => {
+      type UIMemberProps = { name: string; age: number }
+      type Data = { members: Partial<UIMemberProps>[]; count: number }
+
+      const { result } = renderHook(() =>
+        useData<Data>(identifier, {
+          members: [{ name: 'Nora' }],
+          count: 0,
+        })
+      )
+
+      // Runtime behavior is unchanged (updater form)
+      act(() => {
+        result.current.update('/count', (count) => count + 1)
+      })
+      expect(result.current.getValue('/count')).toBe(1)
+
+      // Direct-value form also works and is type-checked
+      act(() => {
+        result.current.update('/count', 5)
+      })
+      expect(result.current.getValue('/count')).toBe(5)
+
+      // The fix: the updater's current-value param is precisely typed
+      // (it used to be `any`, because `| unknown` collapsed the union).
+      act(() => {
+        result.current.update('/members', (members) => {
+          expectTypeOf(members).toEqualTypeOf<Partial<UIMemberProps>[]>()
+          expectTypeOf(members).not.toBeAny()
+          return members
+        })
+        result.current.update('/count', (count) => {
+          expectTypeOf(count).toEqualTypeOf<number>()
+          return count
+        })
+      })
+
+      // Wrong-typed values/returns are compile errors. The calls run (inside
+      // act) but their result is not asserted – they exist only to type-check.
+      act(() => {
+        // @ts-expect-error /count is a number, not a string
+        result.current.update('/count', 'nope')
+        // @ts-expect-error the updater for /count must return a number
+        result.current.update('/count', () => 'nope')
+      })
+    })
+
+    it('keeps the updater param loose (any) for untyped data', () => {
+      const { result } = renderHook(() => useData(identifier))
+
+      act(() => {
+        result.current.update('/x', (value) => {
+          expectTypeOf(value).toBeAny()
+          return value
+        })
+      })
+
+      // Runtime sanity: an unchanged updater result is a no-op
+      expect(result.current.getValue('/x')).toBeUndefined()
+    })
+  })
+
   it('should return "update" method that lets you update the data', () => {
     const props = { key: 'value' }
     const { result } = renderHook(() => useData(identifier, props))

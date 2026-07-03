@@ -27,6 +27,25 @@ describe('setData', () => {
     expect(input).toHaveValue('bar')
   })
 
+  it('types update() value and updater callback param', () => {
+    type Data = { count: number }
+    const { update } = setData<Data>(identifier, { count: 0 })
+
+    // Runtime: direct-value and updater forms work
+    update('/count', 5)
+    expect(getData<Data>(identifier).getValue('/count')).toBe(5)
+    update('/count', (count) => {
+      // The updater's current-value param is precisely typed (was `any`)
+      expectTypeOf(count).toEqualTypeOf<number>()
+      return count + 1
+    })
+    expect(getData<Data>(identifier).getValue('/count')).toBe(6)
+
+    // Wrong-typed value is a compile error (the call runs but is not asserted).
+    // @ts-expect-error /count is a number, not a string
+    update('/count', 'nope')
+  })
+
   it('should set form data after render', () => {
     render(
       <Form.Handler id={identifier}>
