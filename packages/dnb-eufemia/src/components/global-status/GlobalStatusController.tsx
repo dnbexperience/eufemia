@@ -82,7 +82,7 @@ const globalStatusControllerDefaultProps: Partial<GlobalStatusControllerProps> =
 // This is the Update controller
 function GlobalStatusControllerComponent(
   ownProps: GlobalStatusControllerProps
-) {
+): null {
   const props = {
     ...globalStatusControllerDefaultProps,
     ...removeUndefinedProps({ ...ownProps }),
@@ -149,7 +149,7 @@ const globalStatusRemoveDefaultProps: Partial<GlobalStatusRemovePropsLocal> =
 
 function GlobalStatusRemoveComponent(
   ownProps: GlobalStatusRemovePropsLocal
-) {
+): null {
   const props = {
     ...globalStatusRemoveDefaultProps,
     ...removeUndefinedProps({ ...ownProps }),

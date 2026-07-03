@@ -23,7 +23,7 @@ export class AccordionStore {
   addInstance(instance: AccordionStoreInstance) {
     this._instances.push(instance)
   }
-  removeInstance(instance) {
+  removeInstance(instance: AccordionStoreInstance) {
     this._instances = this._instances.filter((inst) => inst !== instance)
   }
 }
