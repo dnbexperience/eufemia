@@ -52,11 +52,16 @@ type IsUnknownOrNever<T> =
  * untyped usage stays cast-free while typed data no longer collapses to `any`
  * (which is what the previous `PathType<Data, P> | any` union always did).
  *
+ * The value is typed optimistically from the declared `Data` shape: `undefined`
+ * appears only where a field is declared optional, not for required fields that
+ * may be unset at runtime. This keeps `getValue` and `update` consistent with
+ * `data`, `onChange` and `onSubmit`, which are all typed as the complete `Data`.
+ *
  * Note: a globally registered form data type (via the typed-paths `Register`)
  * is not adopted automatically here – `useData` defaults its `Data` generic to
  * `JsonObject`, and `getData` leaves it unresolved when omitted. Pass
  * `RegisteredFormData` (or your own type) explicitly – or, for `useData`, let
- * it infer from `initialData` – to get precise `getValue` types.
+ * it infer from `initialData` – to get precise value types.
  */
 export type PathType<Data, P extends string> =
   IsUnknownOrNever<PathValue<Data, P>> extends true
@@ -67,9 +72,7 @@ export type PathType<Data, P extends string> =
  * Updates the value at `path`, accepting either the new value directly or a
  * `setState`-style updater callback that receives the current value. The value,
  * and the updater's argument and return, are all typed as {@link PathType} for
- * the given path (so `any` for untyped data). Like `getValue`, the current
- * value is typed optimistically – not `PathType<Data, P> | undefined` – for
- * ergonomics and to stay consistent with `getValue`.
+ * the given path.
  */
 export type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
@@ -78,6 +81,9 @@ export type UseDataReturnUpdate<Data> = <P extends Path>(
     | ((value: PathType<Data, P>) => PathType<Data, P>)
 ) => void
 
+/**
+ * Reads the value at `path`, typed as {@link PathType} for the given path.
+ */
 export type UseDataReturnGetValue<Data> = <P extends Path>(
   path: P
 ) => PathType<Data, P>
