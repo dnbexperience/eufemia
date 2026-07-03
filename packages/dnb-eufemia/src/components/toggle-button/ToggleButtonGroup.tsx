@@ -25,6 +25,7 @@ import Space from '../Space'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 const toggleButtonGroupDefaultProps: Partial<ToggleButtonGroupProps> = {
@@ -379,7 +380,7 @@ export type ToggleButtonGroupProps = Omit<
      * Use either the `label` property or provide a custom one.
      */
     label?: string | ReactNode
-    labelDirection?: 'horizontal' | 'vertical'
+    labelDirection?: FormElementProps['labelDirection']
     labelSrOnly?: boolean
     /**
      * The `title` of group, describing it a bit further for accessibility reasons.

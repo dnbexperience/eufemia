@@ -138,7 +138,6 @@ function SelectCountry(props: FieldSelectCountryProps) {
     setDisplayValue,
     forceUpdate,
     filterCountries,
-    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const dataRef = useRef<ReturnType<typeof getCountryData>>(null)

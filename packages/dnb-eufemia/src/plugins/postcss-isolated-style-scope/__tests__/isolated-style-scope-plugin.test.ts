@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 /* eslint-disable vitest/expect-expect */
 
 import postcss from 'postcss'

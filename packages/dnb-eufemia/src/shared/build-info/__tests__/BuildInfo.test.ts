@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import * as BuildInfo from '../BuildInfo'
 
 describe('BuildInfo', () => {

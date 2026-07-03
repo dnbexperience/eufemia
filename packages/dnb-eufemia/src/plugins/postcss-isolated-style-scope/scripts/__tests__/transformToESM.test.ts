@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { sync } from 'globby'
 import fs from 'fs-extra'
 import { transform } from 'lebab'

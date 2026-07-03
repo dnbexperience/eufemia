@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import * as BuildInfoJs from '../plugin-scope-hash.js'
 import * as BuildInfoCjs from '../plugin-scope-hash.cjs'
 import * as BuildInfoModule from '../../../shared/build-info/BuildInfo'

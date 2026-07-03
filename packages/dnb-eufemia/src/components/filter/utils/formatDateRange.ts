@@ -19,8 +19,13 @@ export default function formatDateRange(
     )
   }
 
-  return formatDate(from || to, {
-    locale,
-    options: { dateStyle: 'long' },
-  })
+  const single = from || to
+  if (single) {
+    return formatDate(single, {
+      locale,
+      options: { dateStyle: 'long' },
+    })
+  }
+
+  return undefined
 }

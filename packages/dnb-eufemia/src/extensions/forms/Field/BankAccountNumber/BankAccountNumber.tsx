@@ -174,14 +174,12 @@ function BankAccountNumber(props: FieldBankAccountNumberProps) {
     allowOverflow: true,
     value,
     defaultValue,
-    // @ts-expect-error - strictFunctionTypes
     fromInput,
     onChange: handleChange,
     onBlur: handleBlur,
     width: width ?? getWidth(bankAccountType),
     inputMode: getInputMode(bankAccountType),
     onChangeValidator: validate ? onChangeValidator : undefined,
-    // @ts-expect-error - strictFunctionTypes
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: { bankAccountNumberValidator },
   }

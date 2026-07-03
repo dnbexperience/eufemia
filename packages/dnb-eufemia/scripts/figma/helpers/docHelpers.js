@@ -6,12 +6,12 @@
 import fs from 'fs-extra'
 import https from 'https'
 import path from 'path'
-import { Client } from 'figma-js'
 import traverse from 'traverse'
 import { isDeepStrictEqual } from 'node:util'
 import { ErrorHandler, ERROR_HARMLESS } from '../../lib/error'
 import { log } from '../../lib'
 import crypto from 'crypto'
+import { createFigmaClient } from './figmaClient'
 
 /**
  * Convert an [r, g, b] array (0–255) to a hex color string.
@@ -36,7 +36,7 @@ try {
   // .env is optional — CI provides env vars directly
 }
 
-const Figma = Client({
+const Figma = createFigmaClient({
   personalAccessToken: process.env.FIGMA_TOKEN,
 })
 

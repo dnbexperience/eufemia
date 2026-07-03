@@ -105,7 +105,7 @@ export type TableAllProps = TableProps &
     ref?: Ref<HTMLElement>
   }
 
-const defaultProps: Partial<TableAllProps> = {
+const tableDefaultProps: Partial<TableAllProps> = {
   size: 'large',
   variant: 'generic',
 }
@@ -115,7 +115,7 @@ const Table = (componentProps: TableAllProps) => {
 
   const allProps = extendPropsWithContext(
     componentProps,
-    defaultProps,
+    tableDefaultProps,
     context?.Table,
     {
       skeleton: context?.skeleton,

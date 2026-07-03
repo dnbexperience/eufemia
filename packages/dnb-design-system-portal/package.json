@@ -23,7 +23,7 @@
     "build:version": "node ./scripts/version.js --new-version",
     "build:visual-test": "IS_VISUAL_TEST=1 node vite/prod/prerender.mjs",
     "clean": "rm -rf ./public",
-    "lint": "eslint --quiet --cache .",
+    "lint": "eslint --quiet --cache --cache-strategy content .",
     "lint:ci": "NODE_ENV=test yarn lint:js && yarn lint:styles && yarn prettier:check && yarn prettier:package",
     "lint:js": "yarn lint",
     "lint:styles": "stylelint './src/**/*.scss'",
@@ -47,7 +47,7 @@
     "test:screenshots:ci": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci'",
     "test:screenshots:ci:conditional": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci:conditional'",
     "test:screenshots:ci:update": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci:update'",
-    "test:types": "tsc --noEmit",
+    "test:types": "tsc --noEmit --incremental --tsBuildInfoFile tsconfig.tsbuildinfo",
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --update=true",
     "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --watch"
@@ -64,7 +64,7 @@
     "react-dom": "19.2.5"
   },
   "devDependencies": {
-    "@babel/core": "7.28.5",
+    "@babel/core": "7.29.7",
     "@dnb/browserslist-config": "1.4.1",
     "@mdx-js/rollup": "3.1.1",
     "@playwright/test": "1.60.0",
@@ -100,15 +100,15 @@
     "remark-gfm-react-markdown": "npm:remark-gfm@4.0.1",
     "repo-utils": "workspace:*",
     "sass": "1.97.2",
-    "start-server-and-test": "2.0.1",
-    "stylelint": "15.9.0",
-    "stylelint-config-recommended": "12.0.0",
-    "stylelint-config-standard-scss": "9.0.0",
+    "start-server-and-test": "3.0.11",
+    "stylelint": "16.26.1",
+    "stylelint-config-recommended": "15.0.0",
+    "stylelint-config-standard-scss": "15.0.1",
     "typescript": "5.9.3",
     "unist-util-visit": "5.1.0",
     "vite": "8.0.16",
     "vitest": "4.1.8",
-    "wrangler": "4.66.0"
+    "wrangler": "4.102.0"
   },
   "buildVersion": "[LOCAL BUILD]",
   "changelogVersion": "[LOCAL BUILD]",

@@ -40,7 +40,6 @@ function NumberValue(props: ValueNumberProps) {
     itemPath,
     inheritLabel,
     ...rest
-    // @ts-expect-error - strictFunctionTypes
   } = useValueProps(props)
   const { percent, ...numberFormatRest } = omitSpacingProps(
     rest

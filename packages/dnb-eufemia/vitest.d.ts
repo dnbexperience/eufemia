@@ -11,7 +11,10 @@ declare namespace matchers {
 declare module 'vitest' {
   interface Matchers<T> {
     toHaveNoViolations(): T;
-    toNeverResolve(): Promise<T>;
+    toNeverResolve(options?: {
+      timeout?: number;
+      interval?: number;
+    }): Promise<T>;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -19,6 +22,9 @@ declare module 'vitest' {
 
   interface AsymmetricMatchersContaining {
     toHaveNoViolations(): void;
-    toNeverResolve(): void;
+    toNeverResolve(options?: {
+      timeout?: number;
+      interval?: number;
+    }): void;
   }
 }

@@ -27,7 +27,7 @@ export default function UploadDropzone({
   const props = rest as Omit<UploadProps, 'title' | 'onChange' | 'id'>
   const context = useContext(UploadContext)
   const [hover, setHover] = useState(false)
-  const hoverTimeout = useRef<NodeJS.Timer>(undefined)
+  const hoverTimeout = useRef<NodeJS.Timeout>(undefined)
 
   const { onInputUpload, id } = context
 

@@ -84,7 +84,7 @@ export type AnchorAllProps = AnchorProps &
   Omit<HTMLProps<HTMLAnchorElement>, 'ref'> &
   SpacingProps
 
-const defaultProps: AnchorProps = {
+const anchorDefaultProps: AnchorProps = {
   noAnimation: false,
   noStyle: false,
   noHover: false,
@@ -94,11 +94,11 @@ const defaultProps: AnchorProps = {
   disabled: false,
 }
 
-export function AnchorInstance(localProps: AnchorAllProps) {
+export function AnchorComponent(localProps: AnchorAllProps) {
   const context = useContext(Context)
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    anchorDefaultProps,
     { skeleton: context?.skeleton },
     context?.getTranslation(localProps as AnchorAllProps).Anchor,
     context?.Anchor
@@ -264,7 +264,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 }
 
 function Anchor(props: AnchorAllProps) {
-  return <AnchorInstance {...props} />
+  return <AnchorComponent {...props} />
 }
 
 withComponentMarkers(Anchor, {

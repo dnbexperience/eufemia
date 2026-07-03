@@ -66,7 +66,7 @@ export type LogoProps = {
 } & SpacingProps &
   Omit<HTMLProps<HTMLElement>, 'ref' | 'size'>
 
-const defaultProps: Partial<LogoProps> = {
+const logoDefaultProps: Partial<LogoProps> = {
   inheritSize: false,
 }
 
@@ -75,7 +75,7 @@ function Logo(localProps: LogoProps) {
 
   const props = extendPropsWithContext(
     localProps,
-    defaultProps,
+    logoDefaultProps,
     context.Logo
   )
 

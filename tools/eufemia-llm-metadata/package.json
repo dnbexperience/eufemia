@@ -9,7 +9,7 @@
   "license": "SEE LICENSE IN LICENSE FILE",
   "scripts": {
     "test": "vitest run",
-    "test:types": "../../node_modules/.bin/tsc --noEmit",
+    "test:types": "../../node_modules/.bin/tsc --noEmit --incremental --tsBuildInfoFile tsconfig.tsbuildinfo",
     "lint": "node ../../node_modules/.bin/eslint **/*.ts",
     "generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types scripts/run-llm-metadata.ts"
   },
@@ -18,13 +18,13 @@
     "markdown-tables-utils": "workspace:*"
   },
   "devDependencies": {
-    "@babel/core": "7.28.5",
-    "@babel/generator": "7.28.5",
-    "@babel/parser": "7.28.5",
+    "@babel/core": "7.29.7",
+    "@babel/generator": "7.29.7",
+    "@babel/parser": "7.29.7",
     "@babel/plugin-transform-modules-commonjs": "7.27.1",
-    "@babel/plugin-transform-typescript": "7.28.5",
-    "@babel/traverse": "7.28.5",
-    "@babel/types": "7.28.5",
+    "@babel/plugin-transform-typescript": "7.29.7",
+    "@babel/traverse": "7.29.7",
+    "@babel/types": "7.29.7",
     "front-matter": "4.0.2",
     "fs-extra": "10.0.0",
     "prettier": "3.8.1",

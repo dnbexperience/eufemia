@@ -18,6 +18,7 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
+import type { PathValue } from '../../typed-paths'
 import type {
   ContextState,
   FilterData,
@@ -28,26 +29,64 @@ import type { DataContextRef } from '../../DataContext/DataContextRefContext'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
-type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
-  ? Key extends keyof T
-    ? Rest extends ''
-      ? T[Key]
-      : PathImpl<T[Key], Rest>
-    : never
-  : T[P & keyof T]
+type IsAny<T> = 0 extends 1 & T ? true : false
 
-export type PathType<T, P extends string> = P extends `/${infer Rest}`
-  ? PathImpl<T, Rest>
-  : never
+type IsUnknownOrNever<T> =
+  IsAny<T> extends true
+    ? false
+    : [T] extends [never]
+      ? true
+      : unknown extends T
+        ? true
+        : false
 
+/**
+ * Resolves the value type located at the JSON Pointer path `P` in `Data`,
+ * reusing the shared {@link PathValue} resolver from the typed-paths support.
+ *
+ * When `Data` is a concrete type, this yields the precise value type. `Data`
+ * becomes concrete when it is passed explicitly as a generic
+ * (`useData<MyData>()` / `getData<MyData>()`) or inferred from the passed
+ * `initialData`. It falls back to `any` when the type cannot be resolved (for
+ * example the default untyped `JsonObject` data, or an explicit `any`), so
+ * untyped usage stays cast-free while typed data no longer collapses to `any`
+ * (which is what the previous `PathType<Data, P> | any` union always did).
+ *
+ * The value is typed optimistically from the declared `Data` shape: `undefined`
+ * appears only where a field is declared optional, not for required fields that
+ * may be unset at runtime. This keeps `getValue` and `update` consistent with
+ * `data`, `onChange` and `onSubmit`, which are all typed as the complete `Data`.
+ *
+ * Note: a globally registered form data type (via the typed-paths `Register`)
+ * is not adopted automatically here – `useData` defaults its `Data` generic to
+ * `JsonObject`, and `getData` leaves it unresolved when omitted. Pass
+ * `RegisteredFormData` (or your own type) explicitly – or, for `useData`, let
+ * it infer from `initialData` – to get precise value types.
+ */
+export type PathType<Data, P extends string> =
+  IsUnknownOrNever<PathValue<Data, P>> extends true
+    ? any
+    : PathValue<Data, P>
+
+/**
+ * Updates the value at `path`, accepting either the new value directly or a
+ * `setState`-style updater callback that receives the current value. The value,
+ * and the updater's argument and return, are all typed as {@link PathType} for
+ * the given path.
+ */
 export type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
-  value: ((value: PathType<Data, P>) => unknown) | unknown
+  value:
+    | PathType<Data, P>
+    | ((value: PathType<Data, P>) => PathType<Data, P>)
 ) => void
 
+/**
+ * Reads the value at `path`, typed as {@link PathType} for the given path.
+ */
 export type UseDataReturnGetValue<Data> = <P extends Path>(
   path: P
-) => PathType<Data, P> | any
+) => PathType<Data, P>
 
 export type UseDataReturnFilterData<Data> = (
   filterDataHandler: FilterData,
@@ -217,8 +256,11 @@ export function useDataReturn<Data = JsonObject>({
     [getDataContext, id, sharedDataRef]
   )
 
-  const update = useCallback<UseDataReturnUpdate<Data>>(
-    (path, value = undefined) => {
+  // The runtime resolver takes a plain `Path` and a loose value; cast it to the
+  // public generic signature so the value is checked against the literal path
+  // (`update` maps `P` to `PathType<Data, P>`).
+  const update = useCallback(
+    (path: Path, value: unknown = undefined) => {
       const existingData = getExistingData()
       const existingValue = pointer.has(existingData, path)
         ? pointer.get(existingData, path)
@@ -241,7 +283,7 @@ export function useDataReturn<Data = JsonObject>({
       }
     },
     [getDataContext, getExistingData, id, sharedDataRef]
-  )
+  ) as unknown as UseDataReturnUpdate<Data>
 
   const remove = useCallback<UseDataReturn<Data>['remove']>(
     (path) => {
@@ -298,8 +340,11 @@ export function useDataReturn<Data = JsonObject>({
     ]
   )
 
-  const getValue = useCallback<UseDataReturn<Data>['getValue']>(
-    (path) => {
+  // The runtime resolver takes a plain `Path`; cast it to the public generic
+  // signature so callers get the value type resolved from the literal path
+  // (`getValue` maps `P` to `PathType<Data, P>`).
+  const getValue = useCallback(
+    (path: Path) => {
       const dataContext = getDataContext()
 
       if (!id && dataContext?.getDataValue) {
@@ -314,7 +359,7 @@ export function useDataReturn<Data = JsonObject>({
       return undefined
     },
     [getCurrentData, getDataContext, id]
-  )
+  ) as unknown as UseDataReturn<Data>['getValue']
 
   useMountEffect(() => {
     if (id && !sharedDataRef.current?.hadInitialData && initialData) {

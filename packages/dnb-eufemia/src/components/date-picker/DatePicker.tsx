@@ -52,6 +52,7 @@ import type { SpacingProps } from '../../shared/types'
 import type { InputElement, InputSize } from '../Input'
 import type { SkeletonShow } from '../Skeleton'
 import type { ButtonProps } from '../Button'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import type {
   DatePickerCalendarDay,
@@ -222,7 +223,7 @@ export type DatePickerProps = {
   /**
    *  Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
-  labelDirection?: 'vertical' | 'horizontal'
+  labelDirection?: FormElementProps['labelDirection']
   /**
    * Use `true` to make the label only readable by screen readers.
    */
@@ -364,7 +365,7 @@ export type DatePickerAllProps = DatePickerProps &
     | 'start'
   >
 
-const defaultProps: Partial<DatePickerAllProps> = {
+const datePickerDefaultProps: Partial<DatePickerAllProps> = {
   hideNavigation: false,
   hideDays: false,
   onlyMonth: false,
@@ -387,7 +388,7 @@ const defaultProps: Partial<DatePickerAllProps> = {
 }
 
 function DatePicker(externalProps: DatePickerAllProps) {
-  const props = { ...defaultProps, ...externalProps }
+  const props = { ...datePickerDefaultProps, ...externalProps }
 
   const {
     preventClose,
@@ -562,7 +563,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   // use only the props from context, who are available here anyway
   const extendedProps = extendPropsWithContext(
     props,
-    defaultProps,
+    datePickerDefaultProps,
     { skeleton: context?.skeleton },
     context.getTranslation(props).DatePicker,
     pickFormElementProps(context?.formElement),
@@ -807,7 +808,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   _omitInputShellClass={_omitInputShellClass}
                   {...attributes}
                   submitProps={remainingSubmitProps}
-                  // @ts-expect-error - strictFunctionTypes
+                  // @ts-expect-error statusProps (FormStatusProps) spreads a DOM `onSubmit` (SubmitEvent) that conflicts with the button `onSubmit` (MouseEvent)
                   onSubmit={togglePicker}
                   triggerProps={triggerProps}
                   {...statusProps}

@@ -65,10 +65,7 @@ import FormStatus from '../form-status/FormStatus'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Icon from '../icon/Icon'
 import { chevron_down, chevron_up } from '../../icons'
-import Input, {
-  SubmitButton,
-  type InputSubmitButtonProps,
-} from '../input/Input'
+import Input, { SubmitButton } from '../input/Input'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
@@ -116,7 +113,7 @@ export type AutocompleteOptionsRender = DrawerListOptionsRender
 export type AutocompleteEventMethods = {
   attributes: Record<string, unknown>
   dataList: DrawerListData
-  updateData: (data: DrawerListData) => void
+  updateData(data: DrawerListData): void
   revalidateSelectedItem: () => void
   revalidateInputValue: () => void
   resetSelectedItem: () => void
@@ -483,7 +480,7 @@ function Autocomplete(props: AutocompleteAllProps) {
 
   return (
     <DrawerListProvider {...providerProps}>
-      <AutocompleteInstance {...props} id={_id} />
+      <AutocompleteComponent {...props} id={_id} />
     </DrawerListProvider>
   )
 }
@@ -530,13 +527,12 @@ function getCurrentDataTitle(
   })
 }
 
-function AutocompleteInstance(ownProps: AutocompleteAllProps) {
-  const context = useContext<
-    DrawerListContextValue & {
-      Autocomplete: Record<string, unknown>
-    }
-    // @ts-expect-error - strictFunctionTypes
-  >(DrawerListContext)
+function AutocompleteComponent(ownProps: AutocompleteAllProps) {
+  const context = useContext(
+    DrawerListContext
+  ) as DrawerListContextValue & {
+    Autocomplete: Record<string, unknown>
+  }
   const drawerList = context.drawerList
 
   // Filter out undefined values so that explicit undefined (e.g. size={undefined})
@@ -1743,7 +1739,6 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
       >
     >(null)
   eventMethodsRef.current = {
-    // @ts-expect-error - strictFunctionTypes
     updateData,
     revalidateSelectedItem,
     revalidateInputValue,
@@ -2423,7 +2418,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
     disabled,
     status: status ? statusState : null,
     onKeyDown: onTriggerKeyDownHandler,
-    onSubmit: toggleVisible as any as InputSubmitButtonProps['onSubmit'],
+    onSubmit: () => toggleVisible(),
     onMouseDown: reserveActivityHandler,
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,

@@ -80,7 +80,7 @@ export type BadgeAllProps = BadgeProps &
 
 type BadgeElemProps = BadgeAllProps & { context: ContextProps }
 
-export const defaultProps: BadgeAllProps = {
+export const badgeDefaultProps: BadgeAllProps = {
   skeleton: false,
   variant: 'information',
   status: 'default',
@@ -95,7 +95,7 @@ function Badge(localProps: BadgeAllProps) {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    badgeDefaultProps,
     context?.Badge,
     { skeleton: context?.skeleton }
   )
@@ -139,8 +139,8 @@ function propGuard(
     if (props.variant !== 'information') {
       return fn({
         ...props,
-        subtle: defaultProps.subtle,
-        status: defaultProps.status,
+        subtle: badgeDefaultProps.subtle,
+        status: badgeDefaultProps.status,
       })
     }
     return fn(props)

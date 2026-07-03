@@ -115,7 +115,7 @@ export type SwitchProps = {
   > &
   SpacingProps
 
-const defaultProps: Partial<SwitchProps> = {
+const switchDefaultProps: Partial<SwitchProps> = {
   statusState: 'error',
 }
 
@@ -382,7 +382,7 @@ function Switch(props: SwitchProps) {
   function extractPropsFromContext() {
     return extendPropsWithContext(
       props,
-      defaultProps,
+      switchDefaultProps,
       { skeleton: context?.skeleton },
       pickFormElementProps(context?.formElement),
       context.Switch

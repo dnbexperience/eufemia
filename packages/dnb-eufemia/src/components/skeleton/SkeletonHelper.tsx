@@ -50,7 +50,7 @@ export const createSkeletonClass = (
   method: SkeletonMethods,
   skeleton: SkeletonShow,
   context?: SkeletonContextValue,
-  className = null
+  className: string = null
 ) => {
   if (skeleton || (skeleton !== false && context?.skeleton)) {
     return clsx(

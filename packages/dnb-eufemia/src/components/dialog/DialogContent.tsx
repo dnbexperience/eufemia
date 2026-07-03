@@ -4,7 +4,7 @@
  */
 
 import { useContext } from 'react'
-import type { JSX } from 'react'
+import type { JSX, ReactElement } from 'react'
 import { clsx } from 'clsx'
 import {
   findElementInChildren,
@@ -92,17 +92,19 @@ export default function DialogContent({
 
   const navExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogNavigation || cur.type === ModalHeaderBar
+    (cur: ReactElement) =>
+      cur.type === DialogNavigation || cur.type === ModalHeaderBar
   )
 
   const headerExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogHeader || cur.type === ModalHeader
+    (cur: ReactElement) =>
+      cur.type === DialogHeader || cur.type === ModalHeader
   )
 
   const actionExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogAction
+    (cur: ReactElement) => cur.type === DialogAction
   )
 
   const dialogActionProps = {

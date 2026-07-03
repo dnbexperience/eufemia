@@ -65,9 +65,9 @@ export type SpaceProps = {
 export type SpaceAllProps = SpaceProps &
   Omit<HTMLProps<HTMLElement>, 'ref'>
 
-const defaultProps: Partial<SpaceAllProps> = {}
+const spaceDefaultProps: Partial<SpaceAllProps> = {}
 
-function SpaceInstance(localProps: SpaceAllProps) {
+function SpaceComponent(localProps: SpaceAllProps) {
   const context = useContext<ContextProps & SpacingProps>(Context)
 
   // consume the space context
@@ -75,7 +75,7 @@ function SpaceInstance(localProps: SpaceAllProps) {
     ? // use only the props from context, who are available here anyway
       extendPropsWithContext(
         localProps,
-        defaultProps,
+        spaceDefaultProps,
         { space: context.space },
         { skeleton: context?.skeleton }
       )
@@ -134,7 +134,7 @@ function SpaceInstance(localProps: SpaceAllProps) {
 }
 
 function Space(props: SpaceAllProps) {
-  return <SpaceInstance {...props} />
+  return <SpaceComponent {...props} />
 }
 
 Space.ResponsiveContext = SpaceResponsive

@@ -42,7 +42,7 @@ export type TagGroupProps = {
   skeleton?: SkeletonShow
 }
 
-const defaultProps: Partial<TagGroupProps> = {
+const tagGroupDefaultProps: Partial<TagGroupProps> = {
   skeleton: false,
 }
 
@@ -59,9 +59,14 @@ const TagGroup = (
     className,
     children: childrenProp,
     ...props
-  } = extendPropsWithContext(localProps, defaultProps, context?.TagGroup, {
-    skeleton: context?.skeleton,
-  })
+  } = extendPropsWithContext(
+    localProps,
+    tagGroupDefaultProps,
+    context?.TagGroup,
+    {
+      skeleton: context?.skeleton,
+    }
+  )
 
   let children = childrenProp
 

@@ -47,6 +47,28 @@ describe('InputModeNumber', () => {
       })
     })
 
+    it('should not assign an undefined type when reset runs before a focus', () => {
+      const inputElement = document.createElement('input')
+      document.body.appendChild(inputElement)
+
+      const assignedTypes: Array<unknown> = []
+      Object.defineProperty(inputElement, 'type', {
+        configurable: true,
+        get: () => 'text',
+        set: (value) => {
+          assignedTypes.push(value)
+        },
+      })
+
+      instance = new InputModeNumber()
+      instance.setElement(inputElement)
+
+      // reset runs on unmount before any focus captured the original type,
+      // so _type is still undefined and must not be assigned back
+      expect(() => instance.reset()).not.toThrow()
+      expect(assignedTypes).not.toContain(undefined)
+    })
+
     it('should not set inputmode on iOS', () => {
       render(<MockComponent />)
 

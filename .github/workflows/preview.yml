@@ -35,14 +35,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-          cache: yarn
-
-      - name: Install dependencies
-        run: yarn install --immutable
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Build
         run: yarn workspace dnb-design-system-portal build

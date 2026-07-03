@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { Ajv, makeAjvInstance, enhanceAjvInstance } from '../ajv'
 
 describe('makeAjvInstance', () => {

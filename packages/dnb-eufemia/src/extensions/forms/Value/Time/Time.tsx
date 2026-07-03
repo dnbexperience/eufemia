@@ -54,7 +54,6 @@ function TimeComponent(props: ValueTimeProps) {
   const stringProps: ValueTimeProps = {
     ...props,
     label: props.label ?? translations.label,
-    // @ts-expect-error - strictFunctionTypes
     toInput,
   }
 

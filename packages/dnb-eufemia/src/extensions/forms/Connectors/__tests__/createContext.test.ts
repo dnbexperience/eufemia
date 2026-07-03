@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import type { PathStrict } from '../..'
 import { Connectors } from '../..'
 import type { GeneralConfig, HandlerConfig } from '../createContext'

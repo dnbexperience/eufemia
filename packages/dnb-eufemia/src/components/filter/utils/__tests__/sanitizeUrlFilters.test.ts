@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { sanitizeUrlFilters } from '../sanitizeUrlFilters'
 
 describe('sanitizeUrlFilters', () => {

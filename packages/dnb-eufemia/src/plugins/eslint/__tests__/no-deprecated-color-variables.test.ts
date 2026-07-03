@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { RuleTester } from 'eslint'
 import eslintPlugin from '../../eslint.js'
 

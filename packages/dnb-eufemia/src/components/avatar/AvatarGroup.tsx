@@ -74,7 +74,7 @@ export type AvatarGroupProps = {
 
 export type AvatarGroupAllProps = AvatarGroupProps & SpacingProps
 
-const defaultProps: Partial<AvatarGroupAllProps> = {
+const avatarGroupDefaultProps: Partial<AvatarGroupAllProps> = {
   maxElements: 4,
   size: 'medium',
   variant: 'primary',
@@ -103,7 +103,7 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
     ...props
   } = extendPropsWithContext(
     localProps,
-    defaultProps,
+    avatarGroupDefaultProps,
     context?.AvatarGroup,
     {
       skeleton: context?.skeleton,

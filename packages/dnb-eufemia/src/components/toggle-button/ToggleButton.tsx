@@ -30,6 +30,7 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { useSpacing } from '../space/SpacingUtils'
 
@@ -512,7 +513,7 @@ export type ToggleButtonProps = Omit<
      * Use either the `label` property or provide a custom one.
      */
     label?: string | ReactNode
-    labelDirection?: 'horizontal' | 'vertical'
+    labelDirection?: FormElementProps['labelDirection']
     labelSrOnly?: boolean
     /**
      * The `title` of the input - describing it a bit further for accessibility reasons.

@@ -1,0 +1,52 @@
+name: Setup dependencies
+description: >-
+  Set up Node.js and restore dependencies. Caches the full node_modules tree so
+  that "yarn install" is skipped on an exact cache hit, and caches the yarn
+  download cache as a fallback so a cache miss installs from disk instead of
+  re-downloading from the network.
+
+inputs:
+  cache-version:
+    description: Cache key prefix. Pass secrets.CACHE_VERSION.
+    required: false
+    default: ''
+  registry-url:
+    description: Optional npm registry URL to configure (needed for publishing).
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Use Node.js
+      uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      with:
+        node-version-file: 'package.json'
+        registry-url: ${{ inputs.registry-url }}
+
+    - name: Use node_modules cache
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+      id: modules-cache
+      with:
+        path: |
+          node_modules
+          packages/*/node_modules
+          tools/*/node_modules
+        key: ${{ inputs.cache-version }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: ${{ inputs.cache-version }}-${{ runner.os }}-modules-
+
+    # Fallback download cache: only needed when node_modules missed and we are
+    # about to install, so a yarn.lock change installs from disk rather than
+    # re-downloading every package from the network.
+    - name: Use yarn download cache
+      if: steps.modules-cache.outputs.cache-hit != 'true'
+      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+      with:
+        path: .yarn/cache
+        key: ${{ inputs.cache-version }}-${{ runner.os }}-yarncache-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: ${{ inputs.cache-version }}-${{ runner.os }}-yarncache-
+
+    - name: Install dependencies
+      if: steps.modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: yarn install --immutable

@@ -12,7 +12,7 @@ import type { ButtonProps } from '../button/Button'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-const defaultProps: Partial<HelpButtonProps> = {
+const helpButtonDefaultProps: Partial<HelpButtonProps> = {
   variant: 'secondary',
   iconPosition: 'left',
 }
@@ -23,7 +23,7 @@ export type HelpButtonProps = {
 
 export default function HelpButton(localProps: HelpButtonProps) {
   const context = useContext(Context)
-  const props = extendPropsWithContext(localProps, defaultProps)
+  const props = extendPropsWithContext(localProps, helpButtonDefaultProps)
 
   const { children, render, ...params } = props
 

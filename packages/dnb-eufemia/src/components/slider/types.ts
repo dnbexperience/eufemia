@@ -1,6 +1,7 @@
 import type { ElementType, HTMLProps, ReactNode, RefObject } from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
+import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import type { NumberFormatOptionParams } from '../number-format/NumberUtils'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
@@ -31,7 +32,7 @@ export type SliderProps = {
   /**
    * Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.
    */
-  labelDirection?: 'vertical' | 'horizontal'
+  labelDirection?: FormElementProps['labelDirection']
 
   /**
    * Use `true` to make the label only readable by screen readers.

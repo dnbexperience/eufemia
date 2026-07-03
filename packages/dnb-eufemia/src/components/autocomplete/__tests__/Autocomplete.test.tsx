@@ -992,7 +992,6 @@ describe('Autocomplete component', () => {
     act(() => {
       keyDownOnInput('ArrowUp')
     })
-    await wait(10)
 
     await waitFor(
       () => {
@@ -2309,7 +2308,7 @@ describe('Autocomplete component', () => {
     expect(input.value).toBe('Kontonummer: 123456789')
   })
 
-  it('should update input value when data prop goes from emtpy to unempty and value is given', async () => {
+  it('should update input value when data prop goes from empty to unempty and value is given', async () => {
     const { rerender } = render(<Autocomplete {...mockProps} data={[]} />)
 
     const input = document.querySelector('.dnb-input__input')

@@ -66,7 +66,7 @@ export type TimelineItemProps = {
 export type TimelineItemAllProps = TimelineItemProps &
   Omit<AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
 
-const defaultProps: Partial<TimelineItemAllProps> = {
+const timelineItemDefaultProps: Partial<TimelineItemAllProps> = {
   skeleton: false,
 }
 
@@ -78,7 +78,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    timelineItemDefaultProps,
     context?.TimelineItem,
     { skeleton: context?.skeleton },
     timelineContext

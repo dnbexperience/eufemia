@@ -21,10 +21,10 @@ export type FormElementProps = Omit<
   }
 
 export default function FormElement(props: FormElementProps) {
-  return <FormElementInstance {...props} />
+  return <FormElementComponent {...props} />
 }
 
-function FormElementInstance(props: FormElementProps) {
+function FormElementComponent(props: FormElementProps) {
   const id = useId()
   const dataContext = useContext(DataContext)
   const { submitState, restHandlerProps } = dataContext || {}
@@ -35,6 +35,7 @@ function FormElementInstance(props: FormElementProps) {
   const {
     children,
     className,
+    id: idProp,
     onSubmit,
     preventDefaultOnSubmit = true,
     ...restProps
@@ -89,6 +90,9 @@ function FormElementInstance(props: FormElementProps) {
       element="form"
       className={clsx('dnb-forms-form', className)}
       onSubmit={onSubmitHandler}
+      // The id can be a non-string value (e.g. a function reference used as a shared-state id).
+      // Only forward a string to the DOM, to avoid React's "Invalid value for prop `id`" warning.
+      id={typeof idProp === 'string' ? idProp : undefined}
       aria-labelledby={
         combineLabelledBy(
           restProps,

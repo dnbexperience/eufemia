@@ -45,7 +45,7 @@ export type TimelineAllProps = TimelineProps &
     ref?: Ref<HTMLOListElement>
   }
 
-const defaultProps: Partial<TimelineAllProps> = {
+const timelineDefaultProps: Partial<TimelineAllProps> = {
   skeleton: false,
 }
 
@@ -56,7 +56,7 @@ const Timeline = (localProps: TimelineAllProps) => {
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
     localProps,
-    defaultProps,
+    timelineDefaultProps,
     context?.Timeline,
     {
       skeleton: context?.skeleton,

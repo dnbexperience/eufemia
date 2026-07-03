@@ -2045,8 +2045,6 @@ describe('useFieldProps', () => {
       expect(result.current.fieldState).toBe('pending')
       expect(events).toEqual(['onChangeValidator', 'onBlurValidator'])
 
-      await wait(100)
-
       await waitFor(() => {
         expect(result.current.fieldState).toBe('success')
         expect(events).toEqual([

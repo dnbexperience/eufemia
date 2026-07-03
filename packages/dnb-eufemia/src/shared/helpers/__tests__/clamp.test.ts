@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { clamp } from '../clamp'
 
 describe('clamp', () => {

@@ -132,6 +132,33 @@ describe('getData', () => {
     expect(getData(identifier).getValue('/does-not-exist')).toBeUndefined()
   })
 
+  it('infers precise getValue return types from the data generic', () => {
+    type Data = {
+      deep: { foo: string }
+      count: number
+      list: Array<{ id: number }>
+    }
+    render(
+      <Form.Handler id={identifier}>
+        <Field.String path="/deep/foo" value="existing value" />
+      </Form.Handler>
+    )
+
+    const { getValue, data } = getData<Data>(identifier)
+
+    // Runtime behavior is unchanged
+    expect(getValue('/deep/foo')).toBe('existing value')
+
+    // The fix: precise types instead of collapsing to `any`
+    expectTypeOf(getValue('/deep/foo')).toEqualTypeOf<string>()
+    expectTypeOf(getValue('/count')).toEqualTypeOf<number>()
+    expectTypeOf(getValue('/list/0/id')).toEqualTypeOf<number>()
+    expectTypeOf(data).toEqualTypeOf<Data>()
+
+    // The bug was getValue collapsing to `any`; assert it no longer does
+    expectTypeOf(getValue('/count')).not.toBeAny()
+  })
+
   describe('filterData', () => {
     it('should provide filterData handler', () => {
       type Data = { foo: string }

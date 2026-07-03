@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterPanel from '../FilterPanel'
@@ -90,7 +90,7 @@ describe('Filter.Panel', () => {
     expect(closeButton.textContent).toContain('Skjul filter')
   })
 
-  it('closes the panel when close button is clicked', () => {
+  it('closes the panel when close button is clicked', async () => {
     render(
       <FilterRoot>
         <FilterPanelButton>Filters</FilterPanelButton>
@@ -110,7 +110,9 @@ describe('Filter.Panel', () => {
 
     fireEvent.click(closeButton)
 
-    expect(panel).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(panel).not.toBeInTheDocument()
+    })
   })
 
   it('moves focus to the panel button when close button is clicked', () => {

@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { wait } from '../../../core/test-utils/testSetup'
 import { debounce, debounceAsync } from '../debounce'
 import { isAsync } from '../isAsync'

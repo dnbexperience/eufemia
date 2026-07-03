@@ -81,7 +81,7 @@ export function PortalRootProvider(
   return <PortalRootContext value={value}>{children}</PortalRootContext>
 }
 
-function PortalRootInstance(props: PortalRootProps = {}): ReactNode {
+function PortalRootComponent(props: PortalRootProps = {}): ReactNode {
   const {
     id: idProp,
     insideSelector: insideSelectorProp,
@@ -220,7 +220,7 @@ export function getOrCreatePortalElement({
   return elem
 }
 function PortalRoot(props: PortalRootProps) {
-  return <PortalRootInstance {...props} />
+  return <PortalRootComponent {...props} />
 }
 PortalRoot.Provider = PortalRootProvider
 

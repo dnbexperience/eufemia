@@ -17,7 +17,7 @@ export function injectTooltipSemantic(params) {
   return params
 }
 
-export const defaultProps: Partial<TooltipAllProps> = {
+export const tooltipDefaultProps: Partial<TooltipAllProps> = {
   size: 'default',
   placement: 'top',
   arrow: 'center',

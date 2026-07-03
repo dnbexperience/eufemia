@@ -3,6 +3,7 @@ import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Validator } from '../../..'
 import { Field, Form } from '../../..'
+import { norwegianOrgNumberValidator } from '../validators'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
@@ -376,6 +377,11 @@ describe('Field.OrganizationNumber', () => {
   })
 
   describe('should validate Norwegian organization number', () => {
+    const errorMessages = {
+      errorOrgNo: nb.OrganizationNumber.errorOrgNo,
+      errorOrgNoLength: nb.OrganizationNumber.errorOrgNoLength,
+    }
+
     const validOrgNum = [
       '724841198',
       '602105938',
@@ -402,80 +408,36 @@ describe('Field.OrganizationNumber', () => {
     const invalidOrgNumTooShort = ['123', '321', '123123', '321321']
 
     it.each(validOrgNum)(
-      'Valid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Form.Handler>
-            <Field.OrganizationNumber value={orgNo} validateInitially />
-          </Form.Handler>
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
+      'returns no error for a valid number: %s',
+      (orgNo) => {
+        expect(
+          norwegianOrgNumberValidator(orgNo, errorMessages)
+        ).toBeUndefined()
       }
     )
 
     it.each(invalidOrgNum)(
-      'Invalid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Field.OrganizationNumber value={orgNo} validateInitially />
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNo
-          )
-        })
+      'returns a checksum error for an invalid number: %s',
+      (orgNo) => {
+        const result = norwegianOrgNumberValidator(orgNo, errorMessages)
+        expect(result).toBeInstanceOf(Error)
+        expect(result?.message).toBe(nb.OrganizationNumber.errorOrgNo)
       }
     )
 
     it.each(invalidOrgNumTooShort)(
-      'Invalid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Field.OrganizationNumber value={orgNo} validateInitially />
+      'returns a length error for a too-short number: %s',
+      (orgNo) => {
+        const result = norwegianOrgNumberValidator(orgNo, errorMessages)
+        expect(result).toBeInstanceOf(Error)
+        expect(result?.message).toBe(
+          nb.OrganizationNumber.errorOrgNoLength
         )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNoLength
-          )
-        })
       }
     )
   })
 
-  describe('should extend validation using custom validator', () => {
-    const validOrgNumStartingWith1 = ['100214458', '148623902']
-
-    const validOrgNumNotStartingWith1 = [
-      '208141554',
-      '507364276',
-      '724841198',
-      '602105938',
-      '656231440',
-      '967746096',
-      '721357694',
-      '282334933',
-      '519909235',
-      '530028801',
-      '991541209',
-      '756299263',
-    ]
-
-    const invalidOrgNum = ['123456789', '148623907', '987654321']
-    const invalidOrgNumTooShort = ['123', '321', '123123', '321321']
-
+  describe('should extend validation using a custom validator', () => {
     const firstDigitIs1Validator = (value: string) => {
       if (value.substring(0, 1) !== '1') {
         return new Error('My error')
@@ -490,88 +452,76 @@ describe('Field.OrganizationNumber', () => {
       return [organizationNumberValidator, firstDigitIs1Validator]
     }
 
-    it.each(validOrgNumStartingWith1)(
-      'Valid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Form.Handler>
-            <Field.OrganizationNumber
-              value={orgNo}
-              validateInitially
-              onBlurValidator={customValidator}
-            />
-          </Form.Handler>
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await expect(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-        }).toNeverResolve()
-      }
-    )
-
-    it.each(validOrgNumNotStartingWith1)(
-      'Invalid organization number: %s',
-      async (orgNo) => {
-        render(
+    it('passes when both the built-in and custom validators pass', async () => {
+      render(
+        <Form.Handler>
           <Field.OrganizationNumber
-            value={orgNo}
+            value="100214458"
             validateInitially
             onBlurValidator={customValidator}
           />
+        </Form.Handler>
+      )
+
+      fireEvent.blur(document.querySelector('input'))
+
+      await expect(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+      }).toNeverResolve()
+    })
+
+    it('shows the custom error when only the custom validator fails', async () => {
+      render(
+        <Field.OrganizationNumber
+          value="724841198"
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      )
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent('My error')
+      })
+    })
+
+    it('shows the built-in checksum error before the custom validator runs', async () => {
+      render(
+        <Field.OrganizationNumber
+          value="123456789"
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      )
+
+      fireEvent.blur(document.querySelector('input'))
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.OrganizationNumber.errorOrgNo
         )
+      })
+    })
 
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent('My error')
-        })
-      }
-    )
+    it('shows the built-in length error for a too-short value', async () => {
+      render(
+        <Field.OrganizationNumber
+          value="123"
+          validateInitially
+          onBlurValidator={customValidator}
+        />
+      )
 
-    it.each(invalidOrgNum)(
-      'Invalid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Field.OrganizationNumber
-            value={orgNo}
-            validateInitially
-            onBlurValidator={customValidator}
-          />
+      fireEvent.blur(document.querySelector('input'))
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toBeInTheDocument()
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          nb.OrganizationNumber.errorOrgNoLength
         )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNo
-          )
-        })
-      }
-    )
-
-    it.each(invalidOrgNumTooShort)(
-      'Invalid organization number: %s',
-      async (orgNo) => {
-        render(
-          <Field.OrganizationNumber
-            value={orgNo}
-            validateInitially
-            onBlurValidator={customValidator}
-          />
-        )
-
-        fireEvent.blur(document.querySelector('input'))
-
-        await waitFor(() => {
-          expect(screen.queryByRole('alert')).toBeInTheDocument()
-          expect(screen.queryByRole('alert')).toHaveTextContent(
-            nb.OrganizationNumber.errorOrgNoLength
-          )
-        })
-      }
-    )
+      })
+    })
   })
 
   describe('ARIA', () => {

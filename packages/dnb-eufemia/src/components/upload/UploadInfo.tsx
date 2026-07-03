@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { defaultProps, UploadContext } from './UploadContext'
+import { uploadDefaultProps, UploadContext } from './UploadContext'
 import Lead from '../../elements/Lead'
 import P from '../../elements/P'
 import Dl from '../../elements/Dl'
@@ -46,7 +46,7 @@ const UploadInfo = () => {
     isAcceptedFileTypeListOfStrings && fileMaxSize
 
   const displayFilesAmountLimitItem =
-    filesAmountLimit < defaultProps.filesAmountLimit
+    filesAmountLimit < uploadDefaultProps.filesAmountLimit
 
   const displayAcceptedFileFormatsTable =
     !displayAcceptedFileFormatsListItem &&

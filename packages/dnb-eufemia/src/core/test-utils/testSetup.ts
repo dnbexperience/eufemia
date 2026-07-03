@@ -2,16 +2,10 @@
  * Shared test utilities for Vitest.
  */
 
-import { axe, toHaveNoViolations } from 'jest-axe'
 import path from 'path'
-import * as sass from 'sass'
 import { vi } from 'vitest'
 
 import type { Options } from 'sass'
-
-export { axe, toHaveNoViolations }
-
-expect.extend(toHaveNoViolations)
 
 export const wait = (t: number) => new Promise((r) => setTimeout(r, t))
 
@@ -20,6 +14,12 @@ export const loadScss = (
   options: Partial<Options<'sync'>> & { data?: string } = {}
 ) => {
   try {
+    // Loaded lazily so test files that only use other helpers don't pay
+    // sass's import cost. loadScss is synchronous, so a sync require is
+    // required here (a dynamic import() would force it to become async).
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/consistent-type-imports
+    const sass = require('sass') as typeof import('sass')
+
     const { data, ...sassOptions } = options
     const importPath2 = path.resolve(__dirname, '../../style/core/')
 
@@ -126,6 +126,11 @@ export const axeComponent = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...components: any[]
 ) => {
+  // Loaded lazily so test files that never run accessibility checks don't
+  // pay jest-axe's (axe-core) import cost.
+  const { axe, toHaveNoViolations } = await import('jest-axe')
+  expect.extend(toHaveNoViolations)
+
   const html = components
     .map((Component: { container?: HTMLElement } | HTMLElement) => {
       if (Component instanceof HTMLElement) {

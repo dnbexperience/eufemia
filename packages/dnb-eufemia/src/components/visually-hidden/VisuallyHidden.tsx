@@ -23,7 +23,7 @@ export type VisuallyHiddenProps = {
 export type VisuallyHiddenAllProps = VisuallyHiddenProps &
   HTMLProps<HTMLSpanElement>
 
-const defaultProps: Partial<VisuallyHiddenAllProps> = {
+const visuallyHiddenDefaultProps: Partial<VisuallyHiddenAllProps> = {
   focusable: false,
   element: 'span',
 }
@@ -36,7 +36,7 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
   const { element, children, className, focusable, ...props } =
     extendPropsWithContext(
       localProps,
-      defaultProps,
+      visuallyHiddenDefaultProps,
       context?.VisuallyHidden
     )
 

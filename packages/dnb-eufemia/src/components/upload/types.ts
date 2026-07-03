@@ -117,7 +117,7 @@ export type UploadAllProps = UploadProps &
 
 export type UploadContextValue = {
   id?: string
-  onInputUpload: (files: Array<UploadFileNative>) => void
+  onInputUpload(files: Array<UploadFileNative>): void
 } & Partial<UploadAllProps>
 
 export type UploadFile = {

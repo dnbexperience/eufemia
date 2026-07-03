@@ -13,6 +13,7 @@ import { DataContext, Field, Form, Wizard, Iterate } from '../../..'
 import type { FilterData } from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
+import type { PathType } from '../useData'
 
 describe('Form.useData', () => {
   let identifier: string
@@ -125,6 +126,145 @@ describe('Form.useData', () => {
     const { result } = renderHook(() => useData(identifier))
 
     expect(result.current.getValue('/does-not-exist')).toBe(undefined)
+  })
+
+  describe('getValue return type', () => {
+    // Mirrors the originally reported scenario: getValue on a top-level array
+    // path used to collapse to `any`; it must resolve to the full array type.
+    it('resolves a top-level array path to the full array type', () => {
+      type UIMemberProps = { name: string; age: number; active: boolean }
+      type Data = { members: Partial<UIMemberProps>[] }
+
+      const { result } = renderHook(() =>
+        useData<Data>(identifier, { members: [{ name: 'Nora' }] })
+      )
+
+      // Runtime behavior is unchanged
+      expect(result.current.getValue('/members')).toEqual([
+        { name: 'Nora' },
+      ])
+
+      // Previously `any`; now the precise array type from the report
+      const formMembers = result.current.getValue('/members')
+      expectTypeOf(formMembers).toEqualTypeOf<Partial<UIMemberProps>[]>()
+      expectTypeOf(formMembers).not.toBeAny()
+    })
+
+    it('infers precise value types from typed initial data', () => {
+      type MemberData = {
+        name: string
+        age: number
+        address?: { street: string }
+        members: Array<{ id: number }>
+      }
+      const initialData: MemberData = {
+        name: 'Nora',
+        age: 42,
+        address: { street: 'Main' },
+        members: [{ id: 1 }],
+      }
+      const { result } = renderHook(() => useData(identifier, initialData))
+
+      // Runtime behavior is unchanged
+      expect(result.current.getValue('/name')).toBe('Nora')
+
+      // The fix: getValue no longer collapses to `any` for typed data
+      expectTypeOf(
+        result.current.getValue('/name')
+      ).toEqualTypeOf<string>()
+      expectTypeOf(result.current.getValue('/age')).toEqualTypeOf<number>()
+      expectTypeOf(
+        result.current.getValue('/address/street')
+      ).toEqualTypeOf<string>()
+      expectTypeOf(
+        result.current.getValue('/members/0/id')
+      ).toEqualTypeOf<number>()
+      expectTypeOf(result.current.data).toEqualTypeOf<MemberData>()
+
+      // The bug was getValue collapsing to `any`; assert it no longer does
+      expectTypeOf(result.current.getValue('/name')).not.toBeAny()
+
+      // The exported PathType resolver used by getValue
+      expectTypeOf<
+        PathType<MemberData, '/address/street'>
+      >().toEqualTypeOf<string>()
+      expectTypeOf<
+        PathType<MemberData, '/members/0/id'>
+      >().toEqualTypeOf<number>()
+    })
+
+    it('falls back to any for untyped (JsonObject) data', () => {
+      const { result } = renderHook(() => useData(identifier))
+
+      // Runtime: a non-existent path returns undefined
+      expect(result.current.getValue('/anything')).toBeUndefined()
+
+      // Type: untyped data keeps cast-free `any` ergonomics
+      expectTypeOf(result.current.getValue('/anything')).toBeAny()
+    })
+  })
+
+  describe('update value type', () => {
+    it('types the updater callback param and direct value for typed data', () => {
+      type UIMemberProps = { name: string; age: number }
+      type Data = { members: Partial<UIMemberProps>[]; count: number }
+
+      const { result } = renderHook(() =>
+        useData<Data>(identifier, {
+          members: [{ name: 'Nora' }],
+          count: 0,
+        })
+      )
+
+      // Runtime behavior is unchanged (updater form)
+      act(() => {
+        result.current.update('/count', (count) => count + 1)
+      })
+      expect(result.current.getValue('/count')).toBe(1)
+
+      // Direct-value form also works and is type-checked
+      act(() => {
+        result.current.update('/count', 5)
+      })
+      expect(result.current.getValue('/count')).toBe(5)
+
+      // The fix: the updater's current-value param is precisely typed
+      // (it used to be `any`, because `| unknown` collapsed the union).
+      act(() => {
+        result.current.update('/members', (members) => {
+          expectTypeOf(members).toEqualTypeOf<Partial<UIMemberProps>[]>()
+          expectTypeOf(members).not.toBeAny()
+          return members
+        })
+        result.current.update('/count', (count) => {
+          expectTypeOf(count).toEqualTypeOf<number>()
+          return count
+        })
+      })
+
+      // Wrong-typed values/returns are compile errors. The calls run (inside
+      // act) but their result is not asserted – they exist only to type-check.
+      act(() => {
+        // @ts-expect-error /count is a number, not a string
+        result.current.update('/count', 'nope')
+        // @ts-expect-error the updater for /count must return a number
+        result.current.update('/count', () => 'nope')
+      })
+    })
+
+    it('keeps the updater param loose (any) for untyped data', () => {
+      const { result } = renderHook(() => useData(identifier))
+
+      act(() => {
+        result.current.update('/x', (value) => {
+          expectTypeOf(value).toBeAny()
+          return value
+        })
+      })
+
+      // Runtime sanity: an unchanged updater result is a no-op
+      expect(result.current.getValue('/x')).toBeUndefined()
+    })
   })
 
   it('should return "update" method that lets you update the data', () => {

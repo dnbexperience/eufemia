@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useRef } from 'react'
+import type { RefObject } from 'react'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
+import type { StepIndex } from '../Context/types'
 
 export default function useStepAnimation({
   activeIndexRef,
   stepElementRef,
   executeLayoutAnimationRef,
+}: {
+  activeIndexRef: RefObject<StepIndex>
+  stepElementRef: RefObject<HTMLElement>
+  executeLayoutAnimationRef: RefObject<() => void>
 }) {
   const activeIndex = activeIndexRef.current
   const indexRef = useRef(activeIndex)
@@ -20,8 +26,8 @@ export default function useStepAnimation({
     // as it rerenders the children
     window.requestAnimationFrame(() => {
       try {
-        const elements: Array<HTMLElement> =
-          stepElementRef.current.querySelectorAll(
+        const elements =
+          stepElementRef.current.querySelectorAll<HTMLElement>(
             '.dnb-forms-step > *, .dnb-forms-button-row > *'
           )
         elements.forEach((element, i) => {

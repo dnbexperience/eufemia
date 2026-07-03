@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import type { FormElementProps } from '../filterValidProps'
 import {
   filterValidProps,
