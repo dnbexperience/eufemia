@@ -52,10 +52,11 @@ type IsUnknownOrNever<T> =
  * untyped usage stays cast-free while typed data no longer collapses to `any`
  * (which is what the previous `PathType<Data, P> | any` union always did).
  *
- * Note: `useData`/`getData` default their `Data` generic to `JsonObject`, so a
- * globally registered form data type (via the typed-paths `Register`) is not
- * adopted automatically here – pass `RegisteredFormData` (or your own type)
- * explicitly to get precise `getValue` types.
+ * Note: a globally registered form data type (via the typed-paths `Register`)
+ * is not adopted automatically here – `useData` defaults its `Data` generic to
+ * `JsonObject`, and `getData` leaves it unresolved when omitted. Pass
+ * `RegisteredFormData` (or your own type) explicitly – or, for `useData`, let
+ * it infer from `initialData` – to get precise `getValue` types.
  */
 export type PathType<Data, P extends string> =
   IsUnknownOrNever<PathValue<Data, P>> extends true
