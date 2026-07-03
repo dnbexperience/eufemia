@@ -17,6 +17,7 @@ import type {
   KeyboardEvent as ReactKeyboardEvent,
   KeyboardEventHandler as ReactKeyboardEventHandler,
   MouseEvent as ReactMouseEvent,
+  MouseEventHandler as ReactMouseEventHandler,
   ReactNode,
   RefCallback,
   RefObject,
@@ -633,7 +634,9 @@ export default function Popover(props: PopoverProps) {
         convertJsxToString(closeButtonProps?.title) || tr.closeButtonTitle
       }
       onClick={(event) => {
-        closeButtonProps?.onClick?.(event as any)
+        ;(
+          closeButtonProps?.onClick as ReactMouseEventHandler<HTMLButtonElement>
+        )?.(event)
         if (event?.defaultPrevented) {
           return undefined
         }
