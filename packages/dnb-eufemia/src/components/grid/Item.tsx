@@ -53,46 +53,55 @@ withComponentMarkers(GridItem, {
 
 export default GridItem
 
-function compute(span, modifier) {
+function compute(
+  span: GridItemProps['span'],
+  modifier: string
+): Record<string, number | string> | null {
   if (!span) {
     return null
   }
 
-  const result = {}
+  const result: Record<string, number | string> = {}
 
-  const collect = (media, values) => {
+  const collect = (mediaKey: string, values: GridItemSpan) => {
+    if (!Array.isArray(values)) {
+      return
+    }
     values.forEach((value, i) => {
       const pos = i === 0 ? 's' : 'e'
-      if (i === 1 && value > 0) {
-        value += 1
+      let out: number | string = value
+      if (i === 1 && typeof value === 'number' && value > 0) {
+        out = value + 1
       }
       if (value === 'end') {
-        value = '-1'
+        out = '-1'
       }
-      result[makeStyle(media, pos)] = value
+      result[makeStyle(mediaKey, pos)] = out
     })
   }
 
   if (Array.isArray(span)) {
-    media.forEach((media) => {
-      collect(media, span)
+    media.forEach((mediaKey) => {
+      collect(mediaKey, span)
     })
   } else {
-    for (const media in span) {
-      const values = span?.[media]
+    for (const mediaKey in span as GridItemMedia) {
+      const values = (span as GridItemMedia)[
+        mediaKey as keyof GridItemMedia
+      ]
 
       if (values === 'full') {
-        result[makeStyle(media, 's')] = '1'
-        result[makeStyle(media, 'e')] = '-1'
+        result[makeStyle(mediaKey, 's')] = '1'
+        result[makeStyle(mediaKey, 'e')] = '-1'
       } else if (Array.isArray(values)) {
-        collect(media, values)
+        collect(mediaKey, values)
       }
     }
   }
 
   return result
 
-  function makeStyle(media, pos) {
-    return `--${media}-${modifier}-${pos}`
+  function makeStyle(mediaKey: string, pos: string) {
+    return `--${mediaKey}-${modifier}-${pos}`
   }
 }
