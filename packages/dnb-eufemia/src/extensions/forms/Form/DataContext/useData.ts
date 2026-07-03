@@ -18,6 +18,7 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
+import type { PathValue } from '../../typed-paths'
 import type {
   ContextState,
   FilterData,
@@ -28,17 +29,39 @@ import type { DataContextRef } from '../../DataContext/DataContextRefContext'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
-type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
-  ? Key extends keyof T
-    ? Rest extends ''
-      ? T[Key]
-      : PathImpl<T[Key], Rest>
-    : never
-  : T[P & keyof T]
+type IsAny<T> = 0 extends 1 & T ? true : false
 
-export type PathType<T, P extends string> = P extends `/${infer Rest}`
-  ? PathImpl<T, Rest>
-  : never
+type IsUnknownOrNever<T> =
+  IsAny<T> extends true
+    ? false
+    : [T] extends [never]
+      ? true
+      : unknown extends T
+        ? true
+        : false
+
+/**
+ * Resolves the value type located at the JSON Pointer path `P` in `Data`,
+ * reusing the shared {@link PathValue} resolver from the typed-paths support.
+ *
+ * When `Data` is a concrete type, this yields the precise value type. `Data`
+ * becomes concrete when it is passed explicitly as a generic
+ * (`useData<MyData>()` / `getData<MyData>()`) or inferred from the passed
+ * `initialData`. It falls back to `any` when the type cannot be resolved (for
+ * example the default untyped `JsonObject` data, or an explicit `any`), so
+ * untyped usage stays cast-free while typed data no longer collapses to `any`
+ * (which is what the previous `PathType<Data, P> | any` union always did).
+ *
+ * Note: a globally registered form data type (via the typed-paths `Register`)
+ * is not adopted automatically here – `useData` defaults its `Data` generic to
+ * `JsonObject`, and `getData` leaves it unresolved when omitted. Pass
+ * `RegisteredFormData` (or your own type) explicitly – or, for `useData`, let
+ * it infer from `initialData` – to get precise `getValue` types.
+ */
+export type PathType<Data, P extends string> =
+  IsUnknownOrNever<PathValue<Data, P>> extends true
+    ? any
+    : PathValue<Data, P>
 
 export type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
@@ -47,7 +70,7 @@ export type UseDataReturnUpdate<Data> = <P extends Path>(
 
 export type UseDataReturnGetValue<Data> = <P extends Path>(
   path: P
-) => PathType<Data, P> | any
+) => PathType<Data, P>
 
 export type UseDataReturnFilterData<Data> = (
   filterDataHandler: FilterData,
@@ -298,8 +321,11 @@ export function useDataReturn<Data = JsonObject>({
     ]
   )
 
-  const getValue = useCallback<UseDataReturn<Data>['getValue']>(
-    (path) => {
+  // The runtime resolver takes a plain `Path`; cast it to the public generic
+  // signature so callers get the value type resolved from the literal path
+  // (`getValue` maps `P` to `PathType<Data, P>`).
+  const getValue = useCallback(
+    (path: Path) => {
       const dataContext = getDataContext()
 
       if (!id && dataContext?.getDataValue) {
@@ -314,7 +340,7 @@ export function useDataReturn<Data = JsonObject>({
       return undefined
     },
     [getCurrentData, getDataContext, id]
-  )
+  ) as unknown as UseDataReturn<Data>['getValue']
 
   useMountEffect(() => {
     if (id && !sharedDataRef.current?.hadInitialData && initialData) {
