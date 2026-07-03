@@ -8,6 +8,7 @@ import type { HTMLAttributes, ReactElement, RefObject } from 'react'
 import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import type { ContextProps } from '../../shared/Context'
+import { validateDOMAttributes } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import { useSpacing } from '../space/SpacingUtils'
 import TooltipWithEvents from './TooltipWithEvents'
@@ -61,6 +62,9 @@ function Tooltip(localProps: TooltipAllProps) {
       className
     ),
   }) as HTMLAttributes<HTMLElement>
+
+  // also used for code markup simulation
+  validateDOMAttributes(localProps, attributes)
 
   if (targetSource && !target) {
     return null

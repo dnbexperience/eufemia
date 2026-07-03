@@ -6,7 +6,10 @@
 import { useContext, useRef, useState } from 'react'
 import type { DetailedHTMLProps, HTMLAttributes, Ref } from 'react'
 import { clsx } from 'clsx'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  extendPropsWithContext,
+  validateDOMAttributes,
+} from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
@@ -70,6 +73,8 @@ function ScrollView(localProps: ScrollViewAllProps) {
     children,
     ref: localRef,
   })
+
+  validateDOMAttributes(props, mainParams)
 
   return <div {...mainParams}>{children}</div>
 }

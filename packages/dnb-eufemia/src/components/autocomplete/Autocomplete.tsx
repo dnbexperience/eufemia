@@ -44,18 +44,18 @@ import type { SpacingProps } from '../../shared/types'
 import {
   warn,
   extendPropsWithContext,
+  validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
   combineDescribedBy,
   escapeRegexChars,
   getClosestParent,
-  removeNullProps,
 } from '../../shared/component-helper'
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import Suffix from '../../shared/helpers/Suffix'
@@ -2338,8 +2338,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const hasVisibleListContent = drawerList.data.length > 0
   const isExpanded = Boolean(open) && hasVisibleListContent
 
-  const cleanedAttributes = removeNullProps(removeSpaceProps(attributes))
-  attributesRef.current = cleanedAttributes
+  attributesRef.current = validateDOMAttributes(null, attributes)
   Object.assign(drawerList.attributes, attributesRef.current)
 
   const mainParams = useSpacing(props, {
@@ -2390,7 +2389,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     iconPosition: iconPosition,
     disabled,
     skeleton,
-    ...cleanedAttributes,
+    ...attributes,
   }
 
   if (!(parseFloat(String(selectedItem)) > -1)) {
@@ -2468,6 +2467,9 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     showStatus || suffix || currentDataItem?.suffixValue
       ? `${id}-inner`
       : null
+
+  validateDOMAttributes(null, mainParams)
+  validateDOMAttributes(null, shellParams)
 
   // VoiceOver support helper
   const voiceOverActiveItem = (() => {

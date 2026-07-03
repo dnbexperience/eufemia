@@ -6,7 +6,10 @@
 import { useContext } from 'react'
 import type { HTMLProps, Ref } from 'react'
 import { clsx } from 'clsx'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  extendPropsWithContext,
+  validateDOMAttributes,
+} from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
 import { useSpacing, isInline } from './SpacingUtils'
@@ -152,6 +155,10 @@ function SpaceElement({
 }: SpaceAllProps) {
   const ElementDynamic = element
 
+  if (typeof element === 'string') {
+    // also used for code markup simulation
+    validateDOMAttributes({}, props)
+  }
   props['ref'] = ref
 
   const component = (

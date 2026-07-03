@@ -3,11 +3,14 @@ import type { HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 
 // Components
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import type { AvatarSizes, AvatarVariants } from './Avatar'
 
 // Shared
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  validateDOMAttributes,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -133,14 +136,12 @@ const AvatarGroup = (localProps: AvatarGroupAllProps) => {
     className: clsx('dnb-avatar__group', className),
   })
 
-  // Remove spacing props so they don't leak onto the DOM element or
-  // propagate to the child Avatars through the context value below.
-  const cleanProps = removeSpaceProps(props)
-  const { skeleton, ...attributes } = cleanProps
+  // validateDOMAttributes mutates props, so call it after useSpacing
+  const { skeleton, ...attributes } = validateDOMAttributes({}, props)
 
   return (
     <AvatarGroupContext
-      value={{ ...cleanProps, variant, size, color, backgroundColor }}
+      value={{ ...props, variant, size, color, backgroundColor }}
     >
       <span {...rootProps} {...attributes}>
         <span className="dnb-sr-only">{label}</span>

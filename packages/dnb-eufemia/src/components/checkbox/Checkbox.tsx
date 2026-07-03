@@ -21,12 +21,13 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import {
+  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -146,7 +147,6 @@ function Checkbox(localProps: CheckboxProps) {
     size,
     label,
     labelPosition,
-    labelDirection,
     labelSrOnly,
     title,
     element,
@@ -161,9 +161,7 @@ function Checkbox(localProps: CheckboxProps) {
     onClick,
     ref: refProp,
     ...rest
-  } = props as typeof props & {
-    labelDirection?: 'vertical' | 'horizontal'
-  }
+  } = props
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
@@ -265,7 +263,7 @@ function Checkbox(localProps: CheckboxProps) {
   const showStatus = getStatusState(status)
 
   /**
-   * Adds aria attributes, applies skeletonDOMAttributes, strips spacing props and returns the result
+   * Adds aria attributes, calls validateDOMAttributes and skeletonDOMAttributes and returns the result
    */
   const handleInputAttributes = useCallback(() => {
     const inputParams = {
@@ -286,17 +284,10 @@ function Checkbox(localProps: CheckboxProps) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
 
-    const domAttributes = skeletonDOMAttributes(
-      inputParams,
-      skeleton,
-      context
-    )
-    if (domAttributes.disabled === true) {
-      domAttributes['aria-disabled'] = true
-    }
-
-    return removeSpaceProps(
-      domAttributes as SpacingProps & Record<string, unknown>
+    // also used for code markup simulation
+    return validateDOMAttributes(
+      props,
+      skeletonDOMAttributes(inputParams, skeleton, context)
     )
   }, [
     context,

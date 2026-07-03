@@ -17,6 +17,7 @@ import { clsx } from 'clsx'
 import {
   findElementInChildren,
   extendPropsWithContext,
+  validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { useSpacing } from '../space/SpacingUtils'
@@ -403,7 +404,7 @@ function AccordionDefault({
 
     contentRef,
 
-    ..._restOfExtendedProps
+    ...restOfExtendedProps
   } = extendedProps
 
   const mainParams = useSpacing(extendedProps, {
@@ -420,6 +421,9 @@ function AccordionDefault({
   if (disabled) {
     mainParams.onClick = handleDisabledClick
   }
+
+  // to remove spacing props
+  validateDOMAttributes(props, restOfExtendedProps)
 
   const extendedPropsForContext = extendPropsWithContext(
     props,

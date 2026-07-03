@@ -3,7 +3,7 @@ import type { ElementType, HTMLProps } from 'react'
 import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
-import { warn } from '../../shared/component-helper'
+import { validateDOMAttributes, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
@@ -44,17 +44,20 @@ function Content(props: ContentProps) {
     warn('Stat.Content should be used inside Stat.Root')
   }
 
-  const attributes = useSpacing(props, {
-    ...rest,
-    style,
-    className: clsx(
-      'dnb-stat',
-      'dnb-stat__content-item',
-      `dnb-stat__content-item--${direction}`,
-      skeletonClass,
-      className
-    ),
-  })
+  const attributes = validateDOMAttributes(
+    props,
+    useSpacing(props, {
+      ...rest,
+      style,
+      className: clsx(
+        'dnb-stat',
+        'dnb-stat__content-item',
+        `dnb-stat__content-item--${direction}`,
+        skeletonClass,
+        className
+      ),
+    })
+  )
 
   applySkeletonAttributes(attributes)
 
