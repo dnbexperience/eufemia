@@ -182,10 +182,13 @@ export function handleCountryPath({
   value: string
   countryCode?: string
   additionalArgs: ReceiveAdditionalEventArgs<unknown>
-  handler: (
+  // Method syntax gives the parameters bivariant checking, so that the
+  // value-specific validator/suggestions handlers can be passed without
+  // tripping `strictFunctionTypes`.
+  handler(
     value: string,
     additionalArgs: ReceiveAdditionalEventArgs<unknown>
-  ) => void
+  ): void
 }) {
   const { countryCode, countryCodeValue } = getCountryCodeValue({
     countryCode:
