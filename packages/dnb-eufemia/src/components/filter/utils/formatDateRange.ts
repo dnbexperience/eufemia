@@ -19,7 +19,14 @@ export default function formatDateRange(
     )
   }
 
-  return formatDate(from || to, {
+  // At this point the early return above guarantees that at least one of
+  // `from`/`to` is set, so `singleDate` is always a string here.
+  const singleDate = from || to
+  if (!singleDate) {
+    return undefined
+  }
+
+  return formatDate(singleDate, {
     locale,
     options: { dateStyle: 'long' },
   })

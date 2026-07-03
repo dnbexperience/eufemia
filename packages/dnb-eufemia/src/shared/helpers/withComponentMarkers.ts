@@ -65,7 +65,7 @@ export type MarkedComponent<T> = T & ComponentMarkers
  * export default Checkbox
  * ```
  */
-export default function withComponentMarkers<T>(
+export default function withComponentMarkers<T extends object>(
   component: T,
   markers: ComponentMarkers
 ): asserts component is T & ComponentMarkers {

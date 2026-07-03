@@ -15,7 +15,7 @@ type Props = {
 } & HTMLAttributes<HTMLSpanElement>
 
 export default function AlignmentHelper({
-  className = null,
+  className = undefined,
   children = null,
   pseudoElementOnly = false,
   ...props
