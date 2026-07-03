@@ -325,7 +325,7 @@ export default [
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-inferrable-types': 'error',
-      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -360,6 +360,20 @@ export default [
           },
         },
       ],
+    },
+  },
+  {
+    // Non-null assertions (`!`) are unchecked and disallowed in shipped code.
+    // They remain allowed in tests and test utilities, where DOM lookups are
+    // known to resolve.
+    files: [
+      '**/__tests__/**',
+      '**/*.test.{ts,tsx}',
+      '**/*.spec.{ts,tsx}',
+      '**/test-utils/**',
+    ],
+    rules: {
+      '@typescript-eslint/no-non-null-assertion': 'off',
     },
   },
   {
