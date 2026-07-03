@@ -123,7 +123,12 @@ export function ajvErrorsToOneFormError(
     return undefined
   }
   if (errors.length === 1) {
-    const error = ajvErrorsTransformation(errors[0], value)
+    const firstError = errors[0]
+    if (!firstError) {
+      return undefined
+    }
+
+    const error = ajvErrorsTransformation(firstError, value)
     if (!error) {
       return undefined
     }
