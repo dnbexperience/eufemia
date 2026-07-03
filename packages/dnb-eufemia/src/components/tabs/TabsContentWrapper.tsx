@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
-import type { HTMLProps, ReactNode, RefObject } from 'react'
+import type {
+  HTMLProps,
+  ReactNode,
+  RefObject,
+  SyntheticEvent,
+} from 'react'
 import { clsx } from 'clsx'
 import type {
   DynamicElement,
@@ -15,11 +20,15 @@ import {
 } from '../../shared/helpers/useSharedState'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
-type ContentWrapperState = {
+export type TabsContentWrapperState = {
   key: string | number | null
+  selectedKey?: string | number
+  focusKey?: string | number
+  title?: ReactNode
+  event?: SyntheticEvent
 }
 
-type SharedState = SharedStateReturn<ContentWrapperState> & {
+type SharedState = SharedStateReturn<TabsContentWrapperState> & {
   subscribe: (subscriber: () => void) => void
   unsubscribe: (subscriber: () => void) => void
 }
@@ -35,7 +44,7 @@ export default function ContentWrapper({
 }: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
 
-  const [state, setState] = useState<ContentWrapperState>(() => {
+  const [state, setState] = useState<TabsContentWrapperState>(() => {
     if (id) {
       const shared = createSharedState(id) as unknown as SharedState
       sharedStateRef.current = shared
@@ -159,7 +168,7 @@ import type { SectionVariants } from '../Section'
 export type TabsContentWrapperSelectedKey = string | number
 export type TabsContentWrapperChildren =
   | ReactNode
-  | ((...args: any[]) => ReactNode)
+  | ((state: TabsContentWrapperState) => ReactNode)
 
 export type TabsContentWrapperProps = {
   id: string

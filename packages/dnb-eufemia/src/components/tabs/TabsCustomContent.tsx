@@ -3,6 +3,7 @@ import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import ContentWrapper, {
+  type TabsContentWrapperState,
   type TabsContentWrapperProps,
 } from './TabsContentWrapper'
 
@@ -13,7 +14,7 @@ export type TabsCustomContentTitle =
 
 export type TabsCustomContentChildren =
   | ReactNode
-  | ((...args: any[]) => ReactNode)
+  | ((state: TabsContentWrapperState) => ReactNode)
 
 export type TabsCustomContentProps = {
   displayName?: string
