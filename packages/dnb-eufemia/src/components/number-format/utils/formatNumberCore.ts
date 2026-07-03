@@ -130,8 +130,8 @@ export const prepareMinus = (
   }
 
   // check for first and second char
-  const first = display[0]
-  const second = display[1]
+  const first = display.charAt(0)
+  const second = display.charAt(1)
 
   // Seems to be the invalid replacement
   if (first === '-' && second === '-') {
