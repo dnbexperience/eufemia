@@ -251,7 +251,7 @@ describe('Password component', () => {
     )
   })
 
-  it('should validate with ARIA rules as a input with a label', async () => {
+  it('should validate with ARIA rules as an input with a label', async () => {
     const result = render(
       <Field.Password id="input" label="label" value="some value" />
     )

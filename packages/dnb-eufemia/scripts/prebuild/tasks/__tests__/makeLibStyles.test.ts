@@ -39,7 +39,7 @@ describe('makeLibStyles transform main SCSS to CSS', () => {
     expect(global.css[0]).toMatch(new RegExp('.dnb-button\\s?{'))
   })
 
-  it('has to contain a icon selector as it is a dependency', () => {
+  it('has to contain an icon selector as it is a dependency', () => {
     expect(global.css[0]).toMatch(new RegExp('.dnb-icon\\s?{'))
   })
 

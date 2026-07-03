@@ -39,7 +39,7 @@ describe('Switch component', () => {
     expect(document.querySelector('input').value).toBe(value)
   })
 
-  it('has "onChange" event which will trigger on a input change', () => {
+  it('has "onChange" event which will trigger on an input change', () => {
     const myEvent = vi.fn()
 
     render(<Switch onChange={myEvent} checked={false} />)

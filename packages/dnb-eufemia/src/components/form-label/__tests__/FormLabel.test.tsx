@@ -338,7 +338,7 @@ describe('FormLabel component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should validate with ARIA rules as a label with a input', async () => {
+  it('should validate with ARIA rules as a label with an input', async () => {
     const Comp = render(
       <>
         <FormLabel text="Text" forId="input" />
