@@ -27,7 +27,16 @@ export type HeightAnimationFromHeight = number
 export type HeightAnimationToHeight = number
 
 export default class HeightAnimation {
-  private state: Readonly<HeightAnimationStates>
+  private _state: Readonly<HeightAnimationStates>
+
+  /**
+   * The current animation state. Read-only from the outside (e.g. by the
+   * height-animation hook); mutate it via `setState`.
+   */
+  get state(): Readonly<HeightAnimationStates> {
+    return this._state
+  }
+
   isInBrowser: boolean
   onStartStack: HeightAnimationOnStartStack = []
   onEndStack: HeightAnimationOnEndStack = []
@@ -131,7 +140,7 @@ export default class HeightAnimation {
         400) // The default duration
   }
   setState(state: HeightAnimationStates) {
-    this.state = Object.freeze(state)
+    this._state = Object.freeze(state)
   }
   setOptions(opts: HeightAnimationOptions) {
     this.opts = Object.freeze({ ...this.opts, ...opts })

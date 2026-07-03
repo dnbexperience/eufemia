@@ -1,8 +1,14 @@
-import type { ReactNode, RefObject } from 'react'
+import type { MutableRefObject, ReactNode, RefObject } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import HeightAnimationInstance from './HeightAnimationInstance'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+
+type HeightAnimationRefs = {
+  instRef: MutableRefObject<HeightAnimationInstance | null>
+  isInitialRenderRef: MutableRefObject<boolean>
+  targetRef: RefObject<HTMLElement>
+}
 
 export type UseHeightAnimationOptions = {
   /**
@@ -203,7 +209,12 @@ export function useHeightAnimation(
   }
 }
 
-function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
+function useOpenClose({
+  open,
+  instRef,
+  isInitialRenderRef,
+  targetRef,
+}: HeightAnimationRefs & { open: boolean }) {
   const isTest =
     typeof process !== 'undefined' &&
     process.env.NODE_ENV === 'test' &&
@@ -248,7 +259,12 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
   }, [isInitialRenderRef, isTest])
 }
 
-function useAdjust({ children, instRef, isInitialRenderRef, targetRef }) {
+function useAdjust({
+  children,
+  instRef,
+  isInitialRenderRef,
+  targetRef,
+}: HeightAnimationRefs & { children: ReactNode | HTMLElement }) {
   const fromHeight = useRef(0)
 
   const [timer] = useState(() => Date.now())
