@@ -2,21 +2,25 @@ export type PointerPath = string | Array<string>
 export type JsonValue = unknown
 export type JsonObject = Record<string | number, unknown> | Array<unknown>
 
+type DescendFn = (value: JsonValue) => boolean
+type WalkIterator = (value: JsonValue, pointer: string) => boolean | void
+
 /**
  * Lookup a json pointer in an object
  */
 export function get<T = JsonObject>(obj: T, pointer: PointerPath) {
   const refTokens = Array.isArray(pointer) ? pointer : parse(pointer)
 
+  let current: JsonValue = obj
   for (let i = 0; i < refTokens.length; ++i) {
     const tok = refTokens[i]
-    if (!(typeof obj === 'object' && tok in obj)) {
+    if (!(typeof current === 'object' && tok in current)) {
       throw new Error('Invalid reference token: ' + tok)
     }
-    obj = obj[tok] as T
+    current = (current as Record<string, JsonValue>)[tok]
   }
 
-  return obj as T
+  return current as T
 }
 
 /**
@@ -30,14 +34,16 @@ export function set<T = JsonObject>(
   const refTokens = (
     Array.isArray(pointer) ? pointer : parse(pointer)
   ) as Array<number | string>
-  let nextTok = refTokens[0]
+  let nextTok: number | string = refTokens[0]
 
   if (refTokens.length === 0) {
     throw Error('Cannot set the root object')
   }
 
+  let current = obj as Record<number | string, JsonValue>
+
   for (let i = 0; i < refTokens.length - 1; ++i) {
-    let tok = refTokens[i]
+    let tok: number | string = refTokens[i]
     if (typeof tok !== 'string' && typeof tok !== 'number') {
       tok = String(tok)
     }
@@ -48,26 +54,26 @@ export function set<T = JsonObject>(
     ) {
       continue
     }
-    if (tok === '-' && Array.isArray(obj)) {
-      tok = obj.length
+    if (tok === '-' && Array.isArray(current)) {
+      tok = current.length
     }
     nextTok = refTokens[i + 1] as string
 
-    if (!(tok in (obj as JsonObject))) {
+    if (!(tok in current)) {
       if (nextTok.match(/^(\d+|-)$/)) {
-        obj[tok] = []
+        current[tok] = []
       } else {
-        obj[tok] = {}
+        current[tok] = {}
       }
     }
-    if (Object.isFrozen(obj[tok])) {
-      obj[tok] = { ...obj[tok] }
+    if (Object.isFrozen(current[tok])) {
+      current[tok] = { ...(current[tok] as object) }
     }
-    obj = obj[tok] as T
+    current = current[tok] as Record<number | string, JsonValue>
   }
 
-  if (nextTok === '-' && Array.isArray(obj)) {
-    nextTok = obj.length
+  if (nextTok === '-' && Array.isArray(current)) {
+    nextTok = current.length
   }
 
   // Prevent prototype pollution via the final token (e.g. "/__proto__").
@@ -79,7 +85,7 @@ export function set<T = JsonObject>(
     return
   }
 
-  obj[nextTok] = value
+  current[nextTok] = value
 }
 
 /**
@@ -101,18 +107,21 @@ export function remove<T = JsonObject>(obj: T, pointer: PointerPath) {
 
     Array.prototype.splice.call(parent, index, 1)
   } else {
-    delete parent[finalToken]
+    delete (parent as Record<string, JsonValue>)[finalToken]
   }
 }
 
 /**
  * Returns a (pointer -> value) dictionary for an object
  */
-export function dict<T = JsonObject>(obj: T, descend = null) {
-  const results = {}
+export function dict<T = JsonObject>(
+  obj: T,
+  descend: DescendFn | null = null
+) {
+  const results: Record<string, JsonValue> = {}
   walk(
     obj,
-    (value, pointer: string) => {
+    (value, pointer) => {
       results[pointer] = value
     },
     descend
@@ -123,34 +132,44 @@ export function dict<T = JsonObject>(obj: T, descend = null) {
 /**
  * Iterates over an object
  */
-export function walk<T = JsonObject>(obj: T, iterator, descend = null) {
-  const refTokens = []
+export function walk<T = JsonObject>(
+  obj: T,
+  iterator: WalkIterator,
+  descend: DescendFn | null = null
+) {
+  const refTokens: Array<string> = []
 
-  descend =
+  const descendFn: DescendFn =
     descend ||
     ((value) => {
       const type = Object.prototype.toString.call(value)
       return type === '[object Object]' || type === '[object Array]'
     })
 
-  next(obj, refTokens, iterator, descend)
+  next(obj, refTokens, iterator, descendFn)
 }
 
-function next(cur, refTokens, iterator, descend) {
+function next(
+  cur: JsonValue,
+  refTokens: Array<string>,
+  iterator: WalkIterator,
+  descend: DescendFn
+): boolean | undefined {
   if (Array.isArray(cur)) {
-    cur = cur.reduce((acc, cur, i) => {
-      acc[i] = cur
+    cur = cur.reduce<Record<string, JsonValue>>((acc, item, i) => {
+      acc[i] = item
       return acc
     }, {})
   }
 
-  let res
-  for (const key in cur) {
+  let res: boolean | void
+  for (const key in cur as Record<string, JsonValue>) {
     refTokens.push(String(key))
-    if (descend(cur[key])) {
-      res = next(cur[key], refTokens, iterator, descend)
+    const node = (cur as Record<string, JsonValue>)[key]
+    if (descend(node)) {
+      res = next(node, refTokens, iterator, descend)
     } else {
-      res = iterator(cur[key], compile(refTokens))
+      res = iterator(node, compile(refTokens))
     }
     if (res === false) {
       return false
@@ -196,7 +215,9 @@ export function unescape(str: string): string {
 /**
  * Converts a json pointer into an array of reference tokens
  */
-export function parse(pointer: Extract<PointerPath, string>): PointerPath {
+export function parse(
+  pointer: Extract<PointerPath, string>
+): Array<string> {
   if (pointer === '') {
     return []
   }
