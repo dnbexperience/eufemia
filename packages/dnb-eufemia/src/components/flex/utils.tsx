@@ -14,7 +14,10 @@ import {
   removeSpaceProps,
 } from '../space/SpacingUtils'
 import type { FlexEnd, FlexStart } from './types'
-import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
+import type {
+  ComponentMarkers,
+  SpacingPropsVariant,
+} from '../../shared/helpers/withComponentMarkers'
 
 export const omitSpacingProps = removeSpaceProps
 
@@ -35,8 +38,12 @@ export function pickSpacingProps<Props extends SpacingProps>(
 ): SpacingProps {
   const obj: SpacingProps = {}
   for (const key in props as SpacingProps) {
-    if (isValidSpaceProp(key) && typeof props[key] !== 'undefined') {
-      obj[key] = props[key]
+    const spacingKey = key as keyof SpacingProps
+    const value = props[spacingKey]
+    if (isValidSpaceProp(key) && typeof value !== 'undefined') {
+      // `as never` works around TypeScript's inability to correlate the
+      // union key with its matching value type in an indexed assignment.
+      obj[spacingKey] = value as never
     }
   }
   return obj
@@ -122,7 +129,7 @@ export function renderWithSpacing(
     className?: string
     wrapInSpace?: boolean
   }
-) {
+): ReactNode {
   const variant = getSpaceVariant(element)
   const { wrapInSpace = true } = spaceProps
 
@@ -185,7 +192,16 @@ function wrapWithSpace({
   spaceProps,
   variant = null,
   wrapInSpace = true,
-}) {
+}: {
+  element: ReactNode
+  spaceProps: SpacingProps & {
+    key?: string
+    className?: string
+    wrapInSpace?: boolean
+  }
+  variant?: SpacingPropsVariant | null
+  wrapInSpace?: boolean
+}): ReactNode {
   const resolvedVariant = variant ?? getSpaceVariant(element)
   const { wrapInSpace: _, key, ...props } = spaceProps
 

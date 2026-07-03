@@ -60,20 +60,24 @@ function FlexItem(props: FlexItemAllProps) {
     span && 'dnb-flex-item--responsive'
   )
 
-  const isValidSpan = useCallback((span: FlexSpans) => {
-    return typeof span === 'number' || span === 'auto'
-  }, [])
+  const isValidSpan = useCallback(
+    (value: FlexSpan | undefined): value is FlexSpans => {
+      return typeof value === 'number' || value === 'auto'
+    },
+    []
+  )
 
-  const spaceStyles: CSSProperties = {}
+  const spaceStyles: CSSProperties & Record<`--${string}`, FlexSpans> = {}
 
   if (span) {
-    if (isValidSpan(span as FlexSpans)) {
+    if (isValidSpan(span)) {
       spaceStyles['--span--default'] = span
     } else {
-      const spans = span as MediaSpans
+      const spans = span
       for (const key in spans) {
-        if (isValidSpan(span[key])) {
-          spaceStyles[`--${key}`] = span[key]
+        const value = spans[key as keyof MediaSpans]
+        if (isValidSpan(value)) {
+          spaceStyles[`--${key}`] = value
         }
       }
     }
