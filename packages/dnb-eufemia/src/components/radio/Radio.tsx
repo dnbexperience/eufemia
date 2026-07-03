@@ -23,6 +23,7 @@ import {
   combineDescribedBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
+  mergeAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
@@ -97,6 +98,7 @@ export type RadioProps = {
   value?: string
   skeleton?: SkeletonShow
   readOnly?: boolean
+  attributes?: Record<string, unknown>
   className?: string
   children?: RadioChildren
   onChange?: (event: RadioChangeEvent) => void
@@ -426,6 +428,13 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   if (inputParams.disabled === true) {
     inputParams['aria-disabled'] = true
   }
+
+  // Merge the public `attributes` prop onto the input element, then drop the raw
+  // object and non-DOM props (e.g. `labelDirection`) that the ownProps
+  // re-application above may have put on inputParams, so they don't leak to the DOM.
+  mergeAttributes(inputParams, inputParams.attributes)
+  delete inputParams.attributes
+  delete inputParams.labelDirection
 
   inputParams = removeSpaceProps(inputParams)
 

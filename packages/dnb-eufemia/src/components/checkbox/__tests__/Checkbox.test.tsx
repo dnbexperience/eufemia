@@ -404,6 +404,17 @@ describe('Checkbox component', () => {
     expect(input).not.toHaveAttribute('left')
   })
 
+  it('should merge the attributes prop onto the input element', () => {
+    render(<Checkbox attributes={{ 'data-foo': 'bar' }} />)
+
+    const input = document.querySelector('input')
+
+    // The public `attributes` prop is applied to the input element, and the
+    // raw object is never forwarded as an `attributes` DOM attribute
+    expect(input).toHaveAttribute('data-foo', 'bar')
+    expect(input).not.toHaveAttribute('attributes')
+  })
+
   it('should inherit formElement vertical label', () => {
     render(
       <Provider

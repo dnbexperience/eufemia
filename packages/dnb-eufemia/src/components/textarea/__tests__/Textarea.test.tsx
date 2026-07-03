@@ -251,6 +251,17 @@ describe('Textarea component', () => {
     )
   })
 
+  it('should merge the attributes prop onto the textarea element', () => {
+    render(<Textarea attributes={{ 'data-foo': 'bar' }} />)
+
+    const textarea = document.querySelector('textarea')
+
+    // The public `attributes` prop is applied to the textarea element, and the
+    // raw object is never forwarded as an `attributes` DOM attribute
+    expect(textarea).toHaveAttribute('data-foo', 'bar')
+    expect(textarea).not.toHaveAttribute('attributes')
+  })
+
   it('should accept props like autoResize via provider', () => {
     render(
       <Provider Textarea={{ autoResize: true }}>

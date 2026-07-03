@@ -24,6 +24,7 @@ import {
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
+  mergeAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
@@ -91,6 +92,7 @@ export type CheckboxProps = {
   suffix?: ReactNode
   value?: string
   element?: ElementType
+  attributes?: Record<string, unknown>
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -160,6 +162,7 @@ function Checkbox(localProps: CheckboxProps) {
     onChange,
     onClick,
     ref: refProp,
+    attributes,
     ...rest
   } = props as typeof props & {
     labelDirection?: 'vertical' | 'horizontal'
@@ -296,9 +299,13 @@ function Checkbox(localProps: CheckboxProps) {
     }
 
     return removeSpaceProps(
-      domAttributes as SpacingProps & Record<string, unknown>
+      mergeAttributes(
+        domAttributes as SpacingProps & Record<string, unknown>,
+        attributes
+      )
     )
   }, [
+    attributes,
     context,
     disabled,
     id,

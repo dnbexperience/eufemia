@@ -211,6 +211,7 @@ export type InputProps = Omit<
      * Provide the Input element with any attributes by using an Object `inputAttributes={{size:'2'}}` or a JSON Object `inputAttributes='{"size":"2"}'`. **NB:** Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.
      */
     inputAttributes?: InputInputAttributes
+    attributes?: Record<string, unknown>
     /**
      * By providing a new component we can change the internally used element. Also supports a string only, like `inputElement="input"`.
      */
@@ -573,6 +574,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   const {
     onSubmitBlur, //eslint-disable-line
     onSubmitFocus, //eslint-disable-line
+    // The public `attributes` prop must be merged onto the input element, not
+    // spread as a raw `attributes` object. Extract it so it does not leak.
+    attributes: attributesProp,
     ...attributes
   } = inputSubmitButtonAttributes
 
@@ -691,6 +695,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   if (inputParams.disabled === true) {
     inputParams['aria-disabled'] = true
   }
+
+  mergeAttributes(inputParams, attributesProp)
 
   if (InputElement && typeof InputElement === 'function') {
     InputElement = (

@@ -32,6 +32,7 @@ import {
   warn,
   dispatchCustomElementEvent,
   convertJsxToString,
+  mergeAttributes,
 } from '../../shared/component-helper'
 import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
@@ -160,6 +161,7 @@ export type TextareaProps = Omit<
     autoResizeMaxRows?: TextareaAutoresizeMaxRows
     textareaClassName?: string
     readOnly?: boolean
+    attributes?: Record<string, unknown>
     rows?: TextareaRows
     cols?: TextareaCols
     className?: string
@@ -253,6 +255,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     value: _value,
     textareaElement: _textareaElement,
     ref: _ref,
+    // The public `attributes` prop must be merged onto the textarea element, not
+    // spread as a raw `attributes` object. Extract it so it does not leak.
+    attributes: attributesProp,
     ...attributes
   } = props
 
@@ -547,6 +552,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   if (textareaParams.disabled === true) {
     textareaParams['aria-disabled'] = true
   }
+
+  mergeAttributes(textareaParams, attributesProp)
 
   if (TextareaElement && typeof TextareaElement === 'function') {
     TextareaElement = TextareaElement(textareaParams, textareaRef)

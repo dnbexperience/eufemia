@@ -148,6 +148,30 @@ describe('Radio component', () => {
     expect(input).not.toHaveAttribute('left')
   })
 
+  it('should merge the attributes prop onto the input element', () => {
+    render(<Radio attributes={{ 'data-foo': 'bar' }} />)
+
+    const input = document.querySelector('input')
+
+    // The public `attributes` prop is applied to the input element, and the
+    // raw object is never forwarded as an `attributes` DOM attribute
+    expect(input).toHaveAttribute('data-foo', 'bar')
+    expect(input).not.toHaveAttribute('attributes')
+  })
+
+  it('should not forward labelDirection to the input element', () => {
+    // labelDirection is not a public Radio prop, but formElement context / JS
+    // consumers can supply it; it must not leak onto the input element.
+    const props: RadioProps & { labelDirection?: string } = {
+      labelDirection: 'horizontal',
+    }
+    render(<Radio {...props} />)
+
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'labeldirection'
+    )
+  })
+
   it('should support inline styling', () => {
     render(<Radio style={{ color: 'red' }} />)
 
