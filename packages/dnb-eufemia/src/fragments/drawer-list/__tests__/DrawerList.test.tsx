@@ -263,7 +263,7 @@ describe('DrawerList component', () => {
 
       keydown('Enter')
       await waitFor(() => {
-        // onChange and onSelect is not called when attempting to chose a disabled item
+        // onChange and onSelect is not called when attempting to choose a disabled item
         expect(onChange).toHaveBeenCalledTimes(0)
         expect(onSelect).toHaveBeenCalledTimes(2)
       })

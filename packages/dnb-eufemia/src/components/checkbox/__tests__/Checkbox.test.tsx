@@ -273,7 +273,7 @@ describe('Checkbox component', () => {
     expect(onChange).toHaveBeenCalledWith(true)
   })
 
-  it('has "onChange" event which will trigger on a input change', () => {
+  it('has "onChange" event which will trigger on an input change', () => {
     const myEvent = vi.fn()
     render(<Checkbox onChange={myEvent} checked={false} />)
     screen.getByRole('checkbox').click()

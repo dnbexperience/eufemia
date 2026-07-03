@@ -1026,7 +1026,7 @@ describe('Input ARIA', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should validate with ARIA rules as a input with a label', async () => {
+  it('should validate with ARIA rules as an input with a label', async () => {
     const Comp = render(
       <>
         <label htmlFor="input">text</label>
