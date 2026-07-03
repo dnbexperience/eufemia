@@ -455,10 +455,9 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 }
 
-const MemoizedToggleButton = memo(ToggleButton) as unknown as {
-  (props: ToggleButtonProps): ReactElement
-  Group: typeof ToggleButtonGroup
-}
+const MemoizedToggleButton = memo(
+  ToggleButton
+) as unknown as ToggleButtonComponent
 
 MemoizedToggleButton.Group = ToggleButtonGroup
 
@@ -467,7 +466,7 @@ withComponentMarkers(MemoizedToggleButton, {
   _supportsSpacingProps: true,
 })
 
-export default MemoizedToggleButton as unknown as ToggleButtonComponent
+export default MemoizedToggleButton as ToggleButtonComponent
 
 // Type definitions
 import type {

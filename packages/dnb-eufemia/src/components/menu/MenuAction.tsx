@@ -71,7 +71,7 @@ function MenuAction(props: MenuActionProps) {
       }
 
       // Sub-menu trigger: let Popover's click handler toggle it
-      triggerOnClick?.(event as unknown as MouseEvent<HTMLElement>)
+      triggerOnClick?.(event)
 
       onClick?.(event)
 
