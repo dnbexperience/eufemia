@@ -46,6 +46,10 @@ vulnerable code ships to consumers (see
 Issues that only affect development, build, or CI tooling (not the published
 artifacts) are handled on a best-effort/routine basis.
 
+These targets are deliberately stricter than — and therefore satisfy — DNB's
+internal flaw-remediation limits (SI-02: Critical within 1 month, all others
+within 3 months).
+
 We will keep you informed throughout, and — unless you prefer to remain
 anonymous — credit you once a fix is released.
 
