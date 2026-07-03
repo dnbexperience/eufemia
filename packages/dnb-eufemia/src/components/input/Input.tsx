@@ -41,7 +41,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import {
   warn,
   removeUndefinedProps,
-  mergeAttributes,
+  validateDOMAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -49,7 +49,7 @@ import {
   convertJsxToString,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -644,7 +644,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     'aria-placeholder': placeholder
       ? convertJsxToString(placeholder)
       : undefined,
-    ...removeSpaceProps(attributes),
+    ...attributes,
     ...usedInputAttributes,
     onChange: onChangeHandler,
     onKeyDown: onKeyDownHandler,
@@ -688,9 +688,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
-  if (inputParams.disabled === true) {
-    inputParams['aria-disabled'] = true
-  }
+  // also used for code markup simulation
+  validateDOMAttributes(restProps, inputParams)
+  validateDOMAttributes(null, shellParams)
 
   if (InputElement && typeof InputElement === 'function') {
     InputElement = (
@@ -917,7 +917,6 @@ function InputSubmitButton({
     statusState,
     statusProps,
     className,
-    attributes,
 
     onSubmitBlur: _onSubmitBlur, //eslint-disable-line
     onSubmitFocus: _onSubmitFocus, //eslint-disable-line
@@ -930,9 +929,7 @@ function InputSubmitButton({
     type: 'submit',
     'aria-label': title,
     disabled,
-    // Strip spacing props (e.g. `top` injected by a Flex parent) so they are
-    // not forwarded to the inner Button, where they would render as margins.
-    ...removeSpaceProps(rest as SpacingProps & typeof rest),
+    ...rest,
   }
 
   skeletonDOMAttributes(
@@ -941,7 +938,8 @@ function InputSubmitButton({
     context
   )
 
-  mergeAttributes(params, attributes)
+  // also used for code markup simulation
+  validateDOMAttributes(ownProps, params)
 
   return (
     <span

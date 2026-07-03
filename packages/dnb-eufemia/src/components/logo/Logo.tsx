@@ -11,7 +11,10 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import Context from '../../shared/Context'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  validateDOMAttributes,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
 import { useSpacing } from '../space/SpacingUtils'
 import { DnbDefault } from './LogoSvg'
 import type { UseThemeReturn } from '../../shared/useTheme'
@@ -170,8 +173,12 @@ function Logo(localProps: LogoProps) {
     }
   }, [altText, color, height, width])
 
+  const remainingDOMProps = validateDOMAttributes(props, rootParams)
+
   return (
-    <span {...rootParams}>{renderCustomSvg(svg, svgParams, theme)}</span>
+    <span {...remainingDOMProps}>
+      {renderCustomSvg(svg, svgParams, theme)}
+    </span>
   )
 }
 

@@ -26,6 +26,7 @@ import useId from '../../shared/helpers/useId'
 import {
   extendPropsWithContext,
   removeUndefinedProps,
+  validateDOMAttributes,
   processChildren,
   getStatusState,
   combineDescribedBy,
@@ -36,7 +37,7 @@ import {
 import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -480,9 +481,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     'aria-placeholder': placeholder
       ? convertJsxToString(placeholder)
       : undefined,
-    ...(removeSpaceProps(
-      attributes
-    ) as unknown as TextareaHTMLAttributes<HTMLTextAreaElement>),
+    ...(attributes as unknown as TextareaHTMLAttributes<HTMLTextAreaElement>),
     ...(typeof size === 'number' ? { size } : {}),
     onChange: onChangeHandler,
     onFocus: onFocusHandler,
@@ -544,9 +543,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   skeletonDOMAttributes(innerParams, skeleton, context)
 
-  if (textareaParams.disabled === true) {
-    textareaParams['aria-disabled'] = true
-  }
+  validateDOMAttributes(ownProps, textareaParams)
+  validateDOMAttributes(null, innerParams)
+  validateDOMAttributes(null, shellParams)
 
   if (TextareaElement && typeof TextareaElement === 'function') {
     TextareaElement = TextareaElement(textareaParams, textareaRef)

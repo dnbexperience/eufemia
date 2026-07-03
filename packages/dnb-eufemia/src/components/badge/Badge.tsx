@@ -4,7 +4,7 @@ import type { CSSProperties, HTMLProps, JSX, ReactNode } from 'react'
 import { clsx } from 'clsx'
 
 // Components
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Shared
@@ -15,6 +15,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
   extendPropsWithContext,
+  validateDOMAttributes,
 } from '../../shared/component-helper'
 import useNumberFormat from '../number-format/useNumberFormat'
 
@@ -167,8 +168,8 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
     return null
   }
 
-  // remove spacing props so they don't leak onto the DOM element
-  const domAttributes = removeSpaceProps(restProps)
+  // to remove spacing props, etc.
+  validateDOMAttributes(props, restProps)
 
   const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const contentIsNum = typeof contentProp === 'number'
@@ -200,7 +201,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
         skeletonClasses,
         className
       )}
-      {...domAttributes}
+      {...restProps}
     >
       {label && <span className="dnb-sr-only">{label} </span>}
       {content}

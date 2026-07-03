@@ -17,14 +17,14 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import {
-  mergeAttributes,
+  validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -147,12 +147,8 @@ function Switch(props: SwitchProps) {
     onChangeEnd,
     onClick,
     ref: refProp,
-    attributes,
-    labelDirection,
     ...rest
-  } = allProps as typeof allProps & {
-    labelDirection?: 'vertical' | 'horizontal'
-  }
+  } = allProps
 
   const [, forceUpdate] = useReducer(() => ({}), {})
   const id = useId(idProp)
@@ -271,7 +267,7 @@ function Switch(props: SwitchProps) {
   const inputParams = {
     disabled,
     checked: isCheckedRef.current,
-    ...removeSpaceProps(rest),
+    ...rest,
   }
 
   if (showStatus || suffix) {
@@ -286,12 +282,7 @@ function Switch(props: SwitchProps) {
   }
 
   skeletonDOMAttributes(inputParams, skeleton, context)
-
-  if (inputParams.disabled === true) {
-    inputParams['aria-disabled'] = true
-  }
-
-  mergeAttributes(inputParams, attributes)
+  validateDOMAttributes(props, inputParams)
 
   const helperParams = useMemo(
     () => ({

@@ -26,6 +26,7 @@ import Context from '../../shared/Context'
 import {
   warn,
   makeUniqueId,
+  validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
@@ -38,7 +39,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
@@ -722,12 +723,13 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
 
   const params = {
     className: clsx('dnb-global-status', `dnb-global-status--${state}`),
-    ...removeSpaceProps(
-      attributes as SpacingProps & Record<string, unknown>
-    ),
+    ...attributes,
   }
 
   skeletonDOMAttributes(params, skeleton, context)
+
+  // also used for code markup simulation
+  validateDOMAttributes(ownProps, params)
 
   const itemsRenderHandler = (rawItem: GlobalStatusItem, i: number) => {
     const item = typeof rawItem === 'string' ? { text: rawItem } : rawItem

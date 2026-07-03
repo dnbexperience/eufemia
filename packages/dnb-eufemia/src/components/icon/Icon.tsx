@@ -9,14 +9,13 @@ import type {
 import { clsx } from 'clsx'
 import {
   warn,
-  mergeAttributes,
-  removeNullProps,
+  validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import type { ContextProps } from '../../shared/Context'
 import Context from '../../shared/Context'
-import { useSpacing, removeSpaceProps } from '../space/SpacingUtils'
+import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
 import type { SpacingProps } from '../../shared/types'
@@ -372,6 +371,8 @@ function prepareIconParams({
     params.height = parseFloat(String(height))
   }
 
+  validateDOMAttributes({}, params)
+
   return { params, sizeAsString }
 }
 
@@ -399,9 +400,8 @@ export function prepareIcon(
     skeleton,
     className,
     transitionState: _transitionState,
-    attributes: attributesProp,
-    ...restAttributes
-  } = props as IconAllProps & { attributes?: Record<string, unknown> }
+    ...attributes
+  } = props
 
   const { sizeAsString, iconParams } =
     cachedValues ||
@@ -422,7 +422,8 @@ export function prepareIcon(
   const isFilled = Boolean(fill)
 
   // some wrapper params
-  const wrapperParams: Record<string, any> = {
+  // also used for code markup simulation
+  const wrapperParams = validateDOMAttributes(props, {
     role: alt ? 'img' : 'presentation',
     alt, // in case the image don't shows up (because we define the role to be img)
     'aria-label':
@@ -430,10 +431,8 @@ export function prepareIcon(
         ? label.replace(/_/g, ' ') + ' icon'
         : null, // for screen readers only
     title, // to show on hover, if defined
-    ...removeSpaceProps(restAttributes),
-  }
-  mergeAttributes(wrapperParams, attributesProp)
-  removeNullProps(wrapperParams)
+    ...attributes,
+  })
   if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {
     wrapperParams['aria-hidden'] = true
   }

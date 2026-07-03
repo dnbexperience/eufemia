@@ -13,7 +13,10 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import { chevron_down, chevron_up } from '../../icons'
 import Icon from '../icon/Icon'
 import IconPrimary from '../icon-primary/IconPrimary'
-import { combineDescribedBy } from '../../shared/component-helper'
+import {
+  validateDOMAttributes,
+  combineDescribedBy,
+} from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import FormLabel from '../form-label/FormLabel'
 import StepIndicatorContext from './StepIndicatorContext'
@@ -21,8 +24,6 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { removeSpaceProps } from '../space/SpacingUtils'
-import type { SpacingProps } from '../../shared/types'
 
 const chevronIcon = Icon.transition({
   collapsed: chevron_down,
@@ -58,17 +59,14 @@ function StepIndicatorTriggerButton({
   const label = stepsLabel
   const id = useId()
 
-  const triggerParams = removeSpaceProps({
+  const triggerParams = {
     ...contextWithoutDataRest,
     className: clsx(
       'dnb-step-indicator__trigger',
       createSkeletonClass('font', skeleton)
     ),
     'aria-live': 'polite',
-  } as SpacingProps & Record<string, unknown>) as Omit<
-    HTMLProps<HTMLElement>,
-    'onChange' | 'onClick'
-  >
+  } as Omit<HTMLProps<HTMLElement>, 'onChange' | 'onClick'>
 
   const buttonParams = {
     ...rest,
@@ -95,6 +93,9 @@ function StepIndicatorTriggerButton({
   })
 
   skeletonDOMAttributes(triggerParams, skeleton)
+
+  // also used for code markup simulation
+  validateDOMAttributes(contextWithoutDataRest, triggerParams)
 
   return (
     <Section

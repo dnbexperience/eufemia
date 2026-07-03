@@ -17,7 +17,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTheme, Context } from '../../shared'
 import useId from '../../shared/helpers/useId'
 import {
-  mergeAttributes,
+  validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
   removeUndefinedProps,
@@ -501,7 +501,6 @@ function FormStatusComponent(
     role,
     icon: _icon,
     iconSize: _iconSize,
-    attributes,
     ...rest
   } = restOfProps
 
@@ -548,7 +547,9 @@ function FormStatusComponent(
 
   skeletonDOMAttributes(params, skeleton, context)
 
-  mergeAttributes(params, attributes)
+  // also used for code markup simulation
+  validateDOMAttributes(restOwnProps, params)
+  validateDOMAttributes(null, textParams)
 
   return (
     <HeightAnimation
