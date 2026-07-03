@@ -315,6 +315,9 @@ export function useDataReturn<Data = JsonObject>({
     ]
   )
 
+  // The runtime resolver takes a plain `Path`; cast it to the public generic
+  // signature so callers get the value type resolved from the literal path
+  // (`getValue` maps `P` to `PathType<Data, P>`).
   const getValue = useCallback(
     (path: Path) => {
       const dataContext = getDataContext()
@@ -331,7 +334,7 @@ export function useDataReturn<Data = JsonObject>({
       return undefined
     },
     [getCurrentData, getDataContext, id]
-  ) as UseDataReturn<Data>['getValue']
+  ) as unknown as UseDataReturn<Data>['getValue']
 
   useMountEffect(() => {
     if (id && !sharedDataRef.current?.hadInitialData && initialData) {

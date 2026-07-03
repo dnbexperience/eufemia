@@ -36,6 +36,9 @@ export default function getData<Data>(
     (data, options) =>
       sharedAttachments.data?.visibleDataHandler?.(data, options)
 
+  // The runtime resolver takes a plain `Path`; cast it to the public generic
+  // signature so callers get the value type resolved from the literal path
+  // (`getValue` maps `P` to `PathType<Data, P>`).
   const getValue = ((path: Path) => {
     if (pointer.has(data, path)) {
       return pointer.get(data, path)
