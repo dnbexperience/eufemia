@@ -129,6 +129,27 @@ describe('Form.useData', () => {
   })
 
   describe('getValue return type', () => {
+    // Mirrors the originally reported scenario: getValue on a top-level array
+    // path used to collapse to `any`; it must resolve to the full array type.
+    it('resolves a top-level array path to the full array type', () => {
+      type UIMemberProps = { name: string; age: number; active: boolean }
+      type Data = { members: Partial<UIMemberProps>[] }
+
+      const { result } = renderHook(() =>
+        useData<Data>(identifier, { members: [{ name: 'Nora' }] })
+      )
+
+      // Runtime behavior is unchanged
+      expect(result.current.getValue('/members')).toEqual([
+        { name: 'Nora' },
+      ])
+
+      // Previously `any`; now the precise array type from the report
+      const formMembers = result.current.getValue('/members')
+      expectTypeOf(formMembers).toEqualTypeOf<Partial<UIMemberProps>[]>()
+      expectTypeOf(formMembers).not.toBeAny()
+    })
+
     it('infers precise value types from typed initial data', () => {
       type MemberData = {
         name: string
