@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { HTMLProps, ReactNode } from 'react'
+import type { ComponentProps, HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
   extendExistingPropsWithContext,
@@ -200,7 +200,7 @@ function Skeleton(props: SkeletonProps) {
 
 export default Skeleton
 
-function Exclude(props) {
+function Exclude(props: ComponentProps<typeof Provider>) {
   return <Provider {...props} skeleton={false} />
 }
 

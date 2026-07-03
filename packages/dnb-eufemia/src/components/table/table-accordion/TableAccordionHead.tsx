@@ -83,7 +83,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   let headerContent = Children.toArray(children)
 
   const addContent = useCallback(
-    (content) => {
+    (content: ReturnType<typeof Children.toArray>[number]) => {
       if (tableContext.allProps.accordionChevronPlacement === 'right') {
         headerContent.push(content)
       } else {

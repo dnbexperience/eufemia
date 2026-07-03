@@ -4,7 +4,7 @@
  */
 
 import { useContext } from 'react'
-import type { HTMLProps, ReactNode } from 'react'
+import type { HTMLProps, ReactElement, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import { findElementInChildren } from '../../../shared/component-helper'
 import type { SectionProps } from '../../section/Section'
@@ -47,9 +47,12 @@ export default function ModalHeader({
   Omit<HTMLProps<HTMLElement>, 'size' | 'title' | 'children'>) {
   const context = useContext(ModalContext)
 
-  const customHeader = findElementInChildren(children, (cur) => {
-    return cur.type === 'h1' || cur.type === H1
-  })
+  const customHeader = findElementInChildren(
+    children,
+    (cur: ReactElement) => {
+      return cur.type === 'h1' || cur.type === H1
+    }
+  )
 
   const usedTitle = title || context.title
   const showTitle = !customHeader && usedTitle
