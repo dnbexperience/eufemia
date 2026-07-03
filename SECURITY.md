@@ -38,10 +38,10 @@ vulnerable code ships to consumers (see
 
 | Severity (in shipped code) | Target to fix / mitigate         |
 | -------------------------- | -------------------------------- |
-| Critical                   | ASAP — hotfix release            |
-| High                       | within 7 days                    |
-| Moderate                   | within the current sprint        |
-| Low                        | best-effort / next routine batch |
+| Critical                   | Immediately — hotfix release     |
+| High                       | Within 7 days                    |
+| Moderate                   | Promptly — prioritised           |
+| Low                        | Best-effort / next routine batch |
 
 Issues that only affect development, build, or CI tooling (not the published
 artifacts) are handled on a best-effort/routine basis.
