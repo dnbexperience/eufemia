@@ -6,8 +6,8 @@ export function runIOSSelectionFix() {
   try {
     const selection = window.getSelection()
     const range = document.createRange()
-    selection.removeAllRanges()
-    selection.addRange(range)
+    selection?.removeAllRanges()
+    selection?.addRange(range)
   } catch (e) {
     //
   }

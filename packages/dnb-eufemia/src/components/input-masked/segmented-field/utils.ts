@@ -72,7 +72,7 @@ export function extractValidChars(value: string, mask: RegExp[]) {
     const char = chars[index]
     const maskRule = mask[output.length]
 
-    if (maskRule?.test(char)) {
+    if (char !== undefined && maskRule?.test(char)) {
       output.push(char)
     }
   }
