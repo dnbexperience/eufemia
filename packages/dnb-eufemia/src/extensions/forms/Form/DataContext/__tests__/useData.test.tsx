@@ -13,6 +13,7 @@ import { DataContext, Field, Form, Wizard, Iterate } from '../../..'
 import type { FilterData } from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
 import useData from '../useData'
+import type { PathType } from '../useData'
 
 describe('Form.useData', () => {
   let identifier: string
@@ -125,6 +126,61 @@ describe('Form.useData', () => {
     const { result } = renderHook(() => useData(identifier))
 
     expect(result.current.getValue('/does-not-exist')).toBe(undefined)
+  })
+
+  describe('getValue return type', () => {
+    it('infers precise value types from typed initial data', () => {
+      type MemberData = {
+        name: string
+        age: number
+        address?: { street: string }
+        members: Array<{ id: number }>
+      }
+      const initialData: MemberData = {
+        name: 'Nora',
+        age: 42,
+        address: { street: 'Main' },
+        members: [{ id: 1 }],
+      }
+      const { result } = renderHook(() => useData(identifier, initialData))
+
+      // Runtime behavior is unchanged
+      expect(result.current.getValue('/name')).toBe('Nora')
+
+      // The fix: getValue no longer collapses to `any` for typed data
+      expectTypeOf(
+        result.current.getValue('/name')
+      ).toEqualTypeOf<string>()
+      expectTypeOf(result.current.getValue('/age')).toEqualTypeOf<number>()
+      expectTypeOf(
+        result.current.getValue('/address/street')
+      ).toEqualTypeOf<string>()
+      expectTypeOf(
+        result.current.getValue('/members/0/id')
+      ).toEqualTypeOf<number>()
+      expectTypeOf(result.current.data).toEqualTypeOf<MemberData>()
+
+      // The bug was getValue collapsing to `any`; assert it no longer does
+      expectTypeOf(result.current.getValue('/name')).not.toBeAny()
+
+      // The exported PathType resolver used by getValue
+      expectTypeOf<
+        PathType<MemberData, '/address/street'>
+      >().toEqualTypeOf<string>()
+      expectTypeOf<
+        PathType<MemberData, '/members/0/id'>
+      >().toEqualTypeOf<number>()
+    })
+
+    it('falls back to any for untyped (JsonObject) data', () => {
+      const { result } = renderHook(() => useData(identifier))
+
+      // Runtime: a non-existent path returns undefined
+      expect(result.current.getValue('/anything')).toBeUndefined()
+
+      // Type: untyped data keeps cast-free `any` ergonomics
+      expectTypeOf(result.current.getValue('/anything')).toBeAny()
+    })
   })
 
   it('should return "update" method that lets you update the data', () => {

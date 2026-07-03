@@ -36,13 +36,13 @@ export default function getData<Data>(
     (data, options) =>
       sharedAttachments.data?.visibleDataHandler?.(data, options)
 
-  const getValue = (path: Path) => {
+  const getValue = ((path: Path) => {
     if (pointer.has(data, path)) {
       return pointer.get(data, path)
     }
 
     return undefined
-  }
+  }) as unknown as UseDataReturnGetValue<Data>
 
   return {
     data,

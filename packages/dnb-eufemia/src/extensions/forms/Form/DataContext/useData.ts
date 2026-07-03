@@ -18,6 +18,7 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
+import type { PathValue } from '../../typed-paths'
 import type {
   ContextState,
   FilterData,
@@ -28,17 +29,33 @@ import type { DataContextRef } from '../../DataContext/DataContextRefContext'
 import type { SharedAttachments } from '../../DataContext/Provider'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
-type PathImpl<T, P extends string> = P extends `${infer Key}/${infer Rest}`
-  ? Key extends keyof T
-    ? Rest extends ''
-      ? T[Key]
-      : PathImpl<T[Key], Rest>
-    : never
-  : T[P & keyof T]
+type IsAny<T> = 0 extends 1 & T ? true : false
 
-export type PathType<T, P extends string> = P extends `/${infer Rest}`
-  ? PathImpl<T, Rest>
-  : never
+type IsUnknownOrNever<T> =
+  IsAny<T> extends true
+    ? false
+    : [T] extends [never]
+      ? true
+      : unknown extends T
+        ? true
+        : false
+
+/**
+ * Resolves the value type located at the JSON Pointer path `P` in `Data`,
+ * reusing the shared {@link PathValue} resolver from the typed-paths support.
+ *
+ * When `Data` is a concrete type – e.g. passed explicitly to `useData`/`getData`
+ * as a generic (or `RegisteredFormData` from the typed-paths `Register`) – this
+ * yields the precise value type. It falls back to `any` when the type cannot be
+ * resolved (for example the default untyped `JsonObject` data, or an explicit
+ * `any`), so untyped usage stays cast-free while typed data no longer collapses
+ * to `any` (which is what the previous `PathType<Data, P> | any` union always
+ * did).
+ */
+export type PathType<Data, P extends string> =
+  IsUnknownOrNever<PathValue<Data, P>> extends true
+    ? any
+    : PathValue<Data, P>
 
 export type UseDataReturnUpdate<Data> = <P extends Path>(
   path: P,
@@ -47,7 +64,7 @@ export type UseDataReturnUpdate<Data> = <P extends Path>(
 
 export type UseDataReturnGetValue<Data> = <P extends Path>(
   path: P
-) => PathType<Data, P> | any
+) => PathType<Data, P>
 
 export type UseDataReturnFilterData<Data> = (
   filterDataHandler: FilterData,
@@ -298,8 +315,8 @@ export function useDataReturn<Data = JsonObject>({
     ]
   )
 
-  const getValue = useCallback<UseDataReturn<Data>['getValue']>(
-    (path) => {
+  const getValue = useCallback(
+    (path: Path) => {
       const dataContext = getDataContext()
 
       if (!id && dataContext?.getDataValue) {
@@ -314,7 +331,7 @@ export function useDataReturn<Data = JsonObject>({
       return undefined
     },
     [getCurrentData, getDataContext, id]
-  )
+  ) as UseDataReturn<Data>['getValue']
 
   useMountEffect(() => {
     if (id && !sharedDataRef.current?.hadInitialData && initialData) {
