@@ -3,6 +3,24 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.8.2](https://github.com/dnbexperience/eufemia/compare/v11.8.1...v11.8.2) (2026-07-03)
+
+### :bug: Bug Fixes
+
+* **Form.Element:** avoid invalid DOM id warning for non-string id ([#8797](https://github.com/dnbexperience/eufemia/issues/8797)) ([cecf210](https://github.com/dnbexperience/eufemia/commit/cecf21033ce6d0b8f4c661801bc86b221a20bcf5))
+* **Form.useData:** return precise value types from getValue  ([#8811](https://github.com/dnbexperience/eufemia/issues/8811)) ([6acdc50](https://github.com/dnbexperience/eufemia/commit/6acdc502bf555e7228ea2733354fddb2efda8b6a)), closes [#8649](https://github.com/dnbexperience/eufemia/issues/8649)
+* **Form.useData:** type update() value and updater callback param ([#8813](https://github.com/dnbexperience/eufemia/issues/8813)) ([0c23284](https://github.com/dnbexperience/eufemia/commit/0c23284f1c9be4f1bd2d73130450f0295a959227)), closes [#8811](https://github.com/dnbexperience/eufemia/issues/8811) [#8811](https://github.com/dnbexperience/eufemia/issues/8811)
+* **GlobalError:** prevent status-code translation keys leaking to DOM ([#8774](https://github.com/dnbexperience/eufemia/issues/8774)) ([ad875a4](https://github.com/dnbexperience/eufemia/commit/ad875a49249fa469d66845f6647be373c3539f82))
+* **InputMasked:** guard against restoring an undefined input type ([#8766](https://github.com/dnbexperience/eufemia/issues/8766)) ([2e174b6](https://github.com/dnbexperience/eufemia/commit/2e174b66b3390319968b7682cd046508c07a9627))
+
+### :zap: Refactoring
+
+* **Dialog:** export DialogAllProps to standardize prop-type naming ([#8772](https://github.com/dnbexperience/eufemia/issues/8772)) ([7323095](https://github.com/dnbexperience/eufemia/commit/7323095fd1be642716940d24f8c638e2c6c37a6a))
+
+### :white_check_mark: Tests
+
+* **forms:** test number validators directly to speed up the suite ([#8748](https://github.com/dnbexperience/eufemia/issues/8748)) ([a624810](https://github.com/dnbexperience/eufemia/commit/a6248100de30744e5cb492483671003585bd3b05))
+
 ## [11.8.1](https://github.com/dnbexperience/eufemia/compare/v11.8.0...v11.8.1) (2026-06-29)
 
 ### :bug: Bug Fixes
