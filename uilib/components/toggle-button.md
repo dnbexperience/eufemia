@@ -1,8 +1,8 @@
 ---
 title: 'ToggleButton'
 description: 'Use ToggleButton when people can turn one or more visible choices on or off.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.758Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.968Z
 checksum: 2c3b808fef08d0bfb8763edccfd9ac9869ede62ef435e4369d8a80aa4f8ad9ee
 ---
 

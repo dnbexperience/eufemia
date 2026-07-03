@@ -1,8 +1,8 @@
 ---
 title: 'TermDefinition'
 description: 'Use TermDefinition to explain a word or phrase without leaving the page.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.735Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.945Z
 checksum: ddde1de4add0beaa3d7c7dbdc745c3cd9e3979a812b8f919df7d27f68010e307
 ---
 

@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{t as n}from"./withComponentMarkers-KPoWbM0h.js";import{t as r}from"./P-C2_ZQtqD.js";var i=e(t()),a=e=>(0,i.jsx)(r,{...e});n(a,{_supportsSpacingProps:!0});var o=a;export{o as t};

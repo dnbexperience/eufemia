@@ -1,8 +1,8 @@
 ---
 title: 'Field.OrganizationNumber'
 description: '`Field.OrganizationNumber` is a wrapper component for the input of strings, with user experience tailored for organization number values.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:04.403Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:31.611Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

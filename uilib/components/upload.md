@@ -1,8 +1,8 @@
 ---
 title: 'Upload'
 description: 'Use Upload when people need to choose or drag files into a page.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.788Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.983Z
 checksum: f3b102655328f8fa6375576d3976d0f668b2dfdf06a68fd85727abf2be3d46c3
 ---
 

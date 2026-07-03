@@ -1,8 +1,8 @@
 ---
 title: 'FormLabel'
 description: 'Use FormLabel to name an input, control, or form-related field.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.264Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.456Z
 checksum: a3e2d63a21c9bff5a2c312d26f4d4ee69485b847669f8c9599a421d01406725f
 ---
 

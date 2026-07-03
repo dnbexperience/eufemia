@@ -1,8 +1,8 @@
 ---
 title: 'Field.DateOfBirth'
 description: '`Field.DateOfBirth` is a wrapper component for the input of strings, with user experience tailored for date of birth values.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:04.398Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:31.606Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -161,9 +161,7 @@ const myValidator: DateOfBirthValidator = (value, {
   } = validators;
   return [dateOfBirthValidator, firstDigitIs1Validator];
 };
-render(<Field.DateOfBirth required value="2000-05-17"
-// @ts-expect-error -- strictFunctionTypes
-onBlurValidator={myValidator} validateInitially />);
+render(<Field.DateOfBirth required value="2000-05-17" onBlurValidator={myValidator} validateInitially />);
 ```
 
 

@@ -1,8 +1,8 @@
 ---
 title: 'Checkbox'
 description: 'Use Checkbox when people can turn one or more options on or off.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.181Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.375Z
 checksum: 939a8836250d6d2afd29993ca91817df714de36971250a394461495e70f32e64
 ---
 

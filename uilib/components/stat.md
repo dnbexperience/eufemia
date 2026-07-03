@@ -1,8 +1,8 @@
 ---
 title: 'Stat'
 description: 'Use Stat to highlight an important number, label, or trend.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.694Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.883Z
 checksum: c798923712167dbf7054c673bd7787654db7d2abd1c22bcf48055fcbce114b64
 ---
 

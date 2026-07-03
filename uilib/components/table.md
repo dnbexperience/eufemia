@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Use Table to show structured data in rows and columns.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.721Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.930Z
 checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Tag'
 description: 'Use Tag to show a small label, status, or selected value.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.731Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.941Z
 checksum: 1059dd4ae201d0a98d491bb6096bc1cb8a6392d46b7a5bdb50d61d93d7660bcf
 ---
 

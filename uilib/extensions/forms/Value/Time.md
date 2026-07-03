@@ -1,8 +1,8 @@
 ---
 title: 'Value.Time'
 description: '`Value.Time` is a wrapper component for displaying string values, with user experience tailored for time values.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:04.282Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:31.492Z
 checksum: 39e3f8837d6e37ee2189d4221c053f099b9fb3cb96ab591e6ed253301dbd1a79
 ---
 

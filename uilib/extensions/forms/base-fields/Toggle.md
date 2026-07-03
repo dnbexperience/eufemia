@@ -1,8 +1,8 @@
 ---
 title: 'Field.Toggle'
 description: '`Field.Toggle` is a base component for allowing the user to toggle between two different values in the target data point.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:04.375Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:31.582Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -196,12 +196,14 @@ render(<Field.Toggle valueOn="on" valueOff="off" variant="radio" label="Radio va
   
 ```tsx
 Text above the toggle:
+    
 <Field.Toggle valueOn="on" valueOff="off" variant="buttons" value="on" onChange={value => console.log('onChange', value)} />
 ```
 
   
 ```tsx
 Text above the toggle:
+    
 <Field.Toggle valueOn="on" valueOff="off" variant="radio" value="on" onChange={value => console.log('onChange', value)} />
 ```
 

@@ -1,8 +1,8 @@
 ---
 title: 'Icon'
 description: 'Use Icon to render and size an icon in line with Eufemia styling.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.315Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.500Z
 checksum: b98a4453b871bd7a5f0c3d48e34ad2f3f5acac3fed6daf200822fe89dc43f67d
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Paragraph'
 description: 'Paragraphs are block-level elements, used to structure and format text contents.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.902Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:31.107Z
 checksum: 4774a0918e79dc38bc1ffed225923a088efeec3346db6b43950bdf06c2a7748b
 ---
 

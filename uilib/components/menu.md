@@ -1,8 +1,8 @@
 ---
 title: 'Menu'
 description: 'Use Menu when people need to choose from a small list of actions or links.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.390Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.576Z
 checksum: 1fc99517592ef537de08c221f7492a20a5f0da34d4c6422f3025968fc4f94199
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Form.clearData'
 description: '`Form.clearData` lets you clear the data of a form.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:04.064Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:31.264Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

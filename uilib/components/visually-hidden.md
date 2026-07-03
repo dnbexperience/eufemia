@@ -1,8 +1,8 @@
 ---
 title: 'VisuallyHidden'
 description: 'Use VisuallyHidden to keep helpful text available to screen readers but hidden visually.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.792Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.987Z
 checksum: 04379dde0690518a2fc76a24effa77b9dc53bb2dbbf2bc55765063299a7adf41
 ---
 

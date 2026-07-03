@@ -1,8 +1,8 @@
 ---
 title: 'Heading (auto level)'
 description: 'Use Heading to create accessible page headings with the correct level.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.299Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.484Z
 checksum: f2ba0868c40cefe7513a73171e0443adb11ed19430690bb3d1f90545b838de9a
 ---
 

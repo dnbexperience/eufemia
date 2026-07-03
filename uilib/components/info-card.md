@@ -1,8 +1,8 @@
 ---
 title: 'InfoCard'
 description: 'Use InfoCard to show helpful information, tips, or guidance in a highlighted area.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.323Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.509Z
 checksum: 30ca028ab14e2ce04afdbcc8ec6cc429287c1f971830b15c83de976d44366a8e
 ---
 

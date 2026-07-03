@@ -1,7 +1,7 @@
 ---
 title: 'Naming convention'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:02.355Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.002Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -25,6 +25,33 @@ The DNB Design System Eufemia uses the following naming conventions.
 ### Namespace components
 
 Components exported as part of a namespace (e.g. `Field.String`, `Form.Handler`, `Iterate.Array`) use **pascal case** for both folders and files to mirror the public API structure.
+
+## Component prop types
+
+Prop types follow a consistent naming convention using the component name in **pascal case**:
+
+- `XxxProps` – the component's own, individually documented props. This is the type consumers import.
+- `XxxAllProps` – the complete set of props the component accepts. It combines `XxxProps` with the shared props the component composes on top, such as `SpacingProps` and forwarded element/HTML attributes. Export it whenever a component adds props beyond its own, and use it as the type of the component function and the `xxxDefaultProps` object.
+- `xxxDefaultProps` – the object holding the component's default prop values, named in **camel case**.
+
+```tsx
+export type BadgeProps = {
+  /* ...individually documented props... */
+}
+
+export type BadgeAllProps = BadgeProps &
+  SpacingProps &
+  Omit<HTMLProps<HTMLElement>, 'content' | 'label'>
+
+export const badgeDefaultProps: BadgeAllProps = {
+  variant: 'information',
+  // ...
+}
+
+function Badge(localProps: BadgeAllProps) {
+  /* ... */
+}
+```
 
 ## CSS / SCSS
 

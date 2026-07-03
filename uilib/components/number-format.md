@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
 description: 'Use NumberFormat to show numbers in the correct DNB format.'
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:03.409Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.595Z
 checksum: 1288e9fa33e5c61a53eacfeff4c357e6d535d99373b72e1aa9f6efed11e65caa
 ---
 

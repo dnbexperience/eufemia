@@ -1,8 +1,8 @@
 ---
 title: 'Living system'
 description: "Eufemia is DNB's design system. It is constantly evolving and improving and is our single source of truth for UI design and front-end code."
-version: 11.8.1
-generatedAt: 2026-06-29T11:30:02.375Z
+version: 11.8.2
+generatedAt: 2026-07-03T14:37:30.027Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
