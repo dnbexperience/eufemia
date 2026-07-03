@@ -1,4 +1,4 @@
-export function extractMarkdownTables(md) {
+export function extractMarkdownTables(md: string) {
   const tables = []
   const lines = md.split('\n')
   let inFence = false
@@ -41,13 +41,13 @@ export function extractMarkdownTables(md) {
   return tables
 }
 
-function isTableSeparator(line) {
+function isTableSeparator(line: string) {
   // Simplified pattern to prevent ReDoS - match table separator rows
   // Pattern: optional leading pipe, then one or more cells with dashes/colons, optional trailing pipe
   return /^\s*\|?\s*(:?-+:?\s*\|)+\s*:?-+:?\s*\|?\s*$/.test(line)
 }
 
-function splitTableRow(line) {
+function splitTableRow(line: string) {
   let text = line.trim()
   if (text.startsWith('|')) {
     text = text.slice(1)
@@ -86,7 +86,7 @@ function splitTableRow(line) {
   return cells.map((cell) => renderMarkdownInline(cell))
 }
 
-function renderMarkdownInline(input) {
+function renderMarkdownInline(input: string) {
   if (typeof input !== 'string') {
     return input
   }
