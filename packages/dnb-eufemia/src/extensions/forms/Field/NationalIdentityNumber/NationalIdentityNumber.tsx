@@ -108,7 +108,6 @@ function NationalIdentityNumber(props: FieldNationalIdentityNumberProps) {
     width: width ?? 'medium',
     inputMode: 'numeric',
     onChangeValidator: validate ? onChangeValidator : undefined,
-    // @ts-expect-error - strictFunctionTypes
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: {
       dnrValidator,

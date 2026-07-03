@@ -37,7 +37,6 @@ function Upload(props: ValueUploadProps) {
     displaySize = false,
     onFileClick,
     ...rest
-    // @ts-expect-error - strictFunctionTypes
   } = useValueProps(preparedProps)
 
   const list = useMemo(() => {

@@ -47,12 +47,12 @@ export type EventListenerCall = {
     | 'onMount'
     | 'onSetMountedFieldState'
     | 'onSetFieldError'
-  callback: (
+  callback(
     params?:
       | { value: unknown }
       | { preventSubmit: () => void }
       | { path: Path; state: MountState }
-  ) => void | Promise<void | Error>
+  ): void | Promise<void | Error>
 }
 
 export type VisibleDataHandler<Data> = (
@@ -193,12 +193,12 @@ export type ContextState = {
   }) => Promise<EventStateObject | undefined>
   getSubmitData?: () => unknown
   getSubmitParams?: () => OnSubmitParams
-  setFieldEventListener?: (
+  setFieldEventListener?(
     path: EventListenerCall['path'],
     type: EventListenerCall['type'],
     callback: EventListenerCall['callback'],
     params?: { remove?: boolean }
-  ) => void
+  ): void
   revealError?: (path: Path, hasError: boolean) => void
   setFieldInternals?: <Props>(
     path: Path,

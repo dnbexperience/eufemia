@@ -234,7 +234,6 @@ function StringComponent(props: FieldStringProps) {
   const preparedProps: FieldStringProps = {
     ...props,
     schema,
-    // @ts-expect-error - strictFunctionTypes
     fromInput: props.fromInput ?? fromInput,
     toEvent,
     transformValue,

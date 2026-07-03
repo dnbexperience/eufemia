@@ -164,11 +164,7 @@ export const ValidationExtendValidator = () => {
         }
 
         return (
-          <Field.Time
-            value="00:00"
-            // @ts-expect-error -- strictFunctionTypes
-            onBlurValidator={myOnBlurValidator}
-          />
+          <Field.Time value="00:00" onBlurValidator={myOnBlurValidator} />
         )
       }}
     </ComponentBox>

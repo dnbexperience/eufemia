@@ -135,7 +135,6 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
     setDisplayValue,
     forceUpdate,
     filterCurrencies,
-    // @ts-expect-error - strictFunctionTypes
   } = useFieldProps(preparedProps)
 
   const dataRef = useRef<ReturnType<typeof getCurrencyData>>(null)

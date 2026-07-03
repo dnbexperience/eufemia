@@ -85,12 +85,12 @@ export type DatePickerCalendarProps = Omit<
   onlyMonth?: boolean
   hideMonthLabel?: boolean
   hideNextMonthWeek?: boolean
-  onSelect?: (
+  onSelect?(
     event: DatePickerChangeEvent<
       | MouseEvent<HTMLSpanElement>
       | KeyboardEvent<HTMLTableElement | HTMLButtonElement>
     >
-  ) => void
+  ): void
   onKeyDown?: (
     event: KeyboardEvent<HTMLTableElement | HTMLButtonElement>,
     tableRef: RefObject<HTMLTableElement>,

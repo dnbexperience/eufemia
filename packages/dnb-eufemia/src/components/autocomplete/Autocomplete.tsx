@@ -113,7 +113,7 @@ export type AutocompleteOptionsRender = DrawerListOptionsRender
 export type AutocompleteEventMethods = {
   attributes: Record<string, unknown>
   dataList: DrawerListData
-  updateData: (data: DrawerListData) => void
+  updateData(data: DrawerListData): void
   revalidateSelectedItem: () => void
   revalidateInputValue: () => void
   resetSelectedItem: () => void
@@ -528,12 +528,11 @@ function getCurrentDataTitle(
 }
 
 function AutocompleteComponent(ownProps: AutocompleteAllProps) {
-  const context = useContext<
-    DrawerListContextValue & {
-      Autocomplete: Record<string, unknown>
-    }
-    // @ts-expect-error - strictFunctionTypes
-  >(DrawerListContext)
+  const context = useContext(
+    DrawerListContext
+  ) as DrawerListContextValue & {
+    Autocomplete: Record<string, unknown>
+  }
   const drawerList = context.drawerList
 
   // Filter out undefined values so that explicit undefined (e.g. size={undefined})
@@ -1740,7 +1739,6 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       >
     >(null)
   eventMethodsRef.current = {
-    // @ts-expect-error - strictFunctionTypes
     updateData,
     revalidateSelectedItem,
     revalidateInputValue,

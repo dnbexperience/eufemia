@@ -56,7 +56,6 @@ export const PostalCode = () => {
                 postalCode={{
                   path: '/postalCode',
                   onBlurValidator,
-                  // @ts-expect-error -- strictFunctionTypes
                   onBlur,
                   required: true,
                 }}
@@ -106,7 +105,6 @@ export const Address = () => {
             <Form.Card>
               <Field.Address.Street
                 path="/streetAddress"
-                // @ts-expect-error -- strictFunctionTypes
                 element={addressSuggestionsElement}
               />
               <Field.PostalCodeAndCity

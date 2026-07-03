@@ -155,7 +155,6 @@ const Upload = (localProps: UploadAllProps) => {
       value={{
         ...extendedProps,
         id,
-        // @ts-expect-error - strictFunctionTypes
         onInputUpload,
       }}
     >

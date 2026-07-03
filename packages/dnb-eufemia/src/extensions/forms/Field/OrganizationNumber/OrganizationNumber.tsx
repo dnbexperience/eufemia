@@ -74,7 +74,6 @@ function OrganizationNumber(props: FieldOrganizationNumberProps) {
     width: width ?? 'medium',
     inputMode: 'numeric',
     onChangeValidator: validate ? onChangeValidator : undefined,
-    // @ts-expect-error - strictFunctionTypes
     onBlurValidator: validate ? onBlurValidatorToUse : undefined,
     exportValidators: { organizationNumberValidator },
   }
