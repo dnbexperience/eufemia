@@ -80,14 +80,15 @@ export const isFileEqual = (fileA: File, fileB: File): boolean => {
     b: File,
     property: string
   ) {
+    const key = property as keyof File
     return (
       a &&
       property in a &&
       b &&
       property in b &&
-      (a[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
-        b[property] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
-        a[property] === b[property])
+      (a[key] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
+        b[key] === 0 || // If value is 0, which is default when not provided, we can't say whether the file is equal or not, so we assume they are.
+        a[key] === b[key])
     )
   }
   return (
