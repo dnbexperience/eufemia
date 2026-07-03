@@ -55,7 +55,7 @@ export class InteractionInvalidation {
     this._nodesToInvalidate = null
   }
 
-  _runInvalidation(targetElement: TargetElement | TargetSelector) {
+  _runInvalidation(targetElement: TargetElement | TargetSelector): void {
     if (typeof document === 'undefined') {
       return undefined // stop here
     }
@@ -94,7 +94,7 @@ export class InteractionInvalidation {
     }
   }
 
-  _revertInvalidation() {
+  _revertInvalidation(): void {
     if (!Array.isArray(this._nodesToInvalidate)) {
       return undefined // stop here
     }

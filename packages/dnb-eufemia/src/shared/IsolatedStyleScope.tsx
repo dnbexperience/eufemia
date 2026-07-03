@@ -129,7 +129,7 @@ export default function IsolatedStyleScope(
 export function getCurrentStyleScopeElement(
   currentElement: HTMLElement,
   scopeHash = 'auto',
-  fallback = null
+  fallback: Element | null = null
 ) {
   if (scopeHash === 'auto') {
     scopeHash = getStyleScopeHash()
