@@ -61,9 +61,13 @@ security updates.
 
 ## Ownership
 
-Security reports and dependency advisories for this repository are owned by the
-**Eufemia maintainers** (not a single individual). The team triages incoming
-reports and Dependabot alerts per the routine linked below.
+Vulnerability management for this repository is owned by the Eufemia **Security
+Champion** — **Anders Langseth** ([@langz](https://github.com/langz)) — following
+DNB's Security Champion model. The Champion is accountable for the review
+cadence, signs off on any deferral or exception (recorded for auditability), acts
+as liaison to DNB's central Vulnerability Management team, and reports Eufemia's
+vulnerability status upward. Day-to-day triage of incoming reports and Dependabot
+alerts can rotate across the Eufemia maintainers, per the routine linked below.
 
 ## For maintainers
 
