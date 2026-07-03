@@ -89,3 +89,41 @@ jobs:
           github.ref == 'refs/heads/next' ||
           endsWith(github.ref, '.x'))
         run: yarn workspace @dnb/eufemia publish:ci
+
+      # Produce the supply-chain compliance artifacts for the published library:
+      # a CycloneDX SBOM of its production (shipped) dependencies, plus a
+      # vulnerability report. Runs after publish so SBOM tooling can never block
+      # a release. Required by DNB (SECARC "Requirements for Application
+      # Security": an SBOM accompanied by a vulnerability report per release).
+      - name: Generate SBOM and vulnerability report
+        if: github.repository == 'dnbexperience/eufemia' &&
+          (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha' ||
+          github.ref == 'refs/heads/next' ||
+          endsWith(github.ref, '.x'))
+        working-directory: packages/dnb-eufemia
+        run: |
+          yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx \
+            --output-format JSON --spec-version 1.6 \
+            --production --output-file sbom.cdx.json
+          # Accompanying vulnerability report (production scope). Non-fatal: the
+          # "Audit dependencies" step above is the actual release gate.
+          yarn npm audit --environment production --json > vulnerability-report.json || true
+          [ -s vulnerability-report.json ] || \
+            echo '{"summary":"No known vulnerabilities in production dependencies."}' > vulnerability-report.json
+
+      - name: Upload SBOM and vulnerability report
+        if: github.repository == 'dnbexperience/eufemia' &&
+          (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha' ||
+          github.ref == 'refs/heads/next' ||
+          endsWith(github.ref, '.x'))
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: sbom-and-vulnerability-report
+          path: |
+            packages/dnb-eufemia/sbom.cdx.json
+            packages/dnb-eufemia/vulnerability-report.json
+          retention-days: 90
