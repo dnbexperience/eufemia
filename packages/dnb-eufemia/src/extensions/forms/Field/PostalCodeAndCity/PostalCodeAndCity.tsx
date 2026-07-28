@@ -79,31 +79,29 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     errorMessages: cityErrorMessages,
   } = handleCityDefaults(city)
 
+  // Countries that use a four-digit postal code (0000–9999).
+  const fourDigitPatternCountries: CountryCode[] = [
+    defaultCountry,
+    'DK',
+    'CH',
+  ]
   const usesFourDigitPattern =
-    countryCodeValue === defaultCountry ||
-    countryCodeValue === 'DK' ||
-    countryCodeValue === 'CH'
+    fourDigitPatternCountries.includes(countryCodeValue)
 
   const handlePostalCodeDefaults = useCallback(
     (postalCode: StringFieldProps) => {
       const props: StringFieldProps = {}
 
-      switch (countryCodeValue) {
-        case defaultCountry:
-        case 'DK':
-        case 'CH': {
-          props.mask = [/\d/, /\d/, /\d/, /\d/]
-          props.pattern = '^[0-9]{4}$'
-          break
-        }
-        default:
-          props.width = '8rem'
-          break
+      if (usesFourDigitPattern) {
+        props.mask = [/\d/, /\d/, /\d/, /\d/]
+        props.pattern = '^[0-9]{4}$'
+      } else {
+        props.width = '8rem'
       }
 
       return { ...props, ...postalCode }
     },
-    [countryCodeValue]
+    [usesFourDigitPattern]
   )
 
   const postalCodeOnChangeValidator = useCallback<
@@ -166,6 +164,9 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         autoComplete="postal-code"
         data-country-code={countryCode}
         {...postalCode}
+        // Use a provided validator (e.g. from a connector) directly instead of
+        // composing it, since wrapping breaks the connector's async validation.
+        // Our 0000 check only applies when no validator is supplied.
         onChangeValidator={
           postalCode.onChangeValidator ?? postalCodeOnChangeValidator
         }

@@ -181,6 +181,24 @@ describe('Field.PostalCodeAndCity', () => {
     expect(code).toHaveValue('0001')
   })
 
+  it('should accept 0000 for countries without the four-digit pattern', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        countryCode="SE"
+        postalCode={{
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(code).toHaveValue('0000')
+  })
+
   it('should trim the value on blur', async () => {
     render(<Field.PostalCodeAndCity />)
 
