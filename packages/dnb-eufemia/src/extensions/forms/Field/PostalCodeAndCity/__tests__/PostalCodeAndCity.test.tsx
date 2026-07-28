@@ -157,6 +157,30 @@ describe('Field.PostalCodeAndCity', () => {
     expect(city).toHaveValue('æ - ø - å')
   })
 
+  it('should show error message when postal code is 0000', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      nb.PostalCode.errorPattern
+    )
+    expect(code).toHaveValue('0000')
+
+    await userEvent.type(code, '{Backspace}1')
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(code).toHaveValue('0001')
+  })
+
   it('should trim the value on blur', async () => {
     render(<Field.PostalCodeAndCity />)
 

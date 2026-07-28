@@ -87,7 +87,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         case 'DK':
         case 'CH': {
           props.mask = [/\d/, /\d/, /\d/, /\d/]
-          props.pattern = '^[0-9]{4}$'
+          props.pattern = '^(?!0000)[0-9]{4}$'
           break
         }
         default:
