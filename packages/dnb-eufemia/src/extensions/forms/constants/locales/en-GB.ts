@@ -247,7 +247,8 @@ export default {
       label: 'Postcode',
       errorRequired: 'You must enter a postcode.',
       errorPattern: 'You must enter a valid postcode (4 digits).',
-      errorInvalidCode: 'The postcode cannot be 0000.',
+      errorInvalidCode:
+        'You must enter a valid postcode. 0000 is not allowed.',
     },
     City: {
       label: 'City',

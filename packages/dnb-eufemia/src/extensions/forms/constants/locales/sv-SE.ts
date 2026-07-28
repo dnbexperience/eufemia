@@ -249,7 +249,8 @@ export default {
       label: 'Postnr.',
       errorRequired: 'Du måste fylla i ett postnummer.',
       errorPattern: 'Du måste ange ett giltigt postnummer (fyra siffror).',
-      errorInvalidCode: 'Postnumret kan inte vara 0000.',
+      errorInvalidCode:
+        'Du måste ange ett giltigt postnummer. 0000 är inte tillåtet.',
     },
     City: {
       label: 'Ort',
