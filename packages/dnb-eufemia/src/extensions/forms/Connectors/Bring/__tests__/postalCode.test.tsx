@@ -48,9 +48,9 @@ describe('postalCode', () => {
 
       expect(postalCodeInput).toHaveValue('')
 
-      await userEvent.type(postalCodeInput, '1234')
+      await userEvent.type(postalCodeInput, '0000')
 
-      expect(postalCodeInput).toHaveValue('1234')
+      expect(postalCodeInput).toHaveValue('0000')
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')
@@ -370,10 +370,10 @@ describe('postalCode', () => {
 
       expect(postalCodeInput).toHaveValue('')
 
-      await userEvent.type(postalCodeInput, '1234')
+      await userEvent.type(postalCodeInput, '0000')
       fireEvent.blur(postalCodeInput)
 
-      expect(postalCodeInput).toHaveValue('1234')
+      expect(postalCodeInput).toHaveValue('0000')
       await waitFor(() => {
         expect(
           document.querySelector('.dnb-form-status')

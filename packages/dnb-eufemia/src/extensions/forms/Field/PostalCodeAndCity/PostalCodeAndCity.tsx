@@ -12,6 +12,7 @@ import { isPath } from '../../utils/json-pointer'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import { FormError } from '../../utils'
 
 export type FieldPostalCodeAndCityProps = Pick<
   FieldBlockProps,
@@ -78,6 +79,11 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     errorMessages: cityErrorMessages,
   } = handleCityDefaults(city)
 
+  const usesFourDigitPattern =
+    countryCodeValue === defaultCountry ||
+    countryCodeValue === 'DK' ||
+    countryCodeValue === 'CH'
+
   const handlePostalCodeDefaults = useCallback(
     (postalCode: StringFieldProps) => {
       const props: StringFieldProps = {}
@@ -87,7 +93,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         case 'DK':
         case 'CH': {
           props.mask = [/\d/, /\d/, /\d/, /\d/]
-          props.pattern = '^(?!0000)[0-9]{4}$'
+          props.pattern = '^[0-9]{4}$'
           break
         }
         default:
@@ -98,6 +104,18 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
       return { ...props, ...postalCode }
     },
     [countryCodeValue]
+  )
+
+  const postalCodeOnChangeValidator = useCallback<
+    StringFieldProps['onChangeValidator']
+  >(
+    (value) => {
+      if (usesFourDigitPattern && value === '0000') {
+        return new FormError('PostalCode.errorInvalidCode')
+      }
+      return undefined
+    },
+    [usesFourDigitPattern]
   )
 
   const {
@@ -148,6 +166,9 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         autoComplete="postal-code"
         data-country-code={countryCode}
         {...postalCode}
+        onChangeValidator={
+          postalCode.onChangeValidator ?? postalCodeOnChangeValidator
+        }
       />
 
       <StringField
