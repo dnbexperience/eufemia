@@ -34,6 +34,13 @@ export type FieldPostalCodeAndCityProps = Pick<
     countryCode?: CountryCode
   } & Pick<StringFieldProps, 'size'>
 
+// Countries that use a four-digit postal code (0000–9999).
+const fourDigitPatternCountries: CountryCode[] = [
+  defaultCountry,
+  'DK',
+  'CH',
+]
+
 function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
   const translations = useTranslation()
   const countryCodeFromProvider = useContext(DataContext)?.countryCode
@@ -79,12 +86,6 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     errorMessages: cityErrorMessages,
   } = handleCityDefaults(city)
 
-  // Countries that use a four-digit postal code (0000–9999).
-  const fourDigitPatternCountries: CountryCode[] = [
-    defaultCountry,
-    'DK',
-    'CH',
-  ]
   const usesFourDigitPattern =
     fourDigitPatternCountries.includes(countryCodeValue)
 
