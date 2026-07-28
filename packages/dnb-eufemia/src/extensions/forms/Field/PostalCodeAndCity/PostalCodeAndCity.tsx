@@ -106,15 +106,12 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
 
   const postalCodeOnChangeValidator = useCallback<
     StringFieldProps['onChangeValidator']
-  >(
-    (value) => {
-      if (usesFourDigitPattern && value === '0000') {
-        return new FormError('PostalCode.errorInvalidCode')
-      }
-      return undefined
-    },
-    [usesFourDigitPattern]
-  )
+  >((value) => {
+    if (value === '0000') {
+      return new FormError('PostalCode.errorInvalidCode')
+    }
+    return undefined
+  }, [])
 
   const {
     mask: postalCodeMask,
@@ -166,9 +163,11 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         {...postalCode}
         // Use a provided validator (e.g. from a connector) directly instead of
         // composing it, since wrapping breaks the connector's async validation.
-        // Our 0000 check only applies when no validator is supplied.
+        // Our 0000 check only applies to four-digit countries when no validator
+        // is supplied.
         onChangeValidator={
-          postalCode.onChangeValidator ?? postalCodeOnChangeValidator
+          postalCode.onChangeValidator ??
+          (usesFourDigitPattern ? postalCodeOnChangeValidator : undefined)
         }
       />
 
