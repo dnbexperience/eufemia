@@ -1,8 +1,8 @@
 ---
 title: 'ProgressIndicator'
 description: 'Use ProgressIndicator to show that something is loading or processing.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.623Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.869Z
 checksum: cb68082ac8faec507182d0eebb60ddccffbf6e4af9c88aea4d6f1717bf59877f
 ---
 

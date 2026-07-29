@@ -1,8 +1,8 @@
 ---
 title: 'Code'
 description: 'The code and pre element is used for code and syntax highlighting.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:31.003Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:49.222Z
 checksum: c6dca9365d4527fa38f65c8d0801933be8e1918dcb2f125eb85ed10e9d3c2d3a
 ---
 

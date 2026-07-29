@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'Use List to show rows of related content, with optional actions or navigation.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.557Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.811Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -735,6 +735,34 @@ Use the `pending` property on `List.Item.Basic` or `List.Item.Action` to show a 
 ```tsx
 render(<List.Container>
         <List.Item.Action icon={fish_medium} title="Pending item ..." pending>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>)
+```
+
+
+### Disabled state
+
+Use the `disabled` property on `List.Item.Action` to dim the row and prevent interaction. Set it on `List.Container` to disable every item at once.
+
+
+```tsx
+render(<List.Container>
+        <List.Item.Action icon={fish_medium} title="Navigate to details 1" onClick={() => console.log('Clicked')}>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Navigate to details 2" disabled>
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action icon={fish_medium} title="Navigate to details 3" onClick={() => console.log('Clicked')}>
           <List.Cell.End>
             <NumberFormat.Currency value={1234} />
           </List.Cell.End>

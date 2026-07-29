@@ -1,8 +1,8 @@
 ---
 title: 'Field.DateOfBirth'
 description: '`Field.DateOfBirth` is a wrapper component for the input of strings, with user experience tailored for date of birth values.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:31.606Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:49.802Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -511,7 +511,7 @@ render(<Form.Handler defaultData={{
     },
     "DateOfBirth.errorDateOfBirthFuture": {
       "nb-NO": "Ugyldig fødselsdato. Skriv inn dagens dato eller tidligere.",
-      "en-GB": "Invalid date of birth. Enter todays date or earlier.",
+      "en-GB": "Invalid date of birth. Enter today’s date or earlier.",
       "sv-SE": "Ogiltigt födelsedatum. Ange dagens datum eller tidigare.",
       "da-DK": "Ugyldig fødselsdato. Angiv dags dato eller tidligere."
     },

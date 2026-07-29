@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'Use Autocomplete to help people find and choose from matching suggestions as they type.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.320Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.593Z
 checksum: 27e85a1eff285950c54cb6946eec7ab5504783064cb7f5ca016adc662982fe89
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Slider'
 description: 'Use Slider when people need to choose a value from a range.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.653Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.904Z
 checksum: 8f2e2e4e70ce4198f504e9269644b5c67a4cd3a211bc960e08da96547d0050c9
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'SkipContent'
 description: 'Use SkipContent to help keyboard users jump past large or repeated content.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.644Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.890Z
 checksum: 3827157a79b6b2af94d3f748ae7c4f7340cbd8ad13ed17fded2eb8c769066ec7
 ---
 

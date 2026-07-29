@@ -1,8 +1,8 @@
 ---
 title: 'PortalRoot'
 description: 'Use PortalRoot to render floating content outside the normal page structure.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.617Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.863Z
 checksum: 9e4431df834c9b59cac82d30a49e56b95a0858679657373ee1a87dc1a6590110
 ---
 

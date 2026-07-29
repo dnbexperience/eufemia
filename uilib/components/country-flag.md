@@ -1,8 +1,8 @@
 ---
 title: 'CountryFlag'
 description: 'Use CountryFlag to show a country by its flag from an ISO country code.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.386Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.652Z
 checksum: 96858d9c7269f72350401c3a9b92c476b3cbdcea7f967c9c12932cbbe1d8c391
 ---
 

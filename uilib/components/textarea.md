@@ -1,8 +1,8 @@
 ---
 title: 'Textarea'
 description: 'Use Textarea when people need to write longer text over several lines.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.951Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:49.176Z
 checksum: 8f79daa9efcfecb14f029267ef3b3c2bc0cfac94003138e897cd4e3fd0756103
 ---
 

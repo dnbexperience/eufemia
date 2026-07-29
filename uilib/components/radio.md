@@ -1,8 +1,8 @@
 ---
 title: 'Radio'
 description: 'Use Radio when people must choose one option from a set.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.629Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.876Z
 checksum: 0ff62ef4dc4f9902fb7503d2aff5efc2bb72d942d5a55d0a119bedfac85af14d
 ---
 

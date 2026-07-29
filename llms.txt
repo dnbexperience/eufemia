@@ -4,7 +4,7 @@
 
 ## Version
 
-This documentation reflects Eufemia **v11.8.2**, generated 2026-07-03T14:37:36.398Z.
+This documentation reflects Eufemia **v11.8.3**, generated 2026-07-29T16:49:54.648Z.
 
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
@@ -749,5 +749,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.8.2
-GeneratedAt: 2026-07-03T14:37:36.398Z
+Version: 11.8.3
+GeneratedAt: 2026-07-29T16:49:54.648Z

@@ -1,8 +1,8 @@
 ---
 title: 'GlobalStatus'
 description: 'Use GlobalStatus to show important page-level messages or a summary of form errors.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.478Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.734Z
 checksum: 386c9d6672c8290be4a5be8acc4cb299be11fb9bd262d0593dd8e13ad20af2fa
 ---
 

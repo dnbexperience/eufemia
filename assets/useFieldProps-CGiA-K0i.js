@@ -1,0 +1,3 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-Ct8Ggqh9.js";import r from"./info-DATR6N10.js";import i from"./demos-D96a0mgw2.js";import a from"./properties-BMyS0FU0.js";var o=e(t());function s(e){return(0,o.jsxs)(o.Fragment,{children:[(0,o.jsx)(r,{}),`
+`,(0,o.jsx)(i,{}),`
+`,(0,o.jsx)(a,{})]})}function c(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,o.jsx)(t,{...e,children:(0,o.jsx)(s,{...e})}):s(e)}export{c as default};

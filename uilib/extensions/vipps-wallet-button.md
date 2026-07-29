@@ -1,8 +1,8 @@
 ---
 title: 'VippsWalletButton'
 description: 'A branded Vipps wallet call-to-action button extension.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:31.627Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:49.821Z
 checksum: 5dee467b3ed2e8b744c4c9c5107384e1da5443f73853be7c18cc0676e5965df6
 ---
 

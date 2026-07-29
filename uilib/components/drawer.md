@@ -1,8 +1,8 @@
 ---
 title: 'Drawer'
 description: 'Use Drawer to show extra content in a panel that slides in from the side.'
-version: 11.8.2
-generatedAt: 2026-07-03T14:37:30.421Z
+version: 11.8.3
+generatedAt: 2026-07-29T16:49:48.685Z
 checksum: 7aed09685bfb5a1ba5a8c8a5a6765e51e8e9443dd03bb316b7dd6e4b56af7f9d
 ---
 
