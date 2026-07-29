@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.8.3](https://github.com/dnbexperience/eufemia/compare/v11.8.2...v11.8.3) (2026-07-29)
+
+### :bug: Bug Fixes
+
+* **List:** disabled List.Item border color to match neighbouring items ([#8834](https://github.com/dnbexperience/eufemia/issues/8834)) ([4344ab1](https://github.com/dnbexperience/eufemia/commit/4344ab134b4f20134158f0ad0ad1c1a7115ac2ef))
+* **Table:** prevent infinite re-render loop when Table content re-renders on its own ([#8833](https://github.com/dnbexperience/eufemia/issues/8833)) ([dab1377](https://github.com/dnbexperience/eufemia/commit/dab13776fae8ddaa427ce4084aedd705a57b0ee0))
+
 ## [11.8.2](https://github.com/dnbexperience/eufemia/compare/v11.8.1...v11.8.2) (2026-07-03)
 
 ### :bug: Bug Fixes
