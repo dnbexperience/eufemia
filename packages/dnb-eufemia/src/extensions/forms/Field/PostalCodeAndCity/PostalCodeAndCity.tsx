@@ -153,11 +153,6 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         autoComplete="postal-code"
         data-country-code={countryCode}
         {...postalCode}
-        // Use a provided validator (e.g. from a connector) directly instead of
-        // composing it, since wrapping breaks the connector's async validation.
-        // Our 0000 check only applies to four-digit countries when no validator
-        // is supplied. Consumers who want both can compose them by importing
-        // `postalCodeValidator` and calling it inside their own validator.
         onChangeValidator={
           postalCode.onChangeValidator ??
           (usesFourDigitPattern ? postalCodeValidator : undefined)
