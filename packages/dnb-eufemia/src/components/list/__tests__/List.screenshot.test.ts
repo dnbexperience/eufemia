@@ -63,6 +63,13 @@ describe.each(['ui', 'sbanken'])(`List for %s`, (themeName) => {
     })
   })
 
+  it('have to match disabled list', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-disabled"]',
+    })
+  })
+
   it('have to match footer list with buttons', async () => {
     await makeScreenshot({
       style: { width: '30rem' },

@@ -374,6 +374,44 @@ export const PendingState = () => {
   )
 }
 
+export const DisabledState = () => {
+  return (
+    <ComponentBox data-visual-test="list-disabled" scope={{ fish_medium }}>
+      <List.Container>
+        <List.Item.Action
+          icon={fish_medium}
+          title="Navigate to details 1"
+          onClick={() => console.log('Clicked')}
+        >
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action
+          icon={fish_medium}
+          title="Navigate to details 2"
+          disabled
+        >
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action
+          icon={fish_medium}
+          title="Navigate to details 3"
+          onClick={() => console.log('Clicked')}
+        >
+          <List.Cell.End>
+            <NumberFormat.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
 export const ProgressIndicatorRow = () => {
   return (
     <ComponentBox>
