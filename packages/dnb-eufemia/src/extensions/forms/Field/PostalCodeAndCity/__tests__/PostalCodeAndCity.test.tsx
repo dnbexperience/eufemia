@@ -1,7 +1,7 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Iterate } from '../../..'
+import { Field, Form, Iterate, postalCodeValidator } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
@@ -197,6 +197,53 @@ describe('Field.PostalCodeAndCity', () => {
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     expect(code).toHaveValue('0000')
+  })
+
+  it('should let a provided onChangeValidator replace the built-in 0000 check', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onChangeValidator: () => undefined,
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(code).toHaveValue('0000')
+  })
+
+  it('should let consumers compose the built-in validator with their own', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onChangeValidator: (value) =>
+            postalCodeValidator(value) ??
+            (value === '1111'
+              ? new Error('Custom error message')
+              : undefined),
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      nb.PostalCode.errorInvalidCode
+    )
+
+    await userEvent.type(code, '{Backspace>4}1111')
+
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      'Custom error message'
+    )
   })
 
   it('should trim the value on blur', async () => {
@@ -463,5 +510,20 @@ describe('Field.PostalCodeAndCity', () => {
     expect(
       (Field.PostalCodeAndCity as ComponentMarkers)._supportsSpacingProps
     ).toBe(undefined)
+  })
+})
+
+describe('postalCodeValidator', () => {
+  it('should return an error for the placeholder code 0000', () => {
+    const result = postalCodeValidator('0000')
+
+    expect(result).toBeInstanceOf(Error)
+    expect(result?.message).toBe('PostalCode.errorInvalidCode')
+  })
+
+  it('should return undefined for any other value', () => {
+    expect(postalCodeValidator('0001')).toBeUndefined()
+    expect(postalCodeValidator('1234')).toBeUndefined()
+    expect(postalCodeValidator('')).toBeUndefined()
   })
 })

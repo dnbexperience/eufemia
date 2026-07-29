@@ -12,7 +12,7 @@ import { isPath } from '../../utils/json-pointer'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
-import { FormError } from '../../utils'
+import { postalCodeValidator } from './validators'
 
 export type FieldPostalCodeAndCityProps = Pick<
   FieldBlockProps,
@@ -105,15 +105,6 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     [usesFourDigitPattern]
   )
 
-  const postalCodeOnChangeValidator = useCallback<
-    StringFieldProps['onChangeValidator']
-  >((value) => {
-    if (value === '0000') {
-      return new FormError('PostalCode.errorInvalidCode')
-    }
-    return undefined
-  }, [])
-
   const {
     mask: postalCodeMask,
     pattern: postalCodePattern,
@@ -165,10 +156,11 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         // Use a provided validator (e.g. from a connector) directly instead of
         // composing it, since wrapping breaks the connector's async validation.
         // Our 0000 check only applies to four-digit countries when no validator
-        // is supplied.
+        // is supplied. Consumers who want both can compose them by importing
+        // `postalCodeValidator` and calling it inside their own validator.
         onChangeValidator={
           postalCode.onChangeValidator ??
-          (usesFourDigitPattern ? postalCodeOnChangeValidator : undefined)
+          (usesFourDigitPattern ? postalCodeValidator : undefined)
         }
       />
 
@@ -206,5 +198,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
 withComponentMarkers(PostalCodeAndCity, {
   _supportsSpacingProps: undefined,
 })
+
+export { postalCodeValidator } from './validators'
 
 export default PostalCodeAndCity
