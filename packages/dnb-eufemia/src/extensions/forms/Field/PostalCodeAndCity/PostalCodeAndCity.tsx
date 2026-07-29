@@ -5,14 +5,25 @@ import DataContext from '../../DataContext/Context'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import CompositionField from '../Composition'
-import type { CountryCode } from '../../types'
+import type {
+  CountryCode,
+  Validator,
+  ValidatorWithCustomValidators,
+} from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { isPath } from '../../utils/json-pointer'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
-import { postalCodeValidator } from './validators'
+import { postalCodeValidator as validatePostalCode } from './validators'
+
+export type PostalCodeAndCityValidator = ValidatorWithCustomValidators<
+  string,
+  {
+    postalCodeValidator: Validator<string>
+  }
+>
 
 export type FieldPostalCodeAndCityProps = Pick<
   FieldBlockProps,
@@ -23,16 +34,20 @@ export type FieldPostalCodeAndCityProps = Pick<
   | 'className'
   | 'help'
   | keyof SpacingProps
-> &
-  Partial<Record<'postalCode' | 'city', StringFieldProps>> & {
-    /**
-     * Defines which country the postal code and city is for.
-     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
-     * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
-     * Default: `NO`
-     */
-    countryCode?: CountryCode
-  } & Pick<StringFieldProps, 'size'>
+> & {
+  postalCode?: Omit<StringFieldProps, 'onChangeValidator'> & {
+    onChangeValidator?: PostalCodeAndCityValidator
+  }
+  city?: StringFieldProps
+} & {
+  /**
+   * Defines which country the postal code and city is for.
+   * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
+   * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
+   * Default: `NO`
+   */
+  countryCode?: CountryCode
+} & Pick<StringFieldProps, 'size'>
 
 // Countries that use a four-digit postal code (0000-9999).
 const fourDigitPatternCountries: CountryCode[] = [
@@ -88,6 +103,17 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
 
   const usesFourDigitPattern =
     fourDigitPatternCountries.includes(countryCodeValue)
+
+  const postalCodeValidator = useCallback<Validator<string>>(
+    (value) => {
+      if (!usesFourDigitPattern) {
+        return undefined
+      }
+
+      return validatePostalCode(value)
+    },
+    [usesFourDigitPattern]
+  )
 
   const handlePostalCodeDefaults = useCallback(
     (postalCode: StringFieldProps) => {
@@ -153,9 +179,9 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         autoComplete="postal-code"
         data-country-code={countryCode}
         {...postalCode}
+        exportValidators={{ postalCodeValidator }}
         onChangeValidator={
-          postalCode.onChangeValidator ??
-          (usesFourDigitPattern ? postalCodeValidator : undefined)
+          postalCode.onChangeValidator ?? postalCodeValidator
         }
       />
 

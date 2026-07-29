@@ -29,6 +29,26 @@ There is a corresponding [Value.PostalCodeAndCity](/uilib/extensions/forms/Value
 
 Read more about how to use the [Bring API](/uilib/extensions/forms/Connectors/Bring/) to validate and autofill a postal code and city name.
 
-For countries that use a four-digit postal code (`NO`, `DK` and `CH`), the placeholder code `0000` is rejected as invalid. This built-in check is applied automatically when no `onChangeValidator` is provided for the postal code field.
+For countries that use a four-digit postal code (`NO`, `DK` and `CH`), the placeholder code `0000` is rejected as invalid. This built-in check is applied automatically.
 
-If you provide your own `postalCode.onChangeValidator`, it replaces the built-in check.
+If you provide your own `postalCode.onChangeValidator`, it replaces the built-in check. You can still keep it by composing the exported `postalCodeValidator`, which is made available through the second argument of your validator:
+
+```tsx
+render(
+  <Field.PostalCodeAndCity
+    postalCode={{
+      onChangeValidator: (value, { validators }) => {
+        const { postalCodeValidator } = validators
+
+        return [
+          postalCodeValidator,
+          (value) =>
+            value === '1111'
+              ? new Error('This postal code is not allowed.')
+              : undefined,
+        ]
+      },
+    }}
+  />
+)
+```

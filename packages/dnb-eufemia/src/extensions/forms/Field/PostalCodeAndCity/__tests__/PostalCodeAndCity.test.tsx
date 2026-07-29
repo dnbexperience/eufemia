@@ -218,6 +218,41 @@ describe('Field.PostalCodeAndCity', () => {
     expect(code).toHaveValue('0000')
   })
 
+  it('should let consumers compose the exported validator with their own', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onChangeValidator: (value, { validators }) => {
+            const { postalCodeValidator } = validators
+
+            return [
+              postalCodeValidator,
+              (value) =>
+                value === '1111'
+                  ? new Error('Custom error message')
+                  : undefined,
+            ]
+          },
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      nb.PostalCode.errorInvalidCode
+    )
+
+    await userEvent.type(code, '{Backspace>4}1111')
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      'Custom error message'
+    )
+  })
+
   it('should trim the value on blur', async () => {
     render(<Field.PostalCodeAndCity />)
 
