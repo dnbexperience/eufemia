@@ -227,7 +227,7 @@ export default {
       errorRequired: 'You must enter a date of birth.',
       errorDateOfBirth: 'Invalid date of birth.',
       errorDateOfBirthFuture:
-        'Invalid date of birth. Enter todays date or earlier.',
+        'Invalid date of birth. Enter today’s date or earlier.',
     },
     PhoneNumber: {
       numberLabel: 'Mobile number',

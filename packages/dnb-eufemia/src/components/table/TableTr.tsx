@@ -262,9 +262,14 @@ export function useHandleOddEven({ children }) {
   }, [children, forceRerender])
 
   // Runs after all child (Tr) effects, so trCountRef.current.count is final.
+  // The dependency array is required: without it the effect runs after every
+  // commit and would loop indefinitely when the Table lives inside content
+  // that re-renders on its own (e.g. an infinity-scrolled Pagination), since
+  // each re-render mutates trCountRef.current.count and setTotalCount would
+  // trigger yet another render.
   useEffect(() => {
     setTotalCount(trCountRef.current.count)
-  })
+  }, [children, rerenderAlias])
 
   return { trCountRef, rerenderAlias, totalCount, setRerenderAlias }
 }

@@ -1,6 +1,7 @@
-import { StrictMode, useState } from 'react'
+import { StrictMode, useContext, useRef, useState } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Table from '../Table'
+import { TableContext } from '../TableContext'
 import type { TableTrProps } from '../TableTr'
 import TableTr from '../TableTr'
 
@@ -469,5 +470,51 @@ describe('TableTr', () => {
       expect(rows[1].classList.contains('dnb-table__tr--last')).toBe(false)
       expect(rows[2].classList.contains('dnb-table__tr--last')).toBe(true)
     })
+  })
+
+  describe('re-render loop', () => {
+    it(
+      'should not cause "Maximum update depth exceeded" when the Table content re-renders and remounts rows on its own',
+      { timeout: 5000 },
+      () => {
+        const errorSpy = vi
+          .spyOn(console, 'error')
+          .mockImplementation(() => undefined)
+
+        // Reproduces the infinity-scroll scenario: the content consumes the
+        // TableContext, so it re-renders whenever the internal totalCount state
+        // changes, and it remounts its Tr on every render (fresh key). This
+        // mirrors an observer-driven Pagination that mounts/unmounts marker
+        // rows and mutates the shared row count on each render.
+        const InfinityContent = () => {
+          useContext(TableContext)
+          const renderCountRef = useRef(0)
+          renderCountRef.current++
+
+          return (
+            <tbody>
+              <TableTr key={renderCountRef.current}>
+                <td>content</td>
+              </TableTr>
+            </tbody>
+          )
+        }
+
+        render(
+          <Table>
+            <InfinityContent />
+          </Table>
+        )
+
+        const maxDepthErrors = errorSpy.mock.calls.filter((call) =>
+          String(call[0]).includes('Maximum update depth exceeded')
+        )
+
+        expect(maxDepthErrors).toHaveLength(0)
+        expect(document.querySelector('tbody tr')).toBeInTheDocument()
+
+        errorSpy.mockRestore()
+      }
+    )
   })
 })
