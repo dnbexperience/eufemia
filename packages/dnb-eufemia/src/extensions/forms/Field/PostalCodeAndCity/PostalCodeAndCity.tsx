@@ -34,7 +34,7 @@ export type FieldPostalCodeAndCityProps = Pick<
     countryCode?: CountryCode
   } & Pick<StringFieldProps, 'size'>
 
-// Countries that use a four-digit postal code (0000–9999).
+// Countries that use a four-digit postal code (0000-9999).
 const fourDigitPatternCountries: CountryCode[] = [
   defaultCountry,
   'DK',
@@ -193,7 +193,5 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
 withComponentMarkers(PostalCodeAndCity, {
   _supportsSpacingProps: undefined,
 })
-
-export { postalCodeValidator } from './validators'
 
 export default PostalCodeAndCity

@@ -31,21 +31,4 @@ Read more about how to use the [Bring API](/uilib/extensions/forms/Connectors/Br
 
 For countries that use a four-digit postal code (`NO`, `DK` and `CH`), the placeholder code `0000` is rejected as invalid. This built-in check is applied automatically when no `onChangeValidator` is provided for the postal code field.
 
-If you provide your own `postalCode.onChangeValidator`, it replaces the built-in check. You can still reuse the built-in rule by importing `postalCodeValidator` and composing it with your own validator:
-
-```tsx
-import { Field, postalCodeValidator } from '@dnb/eufemia/extensions/forms'
-
-render(
-  <Field.PostalCodeAndCity
-    postalCode={{
-      onChangeValidator: (value) =>
-        postalCodeValidator(value) ??
-        (value === '1111'
-          ? new Error('This postal code is not allowed.')
-          : undefined),
-      validateInitially: true,
-    }}
-  />
-)
-```
+If you provide your own `postalCode.onChangeValidator`, it replaces the built-in check.

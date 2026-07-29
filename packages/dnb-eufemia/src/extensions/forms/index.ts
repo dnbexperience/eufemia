@@ -22,7 +22,6 @@ export * as Tools from './Tools'
 export * as Connectors from './Connectors'
 export { default as FieldBlock } from './FieldBlock'
 export { default as ValueBlock } from './ValueBlock'
-export { postalCodeValidator } from './Field/PostalCodeAndCity'
 export type {
   Paths,
   PathValue,

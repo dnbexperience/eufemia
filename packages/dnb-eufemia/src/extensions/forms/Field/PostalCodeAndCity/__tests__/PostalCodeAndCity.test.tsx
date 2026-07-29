@@ -1,7 +1,8 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Field, Form, Iterate, postalCodeValidator } from '../../..'
+import { Field, Form, Iterate } from '../../..'
+import { postalCodeValidator } from '../validators'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
@@ -170,14 +171,14 @@ describe('Field.PostalCodeAndCity', () => {
 
     await userEvent.type(code, '0000')
 
-    expect(screen.queryByRole('alert')).toHaveTextContent(
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       nb.PostalCode.errorInvalidCode
     )
     expect(code).toHaveValue('0000')
 
     await userEvent.type(code, '{Backspace}1')
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
     expect(code).toHaveValue('0001')
   })
 
@@ -195,7 +196,7 @@ describe('Field.PostalCodeAndCity', () => {
 
     await userEvent.type(code, '0000')
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
     expect(code).toHaveValue('0000')
   })
 
@@ -213,37 +214,8 @@ describe('Field.PostalCodeAndCity', () => {
 
     await userEvent.type(code, '0000')
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
     expect(code).toHaveValue('0000')
-  })
-
-  it('should let consumers compose the built-in validator with their own', async () => {
-    render(
-      <Field.PostalCodeAndCity
-        postalCode={{
-          onChangeValidator: (value) =>
-            postalCodeValidator(value) ??
-            (value === '1111'
-              ? new Error('Custom error message')
-              : undefined),
-          validateInitially: true,
-        }}
-      />
-    )
-
-    const [code] = Array.from(document.querySelectorAll('input'))
-
-    await userEvent.type(code, '0000')
-
-    expect(screen.queryByRole('alert')).toHaveTextContent(
-      nb.PostalCode.errorInvalidCode
-    )
-
-    await userEvent.type(code, '{Backspace>4}1111')
-
-    expect(screen.queryByRole('alert')).toHaveTextContent(
-      'Custom error message'
-    )
   })
 
   it('should trim the value on blur', async () => {
