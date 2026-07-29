@@ -35,8 +35,8 @@ export type FieldPostalCodeAndCityProps = Pick<
   | 'help'
   | keyof SpacingProps
 > & {
-  postalCode?: Omit<StringFieldProps, 'onChangeValidator'> & {
-    onChangeValidator?: PostalCodeAndCityValidator
+  postalCode?: Omit<StringFieldProps, 'onBlurValidator'> & {
+    onBlurValidator?: PostalCodeAndCityValidator | false
   }
   city?: StringFieldProps
 } & {
@@ -115,8 +115,14 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     [usesFourDigitPattern]
   )
 
+  const onBlurValidator = postalCode.onBlurValidator ?? postalCodeValidator
+  const onBlurValidatorToUse =
+    onBlurValidator === false ? undefined : onBlurValidator
+
   const handlePostalCodeDefaults = useCallback(
-    (postalCode: StringFieldProps) => {
+    (
+      postalCode: NonNullable<FieldPostalCodeAndCityProps['postalCode']>
+    ) => {
       const props: StringFieldProps = {}
 
       if (usesFourDigitPattern) {
@@ -180,9 +186,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         data-country-code={countryCode}
         {...postalCode}
         exportValidators={{ postalCodeValidator }}
-        onChangeValidator={
-          postalCode.onChangeValidator ?? postalCodeValidator
-        }
+        onBlurValidator={onBlurValidatorToUse}
       />
 
       <StringField

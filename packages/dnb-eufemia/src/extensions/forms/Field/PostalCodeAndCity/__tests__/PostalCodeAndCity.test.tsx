@@ -1,5 +1,5 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
 import { postalCodeValidator } from '../validators'
@@ -170,15 +170,21 @@ describe('Field.PostalCodeAndCity', () => {
     const [code] = Array.from(document.querySelectorAll('input'))
 
     await userEvent.type(code, '0000')
+    fireEvent.blur(code)
 
-    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.PostalCode.errorInvalidCode
-    )
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.PostalCode.errorInvalidCode
+      )
+    })
     expect(code).toHaveValue('0000')
 
     await userEvent.type(code, '{Backspace}1')
+    fireEvent.blur(code)
 
-    expect(document.querySelector('.dnb-form-status')).toBeNull()
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
     expect(code).toHaveValue('0001')
   })
 
@@ -195,16 +201,17 @@ describe('Field.PostalCodeAndCity', () => {
     const [code] = Array.from(document.querySelectorAll('input'))
 
     await userEvent.type(code, '0000')
+    fireEvent.blur(code)
 
     expect(document.querySelector('.dnb-form-status')).toBeNull()
     expect(code).toHaveValue('0000')
   })
 
-  it('should let a provided onChangeValidator replace the built-in 0000 check', async () => {
+  it('should let a provided onBlurValidator replace the built-in 0000 check', async () => {
     render(
       <Field.PostalCodeAndCity
         postalCode={{
-          onChangeValidator: () => undefined,
+          onBlurValidator: () => undefined,
           validateInitially: true,
         }}
       />
@@ -213,6 +220,26 @@ describe('Field.PostalCodeAndCity', () => {
     const [code] = Array.from(document.querySelectorAll('input'))
 
     await userEvent.type(code, '0000')
+    fireEvent.blur(code)
+
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+    expect(code).toHaveValue('0000')
+  })
+
+  it('should disable the built-in 0000 check when onBlurValidator is false', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onBlurValidator: false,
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+    fireEvent.blur(code)
 
     expect(document.querySelector('.dnb-form-status')).toBeNull()
     expect(code).toHaveValue('0000')
@@ -222,7 +249,7 @@ describe('Field.PostalCodeAndCity', () => {
     render(
       <Field.PostalCodeAndCity
         postalCode={{
-          onChangeValidator: (value, { validators }) => {
+          onBlurValidator: (value, { validators }) => {
             const { postalCodeValidator } = validators
 
             return [
@@ -241,16 +268,22 @@ describe('Field.PostalCodeAndCity', () => {
     const [code] = Array.from(document.querySelectorAll('input'))
 
     await userEvent.type(code, '0000')
+    fireEvent.blur(code)
 
-    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      nb.PostalCode.errorInvalidCode
-    )
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.PostalCode.errorInvalidCode
+      )
+    })
 
     await userEvent.type(code, '{Backspace>4}1111')
+    fireEvent.blur(code)
 
-    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
-      'Custom error message'
-    )
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Custom error message'
+      )
+    })
   })
 
   it('should trim the value on blur', async () => {
