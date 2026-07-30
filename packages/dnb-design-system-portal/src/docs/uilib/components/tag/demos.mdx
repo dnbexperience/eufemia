@@ -4,6 +4,7 @@ showTabs: true
 
 import {
   TagInteractable,
+  TagPrimary,
   TagDefault,
   TagWithIcon,
   TagMultipleRemovable,
@@ -24,6 +25,12 @@ There are three interactive tag variants:
 We require `<Tag>`-components to be wrapped by a `<Tag.Group>`-component. The required `label`-property in `<Tag.Group>` will ensure the correct use of accessibility for screen readers.
 
 <TagInteractable />
+
+### Primary tag
+
+Use the `color="primary"` property to give a tag a primary appearance. It can be combined with any `variant`, such as `removable`.
+
+<TagPrimary />
 
 ### Non-interactive tag
 

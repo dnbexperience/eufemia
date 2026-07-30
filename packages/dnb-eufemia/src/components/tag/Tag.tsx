@@ -45,6 +45,11 @@ export type TagProps = {
   variant?: 'default' | 'clickable' | 'addable' | 'removable'
 
   /**
+   * Possible value is `primary`, which gives the tag a primary appearance.
+   */
+  color?: 'primary'
+
+  /**
    * Custom `className` for the component root.
    */
   className?: string
@@ -111,6 +116,7 @@ const Tag = (
     text,
     hasLabel,
     variant = 'default',
+    color,
     onClick,
     omitOnKeyUpDeleteEvent,
     icon,
@@ -131,7 +137,8 @@ const Tag = (
       'dnb-tag',
       className,
       isInteractive && 'dnb-tag--interactive',
-      `dnb-tag--${usedVariant}`
+      `dnb-tag--${usedVariant}`,
+      color === 'primary' && 'dnb-tag--primary'
     ),
   })
   const additionalButtonParams: Pick<ButtonProps, 'element' | 'type'> = {}

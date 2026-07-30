@@ -34,6 +34,11 @@ export const TagProperties: PropertiesTableProps = {
     type: ['"default"', '"clickable"', '"addable"', '"removable"'],
     status: 'optional',
   },
+  color: {
+    doc: 'Possible value is `primary`, which gives the tag a primary appearance.',
+    type: ['"primary"'],
+    status: 'optional',
+  },
   omitOnKeyUpDeleteEvent: {
     doc: 'Set to `true` to omit triggering an event when the user releases the `Delete` or `Backspace` keys. Defaults to `false`.',
     type: 'boolean',

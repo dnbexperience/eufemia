@@ -37,6 +37,18 @@ describe.each(['ui', 'sbanken'])(`Tag for %s`, (themeName) => {
     })
   })
 
+  it('have to match a primary Tag', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="tag-primary-default"]',
+    })
+  })
+
+  it('have to match a primary removable Tag', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="tag-primary-removable"]',
+    })
+  })
+
   describe.each(['clickable', 'addable', 'removable'])(
     `have to match`,
     (name) => {

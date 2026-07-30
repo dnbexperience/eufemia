@@ -41,6 +41,24 @@ export const TagInteractable = () => (
   </ComponentBox>
 )
 
+export const TagPrimary = () => (
+  <ComponentBox data-visual-test="tag-primary">
+    <Tag.Group label="Primary tags">
+      <Tag data-visual-test="tag-primary-default" color="primary">
+        Primary
+      </Tag>
+      <Tag
+        data-visual-test="tag-primary-removable"
+        color="primary"
+        variant="removable"
+        onClick={() => 'click'}
+      >
+        Primary removable
+      </Tag>
+    </Tag.Group>
+  </ComponentBox>
+)
+
 export const TagDefault = () => (
   <ComponentBox hideCode data-visual-test="tag-default">
     <Tag.Group label="Payment types">

@@ -581,6 +581,44 @@ describe('Tag', () => {
   })
 })
 
+describe('Tag color', () => {
+  it('does not add the primary class by default', () => {
+    render(
+      <Tag.Group label="tags">
+        <Tag text="Tag" />
+      </Tag.Group>
+    )
+
+    expect(
+      document.querySelector('.dnb-tag--primary')
+    ).not.toBeInTheDocument()
+  })
+
+  it('adds the primary class when color="primary"', () => {
+    render(
+      <Tag.Group label="tags">
+        <Tag color="primary" text="Tag" />
+      </Tag.Group>
+    )
+
+    expect(document.querySelector('.dnb-tag--primary')).toBeInTheDocument()
+  })
+
+  it('combines the primary class with variant="removable"', () => {
+    render(
+      <Tag.Group label="tags">
+        <Tag color="primary" variant="removable" onClick={vi.fn()}>
+          Tag
+        </Tag>
+      </Tag.Group>
+    )
+
+    expect(
+      document.querySelector('.dnb-tag--primary.dnb-tag--removable')
+    ).toBeInTheDocument()
+  })
+})
+
 describe('Tag aria', () => {
   it('should validate', async () => {
     const Component = render(
