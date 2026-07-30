@@ -249,6 +249,8 @@ export default {
       label: 'Postnr.',
       errorRequired: 'Du skal udfylde et postnummer.',
       errorPattern: 'Du skal indtaste et gyldigt postnummer (fire cifre).',
+      errorInvalidCode:
+        'Du skal indtaste et gyldigt postnummer. 0000 er ikke tilladt.',
     },
     City: {
       label: 'By',
