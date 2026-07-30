@@ -51,6 +51,8 @@ describe('Filter.ActiveFilters', () => {
 
     expect(tag).toBeInTheDocument()
     expect(tag.textContent).toContain('Innkommende')
+    expect(tag).toHaveClass('dnb-tag--primary')
+    expect(tag).toHaveClass('dnb-tag--removable')
   })
 
   it('shows category label in tag when showCategoryLabel is true', () => {
