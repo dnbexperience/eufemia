@@ -11,4 +11,8 @@
   --typography-h-large-weight: var(--font-weight-regular);
   --typography-lead-weight: var(--font-weight-regular);
   --typography-h-medium-weight: var(--font-weight-regular);
+
+  &:not(.dnb-t__responsive-off) {
+    @include typography.responsiveOn();
+  }
 }

@@ -10,6 +10,7 @@ import {
   TypographyVariants,
   ResponsiveTypographyExample,
   ResponsiveTypographyFullExample,
+  ResponsiveTypographySbankenExample,
 } from 'Docs/uilib/typography/Examples'
 
 # Typography
@@ -95,9 +96,13 @@ CSS example:
 }
 ```
 
-#### Setting `responsive`
+#### Responsive typography
 
-Use `Typography.Context` to make typography components, or all components use responsive font size and line heights.
+**NB**: Responsive typography is turned on by default for Sbanken brand.
+
+Use `Typography.Context responsive` to make typography components, or all components use responsive font size and line heights.
+
+To turn off responsive typography for a section you can use `Typography.Context responsive={false}`
 
 <ResponsiveTypographyExample />
 
@@ -171,4 +176,5 @@ The font files are hosted under the following URLs:
 
 <VisibleWhenVisualTest>
   <ResponsiveTypographyFullExample />
+  <ResponsiveTypographySbankenExample />
 </VisibleWhenVisualTest>
