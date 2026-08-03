@@ -54,6 +54,52 @@ export const OutsideTreeFields = () => {
   )
 }
 
+export const OutletBeforeHandler = () => {
+  return (
+    <ComponentBox hideCode scope={{ useId }}>
+      {() => {
+        const Example = () => {
+          const formHandlerId = useId()
+
+          return (
+            <Flex.Stack>
+              <Form.Card>
+                <Flex.Stack>
+                  <Form.SubHeading>
+                    Form.Outlet rendered first
+                  </Form.SubHeading>
+
+                  <Form.Outlet formHandlerId={formHandlerId}>
+                    <Field.Name.First path="/firstName" />
+                    <Field.Name.Last path="/lastName" />
+                  </Form.Outlet>
+                </Flex.Stack>
+              </Form.Card>
+
+              <Form.Handler
+                id={formHandlerId}
+                data={{ firstName: 'Nora', lastName: 'Mork' }}
+              >
+                <Form.Card>
+                  <Form.SubHeading>
+                    Form.Handler rendered afterwards
+                  </Form.SubHeading>
+                  <Value.Composition label="Name">
+                    <Value.String path="/firstName" />
+                    <Value.String path="/lastName" />
+                  </Value.Composition>
+                </Form.Card>
+              </Form.Handler>
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
+
 export const SectionInsideOutlet = () => {
   return (
     <ComponentBox hideCode scope={{ useId }}>
