@@ -132,6 +132,18 @@ test.describe('Page Navigation', () => {
       expect(title).toContain('Button | Eufemia')
     })
 
+    test('should contain an Edit on GitHub link', async ({ page }) => {
+      await page.goto('/uilib/components/button/')
+      await waitForApp(page)
+
+      const editLink = page.getByRole('link', { name: 'Edit on GitHub' })
+      await expect(editLink).toHaveAttribute(
+        'href',
+        'https://github.com/dnbexperience/eufemia/edit/main/packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx'
+      )
+      await expect(editLink).toHaveAttribute('target', '_blank')
+    })
+
     test('click on first main menu card should open /design-system', async ({
       page,
     }) => {

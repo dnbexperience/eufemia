@@ -14,7 +14,9 @@ import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
-import { Breadcrumb } from '@dnb/eufemia/src'
+import { Breadcrumb, Button } from '@dnb/eufemia/src'
+import GithubLogo from '../docs/contribute/assets/github-logo'
+import { resolveEditSourcePath } from './editSourcePath'
 
 const ContentWrapper = TabBar.ContentWrapper
 
@@ -25,6 +27,7 @@ type Frontmatter = {
 }
 type Fields = {
   slug: string
+  sourcePath: string
 }
 type PortalLayoutNode = {
   frontmatter: Frontmatter
@@ -46,6 +49,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
           node {
             fields {
               slug
+              sourcePath
             }
             frontmatter {
               title
@@ -95,12 +99,13 @@ export default function PortalLayout(props: PortalLayoutProps) {
   `)
 
   const slug = location.pathname.replace(/^\/|\/$/g, '')
+  const mdxEdges = data.allMdx.edges
   const mdx =
     useMemo(() => {
-      return data.allMdx.edges.find(({ node }) => {
+      return mdxEdges.find(({ node }) => {
         return slug === node.fields.slug
       })
-    }, [data, slug])?.node || {}
+    }, [mdxEdges, slug])?.node || {}
 
   const { siblings } = mdx
   const category = siblings?.[0] as PortalLayoutNode
@@ -146,6 +151,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
     return <>{children}</> // looks like it was not a MDX, so we just return children
   }
 
+  const editSourcePath = resolveEditSourcePath(
+    mdx,
+    mdxEdges.map(({ node }) => node)
+  )
+
   // Share frontmatter in pageContext during SSR/SSG
   if (pageContext?.frontmatter) {
     setPortalHeadData(pageContext, headData)
@@ -186,12 +196,18 @@ export default function PortalLayout(props: PortalLayoutProps) {
         />
       )}
 
-      <Content showTabs={currentFm.showTabs}>{children}</Content>
+      <Content
+        showTabs={currentFm.showTabs}
+        sourcePath={editSourcePath}
+        showEditLink={!codeFocusMode}
+      >
+        {children}
+      </Content>
     </Layout>
   )
 }
 
-function Content({ showTabs, children }) {
+function Content({ showTabs, sourcePath, showEditLink, children }) {
   if (showTabs) {
     resetLevels(2)
   }
@@ -199,6 +215,20 @@ function Content({ showTabs, children }) {
   return (
     <ContentWrapper>
       <MDXProvider components={tags}>{children}</MDXProvider>
+
+      {showEditLink && (
+        <Button
+          variant="secondary"
+          text="Edit on GitHub"
+          icon={GithubLogo}
+          iconPosition="left"
+          href={`https://github.com/dnbexperience/eufemia/edit/main/${sourcePath}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          top="large"
+          bottom="large"
+        />
+      )}
     </ContentWrapper>
   )
 }
