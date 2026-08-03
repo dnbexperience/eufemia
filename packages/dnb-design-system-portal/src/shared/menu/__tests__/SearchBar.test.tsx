@@ -198,7 +198,7 @@ describe('SearchBarInput', () => {
     })
   })
 
-  it('renders the search field with results inline in the dialog', async () => {
+  it('renders the search field inside the dialog', async () => {
     render(<SearchBarInput />)
 
     fireEvent.keyDown(document, { key: 'k', metaKey: true })

@@ -17,7 +17,6 @@ import {
   searchButtonContentStyle,
   searchButtonShortcutStyle,
   dialogAutocompleteStyle,
-  dialogClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
@@ -166,7 +165,6 @@ export const SearchBarInput = () => {
         open={openState}
         onClose={closeDialog}
         focusSelector=".dnb-input__input"
-        className={dialogClassStyle}
       >
         <Autocomplete
           id="portal-search-dialog"
@@ -176,8 +174,7 @@ export const SearchBarInput = () => {
           noScrollAnimation
           preventSelection
           disableFilter
-          skipPortal
-          keepOpen
+          fixedPosition
           stretch
           size="medium"
           placeholder="Search ..."
