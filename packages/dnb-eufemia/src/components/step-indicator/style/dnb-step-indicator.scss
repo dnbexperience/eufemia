@@ -47,20 +47,24 @@
     &__wrapper {
       display: flex;
       gap: 0.5rem;
-      padding-bottom: 1rem;
+      padding-bottom: 1.5rem;
       position: relative;
 
       &::before {
         content: '';
         display: block;
         position: absolute;
-        top: 0.25rem;
+        top: 1.625rem;
+        bottom: 0.25rem;
         left: 0.71875rem;
 
         width: 0.0625rem;
-        height: 100%;
 
         background-color: var(--token-color-stroke-neutral-bold);
+      }
+
+      &--status::before {
+        top: 1.9375rem;
       }
     }
 

@@ -223,7 +223,8 @@ function StepIndicatorItem({
           'dnb-step-indicator__item__wrapper',
           !status &&
             isVisited &&
-            'dnb-step-indicator__item__wrapper--check'
+            'dnb-step-indicator__item__wrapper--check',
+          status && 'dnb-step-indicator__item__wrapper--status'
         )}
       >
         <span
