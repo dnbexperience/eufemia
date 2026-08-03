@@ -2,6 +2,9 @@ declare module '*.scss'
 
 type ImportMetaEnv = {
   readonly VITE_EUFEMIA_STACKBLITZ_VERSION?: string
+  readonly VITE_GITHUB_REPOSITORY?: string
+  readonly VITE_GITHUB_EDIT_REF?: string
+  readonly VITE_GITHUB_COMMIT_SHA?: string
 }
 
 type ImportMeta = {

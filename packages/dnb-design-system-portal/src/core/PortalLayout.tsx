@@ -17,6 +17,7 @@ import { setPortalHeadData, usePortalHead } from './PortalHead'
 import { Breadcrumb, Button } from '@dnb/eufemia/src'
 import GithubLogo from '../docs/contribute/assets/github-logo'
 import { resolveEditSourcePath } from './editSourcePath'
+import { getGitHubEditTitle, getGitHubEditUrl } from './githubSource'
 
 const ContentWrapper = TabBar.ContentWrapper
 
@@ -220,9 +221,10 @@ function Content({ showTabs, sourcePath, showEditLink, children }) {
         <Button
           variant="secondary"
           text="Edit on GitHub"
+          title={getGitHubEditTitle()}
           icon={GithubLogo}
           iconPosition="left"
-          href={`https://github.com/dnbexperience/eufemia/edit/main/${sourcePath}`}
+          href={getGitHubEditUrl(sourcePath)}
           target="_blank"
           rel="noopener noreferrer"
           top="large"
