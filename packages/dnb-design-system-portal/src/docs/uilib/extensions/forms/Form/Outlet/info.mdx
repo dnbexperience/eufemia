@@ -16,7 +16,7 @@ render(<Form.Outlet formHandlerId="my-form-id">...</Form.Outlet>)
 
 This is useful when you need to render parts of a form outside the handler subtree, such as in a side panel, modal footer, or another layout region.
 
-The `formHandlerId` is required and must reference a mounted `Form.Handler`.
+The `formHandlerId` is required. The matching `Form.Handler` can be rendered before or after the outlet. The outlet stays empty until the handler context is available and then connects automatically.
 
 When `Form.Outlet` is placed **outside** a `Form.Handler` subtree it automatically wraps its children in a `<form>` element, so submit buttons work correctly. When placed **inside** an existing `Form.Handler`, no extra `<form>` element is added.
 
