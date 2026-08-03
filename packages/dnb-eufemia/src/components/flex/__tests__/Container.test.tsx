@@ -388,6 +388,22 @@ describe('Flex.Container', () => {
     )
   })
 
+  it('should not add trailing spacing to the final horizontal child', () => {
+    render(
+      <Flex.Container gap="medium">
+        <Flex.Item>Flex</Flex.Item>
+        <Flex.Item>Flex</Flex.Item>
+        <Flex.Item>Flex</Flex.Item>
+      </Flex.Container>
+    )
+
+    const children = document.querySelector('.dnb-flex-container').children
+
+    expect(children[0]).toHaveClass('dnb-space__right--medium')
+    expect(children[1]).toHaveClass('dnb-space__right--medium')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
+  })
+
   it('should set spacing between children', () => {
     const { rerender } = render(
       <Flex.Container>
@@ -410,7 +426,7 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--small')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--small')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
 
     rerender(
       <Flex.Container gap="large">
@@ -427,7 +443,7 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--large')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--large')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
 
     rerender(
       <Flex.Container gap="xx-small">
@@ -444,7 +460,7 @@ describe('Flex.Container', () => {
     expect(children[1]).toHaveClass('dnb-space__right--xx-small')
 
     expect(children[2]).toHaveClass('dnb-space__left--zero')
-    expect(children[2]).toHaveClass('dnb-space__right--xx-small')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
   })
 
   it('should not apply spacing if set to false', () => {
