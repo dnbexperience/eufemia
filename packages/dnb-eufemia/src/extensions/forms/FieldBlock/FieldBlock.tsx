@@ -294,13 +294,17 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   const setFieldState = useCallback(
     (identifier: Identifier, fieldState: SubmitState) => {
+      if (composition) {
+        return undefined
+      }
+
       if (fieldState !== fieldStateRef.current) {
         fieldStateRef.current = fieldState
 
         forceUpdate()
       }
     },
-    []
+    [composition]
   )
 
   const showFieldError = useCallback(
