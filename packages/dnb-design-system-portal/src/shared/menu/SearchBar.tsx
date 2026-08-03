@@ -7,15 +7,17 @@ import { useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
 import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
-import { Autocomplete, Dialog } from '@dnb/eufemia/src'
+import { Autocomplete, Button, Dialog, Icon } from '@dnb/eufemia/src'
+import { loupe as loupeIcon } from '@dnb/eufemia/src/icons'
 import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
-  headerAutocompleteStyle,
+  searchButtonStyle,
+  searchButtonContentStyle,
+  searchButtonShortcutStyle,
   dialogAutocompleteStyle,
   dialogClassStyle,
-  portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
@@ -29,19 +31,30 @@ export const SearchBarInput = () => {
   const searchIndex = useRef(null)
   const [status, setStatus] = useState(null)
   const [openState, setOpenState] = useState(false)
+  const [isMac, setIsMac] = useState(false)
+
+  const openDialog = () => {
+    setOpenState(true)
+  }
 
   const closeDialog = () => {
     setOpenState(false)
   }
 
   useEffect(() => {
+    setIsMac(
+      /Mac|iPhone|iPad|iPod/i.test(
+        navigator.platform || navigator.userAgent
+      )
+    )
+
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (
         (event.metaKey || event.ctrlKey) &&
         (event.key === 'k' || event.key === 'K')
       ) {
         event.preventDefault()
-        setOpenState(true)
+        openDialog()
       }
     }
 
@@ -120,28 +133,29 @@ export const SearchBarInput = () => {
 
   return (
     <>
-      <Autocomplete
+      <Button
         id="portal-search"
-        className={clsx(headerAutocompleteStyle, 'portal-search')}
-        mode="async"
-        showClearButton
-        noScrollAnimation
-        preventSelection
-        disableFilter
-        fixedPosition
-        size="medium"
-        align="right"
-        placeholder="Search ..."
-        label="Search the Eufemia documentation"
-        labelSrOnly
-        status={status}
-        portalClass={portalClassStyle}
-        drawerClass={drawerClassStyle}
-        onType={onTypeHandler}
-        onChange={onChangeHandler}
-        onFocus={onFocusHandler}
-        pageOffset={0} // drawer-list property
-        optionsRender={renderSearchOptions}
+        className={clsx(searchButtonStyle, 'portal-search')}
+        variant="secondary"
+        aria-haspopup="dialog"
+        aria-keyshortcuts="Meta+K Control+K"
+        title="Search the Eufemia documentation"
+        onClick={openDialog}
+        customContent={
+          <span className={searchButtonContentStyle}>
+            <Icon icon={loupeIcon} aria-hidden />
+            <span className="dnb-button__text">Search</span>
+            <kbd
+              className={clsx(
+                searchButtonShortcutStyle,
+                'search-shortcut'
+              )}
+              aria-hidden
+            >
+              {isMac ? '⌘ K' : 'Ctrl K'}
+            </kbd>
+          </span>
+        }
       />
 
       <Dialog

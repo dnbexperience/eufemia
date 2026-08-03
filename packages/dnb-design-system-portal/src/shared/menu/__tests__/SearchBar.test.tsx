@@ -141,11 +141,25 @@ describe('SearchBarInput', () => {
 
   afterEach(cleanup)
 
-  it('renders an inline search field in the header', () => {
+  it('renders a search trigger button in the header', () => {
     render(<SearchBarInput />)
 
-    expect(document.querySelector('#portal-search')).not.toBeNull()
+    const trigger = document.querySelector('#portal-search')
+    expect(trigger).not.toBeNull()
+    expect(trigger?.tagName).toBe('BUTTON')
     expect(document.querySelector('.dnb-dialog')).toBeNull()
+  })
+
+  it('opens the dialog when clicking the trigger button', async () => {
+    render(<SearchBarInput />)
+
+    expect(document.querySelector('.dnb-dialog')).toBeNull()
+
+    fireEvent.click(document.querySelector('#portal-search'))
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog')).not.toBeNull()
+    })
   })
 
   it('opens the dialog when pressing command+k', async () => {

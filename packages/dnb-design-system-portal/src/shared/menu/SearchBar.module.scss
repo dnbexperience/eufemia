@@ -1,28 +1,44 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
-.headerAutocompleteStyle {
-  :global {
-    margin-right: 1rem;
+.searchButtonStyle {
+  margin-right: 1rem;
 
-    @include utilities.allBelow(small) {
-      margin-right: 0.5rem;
-    }
+  @include utilities.allBelow(small) {
+    margin-right: 0.5rem;
 
-    .dnb-autocomplete__shell {
-      &,
-      input {
-        width: 40vw;
-
-        @include utilities.allBelow(small) {
-          width: 50vw;
-        }
+    :global {
+      // Compact to an icon-only button on small screens.
+      .dnb-button__text,
+      .search-shortcut {
+        display: none;
       }
     }
   }
 }
 
-.portalClassStyle {
-  z-index: 6000;
+.searchButtonContentStyle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  // Match the regular button height, which the default content layout
+  // normally provides via its alignment helper (skipped by customContent).
+  min-height: var(--button-height);
+}
+
+.searchButtonShortcutStyle {
+  display: inline-flex;
+  align-items: center;
+  height: 1.5rem;
+  padding: 0 0.375rem;
+
+  border: 0.0625rem solid currentColor;
+  border-radius: 0.25rem;
+
+  font-family: inherit;
+  font-size: var(--font-size-x-small);
+
+  opacity: 0.6;
 }
 
 .dialogAutocompleteStyle {
