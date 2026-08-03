@@ -142,6 +142,11 @@
     }
   }
 
+  &__item--current &__item-content__number,
+  &__item--current &__button {
+    font-weight: var(--font-weight-medium);
+  }
+
   &__button {
     white-space: normal;
     text-align: left;

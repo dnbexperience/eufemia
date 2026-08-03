@@ -1250,6 +1250,9 @@ button.dnb-button::-moz-focus-inner {
 .dnb-step-indicator__item:last-child .dnb-step-indicator__item__wrapper::before {
   display: none;
 }
+.dnb-step-indicator__item--current .dnb-step-indicator__item-content__number, .dnb-step-indicator__item--current .dnb-step-indicator__button {
+  font-weight: var(--font-weight-medium);
+}
 .dnb-step-indicator__button {
   white-space: normal;
   text-align: left;
