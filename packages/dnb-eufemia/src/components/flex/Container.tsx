@@ -229,9 +229,10 @@ function FlexContainer(props: FlexContainerAllProps) {
       direction === 'horizontal'
         ? {
             [start]: endSpacing,
-            [end]: isLast
-              ? (getSpaceValue(end, child) ?? endSpacing)
-              : startSpacing,
+            [end]:
+              isLast && !hasSizeProp
+                ? (getSpaceValue(end, child) ?? endSpacing)
+                : startSpacing,
           }
         : { [start]: startSpacing, [end]: endSpacing }
 

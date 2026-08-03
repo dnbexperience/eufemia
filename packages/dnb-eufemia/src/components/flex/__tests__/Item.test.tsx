@@ -221,7 +221,7 @@ describe('Flex.Item', () => {
 
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
 
       rerender(
@@ -233,7 +233,7 @@ describe('Flex.Item', () => {
 
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
     })
 
@@ -319,7 +319,7 @@ describe('Flex.Item', () => {
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--large'],
         ['dnb-space__left--x-large', 'dnb-space__right--large'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--large'],
       ])
 
       rerender(
@@ -393,7 +393,7 @@ describe('Flex.Item', () => {
 
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--large'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--large'],
       ])
 
       rerender(
@@ -405,7 +405,7 @@ describe('Flex.Item', () => {
 
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
     })
 
@@ -423,7 +423,7 @@ describe('Flex.Item', () => {
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
         ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
 
       act(() => {
@@ -433,7 +433,7 @@ describe('Flex.Item', () => {
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
         ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
     })
 
@@ -451,7 +451,7 @@ describe('Flex.Item', () => {
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
         ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
 
       act(() => {
@@ -461,7 +461,7 @@ describe('Flex.Item', () => {
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
         ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
     })
   })
