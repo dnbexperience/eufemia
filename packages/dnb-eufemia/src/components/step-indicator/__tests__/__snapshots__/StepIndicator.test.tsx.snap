@@ -1173,7 +1173,7 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-step-indicator__item__wrapper {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   padding-bottom: 1rem;
   position: relative;
 }
