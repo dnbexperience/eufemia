@@ -1,6 +1,6 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
-.autocompleteStyle {
+.headerAutocompleteStyle {
   :global {
     margin-right: 1rem;
 
@@ -23,6 +23,29 @@
 
 .portalClassStyle {
   z-index: 6000;
+}
+
+.dialogAutocompleteStyle {
+  :global {
+    .dnb-autocomplete__shell {
+      &,
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.dialogClassStyle {
+  :global {
+    // Render the search results inline so the top-aligned dialog expands
+    // downwards as results appear, instead of overlaying in a portal.
+    .dnb-drawer-list__list {
+      position: relative;
+      top: auto;
+      bottom: auto;
+    }
+  }
 }
 
 .drawerClassStyle {

@@ -1,7 +1,21 @@
 import { afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
-import { cleanup, render } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { formatSearchResultMarkdown } from '../SearchBarMarkdown'
+import { SearchBarInput } from '../SearchBar'
+
+vi.mock('algoliasearch/lite', () => ({
+  default: () => ({
+    initIndex: () => ({
+      search: vi.fn().mockResolvedValue({ hits: [] }),
+    }),
+  }),
+}))
 
 type CustomResizeTo = (opts: { width?: number; height?: number }) => void
 
@@ -117,5 +131,69 @@ describe('SearchBar', () => {
     expect(link).not.toBeNull()
     expect(code?.textContent).toBe('Card')
     expect(highlight?.textContent).toBe('Ca')
+  })
+})
+
+describe('SearchBarInput', () => {
+  beforeAll(() => {
+    ;(window as unknown as { IS_TEST: boolean }).IS_TEST = true
+  })
+
+  afterEach(cleanup)
+
+  it('renders an inline search field in the header', () => {
+    render(<SearchBarInput />)
+
+    expect(document.querySelector('#portal-search')).not.toBeNull()
+    expect(document.querySelector('.dnb-dialog')).toBeNull()
+  })
+
+  it('opens the dialog when pressing command+k', async () => {
+    render(<SearchBarInput />)
+
+    expect(document.querySelector('.dnb-dialog')).toBeNull()
+
+    fireEvent.keyDown(document, { key: 'k', metaKey: true })
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog')).not.toBeNull()
+    })
+  })
+
+  it('opens the dialog when pressing ctrl+k', async () => {
+    render(<SearchBarInput />)
+
+    fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog')).not.toBeNull()
+    })
+  })
+
+  it('renders the dialog top aligned so it can expand', async () => {
+    render(<SearchBarInput />)
+
+    fireEvent.keyDown(document, { key: 'k', metaKey: true })
+
+    await waitFor(() => {
+      const content = document.querySelector('.dnb-modal__content')
+      expect(content).not.toBeNull()
+      expect(
+        content.classList.contains('dnb-modal__vertical-alignment--top')
+      ).toBe(true)
+    })
+  })
+
+  it('renders the search field with results inline in the dialog', async () => {
+    render(<SearchBarInput />)
+
+    fireEvent.keyDown(document, { key: 'k', metaKey: true })
+
+    await waitFor(() => {
+      const content = document.querySelector('.dnb-modal__content')
+      expect(content).not.toBeNull()
+      expect(content.querySelector('#portal-search-dialog')).not.toBeNull()
+      expect(content.querySelector('.dnb-input__input')).not.toBeNull()
+    })
   })
 })

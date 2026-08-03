@@ -3,16 +3,18 @@
  *
  */
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
 import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
-import { Autocomplete } from '@dnb/eufemia/src/components'
+import { Autocomplete, Dialog } from '@dnb/eufemia/src'
 import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
-  autocompleteStyle,
+  headerAutocompleteStyle,
+  dialogAutocompleteStyle,
+  dialogClassStyle,
   portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
@@ -26,6 +28,29 @@ import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 export const SearchBarInput = () => {
   const searchIndex = useRef(null)
   const [status, setStatus] = useState(null)
+  const [openState, setOpenState] = useState(false)
+
+  const closeDialog = () => {
+    setOpenState(false)
+  }
+
+  useEffect(() => {
+    const onKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (
+        (event.metaKey || event.ctrlKey) &&
+        (event.key === 'k' || event.key === 'K')
+      ) {
+        event.preventDefault()
+        setOpenState(true)
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [])
 
   const onTypeHandler = ({
     value,
@@ -41,7 +66,9 @@ export const SearchBarInput = () => {
         searchIndex.current
           ?.search(value)
           .then(({ hits }) => {
-            updateData(makeHitsHumanFriendly({ hits, setHidden }))
+            updateData(
+              makeHitsHumanFriendly({ hits, setHidden, closeDialog })
+            )
             hideIndicator()
             if (hits?.length === 0) {
               showNoOptionsItem()
@@ -75,6 +102,7 @@ export const SearchBarInput = () => {
         setHidden,
         emptyData,
       })
+      closeDialog()
     } catch (e) {
       setStatus(e.message)
     }
@@ -91,44 +119,82 @@ export const SearchBarInput = () => {
   }
 
   return (
-    <Autocomplete
-      id="portal-search"
-      className={clsx(autocompleteStyle, 'portal-search')}
-      mode="async"
-      showClearButton
-      noScrollAnimation
-      preventSelection
-      disableFilter
-      fixedPosition
-      size="medium"
-      align="right"
-      placeholder="Search ..."
-      label="Search the Eufemia documentation"
-      labelSrOnly
-      status={status}
-      portalClass={portalClassStyle}
-      drawerClass={drawerClassStyle}
-      onType={onTypeHandler}
-      onChange={onChangeHandler}
-      onFocus={onFocusHandler}
-      pageOffset={0} // drawer-list property
-      optionsRender={({ Items, data }) => {
-        return (
-          <>
-            <Items />
-            {data.length > 1 && (
-              <li>
-                <SearchLogo />
-              </li>
-            )}
-          </>
-        )
-      }}
-    />
+    <>
+      <Autocomplete
+        id="portal-search"
+        className={clsx(headerAutocompleteStyle, 'portal-search')}
+        mode="async"
+        showClearButton
+        noScrollAnimation
+        preventSelection
+        disableFilter
+        fixedPosition
+        size="medium"
+        align="right"
+        placeholder="Search ..."
+        label="Search the Eufemia documentation"
+        labelSrOnly
+        status={status}
+        portalClass={portalClassStyle}
+        drawerClass={drawerClassStyle}
+        onType={onTypeHandler}
+        onChange={onChangeHandler}
+        onFocus={onFocusHandler}
+        pageOffset={0} // drawer-list property
+        optionsRender={renderSearchOptions}
+      />
+
+      <Dialog
+        title="Search the Eufemia documentation"
+        verticalAlignment="top"
+        maxWidth="40rem"
+        omitTriggerButton
+        open={openState}
+        onClose={closeDialog}
+        focusSelector=".dnb-input__input"
+        className={dialogClassStyle}
+      >
+        <Autocomplete
+          id="portal-search-dialog"
+          className={clsx(dialogAutocompleteStyle, 'portal-search')}
+          mode="async"
+          showClearButton
+          noScrollAnimation
+          preventSelection
+          disableFilter
+          skipPortal
+          keepOpen
+          stretch
+          size="medium"
+          placeholder="Search ..."
+          label="Search the Eufemia documentation"
+          labelSrOnly
+          status={status}
+          drawerClass={drawerClassStyle}
+          onType={onTypeHandler}
+          onChange={onChangeHandler}
+          onFocus={onFocusHandler}
+          optionsRender={renderSearchOptions}
+        />
+      </Dialog>
+    </>
   )
 }
 
-const makeHitsHumanFriendly = ({ hits, setHidden }) => {
+const renderSearchOptions = ({ Items, data }) => {
+  return (
+    <>
+      <Items />
+      {data.length > 1 && (
+        <li>
+          <SearchLogo />
+        </li>
+      )}
+    </>
+  )
+}
+
+const makeHitsHumanFriendly = ({ hits, setHidden, closeDialog }) => {
   const data = []
 
   hits.forEach((hit) => {
@@ -147,6 +213,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
         })
       ) {
         event.preventDefault()
+        closeDialog?.()
       }
     }
 
@@ -178,6 +245,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
           })
         ) {
           event.preventDefault()
+          closeDialog?.()
         }
       }
 
