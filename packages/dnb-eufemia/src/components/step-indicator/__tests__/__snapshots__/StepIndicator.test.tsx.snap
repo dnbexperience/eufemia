@@ -1185,7 +1185,7 @@ button.dnb-button::-moz-focus-inner {
   left: 0.71875rem;
   width: 0.0625rem;
   height: 100%;
-  background-color: var(--token-color-stroke-neutral-subtle);
+  background-color: var(--token-color-stroke-neutral-bold);
 }
 .dnb-step-indicator__item__bullet {
   display: flex;
