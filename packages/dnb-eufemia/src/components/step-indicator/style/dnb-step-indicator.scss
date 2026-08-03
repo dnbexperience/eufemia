@@ -68,6 +68,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
       min-width: 1.5rem;
       width: 1.5rem;
       height: 1.5rem;
@@ -76,10 +77,12 @@
 
       &--empty,
       &--current {
-        background-color: var(--step-indicator-check-bg);
-        border-width: 0.0625rem;
-        border-style: solid;
-        border-color: transparent;
+        &::before {
+          content: '';
+          position: absolute;
+          border-radius: 50%;
+          box-sizing: border-box;
+        }
       }
 
       &--check {
@@ -88,14 +91,21 @@
       }
 
       &--empty {
-        color: var(--token-color-icon-neutral);
-        background-color: var(--token-color-background-neutral);
-        border-color: var(--token-color-stroke-neutral-bold);
+        &::before {
+          width: 0.75rem;
+          height: 0.75rem;
+          background-color: var(--token-color-background-neutral-bold);
+        }
       }
 
       &--current {
-        border-width: 0.1875rem;
-        border-color: var(--step-indicator-current-border);
+        &::before {
+          width: 1rem;
+          height: 1rem;
+          background-color: var(--token-color-decorative-second-subtle);
+          border: 0.125rem solid
+            var(--token-color-decorative-first-intense);
+        }
       }
       &.dnb-skeleton {
         border-width: 0.0625rem;
