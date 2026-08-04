@@ -3,7 +3,7 @@
  *
  */
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
 import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
@@ -12,7 +12,6 @@ import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/aut
 import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
-  searchWrapperStyle,
   autocompleteStyle,
   shortcutHintStyle,
   portalClassStyle,
@@ -24,24 +23,29 @@ import {
   isMac,
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
-import { useIsomorphicLayoutEffect as useLayoutEffect } from '@dnb/eufemia/src/shared/helpers/useIsomorphicLayoutEffect'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 
 const searchInputId = 'portal-search'
+const subscribeToPlatform = () => () => undefined
+const getShortcutHint = (): string | null => (isMac() ? '⌘ K' : 'Ctrl K')
+const getServerShortcutHint = (): string | null => null
+
+// Rendered as a component so Autocomplete's injected trigger props don't reach the <kbd>.
+const ShortcutHint = ({ hint }: { hint: string }) => (
+  <kbd className={shortcutHintStyle} aria-hidden="true">
+    {hint}
+  </kbd>
+)
 
 export const SearchBarInput = () => {
   const searchIndex = useRef(null)
   const [status, setStatus] = useState(null)
   const [hasValue, setHasValue] = useState(false)
-
-  // Render the platform-specific hint only after mount, to avoid a
-  // server/client hydration mismatch (isMac() is always false during SSR).
-  const [isMounted, setIsMounted] = useState(false)
-  const shortcutHint = useMemo(() => (!isMac() ? 'Ctrl K' : '⌘ K'), [])
-
-  useLayoutEffect(() => {
-    setIsMounted(true)
-  }, [])
+  const shortcutHint = useSyncExternalStore(
+    subscribeToPlatform,
+    getShortcutHint,
+    getServerShortcutHint
+  )
 
   useEffect(() => {
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
@@ -127,50 +131,47 @@ export const SearchBarInput = () => {
   }
 
   return (
-    <span className={searchWrapperStyle}>
-      <Autocomplete
-        id={searchInputId}
-        className={clsx(autocompleteStyle, 'portal-search')}
-        mode="async"
-        showClearButton
-        noScrollAnimation
-        preventSelection
-        disableFilter
-        fixedPosition
-        size="medium"
-        align="right"
-        placeholder="Search ..."
-        label="Search the Eufemia documentation"
-        labelSrOnly
-        aria-keyshortcuts="Meta+K Control+K"
-        status={status}
-        portalClass={portalClassStyle}
-        drawerClass={drawerClassStyle}
-        onType={onTypeHandler}
-        onChange={onChangeHandler}
-        onFocus={onFocusHandler}
-        onClear={() => setHasValue(false)}
-        pageOffset={0} // drawer-list property
-        optionsRender={({ Items, data }) => {
-          return (
-            <>
-              <Items />
-              {data.length > 1 && (
-                <li>
-                  <SearchLogo />
-                </li>
-              )}
-            </>
-          )
-        }}
-      />
-
-      {isMounted && !hasValue && (
-        <kbd className={shortcutHintStyle} aria-hidden="true">
-          {shortcutHint}
-        </kbd>
-      )}
-    </span>
+    <Autocomplete
+      id={searchInputId}
+      className={clsx(autocompleteStyle, 'portal-search')}
+      mode="async"
+      showClearButton
+      noScrollAnimation
+      preventSelection
+      disableFilter
+      fixedPosition
+      size="medium"
+      align="right"
+      placeholder="Search ..."
+      label="Search the Eufemia documentation"
+      labelSrOnly
+      aria-keyshortcuts="Meta+K Control+K"
+      status={status}
+      portalClass={portalClassStyle}
+      drawerClass={drawerClassStyle}
+      onType={onTypeHandler}
+      onChange={onChangeHandler}
+      onFocus={onFocusHandler}
+      onClear={() => setHasValue(false)}
+      submitElement={
+        !hasValue && shortcutHint ? (
+          <ShortcutHint hint={shortcutHint} />
+        ) : undefined
+      }
+      pageOffset={0} // drawer-list property
+      optionsRender={({ Items, data }) => {
+        return (
+          <>
+            <Items />
+            {data.length > 1 && (
+              <li>
+                <SearchLogo />
+              </li>
+            )}
+          </>
+        )
+      }}
+    />
   )
 }
 

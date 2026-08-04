@@ -1,17 +1,5 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
-.searchWrapperStyle {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-
-  margin-right: 1rem;
-
-  @include utilities.allBelow(small) {
-    margin-right: 0.5rem;
-  }
-}
-
 .autocompleteStyle {
   :global {
     .dnb-autocomplete__shell {

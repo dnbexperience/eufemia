@@ -1,5 +1,6 @@
 import { afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
 import { cleanup, fireEvent, render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { formatSearchResultMarkdown } from '../SearchBarMarkdown'
 import { SearchBarInput } from '../SearchBar'
@@ -169,12 +170,27 @@ describe('SearchBarInput', () => {
     expect(document.activeElement).toBe(input)
   })
 
-  it('shows the keyboard shortcut hint', () => {
+  it('does not render a platform-specific hint on the server', () => {
+    const html = renderToString(<SearchBarInput />)
+
+    expect(html).not.toContain('<kbd')
+  })
+
+  it.each([
+    ['MacIntel', '⌘ K'],
+    ['Win32', 'Ctrl K'],
+  ])('shows the %s keyboard shortcut hint', (platform, shortcut) => {
+    const platformSpy = vi
+      .spyOn(navigator, 'platform', 'get')
+      .mockReturnValue(platform)
+
     render(<SearchBarInput />)
 
     const hint = document.querySelector('kbd')
     expect(hint).not.toBeNull()
-    expect(hint?.textContent).toContain('K')
+    expect(hint?.textContent).toBe(shortcut)
+
+    platformSpy.mockRestore()
   })
 
   it('hides the keyboard shortcut hint when the input has a value', () => {
