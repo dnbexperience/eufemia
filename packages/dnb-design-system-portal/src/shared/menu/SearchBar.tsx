@@ -24,6 +24,7 @@ import {
   isMac,
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '@dnb/eufemia/src/shared/helpers/useIsomorphicLayoutEffect'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 
 const searchInputId = 'portal-search'
@@ -34,11 +35,13 @@ export const SearchBarInput = () => {
   const [hasValue, setHasValue] = useState(false)
   const [shortcutHint, setShortcutHint] = useState<string | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Resolve the hint on the client to keep it in sync with the platform
     // and avoid a server/client hydration mismatch.
     setShortcutHint(isMac() ? '⌘ K' : 'Ctrl K')
+  }, [])
 
+  useEffect(() => {
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (
         (event.metaKey || event.ctrlKey) &&
