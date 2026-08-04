@@ -28,6 +28,11 @@ import type { StepIndicatorMouseEvent } from './StepIndicator'
 import Context from '../../shared/Context'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
+export type StepIndicatorBulletType =
+  | 'current'
+  | 'check'
+  | 'empty'
+  | StepIndicatorStatusState
 export type StepIndicatorStatusState = 'warning' | 'information' | 'error'
 export type StepIndicatorItemProps = Omit<
   HTMLProps<HTMLElement>,
@@ -165,6 +170,18 @@ function StepIndicatorItem({
 
   const usedIsCurrent = currentItemNum === activeStep
 
+  const bulletType = getStepIndicatorBulletType({
+    index: currentItemNum,
+    activeStep,
+    status,
+    statusState,
+  })
+
+  const isStatusBullet =
+    bulletType === 'warning' ||
+    bulletType === 'error' ||
+    bulletType === 'information'
+
   const element = <StepItemWrapper>{title}</StepItemWrapper>
 
   const itemParams: Partial<HTMLProps<HTMLLIElement>> = {}
@@ -230,18 +247,13 @@ function StepIndicatorItem({
         <span
           className={clsx(
             'dnb-step-indicator__item__bullet',
-            usedIsCurrent
-              ? 'dnb-step-indicator__item__bullet--current'
-              : !status &&
-                  (isVisited
-                    ? 'dnb-step-indicator__item__bullet--check'
-                    : 'dnb-step-indicator__item__bullet--empty'),
+            `dnb-step-indicator__item__bullet--${bulletType}`,
             createSkeletonClass('shape', skeleton)
           )}
         >
-          {status && !usedIsCurrent ? (
+          {isStatusBullet ? (
             <Icon
-              icon={stateIcons[statusState] || stateIcons.warning}
+              icon={stateIcons[bulletType] || stateIcons.warning}
               className="dnb-step-indicator__item__icon"
               size="medium"
               inheritColor={false}
@@ -251,7 +263,8 @@ function StepIndicatorItem({
               icon="check"
               className={clsx(
                 'dnb-step-indicator__item__icon',
-                !isVisited && 'dnb-step-indicator__item__icon--hidden'
+                bulletType !== 'check' &&
+                  'dnb-step-indicator__item__icon--hidden'
               )}
               size="auto"
             />
@@ -331,6 +344,26 @@ type StepItemWrapperProps = HTMLProps<HTMLElement> & {
 
 export function StepItemWrapper({ children }: StepItemWrapperProps) {
   return <>{children}</>
+}
+
+export function getStepIndicatorBulletType({
+  index,
+  activeStep,
+  status,
+  statusState = 'warning',
+}: {
+  index: number
+  activeStep: number
+  status?: StepIndicatorItemProps['status']
+  statusState?: StepIndicatorStatusState
+}): StepIndicatorBulletType {
+  if (index === activeStep) {
+    return 'current'
+  }
+  if (status) {
+    return statusState
+  }
+  return index < activeStep ? 'check' : 'empty'
 }
 
 export default StepIndicatorItem

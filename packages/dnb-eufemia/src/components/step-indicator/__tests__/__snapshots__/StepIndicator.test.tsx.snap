@@ -1152,6 +1152,39 @@ button.dnb-button::-moz-focus-inner {
 .dnb-step-indicator__card {
   --padding-bottom: 0;
 }
+.dnb-step-indicator__progress-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  padding: 0.5rem;
+  background-color: var(--token-color-background-neutral-subtle);
+  border-radius: 2.5rem;
+  list-style: none;
+}
+.dnb-step-indicator__progress-bar__segment {
+  flex: 1;
+  height: 0.5rem;
+  border-radius: var(--token-radius-full);
+}
+.dnb-step-indicator__progress-bar__segment--empty {
+  background-color: var(--token-color-background-neutral-bold);
+}
+.dnb-step-indicator__progress-bar__segment--check {
+  background-color: var(--token-color-decorative-first-intense);
+}
+.dnb-step-indicator__progress-bar__segment--current {
+  background-color: var(--token-color-decorative-second-subtle);
+  box-shadow: inset 0 0 0 0.125rem var(--token-color-decorative-first-intense);
+}
+.dnb-step-indicator__progress-bar__segment--warning {
+  background-color: var(--token-color-background-warning);
+}
+.dnb-step-indicator__progress-bar__segment--error {
+  background-color: var(--token-color-background-error);
+}
+.dnb-step-indicator__progress-bar__segment--information {
+  background-color: var(--token-color-background-info);
+}
 .dnb-step-indicator__list {
   padding: 0;
   margin: 0;

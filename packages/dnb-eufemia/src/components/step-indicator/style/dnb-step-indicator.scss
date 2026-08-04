@@ -20,6 +20,48 @@
     --padding-bottom: 0;
   }
 
+  &__progress-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    padding: 0.5rem;
+    background-color: var(--token-color-background-neutral-subtle);
+    border-radius: 2.5rem;
+    list-style: none;
+
+    &__segment {
+      flex: 1;
+      height: 0.5rem;
+      border-radius: var(--token-radius-full);
+
+      &--empty {
+        background-color: var(--token-color-background-neutral-bold);
+      }
+
+      &--check {
+        background-color: var(--token-color-decorative-first-intense);
+      }
+
+      &--current {
+        background-color: var(--token-color-decorative-second-subtle);
+        box-shadow: inset 0 0 0 0.125rem
+          var(--token-color-decorative-first-intense);
+      }
+
+      &--warning {
+        background-color: var(--token-color-background-warning);
+      }
+
+      &--error {
+        background-color: var(--token-color-background-error);
+      }
+
+      &--information {
+        background-color: var(--token-color-background-info);
+      }
+    }
+  }
+
   &__list {
     padding: 0;
     margin: 0;

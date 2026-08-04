@@ -9,6 +9,7 @@ import { useSpacing } from '../space/SpacingUtils'
 import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorList from './StepIndicatorList'
+import StepIndicatorProgressBar from './StepIndicatorProgressBar'
 import StepIndicatorContext, {
   StepIndicatorProvider,
 } from './StepIndicatorContext'
@@ -141,6 +142,7 @@ function StepIndicator({
           className: 'dnb-step-indicator-wrapper dnb-step-indicator',
         })}
       >
+        <StepIndicatorProgressBar />
         <StepIndicatorTriggerButton
           isNested={useContext(CardContext)?.isNested}
         />

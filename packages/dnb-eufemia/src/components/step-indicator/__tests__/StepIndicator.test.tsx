@@ -16,6 +16,7 @@ import type {
   StepIndicatorProps,
 } from '../StepIndicator'
 import StepIndicator from '../StepIndicator'
+import { getStepIndicatorBulletType } from '../StepIndicatorItem'
 import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 
@@ -743,6 +744,139 @@ describe('StepIndicator ARIA', () => {
       .split(/\s+/)
       .filter((refId) => refId.endsWith('-status'))
     expect(statusRefs).toHaveLength(0)
+  })
+})
+
+describe('getStepIndicatorBulletType', () => {
+  it('returns "current" for the active step regardless of status', () => {
+    expect(getStepIndicatorBulletType({ index: 1, activeStep: 1 })).toBe(
+      'current'
+    )
+
+    expect(
+      getStepIndicatorBulletType({
+        index: 1,
+        activeStep: 1,
+        status: 'Something is wrong',
+        statusState: 'error',
+      })
+    ).toBe('current')
+  })
+
+  it('returns the statusState for non-current steps with a status', () => {
+    expect(
+      getStepIndicatorBulletType({
+        index: 0,
+        activeStep: 2,
+        status: 'msg',
+        statusState: 'warning',
+      })
+    ).toBe('warning')
+
+    expect(
+      getStepIndicatorBulletType({
+        index: 0,
+        activeStep: 2,
+        status: 'msg',
+        statusState: 'error',
+      })
+    ).toBe('error')
+
+    expect(
+      getStepIndicatorBulletType({
+        index: 0,
+        activeStep: 2,
+        status: 'msg',
+        statusState: 'information',
+      })
+    ).toBe('information')
+  })
+
+  it('defaults statusState to "warning" when a status is set without one', () => {
+    expect(
+      getStepIndicatorBulletType({
+        index: 0,
+        activeStep: 2,
+        status: 'msg',
+      })
+    ).toBe('warning')
+  })
+
+  it('returns "check" for visited steps without a status', () => {
+    expect(getStepIndicatorBulletType({ index: 0, activeStep: 2 })).toBe(
+      'check'
+    )
+  })
+
+  it('returns "empty" for future steps without a status', () => {
+    expect(getStepIndicatorBulletType({ index: 3, activeStep: 1 })).toBe(
+      'empty'
+    )
+  })
+})
+
+describe('StepIndicator progress bar', () => {
+  const mixedData: StepIndicatorData = [
+    { title: 'Step A' },
+    { title: 'Step B', status: 'Heads up', statusState: 'warning' },
+    { title: 'Step C', status: 'Broken', statusState: 'error' },
+    { title: 'Step D', status: 'FYI', statusState: 'information' },
+    { title: 'Step E' },
+  ]
+
+  const bulletTypeFor = (index: number, activeStep: number) =>
+    getStepIndicatorBulletType({
+      index,
+      activeStep,
+      status: (mixedData[index] as { status?: string }).status,
+      statusState: (
+        mixedData[index] as {
+          statusState?: 'warning' | 'error' | 'information'
+        }
+      ).statusState,
+    })
+
+  it('renders one segment per step', () => {
+    render(<StepIndicator mode="loose" data={mixedData} currentStep={0} />)
+    expect(
+      document.querySelectorAll(
+        '.dnb-step-indicator__progress-bar__segment'
+      )
+    ).toHaveLength(mixedData.length)
+  })
+
+  it('uses the same bullet type helper as the item bullet', () => {
+    const activeStep = 2
+    render(
+      <StepIndicator
+        mode="loose"
+        data={mixedData}
+        currentStep={activeStep}
+        expandedInitially
+      />
+    )
+
+    const segments = document.querySelectorAll(
+      '.dnb-step-indicator__progress-bar__segment'
+    )
+    const bullets = document.querySelectorAll(
+      '.dnb-step-indicator__item__bullet'
+    )
+
+    expect(segments).toHaveLength(mixedData.length)
+    expect(bullets).toHaveLength(mixedData.length)
+
+    mixedData.forEach((_, i) => {
+      const expected = bulletTypeFor(i, activeStep)
+
+      expect(segments[i]).toHaveClass(
+        `dnb-step-indicator__progress-bar__segment--${expected}`
+      )
+
+      expect(bullets[i]).toHaveClass(
+        `dnb-step-indicator__item__bullet--${expected}`
+      )
+    })
   })
 })
 
