@@ -90,10 +90,11 @@ async function prerender() {
   let urls = collectUrls(routes)
   console.log(`  ${urls.length} pages to prerender`)
 
-  // Find CSS chunks for ALL themes so we can inject render-blocking
-  // <link> tags. The default theme (ui) is enabled; others are disabled
-  // but present so an early inline script can swap them before first
-  // paint — avoiding a flash of the wrong brand theme.
+  // Find CSS chunks for ALL themes so we can inject <link> tags.
+  // The default theme (ui) is injected enabled (render-blocking); the
+  // other brand themes are injected disabled, so the browser skips them
+  // until the user switches themes. An early inline script enables a
+  // stored non-default theme when needed.
   const assetsDir = path.resolve(outDir, 'assets')
   const themeNames = ['ui', 'sbanken', 'eiendom', 'carnegie']
   const themeCssPaths = {}
@@ -498,23 +499,28 @@ function injectHtml(
     `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
   )
 
-  // Inject <link> tags for ALL brand theme CSS chunks.
-  // All links are enabled (render-blocking) so the browser fetches them
-  // before the first paint. A head script disables inactive themes
-  // before the browser paints, and a body-opening script adds the
-  // active brand class to <body> so token selectors match immediately.
+  // Inject <link> tags for the brand theme CSS chunks.
+  // Only the default theme is enabled (render-blocking) so the browser
+  // fetches just that one before the first paint. Every other brand
+  // theme is emitted with the `disabled` attribute, which keeps the
+  // browser from fetching it until the user switches themes — removing
+  // the other themes from the render-blocking critical path and from
+  // the initial byte weight. A body-opening script adds the active
+  // brand class to <body> so token selectors match immediately.
   if (themeCssPaths && Object.keys(themeCssPaths).length > 0) {
     const defaultTheme = 'ui'
     const linkTags = Object.entries(themeCssPaths)
       .map(([name, href]) => {
-        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}">`
+        const disabled = name === defaultTheme ? '' : ' disabled'
+        return `    <link rel="stylesheet" crossorigin href="${href}" data-eufemia-theme="${name}"${disabled}>`
       })
       .join('\n')
 
-    // Head script: determine active theme, disable inactive theme
-    // links, and store the name on globalThis for the body script.
-    // Runs in <head> after the render-blocking links have loaded,
-    // so the disable is instant — no network delay.
+    // Head script: determine the active theme, enable its link (which
+    // starts the fetch when it was emitted disabled) and disable the
+    // rest, then store the name on globalThis for the body script. For
+    // the common case (default theme) this is a no-op — no extra
+    // request is made because only the default stylesheet is enabled.
     const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
 
     // Body script: add the brand class to <body> immediately after

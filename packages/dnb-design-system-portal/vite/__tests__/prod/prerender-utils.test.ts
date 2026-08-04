@@ -514,6 +514,46 @@ describe('prerender-utils', () => {
       expect(cssPos).toBeLessThan(headClosePos)
     })
 
+    const themeCssPaths = {
+      ui: '/assets/eufemia-theme-ui.css',
+      sbanken: '/assets/eufemia-theme-sbanken.css',
+      eiendom: '/assets/eufemia-theme-eiendom.css',
+      carnegie: '/assets/eufemia-theme-carnegie.css',
+    }
+
+    it('emits only the default theme as an enabled stylesheet', () => {
+      const result = injectHtml(
+        template,
+        '<h1>Hello</h1>',
+        { js: [], css: [] },
+        '',
+        undefined,
+        themeCssPaths
+      )
+
+      // Default theme (ui) is render-blocking: no `disabled` attribute.
+      expect(result).toContain(
+        '<link rel="stylesheet" crossorigin href="/assets/eufemia-theme-ui.css" data-eufemia-theme="ui">'
+      )
+      expect(result).not.toContain('data-eufemia-theme="ui" disabled')
+    })
+
+    it('emits non-default themes with the disabled attribute', () => {
+      const result = injectHtml(
+        template,
+        '<h1>Hello</h1>',
+        { js: [], css: [] },
+        '',
+        undefined,
+        themeCssPaths
+      )
+
+      // Non-default brand themes are not fetched until a theme switch.
+      expect(result).toContain('data-eufemia-theme="sbanken" disabled>')
+      expect(result).toContain('data-eufemia-theme="eiendom" disabled>')
+      expect(result).toContain('data-eufemia-theme="carnegie" disabled>')
+    })
+
     it('injects SEO meta tags when meta is provided', () => {
       const result = injectHtml(
         template,
