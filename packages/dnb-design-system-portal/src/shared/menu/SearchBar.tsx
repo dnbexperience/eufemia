@@ -22,6 +22,7 @@ import {
 import { scrollToAnimation } from '../parts/layout-utils'
 import {
   applyPageFocus,
+  isMac as isMacHelper,
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
@@ -41,11 +42,7 @@ export const SearchBarInput = () => {
   }
 
   useEffect(() => {
-    setIsMac(
-      /Mac|iPhone|iPad|iPod/i.test(
-        navigator.platform || navigator.userAgent
-      )
-    )
+    setIsMac(isMacHelper())
 
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (
