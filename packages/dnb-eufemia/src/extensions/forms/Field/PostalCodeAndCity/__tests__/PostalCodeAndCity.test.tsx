@@ -175,13 +175,7 @@ describe('Field.PostalCodeAndCity', () => {
     const postalCodeBlock = document.querySelector(
       '.dnb-forms-field-postal-code-and-city__postal-code'
     )
-    const cityBlock = document.querySelector(
-      '.dnb-forms-field-postal-code-and-city__city'
-    )
     const postalCodeIndicator = postalCodeBlock.querySelector(
-      '.dnb-forms-submit-indicator'
-    )
-    const cityIndicator = cityBlock.querySelector(
       '.dnb-forms-submit-indicator'
     )
     const postalCodeInput = postalCodeBlock.querySelector(
@@ -196,9 +190,11 @@ describe('Field.PostalCodeAndCity', () => {
       )
     })
 
-    expect(cityIndicator).not.toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
-    )
+    expect(
+      document.querySelectorAll(
+        '.dnb-forms-submit-indicator--state-pending'
+      )
+    ).toHaveLength(1)
   })
 
   it('should show error message when postal code is 0000', async () => {
