@@ -12,13 +12,16 @@ import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/aut
 import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
+  searchWrapperStyle,
   autocompleteStyle,
+  shortcutHintStyle,
   portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
 import {
   applyPageFocus,
+  isMac,
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
@@ -28,8 +31,14 @@ const searchInputId = 'portal-search'
 export const SearchBarInput = () => {
   const searchIndex = useRef(null)
   const [status, setStatus] = useState(null)
+  const [hasValue, setHasValue] = useState(false)
+  const [shortcutHint, setShortcutHint] = useState<string | null>(null)
 
   useEffect(() => {
+    // Resolve the hint on the client to keep it in sync with the platform
+    // and avoid a server/client hydration mismatch.
+    setShortcutHint(isMac() ? '⌘ K' : 'Ctrl K')
+
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (
         (event.metaKey || event.ctrlKey) &&
@@ -56,6 +65,8 @@ export const SearchBarInput = () => {
     updateData,
     debounce,
   }) => {
+    setHasValue(Boolean(value))
+
     debounce(
       ({ value }) => {
         searchIndex.current
@@ -111,41 +122,50 @@ export const SearchBarInput = () => {
   }
 
   return (
-    <Autocomplete
-      id={searchInputId}
-      className={clsx(autocompleteStyle, 'portal-search')}
-      mode="async"
-      showClearButton
-      noScrollAnimation
-      preventSelection
-      disableFilter
-      fixedPosition
-      size="medium"
-      align="right"
-      placeholder="Search ..."
-      label="Search the Eufemia documentation"
-      labelSrOnly
-      aria-keyshortcuts="Meta+K Control+K"
-      status={status}
-      portalClass={portalClassStyle}
-      drawerClass={drawerClassStyle}
-      onType={onTypeHandler}
-      onChange={onChangeHandler}
-      onFocus={onFocusHandler}
-      pageOffset={0} // drawer-list property
-      optionsRender={({ Items, data }) => {
-        return (
-          <>
-            <Items />
-            {data.length > 1 && (
-              <li>
-                <SearchLogo />
-              </li>
-            )}
-          </>
-        )
-      }}
-    />
+    <span className={searchWrapperStyle}>
+      <Autocomplete
+        id={searchInputId}
+        className={clsx(autocompleteStyle, 'portal-search')}
+        mode="async"
+        showClearButton
+        noScrollAnimation
+        preventSelection
+        disableFilter
+        fixedPosition
+        size="medium"
+        align="right"
+        placeholder="Search ..."
+        label="Search the Eufemia documentation"
+        labelSrOnly
+        aria-keyshortcuts="Meta+K Control+K"
+        status={status}
+        portalClass={portalClassStyle}
+        drawerClass={drawerClassStyle}
+        onType={onTypeHandler}
+        onChange={onChangeHandler}
+        onFocus={onFocusHandler}
+        onClear={() => setHasValue(false)}
+        pageOffset={0} // drawer-list property
+        optionsRender={({ Items, data }) => {
+          return (
+            <>
+              <Items />
+              {data.length > 1 && (
+                <li>
+                  <SearchLogo />
+                </li>
+              )}
+            </>
+          )
+        }}
+      />
+
+      {shortcutHint && !hasValue && (
+        <kbd className={shortcutHintStyle} aria-hidden="true">
+          {shortcutHint}
+        </kbd>
+      )}
+    </span>
   )
 }
 

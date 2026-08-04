@@ -168,4 +168,25 @@ describe('SearchBarInput', () => {
 
     expect(document.activeElement).toBe(input)
   })
+
+  it('shows the keyboard shortcut hint', () => {
+    render(<SearchBarInput />)
+
+    const hint = document.querySelector('kbd')
+    expect(hint).not.toBeNull()
+    expect(hint?.textContent).toContain('K')
+  })
+
+  it('hides the keyboard shortcut hint when the input has a value', () => {
+    render(<SearchBarInput />)
+
+    expect(document.querySelector('kbd')).not.toBeNull()
+
+    const input = document.querySelector(
+      '#portal-search'
+    ) as HTMLInputElement
+    fireEvent.change(input, { target: { value: 'button' } })
+
+    expect(document.querySelector('kbd')).toBeNull()
+  })
 })
