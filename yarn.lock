@@ -2378,7 +2378,7 @@ __metadata:
     ora: "npm:5.4.1"
     playwright: "npm:1.60.0"
     pngjs: "npm:7.0.0"
-    postcss: "npm:8.5.18"
+    postcss: "npm:8.5.23"
     postcss-preset-env: "npm:9.6.0"
     postcss-selector-parser: "npm:7.1.0"
     prettier: "npm:3.8.1"
