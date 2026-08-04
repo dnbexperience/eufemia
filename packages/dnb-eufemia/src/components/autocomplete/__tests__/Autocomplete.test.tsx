@@ -289,6 +289,29 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
+  it('ranks items matching more search words higher than items repeating a single word', () => {
+    const data = [
+      'The Lord of the Rings: The Return of the King',
+      'The Godfather',
+    ]
+
+    render(<Autocomplete data={data} showSubmitButton {...mockProps} />)
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'the godfather' },
+    })
+
+    const options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    // "The Godfather" matches both words and must outrank the item that
+    // only repeats "the" many times without matching "godfather".
+    expect(options[0].textContent).toBe('The Godfather')
+  })
+
   it('will set correct width when independentWidth is set', async () => {
     const style = {
       getPropertyValue: () => 20,

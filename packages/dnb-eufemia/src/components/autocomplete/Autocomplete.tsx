@@ -1180,7 +1180,12 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           .map(({ originalWord, wordIndex, scoreRegex }) => {
             let wordScore = 0
 
-            wordScore += (contentChunk.match(scoreRegex) || []).length
+            // Count a matched word only once (presence, not frequency), so an
+            // item that repeats a single search word many times cannot outrank
+            // an item that matches more of the distinct search words.
+            const wordOccurrences = (contentChunk.match(scoreRegex) || [])
+              .length
+            wordScore += Math.min(wordOccurrences, 1)
 
             if (wordIndex === 0 && firstWordRegex) {
               const isFirstWord = firstWordRegex.test(
@@ -1405,6 +1410,8 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           return item.dataItem
         }
 
+        // Number of distinct search words matched. Each matched word adds 1
+        // here, making word coverage the dominant ranking factor.
         let totalScore = listOfFoundWords.length
         for (const { wordScore } of listOfFoundWords) {
           totalScore += wordScore
