@@ -42,7 +42,7 @@ export const TagInteractable = () => (
 )
 
 export const TagPrimary = () => (
-  <ComponentBox data-visual-test="tag-primary">
+  <ComponentBox>
     <Tag.Group label="Primary tags">
       <Tag data-visual-test="tag-primary-default" color="primary">
         Primary
