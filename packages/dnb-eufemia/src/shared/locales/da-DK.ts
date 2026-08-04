@@ -135,7 +135,7 @@ export default {
     },
     StepIndicator: {
       overviewTitle: 'Trinoverblik',
-      stepTitle: 'Trin %step af %count:',
+      stepTitle: 'Trin %step af %count',
     },
     Slider: {
       addTitle: 'Forøg (%s)',

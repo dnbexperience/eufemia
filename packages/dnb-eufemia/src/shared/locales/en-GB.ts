@@ -134,7 +134,7 @@ export default {
     },
     StepIndicator: {
       overviewTitle: 'Steps Overview',
-      stepTitle: 'Step %step of %count:',
+      stepTitle: 'Step %step of %count',
     },
     Slider: {
       addTitle: 'Increase (%s)',

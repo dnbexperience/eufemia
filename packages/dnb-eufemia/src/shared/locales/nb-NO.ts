@@ -133,7 +133,7 @@ export default {
     },
     StepIndicator: {
       overviewTitle: 'Stegoversikt',
-      stepTitle: 'Steg %step av %count:',
+      stepTitle: 'Steg %step av %count',
     },
     Slider: {
       addTitle: 'Øk (%s)',

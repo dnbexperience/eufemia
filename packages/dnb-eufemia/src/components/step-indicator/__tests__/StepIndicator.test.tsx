@@ -273,7 +273,7 @@ describe('StepIndicator in loose mode', () => {
     )
     expect(
       document.querySelector('.dnb-step-indicator__trigger').textContent
-    ).toContain('Steg 2 av 4:Step B')
+    ).toContain('Steg 2 av 4')
   })
 
   it('has correct states on steps', () => {
@@ -446,12 +446,9 @@ describe('StepIndicator in loose mode', () => {
     )
 
     expect(
-      document.querySelector('span.dnb-step-indicator__label').textContent
-    ).toContain('Steg 2 av 4:')
-    expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
         .textContent
-    ).toContain('Step B')
+    ).toContain('Steg 2 av 4')
 
     simulateSmallScreen()
 
@@ -463,12 +460,9 @@ describe('StepIndicator in loose mode', () => {
       />
     )
     expect(
-      document.querySelector('span.dnb-step-indicator__label').textContent
-    ).toContain('Steg 2 av 4:')
-    expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
         .textContent
-    ).toContain('Step B')
+    ).toContain('Steg 2 av 4')
   })
 
   it('should have no current if currentStep is not given', () => {
@@ -654,20 +648,6 @@ describe('StepIndicator ARIA', () => {
     expect(ariaLabel.length).toBeGreaterThan(0)
   })
 
-  it('should have aria-hidden on the form label to avoid duplicate information', () => {
-    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
-
-    // Find the form label within the trigger
-    const formLabel = document.querySelector('.dnb-step-indicator__label')
-    expect(formLabel).toBeInTheDocument()
-
-    // Verify it has aria-hidden attribute
-    expect(formLabel).toHaveAttribute('aria-hidden', 'true')
-
-    // Should render as a span, not a label, since it's not associated with a form field
-    expect(formLabel.tagName).toBe('SPAN')
-  })
-
   it('should have aria-hidden on step item elements to avoid duplicate information', () => {
     render(
       <StepIndicator
@@ -697,24 +677,6 @@ describe('StepIndicator ARIA', () => {
     const srOnlySpan = firstStepItem.querySelector('.dnb-sr-only')
     expect(srOnlySpan).toBeInTheDocument()
     expect(srOnlySpan).toHaveAttribute('aria-hidden')
-  })
-
-  it('should have aria-label on trigger button to support NVDA properly', () => {
-    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
-
-    // Find the trigger button
-    const triggerButton = document.querySelector(
-      '.dnb-step-indicator__trigger__button'
-    )
-    expect(triggerButton).toBeInTheDocument()
-
-    // Since there seems to be a React/DOM timing issue, we'll check the HTML directly
-    // The aria-label should be present in the rendered HTML
-    const buttonHTML = triggerButton.outerHTML
-    expect(buttonHTML).toContain('aria-label=')
-
-    // Verify the aria-label contains step information (e.g., "Steg 1 av 4:")
-    expect(buttonHTML).toMatch(/aria-label="Steg \d+ av \d+:"/)
   })
 
   it('connects a step status message to the step button via aria-describedby', () => {

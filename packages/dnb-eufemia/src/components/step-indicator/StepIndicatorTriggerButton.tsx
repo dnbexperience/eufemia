@@ -13,12 +13,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import { chevron_down, chevron_up } from '../../icons'
 import Icon from '../icon/Icon'
 import IconPrimary from '../icon-primary/IconPrimary'
-import {
-  validateDOMAttributes,
-  combineDescribedBy,
-} from '../../shared/component-helper'
-import useId from '../../shared/helpers/useId'
-import FormLabel from '../form-label/FormLabel'
+import { validateDOMAttributes } from '../../shared/component-helper'
 import StepIndicatorContext from './StepIndicatorContext'
 import {
   skeletonDOMAttributes,
@@ -39,7 +34,9 @@ function StepIndicatorTriggerButton({
   isNested,
   ...rest
 }: StepIndicatorTriggerButtonProps) {
-  const { data, ...contextWithoutData } = useContext(StepIndicatorContext)
+  const { data: _data, ...contextWithoutData } = useContext(
+    StepIndicatorContext
+  )
 
   const {
     stepsLabel,
@@ -54,10 +51,6 @@ function StepIndicatorTriggerButton({
     stepTitle,
     ...contextWithoutDataRest
   } = contextWithoutData
-
-  const item = data[activeStep || 0]
-  const label = stepsLabel
-  const id = useId()
 
   const triggerParams = {
     ...contextWithoutDataRest,
@@ -78,11 +71,6 @@ function StepIndicatorTriggerButton({
       className
     ),
   }
-
-  buttonParams['aria-describedby'] = combineDescribedBy(
-    buttonParams,
-    id + '-overview'
-  )
 
   // Cache Object.keys() result for performance
   const triggerParamKeys = Object.keys(triggerParams)
@@ -115,16 +103,6 @@ function StepIndicatorTriggerButton({
     >
       <HeightAnimation animate={!noAnimation}>
         <div {...(triggerParams as HTMLProps<HTMLDivElement>)}>
-          <FormLabel
-            element="span"
-            aria-describedby={id}
-            aria-hidden // In order to not duplicate information for screen readers
-            className="dnb-step-indicator__label"
-            vertical={false}
-            right="x-small"
-          >
-            {label}
-          </FormLabel>
           <Button
             {...buttonParams}
             onClick={() => {
@@ -135,7 +113,6 @@ function StepIndicatorTriggerButton({
               }
             }}
             aria-expanded={open}
-            aria-label={label} // To support NVDA properly
             wrap
             variant="tertiary"
             icon={
@@ -146,7 +123,7 @@ function StepIndicatorTriggerButton({
             }
             iconPosition="right"
           >
-            {(typeof item === 'string' ? item : item && item.title) || ''}
+            {stepsLabel}
           </Button>
         </div>
       </HeightAnimation>
