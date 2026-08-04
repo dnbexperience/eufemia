@@ -295,6 +295,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const setFieldState = useCallback(
     (identifier: Identifier, fieldState: SubmitState) => {
       if (composition) {
+        nestedFieldBlockContext?.setFieldState?.(identifier, fieldState)
         return undefined
       }
 
@@ -304,7 +305,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         forceUpdate()
       }
     },
-    [composition]
+    [composition, nestedFieldBlockContext]
   )
 
   const showFieldError = useCallback(

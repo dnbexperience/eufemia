@@ -6,8 +6,8 @@ import {
   isZodSchema,
   createZodValidator,
   zodErrorsToOneFormError,
-  hasAsyncValidatorBehavior,
 } from '../utils'
+import { hasAsyncValidatorBehavior } from '../utils/validatorOptions'
 import type { AjvInstance } from '../utils/ajv'
 import type * as z from 'zod'
 import type {
@@ -338,6 +338,16 @@ export default function useFieldValidation<Value>({
           })
         }
 
+        const hasMarkedAsyncValidator = result.some((validator) => {
+          return hasAsyncValidatorBehavior(validator)
+        })
+        if (hasMarkedAsyncValidator) {
+          return callValidatorFnAsync(
+            (() => result) as Validator<Value>,
+            value
+          ) as ReturnType<Validator<Value>>
+        }
+
         const errors = []
 
         for (const validatorOrError of result) {
@@ -599,15 +609,39 @@ export default function useFieldValidation<Value>({
         return undefined // stop here
       }
 
-      if (isAsync(onBlurValidatorRef.current)) {
-        defineAsyncProcess('onBlurValidator')
-        setFieldState('validating')
-      }
-
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
         'onBlurValidator'
       )
+      const usesMarkedAsyncBehavior =
+        !isAsync(onBlurValidatorRef.current) &&
+        hasAsyncValidatorBehavior(onBlurValidatorRef.current)
+
+      if (usesMarkedAsyncBehavior) {
+        const validationResult = callValidatorFnSync(
+          onBlurValidatorRef.current,
+          value
+        )
+        const runAsync = validationResult instanceof Promise
+
+        if (runAsync) {
+          defineAsyncProcess('onBlurValidator')
+          setFieldState('validating')
+        }
+
+        const result = runAsync
+          ? ensureErrorMessageObject(await validationResult)
+          : validationResult
+
+        revealOnBlurValidatorResult({ result, runAsync })
+
+        return { result }
+      }
+
+      if (isAsync(onBlurValidatorRef.current)) {
+        defineAsyncProcess('onBlurValidator')
+        setFieldState('validating')
+      }
 
       let result = isAsync(onBlurValidatorRef.current)
         ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
@@ -625,6 +659,7 @@ export default function useFieldValidation<Value>({
       callValidatorFnAsync,
       callValidatorFnSync,
       defineAsyncProcess,
+      ensureErrorMessageObject,
       revealOnBlurValidatorResult,
       setFieldState,
       localErrorInitiatorRef,

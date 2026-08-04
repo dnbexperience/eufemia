@@ -1001,6 +1001,47 @@ describe('postalCode', () => {
       expect(cityInput).toHaveValue('Vollen')
     })
 
+    it('should not fill city from a stale request', async () => {
+      let resolveFetch: () => void = () => undefined
+      const fetchPromise = new Promise<void>((resolve) => {
+        resolveFetch = resolve
+      })
+      globalThis.fetch = createFetchMock(null, () => fetchPromise)
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChange,
+            }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+      const cityInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+      )
+
+      fireEvent.change(postalCodeInput, { target: { value: '1391' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(postalCodeInput, { target: { value: '139' } })
+      resolveFetch()
+
+      await waitFor(() => {
+        expect(postalCodeInput).toHaveValue('139')
+        expect(cityInput).toHaveValue('')
+      })
+    })
+
     it('should not fill city when invalid postal code is given', async () => {
       render(
         <Form.Handler>

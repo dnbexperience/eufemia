@@ -15,8 +15,8 @@ import {
   isZodSchema,
   createZodValidator,
   zodErrorsToFormErrors,
-  hasAsyncValidatorBehavior,
 } from '../../utils'
+import { hasAsyncValidatorBehavior } from '../../utils/validatorOptions'
 import type {
   GlobalErrorMessagesWithPaths,
   SubmitState,

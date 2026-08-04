@@ -1,7 +1,7 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
-import { Field, Form, makeAjvInstance } from '../../..'
+import { Field, FieldBlock, Form, makeAjvInstance } from '../../..'
 import {
   axeComponent,
   wait,
@@ -784,6 +784,39 @@ describe('Field.Composition', () => {
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })
+  })
+
+  it('should forward field state through nested compositions', async () => {
+    const onChangeValidator = vi.fn(async () => {
+      await wait(50)
+      return undefined
+    })
+
+    render(
+      <FieldBlock label="Outer field block">
+        <Field.Composition>
+          <Field.String onChangeValidator={onChangeValidator} />
+        </Field.Composition>
+      </FieldBlock>
+    )
+
+    const [fieldIndicator, compositionIndicator, outerIndicator] =
+      Array.from(document.querySelectorAll('.dnb-forms-submit-indicator'))
+    const input = document.querySelector('input')
+
+    fireEvent.change(input, { target: { value: 'value' } })
+
+    await waitFor(() => {
+      expect(outerIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(fieldIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+    })
+    expect(compositionIndicator).not.toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
   })
 
   it('should show submit indicator on Form.SubmitButton inside Field.Composition', async () => {

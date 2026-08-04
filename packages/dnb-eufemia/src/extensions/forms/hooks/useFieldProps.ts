@@ -9,11 +9,8 @@ import {
 import type { AriaAttributes, ReactNode, RefObject } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
-import {
-  getValidatorOptions,
-  hasAsyncValidatorBehavior,
-  isZodSchema,
-} from '../utils'
+import { getValidatorOptions, isZodSchema } from '../utils'
+import { hasAsyncValidatorBehavior } from '../utils/validatorOptions'
 import type * as z from 'zod'
 import type {
   FieldPropsGeneric,
