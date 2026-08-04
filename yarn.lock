@@ -6256,14 +6256,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:0.32.0":
-  version: 0.32.0
-  resolution: "axios@npm:0.32.0"
+"axios@npm:0.33.0":
+  version: 0.33.0
+  resolution: "axios@npm:0.33.0"
   dependencies:
     follow-redirects: "npm:^1.15.4"
     form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/1e35bb0778507851d32587176f72e9dbd9b091e4e7d59b8b60ce77c78fe1663f2b2e949478db1f71998ce68b3eb94df3031fcce110ce4e1c637474c50119e0a1
+  checksum: 10/36c468997b94f71cda99c8b575fe3fbb75d6dc19242c43546e3a72e703f398df98bff8294c418bccfbc88da67da88cfb94f37c49cb89468c648fe83ec6f3e955
   languageName: node
   linkType: hard
 
