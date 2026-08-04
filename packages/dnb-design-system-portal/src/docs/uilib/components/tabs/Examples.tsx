@@ -8,7 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import Input from '@dnb/eufemia/src/components/input/Input'
 import styled from '@emotion/styled'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { navigate } from 'portal-query'
 import {
   Tabs,

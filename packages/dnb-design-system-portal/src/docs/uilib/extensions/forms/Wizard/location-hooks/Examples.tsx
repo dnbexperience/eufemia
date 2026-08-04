@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { navigate } from 'portal-query'
 import { P } from '@dnb/eufemia/src'
 import { Form, Wizard } from '@dnb/eufemia/src/extensions/forms'

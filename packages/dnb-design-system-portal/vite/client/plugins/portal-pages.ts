@@ -336,7 +336,7 @@ export default function portalPagesPlugin(
 
         return `
 import React from 'react';
-import { redirect, useLocation } from 'react-router-dom';
+import { redirect, useLocation } from 'react-router';
 
 // No-op component for redirect routes so React Router does not warn
 // about a matched leaf route without an element or Component.

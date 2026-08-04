@@ -5,7 +5,7 @@
  * plus navigate for imperative routing outside React components.
  */
 
-import { useNavigate, type To } from 'react-router-dom'
+import { useNavigate, type To } from 'react-router'
 import { allMdxNodes } from 'virtual:portal-pages'
 
 // graphql tag — preserves the query string so useStaticQuery can
