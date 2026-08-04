@@ -3,7 +3,7 @@
  *
  */
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
 import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
@@ -33,12 +33,14 @@ export const SearchBarInput = () => {
   const searchIndex = useRef(null)
   const [status, setStatus] = useState(null)
   const [hasValue, setHasValue] = useState(false)
-  const [shortcutHint, setShortcutHint] = useState<string | null>(null)
+
+  // Render the platform-specific hint only after mount, to avoid a
+  // server/client hydration mismatch (isMac() is always false during SSR).
+  const [isMounted, setIsMounted] = useState(false)
+  const shortcutHint = useMemo(() => (!isMac() ? 'Ctrl K' : '⌘ K'), [])
 
   useLayoutEffect(() => {
-    // Resolve the hint on the client to keep it in sync with the platform
-    // and avoid a server/client hydration mismatch.
-    setShortcutHint(isMac() ? '⌘ K' : 'Ctrl K')
+    setIsMounted(true)
   }, [])
 
   useEffect(() => {
@@ -163,7 +165,7 @@ export const SearchBarInput = () => {
         }}
       />
 
-      {shortcutHint && !hasValue && (
+      {isMounted && !hasValue && (
         <kbd className={shortcutHintStyle} aria-hidden="true">
           {shortcutHint}
         </kbd>
