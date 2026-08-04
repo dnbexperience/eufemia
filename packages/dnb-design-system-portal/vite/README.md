@@ -37,6 +37,7 @@ vite/
 │   ├── prerender.mjs
 │   ├── prerender-worker.mjs
 │   ├── prerender-html.mjs
+│   ├── prerender-helpers.mjs
 │   ├── prerender-utils.ts
 │   ├── push-algolia.mjs
 │   └── generate-llm-metadata.mts
@@ -68,8 +69,9 @@ In production, `prerender.mjs` builds the client and server bundles, collects ro
 ## Production Scripts
 
 - `prerender.mjs` runs the full production build and prerender flow.
-- `prerender-html.mjs` holds the shared HTML builders (`injectHtml`, `buildRedirectHtml`) as plain ESM, so both `prerender.mjs` (plain Node) and `prerender-utils.ts` use a single implementation instead of duplicating it.
-- `prerender-utils.ts` is the typed, unit-tested facade over those builders and also contains the route/manifest and markdown path helpers.
+- `prerender-html.mjs` holds the shared HTML builders (`injectHtml`, `buildRedirectHtml`) as plain ESM.
+- `prerender-helpers.mjs` holds the shared route/manifest helpers (`collectUrls`, `getPageMeta`, `getMdPath`, `getRoutePreloads`, `getOutputPath`) as plain ESM.
+- `prerender-utils.ts` is the typed, unit-tested facade that re-exports both shared modules (adding types) and supplies `getContentScript()` for `injectHtml`. Both the facade and `prerender.mjs` import the shared modules, so there is a single implementation of each helper.
 - `push-algolia.mjs` scans MDX files and sends search records to Algolia.
 - `generate-llm-metadata.mts` creates `llms.txt` and markdown copies for documentation entries.
 

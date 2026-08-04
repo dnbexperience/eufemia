@@ -65,27 +65,40 @@ describe('prerender-html (shared HTML builders)', () => {
     })
   })
 
-  // Drift guard: the bug that motivated extracting this module was a fix
-  // landing in only one of two duplicated injectHtml copies. Ensure the
-  // build entry and the typed facade both import the shared module and
-  // never re-declare the builders inline.
+  // Drift guard: the bug that motivated extracting these modules was a
+  // fix landing in only one of two duplicated copies. Ensure the build
+  // entry and the typed facade both import the shared modules and never
+  // re-declare any shared helper inline.
   describe('no duplicated implementations', () => {
-    it('prerender.mjs imports the builders and does not redefine them', () => {
+    const sharedFns = [
+      'injectHtml',
+      'buildRedirectHtml',
+      'collectUrls',
+      'getPageMeta',
+      'getMdPath',
+      'getRoutePreloads',
+      'getOutputPath',
+    ]
+
+    it('prerender.mjs imports the shared helpers and redefines none', () => {
       const src = fs.readFileSync(
         path.join(prodDir, 'prerender.mjs'),
         'utf-8'
       )
       expect(src).toContain("from './prerender-html.mjs'")
-      expect(src).not.toMatch(/function\s+injectHtml\s*\(/)
-      expect(src).not.toMatch(/function\s+buildRedirectHtml\s*\(/)
+      expect(src).toContain("from './prerender-helpers.mjs'")
+      for (const fn of sharedFns) {
+        expect(src).not.toMatch(new RegExp(`function\\s+${fn}\\s*\\(`))
+      }
     })
 
-    it('prerender-utils.ts imports the builders from the shared module', () => {
+    it('prerender-utils.ts imports the shared helpers', () => {
       const src = fs.readFileSync(
         path.join(prodDir, 'prerender-utils.ts'),
         'utf-8'
       )
       expect(src).toContain("from './prerender-html.mjs'")
+      expect(src).toContain("from './prerender-helpers.mjs'")
     })
   })
 })

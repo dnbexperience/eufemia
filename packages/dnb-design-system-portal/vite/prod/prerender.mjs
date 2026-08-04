@@ -10,11 +10,10 @@
  * - Only the JS chunks needed for that specific page
  * - The shared CSS bundle
  *
- * The HTML builders (injectHtml, buildRedirectHtml) are imported from
- * ./prerender-html.mjs — the single shared implementation also used by
- * prerender-utils.ts (the typed, unit-tested facade). The remaining
- * route/manifest helpers below are mirrored in prerender-utils.ts for
- * testing; keep those in sync.
+ * All pure helpers — HTML builders and route/manifest helpers — are
+ * imported from the shared plain-ESM modules ./prerender-html.mjs and
+ * ./prerender-helpers.mjs, the single implementations also used by the
+ * typed, unit-tested prerender-utils.ts facade.
  */
 
 import { build } from 'vite'
@@ -26,6 +25,13 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
 import { injectHtml, buildRedirectHtml } from './prerender-html.mjs'
+import {
+  collectUrls,
+  getPageMeta,
+  getMdPath,
+  getRoutePreloads,
+  getOutputPath,
+} from './prerender-helpers.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -235,235 +241,10 @@ prerender().catch((err) => {
   process.exit(1)
 })
 
-// ---------------------------------------------------------------------------
-// Route/manifest helpers, mirrored from prerender-utils.ts for testing.
-// Keep these in sync — the .ts versions are the source of truth. (The HTML
-// builders are shared via ./prerender-html.mjs and imported above.)
-// ---------------------------------------------------------------------------
-
-function collectUrls(routes) {
-  const urls = ['/']
-
-  const visitRoutes = (entries) => {
-    for (const route of entries) {
-      if (
-        route.path &&
-        route.path !== '*' &&
-        !route.path.startsWith('/404')
-      ) {
-        const routePath = route.path.endsWith('/')
-          ? route.path
-          : route.path + '/'
-
-        if (!urls.includes(routePath)) {
-          urls.push(routePath)
-        }
-      }
-
-      if (Array.isArray(route.children) && route.children.length > 0) {
-        visitRoutes(route.children)
-      }
-    }
-  }
-
-  visitRoutes(routes)
-
-  return urls
-}
-
-function getPageMeta(url, allMdxNodes) {
-  const slug = url.replace(/^\/|\/$/g, '')
-  const node = allMdxNodes.find((n) => n.fields.slug === slug)
-
-  if (!node) {
-    return { title: '', description: '' }
-  }
-
-  let title = node.frontmatter.title || ''
-  let description = node.frontmatter.description || ''
-
-  if (!title) {
-    const parentSlug = slug.split('/').slice(0, -1).join('/')
-    const parent = allMdxNodes.find((n) => n.fields.slug === parentSlug)
-
-    if (parent?.frontmatter?.title) {
-      title = parent.frontmatter.title
-
-      // For tab pages (showTabs but no own title), construct
-      // "ParentTitle → TabTitle" to match the client-side title.
-      if (node.frontmatter.showTabs) {
-        const tabKey = '/' + slug.split('/').pop()
-        const defaultTabs = [
-          { title: 'Info', key: '/info' },
-          { title: 'Demos', key: '/demos' },
-          { title: 'Properties', key: '/properties' },
-          { title: 'Events', key: '/events' },
-        ]
-        const tabs = parent.frontmatter.tabs || defaultTabs
-        const tab = tabs.find((t) => t.key === tabKey)
-
-        if (tab?.title) {
-          title = `${parent.frontmatter.title} → ${tab.title}`
-        }
-      }
-    }
-
-    if (!description && parent?.frontmatter?.description) {
-      description = parent.frontmatter.description
-    }
-  }
-
-  return { title, description }
-}
-
-/**
- * Resolve the markdown alternate link path for a URL.
- *
- * Only /uilib/ pages get markdown links. The LLM metadata generator
- * creates .md files for "entry" MDX files (those with a title in
- * frontmatter), not for tab sub-pages. For tab pages, we walk up
- * the slug path to find the nearest entry parent.
- *
- * Returns the .md path, or null if no link should be emitted.
- */
-function getMdPath(url, allMdxNodes) {
-  // Must match LLM_DOCS_SLUG_PREFIX from eufemia-llm-metadata
-  const prefix = 'uilib'
-
-  if (!url.startsWith(`/${prefix}/`)) {
-    return null
-  }
-
-  const slug = url.replace(/^\/|\/$/g, '')
-
-  // Build a set of entry slugs — pages that get their own .md file
-  // from the LLM metadata generator. Entry pages have a title in
-  // their frontmatter; tab sub-pages only have showTabs.
-  const entrySlugs = new Set()
-  for (const node of allMdxNodes) {
-    const s = node.fields.slug
-    if (s.startsWith(`${prefix}/`) && node.frontmatter.title) {
-      entrySlugs.add(s)
-    }
-  }
-
-  // If this slug is an entry, use it directly
-  if (entrySlugs.has(slug)) {
-    return '/' + slug + '.md'
-  }
-
-  // Walk up the path to find the nearest entry parent
-  const parts = slug.split('/')
-  for (let i = parts.length - 1; i >= 1; i--) {
-    const parentSlug = parts.slice(0, i).join('/')
-    if (entrySlugs.has(parentSlug)) {
-      return '/' + parentSlug + '.md'
-    }
-  }
-
-  return null
-}
-
-function getRoutePreloads(url, ssrManifest, clientManifest) {
-  const routePath = url.replace(/^\/|\/$/g, '') || 'index'
-
-  const candidates = [
-    `../../src/docs/${routePath}.mdx`,
-    `../../src/docs/${routePath}.tsx`,
-    `../../src/docs/${routePath}/index.mdx`,
-    `../../src/docs/${routePath}/index.tsx`,
-  ]
-
-  const jsPreloads = new Set()
-  const cssPreloads = new Set()
-
-  for (const candidate of candidates) {
-    const assets = ssrManifest[candidate]
-    if (assets) {
-      for (const asset of assets) {
-        if (asset.endsWith('.js')) {
-          jsPreloads.add(asset)
-        } else if (asset.endsWith('.css')) {
-          cssPreloads.add(asset)
-        }
-      }
-    }
-  }
-
-  // Use the client manifest to find CSS chunks that are transitively
-  // imported by the route's JS chunks. Without this, CSS modules
-  // imported by non-route source files (e.g. shared menu components)
-  // would only load after JS executes, causing a layout flicker on
-  // prerendered pages.
-  if (clientManifest && jsPreloads.size > 0) {
-    // Build a lookup from output file path to manifest entry
-    const fileToEntry = new Map()
-    for (const entry of Object.values(clientManifest)) {
-      if (entry.file) {
-        fileToEntry.set('/' + entry.file, entry)
-      }
-    }
-
-    // BFS through chunk imports to collect all transitive CSS
-    const visited = new Set()
-    const queue = [...jsPreloads]
-
-    while (queue.length > 0) {
-      const chunk = queue.shift()
-      if (visited.has(chunk)) {
-        continue
-      }
-      visited.add(chunk)
-
-      const entry = fileToEntry.get(chunk)
-      if (!entry) {
-        continue
-      }
-
-      // Collect CSS associated with this chunk
-      if (entry.css) {
-        for (const css of entry.css) {
-          cssPreloads.add('/' + css)
-        }
-      }
-
-      // Follow static imports (skip the entry point — its CSS
-      // is already in the HTML template)
-      if (entry.imports) {
-        for (const imp of entry.imports) {
-          if (imp === 'index.html') {
-            continue
-          }
-          const impEntry = clientManifest[imp]
-          if (impEntry?.file) {
-            const impPath = '/' + impEntry.file
-            if (!visited.has(impPath)) {
-              queue.push(impPath)
-            }
-          }
-        }
-      }
-    }
-  }
-
-  return { js: [...jsPreloads], css: [...cssPreloads] }
-}
-
-// injectHtml and buildRedirectHtml are imported from ./prerender-html.mjs
-// (see top of file) so their logic is not duplicated in this script.
-
-function getOutputPath(url, outDir) {
-  if (url === '/404.html') {
-    return path.resolve(outDir, '404.html')
-  }
-
-  if (url === '/') {
-    return path.resolve(outDir, 'index.html')
-  }
-
-  const cleanPath = url.replace(/^\/|\/$/g, '')
-  return path.resolve(outDir, cleanPath, 'index.html')
-}
+// All pure route/manifest and HTML helpers live in shared plain-ESM
+// modules imported at the top of this file (./prerender-helpers.mjs and
+// ./prerender-html.mjs), so the production build and the unit tests run
+// the exact same implementation instead of hand-synced copies.
 
 /**
  * Render URLs in parallel using a pool of worker threads.
