@@ -45,6 +45,7 @@
     "@babel/runtime": "7.26.10",
     "@tootallnate/once": "2.0.1",
     "@xmldom/xmldom": "0.8.13",
+    "body-parser": "2.3.0",
     "defu": "6.1.5",
     "diff": "8.0.3",
     "express-rate-limit": "8.2.2",
