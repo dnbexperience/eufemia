@@ -7,50 +7,36 @@ import { useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
 import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
-import { Autocomplete, Button, Dialog, Icon } from '@dnb/eufemia/src'
-import { loupe as loupeIcon } from '@dnb/eufemia/src/icons'
+import { Autocomplete } from '@dnb/eufemia/src/components'
 import type { AutocompleteOnChangeParams } from '@dnb/eufemia/src/components/autocomplete/Autocomplete'
 import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
-  searchButtonStyle,
-  searchButtonContentStyle,
-  searchButtonShortcutStyle,
-  dialogAutocompleteStyle,
+  autocompleteStyle,
+  portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
 import {
   applyPageFocus,
-  isMac as isMacHelper,
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 
+const searchInputId = 'portal-search'
+
 export const SearchBarInput = () => {
   const searchIndex = useRef(null)
   const [status, setStatus] = useState(null)
-  const [openState, setOpenState] = useState(false)
-  const [isMac, setIsMac] = useState(false)
-
-  const openDialog = () => {
-    setOpenState(true)
-  }
-
-  const closeDialog = () => {
-    setOpenState(false)
-  }
 
   useEffect(() => {
-    setIsMac(isMacHelper())
-
     const onKeyDown = (event: globalThis.KeyboardEvent) => {
       if (
         (event.metaKey || event.ctrlKey) &&
         (event.key === 'k' || event.key === 'K')
       ) {
         event.preventDefault()
-        openDialog()
+        document.getElementById(searchInputId)?.focus()
       }
     }
 
@@ -75,9 +61,7 @@ export const SearchBarInput = () => {
         searchIndex.current
           ?.search(value)
           .then(({ hits }) => {
-            updateData(
-              makeHitsHumanFriendly({ hits, setHidden, closeDialog })
-            )
+            updateData(makeHitsHumanFriendly({ hits, setHidden }))
             hideIndicator()
             if (hits?.length === 0) {
               showNoOptionsItem()
@@ -111,7 +95,6 @@ export const SearchBarInput = () => {
         setHidden,
         emptyData,
       })
-      closeDialog()
     } catch (e) {
       setStatus(e.message)
     }
@@ -128,81 +111,45 @@ export const SearchBarInput = () => {
   }
 
   return (
-    <>
-      <Button
-        id="portal-search"
-        className={clsx(searchButtonStyle, 'portal-search')}
-        variant="secondary"
-        aria-haspopup="dialog"
-        aria-keyshortcuts="Meta+K Control+K"
-        title="Search the Eufemia documentation"
-        onClick={openDialog}
-        customContent={
-          <span className={searchButtonContentStyle}>
-            <Icon icon={loupeIcon} aria-hidden />
-            <span className="dnb-button__text">Search</span>
-            <kbd
-              className={clsx(
-                searchButtonShortcutStyle,
-                'search-shortcut'
-              )}
-              aria-hidden
-            >
-              {isMac ? '⌘ K' : 'Ctrl K'}
-            </kbd>
-          </span>
-        }
-      />
-
-      <Dialog
-        title="Search the Eufemia documentation"
-        verticalAlignment="top"
-        maxWidth="40rem"
-        omitTriggerButton
-        open={openState}
-        onClose={closeDialog}
-        focusSelector=".dnb-input__input"
-      >
-        <Autocomplete
-          id="portal-search-dialog"
-          className={clsx(dialogAutocompleteStyle, 'portal-search')}
-          mode="async"
-          showClearButton
-          noScrollAnimation
-          preventSelection
-          disableFilter
-          fixedPosition
-          stretch
-          size="medium"
-          placeholder="Search ..."
-          label="Search the Eufemia documentation"
-          labelSrOnly
-          status={status}
-          drawerClass={drawerClassStyle}
-          onType={onTypeHandler}
-          onChange={onChangeHandler}
-          onFocus={onFocusHandler}
-          optionsRender={renderSearchOptions}
-        />
-      </Dialog>
-    </>
+    <Autocomplete
+      id={searchInputId}
+      className={clsx(autocompleteStyle, 'portal-search')}
+      mode="async"
+      showClearButton
+      noScrollAnimation
+      preventSelection
+      disableFilter
+      fixedPosition
+      size="medium"
+      align="right"
+      placeholder="Search ..."
+      label="Search the Eufemia documentation"
+      labelSrOnly
+      aria-keyshortcuts="Meta+K Control+K"
+      status={status}
+      portalClass={portalClassStyle}
+      drawerClass={drawerClassStyle}
+      onType={onTypeHandler}
+      onChange={onChangeHandler}
+      onFocus={onFocusHandler}
+      pageOffset={0} // drawer-list property
+      optionsRender={({ Items, data }) => {
+        return (
+          <>
+            <Items />
+            {data.length > 1 && (
+              <li>
+                <SearchLogo />
+              </li>
+            )}
+          </>
+        )
+      }}
+    />
   )
 }
 
-const renderSearchOptions = ({ Items, data }) => {
-  return (
-    <>
-      <Items />
-      {data.length > 1 && (
-        <li>
-          <SearchLogo />
-        </li>
-      )}
-    </>
-  )
-}
-
-const makeHitsHumanFriendly = ({ hits, setHidden, closeDialog }) => {
+const makeHitsHumanFriendly = ({ hits, setHidden }) => {
   const data = []
 
   hits.forEach((hit) => {
@@ -221,7 +168,6 @@ const makeHitsHumanFriendly = ({ hits, setHidden, closeDialog }) => {
         })
       ) {
         event.preventDefault()
-        closeDialog?.()
       }
     }
 
@@ -253,7 +199,6 @@ const makeHitsHumanFriendly = ({ hits, setHidden, closeDialog }) => {
           })
         ) {
           event.preventDefault()
-          closeDialog?.()
         }
       }
 

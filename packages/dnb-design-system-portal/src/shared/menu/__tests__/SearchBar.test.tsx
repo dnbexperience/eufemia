@@ -1,10 +1,5 @@
 import { afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
-import {
-  cleanup,
-  fireEvent,
-  render,
-  waitFor,
-} from '@testing-library/react'
+import { cleanup, fireEvent, render } from '@testing-library/react'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { formatSearchResultMarkdown } from '../SearchBarMarkdown'
 import { SearchBarInput } from '../SearchBar'
@@ -135,79 +130,42 @@ describe('SearchBar', () => {
 })
 
 describe('SearchBarInput', () => {
-  beforeAll(() => {
-    ;(window as unknown as { IS_TEST: boolean }).IS_TEST = true
-  })
-
-  afterEach(cleanup)
-
-  it('renders a search trigger button in the header', () => {
+  it('renders the search input', () => {
     render(<SearchBarInput />)
 
-    const trigger = document.querySelector('#portal-search')
-    expect(trigger).not.toBeNull()
-    expect(trigger?.tagName).toBe('BUTTON')
-    expect(document.querySelector('.dnb-dialog')).toBeNull()
+    const input = document.querySelector('#portal-search')
+    expect(input).not.toBeNull()
+    expect(input?.tagName).toBe('INPUT')
   })
 
-  it('opens the dialog when clicking the trigger button', async () => {
+  it('exposes the keyboard shortcut on the search input', () => {
     render(<SearchBarInput />)
 
-    expect(document.querySelector('.dnb-dialog')).toBeNull()
-
-    fireEvent.click(document.querySelector('#portal-search'))
-
-    await waitFor(() => {
-      expect(document.querySelector('.dnb-dialog')).not.toBeNull()
-    })
+    const input = document.querySelector('#portal-search')
+    expect(input?.getAttribute('aria-keyshortcuts')).toBe(
+      'Meta+K Control+K'
+    )
   })
 
-  it('opens the dialog when pressing command+k', async () => {
+  it('focuses the search input when pressing command+k', () => {
     render(<SearchBarInput />)
 
-    expect(document.querySelector('.dnb-dialog')).toBeNull()
+    const input = document.querySelector('#portal-search')
+    expect(document.activeElement).not.toBe(input)
 
     fireEvent.keyDown(document, { key: 'k', metaKey: true })
 
-    await waitFor(() => {
-      expect(document.querySelector('.dnb-dialog')).not.toBeNull()
-    })
+    expect(document.activeElement).toBe(input)
   })
 
-  it('opens the dialog when pressing ctrl+k', async () => {
+  it('focuses the search input when pressing ctrl+k', () => {
     render(<SearchBarInput />)
+
+    const input = document.querySelector('#portal-search')
+    expect(document.activeElement).not.toBe(input)
 
     fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
 
-    await waitFor(() => {
-      expect(document.querySelector('.dnb-dialog')).not.toBeNull()
-    })
-  })
-
-  it('renders the dialog top aligned so it can expand', async () => {
-    render(<SearchBarInput />)
-
-    fireEvent.keyDown(document, { key: 'k', metaKey: true })
-
-    await waitFor(() => {
-      const content = document.querySelector('.dnb-modal__content')
-      expect(content).not.toBeNull()
-      expect(
-        content.classList.contains('dnb-modal__vertical-alignment--top')
-      ).toBe(true)
-    })
-  })
-
-  it('renders the search field inside the dialog', async () => {
-    render(<SearchBarInput />)
-
-    fireEvent.keyDown(document, { key: 'k', metaKey: true })
-
-    await waitFor(() => {
-      const content = document.querySelector('.dnb-modal__content')
-      expect(content).not.toBeNull()
-      expect(content.querySelector('#portal-search-dialog')).not.toBeNull()
-      expect(content.querySelector('.dnb-input__input')).not.toBeNull()
-    })
+    expect(document.activeElement).toBe(input)
   })
 })
