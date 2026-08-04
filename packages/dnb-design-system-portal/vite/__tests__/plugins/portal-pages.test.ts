@@ -87,6 +87,9 @@ describe('portal-pages plugin', () => {
       const mdxFile = files.find((f) => f.type === 'mdx')
       expect(mdxFile).toBeDefined()
       expect(mdxFile!.slug).toBe('button/info')
+      expect(mdxFile!.sourcePath).toBe(
+        'packages/dnb-design-system-portal/src/docs/button/info.mdx'
+      )
       expect(mdxFile!.frontmatter).toEqual({ title: 'Button' })
 
       const tsxFile = files.find((f) => f.type === 'tsx')
@@ -112,11 +115,17 @@ describe('portal-pages plugin', () => {
       expect(files[0].slug).toBe('public')
     })
 
-    it('strips index from slug', () => {
-      createFile('uilib/index.mdx', '---\ntitle: UILib\n---')
+    it('strips index from slug while preserving the case-sensitive source filename', () => {
+      createFile(
+        'uilib/extensions/forms/Form/Section/index.mdx',
+        '---\ntitle: Form.Section\n---'
+      )
 
       const files = scanPageFiles(tmpDir)
-      expect(files[0].slug).toBe('uilib')
+      expect(files[0].slug).toBe('uilib/extensions/forms/Form/Section')
+      expect(files[0].sourcePath).toBe(
+        'packages/dnb-design-system-portal/src/docs/uilib/extensions/forms/Form/Section/index.mdx'
+      )
     })
 
     it('extracts frontmatter from MDX files', () => {
