@@ -39,7 +39,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "ttf2woff2@npm:^6.0.1": "npm:8.0.1",
-    "fast-uri@npm:^3.0.1": "npm:3.1.4",
+    "fast-uri@npm:^3.0.1": "npm:3.1.5",
     "@babel/core": "7.29.7",
     "@babel/plugin-transform-modules-systemjs": "7.29.4",
     "@babel/runtime": "7.26.10",
