@@ -10,13 +10,15 @@
     --token-color-background-neutral-subtle
   );
   --step-indicator-trigger-content-background: var(
-    --token-color-background-neutral
+    --token-color-background-neutral-subtle
   );
   --step-indicator-check-bg: var(--token-color-background-selected-subtle);
   --step-indicator-check-color: var(--token-color-icon-positive);
   --step-indicator-current-border: var(--token-color-stroke-neutral);
-  --padding-top: 0;
-  --padding-bottom: 0;
+
+  &__card {
+    --padding-bottom: 0;
+  }
 
   &__list {
     padding: 0;

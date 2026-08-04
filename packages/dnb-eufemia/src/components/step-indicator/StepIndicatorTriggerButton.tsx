@@ -8,8 +8,6 @@ import { useContext } from 'react'
 import type { HTMLProps } from 'react'
 import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
-import Section from '../section/Section'
-import HeightAnimation from '../height-animation/HeightAnimation'
 import { chevron_down, chevron_up } from '../../icons'
 import Icon from '../icon/Icon'
 import IconPrimary from '../icon-primary/IconPrimary'
@@ -31,7 +29,7 @@ type StepIndicatorTriggerButtonProps = ButtonProps & {
 }
 function StepIndicatorTriggerButton({
   className,
-  isNested,
+  isNested: _isNested,
   ...rest
 }: StepIndicatorTriggerButtonProps) {
   const { data: _data, ...contextWithoutData } = useContext(
@@ -47,7 +45,7 @@ function StepIndicatorTriggerButton({
     openHandler,
     skeleton,
     filterAttributes,
-    noAnimation,
+    noAnimation: _noAnimation,
     stepTitle,
     ...contextWithoutDataRest
   } = contextWithoutData
@@ -86,48 +84,32 @@ function StepIndicatorTriggerButton({
   validateDOMAttributes(contextWithoutDataRest, triggerParams)
 
   return (
-    <Section
-      backgroundColor="var(--step-indicator-trigger-background)"
-      outline="transparent"
-      innerSpace={{
-        top: 'small',
-        bottom: 'small',
-      }}
-      roundedCorner={{
-        small: false,
-        medium: [true, true, !open, !open],
-        large: [true, true, !open, !open],
-      }}
-      outset={isNested ? true : undefined}
-      aria-label={overviewTitle}
-    >
-      <HeightAnimation animate={!noAnimation}>
-        <div {...(triggerParams as HTMLProps<HTMLDivElement>)}>
-          <Button
-            {...buttonParams}
-            onClick={() => {
-              if (open) {
-                closeHandler()
-              } else {
-                openHandler()
-              }
-            }}
-            aria-expanded={open}
-            wrap
-            variant="tertiary"
-            icon={
-              <IconPrimary
-                icon={chevronIcon}
-                transitionState={open ? 'expanded' : 'collapsed'}
-              />
+    <section aria-label={overviewTitle}>
+      <div {...(triggerParams as HTMLProps<HTMLDivElement>)}>
+        <Button
+          {...buttonParams}
+          onClick={() => {
+            if (open) {
+              closeHandler()
+            } else {
+              openHandler()
             }
-            iconPosition="right"
-          >
-            {stepsLabel}
-          </Button>
-        </div>
-      </HeightAnimation>
-    </Section>
+          }}
+          aria-expanded={open}
+          wrap
+          variant="tertiary"
+          icon={
+            <IconPrimary
+              icon={chevronIcon}
+              transitionState={open ? 'expanded' : 'collapsed'}
+            />
+          }
+          iconPosition="right"
+        >
+          {stepsLabel}
+        </Button>
+      </div>
+    </section>
   )
 }
 
