@@ -6,7 +6,7 @@ import Heading, {
   type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { anchorLinkStyle } from './AutoLinkHeader.module.scss'
 
 type AutoLinkHeaderProps = {

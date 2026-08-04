@@ -195,7 +195,7 @@ export default defineConfig({
     include: [
       'react',
       'react-dom',
-      'react-router-dom',
+      'react-router',
       '@emotion/react',
       '@emotion/cache',
       '@mdx-js/react',

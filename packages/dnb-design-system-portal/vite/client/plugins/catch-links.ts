@@ -37,7 +37,7 @@ export default function catchLinksPlugin(): Plugin {
  */
 const RUNTIME_CODE = `
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 /**
  * React hook that intercepts clicks on internal <a> tags and navigates
