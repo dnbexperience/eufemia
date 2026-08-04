@@ -6,9 +6,13 @@ export type ValidatorOptions = {
   runOnSubmit?: ValidatorRunOnSubmit
 }
 
+type InternalValidatorOptions = ValidatorOptions & {
+  hasAsyncBehavior?: boolean
+}
+
 type ValidatorFunction = (...args: Array<any>) => unknown
 
-const validatorOptions = new WeakMap<object, ValidatorOptions>()
+const validatorOptions = new WeakMap<object, InternalValidatorOptions>()
 
 export function withValidatorOptions<
   ValidatorFn extends ValidatorFunction,
@@ -31,6 +35,28 @@ export function withValidatorOptions<
   validatorOptions.set(validatorWithOptions, mergedOptions)
 
   return validatorWithOptions
+}
+
+export function hasAsyncValidatorBehavior(validator: unknown): boolean {
+  if (typeof validator !== 'function') {
+    return false
+  }
+
+  return (
+    isAsync(validator) ||
+    validatorOptions.get(validator)?.hasAsyncBehavior === true
+  )
+}
+
+export function setAsyncValidatorBehavior<
+  ValidatorFn extends ValidatorFunction,
+>(validator: ValidatorFn): ValidatorFn {
+  validatorOptions.set(validator, {
+    ...validatorOptions.get(validator),
+    hasAsyncBehavior: true,
+  })
+
+  return validator
 }
 
 export function getValidatorOptions(

@@ -6,6 +6,7 @@ import {
   isZodSchema,
   createZodValidator,
   zodErrorsToOneFormError,
+  hasAsyncValidatorBehavior,
 } from '../utils'
 import type { AjvInstance } from '../utils/ajv'
 import type * as z from 'zod'
@@ -274,23 +275,18 @@ export default function useFieldValidation<Value>({
   const callValidatorFnAsync = useCallback(
     async (
       validator: Validator<Value>,
-      value: Value = valueRef.current,
-      result?: ReturnType<Validator<Value>>
-    ): Promise<Awaited<ReturnType<Validator<Value>>>> => {
+      value: Value = valueRef.current
+    ): Promise<ReturnType<Validator<Value>>> => {
       if (typeof validator !== 'function') {
         return undefined
       }
 
-      let validationResult = result
-      if (typeof validationResult === 'undefined') {
-        validationResult = validator(value, additionalArgs)
-      }
-      validationResult = await validationResult
+      const result = await validator(value, additionalArgs)
 
-      if (Array.isArray(validationResult)) {
+      if (Array.isArray(result)) {
         const errors = []
 
-        for (const validatorOrError of validationResult) {
+        for (const validatorOrError of result) {
           if (validatorOrError instanceof Error) {
             errors.push(validatorOrError)
           } else if (!hasBeenCalledRef(validatorOrError)) {
@@ -313,7 +309,7 @@ export default function useFieldValidation<Value>({
 
         callStackRef.current = []
       } else {
-        return ensureErrorMessageObject(validationResult)
+        return ensureErrorMessageObject(result)
       }
     },
     [additionalArgs, hasBeenCalledRef, ensureErrorMessageObject, valueRef]
@@ -330,21 +326,15 @@ export default function useFieldValidation<Value>({
 
       const result = validator(value, additionalArgs)
 
-      if (result instanceof Promise) {
-        return callValidatorFnAsync(validator, value, result)
-      }
-
       if (Array.isArray(result)) {
         const hasAsyncValidator = result.some((validator) =>
           isAsync(validator)
         )
         if (hasAsyncValidator) {
           return new Promise((resolve) => {
-            callValidatorFnAsync(validator, value, result).then(
-              (result) => {
-                resolve(result)
-              }
-            )
+            callValidatorFnAsync(validator, value).then((result) => {
+              resolve(result)
+            })
           })
         }
 
@@ -392,7 +382,12 @@ export default function useFieldValidation<Value>({
   // -- onChange validator orchestration --
 
   const revealOnChangeValidatorResult = useCallback(
-    ({ result, unchangedValue, runAsync }) => {
+    ({
+      result,
+      unchangedValue,
+      runAsync,
+      keepPendingForAsyncBehavior = false,
+    }) => {
       if (unchangedValue) {
         persistErrorState(
           runAsync ? 'gracefully' : 'weak',
@@ -419,13 +414,20 @@ export default function useFieldValidation<Value>({
         defineAsyncProcess(undefined)
 
         if (unchangedValue) {
-          setFieldState(result instanceof Error ? 'error' : 'complete')
+          setFieldState(
+            result instanceof Error
+              ? 'error'
+              : keepPendingForAsyncBehavior && asyncBehaviorIsEnabled
+                ? 'pending'
+                : 'complete'
+          )
         } else {
           setFieldState('pending')
         }
       }
     },
     [
+      asyncBehaviorIsEnabled,
       validateContinuously,
       defineAsyncProcess,
       persistErrorState,
@@ -454,38 +456,54 @@ export default function useFieldValidation<Value>({
     return { result, unchangedValue, runAsync }
   }, [callValidatorFnAsync, callValidatorFnSync, valueRef])
 
-  const startOnChangeValidatorValidation = useCallback(async () => {
-    if (typeof onChangeValidatorRef.current !== 'function') {
-      return undefined
-    }
+  const startOnChangeValidatorValidation = useCallback(
+    async ({
+      keepPendingForAsyncBehavior = false,
+    }: {
+      keepPendingForAsyncBehavior?: boolean
+    } = {}) => {
+      if (typeof onChangeValidatorRef.current !== 'function') {
+        return undefined
+      }
 
-    const tmpValue = valueRef.current
-    const validationResult = isAsync(onChangeValidatorRef.current)
-      ? callValidatorFnAsync(onChangeValidatorRef.current)
-      : callValidatorFnSync(onChangeValidatorRef.current)
-    const runAsync = validationResult instanceof Promise
+      const tmpValue = valueRef.current
+      const validationResult = isAsync(onChangeValidatorRef.current)
+        ? callValidatorFnAsync(onChangeValidatorRef.current)
+        : callValidatorFnSync(onChangeValidatorRef.current)
+      const runAsync = validationResult instanceof Promise
 
-    if (runAsync) {
-      defineAsyncProcess('onChangeValidator')
-      setFieldState('validating')
-      hideError()
-    }
+      if (runAsync) {
+        if (!isAsync(onChangeValidatorRef.current)) {
+          clearErrorState()
+        }
+        defineAsyncProcess('onChangeValidator')
+        setFieldState('validating')
+        hideError()
+      }
 
-    const result = runAsync ? await validationResult : validationResult
-    const unchangedValue = tmpValue === valueRef.current
+      const result = runAsync ? await validationResult : validationResult
+      const unchangedValue = tmpValue === valueRef.current
 
-    revealOnChangeValidatorResult({ result, unchangedValue, runAsync })
+      revealOnChangeValidatorResult({
+        result,
+        unchangedValue,
+        runAsync,
+        keepPendingForAsyncBehavior,
+      })
 
-    return { result }
-  }, [
-    callValidatorFnAsync,
-    callValidatorFnSync,
-    defineAsyncProcess,
-    hideError,
-    revealOnChangeValidatorResult,
-    setFieldState,
-    valueRef,
-  ])
+      return { result }
+    },
+    [
+      callValidatorFnAsync,
+      callValidatorFnSync,
+      clearErrorState,
+      defineAsyncProcess,
+      hideError,
+      revealOnChangeValidatorResult,
+      setFieldState,
+      valueRef,
+    ]
+  )
 
   const runOnChangeValidator = useCallback(async () => {
     if (!onChangeValidatorRef.current) {
@@ -536,19 +554,20 @@ export default function useFieldValidation<Value>({
         'onBlurValidator'
       )
 
-      const validationResult = isAsync(onBlurValidatorRef.current)
-        ? callValidatorFnAsync(onBlurValidatorRef.current, value)
+      let result = isAsync(onBlurValidatorRef.current)
+        ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
         : callValidatorFnSync(onBlurValidatorRef.current, value)
-      const runAsync = validationResult instanceof Promise
-      const result = runAsync ? await validationResult : validationResult
+      if (result instanceof Promise) {
+        result = await result
+      }
 
-      return { result, runAsync }
+      return { result }
     },
     [callValidatorFnAsync, callValidatorFnSync, transformers, valueRef]
   )
 
   const revealOnBlurValidatorResult = useCallback(
-    ({ result, runAsync }) => {
+    ({ result, runAsync = isAsync(onBlurValidatorRef.current) }) => {
       persistErrorState('gracefully', 'onBlurValidator', result)
 
       if (runAsync) {
@@ -575,28 +594,29 @@ export default function useFieldValidation<Value>({
         (localErrorInitiatorRef.current === 'required' ||
           localErrorInitiatorRef.current === 'schema') &&
         !asyncBehaviorIsEnabled &&
-        !isAsync(onChangeValidatorRef.current)
+        !hasAsyncValidatorBehavior(onChangeValidatorRef.current)
       ) {
         return undefined // stop here
+      }
+
+      if (isAsync(onBlurValidatorRef.current)) {
+        defineAsyncProcess('onBlurValidator')
+        setFieldState('validating')
       }
 
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
         'onBlurValidator'
       )
-      const validationResult = isAsync(onBlurValidatorRef.current)
-        ? callValidatorFnAsync(onBlurValidatorRef.current, value)
-        : callValidatorFnSync(onBlurValidatorRef.current, value)
-      const runAsync = validationResult instanceof Promise
 
-      if (runAsync) {
-        defineAsyncProcess('onBlurValidator')
-        setFieldState('validating')
+      let result = isAsync(onBlurValidatorRef.current)
+        ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
+        : callValidatorFnSync(onBlurValidatorRef.current, value)
+      if (result instanceof Promise) {
+        result = await result
       }
 
-      const result = runAsync ? await validationResult : validationResult
-
-      revealOnBlurValidatorResult({ result, runAsync })
+      revealOnBlurValidatorResult({ result })
 
       return { result }
     },
@@ -618,7 +638,7 @@ export default function useFieldValidation<Value>({
       return undefined // stop here
     }
 
-    const { result, runAsync } = await callOnBlurValidator()
+    const { result } = await callOnBlurValidator()
 
     if (
       String(result) !==
@@ -626,7 +646,7 @@ export default function useFieldValidation<Value>({
       revealErrorRef.current
     ) {
       if (result) {
-        revealOnBlurValidatorResult({ result, runAsync })
+        revealOnBlurValidatorResult({ result })
       } else {
         hideError()
         clearErrorState()
@@ -671,138 +691,146 @@ export default function useFieldValidation<Value>({
 
   // -- validateValue --
 
-  const validateValue = useCallback(async () => {
-    const isProcessActive = startProcess()
+  const validateValue = useCallback(
+    async ({
+      keepPendingForAsyncBehavior = false,
+    }: {
+      keepPendingForAsyncBehavior?: boolean
+    } = {}) => {
+      const isProcessActive = startProcess()
 
-    if (disabled) {
-      if (isProcessActive()) {
-        clearErrorState()
-      }
-      hideError()
-      setFieldState(undefined)
-      return undefined // stop here
-    }
-
-    const value = valueRef.current
-    changeEventResultRef.current = null
-    validatedValueRef.current = null
-    let initiator: ErrorInitiator = null
-
-    try {
-      const requiredError = transformers.current.validateRequired(value, {
-        emptyValue,
-        required,
-        isChanged: changedRef.current,
-        error: new FormError('Field.errorRequired'),
-      })
-      if (requiredError instanceof Error) {
-        initiator = 'required'
-        throw requiredError
+      if (disabled) {
+        if (isProcessActive()) {
+          clearErrorState()
+        }
+        hideError()
+        setFieldState(undefined)
+        return undefined // stop here
       }
 
-      if (error instanceof Error) {
-        initiator = 'errorProp'
-        throw error
-      }
+      const value = valueRef.current
+      changeEventResultRef.current = null
+      validatedValueRef.current = null
+      let initiator: ErrorInitiator = null
 
-      // Validate by provided schema (AJV or Zod) for this value
-      const skipLocalSchema =
-        prioritizeContextSchema || prioritizeSectionSchema
-      if (
-        value !== undefined &&
-        !skipLocalSchema &&
-        typeof schemaValidatorRef.current === 'function'
-      ) {
-        const validationResult = schemaValidatorRef.current(value)
-        if (validationResult !== true) {
-          let error: FormError | undefined
-
-          if (hasZodSchema) {
-            const zodError = validationResult as z.ZodError<unknown>
-            error = zodErrorsToOneFormError(zodError.issues)
-          } else {
-            error = getAjvInstance()?.ajvErrorsToOneFormError(
-              (schemaValidatorRef.current as ValidateFunction).errors,
-              value
-            )
+      try {
+        const requiredError = transformers.current.validateRequired(
+          value,
+          {
+            emptyValue,
+            required,
+            isChanged: changedRef.current,
+            error: new FormError('Field.errorRequired'),
           }
+        )
+        if (requiredError instanceof Error) {
+          initiator = 'required'
+          throw requiredError
+        }
 
-          initiator = 'schema'
+        if (error instanceof Error) {
+          initiator = 'errorProp'
           throw error
         }
-      }
 
-      // Validate by provided derivative validator
-      if (
-        onChangeValidatorRef.current &&
-        (changedRef.current || validateInitially || validateUnchanged)
-      ) {
+        // Validate by provided schema (AJV or Zod) for this value
+        const skipLocalSchema =
+          prioritizeContextSchema || prioritizeSectionSchema
+        if (
+          value !== undefined &&
+          !skipLocalSchema &&
+          typeof schemaValidatorRef.current === 'function'
+        ) {
+          const validationResult = schemaValidatorRef.current(value)
+          if (validationResult !== true) {
+            let error: FormError | undefined
+
+            if (hasZodSchema) {
+              const zodError = validationResult as z.ZodError<unknown>
+              error = zodErrorsToOneFormError(zodError.issues)
+            } else {
+              error = getAjvInstance()?.ajvErrorsToOneFormError(
+                (schemaValidatorRef.current as ValidateFunction).errors,
+                value
+              )
+            }
+
+            initiator = 'schema'
+            throw error
+          }
+        }
+
+        // Validate by provided derivative validator
+        if (
+          onChangeValidatorRef.current &&
+          (changedRef.current || validateInitially || validateUnchanged)
+        ) {
+          const { result } = await startOnChangeValidatorValidation({
+            keepPendingForAsyncBehavior,
+          })
+
+          if (result instanceof Error) {
+            initiator = 'onChangeValidator'
+            throw result
+          }
+        }
+
+        // Only for when "validateInitially" is set to true
+        if (
+          onBlurValidatorRef.current &&
+          validateInitially &&
+          !changedRef.current
+        ) {
+          const { result } = await startOnBlurValidatorProcess()
+
+          if (result instanceof Error) {
+            initiator = 'onBlurValidator'
+            throw result
+          }
+        }
+
         if (isProcessActive()) {
           clearErrorState()
         }
 
-        const { result } = await startOnChangeValidatorValidation()
+        validatedValueRef.current = value
+      } catch (error) {
+        if (isProcessActive()) {
+          persistErrorState('weak', initiator, error as Error | FormError)
 
-        if (result instanceof Error) {
-          initiator = 'onChangeValidator'
-          throw result
+          if (validateContinuously && changedRef.current) {
+            revealError()
+          }
         }
       }
-
-      // Only for when "validateInitially" is set to true
-      if (
-        onBlurValidatorRef.current &&
-        validateInitially &&
-        !changedRef.current
-      ) {
-        const { result } = await startOnBlurValidatorProcess()
-
-        if (result instanceof Error) {
-          initiator = 'onBlurValidator'
-          throw result
-        }
-      }
-
-      if (isProcessActive()) {
-        clearErrorState()
-      }
-
-      validatedValueRef.current = value
-    } catch (error) {
-      if (isProcessActive()) {
-        persistErrorState('weak', initiator, error as Error | FormError)
-
-        if (validateContinuously && changedRef.current) {
-          revealError()
-        }
-      }
-    }
-  }, [
-    clearErrorState,
-    disabled,
-    emptyValue,
-    error,
-    hasZodSchema,
-    hideError,
-    persistErrorState,
-    prioritizeContextSchema,
-    prioritizeSectionSchema,
-    required,
-    revealError,
-    setFieldState,
-    startOnBlurValidatorProcess,
-    startOnChangeValidatorValidation,
-    startProcess,
-    validateInitially,
-    validateContinuously,
-    validateUnchanged,
-    valueRef,
-    changedRef,
-    changeEventResultRef,
-    validatedValueRef,
-    transformers,
-    schemaValidatorRef,
-  ])
+    },
+    [
+      clearErrorState,
+      disabled,
+      emptyValue,
+      error,
+      hasZodSchema,
+      hideError,
+      persistErrorState,
+      prioritizeContextSchema,
+      prioritizeSectionSchema,
+      required,
+      revealError,
+      setFieldState,
+      startOnBlurValidatorProcess,
+      startOnChangeValidatorValidation,
+      startProcess,
+      validateInitially,
+      validateContinuously,
+      validateUnchanged,
+      valueRef,
+      changedRef,
+      changeEventResultRef,
+      validatedValueRef,
+      transformers,
+      schemaValidatorRef,
+    ]
+  )
 
   // Update connectWithPathListenerRef when validators change
   connectWithPathListenerRef.current = () => {
