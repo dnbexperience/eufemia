@@ -147,6 +147,131 @@ describe('postalCode', () => {
       })
     })
 
+    it('should keep pending indicator while autofill is fetching', async () => {
+      let resolveValidation: () => void = () => undefined
+      let resolveAutofill: () => void = () => undefined
+      const validationPromise = new Promise<void>((resolve) => {
+        resolveValidation = resolve
+      })
+      const autofillPromise = new Promise<void>((resolve) => {
+        resolveAutofill = resolve
+      })
+      let requestCount = 0
+      globalThis.fetch = createFetchMock(null, () => {
+        requestCount++
+        return requestCount === 1 ? validationPromise : autofillPromise
+      })
+
+      const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+        cityPath: '/city',
+      })
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+              onChange,
+            }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeBlock = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code'
+      )
+      const postalCodeInput = postalCodeBlock.querySelector(
+        '.dnb-input__input'
+      )
+      const postalCodeIndicator = postalCodeBlock.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+      const cityInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+      )
+
+      fireEvent.change(postalCodeInput, { target: { value: '1391' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+        expect(postalCodeIndicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+
+      resolveValidation()
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(2)
+      })
+      expect(cityInput).toHaveValue('')
+      expect(postalCodeIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+
+      resolveAutofill()
+
+      await waitFor(() => {
+        expect(cityInput).toHaveValue('Vollen')
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+    })
+
+    it('should clear pending indicator after submitting a valid postal code', async () => {
+      const onSubmit = vi.fn()
+      const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+        cityPath: '/city',
+      })
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+              onChange,
+            }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeBlock = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code'
+      )
+      const postalCodeInput = postalCodeBlock.querySelector(
+        '.dnb-input__input'
+      )
+      const postalCodeIndicator = postalCodeBlock.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+      const cityInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+      )
+
+      await userEvent.type(postalCodeInput, '1391')
+
+      await waitFor(() => {
+        expect(cityInput).toHaveValue('Vollen')
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+    })
+
     it('should show error when postal code is not valid', async () => {
       render(
         <Form.Handler>
