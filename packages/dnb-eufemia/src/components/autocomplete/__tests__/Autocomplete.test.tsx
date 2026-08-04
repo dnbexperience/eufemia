@@ -289,8 +289,10 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
-  it('ranks items matching more search words higher than items repeating a single word', () => {
+  it('ranks items matching more distinct search words first', () => {
     const data = [
+      'foo',
+      'x foo bar',
       'The Lord of the Rings: The Return of the King',
       'The Godfather',
     ]
@@ -300,16 +302,51 @@ describe('Autocomplete component', () => {
     toggle()
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'foo bar' },
+    })
+
+    let options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    expect(options[0].textContent).toBe('x foo bar')
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'foo foo bar' },
+    })
+
+    options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    expect(options[0].textContent).toBe('x foo bar')
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value: 'the godfather' },
     })
+
+    options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    expect(options[0].textContent).toBe('The Godfather')
+  })
+
+  it('uses occurrence frequency to break matching word count ties', () => {
+    render(
+      <Autocomplete
+        data={['foo', 'foo foo']}
+        inputValue="foo"
+        open
+        {...mockProps}
+      />
+    )
 
     const options = document.querySelectorAll(
       'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
     )
 
-    // "The Godfather" matches both words and must outrank the item that
-    // only repeats "the" many times without matching "godfather".
-    expect(options[0].textContent).toBe('The Godfather')
+    expect(options[0].textContent).toBe('foo foo')
   })
 
   it('will set correct width when independentWidth is set', async () => {
@@ -850,14 +887,14 @@ describe('Autocomplete component', () => {
       '<li class="first-item first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
-    // First result direction
+    // More distinct matches outrank the first-word bonus
     fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value: 'cc bb' },
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-item first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="2" id="option-autocomplete-id-2"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span></li>'
+      '<li class="first-item first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // Second result direction
@@ -1497,20 +1534,20 @@ describe('Autocomplete component', () => {
     expect(optionElements().length).toBe(3)
     expect(
       document
-        .querySelectorAll('li.dnb-drawer-list__option')[1]
+        .querySelectorAll('li.dnb-drawer-list__option')[0]
         .getAttribute('aria-current')
     ).toBe('true')
 
-    let elem = optionElements()[1]
+    let elem = optionElements()[0]
     expect(elem.textContent).toBe(mockData[1])
     expect(elem.getAttribute('aria-current')).toBe('true')
 
     // remove selection and reset the order and open again
-    // aria-selected should now be on place 1
+    // aria-current should remain on the same item
     keyDownOnInput('Escape')
     toggle()
 
-    elem = optionElements()[1]
+    elem = optionElements()[0]
     expect(elem.textContent).toBe(mockData[1])
     expect(elem.getAttribute('aria-current')).toBe('true')
   })

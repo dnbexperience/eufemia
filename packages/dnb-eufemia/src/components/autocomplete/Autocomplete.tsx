@@ -1125,6 +1125,18 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
         }
       }
 
+      const distinctSearchWords = new Set<string>()
+      searchWords = searchWords.filter((word) => {
+        const normalizedWord = word.toLowerCase()
+
+        if (distinctSearchWords.has(normalizedWord)) {
+          return false
+        }
+
+        distinctSearchWords.add(normalizedWord)
+        return true
+      })
+
       const getWordBoundary = (wordIndex: number) =>
         startsWithMatch && wordIndex === 0 ? '^' : snParam ? '' : '^|\\s'
 
@@ -1180,12 +1192,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           .map(({ originalWord, wordIndex, scoreRegex }) => {
             let wordScore = 0
 
-            // Count a matched word only once (presence, not frequency), so an
-            // item that repeats a single search word many times cannot outrank
-            // an item that matches more of the distinct search words.
-            const wordOccurrences = (contentChunk.match(scoreRegex) || [])
-              .length
-            wordScore += Math.min(wordOccurrences, 1)
+            wordScore += (contentChunk.match(scoreRegex) || []).length
 
             if (wordIndex === 0 && firstWordRegex) {
               const isFirstWord = firstWordRegex.test(
@@ -1210,7 +1217,11 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
 
       const mappedIndex: Array<
         | DrawerListDataArrayObject
-        | { totalScore: number; item: SearchIndexItem }
+        | {
+            matchedWordCount: number
+            totalScore: number
+            item: SearchIndexItem
+          }
       > = currentSearchIndex.map((item) => {
         const listOfFoundWords = findSearchWords(item.contentChunk)
 
@@ -1230,7 +1241,7 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           hasMultipleNumericTerms &&
           listOfFoundWords.length !== searchWords.length
         ) {
-          return { totalScore: 0, item }
+          return { matchedWordCount: 0, totalScore: 0, item }
         }
 
         if (typeof item.dataItem === 'string') {
@@ -1410,27 +1421,35 @@ function AutocompleteInstance(ownProps: AutocompleteAllProps) {
           return item.dataItem
         }
 
-        // Number of distinct search words matched. Each matched word adds 1
-        // here, making word coverage the dominant ranking factor.
         let totalScore = listOfFoundWords.length
         for (const { wordScore } of listOfFoundWords) {
           totalScore += wordScore
         }
 
         return {
+          matchedWordCount: listOfFoundWords.length,
           totalScore,
           item,
         }
       })
 
       if (!skipFilterRef.current && !skipFilter) {
-        type ScoredItem = { totalScore: number; item: SearchIndexItem }
+        type ScoredItem = {
+          matchedWordCount: number
+          totalScore: number
+          item: SearchIndexItem
+        }
         const scored = (mappedIndex as ScoredItem[]).filter(
           ({ totalScore }) => totalScore
         )
 
         if (!skipReorderRef.current && !skipReorder) {
-          scored.sort(({ totalScore: a }, { totalScore: b }) => b - a)
+          scored.sort(
+            (
+              { matchedWordCount: matchedWordsA, totalScore: scoreA },
+              { matchedWordCount: matchedWordsB, totalScore: scoreB }
+            ) => matchedWordsB - matchedWordsA || scoreB - scoreA
+          )
         }
 
         return scored.map(
