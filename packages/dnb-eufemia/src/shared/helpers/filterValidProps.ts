@@ -17,8 +17,8 @@ export function filterValidProps<T extends Record<string, unknown>>(
 
   for (const key in props) {
     if (
-      (!validKeys || (validKeys && o.call(validKeys, key))) &&
-      (!excludeKeys || (excludeKeys && !o.call(excludeKeys, key)))
+      (!validKeys || o.call(validKeys, key)) &&
+      (!excludeKeys || !o.call(excludeKeys, key))
     ) {
       res[key] = props[key]
     }
