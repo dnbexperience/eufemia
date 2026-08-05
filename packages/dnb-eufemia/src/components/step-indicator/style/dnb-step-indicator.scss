@@ -155,9 +155,8 @@
             var(--token-color-decorative-first-intense);
         }
       }
-      &.dnb-skeleton {
-        border-width: 0.0625rem;
-        border-color: var(--token-color-stroke-neutral-bold);
+      &.dnb-skeleton::before {
+        border: none;
       }
     }
 

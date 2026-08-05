@@ -1256,9 +1256,8 @@ button.dnb-button::-moz-focus-inner {
   background-color: var(--token-color-decorative-second-subtle);
   border: 0.125rem solid var(--token-color-decorative-first-intense);
 }
-.dnb-step-indicator__item__bullet.dnb-skeleton {
-  border-width: 0.0625rem;
-  border-color: var(--token-color-stroke-neutral-bold);
+.dnb-step-indicator__item__bullet.dnb-skeleton::before {
+  border: none;
 }
 .dnb-step-indicator__item-content {
   display: flex;
