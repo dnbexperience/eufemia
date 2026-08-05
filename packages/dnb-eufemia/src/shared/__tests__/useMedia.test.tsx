@@ -254,8 +254,6 @@ describe('useMedia', () => {
       await act(async () => {
         setMedia({ width: BELOW })
 
-        result.current
-
         /**
          * Keep the same state as before
          */
@@ -272,8 +270,6 @@ describe('useMedia', () => {
 
       await act(async () => {
         setMedia({ width: SMALL })
-
-        result.current
 
         expect(result.current).toEqual({
           isSmall: true,
@@ -293,8 +289,6 @@ describe('useMedia', () => {
 
       await act(async () => {
         setMedia({ width: BELOW })
-
-        result.current
 
         /**
          * Keep the same state as before
