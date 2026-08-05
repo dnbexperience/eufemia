@@ -295,6 +295,16 @@ describe('CodeBlock', () => {
     expect(pre.textContent).toContain('Hello')
   })
 
+  it('should not leak a css attribute onto the pre element', () => {
+    const { container } = render(
+      <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+    )
+
+    const pre = container.querySelector('pre')
+    expect(pre).toBeTruthy()
+    expect(pre.getAttribute('css')).toBeNull()
+  })
+
   it('should detect language from className', () => {
     const { container } = render(
       <CodeBlock className="language-typescript">
