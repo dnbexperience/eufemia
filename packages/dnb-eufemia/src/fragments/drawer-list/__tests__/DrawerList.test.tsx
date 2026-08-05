@@ -747,7 +747,7 @@ describe('DrawerList component', () => {
           .querySelector('.dnb-drawer-list')
           .getAttribute('id')
 
-        expect(domId).not.toBe(`${undefined}-drawer-list`)
+        expect(domId).not.toBe('undefined-drawer-list')
 
         const id = domId.replace('-drawer-list', '')
 
@@ -795,7 +795,7 @@ describe('DrawerList component', () => {
           .querySelector('.dnb-drawer-list')
           .getAttribute('id')
 
-        expect(domId).not.toBe(`${undefined}-drawer-list`)
+        expect(domId).not.toBe('undefined-drawer-list')
 
         const id = domId.replace('-drawer-list', '')
 
