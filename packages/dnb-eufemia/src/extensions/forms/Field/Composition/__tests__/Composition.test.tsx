@@ -786,37 +786,73 @@ describe('Field.Composition', () => {
     })
   })
 
-  it('should forward field state through nested compositions', async () => {
-    const onChangeValidator = vi.fn(async () => {
-      await wait(50)
+  it('should aggregate state from simultaneous child validations', async () => {
+    const firstValidator = vi.fn(async () => {
+      await wait(100)
+      return undefined
+    })
+    const secondValidator = vi.fn(async () => {
+      await wait(20)
       return undefined
     })
 
     render(
       <FieldBlock label="Outer field block">
         <Field.Composition>
-          <Field.String onChangeValidator={onChangeValidator} />
+          <Field.String onChangeValidator={firstValidator} />
+          <Field.String onChangeValidator={secondValidator} />
         </Field.Composition>
       </FieldBlock>
     )
 
-    const [fieldIndicator, compositionIndicator, outerIndicator] =
-      Array.from(document.querySelectorAll('.dnb-forms-submit-indicator'))
-    const input = document.querySelector('input')
+    const inputs = Array.from(document.querySelectorAll('input'))
+    const indicators = Array.from(
+      document.querySelectorAll('.dnb-forms-submit-indicator')
+    )
+    const firstIndicator = indicators[0]
+    const secondIndicator = indicators[1]
+    const compositionIndicator = indicators[2]
+    const outerIndicator = indicators[3]
 
-    fireEvent.change(input, { target: { value: 'value' } })
+    fireEvent.change(inputs[0], { target: { value: 'first' } })
+    fireEvent.change(inputs[1], { target: { value: 'second' } })
 
     await waitFor(() => {
+      expect(firstIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(secondIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
       expect(outerIndicator).toHaveClass(
         'dnb-forms-submit-indicator--state-pending'
       )
-      expect(fieldIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
-      )
     })
+    expect(
+      document.querySelectorAll(
+        '.dnb-forms-submit-indicator--state-pending'
+      )
+    ).toHaveLength(3)
     expect(compositionIndicator).not.toHaveClass(
       'dnb-forms-submit-indicator--state-pending'
     )
+
+    await waitFor(() => {
+      expect(firstIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(secondIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-complete'
+      )
+      expect(outerIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toHaveLength(2)
+    })
   })
 
   it('should show submit indicator on Form.SubmitButton inside Field.Composition', async () => {

@@ -235,7 +235,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const blockId = useId(props.id)
   const [salt, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>(new Map())
-  const fieldStateRef = useRef<SubmitState | null>(null)
+  const fieldStatesRef = useRef<Map<Identifier, SubmitState>>(new Map())
   const stateRecordRef = useRef<StateRecord>({})
   const fieldStateIdsRef = useRef<FieldErrorIdsRef | null>(null)
   const contentsRef = useRef<HTMLDivElement>(null)
@@ -299,8 +299,12 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         return undefined
       }
 
-      if (fieldState !== fieldStateRef.current) {
-        fieldStateRef.current = fieldState
+      if (fieldState !== fieldStatesRef.current.get(identifier)) {
+        if (fieldState) {
+          fieldStatesRef.current.set(identifier, fieldState)
+        } else {
+          fieldStatesRef.current.delete(identifier)
+        }
 
         forceUpdate()
       }
@@ -493,6 +497,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   useEffect(
     () => () => {
       mountedFieldsRef.current = new Map()
+      fieldStatesRef.current = new Map()
       stateRecordRef.current = {}
     },
     []
@@ -694,13 +699,40 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
           </div>
 
           <SubmitIndicator
-            state={fieldState ?? fieldStateRef.current}
+            state={
+              fieldState ?? getAggregateFieldState(fieldStatesRef.current)
+            }
             className="dnb-forms-field-block__indicator dnb-forms-submit-indicator--inline-wrap"
           />
         </div>
       </Space>
     </FieldBlockContext>
   )
+}
+
+const fieldStatePriority: Record<SubmitState, number> = {
+  abort: 0,
+  complete: 1,
+  success: 2,
+  error: 3,
+  pending: 4,
+}
+
+function getAggregateFieldState(
+  fieldStates: Map<Identifier, SubmitState>
+): SubmitState | undefined {
+  let aggregateState: SubmitState
+
+  fieldStates.forEach((state) => {
+    if (
+      !aggregateState ||
+      fieldStatePriority[state] > fieldStatePriority[aggregateState]
+    ) {
+      aggregateState = state
+    }
+  })
+
+  return aggregateState
 }
 
 function useEnableFieldset({
