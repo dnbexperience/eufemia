@@ -53,10 +53,7 @@ function StepIndicatorList() {
         >
           <Element
             {...params}
-            className={clsx(
-              'dnb-step-indicator',
-              createSkeletonClass('font', skeleton)
-            )}
+            className={clsx(createSkeletonClass('font', skeleton))}
           >
             {countSteps > 0 && (
               <ol className="dnb-step-indicator__list">
