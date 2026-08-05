@@ -901,4 +901,51 @@ describe('Tabs ARIA', () => {
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should set aria-controls on the selected tab referencing an existing tabpanel', () => {
+    render(<Tabs id="with-panel" data={tablistDataWithContent} />)
+
+    const selectedTab = document.querySelector(
+      'button[role="tab"][aria-selected="true"]'
+    )
+    const controls = selectedTab.getAttribute('aria-controls')
+
+    expect(controls).toBe('with-panel-content')
+    expect(document.getElementById(controls).getAttribute('role')).toBe(
+      'tabpanel'
+    )
+  })
+
+  it('should link aria-controls to an external Tabs.Content panel', () => {
+    render(
+      <>
+        <Tabs id="linked-aria" data={tablistData} selectedKey="second" />
+        <Tabs.Content id="linked-aria">
+          {({ key }) => <h2>{key}</h2>}
+        </Tabs.Content>
+      </>
+    )
+
+    const selectedTab = document.querySelector(
+      'button[role="tab"][aria-selected="true"]'
+    )
+
+    expect(selectedTab.getAttribute('aria-controls')).toBe(
+      'linked-aria-content'
+    )
+    expect(
+      document.getElementById('linked-aria-content').getAttribute('role')
+    ).toBe('tabpanel')
+  })
+
+  it('should not set aria-controls when no tabpanel is rendered', () => {
+    render(<Tabs id="no-panel" data={tablistData} selectedKey="second" />)
+
+    const selectedTab = document.querySelector(
+      'button[role="tab"][aria-selected="true"]'
+    )
+
+    expect(document.querySelector('[role="tabpanel"]')).toBeNull()
+    expect(selectedTab.hasAttribute('aria-controls')).toBe(false)
+  })
 })

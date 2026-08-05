@@ -410,6 +410,9 @@ function TabsComponent(ownProps: TabsProps) {
   const [isFirst, setIsFirst] = useState<boolean | undefined>(undefined)
   const [isLast, setIsLast] = useState<boolean | undefined>(undefined)
 
+  // Only link the selected tab to its panel when the panel actually exists
+  const [hasTabPanel, setHasTabPanel] = useState(false)
+
   // Track previous props for getDerivedStateFromProps equivalent
   const [prevDataSource, setPrevDataSource] = useState(
     ownProps.data || ownProps.children
@@ -442,6 +445,11 @@ function TabsComponent(ownProps: TabsProps) {
   useEffect(() => {
     listenForPropChangesRef.current = true
   })
+
+  // Avoid a dangling aria-controls when there is no tabpanel in the DOM
+  useEffect(() => {
+    setHasTabPanel(Boolean(document.getElementById(`${_id}-content`)))
+  }, [_id, data, selectedKey])
 
   // Store latest state in refs so stable sub-components can access them
   const dataRef = useRef(data)
@@ -1305,7 +1313,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         const itemParams: Record<string, unknown> = { to, href }
         const isFocus = currentFocusKey == key
         const isSelected = currentSelectedKey == key
-        if (isSelected) {
+        if (isSelected && hasTabPanel) {
           itemParams['aria-controls'] = `${_id}-content`
         }
 
