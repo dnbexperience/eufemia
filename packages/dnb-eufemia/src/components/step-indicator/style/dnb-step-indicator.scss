@@ -33,6 +33,13 @@
       flex: 1;
       height: 0.5rem;
       border-radius: var(--token-radius-full);
+      transition:
+        background-color 200ms ease-in-out,
+        box-shadow 200ms ease-in-out;
+
+      @include utilities.reducedMotion() {
+        transition-duration: 0.01ms;
+      }
 
       &--empty {
         background-color: var(--token-color-background-neutral-bold);
@@ -186,7 +193,7 @@
 
       &--hidden {
         opacity: 0;
-        transition-timing-function: ease-out;
+        transition-duration: 0ms;
       }
     }
 
