@@ -1827,7 +1827,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [props])
 
   if (bufferedError) {
-    htmlAttributes['aria-invalid'] = bufferedError ? 'true' : 'false'
+    htmlAttributes['aria-invalid'] = 'true'
   }
   if (required) {
     htmlAttributes['aria-required'] = 'true'
