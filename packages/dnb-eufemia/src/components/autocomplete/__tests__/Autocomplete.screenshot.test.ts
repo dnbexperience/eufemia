@@ -187,4 +187,14 @@ describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {
       },
     })
   })
+
+  it('have to match submit button with progress indicator', async () => {
+    await makeScreenshot({
+      selector:
+        '[data-visual-test="autocomplete-submit-button-indicator"] .dnb-autocomplete__inner',
+      simulateSelector:
+        '[data-visual-test="autocomplete-submit-button-indicator"] .dnb-input__submit-button__button',
+      simulate: 'click',
+    })
+  })
 })

@@ -340,7 +340,7 @@ export type AutocompleteProps = {
   size?: DrawerListProps['size']
   data?: DrawerListData
   /**
-   * Will be called once the user presses the autocomplete. Returns the data item `{ data, attributes }`.
+   * Will be called once the drawer-list opens (e.g. on focus, keyboard or the submit button). Returns the data item `{ data, attributes }` including [these methods](/uilib/components/autocomplete/events#dynamically-change-data). Useful for fetching data when the list opens, e.g. via the submit button before the user starts typing.
    */
   onOpen?: (event: AutocompleteOnTypeParams) => void
   /**
@@ -361,7 +361,7 @@ export type AutocompleteProps = {
 
 export type AutocompleteAllProps = AutocompleteProps &
   FormStatusBaseProps &
-  Omit<DrawerListProps, 'onChange' | 'onSelect'> &
+  Omit<DrawerListProps, 'onChange' | 'onSelect' | 'onOpen' | 'onClose'> &
   SpacingProps &
   Omit<
     HTMLProps<HTMLElement>,
@@ -1590,7 +1590,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       if (typeof args.hasFilter === 'undefined') {
         args.hasFilter = false
       }
-      if (disabled) {
+      if (disabled || visibleIndicator) {
         return undefined // stop here
       }
       if (
@@ -1606,6 +1606,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     },
     [
       disabled,
+      visibleIndicator,
       preventClose,
       drawerList.hidden,
       drawerList.isOpen,
@@ -2084,12 +2085,29 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     [setVisible, focusInput]
   )
 
+  const onOpenHandler = useCallback(
+    (args: Record<string, unknown> = {}) => {
+      return dispatchCustomElementEvent(propsRef.current, 'onOpen', {
+        ...args,
+        ...getEventObjects('onOpen'),
+      })
+    },
+    []
+  )
+
   const onCloseHandler = useCallback(
     (args: Record<string, unknown> = {}) => {
       const res = dispatchCustomElementEvent(propsRef.current, 'onClose', {
         ...args,
         ...getEventObjects('onClose'),
       })
+
+      if (res !== false) {
+        // Reset the indicator so the submit button does not stay
+        // disabled if the list closes (e.g. blur or Escape) while a
+        // consumer forgot to call hideIndicator()
+        setVisibleIndicator(false)
+      }
 
       if (res !== false && !closingFromChangeRef.current) {
         setFocusOnInput()
@@ -2422,6 +2440,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     onMouseDown: reserveActivityHandler,
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,
+    'aria-disabled': visibleIndicator || undefined,
+    'aria-busy': visibleIndicator || undefined,
     'aria-label': !hidden ? submitButtonTitle : undefined,
     tooltip: showSubmitButton ? submitButtonTitle : null,
   }
@@ -2441,10 +2461,16 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     submitButton = (
       <SubmitButton
         icon={
-          <IconPrimary
-            icon={submitButtonIcon as IconIcon}
-            transitionState={isExpanded ? 'open' : 'closed'}
-          />
+          visibleIndicator ? (
+            <ProgressIndicator
+              size={size === 'large' ? 'medium' : 'small'}
+            />
+          ) : (
+            <IconPrimary
+              icon={submitButtonIcon as IconIcon}
+              transitionState={isExpanded ? 'open' : 'closed'}
+            />
+          )
         }
         iconSize={iconSize || (size === 'large' ? 'medium' : 'default')}
         variant="secondary"
@@ -2615,6 +2641,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               optionsRender={optionsRender}
               onChange={onChangeHandler}
               onSelect={onSelectHandler}
+              onOpen={onOpenHandler}
               onClose={onCloseHandler}
               onPreChange={onPreChangeHandler}
               onKeyDown={reserveActivityHandler}

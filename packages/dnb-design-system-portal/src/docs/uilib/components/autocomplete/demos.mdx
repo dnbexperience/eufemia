@@ -43,6 +43,10 @@ This example simulates server delay with a timeout and - if it gets debounced, w
 
 Also, you may consider using `disableFilter` if you have a backend doing the search operation.
 
+The `onOpen` event is used together with `showSubmitButton`, so the data can be fetched when the user opens the list (e.g. via the submit button) before having typed anything. It provides the same [data methods](/uilib/components/autocomplete/events#dynamically-change-data) as `onType`.
+
+**NB:** When you call `showIndicator()`, make sure `hideIndicator()` always runs afterwards (e.g. in a `finally` block), also on error. While the indicator is showing, the submit button is disabled, so a missing `hideIndicator()` will leave it permanently disabled.
+
 <AutocompleteDynamicallyUpdatedData />
 
 ### Update data dynamically on the first focus
