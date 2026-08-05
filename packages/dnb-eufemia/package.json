@@ -16,7 +16,7 @@
   "main": "./index.js",
   "module": "./index.js",
   "scripts": {
-    "audit:ci": "yarn npm audit --environment production --severity high",
+    "audit:ci": "yarn npm audit --recursive --environment production --severity high",
     "build": "./scripts/prebuild/local-prebuild.sh",
     "prebuild:ci": "yarn build:prebuild && yarn verify:generated-entries:ci",
     "build:ci": "yarn prebuild:ci && yarn postbuild:ci && yarn publish:prepare",
