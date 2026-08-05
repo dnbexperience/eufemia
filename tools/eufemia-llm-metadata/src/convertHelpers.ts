@@ -1331,7 +1331,7 @@ function addDocsFromExport(
     related: string[]
   }
 ) {
-  for (const [key, entry] of Object.entries(value || {})) {
+  for (const [key, entry] of Object.entries(value)) {
     const relMatch = /^\[([^\]]+)\]/.exec(key)
 
     if (relMatch && relMatch[1]) {
