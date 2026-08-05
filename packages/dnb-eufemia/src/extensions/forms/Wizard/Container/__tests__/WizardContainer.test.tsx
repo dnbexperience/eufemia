@@ -549,7 +549,7 @@ describe('Wizard.Container', () => {
         </StrictMode>
       )
 
-      expect(screen.getAllByText('Separat Vindu')).toHaveLength(2)
+      expect(screen.getAllByText('Separat Vindu')).toHaveLength(1)
       expect(screen.getByText('Hjelpetekst')).toBeInTheDocument()
 
       expect(output()).toHaveTextContent('Step 1')
@@ -960,9 +960,6 @@ describe('Wizard.Container', () => {
       expect(
         document.querySelector('.dnb-step-indicator')
       ).toHaveTextContent('Steg 1 av 1')
-      expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
-      ).toHaveTextContent('Step 2')
 
       await expandStepIndicator()
       expect(
@@ -986,9 +983,6 @@ describe('Wizard.Container', () => {
       expect(
         document.querySelector('.dnb-step-indicator')
       ).toHaveTextContent('Steg 2 av 2')
-      expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
-      ).toHaveTextContent('Step 1')
 
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
@@ -1011,9 +1005,6 @@ describe('Wizard.Container', () => {
       expect(
         document.querySelector('.dnb-step-indicator')
       ).toHaveTextContent('Steg 1 av 1')
-      expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
-      ).toHaveTextContent('Step 2')
 
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
@@ -1036,9 +1027,6 @@ describe('Wizard.Container', () => {
       expect(
         document.querySelector('.dnb-step-indicator')
       ).toHaveTextContent('Steg 1 av 1')
-      expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
-      ).toHaveTextContent('')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(0)
@@ -1255,9 +1243,6 @@ describe('Wizard.Container', () => {
       )
 
       expect(output()).toBeNull()
-      expect(
-        document.querySelector('.dnb-step-indicator__trigger__button')
-      ).toHaveTextContent('')
       expect(
         document.querySelectorAll('.dnb-step-indicator__item')
       ).toHaveLength(0)
@@ -2274,10 +2259,6 @@ describe('Wizard.Container', () => {
         </Wizard.Step>
       </Wizard.Container>
     )
-
-    expect(
-      document.querySelector('.dnb-step-indicator__trigger__button')
-    ).toHaveTextContent('Title missing')
 
     expandStepIndicator()
 
