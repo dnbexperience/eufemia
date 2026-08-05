@@ -499,7 +499,7 @@ export default function ModalContent(props: ModalContentProps) {
         ? 'dnb-modal__content--fullscreen'
         : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
       containerPlacement
-        ? `dnb-modal__content--${containerPlacement || 'right'}`
+        ? `dnb-modal__content--${containerPlacement}`
         : null,
       `dnb-modal__vertical-alignment--${verticalAlignment}`,
       contentClass

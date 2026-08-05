@@ -79,7 +79,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   if (label) {
     helperParams['aria-labelledby'] = combineLabelledBy(
       helperParams,
-      label ? id + '-label' : null
+      id + '-label'
     )
   }
 

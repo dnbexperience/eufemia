@@ -140,13 +140,10 @@ function StepIndicatorItem({
     currentItemNum,
 
     title,
-    isCurrent, // eslint-disable-line
     inactive,
     disabled,
     status,
     statusState = 'warning',
-
-    onClick, // eslint-disable-line
   } = props
 
   const hasPassedAndIsCurrent =
