@@ -1,12 +1,17 @@
 import { spawnSync } from 'child_process'
 
 import { resolveScreenshotVitestRun } from './runScreenshotVitestLib.ts'
+import {
+  EMPTY_SHARD_SENTINEL,
+  collectAllScreenshotTestFiles,
+  resolveShardIncludeFiles,
+} from './screenshotShardingLib.ts'
 
 const rawArgs = process.argv.slice(2)
 const watch = rawArgs.includes('--watch')
 const args = rawArgs.filter((a) => a !== '--watch')
 
-const { missingFilters, screenshotInclude, vitestArgs } =
+const { missingFilters, testFiles, vitestArgs } =
   resolveScreenshotVitestRun(args)
 
 if (missingFilters.length > 0) {
@@ -29,8 +34,28 @@ const env: Record<string, string> = {
   NODE_OPTIONS: nodeOptions,
 } as Record<string, string>
 
-if (screenshotInclude) {
-  env.SCREENSHOT_INCLUDE = screenshotInclude
+// Candidate files for this run: the resolved filter matches, or — when
+// no filters were supplied (the CI full-suite run) — every screenshot
+// test file. This set is what gets balanced across shards.
+const candidateFiles =
+  testFiles.length > 0 ? testFiles : collectAllScreenshotTestFiles()
+
+const shardFiles = resolveShardIncludeFiles(
+  process.env.SCREENSHOT_SHARD,
+  candidateFiles,
+  { watch }
+)
+
+if (shardFiles) {
+  // Duration-balanced shard: run only this shard's slice of the suite.
+  env.SCREENSHOT_INCLUDE =
+    shardFiles.length > 0 ? shardFiles.join(',') : EMPTY_SHARD_SENTINEL
+  if (!vitestArgs.includes('--passWithNoTests')) {
+    vitestArgs.push('--passWithNoTests')
+  }
+} else if (testFiles.length > 0) {
+  // Unsharded subset run (explicit filters) — restrict to those files.
+  env.SCREENSHOT_INCLUDE = testFiles.join(',')
 }
 
 const result = spawnSync(
