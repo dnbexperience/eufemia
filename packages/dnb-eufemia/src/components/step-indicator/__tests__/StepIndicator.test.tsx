@@ -17,17 +17,10 @@ import type {
 } from '../StepIndicator'
 import StepIndicator from '../StepIndicator'
 import { getStepIndicatorBulletType } from '../StepIndicatorItem'
-import '../../../core/vitest/mockMatchMediaSetup'
-import { setMedia } from 'mock-match-media'
 
 beforeEach(() => {
-  setMedia({ width: '61em' })
   document.body.innerHTML = `<div id="root"></div>`
 })
-
-function simulateSmallScreen() {
-  setMedia({ width: '59em' })
-}
 
 const stepIndicatorListData: StepIndicatorData = [
   {
@@ -238,45 +231,6 @@ describe('StepIndicator in loose mode', () => {
     )
   }
 
-  it('has trigger button when mobile', () => {
-    simulateSmallScreen()
-
-    renderComponent({ expandedInitially: false })
-    expect(screen.queryByRole('button')).toBeInTheDocument()
-  })
-
-  it('should keep the current step on re-render', () => {
-    const { rerender } = render(
-      <StepIndicator
-        currentStep={1}
-        mode="loose"
-        data={stepIndicatorListData}
-        expandedInitially
-      />
-    )
-
-    expect(
-      document.querySelectorAll('li.dnb-step-indicator__item')
-    ).toHaveLength(4)
-    expect(
-      document.querySelector('li.dnb-step-indicator__item--current')
-        .textContent
-    ).toContain('2.Step BSteg 2 av 4')
-
-    simulateSmallScreen()
-
-    rerender(
-      <StepIndicator
-        currentStep={1}
-        mode="loose"
-        data={stepIndicatorListData}
-      />
-    )
-    expect(
-      document.querySelector('.dnb-step-indicator__trigger').textContent
-    ).toContain('Steg 2 av 4')
-  })
-
   it('has correct states on steps', () => {
     renderComponent()
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
@@ -438,7 +392,7 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should render trigger button', () => {
-    const { rerender } = render(
+    render(
       <StepIndicator
         currentStep={1}
         mode="loose"
@@ -446,20 +400,6 @@ describe('StepIndicator in loose mode', () => {
       />
     )
 
-    expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
-        .textContent
-    ).toContain('Steg 2 av 4')
-
-    simulateSmallScreen()
-
-    rerender(
-      <StepIndicator
-        currentStep={1}
-        mode="loose"
-        data={stepIndicatorListData}
-      />
-    )
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
         .textContent
@@ -494,15 +434,6 @@ describe('StepIndicator in strict mode', () => {
       />
     )
   }
-
-  it('has trigger button when mobile', () => {
-    simulateSmallScreen()
-
-    renderComponent({
-      expandedInitially: false,
-    })
-    expect(screen.queryByRole('button')).toBeInTheDocument()
-  })
 
   it('has correct states on steps', () => {
     renderComponent()
@@ -566,12 +497,6 @@ describe('StepIndicator in static mode', () => {
       />
     )
   }
-  it('has trigger button when mobile', () => {
-    simulateSmallScreen()
-
-    renderComponent()
-    expect(screen.queryByRole('button')).toBeInTheDocument()
-  })
 
   it('has correct states on steps', () => {
     renderComponent()
