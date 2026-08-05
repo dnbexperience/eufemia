@@ -163,9 +163,6 @@ export const runFactory = async ({
 
     // Generate CSS Tailwind properties file
     const cssResult = await transformModulesContentCSS(cssContent)
-    if (returnResult) {
-      return cssResult
-    }
 
     const cssDestPath = path.resolve(parsed.dir, 'properties-tailwind.css')
     fs.writeFileSync(cssDestPath, cssResult)
