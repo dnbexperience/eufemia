@@ -112,13 +112,19 @@ export function autofill(
       const parameters = {
         countryCode: String(countryCode).toLowerCase(),
       }
-      const { data } = await fetchData<PostalCodeResolverData>(value, {
+      const result = await fetchData<PostalCodeResolverData>(value, {
         generalConfig,
         parameters,
         abortControllerRef,
         preResponseResolver:
           handlerConfig?.preResponseResolver ?? preResponseResolver,
       })
+
+      if (!result || currentRequestId !== requestId) {
+        return undefined // stop here
+      }
+
+      const { data } = result
 
       const onMatch = (payload: PostalCodeResolverPayload) => {
         const { cityPath } = handlerConfig || {}
@@ -131,9 +137,10 @@ export function autofill(
           const { dataContext } = additionalArgs
           const internalData = dataContext.internalDataRef.current
           const postalCodePath = additionalArgs.props?.path
-          const postalCodeValue = postalCodePath
-            ? pointer.get(internalData, postalCodePath)
-            : value
+          const postalCodeValue =
+            postalCodePath && pointer.has(internalData, postalCodePath)
+              ? pointer.get(internalData, postalCodePath)
+              : value
           const cityValue = pointer.has(internalData, cityPath)
             ? pointer.get(internalData, cityPath)
             : undefined
@@ -166,10 +173,15 @@ export function validator(
   | UseFieldProps<string>['onChangeValidator']
   | UseFieldProps<string>['onBlurValidator'] {
   const abortControllerRef = { current: null }
+  let requestId = 0
 
   return setAsyncValidatorBehavior(
     function validatorHandler(value, additionalArgs?) {
+      const currentRequestId = ++requestId
+
       if (!(typeof value === 'string' && value.length >= 4)) {
+        abortControllerRef.current?.abort()
+        abortControllerRef.current = null
         return undefined // stop here
       }
 
@@ -182,6 +194,8 @@ export function validator(
       })
 
       if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
+        abortControllerRef.current?.abort()
+        abortControllerRef.current = null
         return Promise.resolve(
           new Error(
             unsupportedCountryCodeMessage.replace(
@@ -197,16 +211,19 @@ export function validator(
           const parameters = {
             countryCode: String(countryCode).toLowerCase(),
           }
-          const { data, status } = await fetchData<PostalCodeResolverData>(
-            value,
-            {
-              generalConfig,
-              parameters,
-              abortControllerRef,
-              preResponseResolver:
-                handlerConfig?.preResponseResolver ?? preResponseResolver,
-            }
-          )
+          const result = await fetchData<PostalCodeResolverData>(value, {
+            generalConfig,
+            parameters,
+            abortControllerRef,
+            preResponseResolver:
+              handlerConfig?.preResponseResolver ?? preResponseResolver,
+          })
+
+          if (!result || currentRequestId !== requestId) {
+            return undefined // stop here
+          }
+
+          const { data, status } = result
 
           const onMatch = () => {
             return new FormError('PostalCodeAndCity.invalidCode')

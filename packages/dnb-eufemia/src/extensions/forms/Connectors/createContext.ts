@@ -68,23 +68,23 @@ export type FetchDataFromAPIOptions = {
 async function fetchDataFromAPI<Data = unknown>(
   generalConfig: GeneralConfig & { fetchConfig: { url: string } },
   options?: FetchDataFromAPIOptions
-): Promise<{
-  data: Data
-  response: Response
-}> {
+): Promise<
+  | {
+      data: Data
+      response: Response
+    }
+  | undefined
+> {
   const { fetchConfig } = generalConfig
 
   const controller = options?.abortControllerRef
+  controller?.current?.abort()
+
+  const abortController = controller ? new AbortController() : null
   if (controller) {
-    if (controller.current) {
-      controller.current.abort()
-      controller.current = null
-    }
-    if (!controller.current) {
-      controller.current = new AbortController()
-    }
+    controller.current = abortController
   }
-  const { signal } = controller?.current || {}
+  const signal = abortController?.signal
 
   const fetchOptions = {
     method: 'GET',
@@ -98,8 +98,8 @@ async function fetchDataFromAPI<Data = unknown>(
   try {
     const response = await fetch(fetchConfig.url, fetchOptions)
 
-    if (controller) {
-      controller.current = null
+    if (!response) {
+      throw new Error('Please try again!')
     }
 
     return {
@@ -108,7 +108,11 @@ async function fetchDataFromAPI<Data = unknown>(
     }
   } catch (error) {
     if (!(error instanceof DOMException && error.name === 'AbortError')) {
-      return error as never
+      throw error
+    }
+  } finally {
+    if (controller?.current === abortController) {
+      controller.current = null
     }
   }
   return undefined
@@ -122,7 +126,7 @@ export type FetchDataReturnValue<Data = unknown> = {
 export async function fetchData<Data = unknown>(
   value: string,
   options: FetchDataFromAPIOptions
-): Promise<FetchDataReturnValue<Data>> {
+): Promise<FetchDataReturnValue<Data> | undefined> {
   const { generalConfig, parameters } = options || {}
 
   const result = options?.preResponseResolver?.({ value })
@@ -133,7 +137,7 @@ export async function fetchData<Data = unknown>(
   const u = generalConfig.fetchConfig.url
   const url = typeof u === 'function' ? await u(value, parameters) : u
 
-  const { data, response } = await fetchDataFromAPI<Data>(
+  const resultFromAPI = await fetchDataFromAPI<Data>(
     {
       ...generalConfig,
       fetchConfig: {
@@ -144,9 +148,11 @@ export async function fetchData<Data = unknown>(
     options
   )
 
-  if (!response) {
-    throw new Error('Please try again!')
+  if (!resultFromAPI?.response) {
+    return undefined
   }
+
+  const { data, response } = resultFromAPI
 
   // Check if the response status is in the range of 200-299
   if (!response.ok) {

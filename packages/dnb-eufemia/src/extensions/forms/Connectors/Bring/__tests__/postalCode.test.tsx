@@ -349,34 +349,11 @@ describe('postalCode', () => {
     })
 
     it('should use AbortController to cancel request while typing', async () => {
-      const mockAbort = vi.fn()
-
-      const mockSignal = {
-        aborted: false,
-        onabort: null,
-        reason: undefined,
-        throwIfAborted: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      }
-
-      globalThis.AbortController = vi.fn(function () {
-        return {
-          signal: mockSignal,
-          abort: mockAbort,
-        }
-      })
-
-      // With delay so we can abort
-      globalThis.fetch = createFetchMock(null, async () => {
-        await new Promise((resolve) => setTimeout(resolve, 10))
-      })
+      const signals = mockPendingFetch()
 
       render(
         <Form.Handler>
           <Field.PostalCodeAndCity
-            // Use SE ini order to call "fetch" twice.
             countryCode="SE"
             postalCode={{
               path: '/postalCode',
@@ -390,17 +367,84 @@ describe('postalCode', () => {
         '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
       )
 
-      await userEvent.type(postalCodeInput, '00000')
-
-      expect(mockAbort).toHaveBeenCalledTimes(1)
+      fireEvent.change(postalCodeInput, { target: { value: '0000' } })
 
       await waitFor(() => {
-        expect(
-          document.querySelector('.dnb-form-status')
-        ).toBeInTheDocument()
-        expect(
-          document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.PostalCodeAndCity.invalidCode)
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(postalCodeInput, { target: { value: '00000' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(2)
+        expect(signals[0].aborted).toBe(true)
+      })
+    })
+
+    it('should cancel autofill when the input becomes too short', async () => {
+      const signals = mockPendingFetch()
+      const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+        cityPath: '/city',
+      })
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{ path: '/postalCode', onBlur: onChange }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+
+      fireEvent.change(postalCodeInput, { target: { value: '1391' } })
+      fireEvent.blur(postalCodeInput)
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(postalCodeInput, { target: { value: '139' } })
+      fireEvent.blur(postalCodeInput)
+
+      await waitFor(() => {
+        expect(signals[0].aborted).toBe(true)
+      })
+    })
+
+    it('should cancel validation when the country becomes unsupported', async () => {
+      const signals = mockPendingFetch()
+
+      render(
+        <Form.Handler
+          defaultData={{ postalCode: '1391', countryCode: 'NO' }}
+        >
+          <Field.String path="/countryCode" className="country" />
+          <Field.PostalCodeAndCity
+            countryCode="/countryCode"
+            postalCode={{ path: '/postalCode', onChangeValidator }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+      const countryInput = document.querySelector('.country input')
+
+      fireEvent.change(postalCodeInput, { target: { value: '1392' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(countryInput, { target: { value: 'CH' } })
+
+      await waitFor(() => {
+        expect(signals[0].aborted).toBe(true)
       })
     })
 
@@ -1109,6 +1153,23 @@ describe('postalCode', () => {
     })
   })
 })
+
+function mockPendingFetch() {
+  const signals: AbortSignal[] = []
+  globalThis.fetch = vi.fn((_, { signal }: RequestInit) => {
+    signals.push(signal)
+
+    return new Promise<Response>((resolve, reject) => {
+      signal.addEventListener('abort', () => {
+        reject(
+          new DOMException('The operation was aborted.', 'AbortError')
+        )
+      })
+    })
+  })
+
+  return signals
+}
 
 function createFetchMock(overwrite = null, delay = null) {
   return vi.fn(async () => {
