@@ -1121,6 +1121,18 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         }
       }
 
+      const distinctSearchWords = new Set<string>()
+      searchWords = searchWords.filter((word) => {
+        const normalizedWord = word.toLowerCase()
+
+        if (distinctSearchWords.has(normalizedWord)) {
+          return false
+        }
+
+        distinctSearchWords.add(normalizedWord)
+        return true
+      })
+
       const getWordBoundary = (wordIndex: number) =>
         startsWithMatch && wordIndex === 0 ? '^' : snParam ? '' : '^|\\s'
 
@@ -1201,7 +1213,11 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
       const mappedIndex: Array<
         | DrawerListDataArrayObject
-        | { totalScore: number; item: SearchIndexItem }
+        | {
+            matchedWordCount: number
+            totalScore: number
+            item: SearchIndexItem
+          }
       > = currentSearchIndex.map((item) => {
         const listOfFoundWords = findSearchWords(item.contentChunk)
 
@@ -1221,7 +1237,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
           hasMultipleNumericTerms &&
           listOfFoundWords.length !== searchWords.length
         ) {
-          return { totalScore: 0, item }
+          return { matchedWordCount: 0, totalScore: 0, item }
         }
 
         if (typeof item.dataItem === 'string') {
@@ -1407,19 +1423,29 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         }
 
         return {
+          matchedWordCount: listOfFoundWords.length,
           totalScore,
           item,
         }
       })
 
       if (!skipFilterRef.current && !skipFilter) {
-        type ScoredItem = { totalScore: number; item: SearchIndexItem }
+        type ScoredItem = {
+          matchedWordCount: number
+          totalScore: number
+          item: SearchIndexItem
+        }
         const scored = (mappedIndex as ScoredItem[]).filter(
           ({ totalScore }) => totalScore
         )
 
         if (!skipReorderRef.current && !skipReorder) {
-          scored.sort(({ totalScore: a }, { totalScore: b }) => b - a)
+          scored.sort(
+            (
+              { matchedWordCount: matchedWordsA, totalScore: scoreA },
+              { matchedWordCount: matchedWordsB, totalScore: scoreB }
+            ) => matchedWordsB - matchedWordsA || scoreB - scoreA
+          )
         }
 
         return scored.map(
