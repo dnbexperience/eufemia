@@ -6,7 +6,6 @@
 import { useContext } from 'react'
 import type { HTMLProps, MouseEvent, ReactNode } from 'react'
 import { useSpacing } from '../space/SpacingUtils'
-import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorList from './StepIndicatorList'
 import StepIndicatorProgressBar from './StepIndicatorProgressBar'
@@ -143,9 +142,7 @@ function StepIndicator({
         })}
       >
         <StepIndicatorProgressBar />
-        <StepIndicatorTriggerButton
-          isNested={useContext(CardContext)?.isNested}
-        />
+        <StepIndicatorTriggerButton />
         <StepIndicatorList />
         <StepIndicatorStatus status={status} statusState={statusState} />
       </div>

@@ -137,3 +137,16 @@ describe.each(['ui', 'sbanken'])(`StepIndicator for %s`, (themeName) => {
     })
   })
 })
+
+describe(`StepIndicator`, () => {
+  setupPageScreenshot({
+    themeName: 'ui',
+    url: '/uilib/components/step-indicator/demos/',
+  })
+
+  it('have to match inside a Card', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="step-indicator-inside-card"]',
+    })
+  })
+})

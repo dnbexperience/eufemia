@@ -24,12 +24,10 @@ const chevronIcon = Icon.transition({
 })
 
 type StepIndicatorTriggerButtonProps = ButtonProps & {
-  isNested?: boolean
   className?: string
 }
 function StepIndicatorTriggerButton({
   className,
-  isNested: _isNested,
   ...rest
 }: StepIndicatorTriggerButtonProps) {
   const { data: _data, ...contextWithoutData } = useContext(

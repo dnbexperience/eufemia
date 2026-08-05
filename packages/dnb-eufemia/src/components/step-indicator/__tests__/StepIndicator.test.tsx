@@ -16,6 +16,7 @@ import type {
   StepIndicatorProps,
 } from '../StepIndicator'
 import StepIndicator from '../StepIndicator'
+import Card from '../../card/Card'
 import { getStepIndicatorBulletType } from '../StepIndicatorItem'
 
 beforeEach(() => {
@@ -809,5 +810,33 @@ describe('StepIndicator scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('StepIndicator inside a Card', () => {
+  it('should not outset the inner list Card when nested in a parent Card', () => {
+    render(
+      <Card outset>
+        <StepIndicator
+          mode="static"
+          expandedInitially
+          data={stepIndicatorListData}
+        />
+      </Card>
+    )
+
+    const parentCard = document.querySelector('.dnb-card')
+    const innerListCard = parentCard.querySelector(
+      '.dnb-step-indicator__card'
+    )
+
+    expect(innerListCard).toBeInTheDocument()
+
+    expect(parentCard).toHaveStyle('--outset--medium: 1')
+    expect(parentCard).toHaveStyle('--outset--large: 1')
+
+    expect(innerListCard).toHaveStyle('--outset--small: 0')
+    expect(innerListCard).toHaveStyle('--outset--medium: 0')
+    expect(innerListCard).toHaveStyle('--outset--large: 0')
   })
 })
