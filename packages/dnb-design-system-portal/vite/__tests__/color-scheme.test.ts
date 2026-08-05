@@ -44,10 +44,7 @@ describe('color scheme FOUC prevention', () => {
               : 'light'
           }
           document.documentElement.classList.add('eufemia-scope--portal')
-          if (s) {
-            ;(globalThis as Record<string, unknown>).__eufemiaColorScheme =
-              s
-          }
+          ;(globalThis as Record<string, unknown>).__eufemiaColorScheme = s
         } catch (e) {
           // ignore
         }
@@ -81,10 +78,7 @@ describe('color scheme FOUC prevention', () => {
               : 'light'
           }
           document.documentElement.classList.add('eufemia-scope--portal')
-          if (s) {
-            ;(globalThis as Record<string, unknown>).__eufemiaColorScheme =
-              s
-          }
+          ;(globalThis as Record<string, unknown>).__eufemiaColorScheme = s
         } catch (e) {
           // ignore
         }
@@ -112,10 +106,7 @@ describe('color scheme FOUC prevention', () => {
               : 'light'
           }
           document.documentElement.classList.add('eufemia-scope--portal')
-          if (s) {
-            ;(globalThis as Record<string, unknown>).__eufemiaColorScheme =
-              s
-          }
+          ;(globalThis as Record<string, unknown>).__eufemiaColorScheme = s
         } catch (e) {
           // ignore
         }
@@ -143,10 +134,7 @@ describe('color scheme FOUC prevention', () => {
               : 'light'
           }
           document.documentElement.classList.add('eufemia-scope--portal')
-          if (s) {
-            ;(globalThis as Record<string, unknown>).__eufemiaColorScheme =
-              s
-          }
+          ;(globalThis as Record<string, unknown>).__eufemiaColorScheme = s
         } catch (e) {
           // ignore
         }
