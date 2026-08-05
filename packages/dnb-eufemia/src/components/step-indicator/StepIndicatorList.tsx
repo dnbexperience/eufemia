@@ -43,7 +43,7 @@ function StepIndicatorList() {
         }
       }}
     >
-      <Space innerSpace={{ top: 'x-small' }}>
+      <Space innerSpace={{ top: 'small' }}>
         <Card
           className="dnb-step-indicator__card"
           backgroundColor="var(--step-indicator-trigger-content-background)"
