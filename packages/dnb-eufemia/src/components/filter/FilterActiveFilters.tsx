@@ -74,6 +74,7 @@ function FilterActiveFilters({
           <Tag
             key={filterKey}
             variant="removable"
+            color="primary"
             onClick={() => handleRemove(filterKey)}
           >
             {tagLabel}

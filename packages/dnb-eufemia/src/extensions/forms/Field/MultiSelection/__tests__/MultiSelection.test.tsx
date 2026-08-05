@@ -2521,6 +2521,43 @@ describe('MultiSelection', () => {
       // Option 3 - enabled, should be removable
       expect(tags[2]).toHaveClass('dnb-tag--removable')
     })
+
+    it('gives enabled selected tags primary appearance but not disabled ones', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2', disabled: true },
+      ]
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            value={['option1', 'option2']}
+            showSelectedTags
+          />
+        </Provider>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-forms-field-multi-selection__items')
+        ).toBeInTheDocument()
+      })
+
+      const tags = document.querySelectorAll(
+        '.dnb-forms-field-multi-selection__selected-items .dnb-tag'
+      )
+      expect(tags).toHaveLength(2)
+
+      // Option 1 - enabled, should have primary and removable appearance
+      expect(tags[0]).toHaveClass('dnb-tag--primary')
+      expect(tags[0]).toHaveClass('dnb-tag--removable')
+
+      // Option 2 - disabled, should not have primary appearance
+      expect(tags[1]).not.toHaveClass('dnb-tag--primary')
+    })
   })
 
   describe('external value sync', () => {

@@ -161,6 +161,68 @@
     }
   }
 
+  &--primary {
+    --tag-icon-fill-color: var(--token-color-background-neutral);
+    --tag-icon-stroke-color: var(--token-color-icon-action);
+    --tag-icon-border-color: var(--token-color-background-neutral);
+
+    &.dnb-button {
+      color: var(--token-color-text-neutral-inverse);
+      background-color: var(--token-color-background-action);
+
+      @include utilities.fakeBorder(transparent);
+    }
+
+    &.dnb-tag--interactive.dnb-button {
+      @include utilities.focusVisible() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action);
+        --tag-icon-border-color: var(--token-color-stroke-action-focus);
+
+        outline: none;
+        color: var(--token-color-text-neutral-inverse);
+        background-color: var(--token-color-background-action);
+
+        @include utilities.fakeBorder(
+          var(--token-color-stroke-action-focus),
+          0.125rem,
+          inset
+        );
+      }
+
+      @include utilities.hover() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action);
+
+        color: var(--token-color-text-neutral-inverse);
+        background-color: var(--token-color-background-action-hover);
+
+        @include utilities.fakeBorder(transparent);
+      }
+
+      @include utilities.active() {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-icon-action);
+
+        color: var(--token-color-text-neutral-inverse);
+        background-color: var(--token-color-background-action-pressed);
+
+        @include utilities.fakeBorder(transparent);
+      }
+
+      &[disabled] {
+        --tag-icon-fill: var(--token-color-background-neutral);
+        --tag-icon-stroke: var(--token-color-stroke-action-disabled);
+        --tag-icon-border-color: var(--token-color-stroke-action-disabled);
+
+        color: var(--token-color-component-button-text-action-disabled);
+        background-color: var(--token-color-background-action-disabled);
+
+        @include utilities.fakeBorder(transparent);
+      }
+    }
+  }
+
   // Default space between tags
   &__group {
     display: inline-flex;
