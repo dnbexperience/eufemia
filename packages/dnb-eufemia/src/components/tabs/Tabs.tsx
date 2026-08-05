@@ -410,6 +410,9 @@ function TabsComponent(ownProps: TabsProps) {
   const [isFirst, setIsFirst] = useState<boolean | undefined>(undefined)
   const [isLast, setIsLast] = useState<boolean | undefined>(undefined)
 
+  // True once an external <Tabs.Content> tabpanel is detected in the DOM.
+  const [hasTabPanel, setHasTabPanel] = useState(false)
+
   // Track previous props for getDerivedStateFromProps equivalent
   const [prevDataSource, setPrevDataSource] = useState(
     ownProps.data || ownProps.children
@@ -944,6 +947,11 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }, [selectedKey, data])
 
+  // Detect an external <Tabs.Content> tabpanel so the selected tab can link to it.
+  useIsomorphicLayoutEffect(() => {
+    setHasTabPanel(Boolean(document.getElementById(`${_id}-content`)))
+  }, [_id, selectedKey, data])
+
   // Navigation handlers
   const focusFirstTab = (e: KeyboardEvent) => {
     const key = dataRef.current[0].key
@@ -1305,7 +1313,11 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         const itemParams: Record<string, unknown> = { to, href }
         const isFocus = currentFocusKey == key
         const isSelected = currentSelectedKey == key
-        if (isSelected) {
+        // Only reference a tabpanel that actually exists.
+        if (
+          isSelected &&
+          (hasTabPanel || Boolean(getContent(currentSelectedKey)))
+        ) {
           itemParams['aria-controls'] = `${_id}-content`
         }
 

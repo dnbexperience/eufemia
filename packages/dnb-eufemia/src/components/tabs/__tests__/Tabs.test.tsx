@@ -389,6 +389,72 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   })
 })
 
+describe('Tabs aria-controls', () => {
+  it('references the tabpanel from the selected tab when internal content is provided', () => {
+    render(
+      <Tabs
+        id="internal"
+        data={tablistData}
+        selectedKey={startupSelectedKey}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const selectedTab = document.querySelector(
+      `button[data-tab-key="${startupSelectedKey}"]`
+    )
+
+    expect(selectedTab.getAttribute('aria-controls')).toBe(
+      'internal-content'
+    )
+    expect(document.getElementById('internal-content')).toBeTruthy()
+  })
+
+  it('references the tabpanel provided by an external Tabs.Content', () => {
+    render(
+      <>
+        <Tabs
+          id="linked"
+          data={tablistData}
+          selectedKey={startupSelectedKey}
+        />
+        <Tabs.Content id="linked">
+          {({ key }) => <h2>{key}</h2>}
+        </Tabs.Content>
+      </>
+    )
+
+    const selectedTab = document.querySelector(
+      `button[data-tab-key="${startupSelectedKey}"]`
+    )
+
+    expect(selectedTab.getAttribute('aria-controls')).toBe(
+      'linked-content'
+    )
+    expect(document.getElementById('linked-content')).toBeTruthy()
+  })
+
+  it('does not set a dangling aria-controls when no tabpanel is rendered', () => {
+    render(
+      <Tabs
+        id="no-content"
+        data={tablistData}
+        selectedKey={startupSelectedKey}
+      />
+    )
+
+    const selectedTab = document.querySelector(
+      `button[data-tab-key="${startupSelectedKey}"]`
+    )
+
+    // Without content, no tabpanel exists, so aria-controls must be omitted
+    // to avoid referencing a non-existent element (WCAG 4.1.2).
+    expect(document.getElementById('no-content-content')).toBeNull()
+    expect(selectedTab.getAttribute('aria-controls')).toBeNull()
+  })
+})
+
 describe('TabList component', () => {
   it('has to have the right amount of rendered components', () => {
     render(
