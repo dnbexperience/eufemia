@@ -334,7 +334,7 @@ export default function useFieldError<Value>({
       errorMessages &&
       cache.extendedErrorMessages &&
       Object.values(cache.errorMessages || {}).join('') ===
-        Object.values(errorMessages || {}).join('')
+        Object.values(errorMessages).join('')
     ) {
       return cache.extendedErrorMessages
     }
