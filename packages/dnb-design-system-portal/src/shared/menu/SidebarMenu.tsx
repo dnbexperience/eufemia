@@ -703,7 +703,9 @@ const prepareNav = ({
       )
 
       const level = slug.split('/').filter(Boolean).length
-      level > countLevels ? (countLevels = level) : countLevels
+      if (level > countLevels) {
+        countLevels = level
+      }
 
       return {
         title,
@@ -869,27 +871,22 @@ function checkIfActiveItem(
     return true
   }
 
-  if (showTabs) {
-    // If a page exposes tabs, the last slug segment is usually the active tab.
-    // Remove it from currentPath to determine the active parent item.
-    const slugs = currentPath.split('/').filter(Boolean)
-    const lastSlug = slugs[slugs.length - 1]
-    const currentPathWithoutTabSlug = currentPath.replace(
-      `/${lastSlug}`,
-      ''
-    )
+  // If a page exposes tabs, the last slug segment is usually the active tab.
+  // Remove it from currentPath to determine the active parent item.
+  const slugs = currentPath.split('/').filter(Boolean)
+  const lastSlug = slugs[slugs.length - 1]
+  const currentPathWithoutTabSlug = currentPath.replace(`/${lastSlug}`, '')
 
-    if (itemPath === currentPathWithoutTabSlug) {
-      // In addition, because we show the info.mdx without /info
-      // we don't want the "parent" to be marked as active as well.
-      // So we get tabs and check for that state as well
-      const found = (tabs || defaultTabsValue).some(({ key }) => {
-        return '/' + lastSlug === key
-      })
+  if (itemPath === currentPathWithoutTabSlug) {
+    // In addition, because we show the info.mdx without /info
+    // we don't want the "parent" to be marked as active as well.
+    // So we get tabs and check for that state as well
+    const found = (tabs || defaultTabsValue).some(({ key }) => {
+      return '/' + lastSlug === key
+    })
 
-      if (found) {
-        return true
-      }
+    if (found) {
+      return true
     }
   }
 
