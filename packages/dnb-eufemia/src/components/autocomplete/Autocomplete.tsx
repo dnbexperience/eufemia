@@ -701,6 +701,11 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const modeRef = useRef(mode)
   const hasFocusRef = useRef(hasFocus)
 
+  // Set when a selection closes the drawer, so a data-prop change caused by
+  // that selection (e.g. a fetch in the parent) does not immediately reopen it.
+  // Cleared when the user types or genuinely focuses the input again.
+  const preventReopenRef = useRef(false)
+
   // Keep refs in sync with state for use in callbacks
   searchIndexRef.current = searchIndex
   inputValueRef.current = inputValue
@@ -1692,11 +1697,19 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               const typed = typedInputValueRef.current
 
               if (typed?.length > 0) {
-                const filteredData: DrawerListInternalData =
-                  runFilterWithSideEffects(typed)
-                if (countData(filteredData) === 0) {
-                  if (modeRef.current !== 'async') {
-                    showNoOptionsItem()
+                // Skip re-running the visible filter (which can reopen the
+                // drawer) when the drawer is closed because of a just-made
+                // selection. It still runs while typing or when already open.
+                if (
+                  drawerListRef.current.open ||
+                  !preventReopenRef.current
+                ) {
+                  const filteredData: DrawerListInternalData =
+                    runFilterWithSideEffects(typed)
+                  if (countData(filteredData) === 0) {
+                    if (modeRef.current !== 'async') {
+                      showNoOptionsItem()
+                    }
                   }
                 }
               } else {
@@ -1810,6 +1823,9 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       setTypedInputValue(val)
       setInputValueState(val)
 
+      // Typing is a clear intent to (re)open and filter the list.
+      preventReopenRef.current = false
+
       dispatchCustomElementEvent(propsRef.current, 'onType', {
         value: val,
         event,
@@ -1921,6 +1937,10 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       if (suppressFocusHandlerRef.current) {
         return undefined // stop here
       }
+
+      // A genuine focus (not the programmatic refocus after a selection, which
+      // is suppressed above) should allow focus-driven data fill to open again.
+      preventReopenRef.current = false
 
       if (!hasFocusRef.current) {
         if (openOnFocus && hasValidData()) {
@@ -2159,6 +2179,10 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
           closingFromChangeRef.current = true
           setHidden()
 
+          // Prevent a data-prop change triggered by this selection (e.g. a
+          // fetch in the parent) from reopening the just-closed drawer.
+          preventReopenRef.current = true
+
           // Do this, so screen readers get a NEW focus later on
           // So we first need a blur of the input basically
           focusDrawerList()
@@ -2286,7 +2310,12 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       lastUpdateDataRef.current = null
 
       updateData(props.data)
-      if (drawerList.open || hasFocus) {
+
+      // Refresh the visible list when the drawer is open, or when the input is
+      // focused and the data change is not the result of a just-made selection
+      // (e.g. focus-driven data fill should open the list, but a fetch caused
+      // by a selection should not reopen the just-closed drawer).
+      if (drawerList.open || (hasFocus && !preventReopenRef.current)) {
         // Re-run filter after updating the search index so highlight
         // and visibility are handled consistently.
         setSearchIndex({ overwriteSearchIndex: true }, () => {
