@@ -332,7 +332,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   )
 
   const statusContent = useMemo(() => {
-    if (typeof error !== 'undefined' || (errorRef.current && !error)) {
+    if (typeof error !== 'undefined' || errorRef.current) {
       errorRef.current = error
       setInternalRecord({
         identifier: blockId,
