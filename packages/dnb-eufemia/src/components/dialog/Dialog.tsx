@@ -95,7 +95,7 @@ function Dialog(localProps: DialogAllProps) {
       preventOverlayClose !== undefined ? preventOverlayClose : true
   }
 
-  if (fullscreen === undefined && fullscreen !== false) {
+  if (fullscreen === undefined) {
     currentFullscreen = variant === 'information' ? 'auto' : false
   }
 
