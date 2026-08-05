@@ -987,7 +987,7 @@ export const KeyboardNavigation = () => (
             <tbody>
               <tr>
                 <Td>
-                  <Field.Name labelSrOnly value="Ola" />
+                  <Field.Name label="Name" labelSrOnly value="Ola" />
                 </Td>
                 <Td>
                   <Field.Email labelSrOnly value="ola@example.no" />
@@ -996,13 +996,19 @@ export const KeyboardNavigation = () => (
                   <Button
                     variant="tertiary"
                     icon={trashIcon}
+                    aria-label="Delete row"
                     tooltip="Delete row"
                   />
                 </Td>
               </tr>
               <tr>
                 <Td>
-                  <Field.Name labelSrOnly value="Kari" multiline />
+                  <Field.Name
+                    label="Name"
+                    labelSrOnly
+                    value="Kari"
+                    multiline
+                  />
                 </Td>
                 <Td>
                   <Field.Email
@@ -1015,6 +1021,7 @@ export const KeyboardNavigation = () => (
                   <Button
                     variant="tertiary"
                     icon={trashIcon}
+                    aria-label="Delete row"
                     tooltip="Delete row"
                   />
                 </Td>
@@ -1042,6 +1049,7 @@ export const KeyboardNavigation = () => (
                   <Button
                     variant="tertiary"
                     icon={trashIcon}
+                    aria-label="Delete row"
                     tooltip="Delete row"
                   />
                 </Td>
@@ -1053,6 +1061,7 @@ export const KeyboardNavigation = () => (
                   <Button
                     variant="tertiary"
                     icon={trashIcon}
+                    aria-label="Delete row"
                     tooltip="Delete row"
                   />
                 </Td>
@@ -1923,6 +1932,7 @@ export const InCard = () => (
                     <Td align="right">
                       <Button
                         icon={trashIcon}
+                        aria-label="Remove from list"
                         tooltip="Remove from list"
                         variant="tertiary"
                         bounding

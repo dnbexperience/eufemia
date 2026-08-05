@@ -498,6 +498,7 @@ export const ButtonOnDarkSurface = () => (
         data-visual-test="button-tertiary-icon-on-dark"
         variant="tertiary"
         icon="bell"
+        title="Notifications"
       />
     </Section>
   </ComponentBox>
