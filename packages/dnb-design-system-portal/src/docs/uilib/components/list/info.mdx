@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import * as Examples from './Examples'
+
 ## Import
 
 ```tsx
@@ -96,21 +98,7 @@ If you extract a row into your own component, the container can't tell it is a l
 
 Set `_supportsSpacingProps = true` on your component to opt in, and forward the props to the underlying item so spacing (such as the `separated` variant gap) still applies:
 
-```tsx
-import { List } from '@dnb/eufemia'
-
-function CustomRow(props) {
-  return <List.Item.Action {...props} />
-}
-CustomRow._supportsSpacingProps = true
-
-render(
-  <List.Container>
-    <CustomRow title="Row one" />
-    <CustomRow title="Row two" />
-  </List.Container>
-)
-```
+<Examples.CustomItemComponent />
 
 Keep item components as direct children of `List.Container`. Grouping rows inside a wrapper (for example via `Flex.withChildren`) nests them in an extra `<ul>` and produces invalid list markup.
 

@@ -952,3 +952,26 @@ export const WithShowMoreButton = () => {
     </ComponentBox>
   )
 }
+
+export const CustomItemComponent = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        // Mark the component so List.Container treats it as a list item
+        // instead of wrapping it in an extra element.
+        const CustomListItem = (props) => {
+          return <List.Item.Action {...props} />
+        }
+        CustomListItem._supportsSpacingProps = true
+
+        return (
+          <List.Container>
+            <CustomListItem title="Row one" />
+            <CustomListItem title="Row two" />
+            <CustomListItem title="Row three" />
+          </List.Container>
+        )
+      }}
+    </ComponentBox>
+  )
+}
