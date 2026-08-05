@@ -391,6 +391,9 @@ export default function useFieldValidation<Value>({
 
   // -- onChange validator orchestration --
 
+  const onChangeValidationIdRef = useRef(0)
+  const onBlurPathValidationIdRef = useRef(0)
+
   const revealOnChangeValidatorResult = useCallback(
     ({
       result,
@@ -455,16 +458,44 @@ export default function useFieldValidation<Value>({
       return {}
     }
 
+    const validationId = ++onChangeValidationIdRef.current
     const tmpValue = valueRef.current
     const validationResult = isAsync(onChangeValidatorRef.current)
       ? callValidatorFnAsync(onChangeValidatorRef.current)
       : callValidatorFnSync(onChangeValidatorRef.current)
     const runAsync = validationResult instanceof Promise
-    const result = runAsync ? await validationResult : validationResult
+
+    if (runAsync) {
+      defineAsyncProcess('onChangeValidator')
+      setFieldState('validating')
+      hideError()
+    }
+
+    const result = ensureErrorMessageObject(
+      runAsync ? await validationResult : validationResult
+    )
+    const isCurrent = validationId === onChangeValidationIdRef.current
+
+    if (
+      isCurrent &&
+      (runAsync || hasAsyncValidatorBehavior(onChangeValidatorRef.current))
+    ) {
+      defineAsyncProcess(undefined)
+      setFieldState(result instanceof Error ? 'error' : 'complete')
+    }
 
     const unchangedValue = tmpValue === valueRef.current
-    return { result, unchangedValue, runAsync }
-  }, [callValidatorFnAsync, callValidatorFnSync, valueRef])
+
+    return { result, unchangedValue, runAsync, isCurrent }
+  }, [
+    callValidatorFnAsync,
+    callValidatorFnSync,
+    defineAsyncProcess,
+    ensureErrorMessageObject,
+    hideError,
+    setFieldState,
+    valueRef,
+  ])
 
   const startOnChangeValidatorValidation = useCallback(
     async ({
@@ -476,6 +507,7 @@ export default function useFieldValidation<Value>({
         return undefined
       }
 
+      const validationId = ++onChangeValidationIdRef.current
       const tmpValue = valueRef.current
       const validationResult = isAsync(onChangeValidatorRef.current)
         ? callValidatorFnAsync(onChangeValidatorRef.current)
@@ -491,7 +523,23 @@ export default function useFieldValidation<Value>({
         hideError()
       }
 
-      const result = runAsync ? await validationResult : validationResult
+      const result = ensureErrorMessageObject(
+        runAsync ? await validationResult : validationResult
+      )
+      const isCurrent = validationId === onChangeValidationIdRef.current
+
+      if (!isCurrent) {
+        return { result: undefined, isCurrent }
+      }
+
+      if (
+        !runAsync &&
+        hasAsyncValidatorBehavior(onChangeValidatorRef.current)
+      ) {
+        defineAsyncProcess(undefined)
+        setFieldState(result instanceof Error ? 'error' : 'complete')
+      }
+
       const unchangedValue = tmpValue === valueRef.current
 
       revealOnChangeValidatorResult({
@@ -508,6 +556,7 @@ export default function useFieldValidation<Value>({
       callValidatorFnSync,
       clearErrorState,
       defineAsyncProcess,
+      ensureErrorMessageObject,
       hideError,
       revealOnChangeValidatorResult,
       setFieldState,
@@ -520,8 +569,12 @@ export default function useFieldValidation<Value>({
       return undefined // stop here
     }
 
-    const { result, unchangedValue, runAsync } =
+    const { result, unchangedValue, runAsync, isCurrent } =
       await callOnChangeValidator()
+
+    if (!isCurrent) {
+      return undefined // stop here
+    }
 
     if (
       String(result) !==
@@ -559,21 +612,46 @@ export default function useFieldValidation<Value>({
         return {}
       }
 
+      const validationId = ++onBlurPathValidationIdRef.current
       const value = transformers.current.toEvent(
         overrideValue ?? valueRef.current,
         'onBlurValidator'
       )
-
-      let result = isAsync(onBlurValidatorRef.current)
-        ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
+      const validationResult = isAsync(onBlurValidatorRef.current)
+        ? callValidatorFnAsync(onBlurValidatorRef.current, value)
         : callValidatorFnSync(onBlurValidatorRef.current, value)
-      if (result instanceof Promise) {
-        result = await result
+      const runAsync = validationResult instanceof Promise
+
+      if (runAsync) {
+        defineAsyncProcess('onBlurValidator')
+        setFieldState('validating')
       }
 
-      return { result }
+      const result = ensureErrorMessageObject(
+        runAsync ? await validationResult : validationResult
+      )
+      const isCurrent = validationId === onBlurPathValidationIdRef.current
+
+      if (
+        isCurrent &&
+        !runAsync &&
+        hasAsyncValidatorBehavior(onBlurValidatorRef.current)
+      ) {
+        defineAsyncProcess(undefined)
+        setFieldState(result instanceof Error ? 'error' : 'complete')
+      }
+
+      return { result, runAsync, isCurrent }
     },
-    [callValidatorFnAsync, callValidatorFnSync, transformers, valueRef]
+    [
+      callValidatorFnAsync,
+      callValidatorFnSync,
+      defineAsyncProcess,
+      ensureErrorMessageObject,
+      setFieldState,
+      transformers,
+      valueRef,
+    ]
   )
 
   const revealOnBlurValidatorResult = useCallback(
@@ -629,9 +707,14 @@ export default function useFieldValidation<Value>({
           setFieldState('validating')
         }
 
-        const result = runAsync
-          ? ensureErrorMessageObject(await validationResult)
-          : validationResult
+        const result = ensureErrorMessageObject(
+          runAsync ? await validationResult : validationResult
+        )
+
+        if (!runAsync) {
+          defineAsyncProcess(undefined)
+          setFieldState(result instanceof Error ? 'error' : 'complete')
+        }
 
         revealOnBlurValidatorResult({ result, runAsync })
 
@@ -673,7 +756,11 @@ export default function useFieldValidation<Value>({
       return undefined // stop here
     }
 
-    const { result } = await callOnBlurValidator()
+    const { result, runAsync, isCurrent } = await callOnBlurValidator()
+
+    if (!isCurrent) {
+      return undefined // stop here
+    }
 
     if (
       String(result) !==
@@ -681,7 +768,7 @@ export default function useFieldValidation<Value>({
       revealErrorRef.current
     ) {
       if (result) {
-        revealOnBlurValidatorResult({ result })
+        revealOnBlurValidatorResult({ result, runAsync })
       } else {
         hideError()
         clearErrorState()
@@ -800,9 +887,14 @@ export default function useFieldValidation<Value>({
           onChangeValidatorRef.current &&
           (changedRef.current || validateInitially || validateUnchanged)
         ) {
-          const { result } = await startOnChangeValidatorValidation({
-            keepPendingForAsyncBehavior,
-          })
+          const { result, isCurrent = true } =
+            await startOnChangeValidatorValidation({
+              keepPendingForAsyncBehavior,
+            })
+
+          if (!isCurrent) {
+            return undefined // stop here
+          }
 
           if (result instanceof Error) {
             initiator = 'onChangeValidator'

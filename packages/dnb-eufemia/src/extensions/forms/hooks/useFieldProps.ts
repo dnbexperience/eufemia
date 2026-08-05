@@ -256,6 +256,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = (inFieldBlock ? fieldBlockContext : {}) as FieldBlockContextProps
+  const setFieldStateFieldBlockRef = useRef(setFieldStateFieldBlock)
+  setFieldStateFieldBlockRef.current = setFieldStateFieldBlock
   const {
     activeIndex,
     activeIndexRef,
@@ -1126,6 +1128,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         isMounted: false,
         isPreMounted: false,
       })
+      setFieldStateFieldBlockRef.current?.(identifier, undefined)
       setMountedFieldSnapshot?.(identifier, { isMounted: false })
     }
   }, [
