@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useMemo } from 'react'
+import { useCallback, useContext, useEffect } from 'react'
 import DataContext from '../Context'
 import type { EventListenerCall } from '../Context'
 
@@ -9,17 +9,17 @@ export default function useEventListener(
 ) {
   const { setFieldEventListener } = useContext(DataContext)
 
-  useMemo(() => {
-    setFieldEventListener?.(path, id, listener)
-  }, [id, listener, path, setFieldEventListener])
-
   const removeEvent = useCallback(() => {
     setFieldEventListener?.(path, id, listener, {
       remove: true,
     })
   }, [id, listener, path, setFieldEventListener])
 
-  useEffect(() => removeEvent, [removeEvent])
+  useEffect(() => {
+    setFieldEventListener?.(path, id, listener)
+
+    return removeEvent
+  }, [id, listener, path, removeEvent, setFieldEventListener])
 
   return { removeEvent }
 }
