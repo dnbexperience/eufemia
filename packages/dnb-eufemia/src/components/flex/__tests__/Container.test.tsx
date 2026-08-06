@@ -1,14 +1,18 @@
 import { act, useRef } from 'react'
 import type { RefObject } from 'react'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia, matchMedia } from 'mock-match-media'
+import { defaultQueries } from '../../../shared/useMedia'
 import Flex from '../Flex'
 import { useSpacing } from '../../space/SpacingUtils'
 import type { SpaceProps } from '../../Space'
 import { Form } from '../../../extensions/forms'
 import H1 from '../../../elements/H1'
+import AriaLive from '../../aria-live/AriaLive'
+import HeightAnimation from '../../height-animation/HeightAnimation'
+import Space from '../../space/Space'
 import P from '../../../elements/P'
 
 describe('Flex.Container', () => {
@@ -58,6 +62,21 @@ describe('Flex.Container', () => {
     expect(element).toHaveClass('dnb-flex-container--wrap')
   })
 
+  it('should preserve the legacy layout engine by default', () => {
+    render(
+      <Flex.Vertical>
+        <Flex.Item>First</Flex.Item>
+        <Flex.Item>Second</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+
+    expect(container).not.toHaveClass('dnb-flex-container--css-gap')
+    expect(container.children[0]).toHaveClass('dnb-space__top--zero')
+    expect(container.children[1]).toHaveClass('dnb-space__top--small')
+  })
+
   it('should contain given classes', () => {
     render(
       <Flex.Container className="custom-class">
@@ -68,7 +87,7 @@ describe('Flex.Container', () => {
     const element = document.querySelector('.dnb-flex-container')
 
     expect(element).toHaveClass(
-      'dnb-space dnb-flex-container dnb-flex-container--row-gap-small custom-class dnb-flex-container--direction-horizontal dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      'dnb-space dnb-flex-container dnb-flex-container--direction-horizontal dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--row-gap-small dnb-flex-container--divider-space custom-class',
       { exact: true }
     )
   })
@@ -152,7 +171,11 @@ describe('Flex.Container', () => {
 
   it('should add divider between children', () => {
     const { rerender } = render(
-      <Flex.Container direction="vertical" divider="space">
+      <Flex.Container
+        layoutEngine="legacy"
+        direction="vertical"
+        divider="space"
+      >
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -175,7 +198,11 @@ describe('Flex.Container', () => {
     expect(children[2]).toHaveClass('dnb-space__bottom--zero')
 
     rerender(
-      <Flex.Container direction="vertical" divider="line">
+      <Flex.Container
+        layoutEngine="legacy"
+        direction="vertical"
+        divider="line"
+      >
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -209,9 +236,78 @@ describe('Flex.Container', () => {
     expect(children[4]).toHaveClass('dnb-flex-item')
   })
 
+  it('should render CSS dividers without inserting React children', () => {
+    const { rerender } = render(
+      <Flex.Vertical layoutEngine="css" divider="line">
+        <Flex.Item>First</Flex.Item>
+        <Flex.Item>Second</Flex.Item>
+        <Flex.Item>Third</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+
+    expect(container.children).toHaveLength(3)
+    expect(container.querySelector('hr')).toBeNull()
+    expect(container).toHaveClass('dnb-flex-container--divider-line')
+
+    rerender(
+      <Flex.Vertical layoutEngine="css" divider="line-framed">
+        <Flex.Item>First</Flex.Item>
+        <Flex.Item>Second</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    expect(container.children).toHaveLength(2)
+    expect(container.querySelector('hr')).toBeNull()
+    expect(container).toHaveClass(
+      'dnb-flex-container--divider-line-framed'
+    )
+  })
+
+  it('should not use child pseudo-elements for CSS dividers', () => {
+    render(
+      <Flex.Vertical layoutEngine="css" divider="line">
+        <Flex.Item>First</Flex.Item>
+        <Flex.Item>Second</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const container = document.querySelector(
+      '.dnb-flex-container'
+    ) as HTMLElement
+
+    expect(container.children).toHaveLength(2)
+    expect(
+      container.querySelector('.dnb-flex-container__divider')
+    ).toBeNull()
+  })
+
+  it('should use rendered heading metadata in CSS divider mode', () => {
+    render(
+      <Flex.Vertical layoutEngine="css" divider="line">
+        <H1>Heading</H1>
+        <Flex.Item>Content</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+
+    expect(container.children).toHaveLength(2)
+    expect(container.children[0]).toHaveAttribute(
+      'data-flex-item-type',
+      'heading'
+    )
+    expect(container.querySelector('hr')).toBeNull()
+  })
+
   it('should not wrap intrinsic elements with extra Space when wrapChildrenInSpace is false', () => {
     render(
-      <Flex.Container direction="vertical" wrapChildrenInSpace={false}>
+      <Flex.Container
+        layoutEngine="legacy"
+        direction="vertical"
+        wrapChildrenInSpace={false}
+      >
         <p>Alpha</p>
         <p>Beta</p>
       </Flex.Container>
@@ -236,7 +332,11 @@ describe('Flex.Container', () => {
     const TestComponent = () => <div className="test-item">content</div>
 
     render(
-      <Flex.Container direction="vertical" wrapChildrenInSpace={false}>
+      <Flex.Container
+        layoutEngine="legacy"
+        direction="vertical"
+        wrapChildrenInSpace={false}
+      >
         <TestComponent />
         <TestComponent />
       </Flex.Container>
@@ -260,7 +360,11 @@ describe('Flex.Container', () => {
 
   it('should not add line divider below heading', () => {
     render(
-      <Flex.Container direction="vertical" divider="line">
+      <Flex.Container
+        layoutEngine="legacy"
+        direction="vertical"
+        divider="line"
+      >
         <H1>Heading</H1>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -274,6 +378,7 @@ describe('Flex.Container', () => {
       >
         <h1
           class="dnb-h--xx-large dnb-space__top--zero dnb-space__bottom--zero"
+          data-flex-item-type="heading"
         >
           Heading
         </h1>
@@ -320,7 +425,11 @@ describe('Flex.Container', () => {
 
   it('has correct classes when divider is line', () => {
     render(
-      <Flex.Container direction="vertical" divider="line">
+      <Flex.Container
+        layoutEngine="legacy"
+        direction="vertical"
+        divider="line"
+      >
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
       </Flex.Container>
@@ -350,7 +459,11 @@ describe('Flex.Container', () => {
 
   it('has correct classes when divider is line-framed', () => {
     render(
-      <Flex.Container direction="vertical" divider="line-framed">
+      <Flex.Container
+        layoutEngine="legacy"
+        direction="vertical"
+        divider="line-framed"
+      >
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
       </Flex.Container>
@@ -390,7 +503,7 @@ describe('Flex.Container', () => {
 
   it('should not add trailing spacing to the final horizontal child', () => {
     render(
-      <Flex.Container gap="medium">
+      <Flex.Container layoutEngine="legacy" gap="medium">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -404,9 +517,396 @@ describe('Flex.Container', () => {
     expect(children[2]).toHaveClass('dnb-space__right--zero')
   })
 
+  it('should preserve explicit vertical child margins in the legacy engine', () => {
+    render(
+      <Flex.Vertical layoutEngine="legacy" gap="small">
+        <Flex.Item bottom="large">First</Flex.Item>
+        <Flex.Item top="x-small" bottom="medium">
+          Second
+        </Flex.Item>
+        <Flex.Item>Third</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const children = document.querySelector('.dnb-flex-container').children
+
+    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0]).toHaveClass('dnb-space__bottom--large')
+    expect(children[1]).toHaveClass('dnb-space__top--x-small')
+    expect(children[1]).toHaveClass('dnb-space__bottom--medium')
+    expect(children[2]).toHaveClass('dnb-space__top--medium')
+    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
+  })
+
+  it('should preserve explicit horizontal child margins in the legacy engine', () => {
+    render(
+      <Flex.Horizontal layoutEngine="legacy" gap="small">
+        <Flex.Item right="large">First</Flex.Item>
+        <Flex.Item left="x-small" right="medium">
+          Second
+        </Flex.Item>
+        <Flex.Item>Third</Flex.Item>
+      </Flex.Horizontal>
+    )
+
+    const children = document.querySelector('.dnb-flex-container').children
+
+    expect(children[0]).toHaveClass('dnb-space__left--zero')
+    expect(children[0]).toHaveClass('dnb-space__right--large')
+    expect(children[1]).toHaveClass('dnb-space__left--x-small')
+    expect(children[1]).toHaveClass('dnb-space__right--medium')
+    expect(children[2]).toHaveClass('dnb-space__left--zero')
+    expect(children[2]).toHaveClass('dnb-space__right--zero')
+  })
+
+  it('should preserve vertical spacing at the outer edges in the legacy engine', () => {
+    render(
+      <Flex.Vertical layoutEngine="legacy" gap={false}>
+        <Flex.Item top="large">First</Flex.Item>
+        <Flex.Item bottom="medium">Last</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const children = document.querySelector('.dnb-flex-container').children
+
+    expect(children[0]).toHaveClass('dnb-space__top--large')
+    expect(children[1]).toHaveClass('dnb-space__top--zero')
+    expect(children[1]).toHaveClass('dnb-space__bottom--medium')
+  })
+
+  it('should normalize numeric, rem, and px child spacing values', () => {
+    render(
+      <Flex.Vertical gap="small">
+        <Flex.Item>First</Flex.Item>
+        <Flex.Item top={2}>Numeric</Flex.Item>
+        <Flex.Item top="1.5rem">Rem</Flex.Item>
+        <Flex.Item top="8px">Px</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const children = document.querySelector('.dnb-flex-container').children
+
+    expect(children[1]).toHaveClass('dnb-space__top--large')
+    expect(children[2]).toHaveClass('dnb-space__top--medium')
+    expect(children[3]).toHaveClass('dnb-space__top--x-small')
+  })
+
+  it('should render children unchanged in the CSS gap engine', () => {
+    const CustomItem = ({ children }) => (
+      <article className="custom-item">{children}</article>
+    )
+
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <div className="intrinsic">Intrinsic</div>
+        <CustomItem>Custom</CustomItem>
+        <>
+          <span>Fragment A</span>
+          <span>Fragment B</span>
+        </>
+      </Flex.Vertical>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+    const children = Array.from(container.children)
+
+    expect(container).toHaveClass('dnb-flex-container--css-gap')
+    expect(children).toHaveLength(4)
+    expect(children.map((child) => child.tagName)).toEqual([
+      'DIV',
+      'ARTICLE',
+      'SPAN',
+      'SPAN',
+    ])
+    expect(container.querySelector(':scope > .dnb-space')).toBeNull()
+  })
+
+  it('should expose CSS gap values without cloning children', () => {
+    const { rerender } = render(
+      <Flex.Horizontal layoutEngine="css" gap="large" rowGap="x-small">
+        <Flex.Item>First</Flex.Item>
+        <Flex.Item>Second</Flex.Item>
+      </Flex.Horizontal>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+    expect(container).toHaveClass(
+      'dnb-flex-container--spacing-large',
+      'dnb-flex-container--row-gap-x-small'
+    )
+
+    rerender(
+      <Flex.Vertical layoutEngine="css" gap="large" rowGap="medium">
+        <Flex.Item>First</Flex.Item>
+        <Flex.Item>Second</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const verticalContainer = document.querySelector('.dnb-flex-container')
+    expect(verticalContainer).toHaveClass(
+      'dnb-flex-container--spacing-medium'
+    )
+    expect(verticalContainer).not.toHaveClass(
+      'dnb-flex-container--row-gap-x-small'
+    )
+  })
+
+  it('should expose pairwise spacing metadata in the CSS gap engine', () => {
+    render(
+      <Flex.Vertical layoutEngine="css" gap="small">
+        <Flex.Item bottom="large">First</Flex.Item>
+        <Flex.Item top="x-small" bottom="medium">
+          Second
+        </Flex.Item>
+        <Flex.Item>Third</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const children = document.querySelector('.dnb-flex-container').children
+
+    expect(children[0]).toHaveClass('dnb-space--has-block-end')
+    expect(children[0].getAttribute('style')).toContain(
+      '--space-block-end: var(--spacing-large)'
+    )
+    expect(children[1]).toHaveClass(
+      'dnb-space--has-block-start',
+      'dnb-space--has-block-end'
+    )
+    expect(children[1].getAttribute('style')).toContain(
+      '--space-block-start: var(--spacing-x-small)'
+    )
+    expect(children[2]).not.toHaveClass('dnb-space--has-block-start')
+  })
+
+  it('should preserve explicit outer spacing in the CSS gap engine', () => {
+    render(
+      <Flex.Vertical layoutEngine="css" gap={false}>
+        <Flex.Item top="large">First</Flex.Item>
+        <Flex.Item bottom="medium">Last</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const children = document.querySelector('.dnb-flex-container').children
+
+    expect(children[0]).toHaveClass('dnb-space__top--large')
+    expect(children[1]).toHaveClass('dnb-space__bottom--medium')
+  })
+
+  it('should preserve children without spacing metadata when gap is false', () => {
+    const CustomItem = () => <div className="custom-item">Custom</div>
+
+    render(
+      <Flex.Horizontal layoutEngine="css" gap={false} rowGap={false}>
+        <CustomItem />
+        <CustomItem />
+      </Flex.Horizontal>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+    expect(container).toHaveClass('dnb-flex-container--css-gap')
+    expect(container.className).not.toContain('--spacing-')
+    expect(container.className).not.toContain('--row-gap-')
+    expect(
+      container.querySelectorAll(':scope > .custom-item')
+    ).toHaveLength(2)
+  })
+
+  it('should preserve conditional children in the CSS gap engine', () => {
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <Flex.Item>First</Flex.Item>
+        {null}
+        <Flex.Item>Last</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+
+    expect(container.children).toHaveLength(2)
+    expect(container).toHaveTextContent('FirstLast')
+  })
+
+  it('should keep hidden Form.Visibility roots out of CSS layout', () => {
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <Flex.Item>First</Flex.Item>
+        <Form.Visibility keepInDOM visible={false}>
+          <P>Hidden</P>
+        </Form.Visibility>
+        <Flex.Item>Last</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+    const hidden = container.querySelector('.dnb-forms-visibility')
+
+    expect(container.children).toHaveLength(3)
+    expect(hidden).toHaveAttribute('hidden')
+  })
+
+  it('should keep hidden HeightAnimation roots out of CSS layout', () => {
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <Flex.Item>First</Flex.Item>
+        <HeightAnimation animate={false} keepInDOM open={false}>
+          Hidden
+        </HeightAnimation>
+        <Flex.Item>Last</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const container = document.querySelector('.dnb-flex-container')
+    const hidden = container.querySelector('.dnb-height-animation')
+
+    expect(container.children).toHaveLength(3)
+    expect(hidden).toHaveClass('dnb-height-animation--hidden')
+    expect(hidden).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('should create a nested CSS layout inside direct HeightAnimation roots', async () => {
+    render(
+      <Flex.Vertical layoutEngine="css" gap="medium">
+        <HeightAnimation animate={false}>
+          <Flex.Item>First</Flex.Item>
+          <Flex.Item>Second</Flex.Item>
+        </HeightAnimation>
+      </Flex.Vertical>
+    )
+
+    const outer = document.querySelector('.dnb-flex-container--css-gap')
+    const animation = outer.querySelector(':scope > .dnb-height-animation')
+    const nested = await waitFor(() => {
+      const element = animation.querySelector(
+        ':scope > .dnb-flex-container--css-gap'
+      )
+      expect(element).toBeInTheDocument()
+      return element
+    })
+
+    expect(outer.children).toHaveLength(1)
+    expect(nested).toHaveClass(
+      'dnb-flex-container--direction-vertical',
+      'dnb-flex-container--spacing-medium'
+    )
+    expect(nested.children).toHaveLength(2)
+  })
+
+  it('should create a nested CSS layout without changing AriaLive semantics', async () => {
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <AriaLive variant="content">
+          <Flex.Item>First</Flex.Item>
+          <Flex.Item>Second</Flex.Item>
+        </AriaLive>
+      </Flex.Vertical>
+    )
+
+    const liveRegion = document.querySelector('.dnb-aria-live')
+    const nested = await waitFor(() => {
+      const element = liveRegion.querySelector(
+        ':scope > .dnb-flex-container--css-gap'
+      )
+      expect(element).toBeInTheDocument()
+      return element
+    })
+
+    expect(liveRegion).toHaveAttribute('aria-live', 'polite')
+    expect(liveRegion).toHaveAttribute('aria-atomic', 'false')
+    expect(nested.children).toHaveLength(2)
+  })
+
+  it('should create a nested CSS layout inside real Form.Visibility roots', async () => {
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <Form.Visibility id="visible-content" visible>
+          <Flex.Item>First</Flex.Item>
+          <Flex.Item>Second</Flex.Item>
+        </Form.Visibility>
+      </Flex.Vertical>
+    )
+
+    const visibility = document.querySelector('#visible-content')
+    const nested = await waitFor(() => {
+      const element = visibility.querySelector(
+        ':scope > .dnb-flex-container--css-gap'
+      )
+      expect(element).toBeInTheDocument()
+      return element
+    })
+
+    expect(visibility.tagName).toBe('SPAN')
+    expect(nested.children).toHaveLength(2)
+  })
+
+  it('should keep transparent providers transparent in the CSS gap engine', () => {
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <Space.ResponsiveContext off>
+          <Flex.Item>First</Flex.Item>
+          <Flex.Item>Second</Flex.Item>
+        </Space.ResponsiveContext>
+      </Flex.Vertical>
+    )
+
+    const outer = document.querySelector('.dnb-flex-container--css-gap')
+
+    expect(outer.children).toHaveLength(2)
+    expect(
+      outer.querySelector(':scope > .dnb-flex-container--css-gap')
+    ).toBeNull()
+  })
+
+  it('should use Flex.withChildren as a CSS layout compatibility adapter', () => {
+    const Wrapper = Flex.withChildren(({ children }) => (
+      <section className="custom-wrapper">{children}</section>
+    ))
+
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <Wrapper>
+          <Flex.Item>First</Flex.Item>
+          <Flex.Item>Second</Flex.Item>
+        </Wrapper>
+      </Flex.Vertical>
+    )
+
+    const wrapper = document.querySelector('.custom-wrapper')
+    const nested = wrapper.querySelector(
+      ':scope > .dnb-flex-container--css-gap'
+    )
+
+    expect(nested.children).toHaveLength(2)
+  })
+
+  it('should not leak CSS layout context through unrelated DOM wrappers', async () => {
+    const Wrapper = ({ children }) => (
+      <section className="unrelated-wrapper">{children}</section>
+    )
+
+    render(
+      <Flex.Vertical layoutEngine="css">
+        <Wrapper>
+          <HeightAnimation animate={false}>
+            <Flex.Item>First</Flex.Item>
+            <Flex.Item>Second</Flex.Item>
+          </HeightAnimation>
+        </Wrapper>
+      </Flex.Vertical>
+    )
+
+    const animation = document.querySelector('.dnb-height-animation')
+
+    await waitFor(() => {
+      expect(
+        animation.querySelector(':scope > .dnb-flex-container--css-gap')
+      ).toBeNull()
+    })
+    expect(animation.children).toHaveLength(2)
+  })
+
   it('should set spacing between children', () => {
     const { rerender } = render(
-      <Flex.Container>
+      <Flex.Container layoutEngine="legacy">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -429,7 +929,7 @@ describe('Flex.Container', () => {
     expect(children[2]).toHaveClass('dnb-space__right--zero')
 
     rerender(
-      <Flex.Container gap="large">
+      <Flex.Container layoutEngine="legacy" gap="large">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -446,7 +946,7 @@ describe('Flex.Container', () => {
     expect(children[2]).toHaveClass('dnb-space__right--zero')
 
     rerender(
-      <Flex.Container gap="xx-small">
+      <Flex.Container layoutEngine="legacy" gap="xx-small">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -465,7 +965,7 @@ describe('Flex.Container', () => {
 
   it('should not apply spacing if set to false', () => {
     render(
-      <Flex.Container gap={false}>
+      <Flex.Container layoutEngine="legacy" gap={false}>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
@@ -516,7 +1016,7 @@ describe('Flex.Container', () => {
       const { rerender, TestComponent } = getMocks()
 
       rerender(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <TestComponent />
           <TestComponent />
           <TestComponent top="large" />
@@ -577,7 +1077,7 @@ describe('Flex.Container', () => {
       TestComponent._supportsSpacingProps = true
 
       rerender(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <TestComponent />
           <TestComponent />
           <TestComponent top="large" />
@@ -631,7 +1131,7 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = 'children'
 
       rerender(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <Wrapper>
             <TestComponent />
             <TestComponent />
@@ -695,7 +1195,7 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = 'children'
 
       rerender(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <Wrapper key="my-key">
             <TestComponent />
           </Wrapper>
@@ -713,7 +1213,7 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = 'children'
 
       rerender(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <Wrapper>
             Content A <p>Content B</p>
           </Wrapper>
@@ -763,7 +1263,7 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = 'children'
 
       rerender(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <>
             Content A <p>Content B</p>
             <TestComponent top="large" />
@@ -810,7 +1310,7 @@ describe('Flex.Container', () => {
       Wrapper._supportsSpacingProps = 'children'
 
       rerender(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <>
             <>
               Content A<p>Content B</p>
@@ -867,7 +1367,7 @@ describe('Flex.Container', () => {
             visible: false,
           }}
         >
-          <Flex.Vertical>
+          <Flex.Vertical layoutEngine="legacy">
             <Form.SubHeading>Heading</Form.SubHeading>
             <Form.Visibility
               visibleWhen={{ path: '/visible', hasValue: true }}
@@ -900,6 +1400,7 @@ describe('Flex.Container', () => {
         >
           <h3
             class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+            data-flex-item-type="heading"
           >
             Heading
           </h3>
@@ -926,7 +1427,7 @@ describe('Flex.Container', () => {
             visible: false,
           }}
         >
-          <Flex.Vertical>
+          <Flex.Vertical layoutEngine="legacy">
             <Form.SubHeading>Heading</Form.SubHeading>
             <>
               <>
@@ -967,6 +1468,7 @@ describe('Flex.Container', () => {
         >
           <h3
             class="dnb-heading dnb-h--medium dnb-forms-sub-heading dnb-space__top--zero dnb-space__bottom--zero"
+            data-flex-item-type="heading"
           >
             Heading
           </h3>
@@ -1022,9 +1524,9 @@ describe('Flex.Container', () => {
     const MEDIUM = '59em' // 60em
     const LARGE = '79em' // 80em
 
-    it('should set default "sizeCount" of 12', () => {
+    it('should set default "sizeCount" of 12 in the legacy engine', () => {
       const { rerender } = render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -1034,7 +1536,7 @@ describe('Flex.Container', () => {
       expect(element.getAttribute('style')).toBe('--size-count: 12;')
 
       rerender(
-        <Flex.Container sizeCount={6}>
+        <Flex.Container layoutEngine="legacy" sizeCount={6}>
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -1042,7 +1544,7 @@ describe('Flex.Container', () => {
       expect(element.getAttribute('style')).toBe('--size-count: 6;')
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -1050,9 +1552,9 @@ describe('Flex.Container', () => {
       expect(element.getAttribute('style')).toBe('')
     })
 
-    it('should set --has-size class', () => {
+    it('should set --has-size class in the legacy engine', () => {
       render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -1062,11 +1564,11 @@ describe('Flex.Container', () => {
       expect(element).toHaveClass('dnb-flex-container--has-size')
     })
 
-    it('should set data-media-key', () => {
+    it('should set data-media-key in the legacy engine', () => {
       setMedia({ width: SMALL })
 
       const { rerender } = render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -1078,7 +1580,7 @@ describe('Flex.Container', () => {
       })
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -1090,12 +1592,72 @@ describe('Flex.Container', () => {
       })
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
 
       expect(element.getAttribute('data-media-key')).toBe('large')
+    })
+
+    it('should expose span layout context in the CSS gap engine without scanning children', () => {
+      setMedia({ width: MEDIUM })
+
+      render(
+        <Flex.Container layoutEngine="css" sizeCount={6}>
+          <Flex.Item span={3}>FlexItem</Flex.Item>
+        </Flex.Container>
+      )
+
+      const element = document.querySelector('.dnb-flex-container')
+
+      expect(element).toHaveClass('dnb-flex-container--css-gap')
+      expect(element).not.toHaveClass('dnb-flex-container--has-size')
+      expect(element.getAttribute('style')).toBe('--size-count: 6;')
+      expect(element).not.toHaveAttribute('data-media-key')
+    })
+
+    it('should update the CSS gap engine media key for custom queries', () => {
+      setMedia({ width: SMALL })
+
+      const { rerender } = render(
+        <Flex.Container layoutEngine="css" queries={defaultQueries}>
+          <Flex.Item span={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
+        </Flex.Container>
+      )
+
+      const element = document.querySelector('.dnb-flex-container')
+
+      act(() => {
+        setMedia({ width: LARGE })
+      })
+
+      rerender(
+        <Flex.Container layoutEngine="css" queries={defaultQueries}>
+          <Flex.Item span={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
+        </Flex.Container>
+      )
+
+      expect(element.getAttribute('data-media-key')).toBe('large')
+      expect(element).toHaveAttribute('data-custom-media', 'true')
+      expect(
+        (
+          document.querySelector('.dnb-flex-item') as HTMLElement
+        ).style.getPropertyValue('--span--media')
+      ).toBe('6')
+    })
+
+    it('should not expose horizontal span context on vertical CSS containers', () => {
+      render(
+        <Flex.Vertical layoutEngine="css" sizeCount={6}>
+          <Flex.Item span={3}>FlexItem</Flex.Item>
+        </Flex.Vertical>
+      )
+
+      const element = document.querySelector('.dnb-flex-container')
+
+      expect(element.getAttribute('style')).toBeNull()
+      expect(element).not.toHaveAttribute('data-media-key')
     })
 
     it('should set rowGap', () => {
@@ -1126,9 +1688,9 @@ describe('Flex.Container', () => {
       expect(element).not.toHaveClass('dnb-flex-container--row-gap-small')
     })
 
-    it('should have no rowGap when false, but size on items are given', () => {
+    it('should have no rowGap when false in the legacy size engine', () => {
       const { rerender } = render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -1140,7 +1702,7 @@ describe('Flex.Container', () => {
       expect(element).toHaveClass('dnb-flex-container--row-gap-small')
 
       rerender(
-        <Flex.Container rowGap={false}>
+        <Flex.Container layoutEngine="legacy" rowGap={false}>
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )

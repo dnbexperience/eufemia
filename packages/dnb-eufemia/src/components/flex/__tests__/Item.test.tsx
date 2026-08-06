@@ -31,6 +31,54 @@ describe('Flex.Item', () => {
     expect(element.classList).toContain('dnb-space__top--x-large')
   })
 
+  it('should expose item gap override metadata without leaking props', () => {
+    render(
+      <Flex.Item gapBefore="x-small" gapAfter={false}>
+        Flex
+      </Flex.Item>
+    )
+
+    const element = document.querySelector('.dnb-flex-item') as HTMLElement
+
+    expect(element).toHaveClass(
+      'dnb-flex-item--gap-before',
+      'dnb-flex-item--gap-after'
+    )
+    expect(element.style.getPropertyValue('--flex-gap-before')).toBe(
+      'var(--spacing-x-small)'
+    )
+    expect(element.style.getPropertyValue('--flex-gap-after')).toBe('0rem')
+    expect(element).not.toHaveAttribute('gapBefore')
+    expect(element).not.toHaveAttribute('gapAfter')
+  })
+
+  it('should preserve item gap override metadata on responsive items', () => {
+    render(
+      <Flex.Item
+        span={6}
+        gapBefore={false}
+        gapAfter="xx-large"
+        style={{ color: 'red' }}
+      >
+        Flex
+      </Flex.Item>
+    )
+
+    const element = document.querySelector('.dnb-flex-item') as HTMLElement
+    const spacer = element.querySelector(
+      '.dnb-flex-item__spacer'
+    ) as HTMLElement
+
+    expect(element.style.getPropertyValue('--span--default')).toBe('6')
+    expect(element.style.getPropertyValue('--flex-gap-before')).toBe(
+      '0rem'
+    )
+    expect(element.style.getPropertyValue('--flex-gap-after')).toBe(
+      'var(--spacing-xx-large)'
+    )
+    expect(spacer.style.color).toBe('red')
+  })
+
   it('should contain given classes', () => {
     render(<Flex.Item className="custom-class">Flex</Flex.Item>)
 
@@ -91,7 +139,7 @@ describe('Flex.Item', () => {
     function MockComponent() {
       ref = useRef<HTMLElement | null>(null)
       return (
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item ref={ref} element="section">
             FlexItem
           </Flex.Item>
@@ -121,7 +169,7 @@ describe('Flex.Item', () => {
 
     it('should contain responsive class', () => {
       render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
       )
@@ -133,7 +181,7 @@ describe('Flex.Item', () => {
 
     it('should unset span when null is given', () => {
       render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span="auto">FlexItem</Flex.Item>
           <Flex.Item span={{ small: 4, large: 'auto' }}>
             FlexItem
@@ -155,7 +203,7 @@ describe('Flex.Item', () => {
 
     it('should set style attribute based on spans', () => {
       const { rerender } = render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={4}>FlexItem</Flex.Item>
           <Flex.Item span={6}>FlexItem</Flex.Item>
         </Flex.Container>
@@ -169,7 +217,7 @@ describe('Flex.Item', () => {
       )
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={10}>FlexItem</Flex.Item>
         </Flex.Container>
@@ -183,7 +231,7 @@ describe('Flex.Item', () => {
       )
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item style={{ background: 'blue' }} span={7}>
             FlexItem
           </Flex.Item>
@@ -200,20 +248,24 @@ describe('Flex.Item', () => {
         '--span--default: 5;'
       )
       expect(
-        getFlexItem(0)
-          .querySelector('.dnb-flex-item__spacer')
-          .getAttribute('style')
-      ).toBe('background: blue;')
+        (
+          getFlexItem(0).querySelector(
+            '.dnb-flex-item__spacer'
+          ) as HTMLElement
+        ).style.background
+      ).toBe('blue')
       expect(
-        getFlexItem(1)
-          .querySelector('.dnb-flex-item__spacer')
-          .getAttribute('style')
-      ).toBe('background: red;')
+        (
+          getFlexItem(1).querySelector(
+            '.dnb-flex-item__spacer'
+          ) as HTMLElement
+        ).style.background
+      ).toBe('red')
     })
 
     it('should set correct spacing', () => {
       const { rerender } = render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
@@ -225,7 +277,7 @@ describe('Flex.Item', () => {
       ])
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={12}>FlexItem</Flex.Item>
           <Flex.Item span={12}>FlexItem</Flex.Item>
         </Flex.Container>
@@ -239,7 +291,7 @@ describe('Flex.Item', () => {
 
     it('should omit span when heading is a child and direction is horizontal', () => {
       const { rerender } = render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <MainHeading level={1}>Heading</MainHeading>
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
@@ -257,7 +309,7 @@ describe('Flex.Item', () => {
       ])
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <MainHeading level={1}>Heading</MainHeading>
           <Flex.Item left span={2}>
             FlexItem
@@ -279,7 +331,7 @@ describe('Flex.Item', () => {
 
     it('should omit span prop logic when FlexContainer "direction" is vertical', () => {
       const { rerender } = render(
-        <Flex.Container direction="vertical">
+        <Flex.Container layoutEngine="legacy" direction="vertical">
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
@@ -291,7 +343,7 @@ describe('Flex.Item', () => {
       ])
 
       rerender(
-        <Flex.Container direction="vertical">
+        <Flex.Container layoutEngine="legacy" direction="vertical">
           <Flex.Item span={12}>FlexItem</Flex.Item>
           <Flex.Item span={12}>FlexItem</Flex.Item>
         </Flex.Container>
@@ -305,7 +357,7 @@ describe('Flex.Item', () => {
 
     it('should allow custom spacing on item', () => {
       const { rerender } = render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item right="large" span={2}>
             FlexItem
           </Flex.Item>
@@ -323,7 +375,7 @@ describe('Flex.Item', () => {
       ])
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item right="large" span={6}>
             FlexItem
           </Flex.Item>
@@ -345,7 +397,7 @@ describe('Flex.Item', () => {
 
     it('should omit span prop logic when FlexContainer "divider" is line', () => {
       const { rerender } = render(
-        <Flex.Container divider="line">
+        <Flex.Container layoutEngine="legacy" divider="line">
           <Flex.Item right="large" span={2}>
             FlexItem
           </Flex.Item>
@@ -363,7 +415,7 @@ describe('Flex.Item', () => {
       ])
 
       rerender(
-        <Flex.Container divider="space">
+        <Flex.Container layoutEngine="legacy" divider="space">
           <Flex.Item right="large" span={6}>
             FlexItem
           </Flex.Item>
@@ -385,7 +437,7 @@ describe('Flex.Item', () => {
 
     it('should use given "spacing" size from FlexContainer', () => {
       const { rerender } = render(
-        <Flex.Container gap="large">
+        <Flex.Container layoutEngine="legacy" gap="large">
           <Flex.Item span={2}>FlexItem</Flex.Item>
           <Flex.Item span={2}>FlexItem</Flex.Item>
         </Flex.Container>
@@ -397,7 +449,7 @@ describe('Flex.Item', () => {
       ])
 
       rerender(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={12}>FlexItem</Flex.Item>
           <Flex.Item span={12}>FlexItem</Flex.Item>
         </Flex.Container>
@@ -413,7 +465,7 @@ describe('Flex.Item', () => {
       setMedia({ width: SMALL })
 
       render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={{ small: 4, large: 12 }}>FlexItem</Flex.Item>
           <Flex.Item span={{ small: 6, large: 4 }}>FlexItem</Flex.Item>
           <Flex.Item span={{ small: 12, large: 6 }}>FlexItem</Flex.Item>
@@ -441,7 +493,7 @@ describe('Flex.Item', () => {
       setMedia({ width: SMALL })
 
       render(
-        <Flex.Container>
+        <Flex.Container layoutEngine="legacy">
           <Flex.Item span={{ small: 4, large: 12 }}>FlexItem</Flex.Item>
           <Flex.Item span={{ small: 6, large: 4 }}>FlexItem</Flex.Item>
           <Flex.Item span={{ small: 12, large: 6 }}>FlexItem</Flex.Item>

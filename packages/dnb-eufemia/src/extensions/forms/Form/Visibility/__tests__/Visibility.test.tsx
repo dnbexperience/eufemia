@@ -444,32 +444,17 @@ describe('Visibility', () => {
     expect(document.querySelectorAll('p')).toHaveLength(2)
 
     const [first, second] = Array.from(document.querySelectorAll('p'))
-    expect(first).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
-    )
-    expect(second).toHaveClass(
-      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
-    )
+    expect(first).toHaveClass('dnb-p', { exact: true })
+    expect(second).toHaveClass('dnb-p', { exact: true })
 
     const container = document.querySelector(
-      '.dnb-flex-container > .dnb-flex-container'
+      '.dnb-flex-container--css-gap.dnb-flex-stack'
     )
-    expect(container).toMatchInlineSnapshot(`
-      <section
-        class="dnb-space dnb-space__top--medium dnb-space__bottom--zero dnb-flex-container dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space dnb-flex-stack"
-      >
-        <p
-          class="dnb-p dnb-space__top--zero dnb-space__bottom--zero"
-        >
-          This is visible 1
-        </p>
-        <p
-          class="dnb-p dnb-space__top--medium dnb-space__bottom--zero"
-        >
-          This is visible 2
-        </p>
-      </section>
-    `)
+    expect(container).toHaveClass(
+      'dnb-flex-container--direction-vertical',
+      'dnb-flex-container--spacing-medium'
+    )
+    expect(container.querySelectorAll(':scope > p')).toHaveLength(2)
   })
 
   it('should have "height-animation" wrapper when animate is true', async () => {

@@ -1,5 +1,5 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import type { HTMLProps, RefObject } from 'react'
 import { clsx } from 'clsx'
 import type { UseHeightAnimationOptions } from './useHeightAnimation'
@@ -7,6 +7,10 @@ import { useHeightAnimation } from './useHeightAnimation'
 import Space from '../space/Space'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'
+import FlexLayoutContext from '../flex/FlexLayoutContext'
+import FlexLayoutChildren, {
+  useFlexLayoutRoot,
+} from '../flex/FlexLayoutChildren'
 
 export type HeightAnimationProps = {
   /**
@@ -65,8 +69,10 @@ function HeightAnimation({
   onAnimationEnd = null,
   ...rest
 }: HeightAnimationAllProps) {
+  const flexLayout = useContext(FlexLayoutContext)
   const elementRef = useRef<HTMLElement>(undefined)
   const targetRef = ref || elementRef
+  const rootLayout = useFlexLayoutRoot(flexLayout, targetRef)
 
   const {
     isInDOM,
@@ -135,10 +141,14 @@ function HeightAnimation({
     >
       {compensateForGap ? (
         <div className="dnb-height-animation__compensate-for-gap">
-          {children}
+          <FlexLayoutChildren layout={rootLayout}>
+            {children}
+          </FlexLayoutChildren>
         </div>
       ) : (
-        children
+        <FlexLayoutChildren layout={rootLayout}>
+          {children}
+        </FlexLayoutChildren>
       )}
     </Space>
   )

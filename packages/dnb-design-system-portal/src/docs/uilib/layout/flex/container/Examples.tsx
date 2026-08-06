@@ -1,5 +1,7 @@
+import type { ReactNode } from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { Card, Flex } from '@dnb/eufemia/src'
+import { Card, Flex, H2, HeightAnimation } from '@dnb/eufemia/src'
+import AriaLive from '@dnb/eufemia/src/components/aria-live/AriaLive'
 import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -225,7 +227,6 @@ export const WrappedWithChildren = () => {
       data-visual-test="flex-container-with-children"
     >
       {() => {
-        // @ts-expect-error -- strictFunctionTypes
         const Wrapper = Flex.withChildren(({ children }) => {
           return <div>{children}</div>
         })
@@ -242,6 +243,237 @@ export const WrappedWithChildren = () => {
         )
       }}
     </ComponentBox>
+  )
+}
+
+const CssAdditiveSpacingGeometry = () => {
+  return (
+    <Flex.Vertical
+      data-visual-test="flex-container-css-additive-spacing"
+      layoutEngine="css"
+      gap="small"
+    >
+      <Flex.Item>Default gap</Flex.Item>
+      <Flex.Item gapBefore="small" top="large">
+        Large start
+      </Flex.Item>
+      <Flex.Item gapBefore="small" top="x-small">
+        Small start
+      </Flex.Item>
+      <Flex.Item gapBefore="small" top="medium">
+        Medium start
+      </Flex.Item>
+    </Flex.Vertical>
+  )
+}
+
+const CssPairwiseSpacingContract = () => {
+  const getItems = (direction: 'horizontal' | 'vertical') => {
+    const isHorizontal = direction === 'horizontal'
+
+    return (
+      <>
+        <Flex.Item
+          {...(isHorizontal
+            ? { left: 'large', right: 'large' }
+            : { top: 'large', bottom: 'large' })}
+        >
+          First
+        </Flex.Item>
+        <Flex.Item
+          {...(isHorizontal ? { right: 'medium' } : { bottom: 'medium' })}
+        >
+          Second
+        </Flex.Item>
+        <Flex.Item
+          {...(isHorizontal ? { left: 'x-small' } : { top: 'x-small' })}
+        >
+          Third
+        </Flex.Item>
+        <Flex.Item
+          {...(isHorizontal ? { left: 'medium' } : { top: 'medium' })}
+        >
+          Fourth
+        </Flex.Item>
+        <Flex.Item
+          {...(isHorizontal
+            ? { right: 'x-large' }
+            : { bottom: 'x-large' })}
+        >
+          Last
+        </Flex.Item>
+      </>
+    )
+  }
+
+  return (
+    <div
+      data-visual-test="flex-container-css-pairwise-spacing"
+      style={{ display: 'grid', gap: '2rem' }}
+    >
+      <Flex.Horizontal
+        layoutEngine="css"
+        gap="small"
+        wrap={false}
+        style={{ width: 'fit-content' }}
+      >
+        {getItems('horizontal')}
+      </Flex.Horizontal>
+      <Flex.Vertical
+        layoutEngine="css"
+        gap="small"
+        style={{ width: 'fit-content' }}
+      >
+        {getItems('vertical')}
+      </Flex.Vertical>
+    </div>
+  )
+}
+
+const CssDividerParity = () => {
+  const legacyItems = (
+    <>
+      <Flex.Item>First</Flex.Item>
+      <Flex.Item>Second</Flex.Item>
+      <H2>Heading</H2>
+      <Flex.Item>After heading</Flex.Item>
+      <Flex.Item>Last</Flex.Item>
+    </>
+  )
+  const cssItems = (
+    <>
+      <Flex.Item>First</Flex.Item>
+      <Flex.Item>Second</Flex.Item>
+      <H2>Heading</H2>
+      <Flex.Item>After heading</Flex.Item>
+      <Flex.Item>Last</Flex.Item>
+    </>
+  )
+
+  return (
+    <div
+      data-visual-test="flex-container-css-divider-parity"
+      data-css-divider-parity
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+        gap: '2rem',
+      }}
+    >
+      <Flex.Vertical divider="line">{legacyItems}</Flex.Vertical>
+      <Flex.Vertical layoutEngine="css" divider="line">
+        {cssItems}
+      </Flex.Vertical>
+    </div>
+  )
+}
+
+const CssSpanGeometry = () => {
+  return (
+    <Flex.Horizontal
+      data-visual-test="flex-container-css-span-geometry"
+      layoutEngine="css"
+      gap="small"
+    >
+      <Flex.Item span={{ small: 12, medium: 6, large: 6 }}>
+        First
+      </Flex.Item>
+      <Flex.Item span={{ small: 12, medium: 6, large: 6 }}>
+        Second
+      </Flex.Item>
+    </Flex.Horizontal>
+  )
+}
+
+const CssHiddenGapGeometry = () => {
+  return (
+    <Flex.Vertical
+      data-visual-test="flex-container-css-hidden-gap-geometry"
+      layoutEngine="css"
+      gap="small"
+    >
+      <Flex.Item>First</Flex.Item>
+      <span hidden>Hidden span</span>
+      <HeightAnimation animate={false} keepInDOM open={false}>
+        Hidden animation
+      </HeightAnimation>
+      <Flex.Item>Last</Flex.Item>
+    </Flex.Vertical>
+  )
+}
+
+const CssWrapperGeometry = () => {
+  const Wrapper = Flex.withChildren(
+    ({ children }: { children?: ReactNode }) => (
+      <section className="css-wrapper-geometry__custom">
+        {children}
+      </section>
+    )
+  )
+  const items = (
+    <>
+      <Flex.Item>First</Flex.Item>
+      <Flex.Item>Second</Flex.Item>
+    </>
+  )
+
+  return (
+    <Flex.Vertical
+      data-visual-test="flex-container-css-wrapper-geometry"
+      layoutEngine="css"
+      gap="medium"
+    >
+      <HeightAnimation animate={false}>{items}</HeightAnimation>
+      <AriaLive variant="content">{items}</AriaLive>
+      <Wrapper>{items}</Wrapper>
+    </Flex.Vertical>
+  )
+}
+
+const CssItemGapOverrideGeometry = () => {
+  return (
+    <div
+      data-visual-test="flex-item-gap-override-geometry"
+      style={{ display: 'grid', gap: '2rem' }}
+    >
+      <Flex.Horizontal layoutEngine="css" gap="small" wrap={false}>
+        <Flex.Item gapAfter="large" right="x-small">
+          Horizontal 1
+        </Flex.Item>
+        <Flex.Item gapAfter="xx-large">Horizontal 2</Flex.Item>
+        <Flex.Item gapBefore="x-small">Horizontal 3</Flex.Item>
+        <Flex.Item gapBefore={false} left="medium">
+          Horizontal 4
+        </Flex.Item>
+        <Flex.Item>Horizontal 5</Flex.Item>
+      </Flex.Horizontal>
+
+      <Flex.Vertical layoutEngine="css" gap="small">
+        <Flex.Item gapAfter="large" bottom="x-small">
+          Vertical 1
+        </Flex.Item>
+        <Flex.Item gapAfter="xx-large">Vertical 2</Flex.Item>
+        <Flex.Item gapBefore="x-small">Vertical 3</Flex.Item>
+        <Flex.Item gapBefore={false} top="medium">
+          Vertical 4
+        </Flex.Item>
+        <Flex.Item>Vertical 5</Flex.Item>
+      </Flex.Vertical>
+    </div>
+  )
+}
+
+export const CssMigrationFixtures = () => {
+  return (
+    <div className="dnb-no-focus">
+      <CssAdditiveSpacingGeometry />
+      <CssPairwiseSpacingContract />
+      <CssDividerParity />
+      <CssSpanGeometry />
+      <CssHiddenGapGeometry />
+      <CssWrapperGeometry />
+      <CssItemGapOverrideGeometry />
+    </div>
   )
 }
 

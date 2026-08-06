@@ -11,6 +11,10 @@ import DataContext from '../../DataContext/Context'
 import DataContextRefContext from '../../DataContext/DataContextRefContext'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 import FormElement from '../Element'
+import FlexLayoutContext from '../../../../components/flex/FlexLayoutContext'
+import FlexLayoutChildren, {
+  useFlexLayoutRoot,
+} from '../../../../components/flex/FlexLayoutChildren'
 
 export type FormOutletProps = {
   /**
@@ -27,6 +31,7 @@ export type FormOutletProps = {
 function Outlet(props: FormOutletProps) {
   const { formHandlerId, children } = props
   const outerContext = useContext(DataContext)
+  const flexLayout = useContext(FlexLayoutContext)
   const isInsideLinkedHandler =
     outerContext?.hasContext && outerContext?.id === formHandlerId
 
@@ -41,6 +46,8 @@ function Outlet(props: FormOutletProps) {
   )
 
   const dataContextRef = useRef<ContextState>(undefined)
+  const layoutRootRef = useRef<HTMLFormElement>(null)
+  const rootLayout = useFlexLayoutRoot(flexLayout, layoutRootRef)
 
   if (!dataContext?.hasContext) {
     return null
@@ -57,7 +64,11 @@ function Outlet(props: FormOutletProps) {
         {isInsideLinkedHandler ? (
           children
         ) : (
-          <FormElement>{children}</FormElement>
+          <FormElement ref={layoutRootRef}>
+            <FlexLayoutChildren layout={rootLayout}>
+              {children}
+            </FlexLayoutChildren>
+          </FormElement>
         )}
       </DataContextRefContext>
     </DataContext.Provider>

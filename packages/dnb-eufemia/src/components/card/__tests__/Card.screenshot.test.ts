@@ -129,6 +129,7 @@ describe.each(['ui', 'sbanken'])(
       await makeScreenshot({
         ...params,
         withWrapper: false,
+        style: { width: '20rem' },
         selector:
           '[data-visual-test="layout-card-flex"] .dnb-flex-container',
       })

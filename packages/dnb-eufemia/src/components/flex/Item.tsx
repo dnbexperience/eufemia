@@ -1,9 +1,11 @@
-import { useCallback } from 'react'
 import type { CSSProperties, HTMLProps, Ref } from 'react'
+import { useContext } from 'react'
 import { clsx } from 'clsx'
 import type { SpaceProps } from '../space/Space'
 import Space from '../space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { FlexGap } from './types'
+import FlexLayoutContext from './FlexLayoutContext'
 
 export type FlexSpans =
   | 1
@@ -32,6 +34,14 @@ export type FlexItemProps = {
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   span?: FlexSpan
+  /**
+   * Replace the [Flex.Container](/uilib/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.
+   */
+  gapBefore?: FlexGap
+  /**
+   * Replace the [Flex.Container](/uilib/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.
+   */
+  gapAfter?: FlexGap
   ref?: Ref<HTMLElement>
 }
 
@@ -40,6 +50,7 @@ export type FlexItemAllProps = FlexItemProps &
   Omit<HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'span'>
 
 function FlexItem(props: FlexItemAllProps) {
+  const layout = useContext(FlexLayoutContext)
   const {
     element = 'div',
     className,
@@ -47,6 +58,8 @@ function FlexItem(props: FlexItemAllProps) {
     shrink,
     alignSelf,
     span,
+    gapBefore,
+    gapAfter,
     style,
     children,
     ...rest
@@ -57,31 +70,43 @@ function FlexItem(props: FlexItemAllProps) {
     grow && 'dnb-flex-item--grow',
     shrink && 'dnb-flex-item--shrink',
     alignSelf && `dnb-flex-item--align-self-${alignSelf}`,
-    span && 'dnb-flex-item--responsive'
+    span && 'dnb-flex-item--responsive',
+    typeof gapBefore !== 'undefined' && 'dnb-flex-item--gap-before',
+    typeof gapAfter !== 'undefined' && 'dnb-flex-item--gap-after'
   )
 
-  const isValidSpan = useCallback((span: FlexSpans) => {
-    return typeof span === 'number' || span === 'auto'
-  }, [])
+  const itemStyles: CSSProperties = {}
 
-  const spaceStyles: CSSProperties = {}
+  if (typeof gapBefore !== 'undefined') {
+    itemStyles['--flex-gap-before'] = getGapValue(gapBefore)
+  }
+  if (typeof gapAfter !== 'undefined') {
+    itemStyles['--flex-gap-after'] = getGapValue(gapAfter)
+  }
 
   if (span) {
     if (isValidSpan(span as FlexSpans)) {
-      spaceStyles['--span--default'] = span
+      itemStyles['--span--default'] = span
     } else {
       const spans = span as MediaSpans
       for (const key in spans) {
         if (isValidSpan(span[key])) {
-          spaceStyles[`--${key}`] = span[key]
+          itemStyles[`--${key}`] = span[key]
         }
       }
     }
   }
 
-  if (Object.keys(spaceStyles).length) {
+  if (layout?.mediaKey && typeof span === 'object') {
+    const mediaSpan = (span as Record<string, FlexSpans>)[layout.mediaKey]
+    if (isValidSpan(mediaSpan)) {
+      itemStyles['--span--media'] = mediaSpan
+    }
+  }
+
+  if (span) {
     return (
-      <Space element={element} className={cn} style={spaceStyles}>
+      <Space element={element} className={cn} style={itemStyles}>
         <Space
           className={clsx('dnb-flex-item__spacer', className)}
           style={style}
@@ -97,12 +122,20 @@ function FlexItem(props: FlexItemAllProps) {
     <Space
       element={element}
       className={clsx(cn, className)}
-      style={style}
+      style={{ ...itemStyles, ...style }}
       {...rest}
     >
       {children}
     </Space>
   )
+}
+
+function isValidSpan(span: FlexSpans) {
+  return typeof span === 'number' || span === 'auto'
+}
+
+function getGapValue(gap: FlexGap) {
+  return gap === false ? '0rem' : `var(--spacing-${gap})`
 }
 
 withComponentMarkers(FlexItem, {

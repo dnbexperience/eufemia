@@ -1174,13 +1174,13 @@ describe('EditContainer and ViewContainer', () => {
 
       const viewToolbar = viewToolbars[0]
       expect(viewToolbar).toHaveClass('dnb-space__top--zero')
-      expect(viewToolbar).toHaveClass('dnb-space__right--zero')
-      expect(viewToolbar).toHaveClass('dnb-space__left--zero')
+      expect(viewToolbar).not.toHaveClass('dnb-space__right--zero')
+      expect(viewToolbar).not.toHaveClass('dnb-space__left--zero')
 
       const editToolbar = editToolbars[0]
       expect(editToolbar).toHaveClass('dnb-space__top--zero')
-      expect(editToolbar).toHaveClass('dnb-space__right--zero')
-      expect(editToolbar).toHaveClass('dnb-space__left--zero')
+      expect(editToolbar).not.toHaveClass('dnb-space__right--zero')
+      expect(editToolbar).not.toHaveClass('dnb-space__left--zero')
 
       const viewSpace = viewToolbars[0].querySelector('.dnb-space')
       expect(viewSpace).toHaveClass('dnb-space__top--zero')

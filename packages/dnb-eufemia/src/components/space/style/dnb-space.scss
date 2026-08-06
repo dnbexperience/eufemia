@@ -9,6 +9,47 @@
 @use '../../../style/core/utilities.scss' as utilities;
 @use './responsive-spacing.scss';
 
+.dnb-space--has-block-start {
+  --space-block-start: 0;
+}
+
+.dnb-space--has-inline-end {
+  --space-inline-end: 0;
+}
+
+.dnb-space--has-block-end {
+  --space-block-end: 0;
+}
+
+.dnb-space--has-inline-start {
+  --space-inline-start: 0;
+}
+
+@each $direction in block-start, inline-end, block-end, inline-start {
+  .dnb-space--has-#{$direction} {
+    @include utilities.allBelow(medium) {
+      --space-#{$direction}: var(
+        --space-#{$direction}-small,
+        var(--space-#{$direction}-medium, var(--space-#{$direction}-large))
+      );
+    }
+
+    @include utilities.allBetween(small, medium) {
+      --space-#{$direction}: var(
+        --space-#{$direction}-medium,
+        var(--space-#{$direction}-small, var(--space-#{$direction}-large))
+      );
+    }
+
+    @include utilities.allAbove(medium) {
+      --space-#{$direction}: var(
+        --space-#{$direction}-large,
+        var(--space-#{$direction}-medium, var(--space-#{$direction}-small))
+      );
+    }
+  }
+}
+
 @mixin marginDirection($direction) {
   // Get the first letter for the custom property name (top -> t, left -> l, etc.)
   $short: string.slice($direction, 1, 1);

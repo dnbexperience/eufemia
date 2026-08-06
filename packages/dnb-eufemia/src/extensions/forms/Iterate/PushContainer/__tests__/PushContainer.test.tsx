@@ -2447,7 +2447,7 @@ describe('PushContainer', () => {
     ).toHaveAttribute('aria-hidden', 'true')
   })
 
-  it('should render custom Toolbar', () => {
+  it('should render a custom Toolbar unchanged in the CSS layout', () => {
     const Toolbar = (props) => {
       return (
         <Div id="toolbar" {...props}>
@@ -2470,7 +2470,11 @@ describe('PushContainer', () => {
 
     const toolbar = document.querySelector('#toolbar')
     expect(toolbar).toHaveTextContent('Custom Toolbar')
-    expect(toolbar).toHaveClass('dnb-space__top--medium')
+    expect(toolbar).not.toHaveClass('dnb-space__top--medium')
+    expect(toolbar.closest('.dnb-flex-container')).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-medium'
+    )
   })
 
   it('should support spacing props', () => {

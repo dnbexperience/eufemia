@@ -1,11 +1,22 @@
 import { useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import Card from '../../card/Card'
 import { P } from '../../../elements'
 
 describe('Card', () => {
+  it('should support legacy and CSS gap ScrollView roots', () => {
+    const css = loadScss(require.resolve('../style/dnb-card.scss'))
+
+    expect(css).toContain(
+      '.dnb-card > .dnb-flex-container > .dnb-space:has(> .dnb-scroll-view)'
+    )
+    expect(css).toContain(
+      '.dnb-card > .dnb-flex-container > .dnb-scroll-view'
+    )
+  })
+
   it('should forward HTML attributes', () => {
     render(
       <Card aria-label="Aria Label">
@@ -112,7 +123,7 @@ describe('Card', () => {
     expect(element).toHaveClass('dnb-flex-container--spacing-large')
   })
 
-  it('should stack children divided by space', () => {
+  it('should stack unchanged children with native spacing', () => {
     render(
       <Card stack>
         <P>Paragraph</P>
@@ -124,17 +135,14 @@ describe('Card', () => {
     const container = element.querySelector('.dnb-flex-container')
     const children = container.children
 
-    expect(container).toHaveClass('dnb-flex-container--divider-space')
-
-    expect(children.length).toBe(2)
-
-    expect(children[0].tagName).toBe('P')
-    expect(children[0]).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+    expect(container).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--divider-space',
+      'dnb-flex-container--spacing-medium'
     )
-
-    expect(children[1].tagName).toBe('P')
-    expect(children[1]).toHaveClass('dnb-space__top--medium')
+    expect(children).toHaveLength(2)
+    expect(children[0]).toHaveClass('dnb-p', { exact: true })
+    expect(children[1]).toHaveClass('dnb-p', { exact: true })
   })
 
   it('should have correct classes when "stack" is set', () => {
@@ -186,7 +194,7 @@ describe('Card', () => {
     expect(container).toHaveClass('dnb-flex-container--align-self-stretch')
   })
 
-  it('should stack children divided by lines', () => {
+  it('should stack unchanged children divided by CSS lines', () => {
     render(
       <Card stack divider="line">
         <P>Paragraph</P>
@@ -198,23 +206,14 @@ describe('Card', () => {
     const container = element.querySelector('.dnb-flex-container')
     const children = container.children
 
-    expect(container).toHaveClass('dnb-flex-container--divider-line')
-
-    expect(children.length).toBe(3)
-
-    expect(children[0].tagName).toBe('P')
-    expect(children[0]).toHaveClass(
-      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+    expect(container).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--divider-line'
     )
-    expect(children[1].tagName).toBe('HR')
-    expect(children[1]).toHaveClass(
-      'dnb-flex-container__hr dnb-space__top--medium dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
-    )
-
-    expect(children[2].tagName).toBe('P')
-    expect(children[2]).toHaveClass(
-      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
-    )
+    expect(children).toHaveLength(2)
+    expect(container.querySelector('hr')).toBeNull()
+    expect(children[0]).toHaveClass('dnb-p', { exact: true })
+    expect(children[1]).toHaveClass('dnb-p', { exact: true })
   })
 
   it('should change direction', () => {
@@ -264,7 +263,7 @@ describe('Card', () => {
     expect(element.tagName).toBe('ARTICLE')
   })
 
-  it('should add spacing between elements', () => {
+  it('should change native spacing between unchanged elements', () => {
     const { rerender } = render(
       <Card gap="small">
         <P>Paragraph</P>
@@ -277,18 +276,14 @@ describe('Card', () => {
     const container = element.querySelector('.dnb-flex-container')
     const children = container.children
 
-    expect(container).toHaveClass('dnb-flex-container--spacing-small')
-
-    expect(children.length).toBe(3)
-
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
-    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
-
-    expect(children[1]).toHaveClass('dnb-space__top--small')
-    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
-
-    expect(children[2]).toHaveClass('dnb-space__top--small')
-    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
+    expect(container).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-small'
+    )
+    expect(children).toHaveLength(3)
+    for (const child of Array.from(children)) {
+      expect(child).toHaveClass('dnb-p', { exact: true })
+    }
 
     rerender(
       <Card gap="large">
@@ -299,15 +294,10 @@ describe('Card', () => {
     )
 
     expect(container).toHaveClass('dnb-flex-container--spacing-large')
-
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
-    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
-
-    expect(children[1]).toHaveClass('dnb-space__top--large')
-    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
-
-    expect(children[2]).toHaveClass('dnb-space__top--large')
-    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
+    expect(container).not.toHaveClass('dnb-flex-container--spacing-small')
+    for (const child of Array.from(children)) {
+      expect(child).toHaveClass('dnb-p', { exact: true })
+    }
   })
 
   it('gets valid ref element', () => {

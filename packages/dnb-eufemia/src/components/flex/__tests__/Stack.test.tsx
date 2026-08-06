@@ -34,7 +34,7 @@ describe('Flex.Stack', () => {
     const element = document.querySelector('.dnb-flex-stack')
 
     expect(element).toHaveClass(
-      'dnb-space dnb-flex-container dnb-flex-stack custom-class dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space',
+      'dnb-space dnb-flex-container dnb-flex-container--css-gap dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-stretch dnb-flex-container--align-self-stretch dnb-flex-container--spacing-medium dnb-flex-container--wrap dnb-flex-container--divider-space dnb-flex-stack custom-class',
       { exact: true }
     )
   })
@@ -96,7 +96,7 @@ describe('Flex.Stack', () => {
 
   it('has correct classes when divider is line', () => {
     render(
-      <Flex.Stack divider="line">
+      <Flex.Stack layoutEngine="legacy" divider="line">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
       </Flex.Stack>
@@ -126,7 +126,7 @@ describe('Flex.Stack', () => {
 
   it('has correct classes when divider is line-framed', () => {
     render(
-      <Flex.Stack divider="line-framed">
+      <Flex.Stack layoutEngine="legacy" divider="line-framed">
         <Flex.Item>Flex</Flex.Item>
         <Flex.Item>Flex</Flex.Item>
       </Flex.Stack>

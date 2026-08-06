@@ -40,7 +40,7 @@ describe('Flex.Vertical', () => {
     )
 
     expect(element).toHaveClass(
-      'dnb-space dnb-flex-container custom-class dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space',
+      'dnb-space dnb-flex-container dnb-flex-container--css-gap dnb-flex-container--direction-vertical dnb-flex-container--justify-flex-start dnb-flex-container--align-flex-start dnb-flex-container--spacing-small dnb-flex-container--wrap dnb-flex-container--divider-space custom-class',
       { exact: true }
     )
   })
@@ -70,7 +70,7 @@ describe('Flex.Vertical', () => {
     ])
   })
 
-  it('should apply spacing to children', () => {
+  it('should use native spacing between children', () => {
     render(
       <Flex.Vertical>
         <Card>Content 1</Card>
@@ -84,16 +84,11 @@ describe('Flex.Vertical', () => {
     )
     const children = element.children
 
-    expect(children[0].className).toContain('dnb-space__top--zero')
-    expect(children[0].className).toContain('dnb-space__bottom--zero')
-    expect(children[0].className).toContain('dnb-flex-item')
-
-    expect(children[1].className).toContain('dnb-space__top--small')
-    expect(children[1].className).toContain('dnb-space__bottom--zero')
-    expect(children[1].className).toContain('dnb-flex-item')
-
-    expect(children[2].className).toContain('dnb-space__top--small')
-    expect(children[2].className).toContain('dnb-space__bottom--zero')
-    expect(children[2].className).toContain('dnb-flex-item')
+    expect(element).toHaveClass('dnb-flex-container--css-gap')
+    expect(element).toHaveClass('dnb-flex-container--spacing-small')
+    expect(children).toHaveLength(3)
+    for (const child of Array.from(children)) {
+      expect(child.className).not.toContain('dnb-space__top--small')
+    }
   })
 })
