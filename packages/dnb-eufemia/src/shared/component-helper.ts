@@ -213,6 +213,7 @@ export function toCapitalized(str) {
     : str
 }
 
+let idIncrement = 0
 export const makeUniqueId = (prefix = 'id-', length = 8) =>
   prefix +
   String(
@@ -220,7 +221,6 @@ export const makeUniqueId = (prefix = 'id-', length = 8) =>
       .toString(36)
       .substring(2, 2 + length) + idIncrement++
   ).slice(-length)
-let idIncrement = 0
 
 export const slugify = (s) =>
   String(s)
