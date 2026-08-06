@@ -158,6 +158,45 @@ describe('Field.PostalCodeAndCity', () => {
     expect(city).toHaveValue('æ - ø - å')
   })
 
+  it('should only show pending indicator on postal code during async validator', async () => {
+    const onChangeValidator = vi.fn(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      return undefined
+    })
+
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onChangeValidator,
+        }}
+      />
+    )
+
+    const postalCodeBlock = document.querySelector(
+      '.dnb-forms-field-postal-code-and-city__postal-code'
+    )
+    const postalCodeIndicator = postalCodeBlock.querySelector(
+      '.dnb-forms-submit-indicator'
+    )
+    const postalCodeInput = postalCodeBlock.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    fireEvent.change(postalCodeInput, { target: { value: '1234' } })
+
+    await waitFor(() => {
+      expect(postalCodeIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+    })
+
+    expect(
+      document.querySelectorAll(
+        '.dnb-forms-submit-indicator--state-pending'
+      )
+    ).toHaveLength(1)
+  })
+
   it('should show error message when postal code is 0000', async () => {
     render(
       <Field.PostalCodeAndCity

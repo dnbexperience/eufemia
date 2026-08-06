@@ -38,6 +38,7 @@ import {
   wait,
 } from '../../../../core/test-utils/testSetup'
 import { useSharedState } from '../../../../shared/helpers/useSharedState'
+import { setAsyncValidatorBehavior } from '../../utils/validatorOptions'
 
 import nbNO from '../../constants/locales/nb-NO'
 import enGB from '../../constants/locales/en-GB'
@@ -4194,6 +4195,146 @@ describe('useFieldProps', () => {
         })
 
         window.requestAnimationFrame = original
+      })
+
+      it('should clear pending state when a marked async validator returns synchronously', async () => {
+        let resolveValidation: (error?: Error) => void = () => undefined
+        const onChangeValidator = setAsyncValidatorBehavior(
+          (value: string) => {
+            if (value.length < 4) {
+              return undefined
+            }
+
+            return new Promise<Error | undefined>((resolve) => {
+              resolveValidation = resolve
+            })
+          }
+        )
+
+        const { result } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: { onChangeValidator },
+          }
+        )
+
+        act(() => {
+          result.current.handleChange('1234')
+        })
+
+        expect(result.current.fieldState).toBe('pending')
+
+        act(() => {
+          result.current.handleChange('123')
+        })
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('complete')
+          expect(result.current.error).toBeUndefined()
+        })
+
+        resolveValidation(new Error('Stale error'))
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('complete')
+          expect(result.current.error).toBeUndefined()
+        })
+      })
+
+      it('should ignore an older async validator result', async () => {
+        const validations: Array<(error?: Error) => void> = []
+        const onChangeValidator = vi.fn(
+          () =>
+            new Promise<Error | undefined>((resolve) => {
+              validations.push(resolve)
+            })
+        )
+
+        const { result } = renderHook(
+          (props: any) => useFieldProps(props),
+          {
+            initialProps: { onChangeValidator },
+          }
+        )
+
+        act(() => {
+          result.current.handleChange('first')
+          result.current.handleChange('second')
+        })
+
+        expect(result.current.fieldState).toBe('pending')
+        expect(validations).toHaveLength(2)
+
+        validations[1]()
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('complete')
+          expect(result.current.error).toBeUndefined()
+        })
+
+        validations[0](new Error('Stale error'))
+
+        await waitFor(() => {
+          expect(result.current.fieldState).toBe('complete')
+          expect(result.current.error).toBeUndefined()
+        })
+      })
+
+      it('should show pending state for marked async path validation', async () => {
+        const validations: Array<(error?: Error) => void> = []
+        const onChangeValidator = setAsyncValidatorBehavior(
+          (value: string, { connectWithPath }) => {
+            connectWithPath('/dependency').getValue()
+
+            return new Promise<Error | undefined>((resolve) => {
+              validations.push(resolve)
+            })
+          }
+        )
+
+        render(
+          <Form.Handler>
+            <Field.String path="/dependency" className="dependency" />
+            <Field.String
+              path="/value"
+              className="value"
+              defaultValue="value"
+              onChangeValidator={onChangeValidator}
+              validateInitially
+            />
+          </Form.Handler>
+        )
+
+        const valueIndicator = document.querySelector(
+          '.value .dnb-forms-submit-indicator'
+        )
+
+        await waitFor(() => {
+          expect(valueIndicator).toHaveClass(
+            'dnb-forms-submit-indicator--state-pending'
+          )
+        })
+
+        validations[0]()
+
+        await waitFor(() => {
+          expect(valueIndicator).toHaveClass(
+            'dnb-forms-submit-indicator--state-complete'
+          )
+        })
+
+        const validationCount = validations.length
+        const dependencyInput = document.querySelector('.dependency input')
+        fireEvent.change(dependencyInput, { target: { value: 'changed' } })
+
+        await waitFor(() => {
+          expect(validations.length).toBeGreaterThan(validationCount)
+          expect(valueIndicator).toHaveClass(
+            'dnb-forms-submit-indicator--state-pending'
+          )
+        })
+
+        validations.slice(validationCount).forEach((resolve) => resolve())
       })
     })
 
