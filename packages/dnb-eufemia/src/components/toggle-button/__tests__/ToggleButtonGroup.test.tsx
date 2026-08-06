@@ -222,6 +222,35 @@ describe('ToggleButton group component', () => {
       )
       expect(shell).not.toHaveAttribute('role')
     })
+
+    it('should not have aria-labelledby on inner shell element', () => {
+      render(
+        <ToggleButton.Group label="Legend">
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+        </ToggleButton.Group>
+      )
+
+      const shell = document.querySelector(
+        '.dnb-toggle-button-group__shell'
+      )
+      expect(shell).not.toHaveAttribute('aria-labelledby')
+
+      // the group is still labelled via the fieldset + legend
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+    })
+
+    it('should validate with ARIA rules when a label is given', async () => {
+      const result = render(
+        <ToggleButton.Group label="Legend">
+          <ToggleButton text="First" value="first" />
+          <ToggleButton text="Second" value="second" />
+        </ToggleButton.Group>
+      )
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
   })
 
   it('has multiselect "onChange" event which will trigger on a button click', () => {
