@@ -105,8 +105,9 @@ jobs:
         working-directory: packages/dnb-eufemia
         run: |
           # SBOM of the published library's production (shipped) dependencies.
-          # --mc-type library: this is a published library, not an application.
-          yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx \
+          # Generator pinned for reproducible releases (bump deliberately — yarn
+          # dlx isn't covered by Dependabot). --mc-type library: it's a library.
+          yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@3.3.3 \
             --output-format JSON --spec-version 1.6 \
             --production --mc-type library --output-file sbom.cdx.json
 
