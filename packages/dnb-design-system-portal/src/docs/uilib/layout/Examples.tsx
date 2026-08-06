@@ -187,8 +187,20 @@ export const MediaQueryUseMedia = () => (
   <ComponentBox scope={{ useMedia, useWindowWidth }} hideCode>
     {() => {
       const Playground = () => {
+        // `useMedia` and `window.innerWidth` are client-only, so their values
+        // differ between SSR and the first client render. Render after mount to
+        // avoid a hydration mismatch.
+        const [isMounted, setIsMounted] = useState(false)
+        useEffect(() => {
+          setIsMounted(true)
+        }, [])
+
         const { isSmall, isMedium, isLarge, isSSR } = useMedia()
         const { innerWidth } = useWindowWidth()
+
+        if (!isMounted) {
+          return null
+        }
 
         return (
           <Code>
@@ -211,6 +223,13 @@ export const MediaQueryLiveExample = () => (
   <ComponentBox scope={{ MediaQuery, useMediaQuery }} hideCode>
     {() => {
       const Playground = () => {
+        // `useMediaQuery`/`MediaQuery` are client-only, so render after mount to
+        // avoid a hydration mismatch.
+        const [isMounted, setIsMounted] = useState(false)
+        useEffect(() => {
+          setIsMounted(true)
+        }, [])
+
         const [query, updateQuery] = useState({
           screen: true,
           not: true,
@@ -231,6 +250,10 @@ export const MediaQueryLiveExample = () => (
         useEffect(() => {
           console.log('mediaQuery:', match1, match2)
         }, [match1, match2])
+
+        if (!isMounted) {
+          return null
+        }
 
         return (
           <>
