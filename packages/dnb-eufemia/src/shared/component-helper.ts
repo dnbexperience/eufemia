@@ -345,7 +345,7 @@ export function combineDescribedBy(...params) {
   return combineAriaBy('aria-describedby', params)
 }
 function combineAriaBy(type, params) {
-  const resolved = params
+  const ids = params
     .flatMap((cur) => {
       if (Array.isArray(cur)) {
         return cur
@@ -356,8 +356,12 @@ function combineAriaBy(type, params) {
       return cur
     })
     .filter((cur) => typeof cur === 'string')
+    // aria-labelledby/-describedby are space-separated id lists, so split and
+    // dedupe on individual ids
+    .flatMap((cur) => cur.split(/\s+/))
+    .filter(Boolean)
 
-  const uniqueParams = Array.from(new Set(resolved)).join(' ')
+  const uniqueParams = Array.from(new Set(ids)).join(' ')
   if (uniqueParams === '') {
     return undefined
   }

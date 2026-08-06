@@ -605,6 +605,13 @@ describe('"combineLabelledBy"/"combineDescribedBy" should', () => {
     expect(combineDescribedBy(['a', 'a'], 'a')).toBe('a')
   })
 
+  it('deduplicate ids within space-separated strings', () => {
+    expect(combineDescribedBy({ 'aria-describedby': 'a b' }, 'a')).toBe(
+      'a b'
+    )
+    expect(combineLabelledBy('a b c', 'b', 'd')).toBe('a b c d')
+  })
+
   it('ignore nullish and non-string values', () => {
     expect(combineLabelledBy('a', null, undefined, false, 'b')).toBe('a b')
     expect(combineLabelledBy({ 'aria-labelledby': undefined }, 'b')).toBe(
