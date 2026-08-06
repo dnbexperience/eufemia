@@ -326,7 +326,9 @@ describe('makePropertiesFile', () => {
           targetVariableSetName: 'colors',
         }
 
-        expect(() => transformFigmaAlias(val)).toThrow()
+        expect(() => transformFigmaAlias(val)).toThrow(
+          'Unsupported theme prefix: nonsense for variable nonsense/ColdGreen/600'
+        )
       })
     })
 

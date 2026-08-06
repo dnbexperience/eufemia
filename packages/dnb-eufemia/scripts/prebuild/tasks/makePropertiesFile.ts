@@ -248,9 +248,9 @@ export const transformFigmaAlias = (
     })
 
     if (newPrefix === undefined) {
-      const errorMessage = `Unsupported theme prefix: ${path[0]} for variable ${figmaVariableName}`
-      log.fail(errorMessage)
-      throw new Error(errorMessage)
+      throw new Error(
+        `Unsupported theme prefix: ${path[0]} for variable ${figmaVariableName}`
+      )
     }
     path[0] = newPrefix
     return `var(${transformNamespace()}${transformFigmaPath(path)})` // Including transform namespace as we might want to be able to apply that in the future
@@ -343,11 +343,11 @@ export const transformFigmaPath = (path: string[]) => {
     .join(TOKEN_GROUP_SEPARATOR)
 
   if (unsupportedCharacters.length > 0) {
-    const errorMessage = `Unsupported characters [ '${unsupportedCharacters.join(
-      "', '"
-    )}' ] in variable: "${cleanPath.join('/')}"`
-    log.fail(errorMessage)
-    throw new Error(errorMessage)
+    throw new Error(
+      `Unsupported characters [ '${unsupportedCharacters.join(
+        "', '"
+      )}' ] in variable: "${cleanPath.join('/')}"`
+    )
   }
   return transformedPath
 }
