@@ -25,6 +25,8 @@ import {
   convertJsxToString,
   escapeRegexChars,
   removeUndefinedProps,
+  combineLabelledBy,
+  combineDescribedBy,
 } from '../component-helper'
 import userEvent from '@testing-library/user-event'
 
@@ -570,6 +572,52 @@ describe('"makeUniqueId" should', () => {
     expect(makeUniqueId('string-', 10)).toEqual(
       expect.stringMatching(/^string-[a-z0-9]{10}/g)
     )
+  })
+})
+
+describe('"combineLabelledBy"/"combineDescribedBy" should', () => {
+  it('combine string ids into a space-separated string', () => {
+    expect(combineLabelledBy('a', 'b', 'c')).toBe('a b c')
+    expect(combineDescribedBy('a', 'b')).toBe('a b')
+  })
+
+  it('extract the id from objects using the aria key', () => {
+    expect(
+      combineLabelledBy({ 'aria-labelledby': 'from-object' }, 'extra')
+    ).toBe('from-object extra')
+    expect(
+      combineDescribedBy({ 'aria-describedby': 'from-object' }, 'extra')
+    ).toBe('from-object extra')
+  })
+
+  it('flatten arrays of ids', () => {
+    expect(combineLabelledBy(['a', 'b'], 'c')).toBe('a b c')
+  })
+
+  it('deduplicate repeated ids', () => {
+    expect(combineLabelledBy('a', 'a', 'b')).toBe('a b')
+    expect(
+      combineLabelledBy(
+        { 'aria-labelledby': 'shared' },
+        { 'aria-labelledby': 'shared' }
+      )
+    ).toBe('shared')
+    expect(combineDescribedBy(['a', 'a'], 'a')).toBe('a')
+  })
+
+  it('ignore nullish and non-string values', () => {
+    expect(combineLabelledBy('a', null, undefined, false, 'b')).toBe('a b')
+    expect(combineLabelledBy({ 'aria-labelledby': undefined }, 'b')).toBe(
+      'b'
+    )
+  })
+
+  it('return undefined when nothing resolves to a string', () => {
+    expect(combineLabelledBy()).toBeUndefined()
+    expect(combineLabelledBy(null, undefined)).toBeUndefined()
+    expect(
+      combineDescribedBy({ 'aria-describedby': undefined })
+    ).toBeUndefined()
   })
 })
 
