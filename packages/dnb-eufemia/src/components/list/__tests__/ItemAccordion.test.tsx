@@ -221,7 +221,7 @@ describe('ItemAccordion', () => {
     expect(header.getAttribute('tabindex')).toBe('-1')
   })
 
-  it('content region has id, aria-labelledby and aria-hidden', () => {
+  it('content region has id, role, aria-labelledby and aria-hidden', () => {
     render(
       <ItemAccordion>
         <ItemAccordion.Header>Title</ItemAccordion.Header>
@@ -238,9 +238,36 @@ describe('ItemAccordion', () => {
 
     expect(contentRegion).toBeInTheDocument()
     expect(contentRegion.getAttribute('id')).toBe(contentId)
+    expect(contentRegion.getAttribute('role')).toBe('region')
     expect(contentRegion.getAttribute('aria-labelledby')).toBe(headerId)
     expect(contentRegion.getAttribute('aria-hidden')).toBe('true')
     expect(contentRegion).not.toHaveAttribute('aria-expanded')
+  })
+
+  it('content region is a labelled region (aria-labelledby is valid, not on a role-less element)', () => {
+    render(
+      <ItemAccordion open>
+        <ItemAccordion.Header>Title</ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+    const contentId = header.getAttribute('aria-controls')
+    const contentRegion = document.getElementById(contentId)
+
+    // A naming attribute (aria-labelledby) is prohibited on a role-less
+    // generic element, so the content region carries role="region" to make
+    // the labelled association valid.
+    expect(contentRegion.getAttribute('role')).toBe('region')
+    expect(contentRegion.getAttribute('aria-labelledby')).toBe(
+      header.getAttribute('id')
+    )
+
+    // the referenced header provides the region's accessible name
+    expect(header).toHaveTextContent('Title')
   })
 
   it('content region has aria-hidden false when open and no aria-expanded', () => {
@@ -258,6 +285,7 @@ describe('ItemAccordion', () => {
     const contentRegion = document.getElementById(contentId)
 
     expect(contentRegion).toBeInTheDocument()
+    expect(contentRegion.getAttribute('role')).toBe('region')
     expect(contentRegion.getAttribute('aria-hidden')).toBe('false')
     expect(contentRegion).not.toHaveAttribute('aria-expanded')
   })
