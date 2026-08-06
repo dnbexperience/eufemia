@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from 'react'
+import { useCallback, useContext, useInsertionEffect } from 'react'
 import DataContext from '../Context'
 import type { EventListenerCall } from '../Context'
 
@@ -15,7 +15,8 @@ export default function useEventListener(
     })
   }, [id, listener, path, setFieldEventListener])
 
-  useEffect(() => {
+  // Register before layout effects so descendants cannot dispatch first.
+  useInsertionEffect(() => {
     setFieldEventListener?.(path, id, listener)
 
     return removeEvent

@@ -38,11 +38,15 @@ describe('useEventListener timing', () => {
     'registers SubmitConfirmation before a child %s can submit',
     async (_effect, SubmitOnMount) => {
       const onSubmit = vi.fn()
+      const onStateChange = vi.fn()
       const onSettled = vi.fn()
 
       render(
         <Form.Handler onSubmit={onSubmit}>
-          <Form.SubmitConfirmation preventSubmitWhen={() => true}>
+          <Form.SubmitConfirmation
+            preventSubmitWhen={() => true}
+            onStateChange={onStateChange}
+          >
             <SubmitOnMount onSettled={onSettled} />
           </Form.SubmitConfirmation>
         </Form.Handler>
@@ -51,6 +55,11 @@ describe('useEventListener timing', () => {
       await waitFor(() => {
         expect(onSettled).toHaveBeenCalledTimes(1)
       })
+      expect(onStateChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          confirmationState: 'readyToBeSubmitted',
+        })
+      )
       expect(onSubmit).toHaveBeenCalledTimes(0)
     }
   )
