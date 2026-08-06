@@ -147,6 +147,67 @@ describe('postalCode', () => {
       })
     })
 
+    it('should clear pending indicator when the value becomes synchronously invalid', async () => {
+      let resolveFetch: () => void = () => undefined
+      const fetchPromise = new Promise<void>((resolve) => {
+        resolveFetch = resolve
+      })
+      globalThis.fetch = createFetchMock(null, () => fetchPromise)
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeBlock = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code'
+      )
+      const postalCodeInput = postalCodeBlock.querySelector(
+        '.dnb-input__input'
+      )
+      const postalCodeIndicator = postalCodeBlock.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+
+      fireEvent.change(postalCodeInput, { target: { value: '1234' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+        expect(postalCodeIndicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+
+      fireEvent.change(postalCodeInput, { target: { value: '12345' } })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.PostalCode.errorPattern)
+
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+
+      resolveFetch()
+
+      await waitFor(() => {
+        expect(postalCodeIndicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-error'
+        )
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+    })
+
     it('should keep pending indicator while autofill is fetching', async () => {
       let resolveValidation: () => void = () => undefined
       let resolveAutofill: () => void = () => undefined

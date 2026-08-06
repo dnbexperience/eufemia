@@ -923,6 +923,17 @@ export default function useFieldValidation<Value>({
         validatedValueRef.current = value
       } catch (error) {
         if (isProcessActive()) {
+          if (
+            asyncProcessRef.current ||
+            hasAsyncValidatorBehavior(onChangeValidatorRef.current) ||
+            hasAsyncValidatorBehavior(onBlurValidatorRef.current)
+          ) {
+            onChangeValidationIdRef.current++
+            onBlurPathValidationIdRef.current++
+            defineAsyncProcess(undefined)
+            setFieldState('error')
+          }
+
           persistErrorState('weak', initiator, error as Error | FormError)
 
           if (validateContinuously && changedRef.current) {
