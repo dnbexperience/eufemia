@@ -28,7 +28,7 @@ export function getInstancePath(ajvError: ErrorObject): Path {
     case 'errorMessage': {
       // errorMessage structures (from ajv-errors) wrap the original error. Find instance path from original
       // to avoid issues like required-errors pointing at parent object.
-      if (ajvError.params.errors[0]) {
+      if (ajvError.params.errors?.[0]) {
         return getInstancePath(ajvError.params.errors[0])
       }
     }
@@ -44,7 +44,7 @@ export function getInstancePath(ajvError: ErrorObject): Path {
  * @returns The validation rule.
  */
 export function getValidationRule(ajvError: ErrorObject): string {
-  if (ajvError.keyword === 'errorMessage' && ajvError.params.errors[0]) {
+  if (ajvError.keyword === 'errorMessage' && ajvError.params.errors?.[0]) {
     // errorMessage structures (from ajv-errors) wrap the original error. Find keyword from original
     // to avoid issues like required-errors pointing at parent object.
     return getValidationRule(ajvError.params.errors[0])

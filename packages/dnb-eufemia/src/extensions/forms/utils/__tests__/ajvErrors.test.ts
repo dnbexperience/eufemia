@@ -52,6 +52,16 @@ describe('getInstancePath', () => {
     expect(getInstancePath(error)).toBe('/innerPath')
   })
 
+  it('should not throw for an errorMessage error without wrapped errors', () => {
+    const error: ErrorObject = {
+      schemaPath: '#',
+      keyword: 'errorMessage',
+      instancePath: '/path',
+      params: {},
+    }
+    expect(getInstancePath(error)).toBe('/path')
+  })
+
   it('should return the original instance path for other errors', () => {
     const error: ErrorObject = {
       schemaPath: '#',
@@ -79,6 +89,16 @@ describe('getValidationRule', () => {
     }
     const rule = getValidationRule(ajvError)
     expect(rule).toBe('required')
+  })
+
+  it('should not throw for an errorMessage error without wrapped errors', () => {
+    const ajvError: ErrorObject = {
+      schemaPath: '#',
+      keyword: 'errorMessage',
+      instancePath: '/path',
+      params: {},
+    }
+    expect(getValidationRule(ajvError)).toBe('errorMessage')
   })
 
   it('should return undefined if the keyword is not defined', () => {
