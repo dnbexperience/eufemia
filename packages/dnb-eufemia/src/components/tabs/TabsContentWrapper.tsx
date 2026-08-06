@@ -30,6 +30,7 @@ export default function ContentWrapper({
   contentStyle = null,
   animate = null,
   contentInnerSpace = { top: 'large' } as InnerSpaceType | boolean,
+  nested = false,
   ...rest
 }: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
@@ -69,6 +70,28 @@ export default function ContentWrapper({
       sharedStateRef.current = null
     }
   }, [id])
+
+  // Register this tabpanel's presence in a shared state so a separately
+  // rendered <Tabs> (linked via <Tabs.Content>) can set aria-controls on the
+  // selected tab only while the panel is mounted. Skipped for the internal
+  // panel, which <Tabs> already tracks synchronously.
+  const hasPanel = Boolean(children)
+  useEffect(() => {
+    if (nested || !id || !hasPanel) {
+      return undefined // stop here
+    }
+
+    const presence = createSharedState<{ count: number }>(
+      `${id}-tabpanel-presence`
+    )
+    presence.set({ count: (presence.get()?.count || 0) + 1 })
+
+    return () => {
+      presence.set({
+        count: Math.max(0, (presence.get()?.count || 1) - 1),
+      })
+    }
+  }, [id, nested, hasPanel])
 
   const resolvedInnerSpace =
     contentInnerSpace === true ? 'large' : contentInnerSpace
@@ -178,6 +201,8 @@ export type TabsContentWrapperProps = {
   animate?: boolean
   contentInnerSpace?: InnerSpaceType | boolean
   children?: TabsContentWrapperChildren
+  /** Internal: set by <Tabs> for its own tabpanel so it does not self-register presence. */
+  nested?: boolean
 } & Omit<
   HTMLProps<HTMLElement>,
   'children' | 'ref' | 'onAnimationStart' | 'onAnimationEnd'

@@ -453,6 +453,84 @@ describe('Tabs aria-controls', () => {
     expect(document.getElementById('no-content-content')).toBeNull()
     expect(selectedTab.getAttribute('aria-controls')).toBeNull()
   })
+
+  it('adds and removes aria-controls as an external Tabs.Content mounts and unmounts', () => {
+    const Wrapper = ({ showContent }: { showContent: boolean }) => (
+      <>
+        <Tabs
+          id="toggle"
+          data={tablistData}
+          selectedKey={startupSelectedKey}
+        />
+        {showContent && (
+          <Tabs.Content id="toggle">
+            {({ key }) => <h2>{key}</h2>}
+          </Tabs.Content>
+        )}
+      </>
+    )
+
+    const selectedTab = () =>
+      document.querySelector(
+        `button[data-tab-key="${startupSelectedKey}"]`
+      )
+
+    const { rerender } = render(<Wrapper showContent={false} />)
+
+    // No external tabpanel yet
+    expect(document.getElementById('toggle-content')).toBeNull()
+    expect(selectedTab().getAttribute('aria-controls')).toBeNull()
+
+    // Mounting the external tabpanel links it from the selected tab
+    rerender(<Wrapper showContent />)
+    expect(document.getElementById('toggle-content')).toBeTruthy()
+    expect(selectedTab().getAttribute('aria-controls')).toBe(
+      'toggle-content'
+    )
+
+    // Removing it again must not leave a dangling reference
+    rerender(<Wrapper showContent={false} />)
+    expect(document.getElementById('toggle-content')).toBeNull()
+    expect(selectedTab().getAttribute('aria-controls')).toBeNull()
+  })
+
+  it('resolves render-prop content once per render (no double evaluation)', () => {
+    const contentFn = vi.fn((key: string | number) => (
+      <h2>content-{key}</h2>
+    ))
+
+    // The render callback runs exactly once per Tabs render, so it is an
+    // accurate counter of render passes regardless of how many times Tabs
+    // re-renders internally.
+    let renderPasses = 0
+
+    render(
+      <Tabs
+        id="single-eval"
+        data={tablistData}
+        selectedKey="second"
+        render={({ Wrapper, TabsList, Tabs: TabItems, Content }) => {
+          renderPasses++
+          return (
+            <Wrapper>
+              <TabsList>
+                <TabItems />
+              </TabsList>
+              <Content />
+            </Wrapper>
+          )
+        }}
+      >
+        {(key) => contentFn(key)}
+      </Tabs>
+    )
+
+    // The selected content is resolved once per render and reused by both the
+    // tabpanel rendering and the aria-controls decision. Before the fix it was
+    // resolved twice per render (2 * renderPasses).
+    expect(renderPasses).toBeGreaterThan(0)
+    expect(contentFn).toHaveBeenCalledTimes(renderPasses)
+  })
 })
 
 describe('TabList component', () => {
