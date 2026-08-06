@@ -94,7 +94,11 @@ export function getMessageValues(
  */
 export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
   if (ajvError.keyword === 'errorMessage') {
-    return new Error(ajvError.message ?? 'Unknown error')
+    // The message is already the final custom message from ajv-errors, so no
+    // messageValues are resolved here (they live on the wrapped params.errors).
+    return new FormError(ajvError.message ?? 'Unknown error', {
+      ajvKeyword: ajvError.keyword,
+    })
   }
 
   return new FormError(

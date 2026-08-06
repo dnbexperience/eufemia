@@ -247,6 +247,29 @@ describe('ajvErrorToFormError', () => {
     expect(formError.message).toBe('StringField.errorMinLength')
   })
 
+  it('should return a FormError (not a plain Error) for an errorMessage keyword', () => {
+    const ajvError: ErrorObject = {
+      schemaPath: '#',
+      instancePath: '/path',
+      keyword: 'errorMessage',
+      params: {
+        errors: [
+          {
+            schemaPath: '#',
+            instancePath: '/path',
+            keyword: 'minLength',
+            params: { limit: 5 },
+          },
+        ],
+      },
+      message: 'Custom error message',
+    }
+    const formError = ajvErrorToFormError(ajvError)
+    expect(formError).toBeInstanceOf(FormError)
+    expect(formError.message).toBe('Custom error message')
+    expect(formError.ajvKeyword).toBe('errorMessage')
+  })
+
   it('should return a FormError with "Unknown error" message if no message and undefined keyword is provided', () => {
     const ajvError: ErrorObject = {
       schemaPath: '#',
