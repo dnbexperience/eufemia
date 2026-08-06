@@ -173,11 +173,11 @@ export class InteractionInvalidation {
         // Check if node should be bypassed by elements or selectors
         const bypassedByElement = this.bypassElements.includes(node)
         const bypassedBySelector = this.bypassSelectors.some(
-          (selector) => {
+          (bypassSelector) => {
             try {
               // Handle wildcard selectors (ending with *)
-              if (selector.endsWith(' *')) {
-                const baseSelector = selector.replace(' *', '')
+              if (bypassSelector.endsWith(' *')) {
+                const baseSelector = bypassSelector.replace(' *', '')
                 const baseElement = (
                   targetElement || document.documentElement
                 ).querySelector(baseSelector)
@@ -186,7 +186,7 @@ export class InteractionInvalidation {
                 // Handle direct selectors
                 const matchingElement = (
                   targetElement || document.documentElement
-                ).querySelector(selector)
+                ).querySelector(bypassSelector)
                 return matchingElement && matchingElement.contains(node)
               }
             } catch (e) {
