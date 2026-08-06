@@ -3,25 +3,50 @@ import { getMockData as getMockDataPostalCode } from '@dnb/eufemia/src/extension
 import { getMockData as getMockDataAddress } from '@dnb/eufemia/src/extensions/forms/Connectors/Bring/address'
 import { Form, Field, Connectors } from '@dnb/eufemia/src/extensions/forms'
 
-let mockFetchTimeout = null
-async function mockFetch(countryCode: string, data) {
-  const originalFetch = globalThis.fetch
+const mockResponses = new Map<string, unknown>()
+let originalFetch: typeof globalThis.fetch | undefined
+let mockFetchImplementation: typeof globalThis.fetch | undefined
 
-  globalThis.fetch = () => {
-    return Promise.resolve({
-      ok: true,
-      json: () => {
-        return Promise.resolve(data)
-      },
-    }) as Promise<Response>
+export function resetMockFetch() {
+  mockResponses.clear()
+
+  if (originalFetch) {
+    globalThis.fetch = originalFetch
+  }
+
+  originalFetch = undefined
+  mockFetchImplementation = undefined
+}
+
+export async function mockFetch(url: string, data: unknown) {
+  mockResponses.set(url, data)
+
+  if (globalThis.fetch !== mockFetchImplementation) {
+    originalFetch = globalThis.fetch
+    const fallbackFetch = originalFetch
+    mockFetchImplementation = (input, init) => {
+      const requestUrl =
+        typeof input === 'string'
+          ? input
+          : input instanceof URL
+            ? input.href
+            : input.url
+
+      if (mockResponses.has(requestUrl)) {
+        return Promise.resolve(
+          new Response(JSON.stringify(mockResponses.get(requestUrl)), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        )
+      }
+
+      return fallbackFetch(input, init)
+    }
+    globalThis.fetch = mockFetchImplementation
   }
 
   await new Promise((resolve) => setTimeout(resolve, 1000))
-
-  clearTimeout(mockFetchTimeout)
-  mockFetchTimeout = setTimeout(() => {
-    globalThis.fetch = originalFetch
-  }, 1100)
 }
 
 export const PostalCode = () => {
@@ -31,11 +56,9 @@ export const PostalCode = () => {
         const { withConfig } = Connectors.createContext({
           fetchConfig: {
             url: async (value, { countryCode }) => {
-              await mockFetch(
-                countryCode,
-                getMockDataPostalCode(countryCode)
-              )
-              return `[YOUR-API-URL]/${value}`
+              const url = `[YOUR-API-URL]/postal-code/${value}`
+              await mockFetch(url, getMockDataPostalCode(countryCode))
+              return url
             },
           },
         })
@@ -85,8 +108,9 @@ export const Address = () => {
         const { withConfig } = Connectors.createContext({
           fetchConfig: {
             url: async (value, { countryCode }) => {
-              await mockFetch(countryCode, getMockDataAddress(countryCode))
-              return `[YOUR-API-URL]/${value}`
+              const url = `[YOUR-API-URL]/address/${value}`
+              await mockFetch(url, getMockDataAddress(countryCode))
+              return url
             },
           },
         })
