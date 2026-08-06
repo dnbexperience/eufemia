@@ -345,26 +345,27 @@ export function combineDescribedBy(...params) {
   return combineAriaBy('aria-describedby', params)
 }
 function combineAriaBy(type, params) {
-  params = params.map((cur) => {
-    if (Array.isArray(cur)) {
-      return cur.join(' ')
-    }
-    if (cur && params.includes(cur[type])) {
-      return null
-    }
-    if (cur && typeof cur[type] !== 'undefined') {
-      cur = cur[type]
-    }
-    if (typeof cur !== 'string') {
-      cur = null
-    }
-    return cur
-  })
-  params = params.filter(Boolean).join(' ')
-  if (params === '') {
-    params = undefined
+  const ids = params
+    .flatMap((cur) => {
+      if (Array.isArray(cur)) {
+        return cur
+      }
+      if (cur && typeof cur[type] !== 'undefined') {
+        return cur[type]
+      }
+      return cur
+    })
+    .filter((cur) => typeof cur === 'string')
+    // aria-labelledby/-describedby are space-separated id lists, so split and
+    // dedupe on individual ids
+    .flatMap((cur) => cur.split(/\s+/))
+    .filter(Boolean)
+
+  const uniqueParams = Array.from(new Set(ids)).join(' ')
+  if (uniqueParams === '') {
+    return undefined
   }
-  return params
+  return uniqueParams
 }
 
 export function findElementInChildren(children, find) {
