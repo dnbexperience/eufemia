@@ -1,3 +1,5 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-flex-item {
   &--grow {
     flex-grow: 1;
@@ -29,6 +31,26 @@
     }
   }
 
+  .dnb-flex-container--css-gap:not([data-custom-media]) > &--responsive {
+    @include utilities.allBelow(small) {
+      --span: var(--small, var(--medium));
+    }
+    @include utilities.allBetween(small, medium) {
+      --span: var(--medium, var(--large));
+    }
+    @include utilities.allAbove(medium) {
+      --span: var(--large, var(--medium));
+    }
+  }
+
+  .dnb-flex-container--css-gap > &--responsive {
+    --flex-basis: calc(
+      (100% + var(--horizontal-gap)) /
+        var(--size-count, var(--size-count--default)) *
+        var(--span, var(--span--default)) - var(--horizontal-gap)
+    );
+  }
+
   // Handle column spans
   &--responsive {
     --size-count--default: 12;
@@ -42,6 +64,9 @@
     }
     .dnb-flex-container[data-media-key='large'] & {
       --span: var(--large, var(--medium));
+    }
+    .dnb-flex-container[data-custom-media][data-media-key] & {
+      --span: var(--span--media);
     }
 
     --flex-basis: calc(

@@ -4,6 +4,7 @@ import {
   createElement,
   isValidElement,
   useMemo,
+  useRef,
 } from 'react'
 import type {
   CSSProperties,
@@ -26,29 +27,27 @@ import {
 import type { MediaQueryBreakpoints } from '../../shared/MediaQueryUtils'
 import type { SpaceType } from '../../shared/types'
 import type { UseMediaQueries } from '../../shared/useMedia'
-import type { FlexEnd, FlexStart } from './types'
+import type { FlexEnd, FlexGap, FlexStart } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
-
-type Gap =
-  | false
-  | 'xx-small'
-  | 'x-small'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | 'x-large'
-  | 'xx-large'
+import FlexLayoutContext from './FlexLayoutContext'
+import FlexDividers from './FlexDividers'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 
 export type FlexContainerProps = {
   direction?: 'horizontal' | 'vertical'
+  /**
+   * Select the Flex layout engine. The legacy engine remains the default for backwards compatibility. Use `css` to opt in to native CSS gaps without changing existing layouts.
+   * Default: `'legacy'`
+   */
+  layoutEngine?: 'legacy' | 'css'
   wrap?: boolean
   /**
-   * Define if intrinsic DOM child elements such as `li` should be wrapped in `Space` to receive spacing. Set to `false` to keep them as direct descendants.
+   * Deprecated. Controls intrinsic-element wrapping only when `layoutEngine="legacy"` is used.
    * Default: `true`
    */
   wrapChildrenInSpace?: boolean
-  rowGap?: Gap
+  rowGap?: FlexGap
   sizeCount?: number
   /**
    * Distribute sub components along the main axis (CSS `justify-content`). In horizontal direction, this controls left-to-right placement. In vertical direction, this controls top-to-bottom placement.
@@ -77,7 +76,7 @@ export type FlexContainerProps = {
    * How much space between child items. Use `false` for no spacing. If in vertical layout: if both `rowGap` and `gap` is set, `rowGap` will be used.
    * Default: `'small'`
    */
-  gap?: Gap
+  gap?: FlexGap
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
 }
@@ -91,6 +90,7 @@ export type FlexContainerAllProps = FlexContainerProps &
 
 const propNames: Array<keyof FlexContainerAllProps> = [
   'direction',
+  'layoutEngine',
   'wrap',
   'wrapChildrenInSpace',
   'justify',
@@ -123,6 +123,7 @@ function FlexContainer(props: FlexContainerAllProps) {
     children,
     element = 'div',
     direction = 'horizontal',
+    layoutEngine = 'legacy',
     wrap = true,
     wrapChildrenInSpace = true,
     sizeCount = 12,
@@ -134,114 +135,187 @@ function FlexContainer(props: FlexContainerAllProps) {
     gap = 'small',
     breakpoints,
     queries,
+    ref,
     ...rest
   } = props
+  const containerRef = useRef<HTMLElement>(null)
+  const combinedRef = useCombinedRef(ref, containerRef)
 
   const spacing = useMemo(
     () => (direction === 'vertical' ? rowGap : undefined) ?? gap,
     [direction, gap, rowGap]
   )
-  const childrenArray = replaceRootFragment(wrapChildren(props, children))
-  const hasHeading = childrenArray.some((child, i) => {
-    const previousChild = childrenArray?.[i - 1]
-    return (
-      isHeadingElement(child) || (i > 0 && isHeadingElement(previousChild))
-    )
-  })
+  const isCssEngine = layoutEngine === 'css'
+  const childrenArray = isCssEngine
+    ? []
+    : replaceRootFragment(wrapChildren(props, children))
+  const hasHeading =
+    !isCssEngine &&
+    childrenArray.some((child, i) => {
+      const previousChild = childrenArray?.[i - 1]
+      return (
+        isHeadingElement(child) ||
+        (i > 0 && isHeadingElement(previousChild))
+      )
+    })
   const hasSizeProp =
+    !isCssEngine &&
     !hasHeading &&
     direction === 'horizontal' &&
     childrenArray.some((child) => child['props']?.span)
+  const hasSpanContext =
+    direction === 'horizontal' && (isCssEngine || hasSizeProp)
+  const hasCustomMedia =
+    isCssEngine &&
+    Boolean(breakpoints || queries) &&
+    direction === 'horizontal'
+  const usesMediaKey = hasSizeProp || hasCustomMedia
 
   const { key: mediaKey } = useMedia({
-    disabled: !hasSizeProp,
+    disabled: !usesMediaKey,
     breakpoints,
     queries,
   })
 
-  const content = childrenArray.map((child, i) => {
-    // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default
-    // is the spacing-props that controls space between children. Then override with props sent to the children, including both top
-    // and bottom when th
-    const isFirst = i === 0
-    const isLast = i >= childrenArray.length - 1
-    const previousChild = childrenArray?.[i - 1]
-    const isHeading = hasHeading && isHeadingElement(previousChild)
-
-    // Always set spacing between elements in the vertical layout on the top props, and 0 on bottom, to avoid
-    // having to divide spacing between both with smaller values.
-    const start: FlexStart = direction === 'horizontal' ? 'left' : 'top'
-    const end: FlexEnd = direction === 'horizontal' ? 'right' : 'bottom'
-    const endSpacing = 0
-    let startSpacing: SpaceType
-
-    if (
-      // No line above heading
-      !isHeading &&
-      ((divider === 'line' && !isFirst) || divider === 'line-framed')
-    ) {
-      const spaceAboveLine = getSpaceValue(end, previousChild) ?? spacing
-      startSpacing = (getSpaceValue(start, child) ?? spacing) as SpaceType
-
-      return (
-        <Fragment key={`element-${i}`}>
-          <Hr
-            top={!isFirst ? spaceAboveLine : 0}
-            space={0}
-            className="dnb-flex-container__hr"
-          />
-
-          {renderWithSpacing(child, {
-            space: { [start]: startSpacing, [end]: endSpacing },
-            wrapInSpace: wrapChildrenInSpace,
-          })}
-
-          {divider === 'line-framed' && isLast && (
-            <Hr
-              top={spaceAboveLine}
-              space={0}
-              className="dnb-flex-container__hr"
-            />
-          )}
-        </Fragment>
-      )
-    }
-
-    // No space above first element.
-    if (isFirst && direction !== 'horizontal') {
-      startSpacing = 0
-    } else {
-      // Since top space of current and bottom space of previous component is the same
-      startSpacing =
-        getSpaceValue(start, child) ??
-        getSpaceValue(end, previousChild) ??
-        spacing
-    }
-
-    if (
-      isValidElement(previousChild) &&
-      previousChild?.type?.['_supportsSpacingProps'] === false
-    ) {
-      startSpacing = 0
-    }
-
-    const space =
-      direction === 'horizontal'
+  const layoutContext = useMemo(
+    () =>
+      isCssEngine
         ? {
-            [start]: endSpacing,
-            [end]:
-              isLast && !hasSizeProp
-                ? (getSpaceValue(end, child) ?? endSpacing)
-                : startSpacing,
+            direction,
+            wrap,
+            rowGap,
+            sizeCount,
+            justify,
+            align,
+            divider,
+            gap,
+            breakpoints,
+            queries,
+            mediaKey: hasCustomMedia ? mediaKey : undefined,
+            renderChildren: (nestedChildren: ReactNode) => (
+              <FlexContainer
+                direction={direction}
+                wrap={wrap}
+                rowGap={rowGap}
+                sizeCount={sizeCount}
+                justify={justify}
+                align={align}
+                divider={divider}
+                gap={gap}
+                breakpoints={breakpoints}
+                queries={queries}
+                layoutEngine={layoutEngine}
+              >
+                {nestedChildren}
+              </FlexContainer>
+            ),
           }
-        : { [start]: startSpacing, [end]: endSpacing }
+        : null,
+    [
+      align,
+      breakpoints,
+      direction,
+      divider,
+      gap,
+      isCssEngine,
+      layoutEngine,
+      hasCustomMedia,
+      justify,
+      queries,
+      mediaKey,
+      rowGap,
+      sizeCount,
+      wrap,
+    ]
+  )
 
-    return renderWithSpacing(child, {
-      key: child?.['key'] || `element-${i}`,
-      space,
-      wrapInSpace: wrapChildrenInSpace,
-    })
-  })
+  const content = isCssEngine
+    ? children
+    : childrenArray.map((child, i) => {
+        // Legacy mode injects directional spacing props into each child.
+        const isFirst = i === 0
+        const isLast = i >= childrenArray.length - 1
+        const previousChild = childrenArray?.[i - 1]
+        const isHeading = hasHeading && isHeadingElement(previousChild)
+
+        // Always set spacing between elements in the vertical layout on the top props, and 0 on bottom, to avoid
+        // having to divide spacing between both with smaller values.
+        const start: FlexStart =
+          direction === 'horizontal' ? 'left' : 'top'
+        const end: FlexEnd =
+          direction === 'horizontal' ? 'right' : 'bottom'
+        const endSpacing = 0
+        let startSpacing: SpaceType
+
+        if (
+          // No line above heading
+          !isHeading &&
+          ((divider === 'line' && !isFirst) || divider === 'line-framed')
+        ) {
+          const spaceAboveLine =
+            getSpaceValue(end, previousChild) ?? spacing
+          startSpacing = (getSpaceValue(start, child) ??
+            spacing) as SpaceType
+
+          return (
+            <Fragment key={`element-${i}`}>
+              <Hr
+                top={!isFirst ? spaceAboveLine : 0}
+                space={0}
+                className="dnb-flex-container__hr"
+              />
+
+              {renderWithSpacing(child, {
+                space: { [start]: startSpacing, [end]: endSpacing },
+                wrapInSpace: wrapChildrenInSpace,
+              })}
+
+              {divider === 'line-framed' && isLast && (
+                <Hr
+                  top={spaceAboveLine}
+                  space={0}
+                  className="dnb-flex-container__hr"
+                />
+              )}
+            </Fragment>
+          )
+        }
+
+        // No space above first element.
+        if (isFirst && direction !== 'horizontal') {
+          startSpacing = 0
+        } else {
+          // Since top space of current and bottom space of previous component is the same
+          startSpacing =
+            getSpaceValue(start, child) ??
+            getSpaceValue(end, previousChild) ??
+            spacing
+        }
+
+        if (
+          isValidElement(previousChild) &&
+          previousChild?.type?.['_supportsSpacingProps'] === false
+        ) {
+          startSpacing = 0
+        }
+
+        const space =
+          direction === 'horizontal'
+            ? {
+                [start]: endSpacing,
+                [end]:
+                  isLast && !hasSizeProp
+                    ? (getSpaceValue(end, child) ?? endSpacing)
+                    : startSpacing,
+              }
+            : { [start]: startSpacing, [end]: endSpacing }
+
+        return renderWithSpacing(child, {
+          key: child?.['key'] || `element-${i}`,
+          space,
+          wrapInSpace: wrapChildrenInSpace,
+        })
+      })
 
   const n = 'dnb-flex-container'
   const rowGapClass = useMemo(() => {
@@ -253,6 +327,7 @@ function FlexContainer(props: FlexContainerAllProps) {
 
   const cn = clsx(
     'dnb-flex-container',
+    isCssEngine && `${n}--css-gap`,
     direction && `${n}--direction-${direction}`,
     justify && `${n}--justify-${justify}`,
     align && `${n}--align-${align}`,
@@ -268,16 +343,23 @@ function FlexContainer(props: FlexContainerAllProps) {
   return (
     <Space
       element={element}
+      ref={combinedRef}
       className={cn}
-      data-media-key={mediaKey}
+      data-media-key={usesMediaKey ? mediaKey : undefined}
+      data-custom-media={hasCustomMedia ? true : undefined}
       style={
-        hasSizeProp
+        hasSpanContext
           ? ({ '--size-count': sizeCount, ...style } as CSSProperties)
           : style
       }
       {...rest}
     >
-      {content}
+      <FlexLayoutContext value={layoutContext}>
+        {content}
+      </FlexLayoutContext>
+      {isCssEngine && divider !== 'space' && (
+        <FlexDividers containerRef={containerRef} />
+      )}
     </Space>
   )
 }

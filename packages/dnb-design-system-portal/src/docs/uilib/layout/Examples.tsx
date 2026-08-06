@@ -349,6 +349,12 @@ const AllComponents = ({
   direction = 'vertical',
   showText = false,
   hideLabel = false,
+  layoutEngine,
+}: {
+  direction?: 'horizontal' | 'vertical'
+  showText?: boolean
+  hideLabel?: boolean
+  layoutEngine?: 'legacy' | 'css'
 } = {}) => {
   const params: SpacingElementProps = {
     left: direction === 'horizontal' ? 'small' : null,
@@ -435,46 +441,63 @@ const AllComponents = ({
 
   if (direction === 'horizontal') {
     return (
-      <Flex.Horizontal style={{ padding: '1rem', whiteSpace: 'nowrap' }}>
+      <Flex.Horizontal
+        layoutEngine={layoutEngine}
+        style={{ padding: '1rem', whiteSpace: 'nowrap' }}
+      >
         <Components />
       </Flex.Horizontal>
     )
   } else {
     Components._supportsSpacingProps = true
+
     return (
-      <Flex.Vertical style={{ padding: '1rem' }}>
+      <Flex.Vertical
+        layoutEngine={layoutEngine}
+        style={{ padding: '1rem' }}
+      >
         <Components />
       </Flex.Vertical>
     )
   }
 }
 
-export const AllComponentsVerticalTestCase = (
-  props?: HTMLProps<HTMLDivElement>
-) => (
+type AllComponentsTestCaseProps = HTMLProps<HTMLDivElement> & {
+  layoutEngine?: 'legacy' | 'css'
+}
+
+export const AllComponentsVerticalTestCase = ({
+  layoutEngine,
+  ...props
+}: AllComponentsTestCaseProps) => (
   <div data-visual-test="form-components-alignment-vertical" {...props}>
-    <AllComponents direction="vertical" />
+    <AllComponents direction="vertical" layoutEngine={layoutEngine} />
   </div>
 )
 
-export const AllComponentsVerticalLabelsTestCase = (
-  props?: HTMLProps<HTMLDivElement>
-) => (
+export const AllComponentsVerticalLabelsTestCase = ({
+  layoutEngine,
+  ...props
+}: AllComponentsTestCaseProps) => (
   <div
     data-visual-test="form-components-alignment-vertical-labels"
     {...props}
   >
-    <AllComponents direction="vertical" />
+    <AllComponents direction="vertical" layoutEngine={layoutEngine} />
   </div>
 )
 
-export const AllComponentsHorizontalTestCase = (
-  props?: HTMLProps<HTMLDivElement>
-) => (
+export const AllComponentsHorizontalTestCase = ({
+  layoutEngine,
+  ...props
+}: AllComponentsTestCaseProps) => (
   <div data-visual-test="form-components-alignment-horizontal" {...props}>
     <Provider formElement={{ labelDirection: 'horizontal' }}>
       <ScrollView>
-        <AllComponents direction="horizontal" />
+        <AllComponents
+          direction="horizontal"
+          layoutEngine={layoutEngine}
+        />
       </ScrollView>
     </Provider>
   </div>

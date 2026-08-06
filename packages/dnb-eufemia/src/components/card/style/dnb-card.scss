@@ -128,8 +128,11 @@
     );
   }
 
-  & > .dnb-flex-container > .dnb-space:has(> .dnb-scroll-view) {
-    width: 100%;
+  & > .dnb-flex-container {
+    > .dnb-space:has(> .dnb-scroll-view),
+    > .dnb-scroll-view {
+      width: 100%;
+    }
   }
 
   & > .dnb-flex-container--align-stretch > .dnb-button {
@@ -145,6 +148,14 @@
       margin-left: calc(var(--padding-left, 1rem) * -1 * var(--outset));
       margin-right: calc(var(--padding-right, 1rem) * -1 * var(--outset));
     }
+  }
+}
+
+.dnb-flex-container--css-gap.dnb-flex-container--divider-space
+  > .dnb-card--responsive
+  + .dnb-card--responsive {
+  @include utilities.allBelow(small) {
+    margin-block-start: calc(var(--horizontal-gap) * -1);
   }
 }
 

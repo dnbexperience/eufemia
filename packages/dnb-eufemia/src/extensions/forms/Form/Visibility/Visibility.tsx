@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useRef } from 'react'
 import type { AriaAttributes, ReactNode } from 'react'
 
 import { warn } from '../../../../shared/helpers'
@@ -15,6 +15,10 @@ import type { Path, UseFieldProps } from '../../types'
 import type { DataAttributes } from '../../hooks/useFieldProps'
 import type { FilterData } from '../../DataContext'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import FlexLayoutContext from '../../../../components/flex/FlexLayoutContext'
+import FlexLayoutChildren, {
+  useFlexLayoutRoot,
+} from '../../../../components/flex/FlexLayoutChildren'
 
 export type VisibleWhen =
   | {
@@ -168,6 +172,9 @@ function Visibility(props: FormVisibilityProps) {
     [mountedRef, onVisible]
   )
 
+  const flexLayout = useContext(FlexLayoutContext)
+  const rootRef = useRef<HTMLSpanElement>(null)
+  const rootLayout = useFlexLayoutRoot(flexLayout, rootRef)
   const summaryListContext = useContext(SummaryListContext)
   const providerProps = !open ? fieldPropsWhenHidden : null
 
@@ -203,8 +210,15 @@ function Visibility(props: FormVisibilityProps) {
 
   if (keepInDOM) {
     return (
-      <span id={id} className="dnb-forms-visibility" hidden={!open}>
-        <FieldProvider {...providerProps}>{content}</FieldProvider>
+      <span
+        ref={rootRef}
+        id={id}
+        className="dnb-forms-visibility"
+        hidden={!open}
+      >
+        <FlexLayoutChildren layout={rootLayout}>
+          <FieldProvider {...providerProps}>{content}</FieldProvider>
+        </FlexLayoutChildren>
       </span>
     )
   }
@@ -213,8 +227,10 @@ function Visibility(props: FormVisibilityProps) {
     return (
       <>
         {open ? (
-          <span id={id} className="dnb-forms-visibility">
-            {content}
+          <span ref={rootRef} id={id} className="dnb-forms-visibility">
+            <FlexLayoutChildren layout={rootLayout}>
+              {content}
+            </FlexLayoutChildren>
           </span>
         ) : null}
       </>

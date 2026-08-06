@@ -1,5 +1,6 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { Form, Field, Tools, Value } from '../../..'
+import { Flex } from '../../../../../components'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
 
 describe('Form.Outlet', () => {
@@ -146,6 +147,39 @@ describe('Form.Outlet', () => {
     const forms = container.querySelectorAll('form.dnb-forms-form')
 
     expect(forms).toHaveLength(2)
+  })
+
+  it('should create a nested CSS layout inside the external form root', async () => {
+    const formId = 'linked-handler-flex-layout'
+
+    render(
+      <>
+        <Form.Handler id={formId} data={{ name: 'Nora' }}>
+          {null}
+        </Form.Handler>
+        <Flex.Vertical layoutEngine="css" gap="medium">
+          <Form.Outlet formHandlerId={formId}>
+            <Flex.Item>First</Flex.Item>
+            <Flex.Item>Second</Flex.Item>
+          </Form.Outlet>
+        </Flex.Vertical>
+      </>
+    )
+
+    const outletForm = Array.from(
+      document.querySelectorAll('form.dnb-forms-form')
+    ).find((form) => form.closest('.dnb-flex-container--css-gap'))
+
+    const nested = await waitFor(() => {
+      const element = outletForm.querySelector(
+        ':scope > .dnb-flex-container--css-gap'
+      )
+      expect(element).toBeInTheDocument()
+      return element
+    })
+
+    expect(nested).toHaveClass('dnb-flex-container--spacing-medium')
+    expect(nested.children).toHaveLength(2)
   })
 
   it('should not render an extra form element when used inside Form.Handler', () => {

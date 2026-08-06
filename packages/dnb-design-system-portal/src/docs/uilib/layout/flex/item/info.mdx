@@ -35,6 +35,14 @@ render(
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Item.tsx)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex/item/)
 
+### Per-item gap overrides
+
+Use `gapBefore` or `gapAfter` to replace the container gap next to a specific item. They follow the container's main axis: before/after maps to left/right in horizontal layouts and top/bottom in vertical layouts. Use `false` to remove that gap.
+
+Regular spacing properties such as `left`, `right`, `top`, and `bottom` are added to the resolved gap. If two adjacent items define the same gap, the following item's `gapBefore` takes precedence over the previous item's `gapAfter`.
+
+<Examples.GapOverrides />
+
 ### Span adjustment
 
 You can provide a `span` property with a number from 1 to 12 (can be changed in [Flex.Container](/uilib/layout/flex/container/) with the `sizeCount` property).

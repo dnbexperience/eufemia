@@ -162,7 +162,11 @@ describe('Heading', () => {
         (attr) => attr.name
       )
 
-      expect(attributes).toEqual(['aria-label', 'class'])
+      expect(attributes).toEqual([
+        'data-flex-item-type',
+        'aria-label',
+        'class',
+      ])
     }
   )
 

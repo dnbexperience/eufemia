@@ -20,6 +20,7 @@ import {
   createSpacing,
   createSpacingProperties,
   createMarginProperties,
+  createSpacingMetadata,
   applySpacing,
   useSpacing,
 } from '../SpacingUtils'
@@ -306,6 +307,115 @@ describe('createSpacing', () => {
 
   it('should ignore innerSpace', () => {
     expect(createSpacing({ innerSpace: 'large' }).className).toEqual([])
+  })
+})
+
+describe('createSpacingMetadata', () => {
+  it('should expose logical properties and presence classes', () => {
+    expect(
+      createSpacingMetadata({
+        top: 'large',
+        right: 'small',
+        bottom: false,
+        left: 'x-small',
+      })
+    ).toEqual({
+      className: [
+        'dnb-space--has-block-start',
+        'dnb-space--has-inline-end',
+        'dnb-space--has-block-end',
+        'dnb-space--has-inline-start',
+      ],
+      style: {
+        '--space-block-start': 'var(--spacing-large)',
+        '--space-inline-end': 'var(--spacing-small)',
+        '--space-block-end': '0',
+        '--space-inline-start': 'var(--spacing-x-small)',
+      },
+    })
+  })
+
+  it('should normalize shorthand, combined, numeric, rem, and px values', () => {
+    expect(
+      createSpacingMetadata({
+        space: { block: 'large x-small', inline: 1 },
+        top: '1.5rem',
+        left: '8px',
+      })
+    ).toEqual({
+      className: [
+        'dnb-space--has-block-start',
+        'dnb-space--has-inline-end',
+        'dnb-space--has-block-end',
+        'dnb-space--has-inline-start',
+      ],
+      style: {
+        '--space-block-start': 'var(--spacing-medium)',
+        '--space-inline-end': 'var(--spacing-small)',
+        '--space-block-end':
+          'calc(var(--spacing-large) + var(--spacing-x-small))',
+        '--space-inline-start': 'var(--spacing-x-small)',
+      },
+    })
+  })
+
+  it('should expose responsive logical properties', () => {
+    expect(
+      createSpacingMetadata({
+        space: {
+          small: { top: 'small', left: false },
+          medium: { top: 'large' },
+          large: { bottom: 'x-large' },
+        },
+      })
+    ).toEqual({
+      className: [
+        'dnb-space--has-block-start',
+        'dnb-space--has-block-end',
+        'dnb-space--has-inline-start',
+      ],
+      style: {
+        '--space-block-start-small': 'var(--spacing-small)',
+        '--space-inline-start-small': '0',
+        '--space-block-start-medium': 'var(--spacing-large)',
+        '--space-block-end-large': 'var(--spacing-x-large)',
+      },
+    })
+  })
+
+  it('should let directional props override responsive shorthand values', () => {
+    expect(
+      createSpacingMetadata({
+        space: {
+          small: 'small',
+          medium: 'large',
+        },
+        top: 'x-small',
+      })
+    ).toEqual({
+      className: [
+        'dnb-space--has-block-start',
+        'dnb-space--has-inline-end',
+        'dnb-space--has-block-end',
+        'dnb-space--has-inline-start',
+      ],
+      style: {
+        '--space-block-start': 'var(--spacing-x-small)',
+        '--space-inline-end-small': 'var(--spacing-small)',
+        '--space-block-end-small': 'var(--spacing-small)',
+        '--space-inline-start-small': 'var(--spacing-small)',
+        '--space-inline-end-medium': 'var(--spacing-large)',
+        '--space-block-end-medium': 'var(--spacing-large)',
+        '--space-inline-start-medium': 'var(--spacing-large)',
+      },
+    })
+  })
+
+  it('should return no metadata when no outer spacing is set', () => {
+    expect(createSpacingMetadata({ innerSpace: 'large' })).toEqual({
+      className: [],
+      style: undefined,
+    })
   })
 })
 
@@ -760,16 +870,20 @@ describe('applySpacing', () => {
     })
   })
 
-  it('should not add --margin custom properties for non-responsive spacing', () => {
+  it('should add logical metadata without legacy margin properties for non-responsive spacing', () => {
     const result = applySpacing(
       { top: 'small', right: 'large' },
       {
         className: 'dnb-my-component',
         style: { color: 'red' } as CSSProperties,
-      }
+      },
+      null,
+      true
     )
     expect(result.style).toEqual({
       color: 'red',
+      '--space-block-start': 'var(--spacing-small)',
+      '--space-inline-end': 'var(--spacing-large)',
     })
   })
 

@@ -12,6 +12,7 @@ draft: true
   - [Install](#install)
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
+    - [Flex](#flex)
     - [Accordion](#accordion)
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [InfoCard](#infocard)
@@ -48,6 +49,27 @@ $ yarn add @dnb/eufemia@13
 - Replace `--leading-sb-*` with `--leading-*`
 
 ## Component changes
+
+### [Flex](/uilib/layout/flex/)
+
+Flex now uses native CSS gap and renders React children unchanged. The following legacy migration APIs are deprecated:
+
+- `Flex.withChildren`
+- `_supportsSpacingProps`
+- `wrapChildrenInSpace`
+- `layoutEngine="legacy"`
+
+Remove `Flex.withChildren` and `_supportsSpacingProps` from ordinary custom components. Their rendered DOM root participates in Flex automatically. Components that accept spacing properties should apply them to their rendered root with `useSpacing`.
+
+If a wrapper's children need their own Flex layout, render an explicit `Flex.Container` inside the wrapper instead of using `Flex.withChildren`.
+
+The previous child-inspection engine remains temporarily available during migration:
+
+```tsx
+<Flex.Container layoutEngine="legacy">...</Flex.Container>
+```
+
+Do not use the deprecated APIs for new integrations. See the [Flex.Container migration guidance](/uilib/layout/flex/container/#legacy-compatibility-mode) for details.
 
 ### [Accordion](/uilib/components/accordion/)
 

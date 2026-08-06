@@ -54,6 +54,122 @@ exports[`Space scss > should match style dependencies css 1`] = `
   }
 }
 
+.dnb-space--has-block-start {
+  --space-block-start: 0;
+}
+
+.dnb-space--has-inline-end {
+  --space-inline-end: 0;
+}
+
+.dnb-space--has-block-end {
+  --space-block-end: 0;
+}
+
+.dnb-space--has-inline-start {
+  --space-inline-start: 0;
+}
+
+@media screen and (max-width: 60em) {
+  .dnb-space--has-block-start {
+    --space-block-start: var(
+      --space-block-start-small,
+      var(--space-block-start-medium, var(--space-block-start-large))
+    );
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space--has-block-start {
+    --space-block-start: var(
+      --space-block-start-medium,
+      var(--space-block-start-small, var(--space-block-start-large))
+    );
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space--has-block-start {
+    --space-block-start: var(
+      --space-block-start-large,
+      var(--space-block-start-medium, var(--space-block-start-small))
+    );
+  }
+}
+
+@media screen and (max-width: 60em) {
+  .dnb-space--has-inline-end {
+    --space-inline-end: var(
+      --space-inline-end-small,
+      var(--space-inline-end-medium, var(--space-inline-end-large))
+    );
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space--has-inline-end {
+    --space-inline-end: var(
+      --space-inline-end-medium,
+      var(--space-inline-end-small, var(--space-inline-end-large))
+    );
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space--has-inline-end {
+    --space-inline-end: var(
+      --space-inline-end-large,
+      var(--space-inline-end-medium, var(--space-inline-end-small))
+    );
+  }
+}
+
+@media screen and (max-width: 60em) {
+  .dnb-space--has-block-end {
+    --space-block-end: var(
+      --space-block-end-small,
+      var(--space-block-end-medium, var(--space-block-end-large))
+    );
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space--has-block-end {
+    --space-block-end: var(
+      --space-block-end-medium,
+      var(--space-block-end-small, var(--space-block-end-large))
+    );
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space--has-block-end {
+    --space-block-end: var(
+      --space-block-end-large,
+      var(--space-block-end-medium, var(--space-block-end-small))
+    );
+  }
+}
+
+@media screen and (max-width: 60em) {
+  .dnb-space--has-inline-start {
+    --space-inline-start: var(
+      --space-inline-start-small,
+      var(--space-inline-start-medium, var(--space-inline-start-large))
+    );
+  }
+}
+@media screen and (max-width: 60em) and (min-width: 40.00625em) {
+  .dnb-space--has-inline-start {
+    --space-inline-start: var(
+      --space-inline-start-medium,
+      var(--space-inline-start-small, var(--space-inline-start-large))
+    );
+  }
+}
+@media screen and (min-width: 60.00625em) {
+  .dnb-space--has-inline-start {
+    --space-inline-start: var(
+      --space-inline-start-large,
+      var(--space-inline-start-medium, var(--space-inline-start-small))
+    );
+  }
+}
+
 /** NB: Because CSS specificity ".dnb-core-style .dnb-space"
     has to come before the next ".dnb-space"
   */

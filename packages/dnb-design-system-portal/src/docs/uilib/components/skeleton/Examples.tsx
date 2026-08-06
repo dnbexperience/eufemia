@@ -107,10 +107,16 @@ export const SkeletonVisibleWhenVisualTests = () => {
   return (
     <>
       <Skeleton show noAnimation>
-        <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
+        <AllComponentsHorizontalTestCase
+          layoutEngine="legacy"
+          data-visual-test="skeleton-all-horizontal"
+        />
       </Skeleton>
       <Skeleton show noAnimation>
-        <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
+        <AllComponentsVerticalLabelsTestCase
+          layoutEngine="legacy"
+          data-visual-test="skeleton-all-vertical"
+        />
       </Skeleton>
     </>
   )
