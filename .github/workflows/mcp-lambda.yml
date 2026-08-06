@@ -51,6 +51,11 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
+      - name: Audit dependencies
+        # Re-audit the shipped (production) dep tree at deploy time to catch
+        # advisories disclosed after the PR gate ran. Mirrors release.yml.
+        run: yarn workspace @dnb/eufemia-mcp audit:ci
+
       - name: Typecheck
         run: cd tools/mcp-lambda && yarn typecheck
 
