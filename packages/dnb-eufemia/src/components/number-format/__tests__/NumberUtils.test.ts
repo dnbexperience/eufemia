@@ -931,6 +931,48 @@ describe('getThousandsSeparator should', () => {
   it('return space when locale is en-US', () => {
     expect(getThousandsSeparator('en-US')).toBe(',')
   })
+
+  it('never returns a narrow or thin space (ICU-version safe)', () => {
+    expect(getThousandsSeparator('fr-CH')).not.toMatch(
+      /[\u202F\u2009\u2007\u205F]/
+    )
+    expect(getThousandsSeparator('fr-FR')).not.toMatch(
+      /[\u202F\u2009\u2007\u205F]/
+    )
+  })
+})
+
+describe('separator normalization (SSR determinism)', () => {
+  // ICU changed the group/currency separator of several locales from a NO-BREAK
+  // SPACE to a NARROW NO-BREAK SPACE (e.g. `fr` in ICU 72). Node.js (SSR/build)
+  // and browsers can ship different ICU versions, so the separator is
+  // normalized to avoid React hydration mismatches.
+  it('normalizes narrow no-break spaces returned by Intl to a no-break space', () => {
+    const spy = vi
+      .spyOn(Intl.NumberFormat.prototype, 'formatToParts')
+      .mockReturnValue([
+        { type: 'integer', value: '1' },
+        { type: 'group', value: '\u202F' },
+        { type: 'integer', value: '234' },
+        { type: 'group', value: '\u202F' },
+        { type: 'integer', value: '567' },
+      ])
+
+    expect(formatNumber(1234567)).toBe('1\u00A0234\u00A0567')
+
+    spy.mockRestore()
+  })
+
+  it('never outputs narrow or thin space variants across locales', () => {
+    for (const loc of ['fr-FR', 'fr-CH', 'nb-NO', 'de-DE', 'en-GB']) {
+      expect(formatNumber(-12345678.9, { locale: loc })).not.toMatch(
+        /[\u202F\u2009\u2007\u205F]/
+      )
+      expect(
+        formatCurrency(-12345.6, { locale: loc, currency: 'NOK' })
+      ).not.toMatch(/[\u202F\u2009\u2007\u205F]/)
+    }
+  })
 })
 
 describe('getCurrencySymbol should', () => {

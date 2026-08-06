@@ -14,6 +14,18 @@ import type {
   InternalNumberFormatOptions,
 } from './types'
 
+// ICU changed the group/currency separator of several locales from NO-BREAK
+// SPACE to NARROW NO-BREAK SPACE (e.g. `fr` in ICU 72). Since Node.js (SSR) and
+// browsers can ship different ICU versions, the same locale may render a
+// different separator on the server and the client, causing hydration
+// mismatches. Normalising these variants to NO-BREAK SPACE keeps the output
+// deterministic across environments.
+const NON_STANDARD_SPACES_REGEX = /[\u202f\u2009\u2007\u205f]/g
+
+function normalizeSeparatorSpaces(value: string): string {
+  return value.replace(NON_STANDARD_SPACES_REGEX, '\u00a0')
+}
+
 /**
  * Strips custom properties (e.g. `decimals`) so the object
  * is compatible with the native `Intl.NumberFormatOptions` type.
@@ -43,9 +55,17 @@ function getFormatParts({
       toIntlOptions(options || {})
     )
     if (typeof inst.formatToParts === 'function') {
-      return inst.formatToParts(Number(number))
+      return inst.formatToParts(Number(number)).map((part) => ({
+        ...part,
+        value: normalizeSeparatorSpaces(part.value),
+      }))
     }
-    return [{ value: inst.format(Number(number)), type: 'unknown' }]
+    return [
+      {
+        value: normalizeSeparatorSpaces(inst.format(Number(number))),
+        type: 'unknown',
+      },
+    ]
   }
 
   return [{ value: String(number), type: 'unknown' }]
