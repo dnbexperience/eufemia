@@ -676,10 +676,13 @@ const makeDesignTokenSCSS = async ({
       fix: true,
     })
 
+    // `code` holds the autofixed output; `output` is deprecated in stylelint 16
+    const fixedContent = stylelintResult.code ?? outputScssContent
+
     if (appendToFile) {
-      await promises.appendFile(outputPath, stylelintResult.output)
+      await promises.appendFile(outputPath, fixedContent)
     } else {
-      await promises.writeFile(outputPath, stylelintResult.output)
+      await promises.writeFile(outputPath, fixedContent)
     }
 
     log.info(`Generated SCSS file: ${outputPath}`)
