@@ -82,6 +82,7 @@ if (typeof window !== 'undefined') {
 const originalError = console.error
 const originalLog = console.log
 const originalWarn = console.warn
+const originalStderrWrite = process.stderr.write.bind(process.stderr)
 
 // ANSI escape prefix used by Eufemia's warn() helper
 const eufemiaAnsiPrefix =
@@ -93,13 +94,28 @@ beforeAll(() => {
     if (
       /not wrapped in act/.test(msg) ||
       /not configured to support act/.test(msg) ||
-      /component suspended inside an `act` scope/.test(msg) ||
-      /Not implemented: navigation/.test(msg)
+      /component suspended inside an `act` scope/.test(msg)
     ) {
       return
     }
     originalError.call(console, ...args)
   }
+
+  // jsdom does not implement cross-document navigation and reports it as
+  // "Not implemented: navigation to another Document" through its default
+  // virtual console, which writes straight to process.stderr — bypassing the
+  // console.error override above. This fires whenever a test clicks an
+  // <a href> or submits a form without preventing the default action. Filter
+  // out just that noise while forwarding everything else untouched.
+  process.stderr.write = ((chunk: unknown, ...args: unknown[]) => {
+    if (String(chunk).includes('Not implemented: navigation')) {
+      return true
+    }
+    return (originalStderrWrite as (...a: unknown[]) => boolean)(
+      chunk,
+      ...args
+    )
+  }) as typeof process.stderr.write
 
   console.log = (...args) => {
     const first = String(args[0] ?? '')
@@ -122,4 +138,5 @@ afterAll(() => {
   console.error = originalError
   console.log = originalLog
   console.warn = originalWarn
+  process.stderr.write = originalStderrWrite
 })
