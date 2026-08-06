@@ -18,7 +18,6 @@ import {
   centerWrapperStyle,
   toolsStyle,
   portalHeaderWrapperStyle,
-  hideSidebarToggleButtonStyle,
 } from './StickyMenuBar.module.scss'
 import { Link } from '../tags/Anchor'
 import GithubLogo from '../../docs/contribute/assets/github-logo'
@@ -35,14 +34,7 @@ export default function StickyMenuBar({
   }
 
   return (
-    <header
-      className={clsx(
-        headerStyle,
-        hideSidebarToggleButton && hideSidebarToggleButtonStyle,
-        'sticky-menu',
-        'dev-grid'
-      )}
-    >
+    <header className={clsx(headerStyle, 'sticky-menu', 'dev-grid')}>
       <div className={portalHeaderWrapperStyle}>
         <HomeButton id="toggle-main-menu" text="Home" />
         <HomeButton id="toggle-main-menu-small-screen" size="default" />
