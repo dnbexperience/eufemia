@@ -309,7 +309,7 @@ export function useDataReturn<Data = JsonObject>({
   >(
     (data, options = {}) => {
       if (id) {
-        return sharedAttachmentsRef.current.data?.visibleDataHandler?.(
+        return sharedAttachmentsRef.current?.data?.visibleDataHandler?.(
           data,
           options
         )
@@ -323,7 +323,7 @@ export function useDataReturn<Data = JsonObject>({
   const filterData = useCallback<UseDataReturn<Data>['filterData']>(
     (filter, data = getCurrentData()) => {
       if (id) {
-        return sharedAttachmentsRef.current.data?.filterDataHandler?.(
+        return sharedAttachmentsRef.current?.data?.filterDataHandler?.(
           data,
           filter
         )
