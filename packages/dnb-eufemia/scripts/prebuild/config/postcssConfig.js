@@ -12,8 +12,7 @@ const getPostcssPresetEnv = async () => {
   const isTestEnv =
     typeof vi !== 'undefined' ||
     process.env.VITEST !== undefined ||
-    process.env.JEST_WORKER_ID !== undefined ||
-    process.env.NODE_ENV === 'test'
+    process.env.JEST_WORKER_ID !== undefined
 
   if (isTestEnv) {
     const mod = require('postcss-preset-env')
