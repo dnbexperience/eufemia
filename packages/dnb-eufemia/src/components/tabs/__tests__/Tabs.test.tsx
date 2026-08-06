@@ -494,6 +494,44 @@ describe('Tabs aria-controls', () => {
     expect(selectedTab().getAttribute('aria-controls')).toBeNull()
   })
 
+  it('keeps aria-controls correct across an external Tabs.Content toggle in StrictMode', () => {
+    const Wrapper = ({ showContent }: { showContent: boolean }) => (
+      <StrictMode>
+        <Tabs
+          id="toggle-strict"
+          data={tablistData}
+          selectedKey={startupSelectedKey}
+        />
+        {showContent && (
+          <Tabs.Content id="toggle-strict">
+            {({ key }) => <h2>{key}</h2>}
+          </Tabs.Content>
+        )}
+      </StrictMode>
+    )
+
+    const selectedTab = () =>
+      document.querySelector(
+        `button[data-tab-key="${startupSelectedKey}"]`
+      )
+
+    const { rerender } = render(<Wrapper showContent={false} />)
+    expect(selectedTab().getAttribute('aria-controls')).toBeNull()
+
+    // StrictMode double-invokes the presence effect (mount/cleanup/mount);
+    // the ref-count must still resolve to "present".
+    rerender(<Wrapper showContent />)
+    expect(document.getElementById('toggle-strict-content')).toBeTruthy()
+    expect(selectedTab().getAttribute('aria-controls')).toBe(
+      'toggle-strict-content'
+    )
+
+    // Back to absent after unmount — the count must return to 0, not drift.
+    rerender(<Wrapper showContent={false} />)
+    expect(document.getElementById('toggle-strict-content')).toBeNull()
+    expect(selectedTab().getAttribute('aria-controls')).toBeNull()
+  })
+
   it('resolves render-prop content once per render (no double evaluation)', () => {
     const contentFn = vi.fn((key: string | number) => (
       <h2>content-{key}</h2>
