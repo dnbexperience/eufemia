@@ -19,13 +19,12 @@ function StepIndicatorProgressBar() {
   return (
     <ol className="dnb-step-indicator__progress-bar" aria-hidden="true">
       {data.map((itemData, i) => {
-        const item =
-          typeof itemData === 'string' ? { title: itemData } : itemData
+        const isString = typeof itemData === 'string'
         const bulletType = getStepIndicatorBulletType({
           index: i,
           activeStep,
-          status: item.status,
-          statusState: item.statusState,
+          status: isString ? undefined : itemData.status,
+          statusState: isString ? undefined : itemData.statusState,
         })
 
         return (

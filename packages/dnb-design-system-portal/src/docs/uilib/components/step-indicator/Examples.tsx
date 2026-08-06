@@ -273,6 +273,7 @@ export const StepIndicatorInsideCard = () => (
   <ComponentBox data-visual-test="step-indicator-inside-card">
     <Card stack>
       <StepIndicator
+        mode="static"
         expandedInitially
         data={[
           'Om din nye bolig',
