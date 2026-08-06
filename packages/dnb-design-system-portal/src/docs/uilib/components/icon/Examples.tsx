@@ -3,6 +3,7 @@
  *
  */
 
+import { useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   bell_medium as BellMedium,
@@ -236,7 +237,15 @@ export function AllIconsTest() {
 }
 
 export function IconTransitionExample() {
-  const notSupported = !Icon.transition.isSupported && (
+  // Rendered after mount only: `Icon.transition.isSupported` relies on a
+  // browser-only CSS feature check, so evaluating it during SSR/first render
+  // would cause a hydration mismatch.
+  const [isMounted, setIsMounted] = useState(false)
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const notSupported = isMounted && !Icon.transition.isSupported && (
     <FormStatus state="warning" top>
       Your browser does not support CSS <code>d</code> path interpolation,
       so the icon transition will fall back to a simple crossfade.
