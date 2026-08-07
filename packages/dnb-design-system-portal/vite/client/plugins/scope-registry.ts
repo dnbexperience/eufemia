@@ -102,6 +102,16 @@ for (const { name, relativePath } of parseDefaultImports(
   allNames.push(name)
 }
 
+for (const { name, relativePath } of parseDefaultImports(
+  path.join(eufemiaSrc, 'extensions/lib.ts')
+)) {
+  importInfoMap.set(name, {
+    source: `@dnb/eufemia/src/extensions/${relativePath}`,
+    isDefault: true,
+  })
+  allNames.push(name)
+}
+
 for (const name of parseFormsExports(
   path.join(eufemiaSrc, 'extensions/forms/index.ts')
 )) {

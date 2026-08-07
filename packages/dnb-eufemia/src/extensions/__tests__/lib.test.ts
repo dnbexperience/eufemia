@@ -6,7 +6,7 @@
  */
 
 import '../../core/test-utils/testSetup'
-import { getExtensions, PaymentCard } from '../lib'
+import { getExtensions, PaymentCard, SidebarMenu } from '../lib'
 
 describe('Library', () => {
   it('has to have a named export of getExtensions', () => {
@@ -14,5 +14,10 @@ describe('Library', () => {
   })
   it('has to have a PaymentCard Component', () => {
     expect(typeof PaymentCard).toBe('function')
+  })
+
+  it('has to have a SidebarMenu extension', () => {
+    expect(typeof SidebarMenu.Container).toBe('function')
+    expect(getExtensions().SidebarMenu).toBe(SidebarMenu)
   })
 })
