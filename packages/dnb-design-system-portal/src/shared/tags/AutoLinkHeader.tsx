@@ -69,8 +69,6 @@ const AutoLinkHeader = ({
             href={`#${id}`}
             onClick={clickHandler}
             aria-hidden
-            // aria-hidden decorative affordance: keep out of the tab order
-            tabIndex={-1}
           >
             #
           </Anchor>
