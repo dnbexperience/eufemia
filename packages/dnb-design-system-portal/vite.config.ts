@@ -201,6 +201,7 @@ export default defineConfig({
       '@mdx-js/react',
       'react/jsx-runtime',
       'react-markdown',
+      'remark-gfm-react-markdown',
     ],
   },
 

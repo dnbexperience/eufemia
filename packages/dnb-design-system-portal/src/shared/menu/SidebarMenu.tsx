@@ -3,7 +3,7 @@
  *
  */
 
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import type {
   KeyboardEvent as ReactKeyboardEvent,
   MouseEvent as ReactMouseEvent,
@@ -11,19 +11,11 @@ import type {
   RefObject,
 } from 'react'
 import { clsx } from 'clsx'
-import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'portal-query'
 import { SidebarMenuContext } from './SidebarMenuContext'
-import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import {
-  Icon,
-  Badge,
-  Button,
-  HeightAnimation,
-} from '@dnb/eufemia/src/components'
-import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
-import { Context, useTheme } from '@dnb/eufemia/src/shared'
-import graphics from './SidebarGraphics'
+import SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
+import '@dnb/eufemia/src/extensions/sidebar-menu/style'
+import { ScrollView } from '@dnb/eufemia/src/fragments'
 import {
   setPageFocusElement,
   applyPageFocus,
@@ -31,6 +23,20 @@ import {
 import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle, resizeHandleStyle } from './SidebarMenu.module.scss'
 import { defaultTabsValue } from '../tags/defaultValues'
+import {
+  applySidebarMenuPlacement,
+  createUilibSidebarStructure,
+  findActiveSidebarItemId,
+  getSidebarMenuStorageKey,
+  groupComponentsByCategory,
+  insertPlatformToggles,
+  shouldIncludeSidebarPrefix,
+  themeTitles,
+  toSidebarMenuData,
+  type NavItem,
+  type NavItemTabs,
+} from './SidebarMenuData'
+import { useTheme } from '@dnb/eufemia/src/shared'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 const sidebarWidthScopeSelector = '.eufemia-scope--portal'
@@ -47,6 +53,8 @@ export default function SidebarLayout({
   const { isClosing, closeMenu, isOpen } = useContext(SidebarMenuContext)
   const scrollRef = useRef<HTMLElement>(null)
   const sidebarResizeHandlers = useSidebarResize(scrollRef)
+  const [platform, setPlatform] = useState('web')
+  const [animatePlatformItems, setAnimatePlatformItems] = useState(false)
 
   const {
     allMdx,
@@ -78,7 +86,35 @@ export default function SidebarLayout({
                 key
               }
               theme
-              accordion
+              sidebarMenuPlacement
+              sidebarMenuDividerBefore
+              platform
+              sidebarMenu {
+                id
+                path
+                parent
+                title
+                icon
+                order
+                root
+                includePageAs
+                pageIcon
+                pageOrder
+                static
+                hideStatus
+                groups {
+                  id
+                  path
+                  title
+                  icon
+                  order
+                  static
+                  includePageAs
+                  pageOrder
+                }
+                platform
+              }
+              category
             }
           }
         }
@@ -87,7 +123,10 @@ export default function SidebarLayout({
   `)
 
   useEffect(() => {
-    setPageFocusElement('nav ul li.is-active a:nth-of-type(1)', 'sidebar')
+    setPageFocusElement(
+      '#portal-sidebar-menu [aria-current="page"]',
+      'sidebar'
+    )
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -105,7 +144,6 @@ export default function SidebarLayout({
   useEffect(() => {
     if (isOpen && !isClosing) {
       setTimeout(() => {
-        scrollToActiveItem()
         applyPageFocus('sidebar')
       }, 10) // after animation is done
     } else if (isClosing) {
@@ -117,63 +155,53 @@ export default function SidebarLayout({
 
   /* Creation of menu items starts here */
 
-  const navItems = groupNavItems(
-    prepareNav({
-      location,
-      allMdx,
-      showAll,
-      pathPrefix,
-    }),
-    location
-  )
-    .filter(({ title, menuTitle }) => title || menuTitle)
-    .map(
-      (
-        {
-          title,
-          menuTitle,
-          status,
-          icon,
-          path,
-          level,
-          isActive,
-          isInsideActivePath,
-          isInsideActiveCategory,
-          subheadings,
-          currentPathName,
-        },
-        nr
-      ) => {
-        const props = {
-          level,
-          nr,
-          status,
-          icon,
-          isActive,
-          isInsideActivePath,
-          isInsideActiveCategory,
-          path,
-          subheadings,
-          currentPathName,
-          title: menuTitle || title,
-        }
-
-        return <ListItem key={path} {...props} scrollRef={scrollRef} />
-      }
+  const groupedNavItems = groupComponentsByCategory(
+    createUilibSidebarStructure(
+      applySidebarMenuPlacement(
+        groupNavItems(
+          prepareNav({
+            location,
+            allMdx,
+            showAll,
+            pathPrefix,
+          }),
+          location
+        ).filter(({ title, menuTitle }) => title || menuTitle)
+      )
     )
+  )
+  const navItems = toSidebarMenuData(groupedNavItems, closeMenu)
+  const platformItems = [
+    ...navItems,
+    {
+      id: 'portal-ios-overview',
+      text: 'iOS overview',
+      platform: 'ios',
+    },
+    {
+      id: 'portal-android-overview',
+      text: 'Android overview',
+      platform: 'android',
+    },
+  ]
+  const selectedItem = findActiveSidebarItemId(groupedNavItems)
+  const currentTheme = useTheme()?.name
+  const storageKey = getSidebarMenuStorageKey(groupedNavItems)
 
   return (
     <>
-      <nav
+      <ScrollView
         id="portal-sidebar-menu"
-        aria-labelledby="toggle-sidebar-menu"
         className={clsx(
           navStyle,
+          'portal-sidebar-scroll-view',
           'dnb-scrollbar-appearance',
           isOpen && 'show-mobile-menu',
           isClosing && 'hide-mobile-menu'
         )}
         ref={scrollRef}
+        interactive="auto"
+        scrollbarGutter="stable"
       >
         <PortalToolsMenu
           triggerProps={{
@@ -187,39 +215,61 @@ export default function SidebarLayout({
           tooltipPosition="bottom"
           hideWhenMediaLarge
         />
-        <ul className="dev-grid">{navItems}</ul>
-      </nav>
+        <SidebarMenu.Container
+          aria-labelledby="toggle-sidebar-menu"
+          className="dev-grid"
+          data={insertPlatformToggles(
+            addThemeBadges(platformItems, currentTheme),
+            platform,
+            (platform) => {
+              setAnimatePlatformItems(true)
+              setPlatform(platform)
+            },
+            animatePlatformItems
+          )}
+          selectedItem={selectedItem}
+          openItemsStorageKey={storageKey}
+          scrollPositionStorageKey={`${storageKey}-scroll-position`}
+          left="medium"
+          top="medium"
+          right="small"
+        />
+      </ScrollView>
 
       <SidebarResizeHandle {...sidebarResizeHandlers} />
     </>
   )
+}
 
-  function scrollToActiveItem() {
-    if (!scrollRef?.current) {
-      return
-    }
+function addThemeBadges(
+  items: ReturnType<typeof toSidebarMenuData>,
+  currentTheme: ReturnType<typeof useTheme>['name']
+) {
+  return items.map(({ themes, items, ...item }) => ({
+    ...item,
+    suffix: themes?.includes(currentTheme) ? (
+      <ThemeBadge theme={currentTheme} />
+    ) : undefined,
+    items: items ? addThemeBadges(items, currentTheme) : undefined,
+  }))
+}
 
-    const elem = scrollRef.current.querySelector('li.is-active')
+function ThemeBadge({
+  theme,
+}: {
+  theme: ReturnType<typeof useTheme>['name']
+}) {
+  const themeTitle = themeTitles[theme]
 
-    if (!elem) {
-      return false
-    }
-
-    try {
-      // The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
-      // As of now it only targets the window scroll, which means it's only automatically scrolling on smaller devices, since on desktop
-      // the menu has its own internal scrollbar inside the <nav /> element
-      const offset = scrollRef.current.getBoundingClientRect().top
-      const rect = elem.getBoundingClientRect()
-      const top = scrollRef.current.scrollTop + rect.top - offset
-      window.scrollTo({
-        top,
-        behavior: 'smooth',
-      })
-    } catch (e) {
-      // Ignore scroll errors.
-    }
-  }
+  return (
+    <span
+      title={`This component is ready for use with the ${themeTitle} theme`}
+      className={clsx(
+        'portal-sidebar-menu__theme-badge',
+        `portal-sidebar-menu__theme-badge--${theme}`
+      )}
+    />
+  )
 }
 
 type SidebarResizeHandleProps = ReturnType<typeof useSidebarResize>
@@ -383,249 +433,6 @@ function useSidebarResize(scrollRef: RefObject<HTMLElement>) {
   }
 }
 
-const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
-  const themeTitle =
-    theme &&
-    {
-      ui: 'DNB',
-      sbanken: 'Sbanken',
-      eiendom: 'Eiendom',
-      carnegie: 'DNB Carnegie',
-    }[theme]
-  const themeTitleTitle =
-    theme && `This component is ready for use with the ${themeTitle} theme`
-  return (
-    <span
-      title={themeTitleTitle}
-      className={clsx(
-        'dnb-sidebar-menu__theme-badge',
-        `dnb-sidebar-menu__theme-badge--${theme}`
-      )}
-      {...props}
-    />
-  )
-}
-
-type ListItemProps = {
-  title: string
-  subheadings?: ListItemProps[]
-  className?: string
-  path: string
-  level?: number
-  nr?: number
-  status?: string
-  theme?: ThemeNames[]
-  icon?: string
-  isActive?: boolean
-  hideInMenu?: boolean
-  isInsideActivePath?: boolean
-  isInsideActiveCategory?: boolean
-  currentPathName?: string
-  accordion?: boolean
-  scrollRef?: RefObject<HTMLElement>
-}
-
-function ListItem({
-  className = null,
-  path,
-  level = 0,
-  isActive = false,
-  isInsideActivePath = false,
-  isInsideActiveCategory = false,
-  nr,
-  status,
-  theme: supportedThemes,
-  icon,
-  title,
-  subheadings,
-  hideInMenu,
-  currentPathName,
-  accordion = false,
-  scrollRef,
-}: ListItemProps) {
-  const currentTheme = useTheme()?.name
-  const { closeMenu } = useContext(SidebarMenuContext)
-  const { skeleton } = useContext(Context)
-  const ref = useRef(null)
-  const [, isInsideActivePathPrevious] = usePrevious(isInsideActivePath)
-  const [hasCurrentPathNameChanged] = usePrevious(currentPathName)
-  const hasSubheadings = useMemo(
-    () => subheadings && subheadings.some((x) => x.hideInMenu !== true),
-    [subheadings]
-  )
-  const isAccordion = useMemo(
-    () => accordion && hasSubheadings,
-    [accordion, hasSubheadings]
-  )
-  const [isExpanded, setIsExpanded] = useState(
-    isAccordion ? isInsideActivePath || isActive : true
-  )
-  const [manualClick, setManualClick] = useState(false)
-
-  if (hideInMenu) {
-    return null
-  }
-  const statusTitle =
-    status &&
-    {
-      new: 'New',
-      beta: 'Beta',
-      wip: 'WIP',
-      cs: 'Coming soon',
-      dep: 'Deprecated',
-      imp: 'Needs improvement',
-    }[status]
-
-  const params = {}
-
-  if (isAccordion) {
-    if (!isExpanded) {
-      const shouldAutoExpand =
-        (isInsideActivePath &&
-          (!isInsideActivePathPrevious || hasCurrentPathNameChanged)) ||
-        (isActive && hasCurrentPathNameChanged)
-
-      if (shouldAutoExpand) {
-        setIsExpanded(true)
-      }
-    } else {
-      const shouldAutoCollapse =
-        !isInsideActivePath && !isActive && hasCurrentPathNameChanged
-
-      if (shouldAutoCollapse) {
-        setIsExpanded(false)
-      }
-    }
-  }
-  if (isActive) {
-    params['aria-current'] = true
-  }
-
-  const expandButtonTitle = isExpanded
-    ? `Collapse ${title}`
-    : `Expand ${title}`
-  const iconSize = icon === 'OverviewIcon' ? 'default' : 'medium'
-
-  return (
-    <>
-      <li
-        className={clsx(
-          'dnb-sidebar-menu',
-          `l-${level}`,
-          isActive && 'is-active', // use anchor hover style
-          isInsideActivePath && 'is-inside-active-path',
-          isInsideActiveCategory && !isInsideActivePath && 'is-inside',
-          status && `status-${status}`,
-          isAccordion &&
-            `dnb-sidebar-menu--accordion dnb-sidebar-menu--${
-              isExpanded ? 'expanded' : 'collapsed'
-            }`,
-          className
-        )}
-        ref={ref}
-      >
-        <div className="dnb-sidebar-menu__item">
-          <Anchor
-            href={path}
-            aria-expanded={isAccordion ? isExpanded : undefined}
-            onClick={() => {
-              closeMenu()
-              if (!isExpanded) {
-                setIsExpanded(true)
-              }
-            }}
-            className={clsx(
-              'dnb-anchor',
-              'dnb-anchor--no-underline',
-              'dnb-anchor--no-radius',
-              'dnb-anchor--no-hover',
-              icon && graphics[icon] ? 'has-icon' : null
-            )}
-            {...params}
-          >
-            <span>
-              {icon && graphics[icon] && (
-                <Icon icon={graphics[icon]} size={iconSize} />
-              )}
-              <span
-                className={clsx(createSkeletonClass('font', skeleton))}
-              >
-                {title.replace(/^[A-Z][a-z]*\./, '')}
-              </span>
-            </span>
-            {supportedThemes?.indexOf(currentTheme) > -1 && (
-              <ThemeBadge theme={currentTheme} />
-            )}
-            {status && (
-              <Badge space={{ right: 'xx-small' }} content={statusTitle} />
-            )}
-          </Anchor>
-
-          {isAccordion && (
-            <Button
-              left="x-small"
-              className="dnb-sidebar-menu__expand-button"
-              variant="tertiary"
-              size="small"
-              title={expandButtonTitle}
-              aria-expanded={isExpanded}
-              icon={isExpanded ? 'subtract' : 'add'}
-              onClick={() => {
-                setIsExpanded(!isExpanded)
-                setManualClick(true)
-              }}
-            />
-          )}
-        </div>
-        {hasSubheadings && (
-          <HeightAnimation
-            animate={isAccordion === true}
-            element="ul"
-            open={isExpanded}
-            onAnimationEnd={(state) => {
-              if (manualClick) {
-                setManualClick(false)
-              } else if (state === 'closed') {
-                ensureActiveMenuItemIsInView(scrollRef)
-              }
-            }}
-          >
-            {subheadings.map((item) => (
-              <ListItem key={item.path} {...item} scrollRef={scrollRef} />
-            ))}
-          </HeightAnimation>
-        )}
-      </li>
-    </>
-  )
-}
-
-type NavItemTabs = {
-  title: string
-  key: string
-}
-
-type NavItem = {
-  id: string
-  parentId?: string
-  isActive?: boolean
-  isInsideActivePath?: boolean
-  isInsideActiveCategory?: boolean
-  icon?: string
-  level?: number
-  menuTitle?: string
-  hideInMenu?: boolean
-  order?: number
-  _order?: string
-  path: string
-  status?: string
-  title: string
-  showTabs?: boolean
-  tabs?: NavItemTabs[]
-  subheadings?: NavItem[]
-  currentPathName?: string
-}
-
 const prepareNav = ({
   location,
   allMdx,
@@ -655,7 +462,7 @@ const prepareNav = ({
         const prefix = cur.split('/').filter(Boolean)[0]
 
         if (showAll === false) {
-          if (prefix === first) {
+          if (shouldIncludeSidebarPrefix(first, prefix)) {
             return { ...acc, items: [...acc.items, cur] }
           } else {
             return { ...acc, [cur]: [cur] }
@@ -760,54 +567,35 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     .replace(/\/$/g, '')
     .replace(/^\//g, '')
 
-  // Grouping all navItems correctly with only one loop through the array
-  // making use of object reference to add subheadings to correct parent headings
-  // so it can be done with only one loop through
-  navItems.reduce<{ [id: string]: NavItem }>((hashmap, item) => {
-    // Using items url path as ID, it only works in this case, since we can determine the items grouping by the url path
-    // The source node ids do not reflect the SidebarMenu hierarchy reliably,
-    // so we derive parent-child relationships from the URL path instead.
-    const itemId = item.path.replace(/\//g, '-')
-    const parentId = item.path.replace(/\/[^/]+$/g, '').replace(/\//g, '-')
-
+  const itemsByPath = new Map<string, NavItem>()
+  navItems.forEach((item) => {
     const { isActive, isInsideActiveCategory, isInsideActivePath } =
       getActiveStatusForItem(currentPathName, item)
-
-    // Add props for use in <ListItem />
-    const hashItem = {
+    itemsByPath.set(item.path.replace(/^\/+|\/+$/g, ''), {
       ...item,
-      id: itemId,
-      parentId,
+      id: item.path.replace(/\//g, '-'),
       isActive,
       isInsideActiveCategory,
       isInsideActivePath,
       currentPathName,
+    })
+  })
+
+  itemsByPath.forEach((item, itemPath) => {
+    const pathParts = itemPath.split('/')
+    let parent: NavItem | undefined
+
+    while (pathParts.length > 1 && !parent) {
+      pathParts.pop()
+      parent = itemsByPath.get(pathParts.join('/'))
     }
 
-    // Initialize parentItem in hashmap
-    if (!(parentId in hashmap)) {
-      hashmap[parentId] = {} as NavItem
+    if (parent) {
+      parent.subheadings = [...(parent.subheadings ?? []), item]
+    } else {
+      topLevelHeadings.push(item)
     }
-
-    // Initializing subheadings property on parentItem if it's not yet defined
-    if (!hashmap[parentId]?.subheadings) {
-      hashmap[parentId].subheadings = []
-    }
-
-    // Push item object reference to subheadings array on parentItem reference in hashmap
-    hashmap[parentId].subheadings.push(hashItem)
-
-    // Define item object reference in hashmap
-    hashmap[itemId] = hashItem
-
-    // Add all top level heading object references to topLevelHeadings array
-    // so that we won't have to loop through the array a second time to sort out top level headings
-    if (item.level === 1) {
-      topLevelHeadings.push(hashmap[itemId])
-    }
-
-    return hashmap
-  }, {})
+  })
 
   return topLevelHeadings
 }
@@ -891,40 +679,4 @@ function checkIfActiveItem(
   }
 
   return false
-}
-
-function usePrevious<T>(
-  value: T,
-  hasChanged: (current: T, previous: T) => boolean = (a, b) => a !== b
-): [boolean, T] {
-  const valueRef = useRef(value)
-  const previousValue = valueRef.current
-  valueRef.current = value
-
-  return [hasChanged(value, previousValue), previousValue]
-}
-
-function ensureActiveMenuItemIsInView(parentRef: RefObject<HTMLElement>) {
-  const nav = parentRef?.current
-  if (nav) {
-    const item = nav.querySelector(
-      'li.is-active > div.dnb-sidebar-menu__item'
-    ) as HTMLElement
-
-    if (item) {
-      const navTop = nav.scrollTop
-      const navBottom = navTop + nav.offsetHeight
-      const itemTop = item.offsetTop
-      const itemBottom = itemTop + item.offsetHeight
-
-      const isInView = navTop <= itemTop && navBottom >= itemBottom
-
-      if (!isInView) {
-        nav.scrollTop = itemTop
-      } else {
-        // stop scrolling if item is in view
-        nav.scrollTop = navTop
-      }
-    }
-  }
 }
