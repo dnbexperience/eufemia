@@ -51,8 +51,8 @@ module.exports = {
           // cross-package (portal), by prebuild scripts, or by end users via
           // package subpaths — none of which this src-only cruise can see.
           '(^|/)style/isolated\\.ts$',
-          '(^|/)style/themes/figma/',
-          '(^|/)style/themes/ui/prism/',
+          '(^|/)style/themes/figma/tokenValueUtils\\.ts$',
+          '(^|/)style/themes/ui/prism/dnb-prism-theme\\.ts$',
           '(^|/)components/icon/filledIconSet\\.ts$',
         ],
       },
