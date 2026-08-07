@@ -182,3 +182,95 @@ describe('lambda-handler error handling', () => {
     }
   })
 })
+
+describe('lambda-handler origin auth (X-Edge-Auth)', () => {
+  const secret = 'edge-shared-secret'
+  let docsRoot: string
+
+  beforeAll(async () => {
+    docsRoot = await createTempDocs()
+    process.env.EUFEMIA_DOCS_ROOT = docsRoot
+  })
+
+  afterAll(async () => {
+    delete process.env.EUFEMIA_DOCS_ROOT
+    delete process.env.EDGE_AUTH_SECRET
+    await fs.rm(docsRoot, { recursive: true, force: true })
+  })
+
+  function mcpEvent(headers: Record<string, string>): unknown {
+    return {
+      rawPath: '/mcp',
+      requestContext: {
+        domainName: 'example.test',
+        http: { method: 'POST' },
+      },
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json, text/event-stream',
+        ...headers,
+      },
+      body: JSON.stringify(toolsListRequest),
+    }
+  }
+
+  it('rejects with 403 when the secret is set but the header is missing', async () => {
+    process.env.EDGE_AUTH_SECRET = secret
+    const { handler } = await import('../transports/lambda-handler.js')
+
+    const result = (await handler(
+      mcpEvent({}) as Parameters<typeof handler>[0]
+    )) as { statusCode: number; body: string }
+
+    expect(result.statusCode).toBe(403)
+    expect(JSON.parse(result.body).error.message).toBe('Forbidden')
+  })
+
+  it('rejects with 403 when the header does not match', async () => {
+    process.env.EDGE_AUTH_SECRET = secret
+    const { handler } = await import('../transports/lambda-handler.js')
+
+    const result = (await handler(
+      mcpEvent({ 'x-edge-auth': 'wrong-secret' }) as Parameters<
+        typeof handler
+      >[0]
+    )) as { statusCode: number }
+
+    expect(result.statusCode).toBe(403)
+  })
+
+  it('lets the request through when the header matches', async () => {
+    process.env.EDGE_AUTH_SECRET = secret
+    const { handler } = await import('../transports/lambda-handler.js')
+
+    const result = (await handler(
+      mcpEvent({ 'x-edge-auth': secret }) as Parameters<typeof handler>[0]
+    )) as { statusCode: number }
+
+    expect(result.statusCode).not.toBe(403)
+  })
+
+  it('is a no-op when the secret is unset', async () => {
+    delete process.env.EDGE_AUTH_SECRET
+    const { handler } = await import('../transports/lambda-handler.js')
+
+    const result = (await handler(
+      mcpEvent({}) as Parameters<typeof handler>[0]
+    )) as { statusCode: number }
+
+    expect(result.statusCode).not.toBe(403)
+  })
+
+  it('keeps GET /healthz open even when the secret is set', async () => {
+    process.env.EDGE_AUTH_SECRET = secret
+    const { handler } = await import('../transports/lambda-handler.js')
+
+    const result = (await handler({
+      rawPath: '/healthz',
+      requestContext: { http: { method: 'GET' } },
+      headers: {},
+    } as Parameters<typeof handler>[0])) as { statusCode: number }
+
+    expect(result.statusCode).toBe(200)
+  })
+})
