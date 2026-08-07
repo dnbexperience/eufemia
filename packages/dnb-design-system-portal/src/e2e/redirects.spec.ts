@@ -40,4 +40,13 @@ test.describe('Redirects', () => {
     await waitForApp(page)
     expect(page.url()).toMatch(/\/uilib\/components\/button\/demos\/?$/)
   })
+
+  test('redirects the former SidebarMenu component URL', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/sidebar-menu')
+    await page.waitForURL(/\/uilib\/extensions\/sidebar-menu\/?$/)
+
+    expect(page.url()).toMatch(/\/uilib\/extensions\/sidebar-menu\/?$/)
+  })
 })

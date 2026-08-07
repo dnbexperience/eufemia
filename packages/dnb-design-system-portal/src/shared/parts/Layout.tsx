@@ -30,29 +30,6 @@ import SidebarMenu from '../menu/SidebarMenu'
 import { scrollToAnimation } from './layout-utils'
 import { useFocusModeCode } from '../../core/FocusModeCodeContext'
 
-const SIDEBAR_SELECTOR = '#portal-sidebar-menu'
-const SIDEBAR_SCROLL_KEY = 'scroll-' + SIDEBAR_SELECTOR
-
-function restoreSidebarScroll() {
-  try {
-    const el = document.querySelector(SIDEBAR_SELECTOR) as HTMLElement
-    if (!el) {
-      return // stop here
-    }
-
-    const stored = parseFloat(
-      sessionStorage.getItem(SIDEBAR_SCROLL_KEY) || '0'
-    )
-    if (stored) {
-      el.style.scrollBehavior = 'auto'
-      el.scrollTop = stored
-      el.style.scrollBehavior = ''
-    }
-  } catch {
-    // ignore
-  }
-}
-
 type LayoutProps = {
   fullscreen?: boolean
   hideSidebar?: boolean
@@ -92,7 +69,7 @@ function Layout(props: LayoutProps) {
 
   const fs = ssrFullscreen || urlFullscreen || codeFocusMode
 
-  // Restore scroll and sidebar position after exiting any fullscreen mode
+  // Restore the page position after exiting any fullscreen mode
   const wasFullscreenRef = useRef(false)
   useEffect(() => {
     if (fs) {
@@ -114,8 +91,6 @@ function Layout(props: LayoutProps) {
           if (scrollTarget) {
             window.scrollTo({ top: scrollTarget })
           }
-
-          restoreSidebarScroll()
         })
       })
       return () => {

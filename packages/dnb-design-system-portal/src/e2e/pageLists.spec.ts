@@ -2,12 +2,13 @@ import { test, expect, type Locator } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 const expandAllSidebarItems = async (page) => {
-  const links = page.locator('.dnb-sidebar-menu__expand-button')
-  const linksCount = await links.count()
+  await page
+    .locator('.dnb-sidebar-menu__accordion__toggle[aria-expanded="false"]')
+    .evaluateAll((buttons: HTMLButtonElement[]) => {
+      buttons.forEach((button) => button.click())
+    })
 
-  for (let i = 0; i < linksCount; i++) {
-    await links.nth(i).click()
-  }
+  await page.waitForTimeout(500)
 }
 
 const getHeadingTextWithoutSrDescription = async (locator: Locator) =>
@@ -44,11 +45,20 @@ test.describe('Page Lists', () => {
 
       const listLength = await page
         .locator(
-          // make exception with:
-          // - "infinity-scroller"
-          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item > a[href*="/uilib/components"]) ul li:is(.l-3:has(> .dnb-sidebar-menu__item > a[href*="/components"]):has(>.dnb-sidebar-menu__item> a:not([href*="/fragments"])), .l-4:has(a[href*="/infinity"]))'
+          '#portal-sidebar-menu [data-sidebar-menu-id="uilib-components"] a[href^="/uilib/components/"]'
         )
-        .count()
+        .evaluateAll((links) => {
+          return new Set(
+            links
+              .map((link) => link.getAttribute('href'))
+              .filter(
+                (href) =>
+                  href &&
+                  href !== '/uilib/components/fragments' &&
+                  !href.startsWith('/uilib/components/fragments/')
+              )
+          ).size
+        })
 
       await expect(
         page.locator(
@@ -82,7 +92,7 @@ test.describe('Page Lists', () => {
 
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions"]) ul li.l-3:has(> .dnb-sidebar-menu__item> a[href*="/uilib/extensions/"])'
+          '#portal-sidebar-menu [data-sidebar-menu-id="uilib-extensions"] [data-sidebar-menu-id] > a[href^="/uilib/extensions/"], #portal-sidebar-menu [data-sidebar-menu-id="uilib-extensions"] [data-sidebar-menu-id] > .dnb-sidebar-menu__accordion__trigger a[href^="/uilib/extensions/"]'
         )
         .count()
 
@@ -112,11 +122,16 @@ test.describe('Page Lists', () => {
     })
 
     test('should have same amount of elements', async ({ page }) => {
+      await expandAllSidebarItems(page)
+
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li.l-2:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"]) ul li:has(> .dnb-sidebar-menu__item> a[href*="/uilib/elements"])'
+          '#portal-sidebar-menu [data-sidebar-menu-id="uilib-elements"] a[href^="/uilib/elements/"]'
         )
-        .count()
+        .evaluateAll((links) => {
+          return new Set(links.map((link) => link.getAttribute('href')))
+            .size
+        })
       await expect(
         page.locator(
           '#tab-bar-content ul li:has(a[href*="/uilib/elements/"]:not([aria-hidden]))'
