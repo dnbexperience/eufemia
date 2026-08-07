@@ -19,7 +19,7 @@ Report it privately using one of the following, in order of preference:
 Please include, where possible:
 
 - The affected package and version (`@dnb/eufemia`, the docs portal, or the MCP
-  worker/lambda).
+  server).
 - A description of the issue and its impact.
 - Steps to reproduce, or a proof of concept.
 - Any known mitigations.
