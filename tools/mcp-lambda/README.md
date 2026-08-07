@@ -12,12 +12,12 @@ The server is stateless — each request creates a fresh MCP transport, processe
 
 For local development, a stdio transport is also available.
 
-> **Relationship to the Worker MCP:** An earlier MCP implementation lives as a
-> Cloudflare Worker under [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/)
-> (deployed by [`mcp-worker.yml`](../../.github/workflows/mcp-worker.yml)). This
-> Lambda-based server is the standalone successor; the two currently coexist.
-> The `slug` and `fromIndex` fields in `component_find` results are retained
-> only for parity with the Worker MCP and will be removed once it is retired.
+> **Relationship to the in-repo MCP core:** A local stdio/HTTP MCP server lives
+> under [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/)
+> for editor integrations and offline use. It was previously also deployed as a
+> Cloudflare Worker; that hosted deployment has been removed in favour of this
+> Lambda-based server. The `slug` and `fromIndex` fields in `component_find`
+> results are retained only for parity with that in-repo core.
 
 ## Available tools
 

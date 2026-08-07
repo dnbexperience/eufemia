@@ -83,11 +83,3 @@ Then verify it is up:
 ```bash
 curl http://localhost:8787/healthz
 ```
-
-#### Build the docs bundle locally
-
-```bash
-yarn workspace @dnb/eufemia build:docs
-yarn workspace @dnb/eufemia build:docs:bundle
-# writes packages/dnb-eufemia/src/mcp/worker/docs.bundle.json
-```

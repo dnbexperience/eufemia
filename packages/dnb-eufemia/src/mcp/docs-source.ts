@@ -1,17 +1,16 @@
 /**
  * DocsSource is a tiny filesystem abstraction used by the MCP docs tools.
  *
- * The MCP server has two deployment targets:
+ * The MCP server reads docs through one of two backends:
  *
  * - Node.js (stdio + the local Express HTTP server) — uses
  *   `createNodeDocsSource(rootAbs)` which reads from disk via `node:fs`.
  *
- * - Cloudflare Workers — uses `createBundledDocsSource(bundle)` which is a
- *   pure in-memory implementation backed by a `path → content` map that the
- *   docs build step generates as `docs.bundle.json`.
+ * - In-memory — uses `createBundledDocsSource(bundle)`, a pure in-memory
+ *   implementation backed by a `path → content` map. Used by tests.
  *
- * Keeping the surface small makes it trivial to add another backend (R2,
- * KV, S3, ...) later without touching the tool handlers.
+ * Keeping the surface small makes it trivial to add another backend later
+ * without touching the tool handlers.
  */
 
 export type DocsEntryKind = 'file' | 'dir' | 'missing'
@@ -76,7 +75,7 @@ export function normalizeDocsPath(input: unknown): string {
 }
 
 // ---------------------------------------------------------------------------
-// Bundled (in-memory) implementation. Used by the Cloudflare Worker and tests.
+// Bundled (in-memory) implementation. Used by tests.
 // ---------------------------------------------------------------------------
 
 export function createBundledDocsSource(
@@ -163,7 +162,7 @@ export function createBundledDocsSource(
 
 // ---------------------------------------------------------------------------
 // Node.js implementation. Lazy-imports `node:fs` / `node:path` so that this
-// module can also be loaded in environments without Node built-ins (Workers).
+// module can also be loaded in environments without Node built-ins.
 // ---------------------------------------------------------------------------
 
 export async function createNodeDocsSource(

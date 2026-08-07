@@ -5,8 +5,7 @@
  *
  * Used by editor integrations (Cursor, Claude Code, the VSCode MCP config,
  * etc.). The HTTP entry lives in `./mcp-http-server.ts`, and the runtime-
- * agnostic core lives in `./mcp-docs-server.ts` so it can also run on
- * Cloudflare Workers.
+ * agnostic core lives in `./mcp-docs-server.ts`.
  */
 
 import path from 'node:path'
