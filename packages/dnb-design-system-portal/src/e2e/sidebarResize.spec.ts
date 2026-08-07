@@ -61,6 +61,7 @@ test.describe('Sidebar resize', () => {
     })
 
     expect(sidebarLayout.handleTop).toBe(sidebarLayout.sidebarTop)
+    expect(sidebarLayout.sidebarTop).toBe(0)
     expect(sidebarLayout.sidebarBottom).toBe(sidebarLayout.viewportHeight)
     expect(sidebarLayout.handleBottom).toBe(sidebarLayout.viewportHeight)
 
@@ -79,6 +80,7 @@ test.describe('Sidebar resize', () => {
 
       return {
         width: rect.width,
+        lineX,
         leftOfLine: lineX - rect.left,
         rightOfLine: rect.right - lineX,
       }
@@ -87,11 +89,40 @@ test.describe('Sidebar resize', () => {
     expect(hitArea.width).toBeGreaterThan(12)
     expect(hitArea.rightOfLine).toBeGreaterThan(hitArea.leftOfLine)
 
+    await page.mouse.move(hitArea.lineX - 1, 1)
+
+    const hoverLine = await resizeHandle.evaluate((element) => {
+      const rect = element.getBoundingClientRect()
+      const style = getComputedStyle(element, '::before')
+      const transform = new DOMMatrixReadOnly(style.transform)
+      const width = parseFloat(style.width)
+      const left = rect.left + parseFloat(style.left) + transform.e
+      const right = left + width
+
+      return {
+        top: rect.top + parseFloat(style.top),
+        bottom: rect.bottom - parseFloat(style.bottom),
+        right,
+        width,
+        isVisibleAtTop:
+          document.elementFromPoint(right - 0.5, 1) === element,
+      }
+    })
+
+    expect(hoverLine.width).toBe(2)
+    expect(hoverLine.top).toBe(sidebarLayout.sidebarTop)
+    expect(hoverLine.bottom).toBe(sidebarLayout.viewportHeight)
+    expect(hoverLine.isVisibleAtTop).toBe(true)
+
     const resizedWidth = 760
 
     await dragSidebarToWidth(page, resizeHandle, resizedWidth)
 
     await expect(sidebar).toHaveCSS('width', `${resizedWidth}px`)
+    await expect(page.locator('header.sticky-menu')).toHaveCSS(
+      'left',
+      `${resizedWidth}px`
+    )
 
     await page.reload()
     await waitForApp(page)
@@ -142,7 +173,11 @@ test.describe('Sidebar resize', () => {
 
     await dragSidebarToWidth(page, resizeHandle, 120)
 
-    const overflow = await sidebar.evaluate((element) => {
+    const scrollView = sidebar.locator('.portal-sidebar-scroll-view')
+    const sidebarLogo = sidebar.getByRole('link', {
+      name: 'Go to Eufemia home',
+    })
+    const overflow = await scrollView.evaluate((element) => {
       return {
         overflowX: getComputedStyle(element).overflowX,
         clientWidth: element.clientWidth,
@@ -152,5 +187,30 @@ test.describe('Sidebar resize', () => {
 
     expect(overflow.overflowX).toBe('auto')
     expect(overflow.scrollWidth).toBeGreaterThan(overflow.clientWidth)
+
+    await scrollView.evaluate((element) => {
+      element.scrollLeft = 0
+      element.scrollTop = 0
+    })
+    const initialLogoBox = await sidebarLogo.boundingBox()
+
+    const scrollViewBox = await scrollView.boundingBox()
+    await page.mouse.move(
+      scrollViewBox.x + scrollViewBox.width / 2,
+      scrollViewBox.y + scrollViewBox.height / 2
+    )
+    await page.mouse.wheel(100, 40)
+    await page.waitForTimeout(100)
+
+    const scrolledPosition = await scrollView.evaluate((element) => ({
+      left: element.scrollLeft,
+      top: element.scrollTop,
+    }))
+    const scrolledLogoBox = await sidebarLogo.boundingBox()
+
+    expect(scrolledPosition.left).toBeGreaterThan(0)
+    expect(scrolledPosition.top).toBe(40)
+    expect(scrolledLogoBox.x).toBeLessThan(initialLogoBox.x)
+    expect(scrolledLogoBox.y).toBeCloseTo(initialLogoBox.y - 40, 0)
   })
 })

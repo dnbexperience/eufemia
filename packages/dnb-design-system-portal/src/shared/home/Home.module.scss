@@ -1,0 +1,213 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+
+.rootStyle {
+  position: relative;
+  isolation: isolate;
+
+  min-height: 100vh;
+  margin: -4rem -2rem -2rem;
+  padding: 9rem 2rem 8rem;
+  overflow: hidden;
+
+  color: var(--token-color-text-neutral);
+  background-color: var(--token-color-background-page-background);
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -18rem;
+    left: 50%;
+
+    width: min(80rem, 135%);
+    height: 48rem;
+
+    background:
+      radial-gradient(
+        ellipse at 32% 48%,
+        color-mix(
+            in srgb,
+            var(--token-color-decorative-first-bold) 28%,
+            transparent
+          )
+          0,
+        color-mix(
+            in srgb,
+            var(--token-color-decorative-first-subtle) 34%,
+            transparent
+          )
+          20%,
+        transparent 51%
+      ),
+      radial-gradient(
+        ellipse at 70% 43%,
+        color-mix(
+            in srgb,
+            var(--token-color-decorative-second-bold) 34%,
+            transparent
+          )
+          0,
+        color-mix(
+            in srgb,
+            var(--token-color-decorative-second-subtle) 30%,
+            transparent
+          )
+          25%,
+        transparent 57%
+      );
+    filter: blur(2.5rem);
+    transform: translateX(-50%);
+  }
+
+  @include utilities.allBelow(small) {
+    margin-inline: -1rem;
+    padding: 7.5rem 1rem 5rem;
+  }
+}
+
+.heroStyle,
+.actionGridStyle,
+.resourcesStyle {
+  width: min(48rem, 100%);
+  margin-inline: auto;
+}
+
+.heroStyle {
+  text-align: center;
+}
+
+.titleStyle {
+  margin: 0;
+
+  color: inherit;
+  font-size: clamp(2.5rem, 6vw, 3rem);
+  line-height: 1.15;
+}
+
+.introStyle {
+  max-width: 44rem;
+  margin: 1rem auto 0;
+
+  color: inherit;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}
+
+.actionGridStyle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 7.5rem;
+  padding: 0;
+
+  > li {
+    min-width: 0;
+    margin: 0;
+  }
+
+  @include utilities.allBelow(small) {
+    grid-template-columns: 1fr;
+    margin-top: 5rem;
+  }
+}
+
+.actionStyle {
+  position: relative;
+
+  height: 100%;
+  min-height: 10rem;
+  padding: 1.5rem;
+
+  color: var(--token-color-text-neutral);
+
+  transition:
+    background-color 200ms var(--easing-default),
+    box-shadow 200ms var(--easing-default);
+
+  > :global(.dnb-flex-container) {
+    justify-content: flex-end;
+    height: 100%;
+  }
+}
+
+.actionArtworkStyle {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+
+  width: 5.25rem;
+  height: 5.25rem;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.designArtworkStyle {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  &::before {
+    right: 0;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--token-color-stroke-action);
+  }
+
+  &::after {
+    left: 0.75rem;
+    bottom: 0.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    background-color: var(--token-color-decorative-first-subtle);
+  }
+}
+
+.developArtworkStyle {
+  border: 1px dashed var(--token-color-stroke-neutral);
+  border-radius: var(--token-radius-sm);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--token-color-stroke-action);
+    border-radius: var(--token-radius-sm);
+  }
+}
+
+.actionTitleStyle {
+  z-index: 1;
+  max-width: calc(100% - 5.25rem);
+}
+
+.actionDescriptionStyle {
+  z-index: 1;
+  max-width: calc(100% - 3rem);
+  margin-top: 0.25rem;
+  color: var(--token-color-text-neutral);
+}
+
+.resourcesStyle {
+  margin-top: 7rem;
+}
+
+.resourceGridStyle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 3rem;
+
+  @include utilities.allBelow(small) {
+    grid-template-columns: 1fr;
+  }
+
+  :global(.dnb-anchor) {
+    width: fit-content;
+    margin-bottom: 1rem;
+  }
+}

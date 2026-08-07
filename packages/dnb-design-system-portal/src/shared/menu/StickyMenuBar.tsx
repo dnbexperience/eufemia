@@ -12,10 +12,11 @@ import { Button } from '@dnb/eufemia/src'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
-import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 import {
   headerStyle,
-  centerWrapperStyle,
+  leadingStyle,
+  mobileLogoStyle,
+  searchStyle,
   toolsStyle,
   portalHeaderWrapperStyle,
 } from './StickyMenuBar.module.scss'
@@ -23,49 +24,48 @@ import { Link } from '../tags/Anchor'
 import GithubLogo from '../../docs/contribute/assets/github-logo'
 import FigmaLogo from '../../docs/contribute/assets/figma-logo'
 
-export default function StickyMenuBar({
-  hideSidebarToggleButton = false,
-  preventBarVisibility = false,
-} = {}) {
+export default function StickyMenuBar() {
   const { toggleMenu, isOpen } = useContext(SidebarMenuContext)
-
-  if (preventBarVisibility || hideSidebarToggleButton) {
-    return null
-  }
 
   return (
     <header className={clsx(headerStyle, 'sticky-menu', 'dev-grid')}>
       <div className={portalHeaderWrapperStyle}>
-        <HomeButton id="toggle-main-menu" text="Home" />
-        <HomeButton id="toggle-main-menu-small-screen" size="default" />
-
-        <Link
-          href="/"
-          className={clsx(centerWrapperStyle, 'dnb-tab-focus')}
-          title="Go to Eufemia home"
-        >
-          <PortalLogo />
-        </Link>
-
-        <span className={toolsStyle}>
-          <SearchBarInput />
+        <span className={leadingStyle}>
           <Button
             icon={isOpen ? closeIcon : hamburgerIcon}
             onClick={toggleMenu}
             id="toggle-sidebar-menu"
+            variant="tertiary"
             size="default"
             iconSize="default"
-            left="x-small"
             aria-haspopup={true}
             aria-controls="portal-sidebar-menu"
             aria-expanded={isOpen}
-            aria-label="Section Content Menu"
+            aria-label={
+              isOpen
+                ? 'Close section content menu'
+                : 'Open section content menu'
+            }
             title={
               isOpen
                 ? 'Hide section content menu'
                 : 'Show section content menu'
             }
           />
+
+          <Link
+            href="/"
+            className={clsx(mobileLogoStyle, 'dnb-tab-focus')}
+            title="Go to Eufemia home"
+          >
+            <PortalLogo />
+          </Link>
+        </span>
+
+        <span className={toolsStyle}>
+          <span className={searchStyle}>
+            <SearchBarInput />
+          </span>
           <Button
             id="github-button"
             href="https://github.com/dnbexperience/eufemia/"
@@ -90,20 +90,5 @@ export default function StickyMenuBar({
         </span>
       </div>
     </header>
-  )
-}
-
-function HomeButton(props: ButtonProps) {
-  return (
-    <Button
-      variant="primary"
-      title="Eufemia main sections"
-      href="/"
-      icon="chevron_left"
-      iconPosition="left"
-      // @ts-expect-error -- strictFunctionTypes
-      element={Link}
-      {...props}
-    />
   )
 }

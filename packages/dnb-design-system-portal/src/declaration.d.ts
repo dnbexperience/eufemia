@@ -43,6 +43,7 @@ declare module 'virtual:scroll-position' {
   export function saveScrollPosition(): void
   export function restoreScrollPosition(options?: {
     smooth?: boolean
+    restoreWindow?: boolean
   }): void
   export function useScrollPosition(): void
 }
