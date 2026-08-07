@@ -2,7 +2,7 @@
  * Eufemia Docs MCP Server — runtime-agnostic core.
  *
  * This module deliberately avoids importing any Node built-ins so that it can
- * be bundled for non-Node runtimes (Cloudflare Workers, Deno, Bun, ...).
+ * be bundled for non-Node runtimes (Deno, Bun, ...).
  * The Node-only stdio entry point lives in `./mcp-stdio.ts` and the local
  * Express HTTP server lives in `./mcp-http-server.ts`.
  */
@@ -102,8 +102,7 @@ export async function validateDocsSource(
       `Eufemia docs source is empty or unbuilt: ${source.label}\n` +
         `  Found ${markdownFiles.length} markdown file(s); llm.md present: ${hasEntry}.\n` +
         '  For Node.js: run `yarn workspace @dnb/eufemia build:docs` and point\n' +
-        '  EUFEMIA_DOCS_ROOT at the resulting build/docs directory using an absolute path.\n' +
-        '  For the Cloudflare Worker: rebuild the docs bundle.'
+        '  EUFEMIA_DOCS_ROOT at the resulting build/docs directory using an absolute path.'
     )
   }
 }
@@ -629,7 +628,7 @@ export function createDocsTools(
   } else {
     // Node-only fallback: lazily resolve the docs root and the Node FS source
     // so this module stays loadable in runtimes without `node:fs/promises`
-    // (e.g. Cloudflare Workers). Consumers that pass `{ source }` never hit
+    // (e.g. non-Node runtimes). Consumers that pass `{ source }` never hit
     // this branch.
     const docsRootPromise: Promise<string> = options.docsRoot
       ? Promise.resolve(options.docsRoot)
@@ -1053,4 +1052,4 @@ export async function createDocsServer(
 
 // The Node-only stdio entry lives in `./mcp-stdio.ts`. Keeping it out of
 // this module ensures the shared core stays runtime-agnostic and can be
-// bundled for Cloudflare Workers, Deno, Bun, etc.
+// bundled for Deno, Bun, etc.
