@@ -49,9 +49,9 @@ export function validateRecordInput(input: unknown): ValidationResult {
 
   if (typeof id !== 'string' || id.trim() === '') {
     errors.push('"id" must be a non-empty string')
-  } else if (!/^[A-Za-z0-9._-]{1,128}$/.test(id)) {
+  } else if (!/^(?=.*[A-Za-z0-9])[A-Za-z0-9._-]{1,128}$/.test(id)) {
     errors.push(
-      '"id" may only contain letters, numbers, ".", "_" and "-" (max 128 chars)'
+      '"id" must contain a letter or number and use only letters, numbers, ".", "_" and "-" (max 128 chars)'
     )
   }
 

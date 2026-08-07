@@ -10,7 +10,7 @@ const athena = new AthenaClient({})
 
 // Same shape allowed when a record is stored, so the id filter can never
 // contain characters that would break out of the SQL string literal.
-const ID_PATTERN = /^[A-Za-z0-9._-]{1,128}$/
+const ID_PATTERN = /^(?=.*[A-Za-z0-9])[A-Za-z0-9._-]{1,128}$/
 
 const DEFAULT_LIMIT = 100
 const MAX_LIMIT = 1000
