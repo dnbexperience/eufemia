@@ -11,7 +11,6 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  combineLabelledBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
@@ -215,9 +214,6 @@ function RadioGroup(ownProps: RadioGroupProps) {
       showStatus ? id + '-status' : null,
       suffix ? id + '-suffix' : null
     )
-  }
-  if (label) {
-    params['aria-labelledby'] = combineLabelledBy(params, legendId)
   }
 
   // also used for code markup simulation
