@@ -4586,6 +4586,173 @@ describe('Autocomplete component', () => {
     expect(options[0].textContent).toBe('BB')
   })
 
+  it('should not reopen the drawer when the data prop changes (new reference) after a selection', async () => {
+    const onChange = vi.fn()
+
+    function Parent() {
+      const [data, setData] = useState(['AA', 'AB', 'BB'])
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          data={data}
+          onChange={(...args) => {
+            onChange(...args)
+            // Simulate an async data fetch triggered by the selection that
+            // returns a new array reference after the input regains focus.
+            setTimeout(() => {
+              setData(['AA', 'AB', 'BB'])
+            }, 10)
+          }}
+        />
+      )
+    }
+
+    render(<Parent />)
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    keyDownOnInput('ArrowDown')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('li.dnb-drawer-list__option'))
+
+    // Let the deferred refocus (0ms) and the simulated fetch (10ms) settle.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(input.value).toBe('AA')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not reopen the drawer when the parent passes a new data reference on every render after a selection', async () => {
+    function Parent() {
+      const [, forceRender] = useState(0)
+
+      // New array reference on every render, mimicking Field.Selection.
+      const data = ['AA', 'AB', 'BB'].map((item) => item)
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          data={data}
+          onChange={() => {
+            setTimeout(() => forceRender((n) => n + 1), 10)
+          }}
+        />
+      )
+    }
+
+    render(<Parent />)
+
+    keyDownOnInput('ArrowDown')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('li.dnb-drawer-list__option'))
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not reopen the drawer when the data prop changes after typing and selecting with the keyboard', async () => {
+    function Parent() {
+      const [data, setData] = useState(['AA', 'AB', 'BB'])
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          data={data}
+          onChange={() => {
+            // Simulate an async data fetch triggered by the selection.
+            setTimeout(() => {
+              setData(['AA', 'AB', 'BB'])
+            }, 10)
+          }}
+        />
+      )
+    }
+
+    render(<Parent />)
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    // Type to filter, then select the highlighted item with the keyboard.
+    // The typed value persists (no blur), which is what previously caused
+    // the reopen via the updateData filter path.
+    await userEvent.type(input, 'A')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    keyDownOnInput('ArrowDown')
+    keyDownOnInput('Enter')
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(input.value).toBe('AA')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should open the drawer when the data prop fills on focus (no prior selection)', async () => {
+    // Mirrors SelectCountry/SelectCurrency, which fill the data on focus and
+    // rely on the drawer opening from that data change while focused.
+    function Parent() {
+      const [data, setData] = useState<string[]>([])
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          data={data}
+          onFocus={() => {
+            setData(['AA', 'AB', 'BB'])
+          }}
+        />
+      )
+    }
+
+    render(<Parent />)
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    fireEvent.focus(input)
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelectorAll(
+        '.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+    ).toHaveLength(3)
+  })
+
   it('should open and search after clearing input following keyboard selection', async () => {
     const movies = [
       'The Shawshank Redemption',
