@@ -2489,6 +2489,7 @@ __metadata:
     postcss-selector-parser: "npm:7.1.0"
     prettier: "npm:3.8.1"
     prettier-package-json: "npm:2.8.0"
+    purgecss: "npm:8.0.0"
     react: "npm:19.2.5"
     react-dom: "npm:19.2.5"
     repo-utils: "workspace:*"
@@ -2511,12 +2512,15 @@ __metadata:
   peerDependencies:
     "@types/react": ^19
     "@types/react-dom": ^19
+    purgecss: ^8.0.0
     react: ^19
     react-dom: ^19
   peerDependenciesMeta:
     "@types/react":
       optional: true
     "@types/react-dom":
+      optional: true
+    purgecss:
       optional: true
   languageName: unknown
   linkType: soft
@@ -7183,6 +7187,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^12.1.0":
+  version: 12.1.0
+  resolution: "commander@npm:12.1.0"
+  checksum: 10/cdaeb672d979816853a4eed7f1310a9319e8b976172485c2a6b437ed0db0a389a44cfb222bfbde772781efa9f215bdd1b936f80d6b249485b465c6cb906e1f93
+  languageName: node
+  linkType: hard
+
 "commander@npm:^4.0.0, commander@npm:^4.0.1":
   version: 4.1.1
   resolution: "commander@npm:4.1.1"
@@ -9144,6 +9155,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer":
+  version: 0.0.0-use.local
+  resolution: "eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer"
+  dependencies:
+    vitest: "npm:4.1.10"
+  languageName: unknown
+  linkType: soft
+
 "eufemia-llm-metadata@workspace:tools/eufemia-llm-metadata":
   version: 0.0.0-use.local
   resolution: "eufemia-llm-metadata@workspace:tools/eufemia-llm-metadata"
@@ -9177,6 +9196,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:7.1.1"
     eslint-plugin-react-refresh: "npm:0.5.2"
     globals: "npm:17.6.0"
+    purgecss: "npm:8.0.0"
     react: "npm:19.2.5"
     react-dom: "npm:19.2.5"
     sass: "npm:1.97.2"
@@ -15453,6 +15473,20 @@ __metadata:
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
   checksum: 10/febdc4362bead22f9e2608ff0171713230b57aff9dddc1c273aa2a651fbd366f94b7d6a71d78342a7c0819906750351ca7f2edd26ea41b626d87d6a13d1bd059
+  languageName: node
+  linkType: hard
+
+"purgecss@npm:8.0.0":
+  version: 8.0.0
+  resolution: "purgecss@npm:8.0.0"
+  dependencies:
+    commander: "npm:^12.1.0"
+    fast-glob: "npm:^3.3.2"
+    postcss: "npm:^8.4.47"
+    postcss-selector-parser: "npm:^7.0.0"
+  bin:
+    purgecss: bin/purgecss.js
+  checksum: 10/8b672c612ff24dc40b5a98507d2553b39307a5df7e4e759f1726db8969f3a303d9b27b8f9d9e9993e842c4c9c2257a43bf50b7830a296ac729b6940e3948965f
   languageName: node
   linkType: hard
 
