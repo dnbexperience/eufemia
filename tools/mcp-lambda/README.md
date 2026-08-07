@@ -108,7 +108,7 @@ The build & push workflow triggers on:
 | Trigger                            | Deploys? |
 | ---------------------------------- | -------- |
 | Push to `release`                  | Yes      |
-| Push to any `**/mcp-server` branch | Yes      |
+| Push to any `mcp-server/**` branch | Yes      |
 | Push of a `v*` / `v*.*.*` tag      | Yes      |
 | Manual `workflow_dispatch`         | Yes      |
 

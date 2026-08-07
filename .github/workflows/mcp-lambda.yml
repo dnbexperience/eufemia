@@ -8,7 +8,7 @@ name: MCP Lambda
 #
 # Triggers:
 # - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
-# - Any branch named `**/mcp-server` (e.g. `feat/mcp-server`).
+# - Any branch under the `mcp-server/` prefix (e.g. `mcp-server/new-tool`).
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # Requires the following GitHub secrets:
@@ -21,7 +21,7 @@ on:
   push:
     branches:
       - release
-      - '**/mcp-server'
+      - 'mcp-server/**'
     tags:
       - 'v*'
       - 'v*.*.*'
