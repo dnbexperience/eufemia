@@ -42,7 +42,7 @@ export const GlobalStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   show: {
-    doc: 'Set to `true` or `false` to manually make the global status visible. Defaults to `true`.',
+    doc: 'Set to `true` or `false` to manually make the global status visible. Defaults to `auto`.',
     type: ['boolean', '"auto"'],
     status: 'optional',
   },
