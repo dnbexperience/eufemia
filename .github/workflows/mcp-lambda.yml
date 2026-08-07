@@ -13,7 +13,7 @@ name: MCP Lambda
 #
 # Requires the following GitHub secrets:
 # - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo + workflow push access
-# - GHE_DEPLOY_REPO: The GHE repo (e.g. `eufemia/eufemia-mcp`)
+# - GHE_MCP_DEPLOY_REPO: The GHE repo (e.g. `eufemia/eufemia-mcp`)
 #
 # See tools/mcp-lambda/README.md for manual deploy instructions.
 
@@ -97,7 +97,7 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         env:
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
-          GHE_REPO: ${{ secrets.GHE_DEPLOY_REPO }}
+          GHE_REPO: ${{ secrets.GHE_MCP_DEPLOY_REPO }}
           SOURCE_REF: ${{ github.ref_name }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
