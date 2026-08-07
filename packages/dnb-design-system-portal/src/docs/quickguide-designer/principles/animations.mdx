@@ -25,9 +25,11 @@ Micro-interactions are subtle yet impactful animations that respond to user acti
 
 Therefore, these animation principles will focus on so called "micro" interactions. Still, they are animations.
 
-> Micro-interactions are contained product moments that revolve around a single use case — they have one main task (Dan Saffer)
+> A microinteraction is a contained product moment that revolves around a single use case — a tiny piece of functionality that only does one thing.
+>
+> — Dan Saffer, _Microinteractions: Designing with Details_ (O'Reilly, 2013)
 
-Micro-interactions appeal to a users desire to see the result of their action. This is how users can better understand the essential functions of the application. So, they will:
+Micro-interactions appeal to a user's desire to see the result of their action. This is how users can better understand the essential functions of the application. So, they will:
 
 - Enhance user control and understanding.
 - Provide immediate feedback on user actions.
@@ -35,37 +37,38 @@ Micro-interactions appeal to a users desire to see the result of their action. T
 
 ## Creating User-Centric Animations
 
-Animations ask the user for attention. They may delight the user and create a moment that is engaging. But not necessarily in a positive way. People will always experience animations differently. And therefore its more over important to keep animations in a DNB wide consistency.
+Animations ask the user for attention. They may delight the user and create a moment that is engaging. But not necessarily in a positive way. People will always experience animations differently. And therefore it is all the more important to keep animations consistent DNB-wide.
 
-The users desire to use an app is often proportional to the design of the app. And so will animations contribute or deprive the enhanced experience.
+The user's desire to use an app is often proportional to the design of the app. And so will animations contribute or deprive the enhanced experience.
 
-Animations can give users feelings and a certain state of mind. Therefore we should make them with care and follow the the best practices written in these principles.
+Animations can give users feelings and a certain state of mind. Therefore we should make them with care and follow the best practices written in these principles.
 
 In certain situations, animations can help users understand the flow or hierarchy of an interface. Here, subtle animations move elements smoothly, providing users with a seamless experience without overwhelming them with aggressive movements.
 
-## Do's and don'ts
+## Dos and Don'ts
 
 Animations in DNB applications should:
 
-- Help the user understanding the content.
+- Help the user understand the content.
 - Help to focus on the underlying action.
 - Give the user a feeling of control.
 - Be almost not noticeable.
 - Be rather too short than too long.
 - Use a slow-fast-slow easing.
+- Respect the user's [reduced motion preference](/uilib/usage/accessibility/about-accessibility#reduced-motion-support).
 
 Animations should not:
 
-- Ask for attention by itself.
+- Draw attention to themselves.
 - Exist to make the application look cool or feel impressive.
 - Happen off-content.
-- Start by its own.
+- Start on their own.
 - Use a spring or bounce easing.
 - Make the user wait for it to finish.
 
 ## Consistency in the experience of animations
 
-To achieve a consistent experience of animations, we should reuse given tools and follow the guide-lines.
+To achieve a consistent experience of animations, we should reuse given tools and follow the guidelines.
 
 To give the user the experience of something sliding in, it does not need to animate from the very start to the very end. It often is enough to just show the last part of the animation.
 
@@ -74,9 +77,9 @@ To give the user the experience of something sliding in, it does not need to ani
 Good examples of Eufemia components using micro-interactions are:
 
 - [Accordion](/uilib/components/accordion) with its open and close animation.
-- [Table](o/uilib/components/table/#table-with-accordion) with its parallax animation.
-- [Areadcrumb](/uilib/components/breadcrumb/#always-be-collapsed-variantcollapse) with its collapse and expand animation.
-- [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer) with its open and close animation.
+- [Table](/uilib/components/table/#table-with-accordion) with its parallax animation.
+- [Breadcrumb](/uilib/components/breadcrumb/#always-be-collapsed-variantcollapse) with its collapse and expand animation.
+- [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer) with their open and close animation.
 - [TextCounter](/uilib/components/fragments/text-counter) with its error message appearance.
 
 ### Helpers to use in code
@@ -90,3 +93,15 @@ Timing and easing matters.
 ```css
 transition: height 400ms var(--easing-default);
 ```
+
+Eufemia's animated components – and the `HeightAnimation` component – already honour the `prefers-reduced-motion` setting. When you write a custom animation, remember to handle it yourself:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  .my-animated-element {
+    transition-duration: 0.01ms;
+  }
+}
+```
+
+Read more about [reduced motion support](/uilib/usage/accessibility/about-accessibility#reduced-motion-support).
