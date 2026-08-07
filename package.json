@@ -83,10 +83,10 @@
     "picomatch@npm:4.0.3": "4.0.4",
     "node-gyp@npm:latest": "12.4.0",
     "axios@npm:^0.31.1": "0.33.0",
-    "js-yaml@npm:^3.10.0": "3.15.0",
-    "js-yaml@npm:^3.13.1": "3.15.0",
-    "js-yaml@npm:^4.1.0": "4.3.0",
-    "js-yaml@npm:^4.1.1": "4.3.0"
+    "js-yaml@npm:^3.10.0": "3.15.1",
+    "js-yaml@npm:^3.13.1": "3.15.1",
+    "js-yaml@npm:^4.1.0": "4.3.1",
+    "js-yaml@npm:^4.1.1": "4.3.1"
   },
   "engines": {
     "node": ">=24.x",
