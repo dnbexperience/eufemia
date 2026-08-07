@@ -69,6 +69,10 @@ const AutoLinkHeader = ({
             href={`#${id}`}
             onClick={clickHandler}
             aria-hidden
+            // Decorative mouse-only affordance: keep it out of the keyboard
+            // tab order (it is aria-hidden, and a focusable aria-hidden
+            // element would let Tab land on it instead of the next element).
+            tabIndex={-1}
           >
             #
           </Anchor>
