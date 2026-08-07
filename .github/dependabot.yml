@@ -22,6 +22,14 @@ updates:
     # Match Yarn 4 setup (defaultSemverRangePrefix: "" in .yarnrc.yml) by only
     # widening package.json ranges when the new version requires it.
     versioning-strategy: increase-if-necessary
+    # Supply-chain guard (DNB "cool-off period"): wait before adopting a freshly
+    # published version, so a compromised release isn't picked up immediately.
+    # Cooldown applies to version updates ONLY and never delays security updates.
+    # Scheduled version updates are disabled above (limit 0), so this block is
+    # currently inert; it takes effect only if that limit is later raised.
+    cooldown:
+      default-days: 7
+      semver-patch-days: 3
     commit-message:
       prefix: 'chore(deps)'
       prefix-development: 'chore(deps-dev)'
@@ -64,6 +72,11 @@ updates:
     schedule:
       interval: 'monthly'
     open-pull-requests-limit: 5
+    # Supply-chain guard: let a new action release settle before updating to it.
+    # Active here (version updates are enabled above), extending GitHub's
+    # built-in 3-day version-update cooldown to 7; never delays security updates.
+    cooldown:
+      default-days: 7
     labels:
       - 'dependencies'
     commit-message:
