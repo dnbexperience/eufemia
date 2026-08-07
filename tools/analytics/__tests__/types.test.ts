@@ -46,6 +46,14 @@ describe('validateRecordInput', () => {
     expect(result.ok).toBe(false)
   })
 
+  it('rejects an id without any letter or number', () => {
+    for (const id of ['.', '..', '-', '_', '._-']) {
+      const result = validateRecordInput({ id, name: 'Widget', value: 1 })
+
+      expect(result.ok).toBe(false)
+    }
+  })
+
   it('rejects an id longer than 128 characters', () => {
     const result = validateRecordInput({
       id: 'a'.repeat(129),
