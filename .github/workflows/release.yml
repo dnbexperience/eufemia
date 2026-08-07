@@ -92,10 +92,13 @@ jobs:
 
       # Produce the supply-chain compliance artifacts for the published library:
       # a CycloneDX SBOM of its production (shipped) dependencies, plus a
-      # vulnerability report. Runs after publish so SBOM tooling can never block
-      # a release. Required by DNB (SECARC "Requirements for Application
-      # Security": an SBOM accompanied by a vulnerability report per release).
+      # vulnerability report. Runs after publish, and continue-on-error keeps a
+      # post-publish SBOM hiccup from marking an already-successful release as
+      # failed — the "Audit dependencies" step above is the real release gate.
+      # Required by DNB (SECARC "Requirements for Application Security": an SBOM
+      # accompanied by a vulnerability report per release).
       - name: Generate SBOM and vulnerability report
+        continue-on-error: true
         if: github.repository == 'dnbexperience/eufemia' &&
           (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/beta' ||
@@ -154,6 +157,7 @@ jobs:
           # else: non-zero exit WITH a report -> advisories were found; keep it.
 
       - name: Upload SBOM and vulnerability report
+        continue-on-error: true
         if: github.repository == 'dnbexperience/eufemia' &&
           (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/beta' ||
