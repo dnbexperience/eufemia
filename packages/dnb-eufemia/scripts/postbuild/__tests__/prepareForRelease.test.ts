@@ -32,6 +32,9 @@ describe('cleanupPackage', () => {
     // The published package is ESM; this is part of the transform the publish
     // guard reconstructs, so it belongs in this function rather than its caller.
     expect(cleanedPackage.type).toBe('module')
+    expect(cleanedPackage.sideEffects).toContain(
+      '**/extensions/**/style.*'
+    )
   })
 
   it('includes @babel/runtime-corejs3 as a runtime dependency', async () => {
@@ -158,6 +161,7 @@ describe('package.json', () => {
     expect(packageJson.sideEffects).toEqual(
       expect.arrayContaining([
         '*.scss',
+        '**/extensions/**/style.*',
         'umd/*',
         'style/**/*',
         'es/style/**/*',
