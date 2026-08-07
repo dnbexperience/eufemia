@@ -96,6 +96,7 @@
     "*.css",
     "*.min.css",
     "*.scss",
+    "**/extensions/**/style.*",
     "umd/*",
     "style/**/*",
     "es/style/**/*",
