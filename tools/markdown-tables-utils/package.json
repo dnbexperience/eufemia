@@ -6,11 +6,11 @@
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
   "type": "module",
-  "main": "markdownTablesUtils.ts",
-  "types": "markdownTablesUtils.ts",
+  "main": "src/markdownTablesUtils.ts",
+  "types": "src/markdownTablesUtils.ts",
   "exports": {
-    "import": "./markdownTablesUtils.ts",
-    "require": "./markdownTablesUtils.ts"
+    "import": "./src/markdownTablesUtils.ts",
+    "require": "./src/markdownTablesUtils.ts"
   },
   "scripts": {
     "test": "vitest run",
