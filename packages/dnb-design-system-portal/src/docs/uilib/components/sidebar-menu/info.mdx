@@ -1,0 +1,52 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { SidebarMenu } from '@dnb/eufemia'
+```
+
+## Description
+
+`SidebarMenu` provides persistent navigation with expandable groups and optional top-level sections. Its compound API is tree-shakeable: `SidebarMenu` itself is a namespace, while only the subcomponents you use are included.
+
+Compose a menu declaratively with `SidebarMenu.Container`, `SidebarMenu.Item`, `SidebarMenu.Accordion`, `SidebarMenu.Section`, `SidebarMenu.Header`, and `SidebarMenu.Divider`. Alternatively, pass recursive `data` or `sections` objects to the container.
+
+Accordion groups support deep nesting. Keep navigation hierarchies as shallow as the information architecture allows; five levels should normally be considered the practical maximum.
+
+When an accordion also represents a page, provide `href` or `to`. Its label becomes a navigation link and the chevron remains a separate, accessibly labeled expansion button. This avoids ambiguous first-click-expand and second-click-navigate behavior.
+
+Use controlled properties when application routing or external state owns the menu:
+
+- `selectedItem` and `onSelectedItemChange` for the current destination.
+- `openItems` and `onOpenItemsChange` for expanded groups.
+- `activeSection` and `onActiveSectionChange` for the visible section.
+
+Setting `selectedItem` for the current route automatically opens its ancestor accordions and activates its section. The selected destination is scrolled to the center when it is outside the visible browser or nearest `ScrollView` area. Wrap the menu in `ScrollView` and set a fixed or viewport-based `maxHeight` when it needs its own scrolling region.
+
+Use `openItemsStorageKey` to preserve manually opened and closed groups across route remounts. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical scroll position. The default storage for both features is session storage, which keeps navigation UI state for the current tab without carrying stale state into future visits. Set `openItemsStorage` or `scrollPositionStorage` to `"local"` only when the product intentionally wants that state to survive browser restarts. Use separate storage keys for independent menus and keep item ids stable and unique across sections. Controlled `openItems` state remains the preferred option when the application already owns navigation state.
+
+In a prerendered application, restore the stored scroll position before the first paint to avoid briefly showing the top of a long menu. The Eufemia portal uses a blocking prerender script that reads the storage metadata rendered by `SidebarMenu.Container`, restores the nearest `ScrollView`, and positions an out-of-view active item before hydration. The component performs the same check during initial client rendering as a fallback.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/sidebar-menu)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/sidebar-menu)
+
+## Accessibility
+
+- The container renders a `nav` landmark. Give each menu a distinct `aria-label` or `aria-labelledby` value.
+- Navigation levels use semantic nested lists.
+- Items render as native links when `href` or `to` is supplied, and native buttons otherwise.
+- Accordion triggers are native buttons with `aria-expanded` and `aria-controls`.
+- Selected destinations use `aria-current="page"`; the visual arrow is hidden from assistive technology.
+- Disabled button items use the native `disabled` attribute. Disabled links use `aria-disabled`, have no destination, and are removed from the tab order.
+- Section controls are exposed as a labeled group of toggle buttons.
+- **Tab/Shift+Tab** moves through interactive elements. **Enter/Space** activates buttons and accordion triggers.
+- Selection and expansion animations respect `prefers-reduced-motion`.
+
+The component has automated axe coverage. Always test the finished navigation with the screen readers supported by your product because labels and hierarchy depend on application content.
+
+<RelatedComponents />

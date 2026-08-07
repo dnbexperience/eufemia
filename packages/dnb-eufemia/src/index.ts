@@ -82,6 +82,7 @@ import PortalRoot from './components/portal-root/PortalRoot'
 import ProgressIndicator from './components/progress-indicator/ProgressIndicator'
 import Radio from './components/radio/Radio'
 import Section from './components/section/Section'
+import SidebarMenu from './components/sidebar-menu/SidebarMenu'
 import Skeleton from './components/skeleton/Skeleton'
 import SkipContent from './components/skip-content/SkipContent'
 import Slider from './components/slider/Slider'
@@ -174,6 +175,7 @@ export {
   ProgressIndicator,
   Radio,
   Section,
+  SidebarMenu,
   Skeleton,
   SkipContent,
   Slider,
