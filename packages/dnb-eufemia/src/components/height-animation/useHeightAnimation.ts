@@ -298,7 +298,9 @@ function useAdjust({ children, instRef, isInitialRenderRef, targetRef }) {
        */
       const toHeight = instRef.current.getHeight()
 
-      instRef.current.adjustTo(fromHeight.current, toHeight)
+      if (fromHeight.current !== toHeight) {
+        instRef.current.adjustTo(fromHeight.current, toHeight)
+      }
     }
   }, [children]) // eslint-disable-line react-hooks/exhaustive-deps
 }

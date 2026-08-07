@@ -1,0 +1,69 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/sidebar-menu/info
+---
+
+## Import
+
+```tsx
+import SidebarMenu from '@dnb/eufemia/extensions/sidebar-menu'
+import '@dnb/eufemia/extensions/sidebar-menu/style'
+```
+
+## Description
+
+`SidebarMenu` provides persistent navigation with expandable groups and optional top-level sections. Its compound API is tree-shakeable: `SidebarMenu` itself is a namespace, while only the subcomponents you use are included.
+
+Compose a menu declaratively with `SidebarMenu.Container`, `SidebarMenu.Item`, `SidebarMenu.Accordion`, `SidebarMenu.Group`, `SidebarMenu.Section`, `SidebarMenu.Header`, and `SidebarMenu.Divider`. Alternatively, pass recursive `data` or `sections` objects to the container.
+
+## Key behaviors
+
+- Setting `selectedItem` reveals its ancestors and section. An active branch can still be collapsed; a dot then indicates that it contains the current page.
+- An off-screen selected item is brought into view. Initial positioning and restored scroll positions happen without a visible animated jump.
+- `openItemsStorageKey` and `scrollPositionStorageKey` preserve navigation context between route changes. Session storage is used by default.
+- A linked accordion separates navigation from expansion: its label navigates, while its chevron toggles the nested items.
+- Collapsed content remains available to browser find-in-page through `hidden="until-found"`.
+
+## Composition
+
+Accordion groups support deep nesting, but keep the hierarchy as shallow as possible. Use `SidebarMenu.Group` for a titled category whose items should always remain visible, or set `collapsible={false}` on an accordion. Groups can optionally navigate using `href` or `to`; in the data API, use `type: 'group'`.
+
+Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `disableUntilFound` on the container when collapsed content should not use `hidden="until-found"`.
+
+When an accordion also represents a page, provide `href` or `to`. Its label becomes a navigation link and its chevron remains a separate expansion button.
+
+## State and scrolling
+
+Use controlled properties when application routing or external state owns the menu:
+
+- `selectedItem` and `onSelectedItemChange` for the current destination.
+- `openItems` and `onOpenItemsChange` for expanded groups.
+- `activeSection` and `onActiveSectionChange` for the visible section.
+
+The selected destination is positioned within the visible browser or nearest `ScrollView`. Wrap the menu in `ScrollView` and set a fixed or viewport-based `maxHeight` when it needs its own scrolling region.
+
+Use `openItemsStorageKey` to preserve manually opened and closed groups. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical position. A stored value takes precedence over the defaults, including an empty array. Use local storage only when the state should survive browser restarts; otherwise keep the default session storage.
+
+Prerendered applications can read the storage metadata rendered by the container and restore the position before hydration. This avoids briefly showing the top of a long menu before moving to the selected item.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/sidebar-menu)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/sidebar-menu)
+
+## Accessibility
+
+- The container renders a `nav` landmark. Give each menu a distinct `aria-label` or `aria-labelledby` value.
+- Navigation levels use semantic nested lists.
+- Items render as native links when `href` or `to` is supplied, and native buttons otherwise.
+- Accordion triggers are native buttons with `aria-expanded` and `aria-controls`.
+- Selected destinations use `aria-current="page"`; the visual arrow is hidden from assistive technology.
+- Disabled button items use the native `disabled` attribute. Disabled links use `aria-disabled`, have no destination, and are removed from the tab order.
+- Section controls are exposed as a labeled group of toggle buttons.
+- **Tab/Shift+Tab** moves through interactive elements. **Enter/Space** activates buttons and accordion triggers.
+- Selection and expansion animations respect `prefers-reduced-motion`.
+
+The component has automated axe coverage. Always test the finished navigation with the screen readers supported by your product because labels and hierarchy depend on application content.
+
+<RelatedComponents />
