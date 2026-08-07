@@ -2,12 +2,14 @@ import {
   isValidElement,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
 } from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
+import { warn } from '../../../../../shared/helpers'
 import { Flex, FormStatus } from '../../../../../components'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
@@ -26,13 +28,14 @@ import useReportError from '../../Isolation/useReportError'
 import { useShowStatus } from '../../Isolation/useHandleStatus'
 import useContainerDataStore from './useContainerDataStore'
 import EditContainerContext from './EditContainerContext'
+import SectionContext from '../SectionContext'
 
 export type FormSectionEditContainerProps = {
   title?: ReactNode
   onDone?: () => void
   onCancel?: () => void
   /**
-   * Prevents form submission and Wizard navigation while the section is in edit mode, until the Done or Cancel button is selected.
+   * Prevents form submission and Wizard navigation while the section is in edit mode, until the Done or Cancel button is selected. Requires Form.Section to have a path.
    */
   preventUncommittedChanges?: boolean
 }
@@ -62,13 +65,24 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
   } = useContext(SectionContainerContext) || {}
   const omitFocusManagementRef = useRef(false)
   const dataContext = useContext(DataContext)
+  const { path: sectionPath } = useContext(SectionContext) || {}
   const dataStore = useContainerDataStore({
     enabled: true,
   })
+  const preventNavigation =
+    preventUncommittedChanges && Boolean(sectionPath)
   const hasUncommittedChanges =
-    preventUncommittedChanges && dataStore.hasUncommittedChanges
+    preventNavigation && dataStore.hasUncommittedChanges
   const { preventUncommittedChangesText } =
     useTranslation().SectionEditContainer
+
+  useEffect(() => {
+    if (preventUncommittedChanges && !sectionPath) {
+      warn(
+        'Form.Section.EditContainer requires Form.Section to have a path when preventUncommittedChanges is enabled.'
+      )
+    }
+  }, [preventUncommittedChanges, sectionPath])
 
   useReportError(
     hasUncommittedChanges ? uncommittedChangesError : undefined,
@@ -78,7 +92,7 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
   const showUncommittedChangesStatus = useShowStatus({
     outerContext: dataContext,
     hasContentChanged: hasUncommittedChanges,
-    preventUncommittedChanges,
+    preventUncommittedChanges: preventNavigation,
   })
 
   const onPathError = useCallback(
@@ -130,7 +144,7 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
                 <CancelButton />
               </Toolbar>
             )}
-            {preventUncommittedChanges && (
+            {preventNavigation && (
               <FormStatus
                 noAnimation={false}
                 show={Boolean(showUncommittedChangesStatus)}

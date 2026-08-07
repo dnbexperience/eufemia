@@ -9,6 +9,32 @@ const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
   describe('preventUncommittedChanges', () => {
+    it('should not block submission when Form.Section has no path', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Section containerMode="edit">
+            <Form.Section.EditContainer preventUncommittedChanges>
+              <Field.String path="/insideSection" />
+            </Form.Section.EditContainer>
+          </Form.Section>
+
+          <Field.String path="/outsideSection" />
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelectorAll('input')[1], 'hello')
+      await userEvent.click(
+        document.querySelector('.dnb-forms-submit-button')
+      )
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+    })
+
     it('should prevent Wizard navigation until changes are confirmed', async () => {
       render(
         <Form.Handler>
@@ -65,7 +91,7 @@ describe('EditContainer and ViewContainer', () => {
 
       render(
         <Form.Handler onSubmit={onSubmit}>
-          <Form.Section containerMode="edit">
+          <Form.Section path="/section" containerMode="edit">
             <Form.Section.EditContainer preventUncommittedChanges>
               <Field.String path="/name" />
             </Form.Section.EditContainer>
@@ -93,7 +119,7 @@ describe('EditContainer and ViewContainer', () => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
       })
       expect(onSubmit).toHaveBeenLastCalledWith(
-        { name: 'Ada' },
+        { section: { name: 'Ada' } },
         expect.anything()
       )
     })
@@ -155,7 +181,7 @@ describe('EditContainer and ViewContainer', () => {
           <Wizard.Container>
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
-              <Form.Section containerMode="edit">
+              <Form.Section path="/section" containerMode="edit">
                 <Form.Section.EditContainer preventUncommittedChanges>
                   <Field.String path="/name" />
                 </Form.Section.EditContainer>
@@ -181,11 +207,11 @@ describe('EditContainer and ViewContainer', () => {
 
     it('should prevent navigation when changes are reverted', async () => {
       render(
-        <Form.Handler defaultData={{ name: 'Ada' }}>
+        <Form.Handler defaultData={{ section: { name: 'Ada' } }}>
           <Wizard.Container>
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
-              <Form.Section containerMode="edit">
+              <Form.Section path="/section" containerMode="edit">
                 <Form.Section.EditContainer preventUncommittedChanges>
                   <Field.String path="/name" />
                 </Form.Section.EditContainer>
