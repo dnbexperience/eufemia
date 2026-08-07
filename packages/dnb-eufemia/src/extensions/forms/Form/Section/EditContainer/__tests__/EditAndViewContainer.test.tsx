@@ -9,32 +9,6 @@ const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
   describe('preventUncommittedChanges', () => {
-    it('should not block submission when Form.Section has no path', async () => {
-      const onSubmit = vi.fn()
-
-      render(
-        <Form.Handler onSubmit={onSubmit}>
-          <Form.Section containerMode="edit">
-            <Form.Section.EditContainer preventUncommittedChanges>
-              <Field.String path="/insideSection" />
-            </Form.Section.EditContainer>
-          </Form.Section>
-
-          <Field.String path="/outsideSection" />
-          <Form.SubmitButton />
-        </Form.Handler>
-      )
-
-      await userEvent.type(document.querySelectorAll('input')[1], 'hello')
-      await userEvent.click(
-        document.querySelector('.dnb-forms-submit-button')
-      )
-
-      await waitFor(() => {
-        expect(onSubmit).toHaveBeenCalledTimes(1)
-      })
-    })
-
     it('should prevent Wizard navigation until changes are confirmed', async () => {
       render(
         <Form.Handler>

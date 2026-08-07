@@ -2,14 +2,12 @@ import {
   isValidElement,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
 } from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
-import { warn } from '../../../../../shared/helpers'
 import { Flex, FormStatus } from '../../../../../components'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
@@ -69,20 +67,17 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
   const dataStore = useContainerDataStore({
     enabled: true,
   })
-  const preventNavigation =
-    preventUncommittedChanges && Boolean(sectionPath)
+  const preventNavigation = preventUncommittedChanges
   const hasUncommittedChanges =
     preventNavigation && dataStore.hasUncommittedChanges
   const { preventUncommittedChangesText } =
     useTranslation().SectionEditContainer
 
-  useEffect(() => {
-    if (preventUncommittedChanges && !sectionPath) {
-      warn(
-        'Form.Section.EditContainer requires Form.Section to have a path when preventUncommittedChanges is enabled.'
-      )
-    }
-  }, [preventUncommittedChanges, sectionPath])
+  if (preventUncommittedChanges && !sectionPath) {
+    throw new Error(
+      'Form.Section.EditContainer requires its parent Form.Section to have a path when preventUncommittedChanges is enabled.'
+    )
+  }
 
   useReportError(
     hasUncommittedChanges ? uncommittedChangesError : undefined,
