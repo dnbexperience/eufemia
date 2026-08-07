@@ -119,7 +119,7 @@ export type GlobalStatusProps = {
    */
   state?: GlobalStatusState
   /**
-   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `auto`.
    */
   show?: GlobalStatusShow
   /**
@@ -233,7 +233,7 @@ export type GlobalStatusInterceptorProps = {
   text?: string
   statusId?: GlobalStatusStatusId
   /**
-   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `auto`.
    */
   show?: boolean
   item?: GlobalStatusItem
