@@ -94,7 +94,7 @@
     "prismjs": "1.30.0",
     "react-live-ssr": "workspace:*",
     "react-markdown": "9.1.0",
-    "react-router-dom": "7.16.0",
+    "react-router": "8.3.0",
     "remark-frontmatter": "5.0.0",
     "remark-gfm": "4",
     "remark-gfm-react-markdown": "npm:remark-gfm@4.0.1",
@@ -107,7 +107,7 @@
     "typescript": "5.9.3",
     "unist-util-visit": "5.1.0",
     "vite": "8.0.16",
-    "vitest": "4.1.8",
+    "vitest": "4.1.10",
     "wrangler": "4.102.0"
   },
   "buildVersion": "[LOCAL BUILD]",

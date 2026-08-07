@@ -169,6 +169,24 @@ describe('additional tests', () => {
     global.fetch = originalFetch
   })
 
+  it('should handle an aborted fetch without destructuring undefined', async () => {
+    const originalFetch = global.fetch
+    global.fetch = vi
+      .fn()
+      .mockRejectedValue(
+        new DOMException('The operation was aborted.', 'AbortError')
+      )
+
+    await expect(
+      fetchData('testValue', {
+        generalConfig: { fetchConfig: { url: 'https://example.com' } },
+        abortControllerRef: { current: null },
+      })
+    ).resolves.toBeUndefined()
+
+    global.fetch = originalFetch
+  })
+
   it('should handle default country code in getCountryCodeValue', () => {
     const mockAdditionalArgs = {
       props: {},

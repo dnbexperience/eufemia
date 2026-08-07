@@ -66,6 +66,16 @@ if (typeof window !== 'undefined') {
   if (matchMediaDesc && !window.matchMedia) {
     delete (window as unknown as Record<string, unknown>).matchMedia
   }
+
+  // jsdom does not implement the Window scroll methods and logs a noisy
+  // "Not implemented: Window's scrollTo() method" error through its virtual
+  // console whenever a component calls them during a test. Provide no-op
+  // stubs so the methods behave like a real browser (a silent no-op) while
+  // remaining plain data properties that individual tests can still spy on
+  // or override.
+  window.scrollTo = () => undefined
+  window.scroll = () => undefined
+  window.scrollBy = () => undefined
 }
 
 // Silence known noisy console output globally

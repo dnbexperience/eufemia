@@ -116,11 +116,6 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'React.RefObject',
     status: 'optional',
   },
-  collapseAllHandleRef: {
-    doc: 'Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Defaults to `undefined`.',
-    type: 'React.RefObject<() => void>',
-    status: 'optional',
-  },
   space: {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
@@ -185,6 +180,11 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
   expandedId: {
     doc: 'Define an `id` of a nested accordion that will get expanded.',
     type: 'string',
+    status: 'optional',
+  },
+  collapseAllHandleRef: {
+    doc: 'Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Defaults to `undefined`.',
+    type: 'React.RefObject<() => void>',
     status: 'optional',
   },
   space: {

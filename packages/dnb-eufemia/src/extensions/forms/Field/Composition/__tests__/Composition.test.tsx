@@ -1,7 +1,7 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
-import { Field, Form, makeAjvInstance } from '../../..'
+import { Field, FieldBlock, Form, makeAjvInstance } from '../../..'
 import {
   axeComponent,
   wait,
@@ -783,6 +783,75 @@ describe('Field.Composition', () => {
       )
 
       expect(await axeComponent(result)).toHaveNoViolations()
+    })
+  })
+
+  it('should aggregate state from simultaneous child validations', async () => {
+    const firstValidator = vi.fn(async () => {
+      await wait(100)
+      return undefined
+    })
+    const secondValidator = vi.fn(async () => {
+      await wait(20)
+      return undefined
+    })
+
+    render(
+      <FieldBlock label="Outer field block">
+        <Field.Composition>
+          <Field.String onChangeValidator={firstValidator} />
+          <Field.String onChangeValidator={secondValidator} />
+        </Field.Composition>
+      </FieldBlock>
+    )
+
+    const inputs = Array.from(document.querySelectorAll('input'))
+    const indicators = Array.from(
+      document.querySelectorAll('.dnb-forms-submit-indicator')
+    )
+    const firstIndicator = indicators[0]
+    const secondIndicator = indicators[1]
+    const compositionIndicator = indicators[2]
+    const outerIndicator = indicators[3]
+
+    fireEvent.change(inputs[0], { target: { value: 'first' } })
+    fireEvent.change(inputs[1], { target: { value: 'second' } })
+
+    await waitFor(() => {
+      expect(firstIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(secondIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(outerIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+    })
+    expect(
+      document.querySelectorAll(
+        '.dnb-forms-submit-indicator--state-pending'
+      )
+    ).toHaveLength(3)
+    expect(compositionIndicator).not.toHaveClass(
+      'dnb-forms-submit-indicator--state-pending'
+    )
+
+    await waitFor(() => {
+      expect(firstIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(secondIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-complete'
+      )
+      expect(outerIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+      expect(
+        document.querySelectorAll(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toHaveLength(2)
     })
   })
 

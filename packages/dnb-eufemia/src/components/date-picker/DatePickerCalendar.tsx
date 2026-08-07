@@ -417,7 +417,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           const { startDate: currentStart, endDate: currentEnd } =
             currentDatesRef.current
 
-          if (!currentStart || (resetDate && currentStart && currentEnd)) {
+          if (!currentStart || (resetDate && currentEnd)) {
             // First selection: set start date, clear end date
             // Keep focusedDateRef so arrow keys continue from this date
             updateDates(
@@ -864,7 +864,7 @@ function onSelectRange({
   // Set to true to stop calendar views from changing in range mode when clicking a day
   setHasClickedCalendarDay(true)
 
-  if (!startDate || (resetDate && startDate && endDate)) {
+  if (!startDate || (resetDate && endDate)) {
     // set startDate
     // user is selecting startDate
     return onSelect({

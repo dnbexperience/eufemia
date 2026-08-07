@@ -610,8 +610,8 @@ describe('Slider component', () => {
 
     it('will not need on external prop changes', () => {
       const WrongUsage = () => {
-        const [min, setMinVal] = useState(0) //eslint-disable-line
-        const [max, setMaxVal] = useState(200) //eslint-disable-line
+        const [, setMinVal] = useState(0)
+        const [, setMaxVal] = useState(200)
 
         return (
           <Slider

@@ -6,7 +6,7 @@
 import type { AnchorHTMLAttributes, DetailedHTMLProps, Ref } from 'react'
 import { Anchor as EufemiaAnchor } from '@dnb/eufemia/src'
 import type { AnchorAllProps as Props } from '@dnb/eufemia/src/components/Anchor'
-import { Link as RouterLink, type LinkProps } from 'react-router-dom'
+import { Link as RouterLink, type LinkProps } from 'react-router'
 
 export type AnchorProps = Props &
   DetailedHTMLProps<

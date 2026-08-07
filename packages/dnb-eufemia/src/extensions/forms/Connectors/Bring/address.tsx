@@ -145,13 +145,20 @@ export function suggestions(
       const parameters = {
         countryCode: String(countryCode).toLowerCase(),
       }
-      const { data } = await fetchData<AddressResolverData>(value, {
+      const result = await fetchData<AddressResolverData>(value, {
         generalConfig,
         parameters,
         abortControllerRef,
         preResponseResolver:
           handlerConfig?.preResponseResolver ?? preResponseResolver,
       })
+
+      if (!result) {
+        additionalArgs.hideIndicator()
+        return undefined // stop here
+      }
+
+      const { data } = result
 
       const { payload } = responseResolver(data, handlerConfig)
 

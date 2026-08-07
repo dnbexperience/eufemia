@@ -10,6 +10,7 @@ import type { AriaAttributes, ReactNode, RefObject } from 'react'
 import pointer from '../utils/json-pointer'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import { getValidatorOptions, isZodSchema } from '../utils'
+import { hasAsyncValidatorBehavior } from '../utils/validatorOptions'
 import type * as z from 'zod'
 import type {
   FieldPropsGeneric,
@@ -255,6 +256,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     showFieldError: showFieldErrorFieldBlock,
     mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = (inFieldBlock ? fieldBlockContext : {}) as FieldBlockContextProps
+  const setFieldStateFieldBlockRef = useRef(setFieldStateFieldBlock)
+  setFieldStateFieldBlockRef.current = setFieldStateFieldBlock
   const {
     activeIndex,
     activeIndexRef,
@@ -801,7 +804,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
             return startOnBlurValidatorProcess({ overrideValue })
           },
-          isAsync(onBlurValidatorRef.current)
+          hasAsyncValidatorBehavior(onBlurValidatorRef.current)
         )
 
         await runPool(() => {
@@ -876,9 +879,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         () => {
           setValidatedValidatorValue('onChangeValidator')
 
-          return validateValue()
+          return validateValue({ keepPendingForAsyncBehavior: true })
         },
-        isAsync(onChangeValidatorRef.current)
+        hasAsyncValidatorBehavior(onChangeValidatorRef.current)
       )
 
       addToPool(
@@ -1125,6 +1128,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         isMounted: false,
         isPreMounted: false,
       })
+      setFieldStateFieldBlockRef.current?.(identifier, undefined)
       setMountedFieldSnapshot?.(identifier, { isMounted: false })
     }
   }, [
@@ -1253,7 +1257,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
             return startOnBlurValidatorProcess()
           },
-          isAsync(onBlurValidatorRef.current)
+          hasAsyncValidatorBehavior(onBlurValidatorRef.current)
         )
 
         runPool(() => {
@@ -1662,7 +1666,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
           return startOnChangeValidatorValidation()
         },
-        isAsync(onChangeValidatorRef.current)
+        hasAsyncValidatorBehavior(onChangeValidatorRef.current)
       )
     }
 
@@ -1679,7 +1683,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
           return startOnBlurValidatorProcess()
         },
-        isAsync(onBlurValidatorRef.current)
+        hasAsyncValidatorBehavior(onBlurValidatorRef.current)
       )
     }
 
@@ -1827,7 +1831,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [props])
 
   if (bufferedError) {
-    htmlAttributes['aria-invalid'] = bufferedError ? 'true' : 'false'
+    htmlAttributes['aria-invalid'] = 'true'
   }
   if (required) {
     htmlAttributes['aria-required'] = 'true'

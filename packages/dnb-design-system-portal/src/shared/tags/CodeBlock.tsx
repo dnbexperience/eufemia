@@ -124,7 +124,7 @@ const CodeBlock = ({
         theme={prismTheme}
         prism={Prism}
       >
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
+        {({ className, tokens, getLineProps, getTokenProps }) => (
           <div
             className={clsx(
               codeBlockStyle,
@@ -136,7 +136,7 @@ const CodeBlock = ({
               className={copyButtonStyle}
             />
 
-            <Tag as="pre" className={className} css={style}>
+            <Tag as="pre" className={className}>
               {cleanTokens(tokens).map((line, i) => {
                 const { key, ...lineProps } = getLineProps({
                   line,

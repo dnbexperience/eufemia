@@ -309,6 +309,9 @@ describe('openInStackBlitz', () => {
     expect(packageJson.dependencies).toHaveProperty('@dnb/eufemia')
     expect(packageJson.dependencies).toHaveProperty('react')
     expect(packageJson.dependencies).toHaveProperty('react-dom')
+    expect(packageJson.devDependencies.purgecss).toEqual(
+      expect.any(String)
+    )
 
     form.cleanup()
   })

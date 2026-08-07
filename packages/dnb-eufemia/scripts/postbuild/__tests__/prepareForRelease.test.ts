@@ -48,21 +48,26 @@ describe('cleanupPackage', () => {
     })
   })
 
-  it('includes postcss-selector-parser as a runtime dependency', async () => {
-    // The published package ships the postcss-isolated-style-scope plugin
-    // (build/plugins/) which requires "postcss-selector-parser" at runtime.
-    // Consumers who use this plugin for style isolation need this package to be
-    // listed as a dependency so their package manager installs it automatically.
-    // See: https://github.com/dnbexperience/eufemia/pull/7986#discussion_r3200784199
+  it('preserves optimizer dependency contracts', async () => {
     const filepath = path.resolve(PKG_ROOT, 'package.json')
     const packageString = await fs.readFile(filepath, 'utf-8')
     const cleanedPackage = await cleanupPackage({
       packageString,
     })
 
-    const deps = cleanedPackage.dependencies as Record<string, string>
-    expect(deps).toMatchObject({
+    const dependencies = cleanedPackage.dependencies as Record<
+      string,
+      string
+    >
+    expect(dependencies).toMatchObject({
       'postcss-selector-parser': expect.any(String),
+    })
+    expect(dependencies).not.toHaveProperty('purgecss')
+    expect(cleanedPackage.peerDependencies).toMatchObject({
+      purgecss: expect.any(String),
+    })
+    expect(cleanedPackage.peerDependenciesMeta).toMatchObject({
+      purgecss: { optional: true },
     })
   })
 })

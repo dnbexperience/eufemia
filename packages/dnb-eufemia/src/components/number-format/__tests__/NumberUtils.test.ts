@@ -4,8 +4,8 @@
  */
 
 import { mockClipboard } from '../../../core/test-utils/testSetup'
-import type { CountryCdc } from '../../../extensions/forms/constants/countries'
-import countries from '../../../extensions/forms/constants/countries'
+import type { CountryCdc } from '../../../shared/constants/countries'
+import countries from '../../../shared/constants/countries'
 import type { InternalLocale } from '../../../shared/Context'
 import { LOCALE } from '../../../shared/defaults'
 import * as helpers from '../../../shared/helpers'

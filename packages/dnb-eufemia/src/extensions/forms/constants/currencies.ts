@@ -1,4 +1,7 @@
-import type { ContinentType, RegionType } from './countries'
+import type {
+  ContinentType,
+  RegionType,
+} from '../../../shared/constants/countries'
 import { selectedCurrencies } from './allCurrencies'
 
 export type CurrencyType = {

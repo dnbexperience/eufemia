@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react'
 import SharedContext from '../../../../../shared/Context'
 import { getCountryData } from '../../../Field/SelectCountry'
 import useCountry from '../useCountry'
-import countries from '../../../constants/countries'
+import countries from '../../../../../shared/constants/countries'
 
 vi.mock('../../../Field/SelectCountry', () => ({
   getCountryData: vi.fn(),

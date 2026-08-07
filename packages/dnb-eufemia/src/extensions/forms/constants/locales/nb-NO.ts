@@ -248,6 +248,8 @@ export default {
       label: 'Postnr.',
       errorRequired: 'Du må fylle inn et postnummer.',
       errorPattern: 'Du må skrive inn et gyldig postnummer (fire siffer).',
+      errorInvalidCode:
+        'Du må skrive inn et gyldig postnummer. 0000 er ikke tillatt.',
     },
     City: {
       label: 'Sted',

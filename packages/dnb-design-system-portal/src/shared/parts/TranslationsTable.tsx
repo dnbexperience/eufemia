@@ -9,10 +9,10 @@ import type { Translation } from '@dnb/eufemia/src/shared/Context'
 import { mergeTranslations } from '@dnb/eufemia/src/shared'
 import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/src/shared/constants/locales/countries/sv-SE'
 import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
 import daDK_forms from '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'
-import daDK_forms_countries from '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/src/shared/constants/locales/countries/da-DK'
 import { languageDisplayNames } from '../../core/ChangeLocale'
 
 const additionalTranslations = mergeTranslations(

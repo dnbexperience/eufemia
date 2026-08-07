@@ -1,6 +1,6 @@
 import { useStaticQuery, graphql } from 'portal-query'
 import { Li, P, Ul } from '@dnb/eufemia/src'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import Anchor from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import {

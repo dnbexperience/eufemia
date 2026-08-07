@@ -78,3 +78,92 @@ import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
 import '@dnb/eufemia/components/button/style/dnb-button.min.css'
 import '@dnb/eufemia/components/button/style/themes/dnb-button-theme-ui.min.css'
 ```
+
+## Removing unused CSS (beta)
+
+> **Beta:** The Vite plugin, style manifest, and lower-level optimizer helpers are beta APIs and may change in a future release.
+
+Eufemia's JavaScript is tree-shakeable, but `import '@dnb/eufemia/style'` includes every component's CSS. Eufemia components also compose classes at runtime, so removing individual selectors based only on literal source text can delete styles that are actually needed.
+
+### Vite plugin (recommended)
+
+Install PurgeCSS as a development dependency, then add the Eufemia CSS optimizer after your framework plugin:
+
+```bash
+npm install --save-dev purgecss
+# or
+yarn add --dev purgecss
+# or
+pnpm add --dev purgecss
+```
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { eufemiaCssOptimizer } from '@dnb/eufemia/style/vite-plugin.js'
+
+export default defineConfig({
+  plugins: [react(), eufemiaCssOptimizer()],
+})
+```
+
+PurgeCSS is an optional peer dependency of `@dnb/eufemia`, so applications that do not use the optimizer do not install it. No separate PurgeCSS configuration or build command is required after installing it. Run your normal production build:
+
+```bash
+yarn build
+```
+
+The plugin scans `src` once for Eufemia imports, expands every detected component with its style and render dependencies, and removes unused component blocks during Vite's CSS transform pipeline. Vite therefore calculates source maps, minification, filenames, and content hashes from the optimized CSS.
+
+The beta style manifest is generated when the Eufemia package is prepared and ships as `@dnb/eufemia/style/style-manifest.json`; it is not committed as source. Consumers load the manifest from the installed package automatically.
+
+The optimizer only processes Eufemia's aggregate component, fragment, extension, and Forms styles. It leaves application CSS unchanged, and preserves `dnb-ui-core` and theme basis CSS because they contain global resets, accessibility rules, fonts, design tokens, shared element styles, and other foundation styles that cannot be safely inferred from component imports. The build prints the detected components and before/after Eufemia CSS size.
+
+Use `sources` when application code lives outside `src`, `extensions` when it uses other source-file extensions, or `components` when usage is selected dynamically and cannot be detected statically:
+
+```ts
+plugins: [
+  react(),
+  eufemiaCssOptimizer({
+    sources: ['app', 'packages/shared'],
+    extensions: ['ts', 'tsx', 'mdx'],
+    // Or manage detection explicitly:
+    // components: ['autocomplete', 'button'],
+  }),
+]
+```
+
+Automatic detection covers named and aliased imports, deep imports, namespace imports, direct re-exports, public element aliases, and Eufemia Forms. Forms detection includes `Field`/`Value`, `RegisteredField`/`RegisteredValue`, member barrels, the compatibility default export from `extensions/forms/Forms`, namespace usage such as `Forms.Field.Upload`, straightforward destructuring, and Forms deep imports. Member-specific dependencies are retained only for the members in use. If a recognized Forms namespace is used through an unresolved computed or indirect member pattern, the optimizer conservatively keeps all member-specific Forms dependencies.
+
+Detection scans files on disk before the build. It cannot follow components through local multi-hop re-export chains, arbitrary assignment chains, computed component names, or source generated only in a virtual module. Include generated files in `sources` when they exist on disk, and use `components` to explicitly retain components for other dynamic or generated usage.
+
+### Advanced: non-Vite builds
+
+For other build systems, `createSafelist` and `protectWhereSelectors` are available as lower-level integration APIs. `createSafelist` loads the shipped manifest, detects imported components, expands their transitive dependencies, and returns PurgeCSS-compatible greedy patterns. `protectWhereSelectors` preserves Eufemia's nested `:where(:not(…))` and `:is(:not(…))` rules, which PurgeCSS cannot retain through a safelist alone. Always apply it to Eufemia's aggregate CSS before passing the CSS to PurgeCSS:
+
+```js
+import { readFile } from 'node:fs/promises'
+import { createRequire } from 'node:module'
+import { PurgeCSS } from 'purgecss'
+import {
+  createSafelist,
+  protectWhereSelectors,
+} from '@dnb/eufemia/style/optimizer.js'
+
+const require = createRequire(import.meta.url)
+const { greedy } = createSafelist({ sources: ['src'] })
+const cssPath =
+  require.resolve('@dnb/eufemia/style/themes/ui/ui-theme-components.min.css')
+const eufemiaCss = await readFile(cssPath, 'utf8')
+
+const [result] = await new PurgeCSS().purge({
+  content: ['src/**/*.{ts,tsx,js,jsx,mdx}'],
+  css: [{ raw: protectWhereSelectors(eufemiaCss, greedy) }],
+  safelist: { greedy },
+})
+```
+
+The `sources` option controls Eufemia import detection, while PurgeCSS's `content` option controls literal selector scanning. Write or otherwise pass `result.css` to the rest of your build. Keep `dnb-ui-core` and theme basis CSS outside the purge input.
+
+Always include the `.js` extension when importing the published plugin or optimizer helper.

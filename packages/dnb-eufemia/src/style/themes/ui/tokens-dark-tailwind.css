@@ -2,6 +2,8 @@
 
 /* stylelint-disable eufemia/token-name-policy */
 .eufemia-theme__color-scheme--dark {
+  color-scheme: dark;
+
   --color-background-page-background: var(--dnb-greyscale-1000);
   --color-background-action: var(--dnb-coldgreen-300);
   --color-background-action-hover: var(--dnb-coldgreen-300);

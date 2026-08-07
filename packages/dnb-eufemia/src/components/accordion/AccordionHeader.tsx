@@ -237,7 +237,7 @@ export const AccordionHeader = ({
 
   function canClick() {
     const { expanded, allowCloseAll, group } = context
-    return !group || (group && !expanded) || allowCloseAll
+    return !group || !expanded || allowCloseAll
   }
 
   const extendedProps = extendPropsWithContext(
@@ -251,7 +251,6 @@ export const AccordionHeader = ({
 
     // 1. these props should be the same as ...
     leftComponent,
-    expanded, // eslint-disable-line
     title,
     description,
     element,

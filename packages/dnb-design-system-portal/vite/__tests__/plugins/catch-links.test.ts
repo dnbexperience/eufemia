@@ -47,12 +47,12 @@ describe('catch-links plugin', () => {
   })
 
   describe('runtime code', () => {
-    it('imports useNavigate from react-router-dom', () => {
+    it('imports useNavigate from react-router', () => {
       const plugin = catchLinksPlugin()
       const load = plugin.load as (id: string) => string | undefined
       const code = load('\0virtual:catch-links')!
 
-      expect(code).toContain("from 'react-router-dom'")
+      expect(code).toContain("from 'react-router'")
       expect(code).toContain('useNavigate')
     })
 

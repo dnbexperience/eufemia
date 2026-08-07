@@ -342,7 +342,7 @@ function objToMediaQuery(
       }
 
       // Add em to dimension features
-      if (typeof value === 'number' && /[height|width]$/.test(feature)) {
+      if (typeof value === 'number' && /(?:height|width)$/.test(feature)) {
         value = value + 'em'
       }
 

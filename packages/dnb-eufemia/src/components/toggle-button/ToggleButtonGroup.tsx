@@ -12,7 +12,6 @@ import {
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
-  combineLabelledBy,
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
@@ -212,9 +211,6 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
       showStatus ? id + '-status' : null,
       suffix ? id + '-suffix' : null
     )
-  }
-  if (label) {
-    params['aria-labelledby'] = combineLabelledBy(params, id + '-label')
   }
 
   // also used for code markup simulation

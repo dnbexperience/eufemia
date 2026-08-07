@@ -14,6 +14,8 @@ import matter from 'gray-matter'
 
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
+const PORTAL_DOCS_SOURCE_PATH =
+  'packages/dnb-design-system-portal/src/docs'
 
 // Patterns to ignore when scanning for page files.
 const IGNORE_PATTERNS = [
@@ -34,6 +36,7 @@ export type TableOfContentsItem = {
 
 export type PageFileInfo = {
   filePath: string
+  sourcePath: string
   slug: string
   frontmatter: Record<string, unknown>
   tableOfContents?: { items: TableOfContentsItem[] }
@@ -119,7 +122,8 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
       }
 
       const relativePath = path.relative(docsDir, fullPath)
-      const slug = relativePath
+      const normalizedRelativePath = relativePath.replace(/\\/g, '/')
+      const slug = normalizedRelativePath
         .replace(/\.(mdx|tsx)$/, '')
         .replace(/(^|\/)index$/, '$1')
         .replace(/\/$/, '')
@@ -139,6 +143,7 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
 
       results.push({
         filePath: fullPath,
+        sourcePath: `${PORTAL_DOCS_SOURCE_PATH}/${normalizedRelativePath}`,
         slug,
         frontmatter,
         tableOfContents,
@@ -175,7 +180,8 @@ export function readPageFileInfo(
   }
 
   const relativePath = path.relative(docsDir, filePath)
-  const slug = relativePath
+  const normalizedRelativePath = relativePath.replace(/\\/g, '/')
+  const slug = normalizedRelativePath
     .replace(/\.(mdx|tsx)$/, '')
     .replace(/(^|\/)index$/, '$1')
     .replace(/\/$/, '')
@@ -196,6 +202,7 @@ export function readPageFileInfo(
 
   return {
     filePath,
+    sourcePath: `${PORTAL_DOCS_SOURCE_PATH}/${normalizedRelativePath}`,
     slug,
     frontmatter,
     tableOfContents,
@@ -294,7 +301,7 @@ export default function portalPagesPlugin(
           // (TSX pages like index.tsx, 404.tsx don't have frontmatter for the sidebar)
           if (file.type === 'mdx') {
             const nodeData: Record<string, unknown> = {
-              fields: { slug: file.slug },
+              fields: { slug: file.slug, sourcePath: file.sourcePath },
               frontmatter: file.frontmatter,
             }
             if (file.tableOfContents) {
@@ -329,7 +336,7 @@ export default function portalPagesPlugin(
 
         return `
 import React from 'react';
-import { redirect, useLocation } from 'react-router-dom';
+import { redirect, useLocation } from 'react-router';
 
 // No-op component for redirect routes so React Router does not warn
 // about a matched leaf route without an element or Component.

@@ -71,7 +71,12 @@ jobs:
         run: yarn dedupe --check
 
       - name: Audit dependencies
-        run: yarn workspace @dnb/eufemia audit:ci
+        # Audit the shipped (production) dependency tree of everything we ship:
+        # the @dnb/eufemia npm library and the @dnb/eufemia-mcp Lambda. Both must
+        # pass; dev/build tooling advisories are tracked via Dependabot instead.
+        run: |
+          yarn workspace @dnb/eufemia audit:ci
+          yarn workspace @dnb/eufemia-mcp audit:ci
 
   lint:
     name: Run lint
@@ -172,6 +177,7 @@ jobs:
         run: |
           yarn workspace @dnb/eufemia test:types
           yarn workspace dnb-design-system-portal test:types
+          yarn workspace eufemia-css-optimizer test:types
           yarn workspace eufemia-llm-metadata test:types
 
   test:
@@ -197,6 +203,7 @@ jobs:
         run: |
           yarn workspace @dnb/eufemia test:ci
           yarn workspace dnb-design-system-portal test:ci
+          yarn workspace eufemia-css-optimizer test
           yarn workspace markdown-tables-utils test
           yarn workspace eufemia-llm-metadata test
 

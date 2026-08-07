@@ -113,6 +113,32 @@ describe('makePropertiesFile', () => {
     })
   })
 
+  describe('Native color scheme', () => {
+    it('sets light color scheme for light tokens', () => {
+      for (const tokens of [
+        global.uiTokens,
+        global.sbankenTokens,
+        global.carnegieTokens,
+        global.uiTokensTailwind,
+        global.sbankenTokensTailwind,
+        global.carnegieTokensTailwind,
+      ]) {
+        expect(tokens).toContain('color-scheme: light;')
+      }
+    })
+
+    it('sets dark color scheme for dark tokens', () => {
+      for (const tokens of [
+        global.uiTokensDark,
+        global.sbankenTokensDark,
+        global.uiTokensDarkTailwind,
+        global.sbankenTokensDarkTailwind,
+      ]) {
+        expect(tokens).toContain('color-scheme: dark;')
+      }
+    })
+  })
+
   describe('Tokens Tailwind CSS Generation', () => {
     describe('CSS File Structure', () => {
       it('should contain proper CSS file header', () => {
@@ -179,10 +205,15 @@ describe('makePropertiesFile', () => {
         expect(themeBlock).toContain('--radius-md:')
       })
 
-      it('should not include .eufemia-theme__color-scheme--light selector', () => {
-        expect(global.uiTokensTailwind).not.toContain(
+      it('should place the light color scheme outside @theme', () => {
+        const themeMatch = global.uiTokensTailwind.match(
+          /@theme\s*\{([\s\S]*?)\n\}/
+        )
+        expect(themeMatch[1]).not.toContain('color-scheme:')
+        expect(global.uiTokensTailwind).toContain(
           '.eufemia-theme__color-scheme--light'
         )
+        expect(global.uiTokensTailwind).toContain('color-scheme: light;')
       })
 
       it('should not emit @theme for dark-mode tailwind files', () => {

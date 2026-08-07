@@ -17,7 +17,7 @@
     "lint": "node ../../node_modules/.bin/eslint **/*.ts"
   },
   "devDependencies": {
-    "vitest": "4.1.8"
+    "vitest": "4.1.10"
   },
   "volta": {
     "extends": "../../package.json"

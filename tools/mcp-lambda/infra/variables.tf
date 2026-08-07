@@ -30,3 +30,10 @@ variable "domain_name" {
   description = "Custom domain for the MCP endpoint (no trailing dot)"
   default     = "mcp.dev.eufemia.tech-03.net"
 }
+
+variable "edge_auth_secret" {
+  type        = string
+  description = "Optional shared secret for the X-Edge-Auth header; empty disables the check."
+  default     = ""
+  sensitive   = true
+}

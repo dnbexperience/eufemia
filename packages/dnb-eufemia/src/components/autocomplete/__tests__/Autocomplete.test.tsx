@@ -289,6 +289,66 @@ describe('Autocomplete component', () => {
     ).toBe('Ingen alternativer')
   })
 
+  it('ranks items matching more distinct search words first', () => {
+    const data = [
+      'foo',
+      'x foo bar',
+      'The Lord of the Rings: The Return of the King',
+      'The Godfather',
+    ]
+
+    render(<Autocomplete data={data} showSubmitButton {...mockProps} />)
+
+    toggle()
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'foo bar' },
+    })
+
+    let options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    expect(options[0].textContent).toBe('x foo bar')
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'foo foo bar' },
+    })
+
+    options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    expect(options[0].textContent).toBe('x foo bar')
+
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
+      target: { value: 'the godfather' },
+    })
+
+    options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    expect(options[0].textContent).toBe('The Godfather')
+  })
+
+  it('uses occurrence frequency to break matching word count ties', () => {
+    render(
+      <Autocomplete
+        data={['foo', 'foo foo']}
+        inputValue="foo"
+        open
+        {...mockProps}
+      />
+    )
+
+    const options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    expect(options[0].textContent).toBe('foo foo')
+  })
+
   it('will set correct width when independentWidth is set', async () => {
     const style = {
       getPropertyValue: () => 20,
@@ -827,14 +887,14 @@ describe('Autocomplete component', () => {
       '<li class="first-item first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
-    // First result direction
+    // More distinct matches outrank the first-word bonus
     fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value: 'cc bb' },
     })
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')[0].outerHTML
     ).toBe(
-      '<li class="first-item first-of-type dnb-drawer-list__option" role="option" tabindex="-1" aria-selected="false" data-item="2" id="option-autocomplete-id-2"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">cc</span></span></span></span></li>'
+      '<li class="first-item first-of-type dnb-drawer-list__option dnb-drawer-list__option--focus" role="option" tabindex="-1" aria-selected="false" aria-current="true" data-item="1" id="option-autocomplete-id-1"><span class="dnb-drawer-list__option__inner"><span class="dnb-drawer-list__option__item"><span>item <span class="dnb-drawer-list__option__item--highlight">bb</span></span></span></span></li>'
     )
 
     // Second result direction
@@ -1474,20 +1534,20 @@ describe('Autocomplete component', () => {
     expect(optionElements().length).toBe(3)
     expect(
       document
-        .querySelectorAll('li.dnb-drawer-list__option')[1]
+        .querySelectorAll('li.dnb-drawer-list__option')[0]
         .getAttribute('aria-current')
     ).toBe('true')
 
-    let elem = optionElements()[1]
+    let elem = optionElements()[0]
     expect(elem.textContent).toBe(mockData[1])
     expect(elem.getAttribute('aria-current')).toBe('true')
 
     // remove selection and reset the order and open again
-    // aria-selected should now be on place 1
+    // aria-current should remain on the same item
     keyDownOnInput('Escape')
     toggle()
 
-    elem = optionElements()[1]
+    elem = optionElements()[0]
     expect(elem.textContent).toBe(mockData[1])
     expect(elem.getAttribute('aria-current')).toBe('true')
   })
@@ -4524,6 +4584,173 @@ describe('Autocomplete component', () => {
     )
     expect(options.length).toBe(1)
     expect(options[0].textContent).toBe('BB')
+  })
+
+  it('should not reopen the drawer when the data prop changes (new reference) after a selection', async () => {
+    const onChange = vi.fn()
+
+    function Parent() {
+      const [data, setData] = useState(['AA', 'AB', 'BB'])
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          data={data}
+          onChange={(...args) => {
+            onChange(...args)
+            // Simulate an async data fetch triggered by the selection that
+            // returns a new array reference after the input regains focus.
+            setTimeout(() => {
+              setData(['AA', 'AB', 'BB'])
+            }, 10)
+          }}
+        />
+      )
+    }
+
+    render(<Parent />)
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    keyDownOnInput('ArrowDown')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('li.dnb-drawer-list__option'))
+
+    // Let the deferred refocus (0ms) and the simulated fetch (10ms) settle.
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(input.value).toBe('AA')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not reopen the drawer when the parent passes a new data reference on every render after a selection', async () => {
+    function Parent() {
+      const [, forceRender] = useState(0)
+
+      // New array reference on every render, mimicking Field.Selection.
+      const data = ['AA', 'AB', 'BB'].map((item) => item)
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          data={data}
+          onChange={() => {
+            setTimeout(() => forceRender((n) => n + 1), 10)
+          }}
+        />
+      )
+    }
+
+    render(<Parent />)
+
+    keyDownOnInput('ArrowDown')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('li.dnb-drawer-list__option'))
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not reopen the drawer when the data prop changes after typing and selecting with the keyboard', async () => {
+    function Parent() {
+      const [data, setData] = useState(['AA', 'AB', 'BB'])
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          data={data}
+          onChange={() => {
+            // Simulate an async data fetch triggered by the selection.
+            setTimeout(() => {
+              setData(['AA', 'AB', 'BB'])
+            }, 10)
+          }}
+        />
+      )
+    }
+
+    render(<Parent />)
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    // Type to filter, then select the highlighted item with the keyboard.
+    // The typed value persists (no blur), which is what previously caused
+    // the reopen via the updateData filter path.
+    await userEvent.type(input, 'A')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+
+    keyDownOnInput('ArrowDown')
+    keyDownOnInput('Enter')
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(input.value).toBe('AA')
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should open the drawer when the data prop fills on focus (no prior selection)', async () => {
+    // Mirrors SelectCountry/SelectCurrency, which fill the data on focus and
+    // rely on the drawer opening from that data change while focused.
+    function Parent() {
+      const [data, setData] = useState<string[]>([])
+
+      return (
+        <Autocomplete
+          {...mockProps}
+          data={data}
+          onFocus={() => {
+            setData(['AA', 'AB', 'BB'])
+          }}
+        />
+      )
+    }
+
+    render(<Parent />)
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    fireEvent.focus(input)
+
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+    })
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelectorAll(
+        '.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+    ).toHaveLength(3)
   })
 
   it('should open and search after clearing input following keyboard selection', async () => {

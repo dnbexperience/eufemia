@@ -258,6 +258,7 @@ function AccordionContent(props: ItemContentProps) {
         className
       )}
       id={`${accordionId}-content`}
+      role="region" // a role is required for aria-labelledby to be valid on this element
       aria-labelledby={`${accordionId}-header`}
       aria-hidden={!openState}
       {...omitSpacingProps(rest)}

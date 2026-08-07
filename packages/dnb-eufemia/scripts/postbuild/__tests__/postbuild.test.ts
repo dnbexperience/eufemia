@@ -371,6 +371,34 @@ describe('babel build', () => {
   })
 })
 
+describe('style optimizer', () => {
+  it('ships the generated style manifest', () => {
+    const manifestPath = path.resolve(
+      PKG_ROOT,
+      'build/style/style-manifest.json'
+    )
+
+    expect(fs.existsSync(manifestPath)).toBe(true)
+
+    const manifest = fs.readJsonSync(manifestPath)
+    expect(manifest.version).toBeGreaterThan(0)
+    expect(Object.keys(manifest.entries).length).toBeGreaterThan(0)
+  })
+
+  it('ships the optimizer helpers and Vite plugin', () => {
+    for (const file of [
+      'optimizer.js',
+      'optimizer.d.ts',
+      'vite-plugin.js',
+      'vite-plugin.d.ts',
+    ]) {
+      expect(
+        fs.existsSync(path.resolve(PKG_ROOT, 'build/style', file))
+      ).toBe(true)
+    }
+  })
+})
+
 const describeDocsBuild = process.env.BUILD_MINI ? describe.skip : describe
 describeDocsBuild('docs build', () => {
   const docsRoot = path.resolve(PKG_ROOT, 'build/docs')
@@ -952,6 +980,23 @@ describe('package.json dependencies', () => {
 
     expect(packageJson.dependencies).toMatchObject({
       'postcss-selector-parser': expect.any(String),
+    })
+  })
+
+  it('declares PurgeCSS as an optional peer dependency', () => {
+    const packageJson = fs.readJsonSync(
+      path.resolve(PKG_ROOT, 'package.json')
+    )
+
+    expect(packageJson.dependencies).not.toHaveProperty('purgecss')
+    expect(packageJson.peerDependencies).toMatchObject({
+      purgecss: expect.any(String),
+    })
+    expect(packageJson.peerDependenciesMeta).toMatchObject({
+      purgecss: { optional: true },
+    })
+    expect(packageJson.devDependencies).toMatchObject({
+      purgecss: expect.any(String),
     })
   })
 })

@@ -15,7 +15,7 @@ export async function loadTranslations(locale: string) {
       const [svSE, svSEForms, svSECountries] = await Promise.all([
         import('@dnb/eufemia/src/shared/locales/sv-SE'),
         import('@dnb/eufemia/src/extensions/forms/constants/locales/sv-SE'),
-        import('@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE'),
+        import('@dnb/eufemia/src/shared/constants/locales/countries/sv-SE'),
       ])
       return mergeTranslations(
         svSE.default,
@@ -27,7 +27,7 @@ export async function loadTranslations(locale: string) {
       const [daDK, daDKForms, daDKCountries] = await Promise.all([
         import('@dnb/eufemia/src/shared/locales/da-DK'),
         import('@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'),
-        import('@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'),
+        import('@dnb/eufemia/src/shared/constants/locales/countries/da-DK'),
       ])
       return mergeTranslations(
         daDK.default,

@@ -132,6 +132,30 @@ test.describe('Page Navigation', () => {
       expect(title).toContain('Button | Eufemia')
     })
 
+    test('should contain an Edit on GitHub link', async ({ page }) => {
+      await page.goto('/uilib/components/button/')
+      await waitForApp(page)
+
+      const repository =
+        process.env.VITE_GITHUB_REPOSITORY || 'dnbexperience/eufemia'
+      const editRef = process.env.VITE_GITHUB_EDIT_REF || 'main'
+      const commitSha = process.env.VITE_GITHUB_COMMIT_SHA
+      const editLink = page.getByRole('link', { name: 'Edit on GitHub' })
+
+      await expect(editLink).toHaveAttribute(
+        'href',
+        `https://github.com/${repository}/edit/${editRef}/packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx`
+      )
+      await expect(editLink).toHaveAttribute('target', '_blank')
+
+      if (commitSha) {
+        await expect(editLink).toHaveAttribute(
+          'title',
+          `Edit source from preview commit ${commitSha.slice(0, 7)} on GitHub`
+        )
+      }
+    })
+
     test('click on first main menu card should open /design-system', async ({
       page,
     }) => {

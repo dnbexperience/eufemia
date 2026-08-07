@@ -11,8 +11,8 @@ export const SectionProperties: PropertiesTableProps = {
     type: 'object',
     status: 'optional',
   },
-  translation: {
-    doc: "Provide a translation for the section (e.g. `{'nb-NO': { MySection: { MyField: { label: 'Custom' }}}}`).",
+  translations: {
+    doc: "Provide translations for the section (e.g. `{'nb-NO': { MySection: { MyField: { label: 'Custom' }}}}`).",
     type: 'object',
     status: 'optional',
   },
@@ -34,6 +34,11 @@ export const SectionProperties: PropertiesTableProps = {
   data: {
     doc: 'Provide data to the section fields and values, in case the data context (Form.Handler) is not available.',
     type: 'object',
+    status: 'optional',
+  },
+  schema: {
+    doc: 'Schema to validate the section data. Accepts AJV or Zod schemas and behaves like the schema passed to Form.Handler.',
+    type: ['object', 'ZodSchema'],
     status: 'optional',
   },
   containerMode: {

@@ -389,6 +389,188 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
   })
 })
 
+describe('Tabs aria-controls', () => {
+  it('references the tabpanel from the selected tab when internal content is provided', () => {
+    render(
+      <Tabs
+        id="internal"
+        data={tablistData}
+        selectedKey={startupSelectedKey}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const selectedTab = document.querySelector(
+      `button[data-tab-key="${startupSelectedKey}"]`
+    )
+
+    expect(selectedTab.getAttribute('aria-controls')).toBe(
+      'internal-content'
+    )
+    expect(document.getElementById('internal-content')).toBeTruthy()
+  })
+
+  it('references the tabpanel provided by an external Tabs.Content', () => {
+    render(
+      <>
+        <Tabs
+          id="linked"
+          data={tablistData}
+          selectedKey={startupSelectedKey}
+        />
+        <Tabs.Content id="linked">
+          {({ key }) => <h2>{key}</h2>}
+        </Tabs.Content>
+      </>
+    )
+
+    const selectedTab = document.querySelector(
+      `button[data-tab-key="${startupSelectedKey}"]`
+    )
+
+    expect(selectedTab.getAttribute('aria-controls')).toBe(
+      'linked-content'
+    )
+    expect(document.getElementById('linked-content')).toBeTruthy()
+  })
+
+  it('does not set a dangling aria-controls when no tabpanel is rendered', () => {
+    render(
+      <Tabs
+        id="no-content"
+        data={tablistData}
+        selectedKey={startupSelectedKey}
+      />
+    )
+
+    const selectedTab = document.querySelector(
+      `button[data-tab-key="${startupSelectedKey}"]`
+    )
+
+    // Without content, no tabpanel exists, so aria-controls must be omitted
+    // to avoid referencing a non-existent element (WCAG 4.1.2).
+    expect(document.getElementById('no-content-content')).toBeNull()
+    expect(selectedTab.getAttribute('aria-controls')).toBeNull()
+  })
+
+  it('adds and removes aria-controls as an external Tabs.Content mounts and unmounts', () => {
+    const Wrapper = ({ showContent }: { showContent: boolean }) => (
+      <>
+        <Tabs
+          id="toggle"
+          data={tablistData}
+          selectedKey={startupSelectedKey}
+        />
+        {showContent && (
+          <Tabs.Content id="toggle">
+            {({ key }) => <h2>{key}</h2>}
+          </Tabs.Content>
+        )}
+      </>
+    )
+
+    const selectedTab = () =>
+      document.querySelector(
+        `button[data-tab-key="${startupSelectedKey}"]`
+      )
+
+    const { rerender } = render(<Wrapper showContent={false} />)
+
+    // No external tabpanel yet
+    expect(document.getElementById('toggle-content')).toBeNull()
+    expect(selectedTab().getAttribute('aria-controls')).toBeNull()
+
+    // Mounting the external tabpanel links it from the selected tab
+    rerender(<Wrapper showContent />)
+    expect(document.getElementById('toggle-content')).toBeTruthy()
+    expect(selectedTab().getAttribute('aria-controls')).toBe(
+      'toggle-content'
+    )
+
+    // Removing it again must not leave a dangling reference
+    rerender(<Wrapper showContent={false} />)
+    expect(document.getElementById('toggle-content')).toBeNull()
+    expect(selectedTab().getAttribute('aria-controls')).toBeNull()
+  })
+
+  it('keeps aria-controls correct across an external Tabs.Content toggle in StrictMode', () => {
+    const Wrapper = ({ showContent }: { showContent: boolean }) => (
+      <StrictMode>
+        <Tabs
+          id="toggle-strict"
+          data={tablistData}
+          selectedKey={startupSelectedKey}
+        />
+        {showContent && (
+          <Tabs.Content id="toggle-strict">
+            {({ key }) => <h2>{key}</h2>}
+          </Tabs.Content>
+        )}
+      </StrictMode>
+    )
+
+    const selectedTab = () =>
+      document.querySelector(
+        `button[data-tab-key="${startupSelectedKey}"]`
+      )
+
+    const { rerender } = render(<Wrapper showContent={false} />)
+    expect(selectedTab().getAttribute('aria-controls')).toBeNull()
+
+    // StrictMode double-invokes the presence effect (mount/cleanup/mount);
+    // the ref-count must still resolve to "present".
+    rerender(<Wrapper showContent />)
+    expect(document.getElementById('toggle-strict-content')).toBeTruthy()
+    expect(selectedTab().getAttribute('aria-controls')).toBe(
+      'toggle-strict-content'
+    )
+
+    // Back to absent after unmount — the count must return to 0, not drift.
+    rerender(<Wrapper showContent={false} />)
+    expect(document.getElementById('toggle-strict-content')).toBeNull()
+    expect(selectedTab().getAttribute('aria-controls')).toBeNull()
+  })
+
+  it('resolves render-prop content once per render (no double evaluation)', () => {
+    const contentFn = vi.fn((key: string | number) => (
+      <h2>content-{key}</h2>
+    ))
+
+    // The render callback runs exactly once per Tabs render, so it is an
+    // accurate counter of render passes regardless of how many times Tabs
+    // re-renders internally.
+    let renderPasses = 0
+
+    render(
+      <Tabs
+        id="single-eval"
+        data={tablistData}
+        selectedKey="second"
+        render={({ Wrapper, TabsList, Tabs: TabItems, Content }) => {
+          renderPasses++
+          return (
+            <Wrapper>
+              <TabsList>
+                <TabItems />
+              </TabsList>
+              <Content />
+            </Wrapper>
+          )
+        }}
+      >
+        {(key) => contentFn(key)}
+      </Tabs>
+    )
+
+    // The selected content is resolved once per render and reused by both the
+    // tabpanel rendering and the aria-controls decision. Before the fix it was
+    // resolved twice per render (2 * renderPasses).
+    expect(renderPasses).toBeGreaterThan(0)
+    expect(contentFn).toHaveBeenCalledTimes(renderPasses)
+  })
+})
+
 describe('TabList component', () => {
   it('has to have the right amount of rendered components', () => {
     render(
