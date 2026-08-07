@@ -7,6 +7,24 @@ order: 3
 
 The documentation is written in enhanced Markdown, called MDX. It allows us to import other Markdown files along with React components and JavaScript logic.
 
+## Sidebar menu placement
+
+Pages follow their URL hierarchy in the sidebar by default. To display a page immediately before another menu item while keeping its URL unchanged, provide the target item's absolute slug:
+
+```yaml
+sidebarMenuPlacement: '/uilib/components'
+```
+
+The page is removed from its URL-derived location and inserted immediately before the target. Use this for overview pages that should be siblings of the section they describe.
+
+To render a horizontal separator immediately before the page, add:
+
+```yaml
+sidebarMenuDividerBefore: true
+```
+
+This can be used independently or together with `sidebarMenuPlacement`.
+
 ## Handling themes
 
 If you need to show some documentation only for when a certain theme is selected, you can do so:

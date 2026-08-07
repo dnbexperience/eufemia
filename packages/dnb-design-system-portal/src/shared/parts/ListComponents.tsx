@@ -1,5 +1,6 @@
 import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from './ListSummaryFromEdges'
+import { excludedSlugs } from './componentCategories'
 
 export default function ListComponents(props) {
   const {
@@ -39,5 +40,9 @@ export default function ListComponents(props) {
     }
   `)
 
-  return <ListSummaryFromEdges edges={edges} {...props} />
+  const visibleEdges = edges.filter(
+    ({ node }) => !excludedSlugs.has(node.fields.slug)
+  )
+
+  return <ListSummaryFromEdges edges={visibleEdges} {...props} />
 }
