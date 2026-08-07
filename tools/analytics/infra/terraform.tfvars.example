@@ -1,0 +1,10 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
+
+# BA number from ServiceNow used for cost allocation tagging.
+cost_allocation = "BSN00000000"
+
+# Bearer token required on /records requests. Leave empty to disable auth
+# (demo only — never do this outside a throwaway environment).
+# api_token = "change-me"
+
+# environment = "dev"
