@@ -7,6 +7,7 @@ import { Button, Dialog } from '../../../../../components'
 import { close } from '../../../../../icons'
 import useContainerDataStore from './useContainerDataStore'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
+import EditContainerContext from './EditContainerContext'
 
 type Props = ComponentProps<typeof Button> & {
   showConfirmDialog?: boolean
@@ -17,7 +18,12 @@ export default function CancelButton({
   ...buttonProps
 }: Props) {
   const { onCancel, setShowError } = useContext(ToolbarContext) || {}
-  const { restoreOriginalData } = useContainerDataStore()
+  const editContainerContext = useContext(EditContainerContext)
+  const fallbackDataStore = useContainerDataStore({
+    enabled: !editContainerContext,
+    trackChanges: !editContainerContext,
+  })
+  const { restoreOriginalData } = editContainerContext || fallbackDataStore
   const { switchContainerMode } = useContext(SectionContainerContext) || {}
   const { setShowBoundaryErrors, verifyFieldError, hasVisibleError } =
     useContext(FieldBoundaryContext) || {}

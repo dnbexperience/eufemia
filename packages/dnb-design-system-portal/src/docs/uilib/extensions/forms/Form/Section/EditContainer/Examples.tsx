@@ -1,5 +1,10 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
+import {
+  Field,
+  Form,
+  Value,
+  Wizard,
+} from '@dnb/eufemia/src/extensions/forms'
 
 export const ViewAndEditContainer = () => {
   return (
@@ -49,6 +54,35 @@ export const ViewAndEditContainer = () => {
           </Form.Handler>
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export const PreventUncommittedChanges = () => {
+  return (
+    <ComponentBox>
+      <Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Profile">
+            <Form.Section path="/profile" containerMode="edit">
+              <Form.Section.EditContainer preventUncommittedChanges>
+                <Field.Name.First path="/firstName" />
+              </Form.Section.EditContainer>
+
+              <Form.Section.ViewContainer>
+                <Value.Name.First path="/firstName" />
+              </Form.Section.ViewContainer>
+            </Form.Section>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Summary">
+            <Value.Name.First path="/profile/firstName" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
     </ComponentBox>
   )
 }

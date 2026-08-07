@@ -8,7 +8,7 @@ import {
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import { convertJsxToString } from '../../../../../shared/component-helper'
-import { Flex } from '../../../../../components'
+import { Flex, FormStatus } from '../../../../../components'
 import type { FlexContainerAllProps as FlexContainerProps } from '../../../../../components/flex/Container'
 import { Lead } from '../../../../../elements'
 import FieldBoundaryProvider from '../../../DataContext/FieldBoundary/FieldBoundaryProvider'
@@ -20,11 +20,21 @@ import type { SectionContainerProps } from '../containers/SectionContainer'
 import SectionContainer from '../containers/SectionContainer'
 import type { Path } from '../../../types'
 import withComponentMarkers from '../../../../../shared/helpers/withComponentMarkers'
+import DataContext from '../../../DataContext/Context'
+import { useTranslation } from '../../../hooks'
+import useReportError from '../../Isolation/useReportError'
+import { useShowStatus } from '../../Isolation/useHandleStatus'
+import useContainerDataStore from './useContainerDataStore'
+import EditContainerContext from './EditContainerContext'
 
 export type FormSectionEditContainerProps = {
   title?: ReactNode
   onDone?: () => void
   onCancel?: () => void
+  /**
+   * Prevents form submission and Wizard navigation until changes are confirmed with the Done button or discarded with the Cancel button.
+   */
+  preventUncommittedChanges?: boolean
 }
 
 export type FormSectionEditContainerAllProps =
@@ -33,8 +43,15 @@ export type FormSectionEditContainerAllProps =
     FlexContainerProps
 
 function EditContainer(props: FormSectionEditContainerAllProps) {
-  const { children, className, title, onDone, onCancel, ...restProps } =
-    props || {}
+  const {
+    children,
+    className,
+    title,
+    onDone,
+    onCancel,
+    preventUncommittedChanges = false,
+    ...restProps
+  } = props || {}
   const ariaLabel = useMemo(() => convertJsxToString(title), [title])
   const {
     containerMode,
@@ -44,6 +61,26 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
     disableEditing,
   } = useContext(SectionContainerContext) || {}
   const omitFocusManagementRef = useRef(false)
+  const dataContext = useContext(DataContext)
+  const dataStore = useContainerDataStore({
+    enabled: true,
+    trackChanges: preventUncommittedChanges,
+  })
+  const hasUncommittedChanges =
+    preventUncommittedChanges && dataStore.hasUncommittedChanges
+  const { preventUncommittedChangesText } =
+    useTranslation().SectionEditContainer
+
+  useReportError(
+    hasUncommittedChanges ? uncommittedChangesError : undefined,
+    dataContext,
+    'section-edit-container'
+  )
+  const showUncommittedChangesStatus = useShowStatus({
+    outerContext: dataContext,
+    hasContentChanged: hasUncommittedChanges,
+    preventUncommittedChanges,
+  })
 
   const onPathError = useCallback(
     (path: Path, error: Error) => {
@@ -73,31 +110,45 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
   )
 
   return (
-    <FieldBoundaryProvider
-      showErrors={validateInitially}
-      onPathError={onPathError}
-    >
-      <SectionContainer
-        mode="edit"
-        ariaLabel={ariaLabel}
-        omitFocusManagementRef={omitFocusManagementRef}
-        className={clsx('dnb-forms-section-edit-block', className)}
-        {...restProps}
+    <EditContainerContext value={dataStore}>
+      <FieldBoundaryProvider
+        showErrors={validateInitially}
+        onPathError={onPathError}
       >
-        <Flex.Stack>
-          {title && <Lead size="basis">{title}</Lead>}
-          {children}
-          {hasToolbar ? null : (
-            <Toolbar onDone={onDone} onCancel={onCancel}>
-              <DoneButton />
-              <CancelButton />
-            </Toolbar>
-          )}
-        </Flex.Stack>
-      </SectionContainer>
-    </FieldBoundaryProvider>
+        <SectionContainer
+          mode="edit"
+          ariaLabel={ariaLabel}
+          omitFocusManagementRef={omitFocusManagementRef}
+          className={clsx('dnb-forms-section-edit-block', className)}
+          {...restProps}
+        >
+          <Flex.Stack>
+            {title && <Lead size="basis">{title}</Lead>}
+            {children}
+            {hasToolbar ? null : (
+              <Toolbar onDone={onDone} onCancel={onCancel}>
+                <DoneButton />
+                <CancelButton />
+              </Toolbar>
+            )}
+            {preventUncommittedChanges && (
+              <FormStatus
+                noAnimation={false}
+                show={Boolean(showUncommittedChangesStatus)}
+              >
+                {preventUncommittedChangesText}
+              </FormStatus>
+            )}
+          </Flex.Stack>
+        </SectionContainer>
+      </FieldBoundaryProvider>
+    </EditContainerContext>
   )
 }
+
+const uncommittedChangesError = new Error(
+  'Form.Section.EditContainer has uncommitted changes'
+)
 
 EditContainer.DoneButton = DoneButton
 EditContainer.CancelButton = CancelButton

@@ -5,6 +5,7 @@ import { useTranslation } from '../../../hooks'
 import { Button } from '../../../../../components'
 import { check } from '../../../../../icons'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
+import EditContainerContext from './EditContainerContext'
 
 export default function DoneEditButton() {
   const { onDone, setShowError } = useContext(ToolbarContext) || {}
@@ -14,6 +15,7 @@ export default function DoneEditButton() {
     useContext(FieldBoundaryContext) || {}
 
   const translation = useTranslation().SectionEditContainer
+  const { confirmChanges } = useContext(EditContainerContext) || {}
 
   const doneHandler = useCallback(() => {
     if (hasError) {
@@ -24,12 +26,14 @@ export default function DoneEditButton() {
     } else {
       setShowError(false)
       setShowBoundaryErrors?.(false)
+      confirmChanges?.()
       switchContainerMode?.('view')
       onDone?.()
     }
   }, [
     hasError,
     hasVisibleError,
+    confirmChanges,
     onDone,
     setShowBoundaryErrors,
     setShowError,
