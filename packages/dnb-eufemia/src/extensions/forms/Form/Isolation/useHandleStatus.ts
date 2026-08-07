@@ -36,7 +36,7 @@ export default function useHandleStatus({
 }
 
 // This hook/state is used to not show the status right away, after the user has cleared the PushContainer data.
-function useShowStatus({
+export function useShowStatus({
   outerContext,
   hasContentChanged,
   preventUncommittedChanges,

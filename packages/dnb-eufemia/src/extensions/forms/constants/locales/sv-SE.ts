@@ -59,6 +59,8 @@ export default {
     SectionEditContainer: {
       doneButton: 'Klar',
       cancelButton: 'Avbryt',
+      preventUncommittedChangesText:
+        'Du måste avsluta redigeringen innan du kan fortsätta.',
       errorInSection: 'Du måste rätta felen ovan.',
       confirmCancelText:
         'Är du säker på att du vill ångra dina ändringar?',
