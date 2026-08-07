@@ -4,18 +4,13 @@ import SectionContext from '../SectionContext'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import useDataValue from '../../../hooks/useDataValue'
 import { structuredClone } from '../../../../../shared/helpers/structuredClone'
-import { hasValueChanged } from '../../Isolation/useHasContentChanged'
 
 export default function useContainerDataStore({
   enabled,
-  trackChanges = false,
 }: {
   enabled: boolean
-  trackChanges?: boolean
 }) {
-  const { value, getData, moveValueToPath } = useDataValue<unknown>(
-    trackChanges ? '/' : undefined
-  )
+  const { getData, moveValueToPath } = useDataValue<unknown>()
   const { internalDataRef, setData } = useContext(DataContext)
   const { path } = useContext(SectionContext) || {}
   const { containerMode } = useContext(SectionContainerContext) || {}
@@ -32,10 +27,6 @@ export default function useContainerDataStore({
     }
   }, [containerMode, enabled, getData, snapshot])
 
-  const confirmChanges = useCallback(() => {
-    setSnapshot({ value: structuredClone(getData('/')) })
-  }, [getData])
-
   const restoreOriginalData = useCallback(() => {
     if (snapshot) {
       const data = moveValueToPath(
@@ -49,12 +40,7 @@ export default function useContainerDataStore({
   }, [internalDataRef, moveValueToPath, path, setData, snapshot])
 
   return {
-    confirmChanges,
     restoreOriginalData,
-    hasUncommittedChanges:
-      trackChanges &&
-      containerMode === 'edit' &&
-      Boolean(snapshot) &&
-      hasValueChanged(value, snapshot?.value),
+    hasUncommittedChanges: enabled && containerMode === 'edit',
   }
 }

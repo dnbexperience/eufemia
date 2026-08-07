@@ -32,7 +32,7 @@ export type FormSectionEditContainerProps = {
   onDone?: () => void
   onCancel?: () => void
   /**
-   * Prevents form submission and Wizard navigation until changes are confirmed with the Done button or discarded with the Cancel button.
+   * Prevents form submission and Wizard navigation while the section is in edit mode, until the Done or Cancel button is selected.
    */
   preventUncommittedChanges?: boolean
 }
@@ -64,7 +64,6 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
   const dataContext = useContext(DataContext)
   const dataStore = useContainerDataStore({
     enabled: true,
-    trackChanges: preventUncommittedChanges,
   })
   const hasUncommittedChanges =
     preventUncommittedChanges && dataStore.hasUncommittedChanges

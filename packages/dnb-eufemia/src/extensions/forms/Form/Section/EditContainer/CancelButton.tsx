@@ -21,7 +21,6 @@ export default function CancelButton({
   const editContainerContext = useContext(EditContainerContext)
   const fallbackDataStore = useContainerDataStore({
     enabled: !editContainerContext,
-    trackChanges: !editContainerContext,
   })
   const { restoreOriginalData } = editContainerContext || fallbackDataStore
   const { switchContainerMode } = useContext(SectionContainerContext) || {}

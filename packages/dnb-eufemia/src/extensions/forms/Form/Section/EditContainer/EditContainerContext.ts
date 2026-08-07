@@ -1,7 +1,6 @@
 import { createContext } from 'react'
 
 export type EditContainerContextState = {
-  confirmChanges: () => void
   restoreOriginalData: () => void
 }
 

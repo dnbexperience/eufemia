@@ -89,29 +89,35 @@ describe('EditContainer and ViewContainer', () => {
         document.querySelector('.dnb-forms-submit-button')
       )
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
       expect(onSubmit).toHaveBeenLastCalledWith(
         { name: 'Ada' },
         expect.anything()
       )
     })
 
-    it('should allow submission after changes are cancelled', async () => {
-      const onSubmit = vi.fn()
-
+    it('should clear the navigation block after changes are cancelled', async () => {
       render(
-        <Form.Handler
-          defaultData={{ person: { name: 'Ada' } }}
-          onSubmit={onSubmit}
-        >
-          <Form.Section path="/person" containerMode="edit">
-            <Form.Section.EditContainer preventUncommittedChanges>
-              <Field.String path="/name" />
-            </Form.Section.EditContainer>
-            <Form.Section.ViewContainer>Person</Form.Section.ViewContainer>
-          </Form.Section>
-
-          <Form.SubmitButton />
+        <Form.Handler defaultData={{ person: { name: 'Ada' } }}>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.Section path="/person" containerMode="edit">
+                <Form.Section.EditContainer preventUncommittedChanges>
+                  <Field.String path="/name" />
+                </Form.Section.EditContainer>
+                <Form.Section.ViewContainer>
+                  Person
+                </Form.Section.ViewContainer>
+              </Form.Section>
+              <Wizard.NextButton />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
         </Form.Handler>
       )
 
@@ -119,10 +125,10 @@ describe('EditContainer and ViewContainer', () => {
       await userEvent.clear(input)
       await userEvent.type(input, 'Grace')
       await userEvent.click(
-        document.querySelector('.dnb-forms-submit-button')
+        document.querySelector('.dnb-forms-next-button')
       )
 
-      expect(onSubmit).toHaveBeenCalledTimes(0)
+      expect(document.querySelector('output')).toHaveTextContent('Step 1')
 
       const buttons = document.querySelectorAll(
         '.dnb-forms-section-edit-block .dnb-button'
@@ -131,18 +137,19 @@ describe('EditContainer and ViewContainer', () => {
       await userEvent.click(
         document.querySelector('.dnb-dialog .dnb-button--primary')
       )
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-forms-section-edit-block')
+        ).toHaveAttribute('aria-hidden', 'true')
+      })
       await userEvent.click(
-        document.querySelector('.dnb-forms-submit-button')
+        document.querySelector('.dnb-forms-next-button')
       )
 
-      expect(onSubmit).toHaveBeenCalledTimes(1)
-      expect(onSubmit).toHaveBeenLastCalledWith(
-        { person: { name: 'Ada' } },
-        expect.anything()
-      )
+      expect(document.querySelector('output')).toHaveTextContent('Step 2')
     })
 
-    it('should not prevent navigation when values are unchanged', async () => {
+    it('should prevent navigation while the section is in edit mode', async () => {
       render(
         <Form.Handler>
           <Wizard.Container>
@@ -166,10 +173,13 @@ describe('EditContainer and ViewContainer', () => {
         document.querySelector('.dnb-forms-next-button')
       )
 
-      expect(document.querySelector('output')).toHaveTextContent('Step 2')
+      expect(document.querySelector('output')).toHaveTextContent('Step 1')
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.SectionEditContainer.preventUncommittedChangesText
+      )
     })
 
-    it('should not prevent navigation when changes are reverted', async () => {
+    it('should prevent navigation when changes are reverted', async () => {
       render(
         <Form.Handler defaultData={{ name: 'Ada' }}>
           <Wizard.Container>
@@ -198,7 +208,7 @@ describe('EditContainer and ViewContainer', () => {
         document.querySelector('.dnb-forms-next-button')
       )
 
-      expect(document.querySelector('output')).toHaveTextContent('Step 2')
+      expect(document.querySelector('output')).toHaveTextContent('Step 1')
     })
   })
 
@@ -399,7 +409,7 @@ describe('EditContainer and ViewContainer', () => {
       const mockUseContainerDataStore = vi
         .spyOn(useContainerDataStoreModule, 'default')
         .mockImplementation(() => {
-          const res = originalHook({ enabled: true, trackChanges: true })
+          const res = originalHook({ enabled: true })
           return {
             ...res,
             restoreOriginalData: () => {
