@@ -801,7 +801,9 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       fireEvent.submit(form)
     })
 
-    expect(document.body).toHaveTextContent('Step 2')
+    expect(
+      document.querySelector('[aria-label="Step 2"]')
+    ).toBeInTheDocument()
     expect(document.body).toHaveTextContent('rendered content')
   })
 

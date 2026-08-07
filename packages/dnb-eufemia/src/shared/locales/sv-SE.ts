@@ -134,7 +134,7 @@ export default {
     },
     StepIndicator: {
       overviewTitle: 'Stegöversikt',
-      stepTitle: 'Steg %step av %count:',
+      stepTitle: 'Steg %step av %count',
     },
     Slider: {
       addTitle: 'Öka (%s)',

@@ -8,17 +8,10 @@ import { useContext } from 'react'
 import type { HTMLProps } from 'react'
 import type { ButtonProps } from '../button/Button'
 import Button from '../button/Button'
-import Section from '../section/Section'
-import HeightAnimation from '../height-animation/HeightAnimation'
 import { chevron_down, chevron_up } from '../../icons'
 import Icon from '../icon/Icon'
 import IconPrimary from '../icon-primary/IconPrimary'
-import {
-  validateDOMAttributes,
-  combineDescribedBy,
-} from '../../shared/component-helper'
-import useId from '../../shared/helpers/useId'
-import FormLabel from '../form-label/FormLabel'
+import { validateDOMAttributes } from '../../shared/component-helper'
 import StepIndicatorContext from './StepIndicatorContext'
 import {
   skeletonDOMAttributes,
@@ -31,15 +24,15 @@ const chevronIcon = Icon.transition({
 })
 
 type StepIndicatorTriggerButtonProps = ButtonProps & {
-  isNested?: boolean
   className?: string
 }
 function StepIndicatorTriggerButton({
   className,
-  isNested,
   ...rest
 }: StepIndicatorTriggerButtonProps) {
-  const { data, ...contextWithoutData } = useContext(StepIndicatorContext)
+  const { data: _data, ...contextWithoutData } = useContext(
+    StepIndicatorContext
+  )
 
   const {
     stepsLabel,
@@ -50,14 +43,10 @@ function StepIndicatorTriggerButton({
     openHandler,
     skeleton,
     filterAttributes,
-    noAnimation,
+    noAnimation: _noAnimation,
     stepTitle,
     ...contextWithoutDataRest
   } = contextWithoutData
-
-  const item = data[activeStep || 0]
-  const label = stepsLabel
-  const id = useId()
 
   const triggerParams = {
     ...contextWithoutDataRest,
@@ -79,11 +68,6 @@ function StepIndicatorTriggerButton({
     ),
   }
 
-  buttonParams['aria-describedby'] = combineDescribedBy(
-    buttonParams,
-    id + '-overview'
-  )
-
   // Cache Object.keys() result for performance
   const triggerParamKeys = Object.keys(triggerParams)
   triggerParamKeys.forEach((key) => {
@@ -98,59 +82,32 @@ function StepIndicatorTriggerButton({
   validateDOMAttributes(contextWithoutDataRest, triggerParams)
 
   return (
-    <Section
-      backgroundColor="var(--step-indicator-trigger-background)"
-      outline="transparent"
-      innerSpace={{
-        top: 'small',
-        bottom: 'small',
-      }}
-      roundedCorner={{
-        small: false,
-        medium: [true, true, !open, !open],
-        large: [true, true, !open, !open],
-      }}
-      outset={isNested ? true : undefined}
-      aria-label={overviewTitle}
-    >
-      <HeightAnimation animate={!noAnimation}>
-        <div {...(triggerParams as HTMLProps<HTMLDivElement>)}>
-          <FormLabel
-            element="span"
-            aria-describedby={id}
-            aria-hidden // In order to not duplicate information for screen readers
-            className="dnb-step-indicator__label"
-            vertical={false}
-            right="x-small"
-          >
-            {label}
-          </FormLabel>
-          <Button
-            {...buttonParams}
-            onClick={() => {
-              if (open) {
-                closeHandler()
-              } else {
-                openHandler()
-              }
-            }}
-            aria-expanded={open}
-            aria-label={label} // To support NVDA properly
-            wrap
-            variant="tertiary"
-            icon={
-              <IconPrimary
-                icon={chevronIcon}
-                transitionState={open ? 'expanded' : 'collapsed'}
-              />
+    <section aria-label={overviewTitle}>
+      <div {...(triggerParams as HTMLProps<HTMLDivElement>)}>
+        <Button
+          {...buttonParams}
+          onClick={() => {
+            if (open) {
+              closeHandler()
+            } else {
+              openHandler()
             }
-            iconPosition="right"
-          >
-            {(typeof item === 'string' ? item : item && item.title) || ''}
-          </Button>
-        </div>
-      </HeightAnimation>
-    </Section>
+          }}
+          aria-expanded={open}
+          wrap
+          variant="tertiary"
+          icon={
+            <IconPrimary
+              icon={chevronIcon}
+              transitionState={open ? 'expanded' : 'collapsed'}
+            />
+          }
+          iconPosition="right"
+        >
+          {stepsLabel}
+        </Button>
+      </div>
+    </section>
   )
 }
 

@@ -16,17 +16,12 @@ import type {
   StepIndicatorProps,
 } from '../StepIndicator'
 import StepIndicator from '../StepIndicator'
-import '../../../core/vitest/mockMatchMediaSetup'
-import { setMedia } from 'mock-match-media'
+import Card from '../../card/Card'
+import { getStepIndicatorBulletType } from '../StepIndicatorItem'
 
 beforeEach(() => {
-  setMedia({ width: '61em' })
   document.body.innerHTML = `<div id="root"></div>`
 })
-
-function simulateSmallScreen() {
-  setMedia({ width: '59em' })
-}
 
 const stepIndicatorListData: StepIndicatorData = [
   {
@@ -237,45 +232,6 @@ describe('StepIndicator in loose mode', () => {
     )
   }
 
-  it('has trigger button when mobile', () => {
-    simulateSmallScreen()
-
-    renderComponent({ expandedInitially: false })
-    expect(screen.queryByRole('button')).toBeInTheDocument()
-  })
-
-  it('should keep the current step on re-render', () => {
-    const { rerender } = render(
-      <StepIndicator
-        currentStep={1}
-        mode="loose"
-        data={stepIndicatorListData}
-        expandedInitially
-      />
-    )
-
-    expect(
-      document.querySelectorAll('li.dnb-step-indicator__item')
-    ).toHaveLength(4)
-    expect(
-      document.querySelector('li.dnb-step-indicator__item--current')
-        .textContent
-    ).toContain('2.Step BSteg 2 av 4')
-
-    simulateSmallScreen()
-
-    rerender(
-      <StepIndicator
-        currentStep={1}
-        mode="loose"
-        data={stepIndicatorListData}
-      />
-    )
-    expect(
-      document.querySelector('.dnb-step-indicator__trigger').textContent
-    ).toContain('Steg 2 av 4:Step B')
-  })
-
   it('has correct states on steps', () => {
     renderComponent()
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
@@ -437,7 +393,7 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should render trigger button', () => {
-    const { rerender } = render(
+    render(
       <StepIndicator
         currentStep={1}
         mode="loose"
@@ -446,29 +402,9 @@ describe('StepIndicator in loose mode', () => {
     )
 
     expect(
-      document.querySelector('span.dnb-step-indicator__label').textContent
-    ).toContain('Steg 2 av 4:')
-    expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
         .textContent
-    ).toContain('Step B')
-
-    simulateSmallScreen()
-
-    rerender(
-      <StepIndicator
-        currentStep={1}
-        mode="loose"
-        data={stepIndicatorListData}
-      />
-    )
-    expect(
-      document.querySelector('span.dnb-step-indicator__label').textContent
-    ).toContain('Steg 2 av 4:')
-    expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button')
-        .textContent
-    ).toContain('Step B')
+    ).toContain('Steg 2 av 4')
   })
 
   it('should have no current if currentStep is not given', () => {
@@ -499,15 +435,6 @@ describe('StepIndicator in strict mode', () => {
       />
     )
   }
-
-  it('has trigger button when mobile', () => {
-    simulateSmallScreen()
-
-    renderComponent({
-      expandedInitially: false,
-    })
-    expect(screen.queryByRole('button')).toBeInTheDocument()
-  })
 
   it('has correct states on steps', () => {
     renderComponent()
@@ -571,12 +498,6 @@ describe('StepIndicator in static mode', () => {
       />
     )
   }
-  it('has trigger button when mobile', () => {
-    simulateSmallScreen()
-
-    renderComponent()
-    expect(screen.queryByRole('button')).toBeInTheDocument()
-  })
 
   it('has correct states on steps', () => {
     renderComponent()
@@ -654,20 +575,6 @@ describe('StepIndicator ARIA', () => {
     expect(ariaLabel.length).toBeGreaterThan(0)
   })
 
-  it('should have aria-hidden on the form label to avoid duplicate information', () => {
-    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
-
-    // Find the form label within the trigger
-    const formLabel = document.querySelector('.dnb-step-indicator__label')
-    expect(formLabel).toBeInTheDocument()
-
-    // Verify it has aria-hidden attribute
-    expect(formLabel).toHaveAttribute('aria-hidden', 'true')
-
-    // Should render as a span, not a label, since it's not associated with a form field
-    expect(formLabel.tagName).toBe('SPAN')
-  })
-
   it('should have aria-hidden on step item elements to avoid duplicate information', () => {
     render(
       <StepIndicator
@@ -697,24 +604,6 @@ describe('StepIndicator ARIA', () => {
     const srOnlySpan = firstStepItem.querySelector('.dnb-sr-only')
     expect(srOnlySpan).toBeInTheDocument()
     expect(srOnlySpan).toHaveAttribute('aria-hidden')
-  })
-
-  it('should have aria-label on trigger button to support NVDA properly', () => {
-    render(<StepIndicator mode="loose" data={stepIndicatorListData} />)
-
-    // Find the trigger button
-    const triggerButton = document.querySelector(
-      '.dnb-step-indicator__trigger__button'
-    )
-    expect(triggerButton).toBeInTheDocument()
-
-    // Since there seems to be a React/DOM timing issue, we'll check the HTML directly
-    // The aria-label should be present in the rendered HTML
-    const buttonHTML = triggerButton.outerHTML
-    expect(buttonHTML).toContain('aria-label=')
-
-    // Verify the aria-label contains step information (e.g., "Steg 1 av 4:")
-    expect(buttonHTML).toMatch(/aria-label="Steg \d+ av \d+:"/)
   })
 
   it('connects a step status message to the step button via aria-describedby', () => {
@@ -784,9 +673,170 @@ describe('StepIndicator ARIA', () => {
   })
 })
 
+describe('getStepIndicatorBulletType', () => {
+  it('returns "current" for the active step regardless of status', () => {
+    expect(getStepIndicatorBulletType({ index: 1, activeStep: 1 })).toBe(
+      'current'
+    )
+
+    expect(
+      getStepIndicatorBulletType({
+        index: 1,
+        activeStep: 1,
+        status: 'Something is wrong',
+        statusState: 'error',
+      })
+    ).toBe('current')
+  })
+
+  it('returns the statusState for non-current steps with a status', () => {
+    expect(
+      getStepIndicatorBulletType({
+        index: 0,
+        activeStep: 2,
+        status: 'msg',
+        statusState: 'warning',
+      })
+    ).toBe('warning')
+
+    expect(
+      getStepIndicatorBulletType({
+        index: 0,
+        activeStep: 2,
+        status: 'msg',
+        statusState: 'error',
+      })
+    ).toBe('error')
+
+    expect(
+      getStepIndicatorBulletType({
+        index: 0,
+        activeStep: 2,
+        status: 'msg',
+        statusState: 'information',
+      })
+    ).toBe('information')
+  })
+
+  it('defaults statusState to "warning" when a status is set without one', () => {
+    expect(
+      getStepIndicatorBulletType({
+        index: 0,
+        activeStep: 2,
+        status: 'msg',
+      })
+    ).toBe('warning')
+  })
+
+  it('returns "check" for visited steps without a status', () => {
+    expect(getStepIndicatorBulletType({ index: 0, activeStep: 2 })).toBe(
+      'check'
+    )
+  })
+
+  it('returns "empty" for future steps without a status', () => {
+    expect(getStepIndicatorBulletType({ index: 3, activeStep: 1 })).toBe(
+      'empty'
+    )
+  })
+})
+
+describe('StepIndicator progress bar', () => {
+  const mixedData: StepIndicatorData = [
+    { title: 'Step A' },
+    { title: 'Step B', status: 'Heads up', statusState: 'warning' },
+    { title: 'Step C', status: 'Broken', statusState: 'error' },
+    { title: 'Step D', status: 'FYI', statusState: 'information' },
+    { title: 'Step E' },
+  ]
+
+  const bulletTypeFor = (index: number, activeStep: number) =>
+    getStepIndicatorBulletType({
+      index,
+      activeStep,
+      status: (mixedData[index] as { status?: string }).status,
+      statusState: (
+        mixedData[index] as {
+          statusState?: 'warning' | 'error' | 'information'
+        }
+      ).statusState,
+    })
+
+  it('renders one segment per step', () => {
+    render(<StepIndicator mode="loose" data={mixedData} currentStep={0} />)
+    expect(
+      document.querySelectorAll(
+        '.dnb-step-indicator__progress-bar__segment'
+      )
+    ).toHaveLength(mixedData.length)
+  })
+
+  it('uses the same bullet type helper as the item bullet', () => {
+    const activeStep = 2
+    render(
+      <StepIndicator
+        mode="loose"
+        data={mixedData}
+        currentStep={activeStep}
+        expandedInitially
+      />
+    )
+
+    const segments = document.querySelectorAll(
+      '.dnb-step-indicator__progress-bar__segment'
+    )
+    const bullets = document.querySelectorAll(
+      '.dnb-step-indicator__item__bullet'
+    )
+
+    expect(segments).toHaveLength(mixedData.length)
+    expect(bullets).toHaveLength(mixedData.length)
+
+    mixedData.forEach((_, i) => {
+      const expected = bulletTypeFor(i, activeStep)
+
+      expect(segments[i]).toHaveClass(
+        `dnb-step-indicator__progress-bar__segment--${expected}`
+      )
+
+      expect(bullets[i]).toHaveClass(
+        `dnb-step-indicator__item__bullet--${expected}`
+      )
+    })
+  })
+})
+
 describe('StepIndicator scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('StepIndicator inside a Card', () => {
+  it('should not outset the inner list Card when nested in a parent Card', () => {
+    render(
+      <Card outset>
+        <StepIndicator
+          mode="static"
+          expandedInitially
+          data={stepIndicatorListData}
+        />
+      </Card>
+    )
+
+    const parentCard = document.querySelector('.dnb-card')
+    const innerListCard = parentCard.querySelector(
+      '.dnb-step-indicator__card'
+    )
+
+    expect(innerListCard).toBeInTheDocument()
+
+    expect(parentCard).toHaveStyle('--outset--medium: 1')
+    expect(parentCard).toHaveStyle('--outset--large: 1')
+
+    expect(innerListCard).toHaveStyle('--outset--small: 0')
+    expect(innerListCard).toHaveStyle('--outset--medium: 0')
+    expect(innerListCard).toHaveStyle('--outset--large: 0')
   })
 })

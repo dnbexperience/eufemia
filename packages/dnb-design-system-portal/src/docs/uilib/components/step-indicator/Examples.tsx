@@ -5,7 +5,13 @@
 
 import { useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { StepIndicator, Space, Button, Section } from '@dnb/eufemia/src'
+import {
+  StepIndicator,
+  Space,
+  Button,
+  Section,
+  Card,
+} from '@dnb/eufemia/src'
 
 export const StepIndicatorStatic = () => (
   <ComponentBox data-visual-test="step-indicator-static">
@@ -260,5 +266,21 @@ export const StepIndicatorSkeleton = () => (
         },
       ]}
     />
+  </ComponentBox>
+)
+
+export const StepIndicatorInsideCard = () => (
+  <ComponentBox data-visual-test="step-indicator-inside-card">
+    <Card stack>
+      <StepIndicator
+        mode="static"
+        expandedInitially
+        data={[
+          'Om din nye bolig',
+          'Ditt lån og egenkapital',
+          'Oppsummering',
+        ]}
+      />
+    </Card>
   </ComponentBox>
 )

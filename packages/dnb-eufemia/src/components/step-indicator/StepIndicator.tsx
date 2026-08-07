@@ -6,10 +6,9 @@
 import { useContext } from 'react'
 import type { HTMLProps, MouseEvent, ReactNode } from 'react'
 import { useSpacing } from '../space/SpacingUtils'
-import Card from '../Card'
-import CardContext from '../card/CardContext'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorList from './StepIndicatorList'
+import StepIndicatorProgressBar from './StepIndicatorProgressBar'
 import StepIndicatorContext, {
   StepIndicatorProvider,
 } from './StepIndicatorContext'
@@ -125,7 +124,7 @@ function StepIndicator({
   expandedInitially = stepIndicatorDefaultProps.expandedInitially,
   ...restOfProps
 }: StepIndicatorProps) {
-  const { outset, ...props } = {
+  const props = {
     data,
     skeleton,
     currentStep,
@@ -137,20 +136,14 @@ function StepIndicator({
 
   return (
     <StepIndicatorProvider {...props}>
-      <div className="dnb-step-indicator-wrapper">
-        <Card
-          align="stretch"
-          {...useSpacing(restOfProps, {
-            className: 'dnb-step-indicator',
-          })}
-          backgroundColor="var(--step-indicator-trigger-content-background)"
-          outset={outset}
-        >
-          <StepIndicatorTriggerButton
-            isNested={useContext(CardContext)?.isNested}
-          />
-          <StepIndicatorList />
-        </Card>
+      <div
+        {...useSpacing(restOfProps, {
+          className: 'dnb-step-indicator-wrapper dnb-step-indicator',
+        })}
+      >
+        <StepIndicatorProgressBar />
+        <StepIndicatorTriggerButton />
+        <StepIndicatorList />
         <StepIndicatorStatus status={status} statusState={statusState} />
       </div>
     </StepIndicatorProvider>

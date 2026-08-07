@@ -10,13 +10,64 @@
     --token-color-background-neutral-subtle
   );
   --step-indicator-trigger-content-background: var(
-    --token-color-background-neutral
+    --token-color-background-neutral-subtle
   );
   --step-indicator-check-bg: var(--token-color-background-selected-subtle);
   --step-indicator-check-color: var(--token-color-icon-positive);
   --step-indicator-current-border: var(--token-color-stroke-neutral);
-  --padding-top: 0;
-  --padding-bottom: 0;
+
+  &__card {
+    --padding-bottom: 0;
+  }
+
+  &__progress-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    padding: 0.5rem;
+    background-color: var(--token-color-background-neutral-subtle);
+    border-radius: 2.5rem;
+    list-style: none;
+
+    &__segment {
+      flex: 1;
+      height: 0.5rem;
+      border-radius: var(--token-radius-full);
+      transition:
+        background-color 200ms ease-in-out,
+        box-shadow 200ms ease-in-out;
+
+      @include utilities.reducedMotion() {
+        transition-duration: 0.01ms;
+      }
+
+      &--empty {
+        background-color: var(--token-color-background-neutral-bold);
+      }
+
+      &--check {
+        background-color: var(--token-color-decorative-first-intense);
+      }
+
+      &--current {
+        background-color: var(--token-color-decorative-second-subtle);
+        box-shadow: inset 0 0 0 0.125rem
+          var(--token-color-decorative-first-intense);
+      }
+
+      &--warning {
+        background-color: var(--token-color-background-warning);
+      }
+
+      &--error {
+        background-color: var(--token-color-background-error);
+      }
+
+      &--information {
+        background-color: var(--token-color-background-info);
+      }
+    }
+  }
 
   &__list {
     padding: 0;
@@ -46,21 +97,25 @@
   &__item {
     &__wrapper {
       display: flex;
-      gap: 1rem;
-      padding-bottom: 1rem;
+      gap: 0.5rem;
+      padding-bottom: 1.5rem;
       position: relative;
 
       &::before {
         content: '';
         display: block;
         position: absolute;
-        top: 0.25rem;
+        top: 1.625rem;
+        bottom: 0.25rem;
         left: 0.71875rem;
 
         width: 0.0625rem;
-        height: 100%;
 
-        background-color: var(--token-color-stroke-neutral-subtle);
+        background-color: var(--token-color-stroke-neutral-bold);
+      }
+
+      &--status::before {
+        top: 1.9375rem;
       }
     }
 
@@ -68,40 +123,47 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
       min-width: 1.5rem;
       width: 1.5rem;
       height: 1.5rem;
       z-index: 0;
       border-radius: 50%;
 
-      &--check,
       &--empty,
       &--current {
-        background-color: var(--step-indicator-check-bg);
-        border-width: 0.0625rem;
-        border-style: solid;
-        border-color: transparent;
+        &::before {
+          content: '';
+          position: absolute;
+          border-radius: 50%;
+          box-sizing: border-box;
+        }
       }
 
       &--check {
         font-size: 0.875rem;
         color: var(--step-indicator-check-color);
-        border-color: var(--step-indicator-check-color);
       }
 
       &--empty {
-        color: var(--token-color-icon-neutral);
-        background-color: var(--token-color-background-neutral);
-        border-color: var(--token-color-stroke-neutral-bold);
+        &::before {
+          width: 0.75rem;
+          height: 0.75rem;
+          background-color: var(--token-color-background-neutral-bold);
+        }
       }
 
       &--current {
-        border-width: 0.1875rem;
-        border-color: var(--step-indicator-current-border);
+        &::before {
+          width: 1rem;
+          height: 1rem;
+          background-color: var(--token-color-decorative-second-subtle);
+          border: 0.125rem solid
+            var(--token-color-decorative-first-intense);
+        }
       }
-      &.dnb-skeleton {
-        border-width: 0.0625rem;
-        border-color: var(--token-color-stroke-neutral-bold);
+      &.dnb-skeleton::before {
+        border: none;
       }
     }
 
@@ -131,7 +193,7 @@
 
       &--hidden {
         opacity: 0;
-        transition-timing-function: ease-out;
+        transition-duration: 0ms;
       }
     }
 
@@ -140,6 +202,11 @@
         display: none;
       }
     }
+  }
+
+  &__item--current &__item-content__number,
+  &__item--current &__button {
+    font-weight: var(--font-weight-medium);
   }
 
   &__button {
