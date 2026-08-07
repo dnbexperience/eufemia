@@ -435,6 +435,22 @@ describe('prerender-utils', () => {
       expect(scriptPos).toBeGreaterThan(rootEnd)
     })
 
+    it('positions a persisted SidebarMenu before the first paint', () => {
+      const result = injectHtml(
+        template,
+        '<div class="dnb-scroll-view"><nav data-scroll-position-storage-key="portal-menu-scroll" data-scroll-position-storage="session"><a aria-current="page">Current</a></nav></div>',
+        { js: [], css: [] }
+      )
+
+      expect(result).toContain('[data-scroll-position-storage-key]')
+      expect(result).toContain(
+        "type==='local'?localStorage:sessionStorage"
+      )
+      expect(result).toContain('storage.getItem')
+      expect(result).toContain('[aria-current="page"]')
+      expect(result).toContain("'scroll-behavior','auto','important'")
+    })
+
     it('does not add preload tags when lists are empty', () => {
       const result = injectHtml(template, '<h1>Hello</h1>', {
         js: [],

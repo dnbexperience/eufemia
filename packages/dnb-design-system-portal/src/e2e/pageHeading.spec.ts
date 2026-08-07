@@ -32,6 +32,11 @@ test.describe('Page Heading', () => {
     expect(thirdElementTagName).toBe('H2')
 
     // App should re-render
+    await page
+      .locator(
+        '[data-sidebar-menu-id="uilib-components"] .dnb-sidebar-menu__accordion__toggle'
+      )
+      .click()
     await page.click(
       '#portal-sidebar-menu ul li a[href="/uilib/components/button"]'
     )

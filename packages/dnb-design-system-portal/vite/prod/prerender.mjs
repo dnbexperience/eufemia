@@ -490,12 +490,11 @@ function injectHtml(
     return normalized ? `style="${normalized};"` : 'style=""'
   })
 
-  // Restore sidebar scroll position before first paint.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
+  const sidebarScrollScript = `(function(){try{document.querySelectorAll('[data-scroll-position-storage-key]').forEach(function(menu){var view=menu.closest('.dnb-scroll-view');if(!view)return;var behavior=view.style.getPropertyValue('scroll-behavior');var priority=view.style.getPropertyPriority('scroll-behavior');var key=menu.getAttribute('data-scroll-position-storage-key');var type=menu.getAttribute('data-scroll-position-storage');var storage=type==='local'?localStorage:sessionStorage;var stored=parseFloat(storage.getItem(key)||'0');view.style.setProperty('scroll-behavior','auto','important');if(stored)view.scrollTop=stored;var active=menu.querySelector('[aria-current="page"]');if(active){var vr=view.getBoundingClientRect();var ar=active.getBoundingClientRect();if(ar.top<vr.top||ar.bottom>vr.bottom){view.scrollTop+=ar.top-vr.top-(vr.height-ar.height)/2}}view.style.setProperty('scroll-behavior',behavior,priority)})}catch(e){}})()`
 
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarScrollScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
