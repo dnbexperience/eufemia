@@ -16,6 +16,8 @@ render(<Form.Section.EditContainer />)
 
 By default, it features a toolbar containing a "Done" button and a "Cancel" button. The "Cancel" button resets any changes made to the item content, restoring it to its original state.
 
+Use `preventUncommittedChanges` when users must confirm the section before submitting the form or continuing to the next Wizard step. Navigation is blocked while the section is in edit mode, until the user selects "Done" or "Cancel". The parent `Form.Section` must have a `path`.
+
 ```tsx
 import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
 

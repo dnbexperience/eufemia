@@ -11,6 +11,11 @@ export const EditContainerProperties: PropertiesTableProps = {
     type: ['"outline"', '"filled"', '"basic"'],
     status: 'optional',
   },
+  preventUncommittedChanges: {
+    doc: 'Prevents form submission and Wizard navigation while the section is in edit mode, until the Done or Cancel button is selected. Requires Form.Section to have a path.',
+    type: 'boolean',
+    status: 'optional',
+  },
 
   '[FlexVertical](/uilib/layout/flex/container/properties)': {
     doc: 'All Flex.Vertical properties.',

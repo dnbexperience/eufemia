@@ -6,6 +6,20 @@ import Toolbar from '../../Toolbar'
 const nb = nbNO['nb-NO']
 
 describe('EditContainer', () => {
+  it('should throw when preventUncommittedChanges is used without a section path', () => {
+    expect(() =>
+      render(
+        <Form.Section>
+          <Form.Section.EditContainer preventUncommittedChanges>
+            Edit Content
+          </Form.Section.EditContainer>
+        </Form.Section>
+      )
+    ).toThrow(
+      'Form.Section.EditContainer requires its parent Form.Section to have a path when preventUncommittedChanges is enabled.'
+    )
+  })
+
   it('should render default toolbar', () => {
     render(
       <Form.Section>

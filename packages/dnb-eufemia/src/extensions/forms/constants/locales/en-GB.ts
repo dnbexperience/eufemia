@@ -59,6 +59,8 @@ export default {
     SectionEditContainer: {
       doneButton: 'Done',
       cancelButton: 'Cancel',
+      preventUncommittedChangesText:
+        'You must finish editing before continuing.',
       errorInSection: 'You must correct the errors above.',
       confirmCancelText: 'Are you sure you want to discard your changes?',
     },
