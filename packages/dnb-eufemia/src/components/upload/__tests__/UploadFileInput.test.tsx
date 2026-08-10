@@ -63,7 +63,7 @@ describe('UploadFileInput', () => {
     expect(element).toHaveAttribute('multiple')
   })
 
-  it('accepts ony one file when filesAmountLimit is 1', () => {
+  it('accepts only one file when filesAmountLimit is 1', () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper({
         filesAmountLimit: 1,

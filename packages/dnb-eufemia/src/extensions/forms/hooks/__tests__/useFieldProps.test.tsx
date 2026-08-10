@@ -636,7 +636,7 @@ describe('useFieldProps', () => {
         }
       )
 
-      // Error should nto be displayed initially when field is required and empty
+      // Error should not be displayed initially when field is required and empty
       // (validateContinuously should only validate on change, not initially)
       expect(result.current.hasError).toBeFalsy()
       expect(result.current.error).toBeUndefined()
@@ -2153,7 +2153,7 @@ describe('useFieldProps', () => {
       expect(onBlurValidator).toHaveBeenCalledTimes(2)
     })
 
-    it('should yeld error object when returned by async onChange', async () => {
+    it('should yield error object when returned by async onChange', async () => {
       const onChange: OnChange<unknown> = async () => {
         return new Error('Error message')
       }

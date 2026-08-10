@@ -291,7 +291,7 @@ describe('"validateDOMAttributes" should', () => {
     expect(res2).toHaveProperty('disabled')
   })
 
-  it('pass thru rest attributes', () => {
+  it('pass through rest attributes', () => {
     const props = {}
     const params = { 'aria-hidden': true }
     const res = validateDOMAttributes(props, params)
