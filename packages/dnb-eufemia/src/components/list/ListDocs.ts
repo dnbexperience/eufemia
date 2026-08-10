@@ -348,7 +348,7 @@ export const ItemActionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   element: {
-    doc: 'Define what HTML or React element should be used for the link (e.g. `element={Link}` for React Router). Only applicable when `href` or `to` is set.',
+    doc: 'Define what HTML or React element should be used for the link (e.g. `element={Link}` for React Router). Only applicable when `href` or `to` is set. Note that this is the link element – unlike `List.Item.Basic`, where `element` defines the row element.',
     type: 'React.Element',
     status: 'optional',
   },

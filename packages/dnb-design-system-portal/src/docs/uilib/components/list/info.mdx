@@ -110,6 +110,22 @@ Set `_supportsSpacingProps = true` on your component to opt in, and forward the 
 </List.Item.Basic>
 ```
 
+### What you get, and what you don't
+
+Outside a `List.Container` you get the row layout and the cell styling, but not the list surface. Row height, padding, background and border are applied by `List.Container`, so a standalone row does not receive them. In a `Dropdown` or `Autocomplete` option this is what you want, because the option already brings its own padding, hover and selected styling.
+
+Keep it that way, and do not re-apply the list surface on a row inside an option (for instance by setting `variant`). The row would then paint its own light background and border on top of the option, and the white text of a selected option becomes unreadable against it.
+
+### Give the row room
+
+`List.Cell.End` keeps its content width, so in a narrow drawer the title column is squeezed and the title wraps mid-word. Set a width that fits both the title and the end value – see [custom width](/uilib/components/dropdown/demos#custom-width) for the `Dropdown`.
+
+### Provide plain text for value and search
+
+Text passed through the `title` prop is invisible to the value and search text that `Dropdown` and `Autocomplete` derive from `content`. Provide `selectedValue` with the plain text to show once an option is selected, and for `Autocomplete` also `searchContent` with the plain text to filter on.
+
+### Keep the option semantics intact
+
 Only reuse the presentational cells (`List.Cell.*`) this way. Do not place interactive items (`List.Item.Action`, `List.Item.Accordion`) or a nested `List.Container` inside a `Dropdown` or `Autocomplete` option, as that breaks the listbox semantics and keyboard navigation.
 
 ## Loading states
