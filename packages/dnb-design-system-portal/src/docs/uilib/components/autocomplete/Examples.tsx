@@ -17,6 +17,7 @@ import {
   Flex,
   IconPrimary,
   NumberFormat,
+  List,
 } from '@dnb/eufemia/src'
 
 const Wrapper = styled.div`
@@ -713,6 +714,47 @@ export const AutocompleteContentDecoupledExample = () => (
         ]}
         label="Label"
       />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteWithListItemContent = () => (
+  <Wrapper>
+    <ComponentBox scope={{ List }}>
+      {() => {
+        const data = [
+          {
+            selectedKey: 'accounts',
+            // searchContent keeps typing/filtering working with rich content
+            searchContent: 'Accounts Bills Savings',
+            content: (
+              <List.Item.Basic element="div" title="Accounts">
+                <List.Cell.End>Bills, Savings</List.Cell.End>
+              </List.Item.Basic>
+            ),
+          },
+          {
+            selectedKey: 'loans',
+            searchContent: 'Loans Mortgage Car',
+            content: (
+              <List.Item.Basic element="div" title="Loans">
+                <List.Cell.End>Mortgage, Car</List.Cell.End>
+              </List.Item.Basic>
+            ),
+          },
+          {
+            selectedKey: 'cards',
+            searchContent: 'Cards Visa Mastercard',
+            content: (
+              <List.Item.Basic element="div" title="Cards">
+                <List.Cell.End>Visa, Mastercard</List.Cell.End>
+              </List.Item.Basic>
+            ),
+          },
+        ]
+
+        return <Autocomplete data={data} label="Label" />
+      }}
     </ComponentBox>
   </Wrapper>
 )

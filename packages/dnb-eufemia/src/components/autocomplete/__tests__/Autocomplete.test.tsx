@@ -14,6 +14,7 @@ import * as helpers from '../../../shared/helpers'
 import type { AutocompleteAllProps } from '../Autocomplete'
 import Autocomplete from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
+import { List } from '../../lib'
 import {
   formatBankAccountNumber,
   formatCurrency,
@@ -5120,6 +5121,110 @@ describe('Autocomplete markup', () => {
         `option-${props.id}-1`
       )
     })
+  })
+})
+
+describe('Autocomplete with List item content', () => {
+  const listData = [
+    {
+      selectedKey: 'accounts',
+      searchContent: 'Accounts Bills Savings',
+      content: (
+        <List.Item.Basic element="div" title="Accounts">
+          <List.Cell.End>Bills, Savings</List.Cell.End>
+        </List.Item.Basic>
+      ),
+    },
+    {
+      selectedKey: 'loans',
+      searchContent: 'Loans Mortgage Car',
+      content: (
+        <List.Item.Basic element="div" title="Loans">
+          <List.Cell.End>Mortgage, Car</List.Cell.End>
+        </List.Item.Basic>
+      ),
+    },
+  ]
+
+  it('renders the List row with element="div" so the option has no nested li', () => {
+    render(
+      <Autocomplete
+        open
+        noAnimation
+        skipPortal
+        data={listData}
+        label="Choose account"
+      />
+    )
+
+    const option = document.querySelector(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    // The option itself is the only li; the List row uses element="div"
+    expect(option.querySelectorAll('li')).toHaveLength(0)
+
+    const listItem = option.querySelector('.dnb-list__item')
+    expect(listItem.tagName).toBe('DIV')
+  })
+
+  it('renders the List title and cell content inside the option', () => {
+    render(
+      <Autocomplete
+        open
+        noAnimation
+        skipPortal
+        data={listData}
+        label="Choose account"
+      />
+    )
+
+    const option = document.querySelector(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+
+    expect(
+      option.querySelector('.dnb-list__item__title').textContent
+    ).toContain('Accounts')
+    expect(
+      option.querySelector('.dnb-list__item__end').textContent
+    ).toContain('Bills, Savings')
+  })
+
+  it('filters options by searchContent when typing', () => {
+    render(
+      <Autocomplete
+        open
+        noAnimation
+        skipPortal
+        data={listData}
+        inputValue="loans"
+        label="Choose account"
+      />
+    )
+
+    const titles = Array.from(
+      document.querySelectorAll(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all) .dnb-list__item__title'
+      )
+    ).map((element) => element.textContent)
+
+    expect(titles).toContain('Loans')
+    expect(titles).not.toContain('Accounts')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <Autocomplete
+        open
+        noAnimation
+        skipPortal
+        data={listData}
+        label="Choose account"
+      />
+    )
+
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

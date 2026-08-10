@@ -102,7 +102,7 @@ Set `_supportsSpacingProps = true` on your component to opt in, and forward the 
 
 ## Rendering a row outside a `List.Container`
 
-`List.Item.Basic` renders an `<li>` by default for correct list semantics. When you reuse the row layout inside markup that already provides the list item – for example a [Dropdown](/uilib/components/dropdown) option, which is already an `<li>` – set the `element` prop to avoid invalid nested `<li>` elements:
+`List.Item.Basic` renders an `<li>` by default for correct list semantics. When you reuse the row layout inside markup that already provides the list item – for example a [Dropdown](/uilib/components/dropdown) or [Autocomplete](/uilib/components/autocomplete) option, which is already an `<li>` – set the `element` prop to avoid invalid nested `<li>` elements:
 
 ```jsx
 <List.Item.Basic element="div" title="Accounts">
@@ -110,7 +110,7 @@ Set `_supportsSpacingProps = true` on your component to opt in, and forward the 
 </List.Item.Basic>
 ```
 
-Only reuse the presentational cells (`List.Cell.*`) this way. Do not place interactive items (`List.Item.Action`, `List.Item.Accordion`) or a nested `List.Container` inside a `Dropdown` option, as that breaks the listbox semantics and keyboard navigation.
+Only reuse the presentational cells (`List.Cell.*`) this way. Do not place interactive items (`List.Item.Action`, `List.Item.Accordion`) or a nested `List.Container` inside a `Dropdown` or `Autocomplete` option, as that breaks the listbox semantics and keyboard navigation.
 
 ## Loading states
 
