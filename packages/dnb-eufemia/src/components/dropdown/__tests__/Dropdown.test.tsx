@@ -29,7 +29,7 @@ import type {
 import { bank } from '../../../icons'
 import Icon from '../../Icon'
 import NumberFormat from '../../NumberFormat'
-import { CountryFlag } from '../../lib'
+import { CountryFlag, List } from '../../lib'
 import Dialog from '../../dialog/Dialog'
 
 import Provider from '../../../shared/Provider'
@@ -2115,6 +2115,68 @@ describe('Dropdown markup', () => {
     )
 
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
+  })
+})
+
+describe('Dropdown with List item content', () => {
+  const listData = [
+    {
+      selectedKey: 'accounts',
+      selectedValue: 'Accounts',
+      content: (
+        <List.Item.Basic element="div" title="Accounts">
+          <List.Cell.End>Bills, Savings</List.Cell.End>
+        </List.Item.Basic>
+      ),
+    },
+    {
+      selectedKey: 'loans',
+      selectedValue: 'Loans',
+      content: (
+        <List.Item.Basic element="div" title="Loans">
+          <List.Cell.End>Mortgage, Car</List.Cell.End>
+        </List.Item.Basic>
+      ),
+    },
+  ]
+
+  it('renders the List row with element="div" so the option has no nested li', () => {
+    render(<Dropdown skipPortal noAnimation open data={listData} />)
+
+    const option = document.querySelector('li.dnb-drawer-list__option')
+
+    // The option itself is the only li; the List row uses element="div"
+    expect(option.querySelectorAll('li')).toHaveLength(0)
+
+    const listItem = option.querySelector('.dnb-list__item')
+    expect(listItem.tagName).toBe('DIV')
+  })
+
+  it('renders the List title and cell content inside the option', () => {
+    render(<Dropdown skipPortal noAnimation open data={listData} />)
+
+    const option = document.querySelector('li.dnb-drawer-list__option')
+
+    expect(
+      option.querySelector('.dnb-list__item__title').textContent
+    ).toContain('Accounts')
+    expect(
+      option.querySelector('.dnb-list__item__end').textContent
+    ).toContain('Bills, Savings')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <Dropdown
+        label="Choose account"
+        skipPortal
+        noAnimation
+        open
+        data={listData}
+      />
+    )
+
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
