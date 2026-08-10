@@ -725,7 +725,9 @@ export const AutocompleteWithListItemContent = () => (
         const data = [
           {
             selectedKey: 'accounts',
+            // selectedValue is the plain text shown in the input once selected;
             // searchContent keeps typing/filtering working with rich content
+            selectedValue: 'Accounts',
             searchContent: 'Accounts Bills Savings',
             content: (
               <List.Item.Basic element="div" title="Accounts">
@@ -735,6 +737,7 @@ export const AutocompleteWithListItemContent = () => (
           },
           {
             selectedKey: 'loans',
+            selectedValue: 'Loans',
             searchContent: 'Loans Mortgage Car',
             content: (
               <List.Item.Basic element="div" title="Loans">
@@ -744,6 +747,7 @@ export const AutocompleteWithListItemContent = () => (
           },
           {
             selectedKey: 'cards',
+            selectedValue: 'Cards',
             searchContent: 'Cards Visa Mastercard',
             content: (
               <List.Item.Basic element="div" title="Cards">

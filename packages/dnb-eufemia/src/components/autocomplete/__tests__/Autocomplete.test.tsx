@@ -5128,6 +5128,7 @@ describe('Autocomplete with List item content', () => {
   const listData = [
     {
       selectedKey: 'accounts',
+      selectedValue: 'Accounts',
       searchContent: 'Accounts Bills Savings',
       content: (
         <List.Item.Basic element="div" title="Accounts">
@@ -5137,6 +5138,7 @@ describe('Autocomplete with List item content', () => {
     },
     {
       selectedKey: 'loans',
+      selectedValue: 'Loans',
       searchContent: 'Loans Mortgage Car',
       content: (
         <List.Item.Basic element="div" title="Loans">
@@ -5211,6 +5213,29 @@ describe('Autocomplete with List item content', () => {
 
     expect(titles).toContain('Loans')
     expect(titles).not.toContain('Accounts')
+  })
+
+  it('shows the selectedValue in the input when an option is selected', () => {
+    render(
+      <Autocomplete
+        open
+        noAnimation
+        skipPortal
+        data={listData}
+        label="Choose account"
+      />
+    )
+
+    const input = document.querySelector('input') as HTMLInputElement
+
+    fireEvent.click(
+      document.querySelector(
+        'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+      )
+    )
+
+    // selectedValue is used as the input value, not the rich cell content
+    expect(input.value).toBe('Accounts')
   })
 
   it('should validate with ARIA rules', async () => {

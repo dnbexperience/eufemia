@@ -105,7 +105,7 @@ const data = [
 
 ### Autocomplete with List item content
 
-Reuse the [List](/uilib/components/list) row layout for rich option content. Set `element="div"` on `List.Item.Basic` so it does not render its own `<li>` inside the option (which is already an `<li>`), keeping the markup valid. Provide `searchContent` with the plain text so typing still filters the options.
+Reuse the [List](/uilib/components/list) row layout for rich option content. Set `element="div"` on `List.Item.Basic` so it does not render its own `<li>` inside the option (which is already an `<li>`), keeping the markup valid. Provide `selectedValue` with the plain text so the input shows a sensible value once an option is selected, and `searchContent` so typing still filters the options.
 
 <AutocompleteWithListItemContent />
 
