@@ -631,8 +631,21 @@ export const DropdownCustomizedLook = () => {
 export const DropdownWithListItemContent = () => {
   return (
     <Wrapper>
-      <ComponentBox scope={{ List }}>
+      <ComponentBox
+        scope={{ List }}
+        data-visual-test="dropdown-list-item-content"
+      >
         {() => {
+          // A List row keeps its end cell at content width, so the row needs
+          // horizontal room. Give the Dropdown a width of its own, or the
+          // title column will be squeezed by the end cell.
+          const AccountDropdown = styled(Dropdown)`
+            .dnb-dropdown__shell,
+            .dnb-drawer-list__root {
+              width: 22rem;
+            }
+          `
+
           const data = [
             {
               selectedKey: 'accounts',
@@ -665,7 +678,7 @@ export const DropdownWithListItemContent = () => {
             },
           ]
 
-          return <Dropdown data={data} value="accounts" />
+          return <AccountDropdown data={data} value="accounts" />
         }}
       </ComponentBox>
     </Wrapper>

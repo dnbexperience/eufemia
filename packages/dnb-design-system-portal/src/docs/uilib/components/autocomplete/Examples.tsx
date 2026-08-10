@@ -720,8 +720,21 @@ export const AutocompleteContentDecoupledExample = () => (
 
 export const AutocompleteWithListItemContent = () => (
   <Wrapper>
-    <ComponentBox scope={{ List }}>
+    <ComponentBox
+      scope={{ List }}
+      data-visual-test="autocomplete-list-item-content"
+    >
       {() => {
+        // A List row keeps its end cell at content width, so the row needs
+        // horizontal room. Give the Autocomplete a width of its own, or the
+        // title column will be squeezed by the end cell.
+        const AccountAutocomplete = styled(Autocomplete)`
+          .dnb-autocomplete__shell,
+          .dnb-drawer-list__root {
+            width: 22rem;
+          }
+        `
+
         const data = [
           {
             selectedKey: 'accounts',
@@ -757,7 +770,7 @@ export const AutocompleteWithListItemContent = () => (
           },
         ]
 
-        return <Autocomplete data={data} label="Label" />
+        return <AccountAutocomplete data={data} label="Label" />
       }}
     </ComponentBox>
   </Wrapper>
