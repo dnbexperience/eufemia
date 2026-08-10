@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.9.0](https://github.com/dnbexperience/eufemia/compare/v11.8.3...v11.9.0) (2026-08-10)
+
+### :sparkles: Features
+
+* add Vite CSS optimizer plugin (beta) ([#8922](https://github.com/dnbexperience/eufemia/issues/8922)) ([4a3b3b4](https://github.com/dnbexperience/eufemia/commit/4a3b3b43692e14b2a70810bd873627ff3182caf8))
+* **Form.Section.EditContainer:** prevent navigation with unconfirmed changes ([#8919](https://github.com/dnbexperience/eufemia/issues/8919)) ([8eb871c](https://github.com/dnbexperience/eufemia/commit/8eb871cfa9ebd71e159293556d682a0c527d007f))
+* **PostalCodeAndCity:** add validation to reject 0000 as an invalid postal code ([#8832](https://github.com/dnbexperience/eufemia/issues/8832)) ([bb7fac9](https://github.com/dnbexperience/eufemia/commit/bb7fac9c1914b584850665190f1ad5280f382d81))
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** prevent drawer reopening when data prop changes after selection ([#8874](https://github.com/dnbexperience/eufemia/issues/8874)) ([fbfdf57](https://github.com/dnbexperience/eufemia/commit/fbfdf57bc65099b9ce4a7529a7c5345346b04445))
+* **Autocomplete:** rank results by word coverage instead of single-word repetition ([#8844](https://github.com/dnbexperience/eufemia/issues/8844)) ([3f6865d](https://github.com/dnbexperience/eufemia/commit/3f6865dbe7ecc97448fd2a1d6824f71acc2e10b9))
+* **Flex:** remove trailing horizontal spacing ([#8839](https://github.com/dnbexperience/eufemia/issues/8839)) ([628db8e](https://github.com/dnbexperience/eufemia/commit/628db8ef45c3222c4a29916d24b4dcdff9d981f7))
+* **Form.Outlet:** support rendering before handler ([#8840](https://github.com/dnbexperience/eufemia/issues/8840)) ([6f6e36a](https://github.com/dnbexperience/eufemia/commit/6f6e36a0a8d779f2a6e43f9b31d6c2dc0f82c638))
+* **Forms:** handle pending state consistently during async validation ([#8841](https://github.com/dnbexperience/eufemia/issues/8841)) ([14f9a33](https://github.com/dnbexperience/eufemia/commit/14f9a3379e92073e55a55b14b3f623ae7d3e8ff7))
+* **List.Item.Accordion:** add region role so aria-labelledby is valid on content ([#8896](https://github.com/dnbexperience/eufemia/issues/8896)) ([af9eca0](https://github.com/dnbexperience/eufemia/commit/af9eca0af90dbc937ec568ed9067986089030476)), closes [#8878](https://github.com/dnbexperience/eufemia/issues/8878) [#8892](https://github.com/dnbexperience/eufemia/issues/8892) [8878/#8892](https://github.com/8878/eufemia/issues/8892)
+* **Portal:** migrate to react-router v8 (fixes RSC CSRF advisory [#517](https://github.com/dnbexperience/eufemia/issues/517)) ([#8862](https://github.com/dnbexperience/eufemia/issues/8862)) ([7a60b71](https://github.com/dnbexperience/eufemia/commit/7a60b71d2142ebb77ea094b7b31b60fdeaa383f1)), closes [#8860](https://github.com/dnbexperience/eufemia/issues/8860)
+* **Radio.Group:** remove invalid aria-labelledby from role-less shell ([#8892](https://github.com/dnbexperience/eufemia/issues/8892)) ([d257778](https://github.com/dnbexperience/eufemia/commit/d2577789ea0c7038486dd98d8bd5b851cd361e52))
+* **Tabs:** omit aria-controls on the selected tab when no tabpanel exists ([#8881](https://github.com/dnbexperience/eufemia/issues/8881)) ([2fc89d3](https://github.com/dnbexperience/eufemia/commit/2fc89d31684c4d81d332dceb7fec6cfdc974846a))
+* **Theme:** set native color scheme ([#8856](https://github.com/dnbexperience/eufemia/issues/8856)) ([4c49a7c](https://github.com/dnbexperience/eufemia/commit/4c49a7c47da294d0c2d22f34a2dc810748854056))
+* **ToggleButton.Group:** remove invalid aria-labelledby from role-less shell ([#8878](https://github.com/dnbexperience/eufemia/issues/8878)) ([e5e0e1b](https://github.com/dnbexperience/eufemia/commit/e5e0e1ba4202fcf0c63f7f84227542fb25349ebf))
+
+### :memo: Documentation
+
+* add "Edit on GitHub" links to every page ([#8843](https://github.com/dnbexperience/eufemia/issues/8843)) ([516148f](https://github.com/dnbexperience/eufemia/commit/516148f2385e22ffd20405b6ef7a62eb4999c185))
+* **List:** explain custom item components and _supportsSpacingProps ([#8875](https://github.com/dnbexperience/eufemia/issues/8875)) ([85c7fe5](https://github.com/dnbexperience/eufemia/commit/85c7fe5b7ffbde057c05a57c90962c892ea27627))
+* **Portal:** add command+k support for search ([#8842](https://github.com/dnbexperience/eufemia/issues/8842)) ([e0c8d40](https://github.com/dnbexperience/eufemia/commit/e0c8d40b4f9bb70e295d70844849c8b3af90ef9a))
+
 ## [11.8.3](https://github.com/dnbexperience/eufemia/compare/v11.8.2...v11.8.3) (2026-07-29)
 
 ### :bug: Bug Fixes
