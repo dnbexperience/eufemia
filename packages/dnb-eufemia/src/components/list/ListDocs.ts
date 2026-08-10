@@ -64,6 +64,12 @@ export const ItemContentProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  element: {
+    doc: 'Define the HTML element used for the row. Defaults to `li` for correct list semantics. Set to e.g. `div` when the row is rendered inside markup that already provides the list item (for example a `Dropdown` option) to avoid invalid nested `li` elements.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'li'`,
+    status: 'optional',
+  },
   children: {
     doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (use `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for overline/subline text), or the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components, or `List.Cell.Footer`.',
     type: 'React.ReactNode',

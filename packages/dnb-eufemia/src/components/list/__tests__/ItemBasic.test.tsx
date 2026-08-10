@@ -26,6 +26,27 @@ describe('ItemBasic', () => {
     expect(element.tagName).toBe('LI')
   })
 
+  it('renders as a custom element while keeping icon, title and cells', () => {
+    render(
+      <ItemBasic element="div" icon={fish_medium} title="Title">
+        <span data-testid="cell">Cell</span>
+      </ItemBasic>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.tagName).toBe('DIV')
+    expect(
+      element.querySelector('.dnb-list__item__icon')
+    ).toBeInTheDocument()
+    expect(
+      element.querySelector('.dnb-list__item__title').textContent
+    ).toContain('Title')
+    expect(
+      element.querySelector('[data-testid="cell"]')
+    ).toBeInTheDocument()
+  })
+
   it('renders item content', () => {
     const text = 'List item content'
 

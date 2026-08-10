@@ -26,6 +26,14 @@ describe('ItemContent', () => {
     expect(element.tagName).toBe('LI')
   })
 
+  it('renders as a custom element when the element prop is set', () => {
+    render(<ItemContent element="div">Content</ItemContent>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.tagName).toBe('DIV')
+  })
+
   it('merges custom className', () => {
     render(
       <ItemContent className="custom-class">

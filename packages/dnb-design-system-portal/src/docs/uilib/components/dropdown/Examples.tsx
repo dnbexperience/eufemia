@@ -12,6 +12,7 @@ import {
   Link,
   P,
   Flex,
+  List,
 } from '@dnb/eufemia/src'
 import {
   chevron_down,
@@ -621,6 +622,50 @@ export const DropdownCustomizedLook = () => {
               )}
             />
           )
+        }}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownWithListItemContent = () => {
+  return (
+    <Wrapper>
+      <ComponentBox scope={{ List }}>
+        {() => {
+          const data = [
+            {
+              selectedKey: 'accounts',
+              selectedValue: 'Accounts',
+              // Use element="div" so the List row does not render its own
+              // <li> inside the Dropdown option, which already is an <li>
+              content: (
+                <List.Item.Basic element="div" title="Accounts">
+                  <List.Cell.End>Bills, Savings</List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+            {
+              selectedKey: 'loans',
+              selectedValue: 'Loans',
+              content: (
+                <List.Item.Basic element="div" title="Loans">
+                  <List.Cell.End>Mortgage, Car</List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+            {
+              selectedKey: 'cards',
+              selectedValue: 'Cards',
+              content: (
+                <List.Item.Basic element="div" title="Cards">
+                  <List.Cell.End>Visa, Mastercard</List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+          ]
+
+          return <Dropdown data={data} value="accounts" />
         }}
       </ComponentBox>
     </Wrapper>
