@@ -447,7 +447,7 @@ describe('uniqueKey functionality', () => {
     render(
       <IsolatedStyleScope scopeHash="my-scope" uniqueKey="test-key">
         <div id="outer-content">Outer Content</div>
-        {/* Keep the scopeHash="auto" because we want to test whats inside the first if check */}
+        {/* Keep the scopeHash="auto" because we want to test what's inside the first if check */}
         <IsolatedStyleScope scopeHash="auto" uniqueKey="test-key">
           <div id="inner-content">Inner Content</div>
         </IsolatedStyleScope>

@@ -801,7 +801,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     hashmap[itemId] = hashItem
 
     // Add all top level heading object references to topLevelHeadings array
-    // so that we wont have to loop through the array a second time to sort out top level headings
+    // so that we won't have to loop through the array a second time to sort out top level headings
     if (item.level === 1) {
       topLevelHeadings.push(hashmap[itemId])
     }

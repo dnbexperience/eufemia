@@ -2153,7 +2153,7 @@ describe('useFieldProps', () => {
       expect(onBlurValidator).toHaveBeenCalledTimes(2)
     })
 
-    it('should yeld error object when returned by async onChange', async () => {
+    it('should yield error object when returned by async onChange', async () => {
       const onChange: OnChange<unknown> = async () => {
         return new Error('Error message')
       }

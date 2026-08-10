@@ -68,7 +68,7 @@ function usePrerenderState() {
   // Track state changes to handle re-rendering
   const state = hasRenderedRef.current
   useEffect(() => {
-    // Ensure whe don't render the content after the content has been rendered
+    // Ensure we don't render the content after the content has been rendered
     if (hasRenderedRef.current === null) {
       hasRenderedRef.current = true
       forceUpdate()
