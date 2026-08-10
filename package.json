@@ -20,7 +20,7 @@
   ],
   "main": "./packages/eufemia/index.js",
   "scripts": {
-    "precommit": "yarn workspace @dnb/eufemia precommit && yarn workspace dnb-design-system-portal precommit",
+    "postinstall": "node ./scripts/install-git-hooks.mjs",
     "start": "yarn workspace dnb-design-system-portal start",
     "clean": "yarn workspace dnb-design-system-portal clean && yarn workspace @dnb/eufemia clean && find . -name .vite -type d -exec rm -rf {} +",
     "reset": "yarn workspace dnb-design-system-portal reset && yarn workspace @dnb/eufemia reset && rm -rf ./node_modules && yarn install",
@@ -32,8 +32,13 @@
     "lint": "yarn workspace @dnb/eufemia lint && yarn workspace dnb-design-system-portal lint",
     "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
   },
+  "simple-git-hooks": {
+    "pre-commit": "yarn lint-staged"
+  },
   "devDependencies": {
-    "prettier": "3.8.1"
+    "lint-staged": "15.5.2",
+    "prettier": "3.8.1",
+    "simple-git-hooks": "2.13.1"
   },
   "resolutions": {
     "@types/react": "19.2.14",
