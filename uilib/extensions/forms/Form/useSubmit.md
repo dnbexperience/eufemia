@@ -1,8 +1,8 @@
 ---
 title: 'Form.useSubmit'
 description: '`Form.useSubmit` lets you trigger form submit from outside the form element, e.g. when the submit button is in a modal footer or toolbar.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.474Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.021Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

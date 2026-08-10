@@ -1,8 +1,8 @@
 ---
 title: 'Avatar'
 description: 'Use Avatar to make a person, company, or profile easier to recognize.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.599Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.099Z
 checksum: 75123a1a9562842f0649bead3c3a09647f767cc4557d900e0a0b8abd7cc05bce
 ---
 
@@ -499,6 +499,16 @@ render(<Avatar.Group label="Persons">
         "\"secondary\"",
         "\"tertiary\""
       ],
+      "status": "optional"
+    },
+    "backgroundColor": {
+      "doc": "Define a custom background color for the Avatars, instead of a variant. Use a Eufemia color.",
+      "type": "string",
+      "status": "optional"
+    },
+    "color": {
+      "doc": "Define a custom color to complement the backgroundColor for the Avatars. Use a Eufemia color.",
+      "type": "string",
       "status": "optional"
     },
     "maxElements": {

@@ -1,8 +1,8 @@
 ---
 title: 'Accordion'
 description: 'Use Accordion to let people open and close sections of related content.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.551Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.046Z
 checksum: ed8bd1d380d09a80db321e550b4bbe69b0d9e81646d6e8dd672db3fccbe8b736
 ---
 
@@ -523,11 +523,6 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
       "type": "React.RefObject",
       "status": "optional"
     },
-    "collapseAllHandleRef": {
-      "doc": "Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Defaults to `undefined`.",
-      "type": "React.RefObject<() => void>",
-      "status": "optional"
-    },
     "space": {
       "doc": "Spacing properties like `top` or `bottom` are supported.",
       "type": [
@@ -617,6 +612,11 @@ These properties can send along with the `Accordion.Provider` or `Accordion.Grou
     "expandedId": {
       "doc": "Define an `id` of a nested accordion that will get expanded.",
       "type": "string",
+      "status": "optional"
+    },
+    "collapseAllHandleRef": {
+      "doc": "Ref handle to collapse all expanded accordions. Send in a ref and use `.current()` to collapse all accordions. Defaults to `undefined`.",
+      "type": "React.RefObject<() => void>",
       "status": "optional"
     },
     "space": {

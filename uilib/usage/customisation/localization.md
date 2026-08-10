@@ -1,7 +1,7 @@
 ---
 title: 'Locale / Translation'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.865Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.416Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -42,20 +42,20 @@ import nbNO_forms from '@dnb/eufemia/extensions/forms/constants/locales/nb-NO'
 // Additional locales you can add
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
 
 // Additional locales you can add
 import daDK from '@dnb/eufemia/shared/locales/da-DK'
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
-import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/da-DK'
 
 Use `mergeTranslations` to combine the forms translations (and country translations when needed) before you pass them to `Form.Handler` or `Provider`.
 
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
-import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/da-DK'
 
 const translations = mergeTranslations(
   svSE,
@@ -1175,9 +1175,9 @@ Use `mergeTranslations` to combine the forms translations (and country translati
 ```js
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
-import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/da-DK'
 
 const translations = mergeTranslations(
   svSE_forms,
@@ -1197,7 +1197,7 @@ You can provide forms translations to the `translations` property within the [Fo
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
 
 const translations = mergeTranslations(svSE_forms, svSE_forms_countries)
 
@@ -1216,7 +1216,7 @@ However, instead of providing the forms translations per form, you can also prov
 import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
 
 const translations = mergeTranslations(
   svSE,

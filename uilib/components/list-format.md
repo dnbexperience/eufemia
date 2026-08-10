@@ -1,8 +1,8 @@
 ---
 title: 'ListFormat'
 description: 'Use ListFormat to show lists of values in the correct DNB format.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.798Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.293Z
 checksum: 4703040dec6c8fb984f2068d6befe66becaa5ac363c99ed4ed4d91b2313548e1
 ---
 

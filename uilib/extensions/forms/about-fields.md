@@ -1,7 +1,7 @@
 ---
 title: 'What are fields?'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.766Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.309Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -188,7 +188,7 @@ These components are data-driven React components—named and structured—accor
 `Field.Upload` is a wrapper for the Upload component to make it easier to use inside a form.
 
 
-On top of these, a number of [feature fields](#feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, e-mails and social security numbers.
+On top of these, a number of [feature fields](#feature-fields) have been built that have special functionality based on given types of data, such as bank account numbers, emails and social security numbers.
 
 ## Feature fields
 

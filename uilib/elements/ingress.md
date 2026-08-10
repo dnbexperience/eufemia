@@ -1,8 +1,8 @@
 ---
 title: 'Ingress'
 description: 'Ingress is a brief, introductory paragraph that follows immediately after the title of an article.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.254Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.791Z
 checksum: 4774a0918e79dc38bc1ffed225923a088efeec3346db6b43950bdf06c2a7748b
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Popover'
 description: 'Use Popover to show a small floating panel connected to a trigger.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.858Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.368Z
 checksum: d7dcb4803a912ef0dc3fabb33bfb73f029c9da82f9eee9d1fe282bd2d4937771
 ---
 

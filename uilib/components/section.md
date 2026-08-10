@@ -1,8 +1,8 @@
 ---
 title: 'Section'
 description: 'Use Section to give an area of the page a visual background or surface.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.882Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.389Z
 checksum: fffcbcb63ca8e59f33048125db5b3de0f3cdd0152aace0013092f258f7ddba4f
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'New contributor'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.280Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:11.767Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -39,7 +39,7 @@ More information in [Style guides - Issue reporting](/contribute/style-guides/is
 
 ## How to submit a Pull Request
 
-After you have committed your changes in a branch, you can go to [Github Pull Requests](https://github.com/dnbexperience/eufemia/pulls) and open a new pull request.
+After you have committed your changes in a branch, you can go to [GitHub Pull Requests](https://github.com/dnbexperience/eufemia/pulls) and open a new pull request.
 In the pull request message, there will be a template that you fill out (including a summary of your changes and of the run tests). Request one of the maintainers as reviewers and submit your request.
 
 More information in [Style guides - Git convention](/contribute/style-guides/git#pull-requests).

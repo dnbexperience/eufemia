@@ -1,7 +1,7 @@
 ---
 title: 'Git convention'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.288Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:11.775Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -98,12 +98,12 @@ git fetch origin && git rebase origin/main
 
 ## Pull Requests
 
-When you have committed changes to your branch, go to [Github Pull Requests](https://github.com/dnbexperience/eufemia/pulls) and open a `New pull request`.
+When you have committed changes to your branch, go to [GitHub Pull Requests](https://github.com/dnbexperience/eufemia/pulls) and open a `New pull request`.
 
 <InlineImg
   src="/images/pull-request.png"
   width="900"
-  alt="Screenshot of the location of new pull request button on Github"
+  alt="Screenshot of the location of new pull request button on GitHub"
   top
   bottom
 />
@@ -113,7 +113,7 @@ You will most likely get the yellow notification bar mentioning that a branch ha
 <InlineImg
   src="/images/pull-request-part-2.png"
   width="900"
-  alt="Screenshot of opening a new pull request on Github"
+  alt="Screenshot of opening a new pull request on GitHub"
   top
   bottom
 />

@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.LocationHooks'
 description: 'Is a set of React Hooks that lets you easily hook up your existing router in order to store the current step in the URL query string.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.763Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.306Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -29,17 +29,17 @@ The `id` parameter is used to identify the `Wizard.Container` component. But it 
 
 If you use a router, you may connect one of the supported hooks to it. This way your application will not import unnecessary and unused code.
 
-- [react-router-dom](https://reactrouter.com/) via [useReactRouter](#with-react-router-dom)
+- [react-router](https://reactrouter.com/) via [useReactRouter](#with-react-router)
 - [@reach/router](https://reach.tech/router/) via [useReachRouter](#with-reachrouter)
 - [Next.js](https://nextjs.org/) via [useNextRouter](#with-nextnavigation)
 
 If you do not use a router, you can make use of the [useQueryLocator](#without-a-router) hook.
 
-### With `react-router-dom`
+### With `react-router`
 
 ```jsx
 import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router'
 
 function MyForm() {
   Wizard.useReactRouter('unique-id', { useSearchParams })

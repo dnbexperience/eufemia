@@ -1,8 +1,8 @@
 ---
 title: 'ToggleButton'
 description: 'Use ToggleButton when people can turn one or more visible choices on or off.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.192Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.725Z
 checksum: 2c3b808fef08d0bfb8763edccfd9ac9869ede62ef435e4369d8a80aa4f8ad9ee
 ---
 
@@ -202,9 +202,9 @@ render(<ToggleButton.Group label="With suffixes" suffix={<HelpButton title="Grou
 
 ```tsx
 render(<ToggleButton.Group label="Icons only">
-      <ToggleButton icon="bell" value="first" checked />
-      <ToggleButton icon="loupe" value="second" />
-      <ToggleButton icon="calendar" value="third" />
+      <ToggleButton icon="bell" title="Notifications" value="first" checked />
+      <ToggleButton icon="loupe" title="Search" value="second" />
+      <ToggleButton icon="calendar" title="Calendar" value="third" />
     </ToggleButton.Group>)
 ```
 

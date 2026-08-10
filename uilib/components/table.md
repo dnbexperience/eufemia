@@ -1,8 +1,8 @@
 ---
 title: 'Table'
 description: 'Use Table to show structured data in rows and columns.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.157Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.687Z
 checksum: 801c0a784dcc59536157e2c19b6749b176a76149847196d95ca780afa74741cb
 ---
 
@@ -971,24 +971,24 @@ const KeyboardNavigationTable = () => {
             <tbody>
               <tr>
                 <Td>
-                  <Field.Name labelSrOnly value="Ola" />
+                  <Field.Name label="Name" labelSrOnly value="Ola" />
                 </Td>
                 <Td>
                   <Field.Email labelSrOnly value="ola@example.no" />
                 </Td>
                 <Td verticalAlign="middle">
-                  <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
+                  <Button variant="tertiary" icon={trashIcon} aria-label="Delete row" tooltip="Delete row" />
                 </Td>
               </tr>
               <tr>
                 <Td>
-                  <Field.Name labelSrOnly value="Kari" multiline />
+                  <Field.Name label="Name" labelSrOnly value="Kari" multiline />
                 </Td>
                 <Td>
                   <Field.Email labelSrOnly value="kari@example.no" multiline />
                 </Td>
                 <Td verticalAlign="middle">
-                  <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
+                  <Button variant="tertiary" icon={trashIcon} aria-label="Delete row" tooltip="Delete row" />
                 </Td>
               </tr>
               <tr>
@@ -999,14 +999,14 @@ const KeyboardNavigationTable = () => {
                   <Field.Number label="Quantity" labelSrOnly showStepControls width="small" value={2} />
                 </Td>
                 <Td verticalAlign="middle">
-                  <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
+                  <Button variant="tertiary" icon={trashIcon} aria-label="Delete row" tooltip="Delete row" />
                 </Td>
               </tr>
               <tr>
                 <Td>Kari</Td>
                 <Td>kari@example.no</Td>
                 <Td>
-                  <Button variant="tertiary" icon={trashIcon} tooltip="Delete row" />
+                  <Button variant="tertiary" icon={trashIcon} aria-label="Delete row" tooltip="Delete row" />
                 </Td>
               </tr>
             </tbody>
@@ -1490,7 +1490,7 @@ const MyTable = () => {
                       </Stat.Trend>
                     </Td>
                     <Td align="right">
-                      <Button icon={trashIcon} tooltip="Remove from list" variant="tertiary" bounding />
+                      <Button icon={trashIcon} aria-label="Remove from list" tooltip="Remove from list" variant="tertiary" bounding />
                     </Td>
                   </Tr>)}
               </tbody>

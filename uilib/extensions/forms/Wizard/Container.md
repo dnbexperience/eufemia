@@ -1,9 +1,9 @@
 ---
 title: 'Wizard.Container'
 description: 'The `Wizard.Container` is a container component for multi-page forms including a step indicator.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.745Z
-checksum: b97ef2cb55ec0f8e4bd77de24737c67cd36c05fb0974b6ae71ed173641a87b04
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.287Z
+checksum: 2c9d38e8e8a86de757112cd1eb4811160b0766e092cadb40bfbd573dcea20e9f
 ---
 
 # Wizard.Container
@@ -561,7 +561,7 @@ render(<Form.Handler onSubmitRequest={({
       "status": "optional"
     },
     "outset": {
-      "doc": "Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). But defaults to `true`.",
+      "doc": "Whether or not to break out (using negative margins) on larger screens. Same as `outset` in [Card](/uilib/components/card/properties). Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },

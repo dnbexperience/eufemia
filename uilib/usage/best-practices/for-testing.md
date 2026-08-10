@@ -1,7 +1,7 @@
 ---
 title: 'Best Practices for testing'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.861Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.413Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -24,7 +24,7 @@ Frontend code is changing and moving fast. So 100% code coverage should never be
 
 ### Integration tests
 
-Do not write unit tests in frontend code. But make integration tests. Avoid testing implementation details, but rather treat front-end related components as an independent, changeable and maintainable individuals.
+Do not write unit tests in frontend code. But make integration tests. Avoid testing implementation details, but rather treat frontend-related components as independent, changeable and maintainable individuals.
 
 Think as a user. Think how the user will interact with your application. Do not shallow test, but test components like a user would interact (use mount or render to also test their children).
 

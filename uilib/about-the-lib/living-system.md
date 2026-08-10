@@ -1,8 +1,8 @@
 ---
 title: 'Living system'
-description: "Eufemia is DNB's design system. It is constantly evolving and improving and is our single source of truth for UI design and front-end code."
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.309Z
+description: "Eufemia is DNB's design system. It is constantly evolving and improving and is our single source of truth for UI design and frontend code."
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:11.795Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -10,7 +10,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 ## What is a living design system?
 
-Eufemia, DNB's design system, is a UI collection of components, rules, principles, constraints, and best practices for UI design and front-end code, and is subject to continuous improvement over time.
+Eufemia, DNB's design system, is a UI collection of components, rules, principles, constraints, and best practices for UI design and frontend code, and is subject to continuous improvement over time.
 
 ### In a practical manner
 
@@ -27,7 +27,7 @@ A design system like Eufemia is the single source of truth for UI assets and com
 
 ## Knowledge pool
 
-We at DNB UX embrace the DNB core vision and main goals: _Do less, do better_ and _Increase user experience_. To meet these goals, Eufemia has as a core value to increase knowledge of front-end development, UX design, and accessibility. This means that Eufemia will always be under continuous improvement and QA.
+We at DNB UX embrace the DNB core vision and main goals: _Do less, do better_ and _Increase user experience_. To meet these goals, Eufemia has as a core value to increase knowledge of frontend development, UX design, and accessibility. This means that Eufemia will always be under continuous improvement and QA.
 
 ## Maintainability
 

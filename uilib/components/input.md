@@ -1,8 +1,8 @@
 ---
 title: 'Input'
 description: 'Use Input when people need to enter a short line of text.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.773Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.276Z
 checksum: 8ae54b56864004ea62435cdb77dc967f40e2d4d7f17b6f220cd48f6a646fe646
 ---
 

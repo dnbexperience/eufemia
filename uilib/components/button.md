@@ -1,8 +1,8 @@
 ---
 title: 'Button'
 description: 'Use Button when people need to start, confirm, or submit an action.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.623Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.123Z
 checksum: e191edb6ca429fd518e06ebb0a9ade1e3e4a3f8bdac8c578c6d68d6d3f987294
 ---
 
@@ -260,7 +260,7 @@ render(<Section innerSpace={{
       <Button data-visual-test="button-tertiary-on-dark" variant="tertiary" iconPosition="left" icon="chevron_left" right>
         Tertiary button
       </Button>
-      <Button data-visual-test="button-tertiary-icon-on-dark" variant="tertiary" icon="bell" />
+      <Button data-visual-test="button-tertiary-icon-on-dark" variant="tertiary" icon="bell" title="Notifications" />
     </Section>)
 ```
 

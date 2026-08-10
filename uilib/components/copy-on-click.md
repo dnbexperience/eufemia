@@ -1,8 +1,8 @@
 ---
 title: 'CopyOnClick'
 description: 'Use CopyOnClick when people should copy text by clicking it.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.647Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.149Z
 checksum: d295fb202d99102f67fd6615cb964c459dc2d8eea69dfec0225775022aaef4b0
 ---
 

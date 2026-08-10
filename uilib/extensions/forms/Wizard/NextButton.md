@@ -1,8 +1,8 @@
 ---
 title: 'Wizard.NextButton'
 description: '`Wizard.NextButton` connects to the `Wizard.Context` to move the user to the next step when clicked.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.753Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.295Z
 checksum: 0143c11d6196b5cb2a7cfa42877ced738da7ef47c26b37790689ff998a6dd50a
 ---
 

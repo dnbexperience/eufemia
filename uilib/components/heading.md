@@ -1,8 +1,8 @@
 ---
 title: 'Heading (auto level)'
 description: 'Use Heading to create accessible page headings with the correct level.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.739Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.239Z
 checksum: f2ba0868c40cefe7513a73171e0443adb11ed19430690bb3d1f90545b838de9a
 ---
 
@@ -112,7 +112,7 @@ First, warnings will not show up in production builds. And to skip the auto corr
 
 ```jsx
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { resetLevels } from '@dnb/eufemia/components/Heading'
 
 function HeadingLevelReset() {

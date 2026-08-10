@@ -1,8 +1,8 @@
 ---
 title: 'Badge'
 description: 'Use Badge to highlight new, unread, or important information.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.605Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.105Z
 checksum: e44c4039c20189a099f5d28fc7d21f0fc5bcbc5f2c5f3677fe8bc23bd807d85f
 ---
 
@@ -16,7 +16,7 @@ import { Badge } from '@dnb/eufemia'
 
 ## Description
 
-Badge can be overlayed on another element by wrapping it, or can be a standalone badge.
+Badge can be overlaid on another element by wrapping it, or can be a standalone badge.
 
 ## Relevant links
 
@@ -93,7 +93,7 @@ render(<P>
 ```
 
 
-### Overlayed badge
+### Overlaid badge
 
 You can overlay the badge on top of an element by wrapping the `<Badge>` component around it.
 
@@ -181,7 +181,7 @@ render(<Grid.Container rowGap columnGap style={{
 
 ### Hiding Badge with `hideBadge`
 
-Sometimes you need to hide the badge without hiding the overlayed element. To make this less complicated you can use the `hideBadge` property.
+Sometimes you need to hide the badge without hiding the overlaid element. To make this less complicated you can use the `hideBadge` property.
 
 The example below hides the badge when there are no notifications. You can add or remove notifications with the "+" and "-" buttons.
 

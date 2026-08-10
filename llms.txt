@@ -4,7 +4,7 @@
 
 ## Version
 
-This documentation reflects Eufemia **v11.8.3**, generated 2026-07-29T16:49:54.648Z.
+This documentation reflects Eufemia **v11.9.0**, generated 2026-08-10T08:50:18.135Z.
 
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
@@ -139,7 +139,7 @@ For any page (component, field, value, etc.):
 
 - [Quick Guide - Designers](https://eufemia.dnb.no/quickguide-designer.md): Eufemia for designers - design guidelines and resources.
 
-- [Living system](https://eufemia.dnb.no/uilib/about-the-lib/living-system.md): Eufemia is DNB's design system. It is constantly evolving and improving and is our single source of truth for UI design and front-end code.
+- [Living system](https://eufemia.dnb.no/uilib/about-the-lib/living-system.md): Eufemia is DNB's design system. It is constantly evolving and improving and is our single source of truth for UI design and frontend code.
 
 - [Maintainability](https://eufemia.dnb.no/uilib/about-the-lib/maintainability.md): The hard part of a living design system, like Eufemia, is not creating black holes and choosing ways that make maintainability hard and complex.
 
@@ -749,5 +749,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.8.3
-GeneratedAt: 2026-07-29T16:49:54.648Z
+Version: 11.9.0
+GeneratedAt: 2026-08-10T08:50:18.135Z

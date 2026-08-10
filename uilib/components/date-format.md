@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'Use DateFormat to show dates in the correct DNB format.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.656Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.157Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 
@@ -68,7 +68,7 @@ If you really need a formatted date string without rendering the component, you 
 import { formatDate } from '@dnb/eufemia/components/date-format/DateFormatUtils'
 formatDate('2023-01-01', {
   locale: 'en-GB',
-  dateStyle: 'long',
+  options: { dateStyle: 'long' },
 })
 ```
 
@@ -85,10 +85,13 @@ This is helpful when you are comparing "today" against backend data or applying 
 
 #### Parameters
 
-| Name      | Type                         | Default                  | Description                                                                                                                                                       |
-| --------- | ---------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `locale`  | `AnyLocale`                  | `'nb-NO'`                | The locale to use for formatting.                                                                                                                                 |
-| `options` | `Intl.DateTimeFormatOptions` | `{ dateStyle: 'short' }` | The format options following the [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) API. |
+| Name              | Type                         | Default                  | Description                                                                                                                                                       |
+| ----------------- | ---------------------------- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `locale`          | `AnyLocale`                  | `'nb-NO'`                | The locale to use for formatting.                                                                                                                                 |
+| `options`         | `Intl.DateTimeFormatOptions` | `{ dateStyle: 'short' }` | The format options following the [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) API. |
+| `timeZone`        | `string`                     | `undefined`              | IANA time zone used for formatting (e.g. `Europe/Oslo`).                                                                                                          |
+| `hideCurrentYear` | `boolean`                    | `false`                  | When `true`, the year is hidden if the date is in the current year, for any `dateStyle`.                                                                          |
+| `hideYear`        | `boolean`                    | `false`                  | When `true`, the year is always hidden from the formatted date, for any `dateStyle`.                                                                              |
 
 
 ## Related components

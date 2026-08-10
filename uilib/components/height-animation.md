@@ -1,8 +1,8 @@
 ---
 title: 'HeightAnimation'
 description: 'Use HeightAnimation to animate content as it opens or closes.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.744Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.244Z
 checksum: dc40cc6e002dad1a4144d8e7ab8ecc12fdc944eb49ba7f1568ec5fba93d13582
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Getting started'
 description: 'Forms is reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.816Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.369Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -1028,9 +1028,9 @@ For `sv-SE` and `da-DK`, remember to import the locale files and merge them with
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
-import daDK_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/da-DK'
+import daDK_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/da-DK'
 
 const translations = mergeTranslations(
   svSE_forms,
@@ -1054,7 +1054,7 @@ If so, you can use the `mergeTranslations` function from `@dnb/eufemia/shared` t
 import { Provider, mergeTranslations } from '@dnb/eufemia/shared'
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
-import svSE_forms_countries from '@dnb/eufemia/extensions/forms/constants/locales/countries/sv-SE'
+import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
 
 const translations = mergeTranslations(
   svSE,

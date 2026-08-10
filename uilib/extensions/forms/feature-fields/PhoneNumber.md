@@ -1,8 +1,8 @@
 ---
 title: 'Field.PhoneNumber'
 description: '`Field.PhoneNumber` is a wrapper component for the input of strings, with user experience tailored for phone number values.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.809Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.361Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -804,7 +804,7 @@ render(<Form.Card>
 
 ## List of available countries
 
-[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/countries.ts#L46).
+[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/constants/countries.ts#L46).
 
 
 | ISO 3166-1 alpha-2 code | en | nb |

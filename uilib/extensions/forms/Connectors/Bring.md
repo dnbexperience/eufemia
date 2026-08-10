@@ -1,8 +1,8 @@
 ---
 title: 'Connector.Bring'
 description: 'Bring is a connector that allows you to fetch data from their REST API and use it in your form.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.340Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.874Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -125,21 +125,22 @@ const {
     url: async (value, {
       countryCode
     }) => {
-      await mockFetch(countryCode, getMockDataPostalCode(countryCode));
-      return `[YOUR-API-URL]/${value}`;
+      const url = `[YOUR-API-URL]/postal-code/${value}`;
+      await mockFetch(url, getMockDataPostalCode(countryCode));
+      return url;
     }
   }
 });
-const onBlurValidator = withConfig(Connectors.Bring.postalCode.validator);
-const onBlur = withConfig(Connectors.Bring.postalCode.autofill, {
+const onChangeValidator = withConfig(Connectors.Bring.postalCode.validator);
+const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
   cityPath: '/city'
 });
 render(<Form.Handler onSubmit={console.log}>
             <Form.Card>
               <Field.PostalCodeAndCity countryCode="/countryCode" postalCode={{
       path: '/postalCode',
-      onBlurValidator,
-      onBlur,
+      onChangeValidator,
+      onChange,
       required: true
     }} city={{
       path: '/city',
@@ -289,8 +290,9 @@ const {
     url: async (value, {
       countryCode
     }) => {
-      await mockFetch(countryCode, getMockDataAddress(countryCode));
-      return `[YOUR-API-URL]/${value}`;
+      const url = `[YOUR-API-URL]/address/${value}`;
+      await mockFetch(url, getMockDataAddress(countryCode));
+      return url;
     }
   }
 });

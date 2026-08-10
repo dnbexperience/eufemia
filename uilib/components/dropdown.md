@@ -1,8 +1,8 @@
 ---
 title: 'Dropdown'
 description: 'Use Dropdown when people need to choose one option from a list.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.692Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.192Z
 checksum: 092b3cfcf92a27d3b81067d23b8f5b6550789133f7896c55499941a55f7db09f
 ---
 
@@ -838,11 +838,6 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
         "\"top\"",
         "\"bottom\""
       ],
-      "status": "optional"
-    },
-    "labelDirection": {
-      "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
-      "type": "string",
       "status": "optional"
     },
     "preventSelection": {

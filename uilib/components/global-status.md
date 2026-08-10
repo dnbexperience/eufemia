@@ -1,9 +1,9 @@
 ---
 title: 'GlobalStatus'
 description: 'Use GlobalStatus to show important page-level messages or a summary of form errors.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.734Z
-checksum: 386c9d6672c8290be4a5be8acc4cb299be11fb9bd262d0593dd8e13ad20af2fa
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.235Z
+checksum: b1d1ac66f25cf86422ebb40b795077249e3e94deef2711c7f85cad6b5400aedf
 ---
 
 # GlobalStatus
@@ -442,7 +442,7 @@ render(<Button text="Scroll to main GlobalStatus" onClick={() => {
       "status": "optional"
     },
     "show": {
-      "doc": "Set to `true` or `false` to manually make the global status visible. Defaults to `true`.",
+      "doc": "Set to `true` or `false` to manually make the global status visible. Defaults to `auto`.",
       "type": [
         "boolean",
         "\"auto\""

@@ -1,8 +1,8 @@
 ---
 title: 'Switch'
 description: 'Use Switch when people can turn one setting on or off.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.147Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.675Z
 checksum: e288cce458a9b54ddbb5f5d40392a7f958ceb267c5d4fcb59e172bd5f8205a0e
 ---
 

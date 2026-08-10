@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.ViewContainer'
 description: '`Iterate.ViewContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.544Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.082Z
 checksum: fd927e5e6079ac54f6e5194de24331ff79e64fc4982b0071ecc885c7a6568fde
 ---
 

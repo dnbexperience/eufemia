@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'Use Autocomplete to help people find and choose from matching suggestions as they type.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.593Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.091Z
 checksum: 27e85a1eff285950c54cb6946eec7ab5504783064cb7f5ca016adc662982fe89
 ---
 
@@ -948,11 +948,6 @@ You may check out the [DrawerList Properties](#drawerlist-properties) down below
         "\"top\"",
         "\"bottom\""
       ],
-      "status": "optional"
-    },
-    "labelDirection": {
-      "doc": "Use `labelDirection=\"horizontal\"` to change the label layout direction. Defaults to `vertical`.",
-      "type": "string",
       "status": "optional"
     },
     "preventSelection": {

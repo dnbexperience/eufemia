@@ -1,9 +1,9 @@
 ---
 title: 'Form.Section'
 description: '`Form.Section` lets you compose blocks of fields and values to be reused in different contexts.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.426Z
-checksum: 331caa573f5cc2c579960751e1ff9f48a542e73740f08295e62068ec0d5f6085
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.975Z
+checksum: b17bc4b4953bbe632db2f43f20efde4baba2d17d301f282ded4e3386dee82ca4
 ---
 
 # Form.Section
@@ -968,8 +968,8 @@ render(<Form.Handler onChange={console.log} defaultData={{
       "type": "object",
       "status": "optional"
     },
-    "translation": {
-      "doc": "Provide a translation for the section (e.g. `{'nb-NO': { MySection: { MyField: { label: 'Custom' }}}}`).",
+    "translations": {
+      "doc": "Provide translations for the section (e.g. `{'nb-NO': { MySection: { MyField: { label: 'Custom' }}}}`).",
       "type": "object",
       "status": "optional"
     },
@@ -991,6 +991,14 @@ render(<Form.Handler onChange={console.log} defaultData={{
     "data": {
       "doc": "Provide data to the section fields and values, in case the data context (Form.Handler) is not available.",
       "type": "object",
+      "status": "optional"
+    },
+    "schema": {
+      "doc": "Schema to validate the section data. Accepts AJV or Zod schemas and behaves like the schema passed to Form.Handler.",
+      "type": [
+        "object",
+        "ZodSchema"
+      ],
       "status": "optional"
     },
     "containerMode": {
@@ -1052,6 +1060,12 @@ render(<Form.Handler onChange={console.log} defaultData={{
       "en-GB": "You must correct the errors above.",
       "sv-SE": "Du måste rätta felen ovan.",
       "da-DK": "Du skal rette fejlene ovenfor."
+    },
+    "SectionEditContainer.preventUncommittedChangesText": {
+      "nb-NO": "Du må fullføre redigeringen før du kan fortsette.",
+      "en-GB": "You must finish editing before continuing.",
+      "sv-SE": "Du måste avsluta redigeringen innan du kan fortsätta.",
+      "da-DK": "Du skal afslutte redigeringen, før du kan fortsætte."
     },
     "SectionViewContainer.editButton": {
       "nb-NO": "Endre",

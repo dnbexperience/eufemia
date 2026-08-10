@@ -1,9 +1,9 @@
 ---
 title: 'Form.Section.EditContainer'
 description: '`Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the view and edit container.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.413Z
-checksum: 32f70c4b6524d47c3512017c15ee7b6dbcbe4a533a5f4b3f97154a1e3dde47e8
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.963Z
+checksum: 99cb465aa64d4afed3ec9ba7824c7da5a3e383e68d78d8ef2c3f3dfb2fa371bb
 ---
 
 # Form.Section.EditContainer
@@ -20,6 +20,8 @@ render(<Form.Section.EditContainer />)
 `Form.Section.EditContainer` enables users to toggle (with animation) the content of each item between the [Form.Section.ViewContainer](/uilib/extensions/forms/Form/Section/ViewContainer/) and this edit container.
 
 By default, it features a toolbar containing a "Done" button and a "Cancel" button. The "Cancel" button resets any changes made to the item content, restoring it to its original state.
+
+Use `preventUncommittedChanges` when users must confirm the section before submitting the form or continuing to the next Wizard step. Navigation is blocked while the section is in edit mode, until the user selects "Done" or "Cancel". The parent `Form.Section` must have a `path`.
 
 ```tsx
 import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
@@ -68,6 +70,8 @@ When the edit container becomes active, it will automatically receive the active
 
 ## Demos
 
+### View and edit container
+
 This demo shows the edit container opened by default by using the `containerMode="edit"` property.
 
 
@@ -102,6 +106,37 @@ render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defa
           </Form.Handler>);
 ```
 
+
+### Prevent uncommitted changes
+
+With `preventUncommittedChanges`, the user must select "Done" or "Cancel" before continuing to the next Wizard step, even when no values have changed.
+
+
+```tsx
+render(<Form.Handler>
+        <Wizard.Container>
+          <Wizard.Step title="Profile">
+            <Form.Section path="/profile" containerMode="edit">
+              <Form.Section.EditContainer preventUncommittedChanges>
+                <Field.Name.First path="/firstName" />
+              </Form.Section.EditContainer>
+
+              <Form.Section.ViewContainer>
+                <Value.Name.First path="/firstName" />
+              </Form.Section.ViewContainer>
+            </Form.Section>
+
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Summary">
+            <Value.Name.First path="/profile/firstName" />
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>)
+```
+
 ## Properties
 
 
@@ -120,6 +155,11 @@ render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defa
         "\"filled\"",
         "\"basic\""
       ],
+      "status": "optional"
+    },
+    "preventUncommittedChanges": {
+      "doc": "Prevents form submission and Wizard navigation while the section is in edit mode, until the Done or Cancel button is selected. Requires Form.Section to have a path.",
+      "type": "boolean",
       "status": "optional"
     },
     "[FlexVertical](/uilib/layout/flex/container/properties)": {
@@ -167,6 +207,12 @@ render(<Form.Handler onSubmit={async data => console.log('onSubmit', data)} defa
       "en-GB": "You must correct the errors above.",
       "sv-SE": "Du måste rätta felen ovan.",
       "da-DK": "Du skal rette fejlene ovenfor."
+    },
+    "SectionEditContainer.preventUncommittedChangesText": {
+      "nb-NO": "Du må fullføre redigeringen før du kan fortsette.",
+      "en-GB": "You must finish editing before continuing.",
+      "sv-SE": "Du måste avsluta redigeringen innan du kan fortsätta.",
+      "da-DK": "Du skal afslutte redigeringen, før du kan fortsætte."
     }
   }
 }

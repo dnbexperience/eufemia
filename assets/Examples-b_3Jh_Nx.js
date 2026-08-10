@@ -1,4 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{t as n}from"./Button-DLh19lOb.js";import{t as r}from"./ComponentBox-41YKKsr3.js";var i=e(t()),a=()=>(0,i.jsx)(r,{stableName:`BasicButtonsExample`,sourceImports:[`import { Button } from '@dnb/eufemia'`],__buildScope:{Button:n},children:`<Button text="Basic Button" />
-`}),o=()=>(0,i.jsx)(r,{stableName:`EventsExample`,sourceImports:[`import { Button } from '@dnb/eufemia'`],__buildScope:{Button:n},children:`<Button text="Button" onClick={() => console.log('click')} />
-`}),s=()=>(0,i.jsx)(r,{hideCode:!0,hideToolbar:!0,stableName:`PrimaryButtonExample`,sourceImports:[`import { Button } from '@dnb/eufemia'`],__buildScope:{Button:n},children:`<Button text="Primary Button" />
-`});export{o as n,s as r,a as t};

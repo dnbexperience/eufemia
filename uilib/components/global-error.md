@@ -1,8 +1,8 @@
 ---
 title: 'GlobalError (404)'
 description: 'Use GlobalError to show a clear 404 or 500 error page.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.724Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.228Z
 checksum: 13ac256feeabc3e001995d8962f3430577346f443035943756c245a398e694bc
 ---
 

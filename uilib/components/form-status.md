@@ -1,8 +1,8 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'Use FormStatus to show validation errors, warnings, or messages near a form.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.716Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.221Z
 checksum: 37b289c1c4e8e7dd2caefd1a03e804b03c53c76bd12eb7df7b04ffb16ad7ba05
 ---
 

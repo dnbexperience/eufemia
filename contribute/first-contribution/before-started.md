@@ -1,7 +1,7 @@
 ---
 title: 'Before getting started'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.279Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:11.766Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -116,7 +116,7 @@ How to add support for each of these is explained in [Additional support - Getti
 
 Every component and extension should have a similar structure, as described here.
 
-As an example, we show the folder structure of component Breadcrumb. You can also check out the [source on Github](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/breadcrumb).
+As an example, we show the folder structure of component Breadcrumb. You can also check out the [source on GitHub](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/breadcrumb).
 
 <InlineImg
   src="/images/folder-structure.png"

@@ -1,8 +1,8 @@
 ---
 title: 'CountryFlag'
 description: 'Use CountryFlag to show a country by its flag from an ISO country code.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.652Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.153Z
 checksum: 96858d9c7269f72350401c3a9b92c476b3cbdcea7f967c9c12932cbbe1d8c391
 ---
 
@@ -199,7 +199,7 @@ render(<Flex.Vertical gap="x-small">
 
 ## List of available countries
 
-[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/countries.ts#L46).
+[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/constants/countries.ts#L46).
 
 
 | ISO 3166-1 alpha-2 code | en | nb |

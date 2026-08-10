@@ -1,8 +1,8 @@
 ---
 title: 'Field.PostalCodeAndCity'
 description: '`Field.PostalCodeAndCity` is a wrapper component for input of two separate values with user experience tailored for postal code and city values.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.810Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.363Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -34,6 +34,36 @@ There is a corresponding [Value.PostalCodeAndCity](/uilib/extensions/forms/Value
 ## Validation and autofill
 
 Read more about how to use the [Bring API](/uilib/extensions/forms/Connectors/Bring/) to validate and autofill a postal code and city name.
+
+For countries that use a four-digit postal code (`NO`, `DK` and `CH`), the placeholder code `0000` is rejected as invalid. This built-in check runs on blur and is applied automatically through the postal code field's `onBlurValidator`.
+
+To disable it, set `postalCode.onBlurValidator` to `false`.
+
+If you provide your own `postalCode.onBlurValidator`, it replaces the built-in check. You can still keep it by composing the exported `postalCodeValidator`, which is made available through the second argument of your validator. Import `PostalCodeAndCityValidator` to type your `onBlurValidator` and get the typed `validators` object:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import type { PostalCodeAndCityValidator } from '@dnb/eufemia/extensions/forms/Field/PostalCodeAndCity'
+
+const myValidator: PostalCodeAndCityValidator = (
+  value,
+  { validators }
+) => {
+  const { postalCodeValidator } = validators ?? {}
+  const customRule = (value: string) => {
+    if (value === '1111') {
+      return new Error('This postal code is not allowed.')
+    }
+  }
+
+  // Keep the built-in validator and add a custom rule.
+  return [postalCodeValidator, customRule]
+}
+
+render(
+  <Field.PostalCodeAndCity postalCode={{ onBlurValidator: myValidator }} />
+)
+```
 
 
 ## Demos
@@ -462,6 +492,12 @@ render(<Field.PostalCodeAndCity postalCode={{
       "en-GB": "Summary:",
       "sv-SE": "Sammanfattning:",
       "da-DK": "Oversigt:"
+    },
+    "PostalCode.errorInvalidCode": {
+      "nb-NO": "Du må skrive inn et gyldig postnummer. 0000 er ikke tillatt.",
+      "en-GB": "You must enter a valid postcode. 0000 is not allowed.",
+      "sv-SE": "Du måste ange ett giltigt postnummer. 0000 är inte tillåtet.",
+      "da-DK": "Du skal indtaste et gyldigt postnummer. 0000 er ikke tilladt."
     },
     "PostalCode.errorPattern": {
       "nb-NO": "Du må skrive inn et gyldig postnummer (fire siffer).",

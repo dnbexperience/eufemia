@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'Use List to show rows of related content, with optional actions or navigation.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.811Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.307Z
 checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
 ---
 
@@ -93,6 +93,30 @@ render(
   </List.Container>
 )
 ```
+
+## Custom item components
+
+`List.Container` applies spacing to each direct child by checking it for a `_supportsSpacingProps` marker. The built-in items (`List.Item.Basic`, `List.Item.Action`, `List.Item.Accordion`) set it, so they render directly as `<li>` children of the list.
+
+If you extract a row into your own component, the container can't tell it is a list item and wraps it in an extra element. This makes each row its own group, so every row gets top and bottom rounding instead of only the first and last row of the list.
+
+Set `_supportsSpacingProps = true` on your component to opt in, and forward the props to the underlying item so spacing (such as the `separated` variant gap) still applies:
+
+
+```tsx
+// Mark the component so List.Container treats it as a list item
+// instead of wrapping it in an extra element.
+const CustomListItem = props => {
+  return <List.Item.Action {...props} />;
+};
+CustomListItem._supportsSpacingProps = true;
+render(<List.Container>
+            <CustomListItem title="Row one" />
+            <CustomListItem title="Row two" />
+            <CustomListItem title="Row three" />
+          </List.Container>);
+```
+
 
 ## Loading states
 

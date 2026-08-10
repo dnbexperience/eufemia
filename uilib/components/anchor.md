@@ -1,8 +1,8 @@
 ---
 title: 'Anchor (Text Link)'
 description: 'Use Anchor to take people to another page, section, or website.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:48.563Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.059Z
 checksum: 2f8846fac54a31c519386d8947a0566977c4fb617bfc82b267b816c7d3d3a25a
 ---
 
@@ -35,7 +35,7 @@ You can combine a meta framework link with the Anchor. This way, all the framewo
 
 ```jsx
 import Anchor from '@dnb/eufemia/components/Anchor'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 render(
   <App>
@@ -572,7 +572,7 @@ render(<Wrapper>
 You can make use of the `element` property in combination with the `to` property.
 
 ```jsx
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 render(
   <Anchor to="/url" element={Link}>

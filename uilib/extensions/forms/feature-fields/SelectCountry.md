@@ -1,8 +1,8 @@
 ---
 title: 'Field.SelectCountry'
 description: '`Field.SelectCountry` is a wrapper component for the selection component, with options built in for selecting a country.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.812Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:13.365Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -516,7 +516,7 @@ render(<Field.SelectCountry value="NO" htmlAttributes={{
 
 ## List of available countries
 
-[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/extensions/forms/constants/countries.ts#L46).
+[Link to the code of the available countries](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/shared/constants/countries.ts#L46).
 
 NOTE: This list does not say anything about the order in which they will appear in component `Field.SelectCountry`. And is only meant to easily find which countries that's supported and available to use.
 

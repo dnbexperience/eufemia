@@ -1,8 +1,8 @@
 ---
 title: 'Form.Outlet'
 description: '`Form.Outlet` lets you render fields and form components in another part of the tree while linking them to a specific `Form.Handler` by id.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.409Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.959Z
 checksum: 09df09d5e89e56f80955c959e2f164ba8cd50476cfb851a6102f6dbbb1560cc2
 ---
 
@@ -21,7 +21,7 @@ render(<Form.Outlet formHandlerId="my-form-id">...</Form.Outlet>)
 
 This is useful when you need to render parts of a form outside the handler subtree, such as in a side panel, modal footer, or another layout region.
 
-The `formHandlerId` is required and must reference a mounted `Form.Handler`.
+The `formHandlerId` is required. The matching `Form.Handler` can be rendered before or after the outlet. The outlet stays empty until the handler context is available and then connects automatically.
 
 When `Form.Outlet` is placed **outside** a `Form.Handler` subtree it automatically wraps its children in a `<form>` element, so submit buttons work correctly. When placed **inside** an existing `Form.Handler`, no extra `<form>` element is added.
 
@@ -70,6 +70,48 @@ const Example = () => {
                   </Form.Outlet>
                 </Flex.Stack>
               </Form.Card>
+            </Flex.Stack>;
+};
+render(<Example />);
+```
+
+
+### Render outlet before handler
+
+`Form.Outlet` can be rendered before its linked `Form.Handler`. It stays empty until the handler context is available and then connects automatically.
+
+
+```tsx
+const Example = () => {
+  const formHandlerId = useId();
+  return <Flex.Stack>
+              <Form.Card>
+                <Flex.Stack>
+                  <Form.SubHeading>
+                    Form.Outlet rendered first
+                  </Form.SubHeading>
+
+                  <Form.Outlet formHandlerId={formHandlerId}>
+                    <Field.Name.First path="/firstName" />
+                    <Field.Name.Last path="/lastName" />
+                  </Form.Outlet>
+                </Flex.Stack>
+              </Form.Card>
+
+              <Form.Handler id={formHandlerId} data={{
+      firstName: 'Nora',
+      lastName: 'Mork'
+    }}>
+                <Form.Card>
+                  <Form.SubHeading>
+                    Form.Handler rendered afterwards
+                  </Form.SubHeading>
+                  <Value.Composition label="Name">
+                    <Value.String path="/firstName" />
+                    <Value.String path="/lastName" />
+                  </Value.Composition>
+                </Form.Card>
+              </Form.Handler>
             </Flex.Stack>;
 };
 render(<Example />);

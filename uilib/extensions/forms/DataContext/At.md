@@ -1,8 +1,8 @@
 ---
 title: 'DataContext.At'
 description: '`DataContext.At` makes it possible to dig into a data set to set a pointer as the root for sub components, as well as iterate array-data.'
-version: 11.8.3
-generatedAt: 2026-07-29T16:49:49.344Z
+version: 11.9.0
+generatedAt: 2026-08-10T08:50:12.878Z
 checksum: 8a9587445730d13aaa069f93aa4a0e76d55c22df3e4141147ec1c2a767ed23ac
 ---
 
