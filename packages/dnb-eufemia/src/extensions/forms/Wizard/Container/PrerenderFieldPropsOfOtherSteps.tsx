@@ -164,13 +164,8 @@ function PrerenderPortal({
 function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
   const dataContext = useContext(DataContext)
 
-  const {
-    data,
-    internalDataRef,
-    setFieldInternals,
-    updateDataValue,
-    showAllErrors,
-  } = dataContext || {}
+  const { data, internalDataRef, setFieldInternals, updateDataValue } =
+    dataContext || {}
 
   // Run validation of all fields
   if (showAllErrorsNow) {
@@ -180,7 +175,7 @@ function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
           ...dataContext,
           hasContext: true,
           prerenderFieldProps: true,
-          showAllErrors: showAllErrorsNow ? true : showAllErrors,
+          showAllErrors: true,
         }}
       >
         {children}

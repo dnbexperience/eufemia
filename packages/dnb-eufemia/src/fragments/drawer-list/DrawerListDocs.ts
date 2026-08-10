@@ -31,11 +31,6 @@ export const DrawerListProperties: PropertiesTableProps = {
     type: ['"auto"', '"top"', '"bottom"'],
     status: 'optional',
   },
-  labelDirection: {
-    doc: 'Use `labelDirection="horizontal"` to change the label layout direction. Defaults to `vertical`.',
-    type: 'string',
-    status: 'optional',
-  },
   preventSelection: {
     doc: 'If set to `true`, the DrawerList will then not make any permanent selection.',
     type: 'boolean',

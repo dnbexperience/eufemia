@@ -30,6 +30,309 @@ describe('postalCode', () => {
       onChangeValidator = withConfig(Connectors.Bring.postalCode.validator)
     })
 
+    it('should not reveal a stale pattern error when blurred while fetching', async () => {
+      let resolveFetch: () => void = () => undefined
+      const fetchPromise = new Promise<void>((resolve) => {
+        resolveFetch = resolve
+      })
+      globalThis.fetch = createFetchMock(null, () => fetchPromise)
+
+      const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+        cityPath: '/city',
+      })
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+              onChange,
+            }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+
+      for (const value of ['1', '11', '111', '1111']) {
+        fireEvent.change(postalCodeInput, { target: { value } })
+      }
+      fireEvent.blur(postalCodeInput)
+
+      expect(
+        document.querySelector('.dnb-form-status')
+      ).not.toBeInTheDocument()
+
+      resolveFetch()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.PostalCodeAndCity.invalidCode)
+      })
+    })
+
+    it('should show pending indicator only while fetching', async () => {
+      let resolveFetch: () => void = () => undefined
+      const fetchPromise = new Promise<void>((resolve) => {
+        resolveFetch = resolve
+      })
+      globalThis.fetch = createFetchMock(null, () => fetchPromise)
+
+      for (const value of ['1', '13', '139']) {
+        expect(onChangeValidator(value)).not.toBeInstanceOf(Promise)
+      }
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeBlock = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code'
+      )
+      const cityBlock = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city'
+      )
+      const postalCodeInput = postalCodeBlock.querySelector(
+        '.dnb-input__input'
+      )
+      const postalCodeIndicator = postalCodeBlock.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+      const cityIndicator = cityBlock.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+
+      for (const value of ['1', '13', '139']) {
+        fireEvent.change(postalCodeInput, { target: { value } })
+
+        expect(globalThis.fetch).not.toHaveBeenCalled()
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+        expect(cityIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      }
+
+      fireEvent.change(postalCodeInput, { target: { value: '1391' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+        expect(postalCodeIndicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+      expect(cityIndicator).not.toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+
+      resolveFetch()
+
+      await waitFor(() => {
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+    })
+
+    it('should clear pending indicator when the value becomes synchronously invalid', async () => {
+      let resolveFetch: () => void = () => undefined
+      const fetchPromise = new Promise<void>((resolve) => {
+        resolveFetch = resolve
+      })
+      globalThis.fetch = createFetchMock(null, () => fetchPromise)
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+            }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeBlock = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code'
+      )
+      const postalCodeInput = postalCodeBlock.querySelector(
+        '.dnb-input__input'
+      )
+      const postalCodeIndicator = postalCodeBlock.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+
+      fireEvent.change(postalCodeInput, { target: { value: '1234' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+        expect(postalCodeIndicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+
+      fireEvent.change(postalCodeInput, { target: { value: '12345' } })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.PostalCode.errorPattern)
+
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+
+      resolveFetch()
+
+      await waitFor(() => {
+        expect(postalCodeIndicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-error'
+        )
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+    })
+
+    it('should keep pending indicator while autofill is fetching', async () => {
+      let resolveValidation: () => void = () => undefined
+      let resolveAutofill: () => void = () => undefined
+      const validationPromise = new Promise<void>((resolve) => {
+        resolveValidation = resolve
+      })
+      const autofillPromise = new Promise<void>((resolve) => {
+        resolveAutofill = resolve
+      })
+      let requestCount = 0
+      globalThis.fetch = createFetchMock(null, () => {
+        requestCount++
+        return requestCount === 1 ? validationPromise : autofillPromise
+      })
+
+      const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+        cityPath: '/city',
+      })
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+              onChange,
+            }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeBlock = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code'
+      )
+      const postalCodeInput = postalCodeBlock.querySelector(
+        '.dnb-input__input'
+      )
+      const postalCodeIndicator = postalCodeBlock.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+      const cityInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+      )
+
+      fireEvent.change(postalCodeInput, { target: { value: '1391' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+        expect(postalCodeIndicator).toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+
+      resolveValidation()
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(2)
+      })
+      expect(cityInput).toHaveValue('')
+      expect(postalCodeIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+
+      resolveAutofill()
+
+      await waitFor(() => {
+        expect(cityInput).toHaveValue('Vollen')
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+    })
+
+    it('should clear pending indicator after submitting a valid postal code', async () => {
+      const onSubmit = vi.fn()
+      const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+        cityPath: '/city',
+      })
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChangeValidator,
+              onChange,
+            }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeBlock = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code'
+      )
+      const postalCodeInput = postalCodeBlock.querySelector(
+        '.dnb-input__input'
+      )
+      const postalCodeIndicator = postalCodeBlock.querySelector(
+        '.dnb-forms-submit-indicator'
+      )
+      const cityInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+      )
+
+      await userEvent.type(postalCodeInput, '1391')
+
+      await waitFor(() => {
+        expect(cityInput).toHaveValue('Vollen')
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+        expect(postalCodeIndicator).not.toHaveClass(
+          'dnb-forms-submit-indicator--state-pending'
+        )
+      })
+    })
+
     it('should show error when postal code is not valid', async () => {
       render(
         <Form.Handler>
@@ -107,34 +410,11 @@ describe('postalCode', () => {
     })
 
     it('should use AbortController to cancel request while typing', async () => {
-      const mockAbort = vi.fn()
-
-      const mockSignal = {
-        aborted: false,
-        onabort: null,
-        reason: undefined,
-        throwIfAborted: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      }
-
-      globalThis.AbortController = vi.fn(function () {
-        return {
-          signal: mockSignal,
-          abort: mockAbort,
-        }
-      })
-
-      // With delay so we can abort
-      globalThis.fetch = createFetchMock(null, async () => {
-        await new Promise((resolve) => setTimeout(resolve, 10))
-      })
+      const signals = mockPendingFetch()
 
       render(
         <Form.Handler>
           <Field.PostalCodeAndCity
-            // Use SE ini order to call "fetch" twice.
             countryCode="SE"
             postalCode={{
               path: '/postalCode',
@@ -148,17 +428,84 @@ describe('postalCode', () => {
         '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
       )
 
-      await userEvent.type(postalCodeInput, '00000')
-
-      expect(mockAbort).toHaveBeenCalledTimes(1)
+      fireEvent.change(postalCodeInput, { target: { value: '0000' } })
 
       await waitFor(() => {
-        expect(
-          document.querySelector('.dnb-form-status')
-        ).toBeInTheDocument()
-        expect(
-          document.querySelector('.dnb-form-status')
-        ).toHaveTextContent(nb.PostalCodeAndCity.invalidCode)
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(postalCodeInput, { target: { value: '00000' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(2)
+        expect(signals[0].aborted).toBe(true)
+      })
+    })
+
+    it('should cancel autofill when the input becomes too short', async () => {
+      const signals = mockPendingFetch()
+      const onChange = withConfig(Connectors.Bring.postalCode.autofill, {
+        cityPath: '/city',
+      })
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{ path: '/postalCode', onBlur: onChange }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+
+      fireEvent.change(postalCodeInput, { target: { value: '1391' } })
+      fireEvent.blur(postalCodeInput)
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(postalCodeInput, { target: { value: '139' } })
+      fireEvent.blur(postalCodeInput)
+
+      await waitFor(() => {
+        expect(signals[0].aborted).toBe(true)
+      })
+    })
+
+    it('should cancel validation when the country becomes unsupported', async () => {
+      const signals = mockPendingFetch()
+
+      render(
+        <Form.Handler
+          defaultData={{ postalCode: '1391', countryCode: 'NO' }}
+        >
+          <Field.String path="/countryCode" className="country" />
+          <Field.PostalCodeAndCity
+            countryCode="/countryCode"
+            postalCode={{ path: '/postalCode', onChangeValidator }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+      const countryInput = document.querySelector('.country input')
+
+      fireEvent.change(postalCodeInput, { target: { value: '1392' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(countryInput, { target: { value: 'CH' } })
+
+      await waitFor(() => {
+        expect(signals[0].aborted).toBe(true)
       })
     })
 
@@ -759,6 +1106,47 @@ describe('postalCode', () => {
       expect(cityInput).toHaveValue('Vollen')
     })
 
+    it('should not fill city from a stale request', async () => {
+      let resolveFetch: () => void = () => undefined
+      const fetchPromise = new Promise<void>((resolve) => {
+        resolveFetch = resolve
+      })
+      globalThis.fetch = createFetchMock(null, () => fetchPromise)
+
+      render(
+        <Form.Handler>
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/postalCode',
+              onChange,
+            }}
+            city={{ path: '/city' }}
+          />
+        </Form.Handler>
+      )
+
+      const postalCodeInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+      )
+      const cityInput = document.querySelector(
+        '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+      )
+
+      fireEvent.change(postalCodeInput, { target: { value: '1391' } })
+
+      await waitFor(() => {
+        expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(postalCodeInput, { target: { value: '139' } })
+      resolveFetch()
+
+      await waitFor(() => {
+        expect(postalCodeInput).toHaveValue('139')
+        expect(cityInput).toHaveValue('')
+      })
+    })
+
     it('should not fill city when invalid postal code is given', async () => {
       render(
         <Form.Handler>
@@ -826,6 +1214,23 @@ describe('postalCode', () => {
     })
   })
 })
+
+function mockPendingFetch() {
+  const signals: AbortSignal[] = []
+  globalThis.fetch = vi.fn((_, { signal }: RequestInit) => {
+    signals.push(signal)
+
+    return new Promise<Response>((resolve, reject) => {
+      signal.addEventListener('abort', () => {
+        reject(
+          new DOMException('The operation was aborted.', 'AbortError')
+        )
+      })
+    })
+  })
+
+  return signals
+}
 
 function createFetchMock(overwrite = null, delay = null) {
   return vi.fn(async () => {

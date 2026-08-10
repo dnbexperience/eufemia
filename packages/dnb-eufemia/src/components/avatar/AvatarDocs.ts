@@ -79,6 +79,16 @@ export const AvatarGroupProperties: PropertiesTableProps = {
     type: ['"primary"', '"secondary"', '"tertiary"'],
     status: 'optional',
   },
+  backgroundColor: {
+    doc: 'Define a custom background color for the Avatars, instead of a variant. Use a Eufemia color.',
+    type: 'string',
+    status: 'optional',
+  },
+  color: {
+    doc: 'Define a custom color to complement the backgroundColor for the Avatars. Use a Eufemia color.',
+    type: 'string',
+    status: 'optional',
+  },
   maxElements: {
     doc: 'Number of max displayed elements, including the "elements hidden text (+x)". Defaults to `4`.',
     type: 'number',

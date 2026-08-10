@@ -59,6 +59,8 @@ export default {
     SectionEditContainer: {
       doneButton: 'Done',
       cancelButton: 'Cancel',
+      preventUncommittedChangesText:
+        'You must finish editing before continuing.',
       errorInSection: 'You must correct the errors above.',
       confirmCancelText: 'Are you sure you want to discard your changes?',
     },
@@ -247,6 +249,8 @@ export default {
       label: 'Postcode',
       errorRequired: 'You must enter a postcode.',
       errorPattern: 'You must enter a valid postcode (4 digits).',
+      errorInvalidCode:
+        'You must enter a valid postcode. 0000 is not allowed.',
     },
     City: {
       label: 'City',

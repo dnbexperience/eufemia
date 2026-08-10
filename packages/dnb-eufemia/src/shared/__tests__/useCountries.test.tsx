@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react'
+import { mergeTranslations } from '..'
+import listOfCountries from '../constants/countries'
+import daDK_forms_countries from '../constants/locales/countries/da-DK'
+import svSE_forms_countries from '../constants/locales/countries/sv-SE'
+import Provider from '../Provider'
 import useCountries from '../useCountries'
-import listOfCountries from '../../../constants/countries'
-import Provider from '../../../../../shared/Provider'
-import { mergeTranslations } from '../../../../../shared'
-import svSE_forms_countries from '../../../constants/locales/countries/sv-SE'
-import daDK_forms_countries from '../../../constants/locales/countries/da-DK'
 
 const getOneCountry = (countries, country: string) => {
   return countries.find((c) => c.iso === country)

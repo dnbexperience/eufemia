@@ -2,6 +2,7 @@ import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
+import { timingSafeEqual } from 'node:crypto'
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
 import server from '../server.js'
 
@@ -29,6 +30,28 @@ function toWebRequest(event: APIGatewayProxyEventV2): Request {
     headers,
     body,
   })
+}
+
+// Verifies the X-Edge-Auth header against the configured secret.
+// No secret set = check disabled (local and pre-edge environments).
+function isEdgeAuthorized(event: APIGatewayProxyEventV2): boolean {
+  const expected = process.env.EDGE_AUTH_SECRET
+  if (!expected) {
+    return true
+  }
+
+  const provided = event.headers['x-edge-auth']
+  if (!provided) {
+    return false
+  }
+
+  const expectedBuf = Buffer.from(expected)
+  const providedBuf = Buffer.from(provided)
+  if (expectedBuf.length !== providedBuf.length) {
+    return false
+  }
+
+  return timingSafeEqual(expectedBuf, providedBuf)
 }
 
 async function toApiGatewayResult(
@@ -59,6 +82,19 @@ export async function handler(
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: 'ok' }),
+    }
+  }
+
+  // Enforced after /healthz so health probes stay open.
+  if (!isEdgeAuthorized(event)) {
+    return {
+      statusCode: 403,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        error: { code: -32001, message: 'Forbidden' },
+        id: null,
+      }),
     }
   }
 

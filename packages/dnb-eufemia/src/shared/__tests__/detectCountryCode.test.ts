@@ -2,7 +2,7 @@
 
 import detectCountryCode from '../detectCountryCode'
 import countryCodes from '../constants/countryCodes'
-import countries from '../../extensions/forms/constants/countries'
+import countries from '../constants/countries'
 
 describe('countryCodes', () => {
   it('should contain the same CDC values as countries', () => {

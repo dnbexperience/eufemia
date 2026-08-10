@@ -12,7 +12,7 @@ declare module 'virtual:portal-pages' {
     lazy: () => Promise<{ Component: React.ComponentType }>
   }>
   export const allMdxNodes: Array<{
-    fields: { slug: string }
+    fields: { slug: string; sourcePath: string }
     frontmatter: Record<string, unknown>
   }>
 }

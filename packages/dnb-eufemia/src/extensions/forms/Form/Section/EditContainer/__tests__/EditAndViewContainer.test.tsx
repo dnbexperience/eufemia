@@ -1,13 +1,217 @@
 import { useContext } from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import SectionContainerContext from '../../containers/SectionContainerContext'
-import { Field, Form } from '../../../..'
+import { Field, Form, Wizard } from '../../../..'
 import userEvent from '@testing-library/user-event'
 import nbNO from '../../../../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
 
 describe('EditContainer and ViewContainer', () => {
+  describe('preventUncommittedChanges', () => {
+    it('should prevent Wizard navigation until changes are confirmed', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+
+              <Form.Section path="/person" containerMode="edit">
+                <Form.Section.EditContainer preventUncommittedChanges>
+                  <Field.String path="/name" />
+                </Form.Section.EditContainer>
+                <Form.Section.ViewContainer>
+                  Person
+                </Form.Section.ViewContainer>
+              </Form.Section>
+
+              <Wizard.NextButton />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'Ada')
+      await userEvent.click(
+        document.querySelector('.dnb-forms-next-button')
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent('Step 1')
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.SectionEditContainer.preventUncommittedChangesText
+      )
+
+      await userEvent.type(document.querySelector('input'), ' Lovelace')
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.SectionEditContainer.preventUncommittedChangesText
+      )
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-section-edit-block .dnb-button')
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-forms-next-button')
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent('Step 2')
+    })
+
+    it('should prevent Form.Handler submission until changes are confirmed', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.Section path="/section" containerMode="edit">
+            <Form.Section.EditContainer preventUncommittedChanges>
+              <Field.String path="/name" />
+            </Form.Section.EditContainer>
+          </Form.Section>
+
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'Ada')
+      await userEvent.click(
+        document.querySelector('.dnb-forms-submit-button')
+      )
+
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-section-edit-block .dnb-button')
+      )
+      await userEvent.click(
+        document.querySelector('.dnb-forms-submit-button')
+      )
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { section: { name: 'Ada' } },
+        expect.anything()
+      )
+    })
+
+    it('should clear the navigation block after changes are cancelled', async () => {
+      render(
+        <Form.Handler defaultData={{ person: { name: 'Ada' } }}>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.Section path="/person" containerMode="edit">
+                <Form.Section.EditContainer preventUncommittedChanges>
+                  <Field.String path="/name" />
+                </Form.Section.EditContainer>
+                <Form.Section.ViewContainer>
+                  Person
+                </Form.Section.ViewContainer>
+              </Form.Section>
+              <Wizard.NextButton />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.clear(input)
+      await userEvent.type(input, 'Grace')
+      await userEvent.click(
+        document.querySelector('.dnb-forms-next-button')
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent('Step 1')
+
+      const buttons = document.querySelectorAll(
+        '.dnb-forms-section-edit-block .dnb-button'
+      )
+      await userEvent.click(buttons[1])
+      await userEvent.click(
+        document.querySelector('.dnb-dialog .dnb-button--primary')
+      )
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-forms-section-edit-block')
+        ).toHaveAttribute('aria-hidden', 'true')
+      })
+      await userEvent.click(
+        document.querySelector('.dnb-forms-next-button')
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent('Step 2')
+    })
+
+    it('should prevent navigation while the section is in edit mode', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.Section path="/section" containerMode="edit">
+                <Form.Section.EditContainer preventUncommittedChanges>
+                  <Field.String path="/name" />
+                </Form.Section.EditContainer>
+              </Form.Section>
+              <Wizard.NextButton />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-next-button')
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent('Step 1')
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.SectionEditContainer.preventUncommittedChangesText
+      )
+    })
+
+    it('should prevent navigation when changes are reverted', async () => {
+      render(
+        <Form.Handler defaultData={{ section: { name: 'Ada' } }}>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.Section path="/section" containerMode="edit">
+                <Form.Section.EditContainer preventUncommittedChanges>
+                  <Field.String path="/name" />
+                </Form.Section.EditContainer>
+              </Form.Section>
+              <Wizard.NextButton />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.clear(input)
+      await userEvent.type(input, 'Grace')
+      await userEvent.clear(input)
+      await userEvent.type(input, 'Ada')
+      await userEvent.click(
+        document.querySelector('.dnb-forms-next-button')
+      )
+
+      expect(document.querySelector('output')).toHaveTextContent('Step 1')
+    })
+  })
+
   it('should switch mode on pressing edit button', async () => {
     let containerMode = null
 
@@ -205,7 +409,7 @@ describe('EditContainer and ViewContainer', () => {
       const mockUseContainerDataStore = vi
         .spyOn(useContainerDataStoreModule, 'default')
         .mockImplementation(() => {
-          const res = originalHook()
+          const res = originalHook({ enabled: true })
           return {
             ...res,
             restoreOriginalData: () => {

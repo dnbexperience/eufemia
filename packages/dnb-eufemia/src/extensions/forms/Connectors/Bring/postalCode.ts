@@ -1,5 +1,6 @@
 import type { Path, PathStrict, UseFieldProps } from '../../types'
 import { FormError } from '../../utils'
+import { setAsyncValidatorBehavior } from '../../utils/validatorOptions'
 import pointer from '../../utils/json-pointer'
 import type {
   GeneralConfig,
@@ -82,9 +83,14 @@ export function autofill(
   handlerConfig?: AutofillHandlerConfig & { cityPath: Path }
 ): UseFieldProps<string>['onChange'] {
   const abortControllerRef = { current: null }
+  let requestId = 0
 
   return async function autofillHandler(value, additionalArgs?) {
+    const currentRequestId = ++requestId
+
     if (!(typeof value === 'string' && value.length >= 4)) {
+      abortControllerRef.current?.abort()
+      abortControllerRef.current = null
       return undefined // stop here
     }
 
@@ -97,6 +103,8 @@ export function autofill(
     })
 
     if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
+      abortControllerRef.current?.abort()
+      abortControllerRef.current = null
       return undefined // stop here
     }
 
@@ -104,13 +112,19 @@ export function autofill(
       const parameters = {
         countryCode: String(countryCode).toLowerCase(),
       }
-      const { data } = await fetchData<PostalCodeResolverData>(value, {
+      const result = await fetchData<PostalCodeResolverData>(value, {
         generalConfig,
         parameters,
         abortControllerRef,
         preResponseResolver:
           handlerConfig?.preResponseResolver ?? preResponseResolver,
       })
+
+      if (!result || currentRequestId !== requestId) {
+        return undefined // stop here
+      }
+
+      const { data } = result
 
       const onMatch = (payload: PostalCodeResolverPayload) => {
         const { cityPath } = handlerConfig || {}
@@ -122,10 +136,19 @@ export function autofill(
           }
           const { dataContext } = additionalArgs
           const internalData = dataContext.internalDataRef.current
-          const value = pointer.has(internalData, cityPath)
+          const postalCodePath = additionalArgs.props?.path
+          const postalCodeValue =
+            postalCodePath && pointer.has(internalData, postalCodePath)
+              ? pointer.get(internalData, postalCodePath)
+              : value
+          const cityValue = pointer.has(internalData, cityPath)
             ? pointer.get(internalData, cityPath)
             : undefined
-          if (!value) {
+          if (
+            currentRequestId === requestId &&
+            postalCodeValue === value &&
+            !cityValue
+          ) {
             dataContext.handlePathChangeUnvalidated(cityPath, payload.city)
           }
         }
@@ -150,57 +173,76 @@ export function validator(
   | UseFieldProps<string>['onChangeValidator']
   | UseFieldProps<string>['onBlurValidator'] {
   const abortControllerRef = { current: null }
+  let requestId = 0
 
-  return async function validatorHandler(value, additionalArgs?) {
-    if (!(typeof value === 'string' && value.length >= 4)) {
-      return undefined // stop here
-    }
+  return setAsyncValidatorBehavior(
+    function validatorHandler(value, additionalArgs?) {
+      const currentRequestId = ++requestId
 
-    // Get country code from path or use given countryCode value, and re-validate on path changes
-    const { countryCode } = handleCountryPath({
-      value,
-      countryCode: handlerConfig?.countryCode,
-      additionalArgs,
-      handler: validatorHandler,
-    })
-
-    if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
-      return new Error(
-        unsupportedCountryCodeMessage.replace('{countryCode}', countryCode)
-      )
-    }
-
-    try {
-      const parameters = {
-        countryCode: String(countryCode).toLowerCase(),
+      if (!(typeof value === 'string' && value.length >= 4)) {
+        abortControllerRef.current?.abort()
+        abortControllerRef.current = null
+        return undefined // stop here
       }
-      const { data, status } = await fetchData<PostalCodeResolverData>(
+
+      // Get country code from path or use given countryCode value, and re-validate on path changes
+      const { countryCode } = handleCountryPath({
         value,
-        {
-          generalConfig,
-          parameters,
-          abortControllerRef,
-          preResponseResolver:
-            handlerConfig?.preResponseResolver ?? preResponseResolver,
+        countryCode: handlerConfig?.countryCode,
+        additionalArgs,
+        handler: validatorHandler,
+      })
+
+      if (!isSupportedCountryCode(countryCode, supportedCountryCodes)) {
+        abortControllerRef.current?.abort()
+        abortControllerRef.current = null
+        return Promise.resolve(
+          new Error(
+            unsupportedCountryCodeMessage.replace(
+              '{countryCode}',
+              countryCode
+            )
+          )
+        )
+      }
+
+      return (async () => {
+        try {
+          const parameters = {
+            countryCode: String(countryCode).toLowerCase(),
+          }
+          const result = await fetchData<PostalCodeResolverData>(value, {
+            generalConfig,
+            parameters,
+            abortControllerRef,
+            preResponseResolver:
+              handlerConfig?.preResponseResolver ?? preResponseResolver,
+          })
+
+          if (!result || currentRequestId !== requestId) {
+            return undefined // stop here
+          }
+
+          const { data, status } = result
+
+          const onMatch = () => {
+            return new FormError('PostalCodeAndCity.invalidCode')
+          }
+
+          const { matcher } = responseResolver(data, handlerConfig)
+          const match = matcher(value)
+
+          if (status !== 400 && !match) {
+            return onMatch()
+          }
+        } catch (error) {
+          return error as Error
         }
-      )
 
-      const onMatch = () => {
-        return new FormError('PostalCodeAndCity.invalidCode')
-      }
-
-      const { matcher } = responseResolver(data, handlerConfig)
-      const match = matcher(value)
-
-      if (status !== 400 && !match) {
-        return onMatch()
-      }
-    } catch (error) {
-      return error as Error
+        return undefined
+      })()
     }
-
-    return undefined
-  }
+  )
 }
 
 export function getMockData(countryCode?: string) {

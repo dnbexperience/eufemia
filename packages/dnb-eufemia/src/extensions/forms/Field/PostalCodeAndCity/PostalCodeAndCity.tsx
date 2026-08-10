@@ -5,13 +5,25 @@ import DataContext from '../../DataContext/Context'
 import type { FieldStringProps as StringFieldProps } from '../String'
 import StringField from '../String'
 import CompositionField from '../Composition'
-import type { CountryCode } from '../../types'
+import type {
+  CountryCode,
+  Validator,
+  ValidatorWithCustomValidators,
+} from '../../types'
 import useTranslation from '../../hooks/useTranslation'
 import useDataValue from '../../hooks/useDataValue'
 import { isPath } from '../../utils/json-pointer'
 import { COUNTRY as defaultCountry } from '../../../../shared/defaults'
 import type { SpacingProps } from '../../../../shared/types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import { postalCodeValidator as validatePostalCode } from './validators'
+
+export type PostalCodeAndCityValidator = ValidatorWithCustomValidators<
+  string,
+  {
+    postalCodeValidator: Validator<string>
+  }
+>
 
 export type FieldPostalCodeAndCityProps = Pick<
   FieldBlockProps,
@@ -22,16 +34,27 @@ export type FieldPostalCodeAndCityProps = Pick<
   | 'className'
   | 'help'
   | keyof SpacingProps
-> &
-  Partial<Record<'postalCode' | 'city', StringFieldProps>> & {
-    /**
-     * Defines which country the postal code and city is for.
-     * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
-     * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
-     * Default: `NO`
-     */
-    countryCode?: CountryCode
-  } & Pick<StringFieldProps, 'size'>
+> & {
+  postalCode?: Omit<StringFieldProps, 'onBlurValidator'> & {
+    onBlurValidator?: PostalCodeAndCityValidator | false
+  }
+  city?: StringFieldProps
+} & {
+  /**
+   * Defines which country the postal code and city is for.
+   * Setting it to anything other than `no` will remove the default norwegian postal code pattern.
+   * You can also use the value of another field to define the countryCode, by using a path value i.e. `/myCountryCodePath`.
+   * Default: `NO`
+   */
+  countryCode?: CountryCode
+} & Pick<StringFieldProps, 'size'>
+
+// Countries that use a four-digit postal code (0000-9999).
+const fourDigitPatternCountries: CountryCode[] = [
+  defaultCountry,
+  'DK',
+  'CH',
+]
 
 function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
   const translations = useTranslation()
@@ -78,26 +101,40 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     errorMessages: cityErrorMessages,
   } = handleCityDefaults(city)
 
+  const usesFourDigitPattern =
+    fourDigitPatternCountries.includes(countryCodeValue)
+
+  const postalCodeValidator = useCallback<Validator<string>>(
+    (value) => {
+      if (!usesFourDigitPattern) {
+        return undefined
+      }
+
+      return validatePostalCode(value)
+    },
+    [usesFourDigitPattern]
+  )
+
+  const onBlurValidator = postalCode.onBlurValidator ?? postalCodeValidator
+  const onBlurValidatorToUse =
+    onBlurValidator === false ? undefined : onBlurValidator
+
   const handlePostalCodeDefaults = useCallback(
-    (postalCode: StringFieldProps) => {
+    (
+      postalCode: NonNullable<FieldPostalCodeAndCityProps['postalCode']>
+    ) => {
       const props: StringFieldProps = {}
 
-      switch (countryCodeValue) {
-        case defaultCountry:
-        case 'DK':
-        case 'CH': {
-          props.mask = [/\d/, /\d/, /\d/, /\d/]
-          props.pattern = '^[0-9]{4}$'
-          break
-        }
-        default:
-          props.width = '8rem'
-          break
+      if (usesFourDigitPattern) {
+        props.mask = [/\d/, /\d/, /\d/, /\d/]
+        props.pattern = '^[0-9]{4}$'
+      } else {
+        props.width = '8rem'
       }
 
       return { ...props, ...postalCode }
     },
-    [countryCodeValue]
+    [usesFourDigitPattern]
   )
 
   const {
@@ -148,6 +185,8 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         autoComplete="postal-code"
         data-country-code={countryCode}
         {...postalCode}
+        exportValidators={{ postalCodeValidator }}
+        onBlurValidator={onBlurValidatorToUse}
       />
 
       <StringField

@@ -12,7 +12,7 @@ import {
   Outlet,
   useLocation,
   type RouteObject,
-} from 'react-router-dom'
+} from 'react-router'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'

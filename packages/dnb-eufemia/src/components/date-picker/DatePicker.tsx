@@ -776,7 +776,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   />
                 )}
                 <DatePickerFooter
-                  isRange={inline ? false : range}
+                  isRange={false}
                   onSubmit={onSubmitHandler}
                   onCancel={onCancelHandler}
                   onReset={onResetHandler}
@@ -872,7 +872,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       />
                     )}
                     <DatePickerFooter
-                      isRange={inline ? false : range}
+                      isRange={range}
                       onSubmit={onSubmitHandler}
                       onCancel={onCancelHandler}
                       onReset={onResetHandler}

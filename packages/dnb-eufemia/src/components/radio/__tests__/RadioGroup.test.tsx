@@ -242,6 +242,23 @@ describe('Radio group component', () => {
       const shell = document.querySelector('.dnb-radio-group__shell')
       expect(shell).not.toHaveAttribute('role')
     })
+
+    it('should not have aria-labelledby on inner shell element', () => {
+      render(
+        <Radio.Group label="Legend">
+          <Radio label="First" value="first" />
+          <Radio label="Second" value="second" />
+        </Radio.Group>
+      )
+
+      const shell = document.querySelector('.dnb-radio-group__shell')
+      expect(shell).not.toHaveAttribute('aria-labelledby')
+
+      // the group is still labelled via the fieldset + legend
+      const fieldset = document.querySelector('fieldset')
+      const legend = document.querySelector('legend')
+      expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+    })
   })
 })
 

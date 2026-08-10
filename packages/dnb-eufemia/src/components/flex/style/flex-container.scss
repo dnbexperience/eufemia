@@ -7,7 +7,10 @@
   &--direction {
     &-horizontal {
       flex-direction: row;
-      margin-right: calc(var(--horizontal-gap) * -1);
+
+      &.dnb-flex-container--has-size {
+        margin-right: calc(var(--horizontal-gap) * -1);
+      }
     }
 
     &-vertical {

@@ -16,6 +16,7 @@ import {
   createZodValidator,
   zodErrorsToFormErrors,
 } from '../../utils'
+import { hasAsyncValidatorBehavior } from '../../utils/validatorOptions'
 import type {
   GlobalErrorMessagesWithPaths,
   SubmitState,
@@ -937,8 +938,8 @@ export default function Provider<Data extends JsonObject>(
       const { enableAsyncMode, props } = fieldInternals
       if (
         enableAsyncMode ||
-        isAsync(props?.onChangeValidator) ||
-        isAsync(props?.onBlurValidator)
+        hasAsyncValidatorBehavior(props?.onChangeValidator) ||
+        hasAsyncValidatorBehavior(props?.onBlurValidator)
       ) {
         return true
       }

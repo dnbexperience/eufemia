@@ -307,21 +307,19 @@ function createDocsContext(source: DocsSource) {
     }
 
     // links from frontmatter
-    if (!properties || !events) {
-      try {
-        const mdText = await source.read(doc)
-        if (mdText !== null) {
-          const links = extractFrontmatterLinks(mdText)
-          if (links?.properties) {
-            properties = links.properties
-          }
-          if (links?.events) {
-            events = links.events
-          }
+    try {
+      const mdText = await source.read(doc)
+      if (mdText !== null) {
+        const links = extractFrontmatterLinks(mdText)
+        if (links?.properties) {
+          properties = links.properties
         }
-      } catch {
-        // ignore
+        if (links?.events) {
+          events = links.events
+        }
       }
+    } catch {
+      // ignore
     }
 
     if (!properties) {

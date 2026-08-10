@@ -59,6 +59,8 @@ export default {
     SectionEditContainer: {
       doneButton: 'Ferdig',
       cancelButton: 'Avbryt',
+      preventUncommittedChangesText:
+        'Du må fullføre redigeringen før du kan fortsette.',
       errorInSection: 'Du må rette feilene over.',
       confirmCancelText: 'Er du sikker på at du vil forkaste endringene?',
     },
@@ -248,6 +250,8 @@ export default {
       label: 'Postnr.',
       errorRequired: 'Du må fylle inn et postnummer.',
       errorPattern: 'Du må skrive inn et gyldig postnummer (fire siffer).',
+      errorInvalidCode:
+        'Du må skrive inn et gyldig postnummer. 0000 er ikke tillatt.',
     },
     City: {
       label: 'Sted',

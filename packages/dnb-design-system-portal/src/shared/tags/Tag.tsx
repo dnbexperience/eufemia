@@ -3,13 +3,12 @@
  *
  */
 
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import type { DynamicElement } from '@dnb/eufemia/src/shared/types'
 
 type Props = {
   as: DynamicElement
-  css?: CSSProperties
   className?: string
   children: ReactNode
 }

@@ -15,7 +15,7 @@ import {
   StaticRouterProvider,
   Outlet,
   useLocation,
-} from 'react-router-dom'
+} from 'react-router'
 import { Provider, Theme } from '@dnb/eufemia/src/shared'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 import { CacheProvider } from '@emotion/react'

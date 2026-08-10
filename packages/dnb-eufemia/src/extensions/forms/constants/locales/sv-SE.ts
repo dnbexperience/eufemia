@@ -59,6 +59,8 @@ export default {
     SectionEditContainer: {
       doneButton: 'Klar',
       cancelButton: 'Avbryt',
+      preventUncommittedChangesText:
+        'Du måste avsluta redigeringen innan du kan fortsätta.',
       errorInSection: 'Du måste rätta felen ovan.',
       confirmCancelText:
         'Är du säker på att du vill ångra dina ändringar?',
@@ -249,6 +251,8 @@ export default {
       label: 'Postnr.',
       errorRequired: 'Du måste fylla i ett postnummer.',
       errorPattern: 'Du måste ange ett giltigt postnummer (fyra siffror).',
+      errorInvalidCode:
+        'Du måste ange ett giltigt postnummer. 0000 är inte tillåtet.',
     },
     City: {
       label: 'Ort',

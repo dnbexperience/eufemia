@@ -1,8 +1,11 @@
 import { useCallback, useContext } from 'react'
 import SharedContext from '../../../../shared/Context'
 import { getCountryData } from '../../Field/SelectCountry'
-import useCountries from '../../Field/SelectCountry/useCountries'
-import type { CountryLang, CountryType } from '../../constants/countries'
+import type {
+  CountryLang,
+  CountryType,
+} from '../../../../shared/constants/countries'
+import useCountries from '../../../../shared/useCountries'
 
 export default function useCountry() {
   const { locale } = useContext(SharedContext)

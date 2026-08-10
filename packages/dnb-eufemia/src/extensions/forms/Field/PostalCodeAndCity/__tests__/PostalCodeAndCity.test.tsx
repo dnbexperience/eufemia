@@ -1,7 +1,8 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form, Iterate } from '../../..'
+import { postalCodeValidator } from '../validators'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
@@ -155,6 +156,173 @@ describe('Field.PostalCodeAndCity', () => {
     fireEvent.blur(city)
 
     expect(city).toHaveValue('æ - ø - å')
+  })
+
+  it('should only show pending indicator on postal code during async validator', async () => {
+    const onChangeValidator = vi.fn(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 50))
+      return undefined
+    })
+
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onChangeValidator,
+        }}
+      />
+    )
+
+    const postalCodeBlock = document.querySelector(
+      '.dnb-forms-field-postal-code-and-city__postal-code'
+    )
+    const postalCodeIndicator = postalCodeBlock.querySelector(
+      '.dnb-forms-submit-indicator'
+    )
+    const postalCodeInput = postalCodeBlock.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+
+    fireEvent.change(postalCodeInput, { target: { value: '1234' } })
+
+    await waitFor(() => {
+      expect(postalCodeIndicator).toHaveClass(
+        'dnb-forms-submit-indicator--state-pending'
+      )
+    })
+
+    expect(
+      document.querySelectorAll(
+        '.dnb-forms-submit-indicator--state-pending'
+      )
+    ).toHaveLength(1)
+  })
+
+  it('should show error message when postal code is 0000', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+    fireEvent.blur(code)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.PostalCode.errorInvalidCode
+      )
+    })
+    expect(code).toHaveValue('0000')
+
+    await userEvent.type(code, '{Backspace}1')
+    fireEvent.blur(code)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+    expect(code).toHaveValue('0001')
+  })
+
+  it('should accept 0000 for countries without the four-digit pattern', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        countryCode="SE"
+        postalCode={{
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+    fireEvent.blur(code)
+
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+    expect(code).toHaveValue('0000')
+  })
+
+  it('should let a provided onBlurValidator replace the built-in 0000 check', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onBlurValidator: () => undefined,
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+    fireEvent.blur(code)
+
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+    expect(code).toHaveValue('0000')
+  })
+
+  it('should disable the built-in 0000 check when onBlurValidator is false', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onBlurValidator: false,
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+    fireEvent.blur(code)
+
+    expect(document.querySelector('.dnb-form-status')).toBeNull()
+    expect(code).toHaveValue('0000')
+  })
+
+  it('should let consumers compose the exported validator with their own', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onBlurValidator: (value, { validators }) => {
+            const { postalCodeValidator } = validators
+
+            return [
+              postalCodeValidator,
+              (value) =>
+                value === '1111'
+                  ? new Error('Custom error message')
+                  : undefined,
+            ]
+          },
+          validateInitially: true,
+        }}
+      />
+    )
+
+    const [code] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, '0000')
+    fireEvent.blur(code)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.PostalCode.errorInvalidCode
+      )
+    })
+
+    await userEvent.type(code, '{Backspace>4}1111')
+    fireEvent.blur(code)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Custom error message'
+      )
+    })
   })
 
   it('should trim the value on blur', async () => {
@@ -421,5 +589,20 @@ describe('Field.PostalCodeAndCity', () => {
     expect(
       (Field.PostalCodeAndCity as ComponentMarkers)._supportsSpacingProps
     ).toBe(undefined)
+  })
+})
+
+describe('postalCodeValidator', () => {
+  it('should return an error for the placeholder code 0000', () => {
+    const result = postalCodeValidator('0000')
+
+    expect(result).toBeInstanceOf(Error)
+    expect(result?.message).toBe('PostalCode.errorInvalidCode')
+  })
+
+  it('should return undefined for any other value', () => {
+    expect(postalCodeValidator('0001')).toBeUndefined()
+    expect(postalCodeValidator('1234')).toBeUndefined()
+    expect(postalCodeValidator('')).toBeUndefined()
   })
 })

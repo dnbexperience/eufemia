@@ -227,7 +227,13 @@ function FlexContainer(props: FlexContainerAllProps) {
 
     const space =
       direction === 'horizontal'
-        ? { [start]: endSpacing, [end]: startSpacing }
+        ? {
+            [start]: endSpacing,
+            [end]:
+              isLast && !hasSizeProp
+                ? (getSpaceValue(end, child) ?? endSpacing)
+                : startSpacing,
+          }
         : { [start]: startSpacing, [end]: endSpacing }
 
     return renderWithSpacing(child, {

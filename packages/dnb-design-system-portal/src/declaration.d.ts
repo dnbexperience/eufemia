@@ -2,6 +2,9 @@ declare module '*.scss'
 
 type ImportMetaEnv = {
   readonly VITE_EUFEMIA_STACKBLITZ_VERSION?: string
+  readonly VITE_GITHUB_REPOSITORY?: string
+  readonly VITE_GITHUB_EDIT_REF?: string
+  readonly VITE_GITHUB_COMMIT_SHA?: string
 }
 
 type ImportMeta = {
@@ -20,7 +23,7 @@ declare module 'virtual:portal-pages' {
     lazy: () => Promise<{ Component: React.ComponentType }>
   }>
   export const allMdxNodes: Array<{
-    fields: { slug: string }
+    fields: { slug: string; sourcePath: string }
     frontmatter: Record<string, unknown>
   }>
 }

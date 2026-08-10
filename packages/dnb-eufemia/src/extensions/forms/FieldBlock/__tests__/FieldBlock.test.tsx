@@ -1161,11 +1161,10 @@ describe('FieldBlock', () => {
       })
 
       it('should summarize errors when returned in onChangeValidator', () => {
+        const firstError = 'Error message one'
+        const secondError = 'Error message two'
         const onChangeValidator: Validator<string> = vi.fn(() => {
-          return [
-            new Error('Error message one'),
-            new Error('Error message two'),
-          ]
+          return [new Error(firstError), new Error(secondError)]
         })
 
         render(
@@ -1178,17 +1177,14 @@ describe('FieldBlock', () => {
 
         expect(
           document.querySelector('.dnb-form-status').textContent
-        ).toBe(
-          nb.Field.errorSummary + 'Error message one' + 'Error message two'
-        )
+        ).toBe(nb.Field.errorSummary + firstError + secondError)
       })
 
       it('should summarize errors when returned in onBlurValidator', () => {
+        const firstError = 'Error message one'
+        const secondError = 'Error message two'
         const onBlurValidator: Validator<string> = vi.fn(() => {
-          return [
-            new Error('Error message one'),
-            new Error('Error message two'),
-          ]
+          return [new Error(firstError), new Error(secondError)]
         })
 
         render(
@@ -1201,17 +1197,14 @@ describe('FieldBlock', () => {
 
         expect(
           document.querySelector('.dnb-form-status').textContent
-        ).toBe(
-          nb.Field.errorSummary + 'Error message one' + 'Error message two'
-        )
+        ).toBe(nb.Field.errorSummary + firstError + secondError)
       })
 
       it('should summarize errors when returned in async onChangeValidator', async () => {
+        const firstError = 'Error message one'
+        const secondError = 'Error message two'
         const onChangeValidator: Validator<string> = vi.fn(async () => {
-          return [
-            new Error('Error message one'),
-            new Error('Error message two'),
-          ]
+          return [new Error(firstError), new Error(secondError)]
         })
 
         render(
@@ -1225,20 +1218,15 @@ describe('FieldBlock', () => {
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-form-status').textContent
-          ).toBe(
-            nb.Field.errorSummary +
-              'Error message one' +
-              'Error message two'
-          )
+          ).toBe(nb.Field.errorSummary + firstError + secondError)
         })
       })
 
       it('should summarize errors when returned in async onBlurValidator', async () => {
+        const firstError = 'Error message one'
+        const secondError = 'Error message two'
         const onBlurValidator: Validator<string> = vi.fn(async () => {
-          return [
-            new Error('Error message one'),
-            new Error('Error message two'),
-          ]
+          return [new Error(firstError), new Error(secondError)]
         })
 
         render(
@@ -1252,19 +1240,17 @@ describe('FieldBlock', () => {
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-form-status').textContent
-          ).toBe(
-            nb.Field.errorSummary +
-              'Error message one' +
-              'Error message two'
-          )
+          ).toBe(nb.Field.errorSummary + firstError + secondError)
         })
       })
 
       it('should update error message when onBlurValidator returns array with different errors', async () => {
-        const firstReturn = [new Error('first error')]
+        const firstError = 'first error'
+        const secondError = 'second error'
+        const firstReturn = [new Error(firstError)]
         const secondReturn = [
-          new Error('first error'),
-          new Error('second error'),
+          new Error(firstError),
+          new Error(secondError),
         ]
 
         let count = 0
@@ -1287,7 +1273,7 @@ describe('FieldBlock', () => {
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-form-status').textContent
-          ).toBe('first error')
+          ).toBe(firstError)
         })
 
         fireEvent.blur(input)
@@ -1298,7 +1284,7 @@ describe('FieldBlock', () => {
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-form-status').textContent
-          ).toBe(nb.Field.errorSummary + 'first error' + 'second error')
+          ).toBe(nb.Field.errorSummary + firstError + secondError)
         })
       })
     })

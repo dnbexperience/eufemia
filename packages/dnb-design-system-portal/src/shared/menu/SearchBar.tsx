@@ -3,7 +3,7 @@
  *
  */
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import type { KeyboardEvent, MouseEvent, SVGProps } from 'react'
 import { clsx } from 'clsx'
 import algoliasearch from 'algoliasearch/lite'
@@ -13,19 +13,57 @@ import { navigate } from 'portal-query'
 import Anchor from '../tags/Anchor'
 import {
   autocompleteStyle,
+  shortcutHintStyle,
   portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
 import { scrollToAnimation } from '../parts/layout-utils'
 import {
   applyPageFocus,
+  isMac,
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
 
+const searchInputId = 'portal-search'
+const subscribeToPlatform = () => () => undefined
+const getShortcutHint = (): string | null => (isMac() ? '⌘ K' : 'Ctrl K')
+const getServerShortcutHint = (): string | null => null
+
+// Rendered as a component so Autocomplete's injected trigger props don't reach the <kbd>.
+const ShortcutHint = ({ hint }: { hint: string }) => (
+  <kbd className={shortcutHintStyle} aria-hidden="true">
+    {hint}
+  </kbd>
+)
+
 export const SearchBarInput = () => {
   const searchIndex = useRef(null)
   const [status, setStatus] = useState(null)
+  const [hasValue, setHasValue] = useState(false)
+  const shortcutHint = useSyncExternalStore(
+    subscribeToPlatform,
+    getShortcutHint,
+    getServerShortcutHint
+  )
+
+  useEffect(() => {
+    const onKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (
+        (event.metaKey || event.ctrlKey) &&
+        (event.key === 'k' || event.key === 'K')
+      ) {
+        event.preventDefault()
+        document.getElementById(searchInputId)?.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [])
 
   const onTypeHandler = ({
     value,
@@ -36,6 +74,8 @@ export const SearchBarInput = () => {
     updateData,
     debounce,
   }) => {
+    setHasValue(Boolean(value))
+
     debounce(
       ({ value }) => {
         searchIndex.current
@@ -92,7 +132,7 @@ export const SearchBarInput = () => {
 
   return (
     <Autocomplete
-      id="portal-search"
+      id={searchInputId}
       className={clsx(autocompleteStyle, 'portal-search')}
       mode="async"
       showClearButton
@@ -105,12 +145,19 @@ export const SearchBarInput = () => {
       placeholder="Search ..."
       label="Search the Eufemia documentation"
       labelSrOnly
+      aria-keyshortcuts="Meta+K Control+K"
       status={status}
       portalClass={portalClassStyle}
       drawerClass={drawerClassStyle}
       onType={onTypeHandler}
       onChange={onChangeHandler}
       onFocus={onFocusHandler}
+      onClear={() => setHasValue(false)}
+      submitElement={
+        !hasValue && shortcutHint ? (
+          <ShortcutHint hint={shortcutHint} />
+        ) : undefined
+      }
       pageOffset={0} // drawer-list property
       optionsRender={({ Items, data }) => {
         return (

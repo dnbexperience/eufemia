@@ -124,7 +124,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   ] = useState(createPagination)
   const [orderDirection, setOrderDirection] = useState('asc')
   const [currentPage, setLocalPage] = useState(null)
-  const [cacheHash, forceRerender] = useState(null) // eslint-disable-line
+  const [, forceRerender] = useState(null)
 
   useEffect(() => {
     // Could also be set as "startupPage" in <Pagination startupPage={startupPage} ...>

@@ -28,7 +28,7 @@ export function getInstancePath(ajvError: ErrorObject): Path {
     case 'errorMessage': {
       // errorMessage structures (from ajv-errors) wrap the original error. Find instance path from original
       // to avoid issues like required-errors pointing at parent object.
-      if (ajvError.params.errors[0]) {
+      if (ajvError.params.errors?.[0]) {
         return getInstancePath(ajvError.params.errors[0])
       }
     }
@@ -44,7 +44,7 @@ export function getInstancePath(ajvError: ErrorObject): Path {
  * @returns The validation rule.
  */
 export function getValidationRule(ajvError: ErrorObject): string {
-  if (ajvError.keyword === 'errorMessage' && ajvError.params.errors[0]) {
+  if (ajvError.keyword === 'errorMessage' && ajvError.params.errors?.[0]) {
     // errorMessage structures (from ajv-errors) wrap the original error. Find keyword from original
     // to avoid issues like required-errors pointing at parent object.
     return getValidationRule(ajvError.params.errors[0])
@@ -94,7 +94,11 @@ export function getMessageValues(
  */
 export function ajvErrorToFormError(ajvError: ErrorObject): FormError {
   if (ajvError.keyword === 'errorMessage') {
-    return new Error(ajvError.message ?? 'Unknown error')
+    // The message is already the final custom message from ajv-errors, so no
+    // messageValues are resolved here (they live on the wrapped params.errors).
+    return new FormError(ajvError.message ?? 'Unknown error', {
+      ajvKeyword: ajvError.keyword,
+    })
   }
 
   return new FormError(

@@ -109,7 +109,7 @@ export const getFormattedNumber = (
     }
 
     const options = {
-      ...(numberFormat || {}),
+      ...numberFormat,
       returnAria: true as const,
     }
     const formatter =

@@ -20,6 +20,19 @@ vi.mock('ora', () => {
   }
 })
 
+// postcss-preset-env v11 is ESM-only; mock it with an ESM-shaped
+// default export so the config resolves the plugin via `mod.default`.
+vi.mock('postcss-preset-env', () => {
+  const plugin = () => ({
+    postcssPlugin: 'postcss-preset-env',
+  })
+  plugin.postcss = true
+  return {
+    __esModule: true,
+    default: plugin,
+  }
+})
+
 if (isCI) {
   vi.setConfig({ testTimeout: 50e3 })
 

@@ -56,6 +56,7 @@ import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
 import {
   createSharedState,
+  useSharedState,
   type SharedStateReturn,
 } from '../../shared/helpers/useSharedState'
 import type { ButtonProps } from '../Button'
@@ -409,6 +410,14 @@ function TabsComponent(ownProps: TabsProps) {
   const [hasScrollbar, setHasScrollbar] = useState(false)
   const [isFirst, setIsFirst] = useState<boolean | undefined>(undefined)
   const [isLast, setIsLast] = useState<boolean | undefined>(undefined)
+
+  // Reactively reflects whether an external <Tabs.Content> tabpanel is mounted.
+  // ContentWrapper registers/unregisters its presence in this shared state, so
+  // the selected tab links to it only while it actually exists.
+  const { data: tabPanelPresence } = useSharedState<{ count?: number }>(
+    `${_id}-tabpanel-presence`
+  )
+  const hasTabPanel = Boolean(tabPanelPresence?.count)
 
   // Track previous props for getDerivedStateFromProps equivalent
   const [prevDataSource, setPrevDataSource] = useState(
@@ -1098,6 +1107,11 @@ function TabsComponent(ownProps: TabsProps) {
     return content
   }
 
+  // Resolve the selected tab's content once per render, so the tabpanel and the
+  // aria-controls decision reuse the same result instead of evaluating
+  // (potentially function-based) content twice.
+  const selectedContent = getContent(selectedKeyRef.current)
+
   // Store render functions in refs for stable sub-component wrappers
   const renderWrapperRef =
     useRef<
@@ -1232,7 +1246,10 @@ function TabsComponent(ownProps: TabsProps) {
           (acc, [_idx, cur]) => {
             acc[cur.key] = {
               ...cur,
-              content: getContent(cur.key),
+              content:
+                cur.key == currentSelectedKey
+                  ? selectedContent
+                  : getContent(cur.key),
             }
             return acc
           },
@@ -1242,7 +1259,7 @@ function TabsComponent(ownProps: TabsProps) {
         cacheRef.current = {
           ...(cacheRef.current || {}),
           [currentSelectedKey]: {
-            content: getContent(currentSelectedKey),
+            content: selectedContent,
           },
         }
       }
@@ -1265,7 +1282,7 @@ function TabsComponent(ownProps: TabsProps) {
         }
       )
     } else {
-      content = getContent(currentSelectedKey)
+      content = selectedContent
     }
 
     if (!sharedStateRef.current && !content) {
@@ -1277,6 +1294,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     return (
       <ContentWrapper
         id={_id}
+        nested
         selectedKey={currentSelectedKey}
         contentStyle={propsRef.current.contentStyle}
         contentInnerSpace={propsRef.current.contentInnerSpace}
@@ -1305,7 +1323,8 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         const itemParams: Record<string, unknown> = { to, href }
         const isFocus = currentFocusKey == key
         const isSelected = currentSelectedKey == key
-        if (isSelected) {
+        // Only reference a tabpanel that actually exists.
+        if (isSelected && (Boolean(selectedContent) || hasTabPanel)) {
           itemParams['aria-controls'] = `${_id}-content`
         }
 

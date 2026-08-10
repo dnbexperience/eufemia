@@ -5,14 +5,14 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import type listOfCountries from '../../constants/countries'
+import type listOfCountries from '../../../../shared/constants/countries'
 import {
   prioritizedCountries,
   type CountryType,
   type CountryLang,
   type CountryISO,
-} from '../../constants/countries'
-import useCountries from './useCountries'
+} from '../../../../shared/constants/countries'
+import useCountries from '../../../../shared/useCountries'
 import { useFieldProps } from '../../hooks'
 import type { FieldPropsWithExtraValue } from '../../types'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'

@@ -1,7 +1,17 @@
 import { afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
-import { cleanup, render } from '@testing-library/react'
+import { cleanup, fireEvent, render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { formatSearchResultMarkdown } from '../SearchBarMarkdown'
+import { SearchBarInput } from '../SearchBar'
+
+vi.mock('algoliasearch/lite', () => ({
+  default: () => ({
+    initIndex: () => ({
+      search: vi.fn().mockResolvedValue({ hits: [] }),
+    }),
+  }),
+}))
 
 type CustomResizeTo = (opts: { width?: number; height?: number }) => void
 
@@ -117,5 +127,82 @@ describe('SearchBar', () => {
     expect(link).not.toBeNull()
     expect(code?.textContent).toBe('Card')
     expect(highlight?.textContent).toBe('Ca')
+  })
+})
+
+describe('SearchBarInput', () => {
+  it('renders the search input', () => {
+    render(<SearchBarInput />)
+
+    const input = document.querySelector('#portal-search')
+    expect(input).not.toBeNull()
+    expect(input?.tagName).toBe('INPUT')
+  })
+
+  it('exposes the keyboard shortcut on the search input', () => {
+    render(<SearchBarInput />)
+
+    const input = document.querySelector('#portal-search')
+    expect(input?.getAttribute('aria-keyshortcuts')).toBe(
+      'Meta+K Control+K'
+    )
+  })
+
+  it('focuses the search input when pressing command+k', () => {
+    render(<SearchBarInput />)
+
+    const input = document.querySelector('#portal-search')
+    expect(document.activeElement).not.toBe(input)
+
+    fireEvent.keyDown(document, { key: 'k', metaKey: true })
+
+    expect(document.activeElement).toBe(input)
+  })
+
+  it('focuses the search input when pressing ctrl+k', () => {
+    render(<SearchBarInput />)
+
+    const input = document.querySelector('#portal-search')
+    expect(document.activeElement).not.toBe(input)
+
+    fireEvent.keyDown(document, { key: 'k', ctrlKey: true })
+
+    expect(document.activeElement).toBe(input)
+  })
+
+  it('does not render a platform-specific hint on the server', () => {
+    const html = renderToString(<SearchBarInput />)
+
+    expect(html).not.toContain('<kbd')
+  })
+
+  it.each([
+    ['MacIntel', '⌘ K'],
+    ['Win32', 'Ctrl K'],
+  ])('shows the %s keyboard shortcut hint', (platform, shortcut) => {
+    const platformSpy = vi
+      .spyOn(navigator, 'platform', 'get')
+      .mockReturnValue(platform)
+
+    render(<SearchBarInput />)
+
+    const hint = document.querySelector('kbd')
+    expect(hint).not.toBeNull()
+    expect(hint?.textContent).toBe(shortcut)
+
+    platformSpy.mockRestore()
+  })
+
+  it('hides the keyboard shortcut hint when the input has a value', () => {
+    render(<SearchBarInput />)
+
+    expect(document.querySelector('kbd')).not.toBeNull()
+
+    const input = document.querySelector(
+      '#portal-search'
+    ) as HTMLInputElement
+    fireEvent.change(input, { target: { value: 'button' } })
+
+    expect(document.querySelector('kbd')).toBeNull()
   })
 })

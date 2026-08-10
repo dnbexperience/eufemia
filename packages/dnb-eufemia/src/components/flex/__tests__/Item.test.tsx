@@ -253,7 +253,7 @@ describe('Flex.Item', () => {
       )
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--small'],
-        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--zero'],
       ])
 
       rerender(

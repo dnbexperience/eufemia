@@ -14,7 +14,6 @@ export default function DoneEditButton() {
     useContext(FieldBoundaryContext) || {}
 
   const translation = useTranslation().SectionEditContainer
-
   const doneHandler = useCallback(() => {
     if (hasError) {
       setShowBoundaryErrors?.(true)

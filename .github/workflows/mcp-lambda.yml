@@ -8,12 +8,12 @@ name: MCP Lambda
 #
 # Triggers:
 # - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
-# - Any branch named `**/mcp-server` (e.g. `feat/mcp-server`).
+# - Any branch under the `mcp-server/` prefix (e.g. `mcp-server/new-tool`).
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # Requires the following GitHub secrets:
 # - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo + workflow push access
-# - GHE_DEPLOY_REPO: The GHE repo (e.g. `eufemia/eufemia-mcp`)
+# - GHE_MCP_DEPLOY_REPO: The GHE repo (e.g. `eufemia/eufemia-mcp`)
 #
 # See tools/mcp-lambda/README.md for manual deploy instructions.
 
@@ -21,7 +21,7 @@ on:
   push:
     branches:
       - release
-      - '**/mcp-server'
+      - 'mcp-server/**'
     tags:
       - 'v*'
       - 'v*.*.*'
@@ -50,6 +50,11 @@ jobs:
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Audit dependencies
+        # Re-audit the shipped (production) dep tree at deploy time to catch
+        # advisories disclosed after the PR gate ran. Mirrors release.yml.
+        run: yarn workspace @dnb/eufemia-mcp audit:ci
 
       - name: Typecheck
         run: cd tools/mcp-lambda && yarn typecheck
@@ -97,7 +102,7 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         env:
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
-          GHE_REPO: ${{ secrets.GHE_DEPLOY_REPO }}
+          GHE_REPO: ${{ secrets.GHE_MCP_DEPLOY_REPO }}
           SOURCE_REF: ${{ github.ref_name }}
           SOURCE_SHA: ${{ github.sha }}
         run: |

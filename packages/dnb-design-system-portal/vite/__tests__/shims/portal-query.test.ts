@@ -50,8 +50,8 @@ vi.mock('virtual:portal-pages', () => ({
   ],
 }))
 
-// Must mock react-router-dom before importing the portal query shim.
-vi.mock('react-router-dom', () => ({
+// Must mock react-router before importing the portal query shim.
+vi.mock('react-router', () => ({
   Link: vi.fn(({ to, children, ...rest }) => null),
   useNavigate: vi.fn(() => vi.fn()),
 }))

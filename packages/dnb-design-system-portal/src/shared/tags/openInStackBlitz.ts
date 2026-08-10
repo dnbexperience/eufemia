@@ -320,6 +320,7 @@ createRoot(document.getElementById('root')!).render(
           starterPackageJson.devDependencies['@types/react-dom'],
         '@vitejs/plugin-react':
           starterPackageJson.devDependencies['@vitejs/plugin-react'],
+        purgecss: starterPackageJson.devDependencies.purgecss,
         typescript: starterPackageJson.devDependencies.typescript,
         vite: starterPackageJson.devDependencies.vite,
       },
@@ -331,9 +332,10 @@ createRoot(document.getElementById('root')!).render(
   // Mirrors eufemia-starter/vite.config.ts
   const viteConfig = `import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { eufemiaCssOptimizer } from '@dnb/eufemia/style/vite-plugin.js'
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), eufemiaCssOptimizer()],
   optimizeDeps: {
     esbuildOptions: {
       loader: { '.js': 'jsx' },

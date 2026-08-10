@@ -1,4 +1,4 @@
-import { act } from 'react'
+import { act, useEffect, useLayoutEffect, useRef } from 'react'
 import type { RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { isCI } from 'repo-utils'
@@ -6,6 +6,34 @@ import { Form, Wizard } from '../../..'
 import { Button, Dialog } from '../../../../../components'
 import type { ConfirmParams } from '../SubmitConfirmation'
 import userEvent from '@testing-library/user-event'
+
+function SubmitInEffect({ onSettled }: { onSettled: () => void }) {
+  const { submit } = Form.useSubmit()
+  const submittedRef = useRef(false)
+
+  useEffect(() => {
+    if (!submittedRef.current) {
+      submittedRef.current = true
+      void submit().finally(onSettled)
+    }
+  }, [onSettled, submit])
+
+  return null
+}
+
+function SubmitInLayoutEffect({ onSettled }: { onSettled: () => void }) {
+  const { submit } = Form.useSubmit()
+  const submittedRef = useRef(false)
+
+  useLayoutEffect(() => {
+    if (!submittedRef.current) {
+      submittedRef.current = true
+      void submit().finally(onSettled)
+    }
+  }, [onSettled, submit])
+
+  return null
+}
 
 describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
   describe('with preventSubmitWhen', () => {
@@ -775,6 +803,41 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
 
     expect(document.body).toHaveTextContent('Step 2')
     expect(document.body).toHaveTextContent('rendered content')
+  })
+
+  describe('listener registration timing', () => {
+    it.each([
+      ['effect', SubmitInEffect],
+      ['layout effect', SubmitInLayoutEffect],
+    ])(
+      'should intercept submission from a child %s',
+      async (_effect, SubmitOnMount) => {
+        const onSubmit = vi.fn()
+        const onStateChange = vi.fn()
+        const onSettled = vi.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.SubmitConfirmation
+              preventSubmitWhen={() => true}
+              onStateChange={onStateChange}
+            >
+              <SubmitOnMount onSettled={onSettled} />
+            </Form.SubmitConfirmation>
+          </Form.Handler>
+        )
+
+        await waitFor(() => {
+          expect(onSettled).toHaveBeenCalledTimes(1)
+        })
+        expect(onStateChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            confirmationState: 'readyToBeSubmitted',
+          })
+        )
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      }
+    )
   })
 
   it('should not disable buttons when disabled is set to true', () => {

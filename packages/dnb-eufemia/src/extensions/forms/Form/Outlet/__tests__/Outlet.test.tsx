@@ -9,22 +9,90 @@ describe('Form.Outlet', () => {
     )
   })
 
-  it('should throw if no matching Form.Handler exists for formHandlerId', () => {
-    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
-
-    const renderFn = () => {
-      render(
-        <Form.Outlet formHandlerId="missing-handler-id">
-          <Field.String path="/name" />
-        </Form.Outlet>
-      )
-    }
-
-    expect(renderFn).toThrow(
-      'Form.Outlet needs a valid formHandlerId that points to a mounted Form.Handler'
+  it('should stay empty while no matching Form.Handler exists', () => {
+    render(
+      <Form.Outlet formHandlerId="missing-handler-id">
+        <Field.String path="/name" />
+      </Form.Outlet>
     )
 
-    log.mockRestore()
+    expect(document.querySelector('input.dnb-input__input')).toBeNull()
+  })
+
+  it('should connect when rendered before Form.Handler in the same tree', async () => {
+    const formId = 'outlet-before-handler'
+
+    render(
+      <>
+        <Form.Outlet formHandlerId={formId}>
+          <Field.String path="/name" />
+        </Form.Outlet>
+        <Form.Handler id={formId} data={{ name: 'Nora' }}>
+          {null}
+        </Form.Handler>
+      </>
+    )
+
+    await waitFor(() => {
+      expect(
+        (
+          document.querySelector(
+            'input.dnb-input__input'
+          ) as HTMLInputElement
+        )?.value
+      ).toBe('Nora')
+    })
+  })
+
+  it('should connect and submit when Form.Handler mounts later', async () => {
+    const formId = 'outlet-before-later-handler'
+    const onSubmit = vi.fn()
+
+    const renderTree = (showHandler: boolean) => (
+      <>
+        <Form.Outlet formHandlerId={formId}>
+          <Field.String path="/name" />
+          <Form.SubmitButton>Submit from outlet</Form.SubmitButton>
+        </Form.Outlet>
+        {showHandler && (
+          <Form.Handler
+            id={formId}
+            data={{ name: 'Nora' }}
+            onSubmit={onSubmit}
+          >
+            {null}
+          </Form.Handler>
+        )}
+      </>
+    )
+
+    const { rerender } = render(renderTree(false))
+
+    expect(document.querySelector('input.dnb-input__input')).toBeNull()
+
+    rerender(renderTree(true))
+
+    const input = await waitFor(() => {
+      const element = document.querySelector(
+        'input.dnb-input__input'
+      ) as HTMLInputElement
+
+      expect(element?.value).toBe('Nora')
+
+      return element
+    })
+
+    fireEvent.change(input, { target: { value: 'Ada' } })
+
+    const outletForm = input.closest('form')
+    fireEvent.submit(outletForm)
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        { name: 'Ada' },
+        expect.anything()
+      )
+    })
   })
 
   it('should connect nested fields to linked Form.Handler by formHandlerId', () => {

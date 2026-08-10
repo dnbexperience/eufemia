@@ -36,7 +36,7 @@ export function isChunkLoadError(reason: unknown): boolean {
   }
 
   const errorName =
-    typeof reason === 'object' && reason !== null && 'name' in reason
+    typeof reason === 'object' && 'name' in reason
       ? String((reason as { name?: unknown }).name ?? '')
       : ''
 
@@ -47,9 +47,7 @@ export function isChunkLoadError(reason: unknown): boolean {
   const message =
     typeof reason === 'string'
       ? reason
-      : typeof reason === 'object' &&
-          reason !== null &&
-          'message' in reason
+      : typeof reason === 'object' && 'message' in reason
         ? String((reason as { message?: unknown }).message ?? '')
         : ''
 

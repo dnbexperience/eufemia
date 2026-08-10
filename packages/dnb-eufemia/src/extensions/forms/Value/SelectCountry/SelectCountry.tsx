@@ -3,7 +3,7 @@ import { useTranslation, useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
 import useCountry from './useCountry'
-import type { CountryISO } from '../../constants/countries'
+import type { CountryISO } from '../../../../shared/constants/countries'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type ValueSelectCountryProps = ValueProps<CountryISO>

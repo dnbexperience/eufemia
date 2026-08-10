@@ -1331,7 +1331,7 @@ function addDocsFromExport(
     related: string[]
   }
 ) {
-  for (const [key, entry] of Object.entries(value || {})) {
+  for (const [key, entry] of Object.entries(value)) {
     const relMatch = /^\[([^\]]+)\]/.exec(key)
 
     if (relMatch && relMatch[1]) {
@@ -2186,10 +2186,10 @@ async function loadDefaultTranslations() {
     '@dnb/eufemia/src/extensions/forms/constants/locales/en-GB'
   )
   const nbNOCountries = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/nb-NO'
+    '@dnb/eufemia/src/shared/constants/locales/countries/nb-NO'
   )
   const enGBCountries = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/en-GB'
+    '@dnb/eufemia/src/shared/constants/locales/countries/en-GB'
   )
   const svSE = await loadModuleDefault(
     '@dnb/eufemia/src/shared/locales/sv-SE'
@@ -2204,10 +2204,10 @@ async function loadDefaultTranslations() {
     '@dnb/eufemia/src/extensions/forms/constants/locales/da-DK'
   )
   const svSECountries = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/sv-SE'
+    '@dnb/eufemia/src/shared/constants/locales/countries/sv-SE'
   )
   const daDKCountries = await loadModuleDefault(
-    '@dnb/eufemia/src/extensions/forms/constants/locales/countries/da-DK'
+    '@dnb/eufemia/src/shared/constants/locales/countries/da-DK'
   )
 
   const translations = mergeTranslationsLocal(
