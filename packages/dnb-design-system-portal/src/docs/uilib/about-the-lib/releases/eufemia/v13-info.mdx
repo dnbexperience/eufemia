@@ -63,6 +63,8 @@ Remove `Flex.withChildren` and `_supportsSpacingProps` from ordinary custom comp
 
 If a wrapper's children need their own Flex layout, render an explicit `Flex.Container` inside the wrapper instead of using `Flex.withChildren`.
 
+When using `divider="line"` or `divider="line-framed"`, the CSS engine paints the divider without rendering `<hr>` elements. This removes the corresponding separator roles from the accessibility tree. If a divider conveys semantic separation, render explicit `Hr` elements instead of relying on the `divider` property.
+
 The previous child-inspection engine remains temporarily available during migration:
 
 ```tsx

@@ -118,6 +118,10 @@ Components that support [spacing properties](/uilib/layout/space/) expose their 
 
 Ordinary custom components do not need a marker or wrapper to receive the container gap. Use `Flex.Item` when you need an explicit layout item, span sizing, or spacing props around a component that does not expose spacing on its own root.
 
+### Divider accessibility
+
+In CSS mode, `divider="line"` and `divider="line-framed"` are painted visual lines. Unlike the legacy engine, they do not render `<hr>` elements and therefore do not add separator roles to the accessibility tree. If the separation is meaningful rather than decorative, render explicit `Hr` elements instead of relying on the `divider` property.
+
 ## Backwards compatibility
 
 The existing React child inspection engine remains the default, so applications do not need to annotate every established layout:
