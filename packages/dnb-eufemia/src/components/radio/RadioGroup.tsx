@@ -101,9 +101,6 @@ const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   onChange: null,
 }
 
-const parseChecked = (state: string | boolean | null | undefined) =>
-  /true|on/.test(String(state))
-
 /**
  * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
  */
@@ -300,5 +297,4 @@ function RadioGroup(ownProps: RadioGroupProps) {
 
 withComponentMarkers(RadioGroup, { _supportsSpacingProps: true })
 
-export { parseChecked as RadioGroupParseChecked }
 export default RadioGroup
