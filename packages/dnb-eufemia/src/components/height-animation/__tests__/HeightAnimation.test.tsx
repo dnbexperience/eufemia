@@ -292,6 +292,101 @@ describe('HeightAnimation', () => {
     })
   })
 
+  describe('untilFound', () => {
+    it('should preserve a regular hidden attribute', () => {
+      const { rerender } = render(
+        <HeightAnimation hidden>content</HeightAnimation>
+      )
+
+      expect(getElement()).toHaveAttribute('hidden')
+
+      rerender(<HeightAnimation hidden={false}>content</HeightAnimation>)
+
+      expect(getElement()).not.toHaveAttribute('hidden')
+    })
+
+    it('should keep initially closed content findable', () => {
+      render(
+        <HeightAnimation open={false} untilFound>
+          <span className="content">content</span>
+        </HeightAnimation>
+      )
+
+      expect(document.querySelector('.content')).toBeInTheDocument()
+      expect(getElement()).toHaveAttribute('hidden', 'until-found')
+    })
+
+    it('should remove hidden before opening', () => {
+      const { rerender } = render(
+        <HeightAnimation open={false} untilFound>
+          content
+        </HeightAnimation>
+      )
+
+      rerender(
+        <HeightAnimation open untilFound>
+          content
+        </HeightAnimation>
+      )
+
+      expect(getElement()).not.toHaveAttribute('hidden')
+      expect(getElement()).toHaveClass('dnb-height-animation--animating')
+    })
+
+    it('should hide content only after the closing animation', () => {
+      const { rerender } = render(
+        <HeightAnimation untilFound>content</HeightAnimation>
+      )
+
+      mockHeight(100)
+      rerender(
+        <HeightAnimation open={false} untilFound>
+          content
+        </HeightAnimation>
+      )
+
+      expect(getElement()).not.toHaveAttribute('hidden')
+      expect(getElement()).toHaveClass('dnb-height-animation--animating')
+
+      simulateAnimationEnd()
+
+      expect(getElement()).toHaveAttribute('hidden', 'until-found')
+      expect(getElement()).not.toHaveStyle('visibility: hidden')
+    })
+
+    it('should reveal matched content without onBeforeMatch', () => {
+      render(
+        <HeightAnimation open={false} untilFound>
+          content
+        </HeightAnimation>
+      )
+
+      getElement().dispatchEvent(new Event('beforematch'))
+
+      expect(getElement()).not.toHaveAttribute('hidden')
+      expect(getElement()).not.toHaveClass('dnb-height-animation--hidden')
+      expect(getElement()).toHaveAttribute('aria-hidden', 'false')
+    })
+
+    it('should call onBeforeMatch when matched content is revealed', () => {
+      const onBeforeMatch = vi.fn()
+      render(
+        <HeightAnimation
+          open={false}
+          untilFound
+          onBeforeMatch={onBeforeMatch}
+        >
+          content
+        </HeightAnimation>
+      )
+
+      getElement().dispatchEvent(new Event('beforematch'))
+
+      expect(onBeforeMatch).toHaveBeenCalledTimes(1)
+      expect(getElement()).not.toHaveAttribute('hidden')
+    })
+  })
+
   it('should set custom style', () => {
     render(<HeightAnimation style={{ color: 'red' }} />)
 

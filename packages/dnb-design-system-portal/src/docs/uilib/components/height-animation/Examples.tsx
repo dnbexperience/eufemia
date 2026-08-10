@@ -13,6 +13,7 @@ import {
   Button,
   Anchor,
   P,
+  Space,
 } from '@dnb/eufemia/src'
 
 export function HeightAnimationDefault() {
@@ -173,6 +174,46 @@ export function HeightAnimationKeepInDOM() {
             transform: translateY(0);
           }
         `
+
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function HeightAnimationUntilFound() {
+  return (
+    <ComponentBox>
+      {() => {
+        const Example = () => {
+          const [openState, setOpenState] = useState(false)
+
+          return (
+            <>
+              <ToggleButton
+                checked={openState}
+                aria-expanded={openState}
+                aria-controls="until-found-content"
+                onChange={({ checked }) => setOpenState(checked)}
+              >
+                Open content
+              </ToggleButton>
+
+              <HeightAnimation
+                id="until-found-content"
+                open={openState}
+                untilFound
+                onBeforeMatch={() => setOpenState(true)}
+              >
+                <Space innerSpace>
+                  <Section variant="information" innerSpace>
+                    <P space={0}>Findable banking content</P>
+                  </Section>
+                </Space>
+              </HeightAnimation>
+            </>
+          )
+        }
 
         return <Example />
       }}

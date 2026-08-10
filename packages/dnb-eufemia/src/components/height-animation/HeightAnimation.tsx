@@ -1,5 +1,5 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { HTMLProps, RefObject } from 'react'
 import { clsx } from 'clsx'
 import type { UseHeightAnimationOptions } from './useHeightAnimation'
@@ -7,12 +7,23 @@ import { useHeightAnimation } from './useHeightAnimation'
 import Space from '../space/Space'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export type HeightAnimationProps = {
   /**
    * Set to `true` to ensure the nested children content will be kept in the DOM. Defaults to `false`.
    */
   keepInDOM?: boolean
+
+  /**
+   * Set to `true` to keep closed content available to the browser find-in-page feature with `hidden="until-found"`. This implies `keepInDOM`. Defaults to `false`.
+   */
+  untilFound?: boolean
+
+  /**
+   * Is called after matching content inside a closed animation is revealed by the browser using `untilFound`. Use it to synchronize external open state and controls.
+   */
+  onBeforeMatch?: (event: Event) => void
 
   /**
    * Set to `true` to omit the usage of "overflow: hidden;". Defaults to `false`.
@@ -51,6 +62,7 @@ function HeightAnimation({
   open = true,
   animate = true,
   keepInDOM = false,
+  untilFound = false,
   showOverflow = false,
   element,
   duration,
@@ -63,10 +75,34 @@ function HeightAnimation({
   onOpen = null,
   onAnimationStart = null,
   onAnimationEnd = null,
+  onBeforeMatch = null,
   ...rest
 }: HeightAnimationAllProps) {
   const elementRef = useRef<HTMLElement>(undefined)
   const targetRef = ref || elementRef
+  const [isRevealedByMatch, setRevealedByMatch] = useState(false)
+  const resolvedOpen = open || (untilFound && isRevealedByMatch)
+
+  const handleAnimationStart: UseHeightAnimationOptions['onAnimationStart'] =
+    (state) => {
+      if (untilFound && state === 'opening') {
+        targetRef.current?.removeAttribute('hidden')
+      }
+      onAnimationStart?.(state)
+    }
+  const handleAnimationEnd: UseHeightAnimationOptions['onAnimationEnd'] = (
+    state
+  ) => {
+    if (untilFound) {
+      if (state === 'closed') {
+        targetRef.current?.style.removeProperty('visibility')
+        targetRef.current?.setAttribute('hidden', 'until-found')
+      } else if (state === 'opened') {
+        targetRef.current?.removeAttribute('hidden')
+      }
+    }
+    onAnimationEnd?.(state)
+  }
 
   const {
     isInDOM,
@@ -75,15 +111,58 @@ function HeightAnimation({
     isAnimating,
     firstPaintStyle,
   } = useHeightAnimation(targetRef, {
-    open,
+    open: resolvedOpen,
     animate,
     children,
     compensateForGap,
     onInit,
     onOpen,
-    onAnimationStart,
-    onAnimationEnd,
+    onAnimationStart: handleAnimationStart,
+    onAnimationEnd: handleAnimationEnd,
   })
+
+  useLayoutEffect(() => {
+    const element = targetRef.current
+    if (!element) {
+      return
+    }
+
+    if (
+      untilFound &&
+      !resolvedOpen &&
+      element.classList.contains('dnb-height-animation--hidden')
+    ) {
+      element.setAttribute('hidden', 'until-found')
+    } else if (element.getAttribute('hidden') === 'until-found') {
+      element.removeAttribute('hidden')
+    }
+  }, [resolvedOpen, targetRef, untilFound])
+
+  useLayoutEffect(() => {
+    if (isRevealedByMatch && (open || !untilFound)) {
+      setRevealedByMatch(false)
+    }
+  }, [isRevealedByMatch, open, untilFound])
+
+  useLayoutEffect(() => {
+    const element = targetRef.current
+    if (!element || !untilFound) {
+      return undefined
+    }
+
+    const handleBeforeMatch = (event: Event) => {
+      element.removeAttribute('hidden')
+      element.classList.remove('dnb-height-animation--hidden')
+      element.setAttribute('aria-hidden', 'false')
+      setRevealedByMatch(true)
+      onBeforeMatch?.(event)
+    }
+    element.addEventListener('beforematch', handleBeforeMatch)
+
+    return () => {
+      element.removeEventListener('beforematch', handleBeforeMatch)
+    }
+  }, [onBeforeMatch, targetRef, untilFound])
 
   // Set CSS custom properties via the DOM instead of React's style
   // prop. React's SSR serializes custom properties without spaces
@@ -108,7 +187,9 @@ function HeightAnimation({
     }
   }, [duration, delay, targetRef, isInDOM])
 
-  if (!keepInDOM && !isInDOM && !isAnimating) {
+  const shouldKeepInDOM = keepInDOM || untilFound
+
+  if (!shouldKeepInDOM && !isInDOM && !isAnimating) {
     return null
   }
 
@@ -124,13 +205,13 @@ function HeightAnimation({
         isAnimating && 'dnb-height-animation--animating',
         !isVisible &&
           !isAnimating &&
-          !open &&
+          !resolvedOpen &&
           'dnb-height-animation--hidden',
         showOverflow && 'dnb-height-animation--show-overflow',
         className
       )}
       style={{ ...firstPaintStyle, ...rest?.style }}
-      aria-hidden={keepInDOM ? !open : undefined}
+      aria-hidden={shouldKeepInDOM ? !resolvedOpen : undefined}
       {...rest}
     >
       {compensateForGap ? (
