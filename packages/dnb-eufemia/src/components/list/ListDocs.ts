@@ -6,6 +6,12 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  striped: {
+    doc: 'When `true`, applies alternating row background colors to the list items.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'When `true`, applies skeleton font styling to all child items. Individual items can override this with their own `skeleton` prop.',
     type: 'boolean',

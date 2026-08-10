@@ -453,6 +453,50 @@ export const SeparatedLists = () => {
   )
 }
 
+export const StripedRows = () => {
+  return (
+    <ComponentBox data-visual-test="list-striped">
+      <List.Container striped>
+        <List.Item.Action title="Alice Andersen" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium" hasLabel>
+              A
+            </Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>Administrator</List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action title="Bob Berg" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium" hasLabel>
+              B
+            </Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>Editor</List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action title="Carol Christensen" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium" hasLabel>
+              C
+            </Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>Viewer</List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action title="David Dahl" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium" hasLabel>
+              D
+            </Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>Editor</List.Cell.End>
+        </List.Item.Action>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
 export const Accordion = () => {
   return (
     <ComponentBox

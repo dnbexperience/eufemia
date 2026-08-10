@@ -66,6 +66,26 @@ describe('List Container', () => {
     expect(element.classList).toContain('dnb-list--separated')
   })
 
+  it('adds striped modifier class when striped is true', () => {
+    render(<Container striped>Content</Container>)
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element.classList).toContain('dnb-list--striped')
+  })
+
+  it('does not add striped class when striped is false or omitted', () => {
+    const { rerender } = render(<Container>Content</Container>)
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element.classList).not.toContain('dnb-list--striped')
+
+    rerender(<Container striped={false}>Content</Container>)
+
+    expect(element.classList).not.toContain('dnb-list--striped')
+  })
+
   it('does not add separated class when separated is false or omitted', () => {
     render(<Container>Content</Container>)
 
@@ -286,7 +306,7 @@ describe('List Container', () => {
 
   it('does not forward component-specific props to the DOM', () => {
     render(
-      <Container variant="basic" separated skeleton disabled>
+      <Container variant="basic" separated striped skeleton disabled>
         <ItemContent>Item one</ItemContent>
       </Container>
     )
@@ -295,6 +315,7 @@ describe('List Container', () => {
 
     expect(element.getAttribute('variant')).toBeNull()
     expect(element.getAttribute('separated')).toBeNull()
+    expect(element.getAttribute('striped')).toBeNull()
     expect(element.getAttribute('skeleton')).toBeNull()
   })
 
