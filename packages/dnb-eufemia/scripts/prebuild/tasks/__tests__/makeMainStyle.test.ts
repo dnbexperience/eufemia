@@ -80,6 +80,14 @@ if (isCI) {
       expect(global.components[0]).toMatch(new RegExp('.dnb-button\\s?{'))
     })
 
+    it('keeps flag assets at the theme bundle depth (three levels up)', () => {
+      // ui-theme-components lives at build/style/themes/ui/, so its assets
+      // correctly resolve three levels up.
+      expect(global.components[0]).toMatch(
+        /url\(\s*["']?\.\.\/\.\.\/\.\.\/assets\/flags\/1x1\//
+      )
+    })
+
     it('has proper animation names after the cssnano transform', () => {
       expect(global.components[0]).not.toMatch(/animation:[a-z] /)
     })
@@ -104,6 +112,50 @@ if (isCI) {
       )
       expect(global.files[1]).toContain(
         '/style/themes/ui/ui-theme-components.min.css'
+      )
+    })
+  })
+
+  describe('makeMainStyle transforms the "dnb-ui-components" bundle', () => {
+    let base: string
+    let min: string
+
+    beforeAll(async () => {
+      const result = (await runFactory(
+        './src/style/dnb-ui-components.scss',
+        {
+          returnResult: true,
+        }
+      )) as string[]
+      base = result[0]
+      min = result[1]
+    })
+
+    it('has to have valid components css', () => {
+      const css = loadScss(null, { data: base })
+      // @ts-expect-error - strictFunctionTypes
+      expect(/^Error/.test(css)).toBe(false)
+    })
+
+    // Regression for #8951: the bundle lives at build/style/, so its assets
+    // must resolve one level up (../assets/…). The previous transform emitted a
+    // path two levels too high, which broke webpack/Next.js bundling.
+    it('references flag assets inside the package (../assets/…)', () => {
+      expect(base).toMatch(/url\(\s*["']?\.\.\/assets\/flags\/1x1\//)
+      expect(min).toMatch(/url\(\s*["']?\.\.\/assets\/flags\/1x1\//)
+    })
+
+    it('does not reference flag assets outside the package', () => {
+      expect(base).not.toMatch(/\.\.\/\.\.\/\.\.\/assets\/flags\//)
+      expect(min).not.toMatch(/\.\.\/\.\.\/\.\.\/assets\/flags\//)
+    })
+
+    it('references skeleton font assets inside the package', () => {
+      expect(base).toMatch(
+        /url\(\s*["']?\.\.\/assets\/fonts\/dnb\/skeleton\//
+      )
+      expect(base).not.toMatch(
+        /\.\.\/\.\.\/\.\.\/assets\/fonts\/dnb\/skeleton\//
       )
     })
   })

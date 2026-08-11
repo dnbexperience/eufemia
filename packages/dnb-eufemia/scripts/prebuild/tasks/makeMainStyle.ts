@@ -24,6 +24,7 @@ import { getFontBasePath } from '../../../src/plugins/postcss-font-url-rewrite/c
 import postcssConfig from '../config/postcssConfig'
 
 const ROOT_DIR = path.resolve(__dirname, '../../..')
+const SRC_DIR = path.resolve(ROOT_DIR, 'src')
 
 export default async function makeMainStyle() {
   // info: use this approach to process files because:
@@ -66,7 +67,6 @@ export const runFactory = async (
   const sassTransform = transformSass()
   const postcssTransform = transformPostcss(await postcssConfig({ sass }))
   const cssnanoTransform = transformCssnano({ reduceIdents: false })
-  const pathsTransform = transformPaths('../../assets/', '../assets/')
 
   const files = await globby(src, { cwd: ROOT_DIR })
 
@@ -79,6 +79,17 @@ export const runFactory = async (
     // Transform SCSS to CSS
     const cssContent = sassTransform(content, { path: absolutePath })
     const cssPath = absolutePath.replace(/\.scss$/, '.css')
+
+    // Sass keeps url() literals verbatim, so bundles inherit the source's
+    // four-level asset prefix ("../../../../assets/"); rewrite it to this file's
+    // own depth under build/. A fixed one-level strip only fit the three-deep
+    // theme bundles and pointed top-level bundles outside the package (#8951).
+    const outputDir = path.dirname(path.relative(SRC_DIR, cssPath))
+    const depth = outputDir === '.' ? 0 : outputDir.split(path.sep).length
+    const pathsTransform = transformPaths(
+      '../../../../assets/',
+      `${'../'.repeat(depth)}assets/`
+    )
 
     // Branch 1: base (postcss processed)
     const baseContent = await postcssTransform(cssContent, {
