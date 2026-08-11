@@ -99,6 +99,7 @@ jobs:
       # accompanied by a vulnerability report per release). The two files are
       # both attached to the GitHub Release (durable, tied to the version) and
       # uploaded as a workflow artifact — see the two steps that follow.
+      # What these files are and where to find them: docs/sbom.md.
       - name: Generate SBOM and vulnerability report
         id: sbom
         continue-on-error: true
