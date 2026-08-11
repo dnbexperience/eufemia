@@ -61,7 +61,7 @@ Flex now uses native CSS gap and renders React children unchanged. The following
 
 #### Custom components
 
-The `_supportsSpacingProps` marker is gone. A custom component becomes a flex item through its rendered root, so no marker is needed to participate in the layout. When the component should accept [spacing properties](/uilib/layout/space/), apply them to its root with `useSpacing` so an author can still adjust the spacing per instance.
+The `_supportsSpacingProps` marker is no longer needed. A custom component becomes a flex item through its rendered root, so nothing needs to opt it in to the layout. When the component should accept [spacing properties](/uilib/layout/space/), apply them to its root with `useSpacing` so an author can still adjust the spacing per instance.
 
 **Before (v11):**
 
@@ -102,7 +102,7 @@ For a component that already applied spacing to its root, deleting the marker is
 
 #### Wrapper components
 
-`Flex.withChildren` is removed. It never hoisted a wrapper's children into the outer container's flex line. When the HOC marked a wrapper, `Flex.Container` automatically injected a nested `Flex.Container` inside the wrapper's root — inheriting the outer container's props — and laid the wrapper's children out there. The rendered DOM was already outer container → wrapper root → inner container. To keep that layout in v13, render the inner `Flex.Container` yourself.
+`Flex.withChildren` is deprecated. It never hoisted a wrapper's children into the outer container's flex line. When the HOC marked a wrapper, `Flex.Container` automatically injected a nested `Flex.Container` inside the wrapper's root — inheriting the outer container's props — and laid the wrapper's children out there. The rendered DOM was already outer container → wrapper root → inner container. To keep that layout in v13, render the inner `Flex.Container` yourself.
 
 **Before (v11):**
 
