@@ -5,7 +5,7 @@
 
 import type { SVGProps } from 'react'
 
-export default function change_log(props: SVGProps<SVGSVGElement> = {}) {
+export default function changeLog(props: SVGProps<SVGSVGElement> = {}) {
   return (
     <svg
       width="24"

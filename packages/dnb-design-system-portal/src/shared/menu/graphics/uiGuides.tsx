@@ -5,7 +5,7 @@
 
 import type { SVGProps } from 'react'
 
-export default function ui_guides(props: SVGProps<SVGSVGElement> = {}) {
+export default function uiGuides(props: SVGProps<SVGSVGElement> = {}) {
   return (
     <svg
       width="24"
