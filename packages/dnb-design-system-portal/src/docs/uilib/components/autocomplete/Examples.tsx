@@ -743,8 +743,11 @@ export const AutocompleteWithListItemContent = () => (
             selectedValue: 'Accounts',
             searchContent: 'Accounts Bills Savings',
             content: (
-              <List.Item.Basic element="div" title="Accounts">
-                <List.Cell.End>Bills, Savings</List.Cell.End>
+              <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Accounts</List.Cell.Title>
+                <List.Cell.End element="span">
+                  Bills, Savings
+                </List.Cell.End>
               </List.Item.Basic>
             ),
           },
@@ -753,8 +756,9 @@ export const AutocompleteWithListItemContent = () => (
             selectedValue: 'Loans',
             searchContent: 'Loans Mortgage Car',
             content: (
-              <List.Item.Basic element="div" title="Loans">
-                <List.Cell.End>Mortgage, Car</List.Cell.End>
+              <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Loans</List.Cell.Title>
+                <List.Cell.End element="span">Mortgage, Car</List.Cell.End>
               </List.Item.Basic>
             ),
           },
@@ -763,8 +767,11 @@ export const AutocompleteWithListItemContent = () => (
             selectedValue: 'Cards',
             searchContent: 'Cards Visa Mastercard',
             content: (
-              <List.Item.Basic element="div" title="Cards">
-                <List.Cell.End>Visa, Mastercard</List.Cell.End>
+              <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Cards</List.Cell.Title>
+                <List.Cell.End element="span">
+                  Visa, Mastercard
+                </List.Cell.End>
               </List.Item.Basic>
             ),
           },

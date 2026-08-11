@@ -102,11 +102,14 @@ Set `_supportsSpacingProps = true` on your component to opt in, and forward the 
 
 ## Rendering a row outside a `List.Container`
 
-`List.Item.Basic` renders an `<li>` by default for correct list semantics. When you reuse the row layout inside markup that already provides the list item – for example a [Dropdown](/uilib/components/dropdown) or [Autocomplete](/uilib/components/autocomplete) option, which is already an `<li>` – set the `element` prop to avoid invalid nested `<li>` elements:
+`List.Item.Basic` renders an `<li>` by default for correct list semantics. When you reuse the row layout inside markup that already provides the list item, set the `element` prop to an element that is valid in the surrounding markup.
+
+A [Dropdown](/uilib/components/dropdown) or [Autocomplete](/uilib/components/autocomplete) option is already an `<li>` and wraps its content in `<span>` elements. Use `element="span"` on the row and its cells to avoid both a nested `<li>` and block elements inside those spans:
 
 ```jsx
-<List.Item.Basic element="div" title="Accounts">
-  <List.Cell.End>Bills, Savings</List.Cell.End>
+<List.Item.Basic element="span">
+  <List.Cell.Title element="span">Accounts</List.Cell.Title>
+  <List.Cell.End element="span">Bills, Savings</List.Cell.End>
 </List.Item.Basic>
 ```
 

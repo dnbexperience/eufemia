@@ -17,7 +17,7 @@ export type ItemContentProps = {
   disabled?: boolean
   skeleton?: SkeletonShow
   /**
-   * Define the HTML element used for the row. Defaults to `li` for correct list semantics. Set to e.g. `div` when the row is rendered inside markup that already provides the list item (for example a `Dropdown` option) to avoid invalid nested `li` elements.
+   * Define the HTML element used for the row. Defaults to `li` for correct list semantics. Use an element that is valid inside the surrounding markup when the row is rendered inside markup that already provides the list item. For example, use `span` for a `Dropdown` or `Autocomplete` option.
    * Default: `'li'`
    */
   element?: DynamicElement

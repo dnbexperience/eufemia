@@ -2124,8 +2124,9 @@ describe('Dropdown with List item content', () => {
       selectedKey: 'accounts',
       selectedValue: 'Accounts',
       content: (
-        <List.Item.Basic element="div" title="Accounts">
-          <List.Cell.End>Bills, Savings</List.Cell.End>
+        <List.Item.Basic element="span">
+          <List.Cell.Title element="span">Accounts</List.Cell.Title>
+          <List.Cell.End element="span">Bills, Savings</List.Cell.End>
         </List.Item.Basic>
       ),
     },
@@ -2133,23 +2134,30 @@ describe('Dropdown with List item content', () => {
       selectedKey: 'loans',
       selectedValue: 'Loans',
       content: (
-        <List.Item.Basic element="div" title="Loans">
-          <List.Cell.End>Mortgage, Car</List.Cell.End>
+        <List.Item.Basic element="span">
+          <List.Cell.Title element="span">Loans</List.Cell.Title>
+          <List.Cell.End element="span">Mortgage, Car</List.Cell.End>
         </List.Item.Basic>
       ),
     },
   ]
 
-  it('renders the List row with element="div" so the option has no nested li', () => {
+  it('renders the List row and cells as spans inside the option', () => {
     render(<Dropdown skipPortal noAnimation open data={listData} />)
 
     const option = document.querySelector('li.dnb-drawer-list__option')
 
-    // The option itself is the only li; the List row uses element="div"
     expect(option.querySelectorAll('li')).toHaveLength(0)
+    expect(option.querySelectorAll('div')).toHaveLength(0)
 
     const listItem = option.querySelector('.dnb-list__item')
-    expect(listItem.tagName).toBe('DIV')
+    expect(listItem.tagName).toBe('SPAN')
+    expect(listItem.querySelector('.dnb-list__item__title').tagName).toBe(
+      'SPAN'
+    )
+    expect(listItem.querySelector('.dnb-list__item__end').tagName).toBe(
+      'SPAN'
+    )
   })
 
   it('renders the List title and cell content inside the option', () => {

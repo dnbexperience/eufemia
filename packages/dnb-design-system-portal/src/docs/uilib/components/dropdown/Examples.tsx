@@ -650,11 +650,16 @@ export const DropdownWithListItemContent = () => {
             {
               selectedKey: 'accounts',
               selectedValue: 'Accounts',
-              // Use element="div" so the List row does not render its own
-              // <li> inside the Dropdown option, which already is an <li>
+              // The option is already an <li> and wraps its content in spans.
+              // Use spans for the List row and cells to keep the markup valid.
               content: (
-                <List.Item.Basic element="div" title="Accounts">
-                  <List.Cell.End>Bills, Savings</List.Cell.End>
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">
+                    Accounts
+                  </List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Bills, Savings
+                  </List.Cell.End>
                 </List.Item.Basic>
               ),
             },
@@ -662,8 +667,11 @@ export const DropdownWithListItemContent = () => {
               selectedKey: 'loans',
               selectedValue: 'Loans',
               content: (
-                <List.Item.Basic element="div" title="Loans">
-                  <List.Cell.End>Mortgage, Car</List.Cell.End>
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">Loans</List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Mortgage, Car
+                  </List.Cell.End>
                 </List.Item.Basic>
               ),
             },
@@ -671,8 +679,11 @@ export const DropdownWithListItemContent = () => {
               selectedKey: 'cards',
               selectedValue: 'Cards',
               content: (
-                <List.Item.Basic element="div" title="Cards">
-                  <List.Cell.End>Visa, Mastercard</List.Cell.End>
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">Cards</List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Visa, Mastercard
+                  </List.Cell.End>
                 </List.Item.Basic>
               ),
             },
