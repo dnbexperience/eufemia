@@ -3,18 +3,18 @@
  *
  */
 
-import about_the_lib from './graphics/about_the_lib'
-import getting_started from './graphics/getting_started'
+import aboutTheLib from './graphics/aboutTheLib'
+import gettingStarted from './graphics/gettingStarted'
 import usage from './graphics/usage'
 import typography from './graphics/typography'
-import helper_classes from './graphics/helper_classes'
+import helperClasses from './graphics/helperClasses'
 import components from './graphics/components'
 import extensions from './graphics/extensions'
 import development from './graphics/development'
 import info from './graphics/info'
 import contact from './graphics/contact'
 import email from './graphics/email'
-import change_log from './graphics/change_log'
+import changeLog from './graphics/changeLog'
 import story from './graphics/story'
 import accessibility from './graphics/accessibility'
 import colors from './graphics/colors'
@@ -24,7 +24,7 @@ import tools from './graphics/tools'
 import fonts from './graphics/fonts'
 import inspiration from './graphics/inspiration'
 import principles from './graphics/principles'
-import ui_guides from './graphics/ui_guides'
+import uiGuides from './graphics/uiGuides'
 import logos from './graphics/logos'
 import secondary from './graphics/secondary'
 import primary from './graphics/primary'
@@ -32,18 +32,18 @@ import elements from './graphics/elements'
 import OverviewIcon from './graphics/OverviewIcon'
 
 const SidebarGraphics = {
-  about_the_lib,
-  getting_started,
+  aboutTheLib,
+  gettingStarted,
   usage,
   typography,
-  helper_classes,
+  helperClasses,
   components,
   extensions,
   development,
   info,
   contact,
   email,
-  change_log,
+  changeLog,
   story,
   accessibility,
   colors,
@@ -53,7 +53,7 @@ const SidebarGraphics = {
   fonts,
   inspiration,
   principles,
-  ui_guides,
+  uiGuides,
   logos,
   secondary,
   primary,
