@@ -102,15 +102,15 @@ For a component that already applied spacing to its root, deleting the marker is
 
 #### Wrapper components
 
-`Flex.withChildren` is removed. In the legacy engine the HOC hoisted a wrapper's children into the parent container's spacing calculation, so items rendered inside the wrapper were spaced as if they were direct children of the outer `Flex.Container`. To lay out a wrapper's children in v13, render an explicit `Flex.Container` inside the wrapper.
+`Flex.withChildren` is removed. It never hoisted a wrapper's children into the outer container's flex line. When the HOC marked a wrapper, `Flex.Container` automatically injected a nested `Flex.Container` inside the wrapper's root — inheriting the outer container's props — and laid the wrapper's children out there. The rendered DOM was already outer container → wrapper root → inner container. To keep that layout in v13, render the inner `Flex.Container` yourself.
 
 **Before (v11):**
 
 ```tsx
 import { Flex } from '@dnb/eufemia'
 
-// The HOC marked the wrapper so Flex.Container applied the
-// between-item spacing to the wrapper's children.
+// The HOC marked the wrapper, so Flex.Container injected a nested
+// Flex.Container inside it to lay out the wrapper's children.
 const Wrapper = Flex.withChildren(({ children }) => <div>{children}</div>)
 
 render(
@@ -130,8 +130,8 @@ render(
 ```tsx
 import { Flex } from '@dnb/eufemia'
 
-// Render an explicit Flex.Container inside the wrapper so its
-// children get their own gap.
+// Render the inner Flex.Container yourself — this is the container
+// the HOC used to inject automatically.
 function Wrapper({ children }) {
   return (
     <div>
@@ -152,7 +152,7 @@ render(
 )
 ```
 
-Note the behavior difference: the wrapper's `<div>` is now a single flex item of the outer container, and the inner `Flex.Container` lays out its children as a nested group rather than merging them into the outer container's line. Set the inner container's own props (`direction`, `gap`, `divider`, …) to match the spacing you need. If a wrapper renders no DOM of its own — for example a Fragment, a context provider, or another transparent component — its children already become direct flex items of the outer container and need no inner `Flex.Container`.
+The DOM structure is unchanged from v11 — a wrapper root containing a nested `Flex.Container`. The only difference is that you now provide that inner container explicitly and set its own props (`direction`, `gap`, `divider`, …) instead of inheriting them from the outer container. If a wrapper renders no DOM of its own — for example a Fragment, a context provider, or another transparent component — its children already become direct flex items of the outer container and need no inner `Flex.Container`.
 
 When using `divider="line"` or `divider="line-framed"`, the CSS engine paints the divider without rendering `<hr>` elements. This removes the corresponding separator roles from the accessibility tree. If a divider conveys semantic separation, render explicit `Hr` elements instead of relying on the `divider` property.
 
