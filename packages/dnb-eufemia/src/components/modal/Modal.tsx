@@ -239,7 +239,10 @@ function ModalComponent(ownProps: ModalAllProps) {
         removeActiveState()
       }
 
-      if (currentPreventAutoFocus) {
+      // Only clear after a genuine open, so a modal that is rendered closed
+      // and only receives spurious close side effects (e.g. on parent
+      // re-renders) never auto-focuses its trigger and steals page focus.
+      if (isModalActive && currentPreventAutoFocus) {
         setPreventAutoFocus(false)
       }
     },
