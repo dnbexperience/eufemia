@@ -460,6 +460,12 @@
 
     list-style: none;
 
+    &.dnb-list--striped > .dnb-list__item:nth-of-type(odd) {
+      --list-item-background-color: var(
+        --token-color-background-neutral-subtle
+      );
+    }
+
     .dnb-list--inset-outline & .dnb-list__item {
       &::after {
         inset: 0;

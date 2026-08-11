@@ -49,6 +49,13 @@ describe.each(['ui', 'sbanken'])(`List for %s`, (themeName) => {
     })
   })
 
+  it('have to match striped list', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-striped"]',
+    })
+  })
+
   it('have to match accordion list', async () => {
     await makeScreenshot({
       style: { width: '30rem' },
