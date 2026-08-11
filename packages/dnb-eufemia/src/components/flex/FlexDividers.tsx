@@ -5,6 +5,28 @@ type FlexDividersProps = {
   containerRef: RefObject<HTMLElement | null>
 }
 
+type IsFlexLineBreakParams = {
+  isHorizontal: boolean
+  isRtl: boolean
+  rect: Pick<DOMRect, 'left' | 'right' | 'top'>
+  previousRect: Pick<DOMRect, 'left' | 'right' | 'top'>
+}
+
+export function isFlexLineBreak({
+  isHorizontal,
+  isRtl,
+  rect,
+  previousRect,
+}: IsFlexLineBreakParams) {
+  if (!isHorizontal) {
+    return rect.top <= previousRect.top
+  }
+
+  return isRtl
+    ? rect.right > previousRect.left + 0.5
+    : rect.left < previousRect.right - 0.5
+}
+
 export default function FlexDividers({ containerRef }: FlexDividersProps) {
   const frameRef = useRef<number | undefined>(undefined)
 
@@ -33,6 +55,7 @@ export default function FlexDividers({ containerRef }: FlexDividersProps) {
       const containerRect = container.getBoundingClientRect()
       const containerStyle = getComputedStyle(container)
       const isHorizontal = containerStyle.flexDirection.startsWith('row')
+      const isRtl = containerStyle.direction === 'rtl'
       const visibleChildren = Array.from(container.children).filter(
         (element) => {
           const style = getComputedStyle(element)
@@ -51,9 +74,12 @@ export default function FlexDividers({ containerRef }: FlexDividersProps) {
 
           const rect = element.getBoundingClientRect()
           const previousRect = previous.getBoundingClientRect()
-          const isWrapped = isHorizontal
-            ? Math.abs(rect.top - previousRect.top) > 0.5
-            : rect.top <= previousRect.top
+          const isWrapped = isFlexLineBreak({
+            isHorizontal,
+            isRtl,
+            rect,
+            previousRect,
+          })
           if (isWrapped) {
             return []
           }
@@ -72,7 +98,11 @@ export default function FlexDividers({ containerRef }: FlexDividersProps) {
           return [
             isHorizontal
               ? {
-                  position: `${rect.left - containerRect.left + offset}px ${rect.top - containerRect.top}px`,
+                  position: `${
+                    isRtl
+                      ? rect.right - containerRect.left - offset
+                      : rect.left - containerRect.left + offset
+                  }px ${rect.top - containerRect.top}px`,
                   size: `1px ${rect.height}px`,
                 }
               : {

@@ -368,6 +368,76 @@ const CssDividerParity = () => {
   )
 }
 
+const CssHorizontalDividerAlignment = () => {
+  const cases = [
+    { align: 'center', label: 'Center', expectedDividers: 2 },
+    { align: 'flex-end', label: 'End', expectedDividers: 2 },
+    { align: 'baseline', label: 'Baseline', expectedDividers: 2 },
+  ] as const
+
+  return (
+    <div
+      data-visual-test="flex-container-css-horizontal-divider-alignment"
+      style={{ display: 'grid', gap: '1rem' }}
+    >
+      {cases.map(({ align, label, expectedDividers }) => (
+        <Flex.Horizontal
+          key={align}
+          data-expected-dividers={expectedDividers}
+          layoutEngine="css"
+          divider="line"
+          align={align}
+          wrap={false}
+        >
+          <Flex.Item style={{ height: '4rem' }}>{label} tall</Flex.Item>
+          <Flex.Item>{label} short</Flex.Item>
+          <Flex.Item style={{ fontSize: '2rem' }}>Large text</Flex.Item>
+        </Flex.Horizontal>
+      ))}
+
+      <Flex.Horizontal
+        data-expected-dividers="2"
+        layoutEngine="css"
+        divider="line"
+        align="flex-start"
+        wrap={false}
+      >
+        <Flex.Item>Start</Flex.Item>
+        <Flex.Item alignSelf="center" style={{ height: '3rem' }}>
+          Self center
+        </Flex.Item>
+        <Flex.Item alignSelf="flex-end">Self end</Flex.Item>
+      </Flex.Horizontal>
+
+      <Flex.Horizontal
+        data-expected-dividers="2"
+        layoutEngine="css"
+        divider="line"
+        style={{ width: '10rem' }}
+      >
+        {[1, 2, 3, 4].map((item) => (
+          <Flex.Item key={item} style={{ flex: '0 0 4rem' }}>
+            Wrapped {item}
+          </Flex.Item>
+        ))}
+      </Flex.Horizontal>
+
+      <Flex.Horizontal
+        data-expected-dividers="2"
+        layoutEngine="css"
+        divider="line"
+        align="center"
+        wrap={false}
+        dir="rtl"
+      >
+        <Flex.Item style={{ height: '4rem' }}>RTL tall</Flex.Item>
+        <Flex.Item>RTL short</Flex.Item>
+        <Flex.Item>RTL last</Flex.Item>
+      </Flex.Horizontal>
+    </div>
+  )
+}
+
 const CssSpanGeometry = () => {
   return (
     <Flex.Horizontal
@@ -469,6 +539,7 @@ export const CssMigrationFixtures = () => {
       <CssAdditiveSpacingGeometry />
       <CssPairwiseSpacingContract />
       <CssDividerParity />
+      <CssHorizontalDividerAlignment />
       <CssSpanGeometry />
       <CssHiddenGapGeometry />
       <CssWrapperGeometry />

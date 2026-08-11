@@ -159,6 +159,47 @@ describe('Flex.Container', () => {
     })
   })
 
+  it('should preserve horizontal dividers with cross-axis alignment', async () => {
+    await makeScreenshot({
+      url: '/uilib/layout/flex/container/demos/',
+      selector:
+        '[data-visual-test="flex-container-css-horizontal-divider-alignment"]',
+      executeBeforeSimulate: () => {
+        const container = document.querySelector(
+          '[data-visual-test="flex-container-css-horizontal-divider-alignment"]'
+        ) as HTMLElement
+
+        if (!container) {
+          throw new Error('Expected a horizontal divider container')
+        }
+
+        const containers = Array.from(
+          container.querySelectorAll<HTMLElement>(
+            ':scope > [data-expected-dividers]'
+          )
+        )
+
+        containers.forEach((container) => {
+          const expectedDividers = Number(
+            container.dataset.expectedDividers
+          )
+          const dividerImages = container.style.getPropertyValue(
+            '--flex-divider-images'
+          )
+          const dividerCount = (
+            dividerImages.match(/linear-gradient\(/g) ?? []
+          ).length
+
+          if (dividerCount !== expectedDividers) {
+            throw new Error(
+              `Expected ${expectedDividers} horizontal dividers, found ${dividerCount}`
+            )
+          }
+        })
+      },
+    })
+  })
+
   it('should account for native gap in CSS span widths', async () => {
     await makeScreenshot({
       url: '/uilib/layout/flex/container/demos/',
