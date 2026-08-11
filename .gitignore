@@ -40,3 +40,7 @@ yarn-error.log*
 
 # IDE
 .idea
+
+# Generated supply-chain artifacts (SBOM + vulnerability report)
+packages/dnb-eufemia/sbom.cdx.json
+packages/dnb-eufemia/vulnerability-report.json

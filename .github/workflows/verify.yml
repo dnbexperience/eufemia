@@ -78,6 +78,64 @@ jobs:
           yarn workspace @dnb/eufemia audit:ci
           yarn workspace @dnb/eufemia-mcp audit:ci
 
+      - name: Verify SBOM + audit generation (release smoke test)
+        # release.yml generates a CycloneDX SBOM and a vulnerability report after
+        # every publish — but that workflow only runs on release branches, so PR
+        # CI never exercises it. Run the two external generators here so a broken
+        # plugin, a changed flag, or an altered `yarn npm audit --json` output
+        # shape is caught on the PR instead of mid-release. Keep the pinned
+        # generator version below in sync with release.yml. The release-only
+        # version stamp and GitHub-Release upload are not exercised here.
+        working-directory: packages/dnb-eufemia
+        env:
+          # Same hardening as release.yml: the generator runs third-party code
+          # fetched via `yarn dlx` and needs no credentials of its own.
+          NODE_AUTH_TOKEN: ''
+          GH_TOKEN: ''
+          ALGOLIA_API_KEY: ''
+        run: |
+          # Pinned version MUST match the one in release.yml.
+          yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@3.3.3 \
+            --output-format JSON --spec-version 1.6 \
+            --production --mc-type library --output-file sbom.cdx.json
+
+          # Assert the SBOM has the shape release consumers expect.
+          node -e '
+            const sbom = require("./sbom.cdx.json")
+            if (sbom.bomFormat !== "CycloneDX" || sbom.specVersion !== "1.6") {
+              throw new Error(
+                "unexpected SBOM format: " + sbom.bomFormat + " " + sbom.specVersion
+              )
+            }
+            if (!(sbom.metadata && sbom.metadata.component)) {
+              throw new Error("SBOM is missing metadata.component")
+            }
+            const count = (sbom.components || []).length
+            if (count === 0) throw new Error("SBOM lists no components")
+            console.log("SBOM OK: CycloneDX 1.6, " + count + " production components")
+          '
+
+          # Assert `yarn npm audit --json` still emits parseable per-line JSON
+          # (the NDJSON shape release.yml relies on). Non-gating: audit:ci above
+          # is the real gate, so a non-zero exit (advisories present) is fine
+          # here as long as every line parses.
+          audit_exit=0
+          audit_stream="$(yarn npm audit --environment production --recursive --json)" || audit_exit=$?
+          printf '%s' "$audit_stream" | node -e '
+            const fs = require("fs")
+            let records = 0
+            for (const line of fs.readFileSync(0, "utf8").split("\n")) {
+              const trimmed = line.trim()
+              if (!trimmed) continue
+              JSON.parse(trimmed) // throws if the NDJSON assumption breaks
+              records++
+            }
+            console.log("audit --json parsed: " + records + " record(s), exit " + process.argv[1])
+          ' "$audit_exit"
+
+          # Generated file is gitignored; remove it so the tree stays clean.
+          rm -f sbom.cdx.json
+
   lint:
     name: Run lint
     needs: setup

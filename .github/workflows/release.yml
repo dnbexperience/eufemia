@@ -89,3 +89,169 @@ jobs:
           github.ref == 'refs/heads/next' ||
           endsWith(github.ref, '.x'))
         run: yarn workspace @dnb/eufemia publish:ci
+
+      # Produce the supply-chain compliance artifacts for the published library:
+      # a CycloneDX SBOM of its production (shipped) dependencies, plus a
+      # vulnerability report. Runs after publish, and continue-on-error keeps a
+      # post-publish SBOM hiccup from marking an already-successful release as
+      # failed — the "Audit dependencies" step above is the real release gate.
+      # Required by DNB (SECARC "Requirements for Application Security": an SBOM
+      # accompanied by a vulnerability report per release). The two files are
+      # both attached to the GitHub Release (durable, tied to the version) and
+      # uploaded as a workflow artifact — see the two steps that follow.
+      - name: Generate SBOM and vulnerability report
+        id: sbom
+        continue-on-error: true
+        if: github.repository == 'dnbexperience/eufemia' &&
+          (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha' ||
+          github.ref == 'refs/heads/next' ||
+          endsWith(github.ref, '.x'))
+        working-directory: packages/dnb-eufemia
+        env:
+          # This step runs third-party code fetched at release time (yarn dlx)
+          # and needs no credentials of its own. Keep every token that can write
+          # to something this workflow publishes out of its environment.
+          NODE_AUTH_TOKEN: ''
+          GH_TOKEN: ''
+          ALGOLIA_API_KEY: ''
+        run: |
+          # SBOM of the published library's production (shipped) dependencies.
+          # Generated from the source workspace: the CycloneDX Yarn plugin needs
+          # a Yarn project, and the published build/ package is a plain package.
+          # The direct runtime "dependencies" are the same either way (publish
+          # preparation only strips dev-time fields), so this is a build-time
+          # SBOM: transitive versions are the ones this repo's lockfile and root
+          # "resolutions" produce — what we actually build, test and ship.
+          # Generator pinned for reproducible releases (bump deliberately — yarn
+          # dlx isn't covered by Dependabot). --mc-type library: it's a library.
+          yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@3.3.3 \
+            --output-format JSON --spec-version 1.6 \
+            --production --mc-type library --output-file sbom.cdx.json
+
+          # CycloneDX stamps the main component with the workspace manifest
+          # version, which is a fixed 0.0.0-development placeholder. Overwrite it
+          # with the version semantic-release actually published (written to
+          # build/package.json) so the SBOM identifies the released component.
+          node -e '
+            const fs = require("fs")
+            const released = require("./build/package.json").version
+            const file = "sbom.cdx.json"
+            const sbom = JSON.parse(fs.readFileSync(file, "utf8"))
+            const component = sbom.metadata && sbom.metadata.component
+            if (!component) throw new Error("SBOM is missing metadata.component")
+            const placeholder = component.version
+            component.version = released
+            if (typeof component.purl === "string") {
+              component.purl = component.purl.split(placeholder).join(released)
+            }
+            fs.writeFileSync(file, JSON.stringify(sbom, null, 2) + "\n")
+            console.log("SBOM main component version: " + released)
+            if (released === "0.0.0-development") {
+              console.warn("WARNING: no real version was published; SBOM version left as placeholder")
+            }
+          '
+
+          # Accompanying vulnerability report over the same recursive production
+          # scope as the SBOM. Non-fatal: the "Audit dependencies" step above is
+          # the actual release gate. Yarn's `npm audit --json` emits an NDJSON
+          # stream (one advisory per line), so normalise it into a single JSON
+          # document like the SBOM. The audit exit status is captured so an
+          # audit that could not run is never recorded as a clean result.
+          audit_exit=0
+          audit_stream="$(yarn npm audit --environment production --recursive --json)" || audit_exit=$?
+          printf '%s' "$audit_stream" | node -e '
+            const fs = require("fs")
+            const exitCode = Number(process.argv[1])
+            const raw = fs.readFileSync(0, "utf8")
+            const advisories = []
+            for (const line of raw.split("\n")) {
+              const trimmed = line.trim()
+              if (!trimmed) continue
+              try {
+                advisories.push(JSON.parse(trimmed))
+              } catch {
+                // Ignore any non-JSON noise Yarn may interleave.
+              }
+            }
+            // Identify the report the way the SBOM identifies itself, so the
+            // file stays traceable once downloaded away from its release.
+            const manifest = require("./build/package.json")
+            const meta = {
+              component: manifest.name,
+              version: manifest.version,
+              generatedAt: new Date().toISOString(),
+              scope: "production dependencies, including transitive",
+              tool: "yarn npm audit",
+            }
+            let report
+            if (exitCode !== 0 && advisories.length === 0) {
+              // Non-zero exit and nothing parseable -> the audit could not run
+              // (e.g. a registry or network failure). Record the failure
+              // instead of a misleading clean result.
+              report = {
+                ...meta,
+                error: "audit could not be completed",
+                exitCode,
+              }
+            } else {
+              report = {
+                ...meta,
+                summary: advisories.length
+                  ? advisories.length + " advisory record(s) reported by yarn"
+                    + " npm audit. These include deprecation notices as well as"
+                    + " security vulnerabilities; check the severity and details"
+                    + " of each record."
+                  : "No known vulnerabilities in production dependencies.",
+                advisories,
+              }
+            }
+            fs.writeFileSync(
+              "vulnerability-report.json",
+              JSON.stringify(report, null, 2) + "\n"
+            )
+            console.log(report.error ? report.error : report.summary)
+          ' "$audit_exit"
+
+          # Expose the version semantic-release actually published so the next
+          # step can attach these files to the matching GitHub Release (tagged
+          # "v<version>"). A placeholder/empty value means no real release
+          # happened, and that step is skipped.
+          released="$(node -p "require('./build/package.json').version")"
+          echo "released=$released" >> "$GITHUB_OUTPUT"
+
+      - name: Upload SBOM and vulnerability report
+        continue-on-error: true
+        if: github.repository == 'dnbexperience/eufemia' &&
+          (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha' ||
+          github.ref == 'refs/heads/next' ||
+          endsWith(github.ref, '.x'))
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: sbom-and-vulnerability-report
+          path: |
+            packages/dnb-eufemia/sbom.cdx.json
+            packages/dnb-eufemia/vulnerability-report.json
+          retention-days: 90
+
+      # Durability: attach the same two files to the GitHub Release that
+      # semantic-release just created (tag "v<version>"), so they live with the
+      # release permanently instead of expiring with the 90-day workflow
+      # artifact above. --clobber keeps re-runs idempotent. Skipped when no real
+      # version was published, and non-fatal like the steps above.
+      - name: Attach SBOM and vulnerability report to the GitHub Release
+        continue-on-error: true
+        # The version output is only written once the step above has generated
+        # both files, which already implies its repository and branch checks.
+        if: steps.sbom.outputs.released != '' &&
+          steps.sbom.outputs.released != '0.0.0-development'
+        working-directory: packages/dnb-eufemia
+        env:
+          RELEASED_VERSION: ${{ steps.sbom.outputs.released }}
+        run: |
+          gh release upload "v$RELEASED_VERSION" \
+            sbom.cdx.json vulnerability-report.json \
+            --clobber --repo "$GITHUB_REPOSITORY"
