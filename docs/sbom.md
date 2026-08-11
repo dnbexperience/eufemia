@@ -1,14 +1,15 @@
 # Software Bill of Materials (SBOM)
 
-Every release of `@dnb/eufemia` ships with a **Software Bill of
-Materials (SBOM)** and an accompanying **vulnerability report**. This
-page explains what they are, where to find them, and what they are for.
+Every release of `@dnb/eufemia` is accompanied by a **Software Bill of
+Materials (SBOM)** and a **vulnerability report**, attached to the GitHub
+Release. This page explains what they are, where to find them, and what
+they are for.
 
 ## What an SBOM is
 
 An SBOM is a machine-readable inventory of every third-party component
 that goes into the published library — its direct **and** transitive
-production dependencies, each pinned to an exact version. Think of it as
+production dependencies, each at its exact version. Think of it as
 the ingredients list for a given `@dnb/eufemia` release.
 
 Eufemia's SBOM is generated in the [CycloneDX](https://cyclonedx.org/)
@@ -16,9 +17,9 @@ Eufemia's SBOM is generated in the [CycloneDX](https://cyclonedx.org/)
 inventory tools (for example [Dependency-Track][dt], Grype or Trivy) can
 read directly.
 
-The **vulnerability report** is a companion file that lists any known
-advisories against those same production dependencies at the time of the
-release.
+The **vulnerability report** is a companion file listing any known
+advisories against those same production dependencies at release time —
+security vulnerabilities as well as any deprecation notices.
 
 [dt]: https://dependencytrack.org/
 
@@ -37,8 +38,8 @@ The GitHub Release is the durable, canonical copy. To fetch it for a
 specific version:
 
 ```bash
-# replace with the version you want, e.g. v11.9.0
-gh release download v11.9.0 --repo dnbexperience/eufemia \
+# available on releases from this feature onwards; use the tag you need
+gh release download vX.Y.Z --repo dnbexperience/eufemia \
   --pattern 'sbom.cdx.json' --pattern 'vulnerability-report.json'
 ```
 
