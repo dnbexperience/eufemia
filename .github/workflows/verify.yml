@@ -53,6 +53,18 @@ jobs:
 
     timeout-minutes: 10
 
+    # This job runs untrusted third-party code (the CycloneDX generator via
+    # `yarn dlx` in the SBOM smoke test below) and needs none of the workflow's
+    # credentials. Neutralise every secret the workflow-level `env:` injects so
+    # none can reach it. Keep this list in sync with that `env:` block.
+    env:
+      GH_EMAIL: ''
+      GH_NAME: ''
+      GH_TOKEN: ''
+      NPM_TOKEN: ''
+      FIGMA_TOKEN: ''
+      FIGMA_ICONS_FILE: ''
+
     steps:
       - name: Git checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -87,12 +99,9 @@ jobs:
         # generator version below in sync with release.yml. The release-only
         # version stamp and GitHub-Release upload are not exercised here.
         working-directory: packages/dnb-eufemia
-        env:
-          # Same hardening as release.yml: the generator runs third-party code
-          # fetched via `yarn dlx` and needs no credentials of its own.
-          NODE_AUTH_TOKEN: ''
-          GH_TOKEN: ''
-          ALGOLIA_API_KEY: ''
+        # The generator runs third-party code fetched via `yarn dlx` and needs no
+        # credentials of its own; the job-level `env:` above already neutralises
+        # every secret, so none can reach it.
         run: |
           # Pinned version MUST match the one in release.yml.
           yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@3.3.3 \
