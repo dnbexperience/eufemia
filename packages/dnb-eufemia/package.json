@@ -118,7 +118,7 @@
     "date-fns": "4.1.0",
     "intl-messageformat": "11.2.3",
     "postcss-selector-parser": "7.1.0",
-    "zod": "4.1.8"
+    "zod": "4.4.3"
   },
   "peerDependencies": {
     "@types/react": "^19",
