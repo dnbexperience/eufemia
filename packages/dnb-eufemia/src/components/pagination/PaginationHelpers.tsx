@@ -15,10 +15,12 @@ export type PaginationIndicatorElement =
 
 export type PaginationIndicatorProps = {
   indicatorElement?: PaginationIndicatorElement
+  isLoadingText?: string
 }
 
 export const PaginationIndicator = ({
   indicatorElement = 'div',
+  isLoadingText,
   ...props
 }: PaginationIndicatorProps) => {
   const context = useContext(Context)
@@ -30,7 +32,8 @@ export const PaginationIndicator = ({
       <ElementChild className="dnb-pagination__indicator">
         <div className="dnb-pagination__indicator__inner">
           <ProgressIndicator />
-          {context.getTranslation(props).Pagination.isLoadingText}
+          {isLoadingText ??
+            context.getTranslation(props).Pagination.isLoadingText}
         </div>
       </ElementChild>
     </Element>
