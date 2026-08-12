@@ -59,6 +59,7 @@ describe('TabBar fullscreen control', () => {
     const button = container.querySelector('button.fullscreen')
     expect(button).toBeTruthy()
     expect(button?.tagName).toBe('BUTTON')
+    expect(button?.getAttribute('type')).toBe('button')
     expect(container.querySelector('a.fullscreen')).toBeNull()
     expect(button?.getAttribute('aria-label')).toBe('Fullscreen')
   })
@@ -74,6 +75,7 @@ describe('TabBar fullscreen control', () => {
     expect(navigate).toHaveBeenCalledWith(
       '/uilib/components/button/demos/?fullscreen'
     )
+    expect(navigate).toHaveBeenCalledTimes(1)
     expect(
       container
         .querySelector('button.fullscreen')
@@ -94,5 +96,6 @@ describe('TabBar fullscreen control', () => {
     expect(navigate).toHaveBeenCalledWith(
       '/uilib/components/button/demos/'
     )
+    expect(navigate).toHaveBeenCalledTimes(1)
   })
 })
