@@ -55,7 +55,7 @@ jobs:
 
           OUTPUT="$(yarn workspace dnb-design-system-portal wrangler pages deploy ./public \
             --project-name eufemia \
-            --branch "${{ github.head_ref || github.ref_name }}" \
+            --branch "$BRANCH" \
             --commit-dirty=true)"
 
           echo "$OUTPUT"
@@ -68,6 +68,9 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Passed via env (not inlined into the script) so an untrusted PR
+          # branch name cannot inject shell commands into the run step.
+          BRANCH: ${{ github.head_ref || github.ref_name }}
 
       - name: Post or update preview comment
         if: success() && github.event.pull_request
