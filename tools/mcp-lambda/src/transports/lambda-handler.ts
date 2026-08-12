@@ -3,8 +3,39 @@ import type {
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
 import { timingSafeEqual } from 'node:crypto'
-import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
-import server from '../server.js'
+import {
+  createMcpHandler,
+  isLegacyRequest,
+  WebStandardStreamableHTTPServerTransport,
+} from '@modelcontextprotocol/server'
+import { createServer } from '../server.js'
+
+const modernMcpHandler = createMcpHandler(createServer, {
+  legacy: 'reject',
+})
+
+async function handleLegacyRequest(request: Request): Promise<Response> {
+  const server = await createServer()
+  const transport = new WebStandardStreamableHTTPServerTransport({
+    sessionIdGenerator: undefined,
+    enableJsonResponse: true,
+  })
+
+  try {
+    await server.connect(transport)
+    return await transport.handleRequest(request)
+  } finally {
+    await transport.close()
+  }
+}
+
+async function handleMcpRequest(request: Request): Promise<Response> {
+  if (await isLegacyRequest(request)) {
+    return handleLegacyRequest(request)
+  }
+
+  return modernMcpHandler.fetch(request)
+}
 
 function toWebRequest(event: APIGatewayProxyEventV2): Request {
   const headers = new Headers()
@@ -98,24 +129,11 @@ export async function handler(
     }
   }
 
-  const transport = new WebStandardStreamableHTTPServerTransport({
-    sessionIdGenerator: undefined,
-    enableJsonResponse: true,
-  })
-
-  // The MCP SDK McpServer supports sequential connect/close cycles on
-  // the same instance. Each Lambda invocation creates a fresh transport,
-  // connects, handles one request, and closes in `finally`. On warm
-  // starts the same `server` singleton is reused — this is safe because
-  // `close()` resets the transport binding before the next invocation.
-  await server.connect(transport)
-
   try {
     const request = toWebRequest(event)
-    const response = await transport.handleRequest(request)
+    const response = await handleMcpRequest(request)
 
-    // Await here so the response body is fully read before `finally` closes
-    // the transport, rather than racing the close against `response.text()`.
+    // API Gateway requires a buffered response body.
     return await toApiGatewayResult(response)
   } catch (error) {
     // Lambda surfaces logs to CloudWatch through the console; this is the
@@ -132,7 +150,5 @@ export async function handler(
         id: null,
       }),
     }
-  } finally {
-    await transport.close()
   }
 }

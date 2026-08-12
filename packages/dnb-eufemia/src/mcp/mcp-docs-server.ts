@@ -9,8 +9,10 @@
 
 import { z } from 'zod'
 
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types'
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import {
+  McpServer,
+  type CallToolResult,
+} from '@modelcontextprotocol/server'
 
 import { type DocsSource, normalizeDocsPath } from './docs-source'
 

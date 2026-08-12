@@ -130,6 +130,66 @@ describe('mcp-http-server', () => {
     expect(json.transports).toEqual(['streamable-http', 'sse'])
   })
 
+  it('serves the 2026 protocol from the same /mcp URL', async () => {
+    const response = await postJson(
+      `${server.url}/mcp`,
+      {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'server/discover',
+        params: {
+          _meta: {
+            'io.modelcontextprotocol/protocolVersion': '2026-07-28',
+            'io.modelcontextprotocol/clientInfo': {
+              name: 'modern-test',
+              version: '1.0.0',
+            },
+            'io.modelcontextprotocol/clientCapabilities': {},
+          },
+        },
+      },
+      {
+        'mcp-protocol-version': '2026-07-28',
+        'mcp-method': 'server/discover',
+      }
+    )
+
+    expect(response.status).toBe(200)
+    expect((await response.json()).result.supportedVersions).toContain(
+      '2026-07-28'
+    )
+
+    const toolsResponse = await postJson(
+      `${server.url}/mcp`,
+      {
+        jsonrpc: '2.0',
+        id: 2,
+        method: 'tools/list',
+        params: {
+          _meta: {
+            'io.modelcontextprotocol/protocolVersion': '2026-07-28',
+            'io.modelcontextprotocol/clientInfo': {
+              name: 'modern-test',
+              version: '1.0.0',
+            },
+            'io.modelcontextprotocol/clientCapabilities': {},
+          },
+        },
+      },
+      {
+        'mcp-protocol-version': '2026-07-28',
+        'mcp-method': 'tools/list',
+      }
+    )
+
+    expect(toolsResponse.status).toBe(200)
+    expect(
+      (await toolsResponse.json()).result.tools.map(
+        (tool: { name: string }) => tool.name
+      )
+    ).toContain('docs_entry')
+  })
+
   describe('streamable HTTP transport', () => {
     it('rejects non-initialize requests without a session id', async () => {
       const res = await postJson(`${server.url}/mcp`, {
@@ -148,7 +208,7 @@ describe('mcp-http-server', () => {
         id: 1,
         method: 'initialize',
         params: {
-          protocolVersion: '2024-11-05',
+          protocolVersion: '2025-11-25',
           capabilities: {},
           clientInfo: { name: 'eufemia-test', version: '0.0.0' },
         },

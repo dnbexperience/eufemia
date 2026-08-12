@@ -29,10 +29,18 @@ import process from 'node:process'
 
 import express from 'express'
 
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js'
-import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js'
-import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js'
+import {
+  createMcpHandler,
+  isInitializeRequest,
+  isLegacyRequest,
+  McpServer,
+} from '@modelcontextprotocol/server'
+import {
+  NodeStreamableHTTPServerTransport,
+  toNodeHandler,
+  toWebRequest,
+} from '@modelcontextprotocol/node'
+import { SSEServerTransport } from '@modelcontextprotocol/server-legacy'
 
 import {
   createServerInfo,
@@ -68,6 +76,7 @@ type DocsToolsOptions = { docsRoot?: string }
 function createLogger(silent: boolean) {
   return (...args: unknown[]) => {
     if (!silent) {
+      // eslint-disable-next-line no-console -- server-side diagnostics
       console.error(...args)
     }
   }
@@ -201,11 +210,22 @@ export async function startHttpServer(
     })
   })
 
-  // ---------- Streamable HTTP (modern transport) ----------
-  // Stateful: we keep one transport per `mcp-session-id`.
+  const modernMcpHandler = createMcpHandler(
+    () =>
+      buildMcpServer({
+        docsRoot: options.docsRoot,
+        serverInfo,
+      }).server,
+    { legacy: 'reject' }
+  )
+  const handleModern = toNodeHandler(modernMcpHandler)
+
+  // ---------- Streamable HTTP ----------
+  // Preserve stateful 2025 sessions while serving stateless 2026 requests
+  // through the modern handler on the same URL.
   const streamableTransports = new Map<
     string,
-    StreamableHTTPServerTransport
+    NodeStreamableHTTPServerTransport
   >()
 
   const handleStreamable = async (
@@ -241,7 +261,7 @@ export async function startHttpServer(
           return
         }
 
-        transport = new StreamableHTTPServerTransport({
+        transport = new NodeStreamableHTTPServerTransport({
           sessionIdGenerator: () => randomUUID(),
         })
 
@@ -278,9 +298,20 @@ export async function startHttpServer(
     }
   }
 
-  app.post('/mcp', authMiddleware(authToken), handleStreamable)
-  app.get('/mcp', authMiddleware(authToken), handleStreamable)
-  app.delete('/mcp', authMiddleware(authToken), handleStreamable)
+  const handleMcp = async (req: ExpressRequest, res: ExpressResponse) => {
+    const request = await toWebRequest(req, req.body)
+
+    if (await isLegacyRequest(request, req.body)) {
+      await handleStreamable(req, res)
+      return
+    }
+
+    await handleModern(req, res, req.body)
+  }
+
+  app.post('/mcp', authMiddleware(authToken), handleMcp)
+  app.get('/mcp', authMiddleware(authToken), handleMcp)
+  app.delete('/mcp', authMiddleware(authToken), handleMcp)
 
   // ---------- Legacy SSE transport ----------
   // GET /sse opens an SSE stream that delivers an `endpoint` event with the
@@ -385,7 +416,9 @@ export async function startHttpServer(
         })
         streamableTransports.clear()
         sseTransports.clear()
-        httpServer.close((err) => (err ? reject(err) : resolve()))
+        void modernMcpHandler.close().finally(() => {
+          httpServer.close((err) => (err ? reject(err) : resolve()))
+        })
       }),
   }
 }
@@ -405,6 +438,7 @@ const shouldRun = (() => {
 
 if (shouldRun) {
   startHttpServer().catch((e) => {
+    // eslint-disable-next-line no-console -- fatal CLI diagnostics
     console.error('[eufemia] fatal:', e)
     process.exit(1)
   })

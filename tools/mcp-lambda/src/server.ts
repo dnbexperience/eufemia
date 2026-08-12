@@ -12,6 +12,6 @@ const moduleDir = path.dirname(fileURLToPath(import.meta.url))
 const docsRoot = await resolveDocsRoot(moduleDir)
 await validateDocsRoot(docsRoot)
 
-const { server } = await createDocsServer({ docsRoot })
-
-export default server
+export async function createServer() {
+  return (await createDocsServer({ docsRoot })).server
+}
