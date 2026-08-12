@@ -2391,7 +2391,7 @@ __metadata:
     tsx: "npm:4.22.4"
     typescript: "npm:5.9.3"
     vitest: "npm:4.1.10"
-    zod: "npm:4.1.8"
+    zod: "npm:4.4.3"
   languageName: unknown
   linkType: soft
 
@@ -2508,7 +2508,7 @@ __metadata:
     vd-tool: "npm:4.0.2"
     vite: "npm:8.0.16"
     vitest: "npm:4.1.10"
-    zod: "npm:4.1.8"
+    zod: "npm:4.4.3"
   peerDependencies:
     "@types/react": ^19
     "@types/react-dom": ^19
@@ -19301,17 +19301,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:4.1.8":
-  version: 4.1.8
-  resolution: "zod@npm:4.1.8"
-  checksum: 10/1a317c26b39d145d7045be6775d30497545fd1c5a13ce0f3f373ec06676ff7b2e0715f522525c183aae01f18d05d4789ee19533c3e9203087a5adf6753e588e5
-  languageName: node
-  linkType: hard
-
-"zod@npm:^3.25 || ^4.0, zod@npm:^3.25.0 || ^4.0.0":
-  version: 4.3.5
-  resolution: "zod@npm:4.3.5"
-  checksum: 10/3148bd52e56ab7c1641ec397e6be6eddbb1d8f5db71e95baab9bb9622a0ea49d8a385885fc1c22b90fa6d8c5234e051f4ef5d469cfe3fb90198d5a91402fd89c
+"zod@npm:4.4.3, zod@npm:^3.25 || ^4.0, zod@npm:^3.25.0 || ^4.0.0":
+  version: 4.4.3
+  resolution: "zod@npm:4.4.3"
+  checksum: 10/804b9a42aa8f35f2b3c5a8dff906291cb749115f83ee2afe3576d70b5b5c53c965365c7f4967690647a9c54af9838ff232a85ff9577a0a36c44b68bc6cdefe36
   languageName: node
   linkType: hard
 
