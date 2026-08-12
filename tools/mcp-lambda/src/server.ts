@@ -1,7 +1,10 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { createDocsServer, validateDocsRoot } from './docs-server.js'
+import {
+  createDocsServer,
+  validateDocsRoot,
+} from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 import { resolveDocsRoot } from './resolve-docs-root.js'
 
 const moduleDir = path.dirname(fileURLToPath(import.meta.url))

@@ -175,6 +175,7 @@ export async function createNodeDocsSource(
   ])
 
   const root = path.resolve(rootAbs)
+  const realRoot = await fs.realpath(root).catch(() => root)
 
   function resolveInside(relPath: string) {
     const cleaned = normalizeDocsPath(relPath)
@@ -184,6 +185,24 @@ export async function createNodeDocsSource(
       throw new Error(`Path escapes docs root: ${relPath}`)
     }
     return abs
+  }
+
+  async function realInside(abs: string): Promise<string | null> {
+    try {
+      const real = await fs.realpath(abs)
+      const relative = path.relative(realRoot, real)
+
+      if (
+        relative !== '' &&
+        (relative.startsWith('..') || path.isAbsolute(relative))
+      ) {
+        return null
+      }
+
+      return real
+    } catch {
+      return null
+    }
   }
 
   async function listMarkdown(): Promise<string[]> {
@@ -216,8 +235,20 @@ export async function createNodeDocsSource(
           continue
         }
 
+        if (entry.isSymbolicLink()) {
+          const real = await realInside(path.join(root, relPath))
+          if (!real) {
+            continue
+          }
+
+          const stats = await statSafe(real)
+          if (stats?.isDirectory()) {
+            continue
+          }
+        }
+
         if (
-          entry.isFile() &&
+          (entry.isFile() || entry.isSymbolicLink()) &&
           (entry.name.toLowerCase().endsWith('.md') ||
             entry.name.toLowerCase().endsWith('.mdx'))
         ) {
@@ -249,11 +280,16 @@ export async function createNodeDocsSource(
       } catch {
         return null
       }
-      const st = await statSafe(abs)
+      const real = await realInside(abs)
+      if (!real) {
+        return null
+      }
+
+      const st = await statSafe(real)
       if (!st?.isFile()) {
         return null
       }
-      const buf = await fs.readFile(abs)
+      const buf = await fs.readFile(real)
       return buf.toString('utf8')
     },
 
@@ -264,7 +300,12 @@ export async function createNodeDocsSource(
       } catch {
         return { kind: 'missing' }
       }
-      const st = await statSafe(abs)
+      const real = await realInside(abs)
+      if (!real) {
+        return { kind: 'missing' }
+      }
+
+      const st = await statSafe(real)
       if (!st) {
         return { kind: 'missing' }
       }
@@ -285,7 +326,12 @@ export async function createNodeDocsSource(
         return []
       }
       try {
-        const items = await fs.readdir(abs)
+        const real = await realInside(abs)
+        if (!real) {
+          return []
+        }
+
+        const items = await fs.readdir(real)
         return items.slice(0, max)
       } catch {
         return []

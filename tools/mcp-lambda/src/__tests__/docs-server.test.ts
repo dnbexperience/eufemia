@@ -4,7 +4,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js'
-import { createDocsServer } from '../docs-server.js'
+import { createDocsServer } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 
 async function createTempDocs(
   files: Record<string, string>

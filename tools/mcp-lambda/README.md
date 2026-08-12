@@ -8,16 +8,16 @@ MCP server that exposes the Eufemia documentation to AI tools, deployed as an AW
 POST /mcp/web → API Gateway HTTP API → Lambda (Node.js 22) → MCP SDK → Docs on disk
 ```
 
-The server is stateless — each request creates a fresh MCP transport, processes the JSON-RPC call, and tears down. No session state is kept between invocations.
+The server is stateless — each request creates a fresh MCP transport,
+processes the JSON-RPC call, and tears down. No session state is kept between
+invocations. Tool definitions and docs access are shared with the local MCP
+implementation in `packages/dnb-eufemia/src/mcp/`.
 
 For local development, a stdio transport is also available.
 
-> **Relationship to the Worker MCP:** An earlier MCP implementation lives as a
-> Cloudflare Worker under [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/)
-> (deployed by [`mcp-worker.yml`](../../.github/workflows/mcp-worker.yml)). This
-> Lambda-based server is the standalone successor; the two currently coexist.
-> The `slug` and `fromIndex` fields in `component_find` results are retained
-> only for parity with the Worker MCP and will be removed once it is retired.
+> **Relationship to the Worker MCP:** The Cloudflare Worker under
+> [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/) and
+> this Lambda adapter use the same tool definitions and docs-source core.
 
 ## Available tools
 
@@ -160,10 +160,8 @@ aws lambda put-function-concurrency \
 ```
 tools/mcp-lambda/
 ├── src/
-│   ├── server.ts              # Server singleton (resolves docs root)
 │   ├── resolve-docs-root.ts   # Docs-root resolution (env + candidates)
-│   ├── docs-server.ts         # Tool handlers, search, component resolution
-│   ├── docs-source.ts         # Filesystem abstraction (DocsSource interface)
+│   ├── server.ts              # Adapter for the shared MCP server factory
 │   ├── transports/
 │   │   ├── stdio.ts           # Local dev entry point
 │   │   └── lambda-handler.ts  # AWS Lambda entry point

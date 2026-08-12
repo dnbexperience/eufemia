@@ -4,7 +4,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { createDocsServer } from '../docs-server.js'
+import { createDocsServer } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 
 async function createTempDocs(): Promise<string> {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'mcp-handler-test-'))

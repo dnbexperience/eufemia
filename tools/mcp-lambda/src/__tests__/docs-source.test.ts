@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { normalizeDocsPath } from '../docs-source.js'
+import { normalizeDocsPath } from '@dnb/eufemia/src/mcp/docs-source.js'
 
 describe('normalizeDocsPath', () => {
   it('strips leading slashes', () => {
