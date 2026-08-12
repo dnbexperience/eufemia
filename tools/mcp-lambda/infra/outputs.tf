@@ -3,7 +3,7 @@ output "api_endpoint" {
 }
 
 output "custom_domain" {
-  value = "https://${var.domain_name}/mcp"
+  value = "https://${var.domain_name}/mcp/web"
 }
 
 output "function_name" {

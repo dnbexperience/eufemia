@@ -5,7 +5,7 @@ MCP server that exposes the Eufemia documentation to AI tools, deployed as an AW
 ## Architecture
 
 ```
-POST /mcp → API Gateway HTTP API → Lambda (Node.js 22) → MCP SDK → Docs on disk
+POST /mcp/web → API Gateway HTTP API → Lambda (Node.js 22) → MCP SDK → Docs on disk
 ```
 
 The server is stateless — each request creates a fresh MCP transport, processes the JSON-RPC call, and tears down. No session state is kept between invocations.
@@ -128,7 +128,7 @@ Managed via Terraform in `infra/`:
 | Resource    | Configuration                                      |
 | ----------- | -------------------------------------------------- |
 | Lambda      | Node.js 22, 512 MB, 30s timeout, 30 max concurrent |
-| API Gateway | HTTP API, `POST /mcp` + `GET /healthz`             |
+| API Gateway | HTTP API, `POST /mcp/web` + `GET /healthz`         |
 | Throttling  | 200 burst / 400 requests per second                |
 | CloudWatch  | 30-day log retention                               |
 | Region      | eu-north-1                                         |
