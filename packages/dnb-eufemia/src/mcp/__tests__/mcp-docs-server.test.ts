@@ -9,6 +9,7 @@ import {
   DocsSearchInput,
   MAX_SEARCH_QUERY_LENGTH,
 } from '../mcp-docs-server'
+import type { DocsSource } from '../docs-source'
 
 type DocsFixture = {
   docsRoot: string
@@ -248,6 +249,70 @@ describe('docs_read', () => {
     }
     expect(payload.error).toBe('EISDIR')
     expect(payload.suggestions).toContain('/uilib/components/button.md')
+  })
+})
+
+describe('docs content cache', () => {
+  function createCountingSource(fileCount: number) {
+    const files = new Map(
+      Array.from({ length: fileCount }, (_, index) => [
+        `doc-${index}.md`,
+        `# Document ${index}`,
+      ])
+    )
+    const reads = new Map<string, number>()
+
+    const source: DocsSource = {
+      label: 'counting-source',
+      async listMarkdown() {
+        return Array.from(files.keys())
+      },
+      async read(relPath) {
+        const normalizedPath = relPath.replace(/^\/+/, '')
+        reads.set(normalizedPath, (reads.get(normalizedPath) ?? 0) + 1)
+        return files.get(normalizedPath) ?? null
+      },
+      async stat(relPath) {
+        return {
+          kind: files.has(relPath.replace(/^\/+/, ''))
+            ? 'file'
+            : 'missing',
+        }
+      },
+      async listDir() {
+        return []
+      },
+    }
+
+    return { source, reads }
+  }
+
+  it('reuses file content across repeated reads', async () => {
+    const { source, reads } = createCountingSource(1)
+    const tools = createDocsTools({ source })
+
+    await tools.docsRead({ path: '/doc-0.md' })
+    await tools.docsRead({ path: '/doc-0.md' })
+
+    expect(reads.get('doc-0.md')).toBe(1)
+  })
+
+  it('bounds the cache and evicts the least recently used content', async () => {
+    const { source, reads } = createCountingSource(257)
+    const tools = createDocsTools({ source })
+
+    for (let index = 0; index < 256; index++) {
+      await tools.docsRead({ path: `/doc-${index}.md` })
+    }
+
+    await tools.docsRead({ path: '/doc-0.md' })
+    await tools.docsRead({ path: '/doc-256.md' })
+    await tools.docsRead({ path: '/doc-0.md' })
+    await tools.docsRead({ path: '/doc-1.md' })
+
+    expect(reads.get('doc-0.md')).toBe(1)
+    expect(reads.get('doc-1.md')).toBe(2)
+    expect(reads.get('doc-256.md')).toBe(1)
   })
 })
 

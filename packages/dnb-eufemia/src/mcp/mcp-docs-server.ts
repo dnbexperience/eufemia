@@ -143,19 +143,28 @@ export async function validateDocsRoot(
 }
 
 function extractFrontmatterLinks(markdown: string) {
-  const m = String(markdown ?? '').match(/^---\s*\n([\s\S]*?)\n---\s*\n/)
-  if (!m) {
+  const match = String(markdown).match(/^---\s*\n([\s\S]*?)\n---\s*\n/)
+  if (!match || typeof match[1] !== 'string') {
     return null
   }
-  const fm = m[1]
-  const lines = fm.split('\n').map((l) => l.trim())
+
+  const lines = match[1].split('\n')
   const readLine = (key: string) => {
-    const line = lines.find((l) => l.startsWith(`${key}:`))
-    if (!line) {
-      return null
+    for (const line of lines) {
+      if (/^\s/.test(line)) {
+        continue
+      }
+
+      const colon = line.indexOf(':')
+      if (colon === -1 || line.slice(0, colon).trim() !== key) {
+        continue
+      }
+
+      const value = line.slice(colon + 1).trim()
+      return value.replace(/^['"]|['"]$/g, '') || null
     }
-    const val = line.split(':').slice(1).join(':').trim()
-    return val.replace(/^['"]|['"]$/g, '')
+
+    return null
   }
 
   return {
@@ -175,7 +184,7 @@ function conventionalDocPath(name: string): string[] {
   // Handle dot notation like "Field.Address" or "Value.Address"
   if (name.includes('.')) {
     const parts = name.split('.')
-    const prefix = parts[0] // e.g., "Field" or "Value"
+    const prefix = parts[0] ?? 'forms' // e.g., "Field" or "Value"
     const componentName = parts.slice(1).join('.') // e.g., "Address" or "Address.Postal"
 
     // Capitalize first letter of component name for proper casing
@@ -242,6 +251,29 @@ function createDocsContext(source: DocsSource) {
   let cachedMdFiles: string[] | null = null
   let cachedMdFilesAt = 0
   const MD_FILES_TTL_MS = 30_000
+  const MAX_CONTENT_CACHE_ENTRIES = 256
+  const contentCache = new Map<string, string | null>()
+
+  async function readCached(filePath: string): Promise<string | null> {
+    if (contentCache.has(filePath)) {
+      const cached = contentCache.get(filePath) ?? null
+      contentCache.delete(filePath)
+      contentCache.set(filePath, cached)
+      return cached
+    }
+
+    const text = await source.read(filePath)
+    contentCache.set(filePath, text)
+
+    if (contentCache.size > MAX_CONTENT_CACHE_ENTRIES) {
+      const oldest = contentCache.keys().next().value
+      if (oldest !== undefined) {
+        contentCache.delete(oldest)
+      }
+    }
+
+    return text
+  }
 
   async function getMarkdownFilesCached(prefix?: string) {
     const now = Date.now()
@@ -250,16 +282,22 @@ function createDocsContext(source: DocsSource) {
       const files = await source.listMarkdown()
       cachedMdFiles = files.map((f) => withLeadingSlash(f))
       cachedMdFilesAt = now
+      contentCache.clear()
     }
 
     if (!prefix) {
       return cachedMdFiles
     }
 
-    const pfx = withLeadingSlash(normalizeDocsPath(prefix)).replace(
-      /\/?$/,
-      '/'
-    )
+    let pfx: string
+    try {
+      pfx = withLeadingSlash(normalizeDocsPath(prefix)).replace(
+        /\/?$/,
+        '/'
+      )
+    } catch {
+      return []
+    }
     return cachedMdFiles.filter((p) => p.startsWith(pfx))
   }
 
@@ -284,8 +322,16 @@ function createDocsContext(source: DocsSource) {
         }
         // If it's a directory, try adding .md or .mdx
         if (st.kind === 'dir') {
-          const tryMd = candidatePath.replace(/\.(mdx?)?$/, '') + '.md'
-          const tryMdx = candidatePath.replace(/\.(mdx?)?$/, '') + '.mdx'
+          const extension = candidatePath.toLowerCase().endsWith('.mdx')
+            ? '.mdx'
+            : candidatePath.toLowerCase().endsWith('.md')
+              ? '.md'
+              : ''
+          const basePath = extension
+            ? candidatePath.slice(0, -extension.length)
+            : candidatePath
+          const tryMd = `${basePath}.md`
+          const tryMdx = `${basePath}.mdx`
           for (const tryPath of [tryMd, tryMdx]) {
             const trySt = await source.stat(tryPath)
             if (trySt.kind === 'file') {
@@ -302,13 +348,14 @@ function createDocsContext(source: DocsSource) {
     }
 
     // If no path found, use the first candidate as fallback
-    if (!doc && possiblePaths.length > 0) {
-      doc = possiblePaths[0]
+    if (!doc) {
+      doc =
+        possiblePaths[0] ?? `/uilib/components/${normalizeName(name)}.md`
     }
 
     // links from frontmatter
     try {
-      const mdText = await source.read(doc)
+      const mdText = await readCached(doc)
       if (mdText !== null) {
         const links = extractFrontmatterLinks(mdText)
         if (links?.properties) {
@@ -401,6 +448,10 @@ function createDocsContext(source: DocsSource) {
         }
 
         const relPath = files[i]
+        if (relPath === undefined) {
+          continue
+        }
+
         let text: string | null
         try {
           text = await source.read(relPath)
@@ -416,6 +467,10 @@ function createDocsContext(source: DocsSource) {
         // For single-word queries, use exact phrase matching (backward compatible)
         if (queryWords.length === 1) {
           const q = queryWords[0]
+          if (q === undefined) {
+            continue
+          }
+
           const idx = lower.indexOf(q)
           if (idx === -1) {
             continue
@@ -467,7 +522,7 @@ function createDocsContext(source: DocsSource) {
           // 2. Number of occurrences of each word
           // 3. Proximity of words (closer together is better)
           const firstMatchIdx = Math.min(
-            ...wordMatches.map((m) => m.indices[0])
+            ...wordMatches.map((m) => m.indices[0] ?? Infinity)
           )
           const totalOccurrences = wordMatches.reduce(
             (sum, m) => sum + m.indices.length,
@@ -486,11 +541,21 @@ function createDocsContext(source: DocsSource) {
             const wordSet = new Set(queryWords)
             let minSpan = Infinity
             for (let i = 0; i < allIndices.length; i++) {
+              const start = allIndices[i]
+              if (start === undefined) {
+                continue
+              }
+
               const foundWords = new Set<string>()
               for (let j = i; j < allIndices.length; j++) {
-                foundWords.add(allIndices[j].word)
+                const current = allIndices[j]
+                if (current === undefined) {
+                  continue
+                }
+
+                foundWords.add(current.word)
                 if (foundWords.size === wordSet.size) {
-                  const span = allIndices[j].idx - allIndices[i].idx
+                  const span = current.idx - start.idx
                   minSpan = Math.min(minSpan, span)
                   break
                 }
@@ -539,6 +604,7 @@ function createDocsContext(source: DocsSource) {
 
   return {
     source,
+    readCached,
     getMarkdownFilesCached,
     resolveComponentPaths,
     searchInMarkdown,
@@ -668,7 +734,7 @@ export function createDocsTools(
   const docsEntry = async (
     _input: EmptyInputType
   ): Promise<ToolResult> => {
-    const text = await context.source.read('llm.md')
+    const text = await context.readCached('llm.md')
     if (text === null) {
       return makeTextResult('llm.md not found in docs root.')
     }
@@ -779,7 +845,7 @@ export function createDocsTools(
       )
     }
 
-    const text = await context.source.read(normalised)
+    const text = await context.readCached(normalised)
     if (text === null) {
       return makeTextResult(
         JSON.stringify(
@@ -819,7 +885,7 @@ export function createDocsTools(
     name,
   }: ComponentNameInputType): Promise<ToolResult> => {
     const info = await context.resolveComponentPaths(name)
-    const text = await context.source.read(info.doc)
+    const text = await context.readCached(info.doc)
     if (text === null) {
       return makeTextResult(`Component doc not found: ${info.doc}`)
     }
@@ -830,7 +896,7 @@ export function createDocsTools(
     name,
   }: ComponentNameInputType): Promise<ToolResult> => {
     const info = await context.resolveComponentPaths(name)
-    const text = await context.source.read(info.doc)
+    const text = await context.readCached(info.doc)
 
     if (text === null) {
       return makeTextResult(
@@ -863,7 +929,7 @@ export function createDocsTools(
     name,
   }: ComponentNameInputType): Promise<ToolResult> => {
     const info = await context.resolveComponentPaths(name)
-    const text = await context.source.read(info.doc)
+    const text = await context.readCached(info.doc)
 
     if (text === null) {
       return makeTextResult(
