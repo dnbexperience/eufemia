@@ -11,7 +11,7 @@
 
 - Write as little code as possible to achieve the best result. Prefer simple solutions and remove unnecessary complexity.
 - Keep changes focused on the requested outcome. Preserve existing behavior and avoid unrelated refactors or scope creep.
-- Prefer extending or improving existing code over creating a parallel implementation. Introduce a new abstraction or system only when the existing code cannot reasonably support the requested outcome.
+- Find and understand the relevant existing code before implementing a solution. Extend or improve it when possible; otherwise replace it rather than creating a duplicate or parallel implementation.
 - Follow established patterns in the surrounding code unless the task requires changing them.
 - Consider correctness, security, performance, and accessibility for every change. Do not expose sensitive data, weaken safeguards, or add avoidable work to frequently used code paths.
 - Review the complete diff before handing off work or creating a pull request. Check for unintended changes and reassess correctness, readability, security, performance, accessibility, and test coverage.
