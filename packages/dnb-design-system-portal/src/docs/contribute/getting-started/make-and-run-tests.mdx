@@ -178,13 +178,9 @@ This is useful when you want to see all visual test failures at once, rather tha
 
 ### Skip dependency audit in CI
 
-You can skip the dependency audit step in the Verify workflow by including `--skip-audit` in your commit message:
+The dependency audit in the Verify workflow is a security gate and cannot be skipped from a commit message or PR title. If the npm audit service has an outage and is blocking CI, a repository admin can temporarily disable it by setting the `SKIP_DEPENDENCY_AUDIT` repository variable to `true` (Settings → Secrets and variables → Actions → Variables), then removing it once the service recovers.
 
-```bash
-git commit -m "chore: update snapshots --skip-audit"
-```
-
-The CI will detect `--skip-audit` and skip the "Audit dependencies" step accordingly.
+For a specific advisory that has no available fix yet, prefer adding it to `npmAuditIgnoreAdvisories` in `.yarnrc.yml` instead, so the rest of the audit keeps protecting the codebase.
 
 **Playwright end-to-end tests:**
 

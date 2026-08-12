@@ -49,7 +49,13 @@ jobs:
     needs: setup
 
     runs-on: ubuntu-latest
-    if: ${{ !contains(github.event.head_commit.message || '', '--skip-audit') && !(github.event.pull_request && contains(github.event.pull_request.title || '', '--skip-audit')) }}
+    # The dependency audit is a security gate, so it cannot be disabled from a
+    # commit message or PR title (which any contributor controls). If the npm
+    # audit service is down and blocking CI, a repository admin can set the
+    # `SKIP_DEPENDENCY_AUDIT` repository variable to `true` to unblock, then
+    # unset it once the service recovers. For a single advisory with no fix yet,
+    # prefer `npmAuditIgnoreAdvisories` in `.yarnrc.yml` instead.
+    if: ${{ vars.SKIP_DEPENDENCY_AUDIT != 'true' }}
 
     timeout-minutes: 10
 
