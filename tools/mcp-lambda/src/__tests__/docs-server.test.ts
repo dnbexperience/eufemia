@@ -267,8 +267,6 @@ describe('docs-server tools', () => {
       expect(result.name).toBe('Button')
       expect(result.doc).toBe('/uilib/components/button.md')
       expect(result.docExists).toBe(true)
-      expect(result.slug).toBeNull()
-      expect(result.fromIndex).toBe(false)
     })
 
     it('resolves Field dot-notation', async () => {

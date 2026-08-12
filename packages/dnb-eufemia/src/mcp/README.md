@@ -95,14 +95,3 @@ Then verify it is up:
 ```bash
 curl http://localhost:8787/healthz
 ```
-
-#### Build the docs bundle locally
-
-```bash
-yarn workspace @dnb/eufemia build:docs
-yarn workspace @dnb/eufemia build:docs:bundle
-# writes packages/dnb-eufemia/src/mcp/worker/docs.bundle.json
-```
-
-The Lambda adapter in `tools/mcp-lambda/` and the Cloudflare Worker both use
-the tool definitions and docs-source implementation in this directory.
