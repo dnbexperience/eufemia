@@ -17,7 +17,7 @@ export const FlexItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   gapBefore: {
-    doc: 'Replace the [Flex.Container](/uilib/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.',
+    doc: 'With `layoutEngine="css"`, replace the [Flex.Container](/uilib/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.',
     type: [
       `'xx-small'`,
       `'x-small'`,
@@ -31,7 +31,7 @@ export const FlexItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   gapAfter: {
-    doc: 'Replace the [Flex.Container](/uilib/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.',
+    doc: 'With `layoutEngine="css"`, replace the [Flex.Container](/uilib/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.',
     type: [
       `'xx-small'`,
       `'x-small'`,

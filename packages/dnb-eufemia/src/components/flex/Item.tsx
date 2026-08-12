@@ -35,11 +35,11 @@ export type FlexItemProps = {
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   span?: FlexSpan
   /**
-   * Replace the [Flex.Container](/uilib/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.
+   * With `layoutEngine="css"`, replace the [Flex.Container](/uilib/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.
    */
   gapBefore?: FlexGap
   /**
-   * Replace the [Flex.Container](/uilib/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.
+   * With `layoutEngine="css"`, replace the [Flex.Container](/uilib/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.
    */
   gapAfter?: FlexGap
   ref?: Ref<HTMLElement>

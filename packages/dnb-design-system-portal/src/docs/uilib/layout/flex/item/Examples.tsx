@@ -50,7 +50,7 @@ export const ResponsiveSize = () => {
 export const GapOverrides = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Horizontal gap="small" wrap={false}>
+      <Flex.Horizontal layoutEngine="css" gap="small" wrap={false}>
         <Flex.Item>
           <TestElement>Default gap</TestElement>
         </Flex.Item>
