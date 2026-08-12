@@ -43,14 +43,6 @@ export default function TabBar({
   const cleanFullscreen = (s) =>
     s.replace(/\?fullscreen$|&fullscreen|fullscreen|\?$/, '')
 
-  const openFullscreen = () => {
-    setFullscreen(true)
-  }
-
-  const quitFullscreen = () => {
-    setFullscreen(false)
-  }
-
   const fullscreenPath = [
     location.pathname,
     location.search ? location.search + '&' : '?',
@@ -63,6 +55,12 @@ export default function TabBar({
     cleanFullscreen(location.search),
     location.hash,
   ].join('')
+
+  // Use a real <button> (not a link) so both Enter and Space activate it; navigate keeps the URL shareable.
+  const toggleFullscreen = () => {
+    setFullscreen(!wasFullscreen)
+    navigate(wasFullscreen ? quitFullscreenPath : fullscreenPath)
+  }
 
   const preparedTabs = useMemo(() => {
     return (
@@ -130,12 +128,7 @@ export default function TabBar({
               <TabsList>
                 <Tabs />
                 <Button
-                  onClick={wasFullscreen ? quitFullscreen : openFullscreen}
-                  href={
-                    wasFullscreen ? quitFullscreenPath : fullscreenPath
-                  }
-                  // @ts-expect-error -- strictFunctionTypes
-                  element={Link}
+                  onClick={toggleFullscreen}
                   variant="tertiary"
                   title={wasFullscreen ? 'Quit Fullscreen' : 'Fullscreen'}
                   aria-label={

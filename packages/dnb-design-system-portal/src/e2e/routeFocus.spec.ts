@@ -88,7 +88,7 @@ test.describe('Route Focus', () => {
     await page.goto('/uilib/components/accordion#relevant-links')
     await waitForApp(page)
 
-    await page.getByRole('link', { name: 'Fullscreen' }).click()
+    await page.getByRole('button', { name: 'Fullscreen' }).click()
 
     await expect(page).toHaveURL(
       '/uilib/components/accordion/?fullscreen#relevant-links'

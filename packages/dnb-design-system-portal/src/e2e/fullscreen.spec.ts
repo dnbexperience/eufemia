@@ -10,17 +10,51 @@ test.describe('Fullscreen', () => {
   }) => {
     await page.waitForSelector('nav#portal-sidebar-menu')
 
-    await page.click('a.fullscreen')
+    await page.click('button.fullscreen')
     await page.waitForURL('**/uilib/components/button/demos/?fullscreen')
 
     expect(page.url()).toContain(
       '/uilib/components/button/demos/?fullscreen'
     )
 
-    await page.click('a.fullscreen')
+    await page.click('button.fullscreen')
     await page.waitForURL('**/uilib/components/button/demos/')
 
     expect(page.url()).toContain('/uilib/components/button/demos/')
+  })
+
+  test('should toggle fullscreen when pressing Space on the fullscreen button', async ({
+    page,
+  }) => {
+    await page.waitForSelector('nav#portal-sidebar-menu')
+
+    await page.locator('button.fullscreen').focus()
+    await page.keyboard.press('Space')
+    await page.waitForURL('**/uilib/components/button/demos/?fullscreen')
+
+    expect(page.url()).toContain(
+      '/uilib/components/button/demos/?fullscreen'
+    )
+
+    await page.locator('button.fullscreen').focus()
+    await page.keyboard.press('Space')
+    await page.waitForURL('**/uilib/components/button/demos/')
+
+    expect(page.url()).toContain('/uilib/components/button/demos/')
+  })
+
+  test('should enter fullscreen when pressing Enter on the fullscreen button', async ({
+    page,
+  }) => {
+    await page.waitForSelector('nav#portal-sidebar-menu')
+
+    await page.locator('button.fullscreen').focus()
+    await page.keyboard.press('Enter')
+    await page.waitForURL('**/uilib/components/button/demos/?fullscreen')
+
+    expect(page.url()).toContain(
+      '/uilib/components/button/demos/?fullscreen'
+    )
   })
 
   test('should not produce hydration errors when visiting a fullscreen URL directly', async ({
@@ -54,7 +88,7 @@ test.describe('Fullscreen', () => {
     await expect(page.locator('nav#portal-sidebar-menu')).toHaveCount(0)
 
     // Quit fullscreen
-    await page.click('a.fullscreen')
+    await page.click('button.fullscreen')
     await page.waitForURL('**/uilib/components/button/demos/')
 
     // Header and sidebar should reappear
