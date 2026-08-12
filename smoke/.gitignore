@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.next/
+out/
+next-env.d.ts
+*.tgz
+
+# The root .gitignore ignores package-lock.json (the monorepo uses yarn), but the
+# smoke fixtures are standalone npm consumers that must install a pinned,
+# reproducible toolchain via `npm ci` — so their lockfiles are committed.
+!package-lock.json

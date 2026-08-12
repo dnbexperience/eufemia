@@ -6,6 +6,9 @@ echo 'Prepare before publish has started ...'
 
 babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/prepareForRelease.js
 
+echo 'Validating package contents ...'
+yarn validate:package
+
 if [ -z "$BUILD_MINI" ]; then
   echo 'Testing the postbuild before publish ...'
   yarn test:postbuild:publish
