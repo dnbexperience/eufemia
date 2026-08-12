@@ -35,7 +35,7 @@
 ## Tests and Validation
 
 - Write tests for new functionality and bug fixes. Tests are a contract for the intended behavior.
-- For a bug fix, write a failing regression test before implementing the fix.
+- For a bug fix, write and run a regression test before implementing the fix, and verify that it fails for the expected reason.
 - Prefer `document.querySelector` over `screen` from `@testing-library/react`.
 - Follow the existing Prettier and ESLint configurations and run the relevant checks on changed files.
 - Format files with the workspace version: `yarn exec prettier --write <file>`. Do not use `npx prettier`, because it bypasses Yarn PnP resolution and may select the wrong version.
