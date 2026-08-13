@@ -16,6 +16,7 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import SharedContext from '../../shared/Context'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import type { ListShowMoreButtonSharedState } from './ListShowMoreButton'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListContainerProps = {
   id?: string
@@ -131,6 +132,8 @@ function ListContainer(props: ListContainerProps) {
   )
 }
 
-ListContainer._supportsSpacingProps = true
+withComponentMarkers(ListContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default ListContainer

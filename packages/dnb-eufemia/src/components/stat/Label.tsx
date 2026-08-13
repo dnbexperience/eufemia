@@ -13,6 +13,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type LabelOwnProps = {
   element?: ElementType
@@ -93,7 +94,9 @@ function Label(props: LabelProps) {
   )
 }
 
-Label._supportsSpacingProps = true
 Label._statRole = 'label'
+withComponentMarkers(Label, {
+  _supportsSpacingProps: true,
+})
 
 export default Label

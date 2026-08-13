@@ -8,6 +8,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type ContentOwnProps = {
   element?: ElementType
@@ -70,7 +71,9 @@ function Content(props: ContentProps) {
   )
 }
 
-Content._supportsSpacingProps = true
 Content._statRole = 'content'
+withComponentMarkers(Content, {
+  _supportsSpacingProps: true,
+})
 
 export default Content

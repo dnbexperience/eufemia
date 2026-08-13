@@ -5,6 +5,7 @@ import Container from '../Container'
 import type { ItemContentProps } from '../ItemContent'
 import ItemContent from '../ItemContent'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemContent', () => {
   it('renders with props as an object', () => {
@@ -190,7 +191,9 @@ describe('ItemContent', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemContent._supportsSpacingProps).toBe(true)
+    expect((ItemContent as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('has no axe violations', async () => {

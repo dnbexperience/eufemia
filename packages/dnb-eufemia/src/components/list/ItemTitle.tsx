@@ -8,6 +8,7 @@ import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.Title (ItemTitle).
@@ -73,7 +74,9 @@ function ItemTitleBase({
 
   return content
 }
-ItemTitleBase._supportsSpacingProps = true
+withComponentMarkers(ItemTitleBase, {
+  _supportsSpacingProps: true,
+})
 
 type ItemTitleComponent = typeof ItemTitleBase & {
   Overline: typeof ItemOverline

@@ -6,6 +6,7 @@ import type { SpacingProps } from '../../shared/types'
 import { warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatRootContext from './StatRootContext'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type RootOwnProps = {
   visualOrder?: 'label-content' | 'content-label'
@@ -63,7 +64,9 @@ function Root(props: RootProps) {
   )
 }
 
-Root._supportsSpacingProps = true
+withComponentMarkers(Root, {
+  _supportsSpacingProps: true,
+})
 
 export default Root
 

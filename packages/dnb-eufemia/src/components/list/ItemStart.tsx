@@ -6,6 +6,7 @@ import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.Start (ItemStart).
@@ -66,6 +67,8 @@ function ItemStart({
 
   return content
 }
-ItemStart._supportsSpacingProps = true
+withComponentMarkers(ItemStart, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemStart

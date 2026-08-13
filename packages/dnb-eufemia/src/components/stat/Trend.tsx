@@ -6,6 +6,7 @@ import { convertJsxToString, warn } from '../../shared/component-helper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
 import { TextInternal as Text } from './Text'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const trendContextValue = {
   useBasisSize: true,
@@ -98,7 +99,9 @@ function Trend(props: TrendProps) {
   )
 }
 
-Trend._supportsSpacingProps = true
+withComponentMarkers(Trend, {
+  _supportsSpacingProps: true,
+})
 
 function getValueFromChildren(children: ReactNode): number | string {
   if (typeof children === 'string' || typeof children === 'number') {

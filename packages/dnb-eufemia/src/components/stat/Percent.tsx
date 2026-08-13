@@ -1,4 +1,5 @@
 import { AmountBase, type AmountProps } from './Amount'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type PercentProps = Omit<
   AmountProps,
@@ -9,6 +10,8 @@ function Percent(props: PercentProps) {
   return <AmountBase {...props} percent />
 }
 
-Percent._supportsSpacingProps = true
+withComponentMarkers(Percent, {
+  _supportsSpacingProps: true,
+})
 
 export default Percent

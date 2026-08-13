@@ -6,6 +6,7 @@ import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.Title.Overline (ItemOverline).
@@ -65,6 +66,8 @@ function ItemOverline({
 
   return content
 }
-ItemOverline._supportsSpacingProps = true
+withComponentMarkers(ItemOverline, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemOverline
