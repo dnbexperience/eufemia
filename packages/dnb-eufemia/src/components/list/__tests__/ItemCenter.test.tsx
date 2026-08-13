@@ -15,6 +15,13 @@ describe('ItemCenter', () => {
     expect(element.textContent).toContain('Center content')
   })
 
+  it('renders as a custom element when the element prop is set', () => {
+    render(<ItemCenter element="span">Content</ItemCenter>)
+
+    const element = document.querySelector('.dnb-list__item__center')
+    expect(element.tagName).toBe('SPAN')
+  })
+
   it('has dnb-t__size--basis class', () => {
     render(<ItemCenter>Content</ItemCenter>)
 

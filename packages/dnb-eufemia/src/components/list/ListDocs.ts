@@ -95,6 +95,12 @@ export const ItemCenterProperties: PropertiesTableProps = {
     defaultValue: '"regular"',
     status: 'optional',
   },
+  element: {
+    doc: 'Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'div'`,
+    status: 'optional',
+  },
   children: {
     doc: 'Center content of the list item. Grows to fill available space.',
     type: 'React.ReactNode',
@@ -112,6 +118,12 @@ export const ItemTitleProperties: PropertiesTableProps = {
     doc: 'Font size of the title content. Defaults to `basis`. Use `small` for smaller text.',
     type: ['"small"', '"basis"'],
     defaultValue: '"basis"',
+    status: 'optional',
+  },
+  element: {
+    doc: 'Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'div'`,
     status: 'optional',
   },
   children: {
@@ -206,6 +218,12 @@ export const ItemEndProperties: PropertiesTableProps = {
     defaultValue: '"basis"',
     status: 'optional',
   },
+  element: {
+    doc: 'Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'div'`,
+    status: 'optional',
+  },
   children: {
     doc: 'End content of the list item (e.g. value, action).',
     type: 'React.ReactNode',
@@ -229,6 +247,12 @@ export const ItemStartProperties: PropertiesTableProps = {
     doc: 'Font weight of the start content. Defaults to `regular`.',
     type: ['"regular"', '"medium"'],
     defaultValue: '"regular"',
+    status: 'optional',
+  },
+  element: {
+    doc: 'Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'div'`,
     status: 'optional',
   },
   children: {

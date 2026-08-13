@@ -16,6 +16,14 @@ describe('ItemTitle', () => {
     expect(element.textContent).toContain('Title text')
   })
 
+  it('renders as a custom element when the element prop is set', () => {
+    render(<ItemTitle element="span">Title</ItemTitle>)
+
+    const element = document.querySelector('.dnb-list__item__title')
+
+    expect(element.tagName).toBe('SPAN')
+  })
+
   it('has dnb-list__item__title class and wraps children with default fontSize basis', () => {
     render(<ItemTitle>Title</ItemTitle>)
 

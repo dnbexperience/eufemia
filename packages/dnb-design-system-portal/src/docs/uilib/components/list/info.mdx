@@ -113,6 +113,8 @@ A [Dropdown](/uilib/components/dropdown) or [Autocomplete](/uilib/components/aut
 </List.Item.Basic>
 ```
 
+The `title` and `icon` convenience props on `List.Item.Basic` follow the row `element` automatically, so `<List.Item.Basic element="span" title="Accounts" />` renders the title as a `span`, never a `div`. Cells you add yourself (`List.Cell.*`) take their own `element` prop – set it to `span` to match the row, as shown above.
+
 ### What you get, and what you don't
 
 Outside a `List.Container` you get the row layout and the cell styling, but not the list surface. Row height, padding, background and border are applied by `List.Container`, so a standalone row does not receive them. In a `Dropdown` or `Autocomplete` option this is what you want, because the option already brings its own padding, hover and selected styling.
