@@ -80,12 +80,20 @@ function HeightAnimation({
 }: HeightAnimationAllProps) {
   const elementRef = useRef<HTMLElement>(undefined)
   const targetRef = ref || elementRef
+  // Only browsers that implement hidden="until-found" hide the content (via
+  // content-visibility). Without support the attribute would leave the content
+  // visible, so gate the behavior on feature detection and fall back to the
+  // regular display:none collapse instead.
+  const untilFoundEnabled =
+    untilFound &&
+    typeof document !== 'undefined' &&
+    'onbeforematch' in document.documentElement
   const [isRevealedByMatch, setRevealedByMatch] = useState(false)
-  const resolvedOpen = open || (untilFound && isRevealedByMatch)
+  const resolvedOpen = open || (untilFoundEnabled && isRevealedByMatch)
 
   const handleAnimationStart: UseHeightAnimationOptions['onAnimationStart'] =
     (state) => {
-      if (untilFound && state === 'opening') {
+      if (untilFoundEnabled && state === 'opening') {
         targetRef.current?.removeAttribute('hidden')
       }
       onAnimationStart?.(state)
@@ -93,7 +101,7 @@ function HeightAnimation({
   const handleAnimationEnd: UseHeightAnimationOptions['onAnimationEnd'] = (
     state
   ) => {
-    if (untilFound) {
+    if (untilFoundEnabled) {
       if (state === 'closed') {
         targetRef.current?.style.removeProperty('visibility')
         targetRef.current?.setAttribute('hidden', 'until-found')
@@ -128,7 +136,7 @@ function HeightAnimation({
     }
 
     if (
-      untilFound &&
+      untilFoundEnabled &&
       !resolvedOpen &&
       element.classList.contains('dnb-height-animation--hidden')
     ) {
@@ -136,17 +144,17 @@ function HeightAnimation({
     } else if (element.getAttribute('hidden') === 'until-found') {
       element.removeAttribute('hidden')
     }
-  }, [resolvedOpen, targetRef, untilFound])
+  }, [resolvedOpen, targetRef, untilFoundEnabled])
 
   useLayoutEffect(() => {
-    if (isRevealedByMatch && (open || !untilFound)) {
+    if (isRevealedByMatch && (open || !untilFoundEnabled)) {
       setRevealedByMatch(false)
     }
-  }, [isRevealedByMatch, open, untilFound])
+  }, [isRevealedByMatch, open, untilFoundEnabled])
 
   useLayoutEffect(() => {
     const element = targetRef.current
-    if (!element || !untilFound) {
+    if (!element || !untilFoundEnabled) {
       return undefined
     }
 
@@ -162,7 +170,7 @@ function HeightAnimation({
     return () => {
       element.removeEventListener('beforematch', handleBeforeMatch)
     }
-  }, [onBeforeMatch, targetRef, untilFound])
+  }, [onBeforeMatch, targetRef, untilFoundEnabled])
 
   // Set CSS custom properties via the DOM instead of React's style
   // prop. React's SSR serializes custom properties without spaces

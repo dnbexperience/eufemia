@@ -293,6 +293,30 @@ describe('HeightAnimation', () => {
   })
 
   describe('untilFound', () => {
+    // Simulate a browser without hidden="until-found" support by hiding the
+    // beforematch handler the component uses for feature detection.
+    function simulateUntilFoundUnsupported() {
+      const restores: Array<() => void> = []
+      let target: object | null = document.documentElement
+      while (target) {
+        if (
+          Object.prototype.hasOwnProperty.call(target, 'onbeforematch')
+        ) {
+          const owner = target
+          const descriptor = Object.getOwnPropertyDescriptor(
+            owner,
+            'onbeforematch'
+          )
+          delete (owner as Record<string, unknown>).onbeforematch
+          restores.push(() =>
+            Object.defineProperty(owner, 'onbeforematch', descriptor)
+          )
+        }
+        target = Object.getPrototypeOf(target)
+      }
+      return () => restores.forEach((restore) => restore())
+    }
+
     it('should preserve a regular hidden attribute', () => {
       const { rerender } = render(
         <HeightAnimation hidden>content</HeightAnimation>
@@ -384,6 +408,33 @@ describe('HeightAnimation', () => {
 
       expect(onBeforeMatch).toHaveBeenCalledTimes(1)
       expect(getElement()).not.toHaveAttribute('hidden')
+    })
+
+    it('falls back to a display:none collapse when the browser lacks hidden="until-found" support', () => {
+      const restore = simulateUntilFoundUnsupported()
+
+      try {
+        render(
+          <HeightAnimation open={false} untilFound>
+            <span className="content">content</span>
+          </HeightAnimation>
+        )
+
+        // Content stays in the DOM (untilFound implies keepInDOM), but without
+        // the hidden="until-found" attribute it collapses via the regular
+        // display:none path instead of relying on content-visibility, which
+        // unsupported browsers do not apply (so the content would be visible).
+        expect(document.querySelector('.content')).toBeInTheDocument()
+        expect(getElement()).not.toHaveAttribute('hidden')
+        expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+        expect(getElement()).toHaveAttribute('aria-hidden', 'true')
+
+        // beforematch is a no-op because the feature is disabled.
+        getElement().dispatchEvent(new Event('beforematch'))
+        expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+      } finally {
+        restore()
+      }
     })
   })
 
