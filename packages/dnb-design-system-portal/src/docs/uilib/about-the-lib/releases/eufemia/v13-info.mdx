@@ -16,6 +16,7 @@ draft: true
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [InfoCard](#infocard)
     - [Popover](#popover)
+    - [ScrollView](#scrollview)
 
 > **Note:** There is no `v12` release. The version `v12` was accidentally published to NPM and has since been removed. Because a published version number cannot be safely reused, `v12` has been skipped entirely, and these breaking changes are released as `v13` instead.
 
@@ -105,4 +106,13 @@ $ yarn add @dnb/eufemia@13
 ```diff
 -<Typography.Provider/>
 +<Typography.Context/>
+```
+
+### [ScrollView](/uilib/components/scroll-view/)
+
+- The deprecated `ScrollView` export from `@dnb/eufemia/fragments` has been removed. Import it from the main package instead.
+
+```diff
+-import { ScrollView } from '@dnb/eufemia/fragments'
++import { ScrollView } from '@dnb/eufemia'
 ```

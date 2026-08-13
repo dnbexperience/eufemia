@@ -3,12 +3,16 @@
  *
  */
 
-import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { ScrollView } from '@dnb/eufemia/src/fragments'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { ScrollView } from '@dnb/eufemia/src/components'
 
 export const ScrollViewInteractive = () => (
   <ComponentBox>
-    <ScrollView interactive={true} style={{ maxHeight: '10rem' }}>
+    <ScrollView
+      interactive="auto"
+      aria-label="Scrollable color example"
+      style={{ maxHeight: '10rem' }}
+    >
       <div
         style={{
           minHeight: 800,
