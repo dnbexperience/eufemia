@@ -16,6 +16,13 @@ describe('ItemStart', () => {
     expect(element.textContent).toContain('Start content')
   })
 
+  it('renders as a custom element when the element prop is set', () => {
+    render(<ItemStart element="span">Content</ItemStart>)
+
+    const element = document.querySelector('.dnb-list__item__start')
+    expect(element.tagName).toBe('SPAN')
+  })
+
   it('has dnb-t__size--basis class by default', () => {
     render(<ItemStart>Content</ItemStart>)
 

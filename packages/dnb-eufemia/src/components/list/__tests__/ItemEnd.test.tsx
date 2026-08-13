@@ -16,6 +16,13 @@ describe('ItemEnd', () => {
     expect(element.textContent).toContain('End content')
   })
 
+  it('renders as a custom element when the element prop is set', () => {
+    render(<ItemEnd element="span">Content</ItemEnd>)
+
+    const element = document.querySelector('.dnb-list__item__end')
+    expect(element.tagName).toBe('SPAN')
+  })
+
   it('has dnb-t__size--basis class by default', () => {
     render(<ItemEnd>Content</ItemEnd>)
 

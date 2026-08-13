@@ -26,6 +26,44 @@ describe('ItemBasic', () => {
     expect(element.tagName).toBe('LI')
   })
 
+  it('renders as a custom element while keeping icon, title and cells', () => {
+    render(
+      <ItemBasic element="div" icon={fish_medium} title="Title">
+        <span data-testid="cell">Cell</span>
+      </ItemBasic>
+    )
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.tagName).toBe('DIV')
+    expect(
+      element.querySelector('.dnb-list__item__icon')
+    ).toBeInTheDocument()
+    expect(
+      element.querySelector('.dnb-list__item__title').textContent
+    ).toContain('Title')
+    expect(
+      element.querySelector('[data-testid="cell"]')
+    ).toBeInTheDocument()
+  })
+
+  it('renders the auto-rendered icon and title as spans when element is span', () => {
+    render(<ItemBasic element="span" icon={fish_medium} title="Title" />)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.tagName).toBe('SPAN')
+    // The auto-rendered icon and title must stay phrasing content inside a
+    // span row – a <div> here would be invalid nesting.
+    expect(element.querySelectorAll('div')).toHaveLength(0)
+    expect(element.querySelector('.dnb-list__item__icon').tagName).toBe(
+      'SPAN'
+    )
+    expect(element.querySelector('.dnb-list__item__title').tagName).toBe(
+      'SPAN'
+    )
+  })
+
   it('renders item content', () => {
     const text = 'List item content'
 

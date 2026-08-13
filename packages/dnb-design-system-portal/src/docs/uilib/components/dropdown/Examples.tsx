@@ -12,6 +12,7 @@ import {
   Link,
   P,
   Flex,
+  List,
 } from '@dnb/eufemia/src'
 import {
   chevron_down,
@@ -621,6 +622,74 @@ export const DropdownCustomizedLook = () => {
               )}
             />
           )
+        }}
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DropdownWithListItemContent = () => {
+  return (
+    <Wrapper>
+      <ComponentBox
+        scope={{ List }}
+        data-visual-test="dropdown-list-item-content"
+      >
+        {() => {
+          // A List row keeps its end cell at content width, so the row needs
+          // horizontal room. Give the Dropdown a width of its own, or the
+          // title column will be squeezed by the end cell.
+          const AccountDropdown = styled(Dropdown)`
+            .dnb-dropdown__shell,
+            .dnb-drawer-list__root {
+              width: 22rem;
+            }
+          `
+
+          const data = [
+            {
+              selectedKey: 'accounts',
+              selectedValue: 'Accounts',
+              // The option is already an <li> and wraps its content in spans.
+              // Use spans for the List row and cells to keep the markup valid.
+              content: (
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">
+                    Accounts
+                  </List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Bills, Savings
+                  </List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+            {
+              selectedKey: 'loans',
+              selectedValue: 'Loans',
+              content: (
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">Loans</List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Mortgage, Car
+                  </List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+            {
+              selectedKey: 'cards',
+              selectedValue: 'Cards',
+              content: (
+                <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">Cards</List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Visa, Mastercard
+                  </List.Cell.End>
+                </List.Item.Basic>
+              ),
+            },
+          ]
+
+          return <AccountDropdown data={data} value="accounts" />
         }}
       </ComponentBox>
     </Wrapper>
