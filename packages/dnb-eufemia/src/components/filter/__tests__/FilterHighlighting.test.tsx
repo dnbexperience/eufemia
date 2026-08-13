@@ -115,6 +115,24 @@ describe('Filter.Highlighting', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('highlights multiple search words', () => {
+    render(
+      <FilterRoot>
+        <FilterSearch label="Search" />
+        <FilterContent>
+          <FilterHighlighting>Hello Wonderful World</FilterHighlighting>
+        </FilterContent>
+      </FilterRoot>
+    )
+
+    changeSearch('Hello World')
+
+    const marks = document.querySelectorAll('.dnb-filter__highlighting')
+    expect(marks).toHaveLength(2)
+    expect(marks[0].textContent).toBe('Hello')
+    expect(marks[1].textContent).toBe('World')
+  })
+
   it('supports connectedTo prop directly', () => {
     function SetSearch() {
       const { extend } = useSharedState('highlight-connected')

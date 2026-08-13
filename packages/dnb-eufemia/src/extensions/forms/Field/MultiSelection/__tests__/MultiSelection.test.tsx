@@ -998,6 +998,36 @@ describe('MultiSelection', () => {
       )
     })
 
+    it('highlights multiple search words in item titles', async () => {
+      const data = [
+        { value: 'option1', title: 'Daily card account' },
+        { value: 'option2', title: 'Savings' },
+      ]
+
+      render(<Field.MultiSelection data={data} showSearchField />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      const input = document.querySelector(
+        '.dnb-forms-field-multi-selection__search input'
+      ) as HTMLInputElement
+      fireEvent.change(input, { target: { value: 'daily card' } })
+
+      await waitFor(
+        () => {
+          const highlights = document.querySelectorAll(
+            '.dnb-forms-field-multi-selection__highlighting'
+          )
+
+          expect(highlights).toHaveLength(2)
+          expect(highlights[0]).toHaveTextContent('Daily')
+          expect(highlights[0].tagName).toBe('MARK')
+          expect(highlights[1]).toHaveTextContent('card')
+        },
+        { timeout: 3000 }
+      )
+    })
+
     it('focuses the search input when pressing ArrowDown on the trigger with showSearchField', async () => {
       const data = [
         { value: 'option1', title: 'Option 1' },
