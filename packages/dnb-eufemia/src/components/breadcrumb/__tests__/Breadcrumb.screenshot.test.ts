@@ -16,6 +16,15 @@ describe.each(['ui', 'sbanken'])(`Breadcrumb for %s`, (themeName) => {
     })
   })
 
+  it('have to match Breadcrumb single hover state', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="breadcrumb-single"] .dnb-breadcrumb',
+      simulateSelector:
+        '[data-visual-test="breadcrumb-single"] .dnb-button',
+      simulate: 'hover',
+    })
+  })
+
   it('have to match Breadcrumb default', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-default"] .dnb-breadcrumb',
