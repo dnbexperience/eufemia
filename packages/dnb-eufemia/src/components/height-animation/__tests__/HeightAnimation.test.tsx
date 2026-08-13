@@ -299,14 +299,12 @@ describe('HeightAnimation', () => {
       const restores: Array<() => void> = []
       let target: object | null = document.documentElement
       while (target) {
-        if (
-          Object.prototype.hasOwnProperty.call(target, 'onbeforematch')
-        ) {
-          const owner = target
-          const descriptor = Object.getOwnPropertyDescriptor(
-            owner,
-            'onbeforematch'
-          )
+        const owner = target
+        const descriptor = Object.getOwnPropertyDescriptor(
+          owner,
+          'onbeforematch'
+        )
+        if (descriptor) {
           delete (owner as Record<string, unknown>).onbeforematch
           restores.push(() =>
             Object.defineProperty(owner, 'onbeforematch', descriptor)
