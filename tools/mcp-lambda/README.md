@@ -10,16 +10,16 @@ POST /mcp/web → API Gateway HTTP API → Lambda (Node.js 22) → MCP SDK → D
 
 The server is stateless and serves both the MCP 2025 and `2026-07-28`
 protocol eras from the same `/mcp` URL. No session state is kept between
-invocations. Tool definitions and docs access are shared with the local and
-Worker MCP implementations in `packages/dnb-eufemia/src/mcp/`.
+invocations. Tool definitions and docs access are shared with the local MCP
+implementation in `packages/dnb-eufemia/src/mcp/`.
 
 For local development, a stdio transport is also available.
 
-> **Relationship to the Worker MCP:** The Cloudflare Worker under
-> [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/) and
-> this Lambda adapter use the same tool definitions and docs-source core. The
-> deployments can coexist while clients migrate, without maintaining separate
-> server implementations.
+> **Relationship to the in-repo MCP core:** A local stdio/HTTP MCP server lives
+> under [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/)
+> for editor integrations and offline use. It was previously also deployed as a
+> Cloudflare Worker; that hosted deployment has been removed in favour of this
+> Lambda-based server.
 
 ## Available tools
 

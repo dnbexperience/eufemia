@@ -1,8 +1,8 @@
 /**
  * Eufemia Docs MCP Server — runtime-agnostic core.
  *
- * This module deliberately avoids importing any Node built-ins so that it can
- * be bundled for non-Node runtimes (Cloudflare Workers, Deno, Bun, ...).
+ * This module deliberately avoids importing any Node built-ins so that the
+ * shared core stays runtime-agnostic and importable in non-Node runtimes.
  * The Node-only stdio entry point lives in `./mcp-stdio.ts` and the local
  * Express HTTP server lives in `./mcp-http-server.ts`.
  */
@@ -34,8 +34,6 @@ type ResolvedComponent = {
   propertiesExists: boolean
   events: string
   eventsExists: boolean
-  slug: string | null
-  fromIndex: boolean
 }
 
 type SearchHit = {
@@ -91,9 +89,7 @@ async function computeDocsRoot(): Promise<string> {
  * The source is considered valid when it can read `llm.md` and reports at
  * least one markdown/MDX file.
  */
-export async function validateDocsSource(
-  source: DocsSource
-): Promise<void> {
+async function validateDocsSource(source: DocsSource): Promise<void> {
   const llmStat = await source.stat('llm.md')
   const hasEntry = llmStat.kind === 'file'
 
@@ -103,9 +99,8 @@ export async function validateDocsSource(
     throw new Error(
       `Eufemia docs source is empty or unbuilt: ${source.label}\n` +
         `  Found ${markdownFiles.length} markdown file(s); llm.md present: ${hasEntry}.\n` +
-        '  For Node.js: run `yarn workspace @dnb/eufemia build:docs` and point\n' +
-        '  EUFEMIA_DOCS_ROOT at the resulting build/docs directory using an absolute path.\n' +
-        '  For the Cloudflare Worker: rebuild the docs bundle.'
+        '  Run `yarn workspace @dnb/eufemia build:docs` and point\n' +
+        '  EUFEMIA_DOCS_ROOT at the resulting build/docs directory using an absolute path.'
     )
   }
 }
@@ -309,7 +304,6 @@ function createDocsContext(source: DocsSource) {
     let doc = null
     let properties = null
     let events = null
-    const slug = null
 
     // Try multiple possible paths for the component
     const possiblePaths = conventionalDocPath(name)
@@ -391,8 +385,6 @@ function createDocsContext(source: DocsSource) {
       propertiesExists,
       events,
       eventsExists,
-      slug,
-      fromIndex: false,
     }
   }
 
@@ -697,7 +689,7 @@ export function createDocsTools(
   } else {
     // Node-only fallback: lazily resolve the docs root and the Node FS source
     // so this module stays loadable in runtimes without `node:fs/promises`
-    // (e.g. Cloudflare Workers). Consumers that pass `{ source }` never hit
+    // (e.g. non-Node runtimes). Consumers that pass `{ source }` never hit
     // this branch.
     const docsRootPromise: Promise<string> = options.docsRoot
       ? Promise.resolve(options.docsRoot)
@@ -1120,5 +1112,4 @@ export async function createDocsServer(
 }
 
 // The Node-only stdio entry lives in `./mcp-stdio.ts`. Keeping it out of
-// this module ensures the shared core stays runtime-agnostic and can be
-// bundled for Cloudflare Workers, Deno, Bun, etc.
+// this module ensures the shared core stays runtime-agnostic.

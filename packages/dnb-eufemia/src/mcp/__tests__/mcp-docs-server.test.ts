@@ -584,13 +584,11 @@ describe('component_find', () => {
       doc?: string
       properties?: string
       events?: string
-      fromIndex?: boolean
       docExists?: boolean
     }
     expect(info.doc).toBe('/uilib/components/button.md')
     expect(info.properties).toBe('/uilib/components/button.md')
     expect(info.events).toBe('/uilib/components/button.md')
-    expect(info.fromIndex).toBe(false)
     expect(info.docExists).toBe(true)
   })
 
