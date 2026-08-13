@@ -24,18 +24,10 @@ type Props = {
   className?: string
   tooltipPosition?: TooltipPlacement
   triggerProps?: ButtonProps
-  hideWhenMediaLarge?: boolean
 }
 
 const portalToolsOpenStorageKey = 'portal-tools-open'
-const portalToolsMobileOpenStorageKey = 'portal-tools-open-mobile'
 const disableAnimationResetDelay = 400
-
-function getPortalToolsOpenStorageKey(hideWhenMediaLarge: boolean) {
-  return hideWhenMediaLarge
-    ? portalToolsMobileOpenStorageKey
-    : portalToolsOpenStorageKey
-}
 
 function getStoredPortalToolsOpen(storageKey: string) {
   if (typeof window === 'undefined') {
@@ -56,13 +48,7 @@ function setStoredPortalToolsOpen(isOpen: boolean, storageKey: string) {
 
   try {
     if (isOpen) {
-      const otherStorageKey =
-        storageKey === portalToolsOpenStorageKey
-          ? portalToolsMobileOpenStorageKey
-          : portalToolsOpenStorageKey
-
       window.sessionStorage.setItem(storageKey, 'true')
-      window.sessionStorage.removeItem(otherStorageKey)
     } else {
       window.sessionStorage.removeItem(storageKey)
     }
@@ -75,11 +61,10 @@ export default function PortalToolsMenu({
   className = null,
   tooltipPosition = 'left',
   triggerProps = null,
-  hideWhenMediaLarge = false,
   ...props
 }: Props) {
   const { skeleton } = useContext(Context)
-  const storageKey = getPortalToolsOpenStorageKey(hideWhenMediaLarge)
+  const storageKey = portalToolsOpenStorageKey
   const [isOpen, setIsOpen] = useState(false)
   const { name: themeName, colorScheme } = getTheme()
   const themeKey = `${themeName}:${colorScheme || 'auto'}`
@@ -177,11 +162,7 @@ export default function PortalToolsMenu({
       onOpen={handleOpen}
       onClose={handleClose}
       triggerProps={{
-        className: clsx(
-          className,
-          buttonStyle,
-          hideWhenMediaLarge && 'hideWhenMediaLarge'
-        ),
+        className: clsx(className, buttonStyle),
         size: 'default',
         icon: 'more',
         iconSize: 'medium',

@@ -20,7 +20,6 @@ import {
   setPageFocusElement,
   applyPageFocus,
 } from '@dnb/eufemia/src/shared/helpers'
-import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle, resizeHandleStyle } from './SidebarMenu.module.scss'
 import { defaultTabsValue } from '../tags/defaultValues'
 import {
@@ -203,18 +202,6 @@ export default function SidebarLayout({
         interactive="auto"
         scrollbarGutter="stable"
       >
-        <PortalToolsMenu
-          triggerProps={{
-            left: 'large',
-            top: 'large',
-            bottom: 'large',
-            text: 'Portal Tools',
-            icon: 'chevron_right',
-            iconPosition: 'right',
-          }}
-          tooltipPosition="bottom"
-          hideWhenMediaLarge
-        />
         <SidebarMenu.Container
           aria-labelledby="toggle-sidebar-menu"
           className="dev-grid"

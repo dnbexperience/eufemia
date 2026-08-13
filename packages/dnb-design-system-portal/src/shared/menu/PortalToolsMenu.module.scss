@@ -4,13 +4,4 @@
   @include utilities.allBelow(medium) {
     display: none;
   }
-
-  &:global(.hideWhenMediaLarge) {
-    @include utilities.allBelow(medium) {
-      display: block;
-    }
-    @include utilities.allAbove(medium) {
-      display: none;
-    }
-  }
 }
