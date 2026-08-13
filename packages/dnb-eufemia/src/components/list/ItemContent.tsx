@@ -7,6 +7,7 @@ import FlexContainer from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemContentProps = {
   id?: string
@@ -71,7 +72,9 @@ function ItemContent(props: ItemContentProps) {
 
   return content
 }
-ItemContent._supportsSpacingProps = true
+withComponentMarkers(ItemContent, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemContent
 
@@ -79,4 +82,6 @@ function Pending() {
   return <div className="dnb-list__item__pending" />
 }
 // To ensure it gets not wrapped by Flex, we pretend it supports spacing props
-Pending._supportsSpacingProps = true
+withComponentMarkers(Pending, {
+  _supportsSpacingProps: true,
+})

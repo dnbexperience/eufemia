@@ -7,6 +7,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
 import StatRootContext from './StatRootContext'
 import { TextInternal as Text } from './Text'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const infoContextValue = {
   useBasisSize: true,
@@ -66,6 +67,8 @@ function Info(props: InfoProps) {
   )
 }
 
-Info._supportsSpacingProps = true
+withComponentMarkers(Info, {
+  _supportsSpacingProps: true,
+})
 
 export default Info

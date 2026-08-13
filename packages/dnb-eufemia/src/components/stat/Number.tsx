@@ -1,4 +1,5 @@
 import { AmountBase, type AmountProps } from './Amount'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type NumberProps = AmountProps
 
@@ -9,6 +10,8 @@ export type NumberProps = AmountProps
  */
 const Number = AmountBase
 
-Number._supportsSpacingProps = true
+withComponentMarkers(Number, {
+  _supportsSpacingProps: true,
+})
 
 export default Number

@@ -5,6 +5,7 @@ import ItemEnd from '../ItemEnd'
 import ItemContent from '../ItemContent'
 import Container from '../Container'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemEnd', () => {
   it('renders with children', () => {
@@ -92,7 +93,7 @@ describe('ItemEnd', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemEnd._supportsSpacingProps).toBe(true)
+    expect((ItemEnd as ComponentMarkers)._supportsSpacingProps).toBe(true)
   })
 
   it('does not accept unrelated ItemContent props', () => {

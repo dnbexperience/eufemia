@@ -18,6 +18,7 @@ import { convertJsxToString } from '../../shared/component-helper'
 import StatValueContext from './StatValueContext'
 import useStatSkeleton from './useStatSkeleton'
 import { TextInternal as Text } from './Text'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type AmountOwnProps = Omit<
   NumberFormatProps,
@@ -320,7 +321,9 @@ function AmountBase(props: AmountProps) {
   )
 }
 
-AmountBase._supportsSpacingProps = true
+withComponentMarkers(AmountBase, {
+  _supportsSpacingProps: true,
+})
 
 export { AmountBase }
 export default AmountBase

@@ -9,6 +9,7 @@ import { ListContext } from './ListContext'
 import type { SkeletonShow } from '../Skeleton'
 
 import type { SpacingProps } from '../../shared/types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListScrollViewProps = {
   children: ReactNode
@@ -209,6 +210,8 @@ function doubleCssLength(value: string) {
   return `calc(${value} * 2)`
 }
 
-ListScrollView._supportsSpacingProps = true
+withComponentMarkers(ListScrollView, {
+  _supportsSpacingProps: true,
+})
 
 export default ListScrollView

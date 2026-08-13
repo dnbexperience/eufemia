@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react'
 import ItemAccordion from '../ItemAccordion'
 import Container from '../Container'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemAccordion', () => {
   it('renders with Header and Content', () => {
@@ -621,7 +622,9 @@ describe('ItemAccordion', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemAccordion._supportsSpacingProps).toBe(true)
+    expect((ItemAccordion as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   describe('disabled', () => {
