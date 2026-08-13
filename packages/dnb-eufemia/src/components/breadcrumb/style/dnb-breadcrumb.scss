@@ -32,8 +32,6 @@
   }
 
   &--variant-single &__bar .dnb-button {
-    // Keep the tertiary button's underline-on-hover (link affordance);
-    // do not reset text-decoration here.
     color: var(--token-color-text-neutral);
 
     .dnb-button__icon {
