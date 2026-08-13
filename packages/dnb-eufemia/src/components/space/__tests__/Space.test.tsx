@@ -5,7 +5,7 @@
 
 import { useRef } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import type { SpaceAllProps } from '../Space'
 import Space from '../Space'
@@ -143,13 +143,6 @@ describe('Space component', () => {
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
     })
-  })
-})
-
-describe('Space scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
 

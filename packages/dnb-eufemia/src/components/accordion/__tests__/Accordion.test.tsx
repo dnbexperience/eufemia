@@ -5,7 +5,7 @@
 
 import { act, useEffect, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { AccordionProps } from '../Accordion'
 import Accordion from '../Accordion'
 import {
@@ -1154,12 +1154,5 @@ describe('Accordion tertiary variant', () => {
       '.dnb-accordion__tertiary-content'
     )
     expect(content).toHaveClass('dnb-space__top--large')
-  })
-})
-
-describe('Accordion scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

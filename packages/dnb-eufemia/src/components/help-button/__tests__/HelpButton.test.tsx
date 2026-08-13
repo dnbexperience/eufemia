@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import Dialog from '../../dialog/Dialog'
 import type { HelpButtonProps } from '../HelpButton'
 import HelpButton from '../HelpButton'
@@ -246,12 +246,5 @@ describe('HelpButton', () => {
     await waitFor(() => {
       expect(button).toHaveAttribute('aria-describedby')
     })
-  })
-})
-
-describe('HelpButton scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

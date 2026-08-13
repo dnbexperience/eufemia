@@ -4,11 +4,7 @@
  */
 
 import { act, useState } from 'react'
-import {
-  axeComponent,
-  loadScss,
-  wait,
-} from '../../../core/test-utils/testSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
@@ -1089,12 +1085,5 @@ describe('Tooltip', () => {
         document.body.querySelector('#' + id).parentElement.classList
       ).toContain('dnb-tooltip--active')
     })
-  })
-})
-
-describe('Tooltip scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

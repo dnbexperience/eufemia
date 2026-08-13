@@ -5,7 +5,7 @@
 
 import { useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { loadScss, wait } from '../../../core/test-utils/testSetup'
+import { wait } from '../../../core/test-utils/testSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { InputMaskedProps } from '../InputMasked'
@@ -2936,13 +2936,6 @@ describe('controlled', () => {
     await userEvent.type(nativeInput, '{Backspace>4}1,00')
     expect(nativeInput).toHaveValue('1,00')
     expect(inputMasked).toHaveValue('1,00')
-  })
-})
-
-describe('InputMasked scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
 

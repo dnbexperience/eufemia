@@ -1,0 +1,308 @@
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * ProgressIndicator component
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-progress-indicator {
+  --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
+  --progress-indicator-circular-circle: 314.159265359%;
+  --progress-indicator-circular-circle-offset--min: 314.159265359%;
+  --progress-indicator-circular-circle-offset--max: 1%;
+  --progress-indicator-circular-size: 2rem;
+  --progress-indicator-circular-stroke-width: calc(
+    var(--progress-indicator-circular-size) / 8
+  );
+  --progress-indicator-circular-background-color: var(
+    --token-color-background-neutral-alternative
+  );
+  --progress-indicator-circular-bar-color: var(
+    --token-color-background-action
+  );
+  --progress-indicator-linear-size: 0.5rem;
+  --progress-indicator-linear-background-color: var(
+    --token-color-background-neutral-base
+  );
+  --progress-indicator-linear-bar-color: var(
+    --token-color-decorative-first-bold
+  );
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.dnb-progress-indicator--vertical {
+  flex-direction: column;
+}
+.dnb-progress-indicator--horizontal {
+  justify-content: center;
+}
+.dnb-progress-indicator__label {
+  display: inline-flex;
+}
+.dnb-progress-indicator__label .dnb-p {
+  align-self: center;
+}
+.dnb-spacing .dnb-progress-indicator .dnb-p,
+.dnb-spacing .dnb-progress-indicator .dnb-p:not([class*=dnb-space]) {
+  margin: 0;
+}
+
+.dnb-progress-indicator--horizontal .dnb-progress-indicator__label {
+  padding-left: 1rem;
+}
+.dnb-progress-indicator--horizontal.dnb-progress-indicator--small .dnb-progress-indicator__label {
+  padding-left: 0.5rem;
+}
+.dnb-progress-indicator--vertical .dnb-progress-indicator__label {
+  padding-top: 0.5rem;
+}
+.dnb-progress-indicator--inside .dnb-progress-indicator__label {
+  position: absolute;
+  width: 100%;
+  justify-content: center;
+  padding: var(--progress-indicator-circular-stroke-width);
+}
+.dnb-progress-indicator--small {
+  --progress-indicator-circular-size: 1rem;
+  --progress-indicator-linear-size: 0.25rem;
+}
+.dnb-progress-indicator--medium {
+  --progress-indicator-circular-size: 1.5rem;
+  --progress-indicator-linear-size: 1rem;
+}
+.dnb-progress-indicator--large {
+  --progress-indicator-circular-size: 3.5rem;
+  --progress-indicator-linear-size: 1.5rem;
+}
+.dnb-progress-indicator--huge {
+  --progress-indicator-circular-size: 20rem;
+  --progress-indicator-linear-size: 2rem;
+}
+.dnb-progress-indicator__circular {
+  position: relative;
+  width: var(--progress-indicator-circular-size);
+  height: var(--progress-indicator-circular-size);
+  transform: rotate(-90deg);
+}
+.dnb-progress-indicator__circular svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
+}
+.dnb-progress-indicator__circular svg:not(:root) {
+  overflow: visible;
+}
+.dnb-progress-indicator__circular__background-padding {
+  display: block;
+  height: 100%;
+  padding: calc(var(--progress-indicator-circular-stroke-width) / 2);
+}
+.dnb-progress-indicator__circular__background {
+  display: block;
+  height: 100%;
+  background-color: transparent;
+  border-radius: 50%;
+}
+.dnb-progress-indicator__circular__line {
+  animation-duration: 2s;
+  animation-delay: 200ms;
+  animation-timing-function: var(--progress-indicator-timing);
+  animation-iteration-count: infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__circular__line {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
+.dnb-progress-indicator__circular__line.background {
+  stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
+}
+.dnb-progress-indicator__circular__line.light {
+  animation-name: progress-indicator-circular-line-light;
+  stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
+  stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
+}
+.dnb-progress-indicator__circular__line.dark {
+  animation-name: progress-indicator-circular-line-dark;
+  stroke-dasharray: var(--progress-indicator-circular-circle), var(--progress-indicator-circular-circle);
+  stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min);
+}
+.dnb-progress-indicator__circular__line.paused {
+  animation-play-state: paused;
+}
+.dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular__line.dark {
+  transition: stroke-dashoffset 600ms var(--progress-indicator-timing);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular__line.dark {
+    transition-duration: 0.01ms;
+  }
+}
+.dnb-progress-indicator__circular__circle {
+  stroke-linecap: round;
+  stroke-width: var(--progress-indicator-circular-stroke-width);
+}
+.dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
+  stroke: var(--progress-indicator-circular-background-color);
+}
+.dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke: var(--progress-indicator-circular-bar-color);
+  stroke-width: calc(var(--progress-indicator-circular-stroke-width) - 0.5px);
+}
+.dnb-progress-indicator__linear {
+  background-color: var(--progress-indicator-linear-background-color);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  will-change: transform;
+  height: var(--progress-indicator-linear-size);
+  border-radius: var(--token-radius-full);
+}
+.dnb-progress-indicator__linear__bar {
+  background-color: var(--progress-indicator-linear-bar-color);
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  transform-origin: left;
+  border-radius: inherit;
+}
+.dnb-progress-indicator__linear__bar-transition {
+  transition: transform 0.2s linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__linear__bar-transition {
+    transition-duration: 0.01ms;
+  }
+}
+.dnb-progress-indicator__linear__bar1-animation {
+  width: auto;
+  animation: progress-indicator-linear-bar-1 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__linear__bar1-animation {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
+.dnb-progress-indicator__linear__bar2-animation {
+  width: auto;
+  animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__linear__bar2-animation {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+}
+html[data-visual-test] .dnb-progress-indicator__linear__bar1-animation {
+  left: -35%;
+  right: 100%;
+  animation-duration: 0ms;
+  animation-iteration-count: 0;
+}
+html[data-visual-test] .dnb-progress-indicator__linear__bar2-animation {
+  left: -200%;
+  right: 100%;
+  animation-duration: 0ms;
+  animation-iteration-count: 0;
+}
+.dnb-progress-indicator, .dnb-progress-indicator--show {
+  opacity: 0;
+  animation: progress-indicator-fade-in 200ms ease-out 1 forwards;
+}
+.dnb-progress-indicator--complete:not(.dnb-progress-indicator--show) {
+  animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator {
+    animation-duration: 0.01ms !important;
+  }
+}
+html[data-visual-test] .dnb-progress-indicator {
+  opacity: 1;
+  animation-duration: 0ms;
+}
+.dnb-progress-indicator--no-animation, .dnb-progress-indicator--no-animation.dnb-progress-indicator--complete {
+  animation-duration: 0ms;
+}
+.dnb-progress-indicator--full-width {
+  width: 100%;
+  min-width: 1rem;
+}
+@keyframes progress-indicator-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes progress-indicator-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes progress-indicator-circular-line-light {
+  0% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min);
+  }
+  50% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min);
+  }
+  100% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
+  }
+}
+@keyframes progress-indicator-circular-line-dark {
+  0% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--min);
+  }
+  50% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
+  }
+  100% {
+    stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
+  }
+}
+@keyframes progress-indicator-linear-bar-1 {
+  0% {
+    left: -35%;
+    right: 100%;
+  }
+  60% {
+    left: 100%;
+    right: -90%;
+  }
+  100% {
+    left: 100%;
+    right: -90%;
+  }
+}
+@keyframes progress-indicator-linear-bar-2 {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}

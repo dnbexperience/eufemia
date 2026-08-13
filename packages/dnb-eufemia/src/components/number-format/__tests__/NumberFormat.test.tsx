@@ -5,7 +5,6 @@
 
 import {
   axeComponent,
-  loadScss,
   mockClipboard,
 } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
@@ -1872,13 +1871,6 @@ describe('NumberFormat component with provider', () => {
     expect(document.querySelector(displaySelector).textContent).toBe(
       '12,345,678.99 kroner'
     )
-  })
-})
-
-describe('NumberFormat scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
 

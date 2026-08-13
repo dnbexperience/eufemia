@@ -5,7 +5,7 @@
 
 import { useState } from 'react'
 import type { SVGProps } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import type { IconAllProps } from '../Icon'
 import Icon, { prerenderIcon } from '../Icon'
@@ -316,12 +316,5 @@ describe('Icon fill', () => {
     expect(
       document.querySelector('span.dnb-icon').classList
     ).not.toContain('dnb-icon--filled')
-  })
-})
-
-describe('Icon scss', () => {
-  const css = loadScss(require.resolve('../style/deps.scss'))
-  it('should match style dependencies css', () => {
-    expect(css).toMatchSnapshot()
   })
 })

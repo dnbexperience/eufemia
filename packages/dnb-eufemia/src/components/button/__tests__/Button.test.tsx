@@ -4,7 +4,7 @@
  */
 
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { ButtonOnClick, ButtonProps } from '../Button'
 import Button from '../Button'
 import IconPrimary from '../../IconPrimary'
@@ -737,12 +737,5 @@ describe('Button status', () => {
   it('should validate with ARIA rules when a status is set', async () => {
     const Comp = render(<Button text="With status" status="my error" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('Button scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

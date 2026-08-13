@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { render, screen } from '@testing-library/react'
 import ProgressIndicator from '../ProgressIndicator'
 import type { ProgressIndicatorAllProps } from '../types'
@@ -520,12 +520,5 @@ describe('ProgressIndicator ARIA', () => {
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('ProgressIndicator scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

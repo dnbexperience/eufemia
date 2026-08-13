@@ -6,7 +6,7 @@
 import { fireEvent, render } from '@testing-library/react'
 import { StrictMode, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { RadioProps } from '../Radio'
 import Radio from '../Radio'
 import { Provider } from '../../../shared'
@@ -207,12 +207,5 @@ describe('Radio ARIA', () => {
     const input = document.querySelector('#unique')
     expect(refFn).toHaveBeenCalledWith(input)
     expect(input.classList).toContain('dnb-radio__input')
-  })
-})
-
-describe('Radio scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

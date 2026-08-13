@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import {
   fireEvent,
   render,
@@ -781,12 +781,5 @@ describe('StepIndicator ARIA', () => {
       .split(/\s+/)
       .filter((refId) => refId.endsWith('-status'))
     expect(statusRefs).toHaveLength(0)
-  })
-})
-
-describe('StepIndicator scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

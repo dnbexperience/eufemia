@@ -1,0 +1,41 @@
+/*
+* Used for snapshot testing
+*
+*/
+/*
+* HeightAnimation component
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-height-animation {
+  --height-animation-duration: var(--duration, 400ms);
+  --height-animation: height var(--height-animation-duration)
+    var(--easing-default) var(--delay, 0ms);
+  will-change: height;
+  transition: var(--height-animation);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-height-animation {
+    --height-animation-duration: 0.01ms;
+    transition-duration: 0.01ms !important;
+  }
+}
+.dnb-height-animation--animating {
+  overflow-y: hidden;
+}
+@supports (overflow-y: clip) {
+  .dnb-height-animation--animating {
+    overflow-y: clip;
+  }
+}
+.dnb-height-animation--hidden {
+  display: none;
+}
+.dnb-height-animation--hidden[hidden=until-found] {
+  display: block;
+}
+.dnb-height-animation--show-overflow {
+  overflow: visible;
+}

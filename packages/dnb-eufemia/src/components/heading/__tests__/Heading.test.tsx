@@ -5,7 +5,7 @@
 
 import { StrictMode, useEffect, useState } from 'react'
 import { renderToString } from 'react-dom/server'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import Typography from '../../../elements/typography/Typography'
 import { Theme } from '../../../shared'
@@ -617,11 +617,6 @@ describe('Heading component', () => {
       </StrictMode>
     )
     expect(await axeComponent(Comp, {})).toHaveNoViolations()
-  })
-
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
 

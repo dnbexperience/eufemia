@@ -5,7 +5,7 @@
 
 import { useRef } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import FormLabel from '../FormLabel'
 import Input from '../../input/Input'
@@ -492,12 +492,5 @@ describe('FormLabel component', () => {
 
     const element = document.querySelector('.dnb-form-label')
     expect(refElement).toBe(element)
-  })
-})
-
-describe('FormLabel scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

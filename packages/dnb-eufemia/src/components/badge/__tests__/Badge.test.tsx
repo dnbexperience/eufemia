@@ -6,7 +6,7 @@ import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 import Avatar from '../../Avatar'
 
-import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 
 describe('Badge', () => {
@@ -331,12 +331,5 @@ describe('Badge aria', () => {
   it('should validate', async () => {
     const Component = render(<Badge content="1" />)
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-})
-
-describe('Badge scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

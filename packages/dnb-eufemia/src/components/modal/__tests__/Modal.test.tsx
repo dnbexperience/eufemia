@@ -5,7 +5,7 @@
 
 import { StrictMode, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal from '../Modal'
@@ -1954,12 +1954,5 @@ describe('Modal ARIA', () => {
   it('should validate with ARIA rules as a dialog', async () => {
     const Comp = render(<Modal {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('Modal scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

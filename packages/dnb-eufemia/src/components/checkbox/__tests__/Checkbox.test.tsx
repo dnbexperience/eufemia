@@ -13,7 +13,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { CheckboxProps } from '../Checkbox'
 import Checkbox from '../Checkbox'
 import { Provider } from '../../../shared'
@@ -502,12 +502,5 @@ describe('Checkbox component', () => {
         (screen.getByRole('checkbox') as HTMLInputElement).indeterminate
       ).toBe(false)
     })
-  })
-})
-
-describe('Checkbox scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

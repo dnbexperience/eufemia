@@ -6,7 +6,7 @@
 import { useContext, useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { SectionAllProps } from '../Section'
 import Section from '../Section'
 import Provider from '../../../shared/Provider'
@@ -378,12 +378,5 @@ describe('surface', () => {
     )
 
     expect(receivedSurface).toBeUndefined()
-  })
-})
-
-describe('Section scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

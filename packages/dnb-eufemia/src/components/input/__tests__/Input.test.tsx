@@ -5,11 +5,7 @@
 
 import { useRef, useState } from 'react'
 import type { Ref, RefObject } from 'react'
-import {
-  axeComponent,
-  loadScss,
-  wait,
-} from '../../../core/test-utils/testSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { InputProps } from '../Input'
@@ -1034,12 +1030,5 @@ describe('Input ARIA', () => {
       </>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('Input scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

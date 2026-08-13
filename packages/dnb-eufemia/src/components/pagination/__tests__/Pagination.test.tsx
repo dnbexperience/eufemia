@@ -5,11 +5,7 @@
 
 import { useEffect, useReducer, useState } from 'react'
 import { vi } from 'vitest'
-import {
-  axeComponent,
-  loadScss,
-  wait,
-} from '../../../core/test-utils/testSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import {
   createEvent,
   fireEvent,
@@ -1226,12 +1222,5 @@ describe('Pagination transformNavigationItem', () => {
     expect(currentPage.getAttribute('aria-current')).toBe('page')
     expect(currentPage.textContent).toBe('3')
     expect(currentPage.getAttribute('href')).toBeNull()
-  })
-})
-
-describe('Pagination scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

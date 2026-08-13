@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { GlobalErrorAllProps } from '../GlobalError'
 import GlobalError from '../GlobalError'
 import Heading from '../../heading/Heading'
@@ -249,12 +249,5 @@ describe('GlobalError', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(<GlobalError {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('GlobalError scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

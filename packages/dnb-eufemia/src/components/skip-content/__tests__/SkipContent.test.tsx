@@ -2,7 +2,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { SkipContentAllProps } from '../SkipContent'
 import SkipContent from '../SkipContent'
 import Section from '../../Section'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 
 describe('SkipContent', () => {
   it('renders with properties as object', () => {
@@ -195,11 +195,6 @@ describe('SkipContent', () => {
     })
 
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-
-  it('scss has to match snapshot', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
 

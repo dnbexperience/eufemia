@@ -4,7 +4,7 @@
  */
 
 import type { ReactNode, SVGProps } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { LogoProps } from '../Logo'
 import Logo, {
   CarnegieDefault,
@@ -433,12 +433,5 @@ describe('Logo component', () => {
       const svg = document.querySelector('svg')
       expect(svg).toHaveAttribute('fill', 'tomato')
     })
-  })
-})
-
-describe('Logo scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

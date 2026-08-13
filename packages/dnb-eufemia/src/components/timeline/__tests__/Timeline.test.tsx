@@ -7,7 +7,7 @@ import type { TimelineItemAllProps } from '../TimelineItem'
 import TimelineItem from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'
-import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 import Input from '../../input/Input'
 
@@ -454,12 +454,5 @@ describe('Timeline aria', () => {
       />
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-})
-
-describe('Timeline scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

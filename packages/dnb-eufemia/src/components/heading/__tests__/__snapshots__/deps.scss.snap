@@ -1,0 +1,20 @@
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Heading Component
+ *
+ */
+.dnb-heading__debug {
+  color: var(--token-color-text-neutral-subtle);
+  font-weight: var(--font-weight-basis);
+}
+.dnb-heading__debug .dnb-code {
+  color: var(--token-color-text-neutral);
+  font-size: 12px !important;
+}
+.dnb-heading__context {
+  display: block;
+  padding: 1rem 0 2rem;
+}

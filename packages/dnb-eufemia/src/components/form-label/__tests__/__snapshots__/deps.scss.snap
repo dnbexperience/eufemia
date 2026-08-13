@@ -1,0 +1,41 @@
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * FormLabel component
+ *
+ */
+.dnb-form-label {
+  display: inline-block;
+  padding: 0;
+}
+.dnb-form-label[for] {
+  width: fit-content;
+}
+.dnb-form-label {
+  text-align: left;
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  word-break: normal;
+  font-size: var(--font-size-basis);
+  color: var(--token-color-text-neutral);
+}
+.dnb-form-label--surface-dark {
+  color: var(--token-color-text-neutral-ondark);
+}
+.dnb-form-label--vertical {
+  display: block;
+  margin-right: 0;
+  margin-bottom: 0.5rem;
+}
+.dnb-form-label--interactive {
+  cursor: pointer;
+}
+.dnb-form-label[disabled] {
+  cursor: not-allowed;
+}
+
+legend.dnb-form-label {
+  display: inline-block;
+}

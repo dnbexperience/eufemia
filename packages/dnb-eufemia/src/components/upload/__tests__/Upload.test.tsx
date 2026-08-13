@@ -10,11 +10,7 @@ import Upload from '../Upload'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { createMockFile } from './testHelpers'
-import {
-  loadScss,
-  axeComponent,
-  wait,
-} from '../../../core/test-utils/testSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import type { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
 import Provider from '../../../shared/Provider'
@@ -2253,12 +2249,5 @@ describe('Upload aria', () => {
   it('should validate', async () => {
     const Component = render(<Upload {...defaultProps} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-})
-
-describe('Upload scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

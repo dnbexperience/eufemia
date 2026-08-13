@@ -5,7 +5,7 @@ import type { DialogContentProps, DialogProps } from '../types'
 import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
-import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import { Form } from '../../../extensions/forms'
 import Translation from '../../../shared/Translation'
@@ -1010,12 +1010,5 @@ describe('Dialog triggerProps', () => {
     expect(
       document.querySelector('button.dnb-modal__trigger')
     ).toBeInTheDocument()
-  })
-})
-
-describe('Dialog scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

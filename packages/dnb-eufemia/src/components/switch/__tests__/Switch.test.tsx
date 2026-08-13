@@ -6,7 +6,7 @@
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import { StrictMode, useRef, useState } from 'react'
 import type { RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { SwitchProps } from '../Switch'
 import Switch from '../Switch'
 import { Provider } from '../../../shared'
@@ -285,12 +285,5 @@ describe('Switch component', () => {
     fireEvent.click(input)
     expect(input.getAttribute('aria-checked')).toBe('true')
     expect(onChange).toHaveBeenCalledWith(true)
-  })
-})
-
-describe('Switch scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

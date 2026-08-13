@@ -1,0 +1,163 @@
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Skeleton component
+ *
+ * Skeleton
+ *
+ */
+.dnb-skeleton {
+  --skeleton-color: var(--token-color-background-neutral-base);
+  --skeleton-color--contrast: var(--token-color-background-neutral);
+  --skeleton-delay: 5s;
+  --skeleton-duration: 1.5s;
+  --skeleton-iteration-count: 20;
+}
+.dnb-skeleton img,
+.dnb-skeleton video {
+  filter: brightness(0%) contrast(0%) opacity(0.5);
+}
+.dnb-skeleton--block {
+  display: block;
+}
+.dnb-skeleton--overflow {
+  overflow: hidden;
+}
+.dnb-skeleton--grey {
+  filter: grayscale(100%);
+}
+.dnb-skeleton--shape {
+  pointer-events: none;
+  position: relative;
+  overflow-x: hidden;
+  color: transparent;
+  background: transparent;
+  box-shadow: none !important;
+}
+.dnb-skeleton--shape.dnb-skeleton::before, .dnb-skeleton--shape.dnb-skeleton::after {
+  content: "" !important;
+  position: absolute !important;
+  z-index: 100 !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: inherit;
+  background: none !important;
+  box-shadow: none !important;
+}
+.dnb-skeleton--shape.dnb-skeleton::before {
+  background-color: var(--skeleton-color) !important;
+}
+.dnb-skeleton--shape.dnb-skeleton::after {
+  background-image: repeating-linear-gradient(-45deg, var(--skeleton-color--contrast) 1px 2px, transparent 0 6px) !important;
+  background-repeat: repeat !important;
+  background-size: 100% !important;
+  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  animation: skeletonLinearAnimation var(--skeleton-duration) linear var(--skeleton-iteration-count) var(--skeleton-delay);
+}
+.dnb-skeleton--code pre,
+.dnb-skeleton--code pre *,
+.dnb-skeleton--code code,
+.dnb-skeleton--code code *, .dnb-skeleton--font pre,
+.dnb-skeleton--font pre *,
+.dnb-skeleton--font code,
+.dnb-skeleton--font code * {
+  --font-family-monospace: 'DNBMonoSkeleton' !important;
+  font-family: var(--font-family-monospace) !important;
+  font-style: unset !important;
+  box-shadow: none !important;
+}
+.dnb-skeleton--font, .dnb-skeleton--font .dnb-skeleton--show-font, .dnb-skeleton--font .dnb-p {
+  pointer-events: none;
+  --font-family-default: 'DNBSkeleton' !important;
+  font-family: var(--font-family-default) !important;
+  font-style: unset !important;
+  background-position-y: 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: 30rem 100% !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  background-image: repeating-linear-gradient(-45deg, var(--skeleton-color--contrast) 1px 2px, transparent 0 6px) !important;
+  --border-color: var(--skeleton-color);
+  background-color: var(--skeleton-color) !important;
+  background-position-x: 30rem;
+  animation: skeletonFontAnimation 5s linear infinite var(--skeleton-delay);
+}
+.dnb-skeleton--font::marker, .dnb-skeleton--font .dnb-skeleton--show-font::marker, .dnb-skeleton--font .dnb-p::marker {
+  color: var(--skeleton-color);
+}
+.dnb-skeleton__figure {
+  position: relative;
+  border-radius: var(--token-radius-sm);
+}
+.dnb-skeleton__figure--circle {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+.dnb-skeleton__figure--product {
+  display: flex;
+  align-items: center;
+}
+.dnb-skeleton__figure--product .dnb-skeleton__figure--circle + div {
+  width: 50%;
+  margin-left: 1rem;
+}
+.dnb-skeleton--no-animation .dnb-skeleton, .dnb-skeleton--no-animation .dnb-skeleton::after, .dnb-skeleton--no-animation * .dnb-skeleton::after {
+  animation: none !important;
+}
+
+@keyframes skeletonLinearAnimation {
+  0% {
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+  }
+}
+@keyframes skeletonFontAnimation {
+  0% {
+    background-position-x: 30rem;
+  }
+  100% {
+    background-position-x: -30rem;
+  }
+}
+@font-face {
+  font-family: DNBSkeleton;
+  src: url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Regular.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Regular.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: DNBSkeleton;
+  src: url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Medium.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Medium.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: DNBSkeleton;
+  src: url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: DNBMonoSkeleton;
+  src: url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.woff2") format("woff2"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.woff") format("woff"), url("../../../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}

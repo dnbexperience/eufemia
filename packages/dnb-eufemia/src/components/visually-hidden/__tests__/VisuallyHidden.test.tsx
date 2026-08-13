@@ -2,7 +2,7 @@ import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
 import type { VisuallyHiddenAllProps } from '../VisuallyHidden'
 import VisuallyHidden from '../VisuallyHidden'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 
 describe('VisuallyHidden', () => {
@@ -118,13 +118,6 @@ describe('VisuallyHidden', () => {
     it('should validate', async () => {
       const Component = render(<VisuallyHidden>Aria</VisuallyHidden>)
       expect(await axeComponent(Component)).toHaveNoViolations()
-    })
-  })
-
-  describe('VisuallyHidden scss', () => {
-    it('should match style dependencies css', () => {
-      const css = loadScss(require.resolve('../style/deps.scss'))
-      expect(css).toMatchSnapshot()
     })
   })
 })

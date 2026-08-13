@@ -5,7 +5,7 @@ import Avatar from '../Avatar'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 
-import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 
 describe('Avatar', () => {
@@ -855,12 +855,5 @@ describe('Avatar aria', () => {
   it('should validate', async () => {
     const Component = render(<Avatar>E</Avatar>)
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-})
-
-describe('Avatar scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

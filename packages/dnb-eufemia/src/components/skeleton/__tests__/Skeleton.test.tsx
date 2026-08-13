@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { SkeletonProps } from '../Skeleton'
 import Skeleton from '../Skeleton'
 import Input from '../../input/Input'
@@ -54,12 +54,5 @@ describe('undefined props should fall through to defaults', () => {
     expect(
       container.querySelector('[aria-busy="true"]')
     ).toBeInTheDocument()
-  })
-})
-
-describe('Skeleton scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

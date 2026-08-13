@@ -1733,11 +1733,6 @@ describe('DrawerList portal', () => {
 })
 
 describe('DrawerList scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
-  })
-
   it('have to match default theme snapshot', () => {
     const css = loadScss(require.resolve('../style/dnb-drawer-list.scss'))
     expect(css).toMatchSnapshot()

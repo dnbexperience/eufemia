@@ -5,7 +5,7 @@
 
 import { useState } from 'react'
 import type { AnchorHTMLAttributes, Ref, RefObject } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { AnchorAllProps } from '../Anchor'
 import Anchor, { isDangerousHref } from '../Anchor'
@@ -849,12 +849,5 @@ describe('Anchor element', () => {
       )
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
-  })
-})
-
-describe('Anchor scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

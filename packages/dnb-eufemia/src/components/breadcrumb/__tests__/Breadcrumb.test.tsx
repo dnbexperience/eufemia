@@ -11,7 +11,7 @@ import type { BreadcrumbProps } from '../Breadcrumb'
 import Breadcrumb, { BreadcrumbItem } from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import IconPrimary from '../../icon-primary/IconPrimary'
-import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { BreadcrumbItemProps } from '../BreadcrumbItem'
 import type { AnchorAllProps } from '../../Anchor'
 import '../../../core/vitest/mockMatchMediaSetup'
@@ -537,12 +537,5 @@ describe('Breadcrumb aria', () => {
       />
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-})
-
-describe('Breadcrumb scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

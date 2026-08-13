@@ -5,11 +5,7 @@
 
 import { useState } from 'react'
 import type { PropsWithChildren, Ref } from 'react'
-import {
-  axeComponent,
-  loadScss,
-  wait,
-} from '../../../core/test-utils/testSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import type { GlobalStatusProps } from '../GlobalStatus'
 import GlobalStatus from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
@@ -1309,11 +1305,6 @@ describe('GlobalStatus scss', () => {
     )
     expect(messageContent).toBeInTheDocument()
     expect(messageContent.firstElementChild).toHaveClass('dnb-ul')
-  })
-
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 
   it('should render without errors during SSR', () => {

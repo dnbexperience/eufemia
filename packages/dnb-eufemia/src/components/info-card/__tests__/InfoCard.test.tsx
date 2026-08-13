@@ -3,7 +3,7 @@ import type { InfoCardAllProps } from '../InfoCard'
 import InfoCard from '../InfoCard'
 import { confetti as Confetti } from '../../../icons'
 
-import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 import { Li, Ul } from '../../../elements'
 
@@ -437,13 +437,6 @@ describe('InfoCard', () => {
     it('should validate', async () => {
       const Component = render(<InfoCard text="text" />)
       expect(await axeComponent(Component)).toHaveNoViolations()
-    })
-  })
-
-  describe('InfoCard scss', () => {
-    it('has to match style dependencies css', () => {
-      const css = loadScss(require.resolve('../style/deps.scss'))
-      expect(css).toMatchSnapshot()
     })
   })
 })

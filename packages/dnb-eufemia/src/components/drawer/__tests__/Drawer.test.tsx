@@ -4,7 +4,7 @@ import Drawer from '../Drawer'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 
-import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 
 const props: DrawerAllProps = {
@@ -741,12 +741,5 @@ describe('Drawer triggerProps', () => {
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(onClick).toHaveBeenCalledTimes(1)
-  })
-})
-
-describe('Drawer scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

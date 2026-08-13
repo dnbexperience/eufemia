@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { PaymentCardProps } from '../PaymentCard'
 import PaymentCard, {
   Designs,
@@ -428,12 +428,5 @@ describe('undefined props should fall through to defaults', () => {
     expect(
       document.querySelector('.dnb-payment-card--normal')
     ).toBeInTheDocument()
-  })
-})
-
-describe('PaymentCard scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

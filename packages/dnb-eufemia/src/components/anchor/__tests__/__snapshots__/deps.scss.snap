@@ -1,0 +1,560 @@
+/*
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
+/*
+* Icon component
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em;
+}
+.dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
+.dnb-icon svg,
+:where(.dnb-core-style) .dnb-icon svg {
+  width: inherit;
+  height: inherit;
+  shape-rendering: geometricprecision;
+  vertical-align: top;
+}
+.dnb-icon svg[width="100%"] {
+  width: inherit;
+}
+.dnb-icon svg[height="100%"] {
+  height: inherit;
+}
+.dnb-icon--filled svg path {
+  fill: currentcolor;
+}
+.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
+  fill: currentcolor;
+}
+.dnb-icon--inherit-color svg [stroke] {
+  stroke: currentcolor;
+}
+.dnb-icon--small {
+  font-size: 0.75rem;
+}
+.dnb-icon--default {
+  font-size: 1rem;
+}
+.dnb-icon--medium {
+  font-size: 1.5rem;
+}
+.dnb-icon--large {
+  font-size: 2rem;
+}
+.dnb-icon--x-large {
+  font-size: 2.5rem;
+}
+.dnb-icon--xx-large {
+  font-size: 3rem;
+}
+.dnb-icon--custom-size {
+  width: auto;
+  height: auto;
+  line-height: 0;
+}
+.dnb-icon--auto {
+  font-size: 1em;
+}
+.dnb-icon--custom-size svg[width="24"] path, .dnb-icon--auto svg[width="24"] path, .dnb-icon--large svg[width="24"] path, .dnb-icon--x-large svg[width="24"] path, .dnb-icon--xx-large svg[width="24"] path {
+  vector-effect: non-scaling-stroke;
+}
+.dnb-icon--auto > .dnb-icon--wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.dnb-icon {
+  --icon-border-positioning: var(--icon-border-positioning--default, -25%);
+}
+.dnb-icon--border {
+  position: relative;
+  vertical-align: baseline;
+}
+.dnb-icon--border::after {
+  content: "";
+  position: absolute;
+  left: var(--icon-border-positioning);
+  right: var(--icon-border-positioning);
+  top: var(--icon-border-positioning);
+  bottom: var(--icon-border-positioning);
+  margin: auto;
+  border-radius: 50%;
+  border: 0.0875rem solid;
+  border-color: currentcolor;
+}
+h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
+  vertical-align: middle;
+}
+p > .dnb-icon {
+  vertical-align: inherit;
+}
+.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+  content: none !important;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
+}
+@supports (d: path("")) {
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:not(:first-of-type) {
+    display: none;
+  }
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type path {
+    d: var(--icon-transition, var(--icon-transition-default));
+    vector-effect: non-scaling-stroke;
+    transition: d 400ms var(--easing-default);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dnb-icon--transition-fallback[style*="--icon-transition"] svg[data-icon-state]:first-of-type path {
+      transition-duration: 0.01ms;
+    }
+  }
+}
+.dnb-icon--transition-fallback {
+  position: relative;
+}
+.dnb-icon--transition-fallback svg[data-icon-state] {
+  transition: opacity 500ms var(--easing-default) 80ms, transform 600ms var(--easing-default);
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(:first-of-type) {
+  position: absolute;
+  inset: 0;
+}
+.dnb-icon--transition-fallback svg[data-icon-state]:not(.dnb-icon__state--active) {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.dnb-icon--transition-fallback svg[data-icon-state].dnb-icon__state--active {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-icon--transition-fallback svg[data-icon-state] {
+    transition-duration: 0.01ms;
+  }
+}
+
+/*
+* Used for snapshot testing
+*
+*/
+/*
+* Tooltip component
+*
+*/
+:root {
+  --tooltip-z-index: var(--z-index-tooltip);
+}
+
+.dnb-tooltip {
+  --inner-space: 0;
+  --tooltip-border-radius: var(--token-radius-lg);
+  --popover-text-color: var(--token-color-text-neutral-inverse);
+  --popover-background-color: var(
+    --token-color-component-tooltip-background-neutral
+  );
+  z-index: var(--tooltip-z-index);
+}
+.dnb-popover--inside-modal .dnb-tooltip {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
+.dnb-tooltip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: auto;
+  text-align: center;
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
+}
+.dnb-tooltip--large {
+  padding: 0.25rem 0;
+}
+.dnb-tooltip .dnb-popover__content {
+  min-width: 2rem;
+  min-height: 1.5rem;
+  padding: 0 1rem;
+}
+.dnb-tooltip .dnb-popover__arrow__placement--right {
+  left: -13px;
+  top: auto !important;
+}
+.dnb-tooltip .dnb-popover__arrow__placement--left {
+  right: -13px;
+  top: auto !important;
+}
+
+/*
+ * Anchor
+ *
+ */
+/*
+ * Anchor mixins
+ *
+ */
+button.dnb-anchor {
+  cursor: pointer;
+  line-height: calc(var(--line-height-basis) + 0.125rem);
+  border: none;
+  background: none;
+  appearance: none;
+}
+
+:where(:not(.dnb-anchor--no-style)).dnb-anchor {
+  --anchor-underline-thickness: 0.0938rem;
+  --anchor-color: var(--anchor-color--default);
+  --anchor-icon-color: var(--anchor-icon-color--default);
+  --anchor-color--default: var(--token-color-text-action);
+  --anchor-color--hover: var(--token-color-text-action-hover);
+  --anchor-color--active: var(--token-color-text-action-pressed);
+  --anchor-icon-color--default: var(--token-color-icon-action);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover);
+  --anchor-icon-color--active: var(--token-color-icon-action-pressed);
+  --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
+  --anchor-bg--active: var(--token-color-background-action-pressed-subtle);
+  --anchor-icon-gutter: 0.25em;
+  --anchor-icon-separator: '\2060';
+  --anchor-icon-position: translateY(-0.175em);
+  display: inline;
+  padding: 0.05575em 0;
+  font-size: var(--font-size-basis);
+  text-decoration: underline;
+  text-decoration-color: currentcolor;
+  text-decoration-thickness: var(--anchor-underline-thickness);
+  text-underline-offset: 0.25em;
+  border-radius: var(--token-radius-sm);
+}
+sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor--no-style)).dnb-anchor {
+  padding: 0 0.025em;
+}
+.dnb-p :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-lead :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--xx-large :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--x-large :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--large :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--medium :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--basis :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--small :where(:not(.dnb-anchor--no-style)).dnb-anchor, .dnb-h--x-small :where(:not(.dnb-anchor--no-style)).dnb-anchor {
+  font-size: inherit;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor {
+  color: var(--anchor-color);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
+  --anchor-color: var(--token-color-text-action-focus);
+  --anchor-icon-color: var(--token-color-icon-action-focus);
+  transition: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible.dnb-anchor {
+  text-decoration: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
+  outline: none;
+  --border-color: var(--token-color-stroke-action-focus);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
+  border-color: transparent;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+  --anchor-color: var(--anchor-color--hover);
+  --anchor-icon-color: var(--anchor-icon-color--hover);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)).dnb-anchor {
+  text-decoration: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    --anchor-color: var(--anchor-color--hover);
+    --anchor-icon-color: var(--anchor-icon-color--hover);
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
+  }
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor {
+    text-decoration: none;
+  }
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:active {
+  --anchor-color: var(--anchor-color--active);
+  --anchor-icon-color: var(--anchor-icon-color--active);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor:active, .dnb-section :where(:not(.dnb-anchor--no-style)).dnb-anchor:active.dnb-anchor {
+  text-decoration: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor {
+  transition: box-shadow 200ms ease-in-out, color 200ms ease-in-out, background 200ms ease-in-out;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon {
+  display: inline;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: var(--anchor-icon-color);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon svg {
+  vertical-align: baseline;
+  transform: scale(2) var(--anchor-icon-position);
+  font-size: 0.5em;
+  width: 2em;
+  height: 1em;
+  pointer-events: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--no-icon .dnb-icon {
+  display: none;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child::after {
+  content: var(--anchor-icon-separator);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-left .dnb-icon:first-child svg {
+  margin-right: calc(var(--anchor-icon-gutter) * 2);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child::before {
+  content: var(--anchor-icon-separator);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor--icon-right .dnb-icon:last-child svg {
+  margin-left: calc(var(--anchor-icon-gutter) * 2);
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor .dnb-icon--default {
+  font-size: 0.8888888889em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default {
+  font-size: 1em;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default svg path {
+  stroke-width: 1.2;
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--surface-dark {
+  --anchor-color--default: var(--token-color-text-action-ondark);
+  --anchor-color--hover: var(--token-color-text-action-ondark);
+  --anchor-color--active: var(--token-color-text-action-ondark);
+  --anchor-icon-color--default: var(--token-color-icon-action-ondark);
+  --anchor-icon-color--hover: var(--token-color-icon-action-hover-ondark);
+  --anchor-icon-color--active: var(--token-color-icon-action-ondark);
+  --anchor-bg--hover: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --anchor-bg--active: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
+}
+:where(:not(.dnb-anchor--no-style)).dnb-anchor.dnb-anchor--disabled, :where(:not(.dnb-anchor--no-style)).dnb-anchor[aria-disabled=true], :where(:not(.dnb-anchor--no-style)).dnb-anchor[disabled] {
+  --anchor-color: var(--token-color-text-action-disabled);
+  --anchor-icon-color: var(--token-color-icon-action-disabled);
+}
+
+:not(.dnb-anchor--no-style) {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+}
+@supports not (selector(*:where(*))) {
+  :not(.dnb-anchor--no-style).dnb-anchor {
+    --anchor-underline-thickness: 0.0938rem;
+    --anchor-color: var(--anchor-color--default);
+    --anchor-icon-color: var(--anchor-icon-color--default);
+    --anchor-color--default: var(--token-color-text-action);
+    --anchor-color--hover: var(--token-color-text-action-hover);
+    --anchor-color--active: var(--token-color-text-action-pressed);
+    --anchor-icon-color--default: var(--token-color-icon-action);
+    --anchor-icon-color--hover: var(--token-color-icon-action-hover);
+    --anchor-icon-color--active: var(--token-color-icon-action-pressed);
+    --anchor-bg--hover: var(--token-color-background-action-hover-subtle);
+    --anchor-bg--active: var(--token-color-background-action-pressed-subtle);
+    --anchor-icon-gutter: 0.25em;
+    --anchor-icon-separator: '\2060';
+    --anchor-icon-position: translateY(-0.175em);
+    display: inline;
+    padding: 0.05575em 0;
+    font-size: var(--font-size-basis);
+    text-decoration: underline;
+    text-decoration-color: currentcolor;
+    text-decoration-thickness: var(--anchor-underline-thickness);
+    text-underline-offset: 0.25em;
+    border-radius: var(--token-radius-sm);
+  }
+  sup :not(.dnb-anchor--no-style).dnb-anchor, sub :not(.dnb-anchor--no-style).dnb-anchor {
+    padding: 0 0.025em;
+  }
+  .dnb-p :not(.dnb-anchor--no-style).dnb-anchor, .dnb-lead :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--xx-large :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--x-large :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--large :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--medium :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--basis :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--small :not(.dnb-anchor--no-style).dnb-anchor, .dnb-h--x-small :not(.dnb-anchor--no-style).dnb-anchor {
+    font-size: inherit;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor {
+    color: var(--anchor-color);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+    --anchor-color: var(--token-color-text-action-focus);
+    --anchor-icon-color: var(--token-color-icon-action-focus);
+    transition: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:focus-visible.dnb-anchor {
+    text-decoration: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+    outline: none;
+    --border-color: var(--token-color-stroke-action-focus);
+    --border-width: var(--focus-ring-width);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
+    border-color: transparent;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
+    --anchor-color: var(--anchor-color--hover);
+    --anchor-icon-color: var(--anchor-icon-color--hover);
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)), .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)).dnb-anchor {
+    text-decoration: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+    /* stylelint-disable-next-line scss/operator-no-unspaced */
+  }
+  @supports not (selector(*:where(*))) {
+    :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover) {
+      --anchor-color: var(--anchor-color--hover);
+      --anchor-icon-color: var(--anchor-icon-color--hover);
+      box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
+    }
+    :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor {
+      text-decoration: none;
+    }
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:active {
+    --anchor-color: var(--anchor-color--active);
+    --anchor-icon-color: var(--anchor-icon-color--active);
+    box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor:active, .dnb-section :not(.dnb-anchor--no-style).dnb-anchor:active.dnb-anchor {
+    text-decoration: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor {
+    transition: box-shadow 200ms ease-in-out, color 200ms ease-in-out, background 200ms ease-in-out;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon {
+    display: inline;
+    vertical-align: middle;
+    white-space: nowrap;
+    color: var(--anchor-icon-color);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon svg {
+    vertical-align: baseline;
+    transform: scale(2) var(--anchor-icon-position);
+    font-size: 0.5em;
+    width: 2em;
+    height: 1em;
+    pointer-events: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--no-icon .dnb-icon {
+    display: none;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child::after {
+    content: var(--anchor-icon-separator);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-left .dnb-icon:first-child svg {
+    margin-right: calc(var(--anchor-icon-gutter) * 2);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child::before {
+    content: var(--anchor-icon-separator);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor--icon-right .dnb-icon:last-child svg {
+    margin-left: calc(var(--anchor-icon-gutter) * 2);
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor .dnb-icon--default {
+    font-size: 0.8888888889em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default {
+    font-size: 1em;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor__launch-icon.dnb-icon.dnb-icon--default svg path {
+    stroke-width: 1.2;
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--surface-dark {
+    --anchor-color--default: var(--token-color-text-action-ondark);
+    --anchor-color--hover: var(--token-color-text-action-ondark);
+    --anchor-color--active: var(--token-color-text-action-ondark);
+    --anchor-icon-color--default: var(--token-color-icon-action-ondark);
+    --anchor-icon-color--hover: var(--token-color-icon-action-hover-ondark);
+    --anchor-icon-color--active: var(--token-color-icon-action-ondark);
+    --anchor-bg--hover: var(
+      --token-color-background-action-hover-subtle-ondark
+    );
+    --anchor-bg--active: var(
+      --token-color-background-action-pressed-subtle-ondark
+    );
+  }
+  :not(.dnb-anchor--no-style).dnb-anchor.dnb-anchor--disabled, :not(.dnb-anchor--no-style).dnb-anchor[aria-disabled=true], :not(.dnb-anchor--no-style).dnb-anchor[disabled] {
+    --anchor-color: var(--token-color-text-action-disabled);
+    --anchor-icon-color: var(--token-color-icon-action-disabled);
+  }
+}
+
+.dnb-anchor--hover {
+  --anchor-color: var(--anchor-color--hover);
+  --anchor-icon-color: var(--anchor-icon-color--hover);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--hover), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--hover), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--hover);
+}
+.dnb-anchor--hover, .dnb-section .dnb-anchor--hover.dnb-anchor {
+  text-decoration: none;
+}
+
+.dnb-anchor--active {
+  --anchor-color: var(--anchor-color--active);
+  --anchor-icon-color: var(--anchor-icon-color--active);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-bg--active), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--anchor-bg--active), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--anchor-bg--active);
+}
+.dnb-anchor--active, .dnb-section .dnb-anchor--active.dnb-anchor {
+  text-decoration: none;
+}
+
+.dnb-anchor--focus {
+  --anchor-color: var(--token-color-text-action-focus);
+  --anchor-icon-color: var(--token-color-icon-action-focus);
+  transition: none;
+}
+.dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
+  text-decoration: none;
+}
+.dnb-anchor--focus {
+  outline: none;
+  --border-color: var(--token-color-stroke-action-focus);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
+  border-color: transparent;
+}
+
+.dnb-anchor--no-underline, .dnb-section .dnb-anchor--no-underline.dnb-anchor {
+  text-decoration: none;
+}
+
+.dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus-visible {
+  border-radius: 0;
+}
+
+.dnb-anchor--no-animation {
+  transition: none;
+}
+
+a.dnb-button {
+  transition: none;
+}
+
+.dnb-skeleton > .dnb-anchor,
+.dnb-anchor.dnb-skeleton {
+  text-decoration: none;
+}
+.dnb-skeleton > .dnb-anchor .dnb-icon,
+.dnb-anchor.dnb-skeleton .dnb-icon {
+  filter: grayscale(100%) opacity(0.3);
+}

@@ -3,7 +3,7 @@
  *
  */
 
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { FormStatusProps } from '../FormStatus'
 import FormStatus from '../FormStatus'
 import Input from '../../input/Input'
@@ -384,13 +384,6 @@ describe('FormStatus component', () => {
     simulateAnimationEnd()
 
     expect(element).not.toBeInTheDocument()
-  })
-})
-
-describe('FormStatus scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
 

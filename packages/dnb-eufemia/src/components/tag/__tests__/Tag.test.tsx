@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import type { TagProps } from '../Tag'
 import Tag from '../Tag'
 import nbNO from '../../../shared/locales/nb-NO'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../shared'
 import type { TagGroupProps } from '../TagGroup'
 
@@ -589,12 +589,5 @@ describe('Tag aria', () => {
       </Tag.Group>
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-})
-
-describe('Tag scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })

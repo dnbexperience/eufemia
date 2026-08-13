@@ -6,7 +6,7 @@
 import { StrictMode, useLayoutEffect, useState } from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import {
   addDays,
   addMonths,
@@ -5368,13 +5368,6 @@ describe('DatePicker calc', () => {
         expect.objectContaining({ isValidEndDate: false })
       )
     })
-  })
-})
-
-describe('DatePicker scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
 

@@ -4,11 +4,7 @@
  */
 
 import { useState } from 'react'
-import {
-  axeComponent,
-  loadScss,
-  wait,
-} from '../../../core/test-utils/testSetup'
+import { axeComponent, wait } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Slider, { SliderMarker } from '../Slider'
 import * as PopoverModule from '../../popover/Popover'
@@ -922,13 +918,6 @@ describe('Slider component', () => {
   it('should validate with ARIA rules', async () => {
     const Component = render(<Slider {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
-  })
-})
-
-describe('Slider scss', () => {
-  it('has to match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
 

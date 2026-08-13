@@ -1,0 +1,106 @@
+/*
+* Used for snapshot testing
+*
+*/
+/*
+* Used for snapshot testing
+*
+*/
+/*
+* Tooltip component
+*
+*/
+/*
+ * Utilities
+ */
+:root {
+  --tooltip-z-index: var(--z-index-tooltip);
+}
+
+.dnb-tooltip {
+  --inner-space: 0;
+  --tooltip-border-radius: var(--token-radius-lg);
+  --popover-text-color: var(--token-color-text-neutral-inverse);
+  --popover-background-color: var(
+    --token-color-component-tooltip-background-neutral
+  );
+  z-index: var(--tooltip-z-index);
+}
+.dnb-popover--inside-modal .dnb-tooltip {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
+.dnb-tooltip {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: auto;
+  text-align: center;
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
+}
+.dnb-tooltip--large {
+  padding: 0.25rem 0;
+}
+.dnb-tooltip .dnb-popover__content {
+  min-width: 2rem;
+  min-height: 1.5rem;
+  padding: 0 1rem;
+}
+.dnb-tooltip .dnb-popover__arrow__placement--right {
+  left: -13px;
+  top: auto !important;
+}
+.dnb-tooltip .dnb-popover__arrow__placement--left {
+  right: -13px;
+  top: auto !important;
+}
+
+/*
+ * NumberFormat Component
+ *
+ */
+.dnb-number-format {
+  display: inline-block;
+  position: relative;
+  speak-as: numbers;
+  white-space: nowrap;
+}
+.dnb-number-format .dnb-sr-only::before {
+  content: attr(data-text);
+}
+.dnb-number-format__prefix, .dnb-number-format__suffix {
+  white-space: normal;
+}
+.dnb-number-format.dnb-anchor {
+  cursor: pointer;
+}
+.dnb-number-format--select-all {
+  cursor: text;
+}
+.dnb-number-format__visible {
+  position: relative;
+  z-index: 2;
+}
+.dnb-number-format--selected .dnb-number-format__visible {
+  color: var(--token-color-text-neutral);
+  background-color: var(--token-color-background-action-pressed-subtle);
+}
+.dnb-number-format__selection {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  user-select: none;
+}
+.dnb-number-format--selected .dnb-number-format__selection {
+  z-index: 3;
+  user-select: all;
+}
+.dnb-number-format--monospace {
+  font-family: var(--font-family-monospace);
+}
+.dnb-number-format.dnb-skeleton, .dnb-skeleton .dnb-number-format {
+  -webkit-text-fill-color: var(--skeleton-color);
+}

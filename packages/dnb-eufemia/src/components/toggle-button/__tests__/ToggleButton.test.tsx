@@ -10,7 +10,7 @@ import {
   waitFor,
 } from '@testing-library/react'
 import { StrictMode, useState } from 'react'
-import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { ToggleButtonProps } from '../ToggleButton'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
@@ -390,12 +390,5 @@ describe('ToggleButton component', () => {
     const Comp = render(<ToggleButton {...props} />)
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('ToggleButton scss', () => {
-  it('should match style dependencies css', () => {
-    const css = loadScss(require.resolve('../style/deps.scss'))
-    expect(css).toMatchSnapshot()
   })
 })
