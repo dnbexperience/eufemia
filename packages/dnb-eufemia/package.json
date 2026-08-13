@@ -205,7 +205,7 @@
     "globals": "17.6.0",
     "globby": "11.0.4",
     "hono": "4.12.34",
-    "jest-axe": "10.0.0",
+    "jest-axe": "11.0.0",
     "jsdom": "29.1.1",
     "lebab": "3.2.7",
     "lightningcss": "1.32.0",
