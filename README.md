@@ -10,7 +10,7 @@
 ![Downloads](https://img.shields.io/npm/dt/@dnb/eufemia?style=flat-square)
 ![NPM version](https://img.shields.io/npm/v/@dnb/eufemia?style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/dnbexperience/eufemia?style=flat-square)
-[![Eufemia Actions](https://github.com/dnbexperience/eufemia/actions/workflows/actions.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/actions.yml)
+[![Verify](https://github.com/dnbexperience/eufemia/actions/workflows/verify.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/verify.yml)
 [![CodeQL](https://github.com/dnbexperience/eufemia/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/codeql-analysis.yml)
 
 </div>
