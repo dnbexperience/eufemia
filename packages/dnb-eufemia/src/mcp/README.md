@@ -6,14 +6,24 @@ By default it looks for `/docs` inside the installed package. During local devel
 
 ## Installation
 
-The MCP server requires `@modelcontextprotocol/sdk` as a peer dependency. It is not included as a runtime dependency of `@dnb/eufemia` since it is only needed for AI/MCP tooling.
+The MCP server dependencies are not included as runtime dependencies of
+`@dnb/eufemia`, since they are only needed for AI/MCP tooling.
 
 Install it as a devDependency in your application:
 
 ```bash
-npm install --save-dev @modelcontextprotocol/sdk
+npm install --save-dev @modelcontextprotocol/server
 # or
-yarn add --dev @modelcontextprotocol/sdk
+yarn add --dev @modelcontextprotocol/server
+```
+
+That is sufficient for the stdio server. The HTTP server also needs the Node
+adapter, legacy SSE transport, and Express:
+
+```bash
+npm install --save-dev @modelcontextprotocol/node @modelcontextprotocol/server-legacy express
+# or
+yarn add --dev @modelcontextprotocol/node @modelcontextprotocol/server-legacy express
 ```
 
 ## Available Tools
@@ -51,7 +61,9 @@ Use this when you want to host the MCP server behind a public URL — for exampl
 The HTTP server exposes:
 
 - `GET /healthz` — health check (`{ ok: true, name, version, transports }`).
-- `POST /mcp`, `GET /mcp`, `DELETE /mcp` — modern Streamable HTTP transport (recommended). Stateful; the session id is returned in the `mcp-session-id` response header.
+- `POST /mcp`, `GET /mcp`, `DELETE /mcp` — MCP 2025 and `2026-07-28`
+  on the same URL. Existing 2025 clients keep their stateful sessions; modern
+  clients use stateless per-request serving.
 - `GET /sse` — legacy SSE stream. Emits an `endpoint` event with `/messages?sessionId=<id>`.
 - `POST /messages?sessionId=<id>` — legacy SSE message endpoint.
 
@@ -91,3 +103,6 @@ yarn workspace @dnb/eufemia build:docs
 yarn workspace @dnb/eufemia build:docs:bundle
 # writes packages/dnb-eufemia/src/mcp/worker/docs.bundle.json
 ```
+
+The Lambda adapter in `tools/mcp-lambda/` and the Cloudflare Worker both use
+the tool definitions and docs-source implementation in this directory.

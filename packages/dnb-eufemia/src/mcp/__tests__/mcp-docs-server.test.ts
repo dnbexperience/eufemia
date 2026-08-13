@@ -1,6 +1,6 @@
 // @vitest-environment node
 
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types'
+import type { CallToolResult } from '@modelcontextprotocol/server'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
@@ -755,7 +755,7 @@ describe('component_props', () => {
 })
 
 describe('MCP dependency configuration', () => {
-  it('has @modelcontextprotocol/sdk dependency declared in package.json', () => {
+  it('has the MCP v2 server dependency declared in package.json', () => {
     const packageJsonPath = path.join(__dirname, '../../../package.json')
     const packageJson = JSON.parse(
       fs.readFileSync(packageJsonPath, 'utf8')
@@ -763,11 +763,8 @@ describe('MCP dependency configuration', () => {
 
     expect(packageJson.devDependencies).toBeDefined()
     expect(
-      packageJson.devDependencies['@modelcontextprotocol/sdk']
-    ).toBeDefined()
-    expect(
-      packageJson.devDependencies['@modelcontextprotocol/sdk']
-    ).toBeTruthy()
+      packageJson.devDependencies['@modelcontextprotocol/server']
+    ).toBe('2.0.0')
   })
 
   it('has .vscode/mcp.json with correct eufemia server configuration', () => {

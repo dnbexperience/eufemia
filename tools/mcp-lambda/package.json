@@ -16,10 +16,10 @@
   "type": "module",
   "dependencies": {
     "@dnb/eufemia": "workspace:*",
-    "@modelcontextprotocol/sdk": "1.29.0",
-    "zod": "4.4.3"
+    "@modelcontextprotocol/server": "2.0.0"
   },
   "devDependencies": {
+    "@modelcontextprotocol/client": "2.0.0",
     "@types/aws-lambda": "8.10.161",
     "esbuild": "0.25.5",
     "tsx": "4.22.4",

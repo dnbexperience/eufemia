@@ -8,16 +8,18 @@ MCP server that exposes the Eufemia documentation to AI tools, deployed as an AW
 POST /mcp/web → API Gateway HTTP API → Lambda (Node.js 22) → MCP SDK → Docs on disk
 ```
 
-The server is stateless — each request creates a fresh MCP transport,
-processes the JSON-RPC call, and tears down. No session state is kept between
-invocations. Tool definitions and docs access are shared with the local MCP
-implementation in `packages/dnb-eufemia/src/mcp/`.
+The server is stateless and serves both the MCP 2025 and `2026-07-28`
+protocol eras from the same `/mcp` URL. No session state is kept between
+invocations. Tool definitions and docs access are shared with the local and
+Worker MCP implementations in `packages/dnb-eufemia/src/mcp/`.
 
 For local development, a stdio transport is also available.
 
 > **Relationship to the Worker MCP:** The Cloudflare Worker under
 > [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/) and
-> this Lambda adapter use the same tool definitions and docs-source core.
+> this Lambda adapter use the same tool definitions and docs-source core. The
+> deployments can coexist while clients migrate, without maintaining separate
+> server implementations.
 
 ## Available tools
 

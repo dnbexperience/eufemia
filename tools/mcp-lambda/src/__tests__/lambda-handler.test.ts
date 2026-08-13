@@ -2,8 +2,10 @@ import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
-import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import {
+  WebStandardStreamableHTTPServerTransport,
+  type McpServer,
+} from '@modelcontextprotocol/server'
 import { createDocsServer } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 
 async function createTempDocs(): Promise<string> {
@@ -15,15 +17,13 @@ async function createTempDocs(): Promise<string> {
   return dir
 }
 
-// Mirror the per-invocation lifecycle the Lambda handler runs against the
-// shared `server` singleton: create a fresh transport, connect, handle one
-// request, then close. This locks the contract that one McpServer instance
-// can be reused across sequential connect/close cycles (warm-container reuse)
-// without state bleeding between invocations.
+// Mirror the legacy per-invocation lifecycle used by the Lambda handler:
+// create a fresh server and transport, handle one request, then close.
 async function invoke(
-  server: McpServer,
+  createServer: () => Promise<McpServer>,
   body: unknown
 ): Promise<{ status: number; json: unknown }> {
+  const server = await createServer()
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,
@@ -57,22 +57,26 @@ const toolsListRequest = {
   params: {},
 }
 
-describe('lambda-handler transport reuse', () => {
-  let server: McpServer
+describe('lambda-handler stateless transport lifecycle', () => {
   let docsRoot: string
 
   beforeAll(async () => {
     docsRoot = await createTempDocs()
-    server = (await createDocsServer({ docsRoot })).server
   })
 
   afterAll(async () => {
     await fs.rm(docsRoot, { recursive: true, force: true })
   })
 
-  it('handles two sequential invocations on the same server instance', async () => {
-    const first = await invoke(server, toolsListRequest)
-    const second = await invoke(server, { ...toolsListRequest, id: 2 })
+  const createServer = async () =>
+    (await createDocsServer({ docsRoot })).server
+
+  it('handles two sequential invocations with fresh server instances', async () => {
+    const first = await invoke(createServer, toolsListRequest)
+    const second = await invoke(createServer, {
+      ...toolsListRequest,
+      id: 2,
+    })
 
     expect(first.status).toBe(200)
     expect(second.status).toBe(200)
@@ -84,17 +88,22 @@ describe('lambda-handler transport reuse', () => {
       second.json as { result: { tools: Array<{ name: string }> } }
     ).result.tools.map((tool) => tool.name)
 
-    // The full tool set is served on both invocations, identically — proof
-    // that close() resets the transport binding and no state leaks across
-    // the shared singleton.
+    // The full tool set is served identically with no state shared between
+    // invocations.
     expect(firstTools).toContain('docs_entry')
     expect(firstTools).toContain('component_props')
     expect(secondTools).toEqual(firstTools)
   })
 
   it('echoes the request id per invocation', async () => {
-    const first = await invoke(server, { ...toolsListRequest, id: 41 })
-    const second = await invoke(server, { ...toolsListRequest, id: 42 })
+    const first = await invoke(createServer, {
+      ...toolsListRequest,
+      id: 41,
+    })
+    const second = await invoke(createServer, {
+      ...toolsListRequest,
+      id: 42,
+    })
 
     expect((first.json as { id: number }).id).toBe(41)
     expect((second.json as { id: number }).id).toBe(42)
@@ -134,6 +143,108 @@ describe('lambda-handler health check', () => {
     }
     expect(response.statusCode).toBe(200)
     expect(JSON.parse(response.body)).toEqual({ status: 'ok' })
+  })
+})
+
+describe('lambda-handler protocol versions', () => {
+  let docsRoot: string
+
+  beforeAll(async () => {
+    docsRoot = await createTempDocs()
+    process.env.EUFEMIA_DOCS_ROOT = docsRoot
+  })
+
+  afterAll(async () => {
+    delete process.env.EUFEMIA_DOCS_ROOT
+    await fs.rm(docsRoot, { recursive: true, force: true })
+  })
+
+  async function postMcp(
+    body: unknown,
+    headers: Record<string, string> = {}
+  ) {
+    const { handler } = await import('../transports/lambda-handler.js')
+
+    return (await handler({
+      rawPath: '/mcp',
+      requestContext: {
+        domainName: 'example.test',
+        http: { method: 'POST' },
+      },
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json, text/event-stream',
+        ...headers,
+      },
+      body: JSON.stringify(body),
+    } as unknown as Parameters<typeof handler>[0])) as {
+      statusCode: number
+      body: string
+    }
+  }
+
+  it('serves MCP 2025 and 2026 from /mcp', async () => {
+    const legacy = await postMcp({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'initialize',
+      params: {
+        protocolVersion: '2025-11-25',
+        capabilities: {},
+        clientInfo: { name: 'legacy-test', version: '1.0.0' },
+      },
+    })
+
+    expect(legacy.statusCode).toBe(200)
+    expect(JSON.parse(legacy.body).result.protocolVersion).toBe(
+      '2025-11-25'
+    )
+
+    const requestMeta = {
+      'io.modelcontextprotocol/protocolVersion': '2026-07-28',
+      'io.modelcontextprotocol/clientInfo': {
+        name: 'modern-test',
+        version: '1.0.0',
+      },
+      'io.modelcontextprotocol/clientCapabilities': {},
+    }
+    const modern = await postMcp(
+      {
+        jsonrpc: '2.0',
+        id: 2,
+        method: 'server/discover',
+        params: { _meta: requestMeta },
+      },
+      {
+        'mcp-protocol-version': '2026-07-28',
+        'mcp-method': 'server/discover',
+      }
+    )
+
+    expect(modern.statusCode).toBe(200)
+    expect(JSON.parse(modern.body).result.supportedVersions).toContain(
+      '2026-07-28'
+    )
+
+    const tools = await postMcp(
+      {
+        jsonrpc: '2.0',
+        id: 3,
+        method: 'tools/list',
+        params: { _meta: requestMeta },
+      },
+      {
+        'mcp-protocol-version': '2026-07-28',
+        'mcp-method': 'tools/list',
+      }
+    )
+
+    expect(tools.statusCode).toBe(200)
+    expect(
+      JSON.parse(tools.body).result.tools.map(
+        (tool: { name: string }) => tool.name
+      )
+    ).toContain('docs_entry')
   })
 })
 
