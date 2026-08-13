@@ -834,7 +834,7 @@ describe('DrawerList component', () => {
     rerender(<MockComponent open />)
 
     expect(document.body.getAttribute('style')).toBe(
-      'overflow: hidden; height: auto; box-sizing: border-box; margin-right: 0px;'
+      'overflow: hidden; height: 100%; box-sizing: border-box; margin-right: 0px;'
     )
 
     rerender(<MockComponent open={false} />)
