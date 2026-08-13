@@ -40,7 +40,6 @@ const setOverflowHidden = () => {
     )
 
     bodyElement.style.overflow = 'hidden'
-    bodyElement.style.height = 'auto'
     bodyElement.style.boxSizing = 'border-box'
     bodyElement.style.marginRight = `${scrollBarWidth}px`
 
@@ -49,7 +48,7 @@ const setOverflowHidden = () => {
         ;['overflow', 'height'].forEach((x) => {
           htmlElement.style[x] = htmlStyle[x] || ''
         })
-        ;['overflow', 'height', 'boxSizing', 'margin'].forEach((x) => {
+        ;['overflow', 'boxSizing', 'margin'].forEach((x) => {
           bodyElement.style[x] = bodyStyle[x] || ''
         })
         htmlElement.style.removeProperty('--scrollbar-width')
