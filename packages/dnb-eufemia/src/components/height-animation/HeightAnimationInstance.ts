@@ -22,7 +22,6 @@ export type HeightAnimationOnEndStack = Array<HeightAnimationOnEndCallback>
 export type HeightAnimationEventListener = (e: Event) => void
 export type HeightAnimationEvents = Array<HeightAnimationEventListener>
 export type HeightAnimationElement = HTMLElement
-export type HeightAnimationContainer = HTMLElement
 export type HeightAnimationFromHeight = number
 export type HeightAnimationToHeight = number
 
