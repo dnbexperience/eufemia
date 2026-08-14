@@ -11,13 +11,7 @@ name: MCP Lambda
 # - Any branch under the `mcp-server/` prefix (e.g. `mcp-server/new-tool`).
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
-# Requires the following GitHub secrets:
-# - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo + workflow push access
-#
-# And the following GitHub variables:
-# - GHE_MCP_DEPLOY_REPO: The GHE repo, as `owner/repo` (e.g. `eufemia/eufemia-mcp`).
-#   A variable (not a secret) so a wrong value is visible in logs, not masked.
-#
+# See tools/mcp-lambda/README.md for deploy details.
 # See tools/mcp-lambda/README.md for manual deploy instructions.
 
 on:
