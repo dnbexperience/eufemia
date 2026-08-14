@@ -11,7 +11,7 @@ import pointer from '../extensions/forms/utils/json-pointer'
 import type { ICUFormatMessage } from './icuFormatMessage'
 
 // All TypeScript based Eufemia elements
-import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
+import type { ScrollViewProps } from '../components/scroll-view/ScrollView'
 
 // All TypeScript based Eufemia components
 import type { AnchorProps } from '../components/Anchor'

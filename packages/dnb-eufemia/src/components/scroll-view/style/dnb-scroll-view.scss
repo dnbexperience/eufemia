@@ -1,0 +1,28 @@
+/*
+* ScrollView component
+*
+*/
+
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-scroll-view {
+  overflow-x: auto;
+
+  @include utilities.scrollY(auto);
+
+  // Ensure the user still can scroll a ancestor scrollarea (body)
+  overscroll-behavior: auto;
+
+  &--scrollbar-gutter-stable {
+    scrollbar-gutter: stable;
+  }
+
+  // interactive prop
+  &[tabindex='0'] {
+    &:focus {
+      outline: none;
+
+      @include utilities.focusRing();
+    }
+  }
+}

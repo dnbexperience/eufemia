@@ -1,7 +1,7 @@
 import type { ReactElement, TableHTMLAttributes } from 'react'
 import { clsx } from 'clsx'
-import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
-import ScrollView from '../../fragments/scroll-view/ScrollView'
+import type { ScrollViewAllProps } from '../scroll-view/ScrollView'
+import ScrollView from '../scroll-view/ScrollView'
 
 import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'

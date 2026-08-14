@@ -10,7 +10,7 @@ import {
   findElementInChildren,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import ScrollView from '../../fragments/scroll-view/ScrollView'
+import ScrollView from '../scroll-view/ScrollView'
 import DialogHeader from './parts/DialogHeader'
 import DialogNavigation from './parts/DialogNavigation'
 import DialogAction from './parts/DialogAction'

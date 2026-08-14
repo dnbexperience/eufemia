@@ -2,7 +2,7 @@ import { Fragment, useCallback } from 'react'
 import type { ReactNode, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
-import ScrollView from '../../../../fragments/scroll-view/ScrollView'
+import ScrollView from '../../../../components/scroll-view/ScrollView'
 import { P } from '../../../../elements'
 import { useHighlightText } from '../../../../shared/helpers/highlightText'
 import type {

@@ -1,0 +1,52 @@
+---
+showTabs: true
+---
+
+import { ScrollViewInfo } from 'Docs/uilib/components/scroll-view/Examples'
+
+## Import
+
+```tsx
+import { ScrollView } from '@dnb/eufemia'
+```
+
+The previous fragment import remains available for backwards compatibility, but is deprecated and will be removed in v13:
+
+```tsx
+// Deprecated
+import { ScrollView } from '@dnb/eufemia/fragments'
+```
+
+## Description
+
+`ScrollView` creates a general-purpose horizontal or vertical scrolling area. It renders a `div`, supports native `div` attributes and [spacing properties](/uilib/layout/space/properties), and integrates with Eufemia components that need to identify their nearest scrolling container.
+
+Use it when content must scroll independently from the page, for example when a region has a constrained width or height. Set the constraint through `style`, `className`, or a surrounding layout.
+
+For component-specific behavior, prefer the specialized variants:
+
+- Use [`Table.ScrollView`](/uilib/components/table/) around tables.
+- Use [`List.ScrollView`](/uilib/components/list/) around lists, including when using `maxVisibleListItems`.
+
+`Dialog` and `Drawer` already use `ScrollView` internally, so they normally do not need another one around their content.
+
+<ScrollViewInfo />
+
+## Accessibility
+
+A scrollable region must be reachable by keyboard when it contains no other focusable elements. Use `interactive="auto"` to add it to the tab order only while it overflows. Use `interactive={true}` when it must always be keyboard-focusable.
+
+When the region needs an accessible name, provide `aria-label` or `aria-labelledby`. Avoid unnecessary nested scrolling areas because they can make keyboard and touch navigation difficult.
+
+## Scrollbar gutter
+
+Use `scrollbarGutter="stable"` to reserve space for the scrollbar, preventing horizontal layout shifts when content dynamically changes between overflowing and non-overflowing states.
+
+This maps to `scrollbar-gutter: stable`. It has no visible effect on systems using overlay scrollbars, such as the default configuration on macOS and iOS. `Dialog` and `Drawer` enable it automatically by default.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/scroll-view)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/scroll-view)
+
+<RelatedComponents />

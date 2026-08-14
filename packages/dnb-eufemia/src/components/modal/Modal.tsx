@@ -37,7 +37,7 @@ import type { ModalProps } from './types'
 
 import ModalHeader from './parts/ModalHeader'
 import ModalHeaderBar from './parts/ModalHeaderBar'
-import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
+import type { ScrollViewAllProps } from '../scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ParagraphContext } from '../../elements/typography/P'
