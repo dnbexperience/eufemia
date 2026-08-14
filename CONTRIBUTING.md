@@ -36,7 +36,7 @@ Prefer fewer dependencies — a little code we own usually beats a new runtime d
 - **License** — compatible with DNB policy.
 - **Alternatives considered** — what else you evaluated.
 
-Remove dependencies once they are no longer used — the cheapest vulnerability to handle is the one on code you deleted.
+Remove dependencies once they are no longer used — the cheapest vulnerability to handle is the one in code you deleted.
 
 ## Security
 

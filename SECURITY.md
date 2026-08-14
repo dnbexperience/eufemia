@@ -13,9 +13,9 @@ Report it privately using one of the following, in order of preference:
    collaborate on a fix and a coordinated disclosure. Prefer this route: it
    reaches the whole maintainer team, so it does not depend on one person being
    available.
-2. **Email** — if that form is unavailable, the Eufemia Security Champion at
-   [anders.langseth@dnb.no](mailto:anders.langseth@dnb.no), or a maintainer at
-   [tobias.hoegh@dnb.no](mailto:tobias.hoegh@dnb.no).
+2. **Email** — if that form is unavailable, email the Eufemia Security Champion
+   at [anders.langseth@dnb.no](mailto:anders.langseth@dnb.no), or a maintainer
+   at [tobias.hoegh@dnb.no](mailto:tobias.hoegh@dnb.no).
 
 Please include, where possible:
 
