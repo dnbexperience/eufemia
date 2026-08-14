@@ -3,8 +3,7 @@
 # BA number from ServiceNow used for cost allocation tagging.
 cost_allocation = "BSN00000000"
 
-# Bearer token required on /records requests. Leave empty to disable auth
-# (demo only — never do this outside a throwaway environment).
-# api_token = "change-me"
+# Bearer token required on all /records requests (must be non-empty).
+api_token = "change-me"
 
 # environment = "dev"
