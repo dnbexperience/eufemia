@@ -13,7 +13,10 @@ name: MCP Lambda
 #
 # Requires the following GitHub secrets:
 # - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo + workflow push access
-# - GHE_MCP_DEPLOY_REPO: The GHE repo (e.g. `eufemia/eufemia-mcp`)
+#
+# And the following GitHub variables:
+# - GHE_MCP_DEPLOY_REPO: The GHE repo, as `owner/repo` (e.g. `eufemia/eufemia-mcp`).
+#   A variable (not a secret) so a wrong value is visible in logs, not masked.
 #
 # See tools/mcp-lambda/README.md for manual deploy instructions.
 
@@ -102,11 +105,23 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         env:
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
-          GHE_REPO: ${{ secrets.GHE_MCP_DEPLOY_REPO }}
+          GHE_REPO: ${{ vars.GHE_MCP_DEPLOY_REPO }}
           SOURCE_REF: ${{ github.ref_name }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
+
+          # Fail loudly on a misconfigured GHE_REPO (e.g. a token pasted where
+          # owner/repo belongs) instead of an opaque SSO redirect on push.
+          if [[ ! "$GHE_REPO" =~ ^[^/[:space:]]+/[^/[:space:]]+$ ]]; then
+            echo "::error::GHE_MCP_DEPLOY_REPO must be 'owner/repo' (got ${#GHE_REPO} chars)."
+            exit 1
+          fi
+          case "$GHE_REPO" in
+            github_pat_*|ghp_*|gho_*|ghs_*)
+              echo "::error::GHE_MCP_DEPLOY_REPO looks like a token, not a repo name."
+              exit 1 ;;
+          esac
 
           DEPLOY_DIR=$(mktemp -d)
           cd "$DEPLOY_DIR"
