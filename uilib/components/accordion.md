@@ -1,8 +1,8 @@
 ---
 title: 'Accordion'
 description: 'Use Accordion to let people open and close sections of related content.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.046Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.616Z
 checksum: ed8bd1d380d09a80db321e550b4bbe69b0d9e81646d6e8dd672db3fccbe8b736
 ---
 

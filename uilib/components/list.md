@@ -1,9 +1,9 @@
 ---
 title: 'List'
 description: 'Use List to show rows of related content, with optional actions or navigation.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.307Z
-checksum: 37226afbd1e750d15c52eaf0d641a09a1e6f1d78121deaee0bc9306cf6843090
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.835Z
+checksum: c946337b4ac955f9ab3512f2b6d0d501de5df4f7c5035f87b7529a83c0754ce0
 ---
 
 # List
@@ -117,6 +117,39 @@ render(<List.Container>
           </List.Container>);
 ```
 
+
+## Rendering a row outside a `List.Container`
+
+`List.Item.Basic` renders an `<li>` by default for correct list semantics. When you reuse the row layout inside markup that already provides the list item, set the `element` prop to an element that is valid in the surrounding markup.
+
+A [Dropdown](/uilib/components/dropdown) or [Autocomplete](/uilib/components/autocomplete) option is already an `<li>` and wraps its content in `<span>` elements. Use `element="span"` on the row and its cells to avoid both a nested `<li>` and block elements inside those spans:
+
+```jsx
+<List.Item.Basic element="span">
+  <List.Cell.Title element="span">Accounts</List.Cell.Title>
+  <List.Cell.End element="span">Bills, Savings</List.Cell.End>
+</List.Item.Basic>
+```
+
+The `title` and `icon` convenience props on `List.Item.Basic` follow the row `element` automatically, so `<List.Item.Basic element="span" title="Accounts" />` renders the title as a `span`, never a `div`. Cells you add yourself (`List.Cell.*`) take their own `element` prop – set it to `span` to match the row, as shown above.
+
+### What you get, and what you don't
+
+Outside a `List.Container` you get the row layout and the cell styling, but not the list surface. Row height, padding, background and border are applied by `List.Container`, so a standalone row does not receive them. In a `Dropdown` or `Autocomplete` option this is what you want, because the option already brings its own padding, hover and selected styling.
+
+Keep it that way, and do not re-apply the list surface on a row inside an option (for instance by setting `variant`). The row would then paint its own light background and border on top of the option, and the white text of a selected option becomes unreadable against it.
+
+### Give the row room
+
+`List.Cell.End` keeps its content width, so in a narrow drawer the title column is squeezed and the title wraps mid-word. Set a width that fits both the title and the end value – see [custom width](/uilib/components/dropdown/demos#custom-width) for the `Dropdown`.
+
+### Provide plain text for value and search
+
+Text passed through the `title` prop is invisible to the value and search text that `Dropdown` and `Autocomplete` derive from `content`. Provide `selectedValue` with the plain text to show once an option is selected, and for `Autocomplete` also `searchContent` with the plain text to filter on.
+
+### Keep the option semantics intact
+
+Only reuse the presentational cells (`List.Cell.*`) this way. Do not place interactive items (`List.Item.Action`, `List.Item.Accordion`) or a nested `List.Container` inside a `Dropdown` or `Autocomplete` option, as that breaks the listbox semantics and keyboard navigation.
 
 ## Loading states
 
@@ -459,6 +492,52 @@ render(<List.Container separated>
             <Value.Currency value={4567} />
           </List.Cell.End>
         </List.Item.Basic>
+      </List.Container>)
+```
+
+
+### Striped rows
+
+Use the `striped` property on `List.Container` to apply alternating row background colors.
+
+
+```tsx
+render(<List.Container striped>
+        <List.Item.Action title="Alice Andersen" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium" hasLabel>
+              A
+            </Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>Administrator</List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action title="Bob Berg" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium" hasLabel>
+              B
+            </Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>Editor</List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action title="Carol Christensen" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium" hasLabel>
+              C
+            </Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>Viewer</List.Cell.End>
+        </List.Item.Action>
+
+        <List.Item.Action title="David Dahl" onClick={() => {}}>
+          <List.Cell.Start>
+            <Avatar size="medium" hasLabel>
+              D
+            </Avatar>
+          </List.Cell.Start>
+          <List.Cell.End>Editor</List.Cell.End>
+        </List.Item.Action>
       </List.Container>)
 ```
 
@@ -976,6 +1055,12 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
       "type": "boolean",
       "status": "optional"
     },
+    "striped": {
+      "doc": "When `true`, applies alternating row background colors to the list items.",
+      "type": "boolean",
+      "defaultValue": "false",
+      "status": "optional"
+    },
     "skeleton": {
       "doc": "When `true`, applies skeleton font styling to all child items. Individual items can override this with their own `skeleton` prop.",
       "type": "boolean",
@@ -1045,6 +1130,15 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
       "type": "React.ReactNode",
       "status": "optional"
     },
+    "element": {
+      "doc": "Define the HTML element used for the row. Defaults to `li` for correct list semantics. Use an element that is valid inside the surrounding markup when the row is rendered inside markup that already provides the list item. For example, use `span` for a `Dropdown` or `Autocomplete` option.",
+      "type": [
+        "string",
+        "React.Element"
+      ],
+      "defaultValue": "'li'",
+      "status": "optional"
+    },
     "children": {
       "doc": "Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (use `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for overline/subline text), or the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components, or `List.Cell.Footer`.",
       "type": "React.ReactNode",
@@ -1090,7 +1184,7 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
       "status": "optional"
     },
     "element": {
-      "doc": "Define what HTML or React element should be used for the link (e.g. `element={Link}` for React Router). Only applicable when `href` or `to` is set.",
+      "doc": "Define what HTML or React element should be used for the link (e.g. `element={Link}` for React Router). Only applicable when `href` or `to` is set. Note that this is the link element – unlike `List.Item.Basic`, where `element` defines the row element.",
       "type": "React.Element",
       "status": "optional"
     },
@@ -1292,6 +1386,15 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
       "defaultValue": "\"basis\"",
       "status": "optional"
     },
+    "element": {
+      "doc": "Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.",
+      "type": [
+        "string",
+        "React.Element"
+      ],
+      "defaultValue": "'div'",
+      "status": "optional"
+    },
     "children": {
       "doc": "Title content of the list item. Equivalent to using the `title` prop on `List.Item.Basic` or `List.Item.Action`. You can nest `List.Cell.Title.Overline`/`List.Cell.Title.Subline` inside the component for the overline/subline text.",
       "type": "React.ReactNode",
@@ -1427,6 +1530,15 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
       "defaultValue": "\"regular\"",
       "status": "optional"
     },
+    "element": {
+      "doc": "Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.",
+      "type": [
+        "string",
+        "React.Element"
+      ],
+      "defaultValue": "'div'",
+      "status": "optional"
+    },
     "children": {
       "doc": "Start content of the list item (e.g. icon, label).",
       "type": "React.ReactNode",
@@ -1469,6 +1581,15 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
       "defaultValue": "\"regular\"",
       "status": "optional"
     },
+    "element": {
+      "doc": "Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.",
+      "type": [
+        "string",
+        "React.Element"
+      ],
+      "defaultValue": "'div'",
+      "status": "optional"
+    },
     "children": {
       "doc": "Center content of the list item. Grows to fill available space.",
       "type": "React.ReactNode",
@@ -1509,6 +1630,15 @@ Use `List.ShowMoreButton` to add a "Show more" / "Show less" toggle outside the 
         "\"basis\""
       ],
       "defaultValue": "\"basis\"",
+      "status": "optional"
+    },
+    "element": {
+      "doc": "Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.",
+      "type": [
+        "string",
+        "React.Element"
+      ],
+      "defaultValue": "'div'",
       "status": "optional"
     },
     "children": {

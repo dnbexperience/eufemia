@@ -1,8 +1,8 @@
 ---
 title: 'Field.NationalIdentityNumber'
 description: '`Field.NationalIdentityNumber` is a wrapper component for the input of strings, with user experience tailored for national identity number values.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.359Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.682Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -19,10 +19,10 @@ render(<Field.NationalIdentityNumber />)
 
 `Field.NationalIdentityNumber` is a wrapper component for [string input](/uilib/extensions/forms/base-fields/String), with user experience tailored for national identity number values.
 
-This field is meant for [Norwegian national identity numbers (fnr)](https://www.skatteetaten.no/person/folkeregister/identitetsnummer-og-elektronisk-id/fodselsnummer/) and [D numbers](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/d-nummer/), and therefore takes an 11-digit string as a value. A Norwegian national identity number can have a leading zero, which is why it's a string and not a number.
+This field is meant for [Norwegian national identity numbers (fnr)](https://www.skatteetaten.no/person/folkeregister/identitetsnummer-og-elektronisk-id/fodselsnummer/) and [D numbers](https://www.skatteetaten.no/person/folkeregister/identitetsnummer-og-elektronisk-id/d-nummer/), and therefore takes an 11-digit string as a value. A Norwegian national identity number can have a leading zero, which is why it's a string and not a number.
 More info can be found at [Skatteetaten](https://www.skatteetaten.no/person/folkeregister/identitetsnummer-og-elektronisk-id/fodselsnummer/#:~:text=A%20national%20identity%20number%20consists,national%20identity%20number%20are%20220676).
 
-It validates input for [Norwegian national identity numbers (fnr)](https://www.skatteetaten.no/person/folkeregister/identitetsnummer-og-elektronisk-id/fodselsnummer/) and [D numbers](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/d-nummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
+It validates input for [Norwegian national identity numbers (fnr)](https://www.skatteetaten.no/person/folkeregister/identitetsnummer-og-elektronisk-id/fodselsnummer/) and [D numbers](https://www.skatteetaten.no/person/folkeregister/identitetsnummer-og-elektronisk-id/d-nummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
 The validation happens on blur, internally using the `onBlurValidator` [property](/uilib/extensions/forms/feature-fields/NationalIdentityNumber/properties/#field-specific-properties).
 
 There is a corresponding [Value.NationalIdentityNumber](/uilib/extensions/forms/Value/NationalIdentityNumber) component.
@@ -201,7 +201,7 @@ render(<Field.NationalIdentityNumber value="29020112345" validateInitially />)
 
 ### Validation - D numbers
 
-It validates [D numbers](https://www.skatteetaten.no/en/person/national-registry/identitetsnummer/d-nummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
+It validates [D numbers](https://www.skatteetaten.no/person/folkeregister/identitetsnummer-og-elektronisk-id/d-nummer/) using the [fnrvalidator](https://github.com/navikt/fnrvalidator).
 
 Below is an example of the error message displayed when there's an invalid D number(a D number has its first number in the identification number increased by 4):
 

@@ -1,8 +1,8 @@
 ---
 title: 'AI, MCP and Tools'
 description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.431Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.752Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -14,7 +14,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 
 If your AI coding agent supports the Model Context Protocol (MCP), you have two options:
 
-1. **Use the hosted MCP server** at `https://eufemia-mcp.eufemia.workers.dev/mcp` — no installation needed, always serves the latest released docs.
+1. **Use the hosted MCP server** at `https://server.eufemia.dnb.no/mcp/web` — no installation needed, always serves the latest released docs.
 2. **Run a local MCP server** that exposes the packaged documentation from `/docs` — useful for offline / air-gapped work, and pinned to the exact `@dnb/eufemia` version installed in your project (so the docs the AI sees match the components you actually consume).
 
 ### Hosted MCP server
@@ -22,22 +22,22 @@ If your AI coding agent supports the Model Context Protocol (MCP), you have two 
 Point your MCP-aware client at the public Streamable HTTP endpoint:
 
 ```txt
-https://eufemia-mcp.eufemia.workers.dev/mcp
+https://server.eufemia.dnb.no/mcp/web
 ```
 
-It is hosted on Cloudflare Workers, supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://eufemia-mcp.eufemia.workers.dev/healthz`.
+It supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://server.eufemia.dnb.no/healthz`.
 
 #### Example: Claude CLI / raicode CLI
 
 ```bash
-claude mcp add --transport http eufemia https://eufemia-mcp.eufemia.workers.dev/mcp
+claude mcp add --transport http eufemia https://server.eufemia.dnb.no/mcp/web
 # or
-raicode mcp add --transport http eufemia https://eufemia-mcp.eufemia.workers.dev/mcp
+raicode mcp add --transport http eufemia https://server.eufemia.dnb.no/mcp/web
 ```
 
 ### Local MCP server (pinned to your installed Eufemia version)
 
-Run the local MCP server when you want the docs the AI sees to match the exact `@dnb/eufemia` version you have installed — for example to avoid suggestions that reference components or props from a newer release than your project consumes — or when the hosted Worker is unreachable (offline / air-gapped environments).
+Run the local MCP server when you want the docs the AI sees to match the exact `@dnb/eufemia` version you have installed — for example to avoid suggestions that reference components or props from a newer release than your project consumes — or when the hosted server is unreachable (offline / air-gapped environments).
 
 But first, make sure you have installed `@dnb/eufemia` and `@modelcontextprotocol/sdk` in your project:
 

@@ -1,8 +1,8 @@
 ---
 title: 'Code'
 description: 'The code and pre element is used for code and syntax highlighting.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.756Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.194Z
 checksum: c6dca9365d4527fa38f65c8d0801933be8e1918dcb2f125eb85ed10e9d3c2d3a
 ---
 
@@ -37,7 +37,7 @@ font-family: var(--font-family-monospace);
 
 - `@dnb/eufemia/style/themes/ui/prism/dnb-prism-theme.js`
 
-You can find the theme and its definitions in the [GitHub repository](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/style/themes/ui/prism/dnb-prism-theme.js).
+You can find the theme and its definitions in the [GitHub repository](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/style/themes/ui/prism/dnb-prism-theme.ts).
 
 
 ## Demos

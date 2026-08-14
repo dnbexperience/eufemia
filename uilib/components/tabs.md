@@ -1,8 +1,8 @@
 ---
 title: 'Tabs'
 description: 'Use Tabs to let people switch between related views on the same page.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.693Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.136Z
 checksum: 91776e74210d6ca9e623100b8ac4eb5f0e1a682d3c673ade1e4340cc544176fb
 ---
 

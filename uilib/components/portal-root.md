@@ -1,8 +1,8 @@
 ---
 title: 'PortalRoot'
 description: 'Use PortalRoot to render floating content outside the normal page structure.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.372Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.882Z
 checksum: 9e4431df834c9b59cac82d30a49e56b95a0858679657373ee1a87dc1a6590110
 ---
 
@@ -179,7 +179,7 @@ PortalRoot is part of the [Other](/uilib/components/overview/#other) category. O
 
 - [CopyOnClick](/uilib/components/copy-on-click/) – when people should copy text by clicking it.
 - [HeightAnimation](/uilib/components/height-animation/) – to animate content as it opens or closes.
-- [ScrollView](/uilib/components/fragments/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
+- [ScrollView](/uilib/components/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
 
 ## Properties
 

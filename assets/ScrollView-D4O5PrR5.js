@@ -1,0 +1,1 @@
+import{u as e}from"./Table-L_32gf4n.js";var t=e;export{t};

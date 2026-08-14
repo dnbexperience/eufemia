@@ -1,7 +1,7 @@
 ---
 title: 'Make and run tests'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:11.770Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.403Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -177,16 +177,6 @@ git commit -m "feat: implement new feature --run-all"
 ```
 
 This is useful when you want to see all visual test failures at once, rather than stopping at the first one. The CI/CD pipeline automatically detects this flag and adjusts test behavior accordingly.
-
-### Skip dependency audit in CI
-
-You can skip the dependency audit step in the Verify workflow by including `--skip-audit` in your commit message:
-
-```bash
-git commit -m "chore: update snapshots --skip-audit"
-```
-
-The CI will detect `--skip-audit` and skip the "Audit dependencies" step accordingly.
 
 **Playwright end-to-end tests:**
 

@@ -1,8 +1,8 @@
 ---
 title: 'NumberFormat'
 description: 'Use NumberFormat to show numbers in the correct DNB format.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.350Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.863Z
 checksum: 1288e9fa33e5c61a53eacfeff4c357e6d535d99373b72e1aa9f6efed11e65caa
 ---
 
@@ -317,7 +317,7 @@ If you run the component or `format` function in [Node.js](https://nodejs.org), 
 
 Edge Browser on Windows 10 is converting numbers automatically to followable links. This makes the experience on NVDA bad, as it reads also the new, unformatted link number.
 
-You can [disable this behavior](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/x-ms-format-detection):
+You can disable this behavior:
 
 ```html
 <html x-ms-format-detection="none">

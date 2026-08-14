@@ -1,8 +1,8 @@
 ---
 title: 'Fragments'
 description: 'Fragments are small, low-level and reusable parts used inside other components.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.224Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.762Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -13,11 +13,7 @@ checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 You import them like so:
 
 ```jsx
-import {
-  DrawerList,
-  ScrollView,
-  TextCounter,
-} from '@dnb/eufemia/fragments'
+import { DrawerList, TextCounter } from '@dnb/eufemia/fragments'
 ```
 
 ## Description
@@ -26,16 +22,14 @@ Fragments are small, low-level and reusable parts used inside other components.
 
 You may use them only to build new components from.
 
+The deprecated `ScrollView` fragment export remains available for backwards compatibility until v13. Import the [ScrollView component](/uilib/components/scroll-view/) from `@dnb/eufemia` instead.
+
 ## Available Fragments
 
 
 ## [DrawerList](/uilib/components/fragments/drawer-list/)
 
 Use DrawerList as an internal list pattern inside drawer-based components.
-
-## [ScrollView](/uilib/components/fragments/scroll-view/)
-
-Use ScrollView when content needs its own horizontal or vertical scrolling area.
 
 ## [TextCounter](/uilib/components/fragments/text-counter/)
 

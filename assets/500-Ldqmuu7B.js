@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{I as n}from"./index-DHCu7dhB.js";var r=e(t());function i(){return(0,r.jsx)(n,{center:!0,statusCode:`500`})}export{i as default};

@@ -4,7 +4,7 @@
 
 ## Version
 
-This documentation reflects Eufemia **v11.9.0**, generated 2026-08-10T08:50:18.135Z.
+This documentation reflects Eufemia **v11.10.0**, generated 2026-08-14T11:20:04.764Z.
 
 - Use the documentation exactly as provided.
 - Gather all required information from the documentation before using it as a reference.
@@ -44,10 +44,6 @@ For any page (component, field, value, etc.):
 ## General
 
 - [EufemiaChangelog](https://eufemia.dnb.no/EUFEMIA_CHANGELOG.md): Look into the documentation for more details.
-
-- [Import styles](https://eufemia.dnb.no/brand/development/import-styles.md): Look into the documentation for more details.
-
-- [Sbanken Development](https://eufemia.dnb.no/brand/development.md): Look into the documentation for more details.
 
 - [Brand](https://eufemia.dnb.no/brand.md): Brand guidelines - typography, colors, etc.
 
@@ -223,8 +219,6 @@ For any page (component, field, value, etc.):
 
 - [DrawerList](https://eufemia.dnb.no/uilib/components/fragments/drawer-list.md): Use DrawerList as an internal list pattern inside drawer-based components.
 
-- [ScrollView](https://eufemia.dnb.no/uilib/components/fragments/scroll-view.md): Use ScrollView when content needs its own horizontal or vertical scrolling area.
-
 - [TextCounter](https://eufemia.dnb.no/uilib/components/fragments/text-counter.md): Use TextCounter to show how many characters someone has typed or can still type.
 
 - [Fragments](https://eufemia.dnb.no/uilib/components/fragments.md): Fragments are small, low-level and reusable parts used inside other components.
@@ -274,6 +268,8 @@ For any page (component, field, value, etc.):
 - [ProgressIndicator](https://eufemia.dnb.no/uilib/components/progress-indicator.md): Use ProgressIndicator to show that something is loading or processing.
 
 - [Radio](https://eufemia.dnb.no/uilib/components/radio.md): Use Radio when people must choose one option from a set.
+
+- [ScrollView](https://eufemia.dnb.no/uilib/components/scroll-view.md): Use ScrollView when content needs its own horizontal or vertical scrolling area.
 
 - [Section](https://eufemia.dnb.no/uilib/components/section.md): Use Section to give an area of the page a visual background or surface.
 
@@ -749,5 +745,5 @@ For any page (component, field, value, etc.):
 
 - [UI Library](https://eufemia.dnb.no/uilib.md): Buttons, dropdowns, input fields, components, etc.
 
-Version: 11.9.0
-GeneratedAt: 2026-08-10T08:50:18.135Z
+Version: 11.10.0
+GeneratedAt: 2026-08-14T11:20:04.764Z

@@ -1,8 +1,8 @@
 ---
 title: 'v7.0'
 description: 'June, 4. 2020'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:11.802Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.430Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -42,7 +42,7 @@ v7 contains a couple of _breaking changes_. As a migration process, you can simp
    - Pagination
    - ProgressIndicator
    - StepIndicator
-1. The [Dropdown](/uilib/components/dropdown) uses now by default React Portal. This can have negative effects on scrollable views. Therefore, use the new [ScrollView](/uilib/components/fragments/scroll-view) fragment as the scrollable element.
+1. The [Dropdown](/uilib/components/dropdown) uses now by default React Portal. This can have negative effects on scrollable views. Therefore, use the new [ScrollView](/uilib/components/scroll-view) component as the scrollable element.
 1. For a custom [Dropdown](/uilib/components/dropdown) list width `.dnb-dropdown__list`, use `.dnb-dropdown .dnb-drawer-list__root` instead.
 1. All events called `on_state_update` are now deprecated and will be removed in a future major version.
 1. The property `default_state` in [Checkbox](/uilib/components/checkbox) and [Switch](/uilib/components/switch) is now deprecated and will be removed in a future major version.
@@ -59,7 +59,7 @@ We hope that this change promotes [better accessibility](/uilib/usage/accessibil
 - [Autocomplete](/uilib/components/autocomplete) component.
 - [Pagination](/uilib/components/pagination) component including **infinity scroller**.
 - New element [Horizontal Rule (Hr)](/uilib/elements/horizontal-rule), called `hr-line` in Figma.
-- New fragment [ScrollView](/uilib/components/fragments/scroll-view), used in [Modal](/uilib/components/modal) to fulfill the new Portal mode in the DrawerList scroll dependency inside of a Modal / Drawer.
+- New fragment [ScrollView](/uilib/components/scroll-view), used in [Modal](/uilib/components/modal) to fulfill the new Portal mode in the DrawerList scroll dependency inside of a Modal / Drawer.
 
 ## New features
 

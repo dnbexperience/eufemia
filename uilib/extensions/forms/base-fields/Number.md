@@ -1,8 +1,8 @@
 ---
 title: 'Field.Number'
 description: '`Field.Number` is the base component for receiving user input where the target data is of type `number`.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.316Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.659Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -267,7 +267,7 @@ render(<Field.Number defaultValue={300} label="Enter a number below 250 and blur
 
 ```tsx
 render(<Field.Number label="Enter a number above 250 and blur to trigger error" defaultValue={200} maximum={250} errorMessages={{
-  maximum: "You can't enter a number THAR large.. Max 250!"
+  maximum: "You can't enter a number THAT large.. Max 250!"
 }} onChange={value => console.log('onChange', value)} />)
 ```
 

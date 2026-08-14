@@ -1,8 +1,8 @@
 ---
 title: 'Anchor (Text Link)'
 description: 'Use Anchor to take people to another page, section, or website.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.059Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.627Z
 checksum: 2f8846fac54a31c519386d8947a0566977c4fb617bfc82b267b816c7d3d3a25a
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'HelpButton'
 description: 'Use HelpButton when a short explanation should be available next to a label or control.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.248Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.783Z
 checksum: 5241f932b12afce6aefcbc6a511134e8e32f093f2b57d60afa7efad863b9417c
 ---
 

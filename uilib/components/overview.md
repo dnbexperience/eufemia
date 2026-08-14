@@ -1,8 +1,8 @@
 ---
 title: 'Overview'
 description: 'All components and fragments grouped by practical usage categories.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.351Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.864Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -101,4 +101,4 @@ For special page behavior that does not fit the groups above.
 - [CopyOnClick](/uilib/components/copy-on-click/): Use CopyOnClick when people should copy text by clicking it.
 - [HeightAnimation](/uilib/components/height-animation/): Use HeightAnimation to animate content as it opens or closes.
 - [PortalRoot](/uilib/components/portal-root/): Use PortalRoot to render floating content outside the normal page structure.
-- [ScrollView](/uilib/components/fragments/scroll-view/): Use ScrollView when content needs its own horizontal or vertical scrolling area.
+- [ScrollView](/uilib/components/scroll-view/): Use ScrollView when content needs its own horizontal or vertical scrolling area.

@@ -1,8 +1,8 @@
 ---
 title: 'Field.Composition'
 description: '`Field.Composition` is a component for when you create a field block that contains of several existing fields.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.313Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.657Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 

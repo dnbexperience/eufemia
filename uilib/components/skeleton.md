@@ -1,8 +1,8 @@
 ---
 title: 'Skeleton'
 description: 'Use Skeleton to show where content will appear while it is loading.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.393Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.906Z
 checksum: 38d7202a365da531b3702e62d932ac6c2e55e712321889f177c476f349dee300
 ---
 
@@ -265,10 +265,10 @@ render(<Skeleton show figure={<Article rows={5} />}>
   
 ```tsx
 <Skeleton show noAnimation>
-      <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
+      <AllComponentsHorizontalTestCase layoutEngine="legacy" data-visual-test="skeleton-all-horizontal" />
     </Skeleton>
 <Skeleton show noAnimation>
-      <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
+      <AllComponentsVerticalLabelsTestCase layoutEngine="legacy" data-visual-test="skeleton-all-vertical" />
     </Skeleton>
 ```
 

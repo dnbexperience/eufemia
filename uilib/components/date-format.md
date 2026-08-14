@@ -1,8 +1,8 @@
 ---
 title: 'DateFormat'
 description: 'Use DateFormat to show dates in the correct DNB format.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.157Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.705Z
 checksum: 6e6031bcfdbce86542341f134c5a92c713d2f0a1b08acf40d0e671d74c74e01d
 ---
 

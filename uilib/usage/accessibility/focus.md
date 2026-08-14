@@ -1,8 +1,8 @@
 ---
 title: 'Focus / Skip Link'
 description: 'Accessibility helpers to handle focus management and Skip Link usage.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.407Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.728Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -41,7 +41,7 @@ render(<button type="button" style={{
 
 Focus is an important part of keyboard-only and screen reader navigation.
 
-Make sure you set the focus properly on page or context changes. Consider using Reach Router [because of its built-in accessibility features](https://reach.tech/router/accessibility).
+Make sure you set the focus properly on page or context changes. Consider using Reach Router because of its built-in accessibility features.
 
 From a technical perspective, we need to assign an _invisible_ focus so the user can continue navigating inside this new content.
 

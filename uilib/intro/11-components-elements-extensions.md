@@ -1,6 +1,6 @@
 ---
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.388Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.707Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -23,7 +23,7 @@ Elements are basicity ready to use styled HTML elements.
 <div className="image-box" style={{ textAlign: 'center' }}>
   <a
     className="dnb-anchor"
-    href="!/uilib/components/anchor"
+    href="/uilib/components/anchor"
     target="_blank"
   >
     Anchor (Text Link)

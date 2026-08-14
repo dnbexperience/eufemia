@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Array'
 description: '`Iterate.Array` works in many ways similar to field-components. It has a value-property that can receive an array or you can give it a path if you want it to retrieve an array from a surrounding DataContext. All children components of Iterate.Array are rendered once per item the array-value consists of.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.042Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.436Z
 checksum: ae7887af29a363083e70cee1ef245b8ad92df8e01c4431b97ef595805f270b45
 ---
 
@@ -630,7 +630,7 @@ render(<Form.Handler>
 ```
 
 
-### Minium one item
+### Minimum one item
 
 There are several ways to achieve this:
 

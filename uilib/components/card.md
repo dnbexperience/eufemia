@@ -1,8 +1,8 @@
 ---
 title: 'Card'
 description: 'Use Card to group related content in a clear, separated area.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.135Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.685Z
 checksum: 0e50b33934d75ff8ee86042f8b38b80cfeb981cf163f459e0272d67f2eaf2b22
 ---
 

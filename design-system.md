@@ -1,8 +1,8 @@
 ---
 title: 'About Eufemia'
 description: 'Change log, contact, and more'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:11.784Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.415Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -14,6 +14,11 @@ You may also be interested in [details about releases](/uilib/about-the-lib/rele
 
 ---
 
+
+## August, 14. 2026
+
+- New component: [ScrollView](/uilib/components/scroll-view) for horizontal and vertical scrolling areas. The previous import from `@dnb/eufemia/fragments` is deprecated and will be removed in v13.
+- [FormStatus](/uilib/components/form-status): updated visual appearance with larger rounded corners and balanced content spacing.
 
 ## June, 11. 2026
 

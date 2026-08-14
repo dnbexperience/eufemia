@@ -1,8 +1,8 @@
 ---
 title: 'Dropdown'
 description: 'Use Dropdown when people need to choose one option from a list.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.192Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.734Z
 checksum: 092b3cfcf92a27d3b81067d23b8f5b6550789133f7896c55499941a55f7db09f
 ---
 
@@ -460,6 +460,65 @@ render(<Wrapper>
                   <Icon icon={newspaper} /> Custom trigger{' '}
                   <Icon icon={chevron_down} />
                 </button>} />;
+    }}
+      </ComponentBox>
+    </Wrapper>)
+```
+
+
+### Dropdown with List item content
+
+Reuse the [List](/uilib/components/list) row layout for rich option content. The option is already an `<li>` and wraps its content in `<span>` elements, so use `element="span"` on `List.Item.Basic` and its cells to keep the markup valid. Give the `Dropdown` a width that fits both the title and the end value, and provide `selectedValue` with the plain text to show once an option is selected. See [rendering a row outside a `List.Container`](/uilib/components/list/info#rendering-a-row-outside-a-listcontainer) for the details.
+
+
+```tsx
+render(<Wrapper>
+      <ComponentBox scope={{
+    List
+  }} data-visual-test="dropdown-list-item-content">
+        {() => {
+      // A List row keeps its end cell at content width, so the row needs
+      // horizontal room. Give the Dropdown a width of its own, or the
+      // title column will be squeezed by the end cell.
+      const AccountDropdown = styled(Dropdown)`
+            .dnb-dropdown__shell,
+            .dnb-drawer-list__root {
+              width: 22rem;
+            }
+          `;
+      const data = [{
+        selectedKey: 'accounts',
+        selectedValue: 'Accounts',
+        // The option is already an <li> and wraps its content in spans.
+        // Use spans for the List row and cells to keep the markup valid.
+        content: <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">
+                    Accounts
+                  </List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Bills, Savings
+                  </List.Cell.End>
+                </List.Item.Basic>
+      }, {
+        selectedKey: 'loans',
+        selectedValue: 'Loans',
+        content: <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">Loans</List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Mortgage, Car
+                  </List.Cell.End>
+                </List.Item.Basic>
+      }, {
+        selectedKey: 'cards',
+        selectedValue: 'Cards',
+        content: <List.Item.Basic element="span">
+                  <List.Cell.Title element="span">Cards</List.Cell.Title>
+                  <List.Cell.End element="span">
+                    Visa, Mastercard
+                  </List.Cell.End>
+                </List.Item.Basic>
+      }];
+      return <AccountDropdown data={data} value="accounts" />;
     }}
       </ComponentBox>
     </Wrapper>)

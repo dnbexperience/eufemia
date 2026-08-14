@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Item'
 description: '`Flex.Item` is a building block for flexbox based layout of contents and components.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.394Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.714Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -38,6 +38,34 @@ render(
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Item.tsx)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex/item/)
+
+### Per-item gap overrides
+
+With `layoutEngine="css"`, use `gapBefore` or `gapAfter` to replace the container gap next to a specific item. They follow the container's main axis: before/after maps to left/right in horizontal layouts and top/bottom in vertical layouts. Use `false` to remove that gap.
+
+Regular spacing properties such as `left`, `right`, `top`, and `bottom` are added to the resolved gap. If two adjacent items define the same gap, the following item's `gapBefore` takes precedence over the previous item's `gapAfter`.
+
+
+```tsx
+render(<Flex.Horizontal layoutEngine="css" gap="small" wrap={false}>
+        <Flex.Item>
+          <TestElement>Default gap</TestElement>
+        </Flex.Item>
+        <Flex.Item gapBefore="large">
+          <TestElement>Large gap before</TestElement>
+        </Flex.Item>
+        <Flex.Item gapAfter="xx-large">
+          <TestElement>Large gap after</TestElement>
+        </Flex.Item>
+        <Flex.Item gapBefore="x-small">
+          <TestElement>Small gap before wins</TestElement>
+        </Flex.Item>
+        <Flex.Item gapBefore={false} left="medium">
+          <TestElement>No gap plus medium margin</TestElement>
+        </Flex.Item>
+      </Flex.Horizontal>)
+```
+
 
 ### Span adjustment
 
@@ -218,6 +246,34 @@ render(<CustomMediaQuery>
       "type": [
         "number",
         "object"
+      ],
+      "status": "optional"
+    },
+    "gapBefore": {
+      "doc": "With `layoutEngine=\"css\"`, replace the [Flex.Container](/uilib/layout/flex/container) gap before this item on the main axis: left in horizontal layouts and top in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. When adjacent items set both sides of the same gap, this value takes precedence over the previous item’s `gapAfter`.",
+      "type": [
+        "'xx-small'",
+        "'x-small'",
+        "'small'",
+        "'medium'",
+        "'large'",
+        "'x-large'",
+        "'xx-large'",
+        "false"
+      ],
+      "status": "optional"
+    },
+    "gapAfter": {
+      "doc": "With `layoutEngine=\"css\"`, replace the [Flex.Container](/uilib/layout/flex/container) gap after this item on the main axis: right in horizontal layouts and bottom in vertical layouts. Use `false` for no gap. Ordinary spacing props remain additive. A following item’s `gapBefore` takes precedence when both sides set the same gap.",
+      "type": [
+        "'xx-small'",
+        "'x-small'",
+        "'small'",
+        "'medium'",
+        "'large'",
+        "'x-large'",
+        "'xx-large'",
+        "false"
       ],
       "status": "optional"
     },

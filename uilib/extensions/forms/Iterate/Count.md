@@ -1,8 +1,8 @@
 ---
 title: 'Iterate.Count'
 description: '`Iterate.Count` is a helper component / function that returns the count of a data array or object.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.046Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.440Z
 checksum: d307ca909ab5131cc1f6fedb10ee75dffb8f13b27e7215f45b44621ca1d66f5a
 ---
 

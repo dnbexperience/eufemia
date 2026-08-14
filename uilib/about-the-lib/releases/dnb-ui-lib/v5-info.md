@@ -1,8 +1,8 @@
 ---
 title: 'v5.0'
 description: 'October, 30. 2019'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:11.800Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.428Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -36,7 +36,7 @@ To prepare for these changes, you can already today (since `v4.24`) use the now 
 
 Previously, we had [font-weight](/uilib/typography/font-weight).
 
-Read more on how to make CSS vars (Custom Properties) [work on IE](/uilib/usage/customisation/styling/polyfill).
+Read more on how to make CSS vars (Custom Properties) [work on IE](/uilib/usage/customisation/styling).
 
 ### The benefits?
 
@@ -44,7 +44,7 @@ If you are using only properties to change actively your application typography,
 
 ### Properties as JS
 
-You can now also import all the main properties as a [JavaScript Object](/uilib/usage/customisation/styling/polyfill#css-in-js):
+You can now also import all the main properties as a [JavaScript Object](/uilib/usage/customisation/styling#access-css-properties-variables-in-javascript):
 
 ```js
 import properties from 'dnb-ui-lib/style/properties

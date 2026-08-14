@@ -1,8 +1,8 @@
 ---
 title: 'CopyOnClick'
 description: 'Use CopyOnClick when people should copy text by clicking it.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.149Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.698Z
 checksum: d295fb202d99102f67fd6615cb964c459dc2d8eea69dfec0225775022aaef4b0
 ---
 
@@ -45,7 +45,7 @@ CopyOnClick is part of the [Other](/uilib/components/overview/#other) category. 
 
 - [HeightAnimation](/uilib/components/height-animation/) – to animate content as it opens or closes.
 - [PortalRoot](/uilib/components/portal-root/) – to render floating content outside the normal page structure.
-- [ScrollView](/uilib/components/fragments/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
+- [ScrollView](/uilib/components/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
 
 
 ## Demos

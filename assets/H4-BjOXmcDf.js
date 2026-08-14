@@ -1,0 +1,1 @@
+import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{t as n}from"./withComponentMarkers-DlLPEsBr.js";import{b as r}from"./Table-L_32gf4n.js";var i=e(t()),a=({size:e,...t})=>(0,i.jsx)(r,{element:`h4`,size:e||`auto`,...t});n(a,{_isHeadingElement:!0,_supportsSpacingProps:!0});var o=a;export{o as t};

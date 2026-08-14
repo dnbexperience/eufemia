@@ -1,8 +1,8 @@
 ---
 title: 'Modal'
 description: 'Use Modal when people must focus on one task or message before returning to the page.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.338Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.855Z
 checksum: 4431fae2686531eb24d742fedbec3be76758e8aa485f3a72a7350a36d7dec116
 ---
 

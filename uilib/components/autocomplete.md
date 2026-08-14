@@ -1,8 +1,8 @@
 ---
 title: 'Autocomplete'
 description: 'Use Autocomplete to help people find and choose from matching suggestions as they type.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.091Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.652Z
 checksum: 27e85a1eff285950c54cb6946eec7ab5504783064cb7f5ca016adc662982fe89
 ---
 
@@ -557,6 +557,64 @@ render(<Wrapper>
   </Wrapper>)
 ```
 
+
+
+### Autocomplete with List item content
+
+Reuse the [List](/uilib/components/list) row layout for rich option content. The option is already an `<li>` and wraps its content in `<span>` elements, so use `element="span"` on `List.Item.Basic` and its cells to keep the markup valid. Give the `Autocomplete` a width that fits both the title and the end value. Provide `selectedValue` with the plain text so the input shows a sensible value once an option is selected, and `searchContent` so typing still filters the options. See [rendering a row outside a `List.Container`](/uilib/components/list/info#rendering-a-row-outside-a-listcontainer) for the details.
+
+
+```tsx
+render(<Wrapper>
+    <ComponentBox scope={{
+    List
+  }} data-visual-test="autocomplete-list-item-content">
+      {() => {
+      // A List row keeps its end cell at content width, so the row needs
+      // horizontal room. Give the Autocomplete a width of its own, or the
+      // title column will be squeezed by the end cell.
+      const AccountAutocomplete = styled(Autocomplete)`
+          .dnb-autocomplete__shell,
+          .dnb-drawer-list__root {
+            width: 22rem;
+          }
+        `;
+      const data = [{
+        selectedKey: 'accounts',
+        // selectedValue is the plain text shown in the input once selected;
+        // searchContent keeps typing/filtering working with rich content
+        selectedValue: 'Accounts',
+        searchContent: 'Accounts Bills Savings',
+        content: <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Accounts</List.Cell.Title>
+                <List.Cell.End element="span">
+                  Bills, Savings
+                </List.Cell.End>
+              </List.Item.Basic>
+      }, {
+        selectedKey: 'loans',
+        selectedValue: 'Loans',
+        searchContent: 'Loans Mortgage Car',
+        content: <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Loans</List.Cell.Title>
+                <List.Cell.End element="span">Mortgage, Car</List.Cell.End>
+              </List.Item.Basic>
+      }, {
+        selectedKey: 'cards',
+        selectedValue: 'Cards',
+        searchContent: 'Cards Visa Mastercard',
+        content: <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Cards</List.Cell.Title>
+                <List.Cell.End element="span">
+                  Visa, Mastercard
+                </List.Cell.End>
+              </List.Item.Basic>
+      }];
+      return <AccountAutocomplete data={data} label="Label" />;
+    }}
+    </ComponentBox>
+  </Wrapper>)
+```
 
 
 ### Groups

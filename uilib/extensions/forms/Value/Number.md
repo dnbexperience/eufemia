@@ -1,8 +1,8 @@
 ---
 title: 'Value.Number'
 description: '`Value.Number` is a base component for displaying values of the type `number`.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.199Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.561Z
 checksum: 684088d618bdc0d71e27e1473c55f8718dffe93f35683ee953e39f70a4e0aa53
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Avatar'
 description: 'Use Avatar to make a person, company, or profile easier to recognize.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.099Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.657Z
 checksum: 75123a1a9562842f0649bead3c3a09647f767cc4557d900e0a0b8abd7cc05bce
 ---
 

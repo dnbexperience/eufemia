@@ -1,7 +1,7 @@
 ---
 title: 'Components'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.744Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.183Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -177,6 +177,10 @@ Use ProgressIndicator to show that something is loading or processing.
 ## [Radio](/uilib/components/radio/)
 
 Use Radio when people must choose one option from a set.
+
+## [ScrollView](/uilib/components/scroll-view/)
+
+Use ScrollView when content needs its own horizontal or vertical scrolling area.
 
 ## [Section](/uilib/components/section/)
 

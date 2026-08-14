@@ -1,7 +1,7 @@
 ---
 title: 'Making changes'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:11.771Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.404Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -189,13 +189,7 @@ This helps e.g. to detect automated determination of label vs fieldset/legend.
 
 **Spacing**
 
-And they should be declared to support spacing properties as well:
-
-```tsx
-FormComponent._supportsSpacingProps = true
-```
-
-This is needed in order to fully support [Flex](/uilib/layout/flex/) layouts.
+Form elements should support spacing properties on their rendered root by using `useSpacing`, as described in [Spacing support](#spacing-support) below. Flex uses rendered DOM and CSS gap, so components should not assign `_supportsSpacingProps`.
 
 #### Usage of `pickFormElementProps`
 

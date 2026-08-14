@@ -1,8 +1,8 @@
 ---
 title: 'FormStatus (Messageboxes)'
 description: 'Use FormStatus to show validation errors, warnings, or messages near a form.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.221Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.760Z
 checksum: 37b289c1c4e8e7dd2caefd1a03e804b03c53c76bd12eb7df7b04ffb16ad7ba05
 ---
 
@@ -86,6 +86,17 @@ FormStatus is part of the [Feedback](/uilib/components/overview/#feedback) categ
 
 ```tsx
 render(<FormStatus text="Failure text" />)
+```
+
+
+### With a refresh action
+
+
+```tsx
+render(<FormStatus>
+      An error occurred while loading content.{' '}
+      <Anchor href="">Try again</Anchor>
+    </FormStatus>)
 ```
 
 

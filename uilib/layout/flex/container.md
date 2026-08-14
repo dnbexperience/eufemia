@@ -1,8 +1,8 @@
 ---
 title: 'Flex.Container'
 description: '`Flex.Container` is a building block for CSS Grid based layouts.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.393Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.713Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -97,16 +97,13 @@ For shortening the usage of `direction="..."`, you can use:
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Container.tsx)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/layout/flex/container/)
 
-## Limitations
+## How spacing is applied
 
-The `Flex.Container` will iterate over its childrenToReact, but not the children of the children
+`Flex.Container` keeps the existing spacing behavior by default. This preserves layouts that depend on spacing props, generated `Space` wrappers, or `_supportsSpacingProps`.
 
-**NB:** This examples showcases the limitation:
+Set `layoutEngine="css"` to use native CSS flex gaps. In CSS mode, React children are rendered unchanged, so intrinsic elements and custom components participate automatically through their rendered DOM roots.
 
 ```tsx
-import { Flex, Card } from '@dnb/eufemia'
-
-// The Cards will not get the spacing applied
 const MyItem = () => (
   <>
     <Card>content</Card>
@@ -114,43 +111,32 @@ const MyItem = () => (
   </>
 )
 
-const MyContainer = () => (
-  <Flex.Container>
+render(
+  <Flex.Container direction="vertical" layoutEngine="css">
     <MyItem />
   </Flex.Container>
 )
 ```
 
-## How spacing is applied
+Fragments and providers that render no DOM are transparent. In the example above, both Cards become flex items and receive the container gap.
 
-Nested components should preferably support [spacing properties](/uilib/layout/space/).
+Components that support [spacing properties](/uilib/layout/space/) expose their requested spacing on the rendered root. An explicit start spacing overrides the previous item's end spacing for that pair. The first item's start and last item's end remain outer margins.
 
-When an element or component was given, that does not support spacing, it will still work out of the box as it gets wrapped in a spacing block.
+Ordinary custom components do not need a marker or wrapper to receive the container gap. Use `Flex.Item` when you need an explicit layout item, span sizing, or spacing props around a component that does not expose spacing on its own root.
 
-You may else wrap your custom component in a `Flex.Item` – this way, you still can change the spacing per component basis.
+### Divider accessibility
 
-Technically, `Flex.Container` checks if a nested component has a property called `_supportsSpacingProps`. So if you have a component that supports the [spacing properties](/uilib/layout/space/), you can add this property `ComponentName._supportsSpacingProps = true`. If you provide `false`, it will not support spacing.
+In CSS mode, `divider="line"` and `divider="line-framed"` are painted visual lines. Unlike the legacy engine, they do not render `<hr>` elements and therefore do not add separator roles to the accessibility tree. If the separation is meaningful rather than decorative, render explicit `Hr` elements instead of relying on the `divider` property.
 
-If the component is a wrapper component, and you want its children to support spacing, you can add this property `ComponentName._supportsSpacingProps = 'children'`.
+## Backwards compatibility
 
-But for simplicity, you can use the HOC `Flex.withChildren`:
+The existing React child-inspection engine remains the default, so applications do not need to annotate every established layout:
 
 ```tsx
-const Wrapper = Flex.withChildren(({ children }) => {
-  return <div>{children}</div>
-})
-
-render(
-  <Flex.Container direction="vertical">
-    <Item />
-    <Wrapper>
-      <Item />
-      <Item />
-    </Wrapper>
-    <Item />
-  </Flex.Container>
-)
+<Flex.Container>...</Flex.Container>
 ```
+
+Use `layoutEngine="css"` when migrating a layout to native gaps. The explicit `layoutEngine="legacy"` value is still supported when an integration needs to document that dependency.
 
 
 ## Demos
@@ -371,6 +357,21 @@ render(<Flex.Container direction="vertical" divider="line" alignSelf="stretch">
 ```
 
 
+
+```tsx
+render(<div className="dnb-no-focus">
+      <CssAdditiveSpacingGeometry />
+      <CssPairwiseSpacingContract />
+      <CssDividerParity />
+      <CssHorizontalDividerAlignment />
+      <CssSpanGeometry />
+      <CssHiddenGapGeometry />
+      <CssWrapperGeometry />
+      <CssItemGapOverrideGeometry />
+    </div>)
+```
+
+
 ### Framed line dividers
 
 This example shows how to use the `Flex.Container` component to create a framed line divider (`line-framed`), which includes a line before the first item and above the last item.
@@ -389,11 +390,12 @@ render(<Flex.Horizontal rowGap={false}>
 ```
 
 
-### Flex.withChildren
+### Deprecated Flex.withChildren compatibility example
+
+`Flex.withChildren` is a temporary compatibility adapter for wrapper components that relied on the legacy child-inspection engine. Do not use it for new integrations.
 
 
 ```tsx
-// @ts-expect-error -- strictFunctionTypes
 const Wrapper = Flex.withChildren(({
   children
 }) => {
@@ -422,6 +424,15 @@ render(<Flex.Container direction="vertical">
         "'vertical'"
       ],
       "defaultValue": "'horizontal'",
+      "status": "optional"
+    },
+    "layoutEngine": {
+      "doc": "Select the Flex layout engine. The legacy engine remains the default for backwards compatibility. Use `css` to opt in to native CSS gaps without changing existing layouts.",
+      "type": [
+        "'css'",
+        "'legacy'"
+      ],
+      "defaultValue": "'legacy'",
       "status": "optional"
     },
     "wrap": {
@@ -517,7 +528,7 @@ render(<Flex.Container direction="vertical">
       "status": "optional"
     },
     "wrapChildrenInSpace": {
-      "doc": "Define if intrinsic DOM child elements such as `li` should be wrapped in `Space` to receive spacing. Set to `false` to keep them as direct descendants.",
+      "doc": "Deprecated. Controls intrinsic-element wrapping only when `layoutEngine=\"legacy\"` is used.",
       "type": "boolean",
       "defaultValue": "true",
       "status": "optional"

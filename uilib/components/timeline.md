@@ -1,8 +1,8 @@
 ---
 title: 'Timeline'
 description: 'Use Timeline to show events or steps in chronological order.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.711Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.153Z
 checksum: 2865ac048fbac54c4de5c574c5b125f61119c348b0b0bdd5ea90b959dcb47092
 ---
 

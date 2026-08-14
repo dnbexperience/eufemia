@@ -1,8 +1,8 @@
 ---
 title: 'Filter'
 description: 'Use Filter to help people narrow down a list or data set.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.211Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.752Z
 checksum: d880adfaa9ce2c1b007fb153044b524a0cf8f15772be0b91997fce5008d24928
 ---
 

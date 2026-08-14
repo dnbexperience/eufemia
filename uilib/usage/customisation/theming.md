@@ -1,7 +1,7 @@
 ---
 title: 'Theming'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:13.426Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.747Z
 checksum: 090b7d977ba4be5e2c4c04d199a30a4048416c59f443a56985df2f80629d9c40
 ---
 
@@ -25,6 +25,19 @@ You can easily switch the static import of styles to a different theme:
 import '@dnb/eufemia/style/core' // or /basis when "dnb-core-style" is used
 - import '@dnb/eufemia/style/themes/ui'
 + import '@dnb/eufemia/style/themes/eiendom'
+```
+
+Set the same theme name on the application-level `Theme` component so
+components receive the matching theme context:
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme name="eiendom">
+    <App />
+  </Theme>
+)
 ```
 
 Read more about [how to import styles](/uilib/usage/customisation/styling/consume-styles/#select-a-theme).

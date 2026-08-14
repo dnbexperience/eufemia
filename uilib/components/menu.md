@@ -1,8 +1,8 @@
 ---
 title: 'Menu'
 description: 'Use Menu when people need to choose from a small list of actions or links.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.328Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.849Z
 checksum: 1fc99517592ef537de08c221f7492a20a5f0da34d4c6422f3025968fc4f94199
 ---
 
@@ -35,7 +35,7 @@ For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Roo
 
 - The menu uses ARIA `role="menu"` and `role="menuitem"` semantics.
 - The trigger receives `aria-haspopup="menu"` and `aria-expanded` attributes automatically.
-- Keyboard navigation follows the [WAI-ARIA Menu Pattern](https://www.w3.org/WAI/ARIA/apd/patterns/menu/):
+- Keyboard navigation follows the [WAI-ARIA Menu Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu/):
   - **Arrow Up/Down**: Move focus between items (wraps around).
   - **Home/End**: Jump to first/last item.
   - **Enter/Space**: Activate the focused item.

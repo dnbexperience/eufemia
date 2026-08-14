@@ -1,8 +1,8 @@
 ---
 title: 'Tooltip'
 description: 'Use Tooltip to give a short hint or explanation for nearby content.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.729Z
+version: 11.10.0
+generatedAt: 2026-08-14T11:20:00.169Z
 checksum: 9a14205f7fc333b4351e0d7c7aec4a20279bf674123a0e8595aba3e53981cb0c
 ---
 

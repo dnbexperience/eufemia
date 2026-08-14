@@ -1,1 +1,0 @@
-import{s as e,t}from"./jsx-runtime-DnlWeMvz.js";import{U as n}from"./index-D1L5wabr.js";import r from"./provider-info-CKx1tB5H.js";var i=e(t());function a(e){return(0,i.jsx)(r,{})}function o(e={}){let{wrapper:t}={...n(),...e.components};return t?(0,i.jsx)(t,{...e,children:(0,i.jsx)(a,{...e})}):a(e)}export{o as default};

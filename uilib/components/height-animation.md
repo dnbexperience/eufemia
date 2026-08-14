@@ -1,9 +1,9 @@
 ---
 title: 'HeightAnimation'
 description: 'Use HeightAnimation to animate content as it opens or closes.'
-version: 11.9.0
-generatedAt: 2026-08-10T08:50:12.244Z
-checksum: dc40cc6e002dad1a4144d8e7ab8ecc12fdc944eb49ba7f1568ec5fba93d13582
+version: 11.10.0
+generatedAt: 2026-08-14T11:19:59.780Z
+checksum: c7f9ea1b305ed53dc0a5a673f1e462ec36a29ea8e8a2c3cc780e21a37075d4b8
 ---
 
 # HeightAnimation
@@ -39,7 +39,15 @@ Custom `duration` and `delay` props are applied after hydration via a DOM effect
 
 ## Accessibility
 
-It is important to never animate from 0 to e.g. 64px – because:
+Connect the control and animated content with `aria-controls`, and expose the current state with `aria-expanded`. HeightAnimation does not manage focus. Avoid closing content while focus is inside it, or move focus to a logical visible control first.
+
+When `keepInDOM` or `untilFound` keeps closed content in the DOM, HeightAnimation applies `aria-hidden="true"`. The collapsed content is therefore unavailable to assistive technologies until it opens.
+
+`untilFound` uses the native `hidden="until-found"` behavior, making collapsed text available to browser find-in-page. HeightAnimation reveals matching content internally, so `onBeforeMatch` is optional. When an external control owns the `open` state, handle `onBeforeMatch` by updating the same state passed to `open`. This keeps the control's `aria-expanded` value synchronized when the browser reveals a match.
+
+`untilFound` depends on native browser support for `hidden="until-found"` (Chromium 102+, Firefox 148+, with partial support in Safari 26.2+). In browsers without support, the collapsed content is **not reliably hidden** and can remain visible, because the collapse relies on the browser applying `content-visibility` for `hidden="until-found"`. For content that must stay hidden in those browsers, use `keepInDOM` (or leave `untilFound` off) instead.
+
+Users who prefer reduced motion receive an effectively immediate transition. It is important to never animate to a fixed height such as 64px, because:
 
 - The content may differ based on the viewport width (screen size)
 - The content itself may change
@@ -52,7 +60,7 @@ HeightAnimation is part of the [Other](/uilib/components/overview/#other) catego
 
 - [CopyOnClick](/uilib/components/copy-on-click/) – when people should copy text by clicking it.
 - [PortalRoot](/uilib/components/portal-root/) – to render floating content outside the normal page structure.
-- [ScrollView](/uilib/components/fragments/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
+- [ScrollView](/uilib/components/scroll-view/) – when content needs its own horizontal or vertical scrolling area.
 
 
 ## Demos
@@ -188,6 +196,34 @@ const StyledSection = styled(Section)`
 render(<Example />);
 ```
 
+
+### Find collapsed content
+
+The `untilFound` prop keeps collapsed content available to the browser's find-in-page feature using `hidden="until-found"`. Search this page for **“Findable banking content”**. HeightAnimation reveals the match itself, while the optional `onBeforeMatch` callback synchronizes the toggle's external state.
+
+
+```tsx
+const Example = () => {
+  const [openState, setOpenState] = useState(false);
+  return <>
+              <ToggleButton checked={openState} aria-expanded={openState} aria-controls="until-found-content" onChange={({
+      checked
+    }) => setOpenState(checked)}>
+                Open content
+              </ToggleButton>
+
+              <HeightAnimation id="until-found-content" open={openState} untilFound onBeforeMatch={() => setOpenState(true)}>
+                <Space innerSpace>
+                  <Section variant="information" innerSpace>
+                    <P space={0}>Findable banking content</P>
+                  </Section>
+                </Space>
+              </HeightAnimation>
+            </>;
+};
+render(<Example />);
+```
+
 ## Properties
 
 
@@ -206,6 +242,11 @@ render(<Example />);
     },
     "keepInDOM": {
       "doc": "Set to `true` to ensure the nested children content will be kept in the DOM. Defaults to `false`.",
+      "type": "boolean",
+      "status": "optional"
+    },
+    "untilFound": {
+      "doc": "Set to `true` to keep closed content available to the browser find-in-page feature with `hidden=\"until-found\"`. This implies `keepInDOM`. In browsers without `hidden=\"until-found\"` support, the collapsed content may remain visible. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
     },
@@ -260,6 +301,11 @@ render(<Example />);
 ```json
 {
   "props": {
+    "onBeforeMatch": {
+      "doc": "Is called after matching content inside a closed animation is revealed by the browser using `untilFound`. Use it to synchronize external open state and controls.",
+      "type": "function",
+      "status": "optional"
+    },
     "onOpen": {
       "doc": "Is called when fully opened or closed. Returns `true` or `false` depending on the state.",
       "type": "function",
