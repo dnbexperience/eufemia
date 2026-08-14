@@ -29,6 +29,15 @@ export const FormStatusDefault = () => (
   </ComponentBox>
 )
 
+export const FormStatusWithRefresh = () => (
+  <ComponentBox data-visual-test="form-status-refresh">
+    <FormStatus>
+      An error occurred while loading content.{' '}
+      <Anchor href="">Try again</Anchor>
+    </FormStatus>
+  </ComponentBox>
+)
+
 export const FormStatusWithInformation = () => (
   <ComponentBox data-visual-test="form-status-information">
     <FormStatus
