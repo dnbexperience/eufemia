@@ -39,7 +39,7 @@ export type ScrollViewAllProps = ScrollViewProps &
 function ScrollView(localProps: ScrollViewAllProps) {
   const context = useContext(Context)
 
-  // use only the props from context, who are available here anyway
+  // use only the props from context, which are available here anyway
   const props = extendPropsWithContext(localProps, {}, context.ScrollView)
 
   const {
