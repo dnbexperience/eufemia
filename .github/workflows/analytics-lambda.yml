@@ -12,7 +12,6 @@ name: Analytics Lambda
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # See tools/analytics/README.md for deploy details.
-# See tools/analytics/README.md for manual deploy instructions.
 
 on:
   push:
