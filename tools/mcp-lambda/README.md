@@ -114,14 +114,7 @@ The build & push workflow triggers on:
 | Push of a `v*` / `v*.*.*` tag      | Yes      |
 | Manual `workflow_dispatch`         | Yes      |
 
-Required secrets/variables:
-
-| Name              | Where        | Purpose                                                   |
-| ----------------- | ------------ | --------------------------------------------------------- |
-| `GHE_DEPLOY_PAT`  | Public repo  | GHE PAT with `repo` + `workflow` scope to push artifacts  |
-| `GHE_DEPLOY_REPO` | Public repo  | Target GHE repo, e.g. `eufemia/eufemia-mcp`               |
-| `AWS_ROLE_ARN`    | GHE repo var | OIDC role assumed by the deploy job                       |
-| `COST_ALLOCATION` | GHE repo var | BA number passed to Terraform as `TF_VAR_cost_allocation` |
+Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
 
 ### Infrastructure
 
