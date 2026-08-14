@@ -83,6 +83,7 @@
   "components/progress-indicator/ProgressIndicator.tsx": 1,
   "components/radio/Radio.tsx": 1,
   "components/radio/RadioGroup.tsx": 1,
+  "components/scroll-view/ScrollView.tsx": 1,
   "components/section/Section.tsx": 1,
   "components/skeleton/Skeleton.tsx": 1,
   "components/skip-content/SkipContent.tsx": 1,
@@ -226,7 +227,6 @@
   "extensions/forms/blocks/ChildrenWithAge/ChildrenWithAge.tsx": 1,
   "extensions/forms/utils/TestElement/TestElement.tsx": 1,
   "fragments/drawer-list/DrawerList.tsx": 1,
-  "fragments/scroll-view/ScrollView.tsx": 1,
   "shared/Theme.tsx": 1,
   "shared/helpers/withComponentMarkers.ts": 3
 }
