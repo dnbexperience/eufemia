@@ -6,7 +6,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-form-status {
-  --form-status-radius: var(--token-radius-sm);
+  --form-status-radius: var(--token-radius-xl);
 
   display: flex;
 
@@ -75,7 +75,7 @@
   &__text {
     max-width: var(--prose-max-width); // to enhance readability
 
-    padding: 0.625rem 1rem;
+    padding: 1rem;
 
     cursor: text;
 
@@ -105,7 +105,7 @@
   }
 
   .dnb-icon + &__text {
-    padding-left: 0.5rem;
+    padding-left: 0;
   }
 
   &__shell > .dnb-icon {
@@ -113,7 +113,8 @@
     justify-content: center;
     align-items: center;
 
-    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+    margin-inline: 1rem;
+    margin-block: 0.875rem; // To match the UX styles
 
     color: var(--form-status-color-icon);
     border: none;
@@ -126,8 +127,7 @@
   }
 
   &__size--large &__shell > .dnb-icon {
-    margin-top: 0.6666666em;
-    margin-bottom: 0.6666666em;
+    margin-block: 1.25rem;
   }
 
   // Stretch support
