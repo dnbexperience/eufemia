@@ -79,10 +79,10 @@ public GitHub (.github/workflows/analytics-lambda.yml)
 
 ### Required configuration
 
-On the **public repo** (secrets):
+On the **public repo**:
 
-- `GHE_DEPLOY_PAT` — GHE PAT with repo + workflow push scope (shared with the MCP pipeline).
-- `GHE_ANALYTICS_DEPLOY_REPO` — the GHE deploy repo, e.g. `eufemia/eufemia-analytics`.
+- `GHE_DEPLOY_PAT` — GHE PAT with repo + workflow push scope (secret; shared with the MCP pipeline).
+- `GHE_ANALYTICS_DEPLOY_REPO` — the GHE deploy repo, e.g. `eufemia/eufemia-analytics` (variable, not a secret, so a wrong value is visible in logs).
 
 On the **GHE deploy repo** (variables/secrets):
 
