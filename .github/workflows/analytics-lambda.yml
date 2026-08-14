@@ -11,13 +11,7 @@ name: Analytics Lambda
 # - Any branch named `**/analytics` (e.g. `feat/analytics`).
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
-# Requires the following GitHub secrets:
-# - GHE_DEPLOY_PAT: A GitHub Enterprise PAT with repo + workflow push access
-#
-# And the following GitHub variables:
-# - GHE_ANALYTICS_DEPLOY_REPO: The GHE repo, as `owner/repo` (e.g. `eufemia/eufemia-analytics`).
-#   A variable (not a secret) so a wrong value is visible in logs, not masked.
-#
+# See tools/analytics/README.md for deploy details.
 # See tools/analytics/README.md for manual deploy instructions.
 
 on:
