@@ -292,7 +292,7 @@ describe('HeightAnimation', () => {
     })
   })
 
-  describe('revealOnFind', () => {
+  describe('openOnFind', () => {
     it('should preserve a regular hidden attribute', () => {
       const { rerender } = render(
         <HeightAnimation hidden>content</HeightAnimation>
@@ -307,7 +307,7 @@ describe('HeightAnimation', () => {
 
     it('should keep initially closed content findable', () => {
       render(
-        <HeightAnimation open={false} revealOnFind>
+        <HeightAnimation open={false} openOnFind>
           <span className="content">content</span>
         </HeightAnimation>
       )
@@ -318,13 +318,13 @@ describe('HeightAnimation', () => {
 
     it('should remove hidden before opening', () => {
       const { rerender } = render(
-        <HeightAnimation open={false} revealOnFind>
+        <HeightAnimation open={false} openOnFind>
           content
         </HeightAnimation>
       )
 
       rerender(
-        <HeightAnimation open revealOnFind>
+        <HeightAnimation open openOnFind>
           content
         </HeightAnimation>
       )
@@ -335,12 +335,12 @@ describe('HeightAnimation', () => {
 
     it('should hide content only after the closing animation', () => {
       const { rerender } = render(
-        <HeightAnimation revealOnFind>content</HeightAnimation>
+        <HeightAnimation openOnFind>content</HeightAnimation>
       )
 
       mockHeight(100)
       rerender(
-        <HeightAnimation open={false} revealOnFind>
+        <HeightAnimation open={false} openOnFind>
           content
         </HeightAnimation>
       )
@@ -356,7 +356,7 @@ describe('HeightAnimation', () => {
 
     it('should reveal matched content without onBeforeMatch', () => {
       render(
-        <HeightAnimation open={false} revealOnFind>
+        <HeightAnimation open={false} openOnFind>
           content
         </HeightAnimation>
       )
@@ -373,7 +373,7 @@ describe('HeightAnimation', () => {
       render(
         <HeightAnimation
           open={false}
-          revealOnFind
+          openOnFind
           onBeforeMatch={onBeforeMatch}
         >
           content
@@ -396,9 +396,9 @@ describe('HeightAnimation', () => {
       expect(getElement()).toHaveAttribute('hidden', 'until-found')
     })
 
-    it('should prioritize revealOnFind over untilFound', () => {
+    it('should prioritize openOnFind over untilFound', () => {
       render(
-        <HeightAnimation open={false} revealOnFind={false} untilFound>
+        <HeightAnimation open={false} openOnFind={false} untilFound>
           content
         </HeightAnimation>
       )

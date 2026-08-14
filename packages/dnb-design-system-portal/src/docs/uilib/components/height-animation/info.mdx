@@ -35,11 +35,11 @@ Custom `duration` and `delay` props are applied after hydration via a DOM effect
 
 Connect the control and animated content with `aria-controls`, and expose the current state with `aria-expanded`. HeightAnimation does not manage focus. Avoid closing content while focus is inside it, or move focus to a logical visible control first.
 
-When `keepInDOM` or `revealOnFind` keeps closed content in the DOM, HeightAnimation applies `aria-hidden="true"`. The collapsed content is therefore unavailable to assistive technologies until it opens.
+When `keepInDOM` or `openOnFind` keeps closed content in the DOM, HeightAnimation applies `aria-hidden="true"`. The collapsed content is therefore unavailable to assistive technologies until it opens.
 
-`revealOnFind` uses the native `hidden="until-found"` behavior, making collapsed text available to browser find-in-page. HeightAnimation reveals matching content internally, so `onBeforeMatch` is optional. When an external control owns the `open` state, handle `onBeforeMatch` by updating the same state passed to `open`. This keeps the control's `aria-expanded` value synchronized when the browser reveals a match.
+`openOnFind` uses the native `hidden="until-found"` behavior, making collapsed text available to browser find-in-page. HeightAnimation opens matching content internally, so `onBeforeMatch` is optional. When an external control owns the `open` state, handle `onBeforeMatch` by updating the same state passed to `open`. This keeps the control's `aria-expanded` value synchronized when the browser reveals a match.
 
-`revealOnFind` depends on native browser support for `hidden="until-found"` (Chromium 102+, Firefox 148+, with partial support in Safari 26.2+). In browsers without support, the collapsed content is **not reliably hidden** and can remain visible, because the collapse relies on the browser applying `content-visibility` for `hidden="until-found"`. For content that must stay hidden in those browsers, use `keepInDOM` (or leave `revealOnFind` off) instead.
+`openOnFind` depends on native browser support for `hidden="until-found"` (Chromium 102+, Firefox 148+, with partial support in Safari 26.2+). In browsers without support, the collapsed content is **not reliably hidden** and can remain visible, because the collapse relies on the browser applying `content-visibility` for `hidden="until-found"`. For content that must stay hidden in those browsers, use `keepInDOM` (or leave `openOnFind` off) instead.
 
 Users who prefer reduced motion receive an effectively immediate transition. It is important to never animate to a fixed height such as 64px, because:
 
