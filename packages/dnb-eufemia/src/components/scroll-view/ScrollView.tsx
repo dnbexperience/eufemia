@@ -108,7 +108,7 @@ function useInteractive({ interactive, children, ref }) {
 
   function hasScrollbar() {
     if (!ref.current) {
-      return true // fallback and assume, there is a scrollbar
+      return true // fall back and assume there is a scrollbar
     }
 
     /**
