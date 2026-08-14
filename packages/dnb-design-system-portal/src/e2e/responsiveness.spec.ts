@@ -27,6 +27,10 @@ test.describe('Responsiveness', () => {
     )
     await menuButton.click()
 
+    await expect(
+      page.locator('#portal-sidebar-menu').getByText('Portal Tools')
+    ).toHaveCount(0)
+
     const sidebar = page.locator('nav#portal-sidebar-menu')
     await expect(sidebar).toHaveCSS('overflow-y', 'auto')
 
