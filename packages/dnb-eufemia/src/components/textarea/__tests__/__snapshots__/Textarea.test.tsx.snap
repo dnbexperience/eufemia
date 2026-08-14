@@ -62,7 +62,7 @@ legend.dnb-form-label {
  * Utilities
  */
 .dnb-form-status {
-  --form-status-radius: var(--token-radius-sm);
+  --form-status-radius: var(--token-radius-xl);
   display: flex;
   opacity: 1;
 }
@@ -120,7 +120,7 @@ legend.dnb-form-label {
 }
 .dnb-form-status__text {
   max-width: var(--prose-max-width);
-  padding: 0.625rem 1rem;
+  padding: 1rem;
   cursor: text;
 }
 button .dnb-form-status__text {
@@ -149,13 +149,14 @@ button .dnb-form-status__text {
   white-space: normal;
 }
 .dnb-icon + .dnb-form-status__text {
-  padding-left: 0.5rem;
+  padding-left: 0;
 }
 .dnb-form-status__shell > .dnb-icon {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+  margin-inline: 1rem;
+  margin-block: 0.875rem;
   color: var(--form-status-color-icon);
   border: none;
 }
@@ -164,8 +165,7 @@ button .dnb-form-status__text {
   padding-bottom: 1.125rem;
 }
 .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-  margin-top: 0.6666666em;
-  margin-bottom: 0.6666666em;
+  margin-block: 1.25rem;
 }
 .dnb-form-status--stretch {
   flex-grow: 1;
