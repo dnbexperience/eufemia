@@ -98,7 +98,7 @@ function MyComponent({ className, ...props }) {
 }
 ```
 
-For a component that already applied spacing to its root, deleting the marker is the only change. The rendered `<div>` is now a flex item automatically, and `useSpacing` keeps the component's own `top`, `right`, `bottom`, and `left` props working — in CSS mode those values are added to the container gap. If a component did not previously apply spacing to its root, adopt `useSpacing` as shown so authors can keep adjusting spacing per instance. A component that never needs per-instance spacing can simply drop the marker and receive the container gap.
+For a component that already applied spacing to its root, deleting the marker is the only change. The rendered `<div>` is now a flex item automatically, and `useSpacing` keeps the component's own `top`, `right`, `bottom`, and `left` props working — in CSS mode those values participate in pairwise spacing and may replace the adjacent container gap. If a component did not previously apply spacing to its root, adopt `useSpacing` as shown so authors can keep adjusting spacing per instance. A component that never needs per-instance spacing can simply drop the marker and receive the container gap.
 
 #### Wrapper components
 
