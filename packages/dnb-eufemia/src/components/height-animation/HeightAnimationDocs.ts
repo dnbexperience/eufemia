@@ -21,11 +21,6 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  untilFound: {
-    doc: 'Deprecated. Use `openOnFind` instead.',
-    type: 'boolean',
-    status: 'deprecated',
-  },
   compensateForGap: {
     doc: 'To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`.',
     type: 'string',
