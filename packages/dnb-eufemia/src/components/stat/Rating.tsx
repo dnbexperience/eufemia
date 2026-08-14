@@ -6,6 +6,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import { useTranslation } from '../../shared'
 import { clamp } from '../../shared/helpers/clamp'
 import { TextInternal as Text } from './Text'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const MAX_ALLOWED = 20
 
@@ -154,6 +155,8 @@ function StarIcon({ variant }: { variant: 'base' | 'active' }) {
   )
 }
 
-Rating._supportsSpacingProps = true
+withComponentMarkers(Rating, {
+  _supportsSpacingProps: true,
+})
 
 export default Rating

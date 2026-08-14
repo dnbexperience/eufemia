@@ -296,6 +296,28 @@ describe('Infinity scroller', () => {
     await wait(20)
   }
 
+  it('should show custom loading text', async () => {
+    render(
+      <Pagination
+        mode="infinity"
+        {...props}
+        isLoadingText="Loading more items"
+      />
+    )
+
+    const indicator = await waitFor(() => {
+      const element = document.querySelector(
+        '.dnb-pagination__indicator__inner'
+      )
+
+      expect(element).toBeInTheDocument()
+
+      return element
+    })
+
+    expect(indicator).toHaveTextContent('Loading more items')
+  })
+
   it('should derive startupPage from currentPage set after mount', async () => {
     const onStartup = vi.fn()
 

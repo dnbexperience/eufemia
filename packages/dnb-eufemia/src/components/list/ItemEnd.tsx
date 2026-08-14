@@ -5,7 +5,9 @@ import FlexItem from '../flex/Item'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import type { DynamicElement } from '../../shared/types'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.End (ItemEnd).
@@ -26,6 +28,11 @@ export type ItemEndProps = {
    * When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.
    */
   skeleton?: SkeletonShow
+  /**
+   * Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.
+   * Default: `'div'`
+   */
+  element?: DynamicElement
 } & FlexItemProps
 
 function ItemEnd(props: ItemEndProps) {
@@ -67,6 +74,8 @@ function ItemEnd(props: ItemEndProps) {
 
   return content
 }
-ItemEnd._supportsSpacingProps = true
+withComponentMarkers(ItemEnd, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemEnd

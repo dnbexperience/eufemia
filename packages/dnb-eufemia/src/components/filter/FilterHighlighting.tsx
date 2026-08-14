@@ -1,6 +1,6 @@
-import { useContext, useMemo } from 'react'
-import type { ReactNode } from 'react'
+import { useContext } from 'react'
 import { useSharedState } from '../../shared/helpers/useSharedState'
+import { useHighlightText } from '../../shared/helpers/highlightText'
 import type { FilterState } from './FilterContext'
 import { FilterContext, FilterConnectedIdContext } from './FilterContext'
 
@@ -20,36 +20,13 @@ function FilterHighlighting({
 
   const search = data?.search ?? context?.state?.search ?? ''
 
-  return useMemo(() => highlightText(children, search), [children, search])
-}
-
-function highlightText(text: string, search: string): ReactNode {
-  if (!search || !text) {
-    return text
-  }
-
-  const escaped = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const regex = new RegExp(`(${escaped})`, 'gi')
-  const parts = text.split(regex)
-
-  if (parts.length === 1) {
-    return text
-  }
-
-  return parts.map((part, index) => {
-    if (regex.test(part)) {
-      // Reset lastIndex since RegExp with 'g' flag is stateful
-      regex.lastIndex = 0
-
-      return (
-        <mark key={index} className="dnb-filter__highlighting">
-          {part}
-        </mark>
-      )
-    }
-
-    return part
+  const highlight = useHighlightText({
+    search,
+    className: 'dnb-filter__highlighting',
+    tag: 'mark',
   })
+
+  return highlight(children, children)
 }
 
 export default FilterHighlighting

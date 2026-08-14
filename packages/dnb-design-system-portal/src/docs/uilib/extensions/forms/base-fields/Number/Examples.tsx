@@ -347,7 +347,7 @@ export const ValidateMaximumCustomError = () => {
         defaultValue={200}
         maximum={250}
         errorMessages={{
-          maximum: "You can't enter a number THAR large.. Max 250!",
+          maximum: "You can't enter a number THAT large.. Max 250!",
         }}
         onChange={(value) => console.log('onChange', value)}
       />

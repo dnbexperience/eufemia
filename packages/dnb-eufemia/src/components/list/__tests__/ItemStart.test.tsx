@@ -5,6 +5,7 @@ import ItemStart from '../ItemStart'
 import ItemContent from '../ItemContent'
 import Container from '../Container'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemStart', () => {
   it('renders with children', () => {
@@ -13,6 +14,13 @@ describe('ItemStart', () => {
     const element = document.querySelector('.dnb-flex-item')
     expect(element).toBeInTheDocument()
     expect(element.textContent).toContain('Start content')
+  })
+
+  it('renders as a custom element when the element prop is set', () => {
+    render(<ItemStart element="span">Content</ItemStart>)
+
+    const element = document.querySelector('.dnb-list__item__start')
+    expect(element.tagName).toBe('SPAN')
   })
 
   it('has dnb-t__size--basis class by default', () => {
@@ -101,7 +109,9 @@ describe('ItemStart', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemStart._supportsSpacingProps).toBe(true)
+    expect((ItemStart as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('does not accept unrelated ItemContent props', () => {

@@ -383,6 +383,7 @@ const PaginationInstance = memo(function PaginationInstance(
             {content || (
               <PaginationIndicator
                 indicatorElement={indicatorElement || fallbackElement}
+                isLoadingText={props.isLoadingText}
               />
             )}
           </PaginationContent>

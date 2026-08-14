@@ -136,7 +136,7 @@ function Layout(props: LayoutProps) {
   }, [location.hash, location.pathname])
 
   const skipToContentHandler = (event) => {
-    // because we want to avoid that the hash get's set (#dnb-app-content)
+    // because we want to avoid that the hash gets set (#dnb-app-content)
     // we prevent the default and set it manually. The DOM elements have tabIndex="-1" and className="dnb-no-focus" in place
     try {
       event.preventDefault()

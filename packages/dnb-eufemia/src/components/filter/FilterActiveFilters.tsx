@@ -6,7 +6,7 @@ import Tag from '../tag/Tag'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import Accordion from '../accordion/Accordion'
 import Button from '../button/Button'
-import ScrollView from '../../fragments/scroll-view/ScrollView'
+import ScrollView from '../scroll-view/ScrollView'
 import Flex from '../flex/Flex'
 import { close } from '../../icons'
 

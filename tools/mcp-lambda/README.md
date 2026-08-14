@@ -5,19 +5,21 @@ MCP server that exposes the Eufemia documentation to AI tools, deployed as an AW
 ## Architecture
 
 ```
-POST /mcp → API Gateway HTTP API → Lambda (Node.js 22) → MCP SDK → Docs on disk
+POST /mcp/web → API Gateway HTTP API → Lambda (Node.js 22) → MCP SDK → Docs on disk
 ```
 
-The server is stateless — each request creates a fresh MCP transport, processes the JSON-RPC call, and tears down. No session state is kept between invocations.
+The server is stateless and serves both the MCP 2025 and `2026-07-28`
+protocol eras from the same `/mcp` URL. No session state is kept between
+invocations. Tool definitions and docs access are shared with the local MCP
+implementation in `packages/dnb-eufemia/src/mcp/`.
 
 For local development, a stdio transport is also available.
 
-> **Relationship to the Worker MCP:** An earlier MCP implementation lives as a
-> Cloudflare Worker under [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/)
-> (deployed by [`mcp-worker.yml`](../../.github/workflows/mcp-worker.yml)). This
-> Lambda-based server is the standalone successor; the two currently coexist.
-> The `slug` and `fromIndex` fields in `component_find` results are retained
-> only for parity with the Worker MCP and will be removed once it is retired.
+> **Relationship to the in-repo MCP core:** A local stdio/HTTP MCP server lives
+> under [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/)
+> for editor integrations and offline use. It was previously also deployed as a
+> Cloudflare Worker; that hosted deployment has been removed in favour of this
+> Lambda-based server.
 
 ## Available tools
 
@@ -112,14 +114,7 @@ The build & push workflow triggers on:
 | Push of a `v*` / `v*.*.*` tag      | Yes      |
 | Manual `workflow_dispatch`         | Yes      |
 
-Required secrets/variables:
-
-| Name              | Where        | Purpose                                                   |
-| ----------------- | ------------ | --------------------------------------------------------- |
-| `GHE_DEPLOY_PAT`  | Public repo  | GHE PAT with `repo` + `workflow` scope to push artifacts  |
-| `GHE_DEPLOY_REPO` | Public repo  | Target GHE repo, e.g. `eufemia/eufemia-mcp`               |
-| `AWS_ROLE_ARN`    | GHE repo var | OIDC role assumed by the deploy job                       |
-| `COST_ALLOCATION` | GHE repo var | BA number passed to Terraform as `TF_VAR_cost_allocation` |
+Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
 
 ### Infrastructure
 
@@ -128,7 +123,7 @@ Managed via Terraform in `infra/`:
 | Resource    | Configuration                                      |
 | ----------- | -------------------------------------------------- |
 | Lambda      | Node.js 22, 512 MB, 30s timeout, 30 max concurrent |
-| API Gateway | HTTP API, `POST /mcp` + `GET /healthz`             |
+| API Gateway | HTTP API, `POST /mcp/web` + `GET /healthz`         |
 | Throttling  | 200 burst / 400 requests per second                |
 | CloudWatch  | 30-day log retention                               |
 | Region      | eu-north-1                                         |
@@ -160,10 +155,8 @@ aws lambda put-function-concurrency \
 ```
 tools/mcp-lambda/
 ├── src/
-│   ├── server.ts              # Server singleton (resolves docs root)
 │   ├── resolve-docs-root.ts   # Docs-root resolution (env + candidates)
-│   ├── docs-server.ts         # Tool handlers, search, component resolution
-│   ├── docs-source.ts         # Filesystem abstraction (DocsSource interface)
+│   ├── server.ts              # Adapter for the shared MCP server factory
 │   ├── transports/
 │   │   ├── stdio.ts           # Local dev entry point
 │   │   └── lambda-handler.ts  # AWS Lambda entry point

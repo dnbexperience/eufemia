@@ -55,6 +55,7 @@ export default function StickyMenuBar({
             id="toggle-sidebar-menu"
             size="default"
             iconSize="default"
+            left="x-small"
             aria-haspopup={true}
             aria-controls="portal-sidebar-menu"
             aria-expanded={isOpen}

@@ -7,7 +7,9 @@ import ItemSubline from './ItemSubline'
 import { ListContext } from './ListContext'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import type { DynamicElement } from '../../shared/types'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 /**
  * Props for List.Cell.Title (ItemTitle).
@@ -28,6 +30,11 @@ export type ItemTitleProps = FlexItemProps & {
    * When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.
    */
   skeleton?: SkeletonShow
+  /**
+   * Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.
+   * Default: `'div'`
+   */
+  element?: DynamicElement
 }
 
 function ItemTitleBase({
@@ -73,7 +80,9 @@ function ItemTitleBase({
 
   return content
 }
-ItemTitleBase._supportsSpacingProps = true
+withComponentMarkers(ItemTitleBase, {
+  _supportsSpacingProps: true,
+})
 
 type ItemTitleComponent = typeof ItemTitleBase & {
   Overline: typeof ItemOverline

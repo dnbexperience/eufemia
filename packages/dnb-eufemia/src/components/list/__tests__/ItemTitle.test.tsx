@@ -5,6 +5,7 @@ import ItemTitle from '../ItemTitle'
 import ItemContent from '../ItemContent'
 import Container from '../Container'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemTitle', () => {
   it('renders with children', () => {
@@ -14,6 +15,14 @@ describe('ItemTitle', () => {
 
     expect(element).toBeInTheDocument()
     expect(element.textContent).toContain('Title text')
+  })
+
+  it('renders as a custom element when the element prop is set', () => {
+    render(<ItemTitle element="span">Title</ItemTitle>)
+
+    const element = document.querySelector('.dnb-list__item__title')
+
+    expect(element.tagName).toBe('SPAN')
   })
 
   it('has dnb-list__item__title class and wraps children with default fontSize basis', () => {
@@ -117,7 +126,9 @@ describe('ItemTitle', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemTitle._supportsSpacingProps).toBe(true)
+    expect((ItemTitle as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('does not accept unrelated ItemContent props', () => {

@@ -5,7 +5,7 @@ import Table from '../Table'
 import type { TableScrollViewAllProps } from '../TableScrollView'
 import ScrollView from '../TableScrollView'
 import { BasicTable } from './TableMocks'
-import { setResizeObserver } from '../../../fragments/scroll-view/__tests__/shared-mocks/ResizeObserver'
+import { setResizeObserver } from '../../scroll-view/__tests__/shared-mocks/ResizeObserver'
 
 describe('Table.ScrollView', () => {
   it('renders with props as an object', () => {

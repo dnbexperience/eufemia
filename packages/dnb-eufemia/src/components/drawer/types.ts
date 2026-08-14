@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { ScrollViewAllProps } from '../../fragments/ScrollView'
+import type { ScrollViewAllProps } from '../scroll-view/ScrollView'
 import type { ModalAllProps } from '../modal/Modal'
 
 export type DrawerProps = {

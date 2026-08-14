@@ -28,6 +28,10 @@
 
   &--hidden {
     display: none;
+
+    &[hidden='until-found'] {
+      display: block;
+    }
   }
 
   &--show-overflow {

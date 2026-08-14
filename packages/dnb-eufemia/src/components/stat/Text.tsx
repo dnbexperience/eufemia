@@ -14,6 +14,7 @@ import {
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import useStatSkeleton from './useStatSkeleton'
 import type { SkeletonMethods } from '../skeleton/SkeletonHelper'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 type TextOwnProps = {
   /** @internal Not documented – used by internal sub-components only. */
@@ -91,13 +92,17 @@ function TextInternal(props: TextInternalProps) {
   return <Element {...attributes}>{children}</Element>
 }
 
-TextInternal._supportsSpacingProps = true
+withComponentMarkers(TextInternal, {
+  _supportsSpacingProps: true,
+})
 
 function Text(props: TextProps) {
   return <TextInternal {...props} />
 }
 
-Text._supportsSpacingProps = true
+withComponentMarkers(Text, {
+  _supportsSpacingProps: true,
+})
 
 function resolveSignTone(
   colorizeBySign: TextProps['colorizeBySign'],

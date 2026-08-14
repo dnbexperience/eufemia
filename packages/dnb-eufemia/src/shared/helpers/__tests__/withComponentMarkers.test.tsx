@@ -207,7 +207,7 @@ describe('withComponentMarkers', () => {
       withComponentMarkers(TestItem, { _supportsSpacingProps: true })
 
       render(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <TestItem />
           <TestItem />
         </Flex.Vertical>
@@ -235,7 +235,7 @@ describe('withComponentMarkers', () => {
       }
 
       render(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <TestItem />
           <TestItem />
         </Flex.Vertical>
@@ -257,7 +257,7 @@ describe('withComponentMarkers', () => {
       withComponentMarkers(NoSpaceItem, { _supportsSpacingProps: false })
 
       render(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <NoSpaceItem />
         </Flex.Vertical>
       )
@@ -282,7 +282,7 @@ describe('withComponentMarkers', () => {
       })
 
       render(
-        <Flex.Vertical>
+        <Flex.Vertical layoutEngine="legacy">
           <WrapperComponent>
             <ChildItem />
             <ChildItem />

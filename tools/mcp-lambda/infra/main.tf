@@ -84,9 +84,11 @@ resource "aws_apigatewayv2_integration" "mcp" {
 
 # POST-only: GET (SSE) and DELETE (session cleanup) are not needed
 # because sessionIdGenerator is disabled in the Lambda transport.
-resource "aws_apigatewayv2_route" "mcp" {
+# The /mcp/<client> namespace leaves room for a future native endpoint
+# (e.g. /mcp/native); /mcp/web is the canonical path for the web docs server.
+resource "aws_apigatewayv2_route" "mcp_web" {
   api_id    = aws_apigatewayv2_api.mcp.id
-  route_key = "POST /mcp"
+  route_key = "POST /mcp/web"
   target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
 }
 
@@ -98,12 +100,12 @@ resource "aws_apigatewayv2_route" "health" {
   target    = "integrations/${aws_apigatewayv2_integration.mcp.id}"
 }
 
-resource "aws_lambda_permission" "apigw" {
-  statement_id  = "AllowAPIGateway"
+resource "aws_lambda_permission" "apigw_web" {
+  statement_id  = "AllowAPIGatewayWeb"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.mcp.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.mcp.execution_arn}/*/POST/mcp"
+  source_arn    = "${aws_apigatewayv2_api.mcp.execution_arn}/*/POST/mcp/web"
 }
 
 resource "aws_lambda_permission" "apigw_health" {

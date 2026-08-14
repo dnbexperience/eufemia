@@ -40,7 +40,7 @@ const setOverflowHidden = () => {
     )
 
     bodyElement.style.overflow = 'hidden'
-    bodyElement.style.height = 'auto'
+    bodyElement.style.height = '100%'
     bodyElement.style.boxSizing = 'border-box'
     bodyElement.style.marginRight = `${scrollBarWidth}px`
 

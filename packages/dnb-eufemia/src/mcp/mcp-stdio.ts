@@ -5,29 +5,28 @@
  *
  * Used by editor integrations (Cursor, Claude Code, the VSCode MCP config,
  * etc.). The HTTP entry lives in `./mcp-http-server.ts`, and the runtime-
- * agnostic core lives in `./mcp-docs-server.ts` so it can also run on
- * Cloudflare Workers.
+ * agnostic core lives in `./mcp-docs-server.ts`.
  */
 
 import path from 'node:path'
 import process from 'node:process'
 
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
+import { serveStdio } from '@modelcontextprotocol/server/stdio'
 
 import { createDocsServer, validateDocsRoot } from './mcp-docs-server'
 
 function logErr(...args: unknown[]) {
+  // eslint-disable-next-line no-console -- MCP stdio reserves stdout
   console.error(...args)
 }
 
 async function main() {
-  const { server, tools } = await createDocsServer()
+  const { tools } = await createDocsServer()
   logErr(`[eufemia] docsRoot: ${tools.docsRoot}`)
 
   await validateDocsRoot(tools.docsRoot)
 
-  const transport = new StdioServerTransport()
-  await server.connect(transport)
+  serveStdio(async () => (await createDocsServer()).server)
   logErr('[eufemia] connected (stdio)')
 }
 

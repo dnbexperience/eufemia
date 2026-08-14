@@ -28,7 +28,6 @@ import {
   setPageFocusElement,
   applyPageFocus,
 } from '@dnb/eufemia/src/shared/helpers'
-import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle, resizeHandleStyle } from './SidebarMenu.module.scss'
 import { defaultTabsValue } from '../tags/defaultValues'
 
@@ -175,18 +174,6 @@ export default function SidebarLayout({
         )}
         ref={scrollRef}
       >
-        <PortalToolsMenu
-          triggerProps={{
-            left: 'large',
-            top: 'large',
-            bottom: 'large',
-            text: 'Portal Tools',
-            icon: 'chevron_right',
-            iconPosition: 'right',
-          }}
-          tooltipPosition="bottom"
-          hideWhenMediaLarge
-        />
         <ul className="dev-grid">{navItems}</ul>
       </nav>
 
@@ -801,7 +788,7 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     hashmap[itemId] = hashItem
 
     // Add all top level heading object references to topLevelHeadings array
-    // so that we wont have to loop through the array a second time to sort out top level headings
+    // so that we won't have to loop through the array a second time to sort out top level headings
     if (item.level === 1) {
       topLevelHeadings.push(hashmap[itemId])
     }

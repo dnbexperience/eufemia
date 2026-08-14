@@ -246,6 +246,7 @@ export default function InfinityScroller({
       fallbackElement,
       markerElement,
       indicatorElement,
+      isLoadingText,
     } = paginationRef.current
 
     const Marker = () => (
@@ -277,6 +278,7 @@ export default function InfinityScroller({
         pressedElement={
           <PaginationIndicator
             indicatorElement={indicatorElement || fallbackElement}
+            isLoadingText={isLoadingText}
           />
         }
         onClick={() => {
@@ -309,6 +311,7 @@ export default function InfinityScroller({
             upperPage < pageCountInternal) && (
             <PaginationIndicator
               indicatorElement={indicatorElement || fallbackElement}
+              isLoadingText={isLoadingText}
             />
           )}
       </>
@@ -329,6 +332,7 @@ export default function InfinityScroller({
     fallbackElement,
     markerElement,
     indicatorElement,
+    isLoadingText,
     loadButton,
   } = pagination
 
@@ -432,6 +436,7 @@ export default function InfinityScroller({
           {showIndicator && (
             <PaginationIndicator
               indicatorElement={indicatorElement || fallbackElement}
+              isLoadingText={isLoadingText}
             />
           )}
 

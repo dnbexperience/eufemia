@@ -6,6 +6,7 @@ import {
 import Provider from '../../../shared/Provider'
 import Stat from '../Stat'
 import NumberComponent from '../Number'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('Stat.Number', () => {
   let log: ReturnType<typeof spyOnEufemiaWarn>
@@ -18,7 +19,9 @@ describe('Stat.Number', () => {
     log.mockRestore()
   })
   it('declares _supportsSpacingProps', () => {
-    expect(NumberComponent._supportsSpacingProps).toBe(true)
+    expect(
+      (NumberComponent as ComponentMarkers)._supportsSpacingProps
+    ).toBe(true)
   })
 
   it('renders plain number without currency by default', () => {

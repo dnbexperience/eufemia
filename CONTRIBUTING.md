@@ -26,6 +26,24 @@ When you add, remove, or upgrade a dependency, run `yarn dedupe` afterwards and 
 
 CI enforces a deduplicated lockfile (via a `yarn dedupe --check` step). A plain `yarn install` can leave duplicate — and occasionally vulnerable — transitive versions in the tree, so deduplicating keeps the dependency graph lean and the lockfile consistent across contributors.
 
+### Before adding a dependency
+
+Prefer fewer dependencies — a little code we own usually beats a new runtime dependency. Before adding one (especially a runtime dependency), be ready to justify it in the pull request:
+
+- **Purpose** — what it does, and why native code or a small internal helper won't do.
+- **Size & complexity** — its footprint and how many transitive dependencies it pulls in.
+- **Maintenance health** — recent releases, active maintainers, open-issue health.
+- **License** — compatible with DNB policy.
+- **Alternatives considered** — what else you evaluated.
+
+Remove dependencies once they are no longer used — the cheapest vulnerability to handle is the one in code you deleted.
+
+## Security
+
+Found a security vulnerability? Please report it **privately** — see [`SECURITY.md`](./SECURITY.md). Do not open a public issue or pull request.
+
+Maintainers: the routine for triaging Dependabot alerts and other advisories — detection, triage, response targets, and review cadence — is documented in [`docs/vulnerability-management.md`](./docs/vulnerability-management.md).
+
 ## Use `main` and the _GitHub Flow_
 
 1. Make sure you run `git checkout main` - as **main** is the working branch

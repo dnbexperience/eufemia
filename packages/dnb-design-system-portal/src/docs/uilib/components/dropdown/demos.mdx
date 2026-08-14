@@ -20,6 +20,7 @@ import {
   DropdownDisabledTertiary,
   DropdownEllipsisOverflow,
   DropdownCustomizedLook,
+  DropdownWithListItemContent,
   DropdownGroups,
   DropdownNoDivider,
 } from 'Docs/uilib/components/dropdown/Examples'
@@ -86,6 +87,12 @@ Individual options can also be disabled.
 An example of how you can customize the look of your `Dropdown`
 
 <DropdownCustomizedLook />
+
+### Dropdown with List item content
+
+Reuse the [List](/uilib/components/list) row layout for rich option content. The option is already an `<li>` and wraps its content in `<span>` elements, so use `element="span"` on `List.Item.Basic` and its cells to keep the markup valid. Give the `Dropdown` a width that fits both the title and the end value, and provide `selectedValue` with the plain text to show once an option is selected. See [rendering a row outside a `List.Container`](/uilib/components/list/info#rendering-a-row-outside-a-listcontainer) for the details.
+
+<DropdownWithListItemContent />
 
 ### DrawerList opened
 

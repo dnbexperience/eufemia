@@ -6,7 +6,9 @@ import type { FlexContainerAllProps as FlexProps } from '../flex/Container'
 import FlexContainer from '../flex/Container'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
+import type { DynamicElement } from '../../shared/types'
 import Context from '../../shared/Context'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ItemContentProps = {
   id?: string
@@ -15,6 +17,11 @@ export type ItemContentProps = {
   pending?: boolean
   disabled?: boolean
   skeleton?: SkeletonShow
+  /**
+   * Define the HTML element used for the row. Defaults to `li` for correct list semantics. Use an element that is valid inside the surrounding markup when the row is rendered inside markup that already provides the list item. For example, use `span` for a `Dropdown` or `Autocomplete` option.
+   * Default: `'li'`
+   */
+  element?: DynamicElement
 } & FlexProps
 
 function ItemContent(props: ItemContentProps) {
@@ -26,6 +33,7 @@ function ItemContent(props: ItemContentProps) {
     pending,
     disabled,
     skeleton,
+    element = 'li',
     ...rest
   } = props
   const context = useContext(Context)
@@ -38,7 +46,7 @@ function ItemContent(props: ItemContentProps) {
 
   const content = (
     <FlexContainer
-      element="li"
+      element={element}
       direction="horizontal"
       justify="space-between"
       wrap={false}
@@ -71,7 +79,9 @@ function ItemContent(props: ItemContentProps) {
 
   return content
 }
-ItemContent._supportsSpacingProps = true
+withComponentMarkers(ItemContent, {
+  _supportsSpacingProps: true,
+})
 
 export default ItemContent
 
@@ -79,4 +89,6 @@ function Pending() {
   return <div className="dnb-list__item__pending" />
 }
 // To ensure it gets not wrapped by Flex, we pretend it supports spacing props
-Pending._supportsSpacingProps = true
+withComponentMarkers(Pending, {
+  _supportsSpacingProps: true,
+})

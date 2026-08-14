@@ -24,6 +24,15 @@ describe('Heading component', () => {
     expect(document.querySelector('.dnb-heading')).toBeInTheDocument()
   })
 
+  it('should expose Flex heading metadata on the rendered root', () => {
+    render(<Heading>Heading</Heading>)
+
+    expect(document.querySelector('.dnb-heading')).toHaveAttribute(
+      'data-flex-item-type',
+      'heading'
+    )
+  })
+
   describe('surface', () => {
     it('does not apply dark surface class by default', () => {
       render(<Heading>Heading</Heading>)

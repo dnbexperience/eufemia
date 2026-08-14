@@ -13,12 +13,21 @@ export type ItemBasicProps = {
 } & Omit<ItemContentProps, 'title'>
 
 function ItemBasic(props: ItemBasicProps) {
-  const { icon, title, children, ...rest } = props
+  const { icon, title, children, element, ...rest } = props
+
+  // The auto-rendered icon and title must be valid inside the row element.
+  // When the row is a phrasing element (`element="span"`, e.g. for a Dropdown
+  // or Autocomplete option) they must be phrasing content too, or they would
+  // render a `<div>` inside a `<span>` — the exact invalid nesting the
+  // `element` prop exists to avoid. Follow the row element in that case.
+  const cellElement = element === 'span' ? 'span' : undefined
 
   return (
-    <ItemContent {...rest}>
-      {icon && <ItemIcon>{icon}</ItemIcon>}
-      {title !== undefined && <ItemTitle>{title}</ItemTitle>}
+    <ItemContent element={element} {...rest}>
+      {icon && <ItemIcon element={cellElement}>{icon}</ItemIcon>}
+      {title !== undefined && (
+        <ItemTitle element={cellElement}>{title}</ItemTitle>
+      )}
       {children}
     </ItemContent>
   )

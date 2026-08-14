@@ -17,6 +17,7 @@ import {
   Flex,
   IconPrimary,
   NumberFormat,
+  List,
 } from '@dnb/eufemia/src'
 
 const Wrapper = styled.div`
@@ -713,6 +714,71 @@ export const AutocompleteContentDecoupledExample = () => (
         ]}
         label="Label"
       />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteWithListItemContent = () => (
+  <Wrapper>
+    <ComponentBox
+      scope={{ List }}
+      data-visual-test="autocomplete-list-item-content"
+    >
+      {() => {
+        // A List row keeps its end cell at content width, so the row needs
+        // horizontal room. Give the Autocomplete a width of its own, or the
+        // title column will be squeezed by the end cell.
+        const AccountAutocomplete = styled(Autocomplete)`
+          .dnb-autocomplete__shell,
+          .dnb-drawer-list__root {
+            width: 22rem;
+          }
+        `
+
+        const data = [
+          {
+            selectedKey: 'accounts',
+            // selectedValue is the plain text shown in the input once selected;
+            // searchContent keeps typing/filtering working with rich content
+            selectedValue: 'Accounts',
+            searchContent: 'Accounts Bills Savings',
+            content: (
+              <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Accounts</List.Cell.Title>
+                <List.Cell.End element="span">
+                  Bills, Savings
+                </List.Cell.End>
+              </List.Item.Basic>
+            ),
+          },
+          {
+            selectedKey: 'loans',
+            selectedValue: 'Loans',
+            searchContent: 'Loans Mortgage Car',
+            content: (
+              <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Loans</List.Cell.Title>
+                <List.Cell.End element="span">Mortgage, Car</List.Cell.End>
+              </List.Item.Basic>
+            ),
+          },
+          {
+            selectedKey: 'cards',
+            selectedValue: 'Cards',
+            searchContent: 'Cards Visa Mastercard',
+            content: (
+              <List.Item.Basic element="span">
+                <List.Cell.Title element="span">Cards</List.Cell.Title>
+                <List.Cell.End element="span">
+                  Visa, Mastercard
+                </List.Cell.End>
+              </List.Item.Basic>
+            ),
+          },
+        ]
+
+        return <AccountAutocomplete data={data} label="Label" />
+      }}
     </ComponentBox>
   </Wrapper>
 )

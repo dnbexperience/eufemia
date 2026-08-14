@@ -17,6 +17,21 @@ import { useSpacing } from '../SpacingUtils'
 
 const props: SpaceAllProps = {}
 
+const getLegacySpaceClasses = (selector = '.dnb-space') =>
+  Object.values(document.querySelector(selector).classList).filter(
+    (className) => !className.startsWith('dnb-space--has-')
+  )
+
+const getLegacySpaceStyle = (selector = '.dnb-space') => {
+  const style = (document.querySelector(selector) as HTMLElement).style
+  const serialized = Array.from(style)
+    .filter((property) => !property.startsWith('--space-'))
+    .map((property) => `${property}: ${style.getPropertyValue(property)};`)
+    .join(' ')
+
+  return serialized || null
+}
+
 describe('Space component', () => {
   it('renders with empty props', () => {
     render(<Space {...props} />)
@@ -51,9 +66,7 @@ describe('Space component', () => {
 
   it('should accept space only prop', () => {
     render(<Space element="span" space="large" />)
-    expect(
-      Object.values(document.querySelector('span.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses('span.dnb-space')).toEqual([
       'dnb-space',
       'dnb-space__top--large',
       'dnb-space__right--large',
@@ -74,9 +87,7 @@ describe('Space component', () => {
         }}
       />
     )
-    expect(
-      Object.values(document.querySelector('span.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses('span.dnb-space')).toEqual([
       'dnb-space',
       'dnb-space__top--x-large',
       'dnb-space__right--large',
@@ -104,17 +115,43 @@ describe('Space component', () => {
     ).toBeInTheDocument()
   })
 
-  it('should not emit style for non-responsive spacing (handled by CSS classes)', () => {
+  it('should emit logical metadata for non-responsive spacing in CSS Flex', () => {
     const { rerender } = render(
-      <Space top="large" right="small" bottom="0" left={false} />
+      <Flex direction="vertical" layoutEngine="css">
+        <Space top="large" right="small" bottom="0" left={false} />
+      </Flex>
+    )
+    const element = document.querySelector(
+      '.dnb-flex-container > .dnb-space'
+    ) as HTMLElement
+
+    expect(
+      getLegacySpaceStyle('.dnb-flex-container > .dnb-space')
+    ).toBeNull()
+    expect(element).toHaveClass(
+      'dnb-space--has-block-start',
+      'dnb-space--has-inline-end',
+      'dnb-space--has-block-end',
+      'dnb-space--has-inline-start'
+    )
+    expect(element.style.getPropertyValue('--space-block-start')).toBe(
+      'var(--spacing-large)'
+    )
+    expect(element.style.getPropertyValue('--space-inline-end')).toBe(
+      'var(--spacing-small)'
+    )
+    expect(element.style.getPropertyValue('--space-block-end')).toBe('0')
+    expect(element.style.getPropertyValue('--space-inline-start')).toBe(
+      '0'
+    )
+
+    rerender(
+      <Flex direction="vertical" layoutEngine="css">
+        <Space space="small" />
+      </Flex>
     )
     expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBeNull()
-
-    rerender(<Space space="small" />)
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
+      getLegacySpaceStyle('.dnb-flex-container > .dnb-space')
     ).toBeNull()
   })
 
@@ -164,16 +201,12 @@ describe('responsive space', () => {
         }}
       />
     )
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
+    expect(getLegacySpaceStyle()).toBe(
       '--margin-t-s: 1rem; --margin-r-s: 1rem; --margin-b-s: 1rem; --margin-l-s: 1rem; --margin-t-m: 2rem; --margin-r-m: 2rem; --margin-b-m: 2rem; --margin-l-m: 2rem; --margin-t-l: 3rem; --margin-r-l: 3rem; --margin-b-l: 3rem; --margin-l-l: 3rem;'
     )
 
     // CSS classes should be based on small breakpoint
-    expect(
-      Object.values(document.querySelector('.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses()).toEqual([
       'dnb-space',
       'dnb-space__top--small',
       'dnb-space__right--small',
@@ -191,16 +224,12 @@ describe('responsive space', () => {
         bottom="x-small"
       />
     )
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
+    expect(getLegacySpaceStyle()).toBe(
       '--margin-t-s: 1rem; --margin-r-s: 2rem; --margin-b-s: 0.5rem; --margin-t-m: 2rem; --margin-b-m: 0.5rem; --margin-r-l: 0.5rem; --margin-b-l: 0.5rem; --margin-l-l: 3rem;'
     )
 
     // CSS classes should be based on small breakpoint
-    expect(
-      Object.values(document.querySelector('.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses()).toEqual([
       'dnb-space',
       'dnb-space__top--small',
       'dnb-space__right--large',
@@ -218,16 +247,12 @@ describe('responsive space', () => {
         }}
       />
     )
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
+    expect(getLegacySpaceStyle()).toBe(
       '--margin-t-s: 1rem; --margin-r-s: 1rem; --margin-b-s: 1rem; --margin-l-s: 1rem; --margin-t-m: 2rem; --margin-r-m: 2rem; --margin-b-m: 2rem; --margin-l-m: 2rem; --margin-t-l: 3rem; --margin-r-l: 1.5rem;'
     )
 
     // CSS classes should be based on small breakpoint (true = small)
-    expect(
-      Object.values(document.querySelector('.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses()).toEqual([
       'dnb-space',
       'dnb-space__top--small',
       'dnb-space__right--small',
@@ -245,14 +270,10 @@ describe('responsive space', () => {
         }}
       />
     )
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBeNull()
+    expect(getLegacySpaceStyle()).toBeNull()
 
     // CSS classes should be based on expanded values
-    expect(
-      Object.values(document.querySelector('.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses()).toEqual([
       'dnb-space',
       'dnb-space__top--large',
       'dnb-space__right--small',
@@ -269,16 +290,12 @@ describe('responsive space', () => {
         }}
       />
     )
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
+    expect(getLegacySpaceStyle()).toBe(
       '--margin-l-s: 1rem; --margin-r-s: 1rem; --margin-t-s: 1.5rem; --margin-b-s: 1.5rem; --margin-t-m: 2rem; --margin-b-m: 2rem; --margin-l-l: 3rem; --margin-r-l: 3rem;'
     )
 
     // CSS classes should be based on small breakpoint expanded values
-    expect(
-      Object.values(document.querySelector('.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses()).toEqual([
       'dnb-space',
       'dnb-space__top--medium',
       'dnb-space__right--small',
@@ -291,14 +308,10 @@ describe('responsive space', () => {
     render(
       <Space space={{ inline: 'small' }} top="large" bottom="medium" />
     )
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBeNull()
+    expect(getLegacySpaceStyle()).toBeNull()
 
     // CSS classes should reflect the overrides
-    expect(
-      Object.values(document.querySelector('.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses()).toEqual([
       'dnb-space',
       'dnb-space__top--large',
       'dnb-space__right--small',
@@ -328,16 +341,12 @@ describe('responsive space', () => {
       />
     )
 
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
+    expect(getLegacySpaceStyle()).toBe(
       '--margin-t-s: 2.5rem; --margin-r-s: 2.5rem; --margin-b-s: 2.5rem; --margin-l-s: 2.5rem; --margin-t-m: 5rem; --margin-l-m: 1rem; --margin-b-m: 2rem; --margin-r-m: 5rem; --margin-t-l: 1rem; --margin-l-l: 1rem; --margin-b-l: 2rem; --margin-r-l: 5rem;'
     )
 
     // CSS classes should be based on small breakpoint (large x-small = 2.5rem total)
-    expect(
-      Object.values(document.querySelector('.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses()).toEqual([
       'dnb-space',
       'dnb-space__top--large',
       'dnb-space__top--x-small',
@@ -370,9 +379,7 @@ describe('responsive space', () => {
       />
     )
 
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
+    expect(getLegacySpaceStyle()).toBe(
       '--margin-t-s: 2.5rem; --margin-r-s: 2.5rem; --margin-b-s: 2.5rem; --margin-l-s: 2.5rem; --margin-t-m: 2rem; --margin-l-m: 0.5rem; --margin-b-m: 0; --margin-r-m: 4rem; --margin-t-l: 3.5rem; --margin-l-l: 1rem; --margin-b-l: 4rem; --margin-r-l: 3rem;'
     )
   })
@@ -388,16 +395,12 @@ describe('responsive space', () => {
       />
     )
 
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
+    expect(getLegacySpaceStyle()).toBe(
       '--margin-t-s: 2rem; --margin-b-s: 0; --margin-l-s: 0; --margin-r-m: 1rem; --margin-b-m: 1.5rem; --margin-r-l: 0;'
     )
 
     // CSS classes should reflect only non-zero values from small breakpoint
-    expect(
-      Object.values(document.querySelector('.dnb-space').classList)
-    ).toEqual([
+    expect(getLegacySpaceClasses()).toEqual([
       'dnb-space',
       'dnb-space__top--large',
       'dnb-space__bottom--zero',
@@ -421,9 +424,7 @@ describe('responsive space', () => {
       />
     )
 
-    expect(
-      document.querySelector('.dnb-space').getAttribute('style')
-    ).toBe(
+    expect(getLegacySpaceStyle()).toBe(
       '--margin-t-s: 3rem; --margin-r-s: 3rem; --margin-b-s: 3rem; --margin-l-s: 3rem; --margin-t-m: 3.5rem; --margin-r-m: 1.5rem; --margin-b-m: 2.5rem; --margin-l-m: 0.5rem; --margin-t-l: 4rem; --margin-r-l: 4rem; --margin-b-l: 4rem; --margin-l-l: 4rem;'
     )
   })

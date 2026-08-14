@@ -8,6 +8,7 @@ import { warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'
 import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type InlineProps = FlexHorizontalProps & {
   id?: string
@@ -55,6 +56,8 @@ function Inline({
   )
 }
 
-Inline._supportsSpacingProps = true
+withComponentMarkers(Inline, {
+  _supportsSpacingProps: true,
+})
 
 export default Inline

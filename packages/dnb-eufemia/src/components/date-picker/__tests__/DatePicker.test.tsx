@@ -3978,7 +3978,7 @@ describe('DatePicker component', () => {
     )
   })
 
-  it('should have todays date enabled in calendar if minDate is today', async () => {
+  it("should have today's date enabled in calendar if minDate is today", async () => {
     const minDate = new Date()
 
     render(<DatePicker minDate={minDate} />)

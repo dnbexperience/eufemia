@@ -9,6 +9,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { getCommittedFiles } from '../../tools/cliTools'
+import { rebaseAssetUrls } from '../copyStyles'
 
 const PKG_ROOT = path.resolve(__dirname, '../../..')
 
@@ -23,6 +24,37 @@ const getBuildStages = (stages: string[]) => {
   const shouldSkipEs = process.env.BUILD_MINI
   return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
 }
+
+describe('rebaseAssetUrls (copyStyles)', () => {
+  const buildAbs = path.resolve(PKG_ROOT, 'build')
+
+  it('adds one level for module-format copies of top-level bundles', () => {
+    const css = '.fi{background-image:url(../assets/flags/1x1/no.svg)}'
+    const dest = path.join(buildAbs, 'cjs/style/dnb-ui-components.css')
+    expect(rebaseAssetUrls(css, dest)).toContain(
+      'url(../../assets/flags/1x1/no.svg)'
+    )
+  })
+
+  it('rebases nested theme bundles to their deeper location', () => {
+    const css =
+      '@font-face{src:url("../../../assets/fonts/dnb/DNB-Regular.woff2")}'
+    const dest = path.join(
+      buildAbs,
+      'es/style/themes/ui/ui-theme-basis.css'
+    )
+    expect(rebaseAssetUrls(css, dest)).toContain(
+      'url("../../../../assets/fonts/dnb/DNB-Regular.woff2")'
+    )
+  })
+
+  it('leaves absolute and data urls untouched', () => {
+    const css =
+      '@font-face{src:url(https://assets.dnb.no/fonts/x.woff2)}.b{background:url(data:image/svg+xml;base64,AAAA)}'
+    const dest = path.join(buildAbs, 'cjs/style/x.css')
+    expect(rebaseAssetUrls(css, dest)).toBe(css)
+  })
+})
 
 describe('type definitions', () => {
   const buildStages = getBuildStages(['/es', '/esm', '/cjs'])
@@ -774,8 +806,11 @@ describe('style build', () => {
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
+      // The /es and /cjs copies live one level deeper than the top-level
+      // bundle, so their relative asset paths gain one extra "../".
+      const fontsPrefix = stage === '' ? '../../../' : '../../../../'
       expect(content).toContain(
-        `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+        `src: url("${fontsPrefix}assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
       )
       expect(normalizeCss(content)).toContain(
         normalizeCss(`
@@ -864,6 +899,16 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).not.toContain(`.dnb-forms-`)
+
+      if (stage !== '') {
+        // The /es and /cjs copies must keep flag assets resolving in-package.
+        expect(content).toMatch(
+          /url\(\s*["']?\.\.\/\.\.\/assets\/flags\/1x1\//
+        )
+        expect(content).not.toMatch(
+          /url\(\s*["']?\.\.\/\.\.\/\.\.\/assets\/flags\//
+        )
+      }
     }
 
     {

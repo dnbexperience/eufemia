@@ -7,6 +7,7 @@ import {
 } from '../../icons'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import useTranslation from '../../shared/useTranslation'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListShowMoreButtonSharedState = {
   expanded: boolean
@@ -58,6 +59,8 @@ function ListShowMoreButton(props: ListShowMoreButtonProps) {
   )
 }
 
-ListShowMoreButton._supportsSpacingProps = true
+withComponentMarkers(ListShowMoreButton, {
+  _supportsSpacingProps: true,
+})
 
 export default ListShowMoreButton

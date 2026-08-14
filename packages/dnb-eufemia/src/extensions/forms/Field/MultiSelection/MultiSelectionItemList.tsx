@@ -1,9 +1,10 @@
-import { cloneElement, Fragment, isValidElement, useCallback } from 'react'
+import { Fragment, useCallback } from 'react'
 import type { ReactNode, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
-import ScrollView from '../../../../fragments/scroll-view/ScrollView'
+import ScrollView from '../../../../components/scroll-view/ScrollView'
 import { P } from '../../../../elements'
+import { useHighlightText } from '../../../../shared/helpers/highlightText'
 import type {
   FieldMultiSelectionProps,
   MultiSelectionItem,
@@ -39,76 +40,6 @@ export type MultiSelectionItemListProps = {
   someFilteredSelected: boolean
 }
 
-function highlightText(
-  text: string,
-  searchValue: string,
-  keyPrefix: string
-): ReactNode {
-  if (!searchValue || !text) {
-    return text
-  }
-
-  const escapedSearch = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const regex = new RegExp(`(${escapedSearch})`, 'gi')
-  const exactRegex = new RegExp(`^${escapedSearch}$`, 'i')
-  const parts = text.split(regex)
-
-  if (parts.length === 1) {
-    return text
-  }
-
-  return parts.map((part, index) => {
-    if (exactRegex.test(part)) {
-      return (
-        <mark
-          key={`${keyPrefix}-${index}`}
-          className="dnb-forms-field-multi-selection__highlighting"
-        >
-          {part}
-        </mark>
-      )
-    }
-
-    return part
-  })
-}
-
-function highlightSearchValue(
-  node: ReactNode,
-  searchValue: string,
-  keyPrefix: string
-): ReactNode {
-  if (!searchValue) {
-    return node
-  }
-
-  if (Array.isArray(node)) {
-    return node.map((child, index) =>
-      highlightSearchValue(child, searchValue, `${keyPrefix}-${index}`)
-    )
-  }
-
-  if (typeof node === 'string' || typeof node === 'number') {
-    return highlightText(String(node), searchValue, keyPrefix)
-  }
-
-  if (isValidElement<{ children?: ReactNode }>(node)) {
-    const children = node.props.children
-
-    if (typeof children === 'undefined') {
-      return node
-    }
-
-    return cloneElement(
-      node,
-      undefined,
-      highlightSearchValue(children, searchValue, `${keyPrefix}-children`)
-    )
-  }
-
-  return node
-}
-
 export function MultiSelectionItemList({
   disabled,
   filteredItems,
@@ -125,6 +56,12 @@ export function MultiSelectionItemList({
   allFilteredSelected,
   someFilteredSelected,
 }: MultiSelectionItemListProps) {
+  const highlight = useHighlightText({
+    search: searchValue,
+    className: 'dnb-forms-field-multi-selection__highlighting',
+    tag: 'mark',
+  })
+
   const handleItemClick = useCallback(
     (
       event: MouseEvent<HTMLLIElement>,
@@ -193,11 +130,7 @@ export function MultiSelectionItemList({
                   : onToggleItem(item.value)
               }
               disabled={disabled || item.disabled}
-              label={highlightSearchValue(
-                item.title,
-                searchValue,
-                `${itemPath}-title`
-              )}
+              label={highlight(item.title)}
               className="dnb-forms-field-multi-selection__checkbox"
               {...htmlAttributes}
             />
@@ -205,20 +138,12 @@ export function MultiSelectionItemList({
               <div className="dnb-forms-field-multi-selection__item-details">
                 {item.text && (
                   <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-text">
-                    {highlightSearchValue(
-                      item.text,
-                      searchValue,
-                      `${itemPath}-text`
-                    )}
+                    {highlight(item.text)}
                   </span>
                 )}
                 {item.description && (
                   <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-description">
-                    {highlightSearchValue(
-                      item.description,
-                      searchValue,
-                      `${itemPath}-description`
-                    )}
+                    {highlight(item.description)}
                   </span>
                 )}
               </div>

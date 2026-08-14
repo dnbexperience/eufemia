@@ -1,6 +1,13 @@
 // @vitest-environment node
 
-import { createBundledDocsSource, normalizeDocsPath } from '../docs-source'
+import fs from 'fs'
+import os from 'os'
+import path from 'path'
+import {
+  createNodeDocsSource,
+  normalizeDocsPath,
+  type DocsSource,
+} from '../docs-source'
 import { createDocsTools } from '../mcp-docs-server'
 
 type CallToolResult = {
@@ -10,6 +17,65 @@ type CallToolResult = {
 function getText(result: CallToolResult): string {
   const first = result.content?.[0]
   return first?.type === 'text' ? (first.text ?? '') : ''
+}
+
+type DocsFixture = {
+  docsRoot: string
+  cleanup: () => void
+}
+
+function createDocsFixture(): DocsFixture {
+  const docsRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'eufemia-mcp-'))
+
+  const componentsDir = path.join(docsRoot, 'uilib', 'components')
+  const multiSelectionDir = path.join(
+    docsRoot,
+    'uilib',
+    'extensions',
+    'forms',
+    'base-fields'
+  )
+
+  fs.mkdirSync(componentsDir, { recursive: true })
+  fs.mkdirSync(multiSelectionDir, { recursive: true })
+
+  fs.writeFileSync(
+    path.join(docsRoot, 'llm.md'),
+    '# Eufemia Docs\n\nWelcome to the docs.'
+  )
+
+  fs.writeFileSync(
+    path.join(componentsDir, 'button.md'),
+    [
+      '---',
+      'title: Button',
+      '---',
+      '# Button',
+      '',
+      'Button content with foobar.',
+      '',
+      '```json',
+      JSON.stringify([{ name: 'text', type: 'string' }], null, 2),
+      '```',
+    ].join('\n')
+  )
+
+  fs.writeFileSync(
+    path.join(multiSelectionDir, 'MultiSelection.md'),
+    [
+      '---',
+      "title: 'Field.MultiSelection'",
+      '---',
+      '# Field.MultiSelection',
+      '',
+      'Multi selection field for forms (multi select).',
+    ].join('\n')
+  )
+
+  return {
+    docsRoot,
+    cleanup: () => fs.rmSync(docsRoot, { recursive: true, force: true }),
+  }
 }
 
 describe('normalizeDocsPath', () => {
@@ -34,31 +100,18 @@ describe('normalizeDocsPath', () => {
   })
 })
 
-describe('createBundledDocsSource', () => {
-  const bundle: Record<string, string> = {
-    'llm.md': '# Eufemia\n\nWelcome to the docs.',
-    'uilib/components/button.md': [
-      '---',
-      'title: Button',
-      '---',
-      '# Button',
-      '',
-      '```json',
-      JSON.stringify([{ name: 'text', type: 'string' }], null, 2),
-      '```',
-    ].join('\n'),
-    'uilib/extensions/forms/base-fields/MultiSelection.md': [
-      '---',
-      "title: 'Field.MultiSelection'",
-      '---',
-      '# Field.MultiSelection',
-      '',
-      'Multi selection field for forms.',
-    ].join('\n'),
-  }
+describe('createNodeDocsSource', () => {
+  let fixture: DocsFixture
+  let source: DocsSource
+
+  beforeAll(async () => {
+    fixture = createDocsFixture()
+    source = await createNodeDocsSource(fixture.docsRoot)
+  })
+
+  afterAll(() => fixture.cleanup())
 
   it('lists only markdown files', async () => {
-    const source = createBundledDocsSource(bundle)
     const md = await source.listMarkdown()
     expect(md).toEqual(
       expect.arrayContaining([
@@ -70,13 +123,11 @@ describe('createBundledDocsSource', () => {
   })
 
   it('reads a known file and returns null for missing ones', async () => {
-    const source = createBundledDocsSource(bundle)
     expect(await source.read('llm.md')).toContain('Eufemia')
     expect(await source.read('does/not/exist.md')).toBeNull()
   })
 
   it('reports stat for files, directories, and missing paths', async () => {
-    const source = createBundledDocsSource(bundle)
     expect((await source.stat('llm.md')).kind).toBe('file')
     expect((await source.stat('uilib/components')).kind).toBe('dir')
     expect((await source.stat('uilib/components/button.md')).kind).toBe(
@@ -85,8 +136,7 @@ describe('createBundledDocsSource', () => {
     expect((await source.stat('does/not/exist')).kind).toBe('missing')
   })
 
-  it('lists a directory and de-duplicates child entries', async () => {
-    const source = createBundledDocsSource(bundle)
+  it('lists the direct children of a directory', async () => {
     const root = await source.listDir('')
     expect(root).toEqual(expect.arrayContaining(['llm.md', 'uilib']))
 
@@ -95,34 +145,17 @@ describe('createBundledDocsSource', () => {
   })
 })
 
-describe('createDocsTools with a bundled source', () => {
-  const bundle: Record<string, string> = {
-    'llm.md': '# Eufemia Docs\n\nWelcome.',
-    'uilib/components/button.md': [
-      '---',
-      'title: Button',
-      '---',
-      '# Button',
-      '',
-      'Button content with foobar.',
-      '',
-      '```json',
-      JSON.stringify([{ name: 'text', type: 'string' }], null, 2),
-      '```',
-    ].join('\n'),
-    'uilib/extensions/forms/base-fields/MultiSelection.md': [
-      '---',
-      "title: 'Field.MultiSelection'",
-      '---',
-      '# Field.MultiSelection',
-      '',
-      'Multi selection field for forms (multi select).',
-    ].join('\n'),
-  }
+describe('createDocsTools with a node source', () => {
+  let fixture: DocsFixture
 
-  it('serves docs_entry, docs_index and docs_search from the bundle', async () => {
-    const source = createBundledDocsSource(bundle)
-    const tools = createDocsTools({ source })
+  beforeAll(() => {
+    fixture = createDocsFixture()
+  })
+
+  afterAll(() => fixture.cleanup())
+
+  it('serves docs_entry, docs_index and docs_search from the docs root', async () => {
+    const tools = createDocsTools({ docsRoot: fixture.docsRoot })
 
     const entry = getText((await tools.docsEntry({})) as CallToolResult)
     expect(entry).toContain('Eufemia Docs')
@@ -152,8 +185,7 @@ describe('createDocsTools with a bundled source', () => {
   })
 
   it('resolves Field.MultiSelection via component_find', async () => {
-    const source = createBundledDocsSource(bundle)
-    const tools = createDocsTools({ source })
+    const tools = createDocsTools({ docsRoot: fixture.docsRoot })
 
     const result = JSON.parse(
       getText(
@@ -169,9 +201,8 @@ describe('createDocsTools with a bundled source', () => {
     )
   })
 
-  it('returns docs/component_doc text for Field.MultiSelection', async () => {
-    const source = createBundledDocsSource(bundle)
-    const tools = createDocsTools({ source })
+  it('returns component_doc text for Field.MultiSelection', async () => {
+    const tools = createDocsTools({ docsRoot: fixture.docsRoot })
 
     const text = getText(
       (await tools.componentDoc({

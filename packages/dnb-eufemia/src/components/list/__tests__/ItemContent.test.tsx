@@ -5,6 +5,7 @@ import Container from '../Container'
 import type { ItemContentProps } from '../ItemContent'
 import ItemContent from '../ItemContent'
 import Context from '../../../shared/Context'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemContent', () => {
   it('renders with props as an object', () => {
@@ -20,6 +21,22 @@ describe('ItemContent', () => {
 
   it('renders as li element for list semantics', () => {
     render(<ItemContent>Content</ItemContent>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.tagName).toBe('LI')
+  })
+
+  it('renders as a custom element when the element prop is set', () => {
+    render(<ItemContent element="div">Content</ItemContent>)
+
+    const element = document.querySelector('.dnb-list__item')
+
+    expect(element.tagName).toBe('DIV')
+  })
+
+  it('falls back to li when the element prop is undefined', () => {
+    render(<ItemContent element={undefined}>Content</ItemContent>)
 
     const element = document.querySelector('.dnb-list__item')
 
@@ -190,7 +207,9 @@ describe('ItemContent', () => {
   })
 
   it('declares _supportsSpacingProps for flex layout', () => {
-    expect(ItemContent._supportsSpacingProps).toBe(true)
+    expect((ItemContent as ComponentMarkers)._supportsSpacingProps).toBe(
+      true
+    )
   })
 
   it('has no axe violations', async () => {

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
-import { createNodeDocsSource } from '../docs-source.js'
+import { createNodeDocsSource } from '@dnb/eufemia/src/mcp/docs-source.js'
 
 async function createTempDocs(
   files: Record<string, string>

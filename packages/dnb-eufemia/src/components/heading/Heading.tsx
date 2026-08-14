@@ -259,6 +259,7 @@ export default function Heading(props: HeadingAllProps) {
     _debugCounter || headingContext?.heading?.debugCounter
 
   const attributes: Record<string, unknown> = {
+    'data-flex-item-type': 'heading',
     ...rest,
   }
 

@@ -16,6 +16,7 @@ import {
   AutocompleteSuffix,
   AutocompleteStatusInfoExample,
   AutocompleteStatusErrorExample,
+  AutocompleteWithListItemContent,
   AutocompleteGroups,
   AutocompleteNoDivider,
 } from 'Docs/uilib/components/autocomplete/Examples'
@@ -101,6 +102,12 @@ const data = [
 <VisibleWhenVisualTest>
   <AutocompleteStatusErrorExample />
 </VisibleWhenVisualTest>
+
+### Autocomplete with List item content
+
+Reuse the [List](/uilib/components/list) row layout for rich option content. The option is already an `<li>` and wraps its content in `<span>` elements, so use `element="span"` on `List.Item.Basic` and its cells to keep the markup valid. Give the `Autocomplete` a width that fits both the title and the end value. Provide `selectedValue` with the plain text so the input shows a sensible value once an option is selected, and `searchContent` so typing still filters the options. See [rendering a row outside a `List.Container`](/uilib/components/list/info#rendering-a-row-outside-a-listcontainer) for the details.
+
+<AutocompleteWithListItemContent />
 
 ### Groups
 

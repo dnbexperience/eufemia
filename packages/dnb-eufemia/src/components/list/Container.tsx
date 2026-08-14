@@ -16,12 +16,18 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import SharedContext from '../../shared/Context'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import type { ListShowMoreButtonSharedState } from './ListShowMoreButton'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type ListContainerProps = {
   id?: string
   visibleCount?: number
   variant?: ListVariant
   separated?: boolean
+  /**
+   * When `true`, applies alternating row background colors to the list items.
+   * Default: `false`
+   */
+  striped?: boolean
   skeleton?: SkeletonShow
   disabled?: boolean
 } & FlexProps
@@ -33,6 +39,7 @@ function ListContainer(props: ListContainerProps) {
     visibleCount,
     variant = 'basic',
     separated = false,
+    striped = false,
     skeleton,
     disabled,
     wrapChildrenInSpace = false,
@@ -98,6 +105,7 @@ function ListContainer(props: ListContainerProps) {
         'dnb-list__container',
         variant && `dnb-list--variant-${variant}`,
         separated && 'dnb-list--separated',
+        striped && 'dnb-list--striped',
         className
       )}
       {...rest}
@@ -124,6 +132,8 @@ function ListContainer(props: ListContainerProps) {
   )
 }
 
-ListContainer._supportsSpacingProps = true
+withComponentMarkers(ListContainer, {
+  _supportsSpacingProps: true,
+})
 
 export default ListContainer

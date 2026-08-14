@@ -1,6 +1,6 @@
 // @vitest-environment node
 
-import type { CallToolResult } from '@modelcontextprotocol/sdk/types'
+import type { CallToolResult } from '@modelcontextprotocol/server'
 import fs from 'fs'
 import os from 'os'
 import path from 'path'
@@ -9,6 +9,7 @@ import {
   DocsSearchInput,
   MAX_SEARCH_QUERY_LENGTH,
 } from '../mcp-docs-server'
+import type { DocsSource } from '../docs-source'
 
 type DocsFixture = {
   docsRoot: string
@@ -248,6 +249,70 @@ describe('docs_read', () => {
     }
     expect(payload.error).toBe('EISDIR')
     expect(payload.suggestions).toContain('/uilib/components/button.md')
+  })
+})
+
+describe('docs content cache', () => {
+  function createCountingSource(fileCount: number) {
+    const files = new Map(
+      Array.from({ length: fileCount }, (_, index) => [
+        `doc-${index}.md`,
+        `# Document ${index}`,
+      ])
+    )
+    const reads = new Map<string, number>()
+
+    const source: DocsSource = {
+      label: 'counting-source',
+      async listMarkdown() {
+        return Array.from(files.keys())
+      },
+      async read(relPath) {
+        const normalizedPath = relPath.replace(/^\/+/, '')
+        reads.set(normalizedPath, (reads.get(normalizedPath) ?? 0) + 1)
+        return files.get(normalizedPath) ?? null
+      },
+      async stat(relPath) {
+        return {
+          kind: files.has(relPath.replace(/^\/+/, ''))
+            ? 'file'
+            : 'missing',
+        }
+      },
+      async listDir() {
+        return []
+      },
+    }
+
+    return { source, reads }
+  }
+
+  it('reuses file content across repeated reads', async () => {
+    const { source, reads } = createCountingSource(1)
+    const tools = createDocsTools({ source })
+
+    await tools.docsRead({ path: '/doc-0.md' })
+    await tools.docsRead({ path: '/doc-0.md' })
+
+    expect(reads.get('doc-0.md')).toBe(1)
+  })
+
+  it('bounds the cache and evicts the least recently used content', async () => {
+    const { source, reads } = createCountingSource(257)
+    const tools = createDocsTools({ source })
+
+    for (let index = 0; index < 256; index++) {
+      await tools.docsRead({ path: `/doc-${index}.md` })
+    }
+
+    await tools.docsRead({ path: '/doc-0.md' })
+    await tools.docsRead({ path: '/doc-256.md' })
+    await tools.docsRead({ path: '/doc-0.md' })
+    await tools.docsRead({ path: '/doc-1.md' })
+
+    expect(reads.get('doc-0.md')).toBe(1)
+    expect(reads.get('doc-1.md')).toBe(2)
+    expect(reads.get('doc-256.md')).toBe(1)
   })
 })
 
@@ -519,13 +584,11 @@ describe('component_find', () => {
       doc?: string
       properties?: string
       events?: string
-      fromIndex?: boolean
       docExists?: boolean
     }
     expect(info.doc).toBe('/uilib/components/button.md')
     expect(info.properties).toBe('/uilib/components/button.md')
     expect(info.events).toBe('/uilib/components/button.md')
-    expect(info.fromIndex).toBe(false)
     expect(info.docExists).toBe(true)
   })
 
@@ -690,7 +753,7 @@ describe('component_props', () => {
 })
 
 describe('MCP dependency configuration', () => {
-  it('has @modelcontextprotocol/sdk dependency declared in package.json', () => {
+  it('has the MCP v2 server dependency declared in package.json', () => {
     const packageJsonPath = path.join(__dirname, '../../../package.json')
     const packageJson = JSON.parse(
       fs.readFileSync(packageJsonPath, 'utf8')
@@ -698,11 +761,8 @@ describe('MCP dependency configuration', () => {
 
     expect(packageJson.devDependencies).toBeDefined()
     expect(
-      packageJson.devDependencies['@modelcontextprotocol/sdk']
-    ).toBeDefined()
-    expect(
-      packageJson.devDependencies['@modelcontextprotocol/sdk']
-    ).toBeTruthy()
+      packageJson.devDependencies['@modelcontextprotocol/server']
+    ).toBe('2.0.0')
   })
 
   it('has .vscode/mcp.json with correct eufemia server configuration', () => {

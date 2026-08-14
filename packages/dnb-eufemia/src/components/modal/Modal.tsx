@@ -37,7 +37,7 @@ import type { ModalProps } from './types'
 
 import ModalHeader from './parts/ModalHeader'
 import ModalHeaderBar from './parts/ModalHeaderBar'
-import type { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
+import type { ScrollViewAllProps } from '../scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
 import { ParagraphContext } from '../../elements/typography/P'
@@ -239,7 +239,10 @@ function ModalComponent(ownProps: ModalAllProps) {
         removeActiveState()
       }
 
-      if (currentPreventAutoFocus) {
+      // Only clear after a genuine open, so a modal that is rendered closed
+      // and only receives spurious close side effects (e.g. on parent
+      // re-renders) never auto-focuses its trigger and steals page focus.
+      if (isModalActive && currentPreventAutoFocus) {
         setPreventAutoFocus(false)
       }
     },

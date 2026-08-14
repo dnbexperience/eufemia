@@ -41,12 +41,6 @@ export type ComponentMarkers = {
 }
 
 /**
- * A component (function or class) that has marker properties attached.
- * Use this type when you need to reference a component with its markers.
- */
-export type MarkedComponent<T> = T & ComponentMarkers
-
-/**
  * Attaches component markers to a component function in a type-safe way.
  *
  * Mutates the component by assigning the marker properties. Uses TypeScript

@@ -4,6 +4,7 @@ import List from '../List'
 import { List as RootList } from '../../../components'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fish_medium } from '../../../icons'
+import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('List.Card', () => {
   it('renders with dnb-list__card class', () => {
@@ -99,7 +100,7 @@ describe('List.Card', () => {
   it('supports spacing props', async () => {
     const { default: ListCard } = await import('../ListCard')
 
-    expect(ListCard._supportsSpacingProps).toBe(true)
+    expect((ListCard as ComponentMarkers)._supportsSpacingProps).toBe(true)
   })
 
   it('does not expose ScrollView on List.Card', () => {
@@ -346,11 +347,15 @@ describe('List.ScrollView', () => {
   it('supports spacing props', async () => {
     const { default: ListScrollView } = await import('../ListScrollView')
 
-    expect(ListScrollView._supportsSpacingProps).toBe(true)
+    expect(
+      (ListScrollView as ComponentMarkers)._supportsSpacingProps
+    ).toBe(true)
   })
 
   it('is available from the public List export', () => {
-    expect(RootList.ScrollView._supportsSpacingProps).toBe(true)
+    expect(
+      (RootList.ScrollView as ComponentMarkers)._supportsSpacingProps
+    ).toBe(true)
   })
 
   it('renders a full composition with List.Card and List.Container', () => {

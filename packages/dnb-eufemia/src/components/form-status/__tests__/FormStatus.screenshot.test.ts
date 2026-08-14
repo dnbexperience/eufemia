@@ -23,6 +23,14 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
 
+    it('have to match the form-status with a refresh action', async () => {
+      await makeScreenshot({
+        style,
+        selector:
+          '[data-visual-test="form-status-refresh"] .dnb-form-status',
+      })
+    })
+
     it('have to match the information state', async () => {
       await makeScreenshot({
         style,

@@ -6,6 +6,12 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  striped: {
+    doc: 'When `true`, applies alternating row background colors to the list items.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
   skeleton: {
     doc: 'When `true`, applies skeleton font styling to all child items. Individual items can override this with their own `skeleton` prop.',
     type: 'boolean',
@@ -64,6 +70,12 @@ export const ItemContentProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  element: {
+    doc: 'Define the HTML element used for the row. Defaults to `li` for correct list semantics. Use an element that is valid inside the surrounding markup when the row is rendered inside markup that already provides the list item. For example, use `span` for a `Dropdown` or `Autocomplete` option.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'li'`,
+    status: 'optional',
+  },
   children: {
     doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (use `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for overline/subline text), or the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components, or `List.Cell.Footer`.',
     type: 'React.ReactNode',
@@ -89,6 +101,12 @@ export const ItemCenterProperties: PropertiesTableProps = {
     defaultValue: '"regular"',
     status: 'optional',
   },
+  element: {
+    doc: 'Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'div'`,
+    status: 'optional',
+  },
   children: {
     doc: 'Center content of the list item. Grows to fill available space.',
     type: 'React.ReactNode',
@@ -106,6 +124,12 @@ export const ItemTitleProperties: PropertiesTableProps = {
     doc: 'Font size of the title content. Defaults to `basis`. Use `small` for smaller text.',
     type: ['"small"', '"basis"'],
     defaultValue: '"basis"',
+    status: 'optional',
+  },
+  element: {
+    doc: 'Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'div'`,
     status: 'optional',
   },
   children: {
@@ -200,6 +224,12 @@ export const ItemEndProperties: PropertiesTableProps = {
     defaultValue: '"basis"',
     status: 'optional',
   },
+  element: {
+    doc: 'Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'div'`,
+    status: 'optional',
+  },
   children: {
     doc: 'End content of the list item (e.g. value, action).',
     type: 'React.ReactNode',
@@ -223,6 +253,12 @@ export const ItemStartProperties: PropertiesTableProps = {
     doc: 'Font weight of the start content. Defaults to `regular`.',
     type: ['"regular"', '"medium"'],
     defaultValue: '"regular"',
+    status: 'optional',
+  },
+  element: {
+    doc: 'Define the HTML element used for the cell. Defaults to `div`. When the row is rendered outside a `List.Container` inside phrasing markup (for example a `Dropdown` or `Autocomplete` option, where the row is a `span`), set this to `span` so the cell stays valid phrasing content.',
+    type: ['string', 'React.Element'],
+    defaultValue: `'div'`,
     status: 'optional',
   },
   children: {
@@ -342,7 +378,7 @@ export const ItemActionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   element: {
-    doc: 'Define what HTML or React element should be used for the link (e.g. `element={Link}` for React Router). Only applicable when `href` or `to` is set.',
+    doc: 'Define what HTML or React element should be used for the link (e.g. `element={Link}` for React Router). Only applicable when `href` or `to` is set. Note that this is the link element – unlike `List.Item.Basic`, where `element` defines the row element.',
     type: 'React.Element',
     status: 'optional',
   },

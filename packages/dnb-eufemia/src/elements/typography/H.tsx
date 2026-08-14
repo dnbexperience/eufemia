@@ -74,6 +74,7 @@ const H = (props: HProps) => {
   return (
     <E
       as={resolvedElement}
+      data-flex-item-type="heading"
       internalClass={clsx(
         targetSize && `dnb-h--${targetSize}`,
         context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',

@@ -277,7 +277,7 @@ function AccordionDefault({
     hasAddedCallbackRef.current = true
   }
 
-  // Gets the initial expanded sate, to prevent the opening and closing of Accordion
+  // Gets the initial expanded state, to prevent the opening and closing of Accordion
   // That happens when if we put this logic in a useEffect that runs after the initial expanded state is set
   // Since useEffect runs after every render
   function getInitialExpandedState() {

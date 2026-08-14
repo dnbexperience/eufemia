@@ -1,17 +1,12 @@
 /**
  * DocsSource is a tiny filesystem abstraction used by the MCP docs tools.
  *
- * The MCP server has two deployment targets:
+ * The MCP server reads docs through `createNodeDocsSource(rootAbs)`, which
+ * reads from disk via `node:fs` (used by both the stdio server and the local
+ * Express HTTP server).
  *
- * - Node.js (stdio + the local Express HTTP server) — uses
- *   `createNodeDocsSource(rootAbs)` which reads from disk via `node:fs`.
- *
- * - Cloudflare Workers — uses `createBundledDocsSource(bundle)` which is a
- *   pure in-memory implementation backed by a `path → content` map that the
- *   docs build step generates as `docs.bundle.json`.
- *
- * Keeping the surface small makes it trivial to add another backend (R2,
- * KV, S3, ...) later without touching the tool handlers.
+ * Keeping the surface small makes it trivial to add another backend later
+ * without touching the tool handlers.
  */
 
 export type DocsEntryKind = 'file' | 'dir' | 'missing'
@@ -48,7 +43,7 @@ export type DocsSource = {
   listDir(relPath: string, max?: number): Promise<string[]>
 
   /**
-   * Human-readable label for log lines (e.g. "node:/abs/path" or "bundle").
+   * Human-readable label for log lines (e.g. "node:/abs/path").
    */
   readonly label: string
 }
@@ -76,94 +71,8 @@ export function normalizeDocsPath(input: unknown): string {
 }
 
 // ---------------------------------------------------------------------------
-// Bundled (in-memory) implementation. Used by the Cloudflare Worker and tests.
-// ---------------------------------------------------------------------------
-
-export function createBundledDocsSource(
-  bundle: Record<string, string>,
-  options: { label?: string } = {}
-): DocsSource {
-  const files = new Map<string, string>()
-  for (const [rawKey, value] of Object.entries(bundle)) {
-    files.set(normalizeDocsPath(rawKey), value)
-  }
-
-  const dirs = new Set<string>()
-  files.forEach((_value, key) => {
-    const parts = key.split('/')
-    for (let i = 1; i < parts.length; i++) {
-      dirs.add(parts.slice(0, i).join('/'))
-    }
-  })
-  // Empty string represents the root directory.
-  dirs.add('')
-
-  const markdown = Array.from(files.keys())
-    .filter((p) => p.endsWith('.md') || p.endsWith('.mdx'))
-    .sort()
-
-  return {
-    label: options.label ?? 'bundle',
-
-    async listMarkdown() {
-      return markdown
-    },
-
-    async read(relPath: string) {
-      const key = normalizeDocsPath(relPath)
-      const value = files.get(key)
-      return typeof value === 'string' ? value : null
-    },
-
-    async stat(relPath: string) {
-      const key = normalizeDocsPath(relPath)
-      if (files.has(key)) {
-        return { kind: 'file' }
-      }
-      if (dirs.has(key)) {
-        return { kind: 'dir' }
-      }
-      return { kind: 'missing' }
-    },
-
-    async listDir(relPath: string, max = 60) {
-      const key = normalizeDocsPath(relPath)
-      if (!dirs.has(key)) {
-        return []
-      }
-      const prefix = key === '' ? '' : `${key}/`
-      const seen = new Set<string>()
-      files.forEach((_value, filePath) => {
-        if (!filePath.startsWith(prefix)) {
-          return
-        }
-        const rest = filePath.slice(prefix.length)
-        const next = rest.split('/')[0]
-        if (next) {
-          seen.add(next)
-        }
-      })
-      dirs.forEach((dirPath) => {
-        if (dirPath === key || dirPath === '') {
-          return
-        }
-        if (!dirPath.startsWith(prefix)) {
-          return
-        }
-        const rest = dirPath.slice(prefix.length)
-        const next = rest.split('/')[0]
-        if (next) {
-          seen.add(next)
-        }
-      })
-      return Array.from(seen).sort().slice(0, max)
-    },
-  }
-}
-
-// ---------------------------------------------------------------------------
 // Node.js implementation. Lazy-imports `node:fs` / `node:path` so that this
-// module can also be loaded in environments without Node built-ins (Workers).
+// module can also be loaded in environments without Node built-ins.
 // ---------------------------------------------------------------------------
 
 export async function createNodeDocsSource(
@@ -175,6 +84,7 @@ export async function createNodeDocsSource(
   ])
 
   const root = path.resolve(rootAbs)
+  const realRoot = await fs.realpath(root).catch(() => root)
 
   function resolveInside(relPath: string) {
     const cleaned = normalizeDocsPath(relPath)
@@ -184,6 +94,24 @@ export async function createNodeDocsSource(
       throw new Error(`Path escapes docs root: ${relPath}`)
     }
     return abs
+  }
+
+  async function realInside(abs: string): Promise<string | null> {
+    try {
+      const real = await fs.realpath(abs)
+      const relative = path.relative(realRoot, real)
+
+      if (
+        relative !== '' &&
+        (relative.startsWith('..') || path.isAbsolute(relative))
+      ) {
+        return null
+      }
+
+      return real
+    } catch {
+      return null
+    }
   }
 
   async function listMarkdown(): Promise<string[]> {
@@ -216,8 +144,20 @@ export async function createNodeDocsSource(
           continue
         }
 
+        if (entry.isSymbolicLink()) {
+          const real = await realInside(path.join(root, relPath))
+          if (!real) {
+            continue
+          }
+
+          const stats = await statSafe(real)
+          if (stats?.isDirectory()) {
+            continue
+          }
+        }
+
         if (
-          entry.isFile() &&
+          (entry.isFile() || entry.isSymbolicLink()) &&
           (entry.name.toLowerCase().endsWith('.md') ||
             entry.name.toLowerCase().endsWith('.mdx'))
         ) {
@@ -249,11 +189,16 @@ export async function createNodeDocsSource(
       } catch {
         return null
       }
-      const st = await statSafe(abs)
+      const real = await realInside(abs)
+      if (!real) {
+        return null
+      }
+
+      const st = await statSafe(real)
       if (!st?.isFile()) {
         return null
       }
-      const buf = await fs.readFile(abs)
+      const buf = await fs.readFile(real)
       return buf.toString('utf8')
     },
 
@@ -264,7 +209,12 @@ export async function createNodeDocsSource(
       } catch {
         return { kind: 'missing' }
       }
-      const st = await statSafe(abs)
+      const real = await realInside(abs)
+      if (!real) {
+        return { kind: 'missing' }
+      }
+
+      const st = await statSafe(real)
       if (!st) {
         return { kind: 'missing' }
       }
@@ -285,7 +235,12 @@ export async function createNodeDocsSource(
         return []
       }
       try {
-        const items = await fs.readdir(abs)
+        const real = await realInside(abs)
+        if (!real) {
+          return []
+        }
+
+        const items = await fs.readdir(real)
         return items.slice(0, max)
       } catch {
         return []

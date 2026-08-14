@@ -24,14 +24,6 @@ export type SkeletonContextValue = ContextProps & {
   }
 }
 
-export type SkeletonDOMAttributesContext = {
-  translation?: {
-    Skeleton: {
-      ariaBusy?: string
-    }
-  }
-}
-
 export const skeletonDOMAttributes = (
   params: HTMLProps<HTMLElement>,
   skeleton: SkeletonShow,
