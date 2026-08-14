@@ -12,26 +12,21 @@ test.describe('Responsiveness', () => {
   test('change viewport size should add sidebar menu', async ({
     page,
   }) => {
-    await expect(page.locator('nav#portal-sidebar-menu')).toHaveCSS(
-      'display',
-      'block'
-    )
+    const sidebar = page.locator('#portal-sidebar-menu')
+    await expect(sidebar).toBeVisible()
     await page.setViewportSize({ width: 375, height: 667 }) // Set viewport size to iPhone 6 dimensions
 
     const menuButton = page.locator('#toggle-sidebar-menu')
     await expect(menuButton).toHaveCSS('margin-left', '8px')
 
-    await expect(page.locator('nav#portal-sidebar-menu')).toHaveCSS(
-      'display',
-      'none'
-    )
+    await expect(sidebar).toBeHidden()
     await menuButton.click()
+    await expect(sidebar).toBeVisible()
 
     await expect(
       page.locator('#portal-sidebar-menu').getByText('Portal Tools')
     ).toHaveCount(0)
 
-    const sidebar = page.locator('nav#portal-sidebar-menu')
     await expect(sidebar).toHaveCSS('overflow-y', 'auto')
 
     const scrollPosition = await sidebar.evaluate((element) => {
@@ -40,8 +35,7 @@ test.describe('Responsiveness', () => {
     })
     expect(scrollPosition).toBeGreaterThan(0)
 
-    const sidebarLink =
-      'nav#portal-sidebar-menu a[href="/uilib/components"]'
+    const sidebarLink = '#portal-sidebar-menu a[href="/uilib/components"]'
     await page.click(sidebarLink)
 
     // Check if app is mounted
