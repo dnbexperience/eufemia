@@ -8,7 +8,7 @@ name: Analytics Lambda
 #
 # Triggers:
 # - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
-# - Any branch named `**/analytics` (e.g. `feat/analytics`).
+# - Any branch under the `analytics/` prefix (e.g. `analytics/new-field`).
 # - `workflow_dispatch` — manual deploy from the Actions tab.
 #
 # See tools/analytics/README.md for deploy details.
@@ -17,7 +17,7 @@ on:
   push:
     branches:
       - release
-      - '**/analytics'
+      - 'analytics/**'
     tags:
       - 'v*'
       - 'v*.*.*'

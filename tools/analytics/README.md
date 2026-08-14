@@ -73,7 +73,7 @@ public GitHub (.github/workflows/analytics-lambda.yml)
           → OIDC assume role → terraform apply
 ```
 
-- **Triggers** (`analytics-lambda.yml`): the `release` branch, any `**/analytics` branch, `v*` tags, or manual `workflow_dispatch`.
+- **Triggers** (`analytics-lambda.yml`): the `release` branch, any `analytics/**` branch, `v*` tags, or manual `workflow_dispatch`.
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
 - On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run).
 
