@@ -7,6 +7,7 @@ import {
 } from 'react'
 import type { ReactNode, SyntheticEvent, TableHTMLAttributes } from 'react'
 import { clsx } from 'clsx'
+import { warn } from '../../shared/helpers'
 import { TableAccordionHead } from './table-accordion/TableAccordionHead'
 import { TableNavigationHead } from './table-navigation/TableNavigationHead'
 import { TableAccordionContentRow } from './table-accordion/TableAccordionContent'
@@ -41,6 +42,12 @@ export type TableTrProps = {
    * Default: `false`
    */
   highlight?: boolean
+
+  /**
+   * Override the table-wide `mode` for this specific row. Use `accordion` to make the row expandable, or `navigation` to make the whole row clickable. When mixing modes in the same table, set `accordionChevronPlacement="right"` on the `Table` so the chevron column stays aligned for every row (see the accessibility note in the demos). Defaults to the `mode` set on the parent `Table`.
+   * Default: `undefined`
+   */
+  mode?: 'accordion' | 'navigation'
 
   /**
    * Use `true` to render the `<Tr>` initially as expanded.
@@ -99,6 +106,7 @@ export default function Tr(
     noWrap,
     verticalAlign,
     highlight,
+    mode,
     className: _className,
     ...restProps
   } = componentProps
@@ -119,7 +127,23 @@ export default function Tr(
   const tableContext = useContext(TableContext)
   const trContext = highlight ? { highlight } : null
 
-  if (tableContext?.allProps?.mode == 'accordion') {
+  // A per-row `mode` overrides the table-wide `mode`.
+  const tableMode = tableContext?.allProps?.mode
+  const rowMode = mode ?? tableMode
+
+  // Mixing row modes only keeps the columns aligned when the control column
+  // (chevron) is appended last for every row, which requires right placement.
+  if (
+    mode &&
+    mode !== tableMode &&
+    tableContext?.allProps?.accordionChevronPlacement !== 'right'
+  ) {
+    warn(
+      'Table: Rows with a per-row `mode` require `accordionChevronPlacement="right"` on the `Table`, so the chevron column stays last for every row. Without it the columns misalign and screen reader users get the wrong column headers.'
+    )
+  }
+
+  if (rowMode === 'accordion') {
     return (
       <TableTrContext value={trContext}>
         <TableAccordionHead
@@ -130,7 +154,7 @@ export default function Tr(
       </TableTrContext>
     )
   }
-  if (tableContext?.allProps?.mode === 'navigation') {
+  if (rowMode === 'navigation') {
     return (
       <TableTrContext value={trContext}>
         <TableNavigationHead className={className} {...restProps} />

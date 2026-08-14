@@ -90,6 +90,16 @@ When the `selected` prop is provided (either `true` or `false`) together with `o
 
 <Examples.ClickableCells />
 
+### Table with mixed accordion and navigation rows
+
+Set `mode` on individual `<Tr>` rows to override the table-wide `mode`. This lets accordion (expandable) rows and navigation (clickable) rows live in the same `<Table>` — for example a group overview where company rows expand while facility rows link to a detail page.
+
+Both modes add a trailing control column (the chevron). Navigation rows always place it last, so set `accordionChevronPlacement="right"` on the `<Table>` to keep that column in the same position for every row, and set a table-wide `mode` so the header row gets its matching control column.
+
+> **Accessibility:** keeping the control column aligned is important. If it lands in different columns from row to row, the remaining cells shift and screen reader users are announced the wrong column headers. With right placement and a table-wide `mode`, the chevron is consistently the last column across the header and all rows.
+
+<Examples.MixedModeRows />
+
 ### Table with keyboard navigation
 
 Use the `useTableKeyboardNavigation` hook to navigate between cells with arrow keys. Focusable elements inside cells (inputs, buttons) receive focus automatically.

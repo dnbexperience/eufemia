@@ -964,6 +964,69 @@ export const AccordionRow = () => {
   )
 }
 
+export const MixedModeRows = () => (
+  <ComponentBox data-visual-test="table-mixed-mode">
+    {() => {
+      const handleNavigate = (_event, { trElement }) => {
+        console.log('Navigate to', trElement.dataset.rowId)
+      }
+
+      return (
+        <Table.ScrollView>
+          <Table
+            mode="accordion"
+            accordionChevronPlacement="right"
+            id="mixed-mode-table"
+          >
+            <caption className="dnb-sr-only">Group overview</caption>
+
+            <thead>
+              <Tr>
+                <Th>Company</Th>
+                <Th>Organization number</Th>
+                <Th align="right">Facilities</Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              {/* Inherits mode="accordion" from the Table: expandable row */}
+              <Tr id="mixed-mode-company">
+                <Td>DNB Bank ASA</Td>
+                <Td>984 851 006</Td>
+                <Td align="right">2</Td>
+
+                <Tr.AccordionContent>
+                  <Td colSpan={3}>Headquartered in Oslo, Norway.</Td>
+                </Tr.AccordionContent>
+              </Tr>
+
+              {/* Per-row mode="navigation": fully clickable row */}
+              <Tr
+                mode="navigation"
+                data-row-id="oslo"
+                onClick={handleNavigate}
+              >
+                <Td>Facility – Oslo</Td>
+                <Td>Dronning Eufemias gate 30</Td>
+                <Td align="right">—</Td>
+              </Tr>
+              <Tr
+                mode="navigation"
+                data-row-id="bergen"
+                onClick={handleNavigate}
+              >
+                <Td>Facility – Bergen</Td>
+                <Td>Solheimsgaten 7C</Td>
+                <Td align="right">—</Td>
+              </Tr>
+            </tbody>
+          </Table>
+        </Table.ScrollView>
+      )
+    }}
+  </ComponentBox>
+)
+
 export const KeyboardNavigation = () => (
   <ComponentBox scope={{ useTableKeyboardNavigation, trashIcon, Field }}>
     {() => {

@@ -140,6 +140,12 @@ export const TrProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  mode: {
+    doc: 'Override the table-wide `mode` for this specific row. Use `accordion` to make the row expandable, or `navigation` to make the whole row clickable. When mixing modes in the same table, set `accordionChevronPlacement="right"` on the `Table` so the chevron column stays aligned for every row (see the accessibility note in the demos). Defaults to the `mode` set on the parent `Table`.',
+    type: ['"accordion"', '"navigation"'],
+    defaultValue: 'undefined',
+    status: 'optional',
+  },
   children: {
     doc: 'The content of the component.',
     type: 'React.ReactNode',

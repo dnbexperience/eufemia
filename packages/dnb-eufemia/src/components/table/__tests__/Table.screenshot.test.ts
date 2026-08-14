@@ -533,6 +533,65 @@ describe.each(['ui', 'sbanken'])(
   }
 )
 
+describe.each(['ui', 'sbanken'])(
+  `Table with mixed accordion and navigation rows for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/table/demos/',
+    })
+
+    it('have to match default state', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-mixed-mode"] .dnb-table',
+      })
+    })
+
+    it('have to match hover state on a navigation row', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-mixed-mode"]',
+        simulateSelector:
+          '[data-visual-test="table-mixed-mode"] tbody tr[data-row-id="oslo"]',
+        simulate: 'hover',
+      })
+    })
+
+    it('have to match focus state on a navigation row', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-mixed-mode"]',
+        simulateSelector:
+          '[data-visual-test="table-mixed-mode"] tbody tr[data-row-id="oslo"]',
+        simulate: 'focus',
+      })
+    })
+
+    it('have to match expanded state on the accordion row', async () => {
+      await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        recalculateHeightAfterSimulate: true,
+        selector: '[data-visual-test="table-mixed-mode"]',
+        simulateSelector: '#mixed-mode-company',
+        simulate: 'click',
+      })
+    })
+  }
+)
+
 describe('Table', () => {
   it('have to match table with one td', async () => {
     await makeScreenshot({
