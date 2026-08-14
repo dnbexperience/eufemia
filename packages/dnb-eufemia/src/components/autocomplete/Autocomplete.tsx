@@ -52,6 +52,7 @@ import {
   getClosestParent,
 } from '../../shared/component-helper'
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
+import { highlightText } from '../../shared/helpers/highlightText'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -1213,9 +1214,6 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
           })
       }
 
-      const strS = '\uFFFE'
-      const strE = '\uFFFF'
-
       const mappedIndex: Array<
         | DrawerListDataArrayObject
         | {
@@ -1267,153 +1265,16 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
             return cacheMemoryRef.current[cacheHash] as ReactNode
           }
 
-          const highlightText = (
-            text: string,
-            keyPart: string
-          ): ReactNode[] | string => {
-            let segment = text
-
-            searchWords.forEach((word, wordIndex) => {
-              if (segment) {
-                word = escapeRegexChars(word)
-
-                if (snParam) {
-                  const cleanedWord = word.replace(
-                    // @ts-expect-error Unicode property escapes are supported at runtime here
-                    /[^\p{L}\p{N}]+/gu,
-                    ''
-                  )
-                  if (cleanedWord) {
-                    const escapedWord = escapeRegexChars(cleanedWord)
-                    segment = segment.replace(
-                      new RegExp(`(${escapedWord})`, 'gi'),
-                      (match) => {
-                        if (match.includes(strS)) {
-                          return match
-                        }
-                        return `${strS}${match}${strE}`
-                      }
-                    )
-                  }
-                } else {
-                  if (wordIndex >= inWordIndex) {
-                    segment = segment.replace(
-                      new RegExp(`(${word})`, 'gi'),
-                      `${strS}$1${strE}`
-                    )
-                  } else {
-                    segment = segment.replace(
-                      new RegExp(
-                        `(${getWordBoundary(wordIndex)})(${word})`,
-                        'gi'
-                      ),
-                      `$1${strS}$2${strE}`
-                    )
-                  }
-                }
-              }
-            })
-
-            if (segment.includes(strS)) {
-              const startRepeatRegex = new RegExp(`(${strS})+`, 'g')
-              const endRepeatRegex = new RegExp(`(${strE})+`, 'g')
-              const adjacentRegex = new RegExp(`(${strE}${strS})`, 'g')
-              const splitRegex = new RegExp(`(${strS}|${strE})`, 'g')
-
-              const normalized = segment
-                .replace(startRepeatRegex, strS)
-                .replace(endRepeatRegex, strE)
-                .replace(adjacentRegex, '')
-
-              const tokens = normalized.split(splitRegex).filter(Boolean)
-
-              let isHighlighted = false
-              let highlightIndex = 0
-              const parts = tokens.map((token) => {
-                if (token === strS) {
-                  isHighlighted = true
-                  return null
-                }
-                if (token === strE) {
-                  isHighlighted = false
-                  return null
-                }
-
-                if (isHighlighted) {
-                  const key = `highlight-${cacheHash}-${keyPart}-${highlightIndex++}`
-                  return (
-                    <span
-                      key={key}
-                      className="dnb-drawer-list__option__item--highlight"
-                    >
-                      {token}
-                    </span>
-                  )
-                }
-
-                return token
-              })
-
-              return parts
-            }
-
-            return segment
-          }
-
-          const renderText = (
-            text: string,
-            keyPart: string,
-            wrapInSpan: boolean
-          ) => {
-            const result = highlightText(text, keyPart)
-
-            if (wrapInSpan) {
-              return <span key={cacheHash + keyPart}>{result}</span>
-            }
-
-            return result
-          }
-
-          const renderNode = (
-            node: ReactNode,
-            keyPart: string,
-            wrapText = false
-          ): ReactNode => {
-            if (Array.isArray(node)) {
-              return node.map((child, idx) =>
-                renderNode(child, `${keyPart}-${idx}`)
-              )
-            }
-
-            if (typeof node === 'string' || typeof node === 'number') {
-              return renderText(String(node), keyPart, wrapText)
-            }
-
-            if (isValidElement<{ children?: ReactNode }>(node)) {
-              const child = node.props.children
-
-              if (typeof child === 'undefined') {
-                return node
-              }
-
-              return createElement(
-                node.type as ComponentType<{ children?: ReactNode }>,
-                {
-                  ...node.props,
-                  key: node.key ?? 'clone' + cacheHash + keyPart,
-                },
-                renderNode(child, keyPart)
-              )
-            }
-
-            return node
-          }
-
-          const processed = Array.isArray(children)
-            ? children.map((child, idx) =>
-                renderNode(child, String(idx), true)
-              )
-            : renderNode(children, '0', true)
+          const processed = highlightText(children, {
+            search: searchWords,
+            className: 'dnb-drawer-list__option__item--highlight',
+            tag: 'span',
+            searchMatch: startsWithMatch ? 'starts-with' : 'word',
+            searchNumbers: snParam,
+            searchInWordIndex: inWordIndex,
+            wrapInSpan: true,
+            keyPrefix: cacheHash,
+          })
 
           return (cacheMemoryRef.current[cacheHash] = processed)
         }
