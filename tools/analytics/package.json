@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:types": "../../node_modules/.bin/tsc --noEmit",
     "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'",
+    "audit:ci": "yarn npm audit --recursive --environment production --severity high",
     "build": "rm -rf dist && esbuild src/lambda/index.ts --bundle --platform=node --target=node22 --format=esm --sourcemap --outfile=dist/index.mjs '--external:@aws-sdk/*' && cd dist && zip -rq lambda.zip index.mjs index.mjs.map",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan"
