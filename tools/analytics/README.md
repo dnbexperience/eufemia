@@ -75,20 +75,11 @@ public GitHub (.github/workflows/analytics-lambda.yml)
 
 - **Triggers** (`analytics-lambda.yml`): the `release` branch, any `**/analytics` branch, `v*` tags, or manual `workflow_dispatch`.
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
-- If `GHE_DEPLOY_PAT` is unset, the build-and-push step is skipped (tests still run), so forks and PRs are safe.
+- On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run).
 
 ### Required configuration
 
-On the **public repo** (secrets):
-
-- `GHE_DEPLOY_PAT` — GHE PAT with repo + workflow push scope (shared with the MCP pipeline).
-- `GHE_ANALYTICS_DEPLOY_REPO` — the GHE deploy repo, e.g. `eufemia/eufemia-analytics`.
-
-On the **GHE deploy repo** (variables/secrets):
-
-- `AWS_ROLE_ARN` (variable) — the OIDC deploy role to assume.
-- `COST_ALLOCATION` (variable) — passed as `TF_VAR_cost_allocation`.
-- `API_TOKEN` (secret, optional) — passed as `TF_VAR_api_token` to enable bearer auth.
+Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
 
 ### One-time bootstrap (admin, out-of-band)
 
