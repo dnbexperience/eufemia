@@ -22,10 +22,16 @@ export type HeightAnimationProps = {
   /**
    * Set to `true` to keep closed content available to the browser find-in-page feature with `hidden="until-found"`. This implies `keepInDOM`. In browsers without `hidden="until-found"` support, the collapsed content may remain visible. Defaults to `false`.
    */
+  revealOnFind?: boolean
+
+  /**
+   * Deprecated. Use `revealOnFind` instead.
+   * @deprecated Use `revealOnFind` instead.
+   */
   untilFound?: boolean
 
   /**
-   * Is called after matching content inside a closed animation is revealed by the browser using `untilFound`. Use it to synchronize external open state and controls.
+   * Is called after matching content inside a closed animation is revealed by the browser using `revealOnFind`. Use it to synchronize external open state and controls.
    */
   onBeforeMatch?: (event: Event) => void
 
@@ -66,7 +72,8 @@ function HeightAnimation({
   open = true,
   animate = true,
   keepInDOM = false,
-  untilFound = false,
+  revealOnFind,
+  untilFound,
   showOverflow = false,
   element,
   duration,
@@ -86,11 +93,12 @@ function HeightAnimation({
   const elementRef = useRef<HTMLElement>(undefined)
   const targetRef = ref || elementRef
   const [isRevealedByMatch, setRevealedByMatch] = useState(false)
-  const resolvedOpen = open || (untilFound && isRevealedByMatch)
+  const shouldRevealOnFind = revealOnFind ?? untilFound ?? false
+  const resolvedOpen = open || (shouldRevealOnFind && isRevealedByMatch)
 
   const handleAnimationStart: UseHeightAnimationOptions['onAnimationStart'] =
     (state) => {
-      if (untilFound && state === 'opening') {
+      if (shouldRevealOnFind && state === 'opening') {
         targetRef.current?.removeAttribute('hidden')
       }
       onAnimationStart?.(state)
@@ -98,7 +106,7 @@ function HeightAnimation({
   const handleAnimationEnd: UseHeightAnimationOptions['onAnimationEnd'] = (
     state
   ) => {
-    if (untilFound) {
+    if (shouldRevealOnFind) {
       if (state === 'closed') {
         targetRef.current?.style.removeProperty('visibility')
         targetRef.current?.setAttribute('hidden', 'until-found')
@@ -134,7 +142,7 @@ function HeightAnimation({
     }
 
     if (
-      untilFound &&
+      shouldRevealOnFind &&
       !resolvedOpen &&
       element.classList.contains('dnb-height-animation--hidden')
     ) {
@@ -142,17 +150,17 @@ function HeightAnimation({
     } else if (element.getAttribute('hidden') === 'until-found') {
       element.removeAttribute('hidden')
     }
-  }, [resolvedOpen, targetRef, untilFound])
+  }, [resolvedOpen, shouldRevealOnFind, targetRef])
 
   useLayoutEffect(() => {
-    if (isRevealedByMatch && (open || !untilFound)) {
+    if (isRevealedByMatch && (open || !shouldRevealOnFind)) {
       setRevealedByMatch(false)
     }
-  }, [isRevealedByMatch, open, untilFound])
+  }, [isRevealedByMatch, open, shouldRevealOnFind])
 
   useLayoutEffect(() => {
     const element = targetRef.current
-    if (!element || !untilFound) {
+    if (!element || !shouldRevealOnFind) {
       return undefined
     }
 
@@ -168,7 +176,7 @@ function HeightAnimation({
     return () => {
       element.removeEventListener('beforematch', handleBeforeMatch)
     }
-  }, [onBeforeMatch, targetRef, untilFound])
+  }, [onBeforeMatch, shouldRevealOnFind, targetRef])
 
   // Set CSS custom properties via the DOM instead of React's style
   // prop. React's SSR serializes custom properties without spaces
@@ -193,7 +201,7 @@ function HeightAnimation({
     }
   }, [duration, delay, targetRef, isInDOM])
 
-  const shouldKeepInDOM = keepInDOM || untilFound
+  const shouldKeepInDOM = keepInDOM || shouldRevealOnFind
 
   if (!shouldKeepInDOM && !isInDOM && !isAnimating) {
     return null

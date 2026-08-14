@@ -16,10 +16,15 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
-  untilFound: {
+  revealOnFind: {
     doc: 'Set to `true` to keep closed content available to the browser find-in-page feature with `hidden="until-found"`. This implies `keepInDOM`. In browsers without `hidden="until-found"` support, the collapsed content may remain visible. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
+  },
+  untilFound: {
+    doc: 'Deprecated. Use `revealOnFind` instead.',
+    type: 'boolean',
+    status: 'deprecated',
   },
   compensateForGap: {
     doc: 'To compensate for CSS gap between the rows, so animation does not jump during the animation. Provide a CSS unit or `auto`. Defaults to `null`.',
@@ -60,7 +65,7 @@ export const HeightAnimationProperties: PropertiesTableProps = {
 
 export const HeightAnimationEvents: PropertiesTableProps = {
   onBeforeMatch: {
-    doc: 'Is called after matching content inside a closed animation is revealed by the browser using `untilFound`. Use it to synchronize external open state and controls.',
+    doc: 'Is called after matching content inside a closed animation is revealed by the browser using `revealOnFind`. Use it to synchronize external open state and controls.',
     type: 'function',
     status: 'optional',
   },

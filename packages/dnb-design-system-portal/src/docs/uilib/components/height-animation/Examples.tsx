@@ -181,7 +181,7 @@ export function HeightAnimationKeepInDOM() {
   )
 }
 
-export function HeightAnimationUntilFound() {
+export function HeightAnimationRevealOnFind() {
   return (
     <ComponentBox>
       {() => {
@@ -193,16 +193,16 @@ export function HeightAnimationUntilFound() {
               <ToggleButton
                 checked={openState}
                 aria-expanded={openState}
-                aria-controls="until-found-content"
+                aria-controls="reveal-on-find-content"
                 onChange={({ checked }) => setOpenState(checked)}
               >
                 Open content
               </ToggleButton>
 
               <HeightAnimation
-                id="until-found-content"
+                id="reveal-on-find-content"
                 open={openState}
-                untilFound
+                revealOnFind
                 onBeforeMatch={() => setOpenState(true)}
               >
                 <Space innerSpace>
