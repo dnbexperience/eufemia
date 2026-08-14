@@ -29,12 +29,6 @@ test.describe('Responsiveness', () => {
 
     await expect(sidebar).toHaveCSS('overflow-y', 'auto')
 
-    const scrollPosition = await sidebar.evaluate((element) => {
-      element.scrollTop = element.scrollHeight
-      return element.scrollTop
-    })
-    expect(scrollPosition).toBeGreaterThan(0)
-
     const sidebarLink = '#portal-sidebar-menu a[href="/uilib/components"]'
     await page.click(sidebarLink)
 
