@@ -7,6 +7,12 @@ export const FlexContainerProperties: PropertiesTableProps = {
     defaultValue: `'horizontal'`,
     status: 'optional',
   },
+  layoutEngine: {
+    doc: 'Select the Flex layout engine. The legacy engine remains the default for backwards compatibility. Use `css` to opt in to native CSS gaps without changing existing layouts.',
+    type: [`'css'`, `'legacy'`],
+    defaultValue: `'legacy'`,
+    status: 'optional',
+  },
   wrap: {
     doc: 'Define if we should wrap contents if there is not enough space.',
     type: 'boolean',
@@ -93,7 +99,7 @@ export const FlexContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   wrapChildrenInSpace: {
-    doc: 'Define if intrinsic DOM child elements such as `li` should be wrapped in `Space` to receive spacing. Set to `false` to keep them as direct descendants.',
+    doc: 'Deprecated. Controls intrinsic-element wrapping only when `layoutEngine="legacy"` is used.',
     type: 'boolean',
     defaultValue: 'true',
     status: 'optional',

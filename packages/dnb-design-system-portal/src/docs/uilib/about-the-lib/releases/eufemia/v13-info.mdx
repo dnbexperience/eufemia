@@ -12,6 +12,7 @@ draft: true
   - [Install](#install)
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
+    - [Flex](#flex)
     - [Accordion](#accordion)
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [InfoCard](#infocard)
@@ -48,6 +49,120 @@ $ yarn add @dnb/eufemia@13
 - Replace `--leading-sb-*` with `--leading-*`
 
 ## Component changes
+
+### [Flex](/uilib/layout/flex/)
+
+Flex now uses native CSS gap and renders React children unchanged. The following legacy migration APIs are deprecated:
+
+- `Flex.withChildren`
+- `_supportsSpacingProps`
+- `wrapChildrenInSpace`
+- `layoutEngine="legacy"`
+
+#### Custom components
+
+The `_supportsSpacingProps` marker is no longer needed. A custom component becomes a flex item through its rendered root, so nothing needs to opt it in to the layout. When the component should accept [spacing properties](/uilib/layout/space/), apply them to its root with `useSpacing` so an author can still adjust the spacing per instance.
+
+**Before (v11):**
+
+```tsx
+import { clsx } from 'clsx'
+import { useSpacing } from '@dnb/eufemia/components/space/SpacingUtils'
+
+function MyComponent({ className, ...props }) {
+  const params = useSpacing(props, {
+    ...props,
+    className: clsx('my-component', className),
+  })
+
+  return <div {...params} />
+}
+
+// Opted the component in to receive spacing from Flex.Container.
+MyComponent._supportsSpacingProps = true
+```
+
+**After (v13):**
+
+```tsx
+import { clsx } from 'clsx'
+import { useSpacing } from '@dnb/eufemia/components/space/SpacingUtils'
+
+function MyComponent({ className, ...props }) {
+  const params = useSpacing(props, {
+    ...props,
+    className: clsx('my-component', className),
+  })
+
+  return <div {...params} />
+}
+```
+
+For a component that already applied spacing to its root, deleting the marker is the only change. The rendered `<div>` is now a flex item automatically, and `useSpacing` keeps the component's own `top`, `right`, `bottom`, and `left` props working — in CSS mode those values participate in pairwise spacing and may replace the adjacent container gap. If a component did not previously apply spacing to its root, adopt `useSpacing` as shown so authors can keep adjusting spacing per instance. A component that never needs per-instance spacing can simply drop the marker and receive the container gap.
+
+#### Wrapper components
+
+`Flex.withChildren` is deprecated. It never hoisted a wrapper's children into the outer container's flex line. When the HOC marked a wrapper, `Flex.Container` automatically injected a nested `Flex.Container` inside the wrapper's root — inheriting the outer container's props — and laid the wrapper's children out there. The rendered DOM was already outer container → wrapper root → inner container. To keep that layout in v13, render the inner `Flex.Container` yourself.
+
+**Before (v11):**
+
+```tsx
+import { Flex } from '@dnb/eufemia'
+
+// The HOC marked the wrapper, so Flex.Container injected a nested
+// Flex.Container inside it to lay out the wrapper's children.
+const Wrapper = Flex.withChildren(({ children }) => <div>{children}</div>)
+
+render(
+  <Flex.Container direction="vertical">
+    <Item />
+    <Wrapper>
+      <Item />
+      <Item />
+    </Wrapper>
+    <Item />
+  </Flex.Container>
+)
+```
+
+**After (v13):**
+
+```tsx
+import { Flex } from '@dnb/eufemia'
+
+// Render the inner Flex.Container yourself — this is the container
+// the HOC used to inject automatically.
+function Wrapper({ children }) {
+  return (
+    <div>
+      <Flex.Container direction="vertical">{children}</Flex.Container>
+    </div>
+  )
+}
+
+render(
+  <Flex.Container direction="vertical">
+    <Item />
+    <Wrapper>
+      <Item />
+      <Item />
+    </Wrapper>
+    <Item />
+  </Flex.Container>
+)
+```
+
+The DOM structure is unchanged from v11 — a wrapper root containing a nested `Flex.Container`. The only difference is that you now provide that inner container explicitly and set its own props (`direction`, `gap`, `divider`, …) instead of inheriting them from the outer container. If a wrapper renders no DOM of its own — for example a Fragment, a context provider, or another transparent component — its children already become direct flex items of the outer container and need no inner `Flex.Container`.
+
+When using `divider="line"` or `divider="line-framed"`, the CSS engine paints the divider without rendering `<hr>` elements. This removes the corresponding separator roles from the accessibility tree. If a divider conveys semantic separation, render explicit `Hr` elements instead of relying on the `divider` property.
+
+The previous child-inspection engine remains temporarily available during migration:
+
+```tsx
+<Flex.Container layoutEngine="legacy">...</Flex.Container>
+```
+
+Do not use the deprecated APIs for new integrations. See the [Flex.Container migration guidance](/uilib/layout/flex/container/#backwards-compatibility) for details.
 
 ### [Accordion](/uilib/components/accordion/)
 

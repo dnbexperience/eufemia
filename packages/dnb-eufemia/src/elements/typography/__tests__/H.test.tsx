@@ -22,6 +22,15 @@ describe('H element', () => {
     expect(element.tagName).toBe('H1')
   })
 
+  it('exposes Flex heading metadata on the rendered root', () => {
+    render(<H>Test heading</H>)
+
+    expect(document.querySelector('h1')).toHaveAttribute(
+      'data-flex-item-type',
+      'heading'
+    )
+  })
+
   it('can set className', () => {
     render(
       <H className="my-class" size="medium">

@@ -309,9 +309,7 @@ describe('Step', () => {
         useEffect(() => {
           if (
             typeof index === 'number' &&
-            ref.current.parentElement.parentElement.classList.contains(
-              'dnb-forms-step'
-            )
+            ref.current.closest('.dnb-forms-step')
           ) {
             whatStepsDidRender.push(index)
           }

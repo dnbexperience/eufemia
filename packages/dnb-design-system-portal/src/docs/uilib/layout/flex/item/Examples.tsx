@@ -47,6 +47,30 @@ export const ResponsiveSize = () => {
   )
 }
 
+export const GapOverrides = () => {
+  return (
+    <ComponentBox scope={{ TestElement }}>
+      <Flex.Horizontal layoutEngine="css" gap="small" wrap={false}>
+        <Flex.Item>
+          <TestElement>Default gap</TestElement>
+        </Flex.Item>
+        <Flex.Item gapBefore="large">
+          <TestElement>Large gap before</TestElement>
+        </Flex.Item>
+        <Flex.Item gapAfter="xx-large">
+          <TestElement>Large gap after</TestElement>
+        </Flex.Item>
+        <Flex.Item gapBefore="x-small">
+          <TestElement>Small gap before wins</TestElement>
+        </Flex.Item>
+        <Flex.Item gapBefore={false} left="medium">
+          <TestElement>No gap plus medium margin</TestElement>
+        </Flex.Item>
+      </Flex.Horizontal>
+    </ComponentBox>
+  )
+}
+
 export const BasicSizeExample = HorizontalFlexItemResponsiveSize
 export const AdvancedSizeExample =
   HorizontalFlexItemResponsiveSizeCustomColumns

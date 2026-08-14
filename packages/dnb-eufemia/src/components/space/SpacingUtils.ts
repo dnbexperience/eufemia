@@ -9,6 +9,7 @@ import { clsx, type ClassValue } from 'clsx'
 
 import { warn } from '../../shared/component-helper'
 import SpaceResponsiveContext from './SpaceResponsiveContext'
+import FlexLayoutContext from '../flex/FlexLayoutContext'
 
 import type {
   SpaceType,
@@ -101,6 +102,122 @@ export const createMarginProperties = (
   props: SpacingProps | SpacingUnknownProps
 ): CSSProperties => {
   return computeMarginProperties(props)
+}
+
+const logicalDirections = {
+  top: 'block-start',
+  right: 'inline-end',
+  bottom: 'block-end',
+  left: 'inline-start',
+} as const
+
+type LogicalDirection =
+  (typeof logicalDirections)[keyof typeof logicalDirections]
+
+export const createSpacingMetadata = (
+  props: SpacingProps | SpacingUnknownProps
+): SpacingReturn => {
+  const { space, top, right, bottom, left } = props as SpacingProps
+  const individualProps = { top, right, bottom, left }
+  const className = new Set<string>()
+  const style: CSSProperties = {}
+
+  if (hasMediaSize(space as InnerSpaceTypeMedia)) {
+    const mediaSpace = space as InnerSpaceTypeMedia
+
+    for (const size of ['small', 'medium', 'large'] as const) {
+      const value = mediaSpace[size]
+      if (typeof value === 'undefined' || value === null) {
+        continue
+      }
+
+      const spacing = transformToAll(value)
+      for (const direction in logicalDirections) {
+        if (typeof individualProps[direction] !== 'undefined') {
+          continue
+        }
+
+        addSpacingMetadata(
+          direction as keyof typeof logicalDirections,
+          spacing[direction],
+          size
+        )
+      }
+    }
+  } else {
+    const spacing = mergeSpacing(
+      space as SpaceType | InnerSpacingElementProps | undefined,
+      individualProps
+    )
+
+    for (const direction in logicalDirections) {
+      addSpacingMetadata(
+        direction as keyof typeof logicalDirections,
+        spacing[direction]
+      )
+    }
+  }
+
+  for (const direction in logicalDirections) {
+    const value = individualProps[direction]
+    if (typeof value !== 'undefined') {
+      addSpacingMetadata(
+        direction as keyof typeof logicalDirections,
+        value
+      )
+    }
+  }
+
+  return {
+    className: Object.values(logicalDirections)
+      .filter((direction) => className.has(`dnb-space--has-${direction}`))
+      .map((direction) => `dnb-space--has-${direction}`),
+    style: Object.keys(style).length > 0 ? style : undefined,
+  }
+
+  function addSpacingMetadata(
+    direction: keyof typeof logicalDirections,
+    value: SpaceType,
+    size?: 'small' | 'medium' | 'large'
+  ) {
+    if (value === null || typeof value === 'undefined') {
+      return
+    }
+
+    const logicalDirection: LogicalDirection = logicalDirections[direction]
+    const cssValue = getSpacingCSSValue(value)
+    if (!cssValue) {
+      return
+    }
+
+    className.add(`dnb-space--has-${logicalDirection}`)
+    style[`--space-${logicalDirection}${size ? `-${size}` : ''}`] =
+      cssValue
+  }
+}
+
+function getSpacingCSSValue(value: SpaceType): string | null {
+  if (
+    value === false ||
+    value === 0 ||
+    value === 'zero' ||
+    /^0(?:\.0+)?(?:rem|px)?$/.test(String(value))
+  ) {
+    return '0'
+  }
+
+  const modifiers = createTypeModifiers(value)
+  if (modifiers.length === 0) {
+    return null
+  }
+
+  if (modifiers.length === 1) {
+    return `var(--spacing-${modifiers[0]})`
+  }
+
+  return `calc(${modifiers
+    .map((modifier) => `var(--spacing-${modifier})`)
+    .join(' + ')})`
 }
 
 function mergeSpacing(
@@ -466,14 +583,19 @@ export type ApplySpacingTarget = {
 export const applySpacing = <T extends ApplySpacingTarget>(
   props: SpacingProps | SpacingUnknownProps,
   target: T,
-  elementName: string | null = null
+  elementName: string | null = null,
+  includeMetadata = false
 ): T => {
   const classes = collectSpacingClasses(props, elementName)
+  const metadata = includeMetadata
+    ? createSpacingMetadata(props)
+    : { className: [], style: undefined }
   const innerStyle = createSpacingProperties(props)
   const marginStyle = createMarginProperties(props)
-  const style = { ...marginStyle, ...innerStyle }
+  const style = { ...marginStyle, ...innerStyle, ...metadata.style }
 
-  const hasClasses = classes.length > 0
+  const allClasses = [...classes, ...metadata.className]
+  const hasClasses = allClasses.length > 0
   const hasStyle = Object.keys(style).length > 0
 
   const hasSpacingKeyOnTarget = spacingKeys.some((key) => key in target)
@@ -491,7 +613,7 @@ export const applySpacing = <T extends ApplySpacingTarget>(
   }
 
   if (hasClasses) {
-    result.className = clsx(target.className, ...classes)
+    result.className = clsx(target.className, ...allClasses)
   }
 
   if (hasStyle) {
@@ -542,7 +664,13 @@ export const useSpacing = <T extends ApplySpacingTarget>(
   elementName: string | null = null
 ): T => {
   const responsive = useContext(SpaceResponsiveContext)
-  const result = applySpacing(props, target, elementName)
+  const flexLayout = useContext(FlexLayoutContext)
+  const result = applySpacing(
+    props,
+    target,
+    elementName,
+    flexLayout !== null
+  )
 
   if (responsive && !responsive.off) {
     result.className = clsx(

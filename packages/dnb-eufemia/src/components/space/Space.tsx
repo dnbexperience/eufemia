@@ -27,6 +27,7 @@ import type { SkeletonShow } from '../Skeleton'
 import type { InnerSpaceType } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import SpaceResponsive from './SpaceResponsive'
+import FlexLayoutContext from '../flex/FlexLayoutContext'
 
 export type SpaceProps = {
   /**
@@ -128,7 +129,9 @@ function SpaceComponent(localProps: SpaceAllProps) {
       ref={ref}
       {...params}
     >
-      {children}
+      {/* A Space root starts a new DOM layout boundary. Wrapper components
+      bridge direct Flex children explicitly through FlexLayoutChildren. */}
+      <FlexLayoutContext value={null}>{children}</FlexLayoutContext>
     </SpaceElement>
   )
 }

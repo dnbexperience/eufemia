@@ -1,11 +1,22 @@
 import { useRef } from 'react'
 import type { RefObject } from 'react'
 import { render } from '@testing-library/react'
-import { axeComponent } from '../../../core/test-utils/testSetup'
+import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import Card from '../../card/Card'
 import { P } from '../../../elements'
 
 describe('Card', () => {
+  it('should support legacy and CSS gap ScrollView roots', () => {
+    const css = loadScss(require.resolve('../style/dnb-card.scss'))
+
+    expect(css).toContain(
+      '.dnb-card > .dnb-flex-container > .dnb-space:has(> .dnb-scroll-view)'
+    )
+    expect(css).toContain(
+      '.dnb-card > .dnb-flex-container > .dnb-scroll-view'
+    )
+  })
+
   it('should forward HTML attributes', () => {
     render(
       <Card aria-label="Aria Label">
