@@ -3,6 +3,39 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.10.0](https://github.com/dnbexperience/eufemia/compare/v11.9.0...v11.10.0) (2026-08-14)
+
+### :sparkles: Features
+
+* **Flex:** add opt-in CSS gap layout engine ([#8942](https://github.com/dnbexperience/eufemia/issues/8942)) ([dfae086](https://github.com/dnbexperience/eufemia/commit/dfae08659fd20b31076265f759a6ddafe3272b07))
+* **FormStatus:** refresh visual appearance ([#8994](https://github.com/dnbexperience/eufemia/issues/8994)) ([fb37e26](https://github.com/dnbexperience/eufemia/commit/fb37e26d7052a24260c66fb8e25f571367682ce0))
+* **Forms:** upgrade Zod to 4.4.3 ([#8956](https://github.com/dnbexperience/eufemia/issues/8956)) ([9760b54](https://github.com/dnbexperience/eufemia/commit/9760b541c52048efc89c5b6cef827f894c3c8290))
+* **HeightAnimation:** support hidden until found (`hidden="until-found"`) ([#8939](https://github.com/dnbexperience/eufemia/issues/8939)) ([2d1e0a6](https://github.com/dnbexperience/eufemia/commit/2d1e0a6b538ff8d1892714f3db69ce5dad310b4b))
+* **List:** add striped rows ([#8944](https://github.com/dnbexperience/eufemia/issues/8944)) ([78f8d31](https://github.com/dnbexperience/eufemia/commit/78f8d31d4c94ba96bc909560380843be30b3c7b3))
+* **List:** support element prop on List.Item to allow non-li rows ([#8940](https://github.com/dnbexperience/eufemia/issues/8940)) ([5340906](https://github.com/dnbexperience/eufemia/commit/5340906b0a083010af7bd485d94886640a4e81cb))
+* **MCP:** support 2025 and 2026 protocols ([#8958](https://github.com/dnbexperience/eufemia/issues/8958)) ([d818f91](https://github.com/dnbexperience/eufemia/commit/d818f9127b0cf3c3bed9de63a6023c14c50933f2))
+* **ScrollView:** promote fragment to component ([#8981](https://github.com/dnbexperience/eufemia/issues/8981)) ([0655afe](https://github.com/dnbexperience/eufemia/commit/0655afe36b43e621324744d40510eba4f3ab1f4d))
+
+### :bug: Bug Fixes
+
+* **Breadcrumb:** restore link styling on single-variant back button ([#8971](https://github.com/dnbexperience/eufemia/issues/8971)) ([510c723](https://github.com/dnbexperience/eufemia/commit/510c72348b79c8a2493c26da6493fdde6806a541))
+* **css:** keep dnb-ui-components asset paths inside the package ([#8952](https://github.com/dnbexperience/eufemia/issues/8952)) ([a6df79c](https://github.com/dnbexperience/eufemia/commit/a6df79c715bc822b3d07ad340f16eff34e2fa043))
+* **Dialog:** use full body height when locking scroll ([#8985](https://github.com/dnbexperience/eufemia/issues/8985)) ([95fa21d](https://github.com/dnbexperience/eufemia/commit/95fa21dd95e2566f413c8239d563d99899522987))
+* **Modal:** don't focus the trigger on spurious close of a never-opened modal ([#8920](https://github.com/dnbexperience/eufemia/issues/8920)) ([6af95ae](https://github.com/dnbexperience/eufemia/commit/6af95ae1ce3760898454bfd0bd1c86bc8dfedf46)), closes [#portal-tools](https://github.com/dnbexperience/eufemia/issues/portal-tools)
+* **Pagination:** support custom infinity loading text ([#8968](https://github.com/dnbexperience/eufemia/issues/8968)) ([5da18d8](https://github.com/dnbexperience/eufemia/commit/5da18d8370bb0fc3b482a3f682eb407fed546778))
+* rebase asset paths when copying styles into module bundles ([#8953](https://github.com/dnbexperience/eufemia/issues/8953)) ([07a0ae4](https://github.com/dnbexperience/eufemia/commit/07a0ae4386a3af5c77c2578a0f031a0682024cb6)), closes [pre-#8951](https://github.com/dnbexperience/pre-/issues/8951)
+
+### :memo: Documentation
+
+* **HeightAnimation:** document untilFound browser-support limitation ([#8977](https://github.com/dnbexperience/eufemia/issues/8977)) ([016c026](https://github.com/dnbexperience/eufemia/commit/016c0268b6dd9fe21c4e4970e39a8b683edabfe7))
+* **Portal:** fix broken external documentation links ([#8967](https://github.com/dnbexperience/eufemia/issues/8967)) ([ab41ed2](https://github.com/dnbexperience/eufemia/commit/ab41ed2dbb097992ceaf63b3c679db3d766e5ebd))
+* **Portal:** restore narrow sidebar usability ([#8990](https://github.com/dnbexperience/eufemia/issues/8990)) ([b232033](https://github.com/dnbexperience/eufemia/commit/b2320330caaf9d3a237a9b40407ec4f971edaf5f))
+* **Theming:** consolidate theme setup documentation ([#8982](https://github.com/dnbexperience/eufemia/issues/8982)) ([b76f717](https://github.com/dnbexperience/eufemia/commit/b76f717e52bc68fe588e575e0c74a6bc901ab2ea))
+
+### :zap: Refactoring
+
+* **Autocomplete:** extract text highlighting into a shared engine ([#8979](https://github.com/dnbexperience/eufemia/issues/8979)) ([4a39eec](https://github.com/dnbexperience/eufemia/commit/4a39eececb4131b56d6dfd28d34f582f86e3c606))
+
 ## [11.9.0](https://github.com/dnbexperience/eufemia/compare/v11.8.3...v11.9.0) (2026-08-10)
 
 ### :sparkles: Features
