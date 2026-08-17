@@ -15,11 +15,11 @@ Records are written to S3 as one JSON object per record, partitioned by date. A 
 
 | Route           | Auth   | Description                                             |
 | --------------- | ------ | ------------------------------------------------------- |
-| `GET /healthz`  | open   | Liveness probe                                          |
+| `GET /healthz`  | edge   | Liveness probe                                          |
 | `POST /records` | bearer | Store a record: `{ "id", "name", "value" }`             |
 | `GET /records`  | bearer | Retrieve records; optional `?id=` and `?limit=` filters |
 
-Auth is a bearer token compared against the `API_TOKEN` environment variable. When `API_TOKEN` is unset, auth is disabled (local/demo only).
+Auth is a bearer token compared against the `API_TOKEN` environment variable, and the origin additionally requires the Akamai `X-Edge-Auth` header.
 
 ### Record shape
 

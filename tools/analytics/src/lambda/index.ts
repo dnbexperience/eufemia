@@ -2,7 +2,7 @@ import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
-import { isAuthorized, json } from './http.js'
+import { isAuthorized, isEdgeAuthorized, json } from './http.js'
 import { storeRecord } from './store.js'
 import { InvalidQueryError, retrieveRecords } from './retrieve.js'
 import { validateRecordInput } from '../types.js'
@@ -72,7 +72,7 @@ async function handleRetrieve(
  * HTTP API entry point.
  *
  * Routes:
- * - `GET  /healthz`  liveness probe (open, no auth)
+ * - `GET  /healthz`  liveness probe (no bearer token)
  * - `POST /records`  store a record in S3
  * - `GET  /records`  retrieve records via Athena (optional `id`, `limit`)
  */
@@ -81,6 +81,10 @@ export async function handler(
 ): Promise<APIGatewayProxyResultV2> {
   const method = event.requestContext.http.method
   const path = event.rawPath
+
+  if (!isEdgeAuthorized(event.headers)) {
+    return json(403, { error: 'Forbidden' })
+  }
 
   if (method === 'GET' && path === '/healthz') {
     return json(200, { status: 'ok' })
