@@ -36,19 +36,19 @@ yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
 
 ## Deploy
 
-Requires Cloudflare credentials for the account that owns the
-`eufemia-mcp.eufemia.workers.dev` hostname (`wrangler login`, or
-`CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`). The Worker `name` is
-`eufemia-mcp`, so with the `eufemia` account subdomain it serves the original
-`eufemia-mcp.eufemia.workers.dev` URL.
+Merges to `main` that touch this workspace auto-deploy via
+[`mcp-legacy-proxy-deploy.yml`](../../.github/workflows/mcp-legacy-proxy-deploy.yml),
+using the repo's `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` secrets. The
+Worker `name` is `eufemia-mcp`, so with the `eufemia` account subdomain it serves
+the original `eufemia-mcp.eufemia.workers.dev` URL.
+
+Phase the endpoint down without a code change by dispatching the workflow with a
+`mode` input (`proxy` | `redirect` | `gone`) from the Actions tab.
+
+To deploy manually (needs `wrangler login` or the Cloudflare env vars):
 
 ```bash
 yarn workspace @dnb/eufemia-mcp-legacy-proxy deploy
-```
-
-Phase the endpoint down without editing code:
-
-```bash
 yarn workspace @dnb/eufemia-mcp-legacy-proxy deploy --var MODE:redirect
 yarn workspace @dnb/eufemia-mcp-legacy-proxy deploy --var MODE:gone
 ```
