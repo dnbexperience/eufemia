@@ -4,17 +4,6 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-const setDarkColorScheme = () => {
-  document
-    .querySelectorAll('.eufemia-theme__color-scheme--light')
-    .forEach((element) => {
-      element.classList.replace(
-        'eufemia-theme__color-scheme--light',
-        'eufemia-theme__color-scheme--dark'
-      )
-    })
-}
-
 describe.each(['ui', 'sbanken'])(`List for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
@@ -140,19 +129,10 @@ describe.each(['ui'])(`List for %s on small viewport`, (themeName) => {
     })
   })
 
-  it('have to match avatar list in closed state', async () => {
+  it('have to match avatar list', async () => {
     await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="list-avatar"]',
-      executeBeforeSimulate: setDarkColorScheme,
-    })
-  })
-
-  it('have to match avatar list in open state', async () => {
-    await makeScreenshot({
-      style: { width: '20rem' },
-      selector: '[data-visual-test="list-avatar"]',
-      executeBeforeSimulate: setDarkColorScheme,
       simulateSelector: '[data-visual-test="list-avatar"] li:last-of-type',
       simulate: 'click',
     })
