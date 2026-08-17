@@ -253,3 +253,28 @@ jobs:
         env:
           BUNDLEWATCH_GITHUB_TOKEN: ${{ github.token }}
         run: yarn workspace @dnb/eufemia build:size
+
+  actions-pins:
+    name: Check action pins
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      # Fail if any action isn't pinned to a full commit SHA. Offline syntactic
+      # check; .pinact.yaml extends the scan to the composite action + GHE templates.
+      - name: Verify actions are pinned to a full commit SHA
+        uses: suzuki-shunsuke/pinact-action@28aeb220eb3252ad0d4422dd5d9368e925acbd8d # v1.3.0
+        with:
+          fix: 'false'
+          no_api: 'true'
+          config: .pinact.yaml
