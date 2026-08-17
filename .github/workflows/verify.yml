@@ -17,13 +17,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:
-  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-  GH_NAME: ${{ secrets.GH_NAME }}
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+# No job-wide `env:` on purpose: these jobs only install, audit, lint,
+# type-check, test and build — none need repository secrets (least privilege).
 
 jobs:
   setup:
