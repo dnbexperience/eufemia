@@ -25,7 +25,7 @@ runs:
         registry-url: ${{ inputs.registry-url }}
 
     - name: Use node_modules cache
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       id: modules-cache
       with:
         path: |
@@ -40,7 +40,7 @@ runs:
     # re-downloading every package from the network.
     - name: Use yarn download cache
       if: steps.modules-cache.outputs.cache-hit != 'true'
-      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       with:
         path: .yarn/cache
         key: ${{ inputs.cache-version }}-${{ runner.os }}-yarncache-${{ hashFiles('**/yarn.lock') }}
