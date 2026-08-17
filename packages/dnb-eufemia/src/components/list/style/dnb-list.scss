@@ -165,7 +165,8 @@
     // Expanded accordion: highlight only the header row, not the content
     &__accordion--open #{&}__accordion__header {
       background-color: var(--list-item-selected-background-color);
-      border-radius: inherit;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
 
     &__title,
@@ -379,6 +380,14 @@
 
         cursor: pointer;
         outline: none;
+        border-radius: inherit;
+        transition:
+          border-bottom-left-radius 400ms var(--easing-default),
+          border-bottom-right-radius 400ms var(--easing-default);
+
+        @include utilities.reducedMotion() {
+          transition-duration: 0.01ms;
+        }
 
         .dnb-icon {
           color: var(--list-item-icon-color);
