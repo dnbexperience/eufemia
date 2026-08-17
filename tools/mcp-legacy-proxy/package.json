@@ -1,0 +1,20 @@
+{
+  "name": "@dnb/eufemia-mcp-legacy-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Deprecation compatibility proxy for the legacy Cloudflare-hosted Eufemia MCP endpoint",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20260617.1",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10",
+    "wrangler": "4.102.0"
+  }
+}
