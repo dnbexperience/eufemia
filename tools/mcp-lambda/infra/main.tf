@@ -29,7 +29,7 @@ resource "aws_lambda_function" "mcp" {
     variables = {
       NODE_OPTIONS = "--enable-source-maps"
 
-      # Optional shared secret sent as the X-Edge-Auth header; empty disables the check.
+      # Shared secret for the X-Edge-Auth origin check (injected by Akamai).
       EDGE_AUTH_SECRET = var.edge_auth_secret
     }
   }
