@@ -49,20 +49,22 @@ yarn workspace @dnb/eufemia-mcp-legacy-proxy deploy
 Phase the endpoint down without editing code:
 
 ```bash
-wrangler deploy --var MODE:redirect   # step to 308
-wrangler deploy --var MODE:gone       # final 410
+yarn workspace @dnb/eufemia-mcp-legacy-proxy deploy --var MODE:redirect
+yarn workspace @dnb/eufemia-mcp-legacy-proxy deploy --var MODE:gone
 ```
 
 ## Rollback
 
 - Revert `MODE` (e.g. `gone` → `redirect` → `proxy`) and re-deploy, **or**
-- `wrangler rollback` to the previous deployed version.
+- Run `yarn workspace @dnb/eufemia-mcp-legacy-proxy exec wrangler rollback`.
 
 ## Migration plan
 
 1. Deploy in `proxy` mode; announce the new URL and sunset date.
-2. Monitor legacy traffic (Worker logs: `wrangler tail`) — each request logs
-   `{ method, client, status }` only; no credentials or bodies are recorded.
+2. Monitor legacy traffic with
+   `yarn workspace @dnb/eufemia-mcp-legacy-proxy exec wrangler tail` — each
+   request logs `{ method, client, status }` only; no credentials or bodies are
+   recorded.
 3. When legacy traffic is low, switch to `redirect` (`308`).
 4. After the final support period, switch to `gone` (`410`).
 

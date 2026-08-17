@@ -19,7 +19,7 @@
  * request contents.
  */
 
-export interface Env {
+export type Env = {
   /** `proxy` (default) | `redirect` | `gone` */
   MODE?: string
   /** Successor endpoint the legacy URL points at. */
