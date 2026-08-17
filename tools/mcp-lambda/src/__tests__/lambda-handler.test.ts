@@ -118,6 +118,7 @@ describe('lambda-handler health check', () => {
     // server.js (imported transitively by the handler) resolves the docs root
     // at module load; point it at the temp docs so the import succeeds.
     process.env.EUFEMIA_DOCS_ROOT = docsRoot
+    delete process.env.EDGE_AUTH_SECRET
   })
 
   afterAll(async () => {
@@ -372,16 +373,26 @@ describe('lambda-handler origin auth (X-Edge-Auth)', () => {
     expect(result.statusCode).not.toBe(403)
   })
 
-  it('keeps GET /healthz open even when the secret is set', async () => {
+  it('requires the edge header for /healthz when the secret is set', async () => {
     process.env.EDGE_AUTH_SECRET = secret
     const { handler } = await import('../transports/lambda-handler.js')
 
-    const result = (await handler({
+    const missing = (await handler({
       rawPath: '/healthz',
       requestContext: { http: { method: 'GET' } },
       headers: {},
-    } as Parameters<typeof handler>[0])) as { statusCode: number }
+    } as unknown as Parameters<typeof handler>[0])) as {
+      statusCode: number
+    }
+    expect(missing.statusCode).toBe(403)
 
-    expect(result.statusCode).toBe(200)
+    const withHeader = (await handler({
+      rawPath: '/healthz',
+      requestContext: { http: { method: 'GET' } },
+      headers: { 'x-edge-auth': secret },
+    } as unknown as Parameters<typeof handler>[0])) as {
+      statusCode: number
+    }
+    expect(withHeader.statusCode).toBe(200)
   })
 })
