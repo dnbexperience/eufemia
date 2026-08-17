@@ -67,7 +67,7 @@ updates:
     labels:
       - 'dependencies'
     commit-message:
-      prefix: 'chore(ci)'
+      prefix: 'chore(deps)'
     groups:
       actions:
         patterns:

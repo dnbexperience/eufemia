@@ -342,8 +342,8 @@
                 "hidden": false
               },
               {
-                "type": "ci",
-                "section": ":repeat: CI",
+                "type": "deps",
+                "section": ":package: Dependencies",
                 "hidden": false
               }
             ]
