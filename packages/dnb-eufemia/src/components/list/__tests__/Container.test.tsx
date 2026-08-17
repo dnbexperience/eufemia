@@ -74,6 +74,15 @@ describe('List Container', () => {
     expect(element.classList).toContain('dnb-list--striped')
   })
 
+  it('adds even modifier class when striped is even', () => {
+    render(<Container striped="even">Content</Container>)
+
+    const element = document.querySelector('.dnb-list')
+
+    expect(element.classList).toContain('dnb-list--striped')
+    expect(element.classList).toContain('dnb-list--striped-even')
+  })
+
   it('does not add striped class when striped is false or omitted', () => {
     const { rerender } = render(<Container>Content</Container>)
 
