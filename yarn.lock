@@ -2815,7 +2815,7 @@ __metadata:
     core-js-pure: "npm:3.47.0"
     cross-env: "npm:7.0.3"
     cssnano: "npm:6.0.1"
-    date-fns: "npm:4.1.0"
+    date-fns: "npm:4.4.0"
     dependency-cruiser: "npm:17.3.8"
     dnb-design-system-portal: "workspace:*"
     dotenv-cli: "npm:4.1.0"
@@ -8332,10 +8332,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:4.1.0":
-  version: 4.1.0
-  resolution: "date-fns@npm:4.1.0"
-  checksum: 10/d5f6e9de5bbc52310f786099e18609289ed5e30af60a71e0646784c8185ddd1d0eebcf7c96b7faaaefc4a8366f3a3a4244d099b6d0866ee2bec80d1361e64342
+"date-fns@npm:4.4.0":
+  version: 4.4.0
+  resolution: "date-fns@npm:4.4.0"
+  checksum: 10/ae702acea42fb8452abe74f6d133c2360de9a14f00985645684b0df9c12280276649e95b52298a4fd7dabcc3b38799eb111107da99320d1cd94ba1d8a3d1c174
   languageName: node
   linkType: hard
 
@@ -8535,7 +8535,7 @@ __metadata:
     algoliasearch: "npm:4.12.0"
     babel-plugin-react-live: "npm:1.4.5"
     clsx: "npm:2.1.1"
-    date-fns: "npm:4.1.0"
+    date-fns: "npm:4.4.0"
     eslint: "npm:10.4.1"
     eslint-plugin-jsx-a11y: "npm:6.10.2"
     eslint-plugin-mdx: "npm:3.8.1"
