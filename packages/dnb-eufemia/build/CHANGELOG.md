@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.10.1](https://github.com/dnbexperience/eufemia/compare/v11.10.0...v11.10.1) (2026-08-17)
+
+### :bug: Bug Fixes
+
+* **List:** center title and end text in List.Item.Action rows ([#9001](https://github.com/dnbexperience/eufemia/issues/9001)) ([571ddbb](https://github.com/dnbexperience/eufemia/commit/571ddbb6d31e86602e14319eaafc912dfbb63e0c))
+
+### :zap: Refactoring
+
+* **HeightAnimation:** deprecate untilFound in favor of openOnFind ([#8999](https://github.com/dnbexperience/eufemia/issues/8999)) ([03fa9f1](https://github.com/dnbexperience/eufemia/commit/03fa9f10d1d313652ca72d1fbf38325debb6db02))
+
 ## [11.10.0](https://github.com/dnbexperience/eufemia/compare/v11.9.0...v11.10.0) (2026-08-14)
 
 ### :sparkles: Features
