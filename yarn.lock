@@ -2049,6 +2049,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cloudflare/workers-types@npm:4.20260617.1":
+  version: 4.20260617.1
+  resolution: "@cloudflare/workers-types@npm:4.20260617.1"
+  checksum: 10/a55488e0ea4018d4fbb34e9735cf12437323b51f179c468cb0714edef5ddbb7ae1b84c86bbe596b7ba52686294e65eddaaf8521fe6ab8a2172cad318dd01a501
+  languageName: node
+  linkType: hard
+
 "@colors/colors@npm:1.5.0":
   version: 1.5.0
   resolution: "@colors/colors@npm:1.5.0"
@@ -2735,6 +2742,17 @@ __metadata:
   checksum: 10/688148ec74ebb8af023dd75e99af918929f80e365bf221de65769b733523cb4e1f454275bd325f84cff2af8f6f79c88be3c757eae176547b14f59ee68c15f716
   languageName: node
   linkType: hard
+
+"@dnb/eufemia-mcp-legacy-proxy@workspace:tools/mcp-legacy-proxy":
+  version: 0.0.0-use.local
+  resolution: "@dnb/eufemia-mcp-legacy-proxy@workspace:tools/mcp-legacy-proxy"
+  dependencies:
+    "@cloudflare/workers-types": "npm:4.20260617.1"
+    typescript: "npm:5.9.3"
+    vitest: "npm:4.1.10"
+    wrangler: "npm:4.102.0"
+  languageName: unknown
+  linkType: soft
 
 "@dnb/eufemia-mcp@workspace:tools/mcp-lambda":
   version: 0.0.0-use.local
