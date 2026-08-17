@@ -21,13 +21,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-env:
-  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-  GH_NAME: ${{ secrets.GH_NAME }}
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+# No job-wide `env:` on purpose: the StackBlitz/pkg.pr.new preview publish needs
+# no repository secrets, so none are injected (least privilege).
 
 jobs:
   publish:

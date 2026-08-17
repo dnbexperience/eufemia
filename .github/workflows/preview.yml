@@ -14,10 +14,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-env:
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+# No job-wide `env:` on purpose: the build needs no repository secrets, and the
+# Cloudflare credentials are scoped to the deploy step that uses them.
 
 jobs:
   deploy-preview:
