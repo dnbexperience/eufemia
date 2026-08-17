@@ -73,7 +73,7 @@ public GitHub (.github/workflows/analytics-lambda.yml)
           → OIDC assume role → terraform apply
 ```
 
-- **Triggers** (`analytics-lambda.yml`): the `release` branch, any `analytics/**` branch, `v*` tags, or manual `workflow_dispatch`.
+- **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from any branch. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
 - On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run).
 

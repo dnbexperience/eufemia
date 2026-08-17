@@ -7,20 +7,21 @@ name: Analytics Lambda
 # repository where OIDC federation handles AWS authentication.
 #
 # Triggers:
-# - `release` branch and `v*` / `v*.*.*` tags — deploys automatically.
-# - Any branch under the `analytics/` prefix (e.g. `analytics/new-field`).
-# - `workflow_dispatch` — manual deploy from the Actions tab.
+# - Push to `main` that touches `tools/analytics/**` (or this workflow) — deploys automatically.
+# - `workflow_dispatch` — manual deploy from the Actions tab (any branch).
+#
+# Analytics is self-contained (no Eufemia docs dependency), so it deploys on its
+# own code changes rather than on every Eufemia release like the MCP server.
 #
 # See tools/analytics/README.md for deploy details.
 
 on:
   push:
     branches:
-      - release
-      - 'analytics/**'
-    tags:
-      - 'v*'
-      - 'v*.*.*'
+      - main
+    paths:
+      - 'tools/analytics/**'
+      - '.github/workflows/analytics-lambda.yml'
   workflow_dispatch:
 
 permissions:
