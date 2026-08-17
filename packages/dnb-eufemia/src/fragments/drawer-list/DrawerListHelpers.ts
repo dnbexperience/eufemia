@@ -222,7 +222,7 @@ export const getCurrentIndex = (value, data) => {
       return index
     }
   }
-  // 3. if is numeric, and no matching "selectedKey", handle it as a index.
+  // 3. if is numeric, and no matching "selectedKey", handle it as an index.
   if (!isNaN(parseFloat(value))) {
     return value
   }
