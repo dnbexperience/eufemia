@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitButton'
 description: '`Form.SubmitButton` connects to the `Form.Handler` to submit the active state of the internal DataContext, triggering `onSubmit`.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:20:00.389Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:39.205Z
 checksum: c1a51bfc002e98a2717b2049284cdd33be5f9604756fe01312ccf827aa300239
 ---
 

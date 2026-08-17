@@ -1,8 +1,8 @@
 ---
 title: 'Skeleton'
 description: 'Use Skeleton to show where content will appear while it is loading.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.906Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.606Z
 checksum: 38d7202a365da531b3702e62d932ac6c2e55e712321889f177c476f349dee300
 ---
 

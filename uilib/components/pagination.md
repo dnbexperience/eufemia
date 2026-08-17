@@ -1,8 +1,8 @@
 ---
 title: 'Pagination'
 description: 'Use Pagination to split long content into pages or load more content as people move through it.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.872Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.566Z
 checksum: 856dc55e3ab4563a6134b945efda1abdbb22ce98c4b6c0c06564e0c54d0b1a6c
 ---
 

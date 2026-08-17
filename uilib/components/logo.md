@@ -1,8 +1,8 @@
 ---
 title: 'Logo'
 description: 'Use Logo to show the DNB logo with the correct SVG and styling.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.838Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.520Z
 checksum: b5f2e83235588ece761fcf16dc33d82a6ac8ad4ff716952496b47c01928e8f36
 ---
 

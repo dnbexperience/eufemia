@@ -1,9 +1,9 @@
 ---
 title: 'HeightAnimation'
 description: 'Use HeightAnimation to animate content as it opens or closes.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.780Z
-checksum: c7f9ea1b305ed53dc0a5a673f1e462ec36a29ea8e8a2c3cc780e21a37075d4b8
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.449Z
+checksum: 32c6a1a49ca1fd25a79ec9af171227bbabf2ecc4b8cf92c1b43bb78845072418
 ---
 
 # HeightAnimation
@@ -41,11 +41,11 @@ Custom `duration` and `delay` props are applied after hydration via a DOM effect
 
 Connect the control and animated content with `aria-controls`, and expose the current state with `aria-expanded`. HeightAnimation does not manage focus. Avoid closing content while focus is inside it, or move focus to a logical visible control first.
 
-When `keepInDOM` or `untilFound` keeps closed content in the DOM, HeightAnimation applies `aria-hidden="true"`. The collapsed content is therefore unavailable to assistive technologies until it opens.
+When `keepInDOM` or `openOnFind` keeps closed content in the DOM, HeightAnimation applies `aria-hidden="true"`. The collapsed content is therefore unavailable to assistive technologies until it opens.
 
-`untilFound` uses the native `hidden="until-found"` behavior, making collapsed text available to browser find-in-page. HeightAnimation reveals matching content internally, so `onBeforeMatch` is optional. When an external control owns the `open` state, handle `onBeforeMatch` by updating the same state passed to `open`. This keeps the control's `aria-expanded` value synchronized when the browser reveals a match.
+`openOnFind` uses the native `hidden="until-found"` behavior, making collapsed text available to browser find-in-page. HeightAnimation opens matching content internally, so `onBeforeMatch` is optional. When an external control owns the `open` state, handle `onBeforeMatch` by updating the same state passed to `open`. This keeps the control's `aria-expanded` value synchronized when the browser reveals a match.
 
-`untilFound` depends on native browser support for `hidden="until-found"` (Chromium 102+, Firefox 148+, with partial support in Safari 26.2+). In browsers without support, the collapsed content is **not reliably hidden** and can remain visible, because the collapse relies on the browser applying `content-visibility` for `hidden="until-found"`. For content that must stay hidden in those browsers, use `keepInDOM` (or leave `untilFound` off) instead.
+`openOnFind` depends on native browser support for `hidden="until-found"` (Chromium 102+, Firefox 148+, with partial support in Safari 26.2+). In browsers without support, the collapsed content is **not reliably hidden** and can remain visible, because the collapse relies on the browser applying `content-visibility` for `hidden="until-found"`. For content that must stay hidden in those browsers, use `keepInDOM` (or leave `openOnFind` off) instead.
 
 Users who prefer reduced motion receive an effectively immediate transition. It is important to never animate to a fixed height such as 64px, because:
 
@@ -199,20 +199,20 @@ render(<Example />);
 
 ### Find collapsed content
 
-The `untilFound` prop keeps collapsed content available to the browser's find-in-page feature using `hidden="until-found"`. Search this page for **“Findable banking content”**. HeightAnimation reveals the match itself, while the optional `onBeforeMatch` callback synchronizes the toggle's external state.
+The `openOnFind` prop keeps collapsed content available to the browser's find-in-page feature using `hidden="until-found"`. Search this page for **“Findable banking content”**. HeightAnimation opens the match itself, while the optional `onBeforeMatch` callback synchronizes the toggle's external state.
 
 
 ```tsx
 const Example = () => {
   const [openState, setOpenState] = useState(false);
   return <>
-              <ToggleButton checked={openState} aria-expanded={openState} aria-controls="until-found-content" onChange={({
+              <ToggleButton checked={openState} aria-expanded={openState} aria-controls="open-on-find-content" onChange={({
       checked
     }) => setOpenState(checked)}>
                 Open content
               </ToggleButton>
 
-              <HeightAnimation id="until-found-content" open={openState} untilFound onBeforeMatch={() => setOpenState(true)}>
+              <HeightAnimation id="open-on-find-content" open={openState} openOnFind onBeforeMatch={() => setOpenState(true)}>
                 <Space innerSpace>
                   <Section variant="information" innerSpace>
                     <P space={0}>Findable banking content</P>
@@ -245,7 +245,7 @@ render(<Example />);
       "type": "boolean",
       "status": "optional"
     },
-    "untilFound": {
+    "openOnFind": {
       "doc": "Set to `true` to keep closed content available to the browser find-in-page feature with `hidden=\"until-found\"`. This implies `keepInDOM`. In browsers without `hidden=\"until-found\"` support, the collapsed content may remain visible. Defaults to `false`.",
       "type": "boolean",
       "status": "optional"
@@ -302,7 +302,7 @@ render(<Example />);
 {
   "props": {
     "onBeforeMatch": {
-      "doc": "Is called after matching content inside a closed animation is revealed by the browser using `untilFound`. Use it to synchronize external open state and controls.",
+      "doc": "Is called after matching content inside a closed animation is opened using `openOnFind`. Use it to synchronize external open state and controls.",
       "type": "function",
       "status": "optional"
     },

@@ -1,8 +1,8 @@
 ---
 title: 'InputMasked'
 description: 'Use InputMasked when people must enter text in a fixed format.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.802Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.475Z
 checksum: ec854c3f7edab3767cebaea07e1723cb55406d476c88740bcf81d27b7291d502
 ---
 

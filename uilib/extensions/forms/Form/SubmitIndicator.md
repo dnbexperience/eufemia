@@ -1,8 +1,8 @@
 ---
 title: 'Form.SubmitIndicator'
 description: '`Form.SubmitIndicator` lets you show an indicator while async form operations are performed.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:20:00.398Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:39.217Z
 checksum: 07317f23ae535f0820553501fbef42b267854c7e5f58af7c62c852b5dbe7f1e4
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'StepIndicator'
 description: 'Use StepIndicator to show progress through a process with several steps.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:20:00.115Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.873Z
 checksum: 7094e7f08cf3afc69f190c375d8431006f20b457a07ad2e731e6ad137f4dbe05
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'Breadcrumb'
 description: 'Use Breadcrumb to show where someone is and let them move back up the path.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.669Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.311Z
 checksum: 69961006f2a91fb32032f9ab274215ceced4424c4dc7a062cfd6b9f591d579d1
 ---
 

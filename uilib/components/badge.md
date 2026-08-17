@@ -1,8 +1,8 @@
 ---
 title: 'Badge'
 description: 'Use Badge to highlight new, unread, or important information.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.662Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.298Z
 checksum: e44c4039c20189a099f5d28fc7d21f0fc5bcbc5f2c5f3677fe8bc23bd807d85f
 ---
 

@@ -1,8 +1,8 @@
 ---
 title: 'ScrollView'
 description: 'Use ScrollView when content needs its own horizontal or vertical scrolling area.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.896Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.594Z
 checksum: 07e411cdd62dc6b941360d253d1e5f8021b471c8653325ebe6b83b998e61929c
 ---
 

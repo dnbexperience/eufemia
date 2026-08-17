@@ -1,8 +1,8 @@
 ---
 title: 'AriaLive'
 description: 'Use AriaLive to announce page changes to screen reader users.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.633Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.262Z
 checksum: 7bfa90b0a7eed957c9b4b1bf03bed1f726b946b899ca116a453f4360c72f2106
 ---
 

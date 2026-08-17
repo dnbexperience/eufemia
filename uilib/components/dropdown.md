@@ -1,8 +1,8 @@
 ---
 title: 'Dropdown'
 description: 'Use Dropdown when people need to choose one option from a list.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.734Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.393Z
 checksum: 092b3cfcf92a27d3b81067d23b8f5b6550789133f7896c55499941a55f7db09f
 ---
 

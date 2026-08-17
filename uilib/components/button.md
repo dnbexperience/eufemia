@@ -1,8 +1,8 @@
 ---
 title: 'Button'
 description: 'Use Button when people need to start, confirm, or submit an action.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.676Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.322Z
 checksum: e191edb6ca429fd518e06ebb0a9ade1e3e4a3f8bdac8c578c6d68d6d3f987294
 ---
 

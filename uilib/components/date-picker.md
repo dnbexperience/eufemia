@@ -1,8 +1,8 @@
 ---
 title: 'DatePicker'
 description: 'Use DatePicker when people need to choose one date or a date range.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.717Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.372Z
 checksum: 433ef38440ca57d9aaa51d5089a06f2a76a59db8999ad58827dc8ac0d88fbfea
 ---
 

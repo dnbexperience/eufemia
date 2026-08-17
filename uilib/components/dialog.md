@@ -1,8 +1,8 @@
 ---
 title: 'Dialog'
 description: 'Use Dialog when people need to make a choice or read an important message before continuing.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.723Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.380Z
 checksum: eb9cbacb0a9165d28945a6bec69d5712f39b9c50a7bc75d12d2e48c1b906ba89
 ---
 

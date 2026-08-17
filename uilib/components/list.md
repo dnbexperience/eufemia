@@ -1,8 +1,8 @@
 ---
 title: 'List'
 description: 'Use List to show rows of related content, with optional actions or navigation.'
-version: 11.10.0
-generatedAt: 2026-08-14T11:19:59.835Z
+version: 11.10.1
+generatedAt: 2026-08-17T08:59:38.516Z
 checksum: c946337b4ac955f9ab3512f2b6d0d501de5df4f7c5035f87b7529a83c0754ce0
 ---
 
