@@ -1761,6 +1761,38 @@ describe('Wizard.Container', () => {
       })
     })
 
+    it('should show required error and prevent navigation when a required Field.Upload has validateInitially={false} (issue #4989)', async () => {
+      render(
+        <Form.Handler>
+          <Wizard.Container omitFocusManagement expandedInitially>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.Upload
+                required
+                validateInitially={false}
+                path="/myFiles"
+              />
+              <Wizard.NextButton />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      expect(output()).toHaveTextContent('Step 1')
+
+      await userEvent.click(nextButton())
+
+      // Navigation is prevented and the required error is shown to the user
+      expect(output()).toHaveTextContent('Step 1')
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        nb.Upload.errorRequired
+      )
+    })
+
     it('should handle async onChangeValidator', async () => {
       const asyncValidator = async () => null
 
