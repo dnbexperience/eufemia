@@ -14,6 +14,7 @@
 - Find and understand the relevant existing code before implementing a solution. Extend or improve it when possible; otherwise replace it rather than creating a duplicate or parallel implementation.
 - Follow established patterns in the surrounding code unless the task requires changing them.
 - Consider correctness, security, performance, and accessibility for every change. Do not expose sensitive data, weaken safeguards, or add avoidable work to frequently used code paths.
+- This repository is public. Do not document security fail-open or bypass paths in comments, docs, or error messages. Describe what a safeguard does, not how to defeat it, and keep internal identifiers and secrets out of committed files.
 - Review the complete diff before handing off work or creating a pull request. Check for unintended changes and reassess correctness, readability, security, performance, accessibility, and test coverage.
 
 ## Code Style
