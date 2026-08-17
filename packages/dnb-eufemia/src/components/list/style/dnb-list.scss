@@ -293,22 +293,9 @@
         color: var(--list-item-icon-color);
       }
 
-      // When href is set, the anchor wraps the slots; make it the grid container
-      // so slots use the same grid as the onClick version. Span all rows so on
-      // small screens the anchor fills both rows and its grid can place end on row 2.
-      &--href a {
-        display: grid;
-        grid-template:
-          var(--list-item-grid-template-areas) /
-          var(--list-item-grid-template-columns);
-        grid-column: 1 / -1; // Span full width
-        grid-row: 1 / -1; // Center vertically
-        text-decoration: none;
-        color: inherit;
-        outline: none;
-      }
-
-      // Button wrapper spans the full grid, similar to the href anchor
+      // Anchor/button wrap the slots and reproduce the item grid, spanning it
+      // fully. Mirror its centering, else cells stretch and top-align (title/end).
+      &--href a,
       &__button {
         display: grid;
         grid-template:
@@ -316,17 +303,22 @@
           var(--list-item-grid-template-columns);
         grid-column: 1 / -1;
         grid-row: 1 / -1;
+        place-content: center;
+        align-items: center;
         outline: none;
-      }
 
-      // Full item area, making clicks anywhere trigger the action.
-      &--href a,
-      &__button {
+        // Full-row click area.
         &::before {
           content: '';
           position: absolute;
           inset: 0;
         }
+      }
+
+      // Inherit the row's text styling, not default link styles.
+      &--href a {
+        text-decoration: none;
+        color: inherit;
       }
 
       // Handle action states

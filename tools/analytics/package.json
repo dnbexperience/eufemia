@@ -1,0 +1,30 @@
+{
+  "name": "eufemia-analytics",
+  "description": "Store and retrieve records in AWS (S3 + Athena) via an HTTP API",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "author": "DNB Team",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "scripts": {
+    "test": "vitest run",
+    "test:types": "../../node_modules/.bin/tsc --noEmit",
+    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'",
+    "audit:ci": "yarn npm audit --recursive --environment production --severity high",
+    "build": "rm -rf dist && esbuild src/lambda/index.ts --bundle --platform=node --target=node22 --format=esm --sourcemap --outfile=dist/index.mjs '--external:@aws-sdk/*' && cd dist && zip -rq lambda.zip index.mjs index.mjs.map",
+    "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
+    "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan"
+  },
+  "dependencies": {
+    "@aws-sdk/client-athena": "3.1075.0",
+    "@aws-sdk/client-s3": "3.1075.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.161",
+    "esbuild": "0.25.5",
+    "vitest": "4.1.10"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

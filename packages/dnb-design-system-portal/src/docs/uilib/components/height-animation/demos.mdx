@@ -6,7 +6,7 @@ import {
   HeightAnimationDefault,
   HeightAnimationAutosizing,
   HeightAnimationKeepInDOM,
-  HeightAnimationUntilFound,
+  HeightAnimationOpenOnFind,
 } from 'Docs/uilib/components/height-animation/Examples'
 
 ## Demos
@@ -31,6 +31,6 @@ When providing `keepInDOM={true}`, your nested content will never be removed fro
 
 ### Find collapsed content
 
-The `untilFound` prop keeps collapsed content available to the browser's find-in-page feature using `hidden="until-found"`. Search this page for **“Findable banking content”**. HeightAnimation reveals the match itself, while the optional `onBeforeMatch` callback synchronizes the toggle's external state.
+The `openOnFind` prop keeps collapsed content available to the browser's find-in-page feature using `hidden="until-found"`. Search this page for **“Findable banking content”**. HeightAnimation opens the match itself, while the optional `onBeforeMatch` callback synchronizes the toggle's external state.
 
-<HeightAnimationUntilFound />
+<HeightAnimationOpenOnFind />

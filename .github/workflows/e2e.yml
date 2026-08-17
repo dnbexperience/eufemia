@@ -25,17 +25,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-env:
-  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-  GH_NAME: ${{ secrets.GH_NAME }}
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
-  ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
-  ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
-  ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
-  ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+# No job-wide `env:` on purpose: only the public Algolia search config is
+# needed, and it is scoped to the portal build step (least privilege).
 
 jobs:
   e2e:
@@ -48,6 +39,8 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -78,6 +71,11 @@ jobs:
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build:e2e
+        env:
+          # Public search config embedded into the client bundle at build time.
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
 
       - name: Run Playwright on Portal
         run: yarn workspace dnb-design-system-portal test:e2e:portal:ci

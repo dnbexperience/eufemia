@@ -1,0 +1,14 @@
+{
+  "extends": "../../packages/dnb-design-system-portal/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./out",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "es2020",
+    "strict": true,
+    "types": ["node", "vitest/globals"]
+  },
+  "include": ["src/**/*.ts", "__tests__/**/*.ts"],
+  "exclude": ["node_modules", "out"]
+}

@@ -10,7 +10,7 @@
 
   @include utilities.scrollY(auto);
 
-  // Ensure the user still can scroll a ancestor scrollarea (body)
+  // Ensure the user still can scroll an ancestor scrollarea (body)
   overscroll-behavior: auto;
 
   &--scrollbar-gutter-stable {
