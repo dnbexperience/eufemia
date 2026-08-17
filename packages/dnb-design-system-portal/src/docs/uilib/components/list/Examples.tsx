@@ -326,7 +326,7 @@ export const BackgroundColor = () => {
         <List.Item.Basic
           style={{
             ['--list-item-background-color' as string]:
-              'var(--color-mint-green-12)',
+              'var(--token-color-background-positive-subtle)',
           }}
         >
           Custom background color (not selected)
