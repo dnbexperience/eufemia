@@ -179,3 +179,49 @@ describe('handler', () => {
     expect(res.statusCode).toBe(404)
   })
 })
+
+describe('handler origin auth (X-Edge-Auth)', () => {
+  beforeEach(() => {
+    storeRecord.mockReset()
+    retrieveRecords.mockReset()
+    process.env.API_TOKEN = 'secret'
+    process.env.EDGE_AUTH_SECRET = 'edge-secret'
+  })
+
+  afterEach(() => {
+    delete process.env.API_TOKEN
+    delete process.env.EDGE_AUTH_SECRET
+  })
+
+  it('requires the edge header for /healthz when the edge secret is set', async () => {
+    const missing = await invoke(event('GET', '/healthz'))
+    expect(missing.statusCode).toBe(403)
+
+    const withHeader = await invoke(
+      event('GET', '/healthz', {
+        headers: { 'x-edge-auth': 'edge-secret' },
+      })
+    )
+    expect(withHeader.statusCode).toBe(200)
+  })
+
+  it('rejects with 403 when the edge header is missing', async () => {
+    const res = await invoke(
+      event('POST', '/records', { body: '{}', headers: auth })
+    )
+
+    expect(res.statusCode).toBe(403)
+    expect(storeRecord).not.toHaveBeenCalled()
+  })
+
+  it('lets the request through when the edge header matches', async () => {
+    const res = await invoke(
+      event('GET', '/records', {
+        headers: { ...auth, 'x-edge-auth': 'edge-secret' },
+        query: { id: 'abc' },
+      })
+    )
+
+    expect(res.statusCode).toBe(200)
+  })
+})

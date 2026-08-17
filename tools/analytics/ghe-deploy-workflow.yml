@@ -52,6 +52,7 @@ jobs:
         env:
           TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
           TF_VAR_api_token: ${{ secrets.API_TOKEN }}
+          TF_VAR_edge_auth_secret: ${{ secrets.EDGE_AUTH_SECRET }}
         run: |
           set -euo pipefail
           cd infra

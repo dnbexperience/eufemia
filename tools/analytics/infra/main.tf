@@ -200,6 +200,9 @@ resource "aws_lambda_function" "analytics" {
       GLUE_TABLE       = aws_glue_catalog_table.records.name
       ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
       API_TOKEN        = var.api_token
+
+      # Shared secret for the X-Edge-Auth origin check (injected by Akamai).
+      EDGE_AUTH_SECRET = var.edge_auth_secret
     }
   }
 
@@ -260,4 +263,74 @@ resource "aws_lambda_permission" "apigw" {
   function_name = aws_lambda_function.analytics.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.analytics.execution_arn}/*/*"
+}
+
+# ---------------------------------------------------------------------------
+# Custom domain (origin for Akamai)
+# ---------------------------------------------------------------------------
+
+# Custom domain used as the Akamai origin.
+data "aws_route53_zone" "eufemia" {
+  name = var.domain_zone
+}
+
+resource "aws_acm_certificate" "analytics" {
+  domain_name       = var.domain_name
+  validation_method = "DNS"
+  tags              = local.tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route53_record" "cert_validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.analytics.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      type   = dvo.resource_record_type
+      record = dvo.resource_record_value
+    }
+  }
+
+  zone_id = data.aws_route53_zone.eufemia.zone_id
+  name    = each.value.name
+  type    = each.value.type
+  records = [each.value.record]
+  ttl     = 300
+}
+
+resource "aws_acm_certificate_validation" "analytics" {
+  certificate_arn         = aws_acm_certificate.analytics.arn
+  validation_record_fqdns = [for r in aws_route53_record.cert_validation : r.fqdn]
+}
+
+resource "aws_apigatewayv2_domain_name" "analytics" {
+  domain_name = var.domain_name
+
+  domain_name_configuration {
+    certificate_arn = aws_acm_certificate_validation.analytics.certificate_arn
+    endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
+  }
+
+  tags = local.tags
+}
+
+resource "aws_apigatewayv2_api_mapping" "analytics" {
+  api_id      = aws_apigatewayv2_api.analytics.id
+  domain_name = aws_apigatewayv2_domain_name.analytics.id
+  stage       = aws_apigatewayv2_stage.analytics.id
+}
+
+resource "aws_route53_record" "analytics" {
+  zone_id = data.aws_route53_zone.eufemia.zone_id
+  name    = var.domain_name
+  type    = "A"
+
+  alias {
+    name                   = aws_apigatewayv2_domain_name.analytics.domain_name_configuration[0].target_domain_name
+    zone_id                = aws_apigatewayv2_domain_name.analytics.domain_name_configuration[0].hosted_zone_id
+    evaluate_target_health = false
+  }
 }
