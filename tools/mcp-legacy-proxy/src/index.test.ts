@@ -87,6 +87,33 @@ describe('proxy mode', () => {
     expect(body.result.instructions).toContain(TARGET)
   })
 
+  it('drops the upstream Content-Length when the body is rewritten', async () => {
+    const upstreamBody = JSON.stringify({
+      jsonrpc: '2.0',
+      id: 1,
+      result: {
+        protocolVersion: '2025-06-18',
+        serverInfo: { name: 'eufemia', version: '0.0.0' },
+      },
+    })
+    fetchMock.mockResolvedValue(
+      new Response(upstreamBody, {
+        status: 200,
+        headers: {
+          'content-type': 'application/json',
+          'content-length': String(upstreamBody.length),
+        },
+      })
+    )
+
+    const res = await worker.fetch(initializeRequest(), proxyEnv)
+
+    // A stale Content-Length would truncate the injected notice.
+    expect(res.headers.get('content-length')).toBeNull()
+    const body = (await res.json()) as any
+    expect(body.result.instructions).toContain(TARGET)
+  })
+
   it('passes non-initialize responses through unchanged', async () => {
     const toolResult = {
       jsonrpc: '2.0',

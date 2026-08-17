@@ -137,6 +137,11 @@ function buildUpstreamHeaders(source: Headers): Headers {
 function decorate(response: Response, env: Env): Response {
   const headers = new Headers(response.headers)
 
+  // The body may have been rewritten (notice injection) or re-emitted from a
+  // decoded string, so let the runtime recompute length/encoding.
+  headers.delete('content-length')
+  headers.delete('content-encoding')
+
   headers.set('Deprecation', env.DEPRECATION_DATE ?? DEFAULT_DEPRECATION)
   headers.set('Sunset', env.SUNSET ?? DEFAULT_SUNSET)
   headers.append(
