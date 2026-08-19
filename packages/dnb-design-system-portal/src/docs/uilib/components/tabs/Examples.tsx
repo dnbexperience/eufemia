@@ -231,7 +231,6 @@ export const TabsExampleMaxWidth = () => (
     {() => {
       const MaxWidthWrapper = styled.div`
         max-width: 30rem;
-        background: var(--color-white);
       `
 
       function TabsMaxWidth() {
