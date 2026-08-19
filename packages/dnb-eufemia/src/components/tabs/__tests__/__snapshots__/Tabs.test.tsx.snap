@@ -161,11 +161,6 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
 .dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   position: relative;
   z-index: 1;
-}
-.dnb-tabs__button:has(.dnb-badge), .dnb-core-style .dnb-tabs__button:has(.dnb-badge) {
-  margin-right: 1.5rem;
-}
-.dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   user-select: none;
   /* stylelint-disable-next-line */
   -webkit-user-select: none;
@@ -217,6 +212,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
   margin-top: 0.25rem;
+  flex-direction: row;
 }
 .dnb-tabs__button::after, .dnb-core-style .dnb-tabs__button::after {
   content: "";
@@ -328,9 +324,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
-.dnb-tabs__button__snap:has(.dnb-badge) {
-  margin-right: -0.5rem;
-}
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
   margin-left: 0.5rem;
 }
@@ -368,9 +361,8 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-tabs__button__title > .dnb-badge {
-  position: absolute;
-  top: auto;
+.dnb-tabs__button .dnb-badge {
+  vertical-align: top;
   margin-left: 0.25rem;
 }"
 `;
@@ -532,11 +524,6 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
 .dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   position: relative;
   z-index: 1;
-}
-.dnb-tabs__button:has(.dnb-badge), .dnb-core-style .dnb-tabs__button:has(.dnb-badge) {
-  margin-right: 1.5rem;
-}
-.dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   user-select: none;
   /* stylelint-disable-next-line */
   -webkit-user-select: none;
@@ -588,6 +575,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
   margin-top: 0.25rem;
+  flex-direction: row;
 }
 .dnb-tabs__button::after, .dnb-core-style .dnb-tabs__button::after {
   content: "";
@@ -699,9 +687,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
-.dnb-tabs__button__snap:has(.dnb-badge) {
-  margin-right: -0.5rem;
-}
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
   margin-left: 0.5rem;
 }
@@ -739,9 +724,8 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-tabs__button__title > .dnb-badge {
-  position: absolute;
-  top: auto;
+.dnb-tabs__button .dnb-badge {
+  vertical-align: top;
   margin-left: 0.25rem;
 }"
 `;

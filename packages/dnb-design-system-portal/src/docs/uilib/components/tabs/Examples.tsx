@@ -449,7 +449,17 @@ export const TabsExampleWithBadgeNotification = () => (
             key: 'second',
           },
           {
-            title: 'Third',
+            title: (
+              <>
+                Third{' '}
+                <Badge
+                  content={1}
+                  label="Third"
+                  variant="notification"
+                  vertical="top"
+                />
+              </>
+            ),
             key: 'third',
           },
         ]}

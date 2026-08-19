@@ -136,10 +136,6 @@
     position: relative;
     z-index: 1;
 
-    &:has(.dnb-badge) {
-      margin-right: 1.5rem;
-    }
-
     user-select: none;
 
     /* stylelint-disable-next-line */
@@ -202,6 +198,9 @@
 
     & .dnb-dummy {
       margin-top: 0.25rem;
+
+      // Row so the reserved width includes inline children (e.g. the Badge).
+      flex-direction: row;
     }
 
     &::after {
@@ -345,10 +344,6 @@
     transition: padding 1s var(--easing-default);
   }
 
-  &__button__snap:has(.dnb-badge) {
-    margin-right: -0.5rem;
-  }
-
   html[data-whatinput='keyboard'] &__button__snap {
     &:first-of-type.focus {
       // add space so the focus ring is visible within our overflow
@@ -406,9 +401,12 @@
     }
   }
 
-  &__button__title > .dnb-badge {
-    position: absolute;
-    top: auto;
+  // Keep the Badge in the tab's flow (not absolutely positioned) so the tab —
+  // and the scrollable tablist — reserves its actual width for any content
+  // length. The Dummy reserves the same width, so selecting a tab never resizes
+  // it. `vertical-align: top` keeps the tab height unchanged.
+  &__button .dnb-badge {
+    vertical-align: top;
     margin-left: 0.25rem;
   }
 }
