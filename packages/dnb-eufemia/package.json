@@ -15,6 +15,9 @@
   },
   "main": "./index.js",
   "module": "./index.js",
+  "bin": {
+    "eufemia-skills": "./cli/eufemia-skills.js"
+  },
   "scripts": {
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
     "build": "./scripts/prebuild/local-prebuild.sh",
@@ -33,6 +36,7 @@
     "build:prebuild": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/runPrepub && yarn build:style-manifest && yarn build:validate-css",
     "build:resources": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/resources/makeResourcesPackage",
     "build:size": "bundlewatch --config bundlewatch.config.js",
+    "build:skills": "babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyAgentSkills.ts",
     "build:style-manifest": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ../../tools/eufemia-css-optimizer/src/cli.ts --source=./src --out=./build/style/style-manifest.json",
     "build:types:definitions": "yarn tsc --project tsconfig.definitions.json",
     "build:types:esm": "yarn tsc --project tsconfig.definitions.json --declarationDir ./build/esm --rootDir src",

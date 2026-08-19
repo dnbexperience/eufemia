@@ -25,6 +25,9 @@ describe('cleanupPackage', () => {
     expect(cleanedPackage).not.toHaveProperty('devDependencies')
     expect(cleanedPackage).toHaveProperty('dependencies')
     expect(cleanedPackage).toHaveProperty('peerDependencies')
+    expect(cleanedPackage.bin).toEqual({
+      'eufemia-skills': './cli/eufemia-skills.js',
+    })
     expect(cleanedPackage.license).toBe('SEE LICENSE IN LICENSE FILE')
   })
 
@@ -108,6 +111,7 @@ describe('package.json', () => {
     module?: string
     types?: string
     type?: string
+    bin?: Record<string, string>
     sideEffects?: unknown
     peerDependencies?: unknown
     publishConfig?: unknown
@@ -175,6 +179,12 @@ describe('package.json', () => {
     expect(packageJson.main).toBe('./index.js')
     expect(packageJson.module).toBe('./index.js')
     expect(packageJson.types).toBe('./index.d.ts')
+  })
+
+  it('exposes the Eufemia agent skills installer', () => {
+    expect(packageJson.bin).toEqual({
+      'eufemia-skills': './cli/eufemia-skills.js',
+    })
   })
 
   // Skipped as we do not use this currently

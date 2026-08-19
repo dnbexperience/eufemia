@@ -1,0 +1,32 @@
+---
+name: eufemia-review
+description: Review code against current Eufemia documentation and supported APIs. Use for Eufemia compliance reviews, design-system audits, deprecations, accessibility findings, or migration readiness.
+compatibility: Requires the Eufemia MCP server and its packaged documentation.
+metadata:
+  owner: dnbexperience/eufemia
+  manifest-version: '1'
+---
+
+# Review Eufemia Usage
+
+Review against Eufemia's current contract, not local copies of design-system
+facts.
+
+1. Identify the Eufemia version in the target project. Call `docs_meta` when
+   available and note any mismatch with the installed version.
+2. Call `docs_entry` once, then use `docs_search` and `docs_read` for relevant
+   requirements, recommendations, deprecations, and release guidance.
+3. Resolve every questioned component with `component_find`. Verify its current
+   API with `component_props` and behavior with `component_doc`.
+4. Run the Eufemia ESLint and Stylelint plugins when they are available in the
+   target project. Treat their findings according to the rule metadata and docs.
+5. Classify each finding as unsupported usage, deprecation, accessibility
+   defect, recommendation, or context-dependent alternative.
+6. Only propose automatic changes when the replacement is deterministic and
+   preserves behavior. Do not automatically redesign application architecture.
+7. Present actionable findings first, with source paths and Eufemia
+   documentation evidence. State remaining test or manual verification gaps.
+
+Do not turn preferences into universal Eufemia requirements. Missing generic
+functionality should be considered for contribution to Eufemia before another
+permanent abstraction is introduced.
