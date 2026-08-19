@@ -31,6 +31,7 @@ yarn add --dev @modelcontextprotocol/node @modelcontextprotocol/server-legacy ex
 The server exposes these tools:
 
 - `docs_entry` - Returns docs/llm.md (AI entrypoint).
+- `docs_meta` - Returns the Eufemia version, generation time and source commit for the served documentation.
 - `docs_index` - Returns a JSON list of all markdown docs.
 - `docs_list` - List docs with optional prefix filter.
 - `docs_read` - Read a docs file by path.

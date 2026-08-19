@@ -30,6 +30,15 @@ function createDocsFixture(): DocsFixture {
   )
 
   fs.writeFileSync(
+    path.join(docsRoot, '_meta.json'),
+    JSON.stringify({
+      eufemiaVersion: '11.10.1',
+      generatedAt: '2026-08-19T10:00:00.000Z',
+      commit: 'abc123',
+    })
+  )
+
+  fs.writeFileSync(
     path.join(componentsDir, 'button.md'),
     [
       '---',
@@ -174,6 +183,30 @@ describe('docs_entry', () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsEntry({})
     expect(getText(result)).toContain('Eufemia Docs')
+  })
+})
+
+describe('docs_meta', () => {
+  let docsRoot: string
+  let cleanup: () => void
+
+  beforeAll(() => {
+    const fixture = createDocsFixture()
+    docsRoot = fixture.docsRoot
+    cleanup = fixture.cleanup
+  })
+
+  afterAll(() => cleanup())
+
+  it('returns the documentation metadata', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsMeta({})
+
+    expect(JSON.parse(getText(result))).toEqual({
+      eufemiaVersion: '11.10.1',
+      generatedAt: '2026-08-19T10:00:00.000Z',
+      commit: 'abc123',
+    })
   })
 })
 

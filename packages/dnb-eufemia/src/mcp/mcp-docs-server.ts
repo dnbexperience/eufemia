@@ -657,6 +657,7 @@ type EmptyInputType = z.infer<typeof EmptyInput>
 
 type DocsToolHandlers = {
   docsEntry: (_input: EmptyInputType) => Promise<ToolResult>
+  docsMeta: (_input: EmptyInputType) => Promise<ToolResult>
   docsIndex: (_input: EmptyInputType) => Promise<ToolResult>
   docsList: (input: DocsListInputType) => Promise<ToolResult>
   docsRead: (input: DocsReadInputType) => Promise<ToolResult>
@@ -733,6 +734,11 @@ export function createDocsTools(
       return makeTextResult('llm.md not found in docs root.')
     }
     return makeTextResult(text)
+  }
+
+  const docsMeta = async (_input: EmptyInputType): Promise<ToolResult> => {
+    const meta = await readDocsMeta(context.source)
+    return makeTextResult(JSON.stringify(meta, null, 2))
   }
 
   const docsIndex = async (
@@ -945,6 +951,7 @@ export function createDocsTools(
 
   return {
     docsEntry,
+    docsMeta,
     docsIndex,
     docsList,
     docsRead,
@@ -1007,6 +1014,17 @@ export function registerDocsTools(
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsEntry(input)
+  )
+
+  server.registerTool(
+    'docs_meta',
+    {
+      title: 'Docs metadata',
+      description:
+        'Return metadata for the documentation served by this MCP instance, including the Eufemia version, generation time, and source commit. Use this before relying on version-specific guidance or comparing the served documentation with an installed Eufemia package.',
+      inputSchema: EmptyInput.shape,
+    },
+    (input) => tools.docsMeta(input)
   )
 
   server.registerTool(
