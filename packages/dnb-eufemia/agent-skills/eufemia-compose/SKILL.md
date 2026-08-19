@@ -11,13 +11,15 @@ metadata:
 
 Build from current Eufemia capabilities rather than copied component recipes.
 
-1. Call `docs_meta` when available, then call `docs_entry` once for the current
-   documentation structure.
+1. Call `docs_meta` when available. Read
+   `/uilib/usage/first-steps/quick-reference.md` with `docs_read` for broad
+   implementation guidance. Do not call `docs_entry` unless an exhaustive
+   documentation index is explicitly required.
 2. Describe the user goal, primary action, information hierarchy, data states,
    and accessibility needs before choosing components.
 3. Use `docs_search` and `docs_read` to find the relevant layout, Forms,
-   theming, typography, or feedback guidance. Scope searches using paths learned
-   from `docs_entry`.
+   theming, typography, or feedback guidance. Scope searches to the relevant
+   documentation area when possible.
 4. Resolve candidate components with `component_find`, verify APIs with
    `component_props`, and read `component_doc` for behavior and examples.
 5. Call `theme_capabilities` when available and verify theme and color-scheme

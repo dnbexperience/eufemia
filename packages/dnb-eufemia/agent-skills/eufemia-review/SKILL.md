@@ -14,8 +14,10 @@ facts.
 
 1. Identify the Eufemia version in the target project. Call `docs_meta` when
    available and note any mismatch with the installed version.
-2. Call `docs_entry` once, then use `docs_search` and `docs_read` for relevant
-   requirements, recommendations, deprecations, and release guidance.
+2. Use `docs_search` and `docs_read` for relevant requirements,
+   recommendations, deprecations, and release guidance. Do not call
+   `docs_entry` unless an exhaustive documentation index is explicitly
+   required.
 3. Resolve every questioned component with `component_find`. Verify its current
    API with `component_props` and behavior with `component_doc`.
 4. Call `review_rules` when available. Run the Eufemia ESLint and Stylelint

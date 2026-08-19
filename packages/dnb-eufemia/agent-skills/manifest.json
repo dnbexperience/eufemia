@@ -1,14 +1,18 @@
 {
   "schemaVersion": 1,
   "mcpServer": "eufemia",
-  "optionalTools": ["docs_meta", "theme_capabilities", "review_rules"],
+  "optionalTools": [
+    "docs_meta",
+    "docs_guide",
+    "theme_capabilities",
+    "review_rules"
+  ],
   "skills": [
     {
       "name": "eufemia-components",
       "description": "Find and apply current Eufemia component APIs. Use when choosing a component or implementing Eufemia props, events, forms, layout primitives, or examples.",
       "path": "eufemia-components/SKILL.md",
       "requiredTools": [
-        "docs_entry",
         "component_find",
         "component_props",
         "component_doc"
@@ -19,7 +23,6 @@
       "description": "Compose pages and features from current Eufemia documentation. Use when building layouts, forms, feedback states, theming, or complete Eufemia interfaces.",
       "path": "eufemia-compose/SKILL.md",
       "requiredTools": [
-        "docs_entry",
         "docs_search",
         "docs_read",
         "component_find",
@@ -31,19 +34,13 @@
       "name": "eufemia-accessibility",
       "description": "Apply Eufemia-specific accessibility guidance. Use when designing, implementing, or reviewing keyboard interaction, semantics, focus, labels, contrast, or assistive technology behavior.",
       "path": "eufemia-accessibility/SKILL.md",
-      "requiredTools": [
-        "docs_entry",
-        "docs_search",
-        "docs_read",
-        "component_doc"
-      ]
+      "requiredTools": ["docs_search", "docs_read", "component_doc"]
     },
     {
       "name": "eufemia-review",
       "description": "Review code against current Eufemia documentation and supported APIs. Use for Eufemia compliance reviews, design-system audits, deprecations, accessibility findings, or migration readiness.",
       "path": "eufemia-review/SKILL.md",
       "requiredTools": [
-        "docs_entry",
         "docs_search",
         "docs_read",
         "component_find",
@@ -56,7 +53,6 @@
       "description": "Migrate Eufemia usage using current release documentation. Use when upgrading Eufemia, resolving removed APIs, applying codemods, or planning a version migration.",
       "path": "eufemia-migrate/SKILL.md",
       "requiredTools": [
-        "docs_entry",
         "docs_search",
         "docs_read",
         "component_find",
