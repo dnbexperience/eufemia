@@ -5955,7 +5955,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:24.12.0":
+"@types/node@npm:*":
   version: 24.12.0
   resolution: "@types/node@npm:24.12.0"
   dependencies:
@@ -5964,7 +5964,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.0.0":
+"@types/node@npm:22.19.19, @types/node@npm:^22.0.0":
   version: 22.19.19
   resolution: "@types/node@npm:22.19.19"
   dependencies:
@@ -9792,7 +9792,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eufemia-raiwork-plugin@workspace:tools/eufemia-raiwork-plugin"
   dependencies:
-    "@types/node": "npm:24.12.0"
+    "@types/node": "npm:22.19.19"
     prettier: "npm:3.8.1"
     typescript: "npm:5.9.3"
     vitest: "npm:4.1.10"
