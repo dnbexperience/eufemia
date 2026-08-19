@@ -100,7 +100,7 @@ The release pipeline (`.github/workflows/release.yml`) and this process are owne
 ### Controls in place
 
 - **Provenance** — packages are published with npm provenance (`publishConfig.provenance: true` plus `id-token: write` on the release job), so each release has a verifiable, signed link back to the source commit and workflow.
-- **Least-privilege secrets** — `release.yml` has no job-wide `env:`; each secret is injected only into the step that needs it (Algolia config for the portal build and search push; npm and GitHub credentials only for the publish step). Unused tokens are never exposed to the install, prebuild or build steps.
+- **Least-privilege secrets** — `release.yml` has no job-wide `env:`; each secret is injected only into the step that needs it (Algolia config for the portal build and search push; the GitHub token only for the publish step). npm needs no stored publish secret at all — it authenticates with a short-lived OIDC token (see [Publishing method](#publishing-method)). Unused tokens are never exposed to the install, prebuild or build steps.
 - **Package-content validation** — before publishing, `yarn validate:package` runs `npm pack --dry-run` on the built package and fails the release if the tarball would contain files that must never ship (tests, stories, `.env`, `.npmrc`, `node_modules`, editor/OS junk), is missing a declared entry point (the `main`, `module`, `types` or `exports` targets from the built `package.json`) or an essential CSS bundle, or is suspiciously small or large. It runs from `publish:prepare`, so it also runs during `yarn workspace @dnb/eufemia build:pack`.
 - **Consumer smoke tests** — `.github/workflows/consumer-smoke.yml` packs the built library and production-builds it in minimal Vite and Next.js consumers (`smoke/`), asserting that exports (including the forms extension subpath), a subpath type import, peer dependencies and CSS imports resolve and bundle. The fixtures also import the `dnb-ui-components.min.css` bundle, so the Next.js (webpack) build guards against a regression of the out-of-package flag-SVG `url()` bug fixed in [#8952](https://github.com/dnbexperience/eufemia/pull/8952).
 - **Dependency audit** — `yarn workspace @dnb/eufemia audit:ci` runs as a release step and blocks a release on known high-severity vulnerabilities in the shipped dependency tree.
@@ -118,8 +118,12 @@ At release time, `release.yml` additionally enforces the dependency audit and th
 
 ### Permissions and trigger
 
-The release job runs with `contents: write` (so `semantic-release` can push the changelog commit and version tag), `issues: write` and `pull-requests: write` (release comments), and `id-token: write` (provenance). Releases run only from the protected release branches on a clean CI checkout — never from a developer machine.
+The release job runs with `contents: write` (so `semantic-release` can push the changelog commit and version tag), `issues: write` and `pull-requests: write` (release comments), and `id-token: write` (OIDC publishing and provenance). Releases run only from the protected release branches on a clean CI checkout — never from a developer machine.
 
 ### Build, validate and smoke-test
 
 Within a workflow, the library is built once into `build/` before it is checked: `validate:package` inspects that build's packed contents, and the consumer smoke tests install and build a packed copy of it. The release workflow builds separately, and `semantic-release` creates the published tarball at publish time — so the smoke-tested tarball is not yet byte-for-byte identical to the published one. Publishing the exact validated tarball is a planned follow-up.
+
+### Publishing method
+
+Releases publish to npm using **Trusted Publishing** (OpenID Connect): the release workflow authenticates with a short-lived, GitHub-issued OIDC token instead of a long-lived `NPM_TOKEN`, and every package is published with provenance. There is no static publish secret to store, rotate or leak.
