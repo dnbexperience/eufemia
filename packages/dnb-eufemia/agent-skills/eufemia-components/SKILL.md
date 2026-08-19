@@ -13,9 +13,8 @@ Use Eufemia's packaged documentation as the source of truth.
 
 1. Call `docs_meta` on the Eufemia MCP server when available to identify the
    documentation version.
-2. If MCP tool routing is uncertain, call the lightweight `docs_guide` when
-   available. Do not call `docs_entry` unless an exhaustive documentation index
-   is explicitly required.
+2. Call `docs_entry` once to learn the current documentation structure and tool
+   guidance.
 3. If the component name is uncertain, use `component_find` before selecting an
    API.
 4. Use `component_props` for current properties and events. Read every returned
