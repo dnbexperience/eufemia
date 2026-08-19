@@ -41,8 +41,16 @@ jobs:
       - name: Build library
         run: yarn workspace @dnb/eufemia build:ci
 
+      # Pack the built library ONCE so both consumers install and test the exact
+      # same tarball (build once, pack once, test that artifact).
+      - name: Pack @dnb/eufemia tarball
+        id: pack
+        run: |
+          tarball=$(cd packages/dnb-eufemia/build && npm pack --pack-destination "$RUNNER_TEMP" 2>/dev/null | tail -1)
+          echo "tarball=$RUNNER_TEMP/$tarball" >> "$GITHUB_OUTPUT"
+
       - name: Vite consumer smoke test
-        run: node smoke/run-smoke.mjs vite
+        run: node smoke/run-smoke.mjs vite --tarball "${{ steps.pack.outputs.tarball }}"
 
       - name: Next.js consumer smoke test
-        run: node smoke/run-smoke.mjs nextjs
+        run: node smoke/run-smoke.mjs nextjs --tarball "${{ steps.pack.outputs.tarball }}"

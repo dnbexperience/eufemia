@@ -1,7 +1,7 @@
 /**
  * Consumer smoke test: production-build a fixture app against the exact packed
- * @dnb/eufemia tarball, to catch broken exports, CSS imports or types before a
- * release reaches consumers.
+ * @dnb/eufemia tarball, to catch broken exports, CSS imports, types or
+ * tree-shaking regressions before a release reaches consumers.
  *
  * Usage: node smoke/run-smoke.mjs <fixture> [--tarball <path>] [--keep]
  *   <fixture>   directory under smoke/ to build (e.g. "vite")
@@ -15,6 +15,7 @@ import {
   mkdtempSync,
   readdirSync,
   rmSync,
+  statSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
@@ -63,6 +64,49 @@ function listFilesRecursively(dir) {
   return files
 }
 
+function toKB(bytes) {
+  return `${Math.round(bytes / 1024)} KB`
+}
+
+// Verify the bundler tree-shook the package: a consumer that imports only part
+// of @dnb/eufemia must not end up bundling the whole library. Compare the
+// consumer's emitted JS against the installed package's full ESM barrels (main +
+// extensions) — without tree-shaking the consumer would bundle at least all of
+// both. Vite emits a single readable bundle, so the budget is checked there.
+function assertTreeShaking(fixture, workDir, built) {
+  if (fixture !== 'vite') {
+    return
+  }
+
+  const esmDir = path.join(workDir, 'node_modules/@dnb/eufemia/esm')
+  const barrels = ['dnb-ui-lib.min.mjs', 'dnb-ui-extensions.min.mjs'].map(
+    (file) => path.join(esmDir, file)
+  )
+  if (!barrels.every((file) => existsSync(file))) {
+    throw new Error(
+      'Tree-shaking check could not run: installed @dnb/eufemia ESM barrels not found'
+    )
+  }
+
+  const fullLibraryBytes = barrels.reduce(
+    (sum, file) => sum + statSync(file).size,
+    0
+  )
+  const consumerJsBytes = built
+    .filter((file) => file.endsWith('.js'))
+    .reduce((sum, file) => sum + statSync(file).size, 0)
+
+  if (consumerJsBytes >= fullLibraryBytes) {
+    throw new Error(
+      `Tree-shaking regression: consumer JS is ${toKB(consumerJsBytes)} but the full library ESM is only ${toKB(fullLibraryBytes)} — unused exports were not dropped`
+    )
+  }
+
+  console.log(
+    `Tree-shaking OK: consumer JS ${toKB(consumerJsBytes)} < full library ESM ${toKB(fullLibraryBytes)}.`
+  )
+}
+
 function main() {
   const args = process.argv.slice(2)
   const fixture = args.find((arg) => !arg.startsWith('--'))
@@ -100,7 +144,11 @@ function main() {
     // tarball with --no-save so it never rewrites the lockfile — the toolchain
     // that drives the bundler stays deterministic across runs.
     run('npm', ['ci', '--no-audit', '--no-fund'], workDir)
-    run('npm', ['install', '--no-audit', '--no-fund', '--no-save', tarball], workDir)
+    run(
+      'npm',
+      ['install', '--no-audit', '--no-fund', '--no-save', tarball],
+      workDir
+    )
     run('npm', ['run', 'build'], workDir)
 
     // Different bundlers emit to different folders (Vite -> dist, Next -> .next).
@@ -117,6 +165,8 @@ function main() {
         'No CSS emitted — the Eufemia CSS import was not bundled'
       )
     }
+
+    assertTreeShaking(fixture, workDir, built)
 
     console.log(
       `\nSmoke test passed for "${fixture}": ${built.length} build artifacts, CSS bundled.`
