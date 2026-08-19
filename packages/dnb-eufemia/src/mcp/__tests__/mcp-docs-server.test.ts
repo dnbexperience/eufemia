@@ -186,6 +186,31 @@ describe('docs_entry', () => {
   })
 })
 
+describe('docs_guide', () => {
+  let docsRoot: string
+  let cleanup: () => void
+
+  beforeAll(() => {
+    const fixture = createDocsFixture()
+    docsRoot = fixture.docsRoot
+    cleanup = fixture.cleanup
+  })
+
+  afterAll(() => cleanup())
+
+  it('returns concise tool routing and version context', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.docsGuide({})
+    const text = getText(result)
+
+    expect(text).toContain('Eufemia 11.10.1')
+    expect(text).toContain('component_props')
+    expect(text).toContain('docs_search')
+    expect(text).toContain('docs_entry')
+    expect(Buffer.byteLength(text)).toBeLessThan(2_000)
+  })
+})
+
 describe('docs_meta', () => {
   let docsRoot: string
   let cleanup: () => void

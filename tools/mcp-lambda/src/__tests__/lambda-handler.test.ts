@@ -91,6 +91,7 @@ describe('lambda-handler stateless transport lifecycle', () => {
     // The full tool set is served identically with no state shared between
     // invocations.
     expect(firstTools).toContain('docs_entry')
+    expect(firstTools).toContain('docs_guide')
     expect(firstTools).toContain('component_props')
     expect(secondTools).toEqual(firstTools)
   })
