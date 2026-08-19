@@ -164,6 +164,7 @@ describe('Eufemia RAIWork plugin', () => {
       'component_doc',
       'component_find',
       'component_props',
+      'docs_entry',
       'docs_read',
       'docs_search',
     ]
@@ -184,7 +185,6 @@ describe('Eufemia RAIWork plugin', () => {
     expect(report.requiredTools).toEqual(requiredTools)
     expect(report.missingOptionalTools).toEqual([
       'docs_meta',
-      'docs_guide',
       'theme_capabilities',
       'review_rules',
     ])
