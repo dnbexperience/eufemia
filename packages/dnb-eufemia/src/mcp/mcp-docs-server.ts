@@ -657,7 +657,6 @@ type EmptyInputType = z.infer<typeof EmptyInput>
 
 type DocsToolHandlers = {
   docsEntry: (_input: EmptyInputType) => Promise<ToolResult>
-  docsGuide: (_input: EmptyInputType) => Promise<ToolResult>
   docsMeta: (_input: EmptyInputType) => Promise<ToolResult>
   docsIndex: (_input: EmptyInputType) => Promise<ToolResult>
   docsList: (input: DocsListInputType) => Promise<ToolResult>
@@ -735,13 +734,6 @@ export function createDocsTools(
       return makeTextResult('llm.md not found in docs root.')
     }
     return makeTextResult(text)
-  }
-
-  const docsGuide = async (
-    _input: EmptyInputType
-  ): Promise<ToolResult> => {
-    const meta = await readDocsMeta(context.source)
-    return makeTextResult(renderDocsGuide(meta))
   }
 
   const docsMeta = async (_input: EmptyInputType): Promise<ToolResult> => {
@@ -959,7 +951,6 @@ export function createDocsTools(
 
   return {
     docsEntry,
-    docsGuide,
     docsMeta,
     docsIndex,
     docsList,
@@ -980,30 +971,6 @@ export type DocsMeta = {
   eufemiaVersion: string
   generatedAt: string
   commit: string
-}
-
-export function renderDocsGuide(meta: DocsMeta): string {
-  const source = meta.commit ? ` from commit ${meta.commit}` : ''
-  const generated = meta.generatedAt
-    ? `, generated ${meta.generatedAt}`
-    : ''
-
-  return `# Eufemia MCP guide
-
-This server provides Eufemia ${meta.eufemiaVersion}${generated}${source}.
-
-Use targeted tools instead of loading the complete documentation index:
-
-- Known component API: call \`component_props\`.
-- Component behavior or examples: call \`component_doc\`.
-- Uncertain component name: call \`component_find\` first.
-- Concept or use-case lookup: call \`docs_search\`, then \`docs_read\` for the relevant result.
-- Enumerate one documentation area: call \`docs_list\` with a prefix.
-- Machine-readable version and provenance: call \`docs_meta\`.
-- Complete path inventory: call \`docs_index\` only when exhaustive enumeration is required.
-- Full \`llm.md\` index: call \`docs_entry\` only when its exhaustive link index is explicitly needed; it is a large payload, not a normal lookup step.
-
-Start broad implementation work by reading \`/uilib/usage/first-steps/quick-reference.md\` with \`docs_read\`. Read component and topic documentation before producing code. Use the documentation exactly as provided and do not infer missing APIs or behavior.`
 }
 
 export function createServerInfo(eufemiaVersion?: string): {
@@ -1041,23 +1008,12 @@ export function registerDocsTools(
   server.registerTool(
     'docs_entry',
     {
-      title: 'Full docs entry index',
+      title: 'Docs entry',
       description:
-        'Return the complete llm.md documentation link index. This is a large exhaustive payload, not a normal lookup or onboarding step. Prefer docs_guide for concise tool routing, component_find/component_props for component APIs, docs_search/docs_read for topics, and docs_list for one documentation area. Use docs_entry only when the full cross-document index is explicitly required.',
+        'IMPORTANT! Primary entrypoint to the Eufemia documentation. Before implementing any Eufemia-based features or examples, call mcp_eufemia_docs_entry to understand the docs structure, and learn how to use the other MCP tools correctly; then use mcp_eufemia_docs_search and mcp_eufemia_docs_read to fetch relevant documentation. Make sure you have located and carefully read the relevant getting started or first-steps documentation before you implement any examples or code snippets based on these docs. Always follow these guidelines when using the documentation: use the documentation exactly as provided; gather all required information from the documentation before using it as a reference; and do not make assumptions or infer missing details unless the documentation or user explicitly instructs you to do so.',
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsEntry(input)
-  )
-
-  server.registerTool(
-    'docs_guide',
-    {
-      title: 'Docs tool guide',
-      description:
-        'Return a concise Eufemia MCP tool-routing guide with documentation version context. Use this once when you need to learn which targeted tool to call. It avoids the large exhaustive payload returned by docs_entry.',
-      inputSchema: EmptyInput.shape,
-    },
-    (input) => tools.docsGuide(input)
   )
 
   server.registerTool(
