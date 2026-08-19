@@ -2,8 +2,7 @@ const stylelint = require('stylelint')
 
 const RULE_NAME = 'eufemia/no-deprecated-color-variables'
 const COLOR_VARIABLE_REGEX = /--color-[a-z0-9-]+/g
-const DESIGN_TOKENS_GUIDE_URL =
-  'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
+const reviewRule = require('../../review-rules.js')[RULE_NAME]
 
 const messages = stylelint.utils.ruleMessages(RULE_NAME, {
   rejected: (variable) =>
@@ -11,7 +10,7 @@ const messages = stylelint.utils.ruleMessages(RULE_NAME, {
 })
 
 const meta = {
-  url: DESIGN_TOKENS_GUIDE_URL,
+  url: reviewRule.documentation,
 }
 
 const reportMatches = ({ node, result, value }) => {

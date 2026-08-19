@@ -2,6 +2,7 @@ const noDeprecatedColorVariables = require('./rules/no-deprecated-color-variable
 const tokenNamePolicy = require('./rules/token-name-policy.cjs')
 const noUnusedUse = require('./rules/no-unused-use.cjs')
 const noUndefinedCustomProperty = require('./rules/no-undefined-custom-property.cjs')
+const reviewRules = require('../review-rules.js')
 
 const pluginPack = [
   noDeprecatedColorVariables,
@@ -10,6 +11,7 @@ const pluginPack = [
   noUndefinedCustomProperty,
 ]
 
+pluginPack.reviewRules = reviewRules
 pluginPack.recommended = {
   plugins: pluginPack,
   rules: {
