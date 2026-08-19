@@ -521,6 +521,17 @@ describe('Field.Currency', () => {
       expect(input.selectionStart).toBe(3)
       expect(input.selectionEnd).toBe(3)
     })
+
+    it('should keep the caret for negative values with a dynamic suffix', async () => {
+      render(<Field.Currency currencyDisplay="name" />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-1')
+      expect(input).toHaveValue('-1 krone')
+      expect(input.selectionStart).toBe(2)
+      expect(input.selectionEnd).toBe(2)
+    })
   })
 
   describe('disallowLeadingZeroes', () => {
