@@ -2901,6 +2901,8 @@ __metadata:
       optional: true
     purgecss:
       optional: true
+  bin:
+    eufemia-skills: ./cli/eufemia-skills.js
   languageName: unknown
   linkType: soft
 
