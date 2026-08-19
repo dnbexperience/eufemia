@@ -99,6 +99,16 @@ Use the `colorScheme` prop on the [Theme](/uilib/usage/customisation/theming/the
 
 When set to `"auto"`, it follows the user's system color preference unless overridden by a parent theme or application setting. It uses the [`prefers-color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-color-scheme) media query to detect the system preference.
 
+Dark color schemes are currently available for the DNB and Sbanken themes.
+Carnegie and Eiendom are light-only themes. Setting `colorScheme="dark"` does
+not add dark mode support to a theme without a corresponding dark token
+stylesheet.
+
+This is separate from a dark surface. A light-only theme can still place
+content on a bounded dark background by using `surface="dark"`, which switches
+components to their `ondark` tokens without changing the application's color
+scheme.
+
 Dark mode tokens are not included in the default theme import. You need to import them separately:
 
 ```tsx
