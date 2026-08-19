@@ -680,8 +680,8 @@ describeDocsBuild('docs build', () => {
 })
 
 describe('agent skills', () => {
-  it('ships the installer CLI and canonical skills', () => {
-    const cliPath = path.resolve(PKG_ROOT, 'build/cli/eufemia-skills.js')
+  it('ships the main package CLI and canonical skills', () => {
+    const cliPath = path.resolve(PKG_ROOT, 'build/cli/eufemia.js')
     expect(fs.existsSync(cliPath)).toBe(true)
     expect(fs.readFileSync(cliPath, 'utf-8')).toMatch(
       /^#!\/usr\/bin\/env node/

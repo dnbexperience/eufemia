@@ -11,6 +11,7 @@ import {
   uninstallAgentSkills,
   validateAgentSkills,
 } from '../agentSkills'
+import { runEufemiaCli } from '../eufemiaCli'
 
 const packageRoot = path.resolve(__dirname, '../../..')
 const sourceRoot = path.join(packageRoot, 'agent-skills')
@@ -146,7 +147,7 @@ describe('Eufemia agent skills', () => {
     ).rejects.toMatchObject({ code: 'ENOENT' })
   })
 
-  it('supports CLI installation and checks with the default target', async () => {
+  it('supports main-package CLI installation and checks with the default target', async () => {
     const output: string[] = []
     const cliPackageRoot = path.join(temporaryRoot, 'package')
     await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
@@ -158,16 +159,16 @@ describe('Eufemia agent skills', () => {
     )
 
     await expect(
-      runAgentSkillsCli({
-        args: ['install'],
+      runEufemiaCli({
+        args: ['skills', 'install'],
         packageRoot: cliPackageRoot,
         cwd: temporaryRoot,
         output: (message) => output.push(message),
       })
     ).resolves.toBe(0)
     await expect(
-      runAgentSkillsCli({
-        args: ['check'],
+      runEufemiaCli({
+        args: ['skills', 'check'],
         packageRoot: cliPackageRoot,
         cwd: temporaryRoot,
         output: (message) => output.push(message),
@@ -204,5 +205,34 @@ describe('Eufemia agent skills', () => {
     expect(output).toEqual([
       expect.stringContaining('No managed Eufemia agent skills found'),
     ])
+  })
+
+  it('shows skills through the main package CLI', async () => {
+    const output: string[] = []
+
+    await expect(
+      runEufemiaCli({
+        args: ['skills', 'list'],
+        packageRoot,
+        cwd: temporaryRoot,
+        output: (message) => output.push(message),
+      })
+    ).resolves.toBe(0)
+
+    expect(output).toHaveLength(5)
+    expect(output[0]).toContain('eufemia-components')
+  })
+
+  it('shows the package version through the main CLI', async () => {
+    const output: string[] = []
+
+    await expect(
+      runEufemiaCli({
+        args: ['--version'],
+        packageRoot,
+        output: (message) => output.push(message),
+      })
+    ).resolves.toBe(0)
+    expect(output).toEqual(['0.0.0-development'])
   })
 })

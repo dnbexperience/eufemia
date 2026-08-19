@@ -531,7 +531,7 @@ const parseCliOptions = (args: string[], cwd: string) => {
   return { command, targetRoot, force }
 }
 
-const HELP = `Usage: eufemia-skills <command> [options]
+const HELP = `Usage: eufemia skills <command> [options]
 
 Commands:
   install      Install or update Eufemia agent skills

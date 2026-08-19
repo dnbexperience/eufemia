@@ -2,14 +2,14 @@
 
 import { realpathSync } from 'node:fs'
 import path from 'node:path'
-import { runAgentSkillsCli } from './agentSkills.js'
+import { runEufemiaCli } from './eufemiaCli.js'
 
 const packageRoot = path.resolve(
   path.dirname(realpathSync(process.argv[1])),
   '..'
 )
 
-runAgentSkillsCli({
+runEufemiaCli({
   args: process.argv.slice(2),
   packageRoot,
 })
