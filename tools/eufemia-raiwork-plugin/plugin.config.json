@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "plugin": {
+    "name": "dnb-eufemia",
+    "version": "0.1.0",
+    "title": "Eufemia Design System",
+    "description": "Official Eufemia skills and MCP documentation for building, reviewing, and migrating DNB frontends with current component APIs, themes, accessibility guidance, and design-system rules.",
+    "license": "Apache-2.0 with Commons Clause",
+    "homepage": "https://eufemia.dnb.no",
+    "tags": [
+      "dnb",
+      "eufemia",
+      "design-system",
+      "frontend",
+      "react",
+      "accessibility"
+    ],
+    "platforms": ["darwin", "linux", "win32"],
+    "icon": "cover.png",
+    "mcp": {
+      "name": "eufemia",
+      "endpointUrl": "https://server.eufemia.dnb.no/mcp/web"
+    }
+  },
+  "skills": {
+    "eufemia-components": {
+      "title": "Eufemia Components",
+      "tags": ["eufemia", "components", "forms", "layout"]
+    },
+    "eufemia-compose": {
+      "title": "Compose with Eufemia",
+      "tags": ["eufemia", "frontend", "forms", "theming"]
+    },
+    "eufemia-accessibility": {
+      "title": "Eufemia Accessibility",
+      "tags": ["eufemia", "accessibility", "wcag", "frontend"]
+    },
+    "eufemia-review": {
+      "title": "Review Eufemia Usage",
+      "tags": ["eufemia", "review", "quality", "deprecations"]
+    },
+    "eufemia-migrate": {
+      "title": "Migrate Eufemia",
+      "tags": ["eufemia", "migration", "upgrade", "codemods"]
+    }
+  }
+}

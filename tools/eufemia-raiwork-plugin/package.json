@@ -1,0 +1,25 @@
+{
+  "name": "eufemia-raiwork-plugin",
+  "private": true,
+  "type": "module",
+  "description": "Build and validate the official Eufemia RAIWork marketplace plugin",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "scripts": {
+    "build": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts build",
+    "validate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts validate",
+    "verify:remote": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts verify-remote",
+    "release:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts release-check",
+    "test": "vitest run",
+    "test:types": "tsc --noEmit",
+    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' '__tests__/**/*.ts'"
+  },
+  "devDependencies": {
+    "@types/node": "24.12.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

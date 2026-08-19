@@ -2901,6 +2901,8 @@ __metadata:
       optional: true
     purgecss:
       optional: true
+  bin:
+    eufemia-skills: ./cli/eufemia-skills.js
   languageName: unknown
   linkType: soft
 
@@ -5953,7 +5955,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^22.0.0":
+"@types/node@npm:*, @types/node@npm:24.12.0":
+  version: 24.12.0
+  resolution: "@types/node@npm:24.12.0"
+  dependencies:
+    undici-types: "npm:~7.16.0"
+  checksum: 10/e9dcf8a378af5a636353b6d88a6fae018504bab776410ac6b5411e29afbe601ba9d7957356556fc27268a62814ca4085974f785613482c18f739686efcd49655
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^22.0.0":
   version: 22.19.19
   resolution: "@types/node@npm:22.19.19"
   dependencies:
@@ -9773,6 +9784,17 @@ __metadata:
     fs-extra: "npm:10.0.0"
     markdown-tables-utils: "workspace:*"
     prettier: "npm:3.8.1"
+    vitest: "npm:4.1.10"
+  languageName: unknown
+  linkType: soft
+
+"eufemia-raiwork-plugin@workspace:tools/eufemia-raiwork-plugin":
+  version: 0.0.0-use.local
+  resolution: "eufemia-raiwork-plugin@workspace:tools/eufemia-raiwork-plugin"
+  dependencies:
+    "@types/node": "npm:24.12.0"
+    prettier: "npm:3.8.1"
+    typescript: "npm:5.9.3"
     vitest: "npm:4.1.10"
   languageName: unknown
   linkType: soft
@@ -18854,6 +18876,13 @@ __metadata:
   version: 6.21.0
   resolution: "undici-types@npm:6.21.0"
   checksum: 10/ec8f41aa4359d50f9b59fa61fe3efce3477cc681908c8f84354d8567bb3701fafdddf36ef6bff307024d3feb42c837cf6f670314ba37fc8145e219560e473d14
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~7.16.0":
+  version: 7.16.0
+  resolution: "undici-types@npm:7.16.0"
+  checksum: 10/db43439f69c2d94cc29f75cbfe9de86df87061d6b0c577ebe9bb3255f49b22c50162a7d7eb413b0458b6510b8ca299ac7cff38c3a29fbd31af9f504bcf7fbc0d
   languageName: node
   linkType: hard
 

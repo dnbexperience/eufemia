@@ -18,8 +18,9 @@ facts.
    requirements, recommendations, deprecations, and release guidance.
 3. Resolve every questioned component with `component_find`. Verify its current
    API with `component_props` and behavior with `component_doc`.
-4. Run the Eufemia ESLint and Stylelint plugins when they are available in the
-   target project. Treat their findings according to the rule metadata and docs.
+4. Call `review_rules` when available. Run the Eufemia ESLint and Stylelint
+   plugins when they are available in the target project. Treat their findings
+   according to the same rule metadata and documentation.
 5. Classify each finding as unsupported usage, deprecation, accessibility
    defect, recommendation, or context-dependent alternative.
 6. Only propose automatic changes when the replacement is deterministic and
