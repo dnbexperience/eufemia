@@ -2,11 +2,20 @@
 
 import fs from 'fs'
 import path from 'path'
-import { themeCapabilities } from '../capabilities'
+import { themeCapabilities, themeNames } from '../capabilities'
 
 describe('themeCapabilities', () => {
+  it('defines every supported Theme name', () => {
+    expect(Object.keys(themeCapabilities)).toEqual(themeNames)
+  })
+
   it('only declares dark mode styles that exist', () => {
     for (const capability of Object.values(themeCapabilities)) {
+      const colorSchemes: ReadonlyArray<string> = capability.colorSchemes
+      expect(colorSchemes.includes('dark')).toBe(
+        Boolean(capability.darkModeStyle)
+      )
+
       if (!capability.darkModeStyle) {
         continue
       }

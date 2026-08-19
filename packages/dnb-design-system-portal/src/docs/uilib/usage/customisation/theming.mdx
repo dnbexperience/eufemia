@@ -121,6 +121,22 @@ import '@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.min.css'
 import '@dnb/eufemia/style/themes/eiendom/eiendom-theme-dark-mode.min.css'
 ```
 
+### Machine-readable theme capabilities
+
+Tools and applications can inspect the same support matrix used by Eufemia's
+types and documentation:
+
+```tsx
+import { themeCapabilities } from '@dnb/eufemia/style/themes/capabilities'
+
+const carnegie = themeCapabilities.carnegie
+// { colorSchemes: ['light'], darkModeStyle: null, supportsDarkSurface: true }
+```
+
+The metadata describes supported behavior; it does not load theme CSS. Import
+the stylesheet named by `darkModeStyle` when enabling a supported dark color
+scheme. MCP clients can call `theme_capabilities` to retrieve the same data.
+
 For Tailwind, dark tokens are in a separate file per theme:
 
 ```css

@@ -177,6 +177,32 @@ describe('docs_entry', () => {
   })
 })
 
+describe('theme_capabilities', () => {
+  it('returns the canonical theme capability metadata', async () => {
+    const fixture = createDocsFixture()
+    const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+
+    try {
+      const result = await tools.themeCapabilities({})
+      const capabilities = JSON.parse(getText(result))
+
+      expect(capabilities).toMatchObject({
+        ui: {
+          colorSchemes: ['light', 'dark'],
+          supportsDarkSurface: true,
+        },
+        carnegie: {
+          colorSchemes: ['light'],
+          darkModeStyle: null,
+          supportsDarkSurface: true,
+        },
+      })
+    } finally {
+      fixture.cleanup()
+    }
+  })
+})
+
 describe('docs_index', () => {
   let docsRoot: string
   let cleanup: () => void

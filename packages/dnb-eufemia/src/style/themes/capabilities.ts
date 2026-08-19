@@ -1,12 +1,14 @@
-import type { ThemeNames } from '../../shared/Theme'
-
 export type ThemeCapability = {
   colorSchemes: ReadonlyArray<'light' | 'dark'>
   darkModeStyle: string | null
   supportsDarkSurface: boolean
 }
 
-export const themeCapabilities = {
+export const themeNames = ['ui', 'sbanken', 'eiendom', 'carnegie'] as const
+
+export type ThemeName = (typeof themeNames)[number]
+
+export const themeCapabilities: Record<ThemeName, ThemeCapability> = {
   ui: {
     colorSchemes: ['light', 'dark'],
     darkModeStyle:
@@ -30,4 +32,4 @@ export const themeCapabilities = {
     darkModeStyle: null,
     supportsDarkSurface: true,
   },
-} as const satisfies Record<ThemeNames, ThemeCapability>
+}
