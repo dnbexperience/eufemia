@@ -42,6 +42,12 @@ describe('Eufemia agent skills', () => {
       'eufemia-migrate',
     ])
     expect(files.size).toBe(5)
+    expect(
+      manifest.skills.some(({ requiredTools }) =>
+        requiredTools.includes('docs_entry')
+      )
+    ).toBe(false)
+    expect(manifest.optionalTools).toContain('docs_guide')
   })
 
   it('rejects host-specific skill frontmatter', async () => {
