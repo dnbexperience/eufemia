@@ -15,6 +15,7 @@ import {
 } from '@modelcontextprotocol/server'
 
 import { type DocsSource, normalizeDocsPath } from './docs-source'
+import reviewRules from '../plugins/review-rules.js'
 
 type ToolResult = CallToolResult
 
@@ -657,6 +658,7 @@ type EmptyInputType = z.infer<typeof EmptyInput>
 
 type DocsToolHandlers = {
   docsEntry: (_input: EmptyInputType) => Promise<ToolResult>
+  reviewRules: (_input: EmptyInputType) => Promise<ToolResult>
   docsIndex: (_input: EmptyInputType) => Promise<ToolResult>
   docsList: (input: DocsListInputType) => Promise<ToolResult>
   docsRead: (input: DocsReadInputType) => Promise<ToolResult>
@@ -733,6 +735,16 @@ export function createDocsTools(
       return makeTextResult('llm.md not found in docs root.')
     }
     return makeTextResult(text)
+  }
+
+  const getReviewRules = async (
+    _input: EmptyInputType
+  ): Promise<ToolResult> => {
+    const rules = Object.entries(reviewRules).map(([id, rule]) => ({
+      id,
+      ...rule,
+    }))
+    return makeTextResult(JSON.stringify(rules, null, 2))
   }
 
   const docsIndex = async (
@@ -945,6 +957,7 @@ export function createDocsTools(
 
   return {
     docsEntry,
+    reviewRules: getReviewRules,
     docsIndex,
     docsList,
     docsRead,
@@ -1007,6 +1020,17 @@ export function registerDocsTools(
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsEntry(input)
+  )
+
+  server.registerTool(
+    'review_rules',
+    {
+      title: 'Review rules',
+      description:
+        'Return Eufemia-owned review rule metadata, including stable IDs, classification, default severity, documentation, supported tools, and whether an automatic fix exists. Use this to classify lint or code-review findings without promoting recommendations or context-dependent guidance to errors.',
+      inputSchema: EmptyInput.shape,
+    },
+    (input) => tools.reviewRules(input)
   )
 
   server.registerTool(

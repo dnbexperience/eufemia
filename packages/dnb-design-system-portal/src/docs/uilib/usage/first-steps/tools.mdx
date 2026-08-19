@@ -198,6 +198,29 @@ Available rules:
 - **`eufemia/no-deprecated-color-variables`** — Warns when deprecated `--color-*` CSS variables are used. Suggests design tokens instead.
 - **`eufemia/token-name-policy`** — Validates `--token-*` naming conventions: prefix, category, color semantics, theme prefixes, cross-brand parity, and more. Accepts a `themePrefixes` option to map brand names to their CSS variable prefixes.
 
+### Review rule metadata
+
+Cross-tool review rules expose machine-readable metadata from the same source
+used by the lint plugins:
+
+```js
+import reviewRules from '@dnb/eufemia/plugins/review-rules.js'
+
+const deprecatedColors =
+  reviewRules['eufemia/no-deprecated-color-variables']
+```
+
+Each entry identifies its classification, default severity, documentation,
+supported tools, and whether an automatic fix exists. Projects may override
+lint severity, but should preserve the rule's documented meaning. A
+recommendation or context-dependent migration should not be presented as an
+unsupported API or an automatic fix.
+
+MCP clients can call `review_rules` to retrieve the same catalogue with the
+stable rule IDs included in the response. The catalogue currently covers the
+cross-tool rules that have published metadata; tool-specific rules can still be
+configured as documented above.
+
 For SCSS files, configure Stylelint with [postcss-scss](https://www.npmjs.com/package/postcss-scss) as the custom syntax.
 
 ### PostCSS (Style Isolation)
