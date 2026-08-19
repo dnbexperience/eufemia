@@ -15,9 +15,7 @@
   },
   "main": "./index.js",
   "module": "./index.js",
-  "bin": {
-    "eufemia-skills": "./cli/eufemia-skills.js"
-  },
+  "bin": "./cli/eufemia.js",
   "scripts": {
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
     "build": "./scripts/prebuild/local-prebuild.sh",

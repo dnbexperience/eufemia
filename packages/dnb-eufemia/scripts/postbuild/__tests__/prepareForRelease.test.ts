@@ -4,7 +4,9 @@
  */
 
 import fs from 'fs-extra'
+import os from 'os'
 import path from 'path'
+import { spawnSync } from 'child_process'
 import prepareForRelease, {
   buildExportsMap,
   cleanupPackage,
@@ -25,9 +27,7 @@ describe('cleanupPackage', () => {
     expect(cleanedPackage).not.toHaveProperty('devDependencies')
     expect(cleanedPackage).toHaveProperty('dependencies')
     expect(cleanedPackage).toHaveProperty('peerDependencies')
-    expect(cleanedPackage.bin).toEqual({
-      'eufemia-skills': './cli/eufemia-skills.js',
-    })
+    expect(cleanedPackage.bin).toBe('./cli/eufemia.js')
     expect(cleanedPackage.license).toBe('SEE LICENSE IN LICENSE FILE')
   })
 
@@ -181,10 +181,43 @@ describe('package.json', () => {
     expect(packageJson.types).toBe('./index.d.ts')
   })
 
-  it('exposes the Eufemia agent skills installer', () => {
-    expect(packageJson.bin).toEqual({
-      'eufemia-skills': './cli/eufemia-skills.js',
-    })
+  it('exposes the main Eufemia CLI', () => {
+    expect(packageJson.bin).toBe('./cli/eufemia.js')
+  })
+
+  it('manages skills through the published main package CLI', () => {
+    const temporaryRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'eufemia-main-cli-')
+    )
+    const cliPath = path.resolve(PKG_ROOT, 'build/cli/eufemia.js')
+    const target = path.join(temporaryRoot, '.agents', 'skills')
+    const run = (...args: string[]) => {
+      const result = spawnSync(process.execPath, [cliPath, ...args], {
+        cwd: temporaryRoot,
+        encoding: 'utf-8',
+      })
+      expect(result.stderr).toBe('')
+      expect(result.status).toBe(0)
+      return result.stdout
+    }
+
+    try {
+      expect(run('--version').trim()).toBe('0.0.0-development')
+      expect(run('skills', 'install', '--target', target)).toContain(
+        'Installed 5 Eufemia skills'
+      )
+      expect(run('skills', 'check', '--target', target)).toContain(
+        'Eufemia agent skills are current'
+      )
+      expect(
+        fs.existsSync(path.join(target, 'eufemia-components', 'SKILL.md'))
+      ).toBe(true)
+      expect(run('skills', 'uninstall', '--target', target)).toContain(
+        'Removed 5 Eufemia skill files'
+      )
+    } finally {
+      fs.removeSync(temporaryRoot)
+    }
   })
 
   // Skipped as we do not use this currently

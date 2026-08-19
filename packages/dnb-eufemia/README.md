@@ -12,7 +12,7 @@ Eufemia's versioned documentation through the Eufemia MCP server.
 Install the skills in a project that already depends on `@dnb/eufemia`:
 
 ```bash
-yarn eufemia-skills install
+yarn eufemia skills install
 ```
 
 The default target is `.claude/skills`, which is discovered by Claude Code and
@@ -20,9 +20,9 @@ VS Code Copilot. Use `--target .github/skills` or
 `--target .agents/skills` when another project location is preferred.
 
 ```bash
-yarn eufemia-skills check
-yarn eufemia-skills update
-yarn eufemia-skills uninstall
+yarn eufemia skills check
+yarn eufemia skills update
+yarn eufemia skills uninstall
 ```
 
 The installer tracks generated files and refuses to replace local changes
