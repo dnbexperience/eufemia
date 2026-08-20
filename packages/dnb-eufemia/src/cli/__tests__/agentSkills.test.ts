@@ -443,7 +443,15 @@ describe('Eufemia agent skills', () => {
     ).resolves.toBe(0)
 
     expect(output).toHaveLength(5)
-    expect(output[0]).toContain('eufemia-components')
+    expect(output[0]).toMatch(
+      /^1\. eufemia-components\n   Find and apply current Eufemia component APIs\.[\s\S]+\n$/
+    )
+    expect(output[1]).toMatch(/^2\. eufemia-compose\n   Compose /)
+    expect(output.join('\n')).toContain(
+      '\n\n2. eufemia-compose\n   Compose '
+    )
+    expect(output[4]).toMatch(/^5\. eufemia-migrate\n   Migrate /)
+    expect(output[4]).not.toMatch(/\n$/)
   })
 
   it('shows the package version through the main CLI', async () => {
