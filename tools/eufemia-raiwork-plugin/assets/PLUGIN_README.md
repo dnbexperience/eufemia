@@ -30,8 +30,11 @@ report the incompatible setup instead of guessing.
 ## Version behavior
 
 The hosted MCP server follows the latest released Eufemia documentation. When a
-project uses another `@dnb/eufemia` version, use `docs_meta` to compare versions
-and treat version-specific guidance carefully.
+project uses another `@dnb/eufemia` version, switch to the local MCP from that
+installed package before relying on version-specific APIs. When no package is
+installed, treat the version from `docs_meta` as the proposed target and install
+that version before claiming an implementation is executable or verified. If
+installation is prohibited, limit work to documentation and planning.
 
 ## Scope
 
