@@ -41,13 +41,23 @@ package:
 yarn eufemia skills install
 ```
 
-The default destination is `.claude/skills`. Both Claude Code and VS Code
-Copilot discover project skills there. To use another supported Agent Skills
-location, set it explicitly:
+The command asks where to install the five skills. Select one or more supported
+project locations:
+
+- **Claude Code and GitHub Copilot:** `.claude/skills`
+- **GitHub Copilot:** `.github/skills`
+- **Codex and GitHub Copilot:** `.agents/skills`
+
+Use Space to toggle each location and Enter to install all selected locations.
+
+Locations with a managed Eufemia installation are selected by default when the
+command runs again. Clearing a location skips its update; it does not uninstall
+the existing files.
+
+For scripts and other non-interactive environments, bypass the selector with an
+explicit target inside the project:
 
 ```bash
-yarn eufemia skills install --target .github/skills
-# or
 yarn eufemia skills install --target .agents/skills
 ```
 
@@ -59,9 +69,9 @@ pnpm exec eufemia skills install
 ```
 
 Commit the installed skills when they should be available to colleagues and
-cloud agents. The installer also writes `.eufemia-skills-lock.json` in the
-selected skills directory. Commit that file together with the generated skills
-so updates can detect local changes.
+cloud agents. The installer also writes `.eufemia-skills-lock.json` in every
+selected skills directory. Commit each lock file together with the generated
+skills so updates can detect local changes.
 
 ### Manage installed skills
 
@@ -79,11 +89,27 @@ yarn eufemia skills update
 yarn eufemia skills uninstall
 ```
 
-`check` reports missing, changed, stale, or version-mismatched files. `update`
-refuses to overwrite locally modified skill files. Review those changes first;
-use `--force` only when replacing them intentionally. `uninstall` removes only
-files tracked by the Eufemia skills lock and leaves unrelated project skills
-untouched.
+`update` opens the same selector with managed locations selected. `check` and
+`uninstall` use `.claude/skills` unless you pass another installed location with
+`--target`. `check` reports missing, changed, stale, or version-mismatched files.
+`update` refuses to overwrite locally modified skill files. Review those changes
+first; use `--force` only when replacing them intentionally. `uninstall` removes
+only files tracked by the Eufemia skills lock and leaves unrelated project
+skills untouched.
+
+### Evaluate skill changes
+
+Eufemia keeps representative output cases and trigger/non-trigger prompts in
+`packages/dnb-eufemia/agent-skills-evals`. Before changed instructions are
+released, run every case in a fresh session with the changed skill and a
+baseline, grade the assertions, record token and duration differences, and
+review the output manually. Positive routing cases must select the expected
+skill, while unrelated and generic visual-exploration cases must not select an
+Eufemia skill.
+
+Follow the [Agent Skills evaluation workflow](https://agentskills.io/skill-creation/evaluating-skills)
+and keep generated grading and benchmark workspaces with the release record,
+not in the published package.
 
 The CLI is part of the main package and can also report its version:
 

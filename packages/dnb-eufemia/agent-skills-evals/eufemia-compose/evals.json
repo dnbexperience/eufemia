@@ -1,0 +1,25 @@
+{
+  "skill_name": "eufemia-compose",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build an Eufemia onboarding form with personal details, validation, loading, server error, and success states.",
+      "expected_output": "A composition grounded in current Forms, layout, feedback, and accessibility documentation that covers every requested state.",
+      "assertions": [
+        "The response retrieves targeted Forms and layout guidance",
+        "The response covers loading, validation, server error, and success states",
+        "The response verifies candidate component APIs before using them"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create a DNB login page and choose the authentication provider, token storage, deployment setup, and Eufemia UI.",
+      "expected_output": "An Eufemia UI composition that keeps product authentication, token storage, and deployment decisions outside the design-system guidance.",
+      "assertions": [
+        "The response separates Eufemia composition from product authentication decisions",
+        "The response does not present a provider stack as an Eufemia requirement",
+        "The response still covers relevant UI states and accessibility needs"
+      ]
+    }
+  ]
+}

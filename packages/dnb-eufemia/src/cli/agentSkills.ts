@@ -4,6 +4,20 @@ import path from 'node:path'
 
 export const AGENT_SKILLS_LOCK_FILE = '.eufemia-skills-lock.json'
 export const DEFAULT_AGENT_SKILLS_TARGET = '.claude/skills'
+export const AGENT_SKILLS_TARGETS = [
+  {
+    label: 'Claude Code and GitHub Copilot',
+    target: '.claude/skills',
+  },
+  {
+    label: 'GitHub Copilot',
+    target: '.github/skills',
+  },
+  {
+    label: 'Codex and GitHub Copilot',
+    target: '.agents/skills',
+  },
+] as const
 
 export type AgentSkillManifestEntry = {
   name: string
@@ -34,6 +48,7 @@ type SkillFile = {
 export type InstallAgentSkillsOptions = {
   sourceRoot: string
   targetRoot: string
+  targetBaseRoot?: string
   packageVersion: string
   force?: boolean
 }
@@ -43,7 +58,18 @@ export type RunAgentSkillsCliOptions = {
   packageRoot: string
   cwd?: string
   output?: (message: string) => void
+  selectTargets?: SelectAgentSkillsTargets
 }
+
+export type AgentSkillsTargetChoice = {
+  label: string
+  target: string
+  checked: boolean
+}
+
+export type SelectAgentSkillsTargets = (
+  choices: AgentSkillsTargetChoice[]
+) => Promise<string[]>
 
 const hashContent = (content: Buffer) =>
   createHash('sha256').update(content).digest('hex')
@@ -81,6 +107,44 @@ const readOptionalBuffer = async (filePath: string) => {
       return null
     }
     throw error
+  }
+}
+
+const assertSafeTargetPath = async (
+  targetBaseRoot: string,
+  targetPath: string
+) => {
+  const resolvedBaseRoot = path.resolve(targetBaseRoot)
+  const resolvedTargetPath = path.resolve(targetPath)
+  const relativePath = path.relative(resolvedBaseRoot, resolvedTargetPath)
+
+  if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
+    throw new Error(
+      `Agent skills target escapes the project: ${targetPath}`
+    )
+  }
+
+  const paths = [resolvedBaseRoot]
+  let currentPath = resolvedBaseRoot
+  for (const segment of relativePath.split(path.sep).filter(Boolean)) {
+    currentPath = path.join(currentPath, segment)
+    paths.push(currentPath)
+  }
+
+  for (const candidate of paths) {
+    try {
+      const stat = await fs.lstat(candidate)
+      if (stat.isSymbolicLink()) {
+        throw new Error(
+          `Agent skills target cannot contain symlinks: ${candidate}`
+        )
+      }
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+        break
+      }
+      throw error
+    }
   }
 }
 
@@ -280,9 +344,11 @@ export async function validateAgentSkills(sourceRoot: string) {
 }
 
 const readAgentSkillsLock = async (
-  targetRoot: string
+  targetRoot: string,
+  targetBaseRoot = targetRoot
 ): Promise<AgentSkillsLock | null> => {
   const lockPath = path.join(targetRoot, AGENT_SKILLS_LOCK_FILE)
+  await assertSafeTargetPath(targetBaseRoot, lockPath)
   const content = await readOptionalBuffer(lockPath)
   if (!content) {
     return null
@@ -308,7 +374,8 @@ const readAgentSkillsLock = async (
 
 const pruneEmptyDirectories = async (
   targetRoot: string,
-  relativePaths: Iterable<string>
+  relativePaths: Iterable<string>,
+  targetBaseRoot = targetRoot
 ) => {
   const directories = new Set<string>()
   for (const relativePath of Array.from(relativePaths)) {
@@ -324,7 +391,9 @@ const pruneEmptyDirectories = async (
   )
   for (const directory of sorted) {
     try {
-      await fs.rmdir(resolveInside(targetRoot, directory))
+      const directoryPath = resolveInside(targetRoot, directory)
+      await assertSafeTargetPath(targetBaseRoot, directoryPath)
+      await fs.rmdir(directoryPath)
     } catch (error) {
       const code = (error as NodeJS.ErrnoException).code
       if (code !== 'ENOENT' && code !== 'ENOTEMPTY') {
@@ -337,15 +406,21 @@ const pruneEmptyDirectories = async (
 export async function installAgentSkills({
   sourceRoot,
   targetRoot,
+  targetBaseRoot = targetRoot,
   packageVersion,
   force = false,
 }: InstallAgentSkillsOptions) {
   const { manifest, files } = await validateAgentSkills(sourceRoot)
-  const previousLock = await readAgentSkillsLock(targetRoot)
+  await assertSafeTargetPath(targetBaseRoot, targetRoot)
+  const previousLock = await readAgentSkillsLock(
+    targetRoot,
+    targetBaseRoot
+  )
   const conflicts: string[] = []
 
   for (const [relativePath, file] of Array.from(files.entries())) {
     const destination = resolveInside(targetRoot, relativePath)
+    await assertSafeTargetPath(targetBaseRoot, destination)
     const existing = await readOptionalBuffer(destination)
     if (!existing) {
       continue
@@ -369,9 +444,9 @@ export async function installAgentSkills({
       continue
     }
 
-    const existing = await readOptionalBuffer(
-      resolveInside(targetRoot, relativePath)
-    )
+    const destination = resolveInside(targetRoot, relativePath)
+    await assertSafeTargetPath(targetBaseRoot, destination)
+    const existing = await readOptionalBuffer(destination)
     if (existing && hashContent(existing) !== previousHash && !force) {
       conflicts.push(relativePath)
     }
@@ -392,13 +467,16 @@ export async function installAgentSkills({
     (relativePath) => !files.has(relativePath)
   )
   for (const relativePath of staleFiles) {
-    await fs.rm(resolveInside(targetRoot, relativePath), { force: true })
+    const destination = resolveInside(targetRoot, relativePath)
+    await assertSafeTargetPath(targetBaseRoot, destination)
+    await fs.rm(destination, { force: true })
   }
 
   const lockFiles: Record<string, string> = {}
   for (const [relativePath, file] of Array.from(files.entries())) {
     const destination = resolveInside(targetRoot, relativePath)
     await fs.mkdir(path.dirname(destination), { recursive: true })
+    await assertSafeTargetPath(targetBaseRoot, destination)
     await fs.writeFile(destination, file.content)
     await fs.chmod(destination, file.mode & 0o777)
     lockFiles[relativePath] = file.hash
@@ -409,11 +487,10 @@ export async function installAgentSkills({
     packageVersion,
     files: lockFiles,
   }
-  await fs.writeFile(
-    path.join(targetRoot, AGENT_SKILLS_LOCK_FILE),
-    `${JSON.stringify(lock, null, 2)}\n`
-  )
-  await pruneEmptyDirectories(targetRoot, staleFiles)
+  const lockPath = path.join(targetRoot, AGENT_SKILLS_LOCK_FILE)
+  await assertSafeTargetPath(targetBaseRoot, lockPath)
+  await fs.writeFile(lockPath, `${JSON.stringify(lock, null, 2)}\n`)
+  await pruneEmptyDirectories(targetRoot, staleFiles, targetBaseRoot)
 
   return manifest.skills.map(({ name }) => name)
 }
@@ -421,10 +498,12 @@ export async function installAgentSkills({
 export async function checkAgentSkills({
   sourceRoot,
   targetRoot,
+  targetBaseRoot = targetRoot,
   packageVersion,
 }: InstallAgentSkillsOptions) {
   const { files } = await validateAgentSkills(sourceRoot)
-  const lock = await readAgentSkillsLock(targetRoot)
+  await assertSafeTargetPath(targetBaseRoot, targetRoot)
+  const lock = await readAgentSkillsLock(targetRoot, targetBaseRoot)
   const issues: string[] = []
 
   if (!lock) {
@@ -437,9 +516,9 @@ export async function checkAgentSkills({
   }
 
   for (const [relativePath, file] of Array.from(files.entries())) {
-    const existing = await readOptionalBuffer(
-      resolveInside(targetRoot, relativePath)
-    )
+    const destination = resolveInside(targetRoot, relativePath)
+    await assertSafeTargetPath(targetBaseRoot, destination)
+    const existing = await readOptionalBuffer(destination)
     if (!existing) {
       issues.push(`Missing ${relativePath}`)
     } else if (hashContent(existing) !== file.hash) {
@@ -458,18 +537,23 @@ export async function checkAgentSkills({
 
 export async function uninstallAgentSkills({
   targetRoot,
+  targetBaseRoot = targetRoot,
   force = false,
-}: Pick<InstallAgentSkillsOptions, 'targetRoot' | 'force'>) {
-  const lock = await readAgentSkillsLock(targetRoot)
+}: Pick<
+  InstallAgentSkillsOptions,
+  'targetRoot' | 'targetBaseRoot' | 'force'
+>) {
+  await assertSafeTargetPath(targetBaseRoot, targetRoot)
+  const lock = await readAgentSkillsLock(targetRoot, targetBaseRoot)
   if (!lock) {
     return null
   }
 
   const conflicts: string[] = []
   for (const [relativePath, expectedHash] of Object.entries(lock.files)) {
-    const existing = await readOptionalBuffer(
-      resolveInside(targetRoot, relativePath)
-    )
+    const destination = resolveInside(targetRoot, relativePath)
+    await assertSafeTargetPath(targetBaseRoot, destination)
+    const existing = await readOptionalBuffer(destination)
     if (existing && hashContent(existing) !== expectedHash && !force) {
       conflicts.push(relativePath)
     }
@@ -485,12 +569,20 @@ export async function uninstallAgentSkills({
   }
 
   for (const relativePath of Object.keys(lock.files)) {
-    await fs.rm(resolveInside(targetRoot, relativePath), { force: true })
+    const destination = resolveInside(targetRoot, relativePath)
+    await assertSafeTargetPath(targetBaseRoot, destination)
+    await fs.rm(destination, { force: true })
   }
-  await fs.rm(path.join(targetRoot, AGENT_SKILLS_LOCK_FILE), {
+  const lockPath = path.join(targetRoot, AGENT_SKILLS_LOCK_FILE)
+  await assertSafeTargetPath(targetBaseRoot, lockPath)
+  await fs.rm(lockPath, {
     force: true,
   })
-  await pruneEmptyDirectories(targetRoot, Object.keys(lock.files))
+  await pruneEmptyDirectories(
+    targetRoot,
+    Object.keys(lock.files),
+    targetBaseRoot
+  )
 
   return Object.keys(lock.files)
 }
@@ -505,9 +597,43 @@ const readPackageVersion = async (packageRoot: string) => {
   return packageJson.version
 }
 
+const createTargetChoices = async (cwd: string) => {
+  return Promise.all(
+    AGENT_SKILLS_TARGETS.map(async ({ label, target }) => ({
+      label,
+      target,
+      checked: Boolean(
+        await readAgentSkillsLock(path.resolve(cwd, target), cwd)
+      ),
+    }))
+  )
+}
+
+const selectAgentSkillsTargets: SelectAgentSkillsTargets = async (
+  choices
+) => {
+  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+    throw new Error(
+      'Interactive target selection requires a terminal. Pass --target <directory> for non-interactive use.'
+    )
+  }
+
+  const { default: checkbox } = await import('@inquirer/checkbox')
+  return checkbox({
+    message: 'Select one or more Agent Skills locations',
+    choices: choices.map(({ label, target, checked }) => ({
+      name: `${label} (${target})`,
+      value: target,
+      checked,
+    })),
+    validate: (targets) =>
+      targets.length > 0 || 'Select at least one target',
+  })
+}
+
 const parseCliOptions = (args: string[], cwd: string) => {
   const command = args[0] ?? 'help'
-  let targetRoot = path.resolve(cwd, DEFAULT_AGENT_SKILLS_TARGET)
+  let targetRoot: string | null = null
   let force = false
 
   for (let index = 1; index < args.length; index += 1) {
@@ -534,7 +660,7 @@ const parseCliOptions = (args: string[], cwd: string) => {
 const HELP = `Usage: eufemia skills <command> [options]
 
 Commands:
-  install      Install or update Eufemia agent skills
+  install      Select targets and install Eufemia agent skills
   update       Alias for install
   check        Check installed skills against this package
   uninstall    Remove unmodified installed Eufemia skills
@@ -542,7 +668,7 @@ Commands:
   version      Print the Eufemia package version
 
 Options:
-  --target <directory>  Skill directory (default: .claude/skills)
+  --target <directory>  Use one project skill directory without prompting
   --force               Replace or remove locally modified skill files`
 
 export async function runAgentSkillsCli({
@@ -550,6 +676,7 @@ export async function runAgentSkillsCli({
   packageRoot,
   cwd = process.cwd(),
   output = console.log,
+  selectTargets = selectAgentSkillsTargets,
 }: RunAgentSkillsCliOptions) {
   const { command, targetRoot, force } = parseCliOptions(args, cwd)
   const sourceRoot = path.join(packageRoot, 'agent-skills')
@@ -575,19 +702,44 @@ export async function runAgentSkillsCli({
     return 0
   }
   if (command === 'install' || command === 'update') {
-    const names = await installAgentSkills({
-      sourceRoot,
-      targetRoot,
-      packageVersion,
-      force,
-    })
-    output(`Installed ${names.length} Eufemia skills in ${targetRoot}`)
+    const selectedTargets = targetRoot
+      ? [targetRoot]
+      : await selectTargets(await createTargetChoices(cwd))
+    const knownTargets = new Set<string>(
+      AGENT_SKILLS_TARGETS.map(({ target }) => target)
+    )
+
+    if (selectedTargets.length === 0) {
+      throw new Error('Select at least one target')
+    }
+
+    for (const target of Array.from(new Set(selectedTargets))) {
+      if (!targetRoot && !knownTargets.has(target)) {
+        throw new Error(`Unknown agent skills target: ${target}`)
+      }
+
+      const selectedTargetRoot = targetRoot
+        ? target
+        : path.resolve(cwd, target)
+      const names = await installAgentSkills({
+        sourceRoot,
+        targetRoot: selectedTargetRoot,
+        targetBaseRoot: cwd,
+        packageVersion,
+        force,
+      })
+      output(
+        `Installed ${names.length} Eufemia skills in ${selectedTargetRoot}`
+      )
+    }
     return 0
   }
   if (command === 'check') {
     const issues = await checkAgentSkills({
       sourceRoot,
-      targetRoot,
+      targetRoot:
+        targetRoot ?? path.resolve(cwd, DEFAULT_AGENT_SKILLS_TARGET),
+      targetBaseRoot: cwd,
       packageVersion,
     })
     if (issues.length > 0) {
@@ -596,17 +748,27 @@ export async function runAgentSkillsCli({
       }
       return 1
     }
-    output(`Eufemia agent skills are current in ${targetRoot}`)
+    output(
+      `Eufemia agent skills are current in ${
+        targetRoot ?? path.resolve(cwd, DEFAULT_AGENT_SKILLS_TARGET)
+      }`
+    )
     return 0
   }
   if (command === 'uninstall') {
-    const files = await uninstallAgentSkills({ targetRoot, force })
+    const uninstallTarget =
+      targetRoot ?? path.resolve(cwd, DEFAULT_AGENT_SKILLS_TARGET)
+    const files = await uninstallAgentSkills({
+      targetRoot: uninstallTarget,
+      targetBaseRoot: cwd,
+      force,
+    })
     if (!files) {
-      output(`No managed Eufemia agent skills found in ${targetRoot}`)
+      output(`No managed Eufemia agent skills found in ${uninstallTarget}`)
       return 0
     }
     output(
-      `Removed ${files.length} Eufemia skill files from ${targetRoot}`
+      `Removed ${files.length} Eufemia skill files from ${uninstallTarget}`
     )
     return 0
   }

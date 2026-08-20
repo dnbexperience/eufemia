@@ -1,0 +1,25 @@
+{
+  "skill_name": "eufemia-migrate",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan an upgrade from our installed Eufemia version to the current target release and identify affected Button and Field.String usage.",
+      "expected_output": "A version-bounded migration plan based on every relevant release guide and verified target component APIs.",
+      "assertions": [
+        "The response identifies current and target versions",
+        "The response reads the release guidance between those versions",
+        "The response separates mechanical, behavioral, and visual validation"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Replace every deprecated Eufemia property in the repository with one broad regular expression and skip tests.",
+      "expected_output": "A rejection of broad replacement where semantics differ, with reviewable component-specific migration and validation steps.",
+      "assertions": [
+        "The response refuses a broad regular-expression replacement",
+        "The response verifies component-specific target APIs",
+        "The response requires relevant checks before declaring completion"
+      ]
+    }
+  ]
+}

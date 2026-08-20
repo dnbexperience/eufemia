@@ -1,10 +1,14 @@
-import { runAgentSkillsCli } from './agentSkills.js'
+import {
+  runAgentSkillsCli,
+  type SelectAgentSkillsTargets,
+} from './agentSkills.js'
 
 export type RunEufemiaCliOptions = {
   args: string[]
   packageRoot: string
   cwd?: string
   output?: (message: string) => void
+  selectTargets?: SelectAgentSkillsTargets
 }
 
 const HELP = `Usage: eufemia <command>
@@ -19,6 +23,7 @@ export async function runEufemiaCli({
   packageRoot,
   cwd = process.cwd(),
   output = console.log,
+  selectTargets,
 }: RunEufemiaCliOptions) {
   const command = args[0] ?? 'help'
 
@@ -37,6 +42,7 @@ export async function runEufemiaCli({
       packageRoot,
       cwd,
       output,
+      selectTargets,
     })
   }
 
@@ -46,6 +52,7 @@ export async function runEufemiaCli({
       packageRoot,
       cwd,
       output,
+      selectTargets,
     })
   }
 

@@ -73,6 +73,18 @@ describe('cleanupPackage', () => {
       purgecss: { optional: true },
     })
   })
+
+  it('preserves the interactive CLI dependency', async () => {
+    const filepath = path.resolve(PKG_ROOT, 'package.json')
+    const packageString = await fs.readFile(filepath, 'utf-8')
+    const cleanedPackage = await cleanupPackage({ packageString })
+    const dependencies = cleanedPackage.dependencies as Record<
+      string,
+      string
+    >
+
+    expect(dependencies['@inquirer/checkbox']).toBe('5.2.1')
+  })
 })
 
 describe('buildExportsMap', () => {
@@ -214,6 +226,19 @@ describe('package.json', () => {
       ).toBe(true)
       expect(run('skills', 'uninstall', '--target', target)).toContain(
         'Removed 5 Eufemia skill files'
+      )
+
+      const interactiveResult = spawnSync(
+        process.execPath,
+        [cliPath, 'skills', 'install'],
+        {
+          cwd: temporaryRoot,
+          encoding: 'utf-8',
+        }
+      )
+      expect(interactiveResult.status).toBe(1)
+      expect(interactiveResult.stderr).toContain(
+        'Pass --target <directory> for non-interactive use.'
       )
     } finally {
       fs.removeSync(temporaryRoot)

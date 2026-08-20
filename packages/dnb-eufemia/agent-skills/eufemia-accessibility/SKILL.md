@@ -11,7 +11,7 @@ metadata:
 
 Use current Eufemia documentation and verify the complete application behavior.
 
-1. Call `docs_meta` when available and `docs_entry` once.
+1. Call `docs_meta` when available to identify the documentation version.
 2. Use `docs_search` and `docs_read` to locate current accessibility, focus,
    typography, forms, and interaction guidance.
 3. Use `component_doc` for the accessibility behavior and limitations of each
