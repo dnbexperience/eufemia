@@ -431,6 +431,14 @@ export const TabsExampleWithBadgeNotification = () => (
       <Tabs
         data={[
           {
+            title: 'First',
+            key: 'first',
+          },
+          {
+            title: 'Second',
+            key: 'second',
+          },
+          {
             title: (
               <>
                 Transaksjoner{' '}
@@ -442,25 +450,7 @@ export const TabsExampleWithBadgeNotification = () => (
                 />
               </>
             ),
-            key: 'one',
-          },
-          {
-            title: 'Second',
-            key: 'second',
-          },
-          {
-            title: (
-              <>
-                Third{' '}
-                <Badge
-                  content={1}
-                  label="Third"
-                  variant="notification"
-                  vertical="top"
-                />
-              </>
-            ),
-            key: 'third',
+            key: 'transactions',
           },
         ]}
       />
