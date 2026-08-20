@@ -186,6 +186,36 @@ describe('docs_entry', () => {
   })
 })
 
+describe('review_rules', () => {
+  it('returns the canonical review rule metadata', async () => {
+    const fixture = createDocsFixture()
+    const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+
+    try {
+      const result = await tools.reviewRules({})
+      const rules = JSON.parse(getText(result)) as Array<{
+        id: string
+        category: string
+        fixable: boolean
+        level: string
+        tools: string[]
+      }>
+
+      expect(rules).toEqual([
+        expect.objectContaining({
+          id: 'eufemia/no-deprecated-color-variables',
+          category: 'deprecation',
+          fixable: false,
+          level: 'warning',
+          tools: ['eslint', 'stylelint'],
+        }),
+      ])
+    } finally {
+      fixture.cleanup()
+    }
+  })
+})
+
 describe('docs_meta', () => {
   let docsRoot: string
   let cleanup: () => void

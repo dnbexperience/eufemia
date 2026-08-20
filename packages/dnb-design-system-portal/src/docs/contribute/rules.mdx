@@ -27,6 +27,33 @@ Many defaults are provided by the linting and Prettier configurations. However, 
 - Use [React Hooks](https://react.dev/reference/react/hooks) over React class components when possible.
 - Use [TypeScript](https://www.typescriptlang.org).
 
+### Automated review rules
+
+Define automated Eufemia guidance once and expose it through the tools that can
+reliably detect or explain it:
+
+1. Give every review rule a stable ID, classification, default severity,
+   documentation, supported tools, and explicit autofix status.
+1. Add lint detection only when source-level analysis can identify the issue
+   without rejecting supported APIs or context-dependent alternatives.
+1. Add an automatic fix only when the transformation is deterministic and
+   preserves behavior. Otherwise, report the finding with guidance.
+1. Expose published rule metadata through the Eufemia MCP server so code-review
+   tools use the same classification and documentation as the lint plugins.
+1. Keep version-specific codemods and historical migration guidance in the
+   relevant release documentation.
+
+Requirements, deprecations, recommendations, and context-dependent alternatives
+must remain distinguishable. Team-specific architecture is not an Eufemia
+compliance rule, and automated review does not replace integration,
+accessibility, or visual testing.
+
+Use a dedicated structured MCP catalogue when clients need to enumerate an
+expanding set of stable rule IDs and share their classification across tools.
+Keep small static capability matrices in package APIs and documentation unless a
+broader metadata interface is introduced. This avoids adding one MCP tool for
+every isolated fact while preserving machine-readable review contracts.
+
 ## Where a component change belongs
 
 Choose ownership based on the responsibility of the change, not only on where a
