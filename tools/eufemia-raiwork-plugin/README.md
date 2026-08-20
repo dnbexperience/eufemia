@@ -125,6 +125,43 @@ release when the hosted MCP contract and skill procedures are unchanged.
 The marketplace rejects publishing the same plugin version twice. Always review
 the generated diff and bump the plugin version before uploading an update.
 
+## Publish a new version
+
+The plugin is not published through npm or the normal Eufemia release. Each
+marketplace version is an immutable folder upload:
+
+1. Merge and release any changed canonical Agent Skills or MCP contracts first.
+2. Bump `plugin.version` in `plugin.config.json` to a new semantic version.
+3. When skill instructions or descriptions changed, run the canonical cases in
+   `packages/dnb-eufemia/agent-skills-evals` and retain the results with the
+   release record.
+4. Confirm the hosted MCP deployment contains every tool declared by the skills.
+5. From a clean checkout, install dependencies and run the complete release
+   check:
+
+   ```bash
+   yarn install --immutable
+   yarn workspace eufemia-raiwork-plugin release:check
+   ```
+
+6. Review `tools/eufemia-raiwork-plugin/dist/dnb-eufemia`, especially its
+   manifest, skill frontmatter, README, license, cover, and file inventory.
+7. Upload that folder privately through RAIWork **Marketplace → My Uploads →
+   Upload**, or with:
+
+   ```bash
+   raicode manage marketplace upload \
+     tools/eufemia-raiwork-plugin/dist/dnb-eufemia
+   ```
+
+8. Wait for marketplace scans, install the private version in a clean profile,
+   enable the **eufemia** MCP server, and complete the post-release checks below.
+9. Make the version public and record the plugin version, Eufemia source commit,
+   and evaluation evidence in the release record.
+
+Never reuse or overwrite a marketplace version. Publish a higher version to
+replace or roll back a release.
+
 ## Release prerequisites
 
 Before the first marketplace release:
