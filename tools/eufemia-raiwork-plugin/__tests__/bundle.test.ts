@@ -97,7 +97,7 @@ describe('Eufemia RAIWork plugin', () => {
       'license: "Apache-2.0 with Commons Clause"'
     )
     expect(generated).toContain('version: "0.1.0"')
-    expect(generated).toContain('platforms: [darwin, linux, win32]')
+    expect(generated).toContain('platforms: ["darwin", "linux", "win32"]')
     expect(generated).not.toContain('compatibility:')
     expect(generated).not.toContain('owner: dnbexperience/eufemia')
   })
@@ -112,6 +112,38 @@ describe('Eufemia RAIWork plugin', () => {
     await expect(validateRaiworkBundle(paths)).rejects.toThrow(
       'Generated plugin file differs: skills/eufemia-review/SKILL.md'
     )
+  })
+
+  it('preserves the previous bundle when replacement fails', async () => {
+    await buildRaiworkBundle(paths)
+    const markerPath = path.join(paths.outputRoot, 'previous-bundle.txt')
+    await fs.writeFile(markerPath, 'keep me')
+
+    const originalRename = fs.rename.bind(fs)
+    const rename = vi
+      .spyOn(fs, 'rename')
+      .mockImplementation(async (source, destination) => {
+        if (
+          source === `${paths.outputRoot}.tmp` &&
+          destination === paths.outputRoot
+        ) {
+          throw Object.assign(new Error('Simulated rename failure'), {
+            code: 'EACCES',
+          })
+        }
+        return originalRename(source, destination)
+      })
+
+    try {
+      await expect(buildRaiworkBundle(paths)).rejects.toThrow(
+        'Simulated rename failure'
+      )
+      await expect(fs.readFile(markerPath, 'utf-8')).resolves.toBe(
+        'keep me'
+      )
+    } finally {
+      rename.mockRestore()
+    }
   })
 
   it('rejects an incomplete canonical skill tree', async () => {

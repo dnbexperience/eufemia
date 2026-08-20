@@ -69,8 +69,8 @@ license: ${quoteYaml(config.plugin.license)}
 metadata:
   title: ${quoteYaml(metadata.title)}
   version: ${quoteYaml(config.plugin.version)}
-  tags: [${metadata.tags.join(', ')}]
-  platforms: [${config.plugin.platforms.join(', ')}]
+  tags: [${metadata.tags.map(quoteYaml).join(', ')}]
+  platforms: [${config.plugin.platforms.map(quoteYaml).join(', ')}]
 ---
 
 ${body}`
@@ -199,11 +199,12 @@ const createExpectedFiles = async (paths: BuildPaths) => {
   return { canonicalManifest, config, files }
 }
 
-const writeFilesAtomically = async (
+const replaceBundleSafely = async (
   outputRoot: string,
   files: Map<string, Buffer>
 ) => {
   const temporaryRoot = `${outputRoot}.tmp`
+  const backupRoot = `${outputRoot}.backup-${process.pid}-${Date.now()}`
   await fs.rm(temporaryRoot, { recursive: true, force: true })
   await fs.mkdir(temporaryRoot, { recursive: true })
 
@@ -213,8 +214,37 @@ const writeFilesAtomically = async (
       await fs.mkdir(path.dirname(destination), { recursive: true })
       await fs.writeFile(destination, content, { mode: 0o644 })
     }
-    await fs.rm(outputRoot, { recursive: true, force: true })
-    await fs.rename(temporaryRoot, outputRoot)
+
+    let hasPreviousBundle = false
+    try {
+      await fs.rename(outputRoot, backupRoot)
+      hasPreviousBundle = true
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        throw error
+      }
+    }
+
+    try {
+      await fs.rename(temporaryRoot, outputRoot)
+    } catch (replacementError) {
+      if (hasPreviousBundle) {
+        try {
+          await fs.rename(backupRoot, outputRoot)
+        } catch (restoreError) {
+          throw new AggregateError(
+            [replacementError, restoreError],
+            `Could not replace the plugin bundle or restore the previous bundle. Recovery copy: ${backupRoot}`,
+            { cause: restoreError }
+          )
+        }
+      }
+      throw replacementError
+    }
+
+    if (hasPreviousBundle) {
+      await fs.rm(backupRoot, { recursive: true, force: true })
+    }
   } catch (error) {
     await fs.rm(temporaryRoot, { recursive: true, force: true })
     throw error
@@ -327,6 +357,6 @@ export async function validateRaiworkBundle(
 
 export async function buildRaiworkBundle(paths: BuildPaths) {
   const { files } = await createExpectedFiles(paths)
-  await writeFilesAtomically(paths.outputRoot, files)
+  await replaceBundleSafely(paths.outputRoot, files)
   return validateRaiworkBundle(paths)
 }

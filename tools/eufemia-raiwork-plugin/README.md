@@ -54,7 +54,8 @@ create a separate archive.
 6. Registers `https://server.eufemia.dnb.no/mcp/web` as a remote HTTP MCP
    server.
 7. Copies the package license, Eufemia cover image, and plugin README.
-8. Atomically replaces the previous generated folder.
+8. Replaces the previous generated folder through a backup-and-restore swap, so
+   a failed promotion keeps the previous bundle intact.
 9. Validates the complete generated inventory against its canonical source.
 
 ## Validation
