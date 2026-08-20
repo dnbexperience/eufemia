@@ -50,4 +50,4 @@ jobs:
         run: yarn workspace @dnb/eufemia build:ci
 
       - name: Publish to StackBlitz
-        run: yarn workspace eufemia-starter remove-src && yarn dlx pkg-pr-new publish './packages/dnb-eufemia/build' --template './packages/eufemia-starter' --packageManager=yarn
+        run: yarn workspace eufemia-starter remove-src && yarn dlx pkg-pr-new@0.0.88 publish './packages/dnb-eufemia/build' --template './packages/eufemia-starter' --packageManager=yarn
