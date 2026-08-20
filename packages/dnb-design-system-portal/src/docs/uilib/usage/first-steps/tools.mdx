@@ -1,6 +1,6 @@
 ---
 title: 'AI, MCP and Tools'
-description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
+description: 'Agent Skills, MCP, code editor extensions, and lint plugins for Eufemia development.'
 status: 'beta'
 order: 3
 ---
@@ -11,6 +11,93 @@ import VSCodeExtensionHover from 'Docs/uilib/usage/first-steps/assets/eufemia-vs
 import VSCodeExtensionFontSize from 'Docs/uilib/usage/first-steps/assets/eufemia-vscode-extension-font-size.png'
 
 # Tools
+
+## Agent Skills
+
+`@dnb/eufemia` includes official [Agent Skills](https://agentskills.io/) for
+working with Eufemia:
+
+- **`eufemia-components`** — find components and verify current props, events,
+  Forms, and layout APIs.
+- **`eufemia-compose`** — compose pages and features from Eufemia primitives and
+  guidance.
+- **`eufemia-accessibility`** — apply Eufemia-specific accessibility guidance.
+- **`eufemia-review`** — review code against supported APIs, deprecations, and
+  documented rules.
+- **`eufemia-migrate`** — plan and validate upgrades using current release
+  documentation.
+
+The skills provide workflows and tell the agent which Eufemia documentation to
+retrieve. Component APIs, tokens, theme support, and other version-sensitive
+facts remain in Eufemia's packaged documentation and MCP server rather than
+being copied into the skills.
+
+### Install project skills
+
+Install `@dnb/eufemia` in the project, then use the CLI provided by the same
+package:
+
+```bash
+yarn eufemia skills install
+```
+
+The default destination is `.claude/skills`. Both Claude Code and VS Code
+Copilot discover project skills there. To use another supported Agent Skills
+location, set it explicitly:
+
+```bash
+yarn eufemia skills install --target .github/skills
+# or
+yarn eufemia skills install --target .agents/skills
+```
+
+Equivalent commands with npm or pnpm are:
+
+```bash
+npm exec eufemia -- skills install
+pnpm exec eufemia skills install
+```
+
+Commit the installed skills when they should be available to colleagues and
+cloud agents. The installer also writes `.eufemia-skills-lock.json` in the
+selected skills directory. Commit that file together with the generated skills
+so updates can detect local changes.
+
+### Manage installed skills
+
+```bash
+# Show the skills included in the installed Eufemia package
+yarn eufemia skills list
+
+# Verify installed files and package version
+yarn eufemia skills check
+
+# Update project skills after upgrading @dnb/eufemia
+yarn eufemia skills update
+
+# Remove files managed by the Eufemia installer
+yarn eufemia skills uninstall
+```
+
+`check` reports missing, changed, stale, or version-mismatched files. `update`
+refuses to overwrite locally modified skill files. Review those changes first;
+use `--force` only when replacing them intentionally. `uninstall` removes only
+files tracked by the Eufemia skills lock and leaves unrelated project skills
+untouched.
+
+The CLI is part of the main package and can also report its version:
+
+```bash
+yarn eufemia --version
+yarn eufemia skills --help
+```
+
+### Connect the documentation
+
+Install the Agent Skills and configure one of the MCP options below. Skills are
+the reusable workflow; MCP provides the current Eufemia facts. If MCP is not
+available, the skills should say that the relevant information could not be
+verified instead of guessing.
 
 ## AI Assistance and MCP Server
 
