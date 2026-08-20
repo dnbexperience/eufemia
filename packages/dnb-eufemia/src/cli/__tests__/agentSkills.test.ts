@@ -43,6 +43,11 @@ describe('Eufemia agent skills', () => {
       'eufemia-migrate',
     ])
     expect(files.size).toBe(5)
+    expect(
+      manifest.skills.every(
+        ({ requiredTools }) => !requiredTools.includes('docs_entry')
+      )
+    ).toBe(true)
   })
 
   it('rejects host-specific skill frontmatter', async () => {
@@ -128,6 +133,71 @@ describe('Eufemia agent skills', () => {
     ).resolves.toEqual([])
   })
 
+  it('rejects a symlinked lock file without modifying its target', async () => {
+    const externalLockPath = path.join(temporaryRoot, 'external-lock.json')
+    const externalLock = `${JSON.stringify({
+      schemaVersion: 1,
+      packageVersion: 'external',
+      files: {},
+    })}\n`
+    await fs.writeFile(externalLockPath, externalLock)
+    await fs.mkdir(targetRoot, { recursive: true })
+    await fs.symlink(
+      externalLockPath,
+      path.join(targetRoot, AGENT_SKILLS_LOCK_FILE)
+    )
+
+    await expect(
+      installAgentSkills({ sourceRoot, targetRoot, packageVersion })
+    ).rejects.toThrow('Agent skills target cannot contain symlinks')
+    await expect(fs.readFile(externalLockPath, 'utf-8')).resolves.toBe(
+      externalLock
+    )
+  })
+
+  it('rejects a symlinked target parent', async () => {
+    const externalRoot = path.join(temporaryRoot, 'external-target')
+    const projectRoot = path.join(temporaryRoot, 'project')
+    await fs.mkdir(externalRoot)
+    await fs.mkdir(projectRoot)
+    await fs.symlink(
+      externalRoot,
+      path.join(projectRoot, '.claude'),
+      'dir'
+    )
+
+    await expect(
+      installAgentSkills({
+        sourceRoot,
+        targetRoot: path.join(projectRoot, '.claude', 'skills'),
+        targetBaseRoot: projectRoot,
+        packageVersion,
+      })
+    ).rejects.toThrow('Agent skills target cannot contain symlinks')
+    await expect(fs.readdir(externalRoot)).resolves.toEqual([])
+  })
+
+  it('rejects an explicit target outside the project', async () => {
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    const projectRoot = path.join(temporaryRoot, 'project')
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+    await fs.mkdir(projectRoot)
+
+    await expect(
+      runAgentSkillsCli({
+        args: ['install', '--target', '../outside'],
+        packageRoot: cliPackageRoot,
+        cwd: projectRoot,
+      })
+    ).rejects.toThrow('Agent skills target escapes the project')
+  })
+
   it('only removes files managed by the installer', async () => {
     const unrelatedPath = path.join(targetRoot, 'team-skill', 'SKILL.md')
     await fs.mkdir(path.dirname(unrelatedPath), { recursive: true })
@@ -147,7 +217,7 @@ describe('Eufemia agent skills', () => {
     ).rejects.toMatchObject({ code: 'ENOENT' })
   })
 
-  it('supports main-package CLI installation and checks with the default target', async () => {
+  it('supports non-interactive installation with an explicit target', async () => {
     const output: string[] = []
     const cliPackageRoot = path.join(temporaryRoot, 'package')
     await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
@@ -160,10 +230,13 @@ describe('Eufemia agent skills', () => {
 
     await expect(
       runEufemiaCli({
-        args: ['skills', 'install'],
+        args: ['skills', 'install', '--target', '.claude/skills'],
         packageRoot: cliPackageRoot,
         cwd: temporaryRoot,
         output: (message) => output.push(message),
+        selectTargets: async () => {
+          throw new Error('Explicit targets must not prompt')
+        },
       })
     ).resolves.toBe(0)
     await expect(
@@ -181,6 +254,68 @@ describe('Eufemia agent skills', () => {
         expect.stringContaining('Eufemia agent skills are current'),
       ])
     )
+  })
+
+  it('prompts for targets and preselects managed installations', async () => {
+    const output: string[] = []
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+    await installAgentSkills({
+      sourceRoot,
+      targetRoot: path.join(temporaryRoot, '.claude', 'skills'),
+      packageVersion,
+    })
+
+    await expect(
+      runEufemiaCli({
+        args: ['skills', 'install'],
+        packageRoot: cliPackageRoot,
+        cwd: temporaryRoot,
+        output: (message) => output.push(message),
+        selectTargets: async (choices) => {
+          expect(choices).toEqual([
+            {
+              label: 'Claude Code and GitHub Copilot',
+              target: '.claude/skills',
+              checked: true,
+            },
+            {
+              label: 'GitHub Copilot',
+              target: '.github/skills',
+              checked: false,
+            },
+            {
+              label: 'Codex and GitHub Copilot',
+              target: '.agents/skills',
+              checked: false,
+            },
+          ])
+          return ['.claude/skills', '.agents/skills']
+        },
+      })
+    ).resolves.toBe(0)
+
+    await expect(
+      fs.readFile(
+        path.join(
+          temporaryRoot,
+          '.agents',
+          'skills',
+          AGENT_SKILLS_LOCK_FILE
+        ),
+        'utf-8'
+      )
+    ).resolves.toContain(`"packageVersion": "${packageVersion}"`)
+    expect(output).toEqual([
+      expect.stringContaining('.claude/skills'),
+      expect.stringContaining('.agents/skills'),
+    ])
   })
 
   it('reports when there is no managed installation to uninstall', async () => {

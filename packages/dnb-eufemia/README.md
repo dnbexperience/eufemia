@@ -15,13 +15,13 @@ Install the skills in a project that already depends on `@dnb/eufemia`:
 yarn eufemia skills install
 ```
 
+The command asks which supported agent locations to use and preselects existing
+managed installations. Pass `--target <directory>` to bypass the selector in
+non-interactive environments.
+
 See the [Agent Skills and MCP documentation](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#agent-skills)
 for installation targets, npm and pnpm commands, update safety, cloud-agent
 usage, and MCP configuration.
-
-The default target is `.claude/skills`, which is discovered by Claude Code and
-VS Code Copilot. Use `--target .github/skills` or
-`--target .agents/skills` when another project location is preferred.
 
 ```bash
 yarn eufemia skills check
