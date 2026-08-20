@@ -93,9 +93,9 @@ the hosted server before every marketplace release:
 yarn workspace eufemia-raiwork-plugin verify:remote
 ```
 
-Missing required tools fail the command. Missing optional tools are reported as
-warnings so a plugin can remain compatible while a new Eufemia MCP capability
-is rolling out.
+Every tool declared by a canonical skill is required. A missing tool fails the
+command and blocks marketplace release until the hosted Eufemia MCP deployment
+matches the skill contract.
 
 Run every release check in one command:
 
@@ -129,7 +129,8 @@ the generated diff and bump the plugin version before uploading an update.
 Before the first marketplace release:
 
 1. Merge and release the canonical Eufemia Agent Skills.
-2. Deploy the hosted Eufemia MCP server with every required tool.
+2. Deploy the hosted Eufemia MCP server with every required tool. Do not release
+   the plugin against a partial or rolling tool deployment.
 3. Agree which design-system-team-managed identity will reserve and own the
    marketplace name `dnb-eufemia`. Marketplace ownership belongs to the first
    uploader.
