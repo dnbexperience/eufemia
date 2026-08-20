@@ -9,13 +9,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-env:
-  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-  GH_NAME: ${{ secrets.GH_NAME }}
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+# No job-wide `env:` on purpose: secrets are scoped to the individual steps that
+# use them, so `yarn install` and the build steps never receive credentials.
 
 jobs:
   process-icons:
@@ -54,6 +49,9 @@ jobs:
 
       - name: Icons fetch and prebuild
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
 
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia build:prebuild
@@ -79,3 +77,7 @@ jobs:
       - name: Commit icons and updated snapshots
         if: success()
         run: yarn workspace @dnb/eufemia icons:commit
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
