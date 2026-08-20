@@ -16,8 +16,9 @@ yarn eufemia skills install
 ```
 
 The command asks which supported agent locations to use and preselects existing
-managed installations. Pass `--target <directory>` to bypass the selector in
-non-interactive environments.
+managed installations. Interactive users should use this selector. CI and other
+non-interactive environments can pass `--target <directory>` because they cannot
+answer terminal prompts.
 
 See the [Agent Skills and MCP documentation](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#agent-skills)
 for installation targets, npm and pnpm commands, update safety, cloud-agent

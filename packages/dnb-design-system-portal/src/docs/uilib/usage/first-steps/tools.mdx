@@ -54,8 +54,11 @@ Locations with a managed Eufemia installation are selected by default when the
 command runs again. Clearing a location skips its update; it does not uninstall
 the existing files.
 
-For scripts and other non-interactive environments, bypass the selector with an
-explicit target inside the project:
+#### Automation and CI
+
+Interactive users should use the selector. Scripts and environments without an
+interactive terminal cannot answer it, so automation must provide one project
+location explicitly:
 
 ```bash
 yarn eufemia skills install --target .agents/skills
