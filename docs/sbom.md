@@ -62,6 +62,11 @@ gh release download vX.Y.Z --repo dnbexperience/eufemia \
 - **Scope:** production (shipped) dependencies only, including
   transitive ones. Development and build tooling is excluded — it never
   reaches consumers.
+- **Resolved versions:** the dependency tree is resolved in Eufemia's
+  monorepo, so transitive versions reflect what Eufemia builds and tests
+  against — including any dependency `resolutions` pinned at the
+  repository root. A fresh install elsewhere may resolve some transitive
+  dependencies to other versions within the same permitted ranges.
 - The SBOM's main component is stamped with the version that was actually
   published, so the file is self-describing once downloaded.
 - Generating these files is **non-blocking**. The gate that can stop a
