@@ -34,12 +34,26 @@ being copied into the skills.
 
 ### Install project skills
 
-Install `@dnb/eufemia` in the project, then use the CLI provided by the same
+In a project that depends on `@dnb/eufemia`, use the CLI provided by the same
 package:
 
 ```bash
 yarn eufemia skills install
 ```
+
+If the project does not depend on Eufemia yet, npm can download the package only
+for the duration of the installer command without changing `package.json` or
+creating project `node_modules`:
+
+```bash
+npm exec --yes --package @dnb/eufemia@latest -- eufemia skills install
+```
+
+This installs the project skill files, not the Eufemia runtime dependency. The
+RAIWork marketplace plugin bundles the same skills and does not require
+`@dnb/eufemia` to be installed just to discover them. If package downloads are
+also prohibited, an administrator must pre-provision one of the supported skill
+directories or the user must use an approved marketplace distribution.
 
 The command asks where to install the five skills. Select one or more supported
 project locations:
@@ -147,6 +161,27 @@ https://server.eufemia.dnb.no/mcp/web
 ```
 
 It supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://server.eufemia.dnb.no/healthz`.
+
+#### Version behavior
+
+The hosted endpoint is intentionally unversioned and always serves the latest
+released Eufemia documentation. It does not require Eufemia to be installed.
+Use `docs_meta` to identify the served version:
+
+- When it matches the project's installed `@dnb/eufemia` version, use the hosted
+  tools normally.
+- When it differs, use the local MCP server from the installed package before
+  relying on version-specific components, properties, or behavior.
+- When the project has no Eufemia dependency, treat the hosted version as the
+  proposed target and state it explicitly. Install that package version before
+  claiming the implementation is executable or verified.
+- When dependency installation is prohibited, the hosted server can still
+  support documentation and planning, but skills must not claim runtime
+  implementation or verification.
+
+Offline use requires a preinstalled package or pre-provisioned documentation;
+neither the hosted server nor a transient skill download is available without
+network access.
 
 #### Example: Claude CLI / raicode CLI
 

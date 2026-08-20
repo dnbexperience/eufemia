@@ -20,6 +20,13 @@ managed installations. Interactive users should use this selector. CI and other
 non-interactive environments can pass `--target <directory>` because they cannot
 answer terminal prompts.
 
+Projects without an Eufemia dependency can run the installer through a
+transient package download without changing `package.json`:
+
+```bash
+npm exec --yes --package @dnb/eufemia@latest -- eufemia skills install
+```
+
 See the [Agent Skills and MCP documentation](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#agent-skills)
 for installation targets, npm and pnpm commands, update safety, cloud-agent
 usage, and MCP configuration.
@@ -38,7 +45,8 @@ available to cloud agents.
 Configure the [Eufemia MCP server](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#ai-assistance-and-mcp-server)
 before using the skills. The skill files contain workflows, while component
 APIs, tokens, theme support, and other version-sensitive facts remain in
-Eufemia's packaged documentation.
+Eufemia's packaged documentation. The hosted MCP serves the latest release; use
+the package-local MCP when an installed project version differs.
 
 ## License
 

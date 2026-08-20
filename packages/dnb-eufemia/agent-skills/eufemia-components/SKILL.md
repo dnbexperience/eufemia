@@ -13,14 +13,19 @@ Use Eufemia's packaged documentation as the source of truth.
 
 1. Call `docs_meta` on the Eufemia MCP server to identify the documentation
    version.
-2. If the component name is uncertain, use `component_find` before selecting an
+2. Read the project's installed `@dnb/eufemia` version. If it differs from
+   `docs_meta`, switch to the local MCP from that installed package before using
+   version-specific APIs. If no version is installed, treat the served version
+   as the proposed target and state that it must be installed before
+   implementation can be verified.
+3. If the component name is uncertain, use `component_find` before selecting an
    API.
-3. Use `component_props` for current properties and events. Read every returned
+4. Use `component_props` for current properties and events. Read every returned
    block, including inherited APIs and compound components.
-4. Use `component_doc` when implementation examples, behavior, accessibility,
+5. Use `component_doc` when implementation examples, behavior, accessibility,
    or contextual guidance are needed.
-5. Do not infer undocumented properties or reproduce APIs from memory.
-6. If generally useful functionality is missing, identify it as a possible
+6. Do not infer undocumented properties or reproduce APIs from memory.
+7. If generally useful functionality is missing, identify it as a possible
    Eufemia contribution instead of automatically creating a parallel component.
 
 State which documentation path or component API supports the result. If the MCP

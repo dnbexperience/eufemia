@@ -12,16 +12,21 @@ metadata:
 Use current Eufemia documentation and verify the complete application behavior.
 
 1. Call `docs_meta` to identify the documentation version.
-2. Use `docs_search` and `docs_read` to locate current accessibility, focus,
+2. Compare it with the project's installed `@dnb/eufemia` version. If they
+   differ, switch to the local MCP from the installed package before making
+   component-specific claims. If no package is installed, state the served
+   version as the proposed target and keep any result that cannot be run as an
+   unverified plan.
+3. Use `docs_search` and `docs_read` to locate current accessibility, focus,
    typography, forms, and interaction guidance.
-3. Use `component_doc` for the accessibility behavior and limitations of each
+4. Use `component_doc` for the accessibility behavior and limitations of each
    relevant component.
-4. Separate guarantees provided by Eufemia from responsibilities that remain in
+5. Separate guarantees provided by Eufemia from responsibilities that remain in
    application composition, content, routing, state, and focus management.
-5. Verify semantics, labels and descriptions, keyboard operation, visible focus,
+6. Verify semantics, labels and descriptions, keyboard operation, visible focus,
    status announcements, contrast, zoom, reflow, reduced motion, and screen
    reader behavior where relevant.
-6. Prefer supported native and Eufemia behavior. Do not classify a documented
+7. Prefer supported native and Eufemia behavior. Do not classify a documented
    API as prohibited without documentation that establishes that requirement.
 
 Automated checks are supporting evidence, not proof of accessibility. Report
