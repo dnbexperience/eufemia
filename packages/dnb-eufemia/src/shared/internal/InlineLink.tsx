@@ -1,9 +1,12 @@
 import type { AnchorHTMLAttributes } from 'react'
+import { isDangerousHref } from '../helpers/isDangerousHref'
+
 type InlineLinkProps = AnchorHTMLAttributes<HTMLAnchorElement>
 
 export default function InlineLink({
   className,
   children,
+  href,
   ...rest
 }: InlineLinkProps) {
   const hasNode = typeof children !== 'string'
@@ -17,7 +20,11 @@ export default function InlineLink({
     .join(' ')
 
   return (
-    <a className={classes} {...rest}>
+    <a
+      className={classes}
+      href={isDangerousHref(href) ? undefined : href}
+      {...rest}
+    >
       {children}
     </a>
   )
