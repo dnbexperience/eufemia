@@ -35,7 +35,10 @@ export function isAuthorized(
   const expected = process.env.API_TOKEN
 
   if (!expected) {
-    return true
+    // Fail closed: reject all requests when the token is not configured.
+    // eslint-disable-next-line no-console -- server-side logging to CloudWatch
+    console.error('[eufemia] API_TOKEN is not set — rejecting request')
+    return false
   }
 
   const header = headers?.authorization ?? headers?.Authorization ?? ''
@@ -58,7 +61,12 @@ export function isEdgeAuthorized(
   const expected = process.env.EDGE_AUTH_SECRET
 
   if (!expected) {
-    return true
+    // Fail closed: reject all requests when the secret is not configured.
+    // eslint-disable-next-line no-console -- server-side logging to CloudWatch
+    console.error(
+      '[eufemia] EDGE_AUTH_SECRET is not set — rejecting request'
+    )
+    return false
   }
 
   const provided = headers?.['x-edge-auth'] ?? headers?.['X-Edge-Auth']
