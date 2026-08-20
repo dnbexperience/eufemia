@@ -11,7 +11,7 @@ metadata:
 
 Use current Eufemia documentation and verify the complete application behavior.
 
-1. Call `docs_meta` when available to identify the documentation version.
+1. Call `docs_meta` to identify the documentation version.
 2. Use `docs_search` and `docs_read` to locate current accessibility, focus,
    typography, forms, and interaction guidance.
 3. Use `component_doc` for the accessibility behavior and limitations of each
@@ -26,3 +26,5 @@ Use current Eufemia documentation and verify the complete application behavior.
 
 Automated checks are supporting evidence, not proof of accessibility. Report
 manual verification gaps and cite the Eufemia documentation behind findings.
+If the MCP server or a required tool is unavailable, stop and report the
+incompatible setup instead of guessing current Eufemia guidance.
