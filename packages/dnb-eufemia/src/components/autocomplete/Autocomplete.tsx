@@ -56,6 +56,7 @@ import { highlightText } from '../../shared/helpers/highlightText'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import Context from '../../shared/Context'
 import { useSpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -470,16 +471,28 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   inputElement: null,
 }
 
-function Autocomplete(props: AutocompleteAllProps) {
-  const _id = useId(props.id)
+function Autocomplete(ownProps: AutocompleteAllProps) {
+  const context = useContext(Context)
+  const filteredOwnProps = Object.fromEntries(
+    Object.entries(ownProps).filter(([, value]) => value !== undefined)
+  )
+  const { inline } = extendPropsWithContext(
+    filteredOwnProps,
+    autocompleteDefaultProps,
+    context.getTranslation?.(ownProps)?.Autocomplete,
+    pickFormElementProps(context.formElement),
+    context.Autocomplete
+  )
+
+  const _id = useId(ownProps.id)
 
   const providerProps = {
-    ...props,
+    ...ownProps,
     id: _id,
-    data: props.data || props.children,
-    open: props.inline ? true : null,
-    preventClose: props.inline || props.preventClose,
-    skipPortal: props.inline || props.skipPortal,
+    data: ownProps.data || ownProps.children,
+    open: null,
+    preventClose: inline || ownProps.preventClose,
+    skipPortal: inline || ownProps.skipPortal,
     tagName: 'dnb-autocomplete',
     ignoreEvents: false,
     preventFocus: true,
@@ -488,7 +501,7 @@ function Autocomplete(props: AutocompleteAllProps) {
 
   return (
     <DrawerListProvider {...providerProps}>
-      <AutocompleteComponent {...props} id={_id} />
+      <AutocompleteComponent {...ownProps} id={_id} />
     </DrawerListProvider>
   )
 }
@@ -705,6 +718,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const prevValueRef = useRef(props.value)
   const prevInputValuePropRef = useRef(props.inputValue)
   const prevDisableHighlightingRef = useRef(props.disableHighlighting)
+  const prevInlineRef = useRef(inline)
   const inputValueRef = useRef(inputValue)
   const typedInputValueRef = useRef(typedInputValue)
   const modeRef = useRef(mode)
@@ -2186,11 +2200,26 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
   // Handle open prop on mount
   useMountEffect(() => {
-    if (props.open) {
+    if (props.open || inline) {
       runFilterToHighlight({ fillDataIfEmpty: true })
       setVisible()
     }
   })
+
+  useEffect(() => {
+    if (inline === prevInlineRef.current) {
+      return // stop here
+    }
+
+    prevInlineRef.current = inline
+
+    if (inline) {
+      runFilterToHighlight({ fillDataIfEmpty: true })
+      setVisible()
+    } else {
+      setHidden()
+    }
+  }, [inline, runFilterToHighlight, setHidden, setVisible])
 
   // Handle data changes
   useEffect(() => {
@@ -2528,6 +2557,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               noScrollAnimation={noScrollAnimation}
               skipPortal={skipPortal}
               inline={inline}
+              ignoreEvents={disabled}
               preventSelection={preventSelection}
               keepOpen={keepOpen}
               preventClose={preventClose}

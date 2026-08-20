@@ -5111,6 +5111,18 @@ describe('Autocomplete inline', () => {
     expect(options[0].textContent).toContain('BB')
   })
 
+  it('filters an initial input value in inline mode', () => {
+    render(
+      <Autocomplete {...inlineProps} inputValue="BB" data={mockData} />
+    )
+
+    const options = document.querySelectorAll(
+      'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+    )
+    expect(options).toHaveLength(1)
+    expect(options[0].textContent).toContain('BB')
+  })
+
   it('selects an option and keeps the list open in inline mode', () => {
     const onChange = vi.fn()
     render(
@@ -5131,12 +5143,22 @@ describe('Autocomplete inline', () => {
     render(<Autocomplete {...inlineProps} data={mockData} />)
 
     const ul = document.querySelector('ul.dnb-drawer-list__options')
+    const input = document.querySelector('.dnb-input__input')
+    fireEvent.focus(input)
 
     keyDownOnInput('ArrowDown')
 
     await waitFor(() => {
       expect(ul.getAttribute('aria-activedescendant')).toBe(
         `option-${inlineProps.id}-0`
+      )
+    })
+
+    keyDownOnInput('ArrowDown')
+
+    await waitFor(() => {
+      expect(ul.getAttribute('aria-activedescendant')).toBe(
+        `option-${inlineProps.id}-1`
       )
     })
   })
@@ -5185,6 +5207,51 @@ describe('Autocomplete inline', () => {
     expect(document.getElementById(activeDescendant)).toBeTruthy()
 
     expect(await axeComponent(result)).toHaveNoViolations()
+  })
+
+  it('does not allow selection when disabled in inline mode', () => {
+    const onChange = vi.fn()
+    render(
+      <Autocomplete
+        {...inlineProps}
+        disabled
+        data={mockData}
+        onChange={onChange}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelectorAll('li.dnb-drawer-list__option')[1]
+    )
+
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('supports inline from the global Provider context', () => {
+    render(
+      <Provider Autocomplete={{ inline: true }}>
+        <Autocomplete data={mockData} />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-drawer-list--inline')).toBeTruthy()
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(mockData.length)
+  })
+
+  it('closes the list when inline is disabled at runtime', () => {
+    const { rerender } = render(
+      <Autocomplete {...inlineProps} data={mockData} />
+    )
+
+    rerender(
+      <Autocomplete {...inlineProps} inline={false} data={mockData} />
+    )
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(0)
   })
 })
 

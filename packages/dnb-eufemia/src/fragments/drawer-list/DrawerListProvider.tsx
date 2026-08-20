@@ -1201,14 +1201,17 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     if (propsRef.current.preventClose) {
       let isSameDrawer = false
       try {
+        const activeElement = document.activeElement
         const ulElem = getClosestParent(
           'dnb-drawer-list__options',
-          document.activeElement
+          activeElement
         )
 
         isSameDrawer =
           ulElem === _refUl.current ||
-          ulElem?.getAttribute('id') === stateRef.current.id
+          ulElem?.getAttribute('id') === stateRef.current.id ||
+          activeElement?.getAttribute('aria-controls') ===
+            `${stateRef.current.id}-ul`
       } catch (err) {
         warn(err)
       }
