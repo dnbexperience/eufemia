@@ -159,6 +159,19 @@ describe('Eufemia RAIWork plugin', () => {
     ).rejects.toThrow('Invalid marketplace PNG: cover.png')
   })
 
+  it('rejects a signature-only PNG with plausible dimensions', async () => {
+    const coverPath = path.join(temporaryRoot, 'cover.png')
+    const invalidPng = Buffer.alloc(24)
+    Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]).copy(invalidPng)
+    invalidPng.writeUInt32BE(1, 16)
+    invalidPng.writeUInt32BE(1, 20)
+    await fs.writeFile(coverPath, invalidPng)
+
+    await expect(
+      buildRaiworkBundle({ ...paths, coverPath })
+    ).rejects.toThrow('Invalid marketplace PNG: cover.png')
+  })
+
   it('accepts a hosted MCP with every required tool', async () => {
     const requiredTools = [
       'component_doc',

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { PNG } from 'pngjs'
 import { readCanonicalManifest, readPluginConfig } from './config.ts'
 import type {
   BuildPaths,
@@ -221,18 +222,34 @@ const writeFilesAtomically = async (
 }
 
 const validatePng = (content: Buffer, relativePath: string) => {
-  const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])
-  if (
-    content.length < 24 ||
-    content.length > MAX_ICON_BYTES ||
-    !content.subarray(0, 8).equals(pngSignature)
-  ) {
+  if (content.length > MAX_ICON_BYTES) {
     throw new Error(`Invalid marketplace PNG: ${relativePath}`)
   }
-  const width = content.readUInt32BE(16)
-  const height = content.readUInt32BE(20)
-  if (width > MAX_ICON_DIMENSION || height > MAX_ICON_DIMENSION) {
-    throw new Error(`Marketplace image is too large: ${width}x${height}`)
+
+  try {
+    const image = PNG.sync.read(content, { checkCRC: true })
+    if (
+      image.width < 1 ||
+      image.height < 1 ||
+      image.width > MAX_ICON_DIMENSION ||
+      image.height > MAX_ICON_DIMENSION
+    ) {
+      throw new Error(
+        `Marketplace image has unsupported dimensions: ${image.width}x${image.height}`
+      )
+    }
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message.startsWith(
+        'Marketplace image has unsupported dimensions'
+      )
+    ) {
+      throw error
+    }
+    throw new Error(`Invalid marketplace PNG: ${relativePath}`, {
+      cause: error,
+    })
   }
 }
 

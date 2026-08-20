@@ -37,5 +37,7 @@ tool is available and treat version-specific guidance carefully.
 This plugin owns generic Eufemia components, themes, accessibility guidance,
 review rules, and migrations. Product-specific authentication, providers,
 deployment, and business workflows remain with product or platform tooling.
+Generic visual-exploration skills can support ideation, but they do not define
+production DNB design-system APIs or compliance requirements.
 
 More documentation: [eufemia.dnb.no](https://eufemia.dnb.no)

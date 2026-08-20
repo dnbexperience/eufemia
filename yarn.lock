@@ -5994,6 +5994,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pngjs@npm:6.0.5":
+  version: 6.0.5
+  resolution: "@types/pngjs@npm:6.0.5"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10/132fce25817d47a784ed48aa678332521b0f7e6edbaa76f3fa4e9ca1228078788ae712f99ad4d1a324d9ba0b14829958677eabf3ebef1fb6e120816f433f0cd8
+  languageName: node
+  linkType: hard
+
 "@types/prismjs@npm:^1.26.0":
   version: 1.26.0
   resolution: "@types/prismjs@npm:1.26.0"
@@ -9793,6 +9802,8 @@ __metadata:
   resolution: "eufemia-raiwork-plugin@workspace:tools/eufemia-raiwork-plugin"
   dependencies:
     "@types/node": "npm:22.19.19"
+    "@types/pngjs": "npm:6.0.5"
+    pngjs: "npm:7.0.0"
     prettier: "npm:3.8.1"
     typescript: "npm:5.9.3"
     vitest: "npm:4.1.10"

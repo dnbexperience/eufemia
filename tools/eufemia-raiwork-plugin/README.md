@@ -133,8 +133,11 @@ Before the first marketplace release:
 3. Agree which design-system-team-managed identity will reserve and own the
    marketplace name `dnb-eufemia`. Marketplace ownership belongs to the first
    uploader.
-4. Run `release:check` from a clean checkout.
-5. Review the generated `manifest.json`, skill frontmatter, README, license,
+4. Run the cases in `packages/dnb-eufemia/agent-skills-evals` when skill
+   instructions or descriptions changed. Record trigger accuracy, assertion
+   pass rate, token usage, duration, and human feedback in the release record.
+5. Run `release:check` from a clean checkout.
+6. Review the generated `manifest.json`, skill frontmatter, README, license,
    cover, and file inventory.
 
 ## Upload and publish
@@ -174,6 +177,27 @@ The storefront description and generated README therefore tell users to enable
 the **eufemia** MCP row. RAIWork merges the approved endpoint into the user's
 configuration without replacing an existing MCP entry with the same name.
 
+## Downstream migration and routing
+
+After the first private marketplace release is verified, owners of the audited
+DNB frontend agent plugin should:
+
+1. Link to the discoverable `dnb-eufemia` marketplace entry rather than copying
+   its skills, component APIs, tokens, theme claims, accessibility requirements,
+   or review rules.
+2. Remove unsupported Eufemia claims, including full Carnegie dark-mode support
+   and blanket product-library precedence.
+3. Route production DNB frontend implementation and review to the official
+   Eufemia skills and MCP server.
+4. Keep generic visual-exploration skills explicitly labeled as exploratory and
+   outside production DNB/Eufemia compliance guidance.
+5. Track remaining product-specific conventions in the owning product or
+   platform backlog rather than adding them to Eufemia.
+
+This repository owns the upstream contract and marketplace artifact. The
+downstream plugin owner owns that migration after the marketplace identifier is
+reserved and available.
+
 ## Post-release checks
 
 After publication:
@@ -182,11 +206,13 @@ After publication:
 2. Enable the `eufemia` MCP server during consent.
 3. Confirm all five skills are discoverable.
 4. Confirm the MCP tools can be listed and called.
-5. Run representative trigger and non-trigger prompts.
+5. Run the canonical trigger and non-trigger prompts from
+   `packages/dnb-eufemia/agent-skills-evals/trigger-cases.json`.
 6. Confirm production DNB frontend requests select Eufemia guidance rather than
    generic visual-exploration skills.
-7. Record the published plugin version and Eufemia source commit in the release
-   record.
+7. Run the output evaluations for every changed skill against a baseline.
+8. Record the published plugin version, Eufemia source commit, grading,
+   benchmark, and human feedback in the release record.
 
 ## Rollback
 

@@ -15,11 +15,15 @@
   },
   "devDependencies": {
     "@types/node": "22.19.19",
+    "@types/pngjs": "6.0.5",
     "prettier": "3.8.1",
     "typescript": "5.9.3",
     "vitest": "4.1.10"
   },
   "volta": {
     "extends": "../../package.json"
+  },
+  "dependencies": {
+    "pngjs": "7.0.0"
   }
 }
