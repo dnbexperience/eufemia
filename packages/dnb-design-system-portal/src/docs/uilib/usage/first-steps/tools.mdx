@@ -187,7 +187,10 @@ import eufemiaStylelint from '@dnb/eufemia/plugins/stylelint.js'
 export default {
   plugins: [eufemiaStylelint],
   rules: {
-    'eufemia/no-deprecated-color-variables': true,
+    'eufemia/no-deprecated-color-variables': [
+      true,
+      { severity: 'warning' },
+    ],
     'eufemia/token-name-policy': [true, { themePrefixes: { ui: 'dnb' } }],
   },
 }

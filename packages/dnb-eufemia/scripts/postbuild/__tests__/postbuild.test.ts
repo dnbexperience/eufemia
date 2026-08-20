@@ -995,6 +995,30 @@ describe('style build', () => {
   })
 })
 
+describe('review rule metadata build', () => {
+  const buildStages = getBuildStages(['', '/es', '/cjs'])
+
+  it.each(buildStages)('ships metadata on stage "%s"', (stage) => {
+    const metadataPath = path.resolve(
+      PKG_ROOT,
+      `build${stage}/plugins/review-rules.js`
+    )
+    const declarationsPath = path.resolve(
+      PKG_ROOT,
+      `build${stage}/plugins/review-rules.d.ts`
+    )
+
+    expect(fs.existsSync(metadataPath)).toBe(true)
+    expect(fs.existsSync(declarationsPath)).toBe(true)
+
+    const metadata = fs.readFileSync(metadataPath, 'utf-8')
+    const declarations = fs.readFileSync(declarationsPath, 'utf-8')
+    expect(metadata).toContain('eufemia/no-deprecated-color-variables')
+    expect(metadata).toContain("level: 'warning'")
+    expect(declarations).toContain('ReviewRuleMetadata')
+  })
+})
+
 describe('package.json dependencies', () => {
   it('includes @babel/runtime-corejs3 as a runtime dependency', () => {
     // The published build artifacts contain imports from

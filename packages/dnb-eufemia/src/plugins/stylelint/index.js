@@ -15,7 +15,12 @@ pluginPack.reviewRules = reviewRules
 pluginPack.recommended = {
   plugins: pluginPack,
   rules: {
-    [noDeprecatedColorVariables.ruleName]: true,
+    [noDeprecatedColorVariables.ruleName]: [
+      true,
+      {
+        severity: reviewRules[noDeprecatedColorVariables.ruleName].level,
+      },
+    ],
     [tokenNamePolicy.ruleName]: true,
     [noUndefinedCustomProperty.ruleName]: true,
   },
