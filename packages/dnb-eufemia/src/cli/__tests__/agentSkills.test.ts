@@ -42,6 +42,7 @@ describe('Eufemia agent skills', () => {
       'eufemia-review',
       'eufemia-migrate',
     ])
+    expect(manifest.optionalTools).toEqual(['docs_meta', 'review_rules'])
     expect(files.size).toBe(5)
     expect(
       manifest.skills.every(
