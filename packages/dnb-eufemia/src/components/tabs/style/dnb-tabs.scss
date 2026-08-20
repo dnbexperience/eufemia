@@ -423,7 +423,6 @@
   }
 
   &__button .dnb-badge {
-    vertical-align: top;
     margin-left: 0.25rem;
   }
 
@@ -465,8 +464,7 @@
     }
   }
 
-  &__button:has(&__button__title > .dnb-badge),
-  .dnb-core-style &__button:has(&__button__title > .dnb-badge) {
+  &__button:has(&__button__title > .dnb-badge) {
     --tab-button-background--hover: transparent;
     --tab-button-background--active: transparent;
 

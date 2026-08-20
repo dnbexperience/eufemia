@@ -388,7 +388,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   border-color: transparent;
 }
 .dnb-tabs__button .dnb-badge {
-  vertical-align: top;
   margin-left: 0.25rem;
 }
 .dnb-tabs__button__title > .dnb-badge {
@@ -422,11 +421,11 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border);
 }
-.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge), .dnb-core-style .dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge) {
+.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge) {
   --tab-button-background--hover: transparent;
   --tab-button-background--active: transparent;
 }
-.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge)::after, .dnb-core-style .dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge)::after {
+.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge)::after {
   content: none;
 }"
 `;
@@ -815,7 +814,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   border-color: transparent;
 }
 .dnb-tabs__button .dnb-badge {
-  vertical-align: top;
   margin-left: 0.25rem;
 }
 .dnb-tabs__button__title > .dnb-badge {
@@ -849,11 +847,11 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border);
 }
-.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge), .dnb-core-style .dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge) {
+.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge) {
   --tab-button-background--hover: transparent;
   --tab-button-background--active: transparent;
 }
-.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge)::after, .dnb-core-style .dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge)::after {
+.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge)::after {
   content: none;
 }"
 `;
