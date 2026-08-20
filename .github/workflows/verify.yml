@@ -106,6 +106,7 @@ jobs:
         run: |
           yarn workspace @dnb/eufemia lint:ci
           yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
+          yarn workspace eufemia-raiwork-plugin lint
 
   lint-portal:
     name: Run portal lint
@@ -175,6 +176,7 @@ jobs:
           yarn workspace dnb-design-system-portal test:types
           yarn workspace eufemia-css-optimizer test:types
           yarn workspace eufemia-llm-metadata test:types
+          yarn workspace eufemia-raiwork-plugin test:types
           yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
 
   test:
@@ -203,6 +205,7 @@ jobs:
           yarn workspace eufemia-css-optimizer test
           yarn workspace markdown-tables-utils test
           yarn workspace eufemia-llm-metadata test
+          yarn workspace eufemia-raiwork-plugin test
           yarn workspace @dnb/eufemia-mcp-legacy-proxy test
 
   deps:
@@ -252,6 +255,9 @@ jobs:
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
+
+      - name: Build RAIWork plugin
+        run: yarn workspace eufemia-raiwork-plugin build
 
       - name: Check bundle sizes
         env:
