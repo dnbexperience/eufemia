@@ -658,6 +658,7 @@ type EmptyInputType = z.infer<typeof EmptyInput>
 
 type DocsToolHandlers = {
   docsEntry: (_input: EmptyInputType) => Promise<ToolResult>
+  docsMeta: (_input: EmptyInputType) => Promise<ToolResult>
   reviewRules: (_input: EmptyInputType) => Promise<ToolResult>
   docsIndex: (_input: EmptyInputType) => Promise<ToolResult>
   docsList: (input: DocsListInputType) => Promise<ToolResult>
@@ -745,6 +746,11 @@ export function createDocsTools(
       ...rule,
     }))
     return makeTextResult(JSON.stringify(rules, null, 2))
+  }
+
+  const docsMeta = async (_input: EmptyInputType): Promise<ToolResult> => {
+    const meta = await readDocsMeta(context.source)
+    return makeTextResult(JSON.stringify(meta, null, 2))
   }
 
   const docsIndex = async (
@@ -957,6 +963,7 @@ export function createDocsTools(
 
   return {
     docsEntry,
+    docsMeta,
     reviewRules: getReviewRules,
     docsIndex,
     docsList,
@@ -1014,12 +1021,23 @@ export function registerDocsTools(
   server.registerTool(
     'docs_entry',
     {
-      title: 'Docs entry',
+      title: 'Full docs entry index',
       description:
-        'IMPORTANT! Primary entrypoint to the Eufemia documentation. Before implementing any Eufemia-based features or examples, call mcp_eufemia_docs_entry to understand the docs structure, and learn how to use the other MCP tools correctly; then use mcp_eufemia_docs_search and mcp_eufemia_docs_read to fetch relevant documentation. Make sure you have located and carefully read the relevant getting started or first-steps documentation before you implement any examples or code snippets based on these docs. Always follow these guidelines when using the documentation: use the documentation exactly as provided; gather all required information from the documentation before using it as a reference; and do not make assumptions or infer missing details unless the documentation or user explicitly instructs you to do so.',
+        'Return the complete llm.md documentation link index. This is a large exhaustive payload, not a normal onboarding or lookup step. Use it only when the full documentation structure is explicitly required. For routine work, prefer component_find/component_props for component APIs, component_doc for component guidance and examples, docs_search followed by docs_read for conceptual topics, or docs_list for one documentation area.',
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsEntry(input)
+  )
+
+  server.registerTool(
+    'docs_meta',
+    {
+      title: 'Docs metadata',
+      description:
+        'Return metadata for the documentation served by this MCP instance, including the Eufemia version, generation time, and source commit. Use this before relying on version-specific guidance or comparing the served documentation with an installed Eufemia package.',
+      inputSchema: EmptyInput.shape,
+    },
+    (input) => tools.docsMeta(input)
   )
 
   server.registerTool(
@@ -1071,7 +1089,7 @@ export function registerDocsTools(
     {
       title: 'Search docs',
       description:
-        'Search across all markdown and MDX documentation using a free-text query, returning a JSON array of ranked matches with relevance scores and text snippets. Use this when you know what you are looking for conceptually (for example a component, feature, or concept name), but you do not know the exact file path yet. Prefer this after you have called the docs entry tool so you understand how the docs are structured. In particular, use this to find and read the appropriate getting started or first-steps documentation before you rely on any specific examples or code snippets.',
+        'Search across all markdown and MDX documentation using a free-text query, returning a JSON array of ranked matches with relevance scores and text snippets. Use this when you know what you are looking for conceptually (for example a component, feature, or concept name), but you do not know the exact file path yet. Read the relevant result with docs_read before relying on its guidance or examples. Add a prefix when you know the documentation area to reduce unrelated results.',
       inputSchema: DocsSearchInput.shape,
     },
     (input) => tools.docsSearch(input)

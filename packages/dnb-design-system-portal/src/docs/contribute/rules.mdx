@@ -54,6 +54,28 @@ Keep small static capability matrices in package APIs and documentation unless a
 broader metadata interface is introduced. This avoids adding one MCP tool for
 every isolated fact while preserving machine-readable review contracts.
 
+## Where a component change belongs
+
+Choose ownership based on the responsibility of the change, not only on where a
+similar component already exists:
+
+- Add generic UI components, accessibility behavior, design tokens, themes and
+  reusable form primitives to Eufemia.
+- Add business-domain or product-platform compositions to the shared library
+  for that product area.
+- Keep application-specific workflows and presentation in the application.
+
+When Eufemia is missing functionality that would be useful across products,
+evaluate an Eufemia contribution before introducing a permanent wrapper or
+parallel implementation. An existing component in another shared library does
+not automatically take precedence over Eufemia. Consider its ownership,
+behavior and intended reuse.
+
+Use a local abstraction when the requirement is genuinely product-specific or
+cannot yet be supported by Eufemia. Keep the boundary explicit so generally
+useful behavior can move into Eufemia later without carrying business concerns
+with it.
+
 ## DNB Code of conduct
 
 This code of conduct outlines our expectations for participants within the DNB community, as well as steps to reporting unacceptable behavior. We are committed to providing a welcoming and inspiring community for all and expect our code of conduct to be honored. Anyone who violates this code of conduct may be banned from the community.
