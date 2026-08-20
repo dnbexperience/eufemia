@@ -30,9 +30,9 @@ permissions:
   pull-requests: read
 
 env:
-  # Only non-secret build flags and the ephemeral, permission-scoped
-  # GITHUB_TOKEN remain here; the public Algolia config is scoped to the build.
-  GITHUB_TOKEN: ${{ github.token }}
+  # Only non-secret build flags remain here; the public Algolia config is
+  # scoped to the build step. actions/github-script receives the token
+  # automatically — no env var needed.
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
   RUN_VISUAL_TEST: ${{ !startsWith(github.ref, 'refs/heads/icon') }}
   PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
