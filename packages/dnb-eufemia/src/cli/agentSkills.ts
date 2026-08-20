@@ -53,6 +53,13 @@ export type InstallAgentSkillsOptions = {
   force?: boolean
 }
 
+type UninstallAgentSkillsOptions = Pick<
+  InstallAgentSkillsOptions,
+  'targetRoot' | 'targetBaseRoot' | 'force'
+> & {
+  dryRun?: boolean
+}
+
 export type RunAgentSkillsCliOptions = {
   args: string[]
   packageRoot: string
@@ -539,10 +546,8 @@ export async function uninstallAgentSkills({
   targetRoot,
   targetBaseRoot = targetRoot,
   force = false,
-}: Pick<
-  InstallAgentSkillsOptions,
-  'targetRoot' | 'targetBaseRoot' | 'force'
->) {
+  dryRun = false,
+}: UninstallAgentSkillsOptions) {
   await assertSafeTargetPath(targetBaseRoot, targetRoot)
   const lock = await readAgentSkillsLock(targetRoot, targetBaseRoot)
   if (!lock) {
@@ -566,6 +571,10 @@ export async function uninstallAgentSkills({
         .map((entry) => `- ${entry}`)
         .join('\n')}`
     )
+  }
+
+  if (dryRun) {
+    return Object.keys(lock.files)
   }
 
   for (const relativePath of Object.keys(lock.files)) {
@@ -607,6 +616,19 @@ const createTargetChoices = async (cwd: string) => {
       ),
     }))
   )
+}
+
+const findManagedTargetRoots = async (cwd: string) => {
+  const managedTargetRoots: string[] = []
+
+  for (const { target } of AGENT_SKILLS_TARGETS) {
+    const targetRoot = path.resolve(cwd, target)
+    if (await readAgentSkillsLock(targetRoot, cwd)) {
+      managedTargetRoots.push(targetRoot)
+    }
+  }
+
+  return managedTargetRoots
 }
 
 const selectAgentSkillsTargets: SelectAgentSkillsTargets = async (
@@ -663,7 +685,7 @@ Commands:
   install      Select targets and install Eufemia agent skills
   update       Alias for install
   check        Check installed skills against this package
-  uninstall    Remove unmodified installed Eufemia skills
+  uninstall    Remove all unmodified managed Eufemia skills
   list         List packaged Eufemia skills
   version      Print the Eufemia package version
 
@@ -756,20 +778,44 @@ export async function runAgentSkillsCli({
     return 0
   }
   if (command === 'uninstall') {
-    const uninstallTarget =
-      targetRoot ?? path.resolve(cwd, DEFAULT_AGENT_SKILLS_TARGET)
-    const files = await uninstallAgentSkills({
-      targetRoot: uninstallTarget,
-      targetBaseRoot: cwd,
-      force,
-    })
-    if (!files) {
-      output(`No managed Eufemia agent skills found in ${uninstallTarget}`)
+    const uninstallTargets = targetRoot
+      ? [targetRoot]
+      : await findManagedTargetRoots(cwd)
+    if (uninstallTargets.length === 0) {
+      output('No managed Eufemia agent skills found in this project')
       return 0
     }
-    output(
-      `Removed ${files.length} Eufemia skill files from ${uninstallTarget}`
-    )
+
+    const managedTargets: string[] = []
+    for (const uninstallTarget of uninstallTargets) {
+      const files = await uninstallAgentSkills({
+        targetRoot: uninstallTarget,
+        targetBaseRoot: cwd,
+        force,
+        dryRun: true,
+      })
+      if (files) {
+        managedTargets.push(uninstallTarget)
+      }
+    }
+
+    if (managedTargets.length === 0) {
+      output(
+        `No managed Eufemia agent skills found in ${uninstallTargets[0]}`
+      )
+      return 0
+    }
+
+    for (const uninstallTarget of managedTargets) {
+      const files = await uninstallAgentSkills({
+        targetRoot: uninstallTarget,
+        targetBaseRoot: cwd,
+        force,
+      })
+      output(
+        `Removed ${files?.length ?? 0} Eufemia skill files from ${uninstallTarget}`
+      )
+    }
     return 0
   }
 

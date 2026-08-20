@@ -89,13 +89,14 @@ yarn eufemia skills update
 yarn eufemia skills uninstall
 ```
 
-`update` opens the same selector with managed locations selected. `check` and
-`uninstall` use `.claude/skills` unless you pass another installed location with
-`--target`. `check` reports missing, changed, stale, or version-mismatched files.
-`update` refuses to overwrite locally modified skill files. Review those changes
-first; use `--force` only when replacing them intentionally. `uninstall` removes
-only files tracked by the Eufemia skills lock and leaves unrelated project
-skills untouched.
+`update` opens the same selector with managed locations selected. `check` uses
+`.claude/skills` unless you pass another installed location with `--target`.
+Without `--target`, `uninstall` removes every managed supported location in the
+project. It validates all selected locations before removing any files. `check`
+reports missing, changed, stale, or version-mismatched files. `update` refuses to
+overwrite locally modified skill files. Review those changes first; use
+`--force` only when replacing them intentionally. `uninstall` removes only files
+tracked by Eufemia skills locks and leaves unrelated project skills untouched.
 
 ### Evaluate skill changes
 
