@@ -78,3 +78,124 @@ export function validateRecordInput(input: unknown): ValidationResult {
     },
   }
 }
+
+/**
+ * A single anonymous page-view event sent by the portal.
+ *
+ * `timestamp` is the client-side view time; it is optional so the simplest
+ * caller can send just a `path` and let the API stamp the time on receipt.
+ * `env` labels the source environment (e.g. `prod`, `dev`) so a shared
+ * collector can keep environments apart; it is optional and defaults to
+ * `unknown` on storage.
+ */
+export type PageViewInput = {
+  path: string
+  timestamp?: string
+  env?: string
+}
+
+export type PageViewValidationResult =
+  | { ok: true; value: PageViewInput[] }
+  | ValidationFailure
+
+const MAX_PAGE_VIEW_BATCH = 50
+const MAX_PATH_LENGTH = 2048
+
+/** A short lowercase environment token, e.g. `prod`, `dev`. */
+const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
+
+/**
+ * True only for a canonical ISO 8601 UTC timestamp (the form produced by
+ * `Date.prototype.toISOString`), rejecting the looser inputs `Date.parse`
+ * would otherwise accept, such as `"2026"` or `"March 5"`.
+ */
+function isIsoTimestamp(value: string): boolean {
+  const date = new Date(value)
+  return !Number.isNaN(date.getTime()) && date.toISOString() === value
+}
+
+/**
+ * Validate an untrusted `/collect` payload into a batch of page views.
+ *
+ * Accepts either a single event object or an array of them. Page views carry
+ * no identifiers or personal data — only a `path` and an optional timestamp.
+ */
+export function validatePageViewBatch(
+  input: unknown
+): PageViewValidationResult {
+  const events = Array.isArray(input) ? input : [input]
+
+  if (events.length === 0) {
+    return { ok: false, errors: ['Body must contain at least one event'] }
+  }
+
+  if (events.length > MAX_PAGE_VIEW_BATCH) {
+    return {
+      ok: false,
+      errors: [
+        `A batch may contain at most ${MAX_PAGE_VIEW_BATCH} events`,
+      ],
+    }
+  }
+
+  const errors: string[] = []
+  const value: PageViewInput[] = []
+
+  events.forEach((event, index) => {
+    if (
+      typeof event !== 'object' ||
+      event === null ||
+      Array.isArray(event)
+    ) {
+      errors.push(`Event ${index} must be a JSON object`)
+      return
+    }
+
+    const { path, timestamp, env } = event as Record<string, unknown>
+    let valid = true
+
+    if (typeof path !== 'string' || !path.startsWith('/')) {
+      errors.push(
+        `Event ${index}: "path" must be a string starting with "/"`
+      )
+      valid = false
+    } else if (path.length > MAX_PATH_LENGTH) {
+      errors.push(
+        `Event ${index}: "path" must be at most ${MAX_PATH_LENGTH} characters`
+      )
+      valid = false
+    }
+
+    if (timestamp !== undefined) {
+      if (typeof timestamp !== 'string' || !isIsoTimestamp(timestamp)) {
+        errors.push(
+          `Event ${index}: "timestamp" must be an ISO date string`
+        )
+        valid = false
+      }
+    }
+
+    if (env !== undefined) {
+      if (typeof env !== 'string' || !ENV_PATTERN.test(env)) {
+        errors.push(
+          `Event ${index}: "env" must be a short lowercase token`
+        )
+        valid = false
+      }
+    }
+
+    if (valid) {
+      value.push({
+        path: path as string,
+        ...(typeof timestamp === 'string' ? { timestamp } : {}),
+        ...(typeof env === 'string' ? { env } : {}),
+      })
+    }
+  })
+
+  if (errors.length > 0) {
+    return { ok: false, errors }
+  }
+
+  return { ok: true, value }
+}
