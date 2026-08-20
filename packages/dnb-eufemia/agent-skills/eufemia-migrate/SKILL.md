@@ -11,8 +11,8 @@ metadata:
 
 Base migrations on the installed and target Eufemia versions.
 
-1. Determine the current and target package versions. Call `docs_meta` when
-   available to identify the documentation version.
+1. Determine the current and target package versions. Call `docs_meta` to
+   identify the documentation version.
 2. Use `docs_search` to find every release guide between those versions, then
    read the relevant documents with `docs_read`.
 3. Inventory affected imports, properties, events, styles, tokens, types, and
@@ -29,3 +29,5 @@ Base migrations on the installed and target Eufemia versions.
 Do not use broad regular-expression replacements where component-specific
 semantics differ. Record unresolved changes and the documentation needed to
 decide them.
+If the MCP server or a required tool is unavailable, stop and report the
+incompatible setup instead of guessing migration guidance.

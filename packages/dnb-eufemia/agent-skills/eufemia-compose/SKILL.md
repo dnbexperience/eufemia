@@ -11,7 +11,7 @@ metadata:
 
 Build from current Eufemia capabilities rather than copied component recipes.
 
-1. Call `docs_meta` when available to identify the documentation version.
+1. Call `docs_meta` to identify the documentation version.
 2. Describe the user goal, primary action, information hierarchy, data states,
    and accessibility needs before choosing components.
 3. Use `docs_search` and `docs_read` to find the relevant layout, Forms,
@@ -29,3 +29,5 @@ Build from current Eufemia capabilities rather than copied component recipes.
 Keep business workflows, authentication, deployment, and product-specific
 provider stacks outside this skill. If the required generic capability is
 missing, propose an Eufemia contribution and make any local fallback explicit.
+If the MCP server or a required tool is unavailable, stop and report the
+incompatible setup instead of guessing current Eufemia facts.

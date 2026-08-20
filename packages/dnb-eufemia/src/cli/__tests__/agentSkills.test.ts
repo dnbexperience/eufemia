@@ -42,13 +42,27 @@ describe('Eufemia agent skills', () => {
       'eufemia-review',
       'eufemia-migrate',
     ])
-    expect(manifest.optionalTools).toEqual(['docs_meta', 'review_rules'])
+    expect(manifest.optionalTools).toEqual([])
     expect(files.size).toBe(5)
     expect(
       manifest.skills.every(
-        ({ requiredTools }) => !requiredTools.includes('docs_entry')
+        ({ requiredTools }) =>
+          requiredTools.includes('docs_meta') &&
+          !requiredTools.includes('docs_entry')
       )
     ).toBe(true)
+    expect(
+      manifest.skills.find(({ name }) => name === 'eufemia-review')
+        ?.requiredTools
+    ).toContain('review_rules')
+
+    for (const skill of manifest.skills) {
+      const content = await fs.readFile(
+        path.join(sourceRoot, skill.path),
+        'utf-8'
+      )
+      expect(content.toLowerCase()).not.toContain('when available')
+    }
   })
 
   it('rejects host-specific skill frontmatter', async () => {

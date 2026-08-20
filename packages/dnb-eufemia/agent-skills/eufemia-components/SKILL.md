@@ -11,8 +11,8 @@ metadata:
 
 Use Eufemia's packaged documentation as the source of truth.
 
-1. Call `docs_meta` on the Eufemia MCP server when available to identify the
-   documentation version.
+1. Call `docs_meta` on the Eufemia MCP server to identify the documentation
+   version.
 2. If the component name is uncertain, use `component_find` before selecting an
    API.
 3. Use `component_props` for current properties and events. Read every returned
@@ -24,5 +24,5 @@ Use Eufemia's packaged documentation as the source of truth.
    Eufemia contribution instead of automatically creating a parallel component.
 
 State which documentation path or component API supports the result. If the MCP
-server is unavailable, explain that current Eufemia facts could not be verified
-instead of guessing.
+server or a required tool is unavailable, stop and report that the current
+Eufemia contract could not be verified instead of guessing.
