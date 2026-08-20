@@ -4,7 +4,7 @@ Eufemia is DNB's design system and UI library, providing a consistent and access
 
 Read more about Eufemia and the [DNB UI Library](https://eufemia.dnb.no/uilib/about-the-lib).
 
-## Agent skills
+## Agent Skills
 
 The package includes portable [Agent Skills](https://agentskills.io/) that use
 Eufemia's versioned documentation through the Eufemia MCP server.
@@ -15,12 +15,17 @@ Install the skills in a project that already depends on `@dnb/eufemia`:
 yarn eufemia skills install
 ```
 
+See the [Agent Skills and MCP documentation](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#agent-skills)
+for installation targets, npm and pnpm commands, update safety, cloud-agent
+usage, and MCP configuration.
+
 The default target is `.claude/skills`, which is discovered by Claude Code and
 VS Code Copilot. Use `--target .github/skills` or
 `--target .agents/skills` when another project location is preferred.
 
 ```bash
 yarn eufemia skills check
+yarn eufemia skills list
 yarn eufemia skills update
 yarn eufemia skills uninstall
 ```
