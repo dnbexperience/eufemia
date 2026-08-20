@@ -303,4 +303,21 @@ describe('renderWithFormatting', () => {
       </form>
     `)
   })
+
+  it('strips javascript: hrefs from inline links', () => {
+    const text = 'Click [here](javascript:alert(1))'
+    renderNode(renderWithFormatting(text))
+    const a = document.querySelector('a') as HTMLAnchorElement
+    expect(a).toBeTruthy()
+    expect(a.textContent).toBe('here')
+    expect(a.getAttribute('href')).toBeNull()
+  })
+
+  it('strips obfuscated javascript: hrefs from inline links', () => {
+    const text = 'Click [xss](JAVASCRIPT:alert(1))'
+    renderNode(renderWithFormatting(text))
+    const a = document.querySelector('a') as HTMLAnchorElement
+    expect(a).toBeTruthy()
+    expect(a.getAttribute('href')).toBeNull()
+  })
 })
