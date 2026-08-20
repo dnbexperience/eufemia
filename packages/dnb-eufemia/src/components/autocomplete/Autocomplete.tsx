@@ -282,6 +282,10 @@ export type AutocompleteProps = {
    */
   showSubmitButton?: boolean
   /**
+   * Use `true` to render the results list persistently open in normal document flow, instead of an overlay. The toggle button is hidden. Defaults to `false`.
+   */
+  inline?: boolean
+  /**
    * Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from '@dnb/eufemia/components/input/Input'`.
    */
   submitElement?: ReactNode
@@ -425,6 +429,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   noAnimation: false,
   noScrollAnimation: false,
   showSubmitButton: false,
+  inline: false,
   submitElement: null,
   preventSelection: false,
   size: 'default',
@@ -472,7 +477,9 @@ function Autocomplete(props: AutocompleteAllProps) {
     ...props,
     id: _id,
     data: props.data || props.children,
-    open: null,
+    open: props.inline ? true : null,
+    preventClose: props.inline || props.preventClose,
+    skipPortal: props.inline || props.skipPortal,
     tagName: 'dnb-autocomplete',
     ignoreEvents: false,
     preventFocus: true,
@@ -579,6 +586,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     noAnimation,
     noScrollAnimation,
     showSubmitButton,
+    inline,
     submitElement,
     inputElement: CustomInput,
     optionsRender,
@@ -2343,6 +2351,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   }
 
   if (
+    !inline &&
     submitElement &&
     isValidElement<Record<string, unknown>>(submitElement)
   ) {
@@ -2353,7 +2362,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         ...triggerParams,
       }
     )
-  } else if (showSubmitButton) {
+  } else if (!inline && showSubmitButton) {
     submitButton = (
       <SubmitButton
         icon={
@@ -2494,7 +2503,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               />
             )}
 
-            {!submitButton && (
+            {!submitButton && !inline && (
               <span className="dnb-sr-only">
                 <button
                   tabIndex={-1}
@@ -2518,6 +2527,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               noAnimation={noAnimation}
               noScrollAnimation={noScrollAnimation}
               skipPortal={skipPortal}
+              inline={inline}
               preventSelection={preventSelection}
               keepOpen={keepOpen}
               preventClose={preventClose}

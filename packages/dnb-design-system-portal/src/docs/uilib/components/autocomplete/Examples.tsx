@@ -449,6 +449,19 @@ export const AutocompleteOpened = () => {
   )
 }
 
+export const AutocompleteInlineExample = () => {
+  return (
+    <Wrapper>
+      <ComponentBox
+        data-visual-test="autocomplete-inline"
+        scope={{ topMovies }}
+      >
+        <Autocomplete inline label="Label" data={topMovies} />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
 const topMovies = [
   {
     content: (

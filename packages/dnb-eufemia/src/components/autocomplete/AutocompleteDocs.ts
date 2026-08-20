@@ -181,6 +181,11 @@ export const AutocompleteProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  inline: {
+    doc: 'Use `true` to render the results list persistently open in normal document flow, instead of an overlay. The toggle button is hidden. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   status: {
     doc: 'Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.',
     type: ['"error"', '"information"', 'boolean'],

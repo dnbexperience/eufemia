@@ -488,6 +488,16 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
 }
+.dnb-drawer-list--inline .dnb-drawer-list__list {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  box-shadow: none;
+  border-radius: 0;
+}
+.dnb-drawer-list--inline .dnb-drawer-list__options {
+  border-radius: 0;
+}
 
 @keyframes drawer-list-scale-in {
   from {
@@ -1038,6 +1048,16 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
 }
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
+}
+.dnb-drawer-list--inline .dnb-drawer-list__list {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  box-shadow: none;
+  border-radius: 0;
+}
+.dnb-drawer-list--inline .dnb-drawer-list__options {
+  border-radius: 0;
 }
 
 @keyframes drawer-list-scale-in {

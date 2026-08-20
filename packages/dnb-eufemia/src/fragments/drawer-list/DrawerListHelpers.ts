@@ -45,6 +45,7 @@ export const drawerListDefaultProps: Partial<DrawerListProps> = {
   preventFocus: false,
   fixedPosition: false,
   independentWidth: false,
+  inline: false,
   skipKeysearch: false,
   open: null,
   data: null,
@@ -383,7 +384,7 @@ export const prepareDerivedState = (
     }
   }
 
-  state.skipPortal = props.skipPortal
+  state.skipPortal = props.skipPortal || props.inline
 
   if (typeof props.wrapperElement === 'string') {
     if (typeof document !== 'undefined') {
@@ -430,8 +431,14 @@ export const prepareDerivedState = (
     // no valid active item
     // but screenreaders require an active item, so we point them to the first item
     const firstItem = getFirstItemFromData(state.data)
+    // Reference the item's __id (which the rendered option id uses); it can
+    // differ from the array index for custom items such as the no-options message.
+    const firstItemId =
+      firstItem === null
+        ? null
+        : (state.data[firstItem]?.__id ?? firstItem)
     state.ariaActiveDescendant =
-      firstItem === null ? '' : `option-${state.id}-${firstItem}`
+      firstItemId === null ? '' : `option-${state.id}-${firstItemId}`
 
     state.activeItem = -1
   } else {
