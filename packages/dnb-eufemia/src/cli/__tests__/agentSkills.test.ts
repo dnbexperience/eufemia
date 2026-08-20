@@ -319,6 +319,93 @@ describe('Eufemia agent skills', () => {
     ])
   })
 
+  it('uninstalls every managed supported target by default', async () => {
+    const output: string[] = []
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    const managedTargets = [
+      path.join(temporaryRoot, '.github', 'skills'),
+      path.join(temporaryRoot, '.agents', 'skills'),
+    ]
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+    for (const managedTarget of managedTargets) {
+      await installAgentSkills({
+        sourceRoot,
+        targetRoot: managedTarget,
+        targetBaseRoot: temporaryRoot,
+        packageVersion,
+      })
+    }
+
+    await expect(
+      runEufemiaCli({
+        args: ['skills', 'uninstall'],
+        packageRoot: cliPackageRoot,
+        cwd: temporaryRoot,
+        output: (message) => output.push(message),
+      })
+    ).resolves.toBe(0)
+
+    for (const managedTarget of managedTargets) {
+      await expect(
+        fs.readFile(
+          path.join(managedTarget, AGENT_SKILLS_LOCK_FILE),
+          'utf-8'
+        )
+      ).rejects.toMatchObject({ code: 'ENOENT' })
+    }
+    expect(output).toHaveLength(2)
+  })
+
+  it('does not partially uninstall when a managed target has changes', async () => {
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    const managedTargets = [
+      path.join(temporaryRoot, '.github', 'skills'),
+      path.join(temporaryRoot, '.agents', 'skills'),
+    ]
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+    for (const managedTarget of managedTargets) {
+      await installAgentSkills({
+        sourceRoot,
+        targetRoot: managedTarget,
+        targetBaseRoot: temporaryRoot,
+        packageVersion,
+      })
+    }
+    await fs.appendFile(
+      path.join(managedTargets[1], 'eufemia-components', 'SKILL.md'),
+      '\nLocal guidance\n'
+    )
+
+    await expect(
+      runEufemiaCli({
+        args: ['skills', 'uninstall'],
+        packageRoot: cliPackageRoot,
+        cwd: temporaryRoot,
+      })
+    ).rejects.toThrow('Refusing to remove modified agent skills')
+
+    for (const managedTarget of managedTargets) {
+      await expect(
+        fs.readFile(
+          path.join(managedTarget, AGENT_SKILLS_LOCK_FILE),
+          'utf-8'
+        )
+      ).resolves.toContain(`"packageVersion": "${packageVersion}"`)
+    }
+  })
+
   it('reports when there is no managed installation to uninstall', async () => {
     const output: string[] = []
     const cliPackageRoot = path.join(temporaryRoot, 'package')
