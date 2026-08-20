@@ -510,6 +510,28 @@ describe('Field.Currency', () => {
       expect(input.selectionStart).toBe(1)
       expect(input.selectionEnd).toBe(1)
     })
+
+    it('should keep decimals when the dynamic suffix changes', async () => {
+      render(<Field.Currency currencyDisplay="name" decimalLimit={2} />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '1,5')
+      expect(input).toHaveValue('1,5 kroner')
+      expect(input.selectionStart).toBe(3)
+      expect(input.selectionEnd).toBe(3)
+    })
+
+    it('should keep the caret for negative values with a dynamic suffix', async () => {
+      render(<Field.Currency currencyDisplay="name" />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '-1')
+      expect(input).toHaveValue('-1 krone')
+      expect(input.selectionStart).toBe(2)
+      expect(input.selectionEnd).toBe(2)
+    })
   })
 
   describe('disallowLeadingZeroes', () => {

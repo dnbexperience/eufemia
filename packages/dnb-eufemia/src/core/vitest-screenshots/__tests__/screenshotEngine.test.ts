@@ -43,6 +43,7 @@ import { _testing } from '../commands/screenshotEngine'
 
 const {
   buildUrl,
+  applyScreenshotColorScheme,
   sessions,
   browserSlots,
   sessionToSlot,
@@ -102,6 +103,62 @@ describe('buildUrl', () => {
   it('omits eufemia-theme when theme is undefined', () => {
     const url = buildUrl('/demos/', false, undefined)
     expect(url).not.toContain('eufemia-theme')
+  })
+
+  it('adds eufemia-color-scheme param when color scheme is provided', () => {
+    const url = buildUrl('/demos/', false, 'ui', 'dark')
+    expect(url).toContain('eufemia-color-scheme=dark')
+  })
+
+  it('omits eufemia-color-scheme when color scheme is undefined', () => {
+    const url = buildUrl('/demos/', false, 'ui', undefined)
+    expect(url).not.toContain('eufemia-color-scheme')
+  })
+})
+
+describe('applyScreenshotColorScheme', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('stores the requested color scheme while preserving the theme', () => {
+    const storage = new Map([
+      ['eufemia-theme', JSON.stringify({ name: 'sbanken' })],
+    ])
+    vi.stubGlobal('location', {
+      search: '?eufemia-color-scheme=dark',
+    })
+    vi.stubGlobal('localStorage', {
+      getItem: (key: string) => storage.get(key) ?? null,
+      setItem: (key: string, value: string) => storage.set(key, value),
+    })
+
+    applyScreenshotColorScheme()
+
+    expect(JSON.parse(storage.get('eufemia-theme') || '{}')).toEqual({
+      name: 'sbanken',
+      colorScheme: 'dark',
+    })
+  })
+
+  it('removes a previous color scheme when none is requested', () => {
+    const storage = new Map([
+      [
+        'eufemia-theme',
+        JSON.stringify({ name: 'sbanken', colorScheme: 'dark' }),
+      ],
+    ])
+    vi.stubGlobal('location', { search: '' })
+    vi.stubGlobal('localStorage', {
+      getItem: (key: string) => storage.get(key) ?? null,
+      setItem: (key: string, value: string) => storage.set(key, value),
+    })
+
+    applyScreenshotColorScheme()
+
+    expect(JSON.parse(storage.get('eufemia-theme') || '{}')).toEqual({
+      name: 'sbanken',
+    })
   })
 })
 
