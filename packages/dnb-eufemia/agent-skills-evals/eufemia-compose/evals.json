@@ -20,6 +20,16 @@
         "The response does not present a provider stack as an Eufemia requirement",
         "The response still covers relevant UI states and accessibility needs"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan an Eufemia interface in a repository that does not have @dnb/eufemia installed, and where dependency installation is currently prohibited.",
+      "expected_output": "Documentation-grounded planning against the hosted MCP version without claiming an executable implementation can be verified until that package version is approved and installed.",
+      "assertions": [
+        "The response states the Eufemia version reported by docs_meta as the proposed target",
+        "The response limits work to documentation and planning while package installation is prohibited",
+        "The response does not claim the interface was implemented or runtime-verified"
+      ]
     }
   ]
 }

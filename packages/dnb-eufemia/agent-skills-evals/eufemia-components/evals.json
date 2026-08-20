@@ -20,6 +20,16 @@
         "The response verifies properties and behavior before proposing code",
         "Any missing generic capability is identified as a possible Eufemia contribution"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "This project uses @dnb/eufemia 11.8, but docs_meta says the hosted MCP serves 12.0. Which Button API should I implement?",
+      "expected_output": "A refusal to use latest hosted API facts for the older installed package, with instructions to use the local MCP pinned to 11.8 before implementing.",
+      "assertions": [
+        "The response identifies the installed and hosted version mismatch",
+        "The response requires the local MCP from the installed package for version-specific API guidance",
+        "The response does not recommend a 12.0 Button API as valid for 11.8"
+      ]
     }
   ]
 }

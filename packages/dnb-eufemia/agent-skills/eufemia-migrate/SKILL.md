@@ -12,7 +12,10 @@ metadata:
 Base migrations on the installed and target Eufemia versions.
 
 1. Determine the current and target package versions. Call `docs_meta` to
-   identify the documentation version.
+   identify the served documentation version. If it does not match the installed
+   current version, use the local MCP from that package for current APIs and the
+   target release documentation for target APIs. If no current package version
+   can be identified, stop and request it before planning a migration.
 2. Use `docs_search` to find every release guide between those versions, then
    read the relevant documents with `docs_read`.
 3. Inventory affected imports, properties, events, styles, tokens, types, and
