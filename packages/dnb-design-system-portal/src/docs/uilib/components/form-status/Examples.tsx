@@ -42,7 +42,8 @@ export const FormStatusWithRefresh = () => (
 export const FormStatusWithButton = () => (
   <ComponentBox data-visual-test="form-status-button">
     <FormStatus state="warning" variant="outlined">
-      <Button variant="tertiary" text="Button as content" />
+      Text{' '}
+      <Button variant="tertiary" text="Button as content" icon="bell" />
     </FormStatus>
   </ComponentBox>
 )
