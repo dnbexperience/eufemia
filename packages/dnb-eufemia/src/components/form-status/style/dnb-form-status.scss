@@ -120,6 +120,11 @@
     border: none;
   }
 
+  // Center the icon with a Button, which is taller than a single text line
+  &__shell:has(> &__text > .dnb-button) > .dnb-icon {
+    align-self: center;
+  }
+
   // Large
   &__size--large &__text {
     padding-top: 1.125rem;
