@@ -18,7 +18,8 @@ permissions:
   contents: write # Required for semantic-release to push tags and changelog
   issues: write # Required for semantic-release to comment on issues
   pull-requests: write # Required for semantic-release to comment on PRs
-  id-token: write # Required for npm provenance
+  id-token: write # Required for npm provenance and SBOM attestation signing
+  attestations: write # Required to record the release SBOM attestation
 
 env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
@@ -216,6 +217,31 @@ jobs:
           released="$(node -p "require('./build/package.json').version")"
           echo "released=$released" >> "$GITHUB_OUTPUT"
 
+      # Pack the published files into a tarball to serve as the attestation
+      # subject. `--ignore-scripts` keeps it side-effect free (no lifecycle
+      # scripts run) and uses the same build/ output semantic-release publishes.
+      - name: Pack the released library (attestation subject)
+        id: pack
+        continue-on-error: true
+        if: steps.sbom.outputs.released != '' &&
+          steps.sbom.outputs.released != '0.0.0-development'
+        working-directory: packages/dnb-eufemia
+        run: |
+          tarball="$(cd build && npm pack --ignore-scripts --pack-destination .. | tail -1)"
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          echo "Packed attestation subject: $tarball"
+
+      # Sign a CycloneDX SBOM attestation (Sigstore-backed) binding the SBOM to
+      # the packed release artifact. Complements npm provenance; verify with
+      # `gh attestation verify <tarball> --repo dnbexperience/eufemia`.
+      - name: Attest the SBOM
+        continue-on-error: true
+        if: steps.pack.outputs.tarball != ''
+        uses: actions/attest-sbom@c604332985a26aa8cf1bdc465b92731239ec6b9e # v4.1.0
+        with:
+          subject-path: packages/dnb-eufemia/${{ steps.pack.outputs.tarball }}
+          sbom-path: packages/dnb-eufemia/sbom.cdx.json
+
       - name: Upload SBOM and vulnerability report
         continue-on-error: true
         if: github.repository == 'dnbexperience/eufemia' &&
@@ -243,7 +269,11 @@ jobs:
         working-directory: packages/dnb-eufemia
         env:
           RELEASED_VERSION: ${{ steps.sbom.outputs.released }}
+          # The packed tarball is the attestation subject; attaching it lets
+          # anyone verify the SBOM attestation with `gh attestation verify`.
+          PACKED_TARBALL: ${{ steps.pack.outputs.tarball }}
         run: |
           gh release upload "v$RELEASED_VERSION" \
             sbom.cdx.json vulnerability-report.json \
+            ${PACKED_TARBALL:+"$PACKED_TARBALL"} \
             --clobber --repo "$GITHUB_REPOSITORY"
