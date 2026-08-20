@@ -453,7 +453,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
           placeholder: monthPlaceholder,
           autoComplete: 'bday-month',
           independentWidth: true,
-          disableReorder: true,
+          search: { reorder: false },
           onBlur: onBlurAutocomplete,
         }}
         data={months}

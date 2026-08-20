@@ -26,6 +26,14 @@ describe('prepareSearchWords', () => {
     expect(result.searchWords).toEqual(['hello', 'world'])
   })
 
+  it('deduplicates repeated words case-insensitively, keeping the first occurrence', () => {
+    expect(prepareSearchWords('foo foo bar').searchWords).toEqual([
+      'foo',
+      'bar',
+    ])
+    expect(prepareSearchWords('Foo foo').searchWords).toEqual(['Foo'])
+  })
+
   it('builds filter regexes for each word', () => {
     const result = prepareSearchWords('abc')
     expect(result.searchWordsData).toHaveLength(1)

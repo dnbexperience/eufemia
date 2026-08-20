@@ -1888,6 +1888,42 @@ describe('Autocomplete component', () => {
         'dnb-drawer-list__option__item--highlight'
       )
     })
+
+    it('warns when a deprecated search prop is used', () => {
+      const log = vi
+        .spyOn(console, 'log')
+        .mockImplementation(() => undefined)
+
+      render(<Autocomplete disableFilter data={mockData} {...mockProps} />)
+
+      expect(log).toHaveBeenCalledWith(
+        expect.stringContaining('Eufemia'),
+        'Autocomplete: `disableFilter` is deprecated. Use `search={{ filter: false }}` instead.'
+      )
+
+      log.mockRestore()
+    })
+
+    it('does not warn when the search prop is used instead', () => {
+      const log = vi
+        .spyOn(console, 'log')
+        .mockImplementation(() => undefined)
+
+      render(
+        <Autocomplete
+          search={{ filter: false }}
+          data={mockData}
+          {...mockProps}
+        />
+      )
+
+      expect(log).not.toHaveBeenCalledWith(
+        expect.stringContaining('Eufemia'),
+        expect.stringContaining('is deprecated')
+      )
+
+      log.mockRestore()
+    })
   })
 
   it('has correct "aria-expanded"', () => {
