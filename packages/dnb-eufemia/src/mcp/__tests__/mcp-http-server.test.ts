@@ -243,7 +243,6 @@ describe('mcp-http-server', () => {
       expect(toolNames).toEqual(
         expect.arrayContaining([
           'docs_entry',
-          'theme_capabilities',
           'docs_index',
           'docs_list',
           'docs_read',

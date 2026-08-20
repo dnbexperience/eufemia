@@ -15,7 +15,6 @@ import {
 } from '@modelcontextprotocol/server'
 
 import { type DocsSource, normalizeDocsPath } from './docs-source'
-import { themeCapabilities } from '../style/themes/capabilities'
 
 type ToolResult = CallToolResult
 
@@ -658,7 +657,6 @@ type EmptyInputType = z.infer<typeof EmptyInput>
 
 type DocsToolHandlers = {
   docsEntry: (_input: EmptyInputType) => Promise<ToolResult>
-  themeCapabilities: (_input: EmptyInputType) => Promise<ToolResult>
   docsIndex: (_input: EmptyInputType) => Promise<ToolResult>
   docsList: (input: DocsListInputType) => Promise<ToolResult>
   docsRead: (input: DocsReadInputType) => Promise<ToolResult>
@@ -735,12 +733,6 @@ export function createDocsTools(
       return makeTextResult('llm.md not found in docs root.')
     }
     return makeTextResult(text)
-  }
-
-  const getThemeCapabilities = async (
-    _input: EmptyInputType
-  ): Promise<ToolResult> => {
-    return makeTextResult(JSON.stringify(themeCapabilities, null, 2))
   }
 
   const docsIndex = async (
@@ -953,7 +945,6 @@ export function createDocsTools(
 
   return {
     docsEntry,
-    themeCapabilities: getThemeCapabilities,
     docsIndex,
     docsList,
     docsRead,
@@ -1016,17 +1007,6 @@ export function registerDocsTools(
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsEntry(input)
-  )
-
-  server.registerTool(
-    'theme_capabilities',
-    {
-      title: 'Theme capabilities',
-      description:
-        'Return Eufemia-owned theme capability metadata, including supported light and dark color schemes, the published dark-mode stylesheet when available, and dark-surface support. Use this before recommending theme imports or colorScheme values; dark surfaces do not imply that a complete dark color scheme is supported.',
-      inputSchema: EmptyInput.shape,
-    },
-    (input) => tools.themeCapabilities(input)
   )
 
   server.registerTool(

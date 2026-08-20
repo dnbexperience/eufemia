@@ -37,4 +37,42 @@ describe('themeCapabilities', () => {
       supportsDarkSurface: true,
     })
   })
+
+  it('documents every theme capability', () => {
+    const docs = fs.readFileSync(
+      path.resolve(
+        __dirname,
+        '../../../../../dnb-design-system-portal/src/docs/uilib/usage/customisation/theming.mdx'
+      ),
+      'utf-8'
+    )
+    const rows = docs
+      .split('\n')
+      .filter((line) => line.startsWith('| `'))
+      .map((line) =>
+        line
+          .split('|')
+          .slice(1, -1)
+          .map((cell) => cell.trim())
+      )
+
+    for (const [name, capability] of Object.entries(themeCapabilities)) {
+      const colorSchemes = capability.colorSchemes
+        .map((colorScheme) => `\`${colorScheme}\``)
+        .join(', ')
+      const darkModeStyle = capability.darkModeStyle
+        ? `\`${capability.darkModeStyle}\``
+        : 'None'
+      const supportsDarkSurface = capability.supportsDarkSurface
+        ? 'Yes'
+        : 'No'
+
+      expect(rows).toContainEqual([
+        `\`${name}\``,
+        colorSchemes,
+        darkModeStyle,
+        supportsDarkSurface,
+      ])
+    }
+  })
 })
