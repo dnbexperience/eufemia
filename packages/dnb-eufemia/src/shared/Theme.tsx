@@ -13,8 +13,9 @@ import { extendPropsWithContext } from './component-helper'
 import withComponentMarkers from './helpers/withComponentMarkers'
 import useMediaQuery from './useMediaQuery'
 import useIsomorphicLayoutEffect from './helpers/useIsomorphicLayoutEffect'
+import type { ThemeName } from '../style/themes/capabilities'
 
-export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'
+export type ThemeNames = ThemeName
 export type ThemeVariants = string
 export type ThemeSizes = 'basis'
 export type ContrastMode = boolean

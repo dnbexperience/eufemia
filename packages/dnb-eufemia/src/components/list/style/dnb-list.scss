@@ -461,7 +461,9 @@
 
     list-style: none;
 
-    &.dnb-list--striped > .dnb-list__item:nth-of-type(odd) {
+    &.dnb-list--striped:not(.dnb-list--striped-even)
+      > .dnb-list__item:nth-of-type(odd),
+    &.dnb-list--striped-even > .dnb-list__item:nth-of-type(even) {
       --list-item-background-color: var(
         --token-color-background-neutral-subtle
       );

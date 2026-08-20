@@ -25,11 +25,18 @@ function event(
     isBase64Encoded?: boolean
     headers?: Record<string, string | undefined>
     query?: Record<string, string | undefined>
+    // Injected by default so requests pass the edge lock; pass null to omit it.
+    edgeAuth?: string | null
   } = {}
 ): APIGatewayProxyEventV2 {
+  const edgeHeader =
+    opts.edgeAuth === null
+      ? {}
+      : { 'x-edge-auth': opts.edgeAuth ?? 'edge-secret' }
+
   return {
     rawPath: path,
-    headers: opts.headers ?? {},
+    headers: { ...edgeHeader, ...(opts.headers ?? {}) },
     queryStringParameters: opts.query,
     requestContext: { http: { method } },
     body: opts.body,
@@ -48,10 +55,12 @@ describe('handler', () => {
     storeRecord.mockReset()
     retrieveRecords.mockReset()
     process.env.API_TOKEN = 'secret'
+    process.env.EDGE_AUTH_SECRET = 'edge-secret'
   })
 
   afterEach(() => {
     delete process.env.API_TOKEN
+    delete process.env.EDGE_AUTH_SECRET
   })
 
   it('serves /healthz without auth', async () => {
@@ -194,7 +203,9 @@ describe('handler origin auth (X-Edge-Auth)', () => {
   })
 
   it('requires the edge header for /healthz when the edge secret is set', async () => {
-    const missing = await invoke(event('GET', '/healthz'))
+    const missing = await invoke(
+      event('GET', '/healthz', { edgeAuth: null })
+    )
     expect(missing.statusCode).toBe(403)
 
     const withHeader = await invoke(
@@ -207,7 +218,11 @@ describe('handler origin auth (X-Edge-Auth)', () => {
 
   it('rejects with 403 when the edge header is missing', async () => {
     const res = await invoke(
-      event('POST', '/records', { body: '{}', headers: auth })
+      event('POST', '/records', {
+        body: '{}',
+        headers: auth,
+        edgeAuth: null,
+      })
     )
 
     expect(res.statusCode).toBe(403)

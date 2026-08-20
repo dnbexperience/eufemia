@@ -10,6 +10,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
+import { themeCapabilities } from '../../../src/style/themes/capabilities'
 
 const PKG_ROOT = path.resolve(__dirname, '../../..')
 
@@ -743,6 +744,38 @@ describe('tsdown build', () => {
 describe('style build', () => {
   const buildStages = getBuildStages(['', '/es', '/cjs'])
 
+  it('ships the theme capability contract and advertised styles', () => {
+    expect(
+      fs.existsSync(
+        path.resolve(PKG_ROOT, 'build/style/themes/capabilities.js')
+      )
+    ).toBe(true)
+    expect(
+      fs.existsSync(
+        path.resolve(PKG_ROOT, 'build/style/themes/capabilities.d.ts')
+      )
+    ).toBe(true)
+
+    const declarations = fs.readFileSync(
+      path.resolve(PKG_ROOT, 'build/style/themes/capabilities.d.ts'),
+      'utf-8'
+    )
+    expect(declarations).toContain('darkModeStyle: string | null;')
+    expect(declarations).not.toContain('darkModeStyle: any;')
+
+    for (const capability of Object.values(themeCapabilities)) {
+      if (capability.darkModeStyle) {
+        const packagePath = capability.darkModeStyle.replace(
+          '@dnb/eufemia/',
+          ''
+        )
+        expect(
+          fs.existsSync(path.resolve(PKG_ROOT, 'build', packagePath))
+        ).toBe(true)
+      }
+    }
+  })
+
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     {
       const content = fs.readFileSync(
@@ -1012,6 +1045,30 @@ describe('style build', () => {
       expect(content).toContain(expectedFontFamily)
       expect(content).toContain(expectedColor)
     })
+  })
+})
+
+describe('review rule metadata build', () => {
+  const buildStages = getBuildStages(['', '/es', '/cjs'])
+
+  it.each(buildStages)('ships metadata on stage "%s"', (stage) => {
+    const metadataPath = path.resolve(
+      PKG_ROOT,
+      `build${stage}/plugins/review-rules.js`
+    )
+    const declarationsPath = path.resolve(
+      PKG_ROOT,
+      `build${stage}/plugins/review-rules.d.ts`
+    )
+
+    expect(fs.existsSync(metadataPath)).toBe(true)
+    expect(fs.existsSync(declarationsPath)).toBe(true)
+
+    const metadata = fs.readFileSync(metadataPath, 'utf-8')
+    const declarations = fs.readFileSync(declarationsPath, 'utf-8')
+    expect(metadata).toContain('eufemia/no-deprecated-color-variables')
+    expect(metadata).toContain("level: 'warning'")
+    expect(declarations).toContain('ReviewRuleMetadata')
   })
 })
 

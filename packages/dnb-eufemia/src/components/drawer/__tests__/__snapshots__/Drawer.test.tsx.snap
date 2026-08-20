@@ -328,6 +328,9 @@ button .dnb-form-status__text {
   color: var(--form-status-color-icon);
   border: none;
 }
+.dnb-form-status__shell:has(> .dnb-form-status__text > .dnb-button) > .dnb-icon {
+  align-self: center;
+}
 .dnb-form-status__size--large .dnb-form-status__text {
   padding-top: 1.125rem;
   padding-bottom: 1.125rem;
