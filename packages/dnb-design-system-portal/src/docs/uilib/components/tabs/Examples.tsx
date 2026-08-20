@@ -231,7 +231,6 @@ export const TabsExampleMaxWidth = () => (
     {() => {
       const MaxWidthWrapper = styled.div`
         max-width: 30rem;
-        background: var(--color-white);
       `
 
       function TabsMaxWidth() {
@@ -431,6 +430,14 @@ export const TabsExampleWithBadgeNotification = () => (
       <Tabs
         data={[
           {
+            title: 'First',
+            key: 'first',
+          },
+          {
+            title: 'Second',
+            key: 'second',
+          },
+          {
             title: (
               <>
                 Transaksjoner{' '}
@@ -442,15 +449,7 @@ export const TabsExampleWithBadgeNotification = () => (
                 />
               </>
             ),
-            key: 'one',
-          },
-          {
-            title: 'Second',
-            key: 'second',
-          },
-          {
-            title: 'Third',
-            key: 'third',
+            key: 'transactions',
           },
         ]}
       />

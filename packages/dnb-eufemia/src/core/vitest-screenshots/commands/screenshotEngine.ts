@@ -44,10 +44,13 @@ type Action = {
 }
 type Simulate = Action | ActionName | (Action | ActionName)[]
 
+export type ScreenshotColorScheme = 'light' | 'dark'
+
 export type MakeScreenshotPayload = {
   selector: string
   url?: string | null
   themeName?: string | null
+  colorScheme?: ScreenshotColorScheme | null
   fullscreen?: boolean
   pageViewport?: { width?: number; height?: number } | null
   headers?: Record<string, string> | null
@@ -334,7 +337,8 @@ const removeIfExists = async (filePath: string) => {
 const buildUrl = (
   url: string,
   fullscreen: boolean,
-  themeName?: string | null
+  themeName?: string | null,
+  colorScheme?: ScreenshotColorScheme | null
 ) => {
   const u = new URL(url, `http://${config.host}:${config.port}`)
   u.searchParams.set('data-visual-test', 'true')
@@ -343,11 +347,40 @@ const buildUrl = (
     u.searchParams.set('eufemia-theme', themeName)
   }
 
+  if (colorScheme) {
+    u.searchParams.set('eufemia-color-scheme', colorScheme)
+  }
+
   if (fullscreen) {
     u.searchParams.set('fullscreen', 'true')
   }
 
   return u.toString()
+}
+
+const applyScreenshotColorScheme = () => {
+  const colorScheme = new URLSearchParams(globalThis.location.search).get(
+    'eufemia-color-scheme'
+  )
+  try {
+    const storedTheme = JSON.parse(
+      globalThis.localStorage.getItem('eufemia-theme') || '{}'
+    )
+    if (colorScheme === 'light' || colorScheme === 'dark') {
+      globalThis.localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ ...storedTheme, colorScheme })
+      )
+    } else {
+      delete storedTheme.colorScheme
+      globalThis.localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify(storedTheme)
+      )
+    }
+  } catch {
+    // stop here
+  }
 }
 
 const ensureSession = async (
@@ -404,6 +437,7 @@ const ensureSession = async (
   await page.addInitScript(() => {
     ;(globalThis as Record<string, unknown>).IS_TEST = true
   })
+  await page.addInitScript(applyScreenshotColorScheme)
 
   state = {
     page,
@@ -747,6 +781,7 @@ const navigateToPage = async (
   page: Page,
   url: string,
   themeName: string | null | undefined,
+  colorScheme: ScreenshotColorScheme | null | undefined,
   fullscreen: boolean,
   pageViewport: { width?: number; height?: number } | null | undefined,
   headers: Record<string, string> | null | undefined
@@ -757,7 +792,7 @@ const navigateToPage = async (
   lastAppliedViewport.delete(page)
   await applyPageSettings(page, pageViewport, headers)
 
-  const targetUrl = buildUrl(url, fullscreen, themeName)
+  const targetUrl = buildUrl(url, fullscreen, themeName, colorScheme)
 
   try {
     await page.goto(targetUrl, {
@@ -782,6 +817,7 @@ const navigateToFreshPage = async (
   state: SessionState,
   url: string,
   themeName: string | null | undefined,
+  colorScheme: ScreenshotColorScheme | null | undefined,
   fullscreen: boolean,
   pageViewport: { width?: number; height?: number } | null | undefined,
   headers: Record<string, string> | null | undefined
@@ -791,6 +827,7 @@ const navigateToFreshPage = async (
     state.page,
     url,
     themeName,
+    colorScheme,
     fullscreen,
     pageViewport,
     headers
@@ -858,7 +895,8 @@ const makePageReady = async (
   const targetUrl = buildUrl(
     payload.url,
     Boolean(payload.fullscreen),
-    payload.themeName
+    payload.themeName,
+    payload.colorScheme
   )
 
   const resetStrategy = getPageResetStrategyFromMutation({
@@ -878,6 +916,7 @@ const makePageReady = async (
       state,
       payload.url,
       payload.themeName,
+      payload.colorScheme,
       Boolean(payload.fullscreen),
       payload.pageViewport,
       payload.headers
@@ -897,6 +936,7 @@ const makePageReady = async (
       state.page,
       payload.url,
       payload.themeName,
+      payload.colorScheme,
       Boolean(payload.fullscreen),
       payload.pageViewport,
       payload.headers
@@ -1792,6 +1832,7 @@ export const makeScreenshot = defineBrowserCommand<
 
 export const _testing = {
   buildUrl,
+  applyScreenshotColorScheme,
   sessions,
   browserSlots,
   sessionToSlot,

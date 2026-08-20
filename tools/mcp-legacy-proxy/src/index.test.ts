@@ -41,6 +41,8 @@ let fetchMock: ReturnType<typeof vi.fn>
 beforeEach(() => {
   fetchMock = vi.fn()
   vi.stubGlobal('fetch', fetchMock)
+  // The worker logs one structured line per request; silence it in tests.
+  vi.spyOn(console, 'log').mockImplementation(() => undefined)
 })
 
 afterEach(() => {
@@ -196,9 +198,7 @@ describe('proxy mode', () => {
   })
 
   it('logs only method, client name, and status', async () => {
-    const logSpy = vi
-      .spyOn(console, 'log')
-      .mockImplementation(() => undefined)
+    const logSpy = vi.mocked(console.log)
     fetchMock.mockResolvedValue(initializeResult())
 
     await worker.fetch(initializeRequest(), proxyEnv)

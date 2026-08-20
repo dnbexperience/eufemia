@@ -24,10 +24,10 @@ export type ListContainerProps = {
   variant?: ListVariant
   separated?: boolean
   /**
-   * When `true`, applies alternating row background colors to the list items.
+   * Applies alternating row background colors to the list items. Use `true` or `odd` to color odd items, or `even` to color even items.
    * Default: `false`
    */
-  striped?: boolean
+  striped?: boolean | 'odd' | 'even'
   skeleton?: SkeletonShow
   disabled?: boolean
 } & FlexProps
@@ -106,6 +106,7 @@ function ListContainer(props: ListContainerProps) {
         variant && `dnb-list--variant-${variant}`,
         separated && 'dnb-list--separated',
         striped && 'dnb-list--striped',
+        striped === 'even' && 'dnb-list--striped-even',
         className
       )}
       {...rest}
