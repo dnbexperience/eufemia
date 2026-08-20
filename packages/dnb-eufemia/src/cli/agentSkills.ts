@@ -718,9 +718,12 @@ export async function runAgentSkillsCli({
   }
   if (command === 'list') {
     const manifest = await readAgentSkillsManifest(sourceRoot)
-    for (const skill of manifest.skills) {
-      output(`${skill.name}\t${skill.description}`)
-    }
+    manifest.skills.forEach((skill, index) => {
+      const separator = index < manifest.skills.length - 1 ? '\n' : ''
+      output(
+        `${index + 1}. ${skill.name}\n   ${skill.description}${separator}`
+      )
+    })
     return 0
   }
   if (command === 'install' || command === 'update') {
