@@ -19,6 +19,7 @@ permissions:
   issues: write # Required for semantic-release to comment on issues
   pull-requests: write # Required for semantic-release to comment on PRs
   id-token: write # Required for npm provenance
+  pages: write # Required for GitHub Pages deployment
 
 env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
@@ -70,13 +71,17 @@ jobs:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
 
+      - name: Upload portal artifact
+        if: (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/portal')
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: ./packages/dnb-design-system-portal/public
+
       - name: Deploy portal
         if: (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/portal')
-        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
-        with:
-          personal_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./packages/dnb-design-system-portal/public
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
