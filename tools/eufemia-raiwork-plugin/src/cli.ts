@@ -49,7 +49,7 @@ try {
       writeLine(`Usage: yarn workspace eufemia-raiwork-plugin <command>
 
 Commands:
-  build          Generate and validate dist/dnb-eufemia
+  build          Generate and validate dist/dnb-eufemia-web
   validate       Validate the existing generated bundle
   verify:remote  Verify required tools on the hosted Eufemia MCP
   release:check  Build, validate, and verify the hosted MCP`)

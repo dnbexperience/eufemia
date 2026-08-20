@@ -19,7 +19,7 @@ describe('Eufemia RAIWork plugin', () => {
     )
     paths = {
       ...defaultPaths,
-      outputRoot: path.join(temporaryRoot, 'dnb-eufemia'),
+      outputRoot: path.join(temporaryRoot, 'dnb-eufemia-web'),
     }
   })
 
@@ -45,7 +45,8 @@ describe('Eufemia RAIWork plugin', () => {
     ) as RaiworkPluginManifest
     expect(manifest).toMatchObject({
       schema: 'raicode.marketplace/v1',
-      name: 'dnb-eufemia',
+      name: 'dnb-eufemia-web',
+      title: 'Eufemia Web',
       version: '0.1.0',
       icon: 'cover.png',
       homepage: 'https://eufemia.dnb.no',

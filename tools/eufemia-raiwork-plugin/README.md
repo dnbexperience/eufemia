@@ -37,7 +37,7 @@ yarn workspace eufemia-raiwork-plugin build
 The upload folder is generated at:
 
 ```text
-tools/eufemia-raiwork-plugin/dist/dnb-eufemia/
+tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web/
 ```
 
 RAIWork packages the selected folder during upload, so the build does not
@@ -144,14 +144,14 @@ marketplace version is an immutable folder upload:
    yarn workspace eufemia-raiwork-plugin release:check
    ```
 
-6. Review `tools/eufemia-raiwork-plugin/dist/dnb-eufemia`, especially its
+6. Review `tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web`, especially its
    manifest, skill frontmatter, README, license, cover, and file inventory.
 7. Upload that folder privately through RAIWork **Marketplace → My Uploads →
    Upload**, or with:
 
    ```bash
    raicode manage marketplace upload \
-     tools/eufemia-raiwork-plugin/dist/dnb-eufemia
+   tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web
    ```
 
 8. Wait for marketplace scans, install the private version in a clean profile,
@@ -170,7 +170,7 @@ Before the first marketplace release:
 2. Deploy the hosted Eufemia MCP server with every required tool. Do not release
    the plugin against a partial or rolling tool deployment.
 3. Agree which design-system-team-managed identity will reserve and own the
-   marketplace name `dnb-eufemia`. Marketplace ownership belongs to the first
+   marketplace name `dnb-eufemia-web`. Marketplace ownership belongs to the first
    uploader.
 4. Run the cases in `packages/dnb-eufemia/agent-skills-evals` when skill
    instructions or descriptions changed. Record trigger accuracy, assertion
@@ -187,7 +187,7 @@ publishing.
 ### RAIWork UI
 
 1. Open **Marketplace → My Uploads → Upload**.
-2. Select `tools/eufemia-raiwork-plugin/dist/dnb-eufemia`.
+2. Select `tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web`.
 3. Upload privately first.
 4. Wait for manifest validation, secret scanning, malware scanning, and the
    safeguard scan.
@@ -200,7 +200,7 @@ management:
 
 ```bash
 raicode manage marketplace upload \
-  tools/eufemia-raiwork-plugin/dist/dnb-eufemia
+   tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web
 ```
 
 Private is the default. Add `--public` only when the release should be visible
@@ -221,7 +221,7 @@ configuration without replacing an existing MCP entry with the same name.
 After the first private marketplace release is verified, owners of the audited
 DNB frontend agent plugin should:
 
-1. Link to the discoverable `dnb-eufemia` marketplace entry rather than copying
+1. Link to the discoverable `dnb-eufemia-web` marketplace entry rather than copying
    its skills, component APIs, tokens, theme claims, accessibility requirements,
    or review rules.
 2. Remove unsupported Eufemia claims, including full Carnegie dark-mode support

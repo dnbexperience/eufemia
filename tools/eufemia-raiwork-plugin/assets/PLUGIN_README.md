@@ -1,4 +1,4 @@
-# Eufemia Design System for RAIWork
+# Eufemia Web
 
 Official Eufemia workflows and versioned documentation for production DNB
 frontends.

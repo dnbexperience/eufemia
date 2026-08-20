@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "plugin": {
-    "name": "dnb-eufemia",
+    "name": "dnb-eufemia-web",
     "version": "0.1.0",
-    "title": "Eufemia Design System",
-    "description": "Official Eufemia skills and MCP documentation for building, reviewing, and migrating DNB frontends with current component APIs, themes, accessibility guidance, and design-system rules.",
+    "title": "Eufemia Web",
+    "description": "Official Eufemia skills and MCP documentation for building, reviewing, and migrating DNB web frontends with current component APIs, themes, accessibility guidance, and design-system rules.",
     "license": "Apache-2.0 with Commons Clause",
     "homepage": "https://eufemia.dnb.no",
     "tags": [

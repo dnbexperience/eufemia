@@ -24,5 +24,5 @@ export const defaultPaths: BuildPaths = {
     moduleDirectory,
     '../../../packages/dnb-design-system-portal/static/dnb/og-image.png'
   ),
-  outputRoot: path.resolve(moduleDirectory, '../dist/dnb-eufemia'),
+  outputRoot: path.resolve(moduleDirectory, '../dist/dnb-eufemia-web'),
 }
