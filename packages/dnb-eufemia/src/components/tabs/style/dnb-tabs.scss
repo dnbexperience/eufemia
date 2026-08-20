@@ -422,6 +422,9 @@
     }
   }
 
+  // Badge in a tab title. The badge stays in the tab's layout flow (the Dummy's
+  // `flex-direction: row` reserves `text + badge` width) so the tab — and the
+  // scrollable tablist — never clips it, for any content length.
   &__button .dnb-badge {
     margin-left: 0.25rem;
   }
@@ -432,6 +435,9 @@
     grid-row: 1;
   }
 
+  // Lay the title out as `[ label | badge ]`. NB: this assumes the label is the
+  // only non-badge child — a leading Icon (or other extra inline child) next to
+  // a badge would be auto-placed onto a second grid row.
   &__button__title:has(> .dnb-badge) {
     position: relative;
     isolation: isolate;
@@ -439,6 +445,8 @@
     display: grid;
     grid-template-columns: 1fr auto;
 
+    // Draw the hover/selected background (::before) and underline (::after)
+    // behind the label column only, so they stop before the badge.
     &::before,
     &::after {
       content: '';
@@ -464,6 +472,8 @@
     }
   }
 
+  // Badge tabs get their background and underline from the title pseudos above,
+  // so suppress the button's own full-width background and underline.
   &__button:has(&__button__title > .dnb-badge) {
     --tab-button-background--hover: transparent;
     --tab-button-background--active: transparent;
