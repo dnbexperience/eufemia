@@ -15,6 +15,7 @@ else
   yarn build:esm
 fi
 yarn build:lebab
+yarn build:skills
 # yarn build:resources # Can be enabled in future if needed
 yarn build:copy
 rm -rf build/esm

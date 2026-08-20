@@ -1,6 +1,6 @@
 ---
 title: 'AI, MCP and Tools'
-description: 'Code editor extensions, ESLint plugin, AI assistance and MCP server for Eufemia development.'
+description: 'Agent Skills, MCP, code editor extensions, and lint plugins for Eufemia development.'
 status: 'beta'
 order: 3
 ---
@@ -11,6 +11,137 @@ import VSCodeExtensionHover from 'Docs/uilib/usage/first-steps/assets/eufemia-vs
 import VSCodeExtensionFontSize from 'Docs/uilib/usage/first-steps/assets/eufemia-vscode-extension-font-size.png'
 
 # Tools
+
+## Agent Skills
+
+`@dnb/eufemia` includes official [Agent Skills](https://agentskills.io/) for
+working with Eufemia:
+
+- **`eufemia-components`** — find components and verify current props, events,
+  Forms, and layout APIs.
+- **`eufemia-compose`** — compose pages and features from Eufemia primitives and
+  guidance.
+- **`eufemia-accessibility`** — apply Eufemia-specific accessibility guidance.
+- **`eufemia-review`** — review code against supported APIs, deprecations, and
+  documented rules.
+- **`eufemia-migrate`** — plan and validate upgrades using current release
+  documentation.
+
+The skills provide workflows and tell the agent which Eufemia documentation to
+retrieve. Component APIs, tokens, theme support, and other version-sensitive
+facts remain in Eufemia's packaged documentation and MCP server rather than
+being copied into the skills.
+
+### Install project skills
+
+In a project that depends on `@dnb/eufemia`, use the CLI provided by the same
+package:
+
+```bash
+yarn eufemia skills install
+```
+
+If the project does not depend on Eufemia yet, npm can download the package only
+for the duration of the installer command without changing `package.json` or
+creating project `node_modules`:
+
+```bash
+npm exec --yes --package @dnb/eufemia@latest -- eufemia skills install
+```
+
+This installs the project skill files, not the Eufemia runtime dependency. The
+RAIWork marketplace plugin bundles the same skills and does not require
+`@dnb/eufemia` to be installed just to discover them. If package downloads are
+also prohibited, an administrator must pre-provision one of the supported skill
+directories or the user must use an approved marketplace distribution.
+
+The command asks where to install the five skills. Select one or more supported
+project locations:
+
+- **Claude Code and GitHub Copilot:** `.claude/skills`
+- **GitHub Copilot:** `.github/skills`
+- **Codex and GitHub Copilot:** `.agents/skills`
+
+Use Space to toggle each location and Enter to install all selected locations.
+
+Locations with a managed Eufemia installation are selected by default when the
+command runs again. Clearing a location skips its update; it does not uninstall
+the existing files.
+
+#### Automation and CI
+
+Interactive users should use the selector. Scripts and environments without an
+interactive terminal cannot answer it, so automation must provide one project
+location explicitly:
+
+```bash
+yarn eufemia skills install --target .agents/skills
+```
+
+Equivalent commands with npm or pnpm are:
+
+```bash
+npm exec eufemia -- skills install
+pnpm exec eufemia skills install
+```
+
+Commit the installed skills when they should be available to colleagues and
+cloud agents. The installer also writes `.eufemia-skills-lock.json` in every
+selected skills directory. Commit each lock file together with the generated
+skills so updates can detect local changes.
+
+### Manage installed skills
+
+```bash
+# Show the skills included in the installed Eufemia package
+yarn eufemia skills list
+
+# Verify installed files and package version
+yarn eufemia skills check
+
+# Update project skills after upgrading @dnb/eufemia
+yarn eufemia skills update
+
+# Remove files managed by the Eufemia installer
+yarn eufemia skills uninstall
+```
+
+`update` opens the same selector with managed locations selected. `check` uses
+`.claude/skills` unless you pass another installed location with `--target`.
+Without `--target`, `uninstall` removes every managed supported location in the
+project. It validates all selected locations before removing any files. `check`
+reports missing, changed, stale, or version-mismatched files. `update` refuses to
+overwrite locally modified skill files. Review those changes first; use
+`--force` only when replacing them intentionally. `uninstall` removes only files
+tracked by Eufemia skills locks and leaves unrelated project skills untouched.
+
+### Evaluate skill changes
+
+Eufemia keeps representative output cases and trigger/non-trigger prompts in
+`packages/dnb-eufemia/agent-skills-evals`. Before changed instructions are
+released, run every case in a fresh session with the changed skill and a
+baseline, grade the assertions, record token and duration differences, and
+review the output manually. Positive routing cases must select the expected
+skill, while unrelated and generic visual-exploration cases must not select an
+Eufemia skill.
+
+Follow the [Agent Skills evaluation workflow](https://agentskills.io/skill-creation/evaluating-skills)
+and keep generated grading and benchmark workspaces with the release record,
+not in the published package.
+
+The CLI is part of the main package and can also report its version:
+
+```bash
+yarn eufemia --version
+yarn eufemia skills --help
+```
+
+### Connect the documentation
+
+Install the Agent Skills and configure one of the MCP options below. Skills are
+the reusable workflow; MCP provides the current Eufemia facts. If MCP is not
+available, the skills should say that the relevant information could not be
+verified instead of guessing.
 
 ## AI Assistance and MCP Server
 
@@ -30,6 +161,27 @@ https://server.eufemia.dnb.no/mcp/web
 ```
 
 It supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://server.eufemia.dnb.no/healthz`.
+
+#### Version behavior
+
+The hosted endpoint is intentionally unversioned and always serves the latest
+released Eufemia documentation. It does not require Eufemia to be installed.
+Use `docs_meta` to identify the served version:
+
+- When it matches the project's installed `@dnb/eufemia` version, use the hosted
+  tools normally.
+- When it differs, use the local MCP server from the installed package before
+  relying on version-specific components, properties, or behavior.
+- When the project has no Eufemia dependency, treat the hosted version as the
+  proposed target and state it explicitly. Install that package version before
+  claiming the implementation is executable or verified.
+- When dependency installation is prohibited, the hosted server can still
+  support documentation and planning, but skills must not claim runtime
+  implementation or verification.
+
+Offline use requires a preinstalled package or pre-provisioned documentation;
+neither the hosted server nor a transient skill download is available without
+network access.
 
 #### Example: Claude CLI / raicode CLI
 

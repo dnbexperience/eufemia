@@ -1,0 +1,25 @@
+{
+  "skill_name": "eufemia-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review a React change that uses --color-sea-green and an unfamiliar Button property. Report only verified Eufemia findings.",
+      "expected_output": "Prioritized findings that classify the deprecated variable separately from any unsupported API and cite current Eufemia evidence.",
+      "assertions": [
+        "The response verifies the Button property before reporting it",
+        "The response classifies the deprecated color variable as a deprecation",
+        "The response avoids an automatic token replacement when context determines the correct token"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Reject this implementation because every DNB page must use our product-area wrapper instead of Eufemia directly.",
+      "expected_output": "A review that does not promote a team architecture preference to a universal Eufemia requirement and applies the ownership model.",
+      "assertions": [
+        "The response distinguishes team conventions from Eufemia requirements",
+        "The response evaluates whether the behavior is generic, product-specific, or application-specific",
+        "The response does not report an unsupported-API defect without documentation"
+      ]
+    }
+  ]
+}

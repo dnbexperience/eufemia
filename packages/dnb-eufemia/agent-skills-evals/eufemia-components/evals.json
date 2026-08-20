@@ -1,0 +1,35 @@
+{
+  "skill_name": "eufemia-components",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement a submit button that prevents duplicate submissions and shows its pending state. Verify the current Eufemia Button API before writing code.",
+      "expected_output": "An implementation based on the current Button properties and behavior documentation, with no invented pending or submission API.",
+      "assertions": [
+        "The response verifies the Button API with targeted Eufemia component tools",
+        "The response cites the relevant Eufemia component documentation",
+        "The response does not invent undocumented Button properties"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Can Field.Address provide a country selector and expose the result through Form.Handler? Show the supported API or explain the limitation.",
+      "expected_output": "A version-specific answer that resolves Field.Address as a compound component and distinguishes documented support from missing behavior.",
+      "assertions": [
+        "The response resolves Field.Address using its compound component name",
+        "The response verifies properties and behavior before proposing code",
+        "Any missing generic capability is identified as a possible Eufemia contribution"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "This project uses @dnb/eufemia 11.8, but docs_meta says the hosted MCP serves 12.0. Which Button API should I implement?",
+      "expected_output": "A refusal to use latest hosted API facts for the older installed package, with instructions to use the local MCP pinned to 11.8 before implementing.",
+      "assertions": [
+        "The response identifies the installed and hosted version mismatch",
+        "The response requires the local MCP from the installed package for version-specific API guidance",
+        "The response does not recommend a 12.0 Button API as valid for 11.8"
+      ]
+    }
+  ]
+}
