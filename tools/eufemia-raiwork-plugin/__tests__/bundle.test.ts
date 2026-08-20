@@ -183,11 +183,7 @@ describe('Eufemia RAIWork plugin', () => {
     const report = await verifyHostedMcp(paths, fetchFunction)
 
     expect(report.requiredTools).toEqual(requiredTools)
-    expect(report.missingOptionalTools).toEqual([
-      'docs_meta',
-      'theme_capabilities',
-      'review_rules',
-    ])
+    expect(report.missingOptionalTools).toEqual(['docs_meta'])
   })
 
   it('rejects an incompatible hosted MCP', async () => {

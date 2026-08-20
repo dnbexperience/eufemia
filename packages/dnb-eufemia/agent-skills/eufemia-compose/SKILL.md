@@ -20,9 +20,8 @@ Build from current Eufemia capabilities rather than copied component recipes.
    from `docs_entry`.
 4. Resolve candidate components with `component_find`, verify APIs with
    `component_props`, and read `component_doc` for behavior and examples.
-5. Call `theme_capabilities` when available and verify theme and color-scheme
-   support in the current theming documentation. Do not infer a complete color
-   scheme from the existence of `ondark` tokens.
+5. Verify theme and color-scheme support in the current theming documentation.
+   Do not infer a complete color scheme from the existence of `ondark` tokens.
 6. Cover loading, empty, error, success, validation, keyboard, and responsive
    states that apply to the feature.
 7. Follow the target repository's architecture and styling conventions where

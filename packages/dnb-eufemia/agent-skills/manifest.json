@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "mcpServer": "eufemia",
-  "optionalTools": ["docs_meta", "theme_capabilities", "review_rules"],
+  "optionalTools": ["docs_meta"],
   "skills": [
     {
       "name": "eufemia-components",
