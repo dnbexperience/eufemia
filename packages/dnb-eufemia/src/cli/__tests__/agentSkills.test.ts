@@ -444,13 +444,13 @@ describe('Eufemia agent skills', () => {
 
     expect(output).toHaveLength(5)
     expect(output[0]).toMatch(
-      /^1\. eufemia-components\n   Find and apply current Eufemia component APIs\.[\s\S]+\n$/
+      /^1\. eufemia-components\n {3}Find and apply current Eufemia component APIs\.[\s\S]+\n$/
     )
-    expect(output[1]).toMatch(/^2\. eufemia-compose\n   Compose /)
+    expect(output[1]).toMatch(/^2\. eufemia-compose\n {3}Compose /)
     expect(output.join('\n')).toContain(
       '\n\n2. eufemia-compose\n   Compose '
     )
-    expect(output[4]).toMatch(/^5\. eufemia-migrate\n   Migrate /)
+    expect(output[4]).toMatch(/^5\. eufemia-migrate\n {3}Migrate /)
     expect(output[4]).not.toMatch(/\n$/)
   })
 
