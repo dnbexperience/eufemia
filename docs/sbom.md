@@ -2,8 +2,9 @@
 
 Every release of `@dnb/eufemia` is accompanied by a **Software Bill of
 Materials (SBOM)** and a **vulnerability report**, attached to the GitHub
-Release. This page explains what they are, where to find them, and what
-they are for.
+Release. The SBOM is also **cryptographically attested** (Sigstore-backed)
+so its authenticity can be verified. This page explains what they are, where
+to find them, and what they are for.
 
 ## What an SBOM is
 
@@ -29,10 +30,14 @@ Both files are produced by the release workflow
 ([`.github/workflows/release.yml`](../.github/workflows/release.yml))
 **after** the package is published, and are kept in two places:
 
-| Location                                                              | File(s)                                      | Lifetime                           |
-| --------------------------------------------------------------------- | -------------------------------------------- | ---------------------------------- |
-| The **GitHub Release** for the version (tag `v<version>`), as assets  | `sbom.cdx.json`, `vulnerability-report.json` | Permanent — lives with the release |
-| The release **workflow run artifact** `sbom-and-vulnerability-report` | both files                                   | 90 days                            |
+| Location                                                              | File(s)                                                                   | Lifetime                           |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------- |
+| The **GitHub Release** for the version (tag `v<version>`), as assets  | `sbom.cdx.json`, `vulnerability-report.json`, `dnb-eufemia-<version>.tgz` | Permanent — lives with the release |
+| The release **workflow run artifact** `sbom-and-vulnerability-report` | `sbom.cdx.json`, `vulnerability-report.json`                              | 90 days                            |
+
+The `.tgz` is the packed release artifact that the SBOM attestation is
+bound to (see [Verifying the attestation](#verifying-the-attestation));
+`npm` remains the canonical source for installing the package.
 
 The GitHub Release is the durable, canonical copy. To fetch it for a
 specific version:
@@ -44,6 +49,25 @@ gh release download vX.Y.Z --repo dnbexperience/eufemia \
 ```
 
 (or download them from the release page under **Assets**).
+
+## Verifying the attestation
+
+The SBOM is signed with a [Sigstore][sigstore]-backed attestation issued
+by the release workflow, so you can confirm it was produced by this
+repository's CI and has not been tampered with. Download the packed
+artifact and its SBOM from the release, then verify:
+
+```bash
+gh release download vX.Y.Z --repo dnbexperience/eufemia \
+  --pattern 'dnb-eufemia-*.tgz'
+gh attestation verify dnb-eufemia-X.Y.Z.tgz --repo dnbexperience/eufemia
+```
+
+This complements the [npm provenance][provenance] published with the
+package itself.
+
+[sigstore]: https://www.sigstore.dev/
+[provenance]: https://docs.npmjs.com/generating-provenance-statements
 
 ## What it is used for
 
