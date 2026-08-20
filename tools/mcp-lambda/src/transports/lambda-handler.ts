@@ -67,7 +67,11 @@ function toWebRequest(event: APIGatewayProxyEventV2): Request {
 function isEdgeAuthorized(event: APIGatewayProxyEventV2): boolean {
   const expected = process.env.EDGE_AUTH_SECRET
   if (!expected) {
-    return true
+    // Fail closed: reject all requests when the secret is not configured.
+    console.error(
+      '[eufemia] EDGE_AUTH_SECRET is not set — rejecting request'
+    )
+    return false
   }
 
   const provided = event.headers['x-edge-auth']
