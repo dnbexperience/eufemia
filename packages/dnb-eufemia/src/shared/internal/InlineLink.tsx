@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes } from 'react'
-import { isDangerousHref } from '../../components/anchor/Anchor'
+import { isDangerousHref } from '../helpers/isDangerousHref'
 
 type InlineLinkProps = AnchorHTMLAttributes<HTMLAnchorElement>
 

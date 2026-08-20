@@ -20,6 +20,7 @@ import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import { getOffsetTop } from '../../shared/helpers'
+import { isDangerousHref } from '../../shared/helpers/isDangerousHref'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
 import { launch as LaunchIcon } from '../../icons'
@@ -319,33 +320,6 @@ export function pickIcon(icon, className?: string) {
 export const opensNewTab = (target: string, href: string): boolean =>
   target === '_blank' && !/^(mailto|tel|sms)/.test(href)
 
-/**
- * Returns true when the given href uses a script-executing protocol
- * (`javascript:` or `vbscript:`). Browsers ignore leading control characters
- * and whitespace (including tabs and newlines) when resolving the scheme, so
- * those are stripped before testing to catch obfuscated values such as
- * `java\tscript:alert(1)`.
- *
- * Only script-executing protocols are blocked. `data:` and `blob:` URLs are
- * intentionally left untouched: they have legitimate uses (such as download
- * links and inline media), and modern browsers already block top-level `data:`
- * navigation triggered by a link click.
- */
-export function isDangerousHref(href: unknown): boolean {
-  if (typeof href !== 'string') {
-    return false
-  }
-
-  // Remove characters that browsers ignore when resolving a URL scheme
-  // (C0 controls, space, DEL and C1 controls) so obfuscated values such as
-  // "java\tscript:" are still detected.
-  let normalized = ''
-  for (const char of href) {
-    const code = char.charCodeAt(0)
-    if (code > 0x20 && code !== 0x7f && !(code >= 0x80 && code <= 0xa0)) {
-      normalized += char
-    }
-  }
-
-  return /^(javascript|vbscript):/i.test(normalized)
-}
+// Re-exported from the shared helper so importing it does not pull the whole
+// Anchor module (and its dependency chain) into lightweight consumers.
+export { isDangerousHref }
