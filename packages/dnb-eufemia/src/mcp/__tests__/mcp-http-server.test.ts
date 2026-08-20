@@ -237,12 +237,20 @@ describe('mcp-http-server', () => {
 
       const listEvent = await readSseEvent(listRes)
       const listJson = JSON.parse(listEvent.data ?? '{}') as {
-        result?: { tools?: Array<{ name: string }> }
+        result?: {
+          tools?: Array<{
+            name: string
+            title?: string
+            description?: string
+          }>
+        }
       }
-      const toolNames = (listJson.result?.tools ?? []).map((t) => t.name)
+      const tools = listJson.result?.tools ?? []
+      const toolNames = tools.map((tool) => tool.name)
       expect(toolNames).toEqual(
         expect.arrayContaining([
           'docs_entry',
+          'docs_meta',
           'docs_index',
           'docs_list',
           'docs_read',
@@ -253,6 +261,16 @@ describe('mcp-http-server', () => {
           'component_props',
         ])
       )
+
+      expect(
+        tools.find(({ name }) => name === 'docs_entry')
+      ).toMatchObject({
+        title: 'Full docs entry index',
+        description: expect.stringContaining('large exhaustive payload'),
+      })
+      expect(
+        tools.find(({ name }) => name === 'docs_search')?.description
+      ).not.toContain('docs entry')
     })
   })
 
