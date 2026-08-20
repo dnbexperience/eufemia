@@ -16,9 +16,9 @@ describe('isAuthorized', () => {
     }
   })
 
-  it('allows any request when API_TOKEN is not set', () => {
-    expect(isAuthorized(undefined)).toBe(true)
-    expect(isAuthorized({})).toBe(true)
+  it('rejects any request when API_TOKEN is not set (fail-closed)', () => {
+    expect(isAuthorized(undefined)).toBe(false)
+    expect(isAuthorized({})).toBe(false)
   })
 
   it('accepts a matching bearer token', () => {
@@ -65,9 +65,9 @@ describe('isEdgeAuthorized', () => {
     }
   })
 
-  it('allows any request when EDGE_AUTH_SECRET is not set', () => {
-    expect(isEdgeAuthorized(undefined)).toBe(true)
-    expect(isEdgeAuthorized({})).toBe(true)
+  it('rejects any request when EDGE_AUTH_SECRET is not set (fail-closed)', () => {
+    expect(isEdgeAuthorized(undefined)).toBe(false)
+    expect(isEdgeAuthorized({})).toBe(false)
   })
 
   it('accepts a matching X-Edge-Auth header', () => {

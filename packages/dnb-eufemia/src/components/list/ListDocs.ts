@@ -7,8 +7,8 @@ export const ContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   striped: {
-    doc: 'When `true`, applies alternating row background colors to the list items.',
-    type: 'boolean',
+    doc: 'Applies alternating row background colors to the list items. Use `true` or `odd` to color odd items, or `even` to color even items.',
+    type: ['boolean', '"odd"', '"even"'],
     defaultValue: 'false',
     status: 'optional',
   },

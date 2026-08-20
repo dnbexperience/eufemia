@@ -10,6 +10,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
+import { themeCapabilities } from '../../../src/style/themes/capabilities'
 
 const PKG_ROOT = path.resolve(__dirname, '../../..')
 
@@ -722,6 +723,38 @@ describe('tsdown build', () => {
 
 describe('style build', () => {
   const buildStages = getBuildStages(['', '/es', '/cjs'])
+
+  it('ships the theme capability contract and advertised styles', () => {
+    expect(
+      fs.existsSync(
+        path.resolve(PKG_ROOT, 'build/style/themes/capabilities.js')
+      )
+    ).toBe(true)
+    expect(
+      fs.existsSync(
+        path.resolve(PKG_ROOT, 'build/style/themes/capabilities.d.ts')
+      )
+    ).toBe(true)
+
+    const declarations = fs.readFileSync(
+      path.resolve(PKG_ROOT, 'build/style/themes/capabilities.d.ts'),
+      'utf-8'
+    )
+    expect(declarations).toContain('darkModeStyle: string | null;')
+    expect(declarations).not.toContain('darkModeStyle: any;')
+
+    for (const capability of Object.values(themeCapabilities)) {
+      if (capability.darkModeStyle) {
+        const packagePath = capability.darkModeStyle.replace(
+          '@dnb/eufemia/',
+          ''
+        )
+        expect(
+          fs.existsSync(path.resolve(PKG_ROOT, 'build', packagePath))
+        ).toBe(true)
+      }
+    }
+  })
 
   it.each(buildStages)('has created a package on stage "%s"', (stage) => {
     {
