@@ -55,12 +55,26 @@ gh release download vX.Y.Z --repo dnbexperience/eufemia \
 The SBOM is signed with a [Sigstore][sigstore]-backed attestation issued
 by the release workflow, so you can confirm it was produced by this
 repository's CI and has not been tampered with. Download the packed
-artifact and its SBOM from the release, then verify:
+artifact from the release, then verify it.
+
+`gh attestation verify` defaults to the SLSA provenance predicate, so pass
+the CycloneDX SBOM predicate type explicitly — it carries the SBOM's spec
+version (`v1.6` here):
 
 ```bash
 gh release download vX.Y.Z --repo dnbexperience/eufemia \
   --pattern 'dnb-eufemia-*.tgz'
-gh attestation verify dnb-eufemia-X.Y.Z.tgz --repo dnbexperience/eufemia
+
+gh attestation verify dnb-eufemia-X.Y.Z.tgz --repo dnbexperience/eufemia \
+  --predicate-type https://cyclonedx.org/bom/v1.6
+```
+
+To inspect the attested SBOM contents, add `--format json`:
+
+```bash
+gh attestation verify dnb-eufemia-X.Y.Z.tgz --repo dnbexperience/eufemia \
+  --predicate-type https://cyclonedx.org/bom/v1.6 \
+  --format json --jq '.[].verificationResult.statement.predicate'
 ```
 
 This complements the [npm provenance][provenance] published with the
