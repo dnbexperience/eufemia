@@ -13,6 +13,20 @@ function safeEqual(a: string, b: string): boolean {
   return timingSafeEqual(bufA, bufB)
 }
 
+// Logs a message at most once per process, so a misconfiguration surfaces in
+// CloudWatch without repeating on every request.
+const warned = new Set<string>()
+
+function warnOnce(message: string): void {
+  if (warned.has(message)) {
+    return
+  }
+
+  warned.add(message)
+  // eslint-disable-next-line no-console -- server-side logging to CloudWatch
+  console.error(message)
+}
+
 /** Build a JSON HTTP response for API Gateway (HTTP API / payload v2). */
 export function json(
   statusCode: number,
@@ -35,7 +49,9 @@ export function isAuthorized(
   const expected = process.env.API_TOKEN
 
   if (!expected) {
-    return true
+    // Fail closed: reject all requests when the token is not configured.
+    warnOnce('[eufemia] API_TOKEN is not set — rejecting request')
+    return false
   }
 
   const header = headers?.authorization ?? headers?.Authorization ?? ''
@@ -58,7 +74,9 @@ export function isEdgeAuthorized(
   const expected = process.env.EDGE_AUTH_SECRET
 
   if (!expected) {
-    return true
+    // Fail closed: reject all requests when the secret is not configured.
+    warnOnce('[eufemia] EDGE_AUTH_SECRET is not set — rejecting request')
+    return false
   }
 
   const provided = headers?.['x-edge-auth'] ?? headers?.['X-Edge-Auth']
