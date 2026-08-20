@@ -133,12 +133,16 @@
   // Tab Button
   &__button,
   .dnb-core-style &__button {
+    --tab-title-background: transparent;
+    --tab-title-border: transparent;
+    --tab-title-border-height: 1px;
+    --tab-button-background--hover: var(--tab-title-background--hover);
+    --tab-button-background--active: var(
+      --token-color-background-action-pressed-subtle
+    );
+
     position: relative;
     z-index: 1;
-
-    &:has(.dnb-badge) {
-      margin-right: 1.5rem;
-    }
 
     user-select: none;
 
@@ -185,7 +189,11 @@
 
     // hover
     @include utilities.hover() {
-      background-color: var(--tab-title-background--hover);
+      --tab-title-background: var(--tab-title-background--hover);
+      --tab-title-border: var(--tab-title-border--hover);
+      --tab-title-border-height: 2px;
+
+      background-color: var(--tab-button-background--hover);
 
       .dnb-tabs__button__title {
         color: var(--tab-title-color--hover);
@@ -202,6 +210,7 @@
 
     & .dnb-dummy {
       margin-top: 0.25rem;
+      flex-direction: row;
     }
 
     &::after {
@@ -233,9 +242,13 @@
 
     // active (pressed)
     &:not([disabled]):active {
-      background-color: var(
+      --tab-title-background: var(
         --token-color-background-action-pressed-subtle
       );
+      --tab-title-border: var(--tab-title-border--active);
+      --tab-title-border-height: 2px;
+
+      background-color: var(--tab-button-background--active);
 
       &::after {
         height: 2px;
@@ -245,9 +258,9 @@
     }
 
     html:not([data-whatintent='touch']) &:hover:not([disabled]):active {
-      background-color: var(
-        --token-color-background-action-pressed-subtle
-      );
+      --tab-title-border: var(--tab-title-border--active);
+
+      background-color: var(--tab-button-background--active);
 
       &::after {
         background-color: var(--tab-title-border--active);
@@ -260,6 +273,9 @@
 
     // selected
     &:not([disabled]).selected {
+      --tab-title-border: var(--tab-title-border--selected);
+      --tab-title-border-height: 2px;
+
       &::after {
         height: 2px;
         border-radius: var(--token-radius-sm);
@@ -267,18 +283,22 @@
       }
 
       @include utilities.hover() {
-        background-color: var(
-          --token-color-background-action-hover-subtle
-        );
+        --tab-title-background: var(--tab-title-background--hover);
+        --tab-title-border: var(--token-color-stroke-action-hover);
+
+        background-color: var(--tab-button-background--hover);
 
         &::after {
           background-color: var(--token-color-stroke-action-hover);
         }
 
         &:active {
-          background-color: var(
+          --tab-title-background: var(
             --token-color-background-action-pressed-subtle
           );
+          --tab-title-border: var(--token-color-stroke-action-pressed);
+
+          background-color: var(--tab-button-background--active);
 
           &::after {
             background-color: var(--token-color-stroke-action-pressed);
@@ -345,10 +365,6 @@
     transition: padding 1s var(--easing-default);
   }
 
-  &__button__snap:has(.dnb-badge) {
-    margin-right: -0.5rem;
-  }
-
   html[data-whatinput='keyboard'] &__button__snap {
     &:first-of-type.focus {
       // add space so the focus ring is visible within our overflow
@@ -406,9 +422,64 @@
     }
   }
 
-  &__button__title > .dnb-badge {
-    position: absolute;
-    top: auto;
+  // Badge in a tab title. The badge stays in the tab's layout flow (the Dummy's
+  // `flex-direction: row` reserves `text + badge` width) so the tab — and the
+  // scrollable tablist — never clips it, for any content length.
+  &__button .dnb-badge {
     margin-left: 0.25rem;
+  }
+
+  &__button__title > .dnb-badge {
+    position: relative;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  // Lay the title out as `[ label | badge ]`. NB: this assumes the label is the
+  // only non-badge child — a leading Icon (or other extra inline child) next to
+  // a badge would be auto-placed onto a second grid row.
+  &__button__title:has(> .dnb-badge) {
+    position: relative;
+    isolation: isolate;
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+
+    // Draw the hover/selected background (::before) and underline (::after)
+    // behind the label column only, so they stop before the badge.
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      grid-column: 1 / 2;
+      grid-row: 1;
+      left: -0.125rem;
+      right: 0;
+    }
+
+    &::before {
+      top: -0.5rem;
+      bottom: -0.25rem;
+      background-color: var(--tab-title-background);
+    }
+
+    &::after {
+      bottom: -0.25rem;
+      height: var(--tab-title-border-height);
+      border-radius: var(--token-radius-sm);
+      background-color: var(--tab-title-border);
+    }
+  }
+
+  // Badge tabs get their background and underline from the title pseudos above,
+  // so suppress the button's own full-width background and underline.
+  &__button:has(&__button__title > .dnb-badge) {
+    --tab-button-background--hover: transparent;
+    --tab-button-background--active: transparent;
+
+    &::after {
+      content: none;
+    }
   }
 }

@@ -31,6 +31,9 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
   it('have to match tabs with badge notification', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="tabs-badge-notification"]',
+      simulateSelector:
+        '[data-visual-test="tabs-badge-notification"] .dnb-tabs__button__snap:last-of-type button',
+      simulate: ['click', 'hover'],
     })
   })
 

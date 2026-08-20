@@ -159,13 +159,15 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   border-radius: 0;
 }
 .dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
+  --tab-title-background: transparent;
+  --tab-title-border: transparent;
+  --tab-title-border-height: 1px;
+  --tab-button-background--hover: var(--tab-title-background--hover);
+  --tab-button-background--active: var(
+    --token-color-background-action-pressed-subtle
+  );
   position: relative;
   z-index: 1;
-}
-.dnb-tabs__button:has(.dnb-badge), .dnb-core-style .dnb-tabs__button:has(.dnb-badge) {
-  margin-right: 1.5rem;
-}
-.dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   user-select: none;
   /* stylelint-disable-next-line */
   -webkit-user-select: none;
@@ -198,7 +200,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled], html:not([d
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) {
-  background-color: var(--tab-title-background--hover);
+  --tab-title-background: var(--tab-title-background--hover);
+  --tab-title-border: var(--tab-title-border--hover);
+  --tab-title-border-height: 2px;
+  background-color: var(--tab-button-background--hover);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) .dnb-tabs__button__title, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) .dnb-tabs__button__title {
   color: var(--tab-title-color--hover);
@@ -217,6 +222,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
   margin-top: 0.25rem;
+  flex-direction: row;
 }
 .dnb-tabs__button::after, .dnb-core-style .dnb-tabs__button::after {
   content: "";
@@ -241,7 +247,12 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   /* stylelint-disable no-descending-specificity */
 }
 .dnb-tabs__button:not([disabled]):active, .dnb-core-style .dnb-tabs__button:not([disabled]):active {
-  background-color: var(--token-color-background-action-pressed-subtle);
+  --tab-title-background: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --tab-title-border: var(--tab-title-border--active);
+  --tab-title-border-height: 2px;
+  background-color: var(--tab-button-background--active);
 }
 .dnb-tabs__button:not([disabled]):active::after, .dnb-core-style .dnb-tabs__button:not([disabled]):active::after {
   height: 2px;
@@ -249,13 +260,18 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   background-color: var(--tab-title-border--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active {
-  background-color: var(--token-color-background-action-pressed-subtle);
+  --tab-title-border: var(--tab-title-border--active);
+  background-color: var(--tab-button-background--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active::after {
   background-color: var(--tab-title-border--active);
 }
 .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--active);
+}
+.dnb-tabs__button:not([disabled]).selected, .dnb-core-style .dnb-tabs__button:not([disabled]).selected {
+  --tab-title-border: var(--tab-title-border--selected);
+  --tab-title-border-height: 2px;
 }
 .dnb-tabs__button:not([disabled]).selected::after, .dnb-core-style .dnb-tabs__button:not([disabled]).selected::after {
   height: 2px;
@@ -266,13 +282,19 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hov
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]) {
-  background-color: var(--token-color-background-action-hover-subtle);
+  --tab-title-background: var(--tab-title-background--hover);
+  --tab-title-border: var(--token-color-stroke-action-hover);
+  background-color: var(--tab-button-background--hover);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after {
   background-color: var(--token-color-stroke-action-hover);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active {
-  background-color: var(--token-color-background-action-pressed-subtle);
+  --tab-title-background: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --tab-title-border: var(--token-color-stroke-action-pressed);
+  background-color: var(--tab-button-background--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after {
   background-color: var(--token-color-stroke-action-pressed);
@@ -328,9 +350,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
-.dnb-tabs__button__snap:has(.dnb-badge) {
-  margin-right: -0.5rem;
-}
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
   margin-left: 0.5rem;
 }
@@ -368,10 +387,46 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-tabs__button__title > .dnb-badge {
-  position: absolute;
-  top: auto;
+.dnb-tabs__button .dnb-badge {
   margin-left: 0.25rem;
+}
+.dnb-tabs__button__title > .dnb-badge {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+}
+.dnb-tabs__button__title:has(> .dnb-badge) {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+.dnb-tabs__button__title:has(> .dnb-badge)::before, .dnb-tabs__button__title:has(> .dnb-badge)::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  grid-column: 1/2;
+  grid-row: 1;
+  left: -0.125rem;
+  right: 0;
+}
+.dnb-tabs__button__title:has(> .dnb-badge)::before {
+  top: -0.5rem;
+  bottom: -0.25rem;
+  background-color: var(--tab-title-background);
+}
+.dnb-tabs__button__title:has(> .dnb-badge)::after {
+  bottom: -0.25rem;
+  height: var(--tab-title-border-height);
+  border-radius: var(--token-radius-sm);
+  background-color: var(--tab-title-border);
+}
+.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge) {
+  --tab-button-background--hover: transparent;
+  --tab-button-background--active: transparent;
+}
+.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge)::after {
+  content: none;
 }"
 `;
 
@@ -530,13 +585,15 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   border-radius: 0;
 }
 .dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
+  --tab-title-background: transparent;
+  --tab-title-border: transparent;
+  --tab-title-border-height: 1px;
+  --tab-button-background--hover: var(--tab-title-background--hover);
+  --tab-button-background--active: var(
+    --token-color-background-action-pressed-subtle
+  );
   position: relative;
   z-index: 1;
-}
-.dnb-tabs__button:has(.dnb-badge), .dnb-core-style .dnb-tabs__button:has(.dnb-badge) {
-  margin-right: 1.5rem;
-}
-.dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   user-select: none;
   /* stylelint-disable-next-line */
   -webkit-user-select: none;
@@ -569,7 +626,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled], html:not([d
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) {
-  background-color: var(--tab-title-background--hover);
+  --tab-title-background: var(--tab-title-background--hover);
+  --tab-title-border: var(--tab-title-border--hover);
+  --tab-title-border-height: 2px;
+  background-color: var(--tab-button-background--hover);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) .dnb-tabs__button__title, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) .dnb-tabs__button__title {
   color: var(--tab-title-color--hover);
@@ -588,6 +648,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 }
 .dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
   margin-top: 0.25rem;
+  flex-direction: row;
 }
 .dnb-tabs__button::after, .dnb-core-style .dnb-tabs__button::after {
   content: "";
@@ -612,7 +673,12 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   /* stylelint-disable no-descending-specificity */
 }
 .dnb-tabs__button:not([disabled]):active, .dnb-core-style .dnb-tabs__button:not([disabled]):active {
-  background-color: var(--token-color-background-action-pressed-subtle);
+  --tab-title-background: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --tab-title-border: var(--tab-title-border--active);
+  --tab-title-border-height: 2px;
+  background-color: var(--tab-button-background--active);
 }
 .dnb-tabs__button:not([disabled]):active::after, .dnb-core-style .dnb-tabs__button:not([disabled]):active::after {
   height: 2px;
@@ -620,13 +686,18 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   background-color: var(--tab-title-border--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active {
-  background-color: var(--token-color-background-action-pressed-subtle);
+  --tab-title-border: var(--tab-title-border--active);
+  background-color: var(--tab-button-background--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active::after {
   background-color: var(--tab-title-border--active);
 }
 .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--active);
+}
+.dnb-tabs__button:not([disabled]).selected, .dnb-core-style .dnb-tabs__button:not([disabled]).selected {
+  --tab-title-border: var(--tab-title-border--selected);
+  --tab-title-border-height: 2px;
 }
 .dnb-tabs__button:not([disabled]).selected::after, .dnb-core-style .dnb-tabs__button:not([disabled]).selected::after {
   height: 2px;
@@ -637,13 +708,19 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hov
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]) {
-  background-color: var(--token-color-background-action-hover-subtle);
+  --tab-title-background: var(--tab-title-background--hover);
+  --tab-title-border: var(--token-color-stroke-action-hover);
+  background-color: var(--tab-button-background--hover);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after {
   background-color: var(--token-color-stroke-action-hover);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active {
-  background-color: var(--token-color-background-action-pressed-subtle);
+  --tab-title-background: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --tab-title-border: var(--token-color-stroke-action-pressed);
+  background-color: var(--tab-button-background--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after {
   background-color: var(--token-color-stroke-action-pressed);
@@ -699,9 +776,6 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
   will-change: padding;
   transition: padding 1s var(--easing-default);
 }
-.dnb-tabs__button__snap:has(.dnb-badge) {
-  margin-right: -0.5rem;
-}
 html[data-whatinput=keyboard] .dnb-tabs__button__snap:first-of-type.focus .dnb-tabs__button:focus-visible {
   margin-left: 0.5rem;
 }
@@ -739,9 +813,45 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-tabs__button__title > .dnb-badge {
-  position: absolute;
-  top: auto;
+.dnb-tabs__button .dnb-badge {
   margin-left: 0.25rem;
+}
+.dnb-tabs__button__title > .dnb-badge {
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
+}
+.dnb-tabs__button__title:has(> .dnb-badge) {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+.dnb-tabs__button__title:has(> .dnb-badge)::before, .dnb-tabs__button__title:has(> .dnb-badge)::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  grid-column: 1/2;
+  grid-row: 1;
+  left: -0.125rem;
+  right: 0;
+}
+.dnb-tabs__button__title:has(> .dnb-badge)::before {
+  top: -0.5rem;
+  bottom: -0.25rem;
+  background-color: var(--tab-title-background);
+}
+.dnb-tabs__button__title:has(> .dnb-badge)::after {
+  bottom: -0.25rem;
+  height: var(--tab-title-border-height);
+  border-radius: var(--token-radius-sm);
+  background-color: var(--tab-title-border);
+}
+.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge) {
+  --tab-button-background--hover: transparent;
+  --tab-button-background--active: transparent;
+}
+.dnb-tabs__button:has(.dnb-tabs__button__title > .dnb-badge)::after {
+  content: none;
 }"
 `;
