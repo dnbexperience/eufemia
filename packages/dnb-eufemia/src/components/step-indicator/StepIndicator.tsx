@@ -62,7 +62,7 @@ export type StepIndicatorProps = Omit<
      */
     overviewTitle?: string
     /**
-     * Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `currentStep` and `stepCount` into the text. Defaults to `Step %step of %count`.
+     * Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `currentStep` and `stepCount` into the text. Defaults to `Step %step of %count:`.
      */
     stepTitle?: string
     /**
