@@ -58,7 +58,7 @@ export type StepIndicatorProps = Omit<
      */
     data: StepIndicatorData
     /**
-     * The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`. Defaults to `Steps Overview`.
+     * The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`. Defaults to `Steps overview`.
      */
     overviewTitle?: string
     /**
