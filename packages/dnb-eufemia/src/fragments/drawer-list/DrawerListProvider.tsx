@@ -1474,6 +1474,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     _hasFocusOnElementRef.current = false
     if (stateRef.current.open) {
       if (
+        !propsRef.current.inline &&
         props.data !== prevDataRef.current &&
         typeof document !== 'undefined' &&
         document.activeElement?.tagName === 'BODY'

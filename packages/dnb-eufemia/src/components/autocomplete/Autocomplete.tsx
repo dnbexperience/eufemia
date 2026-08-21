@@ -476,7 +476,7 @@ function Autocomplete(ownProps: AutocompleteAllProps) {
   const filteredOwnProps = Object.fromEntries(
     Object.entries(ownProps).filter(([, value]) => value !== undefined)
   )
-  const { inline } = extendPropsWithContext(
+  const { inline, disabled } = extendPropsWithContext(
     filteredOwnProps,
     autocompleteDefaultProps,
     context.getTranslation?.(ownProps)?.Autocomplete,
@@ -496,7 +496,7 @@ function Autocomplete(ownProps: AutocompleteAllProps) {
     preventClose: inline || ownProps.preventClose,
     skipPortal: inline || ownProps.skipPortal,
     tagName: 'dnb-autocomplete',
-    ignoreEvents: false,
+    ignoreEvents: inline && disabled,
     preventFocus: true,
     skipKeysearch: true,
   } as unknown as Partial<DrawerListProps>
@@ -2222,7 +2222,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     } else {
       setHidden()
     }
-  }, [inline, runFilterToHighlight, setHidden, setVisible])
+  }, [inline, runFilterToHighlight, setHidden])
 
   // Handle data changes
   useEffect(() => {
@@ -2560,7 +2560,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               noScrollAnimation={inline || noScrollAnimation}
               skipPortal={skipPortal}
               inline={inline}
-              ignoreEvents={disabled}
+              ignoreEvents={inline && disabled}
               preventSelection={preventSelection}
               keepOpen={keepOpen}
               preventClose={preventClose}

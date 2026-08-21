@@ -5110,6 +5110,21 @@ describe('Autocomplete inline', () => {
     expect(document.activeElement).toBe(document.body)
   })
 
+  it('does not move focus when inline data changes', async () => {
+    const { rerender } = render(
+      <Autocomplete {...inlineProps} data={[]} />
+    )
+
+    rerender(<Autocomplete {...inlineProps} data={mockData} />)
+
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('li.dnb-drawer-list__option')
+      ).toHaveLength(mockData.length)
+    })
+    expect(document.activeElement).toBe(document.body)
+  })
+
   it('keeps the default overlay/portal behavior when inline is not set', () => {
     render(
       <Autocomplete id="autocomplete-default-id" open data={mockData} />
@@ -5302,6 +5317,22 @@ describe('Autocomplete inline', () => {
     )
 
     expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('does not ignore DrawerList events when inline mode is disabled', () => {
+    render(
+      <Autocomplete
+        {...inlineProps}
+        inline={false}
+        disabled
+        open
+        data={mockData}
+      />
+    )
+
+    expect(
+      document.querySelector('li.dnb-drawer-list__option')
+    ).not.toHaveClass('dnb-drawer-list__option--ignore')
   })
 
   it('supports inline from the global Provider context', () => {
