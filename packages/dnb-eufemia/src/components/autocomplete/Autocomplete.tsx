@@ -490,6 +490,7 @@ function Autocomplete(ownProps: AutocompleteAllProps) {
     ...ownProps,
     id: _id,
     data: ownProps.data || ownProps.children,
+    inline,
     open: null,
     preventClose: inline || ownProps.preventClose,
     skipPortal: inline || ownProps.skipPortal,
@@ -2553,8 +2554,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               defaultValue={defaultValue}
               scrollable={scrollable}
               focusable={focusable}
-              noAnimation={noAnimation}
-              noScrollAnimation={noScrollAnimation}
+              noAnimation={inline || noAnimation}
+              noScrollAnimation={inline || noScrollAnimation}
               skipPortal={skipPortal}
               inline={inline}
               ignoreEvents={disabled}

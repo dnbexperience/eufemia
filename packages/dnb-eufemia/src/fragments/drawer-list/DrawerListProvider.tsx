@@ -886,7 +886,9 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   }, [removeOutsideClickObserver, onKeyDownHandler, onKeyUpHandler])
 
   const addObservers = useCallback(() => {
-    setDirectionObserver()
+    if (!propsRef.current.inline) {
+      setDirectionObserver()
+    }
 
     setOutsideClickObserver()
   }, [setDirectionObserver, setOutsideClickObserver])

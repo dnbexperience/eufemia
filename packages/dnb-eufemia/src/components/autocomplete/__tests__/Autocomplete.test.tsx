@@ -5072,6 +5072,12 @@ describe('Autocomplete inline', () => {
 
     expect(document.querySelector('.dnb-drawer-list__portal')).toBeNull()
     expect(document.querySelector('.dnb-drawer-list--inline')).toBeTruthy()
+    expect(document.querySelector('.dnb-drawer-list__list')).toHaveClass(
+      'dnb-drawer-list__list--no-animation'
+    )
+    expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-scroll-animation'
+    )
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')
     ).toHaveLength(mockData.length)

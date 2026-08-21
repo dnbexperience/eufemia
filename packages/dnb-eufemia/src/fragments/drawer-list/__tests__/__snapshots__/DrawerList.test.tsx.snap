@@ -489,14 +489,23 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   animation-duration: 1ms !important;
 }
 .dnb-drawer-list--inline .dnb-drawer-list__list {
+  --drawer-list-list-background: transparent;
   position: relative;
   top: auto;
   bottom: auto;
+  transition: none;
   box-shadow: none;
   border-radius: 0;
 }
 .dnb-drawer-list--inline .dnb-drawer-list__options {
+  --drawer-list-option-color-bg--default: transparent;
+  --drawer-list-option-color-bg--disabled: transparent;
+  max-height: 50vh;
+  transition: none;
   border-radius: 0;
+}
+.dnb-drawer-list--inline .dnb-drawer-list__options::before {
+  content: none;
 }
 
 @keyframes drawer-list-scale-in {
@@ -1050,14 +1059,23 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   animation-duration: 1ms !important;
 }
 .dnb-drawer-list--inline .dnb-drawer-list__list {
+  --drawer-list-list-background: transparent;
   position: relative;
   top: auto;
   bottom: auto;
+  transition: none;
   box-shadow: none;
   border-radius: 0;
 }
 .dnb-drawer-list--inline .dnb-drawer-list__options {
+  --drawer-list-option-color-bg--default: transparent;
+  --drawer-list-option-color-bg--disabled: transparent;
+  max-height: 50vh;
+  transition: none;
   border-radius: 0;
+}
+.dnb-drawer-list--inline .dnb-drawer-list__options::before {
+  content: none;
 }
 
 @keyframes drawer-list-scale-in {
