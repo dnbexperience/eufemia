@@ -12,12 +12,12 @@ title: 'Design tokens (WIP)'
 
 ---
 
-The design tokens are exported manually from Figma and converted to CSS variables with the `make-properties` script. We only export colors for now. No sizes or typography.
+The design tokens are exported manually from Figma and converted to CSS variables with the `make-properties` script. We currently generate color and radius tokens. Typography is skipped.
 
 ## Overview
 
 - Design tokens are not automatically exported from Figma.
-- We only export colors. Sizes and strings (typography) are skipped for now.
+- We generate color tokens and radius values. Typography aliases and string values are skipped for now.
 - We export Foundation colors, plus light and dark brand token modes for DNB and Sbanken (Carnegie is light-only for now)
 
 ## How to update
@@ -26,15 +26,15 @@ The design tokens are exported manually from Figma and converted to CSS variable
 
 We currently export the Figma variable collections for:
 
-- "Foundation" collection "colors" (`Mode 1.tokens 5.json`)
+- "Foundation" collection "colors" (`color.tokens.json`)
 - "💻 Eufemia - Web" collection "brand" with modes:
-  - "dnb-light" (`DNB Light.tokens.json`)
-  - "dnb-dark" (`DNB Dark.tokens.json`)
-  - "sbanken-light" (`Sbanken Light.tokens.json`)
-  - "sbanken-dark" (`Sbanken Dark.tokens.json`)
-  - "dnbcarnegie-light" (`DNB Carnegie Light.tokens.json`)
+  - "dnb-light" (`brand/dnb-light.tokens.json`)
+  - "dnb-dark" (`brand/dnb-dark.tokens.json`)
+  - "sbanken-light" (`brand/sbanken-light.tokens.json`)
+  - "sbanken-dark" (`brand/sbanken-dark.tokens.json`)
+  - "dnbcarnegie-light" (`brand/dnbcarnegie-light.tokens.json`)
 
-These files are manually exported from Figma and placed in the `packages/dnb-eufemia/src/style/themes/figma` folder.
+These files are manually exported from Figma. Place `color.tokens.json` directly in `packages/dnb-eufemia/src/style/themes/figma`, and place the brand-mode exports in its `brand` subfolder.
 
 Detailed steps:
 
@@ -43,9 +43,10 @@ Detailed steps:
 - Click the "Open variables" icon next to the label "Variables" in the right side-menu (must deselect elements to see the side-menu).
 - Click the "Collections options" icon next to the "Collections" heading and ensure "All collections" is selected.
 - Right click the collections "brand" and "colors" and select "Export Modes".
-- Unzip the downloaded .json files and place them in the `packages/dnb-eufemia/src/style/themes/figma`
+- Unzip the downloaded JSON files and place them in `packages/dnb-eufemia/src/style/themes/figma`, using the relative filenames listed above.
 
 We export the collections from the same Figma file in order to ensure the collections are in sync.
+Each brand-mode export is a complete snapshot of the collection, so light and dark files also contain shared font and radius values. The generator filters unsupported typography values and produces the mode-specific CSS from these complete exports.
 
 ### 2. Generate CSS files
 

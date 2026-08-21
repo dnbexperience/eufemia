@@ -4,7 +4,6 @@
  */
 
 import fs, { promises } from 'fs'
-import util from 'util'
 import path from 'path'
 import globby from 'globby'
 import prettier from 'prettier'
@@ -730,26 +729,9 @@ const makeDesignTokenSCSS = async ({
     }
 
     if (referencePrefixOverride) {
-      const prefixPattern = [
-        foundationPrefixMap.ui.css,
-        foundationPrefixMap.sbanken.css,
-        foundationPrefixMap.carnegie.css,
-      ].join('|')
-
-      scssContent = scssContent.replace(
-        new RegExp(
-          `(.*var\\(\\s*--)(${prefixPattern})(-[a-z0-9-]+)\\s*\\)`,
-          'gi'
-        ),
-        (match, $1, $2, $3) => {
-          if ($2 !== referencePrefixOverride) {
-            log.warn(
-              `Overriding reference "${$2}" to "${referencePrefixOverride}" in variable "${match}"`
-            )
-            return `${$1}${referencePrefixOverride}${$3})`
-          }
-          return match
-        }
+      scssContent = overrideFoundationReferencePrefix(
+        scssContent,
+        referencePrefixOverride
       )
     }
 
@@ -785,17 +767,45 @@ const makeDesignTokenSCSS = async ({
   }
 }
 
-const convertToTokenList = (node: FigmaNode, figmaSetId: FigmaSetId) => {
+export const overrideFoundationReferencePrefix = (
+  scssContent: string,
+  referencePrefixOverride: string
+) => {
+  const prefixPattern = [
+    foundationPrefixMap.ui.css,
+    foundationPrefixMap.sbanken.css,
+    foundationPrefixMap.carnegie.css,
+  ].join('|')
+
+  return scssContent.replace(
+    new RegExp(
+      `(var\\(\\s*--)(${prefixPattern})(-[a-z0-9-]+\\s*\\))`,
+      'gi'
+    ),
+    (match, $1, $2, $3) => {
+      if ($2 !== referencePrefixOverride) {
+        log.warn(
+          `Overriding reference "${$2}" to "${referencePrefixOverride}" in variable "${match}"`
+        )
+        return `${$1}${referencePrefixOverride}${$3}`
+      }
+      return match
+    }
+  )
+}
+
+export const convertToTokenList = (
+  node: FigmaNode,
+  figmaSetId: FigmaSetId
+) => {
   const convertRecursive = (node: FigmaNode, figmaPath: string[] = []) => {
     let list: TokenList = []
 
     if (typeof node !== 'object' || node === null) {
-      const formattedText = util.inspect(
-        { figmaPath, node },
-        { colors: true, depth: null }
-      )
-      log.warn(`unknown node: ${formattedText}`)
-      return []
+      const nodePath = figmaPath.filter(Boolean).join('/') || '<root>'
+      const errorMessage = `Invalid Figma token node at "${nodePath}": expected an object`
+      log.fail(errorMessage)
+      throw new Error(errorMessage)
     }
 
     if ('$type' in node) {
@@ -816,7 +826,15 @@ const convertToTokenList = (node: FigmaNode, figmaSetId: FigmaSetId) => {
     return list
   }
 
-  return convertRecursive(node)
+  const tokenList = convertRecursive(node)
+
+  if (tokenList.length === 0) {
+    const errorMessage = 'Invalid Figma export: no tokens found'
+    log.fail(errorMessage)
+    throw new Error(errorMessage)
+  }
+
+  return tokenList
 }
 
 const runDesignTokenFactory = async () => {
