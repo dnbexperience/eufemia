@@ -2305,6 +2305,120 @@ describe('MultiSelection', () => {
   })
 
   describe('variant="inline"', () => {
+    it('applies maxHeight to the scrollable item list', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={data}
+          value={['option1']}
+          maxHeight="28rem"
+          showSearchField
+          showSelectedTags
+        />
+      )
+
+      const items = document.querySelector(
+        '.dnb-forms-field-multi-selection__items'
+      ) as HTMLElement
+
+      expect(items).toHaveStyle({ maxHeight: '28rem' })
+      expect(items).toHaveClass('dnb-scroll-view')
+      expect(
+        items.querySelector(
+          '.dnb-forms-field-multi-selection__selected-items'
+        )
+      ).not.toBeInTheDocument()
+      expect(
+        items.querySelector('.dnb-forms-field-multi-selection__search')
+      ).not.toBeInTheDocument()
+    })
+
+    it('wraps selected tags in HeightAnimation', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={data}
+          value={['option1']}
+          showSelectedTags
+        />
+      )
+
+      const selectedItems = document.querySelector(
+        '.dnb-forms-field-multi-selection__selected-items'
+      )
+
+      expect(selectedItems).toHaveClass('dnb-height-animation')
+    })
+
+    it('interprets numeric maxHeight values as rem', () => {
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={[{ value: 'option1', title: 'Option 1' }]}
+          maxHeight={28}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-field-multi-selection__items')
+      ).toHaveStyle({ maxHeight: '28rem' })
+    })
+
+    it('does not apply maxHeight to the popover item list', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(<Field.MultiSelection data={data} maxHeight="28rem" />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(
+        () => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-field-multi-selection__items'
+            )
+          ).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-field-multi-selection__items')
+      ).not.toHaveStyle({ maxHeight: '28rem' })
+    })
+
+    it('passes axe validation with a scrollable item list', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const { container } = render(
+        <Field.MultiSelection
+          variant="inline"
+          label="Select items"
+          data={data}
+          maxHeight="4rem"
+          showSelectedTags
+        />
+      )
+
+      expect(await axeComponent(container)).toHaveNoViolations()
+    })
+
     it('renders checkboxes inline without a popover trigger', () => {
       const data = [
         { value: 'option1', title: 'Option 1' },
