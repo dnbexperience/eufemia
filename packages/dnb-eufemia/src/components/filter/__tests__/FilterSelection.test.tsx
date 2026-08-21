@@ -30,6 +30,35 @@ describe('Filter.Selection', () => {
     expect(checkboxes).toHaveLength(2)
   })
 
+  it('uses the CSS gap layout engine for the options', () => {
+    render(
+      <FilterRoot>
+        <FilterSelection
+          label="Type"
+          filterKey="type"
+          data={options}
+          defaultOpen
+        />
+      </FilterRoot>
+    )
+
+    const optionsContainer = document.querySelector(
+      '.dnb-flex-container--direction-vertical'
+    )
+
+    expect(optionsContainer).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-small'
+    )
+    expect(optionsContainer.children).toHaveLength(2)
+    expect(
+      optionsContainer.querySelectorAll(':scope > .dnb-flex-item')
+    ).toHaveLength(2)
+    expect(
+      optionsContainer.querySelector(':scope > .dnb-space__top--small')
+    ).toBeNull()
+  })
+
   it('sets individual filter entries when checkboxes are checked', () => {
     function FilterState() {
       const ctx = useFilterContext()
