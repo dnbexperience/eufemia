@@ -112,7 +112,7 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'deprecated',
   },
   dialogTitle: {
-    doc: 'The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.',
+    doc: 'The `aria-label` used for the dialog when neither `title` nor `labelledBy` is given. Prefer a meaningful `title` or `labelledBy` for accessibility; this is only a generic fallback. Defaults to a localized string (`Separat vindu` for `nb-NO`).',
     type: 'string',
     status: 'optional',
   },
