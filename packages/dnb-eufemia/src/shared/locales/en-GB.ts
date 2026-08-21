@@ -91,7 +91,7 @@ export default {
       indicatorLabel: 'Getting data ...',
     },
     Modal: {
-      dialogTitle: 'Dialog Window',
+      dialogTitle: 'Dialog window',
       closeTitle: 'Close',
     },
     Dialog: {
