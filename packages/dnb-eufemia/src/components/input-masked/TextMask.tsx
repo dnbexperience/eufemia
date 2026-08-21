@@ -522,7 +522,10 @@ function stripAffixes(
  * If the mask is a numeric mask (has maskParams), strip prefix/suffix from the value.
  * Otherwise return the value unchanged.
  */
-function cleanNumericValue(value: string, rawMask: TextMaskMask): string {
+export function cleanNumericValue(
+  value: string,
+  rawMask: TextMaskMask
+): string {
   if (
     typeof rawMask === 'object' &&
     rawMask !== null &&
@@ -536,7 +539,12 @@ function cleanNumericValue(value: string, rawMask: TextMaskMask): string {
     // 5.4 can re-parse the value. Otherwise it drops the number and resets the
     // caret. Digits, decimal/thousand separators and the minus sign are kept.
     if (mp.suffix) {
-      return result.replace(/[^\d.,·-]+$/, '')
+      // Linear scan instead of /[^\d.,·-]+$/ to avoid super-linear backtracking.
+      let end = result.length
+      while (end > 0 && !/[\d.,·-]/.test(result[end - 1])) {
+        end--
+      }
+      return result.slice(0, end)
     }
 
     return result

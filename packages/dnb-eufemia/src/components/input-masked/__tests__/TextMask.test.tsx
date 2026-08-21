@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
-import TextMask from '../TextMask'
+import TextMask, { cleanNumericValue } from '../TextMask'
+import type { TextMaskMask } from '../TextMask'
 import { maskitoTransform, maskitoUpdateElement } from '@maskito/core'
 
 vi.mock('@maskito/react', () => ({
@@ -89,5 +90,28 @@ describe('TextMask', () => {
     render(<TextMask mask={[/\d/]} value={null} />)
 
     expect(maskitoUpdateElementMock).not.toHaveBeenCalled()
+  })
+})
+
+describe('cleanNumericValue', () => {
+  const numericMask = {
+    maskParams: { suffix: ' kroner' },
+  } as unknown as TextMaskMask
+
+  it('drops a mismatched dynamic suffix', () => {
+    expect(cleanNumericValue('1 krone', numericMask)).toBe('1')
+  })
+
+  it('does not exhibit catastrophic backtracking on long non-numeric input', () => {
+    // The equivalent /[^\d.,·-]+$/ ran in O(n^2) time on a long non-numeric run
+    // ending in a digit (polynomial ReDoS).
+    const input = 'a'.repeat(100000) + '1'
+
+    const start = performance.now()
+    const result = cleanNumericValue(input, numericMask)
+    const elapsed = performance.now() - start
+
+    expect(result).toBe(input)
+    expect(elapsed).toBeLessThan(1000)
   })
 })
