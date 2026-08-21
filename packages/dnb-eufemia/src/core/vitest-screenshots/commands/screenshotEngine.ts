@@ -12,7 +12,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { defineBrowserCommand } from '@vitest/browser-playwright'
-import blazediff from '@blazediff/core'
 import { PNG } from 'pngjs'
 import type {
   Browser,
@@ -27,6 +26,7 @@ import {
 } from '../pageResetStrategy'
 import { clearBrowserStorages } from '../storageReset'
 import { recordFailure, recordNavigation } from '../failures'
+import { diffImages, type ImageDiffResult } from './imageDiff'
 
 // ── shared types ─────────────────────────────────────────────────────
 
@@ -99,6 +99,7 @@ export type MakeScreenshotResult =
       status: 'size-mismatch'
       reference: { width: number; height: number }
       actual: { width: number; height: number }
+      diffPath: string
       actualPath: string
     }
 
@@ -1682,47 +1683,21 @@ async function diffAndPersist(
   const actWidth = actualPng.width
   const actHeight = actualPng.height
 
-  if (refWidth !== actWidth || refHeight !== actHeight) {
-    await writeFile(payload.actualPath, actualBytes)
-    recordFailure({
-      testFilePath: payload.testFilePath,
-      fullName: payload.fullName,
-      snapshotPath: payload.snapshotPath,
-      diffPath: null,
-      actualPath: payload.actualPath,
-      message: `Screenshot dimensions differ: reference ${refWidth}x${refHeight}, actual ${actWidth}x${actHeight}.`,
-      htmlDumpPath: payload.htmlDumpPath,
-    })
-
-    // Help V8 reclaim memory before return
-    // eslint-disable-next-line no-useless-assignment
-    referencePng = null
-    // eslint-disable-next-line no-useless-assignment
-    actualPng = null
-
-    return {
-      status: 'size-mismatch',
-      reference: { width: refWidth, height: refHeight },
-      actual: { width: actWidth, height: actHeight },
-      actualPath: payload.actualPath,
-    }
-  }
-
-  let diff: PNG | null = new PNG({ width: refWidth, height: refHeight })
-
-  const diffPixels = blazediff(
-    referencePng.data,
-    actualPng.data,
-    diff.data,
-    refWidth,
-    refHeight,
-    { threshold: 0.01 } // 1% per-pixel color difference tolerance
+  // When the dimensions differ blazediff cannot compare the buffers
+  // directly, so `diffImages` pads both onto a union canvas — the
+  // added/removed region is highlighted in the diff instead of
+  // producing no diff image at all.
+  let diffResult: ImageDiffResult | null = diffImages(
+    referencePng,
+    actualPng
   )
-
-  const totalPixels = refWidth * refHeight
+  let diff: PNG | null = diffResult.diff
+  const { diffPixels, totalPixels, sizeMismatch } = diffResult
   const ratio = totalPixels === 0 ? 0 : diffPixels / totalPixels
 
-  if (ratio > payload.allowedMismatchedPixelRatio) {
+  // A size mismatch always fails; equal-size shots fail only when the
+  // differing-pixel ratio exceeds the allowed threshold.
+  if (sizeMismatch || ratio > payload.allowedMismatchedPixelRatio) {
     await writeFile(payload.actualPath, actualBytes)
     await writeFile(payload.diffPath, PNG.sync.write(diff))
     recordFailure({
@@ -1731,7 +1706,9 @@ async function diffAndPersist(
       snapshotPath: payload.snapshotPath,
       diffPath: payload.diffPath,
       actualPath: payload.actualPath,
-      message: `Screenshot mismatch: ${diffPixels} px differ (${(ratio * 100).toFixed(3)}%).`,
+      message: sizeMismatch
+        ? `Screenshot dimensions differ: reference ${refWidth}x${refHeight}, actual ${actWidth}x${actHeight}.`
+        : `Screenshot mismatch: ${diffPixels} px differ (${(ratio * 100).toFixed(3)}%).`,
       htmlDumpPath: payload.htmlDumpPath,
     })
 
@@ -1742,6 +1719,18 @@ async function diffAndPersist(
     actualPng = null
     // eslint-disable-next-line no-useless-assignment
     diff = null
+    // eslint-disable-next-line no-useless-assignment
+    diffResult = null
+
+    if (sizeMismatch) {
+      return {
+        status: 'size-mismatch',
+        reference: { width: refWidth, height: refHeight },
+        actual: { width: actWidth, height: actHeight },
+        diffPath: payload.diffPath,
+        actualPath: payload.actualPath,
+      }
+    }
 
     return {
       status: 'mismatch',
@@ -1761,6 +1750,8 @@ async function diffAndPersist(
   actualPng = null
   // eslint-disable-next-line no-useless-assignment
   diff = null
+  // eslint-disable-next-line no-useless-assignment
+  diffResult = null
 
   await removeIfExists(payload.diffPath)
   await removeIfExists(payload.actualPath)
@@ -1833,6 +1824,7 @@ export const makeScreenshot = defineBrowserCommand<
 export const _testing = {
   buildUrl,
   applyScreenshotColorScheme,
+  diffAndPersist,
   sessions,
   browserSlots,
   sessionToSlot,

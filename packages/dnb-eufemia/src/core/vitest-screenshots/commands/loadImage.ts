@@ -11,11 +11,11 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import { defineBrowserCommand } from '@vitest/browser-playwright'
-import blazediff from '@blazediff/core'
 import { PNG } from 'pngjs'
 
 import type { MakeScreenshotResult } from './screenshotEngine'
 import { recordFailure } from '../failures'
+import { diffImages } from './imageDiff'
 
 export type LoadImagePayload = {
   imagePath: string
@@ -84,49 +84,18 @@ export const matchImageSnapshot = defineBrowserCommand<
   const referencePng = PNG.sync.read(reference)
   const actualPng = PNG.sync.read(actualBytes)
 
-  if (
-    referencePng.width !== actualPng.width ||
-    referencePng.height !== actualPng.height
-  ) {
-    await writeFile(payload.actualPath, actualBytes)
-    recordFailure({
-      testFilePath: payload.testFilePath,
-      fullName: payload.fullName,
-      snapshotPath: payload.snapshotPath,
-      diffPath: null,
-      actualPath: payload.actualPath,
-      message: `Image dimensions differ: reference ${referencePng.width}x${referencePng.height}, actual ${actualPng.width}x${actualPng.height}.`,
-    })
-    return {
-      status: 'size-mismatch',
-      reference: {
-        width: referencePng.width,
-        height: referencePng.height,
-      },
-      actual: {
-        width: actualPng.width,
-        height: actualPng.height,
-      },
-      actualPath: payload.actualPath,
-    }
-  }
-
-  const diff = new PNG({
-    width: referencePng.width,
-    height: referencePng.height,
-  })
-  const diffPixels = blazediff(
-    referencePng.data,
-    actualPng.data,
-    diff.data,
-    referencePng.width,
-    referencePng.height,
-    { threshold: 0.01 } // 1% per-pixel color difference tolerance
+  // When the dimensions differ blazediff cannot compare the buffers
+  // directly, so `diffImages` pads both onto a union canvas so a diff
+  // image is still produced (the size delta is highlighted).
+  const { diff, diffPixels, totalPixels, sizeMismatch } = diffImages(
+    referencePng,
+    actualPng
   )
-  const total = referencePng.width * referencePng.height
-  const ratio = total === 0 ? 0 : diffPixels / total
+  const ratio = totalPixels === 0 ? 0 : diffPixels / totalPixels
 
-  if (ratio > payload.allowedMismatchedPixelRatio) {
+  // A size mismatch always fails; equal-size images fail only when the
+  // differing-pixel ratio exceeds the allowed threshold.
+  if (sizeMismatch || ratio > payload.allowedMismatchedPixelRatio) {
     await writeFile(payload.actualPath, actualBytes)
     await writeFile(payload.diffPath, PNG.sync.write(diff))
     recordFailure({
@@ -135,8 +104,25 @@ export const matchImageSnapshot = defineBrowserCommand<
       snapshotPath: payload.snapshotPath,
       diffPath: payload.diffPath,
       actualPath: payload.actualPath,
-      message: `Image mismatch: ${diffPixels} px differ (${(ratio * 100).toFixed(3)}%).`,
+      message: sizeMismatch
+        ? `Image dimensions differ: reference ${referencePng.width}x${referencePng.height}, actual ${actualPng.width}x${actualPng.height}.`
+        : `Image mismatch: ${diffPixels} px differ (${(ratio * 100).toFixed(3)}%).`,
     })
+    if (sizeMismatch) {
+      return {
+        status: 'size-mismatch',
+        reference: {
+          width: referencePng.width,
+          height: referencePng.height,
+        },
+        actual: {
+          width: actualPng.width,
+          height: actualPng.height,
+        },
+        diffPath: payload.diffPath,
+        actualPath: payload.actualPath,
+      }
+    }
     return {
       status: 'mismatch',
       diffPixels,

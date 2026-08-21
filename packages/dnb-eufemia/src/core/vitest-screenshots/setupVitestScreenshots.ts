@@ -334,7 +334,7 @@ export const makeScreenshot = async (
 
     case 'size-mismatch':
       throw new Error(
-        `Screenshot dimensions differ: reference ${result.reference.width}x${result.reference.height}, actual ${result.actual.width}x${result.actual.height}. Saved actual to ${result.actualPath}.`
+        `Screenshot dimensions differ: reference ${result.reference.width}x${result.reference.height}, actual ${result.actual.width}x${result.actual.height}. Diff at ${result.diffPath}, actual at ${result.actualPath}.`
       )
 
     case 'mismatch':
