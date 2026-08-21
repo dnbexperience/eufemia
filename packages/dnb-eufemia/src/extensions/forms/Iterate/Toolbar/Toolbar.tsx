@@ -63,6 +63,7 @@ export default function Toolbar({
 
       <ToolbarContext value={{ setShowError }}>
         <Flex.Horizontal
+          layoutEngine="css"
           top={toolbarVariant === 'custom' ? false : 'x-small'}
           gap="large"
         >
