@@ -24,7 +24,7 @@ import { drainFailures, type ScreenshotFailureRecord } from './failures'
 // eslint-disable-next-line no-control-regex
 const ANSI_ESCAPE_SEQUENCE = /\u001B\[[0-?]*[ -/]*[@-~]/g
 
-type ResolvedFailure = {
+export type ResolvedFailure = {
   relativeTestFilePath: string
   expectedImagePath: string | null
   dataVisualTestId: string | null
@@ -83,6 +83,17 @@ const resolveFailures = (
 }
 
 /**
+ * Build the deterministic file name for a copied report image.
+ * Shared by the HTML writer and the JSON manifest so the two never
+ * drift: the manifest can reference the exact files the HTML copied.
+ */
+export const reportImageName = (
+  index: number,
+  srcPath: string,
+  suffix: string
+) => `${index}-${path.basename(srcPath, '.png')}.${suffix}.png`
+
+/**
  * Copy a source image into the report's `images/` subfolder,
  * returning the local relative path for use inside the HTML.
  * The filename is prefixed with an index to keep the listing
@@ -98,8 +109,7 @@ const copyImageToReport = (
   if (!fs.existsSync(imagesDir)) {
     fs.mkdirSync(imagesDir, { recursive: true })
   }
-  const baseName = path.basename(srcPath, '.png')
-  const destName = `${index}-${baseName}.${suffix}.png`
+  const destName = reportImageName(index, srcPath, suffix)
   const destPath = path.join(imagesDir, destName)
   fs.copyFileSync(srcPath, destPath)
   return `images/${destName}`
@@ -267,6 +277,78 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
     `
 }
 
+export type ReportManifestImages = {
+  expected: string | null
+  actual: string | null
+  diff: string | null
+}
+
+export type ReportManifestFailure = {
+  title: string
+  testFilePath: string
+  lineNumber: number | null
+  dataVisualTestId: string | null
+  message: string
+  images: ReportManifestImages
+}
+
+export type ReportManifest = {
+  failureCount: number
+  failures: ReportManifestFailure[]
+}
+
+const toPlainMessage = (message: string) =>
+  message
+    .replace(ANSI_ESCAPE_SEQUENCE, '')
+    .replace(/\s*\n\s*/g, ' ')
+    .trim()
+
+/**
+ * Structured, machine-readable sibling of the HTML report. CI reads
+ * this to build a job-summary table and to turn the relative image
+ * paths into absolute URLs once the report is hosted. The image paths
+ * match the files the HTML writer copied (same `reportImageName`), so
+ * the two never drift.
+ */
+export const buildReportManifest = (
+  allFailures: ResolvedFailure[],
+  genuineFailures: ResolvedFailure[],
+  exists: (filePath: string) => boolean = fs.existsSync
+): ReportManifest => {
+  const lastIndexBySnapshot = new Map<string, number>()
+  allFailures.forEach((failure, index) => {
+    lastIndexBySnapshot.set(failure.snapshotPath, index)
+  })
+
+  const relImage = (
+    index: number,
+    srcPath: string | null,
+    suffix: string
+  ): string | null =>
+    srcPath && exists(srcPath)
+      ? `images/${reportImageName(index, srcPath, suffix)}`
+      : null
+
+  return {
+    failureCount: genuineFailures.length,
+    failures: genuineFailures.map((failure) => {
+      const index = lastIndexBySnapshot.get(failure.snapshotPath) ?? 0
+      return {
+        title: failure.fullName,
+        testFilePath: failure.relativeTestFilePath,
+        lineNumber: failure.lineNumber,
+        dataVisualTestId: failure.dataVisualTestId,
+        message: toPlainMessage(failure.message),
+        images: {
+          expected: relImage(index, failure.expectedImagePath, 'expected'),
+          actual: relImage(index, failure.actualPath, 'actual'),
+          diff: relImage(index, failure.diffPath, 'diff'),
+        },
+      }
+    }),
+  }
+}
+
 /**
  * Collect the fullNames of tests whose final result is 'failed'.
  * Tests that failed on an early attempt but passed on retry are
@@ -363,6 +445,15 @@ export default class ScreenshotReporter implements Reporter {
       fs.mkdirSync(reportDir, { recursive: true })
     }
     fs.writeFileSync(htmlFilePath, renderHtml(allFailures, reportDir))
+
+    fs.writeFileSync(
+      path.join(reportDir, 'report.json'),
+      JSON.stringify(
+        buildReportManifest(allFailures, genuineFailures),
+        null,
+        2
+      )
+    )
   }
 }
 
