@@ -19,7 +19,6 @@ permissions:
   issues: write # Required for semantic-release to comment on issues
   pull-requests: write # Required for semantic-release to comment on PRs
   id-token: write # Required for npm provenance
-  pages: write # Required for GitHub Pages deployment
 
 env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
@@ -78,11 +77,6 @@ jobs:
         with:
           path: ./packages/dnb-design-system-portal/public
 
-      - name: Deploy portal
-        if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/portal')
-        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
-
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
 
@@ -94,3 +88,32 @@ jobs:
           github.ref == 'refs/heads/next' ||
           endsWith(github.ref, '.x'))
         run: yarn workspace @dnb/eufemia publish:ci
+
+  deploy-portal:
+    name: Deploy portal to GitHub Pages
+    needs: action
+    if: (github.ref == 'refs/heads/release' ||
+      github.ref == 'refs/heads/portal')
+
+    runs-on: ubuntu-latest
+
+    # Scoped to the minimum the deploy needs (the release job keeps the
+    # broader permissions it requires for semantic-release).
+    permissions:
+      pages: write # Required to deploy to GitHub Pages
+      id-token: write # Required for OIDC verification of the deployment
+
+    # Serialize Pages deployments and never cancel one mid-flight, so a
+    # deployment is not left half-finished (per actions/deploy-pages guidance).
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy portal
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
