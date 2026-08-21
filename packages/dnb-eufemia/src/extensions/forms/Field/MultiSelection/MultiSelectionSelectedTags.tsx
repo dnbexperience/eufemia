@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
 import { Accordion, Button, Flex, Tag } from '../../../../components'
-import { Hr, P } from '../../../../elements'
+import { P } from '../../../../elements'
 import ScrollView from '../../../../components/scroll-view/ScrollView'
 import { close } from '../../../../icons'
 import type { MultiSelectionItem } from './MultiSelection'
@@ -101,10 +101,6 @@ export function MultiSelectionSelectedTags({
           {tagsContent}
         </div>
       )}
-      <Hr
-        space={0}
-        className="dnb-forms-field-multi-selection__separator"
-      />
     </Fragment>
   )
 }

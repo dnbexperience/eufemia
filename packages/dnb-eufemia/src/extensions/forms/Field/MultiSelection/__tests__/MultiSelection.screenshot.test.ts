@@ -21,6 +21,17 @@ describe('MultiSelection', () => {
     })
   })
 
+  it('should match selected items before search', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="multi-selection-many-selected-items"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="multi-selection-many-selected-items"] .dnb-dropdown__trigger',
+      screenshotSelector:
+        '.dnb-forms-field-multi-selection__popover .dnb-popover__content',
+    })
+  })
+
   it('should match hover state of item', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="multi-selection-variant-inline"]',

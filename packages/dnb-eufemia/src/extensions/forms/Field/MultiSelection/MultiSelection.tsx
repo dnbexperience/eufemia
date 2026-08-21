@@ -784,8 +784,8 @@ function MultiSelection(props: FieldMultiSelectionProps) {
           <AriaLive priority="high">{ariaLiveCheckedCount}</AriaLive>
 
           <div className="dnb-forms-field-multi-selection__inline-content">
-            {searchContent}
             {selectedTagsContent}
+            {searchContent}
             {itemListContent}
           </div>
         </div>
@@ -839,9 +839,9 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             tabIndex={-1}
             onKeyDownCapture={handlePopoverKeyDown}
           >
-            {searchContent}
-
             {selectedTagsContent}
+
+            {searchContent}
 
             {itemListContent}
 
