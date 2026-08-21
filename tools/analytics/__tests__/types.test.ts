@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { validateRecordInput } from '../src/types.js'
+import {
+  validatePageViewBatch,
+  validateRecordInput,
+} from '../src/types.js'
 
 describe('validateRecordInput', () => {
   it('accepts a well-formed record', () => {
@@ -98,6 +101,87 @@ describe('validateRecordInput', () => {
     expect(result.ok).toBe(false)
     if (!result.ok) {
       expect(result.errors.length).toBeGreaterThanOrEqual(3)
+    }
+  })
+})
+
+describe('validatePageViewBatch', () => {
+  it('accepts a single event object', () => {
+    const result = validatePageViewBatch({
+      path: '/uilib/components/button',
+    })
+
+    expect(result).toEqual({
+      ok: true,
+      value: [{ path: '/uilib/components/button' }],
+    })
+  })
+
+  it('accepts an array of events with optional timestamps', () => {
+    const result = validatePageViewBatch([
+      { path: '/a', timestamp: '2026-08-20T10:00:00.000Z' },
+      { path: '/b' },
+    ])
+
+    expect(result).toEqual({
+      ok: true,
+      value: [
+        { path: '/a', timestamp: '2026-08-20T10:00:00.000Z' },
+        { path: '/b' },
+      ],
+    })
+  })
+
+  it('rejects an empty batch', () => {
+    const result = validatePageViewBatch([])
+
+    expect(result.ok).toBe(false)
+  })
+
+  it('rejects a batch larger than the limit', () => {
+    const events = Array.from({ length: 51 }, () => ({ path: '/a' }))
+    const result = validatePageViewBatch(events)
+
+    expect(result.ok).toBe(false)
+  })
+
+  it('requires a path that starts with "/"', () => {
+    for (const path of ['', 'no-slash', 42, null, undefined]) {
+      const result = validatePageViewBatch({ path })
+
+      expect(result.ok).toBe(false)
+    }
+  })
+
+  it('rejects a path longer than 2048 characters', () => {
+    const result = validatePageViewBatch({ path: '/' + 'a'.repeat(2048) })
+
+    expect(result.ok).toBe(false)
+  })
+
+  it('rejects an invalid timestamp', () => {
+    for (const timestamp of ['nope', '2026', 'March 5', '2026-08-20']) {
+      const result = validatePageViewBatch({ path: '/a', timestamp })
+
+      expect(result.ok).toBe(false)
+    }
+  })
+
+  it('rejects the whole batch when any event is invalid', () => {
+    const result = validatePageViewBatch([
+      { path: '/a' },
+      { path: 'nope' },
+    ])
+
+    expect(result.ok).toBe(false)
+  })
+
+  it('does not require identifiers or personal data', () => {
+    const result = validatePageViewBatch({ path: '/a' })
+
+    expect(result.ok).toBe(true)
+    if (result.ok) {
+      expect(result.value[0]).not.toHaveProperty('id')
     }
   })
 })
