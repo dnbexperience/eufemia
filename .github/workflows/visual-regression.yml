@@ -177,6 +177,85 @@ jobs:
           path: |
             ./packages/dnb-eufemia/visual-diff-report/**
 
-      - name: Run visual tests info
+      # The visual diff report is a self-contained folder (index.html +
+      # images/). Only proceed when it actually exists (a non-screenshot
+      # failure produces none), and detect whether Cloudflare credentials are
+      # available so the deploy is skipped gracefully on forked PRs (no
+      # secrets) or when the token is not configured. The secret comparison
+      # yields only a boolean; the secret value itself is never emitted.
+      - name: Detect report hosting capability
+        id: report_host
         if: failure()
-        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
+        run: |
+          if [ -f packages/dnb-eufemia/visual-diff-report/report.json ]; then
+            echo "has_report=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_report=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "enabled=${{ secrets.CLOUDFLARE_API_TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy visual report to Cloudflare Pages
+        id: report_deploy
+        if: failure() && steps.report_host.outputs.has_report == 'true' && steps.report_host.outputs.enabled == 'true'
+        # Best-effort: a hosting hiccup must not add a red step to a run that
+        # already failed on the real visual regression.
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+
+          # Extract the deployment URL from wrangler's stdout. Uses POSIX
+          # [[:space:]] (not \s) because this job runs on macOS, whose BSD sed
+          # does not support \s.
+          OUTPUT="$(yarn workspace dnb-design-system-portal wrangler pages deploy \
+            "$GITHUB_WORKSPACE/packages/dnb-eufemia/visual-diff-report" \
+            --project-name eufemia \
+            --branch "vr-$BRANCH" \
+            --commit-dirty=true)"
+
+          echo "$OUTPUT"
+
+          ALIAS_URL="$(echo "$OUTPUT" | sed -nE 's/.*Deployment alias URL:[[:space:]]*(https:\/\/[^ ]+).*/\1/p')"
+          DEPLOYMENT_URL="$(echo "$OUTPUT" | sed -nE 's/.*Take a peek over at[[:space:]]*(https:\/\/[^ ]+).*/\1/p')"
+
+          # Prefer the immutable per-deployment URL so each run's summary keeps
+          # pointing at its own report; the branch alias always moves to the
+          # latest deploy. Fall back to the alias if the unique URL is absent.
+          echo "report_url=${DEPLOYMENT_URL:-$ALIAS_URL}" >> "$GITHUB_OUTPUT"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Passed via env (not inlined into the script) so an untrusted PR
+          # branch name cannot inject shell commands into the run step.
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+
+      # Render the failed screenshots directly on the run's Summary page. When
+      # the report was hosted, each row embeds a diff thumbnail linking to the
+      # full-size image; otherwise the list still points to the artifact. The
+      # Markdown is built by a small, unit-tested Node module.
+      - name: Publish visual report to job summary
+        if: failure() && steps.report_host.outputs.has_report == 'true'
+        # Best-effort: rendering the summary must not add a red step to an
+        # already-failed run.
+        continue-on-error: true
+        env:
+          REPORT_URL: ${{ steps.report_deploy.outputs.report_url }}
+        run: |
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types \
+            packages/dnb-eufemia/scripts/tools/visualReport/summaryCli.ts \
+            packages/dnb-eufemia/visual-diff-report/report.json >> "$GITHUB_STEP_SUMMARY"
+
+      # Print clickable links in the failing job's log so you can jump
+      # straight to the hosted report (or the run summary) without hunting.
+      # GitHub linkifies bare URLs in step logs.
+      - name: Run visual tests info
+        if: failure() && steps.report_host.outputs.has_report == 'true'
+        env:
+          REPORT_URL: ${{ steps.report_deploy.outputs.report_url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          echo '👉 Visual regression failed — where to see why:'
+          if [ -n "${REPORT_URL}" ]; then
+            echo "   • Hosted report (before / after / diff): ${REPORT_URL}"
+          fi
+          echo "   • Run summary (failed-test table + artifact): ${RUN_URL}"
+          echo "   • Offline: download the 'visual-test-artifact' ZIP from the run summary."
