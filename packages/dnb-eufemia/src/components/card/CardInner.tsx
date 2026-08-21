@@ -57,7 +57,7 @@ function Card(props: CardProps) {
     align,
     divider = 'space',
     rowGap,
-    layoutEngine = 'css',
+    layoutEngine = 'legacy',
     responsive = !nestedContext?.isNested,
     filled,
     outset,

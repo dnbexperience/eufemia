@@ -2,9 +2,9 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
   layoutEngine: {
-    doc: 'Select the internal Flex layout engine. Defaults to `css`. Use `legacy` as a temporary compatibility fallback for custom integrations that depend on the previous wrapper-based layout.',
+    doc: 'Select the internal Flex layout engine. Defaults to `legacy` for backwards compatibility. Use `css` to opt in to native CSS gap.',
     type: [`'css'`, `'legacy'`],
-    defaultValue: `'css'`,
+    defaultValue: `'legacy'`,
     status: 'optional',
   },
   outset: {

@@ -6,26 +6,26 @@ import Card from '../../card/Card'
 import { P } from '../../../elements'
 
 describe('Card', () => {
-  it('uses the CSS gap layout engine by default', () => {
+  it('uses the legacy layout engine by default', () => {
     render(
       <Card>
         <P>Paragraph</P>
       </Card>
     )
 
-    expect(document.querySelector('.dnb-flex-container')).toHaveClass(
+    expect(document.querySelector('.dnb-flex-container')).not.toHaveClass(
       'dnb-flex-container--css-gap'
     )
   })
 
-  it('supports opting into the legacy layout engine', () => {
+  it('supports opting into the CSS gap layout engine', () => {
     render(
-      <Card layoutEngine="legacy">
+      <Card layoutEngine="css">
         <P>Paragraph</P>
       </Card>
     )
 
-    expect(document.querySelector('.dnb-flex-container')).not.toHaveClass(
+    expect(document.querySelector('.dnb-flex-container')).toHaveClass(
       'dnb-flex-container--css-gap'
     )
   })
@@ -164,9 +164,12 @@ describe('Card', () => {
     expect(children.length).toBe(2)
 
     expect(children[0].tagName).toBe('P')
-    expect(children[0]).toHaveClass('dnb-p')
+    expect(children[0]).toHaveClass(
+      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+    )
+
     expect(children[1].tagName).toBe('P')
-    expect(children[1]).toHaveClass('dnb-p')
+    expect(children[1]).toHaveClass('dnb-space__top--medium')
   })
 
   it('should have correct classes when "stack" is set', () => {
@@ -232,13 +235,21 @@ describe('Card', () => {
 
     expect(container).toHaveClass('dnb-flex-container--divider-line')
 
-    expect(children.length).toBe(2)
+    expect(children.length).toBe(3)
 
     expect(children[0].tagName).toBe('P')
-    expect(children[0]).toHaveClass('dnb-p')
-    expect(children[1].tagName).toBe('P')
-    expect(children[1]).toHaveClass('dnb-p')
-    expect(container.querySelector('hr')).toBeNull()
+    expect(children[0]).toHaveClass(
+      'dnb-p dnb-space__top--zero dnb-space__bottom--zero'
+    )
+    expect(children[1].tagName).toBe('HR')
+    expect(children[1]).toHaveClass(
+      'dnb-flex-container__hr dnb-space__top--medium dnb-space__left--zero dnb-space__bottom--zero dnb-space__right--zero dnb-hr'
+    )
+
+    expect(children[2].tagName).toBe('P')
+    expect(children[2]).toHaveClass(
+      'dnb-p dnb-space__top--medium dnb-space__bottom--zero'
+    )
   })
 
   it('should change direction', () => {
@@ -305,9 +316,14 @@ describe('Card', () => {
 
     expect(children.length).toBe(3)
 
-    expect(children[0]).toHaveClass('dnb-p')
-    expect(children[1]).toHaveClass('dnb-p')
-    expect(children[2]).toHaveClass('dnb-p')
+    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+
+    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
+
+    expect(children[2]).toHaveClass('dnb-space__top--small')
+    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
 
     rerender(
       <Card gap="large">
@@ -319,9 +335,14 @@ describe('Card', () => {
 
     expect(container).toHaveClass('dnb-flex-container--spacing-large')
 
-    expect(children[0]).toHaveClass('dnb-p')
-    expect(children[1]).toHaveClass('dnb-p')
-    expect(children[2]).toHaveClass('dnb-p')
+    expect(children[0]).toHaveClass('dnb-space__top--zero')
+    expect(children[0]).toHaveClass('dnb-space__bottom--zero')
+
+    expect(children[1]).toHaveClass('dnb-space__top--large')
+    expect(children[1]).toHaveClass('dnb-space__bottom--zero')
+
+    expect(children[2]).toHaveClass('dnb-space__top--large')
+    expect(children[2]).toHaveClass('dnb-space__bottom--zero')
   })
 
   it('gets valid ref element', () => {
