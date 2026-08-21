@@ -17,7 +17,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.',
+    doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og velg`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
