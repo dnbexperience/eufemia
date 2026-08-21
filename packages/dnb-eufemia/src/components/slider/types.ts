@@ -71,12 +71,12 @@ export type SliderProps = {
   thumbTitle?: string
 
   /**
-   * Give the add button a title for accessibility reasons. Defaults to `Increase (%s)`.
+   * Give the add button a title for accessibility reasons. Defaults to `Øk (%s)`.
    */
   addTitle?: string
 
   /**
-   * Give the subtract button a title for accessibility reasons. Defaults to `Decrease (%s)`.
+   * Give the subtract button a title for accessibility reasons. Defaults to `Reduser (%s)`.
    */
   subtractTitle?: string
 
