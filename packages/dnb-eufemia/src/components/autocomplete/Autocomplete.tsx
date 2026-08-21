@@ -56,6 +56,7 @@ import { highlightText } from '../../shared/helpers/highlightText'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import Context from '../../shared/Context'
 import { useSpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -282,6 +283,10 @@ export type AutocompleteProps = {
    */
   showSubmitButton?: boolean
   /**
+   * Use `true` to render the results list persistently open in normal document flow, instead of an overlay. The toggle button is hidden. Defaults to `false`.
+   */
+  inline?: boolean
+  /**
    * Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from '@dnb/eufemia/components/input/Input'`.
    */
   submitElement?: ReactNode
@@ -425,6 +430,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   noAnimation: false,
   noScrollAnimation: false,
   showSubmitButton: false,
+  inline: false,
   submitElement: null,
   preventSelection: false,
   size: 'default',
@@ -465,23 +471,39 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   inputElement: null,
 }
 
-function Autocomplete(props: AutocompleteAllProps) {
-  const _id = useId(props.id)
+function Autocomplete(ownProps: AutocompleteAllProps) {
+  const context = useContext(Context)
+  const filteredOwnProps = Object.fromEntries(
+    Object.entries(ownProps).filter(([, value]) => value !== undefined)
+  )
+  const { inline, disabled } = extendPropsWithContext(
+    filteredOwnProps,
+    autocompleteDefaultProps,
+    context.getTranslation?.(ownProps)?.Autocomplete,
+    pickFormElementProps(context.formElement),
+    context.Autocomplete
+  )
+
+  const _id = useId(ownProps.id)
 
   const providerProps = {
-    ...props,
+    ...ownProps,
     id: _id,
-    data: props.data || props.children,
-    open: null,
+    data: ownProps.data || ownProps.children,
+    inline,
+    open: inline ? true : null,
+    noAnimation: inline || ownProps.noAnimation,
+    preventClose: inline || ownProps.preventClose,
+    skipPortal: inline || ownProps.skipPortal,
     tagName: 'dnb-autocomplete',
-    ignoreEvents: false,
+    ignoreEvents: inline && disabled,
     preventFocus: true,
     skipKeysearch: true,
   } as unknown as Partial<DrawerListProps>
 
   return (
     <DrawerListProvider {...providerProps}>
-      <AutocompleteComponent {...props} id={_id} />
+      <AutocompleteComponent {...ownProps} id={_id} />
     </DrawerListProvider>
   )
 }
@@ -579,6 +601,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     noAnimation,
     noScrollAnimation,
     showSubmitButton,
+    inline,
     submitElement,
     inputElement: CustomInput,
     optionsRender,
@@ -697,6 +720,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const prevValueRef = useRef(props.value)
   const prevInputValuePropRef = useRef(props.inputValue)
   const prevDisableHighlightingRef = useRef(props.disableHighlighting)
+  const prevInlineRef = useRef(inline)
   const inputValueRef = useRef(inputValue)
   const typedInputValueRef = useRef(typedInputValue)
   const modeRef = useRef(mode)
@@ -2178,11 +2202,27 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
   // Handle open prop on mount
   useMountEffect(() => {
-    if (props.open) {
+    if (props.open || inline) {
       runFilterToHighlight({ fillDataIfEmpty: true })
-      setVisible()
+      if (!inline) {
+        setVisible()
+      }
     }
   })
+
+  useEffect(() => {
+    if (inline === prevInlineRef.current) {
+      return // stop here
+    }
+
+    prevInlineRef.current = inline
+
+    if (inline) {
+      runFilterToHighlight({ fillDataIfEmpty: true })
+    } else {
+      setHidden()
+    }
+  }, [inline, runFilterToHighlight, setHidden])
 
   // Handle data changes
   useEffect(() => {
@@ -2343,6 +2383,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   }
 
   if (
+    !inline &&
     submitElement &&
     isValidElement<Record<string, unknown>>(submitElement)
   ) {
@@ -2353,7 +2394,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         ...triggerParams,
       }
     )
-  } else if (showSubmitButton) {
+  } else if (!inline && showSubmitButton) {
     submitButton = (
       <SubmitButton
         icon={
@@ -2494,7 +2535,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               />
             )}
 
-            {!submitButton && (
+            {!submitButton && !inline && (
               <span className="dnb-sr-only">
                 <button
                   tabIndex={-1}
@@ -2515,9 +2556,11 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               defaultValue={defaultValue}
               scrollable={scrollable}
               focusable={focusable}
-              noAnimation={noAnimation}
-              noScrollAnimation={noScrollAnimation}
+              noAnimation={inline || noAnimation}
+              noScrollAnimation={inline || noScrollAnimation}
               skipPortal={skipPortal}
+              inline={inline}
+              ignoreEvents={inline && disabled}
               preventSelection={preventSelection}
               keepOpen={keepOpen}
               preventClose={preventClose}

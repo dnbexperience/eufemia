@@ -105,6 +105,15 @@ describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {
         '[data-visual-test="autocomplete-status-error"] .dnb-autocomplete__inner',
     })
   })
+
+  it('have to match inline results', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="autocomplete-inline"]',
+      style: {
+        height: '25rem',
+      },
+    })
+  })
 })
 
 describe.each(['ui', 'sbanken'])(`Autocomplete for %s`, (themeName) => {

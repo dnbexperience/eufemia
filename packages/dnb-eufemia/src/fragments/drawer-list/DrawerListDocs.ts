@@ -111,6 +111,11 @@ export const DrawerListProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  inline: {
+    doc: 'If set to `true`, the list is rendered in normal document flow instead of an absolute overlay, with a flat look instead of a floating card. Implies `skipPortal`. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   minHeight: {
     doc: 'Defines the minimum height (in `rem`) of the options list.',
     type: 'string',

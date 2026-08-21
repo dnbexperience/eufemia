@@ -1730,6 +1730,42 @@ describe('DrawerList portal', () => {
       'dnb-drawer-list--independent-width'
     )
   })
+
+  it('will set the inline modifier class when inline is set', () => {
+    render(<DrawerList open noAnimation inline data={mockData} />)
+
+    const element = document.querySelector('.dnb-drawer-list')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-drawer-list--inline'
+    )
+  })
+
+  it('should skip the portal when inline is set', () => {
+    render(<DrawerList open noAnimation inline data={mockData} />)
+
+    expect(
+      document
+        .querySelector('.dnb-drawer-list--open')
+        .closest('#eufemia-portal-root')
+    ).toBeNull()
+  })
+
+  it('points aria-activedescendant at an existing option for a custom __id', () => {
+    render(
+      <DrawerList
+        open
+        noAnimation
+        data={[{ content: 'Custom item', __id: 'custom-id' }]}
+      />
+    )
+
+    const activeDescendant = document
+      .querySelector('.dnb-drawer-list__options')
+      .getAttribute('aria-activedescendant')
+
+    expect(activeDescendant).toContain('-custom-id')
+    expect(document.getElementById(activeDescendant)).toBeInTheDocument()
+  })
 })
 
 describe('DrawerList scss', () => {
