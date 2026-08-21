@@ -42,6 +42,7 @@ function ListContainer(props: ListContainerProps) {
     striped = false,
     skeleton,
     disabled,
+    layoutEngine = 'css',
     wrapChildrenInSpace = false,
     ...rest
   } = props
@@ -97,6 +98,7 @@ function ListContainer(props: ListContainerProps) {
   const listContent = (
     <FlexContainer
       element="ul"
+      layoutEngine={layoutEngine}
       rowGap={separated ? 'small' : false}
       wrap={false}
       wrapChildrenInSpace={wrapChildrenInSpace}

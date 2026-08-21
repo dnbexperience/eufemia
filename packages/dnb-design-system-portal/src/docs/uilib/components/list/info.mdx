@@ -92,11 +92,7 @@ render(
 
 ## Custom item components
 
-`List.Container` applies spacing to each direct child by checking it for a `_supportsSpacingProps` marker. The built-in items (`List.Item.Basic`, `List.Item.Action`, `List.Item.Accordion`) set it, so they render directly as `<li>` children of the list.
-
-If you extract a row into your own component, the container can't tell it is a list item and wraps it in an extra element. This makes each row its own group, so every row gets top and bottom rounding instead of only the first and last row of the list.
-
-Set `_supportsSpacingProps = true` on your component to opt in, and forward the props to the underlying item so spacing (such as the `separated` variant gap) still applies:
+`List.Container` uses CSS gap and leaves its React children unchanged. If you extract a row into your own component, render a `List.Item` from its root so the resulting `<li>` remains a direct child of the list. No marker or spacing-prop forwarding is needed:
 
 <Examples.CustomItemComponent />
 
