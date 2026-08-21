@@ -27,6 +27,7 @@ import {
 } from '../pageResetStrategy'
 import { clearBrowserStorages } from '../storageReset'
 import { recordFailure, recordNavigation } from '../failures'
+import { createSizeMismatchDiff } from '../sizeMismatchDiff'
 
 // ── shared types ─────────────────────────────────────────────────────
 
@@ -99,6 +100,7 @@ export type MakeScreenshotResult =
       status: 'size-mismatch'
       reference: { width: number; height: number }
       actual: { width: number; height: number }
+      diffPath: string
       actualPath: string
     }
 
@@ -1683,12 +1685,14 @@ async function diffAndPersist(
   const actHeight = actualPng.height
 
   if (refWidth !== actWidth || refHeight !== actHeight) {
+    let diff: PNG | null = createSizeMismatchDiff(referencePng, actualPng)
     await writeFile(payload.actualPath, actualBytes)
+    await writeFile(payload.diffPath, PNG.sync.write(diff))
     recordFailure({
       testFilePath: payload.testFilePath,
       fullName: payload.fullName,
       snapshotPath: payload.snapshotPath,
-      diffPath: null,
+      diffPath: payload.diffPath,
       actualPath: payload.actualPath,
       message: `Screenshot dimensions differ: reference ${refWidth}x${refHeight}, actual ${actWidth}x${actHeight}.`,
       htmlDumpPath: payload.htmlDumpPath,
@@ -1699,11 +1703,14 @@ async function diffAndPersist(
     referencePng = null
     // eslint-disable-next-line no-useless-assignment
     actualPng = null
+    // eslint-disable-next-line no-useless-assignment
+    diff = null
 
     return {
       status: 'size-mismatch',
       reference: { width: refWidth, height: refHeight },
       actual: { width: actWidth, height: actHeight },
+      diffPath: payload.diffPath,
       actualPath: payload.actualPath,
     }
   }
