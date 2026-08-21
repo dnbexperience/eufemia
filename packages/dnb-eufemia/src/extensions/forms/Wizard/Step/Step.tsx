@@ -69,6 +69,7 @@ function Step(props: WizardStepProps): JSX.Element {
     keepInDOM: keepInDOMProp,
     prerenderFieldProps,
     children,
+    layoutEngine = 'css',
     ...restProps
   } = props
 
@@ -194,6 +195,7 @@ function Step(props: WizardStepProps): JSX.Element {
   const childrenWithFlex = (
     <WizardStepContext value={{ index }}>
       <Flex.Stack
+        layoutEngine={layoutEngine}
         className={clsx('dnb-forms-step', className)}
         element="section"
         aria-label={ariaLabel}
