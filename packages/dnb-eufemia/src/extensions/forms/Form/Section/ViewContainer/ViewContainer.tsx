@@ -41,7 +41,7 @@ function ViewContainer(props: FormSectionViewContainerAllProps) {
       className={clsx('dnb-forms-section-view-block', className)}
       {...restProps}
     >
-      <Flex.Stack>
+      <Flex.Stack layoutEngine="css">
         {title && <Lead size="basis">{title}</Lead>}
         {children}
         {showDefaultToolbar ? (
