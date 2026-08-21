@@ -491,7 +491,8 @@ function Autocomplete(ownProps: AutocompleteAllProps) {
     id: _id,
     data: ownProps.data || ownProps.children,
     inline,
-    open: null,
+    open: inline ? true : null,
+    noAnimation: inline || ownProps.noAnimation,
     preventClose: inline || ownProps.preventClose,
     skipPortal: inline || ownProps.skipPortal,
     tagName: 'dnb-autocomplete',
@@ -2203,7 +2204,9 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   useMountEffect(() => {
     if (props.open || inline) {
       runFilterToHighlight({ fillDataIfEmpty: true })
-      setVisible()
+      if (!inline) {
+        setVisible()
+      }
     }
   })
 
@@ -2216,7 +2219,6 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
     if (inline) {
       runFilterToHighlight({ fillDataIfEmpty: true })
-      setVisible()
     } else {
       setHidden()
     }

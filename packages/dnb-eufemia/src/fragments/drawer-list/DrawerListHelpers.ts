@@ -329,6 +329,7 @@ export function prepareStartupState(
   const state: DrawerListContextState = {
     id: props.id,
     open,
+    hidden: props.inline && open ? false : undefined,
     data,
     originalData: data, // used to reset in case we reorder data etc.
     rawData,

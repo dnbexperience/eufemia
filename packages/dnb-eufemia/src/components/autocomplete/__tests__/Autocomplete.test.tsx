@@ -5,6 +5,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import type { RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
 import {
   axeComponent,
   loadScss,
@@ -5081,6 +5082,26 @@ describe('Autocomplete inline', () => {
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option')
     ).toHaveLength(mockData.length)
+  })
+
+  it('renders the list during SSR', () => {
+    const html = renderToString(
+      <Autocomplete {...inlineProps} data={mockData} />
+    )
+
+    expect(html).toContain('dnb-drawer-list__options')
+    expect(html).toContain('AA c')
+    expect(html).toContain('aria-expanded="true"')
+  })
+
+  it('calls onOpen after mounting the SSR-visible list', () => {
+    const onOpen = vi.fn()
+
+    render(
+      <Autocomplete {...inlineProps} data={mockData} onOpen={onOpen} />
+    )
+
+    expect(onOpen).toHaveBeenCalledTimes(1)
   })
 
   it('does not move focus on initial render', () => {

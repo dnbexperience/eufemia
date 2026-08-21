@@ -927,7 +927,11 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   }, [])
 
   setVisibleFnRef.current = (args = {}, onStateComplete = null) => {
-    if (stateRef.current.open && stateRef.current.hidden === false) {
+    if (
+      stateRef.current.open &&
+      stateRef.current.hidden === false &&
+      (!propsRef.current.inline || isOpenRef.current)
+    ) {
       if (typeof onStateComplete === 'function') {
         onStateComplete(true)
       }
