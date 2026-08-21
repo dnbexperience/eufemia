@@ -38,6 +38,7 @@ export type MultiSelectionItemListProps = {
   selectableFilteredFlat: MultiSelectionItem[]
   allFilteredSelected: boolean
   someFilteredSelected: boolean
+  maxHeight?: string | number
 }
 
 export function MultiSelectionItemList({
@@ -55,6 +56,7 @@ export function MultiSelectionItemList({
   selectableFilteredFlat,
   allFilteredSelected,
   someFilteredSelected,
+  maxHeight,
 }: MultiSelectionItemListProps) {
   const highlight = useHighlightText({
     search: searchValue,
@@ -160,7 +162,19 @@ export function MultiSelectionItemList({
   }
 
   return (
-    <ScrollView className={clsx('dnb-forms-field-multi-selection__items')}>
+    <ScrollView
+      className={clsx('dnb-forms-field-multi-selection__items')}
+      style={
+        maxHeight === undefined
+          ? undefined
+          : {
+              maxHeight:
+                typeof maxHeight === 'number'
+                  ? `${maxHeight}rem`
+                  : maxHeight,
+            }
+      }
+    >
       <ul className="dnb-forms-field-multi-selection__list">
         {showSelectAll && selectableFilteredFlat.length > 0 && (
           <li className="dnb-forms-field-multi-selection__item dnb-forms-field-multi-selection__item--select-all">
