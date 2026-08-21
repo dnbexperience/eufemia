@@ -1689,6 +1689,33 @@ describe('MultiSelection', () => {
       )
     })
 
+    it('uses the CSS gap layout engine for the selected items header', async () => {
+      const data = Array.from({ length: 25 }, (_, i) => ({
+        value: `option${i + 1}`,
+        title: `Option ${i + 1}`,
+      }))
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            showSelectedTags
+            value={data.slice(0, 22).map((item) => item.value)}
+          />
+        </Provider>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-multi-selection__selected-items-header'
+          )
+        ).toHaveClass('dnb-flex-container--css-gap')
+      })
+    })
+
     it('shows tags by default when total items exceed threshold', async () => {
       const data = Array.from({ length: 25 }, (_, i) => ({
         value: `option${i + 1}`,
