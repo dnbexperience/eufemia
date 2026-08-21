@@ -351,6 +351,21 @@ describe('Filter.ActiveFilters collapsible', () => {
     expect(clearButton).toBeInTheDocument()
   })
 
+  it('uses the CSS gap layout engine for the header', () => {
+    render(
+      <FilterRoot>
+        <SetManyFilters count={2} />
+        <FilterActiveFilters />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    expect(
+      document.querySelector('.dnb-filter__active-filters__header')
+    ).toHaveClass('dnb-flex-container--css-gap')
+  })
+
   it('clears all filters when clear all is clicked without collapsibleThreshold', () => {
     function FilterState() {
       const ctx = useFilterContext()

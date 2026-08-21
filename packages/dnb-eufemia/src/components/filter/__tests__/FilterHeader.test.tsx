@@ -36,6 +36,25 @@ describe('Filter.Header', () => {
 })
 
 describe('Filter.Toolbar.Actions', () => {
+  it('uses the CSS gap layout engine', () => {
+    render(
+      <FilterRoot>
+        <FilterToolbar>
+          <FilterToolbar.Actions>
+            <button>Action</button>
+          </FilterToolbar.Actions>
+        </FilterToolbar>
+      </FilterRoot>
+    )
+
+    expect(
+      document.querySelector('.dnb-filter__toolbar-actions')
+    ).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-small'
+    )
+  })
+
   it('renders children', () => {
     render(
       <FilterRoot>
