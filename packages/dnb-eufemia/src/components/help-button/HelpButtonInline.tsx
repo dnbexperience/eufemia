@@ -319,11 +319,15 @@ function HelpButtonInlineContentComponent(
       >
         <Flex.Vertical layoutEngine="css" gap="x-small">
           {title && (
-            <P weight="medium" element="div">
+            <P weight="medium" element="div" bottom={0}>
               {title}
             </P>
           )}
-          {content && <P element="div">{content}</P>}
+          {content && (
+            <P element="div" bottom={0}>
+              {content}
+            </P>
+          )}
         </Flex.Vertical>
         {children}
       </Section>
