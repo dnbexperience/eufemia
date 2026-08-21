@@ -22,7 +22,8 @@ import {
 
 const Wrapper = styled.div`
   [data-visual-test] {
-    > :not(.dnb-autocomplete--is-popup) .dnb-autocomplete__shell {
+    > :not(.dnb-autocomplete--is-popup):not(.dnb-autocomplete--stretch)
+      .dnb-autocomplete__shell {
       width: var(--autocomplete-width);
     }
   }
@@ -456,7 +457,7 @@ export const AutocompleteInlineExample = () => {
         data-visual-test="autocomplete-inline"
         scope={{ topMovies }}
       >
-        <Autocomplete inline label="Label" data={topMovies} />
+        <Autocomplete inline stretch label="Label" data={topMovies} />
       </ComponentBox>
     </Wrapper>
   )

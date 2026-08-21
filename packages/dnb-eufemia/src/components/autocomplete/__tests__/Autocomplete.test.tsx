@@ -5083,6 +5083,12 @@ describe('Autocomplete inline', () => {
     ).toHaveLength(mockData.length)
   })
 
+  it('does not move focus on initial render', () => {
+    render(<Autocomplete {...inlineProps} data={mockData} />)
+
+    expect(document.activeElement).toBe(document.body)
+  })
+
   it('keeps the default overlay/portal behavior when inline is not set', () => {
     render(
       <Autocomplete id="autocomplete-default-id" open data={mockData} />
@@ -5149,8 +5155,10 @@ describe('Autocomplete inline', () => {
     render(<Autocomplete {...inlineProps} data={mockData} />)
 
     const ul = document.querySelector('ul.dnb-drawer-list__options')
-    const input = document.querySelector('.dnb-input__input')
-    fireEvent.focus(input)
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+    input.focus()
 
     keyDownOnInput('ArrowDown')
 
@@ -5167,6 +5175,48 @@ describe('Autocomplete inline', () => {
         `option-${inlineProps.id}-1`
       )
     })
+  })
+
+  it('preserves the natural tab order through option anchors', async () => {
+    render(
+      <>
+        <Autocomplete
+          {...inlineProps}
+          data={[
+            [
+              <a href="/first" key="first">
+                First anchor
+              </a>,
+              <a href="/second" key="second">
+                Second anchor
+              </a>,
+            ],
+          ]}
+        />
+        <button>After autocomplete</button>
+      </>
+    )
+
+    const input = document.querySelector(
+      '.dnb-input__input'
+    ) as HTMLInputElement
+    const firstAnchor = document.querySelector(
+      'a[href="/first"]'
+    ) as HTMLAnchorElement
+    const secondAnchor = document.querySelector(
+      'a[href="/second"]'
+    ) as HTMLAnchorElement
+    const nextButton = document.querySelector('button')
+
+    input.focus()
+    await userEvent.tab()
+    expect(document.activeElement).toBe(firstAnchor)
+
+    await userEvent.tab()
+    expect(document.activeElement).toBe(secondAnchor)
+
+    await userEvent.tab()
+    expect(document.activeElement).toBe(nextButton)
   })
 
   it('should validate with ARIA rules in inline mode', async () => {

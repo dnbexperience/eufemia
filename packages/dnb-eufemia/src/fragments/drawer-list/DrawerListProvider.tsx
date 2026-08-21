@@ -762,8 +762,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     ) => {
       mergeState({ activeItem }, () => {
         if (parseFloat(activeItem) === -1) {
-          // Keep focus on Autocomplete text input
-          if (document.activeElement?.tagName !== 'INPUT') {
+          // Keep focus on the Autocomplete input and preserve the current
+          // focus when the list is rendered inline.
+          if (
+            !propsRef.current.inline &&
+            document.activeElement?.tagName !== 'INPUT'
+          ) {
             _refUl.current?.focus({ preventScroll: true })
           }
 
@@ -1227,6 +1231,10 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
 
     if (stateRef.current.ignoreEvents && key !== 'Tab') {
+      return // stop here
+    }
+
+    if (propsRef.current.inline && key === 'Tab') {
       return // stop here
     }
 

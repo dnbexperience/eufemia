@@ -371,6 +371,10 @@ const DrawerListComponent = memo(function DrawerListComponent(
     (e: KeyboardEvent) => {
       switch (e.key) {
         case 'Tab':
+          if (propsWithDefaults.inline) {
+            return
+          }
+
           if (!context.drawerList._hasFocusOnElementRef.current) {
             e.preventDefault()
             context.drawerList.setHidden()
@@ -383,7 +387,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
           break
       }
     },
-    [context.drawerList]
+    [context.drawerList, propsWithDefaults.inline]
   )
 
   const selectItemHandler = useCallback(

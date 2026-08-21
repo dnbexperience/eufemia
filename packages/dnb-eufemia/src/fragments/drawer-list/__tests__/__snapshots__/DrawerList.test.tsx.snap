@@ -488,6 +488,9 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
 }
+.dnb-drawer-list--inline {
+  margin-top: 0.5rem;
+}
 .dnb-drawer-list--inline .dnb-drawer-list__list {
   --drawer-list-list-background: transparent;
   position: relative;
@@ -501,6 +504,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   --drawer-list-option-color-bg--default: transparent;
   --drawer-list-option-color-bg--disabled: transparent;
   max-height: 50vh;
+  padding-left: 0;
   transition: none;
   border-radius: 0;
 }
@@ -1058,6 +1062,9 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
 .dnb-drawer-list:not(.dnb-drawer-list--open) .dnb-drawer-list__list--no-animation {
   animation-duration: 1ms !important;
 }
+.dnb-drawer-list--inline {
+  margin-top: 0.5rem;
+}
 .dnb-drawer-list--inline .dnb-drawer-list__list {
   --drawer-list-list-background: transparent;
   position: relative;
@@ -1071,6 +1078,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   --drawer-list-option-color-bg--default: transparent;
   --drawer-list-option-color-bg--disabled: transparent;
   max-height: 50vh;
+  padding-left: 0;
   transition: none;
   border-radius: 0;
 }
