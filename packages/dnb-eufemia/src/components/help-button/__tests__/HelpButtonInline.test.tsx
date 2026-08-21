@@ -20,6 +20,33 @@ describe('HelpButtonInline', () => {
     ).toBeInTheDocument()
   })
 
+  it('uses CSS gap without adding paragraph margins', () => {
+    render(
+      <HelpButtonInline
+        help={{
+          open: true,
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+    )
+
+    const content = document.querySelector(
+      '.dnb-help-button__content .dnb-flex-container'
+    )
+
+    expect(content).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-x-small'
+    )
+
+    const paragraphs = content.querySelectorAll('.dnb-p')
+    expect(paragraphs).toHaveLength(2)
+    paragraphs.forEach((paragraph) => {
+      expect(paragraph).toHaveClass('dnb-space__bottom--zero')
+    })
+  })
+
   it('should toggle open state when clicked', async () => {
     render(<HelpButtonInline help={{ title: 'Help title' }} />)
 

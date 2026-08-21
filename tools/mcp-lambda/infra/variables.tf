@@ -33,7 +33,11 @@ variable "domain_name" {
 
 variable "edge_auth_secret" {
   type        = string
-  description = "Optional shared secret for the X-Edge-Auth header; empty disables the check."
-  default     = ""
+  description = "Shared secret for the X-Edge-Auth header injected by Akamai."
   sensitive   = true
+
+  validation {
+    condition     = length(var.edge_auth_secret) > 0
+    error_message = "edge_auth_secret must be a non-empty value."
+  }
 }

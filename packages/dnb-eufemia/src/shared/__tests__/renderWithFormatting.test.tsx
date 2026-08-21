@@ -303,4 +303,49 @@ describe('renderWithFormatting', () => {
       </form>
     `)
   })
+
+  it('strips javascript: hrefs from inline links', () => {
+    const text = 'Click [here](javascript:alert(1))'
+    renderNode(renderWithFormatting(text))
+    const a = document.querySelector('a') as HTMLAnchorElement
+    expect(a).toBeTruthy()
+    expect(a.textContent).toBe('here')
+    expect(a.getAttribute('href')).toBeNull()
+  })
+
+  it('strips obfuscated javascript: hrefs from inline links', () => {
+    const text = 'Click [xss](JAVASCRIPT:alert(1))'
+    renderNode(renderWithFormatting(text))
+    const a = document.querySelector('a') as HTMLAnchorElement
+    expect(a).toBeTruthy()
+    expect(a.getAttribute('href')).toBeNull()
+  })
+
+  it('does not exhibit catastrophic backtracking on unmatched markers', () => {
+    // A long run of unmatched "[" previously made the marker fast-path run in
+    // O(n^2) time (polynomial ReDoS).
+    const input = '['.repeat(100000)
+
+    const start = performance.now()
+    const result = renderWithFormatting(input)
+    const elapsed = performance.now() - start
+
+    expect(result).toBe(input)
+    expect(elapsed).toBeLessThan(1000)
+  })
+
+  it('does not exhibit catastrophic backtracking on unbalanced link delimiters', () => {
+    // Long runs of unmatched "[" and "(" previously made the inline link matcher
+    // run in O(n^2) time (polynomial ReDoS).
+    const input = '**bold** ' + '[a]('.repeat(100000)
+
+    const start = performance.now()
+    const nodes = renderWithFormatting(input)
+    const elapsed = performance.now() - start
+
+    expect(elapsed).toBeLessThan(1000)
+
+    const { container } = renderNode(nodes)
+    expect(container.querySelector('strong')?.textContent).toBe('bold')
+  })
 })

@@ -64,11 +64,14 @@ function toWebRequest(event: APIGatewayProxyEventV2): Request {
 }
 
 // Verifies the X-Edge-Auth header against the configured secret.
-// No secret set = check disabled (local and pre-edge environments).
 function isEdgeAuthorized(event: APIGatewayProxyEventV2): boolean {
   const expected = process.env.EDGE_AUTH_SECRET
   if (!expected) {
-    return true
+    // Fail closed: reject all requests when the secret is not configured.
+    console.error(
+      '[eufemia] EDGE_AUTH_SECRET is not set — rejecting request'
+    )
+    return false
   }
 
   const provided = event.headers['x-edge-auth']
@@ -103,6 +106,18 @@ async function toApiGatewayResult(
 export async function handler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
+  if (!isEdgeAuthorized(event)) {
+    return {
+      statusCode: 403,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        error: { code: -32001, message: 'Forbidden' },
+        id: null,
+      }),
+    }
+  }
+
   // Cheap health check for uptime monitoring: answer without spinning up the
   // MCP transport or touching the docs source.
   if (
@@ -113,19 +128,6 @@ export async function handler(
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: 'ok' }),
-    }
-  }
-
-  // Enforced after /healthz so health probes stay open.
-  if (!isEdgeAuthorized(event)) {
-    return {
-      statusCode: 403,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        jsonrpc: '2.0',
-        error: { code: -32001, message: 'Forbidden' },
-        id: null,
-      }),
     }
   }
 

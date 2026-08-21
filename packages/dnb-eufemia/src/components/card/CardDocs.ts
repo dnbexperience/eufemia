@@ -1,6 +1,12 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
+  layoutEngine: {
+    doc: 'Select the internal Flex layout engine. Defaults to `legacy` for backwards compatibility. Use `css` to opt in to native CSS gap.',
+    type: [`'css'`, `'legacy'`],
+    defaultValue: `'legacy'`,
+    status: 'optional',
+  },
   outset: {
     doc: 'Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.',
     type: 'boolean',

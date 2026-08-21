@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -49,7 +49,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -82,7 +82,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -96,14 +96,17 @@ jobs:
       # the most recent prior cache and ESLint only re-lints what changed; a
       # fresh entry is then saved at the end of the job.
       - name: Use ESLint cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: packages/dnb-eufemia/.eslintcache
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ github.sha }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-
 
       - name: Run lint
-        run: yarn workspace @dnb/eufemia lint:ci
+        run: |
+          yarn workspace @dnb/eufemia lint:ci
+          yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
+          yarn workspace eufemia-raiwork-plugin lint
 
   lint-portal:
     name: Run portal lint
@@ -115,7 +118,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -125,7 +128,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Use ESLint cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: packages/dnb-design-system-portal/.eslintcache
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-${{ github.sha }}
@@ -144,7 +147,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -158,7 +161,7 @@ jobs:
       # latest prior build info; tsc re-checks only what changed (and falls
       # back to a full check if the cache is missing or stale).
       - name: Use TypeScript build-info cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: |
             packages/dnb-eufemia/tsconfig.tsbuildinfo
@@ -173,6 +176,8 @@ jobs:
           yarn workspace dnb-design-system-portal test:types
           yarn workspace eufemia-css-optimizer test:types
           yarn workspace eufemia-llm-metadata test:types
+          yarn workspace eufemia-raiwork-plugin test:types
+          yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
 
   test:
     name: Run tests
@@ -184,7 +189,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -200,6 +205,8 @@ jobs:
           yarn workspace eufemia-css-optimizer test
           yarn workspace markdown-tables-utils test
           yarn workspace eufemia-llm-metadata test
+          yarn workspace eufemia-raiwork-plugin test
+          yarn workspace @dnb/eufemia-mcp-legacy-proxy test
 
   deps:
     name: Run dependency checks
@@ -211,7 +218,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -230,7 +237,7 @@ jobs:
 
     steps:
       - name: Git checkout (with fetch-depth)
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
           fetch-depth: 20 # The "postbuild:ci" method "getCommittedFiles" needs all history
@@ -248,6 +255,9 @@ jobs:
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
+
+      - name: Build RAIWork plugin
+        run: yarn workspace eufemia-raiwork-plugin build
 
       - name: Check bundle sizes
         env:

@@ -17,6 +17,22 @@
 
     .dnb-forms-step {
       outline: none;
+
+      &.dnb-flex-container--css-gap {
+        > .dnb-forms-section-block,
+        > .dnb-form-status:not(:first-child) {
+          margin-block-start: calc(var(--horizontal-gap) * -1);
+        }
+
+        > .dnb-card + .dnb-forms-button-row,
+        > .dnb-card + .dnb-button--primary {
+          margin-block-start: 0;
+        }
+
+        > .dnb-forms-section-block + .dnb-forms-button-row {
+          margin-block-start: calc(1rem - var(--horizontal-gap));
+        }
+      }
     }
 
     .dnb-forms-step > .appear-fx,

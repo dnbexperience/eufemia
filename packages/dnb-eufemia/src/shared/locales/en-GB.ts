@@ -78,7 +78,7 @@ export default {
       noGroupSR: 'Other options',
     },
     Dropdown: {
-      title: 'Option Menu',
+      title: 'Select',
     },
     Autocomplete: {
       title: 'Type and select',
@@ -91,7 +91,7 @@ export default {
       indicatorLabel: 'Getting data ...',
     },
     Modal: {
-      dialogTitle: 'Dialog Window',
+      dialogTitle: 'Dialog window',
       closeTitle: 'Close',
     },
     Dialog: {
@@ -133,7 +133,7 @@ export default {
       nextButtonTitle: 'Next tab',
     },
     StepIndicator: {
-      overviewTitle: 'Steps Overview',
+      overviewTitle: 'Steps overview',
       stepTitle: 'Step %step of %count:',
     },
     Slider: {

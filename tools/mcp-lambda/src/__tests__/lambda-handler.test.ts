@@ -91,6 +91,7 @@ describe('lambda-handler stateless transport lifecycle', () => {
     // The full tool set is served identically with no state shared between
     // invocations.
     expect(firstTools).toContain('docs_entry')
+    expect(firstTools).toContain('review_rules')
     expect(firstTools).toContain('component_props')
     expect(secondTools).toEqual(firstTools)
   })
@@ -118,10 +119,12 @@ describe('lambda-handler health check', () => {
     // server.js (imported transitively by the handler) resolves the docs root
     // at module load; point it at the temp docs so the import succeeds.
     process.env.EUFEMIA_DOCS_ROOT = docsRoot
+    process.env.EDGE_AUTH_SECRET = 'test-health-secret'
   })
 
   afterAll(async () => {
     delete process.env.EUFEMIA_DOCS_ROOT
+    delete process.env.EDGE_AUTH_SECRET
     await fs.rm(docsRoot, { recursive: true, force: true })
   })
 
@@ -131,7 +134,7 @@ describe('lambda-handler health check', () => {
     const event = {
       rawPath: '/healthz',
       requestContext: { http: { method: 'GET' } },
-      headers: {},
+      headers: { 'x-edge-auth': 'test-health-secret' },
     } as unknown as Parameters<typeof handler>[0]
 
     const result = await handler(event)
@@ -147,15 +150,18 @@ describe('lambda-handler health check', () => {
 })
 
 describe('lambda-handler protocol versions', () => {
+  const secret = 'test-protocol-secret'
   let docsRoot: string
 
   beforeAll(async () => {
     docsRoot = await createTempDocs()
     process.env.EUFEMIA_DOCS_ROOT = docsRoot
+    process.env.EDGE_AUTH_SECRET = secret
   })
 
   afterAll(async () => {
     delete process.env.EUFEMIA_DOCS_ROOT
+    delete process.env.EDGE_AUTH_SECRET
     await fs.rm(docsRoot, { recursive: true, force: true })
   })
 
@@ -174,6 +180,7 @@ describe('lambda-handler protocol versions', () => {
       headers: {
         'content-type': 'application/json',
         accept: 'application/json, text/event-stream',
+        'x-edge-auth': secret,
         ...headers,
       },
       body: JSON.stringify(body),
@@ -249,29 +256,34 @@ describe('lambda-handler protocol versions', () => {
 })
 
 describe('lambda-handler error handling', () => {
+  const secret = 'test-error-secret'
   let docsRoot: string
 
   beforeAll(async () => {
     docsRoot = await createTempDocs()
     process.env.EUFEMIA_DOCS_ROOT = docsRoot
+    process.env.EDGE_AUTH_SECRET = secret
   })
 
   afterAll(async () => {
     delete process.env.EUFEMIA_DOCS_ROOT
+    delete process.env.EDGE_AUTH_SECRET
     await fs.rm(docsRoot, { recursive: true, force: true })
   })
 
   it('returns a 500 JSON-RPC error when request processing throws', async () => {
     const { handler } = await import('../transports/lambda-handler.js')
 
-    // A POST event without `headers` makes toWebRequest throw inside the
-    // handler's try/catch, exercising the 500 fallback.
+    // An event with valid auth but a rawPath that makes the URL constructor
+    // inside toWebRequest throw, exercising the 500 fallback.
     const event = {
-      rawPath: '/mcp',
+      rawPath: '//[invalid',
       requestContext: {
-        domainName: 'example.test',
+        domainName: '',
         http: { method: 'POST' },
       },
+      headers: { 'x-edge-auth': secret },
+      body: '{',
     } as unknown as Parameters<typeof handler>[0]
 
     const errorSpy = vi
@@ -361,7 +373,7 @@ describe('lambda-handler origin auth (X-Edge-Auth)', () => {
     expect(result.statusCode).not.toBe(403)
   })
 
-  it('is a no-op when the secret is unset', async () => {
+  it('rejects with 403 when the secret is unset (fail-closed)', async () => {
     delete process.env.EDGE_AUTH_SECRET
     const { handler } = await import('../transports/lambda-handler.js')
 
@@ -369,19 +381,29 @@ describe('lambda-handler origin auth (X-Edge-Auth)', () => {
       mcpEvent({}) as Parameters<typeof handler>[0]
     )) as { statusCode: number }
 
-    expect(result.statusCode).not.toBe(403)
+    expect(result.statusCode).toBe(403)
   })
 
-  it('keeps GET /healthz open even when the secret is set', async () => {
+  it('requires the edge header for /healthz when the secret is set', async () => {
     process.env.EDGE_AUTH_SECRET = secret
     const { handler } = await import('../transports/lambda-handler.js')
 
-    const result = (await handler({
+    const missing = (await handler({
       rawPath: '/healthz',
       requestContext: { http: { method: 'GET' } },
       headers: {},
-    } as Parameters<typeof handler>[0])) as { statusCode: number }
+    } as unknown as Parameters<typeof handler>[0])) as {
+      statusCode: number
+    }
+    expect(missing.statusCode).toBe(403)
 
-    expect(result.statusCode).toBe(200)
+    const withHeader = (await handler({
+      rawPath: '/healthz',
+      requestContext: { http: { method: 'GET' } },
+      headers: { 'x-edge-auth': secret },
+    } as unknown as Parameters<typeof handler>[0])) as {
+      statusCode: number
+    }
+    expect(withHeader.statusCode).toBe(200)
   })
 })

@@ -20,6 +20,7 @@ function Inline({
   className = null,
   gap = 'x-small',
   align = 'center',
+  layoutEngine = 'css',
   skeleton = null,
   ...rest
 }: InlineProps) {
@@ -40,6 +41,7 @@ function Inline({
         <Flex.Horizontal
           {...rest}
           {...attributes}
+          layoutEngine={layoutEngine}
           gap={gap}
           align={align}
           className={clsx(

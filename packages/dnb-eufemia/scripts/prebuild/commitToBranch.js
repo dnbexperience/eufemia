@@ -17,7 +17,6 @@ try {
 const log = ora()
 
 const config = {
-  remote: `https://${process.env.GH_TOKEN}@github.com/dnbexperience/eufemia.git`,
   user: {
     name: process.env.GH_NAME,
     email: process.env.GH_EMAIL,
@@ -35,12 +34,21 @@ const getRepo = async () => {
   const pathToRepo = path.resolve(__dirname, '../../../../')
   const repo = simpleGit(pathToRepo)
 
-  // update the origin to use a token
-  // cause CI has normally no write access to the repo
-  if (isCI && config.remote) {
-    await repo.removeRemote('origin')
-    await repo.addRemote('origin', config.remote)
-    log.info('Added new remote to origin')
+  // Authenticate via http.extraheader instead of embedding the PAT in
+  // the remote URL — keeps the token out of .git/config and error output.
+  if (isCI && process.env.GH_TOKEN) {
+    const authHeader = Buffer.from(
+      `x-access-token:${process.env.GH_TOKEN}`
+    ).toString('base64')
+
+    repo.env({
+      ...process.env,
+      GIT_CONFIG_COUNT: '1',
+      GIT_CONFIG_KEY_0: 'http.https://github.com/.extraheader',
+      GIT_CONFIG_VALUE_0: `AUTHORIZATION: basic ${authHeader}`,
+    })
+
+    log.info('Configured git auth via extraheader')
   }
 
   return repo

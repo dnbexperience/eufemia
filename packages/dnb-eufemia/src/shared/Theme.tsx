@@ -13,8 +13,9 @@ import { extendPropsWithContext } from './component-helper'
 import withComponentMarkers from './helpers/withComponentMarkers'
 import useMediaQuery from './useMediaQuery'
 import useIsomorphicLayoutEffect from './helpers/useIsomorphicLayoutEffect'
+import type { ThemeName } from '../style/themes/capabilities'
 
-export type ThemeNames = 'ui' | 'eiendom' | 'sbanken' | 'carnegie'
+export type ThemeNames = ThemeName
 export type ThemeVariants = string
 export type ThemeSizes = 'basis'
 export type ContrastMode = boolean
@@ -237,10 +238,9 @@ export function getTheme(defaultTheme: ThemeNames = 'ui'): ThemeState {
     const data = window.localStorage.getItem(STORAGE_KEY)
     const theme = JSON.parse(data?.startsWith('{') ? data : '{}')
 
-    const regex = /.*eufemia-theme=([^&]*).*/
-    const query = window.location.search
     const fromQuery =
-      (regex.test(query) && query?.replace(regex, '$1')) || null
+      new URLSearchParams(window.location.search).get('eufemia-theme') ||
+      null
 
     const name = (fromQuery || theme?.name || defaultTheme) as ThemeNames
 

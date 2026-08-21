@@ -1,0 +1,35 @@
+{
+  "skill_name": "eufemia-compose",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Build an Eufemia onboarding form with personal details, validation, loading, server error, and success states.",
+      "expected_output": "A composition grounded in current Forms, layout, feedback, and accessibility documentation that covers every requested state.",
+      "assertions": [
+        "The response retrieves targeted Forms and layout guidance",
+        "The response covers loading, validation, server error, and success states",
+        "The response verifies candidate component APIs before using them"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create a DNB login page and choose the authentication provider, token storage, deployment setup, and Eufemia UI.",
+      "expected_output": "An Eufemia UI composition that keeps product authentication, token storage, and deployment decisions outside the design-system guidance.",
+      "assertions": [
+        "The response separates Eufemia composition from product authentication decisions",
+        "The response does not present a provider stack as an Eufemia requirement",
+        "The response still covers relevant UI states and accessibility needs"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan an Eufemia interface in a repository that does not have @dnb/eufemia installed, and where dependency installation is currently prohibited.",
+      "expected_output": "Documentation-grounded planning against the hosted MCP version without claiming an executable implementation can be verified until that package version is approved and installed.",
+      "assertions": [
+        "The response states the Eufemia version reported by docs_meta as the proposed target",
+        "The response limits work to documentation and planning while package installation is prohibited",
+        "The response does not claim the interface was implemented or runtime-verified"
+      ]
+    }
+  ]
+}

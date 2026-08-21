@@ -47,6 +47,32 @@ describe('Iterate.Array', () => {
     })
   })
 
+  describe('layout engine', () => {
+    it('uses the CSS gap layout engine by default', () => {
+      render(
+        <Iterate.Array value={['one', 'two']}>
+          <Field.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(document.querySelector('.dnb-forms-iterate')).toHaveClass(
+        'dnb-flex-container--css-gap'
+      )
+    })
+
+    it('supports opting into the legacy layout engine', () => {
+      render(
+        <Iterate.Array layoutEngine="legacy" value={['one', 'two']}>
+          <Field.String itemPath="/" />
+        </Iterate.Array>
+      )
+
+      expect(document.querySelector('.dnb-forms-iterate')).not.toHaveClass(
+        'dnb-flex-container--css-gap'
+      )
+    })
+  })
+
   describe('with primitive elements', () => {
     it('should distribute values and receive callbacks', async () => {
       const onChange = vi.fn()

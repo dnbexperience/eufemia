@@ -2,6 +2,12 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 import { DataValueWritePropsProperties } from '../../hooks/DataValueWritePropsDocs'
 
 export const ArrayProperties: PropertiesTableProps = {
+  layoutEngine: {
+    doc: 'Select the internal Flex layout engine. Defaults to `css`. Use `legacy` as a temporary compatibility fallback for custom integrations that depend on the previous wrapper-based layout.',
+    type: [`'css'`, `'legacy'`],
+    defaultValue: `'css'`,
+    status: 'optional',
+  },
   value: {
     doc: 'The data to iterate over. Alternative you can use the `path` property.',
     type: 'array',

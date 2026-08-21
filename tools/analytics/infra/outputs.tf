@@ -3,6 +3,11 @@ output "api_endpoint" {
   value       = aws_apigatewayv2_stage.analytics.invoke_url
 }
 
+output "origin_domain" {
+  description = "Custom origin hostname for Akamai to point at"
+  value       = aws_apigatewayv2_domain_name.analytics.domain_name
+}
+
 output "function_name" {
   value = aws_lambda_function.analytics.function_name
 }

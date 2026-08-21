@@ -58,9 +58,9 @@ const UploadInfo = () => {
     displayFilesAmountLimitItem
 
   return (
-    <Flex.Stack gap="small">
+    <Flex.Stack layoutEngine="css" gap="small">
       {(title || text) && (
-        <Flex.Stack gap="xx-small">
+        <Flex.Stack layoutEngine="css" gap="xx-small">
           {title && <Lead space="0">{title}</Lead>}
 
           {text && <P className="dnb-upload__text">{text}</P>}

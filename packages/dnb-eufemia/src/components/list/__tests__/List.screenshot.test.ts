@@ -133,6 +133,16 @@ describe.each(['ui'])(`List for %s on small viewport`, (themeName) => {
     await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="list-avatar"]',
+      simulateSelector: '[data-visual-test="list-avatar"] li:last-of-type',
+      simulate: 'click',
+    })
+  })
+
+  it('have to match avatar list in dark mode', async () => {
+    await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-avatar"]',
+      colorScheme: 'dark',
     })
   })
 

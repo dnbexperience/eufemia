@@ -1233,4 +1233,57 @@ describe('Visibility', () => {
 
     expect(container.innerHTML).toMatchInlineSnapshot(`"Child"`)
   })
+
+  describe('validateInitially={false} with show-all-errors after submit', () => {
+    // Pins the behavior introduced by the #4989 fix: once the form has
+    // attempted to submit (show-all-errors mode), a required field that is
+    // revealed afterwards shows its error immediately, even though the user
+    // never interacted with it and it uses validateInitially={false}. Before a
+    // submit, the same field stays silent. If this trade-off is revisited, this
+    // test should be updated together with the fix.
+    it('reveals a conditionally shown required field error once the form has attempted to submit', async () => {
+      render(
+        <Form.Handler>
+          {/* Always-present required field, so an attempted submit puts the
+              whole form into "show all errors" mode. */}
+          <Field.String path="/existing" required />
+
+          <Field.Boolean path="/show" variant="checkbox" />
+
+          <Form.Visibility visibleWhen={{ path: '/show', hasValue: true }}>
+            <Field.String
+              path="/conditional"
+              required
+              validateInitially={false}
+            />
+          </Form.Visibility>
+
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const checkbox = () =>
+        document.querySelector('input[type="checkbox"]')
+      const errorStatuses = () =>
+        document.querySelectorAll('.dnb-form-status--error')
+
+      // Before any submit, revealing the field keeps its error hidden,
+      // because validateInitially={false} suppresses initial validation.
+      await userEvent.click(checkbox())
+      expect(errorStatuses()).toHaveLength(0)
+      await userEvent.click(checkbox())
+
+      // Attempt to submit: the always-present required field errors, which
+      // switches the form into "show all errors" mode.
+      await userEvent.click(
+        document.querySelector('.dnb-forms-submit-button')
+      )
+      expect(errorStatuses()).toHaveLength(1)
+
+      // Revealing the conditional field now surfaces its required error
+      // immediately, as a consequence of forcing the reveal on submit.
+      await userEvent.click(checkbox())
+      expect(errorStatuses()).toHaveLength(2)
+    })
+  })
 })

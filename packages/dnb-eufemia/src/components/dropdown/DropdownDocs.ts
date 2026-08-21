@@ -35,7 +35,7 @@ export const DropdownEvents: PropertiesTableProps = {
 
 export const DropdownProperties: PropertiesTableProps = {
   title: {
-    doc: 'Give a title to let the users know what they have to do. Defaults to `Valgmeny`.',
+    doc: 'Give a title to let the users know what they have to do. Defaults to `Velg`.',
     type: 'React.ReactNode',
     status: 'optional',
   },

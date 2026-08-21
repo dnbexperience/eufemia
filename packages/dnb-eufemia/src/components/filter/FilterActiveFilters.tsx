@@ -90,6 +90,7 @@ function FilterActiveFilters({
           {isCollapsible ? (
             <>
               <Flex.Horizontal
+                layoutEngine="css"
                 className="dnb-filter__active-filters__header"
                 justify="space-between"
                 align="center"
@@ -121,6 +122,7 @@ function FilterActiveFilters({
           ) : (
             <>
               <Flex.Horizontal
+                layoutEngine="css"
                 className="dnb-filter__active-filters__header"
                 justify="space-between"
                 align="center"

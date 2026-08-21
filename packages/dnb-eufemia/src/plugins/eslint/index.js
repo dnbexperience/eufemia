@@ -1,6 +1,8 @@
 const noDeprecatedColorVariables = require('./rules/no-deprecated-color-variables.js')
+const reviewRules = require('../review-rules.js')
 
 const eslintPlugin = {
+  reviewRules,
   rules: {
     'no-deprecated-color-variables': noDeprecatedColorVariables,
   },

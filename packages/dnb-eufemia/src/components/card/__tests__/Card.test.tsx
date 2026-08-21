@@ -6,6 +6,30 @@ import Card from '../../card/Card'
 import { P } from '../../../elements'
 
 describe('Card', () => {
+  it('uses the legacy layout engine by default', () => {
+    render(
+      <Card>
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    expect(document.querySelector('.dnb-flex-container')).not.toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+  })
+
+  it('supports opting into the CSS gap layout engine', () => {
+    render(
+      <Card layoutEngine="css">
+        <P>Paragraph</P>
+      </Card>
+    )
+
+    expect(document.querySelector('.dnb-flex-container')).toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+  })
+
   it('should support legacy and CSS gap ScrollView roots', () => {
     const css = loadScss(require.resolve('../style/dnb-card.scss'))
 

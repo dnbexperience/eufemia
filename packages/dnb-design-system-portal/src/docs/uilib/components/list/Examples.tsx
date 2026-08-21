@@ -326,7 +326,7 @@ export const BackgroundColor = () => {
         <List.Item.Basic
           style={{
             ['--list-item-background-color' as string]:
-              'var(--color-mint-green-12)',
+              'var(--token-color-background-positive-subtle)',
           }}
         >
           Custom background color (not selected)
@@ -1001,12 +1001,9 @@ export const CustomItemComponent = () => {
   return (
     <ComponentBox>
       {() => {
-        // Mark the component so List.Container treats it as a list item
-        // instead of wrapping it in an extra element.
         const CustomListItem = (props) => {
           return <List.Item.Action {...props} />
         }
-        CustomListItem._supportsSpacingProps = true
 
         return (
           <List.Container>

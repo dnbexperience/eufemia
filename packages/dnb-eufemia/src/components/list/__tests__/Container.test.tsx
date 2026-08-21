@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import type { ReactNode } from 'react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { ListContainerProps } from '../Container'
 import Container from '../Container'
@@ -24,6 +25,62 @@ describe('List Container', () => {
     const element = document.querySelector('.dnb-list')
 
     expect(element.tagName).toBe('UL')
+  })
+
+  it('uses the CSS gap layout engine by default', () => {
+    render(
+      <Container separated>
+        <ItemContent>Item 1</ItemContent>
+        <ItemContent>Item 2</ItemContent>
+      </Container>
+    )
+
+    const list = document.querySelector('.dnb-list')
+    const items = Array.from(list.children)
+
+    expect(list).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-small'
+    )
+    expect(items).toHaveLength(2)
+    expect(items.every((item) => item.tagName === 'LI')).toBe(true)
+    expect(items[0]).not.toHaveClass('dnb-space__top--zero')
+    expect(items[1]).not.toHaveClass('dnb-space__top--small')
+  })
+
+  it('keeps the legacy layout engine available as an escape hatch', () => {
+    render(
+      <Container separated layoutEngine="legacy">
+        <ItemContent>Item 1</ItemContent>
+        <ItemContent>Item 2</ItemContent>
+      </Container>
+    )
+
+    const list = document.querySelector('.dnb-list')
+    const items = Array.from(list.children)
+
+    expect(list).not.toHaveClass('dnb-flex-container--css-gap')
+    expect(items[0]).toHaveClass('dnb-space__top--zero')
+    expect(items[1]).toHaveClass('dnb-space__top--small')
+  })
+
+  it('renders custom item component roots directly without a marker', () => {
+    const CustomItem = ({ children }: { children: ReactNode }) => (
+      <ItemContent>{children}</ItemContent>
+    )
+
+    render(
+      <Container separated>
+        <CustomItem>Item 1</CustomItem>
+        <CustomItem>Item 2</CustomItem>
+      </Container>
+    )
+
+    const list = document.querySelector('.dnb-list')
+    const items = Array.from(list.children)
+
+    expect(items).toHaveLength(2)
+    expect(items.every((item) => item.tagName === 'LI')).toBe(true)
   })
 
   it('merges custom className', () => {
@@ -66,12 +123,25 @@ describe('List Container', () => {
     expect(element.classList).toContain('dnb-list--separated')
   })
 
-  it('adds striped modifier class when striped is true', () => {
-    render(<Container striped>Content</Container>)
+  it.each([true, 'odd'] as const)(
+    'adds striped modifier class when striped is %s',
+    (striped) => {
+      render(<Container striped={striped}>Content</Container>)
+
+      const element = document.querySelector('.dnb-list')
+
+      expect(element.classList).toContain('dnb-list--striped')
+      expect(element.classList).not.toContain('dnb-list--striped-even')
+    }
+  )
+
+  it('adds even modifier class when striped is even', () => {
+    render(<Container striped="even">Content</Container>)
 
     const element = document.querySelector('.dnb-list')
 
     expect(element.classList).toContain('dnb-list--striped')
+    expect(element.classList).toContain('dnb-list--striped-even')
   })
 
   it('does not add striped class when striped is false or omitted', () => {
@@ -125,9 +195,9 @@ describe('List Container', () => {
 
     expect(children).toHaveLength(2)
     expect(children[0].tagName).toBe('LI')
-    expect(children[0]).toHaveClass('dnb-space__top--zero')
     expect(children[1].tagName).toBe('LI')
-    expect(children[1]).toHaveClass('dnb-space__top--small')
+    expect(children[0]).not.toHaveClass('dnb-space__top--zero')
+    expect(children[1]).not.toHaveClass('dnb-space__top--small')
     expect(list.querySelector(':scope > div')).toBeNull()
   })
 

@@ -237,6 +237,7 @@ function RadioGroup(ownProps: RadioGroupProps) {
           role="radiogroup"
         >
           <Flex.Container
+            layoutEngine="css"
             direction={
               vertical || labelDirection === 'vertical'
                 ? 'vertical'
