@@ -64,6 +64,7 @@ export function MultiSelectionSelectedTags({
     <Fragment>
       {isCollapsible && (
         <Flex.Horizontal
+          layoutEngine="css"
           className="dnb-forms-field-multi-selection__selected-items-header"
           justify="space-between"
           align="center"
