@@ -127,7 +127,7 @@ function InfoOverlay(props: FormInfoOverlayProps) {
         innerSpace={{ top: 'large', bottom: 'xx-large' }}
         {...restProps}
       >
-        <Flex.Stack gap="large">
+        <Flex.Stack layoutEngine="css" gap="large">
           <MainHeading>{title ?? tr.title}</MainHeading>
           <P>{description ?? tr.description}</P>
           <Button
@@ -149,7 +149,7 @@ function InfoOverlay(props: FormInfoOverlayProps) {
         innerSpace={{ top: 'large', bottom: 'xx-large' }}
         {...restProps}
       >
-        <Flex.Stack gap="large">
+        <Flex.Stack layoutEngine="css" gap="large">
           <MainHeading>{title ?? tr.title}</MainHeading>
           <HeightAnimation>
             <P>
@@ -158,7 +158,7 @@ function InfoOverlay(props: FormInfoOverlayProps) {
                 : (description ?? tr.description)}
             </P>
           </HeightAnimation>
-          <Flex.Horizontal>
+          <Flex.Horizontal layoutEngine="css">
             <Button variant="secondary" onClick={onCancelHandler}>
               {cancelButton ?? tr.cancelButton}
             </Button>
