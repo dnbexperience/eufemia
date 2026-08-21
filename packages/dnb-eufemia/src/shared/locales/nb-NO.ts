@@ -77,7 +77,7 @@ export default {
       noGroupSR: 'Andre valg',
     },
     Dropdown: {
-      title: 'Valgmeny',
+      title: 'Velg',
     },
     Autocomplete: {
       title: 'Skriv og velg',

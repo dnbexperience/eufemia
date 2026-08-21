@@ -78,7 +78,7 @@ export default {
       noGroupSR: 'Other options',
     },
     Dropdown: {
-      title: 'Option Menu',
+      title: 'Select',
     },
     Autocomplete: {
       title: 'Type and select',
