@@ -56,6 +56,7 @@ function parseCSSVariables(content: string): Record<string, string> {
 
   return variables
 }
+
 const TOKEN_SETS = {
   colors: {
     fileName: 'color.tokens.json',
@@ -66,7 +67,15 @@ const TOKEN_SETS = {
     targetVariableSetId:
       'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
   },
-}
+  typography: {
+    targetVariableSetId:
+      'VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045',
+  },
+  brand: {
+    targetVariableSetId:
+      'VariableCollectionId:ce0e9fe2c86d01fffb6dda76c528754bcd1454ca/-1:-1',
+  },
+} as const
 
 const ROOT_DIR = path.resolve(__dirname, '../../..')
 
@@ -212,52 +221,63 @@ type FigmaExport = {
   [x: string]: FigmaNode
 }
 
+type FigmaSetId =
+  (typeof TOKEN_SETS)[keyof typeof TOKEN_SETS]['targetVariableSetId']
+
+// Types for converted Figma export files for internal use in token generation
+type TokenList = TokenItem[]
+
+type TokenItem = {
+  figmaPath: string[]
+  figmaSetId: FigmaSetId
+} & FigmaValue
+
 const foundationPrefixMap = {
   ui: { css: 'dnb', figma: 'dnb' },
   sbanken: { css: 'sbanken', figma: 'sbanken' },
   carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
 }
 
-export const transformFigmaAlias = (
-  alias: FigmaAlias,
-  value?: FigmaValue
-) => {
-  const figmaVariableName = alias.targetVariableName
+export const transformFigmaAlias = (alias: FigmaAlias) => {
+  const figmaAliasName = alias.targetVariableName
+  const figmaAliasSetId = alias.targetVariableSetId
 
-  if (alias.targetVariableSetId === TOKEN_SETS.sizes.targetVariableSetId) {
-    // Size aliases resolve to literal values instead of var() references
-    // because there is no size foundation SCSS file.
-    if (value) {
-      return transformNumberValue(value.$value as number)
-    }
+  if (figmaAliasSetId === TOKEN_SETS.colors.targetVariableSetId) {
+    const path = figmaAliasName.split('/')
 
-    return undefined
-  }
-
-  if (
-    alias.targetVariableSetId === TOKEN_SETS.colors.targetVariableSetId
-  ) {
-    const path = figmaVariableName.split('/')
-
-    let newPrefix = undefined
+    let knownPrefix = false
     Object.values(foundationPrefixMap).forEach((prefix) => {
       // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
       if (path[0] === prefix.figma) {
-        newPrefix = prefix.css
+        knownPrefix = true
       }
     })
 
-    if (newPrefix === undefined) {
-      const errorMessage = `Unsupported theme prefix: ${path[0]} for variable ${figmaVariableName}`
+    if (!knownPrefix) {
+      const errorMessage = `Unsupported theme prefix: "${path[0]}" for alias "${figmaAliasName}"`
       log.fail(errorMessage)
       throw new Error(errorMessage)
     }
-    path[0] = newPrefix
-    return `var(${transformNamespace()}${transformFigmaPath(path)})` // Including transform namespace as we might want to be able to apply that in the future
+
+    let knownCollection = false
+    Object.values(TOKEN_SETS).forEach((tokenSet) => {
+      if (figmaAliasSetId === tokenSet.targetVariableSetId) {
+        knownCollection = true
+      }
+    })
+
+    if (!knownCollection) {
+      const errorMessage = `Unsupported variable set: "${figmaAliasSetId}" for alias "${figmaAliasName}"`
+      log.fail(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    return `var(${transformNamespace()}${transformFigmaPath({ figmaPath: path, figmaSetId: figmaAliasSetId })})` // Including transform namespace as we might want to be able to apply that in the future
   }
 
-  // Unknown variable sets (e.g. typography for font tokens) are excluded.
-  return undefined
+  const errorMessage = `Unsupported variable set: "${figmaAliasSetId}" for alias "${figmaAliasName}"`
+  log.fail(errorMessage)
+  throw new Error(errorMessage)
 }
 
 const hexAsRgb = (hex: string) => {
@@ -298,17 +318,45 @@ const alphaAsPercent = (alpha: number) => {
   return `${value}%`
 }
 
-export const transformFigmaValue = (value: FigmaValue) => {
-  if (value.$type === 'string') {
-    return undefined // Exclude font-family and font weight
-  }
-
+const shouldTransformFigmaAlias = (value: FigmaValue) => {
   const alias = value?.$extensions?.['com.figma.aliasData']
 
   if (alias) {
-    return transformFigmaAlias(alias, value)
+    switch (alias.targetVariableSetId) {
+      case TOKEN_SETS.colors.targetVariableSetId:
+        return true
+      case TOKEN_SETS.sizes.targetVariableSetId: {
+        // Size aliases resolve to literal values instead of var() references
+        // because we do not import their foundation SCSS files.
+        if (value.$type !== 'number') {
+          const errorMessage = `Unexpected type : ${value.$type} for in variable set ${alias.targetVariableSetName}`
+          log.fail(errorMessage)
+          throw new Error(errorMessage)
+        }
+        return false
+      }
+    }
+
+    // Any unknown aliases should throw error
+    throw new Error(
+      `Unsupported variable set: ${alias.targetVariableSetName}`
+    )
   }
 
+  return false
+}
+
+export const transformFigmaValue = (value: FigmaValue) => {
+  if (shouldTransformFigmaAlias(value)) {
+    return transformFigmaAlias(
+      value.$extensions?.['com.figma.aliasData'] as FigmaAlias
+    )
+  } else {
+    return transformFigmaRawValue(value)
+  }
+}
+
+const transformFigmaRawValue = (value: FigmaValue) => {
   if (value.$type === 'number') {
     return transformNumberValue(value.$value as number)
   }
@@ -321,20 +369,34 @@ export const transformFigmaValue = (value: FigmaValue) => {
       ? compressHex(hex)
       : `rgba(${hexAsRgb(hex)} / ${alphaAsPercent(alpha)})`
   } else {
-    // @ts-expect-error: we are expecting a bad value
     throw new Error(`Unsupported $type: ${value.$type}`)
   }
 }
 /**
- * Takes an array of figma groups and transforms them into the path part of the css variable
+ * Returns the path part of the CSS variable based on the figmaPath of a token item.
  *
  * `[ "Color", "Background", "Primary" ]` -> `"color-background-primary"`
  */
-export const transformFigmaPath = (path: string[]) => {
+export const transformFigmaPath = (
+  value: Pick<TokenItem, 'figmaPath' | 'figmaSetId'>
+) => {
+  const path = value.figmaPath
+
   const unsupportedCharacters = []
 
   const cleanPath = path.filter(Boolean)
 
+  // Transforms for names
+  if (value.figmaSetId === TOKEN_SETS.colors.targetVariableSetId) {
+    Object.values(foundationPrefixMap).forEach((prefix) => {
+      // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
+      if (cleanPath[0] === prefix.figma) {
+        cleanPath[0] = prefix.css
+      }
+    })
+  }
+
+  // Transforms for valid formatting
   const transformedPath = cleanPath
     .map((group) => {
       unsupportedCharacters.push(...(group.match(/[^a-zA-Z-0-9]/g) ?? []))
@@ -349,6 +411,7 @@ export const transformFigmaPath = (path: string[]) => {
     log.fail(errorMessage)
     throw new Error(errorMessage)
   }
+
   return transformedPath
 }
 
@@ -393,54 +456,60 @@ const keepOnlyReferencedVariableDeclarations = (
     .join('\n')
 }
 
-/** Recursively generates CSS variables from a Figma export json */
-const generateCSSVariablesFromFigmaExport = (
-  value: FigmaNode | string | number,
-  /** string placed first in the css variable: `--namespace-color-blue-500` */
-  namespace?: string,
-  path: string[] = []
-) => {
-  try {
-    if (typeof value == 'string' || typeof value === 'number') {
-      return ''
-    }
-
-    if (typeof value.$type === 'string') {
-      const val = transformFigmaValue(value)
-      return val
-        ? `${transformNamespace(namespace)}${transformFigmaPath(
-            path
-          )}: ${val};\n`
-        : ''
-    } else {
-      let result = ''
-      for (const [key, val] of Object.entries(value)) {
-        const newPath = key === '$root' ? path : [...path, key]
-        result += generateCSSVariablesFromFigmaExport(
-          val,
-          namespace,
-          newPath
-        )
-      }
-      return result
-    }
-  } catch (e) {
-    const err = e as Error & {
-      recursionContext?: {
-        path: string[]
-        namespace: string
-        value: unknown
-      }
-    }
-    if (!err.recursionContext) {
-      err.recursionContext = {
-        path,
-        namespace,
-        value,
-      }
-    }
-    throw err
+const shouldGenerateCSSVariable = (value: FigmaValue) => {
+  if (value.$type === 'string') {
+    return false // Exclude font-family and font weight
   }
+  if (
+    value?.$extensions?.['com.figma.aliasData']?.targetVariableSetId ===
+    TOKEN_SETS.typography.targetVariableSetId
+  ) {
+    return false // Exclude typography
+  }
+  return true
+}
+
+/** Generates CSS variables as a SCSS string from a token list */
+export const generateCSSVariablesFromTokenList = (
+  /** An exported figma collection converted to a token list */
+  tokenList: TokenList,
+  /** string placed first in the css variable: `--namespace-color-blue-500` */
+  namespace?: string
+) => {
+  let returnValue = ''
+
+  tokenList.forEach((value) => {
+    try {
+      if (shouldGenerateCSSVariable(value)) {
+        const valuePart = transformFigmaValue(value)
+
+        if (valuePart) {
+          const namespacePart = transformNamespace(namespace)
+          const pathPart = transformFigmaPath(value)
+
+          returnValue += `${namespacePart}${pathPart}: ${valuePart};\n`
+        }
+      }
+    } catch (e) {
+      const err = e as Error & {
+        recursionContext?: {
+          path: string[]
+          namespace: string
+          value: unknown
+        }
+      }
+      if (!err.recursionContext) {
+        err.recursionContext = {
+          path: value.figmaPath,
+          namespace,
+          value,
+        }
+      }
+      throw err
+    }
+  })
+
+  return returnValue
 }
 
 const makeDesignTokenTailwindCSS = async (
@@ -600,6 +669,7 @@ ${themeBlock}${nativeRootBlock}${scopedSelectors ? `${scopedSelectors}\n` : ''}
 const makeDesignTokenSCSS = async ({
   inputPath,
   outputPath,
+  figmaSetId,
   namespace,
   scopeSelector = ':root',
   appendToFile = false,
@@ -612,6 +682,8 @@ const makeDesignTokenSCSS = async ({
   inputPath: string
   /** Root path for the generated SCSS file */
   outputPath: string
+  /** id of the Figma collection */
+  figmaSetId: FigmaSetId
   /** prefix that is added to the start of the css variable name */
   namespace?: string
   /** selector receiving generated variables */
@@ -626,8 +698,11 @@ const makeDesignTokenSCSS = async ({
   colorScheme?: 'light' | 'dark'
 }) => {
   try {
-    const json = filter(
-      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
+    const tokenList = convertToTokenList(
+      filter(
+        JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8'))
+      ),
+      figmaSetId
     )
 
     // When scoping to :root, also add .eufemia-theme__color-scheme--light
@@ -643,7 +718,7 @@ const makeDesignTokenSCSS = async ({
       scssContent += `color-scheme: ${colorScheme};\n`
     }
 
-    scssContent += generateCSSVariablesFromFigmaExport(json, namespace)
+    scssContent += generateCSSVariablesFromTokenList(tokenList, namespace)
     scssContent += '}\n'
 
     if (referencedVariables) {
@@ -654,9 +729,9 @@ const makeDesignTokenSCSS = async ({
     }
 
     if (referencePrefixOverride) {
-      scssContent = scssContent.replace(
-        /var\(\s*--(?:dnb|sbanken|carnegie)-([a-z0-9-]+)\s*\)/gi,
-        `var(--${referencePrefixOverride}-$1)`
+      scssContent = overrideFoundationReferencePrefix(
+        scssContent,
+        referencePrefixOverride
       )
     }
 
@@ -692,6 +767,76 @@ const makeDesignTokenSCSS = async ({
   }
 }
 
+export const overrideFoundationReferencePrefix = (
+  scssContent: string,
+  referencePrefixOverride: string
+) => {
+  const prefixPattern = [
+    foundationPrefixMap.ui.css,
+    foundationPrefixMap.sbanken.css,
+    foundationPrefixMap.carnegie.css,
+  ].join('|')
+
+  return scssContent.replace(
+    new RegExp(
+      `(var\\(\\s*--)(${prefixPattern})(-[a-z0-9-]+\\s*\\))`,
+      'gi'
+    ),
+    (match, $1, $2, $3) => {
+      if ($2 !== referencePrefixOverride) {
+        log.warn(
+          `Overriding reference "${$2}" to "${referencePrefixOverride}" in variable "${match}"`
+        )
+        return `${$1}${referencePrefixOverride}${$3}`
+      }
+      return match
+    }
+  )
+}
+
+export const convertToTokenList = (
+  node: FigmaNode,
+  figmaSetId: FigmaSetId
+) => {
+  const convertRecursive = (node: FigmaNode, figmaPath: string[] = []) => {
+    let list: TokenList = []
+
+    if (typeof node !== 'object' || node === null) {
+      const nodePath = figmaPath.filter(Boolean).join('/') || '<root>'
+      const errorMessage = `Invalid Figma token node at "${nodePath}": expected an object`
+      log.fail(errorMessage)
+      throw new Error(errorMessage)
+    }
+
+    if ('$type' in node) {
+      list.push({ figmaPath, figmaSetId, ...(node as FigmaValue) })
+    } else {
+      Object.entries(node).forEach(([key, value]) => {
+        if (key !== '$extensions') {
+          list = list.concat(
+            convertRecursive(value, [
+              ...figmaPath,
+              key === '$root' ? '' : key,
+            ])
+          )
+        }
+      })
+    }
+
+    return list
+  }
+
+  const tokenList = convertRecursive(node)
+
+  if (tokenList.length === 0) {
+    const errorMessage = 'Invalid Figma export: no tokens found'
+    log.fail(errorMessage)
+    throw new Error(errorMessage)
+  }
+
+  return tokenList
+}
+
 const runDesignTokenFactory = async () => {
   log.start('> PrePublish: transforming figma variables to SCSS')
 
@@ -699,6 +844,7 @@ const runDesignTokenFactory = async () => {
     theme: string
     in: string
     out: string
+    figmaSetId: FigmaSetId
     prefix: string
     scopeSelector?: string
     appendToFile?: boolean
@@ -707,45 +853,50 @@ const runDesignTokenFactory = async () => {
   }> = [
     {
       theme: 'ui',
-      in: './src/style/themes/figma/dnb-light.tokens.json',
+      in: './src/style/themes/figma/brand/dnb-light.tokens.json',
       out: './src/style/themes/ui/tokens.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: 'dnb',
+      referencePrefixOverride: foundationPrefixMap.ui.css,
       colorScheme: 'light',
     },
     {
       theme: 'ui',
-      in: './src/style/themes/figma/dnb-dark.tokens.json',
+      in: './src/style/themes/figma/brand/dnb-dark.tokens.json',
       out: './src/style/themes/ui/tokens-dark.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
-      referencePrefixOverride: 'dnb',
+      referencePrefixOverride: foundationPrefixMap.ui.css,
       colorScheme: 'dark',
     },
 
     {
       theme: 'sbanken',
-      in: './src/style/themes/figma/sbanken-light.tokens.json',
+      in: './src/style/themes/figma/brand/sbanken-light.tokens.json',
       out: './src/style/themes/sbanken/tokens.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: 'sbanken',
+      referencePrefixOverride: foundationPrefixMap.sbanken.css,
       colorScheme: 'light',
     },
     {
       theme: 'sbanken',
-      in: './src/style/themes/figma/sbanken-dark.tokens.json',
+      in: './src/style/themes/figma/brand/sbanken-dark.tokens.json',
       out: './src/style/themes/sbanken/tokens-dark.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
       scopeSelector: '.eufemia-theme__color-scheme--dark',
-      referencePrefixOverride: 'sbanken',
+      referencePrefixOverride: foundationPrefixMap.sbanken.css,
       colorScheme: 'dark',
     },
     {
       theme: 'carnegie',
-      in: './src/style/themes/figma/dnbcarnegie-light.tokens.json',
+      in: './src/style/themes/figma/brand/dnbcarnegie-light.tokens.json',
       out: './src/style/themes/carnegie/tokens.scss',
+      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
       prefix: 'token',
-      referencePrefixOverride: 'carnegie',
+      referencePrefixOverride: foundationPrefixMap.carnegie.css,
       colorScheme: 'light',
     },
   ]
@@ -754,29 +905,37 @@ const runDesignTokenFactory = async () => {
     theme: string
     in: string
     out: string
-    prefix: string
+    figmaSetId: FigmaSetId
     filter: (json: FigmaExport) => FigmaNode
   }> = [
     {
       theme: 'ui',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/ui/foundation.scss',
-      filter: (json) => json[foundationPrefixMap.ui.figma],
-      prefix: foundationPrefixMap.ui.css,
+      figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+      filter: (json) => ({
+        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
+      }),
     },
     {
       theme: 'sbanken',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/sbanken/foundation.scss',
-      filter: (json) => json[foundationPrefixMap.sbanken.figma],
-      prefix: foundationPrefixMap.sbanken.css,
+      figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+      filter: (json) => ({
+        [foundationPrefixMap.sbanken.figma]:
+          json[foundationPrefixMap.sbanken.figma],
+      }),
     },
     {
       theme: 'carnegie',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/carnegie/foundation.scss',
-      filter: (json) => json[foundationPrefixMap.carnegie.figma],
-      prefix: foundationPrefixMap.carnegie.css,
+      figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+      filter: (json) => ({
+        [foundationPrefixMap.carnegie.figma]:
+          json[foundationPrefixMap.carnegie.figma],
+      }),
     },
   ]
 
@@ -788,6 +947,7 @@ const runDesignTokenFactory = async () => {
     await makeDesignTokenSCSS({
       inputPath: file.in,
       outputPath: file.out,
+      figmaSetId: file.figmaSetId,
       namespace: file.prefix,
       scopeSelector: file.scopeSelector,
       appendToFile: file.appendToFile,
@@ -826,7 +986,7 @@ const runDesignTokenFactory = async () => {
       makeDesignTokenSCSS({
         inputPath: file.in,
         outputPath: file.out,
-        namespace: file.prefix,
+        figmaSetId: file.figmaSetId,
         filter: file.filter,
         referencedVariables: referencedVariablesByTheme.get(file.theme),
       })
