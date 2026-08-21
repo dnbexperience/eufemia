@@ -20,6 +20,27 @@ describe('HelpButtonInline', () => {
     ).toBeInTheDocument()
   })
 
+  it('uses the CSS gap layout engine for inline content', () => {
+    render(
+      <HelpButtonInline
+        help={{
+          open: true,
+          title: 'Help title',
+          content: 'Help content',
+        }}
+      />
+    )
+
+    const content = document.querySelector(
+      '.dnb-help-button__content .dnb-flex-container'
+    )
+
+    expect(content).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-x-small'
+    )
+  })
+
   it('should toggle open state when clicked', async () => {
     render(<HelpButtonInline help={{ title: 'Help title' }} />)
 
