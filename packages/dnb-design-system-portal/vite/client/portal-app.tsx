@@ -18,6 +18,7 @@ import createEmotionCache from '@emotion/cache'
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 import { applyRouteFocus } from './route-focus'
+import { trackPageView } from './track-page-view'
 import { MDXProvider } from '@mdx-js/react'
 import { usePrefetchOnHover } from 'virtual:prefetch-on-hover'
 import { useCatchLinks } from 'virtual:catch-links'
@@ -108,6 +109,7 @@ function PageWrapper() {
       <Suspense fallback={<div>Loading...</div>}>
         <Outlet />
         <RouteFocusEffect />
+        <TrackPageView />
       </Suspense>
     </PortalLayout>
   )
@@ -154,6 +156,17 @@ function RouteFocusEffect() {
 
     document.documentElement.setAttribute('data-portal-ready', 'true')
   }, [location.hash, location.pathname, location.search])
+
+  return null
+}
+
+/** Records an anonymous page view on initial load and each navigation. */
+function TrackPageView() {
+  const location = useLocation()
+
+  useEffect(() => {
+    trackPageView(location.pathname)
+  }, [location.pathname])
 
   return null
 }
