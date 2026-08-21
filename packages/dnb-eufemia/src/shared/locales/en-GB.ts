@@ -133,7 +133,7 @@ export default {
       nextButtonTitle: 'Next tab',
     },
     StepIndicator: {
-      overviewTitle: 'Steps Overview',
+      overviewTitle: 'Steps overview',
       stepTitle: 'Step %step of %count:',
     },
     Slider: {
