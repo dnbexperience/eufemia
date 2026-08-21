@@ -35,7 +35,7 @@ export default function renderWithFormatting(
   // Fast-path: if text is a plain string without any formatting markers, return it directly
   if (typeof text === 'string') {
     const HAS_MARKERS_RE =
-      /(`[^`]+`|\[[^\]]+\]\([^)\s]+\)|\bhttps?:\/\/[^\s<>()]+|\*\*[^*]+\*\*|_[^_]+_)/
+      /(`[^`]+`|\[[^[\]]+\]\([^)\s[]+\)|\bhttps?:\/\/[^\s<>()]+|\*\*[^*]+\*\*|_[^_]+_)/
     const hasFormatting =
       (br && text.includes(br)) || HAS_MARKERS_RE.test(text)
     if (!hasFormatting) {
@@ -69,8 +69,9 @@ function withFormatting(
     <Fragment key={`c-${k()}`}>{code(m[0].slice(1, -1))}</Fragment>,
   ])
 
-  // [label](href) — recursive formatting inside the label, but avoid nested links
-  const linkRe = /\[([^\]]+)\]\(([^)\s]+)\)/g
+  // [label](href) — recursive formatting inside the label, but avoid nested links.
+  // Content classes exclude "[" so unbalanced brackets fail fast (prevents ReDoS).
+  const linkRe = /\[([^[\]]+)\]\(([^)\s[]+)\)/g
   nodes = replaceInStrings(nodes, linkRe, (m, { k }) => {
     const [, label, href] = m
     const children = withFormatting(label, {
