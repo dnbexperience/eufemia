@@ -205,7 +205,7 @@ export type ModalContentProps = {
   title?: ReactNode
 
   /**
-   * The aria label of the dialog when no labelledBy and no title is given. Defaults to `Vindu`.
+   * The `aria-label` used for the dialog when neither `title` nor `labelledBy` is given. Prefer a meaningful `title` or `labelledBy` for accessibility; this is only a generic fallback. Defaults to a localized string (`Separat vindu` for `nb-NO`).
    */
   dialogTitle?: string
 
