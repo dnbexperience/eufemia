@@ -203,7 +203,7 @@ export type AutocompleteProps = {
    */
   indicatorLabel?: AutocompleteIndicatorLabel
   /**
-   * Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer`.
+   * Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer, lukk med esc knappen`.
    */
   showOptionsSr?: string
   /**
