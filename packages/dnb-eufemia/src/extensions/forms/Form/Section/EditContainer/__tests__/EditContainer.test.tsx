@@ -19,7 +19,10 @@ describe('EditContainer', () => {
       document.querySelector(
         '.dnb-forms-section-edit-block .dnb-flex-stack'
       )
-    ).toHaveClass('dnb-flex-container--css-gap')
+    ).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-forms-section-block__content'
+    )
   })
 
   it('should throw when preventUncommittedChanges is used without a section path', () => {

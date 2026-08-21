@@ -19,7 +19,10 @@ describe('ViewContainer', () => {
       document.querySelector(
         '.dnb-forms-section-view-block .dnb-flex-stack'
       )
-    ).toHaveClass('dnb-flex-container--css-gap')
+    ).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-forms-section-block__content'
+    )
   })
 
   it('renders content and without errors', () => {
