@@ -1,0 +1,56 @@
+name: Consumer smoke tests
+
+# Build @dnb/eufemia, then production-build minimal Vite and Next.js consumers
+# against the packed tarball to catch broken exports, types or CSS imports before
+# a release reaches consumers. Needs no secrets, so it runs with least privilege.
+
+on:
+  # No `paths:` filter: this gate protects the publishable build, whose inputs
+  # span the whole repo (root package.json/yarn.lock, .github/actions/setup and
+  # the tools/* packages used by build:ci), so a narrow filter would let a
+  # build-breaking change skip the check. Runs on every PR, like verify.yml.
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Build and smoke-test consumers
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      # Full publishable build (also runs the package-content validation gate).
+      - name: Build library
+        run: yarn workspace @dnb/eufemia build:ci
+
+      # Pack the built library ONCE so both consumers install and test the exact
+      # same tarball (build once, pack once, test that artifact).
+      - name: Pack @dnb/eufemia tarball
+        id: pack
+        run: |
+          tarball=$(cd packages/dnb-eufemia/build && npm pack --pack-destination "$RUNNER_TEMP" 2>/dev/null | tail -1)
+          echo "tarball=$RUNNER_TEMP/$tarball" >> "$GITHUB_OUTPUT"
+
+      - name: Vite consumer smoke test
+        run: node smoke/run-smoke.mjs vite --tarball "${{ steps.pack.outputs.tarball }}"
+
+      - name: Next.js consumer smoke test
+        run: node smoke/run-smoke.mjs nextjs --tarball "${{ steps.pack.outputs.tarball }}"
