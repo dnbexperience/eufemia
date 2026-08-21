@@ -57,6 +57,7 @@ function Card(props: CardProps) {
     align,
     divider = 'space',
     rowGap,
+    layoutEngine = 'css',
     responsive = !nestedContext?.isNested,
     filled,
     outset,
@@ -119,6 +120,7 @@ function Card(props: CardProps) {
     <Flex.Item alignSelf={alignSelf} {...params} element={element}>
       <CardContext value={{ ...nestedContext, isNested: true }}>
         <Flex.Container
+          layoutEngine={layoutEngine}
           direction={direction ?? 'vertical'}
           divider={divider}
           alignSelf={alignSelf}
