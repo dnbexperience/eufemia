@@ -50,13 +50,7 @@ test.describe('Route Focus', () => {
 
     await page.keyboard.press('Tab')
 
-    await expect
-      .poll(() =>
-        tabList.evaluate((element) =>
-          element.contains(document.activeElement)
-        )
-      )
-      .toBe(true)
+    await expect(tabList).toBeFocused()
   })
 
   test('should remove the current hash and focus content when navigating to another tab', async ({

@@ -226,6 +226,7 @@
   "extensions/forms/Wizard/Step/Step.tsx": 1,
   "extensions/forms/blocks/ChildrenWithAge/ChildrenWithAge.tsx": 1,
   "extensions/forms/utils/TestElement/TestElement.tsx": 1,
+  "extensions/sidebar-menu/SidebarMenuContainer.tsx": 1,
   "fragments/drawer-list/DrawerList.tsx": 1,
   "shared/Theme.tsx": 1,
   "shared/helpers/withComponentMarkers.ts": 3

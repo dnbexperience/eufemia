@@ -29,6 +29,9 @@ describe('cleanupPackage', () => {
     expect(cleanedPackage).toHaveProperty('peerDependencies')
     expect(cleanedPackage.bin).toBe('./cli/eufemia.js')
     expect(cleanedPackage.license).toBe('SEE LICENSE IN LICENSE FILE')
+    expect(cleanedPackage.sideEffects).toContain(
+      '**/extensions/**/style.*'
+    )
   })
 
   it('includes @babel/runtime-corejs3 as a runtime dependency', async () => {
@@ -155,6 +158,7 @@ describe('package.json', () => {
     expect(packageJson.sideEffects).toEqual(
       expect.arrayContaining([
         '*.scss',
+        '**/extensions/**/style.*',
         'umd/*',
         'style/**/*',
         'es/style/**/*',
