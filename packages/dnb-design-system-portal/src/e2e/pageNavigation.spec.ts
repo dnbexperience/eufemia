@@ -27,7 +27,6 @@ test.describe('Page Navigation', () => {
       }
 
       await page.goto('/uilib/components/')
-      await page.click('#portal-tools', { force: true })
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
 
@@ -180,13 +179,13 @@ test.describe('Page Navigation', () => {
       await page.goto('/uilib/components/')
       await waitForApp(page)
 
-      const expandButtons = page.locator(
-        '.dnb-sidebar-menu__expand-button'
-      )
-      const count = await expandButtons.count()
-      for (let i = 0; i < count; i++) {
-        await expandButtons.nth(i).click()
-      }
+      await page
+        .locator(
+          '.dnb-sidebar-menu__accordion__toggle[aria-expanded="false"]'
+        )
+        .evaluateAll((buttons: HTMLButtonElement[]) => {
+          buttons.forEach((button) => button.click())
+        })
 
       const href = '/uilib/components/button'
       const buttonLink = page.locator(
