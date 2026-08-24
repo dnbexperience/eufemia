@@ -25,7 +25,6 @@ export type PreparedSearch = {
   searchWords: string[]
   searchWordsData: SearchWordData[]
   firstWordRegex: RegExp | null
-  getWordBoundary: (wordIndex: number) => string
   /** The 0-based matchInsideWordsFrom threshold used for filtering and highlighting. */
   matchInsideWordsFromIndex: number
   /** Whether number-optimized matching is enabled. */
@@ -115,7 +114,6 @@ export function prepareSearchWords(
     searchWords,
     searchWordsData,
     firstWordRegex,
-    getWordBoundary,
     matchInsideWordsFromIndex,
     numbers,
   }
