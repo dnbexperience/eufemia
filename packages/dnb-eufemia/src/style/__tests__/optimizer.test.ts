@@ -308,7 +308,8 @@ describe('createSafelist', () => {
   })
 
   it('rejects a manifest file with an unsupported schema version', () => {
-    const manifestPath = path.join(os.tmpdir(), 'eufemia-manifest-v2.json')
+    const tempDir = mkdtempSync(path.join(os.tmpdir(), 'eufemia-'))
+    const manifestPath = path.join(tempDir, 'manifest-v2.json')
     writeFileSync(
       manifestPath,
       JSON.stringify({ ...manifest, version: 2 }),
@@ -320,7 +321,7 @@ describe('createSafelist', () => {
         createSafelist({ manifestPath, components: ['button'] })
       ).toThrow(/same @dnb\/eufemia version/i)
     } finally {
-      rmSync(manifestPath, { force: true })
+      rmSync(tempDir, { recursive: true, force: true })
     }
   })
 

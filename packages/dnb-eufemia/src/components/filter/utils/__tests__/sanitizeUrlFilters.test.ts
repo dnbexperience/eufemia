@@ -154,4 +154,15 @@ describe('sanitizeUrlFilters', () => {
       status: { value: 'active', label: 'Active' },
     })
   })
+
+  it('does not pollute Object.prototype for a crafted key', () => {
+    const input = JSON.parse(
+      '{"__proto__": {"polluted": "yes"}, "status": {"value": "ok", "label": "OK"}}'
+    )
+
+    sanitizeUrlFilters(input)
+
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined()
+    expect(Object.prototype).not.toHaveProperty('polluted')
+  })
 })
