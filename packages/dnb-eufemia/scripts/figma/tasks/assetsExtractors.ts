@@ -747,8 +747,12 @@ const createXMLTarBundles = async ({
   async function convertSvgToXml() {
     try {
       log.info(`> Figma: convert SVG to XML in directory: ${destDir}`)
-      // Allow only path characters so a directory value cannot inject shell syntax.
-      if (!/^[A-Za-z0-9 _./@+-]+$/.test(String(destDir))) {
+      // Allow only path characters (no shell metacharacters) and guard the
+      // variable that flows into the command, so it cannot inject shell syntax.
+      if (
+        typeof destDir !== 'string' ||
+        !/^[A-Za-z0-9 _./@+-]+$/.test(destDir)
+      ) {
         throw new Error(`Unsafe destination directory: ${destDir}`)
       }
       const safeDestDir = `'${String(destDir).replace(/'/g, `'\\''`)}'`
