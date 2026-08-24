@@ -31,8 +31,22 @@ export type ResolvedFailure = {
   lineNumber: number | null
 } & ScreenshotFailureRecord
 
+// Escape a value for safe use in HTML text or double/single-quoted
+// attributes. The report is published to a public URL, so every
+// test-derived value must be escaped before it is interpolated.
+export const escapeHtml = (value: string): string =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
 const formatMessage = (message: string) =>
-  message.replace(ANSI_ESCAPE_SEQUENCE, '').replace(/\n/g, '<br />')
+  escapeHtml(message.replace(ANSI_ESCAPE_SEQUENCE, '')).replace(
+    /\n/g,
+    '<br />'
+  )
 
 const extractTestMetadata = (
   testFilePath: string,
@@ -115,7 +129,10 @@ const copyImageToReport = (
   return `images/${destName}`
 }
 
-const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
+export const renderHtml = (
+  failures: ResolvedFailure[],
+  reportDir: string
+) => {
   // Track how many times each test appears so we can label retries.
   const attemptByName = new Map<string, number>()
   const uniqueTests = new Set<string>()
@@ -139,8 +156,8 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         figures.push(`
             <figure class="screenshot-figure">
               <figcaption>Expected</figcaption>
-              <a class="diff" target="_blank" href="${rel}">
-                <img src="${rel}" alt="Expected screenshot" />
+              <a class="diff" target="_blank" href="${escapeHtml(rel)}">
+                <img src="${escapeHtml(rel)}" alt="Expected screenshot" />
               </a>
             </figure>`)
       }
@@ -150,8 +167,8 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         figures.push(`
             <figure class="screenshot-figure">
               <figcaption>Actual</figcaption>
-              <a class="diff" target="_blank" href="${rel}">
-                <img src="${rel}" alt="Actual screenshot" />
+              <a class="diff" target="_blank" href="${escapeHtml(rel)}">
+                <img src="${escapeHtml(rel)}" alt="Actual screenshot" />
               </a>
             </figure>`)
       }
@@ -161,8 +178,8 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         figures.push(`
             <figure class="screenshot-figure">
               <figcaption>Diff</figcaption>
-              <a class="diff" target="_blank" href="${rel}">
-                <img src="${rel}" alt="Shows the visual difference" />
+              <a class="diff" target="_blank" href="${escapeHtml(rel)}">
+                <img src="${escapeHtml(rel)}" alt="Shows the visual difference" />
               </a>
             </figure>`)
       }
@@ -174,15 +191,15 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         : ''
 
       const visualTestIdHtml = f.dataVisualTestId
-        ? `<p><b><code class="copy-id" onclick="navigator.clipboard.writeText('${f.dataVisualTestId}').then(() => { this.classList.add('copied'); setTimeout(() => this.classList.remove('copied'), 1000) })">data-visual-test="${f.dataVisualTestId}"</code></b></p>`
+        ? `<p><b><code class="copy-id" data-clipboard-text="${escapeHtml(f.dataVisualTestId)}">data-visual-test="${escapeHtml(f.dataVisualTestId)}"</code></b></p>`
         : ''
 
       return `
             <li>
               <dl>
-                <dt>${f.fullName}${retryLabel}</dt>
+                <dt>${escapeHtml(f.fullName)}${retryLabel}</dt>
                 <dd>
-                  <p><a href="vscode://file${f.testFilePath}${f.lineNumber ? ':' + f.lineNumber : ''}"><code>${f.relativeTestFilePath}${f.lineNumber ? ':' + f.lineNumber : ''}</code></a></p>
+                  <p><a href="vscode://file${escapeHtml(f.testFilePath)}${f.lineNumber ? ':' + f.lineNumber : ''}"><code>${escapeHtml(f.relativeTestFilePath)}${f.lineNumber ? ':' + f.lineNumber : ''}</code></a></p>
                   ${visualTestIdHtml}
                   <p>${formatMessage(f.message)}</p>
                   ${image}
@@ -270,6 +287,23 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         <li>Failed Tests: <b>${uniqueTests.size}</b></li>
         ${items}
       </ol>
+
+      <script>
+        document.addEventListener('click', function (event) {
+          var el = event.target.closest('.copy-id')
+          if (!el) {
+            return
+          }
+          navigator.clipboard
+            .writeText(el.getAttribute('data-clipboard-text'))
+            .then(function () {
+              el.classList.add('copied')
+              setTimeout(function () {
+                el.classList.remove('copied')
+              }, 1000)
+            })
+        })
+      </script>
 
     </body>
 

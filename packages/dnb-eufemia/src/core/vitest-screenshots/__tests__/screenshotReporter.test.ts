@@ -4,6 +4,8 @@ import { describe, expect, it } from 'vitest'
 
 import {
   buildReportManifest,
+  escapeHtml,
+  renderHtml,
   reportImageName,
   type ResolvedFailure,
 } from '../screenshotReporter'
@@ -110,5 +112,67 @@ describe('buildReportManifest', () => {
     ).failures[0]
 
     expect(message).toBe('Screenshot dimensions differ: reference 1x2')
+  })
+})
+
+describe('escapeHtml', () => {
+  it('escapes HTML-significant characters', () => {
+    expect(escapeHtml(`<img src=x onerror="alert(1)">&'`)).toBe(
+      '&lt;img src=x onerror=&quot;alert(1)&quot;&gt;&amp;&#39;'
+    )
+  })
+})
+
+describe('renderHtml', () => {
+  // A failure with no on-disk images so renderHtml does no filesystem work.
+  const imagelessFailure = (
+    overrides: Partial<ResolvedFailure> = {}
+  ): ResolvedFailure =>
+    makeFailure({
+      expectedImagePath: null,
+      actualPath: null,
+      diffPath: null,
+      ...overrides,
+    })
+
+  const xss = '"><img src=x onerror=alert(1)>'
+
+  it('escapes every untrusted value so it cannot become markup', () => {
+    const html = renderHtml(
+      [
+        imagelessFailure({
+          fullName: xss,
+          testFilePath: xss,
+          relativeTestFilePath: xss,
+          dataVisualTestId: xss,
+          message: xss,
+        }),
+      ],
+      '/tmp/does-not-exist'
+    )
+
+    expect(html).not.toContain('<img src=x onerror=alert(1)>')
+    expect(html).toContain('&lt;img src=x onerror=alert(1)&gt;')
+    expect(html).toContain('data-clipboard-text="&quot;&gt;&lt;img')
+  })
+
+  it('does not emit an inline onclick handler', () => {
+    const html = renderHtml(
+      [imagelessFailure({ dataVisualTestId: 'table-active' })],
+      '/tmp/does-not-exist'
+    )
+
+    expect(html).not.toContain('onclick=')
+    expect(html).toContain('data-clipboard-text="table-active"')
+  })
+
+  it('escapes the failure message but keeps newlines as <br />', () => {
+    const html = renderHtml(
+      [imagelessFailure({ message: 'line<one>\nline&two' })],
+      '/tmp/does-not-exist'
+    )
+
+    expect(html).toContain('line&lt;one&gt;<br />line&amp;two')
+    expect(html).not.toContain('line<one>')
   })
 })
