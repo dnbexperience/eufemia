@@ -58,22 +58,23 @@ repository's CI and has not been tampered with. Download the packed
 artifact from the release, then verify it.
 
 `gh attestation verify` defaults to the SLSA provenance predicate, so pass
-the CycloneDX SBOM predicate type explicitly — it carries the SBOM's spec
-version (`v1.6` here):
+the CycloneDX SBOM predicate type explicitly. Attestations record CycloneDX
+SBOMs under the version-agnostic `https://cyclonedx.org/bom` predicate type,
+regardless of the SBOM's spec version:
 
 ```bash
 gh release download vX.Y.Z --repo dnbexperience/eufemia \
   --pattern 'dnb-eufemia-*.tgz'
 
 gh attestation verify dnb-eufemia-X.Y.Z.tgz --repo dnbexperience/eufemia \
-  --predicate-type https://cyclonedx.org/bom/v1.6
+  --predicate-type https://cyclonedx.org/bom
 ```
 
 To inspect the attested SBOM contents, add `--format json`:
 
 ```bash
 gh attestation verify dnb-eufemia-X.Y.Z.tgz --repo dnbexperience/eufemia \
-  --predicate-type https://cyclonedx.org/bom/v1.6 \
+  --predicate-type https://cyclonedx.org/bom \
   --format json --jq '.[].verificationResult.statement.predicate'
 ```
 
