@@ -251,4 +251,33 @@ describe('ScreenshotReporter.onTestRunEnd', () => {
       manifest.failures.map((failure: { title: string }) => failure.title)
     ).toEqual(['Genuine > stays broken'])
   })
+
+  it('writes no report when every failure passed on retry', () => {
+    recordFailure({
+      testFilePath: '/tmp/fake.test.ts',
+      fullName: 'Flaky > recovers on retry',
+      snapshotPath: '/tmp/missing-flaky.snap.png',
+      diffPath: null,
+      actualPath: null,
+      message: 'Screenshot mismatch: 10 px differ (0.1%).',
+    })
+
+    const modules = [
+      {
+        children: [
+          {
+            type: 'test',
+            fullName: 'Flaky > recovers on retry',
+            result: () => ({ state: 'passed' }),
+          },
+        ],
+      },
+    ] as never
+
+    new ScreenshotReporter().onTestRunEnd(modules, [], 'failed' as never)
+
+    expect(fs.existsSync(path.join(tmpDir, 'visual-diff-report'))).toBe(
+      false
+    )
+  })
 })
