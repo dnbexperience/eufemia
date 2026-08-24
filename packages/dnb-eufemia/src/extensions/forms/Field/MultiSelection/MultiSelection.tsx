@@ -723,6 +723,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const searchContent = (
     <MultiSelectionSearch
       show={showSearchField}
+      label={translation.searchLabel}
       placeholder={translation.searchPlaceholder}
       value={searchValue}
       disabled={disabled}

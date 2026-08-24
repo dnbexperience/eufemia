@@ -2,6 +2,7 @@ import { Input } from '../../../../components'
 
 export type MultiSelectionSearchProps = {
   show: boolean
+  label: string
   placeholder: string
   value: string
   disabled?: boolean
@@ -10,6 +11,7 @@ export type MultiSelectionSearchProps = {
 
 export function MultiSelectionSearch({
   show,
+  label,
   placeholder,
   value,
   disabled,
@@ -22,7 +24,8 @@ export function MultiSelectionSearch({
   return (
     <Input
       type="search"
-      label={false}
+      label={label}
+      labelSrOnly
       icon="loupe"
       iconPosition="left"
       placeholder={placeholder}

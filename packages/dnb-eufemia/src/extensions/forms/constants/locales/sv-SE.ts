@@ -115,6 +115,7 @@ export default {
       placeholder: 'Välj en eller flera',
       selectAll: 'Välj alla',
       searchPlaceholder: 'Sök...',
+      searchLabel: 'Sök',
       noOptions: 'Inga alternativ',
       confirmButton: 'Bekräfta ({count} valda)',
       cancelButton: 'Avbryt',

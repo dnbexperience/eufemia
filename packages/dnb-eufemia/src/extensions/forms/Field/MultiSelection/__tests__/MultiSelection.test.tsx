@@ -942,6 +942,28 @@ describe('MultiSelection', () => {
       )
     })
 
+    it('gives the search input an accessible name', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const { container } = render(
+        <Field.MultiSelection
+          variant="inline"
+          label="Select options"
+          data={data}
+          showSearchField
+        />
+      )
+
+      expect(
+        screen.getByRole('searchbox', { name: 'Søk' })
+      ).toBeInTheDocument()
+
+      expect(await axeComponent(container)).toHaveNoViolations()
+    })
+
     it('filters on description text', async () => {
       const data = [
         {
@@ -2610,9 +2632,11 @@ describe('MultiSelection', () => {
         '.dnb-forms-field-multi-selection__item'
       )
       expect(items).toHaveLength(1)
-      expect(document.querySelector('.dnb-form-label')).toHaveTextContent(
-        'Banana'
-      )
+      expect(
+        document.querySelector(
+          '.dnb-forms-field-multi-selection__item .dnb-form-label'
+        )
+      ).toHaveTextContent('Banana')
     })
 
     it('does not render a popover', () => {

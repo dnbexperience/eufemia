@@ -113,6 +113,7 @@ export default {
       placeholder: 'Select one or more',
       selectAll: 'Select all',
       searchPlaceholder: 'Search...',
+      searchLabel: 'Search',
       noOptions: 'No options',
       confirmButton: 'Confirm ({count} selected)',
       cancelButton: 'Cancel',
