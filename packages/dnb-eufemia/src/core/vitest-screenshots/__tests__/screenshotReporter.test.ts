@@ -176,6 +176,22 @@ describe('renderHtml', () => {
     expect(html).toContain('line&lt;one&gt;<br />line&amp;two')
     expect(html).not.toContain('line<one>')
   })
+
+  it('does not label multiple snapshots of the same test as retries', () => {
+    const html = renderHtml(
+      [
+        imagelessFailure({ dataVisualTestId: 'button-primary' }),
+        imagelessFailure({ dataVisualTestId: 'button-secondary' }),
+      ],
+      '/tmp/does-not-exist'
+    )
+
+    expect(html).not.toContain('retry')
+    expect(html).toContain('data-visual-test="button-primary"')
+    expect(html).toContain('data-visual-test="button-secondary"')
+    // Both rows belong to one test, so it is counted once.
+    expect(html).toContain('Failed Tests: <b>1</b>')
+  })
 })
 
 describe('ScreenshotReporter.onTestRunEnd', () => {

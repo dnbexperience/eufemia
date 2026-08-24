@@ -133,17 +133,15 @@ export const renderHtml = (
   failures: ResolvedFailure[],
   reportDir: string
 ) => {
-  // Track how many times each test appears so we can label retries.
-  const attemptByName = new Map<string, number>()
+  // Count distinct tests for the summary. A single test can emit
+  // several snapshots (one per data-visual-test), so the same name
+  // may legitimately appear on more than one row.
   const uniqueTests = new Set<string>()
 
   const items = failures
     .map((f, i) => {
-      const attempt = (attemptByName.get(f.fullName) ?? 0) + 1
-      attemptByName.set(f.fullName, attempt)
       uniqueTests.add(f.fullName)
 
-      const retryLabel = attempt > 1 ? ` (retry #${attempt - 1})` : ''
       const figures: string[] = []
 
       if (f.expectedImagePath && fs.existsSync(f.expectedImagePath)) {
@@ -184,8 +182,6 @@ export const renderHtml = (
             </figure>`)
       }
 
-      void i
-
       const image = figures.length
         ? `<div class="screenshot-row">${figures.join('\n')}</div>`
         : ''
@@ -197,7 +193,7 @@ export const renderHtml = (
       return `
             <li>
               <dl>
-                <dt>${escapeHtml(f.fullName)}${retryLabel}</dt>
+                <dt>${escapeHtml(f.fullName)}</dt>
                 <dd>
                   <p><a href="vscode://file${escapeHtml(f.testFilePath)}${f.lineNumber ? ':' + f.lineNumber : ''}"><code>${escapeHtml(f.relativeTestFilePath)}${f.lineNumber ? ':' + f.lineNumber : ''}</code></a></p>
                   ${visualTestIdHtml}
