@@ -102,7 +102,9 @@ export function MultiSelectionItemList({
     (event: FocusEvent<HTMLUListElement>) => {
       ;(event.target as HTMLElement | null)
         ?.closest('.dnb-forms-field-multi-selection__item')
-        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        // Optional call: jsdom and older browsers may not implement
+        // scrollIntoView.
+        ?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' })
     },
     []
   )
