@@ -18,8 +18,7 @@ permissions:
   contents: write # Required for semantic-release to push tags and changelog
   issues: write # Required for semantic-release to comment on issues
   pull-requests: write # Required for semantic-release to comment on PRs
-  id-token: write # Required for npm provenance and SBOM attestation signing
-  attestations: write # Required to record the release SBOM attestation
+  id-token: write # Required for npm provenance
 
 env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
@@ -38,6 +37,10 @@ jobs:
     name: Run release and deploy
 
     runs-on: ubuntu-latest
+
+    outputs:
+      released: ${{ steps.release-info.outputs.released }}
+      tarball: ${{ steps.pack.outputs.tarball }}
 
     steps:
       - name: Git checkout
@@ -90,13 +93,11 @@ jobs:
           endsWith(github.ref, '.x'))
         run: yarn workspace @dnb/eufemia publish:ci
 
-      # Release supply-chain artifacts: a CycloneDX SBOM of the published
-      # library's production dependencies plus a vulnerability report.
-      # Non-blocking (continue-on-error) — the "Audit dependencies" step above
-      # is the release gate, not this. See docs/sbom.md for what these files
-      # are, where they are stored, and why.
-      - name: Generate SBOM and vulnerability report
-        id: sbom
+      # Capture the published version so the least-privilege SBOM job below can
+      # target the matching GitHub Release and stamp the SBOM. Empty or the
+      # placeholder version means nothing was published.
+      - name: Capture released version
+        id: release-info
         continue-on-error: true
         if: github.repository == 'dnbexperience/eufemia' &&
           (github.ref == 'refs/heads/release' ||
@@ -105,37 +106,105 @@ jobs:
           github.ref == 'refs/heads/next' ||
           endsWith(github.ref, '.x'))
         working-directory: packages/dnb-eufemia
-        env:
-          # Runs untrusted third-party code (the CycloneDX generator via
-          # `yarn dlx`) and needs none of the workflow's credentials. Blank
-          # every secret the workflow-level `env:` injects so none can reach it.
-          # Keep this list in sync with that `env:` block.
-          GH_EMAIL: ''
-          GH_NAME: ''
-          GH_TOKEN: ''
-          NODE_AUTH_TOKEN: ''
-          FIGMA_TOKEN: ''
-          FIGMA_ICONS_FILE: ''
-          ALGOLIA_APP_ID: ''
-          ALGOLIA_INDEX_NAME: ''
-          ALGOLIA_SEARCH_KEY: ''
-          ALGOLIA_API_KEY: ''
         run: |
-          # Generated from the source workspace, not the published build/
-          # package: the CycloneDX plugin needs a Yarn project, and direct
-          # runtime deps are identical either way. Generator version pinned for
-          # reproducibility — bump deliberately, as yarn dlx is not covered by
-          # Dependabot.
+          released="$(node -p "require('./build/package.json').version")"
+          echo "released=$released" >> "$GITHUB_OUTPUT"
+
+      # Pack the published files into a tarball to serve as the attestation
+      # subject. `--ignore-scripts` keeps it side-effect free (no lifecycle
+      # scripts run) and uses the same build/ output semantic-release publishes.
+      - name: Pack the released library (attestation subject)
+        id: pack
+        continue-on-error: true
+        if: steps.release-info.outputs.released != '' &&
+          steps.release-info.outputs.released != '0.0.0-development'
+        working-directory: packages/dnb-eufemia
+        run: |
+          tarball="$(cd build && npm pack --ignore-scripts --pack-destination .. | tail -1)"
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          echo "Packed attestation subject: $tarball"
+
+      # Upload the packed tarball so the separate attestation job can bind the
+      # SBOM to it. Short retention: it only needs to outlive this workflow run.
+      - name: Upload attestation subject
+        continue-on-error: true
+        if: steps.pack.outputs.tarball != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: release-tarball
+          path: packages/dnb-eufemia/${{ steps.pack.outputs.tarball }}
+          retention-days: 1
+
+  # Generate the CycloneDX SBOM and vulnerability report. This runs untrusted
+  # third-party code (the CycloneDX generator via `yarn dlx`), so it lives in
+  # its own job with only `contents: read` — none of the release job's OIDC or
+  # attestation-writing credentials exist here. Blanking secrets alone would not
+  # remove those job credentials, which is why generation is isolated rather than
+  # kept inline. Non-blocking (every step is continue-on-error), so a failure
+  # here never affects the release. See docs/sbom.md for what these files are,
+  # where they are stored, and why.
+  sbom:
+    name: Generate release SBOM
+    needs: action
+    if: needs.action.outputs.released != '' &&
+      needs.action.outputs.released != '0.0.0-development'
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    permissions:
+      contents: read
+
+    # This job runs untrusted third-party code (the CycloneDX generator). Blank
+    # every secret the workflow-level `env:` injects so none can reach it. Keep
+    # this list in sync with that `env:` block.
+    env:
+      GH_EMAIL: ''
+      GH_NAME: ''
+      GH_TOKEN: ''
+      NODE_AUTH_TOKEN: ''
+      FIGMA_TOKEN: ''
+      FIGMA_ICONS_FILE: ''
+      ALGOLIA_APP_ID: ''
+      ALGOLIA_INDEX_NAME: ''
+      ALGOLIA_SEARCH_KEY: ''
+      ALGOLIA_API_KEY: ''
+
+    steps:
+      - name: Git checkout
+        continue-on-error: true
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        continue-on-error: true
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Generate SBOM and vulnerability report
+        continue-on-error: true
+        working-directory: packages/dnb-eufemia
+        env:
+          RELEASED_VERSION: ${{ needs.action.outputs.released }}
+        run: |
+          # Generated from the source workspace: the CycloneDX plugin needs a
+          # Yarn project, and direct runtime deps are identical to the published
+          # package. Generator version pinned for reproducibility — bump
+          # deliberately and keep it in sync with verify.yml, as yarn dlx is not
+          # covered by Dependabot.
           yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@3.3.3 \
             --output-format JSON --spec-version 1.6 \
             --production --mc-type library --output-file sbom.cdx.json
 
           # CycloneDX stamps the main component with the manifest's
           # 0.0.0-development placeholder; overwrite it with the version
-          # semantic-release actually published (in build/package.json).
+          # semantic-release actually published.
           node -e '
             const fs = require("fs")
-            const released = require("./build/package.json").version
+            const released = process.env.RELEASED_VERSION
             const file = "sbom.cdx.json"
             const sbom = JSON.parse(fs.readFileSync(file, "utf8"))
             const component = sbom.metadata && sbom.metadata.component
@@ -147,9 +216,6 @@ jobs:
             }
             fs.writeFileSync(file, JSON.stringify(sbom, null, 2) + "\n")
             console.log("SBOM main component version: " + released)
-            if (released === "0.0.0-development") {
-              console.warn("WARNING: no real version was published; SBOM version left as placeholder")
-            }
           '
 
           # Vulnerability report over the same production scope. yarn npm audit
@@ -174,10 +240,9 @@ jobs:
             }
             // Identify the report the way the SBOM identifies itself, so the
             // file stays traceable once downloaded away from its release.
-            const manifest = require("./build/package.json")
             const meta = {
-              component: manifest.name,
-              version: manifest.version,
+              component: require("./package.json").name,
+              version: process.env.RELEASED_VERSION,
               generatedAt: new Date().toISOString(),
               scope: "production dependencies, including transitive",
               tool: "yarn npm audit",
@@ -211,44 +276,8 @@ jobs:
             console.log(report.error ? report.error : report.summary)
           ' "$audit_exit"
 
-          # Publish the released version so the next step can attach the files
-          # to the matching GitHub Release; empty/placeholder means no release.
-          released="$(node -p "require('./build/package.json').version")"
-          echo "released=$released" >> "$GITHUB_OUTPUT"
-
-      # Pack the published files into a tarball to serve as the attestation
-      # subject. `--ignore-scripts` keeps it side-effect free (no lifecycle
-      # scripts run) and uses the same build/ output semantic-release publishes.
-      - name: Pack the released library (attestation subject)
-        id: pack
-        continue-on-error: true
-        if: steps.sbom.outputs.released != '' &&
-          steps.sbom.outputs.released != '0.0.0-development'
-        working-directory: packages/dnb-eufemia
-        run: |
-          tarball="$(cd build && npm pack --ignore-scripts --pack-destination .. | tail -1)"
-          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
-          echo "Packed attestation subject: $tarball"
-
-      # Sign a CycloneDX SBOM attestation (Sigstore-backed) binding the SBOM to
-      # the packed release artifact. Complements npm provenance; verify with
-      # `gh attestation verify <tarball> --repo dnbexperience/eufemia`.
-      - name: Attest the SBOM
-        continue-on-error: true
-        if: steps.pack.outputs.tarball != ''
-        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
-        with:
-          subject-path: packages/dnb-eufemia/${{ steps.pack.outputs.tarball }}
-          sbom-path: packages/dnb-eufemia/sbom.cdx.json
-
       - name: Upload SBOM and vulnerability report
         continue-on-error: true
-        if: github.repository == 'dnbexperience/eufemia' &&
-          (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/beta' ||
-          github.ref == 'refs/heads/alpha' ||
-          github.ref == 'refs/heads/next' ||
-          endsWith(github.ref, '.x'))
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: sbom-and-vulnerability-report
@@ -257,20 +286,60 @@ jobs:
             packages/dnb-eufemia/vulnerability-report.json
           retention-days: 90
 
-      # Attach both files to the GitHub Release (tag "v<version>") so they
+  # Attest and publish the release SBOM. This job holds the OIDC and
+  # attestation-writing credentials but runs only trusted, first-party actions
+  # against the artifacts produced above — the untrusted generator never runs
+  # here. Non-blocking (every step is continue-on-error).
+  attest:
+    name: Attest and publish release SBOM
+    needs: [action, sbom]
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    permissions:
+      contents: write # Attach assets to the GitHub Release
+      id-token: write # Sign the SBOM attestation
+      attestations: write # Record the SBOM attestation
+
+    steps:
+      - name: Download attestation subject
+        continue-on-error: true
+        if: needs.action.outputs.tarball != ''
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: release-tarball
+          path: packages/dnb-eufemia
+
+      - name: Download SBOM and vulnerability report
+        continue-on-error: true
+        if: needs.action.outputs.tarball != ''
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: sbom-and-vulnerability-report
+          path: packages/dnb-eufemia
+
+      # Sign a CycloneDX SBOM attestation (Sigstore-backed) binding the SBOM to
+      # the packed release artifact. Complements npm provenance; verify with
+      # `gh attestation verify <tarball> --repo dnbexperience/eufemia`.
+      - name: Attest the SBOM
+        continue-on-error: true
+        if: needs.action.outputs.tarball != ''
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: packages/dnb-eufemia/${{ needs.action.outputs.tarball }}
+          sbom-path: packages/dnb-eufemia/sbom.cdx.json
+
+      # Attach all three files to the GitHub Release (tag "v<version>") so they
       # persist beyond the 90-day artifact. --clobber keeps re-runs idempotent.
       - name: Attach SBOM and vulnerability report to the GitHub Release
         continue-on-error: true
-        # "released" is only set after the generate step's own repo/branch
-        # checks pass, so they need not be repeated here.
-        if: steps.sbom.outputs.released != '' &&
-          steps.sbom.outputs.released != '0.0.0-development'
+        if: needs.action.outputs.tarball != ''
         working-directory: packages/dnb-eufemia
         env:
-          RELEASED_VERSION: ${{ steps.sbom.outputs.released }}
-          # The packed tarball is the attestation subject; attaching it lets
-          # anyone verify the SBOM attestation with `gh attestation verify`.
-          PACKED_TARBALL: ${{ steps.pack.outputs.tarball }}
+          RELEASED_VERSION: ${{ needs.action.outputs.released }}
+          PACKED_TARBALL: ${{ needs.action.outputs.tarball }}
         run: |
           gh release upload "v$RELEASED_VERSION" \
             sbom.cdx.json vulnerability-report.json \
