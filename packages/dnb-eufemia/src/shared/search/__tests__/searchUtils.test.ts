@@ -65,15 +65,30 @@ describe('prepareSearchWords', () => {
     ).toBe(false)
   })
 
-  it('enforces word boundary in starts-with mode even past matchInsideWordsFrom', () => {
-    const result = prepareSearchWords('a b c', {
+  it('anchors only the first term in starts-with mode, while later terms still follow matchInsideWordsFrom', () => {
+    const result = prepareSearchWords('the de ter', {
       match: 'starts-with',
-      matchInsideWordsFrom: 1,
     })
-    // The 3rd word "c" is past matchInsideWordsFrom (0-based 0), but in starts-with
-    // mode it should still require a word boundary, not match inside words.
-    expect(result.searchWordsData[2].filterRegex.test('abc')).toBe(false)
-    expect(result.searchWordsData[2].filterRegex.test('a b c')).toBe(true)
+    // Default matchInsideWordsFrom is 3 (0-based index 2).
+
+    // Only the first term is anchored to the start of the item.
+    expect(result.searchWordsData[0].filterRegex.test('the matrix')).toBe(
+      true
+    )
+    expect(
+      result.searchWordsData[0].filterRegex.test('over the top')
+    ).toBe(false)
+
+    // A later term before the threshold still requires a word boundary.
+    expect(result.searchWordsData[1].filterRegex.test('de facto')).toBe(
+      true
+    )
+    expect(result.searchWordsData[1].filterRegex.test('index')).toBe(false)
+
+    // A later term at/after the threshold may match inside a word.
+    expect(result.searchWordsData[2].filterRegex.test('determined')).toBe(
+      true
+    )
   })
 
   it('normalizes numeric input with starts-with and numbers', () => {

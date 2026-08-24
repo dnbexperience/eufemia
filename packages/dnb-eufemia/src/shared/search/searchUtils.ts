@@ -94,7 +94,7 @@ export function prepareSearchWords(
       processedWord,
       wordIndex,
       filterRegex: new RegExp(
-        wordIndex >= matchInsideWordsFromIndex && !startsWithMatch
+        wordIndex >= matchInsideWordsFromIndex
           ? `${processedWord}`
           : `(${wordBoundary})${processedWord}`,
         'i'
