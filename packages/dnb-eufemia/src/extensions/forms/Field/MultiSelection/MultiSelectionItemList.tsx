@@ -1,5 +1,5 @@
 import { Fragment, useCallback } from 'react'
-import type { ReactNode, MouseEvent } from 'react'
+import type { ReactNode, MouseEvent, FocusEvent } from 'react'
 import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
 import ScrollView from '../../../../components/scroll-view/ScrollView'
@@ -90,6 +90,23 @@ export function MultiSelectionItemList({
     [disabled, onToggleItem, onToggleParent]
   )
 
+  // Keep the focused option visible while navigating the list. Each checkbox's
+  // focusable input is an oversized, absolutely-positioned hit-area, so the
+  // browser treats it as already on-screen and never scrolls the list to a
+  // focused row below the fold — leaving keyboard focus invisible (WCAG 2.4.7),
+  // most visibly when Tabbing. Scrolling the row on focus fixes this uniformly
+  // for Tab, arrow keys and programmatic focus, in both the inline and popover
+  // variants. `block: 'nearest'` scrolls only when the row is not already in
+  // view. Focus bubbles from the checkbox up to this list.
+  const handleItemFocus = useCallback(
+    (event: FocusEvent<HTMLUListElement>) => {
+      ;(event.target as HTMLElement | null)
+        ?.closest('.dnb-forms-field-multi-selection__item')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    },
+    []
+  )
+
   const renderItems = (
     items: MultiSelectionItem[],
     depth = 0,
@@ -161,7 +178,10 @@ export function MultiSelectionItemList({
 
   return (
     <ScrollView className={clsx('dnb-forms-field-multi-selection__items')}>
-      <ul className="dnb-forms-field-multi-selection__list">
+      <ul
+        className="dnb-forms-field-multi-selection__list"
+        onFocus={handleItemFocus}
+      >
         {showSelectAll && selectableFilteredFlat.length > 0 && (
           <li className="dnb-forms-field-multi-selection__item dnb-forms-field-multi-selection__item--select-all">
             <Checkbox

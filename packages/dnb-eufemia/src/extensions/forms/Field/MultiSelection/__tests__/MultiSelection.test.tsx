@@ -805,11 +805,46 @@ describe('MultiSelection', () => {
     ) as HTMLElement
 
     firstCheckbox.focus()
+    // Focusing already scrolls the row into view; clear so the assertions
+    // below capture only the ArrowDown navigation.
+    scrollIntoViewMock.mockClear()
     fireEvent.keyDown(firstCheckbox, { key: 'ArrowDown' })
 
     expect(document.activeElement).toBe(secondCheckbox)
     expect(scrollIntoViewMock).toHaveBeenCalledTimes(1)
     expect(scrollIntoViewMock.mock.instances[0]).toBe(secondItem)
+    expect(scrollIntoViewMock).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      block: 'nearest',
+    })
+  })
+
+  it('scrolls a focused option into view when reached via Tab (inline)', () => {
+    const data = [
+      { value: 'option1', title: 'Option 1' },
+      { value: 'option2', title: 'Option 2' },
+      { value: 'option3', title: 'Option 3' },
+    ]
+
+    render(
+      <Field.MultiSelection variant="inline" label="Options" data={data} />
+    )
+
+    const checkboxes = document.querySelectorAll(
+      '.dnb-forms-field-multi-selection__items .dnb-checkbox__input'
+    )
+    const lastCheckbox = checkboxes[checkboxes.length - 1] as HTMLElement
+    const lastItem = lastCheckbox.closest(
+      '.dnb-forms-field-multi-selection__item'
+    ) as HTMLElement
+
+    scrollIntoViewMock.mockClear()
+
+    // Tab lands focus directly on the checkbox (no arrow-key handler runs).
+    lastCheckbox.focus()
+
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1)
+    expect(scrollIntoViewMock.mock.instances[0]).toBe(lastItem)
     expect(scrollIntoViewMock).toHaveBeenCalledWith({
       behavior: 'smooth',
       block: 'nearest',

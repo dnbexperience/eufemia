@@ -636,12 +636,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             : navigable[(index - 1 + navigable.length) % navigable.length]
 
       next?.focus()
-
-      if (next !== searchInput) {
-        next
-          ?.closest('.dnb-forms-field-multi-selection__item')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-      }
     },
     [disabled, getCheckboxes, getSearchInput]
   )
