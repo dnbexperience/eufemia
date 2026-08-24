@@ -340,20 +340,15 @@ const toPlainMessage = (message: string) =>
 /**
  * Structured, machine-readable sibling of the HTML report. CI reads
  * this to build a job-summary table and to turn the relative image
- * paths into absolute URLs once the report is hosted. The image paths
- * match the files the HTML writer copied (same `reportImageName`), so
- * the two never drift.
+ * paths into absolute URLs once the report is hosted. It renders the
+ * same failures as the HTML report, in the same order, so the image
+ * index (and thus each `reportImageName`) matches the files the HTML
+ * writer copied.
  */
 export const buildReportManifest = (
-  allFailures: ResolvedFailure[],
-  genuineFailures: ResolvedFailure[],
+  failures: ResolvedFailure[],
   exists: (filePath: string) => boolean = fs.existsSync
 ): ReportManifest => {
-  const lastIndexBySnapshot = new Map<string, number>()
-  allFailures.forEach((failure, index) => {
-    lastIndexBySnapshot.set(failure.snapshotPath, index)
-  })
-
   const relImage = (
     index: number,
     srcPath: string | null,
@@ -364,22 +359,19 @@ export const buildReportManifest = (
       : null
 
   return {
-    failureCount: genuineFailures.length,
-    failures: genuineFailures.map((failure) => {
-      const index = lastIndexBySnapshot.get(failure.snapshotPath) ?? 0
-      return {
-        title: failure.fullName,
-        testFilePath: failure.relativeTestFilePath,
-        lineNumber: failure.lineNumber,
-        dataVisualTestId: failure.dataVisualTestId,
-        message: toPlainMessage(failure.message),
-        images: {
-          expected: relImage(index, failure.expectedImagePath, 'expected'),
-          actual: relImage(index, failure.actualPath, 'actual'),
-          diff: relImage(index, failure.diffPath, 'diff'),
-        },
-      }
-    }),
+    failureCount: failures.length,
+    failures: failures.map((failure, index) => ({
+      title: failure.fullName,
+      testFilePath: failure.relativeTestFilePath,
+      lineNumber: failure.lineNumber,
+      dataVisualTestId: failure.dataVisualTestId,
+      message: toPlainMessage(failure.message),
+      images: {
+        expected: relImage(index, failure.expectedImagePath, 'expected'),
+        actual: relImage(index, failure.actualPath, 'actual'),
+        diff: relImage(index, failure.diffPath, 'diff'),
+      },
+    })),
   }
 }
 
@@ -443,11 +435,15 @@ export default class ScreenshotReporter implements Reporter {
       new Map(filteredRecords.map((r) => [r.snapshotPath, r])).values()
     )
 
-    // Always resolve all records for the HTML report (shows retried
-    // diffs as informational), but only print CLI warnings for
-    // genuine failures.
-    const allFailures = resolveFailures(records)
+    // Report only genuinely-failed tests. A test that passed on a
+    // retry has its diff/actual images deleted by the passing attempt,
+    // so including its stale record would render a misleading
+    // "expected only" entry. Deduping also collapses retry duplicates.
     const genuineFailures = resolveFailures(deduped)
+
+    if (genuineFailures.length === 0) {
+      return
+    }
 
     const cwd = process.cwd()
     const reportDir = path.join(cwd, 'visual-diff-report')
@@ -478,15 +474,11 @@ export default class ScreenshotReporter implements Reporter {
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true })
     }
-    fs.writeFileSync(htmlFilePath, renderHtml(allFailures, reportDir))
+    fs.writeFileSync(htmlFilePath, renderHtml(genuineFailures, reportDir))
 
     fs.writeFileSync(
       path.join(reportDir, 'report.json'),
-      JSON.stringify(
-        buildReportManifest(allFailures, genuineFailures),
-        null,
-        2
-      )
+      JSON.stringify(buildReportManifest(genuineFailures), null, 2)
     )
   }
 }
