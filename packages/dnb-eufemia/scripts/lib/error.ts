@@ -20,6 +20,9 @@ function ErrorHandler(
     message = error.message
   }
 
+  // Neutralise CR/LF so a value cannot forge extra log lines.
+  message = String(message).replace(/[\r\n]+/g, ' ')
+
   const err = new Error(`${message} (error code ${code})`)
 
   if (code === ERROR_FATAL) {

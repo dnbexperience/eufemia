@@ -1,7 +1,5 @@
 import type { FilterValue } from '../FilterContext'
 
-const FORBIDDEN_KEYS = new Set(['__proto__', 'constructor', 'prototype'])
-
 /**
  * Validates and sanitizes filter data parsed from a URL query parameter.
  *
@@ -20,7 +18,12 @@ export function sanitizeUrlFilters(
   const result: Record<string, FilterValue> = {}
 
   for (const key of Object.keys(raw as Record<string, unknown>)) {
-    if (FORBIDDEN_KEYS.has(key)) {
+    // Skip prototype-polluting keys before writing them to the result object.
+    if (
+      key === '__proto__' ||
+      key === 'constructor' ||
+      key === 'prototype'
+    ) {
       continue
     }
 
