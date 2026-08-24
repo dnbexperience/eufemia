@@ -48,52 +48,20 @@ const formatMessage = (message: string) =>
     '<br />'
   )
 
-const extractTestMetadata = (
-  testFilePath: string,
-  title: string
-): { dataVisualTestId: string | null; lineNumber: number | null } => {
-  try {
-    const content = fs.readFileSync(testFilePath, 'utf-8')
-    const escaped = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const idx = content.search(new RegExp(escaped))
-    if (idx === -1) {
-      return { dataVisualTestId: null, lineNumber: null }
-    }
-    const lineNumber = content.substring(0, idx).split('\n').length
-    const window = content.substring(idx, idx + 2000)
-    const m = window.match(/data-visual-test="([^"]+)"/)
-    return {
-      dataVisualTestId: m ? m[1] : null,
-      lineNumber,
-    }
-  } catch {
-    return { dataVisualTestId: null, lineNumber: null }
-  }
-}
-
-const lastSegmentOf = (fullName: string) =>
-  (fullName.split(' > ').pop() ?? '').trim()
-
 const resolveFailures = (
-  records: ScreenshotFailureRecord[]
+  records: ScreenshotFailureRecord[],
+  lineByFullName: Map<string, number>
 ): ResolvedFailure[] => {
   const cwd = process.cwd()
-  return records.map((record) => {
-    const relativeTestFilePath = path.relative(cwd, record.testFilePath)
-    const meta = extractTestMetadata(
-      record.testFilePath,
-      lastSegmentOf(record.fullName)
-    )
-    return {
-      ...record,
-      relativeTestFilePath,
-      expectedImagePath: fs.existsSync(record.snapshotPath)
-        ? record.snapshotPath
-        : null,
-      dataVisualTestId: meta.dataVisualTestId,
-      lineNumber: meta.lineNumber,
-    }
-  })
+  return records.map((record) => ({
+    ...record,
+    relativeTestFilePath: path.relative(cwd, record.testFilePath),
+    expectedImagePath: fs.existsSync(record.snapshotPath)
+      ? record.snapshotPath
+      : null,
+    dataVisualTestId: record.dataVisualTestId ?? null,
+    lineNumber: lineByFullName.get(record.fullName) ?? null,
+  }))
 }
 
 /**
@@ -402,6 +370,39 @@ const collectFinallyFailedNames = (
   return names
 }
 
+/**
+ * Map each test's fullName to the line where it is declared, taken
+ * from Vitest's task location (requires `includeTaskLocation`). Tests
+ * that share a title across describe blocks have distinct fullNames,
+ * so each resolves to its own line.
+ */
+export const collectTestLocations = (
+  modules: ReadonlyArray<TestModule>
+): Map<string, number> => {
+  const lines = new Map<string, number>()
+
+  const visit = (node: TestSuite | TestCase) => {
+    if (node.type === 'test') {
+      const line = node.location?.line
+      if (typeof line === 'number') {
+        lines.set(node.fullName, line)
+      }
+    } else if (node.type === 'suite') {
+      for (const child of Array.from(node.children)) {
+        visit(child)
+      }
+    }
+  }
+
+  for (const mod of modules) {
+    for (const child of Array.from(mod.children)) {
+      visit(child)
+    }
+  }
+
+  return lines
+}
+
 export default class ScreenshotReporter implements Reporter {
   // We don't read TestModule data here; the engine already has the
   // failure records it needs. This callback exists just to fire at the
@@ -435,7 +436,10 @@ export default class ScreenshotReporter implements Reporter {
     // retry has its diff/actual images deleted by the passing attempt,
     // so including its stale record would render a misleading
     // "expected only" entry. Deduping also collapses retry duplicates.
-    const genuineFailures = resolveFailures(deduped)
+    const genuineFailures = resolveFailures(
+      deduped,
+      collectTestLocations(modules)
+    )
 
     if (genuineFailures.length === 0) {
       return

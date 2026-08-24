@@ -1657,6 +1657,18 @@ async function performScreenshot(
 
 // ── snapshot pipeline ────────────────────────────────────────────────
 
+/**
+ * Parse the `data-visual-test` id from a screenshot selector such as
+ * `[data-visual-test="button-primary"]`. Recorded with each failure so
+ * the reporter shows it without re-parsing the test source.
+ */
+const visualTestIdFromSelector = (
+  selector: string | null | undefined
+): string | null => {
+  const match = selector?.match(/data-visual-test="([^"]+)"/)
+  return match ? match[1] : null
+}
+
 async function diffAndPersist(
   payload: MakeScreenshotPayload,
   actualBytes: Buffer
@@ -1696,6 +1708,7 @@ async function diffAndPersist(
       actualPath: payload.actualPath,
       message: `Screenshot dimensions differ: reference ${refWidth}x${refHeight}, actual ${actWidth}x${actHeight}.`,
       htmlDumpPath: payload.htmlDumpPath,
+      dataVisualTestId: visualTestIdFromSelector(payload.selector),
     })
 
     // Help V8 reclaim memory before return
@@ -1740,6 +1753,7 @@ async function diffAndPersist(
       actualPath: payload.actualPath,
       message: `Screenshot mismatch: ${diffPixels} px differ (${(ratio * 100).toFixed(3)}%).`,
       htmlDumpPath: payload.htmlDumpPath,
+      dataVisualTestId: visualTestIdFromSelector(payload.selector),
     })
 
     // Help V8 reclaim memory before return
@@ -1839,6 +1853,7 @@ export const makeScreenshot = defineBrowserCommand<
 
 export const _testing = {
   buildUrl,
+  visualTestIdFromSelector,
   applyScreenshotColorScheme,
   sessions,
   browserSlots,

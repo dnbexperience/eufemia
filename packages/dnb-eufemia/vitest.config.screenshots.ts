@@ -27,6 +27,12 @@ export default defineConfig({
     include: process.env.SCREENSHOT_INCLUDE
       ? process.env.SCREENSHOT_INCLUDE.split(',')
       : ['src/**/*.screenshot.test.{ts,tsx}'],
+
+    // Populate TestCase.location so the screenshot reporter can build
+    // accurate file:line deep links, even for tests that share a title
+    // across describe blocks.
+    includeTaskLocation: true,
+
     reporters: [
       new SummaryOnlyReporter(),
       new LiveReporter(),

@@ -116,6 +116,30 @@ describe('buildUrl', () => {
   })
 })
 
+describe('visualTestIdFromSelector', () => {
+  const { visualTestIdFromSelector } = _testing
+
+  it('extracts the id from a data-visual-test selector', () => {
+    expect(
+      visualTestIdFromSelector('[data-visual-test="button-primary"]')
+    ).toBe('button-primary')
+  })
+
+  it('extracts the id from a compound selector', () => {
+    expect(
+      visualTestIdFromSelector(
+        '[data-visual-test="drawer-list"] .dnb-drawer-list__list'
+      )
+    ).toBe('drawer-list')
+  })
+
+  it('returns null when there is no data-visual-test id', () => {
+    expect(visualTestIdFromSelector('.dnb-button')).toBeNull()
+    expect(visualTestIdFromSelector(null)).toBeNull()
+    expect(visualTestIdFromSelector(undefined)).toBeNull()
+  })
+})
+
 describe('applyScreenshotColorScheme', () => {
   afterEach(() => {
     vi.unstubAllGlobals()

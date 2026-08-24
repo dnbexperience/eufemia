@@ -8,6 +8,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import ScreenshotReporter, {
   buildReportManifest,
+  collectTestLocations,
   escapeHtml,
   renderHtml,
   reportImageName,
@@ -295,5 +296,105 @@ describe('ScreenshotReporter.onTestRunEnd', () => {
     expect(fs.existsSync(path.join(tmpDir, 'visual-diff-report'))).toBe(
       false
     )
+  })
+
+  it('uses each test location and recorded id for duplicate titles', () => {
+    recordFailure({
+      testFilePath: '/tmp/dup.test.ts',
+      fullName: 'Group A > has to match default',
+      snapshotPath: '/tmp/missing-a.snap.png',
+      diffPath: null,
+      actualPath: null,
+      message: 'Screenshot mismatch: 1 px differ (0.1%).',
+      dataVisualTestId: 'group-a-default',
+    })
+    recordFailure({
+      testFilePath: '/tmp/dup.test.ts',
+      fullName: 'Group B > has to match default',
+      snapshotPath: '/tmp/missing-b.snap.png',
+      diffPath: null,
+      actualPath: null,
+      message: 'Screenshot mismatch: 2 px differ (0.2%).',
+      dataVisualTestId: 'group-b-default',
+    })
+
+    const modules = [
+      {
+        children: [
+          {
+            type: 'test',
+            fullName: 'Group A > has to match default',
+            location: { line: 41, column: 3 },
+            result: () => ({ state: 'failed' }),
+          },
+          {
+            type: 'test',
+            fullName: 'Group B > has to match default',
+            location: { line: 57, column: 3 },
+            result: () => ({ state: 'failed' }),
+          },
+        ],
+      },
+    ] as never
+
+    new ScreenshotReporter().onTestRunEnd(modules, [], 'failed' as never)
+
+    const html = fs.readFileSync(
+      path.join(tmpDir, 'visual-diff-report', 'index.html'),
+      'utf-8'
+    )
+
+    // Same title in different describes -> each links to its own line.
+    expect(html).toContain('vscode://file/tmp/dup.test.ts:41')
+    expect(html).toContain('vscode://file/tmp/dup.test.ts:57')
+    // The id comes straight from the recorded selector, not a grep.
+    expect(html).toContain('data-visual-test="group-a-default"')
+    expect(html).toContain('data-visual-test="group-b-default"')
+  })
+})
+
+describe('collectTestLocations', () => {
+  const testNode = (fullName: string, line: number | undefined) =>
+    ({
+      type: 'test',
+      fullName,
+      location: line === undefined ? undefined : { line, column: 3 },
+    }) as never
+  const suiteNode = (children: unknown[]) =>
+    ({ type: 'suite', children }) as never
+  const moduleNode = (children: unknown[]) => ({ children }) as never
+
+  it('maps nested tests to their declared line', () => {
+    const locations = collectTestLocations([
+      moduleNode([
+        suiteNode([
+          testNode('Button > primary', 12),
+          testNode('Button > secondary', 20),
+        ]),
+      ]),
+    ])
+
+    expect(locations.get('Button > primary')).toBe(12)
+    expect(locations.get('Button > secondary')).toBe(20)
+  })
+
+  it('resolves duplicate titles across describes to distinct lines', () => {
+    const locations = collectTestLocations([
+      moduleNode([
+        testNode('Group A > has to match', 41),
+        testNode('Group B > has to match', 57),
+      ]),
+    ])
+
+    expect(locations.get('Group A > has to match')).toBe(41)
+    expect(locations.get('Group B > has to match')).toBe(57)
+  })
+
+  it('omits tests without a location', () => {
+    const locations = collectTestLocations([
+      moduleNode([testNode('No location', undefined)]),
+    ])
+
+    expect(locations.has('No location')).toBe(false)
   })
 })

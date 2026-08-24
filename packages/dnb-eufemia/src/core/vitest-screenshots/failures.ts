@@ -22,6 +22,10 @@ export type ScreenshotFailureRecord = {
   diffPath: string | null
   actualPath: string | null
   message: string
+  // The data-visual-test id parsed from the screenshot selector,
+  // recorded so the reporter can show it without re-reading the
+  // test source.
+  dataVisualTestId?: string | null
   // Optional path to a side-by-side dump of the DOM HTML (saved
   // alongside the actual/diff PNGs). Lets contributors tell at a
   // glance whether a screenshot diff is a real visual regression or
