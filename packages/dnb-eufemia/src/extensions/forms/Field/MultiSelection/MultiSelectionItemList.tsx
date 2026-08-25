@@ -164,6 +164,7 @@ export function MultiSelectionItemList({
   return (
     <ScrollView
       className={clsx('dnb-forms-field-multi-selection__items')}
+      interactive={maxHeight === undefined ? undefined : 'auto'}
       style={
         maxHeight === undefined
           ? undefined

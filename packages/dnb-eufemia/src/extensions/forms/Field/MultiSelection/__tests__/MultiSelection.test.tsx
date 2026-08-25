@@ -2338,6 +2338,35 @@ describe('MultiSelection', () => {
       ).not.toBeInTheDocument()
     })
 
+    it('makes the constrained item list keyboard scrollable', () => {
+      const scrollHeight = vi
+        .spyOn(HTMLElement.prototype, 'scrollHeight', 'get')
+        .mockReturnValue(200)
+      const offsetHeight = vi
+        .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+        .mockReturnValue(100)
+
+      try {
+        render(
+          <Field.MultiSelection
+            variant="inline"
+            data={[
+              { value: 'option1', title: 'Option 1' },
+              { value: 'option2', title: 'Option 2' },
+            ]}
+            maxHeight="4rem"
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-field-multi-selection__items')
+        ).toHaveAttribute('tabindex', '0')
+      } finally {
+        scrollHeight.mockRestore()
+        offsetHeight.mockRestore()
+      }
+    })
+
     it('wraps selected tags in HeightAnimation', () => {
       const data = [
         { value: 'option1', title: 'Option 1' },
