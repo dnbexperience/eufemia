@@ -7,6 +7,8 @@ import { useSpacing } from '../space/SpacingUtils'
 export type UploadFileLinkProps = UploadFileAnchorProps &
   UploadFileButtonProps
 
+// Smoke test for #9104: touching this Upload source file should select only the
+// Upload screenshot tests, not the entire visual-regression suite.
 export const UploadFileLink = (props: UploadFileLinkProps) => {
   const { onClick, text, href, download, ...rest } = props
 
