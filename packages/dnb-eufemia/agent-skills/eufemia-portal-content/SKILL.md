@@ -63,21 +63,59 @@ commands, files, or validation steps.
 
 ## Portal-only deployment
 
-An urgent portal deployment is a separate promotion after the content pull
-request is approved and merged to `main`. It does not change how content is
-authored.
+Treat the contributor's portal-only selection as authorization to prepare the
+promotion pull request. Do not ask them to request the promotion again. It does
+not authorize either merge.
 
-1. Require explicit permission before preparing or merging a promotion.
+1. Before preparing the promotion, fetch current refs, identify the latest npm
+   version tag reachable from `origin/release`, and confirm no release is
+   running. Inspect every commit after that tag together with the proposed
+   promotion using the current semantic-release rules. Continue only when none
+   would trigger an npm release. Earlier portal-only `chore` commits after the
+   tag are safe; a pending `feat`, `fix`, or other release-triggering commit is
+   not. Wait for the regular release to finish in that case, then fetch and
+   check again.
 2. Create a branch from the latest `origin/release` and bring over only the
-   approved content commit or commits. Open a separate pull request to
-   `release`.
-3. Verify that the promotion contains only the intended portal content, works
-   with the currently released portal, and contains no commit that would trigger
-   an npm release. If it depends on unreleased code or conflicts substantially,
-   stop and recommend the regular release path.
-4. Verify the release pull request's own portal preview. Merging it deploys the
-   production portal from `release`; semantic-release should skip npm publishing
-   when no release-triggering commits are present.
+   content commit or commits from the source pull request. Open a separate pull
+   request to `release` titled `chore(Portal): promote ...` so the deployment
+   commit is not repeated in later release notes.
+3. For an ASAP request, prepare this promotion pull request as a draft as soon
+   as the content diff is stable. After the content pull request is merged to
+   `main`, update or recreate the promotion from the latest `origin/release` and
+   complete the checks below. For other portal-only requests, prepare it after
+   the merge to `main`.
+4. Compare the promotion with the final approved content change. The affected
+   paths and resulting content patch must match, with no extra changes. Commit
+   hashes and commit messages may differ because the branches have different
+   histories. If the patches do not match, update the promotion and require the
+   mismatch to be reviewed.
+5. Verify that the promoted content works with the currently released portal,
+   that no included commit would trigger an npm release, and that the promotion
+   pull request has its own working portal preview. If the content depends on
+   unreleased code or conflicts substantially, stop and recommend the regular
+   release path.
+6. Link the original content pull request from the promotion description and
+   state that the affected paths and resulting content were verified as an
+   exact match with no extras. Require the maintainer to squash-merge it so
+   `release` receives one `chore(Portal)` deployment commit. Merging the
+   promotion deploys the production portal from `release`; semantic-release
+   should skip npm publishing when the preflight above passes.
+
+The review responsibilities are different:
+
+- The designer verifies the content once, using the content pull request's
+  preview.
+- The maintainer performs the full content review on the pull request to
+  `main`.
+- The maintainer treats the pull request to `release` as a short deployment
+  gate: confirm that the source pull request is merged, the target is `release`,
+  the patch matches with no extras, the preview works, and the npm-release
+  preflight passes. Then squash-merge it. The maintainer does not create this
+  pull request or repeat the editorial review.
+
+If the agent cannot remain active until the first pull request is merged, state
+that the maintainer must resume the task afterward; do not imply that background
+automation exists.
 
 Do not copy all of `main` into `release` for an urgent content change. That can
 silently include unrelated features and fixes.

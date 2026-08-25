@@ -15,12 +15,13 @@
     {
       "id": 2,
       "prompt": "This Eufemia portal correction is urgent and must be live tomorrow. Put every current main change into the production branch so we can deploy it immediately.",
-      "expected_output": "A safe portal-only promotion that keeps authoring on main, uses release as the production source, carries over only the approved content, verifies that npm will not be released, and excludes unrelated main changes.",
+      "expected_output": "A safe two-PR workflow where the main PR receives the full content review and AI prepares a linked chore(Portal) promotion PR whose patch matches exactly for a quick deployment-gate review.",
       "assertions": [
         "The response records the desired deadline and asks for a short reason for the urgency",
-        "The response uses release as the production deployment source",
-        "The release pull request contains only approved content compatible with the currently released portal",
-        "The response verifies semantic-release behavior and requires explicit permission before merging"
+        "Selecting portal-only once authorizes AI to prepare both pull requests without another release request",
+        "The promotion uses a chore(Portal) title and every release commit since the latest npm tag is checked as non-release-triggering",
+        "The promotion has the same affected paths and resulting content patch as the approved main change with no extras",
+        "The response distinguishes the full main review from the short release deployment gate, requires a squash merge for the promotion, and requires explicit permission before either merge"
       ]
     }
   ]
