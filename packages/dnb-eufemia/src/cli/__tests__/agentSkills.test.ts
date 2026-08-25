@@ -41,16 +41,23 @@ describe('Eufemia agent skills', () => {
       'eufemia-accessibility',
       'eufemia-review',
       'eufemia-migrate',
+      'eufemia-portal-content',
     ])
     expect(manifest.optionalTools).toEqual([])
-    expect(files.size).toBe(5)
+    expect(files.size).toBe(6)
     expect(
-      manifest.skills.every(
-        ({ requiredTools }) =>
-          requiredTools.includes('docs_meta') &&
-          !requiredTools.includes('docs_entry')
-      )
+      manifest.skills
+        .filter(({ name }) => name !== 'eufemia-portal-content')
+        .every(
+          ({ requiredTools }) =>
+            requiredTools.includes('docs_meta') &&
+            !requiredTools.includes('docs_entry')
+        )
     ).toBe(true)
+    expect(
+      manifest.skills.find(({ name }) => name === 'eufemia-portal-content')
+        ?.requiredTools
+    ).toEqual([])
     expect(
       manifest.skills.find(({ name }) => name === 'eufemia-review')
         ?.requiredTools
@@ -100,7 +107,7 @@ describe('Eufemia agent skills', () => {
       packageVersion,
     })
 
-    expect(installed).toHaveLength(5)
+    expect(installed).toHaveLength(6)
     await expect(
       fs.readFile(
         path.join(targetRoot, 'eufemia-components', 'SKILL.md'),
@@ -265,7 +272,7 @@ describe('Eufemia agent skills', () => {
 
     expect(output).toEqual(
       expect.arrayContaining([
-        expect.stringContaining('Installed 5 Eufemia skills'),
+        expect.stringContaining('Installed 6 Eufemia skills'),
         expect.stringContaining('Eufemia agent skills are current'),
       ])
     )
@@ -456,7 +463,7 @@ describe('Eufemia agent skills', () => {
       })
     ).resolves.toBe(0)
 
-    expect(output).toHaveLength(5)
+    expect(output).toHaveLength(6)
     expect(output[0]).toMatch(
       /^1\. eufemia-components\n {3}Find and apply current Eufemia component APIs\.[\s\S]+\n$/
     )
@@ -465,7 +472,10 @@ describe('Eufemia agent skills', () => {
       '\n\n2. eufemia-compose\n   Compose '
     )
     expect(output[4]).toMatch(/^5\. eufemia-migrate\n {3}Migrate /)
-    expect(output[4]).not.toMatch(/\n$/)
+    expect(output[5]).toMatch(
+      /^6\. eufemia-portal-content\n {3}Edit content /
+    )
+    expect(output[5]).not.toMatch(/\n$/)
   })
 
   it('shows the package version through the main CLI', async () => {

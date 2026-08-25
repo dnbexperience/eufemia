@@ -216,7 +216,7 @@ describe('package.json', () => {
     try {
       expect(run('--version').trim()).toBe('0.0.0-development')
       expect(run('skills', 'install', '--target', target)).toContain(
-        'Installed 5 Eufemia skills'
+        'Installed 6 Eufemia skills'
       )
       expect(run('skills', 'check', '--target', target)).toContain(
         'Eufemia agent skills are current'
@@ -225,7 +225,7 @@ describe('package.json', () => {
         fs.existsSync(path.join(target, 'eufemia-components', 'SKILL.md'))
       ).toBe(true)
       expect(run('skills', 'uninstall', '--target', target)).toContain(
-        'Removed 5 Eufemia skill files'
+        'Removed 6 Eufemia skill files'
       )
 
       const interactiveResult = spawnSync(

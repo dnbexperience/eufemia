@@ -1,0 +1,27 @@
+{
+  "skill_name": "eufemia-portal-content",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I am a designer and need AI to clarify one paragraph on the Eufemia portal, create an easy-to-review pull request, and give reviewers a direct preview of the changed section.",
+      "expected_output": "A non-technical workflow that asks about release importance, makes one focused content change from main, and creates a pull request whose description links to the verified page and anchor on the stable branch preview.",
+      "assertions": [
+        "The response asks whether the change can wait for the regular deployment or needs a portal-only deployment",
+        "The content pull request targets main and remains limited to one independently reviewable outcome",
+        "The final pull request description contains a verified branch-preview link to the affected route and anchor",
+        "The response chooses docs(Portal) or chore(Portal) from the requested release-note visibility"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "This Eufemia portal correction is urgent and must be live tomorrow. Put every current main change into the old portal branch so we can deploy it immediately.",
+      "expected_output": "A safe portal-only promotion that keeps authoring on main, uses release as the production source, carries over only the approved content, verifies that npm will not be released, and refuses the legacy portal branch and unrelated main changes.",
+      "assertions": [
+        "The response records the desired deadline and asks for a short reason for the urgency",
+        "The response does not target or deploy from the legacy portal branch",
+        "The release pull request contains only approved content compatible with the currently released portal",
+        "The response verifies semantic-release behavior and requires explicit permission before merging"
+      ]
+    }
+  ]
+}

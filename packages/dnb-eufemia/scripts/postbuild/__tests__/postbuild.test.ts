@@ -692,7 +692,7 @@ describe('agent skills', () => {
     const manifest = fs.readJsonSync(
       path.join(skillsRoot, 'manifest.json')
     )
-    expect(manifest.skills).toHaveLength(5)
+    expect(manifest.skills).toHaveLength(6)
 
     for (const skill of manifest.skills) {
       expect(fs.existsSync(path.join(skillsRoot, skill.path))).toBe(true)
