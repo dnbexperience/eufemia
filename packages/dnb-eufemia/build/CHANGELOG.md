@@ -3,6 +3,71 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.11.0](https://github.com/dnbexperience/eufemia/compare/v11.10.1...v11.11.0) (2026-08-25)
+
+### :sparkles: Features
+
+* add RAIWork Eufemia Web plugin builder ([#9031](https://github.com/dnbexperience/eufemia/issues/9031)) ([625fbd3](https://github.com/dnbexperience/eufemia/commit/625fbd3012bdadaea17935965a1ced7109ba3a27)), closes [#9023](https://github.com/dnbexperience/eufemia/issues/9023) [#9028](https://github.com/dnbexperience/eufemia/issues/9028)
+* **AI:** distribute official Eufemia agent skills ([#9024](https://github.com/dnbexperience/eufemia/issues/9024)) ([e4030ed](https://github.com/dnbexperience/eufemia/commit/e4030ed9ea824312080eedf52c211e2651f369dd))
+* **Autocomplete:** support inline results ([#9046](https://github.com/dnbexperience/eufemia/issues/9046)) ([7d54369](https://github.com/dnbexperience/eufemia/commit/7d5436981c87221fbd6fdb3897f1b7cffdeb9b47))
+* **Card:** support opting into CSS gap with `layoutEngine: 'css'` ([#9060](https://github.com/dnbexperience/eufemia/issues/9060)) ([02c57cb](https://github.com/dnbexperience/eufemia/commit/02c57cb140f7bfe51c8b5244602c6cbd2a5695ca))
+* **Field.MultiSelection:** support scrollable inline item list ([#9081](https://github.com/dnbexperience/eufemia/issues/9081)) ([2e1d60b](https://github.com/dnbexperience/eufemia/commit/2e1d60b0a9afee0c855cc6267bd175511ca61e86)), closes [#9071](https://github.com/dnbexperience/eufemia/issues/9071)
+* **List:** support even striped rows ([#9021](https://github.com/dnbexperience/eufemia/issues/9021)) ([97dfa01](https://github.com/dnbexperience/eufemia/commit/97dfa01798536529e0705177b1098d54d19d1852))
+* **MCP:** expose metadata and clarify tool routing ([#9023](https://github.com/dnbexperience/eufemia/issues/9023)) ([088b7d1](https://github.com/dnbexperience/eufemia/commit/088b7d1fee0bf0621457d4c9b48813cac6a7817e))
+* **MCP:** integrate review rule metadata ([#9028](https://github.com/dnbexperience/eufemia/issues/9028)) ([370076a](https://github.com/dnbexperience/eufemia/commit/370076a14ad4e675715718b0e7323392675136d7)), closes [#9027](https://github.com/dnbexperience/eufemia/issues/9027)
+* **Theme:** integrate supported capabilities ([#9025](https://github.com/dnbexperience/eufemia/issues/9025)) ([6d2aa1c](https://github.com/dnbexperience/eufemia/commit/6d2aa1c98a885d2f77103a9d05529e368d4852a0))
+
+### :bug: Bug Fixes
+
+* **Dropdown:** change default title from "Valgmeny" to "Velg" ([#9063](https://github.com/dnbexperience/eufemia/issues/9063)) ([296a71f](https://github.com/dnbexperience/eufemia/commit/296a71f3ec1293a381c3ae35ef3244e431e12a0c))
+* **Field.MultiSelection:** place selected items before search ([#9077](https://github.com/dnbexperience/eufemia/issues/9077)) ([c1cbdbf](https://github.com/dnbexperience/eufemia/commit/c1cbdbf131bc84246983841ac5a1b3f4b18afd09))
+* **Field.Upload:** reveal required error on submit when validateInitially={false} ([#8980](https://github.com/dnbexperience/eufemia/issues/8980)) ([2e9e854](https://github.com/dnbexperience/eufemia/commit/2e9e8547850bc0aabe6d682e1334905d71d6966b)), closes [#4989](https://github.com/dnbexperience/eufemia/issues/4989)
+* **FormStatus:** align icon with a Button child ([#9042](https://github.com/dnbexperience/eufemia/issues/9042)) ([2d75b53](https://github.com/dnbexperience/eufemia/commit/2d75b53a7eaf2a54d57a925404af4befc59d4f82))
+* **input-masked:** prevent polynomial ReDoS in numeric value cleanup ([#9080](https://github.com/dnbexperience/eufemia/issues/9080)) ([5cb6821](https://github.com/dnbexperience/eufemia/commit/5cb6821e8a8b147f369077dc96f4cea15b2e90b2))
+* **List:** remove open accordion bottom radius ([#9018](https://github.com/dnbexperience/eufemia/issues/9018)) ([48bd2e3](https://github.com/dnbexperience/eufemia/commit/48bd2e34ef11a95926e5273784dfabd80f00694d))
+* **Modal:** correct dialogTitle fallback casing and docs ([#9067](https://github.com/dnbexperience/eufemia/issues/9067)) ([f38c2f5](https://github.com/dnbexperience/eufemia/commit/f38c2f5ec5496406eb18c0696a455df90403b7fa))
+* **Modal:** use sentence case for en-GB dialogTitle ([#9070](https://github.com/dnbexperience/eufemia/issues/9070)) ([c1b61e9](https://github.com/dnbexperience/eufemia/commit/c1b61e9a07aed10c975d46e376c608cf14b7ec8c)), closes [#9067](https://github.com/dnbexperience/eufemia/issues/9067)
+* **renderWithFormatting:** prevent polynomial ReDoS in link parsing ([#9078](https://github.com/dnbexperience/eufemia/issues/9078)) ([67cb0f7](https://github.com/dnbexperience/eufemia/commit/67cb0f747ee497589d199133244bf89e9b9ad54b))
+* **StepIndicator:** use sentence case for en-GB overviewTitle ([#9068](https://github.com/dnbexperience/eufemia/issues/9068)) ([0451f64](https://github.com/dnbexperience/eufemia/commit/0451f64c17a9392df63fb251aa30425c962fda9d))
+* **Table:** remove top corners inside Card ([#9101](https://github.com/dnbexperience/eufemia/issues/9101)) ([d282680](https://github.com/dnbexperience/eufemia/commit/d2826800d67ca67ec0c92b80c0f9bf25555e9722))
+* **Tabs:** prevent Badge clipping and movement in tab titles ([#9030](https://github.com/dnbexperience/eufemia/issues/9030)) ([08de141](https://github.com/dnbexperience/eufemia/commit/08de1416b9b4460d541b269995ec0d2b47d7aad2))
+* **Theme:** prevent polynomial ReDoS in query parsing ([#9079](https://github.com/dnbexperience/eufemia/issues/9079)) ([c1e07d2](https://github.com/dnbexperience/eufemia/commit/c1e07d27c5023485dd49d745ebba8212c143eb5e))
+* **Upload:** wrap long file names when a file click handler is set ([#9097](https://github.com/dnbexperience/eufemia/issues/9097)) ([a73a638](https://github.com/dnbexperience/eufemia/commit/a73a638c6bee652573506d61bcec404cd5ba5615))
+
+### :memo: Documentation
+
+* add missing events pages for Card and Field.Indeterminate ([#9089](https://github.com/dnbexperience/eufemia/issues/9089)) ([c859dee](https://github.com/dnbexperience/eufemia/commit/c859dee780228d0aae70bc663aba954e3760dbc0))
+* define component ownership boundaries ([#9027](https://github.com/dnbexperience/eufemia/issues/9027)) ([77c5bbd](https://github.com/dnbexperience/eufemia/commit/77c5bbd7606ef1ff923e37e8d60b0201b2a4dd28)), closes [#9023](https://github.com/dnbexperience/eufemia/issues/9023)
+
+### :barber: Style Changes
+
+* **Field.MultiSelection:** remove selected item background ([#9093](https://github.com/dnbexperience/eufemia/issues/9093)) ([efbdd6d](https://github.com/dnbexperience/eufemia/commit/efbdd6dbbee1fb72a2e890b0959eb96ea2b799cf))
+
+### :zap: Refactoring
+
+* **Field.MultiSelection:** use CSS gap in selected items header ([#9050](https://github.com/dnbexperience/eufemia/issues/9050)) ([93a1486](https://github.com/dnbexperience/eufemia/commit/93a14868f9a74c74a6f8e5a19c3c8d945cb4a656))
+* **Filter:** use CSS gap in Selection ([#9048](https://github.com/dnbexperience/eufemia/issues/9048)) ([ce6a259](https://github.com/dnbexperience/eufemia/commit/ce6a25940e91bf07d9aa8ceff115bb427b69d3cb))
+* **Filter:** use CSS gap in toolbar and active filters ([#9054](https://github.com/dnbexperience/eufemia/issues/9054)) ([ead512d](https://github.com/dnbexperience/eufemia/commit/ead512d3972d9f11aff57f63c5657799a22bf4db))
+* **Form.InfoOverlay:** use CSS gap ([#9053](https://github.com/dnbexperience/eufemia/issues/9053)) ([7f8865c](https://github.com/dnbexperience/eufemia/commit/7f8865c7b0ae6a7c3c64c59f40e4e38e15794982))
+* **Form.Section:** use CSS gap in content containers ([#9061](https://github.com/dnbexperience/eufemia/issues/9061)) ([5270cb0](https://github.com/dnbexperience/eufemia/commit/5270cb03f088aa35904ddcc2a4a9898570e85239))
+* **Forms:** use CSS gap in container toolbars ([#9052](https://github.com/dnbexperience/eufemia/issues/9052)) ([d028438](https://github.com/dnbexperience/eufemia/commit/d028438d201934a4c3ed5e7ebb3dfb2446fbbb99))
+* **HelpButton:** use CSS gap in inline content ([#9049](https://github.com/dnbexperience/eufemia/issues/9049)) ([dec377e](https://github.com/dnbexperience/eufemia/commit/dec377e047b9e7c969e623db5148c42f046192d4))
+* improve token generation ([#8606](https://github.com/dnbexperience/eufemia/issues/8606)) ([15be624](https://github.com/dnbexperience/eufemia/commit/15be624396f7fcf8ecea50126c47efb67b355015))
+* **Iterate.Array:** use CSS gap by default ([#9057](https://github.com/dnbexperience/eufemia/issues/9057)) ([48af429](https://github.com/dnbexperience/eufemia/commit/48af429c63de5bbf35d1b72b775755730acf7877))
+* **List:** use CSS gap in Container ([#9047](https://github.com/dnbexperience/eufemia/issues/9047)) ([36d7f04](https://github.com/dnbexperience/eufemia/commit/36d7f040182b0202cd46bba6677165c432f3588d))
+* **Radio:** use CSS gap in Group ([#9055](https://github.com/dnbexperience/eufemia/issues/9055)) ([54ce73c](https://github.com/dnbexperience/eufemia/commit/54ce73cdc4334b1efe73e8aa34e64f4f856854c2))
+* **Stat.Inline:** use CSS gap by default ([#9058](https://github.com/dnbexperience/eufemia/issues/9058)) ([5ff1e71](https://github.com/dnbexperience/eufemia/commit/5ff1e715cceaec680e1e0d833c6877798fb4de17))
+* **ToggleButton:** use CSS gap in Group ([#9056](https://github.com/dnbexperience/eufemia/issues/9056)) ([e7e6404](https://github.com/dnbexperience/eufemia/commit/e7e6404ba9198966323905baa3b58e3f0e63326e))
+* **Upload:** use CSS gap in info layout ([#9051](https://github.com/dnbexperience/eufemia/issues/9051)) ([a78515f](https://github.com/dnbexperience/eufemia/commit/a78515f106de08a618c5ee54e00c1579356f4c4d))
+* **Wizard.Step:** use CSS gap by default ([#9059](https://github.com/dnbexperience/eufemia/issues/9059)) ([b05c341](https://github.com/dnbexperience/eufemia/commit/b05c341af25f524a0b7694989d985bfa8b048f39))
+
+### :package: Dependencies
+
+* bump @navikt/fnrvalidator from 2.1.5 to 2.2.1 - add support for fødselsnummer from 2032 ([#9006](https://github.com/dnbexperience/eufemia/issues/9006)) ([9fd3704](https://github.com/dnbexperience/eufemia/commit/9fd37049dbb1dcefc0c3b5e8c81b540bbe563f49))
+* bump ajv from 8.18.0 to 8.20.0 ([#9010](https://github.com/dnbexperience/eufemia/issues/9010)) ([42f1df1](https://github.com/dnbexperience/eufemia/commit/42f1df187465a09a1841871417b8d801d20686d2))
+* bump date-fns from 4.1.0 to 4.4.0 ([#9011](https://github.com/dnbexperience/eufemia/issues/9011)) ([cbed4a4](https://github.com/dnbexperience/eufemia/commit/cbed4a4d250c35e02a7d0e53e2b524d5a12eec1f))
+* bump maskito from 5.1.0 to 5.4.0 ([#9009](https://github.com/dnbexperience/eufemia/issues/9009)) ([0d66dec](https://github.com/dnbexperience/eufemia/commit/0d66dec2a9ec374d44d48e81594176f0d9949bc5))
+
 ## [11.10.1](https://github.com/dnbexperience/eufemia/compare/v11.10.0...v11.10.1) (2026-08-17)
 
 ### :bug: Bug Fixes
