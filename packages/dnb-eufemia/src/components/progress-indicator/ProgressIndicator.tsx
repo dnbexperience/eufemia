@@ -32,6 +32,9 @@ import type {
 import { isValidSize } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
+// Smoke test for #9104: touching this shared component should select the
+// screenshot tests of the other components that use it (via TS imports and
+// demo composition), not the whole visual-regression suite.
 function ProgressIndicator(props: ProgressIndicatorAllProps) {
   const allProps = updatePropsWithContext(props, useContext(Context))
 
