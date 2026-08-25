@@ -519,3 +519,26 @@ export const VariantInline = () => (
     }}
   </ComponentBox>
 )
+
+export const ScrollableInline = () => (
+  <ComponentBox
+    scope={{ fruits }}
+    data-visual-test="multi-selection-scrollable-inline"
+  >
+    {() => {
+      return (
+        <Field.MultiSelection
+          label="Select fruits"
+          variant="inline"
+          data={fruits}
+          value={['apple', 'banana']}
+          maxHeight="16rem"
+          selectedItemsCollapsibleThreshold={20}
+          showSearchField
+          showSelectAll
+          showSelectedTags
+        />
+      )
+    }}
+  </ComponentBox>
+)
