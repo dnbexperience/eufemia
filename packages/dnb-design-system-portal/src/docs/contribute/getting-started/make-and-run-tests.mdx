@@ -131,6 +131,8 @@ Selection includes:
 
 Global impact still runs all screenshot tests when shared visual config/style paths are changed (for example `packages/dnb-eufemia/package.json`, `src/style/*` or it runs on the `main` branch).
 
+Reverse-dependency selection stops at library and extension barrel aggregates (for example `src/components/index.ts` or `src/extensions/forms/index.ts`). These re-export the whole surface, so walking through them would fan out a single component change to nearly every test. Per-feature barrels are still followed, so genuine shared-infra changes keep propagating.
+
 You can run the same logic locally:
 
 ```bash

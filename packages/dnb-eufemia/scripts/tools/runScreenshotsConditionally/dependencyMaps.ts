@@ -60,7 +60,8 @@ export function loadDependencyMap(
 
 export function expandReverseDependencies(
   seedFiles: string[],
-  dependencyMap: Map<string, string[]>
+  dependencyMap: Map<string, string[]>,
+  excludedHubFiles: Set<string> = new Set<string>()
 ): Set<string> {
   const visited = new Set<string>()
   const queue = [...seedFiles]
@@ -73,6 +74,12 @@ export function expandReverseDependencies(
     }
 
     visited.add(currentFile)
+
+    // Do not fan out through barrel/entry aggregates: they re-export the whole
+    // library, so their dependents are unrelated consumers of other members.
+    if (excludedHubFiles.has(currentFile)) {
+      continue
+    }
 
     const dependents = dependencyMap.get(currentFile) || []
     for (const dependent of dependents) {
