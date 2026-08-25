@@ -37,10 +37,7 @@ export const CHANGED_FILES_ENV_VAR = 'VISUAL_TEST_CHANGED_FILES'
 export const BASE_REF_ENV_VAR = 'VISUAL_TEST_BASE_REF'
 
 // Default base refs used to find merge-base when no override is provided.
-export const DEFAULT_BRANCH_BASE_REFS = [
-  'origin/main',
-  'main',
-]
+export const DEFAULT_BRANCH_BASE_REFS = ['origin/main', 'main']
 
 // Adds support for release branches like v1, v2, etc. as potential bases.
 export const VERSION_BRANCH_REF_PATTERN = /^(origin\/)?v[0-9]/
