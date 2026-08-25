@@ -21,6 +21,7 @@ import { onMain, runOnMain, selectThemes } from './themeSelection.client'
 import type {
   MakeScreenshotPayload,
   MakeScreenshotResult,
+  ScreenshotColorScheme,
 } from './commands/screenshotEngine'
 import type { LoadImagePayload } from './commands/loadImage'
 
@@ -65,6 +66,7 @@ type Simulate = Action | ActionName | (Action | ActionName)[]
 type DescribeDefaults = {
   url: string | null
   themeName: string | null
+  colorScheme: ScreenshotColorScheme | null
   pageViewport: { width?: number; height?: number } | null
   headers: Record<string, string> | null
   fullscreen: boolean
@@ -74,6 +76,7 @@ type DescribeDefaults = {
 let describeDefaults: DescribeDefaults = {
   url: null,
   themeName: null,
+  colorScheme: null,
   pageViewport: null,
   headers: null,
   fullscreen: false,
@@ -88,6 +91,7 @@ export const isCI = String(env?.CI) === 'true' || String(env?.CI) === '1'
 export const setupPageScreenshot = ({
   url,
   themeName = null,
+  colorScheme = null,
   pageViewport = null,
   headers = null,
   fullscreen = false,
@@ -95,6 +99,7 @@ export const setupPageScreenshot = ({
 }: {
   url?: string
   themeName?: string | null
+  colorScheme?: ScreenshotColorScheme | null
   pageViewport?: { width?: number; height?: number } | null
   headers?: Record<string, string> | null
   fullscreen?: boolean
@@ -109,6 +114,7 @@ export const setupPageScreenshot = ({
     describeDefaults = {
       url: url ?? describeDefaults.url,
       themeName: themeName ?? describeDefaults.themeName,
+      colorScheme: colorScheme ?? describeDefaults.colorScheme,
       pageViewport: pageViewport ?? describeDefaults.pageViewport,
       headers: headers ?? describeDefaults.headers,
       fullscreen: fullscreen || describeDefaults.fullscreen,
@@ -124,6 +130,7 @@ export const setupPageScreenshot = ({
 export type MakeScreenshotOptions = {
   url?: string
   themeName?: string
+  colorScheme?: ScreenshotColorScheme
   pageViewport?: { width?: number; height?: number }
   headers?: Record<string, string>
   fullscreen?: boolean
@@ -288,6 +295,7 @@ export const makeScreenshot = async (
     selector: opts.selector,
     url: opts.url ?? describeDefaults.url,
     themeName: opts.themeName ?? describeDefaults.themeName,
+    colorScheme: opts.colorScheme ?? describeDefaults.colorScheme,
     fullscreen: Boolean(opts.fullscreen || describeDefaults.fullscreen),
     pageViewport:
       opts.pageViewport ?? describeDefaults.pageViewport ?? null,
@@ -326,7 +334,7 @@ export const makeScreenshot = async (
 
     case 'size-mismatch':
       throw new Error(
-        `Screenshot dimensions differ: reference ${result.reference.width}x${result.reference.height}, actual ${result.actual.width}x${result.actual.height}. Saved actual to ${result.actualPath}.`
+        `Screenshot dimensions differ: reference ${result.reference.width}x${result.reference.height}, actual ${result.actual.width}x${result.actual.height}. Diff at ${result.diffPath}, actual at ${result.actualPath}.`
       )
 
     case 'mismatch':
@@ -363,7 +371,7 @@ const handleMatchResult = (result: MakeScreenshotResult) => {
       return
     case 'size-mismatch':
       throw new Error(
-        `Image dimensions differ: reference ${result.reference.width}x${result.reference.height}, actual ${result.actual.width}x${result.actual.height}.`
+        `Image dimensions differ: reference ${result.reference.width}x${result.reference.height}, actual ${result.actual.width}x${result.actual.height}. Diff at ${result.diffPath}, actual at ${result.actualPath}.`
       )
     case 'mismatch':
       throw new Error(

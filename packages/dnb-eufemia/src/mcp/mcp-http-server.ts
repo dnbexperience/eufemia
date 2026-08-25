@@ -151,6 +151,8 @@ function hostAllowlistMiddleware(
     const host = String(req.headers['host'] ?? '')
       .split(':')[0]
       .toLowerCase()
+      // Strip CR/LF so a crafted Host header cannot forge log lines.
+      .replace(/[\r\n]+/g, '')
     if (set.has(host)) {
       next()
       return

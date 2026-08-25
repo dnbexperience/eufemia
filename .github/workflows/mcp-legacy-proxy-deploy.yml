@@ -1,0 +1,85 @@
+name: MCP legacy proxy deploy
+
+# Deploys the legacy Cloudflare Worker that keeps the old MCP URL
+# (eufemia-mcp.eufemia.workers.dev) working during migration. Runs on merges to
+# main that touch the proxy, and can be dispatched manually to flip MODE
+# (proxy -> redirect -> gone) without a code change.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'tools/mcp-legacy-proxy/**'
+      - '.github/workflows/mcp-legacy-proxy-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'MODE override (proxy | redirect | gone). Empty = use wrangler.toml.'
+        required: false
+        default: ''
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      # The Cloudflare credentials are scoped to the deploy step that uses them.
+      - name: Skip if Cloudflare credentials are missing
+        id: gate
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+            echo "Cloudflare credentials are not set; skipping deploy."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy Worker
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Passed via env (not inlined) so the dispatch input cannot inject
+          # shell commands into the run step.
+          MODE: ${{ github.event.inputs.mode }}
+          REF_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          EXTRA=()
+          if [ -n "${MODE:-}" ]; then
+            case "${MODE}" in
+              proxy | redirect | gone) EXTRA+=(--var "MODE:${MODE}") ;;
+              *)
+                echo "Invalid MODE '${MODE}' (expected proxy | redirect | gone)" >&2
+                exit 1
+                ;;
+            esac
+          fi
+
+          yarn workspace @dnb/eufemia-mcp-legacy-proxy exec wrangler deploy \
+            --message "${REF_SHA} via GitHub Actions" \
+            "${EXTRA[@]}"

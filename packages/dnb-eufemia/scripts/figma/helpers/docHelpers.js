@@ -166,9 +166,14 @@ const saveLiveVersionOfFigmaDoc = async ({ figmaFile, version }) => {
   try {
     const lockFile = path.resolve(__dirname, `../version.lock`)
 
-    const existingLockFileContent = fs.existsSync(lockFile)
-      ? JSON.parse((await fs.readFile(lockFile, 'utf-8')) || '{}')
-      : {}
+    let existingLockFileContent = {}
+    try {
+      existingLockFileContent = JSON.parse(
+        (await fs.readFile(lockFile, 'utf-8')) || '{}'
+      )
+    } catch {
+      // No existing lock file yet; start fresh.
+    }
     const newLockFileContent = {
       [md5(figmaFile)]: version,
     }
@@ -211,6 +216,16 @@ export const getFigmaDoc = async ({
     ErrorHandler(
       'No Figma file defined. Make sure there is a .env file with a valid "figmaFile" defined!'
     )
+  }
+
+  // Figma file keys are alphanumeric; reject anything else so it cannot traverse the cache path.
+  if (
+    typeof figmaFile === 'string' &&
+    figmaFile.length > 0 &&
+    !/^[A-Za-z0-9]+$/.test(figmaFile)
+  ) {
+    ErrorHandler('Invalid Figma file key. Expected an alphanumeric key.')
+    return false
   }
 
   const localDir = path.resolve(__dirname, `../.cache`)

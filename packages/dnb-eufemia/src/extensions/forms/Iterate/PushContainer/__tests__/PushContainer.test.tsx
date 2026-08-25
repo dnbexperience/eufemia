@@ -19,6 +19,24 @@ import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('PushContainer', () => {
+  it('uses the CSS gap layout engine for its actions', () => {
+    render(
+      <Form.Handler>
+        <Iterate.PushContainer path="/entries">
+          <Field.String itemPath="/name" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const layouts = document.querySelectorAll(
+      '.dnb-forms-iterate-toolbar .dnb-flex-container'
+    )
+
+    expect(layouts).toHaveLength(2)
+    expect(layouts[0]).toHaveClass('dnb-flex-container--css-gap')
+    expect(layouts[1]).toHaveClass('dnb-flex-container--css-gap')
+  })
+
   it('should add a new entry to the array', async () => {
     const onChange = vi.fn()
 

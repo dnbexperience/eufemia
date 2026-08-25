@@ -1530,7 +1530,7 @@ describe('Modal component', () => {
       document
         .querySelector('.dnb-modal__content')
         .getAttribute('aria-label')
-    ).toContain('Vindu')
+    ).toBe('Separat vindu')
 
     rerender(<Modal {...props} title="now there is a title" />)
     expect(

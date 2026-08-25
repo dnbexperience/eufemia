@@ -5,21 +5,21 @@
   "license": "SEE LICENSE IN LICENSE FILE",
   "author": "DNB Team & Tobias Høegh",
   "version": "1.0.0",
-  "main": "./node-utils.js",
+  "main": "./src/node-utils.js",
   "scripts": {
-    "test:ci": "node node-utils.test.js"
+    "test:ci": "node src/node-utils.test.js"
   },
   "volta": {
     "extends": "../../package.json"
   },
-  "module": "./node-utils.mjs",
-  "types": "./node-utils.d.ts",
+  "module": "./src/node-utils.mjs",
+  "types": "./src/node-utils.d.ts",
   "exports": {
     ".": {
-      "types": "./node-utils.d.ts",
-      "import": "./node-utils.mjs",
-      "require": "./node-utils.js",
-      "default": "./node-utils.js"
+      "types": "./src/node-utils.d.ts",
+      "import": "./src/node-utils.mjs",
+      "require": "./src/node-utils.js",
+      "default": "./src/node-utils.js"
     }
   }
 }

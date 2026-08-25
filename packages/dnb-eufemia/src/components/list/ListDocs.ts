@@ -1,14 +1,20 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
+  layoutEngine: {
+    doc: 'Select the internal Flex layout engine. Defaults to `css`. Use `legacy` only as a temporary compatibility fallback while migrating an existing custom list integration.',
+    type: [`'css'`, `'legacy'`],
+    defaultValue: `'css'`,
+    status: 'optional',
+  },
   separated: {
     doc: 'When `true`, adds row gap between items so each row keeps its own outline and border radius instead of running edge-to-edge.',
     type: 'boolean',
     status: 'optional',
   },
   striped: {
-    doc: 'When `true`, applies alternating row background colors to the list items.',
-    type: 'boolean',
+    doc: 'Applies alternating row background colors to the list items. Use `true` or `odd` to color odd items, or `even` to color even items.',
+    type: ['boolean', '"odd"', '"even"'],
     defaultValue: 'false',
     status: 'optional',
   },

@@ -85,6 +85,13 @@ describe('UploadFileListLink', () => {
       expect(screen.queryByText(fileName)).toBeInTheDocument()
     })
 
+    it('wraps long file names', () => {
+      render(<UploadFileLink {...defaultProps} onClick={vi.fn()} />)
+
+      const element = document.querySelector('.dnb-button')
+      expect(element).toHaveClass('dnb-button--wrap')
+    })
+
     it('executes onClick event when button is clicked', () => {
       const onClick = vi.fn()
 

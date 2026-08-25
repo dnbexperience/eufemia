@@ -15,11 +15,11 @@ Records are written to S3 as one JSON object per record, partitioned by date. A 
 
 | Route           | Auth   | Description                                             |
 | --------------- | ------ | ------------------------------------------------------- |
-| `GET /healthz`  | open   | Liveness probe                                          |
+| `GET /healthz`  | edge   | Liveness probe                                          |
 | `POST /records` | bearer | Store a record: `{ "id", "name", "value" }`             |
 | `GET /records`  | bearer | Retrieve records; optional `?id=` and `?limit=` filters |
 
-Auth is a bearer token compared against the `API_TOKEN` environment variable. When `API_TOKEN` is unset, auth is disabled (local/demo only).
+Auth is a bearer token compared against the `API_TOKEN` environment variable, and the origin additionally requires the Akamai `X-Edge-Auth` header.
 
 ### Record shape
 
@@ -73,7 +73,7 @@ public GitHub (.github/workflows/analytics-lambda.yml)
           → OIDC assume role → terraform apply
 ```
 
-- **Triggers** (`analytics-lambda.yml`): the `release` branch, any `analytics/**` branch, `v*` tags, or manual `workflow_dispatch`.
+- **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from any branch. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
 - On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run).
 

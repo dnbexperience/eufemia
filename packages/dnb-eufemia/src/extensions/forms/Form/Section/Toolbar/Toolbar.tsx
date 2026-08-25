@@ -36,7 +36,7 @@ export default function Toolbar(props: FormSectionToolbarProps) {
       <Hr space={0} />
 
       <ToolbarContext value={{ setShowError, onEdit, onDone, onCancel }}>
-        <Flex.Horizontal top="x-small" gap="large">
+        <Flex.Horizontal layoutEngine="css" top="x-small" gap="large">
           {children}
         </Flex.Horizontal>
       </ToolbarContext>

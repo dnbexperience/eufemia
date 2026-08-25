@@ -38,6 +38,32 @@ describe('Stat.Inline', () => {
     )
   })
 
+  it('uses the CSS gap layout engine by default', () => {
+    render(
+      <Stat.Inline>
+        <Stat.Trend>+1.2%</Stat.Trend>
+        <Stat.Info>(additional information)</Stat.Info>
+      </Stat.Inline>
+    )
+
+    expect(document.querySelector('.dnb-stat__inline')).toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+  })
+
+  it('supports opting into the legacy layout engine', () => {
+    render(
+      <Stat.Inline layoutEngine="legacy">
+        <Stat.Trend>+1.2%</Stat.Trend>
+        <Stat.Info>(additional information)</Stat.Info>
+      </Stat.Inline>
+    )
+
+    expect(document.querySelector('.dnb-stat__inline')).not.toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+  })
+
   it('supports overrides', () => {
     render(
       <Stat.Inline align="baseline" gap="small">

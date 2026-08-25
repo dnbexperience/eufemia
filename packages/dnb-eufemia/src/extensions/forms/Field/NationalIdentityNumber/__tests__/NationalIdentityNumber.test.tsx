@@ -383,7 +383,7 @@ describe('Field.NationalIdentityNumber', () => {
 
     const invalidDNum = [
       '69020112345',
-      '53097248032',
+      '53097248031',
       '53097248023',
       '72127248022',
       '53137248022',

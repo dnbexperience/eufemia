@@ -1,6 +1,12 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
+  layoutEngine: {
+    doc: 'Select the internal Flex layout engine. Defaults to `legacy` for backwards compatibility. Use `css` to opt in to native CSS gap.',
+    type: [`'css'`, `'legacy'`],
+    defaultValue: `'legacy'`,
+    status: 'optional',
+  },
   outset: {
     doc: 'Whether or not to break out (using negative margins) on larger screens. Defaults to `false`.',
     type: 'boolean',
@@ -115,11 +121,6 @@ export const CardActionProperties: PropertiesTableProps = {
     type: ['string', 'React.Element'],
     status: 'optional',
   },
-  onClick: {
-    doc: 'Click handler. When used without `href`/`to`, renders a button-like wrapper with keyboard support (Enter/Space).',
-    type: 'function',
-    status: 'optional',
-  },
   children: {
     doc: 'Contents of the Card inside the action wrapper.',
     type: 'React.ReactNode',
@@ -128,6 +129,14 @@ export const CardActionProperties: PropertiesTableProps = {
   'Card properties': {
     doc: 'All [Card](/uilib/components/card/properties) properties are supported.',
     type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const CardActionEvents: PropertiesTableProps = {
+  onClick: {
+    doc: 'Click handler. When used without `href`/`to`, renders a button-like wrapper with keyboard support (Enter/Space).',
+    type: 'function',
     status: 'optional',
   },
 }

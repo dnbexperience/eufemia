@@ -1,6 +1,28 @@
 // More styles are in "dnb-form-section.scss"
 
 .dnb-forms-iterate {
+  &.dnb-flex-container--css-gap:has(
+      > .dnb-forms-iterate__element ~ .dnb-forms-iterate__element
+    ) {
+    --block-gap: var(--horizontal-gap);
+  }
+
+  &.dnb-flex-container--css-gap:has(
+      > .dnb-forms-iterate__element > .dnb-forms-section-block
+    ) {
+    row-gap: 0;
+  }
+
+  &.dnb-flex-container--css-gap.dnb-flex-container--divider-line:has(
+      > .dnb-forms-iterate__element ~ .dnb-forms-iterate__element
+    ) {
+    row-gap: var(--horizontal-gap);
+
+    &::after {
+      transform: translateY(calc(var(--horizontal-gap) / -2));
+    }
+  }
+
   &__element {
     outline: none; // Because of JavaScript focus management (tabIndex)
   }

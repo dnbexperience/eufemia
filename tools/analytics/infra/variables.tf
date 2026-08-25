@@ -26,6 +26,29 @@ variable "api_token" {
 
   validation {
     condition     = length(var.api_token) > 0
-    error_message = "api_token must be non-empty; an empty token would leave the HTTP API publicly readable and writable."
+    error_message = "api_token must be a non-empty value."
+  }
+}
+
+variable "domain_zone" {
+  type        = string
+  description = "Route 53 hosted zone name (trailing dot is required by AWS)."
+  default     = "dev.eufemia.tech-03.net."
+}
+
+variable "domain_name" {
+  type        = string
+  description = "Custom origin domain for the analytics API (no trailing dot)."
+  default     = "analytics.dev.eufemia.tech-03.net"
+}
+
+variable "edge_auth_secret" {
+  type        = string
+  description = "Shared secret for the X-Edge-Auth header injected by Akamai."
+  sensitive   = true
+
+  validation {
+    condition     = length(var.edge_auth_secret) > 0
+    error_message = "edge_auth_secret must be a non-empty value."
   }
 }

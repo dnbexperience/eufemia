@@ -1,5 +1,4 @@
 import { Input } from '../../../../components'
-import { Hr } from '../../../../elements'
 
 export type MultiSelectionSearchProps = {
   show: boolean
@@ -21,28 +20,22 @@ export function MultiSelectionSearch({
   }
 
   return (
-    <>
-      <Input
-        type="search"
-        label={false}
-        icon="loupe"
-        iconPosition="left"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onSearchChange(e.value)}
-        disabled={disabled}
-        stretch
-        showClearButton
-        onClear={() => onSearchChange('')}
-        autoCapitalize="none"
-        autoCorrect="off"
-        spellCheck={false}
-        className="dnb-forms-field-multi-selection__search"
-      />
-      <Hr
-        space={0}
-        className="dnb-forms-field-multi-selection__separator"
-      />
-    </>
+    <Input
+      type="search"
+      label={false}
+      icon="loupe"
+      iconPosition="left"
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => onSearchChange(e.value)}
+      disabled={disabled}
+      stretch
+      showClearButton
+      onClear={() => onSearchChange('')}
+      autoCapitalize="none"
+      autoCorrect="off"
+      spellCheck={false}
+      className="dnb-forms-field-multi-selection__search"
+    />
   )
 }

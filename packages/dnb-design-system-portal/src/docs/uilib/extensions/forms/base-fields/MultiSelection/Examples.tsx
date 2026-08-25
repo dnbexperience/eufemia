@@ -474,7 +474,7 @@ export const WithError = () => (
 )
 
 export const WithManySelectedItems = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="multi-selection-many-selected-items">
     {() => {
       const items = Array.from({ length: 30 }, (_, i) => ({
         value: `item${i + 1}`,
@@ -513,6 +513,29 @@ export const VariantInline = () => (
           data={cities}
           showSelectAll
           showSearchField
+          showSelectedTags
+        />
+      )
+    }}
+  </ComponentBox>
+)
+
+export const ScrollableInline = () => (
+  <ComponentBox
+    scope={{ fruits }}
+    data-visual-test="multi-selection-scrollable-inline"
+  >
+    {() => {
+      return (
+        <Field.MultiSelection
+          label="Select fruits"
+          variant="inline"
+          data={fruits}
+          value={['apple', 'banana']}
+          maxHeight="16rem"
+          selectedItemsCollapsibleThreshold={20}
+          showSearchField
+          showSelectAll
           showSelectedTags
         />
       )

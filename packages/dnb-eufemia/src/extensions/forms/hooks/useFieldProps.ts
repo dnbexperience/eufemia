@@ -1602,7 +1602,13 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       if (fieldStateRef.current !== 'validating') {
         // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
         // something else that should lead to showing the user all errors.
-        revealError()
+        // An explicit submit stores a timestamp (number), while the initial
+        // "validateInitially" stores a boolean. Force the reveal on submit so a
+        // "validateInitially={false}" field still shows its error.
+        const force =
+          typeof showAllErrors === 'number' ||
+          typeof showBoundaryErrors === 'number'
+        revealError(force)
       }
     } else if (showBoundaryErrors === false) {
       hideError()

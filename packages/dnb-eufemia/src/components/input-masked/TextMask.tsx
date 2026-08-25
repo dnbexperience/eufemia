@@ -522,14 +522,32 @@ function stripAffixes(
  * If the mask is a numeric mask (has maskParams), strip prefix/suffix from the value.
  * Otherwise return the value unchanged.
  */
-function cleanNumericValue(value: string, rawMask: TextMaskMask): string {
+export function cleanNumericValue(
+  value: string,
+  rawMask: TextMaskMask
+): string {
   if (
     typeof rawMask === 'object' &&
     rawMask !== null &&
     'maskParams' in rawMask
   ) {
     const mp = rawMask.maskParams as MaskParams
-    return stripAffixes(value, mp.prefix ?? '', mp.suffix ?? '')
+    const result = stripAffixes(value, mp.prefix ?? '', mp.suffix ?? '')
+
+    // A dynamic suffix (e.g. currency name "krone" vs "kroner") won't match the
+    // current suffix option; drop the trailing non-numeric characters so Maskito
+    // 5.4 can re-parse the value. Otherwise it drops the number and resets the
+    // caret. Digits, decimal/thousand separators and the minus sign are kept.
+    if (mp.suffix) {
+      // Linear scan instead of /[^\d.,·-]+$/ to avoid super-linear backtracking.
+      let end = result.length
+      while (end > 0 && !/[\d.,·-]/.test(result[end - 1])) {
+        end--
+      }
+      return result.slice(0, end)
+    }
+
+    return result
   }
 
   return value

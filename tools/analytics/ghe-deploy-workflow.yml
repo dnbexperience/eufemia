@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -52,6 +52,7 @@ jobs:
         env:
           TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
           TF_VAR_api_token: ${{ secrets.API_TOKEN }}
+          TF_VAR_edge_auth_secret: ${{ secrets.EDGE_AUTH_SECRET }}
         run: |
           set -euo pipefail
           cd infra

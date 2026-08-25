@@ -130,7 +130,10 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
           className={clsx('dnb-forms-section-edit-block', className)}
           {...restProps}
         >
-          <Flex.Stack>
+          <Flex.Stack
+            layoutEngine="css"
+            className="dnb-forms-section-block__content"
+          >
             {title && <Lead size="basis">{title}</Lead>}
             {children}
             {hasToolbar ? null : (

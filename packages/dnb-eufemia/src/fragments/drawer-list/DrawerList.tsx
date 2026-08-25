@@ -238,6 +238,10 @@ export type DrawerListProps = {
    */
   independentWidth?: boolean
   /**
+   * If set to `true`, the list is rendered in normal document flow instead of an absolute overlay, with a flat look instead of a floating card. Implies `skipPortal`. Defaults to `false`.
+   */
+  inline?: boolean
+  /**
    * If set to `true`, the DrawerList will be fixed in its scroll position by using CSS `position: fixed;`.
    */
   fixedPosition?: boolean
@@ -367,6 +371,10 @@ const DrawerListComponent = memo(function DrawerListComponent(
     (e: KeyboardEvent) => {
       switch (e.key) {
         case 'Tab':
+          if (propsWithDefaults.inline) {
+            return
+          }
+
           if (!context.drawerList._hasFocusOnElementRef.current) {
             e.preventDefault()
             context.drawerList.setHidden()
@@ -379,7 +387,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
           break
       }
     },
-    [context.drawerList]
+    [context.drawerList, propsWithDefaults.inline]
   )
 
   const selectItemHandler = useCallback(
@@ -421,6 +429,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
     noScrollAnimation,
     preventSelection,
     isPopup,
+    inline,
     portalClass,
     listClass,
     ignoreEvents,
@@ -512,6 +521,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
       alignDrawer && `dnb-drawer-list--${alignDrawer}`,
       size && `dnb-drawer-list--${size}`,
       isPopup && 'dnb-drawer-list--is-popup',
+      inline && 'dnb-drawer-list--inline',
       independentWidth && 'dnb-drawer-list--independent-width',
       scrollable && 'dnb-drawer-list--scroll',
       noScrollAnimation && 'dnb-drawer-list--no-scroll-animation',

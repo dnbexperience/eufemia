@@ -99,6 +99,15 @@ Use the `colorScheme` prop on the [Theme](/uilib/usage/customisation/theming/the
 
 When set to `"auto"`, it follows the user's system color preference unless overridden by a parent theme or application setting. It uses the [`prefers-color-scheme`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-color-scheme) media query to detect the system preference.
 
+Dark color schemes are currently available for the DNB, Sbanken and Eiendom
+themes. Carnegie is light-only. Setting `colorScheme="dark"` does not add dark
+mode support to a theme without a corresponding dark token stylesheet.
+
+This is separate from a dark surface. A light-only theme can still place
+content on a bounded dark background by using `surface="dark"`, which switches
+components to their `ondark` tokens without changing the application's color
+scheme.
+
 Dark mode tokens are not included in the default theme import. You need to import them separately:
 
 ```tsx
@@ -107,7 +116,34 @@ import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.min.css' // Use --isolat
 
 // Sbanken theme
 import '@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.min.css'
+
+// Eiendom theme
+import '@dnb/eufemia/style/themes/eiendom/eiendom-theme-dark-mode.min.css'
 ```
+
+### Machine-readable theme capabilities
+
+Tools and applications can inspect the same support matrix used by Eufemia's
+types and documentation:
+
+| Theme      | Color schemes   | Dark mode stylesheet                                                | Dark surfaces |
+| ---------- | --------------- | ------------------------------------------------------------------- | ------------- |
+| `ui`       | `light`, `dark` | `@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.min.css`           | Yes           |
+| `sbanken`  | `light`, `dark` | `@dnb/eufemia/style/themes/sbanken/sbanken-theme-dark-mode.min.css` | Yes           |
+| `eiendom`  | `light`, `dark` | `@dnb/eufemia/style/themes/eiendom/eiendom-theme-dark-mode.min.css` | Yes           |
+| `carnegie` | `light`         | None                                                                | Yes           |
+
+```tsx
+import { themeCapabilities } from '@dnb/eufemia/style/themes/capabilities'
+
+const carnegie = themeCapabilities.carnegie
+// { colorSchemes: ['light'], darkModeStyle: null, supportsDarkSurface: true }
+```
+
+The metadata describes supported behavior; it does not load theme CSS. Import
+the stylesheet named by `darkModeStyle` when enabling a supported dark color
+scheme. The table is also available to MCP clients through the packaged
+documentation.
 
 For Tailwind, dark tokens are in a separate file per theme:
 

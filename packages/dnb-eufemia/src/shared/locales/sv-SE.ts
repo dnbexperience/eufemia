@@ -78,7 +78,7 @@ export default {
       noGroupSR: 'Andra val',
     },
     Dropdown: {
-      title: 'Valmeny',
+      title: 'Välj',
     },
     Autocomplete: {
       title: 'Skriv och välj',

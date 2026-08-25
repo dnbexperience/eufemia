@@ -747,6 +747,10 @@ const createXMLTarBundles = async ({
   async function convertSvgToXml() {
     try {
       log.info(`> Figma: convert SVG to XML in directory: ${destDir}`)
+      // Allow only path characters so a directory value cannot inject shell syntax.
+      if (!/^[A-Za-z0-9 _./@+-]+$/.test(String(destDir))) {
+        throw new Error(`Unsafe destination directory: ${destDir}`)
+      }
       const safeDestDir = `'${String(destDir).replace(/'/g, `'\\''`)}'`
       await runCommand(`yarn vd-tool -c -in ${safeDestDir}`)
     } catch (error) {
@@ -859,14 +863,15 @@ const optimizeSVGIcons = async ({ destDir, listWithFiles }) => {
 }
 
 const optimizeSVG = async (file) => {
-  if (!fs.existsSync(file)) {
+  let content
+  try {
+    content = await fs.readFile(file, 'utf-8')
+  } catch {
     log.fail(`Figma: optimizeSVG got an non existing file: ${file}`)
     return null
   }
 
   try {
-    const content = await fs.readFile(file, 'utf-8')
-
     const config = await loadConfig()
     let { data } = await optimize(content, {
       path: file,

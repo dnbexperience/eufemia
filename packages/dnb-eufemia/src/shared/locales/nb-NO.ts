@@ -77,7 +77,7 @@ export default {
       noGroupSR: 'Andre valg',
     },
     Dropdown: {
-      title: 'Valgmeny',
+      title: 'Velg',
     },
     Autocomplete: {
       title: 'Skriv og velg',
@@ -90,7 +90,7 @@ export default {
       indicatorLabel: 'Henter data ...',
     },
     Modal: {
-      dialogTitle: 'Separat Vindu',
+      dialogTitle: 'Separat vindu',
       closeTitle: 'Lukk',
     },
     Dialog: {

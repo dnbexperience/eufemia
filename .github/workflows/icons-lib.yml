@@ -5,17 +5,15 @@ on:
     branches:
       - 'icon*/**'
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-env:
-  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-  GH_NAME: ${{ secrets.GH_NAME }}
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+# No job-wide `env:` on purpose: secrets are scoped to the individual steps that
+# use them, so `yarn install` and the build steps never receive credentials.
 
 jobs:
   process-icons:
@@ -27,7 +25,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
 
@@ -37,7 +35,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Use Playwright cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         id: playwright-cache
         with:
           path: |
@@ -54,6 +52,9 @@ jobs:
 
       - name: Icons fetch and prebuild
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
 
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia build:prebuild
@@ -79,3 +80,7 @@ jobs:
       - name: Commit icons and updated snapshots
         if: success()
         run: yarn workspace @dnb/eufemia icons:commit
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}

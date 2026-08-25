@@ -17,7 +17,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.',
+    doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og velg`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -132,7 +132,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showOptionsSr: {
-    doc: 'Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer`.',
+    doc: 'Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer, lukk med esc knappen`.',
     type: 'string',
     status: 'optional',
   },
@@ -178,6 +178,11 @@ export const AutocompleteProperties: PropertiesTableProps = {
   },
   skipPortal: {
     doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  inline: {
+    doc: 'Use `true` to render the results list persistently open in normal document flow, instead of an overlay. The toggle button is hidden. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },
