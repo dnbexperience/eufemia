@@ -63,6 +63,12 @@
         "component_find",
         "component_props"
       ]
+    },
+    {
+      "name": "eufemia-portal-content",
+      "description": "Edit content in the official Eufemia portal and deliver small, reviewable pull requests with working page previews. Use when a non-technical contributor asks AI to change portal copy, guidance, or other editorial content.",
+      "path": "eufemia-portal-content/SKILL.md",
+      "requiredTools": []
     }
   ]
 }
