@@ -42,7 +42,9 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-          fetch-depth: 2
+          # The portal footer falls back to the latest reachable stable tag
+          # when a portal-only deployment does not produce an npm version.
+          fetch-depth: 0
 
       - name: Setup dependencies
         uses: ./.github/actions/setup

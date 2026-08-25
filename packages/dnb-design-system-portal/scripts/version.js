@@ -5,6 +5,7 @@
 
 const fs = require('fs-extra')
 const path = require('path')
+const { execFile } = require('child_process')
 const { isCI } = require('repo-utils')
 const {
   getNextReleaseVersion,
@@ -24,6 +25,11 @@ const init = async () => {
 }
 
 exports.init = init
+
+const resolveReleaseVersion = (nextVersion, latestTag) =>
+  nextVersion || latestTag?.replace(/^v(?=\d)/, '') || 'Not released'
+
+exports.resolveReleaseVersion = resolveReleaseVersion
 
 // run only if the script was executed from command line
 if (
@@ -55,7 +61,9 @@ async function createReleaseNewVersion() {
   try {
     const file = path.resolve(__dirname, '../package.json')
     const packageJson = await fs.readJson(file)
-    const version = (await getNextReleaseVersion()) || 'Not released'
+    const nextVersion = await getNextReleaseVersion()
+    const latestTag = nextVersion ? null : await getLatestReleaseTag()
+    const version = resolveReleaseVersion(nextVersion, latestTag)
     packageJson.releaseVersion = version
 
     // Update the extracted version of package.json with the build version
@@ -65,6 +73,27 @@ async function createReleaseNewVersion() {
   } catch (e) {
     console.warn(`Failed to create new release version! \n${e.message}`)
   }
+}
+
+async function getLatestReleaseTag() {
+  const repoRoot = path.resolve(__dirname, '../../..')
+  const tags = await new Promise((resolve, reject) => {
+    execFile(
+      'git',
+      ['tag', '--merged', 'HEAD', '--sort=-version:refname'],
+      { cwd: repoRoot },
+      (error, stdout) => {
+        if (error) {
+          reject(error)
+          return
+        }
+
+        resolve(stdout)
+      }
+    )
+  })
+
+  return tags.split('\n').find((tag) => /^v\d+\.\d+\.\d+$/.test(tag))
 }
 
 async function createNewChangelogVersion() {
