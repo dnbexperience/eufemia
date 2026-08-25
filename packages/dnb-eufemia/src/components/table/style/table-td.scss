@@ -233,12 +233,12 @@
           &:first-child,
           &:first-child::before,
           &:first-child::after {
-            border-top-left-radius: var(--table-outline-radius);
+            border-top-left-radius: var(--table-outline-radius-top);
           }
           &:last-child,
           &:last-child::before,
           &:last-child::after {
-            border-top-right-radius: var(--table-outline-radius);
+            border-top-right-radius: var(--table-outline-radius-top);
           }
         }
       }
