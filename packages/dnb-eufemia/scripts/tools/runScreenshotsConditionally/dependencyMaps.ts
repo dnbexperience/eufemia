@@ -1,7 +1,5 @@
-import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
-import { log } from '../../lib'
 import {
   SCSS_IMPORT_PATTERN,
   SCSS_REVERSE_DEPENDENCY_EXCLUDED_SOURCES,
@@ -23,39 +21,6 @@ export function buildDependencyMap(
   }
 
   return dependencyMap
-}
-
-export function loadDependencyMap(
-  context: RunnerContext
-): Map<string, string[]> {
-  try {
-    const output = execFileSync(
-      'yarn',
-      [
-        'exec',
-        'depcruise',
-        '-c',
-        '.dependency-cruiser.js',
-        '--output-type',
-        'json',
-        'src',
-      ],
-      {
-        cwd: context.packageRoot,
-        encoding: 'utf8',
-        maxBuffer: 100 * 1024 * 1024,
-      }
-    )
-
-    const report = JSON.parse(output)
-    return buildDependencyMap(report.modules || [])
-  } catch (error) {
-    const details = error instanceof Error ? error.message : String(error)
-    log.warn(
-      `Warning: Could not build dependency map. Falling back to direct file matching. ${details}`
-    )
-    return new Map<string, string[]>()
-  }
 }
 
 export function expandReverseDependencies(

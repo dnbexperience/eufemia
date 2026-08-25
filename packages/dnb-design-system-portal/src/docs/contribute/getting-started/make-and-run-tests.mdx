@@ -131,6 +131,8 @@ Selection includes:
 
 Global impact still runs all screenshot tests when shared visual config/style paths are changed (for example `packages/dnb-eufemia/package.json`, `src/style/*` or it runs on the `main` branch).
 
+Reverse-dependency selection resolves imports by TypeScript symbol, so an import through a re-export barrel (for example `src/components/index.ts`) is attributed to the module that actually defines the symbol. Pure re-export barrels are therefore transparent, and type-only imports are ignored because they cannot change rendered output.
+
 You can run the same logic locally:
 
 ```bash
