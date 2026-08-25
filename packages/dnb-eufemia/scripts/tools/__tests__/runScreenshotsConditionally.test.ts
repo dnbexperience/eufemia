@@ -1,3 +1,5 @@
+import { existsSync } from 'node:fs'
+import path from 'node:path'
 import {
   buildDependencyMap,
   buildScssDependencyMap,
@@ -8,6 +10,8 @@ import {
   isGlobalVisualImpact,
   toPackageRelativePath,
 } from '../runScreenshotsConditionally/selection'
+import { createContext } from '../runScreenshotsConditionally/context'
+import { TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS } from '../runScreenshotsConditionally/config'
 import type { SelectionInput } from '../runScreenshotsConditionally/types'
 
 describe('runScreenshotsConditionally', () => {
@@ -335,5 +339,18 @@ describe('expandReverseDependencies', () => {
 
     expect(affected.has('src/components/index.ts')).toBe(true)
     expect(affected.has('src/components/tag/Tag.tsx')).toBe(false)
+  })
+})
+
+describe('TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS', () => {
+  it('lists only barrel files that exist (guards against stale paths)', () => {
+    const { packageRoot } = createContext()
+    const missing = Array.from(TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS).filter(
+      (relativePath) => {
+        return !existsSync(path.join(packageRoot, relativePath))
+      }
+    )
+
+    expect(missing).toEqual([])
   })
 })

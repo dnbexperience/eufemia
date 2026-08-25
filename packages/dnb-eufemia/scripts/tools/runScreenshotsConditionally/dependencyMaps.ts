@@ -75,8 +75,9 @@ export function expandReverseDependencies(
 
     visited.add(currentFile)
 
-    // Do not fan out through barrel/entry aggregates: they re-export the whole
-    // library, so their dependents are unrelated consumers of other members.
+    // Do not fan out through barrel/entry aggregates: they re-export a whole
+    // library or extension surface, so their dependents are unrelated consumers
+    // of other members.
     if (excludedHubFiles.has(currentFile)) {
       continue
     }
