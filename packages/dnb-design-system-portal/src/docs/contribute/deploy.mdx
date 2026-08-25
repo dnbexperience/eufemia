@@ -25,8 +25,7 @@ The steps, from code changes to production builds, are:
    and releases a new NPM version when the included commits require one.
 
 The production Portal is always built from `origin/release`, which is the single
-source of truth for the currently deployed Portal and package version. The
-legacy `origin/portal` branch is not a deployment source.
+source of truth for the currently deployed Portal and package version.
 
 Changes whose commits do not trigger semantic-release, such as `docs` and
 `chore`, can be promoted to `origin/release` for a Portal-only deployment. Use a
