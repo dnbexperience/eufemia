@@ -10,7 +10,6 @@ on:
       - '!experiments/**'
   pull_request:
     branches:
-      - 'portal'
       - 'release'
       - 'beta'
       - 'alpha'
