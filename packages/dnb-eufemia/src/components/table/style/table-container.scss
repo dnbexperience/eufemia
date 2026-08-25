@@ -17,7 +17,9 @@
 
   &,
   &::after {
-    border-radius: var(--table-outline-radius);
+    border-radius: var(--table-outline-radius-top)
+      var(--table-outline-radius-top) var(--table-outline-radius)
+      var(--table-outline-radius);
   }
 
   &,
