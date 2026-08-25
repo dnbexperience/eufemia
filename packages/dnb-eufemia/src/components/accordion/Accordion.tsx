@@ -93,7 +93,7 @@ export type AccordionProps = Omit<
      */
     keepInDOM?: boolean
     /**
-     * If set to `true` the collapsed content stays in the DOM and remains findable by the browser's find-in-page feature, using `hidden="until-found"`. When matching content is found, the accordion expands. Defaults to `false`.
+     * If set to `true` the collapsed content stays in the DOM and remains findable by the browser's find-in-page feature, using `hidden="until-found"`. When matching content is found, the accordion expands. In browsers without `hidden="until-found"` support, the collapsed content may remain visible. Defaults to `false`.
      */
     openOnFind?: boolean
     /**
