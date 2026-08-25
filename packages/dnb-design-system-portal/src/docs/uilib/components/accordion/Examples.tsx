@@ -350,3 +350,15 @@ export const AccordionTertiarySplitExample = () => (
     </Accordion.Content>
   </ComponentBox>
 )
+
+export const AccordionOpenOnFindExample = () => (
+  <ComponentBox>
+    <Accordion
+      openOnFind
+      id="accordion-open-on-find"
+      title="Accordion with findable content"
+    >
+      <P>Findable banking content</P>
+    </Accordion>
+  </ComponentBox>
+)

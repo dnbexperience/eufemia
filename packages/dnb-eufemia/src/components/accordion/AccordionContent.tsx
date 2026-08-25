@@ -128,6 +128,9 @@ function AccordionContentComponent(props: AccordionContentProps) {
     id,
     expanded,
     keepInDOM,
+    openOnFind,
+    group,
+    callOnChange,
     preventRerender,
     singleContainer,
     disabled,
@@ -260,12 +263,25 @@ function AccordionContentComponent(props: AccordionContentProps) {
 
   const animate = !noAnimation && (singleContainer ? isSmallScreen : true)
 
+  const handleBeforeMatch = (event: Event) => {
+    if (!expanded) {
+      callOnChange?.({
+        id,
+        group,
+        expanded: true,
+        event,
+      })
+    }
+  }
+
   return (
     <HeightAnimation
       {...wrapperParams}
       open={expanded}
       animate={animate}
       keepInDOM={keepInDOMContent}
+      openOnFind={openOnFind}
+      onBeforeMatch={openOnFind ? handleBeforeMatch : undefined}
       ref={elementRef}
     >
       <section {...innerParams}>{content}</section>

@@ -17,7 +17,7 @@ export type AccordionContextValue = AccordionProps &
       id: string
       group: string
       expanded: boolean
-      event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
+      event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement> | Event
     }) => void
   }
 
