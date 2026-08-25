@@ -474,7 +474,7 @@ export const WithError = () => (
 )
 
 export const WithManySelectedItems = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="multi-selection-many-selected-items">
     {() => {
       const items = Array.from({ length: 30 }, (_, i) => ({
         value: `item${i + 1}`,

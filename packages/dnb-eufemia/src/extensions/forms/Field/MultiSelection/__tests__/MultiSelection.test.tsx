@@ -405,7 +405,7 @@ describe('MultiSelection', () => {
       )
     })
 
-    it('renders Hr separators between popover sections', async () => {
+    it('does not render Hr separators between popover sections', async () => {
       const data = [{ value: 'option1', title: 'Option 1' }]
 
       render(
@@ -421,10 +421,16 @@ describe('MultiSelection', () => {
 
       await waitFor(
         () => {
-          expect(document.querySelectorAll('.dnb-hr')).toHaveLength(3)
+          expect(
+            document.querySelector(
+              '.dnb-forms-field-multi-selection__popover-content'
+            )
+          ).toBeInTheDocument()
         },
         { timeout: 3000 }
       )
+
+      expect(document.querySelectorAll('.dnb-hr')).toHaveLength(0)
     })
 
     it('does not update trigger count until confirm button is clicked', async () => {
@@ -864,6 +870,53 @@ describe('MultiSelection', () => {
   })
 
   describe('showSearchField', () => {
+    it('renders selected items before search without separators', async () => {
+      const data = Array.from({ length: 11 }, (_, index) => ({
+        value: `option${index + 1}`,
+        title: `Option ${index + 1}`,
+      }))
+
+      render(
+        <Field.MultiSelection
+          data={data}
+          value={['option1']}
+          showSearchField
+          showSelectedTags
+        />
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(
+        () => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-field-multi-selection__selected-items-header'
+            )
+          ).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
+
+      const popoverContent = document.querySelector(
+        '.dnb-forms-field-multi-selection__popover-content'
+      ) as HTMLElement
+      const sections = Array.from(popoverContent.children)
+
+      expect(sections[0]).toHaveClass(
+        'dnb-forms-field-multi-selection__selected-items-header'
+      )
+      expect(sections[1]).toHaveClass(
+        'dnb-forms-field-multi-selection__selected-items'
+      )
+      expect(sections[2]).toHaveClass(
+        'dnb-forms-field-multi-selection__search'
+      )
+      expect(sections[3]).toHaveClass(
+        'dnb-forms-field-multi-selection__items'
+      )
+    })
+
     it('renders the search input as type="search"', async () => {
       const data = [
         { value: 'option1', title: 'Option 1' },
