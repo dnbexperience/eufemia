@@ -40,8 +40,6 @@ export const BASE_REF_ENV_VAR = 'VISUAL_TEST_BASE_REF'
 export const DEFAULT_BRANCH_BASE_REFS = [
   'origin/main',
   'main',
-  'origin/portal',
-  'portal',
 ]
 
 // Adds support for release branches like v1, v2, etc. as potential bases.
