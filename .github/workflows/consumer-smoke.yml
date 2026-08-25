@@ -1,0 +1,65 @@
+name: Consumer smoke tests
+
+# Build @dnb/eufemia, then production-build minimal Vite and Next.js consumers
+# against the packed tarball to catch broken exports, types or CSS imports before
+# a release reaches consumers. Needs no secrets, so it runs with least privilege.
+
+on:
+  # No `paths:` filter: this gate protects the publishable build, whose inputs
+  # span the whole repo (root package.json/yarn.lock, .github/actions/setup and
+  # the tools/* packages used by build:ci), so a narrow filter would let a
+  # build-breaking change skip the check. Runs on every PR, like verify.yml.
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Build and smoke-test consumers
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      # Cache the consumers' npm downloads: run-smoke.mjs runs `npm ci` for each
+      # fixture, which would otherwise re-download react/next/vite every run.
+      - name: Cache consumer npm downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.npm
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-smoke-npm-${{ hashFiles('smoke/*/package-lock.json') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-smoke-npm-
+
+      # Full publishable build (also runs the package-content validation gate).
+      - name: Build library
+        run: yarn workspace @dnb/eufemia build:ci
+
+      # Pack the built library ONCE so both consumers install and test the exact
+      # same tarball (build once, pack once, test that artifact).
+      - name: Pack @dnb/eufemia tarball
+        id: pack
+        run: |
+          tarball=$(cd packages/dnb-eufemia/build && npm pack --pack-destination "$RUNNER_TEMP" 2>/dev/null | tail -1)
+          echo "tarball=$RUNNER_TEMP/$tarball" >> "$GITHUB_OUTPUT"
+
+      - name: Vite consumer smoke test
+        run: node smoke/run-smoke.mjs vite --tarball "${{ steps.pack.outputs.tarball }}"
+
+      - name: Next.js consumer smoke test
+        run: node smoke/run-smoke.mjs nextjs --tarball "${{ steps.pack.outputs.tarball }}"

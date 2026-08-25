@@ -104,3 +104,45 @@ Run the steps and prepare the git branches as above, but before you push to orig
 ## How to create a local package
 
 Run `yarn workspace @dnb/eufemia build:pack` and you should get this file: `/build/dnb-eufemia-v0.0.0-development`.
+
+## Release security
+
+The npm release of `@dnb/eufemia` is hardened against supply-chain attacks and accidental package regressions. This section documents the controls, the gates that must pass before a publish, and the ownership.
+
+### Ownership
+
+The release pipeline (`.github/workflows/release.yml`) and this process are owned by the Eufemia [maintainers](https://github.com/dnbexperience/eufemia/graphs/contributors). Changes to the release workflow, its permissions, or the npm publishing method must be reviewed by a maintainer.
+
+### Controls in place
+
+- **Provenance** — packages are published with npm provenance (`publishConfig.provenance: true` plus `id-token: write` on the release job), so each release has a verifiable, signed link back to the source commit and workflow.
+- **Least-privilege secrets** — `release.yml` has no job-wide `env:`; each secret is injected only into the step that needs it (Algolia config for the portal build and search push; the GitHub token only for the publish step). npm needs no stored publish secret at all — it authenticates with a short-lived OIDC token (see [Publishing method](#publishing-method)). Unused tokens are never exposed to the install, prebuild or build steps.
+- **Package-content validation** — before publishing, `yarn validate:package` runs `npm pack --dry-run` on the built package and fails the release if the tarball would contain files that must never ship (tests, stories, `.env`, `.npmrc`, `node_modules`, editor/OS junk), is missing a declared entry point (the `main`, `module`, `types` or `exports` targets from the built `package.json`) or an essential CSS bundle, or is suspiciously small or large. It runs from `publish:prepare`, so it also runs during `yarn workspace @dnb/eufemia build:pack`.
+- **Consumer smoke tests** — `.github/workflows/consumer-smoke.yml` packs the built library once and production-builds that exact tarball in minimal Vite and Next.js consumers (`smoke/`), asserting that exports (including the forms extension subpath), a subpath type import, peer dependencies, CSS imports and TypeScript types resolve and bundle. The Vite build also enforces a tree-shaking budget (the consumer bundle must stay smaller than the full library ESM, proving unused exports are dropped). The fixtures also import the `dnb-ui-components.min.css` bundle, so the Next.js (webpack) build guards against a regression of the out-of-package flag-SVG `url()` bug fixed in [#8952](https://github.com/dnbexperience/eufemia/pull/8952).
+- **Dependency audit** — `yarn workspace @dnb/eufemia audit:ci` runs as a release step and blocks a release on known high-severity vulnerabilities in the shipped dependency tree.
+- **Software Bill of Materials (SBOM)** — an SBOM is generated and attached per release.
+
+### Gates that must pass before publishing
+
+Releases are cut by merging into a protected release branch, so all pull-request checks in `.github/workflows/verify.yml` must be green first:
+
+- lint (`lint:ci`)
+- unit tests, including accessibility checks (axe) in the component suite (`test:ci`)
+- type checks (`test:types`)
+- dependency audit and lockfile checks (`audit:ci`, `yarn dedupe --check`)
+
+At release time, `release.yml` additionally enforces the dependency audit and the package-content validation before `semantic-release` publishes. Protect the release branches (`release`, `beta`, `alpha`, `next`, `*.x`) and require the `verify` checks so a publish cannot happen from an unchecked state.
+
+### Permissions and trigger
+
+The release job runs with `contents: write` (so `semantic-release` can push the changelog commit and version tag), `issues: write` and `pull-requests: write` (release comments), and `id-token: write` (OIDC publishing and provenance). Releases run only from the protected release branches on a clean CI checkout — never from a developer machine.
+
+### Build, validate and smoke-test
+
+The library is built once into `build/`, and `validate:package` inspects the exact contents `npm pack` would publish. In `consumer-smoke.yml` the build is then packed once and both the Vite and Next.js consumers install and build that same tarball. At release time, `@semantic-release/npm` is configured with `tarballDir`, so it packs the versioned tarball once and publishes that exact file (also attached to the GitHub release with provenance).
+
+The one remaining gap: `validate:package` and the smoke tests run on the pre-release build (version `0.0.0-development`), whose file contents are identical to the published tarball except for the stamped version — they do not yet run against the exact in-flight release tarball inside the `semantic-release` run. Closing that (a `semantic-release` prepare-time validation of the packed `dist/` tarball) is a tracked follow-up.
+
+### Publishing method
+
+Releases publish to npm using **Trusted Publishing** (OpenID Connect): the release workflow authenticates with a short-lived, GitHub-issued OIDC token instead of a long-lived `NPM_TOKEN`, and every package is published with provenance. There is no static publish secret to store, rotate or leak.

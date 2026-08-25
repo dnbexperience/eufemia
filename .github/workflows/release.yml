@@ -17,19 +17,12 @@ permissions:
   contents: write # Required for semantic-release to push tags and changelog
   issues: write # Required for semantic-release to comment on issues
   pull-requests: write # Required for semantic-release to comment on PRs
-  id-token: write # Required for npm provenance
+  id-token: write # Required for npm Trusted Publishing (OIDC) and provenance
 
-env:
-  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-  GH_NAME: ${{ secrets.GH_NAME }}
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
-  ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
-  ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
-  ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
-  ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+# No job-wide `env:` on purpose: secrets are scoped to the individual steps that
+# need them (least privilege), so install, prebuild and build never see the
+# publish or deploy credentials. FIGMA_* is not used by the release flow, so it
+# is intentionally not injected anywhere.
 
 jobs:
   action:
@@ -54,7 +47,10 @@ jobs:
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
+          # No `registry-url`: it makes actions/setup-node write an .npmrc with
+          # an empty NODE_AUTH_TOKEN, which conflicts with semantic-release's
+          # OIDC auth (EINVALIDNPMTOKEN). semantic-release publishes to the
+          # default public registry and handles Trusted Publishing itself.
 
       - name: Audit dependencies
         run: yarn workspace @dnb/eufemia audit:ci
@@ -65,6 +61,11 @@ jobs:
       - name: Build portal
         if: github.ref == 'refs/heads/release'
         run: yarn workspace dnb-design-system-portal build:ci
+        env:
+          # Public search config embedded into the client bundle at build time.
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
 
       - name: Push Algolia search index
         if: github.ref == 'refs/heads/release'
@@ -72,6 +73,7 @@ jobs:
         env:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
 
       - name: Upload portal artifact
         if: github.ref == 'refs/heads/release'
@@ -90,6 +92,15 @@ jobs:
           github.ref == 'refs/heads/next' ||
           endsWith(github.ref, '.x'))
         run: yarn workspace @dnb/eufemia publish:ci
+        env:
+          # semantic-release publishes to npm via Trusted Publishing (OIDC): it
+          # exchanges this workflow's id-token for a short-lived npm token, so no
+          # long-lived NPM_TOKEN is needed. Requires a Trusted Publisher for
+          # @dnb/eufemia configured on npmjs.com pointing at this workflow.
+          # GH_* are for the GitHub release and the changelog/tag commit push.
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # Capture the published version so the least-privilege SBOM job below can
       # target the matching GitHub Release and stamp the SBOM. Empty or the
@@ -154,9 +165,11 @@ jobs:
     permissions:
       contents: read
 
-    # This job runs untrusted third-party code (the CycloneDX generator). Blank
-    # every secret the workflow-level `env:` injects so none can reach it. Keep
-    # this list in sync with that `env:` block.
+    # This job runs untrusted third-party code (the CycloneDX generator).
+    # release.yml has no workflow-level `env:` (secrets are scoped per step — see
+    # the note at the top of this file), so no secrets reach this job today;
+    # these blanks are defense-in-depth in case a workflow-level `env:` is ever
+    # added, so the untrusted code still cannot read them.
     env:
       GH_EMAIL: ''
       GH_NAME: ''
@@ -336,6 +349,9 @@ jobs:
         if: needs.action.outputs.tarball != ''
         working-directory: packages/dnb-eufemia
         env:
+          # gh authenticates with the job's scoped contents:write GITHUB_TOKEN;
+          # release.yml has no job-wide env to inherit a token from.
+          GH_TOKEN: ${{ github.token }}
           RELEASED_VERSION: ${{ needs.action.outputs.released }}
           PACKED_TARBALL: ${{ needs.action.outputs.tarball }}
         run: |
