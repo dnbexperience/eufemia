@@ -243,7 +243,7 @@ After publication:
 
 1. Install the plugin in a clean RAIWork profile.
 2. Enable the `eufemia` MCP server during consent.
-3. Confirm all five skills are discoverable.
+3. Confirm all six skills are discoverable.
 4. Confirm the MCP tools can be listed and called.
 5. Run the canonical trigger and non-trigger prompts from
    `packages/dnb-eufemia/agent-skills-evals/trigger-cases.json`.

@@ -42,6 +42,10 @@
     "eufemia-migrate": {
       "title": "Migrate Eufemia",
       "tags": ["eufemia", "migration", "upgrade", "codemods"]
+    },
+    "eufemia-portal-content": {
+      "title": "Edit Eufemia Portal Content",
+      "tags": ["eufemia", "documentation", "content", "github"]
     }
   }
 }

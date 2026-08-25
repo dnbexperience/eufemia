@@ -5,13 +5,14 @@ frontends.
 
 ## Included skills
 
-| Skill                   | Use it for                                                                |
-| ----------------------- | ------------------------------------------------------------------------- |
-| `eufemia-components`    | Find components and verify current props, events, forms, and layout APIs. |
-| `eufemia-compose`       | Compose complete pages and features from Eufemia primitives and guidance. |
-| `eufemia-accessibility` | Apply Eufemia-specific accessibility guidance and verification.           |
-| `eufemia-review`        | Review code against supported APIs, deprecations, and documented rules.   |
-| `eufemia-migrate`       | Plan and validate Eufemia upgrades using current release documentation.   |
+| Skill                    | Use it for                                                                |
+| ------------------------ | ------------------------------------------------------------------------- |
+| `eufemia-components`     | Find components and verify current props, events, forms, and layout APIs. |
+| `eufemia-compose`        | Compose complete pages and features from Eufemia primitives and guidance. |
+| `eufemia-accessibility`  | Apply Eufemia-specific accessibility guidance and verification.           |
+| `eufemia-review`         | Review code against supported APIs, deprecations, and documented rules.   |
+| `eufemia-migrate`        | Plan and validate Eufemia upgrades using current release documentation.   |
+| `eufemia-portal-content` | Edit Portal content and create small pull requests with page previews.    |
 
 ## Enable the MCP server
 

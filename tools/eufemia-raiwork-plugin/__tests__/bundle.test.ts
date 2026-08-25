@@ -32,8 +32,8 @@ describe('Eufemia RAIWork plugin', () => {
 
     expect(report).toMatchObject({
       bundleRoot: paths.outputRoot,
-      fileCount: 9,
-      skillCount: 5,
+      fileCount: 10,
+      skillCount: 6,
     })
     expect(report.totalBytes).toBeLessThan(50 * 1024 * 1024)
 
@@ -61,7 +61,7 @@ describe('Eufemia RAIWork plugin', () => {
         scripts: [],
       },
     })
-    expect(manifest.contents.skills).toHaveLength(5)
+    expect(manifest.contents.skills).toHaveLength(6)
   })
 
   it('changes only skill frontmatter', async () => {
