@@ -47,6 +47,7 @@ const UploadFileButton = (props: UploadFileButtonProps) => {
       size="small"
       icon={false}
       variant="tertiary"
+      wrap
       onClick={onClick}
       {...useSpacing(props, {})}
     >
