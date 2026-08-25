@@ -184,6 +184,23 @@ Before the first marketplace release:
 The marketplace currently uses folder upload rather than repository-driven
 publishing.
 
+### GitHub Actions
+
+Use **Actions → Prepare RAIWork plugin release → Run workflow** on `main` to
+create a reviewed release artifact. Enter the version already committed in
+`plugin.config.json`, without a leading `v`. The workflow verifies that the
+versions match, runs the plugin's lint, type, unit, bundle, and hosted MCP
+checks, and records the source commit and per-file SHA-256 checksums.
+
+Download the `dnb-eufemia-web-<version>` workflow artifact and select its
+`dnb-eufemia-web` folder in the RAIWork upload dialog. Keep the first upload
+private until its scans and the post-release checks pass.
+
+The upload itself remains an explicit promotion step. Marketplace ownership is
+bound to the uploader's Entra identity, and the current CLI does not support a
+team-owned workload identity for unattended publishing. Do not store a personal
+RAIWork refresh token in GitHub Actions.
+
 ### RAIWork UI
 
 1. Open **Marketplace → My Uploads → Upload**.

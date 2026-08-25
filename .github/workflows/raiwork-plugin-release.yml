@@ -1,0 +1,131 @@
+name: Prepare RAIWork plugin release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version already set in plugin.config.json, without a leading v
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: raiwork-plugin-release
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Validate and package v${{ inputs.version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Require the main branch
+        env:
+          RELEASE_REF: ${{ github.ref }}
+        run: |
+          if [ "$RELEASE_REF" != "refs/heads/main" ]; then
+            echo "::error::Run this workflow from the main branch."
+            exit 1
+          fi
+
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Verify requested version
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          node <<'NODE'
+          const { readFileSync } = require('node:fs')
+
+          const requestedVersion = process.env.RELEASE_VERSION
+          const semver = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/
+          const config = JSON.parse(
+            readFileSync(
+              'tools/eufemia-raiwork-plugin/plugin.config.json',
+              'utf8'
+            )
+          )
+
+          if (!semver.test(requestedVersion)) {
+            throw new Error(
+              `Release version must be valid semantic versioning without a leading v: ${requestedVersion}`
+            )
+          }
+
+          if (config.plugin.version !== requestedVersion) {
+            throw new Error(
+              `Requested version ${requestedVersion} does not match plugin.config.json version ${config.plugin.version}`
+            )
+          }
+          NODE
+
+      - name: Run plugin checks
+        run: |
+          yarn workspace eufemia-raiwork-plugin lint
+          yarn workspace eufemia-raiwork-plugin test:types
+          yarn workspace eufemia-raiwork-plugin test
+          yarn workspace eufemia-raiwork-plugin release:check
+
+      - name: Stage release artifact
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          bundle_root=tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web
+          release_root=raiwork-plugin-release
+
+          mkdir -p "$release_root"
+          cp -R "$bundle_root" "$release_root/"
+
+          (
+            cd "$release_root"
+            find dnb-eufemia-web -type f -print0 \
+              | sort -z \
+              | xargs -0 sha256sum > SHA256SUMS
+          )
+
+          jq -n \
+            --arg plugin "dnb-eufemia-web" \
+            --arg version "$RELEASE_VERSION" \
+            --arg repository "$GITHUB_REPOSITORY" \
+            --arg commit "$GITHUB_SHA" \
+            --arg generatedAt "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+            '{
+              plugin: $plugin,
+              version: $version,
+              source_repository: $repository,
+              source_commit: $commit,
+              generated_at: $generatedAt
+            }' > "$release_root/RELEASE.json"
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: dnb-eufemia-web-${{ inputs.version }}
+          path: raiwork-plugin-release
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Write release summary
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          {
+            echo "## Eufemia Web v${RELEASE_VERSION}"
+            echo
+            echo "Validated source commit: \`${GITHUB_SHA}\`"
+            echo
+            echo "Download artifact \`dnb-eufemia-web-${RELEASE_VERSION}\`, then upload its \`dnb-eufemia-web\` folder privately in RAIWork. After scans and clean-profile checks pass, make that version public."
+          } >> "$GITHUB_STEP_SUMMARY"
