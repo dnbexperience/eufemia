@@ -9,12 +9,10 @@ on:
       - '!wip/**'
       - '!experiments/**'
       - '!release'
-      - '!portal'
       - '!beta'
       - '!alpha'
   pull_request:
     branches:
-      - 'portal'
       - 'release'
       - 'beta'
       - 'alpha'

@@ -21,7 +21,6 @@ on:
       - '!experiments/**'
       - '!dependabot/**'
       - '!release'
-      - '!portal'
       - '!beta'
       - '!alpha'
   pull_request:

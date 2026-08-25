@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'release'
-      - 'portal'
       - 'beta'
       - 'alpha'
       - 'next'
@@ -43,7 +42,9 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-          fetch-depth: 2
+          # The portal footer falls back to the latest reachable stable tag
+          # when a portal-only deployment does not produce an npm version.
+          fetch-depth: 0
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -58,21 +59,18 @@ jobs:
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Build portal
-        if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/portal')
+        if: github.ref == 'refs/heads/release'
         run: yarn workspace dnb-design-system-portal build:ci
 
       - name: Push Algolia search index
-        if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/portal')
+        if: github.ref == 'refs/heads/release'
         run: yarn workspace dnb-design-system-portal build:algolia
         env:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
 
       - name: Upload portal artifact
-        if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/portal')
+        if: github.ref == 'refs/heads/release'
         uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
         with:
           path: ./packages/dnb-design-system-portal/public
@@ -92,8 +90,7 @@ jobs:
   deploy-portal:
     name: Deploy portal to GitHub Pages
     needs: action
-    if: (github.ref == 'refs/heads/release' ||
-      github.ref == 'refs/heads/portal')
+    if: github.ref == 'refs/heads/release'
 
     runs-on: ubuntu-latest
 
