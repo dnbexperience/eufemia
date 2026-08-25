@@ -46,8 +46,26 @@ jobs:
           VITE_GITHUB_EDIT_REF: ${{ github.event.pull_request.head.ref }}
           VITE_GITHUB_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
+      # Cloudflare credentials are not exposed to Dependabot-triggered runs or
+      # forked PRs. Detect their absence and skip the deploy instead of failing,
+      # so those PRs still go green. Only the presence of the token is checked,
+      # never its value.
+      - name: Skip if Cloudflare credentials are missing
+        id: gate
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] || [ -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]; then
+            echo "Cloudflare credentials are not set; skipping deploy."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Deploy to Cloudflare Pages (branch preview)
         id: pages_deploy
+        if: steps.gate.outputs.skip != 'true'
         run: |
           set -euo pipefail
 
@@ -71,7 +89,7 @@ jobs:
           BRANCH: ${{ github.head_ref || github.ref_name }}
 
       - name: Post or update preview comment
-        if: success() && github.event.pull_request
+        if: success() && steps.gate.outputs.skip != 'true' && github.event.pull_request
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           ALIAS_URL: ${{ steps.pages_deploy.outputs.alias_url }}
