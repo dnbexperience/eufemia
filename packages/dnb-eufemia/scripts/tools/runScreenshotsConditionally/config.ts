@@ -66,25 +66,6 @@ export const SCSS_REVERSE_DEPENDENCY_EXCLUDED_SOURCES = new Set([
   'src/style/dnb-ui-components.scss',
 ])
 
-// Barrel/entry aggregates re-export a whole library/extension surface, so
-// following their dependents would fan out a single component change to nearly
-// every consumer of the barrel. Stop the TS/JS reverse-dependency walk at these
-// aggregate hubs (they own no screenshot test themselves). Per-feature barrels
-// (e.g. forms/hooks/index.ts, forms/FieldBlock/index.ts) are intentionally kept
-// so genuine shared-infra changes still propagate. Mirrors
-// SCSS_REVERSE_DEPENDENCY_EXCLUDED_SOURCES.
-export const TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS = new Set([
-  'src/index.ts',
-  'src/lib.ts',
-  'src/components/index.ts',
-  'src/components/lib.ts',
-  'src/extensions/index.ts',
-  'src/extensions/lib.ts',
-  'src/extensions/forms/index.ts',
-  'src/extensions/payment-card/index.ts',
-  'src/extensions/vipps-wallet-button/index.ts',
-])
-
 // Defines repo root for package-relative path normalization.
 export const PACKAGE_PREFIX = 'packages/dnb-eufemia/'
 

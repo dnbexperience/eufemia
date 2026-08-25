@@ -1,17 +1,12 @@
-import { existsSync } from 'node:fs'
-import path from 'node:path'
 import {
   buildDependencyMap,
   buildScssDependencyMap,
-  expandReverseDependencies,
 } from '../runScreenshotsConditionally/dependencyMaps'
 import {
   analyzeSelection,
   isGlobalVisualImpact,
   toPackageRelativePath,
 } from '../runScreenshotsConditionally/selection'
-import { createContext } from '../runScreenshotsConditionally/context'
-import { TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS } from '../runScreenshotsConditionally/config'
 import type { SelectionInput } from '../runScreenshotsConditionally/types'
 
 describe('runScreenshotsConditionally', () => {
@@ -206,32 +201,6 @@ describe('runScreenshotsConditionally', () => {
     ])
   })
 
-  it('does not expand ts impact through aggregate barrel entrypoints', () => {
-    const dependencyMap = buildDependencyMap([
-      {
-        source: 'src/components/button/Button.tsx',
-        dependents: ['src/components/index.ts'],
-      },
-      {
-        source: 'src/components/index.ts',
-        dependents: ['src/components/tag/__tests__/Tag.test.tsx'],
-      },
-    ])
-
-    const selection = select({
-      changedRepoFiles: [
-        'packages/dnb-eufemia/src/components/button/Button.tsx',
-      ],
-      dependencyMap,
-      impactedThreshold: 1,
-    })
-
-    expect(selection.mode).toBe('partial')
-    expect(selection.tests).toEqual([
-      'src/components/button/__tests__/Button.screenshot.test.ts',
-    ])
-  })
-
   it('includes tests impacted by composition usage in demos', () => {
     const selection = select({
       changedRepoFiles: [
@@ -302,55 +271,5 @@ describe('path helpers', () => {
         'src/core/test-utils/testSetup.ts'
       )
     ).toBe(false)
-  })
-})
-
-describe('expandReverseDependencies', () => {
-  const dependencyMap = buildDependencyMap([
-    {
-      source: 'src/components/button/Button.tsx',
-      dependents: ['src/components/index.ts'],
-    },
-    {
-      source: 'src/components/index.ts',
-      dependents: ['src/components/tag/Tag.tsx'],
-    },
-    {
-      source: 'src/components/tag/Tag.tsx',
-      dependents: [],
-    },
-  ])
-
-  it('walks through re-export nodes when no hubs are excluded', () => {
-    const affected = expandReverseDependencies(
-      ['src/components/button/Button.tsx'],
-      dependencyMap
-    )
-
-    expect(affected.has('src/components/tag/Tag.tsx')).toBe(true)
-  })
-
-  it('stops the walk at excluded aggregate hubs', () => {
-    const affected = expandReverseDependencies(
-      ['src/components/button/Button.tsx'],
-      dependencyMap,
-      new Set(['src/components/index.ts'])
-    )
-
-    expect(affected.has('src/components/index.ts')).toBe(true)
-    expect(affected.has('src/components/tag/Tag.tsx')).toBe(false)
-  })
-})
-
-describe('TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS', () => {
-  it('lists only barrel files that exist (guards against stale paths)', () => {
-    const { packageRoot } = createContext()
-    const missing = Array.from(TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS).filter(
-      (relativePath) => {
-        return !existsSync(path.join(packageRoot, relativePath))
-      }
-    )
-
-    expect(missing).toEqual([])
   })
 })

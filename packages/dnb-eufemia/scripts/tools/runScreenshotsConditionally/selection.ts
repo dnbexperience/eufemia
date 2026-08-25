@@ -6,7 +6,6 @@ import {
   NON_VISUAL_SOURCE_FILES,
   NON_VISUAL_SOURCE_PATH_PREFIXES,
   PACKAGE_PREFIX,
-  TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS,
 } from './config'
 import { normalizePath } from './context'
 import { expandReverseDependencies } from './dependencyMaps'
@@ -336,8 +335,7 @@ export function analyzeSelection({
 
   const affectedTsFiles = expandReverseDependencies(
     sourceChanges,
-    dependencyMap,
-    TS_REVERSE_DEPENDENCY_EXCLUDED_HUBS
+    dependencyMap
   )
 
   const scssSourceChanges = sourceChanges.filter((packagePath) => {
