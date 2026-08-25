@@ -84,7 +84,7 @@ function getIndexName() {
     return 'beta_eufemia_docs'
   }
 
-  if (process.env.CI && /^(release|portal)$/.test(branch)) {
+  if (process.env.CI && branch === 'release') {
     return 'prod_eufemia_docs'
   }
 
