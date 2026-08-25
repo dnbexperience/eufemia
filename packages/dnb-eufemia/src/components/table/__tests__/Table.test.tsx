@@ -295,6 +295,9 @@ describe('Table scss', () => {
     expect(css).toContain(
       '.dnb-card .dnb-table, .dnb-card .dnb-table__container {\n  --table-outline-radius: var(--rounded-corner, var(--token-radius-md));\n  --table-outline-radius-top: 0;'
     )
+    expect(css).toContain(
+      '.dnb-card--filled .dnb-table__scroll-view {\n  clip-path: inset(0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner));'
+    )
   })
 
   it('should match style dependencies css', () => {

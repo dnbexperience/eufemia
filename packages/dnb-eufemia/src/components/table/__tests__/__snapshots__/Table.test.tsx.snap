@@ -102,6 +102,9 @@ exports[`Table scss > should match style dependencies css 1`] = `
   --table-outline-radius: var(--rounded-corner, var(--token-radius-md));
   --table-outline-radius-top: 0;
 }
+.dnb-card--filled .dnb-table__scroll-view {
+  clip-path: inset(0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner));
+}
 .dnb-spacing .dnb-table p,
 .dnb-spacing .dnb-table ul,
 .dnb-spacing .dnb-table ol,

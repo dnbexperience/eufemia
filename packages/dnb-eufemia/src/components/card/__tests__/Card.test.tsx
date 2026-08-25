@@ -41,14 +41,6 @@ describe('Card', () => {
     )
   })
 
-  it('should not clip Table ScrollView top corners', () => {
-    const css = loadScss(require.resolve('../style/dnb-card.scss'))
-
-    expect(css).toContain(
-      '.dnb-card--filled .dnb-table__scroll-view {\n  clip-path: inset(0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner));'
-    )
-  })
-
   it('should forward HTML attributes', () => {
     render(
       <Card aria-label="Aria Label">

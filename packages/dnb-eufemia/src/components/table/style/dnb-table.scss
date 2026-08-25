@@ -118,6 +118,12 @@
     --table-outline-radius-top: 0;
   }
 
+  .dnb-card--filled &__scroll-view {
+    clip-path: inset(
+      0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner)
+    );
+  }
+
   // Reset Table spacing
   .dnb-spacing & {
     p,

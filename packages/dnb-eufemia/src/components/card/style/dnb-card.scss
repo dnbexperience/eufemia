@@ -128,12 +128,6 @@
     );
   }
 
-  &--filled .dnb-table__scroll-view {
-    clip-path: inset(
-      0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner)
-    );
-  }
-
   & > .dnb-flex-container {
     > .dnb-space:has(> .dnb-scroll-view),
     > .dnb-scroll-view {
