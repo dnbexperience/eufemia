@@ -14,11 +14,11 @@
     },
     {
       "id": 2,
-      "prompt": "This Eufemia portal correction is urgent and must be live tomorrow. Put every current main change into the old portal branch so we can deploy it immediately.",
-      "expected_output": "A safe portal-only promotion that keeps authoring on main, uses release as the production source, carries over only the approved content, verifies that npm will not be released, and refuses the legacy portal branch and unrelated main changes.",
+      "prompt": "This Eufemia portal correction is urgent and must be live tomorrow. Put every current main change into the production branch so we can deploy it immediately.",
+      "expected_output": "A safe portal-only promotion that keeps authoring on main, uses release as the production source, carries over only the approved content, verifies that npm will not be released, and excludes unrelated main changes.",
       "assertions": [
         "The response records the desired deadline and asks for a short reason for the urgency",
-        "The response does not target or deploy from the legacy portal branch",
+        "The response uses release as the production deployment source",
         "The release pull request contains only approved content compatible with the currently released portal",
         "The response verifies semantic-release behavior and requires explicit permission before merging"
       ]

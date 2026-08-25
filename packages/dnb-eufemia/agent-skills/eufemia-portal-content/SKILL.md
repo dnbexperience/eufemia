@@ -23,8 +23,7 @@ commands, files, or validation steps.
    can evaluate.
 3. Fetch current refs and create the content branch from `origin/main`. `main`
    is the source for new work; `release` is the exact source deployed to the
-   production portal. Do not base new work on or target the legacy `portal`
-   branch.
+   production portal.
 4. Keep one independently understandable content outcome per pull request.
    Split changes that cover different topics, audiences, navigation areas, or
    reviewer decisions. Keep tightly coupled edits together when separating them
