@@ -16,10 +16,11 @@ commands, files, or validation steps.
 1. Read the repository instructions and inspect the current page and nearby
    content before proposing an edit. Verify technical claims against the source
    or current Eufemia documentation.
-2. Before changing files, ask how important and time-sensitive the change is:
-   can it wait for the next regular portal deployment, or does it need a
-   portal-only deployment? For an urgent change, also ask for the desired
-   deadline and a short reason that maintainers can evaluate.
+2. Before changing files, ask two plain-language questions: whether the change
+   should appear in the next release notes, and whether it can wait for the next
+   regular portal deployment or needs a portal-only deployment. For an urgent
+   change, also ask for the desired deadline and a short reason that maintainers
+   can evaluate.
 3. Fetch current refs and create the content branch from `origin/main`. `main`
    is the source for new work; `release` is the exact source deployed to the
    production portal. Do not base new work on or target the legacy `portal`
