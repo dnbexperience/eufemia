@@ -170,6 +170,119 @@ describe('Accordion component', () => {
   })
 })
 
+describe('Accordion openOnFind', () => {
+  it('should not render closed content when "openOnFind" is not set', () => {
+    render(
+      <Accordion {...props}>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    expect(
+      document.querySelector('.dnb-accordion__content')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should keep closed content findable with "hidden=until-found"', () => {
+    render(
+      <Accordion {...props} openOnFind>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const content = document.querySelector('.dnb-accordion__content')
+
+    expect(content).toBeInTheDocument()
+    expect(document.querySelector('.content')).toBeInTheDocument()
+    expect(content).toHaveAttribute('hidden', 'until-found')
+  })
+
+  it('should expand when the "beforematch" event is dispatched', () => {
+    render(
+      <Accordion {...props} openOnFind>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const header = document.querySelector('.dnb-accordion__header')
+    const content = document.querySelector('.dnb-accordion__content')
+
+    expect(header).toHaveAttribute('aria-expanded', 'false')
+    expect(content).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(header).toHaveAttribute('aria-expanded', 'true')
+    expect(content).not.toHaveAttribute('hidden')
+  })
+
+  it('should call "onChange" with expanded true when "beforematch" fires', () => {
+    const onChange = vi.fn()
+    render(
+      <Accordion {...props} openOnFind onChange={onChange}>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const content = document.querySelector('.dnb-accordion__content')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ expanded: true })
+    )
+
+    const { event } = onChange.mock.calls[0][0]
+    expect(event).toBeInstanceOf(Event)
+    expect(event.type).toBe('beforematch')
+  })
+
+  it('should not trigger a change on "beforematch" when already expanded', () => {
+    const onChange = vi.fn()
+    render(
+      <Accordion {...props} openOnFind expanded onChange={onChange}>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const content = document.querySelector('.dnb-accordion__content')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(
+      document.querySelector('.dnb-accordion__header')
+    ).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('should not listen for "beforematch" when "openOnFind" is not set', () => {
+    const onChange = vi.fn()
+    render(
+      <Accordion {...props} keepInDOM onChange={onChange}>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const content = document.querySelector('.dnb-accordion__content')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(
+      document.querySelector('.dnb-accordion__header')
+    ).toHaveAttribute('aria-expanded', 'false')
+  })
+})
+
 describe('Accordion store API', () => {
   it('will save and read the states for a single accordion', () => {
     const inst = Accordion.Store('accordion-id')

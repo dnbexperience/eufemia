@@ -15,6 +15,7 @@ import {
   AccordionInColumns,
   AccordionCloseAllInGroup,
   AccordionTertiarySplitExample,
+  AccordionOpenOnFindExample,
 } from 'Docs/uilib/components/accordion/Examples'
 
 ## Demos
@@ -47,6 +48,14 @@ Tab order follows the order of the elements in the markup, just as a screen read
 ### Nested Accordions
 
 <AccordionNestedExample />
+
+### Find collapsed content
+
+The `openOnFind` prop keeps collapsed content in the DOM and available to the browser's find-in-page feature using `hidden="until-found"`. Search this page for **“Findable banking content”** and the accordion expands to reveal the match.
+
+`openOnFind` depends on native browser support for `hidden="until-found"` (Chromium 102+, Firefox 148+, with partial support in Safari 26.2+). In browsers without support, the collapsed content is **not reliably hidden** and can remain visible, because the collapse relies on the browser applying `content-visibility` for `hidden="until-found"`. For content that must stay hidden in those browsers, use `keepInDOM` (or leave `openOnFind` off) instead.
+
+<AccordionOpenOnFindExample />
 
 <VisibleWhenVisualTest>
   <AccordionPlainVariant />

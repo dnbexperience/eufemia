@@ -93,6 +93,10 @@ export type AccordionProps = Omit<
      */
     keepInDOM?: boolean
     /**
+     * If set to `true` the collapsed content stays in the DOM and remains findable by the browser's find-in-page feature, using `hidden="until-found"`. When matching content is found, the accordion expands. In browsers without `hidden="until-found"` support, the collapsed content may remain visible. Defaults to `false`.
+     */
+    openOnFind?: boolean
+    /**
      * If set to `true` the accordion component will not re-render its content – can be useful for components you don't have control of storing the temporary state during an interaction.
      */
     preventRerender?: boolean
@@ -164,14 +168,14 @@ export type AccordionProps = Omit<
     className?: string
     children?: ReactNode
     /**
-     * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.
+     * Will be called by user click interaction, or when expanded by a browser's find-in-page when `openOnFind` is set. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.
      */
     onChange?: (event: AccordionChangeEvent) => void
   }
 
 export type AccordionChangeEvent = {
   expanded: boolean
-  event: SyntheticEvent
+  event: SyntheticEvent | Event
 }
 
 function Accordion({
@@ -330,7 +334,7 @@ function AccordionDefault({
     id: string
     group: string
     expanded: boolean
-    event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>
+    event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement> | Event
   }
 
   function callOnChangeHandler(params: AccordionInternalChangeParams) {
@@ -380,6 +384,7 @@ function AccordionDefault({
     variant: extendedVariant,
     className,
     keepInDOM,
+    openOnFind,
     preventRerender,
     preventRerenderConditional,
     singleContainer,
@@ -437,6 +442,7 @@ function AccordionDefault({
     id,
     expanded: expandedState,
     keepInDOM: keepInDOM,
+    openOnFind: openOnFind,
     preventRerender: preventRerender,
     preventRerenderConditional: preventRerenderConditional,
     singleContainer: singleContainer,
