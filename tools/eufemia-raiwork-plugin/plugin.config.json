@@ -4,7 +4,7 @@
     "name": "dnb-eufemia-web",
     "version": "0.1.0",
     "title": "Eufemia Web",
-    "description": "Official Eufemia skills and MCP documentation for building, reviewing, and migrating DNB web frontends with current component APIs, themes, accessibility guidance, and design-system rules.",
+    "description": "Official Eufemia skills and MCP documentation for building, reviewing, and migrating DNB web frontends and contributing Portal content.",
     "license": "Apache-2.0 with Commons Clause",
     "homepage": "https://eufemia.dnb.no",
     "tags": [
