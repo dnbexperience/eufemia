@@ -58,14 +58,16 @@
     // because firefox clip-path ignores caption
     // Use "clip-path" instead of "overflow" because display=table-row does not give the expected/same result like display=block would.
     clip-path: inset(
-      0 0 -10rem 0 round var(--table-outline-radius)
-        var(--table-outline-radius) 0 0
+      0 0 -10rem 0 round var(--table-outline-radius-top)
+        var(--table-outline-radius-top) 0 0
     );
     z-index: 1; // firefox places caption in from of table without z-index
 
     &,
     &::after {
-      border-radius: var(--table-outline-radius);
+      border-radius: var(--table-outline-radius-top)
+        var(--table-outline-radius-top) var(--table-outline-radius)
+        var(--table-outline-radius);
     }
     @include table-mixins.tableOutline() {
       z-index: 3;
@@ -110,8 +112,10 @@
   }
 
   // Keep rounded corners in sync with the parent Card.
-  .dnb-card & {
+  .dnb-card &,
+  .dnb-card &__container {
     --table-outline-radius: var(--rounded-corner, var(--token-radius-md));
+    --table-outline-radius-top: 0;
   }
 
   // Reset Table spacing
@@ -142,6 +146,7 @@
     --table-outline: var(--table-outline-width) solid
       var(--table-outline-color);
     --table-outline-radius: var(--token-radius-xl);
+    --table-outline-radius-top: var(--table-outline-radius);
 
     html[data-visual-test] & {
       --table-border-color: blue;

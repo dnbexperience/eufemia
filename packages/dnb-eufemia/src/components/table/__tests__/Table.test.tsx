@@ -290,10 +290,10 @@ describe('Table aria', () => {
 })
 
 describe('Table scss', () => {
-  it('should inherit card rounded corners when used inside Card', () => {
+  it('should not have rounded top corners when used inside Card', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toContain(
-      '.dnb-card .dnb-table {\n  --table-outline-radius: var(--rounded-corner, var(--token-radius-md));'
+      '.dnb-card .dnb-table, .dnb-card .dnb-table__container {\n  --table-outline-radius: var(--rounded-corner, var(--token-radius-md));\n  --table-outline-radius-top: 0;'
     )
   })
 

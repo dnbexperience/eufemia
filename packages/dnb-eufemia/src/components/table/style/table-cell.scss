@@ -41,10 +41,10 @@
     tr:first-of-type,
     .dnb-table__tr:first-of-type {
       > .dnb-table__cell--focus:first-child {
-        border-top-left-radius: var(--table-outline-radius);
+        border-top-left-radius: var(--table-outline-radius-top);
       }
       > .dnb-table__cell--focus:last-child {
-        border-top-right-radius: var(--table-outline-radius);
+        border-top-right-radius: var(--table-outline-radius-top);
       }
     }
 
