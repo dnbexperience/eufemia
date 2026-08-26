@@ -1,4 +1,4 @@
-import { render, waitFor, fireEvent } from '@testing-library/react'
+import { act, render, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../shared/component-helper'
 import HelpButtonInline, {
@@ -57,6 +57,29 @@ describe('HelpButtonInline', () => {
 
     await userEvent.click(button)
     expect(button).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('should open inline help when matching content is found', () => {
+    render(
+      <HelpButtonInline
+        help={{
+          title: 'Help title',
+          content: 'Findable help',
+          openOnFind: true,
+        }}
+      />
+    )
+
+    const button = document.querySelector('button')
+    const animation = document.querySelector('.dnb-height-animation')
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    expect(document.body).toHaveTextContent('Findable help')
   })
 
   it('should toggle open state when Space key gets pressed', async () => {
