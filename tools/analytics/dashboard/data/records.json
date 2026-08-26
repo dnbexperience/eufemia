@@ -1,0 +1,14 @@
+{
+  "generatedAt": "2026-08-26T09:00:00.000Z",
+  "records": [
+    { "id": "s1", "name": "/uilib/components/button", "value": 1, "env": "prod", "createdAt": "2026-08-24T08:10:00.000Z" },
+    { "id": "s2", "name": "/uilib/components/button/properties", "value": 1, "env": "prod", "createdAt": "2026-08-24T09:12:00.000Z" },
+    { "id": "s3", "name": "/uilib/components/input", "value": 1, "env": "prod", "createdAt": "2026-08-24T10:30:00.000Z" },
+    { "id": "s4", "name": "/uilib/components/button", "value": 1, "env": "prod", "createdAt": "2026-08-25T07:45:00.000Z" },
+    { "id": "s5", "name": "/uilib/getting-started", "value": 1, "env": "prod", "createdAt": "2026-08-25T11:05:00.000Z" },
+    { "id": "s6", "name": "/uilib/components/input", "value": 1, "env": "test", "createdAt": "2026-08-25T12:20:00.000Z" },
+    { "id": "s7", "name": "/uilib/components/button", "value": 1, "env": "prod", "createdAt": "2026-08-26T06:15:00.000Z" },
+    { "id": "s8", "name": "/uilib/components/date-picker", "value": 1, "env": "prod", "createdAt": "2026-08-26T07:40:00.000Z" },
+    { "id": "s9", "name": "/uilib/components/button", "value": 1, "env": "test", "createdAt": "2026-08-26T08:05:00.000Z" }
+  ]
+}
