@@ -293,6 +293,28 @@ describe('HeightAnimation', () => {
   })
 
   describe('openOnFind', () => {
+    function simulateOpenOnFindUnsupported() {
+      const restores: Array<() => void> = []
+      let target: object | null = document.documentElement
+
+      while (target) {
+        const owner = target
+        const descriptor = Object.getOwnPropertyDescriptor(
+          owner,
+          'onbeforematch'
+        )
+        if (descriptor) {
+          delete (owner as Record<string, unknown>).onbeforematch
+          restores.push(() =>
+            Object.defineProperty(owner, 'onbeforematch', descriptor)
+          )
+        }
+        target = Object.getPrototypeOf(target)
+      }
+
+      return () => restores.forEach((restore) => restore())
+    }
+
     it('should preserve a regular hidden attribute', () => {
       const { rerender } = render(
         <HeightAnimation hidden>content</HeightAnimation>
@@ -404,6 +426,27 @@ describe('HeightAnimation', () => {
       )
 
       expect(getElement()).not.toBeInTheDocument()
+    })
+
+    it('should fall back to regular keepInDOM hiding when unsupported', () => {
+      const restore = simulateOpenOnFindUnsupported()
+
+      try {
+        render(
+          <HeightAnimation open={false} openOnFind>
+            content
+          </HeightAnimation>
+        )
+
+        expect(getElement()).not.toHaveAttribute('hidden')
+        expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+        expect(getElement()).toHaveAttribute('aria-hidden', 'true')
+
+        getElement().dispatchEvent(new Event('beforematch'))
+        expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+      } finally {
+        restore()
+      }
     })
   })
 

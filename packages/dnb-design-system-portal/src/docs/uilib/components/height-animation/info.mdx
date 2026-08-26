@@ -39,7 +39,7 @@ When `keepInDOM` or `openOnFind` keeps closed content in the DOM, HeightAnimatio
 
 `openOnFind` uses the native `hidden="until-found"` behavior, making collapsed text available to browser find-in-page. HeightAnimation opens matching content internally, so `onBeforeMatch` is optional. When an external control owns the `open` state, handle `onBeforeMatch` by updating the same state passed to `open`. This keeps the control's `aria-expanded` value synchronized when the browser reveals a match.
 
-`openOnFind` depends on native browser support for `hidden="until-found"` (Chromium 102+, Firefox 148+, with partial support in Safari 26.2+). In browsers without support, the collapsed content is **not reliably hidden** and can remain visible, because the collapse relies on the browser applying `content-visibility` for `hidden="until-found"`. For content that must stay hidden in those browsers, use `keepInDOM` (or leave `openOnFind` off) instead.
+`openOnFind` depends on native browser support for `hidden="until-found"` (Chromium 102+, Firefox 148+, with partial support in Safari 26.2+). In browsers without support, it falls back to `keepInDOM` behavior: the content remains mounted and hidden, but is unavailable to browser find-in-page.
 
 Users who prefer reduced motion receive an effectively immediate transition. It is important to never animate to a fixed height such as 64px, because:
 
