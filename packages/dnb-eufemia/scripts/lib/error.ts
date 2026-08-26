@@ -20,12 +20,19 @@ function ErrorHandler(
     message = error.message
   }
 
+  // Neutralise CR/LF so a value cannot forge extra log lines.
+  message = String(message).replace(/\n/g, '').replace(/\r/g, '')
+
   const err = new Error(`${message} (error code ${code})`)
 
   if (code === ERROR_FATAL) {
     throw err
   } else {
-    console.log('\n\n', err, '\n---', error, '\n---\n\n')
+    // Log CR/LF-free strings so a value cannot forge extra log lines.
+    const detail = String(error ?? '')
+      .replace(/\n/g, '')
+      .replace(/\r/g, '')
+    console.log('\n\n', err.message, '\n---', detail, '\n---\n\n')
   }
 
   return message

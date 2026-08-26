@@ -429,7 +429,9 @@ function ArrayComponent(props: IterateArrayProps) {
       'dnb-forms-section', // To support containers
       props?.className
     ),
-    ...pickFlexContainerProps(props as FlexContainerProps),
+    ...pickFlexContainerProps(props as FlexContainerProps, {
+      layoutEngine: 'css',
+    }),
     ...pickSpacingProps(props),
     id: props?.id,
     ref: containerRef,

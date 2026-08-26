@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - 'release'
-      - 'portal'
       - 'beta'
       - 'alpha'
       - 'next'
@@ -38,12 +37,18 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    outputs:
+      released: ${{ steps.release-info.outputs.released }}
+      tarball: ${{ steps.pack.outputs.tarball }}
+
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-          fetch-depth: 2
+          # The portal footer falls back to the latest reachable stable tag
+          # when a portal-only deployment does not produce an npm version.
+          fetch-depth: 0
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -58,25 +63,21 @@ jobs:
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Build portal
-        if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/portal')
+        if: github.ref == 'refs/heads/release'
         run: yarn workspace dnb-design-system-portal build:ci
 
       - name: Push Algolia search index
-        if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/portal')
+        if: github.ref == 'refs/heads/release'
         run: yarn workspace dnb-design-system-portal build:algolia
         env:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
 
-      - name: Deploy portal
-        if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/portal')
-        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4
+      - name: Upload portal artifact
+        if: github.ref == 'refs/heads/release'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          personal_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./packages/dnb-design-system-portal/public
+          path: ./packages/dnb-design-system-portal/public
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
@@ -89,3 +90,284 @@ jobs:
           github.ref == 'refs/heads/next' ||
           endsWith(github.ref, '.x'))
         run: yarn workspace @dnb/eufemia publish:ci
+
+      # Capture the published version so the least-privilege SBOM job below can
+      # target the matching GitHub Release and stamp the SBOM. Empty or the
+      # placeholder version means nothing was published.
+      - name: Capture released version
+        id: release-info
+        continue-on-error: true
+        if: github.repository == 'dnbexperience/eufemia' &&
+          (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha' ||
+          github.ref == 'refs/heads/next' ||
+          endsWith(github.ref, '.x'))
+        working-directory: packages/dnb-eufemia
+        run: |
+          released="$(node -p "require('./build/package.json').version")"
+          echo "released=$released" >> "$GITHUB_OUTPUT"
+
+      # Pack the published files into a tarball to serve as the attestation
+      # subject. `--ignore-scripts` keeps it side-effect free (no lifecycle
+      # scripts run) and uses the same build/ output semantic-release publishes.
+      - name: Pack the released library (attestation subject)
+        id: pack
+        continue-on-error: true
+        if: steps.release-info.outputs.released != '' &&
+          steps.release-info.outputs.released != '0.0.0-development'
+        working-directory: packages/dnb-eufemia
+        run: |
+          tarball="$(cd build && npm pack --ignore-scripts --pack-destination .. | tail -1)"
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          echo "Packed attestation subject: $tarball"
+
+      # Upload the packed tarball so the separate attestation job can bind the
+      # SBOM to it. Short retention: it only needs to outlive this workflow run.
+      - name: Upload attestation subject
+        continue-on-error: true
+        if: steps.pack.outputs.tarball != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: release-tarball
+          path: packages/dnb-eufemia/${{ steps.pack.outputs.tarball }}
+          retention-days: 1
+
+  # Generate the CycloneDX SBOM and vulnerability report. This runs untrusted
+  # third-party code (the CycloneDX generator via `yarn dlx`), so it lives in
+  # its own job with only `contents: read` — none of the release job's OIDC or
+  # attestation-writing credentials exist here. Blanking secrets alone would not
+  # remove those job credentials, which is why generation is isolated rather than
+  # kept inline. Non-blocking (every step is continue-on-error), so a failure
+  # here never affects the release. See docs/sbom.md for what these files are,
+  # where they are stored, and why.
+  sbom:
+    name: Generate release SBOM
+    needs: action
+    if: needs.action.outputs.released != '' &&
+      needs.action.outputs.released != '0.0.0-development'
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    permissions:
+      contents: read
+
+    # This job runs untrusted third-party code (the CycloneDX generator). Blank
+    # every secret the workflow-level `env:` injects so none can reach it. Keep
+    # this list in sync with that `env:` block.
+    env:
+      GH_EMAIL: ''
+      GH_NAME: ''
+      GH_TOKEN: ''
+      NODE_AUTH_TOKEN: ''
+      FIGMA_TOKEN: ''
+      FIGMA_ICONS_FILE: ''
+      ALGOLIA_APP_ID: ''
+      ALGOLIA_INDEX_NAME: ''
+      ALGOLIA_SEARCH_KEY: ''
+      ALGOLIA_API_KEY: ''
+
+    steps:
+      - name: Git checkout
+        continue-on-error: true
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        continue-on-error: true
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Generate SBOM and vulnerability report
+        continue-on-error: true
+        working-directory: packages/dnb-eufemia
+        env:
+          RELEASED_VERSION: ${{ needs.action.outputs.released }}
+        run: |
+          # Generated from the source workspace: the CycloneDX plugin needs a
+          # Yarn project, and direct runtime deps are identical to the published
+          # package. Generator version pinned for reproducibility — bump
+          # deliberately and keep it in sync with verify.yml, as yarn dlx is not
+          # covered by Dependabot.
+          yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@3.3.3 \
+            --output-format JSON --spec-version 1.6 \
+            --production --mc-type library --output-file sbom.cdx.json
+
+          # CycloneDX stamps the main component with the manifest's
+          # 0.0.0-development placeholder; overwrite it with the version
+          # semantic-release actually published.
+          node -e '
+            const fs = require("fs")
+            const released = process.env.RELEASED_VERSION
+            const file = "sbom.cdx.json"
+            const sbom = JSON.parse(fs.readFileSync(file, "utf8"))
+            const component = sbom.metadata && sbom.metadata.component
+            if (!component) throw new Error("SBOM is missing metadata.component")
+            const placeholder = component.version
+            component.version = released
+            if (typeof component.purl === "string") {
+              component.purl = component.purl.split(placeholder).join(released)
+            }
+            fs.writeFileSync(file, JSON.stringify(sbom, null, 2) + "\n")
+            console.log("SBOM main component version: " + released)
+          '
+
+          # Vulnerability report over the same production scope. yarn npm audit
+          # emits NDJSON (one advisory per line); normalise it into a single
+          # JSON document, capturing the exit status so an audit that could not
+          # run is never recorded as a clean result.
+          audit_exit=0
+          audit_stream="$(yarn npm audit --environment production --recursive --json)" || audit_exit=$?
+          printf '%s' "$audit_stream" | node -e '
+            const fs = require("fs")
+            const exitCode = Number(process.argv[1])
+            const raw = fs.readFileSync(0, "utf8")
+            const advisories = []
+            for (const line of raw.split("\n")) {
+              const trimmed = line.trim()
+              if (!trimmed) continue
+              try {
+                advisories.push(JSON.parse(trimmed))
+              } catch {
+                // Ignore any non-JSON noise Yarn may interleave.
+              }
+            }
+            // Identify the report the way the SBOM identifies itself, so the
+            // file stays traceable once downloaded away from its release.
+            const meta = {
+              component: require("./package.json").name,
+              version: process.env.RELEASED_VERSION,
+              generatedAt: new Date().toISOString(),
+              scope: "production dependencies, including transitive",
+              tool: "yarn npm audit",
+            }
+            let report
+            if (exitCode !== 0 && advisories.length === 0) {
+              // Non-zero exit and nothing parseable -> the audit could not run
+              // (e.g. a registry or network failure). Record the failure
+              // instead of a misleading clean result.
+              report = {
+                ...meta,
+                error: "audit could not be completed",
+                exitCode,
+              }
+            } else {
+              report = {
+                ...meta,
+                summary: advisories.length
+                  ? advisories.length + " advisory record(s) reported by yarn"
+                    + " npm audit. These include deprecation notices as well as"
+                    + " security vulnerabilities; check the severity and details"
+                    + " of each record."
+                  : "No known vulnerabilities in production dependencies.",
+                advisories,
+              }
+            }
+            fs.writeFileSync(
+              "vulnerability-report.json",
+              JSON.stringify(report, null, 2) + "\n"
+            )
+            console.log(report.error ? report.error : report.summary)
+          ' "$audit_exit"
+
+      - name: Upload SBOM and vulnerability report
+        continue-on-error: true
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: sbom-and-vulnerability-report
+          path: |
+            packages/dnb-eufemia/sbom.cdx.json
+            packages/dnb-eufemia/vulnerability-report.json
+          retention-days: 90
+
+  # Attest and publish the release SBOM. This job holds the OIDC and
+  # attestation-writing credentials but runs only trusted, first-party actions
+  # against the artifacts produced above — the untrusted generator never runs
+  # here. Non-blocking (every step is continue-on-error).
+  attest:
+    name: Attest and publish release SBOM
+    needs: [action, sbom]
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    permissions:
+      contents: write # Attach assets to the GitHub Release
+      id-token: write # Sign the SBOM attestation
+      attestations: write # Record the SBOM attestation
+
+    steps:
+      - name: Download attestation subject
+        continue-on-error: true
+        if: needs.action.outputs.tarball != ''
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-tarball
+          path: packages/dnb-eufemia
+
+      - name: Download SBOM and vulnerability report
+        continue-on-error: true
+        if: needs.action.outputs.tarball != ''
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: sbom-and-vulnerability-report
+          path: packages/dnb-eufemia
+
+      # Sign a CycloneDX SBOM attestation (Sigstore-backed) binding the SBOM to
+      # the packed release artifact. Complements npm provenance; verify with
+      # `gh attestation verify <tarball> --repo dnbexperience/eufemia`.
+      - name: Attest the SBOM
+        continue-on-error: true
+        if: needs.action.outputs.tarball != ''
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: packages/dnb-eufemia/${{ needs.action.outputs.tarball }}
+          sbom-path: packages/dnb-eufemia/sbom.cdx.json
+
+      # Attach all three files to the GitHub Release (tag "v<version>") so they
+      # persist beyond the 90-day artifact. --clobber keeps re-runs idempotent.
+      - name: Attach SBOM and vulnerability report to the GitHub Release
+        continue-on-error: true
+        if: needs.action.outputs.tarball != ''
+        working-directory: packages/dnb-eufemia
+        env:
+          RELEASED_VERSION: ${{ needs.action.outputs.released }}
+          PACKED_TARBALL: ${{ needs.action.outputs.tarball }}
+        run: |
+          gh release upload "v$RELEASED_VERSION" \
+            sbom.cdx.json vulnerability-report.json \
+            ${PACKED_TARBALL:+"$PACKED_TARBALL"} \
+            --clobber --repo "$GITHUB_REPOSITORY"
+
+  deploy-portal:
+    name: Deploy portal to GitHub Pages
+    needs: action
+    if: github.ref == 'refs/heads/release'
+
+    runs-on: ubuntu-latest
+
+    # Scoped to the minimum the deploy needs (the release job keeps the
+    # broader permissions it requires for semantic-release).
+    permissions:
+      pages: write # Required to deploy to GitHub Pages
+      id-token: write # Required for OIDC verification of the deployment
+
+    # Serialize Pages deployments and never cancel one mid-flight, so a
+    # deployment is not left half-finished (per actions/deploy-pages guidance).
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy portal
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0

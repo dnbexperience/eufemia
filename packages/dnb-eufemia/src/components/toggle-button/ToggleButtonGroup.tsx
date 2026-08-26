@@ -268,6 +268,7 @@ function ToggleButtonGroup(ownProps: ToggleButtonGroupProps) {
           role={variant === 'radio' ? 'radiogroup' : 'group'}
         >
           <Flex.Container
+            layoutEngine="css"
             direction={
               vertical || labelDirection === 'vertical'
                 ? 'vertical'

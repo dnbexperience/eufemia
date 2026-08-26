@@ -21,7 +21,23 @@ The steps, from code changes to production builds, are:
 1. After the _Pull Request_ gets approved by one of the authorized [maintainers](https://github.com/dnbexperience/eufemia/graphs/contributors),
 1. You can merge your _Pull Request_.
 1. A maintainer will create a _Pull Request_ into one of the release branches (`next`, `alpha`, `beta` or `release`).
-1. After a release _Pull Request_ got merged, the CI Server will deploy the Portal and release a new version to NPM.
+1. After a release _Pull Request_ got merged, the CI Server deploys the Portal
+   and releases a new NPM version when the included commits require one.
+
+The production Portal is always built from `origin/release`, which is the single
+source of truth for the currently deployed Portal and package version.
+
+Changes whose commits do not trigger semantic-release, such as `docs` and
+`chore`, can be promoted to `origin/release` for a Portal-only deployment. Use a
+separate Pull Request based on the latest `origin/release`, include only the
+approved Portal commits, and verify that the Pull Request contains no change
+that would publish a new package version. Do not merge all of `origin/main` for
+a Portal-only deployment because it may include unrelated unreleased changes.
+If the Portal change depends on unreleased package code, include it in the next
+regular release instead.
+
+The Portal footer keeps the latest published package version for a Portal-only
+deployment. `Portal update` shows when that Portal build was created.
 
 ### How to make releases
 

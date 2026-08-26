@@ -1,6 +1,12 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
+  layoutEngine: {
+    doc: 'Select the internal Flex layout engine. Defaults to `css`. Use `legacy` only as a temporary compatibility fallback while migrating an existing custom list integration.',
+    type: [`'css'`, `'legacy'`],
+    defaultValue: `'css'`,
+    status: 'optional',
+  },
   separated: {
     doc: 'When `true`, adds row gap between items so each row keeps its own outline and border radius instead of running edge-to-edge.',
     type: 'boolean',
@@ -25,6 +31,12 @@ export const ContainerProperties: PropertiesTableProps = {
   visibleCount: {
     doc: 'Limits the number of visible child items. When used without an `id`, the list is always capped at this count. When paired with `List.ShowMoreButton` via a shared `id`, the list starts collapsed and expands to show all items on toggle. Hidden items stay mounted in the DOM to preserve internal state (e.g. open accordions). The list is wrapped in a `HeightAnimation` so expand/collapse transitions are animated.',
     type: 'number',
+    status: 'optional',
+  },
+  openOnFind: {
+    doc: 'Makes items hidden by `visibleCount` findable with browser find-in-page. Matching content is revealed and expands a list connected to `List.ShowMoreButton`. Defaults to `true` when `visibleCount` is used.',
+    type: 'boolean',
+    defaultValue: 'true',
     status: 'optional',
   },
   children: {
@@ -300,6 +312,11 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     doc: 'When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.',
     type: 'boolean',
     defaultValue: 'false',
+    status: 'optional',
+  },
+  openOnFind: {
+    doc: "When `true`, keeps closed content findable by the browser's find-in-page feature. Defaults to the value of `keepInDOM`.",
+    type: 'boolean',
     status: 'optional',
   },
   disabled: {

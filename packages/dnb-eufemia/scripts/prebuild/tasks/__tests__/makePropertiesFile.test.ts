@@ -4,7 +4,15 @@ import makePropertiesFile, {
   transformFigmaValue,
   transformFigmaPath,
   transformNamespace,
+  generateCSSVariablesFromTokenList,
+  convertToTokenList,
+  overrideFoundationReferencePrefix,
 } from '../makePropertiesFile'
+
+const colorsVariableSetId =
+  'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
+const sizesVariableSetId =
+  'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025'
 
 describe('makePropertiesFile', () => {
   const global = {
@@ -233,6 +241,54 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Figma file generation', () => {
+    describe('generateCSSVariablesFromTokenList', () => {
+      it('skip string', () => {
+        expect(
+          generateCSSVariablesFromTokenList([
+            {
+              figmaPath: ['bad'],
+              figmaSetId: colorsVariableSetId,
+              $type: 'string',
+              $value: 'Medium',
+            },
+            {
+              figmaPath: ['good'],
+              figmaSetId: colorsVariableSetId,
+              $type: 'number',
+              $value: 2,
+            },
+          ])
+        ).toEqual(`--good: 0.125rem;\n`)
+      })
+    })
+
+    describe('convertToTokenList', () => {
+      it('throws when an expected collection is missing', () => {
+        expect(() =>
+          convertToTokenList({ dnb: undefined }, colorsVariableSetId)
+        ).toThrow('Invalid Figma token node at "dnb": expected an object')
+      })
+
+      it('throws when an export contains no tokens', () => {
+        expect(() => convertToTokenList({}, colorsVariableSetId)).toThrow(
+          'Invalid Figma export: no tokens found'
+        )
+      })
+    })
+
+    describe('overrideFoundationReferencePrefix', () => {
+      it('overrides every foundation reference in a declaration', () => {
+        expect(
+          overrideFoundationReferencePrefix(
+            '--token-gradient: linear-gradient(var(--dnb-white), var(--sbanken-purple));',
+            'carnegie'
+          )
+        ).toBe(
+          '--token-gradient: linear-gradient(var(--carnegie-white), var(--carnegie-purple));'
+        )
+      })
+    })
+
     describe('extractReferencedCssVariables', () => {
       it('extracts css variables from var() usage', () => {
         const result = extractReferencedCssVariables(`
@@ -253,8 +309,7 @@ describe('makePropertiesFile', () => {
       it('generates css var', () => {
         const val = {
           targetVariableName: 'dnb/ColdGreen/600',
-          targetVariableSetId:
-            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+          targetVariableSetId: colorsVariableSetId,
           targetVariableSetName: 'colors',
         }
 
@@ -265,8 +320,7 @@ describe('makePropertiesFile', () => {
       it('transforms prefix', () => {
         const val = {
           targetVariableName: 'dnbcarnegie/ColdGreen/600',
-          targetVariableSetId:
-            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+          targetVariableSetId: colorsVariableSetId,
           targetVariableSetName: 'colors',
         }
 
@@ -274,55 +328,54 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--carnegie-coldgreen-600)')
       })
 
-      it('returns undefined for unsupported variable set', () => {
+      it('throws an error for an unsupported variable set', () => {
         const val = {
           targetVariableName: 'dnb/ColdGreen/600',
           targetVariableSetId: 'VariableCollectionId:nonsense/5552:1080',
           targetVariableSetName: 'nonsense',
         }
 
-        expect(transformFigmaAlias(val)).toBeUndefined()
+        expect(() => transformFigmaAlias(val)).toThrow()
       })
 
       it('resolves size alias to literal value', () => {
         const alias = {
           targetVariableName: 'size/4',
-          targetVariableSetId:
-            'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
+          targetVariableSetId: sizesVariableSetId,
           targetVariableSetName: 'size',
         }
 
         const value = {
           $type: 'number' as const,
           $value: 4,
+          $extensions: { ['com.figma.aliasData']: alias },
         }
 
-        const result = transformFigmaAlias(alias, value)
+        const result = transformFigmaValue(value)
         expect(result).toEqual('0.25rem')
       })
 
       it('resolves size alias with zero value', () => {
         const alias = {
           targetVariableName: 'size/0',
-          targetVariableSetId:
-            'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025',
+          targetVariableSetId: sizesVariableSetId,
           targetVariableSetName: 'size',
         }
 
         const value = {
           $type: 'number' as const,
           $value: 0,
+          $extensions: { ['com.figma.aliasData']: alias },
         }
 
-        const result = transformFigmaAlias(alias, value)
+        const result = transformFigmaValue(value)
         expect(result).toEqual('0')
       })
 
       it('error on unsupported theme prefix set', () => {
         const val = {
           targetVariableName: 'nonsense/ColdGreen/600',
-          targetVariableSetId:
-            'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+          targetVariableSetId: colorsVariableSetId,
           targetVariableSetName: 'colors',
         }
 
@@ -341,8 +394,7 @@ describe('makePropertiesFile', () => {
           $extensions: {
             'com.figma.aliasData': {
               targetVariableName: 'dnb/ColdGreen/600',
-              targetVariableSetId:
-                'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080',
+              targetVariableSetId: colorsVariableSetId,
               targetVariableSetName: 'colors',
             },
           },
@@ -424,15 +476,6 @@ describe('makePropertiesFile', () => {
         expect(() => transformFigmaValue(val)).toThrow()
       })
 
-      it('skip string', () => {
-        expect(
-          transformFigmaValue({
-            $type: 'string',
-            $value: 'Medium',
-          })
-        ).toBeUndefined()
-      })
-
       it('converts number to rem', () => {
         expect(
           transformFigmaValue({
@@ -466,14 +509,28 @@ describe('makePropertiesFile', () => {
 
     describe('transformFigmaPath', () => {
       it('transforms normally', () => {
-        const result = transformFigmaPath(['Colors', 'Primary', 'Dark'])
+        const result = transformFigmaPath({
+          figmaPath: ['Colors', 'Primary', 'Dark'],
+          figmaSetId: colorsVariableSetId,
+        })
         expect(result).toEqual('colors-primary-dark')
+      })
+
+      it('transforms prefixes', () => {
+        const result = transformFigmaPath({
+          figmaPath: ['dnbcarnegie', 'Primary', 'Dark'],
+          figmaSetId: colorsVariableSetId,
+        })
+        expect(result).toEqual('carnegie-primary-dark')
       })
 
       it('error on unsupported characters', () => {
         let err
         try {
-          transformFigmaPath(['Colo*rs', 'Pri ma?ry', 'Da(rk'])
+          transformFigmaPath({
+            figmaPath: ['Colo*rs', 'Pri ma?ry', 'Da(rk'],
+            figmaSetId: colorsVariableSetId,
+          })
         } catch (e) {
           err = e
         }

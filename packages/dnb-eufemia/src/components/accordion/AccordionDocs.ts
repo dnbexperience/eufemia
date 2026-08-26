@@ -71,6 +71,11 @@ export const AccordionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  openOnFind: {
+    doc: 'If set to `true` the collapsed content stays in the DOM and remains findable by the browser\'s find-in-page feature, using `hidden="until-found"`. When matching content is found, the accordion expands. Defaults to the value of `keepInDOM`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   preventRerender: {
     doc: "If set to `true` the accordion component will not re-render its content – can be useful for components you don't have control of storing the temporary state during an interaction.",
     type: 'boolean',
@@ -149,6 +154,11 @@ export const AccordionContentProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "If set to `true`, collapsed standalone tertiary content remains findable by the browser's find-in-page feature.",
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Content displayed inside the accordion body.',
     type: 'React.ReactNode',
@@ -196,7 +206,7 @@ export const AccordionProviderGroupProperties: PropertiesTableProps = {
 
 export const AccordionEvents: PropertiesTableProps = {
   onChange: {
-    doc: 'Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.',
+    doc: "Will be called by user click interaction, or when expanded by a browser's find-in-page when `openOnFind` is set. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.",
     type: 'function',
     status: 'optional',
   },

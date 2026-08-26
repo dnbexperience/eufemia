@@ -1,6 +1,7 @@
 const COLOR_VARIABLE_REGEX = /--color-[a-z0-9-]+/g
-const DESIGN_TOKENS_GUIDE_URL =
-  'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
+const reviewRule = require('../../review-rules.js')[
+  'eufemia/no-deprecated-color-variables'
+]
 
 const reportMatches = (context, node, text) => {
   if (typeof text !== 'string') {
@@ -29,9 +30,8 @@ module.exports = {
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Warn when deprecated --color-* CSS variables are used in JavaScript and TypeScript code',
-      url: DESIGN_TOKENS_GUIDE_URL,
+      description: reviewRule.description,
+      url: reviewRule.documentation,
     },
     messages: {
       deprecatedColorVariable:

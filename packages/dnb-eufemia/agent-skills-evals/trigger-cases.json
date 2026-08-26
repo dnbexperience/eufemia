@@ -1,0 +1,64 @@
+{
+  "cases": [
+    {
+      "prompt": "Which Eufemia Button props should I use for this interaction?",
+      "expected_skill": "eufemia-components"
+    },
+    {
+      "prompt": "Does Field.Address expose this behavior in the current release?",
+      "expected_skill": "eufemia-components"
+    },
+    {
+      "prompt": "Compose a complete Eufemia application form with all data states.",
+      "expected_skill": "eufemia-compose"
+    },
+    {
+      "prompt": "Help me choose Eufemia layout and feedback primitives for this page.",
+      "expected_skill": "eufemia-compose"
+    },
+    {
+      "prompt": "Review keyboard and screen-reader behavior in this Eufemia flow.",
+      "expected_skill": "eufemia-accessibility"
+    },
+    {
+      "prompt": "What accessibility responsibilities remain when using this Eufemia component?",
+      "expected_skill": "eufemia-accessibility"
+    },
+    {
+      "prompt": "Audit this change for unsupported Eufemia APIs and deprecations.",
+      "expected_skill": "eufemia-review"
+    },
+    {
+      "prompt": "Are these code-review comments actual Eufemia requirements or preferences?",
+      "expected_skill": "eufemia-review"
+    },
+    {
+      "prompt": "Plan the Eufemia upgrade and verify every changed component API.",
+      "expected_skill": "eufemia-migrate"
+    },
+    {
+      "prompt": "Which Eufemia release guides and codemods apply to this upgrade?",
+      "expected_skill": "eufemia-migrate"
+    },
+    {
+      "prompt": "Update this Eufemia portal paragraph for me and create a small pull request with a direct page preview.",
+      "expected_skill": "eufemia-portal-content"
+    },
+    {
+      "prompt": "I am a designer. Please publish an urgent editorial correction to the Eufemia portal without making me manage Git or GitHub.",
+      "expected_skill": "eufemia-portal-content"
+    },
+    {
+      "prompt": "Optimize this SQL query and propose a database index.",
+      "expected_skill": null
+    },
+    {
+      "prompt": "Choose an OAuth provider and configure token storage for our service.",
+      "expected_skill": null
+    },
+    {
+      "prompt": "Create a generic experimental marketing visual without production DNB requirements.",
+      "expected_skill": null
+    }
+  ]
+}

@@ -1,6 +1,4 @@
-import { Fragment } from 'react'
 import { Button } from '../../../../components'
-import { Hr } from '../../../../elements'
 import { close } from '../../../../icons'
 
 export type MultiSelectionActionsProps = {
@@ -33,31 +31,25 @@ export function MultiSelectionActions({
   }
 
   return (
-    <Fragment>
-      <Hr
-        space={0}
-        className="dnb-forms-field-multi-selection__separator"
-      />
-      <div className="dnb-forms-field-multi-selection__actions">
-        <Button
-          variant="primary"
-          onClick={onConfirm}
-          disabled={disabled}
-          className="dnb-forms-field-multi-selection__confirm-button"
-        >
-          {formatMessage(translation.confirmButton, {
-            count: tempValueLength,
-          })}
-        </Button>
-        <Button
-          variant="tertiary"
-          onClick={onCancel}
-          disabled={disabled}
-          icon={close}
-        >
-          {translation.cancelButton}
-        </Button>
-      </div>
-    </Fragment>
+    <div className="dnb-forms-field-multi-selection__actions">
+      <Button
+        variant="primary"
+        onClick={onConfirm}
+        disabled={disabled}
+        className="dnb-forms-field-multi-selection__confirm-button"
+      >
+        {formatMessage(translation.confirmButton, {
+          count: tempValueLength,
+        })}
+      </Button>
+      <Button
+        variant="tertiary"
+        onClick={onCancel}
+        disabled={disabled}
+        icon={close}
+      >
+        {translation.cancelButton}
+      </Button>
+    </div>
   )
 }

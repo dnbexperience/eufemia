@@ -19,6 +19,23 @@ describe('Toolbar', () => {
     ).toHaveClass('dnb-space__top--large')
   })
 
+  it('uses the CSS gap layout engine', () => {
+    render(
+      <SectionContainerContext value={{}}>
+        <Toolbar>content</Toolbar>
+      </SectionContainerContext>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-section-toolbar > .dnb-flex-container'
+      )
+    ).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-large'
+    )
+  })
+
   it('has buttons/tools by default', () => {
     render(
       <SectionContainerContext value={{}}>

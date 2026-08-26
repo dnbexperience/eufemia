@@ -83,6 +83,11 @@ export type FieldMultiSelectionProps = FieldProps<
   showSelectedTags?: boolean
 
   /**
+   * Sets the maximum height of the scrollable item list for the `inline` variant. Numbers are interpreted as rem.
+   */
+  maxHeight?: string | number
+
+  /**
    * When the number of selected items exceeds this threshold, the selected items are hidden by default and can be toggled with a header.
    */
   selectedItemsCollapsibleThreshold?: number
@@ -119,6 +124,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     width,
     showSearchField = false,
     showSelectedTags = false,
+    maxHeight,
     showConfirmButton = false,
     showSelectAll = false,
     selectedItemsCollapsibleThreshold = 10,
@@ -743,6 +749,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       selectableFilteredFlat={selectableFilteredFlat}
       allFilteredSelected={allFilteredSelected}
       someFilteredSelected={someFilteredSelected}
+      maxHeight={isInline ? maxHeight : undefined}
     />
   )
 
@@ -784,8 +791,8 @@ function MultiSelection(props: FieldMultiSelectionProps) {
           <AriaLive priority="high">{ariaLiveCheckedCount}</AriaLive>
 
           <div className="dnb-forms-field-multi-selection__inline-content">
-            {searchContent}
             {selectedTagsContent}
+            {searchContent}
             {itemListContent}
           </div>
         </div>
@@ -839,9 +846,9 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             tabIndex={-1}
             onKeyDownCapture={handlePopoverKeyDown}
           >
-            {searchContent}
-
             {selectedTagsContent}
+
+            {searchContent}
 
             {itemListContent}
 

@@ -31,6 +31,14 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
 
+    it('have to match the form-status with a button as content', async () => {
+      await makeScreenshot({
+        style,
+        selector:
+          '[data-visual-test="form-status-button"] .dnb-form-status',
+      })
+    })
+
     it('have to match the information state', async () => {
       await makeScreenshot({
         style,

@@ -76,8 +76,14 @@ type DocsToolsOptions = { docsRoot?: string }
 function createLogger(silent: boolean) {
   return (...args: unknown[]) => {
     if (!silent) {
+      // Collapse to one CR/LF-free line so a user-provided value cannot forge log lines.
+      const line = args
+        .map((arg) => (typeof arg === 'string' ? arg : String(arg)))
+        .join(' ')
+        .replace(/\n/g, '')
+        .replace(/\r/g, '')
       // eslint-disable-next-line no-console -- server-side diagnostics
-      console.error(...args)
+      console.error(line)
     }
   }
 }
@@ -151,6 +157,8 @@ function hostAllowlistMiddleware(
     const host = String(req.headers['host'] ?? '')
       .split(':')[0]
       .toLowerCase()
+      // Strip CR/LF so a crafted Host header cannot forge log lines.
+      .replace(/[\r\n]+/g, '')
     if (set.has(host)) {
       next()
       return

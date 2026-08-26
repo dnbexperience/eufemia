@@ -251,6 +251,7 @@ describe('mcp-http-server', () => {
         expect.arrayContaining([
           'docs_entry',
           'docs_meta',
+          'review_rules',
           'docs_index',
           'docs_list',
           'docs_read',

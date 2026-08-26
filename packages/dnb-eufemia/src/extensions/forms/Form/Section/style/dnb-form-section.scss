@@ -28,6 +28,16 @@
       }
     }
 
+    &__content.dnb-flex-container--css-gap {
+      > :not(.dnb-space--has-block-start):not([class*='dnb-space__top']) {
+        margin-block-start: 0;
+      }
+
+      > :not(.dnb-space--has-block-end):not([class*='dnb-space__bottom']) {
+        margin-block-end: 0;
+      }
+    }
+
     &--variant-basic {
       --border-color: transparent;
       --block-outline-color: transparent;

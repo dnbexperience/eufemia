@@ -47,6 +47,19 @@ jobs:
 
     timeout-minutes: 10
 
+    # This job runs untrusted third-party code (the CycloneDX generator via
+    # `yarn dlx` in the SBOM smoke test below). verify.yml has no workflow-level
+    # `env:` (see the note at the top of this file), so no secrets reach this job
+    # today; these blanks are defense-in-depth in case a workflow-level `env:` is
+    # ever added, so the untrusted code still cannot read them.
+    env:
+      GH_EMAIL: ''
+      GH_NAME: ''
+      GH_TOKEN: ''
+      NPM_TOKEN: ''
+      FIGMA_TOKEN: ''
+      FIGMA_ICONS_FILE: ''
+
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -71,6 +84,61 @@ jobs:
         run: |
           yarn workspace @dnb/eufemia audit:ci
           yarn workspace @dnb/eufemia-mcp audit:ci
+
+      - name: Verify SBOM + audit generation (release smoke test)
+        # release.yml generates a CycloneDX SBOM and a vulnerability report after
+        # every publish — but that workflow only runs on release branches, so PR
+        # CI never exercises it. Run the two external generators here so a broken
+        # plugin, a changed flag, or an altered `yarn npm audit --json` output
+        # shape is caught on the PR instead of mid-release. Keep the pinned
+        # generator version below in sync with release.yml. The release-only
+        # version stamp and GitHub-Release upload are not exercised here.
+        working-directory: packages/dnb-eufemia
+        # The generator runs third-party code fetched via `yarn dlx` and needs no
+        # credentials of its own; the job-level `env:` above defensively blanks
+        # secrets, so none can reach it.
+        run: |
+          # Pinned version MUST match the one in release.yml.
+          yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@3.3.3 \
+            --output-format JSON --spec-version 1.6 \
+            --production --mc-type library --output-file sbom.cdx.json
+
+          # Assert the SBOM has the shape release consumers expect.
+          node -e '
+            const sbom = require("./sbom.cdx.json")
+            if (sbom.bomFormat !== "CycloneDX" || sbom.specVersion !== "1.6") {
+              throw new Error(
+                "unexpected SBOM format: " + sbom.bomFormat + " " + sbom.specVersion
+              )
+            }
+            if (!(sbom.metadata && sbom.metadata.component)) {
+              throw new Error("SBOM is missing metadata.component")
+            }
+            const count = (sbom.components || []).length
+            if (count === 0) throw new Error("SBOM lists no components")
+            console.log("SBOM OK: CycloneDX 1.6, " + count + " production components")
+          '
+
+          # Assert `yarn npm audit --json` still emits parseable per-line JSON
+          # (the NDJSON shape release.yml relies on). Non-gating: audit:ci above
+          # is the real gate, so a non-zero exit (advisories present) is fine
+          # here as long as every line parses.
+          audit_exit=0
+          audit_stream="$(yarn npm audit --environment production --recursive --json)" || audit_exit=$?
+          printf '%s' "$audit_stream" | node -e '
+            const fs = require("fs")
+            let records = 0
+            for (const line of fs.readFileSync(0, "utf8").split("\n")) {
+              const trimmed = line.trim()
+              if (!trimmed) continue
+              JSON.parse(trimmed) // throws if the NDJSON assumption breaks
+              records++
+            }
+            console.log("audit --json parsed: " + records + " record(s), exit " + process.argv[1])
+          ' "$audit_exit"
+
+          # Generated file is gitignored; remove it so the tree stays clean.
+          rm -f sbom.cdx.json
 
   lint:
     name: Run lint
@@ -106,6 +174,7 @@ jobs:
         run: |
           yarn workspace @dnb/eufemia lint:ci
           yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
+          yarn workspace eufemia-raiwork-plugin lint
 
   lint-portal:
     name: Run portal lint
@@ -175,6 +244,7 @@ jobs:
           yarn workspace dnb-design-system-portal test:types
           yarn workspace eufemia-css-optimizer test:types
           yarn workspace eufemia-llm-metadata test:types
+          yarn workspace eufemia-raiwork-plugin test:types
           yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
 
   test:
@@ -203,6 +273,7 @@ jobs:
           yarn workspace eufemia-css-optimizer test
           yarn workspace markdown-tables-utils test
           yarn workspace eufemia-llm-metadata test
+          yarn workspace eufemia-raiwork-plugin test
           yarn workspace @dnb/eufemia-mcp-legacy-proxy test
 
   deps:
@@ -252,6 +323,9 @@ jobs:
 
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
+
+      - name: Build RAIWork plugin
+        run: yarn workspace eufemia-raiwork-plugin build
 
       - name: Check bundle sizes
         env:

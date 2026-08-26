@@ -15,7 +15,10 @@ const lintWithRule = async (code: string) => {
     config: {
       plugins: stylelintPlugin,
       rules: {
-        'eufemia/no-deprecated-color-variables': true,
+        'eufemia/no-deprecated-color-variables':
+          plugin.recommended.rules[
+            'eufemia/no-deprecated-color-variables'
+          ],
       },
     },
   })
@@ -27,7 +30,7 @@ describe('stylelint recommended config', () => {
   it('includes no-deprecated-color-variables in recommended', () => {
     expect(
       plugin.recommended.rules['eufemia/no-deprecated-color-variables']
-    ).toBe(true)
+    ).toEqual([true, { severity: 'warning' }])
   })
 
   it('includes the plugin pack in recommended', () => {
@@ -56,6 +59,7 @@ describe('no-deprecated-color-variables', () => {
     expect(warnings[0].text).not.toContain(
       'https://eufemia.dnb.no/uilib/usage/customisation/theming/design-tokens/guide/'
     )
+    expect(warnings[0].severity).toBe('warning')
   })
 
   it('should not report design token variables', async () => {

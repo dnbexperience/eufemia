@@ -36,9 +36,22 @@ export type AccordionTertiaryProps = Omit<
   noAnimation?: boolean
 
   /**
+   * If set to `true`, the content remains mounted when collapsed.
+   */
+  keepInDOM?: boolean
+
+  /**
+   * If set to `true`, collapsed content remains findable by the browser's find-in-page feature.
+   */
+  openOnFind?: boolean
+
+  /**
    * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, event }`.
    */
-  onChange?: (event: { expanded: boolean; event: MouseEvent }) => void
+  onChange?: (event: {
+    expanded: boolean
+    event: MouseEvent | Event
+  }) => void
 
   children?: ReactNode
 }
@@ -60,6 +73,8 @@ export default function AccordionTertiary(props: AccordionTertiaryProps) {
     title,
     expanded: expandedProp,
     noAnimation,
+    openOnFind: openOnFindProp,
+    keepInDOM,
     className,
     children,
     onChange,
@@ -67,6 +82,7 @@ export default function AccordionTertiary(props: AccordionTertiaryProps) {
     iconPosition,
     ...rest
   } = props
+  const openOnFind = openOnFindProp ?? keepInDOM
 
   const id = useId(props.id)
   const contentId = `${id}-content`
@@ -94,6 +110,16 @@ export default function AccordionTertiary(props: AccordionTertiaryProps) {
       onChange?.({ expanded: next, event })
     },
     [expanded, set, onChange]
+  )
+
+  const handleBeforeMatch = useCallback(
+    (event: Event) => {
+      if (!expanded) {
+        set({ expanded: true, shouldFocusContent: false })
+        onChange?.({ expanded: true, event })
+      }
+    },
+    [expanded, onChange, set]
   )
 
   const mainParams = useSpacing(props, {
@@ -132,6 +158,9 @@ export default function AccordionTertiary(props: AccordionTertiaryProps) {
           onFocusHandled={() =>
             set({ ...data, shouldFocusContent: false })
           }
+          openOnFind={openOnFind}
+          onBeforeMatch={handleBeforeMatch}
+          keepInDOM={keepInDOM}
         >
           {children}
         </AccordionTertiaryContent>

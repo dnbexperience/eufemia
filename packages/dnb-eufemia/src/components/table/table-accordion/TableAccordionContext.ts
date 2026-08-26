@@ -14,6 +14,8 @@ type TableAccordionContextProps = {
   ) => void
   trIsOpen: boolean
   keepInDOM: TableTrProps['keepInDOM']
+  openOnFind: TableTrProps['openOnFind']
+  openFromFind: () => void
   countTds: number
   noAnimation: TableTrProps['noAnimation']
   onOpen: TableTrProps['onOpen']

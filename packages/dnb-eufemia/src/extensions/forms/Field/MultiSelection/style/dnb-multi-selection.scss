@@ -14,10 +14,18 @@
     &.dnb-popover {
       min-width: auto;
     }
+
+    &:not(.dnb-popover--no-inner-space) .dnb-popover__content {
+      padding-top: 1rem;
+    }
   }
 
   &__search {
     padding: 0 0 1rem;
+  }
+  // Intentional 10px spacing to align with UX.
+  &__selected-items + &__search {
+    padding-top: 0.625rem;
   }
 
   &__items {
@@ -107,12 +115,6 @@
     &--parent:not(&--selected) {
       --item-background-color: var(
         --token-color-background-neutral-alternative
-      );
-    }
-
-    &--selected {
-      --item-background-color: var(
-        --token-color-background-selected-subtle
       );
     }
 
@@ -265,19 +267,11 @@
     padding: 0.125rem 0 1rem 0.125rem;
     margin: -0.125rem 0 0 -0.125rem;
   }
-  &__search ~ &__selected-items &__selected-items__inner {
-    padding-top: 1rem;
-  }
-
   &__actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
     padding-top: 1rem;
-  }
-
-  &__selected-items-header {
-    padding: 0.5rem 0;
   }
 
   &--inline {

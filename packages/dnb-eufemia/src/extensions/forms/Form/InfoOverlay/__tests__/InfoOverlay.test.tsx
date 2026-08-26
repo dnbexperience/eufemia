@@ -37,6 +37,21 @@ describe('Form.InfoOverlay', () => {
     expect(anchor).toHaveAttribute('href', '/')
   })
 
+  it('uses the CSS gap layout engine for success content', () => {
+    render(
+      <Form.InfoOverlay content="success">
+        fallback content
+      </Form.InfoOverlay>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-info-overlay .dnb-flex-container')
+    ).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-large'
+    )
+  })
+
   it('should render error with correct text', async () => {
     const nb = nbNO['nb-NO'].InfoOverlayError
     const formId = {}
@@ -63,6 +78,26 @@ describe('Form.InfoOverlay', () => {
     const [backButton, retryButton] = Array.from(buttons)
     expect(backButton).toHaveTextContent(nb.cancelButton)
     expect(retryButton).toHaveTextContent(nb.retryButton)
+  })
+
+  it('uses the CSS gap layout engine for error content', () => {
+    render(
+      <Form.InfoOverlay content="error">fallback content</Form.InfoOverlay>
+    )
+
+    const content = document.querySelector(
+      '.dnb-forms-info-overlay .dnb-flex-container--direction-vertical'
+    )
+
+    expect(content).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-large'
+    )
+    expect(
+      content.querySelector(
+        ':scope > .dnb-flex-container--direction-horizontal'
+      )
+    ).toHaveClass('dnb-flex-container--css-gap')
   })
 
   it('should accept custom buttonHref', () => {

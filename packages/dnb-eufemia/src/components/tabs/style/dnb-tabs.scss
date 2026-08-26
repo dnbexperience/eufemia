@@ -396,6 +396,14 @@
     * {
       height: 0 !important;
     }
+
+    &[hidden='until-found'] {
+      visibility: visible;
+    }
+
+    &[hidden]:not([hidden='until-found']) {
+      display: none;
+    }
   }
 
   // Make focus ring when keyboard is used to navigate

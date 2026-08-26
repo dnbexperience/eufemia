@@ -55,11 +55,11 @@ exports[`Table scss > should match style dependencies css 1`] = `
 }
 .dnb-table--outline {
   position: relative;
-  clip-path: inset(0 0 -10rem 0 round var(--table-outline-radius) var(--table-outline-radius) 0 0);
+  clip-path: inset(0 0 -10rem 0 round var(--table-outline-radius-top) var(--table-outline-radius-top) 0 0);
   z-index: 1;
 }
 .dnb-table--outline, .dnb-table--outline::after {
-  border-radius: var(--table-outline-radius);
+  border-radius: var(--table-outline-radius-top) var(--table-outline-radius-top) var(--table-outline-radius) var(--table-outline-radius);
 }
 .dnb-table--outline::after {
   content: "";
@@ -98,8 +98,12 @@ exports[`Table scss > should match style dependencies css 1`] = `
   --table-outline-color: transparent;
   margin-bottom: 0;
 }
-.dnb-card .dnb-table {
+.dnb-card .dnb-table, .dnb-card .dnb-table__container {
   --table-outline-radius: var(--rounded-corner, var(--token-radius-md));
+  --table-outline-radius-top: 0;
+}
+.dnb-card--filled .dnb-table__scroll-view {
+  clip-path: inset(0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner));
 }
 .dnb-spacing .dnb-table p,
 .dnb-spacing .dnb-table ul,
@@ -122,6 +126,7 @@ exports[`Table scss > should match style dependencies css 1`] = `
   --table-outline: var(--table-outline-width) solid
     var(--table-outline-color);
   --table-outline-radius: var(--token-radius-xl);
+  --table-outline-radius-top: var(--table-outline-radius);
 }
 html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container {
   --table-border-color: blue;
@@ -664,7 +669,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 .dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:first-child,
 .dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:first-child::before,
 .dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:first-child::after {
-  border-top-left-radius: var(--table-outline-radius);
+  border-top-left-radius: var(--table-outline-radius-top);
 }
 
 .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:last-child, .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:last-child::before, .dnb-table--outline thead:first-of-type .dnb-table__tr:first-of-type .dnb-table__th:last-child::after,
@@ -683,7 +688,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 .dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-child,
 .dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-child::before,
 .dnb-table--outline caption:first-child + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-child::after {
-  border-top-right-radius: var(--table-outline-radius);
+  border-top-right-radius: var(--table-outline-radius-top);
 }
 
 .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child::before, .dnb-table--outline tbody:last-child .dnb-table__tr:last-child .dnb-table__th:first-child::after,
@@ -796,12 +801,12 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 
 .dnb-table--outline tr:first-of-type > .dnb-table__cell--focus:first-child,
 .dnb-table--outline .dnb-table__tr:first-of-type > .dnb-table__cell--focus:first-child {
-  border-top-left-radius: var(--table-outline-radius);
+  border-top-left-radius: var(--table-outline-radius-top);
 }
 
 .dnb-table--outline tr:first-of-type > .dnb-table__cell--focus:last-child,
 .dnb-table--outline .dnb-table__tr:first-of-type > .dnb-table__cell--focus:last-child {
-  border-top-right-radius: var(--table-outline-radius);
+  border-top-right-radius: var(--table-outline-radius-top);
 }
 
 .dnb-table--outline tbody:last-child tr:last-of-type > .dnb-table__cell--focus:first-child,
@@ -864,7 +869,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 
 .dnb-table__container, .dnb-table__container::after {
-  border-radius: var(--table-outline-radius);
+  border-radius: var(--table-outline-radius-top) var(--table-outline-radius-top) var(--table-outline-radius) var(--table-outline-radius);
 }
 
 .dnb-table__container, .dnb-table__container__body, .dnb-table__container__head, .dnb-table__container__foot {

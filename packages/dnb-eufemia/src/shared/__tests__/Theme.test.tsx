@@ -628,6 +628,21 @@ describe('Portals', () => {
       window.history.replaceState({}, '', '/')
     })
 
+    it('does not exhibit catastrophic backtracking on a long query string', () => {
+      // A long query without the marker previously made the ".*eufemia-theme..."
+      // matcher run in O(n^2) time (polynomial ReDoS).
+      window.history.replaceState({}, '', '?' + 'a'.repeat(100000))
+
+      const start = performance.now()
+      const result = getTheme()
+      const elapsed = performance.now() - start
+
+      window.history.replaceState({}, '', '/')
+
+      expect(result).toEqual({ name: 'ui' })
+      expect(elapsed).toBeLessThan(1000)
+    })
+
     it('persists theme state to localStorage', () => {
       setTheme({ name: 'eiendom', colorScheme: 'dark' })
 

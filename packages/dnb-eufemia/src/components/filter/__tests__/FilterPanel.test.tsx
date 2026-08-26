@@ -1,4 +1,4 @@
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { act, render, fireEvent, waitFor } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterPanel from '../FilterPanel'
@@ -47,6 +47,30 @@ describe('Filter.Panel', () => {
     const panel = document.querySelector('.dnb-filter__panel')
 
     expect(panel).toBeVisible()
+  })
+
+  it('opens when matching content is found', () => {
+    render(
+      <FilterRoot>
+        <FilterPanelButton>Filters</FilterPanelButton>
+        <FilterPanel openOnFind>
+          <p>Findable filter</p>
+        </FilterPanel>
+      </FilterRoot>
+    )
+
+    const animation = document.querySelector('.dnb-height-animation')
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(document.querySelector('.dnb-button')).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+    expect(document.body).toHaveTextContent('Findable filter')
   })
 
   it('renders filter children as tertiary accordions', () => {

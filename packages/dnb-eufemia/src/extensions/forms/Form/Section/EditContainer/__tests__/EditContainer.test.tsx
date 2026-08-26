@@ -6,6 +6,25 @@ import Toolbar from '../../Toolbar'
 const nb = nbNO['nb-NO']
 
 describe('EditContainer', () => {
+  it('uses the CSS gap layout engine by default', () => {
+    render(
+      <Form.Section>
+        <Form.Section.EditContainer>
+          Edit Content
+        </Form.Section.EditContainer>
+      </Form.Section>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-section-edit-block .dnb-flex-stack'
+      )
+    ).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-forms-section-block__content'
+    )
+  })
+
   it('should throw when preventUncommittedChanges is used without a section path', () => {
     expect(() =>
       render(

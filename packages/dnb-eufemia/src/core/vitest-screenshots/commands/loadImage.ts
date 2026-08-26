@@ -16,6 +16,7 @@ import { PNG } from 'pngjs'
 
 import type { MakeScreenshotResult } from './screenshotEngine'
 import { recordFailure } from '../failures'
+import { createSizeMismatchDiff } from '../sizeMismatchDiff'
 
 export type LoadImagePayload = {
   imagePath: string
@@ -88,12 +89,14 @@ export const matchImageSnapshot = defineBrowserCommand<
     referencePng.width !== actualPng.width ||
     referencePng.height !== actualPng.height
   ) {
+    const diff = createSizeMismatchDiff(referencePng, actualPng)
     await writeFile(payload.actualPath, actualBytes)
+    await writeFile(payload.diffPath, PNG.sync.write(diff))
     recordFailure({
       testFilePath: payload.testFilePath,
       fullName: payload.fullName,
       snapshotPath: payload.snapshotPath,
-      diffPath: null,
+      diffPath: payload.diffPath,
       actualPath: payload.actualPath,
       message: `Image dimensions differ: reference ${referencePng.width}x${referencePng.height}, actual ${actualPng.width}x${actualPng.height}.`,
     })
@@ -107,6 +110,7 @@ export const matchImageSnapshot = defineBrowserCommand<
         width: actualPng.width,
         height: actualPng.height,
       },
+      diffPath: payload.diffPath,
       actualPath: payload.actualPath,
     }
   }

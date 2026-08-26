@@ -9,6 +9,7 @@ import {
   AutocompleteDynamicallyUpdatedData,
   AutocompleteFirstFocusUpdate,
   AutocompleteToggleExample,
+  AutocompleteInlineExample,
   AutocompletePredefinedInput,
   AutocompleteDifferentSizes,
   AutocompleteCustomWidth,
@@ -59,6 +60,12 @@ Also, you may consider using `disableFilter` if you have a backend doing the sea
 ### With a predefined input/search value
 
 <AutocompletePredefinedInput />
+
+### Inline results
+
+Use the `inline` property to render the results list persistently open in normal document flow, instead of as an overlay. The toggle button is hidden, while filtering, highlighting, selection and keyboard navigation stay the same.
+
+<AutocompleteInlineExample />
 
 ### Different sizes
 

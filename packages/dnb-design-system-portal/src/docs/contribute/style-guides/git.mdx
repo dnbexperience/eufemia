@@ -40,7 +40,11 @@ If you are working on a single component update, you can use a decoration and a 
 - `fix(ExampleComponent): an example fix message`
 - `feat(ExampleComponent): this is a new feature`
 
-You can also use the following decorators – but keep in mind, they won't be included in the [releases change log](https://github.com/dnbexperience/eufemia/releases):
+You can also use the following decorators. `docs`, `design`, `style`, `deps`,
+`refactor`, `perf`, and `test` are included in the
+[release notes](https://github.com/dnbexperience/eufemia/releases) when another
+change triggers a release. `chore` and `build` are not included. None of these
+decorators triggers a release on its own:
 
 - `chore:`
 - `design:`

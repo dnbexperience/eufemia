@@ -9,6 +9,8 @@ type BreadcrumbMultipleProps = {
   collapsed: boolean
   noAnimation: boolean
   data: Array<BreadcrumbItemProps>
+  openOnFind?: boolean
+  onBeforeMatch?: () => void
   items:
     | ReactElement<BreadcrumbItemProps>
     | Array<ReactElement<BreadcrumbItemProps>>
@@ -19,11 +21,15 @@ export const BreadcrumbMultiple = ({
   items,
   noAnimation,
   data,
+  openOnFind,
+  onBeforeMatch,
 }: BreadcrumbMultipleProps) => {
   return (
     <HeightAnimation
       open={!collapsed}
       animate={!noAnimation}
+      openOnFind={openOnFind}
+      onBeforeMatch={onBeforeMatch}
       className="dnb-breadcrumb__multiple"
     >
       <ol className="dnb-breadcrumb__list">

@@ -67,14 +67,17 @@ function FilterSelection({
       filterKey={filterKey}
       defaultOpen={defaultOpen}
     >
-      <Flex.Vertical gap="small">
+      <Flex.Vertical layoutEngine="css" gap="small">
         {options.map((option) => (
-          <Checkbox
-            key={option.value}
-            label={option.label}
-            checked={currentValue.includes(option.value)}
-            onChange={({ checked }) => handleChange(option.value, checked)}
-          />
+          <Flex.Item key={option.value}>
+            <Checkbox
+              label={option.label}
+              checked={currentValue.includes(option.value)}
+              onChange={({ checked }) =>
+                handleChange(option.value, checked)
+              }
+            />
+          </Flex.Item>
         ))}
       </Flex.Vertical>
     </FilterItem>

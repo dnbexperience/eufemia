@@ -680,6 +680,26 @@ describeDocsBuild('docs build', () => {
   })
 })
 
+describe('agent skills', () => {
+  it('ships the main package CLI and canonical skills', () => {
+    const cliPath = path.resolve(PKG_ROOT, 'build/cli/eufemia.js')
+    expect(fs.existsSync(cliPath)).toBe(true)
+    expect(fs.readFileSync(cliPath, 'utf-8')).toMatch(
+      /^#!\/usr\/bin\/env node/
+    )
+
+    const skillsRoot = path.resolve(PKG_ROOT, 'build/agent-skills')
+    const manifest = fs.readJsonSync(
+      path.join(skillsRoot, 'manifest.json')
+    )
+    expect(manifest.skills).toHaveLength(6)
+
+    for (const skill of manifest.skills) {
+      expect(fs.existsSync(path.join(skillsRoot, skill.path))).toBe(true)
+    }
+  })
+})
+
 describe('tsdown build', () => {
   const buildStages = ['/esm', '/umd']
 
@@ -1025,6 +1045,30 @@ describe('style build', () => {
       expect(content).toContain(expectedFontFamily)
       expect(content).toContain(expectedColor)
     })
+  })
+})
+
+describe('review rule metadata build', () => {
+  const buildStages = getBuildStages(['', '/es', '/cjs'])
+
+  it.each(buildStages)('ships metadata on stage "%s"', (stage) => {
+    const metadataPath = path.resolve(
+      PKG_ROOT,
+      `build${stage}/plugins/review-rules.js`
+    )
+    const declarationsPath = path.resolve(
+      PKG_ROOT,
+      `build${stage}/plugins/review-rules.d.ts`
+    )
+
+    expect(fs.existsSync(metadataPath)).toBe(true)
+    expect(fs.existsSync(declarationsPath)).toBe(true)
+
+    const metadata = fs.readFileSync(metadataPath, 'utf-8')
+    const declarations = fs.readFileSync(declarationsPath, 'utf-8')
+    expect(metadata).toContain('eufemia/no-deprecated-color-variables')
+    expect(metadata).toContain("level: 'warning'")
+    expect(declarations).toContain('ReviewRuleMetadata')
   })
 })
 

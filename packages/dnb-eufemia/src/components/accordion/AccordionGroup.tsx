@@ -64,6 +64,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     expanded,
     expandedId,
     keepInDOM,
+    openOnFind,
     preventRerender,
     singleContainer,
     contentRef,

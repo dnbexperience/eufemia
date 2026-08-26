@@ -170,6 +170,146 @@ describe('Accordion component', () => {
   })
 })
 
+describe('Accordion openOnFind', () => {
+  it('should not render closed content when "openOnFind" is not set', () => {
+    render(
+      <Accordion {...props}>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    expect(
+      document.querySelector('.dnb-accordion__content')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should keep closed content findable with "hidden=until-found"', () => {
+    render(
+      <Accordion {...props} openOnFind>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const content = document.querySelector('.dnb-accordion__content')
+
+    expect(content).toBeInTheDocument()
+    expect(document.querySelector('.content')).toBeInTheDocument()
+    expect(content).toHaveAttribute('hidden', 'until-found')
+  })
+
+  it('should expand when the "beforematch" event is dispatched', () => {
+    render(
+      <Accordion {...props} openOnFind>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const header = document.querySelector('.dnb-accordion__header')
+    const content = document.querySelector('.dnb-accordion__content')
+
+    expect(header).toHaveAttribute('aria-expanded', 'false')
+    expect(content).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(header).toHaveAttribute('aria-expanded', 'true')
+    expect(content).not.toHaveAttribute('hidden')
+  })
+
+  it('should call "onChange" with expanded true when "beforematch" fires', () => {
+    const onChange = vi.fn()
+    render(
+      <Accordion {...props} openOnFind onChange={onChange}>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const content = document.querySelector('.dnb-accordion__content')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ expanded: true })
+    )
+
+    const { event } = onChange.mock.calls[0][0]
+    expect(event).toBeInstanceOf(Event)
+    expect(event.type).toBe('beforematch')
+  })
+
+  it('should not trigger a change on "beforematch" when already expanded', () => {
+    const onChange = vi.fn()
+    render(
+      <Accordion {...props} openOnFind expanded onChange={onChange}>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const content = document.querySelector('.dnb-accordion__content')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(
+      document.querySelector('.dnb-accordion__header')
+    ).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('should not listen for "beforematch" when "openOnFind" is false', () => {
+    const onChange = vi.fn()
+    render(
+      <Accordion
+        {...props}
+        keepInDOM
+        openOnFind={false}
+        onChange={onChange}
+      >
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    const content = document.querySelector('.dnb-accordion__content')
+
+    act(() => {
+      content.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(onChange).not.toHaveBeenCalled()
+    expect(
+      document.querySelector('.dnb-accordion__header')
+    ).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('should default openOnFind to true when keepInDOM is true', () => {
+    render(
+      <Accordion {...props} keepInDOM>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).toHaveAttribute('hidden', 'until-found')
+  })
+
+  it('should render findable content when preventRerender is set', () => {
+    render(
+      <Accordion {...props} openOnFind preventRerender>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    expect(document.querySelector('.content')).toBeInTheDocument()
+  })
+})
+
 describe('Accordion store API', () => {
   it('will save and read the states for a single accordion', () => {
     const inst = Accordion.Store('accordion-id')
@@ -500,6 +640,37 @@ describe('Accordion container component', () => {
 })
 
 describe('Accordion tertiary variant', () => {
+  it('opens matching content when openOnFind is set', () => {
+    const onChange = vi.fn()
+    render(
+      <Accordion
+        variant="tertiary"
+        title="Toggle"
+        openOnFind
+        onChange={onChange}
+      >
+        <p>Findable content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const animation = document.querySelector('.dnb-height-animation')
+
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    expect(animation).not.toHaveAttribute('hidden')
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ expanded: true })
+    )
+  })
+
   it('renders a tertiary button with chevron icon', () => {
     render(
       <Accordion variant="tertiary" title="Toggle" noAnimation>
@@ -1084,6 +1255,35 @@ describe('Accordion tertiary variant', () => {
     expect(
       document.getElementById('keep-in-dom-test-content').textContent
     ).toContain('Content')
+  })
+
+  it('opens matching standalone Accordion.Content', () => {
+    render(
+      <>
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="find-standalone"
+        />
+        <Accordion.Content connectedTo="find-standalone" openOnFind>
+          <p>Findable content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const animation = document.querySelector('.dnb-height-animation')
+
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    expect(animation).not.toHaveAttribute('hidden')
   })
 
   it('supports noAnimation on standalone Accordion.Content', () => {

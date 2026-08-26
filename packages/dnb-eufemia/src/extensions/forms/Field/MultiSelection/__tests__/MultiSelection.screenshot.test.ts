@@ -21,6 +21,45 @@ describe('MultiSelection', () => {
     })
   })
 
+  it('should match a scrollable inline item list', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="multi-selection-scrollable-inline"]',
+    })
+  })
+
+  it('should match the first scrollable inline item on hover', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="multi-selection-scrollable-inline"]',
+      screenshotSelector:
+        '[data-visual-test="multi-selection-scrollable-inline"] ul li:first-child',
+      simulate: 'hover',
+      simulateSelector:
+        '[data-visual-test="multi-selection-scrollable-inline"] ul li:first-child',
+    })
+  })
+
+  it('should match the scrollable inline item list on focus', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="multi-selection-scrollable-inline"]',
+      screenshotSelector:
+        '[data-visual-test="multi-selection-scrollable-inline"] .dnb-forms-field-multi-selection__items',
+      simulate: 'focus',
+      simulateSelector:
+        '[data-visual-test="multi-selection-scrollable-inline"] .dnb-forms-field-multi-selection__items',
+    })
+  })
+
+  it('should match selected items before search', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="multi-selection-many-selected-items"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="multi-selection-many-selected-items"] .dnb-dropdown__trigger',
+      screenshotSelector:
+        '.dnb-forms-field-multi-selection__popover .dnb-popover__content',
+    })
+  })
+
   it('should match hover state of item', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="multi-selection-variant-inline"]',

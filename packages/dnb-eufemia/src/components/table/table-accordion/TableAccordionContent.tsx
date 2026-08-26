@@ -1,10 +1,11 @@
-import { useContext, useRef } from 'react'
+import { useContext, useEffect, useRef } from 'react'
 import type { TableHTMLAttributes } from 'react'
 import { clsx } from 'clsx'
 import useId from '../../../shared/helpers/useId'
 import useTableAnimationHandler from './useTableAnimationHandler'
 import { TableContext } from '../TableContext'
 import { TableAccordionContext } from './TableAccordionContext'
+import { supportsOpenOnFind } from '../../height-animation/HeightAnimation'
 
 type TableAccordionContentProps = {
   /** Set to true to expanded the content on initial render */
@@ -57,8 +58,26 @@ function TableAccordionContent(
     expanded,
     noAnimation,
   })
-  const keepInDOM = Boolean(useContext(TableAccordionContext)?.keepInDOM)
-  const shouldRenderContent = isInDOM || keepInDOM
+  const accordionContext = useContext(TableAccordionContext)
+  const keepInDOM = Boolean(accordionContext?.keepInDOM)
+  const openOnFind = Boolean(accordionContext?.openOnFind)
+  const canOpenOnFind = openOnFind && supportsOpenOnFind()
+  const shouldRenderContent = isInDOM || keepInDOM || canOpenOnFind
+
+  useEffect(() => {
+    const element = trRef.current
+    if (!element || isInDOM || !canOpenOnFind) {
+      return undefined
+    }
+
+    element.setAttribute('hidden', 'until-found')
+    const handleBeforeMatch = () => accordionContext?.openFromFind()
+    element.addEventListener('beforematch', handleBeforeMatch)
+
+    return () => {
+      element.removeEventListener('beforematch', handleBeforeMatch)
+    }
+  }, [accordionContext, canOpenOnFind, isInDOM])
 
   const chevronTdProps = {
     ariaLive,
@@ -76,7 +95,7 @@ function TableAccordionContent(
        * - Firefox on Windows does it as well, but not when used with NVDA.
        */
       aria-hidden={!isInDOM} // NVDA and VoiceOver needs "aria-hidden" to remove it from the accessibility tree
-      hidden={isInDOM ? undefined : true} // NVDA and VoiceOver needs "hidden" to be true in order to not count invisible table rows (based on "tr" element)
+      hidden={isInDOM ? undefined : true} // Enhanced to hidden="until-found" after mount when openOnFind is enabled
       role={isInDOM ? 'row' : undefined} // NVDA and VoiceOver needs "hidden" to be true in order to not count invisible table rows (based on "role" element)
       style={{
         ...firstPaintStyle,
