@@ -25,4 +25,5 @@ export const defaultPaths: BuildPaths = {
     '../../../packages/dnb-design-system-portal/static/dnb/og-image.png'
   ),
   outputRoot: path.resolve(moduleDirectory, '../dist/dnb-eufemia-web'),
+  agentPluginOutputRoot: path.resolve(moduleDirectory, '../dist/eufemia'),
 }
