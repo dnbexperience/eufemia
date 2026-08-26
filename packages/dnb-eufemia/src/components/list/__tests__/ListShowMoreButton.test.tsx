@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { act, render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import ListShowMoreButton from '../ListShowMoreButton'
 import Container from '../Container'
@@ -242,13 +242,51 @@ describe('List.ShowMoreButton', () => {
 
     expect(items[0]).not.toHaveAttribute('hidden')
     expect(items[1]).not.toHaveAttribute('hidden')
-    expect(items[2]).toHaveAttribute('hidden')
-    expect(items[3]).toHaveAttribute('hidden')
+    expect(items[2]).toHaveAttribute('hidden', 'until-found')
+    expect(items[3]).toHaveAttribute('hidden', 'until-found')
 
     fireEvent.click(getButton())
 
     expect(items[2]).not.toHaveAttribute('hidden')
     expect(items[3]).not.toHaveAttribute('hidden')
+  })
+
+  it('expands the list when hidden content is found', () => {
+    render(
+      <>
+        <ListShowMoreButton id="findable-list" />
+        <Container id="findable-list" visibleCount={1}>
+          <ItemContent>Item 1</ItemContent>
+          <ItemContent>Findable item</ItemContent>
+        </Container>
+      </>
+    )
+
+    const hiddenItem = document.querySelectorAll('.dnb-list__item')[1]
+    expect(hiddenItem).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      hiddenItem.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(getButton()).toHaveAttribute('aria-expanded', 'true')
+    expect(hiddenItem).not.toHaveAttribute('hidden')
+  })
+
+  it('allows openOnFind to be disabled', () => {
+    render(
+      <>
+        <ListShowMoreButton id="hidden-list" />
+        <Container id="hidden-list" visibleCount={1} openOnFind={false}>
+          <ItemContent>Item 1</ItemContent>
+          <ItemContent>Hidden item</ItemContent>
+        </Container>
+      </>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-list__item')[1]
+    ).toHaveAttribute('hidden', '')
   })
 
   it('sets aria-controls pointing to the container id', () => {
