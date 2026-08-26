@@ -26,8 +26,6 @@ import {
   calculateTotalScore,
   passesNumericTermsCheck,
 } from '../../../../shared/search'
-import whatInput from '../../../../shared/helpers/whatInput'
-import useIsomorphicLayoutEffect from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 import { createSharedState } from '../../../../shared/helpers/useSharedState'
 import { MultiSelectionTrigger } from './MultiSelectionTrigger'
@@ -252,28 +250,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const hasFeature =
     showSearchField || showSelectedTags || showConfirmButton
 
-  // Match the existing menu pattern so arrow-key navigation is treated as
-  // keyboard input even when focus is moved programmatically after mouse-open.
-  useIsomorphicLayoutEffect(() => {
-    if (isOpen) {
-      whatInput.specificKeys([
-        'Tab',
-        'ArrowLeft',
-        'ArrowUp',
-        'ArrowRight',
-        'ArrowDown',
-        'PageUp',
-        'PageDown',
-        'End',
-        'Home',
-      ])
-    }
-
-    return () => {
-      whatInput.specificKeys(['Tab'])
-    }
-  }, [isOpen])
-
   // Flatten nested items to a single array for searching and counting
   const flattenItems = useCallback(
     (items: MultiSelectionData | undefined): MultiSelectionData => {
@@ -358,8 +334,10 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             return null
           }
 
-          const matches =
-            matchedWords.length === prepared.searchWordsData.length
+          // An item matches if any search word is found (OR semantics),
+          // mirroring Autocomplete. Multiple numeric terms still require all
+          // to match, which is enforced by passesNumericTermsCheck above.
+          const matches = matchedWords.length > 0
 
           const children = item.children
             ? filterRecursive(item.children)
