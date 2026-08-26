@@ -95,6 +95,11 @@ export const PanelProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "Keeps closed panel content findable by the browser's find-in-page feature. Matching content opens the panel. Defaults to `false`.",
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Filter components rendered inside the panel, e.g. `Filter.Selection`, `Filter.Date`, or custom filters.',
     type: 'React.ReactNode',
