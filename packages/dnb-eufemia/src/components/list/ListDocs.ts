@@ -33,6 +33,12 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  openOnFind: {
+    doc: 'Makes items hidden by `visibleCount` findable with browser find-in-page. Matching content is revealed and expands a list connected to `List.ShowMoreButton`. Defaults to `true` when `visibleCount` is used.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
   children: {
     doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
     type: 'React.ReactNode',
