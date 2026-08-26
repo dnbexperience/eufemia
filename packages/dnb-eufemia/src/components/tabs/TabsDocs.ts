@@ -56,6 +56,11 @@ export const TabsProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "If set to `true`, all tab content is rendered and inactive content remains findable by the browser's find-in-page feature. Matching content selects its tab. Defaults to the value of `keepInDOM`.",
+    type: 'boolean',
+    status: 'optional',
+  },
   preventRerender: {
     doc: 'If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `keepInDOM`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.',
     type: 'boolean',
