@@ -369,6 +369,12 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
 .dnb-tabs__cached--hidden * {
   height: 0 !important;
 }
+.dnb-tabs__cached--hidden[hidden=until-found] {
+  visibility: visible;
+}
+.dnb-tabs__cached--hidden[hidden]:not([hidden=until-found]) {
+  display: none;
+}
 .dnb-tabs__content:focus-visible {
   position: relative;
 }
@@ -794,6 +800,12 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
 }
 .dnb-tabs__cached--hidden * {
   height: 0 !important;
+}
+.dnb-tabs__cached--hidden[hidden=until-found] {
+  visibility: visible;
+}
+.dnb-tabs__cached--hidden[hidden]:not([hidden=until-found]) {
+  display: none;
 }
 .dnb-tabs__content:focus-visible {
   position: relative;

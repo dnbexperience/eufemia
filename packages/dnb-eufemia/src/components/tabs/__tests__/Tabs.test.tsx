@@ -786,6 +786,54 @@ describe('A single Tab component', () => {
     ).toBe('Content two')
   })
 
+  it('opens matching content when keepInDOM is true', () => {
+    const onChange = vi.fn()
+    render(
+      <Tabs
+        {...props}
+        keepInDOM
+        onChange={onChange}
+        data={[
+          { title: 'One', key: 'one', content: 'Content one' },
+          { title: 'Two', key: 'two', content: 'Findable content' },
+        ]}
+      />
+    )
+
+    const contents = document.querySelectorAll('.dnb-tabs__cached')
+    expect(contents[1]).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      contents[1].dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(
+      document.querySelector('button[data-tab-key="two"]')
+    ).toHaveAttribute('aria-selected', 'true')
+    expect(contents[1]).not.toHaveAttribute('hidden')
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ key: 'two' })
+    )
+  })
+
+  it('allows openOnFind to be disabled when keepInDOM is true', () => {
+    render(
+      <Tabs
+        {...props}
+        keepInDOM
+        openOnFind={false}
+        data={[
+          { title: 'One', key: 'one', content: 'Content one' },
+          { title: 'Two', key: 'two', content: 'Content two' },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-tabs__cached')[1]
+    ).toHaveAttribute('hidden', '')
+  })
+
   it('has to work with "Tabs.Content" as children components', () => {
     render(
       <Tabs {...props} data={tablistData}>
