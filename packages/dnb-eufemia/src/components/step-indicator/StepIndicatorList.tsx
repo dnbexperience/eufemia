@@ -24,6 +24,7 @@ function StepIndicatorList() {
     countSteps,
     data,
     noAnimation,
+    openOnFind,
   } = useContext(StepIndicatorContext)
   const Element = mode === 'static' ? 'div' : 'nav'
 
@@ -33,6 +34,8 @@ function StepIndicatorList() {
     <HeightAnimation
       animate={!noAnimation}
       open={open}
+      openOnFind={openOnFind}
+      onBeforeMatch={openHandler}
       onOpen={(state) => {
         if (state) {
           openHandler()
