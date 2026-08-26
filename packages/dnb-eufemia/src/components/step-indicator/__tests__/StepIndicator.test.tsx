@@ -222,6 +222,32 @@ describe('StepIndicator redesign', () => {
       document.querySelectorAll('li.dnb-step-indicator__item')
     ).toHaveLength(4)
   })
+
+  it('should expand when matching content is found', () => {
+    render(
+      <StepIndicator
+        mode="loose"
+        data={stepIndicatorListData}
+        openOnFind
+      />
+    )
+
+    const animation = document.querySelector(
+      '.dnb-step-indicator-wrapper .dnb-height-animation[hidden]'
+    )
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(
+      document.querySelector('.dnb-step-indicator__trigger__button')
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      document.querySelectorAll('.dnb-step-indicator__item')
+    ).toHaveLength(4)
+  })
 })
 
 describe('StepIndicator in loose mode', () => {

@@ -41,6 +41,11 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "Keeps the collapsed step list findable by the browser's find-in-page feature. Matching content expands the list. Defaults to `false`.",
+    type: 'boolean',
+    status: 'optional',
+  },
   outset: {
     doc: 'Whether or not to break out (using negative margins) on larger screens. Defaults to `false`. Same as `outset` in [Card](/uilib/components/card/properties).',
     type: 'boolean',

@@ -106,6 +106,10 @@ export type StepIndicatorProps = Omit<
      */
     expandedInitially?: boolean
     /**
+     * Keeps the collapsed step list findable by the browser's find-in-page feature. Matching content expands the list. Defaults to `false`.
+     */
+    openOnFind?: boolean
+    /**
      * Whether or not to break out (using negative margins) on larger screens. Defaults to `false`. Same as `outset` in [Card](/uilib/components/card/properties).
      */
     outset?: boolean
@@ -123,6 +127,7 @@ function StepIndicator({
   hideNumbers = stepIndicatorDefaultProps.hideNumbers,
   noAnimation = stepIndicatorDefaultProps.noAnimation,
   expandedInitially = stepIndicatorDefaultProps.expandedInitially,
+  openOnFind = stepIndicatorDefaultProps.openOnFind,
   ...restOfProps
 }: StepIndicatorProps) {
   const { outset, ...props } = {
@@ -132,6 +137,7 @@ function StepIndicator({
     hideNumbers,
     noAnimation,
     expandedInitially,
+    openOnFind,
     ...restOfProps,
   }
 
