@@ -57,6 +57,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     expanded,
     noAnimation,
     keepInDOM,
+    openOnFind: openOnFindProp,
     onClick,
     onOpen,
     onClose,
@@ -79,6 +80,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   })
   const [trIsHover, setHover] = useState(false)
   const [trHadClick, setHadClick] = useState(false)
+  const openOnFind = openOnFindProp ?? keepInDOM ?? false
 
   let headerContent = Children.toArray(children)
 
@@ -212,6 +214,8 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         trIsOpen,
         noAnimation,
         keepInDOM,
+        openOnFind,
+        openFromFind: () => setOpen(true),
         countTds,
         onOpen,
         onClose,
