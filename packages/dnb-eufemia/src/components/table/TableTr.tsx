@@ -67,6 +67,11 @@ export type TableTrProps = {
   keepInDOM?: boolean
 
   /**
+   * When `true`, keeps collapsed accordion content findable by the browser's find-in-page feature. Defaults to the value of `keepInDOM`.
+   */
+  openOnFind?: boolean
+
+  /**
    * Will emit when user clicks/expands or on keydown space/enter (in `mode="accordion"` and `mode="navigation"`) in the table row. The second argument is an object with `trElement` (the `HTMLTableRowElement`).
    * Default: `undefined`
    */
@@ -143,6 +148,7 @@ export default function Tr(
     disabled,
     noAnimation,
     keepInDOM,
+    openOnFind,
     onClick,
     onOpen,
     onClose,

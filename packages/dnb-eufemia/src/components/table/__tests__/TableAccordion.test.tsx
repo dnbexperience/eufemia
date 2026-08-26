@@ -229,6 +229,71 @@ describe('TableAccordion', () => {
       )
       expect(content).not.toBeInTheDocument()
     })
+
+    it('opens matching content by default when keepInDOM is true', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr keepInDOM>
+              <Td>content</Td>
+              <Td.AccordionContent>Findable content</Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const rows = document.querySelectorAll('tr')
+      const header = rows[0]
+      const content = rows[1]
+      expect(content).toHaveAttribute('hidden', 'until-found')
+
+      act(() => {
+        content.dispatchEvent(new Event('beforematch'))
+      })
+
+      expect(header.querySelector('.dnb-button')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+      expect(content).not.toHaveAttribute('hidden')
+    })
+
+    it('allows openOnFind to be disabled when keepInDOM is true', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr keepInDOM openOnFind={false}>
+              <Td>content</Td>
+              <Td.AccordionContent>Hidden content</Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      expect(document.querySelectorAll('tr')[1]).toHaveAttribute(
+        'hidden',
+        ''
+      )
+    })
+
+    it('keeps openOnFind opt-in when keepInDOM is false', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr openOnFind>
+              <Td>content</Td>
+              <Td.AccordionContent>Findable content</Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      expect(document.querySelectorAll('tr')[1]).toHaveAttribute(
+        'hidden',
+        'until-found'
+      )
+      expect(document.body).toHaveTextContent('Findable content')
+    })
   })
 
   it('expanded accordion content td should contain correct roles', () => {
