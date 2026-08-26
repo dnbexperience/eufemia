@@ -1,4 +1,5 @@
 import { buildRaiworkBundle, validateRaiworkBundle } from './bundle.ts'
+import { buildAgentPlugin, validateAgentPlugin } from './agent-plugin.ts'
 import { defaultPaths } from './paths.ts'
 import { verifyHostedMcp } from './remote.ts'
 
@@ -11,6 +12,15 @@ const printBuildReport = (
   report: Awaited<ReturnType<typeof buildRaiworkBundle>>
 ) => {
   writeLine(`RAIWork plugin: ${report.bundleRoot}`)
+  writeLine(`Skills: ${report.skillCount}`)
+  writeLine(`Files: ${report.fileCount}`)
+  writeLine(`Size: ${formatBytes(report.totalBytes)}`)
+}
+
+const printAgentPluginReport = (
+  report: Awaited<ReturnType<typeof buildAgentPlugin>>
+) => {
+  writeLine(`Agent Plugin: ${report.bundleRoot}`)
   writeLine(`Skills: ${report.skillCount}`)
   writeLine(`Files: ${report.fileCount}`)
   writeLine(`Size: ${formatBytes(report.totalBytes)}`)
@@ -38,11 +48,22 @@ try {
     case 'validate':
       printBuildReport(await validateRaiworkBundle(defaultPaths))
       break
+    case 'build-agent':
+      printAgentPluginReport(await buildAgentPlugin(defaultPaths))
+      break
+    case 'validate-agent':
+      printAgentPluginReport(await validateAgentPlugin(defaultPaths))
+      break
+    case 'build-all':
+      printBuildReport(await buildRaiworkBundle(defaultPaths))
+      printAgentPluginReport(await buildAgentPlugin(defaultPaths))
+      break
     case 'verify-remote':
       printRemoteReport(await verifyHostedMcp(defaultPaths))
       break
     case 'release-check':
       printBuildReport(await buildRaiworkBundle(defaultPaths))
+      printAgentPluginReport(await buildAgentPlugin(defaultPaths))
       printRemoteReport(await verifyHostedMcp(defaultPaths))
       break
     default:
@@ -51,8 +72,11 @@ try {
 Commands:
   build          Generate and validate dist/dnb-eufemia-web
   validate       Validate the existing generated bundle
+  build-agent    Generate and validate dist/eufemia
+  validate-agent Validate the existing Agent Plugin
+  build-all      Generate and validate both plugin formats
   verify:remote  Verify required tools on the hosted Eufemia MCP
-  release:check  Build, validate, and verify the hosted MCP`)
+  release:check  Build both formats and verify the hosted MCP`)
   }
 } catch (error) {
   writeWarning(error instanceof Error ? error.message : String(error))

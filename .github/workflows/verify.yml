@@ -324,8 +324,8 @@ jobs:
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
 
-      - name: Build RAIWork plugin
-        run: yarn workspace eufemia-raiwork-plugin build
+      - name: Build marketplace plugins
+        run: yarn workspace eufemia-raiwork-plugin build:all
 
       - name: Check bundle sizes
         env:
