@@ -8,6 +8,9 @@ on:
       - 'alpha'
       - 'next'
       - '*.x'
+      # THROWAWAY: one-off npm OIDC trusted-publishing verification (see the
+      # verify-oidc job below). Remove this entry and that job once verified.
+      - 'test/verify-oidc-trusted-publishing'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -27,6 +30,10 @@ permissions:
 jobs:
   action:
     name: Run release and deploy
+
+    # THROWAWAY: never run the real release/deploy on the OIDC-verification
+    # branch — only the verify-oidc job runs there (nothing is published).
+    if: github.ref != 'refs/heads/test/verify-oidc-trusted-publishing'
 
     runs-on: ubuntu-latest
 
@@ -387,3 +394,67 @@ jobs:
       - name: Deploy portal
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+
+  # ---------------------------------------------------------------------------
+  # THROWAWAY — one-off check that npm Trusted Publishing (OIDC) is configured
+  # correctly. Runs ONLY on test/verify-oidc-trusted-publishing. It performs the
+  # exact GitHub->npm OIDC token exchange that @semantic-release/npm does at
+  # publish time (mint an id-token for audience npm:registry.npmjs.org, then POST
+  # it to the npm token-exchange endpoint) but stops at the token — it never
+  # publishes. HTTP 200 proves npm's Trusted Publisher accepts a publish from
+  # this repo + workflow. Done as a direct exchange rather than
+  # `semantic-release --dry-run` because semantic-release only runs the exchange
+  # once it is on a configured release branch (its verifyConditions step is
+  # gated behind the branch check), which this throwaway branch is not. Must live
+  # in release.yml: npm matches the Trusted Publisher on the workflow filename.
+  # Delete this job and the branch entry in `on.push` once verified.
+  # ---------------------------------------------------------------------------
+  verify-oidc:
+    name: Verify npm OIDC trusted publishing
+    if: github.ref == 'refs/heads/test/verify-oidc-trusted-publishing'
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    permissions:
+      contents: read
+      id-token: write # Mint the GitHub OIDC token for the npm token exchange
+
+    steps:
+      - name: Exchange a GitHub OIDC token with npm (no publish)
+        run: |
+          # Never leave the short-lived npm token from a successful exchange on disk.
+          trap 'rm -f "${RUNNER_TEMP}/npm-oidc-response.json"' EXIT
+
+          if [ -z "${ACTIONS_ID_TOKEN_REQUEST_URL:-}" ] || [ -z "${ACTIONS_ID_TOKEN_REQUEST_TOKEN:-}" ]; then
+            echo "::error::No GitHub OIDC token endpoint — is 'id-token: write' granted to this job?"
+            exit 1
+          fi
+
+          # Mint a GitHub OIDC token for npm's audience — same as @actions/core
+          # getIDToken('npm:registry.npmjs.org') used by @semantic-release/npm.
+          token_response="$(curl -sS \
+            -H "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=npm%3Aregistry.npmjs.org")" \
+            || { echo "::error::Request for a GitHub OIDC token failed."; exit 1; }
+          id_token="$(printf '%s' "$token_response" | jq -r '.value // empty')"
+          if [ -z "$id_token" ]; then
+            echo "::error::GitHub did not return an OIDC token."
+            exit 1
+          fi
+
+          # Exchange it for a short-lived npm token at the exact endpoint the real
+          # publish uses. Only the HTTP status is inspected; the token is never printed.
+          http_code="$(curl -sS -o "${RUNNER_TEMP}/npm-oidc-response.json" -w '%{http_code}' \
+            -X POST \
+            -H "Authorization: Bearer ${id_token}" \
+            "https://registry.npmjs.org/-/npm/v1/oidc/token/exchange/package/%40dnb%2Feufemia")"
+
+          if [ "$http_code" = "200" ]; then
+            echo "OIDC trusted publishing verified: npm accepted the token exchange for @dnb/eufemia from release.yml. A real release will authenticate."
+          else
+            echo "::error::npm OIDC token exchange failed (HTTP ${http_code}). Check the Trusted Publisher on npmjs.com (repo dnbexperience/eufemia, workflow filename release.yml) and that id-token: write is granted to this workflow."
+            echo "npm response: $(jq -r '.message // .error // "(no message)"' "${RUNNER_TEMP}/npm-oidc-response.json" 2>/dev/null || echo '(unparseable)')"
+            exit 1
+          fi
