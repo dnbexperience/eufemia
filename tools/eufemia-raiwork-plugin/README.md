@@ -154,7 +154,7 @@ generated diff and bump the plugin version before publishing an update.
 
 The public `dnbexperience/eufemia-agent-plugins` repository stores the generated
 `dist/eufemia` directory as `plugins/eufemia`. Its catalog identity is
-`eufemia-plugins-official`, while the plugin identity is `eufemia`.
+`eufemia-agent-plugins`, while the plugin identity is `eufemia`.
 
 Publish each version with a `eufemia--v<version>` Git tag so Claude can resolve
 dependency constraints. The public repository is a generated distribution;
