@@ -181,18 +181,15 @@ marketplace version is an immutable folder upload:
 
 6. Review `tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web`, especially its
    manifest, skill frontmatter, README, license, cover, and file inventory.
-7. Upload that folder privately through RAIWork **Marketplace → My Uploads →
-   Upload**, or with:
+7. Run the **Build Eufemia marketplace artifacts** workflow for the source
+   commit and download its `dnb-eufemia-web-<sha>` artifact.
+8. Upload that folder privately through RAIWork **Marketplace → My Uploads →
+   Upload**.
 
-   ```bash
-   raicode manage marketplace upload \
-   tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web
-   ```
-
-8. Wait for marketplace scans, install the private version in a clean profile,
+9. Wait for marketplace scans, install the private version in a clean profile,
    enable the **eufemia** MCP server, and complete the post-release checks below.
-9. Make the version public and record the plugin version, Eufemia source commit,
-   and evaluation evidence in the release record.
+10. Make the version public and record the plugin version, Eufemia source commit,
+    and evaluation evidence in the release record.
 
 Never reuse or overwrite a marketplace version. Publish a higher version to
 replace or roll back a release.
@@ -228,19 +225,10 @@ publishing.
    safeguard scan.
 5. Inspect the result and make the version public when it is ready.
 
-### Marketplace-enabled CLI
-
-When using a RAIWork distribution of `raicode` that includes marketplace
-management:
-
-```bash
-raicode manage marketplace upload \
-   tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web
-```
-
-Private is the default. Add `--public` only when the release should be visible
-immediately after scanning. The desktop upload flow and CLI use the same packer
-and safety validation.
+The supported `raicode` CLI does not currently expose marketplace upload, so the
+workflow deliberately stops at a validated artifact. Add direct publication
+only when RAIWork provides a documented non-interactive API and credential
+contract.
 
 ## Installation behavior
 
