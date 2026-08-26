@@ -1488,6 +1488,34 @@ describe('MultiSelection', () => {
           { timeout: 3000 }
         )
       })
+
+      it('keeps items matching any search word (OR), like Autocomplete', async () => {
+        const data = [
+          { value: 'a', title: 'alpha delta' }, // matches only "alpha"
+          { value: 'b', title: 'beta gamma' }, // matches only "beta"
+          { value: 'c', title: 'alpha beta' }, // matches both
+        ]
+
+        render(<Field.MultiSelection data={data} showSearchField />)
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'alpha beta' } })
+
+        await waitFor(
+          () => {
+            const items = document.querySelectorAll(
+              '.dnb-forms-field-multi-selection__item'
+            )
+            // All three are kept because each matches at least one word.
+            expect(items).toHaveLength(3)
+            // The item matching both words scores highest and is reordered first.
+            expect(items[0]).toHaveTextContent('alpha beta')
+          },
+          { timeout: 3000 }
+        )
+      })
     })
   })
 
