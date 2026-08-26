@@ -19,6 +19,13 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import useTranslation from '../../hooks/useTranslation'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import type { SearchOptions } from '../../../../shared/search'
+import {
+  prepareSearchWords,
+  findMatchingWords,
+  calculateTotalScore,
+  passesNumericTermsCheck,
+} from '../../../../shared/search'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 import { createSharedState } from '../../../../shared/helpers/useSharedState'
 import { MultiSelectionTrigger } from './MultiSelectionTrigger'
@@ -93,6 +100,11 @@ export type FieldMultiSelectionProps = FieldProps<
   selectedItemsCollapsibleThreshold?: number
 
   /**
+   * Configure search behavior when `showSearchField` is enabled. An object with optional keys: `filter` (enable result filtering, default `true`), `reorder` (enable relevance reordering, default `true`), `numbers` (enable number-optimized matching, default `false`), `matchInsideWordsFrom` (threshold for in-word search, default `3`), and `match` (matching mode `"word"` or `"starts-with"`, default `"word"`). When `filter` is `false`, items are not filtered out but are still reordered by relevance unless `reorder` is also `false`. Example: `search={{ numbers: true }}`.
+   */
+  search?: Omit<SearchOptions, 'highlight'>
+
+  /**
    * Show confirm and cancel buttons at the bottom of the popover. Selections are only applied when the user confirms.
    */
   showConfirmButton?: boolean
@@ -122,6 +134,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     className,
     variant = 'popover',
     width,
+    search,
     showSearchField = false,
     showSelectedTags = false,
     maxHeight,
@@ -243,10 +256,6 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const hasFeature =
     showSearchField || showSelectedTags || showConfirmButton
 
-  const toSearchText = useCallback((content?: ReactNode) => {
-    return convertJsxToString(content || '').toLowerCase()
-  }, [])
-
   // Flatten nested items to a single array for searching and counting
   const flattenItems = useCallback(
     (items: MultiSelectionData | undefined): MultiSelectionData => {
@@ -277,7 +286,10 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     })
   }
 
-  // Filter items based on search (includes nested items)
+  const disableFilter = search?.filter === false
+  const disableReorder = search?.reorder === false
+
+  // Filter and/or reorder items based on search (includes nested items)
   const filteredItems = useMemo(() => {
     if (!dataList) {
       return []
@@ -286,37 +298,102 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       return dataList
     }
 
-    const searchLower = searchValue.toLowerCase()
+    const searchOptions = {
+      numbers: search?.numbers,
+      matchInsideWordsFrom: search?.matchInsideWordsFrom ?? 3,
+      match: search?.match,
+    }
+    const prepared = prepareSearchWords(searchValue, searchOptions)
+    const shouldScore = !disableReorder
 
-    const filterRecursive = (
-      items: MultiSelectionData
-    ): MultiSelectionData => {
+    type ScoredItem = MultiSelectionItem & { __score?: number }
+
+    const filterRecursive = (items: MultiSelectionData): ScoredItem[] => {
       return items
-        .map((item: MultiSelectionItemInternal) => {
-          const title = convertJsxToString(item.title).toLowerCase()
-          const text = toSearchText(item.text)
-          const description = toSearchText(item.description)
-          const matches =
-            title.includes(searchLower) ||
-            text.includes(searchLower) ||
-            description.includes(searchLower)
+        .map((item: MultiSelectionItemInternal): ScoredItem | null => {
+          const title = convertJsxToString(item.title)
+          const text = convertJsxToString(item.text || '')
+          const description = convertJsxToString(item.description || '')
+
+          const contentChunk = [title, text, description]
+            .filter(Boolean)
+            .join(' ')
+
+          const matchedWords = findMatchingWords(contentChunk, prepared)
+
+          if (!passesNumericTermsCheck(matchedWords, prepared)) {
+            if (disableFilter) {
+              return item
+            }
+
+            const children = item.children
+              ? filterRecursive(item.children)
+              : []
+
+            if (children.length > 0) {
+              return {
+                ...item,
+                children,
+              }
+            }
+
+            return null
+          }
+
+          // An item matches if any search word is found (OR semantics),
+          // mirroring Autocomplete. Multiple numeric terms still require all
+          // to match, which is enforced by passesNumericTermsCheck above.
+          const matches = matchedWords.length > 0
+
           const children = item.children
             ? filterRecursive(item.children)
             : []
 
-          if (matches || children.length > 0) {
+          if (disableFilter || matches || children.length > 0) {
             return {
               ...item,
               children: children.length > 0 ? children : item.children,
+              ...(shouldScore && {
+                __score: matches ? calculateTotalScore(matchedWords) : 0,
+              }),
             }
           }
+
           return null
         })
-        .filter(Boolean) as MultiSelectionData
+        .filter(Boolean) as ScoredItem[]
     }
 
-    return filterRecursive(dataList)
-  }, [dataList, searchValue, toSearchText])
+    const result = filterRecursive(dataList)
+
+    if (shouldScore) {
+      result.sort((a, b) => (b.__score ?? 0) - (a.__score ?? 0))
+
+      const stripScores = (items: ScoredItem[]): MultiSelectionData => {
+        return items.map(({ __score, ...item }) => {
+          if (item.children) {
+            return {
+              ...item,
+              children: stripScores(item.children as ScoredItem[]),
+            }
+          }
+          return item
+        })
+      }
+
+      return stripScores(result)
+    }
+
+    return result
+  }, [
+    dataList,
+    searchValue,
+    disableFilter,
+    disableReorder,
+    search?.numbers,
+    search?.matchInsideWordsFrom,
+    search?.match,
+  ])
 
   // Get items of selected values (based on tempValue)
   const selectedItems = useMemo(() => {
