@@ -1743,6 +1743,53 @@ describe('Autocomplete component', () => {
       })
     })
 
+    it('updates filter and reorder when search config changes', () => {
+      const data = ['bbb aaa ccc', 'aaa bbb', 'ccc']
+      const { rerender } = render(
+        <Autocomplete
+          search={{ filter: false, reorder: false }}
+          data={data}
+          showSubmitButton
+          {...mockProps}
+        />
+      )
+
+      toggle()
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'a' },
+      })
+
+      expect(
+        Array.from(
+          document.querySelectorAll(
+            'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+          )
+        ).map((option) => option.textContent)
+      ).toEqual(data)
+
+      rerender(
+        <Autocomplete
+          search={{ filter: true, reorder: true }}
+          data={data}
+          showSubmitButton
+          {...mockProps}
+        />
+      )
+
+      fireEvent.change(document.querySelector('.dnb-input__input'), {
+        target: { value: 'aaa' },
+      })
+
+      expect(
+        Array.from(
+          document.querySelectorAll(
+            'li.dnb-drawer-list__option:not(.dnb-autocomplete__show-all)'
+          )
+        ).map((option) => option.textContent)
+      ).toEqual(['aaa bbb', 'bbb aaa ccc'])
+    })
+
     describe('search.numbers', () => {
       it('filters numbers when search.numbers is true', () => {
         const numberData = [

@@ -814,6 +814,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const preventReopenRef = useRef(false)
 
   // Keep refs in sync with state for use in callbacks
+  skipFilterRef.current = disableFilter
+  skipReorderRef.current = disableReorder
   searchIndexRef.current = searchIndex
   inputValueRef.current = inputValue
   typedInputValueRef.current = typedInputValue
