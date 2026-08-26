@@ -308,6 +308,11 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "When `true`, keeps closed content findable by the browser's find-in-page feature. Defaults to the value of `keepInDOM`.",
+    type: 'boolean',
+    status: 'optional',
+  },
   disabled: {
     doc: 'If set to `true`, the accordion is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.',
     type: 'boolean',
