@@ -10,10 +10,18 @@ import Hr from '../../elements/Hr'
 
 export type FilterPanelProps = {
   className?: string
+  /**
+   * Keeps closed panel content findable by the browser's find-in-page feature. Matching content opens the panel. Defaults to `false`.
+   */
+  openOnFind?: boolean
   children?: ReactNode
 }
 
-function FilterPanel({ className, children }: FilterPanelProps) {
+function FilterPanel({
+  className,
+  openOnFind = false,
+  children,
+}: FilterPanelProps) {
   const context = useContext(FilterContext)
   const sharedContext = useContext(SharedContext)
   const { hideFilterLabel, applyFilterLabel, cancelFilterLabel } =
@@ -53,7 +61,11 @@ function FilterPanel({ className, children }: FilterPanelProps) {
   const itemContextValue = useMemo(() => ({ panelRef: panelDivRef }), [])
 
   return (
-    <HeightAnimation open={panelOpen}>
+    <HeightAnimation
+      open={panelOpen}
+      openOnFind={openOnFind}
+      onBeforeMatch={() => setPanelOpen(true)}
+    >
       <FilterItemContext value={itemContextValue}>
         <div
           ref={panelDivRef}
