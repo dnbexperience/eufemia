@@ -5,7 +5,6 @@
       left: 100%;
 
       display: inline-block;
-      visibility: hidden;
 
       width: 1em;
       margin-left: 0.25em;
@@ -15,19 +14,18 @@
       text-align: center;
       border-bottom: none;
 
-      transition:
-        opacity 300ms ease-out,
-        visibility 0s linear 300ms;
+      transition: opacity 300ms ease-out;
       opacity: 0;
+      pointer-events: none;
     }
   }
 
   :global(.anchor-hash:hover),
+  :global(.anchor-hash:focus-visible),
   &:hover :global(.anchor-hash) {
-    visibility: visible;
-
     transition-delay: 0s;
     opacity: 1;
+    pointer-events: auto;
   }
 }
 
