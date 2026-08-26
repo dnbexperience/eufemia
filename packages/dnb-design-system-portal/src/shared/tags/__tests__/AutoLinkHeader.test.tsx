@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router'
 
 vi.mock('../AutoLinkHeader.module.scss', () => ({
   anchorLinkStyle: 'anchorLinkStyle',
+  headingContentStyle: 'headingContentStyle',
 }))
 
 import AutoLinkHeader from '../AutoLinkHeader'
@@ -21,13 +22,18 @@ function renderHeader(props = {}) {
 }
 
 describe('AutoLinkHeader', () => {
-  it('renders the decorative "#" anchor inside the heading', () => {
+  it('renders the decorative "#" anchor after the heading text', () => {
     renderHeader()
 
     const anchor = document.querySelector('.anchor-hash')
+    const heading = anchor?.parentElement
 
     expect(anchor).toBeTruthy()
     expect(anchor?.getAttribute('href')).toBe('#my-heading')
+    expect(heading?.textContent?.startsWith('My Heading#')).toBe(true)
+    expect(anchor?.parentElement?.classList).toContain(
+      'headingContentStyle'
+    )
   })
 
   it('keeps the decorative "#" anchor out of the keyboard tab order', () => {
@@ -47,5 +53,23 @@ describe('AutoLinkHeader', () => {
     const anchor = document.querySelector('.anchor-hash')
 
     expect(anchor?.getAttribute('aria-hidden')).toBe('true')
+  })
+
+  it('updates the hash without native navigation and highlights the heading', () => {
+    renderHeader()
+
+    const anchor =
+      document.querySelector<HTMLAnchorElement>('.anchor-hash')
+    const headingContent = anchor?.parentElement
+    const event = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    })
+
+    anchor?.dispatchEvent(event)
+
+    expect(event.defaultPrevented).toBe(true)
+    expect(window.location.hash).toBe('#my-heading')
+    expect(headingContent?.classList).toContain('focus')
   })
 })
