@@ -262,10 +262,15 @@ describe('Accordion openOnFind', () => {
     ).toHaveAttribute('aria-expanded', 'true')
   })
 
-  it('should not listen for "beforematch" when "openOnFind" is not set', () => {
+  it('should not listen for "beforematch" when "openOnFind" is false', () => {
     const onChange = vi.fn()
     render(
-      <Accordion {...props} keepInDOM onChange={onChange}>
+      <Accordion
+        {...props}
+        keepInDOM
+        openOnFind={false}
+        onChange={onChange}
+      >
         <span className="content">findable content</span>
       </Accordion>
     )
@@ -280,6 +285,28 @@ describe('Accordion openOnFind', () => {
     expect(
       document.querySelector('.dnb-accordion__header')
     ).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('should default openOnFind to true when keepInDOM is true', () => {
+    render(
+      <Accordion {...props} keepInDOM>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).toHaveAttribute('hidden', 'until-found')
+  })
+
+  it('should render findable content when preventRerender is set', () => {
+    render(
+      <Accordion {...props} openOnFind preventRerender>
+        <span className="content">findable content</span>
+      </Accordion>
+    )
+
+    expect(document.querySelector('.content')).toBeInTheDocument()
   })
 })
 
@@ -613,6 +640,37 @@ describe('Accordion container component', () => {
 })
 
 describe('Accordion tertiary variant', () => {
+  it('opens matching content when openOnFind is set', () => {
+    const onChange = vi.fn()
+    render(
+      <Accordion
+        variant="tertiary"
+        title="Toggle"
+        openOnFind
+        onChange={onChange}
+      >
+        <p>Findable content</p>
+      </Accordion>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const animation = document.querySelector('.dnb-height-animation')
+
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    expect(animation).not.toHaveAttribute('hidden')
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({ expanded: true })
+    )
+  })
+
   it('renders a tertiary button with chevron icon', () => {
     render(
       <Accordion variant="tertiary" title="Toggle" noAnimation>
@@ -1197,6 +1255,35 @@ describe('Accordion tertiary variant', () => {
     expect(
       document.getElementById('keep-in-dom-test-content').textContent
     ).toContain('Content')
+  })
+
+  it('opens matching standalone Accordion.Content', () => {
+    render(
+      <>
+        <Accordion
+          variant="tertiary"
+          title="Toggle"
+          id="find-standalone"
+        />
+        <Accordion.Content connectedTo="find-standalone" openOnFind>
+          <p>Findable content</p>
+        </Accordion.Content>
+      </>
+    )
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const animation = document.querySelector('.dnb-height-animation')
+
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+    expect(animation).not.toHaveAttribute('hidden')
   })
 
   it('supports noAnimation on standalone Accordion.Content', () => {

@@ -72,7 +72,7 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   openOnFind: {
-    doc: 'If set to `true` the collapsed content stays in the DOM and remains findable by the browser\'s find-in-page feature, using `hidden="until-found"`. When matching content is found, the accordion expands. Defaults to `false`.',
+    doc: 'If set to `true` the collapsed content stays in the DOM and remains findable by the browser\'s find-in-page feature, using `hidden="until-found"`. When matching content is found, the accordion expands. Defaults to the value of `keepInDOM`.',
     type: 'boolean',
     status: 'optional',
   },
@@ -151,6 +151,11 @@ export const AccordionContentProperties: PropertiesTableProps = {
   },
   keepInDOM: {
     doc: 'If set to `true` the content will be present, even when the accordion is not expanded. In standalone tertiary mode, the content region stays mounted to preserve `aria-controls`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  openOnFind: {
+    doc: "If set to `true`, collapsed standalone tertiary content remains findable by the browser's find-in-page feature.",
     type: 'boolean',
     status: 'optional',
   },
