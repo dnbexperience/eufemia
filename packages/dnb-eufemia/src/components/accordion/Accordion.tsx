@@ -93,7 +93,7 @@ export type AccordionProps = Omit<
      */
     keepInDOM?: boolean
     /**
-     * If set to `true` the collapsed content stays in the DOM and remains findable by the browser's find-in-page feature, using `hidden="until-found"`. When matching content is found, the accordion expands. Defaults to `false`.
+     * If set to `true` the collapsed content stays in the DOM and remains findable by the browser's find-in-page feature, using `hidden="until-found"`. When matching content is found, the accordion expands. Defaults to the value of `keepInDOM`.
      */
     openOnFind?: boolean
     /**
@@ -384,7 +384,7 @@ function AccordionDefault({
     variant: extendedVariant,
     className,
     keepInDOM,
-    openOnFind,
+    openOnFind: openOnFindProp,
     preventRerender,
     preventRerenderConditional,
     singleContainer,
@@ -411,6 +411,8 @@ function AccordionDefault({
 
     ...restOfExtendedProps
   } = extendedProps
+
+  const openOnFind = openOnFindProp ?? keepInDOM
 
   const mainParams = useSpacing(extendedProps, {
     id,

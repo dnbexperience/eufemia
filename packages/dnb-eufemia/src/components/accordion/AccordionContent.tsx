@@ -44,6 +44,10 @@ export type AccordionContentProps = Omit<
      */
     keepInDOM?: boolean
     /**
+     * If set to `true`, collapsed standalone tertiary content remains findable by the browser's find-in-page feature.
+     */
+    openOnFind?: boolean
+    /**
      * If set to `true`, the open and close animation will be omitted in standalone tertiary mode.
      */
     noAnimation?: boolean
@@ -84,6 +88,7 @@ function AccordionContentStandalone({
     children,
     title,
     keepInDOM: keepInDOMProp = false,
+    openOnFind: openOnFindProp,
     noAnimation = false,
     ...rest
   } = props
@@ -92,6 +97,7 @@ function AccordionContentStandalone({
   const { data: sharedData, set } =
     useSharedState<AccordionTertiarySharedState>(connectionId)
   const expanded = sharedData?.expanded ?? false
+  const openOnFind = openOnFindProp ?? keepInDOMProp
   const shouldFocusContent = sharedData?.shouldFocusContent ?? false
   const contentId = `${connectionId}-content`
   const content = processChildren(props) as ReactNode
@@ -114,6 +120,14 @@ function AccordionContentStandalone({
         set({ ...sharedData, shouldFocusContent: false })
       }
       keepInDOM={keepInDOMProp}
+      openOnFind={openOnFind}
+      onBeforeMatch={() =>
+        set({
+          ...sharedData,
+          expanded: true,
+          shouldFocusContent: false,
+        })
+      }
       title={title}
       aria-label={title}
     >
@@ -195,7 +209,7 @@ function AccordionContentComponent(props: AccordionContentProps) {
       /**
        * Ensure we do not render, if it is not expanded
        */
-      if (!(expanded || keepInDOM)) {
+      if (!(expanded || keepInDOM || openOnFind)) {
         content = null
       }
 
