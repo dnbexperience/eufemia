@@ -71,7 +71,7 @@ export const TabsExampleContentObject = () => (
 
 export const TabsExampleKeepInDOM = () => (
   <Wrapper>
-    <ComponentBox>
+    <ComponentBox data-visual-test="tabs-open-on-find">
       <>
         <Tabs keepInDOM contentStyle="information">
           <Tabs.Content title="Tab 1" key="first">
@@ -85,7 +85,7 @@ export const TabsExampleKeepInDOM = () => (
                 alignItems: 'flex-end',
               }}
             >
-              <H2>Content 2</H2>
+              <H2 id="open-on-find-tab-match">Content 2</H2>
             </div>
           </Tabs.Content>
           <Tabs.Content title="Tab 3" key="third">

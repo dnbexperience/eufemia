@@ -13,8 +13,18 @@ export default defineConfig({
     baseURL:
       process.env.PLAYWRIGHT_BASE_URL ||
       (isCI ? 'http://localhost:8001' : 'http://localhost:8000'),
-
-    // Name of the browser that runs tests. For example `chromium`, `firefox`, `webkit`.
-    browserName: 'firefox',
   },
+
+  projects: [
+    {
+      name: 'firefox',
+      testIgnore: 'OpenOnFind.e2e.spec.ts',
+      use: { browserName: 'firefox' },
+    },
+    {
+      name: 'chromium-open-on-find',
+      testMatch: 'OpenOnFind.e2e.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+  ],
 })
