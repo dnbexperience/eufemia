@@ -27,6 +27,8 @@ For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Roo
 
 ## Accessibility
 
+When `openOnFind` is enabled on `Menu.Accordion`, find-in-page support is powered by [HeightAnimation](/uilib/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.
+
 - The menu uses ARIA `role="menu"` and `role="menuitem"` semantics.
 - The trigger receives `aria-haspopup="menu"` and `aria-expanded` attributes automatically.
 - Keyboard navigation follows the [WAI-ARIA Menu Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menu/):
