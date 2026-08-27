@@ -53,6 +53,9 @@ jobs:
           TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
           TF_VAR_api_token: ${{ secrets.API_TOKEN }}
           TF_VAR_edge_auth_secret: ${{ secrets.EDGE_AUTH_SECRET }}
+          TF_VAR_entra_client_id: ${{ vars.ENTRA_CLIENT_ID }}
+          TF_VAR_entra_tenant_id: ${{ vars.ENTRA_TENANT_ID }}
+          TF_VAR_dashboard_origins: ${{ vars.DASHBOARD_ORIGINS }}
         run: |
           set -euo pipefail
           cd infra

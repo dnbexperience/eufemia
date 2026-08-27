@@ -294,6 +294,75 @@ resource "aws_lambda_permission" "apigw" {
 }
 
 # ---------------------------------------------------------------------------
+# Dashboard API (browser-facing, Entra JWT auth)
+# ---------------------------------------------------------------------------
+
+# A separate HTTP API for the dashboard so its browser/JWT trust model stays
+# isolated from the edge-locked ingest API. It targets the same Lambda; the
+# GET /data route is handled ahead of the edge check.
+resource "aws_apigatewayv2_api" "dashboard" {
+  name          = "${local.function_name}-dashboard"
+  protocol_type = "HTTP"
+  tags          = local.tags
+
+  cors_configuration {
+    allow_origins = var.dashboard_origins
+    allow_methods = ["GET"]
+    allow_headers = ["authorization"]
+    max_age       = 3600
+  }
+}
+
+resource "aws_apigatewayv2_stage" "dashboard" {
+  api_id      = aws_apigatewayv2_api.dashboard.id
+  name        = "$default"
+  auto_deploy = true
+  tags        = local.tags
+
+  default_route_settings {
+    throttling_burst_limit = 20
+    throttling_rate_limit  = 40
+  }
+}
+
+resource "aws_apigatewayv2_integration" "dashboard" {
+  api_id                 = aws_apigatewayv2_api.dashboard.id
+  integration_type       = "AWS_PROXY"
+  integration_uri        = aws_lambda_function.analytics.invoke_arn
+  payload_format_version = "2.0"
+}
+
+# Validates Entra (Azure AD) tokens: only users assigned to the app registration
+# receive one, so this is the access gate for the data.
+resource "aws_apigatewayv2_authorizer" "entra" {
+  api_id           = aws_apigatewayv2_api.dashboard.id
+  authorizer_type  = "JWT"
+  identity_sources = ["$request.header.Authorization"]
+  name             = "entra"
+
+  jwt_configuration {
+    audience = [var.entra_client_id]
+    issuer   = "https://login.microsoftonline.com/${var.entra_tenant_id}/v2.0"
+  }
+}
+
+resource "aws_apigatewayv2_route" "dashboard_data" {
+  api_id             = aws_apigatewayv2_api.dashboard.id
+  route_key          = "GET /data"
+  target             = "integrations/${aws_apigatewayv2_integration.dashboard.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.entra.id
+}
+
+resource "aws_lambda_permission" "dashboard_apigw" {
+  statement_id  = "AllowDashboardAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.analytics.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.dashboard.execution_arn}/*/*"
+}
+
+# ---------------------------------------------------------------------------
 # Custom domain (origin for Akamai)
 # ---------------------------------------------------------------------------
 

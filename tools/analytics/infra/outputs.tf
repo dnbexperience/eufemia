@@ -3,6 +3,11 @@ output "api_endpoint" {
   value       = aws_apigatewayv2_stage.analytics.invoke_url
 }
 
+output "dashboard_api_endpoint" {
+  description = "Base URL of the browser-facing dashboard API (Entra JWT auth)"
+  value       = aws_apigatewayv2_stage.dashboard.invoke_url
+}
+
 output "origin_domain" {
   description = "Custom origin hostname for Akamai to point at"
   value       = aws_apigatewayv2_domain_name.analytics.domain_name

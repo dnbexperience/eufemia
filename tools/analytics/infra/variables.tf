@@ -52,3 +52,21 @@ variable "edge_auth_secret" {
     error_message = "edge_auth_secret must be a non-empty value."
   }
 }
+
+variable "entra_client_id" {
+  type        = string
+  description = "Entra (Azure AD) application (client) ID accepted by the dashboard API JWT authorizer."
+  default     = ""
+}
+
+variable "entra_tenant_id" {
+  type        = string
+  description = "Entra (Azure AD) directory (tenant) ID; used to build the dashboard API JWT issuer."
+  default     = ""
+}
+
+variable "dashboard_origins" {
+  type        = list(string)
+  description = "Allowed CORS origins for the dashboard API (e.g. the dashboard host and http://localhost:4173)."
+  default     = []
+}
