@@ -405,7 +405,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
           {...statusProps}
         />
 
-        <span className="dnb-toggle-button__shell">
+        <span className="dnb-toggle-button__shell dnb-indicator-border-glow__target">
           <AlignmentHelper />
 
           <Button
