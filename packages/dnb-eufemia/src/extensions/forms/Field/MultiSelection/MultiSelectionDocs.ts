@@ -54,6 +54,11 @@ export const MultiSelectionProperties: PropertiesTableProps = {
     type: ['number'],
     status: 'optional',
   },
+  openOnFind: {
+    doc: "Keeps collapsed selected tags findable by the browser's find-in-page feature. Matching content expands the selected tags. Defaults to `false`.",
+    type: ['boolean'],
+    status: 'optional',
+  },
   minItems: {
     doc: 'Minimum number of items required to be selected. Triggers a validation error if fewer items are selected.',
     type: ['number'],

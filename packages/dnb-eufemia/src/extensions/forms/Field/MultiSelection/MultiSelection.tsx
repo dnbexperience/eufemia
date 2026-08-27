@@ -100,6 +100,11 @@ export type FieldMultiSelectionProps = FieldProps<
   selectedItemsCollapsibleThreshold?: number
 
   /**
+   * Keeps collapsed selected tags findable by the browser's find-in-page feature. Matching content expands the selected tags. Defaults to `false`.
+   */
+  openOnFind?: boolean
+
+  /**
    * Configure search behavior when `showSearchField` is enabled. An object with optional keys: `filter` (enable result filtering, default `true`), `reorder` (enable relevance reordering, default `true`), `numbers` (enable number-optimized matching, default `false`), `matchInsideWordsFrom` (threshold for in-word search, default `3`), and `match` (matching mode `"word"` or `"starts-with"`, default `"word"`). When `filter` is `false`, items are not filtered out but are still reordered by relevance unless `reorder` is also `false`. Example: `search={{ numbers: true }}`.
    */
   search?: Omit<SearchOptions, 'highlight'>
@@ -141,6 +146,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     showConfirmButton = false,
     showSelectAll = false,
     selectedItemsCollapsibleThreshold = 10,
+    openOnFind = false,
     value,
     disabled,
     emptyValue,
@@ -836,6 +842,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       show={showSelectedTags}
       disabled={disabled}
       isCollapsible={isCollapsible}
+      openOnFind={openOnFind}
       selectedItems={selectedItems}
       totalCount={totalCount}
       formatSelectionCount={formatSelectionCount}

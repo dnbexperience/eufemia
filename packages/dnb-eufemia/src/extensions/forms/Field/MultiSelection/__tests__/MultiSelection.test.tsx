@@ -1,4 +1,10 @@
-import { render, fireEvent, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  render,
+  fireEvent,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { afterAll, beforeEach, vi } from 'vitest'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { Provider } from '../../../../../shared'
@@ -2064,7 +2070,51 @@ describe('MultiSelection', () => {
       )
     })
 
-    it('clears all items when clear all button is clicked', async () => {
+    it('opens collapsed selected tags when matching content is found', async () => {
+      const data = Array.from({ length: 25 }, (_, i) => ({
+        value: 'option' + (i + 1),
+        title: 'Option ' + (i + 1),
+      }))
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            showSelectedTags
+            openOnFind
+            value={data.slice(0, 22).map((item) => item.value)}
+          />
+        </Provider>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-multi-selection__selected-items-header'
+          )
+        ).toBeInTheDocument()
+      })
+
+      const toggleButton = document.querySelector(
+        '.dnb-forms-field-multi-selection__selected-items-header button:first-child'
+      )
+      const animation = document.querySelector(
+        '.dnb-forms-field-multi-selection__selected-items .dnb-height-animation'
+      )
+
+      expect(toggleButton).toHaveAttribute('aria-expanded', 'false')
+      expect(animation).toHaveAttribute('hidden', 'until-found')
+
+      act(() => {
+        animation.dispatchEvent(new Event('beforematch'))
+      })
+
+      expect(toggleButton).toHaveAttribute('aria-expanded', 'true')
+    })
+
+    it('clears all selected tags when clear all is clicked', async () => {
       const data = Array.from({ length: 25 }, (_, i) => ({
         value: `option${i + 1}`,
         title: `Option ${i + 1}`,
