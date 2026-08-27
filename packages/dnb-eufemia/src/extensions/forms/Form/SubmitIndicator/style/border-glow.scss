@@ -144,7 +144,7 @@
 .dnb-indicator-border-glow {
   @include glow-variables();
 
-  &__target {
+  & &__target {
     position: relative;
 
     &::before {
