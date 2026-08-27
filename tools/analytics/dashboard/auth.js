@@ -139,6 +139,34 @@ async function exchangeCode(code, returnedState) {
   return session
 }
 
+// Complete an in-progress sign-in redirect. Callback params are processed only
+// when we started the flow, so stray URL params are ignored.
+async function completeRedirect() {
+  if (!sessionStorage.getItem(FLOW_KEY)) {
+    return null
+  }
+
+  const url = new URL(window.location.href)
+  const idpError = url.searchParams.get('error')
+  if (idpError) {
+    sessionStorage.removeItem(FLOW_KEY)
+    throw new Error(url.searchParams.get('error_description') || idpError)
+  }
+
+  const code = url.searchParams.get('code')
+  if (!code) {
+    return null
+  }
+
+  const session = await exchangeCode(code, url.searchParams.get('state'))
+  for (const key of ['code', 'state', 'session_state']) {
+    url.searchParams.delete(key)
+  }
+  window.history.replaceState({}, document.title, url.pathname + url.search)
+
+  return session
+}
+
 /**
  * Resolve the current session, running the redirect flow when needed.
  * Returns null when sign-in is not configured (local scaffold preview).
@@ -150,26 +178,11 @@ export async function ensureSignedIn() {
     return null
   }
 
-  const url = new URL(window.location.href)
-  const error = url.searchParams.get('error')
-  if (error) {
-    throw new Error(url.searchParams.get('error_description') || error)
-  }
-
-  const code = url.searchParams.get('code')
-  if (code) {
-    const session = await exchangeCode(code, url.searchParams.get('state'))
-    for (const key of ['code', 'state', 'session_state']) {
-      url.searchParams.delete(key)
-    }
-    window.history.replaceState({}, document.title, url.pathname + url.search)
-
+  // The decision to grant access hinges on a validated session, not on any
+  // raw URL parameter.
+  const session = (await completeRedirect()) || readSession()
+  if (session) {
     return session
-  }
-
-  const existing = readSession()
-  if (existing) {
-    return existing
   }
 
   await redirectToLogin()
