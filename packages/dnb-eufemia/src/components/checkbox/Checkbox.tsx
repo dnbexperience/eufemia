@@ -352,7 +352,7 @@ function Checkbox(localProps: CheckboxProps) {
           <AlignmentHelper />
           {labelPosition === 'left' && statusComp}
 
-          <span className="dnb-checkbox__shell">
+          <span className="dnb-checkbox__shell dnb-indicator-border-glow__target dnb-indicator-border-glow__target--small">
             <Element
               id={id}
               name={id}

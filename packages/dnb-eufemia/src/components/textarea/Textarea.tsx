@@ -583,7 +583,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           {...statusProps}
         />
 
-        <span className="dnb-textarea__row">
+        <span className="dnb-textarea__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--row dnb-indicator-border-glow__target--textarea">
           <span {...shellParams}>
             {(TextareaElement as ReactNode) || (
               <textarea ref={combinedRef} {...textareaParams} />
