@@ -1,4 +1,3 @@
-// Compatible with iOS Safari v16.4+ (with support for @property and conic-gradient)
 @property --border-glow-angle {
   syntax: '<angle>';
   initial-value: 0deg;
@@ -6,23 +5,116 @@
 }
 
 @keyframes border-glow-spin {
-  to {
+  0% {
+    --border-glow-angle: 0deg;
+  }
+  8.333% {
+    --border-glow-angle: 30deg;
+  }
+  16.667% {
+    --border-glow-angle: 60deg;
+  }
+  25% {
+    --border-glow-angle: 90deg;
+  }
+  33.333% {
+    --border-glow-angle: 120deg;
+  }
+  41.667% {
+    --border-glow-angle: 150deg;
+  }
+  50% {
+    --border-glow-angle: 180deg;
+  }
+  58.333% {
+    --border-glow-angle: 210deg;
+  }
+  66.667% {
+    --border-glow-angle: 240deg;
+  }
+  75% {
+    --border-glow-angle: 270deg;
+  }
+  83.333% {
+    --border-glow-angle: 300deg;
+  }
+  91.667% {
+    --border-glow-angle: 330deg;
+  }
+  100% {
     --border-glow-angle: 360deg;
   }
 }
 
-// Shared glow ring mixin
-@mixin glow-ring(
-  $radius: var(--border-glow-radius),
-  $inset: var(--border-glow-inset),
-  $padding: var(--border-glow-padding),
-  $z: 1
-) {
+@mixin glow-variables() {
+  --border-glow-speed: 1.5s;
+  --border-glow-row-speed: 2s;
+  --border-glow-gap-start: 25%;
+  --border-glow-color-start-stop: 45%;
+  --border-glow-color-end-stop: 55%;
+  --border-glow-gap-end: 75%;
+  --border-glow-padding: 0.125rem;
+  --border-glow-offset: 0.125rem;
+  --border-glow-hover-offset: 0.25rem;
+  --border-glow-focus-offset: calc(
+    var(--border-glow-offset) + var(--focus-ring-width)
+  );
+  --border-glow-interaction-offset: var(--border-glow-offset);
+  --border-glow-component-inset-block: 0rem;
+  --border-glow-component-inset-inline-start: 0rem;
+  --border-glow-component-inset-inline-end: 0rem;
+  --border-glow-radius-base: var(--token-radius-md);
+  --border-glow-color-start: var(--token-color-stroke-action);
+  --border-glow-color-end: var(--token-color-stroke-action-pressed);
+  --border-glow-z-index: 1;
+}
+
+@mixin glow-ring() {
   content: '';
   position: absolute;
-  inset: $inset;
-  padding: $padding;
-  border-radius: $radius;
+  inset: calc(
+      (
+          var(--border-glow-component-inset-block) +
+            var(--border-glow-interaction-offset) +
+            var(--border-glow-padding)
+        ) *
+        -1
+    )
+    calc(
+      (
+          var(--border-glow-component-inset-inline-end) +
+            var(--border-glow-interaction-offset) +
+            var(--border-glow-padding)
+        ) *
+        -1
+    )
+    calc(
+      (
+          var(--border-glow-component-inset-block) +
+            var(--border-glow-interaction-offset) +
+            var(--border-glow-padding)
+        ) *
+        -1
+    )
+    calc(
+      (
+          var(--border-glow-component-inset-inline-start) +
+            var(--border-glow-interaction-offset) +
+            var(--border-glow-padding)
+        ) *
+        -1
+    );
+  z-index: var(--border-glow-z-index);
+
+  padding: var(--border-glow-padding);
+  border-radius: var(
+    --border-glow-radius,
+    calc(
+      var(--border-glow-radius-base) +
+        var(--border-glow-interaction-offset) + var(--border-glow-padding)
+    )
+  );
+
   background: conic-gradient(
     from var(--border-glow-angle),
     transparent var(--border-glow-gap-start),
@@ -35,610 +127,188 @@
     linear-gradient(#fff 0 0);
   mask-composite: exclude;
 
-  // Needed for Safari < 15.4
-  // -webkit-mask-composite: destination-out;
   opacity: 0;
-  transition:
-    opacity var(--border-glow-speed) ease,
-    padding 150ms ease;
   pointer-events: none;
-  z-index: $z;
+
+  transition:
+    inset 150ms ease,
+    border-radius 150ms ease,
+    opacity var(--border-glow-speed) ease;
 }
 
-@mixin glow-ring-active {
+@mixin glow-ring-active() {
   opacity: 1;
   animation: border-glow-spin var(--border-glow-speed) linear infinite;
 }
 
 .dnb-indicator-border-glow {
-  // Rotation speed and fade-in/out duration
-  --border-glow-speed: 1.5s;
-  // Row-based fields need a slower rotation because wide fields make the arc feel faster.
-  --border-glow-row-speed: 2s;
+  @include glow-variables();
 
-  // Where the arc reaches full opacity (% of the 360° rotation)
-  --border-glow-color-start-stop: 45%;
-  // Where the arc begins fading out
-  --border-glow-color-end-stop: 55%;
-
-  // Where the arc starts fading in (transparent before this)
-  --border-glow-gap-start: 25%;
-  // Where the arc finishes fading out (transparent after this)
-  --border-glow-gap-end: 75%;
-
-  // Thickness of the glow ring
-  --border-glow-padding: 0.125rem;
-  // Gap between the element edge and the glow ring
-  --border-glow-offset: 0.125rem;
-  // Gap between the element edge and glow ring on hover
-  --border-glow-hover-offset: calc(
-    var(--border-glow-offset) + var(--border-glow-offset)
-  );
-  // Gap between the element edge and glow ring on focus
-  --border-glow-focus-offset: calc(
-    var(--border-glow-offset) + var(--focus-ring-width)
-  );
-  // Offset outward from the element edge
-  --border-glow-inset: calc(
-    0rem - var(--border-glow-offset) - var(--border-glow-padding)
-  );
-  // Thickness of the glow ring when focus styling is visible
-  --border-glow-focus-padding: var(--border-glow-padding);
-  // Offset outward when hover styling is visible
-  --border-glow-hover-inset: calc(
-    0rem - var(--border-glow-hover-offset) - var(
-        --border-glow-focus-padding
-      )
-  );
-  // Offset outward when focus styling is visible
-  --border-glow-focus-inset: calc(
-    0rem - var(--border-glow-focus-offset) - var(
-        --border-glow-focus-padding
-      )
-  );
-  // Corner radius of the glow ring
-  --border-glow-radius: calc(
-    var(--token-radius-md) + var(--border-glow-offset) +
-      var(--border-glow-padding)
-  );
-  // Corner radius of row-based glow rings
-  --border-glow-row-radius: calc(
-    var(--token-radius-sm) + var(--border-glow-offset) +
-      var(--border-glow-padding)
-  );
-  // Corner radius when the field glow ring is moved outside hover styling
-  --border-glow-hover-radius: calc(
-    var(--token-radius-sm) + var(--border-glow-hover-offset) +
-      var(--border-glow-focus-padding)
-  );
-  // Corner radius when the field glow ring is moved outside focus styling
-  --border-glow-focus-radius: calc(
-    var(--token-radius-sm) + var(--border-glow-focus-offset) +
-      var(--border-glow-focus-padding)
-  );
-
-  // Leading color of the gradient arc
-  --border-glow-color-start: var(--token-color-stroke-action);
-  // Trailing color of the gradient arc
-  --border-glow-color-end: var(--token-color-stroke-action-pressed);
-
-  // Keep the glow arc shorter on wide row-based fields.
-  .dnb-input__row:not(:where(.dnb-segmented-field .dnb-input__row)),
-  .dnb-dropdown__row,
-  .dnb-autocomplete__row,
-  .dnb-segmented-field,
-  .dnb-textarea__row {
-    --border-glow-speed: var(--border-glow-row-speed);
-    --border-glow-gap-start: 34%;
-    --border-glow-color-start-stop: 46%;
-    --border-glow-color-end-stop: 54%;
-    --border-glow-gap-end: 66%;
-  }
-
-  // Glow ring — mask-based ring
-
-  // Row-based components (input, dropdown, autocomplete, segmented fields)
-  .dnb-input__row:not(:where(.dnb-segmented-field .dnb-input__row)),
-  .dnb-dropdown__row,
-  .dnb-autocomplete__row,
-  .dnb-segmented-field {
-    position: relative;
-
-    &::before {
-      @include glow-ring($radius: var(--border-glow-row-radius));
-    }
-  }
-
-  // Textarea — __shell::after is taken (resize grip), use __row::before
-  // __state has z-index:1 + solid bg + negative insets
-  .dnb-textarea__row {
-    position: relative;
-
-    &::before {
-      @include glow-ring($radius: var(--border-glow-row-radius), $z: 2);
-
-      inset: calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-offset) - var(--border-glow-padding)
-        )
-        calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-offset) - var(--border-glow-padding)
-        )
-        calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-offset) - var(--border-glow-padding)
-        )
-        calc(
-          var(--textarea-size-horizontal, 0.5rem) *
-            -1 - var(--border-glow-offset) - var(--border-glow-padding)
-        );
-    }
-  }
-
-  // Toggle button — each individual button
-  .dnb-toggle-button__shell {
+  &__target {
     position: relative;
 
     &::before {
       @include glow-ring();
     }
-  }
 
-  // Checkbox (exclude when inside toggle-button)
-  .dnb-checkbox__shell:not(
-    :where(.dnb-toggle-button .dnb-checkbox__shell)
-  ) {
-    position: relative;
-
-    &::before {
-      @include glow-ring($radius: var(--border-glow-row-radius));
+    &--row {
+      --border-glow-speed: var(--border-glow-row-speed);
+      --border-glow-gap-start: 34%;
+      --border-glow-color-start-stop: 46%;
+      --border-glow-color-end-stop: 54%;
+      --border-glow-gap-end: 66%;
+      --border-glow-radius-base: var(--token-radius-sm);
     }
-  }
 
-  // Radio
-  .dnb-radio__button::before {
-    @include glow-ring($radius: inherit, $inset: var(--border-glow-inset));
-  }
+    &--small {
+      --border-glow-radius-base: var(--token-radius-sm);
+    }
 
-  // Switch — glow around the track
-  .dnb-switch__row {
-    position: relative;
+    &--round {
+      --border-glow-radius-base: var(--token-radius-xl);
+    }
 
-    &::before {
-      @include glow-ring(
-        $radius: calc(
-            var(--token-radius-xl) + var(--border-glow-offset) +
-              var(--border-glow-padding)
-          )
+    &--circle {
+      --border-glow-radius: 50%;
+    }
+
+    &--slider {
+      --border-glow-padding: 0.1875rem;
+      --border-glow-z-index: auto;
+    }
+
+    &--textarea {
+      --border-glow-component-inset-block: var(
+        --textarea-size-vertical,
+        0.25rem
       );
+      --border-glow-component-inset-inline-start: var(
+        --textarea-size-horizontal,
+        0.5rem
+      );
+      --border-glow-component-inset-inline-end: var(
+        --textarea-size-vertical,
+        0.25rem
+      );
+      --border-glow-z-index: 2;
     }
   }
 
-  // Slider — glow on thumb
-  .dnb-slider__thumb::before {
-    @include glow-ring(
-      $radius: inherit,
-      $inset: calc((var(--border-glow-offset) + 0.1875rem) * -1),
-      $padding: 0.1875rem,
-      $z: auto
-    );
-  }
-
-  // Active state — must come after setup rules
-  // (same specificity, source order wins)
   &--active {
-    .dnb-input__shell,
-    .dnb-textarea__state,
-    .dnb-dropdown__shell,
-    .dnb-autocomplete__shell,
-    .dnb-date-picker__shell,
-    .dnb-toggle-button__button {
+    :is(
+      .dnb-input__shell,
+      .dnb-textarea__state,
+      .dnb-dropdown__shell,
+      .dnb-autocomplete__shell,
+      .dnb-date-picker__shell,
+      .dnb-toggle-button__button
+    ) {
       border-color: transparent;
     }
 
-    // Checkbox & radio — keep their box-shadow borders visible,
-    // the glow ring layers on top without conflict
-
-    // Don't fade nested inputs inside date-picker
     .dnb-date-picker .dnb-input__shell {
       border-color: inherit;
     }
 
-    // Glow ring activations
-    .dnb-input__row:not(
-        :where(.dnb-segmented-field .dnb-input__row)
-      )::before,
-    .dnb-dropdown__row::before,
-    .dnb-autocomplete__row::before,
-    .dnb-segmented-field::before {
-      @include glow-ring-active();
+    .dnb-indicator-border-glow__target:not(
+      :where(
+        .dnb-indicator-border-glow__target
+          .dnb-indicator-border-glow__target
+      )
+    ) {
+      &::before {
+        @include glow-ring-active();
+      }
+
+      &:focus-within {
+        --border-glow-interaction-offset: var(--border-glow-focus-offset);
+      }
+
+      &:not(.dnb-radio__button, .dnb-switch__row):not(
+          :has(:disabled, [aria-disabled='true'])
+        ):hover {
+        --border-glow-interaction-offset: var(--border-glow-hover-offset);
+      }
     }
 
-    .dnb-textarea__row::before {
-      @include glow-ring-active();
-    }
-
-    .dnb-toggle-button__shell::before {
-      @include glow-ring-active();
-    }
-
-    .dnb-checkbox__shell:not(
-        :where(.dnb-toggle-button .dnb-checkbox__shell)
-      )::before {
-      @include glow-ring-active();
-    }
-
-    .dnb-radio:not(.dnb-radio--disabled) .dnb-radio__button::before {
-      @include glow-ring-active();
-    }
-
-    .dnb-switch__row::before {
-      @include glow-ring-active();
-    }
-
-    .dnb-slider__thumb::before {
-      @include glow-ring-active();
-    }
-
-    // Move the glow outside focus/hover styling, so both remain visible
-    .dnb-input__row:focus-within,
-    .dnb-autocomplete__row:focus-within,
-    .dnb-segmented-field:focus-within {
-      --border-glow-inset: var(--border-glow-hover-inset);
-      --border-glow-padding: var(--border-glow-focus-padding);
-      --border-glow-radius: var(--border-glow-hover-radius);
+    .dnb-indicator-border-glow__target--row:focus-within {
+      --border-glow-interaction-offset: var(--border-glow-hover-offset);
     }
 
     .dnb-dropdown__row:focus-within {
-      --border-glow-inset: var(--border-glow-focus-inset);
-      --border-glow-padding: var(--border-glow-focus-padding);
-      --border-glow-radius: var(--border-glow-focus-radius);
-    }
-
-    .dnb-input:not(.dnb-input--disabled) .dnb-input__row:hover,
-    .dnb-dropdown__row:hover:has(.dnb-button:not([disabled])),
-    .dnb-autocomplete:not(.dnb-autocomplete--disabled)
-      .dnb-autocomplete__row:hover,
-    .dnb-segmented-field:not(.dnb-input--disabled):hover,
-    .dnb-input:not(.dnb-input--disabled):has(> .dnb-form-label:hover)
-      .dnb-input__row,
-    .dnb-dropdown:has(> .dnb-form-label:hover)
-      .dnb-dropdown__row:has(.dnb-button:not([disabled])),
-    .dnb-autocomplete:not(.dnb-autocomplete--disabled):has(
-        > .dnb-form-label:hover
-      )
-      .dnb-autocomplete__row,
-    .dnb-segmented-field:not(.dnb-input--disabled):has(
-        .dnb-form-label:hover
-      ),
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-input:not(.dnb-input--disabled)
-      .dnb-input__row,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-dropdown__row:has(.dnb-button:not([disabled])),
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-autocomplete:not(.dnb-autocomplete--disabled)
-      .dnb-autocomplete__row,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-segmented-field:not(.dnb-input--disabled) {
-      --border-glow-inset: var(--border-glow-hover-inset);
-      --border-glow-padding: var(--border-glow-focus-padding);
-      --border-glow-radius: var(--border-glow-hover-radius);
-    }
-
-    .dnb-input__row:focus-within::before,
-    .dnb-autocomplete__row:focus-within::before,
-    .dnb-segmented-field:focus-within::before {
-      @include glow-ring-active();
-
-      border-radius: var(--border-glow-hover-radius) !important;
-      inset: var(--border-glow-hover-inset) !important;
-    }
-
-    .dnb-dropdown__row:focus-within::before {
-      @include glow-ring-active();
-
-      border-radius: var(--border-glow-focus-radius) !important;
-      inset: var(--border-glow-focus-inset) !important;
-    }
-
-    .dnb-input:not(.dnb-input--disabled) .dnb-input__row:hover::before,
-    .dnb-dropdown__row:hover:has(.dnb-button:not([disabled]))::before,
-    .dnb-autocomplete:not(.dnb-autocomplete--disabled)
-      .dnb-autocomplete__row:hover::before,
-    .dnb-segmented-field:not(.dnb-input--disabled):hover::before,
-    .dnb-input:not(.dnb-input--disabled):has(> .dnb-form-label:hover)
-      .dnb-input__row::before,
-    .dnb-dropdown:has(> .dnb-form-label:hover)
-      .dnb-dropdown__row:has(.dnb-button:not([disabled]))::before,
-    .dnb-autocomplete:not(.dnb-autocomplete--disabled):has(
-        > .dnb-form-label:hover
-      )
-      .dnb-autocomplete__row::before,
-    .dnb-segmented-field:not(.dnb-input--disabled):has(
-        .dnb-form-label:hover
-      )::before,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-input:not(.dnb-input--disabled)
-      .dnb-input__row::before,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-dropdown__row:has(.dnb-button:not([disabled]))::before,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-autocomplete:not(.dnb-autocomplete--disabled)
-      .dnb-autocomplete__row::before,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-segmented-field:not(.dnb-input--disabled)::before {
-      @include glow-ring-active();
-
-      border-radius: var(--border-glow-hover-radius) !important;
-      inset: var(--border-glow-hover-inset) !important;
-    }
-
-    .dnb-textarea__row:focus-within::before {
-      @include glow-ring-active();
-
-      border-radius: var(--border-glow-hover-radius) !important;
-      inset: calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-hover-offset) - var(
-              --border-glow-focus-padding
-            )
-        )
-        calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-hover-offset) - var(
-              --border-glow-focus-padding
-            )
-        )
-        calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-hover-offset) - var(
-              --border-glow-focus-padding
-            )
-        )
-        calc(
-          var(--textarea-size-horizontal, 0.5rem) *
-            -1 - var(--border-glow-hover-offset) - var(
-              --border-glow-focus-padding
-            )
-        );
-    }
-
-    .dnb-textarea:not(.dnb-textarea--disabled)
-      .dnb-textarea__row:hover::before,
-    .dnb-textarea:not(.dnb-textarea--disabled):has(> .dnb-form-label:hover)
-      .dnb-textarea__row::before,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-textarea:not(.dnb-textarea--disabled)
-      .dnb-textarea__row::before {
-      @include glow-ring-active();
-
-      border-radius: var(--border-glow-hover-radius) !important;
-      inset: calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-hover-offset) - var(
-              --border-glow-focus-padding
-            )
-        )
-        calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-hover-offset) - var(
-              --border-glow-focus-padding
-            )
-        )
-        calc(
-          var(--textarea-size-vertical, 0.25rem) *
-            -1 - var(--border-glow-hover-offset) - var(
-              --border-glow-focus-padding
-            )
-        )
-        calc(
-          var(--textarea-size-horizontal, 0.5rem) *
-            -1 - var(--border-glow-hover-offset) - var(
-              --border-glow-focus-padding
-            )
-        );
-    }
-
-    .dnb-toggle-button__shell:focus-within::before {
-      @include glow-ring-active();
-
-      border-radius: calc(
-        var(--token-radius-md) + var(--border-glow-focus-offset) +
-          var(--border-glow-focus-padding)
-      ) !important;
-      inset: var(--border-glow-focus-inset) !important;
-    }
-
-    .dnb-toggle-button__shell:hover:has(
-        .dnb-toggle-button__button:not([disabled])
-      )::before,
-    .dnb-toggle-button:has(.dnb-form-label:hover)
-      .dnb-toggle-button__shell:has(
-        .dnb-toggle-button__button:not([disabled])
-      )::before,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-toggle-button__shell:has(
-        .dnb-toggle-button__button:not([disabled])
-      )::before {
-      @include glow-ring-active();
-
-      border-radius: calc(
-        var(--token-radius-md) + var(--border-glow-hover-offset) +
-          var(--border-glow-focus-padding)
-      ) !important;
-      inset: var(--border-glow-hover-inset) !important;
-    }
-
-    .dnb-switch__row:focus-within::before {
-      @include glow-ring-active();
-
-      border-radius: calc(
-        var(--token-radius-xl) + var(--border-glow-focus-offset) +
-          var(--border-glow-focus-padding)
-      ) !important;
-      inset: var(--border-glow-focus-inset) !important;
-    }
-
-    .dnb-checkbox__shell:not(
-        :where(.dnb-toggle-button .dnb-checkbox__shell)
-      ):focus-within::before {
-      @include glow-ring-active();
-
-      border-radius: var(--border-glow-focus-radius) !important;
-      inset: var(--border-glow-focus-inset) !important;
-    }
-
-    .dnb-checkbox__shell:not(
-        :where(.dnb-toggle-button .dnb-checkbox__shell)
-      ):hover:has(.dnb-checkbox__input:not([disabled]))::before,
-    .dnb-checkbox:not(.dnb-checkbox--disabled):has(.dnb-form-label:hover)
-      .dnb-checkbox__shell:not(
-        :where(.dnb-toggle-button .dnb-checkbox__shell)
-      )::before,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-checkbox:not(.dnb-checkbox--disabled)
-      .dnb-checkbox__shell:not(
-        :where(.dnb-toggle-button .dnb-checkbox__shell)
-      )::before {
-      @include glow-ring-active();
-
-      border-radius: var(--border-glow-hover-radius) !important;
-      inset: var(--border-glow-hover-inset) !important;
-    }
-
-    .dnb-slider__thumb:focus-within::before {
-      @include glow-ring-active();
-
-      inset: calc(
-        0rem - var(--border-glow-focus-offset) - 0.1875rem
-      ) !important;
-    }
-
-    .dnb-slider:not(.dnb-slider__state--disabled)
-      .dnb-slider__thumb:hover::before,
-    .dnb-slider:not(.dnb-slider__state--disabled):has(
-        .dnb-form-label:hover
-      )
-      .dnb-slider__thumb::before,
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-slider:not(.dnb-slider__state--disabled)
-      .dnb-slider__thumb::before {
-      @include glow-ring-active();
-
-      inset: calc(
-        0rem - var(--border-glow-hover-offset) - 0.1875rem
-      ) !important;
+      --border-glow-interaction-offset: var(--border-glow-focus-offset);
     }
 
     .dnb-radio:not(.dnb-radio--disabled) {
-      .dnb-radio__input:focus ~ .dnb-radio__button::before {
-        @include glow-ring-active();
-
-        inset: var(--border-glow-focus-inset) !important;
+      .dnb-radio__input:focus ~ .dnb-radio__button {
+        --border-glow-interaction-offset: var(--border-glow-focus-offset);
       }
 
-      &:has(.dnb-form-label:hover) .dnb-radio__button::before,
-      .dnb-radio__input:not([disabled]):hover
-        ~ .dnb-radio__button::before {
-        @include glow-ring-active();
-
-        inset: var(--border-glow-hover-inset) !important;
+      &:hover .dnb-radio__button {
+        --border-glow-interaction-offset: var(--border-glow-hover-offset);
       }
     }
 
-    .dnb-forms-field-block__label:hover
-      ~ .dnb-forms-field-block__contents
-      .dnb-radio:not(.dnb-radio--disabled)
-      .dnb-radio__button::before {
-      @include glow-ring-active();
+    .dnb-radio--disabled .dnb-radio__button::before {
+      opacity: 0;
+      animation: none;
+    }
+  }
 
-      inset: var(--border-glow-hover-inset) !important;
+  &--button {
+    --border-glow-radius-base: var(--button-border-radius, 2rem);
+
+    &::before {
+      @include glow-ring();
+    }
+
+    &.dnb-indicator-border-glow--active {
+      border-color: transparent;
+
+      &::before {
+        @include glow-ring-active();
+      }
+
+      &:focus-within {
+        --border-glow-interaction-offset: var(--border-glow-focus-offset);
+      }
+
+      &:not([disabled]):hover {
+        --border-glow-interaction-offset: var(--border-glow-hover-offset);
+      }
     }
   }
 }
 
-// Submit button — can't use ::after on <button> because
-// the button's own background covers the glow ring
-.dnb-forms-submit-indicator-glow {
-  --border-glow-speed: 1.5s;
-  --border-glow-color-start-stop: 45%;
-  --border-glow-color-end-stop: 55%;
-  --border-glow-gap-start: 25%;
-  --border-glow-gap-end: 75%;
-  --border-glow-padding: 0.125rem;
-  --border-glow-offset: 0.125rem;
-  --border-glow-hover-offset: calc(
-    var(--border-glow-offset) + var(--border-glow-offset)
-  );
-  --border-glow-focus-offset: calc(
-    var(--border-glow-offset) + var(--focus-ring-width)
-  );
-  --border-glow-inset: calc(
-    0rem - var(--border-glow-offset) - var(--border-glow-padding)
-  );
-  --border-glow-hover-inset: calc(
-    0rem - var(--border-glow-hover-offset) - var(--border-glow-padding)
-  );
-  --border-glow-focus-inset: calc(
-    0rem - var(--border-glow-focus-offset) - var(--border-glow-padding)
-  );
-  --border-glow-color-start: var(--token-color-stroke-action);
-  --border-glow-color-end: var(--token-color-stroke-action-pressed);
-
-  position: relative;
-  display: inline-flex;
-  align-self: flex-start;
-  border-radius: var(--button-border-radius, 2rem);
-
-  &::before {
-    @include glow-ring(
-      $radius: calc(
-          var(--button-border-radius, 2rem) + var(--border-glow-offset) +
-            var(--border-glow-padding)
-        ),
-      $inset: var(--border-glow-inset)
-    );
+.dnb-forms-field-block__label:hover
+  ~ .dnb-forms-field-block__contents.dnb-indicator-border-glow--active,
+.dnb-indicator-border-glow--active
+  :where(
+    .dnb-input,
+    .dnb-dropdown,
+    .dnb-autocomplete,
+    .dnb-textarea,
+    .dnb-toggle-button,
+    .dnb-checkbox,
+    .dnb-radio,
+    .dnb-slider
+  ):has(> .dnb-form-label:hover) {
+  .dnb-indicator-border-glow__target:not(
+      :where(
+        .dnb-indicator-border-glow__target
+          .dnb-indicator-border-glow__target
+      )
+    ):not(:has(:disabled, [aria-disabled='true'])) {
+    --border-glow-interaction-offset: var(--border-glow-hover-offset);
   }
+}
 
-  &--active::before {
-    @include glow-ring-active();
-  }
-
-  &--active:focus-within::before {
-    @include glow-ring-active();
-
-    border-radius: calc(
-      var(--button-border-radius, 2rem) + var(--border-glow-focus-offset) +
-        var(--border-glow-padding)
-    ) !important;
-    inset: var(--border-glow-focus-inset) !important;
-  }
-
-  &--active:hover:has(.dnb-button:not([disabled]))::before {
-    @include glow-ring-active();
-
-    border-radius: calc(
-      var(--button-border-radius, 2rem) + var(--border-glow-hover-offset) +
-        var(--border-glow-padding)
-    ) !important;
-    inset: var(--border-glow-hover-inset) !important;
-  }
-
-  &--active > .dnb-button {
-    border-color: transparent;
+@media (forced-colors: active) {
+  .dnb-indicator-border-glow--active {
+    &::before,
+    .dnb-indicator-border-glow__target::before {
+      background: CanvasText;
+      forced-color-adjust: none;
+    }
   }
 }

@@ -141,7 +141,7 @@ export const WithinOtherComponents = () => {
 
 export const BorderGlow = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="submit-indicator-border-glow">
       <Form.Handler onSubmit={async () => await new Promise(() => {})}>
         <Flex.Stack className="dnb-indicator-border-glow dnb-indicator-border-glow--active">
           <Field.String

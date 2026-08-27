@@ -97,7 +97,10 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
   return (
-    <span className="dnb-slider__thumb" style={style}>
+    <span
+      className="dnb-slider__thumb dnb-indicator-border-glow__target dnb-indicator-border-glow__target--circle dnb-indicator-border-glow__target--slider"
+      style={style}
+    >
       <input
         id={`${id}-thumb-${currentIndex}`}
         type="range"

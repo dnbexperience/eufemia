@@ -486,6 +486,8 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
               <span
                 className={clsx(
                   'dnb-radio__button',
+                  'dnb-indicator-border-glow__target',
+                  'dnb-indicator-border-glow__target--circle',
                   createSkeletonClass('shape', skeleton, context)
                 )}
                 aria-hidden

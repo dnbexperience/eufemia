@@ -389,7 +389,12 @@ function SegmentedField<T extends string>(props: SegmentedFieldProps<T>) {
         {...rest}
         id={id}
         label={labelElement}
-        className={clsx('dnb-segmented-field', className)}
+        className={clsx(
+          'dnb-segmented-field',
+          'dnb-indicator-border-glow__target',
+          'dnb-indicator-border-glow__target--row',
+          className
+        )}
         size={size}
         labelDirection={labelDirection}
         disabled={disabled}
