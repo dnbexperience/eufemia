@@ -65,6 +65,28 @@ describe('Img', () => {
     expect(document.querySelector('img')).toHaveClass('image-class')
   })
 
+  it('applies figureProps to the figure and imageClassName to the image', () => {
+    render(
+      <Img
+        src="image.png"
+        alt="Image description"
+        className="figure-class"
+        figureProps={{
+          className: 'figure-props-class',
+          title: 'Figure title',
+        }}
+        imageClassName="image-class"
+        caption="Caption text"
+      />
+    )
+
+    const figure = document.querySelector('figure')
+
+    expect(figure).toHaveClass('figure-class', 'figure-props-class')
+    expect(figure).toHaveAttribute('title', 'Figure title')
+    expect(document.querySelector('img')).toHaveClass('image-class')
+  })
+
   it('preserves internal error handling when onError is provided', () => {
     const onError = vi.fn()
     render(

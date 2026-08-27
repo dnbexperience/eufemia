@@ -7,14 +7,24 @@ export const ImgProperties: PropertiesTableProps = {
     status: 'optional',
   },
   imgClass: {
-    doc: 'Custom `className` on the `<img>`-element.',
+    doc: 'Deprecated. Use `imageClassName` instead.',
+    type: 'string',
+    status: 'deprecated',
+  },
+  imageClassName: {
+    doc: 'Custom `className` for the inner `img` element.',
     type: 'string',
     status: 'optional',
   },
-  element: {
-    doc: 'Defines the Element Type, like `figure`.',
-    type: ['HTMLElement', 'string'],
+  figureProps: {
+    doc: 'Native HTML properties for the wrapping `figure` element.',
+    type: 'HTMLProps<HTMLElement>',
     status: 'optional',
+  },
+  element: {
+    doc: 'Deprecated. The wrapper should remain a `figure` to preserve its semantics.',
+    type: ['HTMLElement', 'string'],
+    status: 'deprecated',
   },
   caption: {
     doc: 'Use to define a caption for the image. Uses `<figcaption>`.',
