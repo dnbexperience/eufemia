@@ -9,7 +9,8 @@ import {
   RUN_ALL_COMMIT_FLAG,
 } from './config'
 import { createContext } from './context'
-import { loadDependencyMap, loadScssDependencyMap } from './dependencyMaps'
+import { loadScssDependencyMap } from './dependencyMaps'
+import { loadTsDependencyMap } from './tsDependencyGraph'
 import {
   findCompositionImpactedTests,
   findPortalDocsImpactedTests,
@@ -384,7 +385,7 @@ export async function runScreenshotsTests() {
   })
 
   const dependencyMap = hasCodeSourceChanges
-    ? loadDependencyMap(context)
+    ? loadTsDependencyMap(context)
     : new Map<string, string[]>()
   const scssDependencyMap = hasScssSourceChanges
     ? loadScssDependencyMap(context)

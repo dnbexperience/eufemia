@@ -2,8 +2,10 @@ import {
   Children,
   cloneElement,
   isValidElement,
+  useEffect,
   useContext,
   useMemo,
+  useRef,
 } from 'react'
 import type { HTMLAttributes } from 'react'
 import { clsx } from 'clsx'
@@ -12,7 +14,9 @@ import { ListContext } from './ListContext'
 import type { StackProps as FlexProps } from '../flex/Stack'
 import FlexContainer from '../flex/Stack'
 import type { SkeletonShow } from '../Skeleton'
-import HeightAnimation from '../height-animation/HeightAnimation'
+import HeightAnimation, {
+  supportsOpenOnFind,
+} from '../height-animation/HeightAnimation'
 import SharedContext from '../../shared/Context'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import type { ListShowMoreButtonSharedState } from './ListShowMoreButton'
@@ -21,6 +25,11 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type ListContainerProps = {
   id?: string
   visibleCount?: number
+  /**
+   * Makes items hidden by `visibleCount` findable with browser find-in-page. Matching content is revealed and expands a list connected to `List.ShowMoreButton`. Defaults to `true` when `visibleCount` is used.
+   * Default: `true`
+   */
+  openOnFind?: boolean
   variant?: ListVariant
   separated?: boolean
   /**
@@ -37,14 +46,17 @@ function ListContainer(props: ListContainerProps) {
     className,
     children,
     visibleCount,
+    openOnFind = true,
     variant = 'basic',
     separated = false,
     striped = false,
     skeleton,
     disabled,
+    layoutEngine = 'css',
     wrapChildrenInSpace = false,
     ...rest
   } = props
+  const containerRef = useRef<HTMLElement>(null)
 
   const parentContext = useContext(ListContext)
   const globalContext = useContext(SharedContext)
@@ -59,7 +71,7 @@ function ListContainer(props: ListContainerProps) {
 
   const hasToggle = hasVisibleCount && props.id !== undefined
 
-  const { data: toggleData } =
+  const { data: toggleData, update: updateToggle } =
     useSharedState<ListShowMoreButtonSharedState>(
       hasToggle ? props.id : undefined,
       { expanded: false }
@@ -67,6 +79,35 @@ function ListContainer(props: ListContainerProps) {
 
   const expanded = hasToggle ? (toggleData?.expanded ?? false) : false
   const shouldLimit = hasVisibleCount && !expanded
+  const canOpenOnFind = openOnFind && supportsOpenOnFind()
+
+  useEffect(() => {
+    const element = containerRef.current
+    if (!element || !canOpenOnFind || !shouldLimit) {
+      return undefined
+    }
+
+    const hiddenItems = Array.from(
+      element.querySelectorAll<HTMLElement>(':scope > [hidden]')
+    )
+    hiddenItems.forEach((item) => {
+      item.setAttribute('hidden', 'until-found')
+    })
+
+    const handleBeforeMatch = (event: Event) => {
+      ;(event.currentTarget as HTMLElement).removeAttribute('hidden')
+      updateToggle({ expanded: true })
+    }
+    hiddenItems.forEach((item) => {
+      item.addEventListener('beforematch', handleBeforeMatch)
+    })
+
+    return () => {
+      hiddenItems.forEach((item) => {
+        item.removeEventListener('beforematch', handleBeforeMatch)
+      })
+    }
+  }, [canOpenOnFind, shouldLimit, updateToggle])
 
   const renderedChildren = useMemo(() => {
     if (!hasVisibleCount) {
@@ -97,6 +138,8 @@ function ListContainer(props: ListContainerProps) {
   const listContent = (
     <FlexContainer
       element="ul"
+      ref={containerRef}
+      layoutEngine={layoutEngine}
       rowGap={separated ? 'small' : false}
       wrap={false}
       wrapChildrenInSpace={wrapChildrenInSpace}

@@ -17,7 +17,7 @@ export const HeightAnimationProperties: PropertiesTableProps = {
     status: 'optional',
   },
   openOnFind: {
-    doc: 'Set to `true` to keep closed content available to the browser find-in-page feature with `hidden="until-found"`. This implies `keepInDOM`. In browsers without `hidden="until-found"` support, the collapsed content may remain visible. Defaults to `false`.',
+    doc: 'Set to `true` to keep closed content available to the browser find-in-page feature with `hidden="until-found"`. This implies `keepInDOM`. Unsupported browsers fall back to regular `keepInDOM` hiding. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

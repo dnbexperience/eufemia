@@ -20,6 +20,19 @@ describe('Toolbar', () => {
     ).toHaveClass('dnb-space__top--large')
   })
 
+  it('uses the CSS gap layout engine', () => {
+    render(<Toolbar>content</Toolbar>)
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-iterate-toolbar > .dnb-flex-container'
+      )
+    ).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-large'
+    )
+  })
+
   it('should render Hr by default', () => {
     render(<Toolbar>content</Toolbar>)
 

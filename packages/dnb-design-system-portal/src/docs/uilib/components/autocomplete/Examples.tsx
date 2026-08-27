@@ -22,7 +22,8 @@ import {
 
 const Wrapper = styled.div`
   [data-visual-test] {
-    > :not(.dnb-autocomplete--is-popup) .dnb-autocomplete__shell {
+    > :not(.dnb-autocomplete--is-popup):not(.dnb-autocomplete--stretch)
+      .dnb-autocomplete__shell {
       width: var(--autocomplete-width);
     }
   }
@@ -93,7 +94,7 @@ export const AutocompleteNumbersExample = () => (
         showClearButton
         label="Label"
         data={numbersData}
-        searchNumbers={true}
+        search={{ numbers: true }}
       />
     </ComponentBox>
   </Wrapper>
@@ -449,6 +450,19 @@ export const AutocompleteOpened = () => {
   )
 }
 
+export const AutocompleteInlineExample = () => {
+  return (
+    <Wrapper>
+      <ComponentBox
+        data-visual-test="autocomplete-inline"
+        scope={{ topMovies }}
+      >
+        <Autocomplete inline stretch label="Label" data={topMovies} />
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
 const topMovies = [
   {
     content: (
@@ -779,6 +793,18 @@ export const AutocompleteWithListItemContent = () => (
 
         return <AccountAutocomplete data={data} label="Label" />
       }}
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteSearchOptionsExample = () => (
+  <Wrapper>
+    <ComponentBox scope={{ topMovies }}>
+      <Autocomplete
+        label="Search movies (starts-with)"
+        data={topMovies}
+        search={{ match: 'starts-with', highlight: false }}
+      />
     </ComponentBox>
   </Wrapper>
 )

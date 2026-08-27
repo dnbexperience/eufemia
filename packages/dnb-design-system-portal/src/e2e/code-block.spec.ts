@@ -31,6 +31,14 @@ test.describe('CodeBlock', () => {
 
     await page.keyboard.down('Tab')
 
+    await expect(
+      page.getByRole('link', {
+        name: 'Link to Textarea with placeholder text',
+      })
+    ).toBeFocused()
+
+    await page.keyboard.down('Tab')
+
     await expect(textareaList.nth(1)).toBeFocused()
 
     // Tab past the toolbar (Copy button + StackBlitz button + Dark mode checkbox + Focus mode button) to reach the code editor

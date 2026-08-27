@@ -9,12 +9,10 @@ on:
       - '!wip/**'
       - '!experiments/**'
       - '!release'
-      - '!portal'
       - '!beta'
       - '!alpha'
   pull_request:
     branches:
-      - 'portal'
       - 'release'
       - 'beta'
       - 'alpha'
@@ -58,12 +56,12 @@ jobs:
             ~/Library/Caches/ms-playwright
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-firefox-chromium-${{ hashFiles('**/yarn.lock') }}
       - name: Install Playwright browsers
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
+        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox chromium
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Install Playwright dependencies
-        run: yarn workspace dnb-design-system-portal playwright install-deps firefox
+        run: yarn workspace dnb-design-system-portal playwright install-deps firefox chromium
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library

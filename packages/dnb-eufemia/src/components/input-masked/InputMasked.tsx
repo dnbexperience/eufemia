@@ -171,7 +171,8 @@ function InputMasked({ ref, ...restProps }: InputMaskedProps) {
 
     const clone = { ...context.InputMasked }
     for (const key in clone) {
-      if (/^as[_A-Z]|numberMask|currencyMask/.test(key)) {
+      // Anchor every alternative so the match is "starts with", not "contains".
+      if (/^(?:as[_A-Z]|numberMask|currencyMask)/.test(key)) {
         delete clone[key]
       }
     }

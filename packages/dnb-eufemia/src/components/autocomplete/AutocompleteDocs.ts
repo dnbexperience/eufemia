@@ -17,39 +17,44 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   title: {
-    doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.',
+    doc: 'Give a title to let the user know what they have to do. Defaults to `Skriv og velg`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  disableFilter: {
-    doc: 'If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.',
-    type: 'boolean',
+  search: {
+    doc: 'Configure search behavior with a single config object. An object with optional keys: `filter` (enable result filtering, default `true`), `reorder` (enable relevance reordering, default `true`), `highlight` (enable text highlighting, default `true`), `numbers` (enable number search, default `false`), `matchInsideWordsFrom` (threshold for in-word search, default `3`), and `match` (matching mode `"word"` or `"starts-with"`, default `"word"`). Example: `search={{ filter: false }}` to disable filtering while keeping highlighting.',
+    type: 'SearchOptions',
     status: 'optional',
+  },
+  disableFilter: {
+    doc: 'If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`. **Deprecated**: Use `search={{ filter: false }}` instead.',
+    type: 'boolean',
+    status: 'deprecated',
   },
   disableHighlighting: {
-    doc: 'If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.',
+    doc: 'If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`. **Deprecated**: Use `search={{ highlight: false }}` instead.',
     type: 'boolean',
-    status: 'optional',
+    status: 'deprecated',
   },
   disableReorder: {
-    doc: 'If set to `true`, reordering of search results will be disabled. Defaults to `false`.',
+    doc: 'If set to `true`, reordering of search results will be disabled. Defaults to `false`. **Deprecated**: Use `search={{ reorder: false }}` instead.',
     type: 'boolean',
-    status: 'optional',
+    status: 'deprecated',
   },
   searchNumbers: {
-    doc: 'If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.',
+    doc: 'If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`. **Deprecated**: Use `search={{ numbers: true }}` instead.',
     type: 'boolean',
-    status: 'optional',
+    status: 'deprecated',
   },
   searchInWordIndex: {
-    doc: 'This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.',
+    doc: 'This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`. **Deprecated**: Use `search={{ matchInsideWordsFrom: number }}` instead.',
     type: ['string', 'number'],
-    status: 'optional',
+    status: 'deprecated',
   },
   searchMatch: {
-    doc: 'Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.',
+    doc: 'Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`. **Deprecated**: Use `search={{ match: "word" | "starts-with" }}` instead.',
     type: ['"word"', '"starts-with"'],
-    status: 'optional',
+    status: 'deprecated',
   },
   keepValue: {
     doc: 'Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / be replaced by a selected value from the data list during the input field blur. Defaults to `false`.',
@@ -132,7 +137,7 @@ export const AutocompleteProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showOptionsSr: {
-    doc: 'Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer`.',
+    doc: 'Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer, lukk med esc knappen`.',
     type: 'string',
     status: 'optional',
   },
@@ -178,6 +183,11 @@ export const AutocompleteProperties: PropertiesTableProps = {
   },
   skipPortal: {
     doc: 'Set to `true` to disable the React Portal behavior. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  inline: {
+    doc: 'Use `true` to render the results list persistently open in normal document flow, instead of an overlay. The toggle button is hidden. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

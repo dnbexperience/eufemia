@@ -127,6 +127,24 @@ describe('Upload', () => {
     expect(screen.getByText('My custom content')).toBeInTheDocument()
   })
 
+  it('uses the CSS gap layout engine for upload information', () => {
+    render(<Upload {...defaultProps}>My custom content</Upload>)
+
+    const layouts = document.querySelectorAll(
+      '.dnb-upload .dnb-flex-container'
+    )
+
+    expect(layouts).toHaveLength(2)
+    expect(layouts[0]).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-small'
+    )
+    expect(layouts[1]).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-flex-container--spacing-xx-small'
+    )
+  })
+
   describe('Text', () => {
     it('renders the title', () => {
       render(<Upload {...defaultProps} />)

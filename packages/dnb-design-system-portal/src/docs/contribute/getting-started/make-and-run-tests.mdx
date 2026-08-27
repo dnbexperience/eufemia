@@ -131,6 +131,8 @@ Selection includes:
 
 Global impact still runs all screenshot tests when shared visual config/style paths are changed (for example `packages/dnb-eufemia/package.json`, `src/style/*` or it runs on the `main` branch).
 
+Reverse-dependency selection resolves imports by TypeScript symbol, so an import through a re-export barrel (for example `src/components/index.ts`) is attributed to the module that actually defines the symbol. Pure re-export barrels are therefore transparent, and type-only imports are ignored because they cannot change rendered output.
+
 You can run the same logic locally:
 
 ```bash
@@ -221,7 +223,7 @@ you can find a report entry (`index.html`), that lists all of the failed tests h
 
 You may check out the CI/CLI logs for more details.
 
-**GitHub Actions:** If visual screenshot test is failing on the CI, you can navigate to the test "Summary" where you can find "Artifacts". There you can download the **visual-test-artifact** zip file, containing the visual diff files as well as the report entry inside `/visual-diff-report`.
+**GitHub Actions:** When a visual screenshot test fails on the CI, the failed screenshots are listed directly on the run's "Summary" page. When report hosting is available, each row links to a hosted before/after/diff view, so no download is needed. The same report is also attached as the **visual-test-artifact** zip file (containing `/visual-diff-report` with `index.html` and the diff images) for offline inspection.
 
 ## Support SCSS snapshot test
 

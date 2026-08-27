@@ -1,4 +1,10 @@
-import { render, fireEvent, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  render,
+  fireEvent,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import { afterAll, beforeEach, vi } from 'vitest'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { Provider } from '../../../../../shared'
@@ -405,7 +411,7 @@ describe('MultiSelection', () => {
       )
     })
 
-    it('renders Hr separators between popover sections', async () => {
+    it('does not render Hr separators between popover sections', async () => {
       const data = [{ value: 'option1', title: 'Option 1' }]
 
       render(
@@ -421,10 +427,16 @@ describe('MultiSelection', () => {
 
       await waitFor(
         () => {
-          expect(document.querySelectorAll('.dnb-hr')).toHaveLength(3)
+          expect(
+            document.querySelector(
+              '.dnb-forms-field-multi-selection__popover-content'
+            )
+          ).toBeInTheDocument()
         },
         { timeout: 3000 }
       )
+
+      expect(document.querySelectorAll('.dnb-hr')).toHaveLength(0)
     })
 
     it('does not update trigger count until confirm button is clicked', async () => {
@@ -864,6 +876,53 @@ describe('MultiSelection', () => {
   })
 
   describe('showSearchField', () => {
+    it('renders selected items before search without separators', async () => {
+      const data = Array.from({ length: 11 }, (_, index) => ({
+        value: `option${index + 1}`,
+        title: `Option ${index + 1}`,
+      }))
+
+      render(
+        <Field.MultiSelection
+          data={data}
+          value={['option1']}
+          showSearchField
+          showSelectedTags
+        />
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(
+        () => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-field-multi-selection__selected-items-header'
+            )
+          ).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
+
+      const popoverContent = document.querySelector(
+        '.dnb-forms-field-multi-selection__popover-content'
+      ) as HTMLElement
+      const sections = Array.from(popoverContent.children)
+
+      expect(sections[0]).toHaveClass(
+        'dnb-forms-field-multi-selection__selected-items-header'
+      )
+      expect(sections[1]).toHaveClass(
+        'dnb-forms-field-multi-selection__selected-items'
+      )
+      expect(sections[2]).toHaveClass(
+        'dnb-forms-field-multi-selection__search'
+      )
+      expect(sections[3]).toHaveClass(
+        'dnb-forms-field-multi-selection__items'
+      )
+    })
+
     it('renders the search input as type="search"', async () => {
       const data = [
         { value: 'option1', title: 'Option 1' },
@@ -1298,6 +1357,225 @@ describe('MultiSelection', () => {
 
       expect(screen.queryByText('Option 2')).not.toBeInTheDocument()
     })
+
+    describe('search config', () => {
+      it('supports numbers to match numeric content', async () => {
+        const data = [
+          { value: 'a', title: 'Account 123-456' },
+          { value: 'b', title: 'Account 789-012' },
+          { value: 'c', title: 'Savings' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ numbers: true }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: '123456' } })
+
+        await waitFor(
+          () => {
+            expect(screen.getByText('Account 123-456')).toBeInTheDocument()
+          },
+          { timeout: 3000 }
+        )
+
+        expect(
+          screen.queryByText('Account 789-012')
+        ).not.toBeInTheDocument()
+        expect(screen.queryByText('Savings')).not.toBeInTheDocument()
+      })
+
+      it('supports search={{ filter: false }} to disable filtering', async () => {
+        const data = [
+          { value: 'a', title: 'Apple' },
+          { value: 'b', title: 'Banana' },
+          { value: 'c', title: 'Cherry' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ filter: false }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'apple' } })
+
+        await waitFor(
+          () => {
+            expect(screen.getByText('Apple')).toBeInTheDocument()
+          },
+          { timeout: 3000 }
+        )
+
+        expect(screen.getByText('Banana')).toBeInTheDocument()
+        expect(screen.getByText('Cherry')).toBeInTheDocument()
+      })
+
+      it('still reorders by relevance when filter is false', async () => {
+        const data = [
+          { value: 'a', title: 'Something banana' },
+          { value: 'b', title: 'Banana cake' },
+          { value: 'c', title: 'Cherry' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ filter: false }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'banana' } })
+
+        await waitFor(
+          () => {
+            const items = document.querySelectorAll(
+              '.dnb-forms-field-multi-selection__item'
+            )
+            // All items shown (no filtering)
+            expect(items).toHaveLength(3)
+            // Reordered: 'Banana cake' first (higher relevance)
+            expect(items[0]).toHaveTextContent('Banana cake')
+            expect(items[1]).toHaveTextContent('Something banana')
+            expect(items[2]).toHaveTextContent('Cherry')
+          },
+          { timeout: 3000 }
+        )
+      })
+
+      it('supports search={{ reorder: false }} to keep original order', async () => {
+        const data = [
+          { value: 'a', title: 'Banana split' },
+          { value: 'b', title: 'Apple banana' },
+          { value: 'c', title: 'Cherry' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ reorder: false }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'banana' } })
+
+        await waitFor(
+          () => {
+            const items = document.querySelectorAll(
+              '.dnb-forms-field-multi-selection__item'
+            )
+            expect(items).toHaveLength(2)
+            expect(items[0]).toHaveTextContent('Banana split')
+            expect(items[1]).toHaveTextContent('Apple banana')
+          },
+          { timeout: 3000 }
+        )
+      })
+
+      it('supports search={{ match: "starts-with" }}', async () => {
+        const data = [
+          { value: 'a', title: 'Apple' },
+          { value: 'b', title: 'Pineapple' },
+        ]
+
+        render(
+          <Field.MultiSelection
+            data={data}
+            showSearchField
+            search={{ match: 'starts-with' }}
+          />
+        )
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'apple' } })
+
+        await waitFor(
+          () => {
+            expect(screen.getByText('Apple')).toBeInTheDocument()
+          },
+          { timeout: 3000 }
+        )
+
+        expect(screen.queryByText('Pineapple')).not.toBeInTheDocument()
+      })
+
+      it('reorders results by relevance by default', async () => {
+        const data = [
+          { value: 'a', title: 'Something banana' },
+          { value: 'b', title: 'Banana cake' },
+        ]
+
+        render(<Field.MultiSelection data={data} showSearchField />)
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'banana' } })
+
+        await waitFor(
+          () => {
+            const items = document.querySelectorAll(
+              '.dnb-forms-field-multi-selection__item'
+            )
+            expect(items).toHaveLength(2)
+            // "Banana cake" starts with the search term so it should score higher
+            expect(items[0]).toHaveTextContent('Banana cake')
+            expect(items[1]).toHaveTextContent('Something banana')
+          },
+          { timeout: 3000 }
+        )
+      })
+
+      it('keeps items matching any search word (OR), like Autocomplete', async () => {
+        const data = [
+          { value: 'a', title: 'alpha delta' }, // matches only "alpha"
+          { value: 'b', title: 'beta gamma' }, // matches only "beta"
+          { value: 'c', title: 'alpha beta' }, // matches both
+        ]
+
+        render(<Field.MultiSelection data={data} showSearchField />)
+
+        fireEvent.click(screen.getByRole('button'))
+
+        const input = document.querySelector('input') as HTMLInputElement
+        fireEvent.change(input, { target: { value: 'alpha beta' } })
+
+        await waitFor(
+          () => {
+            const items = document.querySelectorAll(
+              '.dnb-forms-field-multi-selection__item'
+            )
+            // All three are kept because each matches at least one word.
+            expect(items).toHaveLength(3)
+            // The item matching both words scores highest and is reordered first.
+            expect(items[0]).toHaveTextContent('alpha beta')
+          },
+          { timeout: 3000 }
+        )
+      })
+    })
   })
 
   describe('minItems', () => {
@@ -1689,6 +1967,33 @@ describe('MultiSelection', () => {
       )
     })
 
+    it('uses the CSS gap layout engine for the selected items header', async () => {
+      const data = Array.from({ length: 25 }, (_, i) => ({
+        value: `option${i + 1}`,
+        title: `Option ${i + 1}`,
+      }))
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            showSelectedTags
+            value={data.slice(0, 22).map((item) => item.value)}
+          />
+        </Provider>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-multi-selection__selected-items-header'
+          )
+        ).toHaveClass('dnb-flex-container--css-gap')
+      })
+    })
+
     it('shows tags by default when total items exceed threshold', async () => {
       const data = Array.from({ length: 25 }, (_, i) => ({
         value: `option${i + 1}`,
@@ -1765,7 +2070,51 @@ describe('MultiSelection', () => {
       )
     })
 
-    it('clears all items when clear all button is clicked', async () => {
+    it('opens collapsed selected tags when matching content is found', async () => {
+      const data = Array.from({ length: 25 }, (_, i) => ({
+        value: 'option' + (i + 1),
+        title: 'Option ' + (i + 1),
+      }))
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection
+            data={data}
+            showSelectedTags
+            openOnFind
+            value={data.slice(0, 22).map((item) => item.value)}
+          />
+        </Provider>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-multi-selection__selected-items-header'
+          )
+        ).toBeInTheDocument()
+      })
+
+      const toggleButton = document.querySelector(
+        '.dnb-forms-field-multi-selection__selected-items-header button:first-child'
+      )
+      const animation = document.querySelector(
+        '.dnb-forms-field-multi-selection__selected-items .dnb-height-animation'
+      )
+
+      expect(toggleButton).toHaveAttribute('aria-expanded', 'false')
+      expect(animation).toHaveAttribute('hidden', 'until-found')
+
+      act(() => {
+        animation.dispatchEvent(new Event('beforematch'))
+      })
+
+      expect(toggleButton).toHaveAttribute('aria-expanded', 'true')
+    })
+
+    it('clears all selected tags when clear all is clicked', async () => {
       const data = Array.from({ length: 25 }, (_, i) => ({
         value: `option${i + 1}`,
         title: `Option ${i + 1}`,
@@ -2225,6 +2574,149 @@ describe('MultiSelection', () => {
   })
 
   describe('variant="inline"', () => {
+    it('applies maxHeight to the scrollable item list', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={data}
+          value={['option1']}
+          maxHeight="28rem"
+          showSearchField
+          showSelectedTags
+        />
+      )
+
+      const items = document.querySelector(
+        '.dnb-forms-field-multi-selection__items'
+      ) as HTMLElement
+
+      expect(items).toHaveStyle({ maxHeight: '28rem' })
+      expect(items).toHaveClass('dnb-scroll-view')
+      expect(
+        items.querySelector(
+          '.dnb-forms-field-multi-selection__selected-items'
+        )
+      ).not.toBeInTheDocument()
+      expect(
+        items.querySelector('.dnb-forms-field-multi-selection__search')
+      ).not.toBeInTheDocument()
+    })
+
+    it('makes the constrained item list keyboard scrollable', () => {
+      const scrollHeight = vi
+        .spyOn(HTMLElement.prototype, 'scrollHeight', 'get')
+        .mockReturnValue(200)
+      const offsetHeight = vi
+        .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+        .mockReturnValue(100)
+
+      try {
+        render(
+          <Field.MultiSelection
+            variant="inline"
+            data={[
+              { value: 'option1', title: 'Option 1' },
+              { value: 'option2', title: 'Option 2' },
+            ]}
+            maxHeight="4rem"
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-forms-field-multi-selection__items')
+        ).toHaveAttribute('tabindex', '0')
+      } finally {
+        scrollHeight.mockRestore()
+        offsetHeight.mockRestore()
+      }
+    })
+
+    it('wraps selected tags in HeightAnimation', () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={data}
+          value={['option1']}
+          showSelectedTags
+        />
+      )
+
+      const selectedItems = document.querySelector(
+        '.dnb-forms-field-multi-selection__selected-items'
+      )
+
+      expect(selectedItems).toHaveClass('dnb-height-animation')
+    })
+
+    it('interprets numeric maxHeight values as rem', () => {
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={[{ value: 'option1', title: 'Option 1' }]}
+          maxHeight={28}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-field-multi-selection__items')
+      ).toHaveStyle({ maxHeight: '28rem' })
+    })
+
+    it('does not apply maxHeight to the popover item list', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(<Field.MultiSelection data={data} maxHeight="28rem" />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(
+        () => {
+          expect(
+            document.querySelector(
+              '.dnb-forms-field-multi-selection__items'
+            )
+          ).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-field-multi-selection__items')
+      ).not.toHaveStyle({ maxHeight: '28rem' })
+    })
+
+    it('passes axe validation with a scrollable item list', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      const { container } = render(
+        <Field.MultiSelection
+          variant="inline"
+          label="Select items"
+          data={data}
+          maxHeight="4rem"
+          showSelectedTags
+        />
+      )
+
+      expect(await axeComponent(container)).toHaveNoViolations()
+    })
+
     it('renders checkboxes inline without a popover trigger', () => {
       const data = [
         { value: 'option1', title: 'Option 1' },

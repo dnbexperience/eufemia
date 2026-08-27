@@ -1,6 +1,12 @@
 import { Fragment } from 'react'
-import { Accordion, Button, Flex, Tag } from '../../../../components'
-import { Hr, P } from '../../../../elements'
+import {
+  Accordion,
+  Button,
+  Flex,
+  HeightAnimation,
+  Tag,
+} from '../../../../components'
+import { P } from '../../../../elements'
 import ScrollView from '../../../../components/scroll-view/ScrollView'
 import { close } from '../../../../icons'
 import type { MultiSelectionItem } from './MultiSelection'
@@ -10,6 +16,7 @@ export type MultiSelectionSelectedTagsProps = {
   show: boolean
   disabled?: boolean
   isCollapsible: boolean
+  openOnFind?: boolean
   selectedItems: MultiSelectionItem[]
   totalCount: number
   formatSelectionCount: (count: number, total: number) => string
@@ -26,6 +33,7 @@ export function MultiSelectionSelectedTags({
   show,
   disabled,
   isCollapsible,
+  openOnFind,
   selectedItems,
   totalCount,
   formatSelectionCount,
@@ -64,6 +72,7 @@ export function MultiSelectionSelectedTags({
     <Fragment>
       {isCollapsible && (
         <Flex.Horizontal
+          layoutEngine="css"
           className="dnb-forms-field-multi-selection__selected-items-header"
           justify="space-between"
           align="center"
@@ -74,6 +83,7 @@ export function MultiSelectionSelectedTags({
             id={`${id}-selected-accordion`}
             iconPosition="right"
             disabled={disabled}
+            openOnFind={openOnFind}
           />
           {selectedItems.length > 0 && (
             <Button
@@ -92,18 +102,15 @@ export function MultiSelectionSelectedTags({
         <Accordion.Content
           id={`${id}-selected-accordion`}
           className="dnb-forms-field-multi-selection__selected-items"
+          openOnFind={openOnFind}
         >
           {tagsContent}
         </Accordion.Content>
       ) : (
-        <div className="dnb-forms-field-multi-selection__selected-items">
+        <HeightAnimation className="dnb-forms-field-multi-selection__selected-items">
           {tagsContent}
-        </div>
+        </HeightAnimation>
       )}
-      <Hr
-        space={0}
-        className="dnb-forms-field-multi-selection__separator"
-      />
     </Fragment>
   )
 }

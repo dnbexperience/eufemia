@@ -14,6 +14,7 @@ export type FilterActiveFiltersProps = {
   label?: string
   showCategoryLabel?: boolean
   collapsibleThreshold?: number
+  openOnFind?: boolean
   onRemove?: (filterKey: string) => void
   className?: string
 }
@@ -22,6 +23,7 @@ function FilterActiveFilters({
   label,
   showCategoryLabel,
   collapsibleThreshold,
+  openOnFind = false,
   onRemove,
   className,
 }: FilterActiveFiltersProps) {
@@ -90,6 +92,7 @@ function FilterActiveFilters({
           {isCollapsible ? (
             <>
               <Flex.Horizontal
+                layoutEngine="css"
                 className="dnb-filter__active-filters__header"
                 justify="space-between"
                 align="center"
@@ -102,6 +105,7 @@ function FilterActiveFilters({
                   )}
                   id={accordionId}
                   iconPosition="right"
+                  openOnFind={openOnFind}
                 />
                 <Button
                   variant="tertiary"
@@ -112,7 +116,7 @@ function FilterActiveFilters({
                 </Button>
               </Flex.Horizontal>
 
-              <Accordion.Content id={accordionId}>
+              <Accordion.Content id={accordionId} openOnFind={openOnFind}>
                 <ScrollView className="dnb-filter__active-filters__scroll">
                   {tags}
                 </ScrollView>
@@ -121,6 +125,7 @@ function FilterActiveFilters({
           ) : (
             <>
               <Flex.Horizontal
+                layoutEngine="css"
                 className="dnb-filter__active-filters__header"
                 justify="space-between"
                 align="center"

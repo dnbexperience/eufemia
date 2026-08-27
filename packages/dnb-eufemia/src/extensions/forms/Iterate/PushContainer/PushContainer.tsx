@@ -453,7 +453,7 @@ function NewContainer({
   const toolbar = (
     <Toolbar>
       <IterateItemContext value={newItemContextProps}>
-        <Flex.Horizontal gap="large">
+        <Flex.Horizontal layoutEngine="css" gap="large">
           <DoneButton text={createButton} />
           {showOpenButton && <CancelButton onClick={cancelHandler} />}
           {(preventUncommittedChanges || showResetButton) && (

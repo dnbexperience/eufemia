@@ -474,7 +474,7 @@ export const WithError = () => (
 )
 
 export const WithManySelectedItems = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="multi-selection-many-selected-items">
     {() => {
       const items = Array.from({ length: 30 }, (_, i) => ({
         value: `item${i + 1}`,
@@ -489,6 +489,43 @@ export const WithManySelectedItems = () => (
           showSelectedTags
           showSelectAll
           showSearchField
+        />
+      )
+    }}
+  </ComponentBox>
+)
+
+export const WithSearchOptions = () => (
+  <ComponentBox>
+    {() => {
+      const accounts = [
+        {
+          value: 'acc1',
+          title: 'Brukskonto',
+          text: '2000 12 34567',
+        },
+        {
+          value: 'acc2',
+          title: 'Sparekonto',
+          text: '2223 33 44425',
+        },
+        {
+          value: 'acc3',
+          title: 'BSU',
+          text: '1234 56 78901',
+        },
+        {
+          value: 'acc4',
+          title: 'Felleskonto',
+          text: '9876 54 32100',
+        },
+      ]
+      return (
+        <Field.MultiSelection
+          label="Select accounts"
+          data={accounts}
+          showSearchField
+          search={{ numbers: true }}
         />
       )
     }}
@@ -513,6 +550,29 @@ export const VariantInline = () => (
           data={cities}
           showSelectAll
           showSearchField
+          showSelectedTags
+        />
+      )
+    }}
+  </ComponentBox>
+)
+
+export const ScrollableInline = () => (
+  <ComponentBox
+    scope={{ fruits }}
+    data-visual-test="multi-selection-scrollable-inline"
+  >
+    {() => {
+      return (
+        <Field.MultiSelection
+          label="Select fruits"
+          variant="inline"
+          data={fruits}
+          value={['apple', 'banana']}
+          maxHeight="16rem"
+          selectedItemsCollapsibleThreshold={20}
+          showSearchField
+          showSelectAll
           showSelectedTags
         />
       )

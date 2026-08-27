@@ -60,6 +60,22 @@ describe('Step', () => {
     expect(stepElement.tagName).toBe('SECTION')
   })
 
+  it('uses the CSS gap layout engine by default', () => {
+    render(<Wizard.Step>Step Content</Wizard.Step>)
+
+    expect(document.querySelector('.dnb-forms-step')).toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+  })
+
+  it('supports opting into the legacy layout engine', () => {
+    render(<Wizard.Step layoutEngine="legacy">Step Content</Wizard.Step>)
+
+    expect(document.querySelector('.dnb-forms-step')).not.toHaveClass(
+      'dnb-flex-container--css-gap'
+    )
+  })
+
   it('should have tabIndex of -1', () => {
     render(
       <WizardContext value={{}}>

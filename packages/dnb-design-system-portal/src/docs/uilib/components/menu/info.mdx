@@ -14,7 +14,7 @@ Menu provides an accessible dropdown menu for actions and navigation with a comp
 
 Use `Menu.Root` as the wrapper, `Menu.Button` for the trigger, `Menu.List` for the list container, `Menu.Action` for individual items, and `Menu.Divider` for visual separators.
 
-`Menu.Button` supports all [Button](/uilib/components/button/properties) props (e.g. `text`, `icon`, `variant`, `size`, `disabled`), so you can customise the trigger the same way you would with a regular Button.
+`Menu.Button` supports all [Button](/uilib/components/button/properties) props (e.g. `text`, `icon`, `variant`, `size`, `disabled`), so you can customize the trigger the same way you would with a regular Button.
 
 Nested menus are supported by nesting another `Menu.Root` inside `Menu.List` — use a `Menu.Action` as the direct child of the nested `Menu.Root` to serve as the sub-menu trigger.
 
@@ -26,6 +26,8 @@ For inline expandable groups, use `Menu.Accordion` instead of a nested `Menu.Roo
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/menu)
 
 ## Accessibility
+
+When `openOnFind` is enabled on `Menu.Accordion`, find-in-page support is powered by [HeightAnimation](/uilib/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.
 
 - The menu uses ARIA `role="menu"` and `role="menuitem"` semantics.
 - The trigger receives `aria-haspopup="menu"` and `aria-expanded` attributes automatically.

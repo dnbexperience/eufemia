@@ -56,7 +56,7 @@ export function DrawerListItem(
     'aria-selected': !!selected,
     'aria-disabled': disabled,
     onClick: () =>
-      onClick({
+      onClick?.({
         selected,
         value,
         ...rest,
@@ -75,7 +75,7 @@ export function DrawerListItem(
       ref={ref}
       key={'li' + hash}
       onClick={() =>
-        onClick({
+        onClick?.({
           selected,
           value,
           ...rest,

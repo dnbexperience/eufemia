@@ -126,6 +126,12 @@ export const MenuActionProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "Keeps collapsed menu items findable by the browser's find-in-page feature. Matching content opens the accordion.",
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
   children: {
     doc: 'Custom content rendered inside the action item.',
     type: 'React.ReactNode',

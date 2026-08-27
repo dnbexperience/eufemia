@@ -4,6 +4,43 @@ Eufemia is DNB's design system and UI library, providing a consistent and access
 
 Read more about Eufemia and the [DNB UI Library](https://eufemia.dnb.no/uilib/about-the-lib).
 
+## Agent Skills
+
+The package includes portable [Agent Skills](https://agentskills.io/) that use
+Eufemia's versioned documentation through the Eufemia MCP server.
+
+Install the skills in a project that already depends on `@dnb/eufemia`:
+
+```bash
+yarn eufemia skills install
+```
+
+The command asks which supported agent locations to use and preselects existing
+managed installations. Interactive users should use this selector. CI and other
+non-interactive environments can pass `--target <directory>` because they cannot
+answer terminal prompts.
+
+See the [Agent Skills and MCP documentation](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#agent-skills)
+for installation targets, npm and pnpm commands, update safety, cloud-agent
+usage, and MCP configuration.
+
+```bash
+yarn eufemia skills check
+yarn eufemia skills list
+yarn eufemia skills update
+yarn eufemia skills uninstall
+```
+
+The installer tracks generated files and refuses to replace local changes
+unless `--force` is given. Commit installed project skills when they should be
+available to cloud agents.
+
+Configure the [Eufemia MCP server](https://eufemia.dnb.no/uilib/usage/first-steps/tools/#ai-assistance-and-mcp-server)
+before using the skills. The skill files contain workflows, while component
+APIs, tokens, theme support, and other version-sensitive facts remain in
+Eufemia's packaged documentation. The hosted MCP serves the latest release; use
+the package-local MCP when an installed project version differs.
+
 ## License
 
 You find the license here: [LICENSE](https://github.com/dnbexperience/eufemia/blob/main/LICENSE)

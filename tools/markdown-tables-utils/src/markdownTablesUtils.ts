@@ -42,9 +42,14 @@ export function extractMarkdownTables(md) {
 }
 
 function isTableSeparator(line) {
-  // Simplified pattern to prevent ReDoS - match table separator rows
-  // Pattern: optional leading pipe, then one or more cells with dashes/colons, optional trailing pipe
-  return /^\s*\|?\s*(:?-+:?\s*\|)+\s*:?-+:?\s*\|?\s*$/.test(line)
+  // Split on pipes instead of matching with a single regex: the previous pattern
+  // had ambiguous, adjacent whitespace quantifiers that allowed polynomial ReDoS.
+  const inner = line.trim().replace(/^\|/, '').replace(/\|$/, '')
+  const cells = inner.split('|')
+  if (cells.length < 2) {
+    return false
+  }
+  return cells.every((cell) => /^:?-+:?$/.test(cell.trim()))
 }
 
 function splitTableRow(line) {
@@ -92,8 +97,9 @@ function renderMarkdownInline(input) {
   }
 
   let out = input
-  // Use non-greedy quantifiers to prevent ReDoS
-  out = out.replace(/\[([^\]]+?)\]\(([^)]+?)\)/g, '<a href="$2">$1</a>')
+  // Exclude the opening delimiters from the link/url content so a match fails
+  // fast on unbalanced brackets, keeping the matcher linear (prevents ReDoS).
+  out = out.replace(/\[([^[\]]+?)\]\(([^()]+?)\)/g, '<a href="$2">$1</a>')
   out = out.replace(/`([^`]+?)`/g, '<code>$1</code>')
   out = out.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
   out = out.replace(/__([^_]+?)__/g, '<strong>$1</strong>')

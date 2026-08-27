@@ -217,6 +217,36 @@ describe('Breadcrumb', () => {
     ).toBeDefined()
   })
 
+  it('opens collapsed responsive content when a match is found', () => {
+    setMedia({ width: '40em' })
+    const onToggle = vi.fn()
+    render(
+      <Breadcrumb
+        variant="collapse"
+        openOnFind
+        onToggle={onToggle}
+        data={[
+          { href: '/', text: 'Home' },
+          { href: '/page1', text: 'Findable page' },
+        ]}
+      />
+    )
+
+    const animation = document.querySelector(
+      '.dnb-accordion__content[hidden]'
+    )
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(
+      document.querySelector('.dnb-accordion__tertiary-button')
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(onToggle).toHaveBeenCalledWith(false)
+  })
+
   it('inherits skeleton prop from provider', () => {
     render(
       <Provider skeleton>

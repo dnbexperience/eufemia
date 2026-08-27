@@ -24,6 +24,11 @@ export const MultiSelectionProperties: PropertiesTableProps = {
     type: ['boolean'],
     status: 'optional',
   },
+  search: {
+    doc: 'Configure search behavior when `showSearchField` is enabled. An object with optional keys: `filter` (enable result filtering, default `true`), `reorder` (enable relevance reordering, default `true`), `numbers` (enable number-optimized matching, default `false`), `matchInsideWordsFrom` (threshold for in-word search, default `3`), and `match` (matching mode `"word"` or `"starts-with"`, default `"word"`). When `filter` is `false`, items are not filtered out but are still reordered by relevance unless `reorder` is also `false`. Example: `search={{ numbers: true }}`.',
+    type: 'SearchOptions',
+    status: 'optional',
+  },
   showSelectAll: {
     doc: 'Show a "Select all" checkbox at the top of the list.',
     type: ['boolean'],
@@ -34,6 +39,11 @@ export const MultiSelectionProperties: PropertiesTableProps = {
     type: ['boolean'],
     status: 'optional',
   },
+  maxHeight: {
+    doc: 'Sets the maximum height of the scrollable item list for the `inline` variant. Numbers are interpreted as rem.',
+    type: ['string', 'number'],
+    status: 'optional',
+  },
   showConfirmButton: {
     doc: 'Show confirm and cancel buttons at the bottom of the popover. Selections are only applied when the user confirms.',
     type: ['boolean'],
@@ -42,6 +52,11 @@ export const MultiSelectionProperties: PropertiesTableProps = {
   selectedItemsCollapsibleThreshold: {
     doc: 'When the number of selected items exceeds this threshold, the selected items are hidden by default and can be toggled with a header.',
     type: ['number'],
+    status: 'optional',
+  },
+  openOnFind: {
+    doc: "Keeps collapsed selected tags findable by the browser's find-in-page feature. Matching content expands the selected tags. Defaults to `false`.",
+    type: ['boolean'],
     status: 'optional',
   },
   minItems: {

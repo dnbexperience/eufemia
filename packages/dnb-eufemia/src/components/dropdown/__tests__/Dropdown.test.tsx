@@ -522,7 +522,7 @@ describe('Dropdown component', () => {
     )
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      'Valgmeny'
+      'Velg'
     )
 
     value = 2
@@ -535,7 +535,7 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} value={undefined} data={mockData} />)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      'Valgmeny'
+      'Velg'
     )
 
     value = 3
@@ -548,7 +548,7 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} value={null} data={mockData} />)
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      'Valgmeny'
+      'Velg'
     )
   })
 
@@ -635,7 +635,7 @@ describe('Dropdown component', () => {
     )
 
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
-      'Valgmeny'
+      'Velg'
     )
   })
 

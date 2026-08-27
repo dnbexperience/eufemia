@@ -762,8 +762,12 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     ) => {
       mergeState({ activeItem }, () => {
         if (parseFloat(activeItem) === -1) {
-          // Keep focus on Autocomplete text input
-          if (document.activeElement?.tagName !== 'INPUT') {
+          // Keep focus on the Autocomplete input and preserve the current
+          // focus when the list is rendered inline.
+          if (
+            !propsRef.current.inline &&
+            document.activeElement?.tagName !== 'INPUT'
+          ) {
             _refUl.current?.focus({ preventScroll: true })
           }
 
@@ -886,7 +890,9 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   }, [removeOutsideClickObserver, onKeyDownHandler, onKeyUpHandler])
 
   const addObservers = useCallback(() => {
-    setDirectionObserver()
+    if (!propsRef.current.inline) {
+      setDirectionObserver()
+    }
 
     setOutsideClickObserver()
   }, [setDirectionObserver, setOutsideClickObserver])
@@ -921,7 +927,11 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   }, [])
 
   setVisibleFnRef.current = (args = {}, onStateComplete = null) => {
-    if (stateRef.current.open && stateRef.current.hidden === false) {
+    if (
+      stateRef.current.open &&
+      stateRef.current.hidden === false &&
+      (!propsRef.current.inline || isOpenRef.current)
+    ) {
       if (typeof onStateComplete === 'function') {
         onStateComplete(true)
       }
@@ -1201,14 +1211,17 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     if (propsRef.current.preventClose) {
       let isSameDrawer = false
       try {
+        const activeElement = document.activeElement
         const ulElem = getClosestParent(
           'dnb-drawer-list__options',
-          document.activeElement
+          activeElement
         )
 
         isSameDrawer =
           ulElem === _refUl.current ||
-          ulElem?.getAttribute('id') === stateRef.current.id
+          ulElem?.getAttribute('id') === stateRef.current.id ||
+          activeElement?.getAttribute('aria-controls') ===
+            `${stateRef.current.id}-ul`
       } catch (err) {
         warn(err)
       }
@@ -1222,6 +1235,10 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
 
     if (stateRef.current.ignoreEvents && key !== 'Tab') {
+      return // stop here
+    }
+
+    if (propsRef.current.inline && key === 'Tab') {
       return // stop here
     }
 
@@ -1457,6 +1474,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     _hasFocusOnElementRef.current = false
     if (stateRef.current.open) {
       if (
+        !propsRef.current.inline &&
         props.data !== prevDataRef.current &&
         typeof document !== 'undefined' &&
         document.activeElement?.tagName === 'BODY'

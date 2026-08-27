@@ -549,7 +549,7 @@ describe('Wizard.Container', () => {
         </StrictMode>
       )
 
-      expect(screen.getAllByText('Separat Vindu')).toHaveLength(2)
+      expect(screen.getAllByText('Separat vindu')).toHaveLength(2)
       expect(screen.getByText('Hjelpetekst')).toBeInTheDocument()
 
       expect(output()).toHaveTextContent('Step 1')

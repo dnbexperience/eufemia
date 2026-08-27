@@ -124,6 +124,10 @@ export type BreadcrumbProps = {
    */
   noAnimation?: boolean
   /**
+   * Keeps collapsed breadcrumb items findable by the browser's find-in-page feature. Matching content expands the breadcrumb. Defaults to `false`.
+   */
+  openOnFind?: boolean
+  /**
    * Will be called when breadcrumb expands or collapses.
    */
   onToggle?: (collapsed: boolean) => void
@@ -143,6 +147,7 @@ const breadcrumbDefaultProps: Partial<BreadcrumbAllProps> = {
   skeleton: false,
   collapsed: true,
   spacing: false,
+  openOnFind: false,
 }
 
 const Breadcrumb = (localProps: BreadcrumbAllProps) => {
@@ -171,6 +176,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
     collapsed: overrideCollapsed,
     spacing,
     noAnimation,
+    openOnFind,
     data,
     href,
     onToggle,
@@ -255,6 +261,7 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             title={backToText}
             expanded={!isCollapsedRef.current}
             noAnimation={noAnimation}
+            openOnFind={openOnFind}
             onChange={({ expanded, event }) => {
               onClick?.(event as MouseEvent<HTMLButtonElement>)
               isCollapsedRef.current = !expanded
@@ -305,6 +312,12 @@ const Breadcrumb = (localProps: BreadcrumbAllProps) => {
             items={items}
             collapsed={isCollapsedRef.current}
             noAnimation={noAnimation}
+            openOnFind={openOnFind}
+            onBeforeMatch={() => {
+              isCollapsedRef.current = false
+              forceUpdate()
+              onToggle?.(false)
+            }}
           />
         </div>
       )}

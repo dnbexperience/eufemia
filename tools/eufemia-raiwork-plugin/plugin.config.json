@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "plugin": {
+    "name": "dnb-eufemia-web",
+    "agentPluginName": "eufemia",
+    "version": "0.1.0",
+    "title": "Eufemia Web",
+    "description": "Official Eufemia skills and MCP documentation for building, reviewing, and migrating DNB web frontends and contributing Portal content.",
+    "license": "Apache-2.0 with Commons Clause",
+    "homepage": "https://eufemia.dnb.no",
+    "repository": "https://github.com/dnbexperience/eufemia-agent-plugins",
+    "tags": [
+      "dnb",
+      "eufemia",
+      "design-system",
+      "frontend",
+      "react",
+      "accessibility"
+    ],
+    "platforms": ["darwin", "linux", "win32"],
+    "icon": "cover.png",
+    "mcp": {
+      "name": "eufemia",
+      "endpointUrl": "https://server.eufemia.dnb.no/mcp/web"
+    }
+  },
+  "skills": {
+    "eufemia-components": {
+      "title": "Eufemia Components",
+      "tags": ["eufemia", "components", "forms", "layout"]
+    },
+    "eufemia-compose": {
+      "title": "Compose with Eufemia",
+      "tags": ["eufemia", "frontend", "forms", "theming"]
+    },
+    "eufemia-accessibility": {
+      "title": "Eufemia Accessibility",
+      "tags": ["eufemia", "accessibility", "wcag", "frontend"]
+    },
+    "eufemia-review": {
+      "title": "Review Eufemia Usage",
+      "tags": ["eufemia", "review", "quality", "deprecations"]
+    },
+    "eufemia-migrate": {
+      "title": "Migrate Eufemia",
+      "tags": ["eufemia", "migration", "upgrade", "codemods"]
+    },
+    "eufemia-portal-content": {
+      "title": "Edit Eufemia Portal Content",
+      "tags": ["eufemia", "documentation", "content", "github"]
+    }
+  }
+}

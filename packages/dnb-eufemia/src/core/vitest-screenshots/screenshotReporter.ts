@@ -24,15 +24,29 @@ import { drainFailures, type ScreenshotFailureRecord } from './failures'
 // eslint-disable-next-line no-control-regex
 const ANSI_ESCAPE_SEQUENCE = /\u001B\[[0-?]*[ -/]*[@-~]/g
 
-type ResolvedFailure = {
+export type ResolvedFailure = {
   relativeTestFilePath: string
   expectedImagePath: string | null
   dataVisualTestId: string | null
   lineNumber: number | null
 } & ScreenshotFailureRecord
 
+// Escape a value for safe use in HTML text or double/single-quoted
+// attributes. The report is published to a public URL, so every
+// test-derived value must be escaped before it is interpolated.
+export const escapeHtml = (value: string): string =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+
 const formatMessage = (message: string) =>
-  message.replace(ANSI_ESCAPE_SEQUENCE, '').replace(/\n/g, '<br />')
+  escapeHtml(message.replace(ANSI_ESCAPE_SEQUENCE, '')).replace(
+    /\n/g,
+    '<br />'
+  )
 
 const extractTestMetadata = (
   testFilePath: string,
@@ -83,6 +97,17 @@ const resolveFailures = (
 }
 
 /**
+ * Build the deterministic file name for a copied report image.
+ * Shared by the HTML writer and the JSON manifest so the two never
+ * drift: the manifest can reference the exact files the HTML copied.
+ */
+export const reportImageName = (
+  index: number,
+  srcPath: string,
+  suffix: string
+) => `${index}-${path.basename(srcPath, '.png')}.${suffix}.png`
+
+/**
  * Copy a source image into the report's `images/` subfolder,
  * returning the local relative path for use inside the HTML.
  * The filename is prefixed with an index to keep the listing
@@ -98,25 +123,25 @@ const copyImageToReport = (
   if (!fs.existsSync(imagesDir)) {
     fs.mkdirSync(imagesDir, { recursive: true })
   }
-  const baseName = path.basename(srcPath, '.png')
-  const destName = `${index}-${baseName}.${suffix}.png`
+  const destName = reportImageName(index, srcPath, suffix)
   const destPath = path.join(imagesDir, destName)
   fs.copyFileSync(srcPath, destPath)
   return `images/${destName}`
 }
 
-const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
-  // Track how many times each test appears so we can label retries.
-  const attemptByName = new Map<string, number>()
+export const renderHtml = (
+  failures: ResolvedFailure[],
+  reportDir: string
+) => {
+  // Count distinct tests for the summary. A single test can emit
+  // several snapshots (one per data-visual-test), so the same name
+  // may legitimately appear on more than one row.
   const uniqueTests = new Set<string>()
 
   const items = failures
     .map((f, i) => {
-      const attempt = (attemptByName.get(f.fullName) ?? 0) + 1
-      attemptByName.set(f.fullName, attempt)
       uniqueTests.add(f.fullName)
 
-      const retryLabel = attempt > 1 ? ` (retry #${attempt - 1})` : ''
       const figures: string[] = []
 
       if (f.expectedImagePath && fs.existsSync(f.expectedImagePath)) {
@@ -129,8 +154,8 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         figures.push(`
             <figure class="screenshot-figure">
               <figcaption>Expected</figcaption>
-              <a class="diff" target="_blank" href="${rel}">
-                <img src="${rel}" alt="Expected screenshot" />
+              <a class="diff" target="_blank" href="${escapeHtml(rel)}">
+                <img src="${escapeHtml(rel)}" alt="Expected screenshot" />
               </a>
             </figure>`)
       }
@@ -140,8 +165,8 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         figures.push(`
             <figure class="screenshot-figure">
               <figcaption>Actual</figcaption>
-              <a class="diff" target="_blank" href="${rel}">
-                <img src="${rel}" alt="Actual screenshot" />
+              <a class="diff" target="_blank" href="${escapeHtml(rel)}">
+                <img src="${escapeHtml(rel)}" alt="Actual screenshot" />
               </a>
             </figure>`)
       }
@@ -151,28 +176,26 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         figures.push(`
             <figure class="screenshot-figure">
               <figcaption>Diff</figcaption>
-              <a class="diff" target="_blank" href="${rel}">
-                <img src="${rel}" alt="Shows the visual difference" />
+              <a class="diff" target="_blank" href="${escapeHtml(rel)}">
+                <img src="${escapeHtml(rel)}" alt="Shows the visual difference" />
               </a>
             </figure>`)
       }
-
-      void i
 
       const image = figures.length
         ? `<div class="screenshot-row">${figures.join('\n')}</div>`
         : ''
 
       const visualTestIdHtml = f.dataVisualTestId
-        ? `<p><b><code class="copy-id" onclick="navigator.clipboard.writeText('${f.dataVisualTestId}').then(() => { this.classList.add('copied'); setTimeout(() => this.classList.remove('copied'), 1000) })">data-visual-test="${f.dataVisualTestId}"</code></b></p>`
+        ? `<p><b><code class="copy-id" data-clipboard-text="${escapeHtml(f.dataVisualTestId)}">data-visual-test="${escapeHtml(f.dataVisualTestId)}"</code></b></p>`
         : ''
 
       return `
             <li>
               <dl>
-                <dt>${f.fullName}${retryLabel}</dt>
+                <dt>${escapeHtml(f.fullName)}</dt>
                 <dd>
-                  <p><a href="vscode://file${f.testFilePath}${f.lineNumber ? ':' + f.lineNumber : ''}"><code>${f.relativeTestFilePath}${f.lineNumber ? ':' + f.lineNumber : ''}</code></a></p>
+                  <p><a href="vscode://file${escapeHtml(f.testFilePath)}${f.lineNumber ? ':' + f.lineNumber : ''}"><code>${escapeHtml(f.relativeTestFilePath)}${f.lineNumber ? ':' + f.lineNumber : ''}</code></a></p>
                   ${visualTestIdHtml}
                   <p>${formatMessage(f.message)}</p>
                   ${image}
@@ -261,10 +284,91 @@ const renderHtml = (failures: ResolvedFailure[], reportDir: string) => {
         ${items}
       </ol>
 
+      <script>
+        document.addEventListener('click', function (event) {
+          var el = event.target.closest('.copy-id')
+          if (!el) {
+            return
+          }
+          navigator.clipboard
+            .writeText(el.getAttribute('data-clipboard-text'))
+            .then(function () {
+              el.classList.add('copied')
+              setTimeout(function () {
+                el.classList.remove('copied')
+              }, 1000)
+            })
+        })
+      </script>
+
     </body>
 
     </html>
     `
+}
+
+export type ReportManifestImages = {
+  expected: string | null
+  actual: string | null
+  diff: string | null
+}
+
+export type ReportManifestFailure = {
+  title: string
+  testFilePath: string
+  lineNumber: number | null
+  dataVisualTestId: string | null
+  message: string
+  images: ReportManifestImages
+}
+
+export type ReportManifest = {
+  failureCount: number
+  failures: ReportManifestFailure[]
+}
+
+const toPlainMessage = (message: string) =>
+  message
+    .replace(ANSI_ESCAPE_SEQUENCE, '')
+    .replace(/\s*\n\s*/g, ' ')
+    .trim()
+
+/**
+ * Structured, machine-readable sibling of the HTML report. CI reads
+ * this to build a job-summary table and to turn the relative image
+ * paths into absolute URLs once the report is hosted. It renders the
+ * same failures as the HTML report, in the same order, so the image
+ * index (and thus each `reportImageName`) matches the files the HTML
+ * writer copied.
+ */
+export const buildReportManifest = (
+  failures: ResolvedFailure[],
+  exists: (filePath: string) => boolean = fs.existsSync
+): ReportManifest => {
+  const relImage = (
+    index: number,
+    srcPath: string | null,
+    suffix: string
+  ): string | null =>
+    srcPath && exists(srcPath)
+      ? `images/${reportImageName(index, srcPath, suffix)}`
+      : null
+
+  return {
+    failureCount: failures.length,
+    failures: failures.map((failure, index) => ({
+      title: failure.fullName,
+      testFilePath: failure.relativeTestFilePath,
+      lineNumber: failure.lineNumber,
+      dataVisualTestId: failure.dataVisualTestId,
+      message: toPlainMessage(failure.message),
+      images: {
+        expected: relImage(index, failure.expectedImagePath, 'expected'),
+        actual: relImage(index, failure.actualPath, 'actual'),
+        diff: relImage(index, failure.diffPath, 'diff'),
+      },
+    })),
+  }
 }
 
 /**
@@ -327,11 +431,15 @@ export default class ScreenshotReporter implements Reporter {
       new Map(filteredRecords.map((r) => [r.snapshotPath, r])).values()
     )
 
-    // Always resolve all records for the HTML report (shows retried
-    // diffs as informational), but only print CLI warnings for
-    // genuine failures.
-    const allFailures = resolveFailures(records)
+    // Report only genuinely-failed tests. A test that passed on a
+    // retry has its diff/actual images deleted by the passing attempt,
+    // so including its stale record would render a misleading
+    // "expected only" entry. Deduping also collapses retry duplicates.
     const genuineFailures = resolveFailures(deduped)
+
+    if (genuineFailures.length === 0) {
+      return
+    }
 
     const cwd = process.cwd()
     const reportDir = path.join(cwd, 'visual-diff-report')
@@ -362,7 +470,12 @@ export default class ScreenshotReporter implements Reporter {
     if (!fs.existsSync(reportDir)) {
       fs.mkdirSync(reportDir, { recursive: true })
     }
-    fs.writeFileSync(htmlFilePath, renderHtml(allFailures, reportDir))
+    fs.writeFileSync(htmlFilePath, renderHtml(genuineFailures, reportDir))
+
+    fs.writeFileSync(
+      path.join(reportDir, 'report.json'),
+      JSON.stringify(buildReportManifest(genuineFailures), null, 2)
+    )
   }
 }
 

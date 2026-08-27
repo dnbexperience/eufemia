@@ -81,7 +81,7 @@ type DropdownTriggerElement =
 
 export type DropdownProps = {
   /**
-   * Give a title to let the users know what they have to do. Defaults to `Valgmeny`.
+   * Give a title to let the users know what they have to do. Defaults to `Velg`.
    */
   title?: DropdownTitle
   /**

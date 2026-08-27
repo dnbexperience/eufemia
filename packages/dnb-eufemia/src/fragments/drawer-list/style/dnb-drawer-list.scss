@@ -617,6 +617,39 @@
   &:not(.dnb-drawer-list--open) &__list {
     @include closeDrawerList();
   }
+
+  // Render the list in normal document flow instead of an absolute overlay.
+  // Used by the inline results mode, with a flat look instead of a floating card.
+  &--inline {
+    margin-top: 0.5rem;
+  }
+
+  &--inline &__list {
+    --drawer-list-list-background: transparent;
+
+    position: relative;
+    top: auto;
+    bottom: auto;
+
+    transition: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  &--inline &__options {
+    --drawer-list-option-color-bg--default: transparent;
+    --drawer-list-option-color-bg--disabled: transparent;
+
+    max-height: 50vh;
+    padding-left: 0;
+
+    transition: none;
+    border-radius: 0;
+
+    &::before {
+      content: none;
+    }
+  }
 }
 
 @keyframes drawer-list-scale-in {

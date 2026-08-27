@@ -95,6 +95,11 @@ export const PanelProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "Keeps closed panel content findable by the browser's find-in-page feature. Matching content opens the panel. Defaults to `false`.",
+    type: 'boolean',
+    status: 'optional',
+  },
   children: {
     doc: 'Filter components rendered inside the panel, e.g. `Filter.Selection`, `Filter.Date`, or custom filters.',
     type: 'React.ReactNode',
@@ -129,6 +134,11 @@ export const ActiveFiltersProperties: PropertiesTableProps = {
   collapsibleThreshold: {
     doc: 'When the number of active filters exceeds this threshold, tags are shown inside a collapsible accordion with a scrollable area and a "Clear all" button.',
     type: 'number',
+    status: 'optional',
+  },
+  openOnFind: {
+    doc: "Keeps collapsed active filters findable by the browser's find-in-page feature. Matching content expands the active filters. Defaults to `false`.",
+    type: 'boolean',
     status: 'optional',
   },
   className: {

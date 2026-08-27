@@ -138,7 +138,7 @@ export const SearchBarInput = () => {
       showClearButton
       noScrollAnimation
       preventSelection
-      disableFilter
+      search={{ filter: false }}
       fixedPosition
       size="medium"
       align="right"

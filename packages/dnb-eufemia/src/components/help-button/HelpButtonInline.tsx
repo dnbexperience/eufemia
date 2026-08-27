@@ -44,6 +44,10 @@ export type HelpProps = {
    * If set to `true`, no open/close animation will be shown when renderAs="dialog". Defaults to `false`.
    */
   noAnimation?: boolean
+  /**
+   * Only for the "inline" variant. Keeps collapsed content findable by the browser's find-in-page feature. Matching content opens the help. Defaults to `false`.
+   */
+  openOnFind?: boolean
 }
 
 export type HelpButtonInlineProps = HelpButtonProps & {
@@ -165,6 +169,7 @@ function HelpButtonInlineComponent(props: HelpButtonInlineProps) {
           contentId={controlId}
           help={help}
           focusOnOpen={focusOnOpen}
+          openOnFind={help?.openOnFind}
         >
           {children}
         </HelpButtonInlineContent>
@@ -183,6 +188,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   outset?: boolean
   roundedCorner?: boolean
   focusOnOpen?: boolean
+  openOnFind?: boolean
 }
 
 function HelpButtonInlineContentComponent(
@@ -198,6 +204,7 @@ function HelpButtonInlineContentComponent(
     outset = false,
     roundedCorner,
     focusOnOpen: focusOnOpenProp,
+    openOnFind,
     ...rest
   } = props
   const { data, update, extend } =
@@ -296,6 +303,15 @@ function HelpButtonInlineContentComponent(
       element={element}
       className={clsx('dnb-help-button__content', className)}
       open={isOpen ?? open ?? false}
+      openOnFind={openOnFind}
+      onBeforeMatch={() =>
+        update({
+          isOpen: true,
+          isUserIntent: false,
+          buttonRef,
+          focusOnOpen,
+        })
+      }
       onAnimationEnd={onAnimationEnd}
     >
       <Section
@@ -317,13 +333,17 @@ function HelpButtonInlineContentComponent(
         }
         {...rest}
       >
-        <Flex.Vertical gap="x-small">
+        <Flex.Vertical layoutEngine="css" gap="x-small">
           {title && (
-            <P weight="medium" element="div">
+            <P weight="medium" element="div" bottom={0}>
               {title}
             </P>
           )}
-          {content && <P element="div">{content}</P>}
+          {content && (
+            <P element="div" bottom={0}>
+              {content}
+            </P>
+          )}
         </Flex.Vertical>
         {children}
       </Section>

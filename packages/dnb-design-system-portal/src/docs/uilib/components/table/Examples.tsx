@@ -728,7 +728,13 @@ export const Accordion = () => (
               <Td.AccordionContent>
                 <Section innerSpace={{ block: 'small' }}>
                   <Dl>
-                    <Dt>Favorittfarge</Dt>
+                    <Dt
+                      id={
+                        nr === '2' ? id + '-open-on-find-match' : undefined
+                      }
+                    >
+                      Favorittfarge
+                    </Dt>
                     <Dd>Grønn</Dd>
                   </Dl>
                 </Section>
@@ -752,7 +758,7 @@ export const Accordion = () => (
 
             <tbody>
               <Row nr="1" />
-              <Row nr="2" />
+              <Row nr="2" keepInDOM />
               <Row nr="3" expanded />
             </tbody>
           </Table>

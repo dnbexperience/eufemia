@@ -17,12 +17,12 @@ export const StepIndicatorProperties: PropertiesTableProps = {
     status: 'optional',
   },
   overviewTitle: {
-    doc: 'The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`. Defaults to `Steps Overview`.',
+    doc: 'The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`. Defaults to `Steps overview`.',
     type: 'string',
     status: 'optional',
   },
   stepTitle: {
-    doc: 'Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `currentStep` and `stepCount` into the text. Defaults to `Step %step of %count`.',
+    doc: 'Label for `<StepIndicatorTriggerButton />` and screen reader text for `<StepIndicatorItem />`. Must contain `%step` and `%count` to interpolate `currentStep` and `stepCount` into the text. Defaults to `Step %step of %count:`.',
     type: 'string',
     status: 'optional',
   },
@@ -38,6 +38,11 @@ export const StepIndicatorProperties: PropertiesTableProps = {
   },
   expandedInitially: {
     doc: 'Set to `true` to have the list be expanded initially. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  openOnFind: {
+    doc: "Keeps the collapsed step list findable by the browser's find-in-page feature. Matching content expands the list. Defaults to `false`.",
     type: 'boolean',
     status: 'optional',
   },

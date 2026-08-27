@@ -8,6 +8,23 @@ import Toolbar from '../../Toolbar'
 const nb = nbNO['nb-NO'].SectionViewContainer
 
 describe('ViewContainer', () => {
+  it('uses the CSS gap layout engine by default', () => {
+    render(
+      <SectionContainerContext value={{ containerMode: 'view' }}>
+        <ViewContainer>content</ViewContainer>
+      </SectionContainerContext>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-section-view-block .dnb-flex-stack'
+      )
+    ).toHaveClass(
+      'dnb-flex-container--css-gap',
+      'dnb-forms-section-block__content'
+    )
+  })
+
   it('renders content and without errors', () => {
     const { rerender } = render(
       <SectionContainerContext value={{ containerMode: 'edit' }}>

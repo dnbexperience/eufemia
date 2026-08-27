@@ -165,7 +165,7 @@ describe('Dialog', () => {
     )
 
     expect(document.querySelector('.dnb-dialog__title').textContent).toBe(
-      'Dialog Window'
+      'Dialog window'
     )
   })
 
@@ -189,7 +189,7 @@ describe('Dialog', () => {
     })
 
     expect(document.body.querySelector('.dnb-tooltip').textContent).toBe(
-      'Dialog Window'
+      'Dialog window'
     )
   })
 

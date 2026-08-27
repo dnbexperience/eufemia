@@ -17,6 +17,7 @@ import {
   Icon,
   Input,
   ToggleButton,
+  Button,
   Link,
   Grid,
   Anchor,
@@ -34,6 +35,15 @@ export const FormStatusWithRefresh = () => (
     <FormStatus>
       An error occurred while loading content.{' '}
       <Anchor href="">Try again</Anchor>
+    </FormStatus>
+  </ComponentBox>
+)
+
+export const FormStatusWithButton = () => (
+  <ComponentBox data-visual-test="form-status-button">
+    <FormStatus state="warning" variant="outlined">
+      Text{' '}
+      <Button variant="tertiary" text="Button as content" icon="bell" />
     </FormStatus>
   </ComponentBox>
 )

@@ -1,77 +1,60 @@
 .anchorLinkStyle {
   :global {
     .anchor-hash {
+      position: absolute;
+      left: 100%;
+
       display: inline-block;
-      visibility: hidden;
 
       width: 1em;
-      margin-left: -1em;
+      margin-left: 0.25em;
       padding: 0;
 
       line-height: 1;
       text-align: center;
       border-bottom: none;
 
-      transition: opacity 300ms ease-out 200ms;
+      transition: opacity 300ms ease-out;
       opacity: 0;
-    }
-
-    .anchor-hash.focus {
-      animation: link-attention-focus 2.2s var(--easing-default) 1 10ms;
-
-      @keyframes link-attention-focus {
-        0%,
-        100% {
-          visibility: visible;
-          color: var(--token-color-text-action);
-          background-color: transparent;
-        }
-
-        35% {
-          color: var(--token-color-text-neutral-inverse);
-          background-color: var(--token-color-background-action);
-        }
-
-        // stylelint-disable-next-line
-        0%,
-        80% {
-          opacity: 1;
-        }
-
-        // stylelint-disable-next-line
-        100% {
-          opacity: 0;
-        }
-      }
+      pointer-events: none;
     }
   }
 
   :global(.anchor-hash:hover),
+  :global(.anchor-hash:focus-visible),
   &:hover :global(.anchor-hash) {
-    visibility: visible;
+    transition-delay: 0s;
     opacity: 1;
+    pointer-events: auto;
   }
+}
+
+.headingContentStyle {
+  position: relative;
 
   &:global(.focus) {
-    display: inline-block;
+    border-radius: 0.125rem;
 
-    @keyframes parent-attention-focus {
+    @keyframes target-attention-focus {
       0%,
-      100% {
-        color: initial;
-        background-color: initial;
+      33% {
+        background-color: var(--token-color-background-selected-subtle);
+        box-shadow: 0 0 0 0.25rem
+          var(--token-color-background-selected-subtle);
       }
 
-      35% {
-        color: var(--token-color-text-neutral-inverse);
-        background-color: var(--token-color-background-action);
+      100% {
+        background-color: transparent;
+        box-shadow: 0 0 0 0.25rem transparent;
       }
     }
 
-    animation: parent-attention-focus 2.2s var(--easing-default) 1 10ms;
+    animation: target-attention-focus 2.2s var(--easing-default) 1 10ms;
+  }
 
-    * {
-      animation: parent-attention-focus 3s var(--easing-default) 1 150ms;
+  @media (prefers-reduced-motion: reduce) {
+    &:global(.focus) {
+      animation-duration: 1ms;
     }
   }
 }

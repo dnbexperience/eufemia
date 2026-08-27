@@ -28,3 +28,11 @@ export const IndeterminateProperties: PropertiesTableProps = {
   textOff: undefined,
   variant: undefined,
 }
+
+export const IndeterminateEvents: PropertiesTableProps = {
+  onClick: {
+    doc: 'Will be called on click.',
+    type: '(value: unknown, { event: ClickEvent, preventDefault: () => void }) => void',
+    status: 'optional',
+  },
+}

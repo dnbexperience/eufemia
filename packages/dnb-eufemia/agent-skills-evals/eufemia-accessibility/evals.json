@@ -1,0 +1,25 @@
+{
+  "skill_name": "eufemia-accessibility",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review an Eufemia modal form for focus placement, keyboard behavior, validation announcements, and focus restoration.",
+      "expected_output": "A review that uses current component guidance and separates Eufemia guarantees from application focus and validation responsibilities.",
+      "assertions": [
+        "The response retrieves targeted accessibility and component documentation",
+        "The response distinguishes component guarantees from application responsibilities",
+        "The response identifies relevant manual keyboard and screen-reader checks"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The automated accessibility scan passes. Can we declare this Eufemia checkout flow accessible?",
+      "expected_output": "A refusal to treat automation as proof, followed by relevant manual verification areas grounded in Eufemia guidance.",
+      "assertions": [
+        "The response states that automated checks are supporting evidence rather than proof",
+        "The response names relevant manual verification gaps",
+        "The response does not invent Eufemia-specific prohibitions"
+      ]
+    }
+  ]
+}

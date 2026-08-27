@@ -5,10 +5,12 @@ showTabs: true
 import {
   AutocompleteDefaultExample,
   AutocompleteNumbersExample,
+  AutocompleteSearchOptionsExample,
   AutocompleteWithCustomTitle,
   AutocompleteDynamicallyUpdatedData,
   AutocompleteFirstFocusUpdate,
   AutocompleteToggleExample,
+  AutocompleteInlineExample,
   AutocompletePredefinedInput,
   AutocompleteDifferentSizes,
   AutocompleteCustomWidth,
@@ -29,7 +31,15 @@ import {
 
 ### Autocomplete with numbers
 
+This example uses `search={{ numbers: true }}` to enable number-optimized matching.
+
 <AutocompleteNumbersExample />
+
+### Search options
+
+Use the `search` prop to configure search behavior. This example uses `match: 'starts-with'` to only show results that begin with the typed text, and `highlight: false` to disable text highlighting.
+
+<AutocompleteSearchOptionsExample />
 
 ### Autocomplete with a custom title
 
@@ -42,7 +52,7 @@ import {
 
 This example simulates server delay with a timeout and - if it gets debounced, we cancel the timeout. Read more about the [debounce method](/uilib/components/autocomplete/methods/#methods).
 
-Also, you may consider using `disableFilter` if you have a backend doing the search operation.
+Also, you may consider using `search={{ filter: false }}` if you have a backend doing the search operation.
 
 <AutocompleteDynamicallyUpdatedData />
 
@@ -59,6 +69,12 @@ Also, you may consider using `disableFilter` if you have a backend doing the sea
 ### With a predefined input/search value
 
 <AutocompletePredefinedInput />
+
+### Inline results
+
+Use the `inline` property to render the results list persistently open in normal document flow, instead of as an overlay. The toggle button is hidden, while filtering, highlighting, selection and keyboard navigation stay the same.
+
+<AutocompleteInlineExample />
 
 ### Different sizes
 

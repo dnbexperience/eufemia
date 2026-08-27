@@ -134,6 +134,11 @@ export const TrProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "When `true`, keeps collapsed accordion content findable by the browser's find-in-page feature. Defaults to the value of `keepInDOM`.",
+    type: 'boolean',
+    status: 'optional',
+  },
   highlight: {
     doc: 'If set to `true`, all `<Td>` and `<Th>` cells in the row receive a highlighted background.',
     type: 'boolean',

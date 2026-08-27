@@ -41,6 +41,13 @@ import type { FormStatusBaseProps } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
+import type { SearchOptions } from '../../shared/search'
+import {
+  prepareSearchWords,
+  findMatchingWords,
+  calculateTotalScore,
+  passesNumericTermsCheck,
+} from '../../shared/search'
 import {
   warn,
   extendPropsWithContext,
@@ -48,7 +55,6 @@ import {
   dispatchCustomElementEvent,
   getStatusState,
   combineDescribedBy,
-  escapeRegexChars,
   getClosestParent,
 } from '../../shared/component-helper'
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
@@ -56,6 +62,7 @@ import { highlightText } from '../../shared/helpers/highlightText'
 import useId from '../../shared/helpers/useId'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import Context from '../../shared/Context'
 import { useSpacing } from '../space/SpacingUtils'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -178,7 +185,7 @@ export type AutocompleteProps = {
    */
   mode?: AutocompleteMode
   /**
-   * Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.
+   * Give a title to let the user know what they have to do. Defaults to `Skriv og velg`.
    */
   title?: AutocompleteTitle
   /**
@@ -202,7 +209,7 @@ export type AutocompleteProps = {
    */
   indicatorLabel?: AutocompleteIndicatorLabel
   /**
-   * Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer`.
+   * Only for screen readers. Title of the button to show the suggestions / options. It is always present and when activating, it opens the DrawerList and sets the focus on it. Defaults to `Bla gjennom alternativer, lukk med esc knappen`.
    */
   showOptionsSr?: string
   /**
@@ -266,21 +273,32 @@ export type AutocompleteProps = {
    */
   showClearButton?: boolean
   /**
-   * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.
+   * Configure search behavior with a single config object. An object with optional keys: `filter` (enable result filtering, default `true`), `reorder` (enable relevance reordering, default `true`), `highlight` (enable text highlighting, default `true`), `numbers` (enable number search, default `false`), `matchInsideWordsFrom` (threshold for in-word search, default `3`), and `match` (matching mode `"word"` or `"starts-with"`, default `"word"`). Example: `search={{ filter: false }}` to disable filtering while keeping highlighting.
+   */
+  search?: SearchOptions
+  /**
+   * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`. **Deprecated**: Use `search={{ filter: false }}` instead.
+   * @deprecated Use `search={{ filter: false }}` instead.
    */
   disableFilter?: boolean
   /**
-   * If set to `true`, reordering of search results will be disabled. Defaults to `false`.
+   * If set to `true`, reordering of search results will be disabled. Defaults to `false`. **Deprecated**: Use `search={{ reorder: false }}` instead.
+   * @deprecated Use `search={{ reorder: false }}` instead.
    */
   disableReorder?: boolean
   /**
-   * If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.
+   * If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`. **Deprecated**: Use `search={{ highlight: false }}` instead.
+   * @deprecated Use `search={{ highlight: false }}` instead.
    */
   disableHighlighting?: boolean
   /**
    * Use `true` to show an Autocomplete button to toggle the [DrawerList](/uilib/components/fragments/drawer-list). Defaults to `false`.
    */
   showSubmitButton?: boolean
+  /**
+   * Use `true` to render the results list persistently open in normal document flow, instead of an overlay. The toggle button is hidden. Defaults to `false`.
+   */
+  inline?: boolean
   /**
    * Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from '@dnb/eufemia/components/input/Input'`.
    */
@@ -294,15 +312,18 @@ export type AutocompleteProps = {
    */
   inputElement?: AutocompleteInputElement
   /**
-   * This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.
+   * This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`. **Deprecated**: Use `search={{ matchInsideWordsFrom: number }}` instead.
+   * @deprecated Use `search={{ matchInsideWordsFrom: number }}` instead.
    */
   searchInWordIndex?: AutocompleteSearchInWordIndex
   /**
-   * Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`.
+   * Defines how search matching is performed. Use `starts-with` to only match items that begin with the first typed word. Defaults to `word`. **Deprecated**: Use `search={{ match: "word" | "starts-with" }}` instead.
+   * @deprecated Use `search={{ match: "word" | "starts-with" }}` instead.
    */
   searchMatch?: AutocompleteSearchMatch
   /**
-   * If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.
+   * If set to `true` and `searchInWordIndex` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`. **Deprecated**: Use `search={{ numbers: true }}` instead.
+   * @deprecated Use `search={{ numbers: true }}` instead.
    */
   searchNumbers?: boolean
   /**
@@ -425,6 +446,7 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   noAnimation: false,
   noScrollAnimation: false,
   showSubmitButton: false,
+  inline: false,
   submitElement: null,
   preventSelection: false,
   size: 'default',
@@ -465,23 +487,39 @@ const autocompleteDefaultProps: Partial<AutocompleteAllProps> & {
   inputElement: null,
 }
 
-function Autocomplete(props: AutocompleteAllProps) {
-  const _id = useId(props.id)
+function Autocomplete(ownProps: AutocompleteAllProps) {
+  const context = useContext(Context)
+  const filteredOwnProps = Object.fromEntries(
+    Object.entries(ownProps).filter(([, value]) => value !== undefined)
+  )
+  const { inline, disabled } = extendPropsWithContext(
+    filteredOwnProps,
+    autocompleteDefaultProps,
+    context.getTranslation?.(ownProps)?.Autocomplete,
+    pickFormElementProps(context.formElement),
+    context.Autocomplete
+  )
+
+  const _id = useId(ownProps.id)
 
   const providerProps = {
-    ...props,
+    ...ownProps,
     id: _id,
-    data: props.data || props.children,
-    open: null,
+    data: ownProps.data || ownProps.children,
+    inline,
+    open: inline ? true : null,
+    noAnimation: inline || ownProps.noAnimation,
+    preventClose: inline || ownProps.preventClose,
+    skipPortal: inline || ownProps.skipPortal,
     tagName: 'dnb-autocomplete',
-    ignoreEvents: false,
+    ignoreEvents: inline && disabled,
     preventFocus: true,
     skipKeysearch: true,
   } as unknown as Partial<DrawerListProps>
 
   return (
     <DrawerListProvider {...providerProps}>
-      <AutocompleteComponent {...props} id={_id} />
+      <AutocompleteComponent {...ownProps} id={_id} />
     </DrawerListProvider>
   )
 }
@@ -579,6 +617,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     noAnimation,
     noScrollAnimation,
     showSubmitButton,
+    inline,
     submitElement,
     inputElement: CustomInput,
     optionsRender,
@@ -588,6 +627,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     searchNumbers,
     searchInWordIndex,
     searchMatch,
+    search,
     showOptionsSr,
     selectedSr,
     submitButtonTitle,
@@ -604,8 +644,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     independentWidth,
     autoComplete,
     openOnFocus,
-    disableFilter,
-    disableReorder,
+    disableFilter: _deprecatedDisableFilter,
+    disableReorder: _deprecatedDisableReorder,
     onClear,
     selectAll,
     noDivider,
@@ -626,7 +666,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     noOptions: _noOptions,
     showAll: _showAll,
     ariaLiveOptions: _ariaLiveOptions,
-    disableHighlighting: _disableHighlighting,
+    disableHighlighting: _deprecatedDisableHighlighting,
 
     onOpen: _onOpen,
     onType: _onType,
@@ -640,6 +680,71 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
     ...attributes
   } = props
+
+  // Resolve search config: `search` prop takes precedence over deprecated props.
+  // @deprecated - The fallbacks to deprecated props below ensure backward compatibility.
+  // Remove these fallbacks when the deprecated props are removed.
+  const disableFilter =
+    search?.filter !== undefined
+      ? !search.filter
+      : _deprecatedDisableFilter // @deprecated fallback
+  const disableReorder =
+    search?.reorder !== undefined
+      ? !search.reorder
+      : _deprecatedDisableReorder // @deprecated fallback
+  const _disableHighlighting =
+    search?.highlight !== undefined
+      ? !search.highlight
+      : _deprecatedDisableHighlighting // @deprecated fallback
+  const resolvedSearchNumbers =
+    search?.numbers !== undefined ? search.numbers : searchNumbers // @deprecated fallback
+  const resolvedSearchInWordIndex =
+    search?.matchInsideWordsFrom !== undefined
+      ? search.matchInsideWordsFrom
+      : searchInWordIndex != null
+        ? Number(searchInWordIndex)
+        : undefined // @deprecated fallback
+  const resolvedSearchMatch =
+    search?.match !== undefined ? search.match : searchMatch // @deprecated fallback
+
+  // Deprecation warnings for old search-related props (fire once per instance)
+  const hasWarnedDeprecatedSearchRef = useRef(false)
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    !hasWarnedDeprecatedSearchRef.current
+  ) {
+    hasWarnedDeprecatedSearchRef.current = true
+    if (_deprecatedDisableFilter) {
+      warn(
+        'Autocomplete: `disableFilter` is deprecated. Use `search={{ filter: false }}` instead.'
+      )
+    }
+    if (_deprecatedDisableReorder) {
+      warn(
+        'Autocomplete: `disableReorder` is deprecated. Use `search={{ reorder: false }}` instead.'
+      )
+    }
+    if (_deprecatedDisableHighlighting) {
+      warn(
+        'Autocomplete: `disableHighlighting` is deprecated. Use `search={{ highlight: false }}` instead.'
+      )
+    }
+    if (searchNumbers != null) {
+      warn(
+        'Autocomplete: `searchNumbers` is deprecated. Use `search={{ numbers: true }}` instead.'
+      )
+    }
+    if (searchInWordIndex != null) {
+      warn(
+        'Autocomplete: `searchInWordIndex` is deprecated. Use `search={{ matchInsideWordsFrom: number }}` instead.'
+      )
+    }
+    if (searchMatch != null) {
+      warn(
+        'Autocomplete: `searchMatch` is deprecated. Use `search={{ match: "word" | "starts-with" }}` instead.'
+      )
+    }
+  }
 
   // State
   const [inputValue, setInputValueState] = useState<string | null>(() => {
@@ -663,7 +768,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const [showAllNextTime, setShowAllNextTime] = useState(false)
   const [skipFocusDuringChange, setSkipFocusDuringChange] = useState(false)
   const [disableHighlightingState, setDisableHighlighting] = useState(
-    props.disableHighlighting
+    _disableHighlighting
   )
   const [visibleIndicator, setVisibleIndicator] = useState(false)
   const [searchIndex, setSearchIndexState] = useState<
@@ -696,7 +801,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const lastUpdateDataRef = useRef<DrawerListInternalData | null>(null)
   const prevValueRef = useRef(props.value)
   const prevInputValuePropRef = useRef(props.inputValue)
-  const prevDisableHighlightingRef = useRef(props.disableHighlighting)
+  const prevDisableHighlightingRef = useRef(_disableHighlighting)
+  const prevInlineRef = useRef(inline)
   const inputValueRef = useRef(inputValue)
   const typedInputValueRef = useRef(typedInputValue)
   const modeRef = useRef(mode)
@@ -708,6 +814,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   const preventReopenRef = useRef(false)
 
   // Keep refs in sync with state for use in callbacks
+  skipFilterRef.current = disableFilter
+  skipReorderRef.current = disableReorder
   searchIndexRef.current = searchIndex
   inputValueRef.current = inputValue
   typedInputValueRef.current = typedInputValue
@@ -1080,20 +1188,17 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       {
         data = null,
         searchIndex: siParam = searchIndexRef.current,
-        searchNumbers: snParam = props.searchNumbers,
-        inWordIndex = parseFloat(
-          String(
-            props.searchInWordIndex ?? (skipFilterRef.current ? 1 : 3)
-          )
-        ) - 1,
+        numbers: snParam = resolvedSearchNumbers,
+        matchInsideWordsFrom = resolvedSearchInWordIndex ??
+          (skipFilterRef.current ? 1 : 3),
         disableHighlighting: disableHL = false,
         skipFilter = false,
         skipReorder = false,
       }: {
         data?: DrawerListInternalData | null
         searchIndex?: SearchIndexItem[] | null
-        searchNumbers?: boolean
-        inWordIndex?: number
+        numbers?: boolean
+        matchInsideWordsFrom?: number
         disableHighlighting?: boolean
         skipFilter?: boolean
         skipReorder?: boolean
@@ -1111,108 +1216,14 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         return []
       }
 
-      const startsWithMatch = props.searchMatch === 'starts-with'
-      const rawValue = value ?? ''
-      let searchWords = rawValue.split(/\s+/g).filter(Boolean)
-
-      if (startsWithMatch) {
-        // @ts-expect-error Unicode property escapes are supported at runtime here
-        const hasLetters = /[\p{L}]/u.test(rawValue)
-        // @ts-expect-error Unicode property escapes are supported at runtime here
-        const hasNumbers = /[\p{N}]/u.test(rawValue)
-        if (startsWithMatch && snParam && hasNumbers && !hasLetters) {
-          // @ts-expect-error Unicode property escapes are supported at runtime here
-          const normalizedNumeric = rawValue.replace(/[^\p{N}]+/gu, '')
-          searchWords = normalizedNumeric ? [normalizedNumeric] : []
-        }
+      const searchOptions = {
+        numbers: snParam,
+        matchInsideWordsFrom,
+        match: resolvedSearchMatch,
       }
 
-      const distinctSearchWords = new Set<string>()
-      searchWords = searchWords.filter((word) => {
-        const normalizedWord = word.toLowerCase()
-
-        if (distinctSearchWords.has(normalizedWord)) {
-          return false
-        }
-
-        distinctSearchWords.add(normalizedWord)
-        return true
-      })
-
-      const getWordBoundary = (wordIndex: number) =>
-        startsWithMatch && wordIndex === 0 ? '^' : snParam ? '' : '^|\\s'
-
-      const searchWordsData = searchWords.map((word, wordIndex) => {
-        const processedWord = snParam
-          ? // @ts-expect-error Unicode property escapes are supported at runtime here
-            word.replace(/[^\p{L}\p{N}]+/gu, '')
-          : escapeRegexChars(word)
-        const wordBoundary = getWordBoundary(wordIndex)
-
-        return {
-          originalWord: word,
-          processedWord,
-          wordIndex,
-          filterRegex: new RegExp(
-            wordIndex >= inWordIndex
-              ? `${processedWord}`
-              : `(${wordBoundary})${processedWord}`,
-            'i'
-          ),
-          scoreRegex: new RegExp(
-            `(${wordBoundary})${escapeRegexChars(word)}`,
-            'ig'
-          ),
-        }
-      })
-
-      const firstWordRegex =
-        searchWords.length > 0
-          ? new RegExp(`^${escapeRegexChars(searchWords[0])}`, 'i')
-          : null
-
-      const findSearchWords = (contentChunk: string | null) => {
-        if (typeof contentChunk !== 'string') {
-          return []
-        }
-
-        return searchWordsData
-          .filter(({ filterRegex }) => {
-            if (filterRegex.test(contentChunk)) {
-              return true
-            }
-
-            if (
-              snParam &&
-              filterRegex.test(contentChunk.replace(/[^0-9]/g, ''))
-            ) {
-              return true
-            }
-
-            return false
-          })
-          .map(({ originalWord, wordIndex, scoreRegex }) => {
-            let wordScore = 0
-
-            wordScore += (contentChunk.match(scoreRegex) || []).length
-
-            if (wordIndex === 0 && firstWordRegex) {
-              const isFirstWord = firstWordRegex.test(
-                contentChunk.split(' ')[0]
-              )
-
-              if (isFirstWord) {
-                wordScore += searchWords.length + 1
-              }
-            }
-
-            return {
-              word: originalWord,
-              wordIndex,
-              wordScore,
-            }
-          })
-      }
+      const prepared = prepareSearchWords(value, searchOptions)
+      const { searchWords, matchInsideWordsFromIndex } = prepared
 
       const mappedIndex: Array<
         | DrawerListDataArrayObject
@@ -1222,23 +1233,15 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
             item: SearchIndexItem
           }
       > = currentSearchIndex.map((item) => {
-        const listOfFoundWords = findSearchWords(item.contentChunk)
+        const listOfFoundWords = findMatchingWords(
+          item.contentChunk,
+          prepared
+        )
 
-        const allWordsAreNumeric = snParam
-          ? // @ts-expect-error Unicode property escapes are supported at runtime here
-            searchWords.every((word) => /^[\p{N}\s.,]+$/u.test(word))
-          : false
-
-        const hasMultipleNumericTerms =
-          snParam &&
-          searchWords &&
-          searchWords.length > 1 &&
-          allWordsAreNumeric
         if (
           !skipFilterRef.current &&
           !skipFilter &&
-          hasMultipleNumericTerms &&
-          listOfFoundWords.length !== searchWords.length
+          !passesNumericTermsCheck(listOfFoundWords, prepared)
         ) {
           return { matchedWordCount: 0, totalScore: 0, item }
         }
@@ -1269,9 +1272,12 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
             search: searchWords,
             className: 'dnb-drawer-list__option__item--highlight',
             tag: 'span',
-            searchMatch: startsWithMatch ? 'starts-with' : 'word',
+            searchMatch:
+              resolvedSearchMatch === 'starts-with'
+                ? 'starts-with'
+                : 'word',
             searchNumbers: snParam,
-            searchInWordIndex: inWordIndex,
+            searchInWordIndex: matchInsideWordsFromIndex,
             wrapInSpan: true,
             keyPrefix: cacheHash,
           })
@@ -1283,10 +1289,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
           return item.dataItem
         }
 
-        let totalScore = listOfFoundWords.length
-        for (const { wordScore } of listOfFoundWords) {
-          totalScore += wordScore
-        }
+        const totalScore = calculateTotalScore(listOfFoundWords)
 
         return {
           matchedWordCount: listOfFoundWords.length,
@@ -1323,9 +1326,9 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     },
     [
       setSearchIndex,
-      props.searchMatch,
-      props.searchNumbers,
-      props.searchInWordIndex,
+      resolvedSearchMatch,
+      resolvedSearchNumbers,
+      resolvedSearchInWordIndex,
       disableHighlightingState,
     ]
   )
@@ -1377,8 +1380,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       options: {
         data?: DrawerListInternalData | null
         searchIndex?: SearchIndexItem[] | null
-        searchNumbers?: boolean
-        inWordIndex?: number
+        numbers?: boolean
+        matchInsideWordsFrom?: number
         disableHighlighting?: boolean
         skipFilter?: boolean
         skipReorder?: boolean
@@ -2119,9 +2122,9 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   )
 
   // Handle prop-driven state updates
-  if (props.disableHighlighting !== prevDisableHighlightingRef.current) {
-    prevDisableHighlightingRef.current = props.disableHighlighting
-    setDisableHighlighting(props.disableHighlighting)
+  if (_disableHighlighting !== prevDisableHighlightingRef.current) {
+    prevDisableHighlightingRef.current = _disableHighlighting
+    setDisableHighlighting(_disableHighlighting)
   }
 
   if (
@@ -2178,11 +2181,27 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
   // Handle open prop on mount
   useMountEffect(() => {
-    if (props.open) {
+    if (props.open || inline) {
       runFilterToHighlight({ fillDataIfEmpty: true })
-      setVisible()
+      if (!inline) {
+        setVisible()
+      }
     }
   })
+
+  useEffect(() => {
+    if (inline === prevInlineRef.current) {
+      return // stop here
+    }
+
+    prevInlineRef.current = inline
+
+    if (inline) {
+      runFilterToHighlight({ fillDataIfEmpty: true })
+    } else {
+      setHidden()
+    }
+  }, [inline, runFilterToHighlight, setHidden])
 
   // Handle data changes
   useEffect(() => {
@@ -2343,6 +2362,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   }
 
   if (
+    !inline &&
     submitElement &&
     isValidElement<Record<string, unknown>>(submitElement)
   ) {
@@ -2353,7 +2373,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         ...triggerParams,
       }
     )
-  } else if (showSubmitButton) {
+  } else if (!inline && showSubmitButton) {
     submitButton = (
       <SubmitButton
         icon={
@@ -2494,7 +2514,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               />
             )}
 
-            {!submitButton && (
+            {!submitButton && !inline && (
               <span className="dnb-sr-only">
                 <button
                   tabIndex={-1}
@@ -2515,9 +2535,11 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               defaultValue={defaultValue}
               scrollable={scrollable}
               focusable={focusable}
-              noAnimation={noAnimation}
-              noScrollAnimation={noScrollAnimation}
+              noAnimation={inline || noAnimation}
+              noScrollAnimation={inline || noScrollAnimation}
               skipPortal={skipPortal}
+              inline={inline}
+              ignoreEvents={inline && disabled}
               preventSelection={preventSelection}
               keepOpen={keepOpen}
               preventClose={preventClose}
