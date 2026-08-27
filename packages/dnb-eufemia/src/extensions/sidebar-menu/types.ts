@@ -118,7 +118,7 @@ export type SidebarMenuContainerProps = {
    */
   defaultActiveSection?: string
   /**
-   * Accessible label for the section toggle group.
+   * Screen-reader label for the section dropdown.
    * Default: `"Menu section"`
    */
   sectionLabel?: ReactNode

@@ -9,7 +9,7 @@ import {
 } from 'react'
 import type { ReactElement, ReactNode } from 'react'
 import { clsx } from 'clsx'
-import ToggleButton from '../../components/ToggleButton'
+import Dropdown from '../../components/Dropdown'
 import Space from '../../components/space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -508,23 +508,22 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       data-scroll-position-storage={scrollPositionStorage}
     >
       {hasSections && (
-        <ToggleButton.Group
+        <Dropdown
           className="dnb-sidebar-menu__sections"
           value={resolvedActiveSection}
           label={sectionLabel}
           labelSrOnly
-        >
-          {sectionButtons.map((section) => (
-            <ToggleButton
-              key={section.id}
-              data-section-id={section.id}
-              text={section.text}
-              value={section.id}
-              checked={section.id === resolvedActiveSection}
-              onChange={() => selectSection(section.id)}
-            />
-          ))}
-        </ToggleButton.Group>
+          data={sectionButtons.map((section) => ({
+            selectedKey: section.id,
+            content: section.text,
+          }))}
+          onChange={({ data }) => {
+            if (typeof data?.selectedKey === 'string') {
+              selectSection(data.selectedKey)
+            }
+          }}
+          stretch
+        />
       )}
 
       <SidebarMenuContext value={contextValue}>
