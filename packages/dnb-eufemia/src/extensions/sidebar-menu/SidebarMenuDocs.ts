@@ -72,7 +72,7 @@ export const SidebarMenuContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   sectionLabel: {
-    doc: 'Accessible label for the section toggle group.',
+    doc: 'Screen-reader label for the section dropdown.',
     type: 'React.ReactNode',
     defaultValue: '"Menu section"',
     status: 'optional',
