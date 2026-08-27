@@ -1,0 +1,24 @@
+approval_policy = "never"
+default_permissions = "automation-read-only"
+project_doc_fallback_filenames = []
+web_search = "disabled"
+
+[features]
+apps = false
+
+[mcp_servers.eufemia]
+url = "https://server.eufemia.dnb.no/mcp/web"
+required = true
+enabled_tools = [
+  "docs_entry",
+  "docs_search",
+  "docs_read",
+  "component_find",
+  "component_props",
+  "component_doc",
+]
+default_tools_approval_mode = "auto"
+
+[permissions.automation-read-only]
+description = "Read-only repository analysis with Eufemia documentation access."
+extends = ":read-only"
