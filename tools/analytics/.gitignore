@@ -1,6 +1,9 @@
 node_modules/
 dist/
 
+# Dashboard runtime config (per-host, non-secret identifiers)
+dashboard/config.json
+
 # Terraform
 infra/.terraform/
 *.tfstate
