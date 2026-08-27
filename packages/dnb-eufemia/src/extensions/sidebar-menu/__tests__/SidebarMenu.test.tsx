@@ -452,7 +452,7 @@ describe('SidebarMenu', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
   })
 
-  it('switches between declarative sections with toggle buttons', () => {
+  it('switches between declarative sections with a dropdown', () => {
     const onActiveSectionChange = vi.fn()
 
     render(
@@ -469,14 +469,18 @@ describe('SidebarMenu', () => {
       </SidebarMenu.Container>
     )
 
-    const businessButton = document.querySelector(
-      '[data-section-id="business"]'
-    )
-
     expect(document.body).toHaveTextContent('Overview')
     expect(document.body).not.toHaveTextContent('Invoices')
+    expect(document.querySelector('.dnb-form-label')).toHaveClass(
+      'dnb-sr-only'
+    )
 
-    fireEvent.click(businessButton)
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+    fireEvent.click(
+      Array.from(document.querySelectorAll('[role="option"]')).find(
+        (element) => element.textContent === 'Business'
+      )
+    )
 
     expect(onActiveSectionChange).toHaveBeenCalledWith('business')
     expect(document.body).not.toHaveTextContent('Overview')
@@ -502,7 +506,12 @@ describe('SidebarMenu', () => {
       />
     )
 
-    fireEvent.click(document.querySelector('[data-section-id="business"]'))
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+    fireEvent.click(
+      Array.from(document.querySelectorAll('[role="option"]')).find(
+        (element) => element.textContent === 'Business'
+      )
+    )
 
     expect(document.body).toHaveTextContent('Payments')
     expect(document.body).not.toHaveTextContent('Home')
@@ -534,8 +543,8 @@ describe('SidebarMenu', () => {
     expect(document.body).toHaveTextContent('Payments')
     expect(document.body).not.toHaveTextContent('Home')
     expect(
-      document.querySelector('[data-section-id="business"]')
-    ).toHaveAttribute('aria-pressed', 'true')
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveTextContent('Business')
   })
 
   it('selects a clicked item and renders its selection arrow', () => {
