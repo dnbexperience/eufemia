@@ -1,5 +1,5 @@
-// Renders a snapshot of analytics records. Data is fetched at build time by the
-// snapshot workflow and served as a static file, so no API token lives here.
+// Renders analytics records as key figures and bar charts. Data is loaded from
+// DATA_URL; the page shows an empty state until a data source is wired up.
 
 const DATA_URL = './data/records.json'
 
@@ -127,22 +127,23 @@ function populateEnvFilter(rows, onChange) {
 }
 
 async function main() {
-  let payload
+  let payload = null
   try {
     const response = await fetch(DATA_URL, { cache: 'no-store' })
-    if (!response.ok) {
-      throw new Error(`Request failed: ${response.status}`)
+    if (response.ok) {
+      payload = await response.json()
     }
-    payload = await response.json()
-  } catch (error) {
-    const box = document.getElementById('error')
-    box.textContent = `Could not load data (${error.message}).`
-    box.hidden = false
-
-    return
+  } catch {
+    // No data source yet; fall through to the empty state.
   }
 
   const all = toRecords(payload).map(normalise)
+
+  if (all.length === 0) {
+    document.getElementById('meta').textContent = 'No data yet.'
+
+    return
+  }
 
   const generated = payload && payload.generatedAt
   if (generated) {
