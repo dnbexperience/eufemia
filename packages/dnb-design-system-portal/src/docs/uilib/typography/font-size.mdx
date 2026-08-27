@@ -31,12 +31,13 @@ On iPhone and iPad, Eufemia follows the user's system text-size setting. This
 means that text may not have exactly the same pixel size as it does on macOS or
 other desktop platforms.
 
-At the default text-size setting, the difference is:
+At the default text-size setting, the root sizes differ while Eufemia aligns
+the DNB basis text:
 
 | Platform              | Root size (`1rem`) | DNB basis size (`1.125rem`) |
 | --------------------- | ------------------ | --------------------------- |
 | Most desktop browsers | 16px               | 18px                        |
-| Safari on iOS         | 17px               | 19.125px                    |
+| Safari on iOS         | 17px               | 18px                        |
 
 Safari does not apply the iOS setting to ordinary web font sizes automatically.
 Eufemia therefore uses Apple's Dynamic Type
@@ -60,14 +61,14 @@ Type scaling curve. This would make iOS smaller than desktop by default and
 change the difference at larger accessibility sizes. It would also reduce all
 root-relative layout values.
 
-### Possible future improvements
+### How Eufemia aligns the default text size
 
-One option is to keep Apple's `Body` style and scale the resulting text by `16
-/ 17` with an iOS-only `text-size-adjust`. This produces an 18px DNB basis size
-at the default setting while retaining the `Body` Dynamic Type curve. It also
-keeps root-relative layout values at their current iOS sizes. Before using this
-as a framework default, it needs real-device testing across all text-size
-settings, nested typography, form controls, and representative layouts.
+Eufemia keeps Apple's `Body` style and scales text by `16 / 17` with an iOS-only
+`text-size-adjust`. This produces an 18px DNB basis size at the default setting
+while retaining the `Body` Dynamic Type curve. Root-relative layout values keep
+their iOS sizes.
+
+### Future improvements
 
 The longer-term option is the standard
 [`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)

@@ -37,6 +37,15 @@
   /* stylelint-disable-next-line */
   -webkit-text-size-adjust: 100%;
 
+  // Keep iOS Dynamic Type while aligning rendered text
+  // with the 16px web default
+  @supports (-webkit-touch-callout: none) {
+    @supports (font: -apple-system-body) {
+      /* stylelint-disable-next-line */
+      -webkit-text-size-adjust: 94.117647%;
+    }
+  }
+
   word-break: break-word;
 
   // Will add this to the body tag – later we can test for a version mismatch
