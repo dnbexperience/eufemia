@@ -1077,7 +1077,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         await waitFor(() => {
           expect(
             document.querySelector(
-              '.dnb-forms-submit-indicator--state-abort'
+              '.dnb-forms-submit-indicator-glow__status--state-abort'
             )
           ).toBeInTheDocument()
         })

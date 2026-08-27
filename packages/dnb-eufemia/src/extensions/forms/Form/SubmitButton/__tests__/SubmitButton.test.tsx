@@ -81,8 +81,22 @@ describe('Form.SubmitButton', () => {
     const buttonElement = document.querySelector('button')
 
     expect(buttonElement).toHaveClass(
-      'dnb-button dnb-button--primary dnb-button--has-text dnb-forms-submit-button custom-class',
+      'dnb-button dnb-button--primary dnb-button--has-text dnb-forms-submit-button dnb-indicator-border-glow dnb-indicator-border-glow--button custom-class',
       { exact: true }
+    )
+  })
+
+  it('should render the button directly in its layout context', () => {
+    render(
+      <Form.Handler>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Form.Handler>
+    )
+
+    const buttonElement = document.querySelector('button')
+
+    expect(buttonElement.parentElement).toBe(
+      document.querySelector('form')
     )
   })
 
@@ -524,9 +538,7 @@ describe('Form.SubmitButton', () => {
     expect(indicatorStatusElement).toHaveClass(
       'dnb-forms-submit-indicator-glow__status--state-pending'
     )
-    expect(buttonElement.parentElement).toHaveClass(
-      'dnb-forms-submit-indicator-glow--active'
-    )
+    expect(buttonElement).toHaveClass('dnb-indicator-border-glow--active')
     expect(indicatorStatusElement).toHaveAttribute('role', 'status')
     expect(indicatorStatusElement).toHaveAttribute(
       'aria-label',
@@ -560,9 +572,7 @@ describe('Form.SubmitButton', () => {
     expect(indicatorStatusElement).toHaveClass(
       'dnb-forms-submit-indicator-glow__status--state-pending'
     )
-    expect(buttonElement.parentElement).toHaveClass(
-      'dnb-forms-submit-indicator-glow--active'
-    )
+    expect(buttonElement).toHaveClass('dnb-indicator-border-glow--active')
   })
 
   it('should keep submitting when an onClick is given and no form element is used', () => {

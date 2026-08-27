@@ -11,10 +11,6 @@ import { send } from '../../../../icons'
 import useId from '../../../../shared/helpers/useId'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
-import {
-  pickSpacingProps,
-  omitSpacingProps,
-} from '../../../../components/flex/utils'
 
 export type FormSubmitButtonProps = {
   /**
@@ -71,27 +67,26 @@ function SubmitButton(props: FormSubmitButtonProps) {
       ? formState
       : undefined
 
-  const spacingProps = pickSpacingProps(rest)
-  const restWithoutSpacing = omitSpacingProps(rest)
-
   return (
-    <SubmitIndicatorGlow
-      active={indicatorState === 'pending'}
-      {...spacingProps}
+    <Button
+      className={clsx(
+        'dnb-forms-submit-button',
+        'dnb-indicator-border-glow',
+        'dnb-indicator-border-glow--button',
+        indicatorState === 'pending' &&
+          'dnb-indicator-border-glow--active',
+        className
+      )}
+      type={isolate ? 'button' : 'submit'}
+      variant={variant === 'secondary' ? 'secondary' : undefined}
+      icon={variant === 'send' ? send : null}
+      data-form-submit-button-id={submitButtonId}
+      {...mergeProps({ onClick: onClickHandler }, rest)}
     >
-      <Button
-        className={clsx('dnb-forms-submit-button', className)}
-        type={isolate ? 'button' : 'submit'}
-        variant={variant === 'secondary' ? 'secondary' : undefined}
-        icon={variant === 'send' ? send : null}
-        data-form-submit-button-id={submitButtonId}
-        {...mergeProps({ onClick: onClickHandler }, restWithoutSpacing)}
-      >
-        {content}
+      {content}
 
-        <SubmitIndicatorGlow state={indicatorState} />
-      </Button>
-    </SubmitIndicatorGlow>
+      <SubmitIndicatorGlow state={indicatorState} />
+    </Button>
   )
 }
 
