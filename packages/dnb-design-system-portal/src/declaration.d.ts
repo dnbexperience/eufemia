@@ -46,3 +46,9 @@ declare module 'virtual:scroll-position' {
   }): void
   export function useScrollPosition(): void
 }
+
+declare module 'virtual:github-releases' {
+  import type { GitHubRelease } from '../vite/client/plugins/github-releases'
+
+  export const releases: GitHubRelease[]
+}

@@ -21,6 +21,7 @@ import scrollPositionPlugin from './vite/client/plugins/scroll-position'
 import preloadStylesPlugin from './vite/client/plugins/preload-styles'
 import testPageFilterPlugin from './vite/client/plugins/test-page-filter'
 import buildInfoPlugin from './vite/client/plugins/build-info'
+import githubReleasesPlugin from './vite/client/plugins/github-releases'
 import eufemiaPrebuildPlugin from './vite/client/plugins/eufemia-prebuild'
 import gitBranchPlugin from './vite/client/plugins/git-branch'
 import analyticsCollectDevPlugin from './vite/client/plugins/analytics-collect-dev'
@@ -135,6 +136,11 @@ export default defineConfig({
     withFilter(buildInfoPlugin(), {
       resolveId: { id: /^virtual:build-info$/ },
       load: { id: /virtual:build-info|buildInfo/ },
+    }),
+
+    withFilter(githubReleasesPlugin(), {
+      resolveId: { id: /^virtual:github-releases$/ },
+      load: { id: /virtual:github-releases/ },
     }),
 
     withFilter(loadJsAsJsxPlugin(), {
