@@ -4,7 +4,7 @@
  */
 
 import { useState } from 'react'
-import type { HTMLProps } from 'react'
+import type { HTMLProps, SyntheticEvent } from 'react'
 import E from '../Element'
 import {
   useSpacing,
@@ -34,6 +34,7 @@ const Img = ({
   imgClass,
   className,
   loading = 'eager',
+  onError,
   ...p
 }: ImgProps) => {
   const [hasError, setError] = useState(false)
@@ -53,7 +54,10 @@ const Img = ({
         internalClass={clsx('dnb-img', hasError && 'dnb-img--error')}
         className={imgClass}
         skeleton={skeleton}
-        onError={() => setError(true)}
+        onError={(event) => {
+          setError(true)
+          onError?.(event as SyntheticEvent<HTMLImageElement>)
+        }}
         {...removeSpaceProps(p as Omit<ImgProps, 'ref'>)}
       />
       {caption && <figcaption>{caption}</figcaption>}
