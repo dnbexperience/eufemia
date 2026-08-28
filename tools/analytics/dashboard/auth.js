@@ -36,7 +36,10 @@ function base64Url(bytes) {
     binary += String.fromCharCode(byte)
   }
 
-  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+  return btoa(binary)
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '')
 }
 
 function randomString(length = 64) {
@@ -72,7 +75,9 @@ function decodeJwt(token) {
 
 function readSession() {
   try {
-    const session = JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null')
+    const session = JSON.parse(
+      sessionStorage.getItem(SESSION_KEY) || 'null'
+    )
     if (session && session.expiresAt > Date.now()) {
       return session
     }
@@ -132,7 +137,8 @@ async function exchangeCode(code, returnedState) {
 
   const session = {
     name: claims.name || claims.preferred_username || 'Signed in',
-    expiresAt: Date.now() + (Number(tokens.expires_in) || 3600) * 1000 - 60000,
+    expiresAt:
+      Date.now() + (Number(tokens.expires_in) || 3600) * 1000 - 60000,
   }
   sessionStorage.setItem(SESSION_KEY, JSON.stringify(session))
 
@@ -162,7 +168,11 @@ async function completeRedirect() {
   for (const key of ['code', 'state', 'session_state']) {
     url.searchParams.delete(key)
   }
-  window.history.replaceState({}, document.title, url.pathname + url.search)
+  window.history.replaceState(
+    {},
+    document.title,
+    url.pathname + url.search
+  )
 
   return session
 }
