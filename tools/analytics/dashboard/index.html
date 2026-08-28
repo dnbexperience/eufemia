@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Eufemia Analytics</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>Eufemia Analytics</h1>
+      <div class="controls">
+        <label for="env">Environment</label>
+        <select id="env" aria-label="Filter by environment">
+          <option value="">All</option>
+        </select>
+      </div>
+    </header>
+
+    <p id="meta" class="meta"></p>
+
+    <section class="kpis" id="kpis" aria-label="Key figures"></section>
+
+    <section class="panel">
+      <h2>Records per day</h2>
+      <div id="per-day" class="chart"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Top pages</h2>
+      <div id="top-names" class="chart"></div>
+    </section>
+
+    <p id="error" class="error" hidden></p>
+
+    <script src="./app.js" defer></script>
+  </body>
+</html>
