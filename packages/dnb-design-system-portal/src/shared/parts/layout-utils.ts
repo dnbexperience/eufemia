@@ -2,7 +2,7 @@ import { scrollToLocationHashId } from '@dnb/eufemia/src/shared/helpers'
 
 export function scrollToAnimation() {
   scrollToLocationHashId({
-    offset: 100,
+    useScrollIntoView: true,
     delay: 100,
     onCompletion: (elem) => {
       try {
