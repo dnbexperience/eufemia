@@ -138,27 +138,4 @@ describe('handleDashboardData', () => {
     await expect(handleDashboardData()).rejects.toThrow('DATA_BUCKET')
     expect(send).not.toHaveBeenCalled()
   })
-
-  it('coalesces concurrent recomputes into a single query and write', async () => {
-    let resolveRecords: (records: unknown[]) => void = () => undefined
-    retrieveRecords.mockReturnValue(
-      new Promise((resolve) => {
-        resolveRecords = resolve
-      })
-    )
-
-    const first = handleDashboardData()
-    const second = handleDashboardData()
-
-    // Let both requests reach the recompute step before the query resolves.
-    await new Promise((resolve) => setTimeout(resolve, 0))
-    resolveRecords([{ fresh: true }])
-
-    const [a, b] = (await Promise.all([first, second])) as [Result, Result]
-
-    expect(a.statusCode).toBe(200)
-    expect(b.statusCode).toBe(200)
-    expect(retrieveRecords).toHaveBeenCalledTimes(1)
-    expect(putCalls()).toHaveLength(1)
-  })
 })

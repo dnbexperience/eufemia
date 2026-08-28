@@ -82,29 +82,6 @@ function isFresh(snapshot: Snapshot): boolean {
   return Number.isFinite(generated) && Date.now() - generated < MAX_AGE_MS
 }
 
-// Coalesce concurrent recomputes within a warm container so a burst of requests
-// shares one Athena query and S3 write instead of each firing its own. This
-// does not span containers, but absorbs the common warm-start burst.
-let inFlight: Promise<Snapshot> | null = null
-
-function recomputeSnapshot(bucket: string): Promise<Snapshot> {
-  if (!inFlight) {
-    inFlight = (async () => {
-      const snapshot: Snapshot = {
-        generatedAt: new Date().toISOString(),
-        records: await retrieveRecords({ limit: SNAPSHOT_LIMIT }),
-      }
-      await writeSnapshot(bucket, snapshot)
-
-      return snapshot
-    })().finally(() => {
-      inFlight = null
-    })
-  }
-
-  return inFlight
-}
-
 /**
  * Return the dashboard snapshot. Access is gated by the JWT authorizer on the
  * dashboard API, so no origin/bearer check is repeated here.
@@ -122,7 +99,13 @@ export async function handleDashboardData(): Promise<APIGatewayProxyResultV2> {
   }
 
   try {
-    return json(200, await recomputeSnapshot(bucket))
+    const snapshot: Snapshot = {
+      generatedAt: new Date().toISOString(),
+      records: await retrieveRecords({ limit: SNAPSHOT_LIMIT }),
+    }
+    await writeSnapshot(bucket, snapshot)
+
+    return json(200, snapshot)
   } catch (error) {
     if (cached) {
       return json(200, cached)
