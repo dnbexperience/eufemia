@@ -1,9 +1,13 @@
 // Renders analytics records as key figures and bar charts. Data is loaded from
-// DATA_URL; the page shows an empty state until a data source is wired up.
+// the access-controlled dashboard API; the page shows an empty state when there
+// is no data or no data source is configured.
 
-import { ensureSignedIn, signOut } from './auth.js'
-
-const DATA_URL = './data/records.json'
+import {
+  ensureSignedIn,
+  getConfig,
+  clearSession,
+  signOut,
+} from './auth.js'
 
 /** Normalise the stored shape to a common view model. */
 function normalise(record) {
@@ -163,14 +167,30 @@ async function main() {
 
   renderUser(session)
 
+  const { apiBaseUrl } = getConfig()
+
   let payload = null
-  try {
-    const response = await fetch(DATA_URL, { cache: 'no-store' })
-    if (response.ok) {
-      payload = await response.json()
+  if (session && apiBaseUrl) {
+    try {
+      const response = await fetch(`${apiBaseUrl}/data`, {
+        headers: { Authorization: `Bearer ${session.accessToken}` },
+        cache: 'no-store',
+      })
+
+      if (response.status === 401) {
+        // Token no longer accepted; clear it and re-run sign-in.
+        clearSession()
+        window.location.reload()
+
+        return
+      }
+
+      if (response.ok) {
+        payload = await response.json()
+      }
+    } catch {
+      // Network or endpoint issue; fall through to the empty state.
     }
-  } catch {
-    // No data source yet; fall through to the empty state.
   }
 
   const all = toRecords(payload).map(normalise)

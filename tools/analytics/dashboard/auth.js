@@ -9,12 +9,18 @@
 // to enforce auth on the files, or serving data from a token-protected API.
 
 let config = {}
-const SCOPE = 'openid profile email'
+const BASE_SCOPE = 'openid profile email'
 const SESSION_KEY = 'eufemia-analytics-session'
 const FLOW_KEY = 'eufemia-analytics-flow'
 
 function authority() {
   return `https://login.microsoftonline.com/${config.tenantId}`
+}
+
+// Request the API scope alongside sign-in so the token endpoint returns an
+// access token the dashboard API accepts.
+function scopes() {
+  return config.apiScope ? `${BASE_SCOPE} ${config.apiScope}` : BASE_SCOPE
 }
 
 async function loadConfig() {
@@ -99,7 +105,7 @@ async function redirectToLogin() {
     client_id: config.clientId,
     response_type: 'code',
     redirect_uri: config.redirectUri,
-    scope: SCOPE,
+    scope: scopes(),
     code_challenge: await challengeFrom(verifier),
     code_challenge_method: 'S256',
     state,
@@ -137,6 +143,7 @@ async function exchangeCode(code, returnedState) {
 
   const session = {
     name: claims.name || claims.preferred_username || 'Signed in',
+    accessToken: tokens.access_token,
     expiresAt:
       Date.now() + (Number(tokens.expires_in) || 3600) * 1000 - 60000,
   }
@@ -208,4 +215,12 @@ export function signOut() {
     post_logout_redirect_uri: config.redirectUri || window.location.origin,
   })
   window.location.assign(`${authority()}/oauth2/v2.0/logout?${params}`)
+}
+
+export function getConfig() {
+  return config
+}
+
+export function clearSession() {
+  sessionStorage.removeItem(SESSION_KEY)
 }

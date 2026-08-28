@@ -25,9 +25,10 @@ only users assigned to the app registration receive a token, which controls who
 can sign in.
 
 Configure it per host: copy `config.example.json` to `config.json` (gitignored)
-and fill in the `clientId`, `tenantId` and a `redirectUri` that exactly matches
-one registered on the app (SPA platform). Without a `config.json`, the page
-renders without sign-in for local preview.
+and fill in the `clientId`, `tenantId`, a `redirectUri` that exactly matches one
+registered on the app (SPA platform), the `apiBaseUrl` of the dashboard data API
+and the `apiScope` (`api://<client-id>/Dashboard.Read`) it requests a token for.
+Without a `config.json`, the page renders without sign-in for local preview.
 
 ## Data and access
 
