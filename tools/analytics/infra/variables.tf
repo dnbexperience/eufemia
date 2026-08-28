@@ -56,17 +56,29 @@ variable "edge_auth_secret" {
 variable "entra_client_id" {
   type        = string
   description = "Entra (Azure AD) application (client) ID accepted by the dashboard API JWT authorizer."
-  default     = ""
+
+  validation {
+    condition     = length(var.entra_client_id) > 0
+    error_message = "entra_client_id must be a non-empty value."
+  }
 }
 
 variable "entra_tenant_id" {
   type        = string
   description = "Entra (Azure AD) directory (tenant) ID; used to build the dashboard API JWT issuer."
-  default     = ""
+
+  validation {
+    condition     = length(var.entra_tenant_id) > 0
+    error_message = "entra_tenant_id must be a non-empty value."
+  }
 }
 
 variable "dashboard_origins" {
   type        = list(string)
   description = "Allowed CORS origins for the dashboard API (e.g. the dashboard host and http://localhost:4173)."
-  default     = []
+
+  validation {
+    condition     = length(var.dashboard_origins) > 0
+    error_message = "dashboard_origins must list at least one allowed origin."
+  }
 }

@@ -28,6 +28,21 @@ function requireEnv(name: string): string {
   return value
 }
 
+// Logs a message at most once per process, so a persistent misconfiguration
+// (e.g. a missing s3:GetObject permission) surfaces in CloudWatch without
+// repeating on every request.
+const warned = new Set<string>()
+
+function warnOnce(message: string): void {
+  if (warned.has(message)) {
+    return
+  }
+
+  warned.add(message)
+  // eslint-disable-next-line no-console -- server-side logging to CloudWatch
+  console.error(message)
+}
+
 async function readSnapshot(bucket: string): Promise<Snapshot | null> {
   try {
     const result = await s3.send(
@@ -36,12 +51,21 @@ async function readSnapshot(bucket: string): Promise<Snapshot | null> {
     const body = await result.Body?.transformToString()
 
     return body ? (JSON.parse(body) as Snapshot) : null
-  } catch {
+  } catch (error) {
+    // A missing snapshot is the expected cold-start case; anything else (denied
+    // permissions, throttling, corrupt JSON) is a real problem worth surfacing.
+    if (!(error instanceof Error) || error.name !== 'NoSuchKey') {
+      warnOnce(`[eufemia] failed to read dashboard snapshot: ${error}`)
+    }
+
     return null
   }
 }
 
-async function writeSnapshot(bucket: string, snapshot: Snapshot): Promise<void> {
+async function writeSnapshot(
+  bucket: string,
+  snapshot: Snapshot
+): Promise<void> {
   await s3.send(
     new PutObjectCommand({
       Bucket: bucket,
@@ -56,6 +80,29 @@ function isFresh(snapshot: Snapshot): boolean {
   const generated = Date.parse(snapshot.generatedAt)
 
   return Number.isFinite(generated) && Date.now() - generated < MAX_AGE_MS
+}
+
+// Coalesce concurrent recomputes within a warm container so a burst of requests
+// shares one Athena query and S3 write instead of each firing its own. This
+// does not span containers, but absorbs the common warm-start burst.
+let inFlight: Promise<Snapshot> | null = null
+
+function recomputeSnapshot(bucket: string): Promise<Snapshot> {
+  if (!inFlight) {
+    inFlight = (async () => {
+      const snapshot: Snapshot = {
+        generatedAt: new Date().toISOString(),
+        records: await retrieveRecords({ limit: SNAPSHOT_LIMIT }),
+      }
+      await writeSnapshot(bucket, snapshot)
+
+      return snapshot
+    })().finally(() => {
+      inFlight = null
+    })
+  }
+
+  return inFlight
 }
 
 /**
@@ -75,13 +122,7 @@ export async function handleDashboardData(): Promise<APIGatewayProxyResultV2> {
   }
 
   try {
-    const snapshot: Snapshot = {
-      generatedAt: new Date().toISOString(),
-      records: await retrieveRecords({ limit: SNAPSHOT_LIMIT }),
-    }
-    await writeSnapshot(bucket, snapshot)
-
-    return json(200, snapshot)
+    return json(200, await recomputeSnapshot(bucket))
   } catch (error) {
     if (cached) {
       return json(200, cached)
