@@ -15,6 +15,7 @@ import path from 'node:path'
 import { sync as globSync } from 'globby'
 import micromatch from 'micromatch'
 import { hasPrebuild } from './eufemia-prebuild'
+import { getTextScaleScript } from '@dnb/eufemia/src/shared/TextScaleScriptUtils'
 
 /**
  * FOUC-prevention scripts matching @dnb/eufemia/shared/ColorSchemeScript.
@@ -425,7 +426,8 @@ if (typeof window !== 'undefined') {
      * module into the HTML template.
      */
     transformIndexHtml(html) {
-      const headScript = `<script>${getHeadScript()}</script>`
+      const headScript = `<script>${getHeadScript()}</script>
+<script>${getTextScaleScript()}</script>`
       const bodyScript = `<script>${getBodyScript()}</script>`
 
       html = html.replace('</head>', `${headScript}\n</head>`)

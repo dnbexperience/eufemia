@@ -233,6 +233,21 @@ describe('eufemia-theme plugin', () => {
       const load = plugin.load as (id: string) => string | undefined
       expect(load('other-id')).toBeUndefined()
     })
+
+    it('injects text scale before the body content', () => {
+      const plugin = eufemiaThemePlugin()
+      const transformIndexHtml = plugin.transformIndexHtml as (
+        html: string
+      ) => string
+      const html = transformIndexHtml(
+        '<html><head></head><body class="dnb-page-background"></body></html>'
+      )
+
+      expect(html).toContain('data-eufemia-text-scale')
+      expect(html.indexOf('data-eufemia-text-scale')).toBeLessThan(
+        html.indexOf('</head>')
+      )
+    })
   })
 
   describe('dev mode applyThemeStyles behavior', () => {

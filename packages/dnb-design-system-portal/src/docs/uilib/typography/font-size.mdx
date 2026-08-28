@@ -60,14 +60,40 @@ Type scaling curve. This would make iOS smaller than desktop by default and
 change the difference at larger accessibility sizes. It would also reduce all
 root-relative layout values.
 
-### Possible future improvements
+### Optional JavaScript root scaling
 
-One option is to keep Apple's `Body` style and scale the resulting text by `16
-/ 17` with an iOS-only `text-size-adjust`. This produces an 18px DNB basis size
-at the default setting while retaining the `Body` Dynamic Type curve. It also
-keeps root-relative layout values at their current iOS sizes. Before using this
-as a framework default, it needs real-device testing across all text-size
-settings, nested typography, form controls, and representative layouts.
+Eufemia provides an opt-in blocking script that measures Apple's Dynamic Type
+`Body` style. It sets the root to `16px × measured size / 17px`, so the default
+root remains 16px while the user's text scale is preserved. This makes
+typography and all `rem`-based geometry scale together on iOS.
+
+For server-rendered applications, place `TextScaleHeadScript` in the initial
+document head, after the viewport meta tag and before stylesheets. It runs
+synchronously before the browser paints, avoiding a flash at the unscaled size.
+
+```tsx
+import { TextScaleHeadScript } from '@dnb/eufemia/shared/TextScaleScript'
+
+export function Document() {
+  return (
+    <html>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+        <TextScaleHeadScript />
+        {/* stylesheets */}
+      </head>
+    </html>
+  )
+}
+```
+
+Client-rendered applications can instead render `TextScaleClient` near the app
+root. It uses a layout effect, but cannot guarantee a flash-free result when
+hydrating server-rendered HTML. If the script cannot measure a text scale,
+Eufemia keeps its existing CSS behavior.
 
 The longer-term option is the standard
 [`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)
