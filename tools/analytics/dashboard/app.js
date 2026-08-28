@@ -1,11 +1,14 @@
 // Renders analytics records as key figures and bar charts. Data is loaded from
 // DATA_URL; the page shows an empty state until a data source is wired up.
 
+import { ensureSignedIn, signOut } from './auth.js'
+
 const DATA_URL = './data/records.json'
 
 /** Normalise the stored shape to a common view model. */
 function normalise(record) {
-  const label = record.name ?? record.path ?? record.type ?? record.id ?? '—'
+  const label =
+    record.name ?? record.path ?? record.type ?? record.id ?? '—'
   const when = record.createdAt ?? record.timestamp ?? ''
   const day = typeof when === 'string' ? when.slice(0, 10) : ''
   const env = record.env ?? ''
@@ -67,7 +70,10 @@ function renderKpis(rows) {
 
   for (const kpi of kpis) {
     const card = el('div', 'kpi')
-    card.append(el('div', 'value', kpi.value), el('div', 'label', kpi.label))
+    card.append(
+      el('div', 'value', kpi.value),
+      el('div', 'label', kpi.label)
+    )
     container.append(card)
   }
 }
@@ -110,7 +116,10 @@ function renderBars(targetId, counts, { sort = 'desc', limit } = {}) {
 function render(rows) {
   renderKpis(rows)
   renderBars('per-day', countBy(rows, 'day'), { sort: 'key' })
-  renderBars('top-names', countBy(rows, 'label'), { sort: 'desc', limit: 15 })
+  renderBars('top-names', countBy(rows, 'label'), {
+    sort: 'desc',
+    limit: 15,
+  })
 }
 
 function populateEnvFilter(rows, onChange) {
@@ -126,7 +135,34 @@ function populateEnvFilter(rows, onChange) {
   select.addEventListener('change', () => onChange(select.value))
 }
 
+function renderUser(session) {
+  if (!session) {
+    return
+  }
+
+  const container = document.getElementById('user')
+  const button = el('button', 'signout', 'Sign out')
+  button.type = 'button'
+  button.addEventListener('click', signOut)
+
+  container.replaceChildren(el('span', 'user-name', session.name), button)
+  container.hidden = false
+}
+
 async function main() {
+  let session
+  try {
+    session = await ensureSignedIn()
+  } catch (error) {
+    const box = document.getElementById('error')
+    box.textContent = `Sign-in failed: ${error.message}`
+    box.hidden = false
+
+    return
+  }
+
+  renderUser(session)
+
   let payload = null
   try {
     const response = await fetch(DATA_URL, { cache: 'no-store' })
@@ -151,7 +187,8 @@ async function main() {
       `Snapshot generated ${new Date(generated).toLocaleString()}`
   }
 
-  const apply = (env) => render(env ? all.filter((r) => r.env === env) : all)
+  const apply = (env) =>
+    render(env ? all.filter((r) => r.env === env) : all)
 
   populateEnvFilter(all, apply)
   apply('')
