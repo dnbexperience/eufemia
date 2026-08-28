@@ -12,6 +12,7 @@ let config = {}
 const BASE_SCOPE = 'openid profile email'
 const SESSION_KEY = 'eufemia-analytics-session'
 const FLOW_KEY = 'eufemia-analytics-flow'
+const RETRY_KEY = 'eufemia-analytics-retry'
 
 function authority() {
   return `https://login.microsoftonline.com/${config.tenantId}`
@@ -19,8 +20,8 @@ function authority() {
 
 // Request the API scope alongside sign-in so the token endpoint returns an
 // access token the dashboard API accepts.
-function scopes() {
-  return config.apiScope ? `${BASE_SCOPE} ${config.apiScope}` : BASE_SCOPE
+export function scopes(cfg = config) {
+  return cfg.apiScope ? `${BASE_SCOPE} ${cfg.apiScope}` : BASE_SCOPE
 }
 
 async function loadConfig() {
@@ -91,7 +92,7 @@ function readSession() {
     // Fall through to a clean state.
   }
 
-  sessionStorage.removeItem(SESSION_KEY)
+  clearSession()
 
   return null
 }
@@ -209,7 +210,7 @@ export async function ensureSignedIn() {
 }
 
 export function signOut() {
-  sessionStorage.removeItem(SESSION_KEY)
+  clearSession()
 
   const params = new URLSearchParams({
     post_logout_redirect_uri: config.redirectUri || window.location.origin,
@@ -218,9 +219,25 @@ export function signOut() {
 }
 
 export function getConfig() {
-  return config
+  return { ...config }
 }
 
 export function clearSession() {
   sessionStorage.removeItem(SESSION_KEY)
+}
+
+// Grant a single sign-in retry after the API rejects a token, so a persistently
+// refused token surfaces an error instead of looping between clear and reload.
+export function beginAuthRetry() {
+  if (sessionStorage.getItem(RETRY_KEY)) {
+    return false
+  }
+
+  sessionStorage.setItem(RETRY_KEY, '1')
+
+  return true
+}
+
+export function clearAuthRetry() {
+  sessionStorage.removeItem(RETRY_KEY)
 }

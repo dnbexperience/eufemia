@@ -6,6 +6,8 @@ import {
   ensureSignedIn,
   getConfig,
   clearSession,
+  beginAuthRetry,
+  clearAuthRetry,
   signOut,
 } from './auth.js'
 
@@ -178,14 +180,25 @@ async function main() {
       })
 
       if (response.status === 401) {
-        // Token no longer accepted; clear it and re-run sign-in.
-        clearSession()
-        window.location.reload()
+        // Token rejected; retry sign-in once, then surface an error instead of
+        // looping between clearing the session and reloading.
+        if (beginAuthRetry()) {
+          clearSession()
+          window.location.reload()
+
+          return
+        }
+
+        const box = document.getElementById('error')
+        box.textContent =
+          'The data API rejected your access. Please try again later, or contact the dashboard owner if it persists.'
+        box.hidden = false
 
         return
       }
 
       if (response.ok) {
+        clearAuthRetry()
         payload = await response.json()
       }
     } catch {
