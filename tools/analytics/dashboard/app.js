@@ -5,7 +5,8 @@ const DATA_URL = './data/records.json'
 
 /** Normalise the stored shape to a common view model. */
 function normalise(record) {
-  const label = record.name ?? record.path ?? record.type ?? record.id ?? '—'
+  const label =
+    record.name ?? record.path ?? record.type ?? record.id ?? '—'
   const when = record.createdAt ?? record.timestamp ?? ''
   const day = typeof when === 'string' ? when.slice(0, 10) : ''
   const env = record.env ?? ''
@@ -67,7 +68,10 @@ function renderKpis(rows) {
 
   for (const kpi of kpis) {
     const card = el('div', 'kpi')
-    card.append(el('div', 'value', kpi.value), el('div', 'label', kpi.label))
+    card.append(
+      el('div', 'value', kpi.value),
+      el('div', 'label', kpi.label)
+    )
     container.append(card)
   }
 }
@@ -110,7 +114,10 @@ function renderBars(targetId, counts, { sort = 'desc', limit } = {}) {
 function render(rows) {
   renderKpis(rows)
   renderBars('per-day', countBy(rows, 'day'), { sort: 'key' })
-  renderBars('top-names', countBy(rows, 'label'), { sort: 'desc', limit: 15 })
+  renderBars('top-names', countBy(rows, 'label'), {
+    sort: 'desc',
+    limit: 15,
+  })
 }
 
 function populateEnvFilter(rows, onChange) {
@@ -151,7 +158,8 @@ async function main() {
       `Snapshot generated ${new Date(generated).toLocaleString()}`
   }
 
-  const apply = (env) => render(env ? all.filter((r) => r.env === env) : all)
+  const apply = (env) =>
+    render(env ? all.filter((r) => r.env === env) : all)
 
   populateEnvFilter(all, apply)
   apply('')
