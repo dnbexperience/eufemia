@@ -62,46 +62,30 @@ root-relative layout values.
 
 ### Optional JavaScript root scaling
 
-Eufemia provides an opt-in blocking script that measures Apple's Dynamic Type
-`Body` style. It sets the root to `16px × measured size / 17px`, so the default
-root remains 16px while the user's text scale is preserved. This makes
-typography and all `rem`-based geometry scale together on iOS.
-
-For server-rendered applications, place `TextScaleHeadScript` in the initial
-document head, after the viewport meta tag and before stylesheets. It runs
-synchronously before the browser paints, avoiding a flash at the unscaled size.
+Import `TextScaleHeadScript` from
+`@dnb/eufemia/shared/TextScaleScript`. It keeps the default root at 16px while
+scaling all `rem`-based text and layout with the user's iOS text-size setting.
+Place it after the viewport meta tag and before stylesheets to avoid a visible
+layout change.
 
 ```tsx
-import { TextScaleHeadScript } from '@dnb/eufemia/shared/TextScaleScript'
-
-export function Document() {
-  return (
-    <html>
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
-        <TextScaleHeadScript />
-        {/* stylesheets */}
-      </head>
-    </html>
-  )
-}
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <TextScaleHeadScript />
+  {/* stylesheets */}
+</head>
 ```
 
-Client-rendered applications can instead render `TextScaleClient` near the app
-root. It uses a layout effect, but cannot guarantee a flash-free result when
-hydrating server-rendered HTML. If the script cannot measure a text scale,
-Eufemia keeps its existing CSS behavior.
+Client-rendered applications can use `TextScaleClient`, but server-rendered
+pages may show a layout change during hydration. Without the script, Eufemia
+keeps its current fallback. With isolated styles, the fallback cannot scale the
+document root, so text and `rem`-based layout may not scale together.
 
 The longer-term option is the standard
 [`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)
 environment variable and
 [`<meta name="text-scale" content="scale">`](https://drafts.csswg.org/css-fonts-5/#text-scale-meta).
-These would give websites a standard way to read or apply the user's preferred
-text scale. They are experimental and are not yet supported by Safari, so
-Eufemia cannot use them today.
+These are not yet supported by Safari.
 
 ### Responsive typography (BETA)
 
