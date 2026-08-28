@@ -201,7 +201,7 @@ export function suggestionsElement(
         {...props}
         autocompleteProps={{
           mode: 'async',
-          disableFilter: true,
+          search: { filter: false },
           keepValue: true,
           openOnFocus: true,
           placeholder: suggestionPlaceholder,

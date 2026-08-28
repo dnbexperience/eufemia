@@ -62,7 +62,7 @@ function TableAccordionContent(
   const keepInDOM = Boolean(accordionContext?.keepInDOM)
   const openOnFind = Boolean(accordionContext?.openOnFind)
   const canOpenOnFind = openOnFind && supportsOpenOnFind()
-  const shouldRenderContent = isInDOM || keepInDOM || canOpenOnFind
+  const shouldRenderContent = isInDOM || keepInDOM || openOnFind
 
   useEffect(() => {
     const element = trRef.current

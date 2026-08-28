@@ -253,13 +253,19 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          # Vitest's `--changed` diffs the branch against its merge-base with
+          # main, which needs full commit history. `blob:none` keeps that fast:
+          # file contents are fetched on demand, and `git diff --name-only`
+          # only needs commit and tree objects, not blobs.
+          fetch-depth: 0
+          filter: blob:none
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -267,8 +273,12 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Run tests
+        # dnb-eufemia runs only the unit tests affected by the branch's changes
+        # (full suite on protected branches, or when shared test infra changes).
+        env:
+          UNIT_TEST_BASE_REF: origin/main
         run: |
-          yarn workspace @dnb/eufemia test:ci
+          yarn workspace @dnb/eufemia test:ci:changed
           yarn workspace dnb-design-system-portal test:ci
           yarn workspace eufemia-css-optimizer test
           yarn workspace markdown-tables-utils test
@@ -324,8 +334,8 @@ jobs:
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
 
-      - name: Build RAIWork plugin
-        run: yarn workspace eufemia-raiwork-plugin build
+      - name: Build marketplace plugins
+        run: yarn workspace eufemia-raiwork-plugin build:all
 
       - name: Check bundle sizes
         env:

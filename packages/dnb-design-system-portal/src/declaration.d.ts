@@ -5,6 +5,8 @@ type ImportMetaEnv = {
   readonly VITE_GITHUB_REPOSITORY?: string
   readonly VITE_GITHUB_EDIT_REF?: string
   readonly VITE_GITHUB_COMMIT_SHA?: string
+  readonly VITE_ANALYTICS_ENDPOINT?: string
+  readonly VITE_ANALYTICS_ENV?: string
 }
 
 type ImportMeta = {
@@ -43,4 +45,10 @@ declare module 'virtual:scroll-position' {
     smooth?: boolean
   }): void
   export function useScrollPosition(): void
+}
+
+declare module 'virtual:github-releases' {
+  import type { GitHubRelease } from '../vite/client/plugins/github-releases'
+
+  export const releases: GitHubRelease[]
 }

@@ -16,9 +16,8 @@ frontends.
 
 ## Enable the MCP server
 
-RAIWork selects skills by default during installation, but remote MCP servers
-require explicit consent. Enable the **eufemia** MCP row to let the skills query
-the official hosted documentation.
+Enable the **eufemia** MCP server when your client requests consent so the
+skills can query the official hosted documentation.
 
 The hosted server only serves Eufemia documentation and machine-readable design
 system metadata. It does not read your project files or execute code on your

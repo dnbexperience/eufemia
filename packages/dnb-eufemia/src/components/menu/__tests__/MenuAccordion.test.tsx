@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { act, render, fireEvent } from '@testing-library/react'
 import Menu from '../Menu'
 import { MenuContext } from '../MenuContext'
 import { createMockContext } from './testHelpers'
@@ -430,6 +430,62 @@ describe('MenuAccordion', () => {
     fireEvent.click(trigger)
     expect(onOpenChange).toHaveBeenCalledWith(false)
     expect(onOpenChange).toHaveBeenCalledTimes(2)
+  })
+
+  it('opens matching content when openOnFind is true', () => {
+    const onOpenChange = vi.fn()
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion
+            text="Export as"
+            openOnFind
+            onOpenChange={onOpenChange}
+          >
+            <Menu.Action text="Findable PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    const animation = document.querySelector('.dnb-height-animation')
+
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(onOpenChange).toHaveBeenCalledWith(true)
+  })
+
+  it('does not register collapsed findable menu items', () => {
+    const registerItem = vi.fn().mockReturnValue(0)
+    const ctx = createMockContext({ registerItem })
+
+    render(
+      <MenuContext value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as" openOnFind>
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext>
+    )
+
+    expect(registerItem).toHaveBeenCalledTimes(1)
+
+    act(() => {
+      document
+        .querySelector('.dnb-height-animation')
+        .dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(registerItem).toHaveBeenCalledTimes(2)
   })
 
   it('calls onOpenChange when opened via keyboard', () => {

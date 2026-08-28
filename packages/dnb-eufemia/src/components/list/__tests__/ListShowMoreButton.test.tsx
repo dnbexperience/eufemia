@@ -289,6 +289,28 @@ describe('List.ShowMoreButton', () => {
     ).toHaveAttribute('hidden', '')
   })
 
+  it('does not change nested hidden elements to until-found', () => {
+    render(
+      <>
+        <ListShowMoreButton id="nested-hidden-list" />
+        <Container id="nested-hidden-list" visibleCount={1}>
+          <ItemContent>
+            Item 1<span hidden>Nested hidden content</span>
+          </ItemContent>
+          <ItemContent>Item 2</ItemContent>
+        </Container>
+      </>
+    )
+
+    const nested = document.querySelector(
+      '.dnb-list__item:first-child [hidden]'
+    )
+    const overflow = document.querySelectorAll('.dnb-list__item')[1]
+
+    expect(nested).toHaveAttribute('hidden', '')
+    expect(overflow).toHaveAttribute('hidden', 'until-found')
+  })
+
   it('sets aria-controls pointing to the container id', () => {
     render(
       <>

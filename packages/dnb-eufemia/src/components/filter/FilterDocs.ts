@@ -136,6 +136,11 @@ export const ActiveFiltersProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "Keeps collapsed active filters findable by the browser's find-in-page feature. Matching content expands the active filters. Defaults to `false`.",
+    type: 'boolean',
+    status: 'optional',
+  },
   className: {
     doc: 'Custom CSS class name.',
     type: 'string',

@@ -1,12 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
 
-const { storeRecord, retrieveRecords } = vi.hoisted(() => ({
-  storeRecord: vi.fn(),
-  retrieveRecords: vi.fn(),
-}))
+const { storeRecord, storePageViews, retrieveRecords } = vi.hoisted(
+  () => ({
+    storeRecord: vi.fn(),
+    storePageViews: vi.fn(),
+    retrieveRecords: vi.fn(),
+  })
+)
 
-vi.mock('../src/lambda/store.js', () => ({ storeRecord }))
+vi.mock('../src/lambda/store.js', () => ({ storeRecord, storePageViews }))
 vi.mock('../src/lambda/retrieve.js', () => ({
   retrieveRecords,
   InvalidQueryError: class InvalidQueryError extends Error {},
@@ -53,6 +56,7 @@ async function invoke(event: APIGatewayProxyEventV2): Promise<Response> {
 describe('handler', () => {
   beforeEach(() => {
     storeRecord.mockReset()
+    storePageViews.mockReset()
     retrieveRecords.mockReset()
     process.env.API_TOKEN = 'secret'
     process.env.EDGE_AUTH_SECRET = 'edge-secret'
@@ -189,9 +193,62 @@ describe('handler', () => {
   })
 })
 
+describe('handler /collect (public ingest)', () => {
+  beforeEach(() => {
+    storeRecord.mockReset()
+    storePageViews.mockReset()
+    retrieveRecords.mockReset()
+    process.env.API_TOKEN = 'secret'
+    process.env.EDGE_AUTH_SECRET = 'edge-secret'
+  })
+
+  afterEach(() => {
+    delete process.env.API_TOKEN
+    delete process.env.EDGE_AUTH_SECRET
+  })
+
+  it('accepts page views without a bearer token', async () => {
+    storePageViews.mockResolvedValue(1)
+
+    const res = await invoke(
+      event('POST', '/collect', {
+        body: JSON.stringify([{ path: '/uilib/components/button' }]),
+      })
+    )
+
+    expect(res.statusCode).toBe(202)
+    expect(JSON.parse(res.body)).toEqual({ accepted: 1 })
+    expect(storePageViews).toHaveBeenCalledWith([
+      { path: '/uilib/components/button' },
+    ])
+  })
+
+  it('returns 400 for an invalid JSON body', async () => {
+    const res = await invoke(
+      event('POST', '/collect', { body: 'not json' })
+    )
+
+    expect(res.statusCode).toBe(400)
+    expect(storePageViews).not.toHaveBeenCalled()
+  })
+
+  it('returns 400 when validation fails', async () => {
+    const res = await invoke(
+      event('POST', '/collect', {
+        body: JSON.stringify([{ path: 'nope' }]),
+      })
+    )
+
+    expect(res.statusCode).toBe(400)
+    expect(JSON.parse(res.body).error).toBe('Validation failed')
+    expect(storePageViews).not.toHaveBeenCalled()
+  })
+})
+
 describe('handler origin auth (X-Edge-Auth)', () => {
   beforeEach(() => {
     storeRecord.mockReset()
+    storePageViews.mockReset()
     retrieveRecords.mockReset()
     process.env.API_TOKEN = 'secret'
     process.env.EDGE_AUTH_SECRET = 'edge-secret'
@@ -227,6 +284,18 @@ describe('handler origin auth (X-Edge-Auth)', () => {
 
     expect(res.statusCode).toBe(403)
     expect(storeRecord).not.toHaveBeenCalled()
+  })
+
+  it('requires the edge header for /collect too', async () => {
+    const res = await invoke(
+      event('POST', '/collect', {
+        body: JSON.stringify([{ path: '/a' }]),
+        edgeAuth: null,
+      })
+    )
+
+    expect(res.statusCode).toBe(403)
+    expect(storePageViews).not.toHaveBeenCalled()
   })
 
   it('lets the request through when the edge header matches', async () => {
