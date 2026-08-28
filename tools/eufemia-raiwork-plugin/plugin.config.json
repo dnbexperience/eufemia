@@ -2,11 +2,13 @@
   "schemaVersion": 1,
   "plugin": {
     "name": "dnb-eufemia-web",
+    "agentPluginName": "eufemia",
     "version": "0.1.0",
     "title": "Eufemia Web",
     "description": "Official Eufemia skills and MCP documentation for building, reviewing, and migrating DNB web frontends and contributing Portal content.",
     "license": "Apache-2.0 with Commons Clause",
     "homepage": "https://eufemia.dnb.no",
+    "repository": "https://github.com/dnbexperience/eufemia-agent-plugins",
     "tags": [
       "dnb",
       "eufemia",

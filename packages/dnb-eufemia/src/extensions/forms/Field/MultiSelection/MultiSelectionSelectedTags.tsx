@@ -16,6 +16,7 @@ export type MultiSelectionSelectedTagsProps = {
   show: boolean
   disabled?: boolean
   isCollapsible: boolean
+  openOnFind?: boolean
   selectedItems: MultiSelectionItem[]
   totalCount: number
   formatSelectionCount: (count: number, total: number) => string
@@ -32,6 +33,7 @@ export function MultiSelectionSelectedTags({
   show,
   disabled,
   isCollapsible,
+  openOnFind,
   selectedItems,
   totalCount,
   formatSelectionCount,
@@ -81,6 +83,7 @@ export function MultiSelectionSelectedTags({
             id={`${id}-selected-accordion`}
             iconPosition="right"
             disabled={disabled}
+            openOnFind={openOnFind}
           />
           {selectedItems.length > 0 && (
             <Button
@@ -99,6 +102,7 @@ export function MultiSelectionSelectedTags({
         <Accordion.Content
           id={`${id}-selected-accordion`}
           className="dnb-forms-field-multi-selection__selected-items"
+          openOnFind={openOnFind}
         >
           {tagsContent}
         </Accordion.Content>

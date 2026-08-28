@@ -132,6 +132,28 @@ resource "aws_glue_catalog_table" "records" {
       name = "createdat"
       type = "string"
     }
+
+    # Page-view columns. The JSON SerDe reads schema-on-read, so record rows
+    # read NULL for these and page-view rows read NULL for id/name/value.
+    columns {
+      name = "type"
+      type = "string"
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
   }
 }
 
@@ -254,6 +276,12 @@ resource "aws_apigatewayv2_route" "retrieve" {
 resource "aws_apigatewayv2_route" "health" {
   api_id    = aws_apigatewayv2_api.analytics.id
   route_key = "GET /healthz"
+  target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
+}
+
+resource "aws_apigatewayv2_route" "collect" {
+  api_id    = aws_apigatewayv2_api.analytics.id
+  route_key = "POST /collect"
   target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
 }
 

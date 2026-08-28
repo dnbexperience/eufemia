@@ -14,6 +14,7 @@ draft: true
   - [Component changes](#component-changes)
     - [Flex](#flex)
     - [Accordion](#accordion)
+    - [Autocomplete](#autocomplete)
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [InfoCard](#infocard)
     - [Popover](#popover)
@@ -168,6 +169,40 @@ Do not use the deprecated APIs for new integrations. See the [Flex.Container mig
 ### [Accordion](/uilib/components/accordion/)
 
 - Replace `id` with `connectedTo` on `Accordion.Content` when connecting to a standalone tertiary button.
+
+### [Autocomplete](/uilib/components/autocomplete/)
+
+The individual search-related props are deprecated in favor of a single `search` object:
+
+- `disableFilter` → `search.filter`
+- `disableReorder` → `search.reorder`
+- `disableHighlighting` → `search.highlight`
+- `searchNumbers` → `search.numbers`
+- `searchInWordIndex` → `search.matchInsideWordsFrom`
+- `searchMatch` → `search.match`
+
+Note that the `disable*` props invert, so a disabled feature becomes `false`:
+
+```diff
+-<Autocomplete
+-  disableFilter
+-  disableReorder
+-  disableHighlighting
+-  searchNumbers
+-  searchInWordIndex={4}
+-  searchMatch="starts-with"
+-/>
++<Autocomplete
++  search={{
++    filter: false,
++    reorder: false,
++    highlight: false,
++    numbers: true,
++    matchInsideWordsFrom: 4,
++    match: 'starts-with',
++  }}
++/>
+```
 
 ### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
 

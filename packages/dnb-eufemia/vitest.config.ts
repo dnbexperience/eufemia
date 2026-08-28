@@ -29,6 +29,20 @@ export default defineConfig({
     // transient flakiness (mirrors the screenshot suite's retry policy).
     retry: isCI ? 2 : 0,
 
+    // Changing shared test infrastructure invalidates the whole suite, so a
+    // `--changed` run must fall back to running everything. Vitest already
+    // appends `setupFiles` to these triggers automatically; the entries below
+    // extend that to the cross-cutting mocks and helpers that are pulled in
+    // through the resolve aliases rather than imported directly. The Vitest
+    // defaults (package.json, vitest/vite config) are restated because setting
+    // this option replaces them.
+    forceRerunTriggers: [
+      '**/package.json/**',
+      '**/{vitest,vite}.config.*/**',
+      '**/src/core/vitest/**',
+      '**/src/core/test-utils/**',
+    ],
+
     environmentOptions: {
       jsdom: {
         url: 'http://localhost',

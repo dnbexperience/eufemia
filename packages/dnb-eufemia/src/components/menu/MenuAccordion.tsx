@@ -23,6 +23,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
     icon,
     text,
     disabled = false,
+    openOnFind = false,
     onOpenChange,
     ...rest
   } = props
@@ -79,10 +80,11 @@ export default function MenuAccordion(props: MenuAccordionProps) {
     return {
       ...parentContext,
       level,
+      isOpen,
       closeAll,
       closeSelf,
     }
-  }, [parentContext, level, closeAll, closeSelf])
+  }, [parentContext, level, isOpen, closeAll, closeSelf])
 
   const handleClick = useCallback(() => {
     if (disabled) {
@@ -178,7 +180,11 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         </span>
       </div>
 
-      <HeightAnimation open={isOpen}>
+      <HeightAnimation
+        open={isOpen}
+        openOnFind={openOnFind}
+        onBeforeMatch={() => setIsOpen(true)}
+      >
         {childContextValue && (
           <MenuContext value={childContextValue}>
             <ul

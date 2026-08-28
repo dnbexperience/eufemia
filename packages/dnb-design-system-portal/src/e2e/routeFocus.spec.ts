@@ -11,7 +11,15 @@ test.describe('Route Focus', () => {
     const figmaLink = page
       .getByRole('tabpanel', { name: 'Info' })
       .getByRole('link', { name: 'Figma', exact: true })
+    const headingLink = page.getByRole('link', {
+      name: 'Link to Relevant links',
+    })
     const skipLink = page.locator('.dnb-skip-link')
+
+    await page.keyboard.press('Tab')
+
+    await expect(headingLink).toBeFocused()
+    await expect(skipLink).not.toBeFocused()
 
     await page.keyboard.press('Tab')
 
@@ -44,9 +52,17 @@ test.describe('Route Focus', () => {
     await expect(page).toHaveURL('/uilib/components/accordion')
 
     const pageHeading = page.locator('.dnb-app-content h1').first()
+    const headingLink = page.getByRole('link', {
+      name: 'Link to Accordion',
+      exact: true,
+    })
     const tabList = page.locator('.dnb-tabs__tabs__tablist')
 
     await expect(pageHeading).toBeFocused()
+
+    await page.keyboard.press('Tab')
+
+    await expect(headingLink).toBeFocused()
 
     await page.keyboard.press('Tab')
 

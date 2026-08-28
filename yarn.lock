@@ -14804,8 +14804,8 @@ __metadata:
   linkType: hard
 
 "pacote@npm:^21.0.0, pacote@npm:^21.0.2, pacote@npm:^21.5.0":
-  version: 21.5.0
-  resolution: "pacote@npm:21.5.0"
+  version: 21.5.1
+  resolution: "pacote@npm:21.5.1"
   dependencies:
     "@gar/promise-retry": "npm:^1.0.0"
     "@npmcli/git": "npm:^7.0.0"
@@ -14826,7 +14826,7 @@ __metadata:
     tar: "npm:^7.4.3"
   bin:
     pacote: bin/index.js
-  checksum: 10/5d31a986728ce10dea688887d31b98eaa8f08be15b9458c6d69257c3f576771dfca56475a7c49251675fcb827dfc1647c1dd69b29e84b40dae35efd9ee257307
+  checksum: 10/30054b7ea3d50943cf13804ff006ecda8ff2c1f9c22b3a5ee2c9b5170ac374052c3d6a70621219e3dcd69a728b795afe3677488e2d541dd9911be1b35e4d1f8e
   languageName: node
   linkType: hard
 

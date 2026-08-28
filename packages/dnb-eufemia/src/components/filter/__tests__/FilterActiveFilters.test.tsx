@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { act, render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterActiveFilters from '../FilterActiveFilters'
@@ -585,5 +585,32 @@ describe('Filter.ActiveFilters collapsible', () => {
     const tags = document.querySelectorAll('.dnb-tag')
 
     expect(tags.length).toBe(6)
+  })
+
+  it('opens collapsed active filters when matching content is found', () => {
+    render(
+      <FilterRoot>
+        <SetManyFilters count={6} />
+        <FilterActiveFilters collapsibleThreshold={5} openOnFind />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    const accordionButton = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const animation = document.querySelector(
+      '.dnb-accordion__content.dnb-height-animation'
+    )
+
+    expect(accordionButton).toHaveAttribute('aria-expanded', 'false')
+    expect(animation).toHaveAttribute('hidden', 'until-found')
+
+    act(() => {
+      animation.dispatchEvent(new Event('beforematch'))
+    })
+
+    expect(accordionButton).toHaveAttribute('aria-expanded', 'true')
   })
 })

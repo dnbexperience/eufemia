@@ -88,7 +88,7 @@ function ListContainer(props: ListContainerProps) {
     }
 
     const hiddenItems = Array.from(
-      element.querySelectorAll<HTMLElement>('[hidden]')
+      element.querySelectorAll<HTMLElement>(':scope > [hidden]')
     )
     hiddenItems.forEach((item) => {
       item.setAttribute('hidden', 'until-found')
