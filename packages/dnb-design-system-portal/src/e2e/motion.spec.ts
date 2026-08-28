@@ -153,11 +153,17 @@ for (const width of [320, 1280]) {
       await expect
         .poll(() =>
           page.locator(`#${id}`).evaluate((element) => {
-            const offset = Math.max(
-              100,
-              parseFloat(getComputedStyle(element).scrollMarginTop)
+            const scrollPadding = parseFloat(
+              getComputedStyle(document.documentElement).scrollPaddingTop
             )
-            return Math.abs(element.getBoundingClientRect().top - offset)
+            const scrollMargin = parseFloat(
+              getComputedStyle(element).scrollMarginTop
+            )
+
+            return Math.abs(
+              element.getBoundingClientRect().top -
+                (scrollPadding + scrollMargin)
+            )
           })
         )
         .toBeLessThan(1)
