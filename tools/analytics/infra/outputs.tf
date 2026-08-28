@@ -20,3 +20,18 @@ output "function_name" {
 output "data_bucket" {
   value = aws_s3_bucket.data.id
 }
+
+output "dashboard_bucket" {
+  description = "S3 bucket holding the static dashboard files"
+  value       = aws_s3_bucket.dashboard.id
+}
+
+output "dashboard_url" {
+  description = "Public CloudFront URL of the dashboard"
+  value       = "https://${aws_cloudfront_distribution.dashboard.domain_name}"
+}
+
+output "dashboard_distribution_id" {
+  description = "CloudFront distribution id (used for cache invalidation on publish)"
+  value       = aws_cloudfront_distribution.dashboard.id
+}

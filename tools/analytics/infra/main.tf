@@ -431,3 +431,127 @@ resource "aws_route53_record" "analytics" {
     evaluate_target_health = false
   }
 }
+
+# ---------------------------------------------------------------------------
+# Dashboard static hosting (public S3 + CloudFront)
+# ---------------------------------------------------------------------------
+#
+# The dashboard shell holds no data and no secrets: all data lives behind the
+# Entra-authenticated /data API, so the UI is safe to serve as a plain public
+# site. Access control is entirely the Entra sign-in plus the /data API's JWT
+# authorizer — there is deliberately no Lambda@Edge and no edge auth here. The
+# bucket stays private; CloudFront reads it through an Origin Access Control.
+
+resource "aws_s3_bucket" "dashboard" {
+  bucket = "${local.function_name}-dashboard-${data.aws_caller_identity.current.account_id}"
+  tags   = local.tags
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+# The bucket is private; the objects are served to the public through the
+# distribution, never from the bucket directly.
+resource "aws_s3_bucket_public_access_block" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_cloudfront_origin_access_control" "dashboard" {
+  name                              = "${local.function_name}-dashboard"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
+resource "aws_cloudfront_distribution" "dashboard" {
+  enabled             = true
+  default_root_object = "index.html"
+  comment             = "${local.function_name} dashboard"
+  price_class         = "PriceClass_100"
+  tags                = local.tags
+
+  origin {
+    domain_name              = aws_s3_bucket.dashboard.bucket_regional_domain_name
+    origin_id                = "dashboard-s3"
+    origin_access_control_id = aws_cloudfront_origin_access_control.dashboard.id
+  }
+
+  default_cache_behavior {
+    target_origin_id       = "dashboard-s3"
+    viewer_protocol_policy = "redirect-to-https"
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    compress               = true
+
+    # AWS managed "CachingOptimized" policy.
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+  }
+
+  # Return index.html for unknown paths so a refresh after the sign-in redirect
+  # lands on the app instead of an S3 error.
+  custom_error_response {
+    error_code            = 403
+    response_code         = 200
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 10
+  }
+
+  custom_error_response {
+    error_code            = 404
+    response_code         = 200
+    response_page_path    = "/index.html"
+    error_caching_min_ttl = 10
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  # No custom domain: the default *.cloudfront.net certificate is used, so the
+  # CloudFront URL is added to the app registration redirect URIs after deploy.
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+}
+
+# Allow only this distribution to read the bucket (OAC identity + SourceArn).
+data "aws_iam_policy_document" "dashboard" {
+  statement {
+    sid       = "AllowCloudFrontRead"
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.dashboard.arn}/*"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_distribution.dashboard.arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+  policy = data.aws_iam_policy_document.dashboard.json
+
+  depends_on = [aws_s3_bucket_public_access_block.dashboard]
+}

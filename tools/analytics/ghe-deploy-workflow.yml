@@ -62,12 +62,49 @@ jobs:
           terraform init -input=false
           terraform apply -auto-approve -input=false
 
+      - name: Publish dashboard
+        env:
+          ENTRA_CLIENT_ID: ${{ vars.ENTRA_CLIENT_ID }}
+          ENTRA_TENANT_ID: ${{ vars.ENTRA_TENANT_ID }}
+        run: |
+          set -euo pipefail
+          cd infra
+          BUCKET=$(terraform output -raw dashboard_bucket)
+          DIST=$(terraform output -raw dashboard_distribution_id)
+          URL=$(terraform output -raw dashboard_url)
+
+          # Generate the per-host runtime config from the deploy variables. It
+          # holds only non-secret public identifiers, so it is safe to serve.
+          # The redirect URI must be the CloudFront URL registered on the app.
+          jq -n \
+            --arg clientId "$ENTRA_CLIENT_ID" \
+            --arg tenantId "$ENTRA_TENANT_ID" \
+            --arg redirectUri "$URL" \
+            '{clientId: $clientId, tenantId: $tenantId, redirectUri: $redirectUri}' \
+            > ../dashboard/config.json
+
+          # Publish everything users load; keep the local-only scaffold files
+          # (example config, docs, env) out of the bucket.
+          aws s3 sync ../dashboard "s3://${BUCKET}" \
+            --delete \
+            --exclude 'config.example.json' \
+            --exclude 'README.md' \
+            --exclude '.env' \
+            --exclude '.env.example'
+
+          # Invalidate so the new config.json and assets are served immediately.
+          aws cloudfront create-invalidation \
+            --distribution-id "$DIST" \
+            --paths '/*'
+
       - name: Post deploy summary
         run: |
           cd infra
           ENDPOINT=$(terraform output -raw api_endpoint)
           BUCKET=$(terraform output -raw data_bucket)
+          DASHBOARD_URL=$(terraform output -raw dashboard_url)
           echo "## Analytics Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "**Data bucket:** \`${BUCKET}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Dashboard:** ${DASHBOARD_URL}" >> "$GITHUB_STEP_SUMMARY"
