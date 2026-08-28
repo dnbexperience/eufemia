@@ -1,0 +1,19 @@
+@use 'sass:math';
+
+$ios-dynamic-type-scale: math.div(16, 17);
+
+@function ios-scale($value) {
+  @return $value * $ios-dynamic-type-scale;
+}
+
+@function scale($value, $factor: 1) {
+  @return $value * $factor;
+}
+
+@mixin ios-dynamic-type() {
+  @supports (-webkit-touch-callout: none) {
+    @supports (font: -apple-system-body) {
+      @content;
+    }
+  }
+}

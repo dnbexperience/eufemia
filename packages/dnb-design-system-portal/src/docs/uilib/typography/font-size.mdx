@@ -60,14 +60,15 @@ Type scaling curve. This would make iOS smaller than desktop by default and
 change the difference at larger accessibility sizes. It would also reduce all
 root-relative layout values.
 
-### Possible future improvements
+### Possible typography-token adjustment
 
-One option is to keep Apple's `Body` style and scale the resulting text by `16
-/ 17` with an iOS-only `text-size-adjust`. This produces an 18px DNB basis size
-at the default setting while retaining the `Body` Dynamic Type curve. It also
-keeps root-relative layout values at their current iOS sizes. Before using this
-as a framework default, it needs real-device testing across all text-size
-settings, nested typography, form controls, and representative layouts.
+One option is to keep Apple's `Body` style and scale Eufemia's typography tokens
+by `16 / 17`. This produces an 18px DNB basis size at the default setting while
+retaining the `Body` Dynamic Type curve. Component dimensions, spacing, and
+radii keep their current iOS sizes. Before using this as a framework default,
+it needs real-device testing across all text-size settings and representative
+layouts. Custom text that does not use Eufemia's typography tokens is not
+adjusted.
 
 The longer-term option is the standard
 [`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)

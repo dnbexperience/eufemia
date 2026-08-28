@@ -2,6 +2,8 @@
  *  Shared global rules across all themes.
  */
 
+@use '../core/typography.scss' as typography;
+
 :root,
 .eufemia-theme {
   // Scrollbar
@@ -12,4 +14,24 @@
   --scrollbar-thumb-hover-color: var(
     --token-color-background-action-hover
   );
+}
+
+@include typography.ios-dynamic-type() {
+  :root {
+    --font-size-xx-small: #{typography.ios-scale(0.8125rem)};
+    --font-size-x-small: #{typography.ios-scale(0.875rem)};
+    --font-size-small: #{typography.ios-scale(1rem)};
+    --font-size-basis: #{typography.ios-scale(1.125rem)};
+    --font-size-medium: #{typography.ios-scale(1.25rem)};
+    --font-size-large: #{typography.ios-scale(1.625rem)};
+    --font-size-x-large: #{typography.ios-scale(2.125rem)};
+    --font-size-xx-large: #{typography.ios-scale(3rem)};
+    --line-height-x-small: #{typography.ios-scale(1.25rem)};
+    --line-height-small: #{typography.ios-scale(1.25rem)};
+    --line-height-basis: #{typography.ios-scale(1.5rem)};
+    --line-height-medium: #{typography.ios-scale(1.5rem)};
+    --line-height-large: #{typography.ios-scale(2rem)};
+    --line-height-x-large: #{typography.ios-scale(2.5rem)};
+    --line-height-xx-large: #{typography.ios-scale(3.5rem)};
+  }
 }
