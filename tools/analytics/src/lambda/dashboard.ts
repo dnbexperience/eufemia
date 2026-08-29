@@ -5,11 +5,11 @@ import {
 } from '@aws-sdk/client-s3'
 import type { APIGatewayProxyResultV2 } from 'aws-lambda'
 import { json } from './http.js'
-import { retrieveRecords } from './retrieve.js'
+import { retrievePageViews } from './retrieve.js'
 
 const s3 = new S3Client({})
 
-const SNAPSHOT_KEY = 'dashboard/records.json'
+const SNAPSHOT_KEY = 'records/dashboard-snapshot.json'
 const MAX_AGE_MS = 60 * 60 * 1000
 const SNAPSHOT_LIMIT = 1000
 
@@ -101,7 +101,7 @@ export async function handleDashboardData(): Promise<APIGatewayProxyResultV2> {
   try {
     const snapshot: Snapshot = {
       generatedAt: new Date().toISOString(),
-      records: await retrieveRecords({ limit: SNAPSHOT_LIMIT }),
+      records: await retrievePageViews({ limit: SNAPSHOT_LIMIT }),
     }
     await writeSnapshot(bucket, snapshot)
 

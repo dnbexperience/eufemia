@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-const { send, retrieveRecords } = vi.hoisted(() => ({
+const { send, retrievePageViews } = vi.hoisted(() => ({
   send: vi.fn(),
-  retrieveRecords: vi.fn(),
+  retrievePageViews: vi.fn(),
 }))
 
 vi.mock('@aws-sdk/client-s3', () => ({
@@ -25,7 +25,7 @@ vi.mock('@aws-sdk/client-s3', () => ({
   },
 }))
 
-vi.mock('../src/lambda/retrieve.js', () => ({ retrieveRecords }))
+vi.mock('../src/lambda/retrieve.js', () => ({ retrievePageViews }))
 
 import { handleDashboardData } from '../src/lambda/dashboard.js'
 
@@ -66,7 +66,7 @@ let onGet: () => Promise<unknown>
 
 beforeEach(() => {
   send.mockReset()
-  retrieveRecords.mockReset()
+  retrievePageViews.mockReset()
   process.env.DATA_BUCKET = 'my-bucket'
 
   onGet = () => Promise.reject(new NoSuchKey('missing'))
@@ -88,24 +88,27 @@ describe('handleDashboardData', () => {
 
     expect(res.statusCode).toBe(200)
     expect(JSON.parse(res.body)).toEqual(snapshot)
-    expect(retrieveRecords).not.toHaveBeenCalled()
+    expect(retrievePageViews).not.toHaveBeenCalled()
     expect(putCalls()).toHaveLength(0)
   })
 
   it('recomputes, writes, and returns when the snapshot is stale', async () => {
     onGet = () => Promise.resolve(getResult(stale([{ old: true }])))
-    retrieveRecords.mockResolvedValue([{ fresh: true }])
+    retrievePageViews.mockResolvedValue([{ fresh: true }])
 
     const res = (await handleDashboardData()) as Result
 
     expect(res.statusCode).toBe(200)
     expect(JSON.parse(res.body).records).toEqual([{ fresh: true }])
-    expect(retrieveRecords).toHaveBeenCalledWith({ limit: 1000 })
+    expect(retrievePageViews).toHaveBeenCalledWith({ limit: 1000 })
     expect(putCalls()).toHaveLength(1)
+    expect((putCalls()[0][0] as Command).input.Key).toBe(
+      'records/dashboard-snapshot.json'
+    )
   })
 
   it('recomputes and writes when no snapshot exists', async () => {
-    retrieveRecords.mockResolvedValue([{ fresh: true }])
+    retrievePageViews.mockResolvedValue([{ fresh: true }])
 
     const res = (await handleDashboardData()) as Result
 
@@ -117,7 +120,7 @@ describe('handleDashboardData', () => {
   it('falls back to a stale snapshot when the query fails', async () => {
     const cached = stale([{ old: true }])
     onGet = () => Promise.resolve(getResult(cached))
-    retrieveRecords.mockRejectedValue(new Error('athena boom'))
+    retrievePageViews.mockRejectedValue(new Error('athena boom'))
 
     const res = (await handleDashboardData()) as Result
 
@@ -127,7 +130,7 @@ describe('handleDashboardData', () => {
   })
 
   it('throws when the query fails and there is no snapshot', async () => {
-    retrieveRecords.mockRejectedValue(new Error('athena boom'))
+    retrievePageViews.mockRejectedValue(new Error('athena boom'))
 
     await expect(handleDashboardData()).rejects.toThrow('athena boom')
   })

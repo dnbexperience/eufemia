@@ -29,6 +29,13 @@ export type RetrieveOptions = {
   limit?: number
 }
 
+export type PageViewRecord = {
+  type: 'pageview'
+  path: string
+  env: string
+  timestamp: string
+}
+
 function requireEnv(name: string): string {
   const value = process.env[name]
 
@@ -95,10 +102,11 @@ async function waitForQuery(queryExecutionId: string): Promise<void> {
   throw new Error('Athena query timed out')
 }
 
-async function readResults(
-  queryExecutionId: string
-): Promise<AnalyticsRecord[]> {
-  const records: AnalyticsRecord[] = []
+async function readResults<Record>(
+  queryExecutionId: string,
+  toRecord: (values: Array<string | undefined>) => Record
+): Promise<Record[]> {
+  const records: Record[] = []
 
   let nextToken: string | undefined
   let isFirstPage = true
@@ -118,16 +126,9 @@ async function readResults(
     isFirstPage = false
 
     for (const row of dataRows) {
-      const [id, name, value, createdat] = (row.Data ?? []).map(
-        (cell) => cell.VarCharValue
+      records.push(
+        toRecord((row.Data ?? []).map((cell) => cell.VarCharValue))
       )
-
-      records.push({
-        id: id ?? '',
-        name: name ?? '',
-        value: value === undefined ? NaN : Number(value),
-        createdAt: createdat ?? '',
-      })
     }
 
     nextToken = NextToken
@@ -168,5 +169,31 @@ export async function retrieveRecords(
   const queryExecutionId = await startQuery(query, workgroup)
   await waitForQuery(queryExecutionId)
 
-  return readResults(queryExecutionId)
+  return readResults(queryExecutionId, ([id, name, value, createdat]) => ({
+    id: id ?? '',
+    name: name ?? '',
+    value: value === undefined ? NaN : Number(value),
+    createdAt: createdat ?? '',
+  }))
+}
+
+/** Retrieve the most recent anonymous page views for the dashboard. */
+export async function retrievePageViews(
+  options: Pick<RetrieveOptions, 'limit'> = {}
+): Promise<PageViewRecord[]> {
+  const database = requireEnv('GLUE_DATABASE')
+  const table = requireEnv('GLUE_TABLE')
+  const workgroup = requireEnv('ATHENA_WORKGROUP')
+  const limit = clampLimit(options.limit)
+
+  const query = `SELECT path, env, "timestamp" FROM "${database}"."${table}" WHERE "type" = 'pageview' ORDER BY "timestamp" DESC LIMIT ${limit}`
+  const queryExecutionId = await startQuery(query, workgroup)
+  await waitForQuery(queryExecutionId)
+
+  return readResults(queryExecutionId, ([path, env, timestamp]) => ({
+    type: 'pageview',
+    path: path ?? '',
+    env: env ?? '',
+    timestamp: timestamp ?? '',
+  }))
 }
