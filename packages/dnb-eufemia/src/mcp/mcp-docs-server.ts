@@ -245,6 +245,155 @@ function makeTextResult(text: string): ToolResult {
   }
 }
 
+// --- Migration index ---------------------------------------------------------
+
+type MigrationChangeShape = {
+  component?: string
+  componentName?: string
+  kind?: string
+  name?: string
+  note?: string
+  since?: string
+  sinceInferred?: boolean
+  sinceFloor?: boolean
+}
+
+type MigrationVersionBucketShape = {
+  added?: MigrationChangeShape[]
+  deprecated?: MigrationChangeShape[]
+  removed?: MigrationChangeShape[]
+}
+
+type MigrationsIndexShape = {
+  schemaVersion?: number
+  eufemiaVersion?: string
+  generatedAt?: string
+  versions?: Record<string, MigrationVersionBucketShape>
+}
+
+/** Parse `x.y.z` (ignoring any suffix). Returns null when not parseable. */
+function parseSemverTriple(
+  version: string | null | undefined
+): [number, number, number] | null {
+  if (!version) {
+    return null
+  }
+  const m = /^v?(\d+)\.(\d+)\.(\d+)/.exec(String(version).trim())
+  return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : null
+}
+
+/** Compare two semver strings; non-parseable values sort last. */
+function compareSemverStrings(a: string, b: string): number {
+  const pa = parseSemverTriple(a)
+  const pb = parseSemverTriple(b)
+  if (!pa && !pb) {
+    return a.localeCompare(b)
+  }
+  if (!pa) {
+    return 1
+  }
+  if (!pb) {
+    return -1
+  }
+  for (let i = 0; i < 3; i++) {
+    if (pa[i] !== pb[i]) {
+      return pa[i] - pb[i]
+    }
+  }
+  return 0
+}
+
+/** True when `version` falls within the optional [from, to] semver window. */
+function versionInRange(
+  version: string,
+  fromVersion?: string,
+  toVersion?: string
+): boolean {
+  if (fromVersion && compareSemverStrings(version, fromVersion) < 0) {
+    return false
+  }
+  if (toVersion && compareSemverStrings(version, toVersion) > 0) {
+    return false
+  }
+  return true
+}
+
+/** Match a migration change against a component query (lenient). */
+function migrationComponentMatches(
+  change: MigrationChangeShape,
+  query: string
+): boolean {
+  const q = query.trim().toLowerCase()
+  if (!q) {
+    return true
+  }
+  const name = String(change.componentName ?? '').toLowerCase()
+  const id = String(change.component ?? '').toLowerCase()
+  const qLast = q.split('.').pop() ?? q
+  return (
+    name === q ||
+    name.replace(/\s+/g, '') === q.replace(/\s+/g, '') ||
+    id.includes(q) ||
+    id.split('/').pop() === q ||
+    id.endsWith(`/${qLast}`) ||
+    id.split('/').pop() === qLast
+  )
+}
+
+/**
+ * Filter a migrations index by component, semver range, and change type.
+ * Empty version buckets are dropped so the response stays compact.
+ */
+function filterMigrations(
+  data: MigrationsIndexShape,
+  filters: {
+    component?: string
+    fromVersion?: string
+    toVersion?: string
+    changeType?: 'added' | 'deprecated' | 'removed'
+  }
+): MigrationsIndexShape {
+  const { component, fromVersion, toVersion, changeType } = filters
+  const kinds: Array<'added' | 'deprecated' | 'removed'> = changeType
+    ? [changeType]
+    : ['added', 'deprecated', 'removed']
+
+  const versionsIn = data.versions ?? {}
+  const outVersions: Record<string, MigrationVersionBucketShape> = {}
+
+  for (const version of Object.keys(versionsIn).sort(compareSemverStrings)) {
+    if (!versionInRange(version, fromVersion, toVersion)) {
+      continue
+    }
+
+    const bucketIn = versionsIn[version] ?? {}
+    const bucketOut: MigrationVersionBucketShape = {}
+    let hasAny = false
+
+    for (const kind of kinds) {
+      const list = bucketIn[kind] ?? []
+      const filtered = component
+        ? list.filter((c) => migrationComponentMatches(c, component))
+        : list
+      if (filtered.length > 0) {
+        bucketOut[kind] = filtered
+        hasAny = true
+      }
+    }
+
+    if (hasAny) {
+      outVersions[version] = bucketOut
+    }
+  }
+
+  return {
+    schemaVersion: data.schemaVersion,
+    eufemiaVersion: data.eufemiaVersion,
+    generatedAt: data.generatedAt,
+    versions: outVersions,
+  }
+}
+
 function createDocsContext(source: DocsSource) {
   let cachedMdFiles: string[] | null = null
   let cachedMdFilesAt = 0
@@ -650,10 +799,32 @@ const ComponentNameInput = z.object({
     .describe("The component name (e.g. 'Button', 'Dropdown', 'Input')"),
 })
 
+const MigrationIndexInput = z.object({
+  component: z
+    .string()
+    .optional()
+    .describe(
+      "Filter to a single component by name (e.g. 'Button', 'Field.Address') or a doc-id substring."
+    ),
+  fromVersion: z
+    .string()
+    .optional()
+    .describe("Only include releases >= this semver (e.g. '11.0.0')."),
+  toVersion: z
+    .string()
+    .optional()
+    .describe("Only include releases <= this semver (e.g. '11.11.0')."),
+  changeType: z
+    .enum(['added', 'deprecated', 'removed'])
+    .optional()
+    .describe('Restrict results to a single kind of change.'),
+})
+
 type DocsReadInputType = z.infer<typeof DocsReadInput>
 type DocsListInputType = z.infer<typeof DocsListInput>
 type DocsSearchInputType = z.infer<typeof DocsSearchInput>
 type ComponentNameInputType = z.infer<typeof ComponentNameInput>
+type MigrationIndexInputType = z.infer<typeof MigrationIndexInput>
 type EmptyInputType = z.infer<typeof EmptyInput>
 
 type DocsToolHandlers = {
@@ -668,6 +839,7 @@ type DocsToolHandlers = {
   componentDoc: (input: ComponentNameInputType) => Promise<ToolResult>
   componentApi: (input: ComponentNameInputType) => Promise<ToolResult>
   componentProps: (input: ComponentNameInputType) => Promise<ToolResult>
+  migrationIndex: (input: MigrationIndexInputType) => Promise<ToolResult>
   source: DocsSource
   /**
    * Convenience accessor for Node deployments. Equals the absolute docs root
@@ -961,6 +1133,53 @@ export function createDocsTools(
     return makeTextResult(JSON.stringify(blocks, null, 2))
   }
 
+  const migrationIndex = async ({
+    component,
+    fromVersion,
+    toVersion,
+    changeType,
+  }: MigrationIndexInputType): Promise<ToolResult> => {
+    const text = await context.readCached('migrations.json')
+
+    if (text === null) {
+      return makeTextResult(
+        JSON.stringify(
+          {
+            error: 'ENOENT',
+            message:
+              'migrations.json not found in docs root. It is produced by the LLM docs build.',
+          },
+          null,
+          2
+        )
+      )
+    }
+
+    let data: MigrationsIndexShape
+    try {
+      data = JSON.parse(text) as MigrationsIndexShape
+    } catch {
+      return makeTextResult(
+        JSON.stringify(
+          {
+            error: 'EPARSE',
+            message: 'migrations.json could not be parsed as JSON.',
+          },
+          null,
+          2
+        )
+      )
+    }
+
+    const filtered = filterMigrations(data, {
+      component,
+      fromVersion,
+      toVersion,
+      changeType,
+    })
+    return makeTextResult(JSON.stringify(filtered, null, 2))
+  }
+
   return {
     docsEntry,
     docsMeta,
@@ -973,6 +1192,7 @@ export function createDocsTools(
     componentDoc,
     componentApi,
     componentProps,
+    migrationIndex,
     source,
     docsRoot,
   }
@@ -1034,7 +1254,7 @@ export function registerDocsTools(
     {
       title: 'Docs metadata',
       description:
-        'Return metadata for the documentation served by this MCP instance, including the Eufemia version, generation time, and source commit. Use this before relying on version-specific guidance or comparing the served documentation with an installed Eufemia package.',
+        'Return metadata for the documentation served by this MCP instance, including the Eufemia version, generation time, and source commit. Use this before relying on version-specific guidance or comparing the served documentation with an installed Eufemia package. For per-release change history (added/deprecated/removed props, events, and components), use migration_index.',
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsMeta(input)
@@ -1133,10 +1353,21 @@ export function registerDocsTools(
     {
       title: 'Component props',
       description:
-        'Return the structured JSON blocks describing a component’s properties and events, as derived from its main documentation file. Use this when you specifically need the props- and events-level schema or configuration for a component, rather than the full documentation text, and want to drive code generation, validation, or other automated reasoning from that data.',
+        'Return the structured JSON blocks describing a component’s properties and events, as derived from its main documentation file. Use this when you specifically need the props- and events-level schema or configuration for a component, rather than the full documentation text, and want to drive code generation, validation, or other automated reasoning from that data. Author-annotated version fields (since/deprecatedIn/removedIn) appear here inline when present; for a complete, git-inferred view of what changed in each release use migration_index.',
       inputSchema: ComponentNameInput.shape,
     },
     (input) => tools.componentProps(input)
+  )
+
+  server.registerTool(
+    'migration_index',
+    {
+      title: 'Migration index',
+      description:
+        'Return a per-release migration index for Eufemia: which component properties, events, and components were added, deprecated, or removed in each version. Use this to answer version questions such as "is this prop available in the version I use?" or "what changed between 11.0.0 and 11.6.0?", and to surface upgrade/replacement notes. Optional filters: component (e.g. "Button"), fromVersion/toVersion (semver range), and changeType (added|deprecated|removed). Values marked sinceInferred/sinceFloor are inferred from git history (floored = "at or before"); author-annotated values are authoritative.',
+      inputSchema: MigrationIndexInput.shape,
+    },
+    (input) => tools.migrationIndex(input)
   )
 }
 
