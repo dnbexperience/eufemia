@@ -4,6 +4,7 @@ import {
   beginAuthRetry,
   clearAuthRetry,
   clearSession,
+  readSession,
 } from '../dashboard/auth.js'
 import { loadDashboardData } from '../dashboard/app.js'
 
@@ -79,6 +80,56 @@ describe('clearSession', () => {
     )
     clearSession()
     expect(sessionStorage.getItem('eufemia-analytics-session')).toBe(null)
+  })
+})
+
+describe('readSession', () => {
+  const SESSION_KEY = 'eufemia-analytics-session'
+  const future = Date.now() + 60000
+
+  beforeEach(() => {
+    globalThis.sessionStorage = new MemoryStorage()
+  })
+
+  afterEach(() => {
+    delete globalThis.sessionStorage
+  })
+
+  it('returns a non-expired session that carries an access token', () => {
+    sessionStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify({
+        name: 'Signed in',
+        accessToken: 'token-abc',
+        expiresAt: future,
+      })
+    )
+
+    expect(readSession()).toMatchObject({ accessToken: 'token-abc' })
+  })
+
+  it('rejects and clears a session without an access token', () => {
+    // A session shape persisted by an older build: no accessToken.
+    sessionStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify({ name: 'Signed in', expiresAt: future })
+    )
+
+    expect(readSession()).toBe(null)
+    expect(sessionStorage.getItem(SESSION_KEY)).toBe(null)
+  })
+
+  it('rejects an expired session even with an access token', () => {
+    sessionStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify({
+        name: 'Signed in',
+        accessToken: 'token-abc',
+        expiresAt: Date.now() - 1000,
+      })
+    )
+
+    expect(readSession()).toBe(null)
   })
 })
 
