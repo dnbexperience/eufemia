@@ -31,6 +31,46 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
+  it('matches the open section selector', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+    })
+  })
+
+  it('matches the focused section selector', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      simulate: 'focus',
+      simulateSelector:
+        '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+    })
+  })
+
+  it('matches a hovered item', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      simulate: 'hover',
+      simulateSelector:
+        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="overview"] button',
+    })
+  })
+
+  it('matches a selected item with its original icon', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="overview"] button',
+    })
+  })
+
   it('matches a selected linked accordion with nested content', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',

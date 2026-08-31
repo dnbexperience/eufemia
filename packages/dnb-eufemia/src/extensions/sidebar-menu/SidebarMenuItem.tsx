@@ -1,7 +1,5 @@
-import { useEffect, useRef } from 'react'
 import { clsx } from 'clsx'
 import Anchor from '../../components/Anchor'
-import IconPrimary from '../../components/IconPrimary'
 import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import { useSidebarMenuContext } from './SidebarMenuContext'
@@ -30,31 +28,6 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
   const context = useSidebarMenuContext()
   const { level } = context
   const isSelected = context.selectedItem === id
-  const contentRef = useRef<HTMLSpanElement>(null)
-  const didMountRef = useRef(false)
-
-  useEffect(() => {
-    if (!didMountRef.current) {
-      didMountRef.current = true
-      return
-    }
-
-    const prefersReducedMotion = window.matchMedia?.(
-      '(prefers-reduced-motion: reduce)'
-    ).matches
-
-    if (!prefersReducedMotion && contentRef.current?.animate) {
-      contentRef.current.animate(
-        [{ opacity: 1 }, { opacity: 0 }, { opacity: 1 }],
-        {
-          duration: 400,
-          easing: getComputedStyle(contentRef.current)
-            .getPropertyValue('--easing-default')
-            .trim(),
-        }
-      )
-    }
-  }, [isSelected])
 
   const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
     if (disabled) {
@@ -67,25 +40,8 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
   const hasLink = Boolean(href || to)
   const content = (
     <>
-      <span
-        className={clsx(
-          'dnb-sidebar-menu__item__selection-indicator',
-          icon && 'dnb-sidebar-menu__item__selection-indicator--has-icon'
-        )}
-        data-testid="selection-indicator"
-        aria-hidden="true"
-      >
-        {icon && (
-          <span className="dnb-sidebar-menu__item__original-icon">
-            <IconPrimary icon={icon} />
-          </span>
-        )}
-        <span className="dnb-sidebar-menu__item__selection-icon">
-          <IconPrimary icon="arrow_right" />
-        </span>
-      </span>
-      <span ref={contentRef} className="dnb-sidebar-menu__item__content">
-        <SidebarMenuItemContent text={text}>
+      <span className="dnb-sidebar-menu__item__content">
+        <SidebarMenuItemContent icon={icon} text={text}>
           {children}
         </SidebarMenuItemContent>
       </span>
@@ -108,7 +64,7 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
       style={
         {
           ...rest.style,
-          '--sidebar-menu-indent': `${level * 2}rem`,
+          '--sidebar-menu-indent': `${level * 2.5}rem`,
         } as React.CSSProperties
       }
     >

@@ -129,7 +129,7 @@ export const SidebarMenuItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'Icon displayed before the label. The selection arrow replaces it while selected.',
+    doc: 'Icon displayed before the label.',
     type: 'IconIcon',
     status: 'optional',
   },

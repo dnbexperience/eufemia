@@ -144,7 +144,7 @@ export type SidebarMenuItemProps = {
   text?: ReactNode
   children?: ReactNode
   /**
-   * Icon displayed before the label. The selection arrow replaces it while selected.
+   * Icon displayed before the label.
    */
   icon?: IconIcon
   /** Badge content displayed on the right side. */
