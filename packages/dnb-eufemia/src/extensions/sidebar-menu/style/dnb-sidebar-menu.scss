@@ -31,7 +31,7 @@
 
   background-color: transparent;
 
-  &__sections {
+  &__sections.dnb-dropdown {
     --dropdown-border-radius: var(--token-radius-xl);
     --dropdown-border-width--open: 0.0625rem;
     --dropdown-button-padding: 0.5rem 1rem;
