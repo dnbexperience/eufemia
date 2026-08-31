@@ -134,8 +134,12 @@
 }
 
 .scrollContentStyle {
-  width: max-content;
-  min-width: 100%;
+  width: 100%;
+  min-width: 0;
+}
+
+.desktopNavStyle .scrollContentStyle {
+  min-width: 20rem;
 }
 
 .sidebarLogoStyle {

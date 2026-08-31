@@ -283,6 +283,8 @@ test.describe('Portal SidebarMenu', () => {
       '.dnb-sidebar-menu__section-label .dnb-icon'
     )
 
+    await expect(trigger).toHaveCSS('border-radius', '24px')
+    await expect(trigger).toHaveCSS('padding', '8px 16px')
     await expect(triggerIcon).toHaveCSS('width', '16px')
 
     await trigger.click()
@@ -297,6 +299,7 @@ test.describe('Portal SidebarMenu', () => {
     }
 
     await page.getByRole('option', { name: 'iOS', exact: true }).click()
+    await expect(page.getByRole('listbox')).toBeHidden()
     await expect(triggerIcon).toHaveCSS('width', '16px')
     await expect(
       menu.getByText('iOS overview', { exact: true })

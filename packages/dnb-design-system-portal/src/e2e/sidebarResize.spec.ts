@@ -36,6 +36,7 @@ test.describe('Sidebar resize', () => {
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
+    const scrollView = sidebar.locator('.portal-sidebar-scroll-view')
     const resizeHandle = page.getByRole('button', {
       name: 'Resize sidebar',
     })
@@ -66,7 +67,7 @@ test.describe('Sidebar resize', () => {
     expect(sidebarLayout.handleBottom).toBe(sidebarLayout.viewportHeight)
 
     await expect(
-      sidebar.evaluate(
+      scrollView.evaluate(
         (element) => element.scrollWidth <= element.clientWidth
       )
     ).resolves.toBe(true)
@@ -128,6 +129,38 @@ test.describe('Sidebar resize', () => {
     await waitForApp(page)
 
     await expect(sidebar).toHaveCSS('width', `${initialWidth}px`)
+  })
+
+  test('should wrap menu content in the mobile drawer', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await gotoAndWait(page)
+
+    await page
+      .getByRole('button', { name: 'Open section content menu' })
+      .click()
+
+    const drawer = page.getByRole('dialog', { name: 'Menu' })
+    const scrollView = drawer.locator('.portal-sidebar-scroll-view')
+    const itemText = drawer
+      .getByRole('link', {
+        name: 'FormStatus (Messageboxes)',
+        exact: true,
+      })
+      .locator('.dnb-sidebar-menu__item__text')
+
+    await expect(drawer).toBeVisible()
+    await expect(
+      scrollView.evaluate(
+        (element) => element.scrollWidth <= element.clientWidth
+      )
+    ).resolves.toBe(true)
+    await expect(
+      itemText.evaluate(
+        (element) => element.getBoundingClientRect().height
+      )
+    ).resolves.toBeGreaterThan(24)
   })
 
   test('should support focus and keyboard resize', async ({ page }) => {
