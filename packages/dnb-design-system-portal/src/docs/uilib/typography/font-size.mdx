@@ -62,10 +62,10 @@ root-relative layout values.
 
 ### Optional JavaScript root scaling
 
-Use this opt-in script when you want the default 18px DNB text size on iOS
-while still respecting the user's system text-size setting. It scales all
-`rem`-based text and layout together. Place it after the viewport meta tag and
-before stylesheets to avoid a visible layout change.
+At the default iOS text size, this opt-in script keeps DNB basis text at 18px.
+If the user changes the system text size, all `rem`-based text and layout scale
+proportionally. Place it after the viewport meta tag and before stylesheets to
+avoid a visible layout change.
 
 ```tsx
 import { TextScaleHeadScript } from '@dnb/eufemia/shared/TextScaleScript'
@@ -82,8 +82,9 @@ import { TextScaleHeadScript } from '@dnb/eufemia/shared/TextScaleScript'
 Pass the page's CSP nonce to `TextScaleHeadScript` when required.
 
 Client-rendered applications can use `TextScaleClient`, but server-rendered
-pages may show a layout change during hydration. Without the script, Eufemia
-keeps its current fallback.
+pages may show a layout change during hydration. Without the script, the root
+is 17px and DNB basis text is 19.125px at the default iOS setting. Text still
+follows the user's system text-size setting.
 
 The longer-term option is the standard
 [`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)
