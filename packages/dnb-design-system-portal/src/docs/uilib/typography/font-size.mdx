@@ -62,11 +62,14 @@ root-relative layout values.
 
 ### Optional JavaScript root scaling
 
-Import `TextScaleHeadScript` from
-`@dnb/eufemia/shared/TextScaleScript`. It keeps the default root at 16px while
-scaling all `rem`-based text and layout with the user's iOS text-size setting.
-Place it after the viewport meta tag and before stylesheets to avoid a visible
-layout change.
+Use this opt-in script when you want the default 18px DNB text size on iOS
+while still respecting the user's system text-size setting. It scales all
+`rem`-based text and layout together. Place it after the viewport meta tag and
+before stylesheets to avoid a visible layout change.
+
+```tsx
+import { TextScaleHeadScript } from '@dnb/eufemia/shared/TextScaleScript'
+```
 
 ```tsx
 <head>
@@ -75,6 +78,8 @@ layout change.
   {/* stylesheets */}
 </head>
 ```
+
+Pass the page's CSP nonce to `TextScaleHeadScript` when required.
 
 Client-rendered applications can use `TextScaleClient`, but server-rendered
 pages may show a layout change during hydration. Without the script, Eufemia
