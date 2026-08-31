@@ -26,8 +26,32 @@ import {
   getNextReleaseVersion,
   getCommitHash,
 } from '../src/getNextReleaseVersion.ts'
+import {
+  applyVersionMetadata,
+  buildMigrationComponent,
+  buildMigrationsIndex,
+  type ComponentForMigration,
+  type ComponentVersionInfo,
+} from '../src/versionMetadata.ts'
 
 const PUBLIC_URL_BASE = ''
+
+/**
+ * Load the inferred version-metadata artefact (produced by
+ * `scripts/generateVersionMetadata.ts`). Missing or invalid files are
+ * tolerated — the build simply proceeds without inferred version info.
+ */
+async function loadVersionMetadata(
+  toolDir: string
+): Promise<Record<string, ComponentVersionInfo>> {
+  const file = path.join(toolDir, 'version-metadata.json')
+  try {
+    const parsed = await fs.readJson(file)
+    return (parsed?.components as Record<string, ComponentVersionInfo>) || {}
+  } catch {
+    return {}
+  }
+}
 
 const isDirectRun = () => {
   const entry = process.argv[1]
@@ -71,6 +95,10 @@ export async function generateDocs() {
   const outputRoot = path.join(packageRoot, 'build', 'docs')
   await fs.emptyDir(outputRoot)
 
+  const pkgSrcRoot = path.join(packageRoot, 'src')
+  const toolDir = path.resolve(__dirname, '..')
+  const versionMetadata = await loadVersionMetadata(toolDir)
+
   const version = await getNextReleaseVersion()
   const commit = await getCommitHash()
   const generatedAt = new Date().toISOString()
@@ -79,6 +107,7 @@ export async function generateDocs() {
   const allowedEntryFiles: string[] = []
 
   const results: Array<LlmsResultEntry> = []
+  const migrationComponents: ComponentForMigration[] = []
   const metadataBySlug = new Map<
     string,
     {
@@ -111,6 +140,19 @@ export async function generateDocs() {
     }
     if (eventsFile) {
       events = mergeDocs(events, await extractTableDocs(eventsFile))
+    }
+
+    // Merge inferred version metadata (since/deprecatedIn/removedIn) under any
+    // author annotations. Author-set values always win; inferred values only
+    // fill gaps and are marked via `sinceInferred`/`sinceFloor`.
+    let componentVersionInfo: ComponentVersionInfo | undefined
+    if (tsDocs.tsDocsDir) {
+      const relKey = path
+        .relative(pkgSrcRoot, tsDocs.tsDocsDir)
+        .split(path.sep)
+        .join('/')
+      componentVersionInfo = versionMetadata[relKey]
+      applyVersionMetadata(props, events, componentVersionInfo)
     }
 
     const { name, description, infoFile } = await resolveMetaText(file)
@@ -147,6 +189,9 @@ export async function generateDocs() {
       checksum: meta.checksum,
     })
     results.push({ slug, meta })
+    migrationComponents.push(
+      buildMigrationComponent(meta, componentVersionInfo)
+    )
   }
 
   await createMarkdownCopies({
@@ -164,6 +209,16 @@ export async function generateDocs() {
     { eufemiaVersion: version, generatedAt, commit },
     { spaces: 2 }
   )
+
+  // Aggregate the per-component version metadata into a migration index:
+  // what was added / deprecated / removed in each release.
+  const migrations = buildMigrationsIndex(migrationComponents, {
+    eufemiaVersion: version,
+    generatedAt,
+  })
+  await fs.writeJson(path.join(outputRoot, 'migrations.json'), migrations, {
+    spaces: 2,
+  })
 
   await writeLlmsText({
     siteDir: repoRoot,

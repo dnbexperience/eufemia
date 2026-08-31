@@ -47,6 +47,23 @@ export type DocEntry = {
   type?: string | null
   status?: string | null
   defaultValue?: string | null
+  /** Eufemia version this prop/event was introduced (semver, e.g. `11.2.0`). */
+  since?: string | null
+  /** Eufemia version this prop/event was deprecated. */
+  deprecatedIn?: string | null
+  /** Eufemia version this prop/event was removed. */
+  removedIn?: string | null
+  /**
+   * True when `since` was inferred from git history rather than authored.
+   * Purely informational; author annotations never set this.
+   */
+  sinceInferred?: boolean
+  /**
+   * True when `since` is a floor (the value is "at or before" this version,
+   * because the earliest tracked appearance is a file rename or the first
+   * structured-docs release, not a verifiable introduction).
+   */
+  sinceFloor?: boolean
 }
 
 /** A map of prop/event names to their documentation entries. */
@@ -1350,6 +1367,14 @@ function addDocsFromExport(
 
     if (Object.hasOwn(entry, 'defaultValue')) {
       normalized.defaultValue = (entry as any).defaultValue ?? null
+    }
+
+    // Carry through authored version metadata when present. These fields flow
+    // automatically into the emitted JSON via `mapToArray` and the checksum.
+    for (const field of ['since', 'deprecatedIn', 'removedIn'] as const) {
+      if (Object.hasOwn(entry, field)) {
+        normalized[field] = (entry as any)[field] ?? null
+      }
     }
 
     if (exportName.includes('Events')) {

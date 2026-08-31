@@ -41,6 +41,24 @@ export type PropertiesTableProps = Record<
     defaultValue?: string
     doc: string
     status: 'optional' | 'internal' | 'required' | 'deprecated'
+    /**
+     * The Eufemia version in which this property or event was introduced,
+     * as a semver string (e.g. `'11.2.0'`). Optional. When set by an author
+     * it is treated as the source of truth; otherwise it may be inferred from
+     * git history by the LLM metadata generator.
+     */
+    since?: string
+    /**
+     * The Eufemia version in which this property or event was deprecated,
+     * as a semver string (e.g. `'11.4.0'`). Typically set together with
+     * `status: 'deprecated'`.
+     */
+    deprecatedIn?: string
+    /**
+     * The Eufemia version in which this property or event was removed,
+     * as a semver string (e.g. `'12.0.0'`).
+     */
+    removedIn?: string
   }
 >
 
