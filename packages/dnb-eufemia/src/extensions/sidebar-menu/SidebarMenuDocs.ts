@@ -213,7 +213,7 @@ export const SidebarMenuAccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   href: {
-    doc: 'Makes the accordion label a page link while the chevron remains a separate expansion button.',
+    doc: 'Makes the accordion trigger a page link that also controls expansion.',
     type: 'string',
     status: 'optional',
   },

@@ -66,6 +66,16 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
+  it('matches a focused linked accordion action', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      simulate: 'focus',
+      simulateSelector:
+        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="products"] .dnb-sidebar-menu__accordion__link',
+    })
+  })
+
   it('matches a hovered item', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',
