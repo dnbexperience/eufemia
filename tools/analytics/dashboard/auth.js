@@ -218,8 +218,8 @@ export function signOut() {
   window.location.assign(`${authority()}/oauth2/v2.0/logout?${params}`)
 }
 
-export function getConfig() {
-  return { ...config }
+export function getApiBaseUrl() {
+  return config.apiBaseUrl
 }
 
 export function clearSession() {

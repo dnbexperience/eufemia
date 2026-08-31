@@ -5,6 +5,7 @@ import {
   clearAuthRetry,
   clearSession,
 } from '../dashboard/auth.js'
+import { loadDashboardData } from '../dashboard/app.js'
 
 class MemoryStorage {
   store = new Map()
@@ -59,5 +60,118 @@ describe('auth retry guard', () => {
     expect(beginAuthRetry()).toBe(true)
     clearSession()
     expect(beginAuthRetry()).toBe(false)
+  })
+})
+
+describe('loadDashboardData', () => {
+  const session = { accessToken: 'token-abc' }
+
+  beforeEach(() => {
+    globalThis.sessionStorage = new MemoryStorage()
+  })
+
+  afterEach(() => {
+    delete globalThis.sessionStorage
+    delete globalThis.fetch
+  })
+
+  it('returns the empty state when there is no session', async () => {
+    expect(await loadDashboardData(null, 'https://api.example')).toEqual({
+      kind: 'empty',
+    })
+  })
+
+  it('returns the empty state when no API base URL is configured', async () => {
+    expect(await loadDashboardData(session, '')).toEqual({ kind: 'empty' })
+  })
+
+  it('sends the access token and returns fetched records', async () => {
+    let captured
+    globalThis.fetch = async (url, options) => {
+      captured = { url, options }
+
+      return {
+        status: 200,
+        ok: true,
+        json: async () => ({ records: [{ id: 1 }] }),
+      }
+    }
+
+    const result = await loadDashboardData(session, 'https://api.example')
+
+    expect(captured.url).toBe('https://api.example/data')
+    expect(captured.options.headers.Authorization).toBe('Bearer token-abc')
+    expect(result).toEqual({
+      kind: 'data',
+      payload: { records: [{ id: 1 }] },
+    })
+  })
+
+  it('clears the retry marker after a successful fetch', async () => {
+    beginAuthRetry()
+    globalThis.fetch = async () => ({
+      status: 200,
+      ok: true,
+      json: async () => ({}),
+    })
+
+    await loadDashboardData(session, 'https://api.example')
+
+    // Marker cleared, so a later rejection is allowed to retry again.
+    expect(beginAuthRetry()).toBe(true)
+  })
+
+  it('allows one retry on 401, then reports rejection', async () => {
+    globalThis.fetch = async () => ({ status: 401, ok: false })
+
+    expect(
+      await loadDashboardData(session, 'https://api.example')
+    ).toEqual({
+      kind: 'retry',
+    })
+    expect(
+      await loadDashboardData(session, 'https://api.example')
+    ).toEqual({
+      kind: 'rejected',
+    })
+  })
+
+  it('reports an error for a non-ok, non-401 status', async () => {
+    globalThis.fetch = async () => ({ status: 403, ok: false })
+
+    expect(
+      await loadDashboardData(session, 'https://api.example')
+    ).toEqual({
+      kind: 'error',
+      status: 403,
+    })
+  })
+
+  it('returns the empty state when the body is malformed', async () => {
+    globalThis.fetch = async () => ({
+      status: 200,
+      ok: true,
+      json: async () => {
+        throw new Error('invalid json')
+      },
+    })
+
+    expect(
+      await loadDashboardData(session, 'https://api.example')
+    ).toEqual({
+      kind: 'empty',
+    })
+  })
+
+  it('returns the empty state when the request throws', async () => {
+    globalThis.fetch = async () => {
+      throw new Error('network down')
+    }
+
+    expect(
+      await loadDashboardData(session, 'https://api.example')
+    ).toEqual({
+      kind: 'empty',
+    })
   })
 })
