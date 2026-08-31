@@ -681,25 +681,32 @@ describe('SidebarMenu', () => {
     )
 
     const link = document.querySelector('[href="/components"]')
-    const toggle = document.querySelector(
-      '[aria-label="Expand Components"]'
-    )
-
     expect(link).toBeInTheDocument()
-    expect(toggle).toHaveAttribute('aria-expanded', 'false')
-    expect(toggle.querySelector('.dnb-icon')).toBeInTheDocument()
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(link).toHaveAttribute('aria-controls', 'components-content')
+    expect(
+      link.querySelector(
+        '.dnb-sidebar-menu__accordion__indicator .dnb-icon'
+      )
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="components"] > .dnb-sidebar-menu__accordion__trigger'
+      )
+    ).toBe(link)
+    expect(link.querySelectorAll('a, button')).toHaveLength(0)
 
     fireEvent.click(link)
 
     expect(onSelectedItemChange).toHaveBeenCalledWith('components')
-    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(link).toHaveAttribute('aria-expanded', 'false')
     expect(link).toHaveAttribute('aria-current', 'page')
 
     act(() => vi.advanceTimersByTime(249))
-    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(link).toHaveAttribute('aria-expanded', 'false')
 
     act(() => vi.advanceTimersByTime(1))
-    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(link).toHaveAttribute('aria-expanded', 'true')
     expect(
       link.querySelector('.dnb-sidebar-menu__item__icon')
     ).toBeInTheDocument()
@@ -709,8 +716,7 @@ describe('SidebarMenu', () => {
 
     fireEvent.click(link)
 
-    expect(toggle).toHaveAttribute('aria-expanded', 'false')
-    expect(toggle).toHaveAttribute('aria-label', 'Expand Components')
+    expect(link).toHaveAttribute('aria-expanded', 'false')
 
     vi.useRealTimers()
   })
@@ -751,9 +757,10 @@ describe('SidebarMenu', () => {
       </SidebarMenu.Container>
     )
 
-    expect(
-      document.querySelector('[aria-label="Collapse Components"]')
-    ).toBeInTheDocument()
+    expect(document.querySelector('[href="/components"]')).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
 
     vi.useRealTimers()
     sessionStorage.removeItem(storageKey)
@@ -775,15 +782,11 @@ describe('SidebarMenu', () => {
     )
 
     const link = document.querySelector('[href="/components"]')
-    const toggle = document.querySelector(
-      '[aria-label="Collapse Components"]'
-    )
+    fireEvent.click(link)
+    expect(link).toHaveAttribute('aria-expanded', 'true')
 
     fireEvent.click(link)
-    expect(toggle).toHaveAttribute('aria-expanded', 'true')
-
-    fireEvent.click(link)
-    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(link).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('toggles a selected page accordion without navigating again', () => {
@@ -810,18 +813,14 @@ describe('SidebarMenu', () => {
     )
 
     const link = document.querySelector('[href="/components"]')
-    const toggle = document.querySelector(
-      '[aria-label="Collapse Components"]'
-    )
-
     expect(fireEvent.click(link)).toBe(false)
-    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(link).toHaveAttribute('aria-expanded', 'false')
     expect(onOpenChange).toHaveBeenCalledWith(false)
     expect(onClick).not.toHaveBeenCalled()
     expect(onSelectedItemChange).not.toHaveBeenCalled()
   })
 
-  it('lets the page accordion toggle expand without selecting it', () => {
+  it('uses one action for linked accordion navigation and expansion', () => {
     const onSelectedItemChange = vi.fn()
     const onOpenChange = vi.fn()
 
@@ -838,20 +837,47 @@ describe('SidebarMenu', () => {
       </SidebarMenu.Container>
     )
 
-    const toggle = document.querySelector(
-      '[aria-label="Expand Components"]'
+    const link = document.querySelector('[href="/components"]')
+    const action = document.querySelector(
+      '[data-sidebar-menu-id="components"] > .dnb-sidebar-menu__accordion__trigger'
     )
-    fireEvent.click(toggle)
 
-    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(action).toBe(link)
+    expect(action.querySelectorAll('a, button')).toHaveLength(0)
+
+    fireEvent.click(link)
+
+    expect(link).toHaveAttribute('aria-expanded', 'false')
     expect(onOpenChange).toHaveBeenCalledWith(true)
-    expect(onSelectedItemChange).not.toHaveBeenCalled()
-    expect(
-      document.querySelector('[href="/components"]')
-    ).not.toHaveAttribute('aria-current')
+    expect(onSelectedItemChange).toHaveBeenCalledWith('components')
+    expect(link).toHaveAttribute('aria-current', 'page')
   })
 
-  it('disables both actions of a disabled page accordion', () => {
+  it('activates a linked accordion with Space', () => {
+    const onSelectedItemChange = vi.fn()
+
+    render(
+      <SidebarMenu.Container onSelectedItemChange={onSelectedItemChange}>
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          href="/components"
+          onClick={(event) => event.preventDefault()}
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Container>
+    )
+
+    const link = document.querySelector('[href="/components"]')
+
+    fireEvent.keyDown(link, { key: ' ' })
+
+    expect(onSelectedItemChange).toHaveBeenCalledWith('components')
+    expect(link).toHaveAttribute('aria-current', 'page')
+  })
+
+  it('disables a linked accordion action', () => {
     const onClick = vi.fn()
     const onOpenChange = vi.fn()
 
@@ -873,17 +899,15 @@ describe('SidebarMenu', () => {
     const link = document.querySelector(
       '.dnb-sidebar-menu__accordion__link'
     )
-    const toggle = document.querySelector(
-      '.dnb-sidebar-menu__accordion__toggle'
-    )
-
     expect(link).not.toHaveAttribute('href')
     expect(link).toHaveAttribute('aria-disabled', 'true')
     expect(link).toHaveAttribute('tabindex', '-1')
-    expect(toggle).toBeDisabled()
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__toggle')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(link)
-    fireEvent.click(toggle)
 
     expect(onClick).not.toHaveBeenCalled()
     expect(onOpenChange).not.toHaveBeenCalled()
@@ -940,11 +964,13 @@ describe('SidebarMenu', () => {
       />
     )
 
+    const link = document.querySelector('[href="/components"]')
+
+    expect(link).toHaveAttribute('aria-expanded', 'false')
     expect(
-      document.querySelector('[href="/components"]')
-    ).toBeInTheDocument()
-    expect(
-      document.querySelector('[aria-label="Expand Components"]')
+      link.querySelector(
+        '.dnb-sidebar-menu__accordion__indicator .dnb-icon'
+      )
     ).toBeInTheDocument()
   })
 
