@@ -278,18 +278,38 @@ test.describe('Portal SidebarMenu', () => {
     const menu = page.getByRole('navigation', {
       name: 'Section Content Menu',
     })
+    const trigger = menu.getByRole('combobox')
+    const triggerIcon = trigger.locator(
+      '.dnb-sidebar-menu__section-label .dnb-icon'
+    )
 
-    await menu.getByRole('combobox').click()
+    await expect(triggerIcon).toHaveCSS('width', '16px')
+
+    await trigger.click()
+    const options = page.getByRole('option')
+    await expect(options).toHaveCount(3)
+    for (const name of ['Web', 'iOS', 'Android']) {
+      await expect(
+        page
+          .getByRole('option', { name, exact: true })
+          .locator('.dnb-sidebar-menu__section-label .dnb-icon')
+      ).toHaveCSS('width', '16px')
+    }
+
     await page.getByRole('option', { name: 'iOS', exact: true }).click()
+    await expect(triggerIcon).toHaveCSS('width', '16px')
     await expect(
       menu.getByText('iOS overview', { exact: true })
     ).toBeVisible()
     await expect(
       menu.getByText('Components', { exact: true })
     ).toHaveCount(0)
+    await expect(trigger).toHaveAccessibleName('Platform iOS')
 
-    await menu.getByRole('combobox').click()
-    await page
+    await trigger.click()
+    const listbox = page.getByRole('listbox')
+    await expect(listbox).toBeVisible()
+    await listbox
       .getByRole('option', { name: 'Android', exact: true })
       .click()
     await expect(

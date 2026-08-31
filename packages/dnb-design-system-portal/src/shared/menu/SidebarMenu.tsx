@@ -17,6 +17,7 @@ import SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 import { Drawer } from '@dnb/eufemia/src/components'
+import { browser, mobile } from '@dnb/eufemia/src/icons'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import {
   navStyle,
@@ -161,16 +162,19 @@ export default function SidebarLayout({
     {
       id: 'web',
       text: 'Web',
+      icon: browser,
       items: navItems,
     },
     {
       id: 'ios',
       text: 'iOS',
+      icon: mobile,
       items: [{ id: 'portal-ios-overview', text: 'iOS overview' }],
     },
     {
       id: 'android',
       text: 'Android',
+      icon: mobile,
       items: [{ id: 'portal-android-overview', text: 'Android overview' }],
     },
   ]
