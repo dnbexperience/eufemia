@@ -1,0 +1,55 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+
+.content-grid {
+  --content-sidebar-width: 18rem;
+  /* stylelint-disable-next-line eufemia/no-undefined-custom-property */
+  --content-sidebar-top: calc(var(--portal-sidebar-top, 3.5rem) + 1rem);
+
+  @include utilities.allAbove(large) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--content-sidebar-width);
+    align-items: start;
+
+    :global(.fullscreen-page) & {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
+
+.content-grid__main {
+  @include utilities.allAbove(large) {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+
+    // Let content (e.g. Section breakout) bleed into the surrounding padding
+    // on both sides — reaching into the page's left padding and the gap to
+    // the sidebar — while clipping so it never runs under the table of
+    // contents on the right or past the page edge on the left.
+    margin-left: -2rem;
+    padding: 0 2rem;
+    overflow: hidden;
+  }
+}
+
+.content-grid__sidebar {
+  margin-bottom: 1.5rem;
+
+  :global(.fullscreen-page) & {
+    display: none;
+  }
+
+  @include utilities.allAbove(large) {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    margin-bottom: 0;
+
+    position: sticky;
+    top: var(--content-sidebar-top);
+    max-height: calc(100vh - var(--content-sidebar-top));
+
+    display: flex;
+    flex-direction: column;
+  }
+}

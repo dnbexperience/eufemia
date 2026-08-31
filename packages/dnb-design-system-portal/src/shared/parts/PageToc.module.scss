@@ -1,0 +1,87 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+
+.page-toc {
+  --page-toc-gap: 0.75rem;
+
+  @include utilities.allAbove(large) {
+    // fill the sticky sidebar so the list can scroll on its own
+    flex: 1 1 auto;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.page-toc__title {
+  margin: 0 0 0.5rem;
+  color: var(--token-color-text-neutral);
+  font-weight: var(--font-weight-medium);
+
+  @include utilities.allAbove(large) {
+    flex-shrink: 0;
+  }
+}
+
+.page-toc__scroll {
+  margin: -0.5rem;
+  padding: 0.5rem;
+  scroll-padding-block: 1rem; // keep in sync with SCROLL_PADDING in PageToc.tsx
+
+  @include utilities.allAbove(large) {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-bottom: 2rem;
+  }
+}
+
+.page-toc__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-toc-gap);
+
+  margin: 0;
+  padding-left: 0;
+
+  list-style: none;
+}
+
+.page-toc__sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-toc-gap);
+
+  margin: var(--page-toc-gap) 0 0;
+  padding-left: 1rem;
+
+  list-style: none;
+}
+
+.page-toc__link {
+  display: block;
+  color: var(--token-color-text-neutral-alternative);
+  text-decoration: none;
+
+  padding: 0.5rem 1rem;
+  border-radius: var(--token-radius-xl);
+
+  transition:
+    color 0.2s var(--easing-default),
+    box-shadow 0.2s var(--easing-default);
+
+  &:hover {
+    color: var(--token-color-text-neutral);
+  }
+
+  @include utilities.focusVisible() {
+    outline: var(--focus-ring-width) solid
+      var(--token-color-stroke-action-focus);
+    outline-offset: 0.125rem;
+  }
+}
+
+.page-toc__link--current {
+  color: var(--token-color-text-neutral);
+  box-shadow: inset 0 0 0 0.0625rem
+    var(--token-color-stroke-neutral-subtle);
+}

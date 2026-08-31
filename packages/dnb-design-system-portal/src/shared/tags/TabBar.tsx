@@ -124,6 +124,7 @@ export default function TabBar({
         tabElement={Link as unknown as TabsTabElement}
         data={preparedTabs}
         selectedKey={selectedKey}
+        breakout={false}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper className={tabsWrapperStyle}>

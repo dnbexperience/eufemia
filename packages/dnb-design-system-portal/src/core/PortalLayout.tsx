@@ -9,6 +9,8 @@ import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
 import TabBar from '../shared/tags/TabBar'
+import PortalToc, { PortalTocProvider } from '../shared/parts/PortalToc'
+import pageLayoutStyles from './PortalLayout.module.scss'
 import { defaultTabsValue } from '../shared/tags/defaultValues'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
@@ -164,51 +166,70 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
-      {!codeFocusMode && fmData.breadcrumb && (
-        <Breadcrumb key="breadcrumb" top="large">
-          {fmData.breadcrumb.map((item, i, a) => {
-            return (
-              <Breadcrumb.Item
-                key={item.text}
-                variant={
-                  (i === 0 && 'home') ||
-                  (i === a.length - 1 && 'current') ||
-                  null
-                }
-                // @ts-expect-error -- strictFunctionTypes
-                element={Link}
-                text={item.text}
-                href={item.href}
-              />
-            )
-          })}
-        </Breadcrumb>
-      )}
+      {codeFocusMode ? (
+        <Content showTabs={currentFm.showTabs}>{children}</Content>
+      ) : (
+        <PortalTocProvider>
+          <div className={pageLayoutStyles['content-grid']}>
+            <div className={pageLayoutStyles['content-grid__sidebar']}>
+              <PortalToc />
+            </div>
 
-      {!codeFocusMode && currentFm.showTabs && (
-        <TabBar
-          key="tab-bar"
-          location={location}
-          rootPath={rootPath}
-          title={fmData.title}
-          tabs={fmData.tabs}
-          defaultTabs={fmData.defaultTabs}
-          hideTabs={fmData.hideTabs}
-        />
-      )}
+            <div className={pageLayoutStyles['content-grid__main']}>
+              {fmData.breadcrumb && (
+                <Breadcrumb key="breadcrumb" top="large">
+                  {fmData.breadcrumb.map((item, i, a) => {
+                    return (
+                      <Breadcrumb.Item
+                        key={item.text}
+                        variant={
+                          (i === 0 && 'home') ||
+                          (i === a.length - 1 && 'current') ||
+                          null
+                        }
+                        // @ts-expect-error -- strictFunctionTypes
+                        element={Link}
+                        text={item.text}
+                        href={item.href}
+                      />
+                    )
+                  })}
+                </Breadcrumb>
+              )}
 
-      <Content
-        showTabs={currentFm.showTabs}
-        sourcePath={editSourcePath}
-        showEditLink={!codeFocusMode}
-      >
-        {children}
-      </Content>
+              {currentFm.showTabs && (
+                <TabBar
+                  key="tab-bar"
+                  location={location}
+                  rootPath={rootPath}
+                  title={fmData.title}
+                  tabs={fmData.tabs}
+                  defaultTabs={fmData.defaultTabs}
+                  hideTabs={fmData.hideTabs}
+                />
+              )}
+
+              <Content
+                showTabs={currentFm.showTabs}
+                sourcePath={editSourcePath}
+                showEditLink
+              >
+                {children}
+              </Content>
+            </div>
+          </div>
+        </PortalTocProvider>
+      )}
     </Layout>
   )
 }
 
-function Content({ showTabs, sourcePath, showEditLink, children }) {
+function Content({
+  showTabs,
+  sourcePath = null,
+  showEditLink = false,
+  children,
+}) {
   if (showTabs) {
     resetLevels(2)
   }
