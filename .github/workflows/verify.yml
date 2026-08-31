@@ -175,6 +175,7 @@ jobs:
           yarn workspace @dnb/eufemia lint:ci
           yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
           yarn workspace eufemia-raiwork-plugin lint
+          yarn workspace eufemia-analytics lint
 
   lint-portal:
     name: Run portal lint
@@ -246,6 +247,7 @@ jobs:
           yarn workspace eufemia-llm-metadata test:types
           yarn workspace eufemia-raiwork-plugin test:types
           yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
+          yarn workspace eufemia-analytics test:types
 
   test:
     name: Run tests
@@ -285,6 +287,7 @@ jobs:
           yarn workspace eufemia-llm-metadata test
           yarn workspace eufemia-raiwork-plugin test
           yarn workspace @dnb/eufemia-mcp-legacy-proxy test
+          yarn workspace eufemia-analytics test
 
   deps:
     name: Run dependency checks
