@@ -8,12 +8,16 @@ updates:
   - package-ecosystem: 'npm'
     # Cover the root and every Yarn workspace (see "workspaces" in package.json),
     # so security updates resolve and commit the root yarn.lock alongside the
-    # workspace package.json change.
+    # workspace package.json change. The smoke/* consumer fixtures are not Yarn
+    # workspaces — they are standalone npm projects with committed lockfiles that
+    # pin the bundler toolchain the release gate runs — so they are listed
+    # explicitly to keep them receiving security updates.
     directories:
       - '/'
       - '/packages/*'
       - '/packages/**/plugins/*'
       - '/tools/*'
+      - '/smoke/*'
     schedule:
       interval: 'monthly'
     # Disable scheduled dependency update PRs (too noisy across the monorepo).
