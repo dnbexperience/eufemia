@@ -104,7 +104,7 @@ describe('SidebarMenu', () => {
     expect(list).toHaveAttribute('aria-labelledby', 'actions-title')
     expect(group.querySelector('[aria-expanded]')).toBeInTheDocument()
     expect(title).not.toHaveAttribute('aria-expanded')
-    expect(item).toHaveStyle({ '--sidebar-menu-indent': '2rem' })
+    expect(item).toHaveStyle({ '--sidebar-menu-indent': '2.5rem' })
   })
 
   it('renders static groups from data', () => {
@@ -217,6 +217,7 @@ describe('SidebarMenu', () => {
         <SidebarMenu.Group
           id="typography"
           text="Typography"
+          icon="card"
           href="/typography"
         >
           <SidebarMenu.Item id="font-size" text="Font size" />
@@ -235,8 +236,11 @@ describe('SidebarMenu', () => {
       'dnb-sidebar-menu__item--selected'
     )
     expect(
-      link.querySelector('.dnb-sidebar-menu__item__selection-icon')
+      link.querySelector('.dnb-sidebar-menu__item__icon')
     ).toBeInTheDocument()
+    expect(
+      link.querySelector('.dnb-sidebar-menu__item__selection-icon')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(link)
 
@@ -475,7 +479,16 @@ describe('SidebarMenu', () => {
       'dnb-sr-only'
     )
 
-    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+
+    expect(trigger).toHaveClass('dnb-button--size-medium')
+
+    fireEvent.click(trigger)
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__sections-portal')
+    ).toBeInTheDocument()
+
     fireEvent.click(
       Array.from(document.querySelectorAll('[role="option"]')).find(
         (element) => element.textContent === 'Business'
@@ -547,7 +560,7 @@ describe('SidebarMenu', () => {
     ).toHaveTextContent('Business')
   })
 
-  it('selects a clicked item and renders its selection arrow', () => {
+  it('selects a clicked item and retains its original icon', () => {
     const onSelectedItemChange = vi.fn()
 
     render(
@@ -568,19 +581,20 @@ describe('SidebarMenu', () => {
     ).toHaveClass('dnb-sidebar-menu__item--selected')
     expect(
       document.querySelector(
-        '[data-sidebar-menu-id="payments"] [data-testid="selection-indicator"]'
+        '[data-sidebar-menu-id="payments"] .dnb-sidebar-menu__item__icon'
       )
     ).toBeInTheDocument()
     expect(
       document.querySelector(
-        '[data-sidebar-menu-id="payments"] .dnb-sidebar-menu__item__icon'
+        '[data-sidebar-menu-id="payments"] .dnb-sidebar-menu__item__selection-icon'
       )
     ).not.toBeInTheDocument()
+    expect(getComputedStyle(payments).borderStyle).toBe('none')
     expect(
       document.querySelector(
-        '[data-sidebar-menu-id="overview"] [data-testid="selection-indicator"]'
+        '[data-sidebar-menu-id="overview"] .dnb-sidebar-menu__item__selection-icon'
       )
-    ).toHaveAttribute('aria-hidden', 'true')
+    ).not.toBeInTheDocument()
     expect(
       document.querySelector('[data-sidebar-menu-id="overview"]')
     ).not.toHaveClass('dnb-sidebar-menu__item--selected')
@@ -657,6 +671,7 @@ describe('SidebarMenu', () => {
         <SidebarMenu.Accordion
           id="components"
           text="Components"
+          icon="card"
           href="/components"
           onClick={(event) => event.preventDefault()}
         >
@@ -686,12 +701,10 @@ describe('SidebarMenu', () => {
     act(() => vi.advanceTimersByTime(1))
     expect(toggle).toHaveAttribute('aria-expanded', 'true')
     expect(
-      link.querySelector('.dnb-sidebar-menu__item__selection-icon')
+      link.querySelector('.dnb-sidebar-menu__item__icon')
     ).toBeInTheDocument()
     expect(
-      link.querySelector(
-        '.dnb-sidebar-menu__item__selection-indicator--has-icon'
-      )
+      link.querySelector('.dnb-sidebar-menu__item__selection-icon')
     ).not.toBeInTheDocument()
 
     fireEvent.click(link)

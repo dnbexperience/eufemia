@@ -116,7 +116,6 @@ export default function SidebarMenuAccordion(
       setOpen(true)
     },
     [
-      clearPendingOpen,
       collapsible,
       context,
       disabled,
@@ -129,7 +128,7 @@ export default function SidebarMenuAccordion(
   )
 
   const itemStyle = {
-    '--sidebar-menu-indent': `${context.level * 2}rem`,
+    '--sidebar-menu-indent': `${context.level * 2.5}rem`,
   } as React.CSSProperties
   const label = typeof text === 'string' ? text : 'section'
   const currentIndicator = containsSelectedItem && !isOpen && (
@@ -156,24 +155,9 @@ export default function SidebarMenuAccordion(
   const linkContent = useMemo(
     () => (
       <>
-        <span
-          className={clsx(
-            'dnb-sidebar-menu__item__selection-indicator',
-            icon && 'dnb-sidebar-menu__item__selection-indicator--has-icon'
-          )}
-          aria-hidden="true"
-        >
-          {icon && (
-            <span className="dnb-sidebar-menu__item__original-icon">
-              <IconPrimary icon={icon} />
-            </span>
-          )}
-          <span className="dnb-sidebar-menu__item__selection-icon">
-            <IconPrimary icon="arrow_right" />
-          </span>
-        </span>
         <span className="dnb-sidebar-menu__item__content">
           <SidebarMenuItemContent
+            icon={icon}
             text={text}
             textSuffix={currentIndicator}
           />
@@ -193,7 +177,6 @@ export default function SidebarMenuAccordion(
         'dnb-sidebar-menu__accordion',
         isOpen && collapsible && 'dnb-sidebar-menu__accordion--open',
         isSelected && 'dnb-sidebar-menu__accordion--selected',
-        hasLink && 'dnb-sidebar-menu__accordion--page',
         disabled && 'dnb-sidebar-menu__accordion--disabled',
         className
       )}

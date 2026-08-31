@@ -1,11 +1,11 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-sidebar-menu {
-  --sidebar-menu-action-padding-inline: 0.75rem;
+  --sidebar-menu-action-padding-inline: 1rem;
   --sidebar-menu-action-padding-block: 0.5rem;
   --sidebar-menu-action-gap: 0.5rem;
   --sidebar-menu-action-min-height: 2.5rem;
-  --sidebar-menu-action-border-radius: var(--token-radius-md);
+  --sidebar-menu-action-border-radius: var(--token-radius-xl);
   --sidebar-menu-action-background-color: transparent;
   --sidebar-menu-action-background-color--hover: var(
     --token-color-background-neutral-subtle
@@ -14,7 +14,7 @@
     --token-color-background-neutral-base
   );
   --sidebar-menu-action-background-color--selected: var(
-    --token-color-background-neutral-subtle
+    --token-color-background-neutral-base
   );
   --sidebar-menu-action-text-color: var(--token-color-text-neutral);
   --sidebar-menu-action-text-color--disabled: var(
@@ -32,7 +32,40 @@
   background-color: transparent;
 
   &__sections {
+    --dropdown-border-radius: var(--token-radius-xl);
+    --dropdown-border-width--open: 0.0625rem;
+    --dropdown-button-padding: 0.5rem 1rem;
+
     margin-block-end: 1rem;
+
+    .dnb-dropdown__trigger.dnb-button--secondary {
+      --button-color-bg--default: var(
+        --token-color-background-neutral-base
+      );
+      --button-color-bg--hover: var(--token-color-background-neutral-base);
+      --button-color-bg--active: var(
+        --token-color-background-neutral-base
+      );
+      --button-color-bg--focus: var(--token-color-background-neutral-base);
+      --button-color-border--default: var(
+        --token-color-stroke-neutral-subtle
+      );
+      --button-color-border--hover: var(
+        --token-color-stroke-neutral-subtle
+      );
+      --button-color-border--active: var(
+        --token-color-stroke-neutral-subtle
+      );
+      --button-color-icon--default: var(--token-color-icon-neutral);
+      --button-color-icon--hover: var(--token-color-icon-neutral);
+      --button-color-icon--active: var(--token-color-icon-neutral);
+      --button-color-icon--focus: var(--token-color-icon-neutral);
+      --button-color-text--default: var(--token-color-text-neutral);
+      --button-color-text--hover: var(--token-color-text-neutral);
+      --button-color-text--active: var(--token-color-text-neutral);
+      --button-color-text--focus: var(--token-color-text-neutral);
+      --button-border-inset--focus: inset;
+    }
   }
 
   &__list {
@@ -146,93 +179,21 @@
       min-width: 0;
     }
 
-    &__selection-indicator {
-      position: relative;
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      width: 0;
-      margin-inline-end: 0;
-
-      opacity: 0;
-      overflow: hidden;
-      transform: translateX(-0.5rem);
-      transition:
-        width 400ms var(--easing-default),
-        margin-inline-end 400ms var(--easing-default),
-        opacity 400ms var(--easing-default),
-        transform 400ms var(--easing-default);
-
-      &--has-icon {
-        width: 1rem;
-        margin-inline-end: var(--sidebar-menu-action-gap);
-
-        opacity: 1;
-        overflow: visible;
-        transform: none;
-      }
-    }
-
-    &__selection-icon,
-    &__original-icon {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-
-      transition: opacity 400ms var(--easing-default);
-    }
-
-    &__selection-indicator--has-icon &__selection-icon {
-      position: absolute;
-      inset-inline-start: 0;
-
-      opacity: 0;
-      transform: translateX(-0.5rem);
-      transition:
-        opacity 400ms var(--easing-default),
-        transform 400ms var(--easing-default);
-    }
-
     & > &__action {
       gap: 0;
     }
 
-    &--active > &__action {
-      background-color: var(
-        --sidebar-menu-action-background-color--selected
-      );
-    }
-
+    &--active > &__action,
     &--selected > &__action {
-      font-weight: var(--font-weight-medium);
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-neutral-subtle),
+        0.0625rem,
+        inset
+      );
 
       background-color: var(
         --sidebar-menu-action-background-color--selected
       );
-    }
-
-    &--selected > &__action &__selection-indicator {
-      width: 1rem;
-      margin-inline-end: var(--sidebar-menu-action-gap);
-
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    &--selected > &__action &__selection-indicator--has-icon {
-      margin-inline-end: var(--sidebar-menu-action-gap);
-    }
-
-    &--selected > &__action &__original-icon {
-      opacity: 0;
-    }
-
-    &--selected
-      > &__action
-      &__selection-indicator--has-icon
-      &__selection-icon {
-      opacity: 1;
-      transform: translateX(0);
     }
 
     &--disabled > &__action {
@@ -251,22 +212,6 @@
     gap: 0.25rem;
 
     list-style: none;
-
-    &--open > &__trigger {
-      font-weight: var(--font-weight-medium);
-
-      background-color: var(
-        --sidebar-menu-action-background-color--selected
-      );
-    }
-
-    &--selected > &__trigger {
-      font-weight: var(--font-weight-medium);
-
-      background-color: var(
-        --sidebar-menu-action-background-color--selected
-      );
-    }
 
     &--disabled > &__trigger {
       color: var(--sidebar-menu-action-text-color--disabled);
@@ -350,34 +295,6 @@
       );
     }
 
-    &--selected
-      > &__trigger
-      &__link
-      > .dnb-sidebar-menu__item__selection-indicator {
-      width: 1rem;
-      margin-inline-end: var(--sidebar-menu-action-gap);
-
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    &--selected
-      > &__trigger
-      &__link
-      > .dnb-sidebar-menu__item__selection-indicator
-      > .dnb-sidebar-menu__item__original-icon {
-      opacity: 0;
-    }
-
-    &--selected
-      > &__trigger
-      &__link
-      > .dnb-sidebar-menu__item__selection-indicator
-      > .dnb-sidebar-menu__item__selection-icon {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
     &--open > &__trigger &__indicator .dnb-icon {
       --icon-transition: var(
         --icon-transition-expanded,
@@ -455,8 +372,106 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .dnb-sidebar-menu__item__selection-indicator {
-    transition-duration: 0.01ms;
+.dnb-sidebar-menu__sections-portal {
+  .dnb-drawer-list {
+    --drawer-list-list-border-radius: var(--token-radius-xl);
+    --drawer-list-option-gap: 0;
+    --drawer-list-padding: 0;
+  }
+
+  .dnb-drawer-list__list {
+    --drawer-list-list-background: var(
+      --token-color-background-neutral-base
+    );
+
+    overflow: hidden;
+  }
+
+  .dnb-drawer-list__option {
+    --drawer-list-option-color-text--default: var(
+      --token-color-text-neutral
+    );
+    --drawer-list-option-color-text--hover: var(
+      --token-color-text-neutral
+    );
+    --drawer-list-option-color-text--active: var(
+      --token-color-text-neutral
+    );
+    --drawer-list-option-color-text--focus: var(
+      --token-color-text-neutral
+    );
+    --drawer-list-option-color-bg--default: var(
+      --token-color-background-neutral-subtle
+    );
+    --drawer-list-option-color-bg--hover: var(
+      --token-color-background-neutral-subtle
+    );
+    --drawer-list-option-color-bg--active: var(
+      --token-color-background-neutral-subtle
+    );
+    --drawer-list-option-color-bg--focus: var(
+      --token-color-background-neutral-subtle
+    );
+
+    margin: 0;
+    padding: 0.5rem;
+
+    border-radius: var(--token-radius-sm);
+  }
+
+  .dnb-drawer-list__option__inner {
+    padding: 0.5rem;
+
+    border-radius: var(--token-radius-lg);
+  }
+
+  .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected):hover
+    .dnb-drawer-list__option__inner,
+  .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected)
+    .dnb-drawer-list__option__inner {
+    background-color: var(--token-color-background-neutral-base);
+  }
+
+  .dnb-drawer-list__option--selected {
+    --drawer-list-option-color-text--default: var(
+      --token-color-text-neutral
+    );
+    --drawer-list-option-color-text--hover: var(
+      --token-color-text-neutral
+    );
+    --drawer-list-option-color-text--active: var(
+      --token-color-text-neutral
+    );
+    --drawer-list-option-color-text--focus: var(
+      --token-color-text-neutral
+    );
+    --drawer-list-option-color-bg--default: var(
+      --token-color-background-neutral-subtle
+    );
+    --drawer-list-option-color-bg--hover: var(
+      --token-color-background-neutral-subtle
+    );
+    --drawer-list-option-color-bg--active: var(
+      --token-color-background-neutral-subtle
+    );
+    --drawer-list-option-color-bg--focus: var(
+      --token-color-background-neutral-subtle
+    );
+  }
+
+  .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner {
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-neutral-subtle),
+      0.0625rem,
+      inset
+    );
+
+    background-color: var(--token-color-background-neutral-bold);
+  }
+
+  .dnb-drawer-list__option__inner::before {
+    right: 0;
+    bottom: -0.5rem;
+    left: 0;
   }
 }

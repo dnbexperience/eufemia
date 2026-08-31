@@ -510,6 +510,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       {hasSections && (
         <Dropdown
           className="dnb-sidebar-menu__sections"
+          portalClass="dnb-sidebar-menu__sections-portal"
           value={resolvedActiveSection}
           label={sectionLabel}
           labelSrOnly
@@ -522,6 +523,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
               selectSection(data.selectedKey)
             }
           }}
+          size="medium"
           stretch
         />
       )}
