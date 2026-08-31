@@ -80,12 +80,15 @@ function decodeJwt(token) {
   }
 }
 
-function readSession() {
+export function readSession() {
   try {
     const session = JSON.parse(
       sessionStorage.getItem(SESSION_KEY) || 'null'
     )
-    if (session && session.expiresAt > Date.now()) {
+    // Require an access token as well: a session persisted by an older build
+    // has no token and can't call the data API, so treat it as invalid and
+    // force a clean re-auth rather than sending "Bearer undefined".
+    if (session && session.accessToken && session.expiresAt > Date.now()) {
       return session
     }
   } catch {
