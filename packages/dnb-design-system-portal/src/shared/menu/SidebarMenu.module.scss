@@ -2,10 +2,7 @@
 
 :global {
   :root {
-    --portal-sidebar-scrollbar-gutter: 1.5rem;
-    --aside-width: calc(
-      25vw + 5rem + var(--portal-sidebar-scrollbar-gutter)
-    );
+    --aside-width: 24rem;
   }
 
   html.portal-sidebar-is-resizing,

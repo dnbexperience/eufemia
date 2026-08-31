@@ -242,8 +242,8 @@ export default function SidebarLayout({
           omitTriggerButton
           containerPlacement="left"
           fullscreen={false}
-          minWidth="80vw"
-          maxWidth="80vw"
+          minWidth="min(80vw, 24rem)"
+          maxWidth="min(80vw, 24rem)"
           className={mobileDrawerStyle}
           spacing={false}
           scrollbarGutter={false}

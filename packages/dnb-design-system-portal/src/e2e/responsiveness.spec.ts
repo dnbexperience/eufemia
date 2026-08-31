@@ -82,6 +82,10 @@ test.describe('Responsiveness', () => {
     await expect(header).toHaveCSS('position', 'fixed')
     await expect(header).toHaveCSS('border-bottom-width', '0px')
     await expect(sidebarLogo).toBeVisible()
+
+    const sidebarWidth = (await sidebar.boundingBox()).width
+    await page.setViewportSize({ width: 1440, height: 900 })
+    expect((await sidebar.boundingBox()).width).toBe(sidebarWidth)
     await expect(
       header.getByRole('link', { name: 'Go to Eufemia home' })
     ).not.toBeVisible()
@@ -173,6 +177,11 @@ test.describe('Responsiveness', () => {
     await closeButton.click()
     await expect(sidebar).not.toBeVisible()
     await expect(menuButton).toHaveAttribute('aria-expanded', 'false')
+
+    await page.setViewportSize({ width: 600, height: 667 })
+    await menuButton.click()
+    expect((await drawer.boundingBox()).width).toBe(24 * 16)
+    await closeButton.click()
 
     await menuButton.click()
     await expect(sidebar).toBeVisible()

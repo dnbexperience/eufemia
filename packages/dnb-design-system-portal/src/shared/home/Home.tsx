@@ -135,7 +135,12 @@ export default function Home() {
         </H2>
         <nav className={resourceGridStyle} aria-label="Resources">
           {resources.map(({ title, url }) => (
-            <Anchor key={title} href={url}>
+            <Anchor
+              key={title}
+              href={url}
+              icon="arrow_right"
+              iconPosition="right"
+            >
               <Span size="x-large">{title}</Span>
             </Anchor>
           ))}
