@@ -63,6 +63,25 @@ describe('auth retry guard', () => {
   })
 })
 
+describe('clearSession', () => {
+  beforeEach(() => {
+    globalThis.sessionStorage = new MemoryStorage()
+  })
+
+  afterEach(() => {
+    delete globalThis.sessionStorage
+  })
+
+  it('removes the stored session', () => {
+    sessionStorage.setItem(
+      'eufemia-analytics-session',
+      '{"name":"Signed in"}'
+    )
+    clearSession()
+    expect(sessionStorage.getItem('eufemia-analytics-session')).toBe(null)
+  })
+})
+
 describe('loadDashboardData', () => {
   const session = { accessToken: 'token-abc' }
 
