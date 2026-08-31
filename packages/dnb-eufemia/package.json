@@ -65,9 +65,10 @@
     "prettier:package:write": "prettier-package-json --write ./package.json",
     "prettier:styles:write": "prettier --log-level warn --parser scss --write './src/**/*.scss'",
     "prettier:write": "yarn prettier:js:write && yarn prettier:styles:write",
-    "publish:ci": "yarn publish:prepare && ./scripts/postbuild/publish-release.sh",
+    "publish:ci": "yarn publish:prepare && yarn publish:release",
     "publish:dry": "dotenv semantic-release --no-ci --dry-run",
     "publish:prepare": "./scripts/postbuild/publish-prepare.sh",
+    "publish:release": "./scripts/postbuild/publish-release.sh",
     "reset": "rm -rf ./node_modules ./build",
     "skeleton:font": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/createSkeletonFont.js'",
     "test": "yarn test:prepare && node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts",
@@ -78,7 +79,7 @@
     "test:e2e": "playwright test --config=./playwright.config.e2e.ts",
     "test:e2e:ci": "PLAYWRIGHT_BASE_URL=http://localhost:8001 start-server-and-test 'yarn workspace dnb-design-system-portal serve:8001' http://localhost:8001 test:e2e",
     "test:e2e:watch": "playwright test --config=./playwright.config.e2e.ts --ui",
-    "test:postbuild": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/postbuild.test.ts",
+    "test:postbuild": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/postbuild.test.ts scripts/postbuild/__tests__/validatePackageContents.test.ts scripts/postbuild/__tests__/writeReleaseConfig.test.ts",
     "test:postbuild:publish": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/prepareForRelease.test.ts",
     "test:prepare": "yarn build:style-manifest",
     "test:screenshots": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runScreenshotVitest.ts",
@@ -94,6 +95,7 @@
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts --update=true",
     "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts --watch",
+    "validate:package": "node ./scripts/postbuild/validatePackageContents.mjs build",
     "verify:generated-entries:ci": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/tasks/verifyGeneratedEntriesCommitted"
   },
   "sideEffects": [
