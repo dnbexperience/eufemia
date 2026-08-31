@@ -36,3 +36,8 @@ Data is served by a separate, access-controlled API rather than bundled into
 these files. On a static host the sign-in gates the UI, so the API itself also
 enforces access by validating the Entra token. These pieces are layered on top
 of this UI shell.
+
+The API also requires the `Dashboard.Read` scope, so the app registration must
+issue v2 access tokens (`requestedAccessTokenVersion = 2`) that carry a `scp`
+claim. Confirm end to end after a deploy: sign in, then check the `/data` call
+returns 200 (a 401/403 usually means the token is v1 or is missing the scope).
