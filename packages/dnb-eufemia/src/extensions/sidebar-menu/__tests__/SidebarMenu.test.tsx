@@ -4,6 +4,7 @@ import { axeComponent } from '../../../core/test-utils/testSetup'
 import SidebarMenu from '../SidebarMenu'
 import { SidebarMenuContainerProperties } from '../SidebarMenuDocs'
 import HeightAnimationInstance from '../../../components/height-animation/HeightAnimationInstance'
+import { office_buildings, person } from '../../../icons'
 
 describe('SidebarMenu', () => {
   it('documents the supported declarative children', () => {
@@ -464,10 +465,14 @@ describe('SidebarMenu', () => {
         defaultActiveSection="personal"
         onActiveSectionChange={onActiveSectionChange}
       >
-        <SidebarMenu.Section id="personal" text="Personal">
+        <SidebarMenu.Section id="personal" text="Personal" icon={person}>
           <SidebarMenu.Item id="overview" text="Overview" />
         </SidebarMenu.Section>
-        <SidebarMenu.Section id="business" text="Business">
+        <SidebarMenu.Section
+          id="business"
+          text="Business"
+          icon={office_buildings}
+        >
           <SidebarMenu.Item id="invoices" text="Invoices" />
         </SidebarMenu.Section>
       </SidebarMenu.Container>
@@ -482,11 +487,21 @@ describe('SidebarMenu', () => {
     const trigger = document.querySelector('.dnb-dropdown__trigger')
 
     expect(trigger).toHaveClass('dnb-button--size-medium')
+    expect(
+      trigger.querySelector('[data-testid="person icon"]')
+    ).toBeInTheDocument()
 
     fireEvent.click(trigger)
 
+    const portal = document.querySelector(
+      '.dnb-sidebar-menu__sections-portal'
+    )
+    expect(portal).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-sidebar-menu__sections-portal')
+      portal.querySelector('[data-testid="person icon"]')
+    ).toBeInTheDocument()
+    expect(
+      portal.querySelector('[data-testid="office buildings icon"]')
     ).toBeInTheDocument()
 
     fireEvent.click(
@@ -498,6 +513,9 @@ describe('SidebarMenu', () => {
     expect(onActiveSectionChange).toHaveBeenCalledWith('business')
     expect(document.body).not.toHaveTextContent('Overview')
     expect(document.body).toHaveTextContent('Invoices')
+    expect(
+      trigger.querySelector('[data-testid="office buildings icon"]')
+    ).toBeInTheDocument()
   })
 
   it('renders and switches sections supplied as data', () => {
@@ -507,12 +525,14 @@ describe('SidebarMenu', () => {
           {
             id: 'personal',
             text: 'Personal',
+            icon: person,
             active: true,
             items: [{ id: 'home', text: 'Home' }],
           },
           {
             id: 'business',
             text: 'Business',
+            icon: office_buildings,
             items: [{ id: 'payments', text: 'Payments' }],
           },
         ]}
@@ -520,14 +540,28 @@ describe('SidebarMenu', () => {
     )
 
     fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    const options = Array.from(
+      document.querySelectorAll('[role="option"]')
+    )
+    expect(
+      options[0].querySelector('[data-testid="person icon"]')
+    ).toBeInTheDocument()
+    expect(
+      options[1].querySelector('[data-testid="office buildings icon"]')
+    ).toBeInTheDocument()
+
     fireEvent.click(
-      Array.from(document.querySelectorAll('[role="option"]')).find(
-        (element) => element.textContent === 'Business'
-      )
+      options.find((element) => element.textContent === 'Business')
     )
 
     expect(document.body).toHaveTextContent('Payments')
     expect(document.body).not.toHaveTextContent('Home')
+    expect(
+      document
+        .querySelector('.dnb-dropdown__trigger')
+        .querySelector('[data-testid="office buildings icon"]')
+    ).toBeInTheDocument()
   })
 
   it('activates the section containing the selected route', () => {
@@ -818,6 +852,39 @@ describe('SidebarMenu', () => {
     expect(onOpenChange).toHaveBeenCalledWith(false)
     expect(onClick).not.toHaveBeenCalled()
     expect(onSelectedItemChange).not.toHaveBeenCalled()
+  })
+
+  it('collapses a linked accordion containing the selected route', () => {
+    const onClick = vi.fn((event) => event.preventDefault())
+    const onSelectedItemChange = vi.fn()
+    const onOpenChange = vi.fn()
+
+    render(
+      <SidebarMenu.Container
+        selectedItem="debit-card"
+        onSelectedItemChange={onSelectedItemChange}
+      >
+        <SidebarMenu.Accordion
+          id="products"
+          text="Products"
+          href="/products"
+          onClick={onClick}
+          onOpenChange={onOpenChange}
+        >
+          <SidebarMenu.Item id="debit-card" text="Debit card" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Container>
+    )
+
+    const link = document.querySelector('[href="/products"]')
+    expect(link).toHaveAttribute('aria-expanded', 'true')
+
+    fireEvent.click(link)
+
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(onOpenChange).toHaveBeenCalledWith(false)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onSelectedItemChange).toHaveBeenCalledWith('products')
   })
 
   it('uses one action for linked accordion navigation and expansion', () => {

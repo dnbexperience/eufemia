@@ -10,6 +10,7 @@ import {
 import type { ReactElement, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Dropdown from '../../components/Dropdown'
+import Icon from '../../components/icon/Icon'
 import Space from '../../components/space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -478,7 +479,11 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
   )
 
   let sectionContent = children
-  let sectionButtons: Array<{ id: string; text: React.ReactNode }> = []
+  let sectionButtons: Array<{
+    id: string
+    text: React.ReactNode
+    icon?: SidebarMenuSectionProps['icon']
+  }> = []
 
   if (dataSections?.length) {
     sectionButtons = dataSections
@@ -490,6 +495,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     sectionButtons = declarativeSections.map(({ props }) => ({
       id: props.id,
       text: props.text,
+      icon: props.icon,
     }))
     sectionContent = declarativeSections.find(
       ({ props }) => props.id === resolvedActiveSection
@@ -514,10 +520,22 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
           value={resolvedActiveSection}
           label={sectionLabel}
           labelSrOnly
-          data={sectionButtons.map((section) => ({
-            selectedKey: section.id,
-            content: section.text,
-          }))}
+          data={sectionButtons.map((section) => {
+            const content = section.icon ? (
+              <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
+                <Icon icon={section.icon} />
+                {section.text}
+              </Dropdown.HorizontalItem>
+            ) : (
+              section.text
+            )
+
+            return {
+              selectedKey: section.id,
+              selectedValue: content,
+              content,
+            }
+          })}
           onChange={({ data }) => {
             if (typeof data?.selectedKey === 'string') {
               selectSection(data.selectedKey)

@@ -103,6 +103,11 @@ export default function SidebarMenuAccordion(
         return
       }
 
+      if (containsSelectedItem && requestedOpen) {
+        setOpen(false)
+        return
+      }
+
       if (!isSelected && !requestedOpen) {
         setOpen(true)
         setDelayOpen(true)
@@ -117,6 +122,7 @@ export default function SidebarMenuAccordion(
     },
     [
       collapsible,
+      containsSelectedItem,
       context,
       disabled,
       id,
