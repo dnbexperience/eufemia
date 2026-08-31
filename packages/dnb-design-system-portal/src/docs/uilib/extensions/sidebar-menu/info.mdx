@@ -58,11 +58,11 @@ Prerendered applications can read the storage metadata rendered by the container
 - Navigation levels use semantic nested lists.
 - Items render as native links when `href` or `to` is supplied, and native buttons otherwise.
 - Accordion triggers are native buttons with `aria-expanded` and `aria-controls`.
-- Selected destinations use `aria-current="page"`; the visual arrow is hidden from assistive technology.
+- Selected destinations use `aria-current="page"`.
 - Disabled button items use the native `disabled` attribute. Disabled links use `aria-disabled`, have no destination, and are removed from the tab order.
 - Sections are selected through a labeled dropdown.
 - **Tab/Shift+Tab** moves through interactive elements. **Enter/Space** activates buttons and accordion triggers.
-- Selection and expansion animations respect `prefers-reduced-motion`.
+- Expansion animations respect `prefers-reduced-motion`.
 
 The component has automated axe coverage. Always test the finished navigation with the screen readers supported by your product because labels and hierarchy depend on application content.
 
