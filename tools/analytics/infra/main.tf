@@ -306,7 +306,12 @@ resource "aws_apigatewayv2_api" "dashboard" {
   tags          = local.tags
 
   cors_configuration {
-    allow_origins = var.dashboard_origins
+    # Always include the live dashboard origin so CORS works on the first deploy
+    # (no chicken-and-egg); dashboard_origins adds any extra, e.g. local dev.
+    allow_origins = concat(
+      var.dashboard_origins,
+      ["https://${aws_cloudfront_distribution.dashboard.domain_name}"],
+    )
     allow_methods = ["GET"]
     allow_headers = ["authorization"]
     max_age       = 3600
@@ -433,7 +438,7 @@ resource "aws_route53_record" "analytics" {
 }
 
 # ---------------------------------------------------------------------------
-# Dashboard static hosting (public S3 + CloudFront)
+# Dashboard static hosting (public site, private S3 bucket via CloudFront)
 # ---------------------------------------------------------------------------
 #
 # The dashboard shell holds no data and no secrets: all data lives behind the
@@ -457,6 +462,15 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "dashboard" {
   }
 }
 
+# Versioning + the --delete sync gives a free rollback for a bad publish.
+resource "aws_s3_bucket_versioning" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 # The bucket is private; the objects are served to the public through the
 # distribution, never from the bucket directly.
 resource "aws_s3_bucket_public_access_block" "dashboard" {
@@ -477,6 +491,7 @@ resource "aws_cloudfront_origin_access_control" "dashboard" {
 
 resource "aws_cloudfront_distribution" "dashboard" {
   enabled             = true
+  is_ipv6_enabled     = true
   default_root_object = "index.html"
   comment             = "${local.function_name} dashboard"
   price_class         = "PriceClass_100"
@@ -501,22 +516,6 @@ resource "aws_cloudfront_distribution" "dashboard" {
     # AWS managed "SecurityHeadersPolicy": adds HSTS, X-Content-Type-Options,
     # X-Frame-Options, Referrer-Policy. Managed id needs no extra deploy-role IAM.
     response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03"
-  }
-
-  # Return index.html for unknown paths so a refresh after the sign-in redirect
-  # lands on the app instead of an S3 error.
-  custom_error_response {
-    error_code            = 403
-    response_code         = 200
-    response_page_path    = "/index.html"
-    error_caching_min_ttl = 10
-  }
-
-  custom_error_response {
-    error_code            = 404
-    response_code         = 200
-    response_page_path    = "/index.html"
-    error_caching_min_ttl = 10
   }
 
   restrictions {

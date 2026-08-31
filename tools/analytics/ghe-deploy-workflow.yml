@@ -88,9 +88,12 @@ jobs:
             > ../dashboard/config.json
 
           # Publish everything users load; keep the committed scaffold files
-          # (example config, docs) out of the bucket.
+          # (example config, docs) out of the bucket. no-cache: assets aren't
+          # fingerprinted, so make browsers revalidate (paired with the
+          # invalidation below) instead of serving a stale cached copy.
           aws s3 sync ../dashboard "s3://${BUCKET}" \
             --delete \
+            --cache-control 'no-cache' \
             --exclude 'config.example.json' \
             --exclude 'README.md'
 
@@ -100,6 +103,7 @@ jobs:
             --paths '/*'
 
       - name: Post deploy summary
+        if: always()
         run: |
           cd infra
           ENDPOINT=$(terraform output -raw api_endpoint)
