@@ -10,7 +10,8 @@
     grid-template-columns: minmax(0, 1fr) var(--content-sidebar-width);
     align-items: start;
 
-    :global(.fullscreen-page) & {
+    :global(.fullscreen-page) &,
+    &.content-grid--without-toc {
       grid-template-columns: minmax(0, 1fr);
     }
   }

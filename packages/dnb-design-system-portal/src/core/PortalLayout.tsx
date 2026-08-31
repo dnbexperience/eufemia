@@ -9,6 +9,7 @@ import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
 import TabBar from '../shared/tags/TabBar'
+import AutoLinkHeader from '../shared/tags/AutoLinkHeader'
 import PortalToc, { PortalTocProvider } from '../shared/parts/PortalToc'
 import pageLayoutStyles from './PortalLayout.module.scss'
 import { defaultTabsValue } from '../shared/tags/defaultValues'
@@ -25,8 +26,10 @@ const ContentWrapper = TabBar.ContentWrapper
 
 type Frontmatter = {
   title?: string
+  contentTitle?: string
   showTabs?: boolean
   fullscreen?: boolean
+  hideToc?: boolean
 }
 type Fields = {
   slug: string
@@ -56,8 +59,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
             }
             frontmatter {
               title
+              contentTitle
               description
               fullscreen
+              hideToc
               showTabs
               breadcrumb {
                 text
@@ -81,6 +86,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 title
                 description
                 fullscreen
+                hideToc
                 showTabs
                 breadcrumb {
                   text
@@ -150,6 +156,13 @@ export default function PortalLayout(props: PortalLayoutProps) {
   const { focusModeCodeId } = useFocusModeCode()
   const codeFocusMode = focusModeCodeId !== null
 
+  const renderTitle = currentFm.contentTitle ?? fmData.title
+  const titleNode = renderTitle ? (
+    <AutoLinkHeader className="dnb-no-focus" level={1} skipCorrection>
+      {renderTitle}
+    </AutoLinkHeader>
+  ) : undefined
+
   if (!mdx?.frontmatter) {
     return <>{children}</> // looks like it was not a MDX, so we just return children
   }
@@ -167,13 +180,21 @@ export default function PortalLayout(props: PortalLayoutProps) {
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
       {codeFocusMode ? (
-        <Content showTabs={currentFm.showTabs}>{children}</Content>
+        <Content missingRenderTitle={!renderTitle}>{children}</Content>
       ) : (
         <PortalTocProvider>
-          <div className={pageLayoutStyles['content-grid']}>
-            <div className={pageLayoutStyles['content-grid__sidebar']}>
-              <PortalToc />
-            </div>
+          <div
+            className={`${pageLayoutStyles['content-grid']} ${
+              fmData.hideToc
+                ? pageLayoutStyles['content-grid--without-toc']
+                : ''
+            }`}
+          >
+            {!fmData.hideToc && (
+              <div className={pageLayoutStyles['content-grid__sidebar']}>
+                <PortalToc />
+              </div>
+            )}
 
             <div className={pageLayoutStyles['content-grid__main']}>
               {fmData.breadcrumb && (
@@ -197,20 +218,22 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 </Breadcrumb>
               )}
 
-              {currentFm.showTabs && (
+              {currentFm.showTabs ? (
                 <TabBar
                   key="tab-bar"
                   location={location}
                   rootPath={rootPath}
-                  title={fmData.title}
+                  title={titleNode}
                   tabs={fmData.tabs}
                   defaultTabs={fmData.defaultTabs}
                   hideTabs={fmData.hideTabs}
                 />
+              ) : (
+                titleNode
               )}
 
               <Content
-                showTabs={currentFm.showTabs}
+                missingRenderTitle={!renderTitle}
                 sourcePath={editSourcePath}
                 showEditLink
               >
@@ -225,12 +248,14 @@ export default function PortalLayout(props: PortalLayoutProps) {
 }
 
 function Content({
-  showTabs,
+  missingRenderTitle = false,
   sourcePath = null,
   showEditLink = false,
   children,
 }) {
-  if (showTabs) {
+  // Absorb the page-level resetLevels(1) when no title heading
+  // rendered, so content starts at h2 instead of being forced to h1
+  if (missingRenderTitle) {
     resetLevels(2)
   }
 
