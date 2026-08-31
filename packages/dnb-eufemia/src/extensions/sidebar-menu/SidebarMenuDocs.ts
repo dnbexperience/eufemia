@@ -277,6 +277,11 @@ export const SidebarMenuSectionProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'required',
   },
+  icon: {
+    doc: 'Icon shown before the section label.',
+    type: 'IconIcon',
+    status: 'optional',
+  },
   children: {
     doc: 'Menu content shown while the section is active.',
     type: 'React.ReactNode',

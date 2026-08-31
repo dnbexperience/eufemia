@@ -2,14 +2,30 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
-import { account, card, cog, home, pay_from } from '@dnb/eufemia/src/icons'
+import {
+  account,
+  card,
+  cog,
+  home,
+  office_buildings,
+  pay_from,
+  person,
+} from '@dnb/eufemia/src/icons'
 
 export function SidebarMenuDeclarative() {
   return (
     <ComponentBox
       hideCode
       data-visual-test="sidebar-menu-declarative"
-      scope={{ account, card, cog, home, pay_from }}
+      scope={{
+        account,
+        card,
+        cog,
+        home,
+        office_buildings,
+        pay_from,
+        person,
+      }}
     >
       <SidebarMenu.Container
         aria-label="Personal and business navigation"
@@ -23,7 +39,7 @@ export function SidebarMenuDeclarative() {
           console.log('selectedItem', itemId)
         }}
       >
-        <SidebarMenu.Section id="personal" text="Personal">
+        <SidebarMenu.Section id="personal" text="Personal" icon={person}>
           <SidebarMenu.Header text="Everyday banking" />
           <SidebarMenu.Item
             id="overview"
@@ -72,7 +88,11 @@ export function SidebarMenuDeclarative() {
           <SidebarMenu.Item id="disabled" text="Disabled item" disabled />
         </SidebarMenu.Section>
 
-        <SidebarMenu.Section id="business" text="Business">
+        <SidebarMenu.Section
+          id="business"
+          text="Business"
+          icon={office_buildings}
+        >
           <SidebarMenu.Header text="Company" />
           <SidebarMenu.Item
             id="business-overview"
@@ -123,7 +143,16 @@ export function SidebarMenuData() {
     <ComponentBox
       hideCode
       data-visual-test="sidebar-menu-data"
-      scope={{ account, card, cog, home, pay_from, ScrollView }}
+      scope={{
+        account,
+        card,
+        cog,
+        home,
+        office_buildings,
+        pay_from,
+        person,
+        ScrollView,
+      }}
     >
       <ScrollView
         interactive="auto"
@@ -140,6 +169,7 @@ export function SidebarMenuData() {
             {
               id: 'personal-data',
               text: 'Personal',
+              icon: person,
               active: true,
               items: [
                 {
@@ -202,6 +232,7 @@ export function SidebarMenuData() {
             {
               id: 'business-data',
               text: 'Business',
+              icon: office_buildings,
               items: [
                 { id: 'data-business-home', text: 'Overview', icon: home },
                 { id: 'data-payments', text: 'Payments', icon: pay_from },
