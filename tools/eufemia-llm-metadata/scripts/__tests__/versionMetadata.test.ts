@@ -259,9 +259,9 @@ describe('buildMigrationComponent', () => {
 
 describe('extractReplacementNote', () => {
   it('finds replacement hints', () => {
-    expect(extractReplacementNote('Deprecated, use `variant` instead.')).toBe(
-      'Use `variant` instead.'
-    )
+    expect(
+      extractReplacementNote('Deprecated, use `variant` instead.')
+    ).toBe('Use `variant` instead.')
     expect(extractReplacementNote('Replaced by `size`.')).toBe(
       'Use `size` instead.'
     )
