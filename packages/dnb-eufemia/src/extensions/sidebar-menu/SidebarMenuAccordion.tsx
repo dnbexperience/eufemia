@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { MouseEvent } from 'react'
+import type { KeyboardEvent, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import Anchor from '../../components/Anchor'
 import HeightAnimation from '../../components/height-animation/HeightAnimation'
@@ -127,10 +127,19 @@ export default function SidebarMenuAccordion(
     ]
   )
 
+  const handleLinkKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLElement>) => {
+      if (collapsible && event.key === ' ') {
+        event.preventDefault()
+        event.currentTarget.click()
+      }
+    },
+    [collapsible]
+  )
+
   const itemStyle = {
     '--sidebar-menu-indent': `${context.level * 2.5}rem`,
   } as React.CSSProperties
-  const label = typeof text === 'string' ? text : 'section'
   const currentIndicator = containsSelectedItem && !isOpen && (
     <span
       className="dnb-sidebar-menu__accordion__current-indicator"
@@ -152,23 +161,6 @@ export default function SidebarMenuAccordion(
     ),
     [badge, badgeProps, currentIndicator, icon, suffix, text]
   )
-  const linkContent = useMemo(
-    () => (
-      <>
-        <span className="dnb-sidebar-menu__item__content">
-          <SidebarMenuItemContent
-            icon={icon}
-            text={text}
-            textSuffix={currentIndicator}
-          />
-        </span>
-        {suffix}
-        <SidebarMenuBadge badge={badge} badgeProps={badgeProps} />
-      </>
-    ),
-    [badge, badgeProps, currentIndicator, icon, suffix, text]
-  )
-
   return (
     <li
       {...rest}
@@ -182,42 +174,33 @@ export default function SidebarMenuAccordion(
       )}
     >
       {hasLink ? (
-        <div
-          className="dnb-sidebar-menu__item__action dnb-sidebar-menu__accordion__trigger dnb-sidebar-menu__accordion__split"
+        <Anchor
+          noStyle
+          className="dnb-sidebar-menu__item__action dnb-sidebar-menu__accordion__trigger dnb-sidebar-menu__accordion__link"
+          href={disabled ? undefined : href}
+          to={disabled ? undefined : to}
+          element={element}
+          target={target}
+          rel={rel}
+          aria-current={isSelected ? 'page' : undefined}
+          aria-disabled={disabled || undefined}
+          aria-expanded={collapsible ? isOpen : undefined}
+          aria-controls={collapsible ? `${id}-content` : undefined}
+          tabIndex={disabled ? -1 : undefined}
+          onClick={handleLinkClick}
+          onKeyDown={handleLinkKeyDown}
           style={itemStyle}
         >
-          <Anchor
-            noStyle
-            className="dnb-sidebar-menu__accordion__link"
-            href={disabled ? undefined : href}
-            to={disabled ? undefined : to}
-            element={element}
-            target={target}
-            rel={rel}
-            aria-current={isSelected ? 'page' : undefined}
-            aria-disabled={disabled || undefined}
-            tabIndex={disabled ? -1 : undefined}
-            onClick={handleLinkClick}
-          >
-            {linkContent}
-          </Anchor>
+          {content}
           {collapsible && (
-            <button
-              type="button"
-              className="dnb-sidebar-menu__accordion__toggle"
-              aria-expanded={isOpen}
-              aria-controls={`${id}-content`}
-              aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${label}`}
-              disabled={disabled}
-              onClick={() => setOpen(!requestedOpen)}
-            >
+            <span className="dnb-sidebar-menu__accordion__indicator">
               <IconPrimary
                 icon={accordionIcon}
                 transitionState={isOpen ? 'expanded' : 'collapsed'}
               />
-            </button>
+            </span>
           )}
-        </div>
+        </Anchor>
       ) : !collapsible ? (
         <div
           className="dnb-sidebar-menu__item__action dnb-sidebar-menu__accordion__trigger"

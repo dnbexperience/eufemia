@@ -191,7 +191,7 @@ export type SidebarMenuAccordionProps = {
   /** Additional properties passed to the Badge component. */
   badgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /**
-   * Makes the accordion label a page link while the chevron remains a separate expansion button.
+   * Makes the accordion trigger a page link that also controls expansion.
    */
   href?: string
   /** Router destination passed to element. */

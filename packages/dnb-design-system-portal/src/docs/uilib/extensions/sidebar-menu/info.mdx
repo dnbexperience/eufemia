@@ -22,7 +22,7 @@ Compose a menu declaratively with `SidebarMenu.Container`, `SidebarMenu.Item`, `
 - Setting `selectedItem` reveals its ancestors and section. An active branch can still be collapsed; a dot then indicates that it contains the current page.
 - An off-screen selected item is brought into view. Initial positioning and restored scroll positions happen without a visible animated jump.
 - `openItemsStorageKey` and `scrollPositionStorageKey` preserve navigation context between route changes. Session storage is used by default.
-- A linked accordion separates navigation from expansion: its label navigates, while its chevron toggles the nested items.
+- A linked accordion uses one action for navigation and expansion.
 - Collapsed content remains available to browser find-in-page through `hidden="until-found"`.
 
 ## Composition
@@ -31,7 +31,7 @@ Accordion groups support deep nesting, but keep the hierarchy as shallow as poss
 
 Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `disableUntilFound` on the container when collapsed content should not use `hidden="until-found"`.
 
-When an accordion also represents a page, provide `href` or `to`. Its label becomes a navigation link and its chevron remains a separate expansion button.
+When an accordion also represents a page, provide `href` or `to`. The accordion becomes a navigation link that also controls expansion.
 
 ## State and scrolling
 
@@ -57,7 +57,7 @@ Prerendered applications can read the storage metadata rendered by the container
 - The container renders a `nav` landmark. Give each menu a distinct `aria-label` or `aria-labelledby` value.
 - Navigation levels use semantic nested lists.
 - Items render as native links when `href` or `to` is supplied, and native buttons otherwise.
-- Accordion triggers are native buttons with `aria-expanded` and `aria-controls`.
+- Accordion triggers use `aria-expanded` and `aria-controls`. They are native buttons unless `href` or `to` makes the trigger a link.
 - Selected destinations use `aria-current="page"`.
 - Disabled button items use the native `disabled` attribute. Disabled links use `aria-disabled`, have no destination, and are removed from the tab order.
 - Sections are selected through a labeled dropdown.
