@@ -58,7 +58,9 @@ earlier (structured `*Docs.ts` files only go back to `v10.21.0`).
 ### Consuming
 
 - Author-annotated fields appear inline in each component's props/events JSON
-  (surfaced by the `component_props` MCP tool).
+  (surfaced by the `component_props` MCP tool). Inferred values are **not**
+  shown inline there — `component_props` stays authoritative — so for
+  un-annotated props query the `migration_index` tool below.
 - The build aggregates everything (authored + inferred) into
   `build/docs/migrations.json`, exposed by the `migration_index` MCP tool with
   optional `component`, `fromVersion`, `toVersion`, and `changeType` filters. A
