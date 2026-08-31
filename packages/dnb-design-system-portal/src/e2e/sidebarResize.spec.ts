@@ -131,18 +131,49 @@ test.describe('Sidebar resize', () => {
     await expect(sidebar).toHaveCSS('width', `${initialWidth}px`)
   })
 
-  test('should wrap menu content in the mobile drawer', async ({
+  test('should wrap mobile menu content without shifting the logo', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await gotoAndWait(page)
+    await page.goto('/')
+    await waitForApp(page)
 
     await page
       .getByRole('button', { name: 'Open section content menu' })
       .click()
 
     const drawer = page.getByRole('dialog', { name: 'Menu' })
+    const drawerScrollView = drawer.locator('.dnb-drawer')
     const scrollView = drawer.locator('.portal-sidebar-scroll-view')
+    const logo = drawer.getByRole('link', {
+      name: 'Go to Eufemia home',
+    })
+    const components = drawer.getByRole('button', {
+      name: 'Components',
+      exact: true,
+    })
+
+    await expect(drawer).toBeVisible()
+    await expect(drawerScrollView).toHaveCSS('scrollbar-gutter', 'stable')
+    await expect(scrollView).toHaveCSS('scrollbar-gutter', 'auto')
+    await drawerScrollView.evaluate(async (element) => {
+      await Promise.all(
+        element.getAnimations().map((animation) => animation.finished)
+      )
+    })
+    await expect(components).toHaveAttribute('aria-expanded', 'false')
+    await expect(
+      drawerScrollView.evaluate(
+        (element) => element.scrollHeight <= element.clientHeight
+      )
+    ).resolves.toBe(true)
+
+    const initialLogoX = await logo.evaluate(
+      (element) => element.getBoundingClientRect().x
+    )
+
+    await components.click()
+
     const itemText = drawer
       .getByRole('link', {
         name: 'FormStatus (Messageboxes)',
@@ -150,7 +181,20 @@ test.describe('Sidebar resize', () => {
       })
       .locator('.dnb-sidebar-menu__item__text')
 
-    await expect(drawer).toBeVisible()
+    await expect(itemText).toBeVisible()
+    await expect
+      .poll(() =>
+        drawerScrollView.evaluate(
+          (element) => element.scrollHeight > element.clientHeight
+        )
+      )
+      .toBe(true)
+    await drawerScrollView.evaluate(
+      () =>
+        new Promise((resolve) => {
+          requestAnimationFrame(() => requestAnimationFrame(resolve))
+        })
+    )
     await expect(
       scrollView.evaluate(
         (element) => element.scrollWidth <= element.clientWidth
@@ -161,6 +205,9 @@ test.describe('Sidebar resize', () => {
         (element) => element.getBoundingClientRect().height
       )
     ).resolves.toBeGreaterThan(24)
+    await expect(
+      logo.evaluate((element) => element.getBoundingClientRect().x)
+    ).resolves.toBeCloseTo(initialLogoX, 1)
   })
 
   test('should support focus and keyboard resize', async ({ page }) => {

@@ -194,7 +194,7 @@ export default function SidebarLayout({
           'dnb-scrollbar-appearance'
         )}
         interactive="auto"
-        scrollbarGutter="stable"
+        scrollbarGutter={isMobile ? undefined : 'stable'}
       >
         <div className={scrollContentStyle}>
           <Link
@@ -250,7 +250,7 @@ export default function SidebarLayout({
           maxWidth="min(80vw, 24rem)"
           className={mobileDrawerStyle}
           spacing={false}
-          scrollbarGutter={false}
+          scrollbarGutter="stable"
         >
           {menu(mobileNavStyle)}
         </Drawer>
