@@ -9,7 +9,7 @@ const detectOS = (ua?: string) => {
   ua = ua || navigator.userAgent
   const ipad = /(iPad).*OS\s([\d_]+)/.test(ua)
   const iphone = !ipad && /(iPhone\sOS)\s([\d_]+)/.test(ua)
-  const android = /(Android);?[\s/]+([\d.]+)?/.test(ua)
+  const android = /(Android);?[\s/]+/.test(ua)
   const ios = iphone || ipad
   return { ios, android }
 }
