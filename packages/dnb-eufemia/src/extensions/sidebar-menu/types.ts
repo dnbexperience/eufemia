@@ -55,6 +55,8 @@ export type SidebarMenuSectionData = {
   id: string
   /** Section toggle label. */
   text: ReactNode
+  /** Icon shown before the section label. */
+  icon?: IconIcon
   /** Marks this section as initially active. */
   active?: boolean
   /** Recursive menu content for the section. */
@@ -232,6 +234,8 @@ export type SidebarMenuAccordionProps = {
 export type SidebarMenuSectionProps = {
   id: string
   text: ReactNode
+  /** Icon shown before the section label. */
+  icon?: IconIcon
   children?: ReactNode
 }
 

@@ -64,6 +64,12 @@
     }
   }
 
+  &__section-label {
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
   &__list {
     display: flex;
     flex-direction: column;
