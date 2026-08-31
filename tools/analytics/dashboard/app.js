@@ -1,9 +1,15 @@
 // Renders analytics records as key figures and bar charts. Data is loaded from
-// DATA_URL; the page shows an empty state until a data source is wired up.
+// the access-controlled dashboard API; the page shows an empty state when there
+// is no data or no data source is configured.
 
-import { ensureSignedIn, signOut } from './auth.js'
-
-const DATA_URL = './data/records.json'
+import {
+  ensureSignedIn,
+  getApiBaseUrl,
+  clearSession,
+  beginAuthRetry,
+  clearAuthRetry,
+  signOut,
+} from './auth.js'
 
 /** Normalise the stored shape to a common view model. */
 function normalise(record) {
@@ -26,6 +32,52 @@ function toRecords(payload) {
   }
 
   return []
+}
+
+/**
+ * Fetch dashboard records from the protected API. Returns a discriminated
+ * result so the caller owns DOM and navigation; this function only manages the
+ * sign-in retry marker:
+ *   { kind: 'empty' }         no session, no API configured, or a network error
+ *   { kind: 'retry' }         token rejected and a sign-in retry is allowed
+ *   { kind: 'rejected' }      token rejected after the retry was already used
+ *   { kind: 'error', status } the API responded with a non-ok status
+ *   { kind: 'data', payload } records fetched successfully
+ */
+export async function loadDashboardData(session, apiBaseUrl) {
+  if (!session || !apiBaseUrl) {
+    return { kind: 'empty' }
+  }
+
+  const base = apiBaseUrl.replace(/\/$/, '')
+
+  let response
+  try {
+    response = await fetch(`${base}/data`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+      cache: 'no-store',
+    })
+  } catch {
+    // Network or endpoint issue; show the empty state.
+    return { kind: 'empty' }
+  }
+
+  if (response.status === 401) {
+    return beginAuthRetry() ? { kind: 'retry' } : { kind: 'rejected' }
+  }
+
+  if (!response.ok) {
+    return { kind: 'error', status: response.status }
+  }
+
+  clearAuthRetry()
+
+  try {
+    return { kind: 'data', payload: await response.json() }
+  } catch {
+    // Malformed body; show the empty state rather than crashing the page.
+    return { kind: 'empty' }
+  }
 }
 
 function countBy(items, key) {
@@ -149,30 +201,52 @@ function renderUser(session) {
   container.hidden = false
 }
 
+function showError(message) {
+  const box = document.getElementById('error')
+  box.textContent = message
+  box.hidden = false
+}
+
 async function main() {
   let session
   try {
     session = await ensureSignedIn()
   } catch (error) {
-    const box = document.getElementById('error')
-    box.textContent = `Sign-in failed: ${error.message}`
-    box.hidden = false
+    showError(`Sign-in failed: ${error.message}`)
 
     return
   }
 
   renderUser(session)
 
-  let payload = null
-  try {
-    const response = await fetch(DATA_URL, { cache: 'no-store' })
-    if (response.ok) {
-      payload = await response.json()
-    }
-  } catch {
-    // No data source yet; fall through to the empty state.
+  const result = await loadDashboardData(session, getApiBaseUrl())
+
+  if (result.kind === 'retry') {
+    // Token rejected; retry sign-in once, then surface an error instead of
+    // looping between clearing the session and reloading.
+    clearSession()
+    window.location.reload()
+
+    return
   }
 
+  if (result.kind === 'rejected') {
+    showError(
+      'The data API rejected your access. Please try again later, or contact the dashboard owner if it persists.'
+    )
+
+    return
+  }
+
+  if (result.kind === 'error') {
+    showError(
+      `The data API returned an error (${result.status}). Please try again later, or contact the dashboard owner if it persists.`
+    )
+
+    return
+  }
+
+  const payload = result.kind === 'data' ? result.payload : null
   const all = toRecords(payload).map(normalise)
 
   if (all.length === 0) {
@@ -194,4 +268,8 @@ async function main() {
   apply('')
 }
 
-main()
+// Browser entry point. Guarded so importing this module for its exports (tests)
+// does not run the page flow.
+if (typeof document !== 'undefined') {
+  main()
+}

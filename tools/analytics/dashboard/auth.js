@@ -9,12 +9,19 @@
 // to enforce auth on the files, or serving data from a token-protected API.
 
 let config = {}
-const SCOPE = 'openid profile email'
+const BASE_SCOPE = 'openid profile email'
 const SESSION_KEY = 'eufemia-analytics-session'
 const FLOW_KEY = 'eufemia-analytics-flow'
+const RETRY_KEY = 'eufemia-analytics-retry'
 
 function authority() {
   return `https://login.microsoftonline.com/${config.tenantId}`
+}
+
+// Request the API scope alongside sign-in so the token endpoint returns an
+// access token the dashboard API accepts.
+export function scopes(cfg = config) {
+  return cfg.apiScope ? `${BASE_SCOPE} ${cfg.apiScope}` : BASE_SCOPE
 }
 
 async function loadConfig() {
@@ -73,19 +80,22 @@ function decodeJwt(token) {
   }
 }
 
-function readSession() {
+export function readSession() {
   try {
     const session = JSON.parse(
       sessionStorage.getItem(SESSION_KEY) || 'null'
     )
-    if (session && session.expiresAt > Date.now()) {
+    // Require an access token as well: a session persisted by an older build
+    // has no token and can't call the data API, so treat it as invalid and
+    // force a clean re-auth rather than sending "Bearer undefined".
+    if (session && session.accessToken && session.expiresAt > Date.now()) {
       return session
     }
   } catch {
     // Fall through to a clean state.
   }
 
-  sessionStorage.removeItem(SESSION_KEY)
+  clearSession()
 
   return null
 }
@@ -99,7 +109,7 @@ async function redirectToLogin() {
     client_id: config.clientId,
     response_type: 'code',
     redirect_uri: config.redirectUri,
-    scope: SCOPE,
+    scope: scopes(),
     code_challenge: await challengeFrom(verifier),
     code_challenge_method: 'S256',
     state,
@@ -137,6 +147,7 @@ async function exchangeCode(code, returnedState) {
 
   const session = {
     name: claims.name || claims.preferred_username || 'Signed in',
+    accessToken: tokens.access_token,
     expiresAt:
       Date.now() + (Number(tokens.expires_in) || 3600) * 1000 - 60000,
   }
@@ -202,10 +213,34 @@ export async function ensureSignedIn() {
 }
 
 export function signOut() {
-  sessionStorage.removeItem(SESSION_KEY)
+  clearSession()
 
   const params = new URLSearchParams({
     post_logout_redirect_uri: config.redirectUri || window.location.origin,
   })
   window.location.assign(`${authority()}/oauth2/v2.0/logout?${params}`)
+}
+
+export function getApiBaseUrl() {
+  return config.apiBaseUrl
+}
+
+export function clearSession() {
+  sessionStorage.removeItem(SESSION_KEY)
+}
+
+// Grant a single sign-in retry after the API rejects a token, so a persistently
+// refused token surfaces an error instead of looping between clear and reload.
+export function beginAuthRetry() {
+  if (sessionStorage.getItem(RETRY_KEY)) {
+    return false
+  }
+
+  sessionStorage.setItem(RETRY_KEY, '1')
+
+  return true
+}
+
+export function clearAuthRetry() {
+  sessionStorage.removeItem(RETRY_KEY)
 }
