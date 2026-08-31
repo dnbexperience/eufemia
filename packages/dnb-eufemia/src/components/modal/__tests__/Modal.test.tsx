@@ -1176,7 +1176,7 @@ describe('Modal component', () => {
     expect(outsideButton.getAttribute('aria-hidden')).toEqual('true')
   })
 
-  it('runs expected side effects on desktop', () => {
+  it('locks body scroll without fixing its height on desktop', () => {
     render(
       <Modal {...props}>
         <DialogContent />
@@ -1190,7 +1190,8 @@ describe('Modal component', () => {
     fireEvent.click(elem)
 
     expect(document.body.style.overflow).toBe('hidden')
-    expect(document.body.style.height).toBe('100%')
+    expect(document.body.style.height).toBe('auto')
+    expect(document.body.style.minHeight).toBe('100%')
     expect(document.body.style.boxSizing).toBe('border-box')
     expect(document.body.style.marginRight).toBe('0px')
     expect(document.documentElement.style.height).toBe('100%')
@@ -1291,7 +1292,8 @@ describe('Modal component', () => {
     expect(document.body.style.top).toBe('0px')
     expect(document.body.style.left).toBe('0px')
     expect(document.body.style.right).toBe('0px')
-    expect(document.body.style.height).toBe('100%')
+    expect(document.body.style.height).toBe('auto')
+    expect(document.body.style.minHeight).toBe('100%')
     expect(document.documentElement.style.height).toBe('100%')
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
