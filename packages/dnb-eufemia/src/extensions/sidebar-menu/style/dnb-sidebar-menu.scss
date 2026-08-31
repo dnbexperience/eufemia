@@ -426,8 +426,6 @@
   }
 
   .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected):hover
-    .dnb-drawer-list__option__inner,
-  .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected)
     .dnb-drawer-list__option__inner {
     background-color: var(--token-color-background-neutral-base);
   }
@@ -479,6 +477,10 @@
 html[data-whatinput='keyboard']
   .dnb-sidebar-menu__sections-portal
   .dnb-drawer-list__option--focus {
+  --drawer-list-option-color-text--focus: var(
+    --token-color-text-action-focus
+  );
+
   box-shadow: none;
 
   .dnb-drawer-list__option__inner {
@@ -487,5 +489,7 @@ html[data-whatinput='keyboard']
       var(--focus-ring-width),
       inset
     );
+
+    background-color: var(--token-color-background-action-focus-subtle);
   }
 }
