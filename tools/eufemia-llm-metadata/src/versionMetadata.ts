@@ -255,7 +255,11 @@ function deriveKind(
       history[lastIndex].parsed[kind],
       key
     )
-    if (removedIndex !== -1 && absentAtLatest && history[removedIndex].version) {
+    if (
+      removedIndex !== -1 &&
+      absentAtLatest &&
+      history[removedIndex].version
+    ) {
       info.removedIn = history[removedIndex].version as string
     }
 
@@ -324,7 +328,10 @@ function applyKind(
     }
 
     // `since`: author annotation wins; otherwise use the inferred value.
-    if ((entry.since === undefined || entry.since === null) && info.since) {
+    if (
+      (entry.since === undefined || entry.since === null) &&
+      info.since
+    ) {
       entry.since = info.since
       entry.sinceInferred = true
       if (info.sinceFloor) {

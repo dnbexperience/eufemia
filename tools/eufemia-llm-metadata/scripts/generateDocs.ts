@@ -47,7 +47,9 @@ async function loadVersionMetadata(
   const file = path.join(toolDir, 'version-metadata.json')
   try {
     const parsed = await fs.readJson(file)
-    return (parsed?.components as Record<string, ComponentVersionInfo>) || {}
+    return (
+      (parsed?.components as Record<string, ComponentVersionInfo>) || {}
+    )
   } catch {
     return {}
   }
@@ -216,9 +218,13 @@ export async function generateDocs() {
     eufemiaVersion: version,
     generatedAt,
   })
-  await fs.writeJson(path.join(outputRoot, 'migrations.json'), migrations, {
-    spaces: 2,
-  })
+  await fs.writeJson(
+    path.join(outputRoot, 'migrations.json'),
+    migrations,
+    {
+      spaces: 2,
+    }
+  )
 
   await writeLlmsText({
     siteDir: repoRoot,

@@ -361,7 +361,9 @@ function filterMigrations(
   const versionsIn = data.versions ?? {}
   const outVersions: Record<string, MigrationVersionBucketShape> = {}
 
-  for (const version of Object.keys(versionsIn).sort(compareSemverStrings)) {
+  for (const version of Object.keys(versionsIn).sort(
+    compareSemverStrings
+  )) {
     if (!versionInRange(version, fromVersion, toVersion)) {
       continue
     }
@@ -425,10 +427,15 @@ function summarizeMigrations(
     { added?: number; deprecated?: number; removed?: number }
   > = {}
 
-  for (const version of Object.keys(versionsIn).sort(compareSemverStrings)) {
+  for (const version of Object.keys(versionsIn).sort(
+    compareSemverStrings
+  )) {
     const bucketIn = versionsIn[version] ?? {}
-    const counts: { added?: number; deprecated?: number; removed?: number } =
-      {}
+    const counts: {
+      added?: number
+      deprecated?: number
+      removed?: number
+    } = {}
     for (const kind of kinds) {
       const n = (bucketIn[kind] ?? []).length
       if (n > 0) {

@@ -198,7 +198,10 @@ async function main() {
       .relative(PKG_SRC, path.dirname(filePath))
       .split(path.sep)
       .join('/')
-    components[relDir] = mergeComponentVersions(components[relDir], derived)
+    components[relDir] = mergeComponentVersions(
+      components[relDir],
+      derived
+    )
   }
 
   // Drop empty components to keep the artefact lean.
@@ -241,7 +244,7 @@ async function main() {
 function sortComponentInfo(
   info: ComponentVersionInfo
 ): ComponentVersionInfo {
-  const sortRecord = <T,>(rec: Record<string, T>): Record<string, T> => {
+  const sortRecord = <T>(rec: Record<string, T>): Record<string, T> => {
     const out: Record<string, T> = {}
     for (const key of Object.keys(rec).sort()) {
       out[key] = rec[key]
