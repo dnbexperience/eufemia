@@ -61,4 +61,6 @@ earlier (structured `*Docs.ts` files only go back to `v10.21.0`).
   (surfaced by the `component_props` MCP tool).
 - The build aggregates everything (authored + inferred) into
   `build/docs/migrations.json`, exposed by the `migration_index` MCP tool with
-  optional `component`, `fromVersion`, `toVersion`, and `changeType` filters.
+  optional `component`, `fromVersion`, `toVersion`, and `changeType` filters. A
+  call with no narrowing filter returns per-version counts only (the full index
+  is large); pass a component or version range to get full entries.
