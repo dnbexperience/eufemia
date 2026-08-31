@@ -1,6 +1,5 @@
 import { clsx } from 'clsx'
 import Anchor from '../../components/Anchor'
-import IconPrimary from '../../components/IconPrimary'
 import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import {
@@ -58,7 +57,7 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
       style={
         {
           ...style,
-          '--sidebar-menu-indent': `${context.level * 2}rem`,
+          '--sidebar-menu-indent': `${context.level * 2.5}rem`,
         } as React.CSSProperties
       }
     >
@@ -77,25 +76,8 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
           tabIndex={disabled ? -1 : undefined}
           onClick={handleClick}
         >
-          <span
-            className={clsx(
-              'dnb-sidebar-menu__item__selection-indicator',
-              icon &&
-                'dnb-sidebar-menu__item__selection-indicator--has-icon'
-            )}
-            aria-hidden="true"
-          >
-            {icon && (
-              <span className="dnb-sidebar-menu__item__original-icon">
-                <IconPrimary icon={icon} />
-              </span>
-            )}
-            <span className="dnb-sidebar-menu__item__selection-icon">
-              <IconPrimary icon="arrow_right" />
-            </span>
-          </span>
           <span className="dnb-sidebar-menu__item__content">
-            <SidebarMenuItemContent text={text} />
+            <SidebarMenuItemContent icon={icon} text={text} />
           </span>
           {suffix}
           <SidebarMenuBadge badge={badge} badgeProps={badgeProps} />
