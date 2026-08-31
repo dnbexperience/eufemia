@@ -36,7 +36,8 @@ function toRecords(payload) {
 
 /**
  * Fetch dashboard records from the protected API. Returns a discriminated
- * result so the caller owns all DOM and navigation side effects:
+ * result so the caller owns DOM and navigation; this function only manages the
+ * sign-in retry marker:
  *   { kind: 'empty' }         no session, no API configured, or a network error
  *   { kind: 'retry' }         token rejected and a sign-in retry is allowed
  *   { kind: 'rejected' }      token rejected after the retry was already used
@@ -48,9 +49,11 @@ export async function loadDashboardData(session, apiBaseUrl) {
     return { kind: 'empty' }
   }
 
+  const base = apiBaseUrl.replace(/\/$/, '')
+
   let response
   try {
-    response = await fetch(`${apiBaseUrl}/data`, {
+    response = await fetch(`${base}/data`, {
       headers: { Authorization: `Bearer ${session.accessToken}` },
       cache: 'no-store',
     })

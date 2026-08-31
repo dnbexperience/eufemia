@@ -107,6 +107,19 @@ describe('loadDashboardData', () => {
     })
   })
 
+  it('strips a trailing slash from the API base URL', async () => {
+    let captured
+    globalThis.fetch = async (url) => {
+      captured = url
+
+      return { status: 200, ok: true, json: async () => ({}) }
+    }
+
+    await loadDashboardData(session, 'https://api.example/')
+
+    expect(captured).toBe('https://api.example/data')
+  })
+
   it('clears the retry marker after a successful fetch', async () => {
     beginAuthRetry()
     globalThis.fetch = async () => ({
