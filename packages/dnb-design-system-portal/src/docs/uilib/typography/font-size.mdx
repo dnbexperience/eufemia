@@ -60,22 +60,37 @@ Type scaling curve. This would make iOS smaller than desktop by default and
 change the difference at larger accessibility sizes. It would also reduce all
 root-relative layout values.
 
-### Possible future improvements
+### Optional JavaScript root scaling
 
-One option is to keep Apple's `Body` style and scale the resulting text by `16
-/ 17` with an iOS-only `text-size-adjust`. This produces an 18px DNB basis size
-at the default setting while retaining the `Body` Dynamic Type curve. It also
-keeps root-relative layout values at their current iOS sizes. Before using this
-as a framework default, it needs real-device testing across all text-size
-settings, nested typography, form controls, and representative layouts.
+At the default iOS text size, this opt-in script keeps DNB basis text at 18px.
+If the user changes the system text size, all `rem`-based text and layout scale
+proportionally. Place it after the viewport meta tag and before stylesheets to
+avoid a visible layout change.
+
+```tsx
+import { TextScaleHeadScript } from '@dnb/eufemia/shared/TextScaleScript'
+```
+
+```tsx
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <TextScaleHeadScript />
+  {/* stylesheets */}
+</head>
+```
+
+Pass the page's CSP nonce to `TextScaleHeadScript` when required.
+
+Client-rendered applications can use `TextScaleClient`, but server-rendered
+pages may show a layout change during hydration. Without the script, the root
+is 17px and DNB basis text is 19.125px at the default iOS setting. Text still
+follows the user's system text-size setting.
 
 The longer-term option is the standard
 [`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)
 environment variable and
 [`<meta name="text-scale" content="scale">`](https://drafts.csswg.org/css-fonts-5/#text-scale-meta).
-These would give websites a standard way to read or apply the user's preferred
-text scale. They are experimental and are not yet supported by Safari, so
-Eufemia cannot use them today.
+These are not yet supported by Safari.
 
 ### Responsive typography (BETA)
 

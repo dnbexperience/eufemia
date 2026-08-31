@@ -75,7 +75,9 @@
     // IS_SAFARI_MOBILE
     @supports (-webkit-touch-callout: none) {
       @supports (font: -apple-system-body) {
-        font: -apple-system-body; /* stylelint-disable-line */
+        &:not([data-eufemia-text-scale]) {
+          font: -apple-system-body; /* stylelint-disable-line */
+        }
       }
     }
   }
