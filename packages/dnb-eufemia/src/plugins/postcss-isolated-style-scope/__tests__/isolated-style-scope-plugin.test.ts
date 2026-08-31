@@ -240,6 +240,14 @@ describe('isolated-style-scope-plugin', () => {
       )
     })
 
+    it('should keep a root-only html pseudo-class global', async () => {
+      return await run(
+        'html:not([data-test]) { font-size: 100%; }',
+        'html:not([data-test]) { font-size: 100%; }',
+        { scopeHash: 'test-scope' }
+      )
+    })
+
     it('should handle body tag', async () => {
       return await run(
         'body .module-class { color: red; }',

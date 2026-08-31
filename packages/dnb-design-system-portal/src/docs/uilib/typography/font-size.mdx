@@ -78,8 +78,7 @@ layout change.
 
 Client-rendered applications can use `TextScaleClient`, but server-rendered
 pages may show a layout change during hydration. Without the script, Eufemia
-keeps its current fallback. With isolated styles, the fallback cannot scale the
-document root, so text and `rem`-based layout may not scale together.
+keeps its current fallback.
 
 The longer-term option is the standard
 [`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)

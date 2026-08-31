@@ -554,7 +554,13 @@ function isGlobalSelector(nodes) {
   }
   // Case 3: html, body, html body
   if (parts[0].type === 'tag' && parts[0].value === 'html') {
-    if (parts.length === 1) return true // html
+    if (
+      parts
+        .slice(1)
+        .every((part) => ['attribute', 'pseudo'].includes(part.type))
+    ) {
+      return true // html, html[attribute], html:pseudo
+    }
     if (
       parts.length === 2 &&
       parts[1].type === 'tag' &&
