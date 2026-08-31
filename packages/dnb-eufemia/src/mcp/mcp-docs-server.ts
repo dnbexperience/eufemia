@@ -394,6 +394,65 @@ function filterMigrations(
   }
 }
 
+/**
+ * Compact per-version counts for a fully unfiltered request. The full index is
+ * very large (hundreds of KB), so an unfiltered call returns this overview plus
+ * guidance to narrow down, rather than dumping every change into one response.
+ */
+function summarizeMigrations(
+  data: MigrationsIndexShape,
+  changeType?: 'added' | 'deprecated' | 'removed'
+): {
+  schemaVersion?: number
+  eufemiaVersion?: string
+  generatedAt?: string
+  summary: true
+  message: string
+  totals: { added: number; deprecated: number; removed: number }
+  versions: Record<
+    string,
+    { added?: number; deprecated?: number; removed?: number }
+  >
+} {
+  const kinds: Array<'added' | 'deprecated' | 'removed'> = changeType
+    ? [changeType]
+    : ['added', 'deprecated', 'removed']
+
+  const versionsIn = data.versions ?? {}
+  const totals = { added: 0, deprecated: 0, removed: 0 }
+  const versions: Record<
+    string,
+    { added?: number; deprecated?: number; removed?: number }
+  > = {}
+
+  for (const version of Object.keys(versionsIn).sort(compareSemverStrings)) {
+    const bucketIn = versionsIn[version] ?? {}
+    const counts: { added?: number; deprecated?: number; removed?: number } =
+      {}
+    for (const kind of kinds) {
+      const n = (bucketIn[kind] ?? []).length
+      if (n > 0) {
+        counts[kind] = n
+        totals[kind] += n
+      }
+    }
+    if (Object.keys(counts).length > 0) {
+      versions[version] = counts
+    }
+  }
+
+  return {
+    schemaVersion: data.schemaVersion,
+    eufemiaVersion: data.eufemiaVersion,
+    generatedAt: data.generatedAt,
+    summary: true,
+    message:
+      'Overview only (per-version counts). The full index is large; narrow the request with `component`, `fromVersion`/`toVersion`, and optionally `changeType` to get full entries.',
+    totals,
+    versions,
+  }
+}
+
 function createDocsContext(source: DocsSource) {
   let cachedMdFiles: string[] | null = null
   let cachedMdFilesAt = 0
@@ -1171,6 +1230,15 @@ export function createDocsTools(
       )
     }
 
+    const narrowed = Boolean(component || fromVersion || toVersion)
+    if (!narrowed) {
+      // A fully unfiltered request would return the entire (very large) index.
+      // Return per-version counts instead, so the caller can narrow down.
+      return makeTextResult(
+        JSON.stringify(summarizeMigrations(data, changeType), null, 2)
+      )
+    }
+
     const filtered = filterMigrations(data, {
       component,
       fromVersion,
@@ -1364,7 +1432,7 @@ export function registerDocsTools(
     {
       title: 'Migration index',
       description:
-        'Return a per-release migration index for Eufemia: which component properties, events, and components were added, deprecated, or removed in each version. Use this to answer version questions such as "is this prop available in the version I use?" or "what changed between 11.0.0 and 11.6.0?", and to surface upgrade/replacement notes. Optional filters: component (e.g. "Button"), fromVersion/toVersion (semver range), and changeType (added|deprecated|removed). Values marked sinceInferred/sinceFloor are inferred from git history (floored = "at or before"); author-annotated values are authoritative.',
+        'Return a per-release migration index for Eufemia: which component properties, events, and components were added, deprecated, or removed in each version. Use this to answer version questions such as "is this prop available in the version I use?" or "what changed between 11.0.0 and 11.6.0?", and to surface upgrade/replacement notes. A call with no narrowing filter returns per-version counts only (the full index is large); pass a component (e.g. "Button"), a fromVersion/toVersion semver range, and optionally a changeType (added|deprecated|removed) to get full entries. Values marked sinceInferred/sinceFloor are inferred from git history (floored = "at or before"); author-annotated values are authoritative.',
       inputSchema: MigrationIndexInput.shape,
     },
     (input) => tools.migrationIndex(input)

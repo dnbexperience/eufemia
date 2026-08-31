@@ -935,15 +935,15 @@ describe('migration_index', () => {
     cleanup()
   })
 
-  it('returns the full index when no filters are given', async () => {
+  it('returns a compact summary (per-version counts) when no filters are given', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.migrationIndex({})
     const data = JSON.parse(getText(result))
-    expect(Object.keys(data.versions)).toEqual([
-      '10.63.0',
-      '11.0.0',
-      '11.4.0',
-    ])
+    expect(data.summary).toBe(true)
+    expect(data.totals).toEqual({ added: 2, deprecated: 1, removed: 1 })
+    // Per-version counts only, not full entries.
+    expect(data.versions['11.0.0']).toEqual({ added: 1, removed: 1 })
+    expect(data.versions['11.4.0']).toEqual({ deprecated: 1 })
     expect(data.eufemiaVersion).toBe('11.11.0')
   })
 
@@ -966,13 +966,26 @@ describe('migration_index', () => {
     expect(Object.keys(data.versions)).toEqual(['11.0.0'])
   })
 
-  it('filters by change type', async () => {
+  it('filters by change type (with a narrowing filter)', async () => {
     const tools = createDocsTools({ docsRoot })
-    const result = await tools.migrationIndex({ changeType: 'removed' })
+    const result = await tools.migrationIndex({
+      changeType: 'removed',
+      fromVersion: '11.0.0',
+      toVersion: '11.11.0',
+    })
     const data = JSON.parse(getText(result))
     expect(Object.keys(data.versions)).toEqual(['11.0.0'])
     expect(data.versions['11.0.0'].removed[0].name).toBe('icon_position')
     expect(data.versions['11.0.0'].added).toBeUndefined()
+  })
+
+  it('applies changeType to the unfiltered summary counts', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({ changeType: 'removed' })
+    const data = JSON.parse(getText(result))
+    expect(data.summary).toBe(true)
+    expect(data.totals).toEqual({ added: 0, deprecated: 0, removed: 1 })
+    expect(data.versions['11.0.0']).toEqual({ removed: 1 })
   })
 
   it('reports a structured error when migrations.json is missing', async () => {
