@@ -475,3 +475,17 @@
     left: 0;
   }
 }
+
+html[data-whatinput='keyboard']
+  .dnb-sidebar-menu__sections-portal
+  .dnb-drawer-list__option--focus {
+  box-shadow: none;
+
+  .dnb-drawer-list__option__inner {
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-action-focus),
+      var(--focus-ring-width),
+      inset
+    );
+  }
+}

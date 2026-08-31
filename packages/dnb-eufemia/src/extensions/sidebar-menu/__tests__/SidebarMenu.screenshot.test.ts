@@ -51,6 +51,21 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
+  it('matches a keyboard-focused section option', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+        },
+        { keypress: 'ArrowDown' },
+      ],
+    })
+  })
+
   it('matches a hovered item', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',
