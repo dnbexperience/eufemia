@@ -497,6 +497,10 @@ resource "aws_cloudfront_distribution" "dashboard" {
 
     # AWS managed "CachingOptimized" policy.
     cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+
+    # AWS managed "SecurityHeadersPolicy": adds HSTS, X-Content-Type-Options,
+    # X-Frame-Options, Referrer-Policy. Managed id needs no extra deploy-role IAM.
+    response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03"
   }
 
   # Return index.html for unknown paths so a refresh after the sign-in redirect

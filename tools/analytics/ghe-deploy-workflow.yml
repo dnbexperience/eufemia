@@ -72,25 +72,27 @@ jobs:
           BUCKET=$(terraform output -raw dashboard_bucket)
           DIST=$(terraform output -raw dashboard_distribution_id)
           URL=$(terraform output -raw dashboard_url)
+          API_BASE_URL=$(terraform output -raw dashboard_api_endpoint)
 
           # Generate the per-host runtime config from the deploy variables. It
           # holds only non-secret public identifiers, so it is safe to serve.
-          # The redirect URI must be the CloudFront URL registered on the app.
+          # The redirect URI must be the CloudFront URL registered on the app;
+          # apiScope is the app registration's exposed "Dashboard.Read" scope.
           jq -n \
             --arg clientId "$ENTRA_CLIENT_ID" \
             --arg tenantId "$ENTRA_TENANT_ID" \
             --arg redirectUri "$URL" \
-            '{clientId: $clientId, tenantId: $tenantId, redirectUri: $redirectUri}' \
+            --arg apiBaseUrl "$API_BASE_URL" \
+            --arg apiScope "api://${ENTRA_CLIENT_ID}/Dashboard.Read" \
+            '{clientId: $clientId, tenantId: $tenantId, redirectUri: $redirectUri, apiBaseUrl: $apiBaseUrl, apiScope: $apiScope}' \
             > ../dashboard/config.json
 
-          # Publish everything users load; keep the local-only scaffold files
-          # (example config, docs, env) out of the bucket.
+          # Publish everything users load; keep the committed scaffold files
+          # (example config, docs) out of the bucket.
           aws s3 sync ../dashboard "s3://${BUCKET}" \
             --delete \
             --exclude 'config.example.json' \
-            --exclude 'README.md' \
-            --exclude '.env' \
-            --exclude '.env.example'
+            --exclude 'README.md'
 
           # Invalidate so the new config.json and assets are served immediately.
           aws cloudfront create-invalidation \
