@@ -109,35 +109,35 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   const slug = location.pathname.replace(/^\/|\/$/g, '')
   const mdxEdges = data.allMdx.edges
-  const mdx =
+  const pageMdx =
     useMemo(() => {
       return mdxEdges.find(({ node }) => {
         return slug === node.fields.slug
       })
     }, [mdxEdges, slug])?.node || {}
 
-  const { siblings } = mdx
-  const category = siblings?.[0] as PortalLayoutNode
-  const categoryFm = category?.frontmatter || {}
-  const currentFm = mdx?.frontmatter || {}
-  const fmData = Object.entries(categoryFm).reduce(
+  const { siblings: mdxParents } = pageMdx
+  const parentMdx = mdxParents?.[0] as PortalLayoutNode
+  const parentFm = parentMdx?.frontmatter || {}
+  const pageFm = pageMdx?.frontmatter || {}
+  const fmData = Object.entries(parentFm).reduce(
     (acc, [key, value]) => {
-      if (!acc[key]) {
+      if (acc[key] === undefined) {
         acc[key] = value
       }
       return acc
     },
-    { ...currentFm }
+    { ...pageFm }
   )
 
   // For tab pages without their own title, construct a title like "ComponentName → TabName"
   const headData = { ...fmData }
-  if (!currentFm.title && currentFm.showTabs && categoryFm.title) {
+  if (!pageFm.title && pageFm.showTabs && parentFm.title) {
     const tabs = fmData.tabs || defaultTabsValue
     const currentTabKey = '/' + slug.split('/').pop()
     const currentTab = tabs.find(({ key }) => key === currentTabKey)
     if (currentTab?.title) {
-      headData.title = `${categoryFm.title} → ${currentTab.title}`
+      headData.title = `${parentFm.title} → ${currentTab.title}`
     }
   }
 
@@ -146,29 +146,28 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   usePortalHead(headData)
 
-  const makeUseOfCategory = Boolean(
-    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
-  )
+  const tabsFromParent = Boolean(!pageFm.title && pageFm.showTabs)
   const rootPath =
-    '/' + (makeUseOfCategory ? category?.fields?.slug : mdx?.fields?.slug)
+    '/' +
+    (tabsFromParent ? parentMdx?.fields?.slug : pageMdx?.fields?.slug)
   const fullscreen = Boolean(fmData?.fullscreen) || pageContext?.fullscreen
 
   const { focusModeCodeId } = useFocusModeCode()
   const codeFocusMode = focusModeCodeId !== null
 
-  const renderTitle = currentFm.contentTitle ?? fmData.title
+  const renderTitle = pageFm.contentTitle ?? fmData.title
   const titleNode = renderTitle ? (
     <AutoLinkHeader className="dnb-no-focus" level={1} skipCorrection>
       {renderTitle}
     </AutoLinkHeader>
   ) : undefined
 
-  if (!mdx?.frontmatter) {
+  if (!pageMdx?.frontmatter) {
     return <>{children}</> // looks like it was not a MDX, so we just return children
   }
 
   const editSourcePath = resolveEditSourcePath(
-    mdx,
+    pageMdx,
     mdxEdges.map(({ node }) => node)
   )
 
@@ -218,7 +217,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 </Breadcrumb>
               )}
 
-              {currentFm.showTabs ? (
+              {pageFm.showTabs ? (
                 <TabBar
                   key="tab-bar"
                   location={location}
