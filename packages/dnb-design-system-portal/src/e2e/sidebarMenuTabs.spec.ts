@@ -65,6 +65,8 @@ test('reopens the selected page accordion after reload', async ({
     'rgba(0, 0, 0, 0)'
   )
   await expect(layout).not.toHaveCSS('box-shadow', 'none')
+  await layout.focus()
+  await expect(layout).toHaveCSS('color', 'rgb(39, 106, 206)')
   await expect(menu.locator('#uilib-layout-content')).toBeVisible()
 
   await layout.click()
