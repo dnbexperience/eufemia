@@ -250,7 +250,7 @@
 
     &__link.dnb-anchor {
       text-decoration: none;
-      color: inherit;
+      color: var(--sidebar-menu-action-text-color);
     }
 
     &--open > &__trigger &__indicator .dnb-icon {
