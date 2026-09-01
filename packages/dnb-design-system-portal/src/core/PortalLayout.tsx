@@ -189,13 +189,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
               hideToc ? pageLayoutStyles['content-grid--without-toc'] : ''
             }`}
           >
-            {!hideToc && (
-              <div className={pageLayoutStyles['content-grid__sidebar']}>
-                <PortalToc />
-              </div>
-            )}
-
-            <div className={pageLayoutStyles['content-grid__main']}>
+            <div className={pageLayoutStyles['content-grid__header']}>
               {fmData.breadcrumb && (
                 <Breadcrumb key="breadcrumb" top="large">
                   {fmData.breadcrumb.map((item, i, a) => {
@@ -230,7 +224,15 @@ export default function PortalLayout(props: PortalLayoutProps) {
               ) : (
                 titleNode
               )}
+            </div>
 
+            {!hideToc && (
+              <div className={pageLayoutStyles['content-grid__sidebar']}>
+                <PortalToc />
+              </div>
+            )}
+
+            <div className={pageLayoutStyles['content-grid__content']}>
               <Content
                 missingRenderTitle={!renderTitle}
                 sourcePath={editSourcePath}
