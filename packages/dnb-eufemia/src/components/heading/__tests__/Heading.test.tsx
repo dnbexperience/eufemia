@@ -138,6 +138,12 @@ describe('Heading component', () => {
     expect(elem[i + 1].textContent).toBe('[h2] Heading #12')
   })
 
+  it('should correct string levels like numeric levels', () => {
+    render(<Heading level="2">Heading</Heading>)
+
+    expect(document.querySelector('.dnb-heading')?.tagName).toBe('H1')
+  })
+
   it('should match global reset', () => {
     render(
       <StrictMode>

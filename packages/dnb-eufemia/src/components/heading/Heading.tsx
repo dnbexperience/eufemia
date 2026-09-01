@@ -223,11 +223,7 @@ export default function Heading(props: HeadingAllProps) {
   let state = currentState
 
   const level = parseFloat(String(props.level))
-  if (
-    state.prevLevel !== props.level &&
-    level > 0 &&
-    level !== state.level
-  ) {
+  if (state.prevLevel !== level && level > 0 && level !== state.level) {
     const { level: newLevel } = correctInternalHeadingLevel({
       counter: state.counter,
       isRerender: true,
