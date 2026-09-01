@@ -306,7 +306,12 @@ resource "aws_apigatewayv2_api" "dashboard" {
   tags          = local.tags
 
   cors_configuration {
-    allow_origins = var.dashboard_origins
+    # Always include the live dashboard origin so CORS works on the first deploy
+    # (no chicken-and-egg); dashboard_origins adds any extra, e.g. local dev.
+    allow_origins = concat(
+      var.dashboard_origins,
+      ["https://${aws_cloudfront_distribution.dashboard.domain_name}"],
+    )
     allow_methods = ["GET"]
     allow_headers = ["authorization"]
     max_age       = 3600
@@ -430,4 +435,126 @@ resource "aws_route53_record" "analytics" {
     zone_id                = aws_apigatewayv2_domain_name.analytics.domain_name_configuration[0].hosted_zone_id
     evaluate_target_health = false
   }
+}
+
+# ---------------------------------------------------------------------------
+# Dashboard static hosting (public site, private S3 bucket via CloudFront)
+# ---------------------------------------------------------------------------
+#
+# The dashboard shell holds no data and no secrets: all data lives behind the
+# Entra-authenticated /data API, so the UI is safe to serve as a plain public
+# site. Access control is entirely the Entra sign-in plus the /data API's JWT
+# authorizer — there is deliberately no Lambda@Edge and no edge auth here. The
+# bucket stays private; CloudFront reads it through an Origin Access Control.
+
+resource "aws_s3_bucket" "dashboard" {
+  bucket = "${local.function_name}-dashboard-${data.aws_caller_identity.current.account_id}"
+  tags   = local.tags
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+# Versioning + the --delete sync gives a free rollback for a bad publish.
+resource "aws_s3_bucket_versioning" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# The bucket is private; the objects are served to the public through the
+# distribution, never from the bucket directly.
+resource "aws_s3_bucket_public_access_block" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_cloudfront_origin_access_control" "dashboard" {
+  name                              = "${local.function_name}-dashboard"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
+resource "aws_cloudfront_distribution" "dashboard" {
+  enabled             = true
+  is_ipv6_enabled     = true
+  default_root_object = "index.html"
+  comment             = "${local.function_name} dashboard"
+  price_class         = "PriceClass_100"
+  tags                = local.tags
+
+  origin {
+    domain_name              = aws_s3_bucket.dashboard.bucket_regional_domain_name
+    origin_id                = "dashboard-s3"
+    origin_access_control_id = aws_cloudfront_origin_access_control.dashboard.id
+  }
+
+  default_cache_behavior {
+    target_origin_id       = "dashboard-s3"
+    viewer_protocol_policy = "redirect-to-https"
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    compress               = true
+
+    # AWS managed "CachingOptimized" policy.
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+
+    # AWS managed "SecurityHeadersPolicy": adds HSTS, X-Content-Type-Options,
+    # X-Frame-Options, Referrer-Policy. Managed id needs no extra deploy-role IAM.
+    response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03"
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  # No custom domain: the default *.cloudfront.net certificate is used, so the
+  # CloudFront URL is added to the app registration redirect URIs after deploy.
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+}
+
+# Allow only this distribution to read the bucket (OAC identity + SourceArn).
+data "aws_iam_policy_document" "dashboard" {
+  statement {
+    sid       = "AllowCloudFrontRead"
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.dashboard.arn}/*"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_distribution.dashboard.arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+  policy = data.aws_iam_policy_document.dashboard.json
+
+  depends_on = [aws_s3_bucket_public_access_block.dashboard]
 }

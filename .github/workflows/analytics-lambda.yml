@@ -158,6 +158,11 @@ jobs:
           cp "$GITHUB_WORKSPACE/tools/analytics/dist/lambda.zip" dist/
           cp -R "$GITHUB_WORKSPACE/tools/analytics/infra" .
 
+          # Include the dashboard static files so the deploy job can publish
+          # them to the CloudFront-fronted bucket. config.json is generated at
+          # deploy time from the GHE variables, so it is not copied here.
+          cp -R "$GITHUB_WORKSPACE/tools/analytics/dashboard" .
+
           # Include the deploy workflow so it lives on (and triggers from) the deploy branch
           mkdir -p .github/workflows
           cp "$GITHUB_WORKSPACE/tools/analytics/ghe-deploy-workflow.yml" .github/workflows/deploy.yml
