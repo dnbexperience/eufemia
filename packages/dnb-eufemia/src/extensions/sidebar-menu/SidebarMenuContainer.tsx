@@ -458,7 +458,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
 
   const contextValue = useMemo(
     () => ({
-      level: 0,
+      indent: 0,
       openItems: resolvedOpenItems,
       openItemsControlled: openItems !== undefined,
       toggleItem,

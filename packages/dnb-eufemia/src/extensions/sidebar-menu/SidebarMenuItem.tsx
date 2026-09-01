@@ -26,7 +26,7 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
     ...rest
   } = props
   const context = useSidebarMenuContext()
-  const { level } = context
+  const { indent } = context
   const isSelected = context.selectedItem === id
 
   const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
@@ -64,7 +64,7 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
       style={
         {
           ...rest.style,
-          '--sidebar-menu-indent': `${level * 2.5}rem`,
+          '--sidebar-menu-indent': `${indent}rem`,
         } as React.CSSProperties
       }
     >

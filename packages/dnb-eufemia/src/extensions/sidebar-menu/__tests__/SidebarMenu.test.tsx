@@ -105,7 +105,7 @@ describe('SidebarMenu', () => {
     expect(list).toHaveAttribute('aria-labelledby', 'actions-title')
     expect(group.querySelector('[aria-expanded]')).toBeInTheDocument()
     expect(title).not.toHaveAttribute('aria-expanded')
-    expect(item).toHaveStyle({ '--sidebar-menu-indent': '2.5rem' })
+    expect(item).toHaveStyle({ '--sidebar-menu-indent': '1rem' })
   })
 
   it('renders static groups from data', () => {

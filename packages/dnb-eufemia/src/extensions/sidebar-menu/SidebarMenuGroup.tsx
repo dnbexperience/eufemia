@@ -57,7 +57,7 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
       style={
         {
           ...style,
-          '--sidebar-menu-indent': `${context.level * 2.5}rem`,
+          '--sidebar-menu-indent': `${context.indent}rem`,
         } as React.CSSProperties
       }
     >
@@ -87,7 +87,9 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
           {text}
         </div>
       )}
-      <SidebarMenuContext value={{ ...context, level: context.level + 1 }}>
+      <SidebarMenuContext
+        value={{ ...context, indent: context.indent + 1 }}
+      >
         <ul
           className="dnb-sidebar-menu__list dnb-sidebar-menu__group__list"
           aria-labelledby={titleId}

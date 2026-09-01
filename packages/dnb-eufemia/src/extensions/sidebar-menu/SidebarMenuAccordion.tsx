@@ -144,7 +144,7 @@ export default function SidebarMenuAccordion(
   )
 
   const itemStyle = {
-    '--sidebar-menu-indent': `${context.level * 2.5}rem`,
+    '--sidebar-menu-indent': `${context.indent}rem`,
   } as React.CSSProperties
   const currentIndicator = containsSelectedItem && !isOpen && (
     <span
@@ -241,7 +241,7 @@ export default function SidebarMenuAccordion(
         compensateForGap="auto"
       >
         <SidebarMenuContext
-          value={{ ...context, level: context.level + 1 }}
+          value={{ ...context, indent: context.indent + 2.5 }}
         >
           <ul id={`${id}-content`} className="dnb-sidebar-menu__list">
             {children}
