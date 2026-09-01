@@ -64,6 +64,13 @@ The deprecated `name` property and `data-name` attribute have been removed. Use 
 
 Replace `useTheme().name` with `useTheme().brand`. For persisted theme state, replace `getTheme().name` and `setTheme({ name })` with `getTheme().brand` and `setTheme({ brand })`.
 
+The deprecated `size` property, `ThemeSizes` type, `data-size` attribute, and `eufemia-theme__size--*` CSS classes have also been removed. Use `density`, `ThemeDensities`, `data-density`, and `eufemia-theme__density--*` instead.
+
+```diff
+-<Theme size="basis">
++<Theme density="basis">
+```
+
 ### [Flex](/uilib/layout/flex/)
 
 Flex now uses native CSS gap and renders React children unchanged. The following legacy migration APIs are deprecated:
