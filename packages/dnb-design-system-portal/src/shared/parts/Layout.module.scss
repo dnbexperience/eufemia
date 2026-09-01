@@ -222,6 +222,7 @@
   }
 
   background-color: var(--token-color-background-neutral);
+  box-shadow: inset 1px 0 0 0 var(--token-color-stroke-neutral-subtle);
 
   &:has([data-portal-home]) {
     background-color: var(--token-color-background-page-background);
