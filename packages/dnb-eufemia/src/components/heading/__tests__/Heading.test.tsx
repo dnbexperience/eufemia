@@ -9,6 +9,7 @@ import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
 import Typography from '../../../elements/typography/Typography'
 import { Theme } from '../../../shared'
+import Provider from '../../../shared/Provider'
 import type { HeadingProps, HeadingLevel } from '../Heading'
 import Heading, { resetLevels, setNextLevel } from '../Heading'
 import { windupHeadings, teardownHeadings } from '../HeadingHelpers'
@@ -631,6 +632,38 @@ describe('Heading component', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('Heading theming', () => {
+  it('uses Sbanken heading sizes when the brand is set via Provider', () => {
+    const ui = render(
+      <Heading.Level reset={1}>
+        <Heading>One</Heading>
+        <Heading>Two</Heading>
+      </Heading.Level>
+    )
+    // DNB (ui) maps a level-2 heading to "large"
+    expect(
+      ui.container
+        .querySelectorAll('.dnb-heading')[1]
+        .getAttribute('class')
+    ).toContain('dnb-h--large')
+
+    const sbanken = render(
+      <Provider theme={{ brand: 'sbanken' }}>
+        <Heading.Level reset={1}>
+          <Heading>One</Heading>
+          <Heading>Two</Heading>
+        </Heading.Level>
+      </Provider>
+    )
+    // Sbanken maps a level-2 heading to "x-large"
+    expect(
+      sbanken.container
+        .querySelectorAll('.dnb-heading')[1]
+        .getAttribute('class')
+    ).toContain('dnb-h--x-large')
   })
 })
 

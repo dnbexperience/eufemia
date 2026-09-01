@@ -18,6 +18,7 @@ import Logo, {
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
 import Theme from '../../../shared/Theme'
+import type { UseThemeReturn } from '../../../shared/useTheme'
 
 describe('Logo component', () => {
   it('renders with empty props', () => {
@@ -298,6 +299,65 @@ describe('Logo component', () => {
     expect(svg).toBeInTheDocument()
     // Ensure known problematic keys are not present
     expect(svg.hasAttribute('isUi')).toBe(false)
+  })
+
+  it('passes the resolved brand to a custom svg factory', () => {
+    let receivedTheme: UseThemeReturn = null
+    const SvgFactory = (theme: UseThemeReturn) => {
+      receivedTheme = theme
+      return DnbDefault
+    }
+
+    render(
+      <Provider theme={{ brand: 'sbanken' }}>
+        <Logo svg={SvgFactory} />
+      </Provider>
+    )
+
+    expect(receivedTheme).toMatchObject({
+      brand: 'sbanken',
+      name: 'sbanken',
+      isSbanken: true,
+      isUi: false,
+    })
+  })
+
+  it('resolves brand from the deprecated name for a custom svg factory', () => {
+    let receivedTheme: UseThemeReturn = null
+    const SvgFactory = (theme: UseThemeReturn) => {
+      receivedTheme = theme
+      return EiendomDefault
+    }
+
+    render(
+      <Provider theme={{ name: 'eiendom' }}>
+        <Logo svg={SvgFactory} />
+      </Provider>
+    )
+
+    expect(receivedTheme).toMatchObject({
+      brand: 'eiendom',
+      name: 'eiendom',
+      isEiendom: true,
+    })
+  })
+
+  it('applies the theme brand class for a custom svg without a brand marker', () => {
+    const PlainSvg = (props) => (
+      <svg viewBox="0 0 10 10" {...props}>
+        <circle cx="5" cy="5" r="5" />
+      </svg>
+    )
+
+    render(
+      <Provider theme={{ brand: 'sbanken' }}>
+        <Logo svg={PlainSvg} />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-logo')).toHaveClass(
+      'dnb-logo--sbanken'
+    )
   })
 
   describe('Logo accessibility', () => {

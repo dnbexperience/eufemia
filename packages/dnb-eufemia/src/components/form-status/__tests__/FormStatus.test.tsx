@@ -5,7 +5,7 @@
 
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { FormStatusProps } from '../FormStatus'
-import FormStatus from '../FormStatus'
+import FormStatus, { ErrorIcon } from '../FormStatus'
 import Input from '../../input/Input'
 import { render, waitFor } from '@testing-library/react'
 import {
@@ -438,5 +438,35 @@ describe('FormStatus formElement', () => {
 
     const element = document.querySelector('.dnb-form-status')
     expect(element.querySelector('.dnb-skeleton')).toBeInTheDocument()
+  })
+})
+
+describe('FormStatus icon theming', () => {
+  const firstPathFill = (result: { container: HTMLElement }) =>
+    result.container.querySelector('path')?.getAttribute('fill')
+
+  it('resolves the Sbanken theme from brand and the deprecated name', () => {
+    const uiFill = firstPathFill(render(<ErrorIcon />))
+
+    const brandFill = firstPathFill(
+      render(
+        <Provider theme={{ brand: 'sbanken' }}>
+          <ErrorIcon />
+        </Provider>
+      )
+    )
+
+    const nameFill = firstPathFill(
+      render(
+        <Provider theme={{ name: 'sbanken' }}>
+          <ErrorIcon />
+        </Provider>
+      )
+    )
+
+    // Sbanken renders a different fill than the default DNB (ui) theme
+    expect(brandFill).not.toBe(uiFill)
+    // The new `brand` and the deprecated `name` resolve to the same theme
+    expect(nameFill).toBe(brandFill)
   })
 })

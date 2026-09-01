@@ -65,7 +65,7 @@ const H = (props: HProps) => {
 
   const theme = useTheme()
   const targetSize =
-    (size === 'auto' && getHeadingSize(theme?.name)[numSiz]) ||
+    (size === 'auto' && getHeadingSize(theme?.brand)[numSiz]) ||
     size ||
     'xx-large'
 

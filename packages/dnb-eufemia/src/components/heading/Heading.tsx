@@ -266,7 +266,7 @@ export default function Heading(props: HeadingAllProps) {
   if (element == null) {
     element = getHeadingElement(level)
     if (size == null) {
-      size = getHeadingSize(theme?.name)[level]
+      size = getHeadingSize(theme?.brand)[level]
     }
   } else {
     if (!attributes.role) {
