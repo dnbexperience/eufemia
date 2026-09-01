@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Img from '../Img'
 
 describe('Img', () => {
@@ -63,5 +63,18 @@ describe('Img', () => {
 
     expect(document.querySelector('figure')).toHaveClass('figure-class')
     expect(document.querySelector('img')).toHaveClass('image-class')
+  })
+
+  it('preserves internal error handling when onError is provided', () => {
+    const onError = vi.fn()
+    render(
+      <Img src="invalid.png" alt="Image description" onError={onError} />
+    )
+
+    const image = document.querySelector('img')
+    fireEvent.error(image)
+
+    expect(onError).toHaveBeenCalledTimes(1)
+    expect(image).toHaveClass('dnb-img--error')
   })
 })
