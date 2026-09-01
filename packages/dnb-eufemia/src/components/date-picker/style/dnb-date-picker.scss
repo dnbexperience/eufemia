@@ -392,6 +392,7 @@
 
     &--preview .dnb-button,
     &--inactive .dnb-button,
+    &--outside-month .dnb-button,
     &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
       .dnb-button:not(:hover):not(:focus-visible) {
       background-color: transparent;
@@ -481,7 +482,8 @@
       text-decoration: line-through;
     }
 
-    &--inactive .dnb-button {
+    &--inactive .dnb-button,
+    &--outside-month .dnb-button {
       color: var(--token-color-text-neutral-alternative);
     }
 

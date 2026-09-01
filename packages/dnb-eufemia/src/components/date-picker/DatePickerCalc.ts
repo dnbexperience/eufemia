@@ -44,8 +44,8 @@ export function makeDayObject(
   }: Record<string, Date>
 ) {
   const range = getRange(startDate, endDate, hoverDate)
-  const isLastMonth = isSameMonth(subMonths(date, 1), month)
-  const isNextMonth = isSameMonth(addMonths(date, 1), month)
+  const isLastMonth = isSameMonth(addMonths(date, 1), month)
+  const isNextMonth = isSameMonth(subMonths(date, 1), month)
   const isStartDate = isStartDateCalc(date, range)
   const isEndDate = isEndDateCalc(date, range)
   const isWithinSelection = isWithinSelectionCalc(date, startDate, endDate)
@@ -62,8 +62,8 @@ export function makeDayObject(
     isWithinSelection,
     isPreview,
     isDisabled,
-    isSelectable: !isLastMonth && !isNextMonth && !isDisabled,
-    isInactive: isLastMonth || isNextMonth || isDisabled,
+    isSelectable: !isDisabled,
+    isInactive: isDisabled,
   }
 }
 

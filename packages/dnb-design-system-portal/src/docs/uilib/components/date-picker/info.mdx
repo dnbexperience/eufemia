@@ -74,13 +74,13 @@ The `dayObject` object contains:
       isInactive: boolean,// shows it as disabled only
       isDisabled: boolean,// shows it as disabled and with a strikethrough
       isPreview: boolean,// date is between startDate (exclusive) and hoverDate (inclusive)
-      isSelectable: boolean,// if not last and next month and not disabled – handles z-index
+      isSelectable: boolean,// if not disabled – handles z-index
       isStartDate: boolean,// date selected is start date
       isEndDate: boolean,// date selected is end date
       isToday: boolean,
       isWithinSelection: boolean,// date is between selection range
-      isNextMonth: boolean,// used for selection and inactive calculation
-      isLastMonth: boolean,// used for selection and inactive calculation
+      isNextMonth: boolean,// date belongs to the next month
+      isLastMonth: boolean,// date belongs to the previous month
     },
     ...
 ]
