@@ -126,7 +126,7 @@ export type SidebarMenuContainerProps = {
   sectionLabel?: ReactNode
   /** Called when a section toggle is selected. */
   onActiveSectionChange?: (sectionId: string) => void
-  /** Controlled id of the selected item or page accordion. Its ancestor accordions and section open automatically, but ancestor accordions can still be collapsed by the user. A collapsed ancestor indicates that it contains the current page. */
+  /** Controlled id of the selected item or page accordion. A selected page accordion opens when selection initializes or changes, regardless of stored open state, and can then be collapsed manually. Its ancestor accordions and section open automatically, but ancestors can remain collapsed to indicate that they contain the current page. */
   selectedItem?: string
   /**
    * Id of the initially selected item or page accordion.
