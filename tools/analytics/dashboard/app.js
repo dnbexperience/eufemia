@@ -207,15 +207,32 @@ function showError(message) {
   box.hidden = false
 }
 
+// Hide the sign-in placeholder and reveal the dashboard. Kept hidden until a
+// session is resolved so the dashboard does not flash before the login redirect.
+function revealDashboard() {
+  const status = document.getElementById('status')
+  if (status) {
+    status.hidden = true
+  }
+
+  const dashboard = document.getElementById('dashboard')
+  if (dashboard) {
+    dashboard.hidden = false
+  }
+}
+
 async function main() {
   let session
   try {
     session = await ensureSignedIn()
   } catch (error) {
+    document.getElementById('status').hidden = true
     showError(`Sign-in failed: ${error.message}`)
 
     return
   }
+
+  revealDashboard()
 
   renderUser(session)
 
