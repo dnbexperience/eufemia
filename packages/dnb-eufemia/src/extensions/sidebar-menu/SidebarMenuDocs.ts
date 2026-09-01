@@ -72,9 +72,8 @@ export const SidebarMenuContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   sectionLabel: {
-    doc: 'Screen-reader label for the section dropdown.',
+    doc: 'Screen-reader label for the section dropdown. Defaults to the localized SidebarMenu label.',
     type: 'React.ReactNode',
-    defaultValue: '"Menu section"',
     status: 'optional',
   },
   selectedItem: {
@@ -136,6 +135,11 @@ export const SidebarMenuItemProperties: PropertiesTableProps = {
   badge: {
     doc: 'Badge content displayed on the right side.',
     type: 'BadgeProps["content"]',
+    status: 'optional',
+  },
+  suffix: {
+    doc: 'Additional content displayed on the right side before the badge.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   badgeProps: {
@@ -205,6 +209,11 @@ export const SidebarMenuAccordionProperties: PropertiesTableProps = {
   badge: {
     doc: 'Badge content displayed before the accordion indicator.',
     type: 'BadgeProps["content"]',
+    status: 'optional',
+  },
+  suffix: {
+    doc: 'Additional content displayed before the badge and accordion indicator.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   badgeProps: {

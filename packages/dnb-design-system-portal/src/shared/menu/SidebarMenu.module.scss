@@ -9,7 +9,7 @@
     --portal-sidebar-top: 3.5rem;
   }
 
-  #portal-sidebar-menu .dnb-sidebar-menu {
+  .portal-sidebar-menu__legacy-item {
     --is-inside-bg: var(--token-color-background-neutral-subtle);
     --is-inside-active-path-color: var(--token-color-text-neutral);
     --is-inside-active-path-bg: var(
@@ -211,7 +211,7 @@
         border-right: 0.25rem solid var(--token-color-stroke-action-focus);
 
         &,
-        > ul .dnb-sidebar-menu {
+        > ul .portal-sidebar-menu__legacy-item {
           background-color: var(--is-inside-bg);
 
           &.is-active {
