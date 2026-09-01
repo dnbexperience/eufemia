@@ -40,7 +40,7 @@ function packLibrary() {
   const destination = mkdtempSync(path.join(tmpdir(), 'eufemia-pack-'))
   const output = execFileSync(
     'npm',
-    ['pack', '--pack-destination', destination],
+    ['pack', '--ignore-scripts', '--pack-destination', destination],
     {
       cwd: buildDir,
       encoding: 'utf8',
@@ -68,11 +68,24 @@ function toKB(bytes) {
   return `${Math.round(bytes / 1024)} KB`
 }
 
+// Share of the full library ESM the consumer bundle is allowed to reach. The
+// fixture imports a handful of exports (Button and P from the main entry, Form
+// and Field from the forms extension), so a correctly tree-shaken build lands
+// far below the whole library: measured at 35% both locally (585 KB of 1662 KB)
+// and in CI (608 KB of 1713 KB). The budget is set at half, which leaves
+// comfortable headroom for normal growth while still failing on a partial
+// regression — a plain "smaller than the whole library" check would only catch a
+// total tree-shaking failure, since the bundle would have to grow almost
+// threefold to trip it. Raise this only alongside a deliberate change to what
+// the fixture imports.
+const TREE_SHAKING_BUDGET_RATIO = 0.5
+
 // Verify the bundler tree-shook the package: a consumer that imports only part
 // of @dnb/eufemia must not end up bundling the whole library. Compare the
 // consumer's emitted JS against the installed package's full ESM barrels (main +
-// extensions) — without tree-shaking the consumer would bundle at least all of
-// both. Vite emits a single readable bundle, so the budget is checked there.
+// extensions). Vite emits a single readable bundle, so the budget is checked
+// there; Next.js splits its output across server and client chunks, which are
+// not comparable to a single barrel.
 function assertTreeShaking(fixture, workDir, built) {
   if (fixture !== 'vite') {
     return
@@ -96,14 +109,17 @@ function assertTreeShaking(fixture, workDir, built) {
     .filter((file) => file.endsWith('.js'))
     .reduce((sum, file) => sum + statSync(file).size, 0)
 
-  if (consumerJsBytes >= fullLibraryBytes) {
+  const budgetBytes = fullLibraryBytes * TREE_SHAKING_BUDGET_RATIO
+  const share = Math.round((consumerJsBytes / fullLibraryBytes) * 100)
+
+  if (consumerJsBytes > budgetBytes) {
     throw new Error(
-      `Tree-shaking regression: consumer JS is ${toKB(consumerJsBytes)} but the full library ESM is only ${toKB(fullLibraryBytes)} — unused exports were not dropped`
+      `Tree-shaking regression: consumer JS is ${toKB(consumerJsBytes)} — ${share}% of the ${toKB(fullLibraryBytes)} full library ESM, over the ${Math.round(TREE_SHAKING_BUDGET_RATIO * 100)}% budget (${toKB(budgetBytes)}). Unused exports were not dropped.`
     )
   }
 
   console.log(
-    `Tree-shaking OK: consumer JS ${toKB(consumerJsBytes)} < full library ESM ${toKB(fullLibraryBytes)}.`
+    `Tree-shaking OK: consumer JS ${toKB(consumerJsBytes)} is ${share}% of the ${toKB(fullLibraryBytes)} full library ESM (budget ${Math.round(TREE_SHAKING_BUDGET_RATIO * 100)}%, ${toKB(budgetBytes)}).`
   )
 }
 

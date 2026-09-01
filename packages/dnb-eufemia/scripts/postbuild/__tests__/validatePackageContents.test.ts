@@ -2,11 +2,16 @@
  * Test the package content validation logic.
  */
 
+import { execFileSync } from 'node:child_process'
+import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import {
   collectManifestEntryPoints,
   findMissingEntryPoints,
   findPackageContentViolations,
   findSizeViolations,
+  getPackedFiles,
   MIN_FILE_COUNT,
 } from '../validatePackageContents.mjs'
 
@@ -240,5 +245,65 @@ describe('findSizeViolations', () => {
 
   it('skips the check when the unpacked size is unavailable', () => {
     expect(findSizeViolations(undefined)).toEqual([])
+  })
+})
+
+// The credentialed publish job runs this validation against the restored build
+// artifact, so reading the package's contents must not execute anything the
+// artifact carries. `npm pack` runs a package's `prepack` script even under
+// `--dry-run`, which is why getPackedFiles passes `--ignore-scripts`. Without
+// that flag a tampered manifest would get code execution in the job holding the
+// npm OIDC authority and the GitHub token, so the property is asserted here
+// rather than left to the flag being noticed in review.
+describe('getPackedFiles', () => {
+  let dir
+
+  const MARKER = 'PREPACK_MARKER'
+
+  const writePackageWithPrepack = () => {
+    writeFileSync(
+      path.join(dir, 'package.json'),
+      JSON.stringify({
+        name: 'eufemia-prepack-probe',
+        version: '1.0.0',
+        main: 'index.js',
+        scripts: {
+          prepack: `node -e "require('fs').writeFileSync('${MARKER}','ran')"`,
+        },
+      })
+    )
+    writeFileSync(path.join(dir, 'index.js'), 'export default 1\n')
+  }
+
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'eufemia-packed-'))
+  })
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
+  })
+
+  it('reads the packed file list without running the package prepack script', () => {
+    writePackageWithPrepack()
+
+    const { files } = getPackedFiles(dir)
+
+    // The harness has to be live before the absence assertion means anything.
+    expect(files).toContain('index.js')
+    expect(existsSync(path.join(dir, MARKER))).toBe(false)
+  })
+
+  // Control for the assertion above: the same pack without `--ignore-scripts`
+  // does run the script, so the flag is what keeps the validation inert.
+  it('would run that script without the ignore-scripts flag', () => {
+    writePackageWithPrepack()
+
+    execFileSync('npm', ['pack', '--dry-run', '--json'], {
+      cwd: dir,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+
+    expect(existsSync(path.join(dir, MARKER))).toBe(true)
   })
 })
