@@ -473,6 +473,40 @@ resource "aws_lambda_permission" "snapshot_events" {
   source_arn    = aws_cloudwatch_event_rule.snapshot.arn
 }
 
+# Failure signals for the scheduled generator. Without them a failed run, or a
+# schedule/target that stops firing, would leave the dashboard serving an
+# ever-staler snapshot with no signal. No alarm actions yet (state is visible in
+# CloudWatch); wire an SNS/notification target here when one exists.
+resource "aws_cloudwatch_metric_alarm" "snapshot_errors" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-errors"
+  alarm_description   = "Dashboard snapshot generator returned an error"
+  namespace           = "AWS/Lambda"
+  metric_name         = "Errors"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+}
+
+# Missing invocations mean the schedule or target is broken (Errors alone would
+# stay at zero in that case). Treating missing data as breaching catches it.
+resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-not-running"
+  alarm_description   = "Dashboard snapshot generator has not run in the last 3 hours"
+  namespace           = "AWS/Lambda"
+  metric_name         = "Invocations"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 3
+  threshold           = 1
+  comparison_operator = "LessThanThreshold"
+  treat_missing_data  = "breaching"
+}
+
 # ---------------------------------------------------------------------------
 # Custom domain (origin for Akamai)
 # ---------------------------------------------------------------------------

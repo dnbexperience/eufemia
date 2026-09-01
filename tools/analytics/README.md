@@ -96,7 +96,7 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 - **Glue database + table** with JSON SerDe and partition projection on `dt`.
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
-- **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `records/dashboard-snapshot.json` off the request path.
+- **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `records/dashboard-snapshot.json` off the request path. Two CloudWatch alarms flag a failed generator run (`Errors`) or a generator that has stopped firing (missing `Invocations`).
 - **API Gateway HTTP API** with the two `/records` routes and throttling.
 
 The dashboard is hosted separately as a static site:
