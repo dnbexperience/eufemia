@@ -30,6 +30,12 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       })
     })
 
+    it('matches custom element sizing', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="heading-custom-element"]',
+      })
+    })
+
     it('matches prose max width', async () => {
       await makeScreenshot({
         style: {

@@ -26,7 +26,7 @@ The Heading component is a helper to create automated semantic headings within a
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/heading)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/heading)
 
-How does it work? The heading leveling is handled synchronously. But you can easily isolate one level, or a part by using a context provider: `<Heading.Level ...`. This allows you to later, asynchronous, add new headings inside. You can nest several contexts inside each.
+Heading leveling is handled synchronously. You can isolate part of the tree with `<Heading.Level ...`, which also lets you add headings asynchronously inside that boundary. Several level contexts can be nested.
 
 The first code example is without using context provider. To handle levels in batches or asynchronous, use a `Heading.Level` context provider.
 
@@ -64,9 +64,21 @@ You can also disable corrections by using the property `skipCorrection={true}`.
 
 In order to control leveling of headings systematically, you can make use of the `Heading.Level`, `Heading.Increase` or `Heading.Decrease` providers.
 
-They are completely optional. But can help out to solve some kinds of challenges or logic.
+They are optional in client-only apps and can simplify asynchronous or isolated content.
 
 <HeadingInfoLevel />
+
+#### Server rendering
+
+Provider-free level handling is shared by headings in the browser. During server rendering, wrap each independently rendered tree in a level provider so one request cannot affect the next:
+
+```tsx
+const html = renderToString(
+  <Heading.Level reset={1}>
+    <App />
+  </Heading.Level>
+)
+```
 
 ### Skip auto correction and warnings
 

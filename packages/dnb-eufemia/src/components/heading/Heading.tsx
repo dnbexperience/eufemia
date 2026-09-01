@@ -3,7 +3,7 @@
  *
  */
 
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useId, useState } from 'react'
 import type { HTMLProps, JSX, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
@@ -25,6 +25,7 @@ import {
   debugCounter as debugCounterFn,
   getHeadingSize,
   getHeadingElement,
+  releaseHeadingLevel,
 } from './HeadingHelpers'
 import type { HeadingCounter, HeadingDebugCounter } from './HeadingCounter'
 import { initCounter } from './HeadingCounter'
@@ -143,7 +144,7 @@ export type HeadingAllProps = HeadingProps &
 export default function Heading(props: HeadingAllProps) {
   const context = useContext(Context)
   const headingContext = useContext(HeadingContext)
-  const _ref = useRef(null)
+  const id = useId()
 
   const {
     text,
@@ -166,19 +167,23 @@ export default function Heading(props: HeadingAllProps) {
     ...rest
   } = useTypography(props)
 
-  const [state, setState] = useState(() => {
+  const [currentState, setState] = useState(() => {
     type State = {
       level: InternalHeadingLevel
       prevLevel?: InternalHeadingLevel
       counter: HeadingCounter
       context: HeadingContextValue
       headingContext?: HeadingContextValue
+      id: string
+      ref: HeadingAllProps
     }
     const state: State = {
       level: null,
       counter: null,
       context,
       headingContext,
+      id,
+      ref: props,
     }
 
     state.counter = initCounter(props)
@@ -194,7 +199,8 @@ export default function Heading(props: HeadingAllProps) {
 
     state.counter = correctInternalHeadingLevel({
       counter: state.counter,
-      ref: props, // Do that only to make sure we run the correction only if props has changed
+      id,
+      ref: props,
       level: parseFloat(String(props.level)),
       inherit: props.inherit,
       reset: props.reset,
@@ -214,45 +220,47 @@ export default function Heading(props: HeadingAllProps) {
 
     return state
   })
+  let state = currentState
+
+  const level = parseFloat(String(props.level))
+  if (
+    state.prevLevel !== props.level &&
+    level > 0 &&
+    level !== state.level
+  ) {
+    const { level: newLevel } = correctInternalHeadingLevel({
+      counter: state.counter,
+      isRerender: true,
+      level,
+      bypassChecks:
+        props.skipCorrection ||
+        state.headingContext?.heading?.skipCorrection,
+      source: props.text || props.children,
+      debug: props.debug || state.headingContext?.heading?.debug,
+    })
+    state = { ...state, level: newLevel, prevLevel: level }
+    setState(state)
+  }
 
   useEffect(() => {
     windupHeadings()
-    state.counter.windup()
+    currentState.counter.windup()
 
     return () => {
+      releaseHeadingLevel(
+        currentState.ref,
+        currentState.id,
+        currentState.counter
+      )
       teardownHeadings()
-      state.counter.teardown()
+      currentState.counter.teardown()
     }
-  }, [])
-
-  useEffect(() => {
-    const level = parseFloat(String(props.level))
-    if (
-      state.prevLevel !== props.level &&
-      level > 0 &&
-      level !== state.level
-    ) {
-      // Run this again here, so we can get a recalculated "useLevel" from the counter
-      const { level: newLevel } = correctInternalHeadingLevel({
-        counter: state.counter,
-        isRerender: true,
-        level,
-        bypassChecks:
-          props.skipCorrection ||
-          state.headingContext?.heading?.skipCorrection,
-        source: props.text || props.children, // only for debugging
-        debug: props.debug || state.headingContext?.heading?.debug,
-      })
-      state.level = state.prevLevel = newLevel
-
-      setState({ ...state })
-    }
-  }, [props.level])
+  }, [currentState.counter, currentState.id, currentState.ref])
 
   const theme = useTheme()
 
   let { size, element, skeleton } = props as HeadingProps
-  const { level } = state
+  const { level: headingLevel } = state
 
   const debug = _debug || headingContext?.heading?.debug
   const debugCounter =
@@ -263,17 +271,18 @@ export default function Heading(props: HeadingAllProps) {
     ...rest,
   }
 
+  if (size == null) {
+    size = getHeadingSize(theme?.name)[headingLevel]
+  }
+
   if (element == null) {
-    element = getHeadingElement(level)
-    if (size == null) {
-      size = getHeadingSize(theme?.brand)[level]
-    }
+    element = getHeadingElement(headingLevel)
   } else {
     if (!attributes.role) {
       attributes.role = 'heading'
     }
     if (!attributes['aria-level']) {
-      attributes['aria-level'] = String(level)
+      attributes['aria-level'] = String(headingLevel)
     }
   }
 
@@ -289,7 +298,6 @@ export default function Heading(props: HeadingAllProps) {
 
   const elementProps = useSpacing(props, {
     ...attributes,
-    ref: _ref,
     className: clsx(
       'dnb-heading',
       context?.theme?.surface === 'dark' && 'dnb-t--surface-dark',
@@ -303,7 +311,7 @@ export default function Heading(props: HeadingAllProps) {
     <Element {...elementProps}>
       {debug && (
         <span className="dnb-heading__debug">
-          {`[h${level || '6'}] `}
+          {`[h${headingLevel || '6'}] `}
           {debugCounter && (
             <>
               {' '}
@@ -314,7 +322,7 @@ export default function Heading(props: HeadingAllProps) {
           )}
         </span>
       )}
-      {text || children}
+      {text ?? children}
     </Element>
   )
 }
@@ -334,10 +342,9 @@ Heading.Up = (props: HeadingStaticProps) => (
 Heading.Down = (props: HeadingStaticProps) => (
   <HeadingProvider decrease {...props} />
 )
-Heading.Reset = (props: HeadingStaticProps) => {
-  globalHeadingCounter.current?.reset()
-  return <HeadingProvider {...props} />
-}
+Heading.Reset = (props: HeadingStaticProps) => (
+  <HeadingProvider reset {...props} />
+)
 Heading.resetLevels = resetLevels
 Heading.setNextLevel = setNextLevel
 

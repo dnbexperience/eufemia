@@ -22,14 +22,14 @@ export const globalHeadingCounter: GlobalHeadingCounter = {
   current: null,
 }
 
-const refs: {
-  current: Array<{ ref: HeadingAllProps; counter: HeadingCounter }>
-} = {
-  current: null,
-}
+let counterCache = new WeakMap<
+  HeadingAllProps,
+  Map<string, HeadingCounter>
+>()
 
 type CorrectInternalHeadingLevel = {
   counter: HeadingCounter
+  id?: string
   level: InternalHeadingLevel
   ref?: HeadingAllProps
   reset?: HeadingAllProps['reset']
@@ -44,6 +44,7 @@ type CorrectInternalHeadingLevel = {
 
 export const correctInternalHeadingLevel = ({
   counter,
+  id = null,
   level,
   ref = null,
   reset = null,
@@ -55,11 +56,11 @@ export const correctInternalHeadingLevel = ({
   isRerender = false,
   debug = null,
 }: CorrectInternalHeadingLevel) => {
-  // Do that only to make sure we run the correction only if props has changed
-  if (ref && refs.current) {
-    const foundRef = refs.current.find((cur) => cur.ref === ref)
+  // Reuse the counter when Strict Mode invokes the initializer twice.
+  if (id && ref) {
+    const foundRef = counterCache.get(ref)?.get(id)
     if (foundRef) {
-      return foundRef.counter
+      return foundRef
     }
   }
 
@@ -164,13 +165,27 @@ export const correctInternalHeadingLevel = ({
     counter.disableBypassChecks()
   }
 
-  // Do that only to make sure we run the correction only if props has changed
-  if (ref) {
-    refs.current = refs.current || []
-    refs.current.push({ ref, counter })
+  if (id && ref) {
+    const counters = counterCache.get(ref) || new Map()
+    counters.set(id, counter)
+    counterCache.set(ref, counters)
   }
 
   return counter
+}
+
+export function releaseHeadingLevel(
+  ref: HeadingAllProps,
+  id: string,
+  counter: HeadingCounter
+) {
+  const counters = counterCache.get(ref)
+  if (counters?.get(id) === counter) {
+    counters.delete(id)
+    if (counters.size === 0) {
+      counterCache.delete(ref)
+    }
+  }
 }
 
 function report(debug, source, ...reports) {
@@ -196,9 +211,11 @@ function report(debug, source, ...reports) {
 
 // Interceptor to reset leveling -
 export function resetAllLevels() {
-  countHeadings = 0
+  globalHeadingCounter.current = null
+  globalSyncCounter.current = null
+  globalNextLevel.current = null
+  counterCache = new WeakMap()
   resetLevels(1, { overwriteContext: false })
-  teardownHeadings()
 }
 export const globalResetNextTime: { current: GlobalNextLevel } = {
   current: null,
@@ -233,12 +250,13 @@ export function windupHeadings() {
   globalSyncCounter.current = null
 }
 export function teardownHeadings() {
-  countHeadings--
+  countHeadings = Math.max(0, countHeadings - 1)
   if (countHeadings === 0) {
     globalHeadingCounter.current = null
     globalSyncCounter.current = null
     globalResetNextTime.current = null
     globalNextLevel.current = null
+    counterCache = new WeakMap()
   }
 }
 
