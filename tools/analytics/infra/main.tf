@@ -357,6 +357,10 @@ resource "aws_apigatewayv2_route" "dashboard_data" {
   target             = "integrations/${aws_apigatewayv2_integration.dashboard.id}"
   authorization_type = "JWT"
   authorizer_id      = aws_apigatewayv2_authorizer.entra.id
+
+  # Require the exposed scope so an ID token (same aud/iss, no scp) can't stand
+  # in for the access token the browser requests.
+  authorization_scopes = ["Dashboard.Read"]
 }
 
 resource "aws_lambda_permission" "dashboard_apigw" {
