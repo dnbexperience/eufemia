@@ -65,7 +65,6 @@
     "prettier:package:write": "prettier-package-json --write ./package.json",
     "prettier:styles:write": "prettier --log-level warn --parser scss --write './src/**/*.scss'",
     "prettier:write": "yarn prettier:js:write && yarn prettier:styles:write",
-    "publish:ci": "yarn publish:prepare && yarn publish:release",
     "publish:dry": "dotenv semantic-release --no-ci --dry-run",
     "publish:prepare": "./scripts/postbuild/publish-prepare.sh",
     "publish:release": "./scripts/postbuild/publish-release.sh",
