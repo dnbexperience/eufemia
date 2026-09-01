@@ -106,11 +106,7 @@ function ListScrollView(props: ListScrollViewProps) {
 
   const scrollViewContent = (
     <ScrollView
-      className={clsx(
-        'dnb-list__card__scroll-view',
-        'dnb-list--inset-outline',
-        className
-      )}
+      className={clsx('dnb-list__card__scroll-view', className)}
       interactive="auto"
       ref={combinedRef}
       style={scrollViewStyle}
