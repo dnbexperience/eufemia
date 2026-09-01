@@ -11,6 +11,7 @@ import type { ReactElement, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Dropdown from '../../components/Dropdown'
 import Icon from '../../components/icon/Icon'
+import { chevron_down, chevron_up } from '../../icons'
 import Space from '../../components/space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -20,10 +21,16 @@ import SidebarMenuItem from './SidebarMenuItem'
 import SidebarMenuGroup from './SidebarMenuGroup'
 import SidebarMenuSection from './SidebarMenuSection'
 import renderSidebarMenuItems from './renderSidebarMenuItems'
+import useTranslation from '../../shared/useTranslation'
 import type {
   SidebarMenuContainerProps,
   SidebarMenuSectionProps,
 } from './types'
+
+const sectionIcon = Icon.transition({
+  closed: chevron_down,
+  open: chevron_up,
+})
 
 function SidebarMenuContainer(props: SidebarMenuContainerProps) {
   const {
@@ -42,13 +49,15 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     onOpenItemsChange,
     activeSection,
     defaultActiveSection,
-    sectionLabel = 'Menu section',
+    sectionLabel,
     onActiveSectionChange,
     selectedItem,
     defaultSelectedItem,
     onSelectedItemChange,
     ...rest
   } = props
+  const translation = useTranslation().SidebarMenu
+  const resolvedSectionLabel = sectionLabel ?? translation.sectionLabel
   const menuRef = useRef<HTMLElement>(null)
   const defaultOpenItemsKey = defaultOpenItems.join(',')
   const openItemsStorageId = openItemsStorageKey
@@ -534,7 +543,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
           className="dnb-sidebar-menu__sections"
           portalClass="dnb-sidebar-menu__sections-portal"
           value={resolvedActiveSection}
-          label={sectionLabel}
+          label={resolvedSectionLabel}
           labelSrOnly
           data={sectionButtons.map((section) => {
             const content = section.icon ? (
@@ -558,6 +567,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
             }
           }}
           size="medium"
+          icon={sectionIcon}
           stretch
         />
       )}

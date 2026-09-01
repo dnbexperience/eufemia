@@ -78,6 +78,10 @@ export default {
       missingGroup: 'Gruppe',
       noGroupSR: 'Andre valg',
     },
+    SidebarMenu: {
+      sectionLabel: 'Menusektion',
+      containsCurrentPage: 'Indeholder den aktuelle side',
+    },
     Dropdown: {
       title: 'Vælg',
     },

@@ -432,6 +432,12 @@
   }
 }
 
+.dnb-sidebar-menu__sections.dnb-dropdown--open
+  .dnb-dropdown__icon
+  .dnb-icon {
+  --icon-transition: var(--icon-transition-open);
+}
+
 html[data-whatinput='keyboard']
   .dnb-sidebar-menu__sections-portal
   .dnb-drawer-list__option--focus {

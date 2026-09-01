@@ -13,6 +13,7 @@ import {
 import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import type { SidebarMenuAccordionProps } from './types'
+import useTranslation from '../../shared/useTranslation'
 
 const accordionIcon = Icon.transition({
   collapsed: chevron_down,
@@ -45,6 +46,7 @@ export default function SidebarMenuAccordion(
     onOpenChange,
     ...rest
   } = props
+  const translation = useTranslation().SidebarMenu
   const context = useSidebarMenuContext()
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
   const [delayOpen, setDelayOpen] = useState(false)
@@ -150,7 +152,7 @@ export default function SidebarMenuAccordion(
     <span
       className="dnb-sidebar-menu__accordion__current-indicator"
       role="img"
-      aria-label="Contains current page"
+      aria-label={translation.containsCurrentPage}
     />
   )
   const content = useMemo(

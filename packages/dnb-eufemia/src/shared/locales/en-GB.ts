@@ -77,6 +77,10 @@ export default {
       missingGroup: 'Group',
       noGroupSR: 'Other options',
     },
+    SidebarMenu: {
+      sectionLabel: 'Menu section',
+      containsCurrentPage: 'Contains current page',
+    },
     Dropdown: {
       title: 'Select',
     },

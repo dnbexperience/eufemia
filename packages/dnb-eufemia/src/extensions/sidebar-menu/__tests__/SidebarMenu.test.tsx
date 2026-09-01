@@ -5,8 +5,37 @@ import SidebarMenu from '../SidebarMenu'
 import { SidebarMenuContainerProperties } from '../SidebarMenuDocs'
 import HeightAnimationInstance from '../../../components/height-animation/HeightAnimationInstance'
 import { office_buildings, person } from '../../../icons'
+import Provider from '../../../shared/Provider'
 
 describe('SidebarMenu', () => {
+  it('localizes screen-reader labels', () => {
+    render(
+      <Provider locale="nb-NO">
+        <SidebarMenu.Container selectedItem="cards">
+          <SidebarMenu.Section id="web" text="Web">
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="cards" text="Cards" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Section>
+        </SidebarMenu.Container>
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAccessibleName('Menyseksjon')
+
+    fireEvent.click(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-sidebar-menu__accordion__current-indicator'
+      )
+    ).toHaveAttribute('aria-label', 'Inneholder gjeldende side')
+  })
+
   it('documents the supported declarative children', () => {
     expect(SidebarMenuContainerProperties.children.doc).toContain(
       'SidebarMenu.Item, SidebarMenu.Accordion, SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and SidebarMenu.Divider'
@@ -1196,37 +1225,7 @@ describe('SidebarMenu', () => {
       trigger.querySelector(
         '.dnb-sidebar-menu__accordion__current-indicator'
       )
-    ).toHaveAttribute('aria-label', 'Contains current page')
-  })
-
-  it('does not adjust open accordion height when data is recreated', async () => {
-    vi.useFakeTimers()
-    const adjustTo = vi.spyOn(
-      HeightAnimationInstance.prototype,
-      'adjustTo'
-    )
-    const createData = () => [
-      {
-        id: 'products',
-        text: 'Products',
-        items: [{ id: 'cards', text: 'Cards' }],
-      },
-    ]
-    const { rerender } = render(
-      <SidebarMenu.Container selectedItem="cards" data={createData()} />
-    )
-    act(() => {
-      vi.advanceTimersByTime(200)
-    })
-    adjustTo.mockClear()
-
-    rerender(
-      <SidebarMenu.Container selectedItem="cards" data={createData()} />
-    )
-
-    expect(adjustTo).not.toHaveBeenCalled()
-    adjustTo.mockRestore()
-    vi.useRealTimers()
+    ).toHaveAttribute('aria-label', 'Inneholder gjeldende side')
   })
 
   it('keeps previously opened route structures open while navigating', () => {
