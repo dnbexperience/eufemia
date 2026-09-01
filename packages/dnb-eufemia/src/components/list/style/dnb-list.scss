@@ -272,6 +272,18 @@
     &--selection:has(.dnb-radio__input) {
       overflow: clip;
       overflow-clip-margin: var(--list-item-outline-width);
+
+      // Safari lacks overflow-clip-margin, so draw the (otherwise clipped) outline inside.
+      @supports not (overflow-clip-margin: 1px) {
+        &::after {
+          inset: 0;
+          bottom: calc(var(--list-item-outline-width) * -1);
+        }
+        &:not([hidden]):has(+ [hidden])::after,
+        &:last-of-type:not([hidden])::after {
+          bottom: 0;
+        }
+      }
     }
     &--selection .dnb-checkbox__input {
       --checkbox-bounding--medium: 100;
