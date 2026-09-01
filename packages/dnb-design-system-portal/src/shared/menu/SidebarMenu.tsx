@@ -470,6 +470,7 @@ function ListItem({
       <li
         className={clsx(
           'dnb-sidebar-menu',
+          'portal-sidebar-menu__legacy-item',
           `l-${level}`,
           isActive && 'is-active', // use anchor hover style
           isInsideActivePath && 'is-inside-active-path',
