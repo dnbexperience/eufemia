@@ -60,6 +60,11 @@ test('reopens the selected page accordion after reload', async ({
     menu.getByRole('button', { name: 'Foundations' })
   ).toHaveAttribute('aria-expanded', 'true')
   await expect(layout).toHaveAttribute('aria-expanded', 'true')
+  await expect(layout).not.toHaveCSS(
+    'background-color',
+    'rgba(0, 0, 0, 0)'
+  )
+  await expect(layout).not.toHaveCSS('box-shadow', 'none')
   await expect(menu.locator('#uilib-layout-content')).toBeVisible()
 
   await layout.click()
