@@ -37,10 +37,8 @@
     &::after {
       content: '';
       position: absolute;
-      inset: var(
-        --list-item-outline-inset,
-        calc(var(--list-item-outline-width) * -1)
-      );
+      inset: 0;
+      bottom: calc(var(--list-item-outline-width) * -1);
       z-index: 10;
 
       border-radius: inherit;
@@ -48,6 +46,10 @@
 
       border: var(--list-item-outline-width) solid
         var(--list-item-outline-color);
+    }
+    &:not([hidden]):has(+ [hidden])::after,
+    &:last-of-type:not([hidden])::after {
+      bottom: 0;
     }
 
     // Grid layout: each slot (start, icon, title, center, end) is placed by its
@@ -271,19 +273,6 @@
     &--selection:has(.dnb-checkbox__input),
     &--selection:has(.dnb-radio__input) {
       overflow: clip;
-      overflow-clip-margin: var(--list-item-outline-width);
-
-      // Safari lacks overflow-clip-margin, so draw the (otherwise clipped) outline inside.
-      @supports not (overflow-clip-margin: 1px) {
-        &::after {
-          inset: 0;
-          bottom: calc(var(--list-item-outline-width) * -1);
-        }
-        &:not([hidden]):has(+ [hidden])::after,
-        &:last-of-type:not([hidden])::after {
-          bottom: 0;
-        }
-      }
     }
     &--selection .dnb-checkbox__input {
       --checkbox-bounding--medium: 100;
@@ -341,7 +330,6 @@
           --list-item-navigation-outline-color
         );
         --list-item-outline-width: 0.125rem;
-        --list-item-outline-inset: 0;
         z-index: 2;
       }
       &:not(.dnb-list__item--disabled):active {
@@ -363,7 +351,6 @@
       ) {
       --list-item-outline-color: var(--list-item-navigation-outline-color);
       --list-item-outline-width: 0.125rem;
-      --list-item-outline-inset: 0;
       z-index: 2;
     }
     &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
@@ -417,7 +404,6 @@
     }
 
     &--pending {
-      --list-item-outline-inset: 0;
       pointer-events: none;
       overflow: clip;
     }
@@ -479,17 +465,6 @@
       --list-item-background-color: var(
         --token-color-background-neutral-subtle
       );
-    }
-
-    .dnb-list--inset-outline & .dnb-list__item {
-      &::after {
-        inset: 0;
-        bottom: calc(var(--list-item-outline-width) * -1);
-      }
-      &:not([hidden]):has(+ [hidden])::after,
-      &:last-of-type:not([hidden])::after {
-        bottom: 0;
-      }
     }
 
     .dnb-card & {
