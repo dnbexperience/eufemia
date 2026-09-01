@@ -168,7 +168,7 @@ describe('writeReleaseConfig', () => {
     expect(message).toContain('package.json ("release" field)')
   })
 
-  it.each(['.releaserc', 'release.config.js', '.config/releaserc.json'])(
+  it.each(COMPETING_CONFIG_FILES)(
     'refuses to publish when the artifact carries %s',
     (file) => {
       const sourcePackageJson = writeSource({ branches: ['release'] })
@@ -225,6 +225,22 @@ describe('writeReleaseConfig', () => {
 
     expect(message).toContain('Refusing to publish')
     expect(message).toContain('.git')
+  })
+
+  it('refuses to publish when the artifact carries a .env', () => {
+    const sourcePackageJson = writeSource({ branches: ['release'] })
+    // publish-release.sh runs `cd ./build` and then `dotenv semantic-release`,
+    // so a .env here is loaded into the environment of the credentialed publish
+    // — see the dotenv control below for the proof that this executes code.
+    writeFileSync(
+      path.join(dir, '.env'),
+      'NODE_OPTIONS=--require ./payload.cjs\nNPM_CONFIG_STRICT_SSL=false\n'
+    )
+
+    const message = refusalMessage(sourcePackageJson)
+
+    expect(message).toContain('Refusing to publish')
+    expect(message).toContain('.env')
   })
 
   it('does not write the trusted config when refusing over an .npmrc', () => {
@@ -302,9 +318,9 @@ describe('findForbiddenArtifactFiles', () => {
     rmSync(dir, { recursive: true, force: true })
   })
 
-  it('lists the paths npm pack can never reveal', () => {
+  it('lists every path that changes how the publish job behaves', () => {
     expect(FORBIDDEN_ARTIFACT_FILES).toEqual(
-      expect.arrayContaining(['.npmrc', 'node_modules', '.git'])
+      expect.arrayContaining(['.npmrc', 'node_modules', '.git', '.env'])
     )
   })
 
@@ -332,15 +348,46 @@ describe('findForbiddenArtifactFiles', () => {
       'node_modules',
     ])
   })
+
+  // Unlike the three above, npm does pack a .env — so the content deny-list
+  // catches a plain one. It is guarded here as well because an .npmignore on the
+  // same artifact removes it from the pack listing (see the control below),
+  // which is what makes the filesystem check unconditional.
+  it('detects an .env that an .npmignore could hide from the tarball', () => {
+    writeFileSync(
+      path.join(dir, '.env'),
+      'NODE_OPTIONS=--require ./payload.cjs\n'
+    )
+
+    expect(findForbiddenArtifactFiles(dir)).toEqual(['.env'])
+  })
 })
 
 // Control for the premise of the filesystem guard above: package-content
-// validation works from `npm pack`, and npm force-excludes these paths from
-// every tarball, so no content check can ever see them. If npm's behaviour
-// changes, this fails — and the deny-list in validatePackageContents.mjs could
-// then cover them instead.
+// validation works from `npm pack`, so it can only ever see what a pack reports.
+// npm force-excludes .npmrc, a root node_modules and .git from every tarball, so
+// no content check can see those three at all. If npm's behaviour changes, this
+// fails — and the deny-list in validatePackageContents.mjs could then cover them
+// instead.
 describe('npm pack cannot reveal the forbidden artifact paths', () => {
   let dir
+
+  // The subset npm strips unconditionally. `.env` is packed by default and is
+  // covered by the separate control below, which is why it is not listed here.
+  const NPM_FORCE_EXCLUDED = ['.npmrc', 'node_modules', '.git']
+
+  const packedFiles = () => {
+    // Same invocation the validator uses (see validatePackageContents.mjs).
+    const output = execFileSync(
+      'npm',
+      ['pack', '--dry-run', '--ignore-scripts', '--json'],
+      { cwd: dir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }
+    )
+    const parsed = JSON.parse(output.slice(output.indexOf('['))) as Array<{
+      files: Array<{ path: string }>
+    }>
+    return parsed[0].files.map((file) => file.path)
+  }
 
   beforeEach(() => {
     dir = mkdtempSync(path.join(tmpdir(), 'eufemia-packblind-'))
@@ -363,28 +410,44 @@ describe('npm pack cannot reveal the forbidden artifact paths', () => {
     rmSync(dir, { recursive: true, force: true })
   })
 
-  it('omits them while still packing a normal file', () => {
-    // Same invocation the validator uses (see validatePackageContents.mjs).
-    const output = execFileSync(
-      'npm',
-      ['pack', '--dry-run', '--ignore-scripts', '--json'],
-      { cwd: dir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }
+  it('keeps every force-excluded path in the filesystem deny-list', () => {
+    expect(FORBIDDEN_ARTIFACT_FILES).toEqual(
+      expect.arrayContaining(NPM_FORCE_EXCLUDED)
     )
-    const parsed = JSON.parse(output.slice(output.indexOf('['))) as Array<{
-      files: Array<{ path: string }>
-    }>
-    const packed = parsed[0].files.map((file) => file.path)
+  })
+
+  it('omits them while still packing a normal file', () => {
+    const packed = packedFiles()
 
     // The harness has to be live before the absence assertions mean anything.
     expect(packed).toContain('index.js')
 
-    for (const forbidden of FORBIDDEN_ARTIFACT_FILES) {
+    for (const forbidden of NPM_FORCE_EXCLUDED) {
       expect(
         packed.filter(
           (file) => file === forbidden || file.startsWith(`${forbidden}/`)
         )
       ).toEqual([])
     }
+  })
+
+  // Why `.env` needs the filesystem guard even though npm does not strip it: an
+  // .npmignore travelling on the same artifact takes it out of the pack listing,
+  // and npm excludes the .npmignore itself too, so a content check sees neither.
+  it('reports a plain .env but not one an .npmignore hides', () => {
+    writeFileSync(
+      path.join(dir, '.env'),
+      'NODE_OPTIONS=--require ./x.cjs\n'
+    )
+
+    expect(packedFiles()).toContain('.env')
+
+    writeFileSync(path.join(dir, '.npmignore'), '.env\n')
+
+    const hidden = packedFiles()
+    expect(hidden).toContain('index.js')
+    expect(hidden).not.toContain('.env')
+    expect(hidden).not.toContain('.npmignore')
   })
 })
 
@@ -686,5 +749,82 @@ describe('tampered manifest cannot re-enable lifecycle scripts', () => {
     expect(() => writeReleaseConfig(writeSource(), dir)).toThrow(
       'Refusing to publish'
     )
+  })
+})
+
+// Control for the premise of the .env entry in FORBIDDEN_ARTIFACT_FILES:
+// publish-release.sh runs `cd ./build` and then `dotenv semantic-release`, and
+// dotenv-cli's default path list is exactly `.env`, resolved against that
+// working directory. So a .env travelling on the artifact does not merely add
+// noise — it injects variables into the process that holds the GitHub token and
+// the OIDC token-request credentials, and NODE_OPTIONS turns that into running
+// the artifact's own code. If dotenv ever stops reading the working directory,
+// this fails and the deny-list entry can be reconsidered.
+describe('a .env on the artifact runs code in the publish environment', () => {
+  let dir
+
+  const MARKER = 'DOTENV_MARKER'
+
+  // The same dotenv binary publish-release.sh invokes, resolved from the
+  // workspace the way the cosmiconfig instance above is.
+  const dotenvCli = workspaceRequire.resolve('dotenv-cli/cli.js')
+
+  // Run `dotenv <command>` with the temp directory as the working directory,
+  // mirroring publish-release.sh, and report whether the payload executed.
+  const dotenvRunsPayload = () => {
+    spawnSync(
+      process.execPath,
+      [dotenvCli, '--', process.execPath, '-e', ''],
+      {
+        cwd: dir,
+        stdio: 'ignore',
+      }
+    )
+
+    return existsSync(path.join(dir, MARKER))
+  }
+
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'eufemia-dotenv-'))
+    writeFileSync(
+      path.join(dir, 'payload.cjs'),
+      `require('fs').writeFileSync(require('path').join(__dirname, '${MARKER}'), 'ran')\n`
+    )
+  })
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
+  })
+
+  it('does nothing when the artifact carries no .env', () => {
+    expect(dotenvRunsPayload()).toBe(false)
+  })
+
+  it('executes the payload a .env points NODE_OPTIONS at', () => {
+    writeFileSync(
+      path.join(dir, '.env'),
+      'NODE_OPTIONS=--require ./payload.cjs\n'
+    )
+
+    expect(dotenvRunsPayload()).toBe(true)
+  })
+
+  // dotenv does not overwrite a variable the workflow already set, which is why
+  // the risk is the variables the release step leaves unset (NODE_OPTIONS above,
+  // and the NPM_CONFIG_* proxy and TLS settings) rather than its own secrets.
+  it('cannot overwrite a variable the release step already set', () => {
+    writeFileSync(path.join(dir, '.env'), 'GH_TOKEN=from-the-artifact\n')
+
+    const result = spawnSync(
+      process.execPath,
+      [dotenvCli, '--', process.execPath, '-p', 'process.env.GH_TOKEN'],
+      {
+        cwd: dir,
+        encoding: 'utf8',
+        env: { ...process.env, GH_TOKEN: 'from-the-workflow' },
+      }
+    )
+
+    expect(result.stdout.trim()).toBe('from-the-workflow')
   })
 })

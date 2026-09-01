@@ -22,12 +22,10 @@
  * must stop the release rather than be quietly cleaned up.
  *
  * The same job also refuses to publish if the artifact carries a path that
- * changes how this credentialed job behaves but that `npm pack` can never
- * reveal. npm force-excludes `.npmrc`, a root `node_modules`, `.git` and the
- * lockfiles from every tarball, so package-content validation is structurally
- * blind to them — they have to be checked on the filesystem instead. Three of
- * them matter here, because both npm and git run with the restored `build/` as
- * their working directory:
+ * changes how this credentialed job behaves but that package-content validation
+ * cannot be relied on to reveal. The publish runs with the restored `build/` as
+ * its working directory, so a file dropped there is read — or run — as if we had
+ * put it there ourselves:
  *
  * - `.npmrc` — npm reads a project-level config from the directory it
  *   publishes from and applies its `https-proxy`, `strict-ssl`, `cafile`/`ca`
@@ -41,6 +39,22 @@
  * - `.git` — the changelog commit and tag are made from the same working
  *   directory, and a repository carried on the artifact would shadow the
  *   trusted checkout's.
+ * - `.env` — publish-release.sh runs `cd ./build` and then `dotenv
+ *   semantic-release`, and dotenv-cli's default path list is exactly `.env`,
+ *   resolved against that working directory. It does not overwrite a variable
+ *   the workflow already set, but it does add ones the workflow leaves unset:
+ *   a `NODE_OPTIONS=--require ./file.cjs` runs arbitrary code inside the
+ *   semantic-release process, which holds the GitHub token and the OIDC
+ *   token-request credentials, and `NPM_CONFIG_HTTPS_PROXY` /
+ *   `NPM_CONFIG_STRICT_SSL` reach the publish the same way a tampered `.npmrc`
+ *   would.
+ *
+ * The first three are structurally invisible to a content check: npm
+ * force-excludes them from every tarball, so `npm pack` can never report them.
+ * `.env` is different — a packed one IS rejected by the content deny-list — but
+ * an `.npmignore` carried on the same artifact removes it from the pack listing
+ * (and is itself excluded from that listing), so the content check cannot be
+ * depended on for it either. Checking the filesystem covers both cases.
  *
  * prepareForRelease writes none of them, so any of them is unexpected and must
  * stop the release.
@@ -94,13 +108,20 @@ export const COMPETING_CONFIG_FILES = [
 
 // Paths that must never travel on the build artifact into the credentialed
 // publish job, even though they are not semantic-release configuration. Each
-// one changes how this job publishes — the registry and TLS settings npm
-// reads, the binaries it resolves from the working directory, and the git
-// repository the changelog commit uses (see the header comment) — and npm
-// force-excludes all of them from a tarball, so the package-content validator
-// is blind to them. Entries may be a file or a directory. prepareForRelease
-// writes none of them, so any of them must stop the release.
-export const FORBIDDEN_ARTIFACT_FILES = ['.npmrc', 'node_modules', '.git']
+// one changes how this job publishes — the registry and TLS settings npm reads,
+// the binaries it resolves from the working directory, the git repository the
+// changelog commit uses, and the environment dotenv injects into the publish
+// (see the header comment) — and package-content validation cannot be relied on
+// to reveal them: npm force-excludes the first three from every tarball, and an
+// `.npmignore` on the same artifact hides `.env` from the pack listing. Entries
+// may be a file or a directory. prepareForRelease writes none of them, so any
+// of them must stop the release.
+export const FORBIDDEN_ARTIFACT_FILES = [
+  '.npmrc',
+  'node_modules',
+  '.git',
+  '.env',
+]
 
 /**
  * Extract the semantic-release configuration from a parsed package.json
@@ -256,8 +277,9 @@ export function findManifestPublishOverrides(
  * Return the FORBIDDEN_ARTIFACT_FILES present in the build directory, whether
  * they are files or directories. These are not semantic-release configuration,
  * but they change how `npm publish` and the release commit behave from the
- * build directory and are invisible to the package-content validator (`npm
- * pack` strips them), so they are asserted here on the filesystem.
+ * build directory, and package-content validation cannot be relied on to see
+ * them (`npm pack` strips three of them outright, and an artifact-supplied
+ * `.npmignore` hides `.env`), so they are asserted here on the filesystem.
  */
 export function findForbiddenArtifactFiles(
   buildDir,
@@ -294,11 +316,12 @@ export function writeReleaseConfig(sourcePackageJsonPath, buildDir) {
     throw new Error(
       `Refusing to publish: the build directory carries ${forbidden.join(', ')}. ` +
         `These change how this job publishes — the registry and TLS settings ` +
-        `npm reads, the binaries it resolves from the working directory, and ` +
-        `the git repository the release commit uses — and the ` +
-        `package-content validator cannot see them because npm pack strips ` +
-        `them from the tarball. prepareForRelease writes none of them, so ` +
-        `treat the build artifact as untrusted.`
+        `npm reads, the binaries it resolves from the working directory, the ` +
+        `git repository the release commit uses, and the environment dotenv ` +
+        `injects into the publish — and package-content validation cannot be ` +
+        `relied on to see them, because npm pack strips some of them from the ` +
+        `tarball and an .npmignore can hide a .env. prepareForRelease writes ` +
+        `none of them, so treat the build artifact as untrusted.`
     )
   }
 

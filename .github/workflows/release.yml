@@ -161,6 +161,30 @@ jobs:
           tar -xzf "$RUNNER_TEMP/prepared-release-package/prepared-release-package.tar.gz" \
             -C packages/dnb-eufemia
 
+      # Assert the restored artifact before anything is pointed at it. This is
+      # the step that rejects an artifact carrying a `scripts` field, an
+      # `.npmrc`, a `node_modules`, a `.git` or a `.env`, and it rewrites the
+      # semantic-release config from the trusted checkout so a tampered artifact
+      # cannot change how this credentialed job publishes. semantic-release takes
+      # the first config it finds, and both a `release` field in package.json and
+      # a `.releaserc` outrank the `.releaserc.json` written here, so the step
+      # also fails the release if the artifact carries either.
+      #
+      # It runs before the content validation below on purpose: `npm pack`
+      # executes a package's own `prepack` script even under `--dry-run`, so if
+      # validation went first, the `--ignore-scripts` flag inside
+      # validatePackageContents.mjs would be the only thing standing between a
+      # re-added `scripts` entry and code execution in this job. Rejecting the
+      # manifest first means that flag is defence in depth rather than the sole
+      # control. The reorder is otherwise inert: this step overwrites the
+      # `.releaserc.json` prepareForRelease already put on the artifact, so
+      # validation still sees the same packed file set.
+      - name: Write trusted release config
+        run: |
+          node packages/dnb-eufemia/scripts/postbuild/writeReleaseConfig.mjs \
+            packages/dnb-eufemia/package.json \
+            packages/dnb-eufemia/build
+
       # Re-run the package-content validation here, in the credentialed job,
       # against the restored artifact using the validator from this trusted
       # checkout. The build job already validated the package, but that job is
@@ -171,18 +195,6 @@ jobs:
       # --ignore-scripts); a violation fails the release before anything ships.
       - name: Re-validate restored package contents
         run: yarn workspace @dnb/eufemia validate:package
-
-      # Rewrite the semantic-release config from the trusted checkout, replacing
-      # the copy carried on the build artifact so a tampered artifact cannot
-      # change how this credentialed job publishes. semantic-release takes the
-      # first config it finds, and both a `release` field in package.json and a
-      # `.releaserc` outrank the `.releaserc.json` written here, so this step
-      # also fails the release if the artifact carries either.
-      - name: Write trusted release config
-        run: |
-          node packages/dnb-eufemia/scripts/postbuild/writeReleaseConfig.mjs \
-            packages/dnb-eufemia/package.json \
-            packages/dnb-eufemia/build
 
       - name: Release
         if: github.repository == 'dnbexperience/eufemia' &&
