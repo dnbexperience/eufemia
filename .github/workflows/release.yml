@@ -9,9 +9,22 @@ on:
       - 'next'
       - '*.x'
 
+# Releases queue; they are never cancelled mid-flight. semantic-release pushes
+# the version tag and the changelog commit BEFORE the publish plugins run (see
+# semantic-release's index.js: `tag()` and `push()` precede `plugins.publish()`),
+# so a run interrupted in that window leaves the tag in git with nothing on npm.
+# The next run then treats that tag as the last release and computes the version
+# after it, so the interrupted version is skipped on npm for good and needs
+# manual recovery. `cancel-in-progress: true` made an ordinary second push to a
+# release branch enough to trigger that, which is why releases wait instead.
+#
+# Queueing keeps at most one run pending per group (GitHub's default `single`
+# behaviour): a newer push supersedes the earlier run while it is still pending,
+# which is safe — semantic-release analyses every commit since the last tag, so
+# the superseded commits are still released by the run that does start.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -26,6 +39,14 @@ jobs:
     name: Build and validate release
 
     runs-on: ubuntu-latest
+
+    # Bound how long a release can occupy the concurrency group. Because releases
+    # now queue instead of cancelling (see the note above), a stuck run would
+    # hold back every later release, and GitHub's default job limit is 6 hours.
+    # The whole release job on the previous single-job workflow measured 7-20
+    # minutes; this job adds the two consumer smoke builds on top, so 45 minutes
+    # is several times the observed cost and only fires on a genuine hang.
+    timeout-minutes: 45
 
     steps:
       - name: Git checkout
@@ -120,6 +141,12 @@ jobs:
     needs: build
 
     runs-on: ubuntu-latest
+
+    # Same reasoning as the build job: keep a stuck publish from holding the
+    # release queue for GitHub's default 6 hours. This job only installs the
+    # release tooling, restores the validated artifact, runs the guards and
+    # publishes, so 30 minutes is generous.
+    timeout-minutes: 30
 
     permissions:
       contents: write # Required for semantic-release to push tags and changelog
@@ -482,6 +509,11 @@ jobs:
     if: github.ref == 'refs/heads/release'
 
     runs-on: ubuntu-latest
+
+    # The workflow-level concurrency group is not released until every job in the
+    # run finishes, so this one is bounded too. The deploy itself measured 0.1
+    # minutes on the last release; 20 is far above that.
+    timeout-minutes: 20
 
     # Scoped to the minimum the deploy needs (the release job keeps the
     # broader permissions it requires for semantic-release).
