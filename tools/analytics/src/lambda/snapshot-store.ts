@@ -51,13 +51,15 @@ export async function readSnapshot(
 
     return body ? (JSON.parse(body) as Snapshot) : null
   } catch (error) {
-    // A missing snapshot is the expected cold-start case; anything else (denied
-    // permissions, throttling, corrupt JSON) is a real problem worth surfacing.
-    if (!(error instanceof Error) || error.name !== 'NoSuchKey') {
-      warnOnce(`[eufemia] failed to read dashboard snapshot: ${error}`)
+    // A missing snapshot is the expected cold-start case -> null (empty state).
+    if (error instanceof Error && error.name === 'NoSuchKey') {
+      return null
     }
 
-    return null
+    // Denied permissions, throttling, corrupt JSON: surface it rather than
+    // masking a real failure as "no data yet".
+    warnOnce(`[eufemia] failed to read dashboard snapshot: ${error}`)
+    throw error
   }
 }
 

@@ -20,7 +20,14 @@ const EMPTY: Snapshot = { generatedAt: '', records: [] }
  */
 export async function handler(): Promise<APIGatewayProxyResultV2> {
   const bucket = requireEnv('DATA_BUCKET')
-  const snapshot = await readSnapshot(bucket)
 
-  return json(200, snapshot ?? EMPTY)
+  try {
+    const snapshot = await readSnapshot(bucket)
+
+    return json(200, snapshot ?? EMPTY)
+  } catch {
+    // A real read failure (not a cold-start miss) is surfaced so the frontend
+    // shows an error instead of a misleading empty state.
+    return json(503, { error: 'Snapshot unavailable' })
+  }
 }

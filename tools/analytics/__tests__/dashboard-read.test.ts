@@ -90,13 +90,13 @@ describe('dashboard-read handler', () => {
     expect(putCalls()).toHaveLength(0)
   })
 
-  it('returns an empty payload when the read fails', async () => {
+  it('returns 503 when the snapshot read fails', async () => {
     send.mockRejectedValue(new Error('access denied'))
 
     const res = (await handler()) as Result
 
-    expect(res.statusCode).toBe(200)
-    expect(JSON.parse(res.body)).toEqual({ generatedAt: '', records: [] })
+    expect(res.statusCode).toBe(503)
+    expect(putCalls()).toHaveLength(0)
   })
 
   it('throws when DATA_BUCKET is not set', async () => {

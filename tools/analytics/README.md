@@ -86,6 +86,8 @@ Deploy credentials and configuration are provided via repository secrets and var
 
 Because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004), an admin must pre-create the Lambda execution role `eufemia-<env>-analytics-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an attached policy granting: `s3:GetObject`/`PutObject`/`ListBucket` on the data bucket, `athena:StartQueryExecution`/`GetQueryExecution`/`GetQueryResults` on the workgroup, and `glue:GetTable`/`GetDatabase`/`GetPartitions` on the analytics database/table. The GHE deploy repo and its OIDC role/federation entry must also be provisioned, as with the MCP pipeline.
 
+For the same reason, an admin must pre-create the read-only dashboard-read execution role `eufemia-<env>-dashboard-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an inline policy granting exactly one permission — `s3:GetObject` on the snapshot object `arn:aws:s3:::eufemia-<env>-analytics-<account-id>/records/dashboard-snapshot.json` — and nothing else, so the browser-facing read Lambda has no write or Athena access. The snapshot generator Lambda reuses `eufemia-<env>-analytics-role` (it needs the same Athena + S3 access), so it requires no additional role.
+
 ## Infrastructure
 
 `infra/` provisions:
@@ -94,6 +96,7 @@ Because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (AD
 - **Glue database + table** with JSON SerDe and partition projection on `dt`.
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
+- **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `records/dashboard-snapshot.json` off the request path.
 - **API Gateway HTTP API** with the two `/records` routes and throttling.
 
 The dashboard is hosted separately as a static site:

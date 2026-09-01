@@ -198,9 +198,12 @@ data "aws_iam_role" "lambda" {
 }
 
 # Read-only execution role for the browser-facing dashboard-read Lambda.
-# Pre-created out-of-band (bootstrap-dashboard-iam.sh); its inline policy grants
-# only s3:GetObject on the snapshot object, so the internet-facing surface has
-# no write or Athena access.
+# Pre-created out-of-band for the same reason as above (iam:CreateRole is
+# forbidden by the deploy role's boundary, ADR 0004) and only referenced here.
+# Its inline policy grants a single permission:
+#   - s3:GetObject on the snapshot object (records/dashboard-snapshot.json)
+# so the internet-facing read surface has no write or Athena access. See the
+# "One-time bootstrap" section in README.md for the exact policy document.
 data "aws_iam_role" "dashboard" {
   name = "eufemia-${var.environment}-dashboard-role"
 }
