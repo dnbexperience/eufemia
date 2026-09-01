@@ -8,30 +8,34 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header class="header">
-      <h1>Eufemia Analytics</h1>
-      <div class="controls">
-        <label for="env">Environment</label>
-        <select id="env" aria-label="Filter by environment">
-          <option value="">All</option>
-        </select>
-        <span id="user" class="user" hidden></span>
-      </div>
-    </header>
+    <p id="status" class="status" role="status">Checking sign-in…</p>
 
-    <p id="meta" class="meta"></p>
+    <main id="dashboard" hidden>
+      <header class="header">
+        <h1>Eufemia Analytics</h1>
+        <div class="controls">
+          <label for="env">Environment</label>
+          <select id="env" aria-label="Filter by environment">
+            <option value="">All</option>
+          </select>
+          <span id="user" class="user" hidden></span>
+        </div>
+      </header>
 
-    <section class="kpis" id="kpis" aria-label="Key figures"></section>
+      <p id="meta" class="meta"></p>
 
-    <section class="panel">
-      <h2>Records per day</h2>
-      <div id="per-day" class="chart"></div>
-    </section>
+      <section class="kpis" id="kpis" aria-label="Key figures"></section>
 
-    <section class="panel">
-      <h2>Top pages</h2>
-      <div id="top-names" class="chart"></div>
-    </section>
+      <section class="panel">
+        <h2>Records per day</h2>
+        <div id="per-day" class="chart"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Top pages</h2>
+        <div id="top-names" class="chart"></div>
+      </section>
+    </main>
 
     <p id="error" class="error" hidden></p>
 
