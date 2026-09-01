@@ -185,6 +185,7 @@
       gap: 0;
     }
 
+    .dnb-sidebar-menu__accordion--selected > &__action,
     &--active > &__action,
     &--selected > &__action {
       @include utilities.fakeBorder(
