@@ -20,7 +20,23 @@ describe('Theme', () => {
     expect(document.querySelector('.eufemia-theme')).toBeInTheDocument()
   })
 
-  it('sets name and variant as HTML classes', () => {
+  it('sets brand and variant as HTML classes and attributes', () => {
+    render(
+      <Theme brand="eiendom" variant="soft">
+        content
+      </Theme>
+    )
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft',
+      { exact: true }
+    )
+    expect(element).toHaveAttribute('data-brand', 'eiendom')
+    expect(element).toHaveAttribute('data-name', 'eiendom')
+  })
+
+  it('supports the deprecated name prop', () => {
     render(
       <Theme name="eiendom" variant="soft">
         content
@@ -32,6 +48,21 @@ describe('Theme', () => {
       'eufemia-theme eufemia-theme__eiendom eufemia-theme__eiendom--soft',
       { exact: true }
     )
+  })
+
+  it('prefers brand when brand and name are both set', () => {
+    render(
+      <Theme brand="carnegie" name="eiendom">
+        content
+      </Theme>
+    )
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(element).toHaveClass('eufemia-theme eufemia-theme__carnegie', {
+      exact: true,
+    })
+    expect(element).toHaveAttribute('data-brand', 'carnegie')
+    expect(element).toHaveAttribute('data-name', 'carnegie')
   })
 
   it('supports nested themes', () => {
@@ -595,12 +626,12 @@ describe('Portals', () => {
 
     it('returns default theme when localStorage is empty', () => {
       const result = getTheme()
-      expect(result).toEqual({ name: 'ui' })
+      expect(result).toEqual({ brand: 'ui', name: 'ui' })
     })
 
     it('returns custom default theme', () => {
       const result = getTheme('sbanken')
-      expect(result).toEqual({ name: 'sbanken' })
+      expect(result).toEqual({ brand: 'sbanken', name: 'sbanken' })
     })
 
     it('reads persisted theme from localStorage', () => {
@@ -610,7 +641,20 @@ describe('Portals', () => {
       )
 
       const result = getTheme()
+      expect(result.brand).toBe('eiendom')
       expect(result.name).toBe('eiendom')
+      expect(result.colorScheme).toBe('dark')
+    })
+
+    it('reads a persisted brand from localStorage', () => {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ brand: 'carnegie', colorScheme: 'dark' })
+      )
+
+      const result = getTheme()
+      expect(result.brand).toBe('carnegie')
+      expect(result.name).toBe('carnegie')
       expect(result.colorScheme).toBe('dark')
     })
 
@@ -623,6 +667,7 @@ describe('Portals', () => {
       window.history.replaceState({}, '', '?eufemia-theme=sbanken')
 
       const result = getTheme()
+      expect(result.brand).toBe('sbanken')
       expect(result.name).toBe('sbanken')
 
       window.history.replaceState({}, '', '/')
@@ -639,34 +684,52 @@ describe('Portals', () => {
 
       window.history.replaceState({}, '', '/')
 
-      expect(result).toEqual({ name: 'ui' })
+      expect(result).toEqual({ brand: 'ui', name: 'ui' })
       expect(elapsed).toBeLessThan(1000)
     })
 
     it('persists theme state to localStorage', () => {
-      setTheme({ name: 'eiendom', colorScheme: 'dark' })
+      setTheme({ brand: 'eiendom', colorScheme: 'dark' })
 
       const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.brand).toBe('eiendom')
       expect(stored.name).toBe('eiendom')
       expect(stored.colorScheme).toBe('dark')
     })
 
     it('merges with existing state', () => {
-      setTheme({ name: 'sbanken' })
+      setTheme({ brand: 'sbanken' })
       setTheme({ colorScheme: 'dark' })
 
       const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.brand).toBe('sbanken')
       expect(stored.name).toBe('sbanken')
       expect(stored.colorScheme).toBe('dark')
     })
 
+    it('supports the deprecated name property', () => {
+      setTheme({ name: 'eiendom' })
+
+      const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.brand).toBe('eiendom')
+      expect(stored.name).toBe('eiendom')
+    })
+
+    it('prefers brand when brand and name are both set', () => {
+      setTheme({ brand: 'carnegie', name: 'eiendom' })
+
+      const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.brand).toBe('carnegie')
+      expect(stored.name).toBe('carnegie')
+    })
+
     it('calls callback with merged theme', () => {
       const callback = vi.fn()
-      setTheme({ name: 'eiendom' }, callback)
+      setTheme({ brand: 'eiendom' }, callback)
 
       expect(callback).toHaveBeenCalledTimes(1)
       expect(callback).toHaveBeenCalledWith(
-        expect.objectContaining({ name: 'eiendom' })
+        expect.objectContaining({ brand: 'eiendom', name: 'eiendom' })
       )
     })
 
@@ -674,7 +737,7 @@ describe('Portals', () => {
       window.localStorage.setItem(STORAGE_KEY, 'not-json')
 
       const result = getTheme()
-      expect(result).toEqual({ name: 'ui' })
+      expect(result).toEqual({ brand: 'ui', name: 'ui' })
     })
   })
 })

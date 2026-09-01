@@ -17,9 +17,9 @@ describe('VisibilityByTheme', () => {
     expect(document.body.textContent).toBe("I'm visible")
   })
 
-  it('renders content on name match', () => {
+  it('renders content on brand match', () => {
     const Component = (props) => (
-      <Theme name="eiendom" {...props}>
+      <Theme brand="eiendom" {...props}>
         <VisibilityByTheme visible="eiendom">
           <p>I'm visible</p>
         </VisibilityByTheme>
@@ -30,7 +30,7 @@ describe('VisibilityByTheme', () => {
 
     expect(document.body.textContent).toBe("I'm visible")
 
-    rerender(<Component name="sbanken" />)
+    rerender(<Component brand="sbanken" />)
 
     expect(document.body.textContent).toBe('')
   })
@@ -101,11 +101,11 @@ describe('VisibilityByTheme', () => {
     expect(document.body.textContent).toBe('')
   })
 
-  it('renders content on match from names in an object inside an array', () => {
+  it('renders content on match from brands in an object inside an array', () => {
     const Component = (props) => (
-      <Theme name="eiendom" {...props}>
+      <Theme brand="eiendom" {...props}>
         <VisibilityByTheme
-          visible={[{ name: 'eiendom' }, { name: 'sbanken' }]}
+          visible={[{ brand: 'eiendom' }, { brand: 'sbanken' }]}
         >
           <p>I'm visible</p>
         </VisibilityByTheme>
@@ -116,11 +116,11 @@ describe('VisibilityByTheme', () => {
 
     expect(document.body.textContent).toBe("I'm visible")
 
-    rerender(<Component name="sbanken" />)
+    rerender(<Component brand="sbanken" />)
 
     expect(document.body.textContent).toBe("I'm visible")
 
-    rerender(<Component name="ui" />)
+    rerender(<Component brand="ui" />)
 
     expect(document.body.textContent).toBe('')
   })

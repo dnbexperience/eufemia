@@ -133,7 +133,7 @@ export type ContextProps = ContextComponents & {
   // -- Global properties --
 
   /**
-   * Contains theme related properties, such as a theme name
+   * Contains theme related properties, such as a theme brand
    */
   theme?: ThemeProps
 

@@ -30,6 +30,11 @@ export type ThemeColorScheme = 'auto' | 'light' | 'dark'
 export type ThemeSurface = 'light' | 'dark' | 'initial'
 
 export type ThemeProps = {
+  brand?: ThemeNames
+  /**
+   * Deprecated. Use `brand` instead.
+   * @deprecated Use `brand` instead. This property will be removed in v13.
+   */
   name?: ThemeNames
   variant?: ThemeVariants
   size?: ThemeSizes
@@ -47,6 +52,7 @@ export default function Theme(themeProps: ThemeAllProps) {
   const {
     children,
     element,
+    brand,
     name,
     variant,
     size,
@@ -75,7 +81,8 @@ export default function Theme(themeProps: ThemeAllProps) {
 
   const theme = extendPropsWithContext(
     {
-      name,
+      brand: brand ?? name,
+      name: brand ?? name,
       variant,
       size,
       contrastMode,
@@ -85,6 +92,10 @@ export default function Theme(themeProps: ThemeAllProps) {
     null,
     context?.theme
   )
+
+  const resolvedBrand = theme.brand ?? theme.name
+  theme.brand = resolvedBrand
+  theme.name = resolvedBrand
 
   // When surface is "initial", reset it to break context inheritance
   if (surface === 'initial') {
@@ -130,7 +141,7 @@ export function ThemeWrapper({
   useSyncElementColorScheme(ref, theme)
 
   const classNames = getThemeClasses(theme, className)
-  const { name, variant, size } = theme
+  const { brand, variant, size } = theme
 
   if (Wrapper === Fragment) {
     return children
@@ -140,7 +151,8 @@ export function ThemeWrapper({
 
   return (
     <Wrapper
-      data-name={name}
+      data-brand={brand}
+      data-name={brand}
       data-variant={variant}
       data-size={size}
       className={classNames}
@@ -156,13 +168,16 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const { name, variant, size, contrastMode, colorScheme } = theme
+  const { brand, name, variant, size, contrastMode, colorScheme } = theme
+  const resolvedBrand = brand ?? name
 
   return clsx(
     className,
     'eufemia-theme',
-    name && `eufemia-theme__${name}`,
-    name && variant && `eufemia-theme__${name}--${variant}`,
+    resolvedBrand && `eufemia-theme__${resolvedBrand}`,
+    resolvedBrand &&
+      variant &&
+      `eufemia-theme__${resolvedBrand}--${variant}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
     size && `eufemia-theme__size--${size}`
@@ -227,11 +242,11 @@ export type ThemeState = ThemeProps & Record<string, unknown>
 
 /**
  * Read the persisted theme state from localStorage.
- * Supports a `?eufemia-theme=<name>` URL query override for the theme name.
+ * Supports a `?eufemia-theme=<brand>` URL query override for the theme brand.
  */
-export function getTheme(defaultTheme: ThemeNames = 'ui'): ThemeState {
+export function getTheme(defaultBrand: ThemeNames = 'ui'): ThemeState {
   if (typeof window === 'undefined') {
-    return { name: defaultTheme }
+    return { brand: defaultBrand, name: defaultBrand }
   }
 
   try {
@@ -242,11 +257,14 @@ export function getTheme(defaultTheme: ThemeNames = 'ui'): ThemeState {
       new URLSearchParams(window.location.search).get('eufemia-theme') ||
       null
 
-    const name = (fromQuery || theme?.name || defaultTheme) as ThemeNames
+    const brand = (fromQuery ||
+      theme?.brand ||
+      theme?.name ||
+      defaultBrand) as ThemeNames
 
-    return { ...theme, name }
+    return { ...theme, brand, name: brand }
   } catch {
-    return { name: defaultTheme }
+    return { brand: defaultBrand, name: defaultBrand }
   }
 }
 
@@ -263,7 +281,17 @@ export function setTheme(
   }
 
   try {
-    const theme = { ...getTheme(), ...themeProps }
+    const currentTheme = getTheme()
+    const brand = (themeProps.brand ??
+      themeProps.name ??
+      currentTheme.brand ??
+      currentTheme.name) as ThemeNames
+    const theme = {
+      ...currentTheme,
+      ...themeProps,
+      brand,
+      name: brand,
+    }
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(theme))
     callback?.(theme)
   } catch {
