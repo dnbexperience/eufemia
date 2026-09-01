@@ -42,6 +42,44 @@ test.describe('SidebarMenu documentation tabs', () => {
   })
 })
 
+test('reopens the selected page accordion after reload', async ({
+  page,
+}) => {
+  await page.goto('/uilib/layout')
+  await waitForApp(page)
+
+  const menu = page.getByRole('navigation', {
+    name: 'Section Content Menu',
+  })
+  const layout = menu.getByRole('link', {
+    name: 'Layout & spacing',
+    exact: true,
+  })
+
+  await expect(
+    menu.getByRole('button', { name: 'Foundations' })
+  ).toHaveAttribute('aria-expanded', 'true')
+  await expect(layout).toHaveAttribute('aria-expanded', 'true')
+  await expect(menu.locator('#uilib-layout-content')).toBeVisible()
+
+  await layout.click()
+  await expect(layout).toHaveAttribute('aria-expanded', 'false')
+
+  await page.reload()
+  await waitForApp(page)
+
+  const reloadedMenu = page.getByRole('navigation', {
+    name: 'Section Content Menu',
+  })
+  await expect(
+    reloadedMenu.getByRole('link', {
+      name: 'Layout & spacing',
+      exact: true,
+    })
+  ).toHaveAttribute('aria-expanded', 'true')
+  await expect(reloadedMenu.locator('#uilib-layout-content')).toBeVisible()
+})
+
 test.describe('Portal SidebarMenu', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/components')
