@@ -147,6 +147,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
   usePortalHead(headData)
 
   const tabsFromParent = Boolean(!pageFm.title && pageFm.showTabs)
+  const hideToc = pageFm.hideToc ?? (tabsFromParent && parentFm.hideToc)
+
   const rootPath =
     '/' +
     (tabsFromParent ? parentMdx?.fields?.slug : pageMdx?.fields?.slug)
@@ -184,12 +186,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
         <PortalTocProvider>
           <div
             className={`${pageLayoutStyles['content-grid']} ${
-              fmData.hideToc
-                ? pageLayoutStyles['content-grid--without-toc']
-                : ''
+              hideToc ? pageLayoutStyles['content-grid--without-toc'] : ''
             }`}
           >
-            {!fmData.hideToc && (
+            {!hideToc && (
               <div className={pageLayoutStyles['content-grid__sidebar']}>
                 <PortalToc />
               </div>
