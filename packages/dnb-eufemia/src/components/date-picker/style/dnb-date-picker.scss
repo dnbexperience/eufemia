@@ -398,18 +398,18 @@
       background-color: transparent;
     }
 
-    &--preview:not(#{&}--inactive):not(#{&}--start-date):not(
-        #{&}--end-date
-      ),
-    &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(
-        #{&}--end-date
-      ) {
+    &--preview:not(#{&}--inactive):not(#{&}--outside-month):not(
+        #{&}--start-date
+      ):not(#{&}--end-date),
+    &--within-selection:not(#{&}--inactive):not(#{&}--outside-month):not(
+        #{&}--start-date
+      ):not(#{&}--end-date) {
       // They are treating the highlighted date range in Figma as a hover state, that is why --token-color-background-action-hover-subtle is used here (Same as in Figma)
       background-color: var(--token-color-background-action-hover-subtle);
     }
 
-    &--start-date:not(#{&}--inactive),
-    &--end-date:not(#{&}--inactive) {
+    &--start-date:not(#{&}--inactive):not(#{&}--outside-month),
+    &--end-date:not(#{&}--inactive):not(#{&}--outside-month) {
       &::after {
         // They are treating the highlighted date range in Figma as a hover state, that is why --token-color-background-action-hover-subtle is used here (Same as in Figma)
         background-color: var(
@@ -422,8 +422,12 @@
         background-color: var(--token-color-background-action);
       }
     }
-    &--start-date:not(#{&}--inactive):not(#{&}--preview),
-    &--end-date:not(#{&}--inactive):not(#{&}--preview) {
+    &--start-date:not(#{&}--inactive):not(#{&}--outside-month):not(
+        #{&}--preview
+      ),
+    &--end-date:not(#{&}--inactive):not(#{&}--outside-month):not(
+        #{&}--preview
+      ) {
       .dnb-button {
         &:hover {
           box-shadow: none;

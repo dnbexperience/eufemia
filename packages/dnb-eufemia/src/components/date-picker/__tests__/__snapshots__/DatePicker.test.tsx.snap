@@ -3021,17 +3021,17 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
 .dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--outside-month .dnb-button, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover):not(:focus-visible) {
   background-color: transparent;
 }
-.dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date), .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) {
+.dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date), .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) {
   background-color: var(--token-color-background-action-hover-subtle);
 }
-.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive)::after, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive)::after {
+.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month)::after, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month)::after {
   background-color: var(--token-color-background-action-hover-subtle);
 }
-.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive) .dnb-button, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive) .dnb-button {
+.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month) .dnb-button, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month) .dnb-button {
   color: var(--token-color-text-neutral-inverse);
   background-color: var(--token-color-background-action);
 }
-.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--preview) .dnb-button:hover {
+.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--preview) .dnb-button:hover, .dnb-date-picker__day--end-date:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--preview) .dnb-button:hover {
   box-shadow: none;
 }
 html:not([data-whatintent=touch]) .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-date-picker__day--start-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-date-picker__day--end-date.dnb-date-picker__day--within-selection .dnb-button:hover:not([disabled]) {
