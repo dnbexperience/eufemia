@@ -1806,6 +1806,44 @@ describe('SidebarMenu', () => {
     sessionStorage.removeItem(storageKey)
   })
 
+  it('reopens a selected page accordion across remounts', () => {
+    const storageKey = 'sidebar-menu-selected-page'
+    sessionStorage.setItem(storageKey, JSON.stringify([]))
+
+    const renderMenu = () =>
+      render(
+        <SidebarMenu.Container
+          selectedItem="products"
+          openItemsStorageKey={storageKey}
+        >
+          <SidebarMenu.Accordion
+            id="products"
+            text="Products"
+            href="/products"
+          >
+            <SidebarMenu.Item id="cards" text="Cards" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Container>
+      )
+
+    const component = renderMenu()
+    const link = document.querySelector('[href="/products"]')
+
+    expect(link).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(link)
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+
+    component.unmount()
+    renderMenu()
+
+    expect(document.querySelector('[href="/products"]')).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+
+    sessionStorage.removeItem(storageKey)
+  })
+
   it('preserves a stored closed state over default open items', () => {
     const storageKey = 'sidebar-menu-closed-default'
     sessionStorage.setItem(storageKey, JSON.stringify([]))

@@ -76,7 +76,12 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       initialOpenState.selectedItem ?? selectedItem ?? initialSelectedItem,
     ids: initialOpenState.closedItems,
   }
-  const initialOpenItems = openItems ?? initialOpenState.openItems
+  const initialOpenItems =
+    openItems ??
+    addOpenItem(
+      initialOpenState.openItems,
+      initialSelection?.selectedAccordionId
+    )
   const [internalOpenItems, setInternalOpenItems] =
     useState(initialOpenItems)
   const loadedOpenItemsStorageIdRef = useRef<string | undefined>(
@@ -102,6 +107,11 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
   })
   const selectionAncestorIds = selection?.ancestorIds ?? []
   const selectionAncestorIdsKey = selectionAncestorIds.join(',')
+  const selectedAccordionId = selection?.selectedAccordionId
+  const selectionOpenIdsKey = [
+    ...selectionAncestorIds,
+    ...(selectedAccordionId ? [selectedAccordionId] : []),
+  ].join(',')
   const [closedSelectionPath, setClosedSelectionPath] = useState<{
     selectedItem?: string
     ids: string[]
@@ -110,6 +120,8 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     closedSelectionPath.selectedItem === resolvedSelectedItem
       ? closedSelectionPath.ids
       : []
+  const closedSelectionAncestorIdsKey =
+    closedSelectionAncestorIds.join(',')
   const resolvedOpenItems = Array.from(
     new Set([
       ...(openItems ?? internalOpenItems).filter(
@@ -123,25 +135,26 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
   const resolvedOpenItemsKey = resolvedOpenItems.join(',')
 
   useEffect(() => {
-    const ancestorIds = selectionAncestorIdsKey
-      ? selectionAncestorIdsKey.split(',')
+    const selectionOpenIds = selectionOpenIdsKey
+      ? selectionOpenIdsKey.split(',')
+      : []
+    const closedSelectionIds = closedSelectionAncestorIdsKey
+      ? closedSelectionAncestorIdsKey.split(',')
       : []
 
-    if (openItems === undefined && ancestorIds.length) {
+    if (openItems === undefined && selectionOpenIds.length) {
       setInternalOpenItems((current) => {
-        const missing = ancestorIds.filter(
-          (id) =>
-            !current.includes(id) &&
-            !closedSelectionAncestorIds.includes(id)
+        const missing = selectionOpenIds.filter(
+          (id) => !current.includes(id) && !closedSelectionIds.includes(id)
         )
         return missing.length ? [...current, ...missing] : current
       })
     }
   }, [
-    closedSelectionAncestorIds,
+    closedSelectionAncestorIdsKey,
     openItems,
     resolvedSelectedItem,
-    selectionAncestorIdsKey,
+    selectionOpenIdsKey,
   ])
 
   useLayoutEffect(() => {
@@ -159,7 +172,9 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     })
     loadedOpenItemsStorageIdRef.current = openItemsStorageId
     skipOpenItemsPersistRef.current = true
-    setInternalOpenItems(storedOpenState.openItems)
+    setInternalOpenItems(
+      addOpenItem(storedOpenState.openItems, selectedAccordionId)
+    )
     setClosedSelectionPath({
       selectedItem: storedOpenState.selectedItem ?? resolvedSelectedItem,
       ids: storedOpenState.closedItems,
@@ -171,6 +186,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     openItemsStorageId,
     openItemsStorageKey,
     resolvedSelectedItem,
+    selectedAccordionId,
   ])
 
   useLayoutEffect(() => {
@@ -578,6 +594,7 @@ export default SidebarMenuContainer
 
 type Selection = {
   ancestorIds: string[]
+  selectedAccordionId?: string
   sectionId?: string
 }
 
@@ -598,39 +615,45 @@ function findSelection({
 
   if (sections) {
     for (const section of sections) {
-      const ancestorIds = findDataPath(section.items, id)
-      if (ancestorIds) {
-        return { ancestorIds, sectionId: section.id }
+      const selection = findDataSelection(section.items, id)
+      if (selection) {
+        return { ...selection, sectionId: section.id }
       }
     }
   }
 
-  const dataPath = data && findDataPath(data, id)
-  if (dataPath) {
-    return { ancestorIds: dataPath }
+  const dataSelection = data && findDataSelection(data, id)
+  if (dataSelection) {
+    return dataSelection
   }
 
   return findDeclarativeSelection(children, id)
 }
 
-function findDataPath(
+function findDataSelection(
   items: NonNullable<SidebarMenuContainerProps['data']>,
   id: string,
   ancestorIds: string[] = []
-): string[] | undefined {
+): Selection | undefined {
   for (const item of items) {
     if (item.id === id) {
-      return ancestorIds
+      return {
+        ancestorIds,
+        selectedAccordionId:
+          item.items && item.type !== 'group' && item.collapsible !== false
+            ? item.id
+            : undefined,
+      }
     }
 
     if (item.items) {
-      const path = findDataPath(
+      const selection = findDataSelection(
         item.items,
         id,
         item.type === 'group' ? ancestorIds : [...ancestorIds, item.id]
       )
-      if (path) {
-        return path
+      if (selection) {
+        return selection
       }
     }
   }
@@ -652,6 +675,7 @@ function findDeclarativeSelection(
     const element = child as ReactElement<{
       id?: string
       children?: ReactNode
+      collapsible?: boolean
     }>
     const nextSectionId =
       child.type === SidebarMenuSection ? element.props.id : sectionId
@@ -662,7 +686,15 @@ function findDeclarativeSelection(
         child.type === SidebarMenuGroup) &&
       element.props.id === id
     ) {
-      return { ancestorIds, sectionId: nextSectionId }
+      return {
+        ancestorIds,
+        selectedAccordionId:
+          child.type === SidebarMenuAccordion &&
+          element.props.collapsible !== false
+            ? element.props.id
+            : undefined,
+        sectionId: nextSectionId,
+      }
     }
 
     const nextAncestorIds =
@@ -681,6 +713,10 @@ function findDeclarativeSelection(
   }
 
   return undefined
+}
+
+function addOpenItem(items: string[], id?: string) {
+  return id && !items.includes(id) ? [...items, id] : items
 }
 
 function findActiveDataItem(
