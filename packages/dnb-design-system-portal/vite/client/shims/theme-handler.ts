@@ -7,6 +7,13 @@
  *
  * All theme CSS is already loaded by vite-plugin-eufemia-theme,
  * so switching only requires updating localStorage + the HTML attribute.
+ *
+ * NOTE: this shim shares the `eufemia-theme` localStorage key with Eufemia's
+ * own getTheme/setTheme (shared/Theme.tsx). Nothing in the type system ties
+ * the two together, so the payload contract has to be kept in sync by hand:
+ * `brand` is canonical, the deprecated `name` is mirrored until v13, and the
+ * pair must never diverge. theme-handler-storage-contract.test.ts asserts this
+ * against the real Eufemia implementation.
  */
 
 import { useState, useEffect, useCallback } from 'react'
@@ -40,8 +47,24 @@ const themeNames: ThemeNames[] = Object.keys(
 ) as ThemeNames[]
 
 export type ThemeState = {
-  name: ThemeNames
+  brand: ThemeNames
+  /**
+   * Deprecated. Use `brand` instead.
+   * @deprecated Use `brand` instead. This property will be removed in v13.
+   */
+  name?: ThemeNames
   colorScheme?: ThemeColorScheme
+}
+
+/**
+ * Mirror `brand` onto the deprecated `name`, so every payload this shim writes
+ * satisfies both keys. `getTheme` therefore always resolves a `brand`.
+ */
+function withBrand(
+  state: Record<string, unknown>,
+  brand: ThemeNames
+): ThemeState {
+  return { ...state, brand, name: brand } as ThemeState
 }
 
 // Simple event emitter for cross-component theme updates
@@ -56,34 +79,35 @@ export function getThemes() {
   return availableThemes
 }
 
-export function isValidTheme(name: string): name is ThemeNames {
-  return themeNames.includes(name as ThemeNames)
+export function isValidTheme(brand: string): brand is ThemeNames {
+  return themeNames.includes(brand as ThemeNames)
 }
 
 export function getTheme(): ThemeState {
   if (typeof window === 'undefined') {
-    return { name: DEFAULT_THEME }
+    return withBrand({}, DEFAULT_THEME)
   }
 
   try {
     const data = window.localStorage.getItem(STORAGE_KEY)
     const stored = JSON.parse(data?.startsWith('{') ? data : '{}')
 
-    // Also allow ?eufemia-theme=<name> query param
+    // Also allow ?eufemia-theme=<brand> query param
     const regex = /.*eufemia-theme=([^&]*).*/
     const query = window.location.search
     const fromQuery =
       (regex.test(query) && query?.replace(regex, '$1')) || null
 
-    const themeName = fromQuery || stored?.name || DEFAULT_THEME
+    const brand =
+      fromQuery || stored?.brand || stored?.name || DEFAULT_THEME
 
-    if (!isValidTheme(themeName)) {
-      return { name: DEFAULT_THEME }
+    if (!isValidTheme(brand)) {
+      return withBrand({}, DEFAULT_THEME)
     }
 
-    return { ...stored, name: themeName }
+    return withBrand(stored, brand)
   } catch {
-    return { name: DEFAULT_THEME }
+    return withBrand({}, DEFAULT_THEME)
   }
 }
 
@@ -91,11 +115,18 @@ export function setTheme(
   themeProps: Partial<ThemeState>,
   callback?: (theme: ThemeState) => void
 ) {
-  const theme = { ...getTheme(), ...themeProps }
+  const current = getTheme()
+  const brand = (themeProps.brand ??
+    themeProps.name ??
+    current.brand) as ThemeNames
 
-  if (!isValidTheme(theme.name)) {
+  if (!isValidTheme(brand)) {
     return // stop here
   }
+
+  // Re-derive both keys from the resolved brand, so a caller passing only the
+  // deprecated `name` can never leave a stale `brand` behind (or vice versa).
+  const theme = withBrand({ ...current, ...themeProps }, brand)
 
   const applyAndNotify = () => {
     // Dev mode: toggle style.disabled on <style> elements
@@ -103,7 +134,7 @@ export function setTheme(
       typeof window !== 'undefined' &&
       window.__applyEufemiaThemeStyles__
     ) {
-      window.__applyEufemiaThemeStyles__(theme.name)
+      window.__applyEufemiaThemeStyles__(theme.brand)
     }
 
     // Update body color-scheme class so CSS responds immediately
@@ -135,7 +166,7 @@ export function setTheme(
 
   // Build mode: lazy-load theme CSS before applying
   if (typeof window !== 'undefined' && window.__loadEufemiaTheme) {
-    window.__loadEufemiaTheme(theme.name).then(applyAndNotify)
+    window.__loadEufemiaTheme(theme.brand).then(applyAndNotify)
   } else {
     applyAndNotify()
   }
@@ -149,12 +180,12 @@ export function useThemeHandler() {
     // In build mode, lazy-load non-default theme CSS first.
     const applyInitial = () => {
       if (window.__applyEufemiaThemeStyles__) {
-        window.__applyEufemiaThemeStyles__(theme.name)
+        window.__applyEufemiaThemeStyles__(theme.brand)
       }
     }
 
     if (window.__loadEufemiaTheme) {
-      window.__loadEufemiaTheme(theme.name).then(applyInitial)
+      window.__loadEufemiaTheme(theme.brand).then(applyInitial)
     } else {
       applyInitial()
     }

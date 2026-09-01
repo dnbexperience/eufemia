@@ -73,7 +73,7 @@ test.describe('Theme', () => {
         window.localStorage.getItem('eufemia-theme') || '{}'
       )
 
-      return theme.name === 'sbanken'
+      return theme.brand === 'sbanken'
     })
 
     const localStorageData = await page.evaluate(() => {
@@ -82,6 +82,8 @@ test.describe('Theme', () => {
       )
     })
 
+    expect(localStorageData.brand).toBe('sbanken')
+    // The deprecated `name` is kept mirrored until v13
     expect(localStorageData.name).toBe('sbanken')
   })
 

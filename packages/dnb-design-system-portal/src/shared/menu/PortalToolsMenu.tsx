@@ -81,8 +81,8 @@ export default function PortalToolsMenu({
   const { skeleton } = useContext(Context)
   const storageKey = getPortalToolsOpenStorageKey(hideWhenMediaLarge)
   const [isOpen, setIsOpen] = useState(false)
-  const { name: themeName, colorScheme } = getTheme()
-  const themeKey = `${themeName}:${colorScheme || 'auto'}`
+  const { brand, colorScheme } = getTheme()
+  const themeKey = `${brand}:${colorScheme || 'auto'}`
   // Start with animation disabled so the initial open=false render
   // uses the immediate close path in Modal, avoiding a 300ms timer
   // that would race with the restore effect and close the drawer.

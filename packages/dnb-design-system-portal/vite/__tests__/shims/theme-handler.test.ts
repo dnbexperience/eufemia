@@ -39,27 +39,51 @@ describe('theme-handler shim', () => {
   describe('getTheme', () => {
     it('returns default theme when nothing is stored', () => {
       const theme = getTheme()
+      expect(theme.brand).toBe('ui')
       expect(theme.name).toBe('ui')
     })
 
-    it('reads theme from localStorage', () => {
+    it('reads brand from localStorage', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'sbanken' })
+      )
+
+      const theme = getTheme()
+      expect(theme.brand).toBe('sbanken')
+      expect(theme.name).toBe('sbanken')
+    })
+
+    it('reads a deprecated name-only payload from localStorage', () => {
       localStorage.setItem(
         'eufemia-theme',
         JSON.stringify({ name: 'sbanken' })
       )
 
       const theme = getTheme()
+      expect(theme.brand).toBe('sbanken')
       expect(theme.name).toBe('sbanken')
+    })
+
+    it('prefers brand when both brand and name are stored', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie', name: 'sbanken' })
+      )
+
+      const theme = getTheme()
+      expect(theme.brand).toBe('carnegie')
+      expect(theme.name).toBe('carnegie')
     })
 
     it('falls back to default for invalid stored theme', () => {
       localStorage.setItem(
         'eufemia-theme',
-        JSON.stringify({ name: 'invalid-theme' })
+        JSON.stringify({ brand: 'invalid-theme' })
       )
 
       const theme = getTheme()
-      expect(theme.name).toBe('ui')
+      expect(theme.brand).toBe('ui')
     })
 
     it('reads theme from query parameter', () => {
@@ -70,7 +94,7 @@ describe('theme-handler shim', () => {
       })
 
       const theme = getTheme()
-      expect(theme.name).toBe('eiendom')
+      expect(theme.brand).toBe('eiendom')
 
       Object.defineProperty(window, 'location', {
         value: { ...window.location, search: originalSearch },
@@ -81,27 +105,52 @@ describe('theme-handler shim', () => {
     it('preserves additional stored properties like colorScheme', () => {
       localStorage.setItem(
         'eufemia-theme',
-        JSON.stringify({ name: 'ui', colorScheme: 'dark' })
+        JSON.stringify({ brand: 'ui', colorScheme: 'dark' })
       )
 
       const theme = getTheme()
-      expect(theme.name).toBe('ui')
+      expect(theme.brand).toBe('ui')
       expect(theme.colorScheme).toBe('dark')
     })
   })
 
   describe('setTheme', () => {
-    it('saves theme to localStorage', () => {
+    it('saves brand to localStorage, mirrored to the deprecated name', () => {
+      setTheme({ brand: 'sbanken' })
+
+      const stored = JSON.parse(
+        localStorage.getItem('eufemia-theme') || '{}'
+      )
+      expect(stored.brand).toBe('sbanken')
+      expect(stored.name).toBe('sbanken')
+    })
+
+    it('supports the deprecated name property', () => {
+      setTheme({ name: 'eiendom' })
+
+      const stored = JSON.parse(
+        localStorage.getItem('eufemia-theme') || '{}'
+      )
+      expect(stored.brand).toBe('eiendom')
+      expect(stored.name).toBe('eiendom')
+    })
+
+    it('never leaves brand and name diverged', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'eiendom', name: 'eiendom' })
+      )
+
       setTheme({ name: 'sbanken' })
 
       const stored = JSON.parse(
         localStorage.getItem('eufemia-theme') || '{}'
       )
-      expect(stored.name).toBe('sbanken')
+      expect(stored).toEqual({ brand: 'sbanken', name: 'sbanken' })
     })
 
-    it('does not save invalid theme names', () => {
-      setTheme({ name: 'nonexistent' as never })
+    it('does not save invalid brands', () => {
+      setTheme({ brand: 'nonexistent' as never })
 
       const stored = localStorage.getItem('eufemia-theme')
       expect(stored).toBeNull()
@@ -111,16 +160,16 @@ describe('theme-handler shim', () => {
       const applyFn = vi.fn()
       window.__applyEufemiaThemeStyles__ = applyFn
 
-      setTheme({ name: 'eiendom' })
+      setTheme({ brand: 'eiendom' })
       expect(applyFn).toHaveBeenCalledWith('eiendom')
     })
 
     it('invokes the callback with the new theme', () => {
       const callback = vi.fn()
-      setTheme({ name: 'sbanken' }, callback)
+      setTheme({ brand: 'sbanken' }, callback)
 
       expect(callback).toHaveBeenCalledWith(
-        expect.objectContaining({ name: 'sbanken' })
+        expect.objectContaining({ brand: 'sbanken', name: 'sbanken' })
       )
     })
   })
@@ -128,7 +177,7 @@ describe('theme-handler shim', () => {
   describe('useThemeHandler', () => {
     it('returns the current theme', () => {
       const { result } = renderHook(() => useThemeHandler())
-      expect(result.current.name).toBe('ui')
+      expect(result.current.brand).toBe('ui')
       expect(typeof result.current.setTheme).toBe('function')
     })
 
@@ -136,12 +185,12 @@ describe('theme-handler shim', () => {
       const { result } = renderHook(() => useThemeHandler())
 
       act(() => {
-        result.current.setTheme({ name: 'sbanken' })
+        result.current.setTheme({ brand: 'sbanken' })
       })
 
       // The ref is updated but no React re-render is triggered.
       // The theme change is reflected in localStorage and getTheme().
-      expect(getTheme().name).toBe('sbanken')
+      expect(getTheme().brand).toBe('sbanken')
     })
 
     it('calls __applyEufemiaThemeStyles__ on mount', () => {

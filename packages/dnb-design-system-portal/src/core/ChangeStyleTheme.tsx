@@ -7,7 +7,7 @@ import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export default function ChangeStyleTheme(props) {
   const themes = getThemes()
-  const { name } = getTheme()
+  const { brand } = getTheme()
   const { update } = useContext(Context)
 
   const data = Object.entries(themes).reduce((acc, [key, value]) => {
@@ -20,12 +20,12 @@ export default function ChangeStyleTheme(props) {
   return (
     <Field.Selection
       id="change-theme"
-      value={name}
+      value={brand}
       data={data}
       label="Change Brand"
       onChange={(value) => {
         update({ skeleton: true })
-        setTheme({ name: value as ThemeNames }, () => {
+        setTheme({ brand: value as ThemeNames }, () => {
           update({ skeleton: false })
         })
       }}

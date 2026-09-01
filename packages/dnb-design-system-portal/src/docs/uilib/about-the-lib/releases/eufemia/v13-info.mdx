@@ -65,6 +65,15 @@ The deprecated `name` property and `data-name` attribute have been removed. Use 
 
 Replace `useTheme().name` with `useTheme().brand`. For persisted theme state, replace `getTheme().name` and `setTheme({ name })` with `getTheme().brand` and `setTheme({ brand })`.
 
+`VisibilityByTheme` also matches on the theme object, so replace `name` there too:
+
+```diff
+-<VisibilityByTheme visible={[{ name: 'sbanken' }]}>
++<VisibilityByTheme visible={[{ brand: 'sbanken' }]}>
+```
+
+TypeScript flags `name` as an unknown property here, but plain JavaScript does not: an unmigrated `{ name }` simply stops matching, and the content silently disappears.
+
 The deprecated `size` property, `ThemeSizes` type, `data-size` attribute, and `eufemia-theme__size--*` CSS classes have also been removed. Use `density`, `ThemeDensities`, `data-density`, and `eufemia-theme__density--*` instead.
 
 ```diff
