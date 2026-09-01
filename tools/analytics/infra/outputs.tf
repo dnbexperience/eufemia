@@ -17,6 +17,16 @@ output "function_name" {
   value = aws_lambda_function.analytics.function_name
 }
 
+output "dashboard_read_function_name" {
+  description = "Read-only Lambda serving the dashboard GET /data route"
+  value       = aws_lambda_function.dashboard_read.function_name
+}
+
+output "snapshot_function_name" {
+  description = "Scheduled Lambda that regenerates the dashboard snapshot"
+  value       = aws_lambda_function.snapshot.function_name
+}
+
 output "data_bucket" {
   value = aws_s3_bucket.data.id
 }

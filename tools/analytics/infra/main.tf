@@ -197,6 +197,14 @@ data "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
 }
 
+# Read-only execution role for the browser-facing dashboard-read Lambda.
+# Pre-created out-of-band (bootstrap-dashboard-iam.sh); its inline policy grants
+# only s3:GetObject on the snapshot object, so the internet-facing surface has
+# no write or Athena access.
+data "aws_iam_role" "dashboard" {
+  name = "eufemia-${var.environment}-dashboard-role"
+}
+
 resource "aws_cloudwatch_log_group" "lambda" {
   name              = "/aws/lambda/${local.function_name}"
   retention_in_days = 30
@@ -333,7 +341,7 @@ resource "aws_apigatewayv2_stage" "dashboard" {
 resource "aws_apigatewayv2_integration" "dashboard" {
   api_id                 = aws_apigatewayv2_api.dashboard.id
   integration_type       = "AWS_PROXY"
-  integration_uri        = aws_lambda_function.analytics.invoke_arn
+  integration_uri        = aws_lambda_function.dashboard_read.invoke_arn
   payload_format_version = "2.0"
 }
 
@@ -366,9 +374,100 @@ resource "aws_apigatewayv2_route" "dashboard_data" {
 resource "aws_lambda_permission" "dashboard_apigw" {
   statement_id  = "AllowDashboardAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.analytics.function_name
+  function_name = aws_lambda_function.dashboard_read.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.dashboard.execution_arn}/*/*"
+}
+
+# Browser-facing dashboard-read Lambda. Reuses the shared build artifact
+# (index.dashboardRead) but runs under a read-only role that can only
+# s3:GetObject the snapshot object -- no write, no Athena -- so the
+# internet-facing surface is isolated from the ingest/query trust model.
+resource "aws_cloudwatch_log_group" "dashboard_read" {
+  name              = "/aws/lambda/eufemia-${var.environment}-dashboard"
+  retention_in_days = 30
+  tags              = local.tags
+}
+
+resource "aws_lambda_function" "dashboard_read" {
+  function_name = "eufemia-${var.environment}-dashboard"
+  role          = data.aws_iam_role.dashboard.arn
+  handler       = "index.dashboardRead"
+  runtime       = "nodejs22.x"
+  timeout       = 10
+  memory_size   = 256
+
+  filename         = "${path.module}/../dist/lambda.zip"
+  source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")
+
+  environment {
+    variables = {
+      NODE_OPTIONS = "--enable-source-maps"
+      DATA_BUCKET  = aws_s3_bucket.data.id
+    }
+  }
+
+  depends_on = [aws_cloudwatch_log_group.dashboard_read]
+  tags       = local.tags
+}
+
+# ---------------------------------------------------------------------------
+# Dashboard snapshot generator (scheduled, off the request path)
+# ---------------------------------------------------------------------------
+
+# Regenerates the dashboard snapshot on a schedule so the read Lambda can stay
+# read-only. Runs under the analytics role (Athena + S3 write) and reuses the
+# shared build artifact (index.snapshot).
+resource "aws_cloudwatch_log_group" "snapshot" {
+  name              = "/aws/lambda/eufemia-${var.environment}-analytics-snapshot"
+  retention_in_days = 30
+  tags              = local.tags
+}
+
+resource "aws_lambda_function" "snapshot" {
+  function_name = "eufemia-${var.environment}-analytics-snapshot"
+  role          = data.aws_iam_role.lambda.arn
+  handler       = "index.snapshot"
+  runtime       = "nodejs22.x"
+  timeout       = 60
+  memory_size   = 256
+
+  filename         = "${path.module}/../dist/lambda.zip"
+  source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")
+
+  environment {
+    variables = {
+      NODE_OPTIONS     = "--enable-source-maps"
+      DATA_BUCKET      = aws_s3_bucket.data.id
+      GLUE_DATABASE    = aws_glue_catalog_database.analytics.name
+      GLUE_TABLE       = aws_glue_catalog_table.records.name
+      ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
+    }
+  }
+
+  depends_on = [aws_cloudwatch_log_group.snapshot]
+  tags       = local.tags
+}
+
+resource "aws_cloudwatch_event_rule" "snapshot" {
+  name                = "eufemia-${var.environment}-analytics-snapshot"
+  description         = "Hourly trigger for the dashboard snapshot generator"
+  schedule_expression = "rate(1 hour)"
+  tags                = local.tags
+}
+
+resource "aws_cloudwatch_event_target" "snapshot" {
+  rule      = aws_cloudwatch_event_rule.snapshot.name
+  target_id = "snapshot-lambda"
+  arn       = aws_lambda_function.snapshot.arn
+}
+
+resource "aws_lambda_permission" "snapshot_events" {
+  statement_id  = "AllowEventBridgeInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.snapshot.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.snapshot.arn
 }
 
 # ---------------------------------------------------------------------------

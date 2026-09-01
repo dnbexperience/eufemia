@@ -3,22 +3,19 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3'
-import type { APIGatewayProxyResultV2 } from 'aws-lambda'
-import { json } from './http.js'
-import { retrievePageViews } from './retrieve.js'
 
 const s3 = new S3Client({})
 
-const SNAPSHOT_KEY = 'records/dashboard-snapshot.json'
-const MAX_AGE_MS = 60 * 60 * 1000
-const SNAPSHOT_LIMIT = 1000
+// Key of the pre-generated dashboard snapshot in the data bucket. Must match the
+// s3:GetObject resource in the dashboard-read execution role's policy.
+export const SNAPSHOT_KEY = 'records/dashboard-snapshot.json'
 
-type Snapshot = {
+export type Snapshot = {
   generatedAt: string
   records: unknown[]
 }
 
-function requireEnv(name: string): string {
+export function requireEnv(name: string): string {
   const value = process.env[name]
 
   if (!value) {
@@ -43,7 +40,9 @@ function warnOnce(message: string): void {
   console.error(message)
 }
 
-async function readSnapshot(bucket: string): Promise<Snapshot | null> {
+export async function readSnapshot(
+  bucket: string
+): Promise<Snapshot | null> {
   try {
     const result = await s3.send(
       new GetObjectCommand({ Bucket: bucket, Key: SNAPSHOT_KEY })
@@ -62,7 +61,7 @@ async function readSnapshot(bucket: string): Promise<Snapshot | null> {
   }
 }
 
-async function writeSnapshot(
+export async function writeSnapshot(
   bucket: string,
   snapshot: Snapshot
 ): Promise<void> {
@@ -74,43 +73,4 @@ async function writeSnapshot(
       ContentType: 'application/json',
     })
   )
-}
-
-function isFresh(snapshot: Snapshot): boolean {
-  const generated = Date.parse(snapshot.generatedAt)
-
-  return Number.isFinite(generated) && Date.now() - generated < MAX_AGE_MS
-}
-
-/**
- * Return the dashboard snapshot. Access is gated by the JWT authorizer on the
- * dashboard API, so no origin/bearer check is repeated here.
- *
- * Write-through cache: serve a fresh snapshot from S3, otherwise recompute it
- * from Athena, store it, and return it. On a query failure a stale snapshot is
- * preferred over an error.
- */
-export async function handleDashboardData(): Promise<APIGatewayProxyResultV2> {
-  const bucket = requireEnv('DATA_BUCKET')
-
-  const cached = await readSnapshot(bucket)
-  if (cached && isFresh(cached)) {
-    return json(200, cached)
-  }
-
-  try {
-    const snapshot: Snapshot = {
-      generatedAt: new Date().toISOString(),
-      records: await retrievePageViews({ limit: SNAPSHOT_LIMIT }),
-    }
-    await writeSnapshot(bucket, snapshot)
-
-    return json(200, snapshot)
-  } catch (error) {
-    if (cached) {
-      return json(200, cached)
-    }
-
-    throw error
-  }
 }
