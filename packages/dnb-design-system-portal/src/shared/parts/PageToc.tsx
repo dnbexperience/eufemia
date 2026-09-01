@@ -22,11 +22,16 @@ type TocGroup = {
 }
 
 export default function PageToc({ headings, currentUrl }: PageTocProps) {
+  const lowestLevel = useMemo(() => {
+    if (headings.length === 0) return undefined
+    return Math.min(...headings.map(({ level }) => level))
+  }, [headings])
+
   const headingGroups = useMemo(() => {
     const groups: TocGroup[] = []
 
     headings.forEach((heading) => {
-      if (heading.level > 2 && groups.length > 0) {
+      if (heading.level > lowestLevel && groups.length > 0) {
         groups[groups.length - 1].children.push(heading)
       } else {
         groups.push({ heading, children: [] })

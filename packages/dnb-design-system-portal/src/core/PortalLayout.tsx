@@ -15,7 +15,7 @@ import pageLayoutStyles from './PortalLayout.module.scss'
 import { defaultTabsValue } from '../shared/tags/defaultValues'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
-import { resetLevels } from '@dnb/eufemia/src/components/Heading'
+import Heading, { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
 import { Breadcrumb, Button } from '@dnb/eufemia/src'
 import GithubLogo from '../docs/contribute/assets/github-logo'
@@ -159,7 +159,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   const renderTitle = pageFm.contentTitle ?? fmData.title
   const titleNode = renderTitle ? (
-    <AutoLinkHeader className="dnb-no-focus" level={1} skipCorrection>
+    <AutoLinkHeader className="dnb-no-focus" level={1}>
       {renderTitle}
     </AutoLinkHeader>
   ) : undefined
@@ -181,7 +181,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
       {codeFocusMode ? (
-        <Content missingRenderTitle={!renderTitle}>{children}</Content>
+        <Content>{children}</Content>
       ) : (
         <PortalTocProvider>
           <div
@@ -233,13 +233,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
             )}
 
             <div className={pageLayoutStyles['content-grid__content']}>
-              <Content
-                missingRenderTitle={!renderTitle}
-                sourcePath={editSourcePath}
-                showEditLink
-              >
-                {children}
-              </Content>
+              <Heading.Level reset={2}>
+                <Content sourcePath={editSourcePath} showEditLink>
+                  {children}
+                </Content>
+              </Heading.Level>
             </div>
           </div>
         </PortalTocProvider>
@@ -248,18 +246,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
   )
 }
 
-function Content({
-  missingRenderTitle = false,
-  sourcePath = null,
-  showEditLink = false,
-  children,
-}) {
-  // Absorb the page-level resetLevels(1) when no title heading
-  // rendered, so content starts at h2 instead of being forced to h1
-  if (missingRenderTitle) {
-    resetLevels(2)
-  }
-
+function Content({ sourcePath = null, showEditLink = false, children }) {
   return (
     <ContentWrapper>
       <MDXProvider components={tags}>{children}</MDXProvider>

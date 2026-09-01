@@ -100,9 +100,22 @@ export function PortalTocProvider({ children }: { children: ReactNode }) {
 export default function PortalToc() {
   const headingsContext = useContext(HeadingsContext)
 
+  const lowestLevel = useMemo(() => {
+    let lowest = undefined
+    headingsContext.forEach(({ level }) => {
+      if (level !== 1 && (lowest === undefined || level < lowest)) {
+        lowest = level
+      }
+    })
+    return lowest
+  }, [headingsContext])
+
   const tocHeadings = useMemo(
-    () => headingsContext.filter(({ level }) => level >= 2 && level <= 3),
-    [headingsContext]
+    () =>
+      headingsContext.filter(
+        ({ level }) => level >= lowestLevel && level <= lowestLevel + 1
+      ),
+    [headingsContext, lowestLevel]
   )
 
   const [currentIndex, setCurrentIndex] = useState<number | null>(null)
