@@ -4,13 +4,13 @@ import type { ThemeNames, ThemeProps } from './Theme'
 
 type VisibilityByThemeProps = {
   /**
-   * A valid theme name or object.
+   * A valid theme brand or object.
    * Will pass children on a match.
    */
   visible?: ThemeParams
 
   /**
-   * A valid theme name or object.
+   * A valid theme brand or object.
    * Will omit passing children on a match.
    * NB: "visible" takes presence over "hidden"
    */
@@ -50,7 +50,7 @@ export default function VisibilityByTheme({
   function match(theme: ThemeProps) {
     return (themeItem: ThemeItem) => {
       return typeof themeItem === 'string'
-        ? theme.name === themeItem
+        ? theme.brand === themeItem
         : matchObject(theme, themeItem)
     }
   }

@@ -12,6 +12,7 @@ draft: true
   - [Install](#install)
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
+    - [Theme](#theme)
     - [Flex](#flex)
     - [Accordion](#accordion)
     - [Autocomplete](#autocomplete)
@@ -51,6 +52,17 @@ $ yarn add @dnb/eufemia@13
 - Replace `--leading-sb-*` with `--leading-*`
 
 ## Component changes
+
+### [Theme](/uilib/usage/customisation/theming/theme)
+
+The deprecated `name` property and `data-name` attribute have been removed. Use `brand` and `data-brand` instead.
+
+```diff
+-<Theme name="carnegie">
++<Theme brand="carnegie">
+```
+
+Replace `useTheme().name` with `useTheme().brand`. For persisted theme state, replace `getTheme().name` and `setTheme({ name })` with `getTheme().brand` and `setTheme({ brand })`.
 
 ### [Flex](/uilib/layout/flex/)
 

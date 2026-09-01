@@ -37,18 +37,18 @@ export const ThemeBasis = () => (
       }
 
       const Demo = () => {
-        const [name, setName] = useState<ThemeNames>('dnb' as ThemeNames)
+        const [brand, setBrand] = useState<ThemeNames>('dnb' as ThemeNames)
 
         return (
           <MyColors>
             <Dropdown
               data={{ dnb: 'DNB', sbanken: 'Sbanken' }}
-              value={name}
+              value={brand}
               onChange={({ data }) =>
-                setName(data.selectedKey as ThemeNames)
+                setBrand(data.selectedKey as ThemeNames)
               }
             />
-            <Theme name={name}>
+            <Theme brand={brand}>
               <MyComponent />
             </Theme>
           </MyColors>
