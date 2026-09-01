@@ -97,12 +97,16 @@ describe.each(['ui', 'sbanken'])(`Upload for %s`, (themeName) => {
   it('have to match when displaying text', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="upload-file-empty-size"]',
+      wrapperStyle: {
+        width: themeName === 'ui' ? '36rem' : '35.5rem',
+      },
     })
   })
 
   it('have to match when disabling drag and drop', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="upload-disabled-drag-and-drop"]',
+      wrapperStyle: { width: '32rem' },
     })
   })
 
