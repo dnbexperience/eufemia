@@ -88,6 +88,26 @@ test('reopens the selected page accordion after reload', async ({
   await expect(reloadedMenu.locator('#uilib-layout-content')).toBeVisible()
 })
 
+test('opens Components on the first click from the Layout page', async ({
+  page,
+}) => {
+  await page.goto('/uilib/layout')
+
+  const menu = page.getByRole('navigation', {
+    name: 'Section Content Menu',
+  })
+  const components = menu.getByRole('button', {
+    name: 'Components',
+    exact: true,
+  })
+
+  await expect(components).toHaveAttribute('aria-expanded', 'false')
+  await components.click()
+
+  await expect(components).toHaveAttribute('aria-expanded', 'true')
+  await expect(menu.locator('#uilib-components-content')).toBeVisible()
+})
+
 test.describe('Portal SidebarMenu', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/components')
