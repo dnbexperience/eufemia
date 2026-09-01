@@ -11,10 +11,15 @@ export const ThemeProperties: PropertiesTableProps = {
     type: ['"ui"', '"eiendom"', '"sbanken"', '"carnegie"'],
     status: 'deprecated',
   },
-  size: {
-    doc: 'Will define what sizes of components are used (WIP).',
+  density: {
+    doc: 'Defines the component density (WIP).',
     type: '"basis"',
     status: 'optional',
+  },
+  size: {
+    doc: 'Deprecated. Use `density` instead.',
+    type: '"basis"',
+    status: 'deprecated',
   },
   variant: {
     doc: '(WIP).',
