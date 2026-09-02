@@ -21,6 +21,7 @@ import {
   findCompetingConfigSources,
   findForbiddenArtifactFiles,
   findManifestPublishOverrides,
+  findRepositoryMismatch,
   manifestDeclaresRelease,
   TRUSTED_CONFIG_FILE,
   writeReleaseConfig,
@@ -241,6 +242,59 @@ describe('writeReleaseConfig', () => {
 
     expect(message).toContain('Refusing to publish')
     expect(message).toContain('.env')
+  })
+
+  it('refuses to publish when build/package.json repository is redirected', () => {
+    const sourcePackageJson = path.join(dir, 'source-package.json')
+    writeFileSync(
+      sourcePackageJson,
+      JSON.stringify({
+        name: 'pkg',
+        repository: {
+          type: 'git',
+          url: 'https://github.com/dnbexperience/eufemia.git',
+        },
+        release: { branches: ['release'] },
+      })
+    )
+    // A tampered repository is what semantic-release would embed the release
+    // token into when pushing the changelog/tag — leaking it to the attacker.
+    writeFileSync(
+      path.join(dir, 'package.json'),
+      JSON.stringify({
+        name: 'pkg',
+        version: '1.0.0',
+        repository: { type: 'git', url: 'https://attacker.example/x.git' },
+      })
+    )
+
+    const message = refusalMessage(sourcePackageJson)
+
+    expect(message).toContain('Refusing to publish')
+    expect(message).toContain('repository')
+  })
+
+  it('publishes when build/package.json repository matches the source', () => {
+    const repository = {
+      type: 'git',
+      url: 'https://github.com/dnbexperience/eufemia.git',
+    }
+    const sourcePackageJson = path.join(dir, 'source-package.json')
+    writeFileSync(
+      sourcePackageJson,
+      JSON.stringify({
+        name: 'pkg',
+        repository,
+        release: { branches: ['release'] },
+      })
+    )
+    writeFileSync(
+      path.join(dir, 'package.json'),
+      JSON.stringify({ name: 'pkg', version: '1.0.0', repository })
+    )
+
+    expect(() => writeReleaseConfig(sourcePackageJson, dir)).not.toThrow()
+    expect(existsSync(path.join(dir, TRUSTED_CONFIG_FILE))).toBe(true)
   })
 
   it('does not write the trusted config when refusing over an .npmrc', () => {
@@ -605,6 +659,63 @@ describe('findManifestPublishOverrides', () => {
     const build = { scripts: { prepack: 'x' }, publishConfig: {} }
 
     expect(findManifestPublishOverrides(build, source)).toHaveLength(2)
+  })
+})
+
+describe('findRepositoryMismatch', () => {
+  const source = {
+    repository: {
+      type: 'git',
+      url: 'https://github.com/dnbexperience/eufemia.git',
+      directory: 'packages/dnb-eufemia',
+    },
+  }
+
+  it('accepts a build manifest whose repository matches the source', () => {
+    const build = {
+      name: 'pkg',
+      version: '1.0.0',
+      repository: source.repository,
+    }
+
+    expect(findRepositoryMismatch(build, source)).toEqual([])
+  })
+
+  it('accepts a repository whose keys are merely reordered', () => {
+    const build = {
+      repository: {
+        directory: 'packages/dnb-eufemia',
+        url: 'https://github.com/dnbexperience/eufemia.git',
+        type: 'git',
+      },
+    }
+
+    expect(findRepositoryMismatch(build, source)).toEqual([])
+  })
+
+  it('accepts when neither manifest declares a repository', () => {
+    expect(
+      findRepositoryMismatch({ name: 'pkg' }, { name: 'pkg' })
+    ).toEqual([])
+  })
+
+  it.each([
+    [
+      'a redirected repository url',
+      {
+        repository: { type: 'git', url: 'https://attacker.example/x.git' },
+      },
+    ],
+    [
+      'a repository swapped to a string form pointing elsewhere',
+      { repository: 'https://attacker.example/x.git' },
+    ],
+    ['a dropped repository', { name: 'pkg' }],
+  ])('flags %s', (_label, build) => {
+    const mismatch = findRepositoryMismatch(build, source)
+
+    expect(mismatch).toHaveLength(1)
+    expect(mismatch[0]).toContain('"repository"')
   })
 })
 
