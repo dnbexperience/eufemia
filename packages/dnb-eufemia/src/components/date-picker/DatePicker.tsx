@@ -153,6 +153,10 @@ export type DatePickerProps = {
    */
   hideDays?: boolean
   /**
+   * If set to `true`, dates from the previous and next month will be hidden. Empty grid cells remain to preserve the calendar layout. Defaults to `false`.
+   */
+  hideAdjacentMonthDates?: boolean
+  /**
    * If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Use `'without-label'` to also hide the month label. Defaults to `false`.
    */
   onlyMonth?: boolean | 'without-label'
@@ -368,6 +372,7 @@ export type DatePickerAllProps = DatePickerProps &
 const datePickerDefaultProps: Partial<DatePickerAllProps> = {
   hideNavigation: false,
   hideDays: false,
+  hideAdjacentMonthDates: false,
   onlyMonth: false,
   hideLastWeek: false,
   disableAutofocus: false,
@@ -575,6 +580,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
     title,
     labelDirection,
     labelSrOnly,
+    hideAdjacentMonthDates,
     onlyMonth,
     hideLastWeek,
     disableAutofocus,
@@ -763,6 +769,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   isSync={sync}
                   hideDays={hideDays}
                   hideNavigation={hideNavigation}
+                  hideAdjacentMonthDates={hideAdjacentMonthDates}
                   onlyMonth={Boolean(onlyMonth)}
                   hideMonthLabel={onlyMonth === 'without-label'}
                   hideNextMonthWeek={hideLastWeek}
@@ -859,6 +866,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                       isSync={sync}
                       hideDays={hideDays}
                       hideNavigation={hideNavigation}
+                      hideAdjacentMonthDates={hideAdjacentMonthDates}
                       onlyMonth={Boolean(onlyMonth)}
                       hideMonthLabel={onlyMonth === 'without-label'}
                       hideNextMonthWeek={hideLastWeek}

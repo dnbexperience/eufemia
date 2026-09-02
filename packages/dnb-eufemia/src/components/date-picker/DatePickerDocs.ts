@@ -198,6 +198,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: ['boolean', `'without-label'`],
     status: 'optional',
   },
+  hideAdjacentMonthDates: {
+    doc: 'If set to `true`, dates from the previous and next month will be hidden. Empty grid cells remain to preserve the calendar layout. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   hideLastWeek: {
     doc: 'Use `true` to only show the last week in the current month if it needs to be shown. The result is that mainly five (5) weeks (rows) will be shown instead of six (6). Defaults to `false`.',
     type: 'boolean',

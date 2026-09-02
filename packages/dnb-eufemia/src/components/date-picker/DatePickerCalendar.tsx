@@ -82,6 +82,7 @@ export type DatePickerCalendarProps = Omit<
   firstDayOfWeek?: string
   hideNavigation?: boolean
   hideDays?: boolean
+  hideAdjacentMonthDates?: boolean
   onlyMonth?: boolean
   hideMonthLabel?: boolean
   hideNextMonthWeek?: boolean
@@ -123,6 +124,7 @@ type DayObject = {
 const datePickerCalendarDefaultProps: DatePickerCalendarProps = {
   hideNavigation: false,
   hideDays: false,
+  hideAdjacentMonthDates: false,
   onlyMonth: false,
   hideMonthLabel: false,
   hideNextMonthWeek: false,
@@ -166,6 +168,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     hideNavigation,
     locale,
     hideDays,
+    hideAdjacentMonthDates,
     onSelect,
     onKeyDown,
     resetDate,
@@ -720,19 +723,25 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                     },
                   })
 
+                  const isHiddenAdjacentMonthDate =
+                    hideAdjacentMonthDates &&
+                    (day.isLastMonth || day.isNextMonth)
                   const handleAsDisabled =
                     day.isLastMonth ||
                     day.isNextMonth ||
                     day.isDisabled ||
                     day.isInactive
 
-                  const dateType = day.isStartDate
-                    ? 'start'
-                    : day.isEndDate
-                      ? 'end'
-                      : undefined
+                  const dateType = !isHiddenAdjacentMonthDate
+                    ? day.isStartDate
+                      ? 'start'
+                      : day.isEndDate
+                        ? 'end'
+                        : undefined
+                    : undefined
                   const isSelectedDate =
-                    nr === 0 ? day.isStartDate : day.isEndDate
+                    !isHiddenAdjacentMonthDate &&
+                    (nr === 0 ? day.isStartDate : day.isEndDate)
 
                   // cell params
                   const paramsCell = {
@@ -763,6 +772,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         variant="secondary"
                         text={day.date.getDate()}
                         bounding
+                        hidden={isHiddenAdjacentMonthDate}
                         disabled={handleAsDisabled}
                         tabIndex={handleAsDisabled ? 0 : -1} // fix for NVDA
                         aria-disabled={handleAsDisabled}

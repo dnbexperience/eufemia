@@ -1303,6 +1303,29 @@ describe('Field.Date', () => {
     })
   })
 
+  describe('hideAdjacentMonthDates prop', () => {
+    it('should hide dates from the previous and next month', async () => {
+      render(
+        <Field.Date
+          hideAdjacentMonthDates
+          month="2024-10-01"
+          value="2024-10-15"
+        />
+      )
+
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+      expect(
+        document.querySelector('td[data-date="2024-09-30"] button')
+      ).not.toBeVisible()
+      expect(
+        document.querySelector('td[data-date="2024-11-01"] button')
+      ).not.toBeVisible()
+    })
+  })
+
   it('should parse dates in specified format', async () => {
     render(<Field.Date value="01/10/2024" dateFormat="dd/MM/yyyy" />)
 
