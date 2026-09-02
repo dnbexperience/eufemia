@@ -274,6 +274,20 @@ render(
 )
 ```
 
+### Show the inherited brand name
+
+`VisibilityByTheme.Brand` renders the display name of the inherited theme brand – `DNB`, `Sbanken`, `Eiendom` or `Carnegie`. It renders nothing when no theme was inherited.
+
+```tsx
+import { Theme, VisibilityByTheme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme brand="sbanken">
+    Colors for <VisibilityByTheme.Brand />
+  </Theme>
+)
+```
+
 ### Integrations
 
 When integrating runtime theme switching, your app can be wrapped with this theme component.

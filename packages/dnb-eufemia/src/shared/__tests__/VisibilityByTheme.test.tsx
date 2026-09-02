@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
 import Theme from '../Theme'
+import type { ThemeNames } from '../Theme'
 import VisibilityByTheme from '../VisibilityByTheme'
 
 describe('VisibilityByTheme', () => {
@@ -152,6 +153,117 @@ describe('VisibilityByTheme', () => {
     expect(document.body.textContent).toBe("I'm visible")
 
     rerender(<Component name="sbanken" variant="red" />)
+
+    expect(document.body.textContent).toBe('')
+  })
+
+  describe('without a theme context', () => {
+    it('renders content if not visible or hidden was given', () => {
+      render(
+        <VisibilityByTheme>
+          <p>I'm visible</p>
+        </VisibilityByTheme>
+      )
+
+      expect(document.body.textContent).toBe("I'm visible")
+    })
+
+    it('skips render when visible was given as a brand', () => {
+      render(
+        <VisibilityByTheme visible="sbanken">
+          <p>I'm visible</p>
+        </VisibilityByTheme>
+      )
+
+      expect(document.body.textContent).toBe('')
+    })
+
+    it('skips render when visible was given as an object', () => {
+      render(
+        <VisibilityByTheme visible={[{ brand: 'sbanken' }]}>
+          <p>I'm visible</p>
+        </VisibilityByTheme>
+      )
+
+      expect(document.body.textContent).toBe('')
+    })
+
+    it('renders content when hidden was given', () => {
+      render(
+        <VisibilityByTheme hidden="sbanken">
+          <p>I'm visible</p>
+        </VisibilityByTheme>
+      )
+
+      expect(document.body.textContent).toBe("I'm visible")
+    })
+  })
+})
+
+describe('VisibilityByTheme.Brand', () => {
+  it.each([
+    ['ui', 'DNB'],
+    ['sbanken', 'Sbanken'],
+    ['eiendom', 'Eiendom'],
+    ['carnegie', 'Carnegie'],
+  ] as const)('renders the label of the %s brand', (brand, label) => {
+    render(
+      <Theme brand={brand}>
+        <VisibilityByTheme.Brand />
+      </Theme>
+    )
+
+    expect(document.body.textContent).toBe(label)
+  })
+
+  it('renders nothing when the brand is unknown', () => {
+    render(
+      <Theme brand={'unknown' as ThemeNames}>
+        <VisibilityByTheme.Brand />
+      </Theme>
+    )
+
+    expect(document.body.textContent).toBe('')
+  })
+
+  it('renders nothing without a theme context', () => {
+    render(<VisibilityByTheme.Brand />)
+
+    expect(document.body.textContent).toBe('')
+  })
+})
+
+describe('VisibilityByTheme.Name', () => {
+  it.each([
+    ['ui', 'DNB'],
+    ['sbanken', 'Sbanken'],
+    ['eiendom', 'Eiendom'],
+    ['carnegie', 'Carnegie'],
+  ] as const)(
+    'renders the same label as Brand for the %s brand',
+    (brand, label) => {
+      const { unmount } = render(
+        <Theme brand={brand}>
+          <VisibilityByTheme.Name />
+        </Theme>
+      )
+
+      expect(document.body.textContent).toBe(label)
+
+      unmount()
+
+      render(
+        <Theme brand={brand}>
+          <VisibilityByTheme.Brand />
+        </Theme>
+      )
+
+      expect(document.body.textContent).toBe(label)
+    }
+  )
+
+  it('renders nothing without a theme context', () => {
+    render(<VisibilityByTheme.Name />)
 
     expect(document.body.textContent).toBe('')
   })
