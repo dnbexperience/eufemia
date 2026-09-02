@@ -21,10 +21,13 @@ export default function useTheme(): UseThemeReturn {
 
   if (theme) {
     const brand = theme.brand ?? theme.name
+    const density = theme.density ?? theme.size
     return {
       ...theme,
       brand,
       name: brand,
+      density,
+      size: density,
       isUi: brand === 'ui',
       isSbanken: brand === 'sbanken',
       isEiendom: brand === 'eiendom',
