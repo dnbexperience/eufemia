@@ -1358,6 +1358,42 @@ describe('EditContainer and ViewContainer', () => {
     expect(input).toHaveValue('Grace')
   })
 
+  it('should switch to view mode when onDone returns a non-Promise value', async () => {
+    // "onDone" was typed as `() => void`, which lets TypeScript accept
+    // callbacks that return a value. Those return values have always been
+    // ignored, and must not be mistaken for a Promise.
+    const onDone = vi.fn(() => 'saved-id')
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Section containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.String path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+        <ContextConsumer />
+      </Form.Section>
+    )
+
+    const doneButton = document.querySelector(
+      '.dnb-forms-section-edit-block button'
+    )
+    await userEvent.click(doneButton)
+
+    expect(onDone).toHaveBeenCalledTimes(1)
+    expect(containerMode).toBe('view')
+    expect(doneButton).not.toBeDisabled()
+  })
+
   it('should emit "onCancel" event when cancel button is clicked', async () => {
     const onCancel = vi.fn()
 
