@@ -43,7 +43,14 @@ import 'virtual:eufemia-theme-styles'
 const emotionCache = createEmotionCache({ key: 'css' })
 
 function RootLayout() {
-  const { setTheme, colorScheme, ...theme } = useThemeHandler()
+  // `name` is the deprecated mirror of `brand` — drop it so the portal does
+  // not hand a deprecated property to its own Theme.
+  const {
+    setTheme,
+    colorScheme,
+    name: _name,
+    ...theme
+  } = useThemeHandler()
 
   const translationsLoader = useCallback(async (locale: string) => {
     try {

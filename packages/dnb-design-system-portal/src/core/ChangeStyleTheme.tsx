@@ -1,8 +1,11 @@
 import { useContext } from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
-import { getTheme } from '@dnb/eufemia/src/shared/Theme'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
-import { getThemes, setTheme } from '../../vite/client/shims/theme-handler'
+import {
+  getTheme,
+  getThemes,
+  setTheme,
+} from '../../vite/client/shims/theme-handler'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export default function ChangeStyleTheme(props) {

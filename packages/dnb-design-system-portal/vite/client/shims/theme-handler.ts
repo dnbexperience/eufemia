@@ -92,17 +92,19 @@ export function getTheme(): ThemeState {
     const data = window.localStorage.getItem(STORAGE_KEY)
     const stored = JSON.parse(data?.startsWith('{') ? data : '{}')
 
-    // Also allow ?eufemia-theme=<brand> query param
-    const regex = /.*eufemia-theme=([^&]*).*/
-    const query = window.location.search
+    // Also allow ?eufemia-theme=<brand> query param. Parsed the same way as
+    // Eufemia's getTheme, so the two cannot disagree about which value wins.
     const fromQuery =
-      (regex.test(query) && query?.replace(regex, '$1')) || null
+      new URLSearchParams(window.location.search).get('eufemia-theme') ||
+      null
 
     const brand =
       fromQuery || stored?.brand || stored?.name || DEFAULT_THEME
 
     if (!isValidTheme(brand)) {
-      return withBrand({}, DEFAULT_THEME)
+      // Keep the rest of the state: an unknown brand should not cost the
+      // visitor their colorScheme.
+      return withBrand(stored, DEFAULT_THEME)
     }
 
     return withBrand(stored, brand)

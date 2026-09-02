@@ -86,6 +86,17 @@ describe('theme-handler shim', () => {
       expect(theme.brand).toBe('ui')
     })
 
+    it('keeps the rest of the state when the stored brand is unknown', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'invalid-theme', colorScheme: 'dark' })
+      )
+
+      const theme = getTheme()
+      expect(theme.brand).toBe('ui')
+      expect(theme.colorScheme).toBe('dark')
+    })
+
     it('reads theme from query parameter', () => {
       const originalSearch = window.location.search
       Object.defineProperty(window, 'location', {

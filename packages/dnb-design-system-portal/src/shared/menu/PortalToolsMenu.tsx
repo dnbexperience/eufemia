@@ -9,7 +9,7 @@ import {
 import { clsx } from 'clsx'
 import { Drawer, Tooltip } from '@dnb/eufemia/src/components'
 import { Anchor, Flex } from '@dnb/eufemia/src'
-import { getTheme } from '@dnb/eufemia/src/shared/Theme'
+import { getTheme } from '../../../vite/client/shims/theme-handler'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from '../../core/PortalSkeleton'

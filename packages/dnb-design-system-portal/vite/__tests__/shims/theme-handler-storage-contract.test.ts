@@ -85,4 +85,67 @@ describe('portal shim and Eufemia share the same theme storage contract', () => 
       colorScheme: 'dark',
     })
   })
+
+  /**
+   * Eufemia keeps a second mirrored pair in this payload, `density`/`size`.
+   * The portal does not manage it, so it must at least carry it through
+   * untouched rather than dropping it on the next brand switch.
+   */
+  it('the portal preserves the density pair it does not manage', () => {
+    setEufemiaTheme({ brand: 'sbanken', density: 'basis' })
+    setPortalTheme({ brand: 'eiendom' })
+
+    expect(getEufemiaTheme()).toMatchObject({
+      brand: 'eiendom',
+      density: 'basis',
+      size: 'basis',
+    })
+  })
+})
+
+describe('portal shim and Eufemia read the ?eufemia-theme param alike', () => {
+  const setSearch = (search: string) =>
+    Object.defineProperty(window, 'location', {
+      value: { ...window.location, search },
+      writable: true,
+    })
+
+  beforeEach(() => {
+    localStorage.clear()
+    setSearch('')
+  })
+
+  it('both ignore a param that merely ends with the key', () => {
+    setSearch('?x-eufemia-theme=sbanken')
+
+    expect(getPortalTheme().brand).toBe('ui')
+    expect(getEufemiaTheme().brand).toBe('ui')
+  })
+
+  it('both take the first value when the param is repeated', () => {
+    setSearch('?eufemia-theme=eiendom&eufemia-theme=sbanken')
+
+    expect(getPortalTheme().brand).toBe('eiendom')
+    expect(getEufemiaTheme().brand).toBe('eiendom')
+  })
+
+  it('both let the param override the stored brand', () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ brand: 'eiendom' }))
+    setSearch('?eufemia-theme=sbanken')
+
+    expect(getPortalTheme().brand).toBe('sbanken')
+    expect(getEufemiaTheme().brand).toBe('sbanken')
+  })
+
+  /**
+   * The one intentional difference: the portal can only apply a brand whose CSS
+   * it has bundled, so it validates and falls back. Eufemia deliberately does
+   * not. Asserted here so the divergence stays deliberate.
+   */
+  it('only the portal validates an unknown brand', () => {
+    setSearch('?eufemia-theme=not-a-brand')
+
+    expect(getPortalTheme().brand).toBe('ui')
+    expect(getEufemiaTheme().brand).toBe('not-a-brand')
+  })
 })
