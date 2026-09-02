@@ -1,6 +1,6 @@
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { Flex, HeightAnimation } from '@dnb/eufemia/src'
+import { Button, Flex, HeightAnimation } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
@@ -96,6 +96,71 @@ export const InitiallyOpen = () => {
         }
 
         return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
+export const NestedAnimatedVisibility = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const DelayedDetails = () => {
+          const { update } = Form.useData()
+
+          useLayoutEffect(() => {
+            const timeout = setTimeout(() => {
+              update('/showDetails', true)
+            }, 250)
+
+            return () => clearTimeout(timeout)
+          }, [update])
+
+          return (
+            <>
+              <Field.String
+                label="Name"
+                itemPath="/name"
+                defaultValue="Ola Nordmann"
+              />
+
+              <Form.Visibility pathTrue="/showDetails" animate>
+                <Flex.Stack>
+                  <Field.String label="Address" itemPath="/address" />
+                  <Field.String
+                    label="Postal code"
+                    itemPath="/postalCode"
+                  />
+                  <Field.String label="City" itemPath="/city" />
+                  <Field.String label="Country" itemPath="/country" />
+                  <Field.Email itemPath="/email" />
+                  <Field.PhoneNumber itemPath="/phoneNumber" />
+                </Flex.Stack>
+              </Form.Visibility>
+            </>
+          )
+        }
+
+        const Example = () => {
+          const [key, setKey] = useState(0)
+
+          return (
+            <Flex.Stack>
+              <Button
+                text="Restart animation"
+                onClick={() => setKey((key) => key + 1)}
+              />
+
+              <Form.Handler key={key}>
+                <Iterate.PushContainer path="/people" title="New person">
+                  <DelayedDetails />
+                </Iterate.PushContainer>
+              </Form.Handler>
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
       }}
     </ComponentBox>
   )
