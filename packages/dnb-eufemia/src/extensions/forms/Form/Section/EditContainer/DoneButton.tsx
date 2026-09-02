@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useRef } from 'react'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
@@ -6,6 +6,7 @@ import { Button } from '../../../../../components'
 import { check } from '../../../../../icons'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import SubmitIndicator from '../../SubmitIndicator'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../../shared/helpers/useIsomorphicLayoutEffect'
 
 export default function DoneEditButton() {
   const { onDone, setShowError, isPending, setIsPending } =
@@ -15,6 +16,27 @@ export default function DoneEditButton() {
   const { hasError, hasVisibleError, setShowBoundaryErrors } =
     useContext(FieldBoundaryContext) || {}
   const translation = useTranslation().SectionEditContainer
+  const buttonRef = useRef<HTMLElement>(null)
+  const restoreFocusRef = useRef(false)
+
+  // Disabling the button while it is pending removes it from the focus
+  // order, which makes browsers move focus to the document body. When the
+  // section stays in edit mode (rejected Promise), move focus back so the
+  // user keeps their place. Focus is only reclaimed when it was actually
+  // lost, to avoid taking it away from somewhere the user moved it to.
+  // On a resolved Promise, SectionContainer handles focus when the view
+  // container opens. A layout effect ensures focus is restored in the same
+  // commit that enables the button again.
+  useLayoutEffect(() => {
+    if (!isPending && restoreFocusRef.current) {
+      restoreFocusRef.current = false
+
+      if (document.activeElement === document.body) {
+        buttonRef.current?.focus?.()
+      }
+    }
+  }, [isPending])
+
   const doneHandler = useCallback(() => {
     if (isPending) {
       return
@@ -30,7 +52,11 @@ export default function DoneEditButton() {
       setShowBoundaryErrors?.(false)
 
       const result = onDone?.()
-      if (result) {
+
+      // Only a returned Promise defers the mode switch. Any other return
+      // value is ignored, because "onDone" has always allowed callbacks
+      // that return something (e.g. `onDone={() => list.push(value)}`).
+      if (result instanceof Promise) {
         setIsPending?.(true)
         void result.then(
           () => {
@@ -38,6 +64,7 @@ export default function DoneEditButton() {
             switchContainerMode?.('view')
           },
           () => {
+            restoreFocusRef.current = true
             setIsPending?.(false)
           }
         )
@@ -63,6 +90,7 @@ export default function DoneEditButton() {
       iconPosition="left"
       onClick={doneHandler}
       disabled={isPending}
+      ref={buttonRef}
     >
       {translation.doneButton}
       {isPending && <SubmitIndicator state="pending" />}

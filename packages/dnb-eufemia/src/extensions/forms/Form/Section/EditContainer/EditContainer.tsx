@@ -30,7 +30,14 @@ import SectionContext from '../SectionContext'
 
 export type FormSectionEditContainerProps = {
   title?: ReactNode
-  onDone?: () => void | Promise<unknown>
+  /**
+   * Callback for the done button.
+   * Return a Promise to keep the section in edit mode until it settles:
+   * it switches to view mode when the Promise resolves,
+   * and stays in edit mode when it rejects.
+   * Any other return value is ignored.
+   */
+  onDone?: () => unknown
   onCancel?: () => void
   /**
    * Prevents form submission and Wizard navigation while the section is in edit mode, until the Done or Cancel button is selected. Requires Form.Section to have a path.

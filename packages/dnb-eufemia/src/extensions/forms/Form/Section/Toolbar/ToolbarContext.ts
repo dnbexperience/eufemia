@@ -4,7 +4,7 @@ export type ToolbarContextState = {
   isPending?: boolean
   setIsPending?: (isPending: boolean) => void
   onEdit?: () => void
-  onDone?: () => void | Promise<unknown>
+  onDone?: () => unknown
   onCancel?: () => void
 }
 

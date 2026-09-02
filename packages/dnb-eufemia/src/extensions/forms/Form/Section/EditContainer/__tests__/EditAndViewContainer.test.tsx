@@ -1358,6 +1358,119 @@ describe('EditContainer and ViewContainer', () => {
     expect(input).toHaveValue('Grace')
   })
 
+  it('should switch to view mode when onDone returns a non-Promise value', async () => {
+    // "onDone" was typed as `() => void`, which lets TypeScript accept
+    // callbacks that return a value. Those return values have always been
+    // ignored, and must not be mistaken for a Promise.
+    const onDone = vi.fn(() => 'saved-id')
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Section containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.String path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+        <ContextConsumer />
+      </Form.Section>
+    )
+
+    const doneButton = document.querySelector(
+      '.dnb-forms-section-edit-block button'
+    )
+    await userEvent.click(doneButton)
+
+    expect(onDone).toHaveBeenCalledTimes(1)
+    expect(containerMode).toBe('view')
+    expect(doneButton).not.toBeDisabled()
+  })
+
+  it('should move focus back to the done button when async onDone rejects', async () => {
+    let rejectOnDone!: (reason?: unknown) => void
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((_resolve, reject) => {
+          rejectOnDone = reject
+        })
+    )
+
+    render(
+      <Form.Section containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.String path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    const doneButton = document.querySelector(
+      '.dnb-forms-section-edit-block button'
+    )
+    await userEvent.click(doneButton)
+    expect(doneButton).toBeDisabled()
+
+    // Browsers move focus to the document body when the focused element
+    // becomes disabled, while jsdom keeps the focus. Reproduce the browser
+    // behavior, so the focus can be verified as restored.
+    const input = document.querySelector('input')
+    input.focus()
+    input.blur()
+    expect(document.body).toHaveFocus()
+
+    rejectOnDone(new Error('Save failed'))
+
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+    expect(doneButton).toHaveFocus()
+  })
+
+  it('should not move focus when the user moved it elsewhere while async onDone was pending', async () => {
+    let rejectOnDone!: (reason?: unknown) => void
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((_resolve, reject) => {
+          rejectOnDone = reject
+        })
+    )
+
+    render(
+      <Form.Section containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.String path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    const doneButton = document.querySelector(
+      '.dnb-forms-section-edit-block button'
+    )
+    await userEvent.click(doneButton)
+
+    const input = document.querySelector('input')
+    input.focus()
+    expect(input).toHaveFocus()
+
+    rejectOnDone(new Error('Save failed'))
+
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+    expect(input).toHaveFocus()
+  })
+
   it('should emit "onCancel" event when cancel button is clicked', async () => {
     const onCancel = vi.fn()
 
