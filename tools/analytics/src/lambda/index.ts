@@ -5,7 +5,6 @@ import type {
 import { isAuthorized, isEdgeAuthorized, json } from './http.js'
 import { storePageViews, storeRecord } from './store.js'
 import { InvalidQueryError, retrieveRecords } from './retrieve.js'
-import { handleDashboardData } from './dashboard.js'
 import { validatePageViewBatch, validateRecordInput } from '../types.js'
 
 function parseBody(event: APIGatewayProxyEventV2): unknown {
@@ -100,20 +99,12 @@ async function handleRetrieve(
  * - `POST /collect`  store anonymous page views in S3 (edge lock, no bearer)
  * - `POST /records`  store a record in S3
  * - `GET  /records`  retrieve records via Athena (optional `id`, `limit`)
- * - `GET  /data`     dashboard snapshot (JWT-authorised via a separate API)
  */
 export async function handler(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
   const method = event.requestContext.http.method
   const path = event.rawPath
-
-  // Dashboard read API (a separate API Gateway with a JWT authorizer). The
-  // authorizer has already verified the user, so the edge/bearer checks that
-  // guard the ingest API do not apply to this route.
-  if (method === 'GET' && path === '/data') {
-    return handleDashboardData()
-  }
 
   if (!isEdgeAuthorized(event.headers)) {
     return json(403, { error: 'Forbidden' })
@@ -143,3 +134,9 @@ export async function handler(
 
   return json(404, { error: 'Not found' })
 }
+
+// The dashboard-read and snapshot-generator functions reuse this build
+// artifact; they are wired to `index.dashboardRead` / `index.snapshot` in
+// infra/main.tf. Re-exported here so esbuild bundles them into index.mjs.
+export { handler as dashboardRead } from './dashboard-read.js'
+export { handler as snapshot } from './snapshot.js'

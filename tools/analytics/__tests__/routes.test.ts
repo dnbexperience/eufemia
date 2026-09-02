@@ -31,13 +31,20 @@ function routesServedByHandler(): Set<string> {
   return routes
 }
 
+// `GET /data` is served by the dedicated dashboard-read Lambda (its own handler
+// ignores the path rather than using the `method === … && path === …` switch),
+// so it is excluded from the ingest handler's routing contract below.
+const DASHBOARD_ROUTES = new Set(['GET /data'])
+
 /** `METHOD /path` pairs the API Gateway exposes via `route_key` in main.tf. */
 function routesDeclaredInInfra(): Set<string> {
   const routes = new Set<string>()
   const pattern = /route_key\s*=\s*"(\w+ \/[\w-]*)"/g
 
   for (const [, route] of infraSource.matchAll(pattern)) {
-    routes.add(route)
+    if (!DASHBOARD_ROUTES.has(route)) {
+      routes.add(route)
+    }
   }
 
   return routes
@@ -57,5 +64,18 @@ describe('routing contract', () => {
 
     expect(missingInInfra).toEqual([])
     expect(missingInHandler).toEqual([])
+  })
+
+  // GET /data is excluded from the contract above because it is served by a
+  // separate Lambda, so assert here that it is actually wired to that Lambda.
+  it('wires the dashboard /data integration to the dashboard-read Lambda', () => {
+    const integration = infraSource.match(
+      /resource "aws_apigatewayv2_integration" "dashboard" \{([\s\S]*?)\n\}/
+    )
+
+    expect(integration).not.toBeNull()
+    expect(integration![1]).toContain(
+      'aws_lambda_function.dashboard_read.invoke_arn'
+    )
   })
 })
