@@ -270,7 +270,7 @@ describe('snapshotMeta', () => {
   })
 
   it('surfaces the snapshot time in the empty state', () => {
-    const text = snapshotMeta({ generatedAt, records: [] }, 0)
+    const text = snapshotMeta({ generatedAt }, 0)
 
     expect(text.startsWith('No data yet (snapshot generated ')).toBe(true)
     expect(text).toContain(new Date(generatedAt).toLocaleString())
