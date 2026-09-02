@@ -157,20 +157,36 @@ describe('Heading component', () => {
     expect(headings[1].tagName).toBe('H2')
   })
 
-  it('should preserve string Heading.Level correction behavior', () => {
-    render(
-      <Heading.Level reset={1}>
-        <Heading>Heading #1</Heading>
-        <Heading.Level level="3">
-          <Heading>Heading #2</Heading>
+  it.each([3, '3'] as const)(
+    'should correct Heading.Level level %s at the document root',
+    (level) => {
+      render(
+        <Heading.Level level={level}>
+          <Heading>Heading</Heading>
         </Heading.Level>
-      </Heading.Level>
-    )
+      )
 
-    const headings = document.querySelectorAll('.dnb-heading')
-    expect(headings[0].tagName).toBe('H1')
-    expect(headings[1].tagName).toBe('H3')
-  })
+      expect(document.querySelector('.dnb-heading')?.tagName).toBe('H1')
+    }
+  )
+
+  it.each([3, '3'] as const)(
+    'should correct Heading.Level level %s after a heading',
+    (level) => {
+      render(
+        <>
+          <Heading>Heading #1</Heading>
+          <Heading.Level level={level}>
+            <Heading>Heading #2</Heading>
+          </Heading.Level>
+        </>
+      )
+
+      const headings = document.querySelectorAll('.dnb-heading')
+      expect(headings[0].tagName).toBe('H1')
+      expect(headings[1].tagName).toBe('H2')
+    }
+  )
 
   it('should match global reset', () => {
     render(
@@ -255,6 +271,25 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h3] Heading #3')
     expect(elem[++i].textContent).toBe('[h2] Heading #4')
     expect(elem[i + 1].textContent).toBe('[h2] Heading #5')
+  })
+
+  it('should reset context levels with Heading.Reset', () => {
+    render(
+      <Heading.Level reset={1}>
+        <Heading>Heading #1</Heading>
+        <Heading>Heading #2</Heading>
+        <Heading increase>Heading #3</Heading>
+        <Heading.Reset>
+          <Heading>Heading #4</Heading>
+        </Heading.Reset>
+      </Heading.Level>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
+    expect(headings[2].tagName).toBe('H3')
+    expect(headings[3].tagName).toBe('H2')
   })
 
   it('should propagate updated Heading.Level props', () => {
