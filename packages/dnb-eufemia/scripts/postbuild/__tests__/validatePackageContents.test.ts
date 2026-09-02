@@ -321,8 +321,9 @@ describe('getPackedFiles', () => {
 // writeReleaseConfig.test.ts): Node reports a symlink-resolved
 // `import.meta.url`, so comparing it with an unresolved `process.argv[1]` made
 // the validation exit 0 without validating anything whenever the invocation
-// path crossed a symlink. Pointing it at a directory with no package.json is
-// enough — it must fail, not pass silently.
+// path crossed a symlink. The fixture is a package that packs cleanly but
+// breaks the shipped rules, so the expected failure comes from the validation
+// itself — proving the checks ran rather than that something else went wrong.
 describe('the validator runs when invoked through a symlinked path', () => {
   const script = path.join(
     PKG_ROOT,
@@ -331,36 +332,42 @@ describe('the validator runs when invoked through a symlinked path', () => {
   let dir
 
   const runValidator = (scriptPath) =>
-    spawnSync(process.execPath, [scriptPath, 'empty'], {
+    spawnSync(process.execPath, [scriptPath, 'pkg'], {
       cwd: dir,
       encoding: 'utf8',
     })
 
   beforeEach(() => {
     dir = mkdtempSync(path.join(tmpdir(), 'eufemia-validate-entry-'))
-    mkdirSync(path.join(dir, 'empty'))
+    const pkg = path.join(dir, 'pkg')
+    mkdirSync(pkg)
+    writeFileSync(
+      path.join(pkg, 'package.json'),
+      JSON.stringify({ name: 'pkg', version: '1.0.0', main: './index.js' })
+    )
+    writeFileSync(path.join(pkg, 'index.js'), 'export default 1\n')
   })
 
   afterEach(() => {
     rmSync(dir, { recursive: true, force: true })
   })
 
-  it('fails through a symlink to the script', () => {
+  it('validates through a symlink to the script', () => {
     const link = path.join(dir, 'validatePackageContents.mjs')
     symlinkSync(script, link)
 
     const result = runValidator(link)
 
     expect(result.status).toBe(1)
-    expect(result.stderr).toContain('Package content validation')
+    expect(result.stderr).toContain('Package content validation FAILED')
   })
 
   // Control: identical behaviour through the real path, so the case above is
-  // about the entry point rather than about the failure itself.
-  it('fails the same way through the real path', () => {
+  // about the entry point rather than about the fixture.
+  it('reports the same violations through the real path', () => {
     const result = runValidator(script)
 
     expect(result.status).toBe(1)
-    expect(result.stderr).toContain('Package content validation')
+    expect(result.stderr).toContain('Package content validation FAILED')
   })
 })

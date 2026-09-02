@@ -21,11 +21,12 @@ if (require.main === module) {
  * by the test that runs this function for real against a temporary directory —
  * see the drift test in writeReleaseConfig.test.ts.
  *
- * Every change to the published manifest belongs in cleanupPackage, not here:
- * the publish-job guard reconstructs that transform to compare the restored
- * artifact against it, and the drift test can only pin the reconstruction
- * against a single producer. A mutation applied here instead would make the
- * guard refuse a legitimate build.
+ * The publish job refuses to publish a build manifest that differs from the one
+ * this function produces from the trusted source (writeReleaseConfig.mjs ->
+ * expectedReleaseManifest), so a change to the published manifest has to be
+ * mirrored there. The drift test runs this function and compares, so it fails
+ * until that is done — but keeping the field changes themselves in
+ * cleanupPackage keeps the transform in one place and pure.
  */
 export default async function prepareForRelease({
   rootDir = ROOT_DIR,
@@ -41,9 +42,10 @@ export default async function prepareForRelease({
   // TODO: In future we may enable it, or find a better solution.
   // Bundlers do not support an array of export targets yet, so we skip this for now.
   // But at the time of writing we could not confirm a speed improvement by bundlers. So what are the benefits at the end? (only silent CJS fallback?)
-  // Enabling this adds a field to the published manifest, so it belongs in
-  // cleanupPackage (which takes no buildDir today) rather than here — see the
-  // note above.
+  // Note that this derives a published field from the built file tree, which the
+  // publish guard cannot reconstruct from the source manifest alone — so
+  // enabling it means deciding how that comparison should treat `exports`, not
+  // just extending expectedReleaseManifest. The drift test fails until then.
   // packageJson.exports = await buildExportsMap({
   //   buildDir: path.resolve(rootDir, 'build'),
   // })
@@ -79,11 +81,10 @@ export default async function prepareForRelease({
 
 /**
  * The complete transform from the source package.json to the manifest that gets
- * published — the single definition of it. The publish-job guard rebuilds this
- * transform to compare the restored build artifact against it
- * (writeReleaseConfig.mjs -> expectedReleaseManifest), and a drift test runs
- * this function to pin the two together, so any new change to the published
- * manifest must be made here to stay covered.
+ * published, and the single place field changes belong. The publish-job guard
+ * rebuilds this transform to compare the restored build artifact against it
+ * (writeReleaseConfig.mjs -> expectedReleaseManifest), and a drift test runs the
+ * producer to pin the two together.
  *
  * Also exported for testing.
  */

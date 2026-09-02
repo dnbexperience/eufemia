@@ -640,11 +640,11 @@ describe('expectedReleaseManifest', () => {
   it('matches what prepareForRelease actually writes', async () => {
     const root = mkdtempSync(path.join(tmpdir(), 'prepare-for-release-'))
     try {
+      const sourcePath = path.join(PKG_ROOT, 'package.json')
+      const source = JSON.parse(readFileSync(sourcePath, 'utf8'))
+
       mkdirSync(path.join(root, 'build'))
-      copyFileSync(
-        path.join(PKG_ROOT, 'package.json'),
-        path.join(root, 'package.json')
-      )
+      copyFileSync(sourcePath, path.join(root, 'package.json'))
       copyFileSync(
         path.join(PKG_ROOT, '.prettierrc'),
         path.join(root, '.prettierrc')
@@ -655,13 +655,13 @@ describe('expectedReleaseManifest', () => {
       const written = JSON.parse(
         readFileSync(path.join(root, 'build', 'package.json'), 'utf8')
       )
-      const source = JSON.parse(
-        readFileSync(path.join(PKG_ROOT, 'package.json'), 'utf8')
-      )
 
       expect(expectedReleaseManifest(source)).toEqual(written)
-      // Not vacuous: a real manifest was produced and it is not the source.
+
+      // Not vacuous: the producer wrote a real manifest, and the transform it
+      // agrees on is not simply a copy of the source.
       expect(written.name).toBe('@dnb/eufemia')
+      expect(source).toHaveProperty('scripts')
       expect(written).not.toHaveProperty('scripts')
     } finally {
       rmSync(root, { recursive: true, force: true })
@@ -1016,12 +1016,12 @@ describe('the guard runs when invoked through a symlinked path', () => {
   )
   let dir
 
-  const runGuard = (scriptPath, buildDir) =>
+  const runGuard = (scriptPath) =>
     spawnSync(
       process.execPath,
       [scriptPath, 'source-package.json', 'build'],
       {
-        cwd: buildDir,
+        cwd: dir,
         encoding: 'utf8',
       }
     )
@@ -1049,7 +1049,7 @@ describe('the guard runs when invoked through a symlinked path', () => {
     const link = path.join(dir, 'writeReleaseConfig.mjs')
     symlinkSync(script, link)
 
-    const result = runGuard(link, dir)
+    const result = runGuard(link)
 
     expect(result.status).toBe(1)
     expect(result.stderr).toContain('Refusing to publish')
@@ -1061,7 +1061,7 @@ describe('the guard runs when invoked through a symlinked path', () => {
   // Control: the same invocation through the real path behaves identically, so
   // the case above is about the entry point rather than about the refusal.
   it('refuses it the same way through the real path', () => {
-    const result = runGuard(script, dir)
+    const result = runGuard(script)
 
     expect(result.status).toBe(1)
     expect(result.stderr).toContain('Refusing to publish')
@@ -1077,7 +1077,7 @@ describe('the guard runs when invoked through a symlinked path', () => {
       JSON.stringify({ name: 'pkg', type: 'module' })
     )
 
-    const result = runGuard(link, dir)
+    const result = runGuard(link)
 
     expect(result.status).toBe(0)
     expect(existsSync(path.join(dir, 'build', TRUSTED_CONFIG_FILE))).toBe(
