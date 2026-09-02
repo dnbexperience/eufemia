@@ -59,6 +59,12 @@
  * prepareForRelease writes none of them, so any of them is unexpected and must
  * stop the release.
  *
+ * The same reasoning covers the *kind* of entry the artifact carries, not only
+ * its name: a faithful build writes files and directories, so anything else —
+ * above all a symlink — is refused. The artifact travels as a tar archive, which
+ * preserves links, and whatever reads or writes that path in this job follows
+ * one. See findNonRegularArtifactEntries.
+ *
  * The artifact's own `package.json` needs the same scrutiny, and it cannot
  * simply be rejected — it is the manifest being published. Rather than
  * allow-list the individual fields that change how npm publishes and risk
@@ -98,6 +104,7 @@
 
 import {
   existsSync,
+  readdirSync,
   readFileSync,
   realpathSync,
   writeFileSync,
@@ -377,6 +384,80 @@ export function findForbiddenArtifactFiles(
 }
 
 /**
+ * Describe a directory entry that is neither a regular file nor a directory, for
+ * the refusal message.
+ */
+function describeEntryType(entry) {
+  if (entry.isSymbolicLink()) {
+    return 'symbolic link'
+  }
+  if (entry.isFIFO()) {
+    return 'FIFO'
+  }
+  if (entry.isSocket()) {
+    return 'socket'
+  }
+  if (entry.isBlockDevice()) {
+    return 'block device'
+  }
+  if (entry.isCharacterDevice()) {
+    return 'character device'
+  }
+  return 'not a regular file'
+}
+
+/**
+ * Return every entry in the build directory that is neither a regular file nor a
+ * directory, relative to that directory. A faithful build writes only files and
+ * directories, so anything else is unexpected.
+ *
+ * Symlinks are the reason this exists. They survive the artifact: it travels as
+ * a tar archive, which stores a symlink as a symlink, and the publish job
+ * extracts it as-is. A link is then followed by whatever touches that path in
+ * the credentialed job — `@semantic-release/changelog` writes the changelog with
+ * `fs-extra`'s `writeFile`, so a `CHANGELOG.md` link makes the release write
+ * through it to the target, and `@semantic-release/git` stages the same path with
+ * `git add --force`, which records the link itself (mode 120000) even under an
+ * ignored `build/`. The next release then materialises that link from the
+ * trusted checkout, so a single tampered artifact persists. Content validation
+ * is no help either: verified on the pinned npm 11.15.0, `npm pack` omits a
+ * symlink from the tarball altogether rather than following or recording it, so
+ * the packed listing the deny-list inspects simply does not mention it. That
+ * also means a link never reaches consumers — the exposure is this job's own
+ * filesystem and the release commit, which is why this refuses rather than
+ * relying on the content check.
+ *
+ * Does not follow symlinks — a symlinked directory is reported, not descended
+ * into. Node's own recursive `readdir` does follow them, which turns a `loop ->
+ * .` entry on the artifact into a pointless traversal of the whole tree over and
+ * over, so the walk here is deliberately hand-rolled.
+ */
+export function findNonRegularArtifactEntries(buildDir) {
+  const found = []
+
+  const walk = (dir) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const entryPath = path.join(dir, entry.name)
+
+      if (entry.isDirectory()) {
+        walk(entryPath)
+        continue
+      }
+
+      if (!entry.isFile()) {
+        found.push(
+          `${path.relative(buildDir, entryPath)} (${describeEntryType(entry)})`
+        )
+      }
+    }
+  }
+
+  walk(buildDir)
+
+  return found
+}
+
+/**
  * Read the trusted source package.json, extract its semantic-release config and
  * write it as `.releaserc.json` in the build directory, replacing any copy that
  * travelled on the build artifact. Throws when the build directory also carries
@@ -412,6 +493,27 @@ export function writeReleaseConfig(sourcePackageJsonPath, buildDir) {
   }
 
   const destination = path.join(buildDir, TRUSTED_CONFIG_FILE)
+
+  const nonRegular = findNonRegularArtifactEntries(buildDir)
+  if (nonRegular.length > 0) {
+    const listed = nonRegular.slice(0, 10).join(', ')
+    const rest =
+      nonRegular.length > 10 ? ` (and ${nonRegular.length - 10} more)` : ''
+
+    throw new Error(
+      `Refusing to publish: the build directory carries ${nonRegular.length} ` +
+        `entr${nonRegular.length === 1 ? 'y' : 'ies'} that ${
+          nonRegular.length === 1 ? 'is' : 'are'
+        } neither a regular file nor a ` +
+        `directory: ${listed}${rest}. A symlink here is followed by whatever ` +
+        `reads or writes that path in this credentialed job — the changelog is ` +
+        `written through it, and the release commit stages the link itself, so ` +
+        `it persists into the trusted checkout for later releases. npm pack ` +
+        `omits symlinks from the tarball, so content validation cannot reveal ` +
+        `them. prepareForRelease writes only files, so treat the build artifact ` +
+        `as untrusted.`
+    )
+  }
 
   const buildManifest = readBuildManifest(buildDir)
   if (!buildManifest) {
