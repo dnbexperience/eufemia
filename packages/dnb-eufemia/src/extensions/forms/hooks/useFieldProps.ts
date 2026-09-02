@@ -92,7 +92,7 @@ function isRequiredBySchema(
     return false
   }
 
-  const path = pointer.parse(identifier)
+  const path = pointer.parse(identifier) as string[]
   const propertyName = path.at(-1)
   const parentSchema = getSchemaAtPath(schema, path.slice(0, -1))
 
@@ -110,7 +110,7 @@ function isRequiredBySchema(
   }
 
   if (sectionPath?.startsWith('/')) {
-    const section = pointer.parse(sectionPath)
+    const section = pointer.parse(sectionPath) as string[]
     const sectionName = section.at(-1)
     const sectionParent = getSchemaAtPath(schema, section.slice(0, -1))
     const sectionIsRequired =
