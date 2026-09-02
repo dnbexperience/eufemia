@@ -871,10 +871,14 @@ describe('prerender-utils', () => {
 
       // Several inline scripts read the same storage key, so pick the one
       // that publishes the resolved theme rather than relying on document
-      // order.
-      const script = html
-        .match(/<script>([\s\S]*?)<\/script>/g)
-        ?.map((tag) => tag.slice('<script>'.length, -'</script>'.length))
+      // order. Parsed rather than regex-matched — DOMParser does not execute
+      // scripts, so reading textContent is safe.
+      const script = Array.from(
+        new DOMParser()
+          .parseFromString(html, 'text/html')
+          .querySelectorAll('script')
+      )
+        .map((element) => element.textContent || '')
         .find((body) => body.includes('globalThis.__eufemiaTheme='))
       expect(script, 'no pre-paint theme script found').toBeDefined()
 
