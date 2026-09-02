@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
-import { ScrollView } from '@dnb/eufemia/src/components'
+import { ScrollView, Anchor } from '@dnb/eufemia/src/components'
+import { useMediaQuery } from '@dnb/eufemia/src/shared'
 import styles from './PageToc.module.scss'
 
 // keep in sync with scroll-padding-block in PageToc.module.scss
@@ -43,6 +44,8 @@ export default function PageToc({ headings, currentUrl }: PageTocProps) {
 
   const scrollRef = useRef<HTMLDivElement>(null)
 
+  const isLargeScreen = useMediaQuery({ when: { min: 'large' } })
+
   useEffect(() => {
     const container = scrollRef.current
     if (!container || !currentUrl) {
@@ -64,17 +67,23 @@ export default function PageToc({ headings, currentUrl }: PageTocProps) {
   const renderLink = (heading: PageTocItem) => {
     const isCurrent = heading.url === currentUrl
     return (
-      <a
-        className={
-          isCurrent
-            ? `${styles['page-toc__link']} ${styles['page-toc__link--current']}`
-            : styles['page-toc__link']
-        }
+      <Anchor
         href={heading.url}
         aria-current={isCurrent ? 'true' : undefined}
+        className={
+          isLargeScreen
+            ? isCurrent
+              ? `${styles['page-toc__link']} ${styles['page-toc__link--current']}`
+              : styles['page-toc__link']
+            : undefined
+        }
+        noStyle={isLargeScreen}
+        noUnderline={isLargeScreen}
+        noHover={isLargeScreen}
+        noAnimation={isLargeScreen}
       >
         {heading.title}
-      </a>
+      </Anchor>
     )
   }
 
