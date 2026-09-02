@@ -76,6 +76,114 @@ type ChangeOptions = {
   preventUpdate?: boolean
 }
 
+type RequiredSchema = {
+  items?: unknown | unknown[]
+  prefixItems?: unknown[]
+  properties?: Record<string, unknown>
+  required?: readonly string[]
+}
+
+function isRequiredBySchema(
+  schema: unknown,
+  identifier: Identifier,
+  sectionPath?: string
+) {
+  if (!identifier?.startsWith('/')) {
+    return false
+  }
+
+  const path = pointer.parse(identifier)
+  const propertyName = path.at(-1)
+  const parentSchema = getSchemaAtPath(schema, path.slice(0, -1))
+
+  if (getRequired(parentSchema)?.includes(propertyName)) {
+    return true
+  }
+
+  const rootRequired = getRequired(schema)
+  if (
+    rootRequired?.some((requiredPath) =>
+      isSamePath(requiredPath, identifier)
+    )
+  ) {
+    return true
+  }
+
+  if (sectionPath?.startsWith('/')) {
+    const section = pointer.parse(sectionPath)
+    const sectionName = section.at(-1)
+    const sectionParent = getSchemaAtPath(schema, section.slice(0, -1))
+    const sectionIsRequired =
+      getRequired(sectionParent)?.includes(sectionName) ||
+      rootRequired?.some((requiredPath) =>
+        isSamePath(requiredPath, sectionPath)
+      )
+
+    if (
+      sectionIsRequired &&
+      getSchemaAtPath(schema, section) === undefined
+    ) {
+      return true
+    }
+  }
+
+  return false
+}
+
+function getSchemaAtPath(schema: unknown, path: string[]) {
+  let current = schema
+
+  for (const segment of path) {
+    const currentSchema = getSchema(current)
+    if (!currentSchema) {
+      return undefined
+    }
+
+    if (
+      currentSchema.properties &&
+      Object.prototype.hasOwnProperty.call(
+        currentSchema.properties,
+        segment
+      )
+    ) {
+      current = currentSchema.properties[segment]
+      continue
+    }
+
+    if (/^(0|[1-9]\d*)$/.test(segment)) {
+      const index = Number(segment)
+      current =
+        currentSchema.prefixItems?.[index] ??
+        (Array.isArray(currentSchema.items)
+          ? currentSchema.items[index]
+          : currentSchema.items)
+
+      if (current !== undefined) {
+        continue
+      }
+    }
+
+    return undefined
+  }
+
+  return current
+}
+
+function getSchema(schema: unknown): RequiredSchema | undefined {
+  return schema && typeof schema === 'object' && !Array.isArray(schema)
+    ? (schema as RequiredSchema)
+    : undefined
+}
+
+function getRequired(schema: unknown) {
+  const required = getSchema(schema)?.required
+  return Array.isArray(required) ? required : undefined
+}
+
+function isSamePath(path: string, identifier: string) {
+  return `/${path}`.replace(/\/+/g, '/') === identifier
+}
+
 // Many variables are kept in refs to avoid triggering unnecessary update loops because updates using
 // useEffect depend on them (like the external `value`)
 
@@ -282,13 +390,12 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const isParentRelativePath =
     typeof pathProp === 'string' && pathProp.startsWith('../')
   const hasItemPath = Boolean(itemPath)
-  const { path, identifier, makeIteratePath, joinPath, cleanPath } =
-    usePath({
-      id,
-      path: pathProp,
-      itemPath,
-      omitSectionPath,
-    })
+  const { path, identifier, makeIteratePath } = usePath({
+    id,
+    path: pathProp,
+    itemPath,
+    omitSectionPath,
+  })
 
   const sectionSchemaPaths = sectionSchemaPathsRef?.current
   const hasSectionSchema = Boolean(
@@ -399,57 +506,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       return requiredProp
     }
 
-    if (schema || dataContext?.schema) {
-      const paths = identifier.split('/')
-      if (paths.length > 0) {
-        const requiredInSchema = [schema?.['required']]
-
-        // - Handle context schema
-        if (paths.length > 1) {
-          const schema = dataContext.schema
-          const pathWithoutLast = paths.slice(0, -1).join('/properties/')
-          const schemaPart = pointer.has(schema, pathWithoutLast)
-            ? pointer.get(schema, pathWithoutLast)
-            : schema
-
-          const requiredSchemaList = schemaPart?.['required']
-          if (Array.isArray(requiredSchemaList)) {
-            const rootPath = pathWithoutLast.replace(/properties\//g, '')
-            const requiredList = requiredSchemaList.map((path) => {
-              path = cleanPath('/' + path)
-              return sectionPath && path.startsWith(sectionPath)
-                ? path
-                : joinPath([sectionPath || rootPath, path])
-            })
-            requiredInSchema.push(requiredList)
-          }
-        }
-
-        const collected = requiredInSchema
-          .flatMap((value) => value)
-          .filter(Boolean)
-
-        if (
-          collected.filter(Boolean).some((path) => {
-            path = cleanPath('/' + path)
-            return identifier === path || sectionPath === path
-          })
-        ) {
-          return true
-        }
-      }
+    if (
+      isRequiredBySchema(schema, identifier, sectionPath) ||
+      isRequiredBySchema(dataContext?.schema, identifier, sectionPath)
+    ) {
+      return true
     }
 
     return undefined
-  }, [
-    cleanPath,
-    dataContext.schema,
-    identifier,
-    joinPath,
-    requiredProp,
-    schema,
-    sectionPath,
-  ])
+  }, [dataContext.schema, identifier, requiredProp, schema, sectionPath])
 
   const getFieldByPath = useCallback(
     (path: string) => {
