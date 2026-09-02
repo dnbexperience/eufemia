@@ -170,7 +170,7 @@ export default function Heading(props: HeadingAllProps) {
   const [currentState, setState] = useState(() => {
     type State = {
       level: InternalHeadingLevel
-      prevLevel?: InternalHeadingLevel
+      prevLevel?: InternalHeadingLevel | HeadingProps['level']
       counter: HeadingCounter
       context: HeadingContextValue
       headingContext?: HeadingContextValue
@@ -223,7 +223,11 @@ export default function Heading(props: HeadingAllProps) {
   let state = currentState
 
   const level = parseFloat(String(props.level))
-  if (state.prevLevel !== level && level > 0 && level !== state.level) {
+  if (
+    state.prevLevel !== props.level &&
+    level > 0 &&
+    level !== state.level
+  ) {
     const { level: newLevel } = correctInternalHeadingLevel({
       counter: state.counter,
       isRerender: true,
@@ -234,7 +238,7 @@ export default function Heading(props: HeadingAllProps) {
       source: props.text || props.children,
       debug: props.debug || state.headingContext?.heading?.debug,
     })
-    state = { ...state, level: newLevel, prevLevel: level }
+    state = { ...state, level: newLevel, prevLevel: props.level }
     setState(state)
   }
 

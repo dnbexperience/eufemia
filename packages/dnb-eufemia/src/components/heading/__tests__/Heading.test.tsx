@@ -138,10 +138,38 @@ describe('Heading component', () => {
     expect(elem[i + 1].textContent).toBe('[h2] Heading #12')
   })
 
-  it('should correct string levels like numeric levels', () => {
+  it('should preserve string level correction behavior', () => {
     render(<Heading level="2">Heading</Heading>)
 
-    expect(document.querySelector('.dnb-heading')?.tagName).toBe('H1')
+    expect(document.querySelector('.dnb-heading')?.tagName).toBe('H2')
+  })
+
+  it('should settle repeated string levels', () => {
+    render(
+      <Heading.Level reset={1}>
+        <Heading level="1">Heading #1</Heading>
+        <Heading level="1">Heading #2</Heading>
+      </Heading.Level>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
+  })
+
+  it('should preserve string Heading.Level correction behavior', () => {
+    render(
+      <Heading.Level reset={1}>
+        <Heading>Heading #1</Heading>
+        <Heading.Level level="3">
+          <Heading>Heading #2</Heading>
+        </Heading.Level>
+      </Heading.Level>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H3')
   })
 
   it('should match global reset', () => {
