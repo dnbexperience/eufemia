@@ -66,7 +66,8 @@
  * produces from the trusted source. prepareForRelease derives that manifest
  * deterministically — it deletes `release`, `scripts`, `devDependencies`,
  * `resolutions` and `volta`, and sets `type: "module"` (see
- * RELEASE_STRIPPED_FIELDS and expectedReleaseManifest) — and the version is not
+ * RELEASE_STRIPPED_FIELDS and expectedReleaseManifest, pinned to the real
+ * producer by a drift test) — and the version is not
  * bumped until semantic-release runs later, so a faithful artifact manifest is
  * exactly that transform of the source. Any deviation is refused. Comparing the
  * complete manifest closes every publish-affecting field at once, including
@@ -95,7 +96,12 @@
  * Usage: node ./scripts/postbuild/writeReleaseConfig.mjs <sourcePackageJson> <buildDir>
  */
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  readFileSync,
+  realpathSync,
+  writeFileSync,
+} from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
@@ -255,11 +261,13 @@ function stableSerialize(value) {
 }
 
 /**
- * The fields prepareForRelease removes from the manifest before publishing (see
- * prepareForRelease.js -> cleanupPackage). Kept here so the guard can recreate
- * the exact manifest a faithful build produces and compare the whole thing,
- * rather than allow-listing individual publish-affecting fields and missing the
- * next one. A drift test pins this list against the real cleanupPackage.
+ * The fields the build removes from the manifest before publishing (see
+ * prepareForRelease.js -> cleanupPackage, the single definition of that
+ * transform). Kept here so the guard can recreate the exact manifest a faithful
+ * build produces and compare the whole thing, rather than allow-listing
+ * individual publish-affecting fields and missing the next one. A drift test
+ * runs the real producer and compares its output with this reconstruction, so a
+ * change to either side fails until both are back in sync.
  */
 export const RELEASE_STRIPPED_FIELDS = [
   'release',
@@ -272,7 +280,7 @@ export const RELEASE_STRIPPED_FIELDS = [
 /**
  * Recreate the package.json a faithful build publishes from the trusted source
  * manifest: strip RELEASE_STRIPPED_FIELDS and set `type: "module"`, exactly as
- * prepareForRelease does. The version is intentionally left untouched — it is
+ * cleanupPackage does. The version is intentionally left untouched — it is
  * not bumped until semantic-release runs, which is after this guard — so for a
  * faithful artifact this is byte-for-byte (structurally) the published manifest.
  * Pure function — no I/O — so it is easy to unit test.
@@ -458,6 +466,15 @@ function main() {
 }
 
 const invokedPath = process.argv[1]
-if (invokedPath && import.meta.url === pathToFileURL(invokedPath).href) {
+// Resolve the invoked path before comparing: Node already reports a
+// symlink-resolved `import.meta.url`, so an invocation through a symlinked path
+// (a symlinked checkout, a temp dir such as macOS `/tmp` -> `/private/tmp`)
+// would not match and main() would silently not run — leaving a guard that
+// exits 0 without checking anything and without rewriting the trusted config.
+// Failing closed matters more here than the cost of one extra syscall.
+if (
+  invokedPath &&
+  import.meta.url === pathToFileURL(realpathSync(invokedPath)).href
+) {
   main()
 }
