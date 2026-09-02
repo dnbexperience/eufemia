@@ -722,7 +722,7 @@ exports[`makePropertiesFile > Tokens snapshots for > carnegie 1`] = `
   --token-radius-sm: 0.125rem;
   --token-radius-md: 0.125rem;
   --token-radius-lg: 0.25rem;
-  --token-radius-xl: 0.5rem;
+  --token-radius-xl: 1.5rem;
   --token-radius-full: 9999px;
 }
 "

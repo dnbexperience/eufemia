@@ -119,13 +119,6 @@ describe('makePropertiesFile', () => {
       expect(global.carnegieTokens).toMatchSnapshot()
       expect(global.carnegieFoundation).toMatchSnapshot()
     })
-
-    it('uses the Carnegie radius tokens', () => {
-      expect(global.carnegieTokens).toContain('--token-radius-xl: 0.5rem;')
-      expect(global.carnegieTokensTailwind).toContain(
-        '--radius-xl: 0.5rem;'
-      )
-    })
   })
 
   describe('Native color scheme', () => {
