@@ -4,7 +4,7 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Switch, HelpButton } from '@dnb/eufemia/src'
+import { Flex, HelpButton, Section, Switch } from '@dnb/eufemia/src'
 
 export const SwitchExampleDefault = () => (
   <ComponentBox data-visual-test="switch-default">
@@ -50,5 +50,26 @@ export const SwitchExampleSizes = () => (
 export const SwitchExampleDisabled = () => (
   <ComponentBox data-visual-test="switch-disabled">
     <Switch checked disabled label="Disabled" />
+  </ComponentBox>
+)
+
+export const SwitchExampleStates = () => (
+  <ComponentBox data-visual-test="switch-states">
+    <Flex.Vertical gap="small">
+      <Flex.Horizontal gap="medium" align="center">
+        <Switch label="Off" />
+        <Switch label="On" checked />
+        <Switch label="Error" status="Error" />
+        <Switch label="Disabled" checked disabled />
+      </Flex.Horizontal>
+
+      <Section surface="dark" innerSpace>
+        <Flex.Horizontal gap="medium" align="center">
+          <Switch label="Off on dark" />
+          <Switch label="On on dark" checked />
+          <Switch label="Large on dark" checked size="large" />
+        </Flex.Horizontal>
+      </Section>
+    </Flex.Vertical>
   </ComponentBox>
 )

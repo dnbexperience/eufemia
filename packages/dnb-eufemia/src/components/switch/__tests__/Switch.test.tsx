@@ -119,6 +119,26 @@ describe('Switch component', () => {
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
   })
 
+  it('renders the selected check icon', () => {
+    render(<Switch checked />)
+
+    expect(
+      document.querySelector('.dnb-switch__button svg')
+    ).toBeInTheDocument()
+  })
+
+  it('uses dark surface styling from Theme context', () => {
+    render(
+      <Provider theme={{ surface: 'dark' }}>
+        <Switch />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-switch')).toHaveClass(
+      'dnb-switch--surface-dark'
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Switch top="2rem" />)
 

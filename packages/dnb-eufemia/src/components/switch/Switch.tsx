@@ -38,6 +38,7 @@ import FormStatus from '../form-status/FormStatus'
 import useId from '../../shared/helpers/useId'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
+import { check as CheckIcon } from '../../icons'
 
 export type SwitchLabelPosition = 'left' | 'right'
 export type SwitchSize = 'default' | 'medium' | 'large'
@@ -257,6 +258,7 @@ function Switch(props: SwitchProps) {
       'dnb-switch',
       size && `dnb-switch--${size}`,
       status && `dnb-switch__status--${statusState}`,
+      context?.theme?.surface === 'dark' && 'dnb-switch--surface-dark',
       `dnb-switch--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
@@ -361,7 +363,11 @@ function Switch(props: SwitchProps) {
                   createSkeletonClass('shape', skeleton, context)
                 )}
                 aria-hidden
-              />
+              >
+                {isCheckedRef.current && (
+                  <CheckIcon className="dnb-switch__icon" />
+                )}
+              </span>
             </span>
 
             {suffix && (
