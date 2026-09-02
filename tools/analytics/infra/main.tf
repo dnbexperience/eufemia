@@ -319,10 +319,15 @@ resource "aws_apigatewayv2_api" "dashboard" {
   cors_configuration {
     # Always include the live dashboard origin so CORS works on the first deploy
     # (no chicken-and-egg); dashboard_origins adds any extra, e.g. local dev.
-    allow_origins = concat(
+    # dashboard_public_url adds the custom domain once it is configured; compact
+    # drops it while it is still empty.
+    allow_origins = compact(concat(
       var.dashboard_origins,
-      ["https://${aws_cloudfront_distribution.dashboard.domain_name}"],
-    )
+      [
+        "https://${aws_cloudfront_distribution.dashboard.domain_name}",
+        var.dashboard_public_url,
+      ],
+    ))
     allow_methods = ["GET"]
     allow_headers = ["authorization"]
     max_age       = 3600

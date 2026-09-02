@@ -82,3 +82,12 @@ variable "dashboard_origins" {
     error_message = "dashboard_origins must list at least one allowed origin."
   }
 }
+
+# Canonical public URL the dashboard is served from once it is fronted by a
+# custom domain (e.g. https://dashboard.eufemia.dnb.no via Akamai). When set it
+# becomes an allowed CORS origin and the OIDC redirect URI; empty falls back to
+# the raw CloudFront URL, preserving the pre-custom-domain behaviour.
+variable "dashboard_public_url" {
+  type    = string
+  default = ""
+}
