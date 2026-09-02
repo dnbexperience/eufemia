@@ -17,6 +17,7 @@
   --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
   --switch-border-width--large: 0.125rem;
+  --switch-border-radius: var(--token-radius-xl);
   --switch-background: var(--token-color-background-neutral);
   --switch-border: var(--token-color-stroke-action-alternative);
   --switch-button-background: var(
@@ -202,7 +203,7 @@
 
     background-color: var(--switch-background);
     border: 1px solid var(--switch-border);
-    border-radius: var(--token-radius-xl);
+    border-radius: var(--switch-border-radius);
 
     .dnb-switch--large & {
       width: var(--switch-width--large);
@@ -436,6 +437,10 @@
     --switch-disabled-checked-icon: var(
       --token-color-icon-action-disabled-ondark
     );
+  }
+
+  .eufemia-theme__carnegie & {
+    --switch-border-radius: 0.5rem;
   }
 
   /*

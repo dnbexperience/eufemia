@@ -218,6 +218,7 @@ button .dnb-form-status__text {
   --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
   --switch-border-width--large: 0.125rem;
+  --switch-border-radius: var(--token-radius-xl);
   --switch-background: var(--token-color-background-neutral);
   --switch-border: var(--token-color-stroke-action-alternative);
   --switch-button-background: var(
@@ -363,7 +364,7 @@ button .dnb-form-status__text {
   height: var(--switch-height--medium);
   background-color: var(--switch-background);
   border: 1px solid var(--switch-border);
-  border-radius: var(--token-radius-xl);
+  border-radius: var(--switch-border-radius);
 }
 .dnb-switch--large .dnb-switch__background {
   width: var(--switch-width--large);
@@ -569,6 +570,9 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
   --switch-disabled-checked-icon: var(
     --token-color-icon-action-disabled-ondark
   );
+}
+.eufemia-theme__carnegie .dnb-switch {
+  --switch-border-radius: 0.5rem;
 }
 .dnb-switch {
   /*
