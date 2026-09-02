@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import Theme from '../Theme'
+import { Provider } from '../'
 import useTheme from '../useTheme'
 
 describe('useTheme', () => {
@@ -51,6 +52,28 @@ describe('useTheme', () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({ brand: 'sbanken', name: 'sbanken' })
+    )
+  })
+
+  it('resolves density from the deprecated size when set via Provider', () => {
+    const wrapper = ({ children }) => (
+      <Provider theme={{ size: 'basis' }}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useTheme(), { wrapper })
+
+    expect(result.current).toEqual(
+      expect.objectContaining({ density: 'basis', size: 'basis' })
+    )
+  })
+
+  it('resolves the deprecated size from density when set via Provider', () => {
+    const wrapper = ({ children }) => (
+      <Provider theme={{ density: 'basis' }}>{children}</Provider>
+    )
+    const { result } = renderHook(() => useTheme(), { wrapper })
+
+    expect(result.current).toEqual(
+      expect.objectContaining({ density: 'basis', size: 'basis' })
     )
   })
 
