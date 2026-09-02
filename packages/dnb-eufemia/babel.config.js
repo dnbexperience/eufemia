@@ -105,6 +105,19 @@ const basePlugins = [
   '@babel/plugin-transform-nullish-coalescing-operator',
 ]
 
+// Polyfill / runtime-helper strategy (why @babel/runtime-corejs3 is a dependency):
+// - Polyfills are injected from "core-js-pure" via babel-plugin-polyfill-corejs3
+//   (method "usage-pure") — the plugin below.
+// - Runtime helpers are extracted to "@babel/runtime" by
+//   @babel/plugin-transform-runtime (see the env configs). We intentionally do
+//   NOT pass `corejs` there, so it never emits "@babel/runtime-corejs3/*" imports.
+// "@babel/runtime-corejs3" is nonetheless kept as a published runtime dependency:
+// it is the core-js-3 helper runtime that transform-runtime would emit under
+// `corejs: 3`, and consumers must then be able to resolve those imports. A prior
+// removal (#7994) broke consumer bundling and was reverted (#8016). A clean build
+// currently emits no imports of it, so do not assume it is unused from a grep
+// (the local build/ dir can also be stale). The postbuild dependency tests
+// enforce that it stays declared.
 const polyfillPlugin = [
   'polyfill-corejs3',
   {

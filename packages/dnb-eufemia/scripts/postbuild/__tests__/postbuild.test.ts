@@ -1074,13 +1074,10 @@ describe('review rule metadata build', () => {
 
 describe('package.json dependencies', () => {
   it('includes @babel/runtime-corejs3 as a runtime dependency', () => {
-    // The published build artifacts contain imports from
-    // "@babel/runtime-corejs3/helpers/esm/*" because they were compiled with
-    // @babel/plugin-transform-runtime using corejs: 3. Consumers bundling with
-    // tools like esbuild or Vite will get a build error if this package is not
-    // listed as a dependency in the published package.json.
-    // See: https://github.com/dnbexperience/eufemia/pull/7994 (accidental removal)
-    //      https://github.com/dnbexperience/eufemia/pull/8016 (re-added)
+    // @babel/runtime-corejs3 must stay a declared runtime dependency. See
+    // babel.config.js (polyfill/runtime strategy) for why it is required even
+    // though a clean build currently emits no imports of it. Removing it broke
+    // consumer bundling before: #7994 (removed) -> #8016 (reverted).
     const packageJson = fs.readJsonSync(
       path.resolve(PKG_ROOT, 'package.json')
     )
