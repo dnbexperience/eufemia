@@ -559,6 +559,15 @@ describe('eufemia-theme plugin', () => {
         .replace(/import '[^']+';/g, '')
         .replace(/requestAnimationFrame\(\(\) => \{/, '{')
         .replace(/\}\);(\s*\})/, '}$1')
+
+      // Assert the unwrap applied: if the generated code changes shape the
+      // callback would stay async and the assertions below would fail for a
+      // misleading reason.
+      expect(
+        evalCode,
+        'dev startup rAF unwrap did not apply'
+      ).not.toContain('requestAnimationFrame(() => {')
+
       new Function(evalCode)()
     }
 
@@ -580,6 +589,13 @@ describe('eufemia-theme plugin', () => {
           'window.__loadEufemiaTheme(initial)',
           'startupSpy(initial)'
         )
+
+      // Assert the harness is live: without this substitution the real
+      // loader would run and the spy would simply never be called.
+      expect(evalCode, 'build startup call was not substituted').toContain(
+        'startupSpy(initial)'
+      )
+
       new Function('startupSpy', evalCode)(startupSpy)
 
       return startupSpy
