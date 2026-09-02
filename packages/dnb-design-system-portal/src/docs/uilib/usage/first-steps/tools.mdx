@@ -243,6 +243,29 @@ raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/
 - Ask your AI tool to search or summarize Eufemia docs, e.g. "Find the spacing system rules in Eufemia."
 - If the server fails to start, confirm `@dnb/eufemia` is installed and the path points to `node_modules/@dnb/eufemia/mcp/mcp-docs-server.js`.
 
+## Build AI tools on Eufemia
+
+Treat Eufemia as the source of truth for shared design-system functionality and
+guidance when creating AI instructions, skills, plugins, MCP tools, or generated
+code.
+
+Before adding local components, tokens, themes, patterns, or Eufemia guidance:
+
+- Check the current, version-matched Eufemia documentation and supported APIs.
+- Reuse or compose existing Eufemia capabilities where possible.
+- If a generally useful capability is missing, consider contributing it to
+  Eufemia so it becomes available to everyone.
+- Keep product-specific business logic, integrations, and workflows in the
+  product's own tooling.
+- Avoid copying Eufemia documentation or API details into local AI instructions.
+  Retrieve current information through Eufemia's documentation and MCP server.
+
+Local solutions are appropriate for genuinely product-specific needs and
+temporary migration work. Keep the boundary explicit so local guidance is not
+mistaken for an Eufemia standard. See
+[where a component change belongs](/contribute/rules#where-a-component-change-belongs)
+for the general ownership guidance.
+
 ## Code Editor Extensions
 
 ### The Visual Studio Code Extension
