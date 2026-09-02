@@ -1,5 +1,10 @@
 {
   "servers": {
+    "figma": {
+      "type": "http",
+      "url": "https://mcp.figma.com/mcp"
+    }
+
     // Commented out to avoid MCP server being activated by default
     // This is only useful for development purposes
     // "eufemia": {
