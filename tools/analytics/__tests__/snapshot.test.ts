@@ -81,3 +81,57 @@ describe('snapshot generator handler', () => {
     expect(retrievePageViews).not.toHaveBeenCalled()
   })
 })
+
+describe('snapshot record-count metric', () => {
+  let log: ReturnType<typeof vi.spyOn>
+
+  function findEmfMetric() {
+    const line = log.mock.calls
+      .map((call: unknown[]) => call[0])
+      .find(
+        (arg: unknown): arg is string =>
+          typeof arg === 'string' && arg.includes('SnapshotRecordCount')
+      )
+
+    return line ? JSON.parse(line) : null
+  }
+
+  beforeEach(() => {
+    log = vi.spyOn(console, 'log').mockImplementation(() => undefined)
+  })
+
+  afterEach(() => {
+    log.mockRestore()
+    delete process.env.AWS_LAMBDA_FUNCTION_NAME
+  })
+
+  it('emits the record count as an EMF metric after a successful run', async () => {
+    process.env.AWS_LAMBDA_FUNCTION_NAME = 'eufemia-dev-analytics-snapshot'
+    retrievePageViews.mockResolvedValue([
+      { type: 'pageview', path: '/', env: 'prod', timestamp: 't' },
+    ])
+
+    await handler()
+
+    const emf = findEmfMetric()
+    expect(emf).not.toBeNull()
+    expect(emf.SnapshotRecordCount).toBe(1)
+    expect(emf.FunctionName).toBe('eufemia-dev-analytics-snapshot')
+    expect(emf._aws.CloudWatchMetrics[0].Namespace).toBe(
+      'Eufemia/Analytics'
+    )
+    expect(emf._aws.CloudWatchMetrics[0].Metrics[0]).toEqual({
+      Name: 'SnapshotRecordCount',
+      Unit: 'Count',
+    })
+  })
+
+  it('emits a zero count when the snapshot is empty', async () => {
+    retrievePageViews.mockResolvedValue([])
+
+    const result = await handler()
+
+    expect(result.count).toBe(0)
+    expect(findEmfMetric().SnapshotRecordCount).toBe(0)
+  })
+})
