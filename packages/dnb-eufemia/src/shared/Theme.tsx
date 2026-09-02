@@ -17,7 +17,11 @@ import type { ThemeName } from '../style/themes/capabilities'
 
 export type ThemeNames = ThemeName
 export type ThemeVariants = string
-export type ThemeSizes = 'basis'
+export type ThemeDensities = 'basis'
+/**
+ * @deprecated Use `ThemeDensities` instead. This type will be removed in v13.
+ */
+export type ThemeSizes = ThemeDensities
 export type ContrastMode = boolean
 /**
  * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'auto'` to follow the user's system preference. Defaults to `undefined`.
@@ -37,6 +41,11 @@ export type ThemeProps = {
    */
   name?: ThemeNames
   variant?: ThemeVariants
+  density?: ThemeDensities
+  /**
+   * Deprecated. Use `density` instead.
+   * @deprecated Use `density` instead. This property will be removed in v13.
+   */
   size?: ThemeSizes
   contrastMode?: ContrastMode
   colorScheme?: ThemeColorScheme
@@ -55,6 +64,7 @@ export default function Theme(themeProps: ThemeAllProps) {
     brand,
     name,
     variant,
+    density,
     size,
     contrastMode,
     colorScheme,
@@ -84,7 +94,8 @@ export default function Theme(themeProps: ThemeAllProps) {
       brand: brand ?? name,
       name: brand ?? name,
       variant,
-      size,
+      density: density ?? size,
+      size: density ?? size,
       contrastMode,
       colorScheme: activeColorScheme,
       surface,
@@ -96,6 +107,10 @@ export default function Theme(themeProps: ThemeAllProps) {
   const resolvedBrand = theme.brand ?? theme.name
   theme.brand = resolvedBrand
   theme.name = resolvedBrand
+
+  const resolvedDensity = theme.density ?? theme.size
+  theme.density = resolvedDensity
+  theme.size = resolvedDensity
 
   // When surface is "initial", reset it to break context inheritance
   if (surface === 'initial') {
@@ -141,7 +156,7 @@ export function ThemeWrapper({
   useSyncElementColorScheme(ref, theme)
 
   const classNames = getThemeClasses(theme, className)
-  const { brand, variant, size } = theme
+  const { brand, variant, density } = theme
 
   if (Wrapper === Fragment) {
     return children
@@ -154,7 +169,8 @@ export function ThemeWrapper({
       data-brand={brand}
       data-name={brand}
       data-variant={variant}
-      data-size={size}
+      data-density={density}
+      data-size={density}
       className={classNames}
       {...rest}
     >
@@ -168,8 +184,17 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const { brand, name, variant, size, contrastMode, colorScheme } = theme
+  const {
+    brand,
+    name,
+    variant,
+    density,
+    size,
+    contrastMode,
+    colorScheme,
+  } = theme
   const resolvedBrand = brand ?? name
+  const resolvedDensity = density ?? size
 
   return clsx(
     className,
@@ -180,7 +205,8 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
       `eufemia-theme__${resolvedBrand}--${variant}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
-    size && `eufemia-theme__size--${size}`
+    resolvedDensity && `eufemia-theme__density--${resolvedDensity}`,
+    resolvedDensity && `eufemia-theme__size--${resolvedDensity}`
   )
 }
 
@@ -261,8 +287,16 @@ export function getTheme(defaultBrand: ThemeNames = 'ui'): ThemeState {
       theme?.brand ||
       theme?.name ||
       defaultBrand) as ThemeNames
+    const density = (theme?.density ?? theme?.size) as
+      | ThemeDensities
+      | undefined
 
-    return { ...theme, brand, name: brand }
+    return {
+      ...theme,
+      brand,
+      name: brand,
+      ...(density && { density, size: density }),
+    }
   } catch {
     return { brand: defaultBrand, name: defaultBrand }
   }
@@ -286,11 +320,16 @@ export function setTheme(
       themeProps.name ??
       currentTheme.brand ??
       currentTheme.name) as ThemeNames
+    const density = (themeProps.density ??
+      themeProps.size ??
+      currentTheme.density ??
+      currentTheme.size) as ThemeDensities | undefined
     const theme = {
       ...currentTheme,
       ...themeProps,
       brand,
       name: brand,
+      ...(density && { density, size: density }),
     }
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(theme))
     callback?.(theme)

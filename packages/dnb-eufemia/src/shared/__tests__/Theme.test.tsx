@@ -85,14 +85,56 @@ describe('Theme', () => {
     )
   })
 
-  it('sets size as HTML classes', () => {
+  it('sets density as HTML classes and attributes', () => {
+    render(<Theme density="basis">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__density--basis eufemia-theme__size--basis',
+      { exact: true }
+    )
+    expect(element).toHaveAttribute('data-density', 'basis')
+    expect(element).toHaveAttribute('data-size', 'basis')
+  })
+
+  it('supports the deprecated size prop', () => {
     render(<Theme size="basis">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(element).toHaveClass(
-      'eufemia-theme eufemia-theme__size--basis',
+      'eufemia-theme eufemia-theme__density--basis eufemia-theme__size--basis',
       { exact: true }
     )
+    expect(element).toHaveAttribute('data-density', 'basis')
+    expect(element).toHaveAttribute('data-size', 'basis')
+  })
+
+  it('prefers density when density and size are both set', () => {
+    render(
+      <Theme density="basis" size={'compact' as never}>
+        content
+      </Theme>
+    )
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__density--basis eufemia-theme__size--basis',
+      { exact: true }
+    )
+    expect(element).toHaveAttribute('data-density', 'basis')
+    expect(element).toHaveAttribute('data-size', 'basis')
+  })
+
+  it('inherits density in nested themes', () => {
+    render(
+      <Theme density="basis">
+        <Theme id="nested">content</Theme>
+      </Theme>
+    )
+
+    const element = document.querySelector('#nested')
+    expect(element).toHaveAttribute('data-density', 'basis')
+    expect(element).toHaveAttribute('data-size', 'basis')
   })
 
   it('sets contrast-mode as HTML classes', () => {
@@ -658,6 +700,17 @@ describe('Portals', () => {
       expect(result.colorScheme).toBe('dark')
     })
 
+    it('reads a persisted deprecated size from localStorage', () => {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ size: 'basis' })
+      )
+
+      const result = getTheme()
+      expect(result.density).toBe('basis')
+      expect(result.size).toBe('basis')
+    })
+
     it('supports URL query override for theme name', () => {
       window.localStorage.setItem(
         STORAGE_KEY,
@@ -713,6 +766,22 @@ describe('Portals', () => {
       const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
       expect(stored.brand).toBe('eiendom')
       expect(stored.name).toBe('eiendom')
+    })
+
+    it('persists density with the deprecated size property', () => {
+      setTheme({ density: 'basis' })
+
+      const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.density).toBe('basis')
+      expect(stored.size).toBe('basis')
+    })
+
+    it('prefers density when density and size are both persisted', () => {
+      setTheme({ density: 'basis', size: 'compact' as never })
+
+      const stored = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+      expect(stored.density).toBe('basis')
+      expect(stored.size).toBe('basis')
     })
 
     it('prefers brand when brand and name are both set', () => {
