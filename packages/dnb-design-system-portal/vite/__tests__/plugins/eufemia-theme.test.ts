@@ -529,11 +529,8 @@ describe('eufemia-theme plugin', () => {
     })
   })
 
-  /**
-   * These startup paths run before React hydrates, so if they resolve the
-   * persisted brand differently from the runtime handler the visitor sees the
-   * wrong theme until hydration corrects it.
-   */
+  // Run before hydration; must resolve the brand like the runtime handler,
+  // or the visitor sees the wrong theme until hydration corrects it.
   describe('startup brand resolution', () => {
     beforeEach(() => {
       document.body.className = ''
@@ -553,17 +550,14 @@ describe('eufemia-theme plugin', () => {
       const load = plugin.load as (id: string) => string | undefined
       const code = load('\0virtual:eufemia-theme-styles') || ''
 
-      // Assert the harness is live. This checks the INPUT, not the result: a
-      // shape change makes the rewrite below match nothing and leave the code
-      // untouched, which no assertion on the output can tell apart from a
-      // successful unwrap.
+      // Assert the rewrite target still exists; otherwise the unwrap below
+      // silently no-ops and the test would pass for the wrong reason.
       expect(
         code,
         'dev startup no longer wraps the first load in `requestAnimationFrame(() => {`, so the unwrap below is dead — update it'
       ).toContain('requestAnimationFrame(() => {')
 
-      // Same transform the other dev-mode tests use, so the first-load
-      // requestAnimationFrame callback runs synchronously.
+      // Unwrap the first-load requestAnimationFrame so its callback runs sync.
       const evalCode = code
         .replace(/import '[^']+';/g, '')
         .replace(/requestAnimationFrame\(\(\) => \{/, '{')
@@ -591,8 +585,7 @@ describe('eufemia-theme plugin', () => {
           'startupSpy(initial)'
         )
 
-      // Assert the harness is live: without this substitution the real
-      // loader would run and the spy would simply never be called.
+      // Assert the substitution applied, else the real loader runs, not the spy.
       expect(evalCode, 'build startup call was not substituted').toContain(
         'startupSpy(initial)'
       )

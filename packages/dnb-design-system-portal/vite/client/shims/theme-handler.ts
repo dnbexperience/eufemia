@@ -8,12 +8,10 @@
  * All theme CSS is already loaded by vite-plugin-eufemia-theme,
  * so switching only requires updating localStorage + the HTML attribute.
  *
- * NOTE: this shim shares the `eufemia-theme` localStorage key with Eufemia's
- * own getTheme/setTheme (shared/Theme.tsx). Nothing in the type system ties
- * the two together, so the payload contract has to be kept in sync by hand:
- * `brand` is canonical, the deprecated `name` is mirrored until v13, and the
- * pair must never diverge. theme-handler-storage-contract.test.ts asserts this
- * against the real Eufemia implementation.
+ * Shares the `eufemia-theme` localStorage key with Eufemia's getTheme/setTheme
+ * (shared/Theme.tsx). The payload contract is kept in sync by hand — `brand`
+ * canonical, `name` mirrored until v13, never diverged — and locked by
+ * theme-handler-storage-contract.test.ts.
  */
 
 import { useState, useEffect, useCallback } from 'react'
@@ -48,18 +46,12 @@ const themeNames: ThemeNames[] = Object.keys(
 
 export type ThemeState = {
   brand: ThemeNames
-  /**
-   * Deprecated. Use `brand` instead.
-   * @deprecated Use `brand` instead. This property will be removed in v13.
-   */
+  /** @deprecated Use `brand` instead. Removed in v13. */
   name?: ThemeNames
   colorScheme?: ThemeColorScheme
 }
 
-/**
- * Mirror `brand` onto the deprecated `name`, so every payload this shim writes
- * satisfies both keys. `getTheme` therefore always resolves a `brand`.
- */
+/** Mirror `brand` onto the deprecated `name` so every written payload has both. */
 function withBrand(
   state: Record<string, unknown>,
   brand: ThemeNames
@@ -92,8 +84,7 @@ export function getTheme(): ThemeState {
     const data = window.localStorage.getItem(STORAGE_KEY)
     const stored = JSON.parse(data?.startsWith('{') ? data : '{}')
 
-    // Also allow ?eufemia-theme=<brand> query param. Parsed the same way as
-    // Eufemia's getTheme, so the two cannot disagree about which value wins.
+    // ?eufemia-theme=<brand> wins; parsed like Eufemia's getTheme so they agree.
     const fromQuery =
       new URLSearchParams(window.location.search).get('eufemia-theme') ||
       null
@@ -102,8 +93,7 @@ export function getTheme(): ThemeState {
       fromQuery || stored?.brand || stored?.name || DEFAULT_THEME
 
     if (!isValidTheme(brand)) {
-      // Keep the rest of the state: an unknown brand should not cost the
-      // visitor their colorScheme.
+      // Keep the rest of the state (e.g. colorScheme) on an unknown brand.
       return withBrand(stored, DEFAULT_THEME)
     }
 
@@ -126,8 +116,7 @@ export function setTheme(
     return // stop here
   }
 
-  // Re-derive both keys from the resolved brand, so a caller passing only the
-  // deprecated `name` can never leave a stale `brand` behind (or vice versa).
+  // Re-derive both keys so passing only `name` (or only `brand`) can't diverge.
   const theme = withBrand({ ...current, ...themeProps }, brand)
 
   const applyAndNotify = () => {

@@ -819,11 +819,8 @@ describe('prerender-utils', () => {
     })
   })
 
-  /**
-   * The pre-paint head script decides which theme stylesheet stays enabled
-   * before the browser paints. If it resolves the persisted brand differently
-   * from the runtime handler, the visitor sees the wrong theme until hydration.
-   */
+  // Decides which stylesheet stays enabled before first paint; must resolve
+  // the brand like the runtime handler, or the visitor sees the wrong theme.
   describe('pre-paint theme script', () => {
     const template = [
       '<!DOCTYPE html>',
@@ -848,10 +845,8 @@ describe('prerender-utils', () => {
       delete (globalThis as { __eufemiaTheme?: string }).__eufemiaTheme
     })
 
-    /**
-     * Run the generated head script against real <link> elements, so the
-     * assertions cover its behaviour rather than its syntax.
-     */
+    // Run the generated script against real <link>s, so assertions cover
+    // behaviour, not syntax.
     function runHeadScript() {
       const html = injectHtml(
         template,
@@ -869,16 +864,13 @@ describe('prerender-utils', () => {
         document.head.appendChild(link)
       }
 
-      // Assert the harness is live: the script's disable loop is only
-      // meaningful if the links are actually in the document.
+      // The disable loop is only meaningful if the links are present.
       expect(
         document.querySelectorAll('link[data-eufemia-theme]')
       ).toHaveLength(Object.keys(themeCssPaths).length)
 
-      // Several inline scripts read the same storage key, so pick the one
-      // that publishes the resolved theme rather than relying on document
-      // order. Parsed rather than regex-matched — DOMParser does not execute
-      // scripts, so reading textContent is safe.
+      // Pick the script that publishes the resolved theme (not by document
+      // order). DOMParser doesn't run scripts, so reading textContent is safe.
       const script = Array.from(
         new DOMParser()
           .parseFromString(html, 'text/html')
@@ -936,13 +928,8 @@ describe('prerender-utils', () => {
       expect(enabledThemes()).toEqual(['ui'])
     })
 
-    /**
-     * An unknown brand matches no <link>, so without a validity check the
-     * loop below would disable every theme stylesheet and the page would
-     * render completely unstyled — recoverable only by clearing storage.
-     * getTheme() in the client shim already guards this with isValidTheme();
-     * these cases pin the same behaviour for the pre-hydration path.
-     */
+    // An unknown brand matches no <link>; without validation the loop disables
+    // every stylesheet. Pins the isValidTheme() guard for the pre-paint path.
     const withSearch = <T>(search: string, fn: () => T): T => {
       const original = window.location
       Object.defineProperty(window, 'location', {
@@ -987,13 +974,8 @@ describe('prerender-utils', () => {
       expect(enabledThemes()).toEqual(['carnegie'])
     })
 
-    /**
-     * prerender.mjs carries its own copy of these scripts ("mirrored from
-     * prerender-utils.ts for testing"), and only the copy above is reachable
-     * from a unit test. Pin them together so a fix to one cannot silently miss
-     * the other — which is how the brand-only payload came to be mishandled
-     * here in the first place.
-     */
+    // prerender.mjs carries its own copy of these scripts, unreachable from a
+    // unit test. Pin them together so a fix to one can't silently miss the other.
     it('matches the copy in prerender.mjs', () => {
       const prodDir = path.resolve(
         path.dirname(fileURLToPath(import.meta.url)),
@@ -1006,9 +988,8 @@ describe('prerender-utils', () => {
           .find((l) => l.includes(`const ${name} = `))
         expect(line, `${name} not found in ${file}`).toBeDefined()
 
-        // The comparison below only covers this one line, so fail loudly if the
-        // constant is ever reformatted across several lines — otherwise this
-        // guard would quietly compare opening fragments and miss real drift.
+        // Compares one line only, so fail loudly if the constant is ever
+        // reformatted across lines, where this guard would miss real drift.
         expect(
           line.trimEnd().endsWith('`'),
           `${name} in ${file} is no longer a single-line template literal — update this guard`

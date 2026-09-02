@@ -43,8 +43,7 @@ import 'virtual:eufemia-theme-styles'
 const emotionCache = createEmotionCache({ key: 'css' })
 
 function RootLayout() {
-  // `name` is the deprecated mirror of `brand` — drop it so the portal does
-  // not hand a deprecated property to its own Theme.
+  // Drop the deprecated `name` mirror so it isn't passed to <Theme>.
   const {
     setTheme,
     colorScheme,

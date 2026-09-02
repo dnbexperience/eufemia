@@ -359,11 +359,8 @@ export function injectHtml(
     // Runs in <head> after the render-blocking links have loaded,
     // so the disable is instant — no network delay.
     //
-    // The resolved brand is validated against the themes actually present,
-    // mirroring isValidTheme() in the client shim. Without that check an
-    // unknown brand — a ?eufemia-theme= link, or a stored brand that a later
-    // release renamed or removed — matches no link, so every theme stylesheet
-    // would be disabled and the page would render completely unstyled.
+    // Validate the brand against the themes present (like isValidTheme in the
+    // shim): an unknown brand matches no link and would disable every stylesheet.
     const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.brand||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');var known=[];for(var i=0;i<links.length;i++){known.push(links[i].getAttribute('data-eufemia-theme'))}if(known.length&&known.indexOf(n)<0){n='${defaultTheme}'}for(var j=0;j<links.length;j++){links[j].disabled=known[j]!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
 
     // Body script: add the brand class to <body> immediately after

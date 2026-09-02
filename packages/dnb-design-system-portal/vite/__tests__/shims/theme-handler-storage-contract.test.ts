@@ -9,11 +9,9 @@ import {
 } from '@dnb/eufemia/src/shared/Theme'
 
 /**
- * The portal's theme-handler shim and Eufemia's own getTheme/setTheme are two
- * independent implementations that share the `eufemia-theme` localStorage key.
- * Nothing in the type system ties them together, so these tests lock them to
- * the same payload contract: `brand` is canonical, the deprecated `name` is
- * mirrored, and neither may leave the pair diverged.
+ * The portal shim and Eufemia's getTheme/setTheme are independent
+ * implementations sharing the `eufemia-theme` key. These tests lock them to one
+ * contract: `brand` canonical, `name` mirrored, never diverged.
  */
 const STORAGE_KEY = 'eufemia-theme'
 
@@ -86,11 +84,8 @@ describe('portal shim and Eufemia share the same theme storage contract', () => 
     })
   })
 
-  /**
-   * Eufemia keeps a second mirrored pair in this payload, `density`/`size`.
-   * The portal does not manage it, so it must at least carry it through
-   * untouched rather than dropping it on the next brand switch.
-   */
+  // Eufemia also mirrors density/size here; the portal doesn't manage it but
+  // must carry it through untouched on a brand switch.
   it('the portal preserves the density pair it does not manage', () => {
     setEufemiaTheme({ brand: 'sbanken', density: 'basis' })
     setPortalTheme({ brand: 'eiendom' })
@@ -137,11 +132,8 @@ describe('portal shim and Eufemia read the ?eufemia-theme param alike', () => {
     expect(getEufemiaTheme().brand).toBe('sbanken')
   })
 
-  /**
-   * The one intentional difference: the portal can only apply a brand whose CSS
-   * it has bundled, so it validates and falls back. Eufemia deliberately does
-   * not. Asserted here so the divergence stays deliberate.
-   */
+  // Intentional difference: the portal validates the brand (it must have the
+  // CSS) and falls back; Eufemia does not. Asserted so it stays deliberate.
   it('only the portal validates an unknown brand', () => {
     setSearch('?eufemia-theme=not-a-brand')
 
