@@ -515,7 +515,7 @@ function injectHtml(
     // links, and store the name on globalThis for the body script.
     // Runs in <head> after the render-blocking links have loaded,
     // so the disable is instant — no network delay.
-    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
+    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.brand||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
 
     // Body script: add the brand class to <body> immediately after
     // the opening tag, before any content is rendered.

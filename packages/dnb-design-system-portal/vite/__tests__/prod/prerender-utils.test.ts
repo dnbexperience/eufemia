@@ -1,5 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
+import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import {
   collectUrls,
   getRoutePreloads,
@@ -814,6 +816,142 @@ describe('prerender-utils', () => {
     it('swaps eufemia-theme__color-scheme-- classes', () => {
       const script = getContentScript()
       expect(script).toContain('eufemia-theme__color-scheme--')
+    })
+  })
+
+  /**
+   * The pre-paint head script decides which theme stylesheet stays enabled
+   * before the browser paints. If it resolves the persisted brand differently
+   * from the runtime handler, the visitor sees the wrong theme until hydration.
+   */
+  describe('pre-paint theme script', () => {
+    const template = [
+      '<!DOCTYPE html>',
+      '<html>',
+      '<head>',
+      '</head>',
+      '<body>',
+      '  <div id="root"></div>',
+      '</body>',
+      '</html>',
+    ].join('\n')
+
+    const themeCssPaths = {
+      ui: '/assets/ui.css',
+      carnegie: '/assets/carnegie.css',
+      eiendom: '/assets/eiendom.css',
+    }
+
+    beforeEach(() => {
+      localStorage.clear()
+      document.head.innerHTML = ''
+      delete (globalThis as { __eufemiaTheme?: string }).__eufemiaTheme
+    })
+
+    /**
+     * Run the generated head script against real <link> elements, so the
+     * assertions cover its behaviour rather than its syntax.
+     */
+    function runHeadScript() {
+      const html = injectHtml(
+        template,
+        '<h1>Hi</h1>',
+        { js: [], css: [] },
+        undefined,
+        undefined,
+        themeCssPaths
+      )
+
+      for (const name of Object.keys(themeCssPaths)) {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.setAttribute('data-eufemia-theme', name)
+        document.head.appendChild(link)
+      }
+
+      // Several inline scripts read the same storage key, so pick the one
+      // that publishes the resolved theme rather than relying on document
+      // order.
+      const script = html
+        .match(/<script>([\s\S]*?)<\/script>/g)
+        ?.map((tag) => tag.slice('<script>'.length, -'</script>'.length))
+        .find((body) => body.includes('globalThis.__eufemiaTheme='))
+      expect(script, 'no pre-paint theme script found').toBeDefined()
+
+      new Function(script)()
+
+      return (globalThis as { __eufemiaTheme?: string }).__eufemiaTheme
+    }
+
+    const enabledThemes = () =>
+      Array.from(
+        document.querySelectorAll<HTMLLinkElement>(
+          'link[data-eufemia-theme]'
+        )
+      )
+        .filter((link) => !link.disabled)
+        .map((link) => link.getAttribute('data-eufemia-theme'))
+
+    it('activates a brand-only payload before the first paint', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie' })
+      )
+
+      expect(runHeadScript()).toBe('carnegie')
+      expect(enabledThemes()).toEqual(['carnegie'])
+    })
+
+    it('still activates a legacy name-only payload', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ name: 'eiendom' })
+      )
+
+      expect(runHeadScript()).toBe('eiendom')
+      expect(enabledThemes()).toEqual(['eiendom'])
+    })
+
+    it('prefers brand over the deprecated name', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie', name: 'eiendom' })
+      )
+
+      expect(runHeadScript()).toBe('carnegie')
+    })
+
+    it('falls back to the default brand when nothing is stored', () => {
+      expect(runHeadScript()).toBe('ui')
+      expect(enabledThemes()).toEqual(['ui'])
+    })
+
+    /**
+     * prerender.mjs carries its own copy of these scripts ("mirrored from
+     * prerender-utils.ts for testing"), and only the copy above is reachable
+     * from a unit test. Pin them together so a fix to one cannot silently miss
+     * the other — which is how the brand-only payload came to be mishandled
+     * here in the first place.
+     */
+    it('matches the copy in prerender.mjs', () => {
+      const prodDir = path.resolve(
+        path.dirname(fileURLToPath(import.meta.url)),
+        '../../prod'
+      )
+      const extract = (file: string, name: string) => {
+        const source = fs.readFileSync(path.join(prodDir, file), 'utf-8')
+        const line = source
+          .split('\n')
+          .find((l) => l.includes(`const ${name} = `))
+        expect(line, `${name} not found in ${file}`).toBeDefined()
+        return line.trim()
+      }
+
+      for (const name of ['headThemeScript', 'bodyThemeScript']) {
+        expect(extract('prerender.mjs', name)).toBe(
+          extract('prerender-utils.ts', name)
+        )
+      }
     })
   })
 })
