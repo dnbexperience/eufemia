@@ -20,7 +20,7 @@
  */
 
 import { execFileSync } from 'node:child_process'
-import { readFileSync } from 'node:fs'
+import { readFileSync, realpathSync } from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
@@ -319,6 +319,13 @@ function main() {
 }
 
 const invokedPath = process.argv[1]
-if (invokedPath && import.meta.url === pathToFileURL(invokedPath).href) {
+// Resolve the invoked path before comparing — see the same check in
+// writeReleaseConfig.mjs: `import.meta.url` is symlink-resolved, so without
+// this a symlinked invocation path skips main() and the validation silently
+// passes without validating anything.
+if (
+  invokedPath &&
+  import.meta.url === pathToFileURL(realpathSync(invokedPath)).href
+) {
   main()
 }

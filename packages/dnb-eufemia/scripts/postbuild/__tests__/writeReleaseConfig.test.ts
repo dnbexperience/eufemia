@@ -5,11 +5,13 @@
 import { createRequire } from 'node:module'
 import { execFileSync, spawnSync } from 'node:child_process'
 import {
+  copyFileSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -26,7 +28,7 @@ import {
   TRUSTED_CONFIG_FILE,
   writeReleaseConfig,
 } from '../writeReleaseConfig.mjs'
-import { cleanupPackage } from '../prepareForRelease'
+import prepareForRelease from '../prepareForRelease'
 
 // Load the exact cosmiconfig instance semantic-release resolves, so the
 // precedence assertions below reflect the real loader rather than an assumption
@@ -627,21 +629,43 @@ describe('expectedReleaseManifest', () => {
   // Drift + no-false-positive guard, run against the real manifest: the
   // whole-manifest comparison is only correct while expectedReleaseManifest
   // mirrors the real transform, and a faithful build must pass or the guard
-  // would block every release. prepareForRelease is cleanupPackage() followed by
-  // `type = 'module'` in its main function, so this reproduces both. If
-  // prepareForRelease changes which fields it strips, this fails until
-  // expectedReleaseManifest is brought back in sync.
-  it('matches what prepareForRelease produces from the real manifest', async () => {
-    const packageString = readFileSync(
-      path.join(PKG_ROOT, 'package.json'),
-      'utf8'
-    )
-    const cleaned = await cleanupPackage({ packageString })
-    cleaned.type = 'module'
+  // would block every release.
+  //
+  // This runs the real producer rather than reproducing its steps, so it covers
+  // the whole transform: any change to what prepareForRelease publishes — a
+  // different stripped field, an added one such as the `exports` map its TODO
+  // describes — fails here until expectedReleaseManifest is brought back in
+  // sync. Reproducing the steps instead would only cover the ones the test
+  // happens to know about.
+  it('matches what prepareForRelease actually writes', async () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'prepare-for-release-'))
+    try {
+      const sourcePath = path.join(PKG_ROOT, 'package.json')
+      const source = JSON.parse(readFileSync(sourcePath, 'utf8'))
 
-    expect(expectedReleaseManifest(JSON.parse(packageString))).toEqual(
-      cleaned
-    )
+      mkdirSync(path.join(root, 'build'))
+      copyFileSync(sourcePath, path.join(root, 'package.json'))
+      copyFileSync(
+        path.join(PKG_ROOT, '.prettierrc'),
+        path.join(root, '.prettierrc')
+      )
+
+      await prepareForRelease({ rootDir: root })
+
+      const written = JSON.parse(
+        readFileSync(path.join(root, 'build', 'package.json'), 'utf8')
+      )
+
+      expect(expectedReleaseManifest(source)).toEqual(written)
+
+      // Not vacuous: the producer wrote a real manifest, and the transform it
+      // agrees on is not simply a copy of the source.
+      expect(written.name).toBe('@dnb/eufemia')
+      expect(source).toHaveProperty('scripts')
+      expect(written).not.toHaveProperty('scripts')
+    } finally {
+      rmSync(root, { recursive: true, force: true })
+    }
   })
 })
 
@@ -975,6 +999,89 @@ describe('a tampered manifest cannot change how the release is published', () =>
   it('refuses when the manifest npm would publish is missing entirely', () => {
     expect(() => writeReleaseConfig(writeSource(), dir)).toThrow(
       'Refusing to publish'
+    )
+  })
+})
+
+// The CLI entry-point check decides whether main() runs. Node reports a
+// symlink-resolved `import.meta.url`, so comparing it with an unresolved
+// `process.argv[1]` skipped main() whenever the invocation path crossed a
+// symlink — the guard then exited 0, printed nothing, checked nothing and left
+// the artifact's own .releaserc.json in place. A security control has to fail
+// closed, so this drives the real CLI through a symlink.
+describe('the guard runs when invoked through a symlinked path', () => {
+  const script = path.join(
+    PKG_ROOT,
+    'scripts/postbuild/writeReleaseConfig.mjs'
+  )
+  let dir
+
+  const runGuard = (scriptPath) =>
+    spawnSync(
+      process.execPath,
+      [scriptPath, 'source-package.json', 'build'],
+      {
+        cwd: dir,
+        encoding: 'utf8',
+      }
+    )
+
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'eufemia-entrypoint-'))
+    mkdirSync(path.join(dir, 'build'))
+    writeFileSync(
+      path.join(dir, 'source-package.json'),
+      JSON.stringify({ name: 'pkg', release: { branches: ['release'] } })
+    )
+    // A tampered artifact manifest: the guard must refuse it however it was
+    // invoked.
+    writeFileSync(
+      path.join(dir, 'build', 'package.json'),
+      JSON.stringify({ name: 'pkg', type: 'module', tag: 'latest' })
+    )
+  })
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
+  })
+
+  it('refuses a tampered manifest through a symlink to the script', () => {
+    const link = path.join(dir, 'writeReleaseConfig.mjs')
+    symlinkSync(script, link)
+
+    const result = runGuard(link)
+
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('Refusing to publish')
+    expect(existsSync(path.join(dir, 'build', TRUSTED_CONFIG_FILE))).toBe(
+      false
+    )
+  })
+
+  // Control: the same invocation through the real path behaves identically, so
+  // the case above is about the entry point rather than about the refusal.
+  it('refuses it the same way through the real path', () => {
+    const result = runGuard(script)
+
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('Refusing to publish')
+  })
+
+  // Control: a symlinked invocation is not simply always failing — a faithful
+  // manifest still passes and the trusted config is written.
+  it('publishes a faithful manifest through the symlink', () => {
+    const link = path.join(dir, 'writeReleaseConfig.mjs')
+    symlinkSync(script, link)
+    writeFileSync(
+      path.join(dir, 'build', 'package.json'),
+      JSON.stringify({ name: 'pkg', type: 'module' })
+    )
+
+    const result = runGuard(link)
+
+    expect(result.status).toBe(0)
+    expect(existsSync(path.join(dir, 'build', TRUSTED_CONFIG_FILE))).toBe(
+      true
     )
   })
 })
