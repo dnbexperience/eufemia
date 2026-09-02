@@ -869,6 +869,12 @@ describe('prerender-utils', () => {
         document.head.appendChild(link)
       }
 
+      // Assert the harness is live: the script's disable loop is only
+      // meaningful if the links are actually in the document.
+      expect(
+        document.querySelectorAll('link[data-eufemia-theme]')
+      ).toHaveLength(Object.keys(themeCssPaths).length)
+
       // Several inline scripts read the same storage key, so pick the one
       // that publishes the resolved theme rather than relying on document
       // order. Parsed rather than regex-matched — DOMParser does not execute
@@ -928,6 +934,57 @@ describe('prerender-utils', () => {
     it('falls back to the default brand when nothing is stored', () => {
       expect(runHeadScript()).toBe('ui')
       expect(enabledThemes()).toEqual(['ui'])
+    })
+
+    /**
+     * An unknown brand matches no <link>, so without a validity check the
+     * loop below would disable every theme stylesheet and the page would
+     * render completely unstyled — recoverable only by clearing storage.
+     * getTheme() in the client shim already guards this with isValidTheme();
+     * these cases pin the same behaviour for the pre-hydration path.
+     */
+    const withSearch = <T>(search: string, fn: () => T): T => {
+      const original = window.location
+      Object.defineProperty(window, 'location', {
+        value: { ...original, search },
+        writable: true,
+      })
+
+      try {
+        return fn()
+      } finally {
+        Object.defineProperty(window, 'location', {
+          value: original,
+          writable: true,
+        })
+      }
+    }
+
+    it('falls back to the default brand when the stored brand is unknown', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'removed-in-a-later-release' })
+      )
+
+      expect(runHeadScript()).toBe('ui')
+      expect(enabledThemes()).toEqual(['ui'])
+    })
+
+    it('falls back to the default brand when the query param is unknown', () => {
+      expect(withSearch('?eufemia-theme=bogus', runHeadScript)).toBe('ui')
+      expect(enabledThemes()).toEqual(['ui'])
+    })
+
+    it('still honours a valid query param over the stored brand', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'eiendom' })
+      )
+
+      expect(withSearch('?eufemia-theme=carnegie', runHeadScript)).toBe(
+        'carnegie'
+      )
+      expect(enabledThemes()).toEqual(['carnegie'])
     })
 
     /**
