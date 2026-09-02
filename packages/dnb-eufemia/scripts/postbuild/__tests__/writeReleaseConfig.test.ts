@@ -16,16 +16,17 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import {
   COMPETING_CONFIG_FILES,
+  expectedReleaseManifest,
   extractReleaseConfig,
   FORBIDDEN_ARTIFACT_FILES,
   findCompetingConfigSources,
   findForbiddenArtifactFiles,
-  findManifestPublishOverrides,
-  findRepositoryMismatch,
+  findManifestMismatch,
   manifestDeclaresRelease,
   TRUSTED_CONFIG_FILE,
   writeReleaseConfig,
 } from '../writeReleaseConfig.mjs'
+import { cleanupPackage } from '../prepareForRelease'
 
 // Load the exact cosmiconfig instance semantic-release resolves, so the
 // precedence assertions below reflect the real loader rather than an assumption
@@ -82,11 +83,13 @@ describe('writeReleaseConfig', () => {
   beforeEach(() => {
     dir = mkdtempSync(path.join(tmpdir(), 'eufemia-releaserc-'))
     // A prepared build directory always carries the manifest npm publishes, and
-    // writeReleaseConfig compares it against the trusted source. Cases below
-    // that care about its contents overwrite this default.
+    // writeReleaseConfig now compares the whole thing against the manifest a
+    // faithful build produces from the trusted source. The default writeSource
+    // manifest below strips to { name, type: 'module' }, so this matches it.
+    // Cases that care about the contents overwrite this default.
     writeFileSync(
       path.join(dir, 'package.json'),
-      JSON.stringify({ name: 'pkg', version: '1.0.0' })
+      JSON.stringify({ name: 'pkg', type: 'module' })
     )
   })
 
@@ -131,11 +134,12 @@ describe('writeReleaseConfig', () => {
 
   it('ignores a release field on the trusted source manifest itself', () => {
     // The source package.json legitimately declares "release"; only the build
-    // directory's own package.json is suspect.
+    // directory's own package.json is suspect. The build manifest is what a
+    // faithful prepareForRelease yields from { name, release }.
     const sourcePackageJson = writeSource({ branches: ['release'] })
     writeFileSync(
       path.join(dir, 'package.json'),
-      JSON.stringify({ name: 'pkg', version: '1.0.0' })
+      JSON.stringify({ name: 'pkg', type: 'module' })
     )
 
     expect(() => writeReleaseConfig(sourcePackageJson, dir)).not.toThrow()
@@ -259,11 +263,12 @@ describe('writeReleaseConfig', () => {
     )
     // A tampered repository is what semantic-release would embed the release
     // token into when pushing the changelog/tag — leaking it to the attacker.
+    // Everything else matches a faithful build, so repository is the only diff.
     writeFileSync(
       path.join(dir, 'package.json'),
       JSON.stringify({
         name: 'pkg',
-        version: '1.0.0',
+        type: 'module',
         repository: { type: 'git', url: 'https://attacker.example/x.git' },
       })
     )
@@ -290,7 +295,7 @@ describe('writeReleaseConfig', () => {
     )
     writeFileSync(
       path.join(dir, 'package.json'),
-      JSON.stringify({ name: 'pkg', version: '1.0.0', repository })
+      JSON.stringify({ name: 'pkg', type: 'module', repository })
     )
 
     expect(() => writeReleaseConfig(sourcePackageJson, dir)).not.toThrow()
@@ -579,7 +584,7 @@ describe('tampered artifact cannot outrank the trusted config', () => {
     const sourcePackageJson = writeSource()
     writeFileSync(
       path.join(dir, 'package.json'),
-      JSON.stringify({ name: 'pkg', version: '1.0.0' })
+      JSON.stringify({ name: 'pkg', type: 'module' })
     )
 
     writeReleaseConfig(sourcePackageJson, dir)
@@ -590,132 +595,214 @@ describe('tampered artifact cannot outrank the trusted config', () => {
   })
 })
 
-describe('findManifestPublishOverrides', () => {
-  const source = { publishConfig: { access: 'public', provenance: true } }
-
-  it('accepts a build manifest that matches the trusted source', () => {
-    const build = {
-      name: 'pkg',
+describe('expectedReleaseManifest', () => {
+  it('strips the fields prepareForRelease deletes and sets type=module', () => {
+    const source = {
+      name: '@dnb/eufemia',
       version: '1.0.0',
-      publishConfig: { access: 'public', provenance: true },
+      dependencies: { classnames: '^2.5.1' },
+      release: { branches: ['release'] },
+      scripts: { build: 'x' },
+      devDependencies: { vitest: '^4' },
+      resolutions: { foo: '1' },
+      volta: { node: '24.16.0' },
     }
 
-    expect(findManifestPublishOverrides(build, source)).toEqual([])
+    expect(expectedReleaseManifest(source)).toEqual({
+      name: '@dnb/eufemia',
+      version: '1.0.0',
+      dependencies: { classnames: '^2.5.1' },
+      type: 'module',
+    })
   })
 
-  it('accepts a publishConfig whose keys are merely reordered', () => {
-    const build = { publishConfig: { provenance: true, access: 'public' } }
+  it('does not mutate the source manifest', () => {
+    const source = { name: 'pkg', scripts: { build: 'x' } }
 
-    expect(findManifestPublishOverrides(build, source)).toEqual([])
+    expectedReleaseManifest(source)
+
+    expect(source).toEqual({ name: 'pkg', scripts: { build: 'x' } })
   })
 
-  it('flags a re-added scripts field', () => {
-    const build = {
-      scripts: { prepack: 'node ./evil.js' },
-      publishConfig: { access: 'public', provenance: true },
-    }
-
-    const overrides = findManifestPublishOverrides(build, source)
-
-    expect(overrides).toHaveLength(1)
-    expect(overrides[0]).toContain('"scripts"')
-  })
-
-  it('flags an empty scripts field, which prepareForRelease still deletes', () => {
-    const build = { scripts: {}, publishConfig: source.publishConfig }
-
-    expect(findManifestPublishOverrides(build, source)[0]).toContain(
-      '"scripts"'
+  // Drift + no-false-positive guard, run against the real manifest: the
+  // whole-manifest comparison is only correct while expectedReleaseManifest
+  // mirrors the real transform, and a faithful build must pass or the guard
+  // would block every release. prepareForRelease is cleanupPackage() followed by
+  // `type = 'module'` in its main function, so this reproduces both. If
+  // prepareForRelease changes which fields it strips, this fails until
+  // expectedReleaseManifest is brought back in sync.
+  it('matches what prepareForRelease produces from the real manifest', async () => {
+    const packageString = readFileSync(
+      path.join(PKG_ROOT, 'package.json'),
+      'utf8'
     )
-  })
+    const cleaned = await cleanupPackage({ packageString })
+    cleaned.type = 'module'
 
-  it('flags a publishConfig that re-enables lifecycle scripts', () => {
-    const build = {
-      publishConfig: {
-        access: 'public',
-        provenance: true,
-        'ignore-scripts': false,
-      },
-    }
-
-    const overrides = findManifestPublishOverrides(build, source)
-
-    expect(overrides).toHaveLength(1)
-    expect(overrides[0]).toContain('"publishConfig"')
-  })
-
-  it.each([
-    ['a dropped publishConfig', {}],
-    [
-      'a redirected registry',
-      { publishConfig: { registry: 'http://evil' } },
-    ],
-    ['provenance turned off', { publishConfig: { access: 'public' } }],
-  ])('flags %s', (_label, build) => {
-    expect(findManifestPublishOverrides(build, source)).toHaveLength(1)
-  })
-
-  it('reports both problems at once', () => {
-    const build = { scripts: { prepack: 'x' }, publishConfig: {} }
-
-    expect(findManifestPublishOverrides(build, source)).toHaveLength(2)
+    expect(expectedReleaseManifest(JSON.parse(packageString))).toEqual(
+      cleaned
+    )
   })
 })
 
-describe('findRepositoryMismatch', () => {
+describe('findManifestMismatch', () => {
+  // A realistic trusted source and the manifest a faithful build produces from
+  // it. Individual cases mutate a copy of that faithful build.
   const source = {
+    name: '@dnb/eufemia',
+    version: '1.0.0',
+    main: './index.js',
     repository: {
       type: 'git',
       url: 'https://github.com/dnbexperience/eufemia.git',
       directory: 'packages/dnb-eufemia',
     },
+    publishConfig: { access: 'public', provenance: true },
+    dependencies: { classnames: '^2.5.1' },
+    release: { branches: ['release'] },
+    scripts: { build: 'x' },
+    devDependencies: { vitest: '^4' },
+    volta: { node: '24.16.0' },
   }
+  const faithfulBuild = () => expectedReleaseManifest(source)
 
-  it('accepts a build manifest whose repository matches the source', () => {
-    const build = {
-      name: 'pkg',
-      version: '1.0.0',
-      repository: source.repository,
-    }
-
-    expect(findRepositoryMismatch(build, source)).toEqual([])
+  it('accepts the manifest a faithful build produces', () => {
+    expect(findManifestMismatch(faithfulBuild(), source)).toEqual([])
   })
 
-  it('accepts a repository whose keys are merely reordered', () => {
-    const build = {
-      repository: {
-        directory: 'packages/dnb-eufemia',
-        url: 'https://github.com/dnbexperience/eufemia.git',
-        type: 'git',
-      },
+  it('accepts fields whose keys are merely reordered', () => {
+    const build = faithfulBuild()
+    build.publishConfig = { provenance: true, access: 'public' }
+    build.repository = {
+      directory: 'packages/dnb-eufemia',
+      url: 'https://github.com/dnbexperience/eufemia.git',
+      type: 'git',
     }
 
-    expect(findRepositoryMismatch(build, source)).toEqual([])
+    expect(findManifestMismatch(build, source)).toEqual([])
   })
 
-  it('accepts when neither manifest declares a repository', () => {
-    expect(
-      findRepositoryMismatch({ name: 'pkg' }, { name: 'pkg' })
-    ).toEqual([])
+  it('flags a re-added scripts field', () => {
+    const build = {
+      ...faithfulBuild(),
+      scripts: { prepack: 'node ./evil.js' },
+    }
+
+    const diff = findManifestMismatch(build, source)
+
+    expect(diff).toHaveLength(1)
+    expect(diff[0]).toContain('"scripts"')
+  })
+
+  it('flags a publishConfig that re-enables lifecycle scripts', () => {
+    const build = faithfulBuild()
+    build.publishConfig = {
+      access: 'public',
+      provenance: true,
+      'ignore-scripts': false,
+    }
+
+    const diff = findManifestMismatch(build, source)
+
+    expect(diff).toHaveLength(1)
+    expect(diff[0]).toContain('"publishConfig"')
+  })
+
+  it('flags a redirected repository that would leak the release token', () => {
+    const build = faithfulBuild()
+    build.repository = {
+      type: 'git',
+      url: 'https://attacker.example/x.git',
+    }
+
+    const diff = findManifestMismatch(build, source)
+
+    expect(diff).toHaveLength(1)
+    expect(diff[0]).toContain('"repository"')
+  })
+
+  // The two release-integrity fields the earlier field-by-field guard missed.
+  it('flags a top-level tag that overrides the release channel', () => {
+    // libnpmpublish resolves the dist-tag as manifest.tag || defaultTag, so a
+    // "latest" here routes a prerelease onto the channel npm installs by
+    // default, regardless of the --tag semantic-release passes.
+    const build = { ...faithfulBuild(), tag: 'latest' }
+
+    const diff = findManifestMismatch(build, source)
+
+    expect(diff).toHaveLength(1)
+    expect(diff[0]).toContain('"tag"')
+  })
+
+  it('flags private:true that would skip npm publication', () => {
+    // @semantic-release/npm skips the publish when private is true, so the tag
+    // and changelog would be pushed with no npm version behind them.
+    const build = { ...faithfulBuild(), private: true }
+
+    const diff = findManifestMismatch(build, source)
+
+    expect(diff).toHaveLength(1)
+    expect(diff[0]).toContain('"private"')
   })
 
   it.each([
     [
-      'a redirected repository url',
-      {
-        repository: { type: 'git', url: 'https://attacker.example/x.git' },
+      'an injected dependency',
+      (build) => {
+        build.dependencies = {
+          ...build.dependencies,
+          evil: 'https://evil',
+        }
       },
     ],
     [
-      'a repository swapped to a string form pointing elsewhere',
-      { repository: 'https://attacker.example/x.git' },
+      'a redirected package name',
+      (build) => {
+        build.name = '@attacker/eufemia'
+      },
     ],
-    ['a dropped repository', { name: 'pkg' }],
-  ])('flags %s', (_label, build) => {
-    const mismatch = findRepositoryMismatch(build, source)
+    [
+      'a re-added devDependencies',
+      (build) => {
+        build.devDependencies = { x: '1' }
+      },
+    ],
+    [
+      'a changed main entry point',
+      (build) => {
+        build.main = './evil.js'
+      },
+    ],
+    [
+      'a dropped publishConfig',
+      (build) => {
+        delete build.publishConfig
+      },
+    ],
+    [
+      'a missing type:module',
+      (build) => {
+        delete build.type
+      },
+    ],
+  ])('flags %s', (_label, mutate) => {
+    const build = faithfulBuild()
+    mutate(build)
 
-    expect(mismatch).toHaveLength(1)
-    expect(mismatch[0]).toContain('"repository"')
+    expect(
+      findManifestMismatch(build, source).length
+    ).toBeGreaterThanOrEqual(1)
+  })
+
+  it('reports every differing field at once', () => {
+    const build = {
+      ...faithfulBuild(),
+      tag: 'latest',
+      private: true,
+      scripts: {},
+    }
+
+    expect(findManifestMismatch(build, source)).toHaveLength(3)
   })
 })
 
@@ -793,7 +880,7 @@ describe('publishConfig outranks the ignore-scripts environment', () => {
   })
 })
 
-describe('tampered manifest cannot re-enable lifecycle scripts', () => {
+describe('a tampered manifest cannot change how the release is published', () => {
   let dir
 
   const publishConfig = { access: 'public', provenance: true }
@@ -811,11 +898,16 @@ describe('tampered manifest cannot re-enable lifecycle scripts', () => {
     return sourcePackageJson
   }
 
-  const writeBuildManifest = (extra) =>
-    writeFileSync(
-      path.join(dir, 'package.json'),
-      JSON.stringify({ name: 'pkg', version: '1.0.0', ...extra })
-    )
+  // The manifest a faithful prepareForRelease yields from that source: the
+  // stripped fields removed and type set. Cases mutate a copy of it.
+  const faithfulBuild = () => ({
+    name: 'pkg',
+    publishConfig,
+    type: 'module',
+  })
+
+  const writeBuildManifest = (manifest) =>
+    writeFileSync(path.join(dir, 'package.json'), JSON.stringify(manifest))
 
   beforeEach(() => {
     dir = mkdtempSync(path.join(tmpdir(), 'eufemia-manifest-'))
@@ -826,7 +918,7 @@ describe('tampered manifest cannot re-enable lifecycle scripts', () => {
   })
 
   it('publishes a manifest that matches the trusted source', () => {
-    writeBuildManifest({ publishConfig })
+    writeBuildManifest(faithfulBuild())
 
     expect(() => writeReleaseConfig(writeSource(), dir)).not.toThrow()
     expect(existsSync(path.join(dir, TRUSTED_CONFIG_FILE))).toBe(true)
@@ -834,21 +926,45 @@ describe('tampered manifest cannot re-enable lifecycle scripts', () => {
 
   it.each([
     [
-      'scripts plus ignore-scripts',
-      {
-        scripts: { prepack: 'node ./evil.js' },
-        publishConfig: { ...publishConfig, 'ignore-scripts': false },
+      'scripts plus a publishConfig re-enabling them',
+      (build) => {
+        build.scripts = { prepack: 'node ./evil.js' }
+        build.publishConfig = { ...publishConfig, 'ignore-scripts': false }
       },
     ],
     [
-      'a proxy override',
-      {
-        publishConfig: { ...publishConfig, 'https-proxy': 'http://evil' },
+      'a proxy override in publishConfig',
+      (build) => {
+        build.publishConfig = {
+          ...publishConfig,
+          'https-proxy': 'http://evil',
+        }
       },
     ],
-    ['a dropped publishConfig', {}],
-  ])('refuses %s, and writes no config', (_label, extra) => {
-    writeBuildManifest(extra)
+    // The two release-integrity fields the field-by-field guard let through,
+    // reproduced end-to-end through writeReleaseConfig.
+    [
+      'a top-level tag overriding the release channel',
+      (build) => {
+        build.tag = 'latest'
+      },
+    ],
+    [
+      'a private flag that skips publication',
+      (build) => {
+        build.private = true
+      },
+    ],
+    [
+      'a dropped publishConfig',
+      (build) => {
+        delete build.publishConfig
+      },
+    ],
+  ])('refuses %s, and writes no config', (_label, mutate) => {
+    const build = faithfulBuild()
+    mutate(build)
+    writeBuildManifest(build)
 
     expect(() => writeReleaseConfig(writeSource(), dir)).toThrow(
       'Refusing to publish'
