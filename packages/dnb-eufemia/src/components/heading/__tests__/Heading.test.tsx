@@ -84,10 +84,20 @@ describe('Heading component', () => {
     expect(ref.current).toBe(document.querySelector('.dnb-heading'))
   })
 
-  it('should render zero from the text prop', () => {
-    render(<Heading text={0} />)
+  it('should handle falsy text values', () => {
+    render(
+      <>
+        <Heading text={0}>Zero fallback</Heading>
+        <Heading text="">Empty fallback</Heading>
+        <Heading text={false}>False fallback</Heading>
+      </>
+    )
 
-    expect(document.querySelector('.dnb-heading')).toHaveTextContent('0')
+    const elements = document.querySelectorAll('.dnb-heading')
+
+    expect(elements[0]).toHaveTextContent('0')
+    expect(elements[1]).toHaveTextContent('Empty fallback')
+    expect(elements[2]).toHaveTextContent('False fallback')
   })
 
   it('should match level correction', () => {

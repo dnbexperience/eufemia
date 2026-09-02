@@ -322,7 +322,7 @@ export default function Heading(props: HeadingAllProps) {
           )}
         </span>
       )}
-      {text ?? children}
+      {text || text === 0 ? text : children}
     </Element>
   )
 }
