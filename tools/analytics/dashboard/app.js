@@ -35,6 +35,24 @@ function toRecords(payload) {
 }
 
 /**
+ * Freshness line for the meta row. Surfaces the snapshot time even when there
+ * are no records, so a viewer can tell the pipeline ran and the data is empty
+ * rather than stale.
+ */
+export function snapshotMeta(payload, count) {
+  const generated = payload && payload.generatedAt
+  const when = generated ? new Date(generated).toLocaleString() : ''
+
+  if (count === 0) {
+    return when
+      ? `No data yet (snapshot generated ${when}).`
+      : 'No data yet.'
+  }
+
+  return when ? `Snapshot generated ${when}` : ''
+}
+
+/**
  * Fetch dashboard records from the protected API. Returns a discriminated
  * result so the caller owns DOM and navigation; this function only manages the
  * sign-in retry marker:
@@ -270,16 +288,13 @@ async function main() {
   const payload = result.kind === 'data' ? result.payload : null
   const all = toRecords(payload).map(normalise)
 
+  document.getElementById('meta').textContent = snapshotMeta(
+    payload,
+    all.length
+  )
+
   if (all.length === 0) {
-    document.getElementById('meta').textContent = 'No data yet.'
-
     return
-  }
-
-  const generated = payload && payload.generatedAt
-  if (generated) {
-    document.getElementById('meta').textContent =
-      `Snapshot generated ${new Date(generated).toLocaleString()}`
   }
 
   const apply = (env) =>
