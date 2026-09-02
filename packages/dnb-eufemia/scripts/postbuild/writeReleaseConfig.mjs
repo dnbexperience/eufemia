@@ -104,6 +104,7 @@
 
 import {
   existsSync,
+  lstatSync,
   readdirSync,
   readFileSync,
   realpathSync,
@@ -407,9 +408,12 @@ function describeEntryType(entry) {
 }
 
 /**
- * Return every entry in the build directory that is neither a regular file nor a
- * directory, relative to that directory. A faithful build writes only files and
- * directories, so anything else is unexpected.
+ * Return every entry at or under the build directory that is neither a regular
+ * file nor a directory, relative to that directory. A faithful build writes only
+ * files and directories, so anything else is unexpected. The directory itself is
+ * included in the check: `tar` restores a symlinked archive root as a symlink
+ * too, so a link there would otherwise leave the whole walk looking at somewhere
+ * else entirely.
  *
  * Symlinks are the reason this exists. They survive the artifact: it travels as
  * a tar archive, which stores a symlink as a symlink, and the publish job
@@ -433,6 +437,10 @@ function describeEntryType(entry) {
  * over, so the walk here is deliberately hand-rolled.
  */
 export function findNonRegularArtifactEntries(buildDir) {
+  if (lstatSync(buildDir).isSymbolicLink()) {
+    return [`${path.basename(buildDir)} (symbolic link)`]
+  }
+
   const found = []
 
   const walk = (dir) => {
@@ -501,17 +509,14 @@ export function writeReleaseConfig(sourcePackageJsonPath, buildDir) {
       nonRegular.length > 10 ? ` (and ${nonRegular.length - 10} more)` : ''
 
     throw new Error(
-      `Refusing to publish: the build directory carries ${nonRegular.length} ` +
-        `entr${nonRegular.length === 1 ? 'y' : 'ies'} that ${
-          nonRegular.length === 1 ? 'is' : 'are'
-        } neither a regular file nor a ` +
-        `directory: ${listed}${rest}. A symlink here is followed by whatever ` +
-        `reads or writes that path in this credentialed job — the changelog is ` +
-        `written through it, and the release commit stages the link itself, so ` +
-        `it persists into the trusted checkout for later releases. npm pack ` +
-        `omits symlinks from the tarball, so content validation cannot reveal ` +
-        `them. prepareForRelease writes only files, so treat the build artifact ` +
-        `as untrusted.`
+      `Refusing to publish: the restored build artifact includes paths that ` +
+        `are neither regular files nor directories: ${listed}${rest}. A ` +
+        `symlink is followed by whatever reads or writes that path in this ` +
+        `credentialed job — the changelog is written through it, and the ` +
+        `release commit stages the link itself, so it persists into the ` +
+        `trusted checkout for later releases. npm pack omits symlinks from the ` +
+        `tarball, so content validation cannot reveal them. prepareForRelease ` +
+        `writes only files, so treat the build artifact as untrusted.`
     )
   }
 
