@@ -2,8 +2,15 @@
  * Test the package content validation logic.
  */
 
-import { execFileSync } from 'node:child_process'
-import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { execFileSync, spawnSync } from 'node:child_process'
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import {
@@ -14,6 +21,8 @@ import {
   getPackedFiles,
   MIN_FILE_COUNT,
 } from '../validatePackageContents.mjs'
+
+const PKG_ROOT = path.resolve(__dirname, '../../..')
 
 // Enough files to clear the real MIN_FILE_COUNT floor, so the cases below
 // exercise the shipped defaults instead of a relaxed override.
@@ -305,5 +314,53 @@ describe('getPackedFiles', () => {
     })
 
     expect(existsSync(path.join(dir, MARKER))).toBe(true)
+  })
+})
+
+// Same entry-point property as the sibling guard (see the symlink case in
+// writeReleaseConfig.test.ts): Node reports a symlink-resolved
+// `import.meta.url`, so comparing it with an unresolved `process.argv[1]` made
+// the validation exit 0 without validating anything whenever the invocation
+// path crossed a symlink. Pointing it at a directory with no package.json is
+// enough — it must fail, not pass silently.
+describe('the validator runs when invoked through a symlinked path', () => {
+  const script = path.join(
+    PKG_ROOT,
+    'scripts/postbuild/validatePackageContents.mjs'
+  )
+  let dir
+
+  const runValidator = (scriptPath) =>
+    spawnSync(process.execPath, [scriptPath, 'empty'], {
+      cwd: dir,
+      encoding: 'utf8',
+    })
+
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'eufemia-validate-entry-'))
+    mkdirSync(path.join(dir, 'empty'))
+  })
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
+  })
+
+  it('fails through a symlink to the script', () => {
+    const link = path.join(dir, 'validatePackageContents.mjs')
+    symlinkSync(script, link)
+
+    const result = runValidator(link)
+
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('Package content validation')
+  })
+
+  // Control: identical behaviour through the real path, so the case above is
+  // about the entry point rather than about the failure itself.
+  it('fails the same way through the real path', () => {
+    const result = runValidator(script)
+
+    expect(result.status).toBe(1)
+    expect(result.stderr).toContain('Package content validation')
   })
 })
