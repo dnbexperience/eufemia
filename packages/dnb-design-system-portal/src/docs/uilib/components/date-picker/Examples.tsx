@@ -128,6 +128,7 @@ export const DatePickerHiddenNav = () => (
       returnFormat="dd/MM/yyyy"
       hideNavigation
       hideDays
+      hideAdjacentMonthDates
       onChange={({ date }) => {
         console.log('onChange', date)
       }}
