@@ -4,6 +4,7 @@ import {
   useContext,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
@@ -26,6 +27,7 @@ import useReportError from '../../Isolation/useReportError'
 import { useShowStatus } from '../../Isolation/useHandleStatus'
 import useContainerDataStore from './useContainerDataStore'
 import EditContainerContext from './EditContainerContext'
+import FieldPropsProvider from '../../../Field/Provider'
 import SectionContext from '../SectionContext'
 
 export type FormSectionEditContainerProps = {
@@ -67,6 +69,7 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
   const dataStore = useContainerDataStore({
     enabled: true,
   })
+  const [isPending, setIsPending] = useState(false)
   const preventNavigation = preventUncommittedChanges
   const hasUncommittedChanges =
     preventNavigation && dataStore.hasUncommittedChanges
@@ -118,7 +121,9 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
   )
 
   return (
-    <EditContainerContext value={dataStore}>
+    <EditContainerContext
+      value={{ ...dataStore, isPending, setIsPending }}
+    >
       <FieldBoundaryProvider
         showErrors={validateInitially}
         onPathError={onPathError}
@@ -135,7 +140,11 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
             className="dnb-forms-section-block__content"
           >
             {title && <Lead size="basis">{title}</Lead>}
-            {children}
+            <FieldPropsProvider
+              formElement={isPending ? { disabled: true } : undefined}
+            >
+              {children}
+            </FieldPropsProvider>
             {hasToolbar ? null : (
               <Toolbar onDone={onDone} onCancel={onCancel}>
                 <DoneButton />
