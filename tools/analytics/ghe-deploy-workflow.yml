@@ -111,7 +111,7 @@ jobs:
           cd infra
           ENDPOINT=$(terraform output -raw api_endpoint)
           BUCKET=$(terraform output -raw data_bucket)
-          DASHBOARD_URL=$(terraform output -raw dashboard_url)
+          DASHBOARD_URL=$(terraform output -raw dashboard_public_url)
           echo "## Analytics Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"

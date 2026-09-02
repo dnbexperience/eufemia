@@ -88,6 +88,14 @@ variable "dashboard_origins" {
 # becomes an allowed CORS origin and the OIDC redirect URI; empty falls back to
 # the raw CloudFront URL, preserving the pre-custom-domain behaviour.
 variable "dashboard_public_url" {
-  type    = string
-  default = ""
+  type        = string
+  default     = ""
+  description = "Canonical public dashboard URL (e.g. https://dashboard.eufemia.dnb.no). Becomes a CORS origin and the OIDC redirect URI; empty falls back to the CloudFront URL."
+
+  # Entra matches redirect URIs exactly, so a trailing slash or missing scheme
+  # would break sign-in while the deploy still succeeds. Allow empty (default).
+  validation {
+    condition     = var.dashboard_public_url == "" || can(regex("^https://[^/]+$", var.dashboard_public_url))
+    error_message = "dashboard_public_url must be an https:// origin with no trailing slash (e.g. https://dashboard.eufemia.dnb.no)."
+  }
 }
