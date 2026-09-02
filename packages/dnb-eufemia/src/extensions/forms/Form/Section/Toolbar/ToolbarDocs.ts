@@ -15,8 +15,8 @@ export const ToolbarEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onDone: {
-    doc: 'Callback for the done button.',
-    type: 'function',
+    doc: 'Callback for the done button. When it returns a Promise, the section stays in edit mode until the Promise resolves. If it rejects, the section stays in edit mode.',
+    type: '() => void | Promise<unknown>',
     status: 'optional',
   },
   onCancel: {
