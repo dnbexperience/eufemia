@@ -507,6 +507,29 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
   treat_missing_data  = "breaching"
 }
 
+# A run can succeed (Invocations >= 1, Errors = 0) yet write an empty snapshot,
+# e.g. the Athena query stops matching partitions. The generator emits the row
+# count as an EMF metric (SnapshotRecordCount), so a snapshot that stays empty is
+# caught here — the Lambda alarms above only see the run, not its content. The
+# not-running alarm owns the "stopped firing" case, so missing data here does not
+# breach. The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts. No alarm actions yet (state is visible in CloudWatch);
+# wire an SNS/notification target here when one exists — and note a genuinely
+# idle environment (no traffic) can sit at 0 and trip this.
+resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
+  alarm_description   = "Dashboard snapshot generator wrote an empty snapshot (no records)"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "SnapshotRecordCount"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Maximum"
+  period              = 3600
+  evaluation_periods  = 6
+  threshold           = 1
+  comparison_operator = "LessThanThreshold"
+  treat_missing_data  = "notBreaching"
+}
+
 # ---------------------------------------------------------------------------
 # Custom domain (origin for Akamai)
 # ---------------------------------------------------------------------------

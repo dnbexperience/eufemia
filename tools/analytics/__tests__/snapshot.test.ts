@@ -37,15 +37,21 @@ function putCalls() {
   )
 }
 
+// Silence and capture the EMF metric line the handler logs, so it neither spams
+// test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
+let logSpy: ReturnType<typeof vi.spyOn>
+
 beforeEach(() => {
   send.mockReset()
   retrievePageViews.mockReset()
   send.mockResolvedValue({})
   process.env.DATA_BUCKET = 'my-bucket'
+  logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 })
 
 afterEach(() => {
   delete process.env.DATA_BUCKET
+  logSpy.mockRestore()
 })
 
 describe('snapshot generator handler', () => {
@@ -79,5 +85,54 @@ describe('snapshot generator handler', () => {
 
     await expect(handler()).rejects.toThrow('DATA_BUCKET')
     expect(retrievePageViews).not.toHaveBeenCalled()
+  })
+})
+
+describe('snapshot record-count metric', () => {
+  function findEmfMetric() {
+    const line = logSpy.mock.calls
+      .map((call: unknown[]) => call[0])
+      .find(
+        (arg: unknown): arg is string =>
+          typeof arg === 'string' && arg.includes('SnapshotRecordCount')
+      )
+
+    return line ? JSON.parse(line) : null
+  }
+
+  afterEach(() => {
+    delete process.env.AWS_LAMBDA_FUNCTION_NAME
+  })
+
+  it('emits the record count as an EMF metric after a successful run', async () => {
+    process.env.AWS_LAMBDA_FUNCTION_NAME = 'eufemia-dev-analytics-snapshot'
+    retrievePageViews.mockResolvedValue([
+      { type: 'pageview', path: '/', env: 'prod', timestamp: 't' },
+    ])
+
+    await handler()
+
+    const emf = findEmfMetric()
+    expect(emf).not.toBeNull()
+    expect(emf.SnapshotRecordCount).toBe(1)
+    expect(emf.FunctionName).toBe('eufemia-dev-analytics-snapshot')
+    expect(emf._aws.CloudWatchMetrics[0].Namespace).toBe(
+      'Eufemia/Analytics'
+    )
+    expect(emf._aws.CloudWatchMetrics[0].Metrics[0]).toEqual({
+      Name: 'SnapshotRecordCount',
+      Unit: 'Count',
+    })
+  })
+
+  it('emits a zero count when the snapshot is empty', async () => {
+    retrievePageViews.mockResolvedValue([])
+
+    const result = await handler()
+
+    expect(result.count).toBe(0)
+    const emf = findEmfMetric()
+    expect(emf).not.toBeNull()
+    expect(emf.SnapshotRecordCount).toBe(0)
   })
 })
