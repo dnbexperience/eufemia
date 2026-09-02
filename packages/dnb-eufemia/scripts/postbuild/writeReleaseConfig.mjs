@@ -69,6 +69,15 @@
  * `scripts` and copies `publishConfig` verbatim, so both are asserted against
  * the trusted source manifest rather than allow-listed.
  *
+ * The manifest's `repository` field gets the same treatment. When the release
+ * config does not pin `repositoryUrl`, semantic-release derives it from
+ * `package.json`'s `repository` and embeds the release GitHub token into the
+ * authenticated git push URL — so a tampered `repository` on the artifact would
+ * send that token to an attacker-controlled host after a Basic-auth challenge.
+ * `repositoryUrl` is pinned in the trusted release config as the primary
+ * defence (it outranks `package.json`'s field); this comparison rejects a
+ * mismatched `repository` outright as defence in depth.
+ *
  * Usage: node ./scripts/postbuild/writeReleaseConfig.mjs <sourcePackageJson> <buildDir>
  */
 
@@ -274,6 +283,39 @@ export function findManifestPublishOverrides(
 }
 
 /**
+ * Return the ways the build manifest's `repository` differs from the trusted
+ * source manifest. semantic-release derives `repositoryUrl` from this field when
+ * it is not pinned in the release config, then embeds the release GitHub token
+ * into the authenticated git push URL — so a tampered `repository` would send
+ * that token to an attacker-controlled host. `repositoryUrl` is pinned in the
+ * trusted config as the primary defence; this rejects a mismatched field as
+ * defence in depth. prepareForRelease copies `repository` verbatim, so it is
+ * asserted against the trusted source rather than allow-listed. Pure function —
+ * no I/O — so it is easy to unit test.
+ */
+export function findRepositoryMismatch(buildManifest, sourceManifest) {
+  const built =
+    buildManifest && typeof buildManifest === 'object' ? buildManifest : {}
+  const trusted =
+    sourceManifest && typeof sourceManifest === 'object'
+      ? sourceManifest
+      : {}
+
+  if (
+    stableSerialize(built.repository) ===
+    stableSerialize(trusted.repository)
+  ) {
+    return []
+  }
+
+  return [
+    `a "repository" that does not match the trusted source manifest ` +
+      `(${JSON.stringify(built.repository ?? null)} instead of ` +
+      `${JSON.stringify(trusted.repository ?? null)})`,
+  ]
+}
+
+/**
  * Return the FORBIDDEN_ARTIFACT_FILES present in the build directory, whether
  * they are files or directories. These are not semantic-release configuration,
  * but they change how `npm publish` and the release commit behave from the
@@ -346,6 +388,22 @@ export function writeReleaseConfig(sourcePackageJsonPath, buildDir) {
         `script in this credentialed job. prepareForRelease deletes scripts ` +
         `and copies publishConfig verbatim, so treat the build artifact as ` +
         `untrusted.`
+    )
+  }
+
+  const repositoryMismatch = findRepositoryMismatch(
+    buildManifest,
+    manifest
+  )
+  if (repositoryMismatch.length > 0) {
+    throw new Error(
+      `Refusing to publish: the build package.json carries ` +
+        `${repositoryMismatch.join(', and ')}. semantic-release derives ` +
+        `repositoryUrl from this field and embeds the release GitHub token in ` +
+        `the authenticated git push URL, so a tampered repository would leak ` +
+        `that token to an attacker-controlled host. repositoryUrl is pinned in ` +
+        `the trusted release config, and prepareForRelease copies repository ` +
+        `verbatim, so treat the build artifact as untrusted.`
     )
   }
 

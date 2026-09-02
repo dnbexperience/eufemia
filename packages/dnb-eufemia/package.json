@@ -274,6 +274,7 @@
         "prerelease": true
       }
     ],
+    "repositoryUrl": "https://github.com/dnbexperience/eufemia.git",
     "ci": true,
     "debug": false,
     "dryRun": false,
