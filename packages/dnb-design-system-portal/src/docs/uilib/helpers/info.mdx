@@ -25,6 +25,15 @@ You can use the internal Eufemia easing function.
 }
 ```
 
+For short interactions that should settle with a subtle overshoot, use the
+faster bounce curve.
+
+```css
+.animation-element {
+  transition: transform 180ms var(--easing-fast-bounce);
+}
+```
+
 ## CSS classes
 
 - [dnb-core-style](/uilib/helpers/classes#core-style): A CSS-reset and core styling, including font, line-height and color.
