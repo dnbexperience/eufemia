@@ -135,4 +135,49 @@ describe('EditContainer async onDone', () => {
 
     expect(document.querySelector('input')).toBeDisabled()
   })
+
+  it('should disable the toolbar buttons while an async onDone is pending', async () => {
+    let resolveOnDone!: () => void
+
+    const onDone = () =>
+      new Promise<void>((resolve) => {
+        resolveOnDone = resolve
+      })
+
+    render(
+      <Form.Section containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.String path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    // The EditContainer renders its Done button before the Cancel button
+    const buttons = document.querySelectorAll(
+      '.dnb-forms-section-edit-block button'
+    )
+    expect(buttons).toHaveLength(2)
+
+    const [doneButton, cancelButton] = Array.from(buttons)
+    expect(doneButton).not.toBeDisabled()
+    expect(cancelButton).not.toBeDisabled()
+
+    await userEvent.click(doneButton)
+
+    // Cancel restores the original data and leaves edit mode, which would
+    // discard the values a pending save is still writing. Both buttons
+    // stay disabled until the Promise settles.
+    expect(doneButton).toBeDisabled()
+    expect(cancelButton).toBeDisabled()
+
+    resolveOnDone()
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-section-view-block')
+      ).not.toHaveAttribute('aria-hidden', 'true')
+    })
+  })
 })
