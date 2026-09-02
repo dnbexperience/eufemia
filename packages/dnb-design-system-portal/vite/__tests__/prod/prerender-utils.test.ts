@@ -1005,6 +1005,15 @@ describe('prerender-utils', () => {
           .split('\n')
           .find((l) => l.includes(`const ${name} = `))
         expect(line, `${name} not found in ${file}`).toBeDefined()
+
+        // The comparison below only covers this one line, so fail loudly if the
+        // constant is ever reformatted across several lines — otherwise this
+        // guard would quietly compare opening fragments and miss real drift.
+        expect(
+          line.trimEnd().endsWith('`'),
+          `${name} in ${file} is no longer a single-line template literal — update this guard`
+        ).toBe(true)
+
         return line.trim()
       }
 
