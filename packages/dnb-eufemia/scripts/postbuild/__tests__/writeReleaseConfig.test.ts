@@ -325,7 +325,7 @@ describe('writeReleaseConfig', () => {
     symlinkSync('../../../outside.md', path.join(dir, 'CHANGELOG.md'))
 
     expect(() => writeReleaseConfig(sourcePackageJson, dir)).toThrow(
-      'neither a regular file nor a directory'
+      'neither regular files nor directories'
     )
     expect(existsSync(path.join(dir, TRUSTED_CONFIG_FILE))).toBe(false)
   })
@@ -343,7 +343,7 @@ describe('writeReleaseConfig', () => {
     symlinkSync('elsewhere.json', path.join(dir, 'package.json'))
 
     expect(() => writeReleaseConfig(sourcePackageJson, dir)).toThrow(
-      'neither a regular file nor a directory'
+      'neither regular files nor directories'
     )
     expect(existsSync(path.join(dir, TRUSTED_CONFIG_FILE))).toBe(false)
   })
@@ -520,6 +520,20 @@ describe('findNonRegularArtifactEntries', () => {
     execFileSync('mkfifo', [path.join(dir, 'pipe')])
 
     expect(findNonRegularArtifactEntries(dir)).toEqual(['pipe (FIFO)'])
+  })
+
+  // tar restores a symlinked archive root as a symlink too, so the artifact can
+  // arrive as a link to somewhere else entirely. Walking its contents would then
+  // report nothing unusual, which is why the directory itself is checked.
+  it('flags the build directory itself when it is a symlink', () => {
+    mkdirSync(path.join(dir, 'elsewhere'))
+    writeFileSync(path.join(dir, 'elsewhere', 'package.json'), '{}')
+    const link = path.join(dir, 'build')
+    symlinkSync('elsewhere', link)
+
+    expect(findNonRegularArtifactEntries(link)).toEqual([
+      'build (symbolic link)',
+    ])
   })
 })
 
