@@ -839,7 +839,7 @@ describe('MCP dependency configuration', () => {
 
     // Strip JSONC comments (mcp.json may have config commented out)
     const jsonContent = rawContent
-      .replace(/\/\/.*$/gm, '')
+      .replace(/^\s*\/\/.*$/gm, '')
       .replace(/\n\s*\n/g, '\n')
     const mcpConfig = JSON.parse(jsonContent)
 
