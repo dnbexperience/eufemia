@@ -56,9 +56,6 @@ export default function DoneEditButton() {
       // unknown is what allows it to be inspected at all.
       const result: unknown = onDone?.()
 
-      // Only a returned Promise defers the mode switch. Any other return
-      // value is ignored, because "onDone" has always allowed callbacks
-      // that return something (e.g. `onDone={() => list.push(value)}`).
       if (result instanceof Promise) {
         setIsPending?.(true)
         void result.then(
