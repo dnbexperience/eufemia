@@ -179,4 +179,28 @@ describe('H element', () => {
       expect(element.classList.contains('dnb-t--surface-dark')).toBe(true)
     })
   })
+
+  describe('auto size', () => {
+    it('resolves the auto size from the theme brand', () => {
+      const ui = render(
+        <H element="h2" size="auto">
+          Test heading
+        </H>
+      )
+      // DNB (ui) maps a level-2 heading to "large"
+      expect(ui.container.querySelector('h2')).toHaveClass('dnb-h--large')
+
+      const sbanken = render(
+        <Theme brand="sbanken">
+          <H element="h2" size="auto">
+            Test heading
+          </H>
+        </Theme>
+      )
+      // Sbanken maps a level-2 heading to "x-large"
+      expect(sbanken.container.querySelector('h2')).toHaveClass(
+        'dnb-h--x-large'
+      )
+    })
+  })
 })

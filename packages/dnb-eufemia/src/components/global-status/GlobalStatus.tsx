@@ -289,7 +289,6 @@ function getIcon({
   state?: FormStatusState
   icon?: IconIcon
   iconSize?: IconSize
-  theme?: string
 }): ReactNode {
   if (typeof icon === 'string') {
     let IconToLoad: ComponentType<{ state?: FormStatusState }>
@@ -713,7 +712,6 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     state,
     icon: icon || fallbackProps.icon,
     iconSize: iconSize || fallbackProps.iconSize,
-    theme: context?.theme?.name || 'ui',
   })
   const titleToRender =
     title || fallbackProps.title || fallbackProps.defaultTitle

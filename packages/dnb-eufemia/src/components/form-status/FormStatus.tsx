@@ -582,7 +582,7 @@ export default FormStatus
 
 export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}
-  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme
     ? properties.sbanken['--sb-color-magenta']
     : properties.ui['--color-fire-red']
@@ -614,7 +614,7 @@ export const ErrorIcon = (props: ErrorIconProps) => {
 
 export const WarnIcon = (props: WarnIconProps) => {
   const { title = 'error' } = props || {}
-  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme
     ? properties.sbanken['--sb-color-yellow-dark']
     : properties.ui['--color-accent-yellow']
@@ -646,7 +646,7 @@ export const WarnIcon = (props: WarnIconProps) => {
 
 export const InfoIcon = (props: InfoIconProps) => {
   const { title = 'information' } = props || {}
-  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  const isSbankenTheme = useTheme()?.isSbanken
   let fill = isSbankenTheme
     ? properties.sbanken['--sb-color-green-dark-2']
     : properties.ui['--color-sea-green']
@@ -683,7 +683,7 @@ export const InfoIcon = (props: InfoIconProps) => {
 
 export const MarketingIcon = (props: MarketingIconProps) => {
   const { title = 'marketing' } = props || {}
-  const isSbankenTheme = useTheme()?.name === 'sbanken'
+  const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme
     ? properties.sbanken['--sb-color-violet-light']
     : properties.ui['--color-black-80']
