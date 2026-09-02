@@ -23,6 +23,8 @@ With `preventUncommittedChanges`, the user must select "Done" or "Cancel" before
 
 When `onDone` returns a Promise, the section stays in edit mode while it is pending. It switches to view mode when the Promise resolves and stays in edit mode when it rejects.
 
+While the Promise is pending, the fields inside the section and its "Done" and "Cancel" buttons are disabled. This keeps the submitted values from changing while the save is in flight. Make sure the returned Promise always settles, because one that never resolves or rejects leaves the section disabled.
+
 The demo starts with a simulated save error. Change the first name and select **Done** to verify that the input remains. Turn off **Simulate save error** and try again to complete the save.
 
 <Examples.AsyncOnDone />
