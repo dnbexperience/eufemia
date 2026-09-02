@@ -17,6 +17,7 @@ export const datePickerPropKeys = [
   'returnFormat',
   'hideNavigation',
   'hideDays',
+  'hideAdjacentMonthDates',
   'onlyMonth',
   'hideLastWeek',
   'disableAutofocus',

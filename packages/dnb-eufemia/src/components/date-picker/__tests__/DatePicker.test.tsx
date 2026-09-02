@@ -5233,6 +5233,25 @@ describe('DatePicker component', () => {
 
     expect(header).toBeInTheDocument()
   })
+
+  it('should hide adjacent month dates while preserving grid cells', () => {
+    render(<DatePicker inline month="2024-10-01" hideAdjacentMonthDates />)
+
+    const calendar = document.querySelector('.dnb-date-picker__calendar')
+    const previousMonthCell = calendar.querySelector(
+      'td[data-date="2024-09-30"]'
+    )
+    const nextMonthCell = calendar.querySelector(
+      'td[data-date="2024-11-01"]'
+    )
+
+    expect(calendar.querySelectorAll('[role="gridcell"]')).toHaveLength(42)
+    expect(previousMonthCell.querySelector('button')).not.toBeVisible()
+    expect(nextMonthCell.querySelector('button')).not.toBeVisible()
+    expect(
+      calendar.querySelector('td[data-date="2024-10-01"] button')
+    ).toBeVisible()
+  })
 })
 
 // for the unit calc tests
