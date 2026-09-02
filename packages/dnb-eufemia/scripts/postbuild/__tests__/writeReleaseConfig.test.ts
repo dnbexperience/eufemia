@@ -7,6 +7,7 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import {
   copyFileSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -24,6 +25,7 @@ import {
   findCompetingConfigSources,
   findForbiddenArtifactFiles,
   findManifestMismatch,
+  findNonRegularArtifactEntries,
   manifestDeclaresRelease,
   TRUSTED_CONFIG_FILE,
   writeReleaseConfig,
@@ -313,6 +315,38 @@ describe('writeReleaseConfig', () => {
     )
     expect(existsSync(path.join(dir, TRUSTED_CONFIG_FILE))).toBe(false)
   })
+
+  it('refuses when the artifact carries a symlinked CHANGELOG.md', () => {
+    const sourcePackageJson = writeSource({ branches: ['release'] })
+    writeFileSync(
+      path.join(dir, 'package.json'),
+      JSON.stringify({ name: 'pkg', type: 'module' })
+    )
+    symlinkSync('../../../outside.md', path.join(dir, 'CHANGELOG.md'))
+
+    expect(() => writeReleaseConfig(sourcePackageJson, dir)).toThrow(
+      'neither a regular file nor a directory'
+    )
+    expect(existsSync(path.join(dir, TRUSTED_CONFIG_FILE))).toBe(false)
+  })
+
+  // The manifest is read from the build directory, so a link in its place would
+  // otherwise be followed and the target compared instead.
+  it('refuses a symlinked package.json before reading it', () => {
+    const sourcePackageJson = writeSource({ branches: ['release'] })
+    writeFileSync(
+      path.join(dir, 'elsewhere.json'),
+      JSON.stringify({ name: 'pkg', type: 'module' })
+    )
+    // Replace the default manifest this suite writes with a link to it.
+    rmSync(path.join(dir, 'package.json'))
+    symlinkSync('elsewhere.json', path.join(dir, 'package.json'))
+
+    expect(() => writeReleaseConfig(sourcePackageJson, dir)).toThrow(
+      'neither a regular file nor a directory'
+    )
+    expect(existsSync(path.join(dir, TRUSTED_CONFIG_FILE))).toBe(false)
+  })
 })
 
 describe('findCompetingConfigSources', () => {
@@ -421,6 +455,130 @@ describe('findForbiddenArtifactFiles', () => {
     )
 
     expect(findForbiddenArtifactFiles(dir)).toEqual(['.env'])
+  })
+})
+
+describe('findNonRegularArtifactEntries', () => {
+  let dir
+
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'eufemia-entries-'))
+  })
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
+  })
+
+  it('reports nothing for a tree of files and directories', () => {
+    mkdirSync(path.join(dir, 'style'), { recursive: true })
+    writeFileSync(path.join(dir, 'package.json'), '{}')
+    writeFileSync(path.join(dir, 'style', 'main.css'), 'a{}')
+
+    expect(findNonRegularArtifactEntries(dir)).toEqual([])
+  })
+
+  it('flags a symlink to a file, wherever it sits in the tree', () => {
+    writeFileSync(path.join(dir, 'real.md'), 'x')
+    mkdirSync(path.join(dir, 'nested'))
+    symlinkSync('real.md', path.join(dir, 'CHANGELOG.md'))
+    symlinkSync('../real.md', path.join(dir, 'nested', 'deep.md'))
+
+    expect(findNonRegularArtifactEntries(dir).sort()).toEqual([
+      'CHANGELOG.md (symbolic link)',
+      path.join('nested', 'deep.md') + ' (symbolic link)',
+    ])
+  })
+
+  // A link whose target does not exist is invisible to an existsSync check, so
+  // the entry type is what this has to be based on.
+  it('flags a dangling symlink', () => {
+    symlinkSync('../../../etc/nope', path.join(dir, 'CHANGELOG.md'))
+
+    expect(findNonRegularArtifactEntries(dir)).toEqual([
+      'CHANGELOG.md (symbolic link)',
+    ])
+  })
+
+  // Node's recursive readdir follows symlinked directories, so a `loop -> .`
+  // entry would make it traverse the artifact over and over. The walk reports the
+  // link and stops there.
+  it('reports a symlinked directory without descending into it', () => {
+    mkdirSync(path.join(dir, 'real'))
+    writeFileSync(path.join(dir, 'real', 'inside.js'), 'x')
+    symlinkSync('real', path.join(dir, 'linked'))
+    symlinkSync('.', path.join(dir, 'loop'))
+
+    expect(findNonRegularArtifactEntries(dir).sort()).toEqual([
+      'linked (symbolic link)',
+      'loop (symbolic link)',
+    ])
+  })
+
+  // Not only symlinks: a faithful build writes files and directories, so any
+  // other entry type is unexpected too.
+  it('flags an entry that is neither a file, a directory nor a link', () => {
+    execFileSync('mkfifo', [path.join(dir, 'pipe')])
+
+    expect(findNonRegularArtifactEntries(dir)).toEqual(['pipe (FIFO)'])
+  })
+})
+
+// Controls for the premise of the entry-type guard above: a symlink is only
+// worth refusing if it can reach the publish job and be followed there. Both
+// steps are checked here, so a change in either makes the case for the rule
+// visible instead of silently stale.
+describe('a symlink reaches the publish job and is followed', () => {
+  let dir
+
+  beforeEach(() => {
+    dir = mkdtempSync(path.join(tmpdir(), 'eufemia-symlink-premise-'))
+  })
+
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
+  })
+
+  // The artifact is archived with tar and extracted in the publish job, and tar
+  // stores a symlink as a symlink — so the link the build job wrote is the link
+  // the credentialed job restores.
+  it('survives the tar round trip the artifact uses', () => {
+    mkdirSync(path.join(dir, 'build'))
+    writeFileSync(path.join(dir, 'build', 'package.json'), '{}')
+    symlinkSync(
+      '../../outside.md',
+      path.join(dir, 'build', 'CHANGELOG.md')
+    )
+
+    execFileSync('tar', [
+      '-czf',
+      path.join(dir, 'a.tgz'),
+      '-C',
+      dir,
+      'build',
+    ])
+    rmSync(path.join(dir, 'build'), { recursive: true, force: true })
+    execFileSync('tar', ['-xzf', path.join(dir, 'a.tgz'), '-C', dir])
+
+    expect(
+      lstatSync(path.join(dir, 'build', 'CHANGELOG.md')).isSymbolicLink()
+    ).toBe(true)
+  })
+
+  // @semantic-release/changelog writes the changelog with fs-extra's writeFile,
+  // which follows a link like any write does: the content lands on the target
+  // outside the build directory and the link itself stays in place, ready to be
+  // staged by @semantic-release/git.
+  it('sends a write through to the target outside the build directory', () => {
+    mkdirSync(path.join(dir, 'build'))
+    const target = path.join(dir, 'outside.md')
+    writeFileSync(target, 'original\n')
+    const link = path.join(dir, 'build', 'CHANGELOG.md')
+    symlinkSync(path.join('..', 'outside.md'), link)
+
+    writeFileSync(link, '# Changelog\n')
+
+    expect(readFileSync(target, 'utf8')).toBe('# Changelog\n')
+    expect(lstatSync(link).isSymbolicLink()).toBe(true)
   })
 })
 
