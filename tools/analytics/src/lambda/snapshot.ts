@@ -16,6 +16,10 @@ const METRIC_NAMESPACE = 'Eufemia/Analytics'
  * be granted cloudwatch:PutMetricData in Terraform, ADR 0004). A sustained count
  * of 0 catches a run that succeeds but writes an empty snapshot — a state the
  * generator's Errors/Invocations alarms cannot see.
+ *
+ * The namespace, metric name, and FunctionName dimension below must stay in sync
+ * with the `snapshot_empty` alarm in infra/main.tf; a mismatch silently leaves
+ * the alarm at INSUFFICIENT_DATA.
  */
 function emitRecordCountMetric(count: number): void {
   const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'

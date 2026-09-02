@@ -512,8 +512,10 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
 # count as an EMF metric (SnapshotRecordCount), so a snapshot that stays empty is
 # caught here — the Lambda alarms above only see the run, not its content. The
 # not-running alarm owns the "stopped firing" case, so missing data here does not
-# breach. No alarm actions yet (state is visible in CloudWatch); wire an
-# SNS/notification target here when one exists.
+# breach. The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts. No alarm actions yet (state is visible in CloudWatch);
+# wire an SNS/notification target here when one exists — and note a genuinely
+# idle environment (no traffic) can sit at 0 and trip this.
 resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
   alarm_description   = "Dashboard snapshot generator wrote an empty snapshot (no records)"

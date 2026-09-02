@@ -37,15 +37,21 @@ function putCalls() {
   )
 }
 
+// Silence and capture the EMF metric line the handler logs, so it neither spams
+// test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
+let logSpy: ReturnType<typeof vi.spyOn>
+
 beforeEach(() => {
   send.mockReset()
   retrievePageViews.mockReset()
   send.mockResolvedValue({})
   process.env.DATA_BUCKET = 'my-bucket'
+  logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 })
 
 afterEach(() => {
   delete process.env.DATA_BUCKET
+  logSpy.mockRestore()
 })
 
 describe('snapshot generator handler', () => {
@@ -83,10 +89,8 @@ describe('snapshot generator handler', () => {
 })
 
 describe('snapshot record-count metric', () => {
-  let log: ReturnType<typeof vi.spyOn>
-
   function findEmfMetric() {
-    const line = log.mock.calls
+    const line = logSpy.mock.calls
       .map((call: unknown[]) => call[0])
       .find(
         (arg: unknown): arg is string =>
@@ -96,12 +100,7 @@ describe('snapshot record-count metric', () => {
     return line ? JSON.parse(line) : null
   }
 
-  beforeEach(() => {
-    log = vi.spyOn(console, 'log').mockImplementation(() => undefined)
-  })
-
   afterEach(() => {
-    log.mockRestore()
     delete process.env.AWS_LAMBDA_FUNCTION_NAME
   })
 
@@ -132,6 +131,8 @@ describe('snapshot record-count metric', () => {
     const result = await handler()
 
     expect(result.count).toBe(0)
-    expect(findEmfMetric().SnapshotRecordCount).toBe(0)
+    const emf = findEmfMetric()
+    expect(emf).not.toBeNull()
+    expect(emf.SnapshotRecordCount).toBe(0)
   })
 })
