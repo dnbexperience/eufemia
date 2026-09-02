@@ -11,13 +11,6 @@ import Space from '../../../../../components/Space'
 
 export type FormSectionToolbarProps = SpaceAllProps & {
   onEdit?: () => void
-  /**
-   * Callback for the done button.
-   * Return a Promise to keep the section in edit mode until it settles:
-   * it switches to view mode when the Promise resolves,
-   * and stays in edit mode when it rejects.
-   * Any other return value is ignored.
-   */
   onDone?: () => void
   onCancel?: () => void
 }
