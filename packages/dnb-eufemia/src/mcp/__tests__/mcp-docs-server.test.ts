@@ -837,10 +837,12 @@ describe('MCP dependency configuration', () => {
 
     const rawContent = fs.readFileSync(mcpConfigPath, 'utf8')
 
-    // Strip JSONC comments (mcp.json may have config commented out)
-    const jsonContent = rawContent
-      .replace(/\/\/.*$/gm, '')
-      .replace(/\n\s*\n/g, '\n')
+    // Strip JSONC comments while skipping over quoted strings, so "//" inside
+    // string values (such as an "https://" URL) is preserved
+    const jsonContent = rawContent.replace(
+      /"(?:\\.|[^"\\])*"|\/\/[^\n]*|\/\*[\s\S]*?\*\//g,
+      (match) => (match[0] === '"' ? match : '')
+    )
     const mcpConfig = JSON.parse(jsonContent)
 
     expect(mcpConfig.servers).toBeDefined()
