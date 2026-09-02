@@ -553,20 +553,21 @@ describe('eufemia-theme plugin', () => {
       const load = plugin.load as (id: string) => string | undefined
       const code = load('\0virtual:eufemia-theme-styles') || ''
 
+      // Assert the harness is live. This checks the INPUT, not the result: a
+      // shape change makes the rewrite below match nothing and leave the code
+      // untouched, which no assertion on the output can tell apart from a
+      // successful unwrap.
+      expect(
+        code,
+        'dev startup no longer wraps the first load in `requestAnimationFrame(() => {`, so the unwrap below is dead — update it'
+      ).toContain('requestAnimationFrame(() => {')
+
       // Same transform the other dev-mode tests use, so the first-load
       // requestAnimationFrame callback runs synchronously.
       const evalCode = code
         .replace(/import '[^']+';/g, '')
         .replace(/requestAnimationFrame\(\(\) => \{/, '{')
         .replace(/\}\);(\s*\})/, '}$1')
-
-      // Assert the unwrap applied: if the generated code changes shape the
-      // callback would stay async and the assertions below would fail for a
-      // misleading reason.
-      expect(
-        evalCode,
-        'dev startup rAF unwrap did not apply'
-      ).not.toContain('requestAnimationFrame(() => {')
 
       new Function(evalCode)()
     }
