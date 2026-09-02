@@ -72,7 +72,7 @@ Replace `useTheme().name` with `useTheme().brand`. For persisted theme state, re
 +<VisibilityByTheme visible={[{ brand: 'sbanken' }]}>
 ```
 
-TypeScript flags `name` as an unknown property here, but plain JavaScript does not: an unmigrated `{ name }` simply stops matching, and the content silently disappears.
+With `name` removed, TypeScript reports it as an unknown property here. Plain JavaScript gets no such warning — the filter simply stops matching, and the content silently disappears.
 
 The deprecated `size` property, `ThemeSizes` type, `data-size` attribute, and `eufemia-theme__size--*` CSS classes have also been removed. Use `density`, `ThemeDensities`, `data-density`, and `eufemia-theme__density--*` instead.
 
