@@ -36,6 +36,15 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
 
+    it('have to match switch in unchecked state while pressed', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-default"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-default"] .dnb-switch__input',
+        simulate: 'active',
+      })
+    })
+
     it('have to match switch in unchecked state with error', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="switch-error"] .dnb-switch',
@@ -71,12 +80,6 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
       })
     })
 
-    it('have to match switch states', async () => {
-      await makeScreenshot({
-        selector: '[data-visual-test="switch-states"]',
-      })
-    })
-
     it('have to match switch in checked state with focus', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="switch-checked"] .dnb-switch',
@@ -92,6 +95,24 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
         simulateSelector:
           '[data-visual-test="switch-checked"] .dnb-switch__input',
         simulate: 'hover',
+      })
+    })
+
+    it('have to match switch with hover after activation', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-default"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-default"] .dnb-switch__input',
+        simulate: ['click', 'hover'],
+      })
+    })
+
+    it('have to match switch in checked state while pressed', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-checked"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-checked"] .dnb-switch__input',
+        simulate: 'active',
       })
     })
 

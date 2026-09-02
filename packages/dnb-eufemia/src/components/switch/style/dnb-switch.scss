@@ -311,18 +311,25 @@
     * On hover state
     *
     */
-  &__input:not([disabled]):not(:focus):not(:active):hover ~ &__background {
+  html:not([data-whatinput='keyboard'])
+    &__input:not([disabled]):not(:active):hover
+    ~ &__background {
     border-color: var(--switch-hover-border);
     background-color: var(--switch-hover-background);
+
+    @include utilities.fakeBorder(var(--switch-hover-border), 0.125rem);
   }
-  &__input:not([disabled]):not(:focus):not(:active):hover ~ &__button {
+  html:not([data-whatinput='keyboard'])
+    &__input:not([disabled]):not(:active):hover
+    ~ &__button {
     color: var(--switch-interaction-icon);
     background-color: var(--switch-hover-button-background);
 
     @include utilities.fakeBorder(var(--switch-hover-border), 0.0625rem);
   }
 
-  &__input:checked:not([disabled]):not(:focus):not(:active):hover
+  html:not([data-whatinput='keyboard'])
+    &__input:checked:not([disabled]):not(:active):hover
     ~ &__button {
     box-shadow: none;
   }
@@ -403,7 +410,7 @@
     --switch-hover-button-background: var(
       --token-color-background-action-hover-ondark
     );
-    --switch-interaction-icon: var(--token-color-icon-neutral);
+    --switch-interaction-icon: var(--color-black-80);
     --switch-pressed-background: var(
       --token-color-background-action-pressed-subtle-ondark
     );
@@ -450,6 +457,7 @@
     --switch-hover-background: var(--token-color-background-error-subtle);
     --switch-hover-border: var(--token-color-stroke-error);
     --switch-hover-button-background: var(--token-color-background-error);
+    --switch-interaction-icon: var(--token-color-icon-neutral-inverse);
     --switch-pressed-background: var(
       --token-color-background-error-subtle
     );

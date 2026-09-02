@@ -6385,7 +6385,7 @@
     },
     "xl": {
       "$type": "number",
-      "$value": 24,
+      "$value": 8,
       "$extensions": {
         "com.figma.variableId": "VariableID:59977:17820",
         "com.figma.scopes": [
@@ -6395,8 +6395,8 @@
           "WEB": "--token-radius-xl"
         },
         "com.figma.aliasData": {
-          "targetVariableId": "VariableID:15445f4260ed07f0a3756ee199f4b358bbead938/5552:1029",
-          "targetVariableName": "size/24",
+          "targetVariableId": "VariableID:40354cb1439ce7b12223f464568e846f0367a6ac/5552:1027",
+          "targetVariableName": "size/8",
           "targetVariableSetId": "VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025",
           "targetVariableSetName": "size"
         }

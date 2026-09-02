@@ -451,11 +451,15 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
     *
     */
 }
-.dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__background {
+html:not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__background {
   border-color: var(--switch-hover-border);
   background-color: var(--switch-hover-background);
+  --border-color: var(--switch-hover-border);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }
-.dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
+html:not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
   color: var(--switch-interaction-icon);
   background-color: var(--switch-hover-button-background);
   --border-color: var(--switch-hover-border);
@@ -463,7 +467,7 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-switch__input:checked:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
+html:not([data-whatinput=keyboard]) .dnb-switch__input:checked:not([disabled]):not(:active):hover ~ .dnb-switch__button {
   box-shadow: none;
 }
 .dnb-switch {
@@ -539,7 +543,7 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
   --switch-hover-button-background: var(
     --token-color-background-action-hover-ondark
   );
-  --switch-interaction-icon: var(--token-color-icon-neutral);
+  --switch-interaction-icon: var(--color-black-80);
   --switch-pressed-background: var(
     --token-color-background-action-pressed-subtle-ondark
   );
@@ -587,6 +591,7 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
   --switch-hover-background: var(--token-color-background-error-subtle);
   --switch-hover-border: var(--token-color-stroke-error);
   --switch-hover-button-background: var(--token-color-background-error);
+  --switch-interaction-icon: var(--token-color-icon-neutral-inverse);
   --switch-pressed-background: var(
     --token-color-background-error-subtle
   );
