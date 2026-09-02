@@ -143,7 +143,7 @@ export const AvatarChildIcon = () => (
 )
 
 function getLogoSvg(theme: ThemeProps) {
-  switch (theme?.name) {
+  switch (theme?.brand) {
     case 'sbanken':
       return SbankenCompact
 
