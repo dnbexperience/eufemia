@@ -1253,6 +1253,111 @@ describe('EditContainer and ViewContainer', () => {
     expect(onDone).toHaveBeenCalledTimes(1)
   })
 
+  it('should stay in edit mode while async onDone is pending and switch to view mode on resolve', async () => {
+    let resolveOnDone!: () => void
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveOnDone = resolve
+        })
+    )
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Section containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.String path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+        <ContextConsumer />
+      </Form.Section>
+    )
+
+    const doneButton = document.querySelector(
+      '.dnb-forms-section-edit-block button'
+    )
+    await userEvent.click(doneButton)
+
+    expect(onDone).toHaveBeenCalledTimes(1)
+    expect(containerMode).toBe('edit')
+    expect(doneButton).toBeDisabled()
+    expect(
+      document.querySelectorAll('.dnb-forms-section-edit-block button')[1]
+    ).toBeDisabled()
+    expect(
+      doneButton.querySelector(
+        '.dnb-forms-submit-indicator [aria-busy="true"]'
+      )
+    ).toHaveAttribute('aria-busy', 'true')
+
+    await userEvent.click(doneButton)
+    expect(onDone).toHaveBeenCalledTimes(1)
+
+    resolveOnDone()
+
+    await waitFor(() => {
+      expect(containerMode).toBe('view')
+    })
+  })
+
+  it('should stay in edit mode with user input intact when async onDone rejects', async () => {
+    let rejectOnDone!: (reason?: unknown) => void
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((_resolve, reject) => {
+          rejectOnDone = reject
+        })
+    )
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      const context = useContext(SectionContainerContext)
+      containerMode = context.containerMode
+
+      return null
+    }
+
+    render(
+      <Form.Section defaultData={{ name: 'Ada' }} containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.String path="/name" />
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+
+        <ContextConsumer />
+      </Form.Section>
+    )
+
+    const input = document.querySelector('input')
+    await userEvent.clear(input)
+    await userEvent.type(input, 'Grace')
+
+    const doneButton = document.querySelector(
+      '.dnb-forms-section-edit-block button'
+    )
+    await userEvent.click(doneButton)
+    rejectOnDone(new Error('Save failed'))
+
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+    expect(
+      document.querySelectorAll('.dnb-forms-section-edit-block button')[1]
+    ).not.toBeDisabled()
+    expect(containerMode).toBe('edit')
+    expect(input).toHaveValue('Grace')
+  })
+
   it('should emit "onCancel" event when cancel button is clicked', async () => {
     const onCancel = vi.fn()
 

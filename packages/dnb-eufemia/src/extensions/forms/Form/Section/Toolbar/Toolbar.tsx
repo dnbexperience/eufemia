@@ -10,7 +10,7 @@ import Space from '../../../../../components/Space'
 
 export type FormSectionToolbarProps = SpaceAllProps & {
   onEdit?: () => void
-  onDone?: () => void
+  onDone?: () => void | Promise<unknown>
   onCancel?: () => void
 }
 
@@ -21,6 +21,7 @@ export default function Toolbar(props: FormSectionToolbarProps) {
   const { hasError, hasVisibleError } =
     useContext(FieldBoundaryContext) || {}
   const [showError, setShowError] = useState(false)
+  const [isPending, setIsPending] = useState(false)
 
   useEffect(() => {
     if (showError && !hasError) {
@@ -35,7 +36,16 @@ export default function Toolbar(props: FormSectionToolbarProps) {
     >
       <Hr space={0} />
 
-      <ToolbarContext value={{ setShowError, onEdit, onDone, onCancel }}>
+      <ToolbarContext
+        value={{
+          setShowError,
+          isPending,
+          setIsPending,
+          onEdit,
+          onDone,
+          onCancel,
+        }}
+      >
         <Flex.Horizontal layoutEngine="css" top="x-small" gap="large">
           {children}
         </Flex.Horizontal>
