@@ -6,7 +6,7 @@ import {
   clearSession,
   readSession,
 } from '../dashboard/auth.js'
-import { loadDashboardData } from '../dashboard/app.js'
+import { loadDashboardData, snapshotMeta } from '../dashboard/app.js'
 
 class MemoryStorage {
   store = new Map()
@@ -256,5 +256,32 @@ describe('loadDashboardData', () => {
     ).toEqual({
       kind: 'empty',
     })
+  })
+})
+
+describe('snapshotMeta', () => {
+  const generatedAt = '2026-09-02T10:00:00.000Z'
+
+  it('reports the snapshot time when there are records', () => {
+    const text = snapshotMeta({ generatedAt }, 3)
+
+    expect(text.startsWith('Snapshot generated ')).toBe(true)
+    expect(text).toContain(new Date(generatedAt).toLocaleString())
+  })
+
+  it('surfaces the snapshot time in the empty state', () => {
+    const text = snapshotMeta({ generatedAt }, 0)
+
+    expect(text.startsWith('No data yet (snapshot generated ')).toBe(true)
+    expect(text).toContain(new Date(generatedAt).toLocaleString())
+  })
+
+  it('falls back to a plain empty message without a snapshot time', () => {
+    expect(snapshotMeta({}, 0)).toBe('No data yet.')
+    expect(snapshotMeta(null, 0)).toBe('No data yet.')
+  })
+
+  it('returns nothing when records exist but no snapshot time is present', () => {
+    expect(snapshotMeta({}, 5)).toBe('')
   })
 })
