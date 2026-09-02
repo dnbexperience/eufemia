@@ -60,23 +60,37 @@
  * stop the release.
  *
  * The artifact's own `package.json` needs the same scrutiny, and it cannot
- * simply be rejected — it is the manifest being published. Two of its fields
- * change how npm behaves at publish time: npm applies every `publishConfig`
- * key as configuration, and `publishConfig` outranks the environment. A
- * `publishConfig` of `{"ignore-scripts": false}` therefore defeats the
- * `NPM_CONFIG_IGNORE_SCRIPTS` the release step sets, and a re-added `scripts`
- * entry would then run inside this credentialed job. prepareForRelease deletes
- * `scripts` and copies `publishConfig` verbatim, so both are asserted against
- * the trusted source manifest rather than allow-listed.
+ * simply be rejected — it is the manifest being published. Rather than
+ * allow-list the individual fields that change how npm publishes and risk
+ * missing one, the whole manifest is compared against the one a faithful build
+ * produces from the trusted source. prepareForRelease derives that manifest
+ * deterministically — it deletes `release`, `scripts`, `devDependencies`,
+ * `resolutions` and `volta`, and sets `type: "module"` (see
+ * RELEASE_STRIPPED_FIELDS and expectedReleaseManifest) — and the version is not
+ * bumped until semantic-release runs later, so a faithful artifact manifest is
+ * exactly that transform of the source. Any deviation is refused. Comparing the
+ * complete manifest closes every publish-affecting field at once, including
+ * several a field-by-field check missed:
  *
- * The manifest's `repository` field gets the same treatment. When the release
- * config does not pin `repositoryUrl`, semantic-release derives it from
- * `package.json`'s `repository` and embeds the release GitHub token into the
- * authenticated git push URL — so a tampered `repository` on the artifact would
- * send that token to an attacker-controlled host after a Basic-auth challenge.
- * `repositoryUrl` is pinned in the trusted release config as the primary
- * defence (it outranks `package.json`'s field); this comparison rejects a
- * mismatched `repository` outright as defence in depth.
+ * - `scripts` / `publishConfig` — npm applies every `publishConfig` key as
+ *   configuration at publish time and `publishConfig` outranks the environment,
+ *   so a `{"ignore-scripts": false}` defeats the `NPM_CONFIG_IGNORE_SCRIPTS` the
+ *   release step sets and a re-added `scripts` entry then runs in this
+ *   credentialed job.
+ * - `repository` — when the release config does not pin `repositoryUrl`,
+ *   semantic-release derives it from this field and embeds the release GitHub
+ *   token into the authenticated git push URL, leaking it to an attacker host.
+ *   `repositoryUrl` is pinned in the trusted config as the primary defence; the
+ *   comparison rejects a mismatch as defence in depth.
+ * - `tag` — libnpmpublish resolves the dist-tag as `manifest.tag || defaultTag`,
+ *   so a top-level `tag` overrides the `--tag` semantic-release passes and can
+ *   route a prerelease onto the `latest` channel every consumer installs.
+ * - `private` — `@semantic-release/npm` skips publishing entirely when it is
+ *   true, so the tag and changelog are pushed but the npm version never ships,
+ *   leaving a permanent gap the release queue cannot recover from.
+ * - `name`, `dependencies`, `bin`, and the rest — a redirected package name or
+ *   an injected dependency changes what consumers install; none were covered by
+ *   the earlier per-field checks.
  *
  * Usage: node ./scripts/postbuild/writeReleaseConfig.mjs <sourcePackageJson> <buildDir>
  */
@@ -241,78 +255,100 @@ function stableSerialize(value) {
 }
 
 /**
- * Return the ways the build manifest would change how npm publishes, compared
- * with the trusted source manifest: a `scripts` field that prepareForRelease
- * should have deleted, or a `publishConfig` that does not match source. npm
- * applies every `publishConfig` key as configuration at publish time and
- * `publishConfig` outranks the environment, so this is what keeps the release
- * step's NPM_CONFIG_IGNORE_SCRIPTS from being switched off by the artifact it
- * is meant to contain. Pure function — no I/O — so it is easy to unit test.
+ * The fields prepareForRelease removes from the manifest before publishing (see
+ * prepareForRelease.js -> cleanupPackage). Kept here so the guard can recreate
+ * the exact manifest a faithful build produces and compare the whole thing,
+ * rather than allow-listing individual publish-affecting fields and missing the
+ * next one. A drift test pins this list against the real cleanupPackage.
  */
-export function findManifestPublishOverrides(
-  buildManifest,
-  sourceManifest
-) {
-  const built =
-    buildManifest && typeof buildManifest === 'object' ? buildManifest : {}
-  const trusted =
-    sourceManifest && typeof sourceManifest === 'object'
+export const RELEASE_STRIPPED_FIELDS = [
+  'release',
+  'scripts',
+  'devDependencies',
+  'resolutions',
+  'volta',
+]
+
+/**
+ * Recreate the package.json a faithful build publishes from the trusted source
+ * manifest: strip RELEASE_STRIPPED_FIELDS and set `type: "module"`, exactly as
+ * prepareForRelease does. The version is intentionally left untouched — it is
+ * not bumped until semantic-release runs, which is after this guard — so for a
+ * faithful artifact this is byte-for-byte (structurally) the published manifest.
+ * Pure function — no I/O — so it is easy to unit test.
+ */
+export function expectedReleaseManifest(sourceManifest) {
+  const source =
+    sourceManifest &&
+    typeof sourceManifest === 'object' &&
+    !Array.isArray(sourceManifest)
       ? sourceManifest
       : {}
 
-  const overrides = []
-
-  if ('scripts' in built) {
-    overrides.push(
-      'a "scripts" field, which prepareForRelease deletes before release'
-    )
+  const expected = { ...source }
+  for (const field of RELEASE_STRIPPED_FIELDS) {
+    delete expected[field]
   }
+  expected.type = 'module'
 
-  if (
-    stableSerialize(built.publishConfig) !==
-    stableSerialize(trusted.publishConfig)
-  ) {
-    overrides.push(
-      `a "publishConfig" that does not match the trusted source manifest ` +
-        `(${JSON.stringify(built.publishConfig ?? null)} instead of ` +
-        `${JSON.stringify(trusted.publishConfig ?? null)})`
-    )
-  }
-
-  return overrides
+  return expected
 }
 
 /**
- * Return the ways the build manifest's `repository` differs from the trusted
- * source manifest. semantic-release derives `repositoryUrl` from this field when
- * it is not pinned in the release config, then embeds the release GitHub token
- * into the authenticated git push URL — so a tampered `repository` would send
- * that token to an attacker-controlled host. `repositoryUrl` is pinned in the
- * trusted config as the primary defence; this rejects a mismatched field as
- * defence in depth. prepareForRelease copies `repository` verbatim, so it is
- * asserted against the trusted source rather than allow-listed. Pure function —
+ * Compare the build directory's package.json against the manifest a faithful
+ * build produces from the trusted source, and return a human-readable list of
+ * every field that differs. An empty list means the artifact manifest is
+ * structurally identical to that transform, so it cannot change what npm
+ * publishes or how.
+ *
+ * This replaces earlier per-field checks (scripts, publishConfig, repository):
+ * comparing the whole manifest catches those and every other publish-affecting
+ * field at once — a top-level `tag` that libnpmpublish honours over the `--tag`
+ * flag, a `private: true` that makes @semantic-release/npm skip publication, a
+ * redirected `name`, injected `dependencies`, and so on. Key order is
+ * normalised, so a harmless reordering never fails a release. Pure function —
  * no I/O — so it is easy to unit test.
  */
-export function findRepositoryMismatch(buildManifest, sourceManifest) {
+export function findManifestMismatch(buildManifest, sourceManifest) {
   const built =
-    buildManifest && typeof buildManifest === 'object' ? buildManifest : {}
-  const trusted =
-    sourceManifest && typeof sourceManifest === 'object'
-      ? sourceManifest
+    buildManifest &&
+    typeof buildManifest === 'object' &&
+    !Array.isArray(buildManifest)
+      ? buildManifest
       : {}
+  const expected = expectedReleaseManifest(sourceManifest)
 
-  if (
-    stableSerialize(built.repository) ===
-    stableSerialize(trusted.repository)
-  ) {
-    return []
+  const keys = [
+    ...new Set([...Object.keys(expected), ...Object.keys(built)]),
+  ].sort()
+
+  const differences = []
+  for (const key of keys) {
+    const inExpected = key in expected
+    const inBuilt = key in built
+
+    if (inExpected && !inBuilt) {
+      differences.push(
+        `a missing "${key}" (the trusted source publishes ` +
+          `${JSON.stringify(expected[key])})`
+      )
+    } else if (!inExpected && inBuilt) {
+      differences.push(
+        `an unexpected "${key}" (${JSON.stringify(built[key])}), which a ` +
+          `faithful build does not publish`
+      )
+    } else if (
+      stableSerialize(built[key]) !== stableSerialize(expected[key])
+    ) {
+      differences.push(
+        `a "${key}" that does not match the trusted source ` +
+          `(${JSON.stringify(built[key])} instead of ` +
+          `${JSON.stringify(expected[key])})`
+      )
+    }
   }
 
-  return [
-    `a "repository" that does not match the trusted source manifest ` +
-      `(${JSON.stringify(built.repository ?? null)} instead of ` +
-      `${JSON.stringify(trusted.repository ?? null)})`,
-  ]
+  return differences
 }
 
 /**
@@ -377,33 +413,20 @@ export function writeReleaseConfig(sourcePackageJsonPath, buildDir) {
     )
   }
 
-  const overrides = findManifestPublishOverrides(buildManifest, manifest)
-  if (overrides.length > 0) {
+  const mismatch = findManifestMismatch(buildManifest, manifest)
+  if (mismatch.length > 0) {
     throw new Error(
-      `Refusing to publish: the build package.json carries ` +
-        `${overrides.join(', and ')}. npm applies every publishConfig key as ` +
-        `configuration at publish time, and publishConfig outranks the ` +
-        `environment — so a tampered manifest can switch off the ` +
-        `NPM_CONFIG_IGNORE_SCRIPTS the release step sets and run a lifecycle ` +
-        `script in this credentialed job. prepareForRelease deletes scripts ` +
-        `and copies publishConfig verbatim, so treat the build artifact as ` +
-        `untrusted.`
-    )
-  }
-
-  const repositoryMismatch = findRepositoryMismatch(
-    buildManifest,
-    manifest
-  )
-  if (repositoryMismatch.length > 0) {
-    throw new Error(
-      `Refusing to publish: the build package.json carries ` +
-        `${repositoryMismatch.join(', and ')}. semantic-release derives ` +
-        `repositoryUrl from this field and embeds the release GitHub token in ` +
-        `the authenticated git push URL, so a tampered repository would leak ` +
-        `that token to an attacker-controlled host. repositoryUrl is pinned in ` +
-        `the trusted release config, and prepareForRelease copies repository ` +
-        `verbatim, so treat the build artifact as untrusted.`
+      `Refusing to publish: the build package.json does not match the ` +
+        `manifest a faithful build produces from the trusted source. It ` +
+        `carries ${mismatch.join(', and ')}. npm publishes this manifest and ` +
+        `applies fields such as publishConfig, tag, private, name, ` +
+        `dependencies and repository directly at publish time, so any ` +
+        `deviation can change what is published or how — a publishConfig ` +
+        `re-enabling lifecycle scripts, a top-level tag overriding the release ` +
+        `channel, a private:true skipping publication, or a repository leaking ` +
+        `the release token. prepareForRelease derives the manifest from the ` +
+        `trusted source deterministically, so treat a mismatch as an untrusted ` +
+        `build artifact.`
     )
   }
 
