@@ -268,6 +268,15 @@ export class Counter {
     this.setLevel(this.level - 1, 'decrement')
   }
 
+  restart() {
+    this.level = 0
+  }
+
+  restartContext() {
+    this.level = this.entry
+    this._isReady = false
+  }
+
   force(level = 1) {
     this.bypassChecks = true
     this.setLevel(level)

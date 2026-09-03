@@ -3,7 +3,7 @@
  *
  */
 
-import { useContext, useEffect, useId, useState } from 'react'
+import { useContext, useEffect, useId, useReducer, useState } from 'react'
 import type { HTMLProps } from 'react'
 
 import HeadingContext from './HeadingContext'
@@ -31,17 +31,35 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
   const newProps = existingContext
     ? { ...existingContext, ...props }
     : props
+  const [scopeRevision, recalculate] = useReducer(
+    (revision) => revision + 1,
+    0
+  )
+
+  type State = {
+    level?: InternalHeadingLevel
+    counter?: HeadingCounter
+    contextRevision?: number
+    notifyParentRevision?: number
+    preserveLevels: boolean
+    prevLevel?: InternalHeadingLevel
+    recalculate?: () => void
+    revision: number
+    scopeRevision: number
+    id?: string
+    ref?: HeadingProviderAllProps
+  }
 
   const [currentState, setState] = useState(() => {
-    type State = {
-      level?: InternalHeadingLevel
-      prevLevel?: InternalHeadingLevel
-      counter?: HeadingCounter
-      id?: string
-      ref?: HeadingProviderAllProps
+    const state: State = {
+      preserveLevels: false,
+      contextRevision: existingContext?.revision,
+      recalculate: existingContext?.recalculate,
+      revision: 0,
+      scopeRevision,
+      id,
+      ref: props,
     }
-
-    const state: State = { id, ref: props }
 
     // Here we create a new counter, but use the last global level
     state.counter = initCounter(props) // in here we use isContext prop
@@ -77,10 +95,46 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       parseFloat(String(newProps.level)) || state.counter.level
     return state
   })
+
   let state = currentState
 
   const level = parseFloat(String(props.level))
-  if (state.prevLevel !== level && level > 0 && level !== state.level) {
+  const levelChanged =
+    state.prevLevel !== level && level > 0 && level !== state.level
+  const contextChanged =
+    state.contextRevision !== existingContext?.revision
+
+  if (state.scopeRevision !== scopeRevision || contextChanged) {
+    const preserveLevels =
+      state.scopeRevision !== scopeRevision ||
+      existingContext?.preserveLevels
+    state.counter.restartContext()
+    if (contextChanged && !existingContext?.preserveLevels) {
+      state.counter = correctInternalHeadingLevel({
+        counter: state.counter,
+        level: parseFloat(String(props.level)),
+        inherit: props.inherit,
+        reset: props.reset,
+        increase: props.increase || props.up,
+        decrease: props.decrease || props.down,
+        bypassChecks: newProps.skipCorrection,
+        source: props.text || props.children,
+        debug: newProps.debug,
+      })
+    }
+    globalSyncCounter.current = state.counter
+    state = {
+      ...state,
+      contextRevision: existingContext?.revision,
+      level: state.counter.level,
+      preserveLevels,
+      prevLevel: level || state.counter.level,
+      recalculate: existingContext?.recalculate,
+      revision: state.revision + 1,
+      scopeRevision,
+    }
+    setState(state)
+  } else if (levelChanged) {
     const { level: newLevel } = correctInternalHeadingLevel({
       counter: state.counter,
       level,
@@ -88,22 +142,40 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
       source: props.text || props.children,
       debug: newProps.debug,
     })
-    state = { ...state, level: newLevel, prevLevel: level }
+    state = {
+      ...state,
+      level: newLevel,
+      notifyParentRevision: (state.notifyParentRevision || 0) + 1,
+      preserveLevels: false,
+      prevLevel: level,
+      revision: state.revision + 1,
+    }
     setState(state)
   }
+
+  const {
+    counter,
+    id: counterId,
+    notifyParentRevision,
+    recalculate: recalculateParent,
+    ref: counterRef,
+  } = currentState
+
+  useEffect(() => {
+    if (notifyParentRevision) {
+      recalculateParent?.()
+    }
+  }, [notifyParentRevision, recalculateParent])
 
   useEffect(() => {
     windupHeadings()
 
     return () => {
-      releaseHeadingLevel(
-        currentState.ref,
-        currentState.id,
-        currentState.counter
-      )
+      releaseHeadingLevel(counterRef, counterId, counter)
       teardownHeadings()
+      recalculateParent?.()
     }
-  }, [currentState.counter, currentState.id, currentState.ref])
+  }, [counter, counterId, counterRef, recalculateParent])
 
   return (
     <HeadingContext
@@ -112,6 +184,9 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
           ...newProps,
           level: state.level as HeadingProps['level'],
           counter: state.counter,
+          preserveLevels: state.preserveLevels,
+          revision: state.revision,
+          recalculate,
         },
       }}
     >

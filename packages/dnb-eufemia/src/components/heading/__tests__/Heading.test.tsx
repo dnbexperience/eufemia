@@ -148,11 +148,14 @@ describe('Heading component', () => {
     expect(elem[i + 1].textContent).toBe('[h2] Heading #12')
   })
 
-  it('should preserve string level correction behavior', () => {
-    render(<Heading level="2">Heading</Heading>)
+  it.each([2, '2'] as const)(
+    'should correct Heading level %s at the document root',
+    (level) => {
+      render(<Heading level={level}>Heading</Heading>)
 
-    expect(document.querySelector('.dnb-heading')?.tagName).toBe('H2')
-  })
+      expect(document.querySelector('.dnb-heading')?.tagName).toBe('H1')
+    }
+  )
 
   it('should settle repeated string levels', () => {
     render(
@@ -316,6 +319,67 @@ describe('Heading component', () => {
       '[h1] Heading'
     )
   })
+
+  it('should update mounted headings when Heading.Level changes', () => {
+    const App = ({ level }: { level: HeadingLevel }) => (
+      <Heading.Level level={level} skipCorrection>
+        <Heading>Heading</Heading>
+      </Heading.Level>
+    )
+    const { rerender } = render(<App level={2} />)
+
+    expect(document.querySelector('.dnb-heading')?.tagName).toBe('H2')
+
+    rerender(<App level={3} />)
+
+    expect(document.querySelector('.dnb-heading')?.tagName).toBe('H3')
+  })
+
+  it.each([
+    [
+      'heading',
+      <Heading key="middle" level={2}>
+        Middle
+      </Heading>,
+    ],
+    [
+      'level provider',
+      <Heading.Level key="middle" reset={2}>
+        <Heading level={2}>Middle</Heading>
+      </Heading.Level>,
+    ],
+  ])(
+    'should recalculate after a preceding %s is removed',
+    (_name, middle) => {
+      const App = ({ showMiddle = true }) => (
+        <Heading.Level reset={1}>
+          <Heading key="first" level={1}>
+            First
+          </Heading>
+          {showMiddle && middle}
+          <Heading key="last" level={3}>
+            Last
+          </Heading>
+        </Heading.Level>
+      )
+      const { rerender } = render(<App />)
+
+      let headings = document.querySelectorAll('.dnb-heading')
+      expect(Array.from(headings, ({ tagName }) => tagName)).toEqual([
+        'H1',
+        'H2',
+        'H3',
+      ])
+
+      rerender(<App showMiddle={false} />)
+
+      headings = document.querySelectorAll('.dnb-heading')
+      expect(Array.from(headings, ({ tagName }) => tagName)).toEqual([
+        'H1',
+        'H2',
+      ])
+    }
+  )
 
   it('should match level correction with manual heading', () => {
     render(

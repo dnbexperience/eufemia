@@ -167,22 +167,28 @@ export default function Heading(props: HeadingAllProps) {
     ...rest
   } = useTypography(props)
 
+  type State = {
+    level: InternalHeadingLevel
+    counter: HeadingCounter
+    context: HeadingContextValue
+    contextRevision?: number
+    headingContext?: HeadingContextValue
+    id: string
+    notifyScopeRevision?: number
+    prevLevel?: InternalHeadingLevel
+    recalculate?: () => void
+    ref: HeadingAllProps
+  }
+
   const [currentState, setState] = useState(() => {
-    type State = {
-      level: InternalHeadingLevel
-      prevLevel?: InternalHeadingLevel | HeadingProps['level']
-      counter: HeadingCounter
-      context: HeadingContextValue
-      headingContext?: HeadingContextValue
-      id: string
-      ref: HeadingAllProps
-    }
     const state: State = {
       level: null,
       counter: null,
       context,
+      contextRevision: headingContext.heading?.revision,
       headingContext,
       id,
+      recalculate: headingContext.heading?.recalculate,
       ref: props,
     }
 
@@ -220,11 +226,46 @@ export default function Heading(props: HeadingAllProps) {
 
     return state
   })
+
   let state = currentState
 
   const level = parseFloat(String(props.level))
-  if (
-    state.prevLevel !== props.level &&
+  const contextRevision = headingContext.heading?.revision
+
+  const recalculateLevel = (level: InternalHeadingLevel) => {
+    state.counter.restart()
+    const { level: newLevel } = correctInternalHeadingLevel({
+      counter: state.counter,
+      level,
+      inherit: props.inherit,
+      reset: props.reset,
+      increase: props.increase || props.up,
+      decrease: props.decrease || props.down,
+      bypassChecks:
+        props.skipCorrection || headingContext.heading?.skipCorrection,
+      source: props.text || props.children,
+      debug: props.debug || headingContext.heading?.debug,
+    })
+    globalSyncCounter.current = state.counter
+    return newLevel
+  }
+
+  if (state.contextRevision !== contextRevision) {
+    state = {
+      ...state,
+      level: recalculateLevel(
+        Number.isNaN(level) && headingContext.heading?.preserveLevels
+          ? state.level
+          : level
+      ),
+      contextRevision,
+      headingContext,
+      prevLevel: level,
+      recalculate: headingContext.heading?.recalculate,
+    }
+    setState(state)
+  } else if (
+    state.prevLevel !== level &&
     level > 0 &&
     level !== state.level
   ) {
@@ -233,29 +274,44 @@ export default function Heading(props: HeadingAllProps) {
       isRerender: true,
       level,
       bypassChecks:
-        props.skipCorrection ||
-        state.headingContext?.heading?.skipCorrection,
+        props.skipCorrection || headingContext.heading?.skipCorrection,
       source: props.text || props.children,
-      debug: props.debug || state.headingContext?.heading?.debug,
+      debug: props.debug || headingContext.heading?.debug,
     })
-    state = { ...state, level: newLevel, prevLevel: props.level }
+    state = {
+      ...state,
+      level: newLevel,
+      notifyScopeRevision: (state.notifyScopeRevision || 0) + 1,
+      prevLevel: level,
+    }
     setState(state)
   }
 
+  const {
+    counter,
+    id: counterId,
+    notifyScopeRevision,
+    recalculate,
+    ref: counterRef,
+  } = currentState
+
+  useEffect(() => {
+    if (notifyScopeRevision) {
+      recalculate?.()
+    }
+  }, [notifyScopeRevision, recalculate])
+
   useEffect(() => {
     windupHeadings()
-    currentState.counter.windup()
+    counter.windup()
 
     return () => {
-      releaseHeadingLevel(
-        currentState.ref,
-        currentState.id,
-        currentState.counter
-      )
+      releaseHeadingLevel(counterRef, counterId, counter)
       teardownHeadings()
-      currentState.counter.teardown()
+      counter.teardown()
+      recalculate?.()
     }
-  }, [currentState.counter, currentState.id, currentState.ref])
+  }, [counter, counterId, counterRef, recalculate])
 
   const theme = useTheme()
 
