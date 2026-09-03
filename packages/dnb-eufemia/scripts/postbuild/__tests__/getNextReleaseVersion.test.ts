@@ -10,13 +10,18 @@ import { execFileSync } from 'node:child_process'
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { getNextReleaseVersion } from '../getNextReleaseVersion'
+import {
+  getNextReleaseVersion,
+  isReleaseBranch,
+} from '../getNextReleaseVersion'
 
 const fixtures: Array<string> = []
 
+type ConfiguredBranch = string | { name: string; prerelease?: string }
+
 function createRepository({
   branch = 'release',
-  configuredBranches = [branch],
+  configuredBranches = [branch] as Array<ConfiguredBranch>,
 } = {}) {
   const cwd = mkdtempSync(path.join(tmpdir(), 'eufemia-next-version-'))
   fixtures.push(cwd)
@@ -58,7 +63,7 @@ function createRepository({
   git('tag', 'v1.0.0')
 
   for (const name of configuredBranches) {
-    if (name !== branch) {
+    if (typeof name === 'string' && name !== branch) {
       git('branch', name)
     }
   }
@@ -70,6 +75,38 @@ afterAll(() => {
   for (const fixture of fixtures) {
     rmSync(fixture, { recursive: true, force: true })
   }
+})
+
+describe('isReleaseBranch', () => {
+  // Asserted against the package's own `release.branches`, so this fails if the
+  // two ever drift apart again
+  it.each(['release', 'next', 'beta', 'alpha', '10.x', '11.2.x', '1.x'])(
+    'matches %s',
+    (branch) => {
+      expect(isReleaseBranch(branch)).toBe(true)
+    }
+  )
+
+  it.each([
+    'main',
+    'fix/something',
+    'HEAD',
+    '10.x-something',
+    'v10.x',
+    '',
+  ])('does not match %s', (branch) => {
+    expect(isReleaseBranch(branch)).toBe(false)
+  })
+
+  it('matches the branches a repository configures', () => {
+    const { cwd } = createRepository({
+      branch: 'release',
+      configuredBranches: ['some-other-branch'],
+    })
+
+    expect(isReleaseBranch('some-other-branch', { cwd })).toBe(true)
+    expect(isReleaseBranch('release', { cwd })).toBe(false)
+  })
 })
 
 describe('getNextReleaseVersion', () => {
@@ -148,7 +185,7 @@ describe('getNextReleaseVersion', () => {
 
   it('explains why when the version cannot be resolved', async () => {
     const { cwd, commit } = createRepository({
-      configuredBranches: ['some-other-branch'],
+      configuredBranches: [{ name: 'release', prerelease: '@@' }],
     })
     commit('feat: add a component')
 
@@ -163,9 +200,7 @@ describe('getNextReleaseVersion', () => {
       )
     )
     expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining(
-        'semantic-release is configured to only publish'
-      )
+      expect.stringContaining('semantic-release')
     )
 
     warn.mockRestore()
@@ -187,6 +222,7 @@ describe('getNextReleaseVersion', () => {
   it('returns null when not on a release branch', async () => {
     const { cwd, commit } = createRepository({
       branch: 'feat/some-branch',
+      configuredBranches: ['release'],
     })
     commit('feat: add a component')
 

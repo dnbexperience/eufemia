@@ -9,7 +9,7 @@ import { isCI } from 'repo-utils'
 import simpleGit from 'simple-git'
 import {
   getNextReleaseVersion,
-  releaseBranches,
+  isReleaseBranch,
 } from '../../postbuild/getNextReleaseVersion'
 import { log } from '../../lib'
 import { getStyleScopeHash } from '../../../src/plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
@@ -24,7 +24,7 @@ export async function makeReleaseVersion() {
   let version = null
   let sha = null
 
-  if (releaseBranches.includes(branchName)) {
+  if (isReleaseBranch(branchName)) {
     version = await getNextReleaseVersion()
   }
 
