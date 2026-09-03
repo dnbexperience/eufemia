@@ -14,9 +14,10 @@ import { log } from '../../../lib'
 vi.mock('simple-git')
 const mockSimpleGit = vi.mocked(simpleGit)
 
-function mockBranchName(branchName: string) {
+function mockBranchName(branchName: string, tags: Array<string> = []) {
   mockSimpleGit.mockReturnValue({
     branch: vi.fn().mockResolvedValue({ current: branchName }),
+    tags: vi.fn().mockResolvedValue({ all: tags }),
   } as unknown as SimpleGit)
 }
 
@@ -205,8 +206,8 @@ describe('makeReleaseVersion', () => {
     )
   })
 
-  it('write branch in file', async () => {
-    mockBranchName('release')
+  it('writes the released version when nothing warrants a new one', async () => {
+    mockBranchName('release', ['v11.12.0', 'v11.11.0'])
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'
@@ -220,21 +221,54 @@ describe('makeReleaseVersion', () => {
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
-      expect.stringContaining(`release`)
+      expect.stringContaining(`export const version = '11.12.0'`)
     )
 
     // CJS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
-      expect.stringContaining(`release`)
+      expect.stringContaining(`exports.version = '11.12.0'`)
     )
 
     // CSS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       3,
       expect.stringContaining('src/style/core/scopes.scss'),
-      expect.stringContaining(`--eufemia-version: 'release';`)
+      expect.stringContaining(`--eufemia-version: '11.12.0';`)
+    )
+  })
+
+  it('write branch in file', async () => {
+    mockBranchName('some-branch')
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenCalledTimes(4)
+
+    // JS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`some-branch`)
+    )
+
+    // CJS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
+      expect.stringContaining(`some-branch`)
+    )
+
+    // CSS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      3,
+      expect.stringContaining('src/style/core/scopes.scss'),
+      expect.stringContaining(`--eufemia-version: 'some-branch';`)
     )
   })
 

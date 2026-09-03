@@ -46,6 +46,12 @@ function getReleaseConfig(cwd) {
   return require(path.resolve(cwd, 'package.json')).release
 }
 
+/**
+ * The version the next release from this branch would carry, or `null` when the
+ * branch does not release or its commits do not warrant one. Throws when it
+ * cannot tell the two apart, so a release build stops instead of stamping a
+ * version it made up.
+ */
 async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
   const branchName = (await simpleGit(cwd).branch()).current
 
@@ -53,15 +59,7 @@ async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
     return null
   }
 
-  try {
-    return await resolveNextReleaseVersion(cwd)
-  } catch (error) {
-    console.warn(
-      `Could not determine the next release version:\n${error.message}`
-    )
-
-    return null
-  }
+  return resolveNextReleaseVersion(cwd)
 }
 
 /**

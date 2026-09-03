@@ -101,6 +101,16 @@ jobs:
       - name: Prepare publishable package
         run: yarn workspace @dnb/eufemia publish:prepare
 
+      # The build info, the `--eufemia-version` custom property and the isolated
+      # style scope class all carry the version the prebuild resolved, and a
+      # branch name reaching them is what shipped 11.12.0 as "release". This
+      # workflow only runs on branches that release, so a build that carries no
+      # version must not reach the publish job.
+      - name: Verify the release version stamp
+        run: |
+          node packages/dnb-eufemia/scripts/postbuild/verifyReleaseVersion.mjs \
+            packages/dnb-eufemia/build
+
       # Capture the artifact immediately after validation, before the consumer
       # smoke tests below: those install their fixtures with `npm ci`, which runs
       # dependency lifecycle scripts with write access to build/ (Yarn installs

@@ -25,7 +25,10 @@ export async function makeReleaseVersion() {
   let sha = null
 
   if (isReleaseBranch(branchName)) {
-    version = await getNextReleaseVersion()
+    // A release build has to carry a version, so when the commits do not
+    // warrant one it keeps the version the package already has
+    version =
+      (await getNextReleaseVersion()) || (await getLastReleaseVersion())
   }
 
   if (!version && isCI) {
@@ -104,4 +107,16 @@ export async function makeReleaseVersion() {
       { cwd: packageRoot }
     )
   }
+}
+
+async function getLastReleaseVersion() {
+  const { all } = await simpleGit().tags([
+    '--merged',
+    'HEAD',
+    '--sort=-version:refname',
+  ])
+
+  return all
+    .find((tag: string) => /^v\d+\.\d+\.\d+/.test(tag))
+    ?.replace(/^v/, '')
 }
