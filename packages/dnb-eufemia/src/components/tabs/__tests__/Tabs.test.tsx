@@ -7,6 +7,7 @@ import { StrictMode } from 'react'
 import type { ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { act, fireEvent, render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import { Provider } from '../../../shared'
 import defaultLocales from '../../../shared/locales'
 import type { TabsProps } from '../Tabs'
@@ -832,6 +833,37 @@ describe('A single Tab component', () => {
     expect(
       document.querySelectorAll('.dnb-tabs__cached')[1]
     ).toHaveAttribute('hidden', '')
+  })
+
+  it('renders the same openOnFind markup on the server and the client', () => {
+    const element = (
+      <Tabs
+        {...props}
+        keepInDOM
+        data={[
+          { title: 'One', key: 'one', content: 'Content one' },
+          { title: 'Two', key: 'two', content: 'Content two' },
+        ]}
+      />
+    )
+
+    const cachedContents = (html: string) =>
+      html.match(/<div data-tab-key="[^"]*"[^>]*>/g)
+
+    const client = renderToString(element)
+
+    const originalDocument = globalThis.document
+    let server: string
+
+    try {
+      delete globalThis.document
+      server = renderToString(element)
+    } finally {
+      globalThis.document = originalDocument
+    }
+
+    expect(cachedContents(server)).toEqual(cachedContents(client))
+    expect(cachedContents(server)[1]).toContain('hidden=""')
   })
 
   it('has to work with "Tabs.Content" as children components', () => {

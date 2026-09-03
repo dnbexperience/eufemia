@@ -1508,6 +1508,12 @@ function CachedContent({
 
     return () => {
       element.removeEventListener('beforematch', handleBeforeMatch)
+
+      // React still owns "hidden", so restore its value when the
+      // enhancement no longer applies but the content stays hidden.
+      if (element.getAttribute('hidden') === 'until-found') {
+        element.setAttribute('hidden', '')
+      }
     }
   }, [canOpenOnFind, hidden, onBeforeMatch])
 
@@ -1515,7 +1521,7 @@ function CachedContent({
     <div
       ref={elementRef}
       data-tab-key={tabKey}
-      hidden={hidden && !canOpenOnFind ? true : undefined}
+      hidden={hidden ? true : undefined} // Enhanced to hidden="until-found" after mount when openOnFind is enabled
       aria-hidden={hidden ? true : undefined}
       className={clsx(
         'dnb-tabs__cached',
