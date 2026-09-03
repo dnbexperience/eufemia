@@ -4,7 +4,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
-describe.each(['ui', 'sbanken'])(
+describe.each(['ui', 'sbanken', 'carnegie'])(
   `Unchecked Switch for %s`,
   (themeName) => {
     setupPageScreenshot({
@@ -36,6 +36,15 @@ describe.each(['ui', 'sbanken'])(
       })
     })
 
+    it('have to match switch in unchecked state while pressed', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-default"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-default"] .dnb-switch__input',
+        simulate: 'active',
+      })
+    })
+
     it('have to match switch in unchecked state with error', async () => {
       await makeScreenshot({
         selector: '[data-visual-test="switch-error"] .dnb-switch',
@@ -57,51 +66,72 @@ describe.each(['ui', 'sbanken'])(
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a separate run each
-describe.each(['ui', 'sbanken'])(`Checked Switch for %s`, (themeName) => {
-  setupPageScreenshot({
-    themeName,
-    url: '/uilib/components/switch/demos/',
-  })
-
-  it('have to match switch in checked state', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="switch-checked"] .dnb-switch',
+describe.each(['ui', 'sbanken', 'carnegie'])(
+  `Checked Switch for %s`,
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/switch/demos/',
     })
-  })
 
-  it('have to match switch in checked state with focus', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="switch-checked"] .dnb-switch',
-      simulateSelector:
-        '[data-visual-test="switch-checked"] .dnb-switch__input',
-      simulate: 'focus', // should be tested first
+    it('have to match switch in checked state', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-checked"] .dnb-switch',
+      })
     })
-  })
 
-  it('have to match switch in checked state with hover', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="switch-checked"] .dnb-switch',
-      simulateSelector:
-        '[data-visual-test="switch-checked"] .dnb-switch__input',
-      simulate: 'hover',
+    it('have to match switch in checked state with focus', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-checked"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-checked"] .dnb-switch__input',
+        simulate: 'focus', // should be tested first
+      })
     })
-  })
 
-  it('have to match switch in different sizes', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="switch-sizes"]',
+    it('have to match switch in checked state with hover', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-checked"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-checked"] .dnb-switch__input',
+        simulate: 'hover',
+      })
     })
-  })
 
-  it('have to match disabled switch', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="switch-disabled"] .dnb-switch',
+    it('have to match switch with hover after activation', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-default"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-default"] .dnb-switch__input',
+        simulate: ['click', 'hover'],
+      })
     })
-  })
 
-  it('have to match switch in error state', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="switch-error"] .dnb-switch',
+    it('have to match switch in checked state while pressed', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-checked"] .dnb-switch',
+        simulateSelector:
+          '[data-visual-test="switch-checked"] .dnb-switch__input',
+        simulate: 'active',
+      })
     })
-  })
-})
+
+    it('have to match switch in different sizes', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-sizes"]',
+      })
+    })
+
+    it('have to match disabled switch', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-disabled"] .dnb-switch',
+      })
+    })
+
+    it('have to match switch in error state', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="switch-error"] .dnb-switch',
+      })
+    })
+  }
+)
