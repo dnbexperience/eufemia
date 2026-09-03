@@ -74,7 +74,6 @@ export default function SuggestEdit() {
             width="stretch"
             multiline
             rows={4}
-            autoResize={false}
             required
           />
 
@@ -85,7 +84,6 @@ export default function SuggestEdit() {
             width="stretch"
             multiline
             rows={5}
-            autoResize={false}
           />
 
           <Field.Boolean
@@ -130,7 +128,6 @@ export default function SuggestEdit() {
                 width="stretch"
                 multiline
                 rows={3}
-                autoResize={false}
                 required
               />
             </Flex.Stack>
