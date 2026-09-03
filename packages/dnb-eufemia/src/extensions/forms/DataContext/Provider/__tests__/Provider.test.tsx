@@ -1771,7 +1771,14 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       }, 10)
 
       render(
-        <DataContext.Provider onSubmit={onSubmit} asyncSubmitTimeout={1}>
+        <DataContext.Provider
+          onSubmit={onSubmit}
+          // Shorter than the async validation below, so the submit indicator
+          // is aborted quickly, but long enough for the field to show its
+          // pending state, because the timeout also limits how long a field
+          // waits for its async validation
+          asyncSubmitTimeout={300}
+        >
           <Field.String
             label="Label"
             path="/foo"
@@ -1820,6 +1827,12 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       await waitFor(() => {
         expect(document.querySelector('.dnb-form-status')).toBeNull()
+      })
+
+      // The submit disables the fields, so wait for it to be aborted before
+      // changing the value again
+      await waitFor(() => {
+        expect(inputElement).not.toBeDisabled()
       })
 
       await userEvent.type(inputElement, 'd')

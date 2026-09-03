@@ -567,6 +567,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
     validateContinuously,
     disabled,
+    asyncSubmitTimeout: dataContext?.props?.asyncSubmitTimeout,
     identifier,
     locale,
     handleFieldAsVisible,

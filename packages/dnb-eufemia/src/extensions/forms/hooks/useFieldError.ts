@@ -1,4 +1,10 @@
-import { isValidElement, useCallback, useMemo, useRef } from 'react'
+import {
+  isValidElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react'
 import type { RefObject } from 'react'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import { errorChanged, FormError } from '../utils'
@@ -65,6 +71,7 @@ export type UseFieldErrorParams<Value> = {
   validateInitially: boolean
   validateContinuously: boolean
   disabled: boolean
+  asyncSubmitTimeout: number | undefined
 
   // Identity
   identifier: Identifier
@@ -137,6 +144,7 @@ export default function useFieldError<Value>({
   validateInitially,
   validateContinuously,
   disabled,
+  asyncSubmitTimeout,
   identifier,
   locale,
   handleFieldAsVisible,
@@ -499,23 +507,44 @@ export default function useFieldError<Value>({
 
   const fieldStateRef = useRef<SubmitStateWithValidating>(undefined)
 
-  const setFieldState = useCallback(
+  // A field that waits for an async validator or an async onChange blocks the
+  // whole form, because the submit gate checks the per-field pending state.
+  // Give that state the same deadline Form.Handler applies to its own async
+  // submit, so a Promise that never settles cannot leave the field, and with
+  // it the form, permanently stuck.
+  const pendingTimeoutRef =
+    useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  useEffect(() => {
+    return () => clearTimeout(pendingTimeoutRef.current)
+  }, [])
+
+  const applyFieldState = useCallback(
     (state: SubmitStateWithValidating) => {
       fieldStateRef.current = state
       setFieldStateDataContext?.(identifier, resolveValidatingState(state))
       setFieldStateFieldBlock?.(identifier, resolveValidatingState(state))
+    },
+    [identifier, setFieldStateDataContext, setFieldStateFieldBlock]
+  )
+
+  const setFieldState = useCallback(
+    (state: SubmitStateWithValidating) => {
+      applyFieldState(state)
+
+      clearTimeout(pendingTimeoutRef.current)
+      if (resolveValidatingState(state) === 'pending') {
+        pendingTimeoutRef.current = setTimeout(() => {
+          applyFieldState(undefined)
+          forceUpdate()
+        }, asyncSubmitTimeout ?? 30000)
+      }
 
       if (!validateInitially) {
         forceUpdate()
       }
     },
-    [
-      setFieldStateDataContext,
-      identifier,
-      setFieldStateFieldBlock,
-      validateInitially,
-      forceUpdate,
-    ]
+    [applyFieldState, asyncSubmitTimeout, validateInitially, forceUpdate]
   )
 
   // -- Error state management --
