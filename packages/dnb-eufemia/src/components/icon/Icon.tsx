@@ -228,17 +228,16 @@ export function calcSize(props: IconProps) {
 
     const nameParts = String(name || '').split('_')
 
-    if (nameParts.length > 1) {
-      const lastPartOfIconName = nameParts.reverse()[0] as ValidIconType
+    const lastPartOfIconName = nameParts.at(-1) as ValidIconType
+
+    if (ValidIconType.includes(lastPartOfIconName)) {
       const potentialSize = ListDefaultIconSizes.filter(
         ([key]) => key === lastPartOfIconName
       )?.[0]?.[1]
       if (potentialSize) {
         sizeAsInt = potentialSize
       }
-      if (ValidIconType.includes(lastPartOfIconName)) {
-        sizeAsString = lastPartOfIconName
-      }
+      sizeAsString = lastPartOfIconName
     } else {
       // Resolve the icon function — either directly or from a React element's type.
       // This handles minified builds where Function.name no longer contains
