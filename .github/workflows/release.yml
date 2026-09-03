@@ -9,37 +9,44 @@ on:
       - 'next'
       - '*.x'
 
+# Releases queue; they are never cancelled mid-flight. semantic-release pushes
+# the version tag and the changelog commit BEFORE the publish plugins run (see
+# semantic-release's index.js: `tag()` and `push()` precede `plugins.publish()`),
+# so a run interrupted in that window leaves the tag in git with nothing on npm.
+# The next run then treats that tag as the last release and computes the version
+# after it, so the interrupted version is skipped on npm for good and needs
+# manual recovery. `cancel-in-progress: true` made an ordinary second push to a
+# release branch enough to trigger that, which is why releases wait instead.
+#
+# Queueing keeps at most one run pending per group (GitHub's default `single`
+# behaviour): a newer push supersedes the earlier run while it is still pending,
+# which is safe — semantic-release analyses every commit since the last tag, so
+# the superseded commits are still released by the run that does start.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
-  contents: write # Required for semantic-release to push tags and changelog
-  issues: write # Required for semantic-release to comment on issues
-  pull-requests: write # Required for semantic-release to comment on PRs
-  id-token: write # Required for npm provenance
+  contents: read
 
-env:
-  GH_EMAIL: ${{ secrets.GH_EMAIL }}
-  GH_NAME: ${{ secrets.GH_NAME }}
-  GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-  FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
-  ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
-  ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
-  ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
-  ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+# No workflow-wide `env:` on purpose: secrets are scoped to the individual steps
+# that need them. The build job has no publish authority; npm OIDC and GitHub
+# write permissions exist only in the release job. FIGMA_* is not used by the
+# release flow, so it is intentionally not injected anywhere.
 
 jobs:
-  action:
-    name: Run release and deploy
+  build:
+    name: Build and validate release
 
     runs-on: ubuntu-latest
 
-    outputs:
-      released: ${{ steps.release-info.outputs.released }}
-      tarball: ${{ steps.pack.outputs.tarball }}
+    # Bound how long a release can occupy the concurrency group. Because releases
+    # now queue instead of cancelling (see the note above), a stuck run would
+    # hold back every later release, and GitHub's default job limit is 6 hours.
+    # The whole release job on the previous single-job workflow measured 7-20
+    # minutes; this job adds the two consumer smoke builds on top, so 45 minutes
+    # is several times the observed cost and only fires on a genuine hang.
+    timeout-minutes: 45
 
     steps:
       - name: Git checkout
@@ -54,7 +61,10 @@ jobs:
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
-          registry-url: 'https://registry.npmjs.org'
+          # No `registry-url`: it makes actions/setup-node write an .npmrc that
+          # conflicts with semantic-release's OIDC auth (EINVALIDNPMTOKEN).
+          # semantic-release publishes to the default public registry and
+          # handles Trusted Publishing itself.
 
       - name: Audit dependencies
         run: yarn workspace @dnb/eufemia audit:ci
@@ -65,6 +75,11 @@ jobs:
       - name: Build portal
         if: github.ref == 'refs/heads/release'
         run: yarn workspace dnb-design-system-portal build:ci
+        env:
+          # Public search config embedded into the client bundle at build time.
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
 
       - name: Push Algolia search index
         if: github.ref == 'refs/heads/release'
@@ -72,6 +87,7 @@ jobs:
         env:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
 
       - name: Upload portal artifact
         if: github.ref == 'refs/heads/release'
@@ -82,6 +98,131 @@ jobs:
       - name: Postbuild Library
         run: yarn workspace @dnb/eufemia postbuild:ci
 
+      - name: Prepare publishable package
+        run: yarn workspace @dnb/eufemia publish:prepare
+
+      # Capture the artifact immediately after validation, before the consumer
+      # smoke tests below: those install their fixtures with `npm ci`, which runs
+      # dependency lifecycle scripts with write access to build/ (Yarn installs
+      # here do not — `enableScripts: false`). Archiving first keeps the package
+      # the release job publishes identical to the one `validate:package`
+      # checked. tar preserves hidden files and executable modes on the way to
+      # the minimal release job.
+      - name: Archive prepared release package
+        run: |
+          tar -czf "$RUNNER_TEMP/prepared-release-package.tar.gz" \
+            -C packages/dnb-eufemia build
+
+      - name: Upload prepared release package
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: prepared-release-package
+          path: ${{ runner.temp }}/prepared-release-package.tar.gz
+          if-no-files-found: error
+          retention-days: 1
+
+      # Pack once and run both consumer builds last. A regression fails this job,
+      # and the OIDC-enabled release job (`needs: build`) never starts — so the
+      # artifact uploaded above is only ever published if these pass.
+      - name: Pack @dnb/eufemia for consumer smoke tests
+        id: smoke-pack
+        run: |
+          tarball="$(cd packages/dnb-eufemia/build && npm pack --ignore-scripts --pack-destination "$RUNNER_TEMP" | tail -1)"
+          echo "tarball=$RUNNER_TEMP/$tarball" >> "$GITHUB_OUTPUT"
+
+      - name: Vite consumer smoke test
+        run: node smoke/run-smoke.mjs vite --tarball "${{ steps.smoke-pack.outputs.tarball }}"
+
+      - name: Next.js consumer smoke test
+        run: node smoke/run-smoke.mjs nextjs --tarball "${{ steps.smoke-pack.outputs.tarball }}"
+
+  action:
+    name: Publish release
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    # Same reasoning as the build job: keep a stuck publish from holding the
+    # release queue for GitHub's default 6 hours. This job only installs the
+    # release tooling, restores the validated artifact, runs the guards and
+    # publishes, so 30 minutes is generous.
+    timeout-minutes: 30
+
+    permissions:
+      contents: write # Required for semantic-release to push tags and changelog
+      issues: write # Required for semantic-release to comment on issues
+      pull-requests: write # Required for semantic-release to comment on PRs
+      id-token: write # Required for npm Trusted Publishing (OIDC) and provenance
+
+    outputs:
+      released: ${{ steps.release-info.outputs.released }}
+      tarball: ${{ steps.pack.outputs.tarball }}
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: 'package.json'
+          package-manager-cache: false
+
+      # Only the pinned release tooling runs in this job. Disabling lifecycle
+      # scripts prevents dependency install hooks from using its OIDC authority.
+      - name: Install release tooling
+        run: yarn install --immutable --mode=skip-build
+
+      - name: Download prepared release package
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: prepared-release-package
+          path: ${{ runner.temp }}/prepared-release-package
+
+      - name: Restore prepared release package
+        run: |
+          rm -rf packages/dnb-eufemia/build
+          tar -xzf "$RUNNER_TEMP/prepared-release-package/prepared-release-package.tar.gz" \
+            -C packages/dnb-eufemia
+
+      # Assert the restored artifact before anything is pointed at it. This is
+      # the step that rejects an artifact carrying a `scripts` field, an
+      # `.npmrc`, a `node_modules`, a `.git` or a `.env`, and it rewrites the
+      # semantic-release config from the trusted checkout so a tampered artifact
+      # cannot change how this credentialed job publishes. semantic-release takes
+      # the first config it finds, and both a `release` field in package.json and
+      # a `.releaserc` outrank the `.releaserc.json` written here, so the step
+      # also fails the release if the artifact carries either.
+      #
+      # It runs before the content validation below on purpose: `npm pack`
+      # executes a package's own `prepack` script even under `--dry-run`, so if
+      # validation went first, the `--ignore-scripts` flag inside
+      # validatePackageContents.mjs would be the only thing standing between a
+      # re-added `scripts` entry and code execution in this job. Rejecting the
+      # manifest first means that flag is defence in depth rather than the sole
+      # control. The reorder is otherwise inert: this step overwrites the
+      # `.releaserc.json` prepareForRelease already put on the artifact, so
+      # validation still sees the same packed file set.
+      - name: Write trusted release config
+        run: |
+          node packages/dnb-eufemia/scripts/postbuild/writeReleaseConfig.mjs \
+            packages/dnb-eufemia/package.json \
+            packages/dnb-eufemia/build
+
+      # Re-run the package-content validation here, in the credentialed job,
+      # against the restored artifact using the validator from this trusted
+      # checkout. The build job already validated the package, but that job is
+      # low-privilege and its output is treated as untrusted — re-validating with
+      # the trusted deny-list / entry-point / size checks before publishing means
+      # a corrupted or tampered artifact is caught in the job that holds the npm
+      # and GitHub credentials. Side-effect free (npm pack --dry-run
+      # --ignore-scripts); a violation fails the release before anything ships.
+      - name: Re-validate restored package contents
+        run: yarn workspace @dnb/eufemia validate:package
+
       - name: Release
         if: github.repository == 'dnbexperience/eufemia' &&
           (github.ref == 'refs/heads/release' ||
@@ -89,7 +230,21 @@ jobs:
           github.ref == 'refs/heads/alpha' ||
           github.ref == 'refs/heads/next' ||
           endsWith(github.ref, '.x'))
-        run: yarn workspace @dnb/eufemia publish:ci
+        run: yarn workspace @dnb/eufemia publish:release
+        env:
+          # semantic-release publishes to npm via Trusted Publishing (OIDC): it
+          # exchanges this workflow's id-token for a short-lived npm token, so no
+          # stored publish secret is needed. Requires a Trusted Publisher for
+          # @dnb/eufemia configured on npmjs.com pointing at this workflow.
+          # GH_* are for the GitHub release and the changelog/tag commit push.
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          # The prepared build/package.json carries no scripts (prepareForRelease
+          # strips them), so this is a no-op in normal operation — but it stops a
+          # tampered artifact from running an npm lifecycle hook in this
+          # credentialed job.
+          NPM_CONFIG_IGNORE_SCRIPTS: 'true'
 
       # Capture the published version so the least-privilege SBOM job below can
       # target the matching GitHub Release and stamp the SBOM. Empty or the
@@ -154,14 +309,15 @@ jobs:
     permissions:
       contents: read
 
-    # This job runs untrusted third-party code (the CycloneDX generator). Blank
-    # every secret the workflow-level `env:` injects so none can reach it. Keep
-    # this list in sync with that `env:` block.
+    # This job runs untrusted third-party code (the CycloneDX generator).
+    # release.yml has no workflow-level `env:` (secrets are scoped per step — see
+    # the note at the top of this file), so no secrets reach this job today;
+    # these blanks are defense-in-depth in case a workflow-level `env:` is ever
+    # added, so the untrusted code still cannot read them.
     env:
       GH_EMAIL: ''
       GH_NAME: ''
       GH_TOKEN: ''
-      NODE_AUTH_TOKEN: ''
       FIGMA_TOKEN: ''
       FIGMA_ICONS_FILE: ''
       ALGOLIA_APP_ID: ''
@@ -336,6 +492,9 @@ jobs:
         if: needs.action.outputs.tarball != ''
         working-directory: packages/dnb-eufemia
         env:
+          # gh authenticates with the job's scoped contents:write GITHUB_TOKEN;
+          # release.yml has no job-wide env to inherit a token from.
+          GH_TOKEN: ${{ github.token }}
           RELEASED_VERSION: ${{ needs.action.outputs.released }}
           PACKED_TARBALL: ${{ needs.action.outputs.tarball }}
         run: |
@@ -350,6 +509,11 @@ jobs:
     if: github.ref == 'refs/heads/release'
 
     runs-on: ubuntu-latest
+
+    # The workflow-level concurrency group is not released until every job in the
+    # run finishes, so this one is bounded too. The deploy itself measured 0.1
+    # minutes on the last release; 20 is far above that.
+    timeout-minutes: 20
 
     # Scoped to the minimum the deploy needs (the release job keeps the
     # broader permissions it requires for semantic-release).

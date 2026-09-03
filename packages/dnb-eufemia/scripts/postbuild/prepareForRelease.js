@@ -15,27 +15,43 @@ if (require.main === module) {
   prepareForRelease()
 }
 
-export default async function prepareForRelease() {
-  const filepath = path.resolve(ROOT_DIR, './package.json')
-  const dest = path.resolve(ROOT_DIR, 'build', './package.json')
+/**
+ * Write the release manifest and the semantic-release config into
+ * `<rootDir>/build`. `rootDir` defaults to this package and is only overridden
+ * by the test that runs this function for real against a temporary directory —
+ * see the drift test in writeReleaseConfig.test.ts.
+ *
+ * The publish job refuses to publish a build manifest that differs from the one
+ * this function produces from the trusted source (writeReleaseConfig.mjs ->
+ * expectedReleaseManifest), so a change to the published manifest has to be
+ * mirrored there. The drift test runs this function and compares, so it fails
+ * until that is done — but keeping the field changes themselves in
+ * cleanupPackage keeps the transform in one place and pure.
+ */
+export default async function prepareForRelease({
+  rootDir = ROOT_DIR,
+} = {}) {
+  const filepath = path.resolve(rootDir, './package.json')
+  const dest = path.resolve(rootDir, 'build', './package.json')
   const packageString = await fs.readFile(filepath, 'utf-8')
   const packageJson = await cleanupPackage({
     packageString,
   })
 
-  // Ensure module type
-  packageJson.type = 'module'
-
   // Build exports map
   // TODO: In future we may enable it, or find a better solution.
   // Bundlers do not support an array of export targets yet, so we skip this for now.
   // But at the time of writing we could not confirm a speed improvement by bundlers. So what are the benefits at the end? (only silent CJS fallback?)
+  // Note that this derives a published field from the built file tree, which the
+  // publish guard cannot reconstruct from the source manifest alone — so
+  // enabling it means deciding how that comparison should treat `exports`, not
+  // just extending expectedReleaseManifest. The drift test fails until then.
   // packageJson.exports = await buildExportsMap({
-  //   buildDir: path.resolve(ROOT_DIR, 'build'),
+  //   buildDir: path.resolve(rootDir, 'build'),
   // })
 
   const prettierrc = JSON.parse(
-    await fs.readFile(path.resolve(ROOT_DIR, '.prettierrc'), 'utf-8')
+    await fs.readFile(path.resolve(rootDir, '.prettierrc'), 'utf-8')
   )
   const formattedPackageJson = await prettier.format(
     JSON.stringify(packageJson),
@@ -50,11 +66,7 @@ export default async function prepareForRelease() {
   // Create .releaserc.json in build directory for semantic-release
   const sourcePackageJson = JSON.parse(packageString)
   if (sourcePackageJson.release) {
-    const releaseRcPath = path.resolve(
-      ROOT_DIR,
-      'build',
-      '.releaserc.json'
-    )
+    const releaseRcPath = path.resolve(rootDir, 'build', '.releaserc.json')
     const formattedReleaseRc = await prettier.format(
       JSON.stringify(sourcePackageJson.release),
       {
@@ -67,7 +79,15 @@ export default async function prepareForRelease() {
   }
 }
 
-// export for testing
+/**
+ * The complete transform from the source package.json to the manifest that gets
+ * published, and the single place field changes belong. The publish-job guard
+ * rebuilds this transform to compare the restored build artifact against it
+ * (writeReleaseConfig.mjs -> expectedReleaseManifest), and a drift test runs the
+ * producer to pin the two together.
+ *
+ * Also exported for testing.
+ */
 export async function cleanupPackage({ packageString }) {
   const packageJson = JSON.parse(packageString)
   delete packageJson.release
@@ -75,6 +95,9 @@ export async function cleanupPackage({ packageString }) {
   delete packageJson.devDependencies
   delete packageJson.resolutions
   delete packageJson.volta
+
+  // Ensure module type
+  packageJson.type = 'module'
 
   return packageJson
 }
