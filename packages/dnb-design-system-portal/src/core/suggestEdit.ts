@@ -15,10 +15,10 @@ export function getSuggestEditUrl(
 type SuggestEditPrompt = {
   pageUrl: string
   sourcePath: string
-  requestedChange: string
-  proposedWording: string
-  includeInReleaseNotes: boolean
-  deployment: SuggestEditDeployment
+  requestedChange?: string
+  proposedWording?: string
+  includeInReleaseNotes?: boolean
+  deployment?: SuggestEditDeployment
   deadline?: string
   urgencyReason?: string
   source?: GitHubSource
@@ -36,7 +36,7 @@ export function createSuggestEditPrompt({
   source = githubSource,
 }: SuggestEditPrompt): string {
   const sourceUrl = `https://github.com/${source.repository}/blob/${source.editRef}/${sourcePath}`
-  const proposedWordingSection = proposedWording.trim()
+  const proposedWordingSection = proposedWording?.trim()
     ? `\n\nProposed wording:\n${proposedWording.trim()}`
     : ''
   const deploymentText =
@@ -52,7 +52,7 @@ Page: ${pageUrl}
 Source: ${sourceUrl}
 
 Requested change:
-${requestedChange.trim() || '[Describe the change]'}${proposedWordingSection}
+${requestedChange?.trim() || '[Describe the change]'}${proposedWordingSection}
 
 Release notes: ${
     includeInReleaseNotes

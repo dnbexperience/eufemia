@@ -67,4 +67,15 @@ Keep the change focused, preserve the page's MDX structure and formatting, run o
       'This needs a portal-only deployment by 2026-09-04 because The published names are outdated.'
     )
   })
+
+  it('handles optional values omitted by Eufemia Forms', () => {
+    expect(
+      createSuggestEditPrompt({
+        pageUrl: 'https://eufemia.dnb.no/design-system/about/',
+        sourcePath:
+          'packages/dnb-design-system-portal/src/docs/design-system/about.mdx',
+        source,
+      })
+    ).toContain('Requested change:\n[Describe the change]')
+  })
 })
