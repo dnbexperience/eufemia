@@ -17,7 +17,7 @@ import MyThemeSelector from '../../../../core/ChangeStyleTheme'
 import type { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
 
 function myLogoSelector(theme: ThemeProps) {
-  switch (theme?.name) {
+  switch (theme?.brand) {
     case 'sbanken':
       return SbankenDefault
 
@@ -109,7 +109,7 @@ export const LogoChangeExample = () => (
   >
     {() => {
       function myLogoSelector(theme: ThemeProps) {
-        switch (theme?.name) {
+        switch (theme?.brand) {
           case 'sbanken':
             return SbankenDefault
 

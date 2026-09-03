@@ -388,6 +388,89 @@ describe('DatePicker component', () => {
     )
   })
 
+  it.each([
+    ['previous', '2024-09-30'],
+    ['next', '2024-11-01'],
+  ])('can select a date from the %s month', async (_, date) => {
+    const onChange = vi.fn()
+
+    render(<DatePicker date="2024-10-15" onChange={onChange} />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const day = document.querySelector(
+      `td[data-date="${date}"]`
+    ) as HTMLTableCellElement
+    const button = day.querySelector('button')
+
+    expect(day).toHaveClass('dnb-date-picker__day--outside-month')
+    expect(day).not.toHaveClass('dnb-date-picker__day--inactive')
+    expect(button).not.toBeDisabled()
+
+    await userEvent.click(button)
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        date,
+      })
+    )
+  })
+
+  it('exposes only one control for dates repeated across range calendars', async () => {
+    render(
+      <DatePicker range startDate="2024-10-15" endDate="2024-11-15" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    expect(
+      screen.getAllByRole('button', {
+        name: 'torsdag 31. oktober 2024',
+      })
+    ).toHaveLength(1)
+    expect(
+      screen.getAllByRole('button', {
+        name: 'fredag 1. november 2024',
+      })
+    ).toHaveLength(1)
+  })
+
+  it('changes the range calendar view when selecting an adjacent date', async () => {
+    const onChange = vi.fn()
+
+    render(
+      <DatePicker
+        range
+        rangeSingleCalendar
+        startDate="2024-10-15"
+        endDate="2024-10-20"
+        onChange={onChange}
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: 'mandag 30. september 2024',
+      })
+    )
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-date-picker__header__title')
+      ).toHaveTextContent('september 2024')
+      expect(document.activeElement).toHaveAccessibleName(
+        'mandag 30. september 2024'
+      )
+    })
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        startDate: '2024-09-30',
+        endDate: null,
+      })
+    )
+  })
+
   it('will close the picker on reset', async () => {
     const onReset = vi.fn()
 
@@ -1102,6 +1185,7 @@ describe('DatePicker component', () => {
     expect(singleLabel).toBe('lørdag 12. januar 2019')
     expect(singleButton).toHaveAttribute('disabled')
     expect(singleTd.classList).toContain(customClassName)
+    expect(screen.getByLabelText('lørdag 2. februar 2019')).toBeDisabled()
   })
 
   it('will render the result of "onDaysRender" using getOsloDate', () => {
@@ -2615,16 +2699,14 @@ describe('DatePicker component', () => {
     const SecondCalendar = document.querySelectorAll(
       '.dnb-date-picker__calendar'
     )[1]
-    const firstDayElem = FirstCalendar.querySelectorAll(
-      'td.dnb-date-picker__day--selectable'
-    )[0]
-    const lastDayElem = SecondCalendar.querySelectorAll(
-      'td.dnb-date-picker__day--selectable'
-    )[
-      SecondCalendar.querySelectorAll(
-        'td.dnb-date-picker__day--selectable'
-      ).length - 1
-    ]
+    const firstMonthDays = FirstCalendar.querySelectorAll(
+      'td.dnb-date-picker__day--selectable:not(.dnb-date-picker__day--outside-month)'
+    )
+    const secondMonthDays = SecondCalendar.querySelectorAll(
+      'td.dnb-date-picker__day--selectable:not(.dnb-date-picker__day--outside-month)'
+    )
+    const firstDayElem = firstMonthDays[0]
+    const lastDayElem = secondMonthDays[secondMonthDays.length - 1]
 
     // 1. Get ready. No selection made
 
@@ -2677,19 +2759,11 @@ describe('DatePicker component', () => {
     expect(lastDayElem.classList).toContain(
       'dnb-date-picker__day--end-date'
     )
+    expect(firstMonthDays[1].classList).toContain(
+      'dnb-date-picker__day--preview'
+    )
     expect(
-      FirstCalendar.querySelectorAll(
-        'td.dnb-date-picker__day--selectable'
-      )[1].classList
-    ).toContain('dnb-date-picker__day--preview')
-    expect(
-      SecondCalendar.querySelectorAll(
-        'td.dnb-date-picker__day--selectable'
-      )[
-        SecondCalendar.querySelectorAll(
-          'td.dnb-date-picker__day--selectable'
-        ).length - 2
-      ].classList
+      secondMonthDays[secondMonthDays.length - 2].classList
     ).toContain('dnb-date-picker__day--preview')
 
     // 7. simulate mouse leave the calendar
@@ -2701,19 +2775,11 @@ describe('DatePicker component', () => {
     expect(lastDayElem.classList).not.toContain(
       'dnb-date-picker__day--end-date'
     )
+    expect(firstMonthDays[1].classList).not.toContain(
+      'dnb-date-picker__day--preview'
+    )
     expect(
-      FirstCalendar.querySelectorAll(
-        'td.dnb-date-picker__day--selectable'
-      )[1].classList
-    ).not.toContain('dnb-date-picker__day--preview')
-    expect(
-      SecondCalendar.querySelectorAll(
-        'td.dnb-date-picker__day--selectable'
-      )[
-        SecondCalendar.querySelectorAll(
-          'td.dnb-date-picker__day--selectable'
-        ).length - 2
-      ].classList
+      secondMonthDays[secondMonthDays.length - 2].classList
     ).not.toContain('dnb-date-picker__day--preview')
 
     // 9. Now, click on the last day as well
@@ -2722,19 +2788,11 @@ describe('DatePicker component', () => {
 
     // 10. We should have all TDs in between, marked as "within-selection"
 
+    expect(firstMonthDays[1].classList).toContain(
+      'dnb-date-picker__day--within-selection'
+    )
     expect(
-      FirstCalendar.querySelectorAll(
-        'td.dnb-date-picker__day--selectable'
-      )[1].classList
-    ).toContain('dnb-date-picker__day--within-selection')
-    expect(
-      SecondCalendar.querySelectorAll(
-        'td.dnb-date-picker__day--selectable'
-      )[
-        SecondCalendar.querySelectorAll(
-          'td.dnb-date-picker__day--selectable'
-        ).length - 2
-      ].classList
+      secondMonthDays[secondMonthDays.length - 2].classList
     ).toContain('dnb-date-picker__day--within-selection')
   })
 
@@ -5175,6 +5233,25 @@ describe('DatePicker component', () => {
 
     expect(header).toBeInTheDocument()
   })
+
+  it('should hide adjacent month dates while preserving grid cells', () => {
+    render(<DatePicker inline month="2024-10-01" hideAdjacentMonthDates />)
+
+    const calendar = document.querySelector('.dnb-date-picker__calendar')
+    const previousMonthCell = calendar.querySelector(
+      'td[data-date="2024-09-30"]'
+    )
+    const nextMonthCell = calendar.querySelector(
+      'td[data-date="2024-11-01"]'
+    )
+
+    expect(calendar.querySelectorAll('[role="gridcell"]')).toHaveLength(42)
+    expect(previousMonthCell.querySelector('button')).not.toBeVisible()
+    expect(nextMonthCell.querySelector('button')).not.toBeVisible()
+    expect(
+      calendar.querySelector('td[data-date="2024-10-01"] button')
+    ).toBeVisible()
+  })
 })
 
 // for the unit calc tests
@@ -5273,6 +5350,31 @@ describe('DatePicker calc', () => {
         isInactive: false,
       })
     })
+
+    it.each([
+      ['previous', '2020-01-31', 'isLastMonth'],
+      ['next', '2020-03-01', 'isNextMonth'],
+    ])(
+      'identifies a date from the %s month',
+      (_, adjacentDate, expectedFlag) => {
+        const result = makeDayObject(new Date(adjacentDate), {
+          startDate,
+          endDate,
+          hoverDate,
+          minDate: new Date('2020-01-01'),
+          maxDate,
+          month,
+        })
+
+        expect(result).toEqual(
+          expect.objectContaining({
+            [expectedFlag]: true,
+            isSelectable: true,
+            isInactive: false,
+          })
+        )
+      }
+    )
   })
 
   describe('getCalendar', () => {

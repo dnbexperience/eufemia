@@ -17,7 +17,7 @@ import {
 } from '../../shared/component-helper'
 import { useSpacing } from '../space/SpacingUtils'
 import { DnbDefault } from './LogoSvg'
-import type { UseThemeReturn } from '../../shared/useTheme'
+import useTheme, { type UseThemeReturn } from '../../shared/useTheme'
 
 import type { IconColor } from '../Icon'
 import type { SpacingProps } from '../../shared/types'
@@ -90,21 +90,27 @@ function Logo(localProps: LogoProps) {
     ...rest
   } = props
 
-  // If svg is a function, call it with a sanitized theme (omit DOM-irrelevant keys)
+  // If svg is a function, call it with a sanitized theme (omit DOM-irrelevant keys).
+  // Read via useTheme so the resolved `brand` is used (this also covers the
+  // deprecated `name`), keeping this component free of the deprecated property.
+  const themeContext = useTheme()
+  const themeBrand = themeContext?.brand
+  const size = themeContext?.size
+  const hasTheme = Boolean(themeContext)
   const theme = useMemo(() => {
-    if (!context?.theme) {
+    if (!hasTheme) {
       return null
     }
-    const { name, size } = context.theme
     return {
-      name,
+      brand: themeBrand,
+      name: themeBrand,
       size,
-      isUi: name === 'ui',
-      isSbanken: name === 'sbanken',
-      isEiendom: name === 'eiendom',
-      isCarnegie: name === 'carnegie',
+      isUi: themeBrand === 'ui',
+      isSbanken: themeBrand === 'sbanken',
+      isEiendom: themeBrand === 'eiendom',
+      isCarnegie: themeBrand === 'carnegie',
     }
-  }, [context?.theme])
+  }, [hasTheme, themeBrand, size])
 
   const svg = useMemo(() => {
     if (Object.hasOwn(svgProp, 'brand')) {
@@ -133,7 +139,7 @@ function Logo(localProps: LogoProps) {
       return brand
     }
 
-    return theme?.name || 'ui'
+    return theme?.brand || 'ui'
   }, [svg, theme])
 
   const className = useMemo(() => {

@@ -20,13 +20,18 @@ export default function useTheme(): UseThemeReturn {
   const { theme } = useContext(Context) || {}
 
   if (theme) {
-    const { name } = theme
+    const brand = theme.brand ?? theme.name
+    const density = theme.density ?? theme.size
     return {
       ...theme,
-      isUi: name === 'ui',
-      isSbanken: name === 'sbanken',
-      isEiendom: name === 'eiendom',
-      isCarnegie: name === 'carnegie',
+      brand,
+      name: brand,
+      density,
+      size: density,
+      isUi: brand === 'ui',
+      isSbanken: brand === 'sbanken',
+      isEiendom: brand === 'eiendom',
+      isCarnegie: brand === 'carnegie',
     }
   }
 

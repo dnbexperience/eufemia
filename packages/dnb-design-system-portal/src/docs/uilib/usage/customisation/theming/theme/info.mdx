@@ -12,12 +12,12 @@ The Theme component is a helper component that lets you create nested theming so
 import { Theme, useTheme } from '@dnb/eufemia/shared'
 
 const Component = () => {
-  const themeName = useTheme()?.name
+  const themeBrand = useTheme()?.brand
   return 'My Component'
 }
 
 render(
-  <Theme name="sbanken">
+  <Theme brand="sbanken">
     <App>
       <MyComponent />
     </App>
@@ -28,7 +28,9 @@ render(
 From CSS you can use it as so:
 
 - `.eufemia-theme__sbanken`
-- `.eufemia-theme[data-name="sbanken"]` (alternative)
+- `.eufemia-theme[data-brand="sbanken"]` (alternative)
+
+The deprecated `data-name` attribute remains available until v13.
 
 **CSS**
 
@@ -56,14 +58,14 @@ For accessing the theme context, you can use the `useTheme` Hook. It returns the
 import { Theme, useTheme } from '@dnb/eufemia/shared'
 
 const Component = () => {
-  // Result: { name: 'sbanken', isUi: false, isSbanken: true, isEiendom: false }
+  // Result: { brand: 'sbanken', isUi: false, isSbanken: true, isEiendom: false }
   const theme = useTheme()
-  const { name, isUi, isSbanken, isEiendom } = theme || {}
+  const { brand, isUi, isSbanken, isEiendom } = theme || {}
   return null
 }
 
 render(
-  <Theme name="sbanken">
+  <Theme brand="sbanken">
     <App>
       <MyComponent />
     </App>
@@ -99,9 +101,9 @@ const Component = ({ className ...props }) => {
 }
 
 render(
-  <Theme name="theme-name">
+  <Theme brand="theme-name">
     <App>
-      <Theme name="sbanken" element={Component}>
+      <Theme brand="sbanken" element={Component}>
         ...
       </Theme>
     </App>
@@ -186,18 +188,18 @@ import { getTheme, setTheme } from '@dnb/eufemia/shared/Theme'
 
 // Read the current persisted theme
 const theme = getTheme()
-// { name: 'ui', colorScheme: 'auto', ... }
+// { brand: 'ui', colorScheme: 'auto', ... }
 
 // Update one or more properties (merges with existing state)
 setTheme({ colorScheme: 'dark' })
 
 // With a callback
-setTheme({ name: 'sbanken' }, (updatedTheme) => {
+setTheme({ brand: 'sbanken' }, (updatedTheme) => {
   console.log(updatedTheme)
 })
 ```
 
-`getTheme` also supports a `?eufemia-theme=<name>` URL query parameter, which overrides the persisted theme name. This is useful for testing or previewing themes via a link.
+`getTheme` also supports a `?eufemia-theme=<brand>` URL query parameter, which overrides the persisted theme brand. This is useful for testing or previewing themes via a link.
 
 ### Preventing dark mode flash (FOUC)
 
@@ -240,7 +242,7 @@ With this helper function you show or hide content based on inherited theme prop
 import { Theme, VisibilityByTheme } from '@dnb/eufemia/shared'
 
 render(
-  <Theme name="...">
+  <Theme brand="...">
     <VisibilityByTheme visible="sbanken">
       Only shown in Sbanken theme
     </VisibilityByTheme>
@@ -254,17 +256,34 @@ render(
     </VisibilityByTheme>
 
     <VisibilityByTheme
-      visible={[{ name: 'sbanken' }, { name: 'eiendom' }]}
+      visible={[{ brand: 'sbanken' }, { brand: 'eiendom' }]}
     >
       Only shown in Sbanken or Eiendom theme
     </VisibilityByTheme>
 
     <VisibilityByTheme
-      visible={[{ name: 'sbanken' }, { name: 'eiendom', variant: 'blue' }]}
+      visible={[
+        { brand: 'sbanken' },
+        { brand: 'eiendom', variant: 'blue' },
+      ]}
     >
       Only shown in Sbanken then or Eiendom theme – that also includes the
       fictive variant="blue".
     </VisibilityByTheme>
+  </Theme>
+)
+```
+
+### Show the inherited brand name
+
+`VisibilityByTheme.Brand` renders the display name of the inherited theme brand – `DNB`, `Sbanken`, `Eiendom` or `Carnegie`. It renders nothing when no theme was inherited.
+
+```tsx
+import { Theme, VisibilityByTheme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme brand="sbanken">
+    Colors for <VisibilityByTheme.Brand />
   </Theme>
 )
 ```

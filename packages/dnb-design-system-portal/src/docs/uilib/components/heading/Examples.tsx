@@ -114,6 +114,16 @@ export const HeadingMix = () => (
   </Style>
 )
 
+export const HeadingCustomElement = () => (
+  <Style>
+    <ComponentBox data-visual-test="heading-custom-element">
+      <Heading.Level reset={2}>
+        <Heading element="span">Heading rendered as a span</Heading>
+      </Heading.Level>
+    </ComponentBox>
+  </Style>
+)
+
 export const HeadingInfo = () => (
   <ComponentBox hidePreview>
     <Heading.Level reset={1}>

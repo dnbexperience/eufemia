@@ -2016,6 +2016,104 @@ describe('PushContainer', () => {
       })
     })
 
+    it('keeps optional nested fields valid after adding and editing an item', async () => {
+      const schema: JSONSchema = {
+        type: 'object',
+        required: ['beneficialOwners'],
+        properties: {
+          beneficialOwners: {
+            type: 'object',
+            required: ['otherBeneficialOwners'],
+            properties: {
+              otherBeneficialOwners: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    address: {
+                      type: 'object',
+                      properties: {
+                        addressLine1: { type: 'string' },
+                        addressLine2: { type: 'string' },
+                      },
+                      required: ['addressLine1'],
+                    },
+                  },
+                  required: ['address'],
+                },
+              },
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler schema={schema} ajvInstance={makeAjvInstance()}>
+          <Form.Section path="/beneficialOwners">
+            <Iterate.Array
+              id="owners"
+              path="/otherBeneficialOwners"
+              containerMode="view"
+            >
+              <Iterate.ViewContainer>Owner</Iterate.ViewContainer>
+              <Iterate.EditContainer>
+                <Field.String itemPath="/address/addressLine1" trim />
+                <Field.String itemPath="/address/addressLine2" trim />
+              </Iterate.EditContainer>
+            </Iterate.Array>
+
+            <Iterate.PushContainer
+              path="/otherBeneficialOwners"
+              showOpenButtonWhen={(items) => items.length > 0}
+            >
+              <Field.String itemPath="/address/addressLine1" trim />
+              <Field.String itemPath="/address/addressLine2" trim />
+            </Iterate.PushContainer>
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const [addressLine1, addressLine2] = Array.from(
+        document.querySelectorAll('input')
+      )
+      expect(addressLine1).toHaveAttribute('aria-required', 'true')
+      expect(addressLine2).not.toHaveAttribute('aria-required')
+
+      await userEvent.type(addressLine1, 'Main street 1')
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__done-button')
+      )
+
+      const item = await waitFor(() => {
+        const item = document.querySelector(
+          '#owners > .dnb-forms-iterate__element'
+        )
+        expect(item).toBeInTheDocument()
+        return item
+      })
+      const editButton = Array.from(item.querySelectorAll('button')).find(
+        (button) =>
+          button.textContent?.trim() === nb.IterateViewContainer.editButton
+      )
+      await userEvent.click(editButton)
+
+      const inputs = item.querySelectorAll('input')
+      expect(inputs[0]).toHaveAttribute('aria-required', 'true')
+      expect(inputs[1]).not.toHaveAttribute('aria-required')
+
+      const doneButton = Array.from(item.querySelectorAll('button')).find(
+        (button) =>
+          button.textContent?.trim() === nb.IterateEditContainer.doneButton
+      )
+      await userEvent.click(doneButton)
+
+      await waitFor(() => {
+        expect(
+          item.querySelector('.dnb-forms-section-edit-block')
+        ).toHaveClass('dnb-height-animation--hidden')
+      })
+    })
+
     it('inherits Zod schema from Form.Handler', async () => {
       const onChange = vi.fn()
       const schema = z.object({

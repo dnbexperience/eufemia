@@ -161,11 +161,13 @@ export async function readPluginConfig(
   const plugin = value.plugin
   if (
     typeof plugin.name !== 'string' ||
+    typeof plugin.agentPluginName !== 'string' ||
     typeof plugin.version !== 'string' ||
     typeof plugin.title !== 'string' ||
     typeof plugin.description !== 'string' ||
     typeof plugin.license !== 'string' ||
     typeof plugin.homepage !== 'string' ||
+    typeof plugin.repository !== 'string' ||
     !isStringArray(plugin.tags) ||
     !isStringArray(plugin.platforms) ||
     typeof plugin.icon !== 'string' ||
@@ -177,6 +179,7 @@ export async function readPluginConfig(
   }
 
   validateName(plugin.name, 'plugin name')
+  validateName(plugin.agentPluginName, 'Agent Plugin name')
   validateName(plugin.mcp.name, 'MCP server name')
   if (!isSemver(plugin.version)) {
     throw new Error(`Invalid plugin version: ${plugin.version}`)
@@ -193,6 +196,10 @@ export async function readPluginConfig(
   const homepage = new URL(plugin.homepage)
   if (homepage.protocol !== 'https:') {
     throw new Error('The plugin homepage must use HTTPS')
+  }
+  const repository = new URL(plugin.repository)
+  if (repository.protocol !== 'https:') {
+    throw new Error('The plugin repository must use HTTPS')
   }
   validateTags(plugin.tags, 'plugin')
   for (const platform of plugin.platforms) {
@@ -241,11 +248,13 @@ export async function readPluginConfig(
     schemaVersion: 1,
     plugin: {
       name: plugin.name,
+      agentPluginName: plugin.agentPluginName,
       version: plugin.version,
       title: plugin.title,
       description: plugin.description,
       license: plugin.license,
       homepage: plugin.homepage,
+      repository: plugin.repository,
       tags: plugin.tags,
       platforms: plugin.platforms,
       icon: plugin.icon,

@@ -15,6 +15,7 @@ import path from 'node:path'
 import { sync as globSync } from 'globby'
 import micromatch from 'micromatch'
 import { hasPrebuild } from './eufemia-prebuild'
+import { getTextScaleScript } from '@dnb/eufemia/src/shared/TextScaleScriptUtils'
 
 /**
  * FOUC-prevention scripts matching @dnb/eufemia/shared/ColorSchemeScript.
@@ -321,7 +322,7 @@ ${loaderEntries}
   try {
     var stored = JSON.parse(localStorage.getItem('eufemia-theme') || '{}');
     var params = new URLSearchParams(location.search);
-    var initial = params.get('eufemia-theme') || stored.name || '${config.defaultTheme}';
+    var initial = params.get('eufemia-theme') || stored.brand || stored.name || '${config.defaultTheme}';
     window.__loadEufemiaTheme(initial);
   } catch(e) {
     window.__loadEufemiaTheme('${config.defaultTheme}');
@@ -359,7 +360,7 @@ if (typeof window !== 'undefined') {
       const data = localStorage.getItem('eufemia-theme');
       const stored = JSON.parse(data?.startsWith('{') ? data : '{}');
       const params = new URLSearchParams(location.search);
-      return params.get('eufemia-theme') || stored?.name || ${JSON.stringify(config.defaultTheme)};
+      return params.get('eufemia-theme') || stored?.brand || stored?.name || ${JSON.stringify(config.defaultTheme)};
     } catch { return ${JSON.stringify(config.defaultTheme)}; }
   };
 
@@ -425,7 +426,8 @@ if (typeof window !== 'undefined') {
      * module into the HTML template.
      */
     transformIndexHtml(html) {
-      const headScript = `<script>${getHeadScript()}</script>`
+      const headScript = `<script>${getHeadScript()}</script>
+<script>${getTextScaleScript()}</script>`
       const bodyScript = `<script>${getBodyScript()}</script>`
 
       html = html.replace('</head>', `${headScript}\n</head>`)

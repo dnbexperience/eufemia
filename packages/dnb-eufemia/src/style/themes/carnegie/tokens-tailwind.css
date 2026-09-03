@@ -282,7 +282,7 @@
   --radius-sm: 0.125rem;
   --radius-md: 0.125rem;
   --radius-lg: 0.25rem;
-  --radius-xl: 1.5rem;
+  --radius-xl: 0.5rem;
   --radius-full: 9999px;
 }
 :root,

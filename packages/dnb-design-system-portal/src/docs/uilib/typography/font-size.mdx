@@ -6,7 +6,7 @@ order: 3
 import { GetPropValue, GetPropAsPx } from './_helpers.tsx'
 import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
-# Font Size for <VisibilityByTheme.Name />
+# Font Size for <VisibilityByTheme.Brand />
 
 <ChangeStyleTheme label="Change the brand:" bottom="large" />
 
@@ -24,6 +24,73 @@ For details about what values Typographic elements use, have a look at the
 | {GetPropAsPx('--font-size-large')}    | `large`    | **{GetPropValue('--font-size-large')}**    | `--font-size-large`     | `.dnb-t__size--large`    |                                 |
 | {GetPropAsPx('--font-size-x-large')}  | `x-large`  | **{GetPropValue('--font-size-x-large')}**  | `--font-size-x-large`   | `.dnb-t__size--x-large`  |                                 |
 | {GetPropAsPx('--font-size-xx-large')} | `xx-large` | **{GetPropValue('--font-size-xx-large')}** | `--font-size-xx-large`  | `.dnb-t__size--xx-large` |                                 |
+
+## Why text can be larger on iOS
+
+On iPhone and iPad, Eufemia follows the user's system text-size setting. This
+means that text may not have exactly the same pixel size as it does on macOS or
+other desktop platforms.
+
+At the default text-size setting, the difference is:
+
+| Platform              | Root size (`1rem`) | DNB basis size (`1.125rem`) |
+| --------------------- | ------------------ | --------------------------- |
+| Most desktop browsers | 16px               | 18px                        |
+| Safari on iOS         | 17px               | 19.125px                    |
+
+Safari does not apply the iOS setting to ordinary web font sizes automatically.
+Eufemia therefore uses Apple's Dynamic Type
+[`Body` text style](https://webkit.org/blog/3709/using-the-system-font-in-web-content/)
+as the root font size. This allows text to grow or shrink when the user changes
+the system setting.
+
+Root-relative layout values follow the changed root size too. Test layouts with
+larger accessibility text sizes and avoid fixed heights around text.
+
+### Why not force the size to 18px?
+
+A fixed root size of 16px would make DNB's 1.125rem basis text exactly 18px. It
+would also stop the text from following the user's iOS text-size setting.
+
+### Why not use a smaller Apple text style?
+
+Apple's `Subheadline` style is 15px at the default setting, which would make
+DNB's basis text 16.875px instead of 18px. It also follows a different Dynamic
+Type scaling curve. This would make iOS smaller than desktop by default and
+change the difference at larger accessibility sizes. It would also reduce all
+root-relative layout values.
+
+### Optional JavaScript root scaling
+
+At the default iOS text size, this opt-in script keeps DNB basis text at 18px.
+If the user changes the system text size, all `rem`-based text and layout scale
+proportionally. Place it after the viewport meta tag and before stylesheets to
+avoid a visible layout change.
+
+```tsx
+import { TextScaleHeadScript } from '@dnb/eufemia/shared/TextScaleScript'
+```
+
+```tsx
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <TextScaleHeadScript />
+  {/* stylesheets */}
+</head>
+```
+
+Pass the page's CSP nonce to `TextScaleHeadScript` when required.
+
+Client-rendered applications can use `TextScaleClient`, but server-rendered
+pages may show a layout change during hydration. Without the script, the root
+is 17px and DNB basis text is 19.125px at the default iOS setting. Text still
+follows the user's system text-size setting.
+
+The longer-term option is the standard
+[`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)
+environment variable and
+[`<meta name="text-scale" content="scale">`](https://drafts.csswg.org/css-fonts-5/#text-scale-meta).
+These are not yet supported by Safari.
 
 ### Responsive typography (BETA)
 

@@ -7,13 +7,14 @@ import {
   HeadingContext,
   HeadingIsolation,
   HeadingMix,
+  HeadingCustomElement,
   HeadingProseMaxWidthExample,
   HeadingProseMaxWidthProvider,
 } from 'Docs/uilib/components/heading/Examples'
 
 ## Demos
 
-**NB:** All the demos do use `<Heading.Level reset={1} ...`. This way every demo does reset the global level handling. You do not need that in your app.
+**NB:** Every demo uses `<Heading.Level reset={1} ...` to reset the global level handling. Client-only apps normally do not need this. Server-rendered apps should use the same boundary around each independently rendered tree.
 
 ### Default headings
 
@@ -30,6 +31,10 @@ import {
 ### Combine with manual heading
 
 <HeadingMix />
+
+### Custom heading element
+
+<HeadingCustomElement />
 
 ### Prose max width
 

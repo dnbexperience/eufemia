@@ -68,9 +68,10 @@ Deployment mirrors the MCP Lambda pattern: public GitHub builds and tests, then 
 ```
 public GitHub (.github/workflows/analytics-lambda.yml)
   → test + build lambda.zip
-  → force-push dist/ + infra/ + deploy workflow to GHE repo `deploy` branch
+  → force-push dist/ + infra/ + dashboard/ + deploy workflow to GHE repo `deploy` branch
       → GHE (ghe-deploy-workflow.yml as .github/workflows/deploy.yml)
           → OIDC assume role → terraform apply
+          → generate dashboard/config.json → aws s3 sync → CloudFront invalidation
 ```
 
 - **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from any branch. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
@@ -85,6 +86,8 @@ Deploy credentials and configuration are provided via repository secrets and var
 
 Because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004), an admin must pre-create the Lambda execution role `eufemia-<env>-analytics-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an attached policy granting: `s3:GetObject`/`PutObject`/`ListBucket` on the data bucket, `athena:StartQueryExecution`/`GetQueryExecution`/`GetQueryResults` on the workgroup, and `glue:GetTable`/`GetDatabase`/`GetPartitions` on the analytics database/table. The GHE deploy repo and its OIDC role/federation entry must also be provisioned, as with the MCP pipeline.
 
+For the same reason, an admin must pre-create the read-only dashboard-read execution role `eufemia-<env>-dashboard-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an inline policy granting exactly one permission — `s3:GetObject` on the snapshot object `arn:aws:s3:::eufemia-<env>-analytics-<account-id>/records/dashboard-snapshot.json` — and nothing else, so the browser-facing read Lambda has no write or Athena access. The snapshot generator Lambda reuses `eufemia-<env>-analytics-role` (it needs the same Athena + S3 access), so it requires no additional role.
+
 ## Infrastructure
 
 `infra/` provisions:
@@ -93,6 +96,16 @@ Because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (AD
 - **Glue database + table** with JSON SerDe and partition projection on `dt`.
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
+- **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `records/dashboard-snapshot.json` off the request path. Three CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), and a run that succeeds but writes an empty snapshot (the `SnapshotRecordCount` EMF metric stays below 1). The empty-snapshot metric is emitted as an Embedded Metric Format log line, so it needs no extra role permissions.
 - **API Gateway HTTP API** with the two `/records` routes and throttling.
+
+The dashboard is hosted separately as a static site:
+
+- **Dashboard bucket** (private, versioned, SSE-S3, public access blocked) holding the static UI, read only by CloudFront via an Origin Access Control.
+- **CloudFront distribution** serving the dashboard on its default `*.cloudfront.net` domain. The shell holds no data or secrets — access is gated entirely by the Entra sign-in and the token-protected `/data` API — so no Lambda@Edge, edge auth or extra IAM role is needed. The deploy job generates `dashboard/config.json` (non-secret public identifiers: `clientId`/`tenantId` from `ENTRA_CLIENT_ID`/`ENTRA_TENANT_ID`, `redirectUri` set to the CloudFront URL, `apiBaseUrl` from the dashboard API endpoint, and `apiScope` = `api://<clientId>/Dashboard.Read`), syncs the files to the bucket and invalidates the cache.
+
+The CloudFront origin is added to the dashboard API's CORS automatically (the distribution domain is concatenated onto `DASHBOARD_ORIGINS`), so no second deploy is needed for cross-origin `/data` calls; `DASHBOARD_ORIGINS` only needs any extra origins such as a local-dev URL. After the first deploy, add the CloudFront URL as a redirect URI on the app registration.
+
+Prerequisites for sign-in and data to work end to end: the app registration must expose a `Dashboard.Read` scope under App ID URI `api://<clientId>` and issue v2 access tokens (`requestedAccessTokenVersion = 2`). The deploy role's CloudFront and S3 permissions are provisioned in the OIDC federation repo, alongside the Lambda execution role.
 
 Terraform state reuses the shared `eufemia-mcp-terraform-state` bucket under the `analytics/` key.

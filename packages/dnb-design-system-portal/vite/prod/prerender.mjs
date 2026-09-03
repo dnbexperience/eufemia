@@ -515,7 +515,10 @@ function injectHtml(
     // links, and store the name on globalThis for the body script.
     // Runs in <head> after the render-blocking links have loaded,
     // so the disable is instant — no network delay.
-    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');for(var i=0;i<links.length;i++){links[i].disabled=links[i].getAttribute('data-eufemia-theme')!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
+    //
+    // Validate the brand against the themes present (like isValidTheme in the
+    // shim): an unknown brand matches no link and would disable every stylesheet.
+    const headThemeScript = `<script>(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var p=new URLSearchParams(location.search);var n=p.get('eufemia-theme')||t.brand||t.name||'${defaultTheme}';var links=document.querySelectorAll('link[data-eufemia-theme]');var known=[];for(var i=0;i<links.length;i++){known.push(links[i].getAttribute('data-eufemia-theme'))}if(known.length&&known.indexOf(n)<0){n='${defaultTheme}'}for(var j=0;j<links.length;j++){links[j].disabled=known[j]!==n}globalThis.__eufemiaTheme=n}catch(e){globalThis.__eufemiaTheme='${defaultTheme}'}})()</script>`
 
     // Body script: add the brand class to <body> immediately after
     // the opening tag, before any content is rendered.

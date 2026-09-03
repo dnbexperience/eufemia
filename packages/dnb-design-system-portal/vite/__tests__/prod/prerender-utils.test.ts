@@ -1,5 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
+import fs from 'node:fs'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import {
   collectUrls,
   getRoutePreloads,
@@ -814,6 +816,193 @@ describe('prerender-utils', () => {
     it('swaps eufemia-theme__color-scheme-- classes', () => {
       const script = getContentScript()
       expect(script).toContain('eufemia-theme__color-scheme--')
+    })
+  })
+
+  // Decides which stylesheet stays enabled before first paint; must resolve
+  // the brand like the runtime handler, or the visitor sees the wrong theme.
+  describe('pre-paint theme script', () => {
+    const template = [
+      '<!DOCTYPE html>',
+      '<html>',
+      '<head>',
+      '</head>',
+      '<body>',
+      '  <div id="root"></div>',
+      '</body>',
+      '</html>',
+    ].join('\n')
+
+    const themeCssPaths = {
+      ui: '/assets/ui.css',
+      carnegie: '/assets/carnegie.css',
+      eiendom: '/assets/eiendom.css',
+    }
+
+    beforeEach(() => {
+      localStorage.clear()
+      document.head.innerHTML = ''
+      delete (globalThis as { __eufemiaTheme?: string }).__eufemiaTheme
+    })
+
+    // Run the generated script against real <link>s, so assertions cover
+    // behaviour, not syntax.
+    function runHeadScript() {
+      const html = injectHtml(
+        template,
+        '<h1>Hi</h1>',
+        { js: [], css: [] },
+        undefined,
+        undefined,
+        themeCssPaths
+      )
+
+      for (const name of Object.keys(themeCssPaths)) {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.setAttribute('data-eufemia-theme', name)
+        document.head.appendChild(link)
+      }
+
+      // The disable loop is only meaningful if the links are present.
+      expect(
+        document.querySelectorAll('link[data-eufemia-theme]')
+      ).toHaveLength(Object.keys(themeCssPaths).length)
+
+      // Pick the script that publishes the resolved theme (not by document
+      // order). DOMParser doesn't run scripts, so reading textContent is safe.
+      const script = Array.from(
+        new DOMParser()
+          .parseFromString(html, 'text/html')
+          .querySelectorAll('script')
+      )
+        .map((element) => element.textContent || '')
+        .find((body) => body.includes('globalThis.__eufemiaTheme='))
+      expect(script, 'no pre-paint theme script found').toBeDefined()
+
+      new Function(script)()
+
+      return (globalThis as { __eufemiaTheme?: string }).__eufemiaTheme
+    }
+
+    const enabledThemes = () =>
+      Array.from(
+        document.querySelectorAll<HTMLLinkElement>(
+          'link[data-eufemia-theme]'
+        )
+      )
+        .filter((link) => !link.disabled)
+        .map((link) => link.getAttribute('data-eufemia-theme'))
+
+    it('activates a brand-only payload before the first paint', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie' })
+      )
+
+      expect(runHeadScript()).toBe('carnegie')
+      expect(enabledThemes()).toEqual(['carnegie'])
+    })
+
+    it('still activates a legacy name-only payload', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ name: 'eiendom' })
+      )
+
+      expect(runHeadScript()).toBe('eiendom')
+      expect(enabledThemes()).toEqual(['eiendom'])
+    })
+
+    it('prefers brand over the deprecated name', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie', name: 'eiendom' })
+      )
+
+      expect(runHeadScript()).toBe('carnegie')
+    })
+
+    it('falls back to the default brand when nothing is stored', () => {
+      expect(runHeadScript()).toBe('ui')
+      expect(enabledThemes()).toEqual(['ui'])
+    })
+
+    // An unknown brand matches no <link>; without validation the loop disables
+    // every stylesheet. Pins the isValidTheme() guard for the pre-paint path.
+    const withSearch = <T>(search: string, fn: () => T): T => {
+      const original = window.location
+      Object.defineProperty(window, 'location', {
+        value: { ...original, search },
+        writable: true,
+      })
+
+      try {
+        return fn()
+      } finally {
+        Object.defineProperty(window, 'location', {
+          value: original,
+          writable: true,
+        })
+      }
+    }
+
+    it('falls back to the default brand when the stored brand is unknown', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'removed-in-a-later-release' })
+      )
+
+      expect(runHeadScript()).toBe('ui')
+      expect(enabledThemes()).toEqual(['ui'])
+    })
+
+    it('falls back to the default brand when the query param is unknown', () => {
+      expect(withSearch('?eufemia-theme=bogus', runHeadScript)).toBe('ui')
+      expect(enabledThemes()).toEqual(['ui'])
+    })
+
+    it('still honours a valid query param over the stored brand', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'eiendom' })
+      )
+
+      expect(withSearch('?eufemia-theme=carnegie', runHeadScript)).toBe(
+        'carnegie'
+      )
+      expect(enabledThemes()).toEqual(['carnegie'])
+    })
+
+    // prerender.mjs carries its own copy of these scripts, unreachable from a
+    // unit test. Pin them together so a fix to one can't silently miss the other.
+    it('matches the copy in prerender.mjs', () => {
+      const prodDir = path.resolve(
+        path.dirname(fileURLToPath(import.meta.url)),
+        '../../prod'
+      )
+      const extract = (file: string, name: string) => {
+        const source = fs.readFileSync(path.join(prodDir, file), 'utf-8')
+        const line = source
+          .split('\n')
+          .find((l) => l.includes(`const ${name} = `))
+        expect(line, `${name} not found in ${file}`).toBeDefined()
+
+        // Compares one line only, so fail loudly if the constant is ever
+        // reformatted across lines, where this guard would miss real drift.
+        expect(
+          line.trimEnd().endsWith('`'),
+          `${name} in ${file} is no longer a single-line template literal — update this guard`
+        ).toBe(true)
+
+        return line.trim()
+      }
+
+      for (const name of ['headThemeScript', 'bodyThemeScript']) {
+        expect(extract('prerender.mjs', name)).toBe(
+          extract('prerender-utils.ts', name)
+        )
+      }
     })
   })
 })

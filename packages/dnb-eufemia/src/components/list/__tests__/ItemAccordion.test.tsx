@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { act, render, fireEvent } from '@testing-library/react'
 import ItemAccordion from '../ItemAccordion'
 import Container from '../Container'
 import Context from '../../../shared/Context'
@@ -323,6 +323,59 @@ describe('ItemAccordion', () => {
         '[data-testid="accordion-content"]'
       )
       expect(content).not.toBeInTheDocument()
+    })
+  })
+
+  describe('openOnFind', () => {
+    it('keeps closed content findable and expands on beforematch', () => {
+      const onChange = vi.fn()
+      render(
+        <ItemAccordion openOnFind onChange={onChange}>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Findable content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      const header = document.querySelector(
+        '.dnb-list__item__accordion__header'
+      )
+      const animation = document.querySelector('.dnb-height-animation')
+
+      expect(animation).toHaveAttribute('hidden', 'until-found')
+
+      act(() => {
+        animation.dispatchEvent(new Event('beforematch'))
+      })
+
+      expect(header).toHaveAttribute('aria-expanded', 'true')
+      expect(animation).not.toHaveAttribute('hidden')
+      expect(onChange).toHaveBeenCalledWith({ expanded: true })
+    })
+
+    it('defaults openOnFind to true when keepInDOM is true', () => {
+      render(
+        <ItemAccordion keepInDOM>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Findable content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      expect(
+        document.querySelector('.dnb-height-animation')
+      ).toHaveAttribute('hidden', 'until-found')
+    })
+
+    it('allows openOnFind to be disabled when keepInDOM is true', () => {
+      render(
+        <ItemAccordion keepInDOM openOnFind={false}>
+          <ItemAccordion.Header>Title</ItemAccordion.Header>
+          <ItemAccordion.Content>Hidden content</ItemAccordion.Content>
+        </ItemAccordion>
+      )
+
+      expect(
+        document.querySelector('.dnb-height-animation')
+      ).not.toHaveAttribute('hidden')
     })
   })
 

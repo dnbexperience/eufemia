@@ -14,7 +14,7 @@ const getHeadingTextWithoutSrDescription = async (locator: Locator) =>
   locator.evaluate((element: HTMLElement) => {
     const clone = element.cloneNode(true) as HTMLElement
     clone
-      .querySelectorAll('.dnb-tooltip__sr-description')
+      .querySelectorAll('.dnb-tooltip__sr-description, .anchor-hash')
       .forEach((node) => node.remove())
     return (clone.textContent || '').trim()
   })
@@ -35,7 +35,7 @@ test.describe('Page Lists', () => {
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('#Components')
+      await expect(headingText).toBe('Components')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
@@ -71,7 +71,7 @@ test.describe('Page Lists', () => {
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('#Extensions')
+      await expect(headingText).toBe('Extensions')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
@@ -107,7 +107,7 @@ test.describe('Page Lists', () => {
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('#HTML Elements')
+      await expect(headingText).toBe('HTML Elements')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 

@@ -10,11 +10,14 @@ import { Img } from '@dnb/eufemia/elements'
 
 ## Description
 
-The image element associated with the class `dnb-img` does not have much opinionated styling. It exists to provide a future possibility to optimize and add features.
+By default, the Eufemia `Img` element renders a `figure` containing an `img` element and, when a non-empty `caption` is provided, a `figcaption`. The wrapper provides light styling, caption support, and integration with [Skeleton](/uilib/components/skeleton).
 
-As of now, the React image "element" (Img) provides a `figure` element with the `role="img"` and an `img` tag inside. This is mainly to support the [Skeleton](/uilib/components/skeleton) provider.
+It relies on native HTML semantics: `figure` has the implicit `figure` role, while an `img` with meaningful `alt` text has the implicit `img` role. Therefore, `Img` does not add `role="img"` to the `figure`.
+
+Provide meaningful `alt` text for informative images, or `alt=""` for decorative images. Do not add an `onClick` handler directly to `Img`. Use a link for navigation or a button for actions, following valid HTML nesting. When an image is the only visible content, ensure that the link or button has an accessible name describing its action or destination.
 
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/elements/img)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/elements/image)
+- [W3C Images Tutorial](https://www.w3.org/WAI/tutorials/images/)

@@ -21,8 +21,7 @@ import {
   Button,
   HeightAnimation,
 } from '@dnb/eufemia/src/components'
-import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
-import { Context, useTheme } from '@dnb/eufemia/src/shared'
+import { Context } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import {
   setPageFocusElement,
@@ -76,7 +75,6 @@ export default function SidebarLayout({
               tabs {
                 key
               }
-              theme
               accordion
             }
           }
@@ -370,29 +368,6 @@ function useSidebarResize(scrollRef: RefObject<HTMLElement>) {
   }
 }
 
-const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
-  const themeTitle =
-    theme &&
-    {
-      ui: 'DNB',
-      sbanken: 'Sbanken',
-      eiendom: 'Eiendom',
-      carnegie: 'DNB Carnegie',
-    }[theme]
-  const themeTitleTitle =
-    theme && `This component is ready for use with the ${themeTitle} theme`
-  return (
-    <span
-      title={themeTitleTitle}
-      className={clsx(
-        'dnb-sidebar-menu__theme-badge',
-        `dnb-sidebar-menu__theme-badge--${theme}`
-      )}
-      {...props}
-    />
-  )
-}
-
 type ListItemProps = {
   title: string
   subheadings?: ListItemProps[]
@@ -401,7 +376,6 @@ type ListItemProps = {
   level?: number
   nr?: number
   status?: string
-  theme?: ThemeNames[]
   icon?: string
   isActive?: boolean
   hideInMenu?: boolean
@@ -421,7 +395,6 @@ function ListItem({
   isInsideActiveCategory = false,
   nr,
   status,
-  theme: supportedThemes,
   icon,
   title,
   subheadings,
@@ -430,7 +403,6 @@ function ListItem({
   accordion = false,
   scrollRef,
 }: ListItemProps) {
-  const currentTheme = useTheme()?.name
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
@@ -540,9 +512,6 @@ function ListItem({
                 {title.replace(/^[A-Z][a-z]*\./, '')}
               </span>
             </span>
-            {supportedThemes?.indexOf(currentTheme) > -1 && (
-              <ThemeBadge theme={currentTheme} />
-            )}
             {status && (
               <Badge space={{ right: 'xx-small' }} content={statusTitle} />
             )}

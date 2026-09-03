@@ -21,11 +21,13 @@ export type MarketplacePluginConfig = {
   schemaVersion: 1
   plugin: {
     name: string
+    agentPluginName: string
     version: string
     title: string
     description: string
     license: string
     homepage: string
+    repository: string
     tags: string[]
     platforms: string[]
     icon: string
@@ -68,6 +70,7 @@ export type BuildPaths = {
   licensePath: string
   coverPath: string
   outputRoot: string
+  agentPluginOutputRoot: string
 }
 
 export type ValidationReport = {

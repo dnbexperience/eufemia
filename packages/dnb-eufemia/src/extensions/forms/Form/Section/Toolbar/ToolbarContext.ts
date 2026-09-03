@@ -1,6 +1,8 @@
 import { createContext } from 'react'
 export type ToolbarContextState = {
   setShowError: (showError: boolean) => void
+  isPending?: boolean
+  setIsPending?: (isPending: boolean) => void
   onEdit?: () => void
   onDone?: () => void
   onCancel?: () => void

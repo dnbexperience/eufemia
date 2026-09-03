@@ -207,7 +207,9 @@ For those familiar with CSS, we establish typographic rules in the following way
 
     `html { font-size: 100%; }`
 
-    This will set the default size for paragraph text to **16px**.
+    This usually sets the root size to **16px**. Safari on iOS is different
+    because Eufemia follows the user's system text-size setting. Read
+    [why text can be larger on iOS](/uilib/typography/font-size/#why-text-can-be-larger-on-ios).
 
 2.  Set font styles on paragraphs, headers, buttons, etc. (basically everything) in the following manner:
     - font sizes should be set with **em**

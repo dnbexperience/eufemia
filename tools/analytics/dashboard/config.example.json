@@ -1,0 +1,7 @@
+{
+  "clientId": "00000000-0000-0000-0000-000000000000",
+  "tenantId": "00000000-0000-0000-0000-000000000000",
+  "redirectUri": "http://localhost:4173",
+  "apiBaseUrl": "https://<dashboard-api-host>",
+  "apiScope": "api://00000000-0000-0000-0000-000000000000/Dashboard.Read"
+}

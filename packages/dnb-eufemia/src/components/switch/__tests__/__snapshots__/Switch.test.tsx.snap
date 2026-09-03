@@ -213,9 +213,58 @@ button .dnb-form-status__text {
   --switch-button-size-on--medium: 1.125rem;
   --switch-button-size-off--large: 1rem;
   --switch-button-size-on--large: 1.625rem;
+  --switch-icon-size-on--medium: 0.5rem;
+  --switch-icon-size-on--large: 0.875rem;
   --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
   --switch-border-width--large: 0.125rem;
+  --switch-border-radius: var(--token-radius-xl);
+  --switch-background: var(--token-color-background-neutral);
+  --switch-border: var(--token-color-stroke-action-alternative);
+  --switch-button-background: var(
+    --token-color-background-action-alternative
+  );
+  --switch-checked-background: var(--token-color-background-selected);
+  --switch-checked-border: var(--token-color-background-selected);
+  --switch-checked-button-background: var(
+    --token-color-background-selected-subtle
+  );
+  --switch-checked-icon: var(--token-color-icon-selected);
+  --switch-hover-background: var(
+    --token-color-background-action-hover-subtle
+  );
+  --switch-hover-border: var(--token-color-stroke-action-hover);
+  --switch-hover-button-background: var(
+    --token-color-background-action-hover
+  );
+  --switch-interaction-icon: var(--token-color-icon-neutral-inverse);
+  --switch-pressed-background: var(
+    --token-color-background-action-pressed-subtle
+  );
+  --switch-pressed-border: var(--token-color-stroke-action-pressed);
+  --switch-pressed-button-background: var(
+    --token-color-background-action-pressed
+  );
+  --switch-focus-background: var(
+    --token-color-background-action-focus-subtle
+  );
+  --switch-focus-border: var(--token-color-stroke-action-focus);
+  --switch-focus-button-background: var(
+    --token-color-background-action-focus
+  );
+  --switch-focus-icon: var(--token-color-icon-neutral-ondark);
+  --switch-disabled-background: var(--token-color-background-neutral);
+  --switch-disabled-border: var(--token-color-stroke-action-disabled);
+  --switch-disabled-button-background: var(
+    --token-color-background-action-disabled
+  );
+  --switch-disabled-checked-background: var(
+    --token-color-background-action-disabled
+  );
+  --switch-disabled-checked-button-background: var(
+    --token-color-background-neutral
+  );
+  --switch-disabled-checked-icon: var(--token-color-icon-action-disabled);
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
@@ -248,16 +297,36 @@ button .dnb-form-status__text {
   position: absolute;
   z-index: 4;
   left: 0;
-  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--token-radius-xl);
   width: var(--switch-button-size-off--medium);
   height: var(--switch-button-size-off--medium);
-  background-color: var(--token-color-background-action-alternative);
-  transition: transform 160ms ease-out 125ms;
+  color: var(--switch-checked-icon);
+  background-color: var(--switch-button-background);
+  transition: transform 180ms var(--easing-fast-bounce);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-switch__button {
+    transition-duration: 0.01ms;
+  }
 }
 .dnb-switch--large .dnb-switch__button {
   width: var(--switch-button-size-off--large);
   height: var(--switch-button-size-off--large);
   border-width: var(--switch-border-width--large);
+}
+.dnb-switch__icon {
+  width: var(--switch-icon-size-on--medium);
+  height: var(--switch-icon-size-on--medium);
+}
+.dnb-switch__icon path {
+  stroke: currentcolor;
+}
+.dnb-switch--large .dnb-switch__icon {
+  width: var(--switch-icon-size-on--large);
+  height: var(--switch-icon-size-on--large);
 }
 .dnb-switch {
   /* stylelint-disable no-descending-specificity */
@@ -278,7 +347,8 @@ button .dnb-form-status__text {
 .dnb-switch__input:checked ~ .dnb-switch__button {
   width: var(--switch-button-size-on--medium);
   height: var(--switch-button-size-on--medium);
-  background-color: var(--token-color-background-selected-subtle);
+  color: var(--switch-checked-icon);
+  background-color: var(--switch-checked-button-background);
   transform: translateX(calc(var(--switch-width--medium) - var(--switch-button-size-on--medium) - 0.1875rem));
 }
 .dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
@@ -297,17 +367,17 @@ button .dnb-form-status__text {
   overflow: hidden;
   width: var(--switch-width--medium);
   height: var(--switch-height--medium);
-  background-color: var(--token-color-background-neutral);
-  border: 1px solid var(--token-color-stroke-action-alternative);
-  border-radius: var(--token-radius-xl);
+  background-color: var(--switch-background);
+  border: 1px solid var(--switch-border);
+  border-radius: var(--switch-border-radius);
 }
 .dnb-switch--large .dnb-switch__background {
   width: var(--switch-width--large);
   height: var(--switch-height--large);
 }
 .dnb-switch__input:checked ~ .dnb-switch__background {
-  background-color: var(--token-color-background-selected);
-  border-color: var(--token-color-background-selected);
+  background-color: var(--switch-checked-background);
+  border-color: var(--switch-checked-border);
 }
 .dnb-switch__input {
   opacity: 0;
@@ -387,18 +457,23 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
     *
     */
 }
-.dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__background {
-  border-color: var(--token-color-stroke-action-hover);
-  background-color: var(--token-color-background-action-hover-subtle);
+html:not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__background {
+  border-color: var(--switch-hover-border);
+  background-color: var(--switch-hover-background);
+  --border-color: var(--switch-hover-border);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }
-.dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
-  background-color: var(--token-color-background-action-hover);
-  --border-color: var(--token-color-stroke-action-hover);
+html:not([data-whatinput=keyboard]) .dnb-switch__input:not([disabled]):not(:active):hover ~ .dnb-switch__button {
+  color: var(--switch-interaction-icon);
+  background-color: var(--switch-hover-button-background);
+  --border-color: var(--switch-hover-border);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
-.dnb-switch__input:checked:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
+html:not([data-whatinput=keyboard]) .dnb-switch__input:checked:not([disabled]):not(:active):hover ~ .dnb-switch__button {
   box-shadow: none;
 }
 .dnb-switch {
@@ -408,11 +483,12 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
     */
 }
 .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-  border-color: var(--token-color-stroke-action-pressed);
-  background-color: var(--token-color-background-action-pressed-subtle);
+  border-color: var(--switch-pressed-border);
+  background-color: var(--switch-pressed-background);
 }
 .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
-  background-color: var(--token-color-background-action-pressed);
+  color: var(--switch-interaction-icon);
+  background-color: var(--switch-pressed-button-background);
 }
 .dnb-switch {
   /*
@@ -421,11 +497,12 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
    */
 }
 html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background {
-  background-color: var(--token-color-background-action-focus-subtle);
+  background-color: var(--switch-focus-background);
 }
 html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
-  background-color: var(--token-color-background-action-focus);
-  --border-color: var(--token-color-stroke-action-focus);
+  color: var(--switch-focus-icon);
+  background-color: var(--switch-focus-button-background);
+  --border-color: var(--switch-focus-border);
   --border-width: 0.0625rem;
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
@@ -440,18 +517,67 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
     */
 }
 .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled] ~ .dnb-switch__background {
-  background-color: var(--token-color-background-neutral);
-  border-color: var(--token-color-stroke-action-disabled);
+  background-color: var(--switch-disabled-background);
+  border-color: var(--switch-disabled-border);
 }
 .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled] ~ .dnb-switch__button {
-  background-color: var(--token-color-background-action-disabled);
+  background-color: var(--switch-disabled-button-background);
 }
 .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__background {
-  background-color: var(--token-color-background-action-disabled);
-  border-color: var(--token-color-background-action-disabled);
+  background-color: var(--switch-disabled-checked-background);
+  border-color: var(--switch-disabled-checked-background);
 }
 .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
-  background-color: var(--token-color-background-neutral);
+  color: var(--switch-disabled-checked-icon);
+  background-color: var(--switch-disabled-checked-button-background);
+}
+.dnb-switch--surface-dark {
+  --switch-background: transparent;
+  --switch-border: var(--token-color-stroke-action-alternative-ondark);
+  --switch-checked-background: var(
+    --token-color-background-selected-ondark
+  );
+  --switch-checked-border: var(--token-color-background-selected-ondark);
+  --switch-checked-button-background: var(
+    --token-color-background-selected-subtle-ondark
+  );
+  --switch-checked-icon: var(--token-color-icon-selected-ondark);
+  --switch-hover-background: var(
+    --token-color-background-action-hover-subtle-ondark
+  );
+  --switch-hover-border: var(--token-color-stroke-action-hover-ondark);
+  --switch-hover-button-background: var(
+    --token-color-background-action-hover-ondark
+  );
+  --switch-interaction-icon: var(--color-black-80);
+  --switch-pressed-background: var(
+    --token-color-background-action-pressed-subtle-ondark
+  );
+  --switch-pressed-border: var(
+    --token-color-stroke-action-pressed-ondark
+  );
+  --switch-pressed-button-background: var(
+    --token-color-background-action-pressed-ondark
+  );
+  --switch-disabled-background: transparent;
+  --switch-disabled-border: var(
+    --token-color-stroke-action-disabled-ondark
+  );
+  --switch-disabled-button-background: var(
+    --token-color-background-action-disabled-ondark
+  );
+  --switch-disabled-checked-background: var(
+    --token-color-background-action-disabled-ondark
+  );
+  --switch-disabled-checked-button-background: var(
+    --token-color-component-switch-action-disabled-ondark
+  );
+  --switch-disabled-checked-icon: var(
+    --token-color-icon-action-disabled-ondark
+  );
+}
+.eufemia-theme__carnegie .dnb-switch {
+  --switch-border-radius: 0.5rem;
 }
 .dnb-switch {
   /*
@@ -459,11 +585,30 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
     *
     */
 }
-.dnb-switch__status--error .dnb-switch__input:not([disabled]) ~ .dnb-switch__background {
-  background-color: var(--token-color-background-error-subtle);
-  border-color: var(--token-color-stroke-error);
-}
-.dnb-switch__status--error .dnb-switch__input:not([disabled]) ~ .dnb-switch__button {
-  background-color: var(--token-color-background-error);
+.dnb-switch__status--error {
+  --switch-background: var(--token-color-background-error-subtle);
+  --switch-border: var(--token-color-stroke-error);
+  --switch-button-background: var(--token-color-background-error);
+  --switch-checked-background: var(
+    --token-color-background-error-subtle
+  );
+  --switch-checked-border: var(--token-color-stroke-error);
+  --switch-checked-button-background: var(
+    --token-color-background-error
+  );
+  --switch-checked-icon: var(--token-color-icon-neutral-inverse);
+  --switch-hover-background: var(--token-color-background-error-subtle);
+  --switch-hover-border: var(--token-color-stroke-error);
+  --switch-hover-button-background: var(--token-color-background-error);
+  --switch-interaction-icon: var(--token-color-icon-neutral-inverse);
+  --switch-pressed-background: var(
+    --token-color-background-error-subtle
+  );
+  --switch-pressed-border: var(--token-color-stroke-error);
+  --switch-pressed-button-background: var(
+    --token-color-background-error
+  );
+  --switch-focus-background: var(--token-color-background-error-subtle);
+  --switch-focus-button-background: var(--token-color-background-error);
 }"
 `;

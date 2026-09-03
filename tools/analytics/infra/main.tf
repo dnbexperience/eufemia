@@ -132,6 +132,28 @@ resource "aws_glue_catalog_table" "records" {
       name = "createdat"
       type = "string"
     }
+
+    # Page-view columns. The JSON SerDe reads schema-on-read, so record rows
+    # read NULL for these and page-view rows read NULL for id/name/value.
+    columns {
+      name = "type"
+      type = "string"
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
   }
 }
 
@@ -173,6 +195,17 @@ resource "aws_athena_workgroup" "analytics" {
 #   - glue:GetTable, glue:GetDatabase, glue:GetPartitions on the analytics db/table
 data "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
+}
+
+# Read-only execution role for the browser-facing dashboard-read Lambda.
+# Pre-created out-of-band for the same reason as above (iam:CreateRole is
+# forbidden by the deploy role's boundary, ADR 0004) and only referenced here.
+# Its inline policy grants a single permission:
+#   - s3:GetObject on the snapshot object (records/dashboard-snapshot.json)
+# so the internet-facing read surface has no write or Athena access. See the
+# "One-time bootstrap" section in README.md for the exact policy document.
+data "aws_iam_role" "dashboard" {
+  name = "eufemia-${var.environment}-dashboard-role"
 }
 
 resource "aws_cloudwatch_log_group" "lambda" {
@@ -257,12 +290,250 @@ resource "aws_apigatewayv2_route" "health" {
   target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
 }
 
+resource "aws_apigatewayv2_route" "collect" {
+  api_id    = aws_apigatewayv2_api.analytics.id
+  route_key = "POST /collect"
+  target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
+}
+
 resource "aws_lambda_permission" "apigw" {
   statement_id  = "AllowAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.analytics.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.analytics.execution_arn}/*/*"
+}
+
+# ---------------------------------------------------------------------------
+# Dashboard API (browser-facing, Entra JWT auth)
+# ---------------------------------------------------------------------------
+
+# A separate HTTP API for the dashboard so its browser/JWT trust model stays
+# isolated from the edge-locked ingest API. It targets the same Lambda; the
+# GET /data route is handled ahead of the edge check.
+resource "aws_apigatewayv2_api" "dashboard" {
+  name          = "${local.function_name}-dashboard"
+  protocol_type = "HTTP"
+  tags          = local.tags
+
+  cors_configuration {
+    # Always include the live dashboard origin so CORS works on the first deploy
+    # (no chicken-and-egg); dashboard_origins adds any extra, e.g. local dev.
+    # dashboard_public_url adds the custom domain once it is configured; compact
+    # drops it while it is still empty, distinct dedupes an overlap with
+    # dashboard_origins.
+    allow_origins = distinct(compact(concat(
+      var.dashboard_origins,
+      [
+        "https://${aws_cloudfront_distribution.dashboard.domain_name}",
+        var.dashboard_public_url,
+      ],
+    )))
+    allow_methods = ["GET"]
+    allow_headers = ["authorization"]
+    max_age       = 3600
+  }
+}
+
+resource "aws_apigatewayv2_stage" "dashboard" {
+  api_id      = aws_apigatewayv2_api.dashboard.id
+  name        = "$default"
+  auto_deploy = true
+  tags        = local.tags
+
+  default_route_settings {
+    throttling_burst_limit = 20
+    throttling_rate_limit  = 40
+  }
+}
+
+resource "aws_apigatewayv2_integration" "dashboard" {
+  api_id                 = aws_apigatewayv2_api.dashboard.id
+  integration_type       = "AWS_PROXY"
+  integration_uri        = aws_lambda_function.dashboard_read.invoke_arn
+  payload_format_version = "2.0"
+}
+
+# Validates Entra (Azure AD) tokens: only users assigned to the app registration
+# receive one, so this is the access gate for the data.
+resource "aws_apigatewayv2_authorizer" "entra" {
+  api_id           = aws_apigatewayv2_api.dashboard.id
+  authorizer_type  = "JWT"
+  identity_sources = ["$request.header.Authorization"]
+  name             = "entra"
+
+  jwt_configuration {
+    audience = [var.entra_client_id]
+    issuer   = "https://login.microsoftonline.com/${var.entra_tenant_id}/v2.0"
+  }
+}
+
+resource "aws_apigatewayv2_route" "dashboard_data" {
+  api_id             = aws_apigatewayv2_api.dashboard.id
+  route_key          = "GET /data"
+  target             = "integrations/${aws_apigatewayv2_integration.dashboard.id}"
+  authorization_type = "JWT"
+  authorizer_id      = aws_apigatewayv2_authorizer.entra.id
+
+  # Require the exposed scope so an ID token (same aud/iss, no scp) can't stand
+  # in for the access token the browser requests.
+  authorization_scopes = ["Dashboard.Read"]
+}
+
+resource "aws_lambda_permission" "dashboard_apigw" {
+  statement_id  = "AllowDashboardAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.dashboard_read.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.dashboard.execution_arn}/*/*"
+}
+
+# Browser-facing dashboard-read Lambda. Reuses the shared build artifact
+# (index.dashboardRead) but runs under a read-only role that can only
+# s3:GetObject the snapshot object -- no write, no Athena -- so the
+# internet-facing surface is isolated from the ingest/query trust model.
+resource "aws_cloudwatch_log_group" "dashboard_read" {
+  name              = "/aws/lambda/eufemia-${var.environment}-dashboard"
+  retention_in_days = 30
+  tags              = local.tags
+}
+
+resource "aws_lambda_function" "dashboard_read" {
+  function_name = "eufemia-${var.environment}-dashboard"
+  role          = data.aws_iam_role.dashboard.arn
+  handler       = "index.dashboardRead"
+  runtime       = "nodejs22.x"
+  timeout       = 10
+  memory_size   = 256
+
+  filename         = "${path.module}/../dist/lambda.zip"
+  source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")
+
+  environment {
+    variables = {
+      NODE_OPTIONS = "--enable-source-maps"
+      DATA_BUCKET  = aws_s3_bucket.data.id
+    }
+  }
+
+  depends_on = [aws_cloudwatch_log_group.dashboard_read]
+  tags       = local.tags
+}
+
+# ---------------------------------------------------------------------------
+# Dashboard snapshot generator (scheduled, off the request path)
+# ---------------------------------------------------------------------------
+
+# Regenerates the dashboard snapshot on a schedule so the read Lambda can stay
+# read-only. Runs under the analytics role (Athena + S3 write) and reuses the
+# shared build artifact (index.snapshot).
+resource "aws_cloudwatch_log_group" "snapshot" {
+  name              = "/aws/lambda/eufemia-${var.environment}-analytics-snapshot"
+  retention_in_days = 30
+  tags              = local.tags
+}
+
+resource "aws_lambda_function" "snapshot" {
+  function_name = "eufemia-${var.environment}-analytics-snapshot"
+  role          = data.aws_iam_role.lambda.arn
+  handler       = "index.snapshot"
+  runtime       = "nodejs22.x"
+  timeout       = 60
+  memory_size   = 256
+
+  filename         = "${path.module}/../dist/lambda.zip"
+  source_code_hash = filebase64sha256("${path.module}/../dist/lambda.zip")
+
+  environment {
+    variables = {
+      NODE_OPTIONS     = "--enable-source-maps"
+      DATA_BUCKET      = aws_s3_bucket.data.id
+      GLUE_DATABASE    = aws_glue_catalog_database.analytics.name
+      GLUE_TABLE       = aws_glue_catalog_table.records.name
+      ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
+    }
+  }
+
+  depends_on = [aws_cloudwatch_log_group.snapshot]
+  tags       = local.tags
+}
+
+resource "aws_cloudwatch_event_rule" "snapshot" {
+  name                = "eufemia-${var.environment}-analytics-snapshot"
+  description         = "Hourly trigger for the dashboard snapshot generator"
+  schedule_expression = "rate(1 hour)"
+  tags                = local.tags
+}
+
+resource "aws_cloudwatch_event_target" "snapshot" {
+  rule      = aws_cloudwatch_event_rule.snapshot.name
+  target_id = "snapshot-lambda"
+  arn       = aws_lambda_function.snapshot.arn
+}
+
+resource "aws_lambda_permission" "snapshot_events" {
+  statement_id  = "AllowEventBridgeInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.snapshot.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.snapshot.arn
+}
+
+# Failure signals for the scheduled generator. Without them a failed run, or a
+# schedule/target that stops firing, would leave the dashboard serving an
+# ever-staler snapshot with no signal. No alarm actions yet (state is visible in
+# CloudWatch); wire an SNS/notification target here when one exists.
+resource "aws_cloudwatch_metric_alarm" "snapshot_errors" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-errors"
+  alarm_description   = "Dashboard snapshot generator returned an error"
+  namespace           = "AWS/Lambda"
+  metric_name         = "Errors"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+}
+
+# Missing invocations mean the schedule or target is broken (Errors alone would
+# stay at zero in that case). Treating missing data as breaching catches it.
+resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-not-running"
+  alarm_description   = "Dashboard snapshot generator has not run in the last 3 hours"
+  namespace           = "AWS/Lambda"
+  metric_name         = "Invocations"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 3
+  threshold           = 1
+  comparison_operator = "LessThanThreshold"
+  treat_missing_data  = "breaching"
+}
+
+# A run can succeed (Invocations >= 1, Errors = 0) yet write an empty snapshot,
+# e.g. the Athena query stops matching partitions. The generator emits the row
+# count as an EMF metric (SnapshotRecordCount), so a snapshot that stays empty is
+# caught here — the Lambda alarms above only see the run, not its content. The
+# not-running alarm owns the "stopped firing" case, so missing data here does not
+# breach. The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts. No alarm actions yet (state is visible in CloudWatch);
+# wire an SNS/notification target here when one exists — and note a genuinely
+# idle environment (no traffic) can sit at 0 and trip this.
+resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
+  alarm_description   = "Dashboard snapshot generator wrote an empty snapshot (no records)"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "SnapshotRecordCount"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Maximum"
+  period              = 3600
+  evaluation_periods  = 6
+  threshold           = 1
+  comparison_operator = "LessThanThreshold"
+  treat_missing_data  = "notBreaching"
 }
 
 # ---------------------------------------------------------------------------
@@ -333,4 +604,126 @@ resource "aws_route53_record" "analytics" {
     zone_id                = aws_apigatewayv2_domain_name.analytics.domain_name_configuration[0].hosted_zone_id
     evaluate_target_health = false
   }
+}
+
+# ---------------------------------------------------------------------------
+# Dashboard static hosting (public site, private S3 bucket via CloudFront)
+# ---------------------------------------------------------------------------
+#
+# The dashboard shell holds no data and no secrets: all data lives behind the
+# Entra-authenticated /data API, so the UI is safe to serve as a plain public
+# site. Access control is entirely the Entra sign-in plus the /data API's JWT
+# authorizer — there is deliberately no Lambda@Edge and no edge auth here. The
+# bucket stays private; CloudFront reads it through an Origin Access Control.
+
+resource "aws_s3_bucket" "dashboard" {
+  bucket = "${local.function_name}-dashboard-${data.aws_caller_identity.current.account_id}"
+  tags   = local.tags
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+# Versioning + the --delete sync gives a free rollback for a bad publish.
+resource "aws_s3_bucket_versioning" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# The bucket is private; the objects are served to the public through the
+# distribution, never from the bucket directly.
+resource "aws_s3_bucket_public_access_block" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_cloudfront_origin_access_control" "dashboard" {
+  name                              = "${local.function_name}-dashboard"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
+resource "aws_cloudfront_distribution" "dashboard" {
+  enabled             = true
+  is_ipv6_enabled     = true
+  default_root_object = "index.html"
+  comment             = "${local.function_name} dashboard"
+  price_class         = "PriceClass_100"
+  tags                = local.tags
+
+  origin {
+    domain_name              = aws_s3_bucket.dashboard.bucket_regional_domain_name
+    origin_id                = "dashboard-s3"
+    origin_access_control_id = aws_cloudfront_origin_access_control.dashboard.id
+  }
+
+  default_cache_behavior {
+    target_origin_id       = "dashboard-s3"
+    viewer_protocol_policy = "redirect-to-https"
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    compress               = true
+
+    # AWS managed "CachingOptimized" policy.
+    cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+
+    # AWS managed "SecurityHeadersPolicy": adds HSTS, X-Content-Type-Options,
+    # X-Frame-Options, Referrer-Policy. Managed id needs no extra deploy-role IAM.
+    response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03"
+  }
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  # No custom domain: the default *.cloudfront.net certificate is used, so the
+  # CloudFront URL is added to the app registration redirect URIs after deploy.
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+}
+
+# Allow only this distribution to read the bucket (OAC identity + SourceArn).
+data "aws_iam_policy_document" "dashboard" {
+  statement {
+    sid       = "AllowCloudFrontRead"
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.dashboard.arn}/*"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_distribution.dashboard.arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "dashboard" {
+  bucket = aws_s3_bucket.dashboard.id
+  policy = data.aws_iam_policy_document.dashboard.json
+
+  depends_on = [aws_s3_bucket_public_access_block.dashboard]
 }

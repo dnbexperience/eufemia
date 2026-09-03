@@ -12,10 +12,13 @@ draft: true
   - [Install](#install)
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
+    - [Theme](#theme)
     - [Flex](#flex)
     - [Accordion](#accordion)
+    - [Autocomplete](#autocomplete)
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [InfoCard](#infocard)
+    - [Img](#img)
     - [Popover](#popover)
     - [ScrollView](#scrollview)
 
@@ -50,6 +53,40 @@ $ yarn add @dnb/eufemia@13
 - Replace `--leading-sb-*` with `--leading-*`
 
 ## Component changes
+
+### [Theme](/uilib/usage/customisation/theming/theme)
+
+The deprecated `name` property and `data-name` attribute have been removed. Use `brand` and `data-brand` instead.
+
+```diff
+-<Theme name="carnegie">
++<Theme brand="carnegie">
+```
+
+Replace `useTheme().name` with `useTheme().brand`. For persisted theme state, replace `getTheme().name` and `setTheme({ name })` with `getTheme().brand` and `setTheme({ brand })`.
+
+`VisibilityByTheme` also matches on the theme object, so replace `name` there too:
+
+```diff
+-<VisibilityByTheme visible={[{ name: 'sbanken' }]}>
++<VisibilityByTheme visible={[{ brand: 'sbanken' }]}>
+```
+
+With `name` removed, TypeScript reports it as an unknown property here. Plain JavaScript gets no such warning — the filter simply stops matching, and the content silently disappears.
+
+The deprecated `size` property, `ThemeSizes` type, `data-size` attribute, and `eufemia-theme__size--*` CSS classes have also been removed. Use `density`, `ThemeDensities`, `data-density`, and `eufemia-theme__density--*` instead.
+
+```diff
+-<Theme size="basis">
++<Theme density="basis">
+```
+
+The deprecated `VisibilityByTheme.Name` component has been removed. Use `VisibilityByTheme.Brand` instead.
+
+```diff
+-<VisibilityByTheme.Name />
++<VisibilityByTheme.Brand />
+```
 
 ### [Flex](/uilib/layout/flex/)
 
@@ -169,6 +206,40 @@ Do not use the deprecated APIs for new integrations. See the [Flex.Container mig
 
 - Replace `id` with `connectedTo` on `Accordion.Content` when connecting to a standalone tertiary button.
 
+### [Autocomplete](/uilib/components/autocomplete/)
+
+The individual search-related props are deprecated in favor of a single `search` object:
+
+- `disableFilter` → `search.filter`
+- `disableReorder` → `search.reorder`
+- `disableHighlighting` → `search.highlight`
+- `searchNumbers` → `search.numbers`
+- `searchInWordIndex` → `search.matchInsideWordsFrom`
+- `searchMatch` → `search.match`
+
+Note that the `disable*` props invert, so a disabled feature becomes `false`:
+
+```diff
+-<Autocomplete
+-  disableFilter
+-  disableReorder
+-  disableHighlighting
+-  searchNumbers
+-  searchInWordIndex={4}
+-  searchMatch="starts-with"
+-/>
++<Autocomplete
++  search={{
++    filter: false,
++    reorder: false,
++    highlight: false,
++    numbers: true,
++    matchInsideWordsFrom: 4,
++    match: 'starts-with',
++  }}
++/>
+```
+
 ### [Modal](/uilib/components/modal/), [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/)
 
 - Replace `closeButtonAttributes` with `closeButtonProps`.
@@ -201,6 +272,16 @@ Do not use the deprecated APIs for new integrations. See the [Flex.Container mig
 ```diff
 -<InfoCard acceptButtonAttributes={{ href: '/path' }} />
 +<InfoCard acceptButtonProps={{ href: '/path' }} />
+```
+
+### [Img](/uilib/elements/image/)
+
+- Replace `imgClass` with `imageClassName`.
+- The `element` prop is deprecated. Keep the default `figure` wrapper and use `figureProps` to pass native properties to it.
+
+```diff
+-<Img src="image.png" alt="Description" imgClass="image-class" />
++<Img src="image.png" alt="Description" imageClassName="image-class" />
 ```
 
 ### [Popover](/uilib/components/popover/)

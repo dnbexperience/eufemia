@@ -2871,6 +2871,80 @@ describe('useFieldProps', () => {
           'aria-required': 'true',
         })
       })
+
+      it('should resolve required fields inside array item schemas', () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            items: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  requiredField: { type: 'string' },
+                  optionalField: { type: 'string' },
+                },
+                required: ['requiredField'],
+              },
+            },
+          },
+        }
+
+        const { result } = renderHook(
+          () => ({
+            requiredField: useFieldProps({
+              itemPath: '/requiredField',
+            }),
+            optionalField: useFieldProps({
+              itemPath: '/optionalField',
+            }),
+          }),
+          {
+            wrapper: ({ children }) => (
+              <Provider schema={schema} ajvInstance={makeAjvInstance()}>
+                <Iterate.Array path="/items" value={[{}]}>
+                  {children}
+                </Iterate.Array>
+              </Provider>
+            ),
+          }
+        )
+
+        expect(result.current.requiredField.htmlAttributes).toEqual({
+          'aria-required': 'true',
+        })
+        expect(result.current.optionalField.htmlAttributes).toEqual({})
+      })
+
+      it('should keep fields optional when only a described parent object is required', () => {
+        const schema: JSONSchema = {
+          type: 'object',
+          properties: {
+            section: {
+              type: 'object',
+              properties: {
+                optionalField: { type: 'string' },
+              },
+            },
+          },
+          required: ['section'],
+        }
+
+        const { result } = renderHook(
+          () => useFieldProps({ path: '/optionalField' }),
+          {
+            wrapper: ({ children }) => (
+              <Provider schema={schema} ajvInstance={makeAjvInstance()}>
+                <SectionContext value={{ path: '/section' }}>
+                  {children}
+                </SectionContext>
+              </Provider>
+            ),
+          }
+        )
+
+        expect(result.current.htmlAttributes).toEqual({})
+      })
     })
 
     it('should return true on required and invalid', async () => {

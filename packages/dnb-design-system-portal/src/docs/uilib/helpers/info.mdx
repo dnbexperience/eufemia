@@ -17,11 +17,18 @@ All the [components](/uilib/components) share a couple of commonly used helpers.
 
 ### Animation easing
 
-You can use the internal Eufemia easing function.
+Eufemia provides reusable easing curves for consistent motion:
+
+- `--easing-default` for standard transitions.
+- `--easing-fast-bounce` for short interactions that should settle with a subtle overshoot.
 
 ```css
 .animation-element {
   transition: transform 400ms var(--easing-default);
+}
+
+.bouncing-animation-element {
+  transition: transform 180ms var(--easing-fast-bounce);
 }
 ```
 

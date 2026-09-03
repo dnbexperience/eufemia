@@ -82,6 +82,7 @@ export type DatePickerCalendarProps = Omit<
   firstDayOfWeek?: string
   hideNavigation?: boolean
   hideDays?: boolean
+  hideAdjacentMonthDates?: boolean
   onlyMonth?: boolean
   hideMonthLabel?: boolean
   hideNextMonthWeek?: boolean
@@ -123,6 +124,7 @@ type DayObject = {
 const datePickerCalendarDefaultProps: DatePickerCalendarProps = {
   hideNavigation: false,
   hideDays: false,
+  hideAdjacentMonthDates: false,
   onlyMonth: false,
   hideMonthLabel: false,
   hideNextMonthWeek: false,
@@ -150,7 +152,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setSubmittedDates,
     views,
     setViews,
-    props: { onDaysRender, yearNavigation },
+    props: { link: isLinkedCalendars, onDaysRender, yearNavigation },
     translation: {
       DatePicker: { firstDay: defaultFirstDayOfWeek, selectedMonth },
     },
@@ -166,6 +168,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     hideNavigation,
     locale,
     hideDays,
+    hideAdjacentMonthDates,
     onSelect,
     onKeyDown,
     resetDate,
@@ -350,6 +353,30 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       return date
     },
     [onDaysRender, getDays, keyNavCalc]
+  )
+
+  const navigateToAdjacentMonth = useCallback(
+    (day: DayObject) => {
+      if (!isRange || (!day.isLastMonth && !day.isNextMonth)) {
+        return
+      }
+
+      const monthOffset = day.isLastMonth ? -1 : 1
+      const updatedViews = views.map((view) => {
+        if (view.nr === nr || isLinkedCalendars) {
+          return {
+            ...view,
+            month: addMonths(view.month, monthOffset),
+          }
+        }
+
+        return view
+      })
+
+      pendingFocusDateRef.current = day.date
+      setViews(updatedViews)
+    },
+    [isLinkedCalendars, isRange, nr, setViews, views]
   )
 
   const hasReachedEnd = useCallback(
@@ -710,6 +737,14 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 className="dnb-date-picker__days"
               >
                 {(week as DayObject[]).map((day, i) => {
+                  const isOutsideMonth = day.isLastMonth || day.isNextMonth
+                  const isDuplicateAdjacentMonth =
+                    isRange &&
+                    isOutsideMonth &&
+                    views.some(
+                      (view) =>
+                        view.nr !== nr && isSameMonth(day.date, view.month)
+                    )
                   const title = formatDate(day.date, {
                     locale,
                     options: {
@@ -720,19 +755,24 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                     },
                   })
 
+                  const isHiddenAdjacentMonthDate =
+                    hideAdjacentMonthDates &&
+                    (day.isLastMonth || day.isNextMonth)
                   const handleAsDisabled =
-                    day.isLastMonth ||
-                    day.isNextMonth ||
                     day.isDisabled ||
-                    day.isInactive
+                    day.isInactive ||
+                    isDuplicateAdjacentMonth
 
-                  const dateType = day.isStartDate
-                    ? 'start'
-                    : day.isEndDate
-                      ? 'end'
-                      : undefined
+                  const dateType = !isHiddenAdjacentMonthDate
+                    ? day.isStartDate
+                      ? 'start'
+                      : day.isEndDate
+                        ? 'end'
+                        : undefined
+                    : undefined
                   const isSelectedDate =
-                    nr === 0 ? day.isStartDate : day.isEndDate
+                    !isHiddenAdjacentMonthDate &&
+                    (nr === 0 ? day.isStartDate : day.isEndDate)
 
                   // cell params
                   const paramsCell = {
@@ -763,15 +803,24 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         variant="secondary"
                         text={day.date.getDate()}
                         bounding
+                        hidden={isHiddenAdjacentMonthDate}
                         disabled={handleAsDisabled}
-                        tabIndex={handleAsDisabled ? 0 : -1} // fix for NVDA
+                        tabIndex={
+                          isDuplicateAdjacentMonth
+                            ? -1
+                            : handleAsDisabled
+                              ? 0
+                              : -1
+                        } // fix for NVDA
                         aria-disabled={handleAsDisabled}
+                        aria-hidden={isDuplicateAdjacentMonth || undefined}
                         aria-label={title}
                         {...paramsButton}
                         onClick={
                           handleAsDisabled
                             ? undefined
-                            : ({ event }) =>
+                            : ({ event }) => {
+                                navigateToAdjacentMonth(day)
                                 onSelectRange({
                                   day,
                                   isRange,
@@ -791,6 +840,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                                     )
                                   },
                                 })
+                              }
                         }
                         onMouseOver={
                           handleAsDisabled
@@ -922,6 +972,8 @@ function buildDayClassNames(day: DayObject) {
       'dnb-date-picker__day--within-selection': day.isWithinSelection,
       'dnb-date-picker__day--selectable': day.isSelectable,
       'dnb-date-picker__day--inactive': day.isInactive,
+      'dnb-date-picker__day--outside-month':
+        day.isLastMonth || day.isNextMonth,
       'dnb-date-picker__day--disabled': day.isDisabled,
       'dnb-date-picker__day--today': day.isToday,
     },

@@ -52,3 +52,50 @@ variable "edge_auth_secret" {
     error_message = "edge_auth_secret must be a non-empty value."
   }
 }
+
+variable "entra_client_id" {
+  type        = string
+  description = "Entra (Azure AD) application (client) ID accepted by the dashboard API JWT authorizer."
+
+  validation {
+    condition     = length(var.entra_client_id) > 0
+    error_message = "entra_client_id must be a non-empty value."
+  }
+}
+
+variable "entra_tenant_id" {
+  type        = string
+  description = "Entra (Azure AD) directory (tenant) ID; used to build the dashboard API JWT issuer."
+
+  validation {
+    condition     = length(var.entra_tenant_id) > 0
+    error_message = "entra_tenant_id must be a non-empty value."
+  }
+}
+
+variable "dashboard_origins" {
+  type        = list(string)
+  description = "Allowed CORS origins for the dashboard API (e.g. the dashboard host and http://localhost:4173)."
+
+  validation {
+    condition     = length(var.dashboard_origins) > 0
+    error_message = "dashboard_origins must list at least one allowed origin."
+  }
+}
+
+# Canonical public URL the dashboard is served from once it is fronted by a
+# custom domain (e.g. https://dashboard.eufemia.dnb.no via Akamai). When set it
+# becomes an allowed CORS origin and the OIDC redirect URI; empty falls back to
+# the raw CloudFront URL, preserving the pre-custom-domain behaviour.
+variable "dashboard_public_url" {
+  type        = string
+  default     = ""
+  description = "Canonical public dashboard URL (e.g. https://dashboard.eufemia.dnb.no). Becomes a CORS origin and the OIDC redirect URI; empty falls back to the CloudFront URL."
+
+  # Entra matches redirect URIs exactly, so a trailing slash or missing scheme
+  # would break sign-in while the deploy still succeeds. Allow empty (default).
+  validation {
+    condition     = var.dashboard_public_url == "" || can(regex("^https://[^/]+$", var.dashboard_public_url))
+    error_message = "dashboard_public_url must be an https:// origin with no trailing slash (e.g. https://dashboard.eufemia.dnb.no)."
+  }
+}

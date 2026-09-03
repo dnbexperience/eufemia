@@ -29,6 +29,9 @@ describe('cleanupPackage', () => {
     expect(cleanedPackage).toHaveProperty('peerDependencies')
     expect(cleanedPackage.bin).toBe('./cli/eufemia.js')
     expect(cleanedPackage.license).toBe('SEE LICENSE IN LICENSE FILE')
+    // The published package is ESM; this is part of the transform the publish
+    // guard reconstructs, so it belongs in this function rather than its caller.
+    expect(cleanedPackage.type).toBe('module')
   })
 
   it('includes @babel/runtime-corejs3 as a runtime dependency', async () => {
@@ -216,7 +219,7 @@ describe('package.json', () => {
     try {
       expect(run('--version').trim()).toBe('0.0.0-development')
       expect(run('skills', 'install', '--target', target)).toContain(
-        'Installed 5 Eufemia skills'
+        'Installed 6 Eufemia skills'
       )
       expect(run('skills', 'check', '--target', target)).toContain(
         'Eufemia agent skills are current'
@@ -225,7 +228,7 @@ describe('package.json', () => {
         fs.existsSync(path.join(target, 'eufemia-components', 'SKILL.md'))
       ).toBe(true)
       expect(run('skills', 'uninstall', '--target', target)).toContain(
-        'Removed 5 Eufemia skill files'
+        'Removed 6 Eufemia skill files'
       )
 
       const interactiveResult = spawnSync(

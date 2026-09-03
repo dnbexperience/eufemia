@@ -8,7 +8,11 @@ import type { SkeletonContextValue } from '../skeleton/SkeletonHelper'
 import type { HeadingProps } from './Heading'
 
 export type HeadingContextValue = {
-  heading?: HeadingProps
+  heading?: HeadingProps & {
+    preserveLevels?: boolean
+    revision?: number
+    recalculate?: () => void
+  }
 } & SkeletonContextValue
 
 const HeadingContext = createContext<HeadingContextValue>({

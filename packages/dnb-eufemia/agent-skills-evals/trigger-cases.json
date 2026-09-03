@@ -41,6 +41,14 @@
       "expected_skill": "eufemia-migrate"
     },
     {
+      "prompt": "Update this Eufemia portal paragraph for me and create a small pull request with a direct page preview.",
+      "expected_skill": "eufemia-portal-content"
+    },
+    {
+      "prompt": "I am a designer. Please publish an urgent editorial correction to the Eufemia portal without making me manage Git or GitHub.",
+      "expected_skill": "eufemia-portal-content"
+    },
+    {
       "prompt": "Optimize this SQL query and propose a database index.",
       "expected_skill": null
     },

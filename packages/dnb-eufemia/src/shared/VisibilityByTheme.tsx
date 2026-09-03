@@ -1,16 +1,17 @@
 import type { ReactNode } from 'react'
 import useTheme from './useTheme'
+import type { UseThemeReturn } from './useTheme'
 import type { ThemeNames, ThemeProps } from './Theme'
 
 type VisibilityByThemeProps = {
   /**
-   * A valid theme name or object.
+   * A valid theme brand or object.
    * Will pass children on a match.
    */
   visible?: ThemeParams
 
   /**
-   * A valid theme name or object.
+   * A valid theme brand or object.
    * Will omit passing children on a match.
    * NB: "visible" takes presence over "hidden"
    */
@@ -47,10 +48,14 @@ export default function VisibilityByTheme({
 
   return children
 
-  function match(theme: ThemeProps) {
+  function match(theme: UseThemeReturn) {
     return (themeItem: ThemeItem) => {
+      if (!theme) {
+        return false
+      }
+
       return typeof themeItem === 'string'
-        ? theme.name === themeItem
+        ? theme.brand === themeItem
         : matchObject(theme, themeItem)
     }
   }
@@ -64,19 +69,30 @@ export default function VisibilityByTheme({
   }
 }
 
-VisibilityByTheme.Name = function ThemeName() {
+/**
+ * Renders the display name of the inherited theme brand,
+ * such as "DNB", "Sbanken", "Eiendom" or "Carnegie".
+ * Renders nothing when the brand is unknown or no theme was inherited.
+ */
+VisibilityByTheme.Brand = function ThemeBrand() {
   const theme = useTheme()
   if (theme?.isCarnegie) {
     return 'Carnegie'
   }
-  if (theme.isEiendom) {
+  if (theme?.isEiendom) {
     return 'Eiendom'
   }
-  if (theme.isSbanken) {
+  if (theme?.isSbanken) {
     return 'Sbanken'
   }
-  if (theme.isUi) {
+  if (theme?.isUi) {
     return 'DNB'
   }
   return undefined
 }
+
+/**
+ * Deprecated. Use `VisibilityByTheme.Brand` instead.
+ * @deprecated Use `VisibilityByTheme.Brand` instead. This will be removed in v13.
+ */
+VisibilityByTheme.Name = VisibilityByTheme.Brand

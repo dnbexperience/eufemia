@@ -5,19 +5,19 @@ frontends.
 
 ## Included skills
 
-| Skill                   | Use it for                                                                |
-| ----------------------- | ------------------------------------------------------------------------- |
-| `eufemia-components`    | Find components and verify current props, events, forms, and layout APIs. |
-| `eufemia-compose`       | Compose complete pages and features from Eufemia primitives and guidance. |
-| `eufemia-accessibility` | Apply Eufemia-specific accessibility guidance and verification.           |
-| `eufemia-review`        | Review code against supported APIs, deprecations, and documented rules.   |
-| `eufemia-migrate`       | Plan and validate Eufemia upgrades using current release documentation.   |
+| Skill                    | Use it for                                                                |
+| ------------------------ | ------------------------------------------------------------------------- |
+| `eufemia-components`     | Find components and verify current props, events, forms, and layout APIs. |
+| `eufemia-compose`        | Compose complete pages and features from Eufemia primitives and guidance. |
+| `eufemia-accessibility`  | Apply Eufemia-specific accessibility guidance and verification.           |
+| `eufemia-review`         | Review code against supported APIs, deprecations, and documented rules.   |
+| `eufemia-migrate`        | Plan and validate Eufemia upgrades using current release documentation.   |
+| `eufemia-portal-content` | Edit Portal content and create small pull requests with page previews.    |
 
 ## Enable the MCP server
 
-RAIWork selects skills by default during installation, but remote MCP servers
-require explicit consent. Enable the **eufemia** MCP row to let the skills query
-the official hosted documentation.
+Enable the **eufemia** MCP server when your client requests consent so the
+skills can query the official hosted documentation.
 
 The hosted server only serves Eufemia documentation and machine-readable design
 system metadata. It does not read your project files or execute code on your
@@ -39,9 +39,10 @@ installation is prohibited, limit work to documentation and planning.
 ## Scope
 
 This plugin owns generic Eufemia components, themes, accessibility guidance,
-review rules, and migrations. Product-specific authentication, providers,
-deployment, and business workflows remain with product or platform tooling.
-Generic visual-exploration skills can support ideation, but they do not define
-production DNB design-system APIs or compliance requirements.
+review rules, migrations, and contributions to the official Eufemia Portal.
+Product-specific authentication, providers, deployment, and business workflows
+remain with product or platform tooling. Generic visual-exploration skills can
+support ideation, but they do not define production DNB design-system APIs or
+compliance requirements.
 
 More documentation: [eufemia.dnb.no](https://eufemia.dnb.no)

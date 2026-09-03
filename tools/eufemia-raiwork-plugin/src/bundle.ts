@@ -15,7 +15,7 @@ const MAX_PLUGIN_FILES = 5_000
 const MAX_ICON_BYTES = 2 * 1024 * 1024
 const MAX_ICON_DIMENSION = 4_096
 
-const isSecretLookingPath = (relativePath: string) => {
+export const isSecretLookingPath = (relativePath: string) => {
   const name = path.posix.basename(relativePath).toLowerCase()
   return (
     name === '.env' ||
@@ -106,7 +106,7 @@ const createManifest = (
   },
 })
 
-const collectFiles = async (
+export const collectFiles = async (
   root: string,
   directory = root,
   files = new Map<string, Buffer>()
@@ -134,7 +134,7 @@ const collectFiles = async (
   return files
 }
 
-const createExpectedFiles = async (paths: BuildPaths) => {
+export const readPluginSource = async (paths: BuildPaths) => {
   const canonicalManifest = await readCanonicalManifest(
     path.join(paths.canonicalSkillsRoot, 'manifest.json')
   )
@@ -142,6 +142,43 @@ const createExpectedFiles = async (paths: BuildPaths) => {
     paths.configPath,
     canonicalManifest
   )
+  const canonicalFiles = await collectFiles(paths.canonicalSkillsRoot)
+  canonicalFiles.delete('manifest.json')
+  const canonicalSkillNames = new Set(
+    canonicalManifest.skills.map(({ name }) => name)
+  )
+  const renderedSkills = new Set<string>()
+  for (const relativePath of canonicalFiles.keys()) {
+    const skillDirectory = relativePath.split('/')[0]
+    if (!skillDirectory || !canonicalSkillNames.has(skillDirectory)) {
+      throw new Error(
+        `Canonical file does not belong to a declared skill: ${relativePath}`
+      )
+    }
+
+    if (relativePath.endsWith('/SKILL.md')) {
+      const skill = canonicalManifest.skills.find(
+        ({ path: skillPath }) => skillPath === relativePath
+      )
+      if (!skill) {
+        throw new Error(`Unlisted canonical skill file: ${relativePath}`)
+      }
+      renderedSkills.add(skill.name)
+    }
+  }
+
+  for (const { name } of canonicalManifest.skills) {
+    if (!renderedSkills.has(name)) {
+      throw new Error(`Canonical skill is missing SKILL.md: ${name}`)
+    }
+  }
+
+  return { canonicalManifest, config, canonicalFiles }
+}
+
+const createExpectedFiles = async (paths: BuildPaths) => {
+  const { canonicalManifest, config, canonicalFiles } =
+    await readPluginSource(paths)
   const files = new Map<string, Buffer>()
 
   files.set(
@@ -158,48 +195,25 @@ const createExpectedFiles = async (paths: BuildPaths) => {
   files.set('LICENSE.txt', await fs.readFile(paths.licensePath))
   files.set(config.plugin.icon, await fs.readFile(paths.coverPath))
 
-  const canonicalFiles = await collectFiles(paths.canonicalSkillsRoot)
-  canonicalFiles.delete('manifest.json')
-  const canonicalSkillNames = new Set(
-    canonicalManifest.skills.map(({ name }) => name)
-  )
-  const renderedSkills = new Set<string>()
   for (const [relativePath, content] of canonicalFiles) {
-    const skillDirectory = relativePath.split('/')[0]
-    if (!skillDirectory || !canonicalSkillNames.has(skillDirectory)) {
-      throw new Error(
-        `Canonical file does not belong to a declared skill: ${relativePath}`
-      )
-    }
-
     const destination = `skills/${relativePath}`
-    if (relativePath.endsWith('/SKILL.md')) {
-      const skill = canonicalManifest.skills.find(
-        ({ path: skillPath }) => skillPath === relativePath
-      )
-      if (!skill) {
-        throw new Error(`Unlisted canonical skill file: ${relativePath}`)
-      }
-      files.set(
-        destination,
-        Buffer.from(renderSkill(skill, content.toString('utf-8'), config))
-      )
-      renderedSkills.add(skill.name)
-    } else {
-      files.set(destination, content)
-    }
-  }
-
-  for (const { name } of canonicalManifest.skills) {
-    if (!renderedSkills.has(name)) {
-      throw new Error(`Canonical skill is missing SKILL.md: ${name}`)
-    }
+    const skill = canonicalManifest.skills.find(
+      ({ path: skillPath }) => skillPath === relativePath
+    )
+    files.set(
+      destination,
+      skill
+        ? Buffer.from(
+            renderSkill(skill, content.toString('utf-8'), config)
+          )
+        : content
+    )
   }
 
   return { canonicalManifest, config, files }
 }
 
-const replaceBundleSafely = async (
+export const replaceBundleSafely = async (
   outputRoot: string,
   files: Map<string, Buffer>
 ) => {

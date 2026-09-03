@@ -76,8 +76,14 @@ type DocsToolsOptions = { docsRoot?: string }
 function createLogger(silent: boolean) {
   return (...args: unknown[]) => {
     if (!silent) {
+      // Collapse to one CR/LF-free line so a user-provided value cannot forge log lines.
+      const line = args
+        .map((arg) => (typeof arg === 'string' ? arg : String(arg)))
+        .join(' ')
+        .replace(/\n/g, '')
+        .replace(/\r/g, '')
       // eslint-disable-next-line no-console -- server-side diagnostics
-      console.error(...args)
+      console.error(line)
     }
   }
 }

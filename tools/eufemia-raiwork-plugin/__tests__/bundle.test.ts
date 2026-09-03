@@ -5,6 +5,7 @@ import {
   buildRaiworkBundle,
   validateRaiworkBundle,
 } from '../src/bundle.ts'
+import { buildAgentPlugin } from '../src/agent-plugin.ts'
 import { defaultPaths } from '../src/paths.ts'
 import { verifyHostedMcp } from '../src/remote.ts'
 import type { BuildPaths, RaiworkPluginManifest } from '../src/types.ts'
@@ -32,8 +33,8 @@ describe('Eufemia RAIWork plugin', () => {
 
     expect(report).toMatchObject({
       bundleRoot: paths.outputRoot,
-      fileCount: 9,
-      skillCount: 5,
+      fileCount: 10,
+      skillCount: 6,
     })
     expect(report.totalBytes).toBeLessThan(50 * 1024 * 1024)
 
@@ -61,7 +62,95 @@ describe('Eufemia RAIWork plugin', () => {
         scripts: [],
       },
     })
-    expect(manifest.contents.skills).toHaveLength(5)
+    expect(manifest.contents.skills).toHaveLength(6)
+  })
+
+  it('builds a portable Agent Plugin with Claude compatibility', async () => {
+    const agentPluginOutputRoot = path.join(temporaryRoot, 'eufemia')
+    const report = await buildAgentPlugin({
+      ...paths,
+      agentPluginOutputRoot,
+    })
+
+    expect(report).toMatchObject({
+      bundleRoot: agentPluginOutputRoot,
+      skillCount: 6,
+    })
+
+    const openManifest = JSON.parse(
+      await fs.readFile(
+        path.join(agentPluginOutputRoot, 'plugin.json'),
+        'utf-8'
+      )
+    )
+    expect(openManifest).toMatchObject({
+      $schema:
+        'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json',
+      name: 'eufemia',
+      version: '0.1.0',
+    })
+
+    const claudeManifest = JSON.parse(
+      await fs.readFile(
+        path.join(agentPluginOutputRoot, '.claude-plugin', 'plugin.json'),
+        'utf-8'
+      )
+    )
+    expect(claudeManifest).toMatchObject({
+      name: 'eufemia',
+      displayName: 'Eufemia Web',
+      version: '0.1.0',
+    })
+
+    const openMcp = JSON.parse(
+      await fs.readFile(
+        path.join(agentPluginOutputRoot, 'mcp.json'),
+        'utf-8'
+      )
+    )
+    expect(openMcp).toMatchObject({
+      $schema: 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json',
+      mcpServers: {
+        eufemia: {
+          type: 'streamable-http',
+          url: 'https://server.eufemia.dnb.no/mcp/web',
+        },
+      },
+    })
+
+    const claudeMcp = JSON.parse(
+      await fs.readFile(
+        path.join(agentPluginOutputRoot, '.mcp.json'),
+        'utf-8'
+      )
+    )
+    expect(claudeMcp).toEqual({
+      mcpServers: {
+        eufemia: {
+          type: 'http',
+          url: 'https://server.eufemia.dnb.no/mcp/web',
+        },
+      },
+    })
+
+    const canonicalSkill = await fs.readFile(
+      path.join(
+        paths.canonicalSkillsRoot,
+        'eufemia-components',
+        'SKILL.md'
+      ),
+      'utf-8'
+    )
+    const generatedSkill = await fs.readFile(
+      path.join(
+        agentPluginOutputRoot,
+        'skills',
+        'eufemia-components',
+        'SKILL.md'
+      ),
+      'utf-8'
+    )
+    expect(generatedSkill).toBe(canonicalSkill)
   })
 
   it('changes only skill frontmatter', async () => {

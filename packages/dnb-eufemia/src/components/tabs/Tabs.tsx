@@ -54,6 +54,7 @@ import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutE
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
+import { supportsOpenOnFind } from '../height-animation/HeightAnimation'
 import {
   createSharedState,
   useSharedState,
@@ -157,6 +158,10 @@ export type TabsProps = Omit<
      */
     keepInDOM?: boolean
     /**
+     * If set to `true`, all tab content is rendered and inactive content remains findable by the browser's find-in-page feature. Matching content selects its tab. Defaults to the value of `keepInDOM`.
+     */
+    openOnFind?: boolean
+    /**
      * If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `keepInDOM`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.
      */
     preventRerender?: boolean
@@ -186,7 +191,7 @@ export type TabsEvent = {
   selectedKey: TabsSelectedKey
   focusKey: TabsSelectedKey
   title: string | ReactNode
-  event?: SyntheticEvent
+  event?: SyntheticEvent | Event
 }
 
 export type TabsRenderComponents = {
@@ -236,6 +241,7 @@ const tabsDefaultProps: Record<string, unknown> = {
   navButtonEdge: false,
   onOpenTabNavigationFn: null,
   keepInDOM: false,
+  openOnFind: false,
   preventRerender: false,
   scroll: null,
   skeleton: null,
@@ -786,7 +792,7 @@ function TabsComponent(ownProps: TabsProps) {
 
   const openTab = (
     newSelectedKey: string | number,
-    event: SyntheticEvent | null = null,
+    event: SyntheticEvent | Event | null = null,
     mode: string | null = null
   ) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
@@ -1235,13 +1241,14 @@ function TabsComponent(ownProps: TabsProps) {
 
   renderContentRef.current = () => {
     const { preventRerender, keepInDOM } = propsRef.current
+    const shouldOpenOnFind = ownProps.openOnFind ?? keepInDOM
     const currentSelectedKey = selectedKeyRef.current
     const currentData = dataRef.current
 
     let content
-    if (preventRerender || keepInDOM) {
+    if (preventRerender || keepInDOM || shouldOpenOnFind) {
       // Cached content rendering
-      if (keepInDOM) {
+      if (keepInDOM || shouldOpenOnFind) {
         cacheRef.current = Object.entries(currentData).reduce(
           (acc, [_idx, cur]) => {
             acc[cur.key] = {
@@ -1268,16 +1275,15 @@ function TabsComponent(ownProps: TabsProps) {
         ([key, { content: cachedContent }]) => {
           const hide = key !== String(currentSelectedKey)
           return (
-            <div
+            <CachedContent
               key={key}
-              aria-hidden={hide ? true : undefined}
-              className={clsx(
-                'dnb-tabs__cached',
-                hide && 'dnb-tabs__cached--hidden'
-              )}
+              tabKey={key}
+              hidden={hide}
+              openOnFind={shouldOpenOnFind}
+              onBeforeMatch={(event) => openTab(key, event)}
             >
               {cachedContent}
-            </div>
+            </CachedContent>
           )
         }
       )
@@ -1470,6 +1476,62 @@ const Tabs = Object.assign(memo(TabsComponent), {
 withComponentMarkers(Tabs, { _supportsSpacingProps: true })
 
 export default Tabs
+
+function CachedContent({
+  tabKey,
+  hidden,
+  openOnFind,
+  onBeforeMatch,
+  children,
+}: {
+  tabKey: string
+  hidden: boolean
+  openOnFind?: boolean
+  onBeforeMatch: (event: Event) => void
+  children: ReactNode
+}) {
+  const elementRef = useRef<HTMLDivElement>(null)
+  const canOpenOnFind = openOnFind && supportsOpenOnFind()
+
+  useEffect(() => {
+    const element = elementRef.current
+    if (!element || !hidden) {
+      return undefined
+    }
+
+    if (!canOpenOnFind) {
+      // Undo a previous enhancement, which React does not track.
+      element.setAttribute('hidden', '')
+      return undefined
+    }
+
+    element.setAttribute('hidden', 'until-found')
+    const handleBeforeMatch = (event: Event) => {
+      element.removeAttribute('hidden')
+      onBeforeMatch(event)
+    }
+    element.addEventListener('beforematch', handleBeforeMatch)
+
+    return () => {
+      element.removeEventListener('beforematch', handleBeforeMatch)
+    }
+  }, [canOpenOnFind, hidden, onBeforeMatch])
+
+  return (
+    <div
+      ref={elementRef}
+      data-tab-key={tabKey}
+      hidden={hidden ? true : undefined} // Enhanced to hidden="until-found" after mount when openOnFind is enabled
+      aria-hidden={hidden ? true : undefined}
+      className={clsx(
+        'dnb-tabs__cached',
+        hidden && 'dnb-tabs__cached--hidden'
+      )}
+    >
+      {children}
+    </div>
+  )
+}
 
 export const Dummy = ({ children }: { children: ReactNode }) => {
   /**

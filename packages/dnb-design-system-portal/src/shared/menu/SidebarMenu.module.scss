@@ -196,41 +196,6 @@
       }
     }
 
-    .dnb-sidebar-menu__theme-badge {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      width: 1.5em;
-      height: 1.5em;
-
-      white-space: nowrap;
-
-      background-color: currentcolor;
-      border-radius: 0.75em;
-
-      transform: translateX(calc(-100% - 0.5rem));
-
-      &--sbanken {
-        &::before {
-          content: 'Sbanken';
-          font-family: var(--font-family-heading);
-          font-weight: normal;
-          color: var(--token-color-icon-neutral-inverse);
-          width: 0.7em;
-          height: 1.5rem;
-          overflow: hidden;
-          padding: 0.0625rem;
-        }
-      }
-
-      &--carnegie {
-        background-image: url('/images/carnegie_badge.png');
-        background-size: contain;
-      }
-    }
-
     &__item {
       display: flex;
       justify-content: space-between;

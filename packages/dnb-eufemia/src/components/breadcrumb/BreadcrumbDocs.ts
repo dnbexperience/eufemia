@@ -77,6 +77,11 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  openOnFind: {
+    doc: "Keeps collapsed breadcrumb items findable by the browser's find-in-page feature. Matching content expands the breadcrumb. Defaults to `false`.",
+    type: 'boolean',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

@@ -35,8 +35,10 @@ export default function AccordionTertiaryContent({
 }: AccordionTertiaryContentProps) {
   const {
     keepInDOM = false,
+    openOnFind,
     onAnimationStart,
     onAnimationEnd,
+    onBeforeMatch,
     title,
     ['aria-label']: ariaLabel,
     ...wrapperProps
@@ -71,6 +73,8 @@ export default function AccordionTertiaryContent({
         open={expanded}
         animate={!noAnimation}
         keepInDOM={keepInDOM}
+        openOnFind={openOnFind}
+        onBeforeMatch={onBeforeMatch}
         onAnimationStart={onAnimationStart}
         onAnimationEnd={onAnimationEnd}
         onOpen={handleOpen}

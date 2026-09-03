@@ -74,6 +74,13 @@ vulnerabilities only; less-severe issues will not be patched there, so please
 plan to upgrade. Majors below `10.x` are end-of-life — there is no maintained
 release line to publish a fix from, so upgrade to a supported major.
 
+## Software Bill of Materials (SBOM)
+
+Every release of `@dnb/eufemia` ships a CycloneDX **SBOM** and a **vulnerability
+report** as GitHub Release assets, so you can see exactly which components a
+version contains and scope the impact of a new advisory. See
+[`docs/sbom.md`](./docs/sbom.md).
+
 ## Ownership
 
 Vulnerability management for this repository is owned by the Eufemia **Security

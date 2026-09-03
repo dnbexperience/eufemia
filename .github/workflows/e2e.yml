@@ -9,12 +9,10 @@ on:
       - '!wip/**'
       - '!experiments/**'
       - '!release'
-      - '!portal'
       - '!beta'
       - '!alpha'
   pull_request:
     branches:
-      - 'portal'
       - 'release'
       - 'beta'
       - 'alpha'
@@ -28,8 +26,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
-# No job-wide `env:` on purpose: only the public Algolia search config is
-# needed, and it is scoped to the portal build step (least privilege).
+env:
+  # Non-secret build flag only; the public Algolia search config stays scoped
+  # to the portal build step (least privilege). Feature branches skip the
+  # library build and test source (like visual-regression); main and v* test dist.
+  RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
 
 jobs:
   e2e:
@@ -58,18 +59,20 @@ jobs:
             ~/Library/Caches/ms-playwright
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-firefox-chromium-${{ hashFiles('**/yarn.lock') }}
       - name: Install Playwright browsers
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
+        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox chromium
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Install Playwright dependencies
-        run: yarn workspace dnb-design-system-portal playwright install-deps firefox
+        run: yarn workspace dnb-design-system-portal playwright install-deps firefox chromium
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
+        if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Postbuild Library
+        if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Build portal

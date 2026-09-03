@@ -186,6 +186,7 @@ export default {
   '--shadow-sharp-blur-radius': '6px',
   '--shadow-sharp-color': 'rgb(0 0 0 / 16%)',
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
+  '--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
   '--focus-ring-width': '0.25rem'
 }; // prettier-ignore
 "
@@ -377,6 +378,7 @@ export default {
   '--shadow-sharp-blur-radius': '6px',
   '--shadow-sharp-color': 'rgb(0 0 0 / 16%)',
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
+  '--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
   '--focus-ring-width': '0.25rem'
 }; // prettier-ignore
 "
@@ -722,7 +724,7 @@ exports[`makePropertiesFile > Tokens snapshots for > carnegie 1`] = `
   --token-radius-sm: 0.125rem;
   --token-radius-md: 0.125rem;
   --token-radius-lg: 0.25rem;
-  --token-radius-xl: 1.5rem;
+  --token-radius-xl: 0.5rem;
   --token-radius-full: 9999px;
 }
 "

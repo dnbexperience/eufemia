@@ -17,7 +17,11 @@ import type { ThemeName } from '../style/themes/capabilities'
 
 export type ThemeNames = ThemeName
 export type ThemeVariants = string
-export type ThemeSizes = 'basis'
+export type ThemeDensities = 'basis'
+/**
+ * @deprecated Use `ThemeDensities` instead. This type will be removed in v13.
+ */
+export type ThemeSizes = ThemeDensities
 export type ContrastMode = boolean
 /**
  * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'auto'` to follow the user's system preference. Defaults to `undefined`.
@@ -30,8 +34,18 @@ export type ThemeColorScheme = 'auto' | 'light' | 'dark'
 export type ThemeSurface = 'light' | 'dark' | 'initial'
 
 export type ThemeProps = {
+  brand?: ThemeNames
+  /**
+   * Deprecated. Use `brand` instead.
+   * @deprecated Use `brand` instead. This property will be removed in v13.
+   */
   name?: ThemeNames
   variant?: ThemeVariants
+  density?: ThemeDensities
+  /**
+   * Deprecated. Use `density` instead.
+   * @deprecated Use `density` instead. This property will be removed in v13.
+   */
   size?: ThemeSizes
   contrastMode?: ContrastMode
   colorScheme?: ThemeColorScheme
@@ -47,8 +61,10 @@ export default function Theme(themeProps: ThemeAllProps) {
   const {
     children,
     element,
+    brand,
     name,
     variant,
+    density,
     size,
     contrastMode,
     colorScheme,
@@ -75,9 +91,11 @@ export default function Theme(themeProps: ThemeAllProps) {
 
   const theme = extendPropsWithContext(
     {
-      name,
+      brand: brand ?? name,
+      name: brand ?? name,
       variant,
-      size,
+      density: density ?? size,
+      size: density ?? size,
       contrastMode,
       colorScheme: activeColorScheme,
       surface,
@@ -85,6 +103,14 @@ export default function Theme(themeProps: ThemeAllProps) {
     null,
     context?.theme
   )
+
+  const resolvedBrand = theme.brand ?? theme.name
+  theme.brand = resolvedBrand
+  theme.name = resolvedBrand
+
+  const resolvedDensity = theme.density ?? theme.size
+  theme.density = resolvedDensity
+  theme.size = resolvedDensity
 
   // When surface is "initial", reset it to break context inheritance
   if (surface === 'initial') {
@@ -130,7 +156,7 @@ export function ThemeWrapper({
   useSyncElementColorScheme(ref, theme)
 
   const classNames = getThemeClasses(theme, className)
-  const { name, variant, size } = theme
+  const { brand, variant, density } = theme
 
   if (Wrapper === Fragment) {
     return children
@@ -140,9 +166,11 @@ export function ThemeWrapper({
 
   return (
     <Wrapper
-      data-name={name}
+      data-brand={brand}
+      data-name={brand}
       data-variant={variant}
-      data-size={size}
+      data-density={density}
+      data-size={density}
       className={classNames}
       {...rest}
     >
@@ -156,16 +184,29 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const { name, variant, size, contrastMode, colorScheme } = theme
+  const {
+    brand,
+    name,
+    variant,
+    density,
+    size,
+    contrastMode,
+    colorScheme,
+  } = theme
+  const resolvedBrand = brand ?? name
+  const resolvedDensity = density ?? size
 
   return clsx(
     className,
     'eufemia-theme',
-    name && `eufemia-theme__${name}`,
-    name && variant && `eufemia-theme__${name}--${variant}`,
+    resolvedBrand && `eufemia-theme__${resolvedBrand}`,
+    resolvedBrand &&
+      variant &&
+      `eufemia-theme__${resolvedBrand}--${variant}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
-    size && `eufemia-theme__size--${size}`
+    resolvedDensity && `eufemia-theme__density--${resolvedDensity}`,
+    resolvedDensity && `eufemia-theme__size--${resolvedDensity}`
   )
 }
 
@@ -227,11 +268,11 @@ export type ThemeState = ThemeProps & Record<string, unknown>
 
 /**
  * Read the persisted theme state from localStorage.
- * Supports a `?eufemia-theme=<name>` URL query override for the theme name.
+ * Supports a `?eufemia-theme=<brand>` URL query override for the theme brand.
  */
-export function getTheme(defaultTheme: ThemeNames = 'ui'): ThemeState {
+export function getTheme(defaultBrand: ThemeNames = 'ui'): ThemeState {
   if (typeof window === 'undefined') {
-    return { name: defaultTheme }
+    return { brand: defaultBrand, name: defaultBrand }
   }
 
   try {
@@ -242,11 +283,22 @@ export function getTheme(defaultTheme: ThemeNames = 'ui'): ThemeState {
       new URLSearchParams(window.location.search).get('eufemia-theme') ||
       null
 
-    const name = (fromQuery || theme?.name || defaultTheme) as ThemeNames
+    const brand = (fromQuery ||
+      theme?.brand ||
+      theme?.name ||
+      defaultBrand) as ThemeNames
+    const density = (theme?.density ?? theme?.size) as
+      | ThemeDensities
+      | undefined
 
-    return { ...theme, name }
+    return {
+      ...theme,
+      brand,
+      name: brand,
+      ...(density && { density, size: density }),
+    }
   } catch {
-    return { name: defaultTheme }
+    return { brand: defaultBrand, name: defaultBrand }
   }
 }
 
@@ -263,7 +315,22 @@ export function setTheme(
   }
 
   try {
-    const theme = { ...getTheme(), ...themeProps }
+    const currentTheme = getTheme()
+    const brand = (themeProps.brand ??
+      themeProps.name ??
+      currentTheme.brand ??
+      currentTheme.name) as ThemeNames
+    const density = (themeProps.density ??
+      themeProps.size ??
+      currentTheme.density ??
+      currentTheme.size) as ThemeDensities | undefined
+    const theme = {
+      ...currentTheme,
+      ...themeProps,
+      brand,
+      name: brand,
+      ...(density && { density, size: density }),
+    }
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(theme))
     callback?.(theme)
   } catch {

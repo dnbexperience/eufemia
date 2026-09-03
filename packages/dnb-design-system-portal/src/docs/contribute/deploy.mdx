@@ -21,7 +21,23 @@ The steps, from code changes to production builds, are:
 1. After the _Pull Request_ gets approved by one of the authorized [maintainers](https://github.com/dnbexperience/eufemia/graphs/contributors),
 1. You can merge your _Pull Request_.
 1. A maintainer will create a _Pull Request_ into one of the release branches (`next`, `alpha`, `beta` or `release`).
-1. After a release _Pull Request_ got merged, the CI Server will deploy the Portal and release a new version to NPM.
+1. After a release _Pull Request_ got merged, the CI Server deploys the Portal
+   and releases a new NPM version when the included commits require one.
+
+The production Portal is always built from `origin/release`, which is the single
+source of truth for the currently deployed Portal and package version.
+
+Changes whose commits do not trigger semantic-release, such as `docs` and
+`chore`, can be promoted to `origin/release` for a Portal-only deployment. Use a
+separate Pull Request based on the latest `origin/release`, include only the
+approved Portal commits, and verify that the Pull Request contains no change
+that would publish a new package version. Do not merge all of `origin/main` for
+a Portal-only deployment because it may include unrelated unreleased changes.
+If the Portal change depends on unreleased package code, include it in the next
+regular release instead.
+
+The Portal footer keeps the latest published package version for a Portal-only
+deployment. `Portal update` shows when that Portal build was created.
 
 ### How to make releases
 
@@ -88,3 +104,54 @@ Run the steps and prepare the git branches as above, but before you push to orig
 ## How to create a local package
 
 Run `yarn workspace @dnb/eufemia build:pack` and you should get this file: `/build/dnb-eufemia-v0.0.0-development`.
+
+## Release security
+
+The npm release of `@dnb/eufemia` is hardened against supply-chain attacks and accidental package regressions. This section documents the controls, the gates that must pass before a publish, and the ownership.
+
+### Ownership
+
+The release pipeline (`.github/workflows/release.yml`) and this process are owned by the Eufemia [maintainers](https://github.com/dnbexperience/eufemia/graphs/contributors). Changes to the release workflow, its permissions, or the npm publishing method must be reviewed by a maintainer.
+
+### Controls in place
+
+- **Provenance** — packages are published with npm provenance (`publishConfig.provenance: true` plus `id-token: write` on the release job), so each release has a verifiable, signed link back to the source commit and workflow.
+- **Least-privilege credentials** — the build and validation job has only `contents: read`; Algolia secrets are injected only into the steps that use them. A separate release job alone receives GitHub write permissions and npm OIDC authority. It installs the locked release tooling with dependency lifecycle scripts disabled, restores the prepared package, rewrites the release config from the trusted checkout, re-validates the restored contents with the trusted `validate:package` checks, and publishes it with npm lifecycle scripts disabled — so the build artifact cannot change how the release is published. `semantic-release` takes the first configuration it finds, and both a `release` field in `package.json` and a `.releaserc` file outrank the `.releaserc.json` the publish job writes, so that step also refuses to publish if the restored artifact carries any competing configuration source. This matters beyond the configuration itself: plugin identifiers resolve relative to the publish working directory, so a configuration we do not control could otherwise load and run a file from the artifact inside the job holding the npm and GitHub credentials. For the same reason the step refuses to publish if the restored artifact carries an `.npmrc`, a root `node_modules`, a `.git` directory or a `.env` file: each changes how this job publishes, and package-content validation cannot be relied on to reveal any of them. `npm` applies an `.npmrc`'s `https-proxy`, `strict-ssl`, `ca`/`cafile` and `registry` settings from the publish working directory, so a tampered one could route the credentialed publish through an attacker-controlled proxy with certificate checking disabled. `semantic-release` resolves the `npm` binary from `node_modules/.bin` in that same directory, so a binary planted there would run in place of `npm`, with the job's OIDC authority and GitHub token in its environment. A `.git` directory there would shadow the trusted checkout the changelog commit and tag are made from. And `publish-release.sh` runs `dotenv semantic-release` from that directory, so a `.env` is loaded into the environment of the credentialed publish: it cannot overwrite a variable the workflow already set, but it can add ones the workflow leaves unset, and a `NODE_OPTIONS=--require …` runs the artifact's own code in the process holding the GitHub token and the OIDC token-request credentials. `npm` force-excludes the first three from every tarball, and an `.npmignore` travelling on the same artifact removes a `.env` from the pack listing, so all four are checked on the filesystem rather than through the packed contents. The step also refuses any entry in the restored artifact that is neither a regular file nor a directory. A symlink survives the tar archive the artifact travels in, and whatever reads or writes that path in the publish job follows it: `@semantic-release/changelog` writes the changelog through a link to whatever it points at, and `@semantic-release/git` then stages the link itself, so it is committed and materialises again from the trusted checkout on the next release. `npm pack` omits symlinks from the tarball, so package-content validation cannot reveal one either, and a faithful build writes only files and directories. This step runs before the content re-validation, because `npm pack` executes a package's own `prepack` script even under `--dry-run`: rejecting a tampered manifest first keeps the validator's `--ignore-scripts` as defence in depth rather than the only control. The manifest itself cannot be rejected — it is what gets published — so it is compared in full against the manifest a faithful build produces from the trusted source: `prepareForRelease` derives that deterministically (it strips `release`, `scripts`, `devDependencies`, `resolutions` and `volta` and sets `type: "module"`, and the version is not bumped until `semantic-release` runs later), so the step refuses to publish on any difference. Comparing the whole manifest rather than a handful of named fields closes every publish-affecting field at once — not only a re-added `scripts` or a changed `publishConfig` or `repository`, but a top-level `tag` that would override the dist-tag `semantic-release` publishes to, a `private: true` that would make `@semantic-release/npm` skip publication and leave a permanent version gap, or an injected `dependencies` or redirected `name` that changes what consumers install. npm applies every `publishConfig` key as configuration at publish time and `publishConfig` outranks the environment, so without that comparison a tampered manifest could switch off the `NPM_CONFIG_IGNORE_SCRIPTS` the release step sets and run a lifecycle script with this job's credentials. The `repository` comparison closes a related credential path: `semantic-release` derives `repositoryUrl` from that field when it is not pinned, then embeds the release GitHub token in the authenticated git push URL — so a tampered `repository` would leak the token to an attacker-controlled host. `repositoryUrl` is pinned in the release config as the primary defence (it outranks the manifest field), and the comparison rejects a mismatch as defence in depth. npm needs no stored publish secret (see [Publishing method](#publishing-method)).
+- **Package-content validation** — before publishing, `yarn validate:package` runs `npm pack --dry-run` on the built package and fails the release if the tarball would contain files that must never ship (tests, stories, `.env` files, `node_modules`, editor/OS junk), is missing a declared entry point (the `main`, `module`, `types` or `exports` targets from the built `package.json`) or an essential CSS bundle, or is suspiciously small or large. (`npm` force-excludes `.npmrc`, `.git` and `node_modules/.bin` from every tarball — even when the manifest's `files` field names them — so pack-based validation is structurally blind to those three vectors and they are guarded on the filesystem instead, see the least-privilege control above. A `.env` is packed by default and so is caught here, but an `.npmignore` on the same artifact hides it from the pack listing, so it is guarded on the filesystem as well. What a pack can reveal, it checks: nested `node_modules` directories are packed by default, a manifest declaring `bundleDependencies` ships the root one, and a `files` entry re-includes an otherwise-ignored `.DS_Store`.) It runs from `publish:prepare`, so it also runs during `yarn workspace @dnb/eufemia build:pack`. The credentialed release job re-runs the same check on the restored artifact before publishing, so the validation is enforced again in the job that holds the release credentials.
+- **Consumer smoke tests** — `.github/workflows/consumer-smoke.yml` provides early pull-request feedback, and `release.yml` repeats the same gate before granting the publish job OIDC authority. Each run packs the built library once and production-builds that exact tarball in minimal Vite and Next.js consumers (`smoke/`), asserting that exports (including the forms extension subpath), a subpath type import, peer dependencies, CSS imports and TypeScript types resolve and bundle. The Vite build also enforces a tree-shaking budget: the consumer bundle must stay under half the size of the full library ESM barrels. A correctly tree-shaken fixture measures around 35% of that, so the budget fails a partial regression rather than only a total failure to drop unused exports. Next.js splits its output across server and client chunks, which are not comparable to a single barrel, so the budget is checked on the Vite build only. The fixtures also import the `dnb-ui-components.min.css` bundle, so the Next.js (webpack) build guards against a regression of the out-of-package flag-SVG `url()` bug fixed in [#8952](https://github.com/dnbexperience/eufemia/pull/8952).
+- **Dependency audit** — `yarn workspace @dnb/eufemia audit:ci` runs as a release step and blocks a release on known high-severity vulnerabilities in the shipped dependency tree.
+- **Software Bill of Materials (SBOM)** — an SBOM is generated and attached per release.
+
+### Gates that must pass before publishing
+
+Pull-request checks provide pre-merge verification. Their enforcement is controlled by GitHub branch protection, so configure every release branch (`release`, `beta`, `alpha`, `next`, `*.x`) to require the relevant `verify.yml` and consumer-smoke checks:
+
+- lint (`lint:ci`)
+- unit tests, including accessibility checks (axe) in the component suite (`test:ci`)
+- type checks (`test:types`)
+- dependency audit and lockfile checks (`audit:ci`, `yarn dedupe --check`)
+- Vite and Next.js consumer smoke builds
+
+At release time, `release.yml` independently enforces the dependency audit, package-content validation, and both consumer smoke builds before the OIDC-enabled job can publish. This release-time gate remains effective if branch-protection settings drift.
+
+### Permissions and trigger
+
+The build and validation job runs with `contents: read` and cannot request an npm OIDC token. The separate release job runs with `contents: write` (so `semantic-release` can push the changelog commit and version tag), `issues: write` and `pull-requests: write` (release comments), and `id-token: write` (OIDC publishing and provenance). Releases run only from the protected release branches on a clean CI checkout — never from a developer machine.
+
+### Releases queue, and are never cancelled mid-flight
+
+`semantic-release` pushes the version tag and the changelog commit **before** it publishes to npm. A run interrupted between those two points leaves the tag in the repository with no matching version on npm — and because the next run treats that tag as the last release and computes the version after it, the interrupted version is skipped on npm for good.
+
+The release workflow therefore sets `cancel-in-progress: false`, so a second push to a release branch waits for the run in progress instead of cancelling it. At most one run stays pending per branch; a newer push supersedes the earlier one while it is still pending, which is safe because `semantic-release` analyses every commit since the last tag, so nothing is lost. Every job carries a `timeout-minutes` for the same reason: a release now holds the queue until it finishes, so it must not be able to hold it indefinitely.
+
+Queueing removes the routine cause of a half-finished release, but not every cause — an infrastructure failure in the same window has the same effect. Signs of it: the workflow failed after the `Release` step started, a `v<version>` tag and a `chore(release)` commit exist on the branch, and `npm view @dnb/eufemia@<version>` reports no such version. The load-bearing detail when recovering is the tag: while it is on the branch, `semantic-release` treats that version as already released and the next run will move past it, so the tag has to be removed before the next release runs or the version is skipped permanently. Sorting that out — removing the tag and the GitHub release, undoing the changelog commit and re-running the release — is a maintainer task, not something the pipeline does for you. If instead npm has the version and only the GitHub release or its SBOM assets are missing, nothing needs undoing: those steps are non-blocking and can be re-run or attached by hand.
+
+### Build, validate and smoke-test
+
+The library is built once into `build/`, and `validate:package` inspects the exact contents `npm pack` would publish. In both `consumer-smoke.yml` and the release workflow, the build is packed once and the Vite and Next.js consumers install and build that same tarball. The release workflow then archives the prepared `build/` directory and restores it in the minimal publish job. `@semantic-release/npm` runs `npm publish` from that directory, which packs the versioned package at publish time; that published package is what carries provenance. Its `tarballDir` option writes a separate, content-equivalent tarball that `@semantic-release/github` attaches to the GitHub release as a downloadable asset. These are packs of the same built directory within one release run — content-equivalent, but not literally the same file — so treat the GitHub-release `.tgz` as a convenience copy, not a byte-for-byte proof of what was published.
+
+The one remaining gap: `validate:package` and the smoke tests run on the pre-release build (version `0.0.0-development`), which produces the same file set as the published package (only the stamped version differs) — they do not yet run against the exact in-flight release tarball inside the `semantic-release` run. Closing that (a `semantic-release` prepare-time validation of the packed `dist/` tarball) is a tracked follow-up.
+
+### Publishing method
+
+Releases publish to npm using **Trusted Publishing** (OpenID Connect): the release workflow authenticates with a short-lived, GitHub-issued OIDC token instead of a long-lived, stored publish token, and every package is published with provenance. There is no static publish secret to store, rotate or leak.

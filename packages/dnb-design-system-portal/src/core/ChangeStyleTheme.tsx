@@ -1,13 +1,16 @@
 import { useContext } from 'react'
 import { Context } from '@dnb/eufemia/src/shared'
-import { getTheme } from '@dnb/eufemia/src/shared/Theme'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
-import { getThemes, setTheme } from '../../vite/client/shims/theme-handler'
+import {
+  getTheme,
+  getThemes,
+  setTheme,
+} from '../../vite/client/shims/theme-handler'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 
 export default function ChangeStyleTheme(props) {
   const themes = getThemes()
-  const { name } = getTheme()
+  const { brand } = getTheme()
   const { update } = useContext(Context)
 
   const data = Object.entries(themes).reduce((acc, [key, value]) => {
@@ -20,12 +23,12 @@ export default function ChangeStyleTheme(props) {
   return (
     <Field.Selection
       id="change-theme"
-      value={name}
+      value={brand}
       data={data}
       label="Change Brand"
       onChange={(value) => {
         update({ skeleton: true })
-        setTheme({ name: value as ThemeNames }, () => {
+        setTheme({ brand: value as ThemeNames }, () => {
           update({ skeleton: false })
         })
       }}

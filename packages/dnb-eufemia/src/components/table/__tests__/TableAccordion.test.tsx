@@ -5,6 +5,7 @@ import {
   createEvent,
   act,
 } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import Table from '../Table'
 import Tr from '../TableTr'
 import Td from '../TableTd'
@@ -228,6 +229,132 @@ describe('TableAccordion', () => {
         '[data-testid="accordion-content"]'
       )
       expect(content).not.toBeInTheDocument()
+    })
+
+    it('opens matching content by default when keepInDOM is true', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr keepInDOM>
+              <Td>content</Td>
+              <Td.AccordionContent>Findable content</Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      const rows = document.querySelectorAll('tr')
+      const header = rows[0]
+      const content = rows[1]
+      expect(content).toHaveAttribute('hidden', 'until-found')
+
+      act(() => {
+        content.dispatchEvent(new Event('beforematch'))
+      })
+
+      expect(header.querySelector('.dnb-button')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+      expect(content).not.toHaveAttribute('hidden')
+    })
+
+    it('allows openOnFind to be disabled when keepInDOM is true', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr keepInDOM openOnFind={false}>
+              <Td>content</Td>
+              <Td.AccordionContent>Hidden content</Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      expect(document.querySelectorAll('tr')[1]).toHaveAttribute(
+        'hidden',
+        ''
+      )
+    })
+
+    it('keeps openOnFind opt-in when keepInDOM is false', () => {
+      render(
+        <Table mode="accordion">
+          <tbody>
+            <Tr openOnFind>
+              <Td>content</Td>
+              <Td.AccordionContent>Findable content</Td.AccordionContent>
+            </Tr>
+          </tbody>
+        </Table>
+      )
+
+      expect(document.querySelectorAll('tr')[1]).toHaveAttribute(
+        'hidden',
+        'until-found'
+      )
+      expect(document.body).toHaveTextContent('Findable content')
+    })
+
+    it('keeps openOnFind content mounted when unsupported', () => {
+      const restores: Array<() => void> = []
+      let target: object | null = document.documentElement
+      while (target) {
+        const owner = target
+        const descriptor = Object.getOwnPropertyDescriptor(
+          owner,
+          'onbeforematch'
+        )
+        if (descriptor) {
+          delete (owner as Record<string, unknown>).onbeforematch
+          restores.push(() =>
+            Object.defineProperty(owner, 'onbeforematch', descriptor)
+          )
+        }
+        target = Object.getPrototypeOf(target)
+      }
+
+      try {
+        render(
+          <Table mode="accordion">
+            <tbody>
+              <Tr openOnFind>
+                <Td>content</Td>
+                <Td.AccordionContent>Fallback content</Td.AccordionContent>
+              </Tr>
+            </tbody>
+          </Table>
+        )
+
+        const contentRow = document.querySelectorAll('tr')[1]
+        expect(contentRow).toHaveAttribute('hidden', '')
+        expect(contentRow).toHaveTextContent('Fallback content')
+      } finally {
+        restores.forEach((restore) => restore())
+      }
+    })
+
+    it('keeps openOnFind content in server-rendered markup', () => {
+      const originalDocument = globalThis.document
+
+      try {
+        delete globalThis.document
+
+        const html = renderToString(
+          <Table mode="accordion">
+            <tbody>
+              <Tr openOnFind>
+                <Td>content</Td>
+                <Td.AccordionContent>Server content</Td.AccordionContent>
+              </Tr>
+            </tbody>
+          </Table>
+        )
+
+        expect(html).toContain('Server content')
+      } finally {
+        globalThis.document = originalDocument
+      }
     })
   })
 

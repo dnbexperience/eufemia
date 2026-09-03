@@ -751,6 +751,35 @@ describe('HeightAnimationInstance', () => {
       expect(onEnd).toHaveBeenCalledTimes(1)
       expect(onEnd).toHaveBeenLastCalledWith('adjusted')
     })
+
+    it('should ignore transition events from nested elements', () => {
+      const nestedElement = document.createElement('span')
+      element.appendChild(nestedElement)
+
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+
+      const onEnd = vi.fn()
+      inst.onEnd(onEnd)
+
+      inst.adjustTo(100, 200)
+      nextAnimationFrame()
+      nextAnimationFrame()
+
+      nestedElement.dispatchEvent(
+        new CustomEvent('transitionend', { bubbles: true })
+      )
+
+      expect(element).toHaveAttribute('style', 'height: 200px;')
+      expect(inst['state']).toBe('adjusting')
+      expect(onEnd).not.toHaveBeenCalled()
+
+      simulateAnimationEnd(element)
+
+      expect(element).toHaveAttribute('style', 'height: auto;')
+      expect(inst['state']).toBe('adjusted')
+      expect(onEnd).toHaveBeenLastCalledWith('adjusted')
+    })
   })
 
   describe('readjust', () => {

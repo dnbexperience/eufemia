@@ -140,6 +140,11 @@ export type MenuAccordionProps = {
    */
   disabled?: boolean
   /**
+   * Keeps collapsed menu items findable by the browser's find-in-page feature. Matching content opens the accordion.
+   * Default: `false`
+   */
+  openOnFind?: boolean
+  /**
    * Called whenever the accordion open state changes. Receives the new open state as a boolean.
    */
   onOpenChange?: (open: boolean) => void

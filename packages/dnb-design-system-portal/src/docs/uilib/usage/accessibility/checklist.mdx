@@ -19,8 +19,17 @@ description: 'Accessibility checklist to help you remember the most important ta
 - [ ] Make [images and illustrations](/uilib/usage/accessibility/screenreader#images-and-illustrations) accessible.
 - [ ] Have `aria-live` in place for dynamic content, like updates coming from the server.
 - [ ] Hide **invisible content** with `display: none;` or with the `hidden` attribute, or remove the markup entirely (with React States).
+- [ ] Make safely retained, collapsed content available to browser find-in-page with [`openOnFind`](#find-in-page-for-collapsed-content).
 - [ ] Properly use the `for="#id"` attribute on [labels](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label#Attributes). Every [form component](/uilib/components) is supporting internal label usage, like `<Input label="Input label:" />`.
 - [ ] Allow viewport zooming in web pages. Example below.
+
+## Find-in-page for collapsed content
+
+Content that stays in the DOM while collapsed should be available to the browser's find-in-page feature when revealing it is safe and useful. Enable `openOnFind` on supported Eufemia components, especially when `keepInDOM` is enabled.
+
+Do not enable it for content retained only to preserve a workflow, validation state, focus, or an overlay. Finding a match must not expose content the user should not reach yet.
+
+`openOnFind` uses the native `hidden="until-found"` behavior. Unsupported browsers keep the content mounted and hidden, but cannot reveal it through find-in-page. See [HeightAnimation accessibility](/uilib/components/height-animation/#accessibility) for details.
 
 ## Viewport
 

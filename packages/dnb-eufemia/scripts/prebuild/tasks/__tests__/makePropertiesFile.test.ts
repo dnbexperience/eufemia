@@ -119,6 +119,13 @@ describe('makePropertiesFile', () => {
       expect(global.carnegieTokens).toMatchSnapshot()
       expect(global.carnegieFoundation).toMatchSnapshot()
     })
+
+    it('uses the Carnegie radius tokens', () => {
+      expect(global.carnegieTokens).toContain('--token-radius-xl: 0.5rem;')
+      expect(global.carnegieTokensTailwind).toContain(
+        '--radius-xl: 0.5rem;'
+      )
+    })
   })
 
   describe('Native color scheme', () => {
@@ -557,6 +564,9 @@ describe('makePropertiesFile', () => {
     it('has to validate', () => {
       expect(global.ui).toMatchSnapshot()
       expect(global.ui).toContain(`'--font-size-large': '1.625rem'`)
+      expect(global.ui).toContain(
+        `'--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)'`
+      )
       expect(global.ui).toContain(
         `'--font-family-default': "'DNB', sans-serif"`
       )

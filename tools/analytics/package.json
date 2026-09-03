@@ -9,7 +9,7 @@
   "scripts": {
     "test": "vitest run",
     "test:types": "../../node_modules/.bin/tsc --noEmit",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'",
+    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' && node ../../node_modules/.bin/prettier --check 'dashboard/**/*.{js,css,html,json,md}' 'src/**/*.ts' '__tests__/**/*.{js,ts}'",
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
     "build": "rm -rf dist && esbuild src/lambda/index.ts --bundle --platform=node --target=node22 --format=esm --sourcemap --outfile=dist/index.mjs '--external:@aws-sdk/*' && cd dist && zip -rq lambda.zip index.mjs index.mjs.map",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",

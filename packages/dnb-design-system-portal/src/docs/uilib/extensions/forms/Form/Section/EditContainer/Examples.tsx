@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
+import { FormStatus } from '@dnb/eufemia/src'
 import {
   Field,
   Form,
@@ -83,6 +85,61 @@ export const PreventUncommittedChanges = () => {
           </Wizard.Step>
         </Wizard.Container>
       </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const AsyncOnDone = () => {
+  return (
+    <ComponentBox>
+      {() => {
+        const formId = 'async-on-done'
+
+        const Example = () => {
+          const [error, setError] = useState<string>()
+
+          const saveSection = async () => {
+            setError(undefined)
+            await new Promise((resolve) => setTimeout(resolve, 1500))
+
+            const { getValue } = Form.getData(formId)
+            if (getValue('/simulateError')) {
+              setError('The section could not be saved. Try again.')
+              throw new Error('The section could not be saved')
+            }
+          }
+
+          return (
+            <Form.Handler
+              id={formId}
+              defaultData={{
+                profile: { firstName: 'Nora' },
+                simulateError: true,
+              }}
+            >
+              <Form.Card>
+                <Form.Section path="/profile" containerMode="edit">
+                  <Form.Section.EditContainer onDone={saveSection}>
+                    <Field.Name.First path="/firstName" />
+                    <Field.Boolean
+                      path="//simulateError"
+                      label="Simulate save error"
+                      variant="button"
+                    />
+                    {error && <FormStatus>{error}</FormStatus>}
+                  </Form.Section.EditContainer>
+
+                  <Form.Section.ViewContainer>
+                    <Value.Name.First path="/firstName" />
+                  </Form.Section.ViewContainer>
+                </Form.Section>
+              </Form.Card>
+            </Form.Handler>
+          )
+        }
+
+        return <Example />
+      }}
     </ComponentBox>
   )
 }

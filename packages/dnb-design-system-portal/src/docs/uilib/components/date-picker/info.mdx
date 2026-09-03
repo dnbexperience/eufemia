@@ -24,6 +24,10 @@ The DatePicker component should be used whenever the user is to enter a single d
 
 The Eufemia Forms equivalent of `DatePicker` is [Field.Date](/uilib/extensions/forms/feature-fields/Date/).
 
+## Dates from adjacent months
+
+By default, DatePicker shows dates from the previous and next month to provide context around month boundaries. Set `hideAdjacentMonthDates` when the extra dates could cause confusion or when a simpler calendar would reduce cognitive load. The grid cells remain in place, so the calendar layout does not change.
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1497)
@@ -74,13 +78,13 @@ The `dayObject` object contains:
       isInactive: boolean,// shows it as disabled only
       isDisabled: boolean,// shows it as disabled and with a strikethrough
       isPreview: boolean,// date is between startDate (exclusive) and hoverDate (inclusive)
-      isSelectable: boolean,// if not last and next month and not disabled – handles z-index
+      isSelectable: boolean,// if not disabled – handles z-index
       isStartDate: boolean,// date selected is start date
       isEndDate: boolean,// date selected is end date
       isToday: boolean,
       isWithinSelection: boolean,// date is between selection range
-      isNextMonth: boolean,// used for selection and inactive calculation
-      isLastMonth: boolean,// used for selection and inactive calculation
+      isNextMonth: boolean,// date belongs to the next month
+      isLastMonth: boolean,// date belongs to the previous month
     },
     ...
 ]

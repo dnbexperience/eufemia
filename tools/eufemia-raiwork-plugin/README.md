@@ -1,7 +1,10 @@
-# Eufemia RAIWork marketplace plugin
+# Eufemia marketplace plugin builder
 
-Builds the upload-ready RAIWork marketplace plugin for Eufemia from canonical
-source in this repository.
+Builds the official Eufemia plugin distributions from canonical source in this
+repository:
+
+- A dual-format Agent Plugin for the public Claude and VS Code marketplace.
+- The upload-ready RAIWork marketplace plugin.
 
 The generated plugin contains:
 
@@ -20,7 +23,8 @@ Eufemia remains the source of truth:
 - Skill procedures are authored in `packages/dnb-eufemia/agent-skills/`.
 - Component APIs, theme capabilities, review rules, and documentation are
   provided by Eufemia and its hosted MCP server.
-- This tool owns only RAIWork marketplace metadata, packaging, and validation.
+- This tool owns only marketplace metadata, format adapters, packaging, and
+  validation.
 - `dist/` is generated and must not be committed.
 
 Do not edit generated skills. Update the canonical skill or
@@ -43,20 +47,39 @@ tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web/
 RAIWork packages the selected folder during upload, so the build does not
 create a separate archive.
 
+Build the Agent Plugins 1.0 package with Claude compatibility:
+
+```bash
+yarn workspace eufemia-raiwork-plugin build:agent
+```
+
+The generated plugin is written to:
+
+```text
+tools/eufemia-raiwork-plugin/dist/eufemia/
+```
+
+It contains one shared `skills/` tree, the portable root `plugin.json` and
+`mcp.json`, and Claude's `.claude-plugin/plugin.json` and `.mcp.json` adapters.
+Build both distributions with `build:all`.
+
 ## What the generator does
 
 1. Reads `packages/dnb-eufemia/agent-skills/manifest.json`.
 2. Requires marketplace metadata for every canonical skill.
 3. Copies every skill and future supporting file.
-4. Replaces only `SKILL.md` frontmatter with the limited RAIWork-compatible
-   metadata shape. Skill bodies remain byte-for-byte identical.
-5. Generates the strict `raicode.marketplace/v1` plugin manifest.
-6. Registers `https://server.eufemia.dnb.no/mcp/web` as a remote HTTP MCP
+4. Copies canonical skills byte-for-byte into the Agent Plugin distribution.
+5. Replaces only `SKILL.md` frontmatter in the RAIWork distribution with its
+   limited metadata shape. Skill bodies remain byte-for-byte identical.
+6. Generates Agent Plugins 1.0, Claude, and strict `raicode.marketplace/v1`
+   manifests.
+7. Registers `https://server.eufemia.dnb.no/mcp/web` as a remote HTTP MCP
    server.
-7. Copies the package license, Eufemia cover image, and plugin README.
-8. Replaces the previous generated folder through a backup-and-restore swap, so
+8. Copies the package license, Eufemia cover image, and plugin README where the
+   target format supports them.
+9. Replaces each previous generated folder through a backup-and-restore swap, so
    a failed promotion keeps the previous bundle intact.
-9. Validates the complete generated inventory against its canonical source.
+10. Validates the complete generated inventory against its canonical source.
 
 ## Validation
 
@@ -64,6 +87,7 @@ Run offline validation without regenerating:
 
 ```bash
 yarn workspace eufemia-raiwork-plugin validate
+yarn workspace eufemia-raiwork-plugin validate:agent
 ```
 
 It verifies:
@@ -109,8 +133,9 @@ CI builds remain deterministic and work offline.
 
 ## Versioning
 
-The marketplace plugin has an independent semantic version in
-`plugin.config.json`.
+The marketplace plugins share an independent semantic version in
+`plugin.config.json`. Version `0.1.0` is the initial released RAIWork version and
+the baseline for the public Agent Plugin marketplace.
 
 Bump it whenever any installed artifact changes:
 
@@ -122,8 +147,18 @@ Bump it whenever any installed artifact changes:
 A normal Eufemia documentation or component release does not require a plugin
 release when the hosted MCP contract and skill procedures are unchanged.
 
-The marketplace rejects publishing the same plugin version twice. Always review
-the generated diff and bump the plugin version before uploading an update.
+Marketplaces reject publishing the same plugin version twice. Always review the
+generated diff and bump the plugin version before publishing an update.
+
+## Publish the public Agent Plugin
+
+The public `dnbexperience/eufemia-agent-plugins` repository stores the generated
+`dist/eufemia` directory as `plugins/eufemia`. Its catalog identity is
+`eufemia-agent-plugins`, while the plugin identity is `eufemia`.
+
+Publish each version with a `eufemia--v<version>` Git tag so Claude can resolve
+dependency constraints. The public repository is a generated distribution;
+changes to skills and MCP contracts remain owned by Eufemia.
 
 ## Publish a new version
 
@@ -146,18 +181,15 @@ marketplace version is an immutable folder upload:
 
 6. Review `tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web`, especially its
    manifest, skill frontmatter, README, license, cover, and file inventory.
-7. Upload that folder privately through RAIWork **Marketplace → My Uploads →
-   Upload**, or with:
+7. Run the **Build Eufemia marketplace artifacts** workflow for the source
+   commit and download its `dnb-eufemia-web-<sha>` artifact.
+8. Upload that folder privately through RAIWork **Marketplace → My Uploads →
+   Upload**.
 
-   ```bash
-   raicode manage marketplace upload \
-   tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web
-   ```
-
-8. Wait for marketplace scans, install the private version in a clean profile,
+9. Wait for marketplace scans, install the private version in a clean profile,
    enable the **eufemia** MCP server, and complete the post-release checks below.
-9. Make the version public and record the plugin version, Eufemia source commit,
-   and evaluation evidence in the release record.
+10. Make the version public and record the plugin version, Eufemia source commit,
+    and evaluation evidence in the release record.
 
 Never reuse or overwrite a marketplace version. Publish a higher version to
 replace or roll back a release.
@@ -193,19 +225,10 @@ publishing.
    safeguard scan.
 5. Inspect the result and make the version public when it is ready.
 
-### Marketplace-enabled CLI
-
-When using a RAIWork distribution of `raicode` that includes marketplace
-management:
-
-```bash
-raicode manage marketplace upload \
-   tools/eufemia-raiwork-plugin/dist/dnb-eufemia-web
-```
-
-Private is the default. Add `--public` only when the release should be visible
-immediately after scanning. The desktop upload flow and CLI use the same packer
-and safety validation.
+The supported `raicode` CLI does not currently expose marketplace upload, so the
+workflow deliberately stops at a validated artifact. Add direct publication
+only when RAIWork provides a documented non-interactive API and credential
+contract.
 
 ## Installation behavior
 
@@ -243,7 +266,7 @@ After publication:
 
 1. Install the plugin in a clean RAIWork profile.
 2. Enable the `eufemia` MCP server during consent.
-3. Confirm all five skills are discoverable.
+3. Confirm all six skills are discoverable.
 4. Confirm the MCP tools can be listed and called.
 5. Run the canonical trigger and non-trigger prompts from
    `packages/dnb-eufemia/agent-skills-evals/trigger-cases.json`.

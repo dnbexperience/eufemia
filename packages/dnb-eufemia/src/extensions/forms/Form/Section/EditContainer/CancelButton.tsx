@@ -17,7 +17,8 @@ export default function CancelButton({
   showConfirmDialog = true,
   ...buttonProps
 }: Props) {
-  const { onCancel, setShowError } = useContext(ToolbarContext) || {}
+  const { onCancel, setShowError, isPending } =
+    useContext(ToolbarContext) || {}
   const editContainerContext = useContext(EditContainerContext)
   const fallbackDataStore = useContainerDataStore({
     enabled: !editContainerContext,
@@ -68,6 +69,7 @@ export default function CancelButton({
     iconPosition: 'left',
     text: cancelButton,
     ...buttonProps,
+    disabled: isPending || buttonProps.disabled,
   }
 
   if (showConfirmDialog) {

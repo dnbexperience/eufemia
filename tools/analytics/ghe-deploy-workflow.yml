@@ -53,18 +53,67 @@ jobs:
           TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
           TF_VAR_api_token: ${{ secrets.API_TOKEN }}
           TF_VAR_edge_auth_secret: ${{ secrets.EDGE_AUTH_SECRET }}
+          TF_VAR_entra_client_id: ${{ vars.ENTRA_CLIENT_ID }}
+          TF_VAR_entra_tenant_id: ${{ vars.ENTRA_TENANT_ID }}
+          TF_VAR_dashboard_origins: ${{ vars.DASHBOARD_ORIGINS }}
+          TF_VAR_dashboard_public_url: ${{ vars.DASHBOARD_PUBLIC_URL }}
         run: |
           set -euo pipefail
           cd infra
           terraform init -input=false
           terraform apply -auto-approve -input=false
 
+      - name: Publish dashboard
+        env:
+          ENTRA_CLIENT_ID: ${{ vars.ENTRA_CLIENT_ID }}
+          ENTRA_TENANT_ID: ${{ vars.ENTRA_TENANT_ID }}
+        run: |
+          set -euo pipefail
+          cd infra
+          BUCKET=$(terraform output -raw dashboard_bucket)
+          DIST=$(terraform output -raw dashboard_distribution_id)
+          URL=$(terraform output -raw dashboard_public_url)
+          API_BASE_URL=$(terraform output -raw dashboard_api_endpoint)
+
+          # Generate the per-host runtime config from the deploy variables. It
+          # holds only non-secret public identifiers, so it is safe to serve.
+          # The redirect URI is the canonical public dashboard URL (custom
+          # domain when DASHBOARD_PUBLIC_URL is set, else the CloudFront URL) and
+          # must be registered on the app registration; apiScope is the app
+          # registration's exposed "Dashboard.Read" scope.
+          jq -n \
+            --arg clientId "$ENTRA_CLIENT_ID" \
+            --arg tenantId "$ENTRA_TENANT_ID" \
+            --arg redirectUri "$URL" \
+            --arg apiBaseUrl "$API_BASE_URL" \
+            --arg apiScope "api://${ENTRA_CLIENT_ID}/Dashboard.Read" \
+            '{clientId: $clientId, tenantId: $tenantId, redirectUri: $redirectUri, apiBaseUrl: $apiBaseUrl, apiScope: $apiScope}' \
+            > ../dashboard/config.json
+
+          # Publish everything users load; keep the committed scaffold files
+          # (example config, docs) out of the bucket. no-cache: assets aren't
+          # fingerprinted, so make browsers revalidate (paired with the
+          # invalidation below) instead of serving a stale cached copy.
+          aws s3 sync ../dashboard "s3://${BUCKET}" \
+            --delete \
+            --cache-control 'no-cache' \
+            --exclude 'config.example.json' \
+            --exclude 'README.md'
+
+          # Invalidate so the new config.json and assets are served immediately.
+          aws cloudfront create-invalidation \
+            --distribution-id "$DIST" \
+            --paths '/*'
+
       - name: Post deploy summary
+        if: always()
         run: |
           cd infra
           ENDPOINT=$(terraform output -raw api_endpoint)
           BUCKET=$(terraform output -raw data_bucket)
+          DASHBOARD_URL=$(terraform output -raw dashboard_public_url)
           echo "## Analytics Lambda deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**Endpoint:** \`${ENDPOINT}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "**Data bucket:** \`${BUCKET}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Dashboard:** ${DASHBOARD_URL}" >> "$GITHUB_STEP_SUMMARY"

@@ -33,6 +33,12 @@ export const ContainerProperties: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
+  openOnFind: {
+    doc: 'Makes items hidden by `visibleCount` findable with browser find-in-page. Matching content is revealed and expands a list connected to `List.ShowMoreButton`. Defaults to `true` when `visibleCount` is used.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
   children: {
     doc: 'List items. Use `List.Item.Basic`, `List.Item.Action`, or `List.Item.Accordion` as direct children.',
     type: 'React.ReactNode',
@@ -306,6 +312,11 @@ export const ItemAccordionProperties: PropertiesTableProps = {
     doc: 'When `true`, keeps the accordion content in the DOM when closed. Defaults to `false`.',
     type: 'boolean',
     defaultValue: 'false',
+    status: 'optional',
+  },
+  openOnFind: {
+    doc: "When `true`, keeps closed content findable by the browser's find-in-page feature. Defaults to the value of `keepInDOM`.",
+    type: 'boolean',
     status: 'optional',
   },
   disabled: {

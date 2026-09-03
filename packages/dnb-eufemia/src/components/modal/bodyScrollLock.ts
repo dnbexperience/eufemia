@@ -40,7 +40,11 @@ const setOverflowHidden = () => {
     )
 
     bodyElement.style.overflow = 'hidden'
-    bodyElement.style.height = '100%'
+    // `height: auto` (not `100%`): with the html height above now definite, a
+    // `body` height of `100%` collapses a long page to the viewport and resets
+    // scroll to the top on open. `min-height` still fills the viewport if short.
+    bodyElement.style.height = 'auto'
+    bodyElement.style.minHeight = '100%'
     bodyElement.style.boxSizing = 'border-box'
     bodyElement.style.marginRight = `${scrollBarWidth}px`
 
@@ -49,7 +53,13 @@ const setOverflowHidden = () => {
         ;['overflow', 'height'].forEach((x) => {
           htmlElement.style[x] = htmlStyle[x] || ''
         })
-        ;['overflow', 'height', 'boxSizing', 'margin'].forEach((x) => {
+        ;[
+          'overflow',
+          'height',
+          'minHeight',
+          'boxSizing',
+          'margin',
+        ].forEach((x) => {
           bodyElement.style[x] = bodyStyle[x] || ''
         })
         htmlElement.style.removeProperty('--scrollbar-width')

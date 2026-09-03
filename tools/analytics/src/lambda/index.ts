@@ -3,9 +3,9 @@ import type {
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
 import { isAuthorized, isEdgeAuthorized, json } from './http.js'
-import { storeRecord } from './store.js'
+import { storePageViews, storeRecord } from './store.js'
 import { InvalidQueryError, retrieveRecords } from './retrieve.js'
-import { validateRecordInput } from '../types.js'
+import { validatePageViewBatch, validateRecordInput } from '../types.js'
 
 function parseBody(event: APIGatewayProxyEventV2): unknown {
   if (!event.body) {
@@ -42,6 +42,29 @@ async function handleStore(
   return json(201, record)
 }
 
+async function handleCollect(
+  event: APIGatewayProxyEventV2
+): Promise<APIGatewayProxyResultV2> {
+  let payload: unknown
+  try {
+    payload = parseBody(event)
+  } catch {
+    return json(400, { error: 'Body must be valid JSON' })
+  }
+
+  const validation = validatePageViewBatch(payload)
+  if (!validation.ok) {
+    return json(400, {
+      error: 'Validation failed',
+      details: validation.errors,
+    })
+  }
+
+  const accepted = await storePageViews(validation.value)
+
+  return json(202, { accepted })
+}
+
 async function handleRetrieve(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
@@ -73,6 +96,7 @@ async function handleRetrieve(
  *
  * Routes:
  * - `GET  /healthz`  liveness probe (no bearer token)
+ * - `POST /collect`  store anonymous page views in S3 (edge lock, no bearer)
  * - `POST /records`  store a record in S3
  * - `GET  /records`  retrieve records via Athena (optional `id`, `limit`)
  */
@@ -90,6 +114,12 @@ export async function handler(
     return json(200, { status: 'ok' })
   }
 
+  // Public ingest: relies on the edge lock above, not the bearer token, so the
+  // browser never has to hold a secret.
+  if (method === 'POST' && path === '/collect') {
+    return handleCollect(event)
+  }
+
   if (!isAuthorized(event.headers)) {
     return json(401, { error: 'Unauthorized' })
   }
@@ -104,3 +134,9 @@ export async function handler(
 
   return json(404, { error: 'Not found' })
 }
+
+// The dashboard-read and snapshot-generator functions reuse this build
+// artifact; they are wired to `index.dashboardRead` / `index.snapshot` in
+// infra/main.tf. Re-exported here so esbuild bundles them into index.mjs.
+export { handler as dashboardRead } from './dashboard-read.js'
+export { handler as snapshot } from './snapshot.js'

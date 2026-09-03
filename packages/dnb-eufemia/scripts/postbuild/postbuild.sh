@@ -6,13 +6,23 @@ echo 'Postbuild started ...'
 
 yarn build:types:definitions
 yarn prettier:other:write
-yarn build:cjs
+
+# The cjs/es/esm Babel passes only read ./src and each writes to its own
+# ./build/<target> dir, so run them concurrently to cut build time. set -e does
+# not catch background failures, so wait on every PID and let a non-zero exit
+# propagate.
+babel_pids=()
+yarn build:cjs & babel_pids+=($!)
+yarn build:esm & babel_pids+=($!)
 if [ -z "$BUILD_MINI" ]; then
-  yarn build:es
-  yarn build:esm
+  yarn build:es & babel_pids+=($!)
+fi
+for pid in "${babel_pids[@]}"; do
+  wait "$pid"
+done
+
+if [ -z "$BUILD_MINI" ]; then
   yarn build:docs
-else
-  yarn build:esm
 fi
 yarn build:lebab
 yarn build:skills

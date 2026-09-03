@@ -15,7 +15,9 @@ export function sanitizeUrlFilters(
     return {}
   }
 
-  const result: Record<string, FilterValue> = {}
+  // Collect into a Map so a user-controlled key is never used as a dynamic
+  // object property name (prevents prototype pollution / property injection).
+  const result = new Map<string, FilterValue>()
 
   for (const key of Object.keys(raw as Record<string, unknown>)) {
     // Skip prototype-polluting keys before writing them to the result object.
@@ -41,10 +43,10 @@ export function sanitizeUrlFilters(
       picked.categoryLabel = entry.categoryLabel
     }
 
-    result[key] = picked
+    result.set(key, picked)
   }
 
-  return result
+  return Object.fromEntries(result)
 }
 
 function isFilterValue(val: unknown): val is FilterValue {

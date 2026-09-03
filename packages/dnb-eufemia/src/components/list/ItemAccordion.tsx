@@ -42,6 +42,10 @@ export type ItemAccordionProps = {
    */
   keepInDOM?: boolean
   /**
+   * When `true`, keeps closed content findable by the browser's find-in-page feature. Defaults to the value of `keepInDOM`.
+   */
+  openOnFind?: boolean
+  /**
    * If set to `true`, the accordion is visually dimmed and interaction is prevented. Sets `aria-disabled`, removes tabbing, and disables click/keyboard handlers.
    * Default: `false`
    */
@@ -61,6 +65,7 @@ const ItemAccordionContext = createContext<{
   pending?: boolean
   disabled?: boolean
   keepInDOM?: boolean
+  openOnFind?: boolean
   chevronPosition?: ItemAccordionIconPosition
   accordionId: string
   icon?: IconIcon
@@ -68,6 +73,7 @@ const ItemAccordionContext = createContext<{
   handleToggle: (
     event: ReactMouseEvent<HTMLDivElement, MouseEvent>
   ) => void
+  handleBeforeMatch: () => void
 }>(undefined)
 
 function ItemAccordion(props: ItemAccordionProps) {
@@ -82,6 +88,7 @@ function ItemAccordion(props: ItemAccordionProps) {
     skeleton,
     open = false,
     keepInDOM = false,
+    openOnFind = keepInDOM,
     chevronPosition = 'right',
     icon,
     title,
@@ -116,6 +123,11 @@ function ItemAccordion(props: ItemAccordionProps) {
     [onClick, onChange, pending]
   )
 
+  const handleBeforeMatch = useCallback(() => {
+    setOpen(true)
+    onChange?.({ expanded: true })
+  }, [onChange])
+
   return (
     <ItemAccordionContext
       value={{
@@ -123,11 +135,13 @@ function ItemAccordion(props: ItemAccordionProps) {
         pending,
         disabled: appliedDisabled,
         keepInDOM,
+        openOnFind,
         chevronPosition,
         accordionId,
         icon,
         title,
         handleToggle,
+        handleBeforeMatch,
       }}
     >
       <ItemContent
@@ -251,7 +265,8 @@ function AccordionContent(props: ItemContentProps) {
     return null
   }
 
-  const { openState, accordionId, keepInDOM } = accordionContext
+  const { openState, accordionId, keepInDOM, openOnFind } =
+    accordionContext
 
   const spacingProps = pickSpacingProps(rest)
 
@@ -268,7 +283,16 @@ function AccordionContent(props: ItemContentProps) {
       aria-hidden={!openState}
       {...omitSpacingProps(rest)}
     >
-      <HeightAnimation open={openState} keepInDOM={keepInDOM}>
+      <HeightAnimation
+        open={openState}
+        keepInDOM={keepInDOM}
+        openOnFind={openOnFind}
+        onBeforeMatch={() => {
+          if (!openState) {
+            accordionContext.handleBeforeMatch()
+          }
+        }}
+      >
         <Hr bottom={false} />
         <Space {...spacingProps}>{children}</Space>
       </HeightAnimation>

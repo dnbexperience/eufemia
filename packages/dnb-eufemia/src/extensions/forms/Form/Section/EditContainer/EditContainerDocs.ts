@@ -26,7 +26,7 @@ export const EditContainerProperties: PropertiesTableProps = {
 
 export const EditContainerEvents: PropertiesTableProps = {
   onDone: {
-    doc: 'Callback for the done button.',
+    doc: 'Callback for the done button. Return a Promise to keep the section in edit mode until it settles: it switches to view mode when the Promise resolves, and stays in edit mode when it rejects. Any other return value is ignored.',
     type: 'function',
     status: 'optional',
   },

@@ -209,20 +209,24 @@ export class Counter {
     })
 
     if (level > 6) {
-      report.push(
-        `Cannot [${action}] heading level higher than 6! Got:`,
-        level,
-        'and had before',
-        this.level
-      )
+      if (!this.bypassChecks) {
+        report.push(
+          `Cannot [${action}] heading level higher than 6! Got:`,
+          level,
+          'and had before',
+          this.level
+        )
+      }
       level = 6
     } else if (level < 1 && this.level !== -1) {
-      report.push(
-        `Cannot [${action}] heading level lower than 1! Got:`,
-        level,
-        'and had before',
-        this.level
-      )
+      if (!this.bypassChecks) {
+        report.push(
+          `Cannot [${action}] heading level lower than 1! Got:`,
+          level,
+          'and had before',
+          this.level
+        )
+      }
       level = 1
     } else if (!this.bypassChecks && level === 1 && this.level === 1) {
       report.push(
@@ -262,6 +266,15 @@ export class Counter {
 
   decrement() {
     this.setLevel(this.level - 1, 'decrement')
+  }
+
+  restart() {
+    this.level = 0
+  }
+
+  restartContext() {
+    this.level = this.entry
+    this._isReady = false
   }
 
   force(level = 1) {
