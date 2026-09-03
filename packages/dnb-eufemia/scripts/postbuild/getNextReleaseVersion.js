@@ -10,21 +10,46 @@ const fs = require('fs')
 const os = require('os')
 const path = require('path')
 const { execFileSync } = require('child_process')
+const { createRequire } = require('module')
 const { Writable } = require('stream')
 const simpleGit = require('simple-git')
 
+// The matcher semantic-release itself expands the branch configuration with
+const micromatch = createRequire(
+  require.resolve('semantic-release/package.json')
+)('micromatch')
+
 const eufemiaRoot = path.resolve(__dirname, '..', '..')
-const releaseBranches = ['release', 'beta', 'alpha']
 
 // run this script if it is called from bash / command line
 if (require.main === module) {
   getNextReleaseVersion()
 }
 
+/**
+ * The branches semantic-release publishes from, so `next` and the maintenance
+ * branches are covered too rather than only the ones a hardcoded list knows.
+ */
+function isReleaseBranch(branchName, { cwd = eufemiaRoot } = {}) {
+  if (!branchName) {
+    return false
+  }
+
+  const patterns = getReleaseConfig(cwd).branches.map((branch) =>
+    typeof branch === 'string' ? branch : branch.name
+  )
+
+  return micromatch.isMatch(branchName, patterns)
+}
+
+function getReleaseConfig(cwd) {
+  return require(path.resolve(cwd, 'package.json')).release
+}
+
 async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
   const branchName = (await simpleGit(cwd).branch()).current
 
-  if (!releaseBranches.includes(branchName)) {
+  if (!isReleaseBranch(branchName, { cwd })) {
     return null
   }
 
@@ -47,9 +72,7 @@ async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
  */
 async function resolveNextReleaseVersion(cwd) {
   const { default: semanticRelease } = await import('semantic-release')
-  const { branches, plugins } = require(
-    path.resolve(cwd, 'package.json')
-  ).release
+  const { branches, plugins } = getReleaseConfig(cwd)
   const commitAnalyzer = plugins.find(
     (plugin) =>
       (Array.isArray(plugin) ? plugin[0] : plugin) ===
@@ -58,22 +81,11 @@ async function resolveNextReleaseVersion(cwd) {
   const mirror = createRepositoryMirror(cwd)
   const log = createLogCapture()
 
-  // This hook only runs once the branch and the push check have passed, which
-  // separates "nothing to release" from a run that never got that far
-  let analysable = false
-
   try {
     const result = await semanticRelease(
       {
         branches,
-        plugins: [
-          commitAnalyzer,
-          {
-            verifyConditions: () => {
-              analysable = true
-            },
-          },
-        ],
+        plugins: [commitAnalyzer],
         repositoryUrl: mirror.path,
         dryRun: true,
         // Report the version for a pull request build too, which
@@ -88,15 +100,11 @@ async function resolveNextReleaseVersion(cwd) {
       }
     )
 
-    if (result) {
-      return result.nextRelease.version
-    }
-
-    if (analysable) {
-      return null
-    }
-
-    throw new Error(log.read())
+    // The branch is already known to be one semantic-release publishes from, so
+    // no result means the commits do not warrant a release
+    return result ? result.nextRelease.version : null
+  } catch (error) {
+    throw new Error(`${error.message}\n${log.read()}`, { cause: error })
   } finally {
     mirror.remove()
   }
@@ -242,5 +250,5 @@ function createLogCapture() {
   }
 }
 
-exports.releaseBranches = releaseBranches
+exports.isReleaseBranch = isReleaseBranch
 exports.getNextReleaseVersion = getNextReleaseVersion
