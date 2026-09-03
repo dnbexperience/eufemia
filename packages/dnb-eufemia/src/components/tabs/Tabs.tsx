@@ -1509,8 +1509,7 @@ function CachedContent({
     return () => {
       element.removeEventListener('beforematch', handleBeforeMatch)
 
-      // React still owns "hidden", so restore its value when the
-      // enhancement no longer applies but the content stays hidden.
+      // Restore the value React rendered, since it still owns the attribute.
       if (element.getAttribute('hidden') === 'until-found') {
         element.setAttribute('hidden', '')
       }

@@ -8,6 +8,7 @@ import type { ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { act, fireEvent, render } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { Provider } from '../../../shared'
 import defaultLocales from '../../../shared/locales'
 import type { TabsProps } from '../Tabs'
@@ -835,7 +836,7 @@ describe('A single Tab component', () => {
     ).toHaveAttribute('hidden', '')
   })
 
-  it('renders the same openOnFind markup on the server and the client', () => {
+  it('shows the selected tab content after hydrating server-rendered markup', () => {
     const element = (
       <Tabs
         {...props}
@@ -847,23 +848,38 @@ describe('A single Tab component', () => {
       />
     )
 
-    const cachedContents = (html: string) =>
-      html.match(/<div data-tab-key="[^"]*"[^>]*>/g)
-
-    const client = renderToString(element)
-
     const originalDocument = globalThis.document
-    let server: string
+    let html: string
 
     try {
       delete globalThis.document
-      server = renderToString(element)
+      html = renderToString(element)
     } finally {
       globalThis.document = originalDocument
     }
 
-    expect(cachedContents(server)).toEqual(cachedContents(client))
-    expect(cachedContents(server)[1]).toContain('hidden=""')
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    const recoverableErrors = []
+    act(() => {
+      hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    expect(recoverableErrors).toEqual([])
+
+    act(() => {
+      fireEvent.click(
+        container.querySelector('button[data-tab-key="two"]')
+      )
+    })
+
+    expect(
+      container.querySelector('div[data-tab-key="two"]')
+    ).not.toHaveAttribute('hidden')
   })
 
   it('has to work with "Tabs.Content" as children components', () => {
