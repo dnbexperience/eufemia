@@ -5,65 +5,250 @@
 
 // When on a "release" branch:
 // run: yarn nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/getNextReleaseVersion.js' --ext js --watch './scripts/**/*'
-// run (mjs): yarn nodemon --exec 'node --experimental-import-meta-resolve ./scripts/postbuild/getNextReleaseVersion.mjs' --ext mjs --watch './scripts/**/*'
 
-const { execFile } = require('child_process')
+const fs = require('fs')
+const os = require('os')
 const path = require('path')
+const { execFileSync } = require('child_process')
+const { createRequire } = require('module')
+const { Writable } = require('stream')
 const simpleGit = require('simple-git')
 
-try {
-  process.loadEnvFile()
-} catch {
-  // .env is optional — CI provides env vars directly
-}
+// The matcher semantic-release itself expands the branch configuration with
+const micromatch = createRequire(
+  require.resolve('semantic-release/package.json')
+)('micromatch')
 
-const srBin = require.resolve('semantic-release/bin/semantic-release.js')
 const eufemiaRoot = path.resolve(__dirname, '..', '..')
-const releaseBranches = ['release', 'beta', 'alpha']
 
 // run this script if it is called from bash / command line
 if (require.main === module) {
   getNextReleaseVersion()
 }
 
-async function getNextReleaseVersion() {
-  const branchName = (await simpleGit().branch()).current
-
-  if (releaseBranches.includes(branchName)) {
-    try {
-      const log = await new Promise((resolve) => {
-        execFile(
-          process.execPath,
-          [srBin, '--dry-run'],
-          { timeout: 120000, cwd: eufemiaRoot },
-          (_error, stdout, stderr) => {
-            // Resolve with combined output regardless of exit code —
-            // semantic-release may exit non-zero in dry-run mode
-            // even after printing the next version.
-            resolve((stdout || '') + (stderr || ''))
-          }
-        )
-      })
-      const nextVersion = log.match(
-        /The next release version is ([^\n]*)/
-      )?.[1]
-
-      if (nextVersion) {
-        return nextVersion
-      }
-    } catch (e) {
-      console.error(e)
-    }
-  } else {
-    console.warn(
-      `The current git branch ${branchName} is not one of the release branches ${releaseBranches.join(
-        ','
-      )}`
-    )
+/**
+ * The branches semantic-release publishes from, so `next` and the maintenance
+ * branches are covered too rather than only the ones a hardcoded list knows.
+ */
+function isReleaseBranch(branchName, { cwd = eufemiaRoot } = {}) {
+  if (!branchName) {
+    return false
   }
 
-  return null
+  const patterns = getReleaseConfig(cwd).branches.map((branch) =>
+    typeof branch === 'string' ? branch : branch.name
+  )
+
+  return micromatch.isMatch(branchName, patterns)
 }
 
-exports.releaseBranches = releaseBranches
+function getReleaseConfig(cwd) {
+  return require(path.resolve(cwd, 'package.json')).release
+}
+
+async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
+  const branchName = (await simpleGit(cwd).branch()).current
+
+  if (!isReleaseBranch(branchName, { cwd })) {
+    return null
+  }
+
+  try {
+    return await resolveNextReleaseVersion(cwd)
+  } catch (error) {
+    console.warn(
+      `Could not determine the next release version:\n${error.message}`
+    )
+
+    return null
+  }
+}
+
+/**
+ * semantic-release derives the version from the commits, but a regular run also
+ * verifies the npm and GitHub credentials it would publish with – and the
+ * release build job deliberately has none. Only the commit analyzer is needed
+ * to get the version, and it needs no credentials, so run that plugin alone.
+ */
+async function resolveNextReleaseVersion(cwd) {
+  const { default: semanticRelease } = await import('semantic-release')
+  const { branches, plugins } = getReleaseConfig(cwd)
+  const commitAnalyzer = plugins.find(
+    (plugin) =>
+      (Array.isArray(plugin) ? plugin[0] : plugin) ===
+      '@semantic-release/commit-analyzer'
+  )
+  const mirror = createRepositoryMirror(cwd)
+  const log = createLogCapture()
+
+  try {
+    const result = await semanticRelease(
+      {
+        branches,
+        plugins: [commitAnalyzer],
+        repositoryUrl: mirror.path,
+        dryRun: true,
+        // Report the version for a pull request build too, which
+        // semantic-release skips when it runs as a release
+        ci: false,
+      },
+      {
+        cwd,
+        env: withoutCiBranchDetection(process.env),
+        stdout: log.stream,
+        stderr: log.stream,
+      }
+    )
+
+    // The branch is already known to be one semantic-release publishes from, so
+    // no result means the commits do not warrant a release
+    return result ? result.nextRelease.version : null
+  } catch (error) {
+    throw new Error(`${error.message}\n${log.read()}`, { cause: error })
+  } finally {
+    mirror.remove()
+  }
+}
+
+/**
+ * semantic-release reads the branch from the CI environment, which is the
+ * workflow's own ref – not necessarily the repository it is pointed at. Hiding
+ * the GitHub Actions marker makes it fall back to reading the branch from that
+ * repository, so the version always describes what is actually checked out.
+ */
+function withoutCiBranchDetection(processEnv) {
+  const env = { ...processEnv }
+
+  delete env.GITHUB_ACTIONS
+
+  return env
+}
+
+/**
+ * semantic-release verifies that it is allowed to push before it reports a
+ * version, and it discovers the configured branches through the repository URL.
+ * A throwaway bare clone covers both without credentials: `--shared` references
+ * the existing object store instead of copying it, and the known branch heads
+ * are added so the branch configuration resolves the same way it would against
+ * the remote.
+ */
+function createRepositoryMirror(cwd) {
+  const directory = fs.mkdtempSync(
+    path.join(os.tmpdir(), 'eufemia-release-')
+  )
+  const remove = () =>
+    fs.rmSync(directory, { recursive: true, force: true })
+
+  try {
+    const mirrorPath = path.join(directory, 'repo.git')
+    const repositoryRoot = git(cwd, ['rev-parse', '--show-toplevel'])
+
+    git(cwd, [
+      'clone',
+      '--bare',
+      '--shared',
+      '--quiet',
+      repositoryRoot,
+      mirrorPath,
+    ])
+
+    const updates = Array.from(collectBranchHeads(cwd))
+      .map(([name, hash]) => `update refs/heads/${name} ${hash}\n`)
+      .join('')
+
+    git(mirrorPath, ['update-ref', '--stdin'], { input: updates })
+
+    return { path: mirrorPath, remove }
+  } catch (error) {
+    remove()
+
+    throw error
+  }
+}
+
+function collectBranchHeads(cwd) {
+  const heads = new Map()
+
+  const collect = (pattern, strip) => {
+    const refs = git(cwd, [
+      'for-each-ref',
+      `--format=%(refname:lstrip=${strip}) %(objectname)`,
+      pattern,
+    ])
+
+    for (const line of refs.split('\n').filter(Boolean)) {
+      const [name, hash] = line.split(' ')
+
+      // The remote HEAD is a symbolic ref, not a branch of its own
+      if (name !== 'HEAD' && !heads.has(name)) {
+        heads.set(name, hash)
+      }
+    }
+  }
+
+  // The checked-out branches are collected first and kept, so the mirror
+  // agrees with what is built here wherever the two disagree
+  collect('refs/heads', 2)
+  collect('refs/remotes/origin', 3)
+
+  return withoutRefPathCollisions(heads)
+}
+
+/**
+ * A branch is stored as a path, so `portal` and `portal/page-toc` cannot both
+ * exist – and `update-ref` applies its input as one transaction, where a single
+ * name it cannot store abandons the whole mirror. Renaming a branch into a
+ * folder of branches leaves exactly that pair behind in every clone that has
+ * not pruned the stale remote ref yet, so drop the names that collide with a
+ * branch already accounted for. The branch being released is never one of them:
+ * it is checked out here, which rules out a local branch inside it.
+ */
+function withoutRefPathCollisions(heads) {
+  const kept = new Map()
+  const folders = new Set()
+
+  for (const [name, hash] of heads) {
+    const segments = name.split('/')
+    const parents = segments
+      .slice(0, -1)
+      .map((_, index) => segments.slice(0, index + 1).join('/'))
+
+    if (folders.has(name) || parents.some((parent) => kept.has(parent))) {
+      continue
+    }
+
+    kept.set(name, hash)
+
+    for (const parent of parents) {
+      folders.add(parent)
+    }
+  }
+
+  return kept
+}
+
+function git(cwd, args, options = {}) {
+  return execFileSync('git', args, {
+    cwd,
+    encoding: 'utf-8',
+    stdio: ['pipe', 'pipe', 'pipe'],
+    ...options,
+  }).trim()
+}
+
+function createLogCapture() {
+  const lines = []
+
+  return {
+    stream: new Writable({
+      write(chunk, encoding, callback) {
+        lines.push(String(chunk))
+        callback()
+      },
+    }),
+    read: () => lines.join('').trim(),
+  }
+}
+
+exports.isReleaseBranch = isReleaseBranch
 exports.getNextReleaseVersion = getNextReleaseVersion
