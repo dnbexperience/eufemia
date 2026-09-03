@@ -41,6 +41,11 @@ output "dashboard_url" {
   value       = "https://${aws_cloudfront_distribution.dashboard.domain_name}"
 }
 
+output "dashboard_public_url" {
+  description = "Canonical public dashboard URL (custom domain when set, else the CloudFront URL)"
+  value       = coalesce(var.dashboard_public_url, "https://${aws_cloudfront_distribution.dashboard.domain_name}")
+}
+
 output "dashboard_distribution_id" {
   description = "CloudFront distribution id (used for cache invalidation on publish)"
   value       = aws_cloudfront_distribution.dashboard.id
