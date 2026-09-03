@@ -127,6 +127,27 @@ describe('TextMask', () => {
     const secondOptions = vi.mocked(useMaskito).mock.lastCall[0].options
     expect(secondOptions).toBe(firstOptions)
   })
+
+  it('keeps Maskito options stable for an unstable optionsEnhancer', () => {
+    const mask = [/\d/, '-', /\d/]
+    const { rerender } = render(
+      <TextMask
+        mask={mask}
+        optionsEnhancer={(options) => (options ? { ...options } : options)}
+      />
+    )
+    const firstOptions = vi.mocked(useMaskito).mock.lastCall[0].options
+
+    rerender(
+      <TextMask
+        mask={mask}
+        optionsEnhancer={(options) => (options ? { ...options } : options)}
+      />
+    )
+
+    const secondOptions = vi.mocked(useMaskito).mock.lastCall[0].options
+    expect(secondOptions).toBe(firstOptions)
+  })
 })
 
 describe('cleanNumericValue', () => {
