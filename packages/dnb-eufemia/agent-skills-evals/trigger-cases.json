@@ -49,6 +49,10 @@
       "expected_skill": "eufemia-portal-content"
     },
     {
+      "prompt": "I edited a few lines on an Eufemia portal page with Edit on GitHub. Please fix the formatting and pull request for me.",
+      "expected_skill": "eufemia-portal-content"
+    },
+    {
       "prompt": "Optimize this SQL query and propose a database index.",
       "expected_skill": null
     },
