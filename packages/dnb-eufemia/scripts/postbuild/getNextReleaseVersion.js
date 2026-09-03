@@ -48,7 +48,7 @@ async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
 async function resolveNextReleaseVersion(cwd) {
   const { default: semanticRelease } = await import('semantic-release')
   const { branches, plugins } = require(
-    path.join(cwd, 'package.json')
+    path.resolve(cwd, 'package.json')
   ).release
   const commitAnalyzer = plugins.find(
     (plugin) =>
@@ -128,27 +128,33 @@ function createRepositoryMirror(cwd) {
   const directory = fs.mkdtempSync(
     path.join(os.tmpdir(), 'eufemia-release-')
   )
-  const mirrorPath = path.join(directory, 'repo.git')
-  const repositoryRoot = git(cwd, ['rev-parse', '--show-toplevel'])
+  const remove = () =>
+    fs.rmSync(directory, { recursive: true, force: true })
 
-  git(cwd, [
-    'clone',
-    '--bare',
-    '--shared',
-    '--quiet',
-    repositoryRoot,
-    mirrorPath,
-  ])
+  try {
+    const mirrorPath = path.join(directory, 'repo.git')
+    const repositoryRoot = git(cwd, ['rev-parse', '--show-toplevel'])
 
-  const updates = Array.from(collectBranchHeads(cwd))
-    .map(([name, hash]) => `update refs/heads/${name} ${hash}\n`)
-    .join('')
+    git(cwd, [
+      'clone',
+      '--bare',
+      '--shared',
+      '--quiet',
+      repositoryRoot,
+      mirrorPath,
+    ])
 
-  git(mirrorPath, ['update-ref', '--stdin'], { input: updates })
+    const updates = Array.from(collectBranchHeads(cwd))
+      .map(([name, hash]) => `update refs/heads/${name} ${hash}\n`)
+      .join('')
 
-  return {
-    path: mirrorPath,
-    remove: () => fs.rmSync(directory, { recursive: true, force: true }),
+    git(mirrorPath, ['update-ref', '--stdin'], { input: updates })
+
+    return { path: mirrorPath, remove }
+  } catch (error) {
+    remove()
+
+    throw error
   }
 }
 
