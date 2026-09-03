@@ -6,7 +6,7 @@
  *
  */
 
-import { ErrorHandler, log } from '../lib'
+import { log } from '../lib'
 
 /**
  * The Templates (prepareTemplates) generation is special in the sense
@@ -53,8 +53,8 @@ export const runPrepublishTasks = async ({
     log.succeed('Prepublishing has Succeeded!')
   } catch (e) {
     log.fail('Failed to run prepublish!')
-    // @ts-expect-error - strictFunctionTypes
-    ErrorHandler(e)
+
+    throw e
   }
   return true
 }
