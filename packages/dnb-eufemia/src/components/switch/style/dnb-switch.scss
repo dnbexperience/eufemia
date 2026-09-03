@@ -119,7 +119,11 @@
     color: var(--switch-checked-icon);
     background-color: var(--switch-button-background);
 
-    transition: transform 160ms ease-out 125ms;
+    transition: transform 180ms var(--easing-fast-bounce);
+
+    @include utilities.reducedMotion() {
+      transition-duration: 0.01ms;
+    }
 
     .dnb-switch--large & {
       width: var(--switch-button-size-off--large);

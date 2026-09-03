@@ -305,7 +305,12 @@ button .dnb-form-status__text {
   height: var(--switch-button-size-off--medium);
   color: var(--switch-checked-icon);
   background-color: var(--switch-button-background);
-  transition: transform 160ms ease-out 125ms;
+  transition: transform 180ms var(--easing-fast-bounce);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-switch__button {
+    transition-duration: 0.01ms;
+  }
 }
 .dnb-switch--large .dnb-switch__button {
   width: var(--switch-button-size-off--large);
