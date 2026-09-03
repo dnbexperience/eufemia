@@ -93,6 +93,26 @@ describe('docs-server tools', () => {
     })
   })
 
+  describe('portal_content_workflow', () => {
+    it('is discoverable and returns the contribution workflow', async () => {
+      const listed = await client.listTools()
+      expect(listed.tools.map(({ name }) => name)).toContain(
+        'portal_content_workflow'
+      )
+
+      const result = parseResult(
+        await client.callTool({
+          name: 'portal_content_workflow',
+          arguments: {},
+        })
+      )
+
+      expect(result).toContain('Edit Eufemia Portal Content')
+      expect(result).toContain('Edit on GitHub')
+      expect(result).toContain('Never merge without explicit permission')
+    })
+  })
+
   describe('docs_index', () => {
     it('returns all markdown files', async () => {
       const result = parseResult(
