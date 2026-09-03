@@ -26,6 +26,14 @@ export async function makeReleaseVersion() {
 
   if (releaseBranches.includes(branchName)) {
     version = await getNextReleaseVersion()
+
+    // A release build must never fall back to the branch name below, because
+    // that name would ship as `Eufemia.version` and as the style scope hash.
+    if (!version && isCI) {
+      throw new Error(
+        `Could not determine the next release version on the ${branchName} branch.`
+      )
+    }
   }
 
   if (!version && isCI) {

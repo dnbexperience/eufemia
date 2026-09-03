@@ -205,41 +205,26 @@ describe('makeReleaseVersion', () => {
     )
   })
 
-  it('write branch in file', async () => {
+  it('should fail instead of writing the branch name on a release branch', async () => {
     mockBranchName('release')
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'
     ).mockImplementationOnce(async () => null)
 
-    await makeReleaseVersion()
-
-    expect(fs.writeFile).toHaveBeenCalledTimes(4)
-
-    // JS
-    expect(fs.writeFile).toHaveBeenNthCalledWith(
-      1,
-      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
-      expect.stringContaining(`release`)
+    await expect(makeReleaseVersion()).rejects.toThrow(
+      'Could not determine the next release version on the release branch.'
     )
 
-    // CJS
-    expect(fs.writeFile).toHaveBeenNthCalledWith(
-      2,
-      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
-      expect.stringContaining(`release`)
-    )
-
-    // CSS
-    expect(fs.writeFile).toHaveBeenNthCalledWith(
-      3,
-      expect.stringContaining('src/style/core/scopes.scss'),
-      expect.stringContaining(`--eufemia-version: 'release';`)
-    )
+    expect(fs.writeFile).not.toHaveBeenCalled()
   })
 
   it('write sha in file', async () => {
     mockBranchName('release')
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => '123456789')
     vi.spyOn(child_process, 'execSync').mockReturnValueOnce(
       'test-sha' as any
     )
