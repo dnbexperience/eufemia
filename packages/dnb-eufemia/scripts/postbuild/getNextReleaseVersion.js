@@ -120,8 +120,8 @@ function withoutCiBranchDetection(processEnv) {
  * semantic-release verifies that it is allowed to push before it reports a
  * version, and it discovers the configured branches through the repository URL.
  * A throwaway bare clone covers both without credentials: `--shared` references
- * the existing object store instead of copying it, and every known branch head
- * is added so the branch configuration resolves the same way it would against
+ * the existing object store instead of copying it, and the known branch heads
+ * are added so the branch configuration resolves the same way it would against
  * the remote.
  */
 function createRepositoryMirror(cwd) {
@@ -166,18 +166,51 @@ function collectBranchHeads(cwd) {
       const [name, hash] = line.split(' ')
 
       // The remote HEAD is a symbolic ref, not a branch of its own
-      if (name !== 'HEAD') {
+      if (name !== 'HEAD' && !heads.has(name)) {
         heads.set(name, hash)
       }
     }
   }
 
+  // The checked-out branches are collected first and kept, so the mirror
+  // agrees with what is built here wherever the two disagree
+  collect('refs/heads', 2)
   collect('refs/remotes/origin', 3)
 
-  // The checked-out branches win, so the mirror agrees with what is built here
-  collect('refs/heads', 2)
+  return withoutRefPathCollisions(heads)
+}
 
-  return heads
+/**
+ * A branch is stored as a path, so `portal` and `portal/page-toc` cannot both
+ * exist – and `update-ref` applies its input as one transaction, where a single
+ * name it cannot store abandons the whole mirror. Renaming a branch into a
+ * folder of branches leaves exactly that pair behind in every clone that has
+ * not pruned the stale remote ref yet, so drop the names that collide with a
+ * branch already accounted for. The branch being released is never one of them:
+ * it is checked out here, which rules out a local branch inside it.
+ */
+function withoutRefPathCollisions(heads) {
+  const kept = new Map()
+  const folders = new Set()
+
+  for (const [name, hash] of heads) {
+    const segments = name.split('/')
+    const parents = segments
+      .slice(0, -1)
+      .map((_, index) => segments.slice(0, index + 1).join('/'))
+
+    if (folders.has(name) || parents.some((parent) => kept.has(parent))) {
+      continue
+    }
+
+    kept.set(name, hash)
+
+    for (const parent of parents) {
+      folders.add(parent)
+    }
+  }
+
+  return kept
 }
 
 function git(cwd, args, options = {}) {

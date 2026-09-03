@@ -63,7 +63,7 @@ function createRepository({
     }
   }
 
-  return { cwd, commit }
+  return { cwd, commit, git }
 }
 
 afterAll(() => {
@@ -169,6 +169,19 @@ describe('getNextReleaseVersion', () => {
     )
 
     warn.mockRestore()
+  })
+
+  it('resolves when a renamed branch left a colliding remote ref behind', async () => {
+    const { cwd, commit, git } = createRepository()
+    commit('feat: add a component')
+
+    // Renaming a branch into a folder of branches leaves a remote ref that
+    // cannot coexist with the ones that replaced it, and a clone only drops it
+    // once it is pruned
+    git('branch', 'portal/page-toc')
+    git('update-ref', 'refs/remotes/origin/portal', 'HEAD')
+
+    expect(await getNextReleaseVersion({ cwd })).toBe('1.1.0')
   })
 
   it('returns null when not on a release branch', async () => {
