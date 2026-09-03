@@ -300,7 +300,7 @@ button .dnb-form-status__text {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: var(--token-radius-xl);
   width: var(--switch-button-size-off--medium);
   height: var(--switch-button-size-off--medium);
   color: var(--switch-checked-icon);
