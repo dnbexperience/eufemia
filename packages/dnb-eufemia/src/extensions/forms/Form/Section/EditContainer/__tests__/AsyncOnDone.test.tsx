@@ -180,4 +180,47 @@ describe('EditContainer async onDone', () => {
       ).not.toHaveAttribute('aria-hidden', 'true')
     })
   })
+
+  it('should re-enable the section after asyncSubmitTimeout when an async onDone never settles', async () => {
+    const onDone = vi.fn(() => new Promise<void>(() => undefined))
+
+    render(
+      <Form.Handler asyncSubmitTimeout={100}>
+        <Form.Section containerMode="edit">
+          <Form.Section.EditContainer onDone={onDone}>
+            <Field.String path="/name" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const [doneButton, cancelButton] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-edit-block button')
+    )
+    const input = document.querySelector('input')
+
+    await userEvent.click(doneButton)
+
+    // Disabled while the save is in flight
+    expect(onDone).toHaveBeenCalledTimes(1)
+    expect(doneButton).toBeDisabled()
+    expect(cancelButton).toBeDisabled()
+    expect(input).toBeDisabled()
+
+    // The Promise never settles, so the asyncSubmitTimeout recovers the
+    // section instead of leaving it stuck.
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+    expect(cancelButton).not.toBeDisabled()
+    expect(input).not.toBeDisabled()
+
+    // It stays in edit mode, since the save never confirmed, so the user
+    // can try again.
+    expect(
+      document.querySelector('.dnb-forms-section-view-block')
+    ).toHaveAttribute('aria-hidden', 'true')
+  })
 })

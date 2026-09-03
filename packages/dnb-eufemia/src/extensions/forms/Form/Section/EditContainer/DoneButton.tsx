@@ -1,6 +1,7 @@
 import { useCallback, useContext, useRef } from 'react'
 import SectionContainerContext from '../containers/SectionContainerContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
+import DataContext from '../../../DataContext/Context'
 import { useTranslation } from '../../../hooks'
 import { Button } from '../../../../../components'
 import { check } from '../../../../../icons'
@@ -15,6 +16,9 @@ export default function DoneEditButton() {
   const { switchContainerMode } = useContext(SectionContainerContext) || {}
   const { hasError, hasVisibleError, setShowBoundaryErrors } =
     useContext(FieldBoundaryContext) || {}
+  const dataContext = useContext(DataContext)
+  const asyncSubmitTimeout =
+    dataContext?.props?.asyncSubmitTimeout ?? 30000
   const translation = useTranslation().SectionEditContainer
   const buttonRef = useRef<HTMLElement>(null)
   const restoreFocusRef = useRef(false)
@@ -58,12 +62,24 @@ export default function DoneEditButton() {
 
       if (result instanceof Promise) {
         setIsPending?.(true)
+
+        // Recover the pending state if the Promise never settles, mirroring
+        // the `asyncSubmitTimeout` safety net Form.Handler's `onSubmit` uses.
+        // Without it, a Promise that never resolves or rejects would leave
+        // the section disabled with no way out. The section stays in edit
+        // mode so the user can try again.
+        const timeout = setTimeout(() => {
+          setIsPending?.(false)
+        }, asyncSubmitTimeout)
+
         void result.then(
           () => {
+            clearTimeout(timeout)
             setIsPending?.(false)
             switchContainerMode?.('view')
           },
           () => {
+            clearTimeout(timeout)
             restoreFocusRef.current = true
             setIsPending?.(false)
           }
@@ -73,6 +89,7 @@ export default function DoneEditButton() {
       }
     }
   }, [
+    asyncSubmitTimeout,
     hasError,
     hasVisibleError,
     isPending,
