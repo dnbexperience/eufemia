@@ -2,6 +2,7 @@ import { Fragment, act, useContext } from 'react'
 import type { ReactNode, Ref } from 'react'
 import { render } from '@testing-library/react'
 import Context from '../Context'
+import Provider from '../Provider'
 import type { ThemeAllProps } from '../Theme'
 import Theme, { getTheme, setTheme } from '../Theme'
 import {
@@ -63,6 +64,24 @@ describe('Theme', () => {
     })
     expect(element).toHaveAttribute('data-brand', 'carnegie')
     expect(element).toHaveAttribute('data-name', 'carnegie')
+  })
+
+  it('resolves brand from a context that only provides the deprecated name', () => {
+    render(
+      <Provider theme={{ name: 'sbanken' }}>
+        <Theme id="inner" variant="soft">
+          content
+        </Theme>
+      </Provider>
+    )
+
+    const element = document.querySelector('#inner')
+    expect(element).toHaveClass(
+      'eufemia-theme eufemia-theme__sbanken eufemia-theme__sbanken--soft',
+      { exact: true }
+    )
+    expect(element).toHaveAttribute('data-brand', 'sbanken')
+    expect(element).toHaveAttribute('data-name', 'sbanken')
   })
 
   it('supports nested themes', () => {

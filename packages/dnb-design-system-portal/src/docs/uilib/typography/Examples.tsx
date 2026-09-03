@@ -56,7 +56,7 @@ const FontUsageExample = ({ typoClass, fontFamily }) => (
 export function FontWeightByThemeExample() {
   const theme = useTheme()
 
-  if (theme?.name === 'sbanken') {
+  if (theme?.brand === 'sbanken') {
     return (
       <Wrapper>
         {/* Regular */}

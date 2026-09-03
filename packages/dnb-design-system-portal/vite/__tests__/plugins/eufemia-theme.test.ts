@@ -528,4 +528,132 @@ describe('eufemia-theme plugin', () => {
       expect(sbankenLink.disabled).toBe(false)
     })
   })
+
+  // Run before hydration; must resolve the brand like the runtime handler,
+  // or the visitor sees the wrong theme until hydration corrects it.
+  describe('startup brand resolution', () => {
+    beforeEach(() => {
+      document.body.className = ''
+      document.head.innerHTML = ''
+      localStorage.clear()
+      delete (window as any).__applyEufemiaThemeStyles__
+      delete globalThis.__loadEufemiaTheme
+    })
+
+    afterEach(() => {
+      delete (window as any).__applyEufemiaThemeStyles__
+      delete globalThis.__loadEufemiaTheme
+    })
+
+    function runDevStartup() {
+      const plugin = eufemiaThemePlugin()
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:eufemia-theme-styles') || ''
+
+      // Assert the rewrite target still exists; otherwise the unwrap below
+      // silently no-ops and the test would pass for the wrong reason.
+      expect(
+        code,
+        'dev startup no longer wraps the first load in `requestAnimationFrame(() => {`, so the unwrap below is dead — update it'
+      ).toContain('requestAnimationFrame(() => {')
+
+      // Unwrap the first-load requestAnimationFrame so its callback runs sync.
+      const evalCode = code
+        .replace(/import '[^']+';/g, '')
+        .replace(/requestAnimationFrame\(\(\) => \{/, '{')
+        .replace(/\}\);(\s*\})/, '}$1')
+
+      new Function(evalCode)()
+    }
+
+    function runBuildStartup() {
+      const plugin = eufemiaThemePlugin()
+      const configResolved = plugin.configResolved as (config: {
+        command: string
+      }) => void
+      configResolved({ command: 'build' })
+
+      const load = plugin.load as (id: string) => string | undefined
+      const code = load('\0virtual:eufemia-theme-styles') || ''
+
+      const startupSpy = vi.fn()
+      const evalCode = code
+        .replace(/import\([^)]+\)/g, 'Promise.resolve()')
+        .replace(/import '[^']+';/g, '')
+        .replace(
+          'window.__loadEufemiaTheme(initial)',
+          'startupSpy(initial)'
+        )
+
+      // Assert the substitution applied, else the real loader runs, not the spy.
+      expect(evalCode, 'build startup call was not substituted').toContain(
+        'startupSpy(initial)'
+      )
+
+      new Function('startupSpy', evalCode)(startupSpy)
+
+      return startupSpy
+    }
+
+    it('dev mode applies a brand-only payload before hydration', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie' })
+      )
+
+      runDevStartup()
+
+      expect(
+        document.body.classList.contains('eufemia-theme__carnegie')
+      ).toBe(true)
+      expect(document.body.classList.contains('eufemia-theme__ui')).toBe(
+        false
+      )
+    })
+
+    it('dev mode still applies a legacy name-only payload', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ name: 'eiendom' })
+      )
+
+      runDevStartup()
+
+      expect(
+        document.body.classList.contains('eufemia-theme__eiendom')
+      ).toBe(true)
+    })
+
+    it('build mode loads a brand-only payload before hydration', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie' })
+      )
+
+      expect(runBuildStartup()).toHaveBeenCalledWith('carnegie')
+    })
+
+    it('build mode still loads a legacy name-only payload', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ name: 'eiendom' })
+      )
+
+      expect(runBuildStartup()).toHaveBeenCalledWith('eiendom')
+    })
+
+    it('prefers brand over the deprecated name in both modes', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'carnegie', name: 'eiendom' })
+      )
+
+      expect(runBuildStartup()).toHaveBeenCalledWith('carnegie')
+
+      runDevStartup()
+      expect(
+        document.body.classList.contains('eufemia-theme__carnegie')
+      ).toBe(true)
+    })
+  })
 })

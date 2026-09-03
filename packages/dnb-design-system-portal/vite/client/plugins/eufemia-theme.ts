@@ -322,7 +322,7 @@ ${loaderEntries}
   try {
     var stored = JSON.parse(localStorage.getItem('eufemia-theme') || '{}');
     var params = new URLSearchParams(location.search);
-    var initial = params.get('eufemia-theme') || stored.name || '${config.defaultTheme}';
+    var initial = params.get('eufemia-theme') || stored.brand || stored.name || '${config.defaultTheme}';
     window.__loadEufemiaTheme(initial);
   } catch(e) {
     window.__loadEufemiaTheme('${config.defaultTheme}');
@@ -360,7 +360,7 @@ if (typeof window !== 'undefined') {
       const data = localStorage.getItem('eufemia-theme');
       const stored = JSON.parse(data?.startsWith('{') ? data : '{}');
       const params = new URLSearchParams(location.search);
-      return params.get('eufemia-theme') || stored?.name || ${JSON.stringify(config.defaultTheme)};
+      return params.get('eufemia-theme') || stored?.brand || stored?.name || ${JSON.stringify(config.defaultTheme)};
     } catch { return ${JSON.stringify(config.defaultTheme)}; }
   };
 

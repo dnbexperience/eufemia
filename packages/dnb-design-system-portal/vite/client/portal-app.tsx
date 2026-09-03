@@ -43,7 +43,13 @@ import 'virtual:eufemia-theme-styles'
 const emotionCache = createEmotionCache({ key: 'css' })
 
 function RootLayout() {
-  const { setTheme, colorScheme, ...theme } = useThemeHandler()
+  // Drop the deprecated `name` mirror so it isn't passed to <Theme>.
+  const {
+    setTheme,
+    colorScheme,
+    name: _name,
+    ...theme
+  } = useThemeHandler()
 
   const translationsLoader = useCallback(async (locale: string) => {
     try {
