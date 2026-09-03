@@ -238,6 +238,25 @@ describe('Icon component', () => {
     )
   })
 
+  it('should detect medium size from a minified icon name containing an underscore', () => {
+    const _t = (props?: SVGProps<SVGSVGElement>) => (
+      <svg
+        width={24}
+        height={24}
+        viewBox="0 0 24 24"
+        fill="none"
+        {...props}
+      >
+        <path d="M12 2a10 10 0 100 20 10 10 0 000-20z" />
+      </svg>
+    )
+
+    render(<Icon icon={_t} />)
+    expect(document.querySelector('span.dnb-icon').classList).toContain(
+      'dnb-icon--medium'
+    )
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(<Icon {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
