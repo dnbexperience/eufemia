@@ -819,17 +819,31 @@ describe('A single Tab component', () => {
   })
 
   it('allows openOnFind to be disabled when keepInDOM is true', () => {
-    render(
+    const tabs = (openOnFind: boolean) => (
       <Tabs
         {...props}
         keepInDOM
-        openOnFind={false}
+        openOnFind={openOnFind}
         data={[
           { title: 'One', key: 'one', content: 'Content one' },
           { title: 'Two', key: 'two', content: 'Content two' },
         ]}
       />
     )
+
+    const { rerender } = render(tabs(false))
+
+    expect(
+      document.querySelectorAll('.dnb-tabs__cached')[1]
+    ).toHaveAttribute('hidden', '')
+
+    rerender(tabs(true))
+
+    expect(
+      document.querySelectorAll('.dnb-tabs__cached')[1]
+    ).toHaveAttribute('hidden', 'until-found')
+
+    rerender(tabs(false))
 
     expect(
       document.querySelectorAll('.dnb-tabs__cached')[1]

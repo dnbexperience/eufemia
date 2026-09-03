@@ -1495,7 +1495,13 @@ function CachedContent({
 
   useEffect(() => {
     const element = elementRef.current
-    if (!element || !hidden || !canOpenOnFind) {
+    if (!element || !hidden) {
+      return undefined
+    }
+
+    if (!canOpenOnFind) {
+      // Undo a previous enhancement, which React does not track.
+      element.setAttribute('hidden', '')
       return undefined
     }
 
@@ -1508,11 +1514,6 @@ function CachedContent({
 
     return () => {
       element.removeEventListener('beforematch', handleBeforeMatch)
-
-      // Restore the value React rendered, since it still owns the attribute.
-      if (element.getAttribute('hidden') === 'until-found') {
-        element.setAttribute('hidden', '')
-      }
     }
   }, [canOpenOnFind, hidden, onBeforeMatch])
 
