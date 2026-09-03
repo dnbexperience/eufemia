@@ -176,11 +176,14 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     maskParams?.decimalLimit,
   ])
 
+  // Read optionsEnhancer from a ref so an unstable inline function doesn't re-init Maskito each render
+  const optionsEnhancerRef = useRef(optionsEnhancer)
+  optionsEnhancerRef.current = optionsEnhancer
+
   const enhancedOptions = useMemo<MaskitoOptions | null>(() => {
-    return typeof optionsEnhancer === 'function'
-      ? optionsEnhancer(options)
-      : options
-  }, [options, optionsEnhancer])
+    const enhancer = optionsEnhancerRef.current
+    return typeof enhancer === 'function' ? enhancer(options) : options
+  }, [options])
 
   const maskitoRef = useMaskito({ options: enhancedOptions })
 
