@@ -15,9 +15,8 @@ import tags from '../shared/tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
 import { Breadcrumb, Button } from '@dnb/eufemia/src'
-import GithubLogo from '../docs/contribute/assets/github-logo'
 import { resolveEditSourcePath } from './editSourcePath'
-import { getGitHubEditTitle, getGitHubEditUrl } from './githubSource'
+import { getSuggestEditUrl } from './suggestEdit'
 
 const ContentWrapper = TabBar.ContentWrapper
 
@@ -25,6 +24,7 @@ type Frontmatter = {
   title?: string
   showTabs?: boolean
   fullscreen?: boolean
+  hideEditLink?: boolean
 }
 type Fields = {
   slug: string
@@ -57,6 +57,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
               description
               fullscreen
               showTabs
+              hideEditLink
               breadcrumb {
                 text
                 href
@@ -80,6 +81,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 description
                 fullscreen
                 showTabs
+                hideEditLink
                 breadcrumb {
                   text
                   href
@@ -200,7 +202,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
       <Content
         showTabs={currentFm.showTabs}
         sourcePath={editSourcePath}
-        showEditLink={!codeFocusMode}
+        pagePath={`${location.pathname}${location.hash || ''}`}
+        showEditLink={!codeFocusMode && !fmData.hideEditLink}
       >
         {children}
       </Content>
@@ -208,7 +211,13 @@ export default function PortalLayout(props: PortalLayoutProps) {
   )
 }
 
-function Content({ showTabs, sourcePath, showEditLink, children }) {
+function Content({
+  showTabs,
+  sourcePath,
+  pagePath,
+  showEditLink,
+  children,
+}) {
   if (showTabs) {
     resetLevels(2)
   }
@@ -220,13 +229,10 @@ function Content({ showTabs, sourcePath, showEditLink, children }) {
       {showEditLink && (
         <Button
           variant="secondary"
-          text="Edit on GitHub"
-          title={getGitHubEditTitle()}
-          icon={GithubLogo}
+          text="Suggest an edit"
+          icon="edit"
           iconPosition="left"
-          href={getGitHubEditUrl(sourcePath)}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={getSuggestEditUrl(pagePath, sourcePath)}
           top="large"
           bottom="large"
         />
