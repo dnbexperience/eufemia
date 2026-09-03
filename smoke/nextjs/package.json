@@ -5,7 +5,7 @@
     "build": "next build"
   },
   "dependencies": {
-    "next": "15.5.25",
+    "next": "16.3.4",
     "react": "19.2.5",
     "react-dom": "19.2.5"
   },
