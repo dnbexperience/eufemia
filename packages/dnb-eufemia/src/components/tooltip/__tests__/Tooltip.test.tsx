@@ -576,6 +576,42 @@ describe('Tooltip', () => {
       })
     })
 
+    it('should stay visible when mouse returns to the target', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={100}
+          hideDelay={50}
+          targetElement={
+            <button>
+              <span>Button</span>
+            </button>
+          }
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+      const buttonContent = buttonElem.querySelector('span')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(getMainElem())
+
+      const tooltipElem = getMainElem()
+
+      fireEvent.mouseLeave(tooltipElem, { relatedTarget: buttonContent })
+      fireEvent.mouseEnter(buttonContent, { relatedTarget: tooltipElem })
+
+      await wait(75)
+
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition open />)
 
