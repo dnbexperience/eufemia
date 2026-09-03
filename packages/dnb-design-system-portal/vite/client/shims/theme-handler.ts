@@ -2,11 +2,12 @@
  * Runtime theme handler used by the portal.
  *
  * Provides the same runtime API: useThemeHandler, getTheme, setTheme, etc.
- * Theme switching works via the `data-dnb-theme` attribute on <html>,
- * which Eufemia's SCSS theme files already respond to.
- *
- * All theme CSS is already loaded by vite-plugin-eufemia-theme,
- * so switching only requires updating localStorage + the HTML attribute.
+ * Theme switching is handled by vite-plugin-eufemia-theme: it enables the
+ * selected theme's stylesheet and disables the others — each theme is a
+ * separate `<style>` (dev) or `<link data-eufemia-theme="<name>">` (build)
+ * element — and sets an `eufemia-theme__<brand>` class on <body> so the
+ * theme's scoped CSS custom properties resolve. In build mode the theme CSS
+ * is lazy-loaded on first use before the active stylesheet is swapped.
  *
  * Shares the `eufemia-theme` localStorage key with Eufemia's getTheme/setTheme
  * (shared/Theme.tsx). The payload contract is kept in sync by hand — `brand`

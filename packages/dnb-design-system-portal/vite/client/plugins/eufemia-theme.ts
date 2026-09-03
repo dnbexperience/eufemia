@@ -6,8 +6,10 @@
  * 2. Generates a virtual module (`virtual:eufemia-theme-styles`) with imports
  * 3. Exports a `useThemeHandler` hook for runtime theme switching
  *
- * The theme switching works via CSS attribute selectors
- * (data-dnb-theme="<name>") that Eufemia's SCSS already supports.
+ * Theme switching enables the selected theme's stylesheet and disables the
+ * others — each theme is a separate `<style>` (dev) or lazy-loaded
+ * `<link data-eufemia-theme="<name>">` (build) element — and sets an
+ * `eufemia-theme__<brand>` class on <body> for theme-scoped CSS properties.
  */
 
 import { type Plugin } from 'vite'
