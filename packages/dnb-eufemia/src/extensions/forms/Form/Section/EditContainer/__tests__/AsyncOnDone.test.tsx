@@ -21,7 +21,7 @@ describe('EditContainer async onDone', () => {
       <Form.Handler id={formId} defaultData={{ name: 'Ada' }}>
         <Form.Section containerMode="edit">
           <Form.Section.EditContainer onDone={onDone}>
-            <Field.String path="/name" />
+            <Field.String path="/name" disabled={false} />
           </Form.Section.EditContainer>
 
           <Form.Section.ViewContainer>
@@ -58,6 +58,7 @@ describe('EditContainer async onDone', () => {
     expect(
       document.querySelector('.dnb-forms-section-view-block')
     ).toHaveTextContent('Ada')
+    expect(input).not.toBeDisabled()
   })
 
   it('should enable the fields again when an async onDone rejects', async () => {
@@ -92,6 +93,46 @@ describe('EditContainer async onDone', () => {
     })
 
     // The user can correct the value and try again
+    await userEvent.type(input, 'Grace')
+    expect(input).toHaveValue('Grace')
+  })
+
+  it('should force nested fields disabled until an async onDone rejects', async () => {
+    let rejectOnDone!: (reason?: unknown) => void
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((_resolve, reject) => {
+          rejectOnDone = reject
+        })
+    )
+
+    render(
+      <Form.Section containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.Provider disabled={false}>
+            <Field.String path="/name" disabled={false} />
+          </Field.Provider>
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    const input = document.querySelector('input')
+    await userEvent.click(
+      document.querySelector('.dnb-forms-section-edit-block button')
+    )
+    expect(input).toBeDisabled()
+
+    await userEvent.type(input, 'Grace')
+    expect(input).toHaveValue('')
+
+    rejectOnDone(new Error('Save failed'))
+
+    await waitFor(() => {
+      expect(input).not.toBeDisabled()
+    })
+
     await userEvent.type(input, 'Grace')
     expect(input).toHaveValue('Grace')
   })

@@ -12,10 +12,16 @@ import type { FieldProps } from '../../types'
 import type { FieldProviderProps } from './FieldProvider'
 
 function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
-  const { formElement, FormStatus, overwriteProps, ...restProps } =
-    props || {}
+  const {
+    formElement,
+    FormStatus,
+    overwriteProps,
+    forceDisabled,
+    ...restProps
+  } = props || {}
   const nestedContext = useContext(FieldProviderContext)
   const inheritedProps = nestedContext?.inheritedContext
+  const isForceDisabled = nestedContext?.forceDisabled || forceDisabled
 
   const sharedContext = useContext(SharedContext)
   const dataContextRef = useRef<ContextState>(undefined)
@@ -43,6 +49,12 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
   }
   if (formElement) {
     sharedProviderParams.formElement = formElement
+  }
+  if (isForceDisabled) {
+    sharedProviderParams.formElement = {
+      ...sharedProviderParams.formElement,
+      disabled: true,
+    }
   }
   if (FormStatus) {
     sharedProviderParams.FormStatus = FormStatus
@@ -119,12 +131,13 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
             )
           : props
 
-      return value as T
+      return (isForceDisabled ? { ...value, disabled: true } : value) as T
     },
     [
       nestedContext?.inheritedContext?.required,
       nestedFieldProps,
       overwriteProps,
+      isForceDisabled,
     ]
   )
 
@@ -132,6 +145,7 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
     extend,
     inheritedProps: restProps,
     inheritedContext: nestedFieldProps,
+    forceDisabled: isForceDisabled,
     sharedProviderParams,
   }
 }

@@ -140,9 +140,7 @@ function EditContainer(props: FormSectionEditContainerAllProps) {
             className="dnb-forms-section-block__content"
           >
             {title && <Lead size="basis">{title}</Lead>}
-            <FieldPropsProvider
-              formElement={isPending ? { disabled: true } : undefined}
-            >
+            <FieldPropsProvider forceDisabled={isPending}>
               {children}
             </FieldPropsProvider>
             {hasToolbar ? null : (
