@@ -2,6 +2,7 @@ import { render } from '@testing-library/react'
 import TextMask, { cleanNumericValue } from '../TextMask'
 import type { TextMaskMask } from '../TextMask'
 import { maskitoTransform, maskitoUpdateElement } from '@maskito/core'
+import { useMaskito } from '@maskito/react'
 
 vi.mock('@maskito/react', () => ({
   useMaskito: vi.fn(() => vi.fn()),
@@ -90,6 +91,41 @@ describe('TextMask', () => {
     render(<TextMask mask={[/\d/]} value={null} />)
 
     expect(maskitoUpdateElementMock).not.toHaveBeenCalled()
+  })
+
+  it('keeps Maskito options stable for equivalent inline masks', () => {
+    const { rerender } = render(<TextMask mask={[/\d/, '-', /\d/]} />)
+    const firstOptions = vi.mocked(useMaskito).mock.lastCall[0].options
+
+    rerender(<TextMask mask={[/\d/, '-', /\d/]} />)
+
+    const secondOptions = vi.mocked(useMaskito).mock.lastCall[0].options
+    expect(secondOptions).toBe(firstOptions)
+  })
+
+  it('updates Maskito options when an inline mask changes', () => {
+    const { rerender } = render(<TextMask mask={[/\d/, '-', /\d/]} />)
+    const firstOptions = vi.mocked(useMaskito).mock.lastCall[0].options
+
+    rerender(<TextMask mask={[/\d/, '/', /\d/]} />)
+
+    const secondOptions = vi.mocked(useMaskito).mock.lastCall[0].options
+    expect(secondOptions).not.toBe(firstOptions)
+  })
+
+  it('keeps Maskito options stable for equivalent number masks', () => {
+    const createMask = () =>
+      ({
+        instanceOf: 'createNumberMask',
+        maskParams: { decimalLimit: 2 },
+      }) as unknown as TextMaskMask
+    const { rerender } = render(<TextMask mask={createMask()} />)
+    const firstOptions = vi.mocked(useMaskito).mock.lastCall[0].options
+
+    rerender(<TextMask mask={createMask()} />)
+
+    const secondOptions = vi.mocked(useMaskito).mock.lastCall[0].options
+    expect(secondOptions).toBe(firstOptions)
   })
 })
 

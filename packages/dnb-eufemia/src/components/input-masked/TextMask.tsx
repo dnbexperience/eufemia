@@ -65,7 +65,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
   const {
     inputElement,
     inputRef,
-    mask: rawMask,
+    mask: rawMaskProp,
     value,
     showMask,
     optionsEnhancer,
@@ -77,6 +77,11 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
   } = props
 
   const localRef = useRef<HTMLInputElement>(null)
+  const rawMaskRef = useRef(rawMaskProp)
+  if (!areMasksEqual(rawMaskRef.current, rawMaskProp)) {
+    rawMaskRef.current = rawMaskProp
+  }
+  const rawMask = rawMaskRef.current
 
   const [inputMode] = useState(() => new InputModeNumber())
   useEffect(() => () => inputMode.remove(), [inputMode])
@@ -491,6 +496,60 @@ function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
 
   // Fallback — permissive mask
   return /^.*$/
+}
+
+function areMasksEqual(a: TextMaskMask, b: TextMaskMask): boolean {
+  if (Object.is(a, b)) {
+    return true
+  }
+
+  if (a instanceof RegExp && b instanceof RegExp) {
+    return a.source === b.source && a.flags === b.flags
+  }
+
+  if (Array.isArray(a) && Array.isArray(b)) {
+    return (
+      a.length === b.length &&
+      a.every((token, index) => areMaskTokensEqual(token, b[index]))
+    )
+  }
+
+  if (isNumberMask(a) && isNumberMask(b)) {
+    const keys = new Set([
+      ...Object.keys(a.maskParams),
+      ...Object.keys(b.maskParams),
+    ])
+
+    return Array.from(keys).every((key) =>
+      Object.is(a.maskParams[key], b.maskParams[key])
+    )
+  }
+
+  return false
+}
+
+function areMaskTokensEqual(
+  a: RegExp | string,
+  b: RegExp | string
+): boolean {
+  if (a instanceof RegExp && b instanceof RegExp) {
+    return a.source === b.source && a.flags === b.flags
+  }
+
+  return a === b
+}
+
+function isNumberMask(
+  mask: TextMaskMask
+): mask is TextMaskMask & { maskParams: Record<string, unknown> } {
+  return (
+    typeof mask === 'object' &&
+    mask !== null &&
+    !Array.isArray(mask) &&
+    'maskParams' in mask &&
+    typeof mask.maskParams === 'object' &&
+    mask.maskParams !== null
+  )
 }
 
 function stripAffixes(
