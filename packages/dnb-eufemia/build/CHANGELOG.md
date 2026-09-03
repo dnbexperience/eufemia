@@ -3,6 +3,72 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.12.0](https://github.com/dnbexperience/eufemia/compare/v11.11.0...v11.12.0) (2026-09-03)
+
+### :sparkles: Features
+
+* **Accordion:** add `openOnFind` ([#9108](https://github.com/dnbexperience/eufemia/issues/9108)) ([8e9c311](https://github.com/dnbexperience/eufemia/commit/8e9c3111a794d1636f9ab560b916097a9cb04f44))
+* add opt-in iOS Dynamic Type scaling ([#9171](https://github.com/dnbexperience/eufemia/issues/9171)) ([d7fc690](https://github.com/dnbexperience/eufemia/commit/d7fc690cd94386f554c82639d47d7bf31d29d5b3))
+* **Autocomplete, MultiSelection:** add unified search config prop ([#8053](https://github.com/dnbexperience/eufemia/issues/8053)) ([f83dd1d](https://github.com/dnbexperience/eufemia/commit/f83dd1d19daed69d404cf07ab2b9983b4af24bf2))
+* **Breadcrumb:** add openOnFind ([#9127](https://github.com/dnbexperience/eufemia/issues/9127)) ([a99e0d1](https://github.com/dnbexperience/eufemia/commit/a99e0d1b281d2f7e6e4b816e6c41deb295fe8936)), closes [#9117](https://github.com/dnbexperience/eufemia/issues/9117)
+* **DatePicker:** add option to hide adjacent month dates ([#9192](https://github.com/dnbexperience/eufemia/issues/9192)) ([ab1f903](https://github.com/dnbexperience/eufemia/commit/ab1f903fc4e5b56ffb58acaee7d60753de261904))
+* **DatePicker:** make adjacent month dates selectable ([#9189](https://github.com/dnbexperience/eufemia/issues/9189)) ([d6d2401](https://github.com/dnbexperience/eufemia/commit/d6d24010c4fbdf9d0b460d22425187f8f98a9742))
+* **Field.MultiSelection:** add openOnFind for selected tags ([#9141](https://github.com/dnbexperience/eufemia/issues/9141)) ([f19d62a](https://github.com/dnbexperience/eufemia/commit/f19d62a97dbf07b11aed87db9748f0877589348b))
+* **Filter:** add openOnFind to active filters ([#9142](https://github.com/dnbexperience/eufemia/issues/9142)) ([8def84d](https://github.com/dnbexperience/eufemia/commit/8def84d107126fdf71c1ba282891d97520017daf))
+* **Filter:** add openOnFind to Panel ([#9125](https://github.com/dnbexperience/eufemia/issues/9125)) ([045b50a](https://github.com/dnbexperience/eufemia/commit/045b50a791c0cddb7904064f0a43c3a58c0d9add))
+* **Form.Section:** support async EditContainer completion ([#9197](https://github.com/dnbexperience/eufemia/issues/9197)) ([2921b23](https://github.com/dnbexperience/eufemia/commit/2921b23c0ef571e2f252e4a198fd0e058977bd71))
+* **HelpButton:** add openOnFind for inline content ([#9126](https://github.com/dnbexperience/eufemia/issues/9126)) ([923f8a9](https://github.com/dnbexperience/eufemia/commit/923f8a9c8c23bd01d07ab39fd9ea660a85e91927))
+* **Img:** deprecate imgClass and element props ([#9137](https://github.com/dnbexperience/eufemia/issues/9137)) ([8ae563d](https://github.com/dnbexperience/eufemia/commit/8ae563d769beb1c3395d153ef34871f67868c0b3))
+* **List:** add openOnFind to item accordions ([#9120](https://github.com/dnbexperience/eufemia/issues/9120)) ([d60446d](https://github.com/dnbexperience/eufemia/commit/d60446deb332d3942b4f99838ff917bc8201be0c))
+* **List:** reveal limited items from browser find ([#9118](https://github.com/dnbexperience/eufemia/issues/9118)) ([1d30a3e](https://github.com/dnbexperience/eufemia/commit/1d30a3ea73ae499c1e1d68fe669034542a4c4d69))
+* **Menu:** add openOnFind to accordion items ([#9144](https://github.com/dnbexperience/eufemia/issues/9144)) ([80d3b01](https://github.com/dnbexperience/eufemia/commit/80d3b01599cf8d43bada4956038ce0eedea55017))
+* **StepIndicator:** add openOnFind ([#9124](https://github.com/dnbexperience/eufemia/issues/9124)) ([95d0fb1](https://github.com/dnbexperience/eufemia/commit/95d0fb1d04bfc2bfc266b0778d6e9356ccfc590f))
+* **Switch:** add fast bounce motion ([#9216](https://github.com/dnbexperience/eufemia/issues/9216)) ([54a811a](https://github.com/dnbexperience/eufemia/commit/54a811a12b296bb3fb026c91e2fe6b6ff487a8ec))
+* **Table:** add openOnFind to accordion rows ([#9122](https://github.com/dnbexperience/eufemia/issues/9122)) ([f011769](https://github.com/dnbexperience/eufemia/commit/f0117692e055dfd31b1332f8cc6b1953b00d912c))
+* **Tabs:** add openOnFind ([#9121](https://github.com/dnbexperience/eufemia/issues/9121)) ([91e8416](https://github.com/dnbexperience/eufemia/commit/91e841617f997663299c60a084e380725cdac575))
+* **Theme:** deprecate `name` in favor of `brand` ([#9186](https://github.com/dnbexperience/eufemia/issues/9186)) ([f16800a](https://github.com/dnbexperience/eufemia/commit/f16800a9adc2585b643a26cf5a3fedd20bb38ea0))
+* **Theme:** deprecate `size` in favor of `density` ([#9191](https://github.com/dnbexperience/eufemia/issues/9191)) ([2902ec3](https://github.com/dnbexperience/eufemia/commit/2902ec3182269b30297abbf989265386502fea48))
+
+### :bug: Bug Fixes
+
+* **Accordion:** support openOnFind across variants ([#9119](https://github.com/dnbexperience/eufemia/issues/9119)) ([a2a1dbc](https://github.com/dnbexperience/eufemia/commit/a2a1dbc097c8bf0d64fa009e92b0b49478a12b18))
+* **Dialog:** prevent scroll jump to top when opening on long pages ([#9175](https://github.com/dnbexperience/eufemia/issues/9175)) ([251800d](https://github.com/dnbexperience/eufemia/commit/251800dcf15f6b2682b130e743ed00788dbe8325)), closes [#8985](https://github.com/dnbexperience/eufemia/issues/8985)
+* **Form.Section:** restore focus after a failed async EditContainer save ([#9212](https://github.com/dnbexperience/eufemia/issues/9212)) ([76782af](https://github.com/dnbexperience/eufemia/commit/76782af8aee278d0cb2605cedd7023001803980b))
+* **Forms:** preserve optional fields when editing array items ([#9194](https://github.com/dnbexperience/eufemia/issues/9194)) ([f5ec798](https://github.com/dnbexperience/eufemia/commit/f5ec79840a55a0a3feac858b41bfd6cafba15258))
+* **Heading:** recalculate dynamic levels ([#9199](https://github.com/dnbexperience/eufemia/issues/9199)) ([383896e](https://github.com/dnbexperience/eufemia/commit/383896e9ea9787dd007a9815e8457b4a519e6f7a)), closes [#9181](https://github.com/dnbexperience/eufemia/issues/9181)
+* **Heading:** restore level and lifecycle handling ([#9181](https://github.com/dnbexperience/eufemia/issues/9181)) ([0b62a4d](https://github.com/dnbexperience/eufemia/commit/0b62a4d8668c32aec5f632504ae31159330a7a98))
+* **HeightAnimation:** hide open-on-find content in unsupported browsers ([#9117](https://github.com/dnbexperience/eufemia/issues/9117)) ([2bed281](https://github.com/dnbexperience/eufemia/commit/2bed2816a23b0fcbb3f70a3a5193e7f33dbd191d))
+* **HeightAnimation:** prevent nested transitions from locking height ([#9210](https://github.com/dnbexperience/eufemia/issues/9210)) ([a5b6848](https://github.com/dnbexperience/eufemia/commit/a5b68487dd3070b2f79ba3afa8852542e4fd03b4))
+* **Icon:** preserve inferred size after minification ([#9230](https://github.com/dnbexperience/eufemia/issues/9230)) ([807782a](https://github.com/dnbexperience/eufemia/commit/807782a9216740ae4e126bfaebdf98de15f59ef0))
+* **Img:** preserve internal error handling ([#9136](https://github.com/dnbexperience/eufemia/issues/9136)) ([75acc66](https://github.com/dnbexperience/eufemia/commit/75acc66b42ddb0d5e186a7e5599f575de59f9715))
+* **InputMasked:** prevent update loops from equivalent masks ([#9237](https://github.com/dnbexperience/eufemia/issues/9237)) ([373d0e0](https://github.com/dnbexperience/eufemia/commit/373d0e0d59fed01a376c2f0798714836399ff818))
+* **List:** inset item borders ([#9184](https://github.com/dnbexperience/eufemia/issues/9184)) ([abf8611](https://github.com/dnbexperience/eufemia/commit/abf86111afda00894609e26565aab8b17dc5c6bc))
+* **List:** keep selection outline visible in Safari ([#9178](https://github.com/dnbexperience/eufemia/issues/9178)) ([b8ed5e4](https://github.com/dnbexperience/eufemia/commit/b8ed5e4397e9f5101f34aba6ad62dc16e8167483)), closes [#6520](https://github.com/dnbexperience/eufemia/issues/6520)
+* **List:** scope open-on-find to overflow items ([#9139](https://github.com/dnbexperience/eufemia/issues/9139)) ([6306c0d](https://github.com/dnbexperience/eufemia/commit/6306c0d5af1d5819475c29f2184b839b035ec848))
+* **Switch:** align states with Figma styles ([#9202](https://github.com/dnbexperience/eufemia/issues/9202)) ([3d37962](https://github.com/dnbexperience/eufemia/commit/3d37962edafadc4b779a29fd49b582300e098d08))
+* **Switch:** use theme radius for knob ([#9223](https://github.com/dnbexperience/eufemia/issues/9223)) ([9feed68](https://github.com/dnbexperience/eufemia/commit/9feed686d6c85b0437608e0015d8d69c63a5e306))
+* **Table:** preserve open-on-find content without browser support ([#9138](https://github.com/dnbexperience/eufemia/issues/9138)) ([4b2f414](https://github.com/dnbexperience/eufemia/commit/4b2f414694a4868189eab296af87e1e17dccc9ea))
+* **Theme:** correct Carnegie extra-large radius token ([#9214](https://github.com/dnbexperience/eufemia/issues/9214)) ([54596f8](https://github.com/dnbexperience/eufemia/commit/54596f896843ec05668ea7605afed0a44be257c6))
+
+### :memo: Documentation
+
+* **Accessibility:** document find-in-page guidance in checklist ([#9228](https://github.com/dnbexperience/eufemia/issues/9228)) ([0998359](https://github.com/dnbexperience/eufemia/commit/0998359fd823a958495828dcf67726d415b5afd0))
+* **AI:** recommend building AI tooling on Eufemia ([#9205](https://github.com/dnbexperience/eufemia/issues/9205)) ([f95fce3](https://github.com/dnbexperience/eufemia/commit/f95fce303be546d97ab9cd43e2b51b6be4f1349c))
+* **Forms:** document openOnFind for field help ([#9143](https://github.com/dnbexperience/eufemia/issues/9143)) ([09b84bd](https://github.com/dnbexperience/eufemia/commit/09b84bd6292b704f24ee9578e7dd4dc432dfd7d9))
+* **Img:** correct the docs about the role usage ([#3595](https://github.com/dnbexperience/eufemia/issues/3595)) ([1fc1c1d](https://github.com/dnbexperience/eufemia/commit/1fc1c1dd378e9a816948564fc23e8b3d3a769562))
+* **Portal:** add GitHub release changelog page ([#9162](https://github.com/dnbexperience/eufemia/issues/9162)) ([706d1b5](https://github.com/dnbexperience/eufemia/commit/706d1b518a6f37ecf8a9ae51bc8d2b3ee3310fb6))
+* **Portal:** improve heading anchor handling and feedback ([#9133](https://github.com/dnbexperience/eufemia/issues/9133)) ([00c4007](https://github.com/dnbexperience/eufemia/commit/00c4007f0a5b1d6e495295274022617e65369036))
+* **Typography:** explain iOS Dynamic Type sizing ([#9147](https://github.com/dnbexperience/eufemia/issues/9147)) ([2a3aa8e](https://github.com/dnbexperience/eufemia/commit/2a3aa8ea7041b51920500ac13c6815570ab1baea))
+
+### :zap: Refactoring
+
+* **VisibilityByTheme:** add `Brand` and deprecate `Name` ([#9218](https://github.com/dnbexperience/eufemia/issues/9218)) ([3a1338e](https://github.com/dnbexperience/eufemia/commit/3a1338e05e4a394621b40e93809f2a6b15e7fa8a))
+
+### :white_check_mark: Tests
+
+* cover openOnFind in Chromium ([#9140](https://github.com/dnbexperience/eufemia/issues/9140)) ([ed977b3](https://github.com/dnbexperience/eufemia/commit/ed977b3b99dea1283ebcd12b0ab56af1ccc0a94e))
+* **Img:** cover native semantic contract ([#9135](https://github.com/dnbexperience/eufemia/issues/9135)) ([8f08f42](https://github.com/dnbexperience/eufemia/commit/8f08f427ff35bb75cf498e457b76878d965fcf13))
+
 ## [11.11.0](https://github.com/dnbexperience/eufemia/compare/v11.10.1...v11.11.0) (2026-08-25)
 
 ### :sparkles: Features
