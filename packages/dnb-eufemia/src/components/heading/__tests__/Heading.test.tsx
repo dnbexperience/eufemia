@@ -3,7 +3,15 @@
  *
  */
 
-import { StrictMode, useEffect, useState } from 'react'
+import {
+  act,
+  createRef,
+  StrictMode,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
+import { hydrateRoot } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { render } from '@testing-library/react'
@@ -11,7 +19,11 @@ import Typography from '../../../elements/typography/Typography'
 import { Theme } from '../../../shared'
 import Provider from '../../../shared/Provider'
 import type { HeadingProps, HeadingLevel } from '../Heading'
-import Heading, { resetLevels, setNextLevel } from '../Heading'
+import Heading, {
+  resetAllLevels,
+  resetLevels,
+  setNextLevel,
+} from '../Heading'
 import { windupHeadings, teardownHeadings } from '../HeadingHelpers'
 import H3 from '../../../elements/H3'
 
@@ -64,6 +76,30 @@ describe('Heading component', () => {
     ).toBe('color: red;')
   })
 
+  it('should forward its HTML element ref', () => {
+    const ref = createRef<HTMLElement>()
+
+    render(<Heading ref={ref}>Heading</Heading>)
+
+    expect(ref.current).toBe(document.querySelector('.dnb-heading'))
+  })
+
+  it('should handle falsy text values', () => {
+    render(
+      <>
+        <Heading text={0}>Zero fallback</Heading>
+        <Heading text="">Empty fallback</Heading>
+        <Heading text={false}>False fallback</Heading>
+      </>
+    )
+
+    const elements = document.querySelectorAll('.dnb-heading')
+
+    expect(elements[0]).toHaveTextContent('0')
+    expect(elements[1]).toHaveTextContent('Empty fallback')
+    expect(elements[2]).toHaveTextContent('False fallback')
+  })
+
   it('should match level correction', () => {
     render(
       <StrictMode>
@@ -112,6 +148,56 @@ describe('Heading component', () => {
     expect(elem[i + 1].textContent).toBe('[h2] Heading #12')
   })
 
+  it('should preserve string level correction behavior', () => {
+    render(<Heading level="2">Heading</Heading>)
+
+    expect(document.querySelector('.dnb-heading')?.tagName).toBe('H2')
+  })
+
+  it('should settle repeated string levels', () => {
+    render(
+      <Heading.Level reset={1}>
+        <Heading level="1">Heading #1</Heading>
+        <Heading level="1">Heading #2</Heading>
+      </Heading.Level>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
+  })
+
+  it.each([3, '3'] as const)(
+    'should correct Heading.Level level %s at the document root',
+    (level) => {
+      render(
+        <Heading.Level level={level}>
+          <Heading>Heading</Heading>
+        </Heading.Level>
+      )
+
+      expect(document.querySelector('.dnb-heading')?.tagName).toBe('H1')
+    }
+  )
+
+  it.each([3, '3'] as const)(
+    'should correct Heading.Level level %s after a heading',
+    (level) => {
+      render(
+        <>
+          <Heading>Heading #1</Heading>
+          <Heading.Level level={level}>
+            <Heading>Heading #2</Heading>
+          </Heading.Level>
+        </>
+      )
+
+      const headings = document.querySelectorAll('.dnb-heading')
+      expect(headings[0].tagName).toBe('H1')
+      expect(headings[1].tagName).toBe('H2')
+    }
+  )
+
   it('should match global reset', () => {
     render(
       <StrictMode>
@@ -138,6 +224,41 @@ describe('Heading component', () => {
     expect(elem[i + 1].textContent).toBe('[h2] Heading #4')
   })
 
+  it('should not reuse a torn-down counter when remounting an element', () => {
+    const reusedHeading = <Heading>reused heading</Heading>
+    const firstRender = render(reusedHeading)
+
+    firstRender.unmount()
+
+    render(
+      <>
+        {reusedHeading}
+        <Heading>fresh heading</Heading>
+      </>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
+  })
+
+  it('should not share counters between reused element instances', () => {
+    const reusedHeading = <Heading>reused heading</Heading>
+
+    render(
+      <>
+        {reusedHeading}
+        {reusedHeading}
+        <Heading>fresh heading</Heading>
+      </>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
+    expect(headings[2].tagName).toBe('H2')
+  })
+
   it('should match context reset', () => {
     render(
       <StrictMode>
@@ -160,6 +281,40 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h3] Heading #3')
     expect(elem[++i].textContent).toBe('[h2] Heading #4')
     expect(elem[i + 1].textContent).toBe('[h2] Heading #5')
+  })
+
+  it('should reset context levels with Heading.Reset', () => {
+    render(
+      <Heading.Level reset={1}>
+        <Heading>Heading #1</Heading>
+        <Heading>Heading #2</Heading>
+        <Heading increase>Heading #3</Heading>
+        <Heading.Reset>
+          <Heading>Heading #4</Heading>
+        </Heading.Reset>
+      </Heading.Level>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
+    expect(headings[2].tagName).toBe('H3')
+    expect(headings[3].tagName).toBe('H2')
+  })
+
+  it('should propagate updated Heading.Level props', () => {
+    const App = ({ debug = false }) => (
+      <Heading.Level reset={1} debug={debug}>
+        <Heading>Heading</Heading>
+      </Heading.Level>
+    )
+    const { rerender } = render(<App />)
+
+    rerender(<App debug />)
+
+    expect(document.querySelector('.dnb-heading')).toHaveTextContent(
+      '[h1] Heading'
+    )
   })
 
   it('should match level correction with manual heading', () => {
@@ -227,6 +382,24 @@ describe('Heading component', () => {
     )
     // still one time, same as we had earlier
     expect(warn).toHaveBeenCalledTimes(1) // 2 because of StrictMode
+  })
+
+  it('should expose an updated level in the same commit', () => {
+    const observedTags: Array<string> = []
+    const App = ({ level = 1 }: { level?: HeadingLevel }) => {
+      useLayoutEffect(() => {
+        observedTags.push(document.querySelector('.dnb-heading')?.tagName)
+      }, [level])
+
+      return <Heading level={level}>Heading</Heading>
+    }
+
+    const { rerender } = render(<App />)
+
+    rerender(<App level={3} />)
+
+    expect(observedTags).toEqual(['H1', 'H2'])
+    expect(document.querySelector('.dnb-heading')?.tagName).toBe('H2')
   })
 
   it('should have correct leveling after using setNextLevel', async () => {
@@ -311,7 +484,7 @@ describe('Heading component', () => {
     expect(headings[1].textContent).toBe('[h2] h2')
   })
 
-  it('should produce correct heading levels when renderToString runs before hydration', () => {
+  it('should produce correct heading levels during hydration', async () => {
     const App = () => (
       <Heading.Level debug={warn} reset={1}>
         <Heading>h1</Heading>
@@ -325,17 +498,41 @@ describe('Heading component', () => {
     expect(html).toContain('<h1')
     expect(html).toContain('<h2')
 
-    // Simulate the effect lifecycle that SSR skipped so the
-    // global counter state is properly torn down.
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+    let root
+
+    await act(async () => {
+      root = hydrateRoot(container, <App />)
+    })
+
+    const headings = container.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
+
+    act(() => root.unmount())
+    container.remove()
+  })
+
+  it('should isolate server renders with Heading.Level', () => {
+    const App = () => (
+      <Heading.Level reset={1}>
+        <Heading>h1</Heading>
+        <Heading>h2</Heading>
+      </Heading.Level>
+    )
+
+    const firstRequest = renderToString(<App />)
+    const secondRequest = renderToString(<App />)
+
     windupHeadings()
     teardownHeadings()
 
-    // Client hydration pass
-    render(<App />)
-
-    const headings = document.querySelectorAll('.dnb-heading')
-    expect(headings[0].tagName).toBe('H1')
-    expect(headings[1].tagName).toBe('H2')
+    expect(firstRequest).toContain('<h1')
+    expect(firstRequest).toContain('<h2')
+    expect(secondRequest).toContain('<h1')
+    expect(secondRequest).toContain('<h2')
   })
 
   it('should have correct leveling after using resetLevels', () => {
@@ -379,11 +576,13 @@ describe('Heading component', () => {
     expect(elem[0].textContent).toBe('[h1] Heading #1')
     expect(elem[0].getAttribute('role')).toBe('heading')
     expect(elem[0].getAttribute('aria-level')).toBe('1')
+    expect(elem[0].classList).toContain('dnb-h--xx-large')
+    expect(elem[0].classList).not.toContain('dnb-h--undefined')
   })
 
   it('should refuse to set level below 1', () => {
     render(
-      <Heading debug={warn} level={0 as HeadingLevel} reset={1}>
+      <Heading debug={warn} level={0 as HeadingLevel}>
         Heading #1
       </Heading>
     )
@@ -480,9 +679,11 @@ describe('Heading component', () => {
   })
 
   it('should not increase level above 6', () => {
+    const debug = vi.fn()
+
     render(
       <StrictMode>
-        <Heading.Level debug={warn}>
+        <Heading.Level debug={debug}>
           <Heading>Heading #1</Heading>
           <Heading.Increase skipCorrection level={6}>
             <Heading>Heading #2</Heading>
@@ -496,6 +697,7 @@ describe('Heading component', () => {
     expect(elem[0].textContent).toBe('[h1] Heading #1')
     expect(elem[1].textContent).toBe('[h6] Heading #2')
     expect(elem[2].textContent).toBe('[h6] Heading #3')
+    expect(debug).not.toHaveBeenCalled()
   })
 
   it('should keep context level after state update', () => {
@@ -632,6 +834,32 @@ describe('Heading component', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+
+  it('should reset bookkeeping with resetAllLevels', () => {
+    const firstRender = render(<Heading>first heading</Heading>)
+
+    resetAllLevels()
+    firstRender.unmount()
+
+    const secondRender = render(
+      <>
+        <Heading>h1</Heading>
+        <Heading>h2</Heading>
+      </>
+    )
+    secondRender.unmount()
+
+    render(
+      <>
+        <Heading>h1</Heading>
+        <Heading>h2</Heading>
+      </>
+    )
+
+    const headings = document.querySelectorAll('.dnb-heading')
+    expect(headings[0].tagName).toBe('H1')
+    expect(headings[1].tagName).toBe('H2')
   })
 })
 
