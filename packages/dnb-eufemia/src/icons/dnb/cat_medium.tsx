@@ -26,4 +26,6 @@ const cat_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default cat_medium
+export default /* @__PURE__ */ Object.assign(cat_medium, {
+  __iconSize: 24 as const,
+})

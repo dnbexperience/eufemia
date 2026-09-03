@@ -23,4 +23,6 @@ const house_value_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default house_value_medium
+export default /* @__PURE__ */ Object.assign(house_value_medium, {
+  __iconSize: 24 as const,
+})

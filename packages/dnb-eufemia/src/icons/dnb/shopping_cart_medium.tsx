@@ -19,4 +19,6 @@ const shopping_cart_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default shopping_cart_medium
+export default /* @__PURE__ */ Object.assign(shopping_cart_medium, {
+  __iconSize: 24 as const,
+})

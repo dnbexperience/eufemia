@@ -19,4 +19,6 @@ const envelope_open_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default envelope_open_medium
+export default /* @__PURE__ */ Object.assign(envelope_open_medium, {
+  __iconSize: 24 as const,
+})

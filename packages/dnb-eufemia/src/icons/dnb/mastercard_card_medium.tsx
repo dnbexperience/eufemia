@@ -18,4 +18,6 @@ const mastercard_card_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default mastercard_card_medium
+export default /* @__PURE__ */ Object.assign(mastercard_card_medium, {
+  __iconSize: 24 as const,
+})

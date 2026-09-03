@@ -19,4 +19,6 @@ const chevron_left_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default chevron_left_medium
+export default /* @__PURE__ */ Object.assign(chevron_left_medium, {
+  __iconSize: 24 as const,
+})

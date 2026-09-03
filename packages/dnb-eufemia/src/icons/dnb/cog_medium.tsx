@@ -28,4 +28,6 @@ const cog_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default cog_medium
+export default /* @__PURE__ */ Object.assign(cog_medium, {
+  __iconSize: 24 as const,
+})

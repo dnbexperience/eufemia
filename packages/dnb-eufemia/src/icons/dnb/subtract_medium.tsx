@@ -19,4 +19,6 @@ const subtract_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default subtract_medium
+export default /* @__PURE__ */ Object.assign(subtract_medium, {
+  __iconSize: 24 as const,
+})

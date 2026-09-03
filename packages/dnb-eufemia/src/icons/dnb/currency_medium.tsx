@@ -19,4 +19,6 @@ const currency_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default currency_medium
+export default /* @__PURE__ */ Object.assign(currency_medium, {
+  __iconSize: 24 as const,
+})

@@ -26,4 +26,6 @@ const podcast_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default podcast_medium
+export default /* @__PURE__ */ Object.assign(podcast_medium, {
+  __iconSize: 24 as const,
+})

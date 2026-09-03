@@ -19,4 +19,6 @@ const sea_transport_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default sea_transport_medium
+export default /* @__PURE__ */ Object.assign(sea_transport_medium, {
+  __iconSize: 24 as const,
+})

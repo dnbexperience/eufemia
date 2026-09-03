@@ -26,4 +26,6 @@ const hierarchy_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default hierarchy_medium
+export default /* @__PURE__ */ Object.assign(hierarchy_medium, {
+  __iconSize: 24 as const,
+})

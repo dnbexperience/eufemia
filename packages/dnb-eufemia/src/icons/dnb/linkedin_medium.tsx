@@ -23,4 +23,6 @@ const linkedin_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default linkedin_medium
+export default /* @__PURE__ */ Object.assign(linkedin_medium, {
+  __iconSize: 24 as const,
+})

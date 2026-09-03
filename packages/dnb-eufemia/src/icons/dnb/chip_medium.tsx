@@ -19,4 +19,6 @@ const chip_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default chip_medium
+export default /* @__PURE__ */ Object.assign(chip_medium, {
+  __iconSize: 24 as const,
+})

@@ -19,4 +19,6 @@ const credit_note_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default credit_note_medium
+export default /* @__PURE__ */ Object.assign(credit_note_medium, {
+  __iconSize: 24 as const,
+})

@@ -16,4 +16,6 @@ const recurring_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default recurring_medium
+export default /* @__PURE__ */ Object.assign(recurring_medium, {
+  __iconSize: 24 as const,
+})

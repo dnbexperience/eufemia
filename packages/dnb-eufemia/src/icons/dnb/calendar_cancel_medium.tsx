@@ -18,4 +18,6 @@ const calendar_cancel_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default calendar_cancel_medium
+export default /* @__PURE__ */ Object.assign(calendar_cancel_medium, {
+  __iconSize: 24 as const,
+})

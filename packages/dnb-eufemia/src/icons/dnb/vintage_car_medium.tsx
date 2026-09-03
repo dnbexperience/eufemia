@@ -19,4 +19,6 @@ const vintage_car_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default vintage_car_medium
+export default /* @__PURE__ */ Object.assign(vintage_car_medium, {
+  __iconSize: 24 as const,
+})

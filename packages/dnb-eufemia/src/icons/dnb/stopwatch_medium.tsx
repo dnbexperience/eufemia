@@ -19,4 +19,6 @@ const stopwatch_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default stopwatch_medium
+export default /* @__PURE__ */ Object.assign(stopwatch_medium, {
+  __iconSize: 24 as const,
+})

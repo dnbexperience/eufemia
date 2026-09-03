@@ -19,4 +19,6 @@ const apple_watch_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default apple_watch_medium
+export default /* @__PURE__ */ Object.assign(apple_watch_medium, {
+  __iconSize: 24 as const,
+})

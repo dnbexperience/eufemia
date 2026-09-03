@@ -19,4 +19,6 @@ const file_signing_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default file_signing_medium
+export default /* @__PURE__ */ Object.assign(file_signing_medium, {
+  __iconSize: 24 as const,
+})

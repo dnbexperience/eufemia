@@ -26,4 +26,6 @@ const phone_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default phone_medium
+export default /* @__PURE__ */ Object.assign(phone_medium, {
+  __iconSize: 24 as const,
+})

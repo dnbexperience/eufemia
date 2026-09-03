@@ -19,4 +19,6 @@ const widget_ios_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default widget_ios_medium
+export default /* @__PURE__ */ Object.assign(widget_ios_medium, {
+  __iconSize: 24 as const,
+})

@@ -19,4 +19,6 @@ const add_circled_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default add_circled_medium
+export default /* @__PURE__ */ Object.assign(add_circled_medium, {
+  __iconSize: 24 as const,
+})

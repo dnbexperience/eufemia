@@ -19,4 +19,6 @@ const facebook_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default facebook_medium
+export default /* @__PURE__ */ Object.assign(facebook_medium, {
+  __iconSize: 24 as const,
+})

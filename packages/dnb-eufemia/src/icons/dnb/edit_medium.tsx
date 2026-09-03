@@ -19,4 +19,6 @@ const edit_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default edit_medium
+export default /* @__PURE__ */ Object.assign(edit_medium, {
+  __iconSize: 24 as const,
+})

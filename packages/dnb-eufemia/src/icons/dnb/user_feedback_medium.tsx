@@ -19,4 +19,6 @@ const user_feedback_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default user_feedback_medium
+export default /* @__PURE__ */ Object.assign(user_feedback_medium, {
+  __iconSize: 24 as const,
+})

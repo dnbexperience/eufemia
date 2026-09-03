@@ -26,4 +26,6 @@ const unlock_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default unlock_medium
+export default /* @__PURE__ */ Object.assign(unlock_medium, {
+  __iconSize: 24 as const,
+})

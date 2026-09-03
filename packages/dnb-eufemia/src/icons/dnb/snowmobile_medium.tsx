@@ -19,4 +19,6 @@ const snowmobile_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default snowmobile_medium
+export default /* @__PURE__ */ Object.assign(snowmobile_medium, {
+  __iconSize: 24 as const,
+})

@@ -19,4 +19,6 @@ const bell_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default bell_medium
+export default /* @__PURE__ */ Object.assign(bell_medium, {
+  __iconSize: 24 as const,
+})

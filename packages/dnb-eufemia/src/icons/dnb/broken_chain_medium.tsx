@@ -19,4 +19,6 @@ const broken_chain_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default broken_chain_medium
+export default /* @__PURE__ */ Object.assign(broken_chain_medium, {
+  __iconSize: 24 as const,
+})

@@ -16,4 +16,6 @@ const more_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default more_medium
+export default /* @__PURE__ */ Object.assign(more_medium, {
+  __iconSize: 24 as const,
+})

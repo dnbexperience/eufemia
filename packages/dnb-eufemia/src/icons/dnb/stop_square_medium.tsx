@@ -20,4 +20,6 @@ const stop_square_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default stop_square_medium
+export default /* @__PURE__ */ Object.assign(stop_square_medium, {
+  __iconSize: 24 as const,
+})

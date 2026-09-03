@@ -19,4 +19,6 @@ const bowling_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default bowling_medium
+export default /* @__PURE__ */ Object.assign(bowling_medium, {
+  __iconSize: 24 as const,
+})

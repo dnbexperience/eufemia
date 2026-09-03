@@ -19,4 +19,6 @@ const hourglass_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default hourglass_medium
+export default /* @__PURE__ */ Object.assign(hourglass_medium, {
+  __iconSize: 24 as const,
+})

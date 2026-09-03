@@ -19,4 +19,6 @@ const card_in_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default card_in_medium
+export default /* @__PURE__ */ Object.assign(card_in_medium, {
+  __iconSize: 24 as const,
+})

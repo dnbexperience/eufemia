@@ -18,4 +18,6 @@ const calendar_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default calendar_medium
+export default /* @__PURE__ */ Object.assign(calendar_medium, {
+  __iconSize: 24 as const,
+})

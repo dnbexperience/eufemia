@@ -16,4 +16,6 @@ const question_circled_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default question_circled_medium
+export default /* @__PURE__ */ Object.assign(question_circled_medium, {
+  __iconSize: 24 as const,
+})

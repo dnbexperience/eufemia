@@ -18,4 +18,6 @@ const accessibility_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default accessibility_medium
+export default /* @__PURE__ */ Object.assign(accessibility_medium, {
+  __iconSize: 24 as const,
+})

@@ -19,4 +19,6 @@ const trash_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default trash_medium
+export default /* @__PURE__ */ Object.assign(trash_medium, {
+  __iconSize: 24 as const,
+})

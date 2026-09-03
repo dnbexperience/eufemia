@@ -18,4 +18,6 @@ const candle_stick_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default candle_stick_medium
+export default /* @__PURE__ */ Object.assign(candle_stick_medium, {
+  __iconSize: 24 as const,
+})

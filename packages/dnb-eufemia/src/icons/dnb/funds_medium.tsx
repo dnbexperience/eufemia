@@ -19,4 +19,6 @@ const funds_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default funds_medium
+export default /* @__PURE__ */ Object.assign(funds_medium, {
+  __iconSize: 24 as const,
+})

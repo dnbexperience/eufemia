@@ -55,6 +55,7 @@ export type IconSVGProps = SVGProps<SVGSVGElement> & {
 }
 
 export type IconFunction = ((props?: IconSVGProps) => JSX.Element) & {
+  __iconSize?: ValidIconNumericSize
   __iconTransitionStyle?: Record<string, string>
   __iconTransitionFallback?: boolean
 }
@@ -239,10 +240,6 @@ export function calcSize(props: IconProps) {
       }
       sizeAsString = lastPartOfIconName
     } else {
-      // Resolve the icon function — either directly or from a React element's type.
-      // This handles minified builds where Function.name no longer contains
-      // the size suffix (e.g. "bell_medium" → "e"), so we fall back to
-      // reading the SVG's width/viewBox from the rendered output.
       const iconFn =
         typeof icon === 'function'
           ? icon
@@ -250,22 +247,8 @@ export function calcSize(props: IconProps) {
             ? (icon.type as IconFunction)
             : null
 
-      // Skip direct execution for hook-based components to avoid invalid hook call order.
-      const hasHooks = iconFn
-        ? /\buse[A-Z][A-Za-z0-9_]*\b/.test(iconFn.toString())
-        : false
-
-      if (iconFn && !hasHooks) {
-        try {
-          const elem = iconFn()
-          const potentialSize = elem?.props?.width
-
-          if (potentialSize && !isNaN(potentialSize)) {
-            sizeAsInt = potentialSize
-          }
-        } catch {
-          // Ignore and fallback to default size.
-        }
+      if (iconFn?.__iconSize) {
+        sizeAsInt = iconFn.__iconSize
       }
     }
   }

@@ -3,7 +3,9 @@ import { createRef } from 'react'
 import Icon from '../Icon'
 import { transition } from '../IconTransition'
 import arrow_down from '../../../icons/dnb/arrow_down'
+import arrow_down_medium from '../../../icons/dnb/arrow_down_medium'
 import arrow_up from '../../../icons/dnb/arrow_up'
+import arrow_up_medium from '../../../icons/dnb/arrow_up_medium'
 import arrow_left from '../../../icons/dnb/arrow_left'
 import arrow_right from '../../../icons/dnb/arrow_right'
 import chevron_down from '../../../icons/dnb/chevron_down'
@@ -26,6 +28,20 @@ describe('Icon.transition', () => {
     const icon = Icon.transition({ asc: arrow_down, desc: arrow_up })
 
     expect(typeof icon).toBe('function')
+  })
+
+  it('preserves the generated icon size', () => {
+    const icon = Icon.transition({
+      asc: arrow_down_medium,
+      desc: arrow_up_medium,
+    })
+
+    render(<Icon icon={icon} />)
+
+    expect(icon.__iconSize).toBe(24)
+    expect(document.querySelector('.dnb-icon')).toHaveClass(
+      'dnb-icon--medium'
+    )
   })
 
   it('renders the default (first) icon unchanged', () => {

@@ -19,4 +19,6 @@ const sort_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default sort_medium
+export default /* @__PURE__ */ Object.assign(sort_medium, {
+  __iconSize: 24 as const,
+})

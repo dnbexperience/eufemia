@@ -19,4 +19,6 @@ const clock_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default clock_medium
+export default /* @__PURE__ */ Object.assign(clock_medium, {
+  __iconSize: 24 as const,
+})

@@ -16,4 +16,6 @@ const show_pin_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default show_pin_medium
+export default /* @__PURE__ */ Object.assign(show_pin_medium, {
+  __iconSize: 24 as const,
+})

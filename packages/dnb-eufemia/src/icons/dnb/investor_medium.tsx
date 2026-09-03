@@ -26,4 +26,6 @@ const investor_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default investor_medium
+export default /* @__PURE__ */ Object.assign(investor_medium, {
+  __iconSize: 24 as const,
+})

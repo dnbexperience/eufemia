@@ -19,4 +19,6 @@ const file_contract_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default file_contract_medium
+export default /* @__PURE__ */ Object.assign(file_contract_medium, {
+  __iconSize: 24 as const,
+})

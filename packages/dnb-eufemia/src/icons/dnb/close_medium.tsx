@@ -19,4 +19,6 @@ const close_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default close_medium
+export default /* @__PURE__ */ Object.assign(close_medium, {
+  __iconSize: 24 as const,
+})

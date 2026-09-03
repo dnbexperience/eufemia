@@ -19,4 +19,6 @@ const exclamation_triangle_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default exclamation_triangle_medium
+export default /* @__PURE__ */ Object.assign(exclamation_triangle_medium, {
+  __iconSize: 24 as const,
+})

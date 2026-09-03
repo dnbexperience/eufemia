@@ -19,4 +19,6 @@ const camper_trailer_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default camper_trailer_medium
+export default /* @__PURE__ */ Object.assign(camper_trailer_medium, {
+  __iconSize: 24 as const,
+})

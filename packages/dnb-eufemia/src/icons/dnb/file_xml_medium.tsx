@@ -23,4 +23,6 @@ const file_xml_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default file_xml_medium
+export default /* @__PURE__ */ Object.assign(file_xml_medium, {
+  __iconSize: 24 as const,
+})

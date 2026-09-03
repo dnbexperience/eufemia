@@ -19,4 +19,6 @@ const email_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default email_medium
+export default /* @__PURE__ */ Object.assign(email_medium, {
+  __iconSize: 24 as const,
+})

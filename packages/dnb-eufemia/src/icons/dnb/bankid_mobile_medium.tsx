@@ -18,4 +18,6 @@ const bankid_mobile_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default bankid_mobile_medium
+export default /* @__PURE__ */ Object.assign(bankid_mobile_medium, {
+  __iconSize: 24 as const,
+})

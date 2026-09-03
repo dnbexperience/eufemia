@@ -19,4 +19,6 @@ const swap_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default swap_medium
+export default /* @__PURE__ */ Object.assign(swap_medium, {
+  __iconSize: 24 as const,
+})

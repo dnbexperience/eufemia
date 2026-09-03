@@ -26,4 +26,6 @@ const boat_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default boat_medium
+export default /* @__PURE__ */ Object.assign(boat_medium, {
+  __iconSize: 24 as const,
+})

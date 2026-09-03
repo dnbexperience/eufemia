@@ -19,4 +19,6 @@ const loan_out_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default loan_out_medium
+export default /* @__PURE__ */ Object.assign(loan_out_medium, {
+  __iconSize: 24 as const,
+})

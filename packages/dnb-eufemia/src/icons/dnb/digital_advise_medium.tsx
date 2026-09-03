@@ -19,4 +19,6 @@ const digital_advise_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default digital_advise_medium
+export default /* @__PURE__ */ Object.assign(digital_advise_medium, {
+  __iconSize: 24 as const,
+})

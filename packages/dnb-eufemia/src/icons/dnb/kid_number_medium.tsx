@@ -21,4 +21,6 @@ const kid_number_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default kid_number_medium
+export default /* @__PURE__ */ Object.assign(kid_number_medium, {
+  __iconSize: 24 as const,
+})

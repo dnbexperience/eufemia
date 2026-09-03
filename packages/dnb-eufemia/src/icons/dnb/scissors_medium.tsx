@@ -18,4 +18,6 @@ const scissors_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default scissors_medium
+export default /* @__PURE__ */ Object.assign(scissors_medium, {
+  __iconSize: 24 as const,
+})

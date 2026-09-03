@@ -27,4 +27,6 @@ const tag_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default tag_medium
+export default /* @__PURE__ */ Object.assign(tag_medium, {
+  __iconSize: 24 as const,
+})

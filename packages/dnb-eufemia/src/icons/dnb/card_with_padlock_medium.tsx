@@ -16,4 +16,6 @@ const card_with_padlock_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default card_with_padlock_medium
+export default /* @__PURE__ */ Object.assign(card_with_padlock_medium, {
+  __iconSize: 24 as const,
+})

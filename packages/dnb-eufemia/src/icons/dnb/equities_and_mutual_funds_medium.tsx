@@ -19,4 +19,7 @@ const equities_and_mutual_funds_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default equities_and_mutual_funds_medium
+export default /* @__PURE__ */ Object.assign(
+  equities_and_mutual_funds_medium,
+  { __iconSize: 24 as const }
+)

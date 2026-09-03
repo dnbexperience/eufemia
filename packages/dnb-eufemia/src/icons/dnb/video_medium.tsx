@@ -26,4 +26,6 @@ const video_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default video_medium
+export default /* @__PURE__ */ Object.assign(video_medium, {
+  __iconSize: 24 as const,
+})

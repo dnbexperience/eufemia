@@ -26,4 +26,6 @@ const cookie_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default cookie_medium
+export default /* @__PURE__ */ Object.assign(cookie_medium, {
+  __iconSize: 24 as const,
+})

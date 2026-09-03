@@ -19,4 +19,6 @@ const travel_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default travel_medium
+export default /* @__PURE__ */ Object.assign(travel_medium, {
+  __iconSize: 24 as const,
+})

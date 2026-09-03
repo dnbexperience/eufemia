@@ -18,4 +18,6 @@ const digipass_corporate_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default digipass_corporate_medium
+export default /* @__PURE__ */ Object.assign(digipass_corporate_medium, {
+  __iconSize: 24 as const,
+})

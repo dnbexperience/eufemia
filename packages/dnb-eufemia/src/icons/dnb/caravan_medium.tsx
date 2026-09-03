@@ -19,4 +19,6 @@ const caravan_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default caravan_medium
+export default /* @__PURE__ */ Object.assign(caravan_medium, {
+  __iconSize: 24 as const,
+})

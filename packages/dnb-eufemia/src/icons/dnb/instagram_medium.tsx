@@ -26,4 +26,6 @@ const instagram_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default instagram_medium
+export default /* @__PURE__ */ Object.assign(instagram_medium, {
+  __iconSize: 24 as const,
+})

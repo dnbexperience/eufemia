@@ -26,4 +26,6 @@ const dog_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default dog_medium
+export default /* @__PURE__ */ Object.assign(dog_medium, {
+  __iconSize: 24 as const,
+})

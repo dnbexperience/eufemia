@@ -19,4 +19,6 @@ const ambulance_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default ambulance_medium
+export default /* @__PURE__ */ Object.assign(ambulance_medium, {
+  __iconSize: 24 as const,
+})

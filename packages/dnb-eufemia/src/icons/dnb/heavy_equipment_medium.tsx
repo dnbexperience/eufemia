@@ -19,4 +19,6 @@ const heavy_equipment_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default heavy_equipment_medium
+export default /* @__PURE__ */ Object.assign(heavy_equipment_medium, {
+  __iconSize: 24 as const,
+})

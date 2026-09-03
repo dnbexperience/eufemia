@@ -19,4 +19,6 @@ const holiday_home_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default holiday_home_medium
+export default /* @__PURE__ */ Object.assign(holiday_home_medium, {
+  __iconSize: 24 as const,
+})

@@ -19,4 +19,6 @@ const above_the_line_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default above_the_line_medium
+export default /* @__PURE__ */ Object.assign(above_the_line_medium, {
+  __iconSize: 24 as const,
+})

@@ -19,4 +19,6 @@ const office_buildings_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default office_buildings_medium
+export default /* @__PURE__ */ Object.assign(office_buildings_medium, {
+  __iconSize: 24 as const,
+})

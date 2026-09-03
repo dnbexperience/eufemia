@@ -19,4 +19,6 @@ const laptop_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default laptop_medium
+export default /* @__PURE__ */ Object.assign(laptop_medium, {
+  __iconSize: 24 as const,
+})

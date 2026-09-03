@@ -20,4 +20,6 @@ const bookmark_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default bookmark_medium
+export default /* @__PURE__ */ Object.assign(bookmark_medium, {
+  __iconSize: 24 as const,
+})

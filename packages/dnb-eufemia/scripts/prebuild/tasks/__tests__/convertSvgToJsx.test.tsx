@@ -69,6 +69,52 @@ describe('run convertSvgToJsx to convert ES6 to ES5', () => {
     expect(index).toMatchSnapshot()
   })
 
+  it('has to generate icon size metadata', async () => {
+    const { default: bell } = await import(
+      path.resolve(__dirname, 'test-files/dist/dnb/bell.tsx')
+    )
+    const { default: bellMedium } = await import(
+      path.resolve(__dirname, 'test-files/dist/dnb/bell_medium.tsx')
+    )
+
+    expect(bell.__iconSize).toBeUndefined()
+    expect(bellMedium.__iconSize).toBe(24)
+  })
+
+  it('has to keep generated icon metadata after production minification', async () => {
+    const { build } = require('vite')
+    const entryPath = path.resolve(
+      __dirname,
+      'test-files/dist/icon-build-entry.ts'
+    )
+    await fs.writeFile(
+      entryPath,
+      `export { bell_medium } from './dnb/index'`
+    )
+
+    const result = await build({
+      configFile: false,
+      logLevel: 'silent',
+      build: {
+        write: false,
+        minify: true,
+        lib: {
+          entry: entryPath,
+          formats: ['es'],
+          fileName: () => 'icon.mjs',
+        },
+        rollupOptions: {
+          external: ['react', 'react/jsx-runtime'],
+        },
+      },
+    })
+    const output = Array.isArray(result) ? result[0] : result
+    const code = output.output.find(({ type }) => type === 'chunk')?.code
+
+    expect(code).toMatch(/__iconSize:\s*24/)
+    expect(code).not.toContain('M6.756 14.067')
+  })
+
   it('has to have a bell file', async () => {
     const index = await import(
       path.resolve(__dirname, 'test-files/dist/bell.ts')

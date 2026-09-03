@@ -19,4 +19,6 @@ const clearing_house_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default clearing_house_medium
+export default /* @__PURE__ */ Object.assign(clearing_house_medium, {
+  __iconSize: 24 as const,
+})

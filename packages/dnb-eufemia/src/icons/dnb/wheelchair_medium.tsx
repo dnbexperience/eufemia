@@ -19,4 +19,6 @@ const wheelchair_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default wheelchair_medium
+export default /* @__PURE__ */ Object.assign(wheelchair_medium, {
+  __iconSize: 24 as const,
+})

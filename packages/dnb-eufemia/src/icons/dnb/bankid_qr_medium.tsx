@@ -19,4 +19,6 @@ const bankid_qr_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default bankid_qr_medium
+export default /* @__PURE__ */ Object.assign(bankid_qr_medium, {
+  __iconSize: 24 as const,
+})

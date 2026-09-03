@@ -19,4 +19,6 @@ const heart_rate_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default heart_rate_medium
+export default /* @__PURE__ */ Object.assign(heart_rate_medium, {
+  __iconSize: 24 as const,
+})

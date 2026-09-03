@@ -23,4 +23,6 @@ const cloud_rain_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default cloud_rain_medium
+export default /* @__PURE__ */ Object.assign(cloud_rain_medium, {
+  __iconSize: 24 as const,
+})

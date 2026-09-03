@@ -19,4 +19,6 @@ const play_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default play_medium
+export default /* @__PURE__ */ Object.assign(play_medium, {
+  __iconSize: 24 as const,
+})

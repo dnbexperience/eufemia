@@ -19,4 +19,6 @@ const arrow_up_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default arrow_up_medium
+export default /* @__PURE__ */ Object.assign(arrow_up_medium, {
+  __iconSize: 24 as const,
+})

@@ -23,4 +23,6 @@ const file_word_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default file_word_medium
+export default /* @__PURE__ */ Object.assign(file_word_medium, {
+  __iconSize: 24 as const,
+})

@@ -20,4 +20,6 @@ const einvoice_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default einvoice_medium
+export default /* @__PURE__ */ Object.assign(einvoice_medium, {
+  __iconSize: 24 as const,
+})

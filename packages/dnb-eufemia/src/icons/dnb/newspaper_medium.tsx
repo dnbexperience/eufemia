@@ -19,4 +19,6 @@ const newspaper_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default newspaper_medium
+export default /* @__PURE__ */ Object.assign(newspaper_medium, {
+  __iconSize: 24 as const,
+})

@@ -23,4 +23,6 @@ const cloud_transfer_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default cloud_transfer_medium
+export default /* @__PURE__ */ Object.assign(cloud_transfer_medium, {
+  __iconSize: 24 as const,
+})

@@ -19,4 +19,6 @@ const microphone_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default microphone_medium
+export default /* @__PURE__ */ Object.assign(microphone_medium, {
+  __iconSize: 24 as const,
+})

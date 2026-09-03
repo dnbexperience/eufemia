@@ -19,4 +19,6 @@ const bicycle_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default bicycle_medium
+export default /* @__PURE__ */ Object.assign(bicycle_medium, {
+  __iconSize: 24 as const,
+})

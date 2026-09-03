@@ -20,4 +20,6 @@ const digipost_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default digipost_medium
+export default /* @__PURE__ */ Object.assign(digipost_medium, {
+  __iconSize: 24 as const,
+})

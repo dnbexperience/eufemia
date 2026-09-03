@@ -19,4 +19,6 @@ const bubble_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default bubble_medium
+export default /* @__PURE__ */ Object.assign(bubble_medium, {
+  __iconSize: 24 as const,
+})

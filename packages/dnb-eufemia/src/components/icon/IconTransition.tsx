@@ -64,6 +64,7 @@ export function transition(
   }
 
   iconFn.__iconTransitionFallback = true
+  iconFn.__iconSize = defaultIcon.__iconSize
 
   // When paths are compatible, also attach CSS d custom properties.
   // Browsers that support CSS `d` will morph the first SVG's path

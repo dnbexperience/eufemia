@@ -26,4 +26,6 @@ const shield_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default shield_medium
+export default /* @__PURE__ */ Object.assign(shield_medium, {
+  __iconSize: 24 as const,
+})

@@ -20,4 +20,6 @@ const lightningstrike_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default lightningstrike_medium
+export default /* @__PURE__ */ Object.assign(lightningstrike_medium, {
+  __iconSize: 24 as const,
+})

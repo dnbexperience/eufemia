@@ -25,4 +25,6 @@ const calculator_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default calculator_medium
+export default /* @__PURE__ */ Object.assign(calculator_medium, {
+  __iconSize: 24 as const,
+})

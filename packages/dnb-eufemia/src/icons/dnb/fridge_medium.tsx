@@ -19,4 +19,6 @@ const fridge_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default fridge_medium
+export default /* @__PURE__ */ Object.assign(fridge_medium, {
+  __iconSize: 24 as const,
+})

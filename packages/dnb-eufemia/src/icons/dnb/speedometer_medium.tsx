@@ -26,4 +26,6 @@ const speedometer_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default speedometer_medium
+export default /* @__PURE__ */ Object.assign(speedometer_medium, {
+  __iconSize: 24 as const,
+})

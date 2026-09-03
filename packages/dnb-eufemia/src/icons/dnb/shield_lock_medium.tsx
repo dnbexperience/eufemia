@@ -36,4 +36,6 @@ const shield_lock_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default shield_lock_medium
+export default /* @__PURE__ */ Object.assign(shield_lock_medium, {
+  __iconSize: 24 as const,
+})

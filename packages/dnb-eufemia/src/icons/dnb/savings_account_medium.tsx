@@ -19,4 +19,6 @@ const savings_account_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default savings_account_medium
+export default /* @__PURE__ */ Object.assign(savings_account_medium, {
+  __iconSize: 24 as const,
+})

@@ -19,4 +19,6 @@ const bus_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default bus_medium
+export default /* @__PURE__ */ Object.assign(bus_medium, {
+  __iconSize: 24 as const,
+})

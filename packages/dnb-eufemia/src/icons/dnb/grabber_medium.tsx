@@ -18,4 +18,6 @@ const grabber_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default grabber_medium
+export default /* @__PURE__ */ Object.assign(grabber_medium, {
+  __iconSize: 24 as const,
+})

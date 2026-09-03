@@ -19,4 +19,6 @@ const copy_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default copy_medium
+export default /* @__PURE__ */ Object.assign(copy_medium, {
+  __iconSize: 24 as const,
+})

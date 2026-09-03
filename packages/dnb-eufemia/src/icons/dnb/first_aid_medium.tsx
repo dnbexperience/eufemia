@@ -19,4 +19,6 @@ const first_aid_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default first_aid_medium
+export default /* @__PURE__ */ Object.assign(first_aid_medium, {
+  __iconSize: 24 as const,
+})

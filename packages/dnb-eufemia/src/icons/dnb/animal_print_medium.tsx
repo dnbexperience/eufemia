@@ -19,4 +19,6 @@ const animal_print_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default animal_print_medium
+export default /* @__PURE__ */ Object.assign(animal_print_medium, {
+  __iconSize: 24 as const,
+})

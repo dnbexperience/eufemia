@@ -19,4 +19,6 @@ const log_in_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default log_in_medium
+export default /* @__PURE__ */ Object.assign(log_in_medium, {
+  __iconSize: 24 as const,
+})

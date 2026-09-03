@@ -19,4 +19,6 @@ const e_scooter_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default e_scooter_medium
+export default /* @__PURE__ */ Object.assign(e_scooter_medium, {
+  __iconSize: 24 as const,
+})

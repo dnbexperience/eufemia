@@ -19,4 +19,6 @@ const star_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default star_medium
+export default /* @__PURE__ */ Object.assign(star_medium, {
+  __iconSize: 24 as const,
+})

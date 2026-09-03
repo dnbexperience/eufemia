@@ -19,4 +19,6 @@ const history_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default history_medium
+export default /* @__PURE__ */ Object.assign(history_medium, {
+  __iconSize: 24 as const,
+})

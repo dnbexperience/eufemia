@@ -19,4 +19,6 @@ const passkey_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default passkey_medium
+export default /* @__PURE__ */ Object.assign(passkey_medium, {
+  __iconSize: 24 as const,
+})

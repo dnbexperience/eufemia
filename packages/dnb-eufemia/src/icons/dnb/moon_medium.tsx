@@ -20,4 +20,6 @@ const moon_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default moon_medium
+export default /* @__PURE__ */ Object.assign(moon_medium, {
+  __iconSize: 24 as const,
+})

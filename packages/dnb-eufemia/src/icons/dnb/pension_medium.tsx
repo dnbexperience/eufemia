@@ -19,4 +19,6 @@ const pension_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default pension_medium
+export default /* @__PURE__ */ Object.assign(pension_medium, {
+  __iconSize: 24 as const,
+})

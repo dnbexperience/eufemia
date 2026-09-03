@@ -19,4 +19,6 @@ const file_warning_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default file_warning_medium
+export default /* @__PURE__ */ Object.assign(file_warning_medium, {
+  __iconSize: 24 as const,
+})

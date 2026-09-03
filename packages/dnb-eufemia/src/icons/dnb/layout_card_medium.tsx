@@ -27,4 +27,6 @@ const layout_card_medium = (props?: IconSVGProps) => (
     </defs>
   </svg>
 )
-export default layout_card_medium
+export default /* @__PURE__ */ Object.assign(layout_card_medium, {
+  __iconSize: 24 as const,
+})

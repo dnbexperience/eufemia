@@ -23,4 +23,6 @@ const file_csv_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default file_csv_medium
+export default /* @__PURE__ */ Object.assign(file_csv_medium, {
+  __iconSize: 24 as const,
+})

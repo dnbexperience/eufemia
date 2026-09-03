@@ -19,4 +19,6 @@ const building_shopping_medium = (props?: IconSVGProps) => (
     />
   </svg>
 )
-export default building_shopping_medium
+export default /* @__PURE__ */ Object.assign(building_shopping_medium, {
+  __iconSize: 24 as const,
+})
