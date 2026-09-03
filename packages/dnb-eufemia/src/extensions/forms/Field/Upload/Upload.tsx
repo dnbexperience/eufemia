@@ -273,6 +273,7 @@ function UploadComponent(props: FieldUploadProps) {
             (file) => file.isLoading
           )
           recoverTimeout = setTimeout(() => {
+            fileHandlerTimeoutsRef.current.delete(recoverTimeout)
             setFieldState?.(fieldIdentifier, undefined)
             setFiles(
               filesRef.current?.map((file) => {
