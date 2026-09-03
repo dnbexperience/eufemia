@@ -51,8 +51,12 @@ export default function DoneEditButton() {
       setShowError(false)
       setShowBoundaryErrors?.(false)
 
-      const result = onDone?.()
-      if (result) {
+      // "onDone" is typed as `() => void`, which is what makes it accept
+      // both async and value-returning callbacks. Widening the result to
+      // unknown is what allows it to be inspected at all.
+      const result: unknown = onDone?.()
+
+      if (result instanceof Promise) {
         setIsPending?.(true)
         void result.then(
           () => {

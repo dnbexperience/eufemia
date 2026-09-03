@@ -11,7 +11,7 @@ import Space from '../../../../../components/Space'
 
 export type FormSectionToolbarProps = SpaceAllProps & {
   onEdit?: () => void
-  onDone?: () => void | Promise<unknown>
+  onDone?: () => void
   onCancel?: () => void
 }
 

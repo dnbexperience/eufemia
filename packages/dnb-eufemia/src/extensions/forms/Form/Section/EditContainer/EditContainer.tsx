@@ -32,7 +32,7 @@ import SectionContext from '../SectionContext'
 
 export type FormSectionEditContainerProps = {
   title?: ReactNode
-  onDone?: () => void | Promise<unknown>
+  onDone?: () => void
   onCancel?: () => void
   /**
    * Prevents form submission and Wizard navigation while the section is in edit mode, until the Done or Cancel button is selected. Requires Form.Section to have a path.
