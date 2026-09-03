@@ -28,9 +28,6 @@ import { useFieldProps } from '../../hooks'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-const dayMask = [/[0-9]/, /[0-9]/]
-const yearMask = [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]
-
 export type AdditionalArgs = {
   day: string
   month: string
@@ -434,7 +431,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
         labelSize={labelSize}
         width="3.5rem" // Enough width for 2 digits and placeholder in large size
         inputMode="numeric"
-        mask={dayMask}
+        mask={[/[0-9]/, /[0-9]/]}
         placeholder={dayPlaceholder}
         onChange={handleDayChange}
         onFocus={handleOnFocus}
@@ -472,7 +469,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
         labelDescription={yearLabel}
         width="stretch"
         inputMode="numeric"
-        mask={yearMask}
+        mask={[/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]}
         placeholder={yearPlaceholder}
         onChange={handleYearChange}
         onFocus={handleOnFocus}
