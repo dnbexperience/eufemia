@@ -344,11 +344,6 @@
                 "hidden": false
               },
               {
-                "type": "test",
-                "section": ":white_check_mark: Tests",
-                "hidden": false
-              },
-              {
                 "type": "deps",
                 "section": ":package: Dependencies",
                 "hidden": false
