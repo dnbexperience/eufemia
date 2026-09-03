@@ -256,7 +256,7 @@ export function AnchorComponent(localProps: AnchorAllProps) {
           id={internalId + '-tooltip'}
           targetElement={tooltipRef}
           tooltip={tooltip}
-          {...(_opensNewTab && { hideDelay: 0 })}
+          {...(_opensNewTab && { hideDelay: 100 })}
         >
           {allProps.title || targetBlankTitle}
         </Tooltip>

@@ -1070,7 +1070,7 @@ describe('Tooltip', () => {
       )
     })
 
-    it('hides without delay when hover ends', async () => {
+    it('hides after a short delay when hover ends', async () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
@@ -1089,12 +1089,22 @@ describe('Tooltip', () => {
 
       fireEvent.mouseLeave(anchorElement)
 
+      expect(document.querySelector('.dnb-tooltip')).toHaveClass(
+        'dnb-tooltip--active'
+      )
+
+      await wait(50)
+
+      expect(document.querySelector('.dnb-tooltip')).toHaveClass(
+        'dnb-tooltip--active'
+      )
+
       await waitFor(
         () =>
           expect(document.querySelector('.dnb-tooltip')).not.toHaveClass(
             'dnb-tooltip--active'
           ),
-        { timeout: 100 }
+        { timeout: 250 }
       )
     })
 
