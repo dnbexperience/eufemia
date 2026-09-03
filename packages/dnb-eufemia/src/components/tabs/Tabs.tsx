@@ -1495,7 +1495,13 @@ function CachedContent({
 
   useEffect(() => {
     const element = elementRef.current
-    if (!element || !hidden || !canOpenOnFind) {
+    if (!element || !hidden) {
+      return undefined
+    }
+
+    if (!canOpenOnFind) {
+      // Undo a previous enhancement, which React does not track.
+      element.setAttribute('hidden', '')
       return undefined
     }
 
@@ -1515,7 +1521,7 @@ function CachedContent({
     <div
       ref={elementRef}
       data-tab-key={tabKey}
-      hidden={hidden && !canOpenOnFind ? true : undefined}
+      hidden={hidden ? true : undefined} // Enhanced to hidden="until-found" after mount when openOnFind is enabled
       aria-hidden={hidden ? true : undefined}
       className={clsx(
         'dnb-tabs__cached',

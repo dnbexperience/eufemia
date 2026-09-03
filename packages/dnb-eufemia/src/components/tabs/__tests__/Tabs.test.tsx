@@ -7,6 +7,8 @@ import { StrictMode } from 'react'
 import type { ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { act, fireEvent, render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { Provider } from '../../../shared'
 import defaultLocales from '../../../shared/locales'
 import type { TabsProps } from '../Tabs'
@@ -817,11 +819,11 @@ describe('A single Tab component', () => {
   })
 
   it('allows openOnFind to be disabled when keepInDOM is true', () => {
-    render(
+    const tabs = (openOnFind: boolean) => (
       <Tabs
         {...props}
         keepInDOM
-        openOnFind={false}
+        openOnFind={openOnFind}
         data={[
           { title: 'One', key: 'one', content: 'Content one' },
           { title: 'Two', key: 'two', content: 'Content two' },
@@ -829,9 +831,69 @@ describe('A single Tab component', () => {
       />
     )
 
+    const { rerender } = render(tabs(false))
+
     expect(
       document.querySelectorAll('.dnb-tabs__cached')[1]
     ).toHaveAttribute('hidden', '')
+
+    rerender(tabs(true))
+
+    expect(
+      document.querySelectorAll('.dnb-tabs__cached')[1]
+    ).toHaveAttribute('hidden', 'until-found')
+
+    rerender(tabs(false))
+
+    expect(
+      document.querySelectorAll('.dnb-tabs__cached')[1]
+    ).toHaveAttribute('hidden', '')
+  })
+
+  it('shows the selected tab content after hydrating server-rendered markup', () => {
+    const element = (
+      <Tabs
+        {...props}
+        keepInDOM
+        data={[
+          { title: 'One', key: 'one', content: 'Content one' },
+          { title: 'Two', key: 'two', content: 'Content two' },
+        ]}
+      />
+    )
+
+    const originalDocument = globalThis.document
+    let html: string
+
+    try {
+      delete globalThis.document
+      html = renderToString(element)
+    } finally {
+      globalThis.document = originalDocument
+    }
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    const recoverableErrors = []
+    act(() => {
+      hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    expect(recoverableErrors).toEqual([])
+
+    act(() => {
+      fireEvent.click(
+        container.querySelector('button[data-tab-key="two"]')
+      )
+    })
+
+    expect(
+      container.querySelector('div[data-tab-key="two"]')
+    ).not.toHaveAttribute('hidden')
   })
 
   it('has to work with "Tabs.Content" as children components', () => {
