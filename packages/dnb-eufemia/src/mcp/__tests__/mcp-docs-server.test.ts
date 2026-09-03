@@ -866,3 +866,135 @@ describe('MCP dependency configuration', () => {
     expect(fs.existsSync(scriptPath)).toBe(true)
   })
 })
+
+describe('migration_index', () => {
+  let docsRoot: string
+  let cleanup: () => void
+
+  const migrations = {
+    schemaVersion: 1,
+    eufemiaVersion: '11.11.0',
+    generatedAt: '2026-08-31T00:00:00.000Z',
+    versions: {
+      '10.63.0': {
+        added: [
+          {
+            component: 'uilib/components/button',
+            componentName: 'Button',
+            kind: 'prop',
+            name: 'href',
+            since: '10.63.0',
+            sinceInferred: true,
+            sinceFloor: true,
+          },
+        ],
+      },
+      '11.0.0': {
+        added: [
+          {
+            component: 'uilib/components/button',
+            componentName: 'Button',
+            kind: 'prop',
+            name: 'iconPosition',
+            since: '11.0.0',
+            sinceInferred: true,
+          },
+        ],
+        removed: [
+          {
+            component: 'uilib/components/button',
+            componentName: 'Button',
+            kind: 'prop',
+            name: 'icon_position',
+            note: 'Use `iconPosition` instead.',
+          },
+        ],
+      },
+      '11.4.0': {
+        deprecated: [
+          {
+            component: 'uilib/components/input',
+            componentName: 'Input',
+            kind: 'prop',
+            name: 'legacy',
+          },
+        ],
+      },
+    },
+  }
+
+  beforeEach(() => {
+    const fixture = createDocsFixture()
+    docsRoot = fixture.docsRoot
+    cleanup = fixture.cleanup
+    fs.writeFileSync(
+      path.join(docsRoot, 'migrations.json'),
+      JSON.stringify(migrations, null, 2)
+    )
+  })
+
+  afterEach(() => {
+    cleanup()
+  })
+
+  it('returns a compact summary (per-version counts) when no filters are given', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({})
+    const data = JSON.parse(getText(result))
+    expect(data.summary).toBe(true)
+    expect(data.totals).toEqual({ added: 2, deprecated: 1, removed: 1 })
+    // Per-version counts only, not full entries.
+    expect(data.versions['11.0.0']).toEqual({ added: 1, removed: 1 })
+    expect(data.versions['11.4.0']).toEqual({ deprecated: 1 })
+    expect(data.eufemiaVersion).toBe('11.11.0')
+  })
+
+  it('filters by component name', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({ component: 'Input' })
+    const data = JSON.parse(getText(result))
+    // Only the Input deprecation survives.
+    expect(Object.keys(data.versions)).toEqual(['11.4.0'])
+    expect(data.versions['11.4.0'].deprecated[0].name).toBe('legacy')
+  })
+
+  it('filters by semver range', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({
+      fromVersion: '11.0.0',
+      toVersion: '11.3.0',
+    })
+    const data = JSON.parse(getText(result))
+    expect(Object.keys(data.versions)).toEqual(['11.0.0'])
+  })
+
+  it('filters by change type (with a narrowing filter)', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({
+      changeType: 'removed',
+      fromVersion: '11.0.0',
+      toVersion: '11.11.0',
+    })
+    const data = JSON.parse(getText(result))
+    expect(Object.keys(data.versions)).toEqual(['11.0.0'])
+    expect(data.versions['11.0.0'].removed[0].name).toBe('icon_position')
+    expect(data.versions['11.0.0'].added).toBeUndefined()
+  })
+
+  it('applies changeType to the unfiltered summary counts', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({ changeType: 'removed' })
+    const data = JSON.parse(getText(result))
+    expect(data.summary).toBe(true)
+    expect(data.totals).toEqual({ added: 0, deprecated: 0, removed: 1 })
+    expect(data.versions['11.0.0']).toEqual({ removed: 1 })
+  })
+
+  it('reports a structured error when migrations.json is missing', async () => {
+    fs.rmSync(path.join(docsRoot, 'migrations.json'))
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({})
+    const data = JSON.parse(getText(result))
+    expect(data.error).toBe('ENOENT')
+  })
+})

@@ -40,6 +40,7 @@ export const ButtonProperties: PropertiesTableProps = {
     doc: 'Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.',
     type: ['"left"', '"right"', '"top"'],
     status: 'optional',
+    since: '11.0.0',
   },
   iconSize: {
     doc: 'Define icon width and height. Defaults to `16px`.',

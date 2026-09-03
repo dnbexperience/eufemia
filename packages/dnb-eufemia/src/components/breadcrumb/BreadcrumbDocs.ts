@@ -45,6 +45,8 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     doc: 'No longer supported after the Breadcrumb redesign.',
     type: 'Various',
     status: 'deprecated',
+    since: '11.0.0',
+    deprecatedIn: '11.4.0',
   },
   collapsedStyleType: {
     doc: 'No longer supported after the Breadcrumb redesign.',
