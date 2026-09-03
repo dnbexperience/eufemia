@@ -1015,6 +1015,157 @@ describe('Field.Upload', () => {
     })
   })
 
+  describe('never settling fileHandler', () => {
+    it('should re-enable the file and the submit after asyncSubmitTimeout', async () => {
+      const fileHandler = vi.fn(() => {
+        return new Promise<UploadValue>(() => undefined)
+      })
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler asyncSubmitTimeout={100} onSubmit={onSubmit}>
+          <Field.Upload path="/files" fileHandler={fileHandler} />
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: {
+          files: [createMockFile('fileName-1.png', 100, 'image/png')],
+        },
+      })
+
+      // The file is uploading, so it cannot be deleted yet
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+        expect(
+          screen.getByRole('button', {
+            name: nbShared.Upload.deleteButton,
+          })
+        ).toBeDisabled()
+      })
+
+      // The Promise never settles, so the asyncSubmitTimeout recovers the
+      // file instead of leaving it loading with no way out
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', {
+            name: nbShared.Upload.deleteButton,
+          })
+        ).not.toBeDisabled()
+      })
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).not.toBeInTheDocument()
+
+      // The pending field state blocks the submit, so the form would never
+      // submit again
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    it('should recover a file whose upload never settles while another one succeeds', async () => {
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+      const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+
+      const fileHandler = vi
+        .fn()
+        .mockImplementationOnce(() => {
+          return new Promise<UploadValue>(() => undefined)
+        })
+        .mockImplementationOnce((files: UploadValue) => {
+          return Promise.resolve(files)
+        })
+
+      render(
+        <Form.Handler asyncSubmitTimeout={100}>
+          <Field.Upload path="/files" fileHandler={fileHandler} />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [file1] },
+      })
+
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [file2] },
+      })
+
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(2)
+      })
+
+      // The second upload settles, but the first one never does, so its
+      // deadline still has to recover it
+      await waitFor(() => {
+        const deleteButtons = screen.getAllByRole('button', {
+          name: nbShared.Upload.deleteButton,
+        })
+
+        expect(deleteButtons).toHaveLength(2)
+        expect(deleteButtons[0]).not.toBeDisabled()
+        expect(deleteButtons[1]).not.toBeDisabled()
+      })
+    })
+
+    it('should not cut off a fileHandler that settles before the timeout', async () => {
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+      let resolveFileHandler!: (value: UploadValue) => void
+
+      const fileHandler = vi.fn(() => {
+        return new Promise<UploadValue>((resolve) => {
+          resolveFileHandler = resolve
+        })
+      })
+
+      render(
+        <Form.Handler asyncSubmitTimeout={10000}>
+          <Field.Upload path="/files" fileHandler={fileHandler} />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [file] },
+      })
+
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+        expect(
+          screen.getByRole('button', {
+            name: nbShared.Upload.deleteButton,
+          })
+        ).toBeDisabled()
+      })
+
+      // The deadline has not passed, so the file stays loading
+      await wait(150)
+      expect(
+        screen.getByRole('button', { name: nbShared.Upload.deleteButton })
+      ).toBeDisabled()
+
+      act(() => {
+        resolveFileHandler([{ file, id: 'server-id', exists: false }])
+      })
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', {
+            name: nbShared.Upload.deleteButton,
+          })
+        ).not.toBeDisabled()
+      })
+    })
+  })
+
   describe('In Wizard', () => {
     const previousButton = () => {
       return document.querySelector('.dnb-forms-previous-button')

@@ -173,6 +173,22 @@ function UploadComponent(props: FieldUploadProps) {
     filesRef.current = files
   }, [files])
 
+  // A file that waits for the fileHandler keeps its loading state, which
+  // disables its delete button, and keeps the field pending, which blocks the
+  // form submit. Give both the same deadline Form.Handler applies to its own
+  // async submit, so a Promise that never settles cannot leave the file, and
+  // with it the form, permanently stuck.
+  const asyncSubmitTimeout =
+    dataContext?.props?.asyncSubmitTimeout ?? 30000
+  const fileHandlerTimeoutsRef = useRef<
+    Set<ReturnType<typeof setTimeout>>
+  >(new Set())
+
+  useEffect(() => {
+    const timeouts = fileHandlerTimeoutsRef.current
+    return () => timeouts.forEach(clearTimeout)
+  }, [])
+
   const labelWithItemNo = useIterateItemNo({
     label: label ?? title,
     labelSuffix: props.labelSuffix,
@@ -243,6 +259,8 @@ function UploadComponent(props: FieldUploadProps) {
           enableAsyncMode: true,
         })
 
+        let recoverTimeout: ReturnType<typeof setTimeout>
+
         try {
           // Set loading
           const newFilesLoading = newFiles.map((file) => ({
@@ -250,6 +268,23 @@ function UploadComponent(props: FieldUploadProps) {
             isLoading: !file.errorMessage,
           }))
           setFiles([...filesRef.current, ...newFilesLoading])
+
+          const loadingFiles = newFilesLoading.filter(
+            (file) => file.isLoading
+          )
+          recoverTimeout = setTimeout(() => {
+            setFieldState?.(fieldIdentifier, undefined)
+            setFiles(
+              filesRef.current?.map((file) => {
+                return loadingFiles.some((loadingFile) =>
+                  isSameFile(loadingFile, file)
+                )
+                  ? { ...file, isLoading: false }
+                  : file
+              })
+            )
+          }, asyncSubmitTimeout)
+          fileHandlerTimeoutsRef.current.add(recoverTimeout)
 
           const incomingFiles = await fileHandler(newValidFiles)
 
@@ -311,6 +346,8 @@ function UploadComponent(props: FieldUploadProps) {
             handleChange(updatedFiles)
           }
         } finally {
+          clearTimeout(recoverTimeout)
+          fileHandlerTimeoutsRef.current.delete(recoverTimeout)
           setFieldState?.(fieldIdentifier, undefined)
           setFieldInternals?.(fieldIdentifier, {
             enableAsyncMode: false,
@@ -322,6 +359,7 @@ function UploadComponent(props: FieldUploadProps) {
     },
     [
       identifier,
+      asyncSubmitTimeout,
       fileHandler,
       onValidationError,
       handleChange,
