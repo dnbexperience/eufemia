@@ -72,6 +72,11 @@ function UploadFileList() {
   }
 
   const updateFiles = (updatedFiles: UploadFile[]) => {
+    // Keep the ref in step synchronously. It is otherwise only refreshed by an
+    // effect, so two operations settling in the same tick would both compute
+    // from the same stale list, and the second would undo the first.
+    filesRef.current = updatedFiles
+
     setFiles(updatedFiles)
     setInternalFiles(updatedFiles)
 
