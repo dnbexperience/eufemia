@@ -14,9 +14,13 @@ inputs:
   attempts:
     description: >-
       Maximum attempts per workspace before a transient (network/transport)
-      failure is treated as a registry outage and fails the job.
+      failure is treated as a registry outage and fails the job. Each attempt can
+      now wait out YARN_HTTP_TIMEOUT (below), so the worst case per workspace is
+      attempts x that timeout — keep the product of attempts, timeout and
+      workspace count inside the caller's job-level `timeout-minutes`, or GitHub
+      kills the job before this action can report the outage itself.
     required: false
-    default: '3'
+    default: '2'
 
 runs:
   using: composite
@@ -60,27 +64,46 @@ runs:
         # retry.statusCodes (HTTP 408/413/429 + 5xx). A real >=high advisory (the
         # security gate) matches none of these and fails fast, as do auth/config
         # HTTP errors (400/401/403/404).
+        #
+        # Yarn also trails a failed audit with "Errors happened when preparing the
+        # environment", but that is its generic error trailer — it even suggests a
+        # lockfile fix — so it is deliberately NOT a retry signal: a transient
+        # failure always prints one of the signatures below alongside it, while a
+        # lockfile/config error prints none and must fail immediately.
         transient_codes='ETIMEDOUT|ECONNRESET|EADDRINUSE|ECONNREFUSED|EPIPE|ENOTFOUND|ENETUNREACH|EAI_AGAIN'
         transient_http='Response code (408|413|429|500|502|503|504|521|522|524)'
-        transient_re="Timeout awaiting .socket.|RequestError|socket hang up|Errors happened when preparing the environment|${transient_codes}|${transient_http}"
+        transient_re="Timeout awaiting .socket.|RequestError|socket hang up|${transient_codes}|${transient_http}"
 
-        attempts="${AUDIT_ATTEMPTS:-3}"
+        attempts="${AUDIT_ATTEMPTS:-2}"
         if ! [ "$attempts" -ge 1 ] 2>/dev/null; then
           echo "::error::Invalid 'attempts' input: '${attempts}' (must be a positive integer)."
           exit 1
         fi
 
-        audited=0
+        # Collect the workspace list BEFORE auditing anything. Workspace names
+        # carry no whitespace, so strip stray indentation and carriage returns,
+        # then drop blanks. Reading the list up front keeps the audit out of a
+        # `while read` loop, where a command that happened to consume stdin would
+        # swallow the remaining workspaces — leaving them silently unaudited while
+        # the job still reported success.
+        list=()
         while IFS= read -r ws; do
-          # Workspace names carry no whitespace; strip any stray indentation or
-          # carriage returns from the newline-separated input, then skip blanks.
           ws="$(printf '%s' "$ws" | tr -d '[:space:]')"
-          [ -z "$ws" ] && continue
-          audited=$((audited + 1))
+          [ -n "$ws" ] && list+=("$ws")
+        done <<< "$AUDIT_WORKSPACES"
 
+        if [ "${#list[@]}" -eq 0 ]; then
+          echo "::error::No workspaces were provided to audit. Check the 'workspaces' input."
+          exit 1
+        fi
+
+        audited=0
+        for ws in "${list[@]}"; do
           attempt=1
           while true; do
-            output="$(yarn workspace "$ws" audit:ci 2>&1)"
+            # stdin is closed: the audit needs no input, and a command left waiting
+            # on some would hang the job until the runner's timeout kills it.
+            output="$(yarn workspace "$ws" audit:ci 2>&1 </dev/null)"
             code=$?
 
             if [ "$code" -eq 0 ]; then
@@ -89,6 +112,7 @@ runs:
               printf '%s\n' "$output"
               echo "::endgroup::"
               echo "${ws}: audit passed — no advisories at or above the gate severity."
+              audited=$((audited + 1))
               break
             fi
 
@@ -121,9 +145,11 @@ runs:
             echo "::error::${ws}: audit failed with a non-transient error (exit ${code}) — a real advisory or lockfile/config error. Not retrying."
             exit "$code"
           done
-        done <<< "$AUDIT_WORKSPACES"
+        done
 
-        if [ "$audited" -eq 0 ]; then
-          echo "::error::No workspaces were provided to audit. Check the 'workspaces' input."
+        # The gate only means something if every requested workspace was audited,
+        # so a workspace that was skipped must fail the job, not pass it.
+        if [ "$audited" -ne "${#list[@]}" ]; then
+          echo "::error::Only ${audited} of ${#list[@]} requested workspace(s) were audited — refusing to report success."
           exit 1
         fi
