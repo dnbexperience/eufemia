@@ -1198,6 +1198,49 @@ describe('Field.Upload', () => {
       expect(output()).toHaveTextContent('Step 2')
     })
 
+    it('should enable async mode only while fileHandler is pending', async () => {
+      const file = createMockFile('async.png', 100, 'image/png')
+      let dataContext: DataContext.ContextState = null
+      let resolveFileHandler: ((value: UploadValue) => void) | undefined
+
+      const fileHandler = vi.fn(() => {
+        return new Promise<UploadValue>((resolve) => {
+          resolveFileHandler = resolve
+        })
+      })
+
+      render(
+        <Form.Handler>
+          <Field.Upload path="/files" fileHandler={fileHandler} />
+          <DataContext.Consumer>
+            {(context) => {
+              dataContext = context
+              return null
+            }}
+          </DataContext.Consumer>
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [file] },
+      })
+
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+      })
+      expect(dataContext.hasFieldWithAsyncValidator()).toBeTruthy()
+
+      if (!resolveFileHandler) {
+        throw new Error('fileHandler was not invoked')
+      }
+
+      resolveFileHandler([{ file, id: 'server-id', exists: false }])
+
+      await waitFor(() => {
+        expect(dataContext.hasFieldWithAsyncValidator()).toBeFalsy()
+      })
+    })
+
     it('should handle displaying error from fileHandler with sync function', async () => {
       const fileValid = createMockFile('1.png', 100, 'image/png')
       const fileInValid = createMockFile('invalid.png', 100, 'image/png')

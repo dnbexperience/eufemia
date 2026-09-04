@@ -312,6 +312,9 @@ function UploadComponent(props: FieldUploadProps) {
           }
         } finally {
           setFieldState?.(fieldIdentifier, undefined)
+          setFieldInternals?.(fieldIdentifier, {
+            enableAsyncMode: false,
+          })
         }
       } else {
         handleChange(files)
