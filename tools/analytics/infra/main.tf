@@ -317,17 +317,13 @@ resource "aws_apigatewayv2_api" "dashboard" {
   tags          = local.tags
 
   cors_configuration {
-    # Always include the live dashboard origin so CORS works on the first deploy
-    # (no chicken-and-egg); dashboard_origins adds any extra, e.g. local dev.
-    # dashboard_public_url adds the custom domain once it is configured; compact
-    # drops it while it is still empty, distinct dedupes an overlap with
-    # dashboard_origins.
+    # The dashboard is served from its canonical origin (dashboard_public_url,
+    # the custom domain) plus any extra dashboard_origins (e.g. local dev). The
+    # raw *.cloudfront.net origin is intentionally not allowed here (see README).
+    # distinct/compact dedupe and drop any blank entries.
     allow_origins = distinct(compact(concat(
       var.dashboard_origins,
-      [
-        "https://${aws_cloudfront_distribution.dashboard.domain_name}",
-        var.dashboard_public_url,
-      ],
+      [var.dashboard_public_url],
     )))
     allow_methods = ["GET"]
     allow_headers = ["authorization"]
@@ -658,6 +654,54 @@ resource "aws_cloudfront_origin_access_control" "dashboard" {
   signing_protocol                  = "sigv4"
 }
 
+# Custom response-headers policy. The AWS-managed SecurityHeadersPolicy cannot
+# carry a Content-Security-Policy, and the dashboard holds an Entra access token
+# in sessionStorage, so a strict CSP is worth the extra policy. script-src is
+# locked to 'self'; connect-src allows only same-origin, Entra sign-in, and the
+# dashboard data API. style-src keeps 'unsafe-inline' because the bar charts set
+# inline widths — inline styles cannot exfiltrate the token, unlike scripts.
+resource "aws_cloudfront_response_headers_policy" "dashboard" {
+  name = "${local.function_name}-dashboard"
+
+  security_headers_config {
+    strict_transport_security {
+      access_control_max_age_sec = 31536000
+      include_subdomains         = true
+      override                   = true
+    }
+
+    content_type_options {
+      override = true
+    }
+
+    frame_options {
+      frame_option = "DENY"
+      override     = true
+    }
+
+    referrer_policy {
+      referrer_policy = "strict-origin-when-cross-origin"
+      override        = true
+    }
+
+    content_security_policy {
+      override = true
+      content_security_policy = join("; ", [
+        "default-src 'none'",
+        "script-src 'self'",
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self' https://login.microsoftonline.com ${aws_apigatewayv2_api.dashboard.api_endpoint}",
+        "base-uri 'none'",
+        "form-action 'none'",
+        "frame-ancestors 'none'",
+        "object-src 'none'",
+      ])
+    }
+  }
+}
+
 resource "aws_cloudfront_distribution" "dashboard" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -682,9 +726,9 @@ resource "aws_cloudfront_distribution" "dashboard" {
     # AWS managed "CachingOptimized" policy.
     cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
 
-    # AWS managed "SecurityHeadersPolicy": adds HSTS, X-Content-Type-Options,
-    # X-Frame-Options, Referrer-Policy. Managed id needs no extra deploy-role IAM.
-    response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03"
+    # Custom response-headers policy: managed security headers (HSTS,
+    # X-Content-Type-Options, X-Frame-Options, Referrer-Policy) plus a CSP.
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.dashboard.id
   }
 
   restrictions {
