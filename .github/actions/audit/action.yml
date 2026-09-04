@@ -1,0 +1,129 @@
+name: Audit dependencies
+description: >-
+  Run "yarn workspace <ws> audit:ci" for one or more workspaces, retrying only
+  on transient npm-registry transport failures. A real advisory (a >=high
+  finding — the actual security gate) or a lockfile/config error fails
+  immediately, so genuine findings are never masked or delayed.
+
+inputs:
+  workspaces:
+    description: >-
+      Newline-separated list of workspace names to audit, e.g.
+      "@dnb/eufemia". Each is passed to "yarn workspace <ws> audit:ci".
+    required: true
+  attempts:
+    description: >-
+      Maximum attempts per workspace before a transient (network/transport)
+      failure is treated as a registry outage and fails the job.
+    required: false
+    default: '3'
+
+runs:
+  using: composite
+  steps:
+    - name: Audit dependencies (retry transient registry failures)
+      shell: bash
+      env:
+        AUDIT_WORKSPACES: ${{ inputs.workspaces }}
+        AUDIT_ATTEMPTS: ${{ inputs.attempts }}
+        # npm's advisory endpoint (/-/npm/v1/security/advisories/bulk) has been
+        # hit by elevated latency (npm/cli#9950): the POST can take minutes yet
+        # still succeed (HTTP 200). Yarn's httpTimeout defaults to 1m, so it kills
+        # the slow-but-successful request at 60s ("Timeout awaiting 'socket'").
+        # Raise it to wait the latency out; the retry below is the backstop for a
+        # request that exceeds even this, or a genuine transport failure.
+        #
+        # 6 minutes, matching #9265 on main. 3 minutes was measurably too short:
+        # every first attempt across all three workspaces still died at exactly
+        # 180000ms, and only the retry got the job green.
+        YARN_HTTP_TIMEOUT: '360000'
+      run: |
+        # GitHub invokes this with `bash -eo pipefail`. We deliberately turn off
+        # `-e`: `yarn ... audit:ci` exits non-zero both for a real advisory AND
+        # for a transient network failure, and we must CAPTURE that exit to tell
+        # the two apart rather than aborting on it.
+        set +e -u -o pipefail
+
+        # `yarn npm audit` sends a POST to the npm registry
+        # (/-/npm/v1/security/advisories/bulk). Two things make that POST fragile,
+        # and this action addresses both:
+        #   1. Slow-but-successful responses. Under elevated endpoint latency
+        #      (npm/cli#9950) the POST can take minutes; YARN_HTTP_TIMEOUT (env:
+        #      above) lets Yarn wait it out instead of killing it at the 1m default.
+        #   2. Genuine transient transport failures. got (Yarn's HTTP client) will
+        #      not auto-retry the audit because POST is absent from its retryable-
+        #      methods list (GET/PUT/HEAD/DELETE/OPTIONS/TRACE) — no httpRetry value
+        #      changes that — so we re-issue the whole command ourselves.
+        #
+        # We retry ONLY on the transport-level failures got ITSELF classifies as
+        # transient: its default retry.errorCodes (network errors) and
+        # retry.statusCodes (HTTP 408/413/429 + 5xx). A real >=high advisory (the
+        # security gate) matches none of these and fails fast, as do auth/config
+        # HTTP errors (400/401/403/404).
+        transient_codes='ETIMEDOUT|ECONNRESET|EADDRINUSE|ECONNREFUSED|EPIPE|ENOTFOUND|ENETUNREACH|EAI_AGAIN'
+        transient_http='Response code (408|413|429|500|502|503|504|521|522|524)'
+        transient_re="Timeout awaiting .socket.|RequestError|socket hang up|Errors happened when preparing the environment|${transient_codes}|${transient_http}"
+
+        attempts="${AUDIT_ATTEMPTS:-3}"
+        if ! [ "$attempts" -ge 1 ] 2>/dev/null; then
+          echo "::error::Invalid 'attempts' input: '${attempts}' (must be a positive integer)."
+          exit 1
+        fi
+
+        audited=0
+        while IFS= read -r ws; do
+          # Workspace names carry no whitespace; strip any stray indentation or
+          # carriage returns from the newline-separated input, then skip blanks.
+          ws="$(printf '%s' "$ws" | tr -d '[:space:]')"
+          [ -z "$ws" ] && continue
+          audited=$((audited + 1))
+
+          attempt=1
+          while true; do
+            output="$(yarn workspace "$ws" audit:ci 2>&1)"
+            code=$?
+
+            if [ "$code" -eq 0 ]; then
+              # Success: keep the (usually terse) output tidy behind a log group.
+              echo "::group::Audit ${ws}: passed"
+              printf '%s\n' "$output"
+              echo "::endgroup::"
+              echo "${ws}: audit passed — no advisories at or above the gate severity."
+              break
+            fi
+
+            if printf '%s\n' "$output" | grep -Eq "$transient_re"; then
+              if [ "$attempt" -ge "$attempts" ]; then
+                # Retries exhausted: print the output plainly (not collapsed) so
+                # the outage is visible, then fail with the original exit code.
+                echo "--- ${ws}: audit output (final attempt ${attempt}/${attempts}) ---"
+                printf '%s\n' "$output"
+                echo "::error::${ws}: audit still failing after ${attempts} attempt(s) due to a transient registry/transport error (exit ${code}). Treating as a registry outage and failing the job."
+                exit "$code"
+              fi
+              # Will retry: this failure is transient noise, so keep it collapsed.
+              echo "::group::Audit ${ws}: transient failure on attempt ${attempt}/${attempts} (will retry)"
+              printf '%s\n' "$output"
+              echo "::endgroup::"
+              backoff=$((attempt * 10))
+              echo "::warning::${ws}: transient registry/transport failure (exit ${code}). Retrying in ${backoff}s (attempt $((attempt + 1))/${attempts})..."
+              sleep "$backoff"
+              attempt=$((attempt + 1))
+              continue
+            fi
+
+            # Not a known transient signature: a real >=high advisory (the security
+            # gate) or a lockfile/config error. Print the output plainly (NOT
+            # collapsed) so the finding is immediately visible, then fail fast with
+            # the original exit code — never retried, never masked.
+            echo "--- ${ws}: audit output ---"
+            printf '%s\n' "$output"
+            echo "::error::${ws}: audit failed with a non-transient error (exit ${code}) — a real advisory or lockfile/config error. Not retrying."
+            exit "$code"
+          done
+        done <<< "$AUDIT_WORKSPACES"
+
+        if [ "$audited" -eq 0 ]; then
+          echo "::error::No workspaces were provided to audit. Check the 'workspaces' input."
+          exit 1
+        fi

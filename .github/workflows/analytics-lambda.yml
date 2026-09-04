@@ -65,9 +65,10 @@ jobs:
       - name: Audit dependencies
         # Audit the shipped (production) dep tree to catch known advisories,
         # matching the MCP pipeline and the EDS-823 supply-chain work.
-        run: yarn workspace eufemia-analytics audit:ci
-        env:
-          YARN_HTTP_TIMEOUT: '360000'
+        uses: ./.github/actions/audit
+        with:
+          workspaces: |
+            eufemia-analytics
 
       - name: Typecheck
         run: cd tools/analytics && yarn test:types

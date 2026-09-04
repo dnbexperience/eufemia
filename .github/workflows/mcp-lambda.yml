@@ -51,9 +51,10 @@ jobs:
       - name: Audit dependencies
         # Re-audit the shipped (production) dep tree at deploy time to catch
         # advisories disclosed after the PR gate ran. Mirrors release.yml.
-        run: yarn workspace @dnb/eufemia-mcp audit:ci
-        env:
-          YARN_HTTP_TIMEOUT: '360000'
+        uses: ./.github/actions/audit
+        with:
+          workspaces: |
+            @dnb/eufemia-mcp
 
       - name: Typecheck
         run: cd tools/mcp-lambda && yarn typecheck

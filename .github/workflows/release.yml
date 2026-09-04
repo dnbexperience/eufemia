@@ -67,9 +67,10 @@ jobs:
           # handles Trusted Publishing itself.
 
       - name: Audit dependencies
-        run: yarn workspace @dnb/eufemia audit:ci
-        env:
-          YARN_HTTP_TIMEOUT: '360000'
+        uses: ./.github/actions/audit
+        with:
+          workspaces: |
+            @dnb/eufemia
 
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci

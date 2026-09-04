@@ -43,7 +43,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 30
+    # Raised for the dependency audit. .github/actions/audit waits out npm's
+    # advisory-endpoint latency (npm/cli#9950) for up to 6 minutes per attempt and
+    # retries once, across 3 workspaces, and the SBOM smoke step below runs a
+    # fourth audit. A normal run finishes in a couple of minutes; the pathological
+    # case where every request burns the full timeout is ~44 minutes, which this
+    # cap just covers, so the action gets to report the outage itself rather than
+    # GitHub killing the job mid-audit.
+    timeout-minutes: 45
 
     # This job runs untrusted third-party code (the CycloneDX generator via
     # `yarn dlx` in the SBOM smoke test below). verify.yml has no workflow-level
@@ -79,12 +86,12 @@ jobs:
         # the @dnb/eufemia npm library, the @dnb/eufemia-mcp Lambda and the
         # eufemia-analytics Lambda. All must pass; dev/build tooling advisories
         # are tracked via Dependabot instead.
-        run: |
-          yarn workspace @dnb/eufemia audit:ci
-          yarn workspace @dnb/eufemia-mcp audit:ci
-          yarn workspace eufemia-analytics audit:ci
-        env:
-          YARN_HTTP_TIMEOUT: '360000'
+        uses: ./.github/actions/audit
+        with:
+          workspaces: |
+            @dnb/eufemia
+            @dnb/eufemia-mcp
+            eufemia-analytics
 
       - name: Verify SBOM + audit generation (release smoke test)
         # release.yml generates a CycloneDX SBOM and a vulnerability report after
