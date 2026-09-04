@@ -11,41 +11,133 @@ import styles from './PageToc.module.scss'
 // keep in sync with scroll-padding-block in PageToc.module.scss
 const SCROLL_PADDING = 16
 
-export type PageTocItem = {
+export type PageTocHeading = {
   title: string
   url: string
   level: number
 }
 
 type PageTocProps = {
-  headings: PageTocItem[]
+  /** Flat list of headings in page order */
+  headings: PageTocHeading[]
+  /** May point to a heading that is too deep to be rendered, in which case its closest rendered ancestor is highlighted. */
   currentUrl?: string | null
+  /** How many heading levels to render, counting from the highest level found. Defaults to `2`. */
+  maxDepth?: number
 }
 
-type TocGroup = {
-  heading: PageTocItem
-  children: PageTocItem[]
+type TocNode = PageTocHeading & {
+  subTree: TocNode[]
+  /** Left out of the rendered list for being deeper than `maxDepth`. */
+  isHidden: boolean
 }
 
-export default function PageToc({ headings, currentUrl }: PageTocProps) {
-  const lowestLevel = useMemo(() => {
-    if (headings.length === 0) return undefined
-    return Math.min(...headings.map(({ level }) => level))
-  }, [headings])
+/**
+ * Turn flat list of headings into a tree, setting the `isHidden` flag
+ * for headings that are deeper than `maxDepth`.
+ */
+export function buildTocTree(
+  headings: PageTocHeading[],
+  maxDepth: number
+): TocNode[] {
+  const levelsBelowTitle = headings
+    .filter(({ level }) => level > 1)
+    .map(({ level }) => level)
+  const firstTocLevel = Math.min(...levelsBelowTitle)
 
-  const headingGroups = useMemo(() => {
-    const groups: TocGroup[] = []
+  const tocTree: TocNode[] = []
 
-    headings.forEach((heading) => {
-      if (heading.level > lowestLevel && groups.length > 0) {
-        groups[groups.length - 1].children.push(heading)
-      } else {
-        groups.push({ heading, children: [] })
+  const potentialParents: TocNode[] = []
+
+  headings.forEach((heading) => {
+    const tocItem: TocNode = {
+      ...heading,
+      subTree: [],
+      isHidden:
+        heading.level === 1 || heading.level >= firstTocLevel + maxDepth,
+    }
+
+    let parent = potentialParents.at(-1)
+
+    // remove any potential parents that are not actually parents of the current heading
+    while (parent && parent.level >= heading.level) {
+      potentialParents.pop()
+      parent = potentialParents.at(-1)
+    }
+
+    if (parent) {
+      parent.subTree.push(tocItem)
+    } else {
+      tocTree.push(tocItem)
+    }
+
+    // add the current toc item as a potential parent for subsequent headings
+    potentialParents.push(tocItem)
+  })
+
+  return tocTree
+}
+
+/**
+ * Returns only the visible toc items.
+ */
+function pruneTocTree(tocTree: TocNode[]): TocNode[] {
+  return tocTree.filter(({ isHidden }) => !isHidden)
+}
+
+/**
+ * Returns the url to mark as current, which has to be one of the given toc
+ * items. A visible heading marks itself, and a hidden one marks its closest
+ * visible ancestor. The page title, which is never visible and has no
+ * ancestor, marks the first heading below it. Anything else leaves nothing
+ * marked.
+ */
+export function resolveCurrentUrl(
+  tocTree: TocNode[],
+  currentUrl?: string | null,
+  closestVisibleAncestor?: TocNode
+): string | null {
+  for (const tocItem of tocTree) {
+    const closestVisible = tocItem.isHidden
+      ? closestVisibleAncestor
+      : tocItem
+
+    if (tocItem.url === currentUrl) {
+      if (tocItem.level === 1) {
+        // Take the first visible child of h1
+        return pruneTocTree(tocItem.subTree)[0]?.url ?? null
       }
-    })
 
-    return groups
-  }, [headings])
+      return closestVisible?.url ?? null
+    }
+
+    const found = resolveCurrentUrl(
+      tocItem.subTree,
+      currentUrl,
+      closestVisible
+    )
+    if (found) {
+      return found
+    }
+  }
+
+  return null
+}
+
+export default function PageToc({
+  headings,
+  currentUrl,
+  maxDepth = 2,
+}: PageTocProps) {
+  const tocTree = useMemo(
+    () => buildTocTree(headings, maxDepth),
+    [headings, maxDepth]
+  )
+
+  const currentVisibleUrl = useMemo(
+    () => resolveCurrentUrl(tocTree, currentUrl),
+    [tocTree, currentUrl]
+  )
 
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -60,7 +152,7 @@ export default function PageToc({ headings, currentUrl }: PageTocProps) {
 
   useEffect(() => {
     const container = scrollRef.current
-    if (!container || !currentUrl) {
+    if (!container || !currentVisibleUrl) {
       return
     }
 
@@ -70,17 +162,22 @@ export default function PageToc({ headings, currentUrl }: PageTocProps) {
     if (currentLink) {
       revealInScroller(container, currentLink)
     }
-  }, [currentUrl])
+  }, [currentVisibleUrl])
 
-  if (headings.length === 0) {
+  // the page title holds every heading below it, so the list starts one level deep
+  const rootTocTree = pruneTocTree(
+    tocTree[0]?.level === 1 ? tocTree[0].subTree : tocTree
+  )
+
+  if (rootTocTree.length === 0) {
     return null
   }
 
-  const renderLink = (heading: PageTocItem) => {
-    const isCurrent = heading.url === currentUrl
+  const renderLink = (tocItem: PageTocHeading) => {
+    const isCurrent = tocItem.url === currentVisibleUrl
     return (
       <Anchor
-        href={heading.url}
+        href={tocItem.url}
         aria-current={isCurrent ? 'true' : undefined}
         className={
           isLargeScreen
@@ -94,10 +191,29 @@ export default function PageToc({ headings, currentUrl }: PageTocProps) {
         noHover={isLargeScreen}
         noAnimation={isLargeScreen}
       >
-        {heading.title}
+        {tocItem.title}
       </Anchor>
     )
   }
+
+  const renderList = (tocTree: TocNode[], isSubList = false) => (
+    <ul
+      className={
+        isSubList ? styles['page-toc__sub-list'] : styles['page-toc__list']
+      }
+    >
+      {tocTree.map((tocItem) => {
+        const childTocTree = pruneTocTree(tocItem.subTree)
+        return (
+          <li key={tocItem.url}>
+            {renderLink(tocItem)}
+
+            {childTocTree.length > 0 && renderList(childTocTree, true)}
+          </li>
+        )
+      })}
+    </ul>
+  )
 
   return (
     <nav aria-labelledby="page-toc-title" className={styles['page-toc']}>
@@ -129,21 +245,7 @@ export default function PageToc({ headings, currentUrl }: PageTocProps) {
           openOnFind
           onBeforeMatch={() => setIsExpanded(true)}
         >
-          <ul className={styles['page-toc__list']}>
-            {headingGroups.map((group) => (
-              <li key={group.heading.url}>
-                {renderLink(group.heading)}
-
-                {group.children.length > 0 && (
-                  <ul className={styles['page-toc__sub-list']}>
-                    {group.children.map((child) => (
-                      <li key={child.url}>{renderLink(child)}</li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+          {renderList(rootTocTree)}
         </HeightAnimation>
       </ScrollView>
     </nav>

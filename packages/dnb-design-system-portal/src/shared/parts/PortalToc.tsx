@@ -10,7 +10,7 @@ import {
 } from 'react'
 import type { ReactNode } from 'react'
 import PageToc from './PageToc'
-import type { PageTocItem } from './PageToc'
+import type { PageTocHeading } from './PageToc'
 
 const CONTENT_AREA_OFFSET = 56
 
@@ -97,31 +97,13 @@ export function PortalTocProvider({ children }: { children: ReactNode }) {
   )
 }
 
-export default function PortalToc() {
+export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
   const headingsContext = useContext(HeadingsContext)
-
-  const lowestLevel = useMemo(() => {
-    let lowest = undefined
-    headingsContext.forEach(({ level }) => {
-      if (level !== 1 && (lowest === undefined || level < lowest)) {
-        lowest = level
-      }
-    })
-    return lowest
-  }, [headingsContext])
-
-  const tocHeadings = useMemo(
-    () =>
-      headingsContext.filter(
-        ({ level }) => level >= lowestLevel && level <= lowestLevel + 1
-      ),
-    [headingsContext, lowestLevel]
-  )
 
   const [currentIndex, setCurrentIndex] = useState<number | null>(null)
 
   useEffect(() => {
-    if (tocHeadings.length === 0) {
+    if (headingsContext.length === 0) {
       return
     }
 
@@ -130,7 +112,7 @@ export default function PortalToc() {
     const updateCurrent = () => {
       animationFrameId = 0
 
-      const headingPositions = tocHeadings.map(({ id }) => {
+      const headingPositions = headingsContext.map(({ id }) => {
         const anchorEl = document.getElementById(id)
         const headingEl =
           anchorEl?.closest('h1, h2, h3, h4, h5, h6') ?? anchorEl
@@ -172,22 +154,28 @@ export default function PortalToc() {
         cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [tocHeadings])
+  }, [headingsContext])
 
-  const items = useMemo<PageTocItem[]>(
+  const items = useMemo<PageTocHeading[]>(
     () =>
-      tocHeadings.map(({ text, id, level }) => ({
+      headingsContext.map(({ text, id, level }) => ({
         title: text,
         url: `#${id}`,
         level,
       })),
-    [tocHeadings]
+    [headingsContext]
   )
 
   const currentUrl =
     currentIndex === null ? null : (items[currentIndex]?.url ?? null)
 
-  return <PageToc headings={items} currentUrl={currentUrl} />
+  return (
+    <PageToc
+      headings={items}
+      currentUrl={currentUrl}
+      maxDepth={maxDepth}
+    />
+  )
 }
 
 export function computeTocHighlight(

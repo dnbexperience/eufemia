@@ -26,10 +26,14 @@ const ContentWrapper = TabBar.ContentWrapper
 
 type Frontmatter = {
   title?: string
+  /** Overrides `title` for the rendered page heading in the content area. */
   contentTitle?: string
   showTabs?: boolean
   fullscreen?: boolean
+  /** Hides the table of contents for the page. */
   hideToc?: boolean
+  /** How many heading levels the table of contents should include, counting from the highest level on the page (excluding h1). Default is `2`. */
+  tocDepth?: number
 }
 type Fields = {
   slug: string
@@ -63,6 +67,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
               description
               fullscreen
               hideToc
+              tocDepth
               showTabs
               breadcrumb {
                 text
@@ -87,6 +92,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 description
                 fullscreen
                 hideToc
+                tocDepth
                 showTabs
                 breadcrumb {
                   text
@@ -147,7 +153,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
   usePortalHead(headData)
 
   const tabsFromParent = Boolean(!pageFm.title && pageFm.showTabs)
-  const hideToc = pageFm.hideToc ?? (tabsFromParent && parentFm.hideToc)
+  const hideToc =
+    pageFm.hideToc ?? (tabsFromParent ? parentFm.hideToc : undefined)
+  const tocDepth =
+    pageFm.tocDepth ?? (tabsFromParent ? parentFm.tocDepth : undefined)
 
   const rootPath =
     '/' +
@@ -228,7 +237,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
             {!hideToc && (
               <div className={pageLayoutStyles['content-grid__sidebar']}>
-                <PortalToc />
+                <PortalToc maxDepth={tocDepth} />
               </div>
             )}
 
