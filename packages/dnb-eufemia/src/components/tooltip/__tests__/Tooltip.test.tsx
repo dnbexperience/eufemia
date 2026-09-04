@@ -640,12 +640,20 @@ describe('Tooltip', () => {
         attributeFilter: ['class'],
       })
 
-      fireEvent.mouseLeave(buttonElem)
-      fireEvent.mouseEnter(buttonElem)
+      for (let i = 0; i < 3; i++) {
+        fireEvent.mouseLeave(buttonElem)
 
-      expect(buttonElem).toHaveAttribute('aria-describedby', describedBy)
+        expect(buttonElem).toHaveAttribute('aria-describedby', describedBy)
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
 
-      await wait(150)
+        await wait(80)
+        fireEvent.mouseEnter(buttonElem)
+
+        expect(buttonElem).toHaveAttribute('aria-describedby', describedBy)
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+
+        await wait(20)
+      }
       observer.disconnect()
 
       expect(classNames).not.toContain(

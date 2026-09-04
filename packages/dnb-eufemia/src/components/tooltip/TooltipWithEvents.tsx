@@ -51,6 +51,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     omitDescribedBy,
   } = restProps
 
+  const hideDelayMs = Math.max(0, parseFloat(String(hideDelay)) || 0)
+  const shouldDelayHide =
+    skipPortal || (!noAnimation && !globalThis.IS_TEST)
+
   const { internalId, isControlled } = useContext(TooltipContext)
 
   const [isOpen, setIsOpen] = useState(open)
@@ -59,8 +63,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const delayTimeout = useRef<NodeJS.Timeout>(undefined)
   const overlayDelayTimeout = useRef<NodeJS.Timeout>(undefined)
   const cloneRef = useRef<HTMLElement>(undefined)
-  const isOpenRef = useRef(open)
-  const isHidingRef = useRef(false)
   const previousDescribedByIdRef = useRef<string | null>(null)
 
   const clearTimers = () => {
@@ -84,18 +86,13 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       }
 
       const run = () => {
-        isOpenRef.current = true
         setIsOpen(true)
       }
 
-      const resumeOpenState = isHidingRef.current
-      isHidingRef.current = false
-
-      if (noAnimation || globalThis.IS_TEST || resumeOpenState) {
-        clearTimers()
+      clearTimers()
+      if (noAnimation || globalThis.IS_TEST) {
         run()
       } else {
-        clearTimers()
         delayTimeout.current = setTimeout(
           run,
           parseFloat(String(showDelay)) || 1
@@ -133,31 +130,16 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       clearTimers()
 
       const run = () => {
-        isOpenRef.current = false
-        isHidingRef.current = false
         setIsOpen(false)
       }
 
-      if (skipPortal) {
-        isHidingRef.current = isOpenRef.current
-        delayTimeout.current = setTimeout(
-          run,
-          parseFloat(String(hideDelay))
-        )
+      if (shouldDelayHide && hideDelayMs > 0) {
+        delayTimeout.current = setTimeout(run, hideDelayMs)
       } else {
-        const wasOpen = isOpenRef.current
         run()
-
-        const delay = parseFloat(String(hideDelay)) || 0
-        if (wasOpen && delay > 0) {
-          isHidingRef.current = true
-          delayTimeout.current = setTimeout(() => {
-            isHidingRef.current = false
-          }, delay)
-        }
       }
     },
-    [open, hideDelay, skipPortal]
+    [open, hideDelayMs, shouldDelayHide]
   )
 
   const addEvents = useCallback(
@@ -247,10 +229,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   useEffect(() => {
     if (isControlled) {
-      isOpenRef.current = open
       setIsOpen(open)
     } else {
-      isOpenRef.current = false
       setIsOpen(false)
     }
   }, [open, isControlled])
@@ -309,6 +289,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   useEffect(() => clearOverlayTimers, [])
 
   const handleOverlayMouseEnter = useCallback(() => {
+    clearTimers()
     clearOverlayTimers()
     if (!isControlled) {
       setOverlayHovered(true)
@@ -327,29 +308,31 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         event.relatedTarget instanceof Node &&
         targetElement.contains(event.relatedTarget)
       ) {
-        isOpenRef.current = true
+        clearTimers()
         setIsOpen(true)
         setOverlayHovered(false)
         return undefined
       }
 
-      const run = () => setOverlayHovered(false)
+      const run = () => {
+        setIsOpen(false)
+        setOverlayHovered(false)
+      }
       clearOverlayTimers()
-      if (skipPortal) {
-        overlayDelayTimeout.current = setTimeout(
-          run,
-          parseFloat(String(hideDelay)) || 1
-        )
+
+      if (shouldDelayHide && hideDelayMs > 0) {
+        overlayDelayTimeout.current = setTimeout(run, hideDelayMs)
       } else {
         run()
       }
     },
-    [hideDelay, isControlled, skipPortal]
+    [hideDelayMs, isControlled, shouldDelayHide]
   )
 
   const { className: attributeClassName, ...restAttributes } =
     attributes || {}
 
+  // Keep the Popover active until Tooltip's cancellable hide delay expires.
   return (
     <>
       <Popover
@@ -363,7 +346,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         open={overlayOpen}
         targetElement={cloneRef}
         arrowEdgeOffset={4}
-        hideDelay={hideDelay}
+        hideDelay={0}
         skipPortal={skipPortal}
         keepInDOM={keepInDOM}
         noAnimation={noAnimation}
