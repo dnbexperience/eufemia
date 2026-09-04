@@ -8,7 +8,7 @@ import {
   usePath,
   useTranslation as useFormsTranslation,
 } from '../../hooks'
-import type { FieldProps } from '../../types'
+import type { FieldProps, Identifier } from '../../types'
 import type {
   UploadFile,
   UploadFileNative,
@@ -30,6 +30,12 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
+type FileHandlerOperation = {
+  fieldIdentifier: Identifier
+  timeout?: ReturnType<typeof setTimeout>
+  invalidated: boolean
+}
+
 export type FieldUploadProps = Omit<
   FieldProps<UploadValue, UploadValue | undefined>,
   | 'layout'
@@ -180,13 +186,53 @@ function UploadComponent(props: FieldUploadProps) {
   // with it the form, permanently stuck.
   const asyncSubmitTimeout =
     dataContext?.props?.asyncSubmitTimeout ?? 30000
-  const fileHandlerTimeoutsRef = useRef<
-    Set<ReturnType<typeof setTimeout>>
-  >(new Set())
+  const fileHandlerOperationsRef = useRef<Set<FileHandlerOperation>>(
+    new Set()
+  )
+
+  const completeFileHandlerOperation = useCallback(
+    (
+      operation: FileHandlerOperation,
+      { cancelPendingSubmit = false } = {}
+    ) => {
+      const operations = fileHandlerOperationsRef.current
+      if (!operations.delete(operation)) {
+        return
+      }
+
+      if (typeof operation.timeout !== 'undefined') {
+        clearTimeout(operation.timeout)
+      }
+
+      const hasPendingOperation = Array.from(operations).some(
+        ({ fieldIdentifier }) =>
+          fieldIdentifier === operation.fieldIdentifier
+      )
+
+      setFieldState?.(
+        operation.fieldIdentifier,
+        hasPendingOperation ? 'pending' : undefined,
+        cancelPendingSubmit ? { cancelPendingSubmit: true } : undefined
+      )
+
+      if (!hasPendingOperation) {
+        setFieldInternals?.(operation.fieldIdentifier, {
+          enableAsyncMode: false,
+        })
+      }
+    },
+    [setFieldInternals, setFieldState]
+  )
 
   useEffect(() => {
-    const timeouts = fileHandlerTimeoutsRef.current
-    return () => timeouts.forEach(clearTimeout)
+    const operations = fileHandlerOperationsRef.current
+    return () => {
+      operations.forEach((operation) => {
+        operation.invalidated = true
+        clearTimeout(operation.timeout)
+      })
+      operations.clear()
+    }
   }, [])
 
   const labelWithItemNo = useIterateItemNo({
@@ -254,12 +300,16 @@ function UploadComponent(props: FieldUploadProps) {
 
       if (newValidFiles.length > 0) {
         const fieldIdentifier = identifier
+        const operation: FileHandlerOperation = {
+          fieldIdentifier,
+          invalidated: false,
+        }
+        fileHandlerOperationsRef.current.add(operation)
+
         setFieldState?.(fieldIdentifier, 'pending')
         setFieldInternals?.(fieldIdentifier, {
           enableAsyncMode: true,
         })
-
-        let recoverTimeout: ReturnType<typeof setTimeout>
 
         try {
           // Set loading
@@ -272,9 +322,11 @@ function UploadComponent(props: FieldUploadProps) {
           const loadingFiles = newFilesLoading.filter(
             (file) => file.isLoading
           )
-          recoverTimeout = setTimeout(() => {
-            fileHandlerTimeoutsRef.current.delete(recoverTimeout)
-            setFieldState?.(fieldIdentifier, undefined)
+          operation.timeout = setTimeout(() => {
+            operation.invalidated = true
+            completeFileHandlerOperation(operation, {
+              cancelPendingSubmit: true,
+            })
             setFiles(
               filesRef.current?.map((file) => {
                 return loadingFiles.some((loadingFile) =>
@@ -285,9 +337,11 @@ function UploadComponent(props: FieldUploadProps) {
               })
             )
           }, asyncSubmitTimeout)
-          fileHandlerTimeoutsRef.current.add(recoverTimeout)
 
           const incomingFiles = await fileHandler(newValidFiles)
+          if (operation.invalidated) {
+            return
+          }
 
           if (!incomingFiles) {
             setFiles(existingFiles)
@@ -347,12 +401,7 @@ function UploadComponent(props: FieldUploadProps) {
             handleChange(updatedFiles)
           }
         } finally {
-          clearTimeout(recoverTimeout)
-          fileHandlerTimeoutsRef.current.delete(recoverTimeout)
-          setFieldState?.(fieldIdentifier, undefined)
-          setFieldInternals?.(fieldIdentifier, {
-            enableAsyncMode: false,
-          })
+          completeFileHandlerOperation(operation)
         }
       } else {
         handleChange(files)
@@ -367,6 +416,7 @@ function UploadComponent(props: FieldUploadProps) {
       setFieldInternals,
       setFieldState,
       setFiles,
+      completeFileHandlerOperation,
     ]
   )
 
