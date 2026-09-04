@@ -215,6 +215,14 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
+    // Only tags reachable from HEAD count, so a maintenance branch never picks
+    // up a version released from another line
+    expect(mockSimpleGit().tags).toHaveBeenCalledWith([
+      '--merged',
+      'HEAD',
+      '--sort=-version:refname',
+    ])
+
     expect(fs.writeFile).toHaveBeenCalledTimes(4)
 
     // JS
@@ -243,6 +251,44 @@ describe('makeReleaseVersion', () => {
     // git `--sort=-version:refname` ranks v11.12.0-beta.1 above the stable
     // v11.12.0, so the stable tag has to be selected past the prerelease
     mockBranchName('release', ['v11.12.0-beta.1', 'v11.12.0', 'v11.11.0'])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '11.12.0'`)
+    )
+  })
+
+  it('keeps the prerelease of its own channel on a prerelease branch', async () => {
+    // The stable v11.12.0 is not the version a beta build already has
+    mockBranchName('beta', [
+      'v11.13.0-beta.2',
+      'v11.13.0-beta.1',
+      'v11.12.0',
+      'v11.12.0-alpha.1',
+    ])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '11.13.0-beta.2'`)
+    )
+  })
+
+  it('falls back to the stable tag on a prerelease branch that has not released', async () => {
+    mockBranchName('beta', ['v11.12.0', 'v11.11.0'])
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'

@@ -28,7 +28,8 @@ export async function makeReleaseVersion() {
     // A release build has to carry a version, so when the commits do not
     // warrant one it keeps the version the package already has
     version =
-      (await getNextReleaseVersion()) || (await getLastReleaseVersion())
+      (await getNextReleaseVersion()) ||
+      (await getLastReleaseVersion(branchName))
   }
 
   if (!version && isCI) {
@@ -109,18 +110,29 @@ export async function makeReleaseVersion() {
   }
 }
 
-async function getLastReleaseVersion() {
+/**
+ * The version the package already carries on this branch: the newest reachable
+ * tag of the channel the branch releases on – the same tag release.yml's
+ * checkout comment and the portal footer (version.js) resolve.
+ */
+async function getLastReleaseVersion(branchName: string) {
   const { all } = await simpleGit().tags([
     '--merged',
     'HEAD',
     '--sort=-version:refname',
   ])
 
-  // Match a stable tag only: `-version:refname` ranks `v1.2.0-beta.1` above the
-  // stable `v1.2.0`, and with nothing to release the package keeps the last real
-  // version it had — the latest reachable stable tag, the same one the
-  // release.yml checkout comment and the portal footer (version.js) resolve.
-  return all
-    .find((tag: string) => /^v\d+\.\d+\.\d+$/.test(tag))
-    ?.replace(/^v/, '')
+  // The channel has to be matched rather than the newest tag taken, because
+  // `-version:refname` ranks `v1.2.0-beta.1` above the stable `v1.2.0`: on
+  // `release` that prerelease is not the version the package has, and on `beta`
+  // the newest stable is not either. semantic-release names a `prerelease: true`
+  // branch's versions after the branch itself – `beta` tagged `v10.0.0-beta.8`,
+  // `alpha` tagged `v9.0.0-alpha.1` – so the branch name identifies the channel.
+  const isStable = (tag: string) => /^v\d+\.\d+\.\d+$/.test(tag)
+  const isOnChannel = (tag: string) =>
+    /^v\d+\.\d+\.\d+-/.test(tag) &&
+    tag.slice(tag.indexOf('-') + 1).startsWith(`${branchName}.`)
+
+  // A prerelease branch that has not released yet falls back to the stable tag
+  return (all.find(isOnChannel) || all.find(isStable))?.replace(/^v/, '')
 }
