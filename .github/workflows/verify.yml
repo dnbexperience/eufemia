@@ -79,10 +79,12 @@ jobs:
         # the @dnb/eufemia npm library, the @dnb/eufemia-mcp Lambda and the
         # eufemia-analytics Lambda. All must pass; dev/build tooling advisories
         # are tracked via Dependabot instead.
-        run: |
-          yarn workspace @dnb/eufemia audit:ci
-          yarn workspace @dnb/eufemia-mcp audit:ci
-          yarn workspace eufemia-analytics audit:ci
+        uses: ./.github/actions/audit
+        with:
+          workspaces: |
+            @dnb/eufemia
+            @dnb/eufemia-mcp
+            eufemia-analytics
 
       - name: Verify SBOM + audit generation (release smoke test)
         # release.yml generates a CycloneDX SBOM and a vulnerability report after
