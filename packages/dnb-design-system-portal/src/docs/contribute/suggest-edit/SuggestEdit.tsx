@@ -134,15 +134,15 @@ export default function SuggestEdit() {
           </Form.Visibility>
 
           <p>
-            Paste the prompt into your coding agent. You can{' '}
+            Paste the prompt into your coding agent. For Eufemia guidance,{' '}
             <Anchor href="/uilib/usage/first-steps/tools/#install-project-skills">
               install the Eufemia skills
             </Anchor>
             {' or '}
             <Anchor href="/uilib/usage/first-steps/tools/#hosted-mcp-server">
               connect the hosted Eufemia MCP server
-            </Anchor>{' '}
-            to give the agent Eufemia guidance.
+            </Anchor>
+            .
           </p>
 
           <Accordion title="Preview prompt" variant="filled">
@@ -164,15 +164,13 @@ export default function SuggestEdit() {
           </Form.ButtonRow>
 
           {sourcePath && (
-            <Accordion title="For developers">
-              <Button
-                variant="tertiary"
-                text="Edit source on GitHub"
-                href={getGitHubEditUrl(sourcePath)}
-                target="_blank"
-                rel="noopener noreferrer"
-              />
-            </Accordion>
+            <Button
+              variant="tertiary"
+              text="Edit source on GitHub"
+              href={getGitHubEditUrl(sourcePath)}
+              target="_blank"
+              rel="noopener noreferrer"
+            />
           )}
         </Flex.Stack>
       </Form.Handler>
