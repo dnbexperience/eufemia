@@ -303,6 +303,24 @@ describe('makeReleaseVersion', () => {
     )
   })
 
+  it('skips the legacy channel-suffixed tags', async () => {
+    // The repository still carries `v3.19.0-beta.1@beta` style tags, which are
+    // not versions the package can be stamped with
+    mockBranchName('beta', ['v3.19.0-beta.1@beta', 'v3.18.0'])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '3.18.0'`)
+    )
+  })
+
   it('write branch in file', async () => {
     mockBranchName('some-branch')
     vi.spyOn(

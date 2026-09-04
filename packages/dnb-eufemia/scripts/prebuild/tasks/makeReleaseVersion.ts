@@ -128,9 +128,12 @@ async function getLastReleaseVersion(branchName: string) {
   // the newest stable is not either. semantic-release names a `prerelease: true`
   // branch's versions after the branch itself – `beta` tagged `v10.0.0-beta.8`,
   // `alpha` tagged `v9.0.0-alpha.1` – so the branch name identifies the channel.
+  // The prerelease charset is the one verifyReleaseVersion.mjs accepts, so this
+  // cannot resolve a version the release build would then reject: it also rules
+  // out the legacy `v3.19.0-beta.1@beta` tags, which are not versions at all.
   const isStable = (tag: string) => /^v\d+\.\d+\.\d+$/.test(tag)
   const isOnChannel = (tag: string) =>
-    /^v\d+\.\d+\.\d+-/.test(tag) &&
+    /^v\d+\.\d+\.\d+-[0-9A-Za-z.-]+$/.test(tag) &&
     tag.slice(tag.indexOf('-') + 1).startsWith(`${branchName}.`)
 
   // A prerelease branch that has not released yet falls back to the stable tag
