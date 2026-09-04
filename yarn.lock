@@ -2754,21 +2754,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@dnb/eufemia-mcp@workspace:tools/mcp-lambda":
-  version: 0.0.0-use.local
-  resolution: "@dnb/eufemia-mcp@workspace:tools/mcp-lambda"
-  dependencies:
-    "@dnb/eufemia": "workspace:*"
-    "@modelcontextprotocol/client": "npm:2.0.0"
-    "@modelcontextprotocol/server": "npm:2.0.0"
-    "@types/aws-lambda": "npm:8.10.161"
-    esbuild: "npm:0.25.5"
-    tsx: "npm:4.22.4"
-    typescript: "npm:5.9.3"
-    vitest: "npm:4.1.10"
-  languageName: unknown
-  linkType: soft
-
 "@dnb/eufemia@workspace:*, @dnb/eufemia@workspace:packages/dnb-eufemia":
   version: 0.0.0-use.local
   resolution: "@dnb/eufemia@workspace:packages/dnb-eufemia"
@@ -9867,6 +9852,21 @@ __metadata:
     fs-extra: "npm:10.0.0"
     markdown-tables-utils: "workspace:*"
     prettier: "npm:3.8.1"
+    vitest: "npm:4.1.10"
+  languageName: unknown
+  linkType: soft
+
+"eufemia-mcp-lambda@workspace:tools/mcp-lambda":
+  version: 0.0.0-use.local
+  resolution: "eufemia-mcp-lambda@workspace:tools/mcp-lambda"
+  dependencies:
+    "@dnb/eufemia": "workspace:*"
+    "@modelcontextprotocol/client": "npm:2.0.0"
+    "@modelcontextprotocol/server": "npm:2.0.0"
+    "@types/aws-lambda": "npm:8.10.161"
+    esbuild: "npm:0.25.5"
+    tsx: "npm:4.22.4"
+    typescript: "npm:5.9.3"
     vitest: "npm:4.1.10"
   languageName: unknown
   linkType: soft
