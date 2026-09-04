@@ -87,7 +87,8 @@ export type UseFieldErrorParams<Value> = {
   // Context dispatch
   setFieldStateDataContext: (
     identifier: Identifier,
-    state: SubmitState
+    state: SubmitState,
+    options?: { cancelPendingSubmit?: boolean }
   ) => void
   setFieldStateFieldBlock: FieldBlockContextProps['setFieldState']
   setFieldErrorDataContext: (
@@ -514,15 +515,28 @@ export default function useFieldError<Value>({
   // it the form, permanently stuck.
   const pendingTimeoutRef =
     useRef<ReturnType<typeof setTimeout>>(undefined)
+  const isMountedRef = useRef(true)
 
   useEffect(() => {
-    return () => clearTimeout(pendingTimeoutRef.current)
+    isMountedRef.current = true
+
+    return () => {
+      isMountedRef.current = false
+      clearTimeout(pendingTimeoutRef.current)
+    }
   }, [])
 
   const applyFieldState = useCallback(
-    (state: SubmitStateWithValidating) => {
+    (
+      state: SubmitStateWithValidating,
+      options?: { cancelPendingSubmit?: boolean }
+    ) => {
       fieldStateRef.current = state
-      setFieldStateDataContext?.(identifier, resolveValidatingState(state))
+      setFieldStateDataContext?.(
+        identifier,
+        resolveValidatingState(state),
+        options
+      )
       setFieldStateFieldBlock?.(identifier, resolveValidatingState(state))
     },
     [identifier, setFieldStateDataContext, setFieldStateFieldBlock]
@@ -533,9 +547,12 @@ export default function useFieldError<Value>({
       applyFieldState(state)
 
       clearTimeout(pendingTimeoutRef.current)
-      if (resolveValidatingState(state) === 'pending') {
+      if (
+        isMountedRef.current &&
+        resolveValidatingState(state) === 'pending'
+      ) {
         pendingTimeoutRef.current = setTimeout(() => {
-          applyFieldState(undefined)
+          applyFieldState(undefined, { cancelPendingSubmit: true })
           forceUpdate()
         }, asyncSubmitTimeout ?? 30000)
       }

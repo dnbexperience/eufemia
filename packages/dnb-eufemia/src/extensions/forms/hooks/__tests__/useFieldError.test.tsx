@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../Forms'
 
@@ -9,7 +9,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
     })
 
     render(
-      <Form.Handler asyncSubmitTimeout={100}>
+      <Form.Handler asyncSubmitTimeout={300}>
         <Field.String path="/name" onBlurValidator={onBlurValidator} />
       </Form.Handler>
     )
@@ -42,7 +42,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
     const onSubmit = vi.fn()
 
     render(
-      <Form.Handler asyncSubmitTimeout={100} onSubmit={onSubmit}>
+      <Form.Handler asyncSubmitTimeout={300} onSubmit={onSubmit}>
         <Field.String path="/name" onChange={onChange} />
         <Form.SubmitButton />
       </Form.Handler>
@@ -76,13 +76,106 @@ describe('field pending state with asyncSubmitTimeout', () => {
     })
   })
 
+  it('should cancel a deferred submit when a pending field times out', async () => {
+    const onChange = vi.fn(async () => {
+      return new Promise<undefined>(() => undefined)
+    })
+    const onSubmit = vi.fn(async () => undefined)
+
+    render(
+      <Form.Handler asyncSubmitTimeout={300} onSubmit={onSubmit}>
+        <Field.String path="/name" onChange={onChange} />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    await userEvent.type(document.querySelector('input'), 'x')
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeInTheDocument()
+    })
+
+    const submitButton = document.querySelector('button[type="submit"]')
+
+    fireEvent.submit(document.querySelector('form'))
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled()
+    })
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled()
+    })
+
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeNull()
+    })
+
+    await new Promise<void>((resolve) => {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => resolve())
+      })
+    })
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    fireEvent.submit(document.querySelector('form'))
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  it('should inherit asyncSubmitTimeout in Form.Isolation', async () => {
+    const onChange = vi.fn(async () => {
+      return new Promise<undefined>(() => undefined)
+    })
+
+    render(
+      <Form.Handler asyncSubmitTimeout={300}>
+        <Form.Isolation>
+          <Field.String path="/name" onChange={onChange} />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, 'x')
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeInTheDocument()
+    })
+
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeNull()
+    })
+  })
+
   it('should clear the pending state after asyncSubmitTimeout when an onChangeValidator never settles', async () => {
     const onChangeValidator = vi.fn(async () => {
       return new Promise<undefined>(() => undefined)
     })
 
     render(
-      <Form.Handler asyncSubmitTimeout={100}>
+      <Form.Handler asyncSubmitTimeout={300}>
         <Field.String path="/name" onChangeValidator={onChangeValidator} />
       </Form.Handler>
     )
@@ -217,5 +310,32 @@ describe('field pending state with asyncSubmitTimeout', () => {
 
     setTimeoutSpy.mockRestore()
     clearTimeoutSpy.mockRestore()
+  })
+
+  it('should use 30 seconds as the default field pending timeout', async () => {
+    const setTimeoutSpy = vi.spyOn(globalThis, 'setTimeout')
+    const onBlurValidator = vi.fn(async () => {
+      return new Promise<undefined>(() => undefined)
+    })
+
+    const { unmount } = render(
+      <Form.Handler>
+        <Field.String path="/name" onBlurValidator={onBlurValidator} />
+      </Form.Handler>
+    )
+
+    await userEvent.type(document.querySelector('input'), 'x')
+    await userEvent.tab()
+
+    await waitFor(() => {
+      expect(onBlurValidator).toHaveBeenCalledTimes(1)
+    })
+
+    expect(
+      setTimeoutSpy.mock.calls.some(([, delay]) => delay === 30000)
+    ).toBe(true)
+
+    unmount()
+    setTimeoutSpy.mockRestore()
   })
 })

@@ -272,7 +272,7 @@ function IsolationProvider<Data extends JsonObject>(
     onClearProp?.()
   }, [onClearProp, setIsolatedData])
 
-  const providerProps: IsolationProps<Data> = {
+  const providerProps: ProviderProps<Data> = {
     ...props,
     [defaultData ? 'defaultData' : 'data']: internalDataRef.current,
     onUpdateDataValue: onUpdateDataValueHandler,
@@ -284,6 +284,7 @@ function IsolationProvider<Data extends JsonObject>(
     // Inherit schema and ajvInstance from parent context
     schema: props?.schema || outerContext?.props?.schema,
     ajvInstance: props?.ajvInstance || outerContext?.props?.ajvInstance,
+    asyncSubmitTimeout: outerContext?.props?.asyncSubmitTimeout,
   }
 
   if (
