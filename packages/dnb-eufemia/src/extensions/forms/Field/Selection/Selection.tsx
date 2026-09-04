@@ -179,6 +179,19 @@ function Selection(props: FieldSelectionProps) {
   const renderedChildren = useMemo(() => {
     return resolveChildren(children, value, dataList)
   }, [children, dataList, value])
+  const normalizedData = useMemo(() => {
+    return renderDropdownItems(
+      hasRenderPropChildren ? undefined : dataList,
+      transformSelection
+    )
+      .concat(makeOptions(renderedChildren, transformSelection))
+      .filter(Boolean)
+  }, [
+    dataList,
+    hasRenderPropChildren,
+    renderedChildren,
+    transformSelection,
+  ])
 
   const handleDrawerListChange = useCallback(
     ({ data, value }: DrawerListChangeParams) => {
@@ -315,12 +328,7 @@ function Selection(props: FieldSelectionProps) {
 
     case 'autocomplete':
     case 'dropdown': {
-      const data = renderDropdownItems(
-        hasRenderPropChildren ? undefined : dataList,
-        transformSelection
-      )
-        .concat(makeOptions(renderedChildren, transformSelection))
-        .filter(Boolean)
+      const data = normalizedData
       const displayValue = data.find(
         (item) => item.selectedKey === value
       )?.content

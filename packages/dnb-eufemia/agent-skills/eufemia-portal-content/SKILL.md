@@ -1,7 +1,7 @@
 ---
 name: eufemia-portal-content
-description: Edit content in the official Eufemia portal and deliver small, reviewable pull requests with working page previews. Use when a non-technical contributor asks AI to change portal copy, guidance, or other editorial content.
-compatibility: Requires the Eufemia repository and permission to create GitHub pull requests.
+description: Edit content in the official Eufemia portal and deliver small, reviewable pull requests with working page previews. Use when a non-technical contributor asks AI to change portal copy, guidance, or other editorial content, or repair a pull request created with Edit on GitHub.
+compatibility: Requires access to the Eufemia repository and permission to create or update GitHub pull requests.
 metadata:
   owner: dnbexperience/eufemia
   manifest-version: '1'
@@ -21,9 +21,24 @@ commands, files, or validation steps.
    regular portal deployment or needs a portal-only deployment. For an urgent
    change, also ask for the desired deadline and a short reason that maintainers
    can evaluate.
-3. Fetch current refs and create the content branch from `origin/main`. `main`
-   is the source for new work; `release` is the exact source deployed to the
-   production portal.
+3. Choose the lightest delivery path that can verify the change:
+   - Work only through GitHub when the complete diff is a small prose edit to
+     existing Markdown or MDX and does not change imports, frontmatter, JSX,
+     code examples, assets, navigation, or behavior. Read the complete file and
+     nearby content through GitHub before editing. This path does not require a
+     local checkout, dependency installation, or local test run.
+   - Use a local checkout for broader or structural MDX changes, generated
+     content, behavior, or failures that cannot be diagnosed and corrected
+     confidently from GitHub and CI. Fetch current refs and create the content
+     branch from `origin/main`.
+   - When the contributor already used Edit on GitHub, inspect and continue
+     their branch and pull request instead of making them start again. Review
+     the complete diff and repair its formatting, title, description, and base
+     branch as needed.
+
+   `main` is the source for new work; `release` is the exact source deployed to
+   the production portal.
+
 4. Keep one independently understandable content outcome per pull request.
    Split changes that cover different topics, audiences, navigation areas, or
    reviewer decisions. Keep tightly coupled edits together when separating them
@@ -33,9 +48,14 @@ commands, files, or validation steps.
 5. Preserve the page's MDX structure, imports, links, terminology, tone, and
    heading hierarchy. Do not turn an editorial request into component, API, or
    layout work without explaining the additional scope and receiving approval.
-6. Format changed files with the workspace tools, run focused checks, inspect
-   the complete diff, and verify the affected route and anchor. Add or update
-   tests only when behavior rather than prose changes.
+6. Inspect the complete diff and verify the affected route and anchor. For
+   local work, format changed files with the workspace tools and run focused
+   checks. For GitHub-only work, preserve the surrounding formatting, wait for
+   the required formatting and build checks, and inspect any failures. Apply an
+   unambiguous formatting correction through GitHub; switch to a local checkout
+   when the correction or failure needs local reproduction. State explicitly
+   that validation came from CI rather than claiming local checks. Add or
+   update tests only when behavior rather than prose changes.
 7. Choose the pull request title from the contributor's release-note intent:
    - Use `docs(Portal): ...` when the change should be listed under
      Documentation in the next Eufemia release notes.
@@ -43,11 +63,12 @@ commands, files, or validation steps.
      Confirm the choice in plain language. Neither type should publish a package
      version by itself, but verify the current semantic-release configuration
      before promising release behavior.
-8. Open the pull request against `main` with a short motivation-focused
-   description. After the preview workflow finishes, read its stable Branch
-   Preview URL, append the affected page path and anchor, verify that exact link,
-   and update the description. Include a short release-priority line. Do not list
-   changed files or validation steps. A suitable shape is:
+8. Open or update the pull request against `main` with a short
+   motivation-focused description. After the preview workflow finishes, read
+   its stable Branch Preview URL, append the affected page path and anchor,
+   verify that exact link, and update the description. Include a short
+   release-priority line. Do not list changed files or validation steps. A
+   suitable shape is:
 
    ```markdown
    Explains the problem and why the content change matters.

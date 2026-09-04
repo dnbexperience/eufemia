@@ -13,7 +13,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { ComponentType, HTMLAttributes } from 'react'
+import type { ComponentType, HTMLAttributes, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
 import { isTouch } from './TooltipHelpers'
@@ -294,21 +294,36 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     }
   }, [isControlled])
 
-  const handleOverlayMouseLeave = useCallback(() => {
-    if (isControlled) {
-      return undefined
-    }
-    const run = () => setOverlayHovered(false)
-    clearOverlayTimers()
-    if (skipPortal) {
-      overlayDelayTimeout.current = setTimeout(
-        run,
-        parseFloat(String(hideDelay)) || 1
-      )
-    } else {
-      run()
-    }
-  }, [hideDelay, isControlled, skipPortal])
+  const handleOverlayMouseLeave = useCallback(
+    (event: MouseEvent) => {
+      if (isControlled) {
+        return undefined
+      }
+
+      const targetElement = getRefElement(cloneRef)
+      if (
+        targetElement instanceof HTMLElement &&
+        event.relatedTarget instanceof Node &&
+        targetElement.contains(event.relatedTarget)
+      ) {
+        setIsOpen(true)
+        setOverlayHovered(false)
+        return undefined
+      }
+
+      const run = () => setOverlayHovered(false)
+      clearOverlayTimers()
+      if (skipPortal) {
+        overlayDelayTimeout.current = setTimeout(
+          run,
+          parseFloat(String(hideDelay)) || 1
+        )
+      } else {
+        run()
+      }
+    },
+    [hideDelay, isControlled, skipPortal]
+  )
 
   const { className: attributeClassName, ...restAttributes } =
     attributes || {}
