@@ -19,9 +19,10 @@ on:
   # `pull_request` only, no `main`-scoped copy ever existed, so every PR missed,
   # re-downloaded the fixtures' toolchain and saved its own copy — measured at
   # 26 identical 142 MB entries, 3.6 GB, a third of the repo's 10 GB cache
-  # budget. A single copy on `main` fixes both halves: PRs restore it, and
-  # actions/cache skips saving when the primary key hits, so the duplicate
-  # writes stop too.
+  # budget, none of it reusable. A single copy on `main` fixes both halves: PRs
+  # restore it, and actions/cache skips saving when the primary key hits, so the
+  # duplicate writes stop too. The point is the reclaimed budget, which the
+  # caches that do pay for themselves were being evicted for.
   #
   # Unlike the PR gate above, this trigger only keeps that cache warm, so it is
   # filtered down to the files the cache key is derived from — see `hashFiles`
@@ -64,8 +65,13 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
-      # Cache the consumers' npm downloads: run-smoke.mjs runs `npm ci` for each
-      # fixture, which would otherwise re-download react/next/vite every run.
+      # Cache the consumers' npm downloads. Measured across eleven runs this
+      # buys no time: the npm-cache-dependent steps came out at 1.32m with a
+      # hit and 1.20m with a miss, because `npm ci` here is bound by unpacking
+      # rather than fetching. It is kept only because one shared copy is nearly
+      # free; dropping the step altogether is the simpler alternative and would
+      # reclaim the same budget.
+      #
       # The copy this restores is normally the one published by the `main`
       # trigger above; a PR only writes its own when it changes a fixture
       # lockfile, because that is the only time the key differs from `main`'s.
