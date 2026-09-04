@@ -3,6 +3,16 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.12.1](https://github.com/dnbexperience/eufemia/compare/v11.12.0...v11.12.1) (2026-09-04)
+
+### :bug: Bug Fixes
+
+* **AI:** support remote-only content edits via skill ([#9231](https://github.com/dnbexperience/eufemia/issues/9231)) ([2302bee](https://github.com/dnbexperience/eufemia/commit/2302bee2ef2c9a4eb69155c08f67b45ac55ee175))
+* **Anchor:** shorten external link tooltip hide delay ([#9238](https://github.com/dnbexperience/eufemia/issues/9238)) ([8e1344c](https://github.com/dnbexperience/eufemia/commit/8e1344cb534a269519d6d7ddeb206d05bf9a83e8))
+* **Field.Selection:** keep Autocomplete data stable between renders ([#9244](https://github.com/dnbexperience/eufemia/issues/9244)) ([c256d32](https://github.com/dnbexperience/eufemia/commit/c256d32d703f76aada151db2abc7b606914506dd))
+* **Field.Upload:** clear async mode after file handling ([#9261](https://github.com/dnbexperience/eufemia/issues/9261)) ([dcd20cc](https://github.com/dnbexperience/eufemia/commit/dcd20cc6fd17c0c858bde5c0084f8e59474423cf))
+* **Tooltip:** stay open when pointer returns to trigger ([#9248](https://github.com/dnbexperience/eufemia/issues/9248)) ([a8ad776](https://github.com/dnbexperience/eufemia/commit/a8ad7761c0fc51328be2e33b8aaa13f468d4c804))
+
 ## [11.12.0](https://github.com/dnbexperience/eufemia/compare/v11.11.0...v11.12.0) (2026-09-03)
 
 ### :sparkles: Features
