@@ -135,17 +135,29 @@ jobs:
           # here as long as every line parses.
           audit_exit=0
           audit_stream="$(yarn npm audit --environment production --recursive --json)" || audit_exit=$?
-          printf '%s' "$audit_stream" | node -e '
-            const fs = require("fs")
-            let records = 0
-            for (const line of fs.readFileSync(0, "utf8").split("\n")) {
-              const trimmed = line.trim()
-              if (!trimmed) continue
-              JSON.parse(trimmed) // throws if the NDJSON assumption breaks
-              records++
-            }
-            console.log("audit --json parsed: " + records + " record(s), exit " + process.argv[1])
-          ' "$audit_exit"
+
+          # When the registry does not answer, Yarn prints an exception
+          # ("YN0001: RequestError: Timeout awaiting 'socket' ...") on stdout
+          # instead of NDJSON, so there is no output shape left to assert. That is
+          # npm being unavailable rather than the shape changing, and the gated
+          # audit above already fails hard on anything real, so warn and skip —
+          # never fail the PR gate on npm's availability. release.yml's own report
+          # tolerates the same case by recording "audit could not be completed".
+          if [ "$audit_exit" -ne 0 ] && printf '%s\n' "$audit_stream" | grep -q 'YN0001'; then
+            echo "::warning::Skipped the audit --json shape check: yarn npm audit could not reach the registry (exit ${audit_exit})."
+          else
+            printf '%s' "$audit_stream" | node -e '
+              const fs = require("fs")
+              let records = 0
+              for (const line of fs.readFileSync(0, "utf8").split("\n")) {
+                const trimmed = line.trim()
+                if (!trimmed) continue
+                JSON.parse(trimmed) // throws if the NDJSON assumption breaks
+                records++
+              }
+              console.log("audit --json parsed: " + records + " record(s), exit " + process.argv[1])
+            ' "$audit_exit"
+          fi
 
           # Generated file is gitignored; remove it so the tree stays clean.
           rm -f sbom.cdx.json
