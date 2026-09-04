@@ -3,8 +3,6 @@ title: 'Make and run tests'
 order: 4
 ---
 
-# Make and run tests
-
 Make tests for the new component (or for your current issue) and set up screenshot tests from the Eufemia portal. The tests should be located under `__tests__` in the component folder.
 
 - Tip 1: Create tests for each _prop_ that change your component.
@@ -12,7 +10,7 @@ Make tests for the new component (or for your current issue) and set up screensh
 
 More on testing in the [UI Library](/uilib/usage/best-practices/for-testing#testing-frontend-code).
 
-## Running tests locally
+### Running tests locally
 
 Run the commands from the repository's root folder. Replace `breadcrumb` with your component's name in the commands.
 
@@ -72,7 +70,7 @@ PORT=8001 yarn test:screenshots breadcrumb
 
 Visual screenshot tests use this naming convention: `/__tests__/{ComponentName}.screenshot.test.ts`
 
-### Run selected themes only on `main`
+#### Run selected themes only on `main`
 
 For screenshot tests, you can mark individual themes as main-only and keep the rest on all branches.
 
@@ -117,7 +115,7 @@ onMain(() =>
 )
 ```
 
-### Conditional screenshot testing
+#### Conditional screenshot testing
 
 In CI, screenshot tests are selected from changed files instead of always running all screenshot suites.
 
@@ -225,7 +223,7 @@ You may check out the CI/CLI logs for more details.
 
 **GitHub Actions:** When a visual screenshot test fails on the CI, the failed screenshots are listed directly on the run's "Summary" page. When report hosting is available, each row links to a hosted before/after/diff view, so no download is needed. The same report is also attached as the **visual-test-artifact** zip file (containing `/visual-diff-report` with `index.html` and the diff images) for offline inspection.
 
-## Support SCSS snapshot test
+### Support SCSS snapshot test
 
 Add a similar code snippet to your tests for watching changes in the SCSS you just created.
 
@@ -251,7 +249,7 @@ describe('Button scss', () => {
 })
 ```
 
-## Support Axe test
+### Support Axe test
 
 Add a similar code snippet to your tests (as the last test). It will test the accessibility of your new component. Read more on [Jest Axe](https://github.com/nickcolley/jest-axe).
 
@@ -274,7 +272,7 @@ describe('Breadcrumb aria', () => {
 })
 ```
 
-### Bundle size checks
+#### Bundle size checks
 
 Eufemia uses [BundleWatch](https://bundlewatch.io/) to track selected build artifacts in CI.
 

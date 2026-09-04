@@ -7,6 +7,7 @@ import Heading, {
 } from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
 import { useLocation } from 'react-router'
+import { useRegisterTocHeading } from '../parts/PortalToc'
 import {
   anchorLinkStyle,
   headingContentStyle,
@@ -45,6 +46,8 @@ const AutoLinkHeader = ({
   useEffect(() => {
     return () => clearTimeout(tooltipTimeoutRef.current)
   }, [])
+
+  useRegisterTocHeading({ id, children })
 
   if (typeof children === 'string' && /\{#(.*)\}/.test(children)) {
     children = children.replace(/\{#(.*)\}/g, '').trim()
