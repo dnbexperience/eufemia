@@ -80,9 +80,35 @@ jobs:
         # eufemia-analytics Lambda. All must pass; dev/build tooling advisories
         # are tracked via Dependabot instead.
         run: |
-          yarn workspace @dnb/eufemia audit:ci
-          yarn workspace @dnb/eufemia-mcp audit:ci
-          yarn workspace eufemia-analytics audit:ci
+          run_audit() {
+            local output
+            local status
+
+            for attempt in 1 2 3; do
+              set +e
+              output="$("$@" 2>&1)"
+              status=$?
+              set -e
+
+              printf '%s\n' "$output"
+
+              if [ "$status" -eq 0 ]; then
+                return 0
+              fi
+
+              if [[ "$output" != *"RequestError: Timeout awaiting 'socket'"* ]] ||
+                [ "$attempt" -eq 3 ]; then
+                return "$status"
+              fi
+
+              echo "::warning::Audit registry timed out; retrying in 10 seconds"
+              sleep 10
+            done
+          }
+
+          run_audit yarn workspace @dnb/eufemia audit:ci
+          run_audit yarn workspace @dnb/eufemia-mcp audit:ci
+          run_audit yarn workspace eufemia-analytics audit:ci
 
       - name: Verify SBOM + audit generation (release smoke test)
         # release.yml generates a CycloneDX SBOM and a vulnerability report after
