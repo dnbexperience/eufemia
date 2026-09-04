@@ -196,6 +196,7 @@ export default {
         'Det er begrenset hvor mange filer du kan laste opp (%amount).',
       errorUnsupportedFile: 'Filen du prøver å laste opp er ikke støttet.',
       errorDeleteFailed: 'Filen kunne ikke slettes.',
+      errorDeleteTimeout: 'Filen kunne ikke slettes. Prøv igjen.',
       deleteButton: 'Slett',
       listAriaLabel: 'opplastede filer',
     },
