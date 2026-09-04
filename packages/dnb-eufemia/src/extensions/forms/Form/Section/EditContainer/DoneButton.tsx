@@ -3,6 +3,7 @@ import SectionContainerContext from '../containers/SectionContainerContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import DataContext from '../../../DataContext/Context'
 import { useTranslation } from '../../../hooks'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../../defaults'
 import { Button } from '../../../../../components'
 import { check } from '../../../../../icons'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -22,7 +23,7 @@ export default function DoneEditButton() {
     useContext(FieldBoundaryContext) || {}
   const dataContext = useContext(DataContext)
   const asyncSubmitTimeout =
-    dataContext?.props?.asyncSubmitTimeout ?? 30000
+    dataContext?.props?.asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT
   const translation = useTranslation().SectionEditContainer
   const buttonRef = useRef<HTMLElement>(null)
   const restoreFocusRef = useRef(false)
