@@ -486,6 +486,41 @@ describe('Value.Upload', () => {
       })
     })
 
+    it('should stop the spinner when an onFileClick never settles', async () => {
+      const onFileClick = vi.fn(() => new Promise<void>(() => undefined))
+
+      render(
+        <Form.Handler asyncSubmitTimeout={300}>
+          <Value.Upload
+            onFileClick={onFileClick}
+            value={[
+              {
+                file: createMockFile('fileName', 100, 'image/png'),
+                exists: false,
+                id: '1',
+              },
+            ]}
+          />
+        </Form.Handler>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-button'))
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
+
+      // The Promise never settles, so the asyncSubmitTimeout stops the
+      // spinner instead of leaving the file loading with no way out
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).not.toBeInTheDocument()
+      })
+    })
+
     it('should display spinner when file is loading', async () => {
       render(
         <Value.Upload
