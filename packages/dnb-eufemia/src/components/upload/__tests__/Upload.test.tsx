@@ -2305,6 +2305,55 @@ describe('Upload', () => {
         ).toBeInTheDocument()
       })
 
+      it('will remove both files when two deletions settle in the same tick', async () => {
+        const id = 'onFileDelete-concurrent'
+        const resolvers: Array<() => void> = []
+        const onFileDelete = vi.fn(
+          () =>
+            new Promise<void>((resolve) => {
+              resolvers.push(resolve)
+            })
+        )
+
+        render(
+          <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
+        )
+
+        const inputElement = document.querySelector(
+          '.dnb-upload__file-input'
+        )
+
+        fireEvent.change(inputElement, {
+          target: {
+            files: [
+              createMockFile('fileName-1.png', 100, 'image/png'),
+              createMockFile('fileName-2.png', 100, 'image/png'),
+            ],
+          },
+        })
+
+        const deleteButtons = screen.getAllByRole('button', {
+          name: nb.deleteButton,
+        })
+        fireEvent.click(deleteButtons[0])
+        fireEvent.click(deleteButtons[1])
+
+        await waitFor(() => {
+          expect(onFileDelete).toHaveBeenCalledTimes(2)
+        })
+
+        // Both deletions compute the remaining files from the same source, so
+        // the second must not resurrect the file the first one removed
+        resolvers[0]()
+        resolvers[1]()
+
+        await waitFor(() => {
+          expect(
+            document.querySelectorAll('.dnb-upload__file-cell').length
+          ).toBe(0)
+        })
+      })
+
       it('will await an onFileDelete returning a Promise without being declared async', async () => {
         const id = 'onFileDelete-non-async-promise'
         let resolveDelete!: () => void
