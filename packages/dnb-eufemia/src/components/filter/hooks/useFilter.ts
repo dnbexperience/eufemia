@@ -79,7 +79,17 @@ export type FilterAsyncOptions<T> = {
   initialData?: T
   /** Delay in milliseconds before executing the fetcher after a state change. Useful for reducing API calls while the user is typing. */
   debounce?: number
+  /** Deadline in milliseconds for the fetcher, measured from the change that triggered it, so it also covers `debounce`. When it is reached, the loading state is cleared, `error` is set, and a later settle from that fetch is ignored. Defaults to `30000` (30 seconds). */
+  timeout?: number
 }
+
+/**
+ * The fetcher is what clears `resultLoading`, which shows a skeleton on
+ * Filter.Content and hides the result count. Nothing else clears it, so a
+ * Promise that never settles would leave the filter loading forever. Use the
+ * same deadline Form.Handler applies to its own async submit.
+ */
+const DEFAULT_FILTER_ASYNC_TIMEOUT = 30000
 
 /**
  * Hook for async data fetching linked to a Filter.Root.
@@ -112,6 +122,7 @@ export function useFilterAsync<T>(
   initialDataRef.current = options?.initialData
 
   const debounceMs = options?.debounce ?? 0
+  const timeoutMs = options?.timeout ?? DEFAULT_FILTER_ASYNC_TIMEOUT
 
   type FetcherParams = {
     filters: Record<string, FilterValue>
@@ -151,9 +162,35 @@ export function useFilterAsync<T>(
       ? debouncedFetcherRef.current
       : fetcherRef.current
 
+    // Only returns true for whichever outcome arrives first, so a fetch
+    // settling after its deadline is ignored rather than overwriting results
+    // the filter has already moved on from
+    let settled = false
+    const claimRequest = () => {
+      if (settled || cancelled || requestId !== requestRef.current) {
+        return false
+      }
+
+      settled = true
+
+      return true
+    }
+
+    const timeoutId = setTimeout(() => {
+      if (claimRequest()) {
+        setError(
+          new Error(
+            `Filter.useFilterAsync(): the fetcher did not settle within ${timeoutMs}ms.`
+          )
+        )
+        extend({ resultLoading: false })
+      }
+    }, timeoutMs)
+
     fetchFn({ filters, search })
       .then((data) => {
-        if (!cancelled && requestId === requestRef.current) {
+        if (claimRequest()) {
+          clearTimeout(timeoutId)
           setResult(data)
           extend({
             resultLoading: false,
@@ -162,7 +199,8 @@ export function useFilterAsync<T>(
         }
       })
       .catch((err) => {
-        if (!cancelled && requestId === requestRef.current) {
+        if (claimRequest()) {
+          clearTimeout(timeoutId)
           setError(err instanceof Error ? err : new Error(String(err)))
           extend({ resultLoading: false })
         }
@@ -170,11 +208,12 @@ export function useFilterAsync<T>(
 
     return () => {
       cancelled = true
+      clearTimeout(timeoutId)
       if (shouldDebounce) {
         debouncedFetcherRef.current?.cancel()
       }
     }
-  }, [filtersKey, search, extend, debounceMs])
+  }, [filtersKey, search, extend, debounceMs, timeoutMs])
 
   return {
     data: result,
