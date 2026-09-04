@@ -233,6 +233,19 @@ jobs:
       - name: Re-validate restored package contents
         run: yarn workspace @dnb/eufemia validate:package
 
+      # Re-verify the stamp here too, for the same reason the content validation
+      # above runs twice: this is the job that holds the npm and GitHub
+      # credentials, and the artifact it restored was produced by a job whose
+      # output is treated as untrusted. The build job already gated on the stamp,
+      # but a corrupted or tampered artifact would otherwise be able to publish a
+      # package whose `Eufemia.version`, `--eufemia-version` and style scope class
+      # disagree with the release it is published as — which is exactly what
+      # shipped in 11.12.0, just by a different route.
+      - name: Re-verify the release version stamp
+        run: |
+          node packages/dnb-eufemia/scripts/postbuild/verifyReleaseVersion.mjs \
+            packages/dnb-eufemia/build
+
       - name: Release
         if: github.repository == 'dnbexperience/eufemia' &&
           (github.ref == 'refs/heads/release' ||
