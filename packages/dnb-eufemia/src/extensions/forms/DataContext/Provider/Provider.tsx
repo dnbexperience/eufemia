@@ -1485,14 +1485,16 @@ export default function Provider<Data extends JsonObject>(
         customStatus: undefined,
       })
 
-      const shouldEnableAsyncBehavior = () =>
+      const shouldEnableAsyncBehavior = (hasAsyncValidator: boolean) =>
         (skipErrorCheck
           ? enableAsyncBehavior
           : // Don't enable async behavior if we have errors, but when we have a pending state
             !hasErrors() || hasFieldState('pending')) &&
-        (enableAsyncBehavior || hasFieldWithAsyncValidator())
+        (enableAsyncBehavior || hasAsyncValidator)
 
-      let asyncBehaviorIsEnabled = shouldEnableAsyncBehavior()
+      const hadAsyncValidator = hasFieldWithAsyncValidator()
+      let asyncBehaviorIsEnabled =
+        shouldEnableAsyncBehavior(hadAsyncValidator)
 
       if (asyncBehaviorIsEnabled) {
         setFormState('pending')
@@ -1517,7 +1519,11 @@ export default function Provider<Data extends JsonObject>(
       }
 
       // A validator can reveal its async behavior only after it has been called.
-      if (!asyncBehaviorIsEnabled && shouldEnableAsyncBehavior()) {
+      if (
+        !asyncBehaviorIsEnabled &&
+        !hadAsyncValidator &&
+        shouldEnableAsyncBehavior(hasFieldWithAsyncValidator())
+      ) {
         asyncBehaviorIsEnabled = true
         setFormState('pending')
       }
