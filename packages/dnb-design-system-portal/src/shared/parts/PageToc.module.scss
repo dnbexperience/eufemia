@@ -44,6 +44,10 @@
   padding-left: 0;
 
   list-style: none;
+
+  @include utilities.allBelow(large) {
+    padding-left: 1rem;
+  }
 }
 
 .page-toc__sub-list {
@@ -59,6 +63,8 @@
 
 .page-toc__link {
   display: block;
+  width: fit-content;
+  max-width: 100%;
   color: var(--token-color-text-neutral-alternative);
   text-decoration: none;
 

@@ -1,15 +1,16 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
 .content-grid {
-  --content-sidebar-width: 18rem;
+  --content-sidebar-width: 10rem;
   --content-gutter-size: 2rem;
+  --content-sidebar-gap: 10rem;
   /* stylelint-disable-next-line eufemia/no-undefined-custom-property */
   --content-sidebar-top: calc(var(--portal-sidebar-top, 3.5rem) + 1rem);
 
   @include utilities.allAbove(large) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--content-sidebar-width);
-    column-gap: var(--content-gutter-size);
+    column-gap: var(--content-sidebar-gap);
     align-items: start;
 
     :global(.fullscreen-page) &,
@@ -28,7 +29,7 @@
 }
 
 .content-grid__sidebar {
-  margin-bottom: 1.5rem;
+  margin: 1rem 0 1.5rem;
 
   :global(.fullscreen-page) & {
     display: none;
@@ -39,7 +40,7 @@
     grid-row: 1;
     grid-row: 1 / span 2;
     align-self: stretch;
-    margin-bottom: 0;
+    margin: 0;
     padding-top: var(--content-sidebar-top);
 
     position: sticky;
