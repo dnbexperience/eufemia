@@ -176,7 +176,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     minimumAsyncBehaviorTime?: number
     /**
-     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Defaults to 30s.
+     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. It also limits how long a field waits for an async `onChange` or validator before it clears its pending state. A submit waiting for that field is canceled and must be retried. Defaults to 30s.
      */
     asyncSubmitTimeout?: number
     /**
@@ -439,6 +439,8 @@ export default function Provider<Data extends JsonObject>(
   // - States (e.g. error) reported by fields, based on their direct validation rules
   const fieldErrorRef = useRef<Record<Path, Error>>({})
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
+  const onSubmitContinueRef = useRef<(() => void) | null>(null)
+  const submitContinuationCancelledRef = useRef(false)
   const validationVersionRef = useRef(0)
   const bumpValidationVersionRef = useRef<() => void>(() => null)
 
@@ -690,7 +692,12 @@ export default function Provider<Data extends JsonObject>(
    * Sets the field state for a specific path
    */
   const setFieldState: ContextState['setFieldState'] = useCallback(
-    (path, fieldState) => {
+    (path, fieldState, { cancelPendingSubmit = false } = {}) => {
+      if (cancelPendingSubmit) {
+        submitContinuationCancelledRef.current = true
+        onSubmitContinueRef.current = null
+      }
+
       if (fieldState !== fieldStateRef.current[path]) {
         // The state for the target value was changed
         fieldStateRef.current[path] = fieldState
@@ -1478,6 +1485,10 @@ export default function Provider<Data extends JsonObject>(
         skipErrorCheck,
       } = args
 
+      if (!skipFieldValidation) {
+        submitContinuationCancelledRef.current = false
+      }
+
       setSubmitState({
         error: undefined,
         warning: undefined,
@@ -1575,7 +1586,10 @@ export default function Provider<Data extends JsonObject>(
 
           setFormState(undefined)
 
-          if (!skipFieldValidation) {
+          if (
+            !skipFieldValidation &&
+            !submitContinuationCancelledRef.current
+          ) {
             // Add an event listener to continue the submit after the pending state is resolved
             onSubmitContinueRef.current = () => {
               window.requestAnimationFrame(() => {
@@ -1782,7 +1796,6 @@ export default function Provider<Data extends JsonObject>(
   )
 
   // Handle unresolved field states during async submit
-  const onSubmitContinueRef = useRef<(() => void) | null>(null)
   if (!hasFieldState('pending')) {
     onSubmitContinueRef.current?.()
     onSubmitContinueRef.current = null
