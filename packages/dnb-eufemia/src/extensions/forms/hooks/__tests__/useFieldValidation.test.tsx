@@ -9,6 +9,26 @@ describe('validator returning a Promise without being declared async', () => {
     })
   }
 
+  it('should submit when async behavior is first detected during submit', async () => {
+    const onBlurValidator = vi.fn(function () {
+      return delayed(undefined)
+    })
+    const onSubmit = vi.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String path="/name" onBlurValidator={onBlurValidator} />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    fireEvent.submit(document.querySelector('form'))
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+  })
+
   it('should not submit while an onBlurValidator Promise is still pending', async () => {
     // Not declared async, but returns a Promise
     const onBlurValidator = vi.fn(function () {
