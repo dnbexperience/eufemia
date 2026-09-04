@@ -612,6 +612,35 @@ describe('Tooltip', () => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--active')
     })
 
+    it('should cancel the overlay hide timer when mouse returns across the gap', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={150}
+          hideDelay={100}
+          targetElement={<button>Button</button>}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(getMainElem())
+      fireEvent.mouseLeave(getMainElem())
+      fireEvent.mouseEnter(buttonElem)
+
+      await wait(125)
+
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      expect(buttonElem).toHaveAttribute('aria-describedby')
+    })
+
     it('should not start hiding after rapid target re-entry', async () => {
       render(
         <OriginalTooltip

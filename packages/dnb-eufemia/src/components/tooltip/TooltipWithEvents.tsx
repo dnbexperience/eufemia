@@ -76,6 +76,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     clearTimeout(delayTimeout.current)
   }
 
+  const clearOverlayTimers = () => {
+    clearTimeout(overlayDelayTimeout.current)
+  }
+
   const markHideAnimationStarted = useCallback(() => {
     isHideAnimationRunning.current = !noAnimation && !globalThis.IS_TEST
   }, [noAnimation])
@@ -112,6 +116,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       }
 
       clearTimers()
+      clearOverlayTimers()
       if (resumeHideAnimation()) {
         return
       }
@@ -309,10 +314,6 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       updateAriaDescribedBy(null)
     }
   }, [cloneRef, describedById, target])
-
-  const clearOverlayTimers = () => {
-    clearTimeout(overlayDelayTimeout.current)
-  }
 
   useEffect(() => clearOverlayTimers, [])
 
