@@ -1909,6 +1909,8 @@ export default function Provider<Data extends JsonObject>(
       : formState === 'pending'
         ? true
         : undefined
+  const forceDisabled =
+    typeof rest?.['disabled'] !== 'boolean' && formState === 'pending'
   const contextErrorMessages =
     errorMessages?.[locale ?? sharedLocale] || errorMessages
 
@@ -2035,6 +2037,7 @@ export default function Provider<Data extends JsonObject>(
       <DataContextRefContext value={contextValueRef}>
         <FieldPropsProvider
           FormStatus={formStatusConfig}
+          forceDisabled={forceDisabled || undefined}
           formElement={disabled ? { disabled: true } : undefined}
           locale={locale ? locale : undefined}
           translations={translations ? translations : undefined}

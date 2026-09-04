@@ -1730,6 +1730,46 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       })
     })
 
+    it('should force fields disabled while async onSubmit is pending', async () => {
+      let resolveSubmit!: () => void
+      const onSubmit = vi.fn(
+        async () =>
+          await new Promise<void>((resolve) => {
+            resolveSubmit = resolve
+          })
+      )
+
+      render(
+        <DataContext.Provider onSubmit={onSubmit}>
+          <Form.Section containerMode="edit">
+            <Form.Section.EditContainer>
+              <Field.String path="/name" disabled={false} />
+            </Form.Section.EditContainer>
+
+            <Form.Section.ViewContainer>
+              content
+            </Form.Section.ViewContainer>
+          </Form.Section>
+          <Form.SubmitButton />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      fireEvent.click(document.querySelector('.dnb-forms-submit-button'))
+
+      await waitFor(() => {
+        expect(input).toBeDisabled()
+      })
+      await userEvent.type(input, 'Grace')
+      expect(input).toHaveValue('')
+
+      resolveSubmit()
+
+      await waitFor(() => {
+        expect(input).not.toBeDisabled()
+      })
+    })
+
     it('should show submit indicator during submit when "onSubmit" is used', async () => {
       const result: RefObject<ContextState | null> = {
         current: null,
