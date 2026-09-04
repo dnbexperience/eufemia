@@ -215,8 +215,8 @@ describe('makeReleaseVersion', () => {
 
     await makeReleaseVersion()
 
-    // Only tags reachable from HEAD count, so a maintenance branch never picks
-    // up a version released from another line
+    // Only tags reachable from HEAD count, so a maintenance branch cannot
+    // pick up another line's version
     expect(mockSimpleGit().tags).toHaveBeenCalledWith([
       '--merged',
       'HEAD',
@@ -248,8 +248,7 @@ describe('makeReleaseVersion', () => {
   })
 
   it('keeps the last stable version when the newest reachable tag is a prerelease', async () => {
-    // git `--sort=-version:refname` ranks v11.12.0-beta.1 above the stable
-    // v11.12.0, so the stable tag has to be selected past the prerelease
+    // git ranks a prerelease above its own stable, so it has to be skipped
     mockBranchName('release', ['v11.12.0-beta.1', 'v11.12.0', 'v11.11.0'])
     vi.spyOn(
       getNextReleaseVersion,
@@ -266,7 +265,7 @@ describe('makeReleaseVersion', () => {
   })
 
   it('keeps the prerelease of its own channel on a prerelease branch', async () => {
-    // The stable v11.12.0 is not the version a beta build already has
+    // The newest stable is not the version a prerelease build already has
     mockBranchName('beta', [
       'v11.13.0-beta.2',
       'v11.13.0-beta.1',
@@ -304,8 +303,7 @@ describe('makeReleaseVersion', () => {
   })
 
   it('skips the legacy channel-suffixed tags', async () => {
-    // The repository still carries `v3.19.0-beta.1@beta` style tags, which are
-    // not versions the package can be stamped with
+    // The legacy channel-suffixed tags are not versions to stamp
     mockBranchName('beta', ['v3.19.0-beta.1@beta', 'v3.18.0'])
     vi.spyOn(
       getNextReleaseVersion,

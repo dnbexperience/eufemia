@@ -49,8 +49,7 @@ function getReleaseConfig(cwd) {
 /**
  * The version the next release from this branch would carry, or `null` when the
  * branch does not release or its commits do not warrant one. Throws when it
- * cannot tell the two apart, so a release build stops instead of stamping a
- * version it made up.
+ * cannot tell those apart, so a release build stops instead of guessing.
  */
 async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
   const branchName = (await simpleGit(cwd).branch()).current

@@ -2,10 +2,9 @@
  * Verify that a release build carries a real version.
  *
  * `Eufemia.version`, the `--eufemia-version` custom property and the isolated
- * style scope class are all derived from the version the prebuild stamps, and a
- * build that carries no version ships that instead — which is how 11.12.0
- * published as "release". Run this on a release build so it fails here rather
- * than in the package.
+ * style scope class are all derived from the version the prebuild stamps, so a
+ * build that resolved none ships the branch name in their place. Run this on a
+ * release build so that fails here rather than in the published package.
  */
 
 import { readFileSync, realpathSync } from 'node:fs'

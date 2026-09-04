@@ -112,8 +112,8 @@ export async function makeReleaseVersion() {
 
 /**
  * The version the package already carries on this branch: the newest reachable
- * tag of the channel the branch releases on – the same tag release.yml's
- * checkout comment and the portal footer (version.js) resolve.
+ * tag of the channel it releases on, which is what the portal footer
+ * (version.js) resolves too.
  */
 async function getLastReleaseVersion(branchName: string) {
   const { all } = await simpleGit().tags([
@@ -122,15 +122,12 @@ async function getLastReleaseVersion(branchName: string) {
     '--sort=-version:refname',
   ])
 
-  // The channel has to be matched rather than the newest tag taken, because
-  // `-version:refname` ranks `v1.2.0-beta.1` above the stable `v1.2.0`: on
-  // `release` that prerelease is not the version the package has, and on `beta`
-  // the newest stable is not either. semantic-release names a `prerelease: true`
-  // branch's versions after the branch itself – `beta` tagged `v10.0.0-beta.8`,
-  // `alpha` tagged `v9.0.0-alpha.1` – so the branch name identifies the channel.
-  // The prerelease charset is the one verifyReleaseVersion.mjs accepts, so this
-  // cannot resolve a version the release build would then reject: it also rules
-  // out the legacy `v3.19.0-beta.1@beta` tags, which are not versions at all.
+  // git ranks a prerelease above its own stable, so the channel has to be
+  // matched rather than the newest tag taken. semantic-release names a
+  // `prerelease: true` branch's versions after the branch, so the branch name
+  // identifies the channel. The prerelease charset is the one
+  // verifyReleaseVersion.mjs accepts, which also excludes the legacy
+  // channel-suffixed tags that are not versions.
   const isStable = (tag: string) => /^v\d+\.\d+\.\d+$/.test(tag)
   const isOnChannel = (tag: string) =>
     /^v\d+\.\d+\.\d+-[0-9A-Za-z.-]+$/.test(tag) &&
