@@ -9,9 +9,34 @@ on:
   # No `paths:` filter: this gate protects the publishable build, whose inputs
   # span the whole repo (root package.json/yarn.lock, .github/actions/setup and
   # the tools/* packages used by build:ci), so a narrow filter would let a
-  # build-breaking change skip the check. Runs on every pull request, plus
-  # manual dispatch.
+  # build-breaking change skip the check. Runs on every pull request.
   pull_request:
+
+  # Publishes the one shared copy of the consumer npm cache below.
+  #
+  # Actions caches are scoped per ref: a `pull_request` run reads its own scope
+  # and its base branch, never another PR's. While this workflow ran on
+  # `pull_request` only, no `main`-scoped copy ever existed, so every PR missed,
+  # re-downloaded the fixtures' toolchain and saved its own copy — measured at
+  # 26 identical 142 MB entries, 3.6 GB, a third of the repo's 10 GB cache
+  # budget. A single copy on `main` fixes both halves: PRs restore it, and
+  # actions/cache skips saving when the primary key hits, so the duplicate
+  # writes stop too.
+  #
+  # Unlike the PR gate above, this trigger only keeps that cache warm, so it is
+  # filtered down to the files the cache key is derived from — see `hashFiles`
+  # in the cache step. `main` takes ~70 commits/week and a full run is ~5
+  # minutes, so triggering on all of them would spend hours a week re-publishing
+  # a byte-identical cache. This workflow file is listed as well so that merging
+  # a change here seeds the first copy, instead of leaving the cache unshared
+  # until the next fixture bump.
+  push:
+    branches:
+      - main
+    paths:
+      - 'smoke/*/package-lock.json'
+      - '.github/workflows/consumer-smoke.yml'
+
   workflow_dispatch:
 
 concurrency:
@@ -41,6 +66,9 @@ jobs:
 
       # Cache the consumers' npm downloads: run-smoke.mjs runs `npm ci` for each
       # fixture, which would otherwise re-download react/next/vite every run.
+      # The copy this restores is normally the one published by the `main`
+      # trigger above; a PR only writes its own when it changes a fixture
+      # lockfile, because that is the only time the key differs from `main`'s.
       - name: Cache consumer npm downloads
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
