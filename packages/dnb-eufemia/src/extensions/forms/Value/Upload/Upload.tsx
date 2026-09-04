@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'
 import ValueBlock from '../../ValueBlock'
+import DataContext from '../../DataContext/Context'
 import type { ListFormatProps } from '../../../../components/list-format'
 import ListFormat from '../../../../components/list-format'
 import type { UploadFile } from '../../../../components/upload/types'
@@ -13,8 +14,11 @@ import { transformFiles } from '../../Field/Upload/Upload'
 import { formatNumber } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
 import useObjectUrl from '../../../../components/upload/useObjectUrl'
-import { isAsync } from '../../../../shared/helpers/isAsync'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+
+type PendingOperation = {
+  timeout?: ReturnType<typeof setTimeout>
+}
 
 export type ValueUploadProps = ValueProps<Array<UploadFile>> &
   Omit<ListFormatProps, 'value'> &
@@ -122,6 +126,23 @@ function UploadFileItem(
 
   const [loading, setLoading] = useState(false)
 
+  const dataContext = useContext(DataContext)
+
+  // A file waiting for an async onFileClick shows a loading state, so a
+  // Promise that never settles would leave it spinning with no way out. Give
+  // it the same deadline Form.Handler applies to its own async submit.
+  const asyncSubmitTimeout =
+    dataContext?.props?.asyncSubmitTimeout ?? 30000
+  const pendingOperationRef = useRef<PendingOperation>(null)
+
+  useEffect(
+    () => () => {
+      clearTimeout(pendingOperationRef.current?.timeout)
+      pendingOperationRef.current = null
+    },
+    []
+  )
+
   const { file, isLoading: fileIsLoading } = uploadFile || {}
   const imageUrl = useObjectUrl(file)
 
@@ -129,26 +150,55 @@ function UploadFileItem(
     return null
   }
 
-  const handleFileClickAsync = async (uploadFile: UploadFile) => {
+  const onFileClickHandler = () => {
+    if (typeof onFileClick !== 'function') {
+      return
+    }
+
+    // "onFileClick" is documented as `void | Promise<void>`. Calling it and
+    // inspecting the result supports both, where predicting it from the
+    // function declaration would silently drop the Promise of a handler that
+    // is not declared `async`.
+    const result: unknown = onFileClick({ fileItem: uploadFile })
+
+    if (!(result instanceof Promise)) {
+      return
+    }
+
     setLoading(true)
 
-    try {
-      await onFileClick({ fileItem: uploadFile })
-    } catch (error) {
-      // stop here
+    // A new click supersedes the one before it, so the loading state follows
+    // the most recent operation and the previous deadline is dropped
+    clearTimeout(pendingOperationRef.current?.timeout)
+
+    const operation: PendingOperation = {}
+    pendingOperationRef.current = operation
+
+    // Only returns true for whichever outcome arrives first
+    const claimOperation = () => {
+      if (pendingOperationRef.current !== operation) {
+        return false
+      }
+
+      pendingOperationRef.current = null
+
+      return true
     }
 
-    setLoading(false)
-  }
+    operation.timeout = setTimeout(() => {
+      if (claimOperation()) {
+        setLoading(false)
+      }
+    }, asyncSubmitTimeout)
 
-  const onFileClickHandler = async () => {
-    if (typeof onFileClick === 'function') {
-      if (isAsync(onFileClick)) {
-        handleFileClickAsync(uploadFile)
-      } else {
-        onFileClick({ fileItem: uploadFile })
+    const stopLoading = () => {
+      if (claimOperation()) {
+        clearTimeout(operation.timeout)
+        setLoading(false)
       }
     }
+
+    void result.then(stopLoading, stopLoading)
   }
 
   const text = file.name + (displaySize ? ' ' + getSize(file.size) : '')
