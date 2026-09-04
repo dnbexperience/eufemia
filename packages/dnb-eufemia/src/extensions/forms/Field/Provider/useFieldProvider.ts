@@ -21,7 +21,7 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
   } = props || {}
   const nestedContext = useContext(FieldProviderContext)
   const inheritedProps = nestedContext?.inheritedContext
-  const isForceDisabled = nestedContext?.forceDisabled || forceDisabled
+  const isForceDisabled = forceDisabled ?? nestedContext?.forceDisabled
 
   const sharedContext = useContext(SharedContext)
   const dataContextRef = useRef<ContextState>(undefined)
@@ -131,13 +131,12 @@ function useFieldProvider(props?: Omit<FieldProviderProps, 'children'>) {
             )
           : props
 
-      return (isForceDisabled ? { ...value, disabled: true } : value) as T
+      return value as T
     },
     [
       nestedContext?.inheritedContext?.required,
       nestedFieldProps,
       overwriteProps,
-      isForceDisabled,
     ]
   )
 

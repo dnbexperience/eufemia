@@ -114,8 +114,27 @@ describe('useFieldProvider', () => {
       disabled: true,
     })
     expect(result.current.extend({ disabled: false })).toEqual({
-      disabled: true,
+      disabled: false,
     })
+  })
+
+  it('should allow internal providers to reset forceDisabled', () => {
+    const { result } = renderHook(useFieldProvider, {
+      initialProps: { forceDisabled: false },
+      wrapper: ({ children }) => (
+        <FieldProviderContext
+          value={{
+            extend: () => null,
+            forceDisabled: true,
+          }}
+        >
+          {children}
+        </FieldProviderContext>
+      ),
+    })
+
+    expect(result.current.forceDisabled).toBe(false)
+    expect(result.current.sharedProviderParams.formElement).toBeUndefined()
   })
 
   it('should not include translations in sharedProviderParams when no translations prop is given', () => {

@@ -21,7 +21,9 @@ describe('EditContainer async onDone', () => {
       <Form.Handler id={formId} defaultData={{ name: 'Ada' }}>
         <Form.Section containerMode="edit">
           <Form.Section.EditContainer onDone={onDone}>
-            <Field.String path="/name" disabled={false} />
+            <Field.Provider disabled={false}>
+              <Field.String path="/name" disabled={false} />
+            </Field.Provider>
           </Form.Section.EditContainer>
 
           <Form.Section.ViewContainer>
