@@ -1,0 +1,314 @@
+@property --border-glow-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-glow-spin {
+  0% {
+    --border-glow-angle: 0deg;
+  }
+  8.333% {
+    --border-glow-angle: 30deg;
+  }
+  16.667% {
+    --border-glow-angle: 60deg;
+  }
+  25% {
+    --border-glow-angle: 90deg;
+  }
+  33.333% {
+    --border-glow-angle: 120deg;
+  }
+  41.667% {
+    --border-glow-angle: 150deg;
+  }
+  50% {
+    --border-glow-angle: 180deg;
+  }
+  58.333% {
+    --border-glow-angle: 210deg;
+  }
+  66.667% {
+    --border-glow-angle: 240deg;
+  }
+  75% {
+    --border-glow-angle: 270deg;
+  }
+  83.333% {
+    --border-glow-angle: 300deg;
+  }
+  91.667% {
+    --border-glow-angle: 330deg;
+  }
+  100% {
+    --border-glow-angle: 360deg;
+  }
+}
+
+@mixin glow-variables() {
+  --border-glow-speed: 1.5s;
+  --border-glow-row-speed: 2s;
+  --border-glow-gap-start: 25%;
+  --border-glow-color-start-stop: 45%;
+  --border-glow-color-end-stop: 55%;
+  --border-glow-gap-end: 75%;
+  --border-glow-padding: 0.125rem;
+  --border-glow-offset: 0.125rem;
+  --border-glow-hover-offset: 0.25rem;
+  --border-glow-focus-offset: calc(
+    var(--border-glow-offset) + var(--focus-ring-width)
+  );
+  --border-glow-interaction-offset: var(--border-glow-offset);
+  --border-glow-component-inset-block: 0rem;
+  --border-glow-component-inset-inline-start: 0rem;
+  --border-glow-component-inset-inline-end: 0rem;
+  --border-glow-radius-base: var(--token-radius-md);
+  --border-glow-color-start: var(--token-color-stroke-action);
+  --border-glow-color-end: var(--token-color-stroke-action-pressed);
+  --border-glow-z-index: 1;
+}
+
+@mixin glow-ring() {
+  content: '';
+  position: absolute;
+  inset: calc(
+      (
+          var(--border-glow-component-inset-block) +
+            var(--border-glow-interaction-offset) +
+            var(--border-glow-padding)
+        ) *
+        -1
+    )
+    calc(
+      (
+          var(--border-glow-component-inset-inline-end) +
+            var(--border-glow-interaction-offset) +
+            var(--border-glow-padding)
+        ) *
+        -1
+    )
+    calc(
+      (
+          var(--border-glow-component-inset-block) +
+            var(--border-glow-interaction-offset) +
+            var(--border-glow-padding)
+        ) *
+        -1
+    )
+    calc(
+      (
+          var(--border-glow-component-inset-inline-start) +
+            var(--border-glow-interaction-offset) +
+            var(--border-glow-padding)
+        ) *
+        -1
+    );
+  z-index: var(--border-glow-z-index);
+
+  padding: var(--border-glow-padding);
+  border-radius: var(
+    --border-glow-radius,
+    calc(
+      var(--border-glow-radius-base) +
+        var(--border-glow-interaction-offset) + var(--border-glow-padding)
+    )
+  );
+
+  background: conic-gradient(
+    from var(--border-glow-angle),
+    transparent var(--border-glow-gap-start),
+    var(--border-glow-color-start) var(--border-glow-color-start-stop),
+    var(--border-glow-color-end) var(--border-glow-color-end-stop),
+    transparent var(--border-glow-gap-end)
+  );
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    inset 150ms ease,
+    border-radius 150ms ease,
+    opacity var(--border-glow-speed) ease;
+}
+
+@mixin glow-ring-active() {
+  opacity: 1;
+  animation: border-glow-spin var(--border-glow-speed) linear infinite;
+}
+
+.dnb-indicator-border-glow {
+  @include glow-variables();
+
+  & &__target {
+    position: relative;
+
+    &::before {
+      @include glow-ring();
+    }
+
+    &--row {
+      --border-glow-speed: var(--border-glow-row-speed);
+      --border-glow-gap-start: 34%;
+      --border-glow-color-start-stop: 46%;
+      --border-glow-color-end-stop: 54%;
+      --border-glow-gap-end: 66%;
+      --border-glow-radius-base: var(--token-radius-sm);
+    }
+
+    &--small {
+      --border-glow-radius-base: var(--token-radius-sm);
+    }
+
+    &--round {
+      --border-glow-radius-base: var(--token-radius-xl);
+    }
+
+    &--circle {
+      --border-glow-radius: 50%;
+    }
+
+    &--slider {
+      --border-glow-padding: 0.1875rem;
+      --border-glow-z-index: auto;
+    }
+
+    &--textarea {
+      --border-glow-component-inset-block: var(
+        --textarea-size-vertical,
+        0.25rem
+      );
+      --border-glow-component-inset-inline-start: var(
+        --textarea-size-horizontal,
+        0.5rem
+      );
+      --border-glow-component-inset-inline-end: var(
+        --textarea-size-vertical,
+        0.25rem
+      );
+      --border-glow-z-index: 2;
+    }
+  }
+
+  &--active {
+    :is(
+      .dnb-input__shell,
+      .dnb-textarea__state,
+      .dnb-dropdown__shell,
+      .dnb-autocomplete__shell,
+      .dnb-date-picker__shell,
+      .dnb-toggle-button__button
+    ) {
+      border-color: transparent;
+    }
+
+    .dnb-date-picker .dnb-input__shell {
+      border-color: inherit;
+    }
+
+    .dnb-indicator-border-glow__target:not(
+      :where(
+        .dnb-indicator-border-glow__target
+          .dnb-indicator-border-glow__target
+      )
+    ) {
+      &::before {
+        @include glow-ring-active();
+      }
+
+      &:focus-within {
+        --border-glow-interaction-offset: var(--border-glow-focus-offset);
+      }
+
+      &:not(.dnb-radio__button, .dnb-switch__row):not(
+          :has(:disabled, [aria-disabled='true'])
+        ):hover {
+        --border-glow-interaction-offset: var(--border-glow-hover-offset);
+      }
+    }
+
+    .dnb-indicator-border-glow__target--row:focus-within {
+      --border-glow-interaction-offset: var(--border-glow-hover-offset);
+    }
+
+    .dnb-dropdown__row:focus-within {
+      --border-glow-interaction-offset: var(--border-glow-focus-offset);
+    }
+
+    .dnb-radio:not(.dnb-radio--disabled) {
+      .dnb-radio__input:focus ~ .dnb-radio__button {
+        --border-glow-interaction-offset: var(--border-glow-focus-offset);
+      }
+
+      &:hover .dnb-radio__button {
+        --border-glow-interaction-offset: var(--border-glow-hover-offset);
+      }
+    }
+
+    .dnb-radio--disabled .dnb-radio__button::before {
+      opacity: 0;
+      animation: none;
+    }
+  }
+
+  &--button {
+    --border-glow-radius-base: var(--button-border-radius, 2rem);
+
+    &::before {
+      @include glow-ring();
+    }
+
+    &.dnb-indicator-border-glow--active {
+      border-color: transparent;
+
+      &::before {
+        @include glow-ring-active();
+      }
+
+      &:focus-within {
+        --border-glow-interaction-offset: var(--border-glow-focus-offset);
+      }
+
+      &:not([disabled]):hover {
+        --border-glow-interaction-offset: var(--border-glow-hover-offset);
+      }
+    }
+  }
+}
+
+.dnb-forms-field-block__label:hover
+  ~ .dnb-forms-field-block__contents.dnb-indicator-border-glow--active,
+.dnb-indicator-border-glow--active
+  :where(
+    .dnb-input,
+    .dnb-dropdown,
+    .dnb-autocomplete,
+    .dnb-textarea,
+    .dnb-toggle-button,
+    .dnb-checkbox,
+    .dnb-radio,
+    .dnb-slider
+  ):has(> .dnb-form-label:hover) {
+  .dnb-indicator-border-glow__target:not(
+      :where(
+        .dnb-indicator-border-glow__target
+          .dnb-indicator-border-glow__target
+      )
+    ):not(:has(:disabled, [aria-disabled='true'])) {
+    --border-glow-interaction-offset: var(--border-glow-hover-offset);
+  }
+}
+
+@media (forced-colors: active) {
+  .dnb-indicator-border-glow--active {
+    &::before,
+    .dnb-indicator-border-glow__target::before {
+      background: CanvasText;
+      forced-color-adjust: none;
+    }
+  }
+}

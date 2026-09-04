@@ -1406,15 +1406,23 @@ describe('FieldBlock', () => {
       )
 
       const elements = document.querySelectorAll(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
       expect(elements).toHaveLength(1)
       expect(elements[0]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
+      )
+
+      const content = document.querySelector(
+        '.dnb-forms-field-block__contents'
+      )
+      expect(content).toHaveClass(
+        'dnb-indicator-border-glow',
+        'dnb-indicator-border-glow--active'
       )
     })
 
-    it('should show indicator with a label when fieldState is set to pending', async () => {
+    it('should not show visual indicator when fieldState is set to pending', async () => {
       render(
         <FieldBlock fieldState="pending">
           <MockComponent />
@@ -1422,9 +1430,11 @@ describe('FieldBlock', () => {
       )
 
       const element = document.querySelector('.dnb-forms-submit-indicator')
+
+      expect(element).toBeNull()
       expect(
-        element.querySelectorAll('.dnb-forms-submit-indicator__content b')
-      ).toHaveLength(3)
+        document.querySelectorAll('.dnb-forms-submit-indicator__content b')
+      ).toHaveLength(0)
     })
 
     it('should show indicator two (2) times when nested', async () => {
@@ -1435,14 +1445,14 @@ describe('FieldBlock', () => {
       )
 
       const elements = document.querySelectorAll(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
       expect(elements).toHaveLength(2)
       expect(elements[0]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
       expect(elements[1]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
     })
 
@@ -1470,16 +1480,16 @@ describe('FieldBlock', () => {
       )
 
       const elements = document.querySelectorAll(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
       expect(elements).toHaveLength(2)
 
       await waitFor(() => {
         expect(elements[0].className).not.toContain(
-          'dnb-forms-submit-indicator--state-'
+          'dnb-forms-submit-indicator-glow__status--state-'
         )
         expect(elements[1].className).not.toContain(
-          'dnb-forms-submit-indicator--state-'
+          'dnb-forms-submit-indicator-glow__status--state-'
         )
       })
 
@@ -1489,20 +1499,20 @@ describe('FieldBlock', () => {
       })
 
       expect(elements[0]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
       expect(elements[1]).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
 
       await waitFor(() => {
         expect(elements[0]).toHaveClass(
-          'dnb-forms-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator-glow__status--state-complete'
         )
       })
       await waitFor(() => {
         expect(elements[1]).toHaveClass(
-          'dnb-forms-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator-glow__status--state-complete'
         )
       })
     })

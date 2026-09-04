@@ -2471,7 +2471,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
           {...statusProps}
         />
 
-        <span className="dnb-autocomplete__row">
+        <span className="dnb-autocomplete__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--row">
           <span {...shellParams}>
             {CustomInput ? (
               createElement(CustomInput as ElementType, customInputParams)

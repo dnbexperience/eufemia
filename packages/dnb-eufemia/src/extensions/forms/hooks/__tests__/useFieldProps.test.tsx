@@ -4380,12 +4380,12 @@ describe('useFieldProps', () => {
         )
 
         const valueIndicator = document.querySelector(
-          '.value .dnb-forms-submit-indicator'
+          '.value .dnb-forms-submit-indicator-glow__status'
         )
 
         await waitFor(() => {
           expect(valueIndicator).toHaveClass(
-            'dnb-forms-submit-indicator--state-pending'
+            'dnb-forms-submit-indicator-glow__status--state-pending'
           )
         })
 
@@ -4393,7 +4393,7 @@ describe('useFieldProps', () => {
 
         await waitFor(() => {
           expect(valueIndicator).toHaveClass(
-            'dnb-forms-submit-indicator--state-complete'
+            'dnb-forms-submit-indicator-glow__status--state-complete'
           )
         })
 
@@ -4404,7 +4404,7 @@ describe('useFieldProps', () => {
         await waitFor(() => {
           expect(validations.length).toBeGreaterThan(validationCount)
           expect(valueIndicator).toHaveClass(
-            'dnb-forms-submit-indicator--state-pending'
+            'dnb-forms-submit-indicator-glow__status--state-pending'
           )
         })
 
@@ -5959,8 +5959,12 @@ describe('useFieldProps', () => {
         )
 
         expect(
-          document.querySelector('.dnb-forms-submit-indicator')
-        ).toHaveClass('dnb-forms-submit-indicator--state-pending')
+          document.querySelector(
+            '.dnb-forms-submit-indicator-glow__status'
+          )
+        ).toHaveClass(
+          'dnb-forms-submit-indicator-glow__status--state-pending'
+        )
 
         await waitFor(() => {
           expect(screen.queryByRole('alert')).toBeInTheDocument()
