@@ -25,6 +25,7 @@ import HelpButtonInline, {
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import type { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../defaults'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -181,11 +182,10 @@ function UploadComponent(props: FieldUploadProps) {
 
   // A file that waits for the fileHandler keeps its loading state, which
   // disables its delete button, and keeps the field pending, which blocks the
-  // form submit. Give both the same deadline Form.Handler applies to its own
-  // async submit, so a Promise that never settles cannot leave the file, and
-  // with it the form, permanently stuck.
+  // form submit. Give both a deadline, so a Promise that never settles cannot
+  // leave the file, and with it the form, permanently stuck.
   const asyncSubmitTimeout =
-    dataContext?.props?.asyncSubmitTimeout ?? 30000
+    dataContext?.props?.asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT
   const fileHandlerOperationsRef = useRef<Set<FileHandlerOperation>>(
     new Set()
   )
