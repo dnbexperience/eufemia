@@ -79,7 +79,7 @@ export type FilterAsyncOptions<T> = {
   initialData?: T
   /** Delay in milliseconds before executing the fetcher after a state change. Useful for reducing API calls while the user is typing. */
   debounce?: number
-  /** Deadline in milliseconds for the fetcher, measured from the change that triggered it, so it also covers `debounce`. When it is reached, the loading state is cleared, `error` is set, and a later settle from that fetch is ignored. Defaults to `30000` (30 seconds). */
+  /** Deadline in milliseconds for the fetcher, measured from the change that triggered it, so it also covers `debounce`. When it is reached, the loading state is cleared, `error` is set to an `Error` with `name` `'TimeoutError'`, and a later settle from that fetch is ignored. The fetch itself is not aborted. Defaults to `30000` (30 seconds). */
   timeout?: number
 }
 
@@ -178,11 +178,13 @@ export function useFilterAsync<T>(
 
     const timeoutId = setTimeout(() => {
       if (claimRequest()) {
-        setError(
-          new Error(
-            `Filter.useFilterAsync(): the fetcher did not settle within ${timeoutMs}ms.`
-          )
+        const error = new Error(
+          `Filter.useFilterAsync(): the fetcher did not settle within ${timeoutMs}ms.`
         )
+        // Named so consumers can tell a deadline apart from a rejection the
+        // fetcher itself produced, and localize their own message for it
+        error.name = 'TimeoutError'
+        setError(error)
         extend({ resultLoading: false })
       }
     }, timeoutMs)
