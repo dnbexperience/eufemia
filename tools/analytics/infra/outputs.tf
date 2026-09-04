@@ -42,8 +42,8 @@ output "dashboard_url" {
 }
 
 output "dashboard_public_url" {
-  description = "Canonical public dashboard URL (custom domain when set, else the CloudFront URL)"
-  value       = coalesce(var.dashboard_public_url, "https://${aws_cloudfront_distribution.dashboard.domain_name}")
+  description = "Canonical public dashboard URL (the custom domain)"
+  value       = var.dashboard_public_url
 }
 
 output "dashboard_distribution_id" {

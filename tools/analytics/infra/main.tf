@@ -319,9 +319,8 @@ resource "aws_apigatewayv2_api" "dashboard" {
   cors_configuration {
     # The dashboard is served from its canonical origin (dashboard_public_url,
     # the custom domain) plus any extra dashboard_origins (e.g. local dev). The
-    # raw *.cloudfront.net origin is intentionally not allowed: direct-CloudFront
-    # access bypasses Akamai + WAF and is being locked down. compact drops an
-    # empty public URL; distinct dedupes an overlap with dashboard_origins.
+    # raw *.cloudfront.net origin is intentionally not allowed here (see README).
+    # distinct/compact dedupe and drop any blank entries.
     allow_origins = distinct(compact(concat(
       var.dashboard_origins,
       [var.dashboard_public_url],

@@ -83,19 +83,18 @@ variable "dashboard_origins" {
   }
 }
 
-# Canonical public URL the dashboard is served from once it is fronted by a
-# custom domain (e.g. https://dashboard.eufemia.dnb.no via Akamai). When set it
-# becomes an allowed CORS origin and the OIDC redirect URI; empty falls back to
-# the raw CloudFront URL, preserving the pre-custom-domain behaviour.
+# Canonical public URL the dashboard is served from, fronted by a custom domain
+# (e.g. https://dashboard.eufemia.dnb.no via Akamai). It is the allowed CORS
+# origin and the OIDC redirect URI. Required: the dashboard is served from the
+# custom domain and the data API CORS no longer allows the raw CloudFront URL.
 variable "dashboard_public_url" {
   type        = string
-  default     = ""
-  description = "Canonical public dashboard URL (e.g. https://dashboard.eufemia.dnb.no). Becomes a CORS origin and the OIDC redirect URI; empty falls back to the CloudFront URL."
+  description = "Canonical public dashboard URL (e.g. https://dashboard.eufemia.dnb.no). Becomes a CORS origin and the OIDC redirect URI."
 
   # Entra matches redirect URIs exactly, so a trailing slash or missing scheme
-  # would break sign-in while the deploy still succeeds. Allow empty (default).
+  # would break sign-in while the deploy still succeeds.
   validation {
-    condition     = var.dashboard_public_url == "" || can(regex("^https://[^/]+$", var.dashboard_public_url))
+    condition     = can(regex("^https://[^/]+$", var.dashboard_public_url))
     error_message = "dashboard_public_url must be an https:// origin with no trailing slash (e.g. https://dashboard.eufemia.dnb.no)."
   }
 }
