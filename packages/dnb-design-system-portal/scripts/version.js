@@ -61,7 +61,15 @@ async function createReleaseNewVersion() {
   try {
     const file = path.resolve(__dirname, '../package.json')
     const packageJson = await fs.readJson(file)
-    const nextVersion = await getNextReleaseVersion()
+    // getNextReleaseVersion throws rather than return nothing, which stops a
+    // release build. The footer stays best-effort: report why and fall back.
+    const nextVersion = await getNextReleaseVersion().catch((error) => {
+      console.warn(
+        `Could not determine the next release version:\n${error.message}`
+      )
+
+      return null
+    })
     const latestTag = nextVersion ? null : await getLatestReleaseTag()
     const version = resolveReleaseVersion(nextVersion, latestTag)
     packageJson.releaseVersion = version
