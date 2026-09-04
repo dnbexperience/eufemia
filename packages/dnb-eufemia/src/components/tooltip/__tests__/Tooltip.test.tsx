@@ -612,6 +612,48 @@ describe('Tooltip', () => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--active')
     })
 
+    it('should not start hiding after rapid target re-entry', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={100}
+          hideDelay={100}
+          targetElement={<button>Button</button>}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      const describedBy = buttonElem.getAttribute('aria-describedby')
+      const classNames = []
+      const observer = new MutationObserver(() => {
+        classNames.push(getMainElem().className)
+      })
+      observer.observe(getMainElem(), {
+        attributes: true,
+        attributeFilter: ['class'],
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(buttonElem)
+
+      expect(buttonElem).toHaveAttribute('aria-describedby', describedBy)
+
+      await wait(150)
+      observer.disconnect()
+
+      expect(classNames).not.toContain(
+        expect.stringContaining('dnb-tooltip--hide')
+      )
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition open />)
 

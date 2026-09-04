@@ -59,6 +59,8 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const delayTimeout = useRef<NodeJS.Timeout>(undefined)
   const overlayDelayTimeout = useRef<NodeJS.Timeout>(undefined)
   const cloneRef = useRef<HTMLElement>(undefined)
+  const isOpenRef = useRef(open)
+  const isHidingRef = useRef(false)
   const previousDescribedByIdRef = useRef<string | null>(null)
 
   const clearTimers = () => {
@@ -82,10 +84,15 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       }
 
       const run = () => {
+        isOpenRef.current = true
         setIsOpen(true)
       }
 
-      if (noAnimation || globalThis.IS_TEST) {
+      const resumeOpenState = isHidingRef.current
+      isHidingRef.current = false
+
+      if (noAnimation || globalThis.IS_TEST || resumeOpenState) {
+        clearTimers()
         run()
       } else {
         clearTimers()
@@ -126,16 +133,28 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       clearTimers()
 
       const run = () => {
+        isOpenRef.current = false
+        isHidingRef.current = false
         setIsOpen(false)
       }
 
       if (skipPortal) {
+        isHidingRef.current = isOpenRef.current
         delayTimeout.current = setTimeout(
           run,
           parseFloat(String(hideDelay))
         )
       } else {
+        const wasOpen = isOpenRef.current
         run()
+
+        const delay = parseFloat(String(hideDelay)) || 0
+        if (wasOpen && delay > 0) {
+          isHidingRef.current = true
+          delayTimeout.current = setTimeout(() => {
+            isHidingRef.current = false
+          }, delay)
+        }
       }
     },
     [open, hideDelay, skipPortal]
@@ -228,8 +247,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   useEffect(() => {
     if (isControlled) {
+      isOpenRef.current = open
       setIsOpen(open)
     } else {
+      isOpenRef.current = false
       setIsOpen(false)
     }
   }, [open, isControlled])
@@ -306,6 +327,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         event.relatedTarget instanceof Node &&
         targetElement.contains(event.relatedTarget)
       ) {
+        isOpenRef.current = true
         setIsOpen(true)
         setOverlayHovered(false)
         return undefined
