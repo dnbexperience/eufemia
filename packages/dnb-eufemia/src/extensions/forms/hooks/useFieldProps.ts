@@ -660,6 +660,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     required,
     hasDataContext,
     getAjvInstanceDataContext,
+    setFieldInternalsDataContext,
     setFieldEventListener,
     getValueByPath,
     getSourceValue,
