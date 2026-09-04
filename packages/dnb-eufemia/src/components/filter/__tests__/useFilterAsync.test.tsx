@@ -473,6 +473,7 @@ describe('useFilterAsync timeout', () => {
       return (
         <>
           <span data-testid="error">{error?.message ?? 'none'}</span>
+          <span data-testid="error-name">{error?.name ?? 'none'}</span>
           <span data-testid="loading">{loading ? 'true' : 'false'}</span>
         </>
       )
@@ -504,6 +505,11 @@ describe('useFilterAsync timeout', () => {
     ).toBe(
       'Filter.useFilterAsync(): the fetcher did not settle within 300ms.'
     )
+
+    // Named, so a deadline can be told apart from a fetcher rejection
+    expect(
+      document.querySelector('[data-testid="error-name"]').textContent
+    ).toBe('TimeoutError')
   })
 
   it('ignores a fetch that settles after the deadline', async () => {
