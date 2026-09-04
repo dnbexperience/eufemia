@@ -239,6 +239,24 @@ describe('makeReleaseVersion', () => {
     )
   })
 
+  it('keeps the last stable version when the newest reachable tag is a prerelease', async () => {
+    // git `--sort=-version:refname` ranks v11.12.0-beta.1 above the stable
+    // v11.12.0, so the stable tag has to be selected past the prerelease
+    mockBranchName('release', ['v11.12.0-beta.1', 'v11.12.0', 'v11.11.0'])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '11.12.0'`)
+    )
+  })
+
   it('write branch in file', async () => {
     mockBranchName('some-branch')
     vi.spyOn(

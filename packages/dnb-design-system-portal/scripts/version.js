@@ -61,7 +61,11 @@ async function createReleaseNewVersion() {
   try {
     const file = path.resolve(__dirname, '../package.json')
     const packageJson = await fs.readJson(file)
-    const nextVersion = await getNextReleaseVersion()
+    // getNextReleaseVersion now throws when it cannot resolve a version, so a
+    // release build stops rather than shipping a made-up one. The portal footer
+    // stays best-effort: a failure here falls back to the latest reachable tag
+    // instead of leaving the version unset.
+    const nextVersion = await getNextReleaseVersion().catch(() => null)
     const latestTag = nextVersion ? null : await getLatestReleaseTag()
     const version = resolveReleaseVersion(nextVersion, latestTag)
     packageJson.releaseVersion = version

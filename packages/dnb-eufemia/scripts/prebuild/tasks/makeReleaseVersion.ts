@@ -116,7 +116,11 @@ async function getLastReleaseVersion() {
     '--sort=-version:refname',
   ])
 
+  // Match a stable tag only: `-version:refname` ranks `v1.2.0-beta.1` above the
+  // stable `v1.2.0`, and with nothing to release the package keeps the last real
+  // version it had — the latest reachable stable tag, the same one the
+  // release.yml checkout comment and the portal footer (version.js) resolve.
   return all
-    .find((tag: string) => /^v\d+\.\d+\.\d+/.test(tag))
+    .find((tag: string) => /^v\d+\.\d+\.\d+$/.test(tag))
     ?.replace(/^v/, '')
 }
