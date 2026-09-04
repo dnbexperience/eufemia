@@ -1,5 +1,10 @@
-import { useEffect, useMemo, useRef } from 'react'
-import { ScrollView, Anchor } from '@dnb/eufemia/src/components'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  ScrollView,
+  Anchor,
+  Button,
+  HeightAnimation,
+} from '@dnb/eufemia/src/components'
 import { useMediaQuery } from '@dnb/eufemia/src/shared'
 import styles from './PageToc.module.scss'
 
@@ -45,6 +50,13 @@ export default function PageToc({ headings, currentUrl }: PageTocProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const isLargeScreen = useMediaQuery({ when: { min: 'large' } })
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [animateReady, setAnimateReady] = useState(!isLargeScreen)
+
+  useEffect(() => {
+    // delays height animation with setState in useEffect so it doesnt trigger on screen size change to small
+    setAnimateReady(!isLargeScreen)
+  }, [isLargeScreen])
 
   useEffect(() => {
     const container = scrollRef.current
@@ -89,30 +101,50 @@ export default function PageToc({ headings, currentUrl }: PageTocProps) {
 
   return (
     <nav aria-labelledby="page-toc-title" className={styles['page-toc']}>
-      <p id="page-toc-title" className={styles['page-toc__title']}>
-        On this page
-      </p>
+      {isLargeScreen ? (
+        <p id="page-toc-title" className={styles['page-toc__title']}>
+          On this page
+        </p>
+      ) : (
+        <Button
+          id="page-toc-title"
+          variant="tertiary"
+          icon={isExpanded ? 'chevron_up' : 'chevron_down'}
+          aria-expanded={isExpanded}
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          On this page
+        </Button>
+      )}
+
       <ScrollView
         className={styles['page-toc__scroll']}
         interactive="auto"
         aria-labelledby="page-toc-title"
         ref={scrollRef}
       >
-        <ul className={styles['page-toc__list']}>
-          {headingGroups.map((group) => (
-            <li key={group.heading.url}>
-              {renderLink(group.heading)}
+        <HeightAnimation
+          open={isLargeScreen || isExpanded}
+          animate={!isLargeScreen && animateReady}
+          openOnFind
+          onBeforeMatch={() => setIsExpanded(true)}
+        >
+          <ul className={styles['page-toc__list']}>
+            {headingGroups.map((group) => (
+              <li key={group.heading.url}>
+                {renderLink(group.heading)}
 
-              {group.children.length > 0 && (
-                <ul className={styles['page-toc__sub-list']}>
-                  {group.children.map((child) => (
-                    <li key={child.url}>{renderLink(child)}</li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
+                {group.children.length > 0 && (
+                  <ul className={styles['page-toc__sub-list']}>
+                    {group.children.map((child) => (
+                      <li key={child.url}>{renderLink(child)}</li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </HeightAnimation>
       </ScrollView>
     </nav>
   )
