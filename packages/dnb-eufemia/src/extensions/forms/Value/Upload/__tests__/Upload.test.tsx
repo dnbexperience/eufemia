@@ -521,6 +521,58 @@ describe('Value.Upload', () => {
       })
     })
 
+    it('should let a second onFileClick supersede the first', async () => {
+      const resolvers: Array<() => void> = []
+      const onFileClick = vi.fn(
+        () =>
+          new Promise<void>((resolve) => {
+            resolvers.push(resolve)
+          })
+      )
+
+      render(
+        <Value.Upload
+          onFileClick={onFileClick}
+          value={[
+            {
+              file: createMockFile('fileName', 100, 'image/png'),
+              exists: false,
+              id: '1',
+            },
+          ]}
+        />
+      )
+
+      const buttonElement = document.querySelector('.dnb-button')
+
+      fireEvent.click(buttonElement)
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+      })
+
+      fireEvent.click(buttonElement)
+      await waitFor(() => {
+        expect(onFileClick).toHaveBeenCalledTimes(2)
+      })
+
+      // The loading state follows the most recent click, so the superseded
+      // one must not stop it
+      resolvers[0]()
+      await wait(50)
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).toBeInTheDocument()
+
+      resolvers[1]()
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).not.toBeInTheDocument()
+      })
+    })
+
     it('should display spinner when file is loading', async () => {
       render(
         <Value.Upload
