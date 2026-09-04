@@ -70,13 +70,13 @@ const workspaces = AUDITED_WORKSPACE_MANIFESTS.map((manifestPath) => {
   return name as string
 })
 
-let advisoriesFound = false
-const incomplete: string[] = []
+let failed = false
+const unreachable: string[] = []
 
 for (const workspace of workspaces) {
   console.log(`\nAuditing production dependencies of ${workspace}`)
 
-  const { status, stdout, stderr, error } = spawnSync(
+  const { status, signal, stdout, stderr, error } = spawnSync(
     'yarn',
     ['workspace', workspace, ...AUDIT_ARGS],
     { cwd: repoRoot, encoding: 'utf8', env: process.env }
@@ -86,8 +86,22 @@ for (const workspace of workspaces) {
     throw error
   }
 
-  // spawnSync reports a signal kill as a null status; treat it as a failure.
-  const outcome = classifyAuditResult(status ?? 1, stdout ?? '')
+  // A signal kill is a local problem (a timeout or the runner reclaiming
+  // memory), not something the registry did, so it is never waved through.
+  if (signal) {
+    failed = true
+    console.log(
+      `::error title=Dependency audit killed::The audit of ${workspace} ` +
+        `was terminated by ${signal}.`
+    )
+    continue
+  }
+
+  const outcome = classifyAuditResult(
+    status ?? 1,
+    stdout ?? '',
+    stderr ?? ''
+  )
 
   if (outcome.kind === 'clean') {
     console.log(`No advisories at or above "high" in ${workspace}.`)
@@ -95,7 +109,7 @@ for (const workspace of workspaces) {
   }
 
   if (outcome.kind === 'advisories') {
-    advisoriesFound = true
+    failed = true
     console.log(
       `::error title=Dependency advisories::${workspace} reported ` +
         `${outcome.count} advisory record(s) at or above "high".`
@@ -107,11 +121,22 @@ for (const workspace of workspaces) {
     continue
   }
 
-  incomplete.push(workspace)
+  if (outcome.kind === 'unrecognised') {
+    failed = true
+    console.log(
+      `::error title=Dependency audit failed::The audit of ${workspace} ` +
+        'failed for a reason this gate does not recognise. Treating it as a ' +
+        'finding rather than an outage; the output follows.'
+    )
+    console.log([stdout, stderr].filter(Boolean).join('\n').trim())
+    continue
+  }
+
+  unreachable.push(workspace)
   console.log(
-    `::warning title=Dependency audit incomplete::No audit report was ` +
-      `returned for ${workspace}, so its production dependencies were ` +
-      `not checked on this run.`
+    `::warning title=Dependency audit incomplete::The advisories endpoint ` +
+      `could not be reached for ${workspace}, so its production ` +
+      `dependencies were not checked on this run.`
   )
 
   const diagnostics = [stdout, stderr].filter(Boolean).join('\n').trim()
@@ -121,16 +146,20 @@ for (const workspace of workspaces) {
   }
 }
 
-if (advisoriesFound) {
-  console.log('\nDependency audit failed: advisories found.')
+if (failed) {
+  console.log('\nDependency audit failed.')
   process.exit(1)
 }
 
-if (incomplete.length > 0) {
+if (unreachable.length > 0) {
+  const reported = workspaces.length - unreachable.length
+
   console.log(
-    `\nDependency audit incomplete for: ${incomplete.join(', ')}. ` +
-      'No advisories were found in the workspaces that did report. ' +
-      'A release requires a completed audit before it publishes.'
+    `\nAdvisories endpoint unreachable for: ${unreachable.join(', ')}.` +
+      (reported > 0
+        ? ` The other ${reported} reported no advisories.`
+        : ' No workspace could be checked on this run.') +
+      ' A release requires a completed audit before it publishes.'
   )
   process.exit(0)
 }

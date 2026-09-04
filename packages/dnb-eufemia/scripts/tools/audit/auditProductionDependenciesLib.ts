@@ -35,10 +35,33 @@ export const AUDITED_WORKSPACE_MANIFESTS = [
   'tools/analytics/package.json',
 ]
 
+/**
+ * Evidence that Yarn never reached the advisories endpoint, taken from real
+ * failing runs. The first marker is Yarn's own "the command could not run"
+ * message and covers both an HTTP error and a dropped connection; the rest
+ * catch a transport failure that killed the process before Yarn reported.
+ *
+ * Requiring one of these is what keeps the gate from failing open: output that
+ * matches nothing here is treated as a failure to be looked at, not as an
+ * outage to be waved through.
+ */
+export const UNREACHABLE_REGISTRY_MARKERS = [
+  'Errors happened when preparing the environment',
+  'YN0035',
+  'ECONNREFUSED',
+  'ECONNRESET',
+  'ETIMEDOUT',
+  'ENOTFOUND',
+  'EAI_AGAIN',
+  'socket hang up',
+  "Timeout awaiting 'socket'",
+]
+
 export type AuditOutcome =
   | { kind: 'clean' }
   | { kind: 'advisories'; count: number }
-  | { kind: 'incomplete' }
+  | { kind: 'unreachable' }
+  | { kind: 'unrecognised' }
 
 /**
  * Count the NDJSON records Yarn emitted. Yarn interleaves human-readable
@@ -66,18 +89,30 @@ export function countAdvisoryRecords(stdout: string): number {
   return records
 }
 
+/** Whether the output carries evidence the registry was never reached. */
+export function looksUnreachable(output: string): boolean {
+  return UNREACHABLE_REGISTRY_MARKERS.some((marker) =>
+    output.includes(marker)
+  )
+}
+
 /**
- * Tell a real finding apart from an audit that never produced a report.
+ * Tell a real finding apart from an audit that never reached the registry.
  *
  * `yarn npm audit` exits non-zero for both, which is why reading the exit code
  * alone cannot distinguish them. A report means the registry answered and
- * `--severity` selected at least one package. Nothing parseable means no
- * report was returned, so these dependencies are unchecked on this run — a
- * third state that is neither a pass nor a finding.
+ * `--severity` selected at least one package. Nothing parseable, plus evidence
+ * the request never completed, means these dependencies are unchecked on this
+ * run — a third state that is neither a pass nor a finding.
+ *
+ * Anything else is `unrecognised` and must be treated as a failure: a non-zero
+ * exit this function cannot explain is exactly the case where assuming an
+ * outage would hide a real advisory.
  */
 export function classifyAuditResult(
   exitCode: number,
-  stdout: string
+  stdout: string,
+  stderr = ''
 ): AuditOutcome {
   if (exitCode === 0) {
     return { kind: 'clean' }
@@ -85,9 +120,15 @@ export function classifyAuditResult(
 
   const count = countAdvisoryRecords(stdout)
 
+  // A report arrived, so the registry answered. Conservative on purpose: even
+  // if a transport error followed, the records already name real advisories.
   if (count > 0) {
     return { kind: 'advisories', count }
   }
 
-  return { kind: 'incomplete' }
+  if (looksUnreachable(`${stdout}\n${stderr}`)) {
+    return { kind: 'unreachable' }
+  }
+
+  return { kind: 'unrecognised' }
 }

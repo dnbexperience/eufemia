@@ -7,6 +7,7 @@ import {
   AUDITED_WORKSPACE_MANIFESTS,
   classifyAuditResult,
   countAdvisoryRecords,
+  looksUnreachable,
 } from '../auditProductionDependenciesLib'
 
 const repoRoot = path.resolve(__dirname, '../../../../../..')
@@ -73,20 +74,28 @@ describe('auditProductionDependenciesLib', () => {
       })
     })
 
-    it('reports a 503 from the advisories endpoint as incomplete', () => {
+    it('reports a 503 from the advisories endpoint as unreachable', () => {
       expect(classifyAuditResult(1, REGISTRY_503_OUTPUT)).toEqual({
-        kind: 'incomplete',
+        kind: 'unreachable',
       })
     })
 
-    it('reports a dropped connection as incomplete', () => {
+    it('reports a dropped connection as unreachable', () => {
       expect(classifyAuditResult(1, SOCKET_TIMEOUT_OUTPUT)).toEqual({
-        kind: 'incomplete',
+        kind: 'unreachable',
       })
     })
 
-    it('reports a non-zero exit with no output as incomplete', () => {
-      expect(classifyAuditResult(1, '')).toEqual({ kind: 'incomplete' })
+    it('reads stderr too, for a crash that never reached Yarn', () => {
+      // Captured from a run pointed at a closed port: Node threw before Yarn
+      // could report, so nothing useful lands on stdout.
+      expect(
+        classifyAuditResult(
+          1,
+          '',
+          'ps [RequestError]: connect ECONNREFUSED'
+        )
+      ).toEqual({ kind: 'unreachable' })
     })
 
     it('prefers a finding when a report arrived alongside an error', () => {
@@ -98,6 +107,32 @@ describe('auditProductionDependenciesLib', () => {
         kind: 'advisories',
         count: 2,
       })
+    })
+
+    it('does not assume an outage from an unexplained failure', () => {
+      // The gate must not fail open. Were Yarn to stop emitting NDJSON, an
+      // absence of records would otherwise read as an outage and wave a real
+      // advisory through, so anything unrecognised fails instead.
+      expect(classifyAuditResult(1, '')).toEqual({ kind: 'unrecognised' })
+      expect(
+        classifyAuditResult(1, 'Usage Error: Invalid option --severity')
+      ).toEqual({ kind: 'unrecognised' })
+      expect(
+        classifyAuditResult(1, 'tar  1234  high  <2.0.0  no fix available')
+      ).toEqual({ kind: 'unrecognised' })
+    })
+  })
+
+  describe('looksUnreachable', () => {
+    it('matches every failure captured from a real run', () => {
+      expect(looksUnreachable(REGISTRY_503_OUTPUT)).toBe(true)
+      expect(looksUnreachable(SOCKET_TIMEOUT_OUTPUT)).toBe(true)
+    })
+
+    it('does not match a report or an ordinary error', () => {
+      expect(looksUnreachable(ADVISORY_OUTPUT)).toBe(false)
+      expect(looksUnreachable('')).toBe(false)
+      expect(looksUnreachable('➤ YN0000: Done in 3s')).toBe(false)
     })
   })
 
