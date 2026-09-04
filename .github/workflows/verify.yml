@@ -76,12 +76,12 @@ jobs:
 
       - name: Audit dependencies
         # Audit the shipped (production) dependency tree of everything we ship:
-        # the @dnb/eufemia npm library, the @dnb/eufemia-mcp Lambda and the
+        # the @dnb/eufemia npm library, the Eufemia MCP Lambda and the
         # eufemia-analytics Lambda. All must pass; dev/build tooling advisories
         # are tracked via Dependabot instead.
         run: |
           yarn workspace @dnb/eufemia audit:ci
-          yarn workspace @dnb/eufemia-mcp audit:ci
+          yarn workspace eufemia-mcp-lambda audit:ci
           yarn workspace eufemia-analytics audit:ci
         env:
           YARN_HTTP_TIMEOUT: '360000'
