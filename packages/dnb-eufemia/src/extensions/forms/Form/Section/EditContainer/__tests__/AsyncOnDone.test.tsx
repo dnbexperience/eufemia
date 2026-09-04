@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import { Field, Form, Value } from '../../../..'
 import userEvent from '@testing-library/user-event'
 
@@ -222,5 +222,102 @@ describe('EditContainer async onDone', () => {
     expect(
       document.querySelector('.dnb-forms-section-view-block')
     ).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('should ignore a late resolution after asyncSubmitTimeout', async () => {
+    let resolveOnDone!: () => void
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveOnDone = resolve
+        })
+    )
+
+    render(
+      <Form.Handler asyncSubmitTimeout={100}>
+        <Form.Section containerMode="edit">
+          <Form.Section.EditContainer onDone={onDone}>
+            <Field.String path="/name" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const doneButton = document.querySelector(
+      '.dnb-forms-section-edit-block button'
+    )
+
+    await userEvent.click(doneButton)
+
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+
+    await act(async () => {
+      resolveOnDone()
+    })
+
+    expect(
+      document.querySelector('.dnb-forms-section-view-block')
+    ).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('should ignore a stale rejection while a retry is pending', async () => {
+    const operations: Array<{
+      resolve: () => void
+      reject: (reason?: unknown) => void
+    }> = []
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((resolve, reject) => {
+          operations.push({ resolve, reject })
+        })
+    )
+
+    render(
+      <Form.Handler asyncSubmitTimeout={100}>
+        <Form.Section containerMode="edit">
+          <Form.Section.EditContainer onDone={onDone}>
+            <Field.String path="/name" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const [doneButton, cancelButton] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-edit-block button')
+    )
+
+    await userEvent.click(doneButton)
+
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+
+    await userEvent.click(doneButton)
+    expect(onDone).toHaveBeenCalledTimes(2)
+    expect(doneButton).toBeDisabled()
+    expect(cancelButton).toBeDisabled()
+
+    await act(async () => {
+      operations[0].reject(new Error('First save failed late'))
+    })
+
+    expect(doneButton).toBeDisabled()
+    expect(cancelButton).toBeDisabled()
+
+    await act(async () => {
+      operations[1].resolve()
+    })
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-section-view-block')
+      ).not.toHaveAttribute('aria-hidden', 'true')
+    })
   })
 })

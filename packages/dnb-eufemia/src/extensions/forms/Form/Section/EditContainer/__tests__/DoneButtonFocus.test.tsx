@@ -3,9 +3,12 @@ import { Field, Form } from '../../../..'
 import userEvent from '@testing-library/user-event'
 
 describe('EditContainer done button focus', () => {
-  const renderSection = (onDone: () => void | Promise<unknown>) =>
+  const renderSection = (
+    onDone: () => void | Promise<unknown>,
+    asyncSubmitTimeout?: number
+  ) =>
     render(
-      <>
+      <Form.Handler asyncSubmitTimeout={asyncSubmitTimeout}>
         {/* Focus target outside the section, so it stays focusable while
         the section is pending */}
         <button type="button" data-testid="outside">
@@ -19,7 +22,7 @@ describe('EditContainer done button focus', () => {
 
           <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
         </Form.Section>
-      </>
+      </Form.Handler>
     )
 
   const getDoneButton = () =>
@@ -81,5 +84,24 @@ describe('EditContainer done button focus', () => {
       expect(doneButton).not.toBeDisabled()
     })
     expect(getOutsideButton()).toHaveFocus()
+  })
+
+  it('should move focus back to the done button after asyncSubmitTimeout', async () => {
+    const onDone = vi.fn(() => new Promise<void>(() => undefined))
+
+    renderSection(onDone, 100)
+
+    const doneButton = getDoneButton()
+    await userEvent.click(doneButton)
+    expect(doneButton).toBeDisabled()
+
+    getOutsideButton().focus()
+    getOutsideButton().blur()
+    expect(document.body).toHaveFocus()
+
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+    expect(doneButton).toHaveFocus()
   })
 })
