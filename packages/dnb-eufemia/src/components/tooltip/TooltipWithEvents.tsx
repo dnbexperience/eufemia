@@ -13,7 +13,12 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { ComponentType, HTMLAttributes, MouseEvent } from 'react'
+import type {
+  AnimationEvent,
+  ComponentType,
+  HTMLAttributes,
+  MouseEvent,
+} from 'react'
 import { clsx } from 'clsx'
 import { combineDescribedBy, warn } from '../../shared/component-helper'
 import { isTouch } from './TooltipHelpers'
@@ -59,15 +64,32 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const [isOpen, setIsOpen] = useState(open)
   const [isOverlayHovered, setOverlayHovered] = useState(false)
+  const [skipShowAnimation, setSkipShowAnimation] = useState(false)
 
   const delayTimeout = useRef<NodeJS.Timeout>(undefined)
   const overlayDelayTimeout = useRef<NodeJS.Timeout>(undefined)
+  const isHideAnimationRunning = useRef(false)
   const cloneRef = useRef<HTMLElement>(undefined)
   const previousDescribedByIdRef = useRef<string | null>(null)
 
   const clearTimers = () => {
     clearTimeout(delayTimeout.current)
   }
+
+  const markHideAnimationStarted = useCallback(() => {
+    isHideAnimationRunning.current = !noAnimation && !globalThis.IS_TEST
+  }, [noAnimation])
+
+  const resumeHideAnimation = useCallback(() => {
+    if (!isHideAnimationRunning.current) {
+      return false
+    }
+
+    isHideAnimationRunning.current = false
+    setSkipShowAnimation(true)
+    setIsOpen(true)
+    return true
+  }, [])
 
   const onMouseEnter = useCallback(
     (e: Event) => {
@@ -90,6 +112,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       }
 
       clearTimers()
+      if (resumeHideAnimation()) {
+        return
+      }
+
       if (noAnimation || globalThis.IS_TEST) {
         run()
       } else {
@@ -99,7 +125,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         ) // have min 1 to make sure we are after onMouseLeave
       }
     },
-    [noAnimation, showDelay]
+    [noAnimation, resumeHideAnimation, showDelay]
   )
 
   const onFocus = useCallback(
@@ -130,7 +156,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       clearTimers()
 
       const run = () => {
+        setSkipShowAnimation(false)
         setIsOpen(false)
+        markHideAnimationStarted()
       }
 
       if (shouldDelayHide && hideDelayMs > 0) {
@@ -139,7 +167,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         run()
       }
     },
-    [open, hideDelayMs, shouldDelayHide]
+    [open, hideDelayMs, markHideAnimationStarted, shouldDelayHide]
   )
 
   const addEvents = useCallback(
@@ -292,9 +320,11 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     clearTimers()
     clearOverlayTimers()
     if (!isControlled) {
-      setOverlayHovered(true)
+      if (!resumeHideAnimation()) {
+        setOverlayHovered(true)
+      }
     }
-  }, [isControlled])
+  }, [isControlled, resumeHideAnimation])
 
   const handleOverlayMouseLeave = useCallback(
     (event: MouseEvent) => {
@@ -315,8 +345,10 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       }
 
       const run = () => {
+        setSkipShowAnimation(false)
         setIsOpen(false)
         setOverlayHovered(false)
+        markHideAnimationStarted()
       }
       clearOverlayTimers()
 
@@ -326,11 +358,25 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         run()
       }
     },
-    [hideDelayMs, isControlled, shouldDelayHide]
+    [hideDelayMs, isControlled, markHideAnimationStarted, shouldDelayHide]
   )
 
-  const { className: attributeClassName, ...restAttributes } =
-    attributes || {}
+  const {
+    className: attributeClassName,
+    onAnimationEnd,
+    ...restAttributes
+  } = attributes || {}
+
+  const handleAnimationEnd = useCallback(
+    (event: AnimationEvent<HTMLElement>) => {
+      if (event.currentTarget === event.target) {
+        isHideAnimationRunning.current = false
+      }
+
+      onAnimationEnd?.(event)
+    },
+    [onAnimationEnd]
+  )
 
   // Keep the Popover active until Tooltip's cancellable hide delay expires.
   return (
@@ -349,7 +395,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         hideDelay={0}
         skipPortal={skipPortal}
         keepInDOM={keepInDOM}
-        noAnimation={noAnimation}
+        noAnimation={noAnimation || skipShowAnimation}
         triggerOffset={triggerOffset}
         targetRefreshKey={targetRefreshKey}
         arrowPosition={arrow}
@@ -371,6 +417,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         onMouseLeave={handleOverlayMouseLeave}
         role="tooltip"
         {...(restAttributes as HTMLAttributes<HTMLElement>)}
+        onAnimationEnd={handleAnimationEnd}
       >
         {children}
       </Popover>

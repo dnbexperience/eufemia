@@ -662,6 +662,79 @@ describe('Tooltip', () => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--active')
     })
 
+    it('should not replay the show animation when re-entering while hiding', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={100}
+          hideDelay={100}
+          targetElement={<button>Button</button>}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+      })
+
+      fireEvent.mouseEnter(buttonElem)
+
+      expect(getMainElem()).toHaveClass(
+        'dnb-tooltip--active',
+        'dnb-tooltip--no-animation'
+      )
+
+      fireEvent.mouseLeave(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+        expect(getMainElem()).not.toHaveClass('dnb-tooltip--no-animation')
+      })
+    })
+
+    it('should not replay the show animation when re-entering the Tooltip while hiding', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={100}
+          hideDelay={100}
+          targetElement={<button>Button</button>}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(getMainElem())
+      fireEvent.mouseLeave(getMainElem())
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+      })
+
+      fireEvent.mouseEnter(getMainElem())
+
+      expect(getMainElem()).toHaveClass(
+        'dnb-tooltip--active',
+        'dnb-tooltip--no-animation'
+      )
+    })
+
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition open />)
 
