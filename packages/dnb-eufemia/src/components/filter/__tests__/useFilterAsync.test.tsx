@@ -1,4 +1,5 @@
 import { render, fireEvent, waitFor, act } from '@testing-library/react'
+import { wait } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterContent from '../FilterContent'
 import FilterNoResults from '../FilterNoResults'
@@ -456,6 +457,157 @@ describe('useFilterAsync error handling', () => {
         document.querySelector('[data-testid="error"]').textContent
       ).toBe('string error')
     })
+  })
+})
+
+describe('useFilterAsync timeout', () => {
+  it('clears the loading state and sets an error when the fetcher never settles', async () => {
+    const fetcher = vi.fn().mockReturnValue(new Promise(() => {}))
+
+    function Consumer() {
+      const { error, loading } = useFilterAsync(
+        'async-timeout-test',
+        fetcher,
+        { timeout: 300 }
+      )
+      return (
+        <>
+          <span data-testid="error">{error?.message ?? 'none'}</span>
+          <span data-testid="error-name">{error?.name ?? 'none'}</span>
+          <span data-testid="loading">{loading ? 'true' : 'false'}</span>
+        </>
+      )
+    }
+
+    render(
+      <>
+        <FilterRoot id="async-timeout-test" />
+        <Consumer />
+      </>
+    )
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('[data-testid="loading"]').textContent
+      ).toBe('true')
+    })
+
+    // The fetcher is what clears the loading state, so a Promise that never
+    // settles has to be recovered by the deadline
+    await waitFor(() => {
+      expect(
+        document.querySelector('[data-testid="loading"]').textContent
+      ).toBe('false')
+    })
+
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe(
+      'Filter.useFilterAsync(): the fetcher did not settle within 300ms.'
+    )
+
+    // Named, so a deadline can be told apart from a fetcher rejection
+    expect(
+      document.querySelector('[data-testid="error-name"]').textContent
+    ).toBe('TimeoutError')
+  })
+
+  it('ignores a fetch that settles after the deadline', async () => {
+    let resolveFetch!: (value: string[]) => void
+    const fetcher = vi.fn().mockReturnValue(
+      new Promise<string[]>((resolve) => {
+        resolveFetch = resolve
+      })
+    )
+
+    function Consumer() {
+      const { data, error, loading } = useFilterAsync(
+        'async-late-settle-test',
+        fetcher,
+        { timeout: 300 }
+      )
+      return (
+        <>
+          <span data-testid="data">{JSON.stringify(data)}</span>
+          <span data-testid="error">{error?.message ?? 'none'}</span>
+          <span data-testid="loading">{loading ? 'true' : 'false'}</span>
+        </>
+      )
+    }
+
+    render(
+      <>
+        <FilterRoot id="async-late-settle-test" />
+        <Consumer />
+      </>
+    )
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('[data-testid="error"]').textContent
+      ).toContain('did not settle')
+    })
+
+    // The filter has moved on, so a late result must not replace what is shown
+    await act(async () => {
+      resolveFetch(['late'])
+      await wait(50)
+    })
+
+    expect(
+      document.querySelector('[data-testid="data"]').textContent
+    ).toBe('')
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toContain('did not settle')
+    expect(
+      document.querySelector('[data-testid="loading"]').textContent
+    ).toBe('false')
+  })
+
+  it('does not cut off a fetcher that settles before the deadline', async () => {
+    let resolveFetch!: (value: string[]) => void
+    const fetcher = vi.fn().mockReturnValue(
+      new Promise<string[]>((resolve) => {
+        resolveFetch = resolve
+      })
+    )
+
+    function Consumer() {
+      const { data, error } = useFilterAsync(
+        'async-in-time-test',
+        fetcher,
+        { timeout: 10000 }
+      )
+      return (
+        <>
+          <span data-testid="data">{JSON.stringify(data)}</span>
+          <span data-testid="error">{error?.message ?? 'none'}</span>
+        </>
+      )
+    }
+
+    render(
+      <>
+        <FilterRoot id="async-in-time-test" />
+        <Consumer />
+      </>
+    )
+
+    await waitFor(() => {
+      expect(fetcher).toHaveBeenCalledTimes(1)
+    })
+
+    resolveFetch(['in-time'])
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('[data-testid="data"]').textContent
+      ).toBe('["in-time"]')
+    })
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe('none')
   })
 })
 
