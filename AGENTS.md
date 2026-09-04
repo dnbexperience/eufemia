@@ -46,6 +46,7 @@
 ## Git and Pull Requests
 
 - Never commit directly to `main` or release branches such as `release`. Create a branch and open a pull request.
+- Name branches according to the change type, such as `fix/...`, `feat/...`, `chore/...`, or `refactor/...`. Never use an `agents/` prefix.
 
 ### Commits
 
