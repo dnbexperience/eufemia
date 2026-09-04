@@ -35,7 +35,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Git checkout
@@ -52,6 +52,8 @@ jobs:
         # Re-audit the shipped (production) dep tree at deploy time to catch
         # advisories disclosed after the PR gate ran. Mirrors release.yml.
         run: yarn workspace @dnb/eufemia-mcp audit:ci
+        env:
+          YARN_HTTP_TIMEOUT: '360000'
 
       - name: Typecheck
         run: cd tools/mcp-lambda && yarn typecheck

@@ -35,7 +35,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Git checkout
@@ -66,6 +66,8 @@ jobs:
         # Audit the shipped (production) dep tree to catch known advisories,
         # matching the MCP pipeline and the EDS-823 supply-chain work.
         run: yarn workspace eufemia-analytics audit:ci
+        env:
+          YARN_HTTP_TIMEOUT: '360000'
 
       - name: Typecheck
         run: cd tools/analytics && yarn test:types

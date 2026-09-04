@@ -306,7 +306,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     permissions:
       contents: read
@@ -345,6 +345,7 @@ jobs:
         working-directory: packages/dnb-eufemia
         env:
           RELEASED_VERSION: ${{ needs.action.outputs.released }}
+          YARN_HTTP_TIMEOUT: '360000'
         run: |
           # Generated from the source workspace: the CycloneDX plugin needs a
           # Yarn project, and direct runtime deps are identical to the published
