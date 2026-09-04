@@ -117,7 +117,7 @@ export const UploadProperties: PropertiesTableProps = {
     status: 'optional',
   },
   errorDeleteTimeout: {
-    doc: 'Custom error message shown on a file whose deletion did not complete within `asyncFileOperationTimeout`. Overrides the default translation.',
+    doc: 'Custom error message shown on a file whose deletion did not complete before its deadline. Overrides the default translation.',
     type: 'React.ReactNode',
     status: 'optional',
   },
