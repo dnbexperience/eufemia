@@ -20,7 +20,6 @@
 import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 
 import {
   AUDIT_ARGS,
@@ -28,12 +27,37 @@ import {
   classifyAuditResult,
 } from './auditProductionDependenciesLib.ts'
 
-// Resolved from this file so the `yarn workspace` calls below behave the same
-// whichever directory CI invokes the script from.
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../../../../..'
-)
+/**
+ * Locate the repository root by walking up until the first audited manifest is
+ * found. CI invokes this from the root, and this keeps a local run from a
+ * workspace directory working too, while failing with a message that says what
+ * went wrong instead of an ENOENT further down.
+ *
+ * Resolved this way rather than from `import.meta.url` because these scripts
+ * are type-checked, and `import.meta` is not available under the package's
+ * `module` setting.
+ */
+function findRepoRoot(startDir: string): string {
+  const marker = AUDITED_WORKSPACE_MANIFESTS[0]
+  let current = startDir
+  let parent = path.dirname(current)
+
+  while (!fs.existsSync(path.join(current, marker))) {
+    if (parent === current) {
+      throw new Error(
+        `Could not locate ${marker} from ${startDir}. ` +
+          'Run this from inside the repository.'
+      )
+    }
+
+    current = parent
+    parent = path.dirname(current)
+  }
+
+  return current
+}
+
+const repoRoot = findRepoRoot(process.cwd())
 
 const workspaces = AUDITED_WORKSPACE_MANIFESTS.map((manifestPath) => {
   const absolute = path.join(repoRoot, manifestPath)
