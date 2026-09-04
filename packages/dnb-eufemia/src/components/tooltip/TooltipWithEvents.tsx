@@ -117,6 +117,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
       clearTimers()
       clearOverlayTimers()
+      setOverlayHovered(false)
       if (resumeHideAnimation()) {
         return
       }

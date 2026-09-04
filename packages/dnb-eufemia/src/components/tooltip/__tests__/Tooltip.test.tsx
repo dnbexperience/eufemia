@@ -639,6 +639,12 @@ describe('Tooltip', () => {
 
       expect(getMainElem()).toHaveClass('dnb-tooltip--active')
       expect(buttonElem).toHaveAttribute('aria-describedby')
+
+      fireEvent.mouseLeave(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+      })
     })
 
     it('should not start hiding after rapid target re-entry', async () => {
