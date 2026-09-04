@@ -79,10 +79,19 @@ jobs:
         # the @dnb/eufemia npm library, the @dnb/eufemia-mcp Lambda and the
         # eufemia-analytics Lambda. All must pass; dev/build tooling advisories
         # are tracked via Dependabot instead.
+        #
+        # Run through the gate rather than calling `audit:ci` directly, because
+        # `yarn npm audit` exits non-zero both for a real advisory and for a
+        # registry that returned no report — and this job cannot tell a branch
+        # author which of the two happened. The gate fails on advisories and
+        # annotates a warning naming any workspace whose audit produced no
+        # report, so unchecked dependencies are never recorded as a pass.
+        # release.yml, mcp-lambda.yml and analytics-lambda.yml still call
+        # `audit:ci` directly and require a completed audit before shipping.
         run: |
-          yarn workspace @dnb/eufemia audit:ci
-          yarn workspace @dnb/eufemia-mcp audit:ci
-          yarn workspace eufemia-analytics audit:ci
+          node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON \
+            --experimental-strip-types \
+            packages/dnb-eufemia/scripts/tools/audit/auditProductionDependencies.ts
         env:
           YARN_HTTP_TIMEOUT: '360000'
 
