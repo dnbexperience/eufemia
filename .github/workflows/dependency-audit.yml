@@ -40,7 +40,9 @@ on:
       # generator version that must match it, so changes there must re-run this.
       - '.github/workflows/release.yml'
   schedule:
-    # Daily, to catch advisories disclosed against an unchanged tree.
+    # Daily, to catch advisories disclosed against an unchanged tree. GitHub
+    # sends scheduled-run failure notifications only to whoever last edited this
+    # cron, so the README badge is the shared signal — keep it.
     - cron: '17 4 * * *'
   workflow_dispatch:
 
