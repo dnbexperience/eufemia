@@ -54,6 +54,31 @@ describe('SidebarMenu responsive parts', () => {
     )
   })
 
+  it('transitions between the hamburger and close icons', () => {
+    setMedia({ width: '30em' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger />
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const trigger = document.querySelector(
+      '[aria-label="Open menu"]'
+    ) as HTMLButtonElement
+    const icon = trigger.querySelector('.dnb-icon--transition-fallback')
+
+    expect(icon.querySelector('[data-icon-state="closed"]')).toHaveClass(
+      'dnb-icon__state--active'
+    )
+
+    fireEvent.click(trigger)
+
+    expect(icon.querySelector('[data-icon-state="open"]')).toHaveClass(
+      'dnb-icon__state--active'
+    )
+  })
+
   it('places the Drawer close button on the left', async () => {
     setMedia({ width: '30em' })
 

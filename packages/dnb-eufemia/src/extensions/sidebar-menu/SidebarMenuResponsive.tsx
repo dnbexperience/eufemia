@@ -10,11 +10,17 @@ import Button from '../../components/button/Button'
 import type { ButtonProps } from '../../components/button/Button'
 import Drawer from '../../components/drawer/Drawer'
 import type { DrawerAllProps } from '../../components/drawer/Drawer'
+import Icon from '../../components/icon/Icon'
 import useMediaQuery from '../../shared/useMediaQuery'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
 import { hamburger } from '../../icons'
 import { close as closeIcon } from '../../icons/primary_icons'
 import { clsx } from 'clsx'
+
+const responsiveTriggerIcon = Icon.transition({
+  closed: hamburger,
+  open: closeIcon,
+})
 
 type ResponsiveContextValue = {
   close: () => void
@@ -96,6 +102,7 @@ export type SidebarMenuResponsiveTriggerProps = ButtonProps & {
 export function SidebarMenuResponsiveTrigger({
   controls = 'sidebar-menu-responsive-drawer',
   icon,
+  transitionState,
   variant = 'tertiary',
   title,
   ...props
@@ -108,7 +115,14 @@ export function SidebarMenuResponsiveTrigger({
   return (
     <Button
       {...props}
-      icon={icon ?? (open ? closeIcon : hamburger)}
+      icon={icon ?? responsiveTriggerIcon}
+      transitionState={
+        icon === undefined || icon === null
+          ? open
+            ? 'open'
+            : 'closed'
+          : transitionState
+      }
       variant={variant}
       title={title ?? (open ? 'Close menu' : 'Open menu')}
       aria-haspopup="dialog"
