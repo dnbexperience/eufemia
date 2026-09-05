@@ -31,6 +31,7 @@ jobs:
           node .github/automations/scripts/__tests__/configuration.test.mjs
           node .github/automations/scripts/__tests__/notification.test.mjs
           node .github/automations/scripts/__tests__/validate-context.test.mjs
+          node .github/automations/release/scripts/__tests__/release-utils.test.mjs
 
   check-pr-title:
     name: Validate PR title
