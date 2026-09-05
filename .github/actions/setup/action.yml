@@ -25,6 +25,11 @@ runs:
         registry-url: ${{ inputs.registry-url }}
 
     - name: Use node_modules cache
+      # This cache key is shared by every workflow. Caches are immutable — the
+      # first job to save a key wins — so a workflow that writes it with a
+      # narrower `path:` would give the others an exact hit with directories
+      # missing, and they would skip the install below and fail. Use this action
+      # rather than hand-rolling actions/cache.
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       id: modules-cache
       with:
