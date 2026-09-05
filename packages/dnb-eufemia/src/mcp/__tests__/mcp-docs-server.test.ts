@@ -240,6 +240,26 @@ describe('docs_meta', () => {
   })
 })
 
+describe('portal_content_workflow', () => {
+  it('returns the complete portal contribution workflow', async () => {
+    const fixture = createDocsFixture()
+    const tools = createDocsTools({ docsRoot: fixture.docsRoot })
+
+    try {
+      const result = await tools.portalContentWorkflow({})
+      const workflow = getText(result)
+
+      expect(workflow).toContain('Edit Eufemia Portal Content')
+      expect(workflow).toContain('Edit on GitHub')
+      expect(workflow).toContain('docs(Portal)')
+      expect(workflow).toContain('portal-only deployment')
+      expect(workflow).toContain('Never merge without explicit permission')
+    } finally {
+      fixture.cleanup()
+    }
+  })
+})
+
 describe('docs_index', () => {
   let docsRoot: string
   let cleanup: () => void
