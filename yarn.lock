@@ -4131,6 +4131,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mdn/browser-compat-data@npm:8.0.12":
+  version: 8.0.12
+  resolution: "@mdn/browser-compat-data@npm:8.0.12"
+  checksum: 10/309ed9bc75d66ec44ad38401f59772913633c3f7f3e0c23d42c0493094b4fedc6770844f36a97ea76f669efdf241719f8ace2873f2b71e62776bfd99a2fbf76b
+  languageName: node
+  linkType: hard
+
 "@mdn/browser-compat-data@npm:^5.6.19":
   version: 5.7.6
   resolution: "@mdn/browser-compat-data@npm:5.7.6"
@@ -9911,6 +9918,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eufemia@workspace:."
   dependencies:
+    "@dnb/browserslist-config": "npm:1.4.1"
+    "@mdn/browser-compat-data": "npm:8.0.12"
     prettier: "npm:3.8.1"
   languageName: unknown
   linkType: soft
