@@ -37,7 +37,7 @@ test.describe('Sidebar resize', () => {
 
     const sidebar = page.locator('#portal-sidebar-menu')
     const scrollView = sidebar.locator('.portal-sidebar-scroll-view')
-    const resizeHandle = page.getByRole('button', {
+    const resizeHandle = page.getByRole('separator', {
       name: 'Resize sidebar',
     })
     const initialWidth = await sidebar.evaluate(
@@ -92,6 +92,14 @@ test.describe('Sidebar resize', () => {
 
     await page.mouse.move(hitArea.lineX - 1, 1)
 
+    await expect
+      .poll(() =>
+        resizeHandle.evaluate((element) =>
+          parseFloat(getComputedStyle(element, '::before').width)
+        )
+      )
+      .toBe(2)
+
     const hoverLine = await resizeHandle.evaluate((element) => {
       const rect = element.getBoundingClientRect()
       const style = getComputedStyle(element, '::before')
@@ -138,9 +146,20 @@ test.describe('Sidebar resize', () => {
     await page.goto('/')
     await waitForApp(page)
 
-    await page
-      .getByRole('button', { name: 'Open section content menu' })
-      .click()
+    const trigger = page.getByRole('button', {
+      name: 'Open section content menu',
+    })
+    const headerLogo = page
+      .locator('header')
+      .getByRole('link', { name: 'Go to Eufemia home' })
+    const triggerOffset = await getVerticalCenterOffset(
+      trigger,
+      headerLogo
+    )
+
+    expect(triggerOffset).toBe(2)
+
+    await trigger.click()
 
     const drawer = page.getByRole('dialog', { name: 'Menu' })
     const drawerScrollView = drawer.locator('.dnb-drawer')
@@ -154,6 +173,26 @@ test.describe('Sidebar resize', () => {
     })
 
     await expect(drawer).toBeVisible()
+    const platformTrigger = drawer.getByRole('combobox')
+    await platformTrigger.hover()
+    const hoverInsets = await platformTrigger.evaluate((element) => {
+      const scrollView = element.closest('.portal-sidebar-scroll-view')
+      const triggerRect = element.getBoundingClientRect()
+      const scrollViewRect = scrollView.getBoundingClientRect()
+
+      return {
+        top: triggerRect.top - scrollViewRect.top,
+        right: scrollViewRect.right - triggerRect.right,
+        left: triggerRect.left - scrollViewRect.left,
+      }
+    })
+
+    expect(hoverInsets).toEqual({ top: 2, right: 2, left: 2 })
+
+    const closeButton = page.locator('.dnb-modal__close-button')
+    const closeOffset = await getVerticalCenterOffset(closeButton, logo)
+
+    expect(closeOffset).toBe(2)
     await expect(drawerScrollView).toHaveCSS('scrollbar-gutter', 'stable')
     await expect(scrollView).toHaveCSS('scrollbar-gutter', 'auto')
     await drawerScrollView.evaluate(async (element) => {
@@ -215,7 +254,7 @@ test.describe('Sidebar resize', () => {
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
-    const resizeHandle = page.getByRole('button', {
+    const resizeHandle = page.getByRole('separator', {
       name: 'Resize sidebar',
     })
 
@@ -247,7 +286,7 @@ test.describe('Sidebar resize', () => {
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
-    const resizeHandle = page.getByRole('button', {
+    const resizeHandle = page.getByRole('separator', {
       name: 'Resize sidebar',
     })
 
@@ -294,3 +333,21 @@ test.describe('Sidebar resize', () => {
     expect(scrolledLogoBox.y).toBeCloseTo(initialLogoBox.y - 40, 0)
   })
 })
+
+async function getVerticalCenterOffset(
+  element: Locator,
+  reference: Locator
+) {
+  const elementRect = await element.evaluate((node) =>
+    node.getBoundingClientRect().toJSON()
+  )
+  const referenceRect = await reference.evaluate((node) =>
+    node.getBoundingClientRect().toJSON()
+  )
+
+  return Math.round(
+    elementRect.y +
+      elementRect.height / 2 -
+      (referenceRect.y + referenceRect.height / 2)
+  )
+}

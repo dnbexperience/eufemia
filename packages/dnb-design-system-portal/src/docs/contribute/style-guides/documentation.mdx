@@ -25,6 +25,16 @@ sidebarMenuDividerBefore: true
 
 This can be used independently or together with `sidebarMenuPlacement`.
 
+For a page that defines a synthetic root menu, `pageParent` places only the page link under another menu item while leaving the synthetic tree in place:
+
+```yaml
+sidebarMenu:
+  root: true
+  includePageAs: UI library
+  pageParent: uilib/about-the-lib
+  pageOrder: 2
+```
+
 ## Handling themes
 
 If you need to show some documentation only for when a certain theme is selected, you can do so:

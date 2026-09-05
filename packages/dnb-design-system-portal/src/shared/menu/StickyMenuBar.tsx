@@ -3,19 +3,17 @@
  *
  */
 
-import { useContext } from 'react'
 import { clsx } from 'clsx'
-import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
-import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
 import { Button } from '@dnb/eufemia/src'
-import { SidebarMenuContext } from './SidebarMenuContext'
+import SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
 import {
   headerStyle,
   leadingStyle,
   mobileLogoStyle,
+  mobileMenuTriggerStyle,
   searchStyle,
   toolsStyle,
   portalHeaderWrapperStyle,
@@ -25,31 +23,22 @@ import GithubLogo from '../../docs/contribute/assets/github-logo'
 import FigmaLogo from '../../docs/contribute/assets/figma-logo'
 
 export default function StickyMenuBar() {
-  const { toggleMenu, isOpen } = useContext(SidebarMenuContext)
+  const { open } = SidebarMenu.useResponsive()
 
   return (
     <header className={clsx(headerStyle, 'sticky-menu', 'dev-grid')}>
       <div className={portalHeaderWrapperStyle}>
         <span className={leadingStyle}>
-          <Button
-            icon={isOpen ? closeIcon : hamburgerIcon}
-            onClick={toggleMenu}
+          <SidebarMenu.ResponsiveTrigger
             id="toggle-sidebar-menu"
-            variant="tertiary"
+            className={mobileMenuTriggerStyle}
             size="default"
             iconSize="default"
-            aria-haspopup={true}
-            aria-controls="portal-sidebar-menu"
-            aria-expanded={isOpen}
-            aria-label={
-              isOpen
-                ? 'Close section content menu'
-                : 'Open section content menu'
-            }
+            controls="portal-sidebar-menu-drawer"
             title={
-              isOpen
+              open
                 ? 'Hide section content menu'
-                : 'Show section content menu'
+                : 'Open section content menu'
             }
           />
 

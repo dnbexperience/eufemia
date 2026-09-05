@@ -47,6 +47,64 @@ Use `openItemsStorageKey` to preserve manually opened and closed groups. When th
 
 Prerendered applications can read the storage metadata rendered by the container and restore the position before hydration. This avoids briefly showing the top of a long menu before moving to the selected item.
 
+## Resizable layouts
+
+Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. These properties connect the handle to the layout:
+
+- `targetRef` points to the element being resized. Its rendered width is the starting value.
+- `cssProperty` receives the new width in pixels. The sidebar CSS must use the same custom property.
+- `rootSelector` selects the closest shared layout ancestor on which the custom property is set. Use it when adjacent content also needs to respond to the sidebar width. Omit it when only the sidebar needs the value.
+- `minWidth` and `maxWidth` define the allowed resize range. `maxWidth` defaults to the browser viewport width.
+
+The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and double-click to reset.
+
+The resize handle is optional and its styles are included with the SidebarMenu extension stylesheet. It does not persist width. The CSS-defined initial width is therefore used after a reload, and no script is needed before React renders.
+
+```tsx
+const sidebarRef = useRef<HTMLElement>(null)
+
+<div className="layout">
+  <aside
+    id="sidebar"
+    ref={sidebarRef}
+    className="sidebar"
+  >
+    <SidebarMenu.Container aria-label="Main navigation" />
+  </aside>
+  <SidebarMenu.ResizeHandle
+    targetRef={sidebarRef}
+    rootSelector=".layout"
+    cssProperty="--sidebar-width"
+    aria-controls="sidebar"
+  />
+</div>
+```
+
+```css
+.layout {
+  --sidebar-width: 20rem;
+
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+}
+```
+
+## Responsive navigation
+
+Use the responsive compound parts when the same navigation should be inline on larger screens and available through a hamburger-triggered Drawer on smaller screens:
+
+- `ResponsiveProvider` owns the breakpoint and Drawer state.
+- `ResponsiveTrigger` renders a hamburger button only below the breakpoint.
+- `ResponsiveInline` renders its children only above the breakpoint.
+- `ResponsiveDrawer` renders a left-side Drawer only below the breakpoint. Its close button is placed on the left.
+- `useResponsive().close()` closes the Drawer after mobile navigation.
+
+The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/sidebar-menu)

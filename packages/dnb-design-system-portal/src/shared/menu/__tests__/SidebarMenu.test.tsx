@@ -322,6 +322,13 @@ describe('portal SidebarMenu data', () => {
             id: 'elements',
             path: 'uilib/elements',
             title: 'HTML Elements',
+            subheadings: [
+              {
+                id: 'blockquote',
+                path: 'uilib/elements/blockquote',
+                title: 'Blockquote',
+              },
+            ],
           },
           { id: 'layout', path: 'uilib/layout', title: 'Layout' },
           {
@@ -466,11 +473,19 @@ describe('portal SidebarMenu data', () => {
                 id: 'payment-card',
                 path: 'uilib/extensions/payment-card',
                 title: 'PaymentCard',
+                category: 'content',
               },
               {
                 id: 'sidebar-menu',
                 path: 'uilib/extensions/sidebar-menu',
                 title: 'SidebarMenu',
+                category: 'navigation',
+              },
+              {
+                id: 'vipps-wallet-button',
+                path: 'uilib/extensions/vipps-wallet-button',
+                title: 'VippsWalletButton',
+                category: 'actions',
               },
             ],
           },
@@ -583,10 +598,38 @@ describe('portal SidebarMenu data', () => {
               "to": "uilib/components",
             },
             {
+              "collapsible": true,
+              "id": "elements",
+              "items": [
+                {
+                  "id": "blockquote",
+                  "text": "Blockquote",
+                  "to": "uilib/elements/blockquote",
+                },
+              ],
+              "text": "HTML Elements",
+              "to": "uilib/elements",
+            },
+            {
               "badge": "Deprecated",
               "id": "drawer",
               "text": "Drawer",
               "to": "uilib/components/drawer",
+            },
+            {
+              "id": "payment-card",
+              "text": "PaymentCard",
+              "to": "uilib/extensions/payment-card",
+            },
+            {
+              "id": "sidebar-menu",
+              "text": "SidebarMenu",
+              "to": "uilib/extensions/sidebar-menu",
+            },
+            {
+              "id": "vipps-wallet-button",
+              "text": "VippsWalletButton",
+              "to": "uilib/extensions/vipps-wallet-button",
             },
           ],
           "text": "Components",
@@ -673,6 +716,11 @@ describe('portal SidebarMenu data', () => {
               "id": "living-system",
               "text": "Living system",
               "to": "uilib/about-the-lib/living-system",
+            },
+            {
+              "id": "uilib",
+              "text": "UI library",
+              "to": "uilib",
             },
             {
               "id": "maintainability",
@@ -773,8 +821,39 @@ describe('portal SidebarMenu data', () => {
       title: 'Alphabetically',
       isMenuLink: true,
     })
+    expect(structured[4].subheadings?.[2]).toMatchObject({
+      path: 'uilib/elements',
+      title: 'HTML Elements',
+      subheadings: [
+        expect.objectContaining({ path: 'uilib/elements/blockquote' }),
+      ],
+    })
     expect(structured[4].subheadings).toContainEqual(
       expect.objectContaining({ id: 'drawer', status: 'dep' })
+    )
+    const groupedComponents = groupComponentsByCategory(structured)
+
+    expect(groupedComponents[4].subheadings).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: 'uilib-components-category-actions',
+          subheadings: expect.arrayContaining([
+            expect.objectContaining({ id: 'vipps-wallet-button' }),
+          ]),
+        }),
+        expect.objectContaining({
+          id: 'uilib-components-category-navigation',
+          subheadings: expect.arrayContaining([
+            expect.objectContaining({ id: 'sidebar-menu' }),
+          ]),
+        }),
+        expect.objectContaining({
+          id: 'uilib-components-category-content',
+          subheadings: expect.arrayContaining([
+            expect.objectContaining({ id: 'payment-card' }),
+          ]),
+        }),
+      ])
     )
     expect(structured[5]).toMatchObject({
       path: 'uilib/extensions/forms',
@@ -811,8 +890,16 @@ describe('portal SidebarMenu data', () => {
           title: 'About the library',
           isMenuLink: true,
         }),
+        expect.objectContaining({
+          path: 'uilib',
+          title: 'UI library',
+          isMenuLink: true,
+          sidebarMenuDividerBefore: undefined,
+          subheadings: undefined,
+        }),
       ]),
     })
+    expect(structured[7]).not.toHaveProperty('sidebarMenuDividerBefore')
     expect(structured[3].subheadings?.[0]).toMatchObject({
       path: 'uilib/usage/customisation/theming/design-tokens',
       status: 'beta',

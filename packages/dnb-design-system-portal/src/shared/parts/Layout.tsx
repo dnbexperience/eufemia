@@ -9,7 +9,7 @@ import Anchor from '../tags/Anchor'
 import { clsx } from 'clsx'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { releaseVersion, buildVersion } from '../buildInfo'
-import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
+import EufemiaSidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import { P, Logo, GlobalStatus, Section } from '@dnb/eufemia/src'
@@ -142,7 +142,7 @@ function Layout(props: LayoutProps) {
         Skip to content
       </a>
 
-      <SidebarMenuProvider>
+      <EufemiaSidebarMenu.ResponsiveProvider>
         {!fs && <StickyMenuBar />}
 
         <div className={wrapperStyle}>
@@ -164,7 +164,7 @@ function Layout(props: LayoutProps) {
 
           {fs && <ToggleGrid hidden />}
         </div>
-      </SidebarMenuProvider>
+      </EufemiaSidebarMenu.ResponsiveProvider>
 
       <GridActivator />
     </div>

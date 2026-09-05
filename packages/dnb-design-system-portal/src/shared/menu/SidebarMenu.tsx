@@ -3,29 +3,20 @@
  *
  */
 
-import { useContext, useEffect, useRef } from 'react'
-import type {
-  KeyboardEvent as ReactKeyboardEvent,
-  MouseEvent as ReactMouseEvent,
-  PointerEvent as ReactPointerEvent,
-  RefObject,
-} from 'react'
+import { useEffect, useRef } from 'react'
 import { clsx } from 'clsx'
 import { useStaticQuery, graphql } from 'portal-query'
-import { SidebarMenuContext } from './SidebarMenuContext'
 import SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
-import { Drawer } from '@dnb/eufemia/src/components'
 import { browser, mobile } from '@dnb/eufemia/src/icons'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import {
   navStyle,
   desktopNavStyle,
-  mobileDrawerLogoStyle,
   mobileDrawerStyle,
+  mobileDrawerLogoStyle,
   mobileNavStyle,
-  resizeHandleStyle,
   scrollContentStyle,
   scrollStyle,
   sidebarLogoStyle,
@@ -43,13 +34,11 @@ import {
   type NavItem,
   type NavItemTabs,
 } from './SidebarMenuData'
-import { useMediaQuery, useTheme } from '@dnb/eufemia/src/shared'
+import { useTheme } from '@dnb/eufemia/src/shared'
 import PortalLogo from './graphics/logo'
 import { Link } from '../tags/Anchor'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
-const sidebarWidthScopeSelector = '.eufemia-scope--portal'
-
 type SidebarLayoutProps = {
   location: Location
   showAll?: boolean
@@ -59,10 +48,8 @@ export default function SidebarLayout({
   location,
   showAll,
 }: SidebarLayoutProps) {
-  const { closeMenu, isOpen } = useContext(SidebarMenuContext)
-  const isMobile = useMediaQuery({ when: { max: 'medium' } })
+  const { close: closeMenu, isMobile } = SidebarMenu.useResponsive()
   const scrollRef = useRef<HTMLElement>(null)
-  const sidebarResizeHandlers = useSidebarResize(scrollRef)
 
   const {
     allMdx,
@@ -102,6 +89,7 @@ export default function SidebarLayout({
                 order
                 root
                 includePageAs
+                pageParent
                 pageIcon
                 pageOrder
                 static
@@ -132,12 +120,6 @@ export default function SidebarLayout({
       'sidebar'
     )
   }, [])
-
-  useEffect(() => {
-    if (!isMobile && isOpen) {
-      closeMenu()
-    }
-  }, [closeMenu, isMobile, isOpen])
 
   /* Creation of menu items starts here */
 
@@ -181,7 +163,7 @@ export default function SidebarLayout({
   const selectedItem = findActiveSidebarItemId(groupedNavItems)
   const currentTheme = useTheme()?.name
   const storageKey = getSidebarMenuStorageKey(groupedNavItems)
-  const menu = (className?: string) => (
+  const menu = (className?: string, withSpace = true) => (
     <aside
       id="portal-sidebar-menu"
       className={clsx(navStyle, className)}
@@ -217,9 +199,11 @@ export default function SidebarLayout({
             selectedItem={selectedItem}
             openItemsStorageKey={storageKey}
             scrollPositionStorageKey={`${storageKey}-scroll-position`}
-            left="medium"
-            top="medium"
-            right="small"
+            {...(withSpace && {
+              left: 'medium',
+              top: 'medium',
+              right: 'small',
+            })}
           />
         </div>
       </ScrollView>
@@ -228,37 +212,35 @@ export default function SidebarLayout({
 
   return (
     <>
-      {isMobile ? (
-        <Drawer
-          id="portal-sidebar-menu-drawer"
-          dialogTitle="Menu"
-          navContent={
-            <Link
-              href="/"
-              className={clsx(mobileDrawerLogoStyle, 'dnb-tab-focus')}
-              title="Go to Eufemia home"
-            >
-              <PortalLogo />
-            </Link>
-          }
-          open={isOpen}
-          onClose={closeMenu}
-          omitTriggerButton
-          containerPlacement="left"
-          fullscreen={false}
-          minWidth="min(80vw, 24rem)"
-          maxWidth="min(80vw, 24rem)"
-          className={mobileDrawerStyle}
-          spacing={false}
-          scrollbarGutter="stable"
-        >
-          {menu(mobileNavStyle)}
-        </Drawer>
-      ) : (
-        menu(desktopNavStyle)
-      )}
+      <SidebarMenu.ResponsiveDrawer
+        id="portal-sidebar-menu-drawer"
+        className={mobileDrawerStyle}
+        dialogTitle="Menu"
+        navContent={
+          <Link
+            href="/"
+            className={clsx(mobileDrawerLogoStyle, 'dnb-tab-focus')}
+            title="Go to Eufemia home"
+          >
+            <PortalLogo />
+          </Link>
+        }
+      >
+        {menu(mobileNavStyle, false)}
+      </SidebarMenu.ResponsiveDrawer>
 
-      {!isMobile && <SidebarResizeHandle {...sidebarResizeHandlers} />}
+      <SidebarMenu.ResponsiveInline>
+        {menu(desktopNavStyle)}
+      </SidebarMenu.ResponsiveInline>
+
+      {!isMobile && (
+        <SidebarMenu.ResizeHandle
+          targetRef={scrollRef}
+          rootSelector=".eufemia-scope--portal"
+          cssProperty="--aside-width"
+          aria-controls="portal-sidebar-menu"
+        />
+      )}
     </>
   )
 }
@@ -292,167 +274,6 @@ function ThemeBadge({
       )}
     />
   )
-}
-
-type SidebarResizeHandleProps = ReturnType<typeof useSidebarResize>
-
-function SidebarResizeHandle({
-  handleResizePointerDown,
-  handleResizeMouseDown,
-  handleResizeKeyDown,
-  resetSidebarWidth,
-}: SidebarResizeHandleProps) {
-  return (
-    <button
-      type="button"
-      className={resizeHandleStyle}
-      aria-label="Resize sidebar"
-      aria-controls="portal-sidebar-menu"
-      onPointerDown={handleResizePointerDown}
-      onMouseDown={handleResizeMouseDown}
-      onKeyDown={handleResizeKeyDown}
-      onDoubleClick={resetSidebarWidth}
-    />
-  )
-}
-
-function useSidebarResize(scrollRef: RefObject<HTMLElement>) {
-  const cleanupResizeRef = useRef<() => void>(undefined)
-
-  useEffect(() => {
-    return () => {
-      cleanupResizeRef.current?.()
-    }
-  }, [])
-
-  function getSidebarWidth() {
-    return scrollRef.current?.getBoundingClientRect().width || 0
-  }
-
-  function getSidebarWidthStyleElement() {
-    return (
-      scrollRef.current?.closest<HTMLElement>(sidebarWidthScopeSelector) ||
-      document.querySelector<HTMLElement>(sidebarWidthScopeSelector) ||
-      document.documentElement
-    )
-  }
-
-  function setSidebarWidth(width: number) {
-    if (typeof document === 'undefined') {
-      return
-    }
-
-    const widthWithMin = Math.round(Math.max(width, 1))
-    getSidebarWidthStyleElement().style.setProperty(
-      '--aside-width',
-      `${widthWithMin}px`
-    )
-  }
-
-  function resetSidebarWidth() {
-    if (typeof document === 'undefined') {
-      return
-    }
-
-    getSidebarWidthStyleElement().style.removeProperty('--aside-width')
-    document.documentElement.style.removeProperty('--aside-width')
-  }
-
-  function handleResizePointerDown(
-    event: ReactPointerEvent<HTMLButtonElement>
-  ) {
-    if (event.button !== 0) {
-      return
-    }
-
-    event.preventDefault()
-    startSidebarResize(event.clientX, (handleMove, handleEnd) => {
-      window.addEventListener('pointermove', handleMove)
-      window.addEventListener('pointerup', handleEnd, { once: true })
-
-      return () => {
-        window.removeEventListener('pointermove', handleMove)
-        window.removeEventListener('pointerup', handleEnd)
-      }
-    })
-  }
-
-  function handleResizeMouseDown(
-    event: ReactMouseEvent<HTMLButtonElement>
-  ) {
-    if (event.button !== 0) {
-      return
-    }
-
-    event.preventDefault()
-    startSidebarResize(event.clientX, (handleMove, handleEnd) => {
-      window.addEventListener('mousemove', handleMove)
-      window.addEventListener('mouseup', handleEnd, { once: true })
-
-      return () => {
-        window.removeEventListener('mousemove', handleMove)
-        window.removeEventListener('mouseup', handleEnd)
-      }
-    })
-  }
-
-  function startSidebarResize(
-    clientX: number,
-    addListeners: (
-      handleMove: (event: MouseEvent | PointerEvent) => void,
-      handleEnd: () => void
-    ) => () => void
-  ) {
-    cleanupResizeRef.current?.()
-    document.documentElement.classList.add('portal-sidebar-is-resizing')
-
-    const pointerOffset = clientX - getSidebarWidth()
-
-    const handleMove = (event: MouseEvent | PointerEvent) => {
-      setSidebarWidth(event.clientX - pointerOffset)
-    }
-
-    let removeListeners = () => null
-
-    const cleanupResize = () => {
-      removeListeners()
-      document.documentElement.classList.remove(
-        'portal-sidebar-is-resizing'
-      )
-      cleanupResizeRef.current = undefined
-    }
-
-    const handleEnd = () => {
-      cleanupResize()
-    }
-
-    removeListeners = addListeners(handleMove, handleEnd)
-    cleanupResizeRef.current = cleanupResize
-  }
-
-  function handleResizeKeyDown(
-    event: ReactKeyboardEvent<HTMLButtonElement>
-  ) {
-    const width = getSidebarWidth()
-    const step = event.shiftKey ? 48 : 16
-
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault()
-      setSidebarWidth(width - step)
-    }
-
-    if (event.key === 'ArrowRight') {
-      event.preventDefault()
-      setSidebarWidth(width + step)
-    }
-  }
-
-  return {
-    handleResizePointerDown,
-    handleResizeMouseDown,
-    handleResizeKeyDown,
-    resetSidebarWidth,
-  }
 }
 
 const prepareNav = ({

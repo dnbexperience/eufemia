@@ -57,6 +57,14 @@ export type SidebarMenuSectionData = {
   text: ReactNode
   /** Icon shown before the section label. */
   icon?: IconIcon
+  /** Notification badge displayed on the right side of the dropdown option. */
+  badge?: BadgeProps['content']
+  /** Additional properties passed to the dropdown option Badge component. The variant defaults to "notification". */
+  badgeProps?: Omit<BadgeProps, 'content' | 'children'>
+  /** Notification badge displayed on the right side of the selected dropdown trigger. */
+  triggerBadge?: BadgeProps['content']
+  /** Additional properties passed to the selected dropdown trigger Badge component. The variant defaults to "notification". */
+  triggerBadgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /** Marks this section as initially active. */
   active?: boolean
   /** Recursive menu content for the section. */
@@ -236,6 +244,14 @@ export type SidebarMenuSectionProps = {
   text: ReactNode
   /** Icon shown before the section label. */
   icon?: IconIcon
+  /** Notification badge displayed on the right side of the dropdown option. */
+  badge?: BadgeProps['content']
+  /** Additional properties passed to the dropdown option Badge component. The variant defaults to "notification". */
+  badgeProps?: Omit<BadgeProps, 'content' | 'children'>
+  /** Notification badge displayed on the right side of the selected dropdown trigger. */
+  triggerBadge?: BadgeProps['content']
+  /** Additional properties passed to the selected dropdown trigger Badge component. The variant defaults to "notification". */
+  triggerBadgeProps?: Omit<BadgeProps, 'content' | 'children'>
   children?: ReactNode
 }
 

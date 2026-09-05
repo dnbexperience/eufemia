@@ -178,6 +178,47 @@ test.describe('Portal SidebarMenu', () => {
     ).toHaveText('About the library')
   })
 
+  test('matches the section selector surface from Figma', async ({
+    page,
+  }) => {
+    const menu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+
+    await menu.getByRole('combobox').click()
+
+    const portal = page.locator('.dnb-sidebar-menu__sections-portal')
+    const drawerList = portal.locator('.dnb-drawer-list')
+    const list = portal.locator('.dnb-drawer-list__list')
+    const option = portal.locator('.dnb-drawer-list__option').first()
+    const optionInner = option.locator('.dnb-drawer-list__option__inner')
+
+    await expect(drawerList).toHaveClass(/dnb-drawer-list--no-divider/)
+    await expect(list).toHaveCSS('box-shadow', 'none')
+    await expect(option).toHaveCSS('padding', '8px')
+    await expect(optionInner).toHaveCSS('padding', '8px')
+    await expect(optionInner).toHaveCSS('border-radius', '16px')
+
+    const styles = await option.evaluate((element) => {
+      const list = element.closest('.dnb-drawer-list__list')
+      const options = list.querySelector('.dnb-drawer-list__options')
+      const inner = element.querySelector(
+        '.dnb-drawer-list__option__inner'
+      )
+
+      return {
+        listBackground: getComputedStyle(list).backgroundColor,
+        optionBackground: getComputedStyle(element).backgroundColor,
+        outline: getComputedStyle(options, '::before').boxShadow,
+        separator: getComputedStyle(inner, '::before').content,
+      }
+    })
+
+    expect(styles.listBackground).toBe(styles.optionBackground)
+    expect(styles.outline).not.toBe('none')
+    expect(styles.separator).toBe('none')
+  })
+
   test('keeps the sidebar visible on Home with mobile navigation in the drawer', async ({
     page,
   }) => {
@@ -194,7 +235,7 @@ test.describe('Portal SidebarMenu', () => {
       page.locator('#portal-sidebar-menu a[title="Go to Eufemia home"]')
     ).toBeVisible()
     await expect(
-      page.getByRole('button', { name: 'Resize sidebar' })
+      page.getByRole('separator', { name: 'Resize sidebar' })
     ).toBeVisible()
 
     await page.goto('/')
@@ -319,6 +360,9 @@ test.describe('Portal SidebarMenu', () => {
     await expect(menuButton).toBeVisible()
     await menuButton.click()
     await expect(
+      page.getByRole('button', { name: 'Hide section content menu' })
+    ).toBeVisible()
+    await expect(
       page.getByRole('navigation', { name: 'Section Content Menu' })
     ).toBeVisible()
   })
@@ -356,6 +400,40 @@ test.describe('Portal SidebarMenu', () => {
     await trigger.click()
     const options = page.getByRole('option')
     await expect(options).toHaveCount(3)
+    const list = page.locator(
+      '.dnb-sidebar-menu__sections-portal .dnb-drawer-list__list:visible'
+    )
+    const firstOption = options.first()
+    const lastOption = options.last()
+    const insets = await list.evaluate(
+      (element, options) => {
+        const listRect = element.getBoundingClientRect()
+        const firstRect = document
+          .querySelector(options.first)
+          .getBoundingClientRect()
+        const lastRect = document
+          .querySelector(options.last)
+          .getBoundingClientRect()
+
+        return {
+          top: firstRect.top - listRect.top,
+          right: listRect.right - firstRect.right,
+          bottom: listRect.bottom - lastRect.bottom,
+          left: firstRect.left - listRect.left,
+        }
+      },
+      {
+        first: await firstOption.evaluate((element) => {
+          element.dataset.sidebarMenuTestOption = 'first'
+          return '[data-sidebar-menu-test-option="first"]'
+        }),
+        last: await lastOption.evaluate((element) => {
+          element.dataset.sidebarMenuTestOption = 'last'
+          return '[data-sidebar-menu-test-option="last"]'
+        }),
+      }
+    )
+    expect(insets).toEqual({ top: 4, right: 4, bottom: 4, left: 4 })
     for (const name of ['Web', 'iOS', 'Android']) {
       await expect(
         page

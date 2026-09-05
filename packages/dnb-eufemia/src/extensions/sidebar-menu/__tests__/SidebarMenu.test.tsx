@@ -23,6 +23,12 @@ describe('SidebarMenu', () => {
         'Header',
         'Item',
         'Section',
+        'ResizeHandle',
+        'ResponsiveInline',
+        'ResponsiveDrawer',
+        'ResponsiveProvider',
+        'ResponsiveTrigger',
+        'useResponsive',
       ].sort()
     )
   })
@@ -465,13 +471,19 @@ describe('SidebarMenu', () => {
         defaultActiveSection="personal"
         onActiveSectionChange={onActiveSectionChange}
       >
-        <SidebarMenu.Section id="personal" text="Personal" icon={person}>
+        <SidebarMenu.Section
+          id="personal"
+          text="Personal"
+          icon={person}
+          triggerBadge={2}
+        >
           <SidebarMenu.Item id="overview" text="Overview" />
         </SidebarMenu.Section>
         <SidebarMenu.Section
           id="business"
           text="Business"
           icon={office_buildings}
+          badge={9}
         >
           <SidebarMenu.Item id="invoices" text="Invoices" />
         </SidebarMenu.Section>
@@ -490,6 +502,10 @@ describe('SidebarMenu', () => {
     expect(
       trigger.querySelector('[data-testid="person icon"]')
     ).toBeInTheDocument()
+    expect(trigger).toHaveTextContent('2')
+    expect(trigger.querySelector('.dnb-badge')).toHaveClass(
+      'dnb-badge--variant-notification'
+    )
 
     fireEvent.click(trigger)
 
@@ -497,16 +513,33 @@ describe('SidebarMenu', () => {
       '.dnb-sidebar-menu__sections-portal'
     )
     expect(portal).toBeInTheDocument()
+    expect(portal.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
     expect(
       portal.querySelector('[data-testid="person icon"]')
     ).toBeInTheDocument()
     expect(
       portal.querySelector('[data-testid="office buildings icon"]')
     ).toBeInTheDocument()
+    const options = Array.from(
+      portal.querySelectorAll<HTMLElement>('[role="option"]')
+    )
+    expect(
+      options.find((element) => element.textContent.includes('Personal'))
+    ).not.toHaveTextContent('2')
+    expect(
+      options.find((element) => element.textContent.includes('Business'))
+    ).toHaveTextContent('9')
+    expect(
+      options
+        .find((element) => element.textContent.includes('Business'))
+        .querySelector('.dnb-badge')
+    ).toHaveClass('dnb-badge--variant-notification')
 
     fireEvent.click(
       Array.from(document.querySelectorAll('[role="option"]')).find(
-        (element) => element.textContent === 'Business'
+        (element) => element.textContent.includes('Business')
       )
     )
 
@@ -526,6 +559,7 @@ describe('SidebarMenu', () => {
             id: 'personal',
             text: 'Personal',
             icon: person,
+            triggerBadge: 2,
             active: true,
             items: [{ id: 'home', text: 'Home' }],
           },
@@ -533,6 +567,7 @@ describe('SidebarMenu', () => {
             id: 'business',
             text: 'Business',
             icon: office_buildings,
+            badge: 9,
             items: [{ id: 'payments', text: 'Payments' }],
           },
         ]}
@@ -550,9 +585,14 @@ describe('SidebarMenu', () => {
     expect(
       options[1].querySelector('[data-testid="office buildings icon"]')
     ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveTextContent('2')
+    expect(options[0]).not.toHaveTextContent('2')
+    expect(options[1]).toHaveTextContent('9')
 
     fireEvent.click(
-      options.find((element) => element.textContent === 'Business')
+      options.find((element) => element.textContent.includes('Business'))
     )
 
     expect(document.body).toHaveTextContent('Payments')

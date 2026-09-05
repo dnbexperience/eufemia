@@ -52,6 +52,7 @@ export type SidebarMenuConfig = {
   order?: number
   root?: boolean
   includePageAs?: string
+  pageParent?: string
   pageIcon?: string
   pageOrder?: number
   static?: boolean
@@ -261,6 +262,33 @@ export function createUilibSidebarStructure(
     })
 
   configuredSources
+    .filter(
+      ({ sidebarMenu }) => sidebarMenu.root && sidebarMenu.pageParent
+    )
+    .sort(compareSidebarMenuOrder)
+    .forEach((source) => {
+      const config = source.sidebarMenu
+      const target = targets.get(normalizePath(config.pageParent))
+      if (!target) {
+        throw new Error(
+          'Sidebar menu page parent not found: ' + config.pageParent
+        )
+      }
+
+      target.subheadings.push({
+        ...source,
+        title: config.includePageAs || source.title,
+        menuTitle: config.includePageAs || source.menuTitle,
+        icon: config.pageIcon,
+        isMenuLink: true,
+        sidebarMenuDividerBefore: undefined,
+        sidebarMenu: undefined,
+        subheadings: undefined,
+        _sidebarMenuOrder: config.pageOrder ?? config.order,
+      })
+    })
+
+  configuredSources
     .filter(({ sidebarMenu }) => sidebarMenu.parent)
     .sort(compareSidebarMenuOrder)
     .forEach((source) => {
@@ -332,7 +360,7 @@ function createConfiguredRoot(
     sidebarMenu: undefined,
     platform: config.platform ?? item.platform,
     subheadings: [
-      ...(config.includePageAs
+      ...(config.includePageAs && !config.pageParent
         ? [
             {
               ...item,
