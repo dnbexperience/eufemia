@@ -14,9 +14,10 @@ import { log } from '../../../lib'
 vi.mock('simple-git')
 const mockSimpleGit = vi.mocked(simpleGit)
 
-function mockBranchName(branchName: string) {
+function mockBranchName(branchName: string, tags: Array<string> = []) {
   mockSimpleGit.mockReturnValue({
     branch: vi.fn().mockResolvedValue({ current: branchName }),
+    tags: vi.fn().mockResolvedValue({ all: tags }),
   } as unknown as SimpleGit)
 }
 
@@ -205,8 +206,121 @@ describe('makeReleaseVersion', () => {
     )
   })
 
+  it('writes the released version when nothing warrants a new one', async () => {
+    mockBranchName('release', ['v11.12.0', 'v11.11.0'])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    // Only tags reachable from HEAD count, so a maintenance branch cannot
+    // pick up another line's version
+    expect(mockSimpleGit().tags).toHaveBeenCalledWith([
+      '--merged',
+      'HEAD',
+      '--sort=-version:refname',
+    ])
+
+    expect(fs.writeFile).toHaveBeenCalledTimes(4)
+
+    // JS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '11.12.0'`)
+    )
+
+    // CJS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
+      expect.stringContaining(`exports.version = '11.12.0'`)
+    )
+
+    // CSS
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      3,
+      expect.stringContaining('src/style/core/scopes.scss'),
+      expect.stringContaining(`--eufemia-version: '11.12.0';`)
+    )
+  })
+
+  it('keeps the last stable version when the newest reachable tag is a prerelease', async () => {
+    // git ranks a prerelease above its own stable, so it has to be skipped
+    mockBranchName('release', ['v11.12.0-beta.1', 'v11.12.0', 'v11.11.0'])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '11.12.0'`)
+    )
+  })
+
+  it('keeps the prerelease of its own channel on a prerelease branch', async () => {
+    // The newest stable is not the version a prerelease build already has
+    mockBranchName('beta', [
+      'v11.13.0-beta.2',
+      'v11.13.0-beta.1',
+      'v11.12.0',
+      'v11.12.0-alpha.1',
+    ])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '11.13.0-beta.2'`)
+    )
+  })
+
+  it('falls back to the stable tag on a prerelease branch that has not released', async () => {
+    mockBranchName('beta', ['v11.12.0', 'v11.11.0'])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '11.12.0'`)
+    )
+  })
+
+  it('skips the legacy channel-suffixed tags', async () => {
+    // The legacy channel-suffixed tags are not versions to stamp
+    mockBranchName('beta', ['v3.19.0-beta.1@beta', 'v3.18.0'])
+    vi.spyOn(
+      getNextReleaseVersion,
+      'getNextReleaseVersion'
+    ).mockImplementationOnce(async () => null)
+
+    await makeReleaseVersion()
+
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
+      expect.stringContaining(`export const version = '3.18.0'`)
+    )
+  })
+
   it('write branch in file', async () => {
-    mockBranchName('release')
+    mockBranchName('some-branch')
     vi.spyOn(
       getNextReleaseVersion,
       'getNextReleaseVersion'
@@ -220,21 +334,21 @@ describe('makeReleaseVersion', () => {
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('src/shared/build-info/BuildInfoData.ts'),
-      expect.stringContaining(`release`)
+      expect.stringContaining(`some-branch`)
     )
 
     // CJS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       2,
       expect.stringContaining('src/shared/build-info/BuildInfoData.cjs'),
-      expect.stringContaining(`release`)
+      expect.stringContaining(`some-branch`)
     )
 
     // CSS
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       3,
       expect.stringContaining('src/style/core/scopes.scss'),
-      expect.stringContaining(`--eufemia-version: 'release';`)
+      expect.stringContaining(`--eufemia-version: 'some-branch';`)
     )
   })
 

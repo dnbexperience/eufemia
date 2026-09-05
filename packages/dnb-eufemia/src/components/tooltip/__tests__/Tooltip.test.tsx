@@ -612,6 +612,164 @@ describe('Tooltip', () => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--active')
     })
 
+    it('should cancel the overlay hide timer when mouse returns across the gap', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={150}
+          hideDelay={100}
+          targetElement={<button>Button</button>}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(getMainElem())
+      fireEvent.mouseLeave(getMainElem())
+      fireEvent.mouseEnter(buttonElem)
+
+      await wait(125)
+
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      expect(buttonElem).toHaveAttribute('aria-describedby')
+
+      fireEvent.mouseLeave(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+      })
+    })
+
+    it('should not start hiding after rapid target re-entry', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={100}
+          hideDelay={100}
+          targetElement={<button>Button</button>}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      const describedBy = buttonElem.getAttribute('aria-describedby')
+      const classNames = []
+      const observer = new MutationObserver(() => {
+        classNames.push(getMainElem().className)
+      })
+      observer.observe(getMainElem(), {
+        attributes: true,
+        attributeFilter: ['class'],
+      })
+
+      for (let i = 0; i < 3; i++) {
+        fireEvent.mouseLeave(buttonElem)
+
+        expect(buttonElem).toHaveAttribute('aria-describedby', describedBy)
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+
+        await wait(80)
+        fireEvent.mouseEnter(buttonElem)
+
+        expect(buttonElem).toHaveAttribute('aria-describedby', describedBy)
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+
+        await wait(20)
+      }
+      observer.disconnect()
+
+      expect(classNames).not.toContain(
+        expect.stringContaining('dnb-tooltip--hide')
+      )
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+
+    it('should not replay the show animation when re-entering while hiding', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={100}
+          hideDelay={100}
+          targetElement={<button>Button</button>}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+      })
+
+      fireEvent.mouseEnter(buttonElem)
+
+      expect(getMainElem()).toHaveClass(
+        'dnb-tooltip--active',
+        'dnb-tooltip--no-animation'
+      )
+
+      fireEvent.mouseLeave(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+        expect(getMainElem()).not.toHaveClass('dnb-tooltip--no-animation')
+      })
+    })
+
+    it('should not replay the show animation when re-entering the Tooltip while hiding', async () => {
+      render(
+        <OriginalTooltip
+          {...defaultProps}
+          showDelay={100}
+          hideDelay={100}
+          targetElement={<button>Button</button>}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(getMainElem())
+      fireEvent.mouseLeave(getMainElem())
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+      })
+
+      fireEvent.mouseEnter(getMainElem())
+
+      expect(getMainElem()).toHaveClass(
+        'dnb-tooltip--active',
+        'dnb-tooltip--no-animation'
+      )
+    })
+
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition open />)
 

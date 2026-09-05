@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import { Field, Form, Value } from '../../../..'
 import userEvent from '@testing-library/user-event'
 
@@ -21,7 +21,9 @@ describe('EditContainer async onDone', () => {
       <Form.Handler id={formId} defaultData={{ name: 'Ada' }}>
         <Form.Section containerMode="edit">
           <Form.Section.EditContainer onDone={onDone}>
-            <Field.String path="/name" />
+            <Field.Provider disabled={false}>
+              <Field.String path="/name" disabled={false} />
+            </Field.Provider>
           </Form.Section.EditContainer>
 
           <Form.Section.ViewContainer>
@@ -58,6 +60,7 @@ describe('EditContainer async onDone', () => {
     expect(
       document.querySelector('.dnb-forms-section-view-block')
     ).toHaveTextContent('Ada')
+    expect(input).not.toBeDisabled()
   })
 
   it('should enable the fields again when an async onDone rejects', async () => {
@@ -92,6 +95,46 @@ describe('EditContainer async onDone', () => {
     })
 
     // The user can correct the value and try again
+    await userEvent.type(input, 'Grace')
+    expect(input).toHaveValue('Grace')
+  })
+
+  it('should force nested fields disabled until an async onDone rejects', async () => {
+    let rejectOnDone!: (reason?: unknown) => void
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((_resolve, reject) => {
+          rejectOnDone = reject
+        })
+    )
+
+    render(
+      <Form.Section containerMode="edit">
+        <Form.Section.EditContainer onDone={onDone}>
+          <Field.Provider disabled={false}>
+            <Field.String path="/name" disabled={false} />
+          </Field.Provider>
+        </Form.Section.EditContainer>
+
+        <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+      </Form.Section>
+    )
+
+    const input = document.querySelector('input')
+    await userEvent.click(
+      document.querySelector('.dnb-forms-section-edit-block button')
+    )
+    expect(input).toBeDisabled()
+
+    await userEvent.type(input, 'Grace')
+    expect(input).toHaveValue('')
+
+    rejectOnDone(new Error('Save failed'))
+
+    await waitFor(() => {
+      expect(input).not.toBeDisabled()
+    })
+
     await userEvent.type(input, 'Grace')
     expect(input).toHaveValue('Grace')
   })
@@ -173,6 +216,146 @@ describe('EditContainer async onDone', () => {
     expect(cancelButton).toBeDisabled()
 
     resolveOnDone()
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-forms-section-view-block')
+      ).not.toHaveAttribute('aria-hidden', 'true')
+    })
+  })
+
+  it('should re-enable the section after asyncSubmitTimeout when an async onDone never settles', async () => {
+    const onDone = vi.fn(() => new Promise<void>(() => undefined))
+
+    render(
+      <Form.Handler asyncSubmitTimeout={100}>
+        <Form.Section containerMode="edit">
+          <Form.Section.EditContainer onDone={onDone}>
+            <Field.String path="/name" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const [doneButton, cancelButton] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-edit-block button')
+    )
+    const input = document.querySelector('input')
+
+    await userEvent.click(doneButton)
+
+    // Disabled while the save is in flight
+    expect(onDone).toHaveBeenCalledTimes(1)
+    expect(doneButton).toBeDisabled()
+    expect(cancelButton).toBeDisabled()
+    expect(input).toBeDisabled()
+
+    // The Promise never settles, so the asyncSubmitTimeout recovers the
+    // section instead of leaving it stuck.
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+    expect(cancelButton).not.toBeDisabled()
+    expect(input).not.toBeDisabled()
+
+    // It stays in edit mode, since the save never confirmed, so the user
+    // can try again.
+    expect(
+      document.querySelector('.dnb-forms-section-view-block')
+    ).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('should ignore a late resolution after asyncSubmitTimeout', async () => {
+    let resolveOnDone!: () => void
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveOnDone = resolve
+        })
+    )
+
+    render(
+      <Form.Handler asyncSubmitTimeout={100}>
+        <Form.Section containerMode="edit">
+          <Form.Section.EditContainer onDone={onDone}>
+            <Field.String path="/name" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const doneButton = document.querySelector(
+      '.dnb-forms-section-edit-block button'
+    )
+
+    await userEvent.click(doneButton)
+
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+
+    await act(async () => {
+      resolveOnDone()
+    })
+
+    expect(
+      document.querySelector('.dnb-forms-section-view-block')
+    ).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('should ignore a stale rejection while a retry is pending', async () => {
+    const operations: Array<{
+      resolve: () => void
+      reject: (reason?: unknown) => void
+    }> = []
+    const onDone = vi.fn(
+      () =>
+        new Promise<void>((resolve, reject) => {
+          operations.push({ resolve, reject })
+        })
+    )
+
+    render(
+      <Form.Handler asyncSubmitTimeout={100}>
+        <Form.Section containerMode="edit">
+          <Form.Section.EditContainer onDone={onDone}>
+            <Field.String path="/name" />
+          </Form.Section.EditContainer>
+
+          <Form.Section.ViewContainer>content</Form.Section.ViewContainer>
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const [doneButton, cancelButton] = Array.from(
+      document.querySelectorAll('.dnb-forms-section-edit-block button')
+    )
+
+    await userEvent.click(doneButton)
+
+    await waitFor(() => {
+      expect(doneButton).not.toBeDisabled()
+    })
+
+    await userEvent.click(doneButton)
+    expect(onDone).toHaveBeenCalledTimes(2)
+    expect(doneButton).toBeDisabled()
+    expect(cancelButton).toBeDisabled()
+
+    await act(async () => {
+      operations[0].reject(new Error('First save failed late'))
+    })
+
+    expect(doneButton).toBeDisabled()
+    expect(cancelButton).toBeDisabled()
+
+    await act(async () => {
+      operations[1].resolve()
+    })
 
     await waitFor(() => {
       expect(

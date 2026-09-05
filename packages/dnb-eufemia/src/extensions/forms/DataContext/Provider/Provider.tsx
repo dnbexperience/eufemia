@@ -176,7 +176,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     minimumAsyncBehaviorTime?: number
     /**
-     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. Defaults to 30s.
+     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. It also limits how long a field waits for an async `onChange` or validator before it clears its pending state. A submit waiting for that field is canceled and must be retried. Defaults to 30s.
      */
     asyncSubmitTimeout?: number
     /**
@@ -439,6 +439,8 @@ export default function Provider<Data extends JsonObject>(
   // - States (e.g. error) reported by fields, based on their direct validation rules
   const fieldErrorRef = useRef<Record<Path, Error>>({})
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
+  const onSubmitContinueRef = useRef<(() => void) | null>(null)
+  const submitContinuationCancelledRef = useRef(false)
   const validationVersionRef = useRef(0)
   const bumpValidationVersionRef = useRef<() => void>(() => null)
 
@@ -690,7 +692,12 @@ export default function Provider<Data extends JsonObject>(
    * Sets the field state for a specific path
    */
   const setFieldState: ContextState['setFieldState'] = useCallback(
-    (path, fieldState) => {
+    (path, fieldState, { cancelPendingSubmit = false } = {}) => {
+      if (cancelPendingSubmit) {
+        submitContinuationCancelledRef.current = true
+        onSubmitContinueRef.current = null
+      }
+
       if (fieldState !== fieldStateRef.current[path]) {
         // The state for the target value was changed
         fieldStateRef.current[path] = fieldState
@@ -1478,6 +1485,10 @@ export default function Provider<Data extends JsonObject>(
         skipErrorCheck,
       } = args
 
+      if (!skipFieldValidation) {
+        submitContinuationCancelledRef.current = false
+      }
+
       setSubmitState({
         error: undefined,
         warning: undefined,
@@ -1485,12 +1496,16 @@ export default function Provider<Data extends JsonObject>(
         customStatus: undefined,
       })
 
-      const asyncBehaviorIsEnabled =
+      const shouldEnableAsyncBehavior = (hasAsyncValidator: boolean) =>
         (skipErrorCheck
           ? enableAsyncBehavior
           : // Don't enable async behavior if we have errors, but when we have a pending state
             !hasErrors() || hasFieldState('pending')) &&
-        (enableAsyncBehavior || hasFieldWithAsyncValidator())
+        (enableAsyncBehavior || hasAsyncValidator)
+
+      const hadAsyncValidator = hasFieldWithAsyncValidator()
+      let asyncBehaviorIsEnabled =
+        shouldEnableAsyncBehavior(hadAsyncValidator)
 
       if (asyncBehaviorIsEnabled) {
         setFormState('pending')
@@ -1512,6 +1527,16 @@ export default function Provider<Data extends JsonObject>(
             }
           }
         }
+      }
+
+      // A validator can reveal its async behavior only after it has been called.
+      if (
+        !asyncBehaviorIsEnabled &&
+        !hadAsyncValidator &&
+        shouldEnableAsyncBehavior(hasFieldWithAsyncValidator())
+      ) {
+        asyncBehaviorIsEnabled = true
+        setFormState('pending')
       }
 
       let result: EventStateObject | undefined
@@ -1575,7 +1600,10 @@ export default function Provider<Data extends JsonObject>(
 
           setFormState(undefined)
 
-          if (!skipFieldValidation) {
+          if (
+            !skipFieldValidation &&
+            !submitContinuationCancelledRef.current
+          ) {
             // Add an event listener to continue the submit after the pending state is resolved
             onSubmitContinueRef.current = () => {
               window.requestAnimationFrame(() => {
@@ -1782,7 +1810,6 @@ export default function Provider<Data extends JsonObject>(
   )
 
   // Handle unresolved field states during async submit
-  const onSubmitContinueRef = useRef<(() => void) | null>(null)
   if (!hasFieldState('pending')) {
     onSubmitContinueRef.current?.()
     onSubmitContinueRef.current = null
@@ -1882,6 +1909,8 @@ export default function Provider<Data extends JsonObject>(
       : formState === 'pending'
         ? true
         : undefined
+  const forceDisabled =
+    typeof rest?.['disabled'] !== 'boolean' && formState === 'pending'
   const contextErrorMessages =
     errorMessages?.[locale ?? sharedLocale] || errorMessages
 
@@ -2008,6 +2037,7 @@ export default function Provider<Data extends JsonObject>(
       <DataContextRefContext value={contextValueRef}>
         <FieldPropsProvider
           FormStatus={formStatusConfig}
+          forceDisabled={forceDisabled || undefined}
           formElement={disabled ? { disabled: true } : undefined}
           locale={locale ? locale : undefined}
           translations={translations ? translations : undefined}

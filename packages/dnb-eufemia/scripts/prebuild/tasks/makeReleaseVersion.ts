@@ -25,7 +25,11 @@ export async function makeReleaseVersion() {
   let sha = null
 
   if (isReleaseBranch(branchName)) {
-    version = await getNextReleaseVersion()
+    // A release build has to carry a version, so when the commits do not
+    // warrant one it keeps the version the package already has
+    version =
+      (await getNextReleaseVersion()) ||
+      (await getLastReleaseVersion(branchName))
   }
 
   if (!version && isCI) {
@@ -104,4 +108,31 @@ export async function makeReleaseVersion() {
       { cwd: packageRoot }
     )
   }
+}
+
+/**
+ * The version the package already carries on this branch: the newest reachable
+ * tag of the channel it releases on, which is what the portal footer
+ * (version.js) resolves too.
+ */
+async function getLastReleaseVersion(branchName: string) {
+  const { all } = await simpleGit().tags([
+    '--merged',
+    'HEAD',
+    '--sort=-version:refname',
+  ])
+
+  // git ranks a prerelease above its own stable, so the channel has to be
+  // matched rather than the newest tag taken. semantic-release names a
+  // `prerelease: true` branch's versions after the branch, so the branch name
+  // identifies the channel. The prerelease charset is the one
+  // verifyReleaseVersion.mjs accepts, which also excludes the legacy
+  // channel-suffixed tags that are not versions.
+  const isStable = (tag: string) => /^v\d+\.\d+\.\d+$/.test(tag)
+  const isOnChannel = (tag: string) =>
+    /^v\d+\.\d+\.\d+-[0-9A-Za-z.-]+$/.test(tag) &&
+    tag.slice(tag.indexOf('-') + 1).startsWith(`${branchName}.`)
+
+  // A prerelease branch that has not released yet falls back to the stable tag
+  return (all.find(isOnChannel) || all.find(isStable))?.replace(/^v/, '')
 }
