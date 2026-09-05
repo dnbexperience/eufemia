@@ -12,6 +12,26 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check-automation-foundation:
+    name: Validate automation foundation
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Run automation tests
+        run: |
+          bash .github/automations/scripts/__tests__/check-mcp-tools.test.sh
+          bash .github/automations/scripts/__tests__/report.test.sh
+          bash .github/automations/scripts/__tests__/validate-runtime-config.test.sh
+          node .github/automations/scripts/__tests__/configuration.test.mjs
+          node .github/automations/scripts/__tests__/notification.test.mjs
+          node .github/automations/scripts/__tests__/validate-context.test.mjs
+
   check-pr-title:
     name: Validate PR title
 
