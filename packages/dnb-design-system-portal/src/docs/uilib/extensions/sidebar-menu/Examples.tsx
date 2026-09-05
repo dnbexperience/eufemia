@@ -87,6 +87,11 @@ export function SidebarMenuDeclarative() {
               <SidebarMenu.Item
                 id="online-shopping"
                 text="Online shopping"
+                badge={2}
+                badgeProps={{
+                  variant: 'notification',
+                  label: 'Notifications:',
+                }}
               />
             </SidebarMenu.Accordion>
           </SidebarMenu.Accordion>
@@ -234,6 +239,11 @@ export function SidebarMenuData() {
                         {
                           id: 'data-online-shopping',
                           text: 'Online shopping',
+                          badge: 2,
+                          badgeProps: {
+                            variant: 'notification',
+                            label: 'Notifications:',
+                          },
                         },
                       ],
                     },

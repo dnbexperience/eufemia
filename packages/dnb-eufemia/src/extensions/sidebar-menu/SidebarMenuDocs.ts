@@ -186,7 +186,7 @@ export const SidebarMenuItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   badgeProps: {
-    doc: 'Additional properties passed to the Badge component.',
+    doc: 'Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions.',
     type: ['Omit<BadgeProps, "content"', '"children">'],
     status: 'optional',
   },
@@ -255,7 +255,7 @@ export const SidebarMenuAccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   badgeProps: {
-    doc: 'Additional properties passed to the Badge component.',
+    doc: 'Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions.',
     type: ['Omit<BadgeProps, "content"', '"children">'],
     status: 'optional',
   },

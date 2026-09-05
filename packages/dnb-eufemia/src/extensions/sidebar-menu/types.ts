@@ -30,7 +30,7 @@ export type SidebarMenuItemData = {
   badge?: BadgeProps['content']
   /** Additional content displayed on the right side before the badge. */
   suffix?: ReactNode
-  /** Additional properties passed to the Badge component. */
+  /** Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions. */
   badgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /** Link destination. When absent, leaf items render as buttons. */
   href?: string
@@ -161,7 +161,7 @@ export type SidebarMenuItemProps = {
   badge?: BadgeProps['content']
   /** Additional content displayed on the right side before the badge. */
   suffix?: ReactNode
-  /** Additional properties passed to the Badge component. */
+  /** Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions. */
   badgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /**
    * Renders the item as a link with this destination.
@@ -198,7 +198,7 @@ export type SidebarMenuAccordionProps = {
   badge?: BadgeProps['content']
   /** Additional content displayed before the badge and accordion indicator. */
   suffix?: ReactNode
-  /** Additional properties passed to the Badge component. */
+  /** Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions. */
   badgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /**
    * Makes the accordion trigger a page link that also controls expansion.

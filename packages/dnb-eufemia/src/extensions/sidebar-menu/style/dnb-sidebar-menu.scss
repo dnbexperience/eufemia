@@ -229,7 +229,17 @@
       display: flex;
       align-items: center;
       flex-shrink: 0;
+      gap: 0.5rem;
       margin-inline-start: auto;
+    }
+
+    &__notification-indicator {
+      width: 0.5rem;
+      height: 0.5rem;
+
+      border-radius: var(--token-radius-full);
+
+      background-color: var(--token-color-background-error);
     }
 
     &__current-indicator {

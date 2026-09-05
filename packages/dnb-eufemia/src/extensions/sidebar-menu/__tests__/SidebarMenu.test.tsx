@@ -736,6 +736,81 @@ describe('SidebarMenu', () => {
     expect(accordionBadge).toHaveTextContent('Product groups:')
   })
 
+  it('indicates nested notifications on collapsed accordions', () => {
+    render(
+      <SidebarMenu.Container
+        data={[
+          {
+            id: 'products',
+            text: 'Products',
+            items: [
+              {
+                id: 'cards',
+                text: 'Cards',
+                items: [
+                  {
+                    id: 'credit-card',
+                    text: 'Credit card',
+                    badge: 2,
+                    badgeProps: {
+                      variant: 'notification',
+                      label: 'Notifications:',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ]}
+      />
+    )
+
+    const products = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    )
+    const productsTrigger = products.querySelector(
+      ':scope > .dnb-sidebar-menu__accordion__trigger'
+    )
+
+    expect(
+      productsTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).toBeInTheDocument()
+
+    fireEvent.click(productsTrigger)
+
+    expect(
+      productsTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).not.toBeInTheDocument()
+
+    const cards = document.querySelector('[data-sidebar-menu-id="cards"]')
+    const cardsTrigger = cards.querySelector(
+      ':scope > .dnb-sidebar-menu__accordion__trigger'
+    )
+
+    expect(
+      cardsTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).toBeInTheDocument()
+
+    fireEvent.click(cardsTrigger)
+
+    expect(
+      cardsTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="credit-card"] .dnb-badge'
+      )
+    ).toHaveClass('dnb-badge--variant-notification')
+  })
+
   it('navigates and toggles expansion when a page accordion is activated', () => {
     vi.useFakeTimers()
     const onSelectedItemChange = vi.fn()
