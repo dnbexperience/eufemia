@@ -1,0 +1,23 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/sidebar-menu/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Declarative composition
+
+Use compound React components when the menu structure is authored in JSX.
+This example persists manually opened and closed groups in session storage.
+
+<Examples.SidebarMenuDeclarative />
+
+### Data composition
+
+Use `sections` or `data` to render the same recursive structure from JavaScript objects.
+This example is placed inside a `ScrollView` with a viewport-aware maximum height and persists its scroll position in session storage.
+
+<Examples.SidebarMenuData />
