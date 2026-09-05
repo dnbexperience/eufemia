@@ -18,6 +18,7 @@ export const UploadFieldProperties: PropertiesTableProps = {
   ...UploadProperties,
   title: undefined, // hiding from docs as we rather want user to use the `label` prop,
   text: undefined, // hiding from docs as we rather want user to use the `labelDescription` prop,
+  asyncFileOperationTimeout: undefined, // hiding from docs as Field.Upload always passes the form's `asyncSubmitTimeout`
 }
 
 export const UploadFieldEvents: PropertiesTableProps = {

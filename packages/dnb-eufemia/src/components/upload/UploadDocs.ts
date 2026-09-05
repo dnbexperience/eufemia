@@ -31,6 +31,11 @@ export const UploadProperties: PropertiesTableProps = {
     type: ['number', 'false'],
     status: 'optional',
   },
+  asyncFileOperationTimeout: {
+    doc: 'Deadline in milliseconds for an `onFileDelete` or `onFileClick` that returns a Promise. When the Promise does not settle within it, the file stops showing its loading state and a later settle is ignored, so a Promise that never settles does not leave the file stuck. A timed out deletion keeps the file listed and shows the `errorDeleteTimeout` message. Inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/properties), its `asyncSubmitTimeout` is used instead. Defaults to `30000` (30 seconds).',
+    type: 'number',
+    status: 'optional',
+  },
   title: {
     doc: 'Custom text property. Replaces the default title. Can be disabled using `false`.',
     type: 'string',
@@ -111,6 +116,11 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  errorDeleteTimeout: {
+    doc: 'Custom error message shown on a file whose deletion did not complete before its deadline. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   loadingText: {
     doc: 'Custom text displayed during file loading. Overrides the default translation.',
     type: 'React.ReactNode',
@@ -153,12 +163,12 @@ export const UploadEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onFileDelete: {
-    doc: 'Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.',
+    doc: 'Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`. Return a Promise to keep the file in a loading state until it settles: the file is removed when the Promise resolves, and kept with an error message when it rejects. When it does not settle within `asyncFileOperationTimeout` (or `asyncSubmitTimeout` inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/properties)), the file is kept as well and a later settle is ignored.',
     type: 'function',
     status: 'optional',
   },
   onFileClick: {
-    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text.',
+    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text. Return a Promise to keep the file in a loading state until it settles. When it does not settle within `asyncFileOperationTimeout` (or `asyncSubmitTimeout` inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/properties)), the loading state stops and a later settle is ignored.',
     type: 'function',
     status: 'optional',
   },

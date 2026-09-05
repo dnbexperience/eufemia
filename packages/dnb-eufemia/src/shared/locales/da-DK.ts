@@ -182,6 +182,7 @@ export default {
         'Der er en grænse for, hvor mange filer du kan uploade (%amount).',
       errorUnsupportedFile:
         'Filen du prøver at uploade er ikke understøttet.',
+      errorDeleteTimeout: 'Filen kunne ikke slettes. Prøv igen.',
       deleteButton: 'Slet',
       listAriaLabel: 'uploadede filer',
     },

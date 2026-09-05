@@ -181,9 +181,10 @@ function UploadComponent(props: FieldUploadProps) {
 
   // A file that waits for the fileHandler keeps its loading state, which
   // disables its delete button, and keeps the field pending, which blocks the
-  // form submit. Give both the same deadline Form.Handler applies to its own
-  // async submit, so a Promise that never settles cannot leave the file, and
-  // with it the form, permanently stuck.
+  // form submit. The same holds for a file waiting for an async onFileDelete
+  // or onFileClick. Give them all the same deadline Form.Handler applies to
+  // its own async submit, so a Promise that never settles cannot leave the
+  // file, and with it the form, permanently stuck.
   const asyncSubmitTimeout =
     dataContext?.props?.asyncSubmitTimeout ?? 30000
   const fileHandlerOperationsRef = useRef<Set<FileHandlerOperation>>(
@@ -515,6 +516,7 @@ function UploadComponent(props: FieldUploadProps) {
         onChange={changeHandler}
         onFileDelete={onFileDelete}
         onFileClick={onFileClick}
+        asyncFileOperationTimeout={asyncSubmitTimeout}
         title={
           help && labelDescription === false ? (
             <LabelWithHelpButton

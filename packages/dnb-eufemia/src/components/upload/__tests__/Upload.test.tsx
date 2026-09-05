@@ -2195,6 +2195,300 @@ describe('Upload', () => {
         ).toBeInTheDocument()
       })
     })
+
+    describe('never settling file operations', () => {
+      it('will keep a file whose deletion never settles, showing an error message', async () => {
+        const id = 'onFileDelete-never-settles'
+        const onFileDelete = vi.fn(async () => {
+          await new Promise<void>(() => undefined)
+        })
+
+        render(
+          <Upload
+            {...defaultProps}
+            id={id}
+            asyncFileOperationTimeout={300}
+            onFileDelete={onFileDelete}
+          />
+        )
+
+        const inputElement = document.querySelector(
+          '.dnb-upload__file-input'
+        )
+        const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+
+        const deleteButton = screen.queryByRole('button', {
+          name: nb.deleteButton,
+        })
+
+        fireEvent.click(deleteButton)
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-progress-indicator')
+          ).toBeInTheDocument()
+          expect(deleteButton).toBeDisabled()
+        })
+
+        // The Promise never settles, so the deadline recovers the file
+        // instead of leaving it loading with no way out
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-progress-indicator')
+          ).not.toBeInTheDocument()
+        })
+
+        // The consumer never confirmed the deletion, so the file stays
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(1)
+        expect(screen.queryByText('fileName-1.png')).toBeInTheDocument()
+        expect(
+          screen.queryByText(nb.errorDeleteTimeout)
+        ).toBeInTheDocument()
+        expect(
+          screen.queryByRole('button', { name: nb.deleteButton })
+        ).not.toBeDisabled()
+      })
+
+      it('will ignore an onFileDelete that settles after the deadline', async () => {
+        const id = 'onFileDelete-late-settle'
+        let resolveDelete!: () => void
+        const onFileDelete = vi.fn(async () => {
+          await new Promise<void>((resolve) => {
+            resolveDelete = resolve
+          })
+        })
+
+        render(
+          <Upload
+            {...defaultProps}
+            id={id}
+            asyncFileOperationTimeout={300}
+            onFileDelete={onFileDelete}
+          />
+        )
+
+        const inputElement = document.querySelector(
+          '.dnb-upload__file-input'
+        )
+        const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+
+        fireEvent.click(
+          screen.queryByRole('button', { name: nb.deleteButton })
+        )
+
+        await waitFor(() => {
+          expect(
+            screen.queryByText(nb.errorDeleteTimeout)
+          ).toBeInTheDocument()
+        })
+
+        // The file was recovered already, so a late deletion must not
+        // remove it behind the user's back
+        resolveDelete()
+        await wait(50)
+
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(1)
+        expect(
+          screen.queryByText(nb.errorDeleteTimeout)
+        ).toBeInTheDocument()
+      })
+
+      it('will remove both files when two deletions settle in the same tick', async () => {
+        const id = 'onFileDelete-concurrent'
+        const resolvers: Array<() => void> = []
+        const onFileDelete = vi.fn(
+          () =>
+            new Promise<void>((resolve) => {
+              resolvers.push(resolve)
+            })
+        )
+
+        render(
+          <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
+        )
+
+        const inputElement = document.querySelector(
+          '.dnb-upload__file-input'
+        )
+
+        fireEvent.change(inputElement, {
+          target: {
+            files: [
+              createMockFile('fileName-1.png', 100, 'image/png'),
+              createMockFile('fileName-2.png', 100, 'image/png'),
+            ],
+          },
+        })
+
+        const deleteButtons = screen.getAllByRole('button', {
+          name: nb.deleteButton,
+        })
+        fireEvent.click(deleteButtons[0])
+        fireEvent.click(deleteButtons[1])
+
+        await waitFor(() => {
+          expect(onFileDelete).toHaveBeenCalledTimes(2)
+        })
+
+        // Both deletions compute the remaining files from the same source, so
+        // the second must not resurrect the file the first one removed
+        resolvers[0]()
+        resolvers[1]()
+
+        await waitFor(() => {
+          expect(
+            document.querySelectorAll('.dnb-upload__file-cell').length
+          ).toBe(0)
+        })
+      })
+
+      it('will await an onFileDelete returning a Promise without being declared async', async () => {
+        const id = 'onFileDelete-non-async-promise'
+        let resolveDelete!: () => void
+        const onFileDelete = vi.fn(
+          () =>
+            new Promise<void>((resolve) => {
+              resolveDelete = resolve
+            })
+        )
+
+        render(
+          <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
+        )
+
+        const inputElement = document.querySelector(
+          '.dnb-upload__file-input'
+        )
+        const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+
+        fireEvent.click(
+          screen.queryByRole('button', { name: nb.deleteButton })
+        )
+
+        // The file is only removed once the returned Promise resolves
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-progress-indicator')
+          ).toBeInTheDocument()
+        })
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(1)
+
+        resolveDelete()
+
+        await waitFor(() => {
+          expect(
+            document.querySelectorAll('.dnb-upload__file-cell').length
+          ).toBe(0)
+        })
+      })
+
+      it('will stop the loading state of a file whose onFileClick never settles', async () => {
+        const id = 'onFileClick-never-settles'
+        const onFileClick = vi.fn(async () => {
+          await new Promise<void>(() => undefined)
+        })
+
+        render(
+          <Upload
+            {...defaultProps}
+            id={id}
+            asyncFileOperationTimeout={300}
+            onFileClick={onFileClick}
+          />
+        )
+
+        const inputElement = document.querySelector(
+          '.dnb-upload__file-input'
+        )
+        const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+
+        fireEvent.click(
+          document.querySelector('.dnb-upload__file-cell button')
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-progress-indicator')
+          ).toBeInTheDocument()
+        })
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-progress-indicator')
+          ).not.toBeInTheDocument()
+        })
+
+        // Opening a file changes nothing, so there is nothing to report
+        expect(screen.queryByText('fileName-1.png')).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).not.toBeInTheDocument()
+      })
+
+      it('will await an onFileClick returning a Promise without being declared async', async () => {
+        const id = 'onFileClick-non-async-promise'
+        let resolveClick!: () => void
+        const onFileClick = vi.fn(
+          () =>
+            new Promise<void>((resolve) => {
+              resolveClick = resolve
+            })
+        )
+
+        render(
+          <Upload {...defaultProps} id={id} onFileClick={onFileClick} />
+        )
+
+        const inputElement = document.querySelector(
+          '.dnb-upload__file-input'
+        )
+        const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+        fireEvent.change(inputElement, {
+          target: { files: [file1] },
+        })
+
+        fireEvent.click(
+          document.querySelector('.dnb-upload__file-cell button')
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-progress-indicator')
+          ).toBeInTheDocument()
+        })
+
+        resolveClick()
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-progress-indicator')
+          ).not.toBeInTheDocument()
+        })
+      })
+    })
   })
 
   it('should have default variant class when no variant is specified', () => {
