@@ -27,7 +27,6 @@ test.describe('Page Navigation', () => {
       }
 
       await page.goto('/uilib/components/')
-      await page.click('#portal-tools', { force: true })
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
 
@@ -156,14 +155,14 @@ test.describe('Page Navigation', () => {
       }
     })
 
-    test('click on first main menu card should open /design-system', async ({
+    test('click on Design should open the designer guide', async ({
       page,
     }) => {
       const titleBeforeClick = await page.title()
       expect(titleBeforeClick).toContain('DNB Design System | Eufemia')
 
-      await page.click('main nav a')
-      await page.waitForURL('**/design-system/')
+      await page.getByRole('link', { name: /Design/ }).click()
+      await expect(page).toHaveURL('/quickguide-designer')
       await waitForApp(page)
 
       await page.waitForFunction(
@@ -171,7 +170,9 @@ test.describe('Page Navigation', () => {
       )
 
       const titleAfterClick = await page.title()
-      expect(titleAfterClick).toContain('About Eufemia | Eufemia')
+      expect(titleAfterClick).toContain(
+        'Quick Guide - Designers | Eufemia'
+      )
     })
 
     test('click on button page should open /uilib/components/button', async ({
@@ -180,13 +181,13 @@ test.describe('Page Navigation', () => {
       await page.goto('/uilib/components/')
       await waitForApp(page)
 
-      const expandButtons = page.locator(
-        '.dnb-sidebar-menu__expand-button'
-      )
-      const count = await expandButtons.count()
-      for (let i = 0; i < count; i++) {
-        await expandButtons.nth(i).click()
-      }
+      await page
+        .locator(
+          '.dnb-sidebar-menu__accordion__toggle[aria-expanded="false"]'
+        )
+        .evaluateAll((buttons: HTMLButtonElement[]) => {
+          buttons.forEach((button) => button.click())
+        })
 
       const href = '/uilib/components/button'
       const buttonLink = page.locator(

@@ -3,19 +3,18 @@
  *
  */
 
-import { useContext } from 'react'
 import { clsx } from 'clsx'
-import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
-import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
 import { Button } from '@dnb/eufemia/src'
-import { SidebarMenuContext } from './SidebarMenuContext'
+import SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
-import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 import {
   headerStyle,
-  centerWrapperStyle,
+  leadingStyle,
+  mobileLogoStyle,
+  mobileMenuTriggerStyle,
+  searchStyle,
   toolsStyle,
   portalHeaderWrapperStyle,
 } from './StickyMenuBar.module.scss'
@@ -23,49 +22,39 @@ import { Link } from '../tags/Anchor'
 import GithubLogo from '../../docs/contribute/assets/github-logo'
 import FigmaLogo from '../../docs/contribute/assets/figma-logo'
 
-export default function StickyMenuBar({
-  hideSidebarToggleButton = false,
-  preventBarVisibility = false,
-} = {}) {
-  const { toggleMenu, isOpen } = useContext(SidebarMenuContext)
-
-  if (preventBarVisibility || hideSidebarToggleButton) {
-    return null
-  }
+export default function StickyMenuBar() {
+  const { open } = SidebarMenu.useResponsive()
 
   return (
     <header className={clsx(headerStyle, 'sticky-menu', 'dev-grid')}>
       <div className={portalHeaderWrapperStyle}>
-        <HomeButton id="toggle-main-menu" text="Home" />
-        <HomeButton id="toggle-main-menu-small-screen" size="default" />
-
-        <Link
-          href="/"
-          className={clsx(centerWrapperStyle, 'dnb-tab-focus')}
-          title="Go to Eufemia home"
-        >
-          <PortalLogo />
-        </Link>
-
-        <span className={toolsStyle}>
-          <SearchBarInput />
-          <Button
-            icon={isOpen ? closeIcon : hamburgerIcon}
-            onClick={toggleMenu}
+        <span className={leadingStyle}>
+          <SidebarMenu.ResponsiveTrigger
             id="toggle-sidebar-menu"
+            className={mobileMenuTriggerStyle}
             size="default"
             iconSize="default"
-            left="x-small"
-            aria-haspopup={true}
-            aria-controls="portal-sidebar-menu"
-            aria-expanded={isOpen}
-            aria-label="Section Content Menu"
+            controls="portal-sidebar-menu-drawer"
             title={
-              isOpen
+              open
                 ? 'Hide section content menu'
-                : 'Show section content menu'
+                : 'Open section content menu'
             }
           />
+
+          <Link
+            href="/"
+            className={clsx(mobileLogoStyle, 'dnb-tab-focus')}
+            title="Go to Eufemia home"
+          >
+            <PortalLogo />
+          </Link>
+        </span>
+
+        <span className={toolsStyle}>
+          <span className={searchStyle}>
+            <SearchBarInput />
+          </span>
           <Button
             id="github-button"
             href="https://github.com/dnbexperience/eufemia/"
@@ -90,20 +79,5 @@ export default function StickyMenuBar({
         </span>
       </div>
     </header>
-  )
-}
-
-function HomeButton(props: ButtonProps) {
-  return (
-    <Button
-      variant="primary"
-      title="Eufemia main sections"
-      href="/"
-      icon="chevron_left"
-      iconPosition="left"
-      // @ts-expect-error -- strictFunctionTypes
-      element={Link}
-      {...props}
-    />
   )
 }

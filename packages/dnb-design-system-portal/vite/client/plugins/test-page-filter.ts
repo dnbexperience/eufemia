@@ -289,7 +289,8 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
     if (
       ts.isCallExpression(node) &&
       ts.isPropertyAccessExpression(node.expression) &&
-      node.expression.name.text === 'goto'
+      (node.expression.name.text === 'goto' ||
+        node.expression.name.text === 'toHaveURL')
     ) {
       const [arg] = node.arguments
       const rawValue =

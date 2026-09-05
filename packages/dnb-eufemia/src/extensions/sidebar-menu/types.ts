@@ -30,7 +30,7 @@ export type SidebarMenuItemData = {
   badge?: BadgeProps['content']
   /** Additional content displayed on the right side before the badge. */
   suffix?: ReactNode
-  /** Additional properties passed to the Badge component. */
+  /** Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions. */
   badgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /** Link destination. When absent, leaf items render as buttons. */
   href?: string
@@ -57,6 +57,14 @@ export type SidebarMenuSectionData = {
   text: ReactNode
   /** Icon shown before the section label. */
   icon?: IconIcon
+  /** Notification badge displayed on the right side of the dropdown option. */
+  badge?: BadgeProps['content']
+  /** Additional properties passed to the dropdown option Badge component. The variant defaults to "notification". */
+  badgeProps?: Omit<BadgeProps, 'content' | 'children'>
+  /** Notification badge displayed on the right side of the selected dropdown trigger. */
+  triggerBadge?: BadgeProps['content']
+  /** Additional properties passed to the selected dropdown trigger Badge component. The variant defaults to "notification". */
+  triggerBadgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /** Marks this section as initially active. */
   active?: boolean
   /** Recursive menu content for the section. */
@@ -153,7 +161,7 @@ export type SidebarMenuItemProps = {
   badge?: BadgeProps['content']
   /** Additional content displayed on the right side before the badge. */
   suffix?: ReactNode
-  /** Additional properties passed to the Badge component. */
+  /** Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions. */
   badgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /**
    * Renders the item as a link with this destination.
@@ -190,7 +198,7 @@ export type SidebarMenuAccordionProps = {
   badge?: BadgeProps['content']
   /** Additional content displayed before the badge and accordion indicator. */
   suffix?: ReactNode
-  /** Additional properties passed to the Badge component. */
+  /** Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions. */
   badgeProps?: Omit<BadgeProps, 'content' | 'children'>
   /**
    * Makes the accordion trigger a page link that also controls expansion.
@@ -236,6 +244,14 @@ export type SidebarMenuSectionProps = {
   text: ReactNode
   /** Icon shown before the section label. */
   icon?: IconIcon
+  /** Notification badge displayed on the right side of the dropdown option. */
+  badge?: BadgeProps['content']
+  /** Additional properties passed to the dropdown option Badge component. The variant defaults to "notification". */
+  badgeProps?: Omit<BadgeProps, 'content' | 'children'>
+  /** Notification badge displayed on the right side of the selected dropdown trigger. */
+  triggerBadge?: BadgeProps['content']
+  /** Additional properties passed to the selected dropdown trigger Badge component. The variant defaults to "notification". */
+  triggerBadgeProps?: Omit<BadgeProps, 'content' | 'children'>
   children?: ReactNode
 }
 

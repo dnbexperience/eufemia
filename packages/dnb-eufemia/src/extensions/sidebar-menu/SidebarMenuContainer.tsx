@@ -19,6 +19,7 @@ import SidebarMenuAccordion from './SidebarMenuAccordion'
 import SidebarMenuItem from './SidebarMenuItem'
 import SidebarMenuGroup from './SidebarMenuGroup'
 import SidebarMenuSection from './SidebarMenuSection'
+import SidebarMenuBadge from './SidebarMenuBadge'
 import renderSidebarMenuItems from './renderSidebarMenuItems'
 import type {
   SidebarMenuContainerProps,
@@ -499,6 +500,10 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     id: string
     text: React.ReactNode
     icon?: SidebarMenuSectionProps['icon']
+    badge?: SidebarMenuSectionProps['badge']
+    badgeProps?: SidebarMenuSectionProps['badgeProps']
+    triggerBadge?: SidebarMenuSectionProps['triggerBadge']
+    triggerBadgeProps?: SidebarMenuSectionProps['triggerBadgeProps']
   }> = []
 
   if (dataSections?.length) {
@@ -512,6 +517,10 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       id: props.id,
       text: props.text,
       icon: props.icon,
+      badge: props.badge,
+      badgeProps: props.badgeProps,
+      triggerBadge: props.triggerBadge,
+      triggerBadgeProps: props.triggerBadgeProps,
     }))
     sectionContent = declarativeSections.find(
       ({ props }) => props.id === resolvedActiveSection
@@ -537,18 +546,42 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
           label={sectionLabel}
           labelSrOnly
           data={sectionButtons.map((section) => {
-            const content = section.icon ? (
-              <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
-                <Icon icon={section.icon} />
-                {section.text}
-              </Dropdown.HorizontalItem>
-            ) : (
-              section.text
-            )
+            const content =
+              section.icon || section.badge !== undefined ? (
+                <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
+                  {section.icon && <Icon icon={section.icon} />}
+                  {section.text}
+                  <SidebarMenuBadge
+                    badge={section.badge}
+                    badgeProps={{
+                      variant: 'notification',
+                      ...section.badgeProps,
+                    }}
+                  />
+                </Dropdown.HorizontalItem>
+              ) : (
+                section.text
+              )
+            const selectedValue =
+              section.icon || section.triggerBadge !== undefined ? (
+                <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
+                  {section.icon && <Icon icon={section.icon} />}
+                  {section.text}
+                  <SidebarMenuBadge
+                    badge={section.triggerBadge}
+                    badgeProps={{
+                      variant: 'notification',
+                      ...section.triggerBadgeProps,
+                    }}
+                  />
+                </Dropdown.HorizontalItem>
+              ) : (
+                section.text
+              )
 
             return {
               selectedKey: section.id,
-              selectedValue: content,
+              selectedValue,
               content,
             }
           })}
@@ -559,6 +592,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
           }}
           size="medium"
           stretch
+          noDivider
         />
       )}
 

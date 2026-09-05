@@ -5,10 +5,10 @@
     .dnb-autocomplete__shell {
       &,
       input {
-        width: 40vw;
+        width: min(40vw, 17.5rem);
 
         @include utilities.allBelow(small) {
-          width: 50vw;
+          width: min(38vw, 17.5rem);
         }
       }
     }

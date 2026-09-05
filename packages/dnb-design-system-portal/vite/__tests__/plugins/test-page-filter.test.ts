@@ -251,6 +251,27 @@ describe('test-page-filter plugin', () => {
       expect(urls.has('/uilib/components/input/demos')).toBe(true)
     })
 
+    it('extracts routes reached by client-side navigation', () => {
+      const filePath = writeTsFile(
+        'tabs.e2e.spec.ts',
+        `
+        test('tabs work', async ({ page }) => {
+          await page.goto('/uilib/extensions/sidebar-menu')
+          await page.getByRole('tab', { name: 'Properties' }).click()
+          await expect(page).toHaveURL(
+            '/uilib/extensions/sidebar-menu/properties'
+          )
+        })
+        `
+      )
+
+      const urls = extractPageGotoUrls(filePath)
+      expect(urls.has('/uilib/extensions/sidebar-menu')).toBe(true)
+      expect(urls.has('/uilib/extensions/sidebar-menu/properties')).toBe(
+        true
+      )
+    })
+
     it('extracts multiple URLs from a single file', () => {
       const filePath = writeTsFile(
         'multi.e2e.spec.ts',

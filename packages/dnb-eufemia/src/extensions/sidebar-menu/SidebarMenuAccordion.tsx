@@ -1,5 +1,18 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { KeyboardEvent, MouseEvent } from 'react'
+import {
+  Children,
+  isValidElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import type {
+  KeyboardEvent,
+  MouseEvent,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import { clsx } from 'clsx'
 import Anchor from '../../components/Anchor'
 import HeightAnimation from '../../components/height-animation/HeightAnimation'
@@ -61,6 +74,7 @@ export default function SidebarMenuAccordion(
   const isOpen = requestedOpen && !delayOpen
   const isSelected = context.selectedItem === id
   const containsSelectedItem = context.selectedItemAncestorIds.includes(id)
+  const containsNotification = hasNotificationBadge(children)
   const hasLink = Boolean(href || to)
   const useUntilFound = context.untilFound && collapsible
   const clearPendingOpen = useCallback(() => {
@@ -167,6 +181,22 @@ export default function SidebarMenuAccordion(
     ),
     [badge, badgeProps, currentIndicator, icon, suffix, text]
   )
+  const accordionIndicator = collapsible && (
+    <span className="dnb-sidebar-menu__accordion__indicator">
+      {!isOpen && containsNotification && (
+        <span
+          className="dnb-sidebar-menu__accordion__notification-indicator"
+          role="img"
+          aria-label="Contains notifications"
+        />
+      )}
+      <IconPrimary
+        icon={accordionIcon}
+        transitionState={isOpen ? 'expanded' : 'collapsed'}
+      />
+    </span>
+  )
+
   return (
     <li
       {...rest}
@@ -198,14 +228,7 @@ export default function SidebarMenuAccordion(
           style={itemStyle}
         >
           {content}
-          {collapsible && (
-            <span className="dnb-sidebar-menu__accordion__indicator">
-              <IconPrimary
-                icon={accordionIcon}
-                transitionState={isOpen ? 'expanded' : 'collapsed'}
-              />
-            </span>
-          )}
+          {accordionIndicator}
         </Anchor>
       ) : !collapsible ? (
         <div
@@ -225,12 +248,7 @@ export default function SidebarMenuAccordion(
           style={itemStyle}
         >
           {content}
-          <span className="dnb-sidebar-menu__accordion__indicator">
-            <IconPrimary
-              icon={accordionIcon}
-              transitionState={isOpen ? 'expanded' : 'collapsed'}
-            />
-          </span>
+          {accordionIndicator}
         </button>
       )}
 
@@ -250,4 +268,25 @@ export default function SidebarMenuAccordion(
       </HeightAnimation>
     </li>
   )
+}
+
+function hasNotificationBadge(children: ReactNode): boolean {
+  return Children.toArray(children).some((child) => {
+    if (!isValidElement(child)) {
+      return false
+    }
+
+    const element = child as ReactElement<{
+      badge?: SidebarMenuAccordionProps['badge']
+      badgeProps?: SidebarMenuAccordionProps['badgeProps']
+      children?: ReactNode
+    }>
+    const hasBadge =
+      element.props.badge !== undefined &&
+      element.props.badge !== null &&
+      element.props.badgeProps?.variant === 'notification' &&
+      element.props.badgeProps.hideBadge !== true
+
+    return hasBadge || hasNotificationBadge(element.props.children)
+  })
 }

@@ -112,6 +112,53 @@ export const SidebarMenuContainerEvents: PropertiesTableProps = {
   },
 }
 
+export const SidebarMenuResizeHandleProperties: PropertiesTableProps = {
+  targetRef: {
+    doc: 'Ref to the element being resized. The handle reads this element’s rendered width when dragging starts or an arrow key is pressed.',
+    type: 'React.RefObject<HTMLElement>',
+    status: 'required',
+  },
+  cssProperty: {
+    doc: 'CSS custom property that receives the new width as a pixel value, for example `--sidebar-width: 336px`. Use this property in the CSS that sizes the sidebar.',
+    type: 'string',
+    defaultValue: '"--sidebar-menu-width"',
+    status: 'optional',
+  },
+  rootSelector: {
+    doc: 'Selector passed to `targetRef.current.closest()` to find where `cssProperty` is set. Use a shared layout ancestor when the sidebar and adjacent content both depend on the width. When omitted, the property is set on the referenced sidebar element.',
+    type: 'string',
+    status: 'optional',
+  },
+  minWidth: {
+    doc: 'Smallest width the handle can write, in pixels. Use layout CSS for any additional responsive constraints.',
+    type: 'number',
+    defaultValue: '1',
+    status: 'optional',
+  },
+  maxWidth: {
+    doc: 'Largest width the handle can write, in pixels. Defaults to the browser viewport width.',
+    type: 'number',
+    status: 'optional',
+  },
+  step: {
+    doc: 'Number of pixels added or removed when pressing ArrowRight or ArrowLeft.',
+    type: 'number',
+    defaultValue: '16',
+    status: 'optional',
+  },
+  largeStep: {
+    doc: 'Number of pixels added or removed when pressing Shift together with ArrowRight or ArrowLeft.',
+    type: 'number',
+    defaultValue: '48',
+    status: 'optional',
+  },
+  '[button attributes]': {
+    doc: 'Standard button attributes are supported. Set `aria-controls` to the id of the resized sidebar. The default accessible label is "Resize sidebar".',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
 export const SidebarMenuItemProperties: PropertiesTableProps = {
   id: {
     doc: 'Unique item id used for selection state.',
@@ -139,7 +186,7 @@ export const SidebarMenuItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   badgeProps: {
-    doc: 'Additional properties passed to the Badge component.',
+    doc: 'Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions.',
     type: ['Omit<BadgeProps, "content"', '"children">'],
     status: 'optional',
   },
@@ -208,7 +255,7 @@ export const SidebarMenuAccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   badgeProps: {
-    doc: 'Additional properties passed to the Badge component.',
+    doc: 'Additional properties passed to the Badge component. A nested notification variant is indicated on collapsed ancestor accordions.',
     type: ['Omit<BadgeProps, "content"', '"children">'],
     status: 'optional',
   },
@@ -280,6 +327,26 @@ export const SidebarMenuSectionProperties: PropertiesTableProps = {
   icon: {
     doc: 'Icon shown before the section label.',
     type: 'IconIcon',
+    status: 'optional',
+  },
+  badge: {
+    doc: 'Notification badge displayed on the right side of the dropdown option.',
+    type: 'BadgeProps["content"]',
+    status: 'optional',
+  },
+  badgeProps: {
+    doc: 'Additional properties passed to the dropdown option Badge component. The variant defaults to "notification".',
+    type: ['Omit<BadgeProps, "content"', '"children">'],
+    status: 'optional',
+  },
+  triggerBadge: {
+    doc: 'Notification badge displayed on the right side of the selected dropdown trigger.',
+    type: 'BadgeProps["content"]',
+    status: 'optional',
+  },
+  triggerBadgeProps: {
+    doc: 'Additional properties passed to the selected dropdown trigger Badge component. The variant defaults to "notification".',
+    type: ['Omit<BadgeProps, "content"', '"children">'],
     status: 'optional',
   },
   children: {

@@ -30,6 +30,17 @@ import secondary from './graphics/secondary'
 import primary from './graphics/primary'
 import elements from './graphics/elements'
 import OverviewIcon from './graphics/OverviewIcon'
+import {
+  brush,
+  cog,
+  edit,
+  home,
+  laptop,
+  layout_grid,
+  lightbulb,
+  newspaper,
+  play,
+} from '@dnb/eufemia/src/icons'
 
 const SidebarGraphics = {
   aboutTheLib,
@@ -59,6 +70,15 @@ const SidebarGraphics = {
   primary,
   elements,
   OverviewIcon,
+  brush,
+  cog,
+  edit,
+  home,
+  laptop,
+  layout_grid,
+  lightbulb,
+  newspaper,
+  play,
 }
 
 export default SidebarGraphics
