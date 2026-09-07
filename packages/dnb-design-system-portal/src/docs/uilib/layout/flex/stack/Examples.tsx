@@ -5,7 +5,7 @@ import { Card, Flex, P } from '@dnb/eufemia/src'
 export const WithFieldString = () => {
   return (
     <ComponentBox data-visual-test="flex-stack-form">
-      <Flex.Stack>
+      <Flex.Stack layoutEngine="css">
         <Field.String label="Label" value="Foo" />
         <Field.String label="Label" value="Foo" />
         <Form.SubmitButton />
@@ -17,7 +17,7 @@ export const WithFieldString = () => {
 export const WithParagraphs = () => {
   return (
     <ComponentBox data-visual-test="flex-stack-paragraphs">
-      <Flex.Stack>
+      <Flex.Stack layoutEngine="css">
         <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
           cursus pharetra elit in bibendum.
@@ -34,7 +34,7 @@ export const WithParagraphs = () => {
 export const WithMainHeading = () => {
   return (
     <ComponentBox>
-      <Flex.Stack>
+      <Flex.Stack layoutEngine="css">
         <Form.MainHeading>Heading</Form.MainHeading>
         <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
         <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
@@ -46,7 +46,7 @@ export const WithMainHeading = () => {
 export const WithCard = () => {
   return (
     <ComponentBox data-visual-test="flex-stack-card-stack">
-      <Flex.Stack>
+      <Flex.Stack layoutEngine="css">
         <Card gap="medium">
           <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
           <P>Aliquam at felis rutrum, luctus dui at, bibendum ipsum.</P>
@@ -63,7 +63,7 @@ export const WithCard = () => {
 export const WithCardAndHeading = () => {
   return (
     <ComponentBox data-visual-test="flex-stack-card-heading">
-      <Flex.Stack>
+      <Flex.Stack layoutEngine="css">
         <Form.MainHeading>Main heading</Form.MainHeading>
         <Card gap="medium">
           <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</P>
@@ -77,7 +77,7 @@ export const WithCardAndHeading = () => {
 export const WithCardAndHeadings = () => {
   return (
     <ComponentBox data-visual-test="flex-stack-card-two-headings">
-      <Flex.Stack>
+      <Flex.Stack layoutEngine="css">
         <Form.MainHeading>Main heading</Form.MainHeading>
         <Form.SubHeading>Sub heading</Form.SubHeading>
         <Card gap="medium">
@@ -92,7 +92,7 @@ export const WithCardAndHeadings = () => {
 export const WithHeadingsAndAriaLabel = () => {
   return (
     <ComponentBox hidePreview>
-      <Flex.Stack aria-labelledby="unique-id">
+      <Flex.Stack layoutEngine="css" aria-labelledby="unique-id">
         <Form.SubHeading id="unique-id">Heading</Form.SubHeading>
         <Card>
           <P>Content inside a landmark ...</P>
