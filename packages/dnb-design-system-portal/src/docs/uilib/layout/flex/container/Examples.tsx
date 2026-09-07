@@ -7,7 +7,7 @@ import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
 export const Default = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Container>
+      <Flex.Container layoutEngine="css">
         <Flex.Item>
           <TestElement>FlexItem</TestElement>
         </Flex.Item>
@@ -31,7 +31,7 @@ export const HorizontalWithFieldString = () => {
       scope={{ TestElement }}
       data-visual-test="flex-container-field"
     >
-      <Flex.Container>
+      <Flex.Container layoutEngine="css">
         <Field.String label="Label" value="Foo" width="medium" />
         <Field.String label="Label" value="Foo" width="small" />
       </Flex.Container>
@@ -42,7 +42,7 @@ export const HorizontalWithFieldString = () => {
 export const HorizontalWithFlexItem = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Container>
+      <Flex.Container layoutEngine="css">
         <Flex.Item>
           <TestElement>FlexItem</TestElement>
         </Flex.Item>
@@ -63,7 +63,7 @@ export const HorizontalWithFlexItem = () => {
 export const HorizontalWithFlexItemJustifyCenter = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Container justify="center">
+      <Flex.Container layoutEngine="css" justify="center">
         <Flex.Item>
           <TestElement>FlexItem</TestElement>
         </Flex.Item>
@@ -84,7 +84,7 @@ export const HorizontalWithFlexItemJustifyCenter = () => {
 export const HorizontalWithFlexItemJustifyFlexEnd = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Container justify="flex-end">
+      <Flex.Container layoutEngine="css" justify="flex-end">
         <Flex.Item>
           <TestElement>FlexItem</TestElement>
         </Flex.Item>
@@ -105,7 +105,7 @@ export const HorizontalWithFlexItemJustifyFlexEnd = () => {
 export const HorizontalWithFlexItemAlignCenter = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Container align="center">
+      <Flex.Container layoutEngine="css" align="center">
         <Flex.Item>
           <TestElement style={{ height: '4rem' }}>Tall</TestElement>
         </Flex.Item>
@@ -126,7 +126,11 @@ export const HorizontalWithFlexItemAlignCenter = () => {
 export const VerticalWithFlexItemAlignCenter = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Container direction="vertical" align="center">
+      <Flex.Container
+        layoutEngine="css"
+        direction="vertical"
+        align="center"
+      >
         <Flex.Item>
           <TestElement>FlexItem</TestElement>
         </Flex.Item>
@@ -144,7 +148,7 @@ export const VerticalWithFlexItemAlignCenter = () => {
 export const VerticalWithFlexItem = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Container direction="vertical">
+      <Flex.Container layoutEngine="css" direction="vertical">
         <Flex.Item>
           <TestElement>FlexItem</TestElement>
         </Flex.Item>
@@ -165,7 +169,7 @@ export const VerticalWithFlexItem = () => {
 export const VerticalWithCard = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
-      <Flex.Container direction="vertical">
+      <Flex.Container layoutEngine="css" direction="vertical">
         <Card>Card contents</Card>
         <Card>Card contents</Card>
         <Card>Card contents</Card>
@@ -181,6 +185,7 @@ export const VerticalLineDivider = () => {
       data-visual-test="flex-container-divider"
     >
       <Flex.Container
+        layoutEngine="css"
         direction="vertical"
         divider="line"
         alignSelf="stretch"
@@ -196,7 +201,7 @@ export const VerticalLineDivider = () => {
 export const LayoutHorizontalFlexGrowItems = () => {
   return (
     <ComponentBox>
-      <Flex.Horizontal>
+      <Flex.Horizontal layoutEngine="css">
         <Flex.Item span={3}>
           <Card>Card contents</Card>
         </Flex.Item>
@@ -232,7 +237,7 @@ export const WrappedWithChildren = () => {
         })
 
         return (
-          <Flex.Container direction="vertical">
+          <Flex.Container layoutEngine="legacy" direction="vertical">
             <TestElement>FlexItem 1</TestElement>
             <Wrapper>
               <TestElement>FlexItem 2</TestElement>
@@ -360,7 +365,9 @@ const CssDividerParity = () => {
         gap: '2rem',
       }}
     >
-      <Flex.Vertical divider="line">{legacyItems}</Flex.Vertical>
+      <Flex.Vertical layoutEngine="legacy" divider="line">
+        {legacyItems}
+      </Flex.Vertical>
       <Flex.Vertical layoutEngine="css" divider="line">
         {cssItems}
       </Flex.Vertical>
@@ -557,14 +564,18 @@ export const FramedLineDividers = () => {
     >
       {() => {
         const Item = () => (
-          <Flex.Stack divider="line-framed" gap="x-small">
+          <Flex.Stack
+            layoutEngine="css"
+            divider="line-framed"
+            gap="x-small"
+          >
             <TestElement>FlexItem</TestElement>
             <TestElement>FlexItem</TestElement>
           </Flex.Stack>
         )
 
         return (
-          <Flex.Horizontal rowGap={false}>
+          <Flex.Horizontal layoutEngine="css" rowGap={false}>
             <Item />
             <Item />
             <Item />

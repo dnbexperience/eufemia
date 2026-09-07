@@ -22,7 +22,7 @@ export const LayoutComponents = () => {
         Form,
       }}
     >
-      <Flex.Stack>
+      <Flex.Stack layoutEngine="css">
         <Form.MainHeading>Profile</Form.MainHeading>
 
         <Form.Card>
@@ -57,7 +57,7 @@ export const HorizontalFlexItemResponsiveSize = () => {
       scope={{ colors, TestElement }}
       data-visual-test="flex-item-size"
     >
-      <Flex.Container>
+      <Flex.Container layoutEngine="css">
         <Flex.Item span={8}>
           <TestElement style={colors[0]}>FlexItem (8)</TestElement>
         </Flex.Item>
@@ -114,6 +114,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
         return (
           <CustomMediaQuery>
             <Flex.Container
+              layoutEngine="css"
               direction="horizontal"
               sizeCount={4}
               breakpoints={breakpoints}
@@ -153,7 +154,7 @@ export const HorizontalAutoSize = () => {
       hideCode
     >
       <FieldBlock label="Label">
-        <Flex.Container>
+        <Flex.Container layoutEngine="css">
           <Flex.Item span={{ small: 12, large: 'auto' }}>
             <Field.Name.First
               path="/firstName"
