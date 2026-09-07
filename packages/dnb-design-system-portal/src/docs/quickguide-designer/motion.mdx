@@ -3,7 +3,6 @@ title: 'Motion'
 description: 'Visual examples and implementation guidance for motion in DNB interfaces.'
 ---
 
-import { Accordion } from '@dnb/eufemia/src'
 import MotionDemos from './motion/MotionDemos'
 
 # Motion
@@ -28,11 +27,9 @@ Reuse an Eufemia component's built-in motion before adding a custom animation.
 - [TextCounter](/uilib/components/fragments/text-counter/) makes room for an error message.
 - [HeightAnimation](/uilib/components/height-animation/) handles expanding or collapsing content with an unknown height.
 
-The submission study follows the [SubmitIndicator border animation in PR #9160](https://github.com/dnbexperience/eufemia/pull/9160).
-
 ### Custom motion
 
-<Accordion title="Timing and easing" bottom="small">
+#### Timing and easing
 
 Keep direct interaction feedback short. Try around `180ms` for a small movement, and `300ms` to `500ms` for larger transitions or expanding content. Do not delay feedback after a user action.
 
@@ -48,9 +45,7 @@ Use `--easing-fast-bounce` only for small, direct interactions that benefit from
 transition: transform 180ms var(--easing-fast-bounce);
 ```
 
-</Accordion>
-
-<Accordion title="Reduced motion">
+#### Reduced motion
 
 Respect the user's reduced-motion preference when writing custom animations. Keep non-animated styles in a meaningful state so disabling motion does not hide content or feedback.
 
@@ -65,5 +60,3 @@ Respect the user's reduced-motion preference when writing custom animations. Kee
 ```
 
 Eufemia's `HeightAnimation` component already handles this preference. Read more about [reduced motion support](/uilib/usage/accessibility/about-accessibility#reduced-motion-support).
-
-</Accordion>

@@ -4,8 +4,20 @@
   inherits: false;
 }
 
+@property --motion-morph {
+  syntax: '<number>';
+  initial-value: 1;
+  inherits: true;
+}
+
+.dnb-app-content:has(.dnb-motion-demos) {
+  // Keep page clipping without trapping the sticky toolbar.
+  overflow: clip;
+}
+
 .dnb-motion-demos {
   --motion-demo-play-state: running;
+  --motion-reveal-height: 0px;
 
   &[data-paused='true'] {
     --motion-demo-play-state: paused;
@@ -23,6 +35,10 @@
     padding-block: 1rem;
     margin-bottom: 0.5rem;
     background: var(--token-color-background-neutral);
+
+    > .dnb-button {
+      margin-inline-start: auto;
+    }
   }
 
   &__hint.dnb-p {
@@ -48,8 +64,9 @@
 .dnb-motion-demo {
   min-width: 0;
   margin: 0;
+  scroll-margin-top: 10rem;
 
-  &[aria-labelledby='show-submission'] {
+  &[id='show-submission'] {
     padding-bottom: 0.5rem;
   }
 
@@ -72,6 +89,7 @@
   }
 }
 
+// Scene lengths follow the fixed SVG viewBox; layout and captions use rem.
 .dnb-motion-scene {
   &__surface {
     fill: var(--token-color-background-neutral);
@@ -101,7 +119,7 @@
   }
 
   &__label {
-    font-size: 0.875rem;
+    font-size: 14px;
     font-weight: var(--font-weight-medium);
   }
 
@@ -138,12 +156,33 @@
   }
 
   &__following-row {
-    transform: translateY(4.5rem);
+    transform: translateY(72px);
     animation-name: dnb-motion-make-room;
   }
 
   &__chevron {
     animation-name: dnb-motion-chevron;
+  }
+
+  // Interpolate vertices rather than CSS path data, which WebKit cannot animate.
+  &__morph-segment {
+    --motion-x: 0;
+    --motion-y: 0;
+    --motion-y-change: 0;
+    --motion-slope: 0;
+    --motion-slope-change: 0;
+
+    transform: matrix(
+      1,
+      calc(
+        var(--motion-slope) + var(--motion-slope-change) *
+          var(--motion-morph)
+      ),
+      0,
+      1,
+      var(--motion-x),
+      calc(var(--motion-y) + var(--motion-y-change) * var(--motion-morph))
+    );
   }
 
   &__switch-track {
@@ -153,7 +192,7 @@
 
   &__switch-thumb[data-motion] {
     fill: var(--token-color-background-neutral);
-    transform: translateX(1.75rem);
+    transform: translateX(28px);
     animation-name: dnb-motion-switch-thumb;
     animation-timing-function: var(--easing-fast-bounce);
   }
@@ -164,14 +203,6 @@
 
   &__drawer {
     animation-name: dnb-motion-drawer;
-  }
-
-  &__breadcrumb {
-    --motion-reveal-height: 6.5rem;
-  }
-
-  &__table {
-    --motion-reveal-height: 4rem;
   }
 
   &__disclosure-clip {
@@ -209,12 +240,12 @@
   }
 
   &__counter-width {
-    transform: translateX(1rem);
+    transform: translateX(16px);
     animation-name: dnb-motion-counter-width;
   }
 
   &__counter-gap {
-    transform: translateX(0.5rem);
+    transform: translateX(8px);
     animation-name: dnb-motion-counter-gap;
   }
 
@@ -277,7 +308,7 @@
 
   &__submit-label {
     fill: var(--token-color-component-button-text-neutral);
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: var(--font-weight-medium);
   }
 
@@ -285,8 +316,8 @@
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    padding: 0.125rem;
-    border-radius: 1.5rem;
+    padding: 2px;
+    border-radius: 24px;
     background: conic-gradient(
       from var(--motion-submit-angle),
       transparent 25%,
@@ -303,13 +334,17 @@
     animation-timing-function: linear;
   }
 
+  &__illustration-artwork [data-motion] {
+    animation-timing-function: ease-out;
+  }
+
   &__illustration-greenery {
-    --motion-greenery-offset: -1rem;
+    --motion-greenery-offset: -16px;
 
     animation-name: dnb-motion-illustration-greenery;
 
     &--right {
-      --motion-greenery-offset: 1rem;
+      --motion-greenery-offset: 16px;
     }
   }
 
@@ -338,6 +373,7 @@
     .dnb-icon {
       display: block;
       color: var(--token-color-text-action);
+      font-size: 48px;
     }
   }
 
@@ -347,7 +383,7 @@
 
   &__graph-label {
     fill: var(--token-color-text-neutral);
-    font-size: 0.75rem;
+    font-size: 12px;
   }
 
   &__graph-bar {
@@ -368,8 +404,8 @@
 @keyframes dnb-motion-dialog {
   0%,
   15% {
-    opacity: 0.1;
-    transform: translateY(-1rem);
+    opacity: 0;
+    transform: translateY(-16px);
     animation-timing-function: ease-out;
   }
   22.5%,
@@ -381,11 +417,11 @@
   70.5%,
   99.99% {
     opacity: 0;
-    transform: translateY(1rem);
+    transform: translateY(16px);
   }
   100% {
-    opacity: 0.1;
-    transform: translateY(-1rem);
+    opacity: 0;
+    transform: translateY(-16px);
   }
 }
 
@@ -441,7 +477,7 @@
   }
   25%,
   65% {
-    transform: translateY(4.5rem);
+    transform: translateY(72px);
   }
 }
 
@@ -450,11 +486,11 @@
   15%,
   85%,
   100% {
-    d: path('M -5 -2 L 0 3 L 5 -2');
+    --motion-morph: 0;
   }
   25%,
   65% {
-    d: path('M -5 3 L 0 -2 L 5 3');
+    --motion-morph: 1;
   }
 }
 
@@ -480,7 +516,7 @@
   }
   19.5%,
   65% {
-    transform: translateX(1.75rem);
+    transform: translateX(28px);
   }
 }
 
@@ -488,7 +524,7 @@
   0%,
   15% {
     opacity: 0.1;
-    transform: translateX(8.5rem);
+    transform: translateX(136px);
     animation-timing-function: ease-out;
   }
   22.5%,
@@ -500,11 +536,11 @@
   72.5%,
   99.99% {
     opacity: 0;
-    transform: translateX(8.5rem);
+    transform: translateX(136px);
   }
   100% {
     opacity: 0.1;
-    transform: translateX(8.5rem);
+    transform: translateX(136px);
   }
 }
 
@@ -540,11 +576,11 @@
   15%,
   75%,
   100% {
-    d: path('M -5 -2 L 0 3 L 5 -2');
+    --motion-morph: 0;
   }
   25%,
   65% {
-    d: path('M -5 3 L 0 -2 L 5 3');
+    --motion-morph: 1;
   }
 }
 
@@ -553,7 +589,7 @@
   15%,
   75%,
   100% {
-    transform: translateX(-1rem);
+    transform: translateX(-16px);
   }
   25%,
   65% {
@@ -567,7 +603,7 @@
   77.5%,
   100% {
     opacity: 0;
-    transform: translateY(-0.625rem);
+    transform: translateY(-10px);
   }
   27.5%,
   65% {
@@ -600,7 +636,7 @@
   }
   25%,
   65% {
-    transform: translateX(1rem);
+    transform: translateX(16px);
   }
 }
 
@@ -613,7 +649,7 @@
   }
   20%,
   65% {
-    transform: translateX(0.5rem);
+    transform: translateX(8px);
   }
 }
 
@@ -676,12 +712,12 @@
 
 @keyframes dnb-motion-illustration-body {
   0%,
-  5%,
+  2.5%,
   95%,
   100% {
     opacity: 0;
   }
-  12.5%,
+  7.5%,
   87.5% {
     opacity: 1;
   }
@@ -689,13 +725,13 @@
 
 @keyframes dnb-motion-illustration-roof {
   0%,
-  12.5%,
+  7.5%,
   87.5%,
   100% {
     opacity: 0;
-    transform: translateY(-1rem);
+    transform: translateY(-16px);
   }
-  20%,
+  17.5%,
   80% {
     opacity: 1;
     transform: translateY(0);
@@ -704,7 +740,7 @@
 
 @keyframes dnb-motion-illustration-details {
   0%,
-  17.5%,
+  10%,
   82.5%,
   100% {
     opacity: 0;
@@ -724,13 +760,13 @@
   }
   40%,
   60% {
-    transform: translateY(-3.25rem);
+    transform: translateY(-52px);
   }
 }
 
 @keyframes dnb-motion-illustration-greenery {
   0%,
-  15%,
+  7.5%,
   75%,
   100% {
     opacity: 0;
@@ -786,15 +822,19 @@
   15%,
   77.5%,
   100% {
-    d: path('M96 150 160 125 224 139 288 105');
+    --motion-morph: 0;
   }
   27.5%,
   65% {
-    d: path('M96 125 160 139 224 91 288 77');
+    --motion-morph: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .dnb-motion-demos__controls {
+    position: static;
+  }
+
   .dnb-motion-demos [data-motion] {
     animation: none;
   }

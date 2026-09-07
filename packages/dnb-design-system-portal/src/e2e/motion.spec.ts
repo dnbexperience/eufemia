@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
+import sampleMotionPoints from './shared/sampleMotionPoints'
+import sampleMotionStyles from './shared/sampleMotionStyles'
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
@@ -27,23 +29,23 @@ test('principles and motion link both ways with implementation guidance below th
   ).toBe(true)
   await expect(
     content.getByText('Looping previews', { exact: true })
-  ).toBeVisible()
+  ).toHaveCount(0)
+  await expect(content.locator('.dnb-motion-demos__hint')).toHaveCount(0)
 
-  const timing = content.getByRole('button', {
-    name: 'Timing and easing',
-    exact: true,
-  })
-  const reducedMotion = content.getByRole('button', {
-    name: 'Reduced motion',
-    exact: true,
-  })
-  await expect(timing).toHaveAttribute('aria-expanded', 'false')
-  await expect(reducedMotion).toHaveAttribute('aria-expanded', 'false')
-  await timing.click()
+  await expect(
+    content.getByText(/The submission study follows/)
+  ).toHaveCount(0)
+  for (const name of ['Timing and easing', 'Reduced motion']) {
+    await expect(
+      content.getByRole('heading', { name, exact: true, level: 4 })
+    ).toBeVisible()
+    await expect(
+      content.getByRole('button', { name, exact: true })
+    ).toHaveCount(0)
+  }
   await expect(
     content.locator('pre').filter({ hasText: '--easing-fast-bounce' })
   ).toBeVisible()
-  await reducedMotion.click()
   await expect(
     content.locator('pre').filter({ hasText: 'prefers-reduced-motion' })
   ).toBeVisible()
@@ -68,6 +70,14 @@ test('principles and motion link both ways with implementation guidance below th
   await content.getByRole('link', { name: 'Motion', exact: true }).click()
   await expect(page).toHaveURL(/\/quickguide-designer\/motion\/?$/)
   await expect(content.locator('.dnb-motion-demo')).toHaveCount(13)
+})
+
+test('animation principles can be opened directly', async ({ page }) => {
+  await page.goto('/quickguide-designer/principles/animations/')
+  await waitForApp(page)
+  await expect(
+    page.getByRole('heading', { name: 'Animation Principles', level: 1 })
+  ).toBeVisible()
 })
 
 test('all thirteen motion studies autoplay in a loop with one shared control', async ({
@@ -122,6 +132,65 @@ test('all thirteen motion studies autoplay in a loop with one shared control', a
     }
   }
 })
+
+for (const width of [320, 1280]) {
+  test(`fragment links reveal the study below the toolbar at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 800 })
+    for (const [id, title] of [
+      ['enter-and-exit', 'Enter and exit'],
+      ['animate-an-illustration', 'Animate an illustration'],
+    ]) {
+      await page.goto(`/quickguide-designer/motion/#${id}`)
+      await waitForApp(page)
+      await expect
+        .poll(() =>
+          page.locator(`#${id}`).evaluate((element) => {
+            const offset = Math.max(
+              100,
+              parseFloat(getComputedStyle(element).scrollMarginTop)
+            )
+            return Math.abs(element.getBoundingClientRect().top - offset)
+          })
+        )
+        .toBeLessThan(1)
+
+      const study = page.getByRole('figure', { name: title, exact: true })
+      const stage = study.locator('.dnb-motion-demo__stage')
+      const heading = study.getByRole('heading')
+      await expect(stage).toBeInViewport({ ratio: 1 })
+      await expect(heading).toBeInViewport({ ratio: 1 })
+      expect(
+        await stage.evaluate(
+          (element) =>
+            element.getBoundingClientRect().top -
+            document
+              .querySelector('.dnb-motion-demos__controls')
+              .getBoundingClientRect().bottom
+        )
+      ).toBeGreaterThanOrEqual(0)
+    }
+  })
+
+  test(`pause controls remain reachable beside lower studies at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 800 })
+    const gallery = page.locator('.dnb-motion-demos')
+    const studies = gallery.locator('.dnb-motion-demo')
+    const pause = gallery.getByRole('button', { name: 'Pause all' })
+
+    for (const study of [studies.nth(9), studies.last()]) {
+      await study.scrollIntoViewIfNeeded()
+      await expect(pause).toBeInViewport({ ratio: 1 })
+      await pause.click()
+      await expect(gallery).toHaveAttribute('data-paused', 'true')
+      await expect(study).toBeInViewport()
+      await gallery.getByRole('button', { name: 'Resume all' }).click()
+    }
+  })
+}
 
 test('pause freezes every illustration and resume continues without restarting', async ({
   page,
@@ -200,7 +269,7 @@ test('each study changes visually over its timeline and repeats', async ({
               style.transform,
               style.fill,
               style.strokeDashoffset,
-              style.getPropertyValue('d'),
+              style.getPropertyValue('--motion-morph'),
               style.backgroundImage,
             ]
           }
@@ -221,40 +290,46 @@ test('each study changes visually over its timeline and repeats', async ({
   }
 })
 
-test('Dialog still enters from above and exits below, with separate backdrop timing', async ({
+test('Dialog stays hidden between loops and fades smoothly as it enters, with separate backdrop timing', async ({
   page,
 }) => {
-  const frames = await page
-    .locator('.dnb-motion-demo')
-    .first()
-    .evaluate((element) => {
-      const dialog = element.querySelector('.dnb-motion-scene__dialog')
-      const backdrop = element.querySelector('.dnb-motion-scene__backdrop')
-      const sample = (time: number) => {
-        element.getAnimations({ subtree: true }).forEach((animation) => {
-          animation.pause()
-          animation.currentTime = time
-        })
-        return {
-          transform: getComputedStyle(dialog).transform,
-          opacity: getComputedStyle(dialog).opacity,
-          backdrop: getComputedStyle(backdrop).opacity,
-        }
-      }
-      return {
-        enter: sample(600),
-        settled: sample(900),
-        exit: sample(2820),
-        gone: sample(2900),
-      }
-    })
-  expect(frames.enter.transform).toBe('matrix(1, 0, 0, 1, 0, -16)')
-  expect(frames.settled.transform).toBe('matrix(1, 0, 0, 1, 0, 0)')
-  expect(frames.settled.opacity).toBe('1')
-  expect(frames.exit.transform).toBe('matrix(1, 0, 0, 1, 0, 16)')
-  expect(frames.exit.opacity).toBe('0')
-  expect(Number(frames.exit.backdrop)).toBeGreaterThan(0)
-  expect(Number(frames.gone.backdrop)).toBeCloseTo(0)
+  const study = page.locator('#enter-and-exit')
+  const selectors = {
+    dialog: '.dnb-motion-scene__dialog',
+    backdrop: '.dnb-motion-scene__backdrop',
+  }
+  const hidden = await study.evaluate(sampleMotionStyles, {
+    times: [0, 300, 599, 3500, 3999, 4000, 4300, 4599],
+    selectors,
+  })
+  for (const { dialog, backdrop } of hidden) {
+    expect(dialog.opacity).toBe(0)
+    expect(backdrop.opacity).toBe(0)
+  }
+  const fadingIn = await study.evaluate(sampleMotionStyles, {
+    times: [650, 750, 850],
+    selectors,
+  })
+  let previousOpacity = 0
+  for (const { dialog } of fadingIn) {
+    expect(dialog.opacity).toBeGreaterThan(previousOpacity)
+    expect(dialog.opacity).toBeLessThan(1)
+    previousOpacity = dialog.opacity
+  }
+  const [enter, settled, exit, gone] = await study.evaluate(
+    sampleMotionStyles,
+    {
+      times: [600, 900, 2820, 2900],
+      selectors,
+    }
+  )
+  expect(enter.dialog.transform).toBe('matrix(1, 0, 0, 1, 0, -16)')
+  expect(settled.dialog.transform).toBe('matrix(1, 0, 0, 1, 0, 0)')
+  expect(settled.dialog.opacity).toBe(1)
+  expect(exit.dialog.transform).toBe('matrix(1, 0, 0, 1, 0, 16)')
+  expect(exit.dialog.opacity).toBe(0)
+  expect(exit.backdrop.opacity).toBeGreaterThan(0)
+  expect(gone.backdrop.opacity).toBeCloseTo(0)
 })
 
 test('the accordion chevron morphs vertically without rotating', async ({
@@ -262,31 +337,22 @@ test('the accordion chevron morphs vertically without rotating', async ({
 }) => {
   const frames = await page
     .locator('.dnb-motion-scene__chevron')
-    .evaluate((element: SVGPathElement) => {
-      const animation = element.getAnimations()[0]
-      animation.pause()
-      return [600, 750, 1000, 2600, 3000, 3400].map((time) => {
-        animation.currentTime = time
-        const length = element.getTotalLength()
-        const points = [0, length / 2, length].map((distance) => {
-          const { x, y } = element.getPointAtLength(distance)
-          return { x, y }
-        })
-        return { points, transform: getComputedStyle(element).transform }
-      })
-    })
+    .evaluate(sampleMotionPoints, [600, 750, 1000, 2600, 3000, 3400])
 
+  await expect(page.locator('.dnb-motion-scene__chevron')).toHaveCSS(
+    'transform',
+    'none'
+  )
   for (const frame of frames) {
-    expect(frame.transform).toBe('none')
-    expect(frame.points.map(({ x }) => x)).toEqual([-5, 0, 5])
+    expect([frame[0], frame[2], frame[4]]).toEqual([-5, 0, 5])
   }
-  expect(frames[0].points[1].y).toBeGreaterThan(frames[0].points[0].y)
-  expect(frames[2].points[1].y).toBeLessThan(frames[2].points[0].y)
-  expect(frames[1].points).not.toEqual(frames[0].points)
-  expect(frames[1].points).not.toEqual(frames[2].points)
-  expect(frames[3].points).toEqual(frames[2].points)
-  expect(frames[4].points).not.toEqual(frames[3].points)
-  expect(frames[5].points).toEqual(frames[0].points)
+  expect(frames[0][3]).toBeGreaterThan(frames[0][1])
+  expect(frames[2][3]).toBeLessThan(frames[2][1])
+  expect(frames[1]).not.toEqual(frames[0])
+  expect(frames[1]).not.toEqual(frames[2])
+  expect(frames[3]).toEqual(frames[2])
+  expect(frames[4]).not.toEqual(frames[3])
+  expect(frames[5]).toEqual(frames[0])
 })
 
 test('the Drawer study opens from the right and returns to the same edge', async ({
@@ -298,26 +364,17 @@ test('the Drawer study opens from the right and returns to the same edge', async
   await expect(
     page.getByRole('heading', { name: 'Open from an edge' })
   ).toBeVisible()
-  const frames = await page
-    .locator('.dnb-motion-scene__drawer')
-    .evaluate((element) => {
-      const animation = element.getAnimations()[0]
-      animation.pause()
-      return [600, 750, 900, 2600, 2750, 2900].map((time) => {
-        animation.currentTime = time
-        const style = getComputedStyle(element)
-        const transform = new DOMMatrix(style.transform)
-        return {
-          x: transform.m41,
-          y: transform.m42,
-          opacity: Number(style.opacity),
-        }
+  const frames = (
+    await page
+      .locator('.dnb-motion-scene__drawer')
+      .evaluate(sampleMotionStyles, {
+        times: [600, 750, 900, 2600, 2750, 2900],
       })
-    })
+  ).map(({ target }) => target)
   expect(frames[0].x).toBe(136)
   expect(frames[1].x).toBeGreaterThan(0)
   expect(frames[1].x).toBeLessThan(frames[0].x)
-  expect(frames[2]).toEqual({ x: 0, y: 0, opacity: 1 })
+  expect(frames[2]).toMatchObject({ x: 0, y: 0, opacity: 1 })
   expect(frames[3].x).toBeCloseTo(0)
   expect(frames[3].opacity).toBeCloseTo(1)
   expect(frames[4].x).toBeGreaterThan(0)
@@ -330,39 +387,35 @@ test('the Drawer study opens from the right and returns to the same edge', async
 test('the switch uses the component bounce curve and overshoots in both directions', async ({
   page,
 }) => {
-  const motion = await page
-    .locator('.dnb-motion-scene__switch-thumb')
-    .evaluate((element) => {
-      const animation = element.getAnimations()[0]
-      animation.pause()
-      const sample = (time: number) => {
-        animation.currentTime = time
-        return new DOMMatrix(getComputedStyle(element).transform).m41
-      }
-      return {
-        easing: (animation.effect as KeyframeEffect)
-          .getKeyframes()
-          .map(({ easing }) => easing),
-        token: getComputedStyle(element)
+  const thumb = page.locator('.dnb-motion-scene__switch-thumb')
+  const motion = await thumb.evaluate((element) => {
+    const animation = element.getAnimations()[0]
+    return {
+      easing: (animation.effect as KeyframeEffect)
+        .getKeyframes()
+        .map(({ easing }) => easing),
+      token: new KeyframeEffect(null, [], {
+        easing: getComputedStyle(element)
           .getPropertyValue('--easing-fast-bounce')
           .trim(),
-        off: sample(600),
-        overshootOn: sample(720),
-        on: sample(780),
-        overshootOff: sample(2720),
-        settledOff: sample(2780),
-      }
+      }).getTiming().easing,
+    }
+  })
+  const [off, overshootOn, on, overshootOff, settledOff] = (
+    await thumb.evaluate(sampleMotionStyles, {
+      times: [600, 720, 780, 2720, 2780],
     })
+  ).map(({ target }) => target.x)
 
   expect(motion.token).toBe('cubic-bezier(0.34, 1.56, 0.64, 1)')
   expect(motion.easing.every((easing) => easing === motion.token)).toBe(
     true
   )
-  expect(motion.off).toBe(0)
-  expect(motion.overshootOn).toBeGreaterThan(motion.on)
-  expect(motion.on).toBe(28)
-  expect(motion.overshootOff).toBeLessThan(motion.off)
-  expect(motion.settledOff).toBe(0)
+  expect(off).toBe(0)
+  expect(overshootOn).toBeGreaterThan(on)
+  expect(on).toBe(28)
+  expect(overshootOff).toBeLessThan(off)
+  expect(settledOff).toBe(0)
 })
 
 test('activity sweeps at constant speed through both phases and the loop boundary', async ({
@@ -381,27 +434,21 @@ test('activity sweeps at constant speed through both phases and the loop boundar
   expect(timing.duration).toBe(2000)
   expect(timing.easing.every((easing) => easing === 'linear')).toBe(true)
 
-  const frames = await page
-    .locator('.dnb-motion-demo')
-    .filter({ has: progress })
-    .evaluate((element) => {
-      const animations = element.getAnimations({ subtree: true })
-      return [0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000].map(
-        (time) => {
-          animations.forEach((animation) => {
-            animation.pause()
-            animation.currentTime = time
-          })
-          return ['progress', 'progress-wipe'].map((name) =>
-            parseFloat(
-              getComputedStyle(
-                element.querySelector(`.dnb-motion-scene__${name}`)
-              ).strokeDashoffset
-            )
-          )
-        }
-      )
-    })
+  const frames = (
+    await page
+      .locator('.dnb-motion-demo')
+      .filter({ has: progress })
+      .evaluate(sampleMotionStyles, {
+        times: [0, 250, 500, 750, 1000, 1250, 1500, 1750, 2000],
+        selectors: {
+          progress: '.dnb-motion-scene__progress',
+          wipe: '.dnb-motion-scene__progress-wipe',
+        },
+      })
+  ).map(({ progress, wipe }) => [
+    progress.strokeDashoffset,
+    wipe.strokeDashoffset,
+  ])
   expect(frames[0]).toEqual([100, 100])
   expect(frames[2][1]).toBe(100)
   expect(frames[4][0]).toBeCloseTo(1 / Math.PI)
@@ -422,38 +469,28 @@ test('activity sweeps at constant speed through both phases and the loop boundar
 test('breadcrumb items slide locally with the component stagger', async ({
   page,
 }) => {
-  const motion = await page
-    .locator('.dnb-motion-scene__breadcrumb')
-    .evaluate((element) => {
-      const items = Array.from(
-        element.querySelectorAll('.dnb-motion-scene__breadcrumb-item')
-      )
-      const animations = element.getAnimations({ subtree: true })
-      const sample = (time: number) => {
-        animations.forEach((animation) => {
-          animation.pause()
-          animation.currentTime = time
-        })
-        return items.map(
-          (item) => new DOMMatrix(getComputedStyle(item).transform).m41
-        )
-      }
-      return {
-        delays: items.map(
-          (item) => item.getAnimations()[0].effect.getTiming().delay
-        ),
-        start: sample(600),
-        stagger: sample(650),
-        open: sample(1100),
-        closed: sample(3100),
-      }
+  const breadcrumb = page.locator('.dnb-motion-scene__breadcrumb')
+  const delays = await breadcrumb
+    .locator('.dnb-motion-scene__breadcrumb-item')
+    .evaluateAll((items) =>
+      items.map((item) => item.getAnimations()[0].effect.getTiming().delay)
+    )
+  const [start, stagger, open, closed] = (
+    await breadcrumb.evaluate(sampleMotionStyles, {
+      times: [600, 650, 1100, 3100],
+      selectors: {
+        home: '.dnb-motion-scene__breadcrumb-item:nth-of-type(1)',
+        accounts: '.dnb-motion-scene__breadcrumb-item:nth-of-type(2)',
+        account: '.dnb-motion-scene__breadcrumb-item:nth-of-type(3)',
+      },
     })
-  expect(motion.delays).toEqual([0, 50, 100])
-  expect(motion.start).toEqual([-16, -16, -16])
-  expect(motion.stagger[0]).toBeGreaterThan(-16)
-  expect(motion.stagger.slice(1)).toEqual([-16, -16])
-  motion.open.forEach((x) => expect(x).toBeCloseTo(0))
-  expect(motion.closed).toEqual(motion.start)
+  ).map((frame) => Object.values(frame).map(({ x }) => x))
+  expect(delays).toEqual([0, 50, 100])
+  expect(start).toEqual([-16, -16, -16])
+  expect(stagger[0]).toBeGreaterThan(-16)
+  expect(stagger.slice(1)).toEqual([-16, -16])
+  open.forEach((x) => expect(x).toBeCloseTo(0))
+  expect(closed).toEqual(start)
 })
 
 for (const scene of ['expansion', 'table']) {
@@ -461,21 +498,11 @@ for (const scene of ['expansion', 'table']) {
     page,
   }) => {
     const content = page.locator(`.dnb-motion-scene__${scene}-content`)
-    const frames = await content.evaluate((element) => {
-      const animation = element.getAnimations()[0]
-      animation.pause()
-      return [600, 800, 1000, 1100, 2400, 2800, 3100].map((time) => {
-        animation.currentTime = time
-        const style = getComputedStyle(element)
-        const transform = new DOMMatrix(style.transform)
-        return {
-          opacity: Number(style.opacity),
-          y: transform.m42,
-          scaleX: transform.m11,
-          scaleY: transform.m22,
-        }
+    const frames = (
+      await content.evaluate(sampleMotionStyles, {
+        times: [600, 800, 1000, 1100, 2400, 2800, 3100],
       })
-    })
+    ).map(({ target }) => target)
     expect(frames[0].y).toBe(-10)
     expect(frames[0].opacity).toBe(0)
     for (const index of [1, 2, 5]) {
@@ -504,31 +531,29 @@ for (const scene of ['expansion', 'table']) {
 test('Make room clips paragraphs to its expanding background', async ({
   page,
 }) => {
-  const frames = await page
-    .locator('.dnb-motion-scene__expansion-fill')
-    .evaluate((background) => {
-      const study = background.closest('figure')
-      const clip = study.querySelector('.dnb-motion-scene__expansion-clip')
-      const animations = study.getAnimations({ subtree: true })
-      return [600, 800, 1000, 2800, 3000, 3400].map((time) => {
-        animations.forEach((animation) => {
-          animation.pause()
-          animation.currentTime = time
-        })
-        return [background, clip].map((element) => {
-          const style = getComputedStyle(element)
-          return {
-            bounds: ['x', 'y', 'width', 'height'].map((name) =>
-              element.getAttribute(name)
-            ),
-            transform: style.transform,
-            origin: style.transformOrigin,
-          }
-        })
-      })
-    })
-  frames.forEach(([background, clip]) => {
-    expect(clip).toEqual(background)
+  const study = page.locator('#expand-and-collapse')
+  const [backgroundBounds, clipBounds] = await study
+    .locator(
+      '.dnb-motion-scene__expansion-fill, .dnb-motion-scene__expansion-clip'
+    )
+    .evaluateAll((elements) =>
+      elements.map((element) =>
+        ['x', 'y', 'width', 'height'].map((name) =>
+          element.getAttribute(name)
+        )
+      )
+    )
+  expect(clipBounds).toEqual(backgroundBounds)
+  const frames = await study.evaluate(sampleMotionStyles, {
+    times: [600, 800, 1000, 2800, 3000, 3400],
+    selectors: {
+      background: '.dnb-motion-scene__expansion-fill',
+      clip: '.dnb-motion-scene__expansion-clip',
+    },
+  })
+  frames.forEach(({ background, clip }) => {
+    expect(clip.transform).toBe(background.transform)
+    expect(clip.origin).toBe(background.origin)
   })
 })
 
@@ -537,78 +562,54 @@ test('table details settle after the row has made room without scaling the text'
 }) => {
   const frames = await page
     .locator('.dnb-motion-scene__table')
-    .evaluate((element) => {
-      const animations = element.getAnimations({ subtree: true })
-      return [600, 800, 1000, 1100, 2600, 3000, 3100].map((time) => {
-        animations.forEach((animation) => {
-          animation.pause()
-          animation.currentTime = time
-        })
-        const content = new DOMMatrix(
-          getComputedStyle(
-            element.querySelector('.dnb-motion-scene__table-content')
-          ).transform
-        )
-        return {
-          height: parseFloat(
-            getComputedStyle(
-              element.querySelector('.dnb-motion-scene__disclosure-clip')
-            ).height
-          ),
-          following: new DOMMatrix(
-            getComputedStyle(
-              element.querySelector(
-                '.dnb-motion-scene__disclosure-following'
-              )
-            ).transform
-          ).m42,
-          contentY: content.m42,
-          scale: content.m22,
-        }
-      })
+    .evaluate(sampleMotionStyles, {
+      times: [600, 800, 1000, 1100, 2600, 3000, 3100],
+      selectors: {
+        clip: '.dnb-motion-scene__disclosure-clip',
+        following: '.dnb-motion-scene__disclosure-following',
+        content: '.dnb-motion-scene__table-content',
+      },
     })
-  expect(frames[0].height).toBe(0)
-  expect(frames[0].contentY).toBe(-10)
-  expect(frames[1].height).toBeGreaterThan(0)
-  expect(frames[1].height).toBeLessThan(64)
-  expect(frames[2].height).toBe(64)
-  expect(frames[2].contentY).toBeLessThan(0)
-  expect(frames[3].contentY).toBeCloseTo(0)
-  expect(frames[4].height).toBeCloseTo(64)
-  expect(frames[5].height).toBeCloseTo(0)
-  expect(frames[6].contentY).toBe(-10)
-  frames.forEach(({ height, following, scale }) => {
-    expect(following).toBeCloseTo(height)
-    expect(scale).toBe(1)
+  expect(frames[0].clip.height).toBe(0)
+  expect(frames[0].content.y).toBe(-10)
+  expect(frames[1].clip.height).toBeGreaterThan(0)
+  expect(frames[1].clip.height).toBeLessThan(64)
+  expect(frames[2].clip.height).toBe(64)
+  expect(frames[2].content.y).toBeLessThan(0)
+  expect(frames[3].content.y).toBeCloseTo(0)
+  expect(frames[4].clip.height).toBeCloseTo(64)
+  expect(frames[5].clip.height).toBeCloseTo(0)
+  expect(frames[6].content.y).toBe(-10)
+  frames.forEach(({ clip, following, content }) => {
+    expect(following.y).toBeCloseTo(clip.height)
+    expect(content.scaleY).toBe(1)
   })
 })
 
 test('TextCounter changes its message immediately and makes room for the warning icon', async ({
   page,
 }) => {
-  const frames = await page
-    .locator('.dnb-motion-demo')
-    .filter({ has: page.locator('.dnb-motion-scene__counter-icon') })
-    .evaluate((element) => {
-      const animations = element.getAnimations({ subtree: true })
-      return [500, 601, 800, 1000, 2601, 2800, 3000].map((time) => {
-        animations.forEach((animation) => {
-          animation.pause()
-          animation.currentTime = time
-        })
-        const style = (name: string) =>
-          getComputedStyle(
-            element.querySelector(`.dnb-motion-scene__counter-${name}`)
-          )
-        return {
-          icon: new DOMMatrix(style('icon').transform).m11,
-          width: new DOMMatrix(style('width').transform).m41,
-          gap: new DOMMatrix(style('gap').transform).m41,
-          error: Number(style('error').opacity),
-          normal: Number(style('normal').opacity),
-        }
+  const frames = (
+    await page
+      .locator('.dnb-motion-demo')
+      .filter({ has: page.locator('.dnb-motion-scene__counter-icon') })
+      .evaluate(sampleMotionStyles, {
+        times: [500, 601, 800, 1000, 2601, 2800, 3000],
+        selectors: {
+          icon: '.dnb-motion-scene__counter-icon',
+          width: '.dnb-motion-scene__counter-width',
+          gap: '.dnb-motion-scene__counter-gap',
+          error: '.dnb-motion-scene__counter-error',
+          normal: '.dnb-motion-scene__counter-normal',
+        },
       })
-    })
+  ).map(({ icon, width, gap, error, normal }) => ({
+    icon: icon.scaleX,
+    width: width.x,
+    gap: gap.x,
+    error: error.opacity,
+    normal: normal.opacity,
+  }))
   expect(frames[0]).toEqual({
     icon: 0,
     width: 0,
@@ -676,44 +677,27 @@ test('the DNB house stays still while greenery slides a short distance from both
   expect(
     await artwork.evaluate((element) => element.getAnimations().length)
   ).toBe(0)
-  const frames = await artwork.evaluate((element) => {
-    const greenery = Array.from(
-      element.querySelectorAll('.dnb-motion-scene__illustration-greenery')
-    )
-    const animations = element.getAnimations({ subtree: true })
-    const stage = element
+  const stage = await artwork.evaluate((element) => {
+    const { x, y, width, height } = element
       .closest('.dnb-motion-demo__stage')
       .getBoundingClientRect()
-    return [600, 800, 1000, 2400, 2800, 3200].map((time) => {
-      animations.forEach((animation) => {
-        animation.pause()
-        animation.currentTime = time
-      })
-      const { x, y, width, height } = element
-        .querySelector('image')
-        .getBoundingClientRect()
-      return {
-        greenery: greenery.map((plant) => {
-          const style = getComputedStyle(plant)
-          const transform = new DOMMatrix(style.transform)
-          const bounds = plant.getBoundingClientRect()
-          return {
-            x: transform.m41,
-            y: transform.m42,
-            opacity: Number(style.opacity),
-            scale: transform.m11,
-            fits:
-              bounds.left >= stage.left &&
-              bounds.right <= stage.right &&
-              bounds.top >= stage.top &&
-              bounds.bottom <= stage.bottom,
-          }
-        }),
-        opacity: Number(getComputedStyle(element).opacity),
-        house: { x, y, width, height },
-      }
-    })
+    return { x, y, width, height }
   })
+  const frames = (
+    await artwork.evaluate(sampleMotionStyles, {
+      times: [300, 650, 1000, 2400, 2800, 3200],
+      selectors: {
+        artwork: ':scope',
+        house: 'image',
+        left: '.dnb-motion-scene__illustration-greenery--left',
+        right: '.dnb-motion-scene__illustration-greenery--right',
+      },
+    })
+  ).map(({ artwork, house, left, right }) => ({
+    greenery: [left, right],
+    opacity: artwork.opacity,
+    house: house.bounds,
+  }))
   expect(frames[0].greenery.map(({ x }) => x)).toEqual([-16, 16])
   for (const index of [1, 4]) {
     expect(frames[index].greenery[0].x).toBeGreaterThan(-16)
@@ -735,10 +719,17 @@ test('the DNB house stays still while greenery slides a short distance from both
   frames.forEach(({ opacity, house, greenery }) => {
     expect(opacity).toBe(1)
     expect(house).toEqual(frames[0].house)
-    greenery.forEach(({ y, scale, fits }) => {
+    greenery.forEach(({ y, scaleX, bounds }) => {
       expect(y).toBe(0)
-      expect(scale).toBe(1)
-      expect(fits).toBe(true)
+      expect(scaleX).toBe(1)
+      expect(bounds.x).toBeGreaterThanOrEqual(stage.x)
+      expect(bounds.y).toBeGreaterThanOrEqual(stage.y)
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(
+        stage.x + stage.width
+      )
+      expect(bounds.y + bounds.height).toBeLessThanOrEqual(
+        stage.y + stage.height
+      )
     })
   })
 })
@@ -750,29 +741,22 @@ test('the front wall fades in first and disappears last', async ({
   await expect(
     artwork.locator('.dnb-motion-scene__illustration-body')
   ).toHaveCount(1)
-  const frames = await artwork.evaluate((element) => {
-    const animations = element.getAnimations({ subtree: true })
-    const body = element.querySelector(
-      '.dnb-motion-scene__illustration-body'
-    )
-    const otherParts = Array.from(
-      element.querySelectorAll(
-        '.dnb-motion-scene__illustration-roof, .dnb-motion-scene__illustration-details, .dnb-motion-scene__garage, .dnb-motion-scene__illustration-greenery'
-      )
-    )
-    return [0, 350, 500, 1800, 3500, 3650, 3800, 4000].map((time) => {
-      animations.forEach((animation) => {
-        animation.pause()
-        animation.currentTime = time
-      })
-      return {
-        body: Number(getComputedStyle(body).opacity),
-        otherParts: otherParts.map((part) =>
-          Number(getComputedStyle(part).opacity)
-        ),
-      }
+  const frames = (
+    await artwork.evaluate(sampleMotionStyles, {
+      times: [0, 200, 300, 1800, 3500, 3650, 3800, 4000],
+      selectors: {
+        body: '.dnb-motion-scene__illustration-body',
+        roof: '.dnb-motion-scene__illustration-roof',
+        details: '.dnb-motion-scene__illustration-details',
+        garage: '.dnb-motion-scene__garage',
+        left: '.dnb-motion-scene__illustration-greenery--left',
+        right: '.dnb-motion-scene__illustration-greenery--right',
+      },
     })
-  })
+  ).map(({ body, ...otherParts }) => ({
+    body: body.opacity,
+    otherParts: Object.values(otherParts).map(({ opacity }) => opacity),
+  }))
   for (const index of [0, 6, 7]) {
     expect(frames[index].body).toBeCloseTo(0)
   }
@@ -788,6 +772,38 @@ test('the front wall fades in first and disappears last', async ({
       expect(opacity).toBeCloseTo(index === 3 ? 1 : 0)
     )
   })
+})
+
+test('house assembly starts quickly and decelerates into its final pose', async ({
+  page,
+}) => {
+  for (const [part, start, duration] of [
+    ['illustration-roof', 300, 400],
+    ['illustration-greenery--left', 300, 700],
+    ['illustration-greenery--right', 300, 700],
+  ] as const) {
+    const frames = (
+      await page
+        .locator(`.dnb-motion-scene__${part}`)
+        .evaluate(sampleMotionStyles, {
+          times: [0, 0.25, 0.5, 0.75, 1].map(
+            (progress) => start + duration * progress
+          ),
+        })
+    ).map(({ target }) => 16 - Math.hypot(target.x, target.y))
+    expect(frames[0]).toBeCloseTo(0)
+    expect(frames[4]).toBeCloseTo(16)
+    const distances = frames
+      .slice(1)
+      .map((position, index) => position - frames[index])
+    distances.forEach((distance, index) => {
+      expect(distance).toBeGreaterThan(0)
+      if (index > 0) {
+        expect(distance).toBeLessThan(distances[index - 1])
+      }
+    })
+    expect(distances[0]).toBeGreaterThan(distances[3] * 2)
+  }
 })
 
 test('the illustration reveals its details before opening the garage and reverses the sequence', async ({
@@ -846,37 +862,28 @@ test('the illustration reveals its details before opening the garage and reverse
         )
       )
   ).toEqual(['105.921', '183.7', '112', '65'])
-  const frames = await artwork.evaluate((element) => {
-    const animations = element.getAnimations({ subtree: true })
-    const roof = element.querySelector(
-      '.dnb-motion-scene__illustration-roof'
-    )
-    const details = element.querySelector(
-      '.dnb-motion-scene__illustration-details'
-    )
-    const garage = element.querySelector('.dnb-motion-scene__garage')
-    const door = element.querySelector('.dnb-motion-scene__garage-door')
-    return [
-      500, 700, 900, 1000, 1100, 1350, 1600, 2400, 2650, 2900, 3100, 3350,
-      3600,
-    ].map((time) => {
-      animations.forEach((animation) => {
-        animation.pause()
-        animation.currentTime = time
-      })
-      const transform = new DOMMatrix(getComputedStyle(door).transform)
-      const roofTransform = new DOMMatrix(getComputedStyle(roof).transform)
-      return {
-        roof: Number(getComputedStyle(roof).opacity),
-        roofY: roofTransform.m42,
-        roofScale: roofTransform.m22,
-        details: Number(getComputedStyle(details).opacity),
-        garage: Number(getComputedStyle(garage).opacity),
-        doorY: transform.m42,
-        doorScale: transform.m22,
-      }
+  const frames = (
+    await artwork.evaluate(sampleMotionStyles, {
+      times: [
+        300, 400, 800, 1000, 1100, 1350, 1600, 2400, 2650, 2900, 3100,
+        3350, 3600,
+      ],
+      selectors: {
+        roof: '.dnb-motion-scene__illustration-roof',
+        details: '.dnb-motion-scene__illustration-details',
+        garage: '.dnb-motion-scene__garage',
+        door: '.dnb-motion-scene__garage-door',
+      },
     })
-  })
+  ).map(({ roof, details, garage, door }) => ({
+    roof: roof.opacity,
+    roofY: roof.y,
+    roofScale: roof.scaleY,
+    details: details.opacity,
+    garage: garage.opacity,
+    doorY: door.y,
+    doorScale: door.scaleY,
+  }))
   expect(frames[0]).toEqual({
     roof: 0,
     roofY: -16,
@@ -931,30 +938,20 @@ test('the Eufemia bell rings with diminishing swings inside a stationary circle'
   await expect(icon).toHaveCount(1)
   await expect(icon).toHaveAttribute('viewBox', '0 0 24 24')
   await expect(icon.locator('path')).toHaveAttribute('d', /^M10 21\.75/)
-  const frames = await study.evaluate((element) => {
-    const icon = element.querySelector('.dnb-motion-scene__icon')
-    const circle = element.querySelector(
-      '.dnb-motion-scene__icon-background'
-    )
-    const animation = icon.getAnimations()[0]
-    animation.pause()
-    return [600, 720, 880, 1040, 1200, 1360, 1520, 2400].map((time) => {
-      animation.currentTime = time
-      const style = getComputedStyle(icon)
-      const transform = new DOMMatrix(style.transform)
-      const { x, y, width, height } = circle.getBoundingClientRect()
-      const glyph = icon.querySelector('svg').getBoundingClientRect()
-      return {
-        x: transform.m41,
-        y: transform.m42,
-        angle: (Math.atan2(transform.m12, transform.m11) * 180) / Math.PI,
-        scale: Math.hypot(transform.m11, transform.m12),
-        opacity: Number(style.opacity),
-        circle: { x, y, width, height },
-        glyph: { width: glyph.width, height: glyph.height },
-      }
+  const frames = (
+    await study.evaluate(sampleMotionStyles, {
+      times: [600, 720, 880, 1040, 1200, 1360, 1520, 2400],
+      selectors: {
+        icon: '.dnb-motion-scene__icon',
+        circle: '.dnb-motion-scene__icon-background',
+        glyph: '.dnb-motion-scene__icon svg',
+      },
     })
-  })
+  ).map(({ icon, circle, glyph }) => ({
+    ...icon,
+    circle: circle.bounds,
+    glyph: glyph.bounds,
+  }))
   const angles = [0, -16, 14, -10, 6, -3, 0, 0]
   frames.forEach(({ x, y, angle, scale, opacity, circle }, index) => {
     expect(x).toBe(0)
@@ -1034,17 +1031,7 @@ test('the line graph preserves dates and interpolates values without overshootin
 }) => {
   const frames = await page
     .locator('.dnb-motion-scene__graph-line')
-    .evaluate((element) => {
-      const animation = element.getAnimations()[0]
-      animation.pause()
-      return [600, 850, 1100, 2600, 3100].map((time) => {
-        animation.currentTime = time
-        return getComputedStyle(element)
-          .getPropertyValue('d')
-          .match(/[\d.]+/g)
-          .map(Number)
-      })
-    })
+    .evaluate(sampleMotionPoints, [600, 850, 1100, 2600, 3100])
   const before = [96, 150, 160, 125, 224, 139, 288, 105]
   const after = [96, 125, 160, 139, 224, 91, 288, 77]
   expect(frames[0]).toEqual(before)
@@ -1084,6 +1071,12 @@ test('the submit button keeps its label and shape while a tapered border rotates
       '.dnb-motion-scene__submit-button'
     )
     const viewport = element.querySelector('foreignObject')
+    const paragraph = element
+      .querySelector('.dnb-motion-scene__muted')
+      .getBoundingClientRect()
+    const lines = element
+      .querySelector('.dnb-motion-scene__lines')
+      .getBoundingClientRect()
     const animation = glow.getAnimations()[0]
     animation.pause()
     const style = getComputedStyle(glow)
@@ -1104,6 +1097,10 @@ test('the submit button keeps its label and shape while a tapered border rotates
       radius: style.borderRadius,
       mask: style.maskComposite,
       gradient: style.backgroundImage,
+      paragraphPadding: {
+        top: lines.top - paragraph.top,
+        bottom: paragraph.bottom - lines.bottom,
+      },
       gap: {
         x: button.x.baseVal.value - viewport.x.baseVal.value,
         y: button.y.baseVal.value - viewport.y.baseVal.value,
@@ -1117,6 +1114,9 @@ test('the submit button keeps its label and shape while a tapered border rotates
   expect(result.radius).toBe('24px')
   expect(result.mask).toContain('exclude')
   expect(result.gradient).toContain('conic-gradient')
+  expect(result.paragraphPadding.bottom).toBeGreaterThanOrEqual(
+    result.paragraphPadding.top
+  )
   for (const stop of ['25%', '45%', '55%', '75%']) {
     expect(result.gradient).toContain(stop)
   }
@@ -1195,12 +1195,11 @@ test('reduced motion prevents autoplay and shows meaningful stills', async ({
     'none'
   )
   expect(
-    await gallery
-      .locator('.dnb-motion-scene__chevron')
-      .evaluate(
-        (element: SVGPathElement) =>
-          element.getPointAtLength(element.getTotalLength() / 2).y
-      )
+    (
+      await gallery
+        .locator('.dnb-motion-scene__chevron')
+        .evaluate(sampleMotionPoints, null)
+    )[0][3]
   ).toBe(-2)
   for (const [selector, height] of [
     ['table', 64],
@@ -1252,11 +1251,8 @@ test('reduced motion prevents autoplay and shows meaningful stills', async ({
   }
   const line = await gallery
     .locator('.dnb-motion-scene__graph-line')
-    .evaluate((element: SVGPathElement) => ({
-      start: element.getPointAtLength(0).y,
-      end: element.getPointAtLength(element.getTotalLength()).y,
-    }))
-  expect(line).toEqual({ start: 125, end: 77 })
+    .evaluate(sampleMotionPoints, null)
+  expect(line[0]).toEqual([96, 125, 160, 139, 224, 91, 288, 77])
   await expect(
     gallery.locator('.dnb-motion-scene__submit-glow')
   ).toHaveCSS('--motion-submit-angle', '0deg')

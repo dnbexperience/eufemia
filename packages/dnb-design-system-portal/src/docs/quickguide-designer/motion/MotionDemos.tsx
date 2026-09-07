@@ -8,6 +8,12 @@ import familyHomeRoof from './assets/dnb-family-home-roof.svg'
 import familyHomeDetails from './assets/dnb-family-home-details.svg'
 import './MotionDemos.scss'
 
+const chevronPoints = [
+  { x: -5, from: -2, to: 3 },
+  { x: 0, from: 3, to: -2 },
+  { x: 5, from: -2, to: 3 },
+]
+
 export default function MotionDemos() {
   const [paused, setPaused] = useState(false)
   const reducedMotion = useMediaQuery({
@@ -17,11 +23,11 @@ export default function MotionDemos() {
   return (
     <div className="dnb-motion-demos" data-paused={paused}>
       <div className="dnb-motion-demos__controls">
-        <P className="dnb-motion-demos__hint">
-          {reducedMotion
-            ? 'Reduced motion: showing still illustrations.'
-            : 'Looping previews'}
-        </P>
+        {reducedMotion && (
+          <P className="dnb-motion-demos__hint">
+            Reduced motion: showing still illustrations.
+          </P>
+        )}
         <Button
           variant="secondary"
           icon={paused || reducedMotion ? play : pause}
@@ -40,91 +46,91 @@ export default function MotionDemos() {
         <MotionStudy
           id="enter-and-exit"
           title="Enter and exit"
-          description="Bring a dialog into focus, then let it leave without moving the page."
+          description="Preserve the page as context for a temporary task, so people know where they will return when they close it."
         >
           <DialogScene />
         </MotionStudy>
         <MotionStudy
           id="expand-and-collapse"
           title="Make room"
-          description="Reveal more in place. Let nearby content move with it."
+          description="Connect new information to the action that revealed it, so people can follow the change without losing their place."
         >
           <ExpansionScene />
         </MotionStudy>
         <MotionStudy
           id="respond-to-input"
           title="Respond to input"
-          description="Make a change feel immediate, with a small movement that settles."
+          description="Confirm a change immediately and locally, so people can trust that their input was accepted and continue without waiting."
         >
           <SwitchScene />
         </MotionStudy>
         <MotionStudy
           id="open-from-an-edge"
           title="Open from an edge"
-          description="Slide a drawer in from the side without moving the page."
+          description="Present supporting information without implying that people have left the page. A consistent return path helps them stay oriented."
         >
           <DrawerScene />
         </MotionStudy>
         <MotionStudy
           id="reveal-the-path"
           title="Reveal the path"
-          description="Unfold the breadcrumb trail with a short, local slide."
+          description="Reveal enough of the hierarchy to explain the current location without making it harder to find."
         >
           <BreadcrumbScene />
         </MotionStudy>
         <MotionStudy
           id="keep-details-with-the-row"
           title="Keep details with the row"
-          description="Open the row while its details settle into place."
+          description="Keep details connected to their row, so people can inspect more information without losing their place in the table."
         >
           <TableScene />
         </MotionStudy>
         <MotionStudy
           id="show-feedback-in-place"
           title="Show feedback in place"
-          description="Make room for a warning beside the text, without shaking the field."
+          description="Keep feedback close to the input so people know what to correct. The message should be understandable without relying on motion."
         >
           <TextCounterScene />
         </MotionStudy>
         <MotionStudy
           id="show-activity"
           title="Show activity"
-          description="Repeat the indicator while work is in progress, without implying a percentage."
+          description="Communicate that work is ongoing. A steady rhythm avoids suggesting progress we cannot measure."
         >
           <ProgressScene />
         </MotionStudy>
         <MotionStudy
           id="show-submission"
           title="Show submission"
-          description="Keep the label and shape still while the border signals that submission is in progress."
+          description="Confirm that the request is being processed so people do not submit again. Keep the action recognisable while they wait."
         >
           <SubmitScene />
         </MotionStudy>
         <MotionStudy
           id="animate-an-illustration"
           title="Animate an illustration"
-          description="Bring the roof, windows and greenery into place, then open the garage."
+          description="Make the subject recognisable quickly, then let it settle. Coordinate related movements so the illustration supports the message without competing with the task."
         >
           <IllustrationScene />
         </MotionStudy>
         <MotionStudy
           id="animate-an-icon"
           title="Animate an icon"
-          description="Let the bell ring briefly, then settle. Keep its background still."
+          description="Reinforce the meaning of an event, such as a new notification. Keep the symbol recognisable; movement should not be the only signal."
         >
           <IconScene />
         </MotionStudy>
         <MotionStudy
           id="update-a-bar-graph"
           title="Update a bar graph"
-          description="Move from the old values to the new ones. Keep the baseline and scale fixed."
+          description="Keep values comparable during an update. A stable baseline and scale prevent the motion from exaggerating the change."
         >
           <BarGraphScene />
         </MotionStudy>
         <MotionStudy
           id="reshape-a-line-graph"
           title="Reshape a line graph"
-          description="Keep each point at the same date as the values change, without redrawing from zero."
+          description="Preserve the connection between earlier and updated data. Keep dates and scale fixed so people can follow changes without misreading the trend."
         >
           <LineGraphScene />
         </MotionStudy>
@@ -145,7 +151,11 @@ function MotionStudy({
   children: ReactNode
 }) {
   return (
-    <figure className="dnb-motion-demo" aria-labelledby={id}>
+    <figure
+      id={id}
+      className="dnb-motion-demo"
+      aria-labelledby={`${id}-title`}
+    >
       <svg
         className="dnb-motion-demo__stage"
         viewBox="0 0 360 240"
@@ -155,7 +165,7 @@ function MotionStudy({
         {children}
       </svg>
       <figcaption className="dnb-motion-demo__caption">
-        <H2 id={id} size="medium" top={0} bottom="x-small">
+        <H2 id={`${id}-title`} size="medium" top={0} bottom="x-small">
           {title}
         </H2>
         <P top={0} bottom={0}>
@@ -174,6 +184,46 @@ function Lines({ x = 0, y = 0 }: { x?: number; y?: number }) {
     >
       <rect width="104" height="6" rx="3" />
       <rect y="15" width="72" height="6" rx="3" />
+    </g>
+  )
+}
+
+function MorphingLine({
+  className,
+  points,
+}: {
+  className: string
+  points: Array<{ x: number; from: number; to: number }>
+}) {
+  return (
+    <g className={className} data-motion="">
+      {points.slice(1).map((end, index) => {
+        const start = points[index]
+        const width = end.x - start.x
+        const style: CSSProperties & {
+          '--motion-x': number
+          '--motion-y': number
+          '--motion-y-change': number
+          '--motion-slope': number
+          '--motion-slope-change': number
+        } = {
+          '--motion-x': start.x,
+          '--motion-y': start.from,
+          '--motion-y-change': start.to - start.from,
+          '--motion-slope': (end.from - start.from) / width,
+          '--motion-slope-change':
+            (end.to - start.to - (end.from - start.from)) / width,
+        }
+        return (
+          <path
+            key={start.x}
+            className="dnb-motion-scene__morph-segment"
+            d={`M0 0H${width}`}
+            style={style}
+            vectorEffect="non-scaling-stroke"
+          />
+        )
+      })}
     </g>
   )
 }
@@ -277,10 +327,9 @@ function ExpansionScene() {
         Payment details
       </text>
       <g transform="translate(284 58)">
-        <path
+        <MorphingLine
           className="dnb-motion-scene__chevron dnb-motion-scene__stroke"
-          data-motion=""
-          d="M -5 3 L 0 -2 L 5 3"
+          points={chevronPoints}
         />
       </g>
       <RevealClip
@@ -455,8 +504,13 @@ function RevealClip({
 }
 
 function BreadcrumbScene() {
+  const revealHeight = 104
+  const style: CSSProperties & { '--motion-reveal-height': string } = {
+    '--motion-reveal-height': `${revealHeight}px`,
+  }
+
   return (
-    <g className="dnb-motion-scene__breadcrumb">
+    <g className="dnb-motion-scene__breadcrumb" style={style}>
       <rect
         className="dnb-motion-scene__surface"
         x="36"
@@ -469,19 +523,18 @@ function BreadcrumbScene() {
         Back to...
       </text>
       <g transform="translate(292 56)">
-        <path
+        <MorphingLine
           className="dnb-motion-scene__disclosure-chevron dnb-motion-scene__stroke"
-          data-motion=""
-          d="M -5 3 L 0 -2 L 5 3"
+          points={chevronPoints}
         />
       </g>
-      <RevealClip y={76} height={104}>
+      <RevealClip y={76} height={revealHeight}>
         <rect
           className="dnb-motion-scene__muted"
           x="52"
           y="76"
           width="256"
-          height="104"
+          height={revealHeight}
           rx="6"
         />
         {['Home', 'Accounts', 'Everyday account'].map((label, index) => (
@@ -514,8 +567,13 @@ function BreadcrumbScene() {
 }
 
 function TableScene() {
+  const revealHeight = 64
+  const style: CSSProperties & { '--motion-reveal-height': string } = {
+    '--motion-reveal-height': `${revealHeight}px`,
+  }
+
   return (
-    <g className="dnb-motion-scene__table">
+    <g className="dnb-motion-scene__table" style={style}>
       <rect
         className="dnb-motion-scene__surface"
         x="36"
@@ -532,19 +590,18 @@ function TableScene() {
         Transfer
       </text>
       <g transform="translate(66 84)">
-        <path
+        <MorphingLine
           className="dnb-motion-scene__disclosure-chevron dnb-motion-scene__stroke"
-          data-motion=""
-          d="M -5 3 L 0 -2 L 5 3"
+          points={chevronPoints}
         />
       </g>
-      <RevealClip y={100} height={64}>
+      <RevealClip y={100} height={revealHeight}>
         <rect
           className="dnb-motion-scene__muted"
           x="52"
           y="100"
           width="256"
-          height="64"
+          height={revealHeight}
         />
         <g className="dnb-motion-scene__table-content" data-motion="">
           <text className="dnb-motion-scene__label" x="68" y="126">
@@ -685,7 +742,7 @@ function SubmitScene() {
         x="64"
         y="78"
         width="232"
-        height="34"
+        height="42"
         rx="6"
       />
       <Lines x={80} y={88} />
@@ -839,7 +896,17 @@ function IconScene() {
   )
 }
 
+const graphBaseline = 180
+const graphHeight = 112
+const graphMaxValue = 100
+
+function valueToGraphY(value: number) {
+  return graphBaseline - (value / graphMaxValue) * graphHeight
+}
+
 function GraphFrame({ children }: { children: ReactNode }) {
+  const ticks = [graphMaxValue, graphMaxValue / 2, 0]
+
   return (
     <>
       <rect
@@ -857,32 +924,24 @@ function GraphFrame({ children }: { children: ReactNode }) {
         <path
           className="dnb-motion-scene__divider"
           fill="none"
-          d="M80 68h224M80 124h224M80 180h224M80 68v112"
+          d={
+            ticks
+              .map((value) => `M80 ${valueToGraphY(value)}h224`)
+              .join('') +
+            `M80 ${valueToGraphY(graphMaxValue)}v${graphHeight}`
+          }
         />
-        <text
-          className="dnb-motion-scene__graph-label"
-          x="72"
-          y="72"
-          textAnchor="end"
-        >
-          100
-        </text>
-        <text
-          className="dnb-motion-scene__graph-label"
-          x="72"
-          y="128"
-          textAnchor="end"
-        >
-          50
-        </text>
-        <text
-          className="dnb-motion-scene__graph-label"
-          x="72"
-          y="184"
-          textAnchor="end"
-        >
-          0
-        </text>
+        {ticks.map((value) => (
+          <text
+            key={value}
+            className="dnb-motion-scene__graph-label"
+            x="72"
+            y={valueToGraphY(value) + 4}
+            textAnchor="end"
+          >
+            {value}
+          </text>
+        ))}
       </g>
       {children}
     </>
@@ -901,7 +960,7 @@ function BarGraphScene() {
     <GraphFrame>
       {values.map(({ label, from, to }, index) => {
         const x = 96 + index * 52
-        const height = to * 1.12
+        const height = to * (graphHeight / graphMaxValue)
         const style: CSSProperties & { '--bar-start-scale': number } = {
           '--bar-start-scale': from / to,
         }
@@ -912,7 +971,7 @@ function BarGraphScene() {
               className="dnb-motion-scene__graph-bar dnb-motion-scene__accent"
               data-motion=""
               x={x}
-              y={180 - height}
+              y={graphBaseline - height}
               width="28"
               height={height}
               rx="3"
@@ -934,22 +993,34 @@ function BarGraphScene() {
 }
 
 function LineGraphScene() {
+  const values = [
+    { month: 'Apr', from: 27, to: 49 },
+    { month: 'May', from: 49, to: 37 },
+    { month: 'Jun', from: 37, to: 79.5 },
+    { month: 'Jul', from: 67, to: 92 },
+  ]
+  const points = values.map(({ month, from, to }, index) => ({
+    month,
+    x: 96 + index * 64,
+    from: Math.round(valueToGraphY(from)),
+    to: Math.round(valueToGraphY(to)),
+  }))
+
   return (
     <GraphFrame>
-      <path
+      <MorphingLine
         className="dnb-motion-scene__graph-line dnb-motion-scene__stroke"
-        data-motion=""
-        d="M96 125 160 139 224 91 288 77"
+        points={points}
       />
-      {['Apr', 'May', 'Jun', 'Jul'].map((label, index) => (
+      {points.map(({ month, x }) => (
         <text
-          key={label}
+          key={month}
           className="dnb-motion-scene__graph-label"
-          x={96 + index * 64}
+          x={x}
           y="200"
           textAnchor="middle"
         >
-          {label}
+          {month}
         </text>
       ))}
     </GraphFrame>
