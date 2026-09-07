@@ -68,6 +68,8 @@ jobs:
 
       - name: Audit dependencies
         run: yarn workspace @dnb/eufemia audit:ci
+        env:
+          YARN_HTTP_TIMEOUT: '360000'
 
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci
@@ -100,6 +102,15 @@ jobs:
 
       - name: Prepare publishable package
         run: yarn workspace @dnb/eufemia publish:prepare
+
+      # The build info, the `--eufemia-version` custom property and the isolated
+      # style scope class all carry the version the prebuild resolved. Every
+      # branch this workflow runs on releases, so a build that stamped a branch
+      # name instead must not reach the publish job.
+      - name: Verify the release version stamp
+        run: |
+          node packages/dnb-eufemia/scripts/postbuild/verifyReleaseVersion.mjs \
+            packages/dnb-eufemia/build
 
       # Capture the artifact immediately after validation, before the consumer
       # smoke tests below: those install their fixtures with `npm ci`, which runs
@@ -304,7 +315,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     permissions:
       contents: read
@@ -343,6 +354,7 @@ jobs:
         working-directory: packages/dnb-eufemia
         env:
           RELEASED_VERSION: ${{ needs.action.outputs.released }}
+          YARN_HTTP_TIMEOUT: '360000'
         run: |
           # Generated from the source workspace: the CycloneDX plugin needs a
           # Yarn project, and direct runtime deps are identical to the published

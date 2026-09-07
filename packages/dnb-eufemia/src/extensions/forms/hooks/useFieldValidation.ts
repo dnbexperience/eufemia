@@ -16,6 +16,7 @@ import type {
   Validator,
   Identifier,
 } from '../types'
+import type { ContextState } from '../DataContext'
 import pointer from '../utils/json-pointer'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useProcessManager from './useProcessManager'
@@ -47,6 +48,7 @@ export type UseFieldValidationParams<Value> = {
   required: boolean
   hasDataContext: boolean
   getAjvInstanceDataContext: () => AjvInstance
+  setFieldInternalsDataContext: ContextState['setFieldInternals']
   setFieldEventListener(
     identifier: Identifier,
     event: string,
@@ -116,6 +118,7 @@ export default function useFieldValidation<Value>({
   required,
   hasDataContext,
   getAjvInstanceDataContext,
+  setFieldInternalsDataContext,
   setFieldEventListener,
   getValueByPath,
   getSourceValue,
@@ -149,6 +152,20 @@ export default function useFieldValidation<Value>({
   revealErrorRef,
 }: UseFieldValidationParams<Value>) {
   const { startProcess } = useProcessManager()
+
+  // A validator that is not declared async can still return a Promise, which
+  // is only visible once it has been called. Tell the data context the first
+  // time we see it, so the submit waits for the validation the same way it
+  // does for a validator declared async.
+  const hasDetectedAsyncRef = useRef(false)
+  const detectAsyncValidator = useCallback(() => {
+    if (!hasDetectedAsyncRef.current) {
+      hasDetectedAsyncRef.current = true
+      setFieldInternalsDataContext?.(identifier, {
+        enableAsyncMode: true,
+      })
+    }
+  }, [setFieldInternalsDataContext, identifier])
 
   // -- onChangeValidator resolution --
 
@@ -466,6 +483,7 @@ export default function useFieldValidation<Value>({
     const runAsync = validationResult instanceof Promise
 
     if (runAsync) {
+      detectAsyncValidator()
       defineAsyncProcess('onChangeValidator')
       setFieldState('validating')
       hideError()
@@ -490,6 +508,7 @@ export default function useFieldValidation<Value>({
   }, [
     callValidatorFnAsync,
     callValidatorFnSync,
+    detectAsyncValidator,
     defineAsyncProcess,
     ensureErrorMessageObject,
     hideError,
@@ -518,6 +537,7 @@ export default function useFieldValidation<Value>({
         if (!isAsync(onChangeValidatorRef.current)) {
           clearErrorState()
         }
+        detectAsyncValidator()
         defineAsyncProcess('onChangeValidator')
         setFieldState('validating')
         hideError()
@@ -554,6 +574,7 @@ export default function useFieldValidation<Value>({
     [
       callValidatorFnAsync,
       callValidatorFnSync,
+      detectAsyncValidator,
       clearErrorState,
       defineAsyncProcess,
       ensureErrorMessageObject,
@@ -623,6 +644,7 @@ export default function useFieldValidation<Value>({
       const runAsync = validationResult instanceof Promise
 
       if (runAsync) {
+        detectAsyncValidator()
         defineAsyncProcess('onBlurValidator')
         setFieldState('validating')
       }
@@ -646,6 +668,7 @@ export default function useFieldValidation<Value>({
     [
       callValidatorFnAsync,
       callValidatorFnSync,
+      detectAsyncValidator,
       defineAsyncProcess,
       ensureErrorMessageObject,
       setFieldState,
@@ -721,19 +744,23 @@ export default function useFieldValidation<Value>({
         return { result }
       }
 
-      if (isAsync(onBlurValidatorRef.current)) {
+      const validationResult = isAsync(onBlurValidatorRef.current)
+        ? callValidatorFnAsync(onBlurValidatorRef.current, value)
+        : callValidatorFnSync(onBlurValidatorRef.current, value)
+
+      // Detect the Promise on the returned value instead of on the function,
+      // the same way the onChangeValidator does
+      const runAsync = validationResult instanceof Promise
+
+      if (runAsync) {
+        detectAsyncValidator()
         defineAsyncProcess('onBlurValidator')
         setFieldState('validating')
       }
 
-      let result = isAsync(onBlurValidatorRef.current)
-        ? await callValidatorFnAsync(onBlurValidatorRef.current, value)
-        : callValidatorFnSync(onBlurValidatorRef.current, value)
-      if (result instanceof Promise) {
-        result = await result
-      }
+      const result = runAsync ? await validationResult : validationResult
 
-      revealOnBlurValidatorResult({ result })
+      revealOnBlurValidatorResult({ result, runAsync })
 
       return { result }
     },
@@ -741,6 +768,7 @@ export default function useFieldValidation<Value>({
       asyncBehaviorIsEnabled,
       callValidatorFnAsync,
       callValidatorFnSync,
+      detectAsyncValidator,
       defineAsyncProcess,
       ensureErrorMessageObject,
       revealOnBlurValidatorResult,

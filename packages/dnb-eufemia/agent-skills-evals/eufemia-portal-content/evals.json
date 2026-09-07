@@ -23,6 +23,18 @@
         "The promotion has the same affected paths and resulting content patch as the approved main change with no extras",
         "The response distinguishes the full main review from the short release deployment gate, requires a squash merge for the promotion, and requires explicit permission before either merge"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "I used Edit on GitHub to correct a few lines of prose on an existing Eufemia portal page and opened a pull request. Please take care of the formatting and pull request setup. Do I need to install the repository dependencies first?",
+      "expected_output": "A GitHub-only repair of the existing small prose pull request, with repository formatting and pull request conventions verified by CI and a working page preview, without requiring a local checkout or dependency installation.",
+      "assertions": [
+        "The response continues the contributor's existing branch and pull request after inspecting the complete diff",
+        "The response does not require a local checkout or dependency installation when the complete change is only existing Markdown or MDX prose",
+        "The response updates the title and motivation-focused description according to the release-note and deployment choices",
+        "The response waits for required CI checks, fixes unambiguous formatting failures through GitHub, and switches to local work if a failure cannot be corrected confidently",
+        "The response verifies the exact route and anchor on the stable branch preview and reports that validation came from CI rather than local checks"
+      ]
     }
   ]
 }

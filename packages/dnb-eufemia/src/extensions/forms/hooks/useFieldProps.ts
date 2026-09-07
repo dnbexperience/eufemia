@@ -199,7 +199,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     getExternalValueSnapshot = undefined,
   }: UseFieldPropsOptions = {}
 ): typeof localProps & ReturnAdditional<Value> {
-  const { extend } = useContext(FieldProviderContext)
+  const { extend, forceDisabled } = useContext(FieldProviderContext)
   const props = extend(localProps)
 
   const {
@@ -567,6 +567,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     validateInitially,
     validateContinuously,
     disabled,
+    asyncSubmitTimeout: dataContext?.props?.asyncSubmitTimeout,
     identifier,
     locale,
     handleFieldAsVisible,
@@ -660,6 +661,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     required,
     hasDataContext,
     getAjvInstanceDataContext,
+    setFieldInternalsDataContext,
     setFieldEventListener,
     getValueByPath,
     getSourceValue,
@@ -1968,9 +1970,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     /** HTML Attributes */
     disabled:
-      onBlurValidator &&
-      asyncProcessRef.current === 'onBlurValidator' &&
-      fieldStateRef.current === 'validating'
+      forceDisabled ||
+      (onBlurValidator &&
+        asyncProcessRef.current === 'onBlurValidator' &&
+        fieldStateRef.current === 'validating')
         ? true
         : disabled,
 

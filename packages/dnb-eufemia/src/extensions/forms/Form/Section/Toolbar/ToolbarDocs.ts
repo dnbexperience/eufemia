@@ -15,7 +15,7 @@ export const ToolbarEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onDone: {
-    doc: 'Callback for the done button. Return a Promise to keep the section in edit mode until it settles: it switches to view mode when the Promise resolves, and stays in edit mode when it rejects. Any other return value is ignored.',
+    doc: 'Callback for the done button. Return a Promise to keep the section in edit mode until it settles: it switches to view mode when the Promise resolves, and stays in edit mode when it rejects. Any other return value is ignored. If the Promise does not settle within `asyncSubmitTimeout` (30 seconds by default), the section re-enables itself and stays in edit mode.',
     type: 'function',
     status: 'optional',
   },

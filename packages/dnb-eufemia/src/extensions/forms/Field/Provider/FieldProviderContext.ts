@@ -5,6 +5,7 @@ export type FieldProviderContextProps = {
   extend: <T = UseFieldProps>(props: T) => T
   inheritedProps?: UseFieldProps
   inheritedContext?: UseFieldProps
+  forceDisabled?: boolean
 }
 
 const extend: FieldProviderContextProps['extend'] = (props) => props

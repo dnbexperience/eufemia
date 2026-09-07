@@ -46,6 +46,7 @@
 ## Git and Pull Requests
 
 - Never commit directly to `main` or release branches such as `release`. Create a branch and open a pull request.
+- Name branches according to the change type, such as `fix/...`, `feat/...`, `chore/...`, or `refactor/...`.
 
 ### Commits
 
@@ -56,6 +57,7 @@
 
 - Before creating a pull request, check whether one already exists for the branch and review the complete diff against `main`.
 - Pull request titles are used in release logs. Make each title easy for developers to understand without issue, task, or repository context. Format it according to the [Git convention style guide](packages/dnb-design-system-portal/src/docs/contribute/style-guides/git.mdx), using a Conventional Commit decorator and, when targeting a component, a PascalCase scope.
+- Choose the correct title when creating the pull request. Do not change an existing pull request title unless the user explicitly asks.
 - Examples: `fix(Button): prevent double click submission` and `feat(DatePicker): add month-only mode`.
 - For extensions/forms, use the compound name, such as feat(Field.Date): ... or fix(Form.Section): .... Use Forms as the scope for changes that span the whole forms extension.
 - Keep the description short and focused on motivation: explain the problem and why the change matters. Link the relevant Slack discussion when available.

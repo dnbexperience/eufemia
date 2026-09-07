@@ -35,7 +35,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Git checkout
@@ -43,29 +43,17 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        id: modules-cache
-        with:
-          path: |
-            node_modules
-            tools/analytics/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
-
-      - name: Install dependencies
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Audit dependencies
         # Audit the shipped (production) dep tree to catch known advisories,
         # matching the MCP pipeline and the EDS-823 supply-chain work.
         run: yarn workspace eufemia-analytics audit:ci
+        env:
+          YARN_HTTP_TIMEOUT: '360000'
 
       - name: Typecheck
         run: cd tools/analytics && yarn test:types
@@ -88,24 +76,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
         with:
-          node-version-file: 'package.json'
-
-      - name: Use node_modules cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        id: modules-cache
-        with:
-          path: |
-            node_modules
-            tools/analytics/node_modules
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
-
-      - name: Install dependencies
-        if: steps.modules-cache.outputs.cache-hit != 'true'
-        run: yarn install --immutable
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Skip if GHE credentials are missing
         id: gate

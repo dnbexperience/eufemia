@@ -168,7 +168,11 @@ export type ContextState = {
   hasFieldState: (state: SubmitState) => boolean
   hasFieldError: (path: Path) => boolean
   hasFieldWithAsyncValidator?: () => boolean
-  setFieldState?: (path: Path, fieldState: SubmitState) => void
+  setFieldState?: (
+    path: Path,
+    fieldState: SubmitState,
+    options?: { cancelPendingSubmit?: boolean }
+  ) => void
   setFieldError?: (path: Path, error: Error | FormError) => void
   setMountedFieldState: (path: Path, options: MountState) => void
   setFormState?: (

@@ -426,6 +426,25 @@ describe('package.json', () => {
 })
 
 describe('release config', () => {
+  it('excludes test commits from release notes', async () => {
+    const packageJson = await fs.readJson(
+      path.resolve(PKG_ROOT, 'package.json')
+    )
+    const releaseNotesPlugin = packageJson.release.plugins.find(
+      (plugin) =>
+        Array.isArray(plugin) &&
+        plugin[0] === '@semantic-release/release-notes-generator'
+    )
+    const releaseNotesConfig = Array.isArray(releaseNotesPlugin)
+      ? releaseNotesPlugin[1]
+      : undefined
+    const testType = releaseNotesConfig?.presetConfig?.types?.find(
+      ({ type }) => type === 'test'
+    )
+
+    expect(testType).toBeUndefined()
+  })
+
   it('creates .releaserc.json in build directory', async () => {
     const buildDir = path.resolve(PKG_ROOT, 'build')
 

@@ -608,6 +608,22 @@ function createDocsContext(source: DocsSource) {
 
 const EmptyInput = z.object({})
 
+const PORTAL_CONTENT_WORKFLOW = `# Edit Eufemia Portal Content
+
+Use this workflow for small editorial changes to the official Eufemia portal.
+
+1. Read the repository instructions, the complete source file, and nearby content. Verify technical claims against current Eufemia documentation.
+2. Ask whether the change should appear in the next release notes and whether it can wait for the next regular release or needs an earlier portal-only deployment. For an earlier deployment, also ask for the desired date and reason.
+3. Work only through GitHub when the complete diff is a small prose edit to existing Markdown or MDX and does not change imports, frontmatter, JSX, code examples, assets, navigation, or behavior. Use a local checkout for broader or structural changes, generated content, behavior, or failures that cannot be corrected confidently from GitHub and CI.
+4. Continue an existing Edit on GitHub branch and pull request when one exists. Otherwise create a focused branch from the current main branch. Keep one independently understandable content outcome per pull request.
+5. Preserve MDX structure, imports, links, terminology, tone, and heading hierarchy. Do not expand editorial work into component, API, or layout changes without approval.
+6. Inspect the complete diff and verify the affected route and anchor. Format and run focused checks locally when using a checkout. For GitHub-only work, rely on required CI checks, fix only unambiguous failures remotely, and state that validation came from CI.
+7. Use a docs(Portal) pull request title when the change belongs in the next release notes. Use chore(Portal) when it does not. Neither type should publish a package version by itself, but verify the current semantic-release configuration before promising release behavior.
+8. Open or update the pull request against main with a short motivation-focused description. When the preview finishes, add and verify the stable Branch Preview URL with the exact route and anchor. Include the release priority, but do not list changed files or validation steps.
+9. Report the pull request, verified preview, release-note choice, and remaining reviewer decisions. Never merge without explicit permission.
+
+For an earlier portal-only deployment, prepare a separate promotion pull request from the current release branch after confirming that no commit since its latest npm version tag would trigger a package release. Carry only the approved content patch, verify it matches the main pull request with no extras, verify its preview, title it chore(Portal): promote ..., and require squash merge. Do not copy all of main into release.`
+
 const DocsReadInput = z.object({
   path: z
     .string()
@@ -659,6 +675,7 @@ type EmptyInputType = z.infer<typeof EmptyInput>
 type DocsToolHandlers = {
   docsEntry: (_input: EmptyInputType) => Promise<ToolResult>
   docsMeta: (_input: EmptyInputType) => Promise<ToolResult>
+  portalContentWorkflow: (_input: EmptyInputType) => Promise<ToolResult>
   reviewRules: (_input: EmptyInputType) => Promise<ToolResult>
   docsIndex: (_input: EmptyInputType) => Promise<ToolResult>
   docsList: (input: DocsListInputType) => Promise<ToolResult>
@@ -751,6 +768,12 @@ export function createDocsTools(
   const docsMeta = async (_input: EmptyInputType): Promise<ToolResult> => {
     const meta = await readDocsMeta(context.source)
     return makeTextResult(JSON.stringify(meta, null, 2))
+  }
+
+  const portalContentWorkflow = async (
+    _input: EmptyInputType
+  ): Promise<ToolResult> => {
+    return makeTextResult(PORTAL_CONTENT_WORKFLOW)
   }
 
   const docsIndex = async (
@@ -964,6 +987,7 @@ export function createDocsTools(
   return {
     docsEntry,
     docsMeta,
+    portalContentWorkflow,
     reviewRules: getReviewRules,
     docsIndex,
     docsList,
@@ -1038,6 +1062,17 @@ export function registerDocsTools(
       inputSchema: EmptyInput.shape,
     },
     (input) => tools.docsMeta(input)
+  )
+
+  server.registerTool(
+    'portal_content_workflow',
+    {
+      title: 'Portal content workflow',
+      description:
+        'Return the complete Eufemia workflow for editing Portal content and delivering a focused pull request. Use this when someone asks to change, correct, or update text on the official Eufemia Portal, including an existing change made with Edit on GitHub.',
+      inputSchema: EmptyInput.shape,
+    },
+    (input) => tools.portalContentWorkflow(input)
   )
 
   server.registerTool(
