@@ -72,45 +72,6 @@ To achieve a consistent experience of animations, we should use the tools provid
 
 To give the user the experience of something sliding in, the element does not need to animate from the very start to the very end. It is often enough to show just the last part of the animation.
 
-### Examples
+## Motion examples
 
-Good examples of Eufemia components using micro-interactions are:
-
-- [Accordion](/uilib/components/accordion) with its open and close animation.
-- [Table](/uilib/components/table/#table-with-accordion) with its parallax animation.
-- [Breadcrumb](/uilib/components/breadcrumb/#always-be-collapsed-variantcollapse) with its collapse and expand animation.
-- [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer) with their open and close animation.
-- [Switch](/uilib/components/switch) with its short feedback animation.
-- [TextCounter](/uilib/components/fragments/text-counter) with its error message appearance.
-
-### Helpers to use in code
-
-Timing and easing matter.
-
-- Keep direct interaction feedback short. Try around `180ms` for a small movement, and `300ms` to `500ms` for larger transitions or expanding content.
-- Avoid delaying feedback after a user action.
-- Prefer animating `transform` and `opacity` when possible.
-- Use the [HeightAnimation](/uilib/components/height-animation/) component when content with an unknown height expands or collapses.
-- Reuse Eufemia's [animation easing variables](/uilib/helpers#animation-easing) in custom CSS. Use `--easing-default` for standard transitions:
-
-```css
-transition: height 400ms var(--easing-default);
-```
-
-Use `--easing-fast-bounce` for short, direct interactions that benefit from a subtle settling effect. Keep it to small movements, such as a control changing state:
-
-```css
-transition: transform 180ms var(--easing-fast-bounce);
-```
-
-Eufemia's animated components – and the `HeightAnimation` component – already honour the `prefers-reduced-motion` setting. When you write a custom animation, remember to handle it yourself:
-
-```css
-@media (prefers-reduced-motion: reduce) {
-  .my-animated-element {
-    transition-duration: 0.01ms;
-  }
-}
-```
-
-Read more about [reduced motion support](/uilib/usage/accessibility/about-accessibility#reduced-motion-support).
+See [Motion](/quickguide-designer/motion/) for visual examples, component references, and implementation guidance.

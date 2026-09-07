@@ -1,0 +1,14 @@
+<!-- Family Home: https://www.figma.com/design/dgJbK9h01WK6JsnFEozlFKYO?node-id=4162-0
+     Original roof surfaces, chimney and trim. -->
+<svg width="523" height="250" viewBox="0 0 523 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="Vector_5" d="M164.805 16.7002L341.69 17.4841L444.394 103.967L268.997 104.303L164.805 16.7002Z" fill="#C1F8EA"/>
+<path id="Vector_6" opacity="0.93" d="M159.529 16.7002L350.325 17.4841L453.421 104.303H263.721L159.529 16.7002Z" fill="#008484"/>
+<g id="Chimney">
+<path id="Rectangle 1" d="M277.029 2.7002H290.029V49.7002L277.029 38.7002V2.7002Z" fill="#A5E1D2"/>
+<path id="Rectangle 2" d="M290.029 2.7002H311.029V49.7002H290.029V2.7002Z" fill="#65BDB4"/>
+<rect id="Rectangle 3" x="272.921" y="0.700195" width="15" height="7" fill="#65BDB4"/>
+<rect id="Rectangle 4" x="287.921" y="0.700195" width="27" height="7" fill="#0E8C8B"/>
+</g>
+<path id="Vector 1" d="M51.0293 116.2L159.029 22.7002L262.529 109.7H453.529" stroke="#14555A" stroke-width="11"/>
+<path id="Vector 2" d="M66.4209 119.7L54.4209 120.2L158.921 29.7002L166.421 36.2002L66.4209 119.7Z" fill="#65BDB4"/>
+</svg>

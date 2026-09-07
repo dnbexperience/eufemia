@@ -1,0 +1,69 @@
+---
+title: 'Motion'
+description: 'Visual examples and implementation guidance for motion in DNB interfaces.'
+---
+
+import { Accordion } from '@dnb/eufemia/src'
+import MotionDemos from './motion/MotionDemos'
+
+# Motion
+
+Help people understand what changed. Keep feedback close to the action, movement short, and the interface usable while it settles.
+
+Read the [Animation Principles](/quickguide-designer/principles/animations/) for when and why to use motion.
+
+<MotionDemos />
+
+## Implementation
+
+Reuse an Eufemia component's built-in motion before adding a custom animation.
+
+### Components
+
+- [Accordion](/uilib/components/accordion/) opens and closes content in place.
+- [Table](/uilib/components/table/#table-with-accordion) lets details settle into an expanding row.
+- [Breadcrumb](/uilib/components/breadcrumb/#always-be-collapsed-variantcollapse) reveals a collapsed path.
+- [Dialog](/uilib/components/dialog/) and [Drawer](/uilib/components/drawer/) enter and leave without moving the page.
+- [Switch](/uilib/components/switch/) gives short, direct feedback.
+- [TextCounter](/uilib/components/fragments/text-counter/) makes room for an error message.
+- [HeightAnimation](/uilib/components/height-animation/) handles expanding or collapsing content with an unknown height.
+
+The submission study follows the [SubmitIndicator border animation in PR #9160](https://github.com/dnbexperience/eufemia/pull/9160).
+
+### Custom motion
+
+<Accordion title="Timing and easing" bottom="small">
+
+Keep direct interaction feedback short. Try around `180ms` for a small movement, and `300ms` to `500ms` for larger transitions or expanding content. Do not delay feedback after a user action.
+
+Prefer animating `transform` and `opacity` when possible. Reuse Eufemia's [animation easing variables](/uilib/helpers#animation-easing), with `--easing-default` for standard transitions:
+
+```css
+transition: transform 300ms var(--easing-default);
+```
+
+Use `--easing-fast-bounce` only for small, direct interactions that benefit from a subtle settling effect, such as a control changing state:
+
+```css
+transition: transform 180ms var(--easing-fast-bounce);
+```
+
+</Accordion>
+
+<Accordion title="Reduced motion">
+
+Respect the user's reduced-motion preference when writing custom animations. Keep non-animated styles in a meaningful state so disabling motion does not hide content or feedback.
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  .dnb-custom-motion {
+    animation: none;
+    transition-delay: 0ms;
+    transition-duration: 0.01ms;
+  }
+}
+```
+
+Eufemia's `HeightAnimation` component already handles this preference. Read more about [reduced motion support](/uilib/usage/accessibility/about-accessibility#reduced-motion-support).
+
+</Accordion>

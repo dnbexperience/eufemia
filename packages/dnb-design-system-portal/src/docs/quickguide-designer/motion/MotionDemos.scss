@@ -1,0 +1,801 @@
+@property --motion-submit-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.dnb-motion-demos {
+  --motion-demo-play-state: running;
+
+  &[data-paused='true'] {
+    --motion-demo-play-state: paused;
+  }
+
+  &__controls {
+    position: sticky;
+    top: 4rem;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-block: 1rem;
+    margin-bottom: 0.5rem;
+    background: var(--token-color-background-neutral);
+  }
+
+  &__hint.dnb-p {
+    margin: 0;
+    font-size: var(--font-size-small);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 2rem 1.5rem;
+  }
+
+  [data-motion] {
+    animation-duration: 4s;
+    animation-timing-function: var(--easing-default);
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-play-state: var(--motion-demo-play-state);
+  }
+}
+
+.dnb-motion-demo {
+  min-width: 0;
+  margin: 0;
+
+  &[aria-labelledby='show-submission'] {
+    padding-bottom: 0.5rem;
+  }
+
+  &__stage {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    border-radius: var(--token-radius-md);
+    background: var(--token-color-background-selected-subtle);
+  }
+
+  &__caption {
+    padding-top: 1rem;
+  }
+
+  &__caption .dnb-p {
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-basis);
+  }
+}
+
+.dnb-motion-scene {
+  &__surface {
+    fill: var(--token-color-background-neutral);
+    stroke: var(--token-color-stroke-neutral-subtle);
+  }
+
+  &__muted {
+    fill: var(--token-color-background-neutral-subtle);
+  }
+
+  &__lines {
+    fill: var(--token-color-stroke-neutral-subtle);
+  }
+
+  &__accent {
+    fill: var(--token-color-background-action);
+  }
+
+  &__accent-soft,
+  &__expansion-fill {
+    fill: var(--token-color-background-selected-subtle);
+  }
+
+  &__ink,
+  &__label {
+    fill: var(--token-color-text-neutral);
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+  }
+
+  &__stroke {
+    fill: none;
+    stroke: var(--token-color-text-action);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  &__divider {
+    stroke: var(--token-color-stroke-neutral-subtle);
+  }
+
+  &__dialog {
+    animation-name: dnb-motion-dialog;
+  }
+
+  &__backdrop {
+    fill: rgb(0 0 0 / 32%);
+    animation-name: dnb-motion-backdrop;
+  }
+
+  &__expansion-fill,
+  &__expansion-clip {
+    transform-origin: 60px 80px;
+    animation-name: dnb-motion-expand;
+  }
+
+  &__expansion-content,
+  &__table-content {
+    animation-name: dnb-motion-disclosure-content;
+  }
+
+  &__following-row {
+    transform: translateY(4.5rem);
+    animation-name: dnb-motion-make-room;
+  }
+
+  &__chevron {
+    animation-name: dnb-motion-chevron;
+  }
+
+  &__switch-track {
+    fill: var(--token-color-background-selected);
+    animation-name: dnb-motion-switch-track;
+  }
+
+  &__switch-thumb[data-motion] {
+    fill: var(--token-color-background-neutral);
+    transform: translateX(1.75rem);
+    animation-name: dnb-motion-switch-thumb;
+    animation-timing-function: var(--easing-fast-bounce);
+  }
+
+  &__switch-check {
+    animation-name: dnb-motion-reveal;
+  }
+
+  &__drawer {
+    animation-name: dnb-motion-drawer;
+  }
+
+  &__breadcrumb {
+    --motion-reveal-height: 6.5rem;
+  }
+
+  &__table {
+    --motion-reveal-height: 4rem;
+  }
+
+  &__disclosure-clip {
+    animation-name: dnb-motion-disclosure-height;
+  }
+
+  &__disclosure-following {
+    transform: translateY(var(--motion-reveal-height));
+    animation-name: dnb-motion-disclosure-following;
+  }
+
+  &__disclosure-chevron {
+    animation-name: dnb-motion-disclosure-chevron;
+  }
+
+  &__breadcrumb-item {
+    animation-name: dnb-motion-breadcrumb-item;
+
+    &:nth-of-type(2) {
+      animation-delay: 50ms;
+    }
+
+    &:nth-of-type(3) {
+      animation-delay: 100ms;
+    }
+  }
+
+  &__counter-icon {
+    fill: none;
+    stroke: var(--token-color-icon-error);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation-name: dnb-motion-counter-icon;
+  }
+
+  &__counter-width {
+    transform: translateX(1rem);
+    animation-name: dnb-motion-counter-width;
+  }
+
+  &__counter-gap {
+    transform: translateX(0.5rem);
+    animation-name: dnb-motion-counter-gap;
+  }
+
+  &__counter-normal[data-motion],
+  &__counter-error[data-motion] {
+    animation-timing-function: steps(1, end);
+  }
+
+  &__counter-normal {
+    opacity: 0;
+    animation-name: dnb-motion-counter-normal;
+  }
+
+  &__counter-error {
+    animation-name: dnb-motion-counter-error;
+  }
+
+  &__counter-message {
+    fill: var(--token-color-text-error);
+  }
+
+  &__progress-track,
+  &__progress,
+  &__progress-wipe {
+    fill: none;
+    stroke-width: 6;
+  }
+
+  &__progress-track,
+  &__progress-wipe {
+    stroke: var(--token-color-background-neutral-alternative);
+  }
+
+  &__progress[data-motion],
+  &__progress-wipe[data-motion] {
+    transform: rotate(-90deg);
+    transform-origin: 180px 104px;
+    stroke-linecap: round;
+    stroke-dasharray: 100;
+    animation-duration: 2s;
+    // Match ProgressIndicator's constant-speed, completion-aware sweep.
+    animation-timing-function: linear;
+  }
+
+  &__progress {
+    stroke: var(--token-color-background-action);
+    stroke-width: 5.5;
+    stroke-dashoffset: 25;
+    animation-name: dnb-motion-progress;
+  }
+
+  &__progress-wipe {
+    stroke-dashoffset: 100;
+    animation-name: dnb-motion-progress-wipe;
+  }
+
+  &__submit-button {
+    fill: var(--token-color-component-button-background-action);
+  }
+
+  &__submit-label {
+    fill: var(--token-color-component-button-text-neutral);
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+  }
+
+  &__submit-glow[data-motion] {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0.125rem;
+    border-radius: 1.5rem;
+    background: conic-gradient(
+      from var(--motion-submit-angle),
+      transparent 25%,
+      var(--token-color-stroke-action) 45%,
+      var(--token-color-stroke-action-pressed) 55%,
+      transparent 75%
+    );
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation-name: dnb-motion-submit-glow;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+  }
+
+  &__illustration-greenery {
+    --motion-greenery-offset: -1rem;
+
+    animation-name: dnb-motion-illustration-greenery;
+
+    &--right {
+      --motion-greenery-offset: 1rem;
+    }
+  }
+
+  &__illustration-body {
+    animation-name: dnb-motion-illustration-body;
+  }
+
+  &__illustration-roof {
+    animation-name: dnb-motion-illustration-roof;
+  }
+
+  &__illustration-details,
+  &__garage {
+    animation-name: dnb-motion-illustration-details;
+  }
+
+  &__garage-door {
+    animation-name: dnb-motion-garage-door;
+  }
+
+  &__icon[data-motion] {
+    transform-origin: 180px 97.5px;
+    animation-name: dnb-motion-icon;
+    animation-timing-function: ease-in-out;
+
+    .dnb-icon {
+      display: block;
+      color: var(--token-color-text-action);
+    }
+  }
+
+  &__icon-background {
+    fill: var(--token-color-background-neutral);
+  }
+
+  &__graph-label {
+    fill: var(--token-color-text-neutral);
+    font-size: 0.75rem;
+  }
+
+  &__graph-bar {
+    --bar-start-scale: 1;
+
+    transform-origin: 0 180px;
+    animation-name: dnb-motion-graph-bar;
+  }
+
+  &__graph-line {
+    stroke-width: 3;
+    animation-name: dnb-motion-graph-line;
+  }
+}
+
+// Dialog's movement and easing, with holds added around each transition.
+// In the four-second loop, entry takes 300ms and exit takes 220ms.
+@keyframes dnb-motion-dialog {
+  0%,
+  15% {
+    opacity: 0.1;
+    transform: translateY(-1rem);
+    animation-timing-function: ease-out;
+  }
+  22.5%,
+  65% {
+    opacity: 1;
+    transform: translateY(0);
+    animation-timing-function: ease-in-out;
+  }
+  70.5%,
+  99.99% {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translateY(-1rem);
+  }
+}
+
+@keyframes dnb-motion-backdrop {
+  0%,
+  15% {
+    opacity: 0;
+    animation-timing-function: ease-out;
+  }
+  22.5%,
+  65% {
+    opacity: 1;
+    animation-timing-function: ease-out;
+  }
+  72.5%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dnb-motion-expand {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: scaleY(0);
+  }
+  25%,
+  65% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes dnb-motion-reveal {
+  0%,
+  18%,
+  78%,
+  100% {
+    opacity: 0;
+  }
+  25%,
+  65% {
+    opacity: 1;
+  }
+}
+
+@keyframes dnb-motion-make-room {
+  0%,
+  15%,
+  85%,
+  100% {
+    transform: translateY(0);
+  }
+  25%,
+  65% {
+    transform: translateY(4.5rem);
+  }
+}
+
+@keyframes dnb-motion-chevron {
+  0%,
+  15%,
+  85%,
+  100% {
+    d: path('M -5 -2 L 0 3 L 5 -2');
+  }
+  25%,
+  65% {
+    d: path('M -5 3 L 0 -2 L 5 3');
+  }
+}
+
+@keyframes dnb-motion-switch-track {
+  0%,
+  15%,
+  69.5%,
+  100% {
+    fill: var(--token-color-background-action-alternative);
+  }
+  19.5%,
+  65% {
+    fill: var(--token-color-background-selected);
+  }
+}
+
+@keyframes dnb-motion-switch-thumb {
+  0%,
+  15%,
+  69.5%,
+  100% {
+    transform: translateX(0);
+  }
+  19.5%,
+  65% {
+    transform: translateX(1.75rem);
+  }
+}
+
+@keyframes dnb-motion-drawer {
+  0%,
+  15% {
+    opacity: 0.1;
+    transform: translateX(8.5rem);
+    animation-timing-function: ease-out;
+  }
+  22.5%,
+  65% {
+    opacity: 1;
+    transform: translateX(0);
+    animation-timing-function: ease-in-out;
+  }
+  72.5%,
+  99.99% {
+    opacity: 0;
+    transform: translateX(8.5rem);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translateX(8.5rem);
+  }
+}
+
+// Content settles over 500ms, just after the 400ms opening.
+@keyframes dnb-motion-disclosure-height {
+  0%,
+  15%,
+  75%,
+  100% {
+    height: 0;
+  }
+  25%,
+  65% {
+    height: var(--motion-reveal-height);
+  }
+}
+
+@keyframes dnb-motion-disclosure-following {
+  0%,
+  15%,
+  75%,
+  100% {
+    transform: translateY(0);
+  }
+  25%,
+  65% {
+    transform: translateY(var(--motion-reveal-height));
+  }
+}
+
+@keyframes dnb-motion-disclosure-chevron {
+  0%,
+  15%,
+  75%,
+  100% {
+    d: path('M -5 -2 L 0 3 L 5 -2');
+  }
+  25%,
+  65% {
+    d: path('M -5 3 L 0 -2 L 5 3');
+  }
+}
+
+@keyframes dnb-motion-breadcrumb-item {
+  0%,
+  15%,
+  75%,
+  100% {
+    transform: translateX(-1rem);
+  }
+  25%,
+  65% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes dnb-motion-disclosure-content {
+  0%,
+  15%,
+  77.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(-0.625rem);
+  }
+  27.5%,
+  65% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// TextCounter changes its message immediately; icon size takes 400ms,
+// while the adjacent gap opens in 200ms.
+@keyframes dnb-motion-counter-icon {
+  0%,
+  15%,
+  75%,
+  100% {
+    transform: scale(0);
+  }
+  25%,
+  65% {
+    transform: scale(1);
+  }
+}
+
+@keyframes dnb-motion-counter-width {
+  0%,
+  15%,
+  75%,
+  100% {
+    transform: translateX(0);
+  }
+  25%,
+  65% {
+    transform: translateX(1rem);
+  }
+}
+
+@keyframes dnb-motion-counter-gap {
+  0%,
+  15%,
+  70%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  65% {
+    transform: translateX(0.5rem);
+  }
+}
+
+@keyframes dnb-motion-counter-error {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  65%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes dnb-motion-counter-normal {
+  0% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 0;
+  }
+  65%,
+  100% {
+    opacity: 1;
+  }
+}
+
+// ProgressIndicator draws the dark stroke, then covers it with the light one.
+// Its 1% circumference endpoint becomes 1 / pi with pathLength="100".
+@keyframes dnb-motion-progress {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  50%,
+  100% {
+    stroke-dashoffset: 0.31831;
+  }
+}
+
+@keyframes dnb-motion-progress-wipe {
+  0%,
+  50% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0.31831;
+  }
+}
+
+@keyframes dnb-motion-submit-glow {
+  from {
+    --motion-submit-angle: 0deg;
+  }
+  to {
+    --motion-submit-angle: 360deg;
+  }
+}
+
+@keyframes dnb-motion-illustration-body {
+  0%,
+  5%,
+  95%,
+  100% {
+    opacity: 0;
+  }
+  12.5%,
+  87.5% {
+    opacity: 1;
+  }
+}
+
+@keyframes dnb-motion-illustration-roof {
+  0%,
+  12.5%,
+  87.5%,
+  100% {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  20%,
+  80% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dnb-motion-illustration-details {
+  0%,
+  17.5%,
+  82.5%,
+  100% {
+    opacity: 0;
+  }
+  25%,
+  75% {
+    opacity: 1;
+  }
+}
+
+@keyframes dnb-motion-garage-door {
+  0%,
+  27.5%,
+  72.5%,
+  100% {
+    transform: translateY(0);
+  }
+  40%,
+  60% {
+    transform: translateY(-3.25rem);
+  }
+}
+
+@keyframes dnb-motion-illustration-greenery {
+  0%,
+  15%,
+  75%,
+  100% {
+    opacity: 0;
+    transform: translateX(var(--motion-greenery-offset));
+  }
+  25%,
+  65% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes dnb-motion-icon {
+  0%,
+  15%,
+  38%,
+  100% {
+    transform: rotate(0deg);
+  }
+  18% {
+    transform: rotate(-16deg);
+  }
+  22% {
+    transform: rotate(14deg);
+  }
+  26% {
+    transform: rotate(-10deg);
+  }
+  30% {
+    transform: rotate(6deg);
+  }
+  34% {
+    transform: rotate(-3deg);
+  }
+}
+
+// Keep the graph scale and sample identities fixed during both data updates.
+@keyframes dnb-motion-graph-bar {
+  0%,
+  15%,
+  77.5%,
+  100% {
+    transform: scaleY(var(--bar-start-scale));
+  }
+  27.5%,
+  65% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes dnb-motion-graph-line {
+  0%,
+  15%,
+  77.5%,
+  100% {
+    d: path('M96 150 160 125 224 139 288 105');
+  }
+  27.5%,
+  65% {
+    d: path('M96 125 160 139 224 91 288 77');
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dnb-motion-demos [data-motion] {
+    animation: none;
+  }
+}
