@@ -34,6 +34,8 @@
     padding-bottom: 0;
 
     &__tablist {
+      position: relative;
+
       display: flex;
       flex: 0 1 auto;
 
@@ -290,6 +292,7 @@
 
         &::after {
           background-color: var(--token-color-stroke-action-hover);
+          opacity: 0.25;
         }
 
         &:active {
@@ -363,6 +366,60 @@
 
     will-change: padding;
     transition: padding 1s var(--easing-default);
+  }
+
+  &__selection {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+
+    width: var(--tabs-selection-width, 0);
+    height: 2px;
+
+    pointer-events: none;
+    opacity: 0;
+    border-radius: var(--token-radius-sm);
+    background-color: var(--tab-title-border--selected);
+    transform: translateX(var(--tabs-selection-x, 0));
+
+    &--visible {
+      opacity: 1;
+    }
+
+    &--animated {
+      transition:
+        width 300ms var(--easing-default),
+        transform 300ms var(--easing-default),
+        background-color 200ms var(--easing-default);
+    }
+  }
+
+  // Keep the button underline as an SSR/no-JS fallback, then hide it once the
+  // measured, animated underline is ready.
+  &__tabs__tablist:has(> &__selection--visible)
+    &__button:not([disabled]).selected {
+    --tab-title-border: transparent;
+
+    &::after {
+      background-color: transparent;
+    }
+  }
+
+  &__button__snap.selected {
+    &:has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
+      background-color: var(--token-color-stroke-action-pressed);
+    }
+
+    @include utilities.hover() {
+      ~ .dnb-tabs__selection {
+        background-color: var(--token-color-stroke-action-hover);
+      }
+
+      &:has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
+        background-color: var(--token-color-stroke-action-pressed);
+      }
+    }
   }
 
   html[data-whatinput='keyboard'] &__button__snap {

@@ -394,6 +394,7 @@ function TabsComponent(ownProps: TabsProps) {
   // Refs
   const tabsRef = useRef<HTMLDivElement>(null)
   const tablistRef = useRef<HTMLDivElement>(null)
+  const selectionRef = useRef<HTMLSpanElement>(null)
   const cacheRef = useRef<
     Record<string, { content: ReactNode; [key: string]: unknown }>
   >({})
@@ -412,6 +413,7 @@ function TabsComponent(ownProps: TabsProps) {
   const [selectedKey, setSelectedKey] = useState<string | number>(() =>
     getSelectedKeyOrFallback(ownProps.selectedKey, initialData.current)
   )
+  const previousSelectionKeyRef = useRef(selectedKey)
   const [focusKey, setFocusKey] = useState<string | number>(selectedKey)
   const [hasScrollbar, setHasScrollbar] = useState(false)
   const [isFirst, setIsFirst] = useState<boolean | undefined>(undefined)
@@ -846,6 +848,49 @@ function TabsComponent(ownProps: TabsProps) {
     handleVerticalScroll()
   }, [selectedKey])
 
+  const updateSelection = useCallback((animate = false) => {
+    const tablist = tablistRef.current
+    const selection = selectionRef.current
+    const selectedTab = tablist?.querySelector<HTMLElement>(
+      '.dnb-tabs__button.selected:not([disabled])'
+    )
+
+    if (!tablist || !selection || !selectedTab) {
+      selection?.classList.remove('dnb-tabs__selection--visible')
+      return
+    }
+
+    const tablistRect = tablist.getBoundingClientRect()
+    const selectedTabRect = selectedTab.getBoundingClientRect()
+    const badge = selectedTab.querySelector<HTMLElement>('.dnb-badge')
+    const badgeMargin = badge
+      ? parseFloat(window.getComputedStyle(badge).marginLeft) || 0
+      : 0
+    const width = badge
+      ? badge.getBoundingClientRect().left -
+        selectedTabRect.left -
+        badgeMargin
+      : selectedTabRect.width
+
+    if (animate) {
+      selection.classList.add('dnb-tabs__selection--animated')
+    } else {
+      selection.classList.remove('dnb-tabs__selection--animated')
+    }
+
+    selection.style.setProperty(
+      '--tabs-selection-x',
+      `${selectedTabRect.left - tablistRect.left + tablist.scrollLeft}px`
+    )
+    selection.style.setProperty('--tabs-selection-width', `${width}px`)
+    selection.classList.add('dnb-tabs__selection--visible')
+  }, [])
+
+  useIsomorphicLayoutEffect(() => {
+    updateSelection(previousSelectionKeyRef.current !== selectedKey)
+    previousSelectionKeyRef.current = selectedKey
+  }, [data, selectedKey, updateSelection])
+
   const onResizeHandler = useCallback(() => {
     const scrollbarVisible = checkHasScrollbar()
     setHasScrollbar(scrollbarVisible)
@@ -863,7 +908,9 @@ function TabsComponent(ownProps: TabsProps) {
 
       scrollToTab({ type: 'selected' })
     }
-  }, [scrollToTab])
+
+    updateSelection()
+  }, [scrollToTab, updateSelection])
 
   // Synchronous shared state initialization (must happen during render, not in useEffect).
   // Use silent: true to avoid triggering subscribers during render, which would cause
@@ -1406,6 +1453,11 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         {...params}
       >
         {tabs}
+        <span
+          aria-hidden
+          className="dnb-tabs__selection"
+          ref={selectionRef}
+        />
       </div>
     )
   }
