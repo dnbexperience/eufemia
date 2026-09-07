@@ -73,14 +73,12 @@ variable "entra_tenant_id" {
   }
 }
 
+# Optional extra CORS origins beyond dashboard_public_url (which is always
+# allowed), e.g. http://localhost:4173 for local dashboard development.
 variable "dashboard_origins" {
   type        = list(string)
-  description = "Allowed CORS origins for the dashboard API (e.g. the dashboard host and http://localhost:4173)."
-
-  validation {
-    condition     = length(var.dashboard_origins) > 0
-    error_message = "dashboard_origins must list at least one allowed origin."
-  }
+  description = "Extra allowed CORS origins for the dashboard API beyond dashboard_public_url (e.g. http://localhost:4173 for local dev)."
+  default     = []
 }
 
 # Canonical public URL the dashboard is served from once it is fronted by a
