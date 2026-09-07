@@ -1,0 +1,66 @@
+---
+title: 'Scroll awareness'
+hideInMenu: true
+breadcrumb:
+  - text: Layout
+    href: /uilib/layout/
+  - text: Scroll awareness
+    href: /uilib/layout/scroll-awareness/
+---
+
+# Scroll awareness
+
+Use the `useHasScrolled` hook when an interface should react after the page passes a vertical scroll threshold. Common examples include adding a background to sticky navigation or reducing the size of persistent controls.
+
+The hook observes window scrolling and returns a boolean. It only updates the component when the threshold is crossed.
+
+```tsx
+import { useHasScrolled } from '@dnb/eufemia/shared'
+
+function StickyHeader() {
+  const hasScrolled = useHasScrolled(8)
+
+  return (
+    <header data-scrolled={hasScrolled ? 'true' : undefined}>
+      Header content
+    </header>
+  )
+}
+```
+
+```scss
+.app-header {
+  background-color: transparent;
+  transition: background-color 180ms ease;
+
+  &[data-scrolled='true'] {
+    background-color: var(--token-color-background-neutral);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+```
+
+## API
+
+```ts
+useHasScrolled(threshold?: number): boolean
+```
+
+| Argument    | Type     | Default | Description                                        |
+| ----------- | -------- | ------- | -------------------------------------------------- |
+| `threshold` | `number` | `8`     | Vertical window scroll position in pixels to pass. |
+
+The return value is `true` when `window.scrollY` is greater than the threshold.
+
+## Server-side rendering
+
+The hook returns `false` during server-side rendering because the server has no window scroll position. After mounting, it reads the current position. Consumers should therefore use the initial state as the stable, unscrolled presentation.
+
+## Scroll containers
+
+The hook observes the browser window. It does not observe independently scrollable elements.
+
+The consuming component owns its visual transitions. Respect `prefers-reduced-motion` when the scroll state changes position, size, or visibility.
