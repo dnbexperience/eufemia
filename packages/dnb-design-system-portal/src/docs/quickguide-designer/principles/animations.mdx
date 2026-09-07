@@ -54,7 +54,7 @@ Animations in DNB applications should:
 - Give the user a feeling of control.
 - Be barely noticeable.
 - Be too short rather than too long.
-- Use a slow-fast-slow easing.
+- Use easing that matches the interaction.
 - Respect the user's [reduced motion preference](/uilib/usage/accessibility/about-accessibility#reduced-motion-support).
 
 Animations should not:
@@ -63,7 +63,7 @@ Animations should not:
 - Exist to make the application look cool or feel impressive.
 - Happen off-content.
 - Start on their own.
-- Use a spring or bounce easing.
+- Use a spring or bounce effect for large or repeated movements.
 - Make the user wait for them to finish.
 
 ## Consistency in the experience of animations
@@ -80,18 +80,27 @@ Good examples of Eufemia components using micro-interactions are:
 - [Table](/uilib/components/table/#table-with-accordion) with its parallax animation.
 - [Breadcrumb](/uilib/components/breadcrumb/#always-be-collapsed-variantcollapse) with its collapse and expand animation.
 - [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer) with their open and close animation.
+- [Switch](/uilib/components/switch) with its short feedback animation.
 - [TextCounter](/uilib/components/fragments/text-counter) with its error message appearance.
 
 ### Helpers to use in code
 
 Timing and easing matter.
 
-- Try `300ms` to `500ms` in timing.
-- Use the [HeightAnimation](/uilib/components/height-animation/) component.
-- Reuse the existing easing function `var(--easing-default)` in your CSS code when creating a custom animation:
+- Keep direct interaction feedback short. Try around `180ms` for a small movement, and `300ms` to `500ms` for larger transitions or expanding content.
+- Avoid delaying feedback after a user action.
+- Prefer animating `transform` and `opacity` when possible.
+- Use the [HeightAnimation](/uilib/components/height-animation/) component when content with an unknown height expands or collapses.
+- Reuse Eufemia's [animation easing variables](/uilib/helpers#animation-easing) in custom CSS. Use `--easing-default` for standard transitions:
 
 ```css
 transition: height 400ms var(--easing-default);
+```
+
+Use `--easing-fast-bounce` for short, direct interactions that benefit from a subtle settling effect. Keep it to small movements, such as a control changing state:
+
+```css
+transition: transform 180ms var(--easing-fast-bounce);
 ```
 
 Eufemia's animated components – and the `HeightAnimation` component – already honour the `prefers-reduced-motion` setting. When you write a custom animation, remember to handle it yourself:
