@@ -5,6 +5,7 @@ import { createGitHubChangelogExtension } from './githubChangelog.ts'
 import { createListAllIconsExtension } from './listAllIcons.ts'
 import { createListComponentsOverviewExtension } from './listComponentsOverview.ts'
 import { createListSummaryFromEdgesExtension } from './listSummaryFromEdges.ts'
+import { createHomeExtension } from './home.ts'
 import { createMenuCardExtension } from './menuCard.ts'
 import { createRadiusTokenTableExtension } from './radiusTokenTable.ts'
 import { createRelatedComponentsExtension } from './relatedComponents.ts'
@@ -38,6 +39,7 @@ function createSpecialMdxExtensions(
     createColorTableExtension(deps),
     createGitHubChangelogExtension(),
     createListSummaryFromEdgesExtension(deps),
+    createHomeExtension(),
     createListComponentsOverviewExtension(deps),
     createRelatedComponentsExtension(deps),
     createMenuCardExtension(),
