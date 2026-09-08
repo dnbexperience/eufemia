@@ -26,15 +26,33 @@ describe('TextScaleScript', () => {
     delete globalThis.__eufemiaTextScaleCleanup
   })
 
-  it('sets the root size synchronously from Apple Dynamic Type', () => {
+  it('uses the normal root size at the default Apple text size', () => {
     mockSupport({ appleBodySize: 17 })
 
     Function(getTextScaleScript())()
 
-    expect(document.documentElement.style.fontSize).toBe('16px')
+    expect(document.documentElement.style.fontSize).toBe('')
     expect(
       document.documentElement.getAttribute('data-eufemia-text-scale')
     ).toBe('apple')
+  })
+
+  it('sets the root size synchronously when Apple text size is changed', () => {
+    mockSupport({ appleBodySize: 34 })
+
+    Function(getTextScaleScript())()
+
+    expect(document.documentElement.style.fontSize).toBe('32px')
+  })
+
+  it('preserves an existing root size at the default Apple text size', () => {
+    document.documentElement.style.fontSize = '20px'
+    mockSupport({ appleBodySize: 17 })
+
+    Function(getTextScaleScript())()
+    dispatchEvent(new Event('focus'))
+
+    expect(document.documentElement.style.fontSize).toBe('20px')
   })
 
   it('leaves unsupported browsers unchanged', () => {
@@ -86,6 +104,45 @@ describe('TextScaleScript', () => {
     expect(document.documentElement.style.fontSize).toBe('32px')
   })
 
+  it('removes the root size when Apple text size returns to default', () => {
+    let appleBodySize = 34
+    mockSupport({ getAppleBodySize: () => appleBodySize })
+
+    Function(getTextScaleScript())()
+    expect(document.documentElement.style.fontSize).toBe('32px')
+
+    appleBodySize = 17
+    dispatchEvent(new Event('focus'))
+
+    expect(document.documentElement.style.fontSize).toBe('')
+  })
+
+  it('restores an existing root size when Apple text size returns to default', () => {
+    let appleBodySize = 34
+    document.documentElement.style.fontSize = '20px'
+    mockSupport({ getAppleBodySize: () => appleBodySize })
+
+    Function(getTextScaleScript())()
+    expect(document.documentElement.style.fontSize).toBe('32px')
+
+    appleBodySize = 17
+    dispatchEvent(new Event('focus'))
+
+    expect(document.documentElement.style.fontSize).toBe('20px')
+  })
+
+  it('restores an existing root size during cleanup', () => {
+    document.documentElement.style.fontSize = '20px'
+    mockSupport({ appleBodySize: 34 })
+
+    Function(getTextScaleScript())()
+    expect(document.documentElement.style.fontSize).toBe('32px')
+
+    globalThis.__eufemiaTextScaleCleanup?.()
+
+    expect(document.documentElement.style.fontSize).toBe('20px')
+  })
+
   it('renders a blocking script for the document head', () => {
     render(<TextScaleHeadScript nonce="nonce-value" />)
 
@@ -99,7 +156,7 @@ describe('TextScaleScript', () => {
 
     render(<TextScaleClient />)
 
-    expect(document.documentElement.style.fontSize).toBe('16px')
+    expect(document.documentElement.style.fontSize).toBe('')
   })
 
   function mockSupport({
