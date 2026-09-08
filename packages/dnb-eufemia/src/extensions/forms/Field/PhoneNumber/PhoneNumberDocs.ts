@@ -4,6 +4,11 @@ import { StringProperties } from '../String/StringDocs'
 import { FieldProperties } from '../../Field/FieldDocs'
 
 export const PhoneNumberProperties: PropertiesTableProps = {
+  listDriver: {
+    doc: 'Opt in to a custom list renderer for the country-code selector. Use `createDrawerListVirtualization` from `@dnb/eufemia/fragments/drawer-list/Virtualization` for large data sets. Install the optional `@tanstack/react-virtual` peer dependency when using this driver.',
+    type: 'DrawerListDriver',
+    status: 'optional',
+  },
   countries: {
     doc: 'List only a certain set of countries: `Scandinavia`, `Nordic`, `Europe` or `Prioritized` (all countries [sorted by priority](/uilib/extensions/forms/feature-fields/SelectCountry/#filter-or-prioritize-country-listing)). Defaults to `Prioritized`.',
     type: ['"Scandinavia"', '"Nordic"', '"Europe"', '"Prioritized"'],

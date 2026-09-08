@@ -4,6 +4,7 @@ showTabs: true
 
 import {
   AutocompleteDefaultExample,
+  AutocompleteVirtualizedExample,
   AutocompleteNumbersExample,
   AutocompleteSearchOptionsExample,
   AutocompleteWithCustomTitle,
@@ -28,6 +29,27 @@ import {
 ### Default autocomplete
 
 <AutocompleteDefaultExample />
+
+### Large data sets
+
+Virtualization is opt-in. Import the driver from `@dnb/eufemia/fragments/drawer-list/Virtualization` and pass it as `listDriver`. The default Autocomplete bundle does not import the virtualization dependency. Filtering and “Show all” continue to operate on the complete data set while only the visible options are rendered.
+
+Install the optional peer dependency before using the driver:
+
+```bash
+yarn add @tanstack/react-virtual
+```
+
+```tsx
+import { Autocomplete } from '@dnb/eufemia/components'
+import { createDrawerListVirtualization } from '@dnb/eufemia/fragments/drawer-list/Virtualization'
+
+const listDriver = createDrawerListVirtualization()
+
+<Autocomplete data={items} listDriver={listDriver} />
+```
+
+<AutocompleteVirtualizedExample />
 
 ### Autocomplete with numbers
 

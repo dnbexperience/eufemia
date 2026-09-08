@@ -62,6 +62,7 @@ export const drawerListDefaultProps: Partial<DrawerListProps> = {
   onResize: null,
   onSelect: null,
   optionsRender: null,
+  listDriver: null,
 }
 
 export const drawerListProviderDefaultProps: Partial<DrawerListProviderProps> =

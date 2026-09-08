@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const SelectionProperties: PropertiesTableProps = {
+  listDriver: {
+    doc: 'Opt in to a custom list renderer for the Dropdown and Autocomplete variants. Use `createDrawerListVirtualization` from `@dnb/eufemia/fragments/drawer-list/Virtualization` for large data sets. Install the optional `@tanstack/react-virtual` peer dependency when using this driver.',
+    type: 'DrawerListDriver',
+    status: 'optional',
+  },
   variant: {
     doc: 'Choice of UI feature. Defaults to `dropdown`.',
     type: [

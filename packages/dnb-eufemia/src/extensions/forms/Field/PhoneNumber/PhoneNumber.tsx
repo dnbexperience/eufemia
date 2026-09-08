@@ -22,7 +22,10 @@ import type { CountryFilterSet } from '../SelectCountry'
 import { countryFilter, getCountryData } from '../SelectCountry'
 import detectCountryCode from '../../../../shared/detectCountryCode'
 import useTranslation from '../../hooks/useTranslation'
-import type { DrawerListDataArrayItem } from '../../../../fragments/DrawerList'
+import type {
+  DrawerListDataArrayItem,
+  DrawerListDriver,
+} from '../../../../fragments/DrawerList'
 import type { AutocompleteOnChangeParams } from '../../../../components/Autocomplete'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -70,6 +73,11 @@ export type FieldPhoneNumberProps = Omit<
    * For internal testing purposes
    */
   noAnimation?: boolean
+
+  /**
+   * Opt in to a custom list renderer for the country-code selector. Use `createDrawerListVirtualization` from `@dnb/eufemia/fragments/drawer-list/Virtualization` for large data sets. Install the optional `@tanstack/react-virtual` peer dependency when using this driver.
+   */
+  listDriver?: DrawerListDriver
 } & Pick<StringFieldProps, 'size'>
 
 // Important for the default value to be defined here, and not after the useFieldProps call, to avoid the UI jumping
@@ -550,6 +558,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
           selectAll
           autoComplete="tel-country-code"
           noAnimation={props.noAnimation}
+          listDriver={props.listDriver}
           size={size}
         />
       )}

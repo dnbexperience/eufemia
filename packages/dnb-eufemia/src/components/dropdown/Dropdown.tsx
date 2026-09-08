@@ -446,6 +446,7 @@ const DropdownComponent = memo(function DropdownComponent({
     stretch,
     skeleton,
     variant,
+    listDriver,
 
     title: _title,
     icon: _icon,
@@ -677,6 +678,7 @@ const DropdownComponent = memo(function DropdownComponent({
               maxHeight={maxHeight}
               direction={direction}
               size={size}
+              listDriver={listDriver}
               onChange={onChangeHandler}
               onSelect={onSelectHandler}
               onClose={onCloseHandler}

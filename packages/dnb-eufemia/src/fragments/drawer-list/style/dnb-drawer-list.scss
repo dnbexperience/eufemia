@@ -251,6 +251,26 @@
       margin-top: calc(var(--drawer-list-padding) * -1);
     }
   }
+  &__virtual-content,
+  &__virtual-content > ul {
+    position: relative;
+
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+  &__virtual-content {
+    flex: none;
+  }
+  &__virtual-content > ul {
+    height: 100%;
+  }
+  &__virtual-row {
+    position: absolute;
+  }
   // li element
   &__option {
     position: relative;

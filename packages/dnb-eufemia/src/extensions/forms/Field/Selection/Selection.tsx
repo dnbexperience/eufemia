@@ -35,6 +35,7 @@ import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type {
+  DrawerListDriver,
   DrawerListDataArrayObjectStrict,
   DrawerListProps,
 } from '../../../../fragments/DrawerList'
@@ -117,6 +118,10 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
    */
   groups?: ReactNode[]
   /**
+   * Opt in to a custom list renderer for the Dropdown and Autocomplete variants. Use `createDrawerListVirtualization` from `@dnb/eufemia/fragments/drawer-list/Virtualization` for large data sets. Install the optional `@tanstack/react-virtual` peer dependency when using this driver.
+   */
+  listDriver?: DrawerListDriver
+  /**
    * Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
    */
   autocompleteProps?: AutocompleteAllProps
@@ -167,6 +172,7 @@ function Selection(props: FieldSelectionProps) {
     transformSelection,
     data,
     groups,
+    listDriver,
     dataPath,
     children,
     additionalArgs,
@@ -357,6 +363,7 @@ function Selection(props: FieldSelectionProps) {
         ...htmlAttributes,
         data,
         groups,
+        listDriver,
         size,
         onChange: handleDrawerListChange,
         onOpen: handleShow,
