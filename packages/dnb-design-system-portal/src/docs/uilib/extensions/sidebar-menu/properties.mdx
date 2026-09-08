@@ -11,6 +11,10 @@ import {
   SidebarMenuSectionProperties,
   SidebarMenuGroupProperties,
   SidebarMenuHeaderProperties,
+  SidebarMenuResizeHandleProperties,
+  SidebarMenuResponsiveProviderProperties,
+  SidebarMenuResponsiveTriggerProperties,
+  SidebarMenuResponsiveDrawerProperties,
 } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuDocs'
 
 ## SidebarMenu.Root
@@ -44,3 +48,23 @@ import {
 ## SidebarMenu.Divider
 
 Supports standard `HTMLAttributes<HTMLLIElement>`.
+
+## SidebarMenu.ResizeHandle
+
+<PropertiesTable props={SidebarMenuResizeHandleProperties} />
+
+## SidebarMenu.ResponsiveProvider
+
+<PropertiesTable props={SidebarMenuResponsiveProviderProperties} />
+
+## SidebarMenu.ResponsiveTrigger
+
+<PropertiesTable props={SidebarMenuResponsiveTriggerProperties} />
+
+## SidebarMenu.ResponsiveDrawer
+
+<PropertiesTable props={SidebarMenuResponsiveDrawerProperties} />
+
+## SidebarMenu.useResponsive
+
+Returns `SidebarMenuResponsiveValue` with `open`, `isSmallScreen`, `setOpen`, `toggle`, and `close`.
