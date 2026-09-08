@@ -11,6 +11,8 @@ import path from 'node:path'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 import { escapeHtml } from './html-escape.mts'
 import type { MdxNode as PortalMdxNode } from '../client/plugins/portal-pages.shared'
+import { getSidebarScrollScript } from './sidebar-scroll-script.mjs'
+export { getSidebarScrollScript } from './sidebar-scroll-script.mjs'
 
 export type RouteEntry = {
   path?: string
@@ -290,15 +292,11 @@ export function injectHtml(
   // blocking script that swaps color-scheme classes on Theme elements
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
-
-  // Restore sidebar scroll position before first paint so the menu
-  // doesn't flash at the top before jumping to the saved position.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
+  const sidebarScrollScript = getSidebarScrollScript()
 
   let html = template.replace(
     '<div id="root"></div>',
-    () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarScrollScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
@@ -427,12 +425,6 @@ export function injectHtml(
   return html
 }
 
-/**
- * Build a minimal redirect HTML page.
- *
- * Uses both `<meta http-equiv="refresh">` and a canonical link
- * so search engines follow the redirect correctly.
- */
 export function buildRedirectHtml(redirectUrl: string): string {
   const url = escapeHtml(redirectUrl)
 
