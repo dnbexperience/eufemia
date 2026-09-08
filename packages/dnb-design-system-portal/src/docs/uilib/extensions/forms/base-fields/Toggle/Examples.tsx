@@ -232,6 +232,21 @@ export const VariantCheckboxButton = () => {
   )
 }
 
+export const VariantRadioButton = () => {
+  return (
+    <ComponentBox data-visual-test="toggle-variant-radio-button">
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        variant="radio-button"
+        label="Radio button variant"
+        value="on"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const VariantButtons = () => {
   return (
     <ComponentBox>

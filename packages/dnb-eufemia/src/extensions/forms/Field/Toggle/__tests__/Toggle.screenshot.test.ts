@@ -32,4 +32,11 @@ describe('Field.Toggle', () => {
       selector: '[data-visual-test="toggle-variant-radio-without-label"]',
     })
   })
+
+  it('have to match radio-button variant', async () => {
+    await makeScreenshot({
+      url,
+      selector: '[data-visual-test="toggle-variant-radio-button"]',
+    })
+  })
 })
