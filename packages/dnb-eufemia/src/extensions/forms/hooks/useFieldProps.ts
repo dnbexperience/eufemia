@@ -1776,6 +1776,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Validate/call validator functions during submit of the form
   useEffect(() => {
     setFieldEventListener?.(identifier, 'onSubmitCall', onSubmitHandler)
+
+    return () => {
+      setFieldEventListener?.(
+        identifier,
+        'onSubmitCall',
+        onSubmitHandler,
+        {
+          remove: true,
+        }
+      )
+    }
   }, [identifier, onSubmitHandler, setFieldEventListener])
 
   // Set the error in the field block context if this field is inside a field block
