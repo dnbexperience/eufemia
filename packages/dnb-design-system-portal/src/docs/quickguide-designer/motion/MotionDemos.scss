@@ -12,45 +12,13 @@
   inherits: true;
 }
 
-.dnb-app-content:has(.dnb-motion-demos) {
-  // Keep page clipping without trapping the sticky toolbar.
-  overflow: clip;
-}
-
 .dnb-motion-demos {
-  --motion-demo-play-state: running;
   --motion-reveal-height: 0px;
-
-  &[data-paused='true'] {
-    --motion-demo-play-state: paused;
-  }
-
-  &__controls {
-    position: sticky;
-    top: 4rem;
-    z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding-block: 1rem;
-    margin-bottom: 0.5rem;
-    background: var(--token-color-background-neutral);
-
-    > .dnb-button {
-      margin-inline-start: auto;
-    }
-  }
 
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
     gap: 2rem 1.5rem;
-  }
-
-  [data-motion] {
-    animation-play-state: var(--motion-demo-play-state);
   }
 
   &__grid [data-motion] {
@@ -854,10 +822,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dnb-motion-demos__controls {
-    position: static;
-  }
-
   .dnb-motion-demos [data-motion] {
     animation: none;
   }

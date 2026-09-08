@@ -1,7 +1,7 @@
-import { useId, useState } from 'react'
+import { useId } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
-import { Button, FormStatus, H2, Icon, P } from '@dnb/eufemia/src'
-import { bell_medium, pause, play } from '@dnb/eufemia/src/icons'
+import { FormStatus, H2, Icon, P } from '@dnb/eufemia/src'
+import { bell_medium } from '@dnb/eufemia/src/icons'
 import { useMediaQuery } from '@dnb/eufemia/src/shared'
 import FamilyHomeIllustration from './FamilyHomeIllustration'
 import './MotionDemos.scss'
@@ -17,33 +17,17 @@ export default function MotionDemos({
 }: {
   children?: ReactNode
 }) {
-  const [paused, setPaused] = useState(false)
   const reducedMotion = useMediaQuery({
     query: '(prefers-reduced-motion: reduce)',
   })
 
   return (
-    <div className="dnb-motion-demos" data-paused={paused}>
-      <div className="dnb-motion-demos__controls">
-        {reducedMotion && (
-          <FormStatus state="warning" role="status">
-            Reduced motion: showing still illustrations.
-          </FormStatus>
-        )}
-        <Button
-          variant="secondary"
-          icon={paused || reducedMotion ? play : pause}
-          text={
-            reducedMotion
-              ? 'Motion paused'
-              : paused
-                ? 'Resume all'
-                : 'Pause all'
-          }
-          disabled={reducedMotion}
-          onClick={() => setPaused((value) => !value)}
-        />
-      </div>
+    <div className="dnb-motion-demos">
+      {reducedMotion && (
+        <FormStatus state="warning" role="status" bottom="medium">
+          Reduced motion: showing still illustrations.
+        </FormStatus>
+      )}
       <div className="dnb-motion-demos__grid">
         <MotionStudy
           id="enter-and-exit"

@@ -19,9 +19,11 @@ for (const width of [320, 1280]) {
       )
       const glow = stage.locator('.dnb-motion-scene__submit-glow')
       if (reducedMotion === 'no-preference') {
-        await page
-          .getByRole('button', { name: 'Pause all', exact: true })
-          .click()
+        await stage.evaluate(async (element) => {
+          const animations = element.getAnimations({ subtree: true })
+          animations.forEach((animation) => animation.pause())
+          await Promise.all(animations.map((animation) => animation.ready))
+        })
         await glow.evaluate(async (element) => {
           const animation = element.getAnimations()[0]
           await animation.ready
@@ -146,41 +148,21 @@ test('WebKit morphs disclosure chevrons and line graph paths', async ({
   }
 })
 
-test('WebKit pauses and resumes the morph timeline with the shared control', async ({
+test('WebKit autoplays the morph timeline without a pause control', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.goto('/quickguide-designer/motion/')
   await waitForApp(page)
-  await page
-    .getByRole('button', { name: 'Pause all', exact: true })
-    .click()
-  await expect(page.locator('.dnb-motion-demos')).toHaveAttribute(
-    'data-paused',
-    'true'
-  )
+  await expect(
+    page.getByRole('button', { name: 'Pause all', exact: true })
+  ).toHaveCount(0)
   const line = page.locator('.dnb-motion-scene__graph-line')
   const time = await line.evaluate(async (element) => {
     const animation = element.getAnimations()[0]
     await animation.ready
     return Number(animation.currentTime)
   })
-  const points = await line.evaluate(sampleMotionPoints, null)
-  await page.evaluate(
-    () =>
-      new Promise((resolve) =>
-        requestAnimationFrame(() => requestAnimationFrame(resolve))
-      )
-  )
-  expect(await line.evaluate(sampleMotionPoints, null)).toEqual(points)
-  expect(
-    await line.evaluate((element) =>
-      Number(element.getAnimations()[0].currentTime)
-    )
-  ).toBe(time)
-  await page
-    .getByRole('button', { name: 'Resume all', exact: true })
-    .click()
   await expect
     .poll(() =>
       line.evaluate((element) =>
@@ -196,9 +178,6 @@ test('WebKit shows settled path geometry with reduced motion', async ({
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/quickguide-designer/motion/')
   await waitForApp(page)
-  await expect(
-    page.getByRole('button', { name: 'Motion paused' })
-  ).toBeDisabled()
   for (const selector of [
     '.dnb-motion-scene__chevron',
     '.dnb-motion-scene__disclosure-chevron',

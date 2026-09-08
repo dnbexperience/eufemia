@@ -166,42 +166,24 @@ test.describe('easing previews', () => {
     }
   })
 
-  test('share pause, resume and reduced-motion behavior with the gallery', async ({
+  test('autoplay and respect reduced motion with the gallery', async ({
     page,
   }) => {
     const demos = page.locator('.dnb-easing-demo')
     await demos.last().scrollIntoViewIfNeeded()
-    const pause = page.getByRole('button', {
-      name: 'Pause all',
-      exact: true,
-    })
-    await expect(pause).toBeInViewport({ ratio: 1 })
-    await pause.click()
     for (const demo of await demos.all()) {
-      const paused = await demo.evaluate(async (element) => {
+      const states = await demo.evaluate(async (element) => {
         const animations = element.getAnimations({ subtree: true })
         await Promise.all(animations.map((animation) => animation.ready))
-        const times = animations.map((animation) => animation.currentTime)
-        await new Promise((resolve) =>
-          requestAnimationFrame(() => requestAnimationFrame(resolve))
-        )
-        return {
-          states: animations.map((animation) => animation.playState),
-          times,
-          later: animations.map((animation) => animation.currentTime),
-        }
+        return animations.map((animation) => animation.playState)
       })
-      expect(paused.states).toHaveLength(8)
-      expect(paused.states.every((state) => state === 'paused')).toBe(true)
-      expect(paused.later).toEqual(paused.times)
+      expect(states).toHaveLength(8)
+      expect(states.every((state) => state === 'running')).toBe(true)
     }
     const runner = demos.last().locator('.dnb-easing-demo__runner--eased')
     const time = await runner.evaluate((element) =>
       Number(element.getAnimations()[0].currentTime)
     )
-    await page
-      .getByRole('button', { name: 'Resume all', exact: true })
-      .click()
     await expect
       .poll(() =>
         runner.evaluate((element) =>
@@ -211,9 +193,6 @@ test.describe('easing previews', () => {
       .toBeGreaterThan(time)
 
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await expect(
-      page.getByRole('button', { name: 'Motion paused' })
-    ).toBeDisabled()
     for (const demo of await demos.all()) {
       expect(
         await demo.evaluate(
@@ -227,7 +206,7 @@ test.describe('easing previews', () => {
   })
 
   for (const width of [320, 1280]) {
-    test(`keep the timing heading below the shared toolbar at ${width}px`, async ({
+    test(`keep the timing heading in view at ${width}px`, async ({
       page,
     }) => {
       await page.setViewportSize({ width, height: 900 })
@@ -240,13 +219,7 @@ test.describe('easing previews', () => {
               name: 'Timing and easing',
               exact: true,
             })
-            .evaluate(
-              (heading) =>
-                heading.getBoundingClientRect().top -
-                document
-                  .querySelector('.dnb-motion-demos__controls')
-                  .getBoundingClientRect().bottom
-            )
+            .evaluate((heading) => heading.getBoundingClientRect().top)
         )
         .toBeGreaterThanOrEqual(0)
     })

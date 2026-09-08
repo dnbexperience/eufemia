@@ -31,7 +31,7 @@ test('principles and motion link both ways with implementation guidance below th
     content.getByText('Looping previews', { exact: true })
   ).toHaveCount(0)
   await expect(
-    content.locator('.dnb-motion-demos__controls .dnb-form-status')
+    content.locator('.dnb-motion-demos > .dnb-form-status')
   ).toHaveCount(0)
 
   await expect(
@@ -82,18 +82,20 @@ test('animation principles can be opened directly', async ({ page }) => {
   ).toBeVisible()
 })
 
-test('all thirteen motion studies autoplay in a loop with one shared control', async ({
+test('all thirteen motion studies autoplay in a loop without a pause control', async ({
   page,
 }) => {
   const gallery = page.locator('.dnb-motion-demos')
   const studies = gallery.locator('.dnb-motion-demo')
   await expect(studies).toHaveCount(13)
   await expect(
-    gallery.locator('.dnb-motion-demos__controls').getByRole('button')
-  ).toHaveCount(1)
-  await expect(
-    gallery.getByRole('button', { name: 'Pause all' })
-  ).toBeVisible()
+    gallery.getByRole('button', {
+      name: /Pause all|Resume all|Motion paused/,
+    })
+  ).toHaveCount(0)
+  await expect(gallery.locator('.dnb-motion-demos__controls')).toHaveCount(
+    0
+  )
   await expect(studies.locator('button, input, a')).toHaveCount(0)
   await expect(
     studies.locator(
@@ -138,7 +140,7 @@ test('all thirteen motion studies autoplay in a loop with one shared control', a
 })
 
 for (const width of [320, 1280]) {
-  test(`fragment links reveal the study below the toolbar at ${width}px`, async ({
+  test(`fragment links reveal the study at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 800 })
@@ -167,87 +169,12 @@ for (const width of [320, 1280]) {
       await expect(heading).toBeInViewport({ ratio: 1 })
       expect(
         await stage.evaluate(
-          (element) =>
-            element.getBoundingClientRect().top -
-            document
-              .querySelector('.dnb-motion-demos__controls')
-              .getBoundingClientRect().bottom
+          (element) => element.getBoundingClientRect().top
         )
       ).toBeGreaterThanOrEqual(0)
     }
   })
-
-  test(`pause controls remain reachable beside lower studies at ${width}px`, async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width, height: 800 })
-    const gallery = page.locator('.dnb-motion-demos')
-    const studies = gallery.locator('.dnb-motion-demo')
-    const pause = gallery.getByRole('button', { name: 'Pause all' })
-
-    for (const study of [studies.nth(9), studies.last()]) {
-      await study.scrollIntoViewIfNeeded()
-      await expect(pause).toBeInViewport({ ratio: 1 })
-      await pause.click()
-      await expect(gallery).toHaveAttribute('data-paused', 'true')
-      await expect(study).toBeInViewport()
-      await gallery.getByRole('button', { name: 'Resume all' }).click()
-    }
-  })
 }
-
-test('pause freezes every illustration and resume continues without restarting', async ({
-  page,
-}) => {
-  const gallery = page.locator('.dnb-motion-demos')
-  const pause = gallery.getByRole('button', { name: 'Pause all' })
-  await pause.focus()
-  await page.keyboard.press('Enter')
-  const resume = gallery.getByRole('button', { name: 'Resume all' })
-  await expect(resume).toBeFocused()
-
-  const paused = await gallery.evaluate(async (element) => {
-    const animations = element
-      .querySelector('.dnb-motion-demos__grid')
-      .getAnimations({ subtree: true })
-    await Promise.all(animations.map((animation) => animation.ready))
-    const times = animations.map((animation) => animation.currentTime)
-    await new Promise((resolve) =>
-      requestAnimationFrame(() => requestAnimationFrame(resolve))
-    )
-    return {
-      states: animations.map((animation) => animation.playState),
-      dialogTime: element
-        .querySelector('.dnb-motion-scene__dialog')
-        .getAnimations()[0].currentTime,
-      times,
-      later: animations.map((animation) => animation.currentTime),
-    }
-  })
-  expect(paused.states.every((state) => state === 'paused')).toBe(true)
-  expect(paused.later).toEqual(paused.times)
-
-  await page.keyboard.press('Enter')
-  await expect(pause).toBeFocused()
-  await expect
-    .poll(() =>
-      gallery
-        .locator('.dnb-motion-scene__dialog')
-        .evaluate((element) =>
-          Number(element.getAnimations()[0].currentTime)
-        )
-    )
-    .toBeGreaterThan(Number(paused.dialogTime))
-  expect(
-    await gallery
-      .locator('.dnb-motion-demos__grid')
-      .evaluate((element) =>
-        element
-          .getAnimations({ subtree: true })
-          .every((animation) => animation.playState === 'running')
-      )
-  ).toBe(true)
-})
 
 test('each study changes visually over its timeline and repeats', async ({
   page,
@@ -1220,46 +1147,22 @@ test('the submit button keeps its label and shape while a tapered border rotates
 })
 
 for (const width of [320, 1600]) {
-  test(`reduced-motion FormStatus fits with the button at ${width}px`, async ({
+  test(`reduced-motion FormStatus fits at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    const controls = page.locator('.dnb-motion-demos__controls')
-    const notice = controls.locator('.dnb-form-status--warning')
-    const button = controls.getByRole('button', { name: 'Motion paused' })
+    const gallery = page.locator('.dnb-motion-demos')
+    const notice = gallery.locator('.dnb-form-status--warning')
     await expect(notice).toHaveText(
       'Reduced motion: showing still illustrations.'
     )
     await expect(notice).toBeVisible()
-    await expect(button).toBeDisabled()
     const noticeBounds = await notice.boundingBox()
-    const buttonBounds = await button.boundingBox()
-    if (width === 320) {
-      expect(noticeBounds.y + noticeBounds.height).toBeLessThan(
-        buttonBounds.y
-      )
-    } else {
-      expect(
-        Math.abs(
-          noticeBounds.y +
-            noticeBounds.height / 2 -
-            (buttonBounds.y + buttonBounds.height / 2)
-        )
-      ).toBeLessThan(1)
-      expect(noticeBounds.x + noticeBounds.width).toBeLessThan(
-        buttonBounds.x
-      )
-    }
-    for (const bounds of [noticeBounds, buttonBounds]) {
-      expect(bounds.x).toBeGreaterThanOrEqual(0)
-      expect(bounds.x + bounds.width).toBeLessThanOrEqual(width)
-    }
+    expect(noticeBounds.x).toBeGreaterThanOrEqual(0)
+    expect(noticeBounds.x + noticeBounds.width).toBeLessThanOrEqual(width)
     await page.emulateMedia({ reducedMotion: 'no-preference' })
     await expect(notice).toHaveCount(0)
-    await expect(
-      controls.getByRole('button', { name: 'Pause all', exact: true })
-    ).toBeEnabled()
   })
 }
 
@@ -1272,7 +1175,7 @@ test('reduced motion prevents autoplay and shows meaningful stills', async ({
   const gallery = page.locator('.dnb-motion-demos')
   await expect(
     gallery.getByRole('button', { name: 'Motion paused' })
-  ).toBeDisabled()
+  ).toHaveCount(0)
   await expect(gallery).toContainText(
     'Reduced motion: showing still illustrations.'
   )
@@ -1398,18 +1301,13 @@ test('reduced motion prevents autoplay and shows meaningful stills', async ({
   ).toHaveCSS('background-image', /conic-gradient/)
 
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await expect(
-    gallery.getByRole('button', { name: 'Pause all' })
-  ).toBeEnabled()
-  await page.getByRole('button', { name: 'Pause all' }).click()
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await expect(
-    gallery.getByRole('button', { name: 'Resume all' })
-  ).toBeEnabled()
   await expect(gallery.locator('.dnb-motion-scene__dialog')).toHaveCSS(
     'animation-play-state',
-    'paused'
+    'running'
+  )
+  await expect(gallery.locator('.dnb-motion-scene__dialog')).not.toHaveCSS(
+    'animation-name',
+    'none'
   )
 })
 
