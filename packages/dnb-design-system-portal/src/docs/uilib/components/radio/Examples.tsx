@@ -5,7 +5,7 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Radio, HelpButton } from '@dnb/eufemia/src'
+import { Radio, HelpButton, Section } from '@dnb/eufemia/src'
 import { FieldBlock } from '@dnb/eufemia/src/extensions/forms'
 
 export const RadioExampleDefault = () => (
@@ -137,6 +137,18 @@ export const RadioExampleDisabled = () => (
       <Radio label="Second" value="second" />
       <Radio label="Third" value="third" checked />
     </Radio.Group>
+    <Section surface="dark" innerSpace top>
+      <Radio.Group
+        label="Disabled Group on dark"
+        disabled
+        labelPosition="left"
+        name="MyDarkGroup"
+      >
+        <Radio label="First" value="first" />
+        <Radio label="Second" value="second" />
+        <Radio label="Third" value="third" checked />
+      </Radio.Group>
+    </Section>
   </ComponentBox>
 )
 

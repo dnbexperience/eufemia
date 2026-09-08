@@ -86,7 +86,7 @@ describe.each(['ui', 'sbanken'])(`Checkbox for %s`, (themeName) => {
 
     it('have to match disabled checkbox', async () => {
       await makeScreenshot({
-        selector: '[data-visual-test="checkbox-disabled"] .dnb-checkbox',
+        selector: '[data-visual-test="checkbox-disabled"]',
       })
     })
 

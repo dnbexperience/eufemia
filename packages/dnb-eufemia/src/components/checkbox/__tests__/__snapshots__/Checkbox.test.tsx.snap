@@ -245,7 +245,7 @@ button .dnb-form-status__text {
     --token-color-background-action-disabled
   );
   --checkbox-color-border-off--disabled: var(
-    --token-color-stroke-action-disabled
+    --token-color-stroke-neutral-subtle
   );
   --checkbox-color-gfx__indeterminate--disabled: var(
     --token-color-background-action-disabled
@@ -308,6 +308,15 @@ button .dnb-form-status__text {
     --token-color-background-error
   );
   --checkbox-bounding--medium: 1.75, 1.75;
+}
+.dnb-checkbox--surface-dark {
+  --checkbox-color-border-off--disabled: color-mix(
+    in srgb,
+    var(--token-color-stroke-neutral-ondark) 50%,
+    transparent
+  );
+}
+.dnb-checkbox {
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);

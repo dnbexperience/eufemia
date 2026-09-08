@@ -1253,7 +1253,7 @@ button.dnb-button::-moz-focus-inner {
     --token-color-background-action-disabled
   );
   --checkbox-color-border-off--disabled: var(
-    --token-color-stroke-action-disabled
+    --token-color-stroke-neutral-subtle
   );
   --checkbox-color-gfx__indeterminate--disabled: var(
     --token-color-background-action-disabled
@@ -1316,6 +1316,15 @@ button.dnb-button::-moz-focus-inner {
     --token-color-background-error
   );
   --checkbox-bounding--medium: 1.75, 1.75;
+}
+.dnb-checkbox--surface-dark {
+  --checkbox-color-border-off--disabled: color-mix(
+    in srgb,
+    var(--token-color-stroke-neutral-ondark) 50%,
+    transparent
+  );
+}
+.dnb-checkbox {
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
@@ -1650,9 +1659,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   --radio-color-background--disabled: var(
     --token-color-background-neutral
   );
-  --radio-color-border--disabled: var(
-    --token-color-stroke-action-disabled
-  );
+  --radio-color-border--disabled: var(--token-color-stroke-neutral-subtle);
   --radio-border-inset--active: inset;
   --radio-border-width--active: 0.0625rem;
   --radio-color-dot-on--active: var(
@@ -1678,6 +1685,15 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   --radio-color-border--focus: var(--token-color-stroke-action-focus);
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
+}
+.dnb-radio--surface-dark {
+  --radio-color-border--disabled: color-mix(
+    in srgb,
+    var(--token-color-stroke-neutral-ondark) 50%,
+    transparent
+  );
+}
+.dnb-radio {
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
@@ -1891,13 +1907,13 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
 .dnb-radio {
   /** Hover state **/
 }
-.dnb-radio__input:hover ~ .dnb-radio__button {
+.dnb-radio__input:not([disabled]):hover ~ .dnb-radio__button {
   --radio-border-inset: var(--radio-border-inset--hover);
   --radio-border-width: var(--radio-border-width--hover);
   --radio-color-border: var(--radio-color-border--hover);
   --radio-color-background: var(--radio-color-background--hover);
 }
-.dnb-radio__input:hover ~ .dnb-radio__dot {
+.dnb-radio__input:not([disabled]):hover ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--hover);
 }
 .dnb-radio {

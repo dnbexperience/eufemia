@@ -124,7 +124,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
 
     it('have to match disabled switch', async () => {
       await makeScreenshot({
-        selector: '[data-visual-test="switch-disabled"] .dnb-switch',
+        selector: '[data-visual-test="switch-disabled"]',
       })
     })
 
