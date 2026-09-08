@@ -141,7 +141,7 @@ export default function SidebarLayout({
           location
         ).filter(({ title, menuTitle }) => title || menuTitle)
       ),
-      true
+      location.pathname !== '/'
     )
   )
   const navItems = toSidebarMenuData(groupedNavItems, closeMenu)
