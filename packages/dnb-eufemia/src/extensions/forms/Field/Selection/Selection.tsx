@@ -78,9 +78,14 @@ type DrawerListVisibilityParams = {
 
 export type FieldSelectionProps = FieldProps<IOption['value']> & {
   /**
-   * Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.
+   * Choice of UI feature. Defaults to `dropdown`.
    */
-  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
+  variant?:
+    | 'dropdown'
+    | 'autocomplete'
+    | 'radio'
+    | 'button'
+    | 'radio-button'
 
   /**
    * `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.
@@ -269,7 +274,8 @@ function Selection(props: FieldSelectionProps) {
 
   switch (variant) {
     case 'radio':
-    case 'button': {
+    case 'button':
+    case 'radio-button': {
       const Component = (
         variant === 'radio' ? Radio : ToggleButton
       ) as typeof Radio & typeof ToggleButton
@@ -462,8 +468,9 @@ function renderRadioItems({
       <Component
         id={optionsCount === 1 ? id : undefined}
         key={`option-${i}-${id}`}
+        variant={variant === 'radio-button' ? 'radio' : undefined}
         label={variant === 'radio' ? label : undefined}
-        text={variant === 'button' ? label : undefined}
+        text={variant !== 'radio' ? label : undefined}
         role="radio"
         value={String(value ?? valueProp) || undefined}
         status={

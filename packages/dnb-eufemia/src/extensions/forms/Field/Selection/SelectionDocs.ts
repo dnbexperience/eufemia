@@ -2,12 +2,18 @@ import type { PropertiesTableProps } from '../../../../shared/types'
 
 export const SelectionProperties: PropertiesTableProps = {
   variant: {
-    doc: 'Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.',
-    type: ['"dropdown"', '"autocomplete"', '"button"', '"radio"'],
+    doc: 'Choice of UI feature. Defaults to `dropdown`.',
+    type: [
+      '"dropdown"',
+      '"autocomplete"',
+      '"button"',
+      '"radio"',
+      '"radio-button"',
+    ],
     status: 'optional',
   },
   value: {
-    doc: 'Defines the `value`. When using variant `radio` or `button`, value has to be a `string`.',
+    doc: 'Defines the `value`. When using variant `radio`, `button` or `radio-button`, value has to be a `string`.',
     type: ['number', 'string'],
     status: 'optional',
   },

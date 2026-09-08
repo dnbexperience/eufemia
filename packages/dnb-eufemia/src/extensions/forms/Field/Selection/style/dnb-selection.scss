@@ -19,7 +19,8 @@
       align-items: flex-start;
     }
   }
-  &__variant--button {
+  &__variant--button,
+  &__variant--radio-button {
     .dnb-forms-field-block {
       &--layout-horizontal .dnb-form-label {
         line-height: 2.5rem;

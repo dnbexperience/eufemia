@@ -942,6 +942,91 @@ export const ButtonNestingWithLogic = () => (
   </ComponentBox>
 )
 
+// - Radio button
+
+export const RadioButtonEmpty = () => (
+  <ComponentBox>
+    <Field.Selection
+      variant="radio-button"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioButtonOptionSelected = () => (
+  <ComponentBox data-visual-test="selection-radio-button-vertical">
+    <Field.Selection
+      variant="radio-button"
+      label="Label text"
+      value="bar"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioButtonHorizontalOptionsLayout = () => (
+  <ComponentBox data-visual-test="selection-radio-button-options-horizontal">
+    <Field.Selection
+      variant="radio-button"
+      label="Label text"
+      optionsLayout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioButtonDisabled = () => (
+  <ComponentBox>
+    <Field.Selection
+      variant="radio-button"
+      value="bar"
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+      disabled
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioButtonError = () => (
+  <ComponentBox>
+    <Field.Selection
+      variant="radio-button"
+      value="bar"
+      label="Label text"
+      onChange={(value) => console.log('onChange', value)}
+      error={new Error('This is what is wrong...')}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioButtonWithData = () => (
+  <ComponentBox>
+    <Field.Selection
+      variant="radio-button"
+      label="Label text"
+      data={[
+        { title: 'One', value: 'one' },
+        { title: 'Two', value: 'two' },
+      ]}
+    />
+  </ComponentBox>
+)
+
 export const SelectionErrorMessage = () => (
   <ComponentBox data-visual-test="selection-dropdown-error-message">
     <Field.Selection label="Label" error="This is what is wrong...">
