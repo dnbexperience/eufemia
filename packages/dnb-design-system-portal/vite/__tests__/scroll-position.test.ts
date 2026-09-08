@@ -21,7 +21,7 @@ describe('saveScrollPosition', () => {
     expect(sessionStorage.getItem('scroll-window')).toBe('200')
   })
 
-  it('should save element scroll position when element exists', () => {
+  it('leaves sidebar scroll persistence to SidebarMenu', () => {
     const el = document.createElement('div')
     el.id = 'portal-sidebar-menu'
     Object.defineProperty(el, 'scrollTop', { value: 150, writable: true })
@@ -29,9 +29,9 @@ describe('saveScrollPosition', () => {
 
     saveScrollPosition()
 
-    expect(sessionStorage.getItem('scroll-#portal-sidebar-menu')).toBe(
-      '150'
-    )
+    expect(
+      sessionStorage.getItem('scroll-#portal-sidebar-menu')
+    ).toBeNull()
 
     document.body.removeChild(el)
   })
@@ -78,7 +78,7 @@ describe('restoreScrollPosition', () => {
     expect(scrollToSpy).not.toHaveBeenCalled()
   })
 
-  it('should restore element scroll position', () => {
+  it('does not restore legacy sidebar scroll positions', () => {
     const el = document.createElement('div')
     el.id = 'portal-sidebar-menu'
     Object.defineProperty(el, 'offsetHeight', { value: 500 })
@@ -88,38 +88,12 @@ describe('restoreScrollPosition', () => {
 
     restoreScrollPosition({ restoreWindow: false })
 
-    expect(el.scrollTop).toBe(120)
+    expect(el.scrollTop).toBe(0)
 
     document.body.removeChild(el)
   })
 
   it('should not throw when no stored positions exist', () => {
     expect(() => restoreScrollPosition()).not.toThrow()
-  })
-
-  it('should snap to active item when stored position is not in view', () => {
-    const sidebar = document.createElement('div')
-    sidebar.id = 'portal-sidebar-menu'
-    Object.defineProperty(sidebar, 'offsetHeight', { value: 400 })
-    document.body.appendChild(sidebar)
-
-    const ul = document.createElement('ul')
-    sidebar.appendChild(ul)
-    const li = document.createElement('li')
-    li.classList.add('is-active')
-    ul.appendChild(li)
-    const item = document.createElement('div')
-    item.classList.add('dnb-sidebar-menu__item')
-    Object.defineProperty(item, 'offsetTop', { value: 800 })
-    Object.defineProperty(item, 'offsetHeight', { value: 40 })
-    li.appendChild(item)
-
-    sessionStorage.setItem('scroll-#portal-sidebar-menu', '50')
-
-    restoreScrollPosition({ restoreWindow: false })
-
-    expect(sidebar.scrollTop).toBe(800)
-
-    document.body.removeChild(sidebar)
   })
 })
