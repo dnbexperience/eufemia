@@ -195,6 +195,24 @@ test.describe('Portal SidebarMenu', () => {
     ).toHaveText('About the library')
   })
 
+  test('keeps the sidebar visible after navigating Home', async ({
+    page,
+  }) => {
+    const menuBeforeNavigation = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    await menuBeforeNavigation.getByRole('link', { name: 'Home' }).click()
+
+    await expect(page).toHaveURL('/')
+    const menuAfterNavigation = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    await expect(menuAfterNavigation).toBeVisible()
+    await expect(
+      menuAfterNavigation.getByRole('link', { name: 'Home' })
+    ).toHaveCount(0)
+  })
+
   test('keeps the sidebar visible throughout the intro', async ({
     page,
   }) => {
