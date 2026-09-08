@@ -20,8 +20,10 @@ import SidebarMenuAccordion from './SidebarMenuAccordion'
 import SidebarMenuItem from './SidebarMenuItem'
 import SidebarMenuGroup from './SidebarMenuGroup'
 import SidebarMenuSection from './SidebarMenuSection'
+import SidebarMenuBadge from './SidebarMenuBadge'
 import renderSidebarMenuItems from './renderSidebarMenuItems'
 import useTranslation from '../../shared/useTranslation'
+import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsive'
 import type {
   SidebarMenuContainerProps,
   SidebarMenuSectionProps,
@@ -57,6 +59,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     ...rest
   } = props
   const translation = useTranslation().SidebarMenu
+  const responsive = useOptionalSidebarMenuResponsive()
   const resolvedSectionLabel = sectionLabel ?? translation.sectionLabel
   const menuRef = useRef<HTMLElement>(null)
   const defaultOpenItemsKey = defaultOpenItems.join(',')
@@ -236,8 +239,9 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       return undefined
     }
 
-    const scrollView =
-      menuRef.current?.closest<HTMLElement>('.dnb-scroll-view')
+    const scrollView = responsive?.isMobile
+      ? responsive.drawerScrollElement
+      : menuRef.current?.closest<HTMLElement>('.dnb-scroll-view')
     if (!scrollView) {
       return undefined
     }
@@ -269,7 +273,12 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       persistPosition()
       scrollView.removeEventListener('scroll', persistPosition)
     }
-  }, [scrollPositionStorage, scrollPositionStorageKey])
+  }, [
+    responsive?.drawerScrollElement,
+    responsive?.isMobile,
+    scrollPositionStorage,
+    scrollPositionStorageKey,
+  ])
 
   const declarativeSections = Children.toArray(children).filter(
     (child): child is ReactElement<SidebarMenuSectionProps> =>
@@ -354,7 +363,9 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
         isInitialPosition || prefersReducedMotion() ? 'auto' : 'smooth'
       positionedSelectedItemRef.current = resolvedSelectedItem
 
-      const scrollView = target.closest<HTMLElement>('.dnb-scroll-view')
+      const scrollView = responsive?.isMobile
+        ? responsive.drawerScrollElement
+        : target.closest<HTMLElement>('.dnb-scroll-view')
       const targetRect = target.getBoundingClientRect()
 
       if (scrollView) {
@@ -416,6 +427,8 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     resolvedActiveSection,
     resolvedOpenItemsKey,
     resolvedSelectedItem,
+    responsive?.drawerScrollElement,
+    responsive?.isMobile,
     scrollSelectedItemIntoView,
   ])
 
@@ -479,6 +492,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
   const contextValue = useMemo(
     () => ({
       indent: 0,
+      accordionLevel: 0,
       openItems: resolvedOpenItems,
       openItemsControlled: openItems !== undefined,
       toggleItem,
@@ -521,6 +535,10 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     id: string
     text: React.ReactNode
     icon?: SidebarMenuSectionProps['icon']
+    badge?: SidebarMenuSectionProps['badge']
+    badgeProps?: SidebarMenuSectionProps['badgeProps']
+    triggerBadge?: SidebarMenuSectionProps['triggerBadge']
+    triggerBadgeProps?: SidebarMenuSectionProps['triggerBadgeProps']
   }> = []
 
   if (dataSections?.length) {
@@ -534,6 +552,10 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       id: props.id,
       text: props.text,
       icon: props.icon,
+      badge: props.badge,
+      badgeProps: props.badgeProps,
+      triggerBadge: props.triggerBadge,
+      triggerBadgeProps: props.triggerBadgeProps,
     }))
     sectionContent = declarativeSections.find(
       ({ props }) => props.id === resolvedActiveSection
@@ -559,18 +581,42 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
           label={resolvedSectionLabel}
           labelSrOnly
           data={sectionButtons.map((section) => {
-            const content = section.icon ? (
-              <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
-                <Icon icon={section.icon} />
-                {section.text}
-              </Dropdown.HorizontalItem>
-            ) : (
-              section.text
-            )
+            const content =
+              section.icon || section.badge !== undefined ? (
+                <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
+                  {section.icon && <Icon icon={section.icon} />}
+                  {section.text}
+                  <SidebarMenuBadge
+                    badge={section.badge}
+                    badgeProps={{
+                      variant: 'notification',
+                      ...section.badgeProps,
+                    }}
+                  />
+                </Dropdown.HorizontalItem>
+              ) : (
+                section.text
+              )
+            const selectedValue =
+              section.icon || section.triggerBadge !== undefined ? (
+                <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
+                  {section.icon && <Icon icon={section.icon} />}
+                  {section.text}
+                  <SidebarMenuBadge
+                    badge={section.triggerBadge}
+                    badgeProps={{
+                      variant: 'notification',
+                      ...section.triggerBadgeProps,
+                    }}
+                  />
+                </Dropdown.HorizontalItem>
+              ) : (
+                section.text
+              )
 
             return {
               selectedKey: section.id,
-              selectedValue: content,
+              selectedValue,
               content,
             }
           })}
@@ -603,6 +649,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
           size="medium"
           icon={sectionIcon}
           stretch
+          noDivider
         />
       )}
 
