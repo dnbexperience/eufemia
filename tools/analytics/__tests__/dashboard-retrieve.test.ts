@@ -29,14 +29,14 @@ vi.mock('@aws-sdk/client-athena', () => ({
   },
 }))
 
-import { retrievePageViews } from '../src/lambda/retrieve.js'
+import { retrievePortalViews } from '../src/lambda/retrieve.js'
 
 type Command = { kind: 'start' | 'status' | 'results'; input: unknown }
 
 beforeEach(() => {
   send.mockReset()
   process.env.GLUE_DATABASE = 'db'
-  process.env.GLUE_TABLE = 'records'
+  process.env.GLUE_TABLE = 'portal_views'
   process.env.ATHENA_WORKGROUP = 'wg'
 })
 
@@ -46,8 +46,8 @@ afterEach(() => {
   delete process.env.ATHENA_WORKGROUP
 })
 
-describe('retrievePageViews', () => {
-  it('queries and returns the page-view fields used by the dashboard', async () => {
+describe('retrievePortalViews', () => {
+  it('queries and returns the portal-view fields used by the dashboard', async () => {
     send.mockImplementation((command: Command) => {
       if (command.kind === 'start') {
         return Promise.resolve({ QueryExecutionId: 'query-id' })
@@ -80,9 +80,8 @@ describe('retrievePageViews', () => {
       })
     })
 
-    await expect(retrievePageViews({ limit: 1000 })).resolves.toEqual([
+    await expect(retrievePortalViews({ limit: 1000 })).resolves.toEqual([
       {
-        type: 'pageview',
         path: '/uilib/components/button',
         env: 'prod',
         timestamp: '2026-08-28T09:59:00.000Z',
@@ -93,7 +92,7 @@ describe('retrievePageViews', () => {
       input: { QueryString: string }
     }
     expect(start.input.QueryString).toBe(
-      `SELECT path, env, "timestamp" FROM "db"."records" WHERE "type" = 'pageview' ORDER BY "timestamp" DESC LIMIT 1000`
+      `SELECT path, env, "timestamp" FROM "db"."portal_views" ORDER BY "timestamp" DESC LIMIT 1000`
     )
   })
 })

@@ -19,17 +19,6 @@ variable "cost_allocation" {
   description = "BA number from ServiceNow for cost allocation tagging"
 }
 
-variable "api_token" {
-  type        = string
-  description = "Bearer token required on all /records requests."
-  sensitive   = true
-
-  validation {
-    condition     = length(var.api_token) > 0
-    error_message = "api_token must be a non-empty value."
-  }
-}
-
 variable "domain_zone" {
   type        = string
   description = "Route 53 hosted zone name (trailing dot is required by AWS)."
