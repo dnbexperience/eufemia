@@ -168,6 +168,8 @@ resource "aws_athena_workgroup" "analytics" {
 #
 # The role additionally needs an inline/attached policy granting:
 #   - s3:GetObject, s3:PutObject, s3:ListBucket on the data bucket (portal-views/*)
+#   - s3:PutObject on the data bucket (records/dashboard-snapshot.json) — the
+#     scheduled snapshot generator reuses this role to refresh the snapshot
 #   - s3:GetObject, s3:PutObject on the data bucket (athena-results/*)
 #   - athena:StartQueryExecution, athena:GetQueryExecution,
 #     athena:GetQueryResults on the analytics workgroup

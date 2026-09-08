@@ -91,7 +91,7 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 
 `infra/` provisions:
 
-- **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`) and Athena output (`athena-results/`, expired after 7 days).
+- **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`), the dashboard snapshot (`records/dashboard-snapshot.json`), and Athena output (`athena-results/`, expired after 7 days).
 - **Glue database + table** with JSON SerDe and partition projection on `dt`.
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
