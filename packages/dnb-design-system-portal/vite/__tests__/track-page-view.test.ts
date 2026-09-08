@@ -61,6 +61,7 @@ describe('trackPageView', () => {
     expect(payload[0].path).toBe('/uilib/components/button')
     expect(payload[0]).toHaveProperty('timestamp')
     expect(payload[0].env).toBe('unknown')
+    expect(payload[0].status).toBe('ok')
     expect(payload[0]).not.toHaveProperty('id')
   })
 
@@ -121,6 +122,35 @@ describe('trackPageView', () => {
       '/y',
       '/x',
     ])
+  })
+
+  it('records the status of a view', async () => {
+    trackPageView('/missing', 'not_found')
+    trackPageView('/boom', 'error')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(
+      payload.map(
+        (event: { path: string; status: string }) =>
+          `${event.status} ${event.path}`
+      )
+    ).toEqual(['not_found /missing', 'error /boom'])
+  })
+
+  it('records the same path again when only the status changes', async () => {
+    trackPageView('/page', 'ok')
+    trackPageView('/page', 'error')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(
+      payload.map((event: { status: string }) => event.status)
+    ).toEqual(['ok', 'error'])
   })
 
   it('does not throw when sendBeacon is unavailable', () => {

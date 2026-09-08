@@ -90,6 +90,25 @@ describe('validatePortalViews', () => {
     }
   })
 
+  it('accepts a valid status', () => {
+    for (const status of ['ok', 'not_found', 'error']) {
+      const result = validatePortalViews({ path: '/a', status })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', status }],
+      })
+    }
+  })
+
+  it('rejects an invalid status', () => {
+    for (const status of ['OK', '404', 'notfound', 'redirect', 42]) {
+      const result = validatePortalViews({ path: '/a', status })
+
+      expect(result.ok).toBe(false)
+    }
+  })
+
   it('drops any field that is not an allow-listed key', () => {
     const result = validatePortalViews({
       path: '/a',
@@ -123,6 +142,7 @@ describe('buildPortalViewRecord', () => {
       path: '/a',
       env: 'unknown',
       timestamp: createdAt,
+      status: 'ok',
       createdat: createdAt,
     })
   })
@@ -137,8 +157,22 @@ describe('buildPortalViewRecord', () => {
       path: '/a',
       env: 'prod',
       timestamp: '2026-08-20T10:00:00.000Z',
+      status: 'ok',
       createdat: createdAt,
     })
+  })
+
+  it('defaults status to "ok" and keeps a supplied status', () => {
+    expect(buildPortalViewRecord({ path: '/a' }, createdAt).status).toBe(
+      'ok'
+    )
+
+    expect(
+      buildPortalViewRecord(
+        { path: '/missing', status: 'not_found' },
+        createdAt
+      ).status
+    ).toBe('not_found')
   })
 
   it('never carries identifiers or personal data', () => {
@@ -148,6 +182,7 @@ describe('buildPortalViewRecord', () => {
       'createdat',
       'env',
       'path',
+      'status',
       'timestamp',
     ])
   })
