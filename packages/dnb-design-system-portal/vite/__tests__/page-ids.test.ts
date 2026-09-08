@@ -4,6 +4,8 @@ import path from 'node:path'
 import matter from 'gray-matter'
 import { scanPageFiles } from '../client/plugins/portal-pages'
 import { makeSlug } from '../../src/uilib/utils/slug'
+import { themeNames } from '@dnb/eufemia/src/style/themes/capabilities'
+import type { ThemeName } from '@dnb/eufemia/src/style/themes/capabilities'
 import {
   buildImportedSet,
   docsDir,
@@ -30,6 +32,9 @@ import {
  * become part of the same document. Partials are counted per render, since an
  * import may go unused, or the same partial may be rendered more than once.
  *
+ * Each theme is analyzed on its own, because `VisibilityByTheme` lets two
+ * branches of a page carry the same heading as long as no theme renders both.
+ *
  * Use a custom heading id to resolve a collision:
  * `## Relevant links \{#flex-item-relevant-links\}`
  */
@@ -41,6 +46,10 @@ const LITERAL_ID_ATTRIBUTE = /\bid=["']([^"'{}\s]+)["']/g
 const IMPORT_STATEMENT = /import\s+([\s\S]*?)\s+from\s+['"]([^'"]+)['"]/g
 const DEFAULT_IMPORT_NAME = /^([A-Za-z_$][\w$]*)/
 const ESCAPED_PUNCTUATION = /\\([!-/:-@[-`{-~])/g
+const VISIBILITY_BY_THEME_TAG =
+  /<(\/?)VisibilityByTheme(?!\.)([^>]*?)(\/?)>/
+const VISIBLE_FOR_THEMES = /\bvisible=("[^"]*"|\{[\s\S]*\})/
+const HIDDEN_FOR_THEMES = /\bhidden=("[^"]*"|\{[\s\S]*\})/
 
 type RenderedId = {
   id: string
@@ -72,6 +81,63 @@ function stripCodeFences(markdown: string): string {
       continue
     }
     if (!insideFence) {
+      keptLines.push(line)
+    }
+  }
+
+  return keptLines.join('\n')
+}
+
+/**
+ * Whether a `VisibilityByTheme` prop value names the given theme. The value
+ * may be a string, an array of strings, or an array of theme objects, so it
+ * is enough that the theme name appears somewhere inside it.
+ */
+function namesTheme(propValue: string, theme: ThemeName): boolean {
+  return new RegExp(`\\b${theme}\\b`).test(propValue)
+}
+
+/** Whether a `VisibilityByTheme` renders its children for the given theme. */
+function isVisibleForTheme(attributes: string, theme: ThemeName): boolean {
+  // "visible" takes precedence over "hidden", as it does in the component.
+  const visible = VISIBLE_FOR_THEMES.exec(attributes)
+  if (visible) {
+    return namesTheme(visible[1], theme)
+  }
+
+  const hidden = HIDDEN_FOR_THEMES.exec(attributes)
+  if (hidden) {
+    return !namesTheme(hidden[1], theme)
+  }
+
+  return true
+}
+
+/**
+ * Remove the `VisibilityByTheme` branches that the given theme does not
+ * render. Two branches that no theme renders together are free to repeat the
+ * same heading, so they must never be compared against each other.
+ */
+function stripBranchesHiddenFromTheme(
+  markdown: string,
+  theme: ThemeName
+): string {
+  const keptLines: string[] = []
+  const openBranches: boolean[] = []
+
+  for (const line of markdown.split('\n')) {
+    const tag = VISIBILITY_BY_THEME_TAG.exec(line)
+    if (tag) {
+      const [, isClosingTag, attributes, isSelfClosing] = tag
+      if (isClosingTag) {
+        openBranches.pop()
+      } else if (!isSelfClosing) {
+        openBranches.push(isVisibleForTheme(attributes, theme))
+      }
+      continue
+    }
+
+    if (openBranches.every(Boolean)) {
       keptLines.push(line)
     }
   }
@@ -168,8 +234,10 @@ function listRenderedPartials(
       0
 
     // Handed to a component instead of placed directly, so it renders once.
-    const isReferenced = new RegExp(`\\b${componentName}\\b`).test(markup)
-    const renderCount = elementCount || (isReferenced ? 1 : 0)
+    const isPassedAsValue = new RegExp(
+      `\\{\\s*${componentName}\\s*[}.]|=\\{\\s*${componentName}\\b`
+    ).test(markup)
+    const renderCount = elementCount || (isPassedAsValue ? 1 : 0)
 
     for (let i = 0; i < renderCount; i++) {
       renderedPartials.push(partialFile)
@@ -187,6 +255,7 @@ function listRenderedPartials(
  */
 function collectRenderedIds(
   pageFile: string,
+  theme: ThemeName,
   enclosingFiles: ReadonlySet<string> = new Set()
 ): RenderedId[] {
   const normalizedFile = path.normalize(pageFile)
@@ -197,8 +266,11 @@ function collectRenderedIds(
   const sourceFile = path
     .relative(docsDir, normalizedFile)
     .replace(/\\/g, '/')
-  const markdown = stripCodeFences(
-    matter(fs.readFileSync(normalizedFile, 'utf-8')).content
+  const markdown = stripBranchesHiddenFromTheme(
+    stripCodeFences(
+      matter(fs.readFileSync(normalizedFile, 'utf-8')).content
+    ),
+    theme
   )
 
   const renderedIds = collectIdsInMarkdown(markdown, sourceFile)
@@ -209,7 +281,7 @@ function collectRenderedIds(
     markdown
   )) {
     renderedIds.push(
-      ...collectRenderedIds(partialFile, nestedEnclosingFiles)
+      ...collectRenderedIds(partialFile, theme, nestedEnclosingFiles)
     )
   }
 
@@ -242,31 +314,50 @@ describe('portal page ids', () => {
         continue
       }
 
-      const renderedIds = collectRenderedIds(page.filePath)
+      const collidingThemes = new Map<string, ThemeName[]>()
+      const collisionReports = new Map<string, string>()
 
-      // The TabBar renders an H1 with an anchor made from the title.
-      if (frontmatter.showTabs === true && frontmatter.title) {
-        const id = makeSlug(String(frontmatter.title))
-        if (id) {
-          renderedIds.unshift({ id, sourceFile: 'frontmatter title' })
+      for (const theme of themeNames) {
+        const renderedIds = collectRenderedIds(page.filePath, theme)
+
+        // The TabBar renders an H1 with an anchor made from the title.
+        if (frontmatter.showTabs === true && frontmatter.title) {
+          const id = makeSlug(String(frontmatter.title))
+          if (id) {
+            renderedIds.unshift({ id, sourceFile: 'frontmatter title' })
+          }
+        }
+
+        const sourceFilesById = new Map<string, string[]>()
+        for (const { id, sourceFile } of renderedIds) {
+          sourceFilesById.set(id, [
+            ...(sourceFilesById.get(id) ?? []),
+            sourceFile,
+          ])
+        }
+
+        for (const [id, sourceFiles] of Array.from(sourceFilesById)) {
+          if (sourceFiles.length > 1) {
+            const where = Array.from(new Set(sourceFiles)).join(', ')
+            collidingThemes.set(id, [
+              ...(collidingThemes.get(id) ?? []),
+              theme,
+            ])
+            collisionReports.set(
+              id,
+              `/${page.slug} → "${id}" (${sourceFiles.length}× in ${where})`
+            )
+          }
         }
       }
 
-      const sourceFilesById = new Map<string, string[]>()
-      for (const { id, sourceFile } of renderedIds) {
-        sourceFilesById.set(id, [
-          ...(sourceFilesById.get(id) ?? []),
-          sourceFile,
-        ])
-      }
-
-      for (const [id, sourceFiles] of Array.from(sourceFilesById)) {
-        if (sourceFiles.length > 1) {
-          const where = Array.from(new Set(sourceFiles)).join(', ')
-          collisions.push(
-            `/${page.slug} → "${id}" (${sourceFiles.length}× in ${where})`
-          )
-        }
+      for (const [id, report] of Array.from(collisionReports)) {
+        const themes = collidingThemes.get(id)
+        collisions.push(
+          themes.length === themeNames.length
+            ? report
+            : `${report} in the ${themes.join('/')} theme`
+        )
       }
     }
 
