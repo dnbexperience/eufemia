@@ -1,4 +1,4 @@
-import { retrievePageViews } from './retrieve.js'
+import { retrievePortalViews } from './retrieve.js'
 import {
   requireEnv,
   writeSnapshot,
@@ -58,7 +58,7 @@ export async function handler(): Promise<{
 
   const snapshot: Snapshot = {
     generatedAt: new Date().toISOString(),
-    records: await retrievePageViews({ limit: SNAPSHOT_LIMIT }),
+    records: await retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
   }
 
   await writeSnapshot(bucket, snapshot)

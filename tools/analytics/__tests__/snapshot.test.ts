@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-const { send, retrievePageViews } = vi.hoisted(() => ({
+const { send, retrievePortalViews } = vi.hoisted(() => ({
   send: vi.fn(),
-  retrievePageViews: vi.fn(),
+  retrievePortalViews: vi.fn(),
 }))
 
 vi.mock('@aws-sdk/client-s3', () => ({
@@ -25,7 +25,7 @@ vi.mock('@aws-sdk/client-s3', () => ({
   },
 }))
 
-vi.mock('../src/lambda/retrieve.js', () => ({ retrievePageViews }))
+vi.mock('../src/lambda/retrieve.js', () => ({ retrievePortalViews }))
 
 import { handler } from '../src/lambda/snapshot.js'
 
@@ -43,7 +43,7 @@ let logSpy: ReturnType<typeof vi.spyOn>
 
 beforeEach(() => {
   send.mockReset()
-  retrievePageViews.mockReset()
+  retrievePortalViews.mockReset()
   send.mockResolvedValue({})
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
@@ -55,15 +55,13 @@ afterEach(() => {
 })
 
 describe('snapshot generator handler', () => {
-  it('queries page views and writes the snapshot to the expected key', async () => {
-    const records = [
-      { type: 'pageview', path: '/', env: 'prod', timestamp: 't' },
-    ]
-    retrievePageViews.mockResolvedValue(records)
+  it('queries portal views and writes the snapshot to the expected key', async () => {
+    const records = [{ path: '/', env: 'prod', timestamp: 't' }]
+    retrievePortalViews.mockResolvedValue(records)
 
     const result = await handler()
 
-    expect(retrievePageViews).toHaveBeenCalledWith({ limit: 1000 })
+    expect(retrievePortalViews).toHaveBeenCalledWith({ limit: 1000 })
     expect(putCalls()).toHaveLength(1)
 
     const put = putCalls()[0][0] as Command
@@ -74,7 +72,7 @@ describe('snapshot generator handler', () => {
   })
 
   it('propagates a query failure so the schedule surfaces the error', async () => {
-    retrievePageViews.mockRejectedValue(new Error('athena boom'))
+    retrievePortalViews.mockRejectedValue(new Error('athena boom'))
 
     await expect(handler()).rejects.toThrow('athena boom')
     expect(putCalls()).toHaveLength(0)
@@ -84,7 +82,7 @@ describe('snapshot generator handler', () => {
     delete process.env.DATA_BUCKET
 
     await expect(handler()).rejects.toThrow('DATA_BUCKET')
-    expect(retrievePageViews).not.toHaveBeenCalled()
+    expect(retrievePortalViews).not.toHaveBeenCalled()
   })
 })
 
@@ -106,8 +104,8 @@ describe('snapshot record-count metric', () => {
 
   it('emits the record count as an EMF metric after a successful run', async () => {
     process.env.AWS_LAMBDA_FUNCTION_NAME = 'eufemia-dev-analytics-snapshot'
-    retrievePageViews.mockResolvedValue([
-      { type: 'pageview', path: '/', env: 'prod', timestamp: 't' },
+    retrievePortalViews.mockResolvedValue([
+      { path: '/', env: 'prod', timestamp: 't' },
     ])
 
     await handler()
@@ -126,7 +124,7 @@ describe('snapshot record-count metric', () => {
   })
 
   it('emits a zero count when the snapshot is empty', async () => {
-    retrievePageViews.mockResolvedValue([])
+    retrievePortalViews.mockResolvedValue([])
 
     const result = await handler()
 

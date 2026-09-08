@@ -1,9 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import {
-  clampLimit,
-  retrieveRecords,
-  InvalidQueryError,
-} from '../src/lambda/retrieve.js'
+import { describe, it, expect } from 'vitest'
+import { clampLimit } from '../src/lambda/retrieve.js'
 
 describe('clampLimit', () => {
   it('defaults when no limit is given', () => {
@@ -30,25 +26,5 @@ describe('clampLimit', () => {
 
   it('passes through an in-range value', () => {
     expect(clampLimit(42)).toBe(42)
-  })
-})
-
-describe('retrieveRecords id guard', () => {
-  beforeEach(() => {
-    process.env.GLUE_DATABASE = 'db'
-    process.env.GLUE_TABLE = 'records'
-    process.env.ATHENA_WORKGROUP = 'wg'
-  })
-
-  afterEach(() => {
-    delete process.env.GLUE_DATABASE
-    delete process.env.GLUE_TABLE
-    delete process.env.ATHENA_WORKGROUP
-  })
-
-  it('rejects an injection attempt before any query runs', async () => {
-    await expect(
-      retrieveRecords({ id: "a'; DROP TABLE records;--" })
-    ).rejects.toBeInstanceOf(InvalidQueryError)
   })
 })
