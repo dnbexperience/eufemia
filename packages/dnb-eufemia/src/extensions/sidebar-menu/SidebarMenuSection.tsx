@@ -3,6 +3,7 @@ import Dropdown from '../../components/Dropdown'
 import Icon from '../../components/icon/Icon'
 import { chevron_down, chevron_up } from '../../icons'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import SidebarMenuBadge from './SidebarMenuBadge'
 import type { SidebarMenuSectionProps } from './types'
 
 export default function SidebarMenuSection(
@@ -47,16 +48,41 @@ function renderSelector(
       label={sectionLabel}
       labelSrOnly
       data={sections.map(({ props }) => {
-        const content = props.icon ? (
-          <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
-            <Icon icon={props.icon} />
-            {props.text}
-          </Dropdown.HorizontalItem>
-        ) : (
-          props.text
-        )
+        const content =
+          props.icon || props.badge !== undefined ? (
+            <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
+              {props.icon && <Icon icon={props.icon} />}
+              {props.text}
+              <SidebarMenuBadge
+                badge={props.badge}
+                badgeProps={{
+                  variant: 'notification',
+                  ...props.badgeProps,
+                }}
+              />
+            </Dropdown.HorizontalItem>
+          ) : (
+            props.text
+          )
 
-        return { selectedKey: props.id, selectedValue: content, content }
+        const selectedValue =
+          props.icon || props.triggerBadge !== undefined ? (
+            <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
+              {props.icon && <Icon icon={props.icon} />}
+              {props.text}
+              <SidebarMenuBadge
+                badge={props.triggerBadge}
+                badgeProps={{
+                  variant: 'notification',
+                  ...props.triggerBadgeProps,
+                }}
+              />
+            </Dropdown.HorizontalItem>
+          ) : (
+            props.text
+          )
+
+        return { selectedKey: props.id, selectedValue, content }
       })}
       onItemMouseEnter={({ item, event }) => {
         if (!supportsHover() || !sectionSelectorOpenRef.current) {
@@ -89,6 +115,7 @@ function renderSelector(
       size="medium"
       icon={sectionIcon}
       stretch
+      noDivider
     />
   )
 }

@@ -67,7 +67,7 @@ export const SidebarMenuRootProperties: PropertiesTableProps = {
     status: 'optional',
   },
   selectedItem: {
-    doc: 'Controlled id of the selected item or page accordion. A selected page accordion opens when selection initializes or changes, regardless of stored open state, and can then be collapsed manually. Its ancestor accordions and section open automatically, but ancestors can remain collapsed to indicate that they contain the current page.',
+    doc: 'Controlled id of the selected item or page accordion. A selected page accordion opens when selection initializes or changes, regardless of stored open state, and can then be collapsed manually. Its ancestor accordions and section open automatically, but ancestors can remain collapsed with medium-weight labels to indicate that they contain the current page.',
     type: 'string',
     status: 'optional',
   },
@@ -119,6 +119,118 @@ export const SidebarMenuRootEvents: PropertiesTableProps = {
   },
 }
 
+export const SidebarMenuResizeHandleProperties: PropertiesTableProps = {
+  targetRef: {
+    doc: 'Ref to the element being resized. The handle reads this element’s rendered width when dragging starts or an arrow key is pressed.',
+    type: 'React.RefObject<HTMLElement>',
+    status: 'required',
+  },
+  cssProperty: {
+    doc: 'CSS custom property that receives the new width as a pixel value, for example `--sidebar-width: 336px`. Use this property in the CSS that sizes the sidebar.',
+    type: 'string',
+    defaultValue: '"--sidebar-menu-width"',
+    status: 'optional',
+  },
+  scopeSelector: {
+    doc: 'Selector passed to `targetRef.current.closest()` to find where `cssProperty` is set. Use a shared layout ancestor when the sidebar and adjacent content both depend on the width. When omitted, the property is set on the referenced sidebar element.',
+    type: 'string',
+    status: 'optional',
+  },
+  minWidth: {
+    doc: 'Smallest width the handle can write, in pixels. Use layout CSS for any additional responsive constraints.',
+    type: 'number',
+    defaultValue: '240',
+    status: 'optional',
+  },
+  maxWidth: {
+    doc: 'Largest width the handle can write, in pixels.',
+    type: 'number',
+    defaultValue: '560',
+    status: 'optional',
+  },
+  step: {
+    doc: 'Number of pixels added or removed when pressing ArrowRight or ArrowLeft.',
+    type: 'number',
+    defaultValue: '16',
+    status: 'optional',
+  },
+  largeStep: {
+    doc: 'Number of pixels added or removed when pressing Shift together with ArrowRight or ArrowLeft.',
+    type: 'number',
+    defaultValue: '48',
+    status: 'optional',
+  },
+  '[button attributes]': {
+    doc: 'Standard button attributes are supported. Set `aria-controls` to the id of the resized sidebar. The default accessible label is "Resize sidebar".',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
+  {
+    breakpoint: {
+      doc: 'Maximum viewport width at which the mobile navigation is used.',
+      type: ['MediaQuerySizes', 'number', 'string'],
+      defaultValue: '"medium"',
+      status: 'optional',
+    },
+    open: {
+      doc: 'Controlled Drawer state.',
+      type: 'boolean',
+      status: 'optional',
+    },
+    defaultOpen: {
+      doc: 'Initial uncontrolled Drawer state.',
+      type: 'boolean',
+      defaultValue: 'false',
+      status: 'optional',
+    },
+  }
+
+export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
+  onOpenChange: {
+    doc: 'Called whenever the responsive Drawer opens or closes.',
+    type: '(open: boolean) => void',
+    status: 'optional',
+  },
+}
+
+export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
+  {
+    controls: {
+      doc: 'Id of the responsive Drawer controlled by the trigger.',
+      type: 'string',
+      defaultValue: '"sidebar-menu-responsive-drawer"',
+      status: 'optional',
+    },
+    '[Button properties]': {
+      doc: 'Supports Button properties except aria-expanded and aria-haspopup, which are managed by the responsive navigation.',
+      type: 'Various',
+      status: 'optional',
+    },
+  }
+
+export const SidebarMenuResponsiveDrawerProperties: PropertiesTableProps =
+  {
+    id: {
+      doc: 'Id matched by ResponsiveTrigger controls.',
+      type: 'string',
+      defaultValue: '"sidebar-menu-responsive-drawer"',
+      status: 'optional',
+    },
+    dialogTitle: {
+      doc: 'Accessible name of the Drawer.',
+      type: 'React.ReactNode',
+      status: 'optional',
+    },
+    '[Drawer properties]': {
+      doc: 'Supports Drawer properties except open, which is managed by ResponsiveProvider.',
+      type: 'Various',
+      status: 'optional',
+    },
+  }
+
 export const SidebarMenuItemProperties: PropertiesTableProps = {
   id: {
     doc: 'Unique item id used for selection state.',
@@ -151,7 +263,7 @@ export const SidebarMenuItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   badgeProps: {
-    doc: 'Additional properties passed to the Badge component.',
+    doc: 'Additional properties passed to the Badge component. A nested notification variant is indicated on collapsible ancestor accordions.',
     type: 'Omit<BadgeProps, "content" | "children">',
     status: 'optional',
   },
@@ -225,7 +337,7 @@ export const SidebarMenuAccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   badgeProps: {
-    doc: 'Additional properties passed to the Badge component.',
+    doc: 'Additional properties passed to the Badge component. A nested notification variant is indicated on collapsible ancestor accordions.',
     type: 'Omit<BadgeProps, "content" | "children">',
     status: 'optional',
   },
@@ -297,6 +409,26 @@ export const SidebarMenuSectionProperties: PropertiesTableProps = {
   icon: {
     doc: 'Icon shown before the section label.',
     type: 'IconIcon',
+    status: 'optional',
+  },
+  badge: {
+    doc: 'Notification badge displayed on the right side of the dropdown option.',
+    type: 'BadgeProps["content"]',
+    status: 'optional',
+  },
+  badgeProps: {
+    doc: 'Additional properties passed to the dropdown option Badge component. The variant defaults to "notification".',
+    type: ['Omit<BadgeProps, "content"', '"children">'],
+    status: 'optional',
+  },
+  triggerBadge: {
+    doc: 'Notification badge displayed on the right side of the selected dropdown trigger.',
+    type: 'BadgeProps["content"]',
+    status: 'optional',
+  },
+  triggerBadgeProps: {
+    doc: 'Additional properties passed to the selected dropdown trigger Badge component. The variant defaults to "notification".',
+    type: ['Omit<BadgeProps, "content"', '"children">'],
     status: 'optional',
   },
   children: {

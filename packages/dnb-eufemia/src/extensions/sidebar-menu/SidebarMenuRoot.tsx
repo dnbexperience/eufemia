@@ -19,6 +19,7 @@ import type {
   SidebarMenuRootProps,
   SidebarMenuSectionProps,
 } from './types'
+import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsive'
 
 function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const {
@@ -43,6 +44,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     ...rest
   } = props
   const translation = useTranslation().SidebarMenu
+  const responsive = useOptionalSidebarMenuResponsive()
   const resolvedSectionLabel = sectionLabel ?? translation.sectionLabel
   const menuRef = useRef<HTMLElement>(null)
   const defaultOpenItemsKey = defaultOpenItems.join(',')
@@ -213,8 +215,9 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       return undefined
     }
 
-    const scrollView =
-      menuRef.current?.closest<HTMLElement>('.dnb-scroll-view')
+    const scrollView = responsive?.isSmallScreen
+      ? responsive.drawerScrollElement
+      : menuRef.current?.closest<HTMLElement>('.dnb-scroll-view')
     if (!scrollView) {
       return undefined
     }
@@ -246,7 +249,12 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       persistPosition()
       scrollView.removeEventListener('scroll', persistPosition)
     }
-  }, [scrollPositionStorage, scrollPositionStorageKey])
+  }, [
+    responsive?.drawerScrollElement,
+    responsive?.isSmallScreen,
+    scrollPositionStorage,
+    scrollPositionStorageKey,
+  ])
 
   const declarativeSections = findDeclarativeSections(children)
   const hasSections = Boolean(declarativeSections.length)
@@ -335,7 +343,9 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
         isInitialPosition || prefersReducedMotion() ? 'auto' : 'smooth'
       positionedSelectedItemRef.current = resolvedSelectedItem
 
-      const scrollView = target.closest<HTMLElement>('.dnb-scroll-view')
+      const scrollView = responsive?.isSmallScreen
+        ? responsive.drawerScrollElement
+        : target.closest<HTMLElement>('.dnb-scroll-view')
       const targetRect = target.getBoundingClientRect()
 
       if (scrollView) {
@@ -397,6 +407,8 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     resolvedActiveSection,
     resolvedOpenItemsKey,
     resolvedSelectedItem,
+    responsive?.drawerScrollElement,
+    responsive?.isSmallScreen,
     scrollSelectedItemIntoView,
   ])
 
@@ -460,6 +472,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const contextValue = useMemo(
     () => ({
       indent: 0,
+      accordionLevel: 0,
       openItems: resolvedOpenItems,
       openItemsControlled: openItems !== undefined,
       toggleItem,
