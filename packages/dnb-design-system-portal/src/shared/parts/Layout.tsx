@@ -3,16 +3,13 @@
  *
  */
 
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import Anchor from '../tags/Anchor'
 import { clsx } from 'clsx'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import { releaseVersion, buildVersion } from '../buildInfo'
-import {
-  SidebarMenuProvider,
-  SidebarMenuContext,
-} from '../menu/SidebarMenuContext'
+import EufemiaSidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import { P, Logo, GlobalStatus, Section } from '@dnb/eufemia/src'
@@ -29,29 +26,6 @@ import {
 import SidebarMenu from '../menu/SidebarMenu'
 import { scrollToAnimation } from './layout-utils'
 import { useFocusModeCode } from '../../core/FocusModeCodeContext'
-
-const SIDEBAR_SELECTOR = '#portal-sidebar-menu'
-const SIDEBAR_SCROLL_KEY = 'scroll-' + SIDEBAR_SELECTOR
-
-function restoreSidebarScroll() {
-  try {
-    const el = document.querySelector(SIDEBAR_SELECTOR) as HTMLElement
-    if (!el) {
-      return // stop here
-    }
-
-    const stored = parseFloat(
-      sessionStorage.getItem(SIDEBAR_SCROLL_KEY) || '0'
-    )
-    if (stored) {
-      el.style.scrollBehavior = 'auto'
-      el.scrollTop = stored
-      el.style.scrollBehavior = ''
-    }
-  } catch {
-    // ignore
-  }
-}
 
 type LayoutProps = {
   fullscreen?: boolean
@@ -92,7 +66,7 @@ function Layout(props: LayoutProps) {
 
   const fs = ssrFullscreen || urlFullscreen || codeFocusMode
 
-  // Restore scroll and sidebar position after exiting any fullscreen mode
+  // Restore the page position after exiting any fullscreen mode
   const wasFullscreenRef = useRef(false)
   useEffect(() => {
     if (fs) {
@@ -114,8 +88,6 @@ function Layout(props: LayoutProps) {
           if (scrollTarget) {
             window.scrollTo({ top: scrollTarget })
           }
-
-          restoreSidebarScroll()
         })
       })
       return () => {
@@ -170,7 +142,7 @@ function Layout(props: LayoutProps) {
         Skip to content
       </a>
 
-      <SidebarMenuProvider>
+      <EufemiaSidebarMenu.ResponsiveProvider>
         {!fs && <StickyMenuBar />}
 
         <div className={wrapperStyle}>
@@ -192,7 +164,7 @@ function Layout(props: LayoutProps) {
 
           {fs && <ToggleGrid hidden />}
         </div>
-      </SidebarMenuProvider>
+      </EufemiaSidebarMenu.ResponsiveProvider>
 
       <GridActivator />
     </div>
@@ -208,12 +180,6 @@ const Content = ({
   className = null,
   children,
 }: ContentProps) => {
-  const { isOpen, isClosing } = useContext(SidebarMenuContext)
-
-  if (isOpen || isClosing) {
-    return null
-  }
-
   return (
     <div
       className={clsx(
@@ -243,7 +209,12 @@ const MainContent = ({ mainRef, ...props }) => (
 
 const Footer = () => {
   return (
-    <Section element="footer" innerSpace className={footerStyle}>
+    <Section
+      element="footer"
+      innerSpace
+      variant="transparent"
+      className={footerStyle}
+    >
       <P size="small">
         Package release: {releaseVersion} <br />
         Portal update: {buildVersion}

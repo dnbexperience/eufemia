@@ -11,6 +11,7 @@ export default function logo(props: SVGProps<SVGSVGElement> = {}) {
       xmlns="http://www.w3.org/2000/svg"
       width="114"
       height="22"
+      viewBox="0 0 114 22"
       fill="none"
       {...props}
     >

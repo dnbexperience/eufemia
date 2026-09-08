@@ -142,6 +142,26 @@ describe('portal-pages plugin', () => {
       })
     })
 
+    it('extracts redirects for a moved extension page', () => {
+      createFile(
+        'uilib/extensions/sidebar-menu.mdx',
+        [
+          '---',
+          'title: SidebarMenu',
+          'redirect_from:',
+          '  - /uilib/components/sidebar-menu',
+          '---',
+        ].join('\n')
+      )
+
+      const files = scanPageFiles(tmpDir)
+
+      expect(files[0].slug).toBe('uilib/extensions/sidebar-menu')
+      expect(files[0].frontmatter.redirect_from).toEqual([
+        '/uilib/components/sidebar-menu',
+      ])
+    })
+
     it('returns empty frontmatter for TSX files', () => {
       createFile('page.tsx', 'export default () => <div/>')
 

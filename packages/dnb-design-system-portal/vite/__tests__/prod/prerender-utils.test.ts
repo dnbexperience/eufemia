@@ -8,9 +8,11 @@ import {
   getPageMeta,
   getMdPath,
   injectHtml,
+  getSidebarScrollScript,
   buildRedirectHtml,
   getOutputPath,
 } from '../../prod/prerender-utils'
+import { getSidebarScrollScript as getSharedSidebarScrollScript } from '../../prod/sidebar-scroll-script.mjs'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 import type {
   RouteEntry,
@@ -19,6 +21,10 @@ import type {
 } from '../../prod/prerender-utils'
 
 describe('prerender-utils', () => {
+  it('uses the shared sidebar scroll script', () => {
+    expect(getSidebarScrollScript()).toBe(getSharedSidebarScrollScript())
+  })
+
   describe('collectUrls', () => {
     it('always includes root /', () => {
       const urls = collectUrls([])
@@ -435,6 +441,22 @@ describe('prerender-utils', () => {
       const rootEnd = result.indexOf('</div>')
       const scriptPos = result.indexOf('__eufemiaColorScheme')
       expect(scriptPos).toBeGreaterThan(rootEnd)
+    })
+
+    it('positions a persisted SidebarMenu before the first paint', () => {
+      const result = injectHtml(
+        template,
+        '<div class="dnb-scroll-view"><nav data-scroll-position-storage-key="portal-menu-scroll" data-scroll-position-storage="session"><a aria-current="page">Current</a></nav></div>',
+        { js: [], css: [] }
+      )
+
+      expect(result).toContain('[data-scroll-position-storage-key]')
+      expect(result).toContain(
+        "type==='local'?localStorage:sessionStorage"
+      )
+      expect(result).toContain('storage.getItem')
+      expect(result).toContain('[aria-current="page"]')
+      expect(result).toContain("'scroll-behavior','auto','important'")
     })
 
     it('does not add preload tags when lists are empty', () => {

@@ -21,7 +21,7 @@ test.describe('Focus mode', () => {
     await expect(page).toHaveURL(/focusmode=/)
 
     // Sidebar and footer should be hidden
-    await expect(page.locator('nav#portal-sidebar-menu')).not.toBeVisible()
+    await expect(page.locator('#portal-sidebar-menu')).not.toBeVisible()
     await expect(page.locator('footer')).not.toBeVisible()
 
     // The code block preview and toolbar should still be visible
@@ -46,7 +46,7 @@ test.describe('Focus mode', () => {
     await expect(page).not.toHaveURL(/focusmode=/)
 
     // Sidebar should reappear
-    await expect(page.locator('nav#portal-sidebar-menu')).toBeVisible()
+    await expect(page.locator('#portal-sidebar-menu')).toBeVisible()
   })
 
   test('should show brand switch in toolbar during focusmode', async ({
@@ -127,8 +127,10 @@ test.describe('Focus mode', () => {
     expect(scrollBefore).toBeGreaterThan(0)
 
     // Enter focusmode
-    const buttons = page.locator('button[aria-label="Focus mode"]')
-    await buttons.first().click()
+    const button = page
+      .locator('button[aria-label="Focus mode"]:visible')
+      .first()
+    await button.click()
     await expect(page).toHaveURL(/focusmode=/)
 
     // Should scroll to top in focusmode
@@ -152,8 +154,10 @@ test.describe('Focus mode', () => {
     await page.waitForTimeout(200)
 
     // Enter focusmode
-    const buttons = page.locator('button[aria-label="Focus mode"]')
-    await buttons.first().click()
+    const button = page
+      .locator('button[aria-label="Focus mode"]:visible')
+      .first()
+    await button.click()
     await expect(page).toHaveURL(/focusmode=/)
 
     // Refresh the page
@@ -190,6 +194,6 @@ test.describe('Focus mode', () => {
     ).toBeVisible()
 
     // Sidebar should be hidden
-    await expect(page.locator('nav#portal-sidebar-menu')).not.toBeVisible()
+    await expect(page.locator('#portal-sidebar-menu')).not.toBeVisible()
   })
 })
