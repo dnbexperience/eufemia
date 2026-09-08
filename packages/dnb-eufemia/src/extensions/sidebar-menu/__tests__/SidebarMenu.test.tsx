@@ -23,6 +23,12 @@ describe('SidebarMenu', () => {
         'Header',
         'Item',
         'Section',
+        'ResizeHandle',
+        'ResponsiveInline',
+        'ResponsiveDrawer',
+        'ResponsiveProvider',
+        'ResponsiveTrigger',
+        'useResponsive',
       ].sort()
     )
   })
@@ -79,6 +85,25 @@ describe('SidebarMenu', () => {
     expect(
       document.querySelector('.dnb-height-animation')
     ).not.toHaveAttribute('hidden')
+  })
+
+  it('renders dedicated icon containers for menu point geometry', () => {
+    render(
+      <SidebarMenu.Container>
+        <SidebarMenu.Header>Menu</SidebarMenu.Header>
+        <SidebarMenu.Accordion id="products" text="Products" icon={person}>
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Container>
+    )
+
+    const icon = document.querySelector('.dnb-sidebar-menu__item__icon')
+    const expandIcon = document.querySelector(
+      '.dnb-sidebar-menu__accordion__expand-icon'
+    )
+
+    expect(icon.querySelector('.dnb-icon')).toBeInTheDocument()
+    expect(expandIcon.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
   it('renders declarative static groups without accordion semantics', () => {
@@ -400,10 +425,16 @@ describe('SidebarMenu', () => {
                 text: 'Cards',
                 items: [
                   {
-                    id: 'debit-card',
-                    text: 'Debit card',
-                    href: '/cards/debit',
-                    active: true,
+                    id: 'settings',
+                    text: 'Settings',
+                    items: [
+                      {
+                        id: 'debit-card',
+                        text: 'Debit card',
+                        href: '/cards/debit',
+                        active: true,
+                      },
+                    ],
                   },
                 ],
               },
@@ -414,10 +445,25 @@ describe('SidebarMenu', () => {
     )
 
     const activeItem = document.querySelector('[href="/cards/debit"]')
+    const nestedAccordion = document.querySelector(
+      '[data-sidebar-menu-id="cards"] > .dnb-sidebar-menu__accordion__trigger'
+    )
+    const deeplyNestedAccordion = document.querySelector(
+      '[data-sidebar-menu-id="settings"] > .dnb-sidebar-menu__accordion__trigger'
+    )
 
     expect(
       document.querySelectorAll('[aria-expanded="true"]')
-    ).toHaveLength(2)
+    ).toHaveLength(3)
+    expect(nestedAccordion).toHaveStyle({
+      '--sidebar-menu-indent': '3rem',
+    })
+    expect(deeplyNestedAccordion).toHaveStyle({
+      '--sidebar-menu-indent': '4rem',
+    })
+    expect(activeItem).toHaveStyle({
+      '--sidebar-menu-indent': '5rem',
+    })
     expect(activeItem).toHaveAttribute('aria-current', 'page')
     expect(
       document.querySelector('[data-sidebar-menu-id="debit-card"]')
@@ -465,13 +511,19 @@ describe('SidebarMenu', () => {
         defaultActiveSection="personal"
         onActiveSectionChange={onActiveSectionChange}
       >
-        <SidebarMenu.Section id="personal" text="Personal" icon={person}>
+        <SidebarMenu.Section
+          id="personal"
+          text="Personal"
+          icon={person}
+          triggerBadge={2}
+        >
           <SidebarMenu.Item id="overview" text="Overview" />
         </SidebarMenu.Section>
         <SidebarMenu.Section
           id="business"
           text="Business"
           icon={office_buildings}
+          badge={9}
         >
           <SidebarMenu.Item id="invoices" text="Invoices" />
         </SidebarMenu.Section>
@@ -490,6 +542,10 @@ describe('SidebarMenu', () => {
     expect(
       trigger.querySelector('[data-testid="person icon"]')
     ).toBeInTheDocument()
+    expect(trigger).toHaveTextContent('2')
+    expect(trigger.querySelector('.dnb-badge')).toHaveClass(
+      'dnb-badge--variant-notification'
+    )
 
     fireEvent.click(trigger)
 
@@ -497,16 +553,33 @@ describe('SidebarMenu', () => {
       '.dnb-sidebar-menu__sections-portal'
     )
     expect(portal).toBeInTheDocument()
+    expect(portal.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
     expect(
       portal.querySelector('[data-testid="person icon"]')
     ).toBeInTheDocument()
     expect(
       portal.querySelector('[data-testid="office buildings icon"]')
     ).toBeInTheDocument()
+    const options = Array.from(
+      portal.querySelectorAll<HTMLElement>('[role="option"]')
+    )
+    expect(
+      options.find((element) => element.textContent.includes('Personal'))
+    ).not.toHaveTextContent('2')
+    expect(
+      options.find((element) => element.textContent.includes('Business'))
+    ).toHaveTextContent('9')
+    expect(
+      options
+        .find((element) => element.textContent.includes('Business'))
+        .querySelector('.dnb-badge')
+    ).toHaveClass('dnb-badge--variant-notification')
 
     fireEvent.click(
       Array.from(document.querySelectorAll('[role="option"]')).find(
-        (element) => element.textContent === 'Business'
+        (element) => element.textContent.includes('Business')
       )
     )
 
@@ -526,6 +599,7 @@ describe('SidebarMenu', () => {
             id: 'personal',
             text: 'Personal',
             icon: person,
+            triggerBadge: 2,
             active: true,
             items: [{ id: 'home', text: 'Home' }],
           },
@@ -533,6 +607,7 @@ describe('SidebarMenu', () => {
             id: 'business',
             text: 'Business',
             icon: office_buildings,
+            badge: 9,
             items: [{ id: 'payments', text: 'Payments' }],
           },
         ]}
@@ -550,9 +625,14 @@ describe('SidebarMenu', () => {
     expect(
       options[1].querySelector('[data-testid="office buildings icon"]')
     ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveTextContent('2')
+    expect(options[0]).not.toHaveTextContent('2')
+    expect(options[1]).toHaveTextContent('9')
 
     fireEvent.click(
-      options.find((element) => element.textContent === 'Business')
+      options.find((element) => element.textContent.includes('Business'))
     )
 
     expect(document.body).toHaveTextContent('Payments')
@@ -694,6 +774,132 @@ describe('SidebarMenu', () => {
     )
     expect(accordionBadge).toHaveTextContent('3')
     expect(accordionBadge).toHaveTextContent('Product groups:')
+  })
+
+  it('prioritizes nested notifications over information badges', () => {
+    render(
+      <SidebarMenu.Container
+        data={[
+          {
+            id: 'products',
+            text: 'Products',
+            badge: 3,
+            items: [
+              {
+                id: 'cards',
+                text: 'Cards',
+                items: [
+                  {
+                    id: 'credit-card',
+                    text: 'Credit card',
+                    badge: 2,
+                    badgeProps: {
+                      variant: 'notification',
+                      label: 'Notifications:',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'messages',
+            text: 'Messages',
+            badge: 4,
+            badgeProps: {
+              variant: 'notification',
+              label: 'Notifications:',
+            },
+            items: [
+              {
+                id: 'inbox',
+                text: 'Inbox',
+                badge: 1,
+                badgeProps: {
+                  variant: 'notification',
+                  label: 'Notifications:',
+                },
+              },
+            ],
+          },
+        ]}
+      />
+    )
+
+    const products = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    )
+    const productsTrigger = products.querySelector(
+      ':scope > .dnb-sidebar-menu__accordion__trigger'
+    )
+    const productsIndicator = productsTrigger.querySelector(
+      '.dnb-sidebar-menu__accordion__indicator'
+    )
+    const productsNotification = productsTrigger.querySelector(
+      '.dnb-sidebar-menu__accordion__notification-indicator'
+    )
+    const productsBadge = productsTrigger.querySelector(
+      ':scope > .dnb-sidebar-menu__badge'
+    )
+    const productsIcon = productsIndicator.querySelector('.dnb-icon')
+
+    expect(productsNotification).toBeInTheDocument()
+    expect(productsBadge).not.toBeInTheDocument()
+    expect(
+      productsNotification.compareDocumentPosition(productsIcon) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+
+    fireEvent.click(productsTrigger)
+
+    expect(
+      productsTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).toBeInTheDocument()
+
+    const cards = document.querySelector('[data-sidebar-menu-id="cards"]')
+    const cardsTrigger = cards.querySelector(
+      ':scope > .dnb-sidebar-menu__accordion__trigger'
+    )
+    const cardsIndicator = cardsTrigger.querySelector(
+      '.dnb-sidebar-menu__accordion__indicator'
+    )
+    const cardsNotification = cardsIndicator.querySelector(
+      '.dnb-sidebar-menu__accordion__notification-indicator'
+    )
+    const cardsIcon = cardsIndicator.querySelector('.dnb-icon')
+
+    expect(cardsNotification).toBeInTheDocument()
+    expect(
+      cardsNotification.compareDocumentPosition(cardsIcon) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+
+    fireEvent.click(cardsTrigger)
+
+    expect(
+      cardsTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="credit-card"] .dnb-badge'
+      )
+    ).toHaveClass('dnb-badge--variant-notification')
+
+    const messagesTrigger = document.querySelector(
+      '[data-sidebar-menu-id="messages"] > .dnb-sidebar-menu__accordion__trigger'
+    )
+    expect(
+      messagesTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).not.toBeInTheDocument()
+    expect(messagesTrigger.querySelector('.dnb-badge')).toHaveClass(
+      'dnb-badge--variant-notification'
+    )
   })
 
   it('navigates and toggles expansion when a page accordion is activated', () => {
@@ -1181,22 +1387,28 @@ describe('SidebarMenu', () => {
     const trigger = document.querySelector(
       '.dnb-sidebar-menu__accordion__trigger'
     )
+    const accordion = document.querySelector(
+      '.dnb-sidebar-menu__accordion'
+    )
+    const text = trigger.querySelector('.dnb-sidebar-menu__item__text')
 
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
-    expect(
-      trigger.querySelector(
-        '.dnb-sidebar-menu__accordion__current-indicator'
-      )
-    ).not.toBeInTheDocument()
+    expect(accordion).not.toHaveClass(
+      'dnb-sidebar-menu__accordion--contains-selected'
+    )
 
     fireEvent.click(trigger)
 
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    expect(accordion).toHaveClass(
+      'dnb-sidebar-menu__accordion--contains-selected'
+    )
+    expect(text.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Contains current page'
+    )
     expect(
-      trigger.querySelector(
-        '.dnb-sidebar-menu__accordion__current-indicator'
-      )
-    ).toHaveAttribute('aria-label', 'Contains current page')
+      text.querySelector('.dnb-sidebar-menu__accordion__current-indicator')
+    ).not.toBeInTheDocument()
   })
 
   it('does not adjust open accordion height when data is recreated', async () => {

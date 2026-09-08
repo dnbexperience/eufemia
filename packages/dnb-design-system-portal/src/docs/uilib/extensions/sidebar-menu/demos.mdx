@@ -21,3 +21,11 @@ Use `sections` or `data` to render the same recursive structure from JavaScript 
 This example is placed inside a `ScrollView` with a viewport-aware maximum height and persists its scroll position in session storage.
 
 <Examples.SidebarMenuData />
+
+### Responsive drawer
+
+The same data renders as an inline menu on larger screens and behind a hamburger button on smaller screens. `ResponsiveProvider` owns the breakpoint and state, while `ResponsiveDrawer` handles the dialog, focus trapping, Escape key, backdrop, left-side close button, and focus return.
+
+Drag the demo viewport to the medium breakpoint or narrower to reveal the hamburger button and try the drawer.
+
+<Examples.SidebarMenuResponsiveDrawer />

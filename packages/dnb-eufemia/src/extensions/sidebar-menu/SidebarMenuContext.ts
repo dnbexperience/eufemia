@@ -2,6 +2,7 @@ import { createContext, useContext } from 'react'
 
 export type SidebarMenuContextValue = {
   indent: number
+  accordionLevel: number
   openItems: string[]
   openItemsControlled: boolean
   toggleItem: (id: string, open: boolean) => void
@@ -13,6 +14,7 @@ export type SidebarMenuContextValue = {
 
 export const SidebarMenuContext = createContext<SidebarMenuContextValue>({
   indent: 0,
+  accordionLevel: 0,
   openItems: [],
   openItemsControlled: false,
   toggleItem: () => undefined,

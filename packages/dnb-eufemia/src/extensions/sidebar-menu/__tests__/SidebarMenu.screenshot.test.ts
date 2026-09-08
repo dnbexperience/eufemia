@@ -66,6 +66,30 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
+  it('separates the selected section badge from its checkmark', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-declarative"]',
+      style: { width: '24rem' },
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+        },
+        {
+          action: 'click',
+          selector:
+            '.dnb-sidebar-menu__sections-portal [role="option"]:nth-of-type(2)',
+        },
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="sidebar-menu-declarative"] .dnb-dropdown__trigger',
+        },
+      ],
+    })
+  })
+
   it('matches a focused linked accordion action', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',

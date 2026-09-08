@@ -17,17 +17,30 @@ import '@dnb/eufemia/extensions/sidebar-menu/style'
 
 Compose a menu declaratively with `SidebarMenu.Container`, `SidebarMenu.Item`, `SidebarMenu.Accordion`, `SidebarMenu.Group`, `SidebarMenu.Section`, `SidebarMenu.Header`, and `SidebarMenu.Divider`. Alternatively, pass recursive `data` or `sections` objects to the container.
 
+## Design goals
+
+- Work with SSR and SSG. Stable prerendered markup, storage metadata, and CSS-driven responsive visibility avoid layout shifts during hydration.
+- Provide accessible navigation defaults through landmarks, semantic lists, native links and buttons, keyboard support, focus restoration, and reduced-motion handling.
+- Stay modular and tree-shakeable through compound exports, so applications include only the parts they use.
+- Support both declarative composition and recursive `data` or `sections` objects with the same behavior.
+- Allow controlled, uncontrolled, and persisted state for routing, accordions, sections, selection, and scroll position.
+- Adapt to different application structures through nested groups, custom router links, responsive inline and Drawer layouts, resizing, badges, and custom content.
+- Preserve browser-native behavior, including find-in-page through collapsed content.
+
 ## Key behaviors
 
-- Setting `selectedItem` reveals its ancestors and section. An active branch can still be collapsed; a dot then indicates that it contains the current page.
+- Setting `selectedItem` reveals its ancestors and section. An active branch can still be collapsed; its label then uses medium font weight to indicate that it contains the current page.
 - An off-screen selected item is brought into view. Initial positioning and restored scroll positions happen without a visible animated jump.
 - `openItemsStorageKey` and `scrollPositionStorageKey` preserve navigation context between route changes. Session storage is used by default.
 - A linked accordion uses one action for navigation and expansion.
 - Collapsed content remains available to browser find-in-page through `hidden="until-found"`.
+- A notification badge on a nested item is summarized by a red dot on ancestor accordions. The dot remains visible when the accordion expands and takes priority over an informational badge on the same menu point. An explicit notification badge remains visible instead of the dot.
 
 ## Composition
 
 Accordion groups support deep nesting, but keep the hierarchy as shallow as possible. Use `SidebarMenu.Group` for a titled category whose items should always remain visible, or set `collapsible={false}` on an accordion. Groups can optionally navigate using `href` or `to`; in the data API, use `type: 'group'`.
+
+Menu point rows have a minimum height of 44px. Top-level rows have 16px between them, while nested rows have 8px. The first accordion level is indented by 48px and each deeper accordion level adds 16px.
 
 Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `disableUntilFound` on the container when collapsed content should not use `hidden="until-found"`.
 
@@ -46,6 +59,64 @@ The selected destination is positioned within the visible browser or nearest `Sc
 Use `openItemsStorageKey` to preserve manually opened and closed groups. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical position. A stored value takes precedence over the defaults, including an empty array. Use local storage only when the state should survive browser restarts; otherwise keep the default session storage.
 
 Prerendered applications can read the storage metadata rendered by the container and restore the position before hydration. This avoids briefly showing the top of a long menu before moving to the selected item.
+
+## Resizable layouts
+
+Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. These properties connect the handle to the layout:
+
+- `targetRef` points to the element being resized. Its rendered width is the starting value.
+- `cssProperty` receives the new width in pixels. The sidebar CSS must use the same custom property.
+- `rootSelector` selects the closest shared layout ancestor on which the custom property is set. Use it when adjacent content also needs to respond to the sidebar width. Omit it when only the sidebar needs the value.
+- `minWidth` and `maxWidth` define the allowed resize range. `maxWidth` defaults to the browser viewport width.
+
+The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and double-click to reset.
+
+The resize handle is optional and its styles are included with the SidebarMenu extension stylesheet. It does not persist width. The CSS-defined initial width is therefore used after a reload, and no script is needed before React renders.
+
+```tsx
+const sidebarRef = useRef<HTMLElement>(null)
+
+<div className="layout">
+  <aside
+    id="sidebar"
+    ref={sidebarRef}
+    className="sidebar"
+  >
+    <SidebarMenu.Container aria-label="Main navigation" />
+  </aside>
+  <SidebarMenu.ResizeHandle
+    targetRef={sidebarRef}
+    rootSelector=".layout"
+    cssProperty="--sidebar-width"
+    aria-controls="sidebar"
+  />
+</div>
+```
+
+```css
+.layout {
+  --sidebar-width: 20rem;
+
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+}
+```
+
+## Responsive navigation
+
+Use the responsive compound parts when the same navigation should be inline on larger screens and available through a hamburger-triggered Drawer on smaller screens:
+
+- `ResponsiveProvider` owns the breakpoint and Drawer state.
+- `ResponsiveTrigger` renders a hamburger button only below the breakpoint.
+- `ResponsiveInline` renders its children only above the breakpoint.
+- `ResponsiveDrawer` renders a left-side Drawer only below the breakpoint. Its close button is placed on the left.
+- `useResponsive().close()` closes the Drawer after mobile navigation.
+
+The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
 
 ## Relevant links
 
