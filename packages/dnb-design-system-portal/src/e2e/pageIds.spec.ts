@@ -7,6 +7,10 @@ import waitForApp from './shared/waitForApp'
  * The static test lints the MDX sources of every page, while this one checks
  * the rendered document, where ids also come from the portal chrome (sidebar,
  * tab bar, footer) and from Eufemia components.
+ *
+ * Every route is written as a literal `page.goto()` argument, because the
+ * test build only prerenders the pages it can read out of these calls
+ * (see vite/client/plugins/test-page-filter.ts).
  */
 
 const getDuplicateIds = (page) =>
@@ -25,33 +29,76 @@ const getDuplicateIds = (page) =>
       .map(([id, count]) => `${id} (${count}×)`)
   })
 
+const expectNoDuplicateIds = async (page) => {
+  // Check if app is mounted
+  await waitForApp(page)
+
+  expect(await getDuplicateIds(page)).toEqual([])
+}
+
 test.describe('Page ids', () => {
-  const paths = [
-    '/',
-    '/uilib/components/',
-    '/uilib/components/button',
-    '/uilib/extensions/forms',
+  test('should have no duplicate ids on the front page', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    await expectNoDuplicateIds(page)
+  })
 
-    // Pages the static test reports as having duplicate ids, kept here so both
-    // layers cover the same collisions. Each one exercises a different cause:
-    // a heading repeated inside one file, a heading repeated across two
-    // partials of the same page, and a heading repeating the tab title.
-    '/uilib/helpers/functions',
-    '/uilib/layout/flex/item',
-    '/uilib/extensions/forms/Form/Section',
-    '/uilib/components/avatar',
-  ]
+  test('should have no duplicate ids on a category page', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/')
+    await expectNoDuplicateIds(page)
+  })
 
-  for (const path of paths) {
-    test(`should have no duplicate ids on ${path}`, async ({ page }) => {
-      await page.goto(path)
+  test('should have no duplicate ids on a component page', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/button')
+    await expectNoDuplicateIds(page)
+  })
 
-      // Check if app is mounted
-      await waitForApp(page)
+  test('should have no duplicate ids on an extension page', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/extensions/forms')
+    await expectNoDuplicateIds(page)
+  })
 
-      expect(await getDuplicateIds(page)).toEqual([])
-    })
-  }
+  // The pages below are reported by the static test as having duplicate ids,
+  // and are kept here so both layers cover the same collisions. Each one
+  // exercises a different cause.
+
+  // A heading repeated inside one file.
+  test('should have no duplicate ids on a page repeating a heading', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/helpers/functions')
+    await expectNoDuplicateIds(page)
+  })
+
+  // A heading repeated across two partials of the same page.
+  test('should have no duplicate ids on a page built from partials', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/layout/flex/item')
+    await expectNoDuplicateIds(page)
+  })
+
+  test('should have no duplicate ids on a page with tabbed partials', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/extensions/forms/Form/Section')
+    await expectNoDuplicateIds(page)
+  })
+
+  // A heading repeating the tab title.
+  test('should have no duplicate ids on a page repeating its title', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/avatar')
+    await expectNoDuplicateIds(page)
+  })
 
   test('should have no duplicate ids after client side navigation', async ({
     page,
