@@ -41,11 +41,6 @@
     }
   }
 
-  &__hint.dnb-p {
-    margin: 0;
-    font-size: var(--font-size-small);
-  }
-
   &__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
@@ -359,6 +354,14 @@
   &__illustration-details,
   &__garage {
     animation-name: dnb-motion-illustration-details;
+  }
+
+  &__illustration-windows {
+    animation-name: dnb-motion-illustration-windows;
+
+    &--side {
+      animation-delay: 150ms;
+    }
   }
 
   &__garage-door {
@@ -747,6 +750,19 @@
   }
   25%,
   75% {
+    opacity: 1;
+  }
+}
+
+// The details group controls exit; reset the windows after it is hidden.
+@keyframes dnb-motion-illustration-windows {
+  0%,
+  17.5%,
+  100% {
+    opacity: 0;
+  }
+  27.5%,
+  82.5% {
     opacity: 1;
   }
 }

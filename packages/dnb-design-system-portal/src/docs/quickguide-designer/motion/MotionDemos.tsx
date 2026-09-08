@@ -1,11 +1,9 @@
 import { useId, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
-import { Button, H2, Icon, P } from '@dnb/eufemia/src'
+import { Button, FormStatus, H2, Icon, P } from '@dnb/eufemia/src'
 import { bell_medium, pause, play } from '@dnb/eufemia/src/icons'
 import { useMediaQuery } from '@dnb/eufemia/src/shared'
-import familyHomeBody from './assets/dnb-family-home-body.svg'
-import familyHomeRoof from './assets/dnb-family-home-roof.svg'
-import familyHomeDetails from './assets/dnb-family-home-details.svg'
+import FamilyHomeIllustration from './FamilyHomeIllustration'
 import './MotionDemos.scss'
 
 const chevronPoints = [
@@ -24,9 +22,9 @@ export default function MotionDemos() {
     <div className="dnb-motion-demos" data-paused={paused}>
       <div className="dnb-motion-demos__controls">
         {reducedMotion && (
-          <P className="dnb-motion-demos__hint">
+          <FormStatus state="warning" role="status">
             Reduced motion: showing still illustrations.
-          </P>
+          </FormStatus>
         )}
         <Button
           variant="secondary"
@@ -111,7 +109,7 @@ export default function MotionDemos() {
           title="Animate an illustration"
           description="Make the subject recognisable quickly, then let it settle. Coordinate related movements so the illustration supports the message without competing with the task."
         >
-          <IllustrationScene />
+          <FamilyHomeIllustration />
         </MotionStudy>
         <MotionStudy
           id="animate-an-icon"
@@ -767,114 +765,6 @@ function SubmitScene() {
         Send
       </text>
     </>
-  )
-}
-
-function IllustrationScene() {
-  return (
-    <svg
-      className="dnb-motion-scene__illustration-artwork"
-      x="49.25"
-      y="57.5"
-      width="261.5"
-      height="125"
-      viewBox="0 0 523 250"
-      preserveAspectRatio="xMidYMid meet"
-      overflow="visible"
-    >
-      <IllustrationGreenery side="left" />
-      <image
-        className="dnb-motion-scene__illustration-body"
-        data-motion=""
-        href={familyHomeBody}
-        width="523"
-        height="250"
-      />
-      <image
-        className="dnb-motion-scene__illustration-details"
-        data-motion=""
-        href={familyHomeDetails}
-        width="523"
-        height="250"
-      />
-      <image
-        className="dnb-motion-scene__illustration-roof"
-        data-motion=""
-        href={familyHomeRoof}
-        width="523"
-        height="250"
-      />
-      <IllustrationGarage />
-      <IllustrationGreenery side="right" />
-    </svg>
-  )
-}
-
-function IllustrationGarage() {
-  const clipId = useId()
-
-  return (
-    <>
-      <defs>
-        <clipPath id={clipId}>
-          <rect x="105.921" y="183.7" width="112" height="65" />
-        </clipPath>
-      </defs>
-      <g
-        className="dnb-motion-scene__garage"
-        clipPath={`url(#${clipId})`}
-        data-motion=""
-      >
-        <rect
-          x="105.921"
-          y="183.7"
-          width="112"
-          height="65"
-          fill="#00343E"
-        />
-        <g className="dnb-motion-scene__garage-door" data-motion="">
-          <path
-            d="M217.921 183.7H105.921V248.7H217.921V183.7Z"
-            fill="#65BDB4"
-          />
-          <rect
-            x="153.921"
-            y="235.7"
-            width="9"
-            height="3"
-            rx="1.5"
-            fill="#007272"
-          />
-          <rect
-            x="152.921"
-            y="234.7"
-            width="9"
-            height="3"
-            rx="1.5"
-            fill="#E9F8F4"
-          />
-        </g>
-        <path
-          d="M111.921 183.7H105.921V248.7H111.921V183.7Z"
-          fill="#007272"
-        />
-      </g>
-    </>
-  )
-}
-
-function IllustrationGreenery({ side }: { side: 'left' | 'right' }) {
-  return (
-    <g transform={`translate(${side === 'right' ? 399 : 0} 0)`}>
-      <path
-        className={`dnb-motion-scene__illustration-greenery dnb-motion-scene__illustration-greenery--${side}`}
-        data-motion=""
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M121.81 248H0.592879C0.250578 246.593 0.0482497 245.15 0.00756007 243.693C-0.172685 237.255 2.8806 230.736 8.03796 227.229C13.1944 223.723 20.3154 223.517 25.4846 227.005C26.6032 227.76 27.6475 228.704 28.325 229.892C29.7479 227.22 31.9127 225.182 34.4778 224.239C34.9632 216.964 40.5626 211.223 47.4037 211.223C48.4979 211.223 49.5594 211.371 50.5739 211.648C52.9678 209.386 56.1787 208 59.7093 208C64.4455 208 68.6047 210.491 70.9886 214.248C72.5773 213.49 74.3372 213.065 76.1904 213.065C80.038 213.065 83.4853 214.885 85.8221 217.758C88.553 215.686 91.9984 214.446 95.7474 214.446C103.982 214.446 110.763 220.413 111.68 228.095C112.351 227.903 113.048 227.799 113.765 227.799C118.984 227.799 123.214 233.158 123.214 239.769C123.214 242.047 122.69 245.65 121.81 248Z"
-        fill="#13937A"
-      />
-    </g>
   )
 }
 

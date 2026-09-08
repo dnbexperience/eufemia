@@ -30,7 +30,9 @@ test('principles and motion link both ways with implementation guidance below th
   await expect(
     content.getByText('Looping previews', { exact: true })
   ).toHaveCount(0)
-  await expect(content.locator('.dnb-motion-demos__hint')).toHaveCount(0)
+  await expect(
+    content.locator('.dnb-motion-demos__controls .dnb-form-status')
+  ).toHaveCount(0)
 
   await expect(
     content.getByText(/The submission study follows/)
@@ -54,7 +56,7 @@ test('principles and motion link both ways with implementation guidance below th
     .getByRole('link', { name: 'Animation Principles', exact: true })
     .click()
   await expect(page).toHaveURL(
-    /\/quickguide-designer\/principles\/animations\/?$/
+    /\/quickguide-designer\/animation-principles\/?$/
   )
   await expect(
     content.getByRole('heading', {
@@ -73,7 +75,7 @@ test('principles and motion link both ways with implementation guidance below th
 })
 
 test('animation principles can be opened directly', async ({ page }) => {
-  await page.goto('/quickguide-designer/principles/animations/')
+  await page.goto('/quickguide-designer/animation-principles/')
   await waitForApp(page)
   await expect(
     page.getByRole('heading', { name: 'Animation Principles', level: 1 })
@@ -652,20 +654,14 @@ test('the DNB house stays still while greenery slides a short distance from both
     'preserveAspectRatio',
     'xMidYMid meet'
   )
-  const dimensions = await artwork.evaluate(
-    async (element: SVGSVGElement) => {
-      const image = new Image()
-      image.src = element.querySelector('image').href.baseVal
-      await image.decode()
-      return {
-        natural: [image.naturalWidth, image.naturalHeight],
-        rendered: [
-          element.width.baseVal.value,
-          element.height.baseVal.value,
-        ],
-      }
-    }
-  )
+  await expect(artwork.locator('image')).toHaveCount(0)
+  const dimensions = await artwork.evaluate((element: SVGSVGElement) => ({
+    natural: [
+      element.viewBox.baseVal.width,
+      element.viewBox.baseVal.height,
+    ],
+    rendered: [element.width.baseVal.value, element.height.baseVal.value],
+  }))
   expect(dimensions).toEqual({
     natural: [523, 250],
     rendered: [261.5, 125],
@@ -673,7 +669,7 @@ test('the DNB house stays still while greenery slides a short distance from both
   await expect(
     artwork.locator('.dnb-motion-scene__illustration-greenery')
   ).toHaveCount(2)
-  await expect(artwork.locator('[data-motion]')).toHaveCount(7)
+  await expect(artwork.locator('[data-motion]')).toHaveCount(9)
   expect(
     await artwork.evaluate((element) => element.getAnimations().length)
   ).toBe(0)
@@ -688,7 +684,7 @@ test('the DNB house stays still while greenery slides a short distance from both
       times: [300, 650, 1000, 2400, 2800, 3200],
       selectors: {
         artwork: ':scope',
-        house: 'image',
+        house: '.dnb-motion-scene__illustration-body',
         left: '.dnb-motion-scene__illustration-greenery--left',
         right: '.dnb-motion-scene__illustration-greenery--right',
       },
@@ -732,6 +728,83 @@ test('the DNB house stays still while greenery slides a short distance from both
       )
     })
   })
+})
+
+test('windows wait for the roof to settle and leave with the details', async ({
+  page,
+}) => {
+  const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
+  const windows = artwork.locator(
+    '.dnb-motion-scene__illustration-details > .dnb-motion-scene__illustration-windows'
+  )
+  await expect(windows).toHaveCount(2)
+  await expect(windows.locator('mask')).toHaveCount(6)
+  const frames = await artwork.evaluate(sampleMotionStyles, {
+    times: [400, 600, 700, 900, 1100, 3000, 3150, 3300, 4000],
+    selectors: {
+      windows: '.dnb-motion-scene__illustration-windows--front',
+      details: '.dnb-motion-scene__illustration-details',
+      roof: '.dnb-motion-scene__illustration-roof',
+      door: '.dnb-motion-scene__garage-door',
+    },
+  })
+  for (const index of [0, 1, 2, 8]) {
+    expect(frames[index].windows.opacity).toBeCloseTo(0, 10)
+  }
+  expect(frames[2].roof.opacity).toBe(1)
+  expect(frames[2].details.opacity).toBeGreaterThan(0)
+  expect(frames[3].windows.opacity).toBeGreaterThan(0)
+  expect(frames[3].windows.opacity).toBeLessThan(1)
+  expect(frames[4].windows.opacity).toBe(1)
+  expect(frames[4].door.y).toBeCloseTo(0)
+  for (const index of [5, 6, 7]) {
+    expect(frames[index].windows.opacity).toBe(1)
+  }
+  expect(frames[5].details.opacity).toBe(1)
+  expect(frames[6].details.opacity).toBeGreaterThan(0)
+  expect(frames[6].details.opacity).toBeLessThan(1)
+  expect(frames[7].details.opacity).toBeCloseTo(0, 10)
+})
+
+test('side windows follow the front windows by 150ms on every loop', async ({
+  page,
+}) => {
+  const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
+  const side = artwork.locator(
+    '.dnb-motion-scene__illustration-windows--side'
+  )
+  await expect(side.locator('mask')).toHaveCount(3)
+  await expect(side).toHaveCSS('animation-delay', '0.15s')
+  for (const loop of [0, 4000]) {
+    const [
+      frontEntering,
+      sideEntering,
+      frontSettled,
+      bothSettled,
+      leaving,
+    ] = await artwork.evaluate(sampleMotionStyles, {
+      times: [800, 950, 1100, 1250, 3300].map((time) => time + loop),
+      selectors: {
+        front: '.dnb-motion-scene__illustration-windows--front',
+        side: '.dnb-motion-scene__illustration-windows--side',
+        details: '.dnb-motion-scene__illustration-details',
+      },
+    })
+    expect(frontEntering.front.opacity).toBeGreaterThan(0)
+    expect(frontEntering.side.opacity).toBeCloseTo(0, 10)
+    expect(sideEntering.side.opacity).toBeGreaterThan(0)
+    expect(sideEntering.side.opacity).toBeLessThan(
+      sideEntering.front.opacity
+    )
+    expect(frontSettled.front.opacity).toBe(1)
+    expect(frontSettled.side.opacity).toBeGreaterThan(0)
+    expect(frontSettled.side.opacity).toBeLessThan(1)
+    expect(bothSettled.front.opacity).toBe(1)
+    expect(bothSettled.side.opacity).toBe(1)
+    expect(leaving.front.opacity).toBe(1)
+    expect(leaving.side.opacity).toBe(1)
+    expect(leaving.details.opacity).toBeCloseTo(0, 10)
+  }
 })
 
 test('the front wall fades in first and disappears last', async ({
@@ -812,43 +885,40 @@ test('the illustration reveals its details before opening the garage and reverse
   const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
   for (const name of ['body', 'roof', 'details']) {
     const layer = artwork.locator(
-      `image.dnb-motion-scene__illustration-${name}`
+      `g.dnb-motion-scene__illustration-${name}`
     )
     await expect(layer).toHaveCount(1)
-    expect(
-      await layer.evaluate(async (element: SVGImageElement) => {
-        const image = new Image()
-        image.src = element.href.baseVal
-        await image.decode()
-        return [image.naturalWidth, image.naturalHeight]
-      })
-    ).toEqual([523, 250])
+    await expect(layer.locator('path').first()).toBeAttached()
     if (name !== 'roof') {
       await expect(layer).toHaveCSS('transform', 'none')
     }
   }
-  for (const layer of await artwork.locator('image').all()) {
-    const parts = await layer.evaluate(
-      async (element: SVGImageElement) => {
-        const response = await fetch(element.href.baseVal)
-        const svg = new DOMParser().parseFromString(
-          await response.text(),
-          'image/svg+xml'
-        )
-        return {
-          rightWall: Boolean(svg.querySelector('[id="Vector_3"]')),
-          frontDoor: Boolean(svg.querySelector('[id="Door"] mask')),
-        }
+  const details = artwork.locator(
+    '.dnb-motion-scene__illustration-details'
+  )
+  await expect(details.locator('path[d^="M269.621 248.76"]')).toHaveCount(
+    2
+  )
+  await expect(
+    details.locator('mask rect[x="308"][y="184"][width="33"][height="64"]')
+  ).toHaveCount(1)
+  const masks = await artwork.evaluate((element) =>
+    Array.from(element.querySelectorAll('g[mask]')).map((group) => {
+      const id = group.getAttribute('mask').slice(5, -1)
+      const matches = Array.from(document.querySelectorAll('[id]')).filter(
+        (node) => node.id === id
+      )
+      return {
+        unique: matches.length === 1,
+        local: element.contains(matches[0]),
+        type: matches[0] ? getComputedStyle(matches[0]).maskType : null,
       }
-    )
-    const isDetails =
-      (await layer.getAttribute('class')) ===
-      'dnb-motion-scene__illustration-details'
-    expect(parts).toEqual({
-      rightWall: isDetails,
-      frontDoor: isDetails,
     })
-  }
+  )
+  expect(masks).toHaveLength(7)
+  masks.forEach((mask) =>
+    expect(mask).toEqual({ unique: true, local: true, type: 'alpha' })
+  )
   const clipId = await artwork.locator('clipPath').getAttribute('id')
   await expect(
     artwork.locator('.dnb-motion-scene__garage')
@@ -1127,6 +1197,50 @@ test('the submit button keeps its label and shape while a tapered border rotates
   })
 })
 
+for (const width of [320, 1600]) {
+  test(`reduced-motion FormStatus fits with the button at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const controls = page.locator('.dnb-motion-demos__controls')
+    const notice = controls.locator('.dnb-form-status--warning')
+    const button = controls.getByRole('button', { name: 'Motion paused' })
+    await expect(notice).toHaveText(
+      'Reduced motion: showing still illustrations.'
+    )
+    await expect(notice).toBeVisible()
+    await expect(button).toBeDisabled()
+    const noticeBounds = await notice.boundingBox()
+    const buttonBounds = await button.boundingBox()
+    if (width === 320) {
+      expect(noticeBounds.y + noticeBounds.height).toBeLessThan(
+        buttonBounds.y
+      )
+    } else {
+      expect(
+        Math.abs(
+          noticeBounds.y +
+            noticeBounds.height / 2 -
+            (buttonBounds.y + buttonBounds.height / 2)
+        )
+      ).toBeLessThan(1)
+      expect(noticeBounds.x + noticeBounds.width).toBeLessThan(
+        buttonBounds.x
+      )
+    }
+    for (const bounds of [noticeBounds, buttonBounds]) {
+      expect(bounds.x).toBeGreaterThanOrEqual(0)
+      expect(bounds.x + bounds.width).toBeLessThanOrEqual(width)
+    }
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await expect(notice).toHaveCount(0)
+    await expect(
+      controls.getByRole('button', { name: 'Pause all', exact: true })
+    ).toBeEnabled()
+  })
+}
+
 test('reduced motion prevents autoplay and shows meaningful stills', async ({
   page,
 }) => {
@@ -1161,6 +1275,7 @@ test('reduced motion prevents autoplay and shows meaningful stills', async ({
     'illustration-body',
     'illustration-roof',
     'illustration-details',
+    'illustration-windows',
     'garage',
     'garage-door',
     'icon',
@@ -1312,11 +1427,31 @@ for (const width of [320, 768, 1280]) {
     })
     const assets = await gallery
       .locator(
-        '.dnb-motion-scene__illustration-artwork > image, .dnb-motion-scene__icon svg'
+        '.dnb-motion-scene__illustration-artwork, .dnb-motion-scene__icon svg'
       )
-      .evaluateAll((elements) =>
+      .evaluateAll((elements: SVGSVGElement[]) =>
         elements.map((element) => {
-          const { x, y, width, height } = element.getBoundingClientRect()
+          let { x, y, width, height } = element.getBoundingClientRect()
+          const isHouse = element.classList.contains(
+            'dnb-motion-scene__illustration-artwork'
+          )
+          if (isHouse) {
+            // Nested SVG bounds include masked paths; measure the viewport.
+            const transform = element.ownerSVGElement.getScreenCTM()
+            const origin = new DOMPoint(
+              element.x.baseVal.value,
+              element.y.baseVal.value
+            )
+            const start = origin.matrixTransform(transform)
+            const end = new DOMPoint(
+              origin.x + element.width.baseVal.value,
+              origin.y + element.height.baseVal.value
+            ).matrixTransform(transform)
+            x = start.x
+            y = start.y
+            width = end.x - start.x
+            height = end.y - start.y
+          }
           const stage = element
             .closest('.dnb-motion-demo__stage')
             .getBoundingClientRect()
@@ -1327,11 +1462,11 @@ for (const width of [320, 768, 1280]) {
             height,
             stageWidth: stage.width,
             stageHeight: stage.height,
-            ratio: element instanceof SVGImageElement ? 523 / 250 : 1,
+            ratio: isHouse ? 523 / 250 : 1,
           }
         })
       )
-    expect(assets).toHaveLength(4)
+    expect(assets).toHaveLength(2)
     assets.forEach((asset) => {
       expect(asset.width).toBeGreaterThan(0)
       expect(asset.width / asset.height).toBeCloseTo(asset.ratio)

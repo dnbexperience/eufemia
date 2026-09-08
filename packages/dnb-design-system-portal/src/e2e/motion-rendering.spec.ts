@@ -43,6 +43,15 @@ test.describe('motion with enlarged default fonts', () => {
       await expect(
         gallery.locator('.dnb-motion-scene__submit-glow')
       ).toHaveCSS('padding', '2px')
+      await expect(
+        gallery.locator('g.dnb-motion-scene__illustration-roof')
+      ).toHaveCSS('opacity', '1')
+      await expect(
+        gallery.locator('g.dnb-motion-scene__garage-door')
+      ).toHaveCSS(
+        'transform',
+        reducedMotion === 'reduce' ? 'none' : 'matrix(1, 0, 0, 1, 0, -52)'
+      )
       const icon = await gallery
         .locator('.dnb-motion-scene__icon')
         .evaluate((element) => ({

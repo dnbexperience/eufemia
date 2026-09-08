@@ -1,8 +1,56 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 import sampleMotionPoints from './shared/sampleMotionPoints'
+import sampleMotionStyles from './shared/sampleMotionStyles'
 
 test.use({ browserName: 'webkit' })
+
+test('WebKit animates the inline house groups in the same sequence', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/quickguide-designer/motion/')
+  await waitForApp(page)
+  const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
+  await expect(artwork.locator('image')).toHaveCount(0)
+  const [start, entering, assembled, closed] = await artwork.evaluate(
+    sampleMotionStyles,
+    {
+      times: [300, 500, 1600, 3600],
+      selectors: {
+        roof: 'g.dnb-motion-scene__illustration-roof',
+        details: 'g.dnb-motion-scene__illustration-details',
+        windows: 'g.dnb-motion-scene__illustration-windows',
+        door: 'g.dnb-motion-scene__garage-door',
+      },
+    }
+  )
+  expect(start.roof.opacity).toBe(0)
+  expect(start.roof.y).toBe(-16)
+  expect(entering.roof.opacity).toBeGreaterThan(0)
+  expect(entering.roof.opacity).toBeLessThan(1)
+  expect(entering.roof.y).toBeGreaterThan(-16)
+  expect(entering.roof.y).toBeLessThan(0)
+  expect(entering.windows.opacity).toBe(0)
+  expect(assembled.roof.opacity).toBe(1)
+  expect(assembled.roof.y).toBeCloseTo(0)
+  expect(assembled.details.opacity).toBe(1)
+  expect(assembled.windows.opacity).toBe(1)
+  expect(assembled.door.y).toBeCloseTo(-52)
+  expect(closed.roof.opacity).toBe(0)
+  expect(closed.details.opacity).toBe(0)
+  expect(closed.door.y).toBeCloseTo(0)
+
+  const [windows] = await artwork.evaluate(sampleMotionStyles, {
+    times: [1000],
+    selectors: {
+      front: '.dnb-motion-scene__illustration-windows--front',
+      side: '.dnb-motion-scene__illustration-windows--side',
+    },
+  })
+  expect(windows.side.opacity).toBeGreaterThan(0)
+  expect(windows.side.opacity).toBeLessThan(windows.front.opacity)
+})
 
 test('WebKit morphs disclosure chevrons and line graph paths', async ({
   page,
