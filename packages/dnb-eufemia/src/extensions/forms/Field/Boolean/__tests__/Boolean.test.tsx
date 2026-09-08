@@ -1046,6 +1046,158 @@ describe('Field.Boolean', () => {
     })
   })
 
+  describe('variant: radio-button', () => {
+    it('should support size', () => {
+      render(
+        <Field.Boolean
+          variant="radio-button"
+          label="Boolean label"
+          size="large"
+        />
+      )
+
+      const fieldToggleElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-toggle'
+      )
+      expect(fieldToggleElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const [first, second] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button__button')
+      )
+      expect(first.classList).toContain('dnb-button--size-large')
+      expect(second.classList).toContain('dnb-button--size-large')
+    })
+
+    it('renders label', () => {
+      render(
+        <Field.Boolean variant="radio-button" label="Boolean label" />
+      )
+      expect(screen.getByText('Boolean label')).toBeInTheDocument()
+    })
+
+    it('renders two radio-styled toggle buttons', () => {
+      render(<Field.Boolean variant="radio-button" />)
+      expect(
+        document.querySelectorAll(
+          '.dnb-toggle-button__button .dnb-radio__input'
+        )
+      ).toHaveLength(2)
+      expect(screen.getByText('Ja')).toBeInTheDocument()
+      expect(screen.getByText('Nei')).toBeInTheDocument()
+    })
+
+    it('has no selected value by default', () => {
+      render(<Field.Boolean variant="radio-button" />)
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('false')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('false')
+    })
+
+    it('has "false" selected', () => {
+      render(<Field.Boolean variant="radio-button" value={false} />)
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('false')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('true')
+    })
+
+    it('has "true" selected', () => {
+      render(<Field.Boolean variant="radio-button" value={true} />)
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('true')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('false')
+    })
+
+    it('renders trueText and falseText', () => {
+      render(
+        <Field.Boolean
+          variant="radio-button"
+          trueText="True text"
+          falseText="False text"
+        />
+      )
+      expect(screen.getByText('False text')).toBeInTheDocument()
+      expect(screen.getByText('True text')).toBeInTheDocument()
+    })
+
+    it('renders error', () => {
+      render(
+        <Field.Boolean
+          variant="radio-button"
+          error={new Error('This is what went wrong')}
+        />
+      )
+      expect(
+        screen.getByText('This is what went wrong')
+      ).toBeInTheDocument()
+    })
+
+    it('shows error border', () => {
+      render(
+        <Field.Boolean
+          variant="radio-button"
+          error={new Error('This is what went wrong')}
+        />
+      )
+      const element = document.querySelector('.dnb-toggle-button')
+      expect(element.className).toContain(
+        'dnb-toggle-button__status--error'
+      )
+    })
+
+    it('should show error when no value is given', () => {
+      render(
+        <Field.Boolean variant="radio-button" required validateInitially />
+      )
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+    })
+
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Boolean
+            label="Label"
+            variant="radio-button"
+            validateInitially
+            required
+          />
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(
+          <Field.Boolean label="Label" variant="radio-button" required />
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('button')
+        )
+        expect(first).toHaveAttribute('aria-required', 'true')
+        expect(second).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Boolean
+            label="Label"
+            variant="radio-button"
+            validateInitially
+            required
+          />
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('button')
+        )
+        expect(first).toHaveAttribute('aria-invalid', 'true')
+        expect(second).toHaveAttribute('aria-invalid', 'true')
+      })
+    })
+  })
+
   describe('variant: buttons', () => {
     it('should support size', () => {
       render(
