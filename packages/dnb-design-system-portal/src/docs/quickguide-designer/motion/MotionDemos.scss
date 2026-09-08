@@ -1,3 +1,5 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+
 @property --motion-submit-angle {
   syntax: '<angle>';
   initial-value: 0deg;
@@ -48,15 +50,21 @@
   }
 
   [data-motion] {
+    animation-play-state: var(--motion-demo-play-state);
+  }
+
+  &__grid [data-motion] {
     animation-duration: 4s;
     animation-timing-function: var(--easing-default);
     animation-iteration-count: infinite;
     animation-fill-mode: both;
-    animation-play-state: var(--motion-demo-play-state);
   }
 }
 
 .dnb-motion-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   min-width: 0;
   margin: 0;
   scroll-margin-top: 10rem;
@@ -66,16 +74,17 @@
   }
 
   &__stage {
+    order: -1;
     display: block;
     width: 100%;
     height: auto;
     overflow: hidden;
     border-radius: var(--token-radius-md);
     background: var(--token-color-background-selected-subtle);
-  }
 
-  &__caption {
-    padding-top: 1rem;
+    @include utilities.allBelow(small) {
+      order: 0;
+    }
   }
 
   &__caption .dnb-p {
@@ -297,6 +306,10 @@
     animation-name: dnb-motion-progress-wipe;
   }
 
+  &__submit-cutout {
+    fill: var(--token-color-background-neutral);
+  }
+
   &__submit-button {
     fill: var(--token-color-component-button-background-action);
   }
@@ -308,10 +321,8 @@
   }
 
   &__submit-glow[data-motion] {
-    box-sizing: border-box;
     width: 100%;
     height: 100%;
-    padding: 2px;
     border-radius: 24px;
     background: conic-gradient(
       from var(--motion-submit-angle),
@@ -320,10 +331,6 @@
       var(--token-color-stroke-action-pressed) 55%,
       transparent 75%
     );
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask-composite: exclude;
     animation-name: dnb-motion-submit-glow;
     animation-duration: 1.5s;
     animation-timing-function: linear;

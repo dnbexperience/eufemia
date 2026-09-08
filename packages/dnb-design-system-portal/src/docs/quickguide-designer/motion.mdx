@@ -6,6 +6,7 @@ description: 'Visual examples and implementation guidance for motion in DNB inte
 ---
 
 import MotionDemos from './motion/MotionDemos'
+import EasingDemo from './motion/EasingDemo'
 
 # Motion
 
@@ -13,7 +14,7 @@ Help people understand what changed. Keep feedback close to the action, movement
 
 Read the [Animation Principles](/quickguide-designer/animation-principles/) for when and why to use motion.
 
-<MotionDemos />
+<MotionDemos>
 
 ## Implementation
 
@@ -35,13 +36,27 @@ Reuse an Eufemia component's built-in motion before adding a custom animation.
 
 Keep direct interaction feedback short. Try around `180ms` for a small movement, and `300ms` to `500ms` for larger transitions or expanding content. Do not delay feedback after a user action.
 
-Prefer animating `transform` and `opacity` when possible. Reuse Eufemia's [animation easing variables](/uilib/helpers#animation-easing), with `--easing-default` for standard transitions:
+Prefer animating `transform` and `opacity` when possible. Reuse Eufemia's [animation easing variables](/uilib/helpers#animation-easing).
+
+##### Default easing
+
+Use `--easing-default` for standard transitions.
+
+Slowed down for comparison.
+
+<EasingDemo variant="default" />
 
 ```css
 transition: transform 300ms var(--easing-default);
 ```
 
-Use `--easing-fast-bounce` only for small, direct interactions that benefit from a subtle settling effect, such as a control changing state:
+##### Fast bounce
+
+Use `--easing-fast-bounce` only for small, direct interactions that benefit from a subtle settling effect, such as a control changing state.
+
+Slowed down for comparison.
+
+<EasingDemo variant="bounce" />
 
 ```css
 transition: transform 180ms var(--easing-fast-bounce);
@@ -62,3 +77,5 @@ Respect the user's reduced-motion preference when writing custom animations. Kee
 ```
 
 Eufemia's `HeightAnimation` component already handles this preference. Read more about [reduced motion support](/uilib/usage/accessibility/about-accessibility#reduced-motion-support).
+
+</MotionDemos>

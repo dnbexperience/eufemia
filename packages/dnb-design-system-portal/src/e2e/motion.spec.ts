@@ -22,7 +22,7 @@ test('principles and motion link both ways with implementation guidance below th
     await implementation.evaluate((element) =>
       Boolean(
         element.compareDocumentPosition(
-          document.querySelector('.dnb-motion-demos')
+          document.querySelector('.dnb-motion-demos__grid')
         ) & Node.DOCUMENT_POSITION_PRECEDING
       )
     )
@@ -88,7 +88,9 @@ test('all thirteen motion studies autoplay in a loop with one shared control', a
   const gallery = page.locator('.dnb-motion-demos')
   const studies = gallery.locator('.dnb-motion-demo')
   await expect(studies).toHaveCount(13)
-  await expect(gallery.getByRole('button')).toHaveCount(1)
+  await expect(
+    gallery.locator('.dnb-motion-demos__controls').getByRole('button')
+  ).toHaveCount(1)
   await expect(
     gallery.getByRole('button', { name: 'Pause all' })
   ).toBeVisible()
@@ -1141,6 +1143,9 @@ test('the submit button keeps its label and shape while a tapered border rotates
       '.dnb-motion-scene__submit-button'
     )
     const viewport = element.querySelector('foreignObject')
+    const cutout = element.querySelector<SVGRectElement>(
+      '.dnb-motion-scene__submit-cutout'
+    )
     const paragraph = element
       .querySelector('.dnb-motion-scene__muted')
       .getBoundingClientRect()
@@ -1163,10 +1168,20 @@ test('the submit button keeps its label and shape while a tapered border rotates
     return {
       duration: animation.effect.getTiming().duration,
       easing: style.animationTimingFunction,
-      padding: style.padding,
       radius: style.borderRadius,
-      mask: style.maskComposite,
+      mask: style.maskImage,
       gradient: style.backgroundImage,
+      cutout: {
+        x: cutout.x.baseVal.value - viewport.x.baseVal.value,
+        y: cutout.y.baseVal.value - viewport.y.baseVal.value,
+        width: cutout.width.baseVal.value,
+        height: cutout.height.baseVal.value,
+        radius: cutout.rx.baseVal.value,
+      },
+      cutoutFill: getComputedStyle(cutout).fill,
+      surfaceFill: getComputedStyle(
+        element.querySelector('.dnb-motion-scene__surface')
+      ).fill,
       paragraphPadding: {
         top: lines.top - paragraph.top,
         bottom: paragraph.bottom - lines.bottom,
@@ -1180,9 +1195,16 @@ test('the submit button keeps its label and shape while a tapered border rotates
   })
   expect(result.duration).toBe(1500)
   expect(result.easing).toBe('linear')
-  expect(result.padding).toBe('2px')
   expect(result.radius).toBe('24px')
-  expect(result.mask).toContain('exclude')
+  expect(result.mask).toBe('none')
+  expect(result.cutout).toEqual({
+    x: 2,
+    y: 2,
+    width: 116,
+    height: 44,
+    radius: 22,
+  })
+  expect(result.cutoutFill).toBe(result.surfaceFill)
   expect(result.gradient).toContain('conic-gradient')
   expect(result.paragraphPadding.bottom).toBeGreaterThanOrEqual(
     result.paragraphPadding.top
@@ -1391,7 +1413,48 @@ test('reduced motion prevents autoplay and shows meaningful stills', async ({
   )
 })
 
-for (const width of [320, 768, 1280]) {
+for (const width of [320, 640, 641, 768, 1280]) {
+  test(`study captions switch sides at the small-screen breakpoint at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    const captions = await page
+      .locator('.dnb-motion-demo')
+      .evaluateAll((studies) =>
+        studies.map((study) => {
+          const caption = study.querySelector('figcaption')
+          const heading = caption.querySelector('h2')
+          const description = caption.querySelector('p')
+          const stage = study.querySelector('.dnb-motion-demo__stage')
+          return {
+            captionFirst: study.firstElementChild === caption,
+            figureTop: study.getBoundingClientRect().top,
+            headingBottom: heading.getBoundingClientRect().bottom,
+            descriptionTop: description.getBoundingClientRect().top,
+            descriptionBottom: description.getBoundingClientRect().bottom,
+            captionTop: caption.getBoundingClientRect().top,
+            captionBottom: caption.getBoundingClientRect().bottom,
+            stageTop: stage.getBoundingClientRect().top,
+            stageBottom: stage.getBoundingClientRect().bottom,
+          }
+        })
+      )
+    expect(captions).toHaveLength(13)
+    for (const caption of captions) {
+      expect(caption.captionFirst).toBe(true)
+      expect(caption.headingBottom).toBeLessThanOrEqual(
+        caption.descriptionTop
+      )
+      if (width <= 640) {
+        expect(caption.descriptionBottom).toBeLessThan(caption.stageTop)
+        expect(caption.captionBottom).toBeLessThan(caption.stageTop)
+      } else {
+        expect(caption.stageBottom).toBeLessThan(caption.captionTop)
+        expect(caption.stageTop).toBe(caption.figureTop)
+      }
+    }
+  })
+
   test(`illustrations fit at ${width}px without moving the document`, async ({
     page,
   }) => {

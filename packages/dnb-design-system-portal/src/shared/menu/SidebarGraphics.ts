@@ -32,6 +32,7 @@ import elements from './graphics/elements'
 import OverviewIcon from './graphics/OverviewIcon'
 import AnimationPrinciplesIcon from './graphics/AnimationPrinciplesIcon'
 import MotionIcon from './graphics/MotionIcon'
+import ChecklistIcon from './graphics/ChecklistIcon'
 
 const SidebarGraphics = {
   aboutTheLib,
@@ -63,6 +64,7 @@ const SidebarGraphics = {
   OverviewIcon,
   AnimationPrinciplesIcon,
   MotionIcon,
+  ChecklistIcon,
 }
 
 export default SidebarGraphics

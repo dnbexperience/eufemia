@@ -1,0 +1,110 @@
+.dnb-easing-demo {
+  --easing-demo-curve: var(--easing-default);
+
+  margin: 1.5rem 0 1rem;
+
+  &--bounce {
+    --easing-demo-curve: var(--easing-fast-bounce);
+  }
+
+  &__stage {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  &__lane {
+    fill: var(--token-color-background-selected-subtle);
+  }
+
+  &__track,
+  &__finish {
+    fill: none;
+    stroke: var(--token-color-stroke-neutral-subtle);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    opacity: 0.6;
+  }
+
+  &__finish {
+    stroke-dasharray: 0 6;
+  }
+
+  &__track--eased {
+    stroke: var(--token-color-stroke-action);
+  }
+
+  &__track-ends {
+    fill: var(--token-color-stroke-neutral-subtle);
+    opacity: 0.6;
+
+    &--eased {
+      fill: var(--token-color-stroke-action);
+    }
+  }
+
+  &__target {
+    fill: none;
+    stroke: var(--token-color-stroke-action);
+    stroke-width: 1.5;
+    opacity: 0.4;
+  }
+
+  &__runner {
+    fill: var(--token-color-background-action);
+    transform: translateX(368px);
+    animation:
+      dnb-easing-travel 4s var(--easing-demo-curve) infinite both,
+      dnb-easing-visibility 4s linear infinite both;
+
+    &--trail-far {
+      animation-delay: 160ms;
+    }
+
+    &--trail-near {
+      animation-delay: 80ms;
+    }
+
+    &--linear {
+      fill: var(--token-color-text-neutral);
+      animation-timing-function: linear;
+
+      circle {
+        opacity: 0.45;
+      }
+    }
+  }
+
+  &__arrow {
+    fill: none;
+    stroke: var(--token-color-background-neutral);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+@keyframes dnb-easing-travel {
+  0%,
+  15% {
+    transform: translateX(0);
+  }
+  65%,
+  100% {
+    transform: translateX(368px);
+  }
+}
+
+@keyframes dnb-easing-visibility {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  10%,
+  85% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 0;
+  }
+}

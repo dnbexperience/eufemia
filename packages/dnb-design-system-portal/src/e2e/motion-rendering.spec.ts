@@ -41,8 +41,8 @@ test.describe('motion with enlarged default fonts', () => {
         gallery.locator('.dnb-motion-scene__submit-label')
       ).toHaveCSS('font-size', '16px')
       await expect(
-        gallery.locator('.dnb-motion-scene__submit-glow')
-      ).toHaveCSS('padding', '2px')
+        gallery.locator('.dnb-motion-scene__submit-cutout')
+      ).toHaveAttribute('rx', '22')
       await expect(
         gallery.locator('g.dnb-motion-scene__illustration-roof')
       ).toHaveCSS('opacity', '1')

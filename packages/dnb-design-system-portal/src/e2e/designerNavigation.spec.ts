@@ -1,6 +1,67 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+test('the designer checklist is a standalone menu entry with an icon', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1600, height: 1000 })
+  await page.goto('/quickguide-designer/checklist/')
+  await waitForApp(page)
+  await expect(
+    page.getByRole('heading', {
+      name: 'Accessibility checklist for designers',
+      level: 1,
+    })
+  ).toBeVisible()
+  const menu = page.locator('#portal-sidebar-menu')
+  const checklist = menu.getByRole('link', {
+    name: 'Checklist for designers',
+    exact: true,
+  })
+  await expect(checklist).toHaveAttribute(
+    'href',
+    /\/quickguide-designer\/checklist\/?$/
+  )
+  await expect(checklist.locator('svg')).toBeVisible()
+  expect(
+    await checklist.evaluate((link) => {
+      const accessibility = document.querySelector(
+        '#portal-sidebar-menu a[href="/quickguide-designer/accessibility"]'
+      )
+      return (
+        link.closest('li').parentElement ===
+        accessibility?.closest('li').parentElement
+      )
+    })
+  ).toBe(true)
+})
+
+test('the old designer checklist URL redirects and accessibility links to the new page', async ({
+  page,
+}) => {
+  await page.goto('/quickguide-designer/accessibility/checklist/')
+  await expect(page).toHaveURL(/\/quickguide-designer\/checklist\/?$/)
+  await waitForApp(page)
+  await expect(
+    page.getByRole('heading', {
+      name: 'Accessibility checklist for designers',
+      level: 1,
+    })
+  ).toBeVisible()
+  await page.goto('/quickguide-designer/accessibility/')
+  await waitForApp(page)
+  const checklist = page.getByRole('main').getByRole('link', {
+    name: 'Accessibility checklist for designers',
+    exact: true,
+  })
+  await expect(checklist).toHaveAttribute(
+    'href',
+    /\/quickguide-designer\/checklist\/?$/
+  )
+  await checklist.click()
+  await expect(page).toHaveURL(/\/quickguide-designer\/checklist\/?$/)
+})
+
 test('designer principles and motion are adjacent sibling pages with icons', async ({
   page,
 }) => {

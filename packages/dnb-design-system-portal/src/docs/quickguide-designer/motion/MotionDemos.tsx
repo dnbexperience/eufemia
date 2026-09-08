@@ -12,7 +12,11 @@ const chevronPoints = [
   { x: 5, from: -2, to: 3 },
 ]
 
-export default function MotionDemos() {
+export default function MotionDemos({
+  children,
+}: {
+  children?: ReactNode
+}) {
   const [paused, setPaused] = useState(false)
   const reducedMotion = useMediaQuery({
     query: '(prefers-reduced-motion: reduce)',
@@ -133,6 +137,7 @@ export default function MotionDemos() {
           <LineGraphScene />
         </MotionStudy>
       </div>
+      {children}
     </div>
   )
 }
@@ -154,14 +159,6 @@ function MotionStudy({
       className="dnb-motion-demo"
       aria-labelledby={`${id}-title`}
     >
-      <svg
-        className="dnb-motion-demo__stage"
-        viewBox="0 0 360 240"
-        aria-hidden="true"
-        focusable="false"
-      >
-        {children}
-      </svg>
       <figcaption className="dnb-motion-demo__caption">
         <H2 id={`${id}-title`} size="medium" top={0} bottom="x-small">
           {title}
@@ -170,6 +167,14 @@ function MotionStudy({
           {description}
         </P>
       </figcaption>
+      <svg
+        className="dnb-motion-demo__stage"
+        viewBox="0 0 360 240"
+        aria-hidden="true"
+        focusable="false"
+      >
+        {children}
+      </svg>
     </figure>
   )
 }
@@ -744,10 +749,18 @@ function SubmitScene() {
         rx="6"
       />
       <Lines x={80} y={88} />
-      {/* CSS supplies the conic-gradient border used in the draft component. */}
+      {/* An SVG cutout avoids Safari's misplaced CSS mask inside foreignObject. */}
       <foreignObject x="120" y="144" width="120" height="48">
         <div className="dnb-motion-scene__submit-glow" data-motion="" />
       </foreignObject>
+      <rect
+        className="dnb-motion-scene__submit-cutout"
+        x="122"
+        y="146"
+        width="116"
+        height="44"
+        rx="22"
+      />
       <rect
         className="dnb-motion-scene__submit-button"
         x="124"

@@ -5,6 +5,58 @@ import sampleMotionStyles from './shared/sampleMotionStyles'
 
 test.use({ browserName: 'webkit' })
 
+for (const width of [320, 1280]) {
+  for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+    test(`WebKit paints the submission border inside its viewport at ${width}px with ${reducedMotion}`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 900 })
+      await page.emulateMedia({ reducedMotion })
+      await page.goto('/quickguide-designer/motion/')
+      await waitForApp(page)
+      const stage = page.locator(
+        '#show-submission .dnb-motion-demo__stage'
+      )
+      const glow = stage.locator('.dnb-motion-scene__submit-glow')
+      if (reducedMotion === 'no-preference') {
+        await page
+          .getByRole('button', { name: 'Pause all', exact: true })
+          .click()
+        await glow.evaluate(async (element) => {
+          const animation = element.getAnimations()[0]
+          await animation.ready
+          animation.currentTime = 375
+        })
+      }
+      // Include rasterized edge pixels when masking the expected border bounds.
+      await stage.evaluate((element) =>
+        element.insertAdjacentHTML(
+          'beforeend',
+          '<rect data-testid="submission-border-bounds" x="118" y="142" width="124" height="52" fill="none" />'
+        )
+      )
+      const bounds = stage.getByTestId('submission-border-bounds')
+      const painted = await stage.screenshot()
+      if (reducedMotion === 'no-preference') {
+        await glow.evaluate((element) => {
+          element.getAnimations()[0].currentTime = 750
+        })
+        expect(painted.equals(await stage.screenshot())).toBe(false)
+      }
+      const outside = await stage.screenshot({ mask: [bounds] })
+      await glow.evaluate((element: HTMLElement) => {
+        element.style.visibility = 'hidden'
+      })
+      const hidden = await stage.screenshot()
+      const outsideHidden = await stage.screenshot({ mask: [bounds] })
+
+      expect(painted.equals(hidden)).toBe(false)
+      // WebKit can report correct bounds while painting outside them.
+      expect(outside.equals(outsideHidden)).toBe(true)
+    })
+  }
+}
+
 test('WebKit animates the inline house groups in the same sequence', async ({
   page,
 }) => {
