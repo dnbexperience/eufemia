@@ -33,21 +33,32 @@
   }
 
   top: 0;
-  left: 0;
-  width: 100%;
+
+  /* --aside-width is shared with the resizable SidebarMenu module. */
+  /* stylelint-disable-next-line eufemia/no-undefined-custom-property */
+  left: var(--aside-width);
+  /* stylelint-disable-next-line eufemia/no-undefined-custom-property */
+  width: calc(100% - var(--aside-width));
 
   display: flex;
   justify-content: center;
 
-  background-color: var(--token-color-background-neutral);
-  border-bottom: 1px solid var(--token-color-stroke-neutral-subtle);
-
   white-space: nowrap;
 
-  :global {
-    #toggle-sidebar-menu {
-      display: none;
+  @include utilities.allBelow(medium) {
+    &[data-scrolled='true'] .leadingStyle::before {
+      opacity: 1;
+      transform: scale(1);
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .leadingStyle::before {
+        transition: none;
+      }
+    }
+  }
+
+  :global {
     #github-button,
     #figma-button {
       display: inline-flex;
@@ -58,21 +69,11 @@
     make sure that Content main "styled.main" gets the same max-width
    */
     @include utilities.allBelow(medium) {
-      #toggle-sidebar-menu {
-        display: flex;
-      }
+      left: 0;
+      width: 100%;
+
       #github-button,
       #figma-button {
-        display: none;
-      }
-    }
-    @include utilities.allBelow(small) {
-      #toggle-main-menu {
-        display: none;
-      }
-    }
-    @include utilities.allAbove(small) {
-      #toggle-main-menu-small-screen {
         display: none;
       }
     }
@@ -81,15 +82,17 @@
 
 .portalHeaderWrapperStyle {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   width: 100%;
 
   /* make sure we are on 64px instead of 65px */
   padding: 0.5rem 2rem;
 
-  @include utilities.allBelow(small) {
-    padding: 0.5rem 5vw;
+  @include utilities.allBelow(medium) {
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
   }
 
   html[data-dnb-modal-active] & {
@@ -99,7 +102,40 @@
   align-items: center;
 }
 
-.centerWrapperStyle {
+.leadingStyle {
+  display: none;
+
+  @include utilities.allBelow(medium) {
+    position: relative;
+    isolation: isolate;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &::before {
+      position: absolute;
+      z-index: -1;
+      inset: -0.25rem -1rem -0.25rem -0.25rem;
+      pointer-events: none;
+
+      border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+      border-radius: 2rem;
+
+      background-color: var(--token-color-background-neutral);
+      opacity: 0;
+      transform: scale(0.96);
+
+      transition:
+        opacity 180ms ease,
+        transform 180ms ease;
+
+      content: '';
+    }
+  }
+}
+
+.mobileLogoStyle {
   display: flex;
   align-items: center;
 
@@ -110,8 +146,8 @@
     fill: var(--token-color-icon-neutral);
   }
 
-  @include utilities.allBelow(small) {
-    display: none;
+  :global(svg) {
+    width: 6rem;
   }
 }
 
@@ -119,4 +155,5 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  min-width: 0;
 }
