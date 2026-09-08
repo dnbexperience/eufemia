@@ -1258,9 +1258,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           sharedAttachments?.fieldConnectionsRef?.current?.[identifier]
         )
 
-        if (!isMounted && !hasFieldConnection) {
-          setFieldErrorDataContext?.(identifier, undefined)
+        if (!isMounted) {
+          // A shared field connection can preserve form-level status across
+          // remounts, but the unmounted field no longer belongs to this boundary.
           setFieldErrorBoundary?.(identifier, undefined)
+
+          if (!hasFieldConnection) {
+            setFieldErrorDataContext?.(identifier, undefined)
+          }
         }
       })
 
