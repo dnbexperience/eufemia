@@ -106,13 +106,13 @@ describe('validatePortalViews', () => {
 describe('buildPortalViewRecord', () => {
   const createdAt = '2026-09-07T12:00:00.000Z'
 
-  it('strips the query string and fragment from the path', () => {
+  it('keeps the query string and fragment in the path', () => {
     const record = buildPortalViewRecord(
-      { path: '/a?q=secret#frag' },
+      { path: '/a?tab=demos#example' },
       createdAt
     )
 
-    expect(record.path).toBe('/a')
+    expect(record.path).toBe('/a?tab=demos#example')
   })
 
   it('defaults env to "unknown" and timestamp to the receive time', () => {

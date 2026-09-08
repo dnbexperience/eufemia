@@ -18,7 +18,7 @@ import createEmotionCache from '@emotion/cache'
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 import { applyRouteFocus } from './route-focus'
-import { trackPageView } from './track-page-view'
+import { trackPageView, buildTrackedPath } from './track-page-view'
 import { MDXProvider } from '@mdx-js/react'
 import { usePrefetchOnHover } from 'virtual:prefetch-on-hover'
 import { useCatchLinks } from 'virtual:catch-links'
@@ -171,8 +171,8 @@ function TrackPageView() {
   const location = useLocation()
 
   useEffect(() => {
-    trackPageView(location.pathname)
-  }, [location.pathname])
+    trackPageView(buildTrackedPath(location))
+  }, [location.pathname, location.search, location.hash])
 
   return null
 }

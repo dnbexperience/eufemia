@@ -45,11 +45,6 @@ function isIsoTimestamp(value: string): boolean {
   return !Number.isNaN(date.getTime()) && date.toISOString() === value
 }
 
-/** Drop the query string and fragment so no incidental data is stored. */
-export function normalizePath(path: string): string {
-  return path.split(/[?#]/)[0]
-}
-
 /**
  * Validate an untrusted ingest payload into a batch of portal views.
  *
@@ -146,7 +141,7 @@ export function buildPortalViewRecord(
   createdAt: string
 ): PortalViewRecord {
   return {
-    path: normalizePath(input.path),
+    path: input.path,
     env: input.env ?? 'unknown',
     timestamp: input.timestamp ?? createdAt,
     createdat: createdAt,

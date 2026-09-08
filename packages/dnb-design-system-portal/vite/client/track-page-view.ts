@@ -1,9 +1,11 @@
 /**
  * Anonymous page-view tracking for the docs portal.
  *
- * Only the pathname is sent (no query, hash, identifiers, cookies or device
- * storage). Events are buffered in memory and flushed with `sendBeacon` when
- * the page is hidden or unloaded, or eagerly once the buffer reaches the
+ * The pathname and hash are sent, plus a short allow-list of query params that
+ * drive portal rendering (see {@link buildTrackedPath}); any other query value,
+ * such as a docs search term, is dropped. No identifiers, cookies or device
+ * storage are used. Events are buffered in memory and flushed with `sendBeacon`
+ * when the page is hidden or unloaded, or eagerly once the buffer reaches the
  * collector's batch limit, so navigation is never blocked and nothing is
  * retried across reloads. Consecutive views of the same path (e.g. a re-mount)
  * are recorded once.
@@ -28,6 +30,45 @@ function analyticsEnv(): string {
 }
 
 type PageViewEvent = { path: string; timestamp: string; env: string }
+
+// Valueless portal flags that change how a page renders (fullscreen view, code
+// focus mode). Only the key is kept, so a crafted value cannot smuggle free
+// text into analytics.
+const TRACKED_FLAG_PARAMS = new Set(['fullscreen', 'focusmode'])
+
+// Portal params with a meaningful value (the active theme). Kept only when the
+// value is a short lowercase token, so anything else is dropped.
+const TRACKED_VALUE_PARAMS = new Set(['eufemia-theme'])
+const SAFE_PARAM_VALUE = /^[a-z][a-z0-9-]{0,31}$/
+
+/**
+ * Build the path to record: the pathname, a short allow-list of portal query
+ * params, and the hash. Flags are reduced to their key and value params are
+ * kept only for a safe token; every other query param (e.g. a docs search
+ * term) is dropped so no incidental data is stored.
+ */
+export function buildTrackedPath(location: {
+  pathname: string
+  search: string
+  hash: string
+}): string {
+  const kept: string[] = []
+
+  new URLSearchParams(location.search).forEach((value, key) => {
+    if (TRACKED_FLAG_PARAMS.has(key)) {
+      kept.push(key)
+    } else if (
+      TRACKED_VALUE_PARAMS.has(key) &&
+      SAFE_PARAM_VALUE.test(value)
+    ) {
+      kept.push(`${key}=${value}`)
+    }
+  })
+
+  const query = kept.length > 0 ? '?' + kept.join('&') : ''
+
+  return location.pathname + query + location.hash
+}
 
 // Flush once the buffer reaches the collector's batch limit, so a long session
 // cannot grow the buffer unbounded or exceed the sendBeacon payload cap.
@@ -82,7 +123,7 @@ function registerFlush(): void {
   })
 }
 
-/** Record a single anonymous page view for the given pathname. */
+/** Record a single anonymous page view for the given in-app path. */
 export function trackPageView(path: string): void {
   if (!canTrack()) {
     return

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { trackPageView } from '../client/track-page-view'
+import { trackPageView, buildTrackedPath } from '../client/track-page-view'
 
 function setBeacon(fn: unknown) {
   Object.defineProperty(navigator, 'sendBeacon', {
@@ -140,5 +140,61 @@ describe('trackPageView', () => {
     flush()
 
     expect(beacon).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('buildTrackedPath', () => {
+  const location = (pathname: string, search = '', hash = '') => ({
+    pathname,
+    search,
+    hash,
+  })
+
+  it('keeps the pathname and hash', () => {
+    expect(
+      buildTrackedPath(location('/uilib/components/button', '', '#events'))
+    ).toBe('/uilib/components/button#events')
+  })
+
+  it('keeps allow-listed portal query params', () => {
+    expect(
+      buildTrackedPath(location('/uilib/components/button', '?fullscreen'))
+    ).toBe('/uilib/components/button?fullscreen')
+
+    expect(buildTrackedPath(location('/', '?eufemia-theme=sbanken'))).toBe(
+      '/?eufemia-theme=sbanken'
+    )
+  })
+
+  it('drops query params that are not allow-listed', () => {
+    expect(
+      buildTrackedPath(location('/uilib', '?q=some+search+term'))
+    ).toBe('/uilib')
+  })
+
+  it('keeps only the allow-listed params from a mixed query', () => {
+    expect(
+      buildTrackedPath(
+        location('/uilib', '?q=secret&fullscreen&page=2', '#top')
+      )
+    ).toBe('/uilib?fullscreen#top')
+  })
+
+  it('reduces a flag to its key, dropping any crafted value', () => {
+    expect(
+      buildTrackedPath(location('/uilib', '?fullscreen=personal+data'))
+    ).toBe('/uilib?fullscreen')
+  })
+
+  it('drops a value param whose value is not a safe token', () => {
+    expect(
+      buildTrackedPath(location('/', '?eufemia-theme=personal+data'))
+    ).toBe('/')
+  })
+
+  it('does not match a param that merely ends with an allow-listed key', () => {
+    expect(
+      buildTrackedPath(location('/', '?x-eufemia-theme=sbanken'))
+    ).toBe('/')
   })
 })
