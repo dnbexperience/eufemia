@@ -71,3 +71,24 @@ Set `maxHeight` to constrain the inline item list. Only the options scroll, whil
 ### With minimum required items
 
 <Examples.WithError />
+
+### Large data sets
+
+Virtualization is opt-in. Install the optional peer dependency:
+
+```bash
+yarn add @tanstack/react-virtual
+```
+
+Import the driver separately so the default Forms bundle does not include the virtualization dependency:
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+import { createMultiSelectionVirtualization } from '@dnb/eufemia/extensions/forms/Field/MultiSelection/Virtualization'
+
+const listDriver = createMultiSelectionVirtualization()
+
+<Field.MultiSelection data={items} listDriver={listDriver} />
+```
+
+<Examples.Virtualized />
