@@ -1,0 +1,56 @@
+.dnb-motion-priorities {
+  figure {
+    width: min(100%, 42rem);
+    margin: 0 auto;
+  }
+
+  figure,
+  ol {
+    padding: 0;
+  }
+
+  ol {
+    display: grid;
+    gap: 2rem;
+    margin: 0;
+    list-style: none;
+  }
+
+  &__item {
+    --motion-priority-width: 100%;
+    --motion-priority-color: var(--token-color-background-action);
+
+    &--guiding {
+      --motion-priority-width: 68%;
+      --motion-priority-color: var(
+        --token-color-background-selected-subtle
+      );
+    }
+
+    &--delightful {
+      --motion-priority-width: 36%;
+      --motion-priority-color: var(--token-color-background-neutral-bold);
+    }
+  }
+
+  &__labels {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+
+    span {
+      color: var(--token-color-text-neutral-alternative);
+      font-size: var(--font-size-small);
+      text-align: right;
+    }
+  }
+
+  &__bar {
+    width: var(--motion-priority-width);
+    height: clamp(1.5rem, 5vw, 2.5rem);
+    border-radius: var(--token-radius-sm);
+    background: var(--motion-priority-color);
+  }
+}

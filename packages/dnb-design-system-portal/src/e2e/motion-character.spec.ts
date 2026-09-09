@@ -17,7 +17,9 @@ test('motion character belongs to animation principles, not design principles', 
   ).toBeVisible()
   await page.goto('/quickguide-designer/design-principles/')
   await waitForApp(page)
-  await expect(page.locator('.dnb-motion-character')).toHaveCount(0)
+  await expect(
+    page.locator('.dnb-motion-priorities, .dnb-motion-rings')
+  ).toHaveCount(0)
   await expect(
     page.getByRole('heading', {
       name: 'How motion should feel',
@@ -31,133 +33,148 @@ test('motion character belongs to animation principles, not design principles', 
   await expect(page).toHaveURL(
     /\/quickguide-designer\/animation-principles\/?$/
   )
-  await expect(page.locator('.dnb-motion-character')).toBeVisible()
+  await expect(page.locator('.dnb-motion-priorities')).toBeVisible()
+  await expect(page.locator('.dnb-motion-rings')).toBeVisible()
 })
 
-test('motion character is a proposal with selectable, weighted qualities', async ({
+test('motion character proposals communicate the same priority hierarchy', async ({
   page,
 }) => {
-  const character = page.locator('.dnb-motion-character')
+  const main = page.getByRole('main')
+  const priorities = page.locator('.dnb-motion-priorities')
+  const rings = page.locator('.dnb-motion-rings')
   await expect(
-    page.getByText(/This is a proposal for discussion/)
+    page.getByText(/These are proposals for discussion/)
   ).toBeVisible()
-  await expect(character.getByRole('button')).toHaveCount(13)
-  await expect(character.locator('[aria-pressed="true"]')).toHaveCount(1)
-  for (const button of await character.getByRole('button').all()) {
-    const name = await button.textContent()
-    await button.click()
-    await expect(button).toHaveAttribute('aria-pressed', 'true')
-    await expect(character.getByRole('status')).toContainText(name.trim())
-    await expect(character.locator('[aria-pressed="true"]')).toHaveCount(1)
-  }
-  const sizes = await character.evaluate((element) =>
-    ['lead', 'support', 'accent'].map(
-      (group) =>
-        element
-          .querySelector(`.dnb-motion-character__group--${group} button`)
-          .getBoundingClientRect().width
-    )
-  )
-  expect(sizes[0]).toBeGreaterThan(sizes[1])
-  expect(sizes[1]).toBeGreaterThan(sizes[2])
-  await expect(
-    page.locator('.dnb-motion-character__spectrums > li')
-  ).toHaveCount(8)
-  await expect(page.getByRole('slider')).toHaveCount(0)
-  const spectrums = page.locator('.dnb-motion-character__spectrums')
-  await expect(spectrums.getByRole('progressbar')).toHaveCount(8)
-  await expect(
-    spectrums.locator('.dnb-progress-indicator--no-animation')
-  ).toHaveCount(8)
-  const values = [86, 88, 86, 62, 82, 82, 88, 56]
-  const bars = await spectrums.getByRole('progressbar').all()
-  for (let index = 0; index < bars.length; index++) {
-    const bar = bars[index]
-    const labels = spectrums
-      .locator('.dnb-motion-character__labels')
-      .nth(index)
-    const desired = labels.locator('strong')
-    const emphasis = labels.locator('span')
-    await expect(emphasis).toHaveText(
-      values[index] >= 80 ? 'Strong emphasis' : 'In moderation'
-    )
-    await expect(bar).toHaveAccessibleName(
-      new RegExp(
-        `${await desired.textContent()}: ${await emphasis.textContent()}\\.`
-      )
-    )
-    const filled = await bar.evaluate((element) => {
-      const fill = element.querySelector(
-        '.dnb-progress-indicator__linear__bar'
-      )
-      const transform = new DOMMatrix(getComputedStyle(fill).transform)
-      return 100 * (1 + transform.m41 / fill.getBoundingClientRect().width)
-    })
-    expect(filled).toBeCloseTo(values[index])
-  }
-  const calm = spectrums.locator('li').first()
-  await expect(
-    calm.locator('.dnb-motion-character__labels')
-  ).not.toContainText('Overwhelming')
-  const contrast = calm.getByText('Rather than overwhelming.', {
-    exact: true,
-  })
-  await expect(contrast).toBeVisible()
-  expect(
-    await contrast.evaluate(
-      (element) => element.getBoundingClientRect().top
-    )
-  ).toBeGreaterThan(
-    await bars[0].evaluate(
-      (element) => element.getBoundingClientRect().bottom
-    )
-  )
-})
+  await expect(priorities).not.toHaveCSS('--outline-width', '0px')
+  await expect(rings).toHaveCSS('--outline-width', '0px')
 
-test('bubble selection supports keyboard navigation and visible focus', async ({
-  page,
-}) => {
-  const focused = page.getByRole('button', {
-    name: 'Focused',
+  const priorityHeading = page.getByRole('heading', {
+    name: 'Purpose before delight',
     exact: true,
   })
-  await focused.focus()
-  await page.keyboard.press('Enter')
-  await expect(focused).toHaveAttribute('aria-pressed', 'true')
-  await expect(focused).toHaveCSS('outline-style', 'solid')
-  await page.keyboard.press('Tab')
-  const calm = page.getByRole('button', { name: 'Calm', exact: true })
-  await expect(calm).toBeFocused()
-  await page.keyboard.press('Space')
-  await expect(calm).toHaveAttribute('aria-pressed', 'true')
-  await expect(page.getByRole('status')).toContainText(
-    'Let the rest of the interface stay still.'
+  const ringsHeading = page.getByRole('heading', {
+    name: 'Purpose at the core',
+    exact: true,
+  })
+  expect(
+    await priorityHeading.evaluate(
+      (heading) => heading.getBoundingClientRect().top
+    )
+  ).toBeLessThan(
+    await ringsHeading.evaluate(
+      (heading) => heading.getBoundingClientRect().top
+    )
   )
+
+  await expect(priorities.locator('figure')).toHaveAccessibleName(
+    'Motion priority graph'
+  )
+  await expect(priorities.locator('ol')).toHaveCSS('row-gap', '32px')
+  const alignment = await priorities.evaluate((card) => {
+    const cardBounds = card.getBoundingClientRect()
+    const figureBounds = card
+      .querySelector('figure')
+      .getBoundingClientRect()
+
+    return {
+      left: figureBounds.left - cardBounds.left,
+      right: cardBounds.right - figureBounds.right,
+    }
+  })
+  expect(alignment.left).toBeCloseTo(alignment.right)
+  await expect(priorities.locator('li')).toHaveCount(3)
+  await expect(priorities.locator('li').nth(0)).toContainText(
+    'PurposefulEvery motion'
+  )
+  await expect(priorities.locator('li').nth(1)).toContainText(
+    'GuidingWhen it helps'
+  )
+  await expect(priorities.locator('li').nth(2)).toContainText(
+    'DelightfulA finishing touch'
+  )
+  const priorityWidths = await priorities
+    .locator('.dnb-motion-priorities__bar')
+    .evaluateAll((elements) =>
+      elements.map((element) => element.getBoundingClientRect().width)
+    )
+  expect(priorityWidths[0]).toBeGreaterThan(priorityWidths[1])
+  expect(priorityWidths[1]).toBeGreaterThan(priorityWidths[2])
+
+  await expect(rings.locator('figure')).toHaveAccessibleName(
+    'Motion priority rings'
+  )
+  await expect(
+    rings.locator(
+      '.dnb-motion-rings__ring--delightful > .dnb-motion-rings__ring--guiding > .dnb-motion-rings__ring--purposeful'
+    )
+  ).toHaveCount(1)
+  await expect(
+    rings.locator('.dnb-motion-rings__ring > strong')
+  ).toHaveText(['Delightful', 'Guiding', 'Purposeful'])
+  const ringSizes = await rings
+    .locator('.dnb-motion-rings__ring')
+    .evaluateAll((elements) =>
+      elements.map((element) => {
+        const { width, height } = element.getBoundingClientRect()
+        return { width, height }
+      })
+    )
+  for (const { width, height } of ringSizes) {
+    expect(width).toBeCloseTo(height)
+  }
+  expect(ringSizes[0].width).toBeGreaterThan(ringSizes[1].width)
+  expect(ringSizes[1].width).toBeGreaterThan(ringSizes[2].width)
+  for (const ring of await rings
+    .locator('.dnb-motion-rings__ring')
+    .all()) {
+    await expect(ring).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+    await expect(ring).toHaveCSS('border-style', 'solid')
+  }
+
+  await expect(main.getByRole('button')).toHaveCount(0)
+  await expect(main.getByRole('progressbar')).toHaveCount(0)
+  await expect(
+    page.getByRole('heading', {
+      name: 'A little character, a clear purpose',
+      exact: true,
+    })
+  ).toHaveCount(0)
+  await expect(
+    page.getByRole('heading', {
+      name: 'Finding the balance',
+      exact: true,
+    })
+  ).toHaveCount(0)
 })
 
 for (const width of [320, 1280]) {
   for (const colorScheme of ['light', 'dark'] as const) {
-    test(`motion character fits at ${width}px in ${colorScheme} mode with reduced motion`, async ({
+    test(`motion graphs fit at ${width}px in ${colorScheme} mode with reduced motion`, async ({
       page,
     }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.emulateMedia({ reducedMotion: 'reduce', colorScheme })
-      const root = page.locator('.dnb-motion-character')
-      await expect(root).toBeVisible()
+      const roots = page.locator(
+        '.dnb-motion-priorities, .dnb-motion-rings'
+      )
+      await expect(roots).toHaveCount(2)
       for (const element of await page
         .locator(
-          '.dnb-motion-character__bubble, .dnb-motion-character__spectrums .dnb-progress-indicator'
+          '.dnb-motion-priorities__bar, .dnb-motion-rings__ring--delightful'
         )
         .all()) {
         const bounds = await element.boundingBox()
         expect(bounds.x).toBeGreaterThanOrEqual(0)
         expect(bounds.x + bounds.width).toBeLessThanOrEqual(width)
       }
-      expect(
-        await root.evaluate(
-          (element) => element.getAnimations({ subtree: true }).length
-        )
-      ).toBe(0)
+      for (const root of await roots.all()) {
+        expect(
+          await root.evaluate(
+            (element) => element.getAnimations({ subtree: true }).length
+          )
+        ).toBe(0)
+      }
       expect(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth
