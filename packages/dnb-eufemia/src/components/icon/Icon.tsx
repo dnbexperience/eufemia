@@ -125,12 +125,12 @@ export type IconProps = {
   fill?: boolean
 
   /**
-   * Plays motion provided by an explicitly imported animated icon. Set to `true` or `once` to play once, or `loop` to repeat it.
+   * Plays motion provided by an explicitly imported animated icon. Use `true` or `once` to play once, or `loop` to repeat the animation.
    */
   animate?: boolean | 'once' | 'loop'
 
   /**
-   * Plays the icon animation when the icon or its interactive parent is hovered.
+   * Plays an animated icon when the icon itself, or an interactive parent such as a button or link, is hovered.
    */
   animateWhen?: 'hover'
 

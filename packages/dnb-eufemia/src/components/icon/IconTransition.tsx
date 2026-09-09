@@ -225,33 +225,61 @@ function squaredDistance(pointsA: Point[], pointsB: Point[]): number {
   )
 }
 
-/** Reverses subpath point order when it reduces squared distance to the reference. */
+function splitSubpaths(points: Point[]): Point[][] {
+  const subpaths: Point[][] = []
+
+  for (const point of points) {
+    if (point.cmd === 'M') {
+      subpaths.push([])
+    }
+
+    subpaths[subpaths.length - 1].push(point)
+  }
+
+  return subpaths
+}
+
+function reverseSubpath(points: Point[]): Point[] {
+  return [...points].reverse().map((point, index) => ({
+    ...point,
+    cmd: index === 0 ? 'M' : 'L',
+  }))
+}
+
+/** Reorders and reverses subpaths to minimize movement from the reference. */
 function alignPath(reference: Point[], target: Point[]): Point[] {
   if (reference.length !== target.length || reference.length === 0) {
     return target
   }
 
-  // Split into subpaths (each starting with M)
-  const subpaths: Array<[Point[], Point[]]> = []
+  const targetSubpaths = splitSubpaths(target)
 
-  for (let i = 0; i < reference.length; i++) {
-    if (reference[i].cmd === 'M') {
-      subpaths.push([[], []])
+  return splitSubpaths(reference).flatMap((referenceSubpath) => {
+    let matchIndex = -1
+    let match: Point[]
+    let matchDistance = Infinity
+
+    targetSubpaths.forEach((targetSubpath, index) => {
+      if (targetSubpath.length !== referenceSubpath.length) {
+        return
+      }
+
+      const reversed = reverseSubpath(targetSubpath)
+      const distance = squaredDistance(referenceSubpath, targetSubpath)
+      const reversedDistance = squaredDistance(referenceSubpath, reversed)
+
+      if (Math.min(distance, reversedDistance) < matchDistance) {
+        matchIndex = index
+        matchDistance = Math.min(distance, reversedDistance)
+        match = reversedDistance < distance ? reversed : targetSubpath
+      }
+    })
+
+    if (matchIndex === -1) {
+      return referenceSubpath
     }
 
-    subpaths[subpaths.length - 1][0].push(reference[i])
-    subpaths[subpaths.length - 1][1].push(target[i])
-  }
-
-  return subpaths.flatMap(([referenceSubpath, targetSubpath]) => {
-    const reversed = [...targetSubpath].reverse().map((point, index) => ({
-      ...point,
-      cmd: index === 0 ? 'M' : 'L',
-    }))
-
-    return squaredDistance(referenceSubpath, reversed) <
-      squaredDistance(referenceSubpath, targetSubpath)
-      ? reversed
-      : targetSubpath
+    targetSubpaths.splice(matchIndex, 1)
+    return match
   })
 }
