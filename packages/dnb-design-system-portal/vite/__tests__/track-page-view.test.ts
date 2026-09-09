@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { trackPageView, buildTrackedPath } from '../client/track-page-view'
+import { buildTrackedPath } from '../client/track-page-view'
 
 function setBeacon(fn: unknown) {
   Object.defineProperty(navigator, 'sendBeacon', {
@@ -15,8 +15,12 @@ function flush() {
 
 describe('trackPageView', () => {
   let beacon: ReturnType<typeof vi.fn>
+  let trackPageView: typeof import('../client/track-page-view').trackPageView
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    // Re-import so the module-level dedup and buffer start fresh each test.
+    vi.resetModules()
+    ;({ trackPageView } = await import('../client/track-page-view'))
     beacon = vi.fn().mockReturnValue(true)
     setBeacon(beacon)
     vi.stubEnv('VITE_ANALYTICS_ENDPOINT', '/collect')
