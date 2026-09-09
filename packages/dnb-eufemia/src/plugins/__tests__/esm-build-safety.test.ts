@@ -13,7 +13,13 @@ import { transform } from 'lebab'
 describe('ESLint and Stylelint plugin ESM build safety', () => {
   const pluginsRoot = path.resolve(__dirname, '..')
   const files = sync(
-    ['eslint.js', 'eslint/**/*.js', 'stylelint.js', 'stylelint/**/*.js'],
+    [
+      'review-rules.js',
+      'eslint.js',
+      'eslint/**/*.js',
+      'stylelint.js',
+      'stylelint/**/*.js',
+    ],
     { cwd: pluginsRoot, absolute: true }
   )
 
