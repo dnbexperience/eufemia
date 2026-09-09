@@ -1,6 +1,5 @@
 import { Card, P } from '@dnb/eufemia/src'
-import './MotionPriorities.scss'
-import './MotionRings.scss'
+import './MotionCharacter.scss'
 
 const priorities = [
   {
@@ -24,71 +23,46 @@ const priorities = [
 export default function MotionCharacter() {
   return (
     <Card
-      className="dnb-motion-priorities"
-      innerSpace="medium"
-      responsive={false}
-      layoutEngine="css"
-    >
-      <figure aria-label="Motion priority graph">
-        <ol>
-          {priorities.map(({ name, frequency, guidance }) => (
-            <li
-              key={name}
-              className={`dnb-motion-priorities__item dnb-motion-priorities__item--${name.toLowerCase()}`}
-            >
-              <div className="dnb-motion-priorities__labels">
-                <strong>{name}</strong>
-                <span>{frequency}</span>
-              </div>
-              <div
-                className="dnb-motion-priorities__bar"
-                aria-hidden="true"
-              />
-              <P top="x-small" bottom={0} size="small">
-                {guidance}
-              </P>
-            </li>
-          ))}
-        </ol>
-        <figcaption className="dnb-sr-only">
-          Motion should always be purposeful, guide when helpful and add
-          delight only as a finishing touch.
-        </figcaption>
-      </figure>
-    </Card>
-  )
-}
-
-function Rings() {
-  return (
-    <Card
-      className="dnb-motion-rings"
+      className="dnb-motion-character"
       innerSpace="medium"
       outlineWidth={0}
       responsive={false}
       layoutEngine="css"
     >
-      <figure aria-label="Motion priority rings">
-        <div
-          className="dnb-motion-rings__ring dnb-motion-rings__ring--delightful"
-          aria-hidden="true"
-        >
-          <strong>Delightful</strong>
-          <div className="dnb-motion-rings__ring dnb-motion-rings__ring--guiding">
-            <strong>Guiding</strong>
-            <div className="dnb-motion-rings__ring dnb-motion-rings__ring--purposeful">
-              <strong>Purposeful</strong>
-            </div>
-          </div>
+      <figure aria-label="Motion character priority">
+        <div className="dnb-motion-character__bar" aria-hidden="true">
+          {priorities.map(({ name }) => (
+            <span
+              key={name}
+              className={`dnb-motion-character__segment dnb-motion-character__segment--${name.toLowerCase()}`}
+            />
+          ))}
         </div>
+        <dl className="dnb-motion-character__legend">
+          {priorities.map(({ name, frequency, guidance }) => (
+            <div key={name} className="dnb-motion-character__item">
+              <dt>
+                <span
+                  className={`dnb-motion-character__swatch dnb-motion-character__swatch--${name.toLowerCase()}`}
+                  aria-hidden="true"
+                />
+                <strong>{name}</strong>
+              </dt>
+              <dd>
+                <span>{frequency}</span>
+                <P top="xx-small" bottom={0} size="small">
+                  {guidance}
+                </P>
+              </dd>
+            </div>
+          ))}
+        </dl>
         <figcaption className="dnb-sr-only">
-          Purpose is at the core of every motion. Guidance surrounds it
-          when helpful, while delight is reserved for the outer finishing
-          touch.
+          Purpose should make up the largest part of DNB motion. Guidance
+          supports it when helpful, while delight is reserved for a small
+          finishing touch.
         </figcaption>
       </figure>
     </Card>
   )
 }
-
-MotionCharacter.Rings = Rings
