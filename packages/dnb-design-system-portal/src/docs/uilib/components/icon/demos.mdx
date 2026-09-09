@@ -6,6 +6,8 @@ import {
   IconDefault,
   IconBorder,
   IconFilled,
+  IconAnimated,
+  IconAnimatedButtonInvite,
   IconInheritSized,
   IconColors,
   IconsSizes,
@@ -30,6 +32,20 @@ import {
 Use the `fill` prop on a single icon to fill it.
 
 <IconFilled />
+
+### Animated icon demos
+
+Animated icons are static by default and only move when you opt in. Import each animated icon directly using its default export. Named imports are intentionally unavailable so each icon's animation code is only included when it is used.
+
+Use a single animation to reinforce an event. Change `animationKey` to replay it while `animate` remains enabled.
+
+<IconAnimated />
+
+#### Animated icons in buttons
+
+Use hover to invite or preview an action. Play the animation once and keep the button understandable without motion.
+
+<IconAnimatedButtonInvite />
 
 ### Responsive to its inherited `font-size`
 

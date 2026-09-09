@@ -30,6 +30,7 @@ export default async function makeLibStyles() {
   try {
     await runFactory('./src/components/**/style/**/dnb-*.scss')
     await runFactory('./src/extensions/**/style/**/dnb-*.scss')
+    await runFactory('./src/icons/animated/**/style/**/dnb-*.scss')
     log.succeed(
       `> PrePublish: "makeLibStyles" converting sass to css done`
     )

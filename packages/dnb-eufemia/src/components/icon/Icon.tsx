@@ -57,6 +57,7 @@ export type IconSVGProps = SVGProps<SVGSVGElement> & {
 export type IconFunction = ((props?: IconSVGProps) => JSX.Element) & {
   __iconTransitionStyle?: Record<string, string>
   __iconTransitionFallback?: boolean
+  __iconAnimation?: string
 }
 
 /** For internal usage */
@@ -123,6 +124,21 @@ export type IconProps = {
    */
   fill?: boolean
 
+  /**
+   * Plays motion provided by an explicitly imported animated icon. Set to `true` or `once` to play once, or `loop` to repeat it.
+   */
+  animate?: boolean | 'once' | 'loop'
+
+  /**
+   * Plays the icon animation when the icon or its interactive parent is hovered.
+   */
+  animateWhen?: 'hover'
+
+  /**
+   * Change this value to replay an animated icon while `animate` remains enabled.
+   */
+  animationKey?: string | number
+
   border?: boolean
   width?: `${IconSize}` | `${number}%` | number
   height?: `${IconSize}` | `${number}%` | number
@@ -157,6 +173,8 @@ export default function Icon(localProps: IconAllProps) {
     alt,
     children,
     transitionState,
+    animationMode,
+    animationKey,
   } = usePrepareIcon(props, context)
   const icon = iconProp ?? children
 
@@ -196,7 +214,10 @@ export default function Icon(localProps: IconAllProps) {
 
   return (
     <span {...restWrapperParams} ref={combinedRef}>
-      <IconContainer {...iconParams} />
+      <IconContainer
+        key={animationMode ? animationKey : undefined}
+        {...iconParams}
+      />
     </span>
   )
 }
@@ -399,6 +420,9 @@ export function prepareIcon(
     skeleton,
     className,
     transitionState: _transitionState,
+    animate,
+    animateWhen,
+    animationKey: _animationKey,
     ...attributes
   } = props
 
@@ -458,8 +482,23 @@ export function prepareIcon(
   )
 
   const iconToRender = getIcon(props)
+  const hasAnimation =
+    typeof iconToRender === 'function' &&
+    Boolean(iconToRender.__iconAnimation)
+  const animationMode =
+    hasAnimation && animate ? (animate === true ? 'once' : animate) : null
+  const animationTrigger = hasAnimation ? animateWhen : null
 
   if (typeof iconToRender === 'function') {
+    if (animationMode || animationTrigger) {
+      wrapperParams.className = clsx(
+        wrapperParams.className,
+        animationMode && 'dnb-icon--animate',
+        animationMode && `dnb-icon--animate-${animationMode}`,
+        animationTrigger && `dnb-icon--animate-when-${animationTrigger}`,
+        `dnb-icon--animated-${iconToRender.__iconAnimation}`
+      )
+    }
     if (iconToRender.__iconTransitionFallback) {
       wrapperParams.className += ' dnb-icon--transition-fallback'
 
@@ -486,6 +525,7 @@ export function prepareIcon(
     alt,
     iconParams,
     wrapperParams,
+    animationMode,
   }
 }
 

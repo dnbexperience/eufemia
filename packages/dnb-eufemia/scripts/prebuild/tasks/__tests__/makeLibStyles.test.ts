@@ -76,6 +76,26 @@ describe('makeLibStyles transform main SCSS to CSS', () => {
   })
 })
 
+describe('makeLibStyles animated icon styles', () => {
+  it('compiles animated icon styles as individual files', async () => {
+    const files = await runFactory(
+      './src/icons/animated/**/style/**/dnb-*.scss',
+      { returnFiles: true }
+    )
+
+    expect(
+      files.some((file) =>
+        file.includes('/icons/animated/style/dnb-bell.css')
+      )
+    ).toBe(true)
+    expect(
+      files.some((file) =>
+        file.includes('/icons/animated/style/dnb-bell.min.css')
+      )
+    ).toBe(true)
+  })
+})
+
 describe('makeLibStyles with enableBuildStyleScope', () => {
   // Ensure enableBuildStyleScope returns true
   let originalEnv

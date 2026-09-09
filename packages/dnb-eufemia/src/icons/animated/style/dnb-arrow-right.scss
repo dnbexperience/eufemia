@@ -1,0 +1,30 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-icon--animated-arrow-right.dnb-icon--animate svg,
+:where(button, a, [role='button'], [data-icon-animation-trigger]):hover
+  .dnb-icon--animated-arrow-right.dnb-icon--animate-when-hover
+  svg,
+.dnb-icon--animated-arrow-right.dnb-icon--animate-when-hover:hover svg {
+  transform-origin: right center;
+  animation: dnb-icon-animated-arrow-right 650ms var(--easing-default)
+    both;
+
+  @include utilities.reducedMotion() {
+    animation: none;
+  }
+}
+
+@keyframes dnb-icon-animated-arrow-right {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  18% {
+    transform: translateX(-0.06em) scaleX(0.82);
+  }
+
+  52% {
+    transform: translateX(0.35em) scaleX(1.12);
+  }
+}
