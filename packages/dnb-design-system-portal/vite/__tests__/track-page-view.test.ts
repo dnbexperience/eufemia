@@ -150,51 +150,17 @@ describe('buildTrackedPath', () => {
     hash,
   })
 
-  it('keeps the pathname and hash', () => {
-    expect(
-      buildTrackedPath(location('/uilib/components/button', '', '#events'))
-    ).toBe('/uilib/components/button#events')
-  })
-
-  it('keeps allow-listed portal query params', () => {
-    expect(
-      buildTrackedPath(location('/uilib/components/button', '?fullscreen'))
-    ).toBe('/uilib/components/button?fullscreen')
-
-    expect(buildTrackedPath(location('/', '?eufemia-theme=sbanken'))).toBe(
-      '/?eufemia-theme=sbanken'
-    )
-  })
-
-  it('drops query params that are not allow-listed', () => {
-    expect(
-      buildTrackedPath(location('/uilib', '?q=some+search+term'))
-    ).toBe('/uilib')
-  })
-
-  it('keeps only the allow-listed params from a mixed query', () => {
+  it('returns the full in-app path (pathname, query and hash)', () => {
     expect(
       buildTrackedPath(
-        location('/uilib', '?q=secret&fullscreen&page=2', '#top')
+        location('/uilib/components/button', '?fullscreen', '#events')
       )
-    ).toBe('/uilib?fullscreen#top')
+    ).toBe('/uilib/components/button?fullscreen#events')
   })
 
-  it('reduces a flag to its key, dropping any crafted value', () => {
+  it('sends the raw query as-is; the collector minimises it on ingest', () => {
     expect(
-      buildTrackedPath(location('/uilib', '?fullscreen=personal+data'))
-    ).toBe('/uilib?fullscreen')
-  })
-
-  it('drops a value param whose value is not a safe token', () => {
-    expect(
-      buildTrackedPath(location('/', '?eufemia-theme=personal+data'))
-    ).toBe('/')
-  })
-
-  it('does not match a param that merely ends with an allow-listed key', () => {
-    expect(
-      buildTrackedPath(location('/', '?x-eufemia-theme=sbanken'))
-    ).toBe('/')
+      buildTrackedPath(location('/uilib', '?q=some+search+term'))
+    ).toBe('/uilib?q=some+search+term')
   })
 })

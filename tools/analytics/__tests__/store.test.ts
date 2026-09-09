@@ -69,13 +69,13 @@ describe('storePortalViews', () => {
     expect(line.timestamp).toBe(line.createdat)
   })
 
-  it('keeps the query string and fragment in the path', async () => {
-    await storePortalViews([{ path: '/a?tab=demos#example' }])
+  it('minimises the stored path', async () => {
+    await storePortalViews([{ path: '/a?q=secret&fullscreen#example' }])
 
     const input = send.mock.calls[0][0].input as PutInput
     const line = JSON.parse(input.Body)
 
-    expect(line.path).toBe('/a?tab=demos#example')
+    expect(line.path).toBe('/a?fullscreen#example')
   })
 
   it('stores the env label, defaulting to "unknown" when absent', async () => {
