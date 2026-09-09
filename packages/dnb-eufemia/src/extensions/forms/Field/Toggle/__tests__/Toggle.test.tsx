@@ -1294,6 +1294,221 @@ describe('Field.Toggle', () => {
       })
     })
 
+    describe('radio-button', () => {
+      it('should support size', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="radio-button"
+            label="Toggle label"
+            size="large"
+          />
+        )
+
+        const fieldToggleElement: HTMLInputElement =
+          document.querySelector('.dnb-forms-field-toggle')
+        expect(fieldToggleElement.classList).toContain(
+          'dnb-forms-field-block--label-height-large'
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('.dnb-toggle-button__button')
+        )
+        expect(first.classList).toContain('dnb-button--size-large')
+        expect(second.classList).toContain('dnb-button--size-large')
+      })
+
+      it('renders label', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="radio-button"
+            label="Toggle label"
+          />
+        )
+        expect(screen.getByText('Toggle label')).toBeInTheDocument()
+      })
+
+      it('renders two radio-styled toggle buttons', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="radio-button"
+            value="on"
+          />
+        )
+
+        const radios = document.querySelectorAll(
+          '.dnb-toggle-button__button .dnb-radio__input'
+        )
+        expect(radios).toHaveLength(2)
+      })
+
+      it('should render correct HTML', () => {
+        const onChange = vi.fn()
+
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="radio-button"
+            value="on"
+            onChange={onChange}
+          />
+        )
+
+        const [yesElement, noElement]: Array<HTMLButtonElement> =
+          Array.from(
+            document.querySelectorAll('.dnb-toggle-button__button')
+          )
+
+        expect(yesElement).toHaveAttribute('aria-checked', 'true')
+        expect(noElement).toHaveAttribute('aria-checked', 'false')
+
+        fireEvent.click(noElement)
+
+        expect(yesElement).toHaveAttribute('aria-checked', 'false')
+        expect(noElement).toHaveAttribute('aria-checked', 'true')
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith('off', expect.anything())
+
+        fireEvent.click(yesElement)
+
+        expect(yesElement).toHaveAttribute('aria-checked', 'true')
+        expect(noElement).toHaveAttribute('aria-checked', 'false')
+        expect(onChange).toHaveBeenCalledTimes(2)
+        expect(onChange).toHaveBeenLastCalledWith('on', expect.anything())
+      })
+
+      it('should reset both buttons when value is "undefined"', () => {
+        const { rerender } = render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="radio-button"
+            value="on"
+          />
+        )
+
+        const [yesElement, noElement]: Array<HTMLButtonElement> =
+          Array.from(
+            document.querySelectorAll('.dnb-toggle-button__button')
+          )
+
+        expect(yesElement).toHaveAttribute('aria-checked', 'true')
+        expect(noElement).toHaveAttribute('aria-checked', 'false')
+
+        rerender(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="radio-button"
+            value={undefined}
+          />
+        )
+
+        expect(yesElement).toHaveAttribute('aria-checked', 'false')
+        expect(noElement).toHaveAttribute('aria-checked', 'false')
+      })
+
+      it('renders error', () => {
+        const errorMessage = new Error('Error message')
+
+        render(
+          <Field.Toggle
+            label="Label"
+            valueOn="on"
+            valueOff="off"
+            variant="radio-button"
+            value="on"
+            error={errorMessage}
+          />
+        )
+
+        const element = document.querySelector('.dnb-form-status')
+        expect(element).toHaveTextContent('Error message')
+
+        const [yesElement, noElement]: Array<HTMLButtonElement> =
+          Array.from(document.querySelectorAll('.dnb-toggle-button'))
+        expect(yesElement).toHaveClass('dnb-toggle-button__status--error')
+        expect(noElement).toHaveClass('dnb-toggle-button__status--error')
+      })
+
+      it('should have aria-labelledby and role="radiogroup" on fieldset when label is given', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant="radio-button"
+            label="Legend"
+          />
+        )
+
+        const fieldset = document.querySelector('fieldset')
+        const legend = document.querySelector('legend')
+
+        expect(fieldset).toHaveAttribute('aria-labelledby', legend.id)
+        expect(fieldset).toHaveAttribute('role', 'radiogroup')
+      })
+
+      describe('ARIA', () => {
+        it('should validate with ARIA rules', async () => {
+          const result = render(
+            <Field.Toggle
+              label="Label"
+              valueOn="on"
+              valueOff="off"
+              variant="radio-button"
+              required
+              validateInitially
+            />
+          )
+
+          expect(await axeComponent(result)).toHaveNoViolations()
+        })
+
+        it('should have aria-required', () => {
+          render(
+            <Field.Toggle
+              label="Label"
+              valueOn="on"
+              valueOff="off"
+              variant="radio-button"
+              required
+            />
+          )
+
+          const [first, second] = Array.from(
+            document.querySelectorAll('button')
+          )
+          expect(first).toHaveAttribute('aria-required', 'true')
+          expect(second).toHaveAttribute('aria-required', 'true')
+        })
+
+        it('should have aria-invalid', () => {
+          render(
+            <Field.Toggle
+              label="Label"
+              valueOn="on"
+              valueOff="off"
+              variant="radio-button"
+              required
+              validateInitially
+            />
+          )
+
+          const [first, second] = Array.from(
+            document.querySelectorAll('button')
+          )
+          expect(first).toHaveAttribute('aria-invalid', 'true')
+          expect(second).toHaveAttribute('aria-invalid', 'true')
+        })
+      })
+    })
+
     describe('checkbox', () => {
       it('should support size', () => {
         render(

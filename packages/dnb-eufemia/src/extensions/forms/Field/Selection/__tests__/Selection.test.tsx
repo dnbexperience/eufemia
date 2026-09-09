@@ -1560,6 +1560,227 @@ describe('variants', () => {
     })
   })
 
+  describe('radio-button', () => {
+    it('should support size', () => {
+      render(
+        <Field.Selection value="bar" size="large" variant="radio-button">
+          <Field.Option value="bar" title="Bar!" text="Text" />
+        </Field.Selection>
+      )
+
+      const fieldElement: HTMLInputElement = document.querySelector(
+        '.dnb-forms-field-selection__variant--radio-button'
+      )
+      expect(fieldElement.classList).toContain(
+        'dnb-forms-field-block--label-height-large'
+      )
+
+      const buttonElement: HTMLInputElement = document.querySelector(
+        '.dnb-toggle-button__button'
+      )
+      expect(buttonElement.classList).toContain('dnb-button--size-large')
+    })
+
+    it('renders radio-styled toggle buttons', () => {
+      render(
+        <Field.Selection variant="radio-button">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(
+        document.querySelectorAll(
+          '.dnb-toggle-button__button .dnb-radio__input'
+        )
+      ).toHaveLength(2)
+      expect(document.querySelectorAll('.dnb-radio-group')).toHaveLength(0)
+    })
+
+    it('has radio roles', () => {
+      render(
+        <Field.Selection variant="radio-button" label="Legend">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      expect(document.querySelector('fieldset')).toHaveAttribute(
+        'role',
+        'group'
+      )
+
+      expect(
+        document
+          .querySelector('button.dnb-toggle-button__button')
+          .getAttribute('role')
+      ).toBe('radio')
+    })
+
+    it('has no selected value by default', () => {
+      render(
+        <Field.Selection variant="radio-button">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const buttons = document.querySelectorAll('button')
+      expect(buttons.length).toEqual(2)
+      expect(buttons[0].getAttribute('aria-checked')).toBe('false')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('false')
+    })
+
+    it('renders selected option', () => {
+      render(
+        <Field.Selection variant="radio-button" value="bar">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0].getAttribute('aria-checked')).toBe('false')
+      expect(buttons[1].getAttribute('aria-checked')).toBe('true')
+    })
+
+    it('calls onChange when an option is selected', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection variant="radio-button" onChange={onChange}>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const buttons = document.querySelectorAll('button')
+      await userEvent.click(buttons[1])
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith('bar', expect.anything())
+    })
+
+    it('should disable options', () => {
+      render(
+        <Field.Selection variant="radio-button" disabled>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+      const buttons = document.querySelectorAll('button')
+      expect(buttons[0]).toBeDisabled()
+      expect(buttons[1]).toBeDisabled()
+    })
+
+    it('renders help', () => {
+      render(
+        <Field.Selection variant="radio-button">
+          <Field.Option
+            value="foo"
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            Foo
+          </Field.Option>
+          <Field.Option
+            value="bar"
+            help={{ title: 'Help title', content: 'Help content' }}
+          >
+            Bar
+          </Field.Option>
+        </Field.Selection>
+      )
+      expect(document.querySelectorAll('.dnb-help-button')).toHaveLength(2)
+    })
+
+    it('renders error', () => {
+      render(
+        <Field.Selection
+          variant="radio-button"
+          error={new Error('This is what went wrong')}
+        >
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      const [first, second] = Array.from(
+        document.querySelectorAll('.dnb-toggle-button')
+      )
+      expect(first).toHaveClass('dnb-toggle-button__status--error')
+      expect(second).toHaveClass('dnb-toggle-button__status--error')
+    })
+
+    it('supports data property', () => {
+      render(
+        <Field.Selection
+          variant="radio-button"
+          data={[
+            { title: 'One', value: 'one' },
+            { title: 'Two', value: 'two' },
+          ]}
+        />
+      )
+
+      const buttons = document.querySelectorAll('button')
+      expect(buttons).toHaveLength(2)
+      expect(buttons[0]).toHaveTextContent('One')
+      expect(buttons[1]).toHaveTextContent('Two')
+    })
+
+    describe('ARIA', () => {
+      it('should validate with ARIA rules', async () => {
+        const result = render(
+          <Field.Selection
+            label="Label"
+            variant="radio-button"
+            required
+            validateInitially
+          >
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.Selection>
+        )
+
+        expect(await axeComponent(result)).toHaveNoViolations()
+      })
+
+      it('should have aria-required', () => {
+        render(
+          <Field.Selection variant="radio-button" value="bar" required>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.Selection>
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('button')
+        )
+        expect(first).toHaveAttribute('aria-required', 'true')
+        expect(second).toHaveAttribute('aria-required', 'true')
+      })
+
+      it('should have aria-invalid', () => {
+        render(
+          <Field.Selection
+            variant="radio-button"
+            required
+            validateInitially
+          >
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar">Bar</Field.Option>
+          </Field.Selection>
+        )
+
+        const [first, second] = Array.from(
+          document.querySelectorAll('button')
+        )
+        expect(first).toHaveAttribute('aria-invalid', 'true')
+        expect(second).toHaveAttribute('aria-invalid', 'true')
+      })
+    })
+  })
+
   describe('dropdown', () => {
     const openDropdown = async () => {
       await userEvent.click(
