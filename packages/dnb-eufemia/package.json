@@ -244,7 +244,7 @@
     "typescript": "5.9.3",
     "vd-tool": "4.0.2",
     "vite": "8.0.16",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "keywords": [
     "Accessibility",
