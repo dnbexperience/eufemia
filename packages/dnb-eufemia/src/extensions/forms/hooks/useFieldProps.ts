@@ -1258,9 +1258,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
           sharedAttachments?.fieldConnectionsRef?.current?.[identifier]
         )
 
-        if (!isMounted && !hasFieldConnection) {
-          setFieldErrorDataContext?.(identifier, undefined)
+        if (!isMounted) {
+          // A shared field connection can preserve form-level status across
+          // remounts, but the unmounted field no longer belongs to this boundary.
           setFieldErrorBoundary?.(identifier, undefined)
+
+          if (!hasFieldConnection) {
+            setFieldErrorDataContext?.(identifier, undefined)
+          }
         }
       })
 
@@ -1776,6 +1781,17 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Validate/call validator functions during submit of the form
   useEffect(() => {
     setFieldEventListener?.(identifier, 'onSubmitCall', onSubmitHandler)
+
+    return () => {
+      setFieldEventListener?.(
+        identifier,
+        'onSubmitCall',
+        onSubmitHandler,
+        {
+          remove: true,
+        }
+      )
+    }
   }, [identifier, onSubmitHandler, setFieldEventListener])
 
   // Set the error in the field block context if this field is inside a field block

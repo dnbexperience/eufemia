@@ -878,6 +878,57 @@ describe('Wizard.Container', () => {
     expect(output()).toHaveTextContent('Step 3')
   })
 
+  it('should submit after correcting an onChangeValidator error when returning to a step', async () => {
+    const onSubmit: OnSubmit = vi.fn()
+    const onChangeValidator = vi.fn((value: boolean) =>
+      value === true ? undefined : new Error('Consent required')
+    )
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Field.Boolean
+              label="Consent"
+              path="/consent"
+              variant="checkbox"
+              required
+              onChangeValidator={onChangeValidator}
+            />
+            <Wizard.Buttons />
+            <Form.SubmitButton />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    await userEvent.click(nextButton())
+    await userEvent.click(document.querySelector('input'))
+    await userEvent.click(document.querySelector('input'))
+
+    expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+      'Consent required'
+    )
+
+    await userEvent.click(previousButton())
+    await userEvent.click(nextButton())
+    await userEvent.click(document.querySelector('input'))
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    })
+
+    await userEvent.click(submitButton())
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
   it('should keep current step on rerender', async () => {
     const onStepChange = vi.fn()
 

@@ -3,7 +3,15 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Flex } from '../../../../../components'
 import IterateItemContext from '../../IterateItemContext'
-import { Field, Form, Iterate, Value } from '../../..'
+import { useItem } from '../../hooks'
+import {
+  Ajv,
+  Field,
+  Form,
+  Iterate,
+  makeAjvInstance,
+  Value,
+} from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 
 const tr = {
@@ -12,6 +20,142 @@ const tr = {
 }
 
 describe('EditContainer and ViewContainer', () => {
+  it.each([
+    ['Done', 'done'],
+    ['Cancel', 'cancel'],
+  ])(
+    'should close with %s after hiding a conditionally required field',
+    async (_, action) => {
+      let containerMode = null
+
+      const ContextConsumer = () => {
+        const context = useContext(IterateItemContext)
+        containerMode = context.containerMode
+
+        return null
+      }
+      const Fields = () => {
+        const { index } = useItem()
+
+        return (
+          <>
+            <Field.ArraySelection itemPath="/criteria">
+              <Field.Option value="A">A</Field.Option>
+              <Field.Option value="B">B</Field.Option>
+            </Field.ArraySelection>
+
+            <Form.Visibility
+              visibleWhen={{
+                itemPath: '/criteria',
+                hasValue: (value: string[]) => value?.includes('B'),
+              }}
+            >
+              <Field.Upload
+                id={`documents-${index}`}
+                itemPath="/documents"
+              />
+            </Form.Visibility>
+          </>
+        )
+      }
+
+      const schema = {
+        type: 'object',
+        properties: {
+          entries: {
+            type: 'array',
+            items: {
+              type: 'object',
+              required: ['criteria'],
+              properties: {
+                criteria: {
+                  type: 'array',
+                  minItems: 1,
+                  items: { type: 'string' },
+                },
+                documents: { type: 'array' },
+              },
+              dependentSchemas: {
+                criteria: {
+                  if: {
+                    properties: {
+                      criteria: {
+                        type: 'array',
+                        contains: { enum: ['B'] },
+                      },
+                    },
+                  },
+                  then: {
+                    required: ['documents'],
+                    properties: {
+                      documents: { type: 'array', minItems: 1 },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      }
+
+      render(
+        <Form.Handler
+          id="form-handler-id"
+          locale="en-GB"
+          schema={schema}
+          ajvInstance={makeAjvInstance(
+            new Ajv({ strict: false, allErrors: true })
+          )}
+          defaultData={{ entries: [{ criteria: ['A'] }] }}
+        >
+          <Iterate.Array path="/entries">
+            <Iterate.ViewContainer>
+              <Value.ArraySelection itemPath="/criteria" />
+            </Iterate.ViewContainer>
+            <Iterate.EditContainer>
+              <Fields />
+            </Iterate.EditContainer>
+            <ContextConsumer />
+          </Iterate.Array>
+        </Form.Handler>
+      )
+
+      expect(containerMode).toBe('view')
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__edit-button')
+      )
+      expect(containerMode).toBe('edit')
+
+      const criteria = document.querySelectorAll<HTMLInputElement>(
+        '.dnb-forms-field-array-selection input'
+      )
+      await userEvent.click(criteria[1])
+      expect(
+        document.querySelector('.dnb-forms-field-upload')
+      ).toBeInTheDocument()
+
+      await userEvent.click(criteria[1])
+      expect(
+        document.querySelector('.dnb-forms-field-upload')
+      ).not.toBeInTheDocument()
+
+      await userEvent.click(
+        document.querySelector(`.dnb-forms-iterate__${action}-button`)
+      )
+
+      if (action === 'cancel') {
+        await userEvent.click(
+          document.querySelector('.dnb-dialog .dnb-button--primary')
+        )
+      }
+
+      await waitFor(() => {
+        expect(containerMode).toBe('view')
+      })
+    }
+  )
+
   it('should switch mode on pressing edit button', async () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>

@@ -63,6 +63,46 @@ describe('Tools.Errors', () => {
     )
   })
 
+  it('should omit field errors after a conditional field unmounts', async () => {
+    render(
+      <Form.Handler defaultData={{ showField: true }}>
+        <Field.Boolean
+          path="/showField"
+          label="Show field"
+          variant="checkbox"
+        />
+        <Form.Visibility pathTrue="/showField">
+          <Field.String path="/foo" required />
+        </Form.Visibility>
+        <Tools.Errors />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector('output')
+    expect(element.textContent).toContain('"/foo"')
+
+    await userEvent.click(document.querySelector('input'))
+
+    await waitFor(() => {
+      expect(element.textContent).toBe(
+        JSON.stringify(
+          {
+            fieldErrors: {},
+            formErrors: {},
+          },
+          null,
+          2
+        ) + ' '
+      )
+    })
+
+    await userEvent.click(document.querySelector('input'))
+
+    await waitFor(() => {
+      expect(element.textContent).toContain('"/foo"')
+    })
+  })
+
   it('should render form errors', () => {
     const schema1: JSONSchema = {
       type: 'object',
