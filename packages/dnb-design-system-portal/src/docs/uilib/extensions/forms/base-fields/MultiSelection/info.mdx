@@ -132,17 +132,19 @@ Individual items can be disabled by setting their `disabled` property to `true`.
 
 When `showConfirmButton` is enabled, users must click "Confirm selection" to apply changes, or "Cancel" to discard them without modifying the form value.
 
+When more than 20 enabled options are available, keyboard users are offered a `SkipContent` action after the optional search field. Activating it skips the option checkboxes and moves focus directly to the confirm button. Filtering the list hides the skip action once 20 or fewer enabled options remain.
+
 ## Accessibility
 
 ### Keyboard interaction
 
-| Key               | Behavior                                                                                                                                            |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Enter` / `Space` | Opens or closes the popover when the trigger button is focused. Toggles an item when a checkbox is focused.                                         |
-| `ArrowDown`       | When the trigger is focused: opens the popover and moves focus to the first checkbox. When inside the popover: moves focus to the next checkbox.    |
-| `ArrowUp`         | When the trigger is focused: opens the popover and moves focus to the last checkbox. When inside the popover: moves focus to the previous checkbox. |
-| `Escape`          | Closes the popover and discards any pending changes (same as Cancel).                                                                               |
-| `Tab`             | Moves focus through the interactive elements inside the popover (search field, checkboxes, confirm/cancel buttons).                                 |
+| Key               | Behavior                                                                                                                                                               |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Enter` / `Space` | Opens or closes the popover when the trigger button is focused. Toggles an item when a checkbox is focused.                                                            |
+| `ArrowDown`       | When the trigger is focused: opens the popover and moves focus to the first checkbox. When inside the popover: moves focus to the next checkbox.                       |
+| `ArrowUp`         | When the trigger is focused: opens the popover and moves focus to the last checkbox. When inside the popover: moves focus to the previous checkbox.                    |
+| `Escape`          | Closes the popover and discards any pending changes (same as Cancel).                                                                                                  |
+| `Tab`             | Moves focus through the interactive elements inside the popover. With confirmation and more than 20 enabled options, a skip action can move focus directly to Confirm. |
 
 ### Screen reader announcements
 
