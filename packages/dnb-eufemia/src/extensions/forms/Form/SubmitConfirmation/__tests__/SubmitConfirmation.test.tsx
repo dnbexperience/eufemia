@@ -113,7 +113,7 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeTruthy()
       })

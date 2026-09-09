@@ -31,7 +31,9 @@ describe('field pending state with asyncSubmitTimeout', () => {
       expect(input).not.toBeDisabled()
     })
     expect(
-      document.querySelector('.dnb-forms-submit-indicator--state-pending')
+      document.querySelector(
+        '.dnb-forms-submit-indicator-glow__status--state-pending'
+      )
     ).toBeNull()
   })
 
@@ -54,7 +56,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeInTheDocument()
     })
@@ -64,7 +66,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeNull()
     })
@@ -95,7 +97,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeInTheDocument()
     })
@@ -115,7 +117,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeNull()
     })
@@ -155,7 +157,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
       expect(onChange).toHaveBeenCalledTimes(1)
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeInTheDocument()
     })
@@ -163,7 +165,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeNull()
     })
@@ -186,7 +188,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
       expect(onChangeValidator).toHaveBeenCalledTimes(1)
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeInTheDocument()
     })
@@ -194,7 +196,7 @@ describe('field pending state with asyncSubmitTimeout', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeNull()
     })
