@@ -22,6 +22,7 @@ import type {
   AutocompleteAllProps,
   AutocompleteOnChangeParams,
 } from '../../../../components/autocomplete/Autocomplete'
+import type { DrawerListDriver } from '../../../../fragments/DrawerList'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type CountryFilterSet =
@@ -60,6 +61,11 @@ export type FieldSelectCountryProps = FieldPropsWithExtraValue<
    * The size of the component.
    */
   size?: AutocompleteAllProps['size']
+
+  /**
+   * Opt in to a custom list renderer. Use `createDrawerListVirtualization` from `@dnb/eufemia/fragments/drawer-list/Virtualization` for large data sets. Install the optional `@tanstack/react-virtual` peer dependency when using this driver.
+   */
+  listDriver?: DrawerListDriver
 }
 
 function SelectCountry(props: FieldSelectCountryProps) {
@@ -129,6 +135,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
     value,
     width,
     noAnimation,
+    listDriver,
     autoComplete,
     htmlAttributes,
     handleFocus,
@@ -279,6 +286,7 @@ function SelectCountry(props: FieldSelectCountryProps) {
         keepSelection
         autoComplete={autoComplete ?? 'country-name'}
         noAnimation={noAnimation}
+        listDriver={listDriver}
         {...htmlAttributes}
       />
     </FieldBlock>

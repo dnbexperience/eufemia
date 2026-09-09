@@ -10,12 +10,47 @@ import {
 import userEvent from '@testing-library/user-event'
 import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
+import { createDrawerListVirtualization } from '../../../../../fragments/drawer-list/Virtualization'
 import { makeOptions } from '../Selection'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Selection', () => {
+  it('forwards the virtualized list driver to dropdown and autocomplete variants', async () => {
+    const listDriver = createDrawerListVirtualization({ overscan: 1 })
+    const data = Array.from({ length: 100 }, (_, index) => ({
+      value: String(index),
+      title: `Item ${index}`,
+    }))
+    const { rerender } = render(
+      <Field.Selection
+        variant="dropdown"
+        data={data}
+        listDriver={listDriver}
+        dropdownProps={{ noAnimation: true }}
+      />
+    )
+
+    await userEvent.click(screen.getByRole('combobox'))
+    expect(screen.getAllByRole('option').length).toBeLessThan(data.length)
+
+    rerender(
+      <Field.Selection
+        variant="autocomplete"
+        data={data}
+        listDriver={listDriver}
+        autocompleteProps={{
+          open: true,
+          noAnimation: true,
+          skipPortal: true,
+        }}
+      />
+    )
+
+    expect(screen.getAllByRole('option').length).toBeLessThan(data.length)
+  })
+
   it('renders selected option', () => {
     render(
       <Field.Selection value="bar">

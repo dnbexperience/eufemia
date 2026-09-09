@@ -621,6 +621,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     submitElement,
     inputElement: CustomInput,
     optionsRender,
+    listDriver,
     preventSelection,
     maxHeight,
     defaultValue,
@@ -1405,6 +1406,8 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
             drawerListRef.current.setState({
               activeItem: (data[0] as DrawerListInternalItem).__id,
             })
+          } else if (propsRef.current.listDriver) {
+            drawerListRef.current.setState({ activeItem: -1 })
           }
         }
       } else {
@@ -1465,15 +1468,26 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
         setShowAllNextTime(false)
       }
 
-      runFilterToHighlight({
-        fillDataIfEmpty: true,
-        skipFilter,
-        ...options,
-      })
+      const selectedTitle = getCurrentDataTitle(
+        drawerListRef.current.selectedItem,
+        drawerListRef.current.originalData
+      )
+      const shouldShowAll =
+        !skipFilter && inputValueRef.current === selectedTitle
+
+      if (shouldShowAll) {
+        showAllItems()
+      } else {
+        runFilterToHighlight({
+          fillDataIfEmpty: true,
+          skipFilter,
+          ...options,
+        })
+      }
 
       setVisible(null, onStateComplete)
     },
-    [showAllNextTime, runFilterToHighlight, setVisible]
+    [showAllNextTime, showAllItems, runFilterToHighlight, setVisible]
   )
 
   const toggleVisible = useCallback(
@@ -1723,9 +1737,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
       })
 
       const trimmed = String(val).trim()
-      if (trimmed !== inputValueRef.current) {
-        runFilterWithSideEffects(trimmed)
-      }
+      runFilterWithSideEffects(trimmed)
     },
     [runFilterWithSideEffects]
   )
@@ -2551,6 +2563,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
               direction={direction}
               size={size}
               optionsRender={optionsRender}
+              listDriver={listDriver}
               onChange={onChangeHandler}
               onSelect={onSelectHandler}
               onClose={onCloseHandler}

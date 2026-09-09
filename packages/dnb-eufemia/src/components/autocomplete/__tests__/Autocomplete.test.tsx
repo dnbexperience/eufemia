@@ -69,6 +69,32 @@ const mockData: DrawerListDataArray = [
 mockImplementationForDirectionObserver()
 
 describe('Autocomplete component', () => {
+  it('uses an opt-in list rendering driver', () => {
+    const listDriver = {
+      Renderer: ({ rows }) => (
+        <>
+          {rows
+            .filter(({ type }) => type === 'option')
+            .slice(0, 3)
+            .map(({ render }) => render())}
+        </>
+      ),
+    }
+
+    render(
+      <Autocomplete
+        data={Array.from({ length: 100 }, (_, index) => `Item ${index}`)}
+        open
+        {...({ listDriver } as AutocompleteAllProps)}
+        {...mockProps}
+      />
+    )
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option')
+    ).toHaveLength(3)
+  })
+
   it('has correct word and in-word highlighting', () => {
     render(
       <Autocomplete
