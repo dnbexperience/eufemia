@@ -32,9 +32,12 @@ function analyticsEnv(): string {
 type PageViewEvent = { path: string; timestamp: string; env: string }
 
 /**
- * The in-app path to record for a location: its pathname, query and hash. The
- * collector minimises this to a safe shape on ingest, so the full path is sent
- * as-is.
+ * The in-app path to record for a location: its pathname, query and hash.
+ *
+ * Sent raw on purpose: minimisation is centralised in the collector's
+ * `normalizeTrackedPath`, which drops search terms and other incidental query
+ * values at ingest. Do not strip here — that would only duplicate, and risk
+ * drifting from, the authoritative server-side allow-list.
  */
 export function buildTrackedPath(location: {
   pathname: string

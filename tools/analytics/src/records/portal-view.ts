@@ -40,6 +40,7 @@ const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
 // dropped, so a docs search term can never be persisted.
 const TRACKED_FLAG_PARAMS = new Set(['fullscreen', 'focusmode'])
 const TRACKED_VALUE_PARAMS = new Set(['eufemia-theme'])
+// Same shape as ENV_PATTERN by coincidence, not shared intent — keep separate.
 const SAFE_PARAM_VALUE = /^[a-z][a-z0-9-]{0,31}$/
 // An anchor fragment is a slug, e.g. `#events`; anything else is dropped.
 const SAFE_FRAGMENT = /^#[\w-]+$/
