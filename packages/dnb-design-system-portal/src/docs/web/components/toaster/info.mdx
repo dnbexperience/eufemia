@@ -1,0 +1,482 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Toaster } from '@dnb/eufemia'
+```
+
+## Description
+
+The Toaster is a structured message system for temporary application messages during the current session.
+
+It gives applications a shared way to show, announce, store and review messages that appear while the user is working. Instead of relying on traditional toasts or snackbars that briefly appear and disappear, the Toaster provides a predictable entry point where users can find, read, dismiss or act on messages at their own pace.
+
+The goal is not only to display a message visually. The goal is to make sure the message remains reachable and understandable for keyboard users, screen reader users, users with screen magnification, users with cognitive limitations, and users who simply missed the message when it appeared.
+
+## The idea
+
+Short status messages are useful. They can confirm that something was saved, warn about a technical issue, or tell the user that something changed.
+
+The problem is not the message itself. The problem is when the message only appears temporarily and then disappears without giving the user a reliable way to find it again.
+
+The Toaster solves this by connecting temporary messages to a more stable place where they can be consumed again. This can be an existing notification center in the application, or a simple notification center provided by Eufemia.
+
+In applications that already have a notification center, these temporary status updates can be shown in their own tab, section, or category. For example, an application may have one area for permanent bank messages and another area for temporary status updates from the current session.
+
+In applications that do not have a notification center, Eufemia can provide one. This can be exposed through a floating notification button, or through an inline button placed in a header, navigation area, or near the start of `main`.
+
+The important part is that automatically appearing messages have one predictable entry point.
+
+Most users may never need to open it. But that is often how accessibility works: the structure needs to be there for the users who do need it.
+
+## Why not just use a toast?
+
+Toasts and snackbars are commonly used for short status messages, but they are difficult to make reliably accessible.
+
+Typical issues include:
+
+- **Disappearing content.** Timed messages may disappear before users can read or interact with them, especially users who need more time, use assistive technology, or are interrupted. This relates to WCAG 2.2.1 Timing Adjustable.
+- **No way to find the message again.** Once a toast disappears, it is often gone. A screen reader user who missed the announcement, or a user who was not looking at that part of the screen, has no predictable way to retrieve it. This relates to WCAG 4.1.3 Status Messages and WCAG 2.2.1 Timing Adjustable.
+- **Difficult to reach with keyboard.** Toasts rendered in a portal or fixed position can be disconnected from the user's current position in the document. Keyboard users may not encounter the message where it appears visually, and custom focus handling can easily interrupt the user's current task. This relates to WCAG 2.1.1 Keyboard and WCAG 2.4.3 Focus Order.
+- **Overlap and obstruction.** Floating messages can cover focused elements, form fields, error messages or other important content, especially on small screens, with zoom, or when using screen magnification. This relates to WCAG 2.4.11 Focus Not Obscured, WCAG 2.4.12 Focus Not Obscured (Enhanced), and WCAG 1.4.10 Reflow.
+- **Single announcement.** `aria-live` regions announce dynamic content, but an announcement is not the same as persistent access to the message. If a screen reader is already speaking, or several messages arrive close together, the announcement may be missed or replaced. WCAG 4.1.3 helps with announcing status messages, but it does not replace the need for users to access relevant messages again later.
+- **Interactive content in temporary UI.** Messages with buttons or links are difficult to make reliable when they appear briefly and then disappear. If users cannot reach or operate the controls with keyboard or assistive technology, this relates to WCAG 2.1.1 Keyboard and WCAG 4.1.2 Name, Role, Value.
+
+## Why messages need an entry point
+
+A temporary message is not reliably accessible just because it is visible on screen or announced through `aria-live`.
+
+Users may miss a message for many reasons. They may use a screen reader that is already speaking. They may navigate with a keyboard. They may use screen magnification and only see part of the viewport. They may need more time to read. They may be focused on a form field, a dialog, or another task. Or they may simply not be looking at the part of the page where the message appeared.
+
+For that reason, every automatically appearing message should also have a predictable way back to it.
+
+That is the role of the entry point.
+
+The entry point gives users one stable place to review messages that appeared during the current session, even if the visual toast has disappeared, the live announcement was missed, or the user was not looking at the relevant part of the page.
+
+The entry point can be:
+
+- an existing notification center in the application
+- a dedicated tab or section inside an existing notification center
+- a temporary status update area provided by Eufemia
+- a floating notification button
+- an inline notification button placed in a header, navigation area, or near the start of `main`
+- an inline message list rendered directly in the page
+
+This is the main accessibility difference between the Toaster and a traditional toast/snackbar pattern:
+
+> Messages are not only displayed or announced. They are reachable and reviewable.
+
+## How this can fit into an application
+
+Applications can integrate the Toaster in different ways depending on their information architecture.
+
+### Existing notification center
+
+If the application already has a notification center, temporary status updates can be integrated there.
+
+They should normally be separated from permanent or customer-facing messages, for example by using:
+
+- a separate tab
+- a separate section
+- a separate category
+- a separate filter
+
+Example structure:
+
+- Bank messages
+- Tasks
+- Status updates
+
+This keeps temporary application messages available without mixing them with permanent messages from the bank.
+
+### No existing notification center
+
+If the application does not have a notification center, Eufemia can provide a simple one.
+
+The application can choose between:
+
+- a floating notification button
+- an inline notification button placed in the header or navigation
+- an inline message list rendered directly in the page
+
+The floating button can be useful when the application has no obvious header placement. The inline button is usually preferable when the application already has a predictable header, toolbar, or navigation area.
+
+### Inline message list
+
+Some applications may not want a popup panel at all. In those cases, the messages can be rendered directly in the page together with other messages.
+
+This can be useful for:
+
+- dedicated notification pages
+- status areas
+- dashboards
+- applications with their own notification center UI
+- message feeds
+- pages where messages should be visible without opening a drawer or popup
+
+## How the Toaster solves this
+
+The Toaster treats application messages as structured content, not as temporary decoration.
+
+- **Temporary visual message** → The message can be shown briefly in the toast stack, but it remains available in the notification center until it is dismissed, expired, or intentionally removed for privacy reasons.
+- **No way to find the message again** → The notification center gives users one predictable entry point to review messages from the current session.
+- **Difficult to reach with keyboard** → The notification center button and inline list are part of the document structure. Users have a predictable way to reach messages without relying on the toast stack itself.
+- **Overlap and obstruction** → Messages can be reviewed in a controlled notification center or inline list instead of relying only on floating content. The toast stack is a temporary presentation layer, not the only way to access the message.
+- **Single announcement** → New messages are announced via `aria-live`, but the full content remains available in the notification center for users to read at their own pace.
+- **Interactive messages** → Messages that require user action can be shown with explicit actions and intentional focus handling.
+
+## When to use Toaster
+
+Use Toaster for temporary application messages related to the current session.
+
+Good examples:
+
+- “Draft saved.”
+- “Changes saved.”
+- “The file was uploaded.”
+- “Could not save changes. Try again.”
+- “Your session will expire in 5 minutes.”
+- “You have received a new message from the bank.”
+- “The stock price has changed.”
+- “We are experiencing delays in some services.”
+- “The connection was lost. Check your network and try again.”
+
+Do not use Toaster for:
+
+- form validation errors that belong next to a field
+- permanent customer messages or inbox messages
+- legal notices that must remain visible
+- critical blocking flows that require a dedicated dialog
+- marketing messages or unrelated promotions
+- content that should be part of the page itself
+
+The Toaster is intended for temporary application status and event messages. It is not a replacement for page content, validation, permanent bank messages, or legally important communication.
+
+## Temporary messages and permanent messages
+
+Temporary status updates and permanent customer messages should not be treated as the same thing.
+
+A message like “Draft saved” only describes something that happened during the current session. It does not need to be kept forever.
+
+A message from the bank may be permanent, legally relevant, or important for the customer to find later. That kind of message belongs in the application's ordinary message or inbox structure.
+
+The Toaster can be integrated with an existing notification center, but temporary status updates should be clearly separated from permanent messages. This helps users understand what kind of message they are reading, how long it will be available, and whether it needs action.
+
+## Passive and action-required messages
+
+A message's visual variant does not decide how it should behave.
+
+A message can be visually an error and still be passive:
+
+_Could not fetch the latest stock price. Showing the last known value._
+
+Another error may require immediate action:
+
+**The payment could not be completed. Try again or choose another account.**
+
+For this reason, Toaster separates visual appearance from interaction behavior.
+
+- `variant` controls visual appearance: `neutral`, `info`, `success`, `warning`, `error`.
+- `actions` adds interactive elements, such as buttons or links.
+- `focus` controls whether the message should receive focus when it appears: `none` (default), `message`, or `first-action`. Messages never receive focus automatically — the `focus` prop must be set explicitly.
+- `priority` controls how the message is announced to assistive technology: `low` (default) or `high`.
+
+Most messages should be passive. They should not move focus. They can be announced politely and stored in the notification center.
+
+Messages should only receive focus when the `focus` prop is explicitly set to `message` or `first-action`, and only when the user must act on the message before continuing, or when the message is time-sensitive and requires immediate attention.
+
+## Compound components
+
+The Toaster is made up of several compound components that you place separately in your application. They communicate with each other through a shared `id` / `hostId`.
+
+```tsx
+<Toaster.Host id="unique-id" />
+<Toaster.NotificationCenter hostId="unique-id" />
+<Toaster.NotificationCenter.Button hostId="unique-id" />
+```
+
+Here is what each part does:
+
+- **`Toaster.Host`** — The core engine. Manages state, renders the toast stack, and provides the `aria-live` region for screen reader announcements. **Always required.**
+- **`Toaster.NotificationCenter`** — The popup panel that displays all messages. Opens when the trigger button is clicked. **You must include either this or `Toaster.NotificationCenterList`.**
+- **`Toaster.NotificationCenter.Button`** — The button that opens and closes the notification center. It gives users the predictable entry point back to messages. Defaults to `floating` mode, but can be rendered inline in the document flow with `floating={false}`.
+- **`Toaster.NotificationCenterList`** — Renders messages inline in the document flow, without a popup panel. Use this when you want to build your own notification area, message feed, or dedicated notifications page. **An alternative to `Toaster.NotificationCenter` — you must include one or the other.**
+
+## What is required
+
+Every Toaster setup needs `Toaster.Host` and a notification UI, either `Toaster.NotificationCenter` or `Toaster.NotificationCenterList`.
+
+If the notification UI is missing, an error is thrown at runtime.
+
+Minimal setup with a notification center:
+
+```tsx
+<Toaster.Host id="unique-id" />
+<Toaster.NotificationCenter hostId="unique-id" />
+<Toaster.NotificationCenter.Button hostId="unique-id" />
+```
+
+Setup with an inline list:
+
+```tsx
+<Toaster.Host id="unique-id" />
+<Toaster.NotificationCenterList hostId="unique-id" />
+```
+
+## Where to place the components
+
+The components do not need to be adjacent or even in the same component tree. They find each other through the shared `id` / `hostId` string.
+
+Placement still matters.
+
+The notification center button is the user's entry point back to messages. Place it somewhere meaningful and predictable, for example in the application header, navigation area, or near the start of `main`.
+
+When the notification center closes, focus returns to the button. Even when the button is visually floating, its position in the source order determines where focus lands. Avoid placing it at the end of the document unless that is the intended focus position.
+
+A typical app layout:
+
+```tsx
+function App() {
+  return (
+    <Layout>
+      {/* Place Host once, near the root of your app */}
+      <Toaster.Host id="unique-id" />
+
+      <Header>
+        {/* NotificationCenter renders the popup panel */}
+        <Toaster.NotificationCenter hostId="unique-id" />
+
+        {/* Button gives users the entry point back to messages */}
+        <Toaster.NotificationCenter.Button hostId="unique-id" />
+      </Header>
+
+      <MainContent />
+    </Layout>
+  )
+}
+```
+
+For inline placement, where the button is part of the document flow instead of floating:
+
+```tsx
+<header>
+  <Toaster.NotificationCenter hostId="unique-id" />
+  <Toaster.NotificationCenter.Button hostId="unique-id" floating={false} />
+</header>
+```
+
+## Integrating with an existing notification center
+
+If your application already has a notification center, you can use `Toaster.NotificationCenterList` to render temporary status updates inside it.
+
+For example:
+
+```tsx
+<ExistingNotificationCenter>
+  <Tabs>
+    <Tab title="Messages">
+      <BankMessages />
+    </Tab>
+
+    <Tab title="Status updates">
+      <Toaster.NotificationCenterList hostId="unique-id" />
+    </Tab>
+  </Tabs>
+</ExistingNotificationCenter>
+```
+
+This gives users one known place for notifications, while still keeping temporary status updates separate from permanent bank messages.
+
+## Alternative: inline notification list
+
+If you do not want a popup panel, use `Toaster.NotificationCenterList` to render messages directly in the page:
+
+```tsx
+<Toaster.Host id="unique-id" />
+<Toaster.NotificationCenterList hostId="unique-id" />
+```
+
+This is useful when you want to build a custom notification area, for example a dedicated notifications page, an embedded message feed, or a message section together with other page messages.
+
+The messages render inside a `role="log"` container.
+
+```tsx
+<Toaster.NotificationCenterList hostId="unique-id" order="desc" />
+```
+
+Use `order="desc"` to show newest messages first.
+
+## Sending messages
+
+Use the `useToaster` hook to send messages from anywhere in your app:
+
+```tsx
+const { addMessage } = Toaster.useToaster('unique-id')
+
+addMessage({
+  variant: 'info',
+  title: 'Draft saved',
+  text: 'Your changes were saved as a draft.',
+})
+```
+
+The hook takes the same `id` string that `Toaster.Host` was given. Messages appear in the toast stack and are stored in the notification center.
+
+## Message options
+
+Messages have visual, behavioral and lifecycle options.
+
+```tsx
+addMessage({
+  variant: 'success',
+  title: 'Draft saved',
+  text: 'Your changes were saved as a draft.',
+  priority: 'low',
+  focus: 'none',
+})
+```
+
+Common options:
+
+- `variant` — Controls visual appearance: `neutral`, `info`, `success`, `warning`, `error`.
+- `title` — Short message title.
+- `text` — Main message content.
+- `actions` — Optional actions, such as buttons or links.
+- `priority` — Controls screen reader announcement priority: `low` (default, uses `aria-live="polite"`) or `high` (uses `aria-live="assertive"`).
+- `focus` — Controls focus behavior when the message appears: `none` (default), `message`, or `first-action`. Messages with actions do not receive focus unless this prop is explicitly set.
+- `privacy` — Controls how sensitive content is handled.
+
+Most messages should use `priority="low"` and `focus="none"`.
+
+Use `priority="high"` only for urgent messages that require immediate attention, such as session expiry, security warnings or blocking errors.
+
+Use automatic focus only when the user must act on the message before continuing.
+
+## Message lifecycle
+
+Messages support explicit lifecycle states:
+
+- `unread` — New message, not yet seen.
+- `read` — User has seen the message.
+- `dismissed` — User has actively closed the message.
+- `expired` — The message or interaction is no longer relevant.
+
+A message can disappear from the toast stack while still remaining available in the notification center.
+
+Messages should remain available until they are dismissed, expired, or intentionally removed for privacy reasons.
+
+## Privacy
+
+Some messages may contain sensitive information. Applications should avoid showing secrets, account details or personal information in automatically appearing messages unless it is strictly necessary.
+
+Sensitive messages can use different content for the temporary toast and the notification center.
+
+For example, the toast may show a short message while the notification center shows sanitized content:
+
+```tsx
+addMessage({
+  variant: 'info',
+  title: 'Secure message',
+  text: 'Your account number ending in 1234 was updated.',
+  privacy: 'sensitive',
+  privacyFallbackText: 'Sensitive message removed.',
+})
+```
+
+When `privacy="sensitive"` is used, the notification center can replace the message text with `privacyFallbackText` and hide actions. The message title may be kept if it does not contain sensitive content.
+
+Sensitive content should be removed when it is no longer needed, for example when the message is dismissed, expired, or visually hidden.
+
+## Accessibility
+
+The Toaster is built to be usable with keyboard, screen readers, and assistive technology without additional setup.
+
+### Screen reader announcements
+
+New messages are announced through an `aria-live` region.
+
+Use:
+
+- `priority="low"` (default) for most messages — uses `aria-live="polite"`, which waits until the screen reader is idle.
+- `priority="high"` only for urgent messages — uses `aria-live="assertive"`, which may interrupt what the screen reader is currently reading and should be used carefully.
+
+Only the relevant message content should be announced. The full message remains available in the notification center.
+
+### Semantic structure
+
+- The notification center and inline list use `role="log"` with a descriptive accessible name, such as `aria-label="Status updates"`.
+- Each message is grouped semantically, for example with `role="group"` and an accessible name based on the message title.
+- The notification center button uses `aria-expanded` and `aria-haspopup` to communicate the notification center state.
+- Interactive elements inside messages use native elements where possible, such as `<button>` and `<a>`.
+
+### Keyboard interaction
+
+- The notification center button is reachable by keyboard.
+- `Enter` or `Space` opens the notification center from the button.
+- `Escape` closes the notification center and returns focus to the notification center button.
+- `Tab` moves through messages and actions in a meaningful order.
+- Messages with actions must expose real, keyboard-operable controls.
+
+### Focus management
+
+Messages do not move focus automatically. Focus is only moved when the `focus` prop is explicitly set.
+
+- `focus="none"` (default) — The message does not move focus. This is the correct choice for most messages, including messages with actions.
+- `focus="message"` — Focus moves to the message itself.
+- `focus="first-action"` — Focus moves to the first action button. Falls back to the message if no focusable element is found.
+
+Messages should only use `focus="message"` or `focus="first-action"` when the user must act on the message before continuing, or when the message is urgent and time-sensitive.
+
+When focus is moved, it should move to the message itself or to the first relevant action.
+
+When the notification center closes, focus should return to the notification center button.
+
+Avoid sending several action-required messages at the same time, as that can create a confusing focus experience.
+
+## Known limitations
+
+These are known limitations and trade-offs to be aware of.
+
+### DOM order vs visual order in the toast stack
+
+The toast stack may be rendered through a React portal and visually positioned in a fixed location. This can create a mismatch between visual order and DOM order.
+
+Because of that, the toast stack should be treated as a temporary visual presentation layer, not as the only way to access messages.
+
+The notification center button and inline list provide the reliable access path.
+
+### Announcement timing with `aria-live`
+
+`aria-live` announcements are not guaranteed to be heard in every situation.
+
+If a screen reader is already speaking, or if several messages arrive close together, earlier announcements may be delayed, interrupted or skipped. This is one reason why messages remain available in the notification center.
+
+### Focus during rapid messages
+
+If several action-required messages arrive close together, focus can become difficult to manage.
+
+Applications should avoid sending multiple focus-moving messages at the same time. Prefer grouping related messages or using the notification center list for lower-priority messages.
+
+## Relevant WCAG criteria
+
+The Toaster is especially relevant to the following WCAG criteria:
+
+- **WCAG 2.1.1 Keyboard** — Interactive message controls must be usable with keyboard.
+- **WCAG 2.2.1 Timing Adjustable** — Users must have enough time to read and interact with time-sensitive content.
+- **WCAG 2.4.3 Focus Order** — Focus order should preserve meaning and operability.
+- **WCAG 2.4.11 Focus Not Obscured** — Focused elements should not be hidden by floating content.
+- **WCAG 2.4.12 Focus Not Obscured (Enhanced)** — Stronger requirement for avoiding focus obstruction.
+- **WCAG 3.2.1 On Focus** — Focus changes should not unexpectedly change context.
+- **WCAG 4.1.2 Name, Role, Value** — Interactive elements must expose correct name, role and state.
+- **WCAG 4.1.3 Status Messages** — Status messages must be programmatically determinable so assistive technologies can present them without moving focus.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/toaster)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/toaster)
+
+<RelatedComponents />
