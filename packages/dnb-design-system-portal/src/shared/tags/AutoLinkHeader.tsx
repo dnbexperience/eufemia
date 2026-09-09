@@ -5,6 +5,7 @@ import Anchor from './Anchor'
 import Heading, {
   type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
+import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import { makeSlug } from '../../uilib/utils/slug'
 import { useLocation } from 'react-router'
 import {
@@ -60,19 +61,22 @@ const AutoLinkHeader = ({
   const clickHandler =
     className && /skip-anchor/g.test(String(className))
       ? null
-      : (event: MouseEvent<HTMLAnchorElement>) => {
+      : async (event: MouseEvent<HTMLAnchorElement>) => {
           event.preventDefault()
 
           if (typeof window !== 'undefined' && id) {
             try {
               window.history.replaceState(undefined, undefined, '#' + id)
 
-              setAnchorUrlSet(true)
-              clearTimeout(tooltipTimeoutRef.current)
-              tooltipTimeoutRef.current = setTimeout(
-                () => setAnchorUrlSet(false),
-                2000
-              )
+              const success = await copyToClipboard(window.location.href)
+              if (success === true) {
+                setAnchorUrlSet(true)
+                clearTimeout(tooltipTimeoutRef.current)
+                tooltipTimeoutRef.current = setTimeout(
+                  () => setAnchorUrlSet(false),
+                  2000
+                )
+              }
             } catch (e) {
               console.error('Could not call replaceState:', e)
             }
