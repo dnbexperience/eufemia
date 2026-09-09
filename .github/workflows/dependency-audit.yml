@@ -18,12 +18,6 @@ name: Dependency audit
 
 on:
   push:
-    branches:
-      - '**'
-      - '!**--skip-ci'
-      - '!**--visual-reports'
-      - '!wip/**'
-      - '!experiments/**'
     paths:
       - 'yarn.lock'
       # Both spellings on purpose. GitHub documents `**` as "zero or more of any
@@ -35,6 +29,7 @@ on:
       # `npmAuditIgnoreAdvisories` (advisory exceptions) and `npmMinimalAgeGate`
       # live here, so this file changes what the audit reports.
       - '.yarnrc.yml'
+      - '.yarn/**'
       - '.github/workflows/dependency-audit.yml'
       # The SBOM smoke test below exists to mirror release.yml and pins a
       # generator version that must match it, so changes there must re-run this.
