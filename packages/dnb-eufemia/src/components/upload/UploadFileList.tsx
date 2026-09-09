@@ -1,10 +1,14 @@
 import { useContext, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import type { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'
 import { isSameFile } from './uploadFileUtils'
-import { isAsync } from '../../shared/helpers/isAsync'
+
+type FileOperation = {
+  timeout?: ReturnType<typeof setTimeout>
+}
 
 function UploadFileList() {
   const context = useContext(UploadContext)
@@ -16,6 +20,8 @@ function UploadFileList() {
     download,
     allowDuplicates,
     loadingText,
+    asyncFileOperationTimeout,
+    errorDeleteTimeout,
     onFileDelete,
     onFileClick,
     onChange,
@@ -28,6 +34,18 @@ function UploadFileList() {
   useEffect(() => {
     filesRef.current = files
   }, [files])
+
+  // Pending operations are tracked so their deadline can be cleared when the
+  // list unmounts, and so a Promise settling afterwards is ignored.
+  const operationsRef = useRef<Set<FileOperation>>(new Set())
+
+  useEffect(() => {
+    const operations = operationsRef.current
+    return () => {
+      operations.forEach(({ timeout }) => clearTimeout(timeout))
+      operations.clear()
+    }
+  }, [])
 
   if (files === null || files.length < 1) {
     return null
@@ -54,6 +72,11 @@ function UploadFileList() {
   }
 
   const updateFiles = (updatedFiles: UploadFile[]) => {
+    // Keep the ref in step synchronously. It is otherwise only refreshed by an
+    // effect, so two operations settling in the same tick would both compute
+    // from the same stale list, and the second would undo the first.
+    filesRef.current = updatedFiles
+
     setFiles(updatedFiles)
     setInternalFiles(updatedFiles)
 
@@ -62,72 +85,120 @@ function UploadFileList() {
     }
   }
 
-  const handleDeleteAsync = async (uploadFile: UploadFile) => {
-    updateFiles(
-      updateFile(uploadFile, {
-        isLoading: true,
-        errorMessage: null,
-      })
-    )
-
-    try {
-      await onFileDelete({ fileItem: uploadFile })
-      updateFiles(removeFile(uploadFile))
-    } catch (error) {
-      updateFiles(
-        updateFile(uploadFile, {
-          isLoading: false,
-          errorMessage:
-            error instanceof Error ? error.message : String(error),
-        })
-      )
+  /**
+   * Gives one async file operation a deadline, so that exactly one of
+   * `onResolve`, `onReject` and `onTimeout` runs. A file waiting for the
+   * operation shows a loading state and cannot be deleted, so a Promise that
+   * never settles would leave it stuck with no way out. A Promise settling
+   * after the deadline is ignored, since the file has been recovered by then.
+   */
+  const runFileOperation = (
+    result: Promise<unknown>,
+    handlers: {
+      onResolve: () => void
+      onReject: (error: unknown) => void
+      onTimeout: () => void
     }
-  }
+  ) => {
+    const operations = operationsRef.current
+    const operation: FileOperation = {}
+    operations.add(operation)
 
-  const handleFileClickAsync = async (uploadFile: UploadFile) => {
-    updateFiles(
-      updateFile(uploadFile, {
-        isLoading: true,
-      })
-    )
+    // Only returns true for whichever outcome arrives first
+    const claimOperation = () => operations.delete(operation)
 
-    try {
-      await onFileClick({ fileItem: uploadFile })
-    } catch (error) {
-      // stop here
-    }
+    operation.timeout = setTimeout(() => {
+      if (claimOperation()) {
+        handlers.onTimeout()
+      }
+    }, asyncFileOperationTimeout)
 
-    updateFiles(
-      updateFile(uploadFile, {
-        isLoading: false,
-      })
+    void result.then(
+      () => {
+        if (claimOperation()) {
+          clearTimeout(operation.timeout)
+          handlers.onResolve()
+        }
+      },
+      (error) => {
+        if (claimOperation()) {
+          clearTimeout(operation.timeout)
+          handlers.onReject(error)
+        }
+      }
     )
   }
 
   return (
     <ul className="dnb-upload__file-list" aria-label={listAriaLabel}>
       {files.map((uploadFile: UploadFile, index: number) => {
-        const onDeleteHandler = async () => {
-          if (typeof onFileDelete === 'function') {
-            if (isAsync(onFileDelete)) {
-              handleDeleteAsync(uploadFile)
-            } else {
-              onFileDelete({ fileItem: uploadFile })
-              updateFiles(removeFile(uploadFile))
-            }
-          } else {
+        const onDeleteHandler = () => {
+          if (typeof onFileDelete !== 'function') {
             updateFiles(removeFile(uploadFile))
+            return
           }
+
+          // "onFileDelete" is documented as `void | Promise<void>`. Calling it
+          // and inspecting the result supports both, where predicting it from
+          // the function declaration would silently drop the Promise of a
+          // handler that is not declared `async`.
+          const result: unknown = onFileDelete({ fileItem: uploadFile })
+
+          if (!(result instanceof Promise)) {
+            updateFiles(removeFile(uploadFile))
+            return
+          }
+
+          updateFiles(
+            updateFile(uploadFile, {
+              isLoading: true,
+              errorMessage: null,
+            })
+          )
+
+          const keepFileWithError = (errorMessage: ReactNode) => {
+            updateFiles(
+              updateFile(uploadFile, {
+                isLoading: false,
+                errorMessage,
+              })
+            )
+          }
+
+          runFileOperation(result, {
+            // The file is only removed once the consumer confirms the
+            // deletion, which is why the two other outcomes keep it listed
+            onResolve: () => updateFiles(removeFile(uploadFile)),
+            onReject: (error) =>
+              keepFileWithError(
+                error instanceof Error ? error.message : String(error)
+              ),
+            onTimeout: () => keepFileWithError(errorDeleteTimeout),
+          })
         }
 
-        const onFileClickHandler = async () => {
-          if (typeof onFileClick === 'function') {
-            if (isAsync(onFileClick)) {
-              handleFileClickAsync(uploadFile)
-            } else {
-              onFileClick({ fileItem: uploadFile })
-            }
+        const onFileClickHandler = () => {
+          if (typeof onFileClick !== 'function') {
+            return
           }
+
+          const result: unknown = onFileClick({ fileItem: uploadFile })
+
+          if (!(result instanceof Promise)) {
+            return
+          }
+
+          updateFiles(updateFile(uploadFile, { isLoading: true }))
+
+          const stopLoading = () => {
+            updateFiles(updateFile(uploadFile, { isLoading: false }))
+          }
+
+          runFileOperation(result, {
+            onResolve: stopLoading,
+            onReject: stopLoading,
+            onTimeout: stopLoading,
+          })
         }
 
         return (

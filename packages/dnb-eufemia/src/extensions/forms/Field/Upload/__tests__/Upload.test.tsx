@@ -1258,6 +1258,54 @@ describe('Field.Upload', () => {
     })
   })
 
+  describe('never settling onFileDelete', () => {
+    it('should keep the file and show an error after asyncSubmitTimeout', async () => {
+      const onFileDelete = vi.fn(async () => {
+        await new Promise<void>(() => undefined)
+      })
+
+      render(
+        <Form.Handler asyncSubmitTimeout={300}>
+          <Field.Upload path="/files" onFileDelete={onFileDelete} />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: {
+          files: [createMockFile('fileName-1.png', 100, 'image/png')],
+        },
+      })
+
+      const deleteButton = await screen.findByRole('button', {
+        name: nbShared.Upload.deleteButton,
+      })
+
+      fireEvent.click(deleteButton)
+
+      await waitFor(() => {
+        expect(onFileDelete).toHaveBeenCalledTimes(1)
+        expect(deleteButton).toBeDisabled()
+      })
+
+      // The form's asyncSubmitTimeout governs the deletion as well, so the
+      // file is recovered long before the 30 second default would apply
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', {
+            name: nbShared.Upload.deleteButton,
+          })
+        ).not.toBeDisabled()
+      })
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell')
+      ).toHaveLength(1)
+      expect(
+        screen.queryByText(nbShared.Upload.errorDeleteTimeout)
+      ).toBeInTheDocument()
+    })
+  })
+
   describe('In Wizard', () => {
     const previousButton = () => {
       return document.querySelector('.dnb-forms-previous-button')
@@ -3254,6 +3302,14 @@ describe('Field.Upload', () => {
       )
 
       resolveOnFileDeleteHandler2()
+
+      // The deletion is only committed once its Promise settles, so the file
+      // has to be gone from the list before the form is submitted
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell').length
+        ).toBe(0)
+      })
 
       fireEvent.submit(document.querySelector('form'))
 
