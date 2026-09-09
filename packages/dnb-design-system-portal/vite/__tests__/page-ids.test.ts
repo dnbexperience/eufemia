@@ -42,6 +42,8 @@ import {
 const MARKDOWN_HEADING_LINE = /^(#{1,6})\s+(\S.*?)\s*$/
 const CODE_FENCE_LINE = /^\s*(```+|~~~+)/
 const INLINE_CODE_SPAN = /`[^`]*`/g
+const INLINE_LINK = /\[([^\]]*)\]\([^)]*\)/g
+const INLINE_EMPHASIS = /(\*\*|~~|`)/g
 const LITERAL_ID_ATTRIBUTE = /\bid=["']([^"'{}\s]+)["']/g
 const IMPORT_STATEMENT = /import\s+([\s\S]*?)\s+from\s+['"]([^'"]+)['"]/g
 const DEFAULT_IMPORT_NAME = /^([A-Za-z_$][\w$]*)/
@@ -158,9 +160,15 @@ function collectIdsInMarkdown(
   for (const line of markdown.split('\n')) {
     const heading = MARKDOWN_HEADING_LINE.exec(line)
     if (heading) {
-      // MDX resolves escapes before the heading reaches `makeSlug`, so
+      // `makeSlug` receives the rendered children, so inline markdown is
+      // already resolved to plain text. MDX also resolves escapes, so
       // `\{#custom-id\}` has to become `{#custom-id}` to slug the same way.
-      const id = makeSlug(heading[2].replace(ESCAPED_PUNCTUATION, '$1'))
+      const id = makeSlug(
+        heading[2]
+          .replace(INLINE_LINK, '$1')
+          .replace(INLINE_EMPHASIS, '')
+          .replace(ESCAPED_PUNCTUATION, '$1')
+      )
       if (id) {
         renderedIds.push({ id, sourceFile })
       }
