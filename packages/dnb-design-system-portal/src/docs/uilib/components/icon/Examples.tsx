@@ -3,6 +3,7 @@
  *
  */
 
+import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   bell_medium as BellMedium,
@@ -18,6 +19,8 @@ import {
 } from '@dnb/eufemia/src/icons'
 import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_medium'
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
+import AnimatedBell from '@dnb/eufemia/src/icons/animated/bell_medium'
+import AnimatedArrowRight from '@dnb/eufemia/src/icons/animated/arrow_right'
 import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
 import {
   Icon,
@@ -69,6 +72,45 @@ export const IconFilled = () => (
         <Button icon={<Icon icon={Heart} fill />} title="Favorite" />
       </Flex.Horizontal>
     </Flex.Stack>
+  </ComponentBox>
+)
+
+export const IconAnimated = () => (
+  <ComponentBox data-visual-test="icon-animated" scope={{ AnimatedBell }}>
+    {() => {
+      const App = () => {
+        const [animationKey, setAnimationKey] = useState(0)
+
+        return (
+          <Flex.Horizontal align="center" gap="small">
+            <Icon
+              icon={AnimatedBell}
+              size="medium"
+              animate
+              animationKey={animationKey}
+              aria-hidden
+            />
+            <Button
+              variant="secondary"
+              text="Replay"
+              onClick={() => setAnimationKey((key) => key + 1)}
+            />
+          </Flex.Horizontal>
+        )
+      }
+
+      return <App />
+    }}
+  </ComponentBox>
+)
+
+export const IconAnimatedButtonInvite = () => (
+  <ComponentBox scope={{ AnimatedArrowRight }}>
+    <Button
+      variant="tertiary"
+      text="Continue"
+      icon={<Icon icon={AnimatedArrowRight} animateWhen="hover" />}
+    />
   </ComponentBox>
 )
 

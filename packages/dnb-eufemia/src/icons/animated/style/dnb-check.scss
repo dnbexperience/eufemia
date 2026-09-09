@@ -1,0 +1,62 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-icon--animated-check.dnb-icon--animate svg,
+:where(button, a, [role='button'], [data-icon-animation-trigger]):hover
+  .dnb-icon--animated-check.dnb-icon--animate-when-hover
+  svg,
+.dnb-icon--animated-check.dnb-icon--animate-when-hover:hover svg {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: dnb-icon-animated-check-settle 650ms
+    var(--easing-default) both;
+
+  @include utilities.reducedMotion() {
+    animation: none;
+  }
+}
+
+.dnb-icon--animated-check.dnb-icon--animate path,
+:where(button, a, [role='button'], [data-icon-animation-trigger]):hover
+  .dnb-icon--animated-check.dnb-icon--animate-when-hover
+  path,
+.dnb-icon--animated-check.dnb-icon--animate-when-hover:hover path {
+  animation: dnb-icon-animated-check-draw 650ms var(--easing-default)
+    both;
+
+  @include utilities.reducedMotion() {
+    animation: none;
+  }
+}
+
+@keyframes dnb-icon-animated-check-draw {
+  from {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+  }
+
+  to {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dnb-icon-animated-check-settle {
+  0% {
+    opacity: 0;
+    transform: scale(0.7) rotate(-8deg);
+  }
+
+  55% {
+    opacity: 1;
+    transform: scale(1.15) rotate(2deg);
+  }
+
+  75% {
+    transform: scale(0.96) rotate(-1deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}

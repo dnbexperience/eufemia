@@ -56,6 +56,21 @@ export const IconProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  animate: {
+    doc: 'Plays motion provided by an explicitly imported animated icon. Use `true` or `once` to play once, or `loop` to repeat the animation.',
+    type: ['boolean', '"once"', '"loop"'],
+    status: 'optional',
+  },
+  animateWhen: {
+    doc: 'Plays an animated icon when the icon itself, or an interactive parent such as a button or link, is hovered.',
+    type: '"hover"',
+    status: 'optional',
+  },
+  animationKey: {
+    doc: 'Change this value to replay an animated icon while `animate` remains enabled.',
+    type: ['string', 'number'],
+    status: 'optional',
+  },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
