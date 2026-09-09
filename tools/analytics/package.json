@@ -22,7 +22,7 @@
   "devDependencies": {
     "@types/aws-lambda": "8.10.161",
     "esbuild": "0.25.5",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "volta": {
     "extends": "../../package.json"
