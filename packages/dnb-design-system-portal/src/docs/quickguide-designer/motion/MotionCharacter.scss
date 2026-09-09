@@ -16,15 +16,15 @@
   &__segment,
   &__swatch {
     &--purposeful {
-      background: var(--token-color-background-action);
+      background: var(--token-color-decorative-first-intense);
     }
 
     &--guiding {
-      background: var(--token-color-background-selected);
+      background: var(--token-color-decorative-first-bold);
     }
 
     &--delightful {
-      background: var(--token-color-background-selected-subtle);
+      background: var(--token-color-decorative-first-base);
     }
   }
 

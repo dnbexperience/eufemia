@@ -77,6 +77,34 @@ test('motion character presents one segmented priority bar', async ({
   expect(
     widths[0] / widths.reduce((sum, width) => sum + width, 0)
   ).toBeCloseTo(0.6)
+  const colors = await character.evaluate((element) => {
+    const variants = ['purposeful', 'guiding', 'delightful']
+    const tokens = ['intense', 'bold', 'base']
+
+    return variants.map((variant, index) => {
+      const segment = element.querySelector<HTMLElement>(
+        `.dnb-motion-character__segment--${variant}`
+      )!
+      const swatch = element.querySelector<HTMLElement>(
+        `.dnb-motion-character__swatch--${variant}`
+      )!
+      const probe = document.createElement('span')
+      probe.style.backgroundColor = `var(--token-color-decorative-first-${tokens[index]})`
+      element.appendChild(probe)
+      const tokenColor = getComputedStyle(probe).backgroundColor
+      probe.remove()
+
+      return {
+        segment: getComputedStyle(segment).backgroundColor,
+        swatch: getComputedStyle(swatch).backgroundColor,
+        tokenColor,
+      }
+    })
+  })
+  for (const { segment, swatch, tokenColor } of colors) {
+    expect(segment).toBe(tokenColor)
+    expect(swatch).toBe(tokenColor)
+  }
   await expect(character.getByRole('button')).toHaveCount(0)
   await expect(character.getByRole('progressbar')).toHaveCount(0)
 })
