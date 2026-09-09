@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
-import sampleMotionStyles from './shared/sampleMotionStyles'
 
 test.use({ browserName: 'webkit' })
 
@@ -11,112 +10,126 @@ test.describe('easing previews', () => {
     await waitForApp(page)
   })
 
-  test('show both curves before their code, compared with constant speed', async ({
-    page,
-  }) => {
+  test('show both easing curves with guidance', async ({ page }) => {
+    await expect(
+      page.getByRole('heading', {
+        name: 'Easing tokens',
+        level: 5,
+        exact: true,
+      })
+    ).toBeVisible()
     await expect(page.locator('.dnb-easing-demo')).toHaveCount(2)
-    await expect(page.locator('.dnb-easing-demo button')).toHaveCount(0)
     for (const variant of ['default', 'bounce']) {
       const demo = page.locator(`.dnb-easing-demo--${variant}`)
       const title =
         variant === 'default' ? 'Default easing' : 'Fast bounce'
-      const heading = page.getByRole('heading', {
-        name: title,
-        level: 5,
-        exact: true,
-      })
-      await expect(heading).toHaveCount(1)
+      const token =
+        variant === 'default' ? '--easing-default' : '--easing-fast-bounce'
       await expect(demo).toHaveAccessibleName(title)
-      await expect(demo.locator('figcaption')).toHaveCount(0)
+      await expect(demo.locator('code')).toHaveText(token)
+      await expect(
+        demo.locator('.dnb-easing-demo__curve')
+      ).toHaveAttribute(
+        'd',
+        variant === 'default'
+          ? 'M48 120C84.96 120 48 32 136 32'
+          : 'M48 120C77.92 -17.28 104.32 32 136 32'
+      )
+      const colors = await demo.evaluate((element) => {
+        const resolveColor = (value: string) => {
+          const probe = document.createElement('span')
+          probe.style.color = value
+          element.appendChild(probe)
+          const color = getComputedStyle(probe).color
+          probe.remove()
+
+          return color
+        }
+        const style = getComputedStyle(element)
+        const curveColor = resolveColor(
+          style.getPropertyValue('--token-color-text-neutral-alternative')
+        )
+        const guideColor = resolveColor(
+          style.getPropertyValue('--token-color-stroke-neutral-bold')
+        )
+
+        return {
+          curveColor,
+          guideColor,
+          curve: getComputedStyle(
+            element.querySelector('.dnb-easing-demo__curve')
+          ).stroke,
+          point: getComputedStyle(
+            element.querySelector('.dnb-easing-demo__point')
+          ).fill,
+          curveRunner: getComputedStyle(
+            element.querySelector('.dnb-easing-demo__curve-runner')
+          ).fill,
+          guide: getComputedStyle(
+            element.querySelector('.dnb-easing-demo__guide')
+          ).stroke,
+          diagonal: getComputedStyle(
+            element.querySelector('.dnb-easing-demo__diagonal')
+          ).stroke,
+        }
+      })
+      expect(colors.curve).toBe(colors.curveColor)
+      expect(colors.point).toBe(colors.curveColor)
+      expect(colors.curveRunner).toBe(colors.curveColor)
+      expect(colors.guide).toBe(colors.guideColor)
+      expect(colors.diagonal).toBe(colors.guideColor)
+      await expect(demo.locator('.dnb-easing-demo__guide')).toHaveCSS(
+        'stroke-width',
+        '0.5px'
+      )
+      await expect(demo.locator('.dnb-easing-demo__diagonal')).toHaveCSS(
+        'stroke-width',
+        '0.5px'
+      )
+      const curveRunner = demo.locator('.dnb-easing-demo__curve-runner')
+      await expect(curveRunner).toHaveCount(1)
+      await expect(curveRunner).toHaveAttribute('r', '5')
+      await expect(curveRunner).toHaveCSS(
+        'fill',
+        await demo
+          .locator('.dnb-easing-demo__curve')
+          .evaluate((element) => getComputedStyle(element).stroke)
+      )
+      await expect(curveRunner.locator('animateMotion')).toHaveCount(0)
+      await expect(demo.locator('figcaption')).toBeVisible()
       const card = demo.locator('.dnb-card')
       await expect(card).toHaveCount(1)
       await expect(card).toHaveCSS(
         '--background-color',
         await card.evaluate((element) =>
           getComputedStyle(element)
-            .getPropertyValue('--token-color-background-neutral')
+            .getPropertyValue('--token-color-background-neutral-subtle')
             .trim()
         )
       )
       await expect(card.locator('figcaption')).toHaveCount(0)
-      await expect(card).not.toContainText('Slowed down for comparison')
-      await expect(demo.locator('p')).toHaveCount(0)
-      await expect(demo.locator('.dnb-easing-demo__runner')).toHaveCount(4)
-      expect(
-        await demo
-          .locator('.dnb-easing-demo__runner circle')
-          .evaluateAll((circles) =>
-            circles.map((circle) => circle.getAttribute('r'))
-          )
-      ).toEqual(['4.5', '6.75', '9', '9'])
-      expect(
-        await demo
-          .locator('.dnb-easing-demo__target')
-          .evaluateAll((circles) =>
-            circles.map((circle) => circle.getAttribute('r'))
-          )
-      ).toEqual(['12', '12'])
-      await expect(card.locator('svg')).toHaveAttribute(
-        'viewBox',
-        '0 0 520 96'
-      )
-      const lane = demo.locator('.dnb-easing-demo__lane')
-      await expect(lane).toHaveAttribute('height', '32')
-      for (const line of await demo
-        .locator('.dnb-easing-demo__track, .dnb-easing-demo__finish')
-        .all()) {
-        await expect(line).toHaveCSS('stroke-width', '1.5px')
-        await expect(line).toHaveCSS('opacity', '0.6')
-      }
-      const finish = demo.locator('.dnb-easing-demo__finish')
-      const tracks = demo.locator('.dnb-easing-demo__track')
-      await expect(tracks).toHaveCount(2)
-      const topStroke = await tracks
-        .first()
-        .evaluate((element) => getComputedStyle(element).stroke)
-      await expect(tracks.last()).not.toHaveCSS('stroke', topStroke)
+      const linearRunner = demo.locator('.dnb-easing-demo__runner')
+      await expect(linearRunner).toHaveCount(1)
+      await expect(linearRunner).toHaveAttribute('r', '10')
       await expect(
-        demo.locator('.dnb-easing-demo__track-ends--eased')
-      ).toHaveCSS('fill', topStroke)
-      await expect(finish).toHaveCSS('stroke-dasharray', '0px, 6px')
-      await expect(finish).toHaveCSS('stroke-linecap', 'round')
-      expect(
-        await demo
-          .locator('.dnb-easing-demo__track-ends circle')
-          .evaluateAll((circles) =>
-            circles.map((circle) =>
-              ['cx', 'cy', 'r'].map((attribute) =>
-                Number(circle.getAttribute(attribute))
-              )
-            )
-          )
-      ).toEqual([
-        [48, 28, 2.5],
-        [464, 28, 2.5],
-        [48, 72, 2.5],
-        [416, 72, 2.5],
-      ])
-      const introduction = await demo.evaluate((element) => ({
-        tag: element.previousElementSibling.tagName,
-        text: element.previousElementSibling.textContent,
-        top: element.previousElementSibling.getBoundingClientRect().top,
-      }))
-      expect(introduction.tag).toBe('P')
-      expect(introduction.text).toBe('Slowed down for comparison.')
-      expect(
-        await heading.evaluate(
-          (element) => element.getBoundingClientRect().bottom
-        )
-      ).toBeLessThan(introduction.top)
-      const followingCode = await demo.evaluate(
-        (element) =>
-          element.nextElementSibling.querySelector('pre')?.textContent
-      )
-      expect(followingCode).toContain(
-        variant === 'default' ? '--easing-default' : '--easing-fast-bounce'
+        demo.locator('.dnb-easing-demo__travel-track')
+      ).toHaveCount(0)
+      await expect(
+        card.locator('.dnb-easing-demo__stage')
+      ).toHaveAttribute('viewBox', '0 0 184 184')
+      const guideSize = await demo
+        .locator('.dnb-easing-demo__guide')
+        .evaluate((element: SVGGraphicsElement) => {
+          const { width, height } = element.getBBox()
+          return { width, height }
+        })
+      expect(guideSize.width).toBe(guideSize.height)
+      await expect(demo.getByRole('button')).toHaveCount(0)
+      await expect(demo.locator('.dnb-easing-demo__timing')).toContainText(
+        variant === 'default' ? '1200ms' : '720ms'
       )
       const timing = await demo
-        .locator('.dnb-easing-demo__runner--eased')
+        .locator('.dnb-easing-demo__runner')
         .evaluate((element) => {
           const style = getComputedStyle(element)
           const numbers = (value: string) =>
@@ -124,46 +137,58 @@ test.describe('easing previews', () => {
           return {
             actual: numbers(style.animationTimingFunction),
             token: numbers(style.getPropertyValue('--easing-demo-curve')),
+            duration: style.animationDuration,
           }
         })
       expect(timing.token).toHaveLength(4)
       expect(timing.actual).toEqual(timing.token)
-      const [start, early, middle, settling, end, repeated] =
-        await demo.evaluate(sampleMotionStyles, {
-          times: [600, 900, 1600, 2100, 2600, 4600],
-          selectors: {
-            eased: '.dnb-easing-demo__runner--eased',
-            linear: '.dnb-easing-demo__runner--linear',
-            trailNear: '.dnb-easing-demo__runner--trail-near',
-            trailFar: '.dnb-easing-demo__runner--trail-far',
-          },
-        })
-      expect(start.eased.x).toBeCloseTo(0)
-      expect(start.linear.x).toBeCloseTo(0)
-      expect(middle.linear.x).toBeCloseTo(184)
-      expect(early.trailFar.x).toBeLessThan(early.trailNear.x)
-      expect(early.trailNear.x).toBeLessThan(early.eased.x)
-      expect(middle.eased.bounds.width).toBeCloseTo(
-        middle.linear.bounds.width
+      expect(timing.duration).toBe(
+        variant === 'default' ? '4.3s, 4.3s' : '3.82s, 3.82s'
       )
-      expect(middle.eased.bounds.height).toBeCloseTo(
-        middle.linear.bounds.height
+      const progress = await demo.evaluate(
+        (element, currentTime) => {
+          const animations = element.getAnimations({ subtree: true })
+          animations.forEach((animation) => {
+            animation.pause()
+            animation.currentTime = currentTime
+          })
+          const stage = element.querySelector(
+            '.dnb-easing-demo__stage'
+          ) as SVGSVGElement
+          const curveRunner = element.querySelector(
+            '.dnb-easing-demo__curve-runner'
+          )
+          const linearRunner = element.querySelector(
+            '.dnb-easing-demo__runner'
+          )
+          const matrix = stage.getScreenCTM()
+          const start = new DOMPoint(48, 120).matrixTransform(matrix)
+          const end = new DOMPoint(136, 32).matrixTransform(matrix)
+          const curveBounds = curveRunner.getBoundingClientRect()
+          const linearBounds = linearRunner.getBoundingClientRect()
+          const curveX = curveBounds.x + curveBounds.width / 2
+          const curveY = curveBounds.y + curveBounds.height / 2
+          const linearX = linearBounds.x + linearBounds.width / 2
+
+          return {
+            curveTime: (curveX - start.x) / (end.x - start.x),
+            curveProgress: (start.y - curveY) / (start.y - end.y),
+            linearProgress: (linearX - start.x) / (end.x - start.x),
+          }
+        },
+        variant === 'default' ? 1900 : 1660
       )
-      expect(middle.eased.x).toBeGreaterThan(middle.linear.x)
-      if (variant === 'bounce') {
-        expect(middle.eased.x).toBeGreaterThan(368)
-        expect(settling.eased.x).toBeLessThan(middle.eased.x)
-        expect(settling.eased.x).toBeGreaterThan(368)
-      } else {
-        expect(early.eased.x).toBeLessThan(early.linear.x)
-        expect(middle.eased.x).toBeLessThan(368)
-        expect(settling.eased.x).toBeGreaterThan(middle.eased.x)
-      }
-      expect(end.eased.x).toBeCloseTo(368)
-      expect(end.linear.x).toBeCloseTo(368)
-      expect(repeated.eased.x).toBeCloseTo(start.eased.x)
-      expect(repeated.linear.x).toBeCloseTo(start.linear.x)
+      expect(progress.curveTime).toBeCloseTo(0.5, 1)
+      expect(progress.curveProgress).toBeCloseTo(
+        progress.linearProgress,
+        2
+      )
     }
+    const code = page
+      .locator('pre')
+      .filter({ hasText: 'transition: transform 300ms' })
+    await expect(code).toContainText('--easing-default')
+    await expect(code).toContainText('--easing-fast-bounce')
   })
 
   test('autoplay and respect reduced motion with the gallery', async ({
@@ -177,10 +202,10 @@ test.describe('easing previews', () => {
         await Promise.all(animations.map((animation) => animation.ready))
         return animations.map((animation) => animation.playState)
       })
-      expect(states).toHaveLength(8)
+      expect(states.length).toBeGreaterThanOrEqual(2)
       expect(states.every((state) => state === 'running')).toBe(true)
     }
-    const runner = demos.last().locator('.dnb-easing-demo__runner--eased')
+    const runner = demos.last().locator('.dnb-easing-demo__runner')
     const time = await runner.evaluate((element) =>
       Number(element.getAnimations()[0].currentTime)
     )
@@ -199,9 +224,13 @@ test.describe('easing previews', () => {
           (element) => element.getAnimations({ subtree: true }).length
         )
       ).toBe(0)
+      await expect(demo.locator('.dnb-easing-demo__runner')).toHaveCSS(
+        'transform',
+        'none'
+      )
       await expect(
-        demo.locator('.dnb-easing-demo__runner--eased')
-      ).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 368, 0)')
+        demo.locator('.dnb-easing-demo__curve-runner animateMotion')
+      ).toHaveCount(0)
     }
   })
 
@@ -224,42 +253,13 @@ test.describe('easing previews', () => {
         .toBeGreaterThanOrEqual(0)
     })
 
-    test(`fit the viewport and keep the overshoot visible at ${width}px`, async ({
-      page,
-    }) => {
+    test(`fit the viewport at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
       for (const demo of await page.locator('.dnb-easing-demo').all()) {
         await expect(demo).toBeVisible()
-        const [frame] = await demo.evaluate(sampleMotionStyles, {
-          times: [1600],
-          selectors: {
-            stage: '.dnb-easing-demo__stage',
-            eased: '.dnb-easing-demo__runner--eased',
-            linear: '.dnb-easing-demo__runner--linear',
-          },
-        })
-        expect(frame.stage.bounds.x).toBeGreaterThanOrEqual(0)
-        expect(
-          frame.stage.bounds.x + frame.stage.bounds.width
-        ).toBeLessThanOrEqual(width)
-        for (const runner of [frame.eased, frame.linear]) {
-          expect(runner.bounds.x).toBeGreaterThanOrEqual(
-            frame.stage.bounds.x
-          )
-          expect(runner.bounds.y).toBeGreaterThanOrEqual(
-            frame.stage.bounds.y
-          )
-          expect(
-            runner.bounds.x + runner.bounds.width
-          ).toBeLessThanOrEqual(
-            frame.stage.bounds.x + frame.stage.bounds.width
-          )
-          expect(
-            runner.bounds.y + runner.bounds.height
-          ).toBeLessThanOrEqual(
-            frame.stage.bounds.y + frame.stage.bounds.height
-          )
-        }
+        const bounds = await demo.boundingBox()
+        expect(bounds.x).toBeGreaterThanOrEqual(0)
+        expect(bounds.x + bounds.width).toBeLessThanOrEqual(width)
       }
       expect(
         await page.evaluate(

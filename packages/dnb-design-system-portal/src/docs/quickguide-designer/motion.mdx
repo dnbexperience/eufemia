@@ -38,27 +38,12 @@ Keep direct interaction feedback short. Try around `180ms` for a small movement,
 
 Prefer animating `transform` and `opacity` when possible. Reuse Eufemia's [animation easing variables](/uilib/helpers#animation-easing).
 
-##### Default easing
+##### Easing tokens
 
-Use `--easing-default` for standard transitions.
-
-Slowed down for comparison.
-
-<EasingDemo variant="default" />
+<EasingDemo />
 
 ```css
 transition: transform 300ms var(--easing-default);
-```
-
-##### Fast bounce
-
-Use `--easing-fast-bounce` only for small, direct interactions that benefit from a subtle settling effect, such as a control changing state.
-
-Slowed down for comparison.
-
-<EasingDemo variant="bounce" />
-
-```css
 transition: transform 180ms var(--easing-fast-bounce);
 ```
 
