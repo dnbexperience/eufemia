@@ -1,7 +1,6 @@
 const COLOR_VARIABLE_REGEX = /--color-[a-z0-9-]+/g
-const reviewRule = require('../../review-rules.js')[
-  'eufemia/no-deprecated-color-variables'
-]
+const reviewRules = require('../../review-rules.js')
+const reviewRule = reviewRules['eufemia/no-deprecated-color-variables']
 
 const reportMatches = (context, node, text) => {
   if (typeof text !== 'string') {
