@@ -2,7 +2,8 @@ const stylelint = require('stylelint')
 
 const RULE_NAME = 'eufemia/no-deprecated-color-variables'
 const COLOR_VARIABLE_REGEX = /--color-[a-z0-9-]+/g
-const reviewRule = require('../../review-rules.js')[RULE_NAME]
+const reviewRules = require('../../review-rules.js')
+const reviewRule = reviewRules[RULE_NAME]
 
 const messages = stylelint.utils.ruleMessages(RULE_NAME, {
   rejected: (variable) =>
