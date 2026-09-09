@@ -5,7 +5,7 @@
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Checkbox, HelpButton } from '@dnb/eufemia/src'
+import { Checkbox, HelpButton, Section } from '@dnb/eufemia/src'
 
 export const CheckboxUnchecked = () => (
   <ComponentBox data-visual-test="checkbox-default">
@@ -49,7 +49,14 @@ export const CheckboxDifferentSizes = () => (
 
 export const CheckboxDisabled = () => (
   <ComponentBox data-visual-test="checkbox-disabled">
-    <Checkbox checked disabled />
+    <Checkbox label="Unchecked" disabled right="large" />
+    <Checkbox label="Checked" checked disabled right="large" />
+    <Checkbox label="Indeterminate" indeterminate disabled />
+    <Section surface="dark" innerSpace top>
+      <Checkbox label="Unchecked on dark" disabled right="large" />
+      <Checkbox label="Checked on dark" checked disabled right="large" />
+      <Checkbox label="Indeterminate on dark" indeterminate disabled />
+    </Section>
   </ComponentBox>
 )
 

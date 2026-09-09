@@ -85,8 +85,16 @@ describe.each(['ui', 'sbanken'])(`Radio for %s`, (themeName) => {
 
     it('have to match disabled group', async () => {
       await makeScreenshot({
-        selector:
-          '[data-visual-test="radio-group-disabled"] .dnb-radio-group',
+        selector: '[data-visual-test="radio-group-disabled"]',
+      })
+    })
+
+    it('have to match disabled group with hover', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="radio-group-disabled"]',
+        simulateSelector:
+          '[data-visual-test="radio-group-disabled"] .dnb-radio__input',
+        simulate: 'hover',
       })
     })
 

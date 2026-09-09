@@ -115,6 +115,18 @@ describe('Radio component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('uses dark surface styling from Theme context', () => {
+    render(
+      <Provider theme={{ surface: 'dark' }}>
+        <Radio disabled />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-radio')).toHaveClass(
+      'dnb-radio--surface-dark'
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Radio top="2rem" />)
 
@@ -211,6 +223,17 @@ describe('Radio ARIA', () => {
 })
 
 describe('Radio scss', () => {
+  it('uses the subtle stroke for disabled radio buttons', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /--radio-color-border--disabled: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
+    )
+    expect(css).toMatch(
+      /--radio-color-border--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-neutral-ondark\) 50%,\s*transparent\s*\)/
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

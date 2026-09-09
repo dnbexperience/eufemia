@@ -306,6 +306,7 @@ function Checkbox(localProps: CheckboxProps) {
       'dnb-checkbox',
       status && `dnb-checkbox__status--${statusState}`,
       size && `dnb-checkbox--${size}`,
+      context?.theme?.surface === 'dark' && 'dnb-checkbox--surface-dark',
       label && `dnb-checkbox--label-position-${labelPosition || 'right'}`,
       'dnb-form-component',
       createSkeletonClass(null, skeleton, context),

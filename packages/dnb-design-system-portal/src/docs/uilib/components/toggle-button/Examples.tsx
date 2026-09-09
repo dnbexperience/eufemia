@@ -4,7 +4,7 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { ToggleButton, HelpButton } from '@dnb/eufemia/src'
+import { ToggleButton, HelpButton, Section } from '@dnb/eufemia/src'
 
 export const ToggleButtonUnchecked = () => (
   <ComponentBox data-visual-test="toggle-button-default">
@@ -131,6 +131,37 @@ export const ToggleButtonDisabledGroup = () => (
       <ToggleButton text="Second" value="second" />
       <ToggleButton text="Third" value="third" checked />
     </ToggleButton.Group>
+    <ToggleButton.Group
+      label="Disabled Radio Group"
+      disabled
+      value="first"
+      variant="radio"
+      top
+    >
+      <ToggleButton text="First" value="first" />
+      <ToggleButton text="Second" value="second" />
+    </ToggleButton.Group>
+    <Section surface="dark" innerSpace top>
+      <ToggleButton.Group
+        label="Disabled Group on dark"
+        disabled
+        value="first"
+        variant="checkbox"
+      >
+        <ToggleButton text="First" value="first" />
+        <ToggleButton text="Second" value="second" />
+      </ToggleButton.Group>
+      <ToggleButton.Group
+        label="Disabled Radio Group on dark"
+        disabled
+        value="first"
+        variant="radio"
+        top
+      >
+        <ToggleButton text="First" value="first" />
+        <ToggleButton text="Second" value="second" />
+      </ToggleButton.Group>
+    </Section>
   </ComponentBox>
 )
 

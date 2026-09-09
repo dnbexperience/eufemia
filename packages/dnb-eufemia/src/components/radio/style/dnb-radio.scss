@@ -29,9 +29,7 @@
   --radio-color-background--disabled: var(
     --token-color-background-neutral
   );
-  --radio-color-border--disabled: var(
-    --token-color-stroke-action-disabled
-  );
+  --radio-color-border--disabled: var(--token-color-stroke-neutral-subtle);
 
   // Active state
   --radio-border-inset--active: inset;
@@ -65,6 +63,14 @@
   // Bounding box
   --radio-bounding--medium: 1.75, 1.5;
   --radio-bounding--large: 1.25, 1.12;
+
+  &--surface-dark {
+    --radio-color-border--disabled: color-mix(
+      in srgb,
+      var(--token-color-stroke-neutral-ondark) 50%,
+      transparent
+    );
+  }
 
   display: inline-flex;
   flex-direction: column;
@@ -350,13 +356,13 @@
 
   // General
 
-  &__input:hover ~ &__button {
+  &__input:not([disabled]):hover ~ &__button {
     --radio-border-inset: var(--radio-border-inset--hover);
     --radio-border-width: var(--radio-border-width--hover);
     --radio-color-border: var(--radio-color-border--hover);
     --radio-color-background: var(--radio-color-background--hover);
   }
-  &__input:hover ~ &__dot {
+  &__input:not([disabled]):hover ~ &__dot {
     --radio-color-dot-on: var(--radio-color-dot-on--hover);
   }
 

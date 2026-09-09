@@ -370,6 +370,18 @@ describe('Checkbox component', () => {
     ).toBe(true)
   })
 
+  it('uses dark surface styling from Theme context', () => {
+    render(
+      <Provider theme={{ surface: 'dark' }}>
+        <Checkbox disabled />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-checkbox')).toHaveClass(
+      'dnb-checkbox--surface-dark'
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Checkbox top="2rem" />)
 
@@ -506,6 +518,17 @@ describe('Checkbox component', () => {
 })
 
 describe('Checkbox scss', () => {
+  it('uses the subtle stroke for disabled unchecked checkboxes', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+
+    expect(css).toMatch(
+      /--checkbox-color-border-off--disabled: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
+    )
+    expect(css).toMatch(
+      /--checkbox-color-border-off--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-neutral-ondark\) 50%,\s*transparent\s*\)/
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

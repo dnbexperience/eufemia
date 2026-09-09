@@ -393,6 +393,7 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
       'dnb-radio',
       status && `dnb-radio__status--${statusState}`,
       size && `dnb-radio--${size}`,
+      context?.theme?.surface === 'dark' && 'dnb-radio--surface-dark',
       label && `dnb-radio--label-position-${labelPosition || 'right'}`,
       className
     ),
