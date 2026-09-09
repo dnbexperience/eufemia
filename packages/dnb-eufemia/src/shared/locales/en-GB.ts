@@ -11,6 +11,11 @@ export default {
       altLabelCurrent: 'Current',
       altLabelUpcoming: 'Upcoming',
     },
+    Toaster: {
+      systemMessages: 'System Messages',
+      dismissButton: 'Dismiss',
+      dismissAriaLabel: 'Dismiss message',
+    },
     Breadcrumb: {
       navText: 'Page hierarchy',
       goBackText: 'Back',
