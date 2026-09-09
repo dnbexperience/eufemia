@@ -251,6 +251,22 @@ describe('test-page-filter plugin', () => {
       expect(urls.has('/uilib/components/input/demos')).toBe(true)
     })
 
+    it('extracts URLs from a constant array used in a for-of loop', () => {
+      const filePath = writeTsFile(
+        'redirects.e2e.spec.ts',
+        `
+        for (const oldUrl of ['/old-page/', '/nested/old-page/']) {
+          test(oldUrl, async ({ page }) => {
+            await page.goto(oldUrl)
+          })
+        }
+        `
+      )
+
+      const urls = extractPageGotoUrls(filePath)
+      expect(urls).toEqual(new Set(['/old-page', '/nested/old-page']))
+    })
+
     it('extracts multiple URLs from a single file', () => {
       const filePath = writeTsFile(
         'multi.e2e.spec.ts',

@@ -284,6 +284,7 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
   const pages = new Set<string>()
   const sourceFile = parseSourceFile(filePath)
   const constants = collectStringConstants(sourceFile)
+  const loopValues = collectForOfStringValues(sourceFile)
 
   function visit(node: ts.Node) {
     if (
@@ -296,9 +297,12 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
         getLiteralValue(arg) ??
         (ts.isIdentifier(arg) ? constants.get(arg.text) : null)
 
-      const normalized = normalizePagePath(rawValue)
-      if (normalized && isPortalPath(normalized)) {
-        pages.add(normalized)
+      if (rawValue) {
+        addNormalizedUrl(rawValue, pages)
+      } else if (ts.isIdentifier(arg)) {
+        loopValues.get(arg.text)?.forEach((value) => {
+          addNormalizedUrl(value, pages)
+        })
       }
     }
 
@@ -307,6 +311,36 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
 
   visit(sourceFile)
   return pages
+}
+
+function collectForOfStringValues(
+  sourceFile: ts.SourceFile
+): Map<string, string[]> {
+  const values = new Map<string, string[]>()
+
+  function visit(node: ts.Node) {
+    if (
+      ts.isForOfStatement(node) &&
+      ts.isVariableDeclarationList(node.initializer) &&
+      ts.isArrayLiteralExpression(node.expression)
+    ) {
+      const [declaration] = node.initializer.declarations
+      if (declaration && ts.isIdentifier(declaration.name)) {
+        const literals = node.expression.elements
+          .map((element) => getLiteralValue(element))
+          .filter((value): value is string => value !== null)
+
+        if (literals.length > 0) {
+          values.set(declaration.name.text, literals)
+        }
+      }
+    }
+
+    ts.forEachChild(node, visit)
+  }
+
+  visit(sourceFile)
+  return values
 }
 
 function parseSourceFile(filePath: string): ts.SourceFile {
