@@ -1,6 +1,13 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
 import { NumberFormat } from '@dnb/eufemia/src'
+import { createMultiSelectionVirtualization } from '@dnb/eufemia/src/extensions/forms/Field/MultiSelection/Virtualization'
+
+const virtualizedMultiSelection = createMultiSelectionVirtualization()
+const virtualizedItems = Array.from({ length: 10000 }, (_, index) => ({
+  value: `item-${index}`,
+  title: `Item ${index + 1}`,
+}))
 
 export const Basic = () => (
   <ComponentBox data-visual-test="multi-selection-basic">
@@ -34,6 +41,18 @@ export const Basic = () => (
       ]
       return <Field.MultiSelection label="Select cities" data={cities} />
     }}
+  </ComponentBox>
+)
+
+export const Virtualized = () => (
+  <ComponentBox scope={{ virtualizedItems, virtualizedMultiSelection }}>
+    <Field.MultiSelection
+      label="Select from 10,000 items"
+      data={virtualizedItems}
+      listDriver={virtualizedMultiSelection}
+      showSearchField
+      showSelectAll
+    />
   </ComponentBox>
 )
 

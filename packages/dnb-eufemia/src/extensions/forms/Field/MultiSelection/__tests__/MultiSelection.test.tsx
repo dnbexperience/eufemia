@@ -9,6 +9,7 @@ import { afterAll, beforeEach, vi } from 'vitest'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { Provider } from '../../../../../shared'
 import { Field, Form } from '../../..'
+import { createMultiSelectionVirtualization } from '../Virtualization'
 
 const originalScrollIntoView = Object.getOwnPropertyDescriptor(
   HTMLElement.prototype,
@@ -39,6 +40,195 @@ describe('MultiSelection', () => {
     }
 
     delete (HTMLElement.prototype as Partial<HTMLElement>).scrollIntoView
+  })
+
+  describe('virtualization', () => {
+    const data = Array.from({ length: 1000 }, (_, index) => ({
+      value: `item-${index}`,
+      title: `Item ${index}`,
+    }))
+    const listDriver = createMultiSelectionVirtualization({ overscan: 2 })
+
+    it('renders a window while retaining the full selection data', async () => {
+      const onChange = vi.fn()
+      render(
+        <Field.MultiSelection
+          data={data}
+          listDriver={listDriver}
+          onChange={onChange}
+        />
+      )
+
+      fireEvent.click(document.querySelector('button'))
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll(
+            '.dnb-forms-field-multi-selection__item'
+          ).length
+        ).toBeGreaterThan(0)
+      })
+      expect(
+        document.querySelectorAll('.dnb-forms-field-multi-selection__item')
+          .length
+      ).toBeLessThan(data.length)
+
+      fireEvent.click(screen.getByText('Item 0'))
+      expect(onChange).toHaveBeenCalledWith(['item-0'], expect.any(Object))
+    })
+
+    it('filters the full data set and renders the matching item', async () => {
+      render(
+        <Field.MultiSelection
+          data={data}
+          listDriver={listDriver}
+          showSearchField
+        />
+      )
+
+      fireEvent.click(document.querySelector('button'))
+      const input = document.querySelector<HTMLInputElement>(
+        '.dnb-forms-field-multi-selection__search input'
+      )
+      fireEvent.change(input, { target: { value: '999' } })
+
+      expect(
+        await screen.findByRole('checkbox', { name: 'Item 999' })
+      ).toBeInTheDocument()
+      expect(screen.queryByText('Item 0')).not.toBeInTheDocument()
+    })
+
+    it('keeps nested parent and child selection behavior', async () => {
+      const onChange = vi.fn()
+      render(
+        <Field.MultiSelection
+          data={[
+            {
+              value: 'parent',
+              title: 'Parent',
+              children: [
+                { value: 'child-1', title: 'Child 1' },
+                { value: 'child-2', title: 'Child 2' },
+              ],
+            },
+          ]}
+          listDriver={listDriver}
+          onChange={onChange}
+        />
+      )
+
+      fireEvent.click(document.querySelector('button'))
+      fireEvent.click(await screen.findByText('Parent'))
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.arrayContaining(['parent', 'child-1', 'child-2']),
+        expect.any(Object)
+      )
+      expect(screen.getByText('Child 1').closest('li')).toHaveClass(
+        'dnb-forms-field-multi-selection__item--level-1'
+      )
+    })
+
+    it('reattaches virtualization after reopening', async () => {
+      render(<Field.MultiSelection data={data} listDriver={listDriver} />)
+
+      const trigger = document.querySelector<HTMLButtonElement>('button')
+      fireEvent.click(trigger)
+      await waitFor(() => {
+        expect(screen.getByText('Item 0')).toBeInTheDocument()
+      })
+
+      fireEvent.click(trigger)
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-multi-selection__virtual-content'
+          )
+        ).not.toBeInTheDocument()
+      })
+
+      fireEvent.click(trigger)
+      await waitFor(() => {
+        expect(screen.getByText('Item 0')).toBeInTheDocument()
+      })
+    })
+
+    it('keeps Select all operating on the full data set', async () => {
+      const onChange = vi.fn()
+      render(
+        <Field.MultiSelection
+          data={data}
+          listDriver={listDriver}
+          showSelectAll
+          onChange={onChange}
+        />
+      )
+
+      fireEvent.click(document.querySelector('button'))
+      fireEvent.click(await screen.findByText('Velg alle'))
+
+      expect(onChange.mock.calls.at(-1)[0]).toHaveLength(data.length)
+    })
+
+    it('constrains the inline list when virtualized', () => {
+      render(
+        <Field.MultiSelection
+          variant="inline"
+          data={data}
+          listDriver={listDriver}
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-field-multi-selection__items')
+      ).toHaveStyle({ maxHeight: '32rem' })
+      expect(
+        document.querySelectorAll('.dnb-forms-field-multi-selection__item')
+          .length
+      ).toBeLessThan(data.length)
+    })
+
+    it('has valid accessibility semantics', async () => {
+      const result = render(
+        <Field.MultiSelection
+          label="Select items"
+          data={data}
+          listDriver={listDriver}
+          showSearchField
+          showSelectAll
+        />
+      )
+
+      fireEvent.click(document.querySelector('button'))
+      await waitFor(() => {
+        expect(screen.getByText('Item 0')).toBeInTheDocument()
+      })
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    })
+
+    it('navigates to virtualized items with the arrow keys', async () => {
+      render(
+        <Field.MultiSelection
+          data={data}
+          listDriver={listDriver}
+          showSearchField
+        />
+      )
+
+      const trigger = document.querySelector<HTMLButtonElement>('button')
+      fireEvent.click(trigger)
+      const searchInput = document.querySelector<HTMLInputElement>(
+        '.dnb-forms-field-multi-selection__search input'
+      )
+      searchInput.focus()
+      fireEvent.keyDown(searchInput, { key: 'ArrowDown' })
+
+      await waitFor(() => {
+        expect(document.activeElement).toBe(
+          screen.getByRole('checkbox', { name: 'Item 0' })
+        )
+      })
+    })
   })
 
   it('renders with label and trigger button', async () => {

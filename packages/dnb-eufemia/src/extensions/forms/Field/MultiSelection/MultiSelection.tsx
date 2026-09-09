@@ -6,7 +6,13 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { ReactNode } from 'react'
+import type {
+  ComponentType,
+  CSSProperties,
+  ReactNode,
+  Ref,
+  RefObject,
+} from 'react'
 import * as z from 'zod'
 import { clsx } from 'clsx'
 import { AriaLive, Popover } from '../../../../components'
@@ -42,6 +48,34 @@ export type MultiSelectionItem = {
   description?: ReactNode
   disabled?: boolean
   children?: Array<MultiSelectionItem>
+}
+
+export type MultiSelectionListDriverRowProps = {
+  ref?: Ref<HTMLLIElement>
+  className?: string
+  style?: CSSProperties
+  'data-index'?: number
+  'data-multi-selection-index'?: number
+}
+
+export type MultiSelectionListDriverRow = {
+  key: string
+  disabled?: boolean
+  render: (props?: MultiSelectionListDriverRowProps) => ReactNode
+}
+
+export type MultiSelectionListDriverProps = {
+  rows: MultiSelectionListDriverRow[]
+  open: boolean
+  scrollRef: RefObject<HTMLDivElement>
+  registerListDriver: (driver: {
+    focusIndex: (index: number, direction?: -1 | 1) => void
+    itemCount: number
+  }) => () => void
+}
+
+export type MultiSelectionListDriver = {
+  Renderer: ComponentType<MultiSelectionListDriverProps>
 }
 
 type MultiSelectionData = Array<MultiSelectionItem>
@@ -95,6 +129,11 @@ export type FieldMultiSelectionProps = FieldProps<
   maxHeight?: string | number
 
   /**
+   * Opt in to a custom item-list renderer. Use `createMultiSelectionVirtualization` from `@dnb/eufemia/extensions/forms/Field/MultiSelection/Virtualization` for large data sets. Install the optional `@tanstack/react-virtual` peer dependency when using this driver. The inline variant defaults to a `32rem` maximum height when virtualized; use `maxHeight` to override it.
+   */
+  listDriver?: MultiSelectionListDriver
+
+  /**
    * When the number of selected items exceeds this threshold, the selected items are hidden by default and can be toggled with a header.
    */
   selectedItemsCollapsibleThreshold?: number
@@ -143,6 +182,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     showSearchField = false,
     showSelectedTags = false,
     maxHeight,
+    listDriver,
     showConfirmButton = false,
     showSelectAll = false,
     selectedItemsCollapsibleThreshold = 10,
@@ -216,6 +256,10 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     }
   }, [value, isOpen, isInline])
   const popoverContentRef = useRef<HTMLDivElement>(null)
+  const listDriverRef = useRef<{
+    focusIndex: (index: number, direction?: -1 | 1) => void
+    itemCount: number
+  } | null>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
 
   // Calculate max height of popover content to prevent it from growing too large and going off-screen
@@ -261,6 +305,20 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const previousTempValueRef = useRef<Array<number | string>>(value || [])
   const hasFeature =
     showSearchField || showSelectedTags || showConfirmButton
+  const registerListDriver = useCallback(
+    (driver: {
+      focusIndex: (index: number, direction?: -1 | 1) => void
+      itemCount: number
+    }) => {
+      listDriverRef.current = driver
+      return () => {
+        if (listDriverRef.current === driver) {
+          listDriverRef.current = null
+        }
+      }
+    },
+    []
+  )
 
   // Flatten nested items to a single array for searching and counting
   const flattenItems = useCallback(
@@ -280,12 +338,18 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     () => flattenItems(dataList),
     [dataList, flattenItems]
   )
+  const allItemsByValue = useMemo(
+    () => new Map(allFlatItems.map((item) => [item.value, item])),
+    [allFlatItems]
+  )
+  const selectedValueSet = useMemo(() => new Set(tempValue), [tempValue])
+  const valueSet = useMemo(() => new Set(value || []), [value])
 
   // Sync field internals during render so Value.MultiSelection can resolve
   // titles before any user interaction has occurred.
   if (path && allFlatItems.length > 0 && value) {
     const selectedItems = allFlatItems.filter((item) =>
-      value.includes(item.value)
+      valueSet.has(item.value)
     )
     setFieldInternals?.(path + '/multiSelectionData', {
       props: selectedItems,
@@ -403,11 +467,8 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
   // Get items of selected values (based on tempValue)
   const selectedItems = useMemo(() => {
-    if (!tempValue) {
-      return []
-    }
-    return allFlatItems.filter((item) => tempValue.includes(item.value))
-  }, [allFlatItems, tempValue])
+    return allFlatItems.filter((item) => selectedValueSet.has(item.value))
+  }, [allFlatItems, selectedValueSet])
 
   const totalCount = allFlatItems.length
   const selectedCount = selectedItems.length
@@ -420,8 +481,8 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     if (!value) {
       return []
     }
-    return allFlatItems.filter((item) => value.includes(item.value))
-  }, [allFlatItems, value])
+    return allFlatItems.filter((item) => valueSet.has(item.value))
+  }, [allFlatItems, value, valueSet])
   const displayCount = showConfirmButton
     ? confirmedItems.length
     : selectedCount
@@ -454,14 +515,14 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     (item: MultiSelectionItemInternal) => {
       if (!item.children || item.children.length === 0) {
         return {
-          checked: tempValue.includes(item.value),
+          checked: selectedValueSet.has(item.value),
           indeterminate: false,
         }
       }
 
       const children = flattenItems(item.children)
       const checkedChildren = children.filter((child) =>
-        tempValue.includes(child.value)
+        selectedValueSet.has(child.value)
       ).length
 
       return {
@@ -470,7 +531,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
           checkedChildren > 0 && checkedChildren < children.length,
       }
     },
-    [tempValue, flattenItems]
+    [selectedValueSet, flattenItems]
   )
 
   // Normalize value to remove parent items when not all children are selected
@@ -481,7 +542,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
       // Remove parents that don't have all children selected
       normalized.forEach((itemValue) => {
-        const item = allFlatItems.find((i) => i.value === itemValue)
+        const item = allItemsByValue.get(itemValue)
         if (item?.children) {
           const childValues = flattenItems(item.children).map(
             (c) => c.value
@@ -509,7 +570,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
       return Array.from(normalized)
     },
-    [allFlatItems, flattenItems]
+    [allFlatItems, allItemsByValue, flattenItems]
   )
 
   const applyChange = useCallback(
@@ -520,8 +581,9 @@ function MultiSelection(props: FieldMultiSelectionProps) {
           ? (emptyValue as typeof value)
           : normalizedValue
       handleChange?.(finalValue)
+      const normalizedValueSet = new Set(normalizedValue)
       const nextSelectedItems = allFlatItems.filter((item) =>
-        normalizedValue.includes(item.value)
+        normalizedValueSet.has(item.value)
       )
       setDisplayValue(nextSelectedItems.map((item) => item.title))
       if (path) {
@@ -543,7 +605,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
   const handleToggleItem = useCallback(
     (itemValue: number | string) => {
-      const next = tempValue.includes(itemValue)
+      const next = selectedValueSet.has(itemValue)
         ? tempValue.filter((v) => v !== itemValue)
         : [...tempValue, itemValue]
       pendingCheckedCountAnnouncementRef.current = true
@@ -552,7 +614,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
         applyChange(next)
       }
     },
-    [tempValue, showConfirmButton, applyChange]
+    [tempValue, selectedValueSet, showConfirmButton, applyChange]
   )
 
   // Toggle parent item and all its children
@@ -561,7 +623,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       const children = item.children ? flattenItems(item.children) : []
       const allChildValues = children.map((child) => child.value)
       const allChildrenChecked = allChildValues.every((childVal) =>
-        tempValue.includes(childVal)
+        selectedValueSet.has(childVal)
       )
 
       let next = [...tempValue]
@@ -583,7 +645,13 @@ function MultiSelection(props: FieldMultiSelectionProps) {
         applyChange(next)
       }
     },
-    [tempValue, showConfirmButton, applyChange, flattenItems]
+    [
+      tempValue,
+      selectedValueSet,
+      showConfirmButton,
+      applyChange,
+      flattenItems,
+    ]
   )
 
   const handleSelectAll = useCallback(() => {
@@ -591,14 +659,15 @@ function MultiSelection(props: FieldMultiSelectionProps) {
     const selectableItems = allFilteredFlat.filter(
       (item) => !item.disabled
     )
+    const selectableValueSet = new Set(
+      selectableItems.map((item) => item.value)
+    )
     const allSelectableChecked = selectableItems.every((item) =>
-      tempValue.includes(item.value)
+      selectedValueSet.has(item.value)
     )
 
     const next = allSelectableChecked
-      ? tempValue.filter(
-          (v) => !selectableItems.some((item) => item.value === v)
-        )
+      ? tempValue.filter((value) => !selectableValueSet.has(value))
       : Array.from(
           new Set([
             ...tempValue,
@@ -614,6 +683,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   }, [
     filteredItems,
     tempValue,
+    selectedValueSet,
     showConfirmButton,
     applyChange,
     flattenItems,
@@ -621,7 +691,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
   const handleRemoveTag = useCallback(
     (itemValue: number | string) => {
-      const item = allFlatItems.find((i) => i.value === itemValue)
+      const item = allItemsByValue.get(itemValue)
       if (item?.disabled) {
         return
       }
@@ -632,7 +702,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
         applyChange(next)
       }
     },
-    [allFlatItems, tempValue, showConfirmButton, applyChange]
+    [allItemsByValue, tempValue, showConfirmButton, applyChange]
   )
 
   const handleConfirm = useCallback(() => {
@@ -658,10 +728,12 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   )
   const allFilteredSelected =
     selectableFilteredFlat.length > 0 &&
-    selectableFilteredFlat.every((item) => tempValue.includes(item.value))
+    selectableFilteredFlat.every((item) =>
+      selectedValueSet.has(item.value)
+    )
   const someFilteredSelected =
     !allFilteredSelected &&
-    selectableFilteredFlat.some((item) => tempValue.includes(item.value))
+    selectableFilteredFlat.some((item) => selectedValueSet.has(item.value))
 
   const getCheckboxes = useCallback(
     () =>
@@ -695,6 +767,40 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
       const checkboxes = getCheckboxes()
       const searchInput = getSearchInput()
+      const listDriver = listDriverRef.current
+
+      if (listDriver) {
+        const activeItem = (
+          document.activeElement as HTMLElement
+        )?.closest('[data-multi-selection-index]') as HTMLElement | null
+        const currentIndex = Number(
+          activeItem?.getAttribute('data-multi-selection-index')
+        )
+        const hasCurrentIndex = Number.isInteger(currentIndex)
+
+        if (event.key === 'ArrowDown') {
+          if (document.activeElement === searchInput || !hasCurrentIndex) {
+            listDriver.focusIndex(0, 1)
+          } else if (currentIndex < listDriver.itemCount - 1) {
+            listDriver.focusIndex(currentIndex + 1, 1)
+          } else if (searchInput) {
+            searchInput.focus()
+          } else {
+            listDriver.focusIndex(0, 1)
+          }
+        } else if (document.activeElement === searchInput) {
+          listDriver.focusIndex(listDriver.itemCount - 1, -1)
+        } else if (hasCurrentIndex && currentIndex > 0) {
+          listDriver.focusIndex(currentIndex - 1, -1)
+        } else if (searchInput) {
+          searchInput.focus()
+        } else {
+          listDriver.focusIndex(listDriver.itemCount - 1, -1)
+        }
+
+        return
+      }
+
       const navigable: Array<HTMLInputElement> = [
         ...(searchInput ? [searchInput] : []),
         ...checkboxes,
@@ -753,8 +859,14 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   }, [getCheckboxes, getSearchInput])
 
   const handleFocusComplete = useCallback(() => {
+    const dir = pendingTriggerNavigationRef.current
+    const listDriver = listDriverRef.current
+
+    if (listDriver && dir !== null && !getSearchInput()) {
+      listDriver.focusIndex(dir === 1 ? 0 : listDriver.itemCount - 1, dir)
+    }
     pendingTriggerNavigationRef.current = null
-  }, [])
+  }, [getSearchInput])
 
   const fieldBlockProps: FieldBlockProps = {
     forId: id,
@@ -832,7 +944,14 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       selectableFilteredFlat={selectableFilteredFlat}
       allFilteredSelected={allFilteredSelected}
       someFilteredSelected={someFilteredSelected}
-      maxHeight={isInline ? maxHeight : undefined}
+      maxHeight={
+        isInline
+          ? (maxHeight ?? (listDriver ? '32rem' : undefined))
+          : undefined
+      }
+      listDriver={listDriver}
+      open={isInline || isOpen}
+      registerListDriver={registerListDriver}
     />
   )
 
@@ -854,7 +973,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       onClearAll={() => {
         const disabledValues = allFlatItems
           .filter(
-            (item) => item.disabled && tempValue.includes(item.value)
+            (item) => item.disabled && selectedValueSet.has(item.value)
           )
           .map((item) => item.value)
         setTempValue(disabledValues)
