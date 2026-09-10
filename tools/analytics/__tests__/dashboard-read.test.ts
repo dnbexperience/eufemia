@@ -25,7 +25,7 @@ vi.mock('@aws-sdk/client-s3', () => ({
 import { handler } from '../src/lambda/dashboard-read.js'
 
 type Command = { kind: 'get' | 'put'; input: Record<string, unknown> }
-type Snapshot = { generatedAt: string; records: unknown[] }
+type Snapshot = { generatedAt: string; portalViews: unknown[] }
 type Result = { statusCode: number; body: string }
 
 class NoSuchKey extends Error {
@@ -57,7 +57,7 @@ describe('dashboard-read handler', () => {
   it('serves the stored snapshot without ever writing', async () => {
     const snapshot: Snapshot = {
       generatedAt: new Date().toISOString(),
-      records: [
+      portalViews: [
         { type: 'pageview', path: '/', env: 'prod', timestamp: 't' },
       ],
     }
@@ -71,12 +71,14 @@ describe('dashboard-read handler', () => {
   })
 
   it('reads the snapshot from the expected key', async () => {
-    send.mockResolvedValue(getResult({ generatedAt: 't', records: [] }))
+    send.mockResolvedValue(
+      getResult({ generatedAt: 't', portalViews: [] })
+    )
 
     await handler()
 
     expect((send.mock.calls[0][0] as Command).input.Key).toBe(
-      'records/dashboard-snapshot.json'
+      'snapshots/dashboard.json'
     )
   })
 
@@ -86,7 +88,10 @@ describe('dashboard-read handler', () => {
     const res = (await handler()) as Result
 
     expect(res.statusCode).toBe(200)
-    expect(JSON.parse(res.body)).toEqual({ generatedAt: '', records: [] })
+    expect(JSON.parse(res.body)).toEqual({
+      generatedAt: '',
+      portalViews: [],
+    })
     expect(putCalls()).toHaveLength(0)
   })
 

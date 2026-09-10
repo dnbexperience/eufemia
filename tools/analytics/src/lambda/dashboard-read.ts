@@ -6,7 +6,7 @@ import {
   type Snapshot,
 } from './snapshot-store.js'
 
-const EMPTY: Snapshot = { generatedAt: '', records: [] }
+const EMPTY: Snapshot = { generatedAt: '', portalViews: [] }
 
 /**
  * Browser-facing dashboard read endpoint (`GET /data`). Access is gated by the
