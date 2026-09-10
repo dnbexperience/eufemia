@@ -3,6 +3,40 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.13.0](https://github.com/dnbexperience/eufemia/compare/v11.12.1...v11.13.0) (2026-09-10)
+
+### :sparkles: Features
+
+* **Autocomplete, Dropdown, DrawerList, Field.Selection:** add virtualized rendering for large data sets ([#9293](https://github.com/dnbexperience/eufemia/issues/9293)) ([ec6b9a8](https://github.com/dnbexperience/eufemia/commit/ec6b9a8efc09b87c6602f187b2f2daf118d26d31)), closes [#1100](https://github.com/dnbexperience/eufemia/issues/1100)
+* **Field.MultiSelection:** add virtualized rendering for large data sets ([#9303](https://github.com/dnbexperience/eufemia/issues/9303)) ([16a6b92](https://github.com/dnbexperience/eufemia/commit/16a6b9236c52c943d1bb58c236d4d97b54801a2f))
+* **Field.Selection, Field.Boolean, Field.Toggle:** add `radio-button` variant ([#9288](https://github.com/dnbexperience/eufemia/issues/9288)) ([767879d](https://github.com/dnbexperience/eufemia/commit/767879dd8d93fdaa6f26f417afc0035dc36857ba))
+* **Icon:** add opt-in animated icons API and docs ([#9308](https://github.com/dnbexperience/eufemia/issues/9308)) ([4e46996](https://github.com/dnbexperience/eufemia/commit/4e469966c2e985eabad03ef429c02ebc4e62cc27))
+* **Layout:** add scroll awareness hook ([#9278](https://github.com/dnbexperience/eufemia/issues/9278)) ([ff688a8](https://github.com/dnbexperience/eufemia/commit/ff688a802bf456a0c093940d7cd795b01bcd0cba))
+* **MCP:** expose Portal content workflow ([#9236](https://github.com/dnbexperience/eufemia/issues/9236)) ([633883f](https://github.com/dnbexperience/eufemia/commit/633883f01a66078f4bf95b46f0b79239b0bbb10e))
+* **Tabs:** animate active underline ([#9283](https://github.com/dnbexperience/eufemia/issues/9283)) ([66bf6fd](https://github.com/dnbexperience/eufemia/commit/66bf6fd105dea99f1a4fd9d2380b21a79e416d27))
+
+### :bug: Bug Fixes
+
+* **Checkbox, Radio, Switch:** soften disabled strokes ([#9290](https://github.com/dnbexperience/eufemia/issues/9290)) ([36ad6d2](https://github.com/dnbexperience/eufemia/commit/36ad6d262554798fb173d192facd6b3f7893aed2))
+* **Field.Upload:** recover a stuck file state via asyncSubmitTimeout ([#9254](https://github.com/dnbexperience/eufemia/issues/9254)) ([89b7e6f](https://github.com/dnbexperience/eufemia/commit/89b7e6f882d20ccd0da93037b74f372c1050f3d8)), closes [#9252](https://github.com/dnbexperience/eufemia/issues/9252) [#9241](https://github.com/dnbexperience/eufemia/issues/9241)
+* **Form.Section:** keep fields disabled during pending saves ([#9256](https://github.com/dnbexperience/eufemia/issues/9256)) ([12c7af8](https://github.com/dnbexperience/eufemia/commit/12c7af8f86ea91048ef057c5c703471293f89b9a))
+* **Form.Section:** recover from a stuck async onDone via asyncSubmitTimeout ([#9241](https://github.com/dnbexperience/eufemia/issues/9241)) ([3f8dbbe](https://github.com/dnbexperience/eufemia/commit/3f8dbbef6a9c19b05b7e690a8e47d6c382efb0e4))
+* **Forms:** clean up submit validation listeners ([#9289](https://github.com/dnbexperience/eufemia/issues/9289)) ([3feca47](https://github.com/dnbexperience/eufemia/commit/3feca474ceda2a04c29ecd9e856f49ce22a0c9ce))
+* **Forms:** recover a stuck field state via asyncSubmitTimeout ([#9252](https://github.com/dnbexperience/eufemia/issues/9252)) ([aba9096](https://github.com/dnbexperience/eufemia/commit/aba909669f34ed89168bea6328be181e25f308bb)), closes [#9241](https://github.com/dnbexperience/eufemia/issues/9241)
+* **Forms:** treat a validator that returns a Promise as async ([#9258](https://github.com/dnbexperience/eufemia/issues/9258)) ([8011546](https://github.com/dnbexperience/eufemia/commit/8011546938bc6a13077d207373f0ba3526073838)), closes [#9252](https://github.com/dnbexperience/eufemia/issues/9252) [#9254](https://github.com/dnbexperience/eufemia/issues/9254)
+* **Icon:** smooth transitions between directional icons ([#9311](https://github.com/dnbexperience/eufemia/issues/9311)) ([c2fb233](https://github.com/dnbexperience/eufemia/commit/c2fb2335d944995c3cd50afadf5235c5b97dc02f))
+* **plugins:** make the ESLint and Stylelint color-variable rules ESM-safe ([#9307](https://github.com/dnbexperience/eufemia/issues/9307)) ([a377084](https://github.com/dnbexperience/eufemia/commit/a377084e87bf7c0c21f9b9998019698b1fb77d48))
+* preserve the default iOS root font size ([#9286](https://github.com/dnbexperience/eufemia/issues/9286)) ([cccab68](https://github.com/dnbexperience/eufemia/commit/cccab68285d217531f0231ba6573ae70cf5e4572))
+* **Tooltip:** prevent flicker during rapid pointer re-entry ([#9271](https://github.com/dnbexperience/eufemia/issues/9271)) ([56f3e81](https://github.com/dnbexperience/eufemia/commit/56f3e81f5be6b175930dc8b1230a856a37afa1cc))
+
+### :memo: Documentation
+
+* add DNB Animation Principles and Motion guides ([#1674](https://github.com/dnbexperience/eufemia/issues/1674)) ([3086bf2](https://github.com/dnbexperience/eufemia/commit/3086bf240027c376e021b7a10deeebc455adb176))
+* **Flex:** recommend the CSS layout engine in examples ([#9281](https://github.com/dnbexperience/eufemia/issues/9281)) ([7b0e66e](https://github.com/dnbexperience/eufemia/commit/7b0e66ee72c585330ec8287e0e8ee3d18fd5eabf))
+* **Portal:** add guided content suggestions via AI ([#9235](https://github.com/dnbexperience/eufemia/issues/9235)) ([93abfb7](https://github.com/dnbexperience/eufemia/commit/93abfb7f15bf8fa57d2d8ec113bc76f27472d912))
+* **Portal:** copy heading permalink URLs ([#9310](https://github.com/dnbexperience/eufemia/issues/9310)) ([c4abc84](https://github.com/dnbexperience/eufemia/commit/c4abc84ff12442f8841ee39e32f498a82ce9353a))
+* **Portal:** fix broken source code links ([#9291](https://github.com/dnbexperience/eufemia/issues/9291)) ([af7b117](https://github.com/dnbexperience/eufemia/commit/af7b1172117c7ed28b41eeb334fe85e8c313f055))
+
 ## [11.12.1](https://github.com/dnbexperience/eufemia/compare/v11.12.0...v11.12.1) (2026-09-04)
 
 ### :bug: Bug Fixes
