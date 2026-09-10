@@ -33,6 +33,9 @@ export type KnownFrontmatter = {
    * its nearest parent (but is not included in the menu).
    */
   title?: string
+
+  /** Set to override `title` or inherited `title` as the page heading (H1). */
+  contentTitle?: string
   description?: string
   /**
    * A number from -999 to 999, decimals are allowed.
