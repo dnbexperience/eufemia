@@ -66,11 +66,15 @@ export function slugify(text: string): string {
 /**
  * Extract a table-of-contents tree from MDX content by parsing
  * markdown headings (## and ###).
+ *
+ * The shallowest heading level present sets the top level, so partials
+ * that only use ### list their headings instead of dropping them.
  */
 export function extractTableOfContents(
   mdxContent: string
 ): { items: TableOfContentsItem[] } | undefined {
   const headingRegex = /^(#{2,3})\s+(.+)$/gm
+  const firstDepth = /^##\s+.+$/m.test(mdxContent) ? 2 : 3
   const items: TableOfContentsItem[] = []
   let match: RegExpExecArray | null
 
@@ -79,9 +83,9 @@ export function extractTableOfContents(
     const title = match[2].trim()
     const url = `#${slugify(title)}`
 
-    if (depth === 2) {
+    if (depth === firstDepth) {
       items.push({ url, title })
-    } else if (depth === 3 && items.length > 0) {
+    } else if (depth === firstDepth + 1 && items.length > 0) {
       const parent = items[items.length - 1]
       if (!parent.items) {
         parent.items = []
