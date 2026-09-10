@@ -19,7 +19,7 @@ test('motion character belongs to animation principles, not design principles', 
   await waitForApp(page)
   await expect(page.locator('.dnb-motion-character')).toHaveCount(0)
   await page
-    .getByRole('main')
+    .locator('#tab-bar-content')
     .getByRole('link', { name: 'Animation Principles', exact: true })
     .click()
   await expect(page).toHaveURL(
