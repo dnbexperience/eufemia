@@ -88,6 +88,19 @@ describe('storePortalViews', () => {
     expect(lines[1].env).toBe('unknown')
   })
 
+  it('stores locale and theme, defaulting to "unknown" when absent', async () => {
+    await storePortalViews([
+      { path: '/a', locale: 'sv-SE', theme: 'sbanken' },
+      { path: '/b' },
+    ])
+
+    const input = send.mock.calls[0][0].input as PutInput
+    const lines = input.Body.split('\n').map((line) => JSON.parse(line))
+
+    expect(lines[0]).toMatchObject({ locale: 'sv-SE', theme: 'sbanken' })
+    expect(lines[1]).toMatchObject({ locale: 'unknown', theme: 'unknown' })
+  })
+
   it('never stores identifiers or personal data', async () => {
     await storePortalViews([{ path: '/a' }])
 
@@ -98,8 +111,10 @@ describe('storePortalViews', () => {
     expect(Object.keys(line).sort()).toEqual([
       'createdat',
       'env',
+      'locale',
       'path',
       'status',
+      'theme',
       'timestamp',
     ])
   })

@@ -109,6 +109,44 @@ describe('validatePortalViews', () => {
     }
   })
 
+  it('accepts a valid locale', () => {
+    for (const locale of ['nb-NO', 'en-GB', 'sv-SE', 'da-DK', 'en-US']) {
+      const result = validatePortalViews({ path: '/a', locale })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', locale }],
+      })
+    }
+  })
+
+  it('rejects an invalid locale', () => {
+    for (const locale of ['nb', 'NB-no', 'en_GB', 'english', 42]) {
+      const result = validatePortalViews({ path: '/a', locale })
+
+      expect(result.ok).toBe(false)
+    }
+  })
+
+  it('accepts a valid theme', () => {
+    for (const theme of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+      const result = validatePortalViews({ path: '/a', theme })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', theme }],
+      })
+    }
+  })
+
+  it('rejects an invalid theme', () => {
+    for (const theme of ['UI', 'the brand', 'a'.repeat(33), 42]) {
+      const result = validatePortalViews({ path: '/a', theme })
+
+      expect(result.ok).toBe(false)
+    }
+  })
+
   it('drops any field that is not an allow-listed key', () => {
     const result = validatePortalViews({
       path: '/a',
@@ -143,6 +181,8 @@ describe('buildPortalViewRecord', () => {
       env: 'unknown',
       timestamp: createdAt,
       status: 'ok',
+      locale: 'unknown',
+      theme: 'unknown',
       createdat: createdAt,
     })
   })
@@ -158,6 +198,8 @@ describe('buildPortalViewRecord', () => {
       env: 'prod',
       timestamp: '2026-08-20T10:00:00.000Z',
       status: 'ok',
+      locale: 'unknown',
+      theme: 'unknown',
       createdat: createdAt,
     })
   })
@@ -175,14 +217,29 @@ describe('buildPortalViewRecord', () => {
     ).toBe('not_found')
   })
 
+  it('defaults locale and theme to "unknown" and keeps supplied values', () => {
+    expect(buildPortalViewRecord({ path: '/a' }, createdAt)).toMatchObject(
+      { locale: 'unknown', theme: 'unknown' }
+    )
+
+    expect(
+      buildPortalViewRecord(
+        { path: '/a', locale: 'sv-SE', theme: 'sbanken' },
+        createdAt
+      )
+    ).toMatchObject({ locale: 'sv-SE', theme: 'sbanken' })
+  })
+
   it('never carries identifiers or personal data', () => {
     const record = buildPortalViewRecord({ path: '/a' }, createdAt)
 
     expect(Object.keys(record).sort()).toEqual([
       'createdat',
       'env',
+      'locale',
       'path',
       'status',
+      'theme',
       'timestamp',
     ])
   })

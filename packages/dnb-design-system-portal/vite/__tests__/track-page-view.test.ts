@@ -30,6 +30,7 @@ describe('trackPageView', () => {
     vi.unstubAllEnvs()
     flush()
     vi.restoreAllMocks()
+    window.localStorage.clear()
   })
 
   it('sends nothing when the endpoint is empty', () => {
@@ -79,6 +80,34 @@ describe('trackPageView', () => {
       await (beacon.mock.calls[0][1] as Blob).text()
     )
     expect(payload[0].env).toBe('prod')
+  })
+
+  it('records the active locale and theme, defaulting to the portal defaults', async () => {
+    trackPageView('/defaults')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].locale).toBe('nb-NO')
+    expect(payload[0].theme).toBe('ui')
+  })
+
+  it('records the selected locale and theme', async () => {
+    window.localStorage.setItem('locale', 'sv-SE')
+    window.localStorage.setItem(
+      'eufemia-theme',
+      JSON.stringify({ brand: 'sbanken' })
+    )
+
+    trackPageView('/selected')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].locale).toBe('sv-SE')
+    expect(payload[0].theme).toBe('sbanken')
   })
 
   it('flushes multiple buffered views in a single beacon', async () => {
