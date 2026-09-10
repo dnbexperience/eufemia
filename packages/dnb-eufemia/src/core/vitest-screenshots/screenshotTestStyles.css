@@ -21,19 +21,15 @@ html {
 }
 .dnb-app-content {
   margin-left: 0 !important;
+  overflow: hidden !important;
 }
 
 [data-visual-test-wrapper] {
   position: relative;
   z-index: 9999;
 
-  /* to get smaller width to the right (no white space) */
   display: inline-block;
 
-  /**
-	* to get a space around the element,
-	* so we can include a box-shadow in the screenshot
-	*/
   padding: 1rem;
   margin: -1rem;
   box-shadow: 0 0 0 1px #fff;
