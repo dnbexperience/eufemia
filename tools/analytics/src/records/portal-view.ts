@@ -26,6 +26,8 @@ export type PortalViewInput = {
   timestamp?: string
   env?: string
   status?: PortalViewStatus
+  locale?: string
+  theme?: string
 }
 
 /** The stored portal-view record (one row in the portal_views Glue table). */
@@ -34,6 +36,8 @@ export type PortalViewRecord = {
   env: string
   timestamp: string
   status: PortalViewStatus
+  locale: string
+  theme: string
   createdat: string
 }
 
@@ -48,6 +52,12 @@ const MAX_PATH_LENGTH = 2048
 
 /** A short lowercase environment token, e.g. `prod`, `dev`. */
 const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
+
+/** A BCP-47-style locale tag, e.g. `nb-NO`, `en-GB`. */
+const LOCALE_PATTERN = /^[a-z]{2,3}-[A-Z]{2}$/
+
+/** A short lowercase theme (brand) token, e.g. `ui`, `sbanken`. */
+const THEME_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
 
 // Query params worth keeping because they change how the portal renders. Flags
 // are stored key-only; value params only for a safe token. Everything else is
@@ -109,7 +119,8 @@ function isIsoTimestamp(value: string): boolean {
  *
  * Accepts either a single event object or an array of them. Portal views carry
  * no identifiers or personal data — only a `path` and an optional timestamp,
- * environment label and status. Only the allow-listed keys are returned here,
+ * environment label, status, locale and theme. Only the allow-listed keys are
+ * returned here,
  * and the path is minimised to a safe shape when the record is built (see
  * {@link buildPortalViewRecord} and {@link normalizeTrackedPath}), so nothing
  * incidental in the request can reach storage.
@@ -143,10 +154,8 @@ export function validatePortalViews(
       return
     }
 
-    const { path, timestamp, env, status } = event as Record<
-      string,
-      unknown
-    >
+    const { path, timestamp, env, status, locale, theme } =
+      event as Record<string, unknown>
     let valid = true
 
     if (typeof path !== 'string' || !path.startsWith('/')) {
@@ -193,6 +202,22 @@ export function validatePortalViews(
       }
     }
 
+    if (locale !== undefined) {
+      if (typeof locale !== 'string' || !LOCALE_PATTERN.test(locale)) {
+        errors.push(`Event ${index}: "locale" must be a BCP-47 locale tag`)
+        valid = false
+      }
+    }
+
+    if (theme !== undefined) {
+      if (typeof theme !== 'string' || !THEME_PATTERN.test(theme)) {
+        errors.push(
+          `Event ${index}: "theme" must be a short lowercase token`
+        )
+        valid = false
+      }
+    }
+
     if (valid) {
       value.push({
         path: path as string,
@@ -201,6 +226,8 @@ export function validatePortalViews(
         ...(typeof status === 'string'
           ? { status: status as PortalViewStatus }
           : {}),
+        ...(typeof locale === 'string' ? { locale } : {}),
+        ...(typeof theme === 'string' ? { theme } : {}),
       })
     }
   })
@@ -226,6 +253,8 @@ export function buildPortalViewRecord(
     env: input.env ?? 'unknown',
     timestamp: input.timestamp ?? createdAt,
     status: input.status ?? 'ok',
+    locale: input.locale ?? 'unknown',
+    theme: input.theme ?? 'unknown',
     createdat: createdAt,
   }
 }
