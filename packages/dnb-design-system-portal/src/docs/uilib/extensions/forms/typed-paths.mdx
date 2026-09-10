@@ -11,8 +11,6 @@ breadcrumb:
 
 import * as Examples from './typed-paths/Examples'
 
-# Type-checked paths
-
 Eufemia Forms uses [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) strings (such as `/firstName`) for the `path` prop. By default these are plain strings, so a typo like `/firstNme` is not caught until runtime.
 
 Register your data type **once**, and every `Field.*` and `Value.*` gets path **autocomplete**, while `Form.Handler` keeps its typed `data`/`defaultData`. Opt into the [pre-typed namespaces](#pre-typed-namespaces) to turn typos into **hard compile-time errors**.
