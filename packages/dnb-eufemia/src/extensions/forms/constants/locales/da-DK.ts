@@ -116,6 +116,7 @@ export default {
       selectAll: 'Vælg alle',
       searchPlaceholder: 'Søg...',
       noOptions: 'Ingen muligheder',
+      skipToActions: 'Spring muligheder over, og gå til handlinger',
       confirmButton: 'Bekræft ({count} valgt)',
       cancelButton: 'Annuller',
       selectionCount: '{count} af {total} valgt',
