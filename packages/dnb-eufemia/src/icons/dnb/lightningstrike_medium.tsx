@@ -15,7 +15,7 @@ const lightningstrike_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M16.86 11.68a.938.938 0 0 0-.798-1.43h-3.187V2L6.139 12.947a.937.937 0 0 0 .799 1.428h3.187v8.25l6.735-10.946Z"
+      d="M16.86 11.68a.938.938 0 0 0-.798-1.43h-3.187V2L6.139 12.947a.937.937 0 0 0 .799 1.428h3.187v8.25z"
       clipRule="evenodd"
     />
   </svg>

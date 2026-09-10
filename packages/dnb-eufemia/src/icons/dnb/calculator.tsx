@@ -15,7 +15,7 @@ const calculator = (props?: IconSVGProps) => (
         stroke="#000"
         strokeLinecap="round"
         strokeWidth={1.5}
-        d="M5.033 3.642v3m-1.5-1.5h3m3.467 0h2m-2 6.853h2m-2-2h2m-8.005 0 2 2m-2 0 2-2M3 15a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3Z"
+        d="M5.033 3.642v3m-1.5-1.5h3m3.467 0h2m-2 6.853h2m-2-2h2m-8.005 0 2 2m-2 0 2-2M3 15a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2z"
       />
     </g>
     <defs>

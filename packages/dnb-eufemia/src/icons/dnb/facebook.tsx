@@ -15,7 +15,7 @@ const facebook = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M12 5.618H9.22V4.36a.668.668 0 0 1 .653-.725h1.957V1H9.005C6.44 1 5.958 2.976 5.958 4.202v1.416H4v2.635h1.958V15H9.22V8.253h2.512L12 5.618Z"
+      d="M12 5.618H9.22V4.36a.67.67 0 0 1 .653-.725h1.957V1H9.005C6.44 1 5.958 2.976 5.958 4.202v1.416H4v2.635h1.958V15H9.22V8.253h2.512z"
     />
   </svg>
 )

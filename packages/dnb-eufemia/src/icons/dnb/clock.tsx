@@ -15,7 +15,7 @@ const clock = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M8 5.5V8l2.5 2.5M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+      d="M8 5.5V8l2.5 2.5M15 8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"
     />
   </svg>
 )

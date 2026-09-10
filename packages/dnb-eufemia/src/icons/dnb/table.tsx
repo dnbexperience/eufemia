@@ -16,7 +16,7 @@ const table = (props?: IconSVGProps) => (
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.5}
-        d="M8 .998v14m-7-7h14m-14-5.5a1.5 1.5 0 0 1 1.5-1.5h11a1.5 1.5 0 0 1 1.5 1.5v11a1.5 1.5 0 0 1-1.5 1.5h-11a1.5 1.5 0 0 1-1.5-1.5v-11Z"
+        d="M8 .998v14m-7-7h14m-14-5.5a1.5 1.5 0 0 1 1.5-1.5h11a1.5 1.5 0 0 1 1.5 1.5v11a1.5 1.5 0 0 1-1.5 1.5h-11a1.5 1.5 0 0 1-1.5-1.5z"
       />
     </g>
     <defs>

@@ -15,7 +15,7 @@ const stop_square_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M5 6.4A1.4 1.4 0 0 1 6.4 5h11.2A1.4 1.4 0 0 1 19 6.4v11.2a1.4 1.4 0 0 1-1.4 1.4H6.4A1.4 1.4 0 0 1 5 17.6V6.4Z"
+      d="M5 6.4A1.4 1.4 0 0 1 6.4 5h11.2A1.4 1.4 0 0 1 19 6.4v11.2a1.4 1.4 0 0 1-1.4 1.4H6.4A1.4 1.4 0 0 1 5 17.6z"
       clipRule="evenodd"
     />
   </svg>
