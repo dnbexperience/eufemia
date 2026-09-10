@@ -101,5 +101,6 @@ describe('captureUsage', () => {
     send.mockRejectedValue(new Error('s3 down'))
 
     await expect(captureUsage(event())).resolves.toBeUndefined()
+    expect(errorSpy).toHaveBeenCalled()
   })
 })
