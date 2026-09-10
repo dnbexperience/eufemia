@@ -7,6 +7,8 @@ locals {
   }
 }
 
+data "aws_caller_identity" "current" {}
+
 # Lambda function
 resource "aws_lambda_function" "mcp" {
   function_name = local.function_name
@@ -31,6 +33,12 @@ resource "aws_lambda_function" "mcp" {
 
       # Shared secret for the X-Edge-Auth origin check (injected by Akamai).
       EDGE_AUTH_SECRET = var.edge_auth_secret
+
+      # Anonymous MCP usage capture. The analytics data bucket (same account,
+      # owned by the analytics stack) and the environment label stored on each
+      # record. The bucket name is deterministic, so no cross-stack reference.
+      DATA_BUCKET = "eufemia-${var.environment}-analytics-${data.aws_caller_identity.current.account_id}"
+      USAGE_ENV   = var.environment
     }
   }
 
